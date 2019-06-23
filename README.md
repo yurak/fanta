@@ -1,24 +1,8 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This is fantasy football app:
+### Plase visit
 
-Things you may want to cover:
+[fanta-app](http://fanta.yurikuzhiy.net/)
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+For now is deployed old season teams. New Season is coming soon

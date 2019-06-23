@@ -1,0 +1,18 @@
+.card{style: "width: 18rem;"}
+  .card-body
+    %h4.card-title
+      = slot.position
+
+    %h6.card-subtitle.mb-2.text-muted
+      - if lineup.match_players[index].blank?
+        TBA
+      - else
+        = lineup.match_players[index].player.positions_names_string
+    %p.card-text
+      - if lineup.match_players[index].blank?
+        TBA
+      - else
+        = lineup.match_players[index].player.name
+        - if lineup.match_players[index].score.present?
+          %span.badge.badge-secondary
+            = lineup.match_players[index].score

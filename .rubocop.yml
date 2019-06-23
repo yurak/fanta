@@ -1,0 +1,32 @@
+Rails:
+  Enabled: true
+AllCops:
+  TargetRubyVersion: 2.5.1
+  TargetRailsVersion: 5.2
+  Exclude:
+    - db/schema.rb
+    - config/**/*
+    - bin/*
+    - db/**/*
+    - Gemfile
+
+    - node_modules/**/*
+Metrics/LineLength:
+  Max: 140
+Metrics/BlockLength:
+  ExcludedMethods:
+    - describe
+    - context
+    - state_machine
+    - factory
+    - define # FactoryBot.define
+Style/BracesAroundHashParameters:
+  EnforcedStyle: context_dependent
+Style/Documentation:
+  Enabled: false
+Layout/MultilineOperationIndentation:
+  EnforcedStyle: indented
+Style/RescueStandardError:
+  Enabled: false
+Style/FrozenStringLiteralComment:
+  Enabled: false

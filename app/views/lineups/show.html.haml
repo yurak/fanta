@@ -1,0 +1,5 @@
+.container
+  %h1 Lineup
+  .row
+    - lineup.team_module.slots.each_with_index do |slot, index|
+      = render partial: 'card', locals: { slot: slot, index: index, lineup: lineup }

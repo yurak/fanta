@@ -1,0 +1,25 @@
+.container
+  %p
+    = link_to 'Tours', tours_path, class: 'btn btn-outline-info btn-block'
+  .row
+    - @teams.each do |team|
+      .col.col-xs-4
+        = render 'card', team: team
+.container.col-xs-12
+  %ul.nav.nav-tabs
+    %li.nav-item
+      %a{"data-toggle" => "tab", href: "#team-#{@teams.first.id}", class: 'nav-link active'}
+        = @teams.first.name.humanize
+    - @teams[1..-1].each do |team|
+      %li.nav-item
+        %a{"data-toggle" => "tab", href: "#team-#{team.id}", class: 'nav-link'}
+          = team.name.humanize
+  .tab-content
+    %div{id: "team-#{ @teams.first.id}", class: 'tab-pane in active'}
+      = render 'team_players', team: @teams.first
+    - @teams[1..-1].each do |team|
+      %div{id: "team-#{team.id}", class: 'tab-pane fade'}
+        = render 'team_players', team: team
+
+
+

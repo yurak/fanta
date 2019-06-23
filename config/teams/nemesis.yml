@@ -1,0 +1,115 @@
+players:
+  Gollini:
+    - position:
+      - Por
+    - club: ATA
+  Berisha:
+    - position:
+      - Por
+    - club: ATA
+  Caldara:
+    - position:
+      - Dc
+    - club: MIL
+  Danilo:
+    - position:
+      - Dc
+    - club: BOL
+  Rui:
+    - position:
+      - Ds
+      - E
+    - club: NAP
+  Ghoulam:
+    - position:
+      - Ds
+      - E
+    - club: NAP
+  Bereszynski:
+    - position:
+      - Dd
+      - E
+    - club: SAM
+  Tomovic:
+    - position:
+      - Dc
+      - Dd
+    - club: CHI
+  Marlon:
+    - position:
+      - Dc
+    - club: SAS
+  Biraschi:
+    - position:
+      - Dc
+      - Dd
+    - club: GEN
+  Antonelli:
+    - position:
+      - Ds
+      - E
+    - club: EMP
+  Vicari:
+    - position:
+      - Dc
+    - club: SPA
+  Conti:
+    - position:
+      - Dd
+      - E
+    - club: MIL
+  Cristante:
+    - position:
+      - C
+      - T
+    - club: ROM
+  Nainggolan:
+    - position:
+      - C
+      - T
+    - club: INT
+  Zielinski:
+    - position:
+      - C
+      - T
+    - club: NAP
+  Mandragora:
+    - position:
+      - M
+      - C
+    - club: UDI
+  Rincon:
+    - position:
+      - M
+      - C
+    - club: TOR
+  Praet:
+    - position:
+      - C
+      - T
+    - club: SAM
+  Sensi:
+    - position:
+      - M
+      - C
+    - club: SAS
+  Immobile:
+    - position:
+      - Pc
+    - club: LAZ
+  Icardi:
+    - position:
+      - Pc
+    - club: INT
+  Kouame:
+    - position:
+      - Pc
+    - club: GEN
+  Inglese:
+    - position:
+      - Pc
+    - club: PAR
+  Petagna:
+    - position:
+      - Pc
+    - club: SPA

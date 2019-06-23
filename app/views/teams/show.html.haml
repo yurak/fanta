@@ -1,0 +1,35 @@
+.col-xs-2
+  .p
+    = link_to 'Tours', tours_path, class: 'btn btn-outline-info'
+  .alert.alert-primary
+    %h3
+      = team.name.humanize
+  - if team.lineups.where(tour_id: active_tours.first&.id).exists?
+    .alert.alert-primary
+      %h6 Finish tour # #{active_tours.first&.number} and wait next
+  - elsif active_tours.exists?
+    %span
+      = link_to 'Create lineup', new_team_lineup_path(team), class: 'btn btn-primary btn-lg active'
+  - else
+    .alert.alert-primary
+      %h6 Ask Admin to activate tour
+.col-xs-8
+  - team.lineups.each_with_index do |lineup, index|
+    %ul.list-group
+      %li.list-group-item.d-flex.justify-content-between.align-items-center
+        %button.btn.btn-primary
+          = lineup.tour&.status
+          %span.badge.badge-light
+            = lineup.tour&.number
+
+        .alert.alert-dark
+          = " #{lineup.total_score} - #{lineup.goals}"
+        .btn-group
+          = link_to 'Edit', edit_team_lineup_path(team, lineup), class: 'btn btn-primary'
+          = link_to 'Clone', team_lineup_clone_path(team, lineup), class: 'btn btn-primary'
+
+        = link_to "#{lineup.team_module.name}", team_lineup_path(team, lineup), class: 'btn btn-primary btn-lg active'
+%hr
+.row
+  %h3 Crew
+  = render 'team_players', team: team

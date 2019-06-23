@@ -1,0 +1,116 @@
+﻿players:
+  Olsen:
+    - position:
+      - Por
+    - club: ROM
+  Consigli:
+    - position:
+      - Por
+    - club: SAS
+  Romagnoli:
+    - position:
+      - Dc
+    - club: MIL
+  Fazio:
+    - position:
+      - Dc
+    - club: ROM
+  Toli:
+    - position:
+      - Dc
+    - club: ATA
+  Rugani:
+    - position:
+      - Dc
+    - club: JUV
+  Mbaye:
+    - position:
+      - Dd
+      - Ds
+      - Dc
+    - club:
+      - BOL
+  Florenzi:
+    - position:
+      - Dd
+      - E
+    - club: ROM
+  Cancelo:
+    - position:
+      - D
+      - E
+    - club: JUV
+  Kolarov:
+    - position:
+      - Ds
+      - E
+    - club: ROM
+  Gosens:
+    - position:
+      - Ds
+      - E
+    - club: ATA
+  Kessie:
+    - position:
+      - M
+      - C
+    - club: MIL
+  Fofana:
+    - position:
+      - M
+      - C
+    - club: UDI
+  Pasalic:
+    - position:
+      - C
+      - T
+    - club: ATA
+  Aquah:
+    - position:
+      - C
+      - M
+    - club: EMP
+  Meite:
+    - position:
+      - C
+      - M
+    - club: TOR
+  Pizaon:
+    - position:
+      - W
+      - T
+    - club: CHI
+  Bernardeschi:
+    - position:
+      - W
+      - A
+    - club: JUV
+  Callejon:
+    - position:
+      - W
+      - A
+    - club: NAP
+  Sansone:
+    - position:
+      - A
+    - club: BOL
+  Under:
+    - position:
+      - A
+    - club: ROM
+  Mertens:
+    - position:
+      - A
+    - club: NAP
+  Simeone:
+    - position:
+      - Pc
+    - club: FIO
+  Santander:
+    - position:
+      - Pc
+    - club: BOL
+  Pavoletti:
+    - position:
+      - Pc
+    - club: CAG

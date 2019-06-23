@@ -1,0 +1,113 @@
+players:
+  Handanovic:
+    - position:
+      - Por
+    - club: INT
+  Cragno:
+    - position:
+      - Por
+    - club: CAG
+  De Vrij:
+    - position:
+      - Dc
+    - club: INT
+  Acerbi:
+    - position:
+      - Dc
+    - club: LAZ
+  Palomino:
+    - position:
+      - Dc
+    - club: ATA
+  Masiello:
+    - position:
+      - Dc
+      - Dd
+    - club: ATA
+  Radu:
+    - position:
+      - Dc
+      - Ds
+    - club: LAZ
+  Hateboer:
+    - position:
+      - Dd
+      - E
+    - club: ATA
+  Biraghi:
+    - position:
+      - Ds
+      - E
+    - club: FIO
+  Murru:
+    - position:
+      - Ds
+      - E
+    - club: SAM
+  Lazzari:
+    - position:
+      - E
+    - club: SPA
+  Can:
+    - position:
+      - M
+      - C
+    - club: JUV
+  Bakayoko:
+    - position:
+      - M
+      - C
+    - club: MIL
+  Pellegrini Lo:
+    - position:
+      - C
+    - club: ROM
+  Benassi:
+    - position:
+      - C
+    - club: FIO
+  Ruiz:
+    - position:
+      - C
+      - T
+    - club: NAP
+  Krunic:
+    - position:
+      - C
+      - T
+    - club: EMP
+  Ramirez:
+    - position:
+      - T
+    - club: SAM
+  De Paul:
+    - position:
+      - W
+      - T
+    - club: UDI
+  Luis Alberto:
+    - position:
+      - T
+      - A
+    - club: LAZ
+  Ilicic:
+    - position:
+      - T
+      - A
+    - club: ATA
+  Berardi:
+    - position:
+      - A
+    - club: SAS
+  Ciano:
+    - position:
+      - A
+    - club: FRO
+  Dzeko:
+    - position:
+      - Pc
+    - club: ROM
+  Schick:
+    - position:
+      - Pc
+    - club: ROM

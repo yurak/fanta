@@ -1,0 +1,112 @@
+﻿players:
+  Meret:
+    - position:
+      - Por
+    - club: NAP
+  Ospina:
+    - position:
+      - Por
+    - club: NAP
+  Karnezis:
+    - position:
+      - Por
+    - club: NAP
+  Marchetti:
+    - position:
+      - Por
+    - club: GEN
+  Chiellini:
+    - position:
+      - Dc
+    - club: JUV
+  NKoulou:
+    - position:
+      - Dc
+    - club: TOR
+  Albiol:
+    - position:
+      - Dc
+    - club: NAP
+  Pezzella Ger:
+    - position:
+      - Dc
+    - club: FIO
+  Rasmussen:
+    - position:
+      - Dc
+    - club: EMP
+  Izzo:
+    - position:
+      - Dc
+      - Dd
+    - club: TOR
+  Ansaldi:
+    - position:
+      - Dd
+      - Ds
+      - E
+    - club: TOR
+  Patric:
+    - position:
+      - Dd
+      - Ds
+      - E
+    - club: LAZ
+  Di Lorenzo:
+    - position:
+      - Dd
+      - E
+    - club: EMP
+  Marusic:
+    - position:
+      - E
+    - club: LAZ
+  Romulo:
+    - position:
+      - M
+      - C
+    - club: LAZ
+  Duncan:
+    - position:
+      - M
+      - C
+    - club: SAS
+  Veretut:
+    - position:
+      - C
+    - club: FIO
+  Zaniolo:
+    - position:
+      - C
+      - T
+    - club: ROM
+  Kurtic:
+    - position:
+      - C
+      - T
+    - club: SPA
+  Joao Pedro:
+    - position:
+      - T
+    - club: CAG
+  Giaccherini:
+    - position:
+      - W
+      - T
+    - club: CHI
+  Gabbiadini:
+    - position:
+      - Pc
+    - club: SAM
+  Milik:
+    - position:
+      - Pc
+    - club: NAP
+  Okaka:
+    - position:
+      - Pc
+    - club: UDI
+  Quagliarella:
+    - position:
+      - Pc
+    - club: SAM

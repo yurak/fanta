@@ -1,0 +1,25 @@
+Por:
+  0: Por
+Dc:
+  0: Dc
+  1.5:
+    - Ds
+    - Dd
+Ds:
+  0: Ds
+  1.5:
+    - Dd
+    - Dc
+  3: E
+Dd:
+  0: Dd
+  1.5: Ds
+  3:
+    - Dc
+    - E
+E:
+  0: E
+  1.5:
+    - Ds
+    - Dd
+    - W

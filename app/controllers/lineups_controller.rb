@@ -1,0 +1,69 @@
+class LineupsController < ApplicationController
+  respond_to :html
+
+  helper_method :team, :lineup
+
+  def new
+    @lineup = Lineup.new
+  end
+
+  def create
+    team_lineups_creator.call
+
+    if team_lineups_creator.lineup.errors.present?
+
+      flash[:error] = "Lineup was not created: #{team_lineups_creator.lineup.errors.full_messages.to_sentence}"
+      redirect_to new_team_lineup_path(team)
+    else
+      flash[:notice] = 'Successfully created lineup'
+      redirect_to edit_team_lineup_path(team, team_lineups_creator.lineup)
+    end
+  end
+
+  def show
+    respond_with lineup
+  end
+
+  def clone
+    new_lineup = lineup.dup
+    new_lineup.players << lineup.players
+    flash[:notice] = 'Successfully updated lineup' if new_lineup.save
+    redirect_to team_path(team)
+  end
+
+  def edit
+    respond_with lineup
+  end
+
+  def update
+    flash[:notice] = 'Successfully updated lineup' if lineup.update(update_lineup_params)
+
+    redirect_to team_path(team)
+  end
+
+  private
+
+  def team_lineups_creator
+    @team_lineups_creator ||= TeamLineups::Creator.new(params: lineup_params, team: team)
+  end
+
+  def lineup_params
+    params.fetch(:lineup, {}).permit(:team_module_id, tema_module_id: [], player_ids: [])
+  end
+
+  def update_lineup_params
+    params.fetch(:lineup, {}).permit(match_players_attributes: {})
+  end
+
+  def lineup
+    @lineup ||= Lineup.find(identifier)
+  end
+
+  def identifier
+    params[:id] || params[:lineup_id]
+  end
+
+  def team
+    @team ||= Team.find(params[:team_id])
+  end
+end

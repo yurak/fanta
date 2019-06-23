@@ -1,0 +1,11 @@
+.alert.alert-primary
+  .alert{class: "#{tour_status_class(tour.status)}" }
+    = "#{tour.number} - #{tour.status}"
+  .row
+    - tour.lineups.each do |lineup|
+      .alert
+        = link_to tour_result(lineup), team_path(lineup.team.id), class: 'btn btn-success btn-lg'
+  - if tour.set_lineup?
+    = link_to "Close Tour", tour_change_status_path(tour, status: :closed), class: 'btn btn-danger btn-lg'
+  - if tour.inactive?
+    = link_to "Start tour", tour_change_status_path(tour, status: :set_lineup), class: 'btn btn-primary btn-lg'

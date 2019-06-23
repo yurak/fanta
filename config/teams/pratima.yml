@@ -1,0 +1,113 @@
+﻿players:
+  Szczęsny:
+    - position:
+      - Por
+    - club: JUV
+  Perin:
+    - position:
+      - Por
+    - club: JUV
+  Audero:
+    - position:
+      - Por
+    - club: SAM
+  Musachio:
+    - position:
+      - Dc
+    - club: MIL
+  Bonucci:
+    - position:
+      - Dc
+    - club: JUV
+  Silvestre:
+    - position:
+      - Dc
+    - club: EMP
+  Manolas:
+    - position:
+      - Dc
+    - club: ROM
+  Gagliolo:
+    - position:
+      - Dc
+      - Ds
+    - club: PAR
+  Castange:
+    - position:
+      - Dd
+      - E
+    - club: ATA
+  Aina:
+    - position:
+      - Dd
+      - Ds
+      - E
+    - club: TOR
+  Rodriguez:
+    - position:
+      - Ds
+      - E
+    - club: MIL
+  Pasqual:
+    - position:
+      - Ds
+      - E
+    - club: EMP
+  Allan:
+    - position:
+      - M
+      - C
+    - club: NAP
+  Biglia:
+    - position:
+      - M
+      - C
+    - club: MIL
+  Ekdal:
+    - position:
+      - M
+      - C
+    - club: SAM
+  Bentancur:
+    - position:
+      - C
+    - club: JUV
+  Soriano:
+    - position:
+      - C
+      - T
+    - club: BOL
+  Douglas Costa:
+    - position:
+      - W
+    - club: JUV
+  Cuadrado:
+    - position:
+      - W
+    - club: JUV
+  Chiesa:
+    - position:
+      - W
+      - A
+    - club: FIO
+  Correa:
+    - position:
+      - T
+      - A
+    - club: LAZ
+  Gervinho:
+    - position:
+      - A
+    - club: PAR
+  Piątek:
+    - position:
+      - Pc
+    - club: MIL
+  Muriel:
+    - position:
+      - Pc
+    - club: FIO
+  Stępiński:
+    - position:
+      - Pc
+    - club: CHI

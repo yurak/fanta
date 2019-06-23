@@ -1,0 +1,25 @@
+.container
+  .alert.alert-primary
+    = 'You Should select 18 players. Please select Players with state ready to avoid 0 points. You set player status here:'
+  = link_to "Back to #{team.name} page", team_path(team), class: 'btn btn-outline-info'
+  %hr
+.container
+  .selected
+  = form_for [team, @lineup] do |f|
+    .form-group
+      = f.select :team_module_id, TeamModule.all.collect {|x| [x.name, x.id]}, {}, class: 'form-control'
+    .form-group
+      = f.select :player_ids, available_for_select(team), {},  multiple: true, size: 18, class: 'form-control custom-select'
+    .form-group
+      = f.submit 'Setup lineup', class: 'btn btn-success'
+
+:javascript
+  $('#lineup_player_ids').change(function(){
+    let selected = $(this).val();
+    let max = 18;
+    $('.selected').html('Already selected ' + selected.length + ' from ' + max)
+  })
+
+
+  $('#lineup_player_ids').multiSelect();
+

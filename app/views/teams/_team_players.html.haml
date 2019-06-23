@@ -1,0 +1,21 @@
+%table.table
+  %thead
+    %tr
+      %th{scope: "col"} Positions
+      %th{scope: "col"} Name
+      %th{scope: "col"} Set State
+  - team.players.order_by_status.each do |player|
+    %tbody
+      %tr
+        %td{:scope => "row"}
+          - player.positions.each do |position|
+            = position.name
+        %td
+          = "#{player.name} (#{player.club.name})"
+          .badge{ class: status_class(player.status) }
+            = player.status
+        %td
+          .btn-group{"aria-label" => "Basic example", role: "group"}
+            - Player.statuses.each do |status, value|
+              - if status != player.status
+                = link_to status, team_player_change_status_path(team, player, status: status), class: 'btn btn-primary'

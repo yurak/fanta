@@ -1,0 +1,116 @@
+players:
+  Sirigu:
+    - position:
+      - Por
+    - club: TOR
+  Ichazo:
+    - position:
+      - Por
+    - club: TOR
+  Gunter:
+    - position:
+      - Dc
+    - club: GEN
+  Bruno Alves:
+    - position:
+      - Dc
+    - club: PAR
+  Mancini:
+    - position:
+      - Dc
+    - club: ATA
+  Victor Hugo:
+    - position:
+      - Dc
+    - club: FIO
+  Troost-Ekong:
+    - position:
+      - Dc
+    - club: UDI
+  Dambrosio:
+    - position:
+      - Dd
+      - Ds
+      - E
+    - club: INT
+  Zampano:
+    - position:
+      - Dd
+      - Ds
+      - E
+    - club: FRO
+  Lirola:
+    - position:
+      - Dd
+      - E
+    - club: SAS
+  Depaoli:
+    - position:
+      - Dd
+      - E
+      - M
+    - club: CHI
+  Alex Sandro:
+    - position:
+      - Ds
+      - E
+    - club: JUV
+  Barella:
+    - position:
+      - M
+      - C
+    - club: CAG
+  Poli:
+    - position:
+      - M
+      - C
+    - club: BOL
+  Parolo:
+    - position:
+      - M
+      - C
+    - club: LAZ
+  Jankto:
+    - position:
+      - C
+    - club: SAM
+  Khedira:
+    - position:
+      - C
+    - club: JUV
+  Barak:
+    - position:
+      - C
+      - T
+    - club: UDI
+  Di Francesco:
+    - position:
+      - W
+      - A
+    - club: SAS
+  Pussetto:
+    - position:
+      - W
+      - A
+    - club: UDI
+  Orsolini:
+    - position:
+      - T
+      - A
+    - club: BOL
+  El Shaarawi:
+    - position:
+      - A
+    - club: ROM
+  Mandzukic:
+    - position:
+      - Pc
+    - club: JUV
+  Ronaldo:
+    - position:
+      - Pc
+    - club: JUV
+  Caputo:
+    - position:
+      - Pc
+    - club: EMP

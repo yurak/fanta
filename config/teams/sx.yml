@@ -1,0 +1,115 @@
+players:
+  Strakosha:
+    - position:
+      - Por
+    - club: LAZ
+  Lafont:
+    - position:
+      - Por
+    - club: FIO
+  Milenkovic:
+    - position:
+      - Dc
+      - Dd
+    - club: FIO
+  Miranda:
+    - position:
+      - Dc
+    - club: INT
+  Skriniar:
+    - position:
+      - Dc
+    - club: INT
+  Iakoponi:
+    - position:
+      - Dc
+      - Dd
+    - club: PAR
+  Felipe:
+    - position:
+      - Dc
+    - club: SPA
+  Cionek:
+    - position:
+      - Dc
+    - club: SPA
+  DeSciglio:
+    - position:
+      - E
+      - Ds
+      - Dd
+    - club: JUV
+  Husai:
+    - position:
+      - E
+      - Ds
+      - Dd
+    - club: NAP
+  De Silvestri:
+    - position:
+      - E
+    - club: TOR
+  Lazovic:
+    - position:
+      - E
+      - C
+    - club: GEN
+  Lulic:
+    - position:
+      - E
+      - C
+    - club: LAZ
+  Leiva:
+    - position:
+      - M
+      - C
+    - club: LAZ
+  Brozovic:
+    - position:
+      - C
+      - T
+    - club: INT
+  Vecino:
+    - position:
+      - M
+      - C
+    - club: INT
+  Nzonzi:
+    - position:
+      - M
+      - C
+    - club: ROM
+  Paqueta:
+    - position:
+      - T
+    - club: MIL
+  Insigne:
+    - position:
+      - A
+    - club: NAP
+  Perisic:
+    - position:
+      - W
+      - A
+    - club: INT
+  Suso:
+    - position:
+      - T
+      - A
+    - club: MIL
+  Falque:
+    - position:
+      - A
+    - club: TOR
+  Zapata:
+    - position:
+      - Pc
+    - club: ATA
+  Belotti:
+    - position:
+      - Pc
+    - club: TOR
+  Martinez:
+    - position:
+      - Pc
+    - club: INT
