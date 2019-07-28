@@ -14,21 +14,8 @@
     .alert.alert-primary
       %h6 Ask Admin to activate tour
 .col-xs-8
-  - team.lineups.each_with_index do |lineup, index|
-    %ul.list-group
-      %li.list-group-item.d-flex.justify-content-between.align-items-center
-        %button.btn.btn-primary
-          = lineup.tour&.status
-          %span.badge.badge-light
-            = lineup.tour&.number
-
-        .alert.alert-dark
-          = " #{lineup.total_score} - #{lineup.goals}"
-        .btn-group
-          = link_to 'Edit', edit_team_lineup_path(team, lineup), class: 'btn btn-primary'
-          = link_to 'Clone', team_lineup_clone_path(team, lineup), class: 'btn btn-primary'
-
-        = link_to "#{lineup.team_module.name}", team_lineup_path(team, lineup), class: 'btn btn-primary btn-lg active'
+  - team.lineups.each do |lineup|
+    = render 'lineup', lineup: lineup
 %hr
 .row
   %h3 Crew

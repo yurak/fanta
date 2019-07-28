@@ -3,12 +3,6 @@
   %p
     = link_to 'Back', root_path, class: 'btn btn-primary'
   .row
-    .col-xs-4
-      - tours.includes(:lineups)[0..11].each do |tour|
-        = render 'tour', tour: tour
-    .col-xs-4
-      - tours.includes(:lineups)[12..21].each do |tour|
-        = render 'tour', tour: tour
-    .col-xs-4
-      - tours.includes(:lineups)[22..36].each do |tour|
+    .col-xs-6
+      - tours.includes(:lineups).each do |tour|
         = render 'tour', tour: tour
