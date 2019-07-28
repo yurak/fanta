@@ -11,7 +11,8 @@
           - player.positions.each do |position|
             = position.name
         %td
-          = "#{player.name} (#{player.club.name})"
+          .div{class: player.club.code.downcase}
+          = player.name
           .badge{ class: status_class(player.status) }
             = player.status
         %td
