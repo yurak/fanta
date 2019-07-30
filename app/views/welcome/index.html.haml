@@ -1,0 +1,11 @@
+.welcome-cover
+  .welcome-data.center
+    .text-block
+      %h1 Mantra Calcio
+      %h3 Fantasy Football Application
+    .buttons-block
+      -# TODO: change links after auth implementation
+      -#= link_to 'Log In', new_user_session_path, class: 'btn btn-success'
+      -#= link_to 'Sign Up', new_user_registration_path, class: 'btn btn-success'
+      = link_to 'Log In', teams_path, class: 'btn btn-primary'
+      = link_to 'Sign Up', teams_path, class: 'btn btn-primary'

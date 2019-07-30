@@ -1,8 +1,6 @@
-.container-fluid
-  %h1 Fanta tours
-  %p
-    = link_to 'Back', root_path, class: 'btn btn-primary'
-  .row
-    .col-xs-6
-      - tours.includes(:lineups).each do |tour|
-        = render 'tour', tour: tour
+= render 'layouts/navbar'
+
+.container
+  %h1 Tours
+  - tours.includes(:lineups).each do |tour|
+    = render 'tour', tour: tour

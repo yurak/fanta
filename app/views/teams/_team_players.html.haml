@@ -1,20 +1,22 @@
 %table.table
   %thead
-    %tr
+    %tr.center
       %th{scope: "col"} Positions
       %th{scope: "col"} Name
-      %th{scope: "col"} Set State
+      %th{scope: "col"} Club
+      %th{scope: "col"}
   - team.players.order_by_status.each do |player|
     %tbody
-      %tr
+      %tr.center
         %td{:scope => "row"}
           - player.positions.each do |position|
             = position.name
         %td
-          .div{class: player.club.code.downcase}
           = player.name
           .badge{ class: status_class(player.status) }
             = player.status
+        %td
+          .club-logo{class: player.club.code.downcase}
         %td
           .btn-group{"aria-label" => "Basic example", role: "group"}
             - Player.statuses.each do |status, value|

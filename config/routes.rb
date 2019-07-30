@@ -13,5 +13,7 @@ Rails.application.routes.draw do
     end
   end
 
-  root to: "teams#index"
+  resource :welcome, only: [:index]
+
+  root to: "welcome#index"
 end
