@@ -1,0 +1,52 @@
+.welcome-cover {
+  height: 100%;
+  width: 100%;
+  background: image_url('welcome2.jpg') no-repeat center;
+  background-size: cover;
+  background-color: #1f306e;
+  position: relative;
+}
+
+.welcome-data {
+  position: absolute;
+  top: 50%;
+  margin-top: -150px;
+  color: white;
+  display: inline-block;
+  width: 100%;
+  background-color: rgba(12, 32, 151, 0.3);
+  height: 300px;
+
+  .text-block {
+    align-items: center;
+    height: 200px;
+    padding: auto;
+    h1 {
+      padding-top: 40px;
+      height: 120px;
+      font-size: 60px;
+    }
+    h3 {
+      padding-top: 10px;
+      height: 80px;
+      font-size: 40px;
+    }
+
+    @media screen and (max-width: 550px) {
+      h1 {
+        font-size: 40px;
+      }
+      h3 {
+        font-size: 24px;
+      }
+    }
+  }
+  .buttons-block {
+    height: 100px;
+
+    .btn {
+      margin: 30px 10px 0;
+      width: 130px;
+    }
+  }
+}

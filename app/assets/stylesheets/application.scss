@@ -16,9 +16,13 @@
 @import "multi-select";
 @import "bootstrap-toggle";
 @import "teams";
+@import "welcome";
 
-body {
-  padding-top: 70px;
+body, html {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 .disqualified {
@@ -33,4 +37,15 @@ body {
 
 .center {
   text-align: center;
+}
+
+.navbar {
+  .btn-group {
+    padding: 50px 0;
+    width: 100%;
+
+    .btn{
+      width: 50%;
+    }
+  }
 }

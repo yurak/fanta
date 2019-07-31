@@ -1,10 +1,10 @@
-.container
-  %p
-    = link_to 'Tours', tours_path, class: 'btn btn-outline-info btn-block'
-  .row
-    - @teams.each do |team|
-      .col.col-xs-4
-        = render 'card', team: team
+= render 'layouts/navbar'
+
+-#.container
+-#  .row
+-#    - @teams.each do |team|
+-#      .col.col-xs-4
+-#        = render 'card', team: team
 .container.col-xs-12
   %ul.nav.nav-tabs
     %li.nav-item
