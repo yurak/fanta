@@ -15,5 +15,7 @@ Rails.application.routes.draw do
 
   resource :welcome, only: [:index]
 
+  resources :links, except: [:show]
+
   root to: "welcome#index"
 end

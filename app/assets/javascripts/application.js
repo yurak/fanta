@@ -15,3 +15,4 @@
 //= require bootstrap-sprockets
 //= require bootstrap-toggle
 //= require jquery.multiselect
+//= require jquery_ujs

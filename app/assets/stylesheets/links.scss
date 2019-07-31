@@ -1,0 +1,33 @@
+.links-list {
+  margin: 50px 0;
+}
+
+.link-item {
+  width: 100%;
+}
+
+.link-btn a, .links-new a {
+  width: 100px;
+}
+
+.link-data, .link-btn, .links-new, .links-header {
+  display: inline-block;
+  padding: 0;
+}
+
+.links-head {
+  position: relative;
+}
+
+.links-new {
+  position: absolute;
+  right: 0;
+}
+
+.link-name {
+  font-size: 22px;
+}
+
+.link-data, .link-btn {
+  height: auto;
+}

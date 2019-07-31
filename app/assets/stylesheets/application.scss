@@ -17,6 +17,7 @@
 @import "bootstrap-toggle";
 @import "teams";
 @import "welcome";
+@import "links";
 
 body, html {
   height: 100%;
@@ -39,13 +40,25 @@ body, html {
   text-align: center;
 }
 
+.right {
+  text-align: right;
+}
+
 .navbar {
   .btn-group {
     padding: 50px 0;
     width: 100%;
 
     .btn{
-      width: 50%;
+      width: 100%;
     }
+  }
+}
+
+.input-group-prepend {
+  width: 110px;
+
+  .input-group-text {
+    width: 100%;
   }
 }
