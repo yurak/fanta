@@ -1,0 +1,25 @@
+= form_for @link do |f|
+  - if @link.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@link.errors.count, "error")} prohibited this link from being saved:"
+      %ul
+        - @link.errors.full_messages.each do |message|
+          %li= message
+
+  .input-group.mb-3
+    .input-group-prepend
+      %span.input-group-text Name
+    = f.text_field :name, class: 'form-control'
+
+  .input-group.mb-3
+    .input-group-prepend
+      %span.input-group-text URL
+    = f.text_field :url, class: 'form-control'
+
+  .input-group.mb-3
+    .input-group-prepend
+      %span.input-group-text Description
+    = f.text_area :description, class: 'form-control'
+
+  .actions.right
+    = f.submit 'Save', class: 'btn btn-primary'

@@ -8,6 +8,7 @@
     = stylesheet_link_tag    'application', media: 'all'
     = javascript_include_tag 'application'
   %body
-    - flash.each do |key, value|
-      = content_tag :div, value, class: "#{flash_class(key)}"
+    .container.flash-block
+      - flash.each do |key, value|
+        = content_tag :div, value, class: "#{flash_class(key)}"
     = yield
