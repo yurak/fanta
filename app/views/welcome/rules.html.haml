@@ -17,11 +17,15 @@
       %a{"data-toggle" => "tab", href: "#rules-results", class: 'nav-link'} Розрахунок результатів
 
     %li.nav-item
-      %a{"data-toggle" => "tab", href: "#rules-faqs", class: 'nav-link disabled'} FAQs
+      %a{"data-toggle" => "tab", href: "#rules-prizes", class: 'nav-link'} Призи/Штрафи
+
+    %li.nav-item
+      %a{"data-toggle" => "tab", href: "#rules-faqs", class: 'nav-link'} FAQs
 
   .tab-content
     = render 'welcome/rules/auction'
     = render 'welcome/rules/modules'
     = render 'welcome/rules/players'
     = render 'welcome/rules/results'
+    = render 'welcome/rules/prizes'
     = render 'welcome/rules/faqs'
