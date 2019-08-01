@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   end
 
   resource :welcome, only: [:index]
+  get 'rules', to: 'welcome#rules'
 
   resources :links, except: [:show]
 
