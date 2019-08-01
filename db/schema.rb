@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_31_085435) do
+ActiveRecord::Schema.define(version: 2019_08_01_210407) do
 
   create_table "clubs", force: :cascade do |t|
     t.string "code"
@@ -45,11 +45,11 @@ ActiveRecord::Schema.define(version: 2019_07_31_085435) do
     t.boolean "red_card", default: false
     t.boolean "yellow_card", default: false
     t.boolean "cleansheet", default: false
-    t.decimal "goals"
-    t.decimal "missed_goals"
-    t.decimal "assits"
-    t.decimal "malus"
-    t.decimal "bonus"
+    t.decimal "goals", default: "0.0"
+    t.decimal "missed_goals", default: "0.0"
+    t.decimal "assits", default: "0.0"
+    t.decimal "malus", default: "0.0"
+    t.decimal "bonus", default: "0.0"
   end
 
   create_table "players", force: :cascade do |t|
