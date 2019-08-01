@@ -14,13 +14,13 @@
       %a{"data-toggle" => "tab", href: "#rules-players", class: 'nav-link'} Параметри гравців
 
     %li.nav-item
-      %a{"data-toggle" => "tab", href: "#rules-results", class: 'nav-link'} Розрахунок результатів
+      %a{"data-toggle" => "tab", href: "#rules-results", class: 'nav-link disabled'} Розрахунок результатів
 
     %li.nav-item
-      %a{"data-toggle" => "tab", href: "#rules-prizes", class: 'nav-link'} Призи/Штрафи
+      %a{"data-toggle" => "tab", href: "#rules-prizes", class: 'nav-link disabled'} Призи/Штрафи
 
     %li.nav-item
-      %a{"data-toggle" => "tab", href: "#rules-faqs", class: 'nav-link'} FAQs
+      %a{"data-toggle" => "tab", href: "#rules-faqs", class: 'nav-link disabled'} FAQs
 
   .tab-content
     = render 'welcome/rules/auction'
