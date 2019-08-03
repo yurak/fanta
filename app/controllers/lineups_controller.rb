@@ -26,8 +26,16 @@ class LineupsController < ApplicationController
 
   def clone
     new_lineup = lineup.dup
-    new_lineup.players << lineup.players
-    flash[:notice] = 'Successfully updated lineup' if new_lineup.save
+    new_lineup.tour = Tour.find_by_number(lineup.tour.next_number)
+
+    if  new_lineup.tour.lineups.where(team_id: new_lineup.team_id).exists?
+      flash[:error] = 'This team already has lineup for tour'
+    else
+      new_lineup.players << lineup.players
+
+      flash[:notice] = 'Successfully updated lineup' if new_lineup.save
+    end
+
     redirect_to team_path(team)
   end
 

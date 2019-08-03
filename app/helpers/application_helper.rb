@@ -21,6 +21,9 @@ module ApplicationHelper
     end
   end
 
+  def hide_navbar?
+    params[:controller] == 'welcome' && params[:action] == 'index'
+  end
 
   def tour_status_class(status)
     case status
