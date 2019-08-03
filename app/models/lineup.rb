@@ -11,7 +11,8 @@ class Lineup < ApplicationRecord
   belongs_to :tour
 
   def total_score
-    match_players.map(&:score).compact.sum
+
+    match_players.map(&:total_score).compact.sum
   end
 
   def goals
