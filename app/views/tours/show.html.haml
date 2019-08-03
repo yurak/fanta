@@ -1,0 +1,13 @@
+.row
+  - tour.lineups.each do |lineup|
+    .alert.alert-info
+      .card
+        .card-body
+          %h5.card-title
+            = link_to lineup.team.name, team_path(lineup.team.id)
+          %p
+            = lineup.team_module.name
+          %p
+            = lineup.total_score
+          %p
+            = pluralize(lineup.goals, 'goal')
