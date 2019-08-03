@@ -1,5 +1,5 @@
 class LinksController < ApplicationController
-  before_action :set_link, only: [:edit, :update, :destroy]
+  helper_method :link
 
   respond_to :html
 
@@ -9,9 +9,6 @@ class LinksController < ApplicationController
 
   def new
     @link = Link.new
-  end
-
-  def edit
   end
 
   def create
@@ -38,8 +35,8 @@ class LinksController < ApplicationController
 
   private
 
-  def set_link
-    @link = Link.find(params[:id])
+  def link
+    @link ||= Link.find(params[:id])
   end
 
   def link_params

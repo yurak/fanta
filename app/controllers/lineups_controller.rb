@@ -11,7 +11,6 @@ class LineupsController < ApplicationController
     team_lineups_creator.call
 
     if team_lineups_creator.lineup.errors.present?
-
       flash[:error] = "Lineup was not created: #{team_lineups_creator.lineup.errors.full_messages.to_sentence}"
       redirect_to new_team_lineup_path(team)
     else
@@ -26,9 +25,9 @@ class LineupsController < ApplicationController
 
   def clone
     new_lineup = lineup.dup
-    new_lineup.tour = Tour.find_by_number(lineup.tour.next_number)
+    new_lineup.tour = Tour.find_by(number: lineup.tour.next_number)
 
-    if  new_lineup.tour.lineups.where(team_id: new_lineup.team_id).exists?
+    if new_lineup.tour.lineups.where(team_id: new_lineup.team_id).exists?
       flash[:error] = 'This team already has lineup for tour'
     else
       new_lineup.players << lineup.players

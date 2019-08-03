@@ -1,5 +1,4 @@
 class ApplicationController < ActionController::Base
-
   helper_method :active_tours
 
   private
