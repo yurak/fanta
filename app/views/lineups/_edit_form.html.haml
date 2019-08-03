@@ -9,7 +9,7 @@
           %span.input-group-text
 
             = "#{lineup.team_module.slots[match_players.index]&.position} - #{match_players.object.total_score}"
-          = match_players.select :player_id, available_for_select_by_position(team, position: lineup.team_module.slots[match_players.index]&.position), {}, disabled: lineup.tour.closed?
+          = match_players.select :player_id, available_for_select_by_positions(team, positions: lineup.team_module.slots[match_players.index]&.positions), {}, disabled: lineup.tour.closed?
           %span.input-group-text Score
           = match_players.number_field :score, in: 0..11, step: :any
           %span.input-group-text R/C
@@ -33,7 +33,7 @@
     - else
       .alert.alert-warning
         = lineup.team_module.slots[match_players.index]&.position
-        = match_players.select :player_id, available_for_select_by_position(team), {}, disabled: 'disabled'
+        = match_players.select :player_id, available_for_select(team), {}, disabled: 'disabled'
         = match_players.number_field :score, in: 0..11, step: :any, value: 0, class: 'small-number'
   .form-group
     = f.submit 'Update', class: 'btn btn-success btn-block'

@@ -8,9 +8,9 @@ module PlayersHelper
     end
   end
 
-  def available_for_select_by_position(team, position: nil)
-    if position
-      scope = team.players.includes(:positions).where(positions: { name:  position.split('/')})
+  def available_for_select_by_positions(team, positions: nil)
+    if positions
+      scope = team.players.includes(:positions).where(positions: { name:  positions})
     else
       scope = team.players
     end
