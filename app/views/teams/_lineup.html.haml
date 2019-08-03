@@ -8,5 +8,6 @@
       = "#{lineup.total_score} - #{lineup.goals}"
     .btn-group
       = link_to 'Edit', edit_team_lineup_path(team, lineup), class: 'btn btn-primary'
+
       = link_to 'Clone', team_lineup_clone_path(team, lineup), class: 'btn btn-primary'
     = link_to "#{lineup.team_module.name}", team_lineup_path(team, lineup), class: 'btn btn-primary btn-lg active'

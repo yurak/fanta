@@ -7,7 +7,7 @@
   .selected
   = form_for [team, @lineup] do |f|
     .form-group
-      = f.select :team_module_id, TeamModule.all.collect {|x| [x.name, x.id]}, {}, class: 'form-control'
+      = f.select :team_module_id, TeamModule.all.collect { |x| [x.name, x.id]}, {}, class: 'form-control'
     .form-group
       = f.select :player_ids, available_for_select(team), {},  multiple: true, size: 18, class: 'form-control custom-select'
     .form-group

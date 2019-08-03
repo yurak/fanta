@@ -16,7 +16,7 @@
           .badge{ class: status_class(player.status) }
             = player.status
         %td
-          .club-logo{class: player.club.code.downcase}
+          .club-logo{ class: player.club.code.downcase }
         %td
           .btn-group{"aria-label" => "Basic example", role: "group"}
             - Player.statuses.each do |status, value|
