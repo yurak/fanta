@@ -1,7 +1,7 @@
 class ToursController < ApplicationController
   respond_to :html, :json
 
-  helper_method :tours
+  helper_method :tours, :tour
 
   def index
     respond_with tours
@@ -17,8 +17,12 @@ class ToursController < ApplicationController
 
   private
 
+  def identifier
+    params[:tour_id].presence || params[:id]
+  end
+
   def tour
-    @tour ||= Tour.find(params[:tour_id])
+    @tour ||= Tour.find(identifier)
   end
 
   def tour_manager

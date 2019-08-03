@@ -9,10 +9,6 @@ module ApplicationHelper
     end
   end
 
-  def tour_result(lineup)
-    "#{lineup.team.name} - #{lineup.total_score} - #{pluralize(lineup.goals, 'goal')}"
-  end
-
   def status_class(status)
     case status
     when 'ready' then 'badge-primary'
