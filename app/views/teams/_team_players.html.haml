@@ -1,16 +1,17 @@
 %table.table
   %thead
     %tr.center
-      %th{scope: "col"} Positions
-      %th{scope: "col"} Name
-      %th{scope: "col"} Club
-      %th{scope: "col"}
+      %th Positions
+      %th Name
+      %th Club
+      %th
   - team.players.order_by_status.each do |player|
     %tbody
       %tr.center
-        %td{:scope => "row"}
+        %td
           - player.positions.each do |position|
-            = position.name
+            .position-image.inline-block
+              = image_tag("positions/#{position.name}.png")
         %td
           = player.name
           .badge{ class: status_class(player.status) }
