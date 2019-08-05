@@ -16,6 +16,7 @@
     - team.lineups.each do |lineup|
       = render 'lineup', lineup: lineup
   %hr
-  .row
-    %h3 Crew
-    = render 'team_players', team: team
+  .container
+    .row
+      %h3 Crew
+      = render 'team_players', team: team
