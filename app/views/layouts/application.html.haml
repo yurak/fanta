@@ -9,9 +9,9 @@
     = javascript_include_tag 'application'
     = favicon_link_tag asset_path('favicon.ico')
   %body
-    .container.flash-block
-      - flash.each do |key, value|
-        = content_tag :div, value, class: "#{flash_class(key)}"
     - unless hide_navbar?
+      .container.flash-block
+        - flash.each do |key, value|
+          = content_tag :div, value, class: "#{flash_class(key)}"
       = render 'layouts/navbar'
     = yield

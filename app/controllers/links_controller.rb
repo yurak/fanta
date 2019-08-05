@@ -1,4 +1,6 @@
 class LinksController < ApplicationController
+  before_action :authenticate_user!
+
   helper_method :link
 
   respond_to :html

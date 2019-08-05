@@ -16,6 +16,7 @@ gem 'jbuilder', '~> 2.5'
 
 gem 'rubocop', require: false
 gem 'devise'
+gem 'devise-bootstrap-views', '~> 1.0'
 gem 'bootsnap', '>= 1.1.0', require: false
 
 gem 'rb-readline'

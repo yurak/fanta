@@ -1,4 +1,6 @@
 class LineupsController < ApplicationController
+  before_action :authenticate_user!
+
   respond_to :html
 
   helper_method :team, :lineup
