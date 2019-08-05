@@ -1,6 +1,4 @@
 class ToursController < ApplicationController
-  before_action :authenticate_user!
-
   respond_to :html, :json
 
   helper_method :tours, :tour

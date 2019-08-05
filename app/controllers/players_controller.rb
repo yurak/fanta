@@ -1,6 +1,4 @@
 class PlayersController < ApplicationController
-  before_action :authenticate_user!
-
   helper_method :player, :team
 
   respond_to :html
