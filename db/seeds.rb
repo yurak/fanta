@@ -7,5 +7,6 @@ Seeder.new.teams.each do |team|
   Seeder.new(team_name: team).create_team
 end
 
+UserCreator.new.call
 
 Seeder.create_tours
