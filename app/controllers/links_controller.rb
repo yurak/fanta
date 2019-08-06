@@ -21,7 +21,7 @@ class LinksController < ApplicationController
   end
 
   def update
-    if @link.update(link_params)
+    if link.update(link_params)
       redirect_to links_url, notice: 'Link was successfully updated.'
     else
       render :edit
@@ -29,7 +29,7 @@ class LinksController < ApplicationController
   end
 
   def destroy
-    @link.destroy
+    link.destroy
     redirect_to links_url, notice: 'Linker was successfully destroyed.'
   end
 
