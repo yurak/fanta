@@ -1,5 +1,4 @@
 .container
-  .row
+  .teams-block.row
     - @teams.each do |team|
-      .col.col-xs-4
-        = render 'card', team: team
+      = render 'card', team: team
