@@ -1,6 +1,6 @@
-.card{:style => "width: 18rem;"}
+.card.team-card
   = link_to team_path(team) do
     %img.card-img-top{alt: "Logo", src: image_path("fanta.jpg")}/
-  .card-body
-    %h3.card-title.center
-      = link_to team.name.humanize, team_path(team)
+    .card-body.team-card-body
+      .card-title.team-card-title.center
+        = team.name.titleize

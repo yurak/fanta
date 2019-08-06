@@ -1,3 +1,52 @@
+.team-card {
+  margin: 15px;
+  width: calc(20% - 30px);
+  padding: 10px;
+  border-width: 0;
+  background-color: #cce5ff;
+
+  .team-card-body {
+    padding: 10px 1rem;
+    height: 40px;
+  }
+  .team-card-title {
+    height: 100%;
+    margin: 0;
+  }
+
+  @media screen and (max-width: 1199px) {
+    .team-card-body {
+      height: 70px;
+    }
+  }
+
+  @media screen and (max-width: 991px) {
+    margin: 8px;
+    width: calc(20% - 16px);
+    .team-card-body {
+      padding: 10px 0.5rem;
+      height: 70px;
+    }
+  }
+
+  @media screen and (max-width: 767px) {
+    margin: 15px;
+    width: calc(50% - 30px);
+    .team-card-body {
+      padding: 10px 1rem;
+      height: 40px;
+    }
+  }
+
+  @media screen and (max-width: 420px) {
+    margin: 20px 50px;
+    width: calc(100% - 100px);
+    .team-card-body {
+      padding: 10px 1.5rem;
+    }
+  }
+}
+
 .club-logo {
   margin: auto;
   width: 60px;
