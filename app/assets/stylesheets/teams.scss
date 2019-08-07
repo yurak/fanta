@@ -20,7 +20,8 @@
     }
   }
 
-  @media screen and (max-width: 991px) {
+  /* #### Mobile Phones #### */
+  @media screen and (max-device-width: 991px) and (orientation: landscape){
     margin: 8px;
     width: calc(20% - 16px);
     .team-card-body {
@@ -29,7 +30,7 @@
     }
   }
 
-  @media screen and (max-width: 767px) {
+  @media screen and (max-device-width: 767px) {
     margin: 15px;
     width: calc(50% - 30px);
     .team-card-body {
@@ -38,7 +39,7 @@
     }
   }
 
-  @media screen and (max-width: 420px) {
+  @media screen and (max-device-width: 420px) {
     margin: 20px 50px;
     width: calc(100% - 100px);
     .team-card-body {
