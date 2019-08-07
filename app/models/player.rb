@@ -6,7 +6,7 @@ class Player < ApplicationRecord
   has_many :match_players, dependent: :destroy
   has_many :lineups, through: :match_players
 
-  scope :by_position, -> (position) { joins(:positions).where(positions: { name: position }) }
+  scope :by_position, ->(position) { joins(:positions).where(positions: { name: position }) }
   enum status: %i[ready injured disqualified]
 
   scope :order_by_status, -> do

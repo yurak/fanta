@@ -3,14 +3,14 @@ module PlayersHelper
     team.players.order_by_status.collect do |x|
       klass = x.status
       [
-        "(#{x.positions.map(&:name).join('-')}) #{x.name} (#{x.status})", x.id, { class: klass}
+        "(#{x.positions.map(&:name).join('-')}) #{x.name} (#{x.status})", x.id, { class: klass }
       ]
     end
   end
 
   def available_for_select_by_positions(team, positions: nil)
     if positions
-      scope = team.players.includes(:positions).where(positions: { name:  positions})
+      scope = team.players.includes(:positions).where(positions: { name:  positions })
     else
       scope = team.players
     end
@@ -18,7 +18,7 @@ module PlayersHelper
     scope.order_by_status.collect do |x|
       klass = x.status
       [
-        "(#{ x.reload.positions.map(&:name).join('-')}) #{x.name} (#{x.status})", x.id, { class: klass}
+        "(#{ x.reload.positions.map(&:name).join('-')}) #{x.name} (#{x.status})", x.id, { class: klass }
       ]
     end
   end
