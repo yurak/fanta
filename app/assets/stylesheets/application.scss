@@ -54,12 +54,32 @@ body, html {
 
 .navbar {
   .btn-group {
-    padding: 35px 0;
+    padding: 25px 0;
     width: 100%;
 
     .btn{
       width: 100%;
     }
+  }
+}
+
+.mobile-navbar {
+  .mobile-vertical-btn {
+    width: 100%;
+  }
+}
+@media screen and (min-device-width: 480px) {
+  .mobile-navbar {
+    display: none;
+  }
+}
+
+@media screen and (max-device-width: 480px) {
+  .large-navbar {
+    display: none;
+  }
+  .mobile-navbar {
+    display: inline-block;
   }
 }
 
