@@ -3,7 +3,7 @@
     .links-header.col-8.col-sm-8
       %h1 Useful Links
     .links-new
-      = link_to 'New Link', new_link_path, class: 'btn btn-primary'
+      = link_to 'New Link', new_link_path, class: 'btn btn-primary' if current_user.admin?
 
   .links-list
     - @links.each do |link|
@@ -14,7 +14,7 @@
               = link_to link.name, link.url, target: '_blank'
             .link-description
               = link.description
-          -# TODO: show buttons only for Admin user
-          .link-btn.col.col-lg-3.right
-            = link_to 'Edit', edit_link_path(link), class: 'btn btn-primary'
-            = link_to 'Destroy', link, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-primary'
+          - if current_user.admin?
+            .link-btn.col.col-lg-3.right
+              = link_to 'Edit', edit_link_path(link), class: 'btn btn-primary'
+              = link_to 'Destroy', link, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-primary'
