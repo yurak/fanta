@@ -1,3 +1,5 @@
+/* TEAM INDEX page */
+
 .team-card {
   margin: 15px;
   width: calc(20% - 30px);
@@ -45,6 +47,27 @@
     .team-card-body {
       padding: 10px 1.5rem;
     }
+  }
+}
+
+/* TEAM SHOW page */
+
+.team-header {
+  width: 100%;
+  height: 60px;
+
+  .team-logo {
+    width: 60px;
+
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  .team-title {
+    margin-left: 15px;
+    font-size: 22px;
   }
 }
 
