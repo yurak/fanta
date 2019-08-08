@@ -4,7 +4,7 @@ lock "~> 3.11.0"
 set :application, "fanta"
 set :repo_url, "https://github.com/yurak/fanta"
 
-append :linked_files, 'db/production.sqlite3', 'config/master.key'
+append :linked_files, 'config/master.key'
 
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
