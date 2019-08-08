@@ -1,13 +1,25 @@
 .container
-  - tour.lineups.each do |lineup|
-    .alert.alert-info
-      .card
+  - tour.matches.each do |match|
+    .alert.alert-primary
+      .card.match-team-card
         .card-body
-          %h5.card-title
-            = link_to lineup.team.name, team_path(lineup.team.id)
-          %p
-            = lineup.team_module.name
-          %p
-            = lineup.total_score
-          %p
-            = pluralize(lineup.goals, 'goal')
+          .card-title
+            = link_to match.host.name.titleize, team_path(match.host.id)
+          - if match.host_lineup
+            %p
+              = match.host_lineup.team_module.name
+            %p
+              = match.host_lineup.total_score
+            %p
+              = pluralize(match.host_lineup.goals, 'goal')
+      .card.match-team-card
+        .card-body
+          .card-title
+            = link_to match.guest.name.titleize, team_path(match.guest.id)
+          - if match.guest_lineup
+            %p
+              = match.guest_lineup.team_module.name
+            %p
+              = match.guest_lineup.total_score
+            %p
+              = pluralize(match.guest_lineup.goals, 'goal')

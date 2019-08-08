@@ -2,6 +2,12 @@ class Team < ApplicationRecord
   belongs_to :user, optional: true
   has_many :players, dependent: :destroy
   has_many :lineups, dependent: :destroy
+  has_many :host_matches, foreign_key: 'host_id', class_name: 'Match'
+  has_many :guest_matches, foreign_key: 'guest_id', class_name: 'Match'
 
   validates :name, uniqueness: true
+
+  def matches
+    Match.where('host_id = ? OR guest_id = ?', id, id)
+  end
 end
