@@ -1,6 +1,6 @@
 RSpec.describe Seeder do
   context 'create team' do
-    subject { described_class.new(team_name: 'raky').create_team }
+    subject { described_class.new(team_name: 'sx').create_team }
 
     before do
       Seeder.new(objects_name: 'clubs').save
@@ -12,8 +12,8 @@ RSpec.describe Seeder do
       expect(subject.size).to eq 25
     end
 
-    it 'team is raky' do
-      expect(subject.map { |t| t.team.name }.uniq).to eq ['raky']
+    it 'team is sx' do
+      expect(subject.map { |t| t.team.name }.uniq).to eq ['sx']
     end
 
     it 'has 4 Dd s' do
