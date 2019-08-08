@@ -1,0 +1,5 @@
+= link_to 'Teams', teams_path, class: 'btn btn-outline-primary'
+= link_to 'Tours', tours_path, class: 'btn btn-outline-primary'
+= link_to 'Useful Links', links_path, class: 'btn btn-outline-primary'
+= link_to 'Rules & FAQs', rules_path, class: 'btn btn-outline-primary'
+= link_to 'Profile', user_signed_in? ? edit_user_registration_path : new_user_session_path, class: 'btn btn-outline-primary'

@@ -1,7 +1,6 @@
 .container.navbar
-  .btn-group{role: 'group'}
-    = link_to 'Teams', teams_path, class: 'btn btn-outline-primary'
-    = link_to 'Tours', tours_path, class: 'btn btn-outline-primary'
-    = link_to 'Useful Links', links_path, class: 'btn btn-outline-primary'
-    = link_to 'Rules & FAQs', rules_path, class: 'btn btn-outline-primary'
-    = link_to 'Profile', user_signed_in? ? edit_user_registration_path : new_user_session_path, class: 'btn btn-outline-primary'
+  .btn-group.large-navbar{role: 'group'}
+    = render 'layouts/navbar_links'
+  .btn-group.mobile-navbar{role: 'group'}
+    .btn-group-vertical.mobile-vertical-btn
+      = render 'layouts/navbar_links'

@@ -10,4 +10,12 @@ class Team < ApplicationRecord
   def matches
     Match.where('host_id = ? OR guest_id = ?', id, id)
   end
+
+  def logo_path
+    if File.exist?("app/assets/images/teams/#{name}.png")
+      "teams/#{name}.png"
+    else
+      'fanta.png'
+    end
+  end
 end
