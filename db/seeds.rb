@@ -9,4 +9,4 @@ end
 
 UserCreator.new.call
 
-Seeder.create_tours
+CalendarCreator.new.call

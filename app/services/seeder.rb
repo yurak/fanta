@@ -8,12 +8,6 @@ class Seeder
     @objects_name = objects_name
   end
 
-  def self.create_tours
-    (1..35).to_a.each do |number|
-      Tour.create(number: number)
-    end
-  end
-
   def path
     Rails.root.join('config', 'mantra', "#{objects_name}.yml")
   end

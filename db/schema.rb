@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_06_084031) do
+ActiveRecord::Schema.define(version: 2019_08_08_133950) do
 
   create_table "clubs", force: :cascade do |t|
     t.string "code"
@@ -50,6 +50,14 @@ ActiveRecord::Schema.define(version: 2019_08_06_084031) do
     t.decimal "assits", default: "0.0"
     t.decimal "malus", default: "0.0"
     t.decimal "bonus", default: "0.0"
+  end
+
+  create_table "matches", force: :cascade do |t|
+    t.bigint "tour_id", null: false
+    t.bigint "host_id", null: false
+    t.bigint "guest_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "players", force: :cascade do |t|
