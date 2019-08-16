@@ -54,8 +54,15 @@ body, html {
 }
 
 .navbar {
+  .nav-profile {
+    padding-top: 15px;
+    width: 100%;
+    .nav-profile-link {
+      float: right;
+    }
+  }
   .btn-group {
-    padding: 25px 0;
+    padding: 15px 0 25px;
     width: 100%;
 
     .btn{

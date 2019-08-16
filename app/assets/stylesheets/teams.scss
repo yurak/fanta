@@ -23,11 +23,11 @@
   }
 
   /* #### Mobile Phones #### */
-  @media screen and (max-device-width: 991px) and (orientation: landscape){
+  @media screen and (max-device-width: 991px) {
     margin: 8px;
     width: calc(20% - 16px);
     .team-card-body {
-      padding: 10px 0.5rem;
+      padding: 10px 0;
       height: 70px;
     }
   }
