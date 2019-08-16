@@ -1,7 +1,8 @@
 .alert.alert-primary
   .alert{class: "#{tour_status_class(tour.status)}" }
     = link_to "#{tour.number} - #{tour.status}", tour_path(tour)
-  - if tour.set_lineup?
-    = link_to "Close Tour", tour_change_status_path(tour, status: :closed), class: 'btn btn-danger btn-lg'
-  - if tour.inactive?
-    = link_to "Start tour", tour_change_status_path(tour, status: :set_lineup), class: 'btn btn-primary btn-lg'
+  - if current_user.admin?
+    - if tour.set_lineup?
+      = link_to "Close Tour", tour_change_status_path(tour, status: :closed), class: 'btn btn-danger'
+    - if tour.inactive?
+      = link_to "Start tour", tour_change_status_path(tour, status: :set_lineup), class: 'btn btn-primary'

@@ -1,4 +1,8 @@
 .container.navbar
+  .nav-profile
+    .nav-profile-link
+      - if user_signed_in?
+        = link_to current_user.email, edit_user_registration_path
   .btn-group.large-navbar{role: 'group'}
     = render 'layouts/navbar_links'
   .btn-group.mobile-navbar{role: 'group'}
