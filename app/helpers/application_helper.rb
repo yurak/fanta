@@ -8,11 +8,12 @@ module ApplicationHelper
     end
   end
 
-  def status_class(status)
+  def status_class(element, status)
     case status
-    when 'ready' then 'badge-primary'
-    when 'injured' then 'badge-danger'
-    when 'disqualified' then 'badge-secondary'
+    when 'ready' then "#{element}-success"
+    when 'injured' then "#{element}-danger"
+    when 'disqualified' then "#{element}-secondary"
+    when 'problematic' then "#{element}-warning"
     end
   end
 

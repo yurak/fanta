@@ -72,13 +72,20 @@
   }
 }
 
-@media screen and (max-device-width: 400px) {
+@media screen and (max-device-width: 450px) {
   .team-tour-card {
-    .team-tour-info a {
-      font-size: 14px;
+    .team-tour-info {
+      .team-link {
+        min-height: 54px;
+      }
+
+      a {
+        font-size: 18px;
+      }
     }
+
     .team-tour-points, .team-tour-module {
-      font-size: 12px;
+      font-size: 14px;
     }
   }
 }
