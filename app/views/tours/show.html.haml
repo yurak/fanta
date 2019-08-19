@@ -5,7 +5,8 @@
         .card-body
           .card-title.team-tour-card
             .team-tour-info.team-tour-info-block
-              = link_to match.host.name.titleize, team_path(match.host.id)
+              .team-link
+                = link_to match.host.name.titleize, team_path(match.host.id)
               %p.team-tour-module
                 = match.host_lineup ? match.host_lineup.team_module.name : 'waiting for lineup'
             .team-tour-result.team-tour-info-block
@@ -23,7 +24,8 @@
         .card-body
           .card-title.team-tour-card
             .team-tour-info.team-tour-info-block.team-tour-info-guest
-              = link_to match.guest.name.titleize, team_path(match.guest.id)
+              .team-link
+                = link_to match.guest.name.titleize, team_path(match.guest.id)
               %p.team-tour-module
                 = match.guest_lineup ? match.guest_lineup.team_module.name : 'waiting for lineup'
             .team-tour-result.team-tour-info-block

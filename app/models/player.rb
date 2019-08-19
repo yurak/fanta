@@ -7,7 +7,7 @@ class Player < ApplicationRecord
   has_many :lineups, through: :match_players
 
   scope :by_position, ->(position) { joins(:positions).where(positions: { name: position }) }
-  enum status: %i[ready injured disqualified]
+  enum status: %i[ready problematic injured disqualified]
 
   scope :order_by_status, -> do
     order_by = ['CASE']

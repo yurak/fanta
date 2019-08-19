@@ -10,14 +10,17 @@
       .alert.alert-primary
         %h6 Finish tour # #{active_tours.first&.number} and wait next
     - elsif active_tours.exists?
-      %span
-        = link_to 'Create lineup', new_team_lineup_path(team), class: 'btn btn-primary btn-lg active'
+      - if team.user == current_user
+        %span
+          = link_to 'Create lineup', new_team_lineup_path(team), class: 'btn btn-primary btn-lg active'
     - else
       .alert.alert-warning
         %h6 Ask Admin to activate tour
-  .col-xs-8
-    - team.lineups.each do |lineup|
-      = render 'lineup', lineup: lineup
+  -# TODO: Move lineups functionality to separate page or tab
+  - if team.user == current_user
+    .col-xs-8
+      - team.lineups.each do |lineup|
+        = render 'lineup', lineup: lineup
   %hr
   .container
     .row

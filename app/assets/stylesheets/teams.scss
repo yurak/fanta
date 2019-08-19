@@ -71,10 +71,60 @@
   }
 }
 
+/* Team players list */
+
+.table-players {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 120px auto 80px 80px auto;
+  grid-row-gap: 10px;
+
+  .table-head {
+    font-weight: bolder;
+    //background-color: #cce5ff;
+    border-bottom: 2px solid grey;
+    height: 45px;
+    padding-top: 10px;
+  }
+
+  .player-name {
+    font-weight: bolder;
+  }
+
+  .player-text {
+    padding-top: 14px;
+  }
+
+  .cell-pl-actions {
+    padding: 5px 0;
+    .btn-group a {
+      width: 110px;
+    }
+  }
+}
+
+@media screen and (max-device-width: 767px) {
+  .mobile-hidden {
+    display: none;
+  }
+
+  .table-players {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 28% auto 20% 13%;
+
+    .cell-pl-actions {
+      grid-column: span 4;
+      border-bottom: 2px solid grey;
+      padding: 10px 0;
+    }
+  }
+}
+
 .club-logo {
   margin: auto;
-  width: 60px;
-  height: 60px;
+  width: 50px;
+  height: 50px;
   background-size: contain;
 }
 
