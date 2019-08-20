@@ -1,0 +1,13 @@
+- if team.lineups.where(tour_id: active_tours.first&.id).exists?
+  .alert.alert-primary
+    %h6 Finish tour # #{active_tours.first&.number} and wait next
+- elsif active_tours.exists?
+  .alert.alert-warning
+    = link_to 'Create lineup', new_team_lineup_path(team), class: 'btn btn-primary active'
+- else
+  .alert.alert-warning
+    %h6 Ask Admin to activate tour
+
+.col-xs-8
+  - team.lineups.each do |lineup|
+    = render 'lineup', lineup: lineup

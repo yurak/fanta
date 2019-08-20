@@ -60,6 +60,13 @@
   text-align: justify;
 }
 
+@media screen and (max-device-width: 575px) {
+  .rules-block {
+    margin: 30px 20px;
+    text-align: justify;
+  }
+}
+
 .rules-image {
   width: 100%;
 
