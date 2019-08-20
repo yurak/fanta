@@ -1,9 +1,9 @@
-.table-players.center
+.table-players.center{ class: ('alien-team' unless team.user == current_user) }
   .cell-player.table-head Position
   .cell-player.table-head Name
-  .cell-player.table-head Status
+  .cell-player.table-head.personal-data Status
   .cell-player.table-head Club
-  .cell-player.table-head.mobile-hidden
+  .cell-player.table-head.mobile-hidden.personal-data
   - team.players.order_by_status.each do |player|
     .cell-player.player-text
       - player.positions.each do |position|
@@ -12,15 +12,13 @@
     -#.cell-player.player-text{ class: status_class('clr', player.status) }
     .cell-player.player-text.player-name
       = player.name
-    .cell-player.player-text
-      - if team.user == current_user
-        .badge{ class: status_class('badge', player.status) }
-          = player.status
+    .cell-player.player-text.personal-data
+      .badge{ class: status_class('badge', player.status) }
+        = player.status
     .cell-player.cell-pl-logo
       .club-logo{ class: player.club.code.downcase }
-    - if team.user == current_user
-      .cell-player.cell-pl-actions
-        .btn-group{"aria-label" => "Basic example", role: "group"}
-          - Player.statuses.each do |status, _value|
-            - if status != player.status
-              = link_to status, team_player_change_status_path(team, player, status: status), class: "btn btn-primary #{status_class('btn', status)}"
+    .cell-player.cell-pl-actions.personal-data
+      .btn-group{"aria-label" => "Basic example", role: "group"}
+        - Player.statuses.each do |status, _value|
+          - if status != player.status
+            = link_to status, team_player_change_status_path(team, player, status: status), class: "btn btn-sm btn-primary #{status_class('btn', status)}"

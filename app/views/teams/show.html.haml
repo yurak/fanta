@@ -6,23 +6,18 @@
           %img{alt: "Logo", src: image_path(team.logo_path)}
         .team-title.inline-block
           = team.name.humanize
-    - if team.lineups.where(tour_id: active_tours.first&.id).exists?
-      .alert.alert-primary
-        %h6 Finish tour # #{active_tours.first&.number} and wait next
-    - elsif active_tours.exists?
-      - if team.user == current_user
-        %span
-          = link_to 'Create lineup', new_team_lineup_path(team), class: 'btn btn-primary btn-lg active'
-    - else
-      .alert.alert-warning
-        %h6 Ask Admin to activate tour
-  -# TODO: Move lineups functionality to separate page or tab
+
   - if team.user == current_user
-    .col-xs-8
-      - team.lineups.each do |lineup|
-        = render 'lineup', lineup: lineup
-  %hr
-  .container
-    .row
-      %h3 Crew
-      = render 'team_players', team: team
+    %ul.nav.nav-tabs.nav-fill
+      %li.nav-item
+        %a{"data-toggle" => "tab", href: "#team-squad", class: 'nav-link active'} Squad
+      %li.nav-item
+        %a{"data-toggle" => "tab", href: "#team-lineups", class: 'nav-link'} Lineups
+    .tab-content
+      .tab-pane.pane.active#team-squad
+        = render 'team_players', team: team
+      .tab-pane.fade#team-lineups
+        = render 'team_lineups', team: team
+  - else
+    %h4 Squad
+    = render 'team_players', team: team
