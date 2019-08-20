@@ -21,4 +21,4 @@
       .btn-group{"aria-label" => "Basic example", role: "group"}
         - Player.statuses.each do |status, _value|
           - if status != player.status
-            = link_to status, team_player_change_status_path(team, player, status: status), class: "btn btn-primary #{status_class('btn', status)}"
+            = link_to status, team_player_change_status_path(team, player, status: status), class: "btn btn-sm btn-primary #{status_class('btn', status)}"

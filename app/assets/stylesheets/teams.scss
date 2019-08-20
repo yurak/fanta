@@ -76,7 +76,7 @@
 .table-players {
   width: 100%;
   display: grid;
-  grid-template-columns: 120px auto 80px 80px auto;
+  grid-template-columns: 100px auto 84px 70px 300px;
   grid-row-gap: 10px;
 
   .table-head {
@@ -92,13 +92,17 @@
   }
 
   .player-text {
-    padding-top: 14px;
+    padding-top: 12px;
+  }
+
+  .cell-player>.badge {
+    width: 82px;
   }
 
   .cell-pl-actions {
-    padding: 5px 0;
+    padding: 10px 0;
     .btn-group a {
-      width: 110px;
+      width: 100px;
     }
   }
 }
@@ -111,7 +115,7 @@
   .table-players {
     width: 100%;
     display: grid;
-    grid-template-columns: 28% auto 20% 13%;
+    grid-template-columns: 100px auto 84px 60px;
 
     .cell-pl-actions {
       grid-column: span 4;
@@ -122,7 +126,7 @@
 }
 
 .alien-team  {
-  grid-template-columns: 28% auto 20%;
+  grid-template-columns: 100px auto 70px;
 
   .personal-data {
     display: none;

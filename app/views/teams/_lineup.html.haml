@@ -1,4 +1,4 @@
-%ul.list-group
+%ul.list-group.list-group-flush
   %li.list-group-item.d-flex.justify-content-between.align-items-center
     .alert{class:  active_tours.first.id == lineup.tour.id  ? 'alert-success' : 'alert-primary'}
       = lineup.tour&.status
@@ -10,4 +10,4 @@
       = link_to 'Edit', edit_team_lineup_path(team, lineup), class: 'btn btn-primary'
 
       = link_to 'Clone', team_lineup_clone_path(team, lineup), class: 'btn btn-primary'
-    = link_to "#{lineup.team_module.name}", team_lineup_path(team, lineup), class: 'btn btn-primary btn-lg active'
+    = link_to "#{lineup.team_module.name}", team_lineup_path(team, lineup), class: 'btn btn-primary active'
