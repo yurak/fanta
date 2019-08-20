@@ -121,6 +121,16 @@
   }
 }
 
+.alien-team  {
+  grid-template-columns: 28% auto 20%;
+
+  .personal-data {
+    display: none;
+  }
+}
+
+/* Club logo list */
+
 .club-logo {
   margin: auto;
   width: 50px;

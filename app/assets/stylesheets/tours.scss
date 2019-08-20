@@ -50,42 +50,27 @@
 }
 
 @media screen and (max-device-width: 767px) {
-  .team-tour-card {
-    div {
-      width: 100%;
-      text-align: center;
+  .match-team-card:first-child {
+    margin-bottom: 10px;
+  }
+
+  .match-team-card {
+    width: 100%;
+    display: block;
+
+    .team-tour-info-guest {
+      float: left;
+      text-align: left;
     }
   }
 }
 
-@media screen and (max-device-width: 500px) {
-  .team-tour-card {
-    .team-tour-goals {
-      font-size: 32px;
-    }
-    .team-tour-info-block {
-      min-height: 70px;
-    }
+@media screen and (max-device-width: 360px) {
+  .team-tour-info {
+    width: calc(100% - 85px);
   }
-  .tour-alert {
-    padding: 0.5rem;
-  }
-}
 
-@media screen and (max-device-width: 450px) {
-  .team-tour-card {
-    .team-tour-info {
-      .team-link {
-        min-height: 54px;
-      }
-
-      a {
-        font-size: 18px;
-      }
-    }
-
-    .team-tour-points, .team-tour-module {
-      font-size: 14px;
-    }
+  .team-tour-result {
+    width: 80px;
   }
 }
