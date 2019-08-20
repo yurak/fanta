@@ -1,3 +1,5 @@
+/* ARTICLE INDEX page*/
+
 .article-data, .article-btn, .articles-new, .articles-header {
   display: inline-block;
   padding: 0;
@@ -47,4 +49,16 @@
 .article-btn {
   height: auto;
   padding-top: 10px;
+}
+
+/* ARTICLE SHOW page*/
+
+.article-show {
+  .article-title {
+    padding: 15px 0;
+
+    h3 {
+      margin: 0;
+    }
+  }
 }

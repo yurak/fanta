@@ -6,4 +6,8 @@ class Article < ApplicationRecord
   validates :image_url, format: { with: ApplicationRecord::URL_REGEXP,
                                   message: 'is invalid',
                                   allow_blank: true}
+
+  def image
+    image_url.present? ? image_url : 'article.png'
+  end
 end
