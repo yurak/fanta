@@ -3,7 +3,7 @@
     .articles-header.col-8.col-sm-8
       %h1 News
     .articles-new
-      = link_to 'New Article', new_article_path, class: 'btn btn-primary' if current_user.admin?
+      = link_to 'New Article', new_article_path, class: 'btn btn-primary' if current_user&.admin?
 
   .articles-list
     - @articles.each do |article|
@@ -17,7 +17,7 @@
                 %h3= article.title
               .article-summary
                 %h5= article.summary
-          - if current_user.admin?
+          - if current_user&.admin?
             .article-btn.col.col-lg-3.right
               = link_to 'Edit', edit_article_path(article), class: 'btn btn-primary'
               = link_to 'Destroy', article, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-primary'

@@ -1,4 +1,6 @@
 class ArticlesController < ApplicationController
+  skip_before_action :authenticate_user!
+
   helper_method :article
 
   respond_to :html
@@ -7,9 +9,7 @@ class ArticlesController < ApplicationController
     @articles = Article.all
   end
 
-  def show
-    article
-  end
+  def show; end
 
   def new
     @article = Article.new
