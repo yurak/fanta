@@ -29,5 +29,6 @@
 
 .idea/
 */**/.DS_Store
+.DS_Store
 
 # Ignore master key for decrypting credentials and more.
