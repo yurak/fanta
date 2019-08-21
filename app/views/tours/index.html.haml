@@ -1,4 +1,34 @@
 .container
   %h1 Tours
-  - tours.includes(:lineups).each do |tour|
-    = render 'tour', tour: tour
+  -#- tours.each do |tour|
+  -#  = render 'tour', tour: tour
+
+  %ul.nav.nav-tabs.nav-fill
+    %li.nav-item
+      %a{"data-toggle" => "tab", href: "#tours-results", class: 'nav-link'} Results
+    %li.nav-item
+      %a{"data-toggle" => "tab", href: "#tours-current", class: 'nav-link active'} Current Tour
+    %li.nav-item
+      %a{"data-toggle" => "tab", href: "#tours-fixtures", class: 'nav-link'} Fixtures
+  .tab-content
+    .tab-pane.fade#tours-results
+      .tours-block
+        - tours.closed.each do |tour|
+          = render 'tour', tour: tour
+    .tab-pane.pane.active#tours-current
+      - tours.set_lineup.each do |tour|
+        .tours-block
+          .current-tour-data
+            .tour-info
+              .tour-date
+                = "Tour ##{tour.number}"
+              .tour-deadline
+                = "Deadline DD/MM/YYYY"
+            .close-tour-btn
+              - if current_user.admin?
+                = link_to "Close Tour", tour_change_status_path(tour, status: :closed), class: 'btn btn-danger'
+        = render 'tour_matches', tour: tour
+    .tab-pane.fade#tours-fixtures
+      .tours-block
+        - tours.inactive.each do |tour|
+          = render 'tour', tour: tour

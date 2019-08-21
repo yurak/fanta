@@ -1,3 +1,35 @@
+/* TOURS INDEX page */
+
+.tours-block {
+  margin: 30px 50px;
+  text-align: justify;
+}
+
+@media screen and (max-device-width: 575px) {
+  .tours-block {
+    margin: 30px 20px;
+    text-align: justify;
+  }
+}
+
+.current-tour-data {
+  width: 100%;
+  display: grid;
+  grid-template-columns: auto 105px;
+
+  .tour-date {
+    font-size: 24px;
+    font-weight: bold;
+  }
+
+  .tour-deadline {
+    font-size: 16px;
+    font-weight: 700;
+  }
+}
+
+/* TOUR SHOW page */
+
 .match-team-card {
   width: calc(50% - 3px);
   display: inline-block;
