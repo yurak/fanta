@@ -1,0 +1,16 @@
+.container
+  .article-show
+    .article-item
+      .article-image
+        = image_tag(article.image)
+      .article-data
+        .article-title
+          %h3= article.title
+        .article-summary
+          %h5= article.summary
+        .article-description
+          %p= article.description
+      - if current_user&.admin?
+        .article-btn
+          = link_to 'Edit', edit_article_path(article), class: 'btn btn-primary'
+          = link_to 'Destroy', article, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-primary'

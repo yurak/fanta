@@ -11,6 +11,10 @@ class LinksController < ApplicationController
     @link = Link.new
   end
 
+  def edit
+    link
+  end
+
   def create
     @link = Link.new(link_params)
     if @link.save
@@ -30,7 +34,7 @@ class LinksController < ApplicationController
 
   def destroy
     link.destroy
-    redirect_to links_url, notice: 'Linker was successfully destroyed.'
+    redirect_to links_url, notice: 'Link was successfully destroyed.'
   end
 
   private
