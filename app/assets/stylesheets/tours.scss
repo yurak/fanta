@@ -1,3 +1,91 @@
+/* TOURS INDEX page */
+
+.tours-block {
+  margin: 30px 50px;
+  text-align: justify;
+}
+
+@media screen and (max-device-width: 575px) {
+  .tours-block {
+    margin: 30px 20px;
+    text-align: justify;
+  }
+}
+
+.current-tour-data {
+  width: 100%;
+  display: grid;
+  grid-template-columns: auto 105px;
+
+  .tour-date {
+    font-size: 24px;
+    font-weight: bold;
+  }
+
+  .tour-deadline {
+    font-size: 16px;
+    font-weight: 700;
+  }
+}
+
+.tour-short-item {
+  margin: 0;
+
+  a {
+    text-decoration: none;
+  }
+
+  .tour-short-data {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 100px auto;
+    grid-column-gap: 10px;
+  }
+
+  .tour-short-info {
+    height: 120px;
+    line-height: 120px;
+    text-align: center;
+    font-size: 72px;
+    font-weight: bolder;
+  }
+
+  .tour-short-match {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 38% auto 38%;
+    grid-column-gap: 10px;
+    font-size: 16px;
+  }
+
+  .tour-short-host {
+    text-align: right;
+  }
+
+  .tour-short-result {
+    text-align: center;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 40% 20% 40%;
+    font-weight: bolder;
+  }
+
+  //@media screen and (max-device-width: 500px) {
+  //  padding: 10px;
+  //
+  //  .tour-short-data {
+  //    grid-template-columns: 60px auto;
+  //    grid-column-gap: 5px;
+  //  }
+  //}
+}
+
+.tour-start-btn {
+  margin-top: 15px;
+}
+
+/* TOUR SHOW page */
+
 .match-team-card {
   width: calc(50% - 3px);
   display: inline-block;
@@ -11,15 +99,20 @@
   height: 100%;
   position: relative;
   margin: 0;
+  display: grid;
+  grid-template-columns: 96px auto 110px;
+  grid-column-gap: 10px;
 }
 
 .team-tour-info-block {
   display: inline-block;
 }
 
-.team-tour-info-guest {
-  float: right;
-  text-align: right;
+.match-team-logo {
+  img {
+    width: 100%;
+    max-height: 96px;
+  }
 }
 
 .team-tour-goals {
@@ -29,7 +122,6 @@
 
 .team-tour-info {
   vertical-align: top;
-  width: calc(100% - 115px);
 
   a {
     font-size: 18px;
@@ -43,13 +135,12 @@
 
 .team-tour-result {
   text-align: center;
-  width: 110px;
   p {
     margin: 0;
   }
 }
 
-@media screen and (max-device-width: 767px) {
+@media screen and (max-device-width: 991px) {
   .match-team-card:first-child {
     margin-bottom: 10px;
   }
@@ -57,20 +148,12 @@
   .match-team-card {
     width: 100%;
     display: block;
-
-    .team-tour-info-guest {
-      float: left;
-      text-align: left;
-    }
   }
 }
 
-@media screen and (max-device-width: 360px) {
-  .team-tour-info {
-    width: calc(100% - 85px);
-  }
-
-  .team-tour-result {
-    width: 80px;
+@media screen and (max-device-width: 500px) {
+  .team-tour-card {
+    grid-template-columns: 80px auto 80px;
+    grid-column-gap: 5px;
   }
 }

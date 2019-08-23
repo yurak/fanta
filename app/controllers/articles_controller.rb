@@ -6,7 +6,7 @@ class ArticlesController < ApplicationController
   respond_to :html
 
   def index
-    @articles = Article.all
+    @articles = Article.all.order(id: :desc)
   end
 
   def show; end

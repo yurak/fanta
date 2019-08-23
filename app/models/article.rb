@@ -8,6 +8,6 @@ class Article < ApplicationRecord
                                   allow_blank: true}
 
   def image
-    image_url.present? ? image_url : 'article.png'
+    image_url.present? ? image_url : 'article1.png'
   end
 end

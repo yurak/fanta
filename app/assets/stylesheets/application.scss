@@ -78,6 +78,11 @@ body, html {
     width: 100%;
   }
 }
+
+.nav-item {
+  font-size: 17px;
+}
+
 @media screen and (min-device-width: 480px) {
   .mobile-navbar {
     display: none;
