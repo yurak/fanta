@@ -10,14 +10,15 @@
       .alert.alert-primary
         .article-item
           = link_to article do
-            .article-image
-              = image_tag(article.image)
-            .article-data.col.col-lg-8
-              .article-title
-                %h3= article.title
-              .article-summary
-                %h5= article.summary
+            .article-block
+              .article-image
+                = image_tag(article.image)
+              .article-data
+                .article-title
+                  %h3= article.title
+                .article-summary
+                  %h5= article.summary
           - if current_user&.admin?
-            .article-btn.col.col-lg-3.right
+            .article-btn.right
               = link_to 'Edit', edit_article_path(article), class: 'btn btn-primary'
               = link_to 'Destroy', article, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-primary'

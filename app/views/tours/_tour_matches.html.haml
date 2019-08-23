@@ -3,6 +3,8 @@
     .card.match-team-card
       .card-body
         .card-title.team-tour-card
+          .match-team-logo.team-tour-info-block
+            %img{alt: "Logo", src: image_path(match.host.logo_path)}
           .team-tour-info.team-tour-info-block
             .team-link
               = link_to match.host.name.titleize, team_path(match.host.id)
@@ -23,6 +25,8 @@
     .card.match-team-card
       .card-body
         .card-title.team-tour-card
+          .match-team-logo.team-tour-info-block
+            %img{alt: "Logo", src: image_path(match.guest.logo_path)}
           .team-tour-info.team-tour-info-block.team-tour-info-guest
             .team-link
               = link_to match.guest.name.titleize, team_path(match.guest.id)

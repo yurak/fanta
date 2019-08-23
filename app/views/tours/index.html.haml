@@ -1,7 +1,5 @@
 .container
   %h1 Tours
-  -#- tours.each do |tour|
-  -#  = render 'tour', tour: tour
 
   %ul.nav.nav-tabs.nav-fill
     %li.nav-item
@@ -13,7 +11,7 @@
   .tab-content
     .tab-pane.fade#tours-results
       .tours-block
-        - tours.closed.each do |tour|
+        - tours.closed.order(number: :desc).each do |tour|
           = render 'tour', tour: tour
     .tab-pane.pane.active#tours-current
       - tours.set_lineup.each do |tour|
@@ -23,6 +21,7 @@
               .tour-date
                 = "Tour ##{tour.number}"
               .tour-deadline
+                -# TODO: add deadline params to Tour model
                 = "Deadline DD/MM/YYYY"
             .close-tour-btn
               - if current_user.admin?
