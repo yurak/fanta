@@ -14,13 +14,16 @@ module TeamLineups
     end
 
     def call
-      errors.add(:base, "Team should have at least #{AMOUNT} players") if players.size < AMOUNT
-      errors.add(:base, "Max amount is  #{AMOUNT + RESERVED} players") if players.size > AMOUNT + RESERVED
+      errors.add(:base, "Team should have #{full_squad} players") if players.size != full_squad
       lineup.tour_id = active_tour&.id
       lineup.save if errors.empty?
     end
 
     private
+
+    def full_squad
+      AMOUNT + RESERVED
+    end
 
     def active_tour
       Tour.set_lineup.first

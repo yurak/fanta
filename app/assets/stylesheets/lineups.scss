@@ -1,0 +1,30 @@
+#new_lineup {
+  display: grid;
+  grid-template-columns: 35% auto;
+  grid-column-gap: 25px;
+}
+
+#ms-lineup_player_ids {
+  width: 100%;
+}
+
+.module-image {
+  margin-top: 30px;
+  width: 100%;
+
+  img {
+    width: 100%;
+    border-radius: 10px;
+  }
+
+  .module-img {
+    display: none;
+  }
+}
+
+.lineup-submit-btn {
+  grid-column: span 2;
+  .btn {
+    width: 100%;
+  }
+}
