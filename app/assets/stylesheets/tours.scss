@@ -84,6 +84,13 @@
   margin-top: 15px;
 }
 
+.not-active {
+  height: 400px;
+  width: 100%;
+  background: image-url('tour-start-soon.png') white no-repeat center;
+  background-size: contain;
+}
+
 /* TOUR SHOW page */
 
 .match-team-card {

@@ -21,4 +21,4 @@
 
   - if current_user.admin? && tour.inactive?
     .tour-start-btn
-      = link_to "Start tour", tour_change_status_path(tour, status: :set_lineup), class: 'btn btn-primary'
+      = link_to "Start tour", tour_change_status_path(tour, status: :set_lineup), class: 'btn btn-primary', data: { confirm: 'Are you sure?' }

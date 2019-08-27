@@ -39,7 +39,12 @@ class LineupsController < ApplicationController
   end
 
   def edit
-    respond_with lineup
+    if editable?
+      respond_with lineup
+    else
+      flash[:notice] = 'This lineup can not be edited'
+      redirect_to team_path(team)
+    end
   end
 
   def update
@@ -72,5 +77,9 @@ class LineupsController < ApplicationController
 
   def team
     @team ||= Team.find(params[:team_id])
+  end
+
+  def editable?
+    lineup.tour.set_lineup? || lineup.tour.locked? && current_user.admin?
   end
 end
