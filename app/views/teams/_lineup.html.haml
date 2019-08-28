@@ -1,13 +1,30 @@
-%ul.list-group.list-group-flush
-  %li.list-group-item.d-flex.justify-content-between.align-items-center
-    .alert{class:  active_tour&.id == lineup.tour.id  ? 'alert-success' : 'alert-primary'}
-      = lineup.tour&.status
-      %span.badge.badge-light
-        = lineup.tour&.number
-    .alert.alert-dark
-      = "#{lineup.total_score} - #{lineup.goals}"
-    .btn-group
-      = link_to 'Edit', edit_team_lineup_path(team, lineup), class: 'btn btn-primary'
-
-      = link_to 'Clone', team_lineup_clone_path(team, lineup), class: 'btn btn-primary'
-    = link_to "#{lineup.team_module.name}", team_lineup_path(team, lineup), class: 'btn btn-primary active'
+.lineup-tour-item
+  .lineup-tour-cell.lineup-tour-cell-active
+    .lineup-tour-number.alert{class: active_tour&.id == lineup.tour.id  ? 'alert-success' : 'alert-primary'}
+      = link_to team_lineup_path(team, lineup) do
+        .lineup-tour-link
+          .lineup-tour-number-link
+            = lineup.tour&.number
+  .lineup-tour-cell
+    .alert.alert-secondary.lineup-tour-module
+      .lineup-tour-value
+        = lineup.team_module.name
+      .lineup-tour-text module
+  .lineup-tour-cell
+    .alert.alert-secondary.lineup-tour-points
+      .lineup-tour-value
+        = lineup.total_score
+      .lineup-tour-text points
+  .lineup-tour-cell
+    .alert.alert-secondary.lineup-tour-goals
+      .lineup-tour-value
+        = lineup.goals
+      .lineup-tour-text goals
+  - if lineup.tour.set_lineup?
+    .lineup-tour-cell
+      -# TODO: link to EDIT Module
+      = link_to 'Edit module', team_lineup_path(team, lineup), class: 'btn btn-primary lineup-tour-btn'
+    .lineup-tour-cell
+      = link_to 'Edit lineup', edit_team_lineup_path(team, lineup), class: 'btn btn-primary lineup-tour-btn'
+    .lineup-tour-cell
+      = link_to 'Clone', team_lineup_clone_path(team, lineup), class: 'btn btn-primary lineup-tour-btn'

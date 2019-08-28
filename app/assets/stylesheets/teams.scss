@@ -90,6 +90,10 @@
   grid-row-gap: 10px;
   font-size: 16px;
 
+  .cell-player {
+    border-bottom: 1px solid gainsboro;
+  }
+
   .table-head {
     font-weight: bolder;
     //background-color: #cce5ff;
@@ -231,4 +235,67 @@
 
 .ver {
   background-image: image-url('clubs/verona.png');
+}
+
+/* Team lineups list */
+
+.lineup-hint {
+  margin-top: 16px;
+}
+
+.lineup-tour-item {
+  border-top: 1px solid gainsboro;
+  padding: 16px 0;
+  display: grid;
+  grid-template-columns: 22% 26% 26% 26%;
+
+  .lineup-tour-cell {
+    text-align: center;
+    margin-right: 10px;
+  }
+
+  .alert {
+    margin: 0;
+    height: 100%;
+  }
+
+  .lineup-tour-number {
+    font-size: 56px;
+    font-weight: bolder;
+    padding: 0;
+  }
+
+  .lineup-tour-link {
+    height: 100%;
+    width: 100%;
+  }
+
+  .lineup-tour-value {
+    font-size: 24px;
+    font-weight: bolder;
+  }
+
+  .lineup-tour-module > a, .lineup-tour-number > a {
+    text-decoration: none;
+  }
+
+  .lineup-tour-btn {
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  .lineup-tour-cell-active {
+    grid-row: span 2;
+
+    .lineup-tour-link {
+      display: table;
+      width: 100%;
+
+      .lineup-tour-number-link{
+        display: table-cell;
+        vertical-align: middle;
+        height: 84px;
+      }
+    }
+  }
 }
