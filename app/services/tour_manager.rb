@@ -8,10 +8,12 @@ class TourManager
 
   def call
     if any_tour_in_progress?
-      tour.errors.add(:base, 'Please close tour in progress')
+      tour.errors.add(:base, 'Please close active tour')
     else
       set_lineup
     end
+
+    lock
 
     close
   end
@@ -22,11 +24,15 @@ class TourManager
     tour.set_lineup! if status == 'set_lineup'
   end
 
+  def lock
+    tour.locked! if tour.set_lineup? && status == 'locked'
+  end
+
   def close
-    tour.closed! if tour.set_lineup? && status == 'closed'
+    tour.closed! if tour.locked? && status == 'closed'
   end
 
   def any_tour_in_progress?
-    Tour.set_lineup.exists?
+    Tour.set_lineup.exists? || Tour.locked.exists?
   end
 end

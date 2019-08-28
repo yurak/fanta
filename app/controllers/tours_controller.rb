@@ -15,6 +15,16 @@ class ToursController < ApplicationController
     redirect_to tours_path
   end
 
+  def edit
+    respond_with tour
+  end
+
+  def update
+    flash[:notice] = 'Successfully updated tour' if tour.update(update_tour_params)
+
+    redirect_to tours_path
+  end
+
   private
 
   def identifier
@@ -31,5 +41,9 @@ class ToursController < ApplicationController
 
   def tours
     @tours ||= Tour.all
+  end
+
+  def update_tour_params
+    params.require(:tour).permit(:deadline)
   end
 end

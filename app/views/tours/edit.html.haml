@@ -1,0 +1,19 @@
+.container
+  %h3 Edit Tour
+
+  = form_for tour do |t|
+    - if tour.errors.any?
+      #error_explanation
+        %h2= "#{pluralize(tour.errors.count, "error")} prohibited this link from being saved:"
+        %ul
+          - tour.errors.full_messages.each do |message|
+            %li= message
+
+    .input-group.mb-3
+      .input-group-prepend
+        %span.input-group-text Deadline
+      = t.datetime_local_field :deadline, class: 'form-control'
+    %span Format: YYYY-MM-DDTHH:MM:00
+
+    .actions.right
+      = t.submit 'Save', class: 'btn btn-primary'

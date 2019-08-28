@@ -1,6 +1,6 @@
 %ul.list-group.list-group-flush
   %li.list-group-item.d-flex.justify-content-between.align-items-center
-    .alert{class:  active_tours.first.id == lineup.tour.id  ? 'alert-success' : 'alert-primary'}
+    .alert{class:  active_tour&.id == lineup.tour.id  ? 'alert-success' : 'alert-primary'}
       = lineup.tour&.status
       %span.badge.badge-light
         = lineup.tour&.number

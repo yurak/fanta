@@ -1,3 +1,15 @@
+.tours-block
+  .current-tour-data
+    .tour-info
+      .tour-date
+        = "Tour ##{tour.number}"
+      .tour-deadline
+        = "Deadline - #{tour.deadline&.strftime("%H:%M %d/%m/%y")}"
+        = link_to "Edit", edit_tour_path(tour) unless tour.closed?
+    .close-tour-btn
+      - if current_user.admin?
+        = link_to "Lock Tour", tour_change_status_path(tour, status: :locked), class: 'btn btn-danger', data: { confirm: 'Are you sure?' } if tour.set_lineup?
+        = link_to "Close Tour", tour_change_status_path(tour, status: :closed), class: 'btn btn-danger', data: { confirm: 'Are you sure?' } if tour.locked?
 - tour.matches.each do |match|
   .alert.alert-primary.tour-alert
     .card.match-team-card
