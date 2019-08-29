@@ -5,6 +5,7 @@ class LineupsController < ApplicationController
 
   def new
     @lineup = Lineup.new
+    @modules = TeamModule.all
   end
 
   def create

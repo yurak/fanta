@@ -1,16 +1,19 @@
 .container
   .alert.alert-primary
-    = 'You Should select 18 players. Please select Players with state ready to avoid 0 points. You set player status here:'
-  = link_to "Back to #{team.name} page", team_path(team), class: 'btn btn-outline-info'
+    = 'You should select 18 players. Please select Players with state ready to avoid 0 points. You set player status here:'
+    = link_to "Back to #{team.name.titleize} page", team_path(team), class: 'btn btn-info'
   %hr
 .container
   .selected
   = form_for [team, @lineup] do |f|
     .form-group
-      = f.select :team_module_id, TeamModule.all.collect { |x| [x.name, x.id]}, {}, class: 'form-control'
+      = f.select :team_module_id, @modules.collect { |x| [x.name, x.id]}, {}, class: 'form-control'
+      .module-image
+        - @modules.each do |m|
+          = image_tag("modules/#{m.name}.png", id: m.name, class: 'module-img')
     .form-group
       = f.select :player_ids, available_for_select(team), {},  multiple: true, size: 18, class: 'form-control custom-select'
-    .form-group
+    .form-group.lineup-submit-btn
       = f.submit 'Setup lineup', class: 'btn btn-success'
 
 :javascript
@@ -20,6 +23,14 @@
     $('.selected').html('Already selected ' + selected.length + ' from ' + max)
   })
 
-
   $('#lineup_player_ids').multiSelect();
+
+  $(document).ready(function() {
+    $('.module-img:first').show();
+  });
+  $('#lineup_team_module_id').change(function(){
+    let module = $(this).children("option:selected").text();
+    $('.module-img').hide();
+    $('#'+module).show();
+  })
 
