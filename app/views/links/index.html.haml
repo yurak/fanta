@@ -6,6 +6,13 @@
       = link_to 'New Link', new_link_path, class: 'btn btn-primary' if current_user.admin?
 
   .links-list
+    .alert.alert-primary
+      .link-item
+        .link-data.col.col-lg-8
+          .link-name
+            = link_to 'Rules & FAQs', rules_path
+          .link-description
+            Detailed description of Mantra rules
     - @links.each do |link|
       .alert.alert-primary
         .link-item
