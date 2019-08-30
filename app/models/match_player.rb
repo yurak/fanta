@@ -19,9 +19,10 @@ class MatchPlayer < ApplicationRecord
     total -= 0.5 if yellow_card
     total -= 1 if red_card
 
-    total += goals if goals
+    total += goals*3 if goals
     total += assits if assits
-    total -= missed_goals if missed_goals
+    total -= missed_goals*2 if missed_goals
+
     total -= malus if malus
     total += bonus if bonus
 
