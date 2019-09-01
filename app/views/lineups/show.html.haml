@@ -1,5 +1,16 @@
 .container
-  %h1 Lineup
-  .row
-    - lineup.team_module.slots.each_with_index do |slot, index|
-      = render partial: 'card', locals: { slot: slot, index: index, lineup: lineup }
+  .lineup-header
+    .lineup-info
+      %span.bolder
+        = link_to team.name.titleize, team_path(team)
+      lineup for Tour #
+      %span.bolder
+        = link_to lineup.tour.number, tour_path(lineup.tour)
+    .lineup-show-edit-btn
+      = link_to 'Edit lineup', edit_team_lineup_path(team, lineup), class: 'btn btn-primary lineup-show-btn'
+  .lineup-show-block
+    .lineup-show-img
+      = image_tag("modules/#{lineup.team_module.name}.png", class: 'module-img')
+    .lineup-show-members
+      - lineup.match_players.each do |mp|
+        = render partial: 'card', locals: { mp: mp }

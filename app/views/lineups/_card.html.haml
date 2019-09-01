@@ -1,18 +1,31 @@
-.card{style: "width: 18rem;"}
-  .card-body
-    %h4.card-title
-      = slot.position
-
-    %h6.card-subtitle.mb-2.text-muted
-      - if lineup.match_players[index].blank?
-        TBA
-      - else
-        = lineup.match_players[index].player.positions_names_string
-    %p.card-text
-      - if lineup.match_players[index].blank?
-        TBA
-      - else
-        = lineup.match_players[index].player.name
-        - if lineup.match_players[index].score.present?
-          %span.badge.badge-secondary
-            = lineup.match_players[index].score
+.alert{class: mp.real_position ? 'alert-success' : 'alert-warning'}
+  .lineup-show-player
+    .lineup-show-position
+      = image_tag("positions/#{mp.real_position.gsub('/','_')}.png") if mp.real_position
+    .lineup-show-name
+      = mp.player.name
+    .lineup-show-pl-positions
+      - mp.player.positions.each do |position|
+        .position-image.inline-block
+          = image_tag("positions/#{position.name}.png")
+    .lineup-show-score
+      = mp.score
+    .lineup-show-bonus
+      - if mp.goals.to_i > 0
+        %span= mp.goals.to_i if mp.goals.to_i > 1
+        = image_tag("bonuses/goal.png", title: 'Goal')
+      - if mp.missed_goals.to_i > 0
+        %span= mp.missed_goals.to_i if mp.missed_goals.to_i > 1
+        = image_tag("bonuses/mg.png", title: 'Missed Goal')
+      - if mp.assits.to_i > 0
+        %span= mp.assits.to_i if mp.assits.to_i > 1
+        = image_tag("bonuses/assist.png", title: 'Assist')
+      - if mp.cleansheet.present?
+        = image_tag("bonuses/cs.png", title: 'Cleansheet')
+      - if mp.yellow_card.present?
+        = image_tag("bonuses/yc.png", title: 'Yellow Card')
+      - if mp.red_card.present?
+        = image_tag("bonuses/rc.png", title: 'Red Card')
+      -# TODO: add missed, scored, caught and failed penalties, own goal, position_malus
+    .lineup-show-total-score
+      = mp.total_score
