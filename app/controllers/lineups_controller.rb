@@ -1,11 +1,11 @@
 class LineupsController < ApplicationController
   respond_to :html
 
-  helper_method :team, :lineup
+  helper_method :team, :lineup, :modules
 
   def new
     @lineup = Lineup.new
-    @modules = TeamModule.all
+    # @modules = TeamModule.all
   end
 
   def create
@@ -48,10 +48,30 @@ class LineupsController < ApplicationController
     end
   end
 
+  def edit_module
+    if editable?
+      modules
+      # @modules = TeamModule.all
+      respond_with lineup
+    else
+      flash[:notice] = 'This lineup can not be edited'
+      redirect_to team_path(team)
+    end
+  end
+
+  def edit_scores
+    if score_editable?
+      respond_with lineup
+    else
+      flash[:notice] = 'This lineup can not be edited'
+      redirect_to team_path(team)
+    end
+  end
+
   def update
     flash[:notice] = 'Successfully updated lineup' if lineup.update(update_lineup_params)
 
-    redirect_to team_path(team)
+    redirect_to team_lineup_path(team, lineup)
   end
 
   private
@@ -65,7 +85,7 @@ class LineupsController < ApplicationController
   end
 
   def update_lineup_params
-    params.fetch(:lineup, {}).permit(match_players_attributes: {})
+    params.fetch(:lineup, {}).permit(:team_module_id, match_players_attributes: {})
   end
 
   def lineup
@@ -80,7 +100,15 @@ class LineupsController < ApplicationController
     @team ||= Team.find(params[:team_id])
   end
 
+  def modules
+    @modules ||= TeamModule.all
+  end
+
   def editable?
-    lineup.tour.set_lineup? || lineup.tour.locked? && current_user.admin?
+    lineup.tour.set_lineup? && current_user == lineup.team.user
+  end
+
+  def score_editable?
+    lineup.tour.locked? && current_user.admin?
   end
 end

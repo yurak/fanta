@@ -1,13 +1,8 @@
 .container
   %h3 Edit Lineup
   - if lineup.updated_at
-    .alerta.lert-success
+    .alert.alert-info
       %span
-        = lineup.updated_at.strftime('Last updated %m/%d/%Y')
-      %psan
-        = lineup.updated_at.strftime("at %I:%M%p")
+        = lineup.updated_at.strftime('Last updated %m/%d/%Y at %I:%M%p')
 
-  - if current_user.admin?
-    = render 'admin_edit_form'
-  - else
-    = render 'user_edit_form'
+  = render 'edit_form'

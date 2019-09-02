@@ -3,7 +3,6 @@
     = 'You should select 18 players. Please select Players with state ready to avoid 0 points. You set player status here:'
     = link_to "Back to #{team.name.titleize} page", team_path(team), class: 'btn btn-info'
   %hr
-.container
   .selected
   = form_for [team, @lineup] do |f|
     .form-group

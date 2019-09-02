@@ -12,6 +12,8 @@ Rails.application.routes.draw do
 
     resources :lineups do
       get :clone
+      get :edit_module
+      get :edit_scores
     end
   end
 

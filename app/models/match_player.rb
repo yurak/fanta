@@ -4,6 +4,8 @@ class MatchPlayer < ApplicationRecord
 
   delegate :position_names, to: :player
 
+  # validates :lineup, uniqueness: { scope: :player }, on: :update
+
   def malus
     return 0 if own_position?
   end
@@ -20,7 +22,7 @@ class MatchPlayer < ApplicationRecord
     total -= 1 if red_card
 
     total += goals*3 if goals
-    total += assits if assits
+    total += assists if assists
     total -= missed_goals*2 if missed_goals
 
     total -= malus if malus

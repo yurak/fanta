@@ -22,9 +22,8 @@
       .lineup-tour-text goals
   - if lineup.tour.set_lineup?
     .lineup-tour-cell
-      -# TODO: link to EDIT Module
-      = link_to 'Edit module', team_lineup_path(team, lineup), class: 'btn btn-primary lineup-tour-btn'
+      = link_to 'Edit module', team_lineup_edit_module_path(team, lineup), class: 'btn btn-primary lineup-tour-btn'
     .lineup-tour-cell
       = link_to 'Edit lineup', edit_team_lineup_path(team, lineup), class: 'btn btn-primary lineup-tour-btn'
     .lineup-tour-cell
-      = link_to 'Clone', team_lineup_clone_path(team, lineup), class: 'btn btn-primary lineup-tour-btn'
+      = link_to 'Clone', team_lineup_clone_path(team, lineup), data: { confirm: 'Are you sure?' }, class: 'btn btn-primary lineup-tour-btn'
