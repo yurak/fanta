@@ -14,6 +14,8 @@ Rails.application.routes.draw do
       get :clone
       get :edit_module
       get :edit_scores
+      get :substitutions
+      put :subs_update
     end
   end
 

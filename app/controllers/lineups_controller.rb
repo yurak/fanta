@@ -5,7 +5,6 @@ class LineupsController < ApplicationController
 
   def new
     @lineup = Lineup.new
-    # @modules = TeamModule.all
   end
 
   def create
@@ -44,18 +43,17 @@ class LineupsController < ApplicationController
       respond_with lineup
     else
       flash[:notice] = 'This lineup can not be edited'
-      redirect_to team_path(team)
+      redirect_to team_lineup_path(team, lineup)
     end
   end
 
   def edit_module
     if editable?
       modules
-      # @modules = TeamModule.all
       respond_with lineup
     else
       flash[:notice] = 'This lineup can not be edited'
-      redirect_to team_path(team)
+      redirect_to team_lineup_path(team, lineup)
     end
   end
 
@@ -64,7 +62,7 @@ class LineupsController < ApplicationController
       respond_with lineup
     else
       flash[:notice] = 'This lineup can not be edited'
-      redirect_to team_path(team)
+      redirect_to team_lineup_path(team, lineup)
     end
   end
 
@@ -72,6 +70,19 @@ class LineupsController < ApplicationController
     flash[:notice] = 'Successfully updated lineup' if lineup.update(update_lineup_params)
 
     redirect_to team_lineup_path(team, lineup)
+  end
+
+  def substitutions
+    if score_editable?
+      respond_with lineup
+    else
+      flash[:notice] = 'This lineup can not be edited'
+      redirect_to team_lineup_path(team, lineup)
+    end
+  end
+
+  def subs_update
+    # TODO:
   end
 
   private
