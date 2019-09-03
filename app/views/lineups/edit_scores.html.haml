@@ -1,0 +1,54 @@
+.container
+  %h3 Edit Scores
+
+  .lineup-edit-scores-form
+    = form_for [team, lineup], url: team_lineup_path(team, lineup), method: :put do |f|
+      #lineup_form{data: team.players.to_json}
+
+      .mp-edit-headers
+        .mp-edit-header
+          %span Pos.
+        .mp-edit-header
+          %span Player
+        .mp-edit-header
+          %span Total score
+        .mp-edit-header
+          %span Base score
+        .mp-edit-header
+          %span Goals/ Missed goals
+        .mp-edit-header
+          %span Scored/ Caught penalty
+        .mp-edit-header
+          %span Failed/ Missed penalty
+        .mp-edit-header
+          %span Assists
+        .mp-edit-header
+          %span Clean sheet
+        .mp-edit-header
+          %span Yellow card
+        .mp-edit-header
+          %span Red card
+        .mp-edit-header
+          %span Own goals
+        .mp-edit-header
+          %span Position malus
+
+      = f.fields_for :match_players do |match_player|
+        - if lineup.team_module.slots[match_player.index]&.position
+          .alert.alert-success.mp-alert
+            = match_player.hidden_field(:real_position, value: lineup.team_module.slots[match_player.index]&.position)
+            = render 'match_player_scores', lineup: lineup, match_player: match_player
+        - else
+          .alert.alert-warning.mp-alert.subs-card
+            .subs-item
+              .mp-edit-item-param
+                = match_player.object.player.name
+              .mp-edit-item-param.mp-edit-player-positions
+                - match_player.object.player.positions.each do |position|
+                  .mp-edit-position-image
+                    = image_tag("positions/#{position.name}.png")
+      .subs-btn
+        = link_to 'Make substitution', team_lineup_substitutions_path(team, lineup), class: 'btn btn-danger', data: { confirm: 'Are you sure?' }
+
+      .form-group
+        = f.submit 'Update', class: 'btn btn-success btn-block'

@@ -13,7 +13,12 @@ class Lineup < ApplicationRecord
   INCRENMENT = 6
 
   def total_score
-    match_players.map(&:total_score).compact.sum
+    match_players.main.map(&:total_score).compact.sum + defence_bonus
+  end
+
+  def defence_bonus
+    # TODO: count defence bonus for lineup
+    0
   end
 
   def goals

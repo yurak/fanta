@@ -17,8 +17,8 @@
       - if mp.missed_goals.to_i > 0
         %span= mp.missed_goals.to_i if mp.missed_goals.to_i > 1
         = image_tag("bonuses/mg.png", title: 'Missed Goal')
-      - if mp.assits.to_i > 0
-        %span= mp.assits.to_i if mp.assits.to_i > 1
+      - if mp.assists.to_i > 0
+        %span= mp.assists.to_i if mp.assists.to_i > 1
         = image_tag("bonuses/assist.png", title: 'Assist')
       - if mp.cleansheet.present?
         = image_tag("bonuses/cs.png", title: 'Cleansheet')

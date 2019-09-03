@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_27_142645) do
+ActiveRecord::Schema.define(version: 2019_09_02_092518) do
 
   create_table "articles", force: :cascade do |t|
     t.string "title"
@@ -45,7 +45,7 @@ ActiveRecord::Schema.define(version: 2019_08_27_142645) do
   end
 
   create_table "match_players", force: :cascade do |t|
-    t.decimal "score"
+    t.decimal "score", default: "0.0"
     t.integer "player_id"
     t.integer "lineup_id"
     t.datetime "created_at", null: false
@@ -56,9 +56,14 @@ ActiveRecord::Schema.define(version: 2019_08_27_142645) do
     t.boolean "cleansheet", default: false
     t.decimal "goals", default: "0.0"
     t.decimal "missed_goals", default: "0.0"
-    t.decimal "assits", default: "0.0"
-    t.decimal "malus", default: "0.0"
+    t.decimal "assists", default: "0.0"
+    t.decimal "position_malus", default: "0.0"
     t.decimal "bonus", default: "0.0"
+    t.decimal "missed_penalty", default: "0.0"
+    t.decimal "scored_penalty", default: "0.0"
+    t.decimal "caught_penalty", default: "0.0"
+    t.decimal "failed_penalty", default: "0.0"
+    t.decimal "own_goals", default: "0.0"
   end
 
   create_table "matches", force: :cascade do |t|
