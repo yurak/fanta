@@ -1,14 +1,13 @@
 /* TOURS INDEX page */
 
 .tours-block {
-  margin: 30px 50px;
+  margin: 30px 0;
   text-align: justify;
 }
 
-@media screen and (max-device-width: 575px) {
+@media screen and (min-device-width: 1200px) {
   .tours-block {
-    margin: 30px 20px;
-    text-align: justify;
+    margin: 30px 100px;
   }
 }
 

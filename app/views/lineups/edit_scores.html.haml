@@ -1,69 +1,52 @@
 .container
   %h3 Edit Scores
 
-  = form_for [team, lineup], url: team_lineup_path(team, lineup), method: :put do |f|
-    #lineup_form{data: team.players.to_json}
+  .lineup-edit-scores-form
+    = form_for [team, lineup], url: team_lineup_path(team, lineup), method: :put do |f|
+      #lineup_form{data: team.players.to_json}
 
-    .mp-edit-headers
-      .mp-edit-header Position
-      .mp-edit-header Player
-      .mp-edit-header Total score
-      .mp-edit-header Base score
-      .mp-edit-header Goals / Missed goals
-      .mp-edit-header Scored / Caught penalty
-      .mp-edit-header Failed / Missed penalty
-      .mp-edit-header Assists
-      .mp-edit-header Clean sheet
-      .mp-edit-header Yellow card
-      .mp-edit-header Red card
-      .mp-edit-header Own goals
-      .mp-edit-header Position malus
+      .mp-edit-headers
+        .mp-edit-header
+          %span Pos.
+        .mp-edit-header
+          %span Player
+        .mp-edit-header
+          %span Total score
+        .mp-edit-header
+          %span Base score
+        .mp-edit-header
+          %span Goals/ Missed goals
+        .mp-edit-header
+          %span Scored/ Caught penalty
+        .mp-edit-header
+          %span Failed/ Missed penalty
+        .mp-edit-header
+          %span Assists
+        .mp-edit-header
+          %span Clean sheet
+        .mp-edit-header
+          %span Yellow card
+        .mp-edit-header
+          %span Red card
+        .mp-edit-header
+          %span Own goals
+        .mp-edit-header
+          %span Position malus
 
-    = f.fields_for :match_players do |match_players|
-      - if lineup.team_module.slots[match_players.index]&.position
-        .alert.alert-success.mp-alert
-          = match_players.hidden_field(:real_position, value: lineup.team_module.slots[match_players.index]&.position)
-          .input-group.mp-edit-item
-            .mp-edit-item-param
-              = image_tag("positions/#{lineup.team_module.slots[match_players.index]&.position.gsub('/','_')}.png")
-            .mp-edit-item-param.mp-edit-player-name
-              = match_players.object.player.name
-            .mp-edit-item-param.mp-edit-player-tscore
-              = match_players.object.total_score
-            .mp-edit-item-param.mp-edit-player-score
-              = match_players.number_field :score, in: 0..11, step: 0.5, class: 'form-control'
-            - if lineup.team_module.slots[match_players.index]&.position == 'Por'
+      = f.fields_for :match_players do |match_player|
+        - if lineup.team_module.slots[match_player.index]&.position
+          .alert.alert-success.mp-alert
+            = match_player.hidden_field(:real_position, value: lineup.team_module.slots[match_player.index]&.position)
+            = render 'match_player_scores', lineup: lineup, match_player: match_player
+        - else
+          .alert.alert-warning.mp-alert.subs-card
+            .subs-item
               .mp-edit-item-param
-                = match_players.number_field :missed_goals, in: 0..9, step: 1, class: 'form-control'
-              .mp-edit-item-param
-                = match_players.number_field :caught_penalty, in: 0..9, step: 1, class: 'form-control'
-              .mp-edit-item-param
-                = match_players.number_field :missed_penalty, in: 0..9, step: 1, class: 'form-control'
-            - else
-              .mp-edit-item-param
-                = match_players.number_field :goals, in: 0..9, step: 1, class: 'form-control'
-              .mp-edit-item-param
-                = match_players.number_field :scored_penalty, in: 0..9, step: 1, class: 'form-control'
-              .mp-edit-item-param
-                = match_players.number_field :failed_penalty, in: 0..9, step: 1, class: 'form-control'
-            .mp-edit-item-param
-              = match_players.number_field :assists, in: 0..9, step: 1, class: 'form-control'
-            .mp-edit-item-param
-              - if Position::DEFENSIVE.include? lineup.team_module.slots[match_players.index]&.position
-                = match_players.check_box :cleansheet, {'data-toggle' => 'toggle', 'data-onstyle' => 'success', 'data-on' => 'Yes', 'data-off' => 'No', 'data-size' => 'small', 'data-height' => '38'}
-            .mp-edit-item-param
-              = match_players.check_box :yellow_card, {'data-toggle' => 'toggle', 'data-onstyle' => 'warning', 'data-on' => 'Yes', 'data-off' => 'No', 'data-size' => 'small', 'data-height' => '38'}
-            .mp-edit-item-param
-              = match_players.check_box :red_card, {'data-toggle' => 'toggle', 'data-onstyle' => 'danger', 'data-on' => 'Yes', 'data-off' => 'No', 'data-size' => 'small', 'data-height' => '38'}
-            .mp-edit-item-param
-              = match_players.number_field :own_goals, in: 0..9, step: 1, class: 'form-control'
-            .mp-edit-item-param
-              - unless lineup.team_module.slots[match_players.index]&.position == 'Por'
-                = match_players.number_field :position_malus, in: 0..4.5, step: 1.5, class: 'form-control'
-      - else
-        -#.alert.alert-warning
-        -#  = lineup.team_module.slots[match_players.index]&.position
-        -#  = match_players.select :player_id, available_for_select(team), {}
-        -#  = match_players.number_field :score, in: 0..11, step: :any, value: 0, class: 'small-number'
-    .form-group
-      = f.submit 'Update', class: 'btn btn-success btn-block'
+                = match_player.object.player.name
+              .mp-edit-item-param.mp-edit-player-positions
+                - match_player.object.player.positions.each do |position|
+                  .mp-edit-position-image
+                    = image_tag("positions/#{position.name}.png")
+
+      .form-group
+        = f.submit 'Update', class: 'btn btn-success btn-block'

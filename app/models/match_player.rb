@@ -4,7 +4,8 @@ class MatchPlayer < ApplicationRecord
 
   delegate :position_names, to: :player
 
-  # validates :lineup, uniqueness: { scope: :player }, on: :update
+  scope :main, ->{ where.not(real_position: nil) }
+  scope :subs, ->{ where(real_position: nil) }
 
   def malus
     return 0 if own_position?

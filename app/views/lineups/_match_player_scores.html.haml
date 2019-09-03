@@ -1,0 +1,37 @@
+.input-group.mp-edit-item
+  .mp-edit-item-param.mp-edit-position
+    = image_tag("positions/#{lineup.team_module.slots[match_player.index]&.position.gsub('/','_')}.png") if lineup.team_module.slots[match_player.index]&.position
+  .mp-edit-item-param.mp-edit-player-name
+    = match_player.object.player.name
+  .mp-edit-item-param.mp-edit-player-tscore
+    = match_player.object.total_score
+  .mp-edit-item-param.mp-edit-player-score
+    = match_player.number_field :score, in: 0..11, step: 0.5, class: 'form-control'
+  - if lineup.team_module.slots[match_player.index]&.position == 'Por'
+    .mp-edit-item-param
+      = match_player.number_field :missed_goals, in: 0..9, step: 1, class: 'form-control'
+    .mp-edit-item-param
+      = match_player.number_field :caught_penalty, in: 0..9, step: 1, class: 'form-control'
+    .mp-edit-item-param
+      = match_player.number_field :missed_penalty, in: 0..9, step: 1, class: 'form-control'
+  - else
+    .mp-edit-item-param
+      = match_player.number_field :goals, in: 0..9, step: 1, class: 'form-control'
+    .mp-edit-item-param
+      = match_player.number_field :scored_penalty, in: 0..9, step: 1, class: 'form-control'
+    .mp-edit-item-param
+      = match_player.number_field :failed_penalty, in: 0..9, step: 1, class: 'form-control'
+  .mp-edit-item-param
+    = match_player.number_field :assists, in: 0..9, step: 1, class: 'form-control'
+  .mp-edit-item-param
+    - if Position::DEFENSIVE.include? lineup.team_module.slots[match_player.index]&.position
+      = match_player.check_box :cleansheet, {'data-toggle' => 'toggle', 'data-onstyle' => 'success', 'data-on' => 'Yes', 'data-off' => 'No', 'data-size' => 'small', 'data-height' => '38'}
+  .mp-edit-item-param
+    = match_player.check_box :yellow_card, {'data-toggle' => 'toggle', 'data-onstyle' => 'warning', 'data-on' => 'Yes', 'data-off' => 'No', 'data-size' => 'small', 'data-height' => '38'}
+  .mp-edit-item-param
+    = match_player.check_box :red_card, {'data-toggle' => 'toggle', 'data-onstyle' => 'danger', 'data-on' => 'Yes', 'data-off' => 'No', 'data-size' => 'small', 'data-height' => '38'}
+  .mp-edit-item-param
+    = match_player.number_field :own_goals, in: 0..9, step: 1, class: 'form-control'
+  .mp-edit-item-param
+    - unless lineup.team_module.slots[match_player.index]&.position == 'Por'
+      = match_player.number_field :position_malus, in: 0..4.5, step: 1.5, class: 'form-control'

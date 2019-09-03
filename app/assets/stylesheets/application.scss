@@ -80,13 +80,13 @@ body, html {
   font-size: 17px;
 }
 
-@media screen and (min-device-width: 480px) {
+@media screen and (min-device-width: 350px) {
   .mobile-navbar {
     display: none;
   }
 }
 
-@media screen and (max-device-width: 480px) {
+@media screen and (max-device-width: 350px) {
   .large-navbar {
     display: none;
   }
