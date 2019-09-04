@@ -3,110 +3,109 @@
     - position:
       - Por
     - club: NAP
-  Ospina:
+  Musso:
     - position:
       - Por
-    - club: NAP
-  Karnezis:
-    - position:
-      - Por
-    - club: NAP
-  Marchetti:
-    - position:
-      - Por
-    - club: GEN
-  Chiellini:
+    - club: UDI
+  Skriniar:
     - position:
       - Dc
-    - club: JUV
-  NKoulou:
+    - club: INT
+  Godin:
     - position:
       - Dc
-    - club: TOR
-  Albiol:
+    - club: INT
+  Ranocchia:
     - position:
       - Dc
-    - club: NAP
-  Pezzella Ger:
+    - club: INT
+  Duarte:
     - position:
       - Dc
-    - club: FIO
-  Rasmussen:
+    - club: MIL
+  Musacchio:
     - position:
       - Dc
-    - club: EMP
-  Izzo:
+    - club: MIL
+  Smalling:
     - position:
       - Dc
-      - Dd
-    - club: TOR
-  Ansaldi:
+    - club: ROM
+  Kjaer:
     - position:
-      - Dd
-      - Ds
-      - E
-    - club: TOR
-  Patric:
-    - position:
-      - Dd
-      - Ds
-      - E
-    - club: LAZ
+      - Dc
+    - club: ATA
   Di Lorenzo:
     - position:
       - Dd
       - E
-    - club: EMP
-  Marusic:
+    - club: NAP
+  Ansaldi:
     - position:
       - E
-    - club: LAZ
-  Romulo:
+    - club: TOR
+  Dessena:
+    - position:
+      - E
+      - M
+    - club: BRE
+  Amrabat:
+    - position:
+      - E
+      - M
+    - club: VER
+  Ekdal:
     - position:
       - M
       - C
-    - club: LAZ
-  Duncan:
+    - club: SAM
+  Pulgar:
     - position:
       - M
-      - C
-    - club: SAS
-  Veretut:
-    - position:
       - C
     - club: FIO
-  Zaniolo:
+  Schone:
     - position:
       - C
-      - T
-    - club: ROM
-  Kurtic:
+    - club: GEN
+  Nainggolan:
     - position:
       - C
-      - T
-    - club: SPA
-  Joao Pedro:
-    - position:
       - T
     - club: CAG
-  Giaccherini:
+  Bonaventura:
     - position:
+      - C
       - W
       - T
-    - club: CHI
-  Gabbiadini:
+    - club: MIL
+  Zmrhal:
+    - position:
+      - C
+      - W
+    - club: BRE
+  Kluivert:
+    - position:
+      - W
+    - club: ROM
+  Pussetto:
+    - position:
+      - W
+      - A
+    - club: UDI
+  Balotelli:
     - position:
       - Pc
-    - club: SAM
-  Milik:
-    - position:
-      - Pc
-    - club: NAP
-  Okaka:
+    - club: BRE
+  Lasagna:
     - position:
       - Pc
     - club: UDI
-  Quagliarella:
+  Dzeko:
     - position:
       - Pc
-    - club: SAM
+    - club: ROM
+  Higuain:
+    - position:
+      - Pc
+    - club: JUV

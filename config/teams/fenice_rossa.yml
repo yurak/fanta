@@ -1,112 +1,115 @@
 ﻿players:
-  Donnaruma:
+  Strakosha:
     - position:
       - Por
-    - club: MIL
-  Reina:
+    - club: LAZ
+  Ospina:
     - position:
       - Por
-    - club: MIL
-  Koulibaly:
-    - position:
-      - Dc
     - club: NAP
-  Ferrari:
+  De Ligt:
     - position:
       - Dc
-    - club: SAS
-  Andersen:
-    - position:
-      - Dc
-    - club: SAM
-  Caceres:
-    - position:
-      - Dc
-      - Dd
     - club: JUV
-  Crisito:
+  Bonifazi:
     - position:
       - Dc
-      - Ds
-    - club: GEN
-  Srna:
+    - club: TOR
+  Muldur:
     - position:
+      - Dc
       - Dd
-      - E
-    - club: CAG
-  Calabria:
-    - position:
-      - Dd
-      - E
-    - club: MIL
-  Dalbert:
-    - position:
-      - Ds
-      - E
-    - club: INT
+    - club: SAS
   Asamoah:
     - position:
-      - D
+      - Ds
       - E
     - club: INT
-  Malcuit:
+  Pellegrini Lu:
     - position:
+      - Ds
+      - E
+    - club: CAG
+  Hysaj:
+    - position:
+      - Ds
       - Dd
       - E
     - club: NAP
-  De Roon:
+  Zappacosta:
+    - position:
+      - Dd
+      - E
+    - club: ROM
+  Gosens:
+    - position:
+      - E
+    - club: ATA
+  Medel:
     - position:
       - M
-      - C
-    - club: ATA
+    - club: BOL
   Matuidi:
     - position:
       - M
       - C
     - club: JUV
-  Pjanic:
+  Lerager:
+    - position:
+      - M
+      - C
+    - club: GEN
+  Elmas:
     - position:
       - C
-    - club: JUV
-  Baselli:
+      - T
+    - club: NAP
+  Pasalic:
     - position:
       - C
-    - club: TOR
-  Freuler:
-    - position:
-      - C
+      - T
     - club: ATA
-  Milinkovic-Savic:
+  Ruiz:
     - position:
       - C
       - T
-    - club: LAZ
-  Calhanoglu:
+    - club: NAP
+  Cuadrado:
     - position:
-      - T
+      - E
+      - W
+    - club: JUV
+  Orsolini:
+    - position:
+      - W
+      - A
+    - club: BOL
+  Castillejo:
+    - position:
+      - W
       - A
     - club: MIL
-  Gomez:
-    - position:
-      - A
-    - club: ATA
   Dybala:
     - position:
       - A
     - club: JUV
-  Sanabria:
+  Sansone N:
+    - position:
+      - A
+    - club: BOL
+  Destro:
     - position:
       - Pc
-    - club: GEN
-  Cutrone:
+    - club: BOL
+  Zaza:
     - position:
       - Pc
-    - club: MIL
-  Antenucci:
+    - club: TOR
+  Milik:
     - position:
       - Pc
-    - club: SPA
-  Babacar:
+    - club: NAP
+  Llorente:
     - position:
       - Pc
-    - club: SAS
+    - club: NAP

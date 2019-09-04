@@ -1,112 +1,113 @@
 ﻿players:
-  Donnaruma:
+  Skorupski:
     - position:
       - Por
-    - club: MIL
-  Reina:
+    - club: BOL
+  Da Costa:
     - position:
       - Por
-    - club: MIL
-  Koulibaly:
+    - club: BOL
+  Zapata C:
     - position:
       - Dc
-    - club: NAP
-  Ferrari:
-    - position:
-      - Dc
-    - club: SAS
-  Andersen:
-    - position:
-      - Dc
-    - club: SAM
-  Caceres:
-    - position:
-      - Dc
-      - Dd
-    - club: JUV
-  Crisito:
-    - position:
-      - Dc
-      - Ds
     - club: GEN
-  Srna:
+  Nkoulou:
     - position:
-      - Dd
-      - E
+      - Dc
+    - club: TOR
+  Fazio:
+    - position:
+      - Dc
+    - club: ROM
+  Ceppitelli:
+    - position:
+      - Dc
     - club: CAG
-  Calabria:
+  Luiz Felipe:
     - position:
+      - Dc
+    - club: LAZ
+  Radu:
+    - position:
+      - Dc
+      - Ds
+    - club: LAZ
+  Dambrosio:
+    - position:
+      - Dc
+      - Ds
       - Dd
-      - E
-    - club: MIL
-  Dalbert:
+    - club: INT
+  Martella:
     - position:
       - Ds
       - E
-    - club: INT
-  Asamoah:
+    - club: BRE
+  Rodriguez R:
     - position:
-      - D
+      - Ds
       - E
-    - club: INT
-  Malcuit:
+    - club: MIL
+  Benzar:
     - position:
       - Dd
       - E
-    - club: NAP
+    - club: LEC
+  Lulic:
+    - position:
+      - E
+      - C
+    - club: LAZ
+  Rincon:
+    - position:
+      - M
+    - club: TOR
   De Roon:
     - position:
       - M
       - C
     - club: ATA
-  Matuidi:
+  Barella:
     - position:
       - M
       - C
-    - club: JUV
-  Pjanic:
+    - club: INT
+  Dabo:
+    - position:
+      - M
+      - C
+    - club: FIO
+  Bentancur:
     - position:
       - C
     - club: JUV
-  Baselli:
+  Lazovic:
     - position:
-      - C
-    - club: TOR
-  Freuler:
-    - position:
-      - C
-    - club: ATA
-  Milinkovic-Savic:
-    - position:
-      - C
-      - T
-    - club: LAZ
-  Calhanoglu:
+      - E
+      - W
+    - club: VER
+  Mkhitaryan:
     - position:
       - T
       - A
-    - club: MIL
-  Gomez:
+    - club: ROM
+  Kouame:
     - position:
       - A
-    - club: ATA
-  Dybala:
-    - position:
-      - A
-    - club: JUV
-  Sanabria:
-    - position:
-      - Pc
     - club: GEN
-  Cutrone:
+  Boateng:
     - position:
-      - Pc
-    - club: MIL
-  Antenucci:
-    - position:
-      - Pc
-    - club: SPA
-  Babacar:
+      - A
+    - club: FIO
+  Caputo:
     - position:
       - Pc
     - club: SAS
+  Simeone:
+    - position:
+      - Pc
+    - club: CAG
+  Belotti:
+    - position:
+      - Pc
+    - club: TOR
