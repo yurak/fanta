@@ -1,116 +1,113 @@
 ﻿players:
-  Olsen:
+  Szczesny:
     - position:
       - Por
-    - club: ROM
-  Consigli:
+    - club: JUV
+  Buffon:
     - position:
       - Por
-    - club: SAS
-  Romagnoli:
+    - club: JUV
+  Perin:
     - position:
-      - Dc
-    - club: MIL
-  Fazio:
-    - position:
-      - Dc
-    - club: ROM
-  Toli:
-    - position:
-      - Dc
-    - club: ATA
-  Rugani:
+      - Por
+    - club: JUV
+  Chiellini:
     - position:
       - Dc
     - club: JUV
-  Mbaye:
+  Manolas:
     - position:
-      - Dd
-      - Ds
       - Dc
-    - club:
-      - BOL
-  Florenzi:
+    - club: NAP
+  Luperto:
     - position:
+      - Dc
+      - Ds
+    - club: NAP
+  Denswil:
+    - position:
+      - Dc
+      - Ds
+    - club: BOL
+  Milenkovic:
+    - position:
+      - Dc
       - Dd
-      - E
-    - club: ROM
-  Cancelo:
+    - club: FIO
+  Izzo:
     - position:
-      - D
+      - Dc
+      - Dd
+    - club: TOR
+  Alex Sandro:
+    - position:
+      - Ds
       - E
     - club: JUV
-  Kolarov:
-    - position:
-      - Ds
-      - E
-    - club: ROM
-  Gosens:
-    - position:
-      - Ds
-      - E
-    - club: ATA
-  Kessie:
-    - position:
-      - M
-      - C
-    - club: MIL
   Fofana:
     - position:
       - M
       - C
     - club: UDI
-  Pasalic:
+  Vieira:
+    - position:
+      - M
+      - C
+    - club: SAM
+  Bennacer:
+    - position:
+      - M
+      - C
+    - club: MIL
+  Missiroli:
+    - position:
+      - M
+      - C
+    - club: SPA
+  Poli:
+    - position:
+      - M
+      - C
+    - club: BOL
+  Milinkovic-Savic:
     - position:
       - C
       - T
-    - club: ATA
-  Aquah:
+    - club: LAZ
+  Zielinski:
     - position:
       - C
-      - M
-    - club: EMP
-  Meite:
-    - position:
-      - C
-      - M
-    - club: TOR
-  Pizaon:
-    - position:
-      - W
       - T
-    - club: CHI
-  Bernardeschi:
+    - club: NAP
+  Ramirez:
     - position:
-      - W
-      - A
-    - club: JUV
-  Callejon:
+      - T
+    - club: SAM
+  Lozano:
     - position:
-      - W
       - A
     - club: NAP
-  Sansone:
+  Insigne:
     - position:
       - A
-    - club: BOL
-  Under:
-    - position:
-      - A
-    - club: ROM
+    - club: NAP
   Mertens:
     - position:
-      - A
+      - Pc
     - club: NAP
-  Simeone:
+  Rafael Leao:
     - position:
       - Pc
-    - club: FIO
-  Santander:
+    - club: MIL
+  Nestorovski:
     - position:
       - Pc
-    - club: BOL
+    - club: UDI
   Pavoletti:
     - position:
       - Pc
     - club: CAG
+  Muriel:
+    - position:
+      - Pc
+    - club: ATA

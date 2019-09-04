@@ -1,116 +1,113 @@
 players:
-  Sirigu:
+  Consigli:
     - position:
       - Por
-    - club: TOR
-  Ichazo:
+    - club: SAS
+  Silvestri:
     - position:
       - Por
-    - club: TOR
-  Gunter:
+    - club: VER
+  Reina:
+    - position:
+      - Por
+    - club: MIL
+  Ferrari G:
     - position:
       - Dc
-    - club: GEN
-  Bruno Alves:
+    - club: SAS
+  Marlon:
     - position:
       - Dc
-    - club: PAR
-  Mancini:
+    - club: SAS
+  Peluso:
     - position:
       - Dc
-    - club: ATA
-  Victor Hugo:
+      - Ds
+    - club: SAS
+  Bocchetti:
     - position:
       - Dc
-    - club: FIO
-  Troost-Ekong:
+      - Ds
+    - club: VER
+  Calderoni:
     - position:
-      - Dc
-    - club: UDI
-  Dambrosio:
-    - position:
-      - Dd
       - Ds
       - E
+    - club: LEC
+  Rogerio:
+    - position:
+      - Ds
+      - E
+    - club: SAS
+  Toljan:
+    - position:
+      - Ds
+      - Dd
+      - E
+    - club: SAS
+  De Silvestri:
+    - position:
+      - Dd
+      - E
+    - club: TOR
+  Tonali:
+    - position:
+      - M
+      - C
+    - club: BRE
+  Mandragora:
+    - position:
+      - M
+      - C
+    - club: UDI
+  Meite:
+    - position:
+      - M
+      - C
+    - club: TOR
+  Brozovic:
+    - position:
+      - C
     - club: INT
-  Zampano:
-    - position:
-      - Dd
-      - Ds
-      - E
-    - club: FRO
-  Lirola:
-    - position:
-      - Dd
-      - E
-    - club: SAS
-  Depaoli:
-    - position:
-      - Dd
-      - E
-      - M
-    - club: CHI
-  Alex Sandro:
-    - position:
-      - Ds
-      - E
-    - club: JUV
-  Barella:
-    - position:
-      - M
-      - C
-    - club: CAG
-  Poli:
-    - position:
-      - M
-      - C
-    - club: BOL
-  Parolo:
-    - position:
-      - M
-      - C
-    - club: LAZ
-  Jankto:
-    - position:
-      - C
-    - club: SAM
-  Khedira:
-    - position:
-      - C
-    - club: JUV
-  Barak:
+  Zaccagni:
     - position:
       - C
       - T
-    - club: UDI
-  Di Francesco:
+    - club: VER
+  Berenguer:
     - position:
       - W
-      - A
-    - club: SAS
-  Pussetto:
+    - club: TOR
+  Callejon:
     - position:
       - W
-      - A
-    - club: UDI
-  Orsolini:
+    - club: NAP
+  Calhanoglu:
+    - position:
+      - T
+    - club: MIL
+  Morosini:
     - position:
       - T
       - A
-    - club: BOL
-  El Shaarawi:
+    - club: BRE
+  Falco:
     - position:
       - A
-    - club: ROM
+    - club: LEC
+  Berardi:
+    - position:
+      - A
+    - club: SAS
+  Donnarumma Al:
+    - position:
+      - Pc
+    - club: BRE
   Mandzukic:
     - position:
       - Pc
     - club: JUV
-  Ronaldo:
+  Cristiano Ronaldo:
     - position:
       - Pc
     - club: JUV
-  Caputo:
-    - position:
-      - Pc
-    - club: EMP

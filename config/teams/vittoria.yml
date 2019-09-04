@@ -1,112 +1,113 @@
 ﻿players:
-  Donnaruma:
+  Pau Lopez:
     - position:
       - Por
-    - club: MIL
-  Reina:
+    - club: ROM
+  Berisha E:
     - position:
       - Por
-    - club: MIL
-  Koulibaly:
-    - position:
-      - Dc
-    - club: NAP
-  Ferrari:
-    - position:
-      - Dc
-    - club: SAS
-  Andersen:
-    - position:
-      - Dc
-    - club: SAM
-  Caceres:
-    - position:
-      - Dc
-      - Dd
-    - club: JUV
-  Crisito:
-    - position:
-      - Dc
-      - Ds
-    - club: GEN
-  Srna:
-    - position:
-      - Dd
-      - E
-    - club: CAG
-  Calabria:
-    - position:
-      - Dd
-      - E
-    - club: MIL
-  Dalbert:
-    - position:
-      - Ds
-      - E
-    - club: INT
-  Asamoah:
-    - position:
-      - D
-      - E
-    - club: INT
-  Malcuit:
-    - position:
-      - Dd
-      - E
-    - club: NAP
-  De Roon:
-    - position:
-      - M
-      - C
-    - club: ATA
-  Matuidi:
-    - position:
-      - M
-      - C
-    - club: JUV
-  Pjanic:
-    - position:
-      - C
-    - club: JUV
-  Baselli:
-    - position:
-      - C
-    - club: TOR
-  Freuler:
-    - position:
-      - C
-    - club: ATA
-  Milinkovic-Savic:
-    - position:
-      - C
-      - T
-    - club: LAZ
-  Calhanoglu:
-    - position:
-      - T
-      - A
-    - club: MIL
-  Gomez:
-    - position:
-      - A
-    - club: ATA
-  Dybala:
-    - position:
-      - A
-    - club: JUV
-  Sanabria:
-    - position:
-      - Pc
-    - club: GEN
-  Cutrone:
-    - position:
-      - Pc
-    - club: MIL
-  Antenucci:
-    - position:
-      - Pc
     - club: SPA
-  Babacar:
+  Romagnoli A:
+    - position:
+      - Dc
+    - club: MIL
+  Caldara:
+    - position:
+      - Dc
+    - club: MIL
+  Toloi:
+    - position:
+      - Dc
+    - club: ATA
+  Klavan:
+    - position:
+      - Dc
+    - club: CAG
+  Iacoponi:
+    - position:
+      - Dc
+      - Dd
+    - club: PAR
+  Sabelli:
+    - position:
+      - Dd
+      - E
+    - club: BRE
+  Hernandez T:
+    - position:
+      - Ds
+      - E
+    - club: MIL
+  Spinazzola:
+    - position:
+      - Ds
+      - E
+    - club: ROM
+  Mbaye:
+    - position:
+      - Ds
+      - Dd
+      - E
+    - club: BOL
+  Lucas Leiva:
+    - position:
+      - M
+      - C
+    - club: LAZ
+  Kucka:
+    - position:
+      - M
+      - C
+    - club: PAR
+  Can:
+    - position:
+      - M
+      - C
+    - club: JUV
+  Duncan:
+    - position:
+      - M
+      - C
+    - club: SAS
+  Khedira:
+    - position:
+      - C
+    - club: JUV
+  Malinovskyi:
+    - position:
+      - C
+      - T
+    - club: ATA
+  Ramsey:
+    - position:
+      - T
+    - club: JUV
+  Ribery:
+    - position:
+      - W
+      - A
+    - club: FIO
+  Gervinho:
+    - position:
+      - A
+    - club: PAR
+  Correa:
+    - position:
+      - A
+    - club: LAZ
+  Caprari:
+    - position:
+      - A
+    - club: SAM
+  Quagliarella:
     - position:
       - Pc
-    - club: SAS
+    - club: SAM
+  Okaka:
+    - position:
+      - Pc
+    - club: UDI
+  Lukaku R:
+    - position:
+      - Pc
+    - club: INT

@@ -1,113 +1,113 @@
 ﻿players:
-  Szczęsny:
+  Handanovic:
     - position:
       - Por
-    - club: JUV
-  Perin:
+    - club: INT
+  Berni:
     - position:
       - Por
-    - club: JUV
-  Audero:
+    - club: INT
+  Padelli:
     - position:
       - Por
+    - club: INT
+  Romero C:
+    - position:
+      - Dc
+    - club: GEN
+  Colley:
+    - position:
+      - Dc
     - club: SAM
-  Musachio:
+  Murillo:
     - position:
       - Dc
-    - club: MIL
-  Bonucci:
+    - club: SAM
+  Rodrigo Becao:
     - position:
       - Dc
-    - club: JUV
-  Silvestre:
+    - club: UDI
+  Masiello A:
     - position:
       - Dc
-    - club: EMP
-  Manolas:
-    - position:
-      - Dc
-    - club: ROM
-  Gagliolo:
-    - position:
-      - Dc
-      - Ds
-    - club: PAR
-  Castange:
-    - position:
       - Dd
-      - E
     - club: ATA
-  Aina:
+  Ghoulam:
+    - position:
+      - Ds
+      - E
+    - club: NAP
+  Kolarov:
+    - position:
+      - Ds
+      - E
+    - club: ROM
+  De Sciglio:
+    - position:
+      - Ds
+      - Dd
+      - E
+    - club: JUV
+  Ghiglione:
     - position:
       - Dd
-      - Ds
       - E
-    - club: TOR
-  Rodriguez:
+    - club: GEN
+  Parolo:
     - position:
-      - Ds
-      - E
+      - M
+      - C
+    - club: LAZ
+  Vecino:
+    - position:
+      - M
+      - C
+    - club: INT
+  Sensi:
+    - position:
+      - C
+    - club: INT
+  Kulusevski:
+    - position:
+      - C
+      - T
+    - club: PAR
+  Paqueta:
+    - position:
+      - T
     - club: MIL
-  Pasqual:
+  Zaniolo:
     - position:
-      - Ds
-      - E
-    - club: EMP
-  Allan:
-    - position:
-      - M
-      - C
-    - club: NAP
-  Biglia:
-    - position:
-      - M
-      - C
-    - club: MIL
-  Ekdal:
-    - position:
-      - M
-      - C
-    - club: SAM
-  Bentancur:
-    - position:
-      - C
-    - club: JUV
+      - T
+    - club: ROM
   Soriano:
     - position:
-      - C
       - T
     - club: BOL
-  Douglas Costa:
+  Candreva:
+    - position:
+      - E
+      - W
+    - club: INT
+  Di Francesco F:
     - position:
       - W
-    - club: JUV
-  Cuadrado:
-    - position:
-      - W
-    - club: JUV
-  Chiesa:
+    - club: SPA
+  Boga:
     - position:
       - W
       - A
-    - club: FIO
-  Correa:
+    - club: SAS
+  Politano:
     - position:
-      - T
+      - W
       - A
-    - club: LAZ
-  Gervinho:
+    - club: INT
+  Petagna:
     - position:
-      - A
-    - club: PAR
-  Piątek:
+      - Pc
+    - club: SPA
+  Piatek:
     - position:
       - Pc
     - club: MIL
-  Muriel:
-    - position:
-      - Pc
-    - club: FIO
-  Stępiński:
-    - position:
-      - Pc
-    - club: CHI

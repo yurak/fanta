@@ -21,6 +21,7 @@ class Seeder
   end
 
   def create_team
+    p "Create #{team.name} players"
     YAML.load_file(team_path)['players'].each do |player_name, v|
       club = Club.find_by(name: v[1]['club'])
       player = Player.new(name: player_name, team: team, club_id: club.id)

@@ -1,15 +1,14 @@
 clubs:
   - Atalanta
   - Bologna
+  - Brescia
   - Cagliari
-  - Chievo
-  - Empoli
   - Fiorentina
-  - Frosinone
   - Genoa
   - Inter
   - Juventus
   - Lazio
+  - Lecce
   - Milan
   - Napoli
   - Parma
@@ -19,3 +18,4 @@ clubs:
   - SPAL
   - Torino
   - Udinese
+  - Verona

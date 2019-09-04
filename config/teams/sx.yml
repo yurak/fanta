@@ -1,115 +1,111 @@
 players:
-  Strakosha:
+  Gollini:
     - position:
       - Por
-    - club: LAZ
-  Lafont:
-    - position:
-      - Por
-    - club: FIO
-  Milenkovic:
-    - position:
-      - Dc
-      - Dd
-    - club: FIO
-  Miranda:
-    - position:
-      - Dc
-    - club: INT
-  Skriniar:
-    - position:
-      - Dc
-    - club: INT
-  Iakoponi:
-    - position:
-      - Dc
-      - Dd
-    - club: PAR
-  Felipe:
-    - position:
-      - Dc
-    - club: SPA
-  Cionek:
-    - position:
-      - Dc
-    - club: SPA
-  DeSciglio:
-    - position:
-      - E
-      - Ds
-      - Dd
-    - club: JUV
-  Husai:
-    - position:
-      - E
-      - Ds
-      - Dd
-    - club: NAP
-  De Silvestri:
-    - position:
-      - E
-    - club: TOR
-  Lazovic:
-    - position:
-      - E
-      - C
-    - club: GEN
-  Lulic:
-    - position:
-      - E
-      - C
-    - club: LAZ
-  Leiva:
-    - position:
-      - M
-      - C
-    - club: LAZ
-  Brozovic:
-    - position:
-      - C
-      - T
-    - club: INT
-  Vecino:
-    - position:
-      - M
-      - C
-    - club: INT
-  Nzonzi:
-    - position:
-      - M
-      - C
-    - club: ROM
-  Paqueta:
-    - position:
-      - T
-    - club: MIL
-  Insigne:
-    - position:
-      - A
-    - club: NAP
-  Perisic:
-    - position:
-      - W
-      - A
-    - club: INT
-  Suso:
-    - position:
-      - T
-      - A
-    - club: MIL
-  Falque:
-    - position:
-      - A
-    - club: TOR
-  Zapata:
-    - position:
-      - Pc
     - club: ATA
-  Belotti:
+  Radu I:
     - position:
-      - Pc
+      - Por
+    - club: GEN
+  Dragowski:
+    - position:
+      - Por
+    - club: FIO
+  Koulibaly:
+    - position:
+      - Dc
+    - club: NAP
+  De Vrij:
+    - position:
+      - Dc
+    - club: INT
+  Bonucci:
+    - position:
+      - Dc
+    - club: JUV
+  Troost-Ekong:
+    - position:
+      - Dc
+    - club: UDI
+  Stryger Larsen:
+    - position:
+      - Dc
+      - Dd
+      - E
+    - club: UDI
+  Darmian:
+    - position:
+      - Ds
+      - Dd
+      - E
+    - club: PAR
+  Hateboer:
+    - position:
+      - E
+    - club: ATA
+  Romulo:
+    - position:
+      - E
+      - M
+    - club: BRE
+  Shakhov:
+    - position:
+      - M
+      - C
+    - club: LEC
+  Locatelli M:
+    - position:
+      - M
+      - C
+    - club: SAS
+  Badelj:
+    - position:
+      - M
+      - C
+    - club: FIO
+  Benassi:
+    - position:
+      - C
+    - club: FIO
+  Henderson L:
+    - position:
+      - C
+    - club: VER
+  Freuler:
+    - position:
+      - C
+    - club: ATA
+  Traore HJ:
+    - position:
+      - C
+      - T
+    - club: SAS
+  Luis Alberto:
+    - position:
+      - T
+    - club: LAZ
+  De Paul:
+    - position:
+      - T
+      - A
+    - club: UDI
+  Iago Falque:
+    - position:
+      - A
     - club: TOR
-  Martinez:
+  Rebic:
+    - position:
+      - A
+    - club: MIL
+  Sanchez A:
+    - position:
+      - A
+    - club: INT
+  Martinez L:
     - position:
       - Pc
     - club: INT
+  Lapadula:
+    - position:
+      - Pc
+    - club: LEC

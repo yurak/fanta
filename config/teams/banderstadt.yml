@@ -1,113 +1,115 @@
 players:
-  Handanovic:
+  Donnarumma G:
     - position:
       - Por
-    - club: INT
-  Cragno:
+    - club: MIL
+  Audero:
     - position:
       - Por
-    - club: CAG
-  De Vrij:
-    - position:
-      - Dc
-    - club: INT
+    - club: SAM
   Acerbi:
     - position:
       - Dc
     - club: LAZ
+  Mancini G:
+    - position:
+      - Dc
+    - club: ROM
   Palomino:
     - position:
       - Dc
     - club: ATA
-  Masiello:
-    - position:
-      - Dc
-      - Dd
-    - club: ATA
-  Radu:
+  Gagliolo:
     - position:
       - Dc
       - Ds
-    - club: LAZ
-  Hateboer:
+    - club: PAR
+  Criscito:
     - position:
-      - Dd
+      - Dc
+      - Ds
       - E
-    - club: ATA
+    - club: GEN
   Biraghi:
     - position:
       - Ds
       - E
-    - club: FIO
-  Murru:
+    - club: INT
+  Danilo:
     - position:
       - Ds
+      - Dd
       - E
-    - club: SAM
-  Lazzari:
+    - club: JUV
+  Lirola:
+    - position:
+      - Dd
+      - E
+    - club: FIO
+  Lazzari M:
     - position:
       - E
-    - club: SPA
-  Can:
+    - club: LAZ
+  Nandez:
     - position:
       - M
+      - C
+    - club: CAG
+  Obiang:
+    - position:
+      - M
+      - C
+    - club: SAS
+  Rabiot:
+    - position:
       - C
     - club: JUV
-  Bakayoko:
-    - position:
-      - M
-      - C
-    - club: MIL
-  Pellegrini Lo:
+  Veretout:
     - position:
       - C
     - club: ROM
-  Benassi:
+  Cristante:
     - position:
       - C
-    - club: FIO
-  Ruiz:
-    - position:
-      - C
-      - T
-    - club: NAP
-  Krunic:
+    - club: ROM
+  Baselli:
     - position:
       - C
       - T
-    - club: EMP
-  Ramirez:
+    - club: TOR
+  Castro:
     - position:
+      - C
       - T
-    - club: SAM
-  De Paul:
+    - club: CAG
+  Kurtic:
+    - position:
+      - C
+      - T
+    - club: SPA
+  Douglas Costa:
     - position:
       - W
-      - T
-    - club: UDI
-  Luis Alberto:
+    - club: JUV
+  Chiesa:
     - position:
-      - T
+      - W
       - A
-    - club: LAZ
+    - club: FIO
+  Verdi:
+    - position:
+      - W
+      - A
+    - club: TOR
   Ilicic:
     - position:
-      - T
       - A
     - club: ATA
-  Berardi:
-    - position:
-      - A
-    - club: SAS
-  Ciano:
-    - position:
-      - A
-    - club: FRO
-  Dzeko:
+  Inglese:
     - position:
       - Pc
-    - club: ROM
-  Schick:
+    - club: PAR
+  Zapata D:
     - position:
       - Pc
-    - club: ROM
+    - club: ATA

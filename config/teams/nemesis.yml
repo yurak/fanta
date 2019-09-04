@@ -1,115 +1,118 @@
 players:
-  Gollini:
+  Sirigu:
     - position:
       - Por
-    - club: ATA
-  Berisha:
+    - club: TOR
+  Sepe:
     - position:
       - Por
-    - club: ATA
-  Caldara:
+    - club: PAR
+  Bruno Alves:
     - position:
       - Dc
-    - club: MIL
-  Danilo:
+    - club: PAR
+  Pezzella Ger:
     - position:
       - Dc
-    - club: BOL
-  Rui:
+    - club: FIO
+  Samir:
     - position:
+      - Dc
       - Ds
-      - E
-    - club: NAP
-  Ghoulam:
+    - club: UDI
+  Igor:
     - position:
+      - Dc
       - Ds
-      - E
-    - club: NAP
-  Bereszynski:
-    - position:
-      - Dd
-      - E
-    - club: SAM
-  Tomovic:
-    - position:
-      - Dc
-      - Dd
-    - club: CHI
-  Marlon:
-    - position:
-      - Dc
-    - club: SAS
-  Biraschi:
-    - position:
-      - Dc
-      - Dd
-    - club: GEN
-  Antonelli:
-    - position:
-      - Ds
-      - E
-    - club: EMP
-  Vicari:
-    - position:
-      - Dc
     - club: SPA
-  Conti:
+  Rrahmani:
+    - position:
+      - Dc
+      - Ds
+      - Dd
+    - club: VER
+  Tomiyasu:
+    - position:
+      - Dc
+      - Dd
+    - club: BOL
+  Calabria:
     - position:
       - Dd
       - E
     - club: MIL
-  Cristante:
+  Florenzi:
+    - position:
+      - Dd
+      - E
+    - club: ROM
+  Allan:
+    - position:
+      - M
+      - C
+    - club: NAP
+  Miguel Veloso:
+    - position:
+      - M
+      - C
+    - club: VER
+  Bisoli:
+    - position:
+      - M
+      - C
+    - club: BRE
+  Diawara:
+    - position:
+      - M
+      - C
+    - club: ROM
+  Kessie:
+    - position:
+      - C
+    - club: MIL
+  Pjanic:
+    - position:
+      - C
+    - club: JUV
+  Pellegrini Lo:
     - position:
       - C
       - T
     - club: ROM
-  Nainggolan:
+  Krunic:
     - position:
       - C
       - T
-    - club: INT
-  Zielinski:
+    - club: MIL
+  Bernardeschi:
     - position:
-      - C
+      - W
+      - A
+    - club: JUV
+  Suso:
+    - position:
+      - W
+      - A
+    - club: MIL
+  Under:
+    - position:
+      - W
+      - A
+    - club: ROM
+  Gomez A:
+    - position:
       - T
-    - club: NAP
-  Mandragora:
+      - A
+    - club: ATA
+  Joao Pedro:
     - position:
-      - M
-      - C
-    - club: UDI
-  Rincon:
+      - A
+    - club: CAG
+  Pinamonti:
     - position:
-      - M
-      - C
-    - club: TOR
-  Praet:
-    - position:
-      - C
-      - T
-    - club: SAM
-  Sensi:
-    - position:
-      - M
-      - C
-    - club: SAS
+      - Pc
+    - club: GEN
   Immobile:
     - position:
       - Pc
     - club: LAZ
-  Icardi:
-    - position:
-      - Pc
-    - club: INT
-  Kouame:
-    - position:
-      - Pc
-    - club: GEN
-  Inglese:
-    - position:
-      - Pc
-    - club: PAR
-  Petagna:
-    - position:
-      - Pc
-    - club: SPA
