@@ -4,6 +4,7 @@ class LineupsController < ApplicationController
   helper_method :team, :lineup, :modules
 
   def new
+    modules
     @lineup = Lineup.new
   end
 
