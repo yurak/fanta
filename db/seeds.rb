@@ -20,3 +20,6 @@ UserCreator.new.call
 
 p 'Create Tours'
 CalendarCreator.new.call
+
+p 'Create Result records'
+ResultsManager.new.create

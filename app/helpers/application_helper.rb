@@ -28,4 +28,12 @@ module ApplicationHelper
     when 'set_lineup' then 'alert-success'
     end
   end
+
+  def result_status_class(status)
+    case status
+    when 'W' then 'badge-success'
+    when 'D' then 'badge-secondary'
+    when 'L' then 'badge-danger'
+    end
+  end
 end

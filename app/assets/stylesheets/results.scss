@@ -1,0 +1,60 @@
+.results-headers, .results-team {
+  display: grid;
+  grid-template-columns: 7% 7% 23% 6% 6% 6% 6% 6% 6% 6% 6% 15%;
+}
+
+@media screen and (max-device-width: 991px) {
+  .results-headers, .results-team {
+    grid-template-columns: 5% 8% 24% 5% 5% 5% 5% 5% 5% 5% 5% 23%;
+  }
+}
+
+@media screen and (max-device-width: 767px) {
+  .results-headers, .results-team {
+    grid-template-columns: 8% 12% 38% 7% 7% 7% 7% 7% 7%;
+  }
+
+  .results-hidden {
+    display: none;
+  }
+}
+
+.results-headers {
+  height: 50px;
+  line-height: 50px;
+  font-size: 16px;
+  font-weight: bolder;
+  text-align: center;
+  border-bottom: 2px solid grey;
+}
+
+.results-team {
+  height: 60px;
+  line-height: 60px;
+  text-align: center;
+  font-size: 18px;
+  border-bottom: 1px solid gainsboro;
+}
+
+.results-team-logo img {
+  max-height: 50px;
+  max-width: 50px;
+}
+
+.results-team-name {
+  text-align: left;
+  overflow-x: visible;
+  max-height: 60px;
+  padding-left: 5px;
+}
+
+.results-team-points {
+  font-weight: bold;
+}
+
+.results-team-form {
+  .badge {
+    width: 21px;
+    padding: 4px;
+  }
+}

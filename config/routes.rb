@@ -19,6 +19,8 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :results, only: [:index]
+
   resource :welcome, only: [:index]
   get 'rules', to: 'welcome#rules'
 

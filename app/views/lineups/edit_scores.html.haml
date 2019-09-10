@@ -34,9 +34,9 @@
           %span Position malus
 
       = f.fields_for :match_players do |match_player|
-        - if lineup.team_module.slots[match_player.index]&.position
+        - if lineup.slots[match_player.index]&.position
           .alert.alert-success.mp-alert
-            = match_player.hidden_field(:real_position, value: lineup.team_module.slots[match_player.index]&.position)
+            = match_player.hidden_field(:real_position, value: lineup.slots[match_player.index]&.position)
             = render 'match_player_scores', lineup: lineup, match_player: match_player
         - else
           .alert.alert-warning.mp-alert.subs-card
