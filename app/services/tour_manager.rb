@@ -29,7 +29,10 @@ class TourManager
   end
 
   def close
-    tour.closed! if tour.locked? && status == 'closed'
+    if tour.locked? && status == 'closed'
+      tour.closed!
+      ResultsManager.new(tour: tour).update
+    end
   end
 
   def any_tour_in_progress?

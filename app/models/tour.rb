@@ -7,4 +7,8 @@ class Tour < ApplicationRecord
   def next_number
     number + 1
   end
+
+  def self.active_tour
+    Tour.set_lineup.first || Tour.locked.first
+  end
 end

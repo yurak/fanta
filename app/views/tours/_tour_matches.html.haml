@@ -28,9 +28,7 @@
                 %p.team-tour-goals
                   = match.host_lineup.goals
                 %p.team-tour-points
-                  (
                   = pluralize(match.host_lineup.total_score, 'point')
-                  )
             - else
               %p.team-tour-goals -
               %p.team-tour-points ---
@@ -50,9 +48,7 @@
                 %p.team-tour-goals
                   = match.guest_lineup.goals
                 %p.team-tour-points
-                  (
                   = pluralize(match.guest_lineup.total_score, 'point')
-                  )
             - else
               %p.team-tour-goals -
               %p.team-tour-points ---
