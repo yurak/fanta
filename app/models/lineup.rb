@@ -15,14 +15,19 @@ class Lineup < ApplicationRecord
 
   FIRST_GOAL = 66
   INCREMENT = 6
+  MIN_AVG_SCORE = 6
+  MAX_AVG_SCORE = 7
+  DEF_BONUS_STEP = 0.25
 
   def total_score
-    @total_score ||= match_players.main.map(&:total_score).compact.sum + defence_bonus
+    match_players.main.map(&:total_score).compact.sum + defence_bonus
   end
 
   def defence_bonus
-    # TODO: count defence bonus for lineup
-    0
+    return 0 if def_average_score < MIN_AVG_SCORE
+    return 5 if def_average_score >= MAX_AVG_SCORE
+
+    ((def_average_score - MIN_AVG_SCORE) / DEF_BONUS_STEP + 1).floor
   end
 
   def goals
@@ -35,6 +40,31 @@ class Lineup < ApplicationRecord
     @match ||= Match.by_team_and_tour(team.id, tour.id).first
   end
 
+  def result
+    if win?
+      'W'
+    elsif lose?
+      'L'
+    elsif draw?
+      'D'
+    end
+  end
+
+  private
+
+  def def_count
+    @def_count ||= match_players.defenders.count
+  end
+
+  def def_scores_sum
+    match_players.defenders.map(&:score).compact.sum
+  end
+
+  def def_average_score
+    return 0 if match_players.defenders.empty?
+    def_scores_sum / def_count
+  end
+
   def draw?
     match.draw?
   end
@@ -45,15 +75,5 @@ class Lineup < ApplicationRecord
 
   def lose?
     match.guest_win? && match.host == team || match.host_win? && match.guest == team
-  end
-
-  def result
-    if win?
-      'W'
-    elsif lose?
-      'L'
-    elsif draw?
-      'D'
-    end
   end
 end
