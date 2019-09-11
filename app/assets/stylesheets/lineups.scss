@@ -2,16 +2,15 @@
 
 #new_lineup {
   display: grid;
-  grid-template-columns: 35% auto;
-  grid-column-gap: 25px;
+  grid-template-columns: auto 35%;
 }
 
-#ms-lineup_player_ids {
-  width: 100%;
+#lineup_team_module_id {
+  margin-top: 10px;
 }
 
 .module-image {
-  margin-top: 30px;
+  margin: 20px 0;
   width: 100%;
 
   img {
@@ -24,10 +23,26 @@
   }
 }
 
+.new-lineup-modules-image {
+  width: 100%;
+  left: -7px;
+  position: relative;
+}
+
 .lineup-submit-btn {
   grid-column: span 2;
   .btn {
     width: 100%;
+  }
+}
+
+@media screen and (max-device-width: 767px) {
+  #lineup_team_module_id {
+    margin-top: 5px;
+  }
+
+  .module-image {
+    margin: 10px 0;
   }
 }
 
@@ -125,12 +140,6 @@
     }
   }
 }
-
-//@media screen and (max-device-width: 767px) and (orientation: portrait) {
-//  .lineup-show-block {
-//    grid-template-columns: 100%;
-//  }
-//}
 
 /* EDIT LINEUP PLAYERS page */
 

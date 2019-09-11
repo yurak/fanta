@@ -93,7 +93,7 @@ class LineupsController < ApplicationController
   end
 
   def lineup_params
-    params.fetch(:lineup, {}).permit(:team_module_id, tema_module_id: [], player_ids: [])
+    params.fetch(:lineup, {}).permit(:team_module_id, tema_module_id: [])
   end
 
   def update_lineup_params

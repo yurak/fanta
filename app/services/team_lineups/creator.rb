@@ -8,9 +8,9 @@ module TeamLineups
     RESERVED = 7
 
     def initialize(team:, params:)
-      @params = params
       @team   = team
-      @lineup = team.lineups.new(params)
+      @params = params.merge(player_ids: @team.players.ids[0..17])
+      @lineup = team.lineups.new(@params)
     end
 
     def call
