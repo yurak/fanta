@@ -12,6 +12,7 @@ Rails.application.routes.draw do
 
     resources :lineups do
       get :clone
+      get :details
       get :edit_module
       get :edit_scores
       get :substitutions
