@@ -7,6 +7,8 @@ class MatchPlayer < ApplicationRecord
   scope :main, ->{ where.not(real_position: nil) }
   scope :subs, ->{ where(real_position: nil) }
 
+  scope :defenders, ->{ where(real_position: Position::DEFENCE) }
+
   def malus
     return 0 if own_position?
   end
