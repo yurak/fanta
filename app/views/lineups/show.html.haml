@@ -13,7 +13,7 @@
             = link_to 'Edit module', team_lineup_edit_module_path(team, lineup), class: 'btn btn-primary lineup-show-btn'
             = link_to 'Edit lineup', edit_team_lineup_path(team, lineup), class: 'btn btn-primary lineup-show-btn'
           - if lineup.tour.locked? || lineup.tour.closed?
-            = link_to 'Details', '', class: 'btn btn-primary lineup-show-btn'
+            = link_to 'Details', team_lineup_details_path(team, lineup), class: 'btn btn-primary lineup-show-btn'
           - if current_user.admin? && lineup.tour.locked?
             = link_to 'Edit scores', team_lineup_edit_scores_path(team, lineup), class: 'btn btn-primary lineup-show-btn'
   .lineup-show-block

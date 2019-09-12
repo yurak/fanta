@@ -137,9 +137,6 @@
 
 .lineup-show-total-score {
   font-weight: bolder;
-  //background-color: red;
-  //margin: 0 3px;
-  //border-radius: 4px;
 }
 
 .lineup-show-score {
@@ -367,5 +364,148 @@
   .subs-form {
     grid-template-columns: 100%;
     margin: 20px 0;
+  }
+}
+
+/* LINEUP SHOW DETAILS page */
+
+.l-details-block, .l-details-team-info, .l-details-players-info {
+  width: 100%;
+}
+
+.l-details-team-info {
+  margin: 25px 0;
+  height: 120px;
+  background-color: #2c2c2c;
+  border-radius: 10px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  padding: 20px;
+  column-gap: 20px;
+
+  .l-details-info-block {
+    height: 80px;
+    width: 100%;
+    background-color: #17a2b8;
+    font-size: 16px;
+    font-weight: bolder;
+    color: white;
+    border-radius: 5px;
+    text-align: center;
+    padding: 5px;
+
+    .l-details-info-value {
+      font-size: 26px;
+    }
+  }
+
+  .l-details-module-block {
+    background-color: #28a745;
+  }
+
+  .l-details-total-score-block {
+    background-color: #dc3545;
+  }
+}
+
+.l-details-headers, .l-details-item {
+  text-align: center;
+  font-size: 16px;
+  display: grid;
+  grid-template-columns: 8% 24% 8% 6% 6% 6% 6% 6% 6% 6% 6% 6% 6%;
+}
+
+.l-details-headers {
+  height: 50px;
+  line-height: 50px;
+  font-weight: bolder;
+  border-bottom: 2px solid grey;
+}
+
+.l-details-item {
+  padding: 3px 0;
+  border-bottom: 1px solid gainsboro;
+}
+.l-details-item-param {
+  width: 100%;
+  line-height: 38px;
+  position: relative;
+
+  img {
+    height: 26px;
+    margin: 6px 0;
+  }
+}
+
+.l-details-player-name, .l-details-player-tscore {
+  font-weight: bolder;
+}
+
+.l-details-subs-bench-title {
+  font-size: 16px;
+  font-weight: bolder;
+  margin-top: 10px;
+  padding-left: 25px;
+}
+
+.l-details-subs-bench {
+  background-color: #2c2c2c;
+  border-radius: 7px;
+  padding: 10px 15px 0;
+  margin: 10px 0;
+}
+
+.l-details-sub-item {
+  width: 49.5%;
+  background-color: grey;
+  margin: 3px 0;
+  display: grid;
+  grid-template-columns: auto 100px;
+}
+
+.l-details-subs-card {
+  width: calc(25% - 3.5px);
+  display: inline-block;
+  padding: 0 5px;
+}
+
+.l-details-subs-item {
+  display: grid;
+  margin: 0 5px;
+  grid-template-columns: auto 88px;
+}
+
+.l-details-player-positions {
+  text-align:center;
+}
+
+.l-details-position-image {
+  display:inline-block;
+
+  img {
+    height: 22px;
+    width: 22px;
+  }
+}
+
+.l-details-sub-param {
+  line-height: 34px;
+}
+
+.bonus-badge{
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
+@media screen and (min-device-width: 992px) {
+  .bonus-badge{
+    left: 5px;
+  }
+}
+
+@media screen and (min-device-width: 1200px) {
+  .bonus-badge{
+    left: 10px;
   }
 }

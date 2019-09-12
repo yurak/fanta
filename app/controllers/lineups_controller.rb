@@ -24,6 +24,10 @@ class LineupsController < ApplicationController
     respond_with lineup
   end
 
+  def details
+    respond_with lineup
+  end
+
   def clone
     new_lineup = lineup.dup
     new_lineup.tour = Tour.find_by(number: lineup.tour.next_number)
