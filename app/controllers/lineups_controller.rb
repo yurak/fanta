@@ -83,7 +83,19 @@ class LineupsController < ApplicationController
   end
 
   def subs_update
-    # TODO:
+    substitution_params
+    if (@mp_main.available_positions & @mp_reserve.player.position_names).any?
+      MatchPlayer.transaction do
+        new_player = @mp_reserve.player
+        @mp_reserve.update(player_id: @mp_main.player_id, subs_status: :get_out)
+        @mp_main.update(player_id: new_player.id, subs_status: :get_in)
+      end
+      flash[:notice] = 'Successfully made substitution'
+      redirect_to team_lineup_edit_scores_path(team, lineup)
+    else
+      flash[:error] = "#{@mp_reserve.player.name} can not take position #{@mp_main.real_position}"
+      redirect_to team_lineup_substitutions_path(team, lineup)
+    end
   end
 
   private
@@ -98,6 +110,11 @@ class LineupsController < ApplicationController
 
   def update_lineup_params
     params.fetch(:lineup, {}).permit(:team_module_id, match_players_attributes: {})
+  end
+
+  def substitution_params
+    @mp_main = MatchPlayer.find(params[:out_mp_id])
+    @mp_reserve = MatchPlayer.find(params[:in_mp_id])
   end
 
   def lineup

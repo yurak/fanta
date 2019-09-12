@@ -74,12 +74,12 @@
   height: 100%;
   width: 100%;
 
-  .lineup-show-def-bonus-block {
+  .lineup-show-info-block {
     min-height: 65px;
     width: calc(100% - 30px);
     position: relative;
-    margin: 25px 15px;
-    background-color: #dc3545;
+    margin: 15px;
+    background-color: #17a2b8;
     font-size: 16px;
     font-weight: bolder;
     color: white;
@@ -87,13 +87,17 @@
     text-align: center;
     padding: 5px;
 
-    .lineup-show-def-bonus-value {
+    .lineup-show-info-value {
       font-size: 26px;
     }
   }
 
+  .lineup-show-total-score-block {
+    background-color: #dc3545;
+  }
+
   .lineup-show-img {
-    height: 360px;
+    height: 315px;
     width: 100%;
     position: relative;
 
@@ -124,7 +128,7 @@
   text-align: center;
   display: grid;
   width: 100%;
-  grid-template-columns: 12% 30% 20% 4% 24% 10%;
+  grid-template-columns: 14% 34% 26% 8% 8% 10%;
 }
 
 .lineup-show-name {
@@ -238,7 +242,7 @@
   }
 }
 
-/* ADMIN EDIT LINEUP page */
+/* ADMIN EDIT LINEUP SCORES page */
 
 .mp-edit-headers, .mp-edit-item {
   text-align: center;
@@ -335,5 +339,33 @@
 @media screen and (max-device-width: 829px) {
   .lineup-edit-scores-form {
     margin: 0;
+  }
+}
+
+/* SUBSTITUTION page */
+
+.subs-form {
+  display: grid;
+  grid-template-columns: 40% 20% 40%;
+  margin: 50px 0;
+}
+
+.subs-img-block {
+  padding: 0 calc(50% - 50px);
+}
+
+.subs-input {
+  margin: 31px 0;
+}
+
+.subs-img {
+  width: 100px;
+  height: 100px;
+}
+
+@media screen and (max-device-width: 767px) {
+  .subs-form {
+    grid-template-columns: 100%;
+    margin: 20px 0;
   }
 }
