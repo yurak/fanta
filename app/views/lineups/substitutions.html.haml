@@ -1,9 +1,16 @@
 .container
   .h5 Make substitution
 
-  = form_with url: team_lineup_subs_update_path(team, lineup), method: :put do |f|
-    = f.select :out_mp_id, options_from_collection_for_select(lineup.match_players.main, :id, :player_id), class: 'custom-select'
+  = form_with url: team_lineup_subs_update_path(team, lineup),local: true, method: :put do |f|
+    .subs-form
+      .subs-input
+        = f.select :out_mp_id, available_for_substitution(lineup.match_players.main), {}, class: 'custom-select'
 
-    = f.select :in_mp_id, options_from_collection_for_select(lineup.match_players.subs, :id, :player_id), class: 'custom-select'
+      .subs-img-block
+        = image_tag("subs.png", class: 'subs-img')
 
-    = f.submit 'Substitute', class: 'btn btn-success btn-block'
+      .subs-input
+        = f.select :in_mp_id, available_for_substitution(lineup.match_players.subs), {}, class: 'custom-select'
+
+    .subs-submit.submit
+      = f.submit 'Substitute', class: 'btn btn-success btn-block', data: { confirm: 'Are you sure?' }

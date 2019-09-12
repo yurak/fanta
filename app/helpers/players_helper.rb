@@ -3,7 +3,7 @@ module PlayersHelper
     team.players.order_by_status.collect do |x|
       klass = x.status
       [
-        "(#{x.positions.map(&:name).join('-')}) #{x.name} (#{x.status})", x.id, { class: klass }
+        "(#{x.position_names.join('-')}) #{x.name} (#{x.status})", x.id, { class: klass }
       ]
     end
   end
@@ -18,7 +18,15 @@ module PlayersHelper
     scope.order_by_status.collect do |x|
       klass = x.status
       [
-        "(#{ x.reload.positions.map(&:name).join('-')}) #{x.name} (#{x.status})", x.id, { class: klass }
+        "(#{ x.reload.position_names.join('-')}) #{x.name} (#{x.status})", x.id, { class: klass }
+      ]
+    end
+  end
+
+  def available_for_substitution(match_players)
+    match_players.collect do |x|
+      [
+          "(#{x.player.position_names.join('-')}) #{x.player.name} - #{x.real_position ? x.real_position : '(reserve)'}", x.id
       ]
     end
   end

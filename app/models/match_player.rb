@@ -4,6 +4,8 @@ class MatchPlayer < ApplicationRecord
 
   delegate :position_names, to: :player
 
+  enum subs_status: %i[initial get_out get_in]
+
   scope :main, ->{ where.not(real_position: nil) }
   scope :subs, ->{ where(real_position: nil) }
 
@@ -37,5 +39,9 @@ class MatchPlayer < ApplicationRecord
     # total += bonus if bonus
 
     return total
+  end
+
+  def available_positions
+    real_position.split('/').map{|p|  Position::DEPENDENCY[p]}.flatten.uniq
   end
 end

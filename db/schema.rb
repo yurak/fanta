@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_10_082511) do
+ActiveRecord::Schema.define(version: 2019_09_12_084114) do
 
   create_table "articles", force: :cascade do |t|
     t.string "title"
@@ -64,6 +64,7 @@ ActiveRecord::Schema.define(version: 2019_09_10_082511) do
     t.decimal "caught_penalty", default: "0.0"
     t.decimal "failed_penalty", default: "0.0"
     t.decimal "own_goals", default: "0.0"
+    t.integer "subs_status", default: 0, null: false
   end
 
   create_table "matches", force: :cascade do |t|

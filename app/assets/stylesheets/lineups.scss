@@ -101,7 +101,7 @@
   text-align: center;
   display: grid;
   width: 100%;
-  grid-template-columns: 12% 30% 20% 4% 24% 10%;
+  grid-template-columns: 14% 34% 26% 8% 8% 10%;
 }
 
 .lineup-show-name {
@@ -215,7 +215,7 @@
   }
 }
 
-/* ADMIN EDIT LINEUP page */
+/* ADMIN EDIT LINEUP SCORES page */
 
 .mp-edit-headers, .mp-edit-item {
   text-align: center;
@@ -312,5 +312,33 @@
 @media screen and (max-device-width: 829px) {
   .lineup-edit-scores-form {
     margin: 0;
+  }
+}
+
+/* ADMIN EDIT LINEUP SCORES page */
+
+.subs-form {
+  display: grid;
+  grid-template-columns: 40% 20% 40%;
+  margin: 50px 0;
+}
+
+.subs-img-block {
+  padding: 0 calc(50% - 50px);
+}
+
+.subs-input {
+  margin: 31px 0;
+}
+
+.subs-img {
+  width: 100px;
+  height: 100px;
+}
+
+@media screen and (max-device-width: 767px) {
+  .subs-form {
+    grid-template-columns: 100%;
+    margin: 20px 0;
   }
 }

@@ -11,21 +11,24 @@
     .lineup-show-score
       = mp.score
     .lineup-show-bonus
-      - if mp.goals.to_i > 0
-        %span= mp.goals.to_i if mp.goals.to_i > 1
-        = image_tag("bonuses/goal.png", title: 'Goal')
-      - if mp.missed_goals.to_i > 0
-        %span= mp.missed_goals.to_i if mp.missed_goals.to_i > 1
-        = image_tag("bonuses/mg.png", title: 'Missed Goal')
-      - if mp.assists.to_i > 0
-        %span= mp.assists.to_i if mp.assists.to_i > 1
-        = image_tag("bonuses/assist.png", title: 'Assist')
-      - if mp.cleansheet.present?
-        = image_tag("bonuses/cs.png", title: 'Cleansheet')
-      - if mp.yellow_card.present?
-        = image_tag("bonuses/yc.png", title: 'Yellow Card')
-      - if mp.red_card.present?
-        = image_tag("bonuses/rc.png", title: 'Red Card')
+      - unless mp.initial?
+        = image_tag("bonuses/#{mp.subs_status}.png", title: 'Subs Status')
+
+      -#- if mp.goals.to_i > 0
+      -#  %span= mp.goals.to_i if mp.goals.to_i > 1
+      -#  = image_tag("bonuses/goal.png", title: 'Goal')
+      -#- if mp.missed_goals.to_i > 0
+      -#  %span= mp.missed_goals.to_i if mp.missed_goals.to_i > 1
+      -#  = image_tag("bonuses/mg.png", title: 'Missed Goal')
+      -#- if mp.assists.to_i > 0
+      -#  %span= mp.assists.to_i if mp.assists.to_i > 1
+      -#  = image_tag("bonuses/assist.png", title: 'Assist')
+      -#- if mp.cleansheet.present?
+      -#  = image_tag("bonuses/cs.png", title: 'Cleansheet')
+      -#- if mp.yellow_card.present?
+      -#  = image_tag("bonuses/yc.png", title: 'Yellow Card')
+      -#- if mp.red_card.present?
+      -#  = image_tag("bonuses/rc.png", title: 'Red Card')
       -# TODO: add missed, scored, caught and failed penalties, own goal, position_malus
     .lineup-show-total-score
       = mp.total_score

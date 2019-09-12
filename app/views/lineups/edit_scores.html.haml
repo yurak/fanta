@@ -48,7 +48,7 @@
                   .mp-edit-position-image
                     = image_tag("positions/#{position.name}.png")
       .subs-btn
-        = link_to 'Make substitution', team_lineup_substitutions_path(team, lineup), class: 'btn btn-danger', data: { confirm: 'Are you sure?' }
+        = link_to 'Make substitution', team_lineup_substitutions_path(team, lineup), class: 'btn btn-danger'
 
       .form-group
         = f.submit 'Update', class: 'btn btn-success btn-block'
