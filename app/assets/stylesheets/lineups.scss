@@ -74,12 +74,12 @@
   height: 100%;
   width: 100%;
 
-  .lineup-show-def-bonus-block {
+  .lineup-show-info-block {
     min-height: 65px;
     width: calc(100% - 30px);
     position: relative;
-    margin: 25px 15px;
-    background-color: #dc3545;
+    margin: 15px;
+    background-color: #17a2b8;
     font-size: 16px;
     font-weight: bolder;
     color: white;
@@ -87,13 +87,17 @@
     text-align: center;
     padding: 5px;
 
-    .lineup-show-def-bonus-value {
+    .lineup-show-info-value {
       font-size: 26px;
     }
   }
 
+  .lineup-show-total-score-block {
+    background-color: #dc3545;
+  }
+
   .lineup-show-img {
-    height: 360px;
+    height: 315px;
     width: 100%;
     position: relative;
 

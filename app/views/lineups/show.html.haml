@@ -12,13 +12,19 @@
           - if current_user == team.user && lineup.tour.set_lineup?
             = link_to 'Edit module', team_lineup_edit_module_path(team, lineup), class: 'btn btn-primary lineup-show-btn'
             = link_to 'Edit lineup', edit_team_lineup_path(team, lineup), class: 'btn btn-primary lineup-show-btn'
+          - if lineup.tour.locked? || lineup.tour.closed?
+            = link_to 'Details', '', class: 'btn btn-primary lineup-show-btn'
           - if current_user.admin? && lineup.tour.locked?
             = link_to 'Edit scores', team_lineup_edit_scores_path(team, lineup), class: 'btn btn-primary lineup-show-btn'
   .lineup-show-block
     .lineup-show-img-block
-      .lineup-show-def-bonus-block
-        .lineup-show-def-bonus-title Defence bonus
-        .lineup-show-def-bonus-value
+      .lineup-show-info-block.lineup-show-total-score-block
+        .lineup-show-info-title Total score
+        .lineup-show-info-value
+          = lineup.total_score
+      .lineup-show-info-block
+        .lineup-show-info-title Defence bonus
+        .lineup-show-info-value
           = lineup.defence_bonus
       .lineup-show-img
         = image_tag("modules/#{lineup.team_module.name}.png", class: 'module-img')
