@@ -20,7 +20,7 @@
       .lineup-tour-value
         = lineup.goals
       .lineup-tour-text goals
-  - if lineup.tour.set_lineup?
+  - if lineup.tour.set_lineup? && team.user == current_user
     .lineup-tour-cell
       = link_to 'Edit module', team_lineup_edit_module_path(team, lineup), class: 'btn btn-primary lineup-tour-btn'
     .lineup-tour-cell

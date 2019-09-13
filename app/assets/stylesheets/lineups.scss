@@ -128,7 +128,12 @@
   text-align: center;
   display: grid;
   width: 100%;
-  grid-template-columns: 14% 34% 26% 8% 8% 10%;
+  grid-template-columns: 14% 8% 34% 20% 8% 8% 8%;
+}
+
+.club-logo.lineup-club-logo {
+  width: 28px;
+  height: 28px;
 }
 
 .lineup-show-name {
@@ -412,7 +417,7 @@
   text-align: center;
   font-size: 16px;
   display: grid;
-  grid-template-columns: 8% 24% 8% 6% 6% 6% 6% 6% 6% 6% 6% 6% 6%;
+  grid-template-columns: 8% 6% 24% 6% 6% 6% 6% 6% 6% 6% 5% 5% 5% 5%;
 }
 
 .l-details-headers {
@@ -435,6 +440,13 @@
     height: 26px;
     margin: 6px 0;
   }
+}
+
+.club-logo.l-details-club-logo {
+  width: 28px;
+  height: 28px;
+  margin: 6px auto;
+  background-size: contain;
 }
 
 .l-details-player-name, .l-details-player-tscore {

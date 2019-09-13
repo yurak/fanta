@@ -2,6 +2,8 @@
   .lineup-show-player
     .lineup-show-position
       = image_tag("positions/#{mp.real_position.gsub('/','_')}.png") if mp.real_position
+    .lineup-show-club-logo
+      .club-logo.lineup-club-logo{ class: mp.player.club.code.downcase }
     .lineup-show-name
       = mp.player.name
     .lineup-show-pl-positions
