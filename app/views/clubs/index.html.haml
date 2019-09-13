@@ -3,11 +3,34 @@
     %li.nav-item
       %a{"data-toggle" => "tab", href: "#stat-players", class: 'nav-link active'} Players
     %li.nav-item
-      %a{"data-toggle" => "tab", href: "#stat-clubs", class: 'nav-link'} Clubs
+      %a{"data-toggle" => "tab", href: "#stat-clubs", class: 'nav-link disabled'} Clubs
   .tab-content
     .tab-pane.pane.active#stat-players
-      - @players.each do |player|
-        .club-stat= player.name
+      .player-stat-headers
+        .player-stat-header #
+        .player-stat-header.player-param-name Name
+        .player-stat-header Positions
+        .player-stat-header Club
+        .player-stat-header Team
+        .player-stat-header MP
+        .player-stat-header AvgBS
+        .player-stat-header AvgTS
+      - @players.each_with_index do |player, i|
+        .player-stat
+          .player-param= i+1
+          .player-param.player-param-name= player.name
+          .player-param.player-param-img
+            - player.positions.each do |position|
+              .l-details-position-image
+                = image_tag("positions/#{position.name}.png")
+          .player-param.player-param-club
+            .club-logo.l-details-club-logo{ class: player.club.code.downcase }
+            .player-param-club-name= player.club.name
+          .player-param.player-param-img
+            = image_tag(player.team.logo_path, alt: "Logo")
+          .player-param= player.played_matches_count
+          .player-param= player.average_score
+          .player-param= player.average_total_score
     .tab-pane.fade#stat-clubs
       - @clubs.each do |club|
         .club-stat= club.name
