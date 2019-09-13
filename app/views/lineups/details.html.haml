@@ -30,6 +30,7 @@
     .l-details-players-info
       .l-details-headers
         .l-details-header{title: 'Position'} Pos
+        .l-details-header Club
         .l-details-header Player
         .l-details-header{title: 'Total score'} TS
         .l-details-header{title: 'Base score'} BS
@@ -47,6 +48,8 @@
         .l-details-item
           .l-details-item-param.l-details-position
             = image_tag("positions/#{lineup.slots[i]&.position.gsub('/','_')}.png")
+          .l-details-item-param.l-details-position
+            .club-logo.l-details-club-logo{ class: mp.player.club.code.downcase }
           .l-details-item-param.l-details-player-name
             = mp.player.name
           .l-details-item-param.l-details-player-tscore

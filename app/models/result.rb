@@ -12,6 +12,6 @@ class Result < ApplicationRecord
   end
 
   def form
-    @form ||= lineups.not_active.limit(5).map(&:result)
+    @form ||= lineups.closed.limit(5).map(&:result)
   end
 end

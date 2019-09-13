@@ -7,17 +7,13 @@
         .team-title.inline-block
           = team.name.humanize
 
-  - if team.user == current_user
-    %ul.nav.nav-tabs.nav-fill
-      %li.nav-item
-        %a{"data-toggle" => "tab", href: "#team-squad", class: 'nav-link active'} Squad
-      %li.nav-item
-        %a{"data-toggle" => "tab", href: "#team-lineups", class: 'nav-link'} Lineups
-    .tab-content
-      .tab-pane.pane.active#team-squad
-        = render 'team_players', team: team
-      .tab-pane.fade#team-lineups
-        = render 'team_lineups', team: team
-  - else
-    %h4 Squad
-    = render 'team_players', team: team
+  %ul.nav.nav-tabs.nav-fill
+    %li.nav-item
+      %a{"data-toggle" => "tab", href: "#team-squad", class: 'nav-link active'} Squad
+    %li.nav-item
+      %a{"data-toggle" => "tab", href: "#team-lineups", class: 'nav-link'} Lineups
+  .tab-content
+    .tab-pane.pane.active#team-squad
+      = render 'team_players', team: team
+    .tab-pane.fade#team-lineups
+      = render 'team_lineups', team: team
