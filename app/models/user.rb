@@ -7,7 +7,7 @@ class User < ApplicationRecord
   has_one :team, dependent: :destroy
 
   EMAIL_LENGTH = (6..50).freeze
-  ROLES = %w[customer admin].freeze
+  ROLES = %w[customer admin moderator].freeze
 
   enum role: ROLES
 

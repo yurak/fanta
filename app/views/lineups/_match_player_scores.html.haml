@@ -6,7 +6,7 @@
   .mp-edit-item-param.mp-edit-player-tscore
     = match_player.object.total_score
   .mp-edit-item-param.mp-edit-player-score
-    = match_player.number_field :score, in: 0..11, step: 0.5, class: 'form-control'
+    = match_player.number_field :score, in: 0..11, step: 0.01, class: 'form-control'
   - if lineup.slots[match_player.index]&.position == 'Por'
     .mp-edit-item-param
       = match_player.number_field :missed_goals, in: 0..9, step: 1, class: 'form-control'
