@@ -1,0 +1,13 @@
+.container
+  %ul.nav.nav-tabs.nav-fill
+    %li.nav-item
+      %a{"data-toggle" => "tab", href: "#stat-players", class: 'nav-link active'} Players
+    %li.nav-item
+      %a{"data-toggle" => "tab", href: "#stat-clubs", class: 'nav-link'} Clubs
+  .tab-content
+    .tab-pane.pane.active#stat-players
+      - @players.each do |player|
+        .club-stat= player.name
+    .tab-pane.fade#stat-clubs
+      - @clubs.each do |club|
+        .club-stat= club.name
