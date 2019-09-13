@@ -7,6 +7,7 @@ class Player < ApplicationRecord
   has_many :lineups, through: :match_players
 
   scope :by_position, ->(position) { joins(:positions).where(positions: { name: position }) }
+  scope :stats_query, ->{ includes(:club, :team, :positions, :match_players).order(:name) }
   enum status: %i[ready problematic injured disqualified]
 
   scope :order_by_status, -> do
@@ -37,12 +38,12 @@ class Player < ApplicationRecord
 
   def average_total_score
     return 0 if played_matches_count.zero?
-    @average_score ||= (played_matches.map(&:total_score).sum / played_matches_count).round(2)
+    @average_total_score ||= (played_matches.map(&:total_score).sum / played_matches_count).round(2)
   end
 
   private
 
   def played_matches
-    @played_matches ||= match_players.main.where('score > ?', 0)
+    @played_matches ||= match_players.main_with_score
   end
 end

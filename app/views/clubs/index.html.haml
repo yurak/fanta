@@ -3,7 +3,7 @@
     %li.nav-item
       %a{"data-toggle" => "tab", href: "#stat-players", class: 'nav-link active'} Players
     %li.nav-item
-      %a{"data-toggle" => "tab", href: "#stat-clubs", class: 'nav-link disabled'} Clubs
+      %a{"data-toggle" => "tab", href: "#stat-clubs", class: 'nav-link'} Clubs
   .tab-content
     .tab-pane.pane.active#stat-players
       .player-stat-headers
@@ -32,5 +32,14 @@
           .player-param= player.average_score
           .player-param= player.average_total_score
     .tab-pane.fade#stat-clubs
-      - @clubs.each do |club|
-        .club-stat= club.name
+      .club-stat-headers
+        .club-stat-header #
+        .club-stat-header.club-param-name Name
+        .club-stat-header Players
+      - @clubs.each_with_index do |club, i|
+        .club-stat
+          .club-param= i+1
+          .club-param.club-param-logo
+            .club-logo.l-details-club-logo{ class: club.code.downcase }
+            .club-param-name= club.name
+          .club-param= club.players.size
