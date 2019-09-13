@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_12_084114) do
+ActiveRecord::Schema.define(version: 2019_09_13_121241) do
 
   create_table "articles", force: :cascade do |t|
     t.string "title"
@@ -45,7 +45,7 @@ ActiveRecord::Schema.define(version: 2019_09_12_084114) do
   end
 
   create_table "match_players", force: :cascade do |t|
-    t.decimal "score", default: "0.0"
+    t.decimal "score", precision: 4, scale: 2, default: "0.0"
     t.integer "player_id"
     t.integer "lineup_id"
     t.datetime "created_at", null: false

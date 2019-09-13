@@ -124,11 +124,12 @@
 }
 
 .lineup-show-player {
+  line-height: 28px;
   font-size: 18px;
   text-align: center;
   display: grid;
   width: 100%;
-  grid-template-columns: 14% 8% 34% 20% 8% 8% 8%;
+  grid-template-columns: 14% 8% 34% 20% 9% 6% 9%;
 }
 
 .club-logo.lineup-club-logo {
