@@ -106,8 +106,8 @@
   position: relative;
   margin: 0;
   display: grid;
-  grid-template-columns: 96px auto 110px;
-  grid-column-gap: 10px;
+  grid-template-columns: 100px auto 110px;
+  grid-column-gap: 5px;
 }
 
 .team-tour-info-block {
@@ -117,12 +117,13 @@
 .match-team-logo {
   img {
     width: 100%;
-    max-height: 96px;
+    max-height: 100px;
   }
 }
 
 .team-tour-goals {
-  font-size: 48px;
+  padding: 0 5px;
+  font-size: 46px;
   font-weight: bolder;
 }
 
@@ -130,12 +131,12 @@
   vertical-align: top;
 
   a {
-    font-size: 18px;
+    font-size: 20px;
     font-weight: bolder;
   }
   p {
     font-style: italic;
-    margin-top: 15px;
+    margin-top: 16px;
   }
 }
 
@@ -146,7 +147,39 @@
   }
 }
 
+.team-tour-result-exist {
+  background-color: #28a745;
+  border-radius: 7px;
+
+  a {
+    color: white;
+    text-decoration: none;
+  }
+
+  .team-tour-sec-info {
+    display: grid;
+    grid-template-columns: 50% 50%;
+  }
+
+  .team-tour-points {
+    background-color: #dc3545;
+    border-radius: 5px;
+    margin: 2px 2px 5px 5px;
+  }
+
+  .team-tour-players {
+    background-color: #007bff;
+    border-radius: 5px;
+    margin: 2px 5px 5px 2px;
+  }
+}
+
 @media screen and (max-device-width: 991px) {
+  .team-tour-card {
+    grid-template-columns: 100px auto 150px;
+    grid-column-gap: 25px;
+  }
+
   .match-team-card:first-child {
     margin-bottom: 10px;
   }
@@ -154,6 +187,15 @@
   .match-team-card {
     width: 100%;
     display: block;
+  }
+
+  .team-tour-info {
+    a {
+      font-size: 28px;
+    }
+    p {
+      margin-top: 16px;
+    }
   }
 }
 

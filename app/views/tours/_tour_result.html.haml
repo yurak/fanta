@@ -1,0 +1,24 @@
+.card.match-team-card
+  .card-body
+    .card-title.team-tour-card
+      .team-tour-info-block.match-team-logo
+        %img{alt: "Logo", src: image_path(team.logo_path)}
+      .team-tour-info-block.team-tour-info.team-tour-info-guest
+        .team-link
+          = link_to team.name.titleize, team_path(team.id)
+        %p.team-tour-module
+          = lineup ? lineup.team_module.name : 'waiting for lineup'
+      .team-tour-info-block.team-tour-result
+        - if lineup
+          .team-tour-result-exist
+            = link_to team_lineup_path(team, lineup) do
+              .team-tour-goals
+                = lineup.goals
+              .team-tour-sec-info
+                .team-tour-points
+                  = lineup.total_score
+                .team-tour-players
+                  = "#{lineup.mp_with_score}/11"
+        - else
+          %p.team-tour-goals -
+          %p.team-tour-points ---
