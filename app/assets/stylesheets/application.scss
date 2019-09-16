@@ -97,6 +97,12 @@ body, html {
   }
 }
 
+@media screen and (max-device-width: 991px) {
+  .nav-fill > li {
+    font-size: 22px;
+  }
+}
+
 .input-group-prepend {
   width: 110px;
 

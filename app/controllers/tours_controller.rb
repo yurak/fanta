@@ -16,6 +16,7 @@ class ToursController < ApplicationController
   end
 
   def edit
+    redirect_to tours_path unless tour.set_lineup? && current_user.admin?
     respond_with tour
   end
 
@@ -40,7 +41,7 @@ class ToursController < ApplicationController
   end
 
   def tours
-    @tours ||= Tour.all
+    @tours ||= Tour.all.includes(:lineups, :matches)
   end
 
   def update_tour_params
