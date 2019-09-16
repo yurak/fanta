@@ -7,6 +7,7 @@ class MatchPlayer < ApplicationRecord
   enum subs_status: %i[initial get_out get_in]
 
   scope :main, ->{ where.not(real_position: nil) }
+  scope :main_with_score, ->{ main.where('score > ?', 0) }
   scope :subs, ->{ where(real_position: nil) }
 
   scope :defenders, ->{ where(real_position: Position::DEFENCE) }

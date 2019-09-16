@@ -11,10 +11,10 @@ namespace :results_generator do
       l = Lineup.create(tour_id: active_tour.id, team_id: team.id, team_module_id: rand(1..11))
       l.slots.each do |slot|
         player = team.players.includes(:positions).where(positions: { name: slot.position }).first || team.players.last
-        MatchPlayer.create(lineup_id: l.id, player_id: player.id, score: rand(4..9), real_position: slot.position)
+        MatchPlayer.create(lineup_id: l.id, player_id: player.id, score: rand(4.00..9.99), real_position: slot.position)
       end
       7.times do
-        MatchPlayer.create(lineup_id: l.id, player_id: team.players.last.id)
+        MatchPlayer.create(lineup_id: l.id, player_id: team.players[rand(1..24)].id)
       end
     end
     TourManager.new(tour: active_tour, status: 'locked').call

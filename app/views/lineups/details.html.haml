@@ -9,9 +9,8 @@
     .lineup-show-edit-btn
       .float-right
         .btn-group
-          - if lineup.tour.locked? || lineup.tour.closed?
-            = link_to 'Base info', team_lineup_path(team, lineup), class: 'btn btn-primary lineup-show-btn'
-          - if current_user.admin? && lineup.tour.locked?
+          = link_to 'Base info', team_lineup_path(team, lineup), class: 'btn btn-primary lineup-show-btn'
+          - if lineup.tour.locked? && (current_user.admin? || current_user.moderator?)
             = link_to 'Edit scores', team_lineup_edit_scores_path(team, lineup), class: 'btn btn-primary lineup-show-btn'
   .l-details-block
     .l-details-team-info

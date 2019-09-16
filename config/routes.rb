@@ -22,6 +22,8 @@ Rails.application.routes.draw do
 
   resources :results, only: [:index]
 
+  resources :clubs, only: [:index]
+
   resource :welcome, only: [:index]
   get 'rules', to: 'welcome#rules'
 
