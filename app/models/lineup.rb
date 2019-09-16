@@ -19,6 +19,7 @@ class Lineup < ApplicationRecord
   MIN_AVG_SCORE = 6
   MAX_AVG_SCORE = 7
   DEF_BONUS_STEP = 0.25
+  MAX_PLAYED_PLAYERS = 11
 
   def total_score
     match_players.main.map(&:total_score).compact.sum + defence_bonus
@@ -49,6 +50,10 @@ class Lineup < ApplicationRecord
     elsif draw?
       'D'
     end
+  end
+
+  def completed?
+    mp_with_score == MAX_PLAYED_PLAYERS
   end
 
   def mp_with_score
