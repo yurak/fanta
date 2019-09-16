@@ -10,7 +10,7 @@
           = lineup ? lineup.team_module.name : 'waiting for lineup'
       .team-tour-info-block.team-tour-result
         - if lineup
-          .team-tour-result-exist
+          .team-tour-result-exist{class: lineup_class(lineup.completed?)}
             = link_to team_lineup_path(team, lineup) do
               .team-tour-goals
                 = lineup.goals

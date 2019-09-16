@@ -36,4 +36,8 @@ module ApplicationHelper
     when 'L' then 'badge-danger'
     end
   end
+
+  def lineup_class(status)
+    status ? 'lineup-completed' : 'lineup-uncompleted'
+  end
 end
