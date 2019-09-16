@@ -7,7 +7,8 @@ class Player < ApplicationRecord
   has_many :lineups, through: :match_players
 
   scope :by_position, ->(position) { joins(:positions).where(positions: { name: position }) }
-  scope :stats_query, ->{ includes(:club, :team, :positions, :match_players).order(:name) }
+  scope :stats_query, ->{ includes(:match_players, :club, :team, :positions).order(:name) }
+
   enum status: %i[ready problematic injured disqualified]
 
   scope :order_by_status, -> do
@@ -24,11 +25,11 @@ class Player < ApplicationRecord
   end
 
   def position_names
-    positions.map(&:name)
+    @position_names ||= positions.map(&:name)
   end
 
   def played_matches_count
-    @played_matches_count ||= played_matches.count
+    @played_matches_count ||= played_matches.size
   end
 
   def average_score
