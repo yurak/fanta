@@ -42,8 +42,8 @@
           .reservist-param
             = mp_f.number_field :assists, in: 0..9, step: 1, class: 'form-control'
           .reservist-param
-            -#- if Position::DEFENSIVE.include? lineup.slots[match_player.index]&.position
-            = mp_f.check_box :cleansheet, {'data-toggle' => 'toggle', 'data-onstyle' => 'success', 'data-on' => 'Yes', 'data-off' => 'No', 'data-size' => 'small', 'data-height' => '38'}
+            - if mp_f.object.player.can_clean_sheet?
+              = mp_f.check_box :cleansheet, {'data-toggle' => 'toggle', 'data-onstyle' => 'success', 'data-on' => 'Yes', 'data-off' => 'No', 'data-size' => 'small', 'data-height' => '38'}
           .reservist-param
             = mp_f.check_box :yellow_card, {'data-toggle' => 'toggle', 'data-onstyle' => 'warning', 'data-on' => 'Yes', 'data-off' => 'No', 'data-size' => 'small', 'data-height' => '38'}
           .reservist-param
