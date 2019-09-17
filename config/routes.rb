@@ -3,6 +3,8 @@ Rails.application.routes.draw do
 
   resources :tours do
     get :change_status
+    get :edit_subs_scores
+    put :update_subs_scores
   end
 
   resources :teams do

@@ -40,4 +40,18 @@ module ApplicationHelper
   def lineup_class(status)
     status ? 'lineup-completed' : 'lineup-uncompleted'
   end
+
+  def squad_class(match_player)
+    if match_player.real_position
+      'alert-success'
+    elsif match_player.not_in_squad?
+      'alert-danger'
+    else
+      'alert-warning'
+    end
+  end
+
+  def can_moderate?(user)
+    user.admin? || user.moderator?
+  end
 end

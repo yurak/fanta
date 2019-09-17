@@ -1,4 +1,4 @@
-.alert{class: mp.real_position ? 'alert-success' : 'alert-warning'}
+.alert{class: squad_class(mp)}
   .lineup-show-player
     .lineup-show-position
       = image_tag("positions/#{mp.real_position.gsub('/','_')}.png") if mp.real_position

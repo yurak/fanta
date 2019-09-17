@@ -7,6 +7,7 @@
         = "Deadline - #{tour.deadline&.strftime("%H:%M %d/%m/%y")}"
         = link_to "Edit", edit_tour_path(tour) if tour.set_lineup? && current_user.admin?
     .close-tour-btn
+      = link_to "Add scores to reservists", tour_edit_subs_scores_path(tour), class: 'btn btn-danger' if tour.closed? && can_moderate?(current_user)
       - if current_user.admin?
         = link_to "Lock Tour", tour_change_status_path(tour, status: :locked), class: 'btn btn-danger', data: { confirm: 'Are you sure?' } if tour.set_lineup?
         = link_to "Close Tour", tour_change_status_path(tour, status: :closed), class: 'btn btn-danger', data: { confirm: 'Are you sure?' } if tour.locked?

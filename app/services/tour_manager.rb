@@ -32,6 +32,7 @@ class TourManager
     if tour.locked? && status == 'closed'
       tour.closed!
       ResultsManager.new(tour: tour).update
+      MatchPlayerManager.new(tour: tour).create
     end
   end
 

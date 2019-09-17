@@ -12,7 +12,8 @@
         .player-stat-header Positions
         .player-stat-header Club
         .player-stat-header Team
-        .player-stat-header MP
+        .player-stat-header{title: 'Number of matches in mains squad'} MP
+        .player-stat-header{title: 'Number of scores'} SC
         .player-stat-header AvgBS
         .player-stat-header AvgTS
       - @players.each_with_index do |player, i|
@@ -29,6 +30,7 @@
           .player-param.player-param-img
             = image_tag(player.team.logo_path, alt: "Logo")
           .player-param= player.played_matches_count
+          .player-param= player.scores_count
           .player-param= player.average_score
           .player-param= player.average_total_score
     .tab-pane.fade#stat-clubs
