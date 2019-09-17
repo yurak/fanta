@@ -207,18 +207,29 @@
   }
 }
 
-//@media screen and (max-device-width: 767px) {
-//  .team-tour-card {
-//    grid-template-columns: 80px auto 120px;
-//    grid-column-gap: 5px;
-//  }
-//
-//  .team-tour-info {
-//    a {
-//      font-size: 20px;
-//    }
-//    p {
-//      margin-top: 16px;
-//    }
-//  }
-//}
+/* TOUR RESERVISTS SCORES */
+
+.reservist-item, .reservists-headers {
+  display: grid;
+  grid-template-columns: 6% 18% 6% 8% 7% 7% 7% 7% 8% 8% 8% 7%;
+  grid-column-gap: 2px;
+  font-size: 16px;
+  text-align: center;
+}
+
+.reservists-headers {
+  border-bottom: 2px solid grey;
+  font-size: 18px;
+  font-weight: bolder;
+}
+
+.reservist-item {
+  border-bottom: 1px solid gainsboro;
+  line-height: 38px;
+  padding: 4px 0 3px;
+}
+
+.res-name {
+  text-align: left;
+  padding-left: 10px;
+}

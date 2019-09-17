@@ -10,7 +10,7 @@
         = image_tag("subs.png", class: 'subs-img')
 
       .subs-input
-        = f.select :in_mp_id, available_for_substitution(lineup.match_players.subs), {}, class: 'custom-select'
+        = f.select :in_mp_id, available_for_substitution(lineup.match_players.subs_bench), {}, class: 'custom-select'
 
     .subs-submit.submit
       = f.submit 'Substitute', class: 'btn btn-success btn-block', data: { confirm: 'Are you sure?' }

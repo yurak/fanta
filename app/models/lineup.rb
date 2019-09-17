@@ -57,7 +57,7 @@ class Lineup < ApplicationRecord
   end
 
   def mp_with_score
-    @mp_with_score ||= match_players.main_with_score.size
+    @mp_with_score ||= match_players.main.with_score.size
   end
 
   private

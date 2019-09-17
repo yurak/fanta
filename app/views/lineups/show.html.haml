@@ -14,7 +14,7 @@
             = link_to 'Edit lineup', edit_team_lineup_path(team, lineup), class: 'btn btn-primary lineup-show-btn'
           - if lineup.tour.locked? || lineup.tour.closed?
             = link_to 'Details', team_lineup_details_path(team, lineup), class: 'btn btn-primary lineup-show-btn'
-          - if lineup.tour.locked? && (current_user.admin? || current_user.moderator?)
+          - if lineup.tour.locked? && can_moderate?(current_user)
             = link_to 'Edit scores', team_lineup_edit_scores_path(team, lineup), class: 'btn btn-primary lineup-show-btn'
   .lineup-show-block
     .lineup-show-img-block

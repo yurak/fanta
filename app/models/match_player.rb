@@ -4,11 +4,14 @@ class MatchPlayer < ApplicationRecord
 
   delegate :position_names, to: :player
 
-  enum subs_status: %i[initial get_out get_in]
+  enum subs_status: %i[initial get_out get_in not_in_squad]
 
   scope :main, ->{ where.not(real_position: nil) }
-  scope :main_with_score, ->{ main.where('score > ?', 0) }
+  scope :with_score, ->{ where('score > ?', 0) }
   scope :subs, ->{ where(real_position: nil) }
+  scope :subs_bench, ->{ where(real_position: nil).where.not(subs_status: :not_in_squad) }
+  scope :subs_without_score, ->{ subs.where(score: 0) }
+  scope :reservists_by_tour, ->(tour_id) { subs.includes(:player).joins(:lineup, :player).where('lineups.tour_id = ?', tour_id).order('players.club_id') }
 
   scope :defenders, ->{ where(real_position: Position::DEFENCE) }
 

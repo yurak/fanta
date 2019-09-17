@@ -39,14 +39,15 @@
             = match_player.hidden_field(:real_position, value: lineup.slots[match_player.index]&.position)
             = render 'match_player_scores', lineup: lineup, match_player: match_player
         - else
-          .alert.alert-warning.mp-alert.subs-card
-            .subs-item
-              .mp-edit-item-param
-                = match_player.object.player.name
-              .mp-edit-item-param.mp-edit-player-positions
-                - match_player.object.player.positions.each do |position|
-                  .mp-edit-position-image
-                    = image_tag("positions/#{position.name}.png")
+          - unless match_player.object.not_in_squad?
+            .alert.alert-warning.mp-alert.subs-card
+              .subs-item
+                .mp-edit-item-param
+                  = match_player.object.player.name
+                .mp-edit-item-param.mp-edit-player-positions
+                  - match_player.object.player.positions.each do |position|
+                    .mp-edit-position-image
+                      = image_tag("positions/#{position.name}.png")
       .subs-btn
         = link_to 'Make substitution', team_lineup_substitutions_path(team, lineup), class: 'btn btn-danger'
 

@@ -32,19 +32,27 @@ class Player < ApplicationRecord
     @played_matches_count ||= played_matches.size
   end
 
+  def scores_count
+    @scores_count ||= match_with_scores.size
+  end
+
   def average_score
-    return 0 if played_matches_count.zero?
-    @average_score ||= (played_matches.map(&:score).sum / played_matches_count).round(2)
+    return 0 if scores_count.zero?
+    @average_score ||= (match_with_scores.map(&:score).sum / scores_count).round(2)
   end
 
   def average_total_score
-    return 0 if played_matches_count.zero?
-    @average_total_score ||= (played_matches.map(&:total_score).sum / played_matches_count).round(2)
+    return 0 if scores_count.zero?
+    @average_total_score ||= (match_with_scores.map(&:total_score).sum / scores_count).round(2)
   end
 
   private
 
   def played_matches
-    @played_matches ||= match_players.main_with_score
+    @played_matches ||= match_players.main.with_score
+  end
+
+  def match_with_scores
+    @match_with_scores ||= match_players.with_score
   end
 end
