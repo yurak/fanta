@@ -46,6 +46,10 @@ class Player < ApplicationRecord
     @average_total_score ||= (match_with_scores.map(&:total_score).sum / scores_count).round(2)
   end
 
+  def can_clean_sheet?
+    (position_names & Position::DEFENSIVE).any?
+  end
+
   private
 
   def played_matches
