@@ -41,6 +41,11 @@ class ToursController < ApplicationController
     redirect_to tour_path(tour)
   end
 
+  def inject_scores
+    Scores::Parser.new(tour: tour).call
+    redirect_to tour_path(tour)
+  end
+
   private
 
   def identifier

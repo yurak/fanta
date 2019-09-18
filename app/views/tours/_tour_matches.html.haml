@@ -13,6 +13,7 @@
           - if current_user.admin?
             = link_to "Lock Tour", tour_change_status_path(tour, status: :locked), class: 'btn btn-danger', data: { confirm: 'Are you sure?' } if tour.set_lineup?
             = link_to "Close Tour", tour_change_status_path(tour, status: :closed), class: 'btn btn-danger', data: { confirm: 'Are you sure?' } if tour.locked?
+            = link_to "Inject scores", tour_inject_scores_path(tour), class: 'btn btn-danger', data: { confirm: 'Are you sure?' } if tour.locked? || tour.closed?
 - tour.matches.each do |match|
   .alert.alert-primary.tour-alert
     = render 'tour_result', lineup: match.host_lineup, team: match.host
