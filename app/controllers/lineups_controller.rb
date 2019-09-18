@@ -35,7 +35,7 @@ class LineupsController < ApplicationController
     if new_lineup.tour.lineups.where(team_id: new_lineup.team_id).exists?
       flash[:error] = 'This team already has lineup for tour'
     else
-      new_lineup.players << lineup.players
+      new_lineup.players << lineup.players.limit(Lineup::MAX_PLAYERS)
 
       flash[:notice] = 'Successfully updated lineup' if new_lineup.save
     end
