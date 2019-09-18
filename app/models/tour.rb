@@ -11,4 +11,8 @@ class Tour < ApplicationRecord
   def self.active_tour
     Tour.set_lineup.first || Tour.locked.first
   end
+
+  def match_players
+    MatchPlayer.by_tour(id)
+  end
 end

@@ -5,16 +5,10 @@
   text-align: justify;
 }
 
-@media screen and (min-device-width: 1200px) {
-  .tours-block {
-    margin: 30px 100px;
-  }
-}
-
 .current-tour-data {
   width: 100%;
   display: grid;
-  grid-template-columns: auto 105px;
+  grid-template-columns: auto 160px;
 
   .tour-date {
     font-size: 24px;

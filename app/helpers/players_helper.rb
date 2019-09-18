@@ -3,7 +3,7 @@ module PlayersHelper
     team.players.order_by_status.collect do |x|
       klass = x.status
       [
-        "(#{x.position_names.join('-')}) #{x.name} / #{x.club.name} /", x.id, { class: klass }
+        "(#{x.position_names.join('-')}) #{x.name} / #{x.club.code} /", x.id, { class: klass }
       ]
     end
   end
@@ -18,7 +18,7 @@ module PlayersHelper
     scope.order_by_status.collect do |x|
       klass = x.status
       [
-        "(#{ x.reload.position_names.join('-')}) #{x.name} / #{x.club.name} /", x.id, { class: klass }
+        "(#{ x.reload.position_names.join('-')}) #{x.name} / #{x.club.code} /", x.id, { class: klass }
       ]
     end
   end

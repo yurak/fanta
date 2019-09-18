@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   resources :tours do
     get :change_status
     get :edit_subs_scores
+    get :inject_scores
     put :update_subs_scores
   end
 
