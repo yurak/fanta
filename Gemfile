@@ -21,10 +21,11 @@ gem 'bootsnap', '>= 1.1.0', require: false
 
 gem 'rb-readline'
 
+gem 'rest-client'
+
 group :development, :test do
   gem 'pry-rails'
   gem 'rspec-rails', '~> 3.8'
-  gem 'rubocop'
 end
 
 group :development do
