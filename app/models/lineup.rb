@@ -16,20 +16,21 @@ class Lineup < ApplicationRecord
 
   FIRST_GOAL = 66
   INCREMENT = 6
-  MIN_AVG_SCORE = 6
-  MAX_AVG_SCORE = 7
+  MIN_AVG_DEF_SCORE = 6
+  MAX_AVG_DEF_SCORE = 7
   DEF_BONUS_STEP = 0.25
   MAX_PLAYED_PLAYERS = 11
+  MAX_PLAYERS = 18
 
   def total_score
     match_players.main.map(&:total_score).compact.sum + defence_bonus
   end
 
   def defence_bonus
-    return 0 if def_average_score < MIN_AVG_SCORE
-    return 5 if def_average_score >= MAX_AVG_SCORE
+    return 0 if def_average_score < MIN_AVG_DEF_SCORE
+    return 5 if def_average_score >= MAX_AVG_DEF_SCORE
 
-    ((def_average_score - MIN_AVG_SCORE) / DEF_BONUS_STEP + 1).floor
+    ((def_average_score - MIN_AVG_DEF_SCORE) / DEF_BONUS_STEP + 1).floor
   end
 
   def goals
