@@ -10,30 +10,43 @@ module Scores
     def call
       (1...all_matches_data.length).step(2).each do |index|
         match = all_matches_data[index]
-        host_club = Club.find_by(name: host_name(match))
-        host_players_scores(match).each do |player|
-          mp = MatchPlayer.by_tour(tour.id).by_name_and_club(player_name(player).titleize, host_club.id).first
-        end
-
-        guest_club = Club.find_by(name: guest_name(match))
-        guest_players_scores(match).each do |player|
-          mp = MatchPlayer.by_tour(tour.id).by_name_and_club(player_name(player).titleize, host_club.id).first
-        end
+        update_host_players(match)
+        update_guest_players(match)
       end
     end
 
     private
+
+    def update_host_players(match)
+      host_club = Club.find_by(name: host_name(match))
+
+      host_players_scores(match).each do |player|
+        next if player_score(player).zero?
+        mp = MatchPlayer.by_tour(tour.id).by_name_and_club(player_name(player).titleize, host_club.id).first
+        mp.update(score: player_score(player)) if mp
+      end
+    end
+
+    def update_guest_players(match)
+      guest_club = Club.find_by(name: guest_name(match))
+
+      guest_players_scores(match).each do |player|
+        next if player_score(player).zero?
+        mp = MatchPlayer.by_tour(tour.id).by_name_and_club(player_name(player).titleize, guest_club.id).first
+        mp.update(score: player_score(player)) if mp
+      end
+    end
 
     def all_matches_data
       @all_matches_data ||= html_page.css('#app .giornata-matches .tab-content').children
     end
 
     def player_name(player)
-      player.css('.voti-last-name').children.text.rstrip
+      I18n.transliterate(player.css('.voti-last-name').children.text.rstrip)
     end
 
     def player_score(player)
-      player.css('.live-score-board-handler-vote').children.text.rstrip
+      player.css('.live-score-board-handler-vote').children.text.rstrip.to_f
     end
 
     def host_name(match_info)

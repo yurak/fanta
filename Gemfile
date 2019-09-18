@@ -21,6 +21,7 @@ gem 'bootsnap', '>= 1.1.0', require: false
 
 gem 'rb-readline'
 
+gem 'rails-i18n', '~> 5.1'
 gem 'rest-client'
 
 group :development, :test do
