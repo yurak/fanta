@@ -18,7 +18,7 @@ class ToursController < ApplicationController
   end
 
   def edit
-    redirect_to tours_path unless tour.set_lineup? && current_user.admin?
+    redirect_to tours_path unless tour.set_lineup? && current_user&.admin?
     respond_with tour
   end
 
@@ -29,7 +29,7 @@ class ToursController < ApplicationController
   end
 
   def edit_subs_scores
-    redirect_to tour_path(tour) unless tour.closed? && (current_user.admin? || current_user.moderator?)
+    redirect_to tour_path(tour) unless tour.closed? && (current_user&.admin? || current_user&.moderator?)
     @reservists = MatchPlayer.reservists_by_tour(tour.id)
     respond_with tour
   end
