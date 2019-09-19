@@ -11,7 +11,7 @@
           = image_tag("positions/#{position.name}.png")
     -#.cell-player.player-text{ class: status_class('clr', player.status) }
     .cell-player.player-text.player-name
-      = player.name
+      = link_to player.name, team_player_path(team, player)
     .cell-player.player-text.personal-data
       .badge{ class: status_class('badge', player.status) }
         = player.status

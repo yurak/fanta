@@ -1,7 +1,11 @@
 class PlayersController < ApplicationController
+  skip_before_action :authenticate_user!, only: [:show]
+
   helper_method :player, :team
 
   respond_to :html
+
+  def show; end
 
   def change_status
     status = params[:status]
@@ -12,12 +16,16 @@ class PlayersController < ApplicationController
 
   private
 
+  def identifier
+    params[:player_id].presence || params[:id]
+  end
+
   def team
     @team ||= Team.find(params[:team_id])
   end
 
   def player
-    @player ||= Player.find(params[:player_id])
+    @player ||= Player.find(identifier)
   end
 
   def player_params
