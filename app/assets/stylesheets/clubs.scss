@@ -1,3 +1,11 @@
+.teams-order-group {
+  padding: 20px 0;
+
+  .order-btn {
+    width: 110px;
+  }
+}
+
 .player-stat, .player-stat-headers {
   display: grid;
   grid-template-columns: 5% 22% 15% 12% 8% 8% 8% 10% 10%;

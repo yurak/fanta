@@ -4,9 +4,39 @@ class ClubsController < ApplicationController
   respond_to :html
 
   def index
-    # TODO: add ordering by params; params[:order]
-
-    @players = Player.all.stats_query
+    @players = order_players
+    @teams = Team.all
     @clubs = Club.all.order_by_players_count
+  end
+
+  private
+
+  def order_players
+    case club_params[:order]
+    when 'club'
+      all_players.sort_by(&:club)
+    when 'team'
+      all_players.sort_by(&:team)
+    when 'mp'
+      all_players.sort_by(&:played_matches_count).reverse
+    when 'sc'
+      all_players.sort_by(&:scores_count).reverse
+    when 'avbs'
+      all_players.sort_by(&:average_score).reverse
+    else
+      all_players.sort_by(&:average_total_score).reverse
+    end
+  end
+
+  def all_players
+    team ? team.players.stats_query : Player.all.stats_query
+  end
+
+  def team
+    Team.find(club_params[:team]) if club_params[:team]
+  end
+
+  def club_params
+    params.permit(:order, :team)
   end
 end
