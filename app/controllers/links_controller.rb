@@ -1,4 +1,6 @@
 class LinksController < ApplicationController
+  skip_before_action :authenticate_user!, only: [:index]
+
   helper_method :link
 
   respond_to :html

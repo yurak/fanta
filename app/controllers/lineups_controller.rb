@@ -1,4 +1,6 @@
 class LineupsController < ApplicationController
+  skip_before_action :authenticate_user!, only: [:details, :show]
+
   respond_to :html
 
   helper_method :team, :lineup, :modules
@@ -21,10 +23,14 @@ class LineupsController < ApplicationController
   end
 
   def show
+    redirect_to teams_path and return unless lineup_of_team?
+
     respond_with lineup
   end
 
   def details
+    redirect_to teams_path and return unless lineup_of_team?
+
     respond_with lineup
   end
 
@@ -103,6 +109,10 @@ class LineupsController < ApplicationController
   end
 
   private
+
+  def lineup_of_team?
+    team == lineup.team
+  end
 
   def team_lineups_creator
     @team_lineups_creator ||= TeamLineups::Creator.new(params: lineup_params, team: team)

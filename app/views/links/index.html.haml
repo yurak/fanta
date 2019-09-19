@@ -3,7 +3,7 @@
     .links-header.col-8.col-sm-8
       %h1 Useful Links
     .links-new
-      = link_to 'New Link', new_link_path, class: 'btn btn-primary' if current_user.admin?
+      = link_to 'New Link', new_link_path, class: 'btn btn-primary' if current_user&.admin?
 
   .links-list
     .alert.alert-primary
@@ -21,7 +21,7 @@
               = link_to link.name, link.url, target: '_blank'
             .link-description
               = link.description
-          - if current_user.admin?
+          - if current_user&.admin?
             .link-btn.col.col-lg-3.right
               = link_to 'Edit', edit_link_path(link), class: 'btn btn-primary'
               = link_to 'Destroy', link, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-primary'
