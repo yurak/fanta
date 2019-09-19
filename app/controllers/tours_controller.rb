@@ -1,4 +1,6 @@
 class ToursController < ApplicationController
+  skip_before_action :authenticate_user!, only: [:index, :show]
+
   respond_to :html, :json
 
   helper_method :tours, :tour

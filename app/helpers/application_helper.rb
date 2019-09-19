@@ -52,6 +52,6 @@ module ApplicationHelper
   end
 
   def can_moderate?(user)
-    user.admin? || user.moderator?
+    user&.admin? || user&.moderator?
   end
 end
