@@ -6,16 +6,24 @@
       %a{"data-toggle" => "tab", href: "#stat-clubs", class: 'nav-link'} Clubs
   .tab-content
     .tab-pane.pane.active#stat-players
+      .teams-order-group
+        .btn-group{role: 'group'}
+          = link_to 'All', clubs_path, class: 'btn btn-outline-primary order-btn'
+          .btn-group{role: 'group'}
+            %button.btn.btn-outline-primary.order-btn.dropdown-toggle#teams-drop{ type: 'button', 'data-toggle' => 'dropdown', 'aria-haspopup' => true, 'aria-expanded' => 'false' } Teams
+            .dropdown-menu{ 'aria-labelledby' => 'teams-drop' }
+              - @teams.each do |team|
+                = link_to team.name.titleize, clubs_path(team: team.id), class: 'dropdown-item'
       .player-stat-headers
         .player-stat-header #
         .player-stat-header.player-param-name Name
         .player-stat-header Positions
-        .player-stat-header Club
-        .player-stat-header Team
-        .player-stat-header{title: 'Number of matches in mains squad'} MP
-        .player-stat-header{title: 'Number of scores'} SC
-        .player-stat-header AvgBS
-        .player-stat-header AvgTS
+        .player-stat-header= link_to 'Club', clubs_path(order: 'club', team: params['team'])
+        .player-stat-header= link_to 'Team', clubs_path(order: 'team')
+        .player-stat-header{title: 'Number of matches in mains squad'}= link_to 'MP', clubs_path(order: 'mp', team: params['team'])
+        .player-stat-header{title: 'Number of scores'}= link_to 'SC', clubs_path(order: 'sc', team: params['team'])
+        .player-stat-header= link_to 'AvgBS', clubs_path(order: 'avbs', team: params['team'])
+        .player-stat-header= link_to 'AvgTS', clubs_path(order: 'avts', team: params['team'])
       - @players.each_with_index do |player, i|
         .player-stat
           .player-param= i+1
