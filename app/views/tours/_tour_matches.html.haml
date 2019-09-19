@@ -5,7 +5,7 @@
         = "Tour ##{tour.number}"
       .tour-deadline
         = "Deadline - #{tour.deadline&.strftime("%H:%M %d/%m/%y")}"
-        = link_to "Edit", edit_tour_path(tour) if tour.set_lineup? && current_user.admin?
+        = link_to "Edit", edit_tour_path(tour) if tour.set_lineup? && current_user&.admin?
     .tour-btn-group
       .float-right
         .btn-group
