@@ -14,12 +14,17 @@ module TeamLineups
     end
 
     def call
+      errors.add(:base, "#{team.name.titleize} lineup already exist, to change the module - go to the update page") if lineup_exist?
       errors.add(:base, "Team should have #{full_squad} players") if players.size != full_squad
       lineup.tour_id = active_tour&.id
       lineup.save if errors.empty?
     end
 
     private
+
+    def lineup_exist?
+      active_tour.lineups.find_by(team: team)
+    end
 
     def full_squad
       AMOUNT + RESERVED
