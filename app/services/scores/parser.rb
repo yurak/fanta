@@ -21,8 +21,7 @@ module Scores
       host_club = Club.find_by(name: host_name(match))
 
       host_players_scores(match).each do |player|
-        next if player_score(player).zero?
-        mp = MatchPlayer.by_tour(tour.id).by_name_and_club(player_name(player).titleize, host_club.id).first
+        mp = MatchPlayer.by_tour(tour.id).by_name_and_club(player_name(player), host_club.id).first
         mp.update(score: player_score(player)) if mp
       end
     end
@@ -31,8 +30,7 @@ module Scores
       guest_club = Club.find_by(name: guest_name(match))
 
       guest_players_scores(match).each do |player|
-        next if player_score(player).zero?
-        mp = MatchPlayer.by_tour(tour.id).by_name_and_club(player_name(player).titleize, guest_club.id).first
+        mp = MatchPlayer.by_tour(tour.id).by_name_and_club(player_name(player), guest_club.id).first
         mp.update(score: player_score(player)) if mp
       end
     end
@@ -42,7 +40,7 @@ module Scores
     end
 
     def player_name(player)
-      I18n.transliterate(player.css('.voti-last-name').children.text.rstrip)
+      I18n.transliterate(player.css('.voti-last-name').children.text.rstrip).downcase.titleize
     end
 
     def player_score(player)
