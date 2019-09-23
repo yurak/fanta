@@ -8,9 +8,9 @@
 # server "db.example.com", user: "deploy", roles: %w{db}
 
 
-role :app, %w{ubuntu@34.244.20.102}
-role :web, %w{ubuntu@34.244.20.102}
-role :db,  %w{ubuntu@34.244.20.102}
+role :app, %w{ubuntu@34.244.235.135}
+role :web, %w{ubuntu@34.244.235.135}
+role :db,  %w{ubuntu@34.244.235.135}
 set :ssh_options, {
    keys: %w(/Users/yurakuzhiy/.ssh/ubuntukey.pem),
    forward_agent: false,
