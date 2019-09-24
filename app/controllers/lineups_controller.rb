@@ -84,10 +84,10 @@ class LineupsController < ApplicationController
   end
 
   def substitutions
-    if score_editable?
+    if score_editable? && lineup.match_players.main.without_score.any?
       respond_with lineup
     else
-      flash[:notice] = 'This lineup can not be edited'
+      flash[:notice] = 'Substitution can not be made'
       redirect_to team_lineup_path(team, lineup)
     end
   end
