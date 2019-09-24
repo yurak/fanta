@@ -10,7 +10,7 @@ class MatchPlayer < ApplicationRecord
   scope :with_score, ->{ where('score > ?', 0) }
   scope :subs, ->{ where(real_position: nil) }
   scope :subs_bench, ->{ where(real_position: nil).where.not(subs_status: :not_in_squad) }
-  scope :subs_without_score, ->{ subs.where(score: 0) }
+  scope :without_score, ->{ where(score: 0) }
   scope :reservists_by_tour, ->(tour_id) { subs.includes(:player).joins(:lineup, :player).where('lineups.tour_id = ?', tour_id).order('players.club_id') }
   scope :by_tour, ->(tour_id) { joins(:lineup).where('lineups.tour_id = ?', tour_id) }
   scope :by_name_and_club, ->(name, club_id) { joins(:player).where('players.name = ?', name).where('players.club_id = ?', club_id) }

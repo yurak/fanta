@@ -4,7 +4,7 @@
   = form_with url: team_lineup_subs_update_path(team, lineup),local: true, method: :put do |f|
     .subs-form
       .subs-input
-        = f.select :out_mp_id, available_for_substitution(lineup.match_players.main), {}, class: 'custom-select'
+        = f.select :out_mp_id, available_for_substitution(lineup.match_players.main.without_score), {}, class: 'custom-select'
 
       .subs-img-block
         = image_tag("subs.png", class: 'subs-img')
