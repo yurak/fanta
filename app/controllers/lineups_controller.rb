@@ -78,9 +78,14 @@ class LineupsController < ApplicationController
   end
 
   def update
-    flash[:notice] = 'Successfully updated lineup' if lineup.update(update_lineup_params)
+    if duplicate_players.any?
+      flash[:notice] = "Your have same player on multiple positions: #{duplicate_names}"
+      redirect_to edit_team_lineup_path(team, lineup)
+    else
+      flash[:notice] = 'Successfully updated lineup' if lineup.update(update_lineup_params)
 
-    redirect_to team_lineup_path(team, lineup)
+      redirect_to team_lineup_path(team, lineup)
+    end
   end
 
   def substitutions
@@ -124,6 +129,15 @@ class LineupsController < ApplicationController
 
   def update_lineup_params
     params.fetch(:lineup, {}).permit(:team_module_id, match_players_attributes: {})
+  end
+
+  def duplicate_players
+    player_ids = update_lineup_params[:match_players_attributes].values.each_with_object([]) {|el, player_ids| player_ids << el[:player_id]}
+    duplicates = player_ids.find_all {|id| player_ids.rindex(id) != player_ids.index(id)}
+  end
+
+  def duplicate_names
+    Player.find(duplicate_players.uniq).map(&:name).join(', ')
   end
 
   def substitution_params
