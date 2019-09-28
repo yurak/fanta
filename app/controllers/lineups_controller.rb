@@ -78,7 +78,7 @@ class LineupsController < ApplicationController
   end
 
   def update
-    if duplicate_players.any?
+    if duplicate_players&.any?
       flash[:notice] = "Your have same player on multiple positions: #{duplicate_names}"
       redirect_to edit_team_lineup_path(team, lineup)
     else
@@ -132,6 +132,7 @@ class LineupsController < ApplicationController
   end
 
   def duplicate_players
+    return unless update_lineup_params[:match_players_attributes]
     player_ids = update_lineup_params[:match_players_attributes].values.each_with_object([]) {|el, player_ids| player_ids << el[:player_id]}
     duplicates = player_ids.find_all {|id| player_ids.rindex(id) != player_ids.index(id)}
   end
