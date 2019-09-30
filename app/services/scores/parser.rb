@@ -20,7 +20,7 @@ module Scores
     def update_host_players(match)
       host_club = Club.find_by(name: host_name(match))
 
-      host_players_scores(match).each do |player|
+      host_players_scores(match).reverse_each do |player|
         mp = MatchPlayer.by_tour(tour.id).by_name_and_club(player_name(player), host_club.id).first
         mp.update(score: player_score(player)) if mp
       end
@@ -29,7 +29,7 @@ module Scores
     def update_guest_players(match)
       guest_club = Club.find_by(name: guest_name(match))
 
-      guest_players_scores(match).each do |player|
+      guest_players_scores(match).reverse_each do |player|
         mp = MatchPlayer.by_tour(tour.id).by_name_and_club(player_name(player), guest_club.id).first
         mp.update(score: player_score(player)) if mp
       end
