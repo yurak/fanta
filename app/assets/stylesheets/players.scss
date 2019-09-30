@@ -1,8 +1,97 @@
-// Place all the styles related to the Players controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
-
 .ready {
   background-color: green;
   opacity: 0.8;
+}
+
+/* PLAYER SHOW page */
+
+.player-show {
+  margin: 30px 0;
+  display: grid;
+  grid-template-columns: 300px auto;
+  grid-column-gap: 20px;
+  height: 300px;
+}
+
+.player-show-images {
+  width: 100%;
+
+  .player-show-face, .player-show-kit {
+    position: absolute;
+    img {
+      width: 300px;
+      height: 300px;
+    }
+  }
+
+  .player-show-team {
+    position: absolute;
+    img {
+      width: 70px;
+      height: 70px;
+    }
+  }
+
+  .player-show-positions {
+    text-align: right;
+
+    img {
+      margin: 5px 5px 0;
+    }
+  }
+}
+
+.player-show-info {
+  .player-show-name {
+    font-weight: bolder;
+    font-size: 32px;
+  }
+
+  .player-show-club {
+    font-size: 24px;
+    margin-bottom: 50px;
+  }
+
+  .player-show-stats {
+    display: grid;
+    grid-template-columns: 25% 25% 25% 25%;
+    text-align: center;
+    font-size: 18px;
+    padding: 12px 5px;
+
+    .player-stat-header {
+      font-weight: bolder;
+    }
+  }
+}
+
+#stat-lineups {
+  text-align: center;
+
+  .alert {
+    padding: 7px 10px;
+    margin: 10px 0 5px;
+  }
+}
+
+.player-show-details, .player-show-details-headers {
+  display: grid;
+  font-size: 16px;
+  grid-template-columns: 4% 12% 10% 10% 8% 8% 8% 8% 6% 6% 6% 7% 7%;
+
+}
+
+.player-show-mp-bolder {
+  font-weight: bolder;
+}
+
+.player-show-mp-param {
+  width: 100%;
+  line-height: 38px;
+  position: relative;
+
+  img {
+    height: 26px;
+    margin: 6px 0;
+  }
 }
