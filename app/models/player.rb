@@ -50,6 +50,16 @@ class Player < ApplicationRecord
     (position_names & Position::DEFENSIVE).any?
   end
 
+  def chart_info
+    bs = {}
+    ts = {}
+    match_players.each do |mp|
+      bs[mp.lineup.tour.number] = mp.score
+      ts[mp.lineup.tour.number] = mp.total_score
+    end
+    [{name: "Total score", data: ts}, {name: "Score", data: bs}]
+  end
+
   private
 
   def played_matches

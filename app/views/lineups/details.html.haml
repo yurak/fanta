@@ -50,7 +50,7 @@
           .l-details-item-param.l-details-position
             .club-logo.l-details-club-logo{ class: mp.player.club.code.downcase }
           .l-details-item-param.l-details-player-name
-            = mp.player.name
+            = link_to mp.player.name, team_player_path(team, mp.player)
           .l-details-item-param.l-details-player-tscore
             = mp.total_score
           .l-details-item-param
