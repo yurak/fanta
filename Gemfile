@@ -25,6 +25,8 @@ gem 'rails-i18n', '~> 5.1'
 gem 'rest-client'
 gem 'mini_racer'
 
+gem 'chartkick'
+
 group :development, :test do
   gem 'pry-rails'
   gem 'rspec-rails', '~> 3.8'

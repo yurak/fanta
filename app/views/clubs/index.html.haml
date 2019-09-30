@@ -27,7 +27,7 @@
       - @players.each_with_index do |player, i|
         .player-stat
           .player-param= i+1
-          .player-param.player-param-name= player.name
+          .player-param.player-param-name= link_to player.name, team_player_path(player.team, player)
           .player-param.player-param-img
             - player.positions.each do |position|
               .l-details-position-image
