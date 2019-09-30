@@ -59,7 +59,7 @@
               = mp.total_score
             .player-show-mp-param
               = mp.score
-            - if mp.real_position == 'Por'
+            - if player.positions_names_string == 'Por'
               .player-show-mp-param
                 - if mp.missed_goals.to_i.nonzero?
                   = image_tag("bonuses/mg.png", title: 'Missed goal')
@@ -96,10 +96,8 @@
                 = image_tag("bonuses/assist.png", title: 'Assist')
                 - if mp.assists.to_i > 1
                   .badge.badge-warning.bonus-badge= mp.assists.to_i
-
             .player-show-mp-param
-              - if Position::DEFENSIVE.include? mp.real_position
-                = image_tag("bonuses/cs.png", title: 'Clean sheet') if mp.cleansheet
+              = image_tag("bonuses/cs.png", title: 'Clean sheet') if mp.cleansheet
             .player-show-mp-param
               = image_tag("bonuses/yc.png", title: 'Yellow card') if mp.yellow_card
             .player-show-mp-param
