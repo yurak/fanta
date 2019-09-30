@@ -6,6 +6,7 @@ class ClubsController < ApplicationController
   def index
     @players = order_players
     @teams = Team.all
+    @positions = Position.all
     @clubs = Club.all.order_by_players_count
   end
 
@@ -29,14 +30,22 @@ class ClubsController < ApplicationController
   end
 
   def all_players
-    team ? team.players.stats_query : Player.all.stats_query
+    filter ? filter.players.stats_query : Player.all.stats_query
+  end
+
+  def filter
+    team ? team : position
   end
 
   def team
     Team.find(club_params[:team]) if club_params[:team]
   end
 
+  def position
+    Position.find(club_params[:position]) if club_params[:position]
+  end
+
   def club_params
-    params.permit(:order, :team)
+    params.permit(:order, :team, :position)
   end
 end

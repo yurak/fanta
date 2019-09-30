@@ -14,16 +14,21 @@
             .dropdown-menu{ 'aria-labelledby' => 'teams-drop' }
               - @teams.each do |team|
                 = link_to team.name.titleize, clubs_path(team: team.id), class: 'dropdown-item'
+          .btn-group{role: 'group'}
+            %button.btn.btn-outline-primary.order-btn.dropdown-toggle#positions-drop{ type: 'button', 'data-toggle' => 'dropdown', 'aria-haspopup' => true, 'aria-expanded' => 'false' } Positions
+            .dropdown-menu{ 'aria-labelledby' => 'positions-drop' }
+              - @positions.each do |position|
+                = link_to position.name, clubs_path(position: position.id), class: 'dropdown-item'
       .player-stat-headers
         .player-stat-header #
         .player-stat-header.player-param-name Name
         .player-stat-header Positions
-        .player-stat-header= link_to 'Club', clubs_path(order: 'club', team: params['team'])
-        .player-stat-header= link_to 'Team', clubs_path(order: 'team')
-        .player-stat-header{title: 'Number of matches in mains squad'}= link_to 'MP', clubs_path(order: 'mp', team: params['team'])
-        .player-stat-header{title: 'Number of scores'}= link_to 'SC', clubs_path(order: 'sc', team: params['team'])
-        .player-stat-header= link_to 'AvgBS', clubs_path(order: 'avbs', team: params['team'])
-        .player-stat-header= link_to 'AvgTS', clubs_path(order: 'avts', team: params['team'])
+        .player-stat-header= link_to 'Club', clubs_path(order: 'club', team: params['team'], position: params['position'])
+        .player-stat-header= link_to 'Team', clubs_path(order: 'team', position: params['position'])
+        .player-stat-header{title: 'Number of matches in mains squad'}= link_to 'MP', clubs_path(order: 'mp', team: params['team'], position: params['position'])
+        .player-stat-header{title: 'Number of scores'}= link_to 'SC', clubs_path(order: 'sc', team: params['team'], position: params['position'])
+        .player-stat-header= link_to 'AvgBS', clubs_path(order: 'avbs', team: params['team'], position: params['position'])
+        .player-stat-header= link_to 'AvgTS', clubs_path(order: 'avts', team: params['team'], position: params['position'])
       - @players.each_with_index do |player, i|
         .player-stat
           .player-param= i+1
