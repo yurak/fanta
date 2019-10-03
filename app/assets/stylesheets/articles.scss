@@ -50,6 +50,21 @@
   }
 }
 
+@media screen and (max-device-width: 880px) {
+  .article-block {
+    grid-template-columns: 100%;
+    grid-column-gap: 15px;
+  }
+  .article-image {
+    margin-bottom: 10px;
+    width: 100%;
+
+    img {
+      width: 100%;
+    }
+  }
+}
+
 @media screen and (max-device-width: 767px) {
   .article-block {
     grid-template-columns: 100%;
