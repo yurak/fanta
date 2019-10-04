@@ -24,6 +24,7 @@ module ApplicationHelper
   def tour_status_class(status)
     case status
     when 'closed' then 'alert-danger'
+    when 'postponed' then 'alert-warning'
     when 'inactive' then 'alert-dark'
     when 'set_lineup' then 'alert-success'
     end
