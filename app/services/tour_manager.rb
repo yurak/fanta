@@ -15,6 +15,8 @@ class TourManager
 
     lock
 
+    postpone
+
     close
   end
 
@@ -28,8 +30,12 @@ class TourManager
     tour.locked! if tour.set_lineup? && status == 'locked'
   end
 
+  def postpone
+    tour.postponed! if tour.locked? && status == 'postponed'
+  end
+
   def close
-    if tour.locked? && status == 'closed'
+    if tour.locked_or_postponed? && status == 'closed'
       tour.closed!
       ResultsManager.new(tour: tour).update
       MatchPlayerManager.new(tour: tour).create

@@ -3,17 +3,20 @@
     .tour-info
       .tour-date
         = "Tour ##{tour.number}"
+        - if tour.postponed?
+          %span.postponed.badge.badge-warning Postponed
       .tour-deadline
         = "Deadline - #{tour.deadline&.strftime("%H:%M %d/%m/%y")}"
         = link_to "Edit", edit_tour_path(tour) if tour.set_lineup? && current_user&.admin?
     .tour-btn-group
       .float-right
         .btn-group
-          = link_to "Reservists scores", tour_edit_subs_scores_path(tour), class: 'btn btn-danger' if tour.closed? && can_moderate?(current_user)
+          = link_to "Reservists Scores", tour_edit_subs_scores_path(tour), class: 'btn btn-danger' if tour.closed? && can_moderate?(current_user)
           - if current_user&.admin?
             = link_to "Lock Tour", tour_change_status_path(tour, status: :locked), class: 'btn btn-danger', data: { confirm: 'Are you sure?' } if tour.set_lineup?
-            = link_to "Close Tour", tour_change_status_path(tour, status: :closed), class: 'btn btn-danger', data: { confirm: 'Are you sure?' } if tour.locked?
-            = link_to "Inject scores", tour_inject_scores_path(tour), class: 'btn btn-danger', data: { confirm: 'Are you sure?' } if tour.locked? || tour.closed?
+            = link_to "Postpone Tour", tour_change_status_path(tour, status: :postponed), class: 'btn btn-danger', data: { confirm: 'Are you sure?' } if tour.locked?
+            = link_to "Close Tour", tour_change_status_path(tour, status: :closed), class: 'btn btn-danger', data: { confirm: 'Are you sure?' } if tour.locked_or_postponed?
+            = link_to "Inject Scores", tour_inject_scores_path(tour), class: 'btn btn-danger', data: { confirm: 'Are you sure?' } if tour.locked_or_postponed? || tour.closed?
 - tour.matches.each do |match|
   .alert.alert-primary.tour-alert
     = render 'tour_result', lineup: match.host_lineup, team: match.host

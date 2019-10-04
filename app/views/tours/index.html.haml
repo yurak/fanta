@@ -11,7 +11,7 @@
   .tab-content
     .tab-pane.fade#tours-results
       .tours-block
-        - tours.closed.order(number: :desc).each do |tour|
+        - tours.closed_postponed.order(number: :desc).each do |tour|
           = render 'tour', tour: tour
     .tab-pane.pane.active#tours-current
       - if active_tour
