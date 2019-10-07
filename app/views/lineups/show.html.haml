@@ -12,9 +12,9 @@
           - if current_user == team.user && lineup.tour.set_lineup?
             = link_to 'Edit module', team_lineup_edit_module_path(team, lineup), class: 'btn btn-primary lineup-show-btn'
             = link_to 'Edit lineup', edit_team_lineup_path(team, lineup), class: 'btn btn-primary lineup-show-btn'
-          - if lineup.tour.locked? || lineup.tour.closed?
+          - if lineup.tour.locked_or_postponed? || lineup.tour.closed?
             = link_to 'Details', team_lineup_details_path(team, lineup), class: 'btn btn-primary lineup-show-btn'
-          - if lineup.tour.locked? && can_moderate?(current_user)
+          - if lineup.tour.locked_or_postponed? && can_moderate?(current_user)
             = link_to 'Edit scores', team_lineup_edit_scores_path(team, lineup), class: 'btn btn-primary lineup-show-btn'
   .lineup-show-block
     .lineup-show-img-block

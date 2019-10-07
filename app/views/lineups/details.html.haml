@@ -10,7 +10,7 @@
       .float-right
         .btn-group
           = link_to 'Base info', team_lineup_path(team, lineup), class: 'btn btn-primary lineup-show-btn'
-          - if lineup.tour.locked? && can_moderate?(current_user)
+          - if lineup.tour.locked_or_postponed? && can_moderate?(current_user)
             = link_to 'Edit scores', team_lineup_edit_scores_path(team, lineup), class: 'btn btn-primary lineup-show-btn'
   .l-details-block
     .l-details-team-info
