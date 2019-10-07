@@ -167,6 +167,6 @@ class LineupsController < ApplicationController
   end
 
   def score_editable?
-    lineup.tour.locked? && (current_user&.admin? || current_user&.moderator?)
+    lineup.tour.locked_or_postponed? && (current_user&.admin? || current_user&.moderator?)
   end
 end
