@@ -15,7 +15,7 @@
   text-align: center;
 }
 
-.player-stat-headers, .club-stat-headers {
+.player-stat-headers, .club-stat-headers, .tour-stat-headers {
   font-weight: bolder;
 }
 
@@ -29,7 +29,7 @@
   grid-template-columns: 30px auto;
 }
 
-.player-stat, .club-stat {
+.player-stat, .club-stat, .tour-stat {
   border-bottom: 1px solid gainsboro;
 }
 
@@ -41,6 +41,15 @@
     height: 28px;
     margin: 6px 0;
   }
+}
+
+.tour-stat, .tour-stat-headers {
+  display: grid;
+  grid-template-columns: 13% 25% 20% 12% 15% 15%;
+  font-size: 16px;
+  width: 100%;
+  line-height: 40px;
+  text-align: center;
 }
 
 .club-logo.stat-club-logo {

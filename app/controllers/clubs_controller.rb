@@ -8,6 +8,8 @@ class ClubsController < ApplicationController
     @teams = Team.all
     @positions = Position.all
     @clubs = Club.all.order_by_players_count
+    @tours = Tour.closed
+    @tour_players = tour_players
   end
 
   private
@@ -45,7 +47,12 @@ class ClubsController < ApplicationController
     Position.find(club_params[:position]) if club_params[:position]
   end
 
+  def tour_players
+    tour = club_params[:tour] ? Tour.find(club_params[:tour]) : Tour.closed.last
+    tour.match_players.main.with_score.sort_by(&:total_score).reverse
+  end
+
   def club_params
-    params.permit(:order, :team, :position)
+    params.permit(:order, :team, :position, :tour)
   end
 end
