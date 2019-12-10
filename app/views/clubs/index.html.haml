@@ -3,6 +3,8 @@
     %li.nav-item
       %a{"data-toggle" => "tab", href: "#stat-players", class: 'nav-link active'} Players
     %li.nav-item
+      %a{"data-toggle" => "tab", href: "#stat-tours", class: 'nav-link'} Tours
+    %li.nav-item
       %a{"data-toggle" => "tab", href: "#stat-clubs", class: 'nav-link'} Clubs
   .tab-content
     .tab-pane.pane.active#stat-players
@@ -46,6 +48,36 @@
           .player-param= player.scores_count
           .player-param= player.average_score
           .player-param= player.average_total_score
+    .tab-pane.fade#stat-tours
+      .teams-order-group
+        .btn-group{role: 'group'}
+          .btn-group{role: 'group'}
+            %button.btn.btn-outline-primary.order-btn.dropdown-toggle#tours-drop{ type: 'button', 'data-toggle' => 'dropdown', 'aria-haspopup' => true, 'aria-expanded' => 'false' } Tours
+            .dropdown-menu{ 'aria-labelledby' => 'tours-drop' }
+              - @tours.each do |tour|
+                = link_to tour.number, clubs_path(tour: tour.id), class: 'dropdown-item'
+      .tour-stat-headers
+        .tour-stat-header #
+        .tour-stat-header.player-param-name Name
+        .tour-stat-header Positions
+        .tour-stat-header Club
+        .tour-stat-header Team
+        .tour-stat-header Total score
+      - @tour_players.each_with_index do |mp, i|
+        .tour-stat
+          .player-param= i+1
+          .player-param.player-param-name= link_to mp.player.name, team_player_path(mp.player.team, mp.player)
+          .player-param.player-param-img
+            - mp.real_position.split('/').each do |position|
+              .l-details-position-image
+                = image_tag("positions/#{position}.png")
+          .player-param.player-param-club
+            .club-logo.l-details-club-logo{ class: mp.player.club.code.downcase }
+            .player-param-club-name= mp.player.club.code
+          .player-param.player-param-img
+            = image_tag(mp.player.team.logo_path, alt: "Logo")
+          .player-param= mp.total_score
+
     .tab-pane.fade#stat-clubs
       .club-stat-headers
         .club-stat-header #

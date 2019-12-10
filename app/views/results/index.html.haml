@@ -20,7 +20,7 @@
           .results-team-logo
             %img{alt: "Logo", src: image_path(result.team.logo_path)}
         .results-team-field.results-team-name
-          = result.team.name.titleize
+          = link_to result.team.name.titleize, team_path(result.team)
         .results-team-field
           = result.matches_played
         .results-team-field
