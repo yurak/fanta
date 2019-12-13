@@ -35,4 +35,10 @@ Rails.application.routes.draw do
   resources :articles
 
   root to: "welcome#index"
+
+  namespace :api do
+    get :table, to: 'results#index'
+    get :fixtures, to: 'matches#fixtures'
+    get :results, to: 'matches#results'
+  end
 end
