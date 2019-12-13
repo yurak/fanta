@@ -13,6 +13,14 @@ class Match < ApplicationRecord
     @guest_lineup ||= Lineup.where(tour: tour, team: guest).last
   end
 
+  def host_score
+    host_lineup&.total_score
+  end
+
+  def guest_score
+    guest_lineup&.total_score
+  end
+
   def host_goals
     @host_goals ||= host_lineup ? host_lineup.goals : 0
   end
