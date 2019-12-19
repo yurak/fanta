@@ -31,4 +31,6 @@
 */**/.DS_Store
 .DS_Store
 
+.env.local
+
 # Ignore master key for decrypting credentials and more.

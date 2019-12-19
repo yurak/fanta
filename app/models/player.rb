@@ -60,6 +60,14 @@ class Player < ApplicationRecord
     [{name: "Total score", data: ts}, {name: "Score", data: bs}]
   end
 
+  def best_score
+    match_with_scores.map(&:total_score).max || 0
+  end
+
+  def worst_score
+    match_with_scores.map(&:total_score).min || 0
+  end
+
   private
 
   def played_matches

@@ -1,5 +1,5 @@
-class SlotCreator
-  def create_module
+class SlotCreator < ApplicationService
+  def call
     team_modules.each do |module_name, slot_hash|
       tm = TeamModule.new(name: module_name)
       slot_hash.each do |number, positions|

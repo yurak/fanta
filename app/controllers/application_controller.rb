@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
   private
 
   def active_tour
-    Tour.active_tour
+    Tour.active
   end
 
   def after_sign_in_path_for(resource)

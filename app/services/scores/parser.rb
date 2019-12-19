@@ -1,5 +1,5 @@
 module Scores
-  class Parser
+  class Parser < ApplicationService
     URL = 'https://www.magicleghe.fco.live/it/serie-a/2019-2020/diretta-live/'.freeze
     attr_reader :tour
 
