@@ -11,7 +11,7 @@ class Lineup < ApplicationRecord
 
   delegate :slots, to: :team_module
 
-  scope :not_active, ->{ where.not(tour_id: Tour.active_tour&.id) }
+  scope :not_active, ->{ where.not(tour_id: Tour.active&.id) }
   scope :closed, ->{ where(tour_id: Tour.closed.ids) }
 
   FIRST_GOAL = 66

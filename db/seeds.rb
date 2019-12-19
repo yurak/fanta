@@ -1,5 +1,5 @@
 p 'Create Modules'
-SlotCreator.new.create_module
+SlotCreator.call
 
 p 'Create Clubs'
 Seeder.new(objects_name: 'clubs').save
@@ -16,10 +16,10 @@ Seeder.new.teams.each do |team|
 end
 
 p 'Create Users'
-UserCreator.new.call
+UserCreator.call
 
 p 'Create Tours'
-CalendarCreator.new.call
+CalendarCreator.call
 
 p 'Create Result records'
 ResultsManager.new.create

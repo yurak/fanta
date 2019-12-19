@@ -1,4 +1,4 @@
-class CalendarCreator
+class CalendarCreator < ApplicationService
   MAX_TOURS = 38
 
   def call

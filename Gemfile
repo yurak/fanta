@@ -28,6 +28,7 @@ gem 'mini_racer'
 gem 'chartkick'
 
 gem 'active_model_serializers', '~> 0.10.0'
+gem 'dotenv-rails', require: 'dotenv/rails-now'
 gem 'telegram-bot-ruby'
 
 group :development, :test do

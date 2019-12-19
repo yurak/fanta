@@ -1,7 +1,7 @@
 namespace :results_generator do
   desc 'Generate random lineups and scores'
   task :generate_tour_results => :environment do
-    active_tour = Tour.active_tour
+    active_tour = Tour.active
     unless active_tour
       active_tour = Tour.inactive.first
       TourManager.new(tour: active_tour, status: 'set_lineup').call

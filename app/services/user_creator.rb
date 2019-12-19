@@ -1,4 +1,4 @@
-class UserCreator
+class UserCreator < ApplicationService
   def call
     users.each do |team_name, user_email|
       user = User.create(email: user_email, password: '123456', password_confirmation: '123456')

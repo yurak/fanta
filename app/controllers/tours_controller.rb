@@ -44,7 +44,7 @@ class ToursController < ApplicationController
   end
 
   def inject_scores
-    Scores::Parser.new(tour: tour).call
+    Scores::Parser.call(tour: tour)
     redirect_to tour_path(tour)
   end
 

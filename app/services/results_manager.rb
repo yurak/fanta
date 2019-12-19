@@ -5,6 +5,7 @@ class ResultsManager
     @tour = tour
   end
 
+  # TODO: refactor as two separate services Results::Creator and Results::Updater
   def create
     Team.all.each do |team|
       Result.create(team_id: team.id)
