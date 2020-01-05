@@ -1,38 +1,35 @@
 namespace :winter_auction do
-  task :change_players_club, [:club_new, :player_name] => :environment do |task, args|
-    player = Player.find_by(name: args[:player_name])
+  task :exchanges => :environment do
+    player_map = YAML.load_file(Rails.root.join('config', 'auctions', 'exchanges.yml'))['exchanges']
 
-    club_new = Club.find_by(code: args[:club_new])
-    if club_new && player
-      player.club_id = club_new.id
-
-      player.save validate: false
-      puts "player club was changed to ---> #{club_new.name}"
-    else
-      puts "check psrameretes"
+    player_map.each do |player_name, team_name|
+      team = Team.find_by(name: team_name)
+      player = Player.find_by(name: player_name)
+      if player.team_id != team.id
+        player.team_id = team.id
+        player.save validate: false
+        puts "#{player_name} was moved to the team ---> #{team_name}"
+      elsif player.team_id == team.id
+        puts "#{player_name} is already in the team ---> #{team_name}"
+      else
+        puts 'Cant move to the team'
+      end
     end
+
     puts 'Finish'
   end
 
-  task :remove_player_from_the_team, [:player_name] => :environment do |task, args|
-    player = Player.find_by(name: args[:player_name])
+  task :remove_player_from_the_team => :environment do
+    player_names = YAML.load_file(Rails.root.join('config', 'auctions', 'free_agents.yml'))['free_agents']
+    player_names.each do |player_name|
+      player = Player.find_by(name: player_name)
 
-    unless player
-      puts 'wrong player_name'
-      break
-    end
+      if player && player.team
+        player_team_was = player.team
+        player.team_id = nil
 
-    unless player.team
-       puts 'player has no team'
-      break
-    end
-
-    if player && player.team
-      player_team_was = player.team
-      player.team_id = nil
-
-      player.save validate: false
-      puts "player eas removed from the team ---> #{player_team_was.name}"
+        player.save validate: false
+      end
     end
     puts 'Finish'
   end
