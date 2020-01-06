@@ -1,5 +1,5 @@
 lang: ruby
 
-script: bundle exec rpsec/spec
+script: rpsec/spec
 
 rvm: 2.5.1
