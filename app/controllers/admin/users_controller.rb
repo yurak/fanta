@@ -1,13 +1,7 @@
 module Admin
   class UsersController < ApplicationController
-    layout 'admin'
-
     respond_to :html
-
     helper_method :user
-
-    def edit
-    end
 
     def update
       if User.update(user_params)

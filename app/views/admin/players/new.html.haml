@@ -1,0 +1,26 @@
+.container
+  %h2 Add new player
+  = form_for(@player, url: { action: :create }) do |f|
+    - if @player.errors.any?
+      #error_explanation
+        %h2= "#{pluralize(@player.errors.count, "error")} prohibited this article from being saved:"
+        %ul
+          - @player.errors.full_messages.each do |message|
+            %li= message
+    .input-group.mb-3
+      .input-group-prepend
+        %span.input-group-text Name*
+      = f.text_field :name, class: 'form-control'
+    .input-group.mb-3
+      %span.input-group-text Fanta team*
+      = f.select :team_id, Team.all.collect { |x| [x.name, x.id]}, {}, class: 'form-control'
+    .input-group.mb-3
+      %span.input-group-text Seria A club*
+      = f.select :club_id, Club.all.collect { |x| [x.code, x.id]}, {}, class: 'form-control'
+    - Position.all.each do |position|
+      .form-check
+        = check_box_tag "player[position_ids][]", position.id, false, class: 'form-check-input'
+        %label.form-check-label
+        = position.name
+    .actions.right
+      = f.submit 'Save', class: 'btn btn-primary'
