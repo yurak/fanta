@@ -17,7 +17,7 @@ RSpec.describe Seeder do
     end
 
     it 'has 4 Dd s' do
-      expect(subject.joins(:positions).where(positions: { name: 'Dd' }).count).to eq 4
+      expect(subject.joins(:positions).where(positions: { name: 'Dd' }).count).to eq 2
     end
   end
 end
