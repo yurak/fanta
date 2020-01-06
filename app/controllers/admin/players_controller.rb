@@ -2,8 +2,7 @@ module Admin
   class PlayersController < ApplicationController
     def create
       @player = Player.new(player_params)
-
-      @player.positions << Position.where(id: player_params[:position_ids])
+      #@player.positions << Position.where(id: player_params[:position_ids])
       if @player.save
         redirect_to admin_users_path, notice: 'Player was successfully created.'
       else

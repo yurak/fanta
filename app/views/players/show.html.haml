@@ -2,7 +2,8 @@
   .player-show
     .player-show-images
       .player-show-face
-        = image_tag("players/#{player.club.name.downcase}/#{player.name.downcase.gsub(' ','_').gsub("'",'')}.png")
+        - if File.exists?(player_photo_path(player))
+          = image_tag(player_photo_path(player))
       .player-show-kit
         = image_tag("players/kits/#{player.club.name}.png", alt: "Club Kit")
       .player-show-team

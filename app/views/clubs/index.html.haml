@@ -34,7 +34,8 @@
       - @players.each_with_index do |player, i|
         .player-stat
           .player-param= i+1
-          .player-param.player-param-name= link_to player.name, team_player_path(player.team, player)
+          - if player.team
+            .player-param.player-param-name= link_to player.name, team_player_path(player.team, player)
           .player-param.player-param-img
             - player.positions.each do |position|
               .l-details-position-image
@@ -42,8 +43,9 @@
           .player-param.player-param-club
             .club-logo.l-details-club-logo{ class: player.club.code.downcase }
             .player-param-club-name= player.club.code
-          .player-param.player-param-img
-            = image_tag(player.team.logo_path, alt: "Logo")
+          - if player.team
+            .player-param.player-param-img
+              = image_tag(player.team.logo_path, alt: "Logo")
           .player-param= player.played_matches_count
           .player-param= player.scores_count
           .player-param= player.average_score
@@ -66,7 +68,8 @@
       - @tour_players.each_with_index do |mp, i|
         .tour-stat
           .player-param= i+1
-          .player-param.player-param-name= link_to mp.player.name, team_player_path(mp.player.team, mp.player)
+          - if mp.player.team
+            .player-param.player-param-name= link_to mp.player.name, team_player_path(mp.player.team, mp.player)
           .player-param.player-param-img
             - mp.real_position.split('/').each do |position|
               .l-details-position-image
@@ -74,9 +77,10 @@
           .player-param.player-param-club
             .club-logo.l-details-club-logo{ class: mp.player.club.code.downcase }
             .player-param-club-name= mp.player.club.code
-          .player-param.player-param-img
-            = image_tag(mp.player.team.logo_path, alt: "Logo")
-          .player-param= mp.total_score
+          - if mp.player.team
+            .player-param.player-param-img
+              = image_tag(mp.player.team.logo_path, alt: "Logo")
+            .player-param= mp.total_score
 
     .tab-pane.fade#stat-clubs
       .club-stat-headers
