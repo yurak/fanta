@@ -6,9 +6,9 @@
     .form-group
       = image_tag('modules.jpg', class: 'new-lineup-modules-image')
     .form-group
-      = f.select :team_module_id, @modules.collect { |x| [x.name, x.id]}, {}, class: 'form-control'
+      = f.select :team_module_id, modules.collect { |x| [x.name, x.id]}, {}, class: 'form-control'
       .module-image
-        - @modules.each do |m|
+        - modules.each do |m|
           = image_tag("modules/#{m.name}.png", id: m.name, class: 'module-img')
       .form-group.lineup-submit-btn
         = f.submit 'Setup module', class: 'btn btn-success'

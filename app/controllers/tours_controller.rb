@@ -9,6 +9,8 @@ class ToursController < ApplicationController
     respond_with tours
   end
 
+  def show; end
+
   def change_status
     tour_manager.call
 

@@ -6,6 +6,6 @@
     .edit-modules-form
       = form_for [team, @lineup] do |f|
         .form-group
-          = f.select :team_module_id, @modules.collect { |x| [x.name, x.id]}, {}, class: 'form-control'
+          = f.select :team_module_id, modules.collect { |x| [x.name, x.id]}, {}, class: 'form-control'
         .form-group.lineup-submit-btn
           = f.submit 'Update lineup module', class: 'btn btn-success'

@@ -6,7 +6,6 @@ class LineupsController < ApplicationController
   helper_method :team, :lineup, :modules
 
   def new
-    modules
     @lineup = Lineup.new
   end
 
@@ -60,7 +59,6 @@ class LineupsController < ApplicationController
 
   def edit_module
     if editable?
-      modules
       respond_with lineup
     else
       flash[:notice] = 'This lineup can not be edited'
@@ -137,7 +135,7 @@ class LineupsController < ApplicationController
     player_ids = update_lineup_params[:match_players_attributes].values.each_with_object([]) do |el, player_ids|
       player_ids << el[:player_id]
     end
-    duplicates = player_ids.find_all { |id| player_ids.rindex(id) != player_ids.index(id) }
+    player_ids.find_all { |id| player_ids.rindex(id) != player_ids.index(id) }
   end
 
   def duplicate_names
