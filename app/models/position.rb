@@ -22,16 +22,16 @@ class Position < ApplicationRecord
   DEFENCE = [DIFENSORE_CENTRALE, DIFENSORE_SINISTRO, DIFENSORE_DESTRO].freeze
 
   MANTRA = [
-             PORTIERE,
-             ESTERNO,
-             DIFENSORE_SINISTRO,
-             DIFENSORE_DESTRO,
-             DIFENSORE_CENTRALE,
-             MEDIANO,
-             CENTROCAMPISTA,
-             TREQUARTSITA,
-             ATTACCANTE,
-             PUNTA
+    PORTIERE,
+    ESTERNO,
+    DIFENSORE_SINISTRO,
+    DIFENSORE_DESTRO,
+    DIFENSORE_CENTRALE,
+    MEDIANO,
+    CENTROCAMPISTA,
+    TREQUARTSITA,
+    ATTACCANTE,
+    PUNTA
   ].freeze
 
   DEPENDENCY = {

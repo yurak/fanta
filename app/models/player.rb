@@ -7,18 +7,18 @@ class Player < ApplicationRecord
   has_many :lineups, through: :match_players
 
   scope :by_position, ->(position) { joins(:positions).where(positions: { name: position }) }
-  scope :stats_query, ->{ includes(:match_players, :club, :team, :positions).order(:name) }
+  scope :stats_query, -> { includes(:match_players, :club, :team, :positions).order(:name) }
 
   enum status: %i[ready problematic injured disqualified]
 
-  scope :order_by_status, -> do
+  scope :order_by_status, lambda {
     order_by = ['CASE']
     statuses.values.each_with_index do |status, index|
       order_by << "WHEN status=#{status} THEN #{index}"
     end
     order_by << 'END'
     order(order_by.join(' '))
-  end
+  }
 
   def positions_names_string
     position_names.join(' ')
@@ -38,11 +38,13 @@ class Player < ApplicationRecord
 
   def average_score
     return 0 if scores_count.zero?
+
     @average_score ||= (match_with_scores.map(&:score).sum / scores_count).round(2)
   end
 
   def average_total_score
     return 0 if scores_count.zero?
+
     @average_total_score ||= (match_with_scores.map(&:total_score).sum / scores_count).round(2)
   end
 
@@ -57,7 +59,7 @@ class Player < ApplicationRecord
       bs[mp.lineup.tour.number] = mp.score
       ts[mp.lineup.tour.number] = mp.total_score
     end
-    [{name: "Total score", data: ts}, {name: "Score", data: bs}]
+    [{ name: 'Total score', data: ts }, { name: 'Score', data: bs }]
   end
 
   def best_score

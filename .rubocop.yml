@@ -30,3 +30,7 @@ Style/RescueStandardError:
   Enabled: false
 Style/FrozenStringLiteralComment:
   Enabled: false
+HasAndBelongsToMany:
+  Enabled: false
+Rails/InverseOf:
+  Enabled: false
