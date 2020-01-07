@@ -5,7 +5,7 @@ class CalendarCreator < ApplicationService
     tour_number = 0
     rounds.times do |round_number|
       round_games.each do |tour_games|
-        tour_number = tour_number + 1
+        tour_number += 1
         tour = Tour.create(number: tour_number)
         tour_games.each do |team_ids|
           team_ids = team_ids.reverse if round_number.odd?
@@ -21,15 +21,17 @@ class CalendarCreator < ApplicationService
     teams_array.push nil if teams_array.size.odd?
     n = teams_array.size
     pivot = teams_array.pop
-    games = (n-1).times.map do |tour|
+    games = (n - 1).times.map do |tour|
       next if tour.odd?
+
       tour_games = [[pivot, teams_array.first]] + (1...(n / 2)).map { |j| [teams_array[j], teams_array[n - 1 - j]] }
       teams_array.rotate!
       tour_games
     end
 
-    (n-1).times.map do |tour|
+    (n - 1).times.map do |tour|
       next if tour.even?
+
       games[tour] = [[teams_array.first, pivot]] + (1...(n / 2)).map { |j| [teams_array[j], teams_array[n - 1 - j]] }
       teams_array.rotate!
     end

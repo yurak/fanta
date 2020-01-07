@@ -1,5 +1,5 @@
 class ToursController < ApplicationController
-  skip_before_action :authenticate_user!, only: [:index, :show]
+  skip_before_action :authenticate_user!, only: %i[index show]
 
   respond_to :html, :json
 
@@ -38,7 +38,7 @@ class ToursController < ApplicationController
     match_players = update_reservists_params['match_players']
     match_players.keys.each do |mp_id|
       mp = MatchPlayer.find(mp_id.to_i)
-      mp.update_attributes(match_players[mp_id].to_hash)
+      mp.update(match_players[mp_id].to_hash)
     end
     redirect_to tour_path(tour)
   end
@@ -71,7 +71,7 @@ class ToursController < ApplicationController
   end
 
   def update_reservists_params
-    params.permit(match_players:[:id, :score, :goals, :missed_goals, :scored_penalty, :failed_penalty, :cleansheet,
-                                 :assists, :yellow_card, :red_card, :own_goals, :caught_penalty, :missed_penalty])
+    params.permit(match_players: %i[id score goals missed_goals scored_penalty failed_penalty cleansheet
+                                    assists yellow_card red_card own_goals caught_penalty missed_penalty])
   end
 end

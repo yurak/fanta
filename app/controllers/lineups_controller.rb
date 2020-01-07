@@ -1,5 +1,5 @@
 class LineupsController < ApplicationController
-  skip_before_action :authenticate_user!, only: [:details, :show]
+  skip_before_action :authenticate_user!, only: %i[details show]
 
   respond_to :html
 
@@ -23,13 +23,13 @@ class LineupsController < ApplicationController
   end
 
   def show
-    redirect_to teams_path and return unless lineup_of_team?
+    redirect_to(teams_path) && return unless lineup_of_team?
 
     respond_with lineup
   end
 
   def details
-    redirect_to teams_path and return unless lineup_of_team?
+    redirect_to(teams_path) && return unless lineup_of_team?
 
     respond_with lineup
   end

@@ -36,7 +36,7 @@ class ClubsController < ApplicationController
   end
 
   def filter
-    team ? team : position
+    team || position
   end
 
   def team
