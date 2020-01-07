@@ -133,8 +133,11 @@ class LineupsController < ApplicationController
 
   def duplicate_players
     return unless update_lineup_params[:match_players_attributes]
-    player_ids = update_lineup_params[:match_players_attributes].values.each_with_object([]) {|el, player_ids| player_ids << el[:player_id]}
-    duplicates = player_ids.find_all {|id| player_ids.rindex(id) != player_ids.index(id)}
+
+    player_ids = update_lineup_params[:match_players_attributes].values.each_with_object([]) do |el, player_ids|
+      player_ids << el[:player_id]
+    end
+    duplicates = player_ids.find_all { |id| player_ids.rindex(id) != player_ids.index(id) }
   end
 
   def duplicate_names

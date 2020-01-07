@@ -76,7 +76,7 @@ module Scores
     end
 
     def real_tour_number
-      tour.number+2
+      tour.number + 2
     end
   end
 end
