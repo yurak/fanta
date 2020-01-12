@@ -20,6 +20,7 @@ gem 'devise-bootstrap-views', '~> 1.0'
 gem 'bootsnap', '>= 1.1.0', require: false
 
 gem 'rb-readline'
+gem 'tinymce-rails'
 
 gem 'rails-i18n', '~> 5.1'
 gem 'rest-client'
