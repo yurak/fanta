@@ -1,5 +1,6 @@
 .container
   %h2 User profile
+  -#TODO: show balance as default value at input field
   .row
     %p User Balance:
     = user.summer_balance
@@ -15,6 +16,7 @@
     .input-group.mb-3
       .input-group-prepend
         %span.input-group-text Title*
+      -#TODO: show balance as default value at input field
       = f.number_field :summer_balance, class: 'form-control'
 
 

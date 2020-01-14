@@ -3,9 +3,10 @@
     .nav-profile-link
       = link_to current_user.email, edit_user_registration_path if user_signed_in?
       = link_to 'Log In', new_user_session_path unless user_signed_in?
-  .nav-profile
-    .nav-profile-link
-      = link_to "Admin Settings", admin_users_path if current_user.admin?
+  -# TODO: uncomment link after implementation Admin Settings
+  -#.nav-profile
+  -#  .nav-profile-link
+  -#    = link_to "Admin Settings", admin_users_path if current_user.admin?
   .btn-group.large-navbar{role: 'group'}
     = render 'layouts/navbar_links'
   .btn-group.mobile-navbar{role: 'group'}

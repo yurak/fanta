@@ -6,7 +6,8 @@ class Player < ApplicationRecord
   has_many :match_players, dependent: :destroy
   has_many :lineups, through: :match_players
 
-  validates :name, uniqueness: true
+  #TODO: unique by name and club
+  # validates :name, uniqueness: true
 
   scope :by_position, ->(position) { joins(:positions).where(positions: { name: position }) }
   scope :stats_query, ->{ includes(:match_players, :club, :team, :positions).order(:name) }
