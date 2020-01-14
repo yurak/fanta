@@ -1,0 +1,22 @@
+# TODO: add all players which leave Serie A
+# TODO: add all players which team managers decide retired
+free_agents:
+  banderstadt:
+#    - Obiang
+  fenice_rossa:
+  nemesis:
+  original_gangster:
+    - Reina
+    - Mandzukic
+  pratima:
+    - Murillo
+  semper_fideliss:
+  sx:
+#    - Henderson
+#    - Radu
+#    - Iago
+#    - Sanchez
+#    - Rebic
+  tori_granato:
+  vittoria:
+  western_boog:

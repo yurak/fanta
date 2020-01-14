@@ -6,7 +6,7 @@
       .player-show-kit
         = image_tag("players/kits/#{player.club.name}.png", alt: "Club Kit")
       .player-show-team
-        = image_tag(player.team.logo_path, alt: "Team Logo")
+        = image_tag(player&.team&.logo_path, alt: "Team Logo") if player.team
       .player-show-positions
         - player.positions.each do |position|
           .player-show-position-image
@@ -17,7 +17,7 @@
       .player-show-club
         %span= player.club.name
         %span /
-        %span= player.team.name.titleize
+        %span= player.team.name.titleize if player.team
       .alert.alert-primary.player-show-stats
         .player-stat-header{title: 'Number of matches in mains squad'} MP
         .player-stat-header{title: 'Number of scores'} SC

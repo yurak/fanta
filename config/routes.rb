@@ -23,6 +23,11 @@ Rails.application.routes.draw do
     end
   end
 
+  namespace :admin do
+    resources :users
+    resources :players
+  end
+
   resources :results, only: [:index]
 
   resources :clubs, only: [:index]

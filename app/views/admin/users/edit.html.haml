@@ -1,0 +1,24 @@
+.container
+  %h2 User profile
+  -#TODO: show balance as default value at input field
+  .row
+    %p User Balance:
+    = user.summer_balance
+
+  = form_for(user, url: { action: :update }) do |f|
+    - if user.errors.any?
+      #error_explanation
+        %h2= "#{pluralize(user.errors.count, "error")} prohibited this user from being saved:"
+        %ul
+          - user.errors.full_messages.each do |message|
+            %li= message
+
+    .input-group.mb-3
+      .input-group-prepend
+        %span.input-group-text Title*
+      -#TODO: show balance as default value at input field
+      = f.number_field :summer_balance, class: 'form-control'
+
+
+    .actions.right
+      = f.submit 'Save', class: 'btn btn-primary'

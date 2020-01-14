@@ -1,0 +1,17 @@
+.container
+  .card
+    .card-body
+      -# TODO: show all users but only for admin users
+      -# TODO: update view UI
+      - if current_user
+        .button
+          = link_to "Edit", edit_admin_user_path(current_user), class: 'btn btn-primary'
+          %p User email:
+          = current_user.email
+
+          %p User team:
+          = current_user.team.name
+          .button
+            = link_to "Add player", new_admin_player_path, class: 'btn btn-success'
+
+

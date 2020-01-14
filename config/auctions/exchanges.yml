@@ -1,0 +1,22 @@
+# TODO: add all approved exchanges
+exchanges:
+#  -
+#    from:
+#      name: fenice_rossa
+#      players:
+#        - Bonifazi
+#        - Sansone
+#    to:
+#      name: original_gangster
+#      players:
+#        - Callejon
+#        - Meite
+#  -
+#    from:
+#      name: tori_granato
+#      players:
+#        - Luiz Felipe
+#    to:
+#      name: original_gangster
+#      players:
+#        - Berenguer
