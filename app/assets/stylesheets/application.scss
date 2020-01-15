@@ -60,6 +60,11 @@ body, html {
     width: 100%;
     .nav-profile-link {
       float: right;
+      .nav-profile-separator {
+        width: 30px;
+        display: inline-block;
+        text-align: center;
+      }
     }
   }
   .btn-group {

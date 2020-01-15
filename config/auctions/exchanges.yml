@@ -16,7 +16,119 @@ exchanges:
 #      name: tori_granato
 #      players:
 #        - Luiz Felipe
+#        - Mkhitaryan
+#        - Kouame
 #    to:
 #      name: original_gangster
 #      players:
 #        - Berenguer
+#        - Mandragora
+#        - De Silvestri
+#  -
+#    from:
+#      name: western_boog
+#      players:
+#        - Izzo
+#    to:
+#      name: original_gangster
+#      players:
+#        - Berardi
+#  -
+#    from:
+#      name: banderstadt
+#      players:
+#        - Lirola
+#        - Cristante
+#    to:
+#      name: fenice_rossa
+#      players:
+#        - Ruiz
+#        - Cuadrado
+#  -
+#    from:
+#      name: sx
+#      players:
+#        - Troost Ekong
+#    to:
+#      name: original_gangster
+#      players:
+#        - Falco
+#  -
+#    from:
+#      name: tori_granato
+#      players:
+#        - Boateng
+#    to:
+#      name: original_gangster
+#      players:
+#        - Peluso
+#  -
+#    from:
+#      name: nemesis
+#      players:
+#        - Allan
+#    to:
+#      name: original_gangster
+#      players:
+#        - Sansone
+#  -
+#    from:
+#      name: vittoria
+#      players:
+#        - Gervinho
+#    to:
+#      name: original_gangster
+#      players:
+#        - Allan
+#  -
+#    from:
+#      name: fenice_rossa
+#      players:
+#        - Matuidi
+#        - Llorente
+#    to:
+#      name: original_gangster
+#      players:
+#        - Troost Ekong
+#        - Donnarumma
+#  -
+#    from:
+#      name: fenice_rossa
+#      players:
+#        - Zaza
+#    to:
+#      name: vittoria
+#      players:
+#        - Caprari
+#  -
+#    from:
+#      name: nemesis
+#      players:
+#        - Florenzi
+#    to:
+#      name: semper_fidelis
+#      players:
+#        - Kluivert
+#  -
+#    from:
+#      name: original_gangster
+#      players:
+#        - Calhanoglu
+#        - Tonali
+#        - Zaccagni
+#    to:
+#      name: semper_fidelis
+#      players:
+#        - Ansaldi
+#        - Pulgar
+#        - Bonaventura
+#  -
+#    from:
+#      name: western_boog
+#      players:
+#        - Insigne
+#        - Vieira
+#    to:
+#      name: original_gangster
+#      players:
+#        - Brozovic
