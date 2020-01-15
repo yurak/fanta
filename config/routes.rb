@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   devise_for :users
 
   resources :tours do
@@ -21,11 +22,6 @@ Rails.application.routes.draw do
       get :substitutions
       put :subs_update
     end
-  end
-
-  namespace :admin do
-    resources :users
-    resources :players
   end
 
   resources :results, only: [:index]

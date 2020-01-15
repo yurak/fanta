@@ -32,6 +32,9 @@ gem 'active_model_serializers', '~> 0.10.0'
 gem 'dotenv-rails', require: 'dotenv/rails-now'
 gem 'telegram-bot-ruby'
 
+gem 'cancancan'
+gem 'rails_admin', '~> 2.0'
+
 group :development, :test do
   gem 'pry-rails'
   gem 'rspec-rails', '~> 3.8'
@@ -39,15 +42,12 @@ end
 
 group :development do
   gem "capistrano", "~> 3.10", require: false
-  gem "capistrano-rails", "~> 1.4", require: false
   gem 'capistrano-passenger', '~> 0.2.0'
+  gem "capistrano-rails", "~> 1.4", require: false
   gem 'capistrano-rvm'
-
-  gem 'web-console', '>= 3.3.0'
   gem 'listen', '>= 3.0.5', '< 3.2'
+  gem 'web-console', '>= 3.3.0'
 end
-
-gem 'dotenv-rails', groups: [:development, :test]
 
 group :test do
   gem 'factory_bot_rails'
