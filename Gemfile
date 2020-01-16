@@ -42,12 +42,15 @@ end
 
 group :development do
   gem "capistrano", "~> 3.10", require: false
-  gem 'capistrano-passenger', '~> 0.2.0'
   gem "capistrano-rails", "~> 1.4", require: false
+  gem 'capistrano-passenger', '~> 0.2.0'
   gem 'capistrano-rvm'
-  gem 'listen', '>= 3.0.5', '< 3.2'
+
   gem 'web-console', '>= 3.3.0'
+  gem 'listen', '>= 3.0.5', '< 3.2'
 end
+
+gem 'dotenv-rails', groups: [:development, :test]
 
 group :test do
   gem 'factory_bot_rails'
