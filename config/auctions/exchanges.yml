@@ -132,3 +132,87 @@ exchanges:
 #      name: original_gangster
 #      players:
 #        - Brozovic
+#  -
+#    from:
+#      name: banderstadt
+#      players:
+#        - Audero
+#    to:
+#      name: semper_fidelis
+#      players:
+#        - Meret
+#  -
+#    from:
+#      name: original_gangster
+#      players:
+#        - Toljan
+#    to:
+#      name: semper_fidelis
+#      players:
+#        - Di Lorenzo
+#  -
+#    from:
+#      name: banderstadt
+#      players:
+#        - Obiang
+#    to:
+#      name: fenice_rossa
+#      players:
+#        - Ospina
+#  -
+#    from:
+#      name: semper_fidelis
+#      players:
+#        - Higuain
+#    to:
+#      name: pratima
+#      players:
+#        - Parolo
+#  -
+#    from:
+#      name: banderstadt
+#      players:
+#        - Inglese
+#    to:
+#      name: semper_fidelis
+#      players:
+#        - Lasagna
+#  -
+#    from:
+#      name: banderstadt
+#      players:
+#        - Gagliolo
+#    to:
+#      name: original_gangster
+#      players:
+#        - Marlon
+#        - Ferrari
+#  -
+#    from:
+#      name: banderstadt
+#      players:
+#        - Verdi
+#    to:
+#      name: tori_granato
+#      players:
+#        - Barella
+#  -
+#    from:
+#      name: fenice_rossa
+#      players:
+#        - Medel
+#    to:
+#      name: semper_fidelis
+#      players:
+#        - Ekdal
+#  -
+#    from:
+#      name: banderstadt
+#      players:
+#        - Baselli
+#        - Palomino
+#    to:
+#      name: semper_fidelis
+#      players:
+#        - Zaccagni
+#        - Smalling

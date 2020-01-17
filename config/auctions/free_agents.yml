@@ -2,22 +2,24 @@
 # TODO: add all players which team managers decide retired
 free_agents:
   banderstadt:
-#    - Obiang
+#    - Marlon
   fenice_rossa:
   nemesis:
   original_gangster:
     - Reina
     - Mandzukic
+    - Morosini
   pratima:
     - Murillo
   semper_fidelis:
     - Pussetto
   sx:
-#    - Henderson
+    - Henderson
 #    - Radu
 #    - Iago
 #    - Sanchez
 #    - Rebic
   tori_granato:
+    - Rodriguez
   vittoria:
   western_boog:

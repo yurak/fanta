@@ -20,5 +20,9 @@
                 .team-tour-players
                   = "#{lineup.mp_with_score}/11"
         - else
-          %p.team-tour-goals -
+          %p.team-tour-goals
+            - if current_user == team.user
+              = link_to 'Create', new_team_lineup_path(team), class: 'btn btn-primary active btn-lineup-tour'
+            - else
+              = '-'
           %p.team-tour-points ---
