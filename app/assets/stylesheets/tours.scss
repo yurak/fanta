@@ -176,6 +176,12 @@
   }
 }
 
+.btn.btn-primary.btn-lineup-tour {
+  font-size: 16px;
+  min-height: 30px;
+  font-weight: 600;
+}
+
 @media screen and (max-device-width: 991px) {
   .team-tour-card {
     grid-template-columns: 100px auto 150px;
