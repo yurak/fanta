@@ -18,3 +18,27 @@ club_transfers:
   Dabo:
     from: FIO
     to: SPA
+  Bonifazi:
+    from: TOR
+    to: SPA
+  Politano:
+    from: INT
+    to: TOR
+  Masiello:
+    from: ATA
+    to: GEN
+  Radu:
+    from: GEN
+    to: PAR
+  Iago:
+    from: TOR
+    to: GEN
+  Duncan:
+    from: SAS
+    to: FIO
+  Igor Julio:
+    from: SPA
+    to: FIO
+#  Caprari:
+#    from: SAM
+#    to: PAR

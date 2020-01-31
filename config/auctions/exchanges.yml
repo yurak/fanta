@@ -216,3 +216,66 @@ exchanges:
 #      players:
 #        - Zaccagni
 #        - Smalling
+#  -
+#    from:
+#      name: banderstadt
+#      players:
+#        - Ferrari
+#    to:
+#      name: original_gangster
+#      players:
+#        - Rogerio
+#  -
+#    from:
+#      name: original_gangster
+#      players:
+#        - Boateng
+#    to:
+#      name: semper_fidelis
+#      players:
+#        - Schone
+#  -
+#    from:
+#      name: western_boog
+#      players:
+#        - Poli
+#    to:
+#      name: pratima
+#      players:
+#        - De Sciglio
+#  -
+#    from:
+#      name: fenice_rossa
+#      players:
+#        - Destro
+#    to:
+#      name: semper_fidelis
+#      players:
+#        - Kjaer
+#  -
+#    from:
+#      name: banderstadt
+#      players:
+#        - Marlon
+#    to:
+#      name: semper_fidelis
+#      players:
+#        - Balotelli
+#  -
+#    from:
+#      name: western_boog
+#      players:
+#        - Perin
+#    to:
+#      name: fenice_rossa
+#      players:
+#        - Muldur
+#  -
+#    from:
+#      name: banderstadt
+#      players:
+#        - Nandez
+#    to:
+#      name: original_gangster
+#      players:
+#        - Mkhitaryan
