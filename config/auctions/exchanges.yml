@@ -1,272 +1,281 @@
 # TODO: add all approved exchanges
 exchanges:
-  -
-    from:
-      name: fenice_rossa
-      players:
-        - Bonifazi
-        - Sansone
-    to:
-      name: original_gangster
-      players:
-        - Callejon
-        - Meite
-  -
-    from:
-      name: tori_granato
-      players:
-        - Luiz Felipe
-        - Mkhitaryan
-        - Kouame
-    to:
-      name: original_gangster
-      players:
-        - Berenguer
-        - Mandragora
-        - De Silvestri
-  -
-    from:
-      name: western_boog
-      players:
-        - Izzo
-    to:
-      name: original_gangster
-      players:
-        - Berardi
-  -
-    from:
-      name: banderstadt
-      players:
-        - Lirola
-        - Cristante
-    to:
-      name: fenice_rossa
-      players:
-        - Ruiz
-        - Cuadrado
-  -
-    from:
-      name: sx
-      players:
-        - Troost Ekong
-    to:
-      name: original_gangster
-      players:
-        - Falco
-  -
-    from:
-      name: tori_granato
-      players:
-        - Boateng
-    to:
-      name: original_gangster
-      players:
-        - Peluso
-  -
-    from:
-      name: nemesis
-      players:
-        - Allan
-    to:
-      name: original_gangster
-      players:
-        - Sansone
-  -
-    from:
-      name: vittoria
-      players:
-        - Gervinho
-    to:
-      name: original_gangster
-      players:
-        - Allan
-  -
-    from:
-      name: fenice_rossa
-      players:
-        - Matuidi
-        - Llorente
-    to:
-      name: original_gangster
-      players:
-        - Troost Ekong
-        - Donnarumma
-  -
-    from:
-      name: fenice_rossa
-      players:
-        - Zaza
-    to:
-      name: vittoria
-      players:
-        - Caprari
-  -
-    from:
-      name: nemesis
-      players:
-        - Florenzi
-    to:
-      name: semper_fidelis
-      players:
-        - Kluivert
-  -
-    from:
-      name: original_gangster
-      players:
-        - Calhanoglu
-        - Tonali
-        - Zaccagni
-    to:
-      name: semper_fidelis
-      players:
-        - Ansaldi
-        - Pulgar
-        - Bonaventura
-  -
-    from:
-      name: western_boog
-      players:
-        - Insigne
-        - Vieira
-    to:
-      name: original_gangster
-      players:
-        - Brozovic
-  -
-    from:
-      name: banderstadt
-      players:
-        - Audero
-    to:
-      name: semper_fidelis
-      players:
-        - Meret
-  -
-    from:
-      name: original_gangster
-      players:
-        - Toljan
-    to:
-      name: semper_fidelis
-      players:
-        - Di Lorenzo
-  -
-    from:
-      name: banderstadt
-      players:
-        - Obiang
-    to:
-      name: fenice_rossa
-      players:
-        - Ospina
-  -
-    from:
-      name: semper_fidelis
-      players:
-        - Higuain
-    to:
-      name: pratima
-      players:
-        - Parolo
-  -
-    from:
-      name: banderstadt
-      players:
-        - Inglese
-    to:
-      name: semper_fidelis
-      players:
-        - Lasagna
-  -
-    from:
-      name: banderstadt
-      players:
-        - Gagliolo
-    to:
-      name: original_gangster
-      players:
-        - Marlon
-        - Ferrari
-  -
-    from:
-      name: banderstadt
-      players:
-        - Verdi
-    to:
-      name: tori_granato
-      players:
-        - Barella
-  -
-    from:
-      name: fenice_rossa
-      players:
-        - Medel
-    to:
-      name: semper_fidelis
-      players:
-        - Ekdal
-  -
-    from:
-      name: banderstadt
-      players:
-        - Baselli
-        - Palomino
-    to:
-      name: semper_fidelis
-      players:
-        - Zaccagni
-        - Smalling
-  -
-    from:
-      name: banderstadt
-      players:
-        - Ferrari
-    to:
-      name: original_gangster
-      players:
-        - Rogerio
-  -
-    from:
-      name: original_gangster
-      players:
-        - Boateng
-    to:
-      name: semper_fidelis
-      players:
-        - Schone
-  -
-    from:
-      name: western_boog
-      players:
-        - Poli
-    to:
-      name: pratima
-      players:
-        - De Sciglio
-  -
-    from:
-      name: fenice_rossa
-      players:
-        - Destro
-    to:
-      name: semper_fidelis
-      players:
-        - Kjaer
-  -
-    from:
-      name: banderstadt
-      players:
-        - Marlon
-    to:
-      name: semper_fidelis
-      players:
-        - Balotelli
-  -
-    from:
-      name: western_boog
-      players:
-        - Perin
-    to:
-      name: fenice_rossa
-      players:
-        - Muldur
+#  -
+#    from:
+#      name: fenice_rossa
+#      players:
+#        - Bonifazi
+#        - Sansone
+#    to:
+#      name: original_gangster
+#      players:
+#        - Callejon
+#        - Meite
+#  -
+#    from:
+#      name: tori_granato
+#      players:
+#        - Luiz Felipe
+#        - Mkhitaryan
+#        - Kouame
+#    to:
+#      name: original_gangster
+#      players:
+#        - Berenguer
+#        - Mandragora
+#        - De Silvestri
+#  -
+#    from:
+#      name: western_boog
+#      players:
+#        - Izzo
+#    to:
+#      name: original_gangster
+#      players:
+#        - Berardi
+#  -
+#    from:
+#      name: banderstadt
+#      players:
+#        - Lirola
+#        - Cristante
+#    to:
+#      name: fenice_rossa
+#      players:
+#        - Ruiz
+#        - Cuadrado
+#  -
+#    from:
+#      name: sx
+#      players:
+#        - Troost Ekong
+#    to:
+#      name: original_gangster
+#      players:
+#        - Falco
+#  -
+#    from:
+#      name: tori_granato
+#      players:
+#        - Boateng
+#    to:
+#      name: original_gangster
+#      players:
+#        - Peluso
+#  -
+#    from:
+#      name: nemesis
+#      players:
+#        - Allan
+#    to:
+#      name: original_gangster
+#      players:
+#        - Sansone
+#  -
+#    from:
+#      name: vittoria
+#      players:
+#        - Gervinho
+#    to:
+#      name: original_gangster
+#      players:
+#        - Allan
+#  -
+#    from:
+#      name: fenice_rossa
+#      players:
+#        - Matuidi
+#        - Llorente
+#    to:
+#      name: original_gangster
+#      players:
+#        - Troost Ekong
+#        - Donnarumma
+#  -
+#    from:
+#      name: fenice_rossa
+#      players:
+#        - Zaza
+#    to:
+#      name: vittoria
+#      players:
+#        - Caprari
+#  -
+#    from:
+#      name: nemesis
+#      players:
+#        - Florenzi
+#    to:
+#      name: semper_fidelis
+#      players:
+#        - Kluivert
+#  -
+#    from:
+#      name: original_gangster
+#      players:
+#        - Calhanoglu
+#        - Tonali
+#        - Zaccagni
+#    to:
+#      name: semper_fidelis
+#      players:
+#        - Ansaldi
+#        - Pulgar
+#        - Bonaventura
+#  -
+#    from:
+#      name: western_boog
+#      players:
+#        - Insigne
+#        - Vieira
+#    to:
+#      name: original_gangster
+#      players:
+#        - Brozovic
+#  -
+#    from:
+#      name: banderstadt
+#      players:
+#        - Audero
+#    to:
+#      name: semper_fidelis
+#      players:
+#        - Meret
+#  -
+#    from:
+#      name: original_gangster
+#      players:
+#        - Toljan
+#    to:
+#      name: semper_fidelis
+#      players:
+#        - Di Lorenzo
+#  -
+#    from:
+#      name: banderstadt
+#      players:
+#        - Obiang
+#    to:
+#      name: fenice_rossa
+#      players:
+#        - Ospina
+#  -
+#    from:
+#      name: semper_fidelis
+#      players:
+#        - Higuain
+#    to:
+#      name: pratima
+#      players:
+#        - Parolo
+#  -
+#    from:
+#      name: banderstadt
+#      players:
+#        - Inglese
+#    to:
+#      name: semper_fidelis
+#      players:
+#        - Lasagna
+#  -
+#    from:
+#      name: banderstadt
+#      players:
+#        - Gagliolo
+#    to:
+#      name: original_gangster
+#      players:
+#        - Marlon
+#        - Ferrari
+#  -
+#    from:
+#      name: banderstadt
+#      players:
+#        - Verdi
+#    to:
+#      name: tori_granato
+#      players:
+#        - Barella
+#  -
+#    from:
+#      name: fenice_rossa
+#      players:
+#        - Medel
+#    to:
+#      name: semper_fidelis
+#      players:
+#        - Ekdal
+#  -
+#    from:
+#      name: banderstadt
+#      players:
+#        - Baselli
+#        - Palomino
+#    to:
+#      name: semper_fidelis
+#      players:
+#        - Zaccagni
+#        - Smalling
+#  -
+#    from:
+#      name: banderstadt
+#      players:
+#        - Ferrari
+#    to:
+#      name: original_gangster
+#      players:
+#        - Rogerio
+#  -
+#    from:
+#      name: original_gangster
+#      players:
+#        - Boateng
+#    to:
+#      name: semper_fidelis
+#      players:
+#        - Schone
+#  -
+#    from:
+#      name: western_boog
+#      players:
+#        - Poli
+#    to:
+#      name: pratima
+#      players:
+#        - De Sciglio
+#  -
+#    from:
+#      name: fenice_rossa
+#      players:
+#        - Destro
+#    to:
+#      name: semper_fidelis
+#      players:
+#        - Kjaer
+#  -
+#    from:
+#      name: banderstadt
+#      players:
+#        - Marlon
+#    to:
+#      name: semper_fidelis
+#      players:
+#        - Balotelli
+#  -
+#    from:
+#      name: western_boog
+#      players:
+#        - Perin
+#    to:
+#      name: fenice_rossa
+#      players:
+#        - Muldur
+#  -
+#    from:
+#      name: banderstadt
+#      players:
+#        - Nandez
+#    to:
+#      name: original_gangster
+#      players:
+#        - Mkhitaryan

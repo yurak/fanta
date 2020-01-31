@@ -2,53 +2,56 @@
 # TODO: add all players which team managers decide retired
 free_agents:
   banderstadt:
-    - Castro
-    - Rogerio
-    - Balotelli
-    - Lasagna
-    - Zaccagni
+#    - Castro
+#    - Rogerio
+#    - Balotelli
+#    - Lasagna
+#    - Zaccagni
   fenice_rossa:
-    - Zappacosta
-    - Lerager
-    - Elmas
+#    - Zappacosta
+#    - Lerager
+#    - Elmas
   nemesis:
-    - Bernardeschi
-    - Samir
-    - Krunic
-    - Pinamonti
+    - Suso
+#    - Bernardeschi
+#    - Samir
+#    - Krunic
+#    - Pinamonti
   original_gangster:
     - Reina
     - Mandzukic
     - Morosini
-    - Llorente
-    - Kouame
-    - Bonaventura
-    - Consigli
-    - Mkhitaryan
+#    - Llorente
+#    - Kouame
+#    - Bonaventura
+#    - Consigli
+#    - Bocchetti
   pratima:
+    - Piatek
     - Murillo
-    - Berni
-    - Zaniolo
-    - Ghoulam
+#    - Berni
+#    - Zaniolo
+#    - Ghoulam
   semper_fidelis:
     - Pussetto
-    - Ranocchia
-    - Duarte
-    - Boateng
-    - Zmrhal
-    - Dessena
+#    - Florenzi
+#    - Boateng
+#    - Ranocchia
+#    - Duarte
+#    - Zmrhal
+#    - Dessena
   sx:
     - Henderson
-    - Radu
-    - Iago
-    - Shakhov
-    - Badelj
-    - Sanchez
+#    - Radu
+#    - Iago
+#    - Shakhov
+#    - Badelj
+#    - Sanchez
   tori_granato:
     - Benzar
-#    - Rodriguez
+    - Rodriguez
   vittoria:
   western_boog:
-    - Nestorovski
-    - Pavoletti
-    - Lozano
+#    - Nestorovski
+#    - Pavoletti
+#    - Lozano
