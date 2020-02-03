@@ -45,3 +45,6 @@ club_transfers:
   Kouame:
     from: GEN
     to: FIO
+  Castro:
+    from: CAG
+    to: SPA
