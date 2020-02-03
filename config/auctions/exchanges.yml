@@ -279,3 +279,13 @@ exchanges:
 #      name: original_gangster
 #      players:
 #        - Mkhitaryan
+#  -
+#    from:
+#      name: banderstadt
+#      players:
+#        - Meret
+#        - Ospina
+#    to:
+#      name: sx
+#      players:
+#        - Dragowski
