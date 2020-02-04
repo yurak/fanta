@@ -31,6 +31,10 @@ class Player < ApplicationRecord
     @position_names ||= positions.map(&:name)
   end
 
+  def position_sequence_number
+    positions.first.id
+  end
+
   def played_matches_count
     @played_matches_count ||= played_matches.size
   end
