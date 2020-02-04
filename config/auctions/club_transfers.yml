@@ -39,6 +39,12 @@ club_transfers:
   Igor Julio:
     from: SPA
     to: FIO
-#  Caprari:
-#    from: SAM
-#    to: PAR
+  Caprari:
+    from: SAM
+    to: PAR
+  Kouame:
+    from: GEN
+    to: FIO
+  Castro:
+    from: CAG
+    to: SPA

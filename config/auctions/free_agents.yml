@@ -34,8 +34,8 @@ free_agents:
 #    - Ghoulam
   semper_fidelis:
     - Pussetto
-#    - Florenzi
-#    - Boateng
+    - Florenzi
+    - Boateng
 #    - Ranocchia
 #    - Duarte
 #    - Zmrhal
@@ -50,7 +50,12 @@ free_agents:
   tori_granato:
     - Benzar
     - Rodriguez
+#    - Martella
+#    - Ceppitelli
   vittoria:
+    - Can
+#    - Berisha
+#    - Khedira
   western_boog:
 #    - Nestorovski
 #    - Pavoletti
