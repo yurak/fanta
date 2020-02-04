@@ -4,7 +4,7 @@
   .cell-player.table-head.personal-data Status
   .cell-player.table-head Club
   .cell-player.table-head.mobile-hidden.personal-data
-  - team.players.each do |player|
+  - team.players.sort_by(&:position_sequence_number).each do |player|
     .cell-player.player-text
       - player.positions.each do |position|
         .position-image.inline-block
