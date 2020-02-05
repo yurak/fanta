@@ -2,61 +2,70 @@
 # TODO: add all players which team managers decide retired
 free_agents:
   banderstadt:
-#    - Castro
-#    - Rogerio
-#    - Balotelli
-#    - Lasagna
-#    - Zaccagni
+    - Castro
+    - Rogerio
+    - Balotelli
+    - Lasagna
+    - Zaccagni
   fenice_rossa:
-#    - Zappacosta
-#    - Lerager
-#    - Elmas
+    - Zappacosta
+    - Lerager
+    - Asamoah
+    - Donnarumma
   nemesis:
-    - Suso
-#    - Bernardeschi
-#    - Samir
-#    - Krunic
-#    - Pinamonti
+#    - Suso
+    - Bernardeschi
+    - Samir
+    - Krunic
+    - Pinamonti
   original_gangster:
-    - Reina
-    - Mandzukic
-    - Morosini
-#    - Llorente
-#    - Kouame
-#    - Bonaventura
-#    - Consigli
-#    - Bocchetti
+#    - Reina
+#    - Mandzukic
+#    - Morosini
+    - Llorente
+    - Kouame
+    - Bonaventura
+    - Consigli
+    - Bocchetti
   pratima:
-    - Piatek
-    - Murillo
-#    - Berni
-#    - Zaniolo
-#    - Ghoulam
+#    - Piatek
+#    - Murillo
+    - Berni
+    - Zaniolo
+    - Ghoulam
+    - Higuain
+    - Paqueta
   semper_fidelis:
-    - Pussetto
-    - Florenzi
-    - Boateng
-#    - Ranocchia
-#    - Duarte
-#    - Zmrhal
-#    - Dessena
+#    - Pussetto
+#    - Florenzi
+#    - Boateng
+    - Ranocchia
+    - Duarte
+    - Zmrhal
+    - Dessena
+    - Inglese
   sx:
-    - Henderson
-#    - Radu
-#    - Iago
-#    - Shakhov
-#    - Badelj
-#    - Sanchez
+#    - Henderson
+    - Radu
+    - Iago
+    - Shakhov
+    - Badelj
+    - Traore
   tori_granato:
-    - Benzar
-    - Rodriguez
-#    - Martella
-#    - Ceppitelli
+#    - Benzar
+#    - Rodriguez
+    - Martella
+    - Ceppitelli
+    - Fazio
   vittoria:
-    - Can
-#    - Berisha
-#    - Khedira
+#    - Can
+    - Berisha
+    - Khedira
+    - Ribery
+    - Zaza
   western_boog:
-#    - Nestorovski
-#    - Pavoletti
-#    - Lozano
+    - Nestorovski
+    - Pavoletti
+    - Lozano
+    - Fofana
+    - Muriel
