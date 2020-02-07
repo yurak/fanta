@@ -19,7 +19,7 @@ class ClubsController < ApplicationController
     when 'club'
       all_players.sort_by(&:club)
     when 'team'
-      all_players.sort_by{ |p| p.team&.id.to_i }
+      all_players.sort_by(&:team)
     when 'mp'
       all_players.sort_by(&:played_matches_count).reverse
     when 'sc'
