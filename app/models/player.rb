@@ -23,6 +23,11 @@ class Player < ApplicationRecord
     order(order_by.join(' '))
   end
 
+  def avatar_path
+    path = "players/#{club.name.downcase}/#{name.downcase.gsub(' ','_').gsub("'",'')}.png"
+    ActionController::Base.helpers.resolve_asset_path(path) ? path : 'players/avatar.png'
+  end
+
   def positions_names_string
     position_names.join(' ')
   end
