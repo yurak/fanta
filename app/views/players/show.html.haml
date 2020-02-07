@@ -2,7 +2,7 @@
   .player-show
     .player-show-images
       .player-show-face
-        = image_tag("players/#{player.club.name.downcase}/#{player.name.downcase.gsub(' ','_').gsub("'",'')}.png")
+        = image_tag(player.avatar_path)
       .player-show-kit
         = image_tag("players/kits/#{player.club.name}.png", alt: "Club Kit")
       .player-show-team
