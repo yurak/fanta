@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_05_123830) do
+ActiveRecord::Schema.define(version: 2020_02_17_152657) do
 
   create_table "articles", force: :cascade do |t|
     t.string "title"
@@ -24,6 +24,16 @@ ActiveRecord::Schema.define(version: 2020_01_05_123830) do
   create_table "clubs", force: :cascade do |t|
     t.string "code"
     t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "tournament_id"
+    t.index ["tournament_id"], name: "index_clubs_on_tournament_id"
+  end
+
+  create_table "leagues", force: :cascade do |t|
+    t.string "name"
+    t.bigint "tournament_id", null: false
+    t.integer "status", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -42,6 +52,8 @@ ActiveRecord::Schema.define(version: 2020_01_05_123830) do
     t.string "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "league_id"
+    t.index ["league_id"], name: "index_links_on_league_id"
   end
 
   create_table "match_players", force: :cascade do |t|
@@ -127,7 +139,16 @@ ActiveRecord::Schema.define(version: 2020_01_05_123830) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "user_id"
+    t.integer "league_id"
+    t.index ["league_id"], name: "index_teams_on_league_id"
     t.index ["user_id"], name: "index_teams_on_user_id"
+  end
+
+  create_table "tournaments", force: :cascade do |t|
+    t.string "name"
+    t.string "code"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "tours", force: :cascade do |t|
@@ -136,6 +157,8 @@ ActiveRecord::Schema.define(version: 2020_01_05_123830) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "deadline"
+    t.integer "league_id"
+    t.index ["league_id"], name: "index_tours_on_league_id"
   end
 
   create_table "users", force: :cascade do |t|

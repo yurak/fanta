@@ -1,4 +1,6 @@
 class Article < ApplicationRecord
+  # TODO: Add nested parameter - articles shown only in league news
+
   enum status: %i[published hidden]
 
   validates :title, presence: true

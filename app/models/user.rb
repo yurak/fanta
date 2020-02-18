@@ -4,6 +4,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
+  # TODO: add ability to have many clubs in different leagues
   has_one :team, dependent: :destroy
 
   EMAIL_LENGTH = (6..50).freeze

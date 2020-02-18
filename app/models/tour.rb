@@ -3,6 +3,7 @@ require 'telegram/bot'
 class Tour < ApplicationRecord
   enum status: %i[inactive set_lineup locked closed postponed]
 
+  belongs_to :league
   has_many :matches, dependent: :destroy
   has_many :lineups, dependent: :destroy
 

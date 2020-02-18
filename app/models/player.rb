@@ -1,7 +1,8 @@
 class Player < ApplicationRecord
   has_and_belongs_to_many :positions
-  belongs_to :team
   belongs_to :club
+  # TODO: change to has_and_belongs_to_many :teams
+  belongs_to :team, optional: true
 
   has_many :match_players, dependent: :destroy
   has_many :lineups, through: :match_players
