@@ -3,6 +3,7 @@ lock "~> 3.11.0"
 
 set :application, "fanta"
 set :repo_url, "https://github.com/yurak/fanta"
+set :branch, ENV['BRANCH'] || 'master'
 
 append :linked_files, 'config/master.key'
 
