@@ -1,3 +1,72 @@
 // Place all the styles related to the Leagues controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.league-item {
+  display: grid;
+  grid-template-columns: 30% auto;
+  margin: 40px;
+  background-color: #001280;
+  color: white;
+}
+
+.league-info-container {
+  display: flex;
+  align-items: center;
+  text-align: center;
+}
+
+.league-info {
+  width: 100%;
+  text-align: center;
+  .league-name {
+    padding: 10px;
+    font-size: 24px;
+  }
+  .league-tournament-logo {
+    img {
+      max-width: 120px;
+      height: 120px;
+    }
+  }
+  .league-tournament-title {
+    color: #6adde2;
+    font-size: 22px;
+    padding: 10px;
+  }
+}
+
+.league-teams {
+  font-size: 18px;
+  line-height: 46px;
+  padding: 10px;
+
+  display: grid;
+  grid-template-columns: 50% 50%;
+
+
+  .league-team {
+    width: 100%;
+    padding: 5px 20px 5px 0;
+    display: grid;
+    grid-template-columns: 50px auto;
+  }
+  .league-team-logo {
+    background-color: white;
+    img {
+      margin: 2px;
+      width: 46px;
+      height: 46px;
+    }
+  }
+  .league-team-name {
+    padding-left: 20px;
+    background-color: #0f29a4;
+    color: #ffffff;
+  }
+  .league-team:nth-child(4n-1), .league-team:nth-child(4n-2) {
+    .league-team-name {
+      background-color: #0657cc;
+    }
+  }
+}

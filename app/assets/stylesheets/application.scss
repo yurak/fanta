@@ -18,6 +18,7 @@
 
 @import "articles";
 @import "clubs";
+@import "leagues";
 @import "lineups";
 @import "links";
 @import "players";
@@ -31,6 +32,7 @@ body, html {
   width: 100%;
   margin: 0;
   padding: 0;
+  background-color: #001280;
 }
 
 .page {
@@ -46,7 +48,7 @@ body, html {
 }
 
 .navbar {
-  background-color: #0c3d9a;
+  background-color: #001280;
   color: #6adde2;
   height: 100%;
   width: 250px;
@@ -94,20 +96,45 @@ body, html {
   .links-link { background-image: image-url('navbar/links.png'); }
   .leagues-link { background-image: image-url('navbar/leagues.png'); }
   .players-link { background-image: image-url('navbar/players.png'); }
+  .rules-link { background-image: image-url('navbar/news.png'); }
   .profile-link { background-image: image-url('navbar/profile.png'); }
   .admin-link { background-image: image-url('navbar/admin.png'); }
 }
 
 .main {
-  background-color: #4b9cdd;
+  background-color: #0657cc;
   height: calc(100% - 100px);
   width: 100%;
 }
 
 .footer {
-  background-color: #1b5dbb;
+  background-color: #0f29a4;
   height: 100px;
   width: 100%;
+}
+
+.page-header {
+  height: 120px;
+  width: 100%;
+  color: #6adde2;
+  background-color: #0f29a4;
+  display: grid;
+  grid-template-columns: 160px auto;
+
+  .page-header-icon {
+    padding: 20px 40px;
+    img {
+      width: 80px;
+      height: 80px;
+    }
+  }
+
+  .page-header-title {
+    line-height: 120px;
+    font-size: 40px;
+    font-style: italic;
+
+  }
 }
 
 .center {

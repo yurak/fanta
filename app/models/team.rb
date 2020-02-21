@@ -18,7 +18,7 @@ class Team < ApplicationRecord
     if File.exist?("app/assets/images/teams/#{name}.png")
       "teams/#{name}.png"
     else
-      'fanta.png'
+      'teams/default_logo.png'
     end
   end
 end

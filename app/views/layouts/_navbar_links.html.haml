@@ -24,9 +24,11 @@
       = link_to 'Links', '', class: 'links-link'
 .nav-block
   .nav-link
-    = link_to 'Leagues', '', class: 'leagues-link'
+    = link_to 'Leagues', leagues_path, class: 'leagues-link'
   .nav-link
     = link_to 'Players', '', class: 'players-link'
+  .nav-link
+    = link_to 'Rules', rules_path, class: 'rules-link'
 .nav-block
   - if user_signed_in?
     .nav-link
