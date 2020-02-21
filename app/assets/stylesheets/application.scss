@@ -69,7 +69,6 @@ body, html {
   }
 
   .nav-link {
-    //min-height: 60px;
     width: 100%;
 
     a {
@@ -84,19 +83,19 @@ body, html {
     }
   }
 
-  .home-link { background-image: url('navbar/home.png'); }
-  .squad-link { background-image: url('navbar/squad.png'); }
-  .lineups-link { background-image: url('navbar/lineups.png'); }
-  .tour-link { background-image: url('navbar/tour.png'); }
-  .table-link { background-image: url('navbar/table.png'); }
-  .fixtures-link { background-image: url('navbar/calendar.png'); }
-  .results-link { background-image: url('navbar/results.png'); }
-  .stats-link { background-image: url('navbar/stats.png'); }
-  .links-link { background-image: url('navbar/links.png'); }
-  .leagues-link { background-image: url('navbar/leagues.png'); }
-  .players-link { background-image: url('navbar/players.png'); }
-  .profile-link { background-image: url('navbar/profile.png'); }
-  .admin-link { background-image: url('navbar/admin.png'); }
+  .home-link { background-image: image-url('navbar/home.png'); }
+  .squad-link { background-image: image-url('navbar/squad.png'); }
+  .lineups-link { background-image: image-url('navbar/lineups.png'); }
+  .tour-link { background-image: image-url('navbar/tour.png'); }
+  .table-link { background-image: image-url('navbar/table.png'); }
+  .fixtures-link { background-image: image-url('navbar/calendar.png'); }
+  .results-link { background-image: image-url('navbar/results.png'); }
+  .stats-link { background-image: image-url('navbar/stats.png'); }
+  .links-link { background-image: image-url('navbar/links.png'); }
+  .leagues-link { background-image: image-url('navbar/leagues.png'); }
+  .players-link { background-image: image-url('navbar/players.png'); }
+  .profile-link { background-image: image-url('navbar/profile.png'); }
+  .admin-link { background-image: image-url('navbar/admin.png'); }
 }
 
 .main {
