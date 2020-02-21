@@ -1,0 +1,5 @@
+.container
+  .leagues-block.row
+    - @leagues.each do |league|
+      = league.name
+      -#= render 'teams_list', league: league

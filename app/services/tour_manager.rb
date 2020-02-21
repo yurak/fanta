@@ -35,11 +35,11 @@ class TourManager
   end
 
   def close
-    if tour.locked_or_postponed? && status == 'closed'
-      tour.closed!
-      ResultsManager.new(tour: tour).update
-      MatchPlayerManager.new(tour: tour).create
-    end
+    return unless tour.locked_or_postponed? && status == 'closed'
+
+    tour.closed!
+    ResultsManager.new(tour: tour).update
+    MatchPlayerManager.new(tour: tour).create
   end
 
   def any_tour_in_progress?

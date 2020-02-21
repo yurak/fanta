@@ -1,6 +1,47 @@
-= link_to 'News', articles_path, class: 'btn btn-outline-primary'
-= link_to 'Teams', teams_path, class: 'btn btn-outline-primary'
-= link_to 'Tours', tours_path, class: 'btn btn-outline-primary'
-= link_to 'Table', results_path, class: 'btn btn-outline-primary'
-= link_to 'Stats', clubs_path, class: 'btn btn-outline-primary'
-= link_to 'Useful Links', links_path, class: 'btn btn-outline-primary'
+.nav-block
+  .nav-link
+    = link_to 'Home', articles_path, class: 'home-link'
+- if user_signed_in?
+  .nav-block
+    .nav-header My Team
+    .nav-link
+      = link_to 'Squad', '', class: 'squad-link'
+    .nav-link
+      = link_to 'Lineups', '', class: 'lineups-link'
+  .nav-block
+    .nav-header My League
+    .nav-link
+      = link_to 'Tour', '', class: 'tour-link'
+    .nav-link
+      = link_to 'Table', '', class: 'table-link'
+    .nav-link
+      = link_to 'Fixtures', '', class: 'fixtures-link'
+    .nav-link
+      = link_to 'Results', '', class: 'results-link'
+    .nav-link
+      = link_to 'Stats', '', class: 'stats-link'
+    .nav-link
+      = link_to 'Links', '', class: 'links-link'
+.nav-block
+  .nav-link
+    = link_to 'Leagues', '', class: 'leagues-link'
+  .nav-link
+    = link_to 'Players', '', class: 'players-link'
+.nav-block
+  - if user_signed_in?
+    .nav-link
+      = link_to 'Profile', edit_user_registration_path, class: 'profile-link'
+    - if current_user.admin?
+      .nav-link
+        = link_to 'Admin Panel', rails_admin_path, class: 'admin-link'
+  - else
+    .nav-link
+      = link_to 'Log In', new_user_session_path, class: 'profile-link'
+
+-#= link_to 'Leagues', leagues_path, class: 'btn btn-outline-primary'
+-# TODO: show info for league
+-#= link_to 'Teams', teams_path, class: 'btn btn-outline-primary'
+-#= link_to 'Tours', tours_path, class: 'btn btn-outline-primary'
+-#= link_to 'Table', results_path, class: 'btn btn-outline-primary'
+-#= link_to 'Stats', clubs_path#, class: 'btn btn-outline-primary'
+-#= link_to 'Useful Links', links_path, class: 'btn btn-outline-primary'

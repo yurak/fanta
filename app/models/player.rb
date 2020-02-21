@@ -7,11 +7,11 @@ class Player < ApplicationRecord
   has_many :match_players, dependent: :destroy
   has_many :lineups, through: :match_players
 
-  #TODO: unique by name and club
+  # TODO: unique by name and club
   # validates :name, uniqueness: true
 
   scope :by_position, ->(position) { joins(:positions).where(positions: { name: position }) }
-  scope :stats_query, ->{ includes(:match_players, :club, :team, :positions).order(:name) }
+  scope :stats_query, -> { includes(:match_players, :club, :team, :positions).order(:name) }
 
   enum status: %i[ready problematic injured disqualified]
 
@@ -25,7 +25,7 @@ class Player < ApplicationRecord
   end
 
   def avatar_path
-    path = "players/#{club.name.downcase}/#{name.downcase.gsub(' ','_').gsub("'",'')}.png"
+    path = "players/#{club.name.downcase}/#{name.downcase.tr(' ', '_').delete("'")}.png"
     ActionController::Base.helpers.resolve_asset_path(path) ? path : 'players/avatar.png'
   end
 
@@ -51,11 +51,13 @@ class Player < ApplicationRecord
 
   def average_score
     return 0 if scores_count.zero?
+
     @average_score ||= (match_with_scores.map(&:score).sum / scores_count).round(2)
   end
 
   def average_total_score
     return 0 if scores_count.zero?
+
     @average_total_score ||= (match_with_scores.map(&:total_score).sum / scores_count).round(2)
   end
 
@@ -70,7 +72,7 @@ class Player < ApplicationRecord
       bs[mp.lineup.tour.number] = mp.score
       ts[mp.lineup.tour.number] = mp.total_score
     end
-    [{name: "Total score", data: ts}, {name: "Score", data: bs}]
+    [{ name: 'Total score', data: ts }, { name: 'Score', data: bs }]
   end
 
   def best_score

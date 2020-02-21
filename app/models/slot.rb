@@ -7,6 +7,6 @@ class Slot < ApplicationRecord
   end
 
   def positions_with_malus
-    positions.map{|p|  Position::DEPENDENCY[p]}.flatten.uniq
+    positions.map { |p| Position::DEPENDENCY[p] }.flatten.uniq
   end
 end

@@ -33,8 +33,81 @@ body, html {
   padding: 0;
 }
 
+.page {
+  display: grid;
+  grid-template-columns: 250px auto;
+  height: 100%;
+}
+
+.navbar-block {
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+
+.navbar {
+  background-color: #0c3d9a;
+  color: #6adde2;
+  height: 100%;
+  width: 250px;
+  position: fixed;
+  font-size: 18px;
+  line-height: 30px;
+
+  .nav-block {
+    border-top: white solid 1px;
+    width: 100%;
+  }
+
+  .nav-block:first-child {
+    border-top: none;
+  }
+
+  .nav-header {
+    margin-top: 5px;
+    font-style: italic;
+  }
+
+  .nav-link {
+    //min-height: 60px;
+    width: 100%;
+
+    a {
+      background-size: 30px;
+      background-repeat: no-repeat;
+      background-position: left center;
+      background-clip: border-box;
+      padding-left: 50px;
+      height: 30px;
+      color: white;
+      display: block
+    }
+  }
+
+  .home-link { background-image: url('navbar/home.png'); }
+  .squad-link { background-image: url('navbar/squad.png'); }
+  .lineups-link { background-image: url('navbar/lineups.png'); }
+  .tour-link { background-image: url('navbar/tour.png'); }
+  .table-link { background-image: url('navbar/table.png'); }
+  .fixtures-link { background-image: url('navbar/calendar.png'); }
+  .results-link { background-image: url('navbar/results.png'); }
+  .stats-link { background-image: url('navbar/stats.png'); }
+  .links-link { background-image: url('navbar/links.png'); }
+  .leagues-link { background-image: url('navbar/leagues.png'); }
+  .players-link { background-image: url('navbar/players.png'); }
+  .profile-link { background-image: url('navbar/profile.png'); }
+  .admin-link { background-image: url('navbar/admin.png'); }
+}
+
+.main {
+  background-color: #4b9cdd;
+  height: calc(100% - 100px);
+  width: 100%;
+}
+
 .footer {
-  height: 50px;
+  background-color: #1b5dbb;
+  height: 100px;
   width: 100%;
 }
 
@@ -54,60 +127,60 @@ body, html {
   width: 60px;
 }
 
-.navbar {
-  .nav-profile {
-    padding-top: 15px;
-    width: 100%;
-    .nav-profile-link {
-      float: right;
-      .nav-profile-separator {
-        width: 30px;
-        display: inline-block;
-        text-align: center;
-      }
-    }
-  }
-  .btn-group {
-    padding: 15px 0 25px;
-    width: 100%;
-    font-size: 18px;
+//.navbar {
+//  .nav-profile {
+//    padding-top: 15px;
+//    width: 100%;
+//    .nav-profile-link {
+//      float: right;
+//      .nav-profile-separator {
+//        width: 30px;
+//        display: inline-block;
+//        text-align: center;
+//      }
+//    }
+//  }
+//  .btn-group {
+//    padding: 15px 0 25px;
+//    width: 100%;
+//    font-size: 18px;
+//
+//    .btn{
+//      width: 100%;
+//    }
+//  }
+//}
 
-    .btn{
-      width: 100%;
-    }
-  }
-}
-
-.mobile-navbar {
-  .mobile-vertical-btn {
-    width: 100%;
-  }
-}
+//.mobile-navbar {
+//  .mobile-vertical-btn {
+//    width: 100%;
+//  }
+//}
 
 .nav-item {
   font-size: 17px;
 }
 
-@media screen and (min-device-width: 350px) {
-  .mobile-navbar {
-    display: none;
-  }
-}
-
-@media screen and (max-device-width: 350px) {
-  .large-navbar {
-    display: none;
-  }
-  .mobile-navbar {
-    display: inline-block;
-  }
-}
-
-@media screen and (max-device-width: 991px) {
-  .nav-fill > li {
-    font-size: 22px;
-  }
-}
+//@media screen and (min-device-width: 350px) {
+//  .mobile-navbar {
+//    display: none;
+//  }
+//}
+//
+//@media screen and (max-device-width: 350px) {
+//  .large-navbar {
+//    display: none;
+//  }
+//  .mobile-navbar {
+//    display: inline-block;
+//  }
+//}
+//
+//@media screen and (max-device-width: 991px) {
+//  .nav-fill > li {
+//    font-size: 22px;
+//  }
+//}
 
 .input-group-prepend {
   width: 110px;

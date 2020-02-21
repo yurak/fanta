@@ -6,6 +6,7 @@ class ApplicationController < ActionController::Base
   private
 
   def active_tour
+    # TODO: move to League model
     Tour.active
   end
 

@@ -1,50 +1,5 @@
-# TODO: add all players which changed club at Serie A
-club_transfers:
-  Kurtic:
-    from: SPA
-    to: PAR
-  Perin:
-    from: JUV
-    to: GEN
-  Destro:
-    from: BOL
-    to: GEN
-  Caldara:
-    from: MIL
-    to: ATA
-  Kjaer:
-    from: ATA
-    to: MIL
-  Dabo:
-    from: FIO
-    to: SPA
-  Bonifazi:
-    from: TOR
-    to: SPA
-  Politano:
-    from: INT
-    to: TOR
-  Masiello:
-    from: ATA
-    to: GEN
-  Radu:
-    from: GEN
-    to: PAR
-  Iago:
-    from: TOR
-    to: GEN
-  Duncan:
-    from: SAS
-    to: FIO
-  Igor Julio:
-    from: SPA
-    to: FIO
-  Caprari:
-    from: SAM
-    to: PAR
-  Kouame:
-    from: GEN
-    to: FIO
-  Castro:
-    from: CAG
-    to: SPA
+# For change player's club, create records like this:
+# club_transfers:
+#   Kurtic:
+#     from: SPA
+#     to: PAR

@@ -11,8 +11,8 @@ class Lineup < ApplicationRecord
 
   delegate :slots, to: :team_module
 
-  scope :not_active, ->{ where.not(tour_id: Tour.active&.id) }
-  scope :closed, ->{ where(tour_id: Tour.closed.ids) }
+  scope :not_active, -> { where.not(tour_id: Tour.active&.id) }
+  scope :closed, -> { where(tour_id: Tour.closed.ids) }
 
   FIRST_GOAL = 66
   INCREMENT = 6
@@ -73,6 +73,7 @@ class Lineup < ApplicationRecord
 
   def def_average_score
     return 0 if match_players.defenders.empty?
+
     def_scores_sum / def_count
   end
 

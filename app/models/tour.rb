@@ -9,7 +9,7 @@ class Tour < ApplicationRecord
 
   after_update :send_notifications
 
-  scope :closed_postponed, ->{ closed.or(postponed) }
+  scope :closed_postponed, -> { closed.or(postponed) }
 
   def locked_or_postponed?
     locked? || postponed?
@@ -40,6 +40,6 @@ class Tour < ApplicationRecord
   end
 
   def deadline_str
-    deadline.to_datetime&.strftime("%H:%M, %d %B")
+    deadline.to_datetime&.strftime('%H:%M, %d %B')
   end
 end
