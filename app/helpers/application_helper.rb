@@ -43,7 +43,9 @@ module ApplicationHelper
   end
 
   def squad_class(match_player)
-    if match_player.real_position
+    if match_player.has_malus?
+      'alert-primary'
+    elsif match_player.real_position
       'alert-success'
     elsif match_player.not_in_squad?
       'alert-danger'
