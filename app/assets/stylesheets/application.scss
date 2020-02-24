@@ -37,7 +37,7 @@ body, html {
 
 .page {
   display: grid;
-  grid-template-columns: 250px auto;
+  grid-template-columns: 200px auto;
   height: 100%;
 }
 
@@ -50,18 +50,22 @@ body, html {
 .navbar {
   background-color: #001280;
   color: #6adde2;
-  height: 100%;
-  width: 250px;
+  max-height: 100%;
+  width: 200px;
   position: fixed;
   font-size: 18px;
   line-height: 30px;
 
   .nav-block {
+    position: relative;
+    top: 0;
     border-top: white solid 1px;
     width: 100%;
+    padding-bottom: 20px;
   }
 
   .nav-block:first-child {
+    padding-top: 20px;
     border-top: none;
   }
 
@@ -71,6 +75,7 @@ body, html {
   }
 
   .nav-link {
+    padding: 0.5rem;
     width: 100%;
 
     a {
@@ -78,7 +83,7 @@ body, html {
       background-repeat: no-repeat;
       background-position: left center;
       background-clip: border-box;
-      padding-left: 50px;
+      padding-left: 40px;
       height: 30px;
       color: white;
       display: block
@@ -101,9 +106,25 @@ body, html {
   .admin-link { background-image: image-url('navbar/admin.png'); }
 }
 
+/* Navbar - show only link icons without text */
+@media screen and (max-device-width: 991px) {
+  .nav-link {
+    font-size: 0;
+  }
+  .page {
+    grid-template-columns: 80px auto;
+  }
+  .navbar {
+    width: 80px;
+  }
+  .nav-header {
+    display: none;
+  }
+}
+
 .main {
   background-color: #0657cc;
-  height: calc(100% - 100px);
+  height: 100%;//calc(100% - 100px);
   width: 100%;
 }
 

@@ -4,8 +4,8 @@
 
 .league-item {
   display: grid;
-  grid-template-columns: 30% auto;
-  margin: 40px;
+  grid-template-columns: 25% auto;
+  margin: 30px;
   background-color: #001280;
   color: white;
 }
@@ -39,7 +39,7 @@
 .league-teams {
   font-size: 18px;
   line-height: 46px;
-  padding: 10px;
+  padding: 10px 0;
 
   display: grid;
   grid-template-columns: 50% 50%;
@@ -60,13 +60,43 @@
     }
   }
   .league-team-name {
-    padding-left: 20px;
+    padding-left: 10px;
     background-color: #0f29a4;
     color: #ffffff;
+    max-width: 100%;
   }
   .league-team:nth-child(4n-1), .league-team:nth-child(4n-2) {
     .league-team-name {
       background-color: #0657cc;
+    }
+  }
+}
+
+@media screen and (max-device-width: 899px) {
+  .league-item {
+    grid-template-columns: 100%;
+  }
+  .league-info {
+    .league-name {
+      padding: 10px 0 0;
+    }
+    .league-tournament-logo {
+      display: none;
+    }
+    .league-tournament-title {
+      font-size: 18px;
+      padding: 0;
+    }
+  }
+  .league-teams {
+    padding: 10px;
+    .league-team {
+      padding: 5px 10px;
+      max-height: 60px;
+    }
+    .league-team-name {
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
   }
 }

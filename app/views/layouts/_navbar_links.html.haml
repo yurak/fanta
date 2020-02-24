@@ -5,40 +5,40 @@
   .nav-block
     .nav-header My Team
     .nav-link
-      = link_to 'Squad', '', class: 'squad-link'
+      = link_to 'Squad', '', class: 'squad-link', title: 'Squad'
     .nav-link
-      = link_to 'Lineups', '', class: 'lineups-link'
+      = link_to 'Lineups', '', class: 'lineups-link', title: 'Lineups'
   .nav-block
     .nav-header My League
     .nav-link
-      = link_to 'Tour', '', class: 'tour-link'
+      = link_to 'Tour', '', class: 'tour-link', title: 'Tour'
     .nav-link
-      = link_to 'Table', '', class: 'table-link'
+      = link_to 'Table', '', class: 'table-link', title: 'Table'
     .nav-link
-      = link_to 'Fixtures', '', class: 'fixtures-link'
+      = link_to 'Fixtures', '', class: 'fixtures-link', title: 'Fixtures'
     .nav-link
-      = link_to 'Results', '', class: 'results-link'
+      = link_to 'Results', '', class: 'results-link', title: 'Results'
     .nav-link
-      = link_to 'Stats', '', class: 'stats-link'
+      = link_to 'Stats', '', class: 'stats-link', title: 'Stats'
     .nav-link
-      = link_to 'Links', '', class: 'links-link'
+      = link_to 'Links', '', class: 'links-link', title: 'Links'
 .nav-block
   .nav-link
-    = link_to 'Leagues', leagues_path, class: 'leagues-link'
+    = link_to 'Leagues', leagues_path, class: 'leagues-link', title: 'Leagues'
   .nav-link
-    = link_to 'Players', '', class: 'players-link'
+    = link_to 'Players', '', class: 'players-link', title: 'Players'
   .nav-link
-    = link_to 'Rules', rules_path, class: 'rules-link'
+    = link_to 'Rules', rules_path, class: 'rules-link', title: 'Rules'
 .nav-block
   - if user_signed_in?
     .nav-link
-      = link_to 'Profile', edit_user_registration_path, class: 'profile-link'
+      = link_to 'Profile', edit_user_registration_path, class: 'profile-link', title: 'Profile'
     - if current_user.admin?
       .nav-link
-        = link_to 'Admin Panel', rails_admin_path, class: 'admin-link'
+        = link_to 'Admin Panel', rails_admin_path, class: 'admin-link', title: 'Admin Panel'
   - else
     .nav-link
-      = link_to 'Log In', new_user_session_path, class: 'profile-link'
+      = link_to 'Log In', new_user_session_path, class: 'profile-link', title: 'Log In'
 
 -#= link_to 'Leagues', leagues_path, class: 'btn btn-outline-primary'
 -# TODO: show info for league
