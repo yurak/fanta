@@ -217,7 +217,7 @@ body, html {
 }
 
 /* Navbar - show horizontally for horizontal view */
-@media screen and (max-device-height: 830px) {
+@media screen and (max-device-height: 830px) and (orientation: landscape) {
   .page {
     grid-template-columns: 100%;
   }
