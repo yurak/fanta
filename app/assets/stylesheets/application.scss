@@ -157,60 +157,9 @@ body, html {
   width: 60px;
 }
 
-//.navbar {
-//  .nav-profile {
-//    padding-top: 15px;
-//    width: 100%;
-//    .nav-profile-link {
-//      float: right;
-//      .nav-profile-separator {
-//        width: 30px;
-//        display: inline-block;
-//        text-align: center;
-//      }
-//    }
-//  }
-//  .btn-group {
-//    padding: 15px 0 25px;
-//    width: 100%;
-//    font-size: 18px;
-//
-//    .btn{
-//      width: 100%;
-//    }
-//  }
-//}
-
-//.mobile-navbar {
-//  .mobile-vertical-btn {
-//    width: 100%;
-//  }
-//}
-
 .nav-item {
   font-size: 17px;
 }
-
-//@media screen and (min-device-width: 350px) {
-//  .mobile-navbar {
-//    display: none;
-//  }
-//}
-//
-//@media screen and (max-device-width: 350px) {
-//  .large-navbar {
-//    display: none;
-//  }
-//  .mobile-navbar {
-//    display: inline-block;
-//  }
-//}
-//
-//@media screen and (max-device-width: 991px) {
-//  .nav-fill > li {
-//    font-size: 22px;
-//  }
-//}
 
 .input-group-prepend {
   width: 110px;
@@ -248,10 +197,9 @@ body, html {
 @media screen and (max-device-width: 991px) {
   .navbar {
     width: 100%;
-    min-height: 100%;
-    overflow:scroll;
+    //min-height: 100%;
     .nav-block, .nav-block:first-child {
-      padding: 0;
+      padding: 10px 0;
     }
   }
   .nav-link {
@@ -269,22 +217,24 @@ body, html {
 }
 
 /* Navbar - show horizontally for horizontal view */
-@media screen and (max-device-height: 700px) and (max-device-width: 1091px) {
+@media screen and (max-device-height: 830px) {
   .page {
     grid-template-columns: 100%;
   }
   .navbar {
     min-height: 50px;
     height: 60px;
-    width: auto;
+    width: 100%;
     .nav-header {
       display: none;
     }
 
     .nav-block {
+      position: relative;
+      top: 0;
       border-top: none;
       border-left: white solid 1px;
-      width: inherit;
+      width: auto;
       padding: 0 0 0 5px;
     }
     .nav-block:first-child {
