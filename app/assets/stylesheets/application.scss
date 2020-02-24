@@ -206,15 +206,20 @@ body, html {
     .nav-block, .nav-block:first-child {
       padding: 10px 0;
     }
-  }
-  .nav-link {
-    font-size: 0;
+    .nav-link {
+      font-size: 0;
+      a {
+        background-size: 50px;
+        padding-left: 0;
+        height: 50px;
+      }
+    }
   }
   .page {
-    grid-template-columns: 80px auto;
+    grid-template-columns: 100px auto;
   }
   .navbar {
-    width: 80px;
+    width: 100px;
   }
   .nav-header {
     display: none;
@@ -253,6 +258,9 @@ body, html {
       width: 50px;
       a {
         padding-left: 30px;
+        background-size: 30px;
+        padding-left: 0;
+        height: 30px;
       }
     }
   }
