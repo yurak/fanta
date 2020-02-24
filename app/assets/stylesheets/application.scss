@@ -106,13 +106,18 @@ body, html {
   .admin-link { background-image: image-url('navbar/admin.png'); }
 }
 
+.main-block {
+  height: 100%;
+}
 .main {
   background-color: #0657cc;
-  height: 100%;//calc(100% - 100px);
+  height: calc(100% - 100px);
   width: 100%;
 }
 
 .footer {
+  position: relative;
+  bottom: 0;
   background-color: #0f29a4;
   height: 100px;
   width: 100%;
@@ -195,10 +200,9 @@ body, html {
 }
 
 /* Navbar - show only link icons without text */
-@media screen and (max-device-width: 991px) {
+@media screen and (max-device-width: 920px) {
   .navbar {
     width: 100%;
-    //min-height: 100%;
     .nav-block, .nav-block:first-child {
       padding: 10px 0;
     }
