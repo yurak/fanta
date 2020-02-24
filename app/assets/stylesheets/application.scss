@@ -106,22 +106,6 @@ body, html {
   .admin-link { background-image: image-url('navbar/admin.png'); }
 }
 
-/* Navbar - show only link icons without text */
-@media screen and (max-device-width: 991px) {
-  .nav-link {
-    font-size: 0;
-  }
-  .page {
-    grid-template-columns: 80px auto;
-  }
-  .navbar {
-    width: 80px;
-  }
-  .nav-header {
-    display: none;
-  }
-}
-
 .main {
   background-color: #0657cc;
   height: 100%;//calc(100% - 100px);
@@ -154,7 +138,6 @@ body, html {
     line-height: 120px;
     font-size: 40px;
     font-style: italic;
-
   }
 }
 
@@ -259,4 +242,82 @@ body, html {
 
 .clr-secondary, .disqualified {
   background-color: #bdbdbd;
+}
+
+/* Navbar - show only link icons without text */
+@media screen and (max-device-width: 991px) {
+  .navbar {
+    width: 100%;
+    min-height: 100%;
+    overflow:scroll;
+    .nav-block, .nav-block:first-child {
+      padding: 0;
+    }
+  }
+  .nav-link {
+    font-size: 0;
+  }
+  .page {
+    grid-template-columns: 80px auto;
+  }
+  .navbar {
+    width: 80px;
+  }
+  .nav-header {
+    display: none;
+  }
+}
+
+/* Navbar - show horizontally for horizontal view */
+@media screen and (max-device-height: 700px) and (max-device-width: 1091px) {
+  .page {
+    grid-template-columns: 100%;
+  }
+  .navbar {
+    min-height: 50px;
+    height: 60px;
+    width: auto;
+    .nav-header {
+      display: none;
+    }
+
+    .nav-block {
+      border-top: none;
+      border-left: white solid 1px;
+      width: inherit;
+      padding: 0 0 0 5px;
+    }
+    .nav-block:first-child {
+      padding: 0 0 0 5px;
+      border-left: none;
+    }
+    .nav-link {
+      font-size: 0;
+      display: inline-block;
+      padding: 0.5rem;
+      width: 50px;
+      a {
+        padding-left: 30px;
+      }
+    }
+  }
+  .page-header {
+    margin-top: 60px;
+    height: 80px;
+    grid-template-columns: 120px auto;
+
+    .page-header-icon {
+      padding: 10px 30px;
+      img {
+        width: 60px;
+        height: 60px;
+      }
+    }
+
+    .page-header-title {
+      line-height: 80px;
+      font-size: 30px;
+      font-style: italic;
+    }
+  }
 }
