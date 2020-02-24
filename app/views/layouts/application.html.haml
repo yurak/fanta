@@ -25,3 +25,12 @@
             -#      = content_tag :div, value, class: "#{flash_class(key)}"
             = yield
           .footer
+
+-# TODO: temporary script
+%script
+  var h = $(window).height();
+  var w = $(window).width();
+  $(".footer").append("<p>WINDOW: height=" + h + "; width=" + w + "</p>");
+  var h2 = $(document).height();
+  var w2 = $(document).width();
+  $(".footer").append("<p>DOCUMENT: height=" + h2 + "; width=" + w2 + "</p>");
