@@ -110,8 +110,9 @@ body, html {
   height: 100%;
 }
 .main {
+  padding-top: 140px;
   background-color: #0657cc;
-  height: calc(100% - 100px);
+  height: 100%;
   width: 100%;
 }
 
@@ -125,6 +126,8 @@ body, html {
 }
 
 .page-header {
+  position: fixed;
+  top: 0;
   height: 120px;
   width: 100%;
   color: #6adde2;
@@ -238,7 +241,6 @@ body, html {
     .nav-header {
       display: none;
     }
-
     .nav-block {
       position: relative;
       top: 0;
@@ -257,7 +259,6 @@ body, html {
       padding: 0.5rem;
       width: 50px;
       a {
-        padding-left: 30px;
         background-size: 30px;
         padding-left: 0;
         height: 30px;

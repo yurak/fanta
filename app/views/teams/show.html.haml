@@ -1,19 +1,40 @@
-.container
-  .col-xs-2
-    .alert.alert-primary
-      .team-header
-        .team-logo.inline-block
-          %img{alt: "Logo", src: image_path(team.logo_path)}
-        .team-title.inline-block
-          = team.name.humanize
+.page-header
+  .page-header-icon
+    = image_tag(team.logo_path)
+  .page-header-title= team.name.humanize.upcase
+.page-info
+  -# TODO: update page styles
+  .table-players.center{ class: ('alien-team' unless team.user == current_user) }
+    .cell-player.table-head Position
+    .cell-player.table-head Name
+    .cell-player.table-head.personal-data Status
+    .cell-player.table-head Club
+    .cell-player.table-head.mobile-hidden.personal-data
+    - team.players.sort_by(&:position_sequence_number).each do |player|
+      .cell-player.player-text
+        - player.positions.each do |position|
+          .position-image.inline-block
+            = image_tag("positions/#{position.name}.png")
+      .cell-player.player-text.player-name
+        = link_to player.name, league_team_player_path(team.league, team, player)
+      .cell-player.player-text.personal-data
+        .badge{ class: status_class('badge', player.status) }
+          = player.status
+      .cell-player.cell-pl-logo
+        .club-logo{ class: player.club.code.downcase }
+      .cell-player.cell-pl-actions.personal-data
+        -#.btn-group{"aria-label" => "Basic example", role: "group"}
+        -#  - Player.statuses.each do |status, _value|
+        -#    - if status != player.status
+        -#      = link_to status, league_team_player_change_status_path(team.league, team, player, status: status), class: "btn btn-sm btn-primary #{status_class('btn', status)}"
 
-  %ul.nav.nav-tabs.nav-fill
-    %li.nav-item
-      %a{"data-toggle" => "tab", href: "#team-squad", class: 'nav-link active'} Squad
-    %li.nav-item
-      %a{"data-toggle" => "tab", href: "#team-lineups", class: 'nav-link'} Lineups
-  .tab-content
-    .tab-pane.pane.active#team-squad
-      = render 'team_players', team: team
-    .tab-pane.fade#team-lineups
-      = render 'team_lineups', team: team
+-#  %ul.nav.nav-tabs.nav-fill
+-#    %li.nav-item
+-#      %a{"data-toggle" => "tab", href: "#team-squad", class: 'nav-link active'} Squad
+-#    %li.nav-item
+-#      %a{"data-toggle" => "tab", href: "#team-lineups", class: 'nav-link'} Lineups
+-#  .tab-content
+-#    .tab-pane.pane.active#team-squad
+-#      = render 'team_players', team: team
+-#    .tab-pane.fade#team-lineups
+-#      = render 'team_lineups', team: team
