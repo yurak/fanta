@@ -1,163 +1,118 @@
 /* TEAM INDEX page */
 
-.team-card {
-  margin: 15px;
-  width: calc(20% - 30px);
-  padding: 10px;
-  border-width: 0;
-  background-color: #cce5ff;
-
-  .team-card-body {
-    padding: 10px 1rem;
-    height: 40px;
-    font-size: 18px;
-  }
-  .team-card-title {
-    height: 100%;
-    margin: 0;
-  }
-
-  @media screen and (max-width: 1199px) {
-    .team-card-body {
-      height: 70px;
-    }
-  }
-
-  /* #### Mobile Phones #### */
-  @media screen and (max-device-width: 991px) {
-    margin: 8px;
-    width: calc(20% - 16px);
-    .team-card-body {
-      padding: 10px 0;
-      height: 70px;
-    }
-  }
-
-  @media screen and (max-device-width: 767px) {
-    margin: 15px;
-    width: calc(50% - 30px);
-    .team-card-body {
-      padding: 10px 1rem;
-      height: 40px;
-    }
-
-    .card-img-top {
-      width: 150px;
-      height: 150px;
-    }
-    a {
-      padding-top: 10px;
-      text-align: center;
-    }
-  }
-
-  @media screen and (max-device-width: 450px) {
-    .team-card-body {
-      padding: 10px 0;
-    }
-  }
-}
-
-@media screen and (max-device-width: 420px) {
-  .teams-block {
-    padding: 0 10px;
-    .team-card {
-      margin: 5px;
-      width: calc(50% - 10px);
-    }
-  }
-}
-
-
-/* TEAM SHOW page */
-
-.team-header {
-  width: 100%;
-  height: 60px;
-
-  .team-logo {
-    width: 60px;
-
-    img {
-      width: 100%;
-      height: 100%;
-    }
-  }
-
-  .team-title {
-    margin-left: 15px;
-    font-size: 24px;
-  }
-}
-
 /* Team players list */
-
 .table-players {
-  width: 100%;
-  display: grid;
-  grid-template-columns: 100px auto 84px 70px 300px;
-  grid-row-gap: 10px;
-  font-size: 16px;
+  color: white;
+  padding: 20px 40px;
+  max-width: 1000px;
+  margin: 0 auto;
+  .team-pl-item {
+    margin: 10px 0;
+    display: grid;
+    grid-template-columns: 140px auto 100px 100px 100px;
+    column-gap: 30px;
+    a {
+      color: white;
+    }
+  }
 
   .cell-player {
-    border-bottom: 1px solid gainsboro;
-  }
-
-  .table-head {
-    font-weight: bolder;
-    //background-color: #cce5ff;
-    border-bottom: 2px solid grey;
-    height: 45px;
-    padding-top: 10px;
-  }
-
-  .player-name {
-    font-weight: bolder;
-  }
-
-  .player-text {
-    padding-top: 12px;
-  }
-
-  .cell-player>.badge {
-    width: 82px;
-  }
-
-  .cell-pl-actions {
-    padding: 10px 0;
-    .btn-group a {
-      width: 100px;
-    }
-  }
-}
-
-@media screen and (max-device-width: 767px) {
-  .mobile-hidden {
-    display: none;
-  }
-
-  .table-players {
+    position: relative;
+    line-height: 40px;
+    font-size: 18px;
+    height: 40px;
     width: 100%;
-    display: grid;
-    grid-template-columns: 100px auto 84px 60px;
+  }
 
-    .cell-pl-actions {
-      grid-column: span 4;
-      border-bottom: 2px solid grey;
-      padding: 10px 0;
+  .team-pl-positions {
+    background-color: white;
+  }
+
+  .team-pl-positions, .team-pl-club-score {
+    background-color: white;
+    color: #001280;
+  }
+
+  .team-pl-name {
+    background-color: #001280;
+  }
+
+  .team-pl-club-logo {
+    background-color: white;
+    .club-logo {
+      height: 40px;
+      width: 40px;
+      //transform: skewX(25deg);
     }
   }
 
-  .player-name {
-    font-size: 24px;
+  .team-pl-club-stats {
+    background-color: #001280;
+  }
+
+  .team-pl-item:nth-child(even) {
+    .team-pl-name, .team-pl-club-stats {
+      background-color: #0f29a4;
+    }
+  }
+
+  .right-angle:after {
+    content: '';
+    line-height: 0;
+    font-size: 0;
+    width: 0;
+    height: 0;
+    border-top: 40px solid #fff;
+    border-right: 20px solid transparent;
+    position: absolute;
+    top: 0;
+    right: -20px;
+  }
+
+  .team-pl-name:after, .team-pl-club-stats:after {
+    border-top: 40px solid #001280;
+  }
+
+  .team-pl-item:nth-child(even) {
+    .team-pl-name:after, .team-pl-club-stats:after {
+      border-top: 40px solid #0f29a4;
+    }
+  }
+
+  .left-angle:before {
+    content: '';
+    line-height: 0;
+    font-size: 0;
+    width: 0;
+    height: 0;
+    border-top: 50px solid transparent;
+    border-bottom: 40px solid #fff;
+    border-left: 20px solid transparent;
+    border-right: 0px solid #fff;
+    position: absolute;
+    top: -50px;
+    left: -20px;
+  }
+
+  .team-pl-name:before, .team-pl-club-stats:before {
+    border-bottom: 40px solid #001280;
+    border-right: 0px solid #001280;
+  }
+
+  .team-pl-item:nth-child(even) {
+    .team-pl-name:before, .team-pl-club-stats:before {
+      border-bottom: 40px solid #0f29a4;
+      border-right: 0px solid #0f29a4;
+    }
   }
 }
 
-.alien-team  {
-  grid-template-columns: 100px auto 70px;
-
-  .personal-data {
-    display: none;
+@media screen and (max-device-width: 800px)  {
+  .table-players {
+    padding: 20px 40px;
+    .team-pl-item {
+      grid-template-columns: 100px auto 50px 60px 60px;
+    }
   }
 }
 

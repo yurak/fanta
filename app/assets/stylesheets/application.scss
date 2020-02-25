@@ -42,6 +42,7 @@ body, html {
 }
 
 .navbar-block {
+  z-index: 3;
   position: relative;
   height: 100%;
   width: 100%;
@@ -126,6 +127,7 @@ body, html {
 }
 
 .page-header {
+  z-index: 2;
   position: fixed;
   top: 0;
   height: 120px;

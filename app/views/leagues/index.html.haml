@@ -17,7 +17,7 @@
               = league.tournament.name
         .league-teams
           - league.teams.each do |team|
-            = link_to league_team_path(team.league, team) do
+            = link_to league_team_path(team.league, team), class: 'league-team-link' do
               .league-team
                 .league-team-logo
                   = image_tag(team&.logo_path, alt: 'Team Logo')
