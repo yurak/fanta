@@ -7,35 +7,35 @@ Rails.application.routes.draw do
   resource :welcome, only: [:index]
   get 'rules', to: 'welcome#rules'
 
+  # TODO: refactor, move existed functionality to league
   resources :clubs, only: [:index]
 
-  resources :leagues do
-    resources :tours do
+  resources :leagues, only: [:index] do
+    resources :tours, only: [:index, :show, :edit, :update] do
       get :change_status
       get :edit_subs_scores
       get :inject_scores
       put :update_subs_scores
     end
 
-    resources :teams do
-      # TODO: separate players from teams
-      resources :players, only: [:show] do
-        get :change_status
-      end
-
-      resources :lineups do
-        get :clone
-        get :details
-        get :edit_module
-        get :edit_scores
-        get :substitutions
-        put :subs_update
-      end
-    end
-
     resources :results, only: [:index]
 
     resources :links, except: [:show]
+  end
+
+  resources :teams, only: [:show] do
+    resources :lineups, except: [:destroy] do
+      get :clone
+      get :details
+      get :edit_module
+      get :edit_scores
+      get :substitutions
+      put :subs_update
+    end
+
+    resources :players, only: [:show] do
+      get :change_status
+    end
   end
 
   resources :articles

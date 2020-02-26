@@ -5,9 +5,9 @@
   .nav-block
     .nav-header My Team
     .nav-link
-      = link_to 'Squad', league_team_path(current_user.league, current_user.team), class: 'squad-link', title: 'Squad'
+      = link_to 'Squad', team_path(current_user.team), class: 'squad-link', title: 'Squad'
     .nav-link
-      = link_to 'Lineups', '', class: 'lineups-link', title: 'Lineups'
+      = link_to 'Lineups', team_lineups_path(current_user.team), class: 'lineups-link', title: 'Lineups'
   .nav-block
     .nav-header My League
     .nav-link

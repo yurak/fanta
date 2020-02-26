@@ -9,14 +9,6 @@ class ToursController < ApplicationController
     respond_with tours
   end
 
-  def change_status
-    tour_manager.call
-
-    flash[:error] = "Status was not updated: #{tour_manager.tour.errors.full_messages.to_sentence}" if tour.errors.present?
-
-    redirect_to tours_path
-  end
-
   def edit
     redirect_to tours_path unless tour.set_lineup? && current_user&.admin?
     respond_with tour
@@ -24,6 +16,14 @@ class ToursController < ApplicationController
 
   def update
     flash[:notice] = 'Successfully updated tour' if tour.update(update_tour_params)
+
+    redirect_to tours_path
+  end
+
+  def change_status
+    tour_manager.call
+
+    flash[:error] = "Status was not updated: #{tour_manager.tour.errors.full_messages.to_sentence}" if tour.errors.present?
 
     redirect_to tours_path
   end

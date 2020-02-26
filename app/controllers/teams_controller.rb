@@ -5,8 +5,6 @@ class TeamsController < ApplicationController
 
   helper_method :team
 
-  def show; end
-
   private
 
   def team

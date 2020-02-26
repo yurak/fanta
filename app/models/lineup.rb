@@ -61,6 +61,14 @@ class Lineup < ApplicationRecord
     @mp_with_score ||= match_players.main.with_score.size
   end
 
+  def opponent
+    match.host == team ? match.guest : match.host
+  end
+
+  def match_result
+    match.host == team ? "#{match.host_goals}-#{match.guest_goals}" : "#{match.guest_goals}-#{match.host_goals}"
+  end
+
   private
 
   def def_count

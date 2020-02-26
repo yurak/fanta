@@ -20,6 +20,7 @@
 @import "clubs";
 @import "leagues";
 @import "lineups";
+@import "list-template";
 @import "links";
 @import "players";
 @import "results";
@@ -152,6 +153,12 @@ body, html {
   }
 }
 
+.page-info {
+  padding: 20px 40px;
+  height: 100%;
+  min-height: 400px;
+}
+
 .center {
   text-align: center;
 }
@@ -207,7 +214,8 @@ body, html {
 /* Navbar - show only link icons without text */
 @media screen and (max-device-width: 920px) {
   .navbar {
-    width: 100%;
+    //width: 100%;
+    width: 100px;
     .nav-block, .nav-block:first-child {
       padding: 10px 0;
     }
@@ -223,16 +231,21 @@ body, html {
   .page {
     grid-template-columns: 100px auto;
   }
-  .navbar {
-    width: 100px;
+  .page-info {
+    padding: 20px 30px;
   }
   .nav-header {
     display: none;
   }
+  @media screen and (max-device-width: 810px) {
+    .page-info {
+      padding: 20px;
+    }
+  }
 }
 
 /* Navbar - show horizontally for horizontal view */
-@media screen and (max-device-height: 830px) and (orientation: landscape) {
+@media screen and (max-device-height: 830px) and (orientation: landscape) and (max-device-width: 1000px){
   .page {
     grid-template-columns: 100%;
   }
@@ -284,6 +297,30 @@ body, html {
       line-height: 80px;
       font-size: 30px;
       font-style: italic;
+    }
+  }
+  @media screen and (max-device-width: 810px) {
+    .navbar {
+      .nav-link {
+        padding: 0.5rem 0;
+        width: 40px;
+      }
+    }
+  }
+  @media screen and (max-device-width: 670px) {
+    .navbar {
+      padding: 0.5rem;
+      .nav-link {
+        width: 35px;
+      }
+    }
+  }
+  @media screen and (max-device-width: 580px) {
+    .navbar {
+      padding: 0.5rem 0.2rem;
+      .nav-link {
+        width: 30px;
+      }
     }
   }
 }

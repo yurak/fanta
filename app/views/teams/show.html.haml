@@ -1,33 +1,26 @@
 .page-header
   .page-header-icon
     = image_tag(team.logo_path)
-  .page-header-title= team.name.humanize.upcase
+  .page-header-title= team.human_name
 .page-info
-  .table-players.center
+  .list-items.list-team-players.center
     - team.players.sort_by(&:position_sequence_number).each do |player|
-      .team-pl-item
-        .cell-player.right-angle.team-pl-positions
+      .list-row-item
+        .list-row-cell.team-pl-positions
           - player.positions.each do |position|
             .position-image.inline-block
               = image_tag("positions/#{position.name}.png")
-        .cell-player.right-angle.left-angle.team-pl-name
-          = link_to player.name.upcase, league_team_player_path(team.league, team, player)
-        .cell-player.right-angle.left-angle.team-pl-club-logo
+        .list-row-cell.team-pl-name
+          = link_to player.name.upcase, team_player_path(team, player)
+        .list-row-cell.team-pl-club-logo
           .club-logo{ class: player.club.code.downcase }
-        .cell-player.right-angle.left-angle.team-pl-club-stats{title: 'Scores count'}
+        .list-row-cell.team-pl-club-stats{title: 'Scores count'}
           = player.scores_count
-        .cell-player.left-angle.team-pl-club-score{title: 'Average score'}
+        .list-row-cell.team-pl-club-score{title: 'Average score'}
           = player.average_total_score
 -# TODO: Temporary remove player status functionality
 -#    .badge{ class: status_class('badge', player.status) }
 -#      = player.status
 -#    - Player.statuses.each do |status, _value|
 -#      - if status != player.status
--#        = link_to status, league_team_player_change_status_path(team.league, team, player, status: status), class: "btn btn-sm btn-primary #{status_class('btn', status)}"
-
--# TODO: move to Team Lineups#index page
--#    %li.nav-item
--#      %a{"data-toggle" => "tab", href: "#team-lineups", class: 'nav-link'} Lineups
--#  .tab-content
--#    .tab-pane.fade#team-lineups
--#      = render 'team_lineups', team: team
+-#        = link_to status, team_player_change_status_path(team, player, status: status), class: "btn btn-sm btn-primary #{status_class('btn', status)}"

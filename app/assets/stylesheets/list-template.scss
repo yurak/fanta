@@ -1,0 +1,92 @@
+.list-items {
+  color: white;
+  max-width: 1000px;
+  margin: 0 auto;
+
+  .list-row-item {
+    margin: 10px 0;
+    display: grid;
+    grid-template-columns: 140px auto 100px 100px 100px;
+    column-gap: 30px;
+    a {
+      color: white;
+      text-decoration: none;
+    }
+  }
+
+  .list-row-cell {
+    position: relative;
+    line-height: 40px;
+    font-size: 20px;
+    height: 40px;
+    width: 100%;
+    background-color: white;
+  }
+
+  .list-row-cell:nth-child(odd) {
+    color: #001280;
+    a {
+      color: #001280;
+    }
+  }
+
+  .list-row-cell:nth-child(even) {
+    background-color: #001280;
+  }
+
+  .list-row-cell:not(:last-child)::after {
+    content: '';
+    line-height: 0;
+    font-size: 0;
+    width: 0;
+    height: 0;
+    border-top: 40px solid #fff;
+    border-right: 20px solid transparent;
+    position: absolute;
+    top: 0;
+    right: -20px;
+  }
+
+  .list-row-cell:not(:first-child)::before {
+    content: '';
+    line-height: 0;
+    font-size: 0;
+    width: 0;
+    height: 0;
+    border-top: 50px solid transparent;
+    border-bottom: 40px solid #fff;
+    border-left: 20px solid transparent;
+    border-right: 0px solid #fff;
+    position: absolute;
+    top: -50px;
+    left: -20px;
+  }
+
+  .list-row-item:nth-child(even) {
+    .list-row-cell:nth-child(even) {
+      background-color: #0f29a4;
+    }
+  }
+
+  .list-row-cell:nth-child(even)::after {
+    border-top: 40px solid #001280;
+  }
+
+  .list-row-item:nth-child(even) {
+    .list-row-cell:nth-child(even)::after {
+      border-top: 40px solid #0f29a4;
+    }
+  }
+
+  .list-row-cell:nth-child(even)::before {
+    border-bottom: 40px solid #001280;
+    border-right: 0px solid #001280;
+  }
+
+  .list-row-item:nth-child(even) {
+    .list-row-cell:nth-child(even):before {
+      border-bottom: 40px solid #0f29a4;
+      border-right: 0px solid #0f29a4;
+    }
+  }
+}

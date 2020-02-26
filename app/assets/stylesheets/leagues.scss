@@ -5,9 +5,13 @@
 .league-item {
   display: grid;
   grid-template-columns: 25% auto;
-  margin: 30px;
+  margin: 30px 0 0;
   background-color: #001280;
   color: white;
+}
+
+.league-item:first-child {
+  margin: 10px 0 0;
 }
 
 .league-info-container {
@@ -37,7 +41,7 @@
 }
 
 .league-teams {
-  font-size: 18px;
+  font-size: 20px;
   line-height: 46px;
   padding: 10px 0;
   display: grid;
@@ -74,7 +78,7 @@
   }
 }
 
-@media screen and (max-device-width: 991px) {
+@media screen and (max-device-width: 1030px) {
   .league-item {
     grid-template-columns: 100%;
   }

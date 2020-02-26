@@ -21,4 +21,8 @@ class Team < ApplicationRecord
       'teams/default_logo.png'
     end
   end
+
+  def human_name
+    name.humanize.upcase
+  end
 end

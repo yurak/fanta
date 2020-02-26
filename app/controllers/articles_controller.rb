@@ -9,8 +9,6 @@ class ArticlesController < ApplicationController
     @articles = Article.all.order(id: :desc)
   end
 
-  def show; end
-
   def new
     @article = Article.new
   end

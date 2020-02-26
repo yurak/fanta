@@ -1,116 +1,21 @@
 /* TEAM INDEX page */
 
 /* Team players list */
-.table-players {
-  color: white;
-  padding: 20px 40px;
-  max-width: 1000px;
-  margin: 0 auto;
-  .team-pl-item {
-    margin: 10px 0;
-    display: grid;
-    grid-template-columns: 140px auto 100px 100px 100px;
-    column-gap: 30px;
-    a {
-      color: white;
-    }
-  }
 
-  .cell-player {
-    position: relative;
-    line-height: 40px;
-    font-size: 18px;
-    height: 40px;
-    width: 100%;
-  }
-
-  .team-pl-positions {
-    background-color: white;
-  }
-
-  .team-pl-positions, .team-pl-club-score {
-    background-color: white;
-    color: #001280;
-  }
-
-  .team-pl-name {
-    background-color: #001280;
-  }
-
+.list-team-players {
   .team-pl-club-logo {
-    background-color: white;
+    padding: 2px;
     .club-logo {
-      height: 40px;
-      width: 40px;
-      //transform: skewX(25deg);
-    }
-  }
-
-  .team-pl-club-stats {
-    background-color: #001280;
-  }
-
-  .team-pl-item:nth-child(even) {
-    .team-pl-name, .team-pl-club-stats {
-      background-color: #0f29a4;
-    }
-  }
-
-  .right-angle:after {
-    content: '';
-    line-height: 0;
-    font-size: 0;
-    width: 0;
-    height: 0;
-    border-top: 40px solid #fff;
-    border-right: 20px solid transparent;
-    position: absolute;
-    top: 0;
-    right: -20px;
-  }
-
-  .team-pl-name:after, .team-pl-club-stats:after {
-    border-top: 40px solid #001280;
-  }
-
-  .team-pl-item:nth-child(even) {
-    .team-pl-name:after, .team-pl-club-stats:after {
-      border-top: 40px solid #0f29a4;
-    }
-  }
-
-  .left-angle:before {
-    content: '';
-    line-height: 0;
-    font-size: 0;
-    width: 0;
-    height: 0;
-    border-top: 50px solid transparent;
-    border-bottom: 40px solid #fff;
-    border-left: 20px solid transparent;
-    border-right: 0px solid #fff;
-    position: absolute;
-    top: -50px;
-    left: -20px;
-  }
-
-  .team-pl-name:before, .team-pl-club-stats:before {
-    border-bottom: 40px solid #001280;
-    border-right: 0px solid #001280;
-  }
-
-  .team-pl-item:nth-child(even) {
-    .team-pl-name:before, .team-pl-club-stats:before {
-      border-bottom: 40px solid #0f29a4;
-      border-right: 0px solid #0f29a4;
+      height: 36px;
+      width: 36px;
     }
   }
 }
 
 @media screen and (max-device-width: 800px)  {
-  .table-players {
-    padding: 20px 40px;
-    .team-pl-item {
+  .list-team-players {
+    //padding: 20px 40px;
+    .list-row-item {
       grid-template-columns: 100px auto 50px 60px 60px;
     }
   }
@@ -203,67 +108,4 @@
 
 .ver {
   background-image: image-url('clubs/verona.png');
-}
-
-/* Team lineups list */
-
-.lineup-hint {
-  margin-top: 16px;
-}
-
-.lineup-tour-item {
-  border-top: 1px solid gainsboro;
-  padding: 16px 0;
-  display: grid;
-  grid-template-columns: 22% 26% 26% 26%;
-
-  .lineup-tour-cell {
-    text-align: center;
-    margin-right: 10px;
-  }
-
-  .alert {
-    margin: 0;
-    height: 100%;
-  }
-
-  .lineup-tour-number {
-    font-size: 56px;
-    font-weight: bolder;
-    padding: 0;
-  }
-
-  .lineup-tour-link {
-    height: 100%;
-    width: 100%;
-  }
-
-  .lineup-tour-value {
-    font-size: 24px;
-    font-weight: bolder;
-  }
-
-  .lineup-tour-module > a, .lineup-tour-number > a {
-    text-decoration: none;
-  }
-
-  .lineup-tour-btn {
-    width: 100%;
-    margin-top: 10px;
-  }
-
-  .lineup-tour-cell-active {
-    grid-row: span 2;
-
-    .lineup-tour-link {
-      display: table;
-      width: 100%;
-
-      .lineup-tour-number-link{
-        display: table-cell;
-        vertical-align: middle;
-        height: 84px;
-      }
-    }
-  }
 }

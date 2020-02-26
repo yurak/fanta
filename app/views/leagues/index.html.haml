@@ -17,9 +17,9 @@
               = league.tournament.name
         .league-teams
           - league.teams.each do |team|
-            = link_to league_team_path(team.league, team), class: 'league-team-link' do
+            = link_to team_path(team), class: 'league-team-link' do
               .league-team
                 .league-team-logo
                   = image_tag(team&.logo_path, alt: 'Team Logo')
                 .league-team-name
-                  = team.name.humanize.upcase
+                  = team.human_name

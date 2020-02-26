@@ -5,6 +5,10 @@ class LineupsController < ApplicationController
 
   helper_method :team, :lineup, :modules
 
+  def index
+    # TODO: show all Team lineups
+  end
+
   def new
     modules
     @lineup = Lineup.new
