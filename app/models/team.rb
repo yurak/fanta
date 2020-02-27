@@ -22,6 +22,12 @@ class Team < ApplicationRecord
     end
   end
 
+  def code_name
+    # TODO: add 'code' field to team
+    # code || human_name[0..2]
+    human_name[0..2]
+  end
+
   def human_name
     name.humanize.upcase
   end

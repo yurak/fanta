@@ -1,24 +1,37 @@
-.container
-  %h1 Tours
+-# TODO: add separate views for Fixtures and Results in LeaguesController
 
-  %ul.nav.nav-tabs.nav-fill
-    %li.nav-item
-      %a{"data-toggle" => "tab", href: "#tours-results", class: 'nav-link'} Results
-    %li.nav-item
-      %a{"data-toggle" => "tab", href: "#tours-current", class: 'nav-link active'} Current Tour
-    %li.nav-item
-      %a{"data-toggle" => "tab", href: "#tours-fixtures", class: 'nav-link'} Fixtures
-  .tab-content
-    .tab-pane.fade#tours-results
-      .tours-block
-        - tours.closed_postponed.order(number: :desc).each do |tour|
-          = render 'tour', tour: tour
-    .tab-pane.pane.active#tours-current
-      - if active_tour
-        = render 'tour_matches', tour: active_tour
-      - else
-        .not-active
-    .tab-pane.fade#tours-fixtures
-      .tours-block
-        - tours.inactive.each do |tour|
-          = render 'tour', tour: tour
+-#.tab-content
+-#  .tab-pane.fade#tours-results
+-#    .tours-block
+-#      - tours.closed_postponed.order(number: :desc).each do |tour|
+-#        = render 'tour', tour: tour
+-#  .tab-pane.fade#tours-fixtures
+-#    .tours-block
+-#      - tours.inactive.each do |tour|
+-#        = render 'tour', tour: tour
+
+
+-#.alert.alert-primary
+-#  .alert.tour-short-item{class: "#{tour_status_class(tour.status)}" }
+-#    -#= link_to "#{tour.number} - #{tour.status}", tour_path(tour)
+-#    = link_to tour_path(tour) do
+-#      .tour-short-data
+-#        .tour-short-info
+-#          = tour.number
+-#        .tour-short-matches
+-#          - tour.matches.each do |match|
+-#            .tour-short-match
+-#              .tour-short-host
+-#                = match.host.name.titleize
+-#              .tour-short-result
+-#                .tour-short-result-host
+-#                  = match.host_lineup&.goals
+-#                %div -
+-#                .tour-short-result-guest
+-#                  = match.guest_lineup&.goals
+-#              .tour-short-guest
+-#                = match.guest.name.titleize
+-#
+-#  - if current_user&.admin? && tour.inactive?
+-#    .tour-start-btn
+-#      = link_to "Start tour", tour_change_status_path(tour, status: :set_lineup), class: 'btn btn-primary', data: { confirm: 'Are you sure?' }

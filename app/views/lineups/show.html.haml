@@ -5,7 +5,7 @@
         = link_to team.name.titleize, team_path(team)
       lineup for Tour #
       %span.bolder
-        = link_to lineup.tour.number, league_tour_path(team.league, lineup.tour)
+        = link_to lineup.tour.number, tour_path(lineup.tour)
     .lineup-show-edit-btn
       .float-right
         .btn-group

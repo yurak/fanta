@@ -11,16 +11,17 @@ Rails.application.routes.draw do
   resources :clubs, only: [:index]
 
   resources :leagues, only: [:index] do
-    resources :tours, only: [:index, :show, :edit, :update] do
-      get :change_status
-      get :edit_subs_scores
-      get :inject_scores
-      put :update_subs_scores
-    end
 
     resources :results, only: [:index]
 
     resources :links, except: [:show]
+  end
+
+  resources :tours, only: [:show, :edit, :update] do
+    get :change_status
+    get :edit_subs_scores
+    get :inject_scores
+    put :update_subs_scores
   end
 
   resources :teams, only: [:show] do

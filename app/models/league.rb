@@ -5,4 +5,8 @@ class League < ApplicationRecord
   belongs_to :tournament
 
   enum status: %i[initial active archived]
+
+  def active_tour
+    tours&.active
+  end
 end

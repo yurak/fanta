@@ -15,11 +15,16 @@ class Tour < ApplicationRecord
     locked? || postponed?
   end
 
+  def deadlined?
+    locked? || postponed? || closed?
+  end
+
   def next_number
     number + 1
   end
 
   def self.active
+    # TODO: add League association
     Tour.set_lineup.first || Tour.locked.first
   end
 

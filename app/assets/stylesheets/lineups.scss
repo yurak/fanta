@@ -1,104 +1,32 @@
 /* Team lineups list */
 
-.list-items.list-team-lineups {
+.list-items.list-items-60-height.list-team-lineups {
   .list-row-item {
-    grid-template-columns: auto 18% 14% 14% 25%;
-    column-gap: 40px;
-  }
-
-  .list-row-cell {
-    position: relative;
-    line-height: 60px;
-    font-size: 24px;
-    height: 60px;
-    font-weight: bolder;
-  }
-
-  .list-row-cell:not(:last-child)::after {
-    border-top: 60px solid #fff;
-    border-right: 30px solid transparent;
-    right: -30px;
-  }
-
-  .list-row-cell:not(:first-child)::before {
-    border-bottom: 60px solid #fff;
-    border-left: 30px solid transparent;
-    left: -30px;
-  }
-
-  .list-row-cell:nth-child(even)::after {
-    border-top: 60px solid #001280;
-  }
-
-  .list-row-item:nth-child(even) {
-    .list-row-cell:nth-child(even)::after {
-      border-top: 60px solid #0f29a4;
-    }
-  }
-
-  .list-row-cell:nth-child(even)::before {
-    border-bottom: 60px solid #001280;
-  }
-
-  .list-row-item:nth-child(even) {
-    .list-row-cell:nth-child(even):before {
-      border-bottom: 60px solid #0f29a4;
-    }
+    grid-template-columns: 0.7fr 1.2fr 1fr 0.7fr 1.2fr;
   }
 
   .lineup-tour-opponent > a {
     width: 100%;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display:inline-block;
+    display: grid;
+    grid-template-columns: auto 60px;
+
+    .lineup-tour-opponent-logo {
+      img {
+        margin: 10px;
+        width: 40px;
+        height: 40px;
+      }
+    }
+
+    .lineup-tour-opponent-name {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      width: 100%;
+    }
   }
 }
 
-
-  //.lineup-tour-number {
-  //  font-size: 56px;
-  //  font-weight: bolder;
-  //  padding: 0;
-  //}
-  //
-  //.lineup-tour-link {
-  //  height: 100%;
-  //  width: 100%;
-  //}
-  //
-  //.lineup-tour-value {
-  //  font-size: 24px;
-  //  font-weight: bolder;
-  //}
-  //
-  //.lineup-tour-module > a, .lineup-tour-number > a {
-  //  text-decoration: none;
-  //}
-  //
-  //.lineup-tour-btn {
-  //  width: 100%;
-  //  margin-top: 10px;
-  //}
-  //
-  //.lineup-tour-cell-active {
-  //  grid-row: span 2;
-  //
-  //  .lineup-tour-link {
-  //    display: table;
-  //    width: 100%;
-  //
-  //    .lineup-tour-number-link{
-  //      display: table-cell;
-  //      vertical-align: middle;
-  //      height: 84px;
-  //    }
-  //  }
-  //}
-
-
-
-
+// TODO: update styles for pages
 /* NEW LINEUP page*/
 
 #new_lineup {

@@ -52,6 +52,7 @@ module ApplicationHelper
     end
   end
 
+  # TODO: move to User model
   def can_moderate?(user)
     user&.admin? || user&.moderator?
   end

@@ -6,7 +6,7 @@
   .list-row-item {
     margin: 10px 0;
     display: grid;
-    grid-template-columns: 140px auto 100px 100px 100px;
+    grid-template-columns: 1.4fr 2fr 1fr 1fr 1fr;
     column-gap: 30px;
     a {
       color: white;
@@ -87,6 +87,53 @@
     .list-row-cell:nth-child(even):before {
       border-bottom: 40px solid #0f29a4;
       border-right: 0px solid #0f29a4;
+    }
+  }
+}
+
+.list-items.list-items-60-height {
+  .list-row-item {
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    column-gap: 40px;
+  }
+
+  .list-row-cell {
+    position: relative;
+    line-height: 60px;
+    font-size: 24px;
+    height: 60px;
+    font-weight: bolder;
+  }
+
+  .list-row-cell:not(:last-child)::after {
+    border-top: 60px solid #fff;
+    border-right: 30px solid transparent;
+    right: -30px;
+  }
+
+  .list-row-cell:not(:first-child)::before {
+    border-bottom: 60px solid #fff;
+    border-left: 30px solid transparent;
+    left: -30px;
+  }
+
+  .list-row-cell:nth-child(even)::after {
+    border-top: 60px solid #001280;
+  }
+
+  .list-row-item:nth-child(even) {
+    .list-row-cell:nth-child(even)::after {
+      border-top: 60px solid #0f29a4;
+    }
+  }
+
+  .list-row-cell:nth-child(even)::before {
+    border-bottom: 60px solid #001280;
+  }
+
+  .list-row-item:nth-child(even) {
+    .list-row-cell:nth-child(even):before {
+      border-bottom: 60px solid #0f29a4;
     }
   }
 }

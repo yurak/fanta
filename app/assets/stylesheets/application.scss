@@ -124,7 +124,7 @@ body, html {
   background-color: #0f29a4;
   height: 100px;
   width: 100%;
-  color: white;
+  color: #fff;
 }
 
 .page-header {
@@ -136,10 +136,10 @@ body, html {
   color: #6adde2;
   background-color: #0f29a4;
   display: grid;
-  grid-template-columns: 160px auto;
+  grid-template-columns: 140px auto;
 
   .page-header-icon {
-    padding: 20px 40px;
+    padding: 20px 30px;
     img {
       width: 80px;
       height: 80px;
@@ -150,6 +150,15 @@ body, html {
     line-height: 120px;
     font-size: 40px;
     font-style: italic;
+    width: calc(100% - 200px);
+
+    .page-header-subtitle {
+      font-size: 30px;
+      display: inline-block;
+      color: #fff;
+      float: right;
+      margin: 0 30px 0 0;
+    }
   }
 }
 
@@ -237,9 +246,20 @@ body, html {
   .nav-header {
     display: none;
   }
+  .page-header .page-header-title {
+    width: calc(100% - 100px);
+  }
   @media screen and (max-device-width: 810px) {
     .page-info {
       padding: 20px;
+    }
+
+    .page-header {
+      grid-template-columns: 120px auto;
+
+      .page-header-icon {
+        padding: 20px;
+      }
     }
   }
 }
@@ -249,6 +269,7 @@ body, html {
   .page {
     grid-template-columns: 100%;
   }
+
   .navbar {
     min-height: 50px;
     height: 60px;
@@ -260,7 +281,7 @@ body, html {
       position: relative;
       top: 0;
       border-top: none;
-      border-left: white solid 1px;
+      border-left: #fff solid 1px;
       width: auto;
       padding: 0 0 0 5px;
     }
@@ -297,6 +318,11 @@ body, html {
       line-height: 80px;
       font-size: 30px;
       font-style: italic;
+      width: 100%;
+
+      .page-header-subtitle {
+        font-size: 24px;
+      }
     }
   }
   @media screen and (max-device-width: 810px) {

@@ -3,7 +3,7 @@
     = image_tag('navbar/lineups.png')
   .page-header-title Lineups
 .page-info
-  .list-items.list-team-lineups.center
+  .list-items.list-team-lineups.list-items-60-height.center
     - team.lineups.each do |lineup|
       .list-row-item
         .list-row-cell.lineup-tour-number
@@ -17,4 +17,7 @@
           = lineup.match_result
         .list-row-cell.lineup-tour-opponent
           = link_to team_path(lineup.opponent) do
-            = lineup.opponent.human_name
+            .lineup-tour-opponent-name
+              = lineup.opponent.code_name
+            .lineup-tour-opponent-logo
+              = image_tag(lineup.opponent&.logo_path, alt: 'Team Logo')
