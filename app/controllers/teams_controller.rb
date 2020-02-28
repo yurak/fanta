@@ -1,17 +1,9 @@
 class TeamsController < ApplicationController
-  skip_before_action :authenticate_user!, only: [:index, :show]
+  skip_before_action :authenticate_user!, only: %i[show]
 
   respond_to :html
 
   helper_method :team
-
-  def index
-    @teams = Team.all
-
-    respond_with @teams
-  end
-
-  def show; end
 
   private
 

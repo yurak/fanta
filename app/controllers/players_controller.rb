@@ -5,8 +5,7 @@ class PlayersController < ApplicationController
 
   respond_to :html
 
-  def show; end
-
+   # TODO: rename to #update
   def change_status
     status = params[:status]
 
@@ -20,8 +19,8 @@ class PlayersController < ApplicationController
     params[:player_id].presence || params[:id]
   end
 
-  def team
-    @team ||= Team.find(params[:team_id])
+  def league
+    @league ||= Team.find(params[:league_id])
   end
 
   def player

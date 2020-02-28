@@ -9,10 +9,14 @@ class Tour < ApplicationRecord
 
   after_update :send_notifications
 
-  scope :closed_postponed, ->{ closed.or(postponed) }
+  scope :closed_postponed, -> { closed.or(postponed) }
 
   def locked_or_postponed?
     locked? || postponed?
+  end
+
+  def deadlined?
+    locked? || postponed? || closed?
   end
 
   def next_number
@@ -20,6 +24,7 @@ class Tour < ApplicationRecord
   end
 
   def self.active
+    # TODO: add League association
     Tour.set_lineup.first || Tour.locked.first
   end
 
@@ -40,6 +45,6 @@ class Tour < ApplicationRecord
   end
 
   def deadline_str
-    deadline.to_datetime&.strftime("%H:%M, %d %B")
+    deadline.to_datetime&.strftime('%H:%M, %d %B')
   end
 end

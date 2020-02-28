@@ -1,4 +1,8 @@
-.container
+.page-header
+  .page-header-icon
+    = image_tag('navbar/news.png')
+  .page-header-title News
+.page-info
   .article-show
     .article-item
       .article-image
@@ -10,6 +14,7 @@
           %h5= article.summary
         .article-description
           %p= article.description.html_safe
+      -# TODO: redesign buttons
       - if current_user&.admin?
         .article-btn
           = link_to 'Edit', edit_article_path(article), class: 'btn btn-primary'

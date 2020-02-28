@@ -1,6 +1,42 @@
-= link_to 'News', articles_path, class: 'btn btn-outline-primary'
-= link_to 'Teams', teams_path, class: 'btn btn-outline-primary'
-= link_to 'Tours', tours_path, class: 'btn btn-outline-primary'
-= link_to 'Table', results_path, class: 'btn btn-outline-primary'
-= link_to 'Stats', clubs_path, class: 'btn btn-outline-primary'
-= link_to 'Useful Links', links_path, class: 'btn btn-outline-primary'
+-# TODO: update link paths
+.nav-block
+  .nav-link
+    = link_to 'Home', articles_path, class: 'home-link'
+- if user_signed_in?
+  .nav-block
+    .nav-header My Team
+    .nav-link
+      = link_to 'Squad', team_path(current_user.team), class: 'squad-link', title: 'Squad'
+    .nav-link
+      = link_to 'Lineups', team_lineups_path(current_user.team), class: 'lineups-link', title: 'Lineups'
+  .nav-block
+    .nav-header My League
+    .nav-link
+      = link_to 'Tour', tour_path(current_user.league.active_tour), class: 'tour-link', title: 'Tour'
+    .nav-link
+      = link_to 'Table', league_results_path(current_user.league), class: 'table-link', title: 'Table'
+    .nav-link
+      = link_to 'Fixtures', '', class: 'fixtures-link', title: 'Fixtures'
+    .nav-link
+      = link_to 'Results', '', class: 'results-link', title: 'Results'
+    .nav-link
+      = link_to 'Stats', '', class: 'stats-link', title: 'Stats'
+    .nav-link
+      = link_to 'Links', '', class: 'links-link', title: 'Links'
+.nav-block
+  .nav-link
+    = link_to 'Leagues', leagues_path, class: 'leagues-link', title: 'Leagues'
+  .nav-link
+    = link_to 'Players', '', class: 'players-link', title: 'Players'
+  .nav-link
+    = link_to 'Rules', rules_path, class: 'rules-link', title: 'Rules'
+.nav-block
+  - if user_signed_in?
+    .nav-link
+      = link_to 'Profile', edit_user_registration_path, class: 'profile-link', title: 'Profile'
+    - if current_user.admin?
+      .nav-link
+        = link_to 'Admin Panel', rails_admin_path, class: 'admin-link', title: 'Admin Panel'
+  - else
+    .nav-link
+      = link_to 'Log In', new_user_session_path, class: 'profile-link', title: 'Log In'

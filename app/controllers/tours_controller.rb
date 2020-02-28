@@ -1,12 +1,19 @@
 class ToursController < ApplicationController
-  skip_before_action :authenticate_user!, only: [:index, :show]
+  skip_before_action :authenticate_user!, only: %i[show]
 
   respond_to :html, :json
 
-  helper_method :tours, :tour
+  helper_method :tour
 
-  def index
-    respond_with tours
+  def edit
+    redirect_to tour_path(tour) unless tour.set_lineup? && current_user&.admin?
+    respond_with tour
+  end
+
+  def update
+    flash[:notice] = 'Successfully updated tour' if tour.update(update_tour_params)
+
+    redirect_to tour_path(tour)
   end
 
   def change_status
@@ -14,18 +21,7 @@ class ToursController < ApplicationController
 
     flash[:error] = "Status was not updated: #{tour_manager.tour.errors.full_messages.to_sentence}" if tour.errors.present?
 
-    redirect_to tours_path
-  end
-
-  def edit
-    redirect_to tours_path unless tour.set_lineup? && current_user&.admin?
-    respond_with tour
-  end
-
-  def update
-    flash[:notice] = 'Successfully updated tour' if tour.update(update_tour_params)
-
-    redirect_to tours_path
+    redirect_to tour_path(tour)
   end
 
   def edit_subs_scores
@@ -62,16 +58,11 @@ class ToursController < ApplicationController
     @tour_manager ||= TourManager.new(tour: tour, status: params[:status])
   end
 
-  def tours
-    @tours ||= Tour.all.includes(:lineups, :matches)
-  end
-
   def update_tour_params
     params.require(:tour).permit(:deadline)
   end
 
   def update_reservists_params
-    params.permit(match_players:[:id, :score, :goals, :missed_goals, :scored_penalty, :failed_penalty, :cleansheet,
-                                 :assists, :yellow_card, :red_card, :own_goals, :caught_penalty, :missed_penalty])
+    params.permit(match_players: %i[id score goals missed_goals scored_penalty failed_penalty cleansheet assists yellow_card red_card own_goals caught_penalty missed_penalty])
   end
 end
