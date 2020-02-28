@@ -7,7 +7,7 @@
       = tour.league.name
 .page-info
   - if can_moderate?(current_user)
-    .tour-actions.center
+    .list-items.tour-actions.center
       - if current_user&.admin?
         = link_to "LOCK TOUR", tour_change_status_path(tour, status: :locked), data: { confirm: 'Are you sure?' } if tour.set_lineup?
         = link_to "POSTPONE TOUR", tour_change_status_path(tour, status: :postponed), data: { confirm: 'Are you sure?' } if tour.locked?

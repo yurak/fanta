@@ -14,7 +14,7 @@
     .nav-link
       = link_to 'Tour', tour_path(current_user.league.active_tour), class: 'tour-link', title: 'Tour'
     .nav-link
-      = link_to 'Table', '', class: 'table-link', title: 'Table'
+      = link_to 'Table', league_results_path(current_user.league), class: 'table-link', title: 'Table'
     .nav-link
       = link_to 'Fixtures', '', class: 'fixtures-link', title: 'Fixtures'
     .nav-link
@@ -40,9 +40,3 @@
   - else
     .nav-link
       = link_to 'Log In', new_user_session_path, class: 'profile-link', title: 'Log In'
-
--#= link_to 'Teams', teams_path, class: 'btn btn-outline-primary'
--#= link_to 'Tours', tours_path, class: 'btn btn-outline-primary'
--#= link_to 'Table', results_path, class: 'btn btn-outline-primary'
--#= link_to 'Stats', clubs_path, class: 'btn btn-outline-primary'
--#= link_to 'Useful Links', links_path, class: 'btn btn-outline-primary'
