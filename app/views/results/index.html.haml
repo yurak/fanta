@@ -1,43 +1,49 @@
-.container
-  .results-table
-    .results-headers
-      .results-header{title: 'Position'} Pos
-      .results-header
-      .results-header.results-team-name Team
+.page-header
+  .page-header-icon
+    = image_tag('navbar/table.png')
+  .page-header-title
+    = "#{league.name} Table"
+.page-info
+  .list-items.results-headers.center
+    .results-header-cell{title: 'Position'} Pos
+    .results-header-cell Team
+    .results-header-cell.results-stats-cell
       .results-header{title: 'Matches played'}  MP
       .results-header{title: 'Wins'}  W
       .results-header{title: 'Draws'}  D
       .results-header{title: 'Loses'}  L
-      .results-header.results-hidden{title: 'Scored goals'}  GS
-      .results-header.results-hidden{title: 'Missed goals'} GA
+      .results-header{title: 'Scored goals'}  GS
+      .results-header{title: 'Missed goals'} GA
       .results-header{title: 'Goals difference'} GD
       .results-header{title: 'Points'} Pts
-      .results-header.results-hidden{title: 'Last 5 matches'} Form
+    .results-header-cell{title: 'Last 5 matches'} Form
+  .list-items.list-items-dark.list-items-dark50.list-results.center
     - @results.each_with_index do |result, i|
-      .results-team
-        .results-team-field= i+1
-        .results-team-field
-          .results-team-logo
-            %img{alt: "Logo", src: image_path(result.team.logo_path)}
-        .results-team-field.results-team-name
-          = link_to result.team.name.titleize, team_path(result.team)
-        .results-team-field
-          = result.matches_played
-        .results-team-field
-          = result.wins
-        .results-team-field
-          = result.draws
-        .results-team-field
-          = result.loses
-        .results-team-field.results-hidden
-          = result.scored_goals
-        .results-team-field.results-hidden
-          = result.missed_goals
-        .results-team-field
-          = result.goals_difference
-        .results-team-field.results-team-points
-          = result.points
-        .results-team-field.results-team-form.results-hidden
+      .list-row-item
+        .list-row-cell= i+1
+        .list-row-cell.results-team
+          = link_to team_path(result.team) do
+            .results-team-logo
+              = image_tag(image_path(result.team.logo_path), alt: "Team Logo")
+            .results-team-name
+              = result.team.code_name
+        .list-row-cell.results-team-stats
+          .results-team-field
+            = result.matches_played
+          .results-team-field
+            = result.wins
+          .results-team-field
+            = result.draws
+          .results-team-field
+            = result.loses
+          .results-team-field.results-hidden
+            = result.scored_goals
+          .results-team-field.results-hidden
+            = result.missed_goals
+          .results-team-field
+            = result.goals_difference
+          .results-team-field.results-team-points
+            = result.points
+        .list-row-cell.results-team-form.center
           - result.form.each do |form|
-            %span.badge{class: result_status_class(form) }
-              = form
+            .form-item{ class: "form-#{form[0]}", title: "#{form[1]} vs #{form[2]}, #{form[3]} tour" }

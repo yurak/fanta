@@ -1,19 +1,26 @@
-.container
-  .col-xs-2
-    .alert.alert-primary
-      .team-header
-        .team-logo.inline-block
-          %img{alt: "Logo", src: image_path(team.logo_path)}
-        .team-title.inline-block
-          = team.name.humanize
-
-  %ul.nav.nav-tabs.nav-fill
-    %li.nav-item
-      %a{"data-toggle" => "tab", href: "#team-squad", class: 'nav-link active'} Squad
-    %li.nav-item
-      %a{"data-toggle" => "tab", href: "#team-lineups", class: 'nav-link'} Lineups
-  .tab-content
-    .tab-pane.pane.active#team-squad
-      = render 'team_players', team: team
-    .tab-pane.fade#team-lineups
-      = render 'team_lineups', team: team
+.page-header
+  .page-header-icon
+    = image_tag(team.logo_path)
+  .page-header-title= team.human_name
+.page-info
+  .list-items.list-team-players.center
+    - team.players.sort_by(&:position_sequence_number).each do |player|
+      .list-row-item
+        .list-row-cell.team-pl-positions
+          - player.positions.each do |position|
+            .position-image.inline-block
+              = image_tag("positions/#{position.name}.png")
+        .list-row-cell.team-pl-name
+          = link_to player.name.upcase, team_player_path(team, player)
+        .list-row-cell.team-pl-club-logo
+          .club-logo{ class: player.club.code.downcase }
+        .list-row-cell.team-pl-club-stats{title: 'Scores count'}
+          = player.scores_count
+        .list-row-cell.team-pl-club-score{title: 'Average score'}
+          = player.average_total_score
+-# TODO: Temporary remove player status functionality
+-#    .badge{ class: status_class('badge', player.status) }
+-#      = player.status
+-#    - Player.statuses.each do |status, _value|
+-#      - if status != player.status
+-#        = link_to status, team_player_change_status_path(team, player, status: status), class: "btn btn-sm btn-primary #{status_class('btn', status)}"

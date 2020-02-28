@@ -1,4 +1,5 @@
 module Scores
+  # TODO: separate for different tournaments parsers
   class Parser < ApplicationService
     URL = 'https://www.magicleghe.fco.live/it/serie-a/2019-2020/diretta-live/'.freeze
     attr_reader :tour
@@ -22,7 +23,7 @@ module Scores
 
       host_players_scores(match).reverse_each do |player|
         mp = MatchPlayer.by_tour(tour.id).by_name_and_club(player_name(player), host_club.id).first
-        mp.update(score: player_score(player)) if mp
+        mp&.update(score: player_score(player))
       end
     end
 
@@ -31,7 +32,7 @@ module Scores
 
       guest_players_scores(match).reverse_each do |player|
         mp = MatchPlayer.by_tour(tour.id).by_name_and_club(player_name(player), guest_club.id).first
-        mp.update(score: player_score(player)) if mp
+        mp&.update(score: player_score(player))
       end
     end
 
@@ -76,7 +77,8 @@ module Scores
     end
 
     def real_tour_number
-      tour.number+2
+      # TODO: use League model param against magic number
+      tour.number + 2
     end
   end
 end

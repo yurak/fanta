@@ -1,5 +1,5 @@
 class ArticlesController < ApplicationController
-  skip_before_action :authenticate_user!, only: [:index, :show]
+  skip_before_action :authenticate_user!, only: %i[index show]
 
   helper_method :article
 
@@ -8,8 +8,6 @@ class ArticlesController < ApplicationController
   def index
     @articles = Article.all.order(id: :desc)
   end
-
-  def show; end
 
   def new
     @article = Article.new

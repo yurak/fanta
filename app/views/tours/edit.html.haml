@@ -1,7 +1,11 @@
-.container
-  %h3 Edit Tour
-
-  = form_for tour do |t|
+.page-header
+  .page-header-icon
+    = image_tag('navbar/tour.png')
+  .page-header-title
+    = "Edit Tour ##{tour.number}"
+.page-info
+  -# TODO: update UI
+  = form_for [tour.league, tour] do |t|
     - if tour.errors.any?
       #error_explanation
         %h2= "#{pluralize(tour.errors.count, "error")} prohibited this link from being saved:"

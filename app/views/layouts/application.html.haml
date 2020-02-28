@@ -2,17 +2,35 @@
 %html
   %head
     %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
-    %title Fanta
+    %title MantraFootball
     = csrf_meta_tags
     = csp_meta_tag
     = stylesheet_link_tag    'application', media: 'all'
     = javascript_include_tag 'application'
     = favicon_link_tag asset_path('favicon.ico')
   %body
-    - unless hide_navbar?
-      .container.flash-block
-        - flash.each do |key, value|
-          = content_tag :div, value, class: "#{flash_class(key)}"
-      = render 'layouts/navbar'
-    = yield
-    .footer
+    - if hide_navbar?
+      = yield
+    - else
+      .page
+        .navbar-block
+          .navbar
+            = render 'layouts/navbar_links'
+        .main-block
+          .main
+            -# TODO: move to related pages
+            -#- unless hide_navbar?
+            -#  .container.flash-block
+            -#    - flash.each do |key, value|
+            -#      = content_tag :div, value, class: "#{flash_class(key)}"
+            = yield
+-#          .footer
+-#
+-#-# TODO: temporary script
+-#%script
+-#  var h = $(window).height();
+-#  var w = $(window).width();
+-#  $(".footer").append("<p>WINDOW: height=" + h + "; width=" + w + "</p>");
+-#  var h2 = $(document).height();
+-#  var w2 = $(document).width();
+-#  $(".footer").append("<p>DOCUMENT: height=" + h2 + "; width=" + w2 + "</p>");

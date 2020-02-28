@@ -4,6 +4,7 @@ class ClubsController < ApplicationController
   respond_to :html
 
   def index
+    # TODO: move to LeagueController
     @players = order_players
     @teams = Team.all
     @positions = Position.all
@@ -19,7 +20,7 @@ class ClubsController < ApplicationController
     when 'club'
       all_players.sort_by(&:club)
     when 'team'
-      all_players.sort_by{ |p| p.team&.id.to_i }
+      all_players.sort_by { |p| p.team&.id.to_i }
     when 'mp'
       all_players.sort_by(&:played_matches_count).reverse
     when 'sc'
@@ -36,7 +37,7 @@ class ClubsController < ApplicationController
   end
 
   def filter
-    team ? team : position
+    team || position
   end
 
   def team

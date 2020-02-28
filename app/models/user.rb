@@ -7,6 +7,8 @@ class User < ApplicationRecord
   # TODO: add ability to have many clubs in different leagues
   has_one :team, dependent: :destroy
 
+  delegate :league, to: :team
+
   EMAIL_LENGTH = (6..50).freeze
   ROLES = %w[customer admin moderator].freeze
 

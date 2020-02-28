@@ -3,9 +3,17 @@ class ResultsController < ApplicationController
 
   respond_to :html
 
+  helper_method :league
+
   def index
-    @results = Result.all.order(points: :desc).order(Arel.sql("scored_goals - missed_goals desc")).order(scored_goals: :desc)
+    @results = Result.by_league(params[:league_id]).ordered
 
     respond_with @results
+  end
+
+  private
+
+  def league
+    @league ||= League.find(params[:league_id])
   end
 end
