@@ -11,7 +11,7 @@ AllCops:
     - bin/*
     - db/**/*
     - Gemfile
-
+    - vendor/bundle/**/*
     - node_modules/**/*
 Metrics/LineLength:
   Max: 140
