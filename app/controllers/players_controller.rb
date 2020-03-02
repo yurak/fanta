@@ -5,7 +5,7 @@ class PlayersController < ApplicationController
 
   respond_to :html
 
-   # TODO: rename to #update
+  # TODO: rename to #update
   def change_status
     status = params[:status]
 

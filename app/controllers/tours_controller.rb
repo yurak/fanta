@@ -71,7 +71,8 @@ class ToursController < ApplicationController
   end
 
   def update_reservists_params
-    params.permit(match_players: %i[id score goals missed_goals scored_penalty failed_penalty cleansheet assists yellow_card red_card own_goals caught_penalty missed_penalty])
+    params.permit(match_players: %i[id score goals missed_goals scored_penalty failed_penalty cleansheet
+                                    assists yellow_card red_card own_goals caught_penalty missed_penalty])
   end
 
   def league

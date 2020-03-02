@@ -32,7 +32,7 @@ class Position < ApplicationRecord
              TREQUARTSITA,
              ATTACCANTE,
              PUNTA
-  ].freeze
+           ].freeze
 
   DEPENDENCY = {
     PORTIERE => [PORTIERE],

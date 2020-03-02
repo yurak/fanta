@@ -31,6 +31,7 @@ module TeamLineups
     end
 
     def active_tour
+      # TODO: specify for League tours
       Tour.set_lineup.first
     end
   end

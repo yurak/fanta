@@ -355,3 +355,11 @@ body, html {
     }
   }
 }
+
+@media screen and (max-device-height: 830px) {
+  .navbar {
+    .nav-block {
+      padding: 0;
+    }
+  }
+}

@@ -1,7 +1,7 @@
 class LinksController < ApplicationController
   skip_before_action :authenticate_user!, only: [:index]
 
-  helper_method :link
+  helper_method :link, :league
 
   respond_to :html
 
@@ -20,7 +20,7 @@ class LinksController < ApplicationController
   def create
     @link = Link.new(link_params)
     if @link.save
-      redirect_to links_url, notice: 'Link was successfully created.'
+      redirect_to league_links_path(league), notice: 'Link was successfully created.'
     else
       render :new
     end
@@ -28,7 +28,7 @@ class LinksController < ApplicationController
 
   def update
     if link.update(link_params)
-      redirect_to links_url, notice: 'Link was successfully updated.'
+      redirect_to league_links_path(league), notice: 'Link was successfully updated.'
     else
       render :edit
     end
@@ -36,7 +36,7 @@ class LinksController < ApplicationController
 
   def destroy
     link.destroy
-    redirect_to links_url, notice: 'Link was successfully destroyed.'
+    redirect_to league_links_path(league), notice: 'Link was successfully destroyed.'
   end
 
   private
@@ -47,5 +47,9 @@ class LinksController < ApplicationController
 
   def link_params
     params.require(:link).permit(:name, :url, :description)
+  end
+
+  def league
+    @league ||= League.find(params[:league_id])
   end
 end

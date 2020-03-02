@@ -22,7 +22,7 @@
     .nav-link
       = link_to 'Stats', '', class: 'stats-link', title: 'Stats'
     .nav-link
-      = link_to 'Links', '', class: 'links-link', title: 'Links'
+      = link_to 'Links', league_links_path(current_user.league), class: 'links-link', title: 'Links'
 .nav-block
   .nav-link
     = link_to 'Leagues', leagues_path, class: 'leagues-link', title: 'Leagues'

@@ -3,6 +3,13 @@
     = image_tag('navbar/news.png')
   .page-header-title News
 .page-info
+  - if current_user&.admin?
+    .list-items.list-action-items.center
+      .list-row-item
+        .list-row-cell.hidden-cell
+        .list-row-cell.hidden-cell
+        .list-row-cell.item-c
+          = link_to 'NEW ARTICLE', new_article_path
   .articles-block
     - @articles.each do |article|
       .article-item
