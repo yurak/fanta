@@ -8,7 +8,7 @@ class Team < ApplicationRecord
   has_many :guest_matches, foreign_key: 'guest_id', class_name: 'Match'
   has_one :result, dependent: :destroy
 
-  validates :name, uniqueness: true
+  validates :name, uniqueness: true, length: { in: 2..16 }
 
   def matches
     @matches ||= Match.where('host_id = ? OR guest_id = ?', id, id)

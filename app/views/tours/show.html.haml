@@ -7,20 +7,22 @@
       = tour.league.name
 .page-info
   - if can_moderate?(current_user)
-    .list-items.tour-actions.center
-      - if current_user&.admin?
-        = link_to "LOCK TOUR", tour_change_status_path(tour, status: :locked), data: { confirm: 'Are you sure?' } if tour.set_lineup?
-        = link_to "POSTPONE TOUR", tour_change_status_path(tour, status: :postponed), data: { confirm: 'Are you sure?' } if tour.locked?
-        = link_to "CLOSE TOUR", tour_change_status_path(tour, status: :closed), data: { confirm: 'Are you sure?' } if tour.locked_or_postponed?
-        = link_to "INJECT SCORES", tour_inject_scores_path(tour), data: { confirm: 'Are you sure?' } if tour.deadlined?
-      = link_to "RESERVISTS", tour_edit_subs_scores_path(tour) if tour.closed?
+    .list-items.list-items-60-height.tour-actions.center
+      .list-row-item
+        - if current_user&.admin?
+          = link_to "START TOUR", tour_change_status_path(tour, status: :set_lineup), class: 'list-row-cell', data: { confirm: 'Are you sure?' } if tour.inactive?
+          = link_to "LOCK TOUR", tour_change_status_path(tour, status: :locked), class: 'list-row-cell', data: { confirm: 'Are you sure?' } if tour.set_lineup?
+          = link_to "POSTPONE TOUR", tour_change_status_path(tour, status: :postponed), class: 'list-row-cell', data: { confirm: 'Are you sure?' } if tour.locked?
+          = link_to "CLOSE TOUR", tour_change_status_path(tour, status: :closed), class: 'list-row-cell', data: { confirm: 'Are you sure?' } if tour.locked_or_postponed?
+          = link_to "INJECT SCORES", tour_inject_scores_path(tour), class: 'list-row-cell', data: { confirm: 'Are you sure?' } if tour.deadlined?
+        = link_to "RESERVISTS", tour_edit_subs_scores_path(tour), class: 'list-row-cell' if tour.closed?
 
   .list-items.list-items-60-height.tour-base-info.center
     .list-row-item
       .list-row-cell.tour-deadline-title DEADLINE
       .list-row-cell.tour-deadline-date
         - if tour.set_lineup? && current_user&.admin?
-          = link_to tour.deadline&.strftime("%H:%M %d/%m/%y"), edit_tour_path(tour)
+          = link_to tour.deadline&.strftime("%H:%M %d/%m/%y") || '--:--', edit_tour_path(tour)
         - else
           = tour.deadline&.strftime("%H:%M %d/%m/%y")
   .list-items.list-items-60-height.list-tour-matches.center

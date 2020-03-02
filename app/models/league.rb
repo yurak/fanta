@@ -7,6 +7,6 @@ class League < ApplicationRecord
   enum status: %i[initial active archived]
 
   def active_tour
-    tours&.active
+    tours&.active || tours.inactive.first
   end
 end

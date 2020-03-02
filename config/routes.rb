@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   resources :clubs, only: [:index]
 
   resources :leagues, only: [:index] do
+    get :tours, to: 'tours#index'
 
     resources :results, only: [:index]
 

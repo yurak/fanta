@@ -262,6 +262,11 @@ body, html {
       }
     }
   }
+  @media screen and (max-device-width: 720px) {
+    .page-header .page-header-title .page-header-subtitle {
+      display: none;
+    }
+  }
 }
 
 /* Navbar - show horizontally for horizontal view */
