@@ -17,7 +17,7 @@
         %select{onchange: "location = this.value;"}
           %option{selected: true, disabled: true}= 'POSITION'
           - @positions.each do |position|
-            %option{value: league_stats_path(current_user.league, position: position.id)}= position.name
+            %option{value: league_stats_path(current_user.league, position: position.name)}= position.name
   .list-items.stats-headers.center
     .results-header-cell #
     .results-header-cell
@@ -52,3 +52,40 @@
         .list-row-cell.player-icons
           .club-logo.l-details-club-logo
             = image_tag(player.team.logo_path, alt: "Logo")
+  -# TODO: add Tour stats tab
+-#    .tab-pane.fade#stat-tours
+-#      .teams-order-group
+-#        .btn-group{role: 'group'}
+-#          .btn-group{role: 'group'}
+-#            %button.btn.btn-outline-primary.order-btn.dropdown-toggle#tours-drop{ type: 'button', 'data-toggle' => 'dropdown', 'aria-haspopup' => true, 'aria-expanded' => 'false' } Tours
+-#            .dropdown-menu{ 'aria-labelledby' => 'tours-drop' }
+-#              - @tours.each do |tour|
+-#                = link_to tour.number, clubs_path(tour: tour.id), class: 'dropdown-item'
+-#      .tour-stat-headers
+-#        .tour-stat-header #
+-#        .tour-stat-header.player-param-name Name
+-#        .tour-stat-header Positions
+-#        .tour-stat-header Club
+-#        .tour-stat-header Team
+-#        .tour-stat-header Total score
+-#      - @tour_players.each_with_index do |mp, i|
+-#        .tour-stat
+-#          .player-param= i+1
+-#          - if mp.player.team
+-#            .player-param.player-param-name= link_to mp.player.name, team_player_path(mp.player.team, mp.player)
+-#          - else
+-#            .player-param.player-param-name= mp.player.name
+-#          .player-param.player-param-img
+-#            - mp.real_position.split('/').each do |position|
+-#              .l-details-position-image
+-#                = image_tag("positions/#{position}.png")
+-#          .player-param.player-param-club
+-#            .club-logo.l-details-club-logo{ class: mp.player.club.code.downcase }
+-#            .player-param-club-name= mp.player.club.code
+-#          .player-param.player-param-img
+-#            - if mp.player.team
+-#              = image_tag(mp.player.team.logo_path, alt: "Logo")
+-#            - else
+-#              = image_tag(mp.lineup.team.logo_path, alt: "Logo")
+-#          .player-param= mp.total_score
+

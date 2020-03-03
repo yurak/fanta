@@ -11,7 +11,6 @@ class TeamsController < ApplicationController
     @positions = Position.all
     # @tours = Tour.closed
     # @tour_players = tour_players
-    # @clubs = Club.all.order_by_players_count
   end
 
   private
@@ -26,20 +25,20 @@ class TeamsController < ApplicationController
 
   def order_players
     case stats_params[:order]
-      when 'club'
-        players_stats.sort_by(&:club)
-      when 'name'
-        players_stats.sort_by(&:name)
-      when 'team'
-        players_stats.sort_by { |p| p.team&.id.to_i }
-      when 'mp'
-        players_stats.sort_by(&:played_matches_count).reverse
-      when 'sc'
-        players_stats.sort_by(&:scores_count).reverse
-      when 'avbs'
-        players_stats.sort_by(&:average_score).reverse
-      else
-        players_stats.sort_by(&:average_total_score).reverse
+    when 'club'
+      players_stats.sort_by(&:club)
+    when 'name'
+      players_stats.sort_by(&:name)
+    when 'team'
+      players_stats.sort_by { |p| p.team&.id.to_i }
+    when 'mp'
+      players_stats.sort_by(&:played_matches_count).reverse
+    when 'sc'
+      players_stats.sort_by(&:scores_count).reverse
+    when 'avbs'
+      players_stats.sort_by(&:average_score).reverse
+    else
+      players_stats.sort_by(&:average_total_score).reverse
     end
   end
 
@@ -53,15 +52,15 @@ class TeamsController < ApplicationController
   end
 
   def players_with_filter
-    team_filter&.players #|| position_filter
+    team_filter&.players || players_by_position
   end
 
   def team_filter
     Team.find(stats_params[:team]) if stats_params[:team]
   end
 
-  def position_filter
-    Position.find(stats_params[:position]) if stats_params[:position]
+  def players_by_position
+    league_players.by_position(stats_params[:position]) if stats_params[:position]
   end
 
   def stats_params
