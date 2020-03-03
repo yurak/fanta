@@ -1,0 +1,54 @@
+.page-header
+  .page-header-icon
+    = image_tag('navbar/stats.png')
+  .page-header-title
+    = 'Statistics'
+.page-info
+  .list-items.list-action-items.center
+    .list-row-item
+      .list-row-cell
+        = link_to 'ALL PLAYERS', league_stats_path(current_user.league)
+      .list-row-cell
+        %select{onchange: "location = this.value;", class: 'dark-select'}
+          %option{selected: true, disabled: true}= 'TEAM'
+          - @teams.each do |team|
+            %option{value: league_stats_path(current_user.league, team: team.id)}= team.human_name
+      .list-row-cell
+        %select{onchange: "location = this.value;"}
+          %option{selected: true, disabled: true}= 'POSITION'
+          - @positions.each do |position|
+            %option{value: league_stats_path(current_user.league, position: position.id)}= position.name
+  .list-items.stats-headers.center
+    .results-header-cell #
+    .results-header-cell
+      = link_to 'Club', league_stats_path(current_user.league, order: 'club', team_id: params['team'], position: params['position'])
+    .results-header-cell
+      = link_to 'Name', league_stats_path(current_user.league, order: 'name', team: params['team'], position: params['position'])
+    .results-header-cell Positions
+    .results-header-cell.player-stats-headers
+      .player-stat-header{title: 'Number of matches in mains squad'}= link_to 'MP', league_stats_path(current_user.league, order: 'mp', team: params['team'], position: params['position'])
+      .player-stat-header{title: 'Number of scores'}= link_to 'SC', league_stats_path(current_user.league, order: 'sc', team: params['team'], position: params['position'])
+      .player-stat-header= link_to 'AvgBS', league_stats_path(current_user.league, order: 'avbs', team: params['team'], position: params['position'])
+      .player-stat-header= link_to 'AvgTS', league_stats_path(current_user.league, order: 'avts', team: params['team'], position: params['position'])
+    .results-header-cell
+      = link_to 'Team', league_stats_path(current_user.league, order: 'team', position: params['position'])
+  .list-items.list-items-dark.stats-players.center
+    - @players.each_with_index do |player, i|
+      .list-row-item
+        .list-row-cell= i+1
+        .list-row-cell.player-icons
+          .club-logo.l-details-club-logo{ class: player.club.code.downcase }
+        .list-row-cell
+          = link_to player.name, team_player_path(player.team, player)
+        .list-row-cell
+          - player.positions.each do |position|
+            .l-details-position-image
+              = image_tag("positions/#{position.name}.png")
+        .list-row-cell.player-stats
+          .player-param= player.played_matches_count
+          .player-param= player.scores_count
+          .player-param= player.average_score
+          .player-param= player.average_total_score
+        .list-row-cell.player-icons
+          .club-logo.l-details-club-logo
+            = image_tag(player.team.logo_path, alt: "Logo")

@@ -361,5 +361,11 @@ body, html {
     .nav-block {
       padding: 0;
     }
+    .nav-block:first-child {
+      padding-top: 0;
+    }
+    .nav-link {
+      padding: 5px;
+    }
   }
 }

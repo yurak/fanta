@@ -32,7 +32,7 @@
             = match.guest_lineup.total_score
           .team-tour-players{class: lineup_class(match.guest_lineup.completed?)}
             = "(#{match.guest_lineup.mp_with_score})"
-    - elsif current_user == match.guest.user
+    - elsif current_user == match.guest.user && tour.set_lineup?
       = link_to 'create', new_team_lineup_path(match.guest), class: 'add-lineup-tour'
   .list-row-cell.tour-guest
     = link_to team_path(match.guest) do

@@ -152,6 +152,7 @@
 
   .list-row-cell:nth-child(even) {
     background-color: #fff;
+    color: #001280;
   }
 
   .list-row-cell:not(:last-child)::after {

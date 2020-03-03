@@ -2,7 +2,7 @@
   .alert.alert-primary
     You should choose module, which will be filled by players in the next step. Module and players can be changed later before the deadline.
   %hr
-  = form_for [team.league, team, @lineup] do |f|
+  = form_for [team, @lineup] do |f|
     .form-group
       = image_tag('modules.jpg', class: 'new-lineup-modules-image')
     .form-group
