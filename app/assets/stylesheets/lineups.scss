@@ -29,49 +29,64 @@
 // TODO: update styles for pages
 /* NEW LINEUP page*/
 
-#new_lineup {
-  display: grid;
-  grid-template-columns: auto 35%;
-}
+.new-lineup-block {
+  background-color: #001280;
+  color: white;
+  padding: 10px 20px;
 
-#lineup_team_module_id {
-  margin-top: 10px;
-}
+  .list-items.list-items-60-height .list-row-item.new-lineup-note {
+    grid-template-columns: 1fr 12fr;
+    margin-bottom: 10px;
 
-.module-image {
-  margin: 20px 0;
-  width: 100%;
+    .new-lineup-note-warn {
+      font-size: 44px;
+      color: red;
+    }
 
-  img {
+    .new-lineup-note-text {
+      padding: 0 10px;
+      line-height: 30px;
+      font-size: 16px;
+    }
+
+    @media screen and (max-device-width: 800px) {
+      .new-lineup-note-text {
+        padding: 0 5px;
+        font-size: 12px;
+      }
+    }
+  }
+
+  .list-items.new-lu-form-block {
+    padding: 10px 0 20px;
+    .list-row-item {
+      grid-template-columns: 1fr 1fr;
+      line-height: 60px;
+
+      select {
+        border: none;
+        color: #001280;
+        background-color: #ffffff;
+        line-height: 60px;
+      }
+
+      .submit-btn {
+        background-color: #0f29a4; //#0657cc;
+        border: none;
+        color: white;
+        text-decoration: none;
+        width: 100%;
+      }
+    }
+  }
+
+  .new-lu-modules-block {
+
+  }
+
+  .new-lineup-modules-image {
     width: 100%;
-    border-radius: 10px;
-  }
-
-  .module-img {
-    display: none;
-  }
-}
-
-.new-lineup-modules-image {
-  width: 100%;
-  left: -7px;
-  position: relative;
-}
-
-.lineup-submit-btn {
-  grid-column: span 2;
-  .btn {
-    width: 100%;
-  }
-}
-
-@media screen and (max-device-width: 767px) {
-  #lineup_team_module_id {
-    margin-top: 5px;
-  }
-
-  .module-image {
-    margin: 10px 0;
+    max-width: 800px;
   }
 }
 
