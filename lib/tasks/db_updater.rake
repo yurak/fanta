@@ -5,7 +5,7 @@ namespace :db_updater do
     TournamentCreator.call
 
     # create league (with tournament) for existed data
-    league = League.create(name: 'Fanta-2019/2020', tournament: Tournament.find_by(code: 'serie_a'), status: 1)
+    league = League.create(name: 'Fanta-2019/2020', tournament: Tournament.find_by(code: Scores::Injectors::Strategy::CALCIO), status: 1)
 
     # add created league to existed teams
     Team.all.each { |t| t.update(league: league) }
