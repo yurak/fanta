@@ -13,13 +13,19 @@ module Scores
       end
 
       def klass
-        if user.league.tournament.code == CALCIO
+        if tournament_code == CALCIO
           Calcio
-        elsif user.league.tournament.code == EPL
+        elsif tournament_code == EPL
           Epl
         else
           Fake
         end
+      end
+
+      private
+
+      def tournament_code
+        user.league.tournament.code
       end
     end
   end
