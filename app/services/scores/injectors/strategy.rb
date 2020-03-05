@@ -17,6 +17,8 @@ module Scores
           Calcio
         elsif user.league.tournament.code == EPL
           Epl
+        else
+          Fake
         end
       end
     end

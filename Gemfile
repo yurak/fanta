@@ -53,7 +53,7 @@ group :test do
   gem 'capybara', '>= 2.15'
   gem 'chromedriver-helper'
   gem 'database_cleaner'
-  gem 'factory_bot_rails'
+  gem 'factory_bot_rails', '5.1.0'
   gem 'rake'
   gem 'selenium-webdriver'
 end
