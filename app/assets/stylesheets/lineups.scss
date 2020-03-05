@@ -32,7 +32,9 @@
 .new-lineup-block {
   background-color: #001280;
   color: white;
+  max-width: 1000px;
   padding: 10px 20px;
+  margin: 0 auto;
 
   .list-items.list-items-60-height .list-row-item.new-lineup-note {
     grid-template-columns: 1fr 12fr;
