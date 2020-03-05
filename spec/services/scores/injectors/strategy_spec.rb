@@ -1,5 +1,5 @@
 RSpec.describe Scores::Injectors::Strategy do
-  describe "#call" do
+  describe '#call' do
     subject { described_class.new(user) }
     let(:user) { create(:user) }
 
