@@ -1,4 +1,5 @@
 class CalendarCreator < ApplicationService
+  # TODO: use League Tournament parameter
   MAX_TOURS = 38
 
   def call

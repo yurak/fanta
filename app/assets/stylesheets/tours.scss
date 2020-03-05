@@ -1,3 +1,121 @@
+/* TOURS INDEX page */
+
+.tour-item {
+  background-color: #001280;
+  margin-bottom: 20px;
+  width: 100%;
+
+  a {
+    color: #fff;
+    text-decoration: none;
+    display: grid;
+    grid-template-columns: 1fr 5fr;
+    height: 100%;
+  }
+
+  .tour-short-info {
+    margin: auto;
+    height: 100%;
+    position: relative;
+  }
+
+  .tour-number {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-weight: bolder;
+    font-size: 60px;
+  }
+
+  .postponed {
+    color: #ef5350;
+  }
+
+  .list-items.list-tour-fixtures {
+    padding: 5px 20px 5px 0;
+    .list-row-item {
+      grid-template-columns: 3fr 1fr 3fr;
+    }
+
+    .tours-match-host {
+      display: grid;
+      grid-template-columns: auto 50px;
+      .match-team-name {
+        text-align: right;
+      }
+    }
+
+    .tours-match-guest {
+      display: grid;
+      grid-template-columns: 50px auto;
+    }
+
+    .match-team-logo {
+      img {
+        margin: 0 10px 5px;
+        width: 32px;
+        height: 32px;
+      }
+    }
+
+    .match-team-name {
+      text-align: left;
+      color: #001280;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      width: 100%;
+    }
+
+    .tour-match-result {
+      display: grid;
+      grid-template-columns: 1fr 0.7fr 1fr;
+    }
+
+    .list-row-cell:nth-child(even) {
+      background-color: #0657cc;
+    }
+
+    .list-row-item:nth-child(even) {
+      .list-row-cell:nth-child(even) {
+        background-color: #0f29a4;
+      }
+    }
+
+    .list-row-cell:nth-child(even)::after {
+      border-top: 40px solid #0657cc;
+    }
+
+    .list-row-item:nth-child(even) {
+      .list-row-cell:nth-child(even)::after {
+        border-top: 40px solid #0f29a4;
+      }
+    }
+
+    .list-row-cell:nth-child(even)::before {
+      border-bottom: 40px solid #0657cc;
+    }
+
+    .list-row-item:nth-child(even) {
+      .list-row-cell:nth-child(even):before {
+        border-bottom: 40px solid #0f29a4;
+      }
+    }
+  }
+
+  @media screen and (max-device-width: 1100px) {
+    a {
+      grid-template-columns: 1fr 6fr;
+    }
+
+    .list-items.list-tour-fixtures {
+      .list-row-item {
+        grid-template-columns: 4fr 1fr 4fr;
+      }
+    }
+  }
+}
+
 /* TOUR SHOW page */
 
 .list-items-60-height.tour-base-info {
@@ -30,29 +148,6 @@
   }
 }
 
-.tour-actions {
-  width: 100%;
-  margin-bottom: 30px;
-  line-height: 60px;
-  font-size: 24px;
-  height: 60px;
-  font-weight: bolder;
-  background-color: #fff;
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-
-  a {
-    text-decoration: none;
-    color: #001280;
-    width: 100%;
-    padding: 0 10px;
-  }
-
-  a:not(:last-child) {
-    border-right: 2px solid #001280;
-  }
-}
-
 .list-tour-matches.list-items-60-height {
   .list-row-item {
     grid-template-columns: 1.2fr 1fr 1fr 1fr 1.2fr;
@@ -62,12 +157,12 @@
     font-size: 20px;
   }
 
-  .tour-host {
+  .tour-host a {
     display: grid;
     grid-template-columns: 60px auto;
   }
 
-  .tour-guest {
+  .tour-guest a {
     display: grid;
     grid-template-columns: auto 60px;
   }

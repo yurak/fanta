@@ -1,10 +1,9 @@
-.container
-  %h3 Edit Lineup
-  - if lineup.updated_at
-    .alert.alert-info
-      %span
-        = lineup.updated_at.strftime('Last updated %m/%d/%Y at %I:%M%p')
-
+.page-header
+  .page-header-icon
+    = image_tag('navbar/lineups.png')
+  .page-header-title Edit Lineup
+.page-info
+  -# TODO: update UI
   .lineup-edit-block
     .lineup-edit-module
       .lineup-edit-module-img

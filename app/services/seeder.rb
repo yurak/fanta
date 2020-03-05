@@ -1,4 +1,6 @@
 class Seeder
+  # TODO: refactor for separate services
+
   attr_reader :objects_name, :team, :team_name
 
   def initialize(objects_name: 'clubs', team_name: 'lol')

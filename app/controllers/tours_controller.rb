@@ -1,9 +1,13 @@
 class ToursController < ApplicationController
-  skip_before_action :authenticate_user!, only: %i[show]
+  skip_before_action :authenticate_user!, only: %i[index show]
 
   respond_to :html, :json
 
-  helper_method :tour
+  helper_method :tour, :tours, :league
+
+  def index
+    respond_with tours
+  end
 
   def edit
     redirect_to tour_path(tour) unless tour.set_lineup? && current_user&.admin?
@@ -54,6 +58,10 @@ class ToursController < ApplicationController
     @tour ||= Tour.find(identifier)
   end
 
+  def tours
+    @tours = params[:closed] ? league.tours.closed_postponed.reverse : league.tours.inactive
+  end
+
   def tour_manager
     @tour_manager ||= TourManager.new(tour: tour, status: params[:status])
   end
@@ -63,6 +71,11 @@ class ToursController < ApplicationController
   end
 
   def update_reservists_params
-    params.permit(match_players: %i[id score goals missed_goals scored_penalty failed_penalty cleansheet assists yellow_card red_card own_goals caught_penalty missed_penalty])
+    params.permit(match_players: %i[id score goals missed_goals scored_penalty failed_penalty cleansheet
+                                    assists yellow_card red_card own_goals caught_penalty missed_penalty])
+  end
+
+  def league
+    @league ||= League.find(params[:league_id])
   end
 end

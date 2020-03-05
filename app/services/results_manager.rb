@@ -7,6 +7,7 @@ class ResultsManager
 
   # TODO: refactor as two separate services Results::Creator and Results::Updater
   def create
+    # TODO: only for League teams
     Team.all.each do |team|
       Result.create(team_id: team.id)
     end

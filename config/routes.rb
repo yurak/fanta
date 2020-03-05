@@ -7,10 +7,9 @@ Rails.application.routes.draw do
   resource :welcome, only: [:index]
   get 'rules', to: 'welcome#rules'
 
-  # TODO: refactor, move existed functionality to league
-  resources :clubs, only: [:index]
-
   resources :leagues, only: [:index] do
+    get :tours, to: 'tours#index'
+    get :stats, to: 'teams#index'
 
     resources :results, only: [:index]
 

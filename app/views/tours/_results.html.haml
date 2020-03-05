@@ -1,0 +1,9 @@
+.page-header
+  .page-header-icon
+    = image_tag('navbar/results.png')
+  .page-header-title
+    = 'Results'
+    .page-header-subtitle
+      = league.name
+.page-info
+  = render 'tours_list', tours: @tours

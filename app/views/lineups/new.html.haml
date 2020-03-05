@@ -1,25 +1,36 @@
-.container
-  .alert.alert-primary
-    You should choose module, which will be filled by players in the next step. Module and players can be changed later before the deadline.
-  %hr
-  = form_for [team.league, team, @lineup] do |f|
-    .form-group
-      = image_tag('modules.jpg', class: 'new-lineup-modules-image')
-    .form-group
-      = f.select :team_module_id, @modules.collect { |x| [x.name, x.id]}, {}, class: 'form-control'
-      .module-image
-        - @modules.each do |m|
-          = image_tag("modules/#{m.name}.png", id: m.name, class: 'module-img')
-      .form-group.lineup-submit-btn
-        = f.submit 'Setup module', class: 'btn btn-success'
+.page-header
+  .page-header-icon
+    = image_tag('navbar/lineups.png')
+  .page-header-title Create Lineup
+.page-info
+  .new-lineup-block
+    .list-items.list-items-60-height
+      .list-row-item.hidden-cell
+      .list-row-item.new-lineup-note
+        .list-row-cell.new-lineup-note-warn.center !
+        .list-row-cell.new-lineup-note-text
+          You should choose module, which will be filled by players in the next step. Module and players can be changed later before the deadline.
+    = form_for [team, @lineup] do |f|
+      .list-items.new-lu-form-block.center
+        .list-row-item.hidden-cell
+        .list-row-item.new-lineup-note
+          .list-row-cell
+            = f.select :team_module_id, @modules.collect { |x| [x.name, x.id]}, {}, class: 'form-control'
+          .list-row-cell
+            = f.submit 'Setup module', class: 'submit-btn'
+    .new-lu-modules-block.center
+      = image_tag('modules-long.jpg', class: 'new-lineup-modules-image')
 
-:javascript
-  $(document).ready(function() {
-    $('.module-img:first').show();
-  });
-  $('#lineup_team_module_id').change(function(){
-    let module = $(this).children("option:selected").text();
-    $('.module-img').hide();
-    $('#'+module).show();
-  })
+-#      .module-image
+-#        - @modules.each do |m|
+-#          = image_tag("modules/#{m.name}.png", id: m.name, class: 'module-img')
+-#:javascript
+-#  $(document).ready(function() {
+-#    $('.module-img:first').show();
+-#  });
+-#  $('#lineup_team_module_id').change(function(){
+-#    let module = $(this).children("option:selected").text();
+-#    $('.module-img').hide();
+-#    $('#'+module).show();
+-#  })
 

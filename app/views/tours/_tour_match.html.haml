@@ -1,9 +1,11 @@
 .list-row-item
+  -# TODO: add link to match host team
   .list-row-cell.tour-host
-    .tour-team-logo
-      = image_tag(match.host&.logo_path, alt: 'Team Logo')
-    .tour-team-name
-      = match.host.code_name
+    = link_to team_path(match.host) do
+      .tour-team-logo
+        = image_tag(match.host&.logo_path, alt: 'Team Logo')
+      .tour-team-name
+        = match.host.code_name
   .list-row-cell
     - if match.host_lineup
       .tour-team-points
@@ -12,7 +14,7 @@
             = match.host_lineup.total_score
           .team-tour-players{class: lineup_class(match.host_lineup.completed?)}
             = "(#{match.host_lineup.mp_with_score})"
-    - elsif current_user == match.host.user
+    - elsif current_user == match.host.user && tour.set_lineup?
       = link_to 'create', new_team_lineup_path(match.host), class: 'add-lineup-tour'
   .list-row-cell.tour-result
     - if match.tour.deadlined?
@@ -30,10 +32,11 @@
             = match.guest_lineup.total_score
           .team-tour-players{class: lineup_class(match.guest_lineup.completed?)}
             = "(#{match.guest_lineup.mp_with_score})"
-    - elsif current_user == match.guest.user
+    - elsif current_user == match.guest.user && tour.set_lineup?
       = link_to 'create', new_team_lineup_path(match.guest), class: 'add-lineup-tour'
   .list-row-cell.tour-guest
-    .tour-team-name
-      = match.guest.code_name
-    .tour-team-logo
-      = image_tag(match.guest&.logo_path, alt: 'Team Logo')
+    = link_to team_path(match.guest) do
+      .tour-team-name
+        = match.guest.code_name
+      .tour-team-logo
+        = image_tag(match.guest&.logo_path, alt: 'Team Logo')

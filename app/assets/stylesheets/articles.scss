@@ -2,9 +2,11 @@
 
 .articles-block {
   min-height: 400px;
+  max-width: 1000px;
+  margin: 0 auto;
 
   .article-item {
-    margin: 30px;
+    margin: 30px 0;
     background-color: #001280;
     a {
       color: white;

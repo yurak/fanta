@@ -1,3 +1,4 @@
+-# TODO: update UI
 = form_for [team, lineup], url: team_lineup_path(team, lineup), method: :put do |f|
   = f.fields_for :match_players do |match_players|
     - if lineup.slots[match_players.index]&.position
