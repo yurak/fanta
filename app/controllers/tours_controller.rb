@@ -52,7 +52,7 @@ class ToursController < ApplicationController
   private
 
   def injector_klass
-    @injector_klass ||= Scores::Injectors::Strategy.new(current_user).klass
+    @injector_klass ||= Scores::Injectors::Strategy.new(tour).klass
   end
 
   def identifier

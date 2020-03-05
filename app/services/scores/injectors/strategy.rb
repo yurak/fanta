@@ -3,13 +3,13 @@
 module Scores
   module Injectors
     class Strategy
-      attr_reader :user
+      attr_reader :tour
 
       CALCIO = 'serie_a'
       EPL = 'epl'
 
-      def initialize(user)
-        @user = user
+      def initialize(tour)
+        @tour = tour
       end
 
       def klass
@@ -25,7 +25,7 @@ module Scores
       private
 
       def tournament_code
-        user.league.tournament.code
+        tour.league.tournament.code
       end
     end
   end
