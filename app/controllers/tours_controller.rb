@@ -44,11 +44,16 @@ class ToursController < ApplicationController
   end
 
   def inject_scores
-    Scores::Parser.call(tour: tour)
+    injector_klass.call(tour: tour)
+
     redirect_to tour_path(tour)
   end
 
   private
+
+  def injector_klass
+    @injector_klass ||= Scores::Injectors::Strategy.new(tour).klass
+  end
 
   def identifier
     params[:tour_id].presence || params[:id]
