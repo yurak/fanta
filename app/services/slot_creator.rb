@@ -2,7 +2,7 @@ class SlotCreator < ApplicationService
   def call
     team_modules.each do |module_name, slot_hash|
       tm = TeamModule.new(name: module_name)
-      # TODO: use has_and_belongs_to_many association to avoid multiple same Slots creation
+      # TODO: use has_many_through association to avoid multiple same Slots creation
       slot_hash.each do |number, positions|
         tm.slots << Slot.new(number: number, position: positions.join('/'))
       end

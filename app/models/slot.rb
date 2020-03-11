@@ -1,5 +1,5 @@
 class Slot < ApplicationRecord
-  # TODO: change to has_and_belongs_to_many :team_modules
+  # TODO: change to has_many :team_modules, through:
   belongs_to :team_module
 
   def positions

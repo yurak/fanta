@@ -3,7 +3,8 @@
 class Position < ApplicationRecord
   validates :name, uniqueness: true
 
-  has_and_belongs_to_many :players
+  has_many :player_positions
+  has_many :players, through: :player_positions
 
   PORTIERE = 'Por'
   ESTERNO  = 'E'
