@@ -1,5 +1,5 @@
 class Player < ApplicationRecord
-  has_many :player_positions
+  has_many :player_positions, dependent: :destroy
   has_many :positions, through: :player_positions
   belongs_to :club
   # TODO: change to has_many :teams, through:

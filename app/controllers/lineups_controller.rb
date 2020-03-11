@@ -5,6 +5,8 @@ class LineupsController < ApplicationController
 
   helper_method :team, :lineup, :modules
 
+  def index; end
+
   def new
     modules
     @lineup = Lineup.new
