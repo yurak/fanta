@@ -31,7 +31,8 @@
   }
 
   .list-row-cell:nth-child(even) {
-    background-color: #001280;
+    //background-color: #001280;
+    background-color: #0657cc;
   }
 
   .list-row-cell:not(:last-child)::after {
@@ -69,7 +70,7 @@
   }
 
   .list-row-cell:nth-child(even)::after {
-    border-top: 40px solid #001280;
+    border-top: 40px solid #0657cc;
   }
 
   .list-row-item:nth-child(even) {
@@ -79,8 +80,8 @@
   }
 
   .list-row-cell:nth-child(even)::before {
-    border-bottom: 40px solid #001280;
-    border-right: 0px solid #001280;
+    border-bottom: 40px solid #0657cc;
+    border-right: 0px solid #0657cc;
   }
 
   .list-row-item:nth-child(even) {
@@ -118,7 +119,7 @@
   }
 
   .list-row-cell:nth-child(even)::after {
-    border-top: 60px solid #001280;
+    border-top: 60px solid #0657cc;
   }
 
   .list-row-item:nth-child(even) {
@@ -128,7 +129,7 @@
   }
 
   .list-row-cell:nth-child(even)::before {
-    border-bottom: 60px solid #001280;
+    border-bottom: 60px solid #0657cc;
   }
 
   .list-row-item:nth-child(even) {
@@ -140,7 +141,7 @@
 
 .list-items.list-items-dark {
   .list-row-cell {
-    background-color: #001280;
+    background-color: #0657cc;
   }
 
   .list-row-cell:nth-child(odd) {
@@ -156,11 +157,11 @@
   }
 
   .list-row-cell:not(:last-child)::after {
-    border-top: 40px solid #001280;
+    border-top: 40px solid #0657cc;
   }
 
   .list-row-cell:not(:first-child)::before {
-    border-bottom: 40px solid #001280;
+    border-bottom: 40px solid #0657cc;
   }
 
   .list-row-item:nth-child(even) {
@@ -212,13 +213,13 @@
   }
 
   .list-row-cell:not(:last-child)::after {
-    border-top: 50px solid #001280;
+    border-top: 50px solid #0657cc;
     border-right: 25px solid transparent;
     right: -25px;
   }
 
   .list-row-cell:not(:first-child)::before {
-    border-bottom: 50px solid #001280;
+    border-bottom: 50px solid #0657cc;
     border-left: 25px solid transparent;
     left: -25px;
   }
@@ -263,13 +264,13 @@
   }
 
   .list-row-cell:not(:last-child)::after {
-    border-top: 70px solid #001280;
+    border-top: 70px solid #0657cc;
     border-right: 35px solid transparent;
     right: -35px;
   }
 
   .list-row-cell:not(:first-child)::before {
-    border-bottom: 70px solid #001280;
+    border-bottom: 70px solid #0657cc;
     border-left: 35px solid transparent;
     left: -35px;
   }
