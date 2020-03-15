@@ -13,7 +13,8 @@
         .list-row-cell.team-pl-name
           = link_to player.name.upcase, team_player_path(team, player)
         .list-row-cell.team-pl-club-logo
-          .club-logo{ class: player.club.code.downcase }
+          .club-logo
+            = image_tag(player.club.logo_path, alt: 'Club Logo')
         .list-row-cell.team-pl-club-stats{title: 'Scores count'}
           = player.scores_count
         .list-row-cell.team-pl-club-score{title: 'Average score'}

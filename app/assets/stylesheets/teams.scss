@@ -1,6 +1,5 @@
 /* TEAM INDEX page // STATS page */
 
-
 .list-items.list-action-items {
   select {
     border: none;
@@ -47,13 +46,6 @@
     grid-template-columns: 1fr 1fr 4fr 2fr 6fr 1.5fr;
   }
 
-  .player-icons {
-    img {
-      vertical-align: top;
-      width: 100%;
-    }
-  }
-
   .player-stats {
     display: grid;
     grid-template-columns: 1fr 1fr 1.5fr 1.5fr;
@@ -61,16 +53,6 @@
 }
 
 /* Team players list */
-
-.list-team-players {
-  .team-pl-club-logo {
-    padding: 2px;
-    .club-logo {
-      height: 36px;
-      width: 36px;
-    }
-  }
-}
 
 @media screen and (max-device-width: 800px)  {
   .list-team-players {
@@ -80,91 +62,10 @@
   }
 }
 
-/* Club logo list */
-
 .club-logo {
   margin: auto;
-  width: 50px;
-  height: 50px;
-  background-size: contain;
-}
-
-.ata {
-  background-image: image-url('clubs/atalanta.png');
-}
-
-.bol {
-  background-image: image-url('clubs/bologna.png');
-}
-
-.bre {
-  background-image: image-url('clubs/brescia.png');
-}
-
-.cag {
-  background-image: image-url('clubs/cagliari.png');
-}
-
-.fio {
-  background-image: image-url('clubs/fiorentina.png');
-}
-
-.gen {
-  background-image: image-url('clubs/genoa.png');
-}
-
-.int {
-  background-image: image-url('clubs/inter.png');
-}
-
-.juv {
-  background-image: image-url('clubs/juventus.png');
-}
-
-.laz {
-  background-image: image-url('clubs/lazio.png');
-}
-
-.lec {
-  background-image: image-url('clubs/lecce.png');
-}
-
-.mil {
-  background-image: image-url('clubs/milan.png');
-}
-
-.nap {
-  background-image: image-url('clubs/napoli.png');
-}
-
-.par {
-  background-image: image-url('clubs/parma.png');
-}
-
-.rom {
-  background-image: image-url('clubs/roma.png');
-}
-
-.sam {
-  background-image: image-url('clubs/sampdoria.png');
-}
-
-.sas {
-  background-image: image-url('clubs/sassuolo.png');
-}
-
-.spa {
-  background-image: image-url('clubs/spal.png');
-}
-
-.tor {
-  background-image: image-url('clubs/torino.png');
-}
-
-.udi {
-  background-image: image-url('clubs/udinese.png');
-}
-
-.ver {
-  background-image: image-url('clubs/verona.png');
+  img {
+    height: 32px;
+    width: 32px;
+  }
 }
