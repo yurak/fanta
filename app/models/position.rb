@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
 class Position < ApplicationRecord
-  validates :name, uniqueness: true
-
   has_many :player_positions, dependent: :destroy
   has_many :players, through: :player_positions
+
+  validates :name, uniqueness: true
 
   PORTIERE = 'Por'
   ESTERNO  = 'E'

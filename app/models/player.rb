@@ -1,7 +1,8 @@
 class Player < ApplicationRecord
+  belongs_to :club
+
   has_many :player_positions, dependent: :destroy
   has_many :positions, through: :player_positions
-  belongs_to :club
 
   has_many :player_teams, dependent: :destroy
   has_many :teams, through: :player_teams

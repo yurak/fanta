@@ -1,21 +1,42 @@
-clubs:
-  - Atalanta
-  - Bologna
-  - Brescia
-  - Cagliari
-  - Fiorentina
-  - Genoa
-  - Inter
-  - Juventus
-  - Lazio
-  - Lecce
-  - Milan
-  - Napoli
-  - Parma
-  - Roma
-  - Sampdoria
-  - Sassuolo
-  - SPAL
-  - Torino
-  - Udinese
-  - Verona
+serie_a:
+  ATA: Atalanta
+  BOL: Bologna
+  BRE: Brescia
+  CAG: Cagliari
+  FIO: Fiorentina
+  GEN: Genoa
+  INT: Inter
+  JUV: Juventus
+  LAZ: Lazio
+  LEC: Lecce
+  MIL: Milan
+  NAP: Napoli
+  PAR: Parma
+  ROM: Roma
+  SAM: Sampdoria
+  SAS: Sassuolo
+  SPA: SPAL
+  TOR: Torino
+  UDI: Udinese
+  VER: Verona
+epl:
+  ARS: Arsenal
+  ASV: Aston Villa
+  BOU: Bournemouth
+  BRI: Brighton
+  BUR: Burnley
+  CHE: Chelsea
+  CRY: Crystal Palace
+  EVE: Everton
+  LEI: Leicester
+  LIV: Liverpool
+  MCI: Manchester City
+  MUT: Manchester United
+  NEW: Newcatle
+  NOR: Norwich
+  SHU: Sheffield United
+  SOU: Southampton
+  TOT: Tottenham
+  WAT: Watford
+  WES: West Ham
+  WOL: Wolverhamprton

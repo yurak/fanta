@@ -4,23 +4,22 @@
   font-size: 20px;
   height: 40px;
   font-weight: bolder;
-  background-color: #0f29a4;
+  background-color: #0f29a4e6;
   color: #6adde2;
   display: grid;
-  grid-template-columns: 1.2fr 4fr 13fr 5fr;
   column-gap: 35px;
+}
 
-  .results-stats-cell {
+.results-headers, .list-results .list-row-item {
+  grid-template-columns: 1.5fr 4fr 13fr 5fr;
+
+  .results-stats-cell, .results-team-stats {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1.2fr;
-    width: 100%;
   }
 }
 
 .list-results {
-  .list-row-item {
-    grid-template-columns: 1.2fr 4fr 13fr 5fr;
-  }
   .results-team > a {
     display: grid;
     grid-template-columns: 50px auto;
@@ -41,9 +40,6 @@
     width: 100%;
   }
   .results-team-stats {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1.2fr;
-
     .results-team-field:not(:last-child) {
       font-size: 20px;
       font-weight: normal;
