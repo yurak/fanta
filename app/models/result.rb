@@ -1,10 +1,10 @@
 class Result < ApplicationRecord
   belongs_to :team
 
+  delegate :lineups, to: :team
+
   scope :by_league, ->(league_id) { joins(:team).where(teams: { league_id: league_id }) }
   scope :ordered, -> { order(points: :desc).order(Arel.sql('scored_goals - missed_goals desc')).order(scored_goals: :desc) }
-
-  delegate :lineups, to: :team
 
   def matches_played
     @matches_played ||= wins + draws + loses

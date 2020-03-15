@@ -131,19 +131,19 @@
     }
 
     .tour-deadline-title {
-      background-color: #001280;
-    }
-
-    .tour-deadline-date {
       background-color: #0f29a4;
     }
 
+    .tour-deadline-date {
+      background-color: #0657cc;
+    }
+
     .tour-deadline-title:after {
-      border-top: 60px solid #001280;
+      border-top: 60px solid #0f29a4;
     }
 
     .tour-deadline-date:before {
-      border-bottom: 60px solid #0f29a4;
+      border-bottom: 60px solid #0657cc;
     }
   }
 }
@@ -182,6 +182,7 @@
   }
 
   .tour-result {
+    font-weight: bold;
     display: grid;
     grid-template-columns: 40% auto 40%;
   }

@@ -1,13 +1,13 @@
 class Lineup < ApplicationRecord
+  belongs_to :team_module
+  belongs_to :team
+  belongs_to :tour
+
   has_many :match_players, dependent: :destroy
   has_many :players, through: :match_players
 
   accepts_nested_attributes_for :match_players
   accepts_nested_attributes_for :players
-
-  belongs_to :team_module
-  belongs_to :team
-  belongs_to :tour
 
   delegate :slots, to: :team_module
 
