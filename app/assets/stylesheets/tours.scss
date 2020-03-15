@@ -1,12 +1,12 @@
 /* TOURS INDEX page */
 
 .tour-item {
-  background-color: #001280;
+  background-color: #0657cc26;
   margin-bottom: 20px;
   width: 100%;
 
   a {
-    color: #fff;
+    color: #001280;
     text-decoration: none;
     display: grid;
     grid-template-columns: 1fr 5fr;
@@ -203,8 +203,6 @@
 }
 
 /* TOUR RESERVISTS SCORES */
-
-// TODO: update styles of RESERVISTS page
 
 .reservist-item, .reservists-headers {
   display: grid;
