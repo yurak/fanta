@@ -24,7 +24,8 @@
       = fields_for "match_players[]", reservist do |mp_f|
         .reservist-item
           .reservist-param
-            .club-logo.l-details-club-logo{ class: mp_f.object.player.club.code.downcase }
+            .club-logo.l-details-club-logo
+              = image_tag(mp_f.object.player.club.logo_path, alt: 'Club Logo')
           .reservist-param.res-name
             = mp_f.object.player.name
           .reservist-param

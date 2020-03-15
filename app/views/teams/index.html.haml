@@ -37,7 +37,8 @@
       .list-row-item
         .list-row-cell= i+1
         .list-row-cell.player-icons
-          .club-logo.l-details-club-logo{ class: player.club.code.downcase }
+          .club-logo.l-details-club-logo
+            = image_tag(player.club.logo_path, alt: 'Club Logo')
         .list-row-cell
           = link_to player.name, team_player_path(player.team, player)
         .list-row-cell
@@ -51,7 +52,7 @@
           .player-param= player.average_total_score
         .list-row-cell.player-icons
           .club-logo.l-details-club-logo
-            = image_tag(player.team.logo_path, alt: "Logo")
+            = image_tag(player.team.logo_path, alt: 'Team Logo')
   -# TODO: add Tour stats tab
 -#    .tab-pane.fade#stat-tours
 -#      .teams-order-group

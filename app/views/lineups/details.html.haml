@@ -49,7 +49,8 @@
           .l-details-item-param.l-details-position
             = image_tag("positions/#{lineup.slots[i]&.position.gsub('/','_')}.png")
           .l-details-item-param.l-details-position
-            .club-logo.l-details-club-logo{ class: mp.player.club.code.downcase }
+            .club-logo.l-details-club-logo
+              = image_tag(mp.player.club.logo_path, alt: 'Club Logo')
           .l-details-item-param.l-details-player-name
             = link_to mp.player.name, team_player_path(team, mp.player)
           .l-details-item-param.l-details-player-tscore
