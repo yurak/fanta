@@ -19,8 +19,9 @@
       = link_to 'Fixtures', league_tours_path(current_user.league), class: 'fixtures-link', title: 'Fixtures'
     .nav-link
       = link_to 'Results', league_tours_path(current_user.league, closed: true), class: 'results-link', title: 'Results'
-    .nav-link
-      = link_to 'Stats', league_stats_path(current_user.league), class: 'stats-link', title: 'Stats'
+    -# TODO: stats page temporary disabled
+    -#.nav-link
+    -#  = link_to 'Stats', league_stats_path(current_user.league), class: 'stats-link', title: 'Stats'
     .nav-link
       = link_to 'Links', league_links_path(current_user.league), class: 'links-link', title: 'Links'
 .nav-block

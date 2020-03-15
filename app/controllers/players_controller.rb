@@ -19,8 +19,8 @@ class PlayersController < ApplicationController
     params[:player_id].presence || params[:id]
   end
 
-  def league
-    @league ||= Team.find(params[:league_id])
+  def team
+    @team ||= Team.find(params[:team_id])
   end
 
   def player

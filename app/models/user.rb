@@ -17,4 +17,8 @@ class User < ApplicationRecord
   validates :email, presence: true, format: { with: /\A[\w+\-.]+@[a-z\d\-]+(\.a[a-z]+)*\.[a-z]+\z/i }, uniqueness: true
   validates :email, length: { in: EMAIL_LENGTH }
   validates :role, presence: true, inclusion: { in: ROLES }
+
+  def can_moderate?
+    admin? || moderator?
+  end
 end

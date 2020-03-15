@@ -6,7 +6,7 @@
     .page-header-subtitle
       = tour.league.name
 .page-info
-  - if can_moderate?(current_user)
+  - if current_user&.can_moderate?
     .list-items.list-action-items.center
       .list-row-item
         = link_to "RESERVISTS", tour_edit_subs_scores_path(tour), class: 'list-row-cell' if tour.closed?

@@ -1,17 +1,19 @@
 class Player < ApplicationRecord
-  has_and_belongs_to_many :positions
+  has_many :player_positions, dependent: :destroy
+  has_many :positions, through: :player_positions
   belongs_to :club
-  # TODO: change to has_and_belongs_to_many :teams
-  belongs_to :team, optional: true
+
+  has_many :player_teams, dependent: :destroy
+  has_many :teams, through: :player_teams
 
   has_many :match_players, dependent: :destroy
   has_many :lineups, through: :match_players
 
-  # TODO: unique by name and club
+  # TODO: add uniqueness validation by name and first_name
   # validates :name, uniqueness: true
 
   scope :by_position, ->(position) { joins(:positions).where(positions: { name: position }) }
-  scope :stats_query, -> { includes(:match_players, :club, :team, :positions).order(:name) }
+  scope :stats_query, -> { includes(:match_players, :club, :positions).order(:name) }
 
   enum status: %i[ready problematic injured disqualified]
 

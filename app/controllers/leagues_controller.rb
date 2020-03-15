@@ -4,8 +4,7 @@ class LeaguesController < ApplicationController
   respond_to :html
 
   def index
-    # TODO: show only active leagues
-    @leagues = League.all
+    @leagues = League.active
 
     respond_with @leagues
   end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_17_152657) do
+ActiveRecord::Schema.define(version: 2020_03_11_132807) do
 
   create_table "articles", force: :cascade do |t|
     t.string "title"
@@ -87,18 +87,28 @@ ActiveRecord::Schema.define(version: 2020_02_17_152657) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "player_positions", force: :cascade do |t|
+    t.integer "player_id"
+    t.integer "position_id"
+    t.index ["player_id", "position_id"], name: "player_position"
+  end
+
+  create_table "player_teams", force: :cascade do |t|
+    t.integer "player_id"
+    t.integer "team_id"
+    t.index ["player_id"], name: "index_player_teams_on_player_id"
+    t.index ["team_id"], name: "index_player_teams_on_team_id"
+  end
+
   create_table "players", force: :cascade do |t|
     t.string "name"
-    t.integer "team_id"
     t.integer "club_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "status", default: 0
-  end
-
-  create_table "players_positions", id: false, force: :cascade do |t|
-    t.integer "player_id"
-    t.integer "position_id"
+    t.string "first_name"
+    t.string "nationality"
+    t.string "tm_url"
   end
 
   create_table "positions", force: :cascade do |t|

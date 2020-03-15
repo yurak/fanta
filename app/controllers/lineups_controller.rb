@@ -1,13 +1,11 @@
 class LineupsController < ApplicationController
-  skip_before_action :authenticate_user!, only: %i[details show]
+  skip_before_action :authenticate_user!, only: %i[index details show]
 
   respond_to :html
 
   helper_method :team, :lineup, :modules
 
-  def index
-    # TODO: show all Team lineups
-  end
+  def index; end
 
   def new
     modules
