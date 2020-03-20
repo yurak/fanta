@@ -28,8 +28,13 @@ class Player < ApplicationRecord
   end
 
   def avatar_path
-    path = "players/#{club.name.downcase}/#{name.downcase.tr(' ', '_').delete("'")}.png"
+    # TODO: remove club from path, use first_name + name
+    path = "players/#{club.path_name}/#{name.downcase.tr(' ', '_').delete("'")}.png"
     ActionController::Base.helpers.resolve_asset_path(path) ? path : 'players/avatar.png'
+  end
+
+  def kit_path
+    "kits/#{club.path_name}.png"
   end
 
   def positions_names_string
