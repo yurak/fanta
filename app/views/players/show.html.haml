@@ -4,7 +4,7 @@
       .player-show-face
         = image_tag(player.avatar_path)
       .player-show-kit
-        = image_tag("players/kits/#{player.club.name}.png", alt: "Club Kit")
+        = image_tag(player.kit_path, alt: "Club Kit")
       .player-show-positions
         - player.positions.each do |position|
           .player-show-position-image

@@ -8,10 +8,6 @@ module PlayersHelper
     end
   end
 
-  def player_photo_path(player)
-    "players/#{player.club.name.downcase}/#{player.name.downcase.tr(' ', '_').delete("'")}.png"
-  end
-
   def available_for_select_by_positions(team, positions: nil)
     if positions
       scope = team.players.includes(:positions).where(positions: { name: positions })
