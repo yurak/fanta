@@ -10,8 +10,8 @@ class Player < ApplicationRecord
   has_many :match_players, dependent: :destroy
   has_many :lineups, through: :match_players
 
-  # TODO: add uniqueness validation by name and first_name
-  # validates :name, uniqueness: true
+  validates :name, uniqueness: { scope: :first_name }
+  validates :name, presence: true
 
   scope :by_position, ->(position) { joins(:positions).where(positions: { name: position }) }
   scope :stats_query, -> { includes(:match_players, :club, :positions).order(:name) }
@@ -56,31 +56,36 @@ class Player < ApplicationRecord
     positions.first.id
   end
 
+  def can_clean_sheet?
+    (position_names & Position::DEFENSIVE).any?
+  end
+
   def played_matches_count
+    # TODO: use matches played for team
     @played_matches_count ||= played_matches.size
   end
 
   def scores_count
+    # TODO: use matches played for team
     @scores_count ||= match_with_scores.size
   end
 
   def average_score
+    # TODO: use matches played for team
     return 0 if scores_count.zero?
 
     @average_score ||= (match_with_scores.map(&:score).sum / scores_count).round(2)
   end
 
   def average_total_score
+    # TODO: use matches played for team
     return 0 if scores_count.zero?
 
     @average_total_score ||= (match_with_scores.map(&:total_score).sum / scores_count).round(2)
   end
 
-  def can_clean_sheet?
-    (position_names & Position::DEFENSIVE).any?
-  end
-
   def chart_info
+    # TODO: use matches played for team
     bs = {}
     ts = {}
     match_players.each do |mp|
@@ -91,20 +96,24 @@ class Player < ApplicationRecord
   end
 
   def best_score
+    # TODO: use matches played for team
     match_with_scores.map(&:total_score).max || 0
   end
 
   def worst_score
+    # TODO: use matches played for team
     match_with_scores.map(&:total_score).min || 0
   end
 
   private
 
   def played_matches
+    # TODO: use matches played for team
     @played_matches ||= match_players.main.with_score
   end
 
   def match_with_scores
+    # TODO: use matches played for team
     @match_with_scores ||= match_players.with_score
   end
 end
