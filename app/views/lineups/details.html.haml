@@ -52,7 +52,7 @@
             .club-logo.l-details-club-logo
               = image_tag(mp.player.club.logo_path, alt: 'Club Logo')
           .l-details-item-param.l-details-player-name
-            = link_to mp.player.name, team_player_path(team, mp.player)
+            = link_to mp.player.name, player_path(mp.player)
           .l-details-item-param.l-details-player-tscore
             = mp.total_score
           .l-details-item-param
