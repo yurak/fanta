@@ -1,12 +1,6 @@
--# TODO: update UI
-.container
-  %h3 Edit Module
-  .edit-module
-    .edit-modules-image
-      = image_tag("modules-long.jpg", class: 'edit-modules-img')
-    .edit-modules-form
-      = form_for [team, @lineup] do |f|
-        .form-group
-          = f.select :team_module_id, @modules.collect { |x| [x.name, x.id]}, {}, class: 'form-control'
-        .form-group.lineup-submit-btn
-          = f.submit 'Update lineup module', class: 'btn btn-success'
+.page-header
+  .page-header-icon
+    = image_tag('navbar/lineups.png')
+  .page-header-title Edit Module
+.page-info
+  = render 'module_form', team: team, lineup: @lineup, modules: @modules

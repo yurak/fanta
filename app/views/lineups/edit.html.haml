@@ -3,10 +3,64 @@
     = image_tag('navbar/lineups.png')
   .page-header-title Edit Lineup
 .page-info
-  -# TODO: update UI
-  .lineup-edit-block
-    .lineup-edit-module
-      .lineup-edit-module-img
-        = image_tag("modules/#{lineup.team_module.name}.png", class: 'module-img')
-    .lineup-edit-form
-      = render 'edit_form'
+  -# TODO: add flash messages
+  -# TODO: add validation by position malus
+
+  .edit-lineup-block
+    .edit-lineup-field-block
+      .edit-lineup-field
+        = form_for [team, lineup], url: team_lineup_path(team, lineup), method: :put do |f|
+          = f.fields_for :match_players do |match_player|
+            - if lineup.slots[match_player.index]&.position
+              .lineup-slot{class: "slot-#{lineup.slots[match_player.index]&.location}"}
+                = match_player.hidden_field(:real_position, value: lineup.slots[match_player.index]&.position)
+                .input-group
+                  .player-data
+                    .player-show-images
+                      .player-show-face
+                        = image_tag(team.players.find(match_player.object.player_id).avatar_path, id: "avatar-mp-#{match_player.index}")
+                      .player-show-kit
+                        = image_tag(team.players.find(match_player.object.player_id).kit_path, id: "kit-mp-#{match_player.index}", alt: "Club Kit")
+                      .player-name
+                        %span{ id: "name-mp-#{match_player.index}" }
+                          = team.players.find(match_player.object.player_id).name.upcase
+                      .slot-position{class: "slot-position-#{lineup.slots[match_player.index]&.position.tr('/', '')}"}
+                        = lineup.slots[match_player.index]&.position
+                  = match_player.select :player_id, available_for_select_by_positions(team, positions: lineup.slots[match_player.index]&.positions_with_malus), {}, disabled: lineup.tour.closed?, class: 'custom-select lineup-select', id: "mp-#{match_player.index}"
+            - else
+              .lineup-slot{class: "slot-r#{match_player.index}"}
+                .input-group
+                  .player-data
+                    .player-show-images
+                      .player-show-face
+                        = image_tag(team.players.find(match_player.object.player_id).avatar_path, id: "avatar-mp-#{match_player.index}")
+                      .player-show-kit
+                        = image_tag(team.players.find(match_player.object.player_id).kit_path, id: "kit-mp-#{match_player.index}", alt: "Club Kit")
+                      .player-name
+                        %span{ id: "name-mp-#{match_player.index}" }
+                          = team.players.find(match_player.object.player_id).name
+                      .slot-position.slot-position-res
+                        = "R#{match_player.index-10}"
+                  = match_player.select :player_id, available_for_select(team), {}, disabled: lineup.tour.closed?, class: 'custom-select lineup-select', id: "mp-#{match_player.index}"
+          .slot-sb
+            = f.submit 'CONFIRM LINEUP', class: 'submit-lineup-btn'
+
+:javascript
+  $('.lineup-select').change(function(){
+    var block_id = this.id;
+    var player_id = this.value;
+    var avatar_container = $('#avatar-'+block_id);
+    var kit_container = $('#kit-'+block_id);
+    var name_container = $('#name-'+block_id);
+
+    $.ajax({
+      type: 'GET',
+      dataType: 'json',
+      url: '/players/'+player_id,
+      success: function(data){
+        avatar_container.attr('src', location.origin + data.avatar_path);
+        kit_container.attr('src', location.origin + data.kit_path);
+        name_container.text(data.name);
+      }
+    });
+  })
