@@ -22,5 +22,8 @@ namespace :db_updater do
 
     # add created league to existed links
     Link.all.each { |l| l.update(league: league) }
+
+    # add location to slots
+    Slots::Updater.call
   end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_11_132807) do
+ActiveRecord::Schema.define(version: 2020_03_22_183918) do
 
   create_table "articles", force: :cascade do |t|
     t.string "title"
@@ -136,6 +136,7 @@ ActiveRecord::Schema.define(version: 2020_03_11_132807) do
     t.integer "team_module_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "location", default: "", null: false
   end
 
   create_table "team_modules", force: :cascade do |t|

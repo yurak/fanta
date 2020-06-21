@@ -40,7 +40,7 @@
           .club-logo.l-details-club-logo
             = image_tag(player.club.logo_path, alt: 'Club Logo')
         .list-row-cell
-          = link_to player.name, team_player_path(player.team, player)
+          = link_to player.name, player_path(player)
         .list-row-cell
           - player.positions.each do |position|
             .l-details-position-image
@@ -73,7 +73,7 @@
 -#        .tour-stat
 -#          .player-param= i+1
 -#          - if mp.player.team
--#            .player-param.player-param-name= link_to mp.player.name, team_player_path(mp.player.team, mp.player)
+-#            .player-param.player-param-name= link_to mp.player.name, player_path(mp.player)
 -#          - else
 -#            .player-param.player-param-name= mp.player.name
 -#          .player-param.player-param-img

@@ -1,0 +1,17 @@
+.new-lineup-block
+  .list-items.list-items-60-height
+    .list-row-item.hidden-cell
+    .list-row-item.new-lineup-note
+      .list-row-cell.new-lineup-note-warn.center !
+      .list-row-cell.new-lineup-note-text
+        You should choose module, which will be filled by players in the next step. Module and players can be changed later before the deadline.
+  = form_for [team, lineup] do |f|
+    .list-items.new-lu-form-block.center
+      .list-row-item.hidden-cell
+      .list-row-item.new-lineup-note
+        .list-row-cell
+          = f.select :team_module_id, modules.collect { |x| [x.name, x.id]}, {}, class: 'form-control'
+        .list-row-cell
+          = f.submit 'Setup module', class: 'submit-btn'
+  .new-lu-modules-block.center
+    = image_tag('modules.jpg', class: 'new-lineup-modules-image')

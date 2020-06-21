@@ -11,7 +11,7 @@
             .position-image.inline-block
               = image_tag("positions/#{position.name}.png")
         .list-row-cell.team-pl-name
-          = link_to player.name.upcase, team_player_path(team, player)
+          = link_to player.name.upcase, player_path(player)
         .list-row-cell.team-pl-club-logo
           .club-logo
             = image_tag(player.club.logo_path, alt: 'Club Logo')
@@ -24,4 +24,4 @@
 -#      = player.status
 -#    - Player.statuses.each do |status, _value|
 -#      - if status != player.status
--#        = link_to status, team_player_change_status_path(team, player, status: status), class: "btn btn-sm btn-primary #{status_class('btn', status)}"
+-#        = link_to status, player_change_status_path(player, status: status), class: "btn btn-sm btn-primary #{status_class('btn', status)}"

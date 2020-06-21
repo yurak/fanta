@@ -33,10 +33,10 @@ Rails.application.routes.draw do
       get :substitutions
       put :subs_update
     end
+  end
 
-    resources :players, only: [:show] do
-      get :change_status
-    end
+  resources :players, only: [:show] do
+    get :change_status
   end
 
   resources :articles

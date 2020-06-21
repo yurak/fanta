@@ -80,7 +80,7 @@ class LineupsController < ApplicationController
 
   def update
     if duplicate_players&.any?
-      flash[:notice] = "Your have same player on multiple positions: #{duplicate_names}"
+      flash[:error] = "ERROR! Same player on multiple positions: #{duplicate_names}"
       redirect_to edit_team_lineup_path(team, lineup)
     else
       flash[:notice] = 'Successfully updated lineup' if lineup.update(update_lineup_params)
