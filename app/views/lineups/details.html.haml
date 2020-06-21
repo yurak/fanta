@@ -1,18 +1,18 @@
 -# TODO: update UI
 .container
-  .lineup-header
-    .lineup-info
-      %span.bolder
-        = link_to team.name.titleize, team_path(team)
-      lineup for Tour #
-      %span.bolder
-        = link_to lineup.tour.number, tour_path(lineup.tour)
-    .lineup-show-edit-btn
-      .float-right
-        .btn-group
-          = link_to 'Base info', team_lineup_path(team, lineup), class: 'btn btn-primary lineup-show-btn'
-          - if lineup.tour.locked_or_postponed? && current_user&.can_moderate?
-            = link_to 'Edit scores', team_lineup_edit_scores_path(team, lineup), class: 'btn btn-primary lineup-show-btn'
+  -#.lineup-header
+  -#  .lineup-info
+  -#    %span.bolder
+  -#      = link_to team.name.titleize, team_path(team)
+  -#    lineup for Tour #
+  -#    %span.bolder
+  -#      = link_to lineup.tour.number, tour_path(lineup.tour)
+  -#  .lineup-show-edit-btn
+  -#    .float-right
+  -#      .btn-group
+  -#        = link_to 'Base info', team_lineup_path(team, lineup), class: 'btn btn-primary lineup-show-btn'
+  -#        - if lineup.tour.locked_or_postponed? && current_user&.can_moderate?
+  -#          = link_to 'Edit scores', team_lineup_edit_scores_path(team, lineup), class: 'btn btn-primary lineup-show-btn'
   .l-details-block
     .l-details-team-info
       .l-details-info-block.l-details-module-block

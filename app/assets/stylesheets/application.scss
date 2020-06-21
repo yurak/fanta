@@ -164,8 +164,35 @@ body, html {
 
 .page-info {
   padding: 20px 40px;
-  height: 100%;
+  height: calc(100% - 50px);
   min-height: 400px;
+}
+
+.flash-block {
+  height: 50px;
+  line-height: 50px;
+  width: 100%;
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 40px;
+  text-align: center;
+
+  .flash-item {
+    height: 100%;
+    width: 100%;
+    font-size: 20px;
+    font-weight: bolder;
+  }
+
+  .flash-notice {
+    background-color: #78d236ad;
+    color: #001280
+  }
+
+  .flash-error {
+    background-color: #ff0000bd;
+    color: #000000; //#001280
+  }
 }
 
 .center {

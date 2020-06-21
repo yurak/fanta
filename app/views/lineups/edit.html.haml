@@ -2,13 +2,14 @@
   .page-header-icon
     = image_tag('navbar/lineups.png')
   .page-header-title Edit Lineup
-.page-info
-  -# TODO: add flash messages
-  -# TODO: add validation by position malus
 
-  .edit-lineup-block
-    .edit-lineup-field-block
-      .edit-lineup-field
+.flash-block
+  - flash.each do |key, value|
+    = content_tag :div, value, class: "flash-item flash-#{key}"
+.page-info
+  .lineup-block
+    .lineup-field-block
+      .lineup-field
         = form_for [team, lineup], url: team_lineup_path(team, lineup), method: :put do |f|
           = f.fields_for :match_players do |match_player|
             - if lineup.slots[match_player.index]&.position
@@ -38,7 +39,7 @@
                         = image_tag(team.players.find(match_player.object.player_id).kit_path, id: "kit-mp-#{match_player.index}", alt: "Club Kit")
                       .player-name
                         %span{ id: "name-mp-#{match_player.index}" }
-                          = team.players.find(match_player.object.player_id).name
+                          = team.players.find(match_player.object.player_id).name.upcase
                       .slot-position.slot-position-res
                         = "R#{match_player.index-10}"
                   = match_player.select :player_id, available_for_select(team), {}, disabled: lineup.tour.closed?, class: 'custom-select lineup-select', id: "mp-#{match_player.index}"
