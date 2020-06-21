@@ -1,13 +1,23 @@
 class CalendarCreator < ApplicationService
-  # TODO: use League Tournament parameter
-  MAX_TOURS = 38
+  MIN_TEAMS = 2
+
+  def initialize(league_id, max_tours, add_round = false)
+    @league_id = league_id
+    @max_tours = max_tours.to_i
+    @add_round = add_round
+  end
 
   def call
+    return unless league
+    return if teams_array.size < MIN_TEAMS
+
     tour_number = 0
     rounds.times do |round_number|
       round_games.each do |tour_games|
         tour_number += 1
-        tour = Tour.create(number: tour_number)
+        break if tour_number > @max_tours
+
+        tour = Tour.create(number: tour_number, league: league)
         tour_games.each do |team_ids|
           team_ids = team_ids.reverse if round_number.odd?
           Match.create(tour: tour, host_id: team_ids[0], guest_id: team_ids[1])
@@ -40,20 +50,27 @@ class CalendarCreator < ApplicationService
     games
   end
 
-  def tours_count
-    rounds * round_tours
+  def rounds
+    @rounds ||= additional_tours ? (full_rounds + 1) : full_rounds
   end
 
-  def rounds
-    MAX_TOURS / round_tours
+  def full_rounds
+    @max_tours / round_tours
   end
 
   def round_tours
     teams_array.count - 1
   end
 
+  def additional_tours
+    (@max_tours.to_i % round_tours).positive?
+  end
+
   def teams_array
-    # TODO: after League (Room) implementation - should be chosen teams from specific Room
-    @teams_array ||= Team.all.ids
+    @teams_array ||= league.teams.ids
+  end
+
+  def league
+    @league ||= League.find_by(id: @league_id)
   end
 end
