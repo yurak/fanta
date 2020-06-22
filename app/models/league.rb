@@ -7,6 +7,8 @@ class League < ApplicationRecord
 
   enum status: %i[initial active archived]
 
+  validates :name, presence: true, uniqueness: true
+
   def active_tour
     tours&.active || tours.inactive.first
   end
