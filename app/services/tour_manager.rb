@@ -41,11 +41,14 @@ class TourManager
     return unless tour.locked_or_postponed? && status == 'closed'
 
     tour.closed!
-    ResultsManager.new(tour: tour).update
+    Results::Updater.call(tour: tour)
   end
 
   def any_tour_in_progress?
-    # TODO: specify League tours
-    Tour.set_lineup.exists? || Tour.locked.exists?
+    league.tours.set_lineup.exists? || league.tours.locked.exists?
+  end
+
+  def league
+    tour.league
   end
 end
