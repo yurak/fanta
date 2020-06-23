@@ -59,7 +59,8 @@
                         = match_player.player.name.upcase
                     .slot-position{class: "slot-position-#{lineup.slots[index]&.position.tr('/', '')}"}
                       = lineup.slots[index]&.position
-          - else
+            // TODO: show not_in_squad players correctly
+          - elsif match_player.subs_status != "not_in_squad"
             .lineup-slot{class: "slot-r#{index}"}
               .input-group
                 .player-data

@@ -6,8 +6,9 @@ module Api
     end
 
     def fixtures
-      matches = Tour.active.matches
-      render json: matches, each_serializer: MatchSerializer
+      # TODO: add League association
+      # matches = Tour.active.matches
+      # render json: matches, each_serializer: MatchSerializer
     end
   end
 end
