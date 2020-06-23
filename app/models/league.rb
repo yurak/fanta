@@ -10,6 +10,6 @@ class League < ApplicationRecord
   validates :name, presence: true, uniqueness: true
 
   def active_tour
-    tours&.active || tours.inactive.first
+    tours&.active&.first || tours.inactive&.first
   end
 end

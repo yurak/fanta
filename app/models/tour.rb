@@ -12,6 +12,8 @@ class Tour < ApplicationRecord
 
   scope :closed_postponed, -> { closed.or(postponed) }
 
+  scope :active, -> { set_lineup.or(locked) }
+
   def locked_or_postponed?
     locked? || postponed?
   end
@@ -24,11 +26,6 @@ class Tour < ApplicationRecord
     number + 1
   end
 
-  def self.active
-    # TODO: add League association
-    Tour.set_lineup.first || Tour.locked.first
-  end
-
   def match_players
     MatchPlayer.by_tour(id)
   end
@@ -36,8 +33,9 @@ class Tour < ApplicationRecord
   private
 
   def send_notifications
-    Telegram::Sender.call(text: "Deadline for <i>Tour ##{number}</i> changed to <b>#{deadline_str}</b>") if deadline_previously_changed?
-    Telegram::Sender.call(text: status_text) if status_previously_changed?
+    # TODO: need TG implementation
+    # Telegram::Sender.call(text: "Deadline for <i>Tour ##{number}</i> changed to <b>#{deadline_str}</b>") if deadline_previously_changed?
+    # Telegram::Sender.call(text: status_text) if status_previously_changed?
   end
 
   def status_text

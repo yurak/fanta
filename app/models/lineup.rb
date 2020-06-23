@@ -11,8 +11,7 @@ class Lineup < ApplicationRecord
 
   delegate :slots, to: :team_module
 
-  # TODO: add League association
-  scope :closed, -> { where(tour_id: Tour.closed.ids) }
+  scope :closed, ->(league_id) { where(tour_id: League.find(league_id).tours.closed.ids) }
 
   FIRST_GOAL = 66
   INCREMENT = 6
