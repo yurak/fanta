@@ -475,32 +475,23 @@ id,first_name,name,nationality,club_name,position1,position2,position3,tm_url
 ,Darren,Randolph,ie,West Ham,Por,,,https://www.transfermarkt.com/darren-randolph/profil/spieler/51321
 ,Tomas,Soucek,cz,West Ham,M,,,https://www.transfermarkt.com/tomas-soucek/profil/spieler/283628
 ,Jarrod,Bowen,gb-eng,West Ham,W,A,,https://www.transfermarkt.com/jarrod-bowen/profil/spieler/314875
-,Rui,Patricio,pt,Wolverhamprton,Por,,,https://www.transfermarkt.com/rui-patricio/profil/spieler/45026
-,John,Ruddy,gb-eng,Wolverhamprton,Por,,,https://www.transfermarkt.com/john-ruddy/profil/spieler/29712
-,Matt,Doherty,ie,Wolverhamprton,Dd,E,,https://www.transfermarkt.com/matt-doherty/profil/spieler/171679
-,Willy,Boly,ci,Wolverhamprton,Dc,,,https://www.transfermarkt.com/willy-boly/profil/spieler/142310
-,Conor,Coady,gb-eng,Wolverhamprton,Dc,,,https://www.transfermarkt.com/conor-coady/profil/spieler/128901
-,Jonny,Otto,es,Wolverhamprton,Ds,E,,https://www.transfermarkt.com/jonny-otto/profil/spieler/175446
-,Ruben,Vinagre,pt,Wolverhamprton,Ds,E,,https://www.transfermarkt.com/ruben-vinagre/profil/spieler/357158
-,Maximilian,Kilman,gb-eng,Wolverhamprton,Dc,Ds,,https://www.transfermarkt.com/max-kilman/profil/spieler/525247
-,Ruben,Neves,pt,Wolverhamprton,M,C,,https://www.transfermarkt.com/ruben-neves/profil/spieler/225161
-,Morgan,Gibbs-White,gb-eng,Wolverhamprton,C,T,,https://www.transfermarkt.com/morgan-gibbs-white/profil/spieler/429014
-,Diogo,Jota,pt,Wolverhamprton,A,,,https://www.transfermarkt.com/diogo-jota/profil/spieler/340950
-,Romain,Saiss,ma,Wolverhamprton,M,,,https://www.transfermarkt.com/romain-saiss/profil/spieler/204198
-,Joao,Moutinho,pt,Wolverhamprton,C,T,,https://www.transfermarkt.com/joao-moutinho/profil/spieler/29364
-,Adama,Traore,es,Wolverhamprton,W,A,,https://www.transfermarkt.com/adama-traore/profil/spieler/204103
-,Leander,Dendoncker,be,Wolverhamprton,M,C,,https://www.transfermarkt.com/leander-dendoncker/profil/spieler/168157
-,Raul,Jimenez,mx,Wolverhamprton,Pc,,,https://www.transfermarkt.com/raul-jimenez/profil/spieler/206040
-,Bruno,Jordao,pt,Wolverhamprton,C,,,https://www.transfermarkt.com/bruno-jordao/profil/spieler/415646
-,Pedro,Neto,pt,Wolverhamprton,A,,,https://www.transfermarkt.com/pedro-neto/profil/spieler/487465
-,Leonardo,Campana,ec,Wolverhamprton,Pc,,,https://www.transfermarkt.com/leonardo-campana/profil/spieler/606872
-,Daniel,Podence,pt,Wolverhamprton,W,A,,https://www.transfermarkt.com/daniel-podence/profil/spieler/256977
-,Andrea,Danzi,it,Verona,M,C,,https://www.transfermarkt.com/andrea-danzi/profil/spieler/319171
-,Matteo,Pessina,it,Verona,C,,,https://www.transfermarkt.com/matteo-pessina/profil/spieler/332179
-,Emmanuel,Badu,gh,Verona,M,C,,https://www.transfermarkt.com/emmanuel-badu/profil/spieler/108484
-,Valentin,Eysseric,fr,Verona,W,T,,https://www.transfermarkt.com/valentin-eysseric/profil/spieler/126687
-,Fabio,Borini,it,Verona,W,,,https://www.transfermarkt.com/fabio-borini/profil/spieler/96754
-,Eddie,Salcedo,it,Verona,Pc,,,https://www.transfermarkt.com/eddie-salcedo/profil/spieler/459661
-,Mariusz,Stepinski,pl,Verona,Pc,,,https://www.transfermarkt.com/mariusz-stepinski/profil/spieler/210363
-,Samuel,Di Carmine,it,Verona,Pc,,,https://www.transfermarkt.com/samuel-di-carmine/profil/spieler/45389
-,Giampaolo,Pazzini,it,Verona,Pc,,,https://www.transfermarkt.com/giampaolo-pazzini/profil/spieler/19447
+,Rui,Patricio,pt,Wolverhampton,Por,,,https://www.transfermarkt.com/rui-patricio/profil/spieler/45026
+,John,Ruddy,gb-eng,Wolverhampton,Por,,,https://www.transfermarkt.com/john-ruddy/profil/spieler/29712
+,Matt,Doherty,ie,Wolverhampton,Dd,E,,https://www.transfermarkt.com/matt-doherty/profil/spieler/171679
+,Willy,Boly,ci,Wolverhampton,Dc,,,https://www.transfermarkt.com/willy-boly/profil/spieler/142310
+,Conor,Coady,gb-eng,Wolverhampton,Dc,,,https://www.transfermarkt.com/conor-coady/profil/spieler/128901
+,Jonny,Otto,es,Wolverhampton,Ds,E,,https://www.transfermarkt.com/jonny-otto/profil/spieler/175446
+,Ruben,Vinagre,pt,Wolverhampton,Ds,E,,https://www.transfermarkt.com/ruben-vinagre/profil/spieler/357158
+,Maximilian,Kilman,gb-eng,Wolverhampton,Dc,Ds,,https://www.transfermarkt.com/max-kilman/profil/spieler/525247
+,Ruben,Neves,pt,Wolverhampton,M,C,,https://www.transfermarkt.com/ruben-neves/profil/spieler/225161
+,Morgan,Gibbs-White,gb-eng,Wolverhampton,C,T,,https://www.transfermarkt.com/morgan-gibbs-white/profil/spieler/429014
+,Diogo,Jota,pt,Wolverhampton,A,,,https://www.transfermarkt.com/diogo-jota/profil/spieler/340950
+,Romain,Saiss,ma,Wolverhampton,M,,,https://www.transfermarkt.com/romain-saiss/profil/spieler/204198
+,Joao,Moutinho,pt,Wolverhampton,C,T,,https://www.transfermarkt.com/joao-moutinho/profil/spieler/29364
+,Adama,Traore,es,Wolverhampton,W,A,,https://www.transfermarkt.com/adama-traore/profil/spieler/204103
+,Leander,Dendoncker,be,Wolverhampton,M,C,,https://www.transfermarkt.com/leander-dendoncker/profil/spieler/168157
+,Raul,Jimenez,mx,Wolverhampton,Pc,,,https://www.transfermarkt.com/raul-jimenez/profil/spieler/206040
+,Bruno,Jordao,pt,Wolverhampton,C,,,https://www.transfermarkt.com/bruno-jordao/profil/spieler/415646
+,Pedro,Neto,pt,Wolverhampton,A,,,https://www.transfermarkt.com/pedro-neto/profil/spieler/487465
+,Leonardo,Campana,ec,Wolverhampton,Pc,,,https://www.transfermarkt.com/leonardo-campana/profil/spieler/606872
+,Daniel,Podence,pt,Wolverhampton,W,A,,https://www.transfermarkt.com/daniel-podence/profil/spieler/256977
