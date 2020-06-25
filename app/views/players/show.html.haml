@@ -12,7 +12,6 @@
     .player-show-info
       .player-base-data
         .player-flag
-          -#.flag-icon{class: "flag-icon-#{player.nationality}"}
           = flag_icon(player.nationality.to_sym, element: :div)
         .player-show-name
           = player.name
