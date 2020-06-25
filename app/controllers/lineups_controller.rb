@@ -25,13 +25,13 @@ class LineupsController < ApplicationController
   end
 
   def show
-    redirect_to teams_path && return unless lineup_of_team?
+    redirect_to team_path(team) && return unless lineup_of_team?
 
     respond_with lineup
   end
 
   def details
-    redirect_to teams_path && return unless lineup_of_team?
+    redirect_to team_path(team) && return unless lineup_of_team?
 
     respond_with lineup
   end
