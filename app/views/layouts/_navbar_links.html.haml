@@ -12,7 +12,7 @@
   .nav-block
     .nav-header My League
     .nav-link
-      = link_to 'Tour', tour_path(current_user.league.active_tour), class: 'tour-link', title: 'Tour'
+      = link_to 'Round', tour_path(current_user.league.active_tour), class: 'tour-link', title: 'Active Round'
     .nav-link
       = link_to 'Table', league_results_path(current_user.league), class: 'table-link', title: 'Table'
     .nav-link

@@ -35,6 +35,8 @@ gem 'telegram-bot-ruby'
 gem 'cancancan'
 gem 'rails_admin', '~> 2.0'
 
+gem 'flag-icons-rails'
+
 group :development, :test do
   gem 'pry-rails'
   gem 'rspec-rails', '~> 3.8'

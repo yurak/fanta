@@ -107,7 +107,7 @@
     font-size: 20px;
 
     .list-row-cell:nth-child(2n+1) {
-      color: #508501; //#007c5a;
+      //color: #508501; //#007c5a;
       line-height: 30px;
       font-size: 20px;
       padding: 0 10px;
@@ -118,15 +118,15 @@
     }
 
     .list-row-cell:nth-child(2n) {
-      background-color: #508501;
+      //background-color: #508501;
     }
 
     list-row-cell:nth-child(even)::after {
-      border-top: 60px solid #508501;
+      //border-top: 60px solid #508501;
     }
 
     .list-row-cell:nth-child(even)::before {
-      border-bottom: 60px solid #508501;
+      //border-bottom: 60px solid #508501;
     }
   }
 }
@@ -228,7 +228,7 @@
         width: 100px;
         height: 100px;
         margin: 0 auto;
-        .player-show-face, .player-show-kit {
+        .player-show-face, .player-show-kit, .player-warning {
           img {
             width: 100px;
             height: 100px;

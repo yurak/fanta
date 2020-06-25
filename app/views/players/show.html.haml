@@ -10,8 +10,16 @@
           .player-show-position-image
             = image_tag("positions/#{position.name}.png")
     .player-show-info
-      .player-show-name
-        = player.name
+      .player-base-data
+        .player-flag
+          -#.flag-icon{class: "flag-icon-#{player.nationality}"}
+          = flag_icon(player.nationality.to_sym, element: :div)
+        .player-show-name
+          = player.name
+        .player-tm-link
+          = link_to player.tm_url, target: :_blank do
+            .player-tm-img
+              = image_tag("tm_logo.png")
       .player-show-club
         %span= player.club.name
         - player.teams.each do |t|

@@ -34,9 +34,32 @@
 }
 
 .player-show-info {
-  .player-show-name {
-    font-weight: bolder;
-    font-size: 32px;
+  .player-base-data {
+    display: grid;
+    grid-template-columns: 70px auto 130px;
+
+    .player-flag {
+      .flag-icon {
+        height: 42px;
+        width: 56px;
+        text-align: left;
+      }
+    }
+
+    .player-show-name {
+      font-weight: bolder;
+      font-size: 32px;
+    }
+
+    .player-tm-link {
+      margin: 0 auto;
+      .player-tm-img {
+        img {
+          width: auto;
+          height: 50px;
+        }
+      }
+    }
   }
 
   .player-show-club {
