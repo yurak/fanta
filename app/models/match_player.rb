@@ -24,6 +24,12 @@ class MatchPlayer < ApplicationRecord
     position_names.include?(real_position)
   end
 
+  def position_malus?
+    return false unless real_position
+
+    (real_position.split('/') & position_names).empty?
+  end
+
   def total_score
     return 0 unless score
 

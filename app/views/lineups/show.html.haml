@@ -4,7 +4,7 @@
   .page-header-title
     %span.bolder
       = link_to team.name.upcase, team_path(team)
-    | Tour
+    | Round
     %span.bolder
       = link_to lineup.tour.number, tour_path(lineup.tour)
 .flash-block
@@ -54,6 +54,9 @@
                       = image_tag(match_player.player.avatar_path, id: "avatar-mp-#{index}")
                     .player-show-kit
                       = image_tag(match_player.player.kit_path, id: "kit-mp-#{index}", alt: "Club Kit")
+                    - if match_player.position_malus?
+                      .player-warning{title: 'Position malus'}
+                        = image_tag("warning.png", alt: "Position Malus Warning")
                     .player-name
                       %span{ id: "name-mp-#{index}" }
                         = match_player.player.name.upcase
