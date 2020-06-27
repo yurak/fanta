@@ -45,6 +45,7 @@ class ToursController < ApplicationController
 
   def inject_scores
     injector_klass.call(tour: tour)
+    Scores::PositionMalus::Updater.call(tour: tour)
 
     redirect_to tour_path(tour)
   end

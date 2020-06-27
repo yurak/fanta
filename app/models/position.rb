@@ -18,6 +18,10 @@ class Position < ApplicationRecord
   ATTACCANTE = 'A'
   PUNTA = 'Pc'
 
+  S_MALUS = 1.5
+  M_MALUS = 3.0
+  L_MALUS = 4.5
+
   DEFENSIVE = [PORTIERE, DIFENSORE_CENTRALE, DIFENSORE_SINISTRO, DIFENSORE_DESTRO].freeze
 
   DEFENCE = [DIFENSORE_CENTRALE, DIFENSORE_SINISTRO, DIFENSORE_DESTRO].freeze
@@ -47,5 +51,38 @@ class Position < ApplicationRecord
     TREQUARTSITA => [TREQUARTSITA, MEDIANO, CENTROCAMPISTA, ALA, ATTACCANTE],
     ATTACCANTE => [ATTACCANTE, PUNTA, TREQUARTSITA],
     PUNTA => [PUNTA, ATTACCANTE, TREQUARTSITA]
+  }.freeze
+
+  # Position in lineup => Native Position => Malus size
+  MALUS = {
+    DIFENSORE_SINISTRO => { DIFENSORE_DESTRO => S_MALUS,
+                            DIFENSORE_CENTRALE => M_MALUS,
+                            ESTERNO => M_MALUS,
+                            ALA => L_MALUS },
+    DIFENSORE_DESTRO => { DIFENSORE_SINISTRO => S_MALUS,
+                          DIFENSORE_CENTRALE => M_MALUS,
+                          ESTERNO => M_MALUS,
+                          ALA => L_MALUS },
+    DIFENSORE_CENTRALE => { DIFENSORE_DESTRO => S_MALUS,
+                            DIFENSORE_SINISTRO => S_MALUS },
+    ESTERNO => { DIFENSORE_DESTRO => M_MALUS,
+                 DIFENSORE_SINISTRO => M_MALUS,
+                 ALA => M_MALUS },
+    MEDIANO => { CENTROCAMPISTA => S_MALUS,
+                 TREQUARTSITA => M_MALUS },
+    CENTROCAMPISTA => { MEDIANO => S_MALUS,
+                        TREQUARTSITA => M_MALUS },
+    ALA => { TREQUARTSITA => S_MALUS,
+             ESTERNO => M_MALUS,
+             DIFENSORE_SINISTRO => L_MALUS,
+             DIFENSORE_DESTRO => L_MALUS },
+    TREQUARTSITA => { ALA => S_MALUS,
+                      MEDIANO => M_MALUS,
+                      CENTROCAMPISTA => M_MALUS,
+                      ATTACCANTE => M_MALUS },
+    ATTACCANTE => { PUNTA => S_MALUS,
+                    TREQUARTSITA => M_MALUS },
+    PUNTA => { ATTACCANTE => S_MALUS,
+               TREQUARTSITA => M_MALUS }
   }.freeze
 end

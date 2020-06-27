@@ -248,6 +248,18 @@ body, html {
   background-color: #bdbdbd;
 }
 
+.malus15 {
+  background-color: yellow;
+}
+
+.malus30 {
+  background-color: orange;
+}
+
+.malus45 {
+  background-color: red;
+}
+
 /* Navbar - show only link icons without text */
 @media screen and (max-device-width: 920px) {
   .navbar {
