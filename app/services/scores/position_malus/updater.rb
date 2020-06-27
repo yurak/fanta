@@ -9,7 +9,7 @@ module Scores
         @tour.match_players.main.with_score.each do |mp|
           next unless mp.position_malus?
 
-          mp.update(position_malus: malus(mp))
+          mp.update(position_malus: malus(mp)) if mp.score.positive?
         end
       end
 
