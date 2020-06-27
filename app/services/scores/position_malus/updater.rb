@@ -13,6 +13,8 @@ module Scores
         end
       end
 
+      private
+
       def malus(match_player)
         Scores::PositionMalus::Counter.call(match_player.real_position, match_player.position_names)
       end
