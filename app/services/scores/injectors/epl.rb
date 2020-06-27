@@ -8,7 +8,8 @@ module Scores
       end
 
       def call
-        raise NotImplementedError, 'Please implement scores injector for EPL'
+        # TODO: implement scores injector for EPL
+        # raise NotImplementedError
       end
     end
   end

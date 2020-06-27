@@ -27,7 +27,7 @@
                           = team.players.find(match_player.object.player_id).name.upcase
                       .slot-position{class: "slot-position-#{lineup.slots[match_player.index]&.position.tr('/', '')}"}
                         = lineup.slots[match_player.index]&.position
-                  = match_player.select :player_id, available_for_select_by_positions(team, positions: lineup.slots[match_player.index]&.positions_with_malus), {}, disabled: lineup.tour.closed?, class: 'custom-select lineup-select', id: "mp-#{match_player.index}"
+                  = match_player.select :player_id, available_for_select_by_positions(team, positions: lineup.slots[match_player.index]&.positions_with_malus, real_position: lineup.slots[match_player.index]&.position), {}, disabled: lineup.tour.closed?, class: 'custom-select lineup-select', id: "mp-#{match_player.index}"
             - else
               .lineup-slot{class: "slot-r#{match_player.index}"}
                 .input-group
