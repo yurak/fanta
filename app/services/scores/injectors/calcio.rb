@@ -2,6 +2,7 @@ module Scores
   module Injectors
     class Calcio < ApplicationService
       URL = 'https://www.magicleghe.fco.live/it/serie-a/2019-2020/diretta-live/'.freeze
+      STATUS_FINISHED_MATCH = 'Terminata'.freeze
       attr_reader :tour
 
       def initialize(tour: nil)
@@ -11,6 +12,8 @@ module Scores
       def call
         (1...all_matches_data.length).step(2).each do |index|
           match = all_matches_data[index]
+          next unless match_status(match) == STATUS_FINISHED_MATCH
+
           update_host_players(match)
           update_guest_players(match)
         end
@@ -38,6 +41,10 @@ module Scores
 
       def all_matches_data
         @all_matches_data ||= html_page.css('#app .giornata-matches .tab-content').children
+      end
+
+      def match_status(match_info)
+        match_info.css('.score-container .status').children.text
       end
 
       def player_name(player)
