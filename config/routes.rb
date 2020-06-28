@@ -22,6 +22,8 @@ Rails.application.routes.draw do
     get :edit_subs_scores
     get :inject_scores
     put :update_subs_scores
+
+    resources :match_players, only: [:index]
   end
 
   resources :teams, only: [:show] do
