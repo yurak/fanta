@@ -1,0 +1,58 @@
+/* MatchPlayers INDEX page // Tour STATS page */
+
+.list-items.list-action-items {
+  select {
+    border: none;
+    color: #001280;
+    background-color: #ffffff;
+  }
+
+  .dark-select {
+    background-color: #0657ccb8;
+    color: #ffffff;
+  }
+}
+
+.list-items.stats-headers {
+  width: 100%;
+  line-height: 40px;
+  font-size: 20px;
+  height: 40px;
+  font-weight: bolder;
+  background-color: #0f29a4;
+  color: #6adde2;
+  display: grid;
+  grid-template-columns: 1fr 1fr 3fr 1.2fr 3fr 1fr;
+  column-gap: 30px;
+
+  a {
+    color: #6adde2;
+    text-decoration: none;
+  }
+
+  .player-stats-headers {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+  }
+
+  .results-header-cell:last-child {
+    text-align: left;
+  }
+}
+
+.list-items.stats-players {
+  .list-row-item {
+    grid-template-columns: 1fr 1fr 3fr 1.2fr 3fr 1fr;
+
+    .slot-position {
+      margin: 5px auto;
+      font-size: 16px;
+    }
+  }
+
+  .player-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+}

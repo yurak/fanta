@@ -33,14 +33,13 @@
       .list-row-item
         .list-row-cell DEFENCE BONUS
         .list-row-cell
-          = lineup.defence_bonus # 3 / 6.23
+          = lineup.defence_bonus
     .list-items.list-items-60-height.center
       .list-row-item
         .list-row-cell TOTAL SCORE
         .list-row-cell
           = lineup.total_score
 
-  -# TODO: add validation by position malus
   .lineup-block.lineup-show-block
     .lineup-field-block
       .lineup-field.show-lineup
@@ -77,31 +76,3 @@
                         = match_player.player.name.upcase
                     .slot-position.slot-position-res
                       = "R#{index-10}"
-
-
--# TODO: update UI
--#    .lineup-show-edit-btn
--#      .float-right
--#        .btn-group
--#          - if current_user == team.user && lineup.tour.set_lineup?
--#            = link_to 'Edit module', team_lineup_edit_module_path(team, lineup), class: 'btn btn-primary lineup-show-btn'
--#            = link_to 'Edit lineup', edit_team_lineup_path(team, lineup), class: 'btn btn-primary lineup-show-btn'
--#          - if lineup.tour.locked_or_postponed? || lineup.tour.closed?
--#            = link_to 'Details', team_lineup_details_path(team, lineup), class: 'btn btn-primary lineup-show-btn'
--#          - if lineup.tour.locked_or_postponed? && current_user&.can_moderate?
--#            = link_to 'Edit scores', team_lineup_edit_scores_path(team, lineup), class: 'btn btn-primary lineup-show-btn'
--#  .lineup-show-block
--#    .lineup-show-img-block
--#      .lineup-show-info-block.lineup-show-total-score-block
--#        .lineup-show-info-title Total score
--#        .lineup-show-info-value
--#          = lineup.total_score
--#      .lineup-show-info-block
--#        .lineup-show-info-title Defence bonus
--#        .lineup-show-info-value
--#          = lineup.defence_bonus
--#      .lineup-show-img
--#        = image_tag("modules/#{lineup.team_module.name}.png", class: 'module-img')
--#    .lineup-show-members
--#      - lineup.match_players.each do |mp|
--#        = render partial: 'card', locals: { mp: mp }
