@@ -15,7 +15,7 @@ class MatchPlayer < ApplicationRecord
   scope :reservists_by_tour, ->(tour_id) { subs.by_tour(tour_id).order('players.club_id') }
   scope :by_name_and_club, ->(name, club_id) { joins(:player).where('players.name = ?', name).where('players.club_id = ?', club_id) }
   scope :defenders, -> { where(real_position: Position::DEFENCE) }
-  scope :by_real_position, ->(position) { where("real_position LIKE ?", "%" + position + "%") }
+  scope :by_real_position, ->(position) { where('real_position LIKE ?', '%' + position + '%') }
 
   def team_by(league)
     teams.find_by(league: league)
