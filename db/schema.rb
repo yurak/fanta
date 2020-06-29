@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_05_123830) do
+ActiveRecord::Schema.define(version: 2020_03_22_183918) do
 
   create_table "articles", force: :cascade do |t|
     t.string "title"
@@ -24,6 +24,16 @@ ActiveRecord::Schema.define(version: 2020_01_05_123830) do
   create_table "clubs", force: :cascade do |t|
     t.string "code"
     t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "tournament_id"
+    t.index ["tournament_id"], name: "index_clubs_on_tournament_id"
+  end
+
+  create_table "leagues", force: :cascade do |t|
+    t.string "name"
+    t.bigint "tournament_id", null: false
+    t.integer "status", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -42,6 +52,8 @@ ActiveRecord::Schema.define(version: 2020_01_05_123830) do
     t.string "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "league_id"
+    t.index ["league_id"], name: "index_links_on_league_id"
   end
 
   create_table "match_players", force: :cascade do |t|
@@ -75,18 +87,28 @@ ActiveRecord::Schema.define(version: 2020_01_05_123830) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "player_positions", force: :cascade do |t|
+    t.integer "player_id"
+    t.integer "position_id"
+    t.index ["player_id", "position_id"], name: "player_position"
+  end
+
+  create_table "player_teams", force: :cascade do |t|
+    t.integer "player_id"
+    t.integer "team_id"
+    t.index ["player_id"], name: "index_player_teams_on_player_id"
+    t.index ["team_id"], name: "index_player_teams_on_team_id"
+  end
+
   create_table "players", force: :cascade do |t|
     t.string "name"
-    t.integer "team_id"
     t.integer "club_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "status", default: 0
-  end
-
-  create_table "players_positions", id: false, force: :cascade do |t|
-    t.integer "player_id"
-    t.integer "position_id"
+    t.string "first_name"
+    t.string "nationality"
+    t.string "tm_url"
   end
 
   create_table "positions", force: :cascade do |t|
@@ -114,6 +136,7 @@ ActiveRecord::Schema.define(version: 2020_01_05_123830) do
     t.integer "team_module_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "location", default: "", null: false
   end
 
   create_table "team_modules", force: :cascade do |t|
@@ -127,7 +150,16 @@ ActiveRecord::Schema.define(version: 2020_01_05_123830) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "user_id"
+    t.integer "league_id"
+    t.index ["league_id"], name: "index_teams_on_league_id"
     t.index ["user_id"], name: "index_teams_on_user_id"
+  end
+
+  create_table "tournaments", force: :cascade do |t|
+    t.string "name"
+    t.string "code"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "tours", force: :cascade do |t|
@@ -136,6 +168,8 @@ ActiveRecord::Schema.define(version: 2020_01_05_123830) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "deadline"
+    t.integer "league_id"
+    t.index ["league_id"], name: "index_tours_on_league_id"
   end
 
   create_table "users", force: :cascade do |t|

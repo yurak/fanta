@@ -1,4 +1,11 @@
-.container
+.page-header
+  .page-header-icon
+    = image_tag('navbar/squad.png')
+  .page-header-title
+    = 'Reservists Scores'
+    .page-header-subtitle
+      = tour.league.name
+.page-info
   = form_for :tour, url: tour_update_subs_scores_path(tour), method: :put do
     .reservists-headers
       .reservists-header Club
@@ -17,7 +24,8 @@
       = fields_for "match_players[]", reservist do |mp_f|
         .reservist-item
           .reservist-param
-            .club-logo.l-details-club-logo{ class: mp_f.object.player.club.code.downcase }
+            .club-logo.l-details-club-logo
+              = image_tag(mp_f.object.player.club.logo_path, alt: 'Club Logo')
           .reservist-param.res-name
             = mp_f.object.player.name
           .reservist-param

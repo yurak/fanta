@@ -1,24 +1,26 @@
-.container
-  .articles-head
-    .articles-header.col-8.col-sm-8
-      %h1 News
-    .articles-new
-      = link_to 'New Article', new_article_path, class: 'btn btn-primary' if current_user&.admin?
-
-  .articles-list
+.page-header
+  .page-header-icon
+    = image_tag('navbar/news.png')
+  .page-header-title News
+.page-info
+  - if current_user&.admin?
+    .list-items.list-action-items.center
+      .list-row-item
+        .list-row-cell.hidden-cell
+        .list-row-cell.hidden-cell
+        .list-row-cell.item-c
+          = link_to 'NEW ARTICLE', new_article_path
+  .articles-block
     - @articles.each do |article|
-      .alert.alert-primary
-        .article-item
-          = link_to article do
-            .article-block
-              .article-image
-                = image_tag(article.image)
-              .article-data
-                .article-title
-                  %h3= article.title
-                .article-summary
-                  %h5= article.summary
-          - if current_user&.admin?
-            .article-btn.right
-              = link_to 'Edit', edit_article_path(article), class: 'btn btn-primary'
-              = link_to 'Destroy', article, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-primary'
+      .article-item
+        = link_to article do
+          .article-block
+            .article-image
+              = image_tag(article.image)
+            .article-data
+              .article-title
+                %h3= article.title
+              .article-summary
+                %h5= article.summary
+-# TODO: add button New Article for admin users
+-# = link_to 'New Article', new_article_path, class: 'btn btn-primary' if current_user&.admin?

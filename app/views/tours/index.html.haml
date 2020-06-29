@@ -1,24 +1,4 @@
-.container
-  %h1 Tours
-
-  %ul.nav.nav-tabs.nav-fill
-    %li.nav-item
-      %a{"data-toggle" => "tab", href: "#tours-results", class: 'nav-link'} Results
-    %li.nav-item
-      %a{"data-toggle" => "tab", href: "#tours-current", class: 'nav-link active'} Current Tour
-    %li.nav-item
-      %a{"data-toggle" => "tab", href: "#tours-fixtures", class: 'nav-link'} Fixtures
-  .tab-content
-    .tab-pane.fade#tours-results
-      .tours-block
-        - tours.closed_postponed.order(number: :desc).each do |tour|
-          = render 'tour', tour: tour
-    .tab-pane.pane.active#tours-current
-      - if active_tour
-        = render 'tour_matches', tour: active_tour
-      - else
-        .not-active
-    .tab-pane.fade#tours-fixtures
-      .tours-block
-        - tours.inactive.each do |tour|
-          = render 'tour', tour: tour
+- if params[:closed]
+  = render 'results'
+- else
+  = render 'fixtures'

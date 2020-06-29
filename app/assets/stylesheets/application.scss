@@ -15,11 +15,15 @@
 @import "bootstrap";
 @import "multi-select";
 @import "bootstrap-toggle";
+@import "flag-icon";
 
 @import "articles";
 @import "clubs";
+@import "leagues";
 @import "lineups";
+@import "list-template";
 @import "links";
+@import "match_players";
 @import "players";
 @import "results";
 @import "teams";
@@ -31,11 +35,166 @@ body, html {
   width: 100%;
   margin: 0;
   padding: 0;
+  background-color: #001280;
+}
+
+.page {
+  display: grid;
+  grid-template-columns: 200px auto;
+  height: 100%;
+}
+
+.navbar-block {
+  z-index: 3;
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+
+.navbar {
+  background-color: #001280;
+  color: #6adde2;
+  max-height: 100%;
+  width: 200px;
+  position: fixed;
+  font-size: 18px;
+  line-height: 30px;
+
+  .nav-block {
+    position: relative;
+    top: 0;
+    border-top: white solid 1px;
+    width: 100%;
+    padding-bottom: 20px;
+  }
+
+  .nav-block:first-child {
+    padding-top: 20px;
+    border-top: none;
+  }
+
+  .nav-header {
+    margin-top: 5px;
+    font-style: italic;
+  }
+
+  .nav-link {
+    padding: 0.5rem;
+    width: 100%;
+
+    a {
+      background-size: 30px;
+      background-repeat: no-repeat;
+      background-position: left center;
+      background-clip: border-box;
+      padding-left: 40px;
+      height: 30px;
+      color: white;
+      display: block
+    }
+  }
+
+  .home-link { background-image: image-url('navbar/home.png'); }
+  .squad-link { background-image: image-url('navbar/squad.png'); }
+  .lineups-link { background-image: image-url('navbar/lineups.png'); }
+  .tour-link { background-image: image-url('navbar/tour.png'); }
+  .table-link { background-image: image-url('navbar/table.png'); }
+  .fixtures-link { background-image: image-url('navbar/calendar.png'); }
+  .results-link { background-image: image-url('navbar/results.png'); }
+  .stats-link { background-image: image-url('navbar/stats.png'); }
+  .links-link { background-image: image-url('navbar/links.png'); }
+  .leagues-link { background-image: image-url('navbar/leagues.png'); }
+  .players-link { background-image: image-url('navbar/players.png'); }
+  .rules-link { background-image: image-url('navbar/news.png'); }
+  .profile-link { background-image: image-url('navbar/profile.png'); }
+  .admin-link { background-image: image-url('navbar/admin.png'); }
+}
+
+.main-block {
+  height: 100%;
+}
+.main {
+  padding-top: 140px;
+  background: image_url('bg-grey.jpg') #e2e2e2 round;
+  height: 100%;
+  width: 100%;
 }
 
 .footer {
-  height: 50px;
+  position: relative;
+  bottom: 0;
+  background-color: #0f29a4;
+  height: 100px;
   width: 100%;
+  color: #fff;
+}
+
+.page-header {
+  z-index: 2;
+  position: fixed;
+  top: 0;
+  height: 120px;
+  width: 100%;
+  color: #6adde2;
+  background-color: #0f29a4;
+  display: grid;
+  grid-template-columns: 140px auto;
+
+  .page-header-icon {
+    padding: 20px 30px;
+    img {
+      width: 80px;
+      height: 80px;
+    }
+  }
+
+  .page-header-title {
+    line-height: 120px;
+    font-size: 40px;
+    font-style: italic;
+    width: calc(100% - 200px);
+
+    .page-header-subtitle {
+      font-size: 30px;
+      display: inline-block;
+      color: #fff;
+      float: right;
+      margin: 0 30px 0 0;
+    }
+  }
+}
+
+.page-info {
+  padding: 20px 40px;
+  height: calc(100% - 50px);
+  min-height: 400px;
+}
+
+.flash-block {
+  height: 50px;
+  line-height: 50px;
+  width: 100%;
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 40px;
+  text-align: center;
+
+  .flash-item {
+    height: 100%;
+    width: 100%;
+    font-size: 20px;
+    font-weight: bolder;
+  }
+
+  .flash-notice {
+    background-color: #78d236ad;
+    color: #001280
+  }
+
+  .flash-error {
+    background-color: #ff0000bd;
+    color: #000000; //#001280
+  }
 }
 
 .center {
@@ -54,59 +213,8 @@ body, html {
   width: 60px;
 }
 
-.navbar {
-  .nav-profile {
-    padding-top: 15px;
-    width: 100%;
-    .nav-profile-link {
-      float: right;
-      .nav-profile-separator {
-        width: 30px;
-        display: inline-block;
-        text-align: center;
-      }
-    }
-  }
-  .btn-group {
-    padding: 15px 0 25px;
-    width: 100%;
-    font-size: 18px;
-
-    .btn{
-      width: 100%;
-    }
-  }
-}
-
-.mobile-navbar {
-  .mobile-vertical-btn {
-    width: 100%;
-  }
-}
-
 .nav-item {
   font-size: 17px;
-}
-
-@media screen and (min-device-width: 350px) {
-  .mobile-navbar {
-    display: none;
-  }
-}
-
-@media screen and (max-device-width: 350px) {
-  .large-navbar {
-    display: none;
-  }
-  .mobile-navbar {
-    display: inline-block;
-  }
-}
-
-@media screen and (max-device-width: 991px) {
-  .nav-fill > li {
-    font-size: 22px;
-  }
 }
 
 .input-group-prepend {
@@ -139,4 +247,166 @@ body, html {
 
 .clr-secondary, .disqualified {
   background-color: #bdbdbd;
+}
+
+.malus15 {
+  background-color: yellow;
+}
+
+.malus30 {
+  background-color: orange;
+}
+
+.malus45 {
+  background-color: red;
+}
+
+/* Navbar - show only link icons without text */
+@media screen and (max-device-width: 920px) {
+  .navbar {
+    //width: 100%;
+    width: 100px;
+    .nav-block, .nav-block:first-child {
+      padding: 10px 0;
+    }
+    .nav-link {
+      font-size: 0;
+      a {
+        background-size: 50px;
+        padding-left: 0;
+        height: 50px;
+      }
+    }
+  }
+  .page {
+    grid-template-columns: 100px auto;
+  }
+  .page-info {
+    padding: 20px 30px;
+  }
+  .nav-header {
+    display: none;
+  }
+  .page-header .page-header-title {
+    width: calc(100% - 100px);
+  }
+  @media screen and (max-device-width: 810px) {
+    .page-info {
+      padding: 20px;
+    }
+
+    .page-header {
+      grid-template-columns: 120px auto;
+
+      .page-header-icon {
+        padding: 20px;
+      }
+    }
+  }
+  @media screen and (max-device-width: 720px) {
+    .page-header .page-header-title .page-header-subtitle {
+      display: none;
+    }
+  }
+}
+
+/* Navbar - show horizontally for horizontal view */
+@media screen and (max-device-height: 830px) and (orientation: landscape) and (max-device-width: 1000px){
+  .page {
+    grid-template-columns: 100%;
+  }
+
+  .navbar {
+    min-height: 50px;
+    height: 60px;
+    width: 100%;
+    .nav-header {
+      display: none;
+    }
+    .nav-block {
+      position: relative;
+      top: 0;
+      border-top: none;
+      border-left: #fff solid 1px;
+      width: auto;
+      padding: 0 0 0 5px;
+    }
+    .nav-block:first-child {
+      padding: 0 0 0 5px;
+      border-left: none;
+    }
+    .nav-link {
+      font-size: 0;
+      display: inline-block;
+      padding: 0.5rem;
+      width: 50px;
+      a {
+        background-size: 30px;
+        padding-left: 0;
+        height: 30px;
+      }
+    }
+  }
+  .page-header {
+    margin-top: 60px;
+    height: 80px;
+    grid-template-columns: 120px auto;
+
+    .page-header-icon {
+      padding: 10px 30px;
+      img {
+        width: 60px;
+        height: 60px;
+      }
+    }
+
+    .page-header-title {
+      line-height: 80px;
+      font-size: 30px;
+      font-style: italic;
+      width: 100%;
+
+      .page-header-subtitle {
+        font-size: 24px;
+      }
+    }
+  }
+  @media screen and (max-device-width: 810px) {
+    .navbar {
+      .nav-link {
+        padding: 0.5rem 0;
+        width: 40px;
+      }
+    }
+  }
+  @media screen and (max-device-width: 670px) {
+    .navbar {
+      padding: 0.5rem;
+      .nav-link {
+        width: 35px;
+      }
+    }
+  }
+  @media screen and (max-device-width: 580px) {
+    .navbar {
+      padding: 0.5rem 0.2rem;
+      .nav-link {
+        width: 30px;
+      }
+    }
+  }
+}
+
+@media screen and (max-device-height: 830px) {
+  .navbar {
+    .nav-block {
+      padding: 0;
+    }
+    .nav-block:first-child {
+      padding-top: 0;
+    }
+    .nav-link {
+      padding: 5px;
+    }
+  }
 }

@@ -1,27 +1,32 @@
-.container
-  .links-head
-    .links-header.col-8.col-sm-8
-      %h1 Useful Links
-    .links-new
-      = link_to 'New Link', new_link_path, class: 'btn btn-primary' if current_user&.admin?
+.page-header
+  .page-header-icon
+    = image_tag('navbar/links.png')
+  .page-header-title
+    = 'Useful Links'
+    .page-header-subtitle
+      = league.name
+.page-info
+  - if current_user&.admin?
+    .list-items.list-action-items.center
+      .list-row-item
+        .list-row-cell.hidden-cell
+        .list-row-cell.hidden-cell
+        .list-row-cell.item-c
+          = link_to 'NEW LINK', new_league_link_path(league)
 
-  .links-list
-    .alert.alert-primary
-      .link-item
-        .link-data.col.col-lg-8
-          .link-name
-            = link_to 'Rules & FAQs', rules_path
-          .link-description
-            Detailed description of Mantra rules
+  .list-items.list-items-dark.list-items-dark70.links-items
     - @links.each do |link|
-      .alert.alert-primary
-        .link-item
-          .link-data.col.col-lg-8
-            .link-name
-              = link_to link.name, link.url, target: '_blank'
-            .link-description
-              = link.description
+      .list-row-item
+        .list-row-cell
+          .link-data
+            = link_to link.url, target: '_blank' do
+              .link-name
+                = link.name
+              - if link.description.present?
+                .link-description
+                  = "/#{link.description}/"
+        .list-row-cell
           - if current_user&.admin?
-            .link-btn.col.col-lg-3.right
-              = link_to 'Edit', edit_link_path(link), class: 'btn btn-primary'
-              = link_to 'Destroy', link, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-primary'
+            .link-btn-group.center
+              = link_to 'Edit', edit_league_link_path(league, link)
+              = link_to 'Destroy', league_link_path(league, link), method: :delete, data: { confirm: 'Are you sure?' }

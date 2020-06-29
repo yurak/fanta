@@ -1,17 +1,18 @@
+-# TODO: update UI
 .container
-  .lineup-header
-    .lineup-info
-      %span.bolder
-        = link_to team.name.titleize, team_path(team)
-      lineup for Tour #
-      %span.bolder
-        = link_to lineup.tour.number, tour_path(lineup.tour)
-    .lineup-show-edit-btn
-      .float-right
-        .btn-group
-          = link_to 'Base info', team_lineup_path(team, lineup), class: 'btn btn-primary lineup-show-btn'
-          - if lineup.tour.locked_or_postponed? && can_moderate?(current_user)
-            = link_to 'Edit scores', team_lineup_edit_scores_path(team, lineup), class: 'btn btn-primary lineup-show-btn'
+  -#.lineup-header
+  -#  .lineup-info
+  -#    %span.bolder
+  -#      = link_to team.name.titleize, team_path(team)
+  -#    lineup for Tour #
+  -#    %span.bolder
+  -#      = link_to lineup.tour.number, tour_path(lineup.tour)
+  -#  .lineup-show-edit-btn
+  -#    .float-right
+  -#      .btn-group
+  -#        = link_to 'Base info', team_lineup_path(team, lineup), class: 'btn btn-primary lineup-show-btn'
+  -#        - if lineup.tour.locked_or_postponed? && current_user&.can_moderate?
+  -#          = link_to 'Edit scores', team_lineup_edit_scores_path(team, lineup), class: 'btn btn-primary lineup-show-btn'
   .l-details-block
     .l-details-team-info
       .l-details-info-block.l-details-module-block
@@ -48,9 +49,10 @@
           .l-details-item-param.l-details-position
             = image_tag("positions/#{lineup.slots[i]&.position.gsub('/','_')}.png")
           .l-details-item-param.l-details-position
-            .club-logo.l-details-club-logo{ class: mp.player.club.code.downcase }
+            .club-logo.l-details-club-logo
+              = image_tag(mp.player.club.logo_path, alt: 'Club Logo')
           .l-details-item-param.l-details-player-name
-            = link_to mp.player.name, team_player_path(team, mp.player)
+            = link_to mp.player.name, player_path(mp.player)
           .l-details-item-param.l-details-player-tscore
             = mp.total_score
           .l-details-item-param

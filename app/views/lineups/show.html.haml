@@ -1,33 +1,78 @@
-.container
-  .lineup-header
-    .lineup-info
-      %span.bolder
-        = link_to team.name.titleize, team_path(team)
-      lineup for Tour #
-      %span.bolder
-        = link_to lineup.tour.number, tour_path(lineup.tour)
-    .lineup-show-edit-btn
-      .float-right
-        .btn-group
-          - if current_user == team.user && lineup.tour.set_lineup?
-            = link_to 'Edit module', team_lineup_edit_module_path(team, lineup), class: 'btn btn-primary lineup-show-btn'
-            = link_to 'Edit lineup', edit_team_lineup_path(team, lineup), class: 'btn btn-primary lineup-show-btn'
-          - if lineup.tour.locked_or_postponed? || lineup.tour.closed?
-            = link_to 'Details', team_lineup_details_path(team, lineup), class: 'btn btn-primary lineup-show-btn'
-          - if lineup.tour.locked_or_postponed? && can_moderate?(current_user)
-            = link_to 'Edit scores', team_lineup_edit_scores_path(team, lineup), class: 'btn btn-primary lineup-show-btn'
-  .lineup-show-block
-    .lineup-show-img-block
-      .lineup-show-info-block.lineup-show-total-score-block
-        .lineup-show-info-title Total score
-        .lineup-show-info-value
-          = lineup.total_score
-      .lineup-show-info-block
-        .lineup-show-info-title Defence bonus
-        .lineup-show-info-value
+.page-header
+  .page-header-icon
+    = image_tag('navbar/lineups.png')
+  .page-header-title
+    %span.bolder
+      = link_to team.name.upcase, team_path(team)
+    | Round
+    %span.bolder
+      = link_to lineup.tour.number, tour_path(lineup.tour)
+.flash-block
+  - flash.each do |key, value|
+    = content_tag :div, value, class: "flash-item flash-#{key}"
+
+.page-info
+  .lineup-actions
+    .list-items.list-action-items.center
+      .list-row-item
+        - if current_user == team.user && lineup.tour.set_lineup?
+          = link_to 'Edit module', team_lineup_edit_module_path(team, lineup), class: 'list-row-cell'
+          = link_to 'Edit lineup', edit_team_lineup_path(team, lineup), class: 'list-row-cell'
+        - if lineup.tour.locked_or_postponed? && current_user&.can_moderate?
+          = link_to 'Edit scores', team_lineup_edit_scores_path(team, lineup), class: 'list-row-cell item-a'
+        - if lineup.tour.locked_or_postponed? || lineup.tour.closed?
+          .list-row-cell.hidden-cell
+          = link_to 'Details', team_lineup_details_path(team, lineup), class: 'list-row-cell item-b'
+  .lineup-info
+    .list-items.list-items-60-height.center
+      .list-row-item
+        .list-row-cell.module-cell MODULE
+        .list-row-cell
+          = lineup.team_module.name
+    .list-items.list-items-60-height.center
+      .list-row-item
+        .list-row-cell DEFENCE BONUS
+        .list-row-cell
           = lineup.defence_bonus
-      .lineup-show-img
-        = image_tag("modules/#{lineup.team_module.name}.png", class: 'module-img')
-    .lineup-show-members
-      - lineup.match_players.each do |mp|
-        = render partial: 'card', locals: { mp: mp }
+    .list-items.list-items-60-height.center
+      .list-row-item
+        .list-row-cell TOTAL SCORE
+        .list-row-cell
+          = lineup.total_score
+
+  .lineup-block.lineup-show-block
+    .lineup-field-block
+      .lineup-field.show-lineup
+        - lineup.match_players.each_with_index do |match_player, index|
+          - if lineup.slots[index]&.position
+            .lineup-slot{class: "slot-#{lineup.slots[index]&.location}"}
+              .input-group
+                .player-data
+                  .player-show-images
+                    .player-show-face
+                      = image_tag(match_player.player.avatar_path, id: "avatar-mp-#{index}")
+                    .player-show-kit
+                      = image_tag(match_player.player.kit_path, id: "kit-mp-#{index}", alt: "Club Kit")
+                    - if match_player.position_malus?
+                      .player-warning{title: 'Position malus'}
+                        = image_tag("warning.png", alt: "Position Malus Warning")
+                    .player-name
+                      %span{ id: "name-mp-#{index}" }
+                        = match_player.player.name.upcase
+                    .slot-position{class: "slot-position-#{lineup.slots[index]&.position.tr('/', '')}"}
+                      = lineup.slots[index]&.position
+            // TODO: show not_in_squad players correctly
+          - elsif match_player.subs_status != "not_in_squad"
+            .lineup-slot{class: "slot-r#{index}"}
+              .input-group
+                .player-data
+                  .player-show-images
+                    .player-show-face
+                      = image_tag(match_player.player.avatar_path, id: "avatar-mp-#{index}")
+                    .player-show-kit
+                      = image_tag(match_player.player.kit_path, id: "kit-mp-#{index}", alt: "Club Kit")
+                    .player-name
+                      %span{ id: "name-mp-#{index}" }
+                        = match_player.player.name.upcase
+                    .slot-position.slot-position-res
+                      = "R#{index-10}"

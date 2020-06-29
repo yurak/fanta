@@ -27,7 +27,10 @@ class TourManager
   end
 
   def lock
-    tour.locked! if tour.set_lineup? && status == 'locked'
+    return unless tour.set_lineup? && status == 'locked'
+
+    tour.locked!
+    MatchPlayerManager.new(tour: tour).create
   end
 
   def postpone
@@ -35,14 +38,17 @@ class TourManager
   end
 
   def close
-    if tour.locked_or_postponed? && status == 'closed'
-      tour.closed!
-      ResultsManager.new(tour: tour).update
-      MatchPlayerManager.new(tour: tour).create
-    end
+    return unless tour.locked_or_postponed? && status == 'closed'
+
+    tour.closed!
+    Results::Updater.call(tour: tour)
   end
 
   def any_tour_in_progress?
-    Tour.set_lineup.exists? || Tour.locked.exists?
+    league.tours.set_lineup.exists? || league.tours.locked.exists?
+  end
+
+  def league
+    tour.league
   end
 end

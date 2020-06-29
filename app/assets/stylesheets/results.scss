@@ -1,60 +1,75 @@
-.results-headers, .results-team {
-  display: grid;
-  grid-template-columns: 7% 7% 23% 6% 6% 6% 6% 6% 6% 6% 6% 15%;
-}
-
-@media screen and (max-device-width: 991px) {
-  .results-headers, .results-team {
-    grid-template-columns: 5% 8% 24% 5% 5% 5% 5% 5% 5% 5% 5% 23%;
-  }
-}
-
-@media screen and (max-device-width: 767px) {
-  .results-headers, .results-team {
-    grid-template-columns: 8% 12% 38% 7% 7% 7% 7% 7% 7%;
-  }
-
-  .results-hidden {
-    display: none;
-  }
-}
-
 .results-headers {
-  height: 50px;
-  line-height: 50px;
-  font-size: 16px;
+  width: 100%;
+  line-height: 40px;
+  font-size: 20px;
+  height: 40px;
   font-weight: bolder;
-  text-align: center;
-  border-bottom: 2px solid grey;
+  background-color: #0f29a4e6;
+  color: #6adde2;
+  display: grid;
+  column-gap: 35px;
 }
 
-.results-team {
-  height: 60px;
-  line-height: 60px;
-  text-align: center;
-  font-size: 18px;
-  border-bottom: 1px solid gainsboro;
+.results-headers, .list-results .list-row-item {
+  grid-template-columns: 1.5fr 4fr 13fr 5fr;
+
+  .results-stats-cell, .results-team-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1.2fr;
+  }
 }
 
-.results-team-logo img {
-  max-height: 50px;
-  max-width: 50px;
-}
+.list-results {
+  .results-team > a {
+    display: grid;
+    grid-template-columns: 50px auto;
+  }
+  .results-team-logo {
+    img {
+      margin-bottom: 5px;
+      width: 41px;
+      height: 41px;
+    }
+  }
+  .results-team-name {
+    padding-left: 10px;
+    text-align: left;
+    color: #001280;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+  }
+  .results-team-stats {
+    .results-team-field:not(:last-child) {
+      font-size: 20px;
+      font-weight: normal;
+    }
+  }
 
-.results-team-name {
-  text-align: left;
-  overflow-x: visible;
-  max-height: 60px;
-  padding-left: 5px;
-}
+  .results-team-points {
+    font-weight: bold;
+  }
 
-.results-team-points {
-  font-weight: bold;
-}
+  .results-team-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
 
-.results-team-form {
-  .badge {
-    width: 21px;
-    padding: 4px;
+    .form-item {
+      width: 16px;
+      height: 16px;
+      margin: 17px 2px;
+    }
+
+    .form-W {
+      background-color: #28a745;
+    }
+
+    .form-D {
+      background-color: #6c757d;
+    }
+
+    .form-L {
+      background-color: #dc3545;
+    }
   }
 }

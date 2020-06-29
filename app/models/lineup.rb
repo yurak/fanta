@@ -1,18 +1,17 @@
 class Lineup < ApplicationRecord
+  belongs_to :team_module
+  belongs_to :team
+  belongs_to :tour
+
   has_many :match_players, dependent: :destroy
   has_many :players, through: :match_players
 
   accepts_nested_attributes_for :match_players
   accepts_nested_attributes_for :players
 
-  belongs_to :team_module
-  belongs_to :team
-  belongs_to :tour
-
   delegate :slots, to: :team_module
 
-  scope :not_active, ->{ where.not(tour_id: Tour.active&.id) }
-  scope :closed, ->{ where(tour_id: Tour.closed.ids) }
+  scope :closed, ->(league_id) { where(tour_id: League.find(league_id).tours.closed.ids) }
 
   FIRST_GOAL = 66
   INCREMENT = 6
@@ -61,6 +60,14 @@ class Lineup < ApplicationRecord
     @mp_with_score ||= match_players.main.with_score.size
   end
 
+  def opponent
+    match.host == team ? match.guest : match.host
+  end
+
+  def match_result
+    match.host == team ? "#{match.host_goals}-#{match.guest_goals}" : "#{match.guest_goals}-#{match.host_goals}"
+  end
+
   private
 
   def def_count
@@ -73,6 +80,7 @@ class Lineup < ApplicationRecord
 
   def def_average_score
     return 0 if match_players.defenders.empty?
+
     def_scores_sum / def_count
   end
 

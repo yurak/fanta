@@ -1,0 +1,326 @@
+.list-items {
+  color: white;
+  max-width: 1000px;
+  margin: 0 auto;
+
+  .list-row-item {
+    margin: 10px 0;
+    display: grid;
+    grid-template-columns: 1.4fr 2fr 1fr 1fr 1fr;
+    column-gap: 30px;
+    a {
+      color: white;
+      text-decoration: none;
+    }
+  }
+
+  .list-row-cell {
+    position: relative;
+    line-height: 40px;
+    font-size: 20px;
+    height: 40px;
+    width: 100%;
+    background-color: white;
+  }
+
+  .list-row-cell:nth-child(odd) {
+    color: #001280;
+    a {
+      color: #001280;
+    }
+  }
+
+  //0657cc 0f29a4
+  .list-row-cell:nth-child(even) {
+    background-color: #0657ccb8;
+  }
+
+  .list-row-cell:not(:last-child)::after {
+    content: '';
+    line-height: 0;
+    font-size: 0;
+    width: 0;
+    height: 0;
+    border-top: 40px solid #fff;
+    border-right: 20px solid transparent;
+    position: absolute;
+    top: 0;
+    right: -20px;
+  }
+
+  .list-row-cell:not(:first-child)::before {
+    content: '';
+    line-height: 0;
+    font-size: 0;
+    width: 0;
+    height: 0;
+    border-top: 50px solid transparent;
+    border-bottom: 40px solid #fff;
+    border-left: 20px solid transparent;
+    border-right: 0px solid #fff;
+    position: absolute;
+    top: -50px;
+    left: -20px;
+  }
+
+  .list-row-item:nth-child(even) {
+    .list-row-cell:nth-child(even) {
+      background-color: #0f29a4d1;
+    }
+  }
+
+  .list-row-cell:nth-child(even)::after {
+    border-top: 40px solid #0657ccb8;
+  }
+
+  .list-row-item:nth-child(even) {
+    .list-row-cell:nth-child(even)::after {
+      border-top: 40px solid #0f29a4d1;
+    }
+  }
+
+  .list-row-cell:nth-child(even)::before {
+    border-bottom: 40px solid #0657ccb8;
+    border-right: 0px solid #0657ccb8;
+  }
+
+  .list-row-item:nth-child(even) {
+    .list-row-cell:nth-child(even):before {
+      border-bottom: 40px solid #0f29a4d1;
+      border-right: 0px solid #0f29a4d1;
+    }
+  }
+}
+
+.list-items.list-items-60-height {
+  .list-row-item {
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    column-gap: 40px;
+  }
+
+  .list-row-cell {
+    position: relative;
+    line-height: 60px;
+    font-size: 24px;
+    height: 60px;
+    font-weight: bolder;
+  }
+
+  .list-row-cell:not(:last-child)::after {
+    border-top: 60px solid #fff;
+    border-right: 30px solid transparent;
+    right: -30px;
+  }
+
+  .list-row-cell:not(:first-child)::before {
+    border-bottom: 60px solid #fff;
+    border-left: 30px solid transparent;
+    left: -30px;
+  }
+
+  .list-row-cell:nth-child(even)::after {
+    border-top: 60px solid #0657ccb8;
+  }
+
+  .list-row-item:nth-child(even) {
+    .list-row-cell:nth-child(even)::after {
+      border-top: 60px solid #0f29a4d1;
+    }
+  }
+
+  .list-row-cell:nth-child(even)::before {
+    border-bottom: 60px solid #0657ccb8;
+  }
+
+  .list-row-item:nth-child(even) {
+    .list-row-cell:nth-child(even):before {
+      border-bottom: 60px solid #0f29a4d1;
+    }
+  }
+}
+
+.list-items.list-items-dark {
+  .list-row-cell {
+    background-color: #0657ccb8;
+  }
+
+  .list-row-cell:nth-child(odd) {
+    color: #fff;
+    a {
+      color: #fff;
+    }
+  }
+
+  .list-row-cell:nth-child(even) {
+    background-color: #fff;
+    color: #001280;
+  }
+
+  .list-row-cell:not(:last-child)::after {
+    border-top: 40px solid #0657ccb8;
+  }
+
+  .list-row-cell:not(:first-child)::before {
+    border-bottom: 40px solid #0657ccb8;
+  }
+
+  .list-row-item:nth-child(even) {
+    .list-row-cell:nth-child(odd) {
+      background-color: #0f29a4d1;
+    }
+    .list-row-cell:nth-child(even) {
+      background-color: #fff;
+    }
+  }
+
+  .list-row-cell:nth-child(even)::after {
+    border-top: 40px solid #fff;
+  }
+
+  .list-row-item:nth-child(even) {
+    .list-row-cell:nth-child(odd)::after {
+      border-top: 40px solid #0f29a4d1;
+    }
+    .list-row-cell:nth-child(even)::after {
+      border-top: 40px solid #fff;
+    }
+  }
+
+  .list-row-cell:nth-child(even)::before {
+    border-bottom: 40px solid #fff;
+  }
+
+  .list-row-item:nth-child(even) {
+    .list-row-cell:nth-child(odd):before {
+      border-bottom: 40px solid #0f29a4d1;
+    }
+    .list-row-cell:nth-child(even):before {
+      border-bottom: 40px solid #fff;
+    }
+  }
+}
+
+.list-items.list-items-dark50 {
+  .list-row-item {
+    column-gap: 35px;
+  }
+
+  .list-row-cell {
+    line-height: 50px;
+    font-size: 24px;
+    height: 50px;
+    font-weight: bolder;
+  }
+
+  .list-row-cell:not(:last-child)::after {
+    border-top: 50px solid #0657ccb8;
+    border-right: 25px solid transparent;
+    right: -25px;
+  }
+
+  .list-row-cell:not(:first-child)::before {
+    border-bottom: 50px solid #0657ccb8;
+    border-left: 25px solid transparent;
+    left: -25px;
+  }
+
+  .list-row-cell:nth-child(even)::after {
+    border-top: 50px solid #fff;
+  }
+
+  .list-row-item:nth-child(even) {
+    .list-row-cell:nth-child(odd)::after {
+      border-top: 50px solid #0f29a4d1;
+    }
+    .list-row-cell:nth-child(even)::after {
+      border-top: 50px solid #fff;
+    }
+  }
+
+  .list-row-cell:nth-child(even)::before {
+    border-bottom: 50px solid #fff;
+  }
+
+  .list-row-item:nth-child(even) {
+    .list-row-cell:nth-child(odd):before {
+      border-bottom: 50px solid #0f29a4d1;
+    }
+    .list-row-cell:nth-child(even):before {
+      border-bottom: 50px solid #fff;
+    }
+  }
+}
+
+.list-items.list-items-dark70 {
+  .list-row-item {
+    column-gap: 45px;
+  }
+
+  .list-row-cell {
+    line-height: 70px;
+    font-size: 24px;
+    height: 70px;
+    font-weight: bolder;
+  }
+
+  .list-row-cell:not(:last-child)::after {
+    border-top: 70px solid #0657ccb8;
+    border-right: 35px solid transparent;
+    right: -35px;
+  }
+
+  .list-row-cell:not(:first-child)::before {
+    border-bottom: 70px solid #0657ccb8;
+    border-left: 35px solid transparent;
+    left: -35px;
+  }
+
+  .list-row-cell:nth-child(even)::after {
+    border-top: 70px solid #fff;
+  }
+
+  .list-row-item:nth-child(even) {
+    .list-row-cell:nth-child(odd)::after {
+      border-top: 70px solid #0f29a4d1;
+    }
+    .list-row-cell:nth-child(even)::after {
+      border-top: 70px solid #fff;
+    }
+  }
+
+  .list-row-cell:nth-child(even)::before {
+    border-bottom: 70px solid #fff;
+  }
+
+  .list-row-item:nth-child(even) {
+    .list-row-cell:nth-child(odd):before {
+      border-bottom: 70px solid #0f29a4d1;
+    }
+    .list-row-cell:nth-child(even):before {
+      border-bottom: 70px solid #fff;
+    }
+  }
+}
+
+.list-items.list-action-items .list-row-item {
+  grid-template-columns: 1fr 1fr 1fr;
+  margin-bottom: 30px;
+  grid-template-areas: "a b c";
+  font-weight: bolder;
+}
+
+.item-a {
+  grid-area: a;
+}
+
+.item-b {
+  grid-area: b;
+}
+
+.item-c {
+  grid-area: c;
+}
+
+.hidden-cell {
+  display: none;
+}

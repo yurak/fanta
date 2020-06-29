@@ -1,25 +1,29 @@
 require 'telegram/bot'
 
 class Tour < ApplicationRecord
-  enum status: %i[inactive set_lineup locked closed postponed]
+  belongs_to :league
 
   has_many :matches, dependent: :destroy
   has_many :lineups, dependent: :destroy
 
+  enum status: %i[inactive set_lineup locked closed postponed]
+
   after_update :send_notifications
 
-  scope :closed_postponed, ->{ closed.or(postponed) }
+  scope :closed_postponed, -> { closed.or(postponed) }
+
+  scope :active, -> { set_lineup.or(locked) }
 
   def locked_or_postponed?
     locked? || postponed?
   end
 
-  def next_number
-    number + 1
+  def deadlined?
+    locked? || postponed? || closed?
   end
 
-  def self.active
-    Tour.set_lineup.first || Tour.locked.first
+  def next_number
+    number + 1
   end
 
   def match_players
@@ -29,8 +33,9 @@ class Tour < ApplicationRecord
   private
 
   def send_notifications
-    Telegram::Sender.call(text: "Deadline for <i>Tour ##{number}</i> changed to <b>#{deadline_str}</b>") if deadline_previously_changed?
-    Telegram::Sender.call(text: status_text) if status_previously_changed?
+    # TODO: need TG implementation
+    # Telegram::Sender.call(text: "Deadline for <i>Tour ##{number}</i> changed to <b>#{deadline_str}</b>") if deadline_previously_changed?
+    # Telegram::Sender.call(text: status_text) if status_previously_changed?
   end
 
   def status_text
@@ -39,6 +44,6 @@ class Tour < ApplicationRecord
   end
 
   def deadline_str
-    deadline.to_datetime&.strftime("%H:%M, %d %B")
+    deadline.to_datetime&.strftime('%H:%M, %d %B')
   end
 end

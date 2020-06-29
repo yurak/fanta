@@ -5,8 +5,14 @@ class PlayersController < ApplicationController
 
   respond_to :html
 
-  def show; end
+  def show
+    respond_to do |format|
+      format.html
+      format.json { render json: player, serializer: PlayerSerializer }
+    end
+  end
 
+  # TODO: rename to #update
   def change_status
     status = params[:status]
 

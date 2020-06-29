@@ -1,7 +1,7 @@
 namespace :players do
-  desc 'Change player name'
-  task :rename, [:old_name, :new_name] => :environment do |_t, args|
-    player = Player.find_by(name: args[:old_name])
-    player.update(name: args[:new_name])
+  desc 'Update and create players from csv file'
+  task :run_csv_parser, %i[file_name] => :environment do |_t, args|
+    file_name = args[:file_name]
+    Players::CsvParser.call(file_name)
   end
 end

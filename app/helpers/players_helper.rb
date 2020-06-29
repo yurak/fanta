@@ -8,21 +8,21 @@ module PlayersHelper
     end
   end
 
-  def player_photo_path(player)
-     "players/#{player.club.name.downcase}/#{player.name.downcase.gsub(' ','_').gsub("'",'')}.png"
-  end
-
-  def available_for_select_by_positions(team, positions: nil)
+  def available_for_select_by_positions(team, positions: nil, real_position: nil)
     if positions
-      scope = team.players.includes(:positions).where(positions: { name:  positions })
+      scope = team.players.includes(:positions).where(positions: { name: positions }).sort_by(&:position_sequence_number)
     else
-      scope = team.players
+      scope = team.players.sort_by(&:position_sequence_number)
     end
 
-    scope.order_by_status.collect do |x|
-      klass = x.status
+    scope.collect do |x|
+      klass = 'malus'
+      if positions && real_position && !x.position_names.include?(real_position)
+        klass += Scores::PositionMalus::Counter.call(real_position, x.position_names).to_s.tr('.', '')
+      end
+
       [
-        "(#{ x.reload.position_names.join('-')}) #{x.name} / #{x.club.code} /", x.id, { class: klass }
+        "(#{x.reload.position_names.join('-')}) #{x.name} / #{x.club.code} /", x.id, { class: klass }
       ]
     end
   end
@@ -30,7 +30,7 @@ module PlayersHelper
   def available_for_substitution(match_players)
     match_players.collect do |x|
       [
-        "(#{x.player.position_names.join('-')}) #{x.player.name} - #{x.real_position ? x.real_position : '(reserve)'}", x.id
+        "(#{x.player.position_names.join('-')}) #{x.player.name} - #{x.real_position || '(reserve)'}", x.id
       ]
     end
   end

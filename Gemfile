@@ -35,6 +35,8 @@ gem 'telegram-bot-ruby'
 gem 'cancancan'
 gem 'rails_admin', '~> 2.0'
 
+gem 'flag-icons-rails'
+
 group :development, :test do
   gem 'pry-rails'
   gem 'rspec-rails', '~> 3.8'
@@ -53,7 +55,7 @@ group :test do
   gem 'capybara', '>= 2.15'
   gem 'chromedriver-helper'
   gem 'database_cleaner'
-  gem 'factory_bot_rails'
+  gem 'factory_bot_rails', '5.1.0'
   gem 'rake'
   gem 'selenium-webdriver'
 end

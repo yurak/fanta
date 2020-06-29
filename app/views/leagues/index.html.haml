@@ -1,0 +1,25 @@
+.page-header
+  .page-header-icon
+    = image_tag('navbar/leagues.png')
+  .page-header-title Leagues
+.page-info
+  .leagues-block
+    - @leagues.each do |league|
+      .league-item
+        .league-info-container
+          .league-info
+            -# TODO: add link to league#show page
+            .league-name
+              = league.name
+            .league-tournament-logo
+              = image_tag(league.tournament.logo_path, alt: 'Tournament Logo')
+            .league-tournament-title
+              = league.tournament.name
+        .league-teams
+          - league.teams.each do |team|
+            = link_to team_path(team), class: 'league-team-link' do
+              .league-team
+                .league-team-logo
+                  = image_tag(team&.logo_path, alt: 'Team Logo')
+                .league-team-name
+                  = team.human_name

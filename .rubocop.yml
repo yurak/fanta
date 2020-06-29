@@ -1,7 +1,9 @@
+inherit_from: .rubocop_todo.yml
+
 Rails:
   Enabled: true
 AllCops:
-  TargetRubyVersion: 2.5.1
+  TargetRubyVersion: 2.5
   TargetRailsVersion: 5.2
   Exclude:
     - db/schema.rb
@@ -9,7 +11,7 @@ AllCops:
     - bin/*
     - db/**/*
     - Gemfile
-
+    - vendor/bundle/**/*
     - node_modules/**/*
 Metrics/LineLength:
   Max: 140

@@ -30,14 +30,6 @@ module ApplicationHelper
     end
   end
 
-  def result_status_class(status)
-    case status
-    when 'W' then 'badge-success'
-    when 'D' then 'badge-secondary'
-    when 'L' then 'badge-danger'
-    end
-  end
-
   def lineup_class(status)
     status ? 'lineup-completed' : 'lineup-uncompleted'
   end
@@ -50,9 +42,5 @@ module ApplicationHelper
     else
       'alert-warning'
     end
-  end
-
-  def can_moderate?(user)
-    user&.admin? || user&.moderator?
   end
 end

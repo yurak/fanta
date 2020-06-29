@@ -4,6 +4,7 @@ module Telegram
   class Sender < ApplicationService
     attr_reader :text
 
+    # TODO: specify for each League
     TELEGRAM_CHAT_ID = ENV['TELEGRAM_CHAT_ID']
     TELEGRAM_BOT_TOKEN = ENV['TELEGRAM_BOT_TOKEN']
 

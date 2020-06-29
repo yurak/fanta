@@ -31,7 +31,7 @@ module TeamLineups
     end
 
     def active_tour
-      Tour.set_lineup.first
+      team.league.tours.set_lineup.first
     end
   end
 end

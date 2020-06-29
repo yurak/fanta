@@ -1,9 +1,11 @@
 class LineupsController < ApplicationController
-  skip_before_action :authenticate_user!, only: [:details, :show]
+  skip_before_action :authenticate_user!, only: %i[index details show]
 
   respond_to :html
 
   helper_method :team, :lineup, :modules
+
+  def index; end
 
   def new
     modules
@@ -23,13 +25,13 @@ class LineupsController < ApplicationController
   end
 
   def show
-    redirect_to teams_path and return unless lineup_of_team?
+    redirect_to team_path(team) && return unless lineup_of_team?
 
     respond_with lineup
   end
 
   def details
-    redirect_to teams_path and return unless lineup_of_team?
+    redirect_to team_path(team) && return unless lineup_of_team?
 
     respond_with lineup
   end
@@ -42,7 +44,6 @@ class LineupsController < ApplicationController
       flash[:error] = 'This team already has lineup for tour'
     else
       new_lineup.players << lineup.players.limit(Lineup::MAX_PLAYERS)
-
       flash[:notice] = 'Successfully updated lineup' if new_lineup.save
     end
 
@@ -79,7 +80,7 @@ class LineupsController < ApplicationController
 
   def update
     if duplicate_players&.any?
-      flash[:notice] = "Your have same player on multiple positions: #{duplicate_names}"
+      flash[:error] = "ERROR! Same player on multiple positions: #{duplicate_names}"
       redirect_to edit_team_lineup_path(team, lineup)
     else
       flash[:notice] = 'Successfully updated lineup' if lineup.update(update_lineup_params)
@@ -133,8 +134,9 @@ class LineupsController < ApplicationController
 
   def duplicate_players
     return unless update_lineup_params[:match_players_attributes]
-    player_ids = update_lineup_params[:match_players_attributes].values.each_with_object([]) {|el, player_ids| player_ids << el[:player_id]}
-    duplicates = player_ids.find_all {|id| player_ids.rindex(id) != player_ids.index(id)}
+
+    player_ids = update_lineup_params[:match_players_attributes].values.each_with_object([]) { |el, p_ids| p_ids << el[:player_id] }
+    player_ids.find_all { |id| player_ids.rindex(id) != player_ids.index(id) }
   end
 
   def duplicate_names
