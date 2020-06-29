@@ -1,10 +1,7 @@
 inherit_from: .rubocop_todo.yml
 
-Rails:
-  Enabled: true
 AllCops:
   TargetRubyVersion: 2.5
-  TargetRailsVersion: 5.2
   Exclude:
     - db/schema.rb
     - config/**/*
@@ -13,7 +10,7 @@ AllCops:
     - Gemfile
     - vendor/bundle/**/*
     - node_modules/**/*
-Metrics/LineLength:
+Layout/LineLength:
   Max: 140
 Metrics/BlockLength:
   ExcludedMethods:
@@ -22,8 +19,6 @@ Metrics/BlockLength:
     - state_machine
     - factory
     - define # FactoryBot.define
-Style/BracesAroundHashParameters:
-  EnforcedStyle: context_dependent
 Style/Documentation:
   Enabled: false
 Layout/MultilineOperationIndentation:
