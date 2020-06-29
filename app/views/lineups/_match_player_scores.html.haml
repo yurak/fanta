@@ -1,9 +1,18 @@
--# TODO: update UI
 .input-group.mp-edit-item
   .mp-edit-item-param.mp-edit-position
-    = image_tag("positions/#{lineup.slots[match_player.index]&.position.gsub('/','_')}.png") if lineup.slots[match_player.index]&.position
+    - if lineup.slots[match_player.index]&.position
+      .slot-position{class: "slot-position-#{lineup.slots[match_player.index]&.position.tr('/', '')}"}
+        = lineup.slots[match_player.index]&.position
+  .mp-edit-item-param.mp-edit-player-club
+    .l-details-item-param
+      .club-logo.l-details-club-logo
+        = image_tag(match_player.object.player.club.logo_path, alt: 'Club Logo')
   .mp-edit-item-param.mp-edit-player-name
     = match_player.object.player.name
+  .mp-edit-item-param.mp-edit-player-native-positions
+    - match_player.object.player.positions.each do |position|
+      .l-details-position-image
+        = image_tag("positions/#{position.name}.png")
   .mp-edit-item-param.mp-edit-player-tscore
     = match_player.object.total_score
   .mp-edit-item-param.mp-edit-player-score
@@ -34,5 +43,5 @@
   .mp-edit-item-param
     = match_player.number_field :own_goals, in: 0..9, step: 1, class: 'form-control'
   .mp-edit-item-param
-    - unless lineup.slots[match_player.index]&.position == 'Por'
+    - if lineup.slots[match_player.index]&.position && lineup.slots[match_player.index]&.position != 'Por'
       = match_player.number_field :position_malus, in: 0..4.5, step: 1.5, class: 'form-control'
