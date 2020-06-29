@@ -2,7 +2,6 @@ inherit_from: .rubocop_todo.yml
 
 AllCops:
   TargetRubyVersion: 2.5
-  TargetRailsVersion: 5.2
   Exclude:
     - db/schema.rb
     - config/**/*
