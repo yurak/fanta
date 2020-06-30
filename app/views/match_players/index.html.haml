@@ -44,9 +44,6 @@
         .list-row-cell.position-cell
           .slot-position{class: "slot-position-#{player.real_position.tr('/', '')}"}
             = player.real_position
-          -#- player.real_position.each do |position|
-            -#.l-details-position-image
-            -#  = image_tag("positions/#{position}.png")
         .list-row-cell.player-stats
           .player-param= player.score
           .player-param= player.total_score
