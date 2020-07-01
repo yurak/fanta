@@ -59,6 +59,9 @@
                     .player-name
                       %span{ id: "name-mp-#{index}" }
                         = match_player.player.name.upcase
+                    - if match_player.score.positive?
+                      .player-score.slot-position
+                        = match_player.total_score
                     .slot-position{class: "slot-position-#{lineup.slots[index]&.position.tr('/', '')}"}
                       = lineup.slots[index]&.position
             // TODO: show not_in_squad players correctly
