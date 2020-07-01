@@ -9,25 +9,47 @@ module TeamLineups
 
     def initialize(team:, params:)
       @team   = team
-      @params = params.merge(player_ids: @team.players.ids[0..17])
+      @params = params
       @lineup = team.lineups.new(@params)
     end
 
     def call
-      errors.add(:base, "#{team.name.titleize} lineup already exist, to change the module - go to the update page") if lineup_exist?
-      errors.add(:base, "Team should have #{full_squad} players") if players.size != full_squad
+      errors.add(:base, "#{team.name.titleize} lineup already exist, to change the module - go to Edit Module page") if lineup_exist?
       lineup.tour_id = active_tour&.id
+      generate_match_players
+      generate_reserve_players
       lineup.save if errors.empty?
     end
 
     private
 
-    def lineup_exist?
-      active_tour.lineups.find_by(team: team)
+    def generate_match_players
+      lineup.team_module.slots.each do |slot|
+        real_position = slot.position
+        main_positions = real_position.split('/')
+        player = lineup.team.players.by_position(main_positions).where.not(id: used_players_ids).first
+        unless player
+          available_positions = main_positions.map { |p| Position::DEPENDENCY[p] }.flatten.uniq
+          player = lineup.team.players.by_position(available_positions).where.not(id: used_players_ids).first
+        end
+
+        lineup.match_players.new(player: player, real_position: real_position)
+        used_players_ids << player.id
+      end
     end
 
-    def full_squad
-      AMOUNT + RESERVED
+    def generate_reserve_players
+      lineup.team.players.where.not(id: used_players_ids).limit(RESERVED).each do |player|
+        lineup.match_players.new(player: player)
+      end
+    end
+
+    def used_players_ids
+      @used_players_ids ||= []
+    end
+
+    def lineup_exist?
+      active_tour.lineups.find_by(team: team)
     end
 
     def active_tour

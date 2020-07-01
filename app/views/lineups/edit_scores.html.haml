@@ -1,16 +1,36 @@
--# TODO: update UI
-.container
-  %h3 Edit Scores
+.page-header
+  .page-header-icon
+    = image_tag('navbar/lineups.png')
+  .page-header-title
+    %span.bolder
+      = link_to team.name.upcase, team_path(team)
+    | Round
+    %span.bolder
+      = link_to lineup.tour.number, tour_path(lineup.tour)
+.flash-block
+  - flash.each do |key, value|
+    = content_tag :div, value, class: "flash-item flash-#{key}"
 
+.page-info
+  - if lineup.tour.locked_or_postponed? && current_user&.can_moderate?
+    .lineup-actions.edit-scores-actions
+      .list-items.list-action-items.center
+        .list-row-item.edit-scores-item
+          .list-row-cell.hidden-cell
+          = link_to 'MAKE SUBSTITUTION', team_lineup_substitutions_path(team, lineup), class: 'list-row-cell item-b'
   .lineup-edit-scores-form
     = form_for [team, lineup], url: team_lineup_path(team, lineup), method: :put do |f|
       #lineup_form{data: team.players.to_json}
 
       .mp-edit-headers
         .mp-edit-header
-          %span Pos.
+          %span Lineup pos.
+        .mp-edit-header
+          %span Club
         .mp-edit-header
           %span Player
+        .mp-edit-header
+          %span Native positions
         .mp-edit-header
           %span Total score
         .mp-edit-header
@@ -41,16 +61,11 @@
             = render 'match_player_scores', lineup: lineup, match_player: match_player
         - else
           - unless match_player.object.not_in_squad?
-            .alert.alert-warning.mp-alert.subs-card
-              .subs-item
-                .mp-edit-item-param
-                  = match_player.object.player.name
-                .mp-edit-item-param.mp-edit-player-positions
-                  - match_player.object.player.positions.each do |position|
-                    .mp-edit-position-image
-                      = image_tag("positions/#{position.name}.png")
-      .subs-btn
-        = link_to 'Make substitution', team_lineup_substitutions_path(team, lineup), class: 'btn btn-danger'
+            .alert.alert-warning.mp-alert
+              = render 'match_player_scores', lineup: lineup, match_player: match_player
+          - else
+            .alert.alert-danger.mp-alert
+              = render 'match_player_scores', lineup: lineup, match_player: match_player
 
       .form-group
         = f.submit 'Update', class: 'btn btn-success btn-block'

@@ -15,14 +15,14 @@
   .lineup-actions
     .list-items.list-action-items.center
       .list-row-item
+        - if !lineup.tour.inactive?
+          = link_to 'DETAILS', team_lineup_details_path(team, lineup), class: 'list-row-cell'
         - if current_user == team.user && lineup.tour.set_lineup?
-          = link_to 'Edit module', team_lineup_edit_module_path(team, lineup), class: 'list-row-cell'
-          = link_to 'Edit lineup', edit_team_lineup_path(team, lineup), class: 'list-row-cell'
+          = link_to 'EDIT LINEUP', edit_team_lineup_path(team, lineup), class: 'list-row-cell'
+          = link_to 'EDIT MODULE', team_lineup_edit_module_path(team, lineup), class: 'list-row-cell'
         - if lineup.tour.locked_or_postponed? && current_user&.can_moderate?
-          = link_to 'Edit scores', team_lineup_edit_scores_path(team, lineup), class: 'list-row-cell item-a'
-        - if lineup.tour.locked_or_postponed? || lineup.tour.closed?
-          .list-row-cell.hidden-cell
-          = link_to 'Details', team_lineup_details_path(team, lineup), class: 'list-row-cell item-b'
+          .list-row-cell
+          = link_to 'EDIT SCORES', team_lineup_edit_scores_path(team, lineup), class: 'list-row-cell'
   .lineup-info
     .list-items.list-items-60-height.center
       .list-row-item
@@ -59,6 +59,9 @@
                     .player-name
                       %span{ id: "name-mp-#{index}" }
                         = match_player.player.name.upcase
+                    - if match_player.score.positive?
+                      .player-score.slot-position
+                        = match_player.total_score
                     .slot-position{class: "slot-position-#{lineup.slots[index]&.position.tr('/', '')}"}
                       = lineup.slots[index]&.position
             // TODO: show not_in_squad players correctly
