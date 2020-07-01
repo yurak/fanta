@@ -243,6 +243,15 @@
         height: 25px;
         line-height: 25px;
         font-weight: bolder;
+        white-space: nowrap;
+      }
+
+      .player-score {
+        position: absolute;
+        top: 85px;
+        left: -48px;
+        background: linear-gradient(to bottom, #0657cc, #001280);
+        width: 50px;
       }
     }
   }
