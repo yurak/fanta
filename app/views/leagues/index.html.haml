@@ -1,7 +1,7 @@
 .page-header
   .page-header-icon
     = image_tag('navbar/leagues.png')
-  .page-header-title Leagues
+  .page-header-title Active Leagues
 .page-info
   .leagues-block
     - @leagues.each do |league|
@@ -15,11 +15,33 @@
               = image_tag(league.tournament.logo_path, alt: 'Tournament Logo')
             .league-tournament-title
               = league.tournament.name
-        .league-teams
-          - league.teams.each do |team|
-            = link_to team_path(team), class: 'league-team-link' do
-              .league-team
+        .league-links
+          .league-links-block.league-actions
+            = link_to tour_path(league.active_tour), class: 'league-team-link' do
+              .league-subitem
                 .league-team-logo
-                  = image_tag(team&.logo_path, alt: 'Team Logo')
-                .league-team-name
-                  = team.human_name
+                  = image_tag('navbar/tour_d.png')
+                .league-link-name ROUND
+            = link_to league_results_path(league), class: 'league-team-link' do
+              .league-subitem
+                .league-team-logo
+                  = image_tag('navbar/table_d.png')
+                .league-link-name TABLE
+            = link_to league_tours_path(league), class: 'league-team-link' do
+              .league-subitem
+                .league-team-logo
+                  = image_tag('navbar/calendar_d.png')
+                .league-link-name FIXTURES
+            = link_to league_tours_path(league, closed: true), class: 'league-team-link' do
+              .league-subitem
+                .league-team-logo
+                  = image_tag('navbar/results_d.png')
+                .league-link-name RESULTS
+          .league-links-block.league-teams
+            - league.teams.each do |team|
+              = link_to team_path(team), class: 'league-team-link' do
+                .league-subitem
+                  .league-team-logo
+                    = image_tag(team&.logo_path, alt: 'Team Logo')
+                  .league-link-name
+                    = team.human_name

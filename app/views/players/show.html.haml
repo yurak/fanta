@@ -23,6 +23,7 @@
         %span= player.club.name
         - player.teams.each do |t|
           %span= "/ #{t&.name.titleize}"
+      -# TODO: show correct data for player related to all of him teams
       .alert.alert-primary.player-show-stats
         .player-stat-header{title: 'Number of matches in mains squad'} MP
         .player-stat-header{title: 'Number of scores'} SC
