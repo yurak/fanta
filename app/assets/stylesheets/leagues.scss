@@ -41,10 +41,10 @@
   }
 }
 
-.league-teams {
+.league-links-block {
   font-size: 20px;
   line-height: 46px;
-  padding: 10px 0;
+  padding: 0 0 10px 0;
   display: grid;
   grid-template-columns: 50% 50%;
 
@@ -52,7 +52,7 @@
     text-decoration: none;
   }
 
-  .league-team {
+  .league-subitem {
     width: 100%;
     padding: 5px 20px 5px 0;
     display: grid;
@@ -66,14 +66,37 @@
       height: 46px;
     }
   }
-  .league-team-name {
+  .league-link-name {
     padding-left: 10px;
     background-color: #0f29a4d1;
     color: #ffffff;
     max-width: 100%;
   }
+}
+
+.league-teams {
   .league-team-link:nth-child(4n-1), .league-team-link:nth-child(4n-2) {
-    .league-team-name {
+    .league-link-name {
+      background-color: #0657ccb8;
+    }
+  }
+}
+
+.league-actions {
+  grid-template-columns: 25% 25% 25% 25%;
+  padding: 10px 0 0 0;
+
+  .league-subitem {
+    .league-team-logo {
+      img {
+        margin: 5px;
+        width: 40px;
+        height: 40px;
+      }
+    }
+  }
+  .league-team-link:nth-child(2n) {
+    .league-link-name {
       background-color: #0657ccb8;
     }
   }
@@ -97,7 +120,7 @@
   }
   .league-teams {
     padding: 10px;
-    .league-team {
+    .league-subitem {
       padding: 5px 10px;
       max-height: 60px;
     }

@@ -1,13 +1,9 @@
 class TeamsController < ApplicationController
-  skip_before_action :authenticate_user!, only: %i[index show]
+  skip_before_action :authenticate_user!, only: %i[show]
 
   respond_to :html
 
   helper_method :team, :league
-
-  def index
-    # TODO: moved to MatchPlayers index
-  end
 
   private
 
