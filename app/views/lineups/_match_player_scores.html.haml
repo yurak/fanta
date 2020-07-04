@@ -8,7 +8,7 @@
       .club-logo.l-details-club-logo
         = image_tag(match_player.object.player.club.logo_path, alt: 'Club Logo')
   .mp-edit-item-param.mp-edit-player-name
-    = match_player.object.player.name
+    = match_player.object.player.full_name
   .mp-edit-item-param.mp-edit-player-native-positions
     - match_player.object.player.positions.each do |position|
       .l-details-position-image
