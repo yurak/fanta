@@ -37,17 +37,20 @@ class LineupsController < ApplicationController
   end
 
   def clone
-    new_lineup = lineup.dup
-    new_lineup.tour = Tour.find_by(number: lineup.tour.next_number)
+    old_lineup = team.lineups.first
+    new_lineup = old_lineup.dup
+    new_lineup.tour = tour
 
-    if new_lineup.tour.lineups.where(team_id: new_lineup.team_id).exists?
+    if tour.lineups.where(team_id: new_lineup.team_id).exists?
       flash[:error] = 'This team already has lineup for tour'
     else
-      new_lineup.players << lineup.players.limit(Lineup::MAX_PLAYERS)
+      old_lineup.match_players.limit(Lineup::MAX_PLAYERS).each do |old_mp|
+        MatchPlayer.create(lineup: new_lineup, real_position: old_mp.real_position, player: old_mp.player)
+      end
       flash[:notice] = 'Successfully updated lineup' if new_lineup.save
     end
 
-    redirect_to team_path(team)
+    redirect_to tour_path(tour)
   end
 
   def edit
@@ -158,6 +161,10 @@ class LineupsController < ApplicationController
 
   def team
     @team ||= Team.find(params[:team_id])
+  end
+
+  def tour
+    @tour ||= Tour.find(params[:tour_id])
   end
 
   def modules
