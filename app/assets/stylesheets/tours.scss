@@ -201,6 +201,21 @@
       color: #ef5350;
     }
   }
+
+  .no-lineup-links {
+    margin: 0 15px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 20px;
+
+    .lineup-link {
+      img {
+        margin: 9px 0 11px;
+        width: 30px;
+        height: 30px;
+      }
+    }
+  }
 }
 
 /* TOUR RESERVISTS SCORES */
