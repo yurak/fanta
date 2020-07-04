@@ -18,14 +18,14 @@ class Player < ApplicationRecord
 
   enum status: %i[ready problematic injured disqualified]
 
-  scope :order_by_status, -> do
+  scope :order_by_status, lambda {
     order_by = ['CASE']
     statuses.values.each_with_index do |status, index|
       order_by << "WHEN status=#{status} THEN #{index}"
     end
     order_by << 'END'
     order(order_by.join(' '))
-  end
+  }
 
   def avatar_path
     path = "players/#{path_name}.png"
