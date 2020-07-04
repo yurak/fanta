@@ -16,9 +16,11 @@
           .club-logo
             = image_tag(player.club.logo_path, alt: 'Club Logo')
         .list-row-cell.team-pl-club-stats{title: 'Scores count'}
-          = player.scores_count
+          -# TODO: Should show scores data related to current team
+          -#= player.scores_count
         .list-row-cell.team-pl-club-score{title: 'Average score'}
-          = player.average_total_score
+          -# TODO: Should show scores data related to current team
+          -#= player.average_total_score
 -# TODO: Temporary remove player status functionality
 -#    .badge{ class: status_class('badge', player.status) }
 -#      = player.status

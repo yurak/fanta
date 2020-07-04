@@ -5,8 +5,8 @@ class Team < ApplicationRecord
   has_many :player_teams, dependent: :destroy
   has_many :players, through: :player_teams
   has_many :lineups, -> { order('tour_id desc') }, dependent: :destroy
-  has_many :host_matches, foreign_key: 'host_id', class_name: 'Match'
-  has_many :guest_matches, foreign_key: 'guest_id', class_name: 'Match'
+  has_many :host_matches, foreign_key: 'host_id', class_name: 'Match', dependent: :destroy
+  has_many :guest_matches, foreign_key: 'guest_id', class_name: 'Match', dependent: :destroy
 
   has_one :result, dependent: :destroy
 

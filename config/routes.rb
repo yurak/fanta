@@ -9,8 +9,6 @@ Rails.application.routes.draw do
 
   resources :leagues, only: [:index] do
     get :tours, to: 'tours#index'
-    # TODO: stats page temporary disabled
-    # get :stats, to: 'teams#index'
 
     resources :results, only: [:index]
 
@@ -28,7 +26,7 @@ Rails.application.routes.draw do
 
   resources :teams, only: [:show] do
     resources :lineups, except: [:destroy] do
-      get :clone
+      collection { get :clone }
       get :details
       get :edit_module
       get :edit_scores
