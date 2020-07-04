@@ -14,7 +14,7 @@
         .player-flag
           = flag_icon(player.nationality.to_sym, element: :div)
         .player-show-name
-          = player.name
+          = player.full_name
         .player-tm-link
           = link_to player.tm_url, target: :_blank do
             .player-tm-img

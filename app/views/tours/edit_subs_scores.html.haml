@@ -27,7 +27,7 @@
             .club-logo.l-details-club-logo
               = image_tag(mp_f.object.player.club.logo_path, alt: 'Club Logo')
           .reservist-param.res-name
-            = mp_f.object.player.name
+            = mp_f.object.player.full_name
           .reservist-param
             = mp_f.object.total_score
 
