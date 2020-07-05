@@ -572,6 +572,7 @@
     font-size: 16px;
   }
 }
+
 .l-details-item-param {
   width: 100%;
   line-height: 38px;
@@ -590,6 +591,10 @@
 
 .l-details-player-name, .l-details-player-tscore {
   font-weight: bolder;
+}
+
+.absent-score {
+  color: red;
 }
 
 .l-details-subs-bench-title {

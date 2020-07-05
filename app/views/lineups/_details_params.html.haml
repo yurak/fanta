@@ -6,9 +6,9 @@
   .subs-image
     = image_tag("bonuses/get_in.png", title: 'Subs Status') if mp.get_in?
     = image_tag("bonuses/get_out.png", title: 'Subs Status') if mp.get_out?
-.l-details-item-param.l-details-player-tscore
+.l-details-item-param.l-details-player-tscore{class: score_class(mp)}
   = mp.total_score
-.l-details-item-param
+.l-details-item-param{class: score_class(mp)}
   = mp.score
 - if mp.player.positions_names_string == 'Por'
   .l-details-item-param
