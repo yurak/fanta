@@ -16,8 +16,8 @@ class Player < ApplicationRecord
   scope :by_position, ->(position) { joins(:positions).where(positions: { name: position }) }
   scope :stats_query, -> { includes(:match_players, :club, :positions).order(:name) }
 
+  # TODO: move statuses to MatchPlayer model
   enum status: %i[ready problematic injured disqualified]
-
   scope :order_by_status, lambda {
     order_by = ['CASE']
     statuses.values.each_with_index do |status, index|
