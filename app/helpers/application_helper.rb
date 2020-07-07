@@ -43,4 +43,12 @@ module ApplicationHelper
       'alert-warning'
     end
   end
+
+  def score_class(match_player)
+    if match_player.score.positive?
+      'positive-score'
+    else
+      'absent-score'
+    end
+  end
 end
