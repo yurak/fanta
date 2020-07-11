@@ -10,7 +10,8 @@ module Scores
 
       def call
         tour.match_players.each do |mp|
-          player_data = scores_arr.detect { |pl| pl['name'].mb_chars.normalize(:kd).gsub(/[^\x00-\x7F]/n,'').downcase.to_s == mp.player.pseudo_name.downcase }
+          mp_pseudo = mp.player.pseudo_name.downcase
+          player_data = scores_arr.detect { |pl| pl['name'].mb_chars.normalize(:kd).gsub(/[^\x00-\x7F]/n, '').downcase.to_s == mp_pseudo }
           mp.update(score: player_data['stat'].to_f) if player_data && player_data['stat'].to_f.positive?
         end
       end
