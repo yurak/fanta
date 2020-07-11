@@ -6,11 +6,12 @@
 /* PLAYER SHOW page */
 
 .player-show {
-  margin: 30px 0;
+  margin: 30px auto;
   display: grid;
-  grid-template-columns: 300px auto;
+  grid-template-columns: 400px auto;
   grid-column-gap: 20px;
-  height: 300px;
+  height: 400px;
+  max-width: 1000px;
 }
 
 .player-show-images {
@@ -19,65 +20,52 @@
   .player-show-face, .player-show-kit {
     position: absolute;
     img {
-      width: 300px;
-      height: 300px;
-    }
-  }
-
-  .player-show-positions {
-    text-align: right;
-
-    img {
-      margin: 5px 5px 0;
+      width: 400px;
+      height: 400px;
     }
   }
 }
 
 .player-show-info {
-  .player-base-data {
-    display: grid;
-    grid-template-columns: 70px auto 130px;
+  padding-top: 40px;
 
-    .player-flag {
-      .flag-icon {
-        height: 42px;
-        width: 56px;
-        text-align: left;
+  .list-items .list-row-item {
+    grid-template-columns: 3fr 7fr;
+
+    .player-data-cell {
+      font-size: 24px;
+
+      img {
+        width: 40px;
+        height: 40px;
+        margin-bottom: 5px;
       }
-    }
 
-    .player-show-name {
-      font-weight: bolder;
-      font-size: 32px;
-    }
+      .flag-icon {
+        margin-right: 10px;
+      }
 
-    .player-tm-link {
-      margin: 0 auto;
+      .player-show-positions {
+        .slot-position {
+          display: inline-block;
+          line-height: 30px;
+          font-size: 18px;
+        }
+      }
+
       .player-tm-img {
         img {
           width: auto;
-          height: 50px;
+          height: 40px;
         }
       }
     }
   }
+}
 
-  .player-show-club {
-    font-size: 24px;
-    margin-bottom: 50px;
-  }
-
-  .player-show-stats {
-    display: grid;
-    grid-template-columns: 25% 25% 25% 25%;
-    text-align: center;
-    font-size: 18px;
-    padding: 12px 5px;
-
-    .player-stat-header {
-      font-weight: bolder;
-    }
-  }
+.player-show-lineups {
+  margin: 0 auto;
+  max-width: 1000px;
 }
 
 #stat-lineups {
