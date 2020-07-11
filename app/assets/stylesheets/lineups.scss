@@ -253,6 +253,20 @@
         background: linear-gradient(to bottom, #0657cc, #001280);
         width: 50px;
       }
+
+      .slot-native-position {
+        .slot-position {
+          left: -38px;
+        }
+
+        .slot-native-position1 {
+          top: 55px;
+        }
+
+        .slot-native-position2 {
+          top: 25px;
+        }
+      }
     }
   }
 
@@ -364,7 +378,7 @@
   background: linear-gradient(to bottom, #d451df, #a94adc);
 }
 
-.slot-position-APc {
+.slot-position-APc, .slot-position-A, .slot-position-Pc {
   background: linear-gradient(to bottom, #f5696a, #ce2f1a);
 }
 
