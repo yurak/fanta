@@ -36,6 +36,10 @@ class Player < ApplicationRecord
     first_name ? "#{first_name} #{name}" : name
   end
 
+  def pseudo_name
+    pseudonym.empty? ? full_name : pseudonym
+  end
+
   def path_name
     full_name.downcase.tr(' ', '_').tr('-', '_').delete("'")
   end

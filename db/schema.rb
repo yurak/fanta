@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_22_183918) do
+ActiveRecord::Schema.define(version: 2020_07_11_133452) do
 
   create_table "articles", force: :cascade do |t|
     t.string "title"
@@ -36,6 +36,7 @@ ActiveRecord::Schema.define(version: 2020_03_22_183918) do
     t.integer "status", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "tour_difference", default: 0, null: false
   end
 
   create_table "lineups", force: :cascade do |t|
@@ -109,6 +110,7 @@ ActiveRecord::Schema.define(version: 2020_03_22_183918) do
     t.string "first_name"
     t.string "nationality"
     t.string "tm_url"
+    t.string "pseudonym", default: "", null: false
   end
 
   create_table "positions", force: :cascade do |t|

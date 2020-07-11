@@ -79,3 +79,7 @@
                         = match_player.player.name.upcase
                     .slot-position.slot-position-res
                       = "R#{index-10}"
+                    .slot-native-position
+                      - match_player.player.positions.each_with_index do |position, index|
+                        .slot-position{class: "slot-position-#{position.name} slot-native-position#{index}"}
+                          = position.name
