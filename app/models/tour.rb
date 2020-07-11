@@ -26,6 +26,10 @@ class Tour < ApplicationRecord
     number + 1
   end
 
+  def real_number
+    number + league.tour_difference
+  end
+
   def match_players
     MatchPlayer.by_tour(id)
   end

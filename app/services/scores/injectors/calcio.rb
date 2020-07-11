@@ -80,12 +80,7 @@ module Scores
       end
 
       def tour_url
-        "#{URL}#{real_tour_number}-giornata"
-      end
-
-      def real_tour_number
-        # TODO: use League model param against magic number
-        tour.number + 2
+        "#{URL}#{tour.real_number}-giornata"
       end
     end
   end
