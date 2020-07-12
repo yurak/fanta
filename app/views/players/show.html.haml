@@ -21,8 +21,7 @@
           .list-row-cell COUNTRY
           .list-row-cell.player-data-cell
             = flag_icon(player.nationality.to_sym, element: :div)
-            -# TODO: show country full name, add gem https://github.com/hexorx/countries
-            = player.nationality.upcase
+            = player.country.upcase
         .list-row-item
           .list-row-cell CLUB
           .list-row-cell.player-data-cell

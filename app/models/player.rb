@@ -32,6 +32,16 @@ class Player < ApplicationRecord
     ActionController::Base.helpers.resolve_asset_path(path) ? path : 'players/avatar.png'
   end
 
+  def country
+    case nationality
+    when 'gb-eng' then 'England'
+    when 'gb-wls' then 'Wales'
+    when 'gb-sct' then 'Scotland'
+    when 'gb-nir' then 'Northern Ireland'
+    else ISO3166::Country.new(nationality).name
+    end
+  end
+
   def full_name
     first_name ? "#{first_name} #{name}" : name
   end
