@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_11_133452) do
+ActiveRecord::Schema.define(version: 2020_07_12_164418) do
 
   create_table "articles", force: :cascade do |t|
     t.string "title"
@@ -32,11 +32,13 @@ ActiveRecord::Schema.define(version: 2020_07_11_133452) do
 
   create_table "leagues", force: :cascade do |t|
     t.string "name"
-    t.bigint "tournament_id", null: false
+    t.integer "tournament_id", null: false
     t.integer "status", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "tour_difference", default: 0, null: false
+    t.integer "season_id"
+    t.index ["season_id"], name: "index_leagues_on_season_id"
   end
 
   create_table "lineups", force: :cascade do |t|
@@ -130,6 +132,13 @@ ActiveRecord::Schema.define(version: 2020_07_11_133452) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["team_id"], name: "index_results_on_team_id"
+  end
+
+  create_table "seasons", force: :cascade do |t|
+    t.integer "start_year"
+    t.integer "end_year"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "slots", force: :cascade do |t|
