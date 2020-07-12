@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_12_164418) do
+ActiveRecord::Schema.define(version: 2020_07_12_181215) do
 
   create_table "articles", force: :cascade do |t|
     t.string "title"
@@ -32,7 +32,7 @@ ActiveRecord::Schema.define(version: 2020_07_12_164418) do
 
   create_table "leagues", force: :cascade do |t|
     t.string "name"
-    t.integer "tournament_id", null: false
+    t.bigint "tournament_id", null: false
     t.integer "status", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -164,6 +164,31 @@ ActiveRecord::Schema.define(version: 2020_07_12_164418) do
     t.integer "league_id"
     t.index ["league_id"], name: "index_teams_on_league_id"
     t.index ["user_id"], name: "index_teams_on_user_id"
+  end
+
+  create_table "tournament_matches", force: :cascade do |t|
+    t.integer "tournament_round_id"
+    t.integer "host_club_id"
+    t.integer "guest_club_id"
+    t.integer "host_score"
+    t.integer "guest_score"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["guest_club_id"], name: "index_tournament_matches_on_guest_club_id"
+    t.index ["host_club_id"], name: "index_tournament_matches_on_host_club_id"
+    t.index ["tournament_round_id"], name: "index_tournament_matches_on_tournament_round_id"
+  end
+
+  create_table "tournament_rounds", force: :cascade do |t|
+    t.integer "tournament_id"
+    t.integer "season_id"
+    t.integer "number"
+    t.integer "status", default: 0
+    t.datetime "start_time"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["season_id"], name: "index_tournament_rounds_on_season_id"
+    t.index ["tournament_id"], name: "index_tournament_rounds_on_tournament_id"
   end
 
   create_table "tournaments", force: :cascade do |t|
