@@ -1,8 +1,10 @@
 class MatchPlayer < ApplicationRecord
-  belongs_to :player
+  belongs_to :round_player
   belongs_to :lineup
 
-  delegate :position_names, :name, :club, :teams, to: :player
+  # TODO: should be moved with player association to RoundPlayer model
+  # delegate :position_names, :name, :club, :teams, to: :player
+  delegate :tour, to: :lineup
 
   enum subs_status: %i[initial get_out get_in not_in_squad]
 

@@ -10,6 +10,7 @@ class Lineup < ApplicationRecord
   accepts_nested_attributes_for :players
 
   delegate :slots, to: :team_module
+  delegate :tournament_round, to: :tour
 
   scope :closed, ->(league_id) { where(tour_id: League.find(league_id).tours.closed.ids) }
 
