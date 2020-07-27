@@ -32,7 +32,7 @@ ActiveRecord::Schema.define(version: 2020_07_12_210205) do
 
   create_table "leagues", force: :cascade do |t|
     t.string "name"
-    t.integer "tournament_id", null: false
+    t.bigint "tournament_id", null: false
     t.integer "status", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -60,25 +60,12 @@ ActiveRecord::Schema.define(version: 2020_07_12_210205) do
   end
 
   create_table "match_players", force: :cascade do |t|
-    t.decimal "score", precision: 4, scale: 2, default: "0.0"
-    t.integer "player_id"
     t.integer "lineup_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "real_position"
-    t.boolean "red_card", default: false
-    t.boolean "yellow_card", default: false
     t.boolean "cleansheet", default: false
-    t.decimal "goals", default: "0.0"
-    t.decimal "missed_goals", default: "0.0"
-    t.decimal "assists", default: "0.0"
     t.decimal "position_malus", default: "0.0"
-    t.decimal "bonus", default: "0.0"
-    t.decimal "missed_penalty", default: "0.0"
-    t.decimal "scored_penalty", default: "0.0"
-    t.decimal "caught_penalty", default: "0.0"
-    t.decimal "failed_penalty", default: "0.0"
-    t.decimal "own_goals", default: "0.0"
     t.integer "subs_status", default: 0, null: false
     t.integer "round_player_id"
     t.index ["round_player_id"], name: "index_match_players_on_round_player_id"

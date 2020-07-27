@@ -28,23 +28,8 @@ class ToursController < ApplicationController
     redirect_to tour_path(tour)
   end
 
-  def edit_subs_scores
-    redirect_to tour_path(tour) unless tour.closed? && (current_user&.admin? || current_user&.moderator?)
-    @reservists = MatchPlayer.reservists_by_tour(tour.id)
-    respond_with tour
-  end
-
-  def update_subs_scores
-    match_players = update_reservists_params['match_players']
-    match_players.keys.each do |mp_id|
-      mp = MatchPlayer.find(mp_id.to_i)
-      mp.update_attributes(match_players[mp_id].to_hash)
-    end
-    redirect_to tour_path(tour)
-  end
-
   def inject_scores
-    injector_klass.call(tour: tour)
+    injector_klass.call(tournament_round: tour.tournament_round)
     Scores::PositionMalus::Updater.call(tour: tour)
 
     redirect_to tour_path(tour)
@@ -74,11 +59,6 @@ class ToursController < ApplicationController
 
   def update_tour_params
     params.require(:tour).permit(:deadline)
-  end
-
-  def update_reservists_params
-    params.permit(match_players: %i[id score goals missed_goals scored_penalty failed_penalty cleansheet
-                                    assists yellow_card red_card own_goals caught_penalty missed_penalty])
   end
 
   def league

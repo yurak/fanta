@@ -7,9 +7,6 @@ class Player < ApplicationRecord
   has_many :player_teams, dependent: :destroy
   has_many :teams, through: :player_teams
 
-  has_many :match_players, dependent: :destroy
-  has_many :lineups, through: :match_players
-
   validates :name, uniqueness: { scope: :first_name }
   validates :name, presence: true
 

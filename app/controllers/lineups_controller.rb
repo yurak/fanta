@@ -132,7 +132,7 @@ class LineupsController < ApplicationController
   end
 
   def update_lineup_params
-    params.fetch(:lineup, {}).permit(:team_module_id, match_players_attributes: {})
+    params.fetch(:lineup, {}).permit(:team_module_id, round_players_attributes: {})
   end
 
   def duplicate_players

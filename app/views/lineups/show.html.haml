@@ -59,7 +59,7 @@
                     .player-name
                       %span{ id: "name-mp-#{index}" }
                         = match_player.player.name.upcase
-                    - if match_player.score.positive?
+                    - if match_player.player_score.positive?
                       .player-score.slot-position
                         = match_player.total_score
                     .slot-position{class: "slot-position-#{lineup.slots[index]&.position.tr('/', '')}"}

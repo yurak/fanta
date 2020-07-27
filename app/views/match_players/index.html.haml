@@ -38,7 +38,7 @@
         .list-row-cell= i+1
         .list-row-cell.player-icons
           .club-logo.l-details-club-logo
-            = image_tag(player.club.logo_path, alt: 'Club Logo')
+            = image_tag(player.player.club.logo_path, alt: 'Club Logo')
         .list-row-cell
           = link_to player.name.upcase, player_path(player.player)
         .list-row-cell.position-cell

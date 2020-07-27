@@ -24,7 +24,7 @@ class CreateRoundPlayers < ActiveRecord::Migration[5.2]
       tournament_round = mp.tour.tournament_round
       round_player = RoundPlayer.find_by(tournament_round: tournament_round, player_id: mp.player_id)
       unless round_player
-        RoundPlayer.create(
+        round_player = RoundPlayer.create(
           tournament_round: tournament_round,
           player_id: mp.player_id,
           score: mp.score,
@@ -43,5 +43,23 @@ class CreateRoundPlayers < ActiveRecord::Migration[5.2]
 
       mp.update(round_player: round_player)
     end
+
+    connection.execute('PRAGMA defer_foreign_keys = ON')
+    connection.execute('PRAGMA foreign_keys = OFF')
+    remove_column :match_players, :player_id
+    connection.execute('PRAGMA foreign_keys = ON')
+    connection.execute('PRAGMA defer_foreign_keys = OFF')
+    remove_column :match_players, :score
+    remove_column :match_players, :goals
+    remove_column :match_players, :missed_goals
+    remove_column :match_players, :assists
+    remove_column :match_players, :missed_penalty
+    remove_column :match_players, :scored_penalty
+    remove_column :match_players, :caught_penalty
+    remove_column :match_players, :failed_penalty
+    remove_column :match_players, :yellow_card
+    remove_column :match_players, :red_card
+    remove_column :match_players, :own_goals
+    remove_column :match_players, :bonus
   end
 end

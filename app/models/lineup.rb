@@ -4,10 +4,10 @@ class Lineup < ApplicationRecord
   belongs_to :tour
 
   has_many :match_players, dependent: :destroy
-  has_many :players, through: :match_players
+  has_many :round_players, through: :match_players
 
   accepts_nested_attributes_for :match_players
-  accepts_nested_attributes_for :players
+  accepts_nested_attributes_for :round_players
 
   delegate :slots, to: :team_module
   delegate :tournament_round, to: :tour
@@ -76,7 +76,7 @@ class Lineup < ApplicationRecord
   end
 
   def def_scores_sum
-    match_players.defenders.map(&:score).compact.sum
+    match_players.defenders.map(&:player_score).compact.sum
   end
 
   def def_average_score

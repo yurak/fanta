@@ -35,6 +35,10 @@ class Tour < ApplicationRecord
     MatchPlayer.by_tour(id)
   end
 
+  def round_players
+    RoundPlayer.by_tour(id)
+  end
+
   private
 
   def send_notifications
