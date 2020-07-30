@@ -5,10 +5,12 @@ class RoundPlayer < ApplicationRecord
   has_many :match_players, dependent: :destroy
   has_many :lineups, through: :match_players
 
-  delegate :position_names, :name, :full_name, :club, :teams, to: :player
+  delegate :position_names, :positions, :name, :first_name, :full_name, :club, :teams, to: :player
 
   scope :by_tournament_round, ->(tournament_round_id) { where(tournament_round: tournament_round_id) }
   scope :by_name_and_club, ->(name, club_id) { joins(:player).where('players.name = ?', name).where('players.club_id = ?', club_id) }
+  scope :with_score, -> { where('score > ?', 0) }
+  scope :ordered_by_club, -> { joins(player: :club).order('clubs.name') }
 
   def result_score
     return 0 unless score

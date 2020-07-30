@@ -28,7 +28,7 @@ class MatchPlayer < ApplicationRecord
   end
 
   def malus
-    return 0 if own_position?
+    0 if own_position?
   end
 
   def own_position?

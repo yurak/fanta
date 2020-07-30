@@ -11,7 +11,9 @@ class Player < ApplicationRecord
   validates :name, presence: true
 
   scope :by_position, ->(position) { joins(:positions).where(positions: { name: position }) }
-  scope :stats_query, -> { includes(:match_players, :club, :positions).order(:name) }
+  scope :by_tournament, ->(tournament_id) { joins(:club).where(clubs: { tournament: tournament_id }) }
+  scope :stats_query, -> { includes(:club, :positions).order(:name) }
+  scope :with_team, -> { includes(:teams).where.not(teams: { id: nil }) }
 
   # TODO: move statuses to MatchPlayer model
   enum status: %i[ready problematic injured disqualified]
