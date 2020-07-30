@@ -17,7 +17,7 @@
               = league.tournament.name
         .league-links
           .league-links-block.league-actions
-            = link_to tour_path(league.active_tour), class: 'league-team-link' do
+            = link_to tour_path(league.active_tour || league.tours.last), class: 'league-team-link' do
               .league-subitem
                 .league-team-logo
                   = image_tag('navbar/tour_d.png')
