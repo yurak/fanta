@@ -5,6 +5,8 @@ class Tournament < ApplicationRecord
   validates :name, presence: true
   validates :code, presence: true, uniqueness: true
 
+  scope :with_clubs, -> { includes(:clubs).where.not(clubs: { id: nil }) }
+
   def logo_path
     if File.exist?("app/assets/images/tournaments/#{code}.png")
       "tournaments/#{code}.png"

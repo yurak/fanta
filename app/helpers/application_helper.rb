@@ -17,6 +17,11 @@ module ApplicationHelper
     end
   end
 
+  def unsigned?
+    params[:controller] == 'welcome' && params[:action] == 'index'
+  end
+
+  # TODO: old def, remove after new UI implementation
   def hide_navbar?
     params[:controller] == 'welcome' && params[:action] == 'index'
   end

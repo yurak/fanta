@@ -1,8 +1,42 @@
-.welcome-cover
-  .welcome-data.center
-    .text-block
-      %h1 MantraFootball
-      %h3 Fantasy Football Application
-    .buttons-block
-      = link_to 'Log In', new_user_session_path, class: 'btn btn-success'
-      -#= link_to 'Sign Up', new_user_registration_path, class: 'btn btn-success'
+.welcome-page.header-grid
+  .left-block
+    .title-block
+      .title-text Mantra Football
+      .title-bg
+    .slogan-block
+      .slogan-start Fantasy football
+      .slogan-end one step closer to the real one!
+    .description-block
+      .description-title 4 why's
+      .description-item
+        .description-icon
+          = image_tag("icons/smile1.png")
+        .description-text Create your league to play with friends
+      .description-item
+        .description-icon.description-icon2
+          = image_tag("icons/smile2.png")
+        .description-text Fight for best players at auction
+      .description-item
+        .description-icon.description-icon3
+          = image_tag("icons/smile3.png")
+        .description-text Choose the Module and fill it with the best players you have
+      .description-item
+        .description-icon.description-icon4
+          = image_tag("icons/smile4.png")
+        .description-text Score goals, recieve bonuses and wint he League
+
+  .right-block
+    .pitch-layer
+    .player-layer
+      .player-image-wrapper
+        .player-image
+          = image_tag("player.png")
+
+-#.welcome-cover
+-#  .welcome-data.center
+-#    .text-block
+-#      %h1 MantraFootball
+-#      %h3 Fantasy Football Application
+-#    .buttons-block
+-#      = link_to 'Log In', new_user_session_path, class: 'btn btn-success'
+-#      -#= link_to 'Sign Up', new_user_registration_path, class: 'btn btn-success'

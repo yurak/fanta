@@ -1,76 +1,142 @@
-.welcome-cover {
+.welcome-page {
+  position:relative;
   height: 100%;
   width: 100%;
-  background: image_url('welcome2.jpg') no-repeat center;
-  background-size: cover;
-  background-color: #1f306e;
-  position: relative;
-}
+  background: #E5E5E5;
+  font-family: 'Mont SemiBold';
 
-.welcome-data {
-  position: absolute;
-  top: 50%;
-  margin-top: -150px;
-  color: white;
-  display: inline-block;
-  width: 100%;
-  background-color: rgba(12, 32, 151, 0.3);
-  height: 300px;
+  .left-block {
+    margin: 13% 35% 15% 12%;
+    width: 650px;
+    height: 66%;
+    display: grid;
+    grid-template-rows: 45% 18% 37%;
 
-  .text-block {
-    align-items: center;
-    height: 200px;
-    padding: auto;
-    h1 {
-      padding-top: 40px;
-      height: 120px;
-      font-size: 60px;
-    }
-    h3 {
-      padding-top: 10px;
-      height: 80px;
-      font-size: 40px;
-    }
-
-    @media screen and (max-width: 550px) {
-      h1 {
-        font-size: 40px;
+    .title-block {
+      .title-bg {
+        background: #FFEBC2;
+        margin-top: 10%;
+        height: 69%;
       }
-      h3 {
-        font-size: 24px;
+      .title-text {
+        font-style: normal;
+        font-weight: bold;
+        font-size: 128px;
+        line-height: 128px;
+        padding-left: 25px;
+        position: absolute;
+        width: 500px;
+        color: #261FFF;
+        font-family: 'Mont Bold';
       }
     }
-  }
-  .buttons-block {
-    height: 100px;
+    .slogan-block {
+      padding-left: 25px;
+      font-style: normal;
+      font-weight: normal;
+      font-size: 24px;
+      line-height: 32px;
+      color: #181715;
 
-    .btn {
-      margin: 30px 10px 0;
-      width: 130px;
+      .slogan-start {
+        display: inline-block;
+        font-weight: bold;
+      }
+
+      .slogan-end {
+        display: inline-block;
+      }
+    }
+    .description-block {
+      padding-left: 25px;
+      font-style: normal;
+      line-height: 24px;
+      color: #181715;
+
+      .description-title {
+        font-weight: bold;
+        font-size: 18px;
+        margin-bottom: 20px;
+      }
+      .description-item {
+        font-weight: normal;
+        line-height: 32px;
+        font-size: 16px;
+        margin-bottom: 8px;
+        display: grid;
+        grid-template-columns: 32px auto;
+        column-gap: 16px;
+
+        .description-icon {
+          width: 100%;
+          height: 100%;
+          border-radius:50%;
+          background: #FFEBC2;
+
+          img {
+            margin: auto 8px;
+          }
+        }
+
+        .description-icon2 {
+          background: #D0F0D4;
+        }
+
+        .description-icon3 {
+          background: #D8D6FF;
+
+          img {
+            margin: auto 10px;
+          }
+        }
+
+        .description-icon4 {
+          background: #EAC6FB;
+        }
+      }
     }
   }
-}
 
-.rules-header {
-  margin-bottom: 30px;
-}
+  .right-block {
+    background: #261FFF;
+    z-index: 10;
 
-.rules-block {
-  margin: 30px 50px;
-  text-align: justify;
-}
+    .pitch-layer {
+      width: 100%;
+      height: 100%;
+      z-index: 15;
+      opacity: 0.5;
+      box-sizing: border-box;
+      background: image_url('pitch.png') no-repeat left;
+    }
 
-@media screen and (max-device-width: 575px) {
-  .rules-block {
-    margin: 30px 20px;
-    text-align: justify;
-  }
-}
+    .player-layer {
+      z-index: 25;
+      width: 25%;
+      height: 100%;
+      position: absolute;
+      bottom: 0;
+      right: 10%;
 
-.rules-image {
-  width: 100%;
+      .player-image-wrapper {
+        width: 100%;
+        height: 83%;
+        position: absolute;
+        left: 0;
+        bottom: 0;
 
-  img {
-    max-width: 100%;
+        .player-image {
+          position: relative;
+          width: 100%;
+          height: 100%;
+          text-align: center;
+
+          img {
+            width: auto;
+            height: 100%;
+          }
+        }
+      }
+    }
   }
 }

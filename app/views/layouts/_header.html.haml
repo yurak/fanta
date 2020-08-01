@@ -1,0 +1,32 @@
+.header.header-grid
+  .left-header
+    .mantra-logo
+      = link_to root_path do
+        = image_tag("logo628.png")
+    .locale
+      .locale-btn
+        = link_to 'УКР', '#'
+      -# TODO: add links to change locales
+    - if unsigned?
+      .info-links
+        .info-links-item
+          = link_to 'Rules', '#'
+        .info-links-item
+          = link_to 'FAQ', '#'
+        .info-links-item
+          = link_to 'Contact Us', '#'
+    - else
+      .base-links
+        -# TODO: add base links
+  .right-header
+    - if unsigned?
+      .login-links
+        .login-link-item.login-link
+          = link_to 'Login', new_user_session_path
+        .login-link-item.start-leagues-link
+          = link_to 'Start league', '#'
+    - else
+      .next-round
+        -# TODO: add next round data
+      .user-data
+        -# TODO: add user data
