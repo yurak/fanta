@@ -1,13 +1,13 @@
 .footer
   .footer-block
     .footer-block-title Current tournaments
-    - @tournaments.each do |tournament|
+    - active_tournaments.each do |tournament|
       .footer-block-item
         -# TODO: add links to Tournament#show page
         = link_to '#', target: '_blank' do
           = image_tag(tournament.logo_path, alt: 'Tournament Logo')
   .footer-block
-    .footer-block-title Connect
+    .footer-block-title Contact
     .footer-block-item.social-media-item
       = link_to 'https://www.instagram.com/mantrafootball', target: '_blank' do
         = image_tag('social_media/insta.png')

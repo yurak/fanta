@@ -17,13 +17,17 @@ module ApplicationHelper
     end
   end
 
-  def unsigned?
-    params[:controller] == 'welcome' && params[:action] == 'index'
+  def welcome_controller?
+    params[:controller] == 'welcome' || params[:controller] == 'devise/sessions'
   end
 
   # TODO: old def, remove after new UI implementation
   def hide_navbar?
-    params[:controller] == 'welcome' && params[:action] == 'index'
+    params[:controller] == 'welcome' || params[:controller] == 'devise/sessions' # && params[:action] == 'index'
+  end
+
+  def active_tournaments
+    Tournament.with_clubs
   end
 
   def tour_status_class(status)

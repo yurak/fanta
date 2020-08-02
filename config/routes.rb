@@ -2,10 +2,14 @@ Rails.application.routes.draw do
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   devise_for :users
 
-  root to: "welcome#index"
+  root to: 'welcome#index'
 
   resource :welcome, only: [:index]
-  get 'rules', to: 'welcome#rules'
+  get 'about',    to: 'welcome#about'
+  get 'contact',  to: 'welcome#contact'
+  get 'guide',    to: 'welcome#guide'
+  get 'rules',    to: 'welcome#rules'
+  get 'start',    to: 'welcome#start'
 
   resources :leagues, only: [:index] do
     get :tours, to: 'tours#index'

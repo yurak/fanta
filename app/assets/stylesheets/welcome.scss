@@ -1,16 +1,15 @@
-.welcome-page {
+.welcome-page, .start-page, .about-page, .contact-page, .rules-page, .guide-page, .login-page {
   position:relative;
   height: 100%;
   width: 100%;
-  background: #E5E5E5;
   font-family: 'Mont SemiBold';
 
   .left-block {
     margin: 13% 35% 15% 12%;
-    width: 650px;
-    height: 66%;
+    width: 700px;
+    height: 75%;
     display: grid;
-    grid-template-rows: 45% 18% 37%;
+    grid-template-rows: 40% 15% 45%;
 
     .title-block {
       .title-bg {
@@ -98,6 +97,10 @@
   }
 
   .right-block {
+    position: fixed;
+    width: 25%;
+    height: 100%;
+    right: 0;
     background: #261FFF;
     z-index: 10;
 
@@ -112,11 +115,11 @@
 
     .player-layer {
       z-index: 25;
-      width: 25%;
+      width: 100%;
       height: 100%;
       position: absolute;
       bottom: 0;
-      right: 10%;
+      right: 40%;
 
       .player-image-wrapper {
         width: 100%;
@@ -139,4 +142,123 @@
       }
     }
   }
+}
+
+.start-page, .rules-page {
+  .right-block .player-layer {
+    right: 68%;
+  }
+}
+
+.guide-page {
+  .right-block .player-layer {
+    right: 63%;
+  }
+}
+
+.welcome-subpage {
+  .left-block {
+    grid-template-rows: 20% 80%;
+
+    .title-block {
+      .title-bg {
+        background: #D0F0D4;
+        margin-top: 3%;
+        height: 50%;
+      }
+
+      .title-text {
+        font-size: 72px;
+        line-height: 72px;
+        padding-left: 25px;
+        color: #261FFF;
+      }
+    }
+  }
+}
+
+.contact-page {
+  .left-block {
+    grid-template-rows: 20% 15% 15% 50%;
+
+    img {
+      width: 50px;
+      height: 50px;
+    }
+
+    .contact-block {
+      display: grid;
+      grid-template-columns: 65% auto;
+      padding: 0 150px;
+      font-size: 24px;
+      line-height: 50px;
+      color: #181715;
+
+      .contact-text {
+        width: 100%;
+        margin: auto;
+        text-align: left;
+        padding-left: 58px;
+      }
+
+      .social-media-link {
+        margin: auto auto auto 20px;
+      }
+    }
+
+    .follow-block {
+      padding: 40px 150px;
+      display: grid;
+      grid-template-rows: 50px auto;
+      font-size: 24px;
+      line-height: 50px;
+      color: #181715;
+
+      .follow-title {
+        width: 100%;
+        margin: auto;
+        padding-left: 58px;
+      }
+
+      .follow-links {
+        margin: 0 auto auto auto;
+        line-height: 100px;
+      }
+
+      .social-media-link {
+        display: inline-block;
+        padding: 0 20px;
+      }
+    }
+  }
+  .right-block .player-layer {
+    right: 68%;
+  }
+}
+
+.about-page {
+  .left-block {
+    .about-block {
+      font-size: 22px;
+      line-height: 32px;
+      color: #181715;
+
+      .about-item {
+        padding: 24px 100px 0 25px;
+      }
+
+      .join-us {
+        font-size: 26px;
+        font-weight: bolder;
+      }
+    }
+  }
+
+  .right-block .player-layer {
+    right: 63%;
+  }
+}
+
+.login-page .login-block {
+  padding: 50px 25px;
 }

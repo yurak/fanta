@@ -1,0 +1,34 @@
+.contact-page.welcome-subpage.header-grid
+  .left-block
+    .title-block
+      .title-text Contact Us
+      .title-bg
+    .contact-block
+      .contact-text Join chat
+      .social-media-link
+        = link_to 'https://t.me/mantrafootballorg', target: '_blank' do
+          = image_tag('social_media/tg_col.png')
+    .contact-block
+      .contact-text Ask questions
+      .social-media-link
+        = mail_to 'mantrafootball.info@gmail.com', target: '_blank' do
+          = image_tag('social_media/gmail_col.png')
+    .follow-block
+      .follow-title Follow public channels
+      .follow-links
+        .social-media-link
+          = link_to 'https://www.instagram.com/mantrafootball', target: '_blank' do
+            = image_tag('social_media/insta_col.png')
+        .social-media-link
+          = link_to 'https://t.me/mantrafootball', target: '_blank' do
+            = image_tag('social_media/tg_col.png')
+        .social-media-link
+          = link_to 'https://www.facebook.com/mantrafootball', target: '_blank' do
+            = image_tag('social_media/fb_col.png')
+
+  .right-block
+    .pitch-layer
+    .player-layer
+      .player-image-wrapper
+        .player-image
+          = image_tag("welcome_persons/dybala.png")

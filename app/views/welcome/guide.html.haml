@@ -1,0 +1,36 @@
+.guide-page.header-grid
+  .left-block
+    .page-info
+      %ul.nav.nav-tabs.nav-fill
+        %li.nav-item
+          %a{"data-toggle" => "tab", href: "#rules-auction", class: 'nav-link active'} Формування складів
+
+        %li.nav-item
+          %a{"data-toggle" => "tab", href: "#rules-modules", class: 'nav-link'} Модулі
+
+        %li.nav-item
+          %a{"data-toggle" => "tab", href: "#rules-players", class: 'nav-link'} Параметри гравців
+
+        %li.nav-item
+          %a{"data-toggle" => "tab", href: "#rules-results", class: 'nav-link'} Розрахунок результатів
+
+        %li.nav-item
+          %a{"data-toggle" => "tab", href: "#rules-prizes", class: 'nav-link'} Вартість
+
+        %li.nav-item
+          %a{"data-toggle" => "tab", href: "#rules-faqs", class: 'nav-link'} FAQs
+
+      .tab-content
+        = render 'welcome/rules/auction'
+        = render 'welcome/rules/modules'
+        = render 'welcome/rules/players'
+        = render 'welcome/rules/results'
+        = render 'welcome/rules/prizes'
+        = render 'welcome/rules/faqs'
+  .right-block
+    .pitch-layer
+    .player-layer
+      .player-image-wrapper
+        .player-image
+          = image_tag("welcome_persons/pep.png")
+

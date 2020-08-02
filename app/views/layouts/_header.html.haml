@@ -7,24 +7,33 @@
       .locale-btn
         = link_to 'УКР', '#'
       -# TODO: add links to change locales
-    - if unsigned?
+    - if welcome_controller?
       .info-links
         .info-links-item
-          = link_to 'Rules', '#'
+          = link_to 'Rules', rules_path
         .info-links-item
-          = link_to 'FAQ', '#'
+          = link_to 'Guide', guide_path
         .info-links-item
-          = link_to 'Contact Us', '#'
+          = link_to 'About', about_path
+        .info-links-item
+          = link_to 'Contact', contact_path
     - else
+      -# TODO: add base links
       .base-links
-        -# TODO: add base links
+        .base-link-item
+          = link_to 'Rules', '#'
   .right-header
-    - if unsigned?
-      .login-links
-        .login-link-item.login-link
-          = link_to 'Login', new_user_session_path
-        .login-link-item.start-leagues-link
-          = link_to 'Start league', '#'
+    - if welcome_controller?
+      - if user_signed_in?
+        .login-links
+          .login-link-item.logout-link
+            = link_to 'Log Out', destroy_user_session_path, method: :delete
+      - else
+        .login-links
+          .login-link-item.login-link
+            = link_to 'Login', new_user_session_path
+          .login-link-item.start-leagues-link
+            = link_to 'Start league', start_path
     - else
       .next-round
         -# TODO: add next round data

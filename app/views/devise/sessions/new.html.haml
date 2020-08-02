@@ -1,22 +1,30 @@
-.page-header
-  .page-header-icon
-    = image_tag('navbar/squad.png')
-  .page-header-title
-    = t('.sign_in')
+.login-page.welcome-subpage.header-grid
+  .left-block
+    .title-block
+      .title-text= t('.sign_in')
+      .title-bg
+    .login-block
+      = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
+        .form-group
+          = f.label :email
+          = f.email_field :email, autofocus: true, autocomplete: 'email', class: 'form-control'
+        .form-group
+          = f.label :password
+          = f.password_field :password, autocomplete: 'current-password', class: 'form-control'
+        - if devise_mapping.rememberable?
+          .form-group.form-check
+            = f.check_box :remember_me, class: 'form-check-input'
+            = f.label :remember_me, class: 'form-check-label' do
+              = resource.class.human_attribute_name('remember_me')
+        .form-group
+          = f.submit  t('.sign_in'), class: 'btn btn-primary'
+  .right-block
+    .pitch-layer
+    .player-layer
+      .player-image-wrapper
+        .player-image
+          = image_tag("welcome_persons/donnarumma.png")
 
-.page-info
-  = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
-    .form-group
-      = f.label :email
-      = f.email_field :email, autofocus: true, autocomplete: 'email', class: 'form-control'
-    .form-group
-      = f.label :password
-      = f.password_field :password, autocomplete: 'current-password', class: 'form-control'
-    - if devise_mapping.rememberable?
-      .form-group.form-check
-        = f.check_box :remember_me, class: 'form-check-input'
-        = f.label :remember_me, class: 'form-check-label' do
-          = resource.class.human_attribute_name('remember_me')
-    .form-group
-      = f.submit  t('.sign_in'), class: 'btn btn-primary'
-  = render 'devise/shared/links'
+
+
+
