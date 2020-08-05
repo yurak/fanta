@@ -17,13 +17,13 @@ module ApplicationHelper
     end
   end
 
-  def welcome_controller?
-    params[:controller] == 'welcome' || params[:controller] == 'devise/sessions'
+  def external_actions?
+    %w[welcome devise/sessions join_requests].include?(params[:controller])
   end
 
   # TODO: old def, remove after new UI implementation
   def hide_navbar?
-    params[:controller] == 'welcome' || params[:controller] == 'devise/sessions' # && params[:action] == 'index'
+    external_actions?
   end
 
   def active_tournaments

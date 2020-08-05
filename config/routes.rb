@@ -9,7 +9,10 @@ Rails.application.routes.draw do
   get 'contact',  to: 'welcome#contact'
   get 'guide',    to: 'welcome#guide'
   get 'rules',    to: 'welcome#rules'
-  get 'start',    to: 'welcome#start'
+
+  resources :join_requests, only: [:new, :create] do
+    get :success_request
+  end
 
   resources :leagues, only: [:index] do
     get :tours, to: 'tours#index'

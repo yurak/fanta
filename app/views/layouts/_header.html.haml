@@ -7,7 +7,7 @@
       .locale-btn
         = link_to 'УКР', '#'
       -# TODO: add links to change locales
-    - if welcome_controller?
+    - if external_actions?
       .info-links
         .info-links-item
           = link_to 'Rules', rules_path
@@ -23,7 +23,7 @@
         .base-link-item
           = link_to 'Rules', '#'
   .right-header
-    - if welcome_controller?
+    - if external_actions?
       - if user_signed_in?
         .login-links
           .login-link-item.logout-link
@@ -33,7 +33,7 @@
           .login-link-item.login-link
             = link_to 'Login', new_user_session_path
           .login-link-item.start-leagues-link
-            = link_to 'Start league', start_path
+            = link_to 'Start game', new_join_request_path
     - else
       .next-round
         -# TODO: add next round data

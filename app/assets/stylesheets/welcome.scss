@@ -144,10 +144,8 @@
   }
 }
 
-.start-page, .rules-page {
-  .right-block .player-layer {
-    right: 68%;
-  }
+.rules-page .right-block .player-layer {
+  right: 68%;
 }
 
 .guide-page {
@@ -261,4 +259,26 @@
 
 .login-page .login-block {
   padding: 50px 25px;
+}
+
+.start-page {
+  .left-block {
+    grid-template-rows: 20% 80%;
+
+    .title-block {
+      .title-bg {
+        margin-top: 4%;
+        height: 35%;
+      }
+
+      .title-text {
+        font-size: 50px;
+        padding-left: 25px;
+      }
+    }
+  }
+
+  .right-block .player-layer {
+    right: 68%;
+  }
 }
