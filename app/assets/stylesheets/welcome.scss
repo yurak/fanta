@@ -1,15 +1,15 @@
-.welcome-page, .start-page, .about-page, .contact-page, .rules-page, .guide-page, .login-page {
+.welcome-page, .start-page, .about-page, .contact-page, .rules-page, .guide-page, .login-page, .success-page {
   position:relative;
   height: 100%;
   width: 100%;
   font-family: 'Mont SemiBold';
 
   .left-block {
-    margin: 13% 35% 15% 12%;
+    margin: 120px 35% 100px 12%;
     width: 700px;
     height: 75%;
     display: grid;
-    grid-template-rows: 40% 15% 45%;
+    grid-template-rows: 42% 15% 43%;
 
     .title-block {
       .title-bg {
@@ -119,38 +119,33 @@
       height: 100%;
       position: absolute;
       bottom: 0;
-      right: 40%;
 
       .player-image-wrapper {
         width: 100%;
         height: 83%;
         position: absolute;
-        left: 0;
+        left: -100%;
         bottom: 0;
 
         .player-image {
           position: relative;
-          width: 100%;
+          width: 200%;
           height: 100%;
           text-align: center;
+          overflow: hidden;
 
           img {
-            width: auto;
             height: 100%;
+            position: absolute;
+            top: -9999px;
+            bottom: -9999px;
+            left: -9999px;
+            right: -9999px;
+            margin: auto;
           }
         }
       }
     }
-  }
-}
-
-.rules-page .right-block .player-layer {
-  right: 68%;
-}
-
-.guide-page {
-  .right-block .player-layer {
-    right: 63%;
   }
 }
 
@@ -171,6 +166,120 @@
         padding-left: 25px;
         color: #261FFF;
       }
+    }
+  }
+}
+
+.about-page {
+  .left-block {
+    .about-block {
+      font-size: 22px;
+      line-height: 32px;
+      color: #181715;
+
+      .about-item {
+        padding: 24px 100px 0 25px;
+      }
+
+      .join-us {
+        font-size: 26px;
+        font-weight: bolder;
+      }
+    }
+  }
+}
+
+.start-page {
+  .left-block {
+    grid-template-rows: 15% auto;
+    width: 650px;
+
+    .title-block {
+      .title-bg {
+        margin-top: 4%;
+        height: 45%;
+      }
+
+      .title-text {
+        font-size: 50px;
+        padding-left: 25px;
+      }
+    }
+
+    .form-block {
+      padding-right: 70px;
+
+      .error-item {
+        font-weight: normal;
+        line-height: 24px;
+        font-size: 16px;
+        display: grid;
+        grid-template-columns: 24px auto;
+        column-gap: 16px;
+        margin: 10px 25px;
+        color: #ff0000;
+
+        .error-icon {
+          width: 100%;
+          height: 100%;
+
+          img {
+            width: 24px;
+            height: 24px;
+          }
+        }
+      }
+
+      .form-item {
+        margin: 10px 25px;
+      }
+
+      .form-checkbox-block {
+        margin: 5px 0 0 10px;
+        display: grid;
+        grid-template-columns: 15px 50px auto;
+        line-height: 32px;
+
+        .form-checkbox-icon {
+          margin: auto;
+
+          img {
+            width: 32px;
+            height: 32px;
+          }
+        }
+      }
+
+      .form-item.form-btn {
+        margin-top: 24px;
+      }
+    }
+  }
+}
+
+.contact-page, .success-page {
+  .left-block .follow-block {
+    padding: 40px 150px;
+    display: grid;
+    grid-template-rows: 50px auto;
+    font-size: 24px;
+    line-height: 50px;
+    color: #181715;
+
+    .follow-title {
+      width: 100%;
+      margin: auto;
+      padding-left: 58px;
+    }
+
+    .follow-links {
+      margin: 0 auto auto auto;
+      line-height: 100px;
+    }
+
+    .social-media-link {
+      display: inline-block;
+      padding: 0 20px;
     }
   }
 }
@@ -203,57 +312,70 @@
         margin: auto auto auto 20px;
       }
     }
-
-    .follow-block {
-      padding: 40px 150px;
-      display: grid;
-      grid-template-rows: 50px auto;
-      font-size: 24px;
-      line-height: 50px;
-      color: #181715;
-
-      .follow-title {
-        width: 100%;
-        margin: auto;
-        padding-left: 58px;
-      }
-
-      .follow-links {
-        margin: 0 auto auto auto;
-        line-height: 100px;
-      }
-
-      .social-media-link {
-        display: inline-block;
-        padding: 0 20px;
-      }
-    }
-  }
-  .right-block .player-layer {
-    right: 68%;
   }
 }
 
-.about-page {
+.success-page {
   .left-block {
-    .about-block {
-      font-size: 22px;
-      line-height: 32px;
-      color: #181715;
+    grid-template-rows: 15% 40% 45%;
 
-      .about-item {
-        padding: 24px 100px 0 25px;
+    .title-block {
+      .title-bg {
+        margin-top: 4%;
+        height: 45%;
       }
 
-      .join-us {
-        font-size: 26px;
+      .title-text {
+        font-size: 50px;
+      }
+    }
+
+    .success-block {
+      padding-top: 75px;
+      padding-left: 25px;
+      font-size: 24px;
+      line-height: 50px;
+    }
+
+    img {
+      width: 50px;
+      height: 50px;
+    }
+  }
+}
+
+.rules-page {
+  .left-block {
+    grid-template-rows: 130px auto;
+  }
+
+  .rules-block {
+    padding: 0 75px 70px 25px;
+
+    .rules-item {
+      padding-bottom: 20px;
+
+      .rules-title {
+        font-size: 24px;
+        line-height: 40px;
         font-weight: bolder;
+      }
+      .rules-subtitle {
+        font-size: 20px;
+        line-height: 28px;
+        font-weight: bolder;
+      }
+      .rules-description {
+        font-size: 16px;
+        line-height: 24px;
       }
     }
   }
+}
 
-  .right-block .player-layer {
-    right: 63%;
+.guide-page {
+  .left-block {
+    grid-template-rows: 130px auto;
   }
 }
 
@@ -261,24 +383,6 @@
   padding: 50px 25px;
 }
 
-.start-page {
-  .left-block {
-    grid-template-rows: 20% 80%;
-
-    .title-block {
-      .title-bg {
-        margin-top: 4%;
-        height: 35%;
-      }
-
-      .title-text {
-        font-size: 50px;
-        padding-left: 25px;
-      }
-    }
-  }
-
-  .right-block .player-layer {
-    right: 68%;
-  }
+.welcome-btn-form {
+  background-color: #261FFF;
 }

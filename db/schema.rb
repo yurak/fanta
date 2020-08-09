@@ -32,11 +32,9 @@ ActiveRecord::Schema.define(version: 2020_08_03_185027) do
 
   create_table "join_requests", force: :cascade do |t|
     t.string "username", default: "", null: false
-    t.string "team_name"
     t.string "contact", default: "", null: false
     t.string "email"
     t.string "leagues"
-    t.string "friends_contacts"
     t.integer "status", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

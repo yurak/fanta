@@ -5,10 +5,10 @@
       .title-bg
     .login-block
       = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
-        .form-group
+        .form-group.text-input
           = f.label :email
           = f.email_field :email, autofocus: true, autocomplete: 'email', class: 'form-control'
-        .form-group
+        .form-group.text-input
           = f.label :password
           = f.password_field :password, autocomplete: 'current-password', class: 'form-control'
         - if devise_mapping.rememberable?
@@ -17,13 +17,13 @@
             = f.label :remember_me, class: 'form-check-label' do
               = resource.class.human_attribute_name('remember_me')
         .form-group
-          = f.submit  t('.sign_in'), class: 'btn btn-primary'
+          = f.submit  t('.sign_in'), class: 'btn btn-primary welcome-btn-form'
   .right-block
     .pitch-layer
     .player-layer
       .player-image-wrapper
         .player-image
-          = image_tag("welcome_persons/donnarumma.png")
+          = image_tag(random_player_img_path)
 
 
 

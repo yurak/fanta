@@ -10,9 +10,8 @@ Rails.application.routes.draw do
   get 'guide',    to: 'welcome#guide'
   get 'rules',    to: 'welcome#rules'
 
-  resources :join_requests, only: [:new, :create] do
-    get :success_request
-  end
+  resources :join_requests, only: [:new, :create]
+  get :success_request, to: 'join_requests#success_request'
 
   resources :leagues, only: [:index] do
     get :tours, to: 'tours#index'

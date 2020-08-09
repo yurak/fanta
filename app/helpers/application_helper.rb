@@ -1,4 +1,21 @@
 module ApplicationHelper
+  def external_actions?
+    %w[welcome devise/sessions join_requests].include?(params[:controller])
+  end
+
+  # TODO: old def, remove after new UI implementation
+  def hide_navbar?
+    external_actions?
+  end
+
+  def all_tournaments
+    Tournament.all
+  end
+
+  def active_tournaments
+    Tournament.with_clubs
+  end
+
   def flash_class(level)
     case level
     when 'notice' then 'alert alert-info'
@@ -15,19 +32,6 @@ module ApplicationHelper
     when 'disqualified' then "#{element}-secondary"
     when 'problematic' then "#{element}-warning"
     end
-  end
-
-  def external_actions?
-    %w[welcome devise/sessions join_requests].include?(params[:controller])
-  end
-
-  # TODO: old def, remove after new UI implementation
-  def hide_navbar?
-    external_actions?
-  end
-
-  def active_tournaments
-    Tournament.with_clubs
   end
 
   def tour_status_class(status)
@@ -59,5 +63,10 @@ module ApplicationHelper
     else
       'absent-score'
     end
+  end
+
+  def random_player_img_path
+    player = %w[donnarumma duvan dybala ibra maguire malina virgil yarmola].sample
+    "welcome_persons/#{player}.png"
   end
 end
