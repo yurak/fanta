@@ -26,7 +26,7 @@ gem 'rails-i18n', '~> 5.1'
 gem 'rest-client'
 gem 'mini_racer'
 
-gem 'chartkick', '3.3.0'
+gem 'chartkick', '3.4.0'
 
 gem 'active_model_serializers', '~> 0.10.0'
 gem 'dotenv-rails', require: 'dotenv/rails-now'
