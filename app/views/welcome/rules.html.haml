@@ -1,33 +1,35 @@
-.page-header
-  .page-header-icon
-    = image_tag('navbar/news.png')
-  .page-header-title
-    = 'MantraFootball Rules'
-.page-info
-
-  %ul.nav.nav-tabs.nav-fill
-    %li.nav-item
-      %a{"data-toggle" => "tab", href: "#rules-auction", class: 'nav-link active'} Формування складів
-
-    %li.nav-item
-      %a{"data-toggle" => "tab", href: "#rules-modules", class: 'nav-link'} Модулі
-
-    %li.nav-item
-      %a{"data-toggle" => "tab", href: "#rules-players", class: 'nav-link'} Параметри гравців
-
-    %li.nav-item
-      %a{"data-toggle" => "tab", href: "#rules-results", class: 'nav-link'} Розрахунок результатів
-
-    %li.nav-item
-      %a{"data-toggle" => "tab", href: "#rules-prizes", class: 'nav-link'} Вартість
-
-    %li.nav-item
-      %a{"data-toggle" => "tab", href: "#rules-faqs", class: 'nav-link'} FAQs
-
-  .tab-content
-    = render 'welcome/rules/auction'
-    = render 'welcome/rules/modules'
-    = render 'welcome/rules/players'
-    = render 'welcome/rules/results'
-    = render 'welcome/rules/prizes'
-    = render 'welcome/rules/faqs'
+.rules-page.header-grid.welcome-subpage
+  .left-block
+    .title-block
+      .title-text= t('welcome.rules.game_rules')
+      .title-bg
+    .rules-block
+      .rules-item
+        .rules-subtitle= t('welcome.rules.subtitle01')
+        .rules-subtitle= t('welcome.rules.subtitle02')
+      .rules-item
+        .rules-title= t('welcome.rules.title1')
+        .rules-subtitle= t('welcome.rules.subtitle1')
+        .rules-description= t('welcome.rules.description1')
+      .rules-item
+        .rules-title= t('welcome.rules.title2')
+        .rules-subtitle= t('welcome.rules.subtitle2')
+        .rules-description= t('welcome.rules.description2')
+      .rules-item
+        .rules-title= t('welcome.rules.title3')
+        .rules-subtitle= t('welcome.rules.subtitle3')
+        .rules-description= t('welcome.rules.description3')
+      .rules-item
+        .rules-title= t('welcome.rules.title4')
+        .rules-subtitle= t('welcome.rules.subtitle4')
+        .rules-description= t('welcome.rules.description4')
+      .rules-item
+        .rules-title= t('welcome.rules.title5')
+        .rules-subtitle= t('welcome.rules.subtitle5')
+        .rules-description= t('welcome.rules.description5')
+  .right-block
+    .pitch-layer
+    .player-layer
+      .player-image-wrapper
+        .player-image
+          = image_tag('welcome_persons/dean.png')

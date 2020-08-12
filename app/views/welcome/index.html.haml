@@ -1,8 +1,40 @@
-.welcome-cover
-  .welcome-data.center
-    .text-block
-      %h1 MantraFootball
-      %h3 Fantasy Football Application
-    .buttons-block
-      = link_to 'Log In', new_user_session_path, class: 'btn btn-success'
-      -#= link_to 'Sign Up', new_user_registration_path, class: 'btn btn-success'
+.welcome-page.header-grid
+  .left-block
+    .title-block
+      .title-text Mantra Football
+      .title-bg
+    .slogan-block
+      .slogan-start
+        = t('welcome.index.slogan1')
+      .slogan-end
+        = t('welcome.index.slogan2')
+    .description-block
+      .description-title
+        = t('welcome.index.description_title')
+      .description-item
+        .description-icon
+          = image_tag("icons/smile1.png")
+        .description-text
+          = t('welcome.index.description1')
+      .description-item
+        .description-icon.description-icon2
+          = image_tag("icons/smile2.png")
+        .description-text
+          = t('welcome.index.description2')
+      .description-item
+        .description-icon.description-icon3
+          = image_tag("icons/smile3.png")
+        .description-text
+          = t('welcome.index.description3')
+      .description-item
+        .description-icon.description-icon4
+          = image_tag("icons/smile4.png")
+        .description-text
+          = t('welcome.index.description4')
+
+  .right-block
+    .pitch-layer
+    .player-layer
+      .player-image-wrapper
+        .player-image
+          = image_tag('welcome_persons/ciro.png')
