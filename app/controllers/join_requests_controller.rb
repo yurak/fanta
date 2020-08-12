@@ -21,6 +21,6 @@ class JoinRequestsController < ApplicationController
   private
 
   def join_request_params
-    params.require(:join_request).permit(:username, :contact, :email, {:leagues => []})
+    params.require(:join_request).permit(:username, :contact, :email, { leagues: [] })
   end
 end
