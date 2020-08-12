@@ -1,0 +1,41 @@
+.header.header-grid
+  .left-header
+    .mantra-logo
+      = link_to root_path do
+        = image_tag("logo628.png")
+    .locale
+      .locale-btn
+        = link_to 'УКР', '?locale=ua' if I18n.locale == :en
+        = link_to 'ENG', '?locale=en' if I18n.locale == :ua
+    - if external_actions?
+      .info-links
+        .info-links-item
+          = link_to t('header.rules'), rules_path
+        .info-links-item
+          = link_to t('header.guide'), guide_path
+        .info-links-item
+          = link_to t('header.about'), about_path
+        .info-links-item
+          = link_to t('header.contact'), contact_path
+    - else
+      -# TODO: add base links
+      .base-links
+        .base-link-item
+          = link_to t('header.rules'), '#'
+  .right-header
+    - if external_actions?
+      - if user_signed_in?
+        .login-links
+          .login-link-item.logout-link
+            = link_to t('header.logout'), destroy_user_session_path, method: :delete
+      - else
+        .login-links
+          .login-link-item.login-link
+            = link_to t('header.login'), new_user_session_path
+          .login-link-item.start-leagues-link
+            = link_to t('header.start'), new_join_request_path
+    - else
+      .next-round
+        -# TODO: add next round data
+      .user-data
+        -# TODO: add user data

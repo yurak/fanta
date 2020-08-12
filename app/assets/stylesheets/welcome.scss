@@ -1,76 +1,390 @@
-.welcome-cover {
+.welcome-page, .start-page, .about-page, .contact-page, .rules-page, .guide-page, .login-page, .success-page {
+  position:relative;
   height: 100%;
   width: 100%;
-  background: image_url('welcome2.jpg') no-repeat center;
-  background-size: cover;
-  background-color: #1f306e;
-  position: relative;
-}
+  font-family: 'Mont SemiBold';
 
-.welcome-data {
-  position: absolute;
-  top: 50%;
-  margin-top: -150px;
-  color: white;
-  display: inline-block;
-  width: 100%;
-  background-color: rgba(12, 32, 151, 0.3);
-  height: 300px;
+  .left-block {
+    margin: 120px 35% 100px 12%;
+    width: 700px;
+    height: 75%;
+    display: grid;
+    grid-template-rows: 42% 15% 43%;
 
-  .text-block {
-    align-items: center;
-    height: 200px;
-    padding: auto;
-    h1 {
-      padding-top: 40px;
-      height: 120px;
-      font-size: 60px;
-    }
-    h3 {
-      padding-top: 10px;
-      height: 80px;
-      font-size: 40px;
-    }
-
-    @media screen and (max-width: 550px) {
-      h1 {
-        font-size: 40px;
+    .title-block {
+      .title-bg {
+        background: #FFEBC2;
+        margin-top: 10%;
+        height: 69%;
       }
-      h3 {
-        font-size: 24px;
+      .title-text {
+        font-style: normal;
+        font-weight: bold;
+        font-size: 128px;
+        line-height: 128px;
+        padding-left: 25px;
+        position: absolute;
+        width: 500px;
+        color: #261FFF;
+        font-family: 'Mont Bold';
+      }
+    }
+    .slogan-block {
+      padding-left: 25px;
+      font-style: normal;
+      font-weight: normal;
+      font-size: 24px;
+      line-height: 32px;
+      color: #181715;
+
+      .slogan-start {
+        display: inline-block;
+        font-weight: bold;
+      }
+
+      .slogan-end {
+        display: inline-block;
+      }
+    }
+    .description-block {
+      padding-left: 25px;
+      font-style: normal;
+      line-height: 24px;
+      color: #181715;
+
+      .description-title {
+        font-weight: bold;
+        font-size: 18px;
+        margin-bottom: 20px;
+      }
+      .description-item {
+        font-weight: normal;
+        line-height: 32px;
+        font-size: 16px;
+        margin-bottom: 8px;
+        display: grid;
+        grid-template-columns: 32px auto;
+        column-gap: 16px;
+
+        .description-icon {
+          width: 100%;
+          height: 100%;
+          border-radius:50%;
+          background: #FFEBC2;
+
+          img {
+            margin: auto 8px;
+          }
+        }
+
+        .description-icon2 {
+          background: #D0F0D4;
+        }
+
+        .description-icon3 {
+          background: #D8D6FF;
+
+          img {
+            margin: auto 10px;
+          }
+        }
+
+        .description-icon4 {
+          background: #EAC6FB;
+        }
       }
     }
   }
-  .buttons-block {
-    height: 100px;
 
-    .btn {
-      margin: 30px 10px 0;
-      width: 130px;
+  .right-block {
+    position: fixed;
+    width: 25%;
+    height: 100%;
+    right: 0;
+    background: #261FFF;
+    z-index: 10;
+
+    .pitch-layer {
+      width: 100%;
+      height: 100%;
+      z-index: 15;
+      opacity: 0.5;
+      box-sizing: border-box;
+      background: image_url('pitch.png') no-repeat left;
+    }
+
+    .player-layer {
+      z-index: 25;
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      bottom: 0;
+
+      .player-image-wrapper {
+        width: 100%;
+        height: 83%;
+        position: absolute;
+        left: -100%;
+        bottom: 0;
+
+        .player-image {
+          position: relative;
+          width: 200%;
+          height: 100%;
+          text-align: center;
+          overflow: hidden;
+
+          img {
+            height: 100%;
+            position: absolute;
+            top: -9999px;
+            bottom: -9999px;
+            left: -9999px;
+            right: -9999px;
+            margin: auto;
+          }
+        }
+      }
     }
   }
 }
 
-.rules-header {
-  margin-bottom: 30px;
+.welcome-subpage {
+  .left-block {
+    grid-template-rows: 20% 80%;
+
+    .title-block {
+      .title-bg {
+        background: #D0F0D4;
+        margin-top: 3%;
+        height: 50%;
+      }
+
+      .title-text {
+        font-size: 72px;
+        line-height: 72px;
+        padding-left: 25px;
+        color: #261FFF;
+        width: 550px;
+      }
+    }
+  }
 }
 
-.rules-block {
-  margin: 30px 50px;
-  text-align: justify;
+.about-page {
+  .left-block {
+    .about-block {
+      font-size: 22px;
+      line-height: 32px;
+      color: #181715;
+
+      .about-item {
+        padding: 24px 100px 0 25px;
+      }
+
+      .join-us {
+        font-size: 26px;
+        font-weight: bolder;
+      }
+    }
+  }
 }
 
-@media screen and (max-device-width: 575px) {
+.start-page {
+  .left-block {
+    grid-template-rows: 100px auto;
+    width: 650px;
+
+    .title-block {
+      .title-bg {
+        margin-top: 4%;
+        height: 45%;
+      }
+
+      .title-text {
+        font-size: 50px;
+        padding-left: 25px;
+      }
+    }
+
+    .form-block {
+      padding-right: 70px;
+      padding-bottom: 70px;
+
+      .error-item {
+        font-weight: normal;
+        line-height: 24px;
+        font-size: 16px;
+        display: grid;
+        grid-template-columns: 24px auto;
+        column-gap: 16px;
+        margin: 10px 25px;
+        color: #ff0000;
+
+        .error-icon {
+          width: 100%;
+          height: 100%;
+
+          img {
+            width: 24px;
+            height: 24px;
+          }
+        }
+      }
+
+      .form-item {
+        margin: 10px 25px;
+      }
+
+      .form-checkbox-block {
+        margin: 5px 0 0 10px;
+        display: grid;
+        grid-template-columns: 15px 50px auto;
+        line-height: 32px;
+
+        .form-checkbox-icon {
+          margin: auto;
+
+          img {
+            width: 32px;
+            height: 32px;
+          }
+        }
+      }
+
+      .form-item.form-btn {
+        margin-top: 24px;
+      }
+    }
+  }
+}
+
+.contact-page, .success-page {
+  .left-block .follow-block {
+    padding: 40px 150px;
+    display: grid;
+    grid-template-rows: 50px auto;
+    font-size: 24px;
+    line-height: 50px;
+    color: #181715;
+
+    .follow-title {
+      width: 100%;
+      margin: auto;
+      text-align: center;
+    }
+
+    .follow-links {
+      margin: 0 auto auto auto;
+      line-height: 100px;
+    }
+
+    .social-media-link {
+      display: inline-block;
+      padding: 0 20px;
+    }
+  }
+}
+
+.contact-page {
+  .left-block {
+    grid-template-rows: 20% 15% 15% 50%;
+
+    img {
+      width: 50px;
+      height: 50px;
+    }
+
+    .contact-block {
+      display: grid;
+      grid-template-columns: 65% auto;
+      padding: 0 150px;
+      font-size: 24px;
+      line-height: 50px;
+      color: #181715;
+
+      .contact-text {
+        width: 100%;
+        margin: auto;
+        text-align: left;
+        padding-left: 58px;
+      }
+
+      .social-media-link {
+        margin: auto auto auto 20px;
+      }
+    }
+  }
+}
+
+.success-page {
+  .left-block {
+    grid-template-rows: 15% 40% 45%;
+
+    .title-block {
+      .title-bg {
+        margin-top: 4%;
+        height: 45%;
+      }
+
+      .title-text {
+        font-size: 50px;
+      }
+    }
+
+    .success-block {
+      padding-top: 75px;
+      padding-left: 25px;
+      font-size: 24px;
+      line-height: 50px;
+    }
+
+    img {
+      width: 50px;
+      height: 50px;
+    }
+  }
+}
+
+.rules-page {
+  .left-block {
+    grid-template-rows: 130px auto;
+  }
+
   .rules-block {
-    margin: 30px 20px;
-    text-align: justify;
+    padding: 0 75px 70px 25px;
+
+    .rules-item {
+      padding-bottom: 20px;
+
+      .rules-title {
+        font-size: 24px;
+        line-height: 40px;
+        font-weight: bolder;
+      }
+      .rules-subtitle {
+        font-size: 20px;
+        line-height: 28px;
+        font-weight: bolder;
+      }
+      .rules-description {
+        font-size: 16px;
+        line-height: 24px;
+      }
+    }
   }
 }
 
-.rules-image {
-  width: 100%;
-
-  img {
-    max-width: 100%;
+.guide-page {
+  .left-block {
+    grid-template-rows: 130px auto;
   }
+}
+
+.login-page .login-block {
+  padding: 50px 25px;
+}
+
+.welcome-btn-form {
+  background-color: #261FFF;
 }
