@@ -165,6 +165,7 @@
         line-height: 72px;
         padding-left: 25px;
         color: #261FFF;
+        width: 550px;
       }
     }
   }
@@ -191,7 +192,7 @@
 
 .start-page {
   .left-block {
-    grid-template-rows: 15% auto;
+    grid-template-rows: 100px auto;
     width: 650px;
 
     .title-block {
@@ -208,6 +209,7 @@
 
     .form-block {
       padding-right: 70px;
+      padding-bottom: 70px;
 
       .error-item {
         font-weight: normal;
@@ -269,7 +271,7 @@
     .follow-title {
       width: 100%;
       margin: auto;
-      padding-left: 58px;
+      text-align: center;
     }
 
     .follow-links {

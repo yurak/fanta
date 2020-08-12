@@ -1,13 +1,13 @@
 .success-page.header-grid.welcome-subpage
   .left-block
     .title-block
-      .title-text Success
+      .title-text= t('join_request.success.title')
       .title-bg
     .success-block
-      .success-text You request was created successfully.
-      .success-text Admin will contact you soon.
+      .success-text= t('join_request.success.text1')
+      .success-text= t('join_request.success.text2')
     .follow-block
-      .follow-title Follow public channels
+      .follow-title= t('welcome.contact.follow')
       .follow-links
         .social-media-link
           = link_to 'https://www.instagram.com/mantrafootball', target: '_blank' do

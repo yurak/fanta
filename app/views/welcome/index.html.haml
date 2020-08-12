@@ -4,26 +4,33 @@
       .title-text Mantra Football
       .title-bg
     .slogan-block
-      .slogan-start Fantasy football
-      .slogan-end one step closer to the real one!
+      .slogan-start
+        = t('welcome.index.slogan1')
+      .slogan-end
+        = t('welcome.index.slogan2')
     .description-block
-      .description-title 4 why's
+      .description-title
+        = t('welcome.index.description_title')
       .description-item
         .description-icon
           = image_tag("icons/smile1.png")
-        .description-text Create your league to play with friends
+        .description-text
+          = t('welcome.index.description1')
       .description-item
         .description-icon.description-icon2
           = image_tag("icons/smile2.png")
-        .description-text Fight for best players at auction
+        .description-text
+          = t('welcome.index.description2')
       .description-item
         .description-icon.description-icon3
           = image_tag("icons/smile3.png")
-        .description-text Choose the Module and fill it with the best players you have
+        .description-text
+          = t('welcome.index.description3')
       .description-item
         .description-icon.description-icon4
           = image_tag("icons/smile4.png")
-        .description-text Score goals, receive bonuses and win the League
+        .description-text
+          = t('welcome.index.description4')
 
   .right-block
     .pitch-layer

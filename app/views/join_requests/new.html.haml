@@ -4,7 +4,7 @@
       .title-text Registration Form
       .title-bg
     .form-block
-      = form_for [@join_request] do |f|
+      = form_for @join_request do |f|
         - if @join_request.errors.any?
           .error-block
             - @join_request.errors.full_messages.each do |message|

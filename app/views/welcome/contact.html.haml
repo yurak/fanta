@@ -1,20 +1,20 @@
 .contact-page.welcome-subpage.header-grid
   .left-block
     .title-block
-      .title-text Contact Us
+      .title-text= t('welcome.contact.title')
       .title-bg
     .contact-block
-      .contact-text Join chat
+      .contact-text= t('welcome.contact.join')
       .social-media-link
         = link_to 'https://t.me/mantrafootballorg', target: '_blank' do
           = image_tag('social_media/tg_col.png')
     .contact-block
-      .contact-text Ask questions
+      .contact-text= t('welcome.contact.ask')
       .social-media-link
         = mail_to 'mantrafootball.info@gmail.com', target: '_blank' do
           = image_tag('social_media/gmail_col.png')
     .follow-block
-      .follow-title Follow public channels
+      .follow-title= t('welcome.contact.follow')
       .follow-links
         .social-media-link
           = link_to 'https://www.instagram.com/mantrafootball', target: '_blank' do
