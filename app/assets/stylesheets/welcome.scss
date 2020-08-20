@@ -1,4 +1,4 @@
-.welcome-page, .start-page, .about-page, .contact-page, .rules-page, .guide-page, .login-page, .success-page {
+.welcome-page {
   position:relative;
   height: 100%;
   width: 100%;
@@ -94,6 +94,9 @@
         }
       }
     }
+    .team-image {
+      display: none;
+    }
   }
 
   .right-block {
@@ -151,7 +154,7 @@
 
 .welcome-subpage {
   .left-block {
-    grid-template-rows: 20% 80%;
+    grid-template-rows: 130px auto;
 
     .title-block {
       .title-bg {
@@ -288,7 +291,7 @@
 
 .contact-page {
   .left-block {
-    grid-template-rows: 20% 15% 15% 50%;
+    grid-template-rows: 130px 15% 15% auto;
 
     img {
       width: 50px;
@@ -347,10 +350,6 @@
 }
 
 .rules-page {
-  .left-block {
-    grid-template-rows: 130px auto;
-  }
-
   .rules-block {
     padding: 0 75px 70px 25px;
 
@@ -375,16 +374,155 @@
   }
 }
 
-.guide-page {
-  .left-block {
-    grid-template-rows: 130px auto;
-  }
-}
-
 .login-page .login-block {
   padding: 50px 25px;
 }
 
 .welcome-btn-form {
   background-color: #261FFF;
+}
+
+@media (orientation: portrait) {
+  .root-page {
+    .left-block {
+      margin: 300px 0 0 12%;
+      grid-template-rows: 27% 10% 0;
+
+      .title-block {
+        .title-bg {
+          height: 225px;
+        }
+        .title-text {
+          font-size: 140px;
+          line-height: 140px;
+        }
+      }
+
+      .slogan-block {
+        padding-left: 30px;
+        font-size: 40px;
+        line-height: 48px;
+
+        .slogan-start {
+          font-size: 50px;
+          line-height: 60px;
+        }
+      }
+
+      .description-block {
+        display: none;
+      }
+
+      .team-image {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        display: block;
+        width: 100%;
+
+        img {
+          width: 100%;
+          height: auto;
+        }
+      }
+    }
+  }
+
+  .welcome-page .right-block {
+    display: none;
+  }
+
+  .welcome-subpage .left-block {
+    margin: 240px 100px 50px;
+    width: 100%;
+
+    .login-block {
+      label, input { font-size: 32px; }
+
+      .form-check-input { margin-top: 0.9rem; }
+
+      .form-group { margin-bottom: 40px; }
+    }
+
+    .rules-block {
+      padding: 0 25px;
+
+      .rules-item {
+        .rules-title {
+          font-size: 32px;
+          line-height: 50px;
+        }
+
+        .rules-subtitle {
+          font-size: 28px;
+          line-height: 36px;
+        }
+
+        .rules-description {
+          font-size: 24px;
+          line-height: 28px;
+        }
+      }
+    }
+
+    .about-block {
+      font-size: 30px;
+      line-height: 40px;
+
+      .join-us {
+        font-size: 36px;
+      }
+    }
+
+    .contact-block, .follow-block, .success-block {
+      font-size: 30px;
+    }
+  }
+
+  .start-page.welcome-subpage {
+    .left-block .form-block {
+      padding: 0;
+      font-size: 30px;
+      line-height: 44px;
+
+      .form-item {
+        margin-bottom: 44px;
+      }
+
+      .form-checkbox-block {
+        line-height: 44px;
+      }
+
+      .form-btn input {
+        font-size: 30px;
+      }
+
+      .error-item {
+        line-height: 38px;
+        font-size: 24px;
+        grid-template-columns: 30px auto;
+
+        .error-icon img {
+          width: 30px;
+          height: 30px;
+        }
+      }
+    }
+
+    .title-block .title-text {
+      font-size: 62px;
+      width: 650px;
+    }
+  }
+
+  .success-page .title-block {
+    .title-text {
+      font-size: 72px;
+    }
+
+    .title-bg {
+      margin-top: 3%;
+      height: 30%;
+    }
+  }
 }

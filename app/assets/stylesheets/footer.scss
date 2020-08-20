@@ -40,3 +40,9 @@
     }
   }
 }
+
+@media (orientation: portrait) {
+  .footer {
+    display: none;
+  }
+}
