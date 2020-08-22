@@ -40,3 +40,15 @@
     }
   }
 }
+
+@media (orientation: portrait) {
+  .footer {
+    display: none;
+  }
+}
+
+@media (orientation: landscape) and (max-device-width: 1220px) {
+  .footer {
+    display: none;
+  }
+}
