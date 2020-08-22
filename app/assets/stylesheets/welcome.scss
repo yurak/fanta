@@ -374,6 +374,18 @@
   }
 }
 
+.guide-block {
+  width: 100%;
+
+  .tab-content {
+    padding: 25px 25px 70px;
+  }
+
+  img {
+    max-width: 100%;
+  }
+}
+
 .login-page .login-block {
   padding: 50px 25px;
 }
@@ -524,5 +536,125 @@
       margin-top: 3%;
       height: 30%;
     }
+  }
+
+  .guide-block {
+    .tab-content {
+      p, li {
+        font-size: 20px;
+      }
+
+      h3 {
+        font-size: 28px;
+      }
+
+      h4 {
+        font-size: 26px;
+      }
+
+      h5 {
+        font-size: 24px;
+      }
+    }
+  }
+}
+
+@media (orientation: landscape) and (max-device-width: 1220px) {
+  .welcome-page {
+    .left-block {
+      margin: 100px 100px 50px;
+      width: 100%;
+    }
+
+    .right-block {
+      display: none;
+    }
+  }
+
+  .root-page .left-block {
+    grid-template-rows: 90px 80px 200px;
+    //margin-top: 120px;
+    padding-top: 50px;
+
+    .title-block {
+      .title-text {
+        font-size: 72px;
+        line-height: 72px;
+        width: 100%;
+      }
+
+      .title-bg {
+        margin-top: 3%;
+        height: 60%;
+      }
+    }
+
+    .slogan-block {
+      font-size: 26px;
+    }
+
+    .description-block {
+      .description-title {
+        font-size: 20px;
+      }
+
+      .description-item {
+        font-size: 18px;
+      }
+    }
+  }
+
+  .welcome-subpage .left-block {
+    grid-template-rows: 90px auto;
+
+    .title-block {
+      .title-text {
+        font-size: 50px;
+        padding-left: 25px;
+      }
+
+      .title-bg {
+        margin-top: 4%;
+        height: 45%;
+      }
+    }
+  }
+
+  .start-page .left-block .form-block {
+    padding-right: 0;
+  }
+
+  .login-page .login-block {
+    padding: 10px 25px;
+  }
+
+  .contact-page .left-block .follow-block, .success-page .left-block .follow-block {
+    padding: 0;
+
+    .follow-links {
+      line-height: 70px;
+    }
+  }
+
+  .contact-page .left-block {
+    grid-template-rows: 90px 75px 75px 120px;
+
+    .contact-block .contact-text {
+      padding-left: 110px;
+    }
+  }
+
+  .about-page .left-block .about-block {
+    .about-item {
+      padding: 24px 25px 0;
+    }
+
+    .join-us {
+      padding-bottom: 70px;
+    }
+  }
+
+  .success-page .left-block .success-block {
+    padding-top: 25px;
   }
 }
