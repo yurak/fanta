@@ -19,6 +19,8 @@
 
 @import "articles";
 @import "clubs";
+@import "footer";
+@import "header";
 @import "leagues";
 @import "lineups";
 @import "list-template";
@@ -30,13 +32,30 @@
 @import "tours";
 @import "welcome";
 
+@font-face {
+  font-family: 'Mont Regular';
+  src: font-url('Mont-Regular.ttf') format('truetype');
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Mont SemiBold';
+  src: font-url('Mont-SemiBold.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Mont Bold';
+  src: font-url('Mont-Bold.ttf') format('truetype');
+}
+
 body, html {
   height: 100%;
   width: 100%;
   margin: 0;
   padding: 0;
-  background-color: #001280;
+  position: relative;
+  background: #F4F4F4;
 }
+
+/* ---------------- OLD UI ------------------------*/
 
 .page {
   display: grid;
@@ -118,15 +137,6 @@ body, html {
   background: image_url('bg-grey.jpg') #e2e2e2 round;
   height: 100%;
   width: 100%;
-}
-
-.footer {
-  position: relative;
-  bottom: 0;
-  background-color: #0f29a4;
-  height: 100px;
-  width: 100%;
-  color: #fff;
 }
 
 .page-header {
