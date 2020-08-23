@@ -30,4 +30,64 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  header:
+    rules: "Rules"
+    guide: "Guide"
+    about: "About"
+    contact: "Contact"
+    login: "Login"
+    logout: "Log Out"
+    start: "Start game"
+  welcome:
+    index:
+      slogan1: "Fantasy football"
+      slogan2: " one step closer to the real one!"
+      description_title: "4 why's"
+      description1: "Create your league to play with friends"
+      description2: "Fight for best players at auction"
+      description3: "Choose the Module and fill it with the best players you have"
+      description4: "Score goals, receive bonuses and win the League"
+    rules:
+      game_rules: "Game Rules"
+      subtitle01: "MantraFootball is a new look at fantasy football world."
+      subtitle02: "Here's how the game works."
+      title1: "SET UP YOUR LEAGUE"
+      subtitle1: "Start by choosing a tournament and forming a league"
+      description1: "Leagues can be from 4 to 20 managers, and we recommend 8-10 as a sweet spot. You can play in the league with your friends, or we will find you colleagues in the league."
+      title2: "HOLD YOUR AUCTION"
+      subtitle2: "Fix a date for your auction and get everyone together, either online or face-to-face"
+      description2: "You each have a $260m budget to build your squad of 25 players. Each player goes to the highest bidder, so only one team gets Kevin De Bruyne or Mo Salah - just like in the real world."
+      title3: "SCORING"
+      subtitle3: "Our simple scoring rules are tried-and-tested over several seasons of the game"
+      description3: "For each match, the player receives a base score, which is added to his bonuses - goals scored and conceded, assists, yellow and red cards, etc."
+      title4: "FORMATION & SUBS"
+      subtitle4: "Each week you have choices that really matter"
+      description4: "One choice whether to play 442, 433 or 352, and another choice of who to choose in the main lineup. Feel the pressure as a club manager."
+      title5: "THE BEST WAY TO PLAY"
+      subtitle5: "As each squad is unique, your league is always ultra-competitive"
+      description5: "Only a combination of detailed analysis and luck will give a chance to become a champion. Winning really means something."
+    guide:
+      game_guide: "Game Guide"
+      auction: "Auction"
+      modules: "Modules"
+      players: "Players"
+      results: "Results"
+      price: "Price"
+      faq: "FAQs"
+    contact:
+      title: "Contact Us"
+      join: "Join chat"
+      ask: "Ask questions"
+      follow: "Follow public channels"
+    about:
+      title: "About Us"
+      item1: "At 2017 project started as a classic fantasy football application with 1 league by Serie A for 5 users."
+      item2: "From 2018 Mantra rules were implemented and our league continued to grow."
+      item3: "At 2020 EPL tournament was added to our project with 2 new leagues."
+      item4: "MantraFootball now supports 2 tournaments with 40 clubs and more than 1000 players."
+      item5: "Join us!"
+  join_request:
+    success:
+      title: "Success"
+      text1: "You request was created successfully."
+      text2: "Admin will contact you soon."

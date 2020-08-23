@@ -10,8 +10,12 @@
     = favicon_link_tag asset_path('mantra.ico')
   %body
     - if hide_navbar?
-      = yield
+      = render 'layouts/header'
+      .main-block
+        = yield
+      = render 'layouts/footer'
     - else
+      -# TODO: remove below code after new UI implementation
       .page
         .navbar-block
           .navbar
@@ -24,13 +28,3 @@
             -#    - flash.each do |key, value|
             -#      = content_tag :div, value, class: "#{flash_class(key)}"
             = yield
--#          .footer
--#
--#-# TODO: temporary script
--#%script
--#  var h = $(window).height();
--#  var w = $(window).width();
--#  $(".footer").append("<p>WINDOW: height=" + h + "; width=" + w + "</p>");
--#  var h2 = $(document).height();
--#  var w2 = $(document).width();
--#  $(".footer").append("<p>DOCUMENT: height=" + h2 + "; width=" + w2 + "</p>");

@@ -1,0 +1,47 @@
+.start-page.welcome-page.welcome-subpage.header-grid
+  .left-block
+    .title-block
+      .title-text Registration Form
+      .title-bg
+    .form-block
+      = form_for @join_request do |f|
+        - if @join_request.errors.any?
+          .error-block
+            - @join_request.errors.full_messages.each do |message|
+              .error-item
+                .error-icon
+                  = image_tag("icons/caution.png")
+                .error-text
+                  = message
+
+        .form-item
+          .form-label Name
+          .form-input.text-input
+            = f.text_field :username, class: 'form-control'
+        .form-item
+          .form-label Contacts (telegram/facebook/instagram/phone number)
+          .form-input.text-input
+            = f.text_field :contact, class: 'form-control'
+        .form-item
+          .form-label Email
+          .form-input.text-input
+            = f.text_field :email, class: 'form-control'
+        .form-item
+          .form-label Tournaments (you want to play)
+          .form-input
+            - for tournament in all_tournaments
+              .form-checkbox-block
+                .form-checkbox
+                  = f.check_box :leagues, {multiple: true}, tournament.id, nil
+                .form-checkbox-icon
+                  = image_tag(tournament.logo_path, alt: 'Tournament Logo')
+                .form-checkbox-label
+                  = tournament.name
+        .form-item.form-btn
+          = f.submit 'Send request', class: 'btn btn-primary welcome-btn-form'
+  .right-block
+    .pitch-layer
+    .player-layer
+      .player-image-wrapper
+        .player-image
+          = image_tag(random_player_img_path)

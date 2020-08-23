@@ -1,0 +1,10 @@
+# Additional translations at https://github.com/plataformatec/devise/wiki/I18n
+
+ua:
+  devise:
+    sessions:
+      new:
+        sign_in: "Увійти"
+        email: "Пошта"
+        password: "Пароль"
+        remember_me: "Запам'ятати мене"
