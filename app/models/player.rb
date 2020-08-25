@@ -1,6 +1,8 @@
 class Player < ApplicationRecord
   belongs_to :club
 
+  BUCKET_URL = 'https://mantra-players.s3-eu-west-1.amazonaws.com'
+
   has_many :player_positions, dependent: :destroy
   has_many :positions, through: :player_positions
 
@@ -28,8 +30,9 @@ class Player < ApplicationRecord
   }
 
   def avatar_path
-    path = "players/#{path_name}.png"
-    ActionController::Base.helpers.resolve_asset_path(path) ? path : 'players/avatar.png'
+    path = "#{BUCKET_URL}/#{path_name}.png"
+
+    path
   end
 
   def country
