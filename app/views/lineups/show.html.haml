@@ -1,15 +1,15 @@
-.page-header
-  .page-header-icon
-    = image_tag('navbar/lineups.png')
-  .page-header-title
-    %span.bolder
-      = link_to team.name.upcase, team_path(team)
-    | Round
-    %span.bolder
-      = link_to lineup.tour.number, tour_path(lineup.tour)
-.flash-block
-  - flash.each do |key, value|
-    = content_tag :div, value, class: "flash-item flash-#{key}"
+-#.page-header
+-#  .page-header-icon
+-#    = image_tag('navbar/lineups.png')
+-#  .page-header-title
+-#    %span.bolder
+-#      = link_to team.name.upcase, team_path(team)
+-#    | Round
+-#    %span.bolder
+-#      = link_to lineup.tour.number, tour_path(lineup.tour)
+-#.flash-block
+-#  - flash.each do |key, value|
+-#    = content_tag :div, value, class: "flash-item flash-#{key}"
 
 .page-info
   .lineup-actions
@@ -21,7 +21,7 @@
           = link_to 'EDIT LINEUP', edit_team_lineup_path(team, lineup), class: 'list-row-cell'
           = link_to 'EDIT MODULE', team_lineup_edit_module_path(team, lineup), class: 'list-row-cell'
         - if lineup.tour.locked_or_postponed? && current_user&.can_moderate?
-          .list-row-cell
+          = link_to 'MAKE SUBSTITUTION', team_lineup_substitutions_path(team, lineup), class: 'list-row-cell'
           = link_to 'EDIT SCORES', team_lineup_edit_scores_path(team, lineup), class: 'list-row-cell'
   .lineup-info
     .list-items.list-items-60-height.center

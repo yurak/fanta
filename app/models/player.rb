@@ -72,7 +72,7 @@ class Player < ApplicationRecord
   end
 
   def can_clean_sheet?
-    (position_names & Position::DEFENSIVE).any?
+    (position_names & Position::CLEANSHEET_ZONE).any?
   end
 
   # def played_matches_count

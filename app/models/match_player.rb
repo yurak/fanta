@@ -2,7 +2,6 @@ class MatchPlayer < ApplicationRecord
   belongs_to :round_player
   belongs_to :lineup
 
-  # TODO: should be moved with player association to RoundPlayer model
   delegate :tour, to: :lineup
   delegate :player, :player_score, :result_score, to: :round_player
   # TODO: should be released after migrations release
@@ -17,7 +16,7 @@ class MatchPlayer < ApplicationRecord
   scope :with_score, -> { includes(:round_player).joins(:round_player).where('round_players.score > ?', 0) }
   scope :subs, -> { where(real_position: nil) }
   scope :subs_bench, -> { where(real_position: nil).where.not(subs_status: :not_in_squad) }
-  scope :without_score, -> { where(score: 0) }
+  scope :without_score, -> { joins(:round_player).where('round_players.score': 0) }
   scope :by_tour, ->(tour_id) { joins(:lineup).where('lineups.tour_id = ?', tour_id) }
   scope :reservists_by_tour, ->(tour_id) { subs.by_tour(tour_id) }
   scope :defenders, -> { where(real_position: Position::DEFENCE) }

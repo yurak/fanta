@@ -224,7 +224,9 @@ ActiveRecord::Schema.define(version: 2020_08_03_185027) do
     t.datetime "updated_at", null: false
     t.datetime "deadline"
     t.integer "league_id"
+    t.integer "tournament_round_id"
     t.index ["league_id"], name: "index_tours_on_league_id"
+    t.index ["tournament_round_id"], name: "index_tours_on_tournament_round_id"
   end
 
   create_table "users", force: :cascade do |t|

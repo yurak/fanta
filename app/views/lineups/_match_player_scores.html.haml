@@ -14,34 +14,59 @@
       .l-details-position-image
         = image_tag("positions/#{position.name}.png")
   .mp-edit-item-param.mp-edit-player-tscore{class: score_class(match_player.object)}
-    = match_player.object.total_score
+    = match_player.object.result_score
   .mp-edit-item-param.mp-edit-player-score
-    = match_player.number_field :score, in: 0..11, step: 0.01, class: 'form-control'
+    = match_player.object.player_score
   - if lineup.slots[match_player.index]&.position == 'Por'
     .mp-edit-item-param
-      = match_player.number_field :missed_goals, in: 0..9, step: 1, class: 'form-control'
+      - if match_player.object.round_player.missed_goals.to_i.nonzero?
+        = image_tag("bonuses/mg.png", title: 'Missed goal')
+        - if match_player.object.round_player.missed_goals.to_i > 1
+          .badge.badge-danger.bonus-badge= match_player.object.round_player.missed_goals.to_i
     .mp-edit-item-param
-      = match_player.number_field :caught_penalty, in: 0..9, step: 1, class: 'form-control'
+      - if match_player.object.round_player.caught_penalty.to_i.nonzero?
+        = image_tag("bonuses/pen.png", title: 'Caught penalty')
+        - if match_player.object.round_player.caught_penalty.to_i > 1
+          .badge.badge-warning.bonus-badge= match_player.object.round_player.caught_penalty.to_i
     .mp-edit-item-param
-      = match_player.number_field :missed_penalty, in: 0..9, step: 1, class: 'form-control'
+      - if match_player.object.round_player.missed_penalty.to_i.nonzero?
+        = image_tag("bonuses/mg.png", title: 'Missed penalty')
+        - if match_player.object.round_player.missed_penalty.to_i > 1
+          .badge.badge-danger.bonus-badge= match_player.object.round_player.missed_penalty.to_i
   - else
     .mp-edit-item-param
-      = match_player.number_field :goals, in: 0..9, step: 1, class: 'form-control'
+      - if match_player.object.round_player.goals.to_i.nonzero?
+        = image_tag("bonuses/goal.png", title: 'Goal')
+        - if match_player.object.round_player.goals.to_i > 1
+          .badge.badge-success.bonus-badge= match_player.object.round_player.goals.to_i
     .mp-edit-item-param
-      = match_player.number_field :scored_penalty, in: 0..9, step: 1, class: 'form-control'
+      - if match_player.object.round_player.scored_penalty.to_i.nonzero?
+        = image_tag("bonuses/pen.png", title: 'Scored penalty')
+        - if match_player.object.round_player.scored_penalty.to_i > 1
+          .badge.badge-warning.bonus-badge= match_player.object.round_player.scored_penalty.to_i
     .mp-edit-item-param
-      = match_player.number_field :failed_penalty, in: 0..9, step: 1, class: 'form-control'
+      - if match_player.object.round_player.failed_penalty.to_i.nonzero?
+        = image_tag("bonuses/mg.png", title: 'Failed penalty')
+        - if match_player.object.round_player.failed_penalty.to_i > 1
+          .badge.badge-danger.bonus-badge= match_player.object.round_player.failed_penalty.to_i
   .mp-edit-item-param
-    = match_player.number_field :assists, in: 0..9, step: 1, class: 'form-control'
+    - if match_player.object.round_player.assists.to_i.nonzero?
+      = image_tag("bonuses/assist.png", title: 'Assist')
+      - if match_player.object.round_player.assists.to_i > 1
+        .badge.badge-warning.bonus-badge= match_player.object.round_player.assists.to_i
   .mp-edit-item-param
-    - if Position::DEFENSIVE.include? lineup.slots[match_player.index]&.position
-      = match_player.check_box :cleansheet, {'data-toggle' => 'toggle', 'data-onstyle' => 'success', 'data-on' => 'Yes', 'data-off' => 'No', 'data-size' => 'small', 'data-height' => '38'}
+    = image_tag("bonuses/yc.png", title: 'Yellow card') if match_player.object.round_player.yellow_card
   .mp-edit-item-param
-    = match_player.check_box :yellow_card, {'data-toggle' => 'toggle', 'data-onstyle' => 'warning', 'data-on' => 'Yes', 'data-off' => 'No', 'data-size' => 'small', 'data-height' => '38'}
+    = image_tag("bonuses/rc.png", title: 'Red card') if match_player.object.round_player.red_card
   .mp-edit-item-param
-    = match_player.check_box :red_card, {'data-toggle' => 'toggle', 'data-onstyle' => 'danger', 'data-on' => 'Yes', 'data-off' => 'No', 'data-size' => 'small', 'data-height' => '38'}
-  .mp-edit-item-param
-    = match_player.number_field :own_goals, in: 0..9, step: 1, class: 'form-control'
+    - if match_player.object.round_player.own_goals.to_i.nonzero?
+      = image_tag("bonuses/autogol.png", title: 'Own goal')
+      - if match_player.object.round_player.own_goals.to_i > 1
+        .badge.badge-warning.bonus-badge= match_player.object.round_player.own_goals.to_i
+
   .mp-edit-item-param
     - if lineup.slots[match_player.index]&.position && lineup.slots[match_player.index]&.position != 'Por'
       = match_player.number_field :position_malus, in: 0..4.5, step: 1.5, class: 'form-control'
+  .mp-edit-item-param
+    - if Position::CLEANSHEET_ZONE.include? lineup.slots[match_player.index]&.position
+      = match_player.check_box :cleansheet, {'data-toggle' => 'toggle', 'data-onstyle' => 'success', 'data-on' => 'Yes', 'data-off' => 'No', 'data-size' => 'small', 'data-height' => '38'}

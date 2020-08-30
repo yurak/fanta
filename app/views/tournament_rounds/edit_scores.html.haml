@@ -1,13 +1,13 @@
-.page-header
-  .page-header-icon
-    = image_tag('navbar/squad.png')
-  .page-header-title
-    %span.bolder Scores
-    | Tournament Round #
-    %span.bolder
-      = tournament_round.number
-    .page-header-subtitle
-      = tournament_round.tournament.name
+-#.page-header
+-#  .page-header-icon
+-#    = image_tag('navbar/squad.png')
+-#  .page-header-title
+-#    %span.bolder Scores
+-#    | Tournament Round #
+-#    %span.bolder
+-#      = tournament_round.number
+-#    .page-header-subtitle
+-#      = tournament_round.tournament.name
 .page-info
   = form_for :tour, url: tournament_round_update_scores_path(tournament_round), method: :put do
     .reservists-headers
@@ -22,7 +22,7 @@
       .reservists-header{title: 'Yellow card'} YC
       .reservists-header{title: 'Red card'} RC
       .reservists-header{title: 'Own goals'} OG
-    - @reservists.each do |reservist|
+    - @round_players.each do |reservist|
       = fields_for "round_players[]", reservist do |rp_f|
         .reservist-item
           .reservist-param
@@ -59,4 +59,4 @@
             = rp_f.number_field :own_goals, in: 0..9, step: 1, class: 'form-control'
 
     .form-group
-      = submit_tag 'Update scores', class: 'btn btn-success btn-block'
+      = submit_tag 'Update round players scores', class: 'btn btn-success btn-block'

@@ -5,7 +5,7 @@ class TournamentRoundsController < ApplicationController
 
   def edit_scores
     redirect_to leagues_path unless current_user&.can_moderate?
-    @reservists = tournament_round.round_players.ordered_by_club
+    @round_players = tournament_round.round_players.ordered_by_club
     respond_with tournament_round
   end
 

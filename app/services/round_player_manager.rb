@@ -14,6 +14,6 @@ class RoundPlayerManager < ApplicationService
   private
 
   def tournament_players
-    Player.with_team.by_tournament(tournament_round.tournament.id)
+    Player.by_tournament(tournament_round.tournament.id)
   end
 end

@@ -17,7 +17,7 @@ class CalendarCreator < ApplicationService
         tour_number += 1
         break if tour_number > @max_tours
 
-        tour = Tour.create(number: tour_number, league: league)
+        tour = Tour.create(number: tour_number, league: league, tournament_round: t_round(tour_number))
         tour_games.each do |team_ids|
           team_ids = team_ids.reverse if round_number.odd?
           Match.create(tour: tour, host_id: team_ids[0], guest_id: team_ids[1])
@@ -72,5 +72,18 @@ class CalendarCreator < ApplicationService
 
   def league
     @league ||= League.find_by(id: @league_id)
+  end
+
+  def tournament
+    @tournament ||= league.tournament
+  end
+
+  def season
+    @season ||= league.season
+  end
+
+  def t_round(tour_number)
+    round_number = (tour_number + league.tour_difference)
+    TournamentRound.find_by(tournament: tournament, number: round_number, season: season)
   end
 end

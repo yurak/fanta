@@ -1,7 +1,3 @@
-.page-header
-  .page-header-icon
-    = image_tag(team.logo_path)
-  .page-header-title= team.human_name
 .page-info
   .list-items.list-team-players.center
     - team.players.sort_by(&:position_sequence_number).each do |player|
