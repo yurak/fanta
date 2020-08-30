@@ -23,14 +23,17 @@ class TourManager
   private
 
   def set_lineup
-    tour.set_lineup! if status == 'set_lineup'
+    return unless status == 'set_lineup'
+
+    RoundPlayerManager.call(tournament_round: tour.tournament_round)
+
+    tour.set_lineup!
   end
 
   def lock
     return unless tour.set_lineup? && status == 'locked'
 
     tour.locked!
-    MatchPlayerManager.new(tour: tour).create
   end
 
   def postpone

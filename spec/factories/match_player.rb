@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :match_player do
-    association :player
+    association :round_player
     association :lineup
   end
 end

@@ -32,15 +32,17 @@ module TeamLineups
           available_positions = main_positions.map { |p| Position::DEPENDENCY[p] }.flatten.uniq
           player = lineup.team.players.by_position(available_positions).where.not(id: used_players_ids).first
         end
+        round_player = RoundPlayer.find_or_create_by(tournament_round: tournament_round, player: player)
 
-        lineup.match_players.new(player: player, real_position: real_position)
+        lineup.match_players.new(round_player: round_player, real_position: real_position)
         used_players_ids << player.id
       end
     end
 
     def generate_reserve_players
       lineup.team.players.where.not(id: used_players_ids).limit(RESERVED).each do |player|
-        lineup.match_players.new(player: player)
+        round_player = RoundPlayer.find_or_create_by(tournament_round: tournament_round, player: player)
+        lineup.match_players.new(round_player: round_player)
       end
     end
 
@@ -50,6 +52,10 @@ module TeamLineups
 
     def lineup_exist?
       active_tour.lineups.find_by(team: team)
+    end
+
+    def tournament_round
+      active_tour.tournament_round
     end
 
     def active_tour

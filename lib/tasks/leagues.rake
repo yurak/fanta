@@ -5,7 +5,9 @@ namespace :leagues do
     leagues_data.each do |league_name, league_data|
       puts "Creating league: #{league_name}"
       tournament = Tournament.find_by(code: league_data['tournament'])
-      league = League.create(name: league_name, tournament: tournament, status: 0)
+      league = League.create(name: league_name, tournament: tournament, status: 0, season: Season.last)
+      next unless league
+
       league_data['members'].each do |team, user_email|
         user = User.create(email: user_email, password: '123456')
         Team.create(name: team, user: user, league: league)

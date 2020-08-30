@@ -7,24 +7,9 @@
     = csp_meta_tag
     = stylesheet_link_tag    'application', media: 'all'
     = javascript_include_tag 'application'
-    = favicon_link_tag asset_path('logo628.png')
+    = favicon_link_tag asset_path('mantra.ico')
   %body
-    - if hide_navbar?
-      = render 'layouts/header'
-      .main-block
-        = yield
-      = render 'layouts/footer'
-    - else
-      -# TODO: remove below code after new UI implementation
-      .page
-        .navbar-block
-          .navbar
-            = render 'layouts/navbar_links'
-        .main-block
-          .main
-            -# TODO: move to related pages
-            -#- unless hide_navbar?
-            -#  .container.flash-block
-            -#    - flash.each do |key, value|
-            -#      = content_tag :div, value, class: "#{flash_class(key)}"
-            = yield
+    = render 'layouts/header'
+    .main-block
+      = yield
+    = render 'layouts/footer'

@@ -23,11 +23,14 @@ Rails.application.routes.draw do
 
   resources :tours, only: [:show, :edit, :update] do
     get :change_status
-    get :edit_subs_scores
     get :inject_scores
-    put :update_subs_scores
+  end
 
-    resources :match_players, only: [:index]
+  resources :tournament_rounds, only: [:show, :edit, :update] do
+    get :edit_scores
+    put :update_scores
+
+    resources :round_players, only: [:index]
   end
 
   resources :teams, only: [:show] do

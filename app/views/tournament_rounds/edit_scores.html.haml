@@ -1,0 +1,62 @@
+-#.page-header
+-#  .page-header-icon
+-#    = image_tag('navbar/squad.png')
+-#  .page-header-title
+-#    %span.bolder Scores
+-#    | Tournament Round #
+-#    %span.bolder
+-#      = tournament_round.number
+-#    .page-header-subtitle
+-#      = tournament_round.tournament.name
+.page-info
+  = form_for :tour, url: tournament_round_update_scores_path(tournament_round), method: :put do
+    .reservists-headers
+      .reservists-header Club
+      .reservists-header.res-name Player
+      .reservists-header{title: 'Total score'} TS
+      .reservists-header{title: 'Base score'} BS
+      .reservists-header{title: 'Goals / Missed goals'} G/MG
+      .reservists-header{title: 'Scored penalty / Caught penalty'} SP/CP
+      .reservists-header{title: 'Failed penalty / Missed penalty'} FP/MP
+      .reservists-header{title: 'Assists'} A
+      .reservists-header{title: 'Yellow card'} YC
+      .reservists-header{title: 'Red card'} RC
+      .reservists-header{title: 'Own goals'} OG
+    - @round_players.each do |reservist|
+      = fields_for "round_players[]", reservist do |rp_f|
+        .reservist-item
+          .reservist-param
+            .club-logo.l-details-club-logo
+              = image_tag(rp_f.object.club.logo_path, alt: 'Club Logo')
+          .reservist-param.res-name
+            = rp_f.object.full_name
+          .reservist-param
+            = rp_f.object.result_score
+
+          .reservist-param
+            = rp_f.number_field :score, in: 0..11, step: 0.01, class: 'form-control'
+          - if rp_f.object.player.positions_names_string == 'Por'
+            .reservist-param
+              = rp_f.number_field :missed_goals, in: 0..9, step: 1, class: 'form-control'
+            .reservist-param
+              = rp_f.number_field :caught_penalty, in: 0..9, step: 1, class: 'form-control'
+            .reservist-param
+              = rp_f.number_field :missed_penalty, in: 0..9, step: 1, class: 'form-control'
+          - else
+            .reservist-param
+              = rp_f.number_field :goals, in: 0..9, step: 1, class: 'form-control'
+            .reservist-param
+              = rp_f.number_field :scored_penalty, in: 0..9, step: 1, class: 'form-control'
+            .reservist-param
+              = rp_f.number_field :failed_penalty, in: 0..9, step: 1, class: 'form-control'
+          .reservist-param
+            = rp_f.number_field :assists, in: 0..9, step: 1, class: 'form-control'
+          .reservist-param
+            = rp_f.check_box :yellow_card, {'data-toggle' => 'toggle', 'data-onstyle' => 'warning', 'data-on' => 'Yes', 'data-off' => 'No', 'data-size' => 'small', 'data-height' => '38'}
+          .reservist-param
+            = rp_f.check_box :red_card, {'data-toggle' => 'toggle', 'data-onstyle' => 'danger', 'data-on' => 'Yes', 'data-off' => 'No', 'data-size' => 'small', 'data-height' => '38'}
+          .reservist-param
+            = rp_f.number_field :own_goals, in: 0..9, step: 1, class: 'form-control'
+
+    .form-group
+      = submit_tag 'Update round players scores', class: 'btn btn-success btn-block'
