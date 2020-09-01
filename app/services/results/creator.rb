@@ -8,7 +8,7 @@ module Results
       return unless league
 
       league.teams.each do |team|
-        Result.create(team_id: team.id)
+        Result.create(team: team, league: league)
       end
     end
 

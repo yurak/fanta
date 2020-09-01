@@ -130,6 +130,8 @@ class LineupsController < ApplicationController
   end
 
   def previous_lineup
+    return unless team.lineups.first.tour.league == tour.league
+
     team.lineups.first
   end
 
