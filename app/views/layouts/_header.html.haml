@@ -83,7 +83,7 @@
               .burger-link= link_to 'Fixtures', league_tours_path(current_user.league)
               .burger-link= link_to 'Results', league_tours_path(current_user.league, closed: true)
               .burger-link= link_to 'Links', league_links_path(current_user.league)
-              .burger-link= link_to 'Leagues', leagues_path
+              -#.burger-link= link_to 'Leagues', leagues_path
               .burger-link= link_to t('header.rules'), guide_path
             -else
               .burger-link= link_to t('header.start'), new_join_request_path
