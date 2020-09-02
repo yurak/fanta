@@ -47,6 +47,8 @@ ActiveRecord::Schema.define(version: 2020_08_03_185027) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "tour_difference", default: 0, null: false
+    t.integer "season_id"
+    t.index ["season_id"], name: "index_leagues_on_season_id"
   end
 
   create_table "lineups", force: :cascade do |t|
@@ -68,26 +70,15 @@ ActiveRecord::Schema.define(version: 2020_08_03_185027) do
   end
 
   create_table "match_players", force: :cascade do |t|
-    t.decimal "score", precision: 4, scale: 2, default: "0.0"
-    t.integer "player_id"
     t.integer "lineup_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "real_position"
-    t.boolean "red_card", default: false
-    t.boolean "yellow_card", default: false
     t.boolean "cleansheet", default: false
-    t.decimal "goals", default: "0.0"
-    t.decimal "missed_goals", default: "0.0"
-    t.decimal "assists", default: "0.0"
     t.decimal "position_malus", default: "0.0"
-    t.decimal "bonus", default: "0.0"
-    t.decimal "missed_penalty", default: "0.0"
-    t.decimal "scored_penalty", default: "0.0"
-    t.decimal "caught_penalty", default: "0.0"
-    t.decimal "failed_penalty", default: "0.0"
-    t.decimal "own_goals", default: "0.0"
     t.integer "subs_status", default: 0, null: false
+    t.integer "round_player_id"
+    t.index ["round_player_id"], name: "index_match_players_on_round_player_id"
   end
 
   create_table "matches", force: :cascade do |t|
@@ -142,6 +133,33 @@ ActiveRecord::Schema.define(version: 2020_08_03_185027) do
     t.index ["team_id"], name: "index_results_on_team_id"
   end
 
+  create_table "round_players", force: :cascade do |t|
+    t.integer "tournament_round_id"
+    t.integer "player_id"
+    t.decimal "score", precision: 4, scale: 2, default: "0.0"
+    t.decimal "goals", default: "0.0"
+    t.decimal "missed_goals", default: "0.0"
+    t.decimal "assists", default: "0.0"
+    t.decimal "missed_penalty", default: "0.0"
+    t.decimal "scored_penalty", default: "0.0"
+    t.decimal "caught_penalty", default: "0.0"
+    t.decimal "failed_penalty", default: "0.0"
+    t.boolean "yellow_card", default: false
+    t.boolean "red_card", default: false
+    t.decimal "own_goals", default: "0.0"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["player_id"], name: "index_round_players_on_player_id"
+    t.index ["tournament_round_id"], name: "index_round_players_on_tournament_round_id"
+  end
+
+  create_table "seasons", force: :cascade do |t|
+    t.integer "start_year"
+    t.integer "end_year"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "slots", force: :cascade do |t|
     t.integer "number"
     t.string "position"
@@ -167,6 +185,31 @@ ActiveRecord::Schema.define(version: 2020_08_03_185027) do
     t.index ["user_id"], name: "index_teams_on_user_id"
   end
 
+  create_table "tournament_matches", force: :cascade do |t|
+    t.integer "tournament_round_id"
+    t.integer "host_club_id"
+    t.integer "guest_club_id"
+    t.integer "host_score"
+    t.integer "guest_score"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["guest_club_id"], name: "index_tournament_matches_on_guest_club_id"
+    t.index ["host_club_id"], name: "index_tournament_matches_on_host_club_id"
+    t.index ["tournament_round_id"], name: "index_tournament_matches_on_tournament_round_id"
+  end
+
+  create_table "tournament_rounds", force: :cascade do |t|
+    t.integer "tournament_id"
+    t.integer "season_id"
+    t.integer "number"
+    t.integer "status", default: 0
+    t.datetime "start_time"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["season_id"], name: "index_tournament_rounds_on_season_id"
+    t.index ["tournament_id"], name: "index_tournament_rounds_on_tournament_id"
+  end
+
   create_table "tournaments", force: :cascade do |t|
     t.string "name"
     t.string "code"
@@ -181,7 +224,9 @@ ActiveRecord::Schema.define(version: 2020_08_03_185027) do
     t.datetime "updated_at", null: false
     t.datetime "deadline"
     t.integer "league_id"
+    t.integer "tournament_round_id"
     t.index ["league_id"], name: "index_tours_on_league_id"
+    t.index ["tournament_round_id"], name: "index_tours_on_tournament_round_id"
   end
 
   create_table "users", force: :cascade do |t|

@@ -1,23 +1,9 @@
-.page-header
-  .page-header-icon
-    = image_tag('navbar/lineups.png')
-  .page-header-title
-    %span.bolder
-      = link_to team.name.upcase, team_path(team)
-    | Round
-    %span.bolder
-      = link_to lineup.tour.number, tour_path(lineup.tour)
+-# TODO: update flash items view
 .flash-block
   - flash.each do |key, value|
     = content_tag :div, value, class: "flash-item flash-#{key}"
 
 .page-info
-  - if lineup.tour.locked_or_postponed? && current_user&.can_moderate?
-    .lineup-actions.edit-scores-actions
-      .list-items.list-action-items.center
-        .list-row-item.edit-scores-item
-          .list-row-cell.hidden-cell
-          = link_to 'MAKE SUBSTITUTION', team_lineup_substitutions_path(team, lineup), class: 'list-row-cell item-b'
   .lineup-edit-scores-form
     = form_for [team, lineup], url: team_lineup_path(team, lineup), method: :put do |f|
       #lineup_form{data: team.players.to_json}
@@ -44,8 +30,6 @@
         .mp-edit-header
           %span Assists
         .mp-edit-header
-          %span Clean sheet
-        .mp-edit-header
           %span Yellow card
         .mp-edit-header
           %span Red card
@@ -53,6 +37,8 @@
           %span Own goals
         .mp-edit-header
           %span Position malus
+        .mp-edit-header
+          %span Clean sheet
 
       = f.fields_for :match_players do |match_player|
         - if lineup.slots[match_player.index]&.position

@@ -1,5 +1,6 @@
 class League < ApplicationRecord
   belongs_to :tournament
+  belongs_to :season
 
   has_many :teams, dependent: :destroy
   has_many :tours, dependent: :destroy

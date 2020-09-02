@@ -37,17 +37,12 @@ class LineupsController < ApplicationController
   end
 
   def clone
-    old_lineup = team.lineups.first
-    new_lineup = old_lineup.dup
-    new_lineup.tour = tour
-
-    if tour.lineups.where(team_id: new_lineup.team_id).exists?
-      flash[:error] = 'This team already has lineup for tour'
-    else
-      old_lineup.match_players.limit(Lineup::MAX_PLAYERS).each do |old_mp|
-        MatchPlayer.create(lineup: new_lineup, real_position: old_mp.real_position, player: old_mp.player)
+    if previous_lineup
+      if tour.lineups.where(team_id: previous_lineup.team_id).exists?
+        flash[:error] = 'This team already has lineup for tour'
+      else
+        team_lineups_cloner.call
       end
-      flash[:notice] = 'Successfully updated lineup' if new_lineup.save
     end
 
     redirect_to tour_path(tour)
@@ -86,6 +81,7 @@ class LineupsController < ApplicationController
       flash[:error] = "ERROR! Same player on multiple positions: #{duplicate_names}"
       redirect_to edit_team_lineup_path(team, lineup)
     else
+      recount_round_players_params
       flash[:notice] = 'Successfully updated lineup' if lineup.update(update_lineup_params)
 
       redirect_to team_lineup_path(team, lineup)
@@ -102,15 +98,17 @@ class LineupsController < ApplicationController
   end
 
   def subs_update
+    # TODO: move action to Substitution service
     substitution_params
+
     if (@mp_main.available_positions & @mp_reserve.player.position_names).any?
       MatchPlayer.transaction do
-        new_player = @mp_reserve.player
-        @mp_reserve.update(player_id: @mp_main.player_id, subs_status: :get_out)
-        @mp_main.update(player_id: new_player.id, subs_status: :get_in)
+        new_round_player = @mp_reserve.round_player
+        @mp_reserve.update(round_player_id: @mp_main.round_player_id, subs_status: :get_out, cleansheet: false, position_malus: 0)
+        @mp_main.update(round_player_id: new_round_player.id, subs_status: :get_in, cleansheet: false, position_malus: 0)
       end
       flash[:notice] = 'Successfully made substitution'
-      redirect_to team_lineup_edit_scores_path(team, lineup)
+      redirect_to team_lineup_path(team, lineup)
     else
       flash[:error] = "#{@mp_reserve.player.name} can not take position #{@mp_main.real_position}"
       redirect_to team_lineup_substitutions_path(team, lineup)
@@ -127,6 +125,14 @@ class LineupsController < ApplicationController
     @team_lineups_creator ||= TeamLineups::Creator.new(params: lineup_params, team: team)
   end
 
+  def team_lineups_cloner
+    @team_lineups_cloner ||= TeamLineups::Cloner.new(old_lineup: previous_lineup, tour: tour)
+  end
+
+  def previous_lineup
+    team.lineups.first
+  end
+
   def lineup_params
     params.fetch(:lineup, {}).permit(:team_module_id, tema_module_id: [])
   end
@@ -135,10 +141,22 @@ class LineupsController < ApplicationController
     params.fetch(:lineup, {}).permit(:team_module_id, match_players_attributes: {})
   end
 
+  def recount_round_players_params
+    return unless params[:lineup][:match_players_attributes]
+
+    params[:lineup][:match_players_attributes].each do |k, _|
+      next unless params[:lineup][:match_players_attributes][k][:round_player_id]
+
+      player = Player.find(params[:lineup][:match_players_attributes][k][:round_player_id])
+      round_player = RoundPlayer.find_or_create_by(tournament_round: tournament_round, player: player)
+      params[:lineup][:match_players_attributes][k][:round_player_id] = round_player.id
+    end
+  end
+
   def duplicate_players
     return unless update_lineup_params[:match_players_attributes]
 
-    player_ids = update_lineup_params[:match_players_attributes].values.each_with_object([]) { |el, p_ids| p_ids << el[:player_id] }
+    player_ids = update_lineup_params[:match_players_attributes].values.each_with_object([]) { |el, p_ids| p_ids << el[:round_player_id] }
     player_ids.find_all { |id| player_ids.rindex(id) != player_ids.index(id) }
   end
 
@@ -165,6 +183,10 @@ class LineupsController < ApplicationController
 
   def tour
     @tour ||= Tour.find(params[:tour_id])
+  end
+
+  def tournament_round
+    lineup.tour.tournament_round
   end
 
   def modules

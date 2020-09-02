@@ -1,11 +1,6 @@
-.page-header
-  .page-header-icon
-    = image_tag('navbar/lineups.png')
-  .page-header-title Edit Lineup
-
-.flash-block
-  - flash.each do |key, value|
-    = content_tag :div, value, class: "flash-item flash-#{key}"
+-#.flash-block
+-#  - flash.each do |key, value|
+-#    = content_tag :div, value, class: "flash-item flash-#{key}"
 .page-info
   .lineup-block
     .lineup-field-block
@@ -19,30 +14,30 @@
                   .player-data
                     .player-show-images
                       .player-show-face
-                        = image_tag(team.players.find(match_player.object.player_id).avatar_path, id: "avatar-mp-#{match_player.index}")
+                        = image_tag(team.players.find(match_player.object.player.id).avatar_path, id: "avatar-mp-#{match_player.index}")
                       .player-show-kit
-                        = image_tag(team.players.find(match_player.object.player_id).kit_path, id: "kit-mp-#{match_player.index}", alt: "Club Kit")
+                        = image_tag(team.players.find(match_player.object.player.id).kit_path, id: "kit-mp-#{match_player.index}", alt: "Club Kit")
                       .player-name
                         %span{ id: "name-mp-#{match_player.index}" }
-                          = team.players.find(match_player.object.player_id).name.upcase
+                          = team.players.find(match_player.object.player.id).name.upcase
                       .slot-position{class: "slot-position-#{lineup.slots[match_player.index]&.position.tr('/', '')}"}
                         = lineup.slots[match_player.index]&.position
-                  = match_player.select :player_id, available_for_select_by_positions(team, positions: lineup.slots[match_player.index]&.positions_with_malus, real_position: lineup.slots[match_player.index]&.position), {}, disabled: lineup.tour.closed?, class: 'custom-select lineup-select', id: "mp-#{match_player.index}"
+                  = match_player.select :round_player_id, options_for_select(available_for_select_by_positions(team, positions: lineup.slots[match_player.index]&.positions_with_malus, real_position: lineup.slots[match_player.index]&.position), match_player.object.player.id), {}, html: {selected: true}, disabled: lineup.tour.closed?, class: 'custom-select lineup-select', id: "mp-#{match_player.index}"
             - else
               .lineup-slot{class: "slot-r#{match_player.index}"}
                 .input-group
                   .player-data
                     .player-show-images
                       .player-show-face
-                        = image_tag(team.players.find(match_player.object.player_id).avatar_path, id: "avatar-mp-#{match_player.index}")
+                        = image_tag(team.players.find(match_player.object.player.id).avatar_path, id: "avatar-mp-#{match_player.index}")
                       .player-show-kit
-                        = image_tag(team.players.find(match_player.object.player_id).kit_path, id: "kit-mp-#{match_player.index}", alt: "Club Kit")
+                        = image_tag(team.players.find(match_player.object.player.id).kit_path, id: "kit-mp-#{match_player.index}", alt: "Club Kit")
                       .player-name
                         %span{ id: "name-mp-#{match_player.index}" }
-                          = team.players.find(match_player.object.player_id).name.upcase
+                          = team.players.find(match_player.object.player.id).name.upcase
                       .slot-position.slot-position-res
                         = "R#{match_player.index-10}"
-                  = match_player.select :player_id, available_for_select(team), {}, disabled: lineup.tour.closed?, class: 'custom-select lineup-select', id: "mp-#{match_player.index}"
+                  = match_player.select :round_player_id, options_for_select(available_for_select(team), match_player.object.player.id), {}, html: {selected: true}, disabled: lineup.tour.closed?, class: 'custom-select lineup-select', id: "mp-#{match_player.index}"
           .slot-sb
             = f.submit 'CONFIRM LINEUP', class: 'submit-lineup-btn'
 

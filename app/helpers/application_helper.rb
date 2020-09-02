@@ -58,7 +58,7 @@ module ApplicationHelper
   end
 
   def score_class(match_player)
-    if match_player.score.positive?
+    if match_player.player_score.positive?
       'positive-score'
     else
       'absent-score'

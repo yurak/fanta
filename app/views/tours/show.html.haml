@@ -1,21 +1,22 @@
-.page-header
-  .page-header-icon
-    = image_tag('navbar/tour.png')
-  .page-header-title
-    = "Round ##{tour.number}"
-    .page-header-subtitle
-      = tour.league.name
+-#.page-header
+-#  .page-header-icon
+-#    = image_tag('navbar/tour.png')
+-#  .page-header-title
+-#    = "Round ##{tour.number}"
+-#    .page-header-subtitle
+-#      = tour.league.name
 .page-info
   .list-items.list-action-items.center
     .list-row-item
-      = link_to "RESERVISTS", tour_edit_subs_scores_path(tour), class: 'list-row-cell' if current_user&.can_moderate? && tour.closed?
-      = link_to "STATISTICS", tour_match_players_path(tour), class: 'list-row-cell' if tour.closed?
       - if current_user&.admin?
         = link_to "START ROUND", tour_change_status_path(tour, status: :set_lineup), class: 'list-row-cell', data: { confirm: 'Are you sure?' } if tour.inactive?
         = link_to "LOCK ROUND", tour_change_status_path(tour, status: :locked), class: 'list-row-cell', data: { confirm: 'Are you sure?' } if tour.set_lineup?
         = link_to "CLOSE ROUND", tour_change_status_path(tour, status: :closed), class: 'list-row-cell', data: { confirm: 'Are you sure?' } if tour.locked_or_postponed?
         = link_to "POSTPONE ROUND", tour_change_status_path(tour, status: :postponed), class: 'list-row-cell', data: { confirm: 'Are you sure?' } if tour.locked?
-        = link_to "INJECT SCORES", tour_inject_scores_path(tour), class: 'list-row-cell item-c', data: { confirm: 'Are you sure?' } if tour.deadlined?
+    .list-row-item
+      = link_to "EDIT SCORES", tournament_round_edit_scores_path(tour.tournament_round), class: 'list-row-cell' if current_user&.can_moderate? && tour.deadlined?
+      = link_to "STATISTICS", tournament_round_round_players_path(tour.tournament_round), class: 'list-row-cell' if tour.closed?
+      = link_to "INJECT SCORES", tour_inject_scores_path(tour), class: 'list-row-cell', data: { confirm: 'Are you sure?' } if tour.deadlined? && current_user&.admin?
 
   .list-items.list-items-60-height.tour-base-info.center
     .list-row-item

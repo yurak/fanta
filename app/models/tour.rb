@@ -2,6 +2,7 @@ require 'telegram/bot'
 
 class Tour < ApplicationRecord
   belongs_to :league
+  belongs_to :tournament_round
 
   has_many :matches, dependent: :destroy
   has_many :lineups, dependent: :destroy
@@ -32,6 +33,10 @@ class Tour < ApplicationRecord
 
   def match_players
     MatchPlayer.by_tour(id)
+  end
+
+  def round_players
+    RoundPlayer.by_tour(id)
   end
 
   private

@@ -1,15 +1,15 @@
-.page-header
-  .page-header-icon
-    = image_tag('navbar/lineups.png')
-  .page-header-title
-    %span.bolder
-      = link_to team.name.upcase, team_path(team)
-    | Round
-    %span.bolder
-      = link_to lineup.tour.number, tour_path(lineup.tour)
-.flash-block
-  - flash.each do |key, value|
-    = content_tag :div, value, class: "flash-item flash-#{key}"
+-#.page-header
+-#  .page-header-icon
+-#    = image_tag('navbar/lineups.png')
+-#  .page-header-title
+-#    %span.bolder
+-#      = link_to team.name.upcase, team_path(team)
+-#    | Round
+-#    %span.bolder
+-#      = link_to lineup.tour.number, tour_path(lineup.tour)
+-#.flash-block
+-#  - flash.each do |key, value|
+-#    = content_tag :div, value, class: "flash-item flash-#{key}"
 
 .page-info
   = form_with url: team_lineup_subs_update_path(team, lineup),local: true, method: :put do |f|

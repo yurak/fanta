@@ -1,9 +1,9 @@
-class MatchPlayersController < ApplicationController
+class RoundPlayersController < ApplicationController
   skip_before_action :authenticate_user!, only: %i[index]
 
   respond_to :html, :json
 
-  helper_method :tour
+  helper_method :tournament_round
 
   def index
     @players = order_players
@@ -13,15 +13,15 @@ class MatchPlayersController < ApplicationController
   private
 
   def identifier
-    params[:tour_id].presence || params[:id]
+    params[:tournament_round_id].presence || params[:id]
   end
 
-  def tour
-    @tour ||= Tour.find(params[:tour_id])
+  def tournament_round
+    @tournament_round ||= TournamentRound.find(params[:tournament_round_id])
   end
 
   def tour_players
-    tour.match_players.main.with_score
+    tournament_round.round_players.with_score
   end
 
   def order_players
@@ -33,14 +33,18 @@ class MatchPlayersController < ApplicationController
     when 'base_score'
       players_with_filter.sort_by(&:score).reverse
     when 'total_score'
-      players_with_filter.sort_by(&:total_score).reverse
+      players_with_filter.sort_by(&:result_score).reverse
     else
-      players_with_filter.sort_by(&:total_score).reverse
+      players_with_filter.sort_by(&:result_score).reverse
     end
   end
 
   def players_by_position
-    tour_players.by_real_position(stats_params[:position]) if stats_params[:position]
+    RoundPlayer.where(tournament_round: tournament_round, player_id: player_ids) if stats_params[:position]
+  end
+
+  def player_ids
+    Player.by_position(stats_params[:position]).by_tournament(tournament.id).ids
   end
 
   def players_with_filter
@@ -49,5 +53,9 @@ class MatchPlayersController < ApplicationController
 
   def stats_params
     params.permit(:order, :position)
+  end
+
+  def tournament
+    @tournament ||= tournament_round.tournament
   end
 end

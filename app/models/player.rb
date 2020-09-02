@@ -7,14 +7,15 @@ class Player < ApplicationRecord
   has_many :player_teams, dependent: :destroy
   has_many :teams, through: :player_teams
 
-  has_many :match_players, dependent: :destroy
-  has_many :lineups, through: :match_players
+  has_many :round_players, dependent: :destroy
 
   validates :name, uniqueness: { scope: :first_name }
   validates :name, presence: true
 
   scope :by_position, ->(position) { joins(:positions).where(positions: { name: position }) }
-  scope :stats_query, -> { includes(:match_players, :club, :positions).order(:name) }
+  scope :by_tournament, ->(tournament_id) { joins(:club).where(clubs: { tournament: tournament_id }) }
+  scope :stats_query, -> { includes(:club, :positions).order(:name) }
+  scope :with_team, -> { includes(:teams).where.not(teams: { id: nil }) }
 
   # TODO: move statuses to MatchPlayer model
   enum status: %i[ready problematic injured disqualified]
@@ -71,63 +72,56 @@ class Player < ApplicationRecord
   end
 
   def can_clean_sheet?
-    (position_names & Position::DEFENSIVE).any?
+    (position_names & Position::CLEANSHEET_ZONE).any?
   end
 
-  def played_matches_count
-    # TODO: use matches played for team
-    @played_matches_count ||= played_matches.size
-  end
+  # def played_matches_count
+  #   # TODO: use matches played for team
+  #   @played_matches_count ||= played_matches.size
+  # end
 
   def scores_count
-    # TODO: use matches played for team
-    @scores_count ||= match_with_scores.size
+    @scores_count ||= matches_with_scores.size
   end
 
   def average_score
-    # TODO: use matches played for team
     return 0 if scores_count.zero?
 
-    @average_score ||= (match_with_scores.map(&:score).sum / scores_count).round(2)
+    @average_score ||= (matches_with_scores.map(&:score).sum / scores_count).round(2)
   end
 
-  def average_total_score
-    # TODO: use matches played for team
+  def average_result_score
     return 0 if scores_count.zero?
 
-    @average_total_score ||= (match_with_scores.map(&:total_score).sum / scores_count).round(2)
+    @average_result_score ||= (matches_with_scores.map(&:result_score).sum / scores_count).round(2)
   end
 
   def chart_info
-    # TODO: use matches played for team
     bs = {}
     ts = {}
-    match_players.each do |mp|
-      bs[mp.lineup.tour.number] = mp.score
-      ts[mp.lineup.tour.number] = mp.total_score
+    round_players.each do |rp|
+      bs[rp.lineup.tour.number] = rp.score
+      ts[rp.lineup.tour.number] = rp.result_score
     end
     [{ name: 'Total score', data: ts }, { name: 'Score', data: bs }]
   end
 
   def best_score
-    # TODO: use matches played for team
-    match_with_scores.map(&:total_score).max || 0
+    matches_with_scores.map(&:result_score).max || 0
   end
 
   def worst_score
-    # TODO: use matches played for team
-    match_with_scores.map(&:total_score).min || 0
+    matches_with_scores.map(&:result_score).min || 0
   end
 
   private
 
-  def played_matches
-    # TODO: use matches played for team
-    @played_matches ||= match_players.main.with_score
-  end
+  # def played_matches
+  #   # TODO: use matches played for team
+  #   @played_matches ||= match_players.main.with_score
+  # end
 
-  def match_with_scores
-    # TODO: use matches played for team
-    @match_with_scores ||= match_players.with_score
+  def matches_with_scores
+    @matches_with_scores ||= round_players.with_score
   end
 end

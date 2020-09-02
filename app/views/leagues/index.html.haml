@@ -1,7 +1,3 @@
-.page-header
-  .page-header-icon
-    = image_tag('navbar/leagues.png')
-  .page-header-title Active Leagues
 .page-info
   .leagues-block
     - @leagues.each do |league|
@@ -17,11 +13,12 @@
               = league.tournament.name
         .league-links
           .league-links-block.league-actions
-            = link_to tour_path(league.active_tour || league.tours.last), class: 'league-team-link' do
-              .league-subitem
-                .league-team-logo
-                  = image_tag('navbar/tour_d.png')
-                .league-link-name ROUND
+            - if league.active_tour || league.tours.last
+              = link_to tour_path(league.active_tour || league.tours.last), class: 'league-team-link' do
+                .league-subitem
+                  .league-team-logo
+                    = image_tag('navbar/tour_d.png')
+                  .league-link-name ROUND
             = link_to league_results_path(league), class: 'league-team-link' do
               .league-subitem
                 .league-team-logo
