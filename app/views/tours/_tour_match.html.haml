@@ -19,10 +19,11 @@
           = link_to new_team_lineup_path(match.host) do
             .lineup-link-img
               = image_tag("icons/create_lineup.png", alt: 'Create Lineup')
-        .lineup-link
-          = link_to clone_team_lineups_path(match.host, tour_id: tour.id) do
-            .lineup-link-img
-              = image_tag("icons/clone_lineup.png", alt: 'Clone Lineup')
+        - unless tour.number == 1
+          .lineup-link
+            = link_to clone_team_lineups_path(match.host, tour_id: tour.id) do
+              .lineup-link-img
+                = image_tag("icons/clone_lineup.png", alt: 'Clone Lineup')
   .list-row-cell.tour-result
     - if match.tour.deadlined?
       -# TODO: add link to match details
@@ -45,10 +46,11 @@
           = link_to new_team_lineup_path(match.guest) do
             .lineup-link-img
               = image_tag("icons/create_lineup.png", alt: 'Create Lineup')
-        .lineup-link
-          = link_to clone_team_lineups_path(match.guest, tour_id: tour.id) do
-            .lineup-link-img
-              = image_tag("icons/clone_lineup.png", alt: 'Clone Lineup')
+        - unless tour.number == 1
+          .lineup-link
+            = link_to clone_team_lineups_path(match.guest, tour_id: tour.id) do
+              .lineup-link-img
+                = image_tag("icons/clone_lineup.png", alt: 'Clone Lineup')
   .list-row-cell.tour-guest
     = link_to team_path(match.guest) do
       .tour-team-name
