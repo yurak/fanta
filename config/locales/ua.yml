@@ -7,6 +7,18 @@ ua:
     login: "Вхід"
     logout: "Вихід"
     start: "Почати гру"
+    squad: "Команда"
+    lineups: "Склади"
+    table: "Таблиця"
+    round: "Раунд"
+    fixtures: "Матчі"
+    results: "Результати"
+    links: "Посилання"
+    leagues: "Ліги"
+    players: "Гравці"
+  footer:
+    current_tournaments: "Активні змагання"
+    contact: "Контакти"
   welcome:
     index:
       slogan1: "Фентезі футбол"
