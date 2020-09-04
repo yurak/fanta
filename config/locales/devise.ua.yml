@@ -8,3 +8,6 @@ ua:
         email: "Пошта"
         password: "Пароль"
         remember_me: "Запам'ятати мене"
+    registrations:
+      edit:
+        update: "Оновити"

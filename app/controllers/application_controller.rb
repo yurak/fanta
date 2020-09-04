@@ -5,7 +5,8 @@ class ApplicationController < ActionController::Base
   private
 
   def switch_locale(&action)
-    locale ||= params[:locale] || I18n.default_locale
+    locale = params[:locale] || session[:locale] || I18n.default_locale
+    session[:locale] = locale
     I18n.with_locale(locale, &action)
   end
 

@@ -38,6 +38,18 @@ en:
     login: "Login"
     logout: "Log Out"
     start: "Start game"
+    squad: "Squad"
+    lineups: "Lineups"
+    table: "Table"
+    round: "Round"
+    fixtures: "Fixtures"
+    results: "Results"
+    links: "Links"
+    leagues: "Leagues"
+    players: "Players"
+  footer:
+    current_tournaments: "Current tournaments"
+    contact: "Contact"
   welcome:
     index:
       slogan1: "Fantasy football"
