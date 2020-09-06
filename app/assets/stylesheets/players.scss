@@ -1,7 +1,17 @@
-//.ready {
-//  background-color: green;
-//  opacity: 0.8;
-//}
+/* PLAYER INDEX page */
+
+.players-list {
+  .list-items.stats-headers {
+    grid-template-columns: 1fr 2fr 5fr 3fr;
+  }
+  .list-items.stats-players .list-row-item {
+    grid-template-columns: 1fr 2fr 5fr 3fr;
+  }
+
+  .list-items.list-action-items.center .list-row-item.tournaments {
+    grid-template-columns: 1fr 1fr;
+  }
+}
 
 /* PLAYER SHOW page */
 
@@ -19,7 +29,7 @@
 
   .player-show-face, .player-show-kit {
     position: absolute;
-    img {
+    img, object {
       width: 400px;
       height: 400px;
     }

@@ -2,9 +2,10 @@
   .player-show
     .player-show-images
       .player-show-face
-        = image_tag(player.avatar_path)
+        %object{data: player.avatar_path, type: 'image/jpg'}
+          = image_tag('players/avatar.png')
       .player-show-kit
-        = image_tag(player.kit_path, alt: "Club Kit")
+        = image_tag(player.kit_path, alt: 'Club Kit')
     .player-show-info
       .list-items.list-items-dark.list-items-dark50.center
         .list-row-item

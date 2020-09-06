@@ -156,7 +156,7 @@
   margin: 0 auto;
   background: image_url('field-bg.png') #508501 center no-repeat;
   background-size: contain;
-  min-height: 1700px;
+  min-height: 1200px;
   height: 100%;
 
   .lineup-field-block {
@@ -221,7 +221,7 @@
         height: 100px;
         margin: 0 auto;
         .player-show-face, .player-show-kit, .player-warning {
-          img {
+          img, object {
             width: 100px;
             height: 100px;
           }
