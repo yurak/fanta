@@ -9,7 +9,7 @@ class Player < ApplicationRecord
 
   has_many :round_players, dependent: :destroy
 
-  BUCKET_URL = 'https://mantra-players.s3-eu-west-1.amazonaws.com'
+  BUCKET_URL = 'https://mantra-players.s3-eu-west-1.amazonaws.com'.freeze
 
   validates :name, uniqueness: { scope: :first_name }
   validates :name, presence: true

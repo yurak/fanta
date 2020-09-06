@@ -1,5 +1,5 @@
 class PlayersController < ApplicationController
-  skip_before_action :authenticate_user!, only: [:index, :show]
+  skip_before_action :authenticate_user!, only: %i[index show]
 
   helper_method :player, :team
 
@@ -47,12 +47,12 @@ class PlayersController < ApplicationController
 
   def order_players
     case stats_params[:order]
-      when 'club'
-        players_with_filter.sort_by(&:club)
-      when 'name'
-        players_with_filter.sort_by(&:name)
-      else
-        players_with_filter.sort_by(&:name)
+    when 'club'
+      players_with_filter.sort_by(&:club)
+    when 'name'
+      players_with_filter.sort_by(&:name)
+    else
+      players_with_filter.sort_by(&:name)
       # when 'base_score'
       #   players_with_filter.sort_by(&:score).reverse
       # when 'total_score'
