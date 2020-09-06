@@ -40,5 +40,6 @@
           .results-team-field.results-team-points
             = result.points
         .list-row-cell.results-team-form.center
-          - result.form.each do |form|
-            .form-item{ class: "form-#{form[0]}", title: "#{form[1]} vs #{form[2]}, #{form[3]} tour" }
+          -# TODO: temporarily hidden until fixed result#form
+          -#- result.form.each do |form|
+          -#  .form-item{ class: "form-#{form[0]}", title: "#{form[1]} vs #{form[2]}, #{form[3]} tour" }

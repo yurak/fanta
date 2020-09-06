@@ -7,64 +7,63 @@
       .locale-btn
         = link_to 'УКР', '?locale=ua' if I18n.locale == :en
         = link_to 'ENG', '?locale=en' if I18n.locale == :ua
-    - if external_actions?
-      .info-links
-        .info-links-item
-          = link_to t('header.rules'), rules_path
-        .info-links-item
-          = link_to t('header.guide'), guide_path
-        .info-links-item
-          = link_to t('header.about'), about_path
-        .info-links-item
-          = link_to t('header.contact'), contact_path
-    - else
-      .base-links.info-links
+    .base-links.info-links
+      - if user_signed_in?
         .info-links-item.base-link-item
-          = link_to 'Squad', team_path(current_user.team)
+          = link_to t('header.squad'), team_path(current_user.team)
         .info-links-item.base-link-item
-          = link_to 'Lineups', team_lineups_path(current_user.team)
+          = link_to t('header.lineups'), team_lineups_path(current_user.team)
         .info-links-item.base-link-item
-          = link_to 'Table', league_results_path(current_user.league)
+          = link_to t('header.table'), league_results_path(current_user.league)
         -# TODO: combine Round Fixtures and Results in one link Rounds
+        - if current_user.league.active_tour || current_user.league.tours.last
+          .info-links-item.base-link-item
+            = link_to t('header.round'), tour_path(current_user.league.active_tour || current_user.league.tours.last)
         .info-links-item.base-link-item
-          = link_to 'Round', tour_path(current_user.league.active_tour || current_user.league.tours.last)
+          = link_to t('header.fixtures'), league_tours_path(current_user.league)
         .info-links-item.base-link-item
-          = link_to 'Fixtures', league_tours_path(current_user.league)
-        .info-links-item.base-link-item
-          = link_to 'Results', league_tours_path(current_user.league, closed: true)
+          = link_to t('header.results'), league_tours_path(current_user.league, closed: true)
         -# TODO: temporary hidden links
         -#.info-links-item.base-link-item
         -#  = link_to 'Links', league_links_path(current_user.league)
         -#.info-links-item.base-link-item
         -#  = link_to 'Leagues', leagues_path
-        -#.info-links-item.base-link-item
-        -#  = link_to 'Players', '', class: 'players-link', title: 'Players'
-        .info-links-item.base-link-item
-          = link_to t('header.rules'), guide_path
+      - else
+        -#- if external_actions?
+        .info-links-item
+          = link_to t('header.about'), about_path
+        .info-links-item
+          = link_to t('header.contact'), contact_path
+        .info-links-item
+          = link_to t('header.rules'), rules_path
+      .info-links-item
+        = link_to t('header.guide'), guide_path
+      .info-links-item.base-link-item
+        = link_to t('header.players'), players_path
 
-  .right-header
+  .right-header{class: "external-header-#{external_actions?}"}
     .right-header-links
-      - if external_actions?
-        - if user_signed_in?
+      - if user_signed_in?
+        - if external_actions?
           .login-links
             .login-link-item.header-btn
               = link_to t('header.logout'), destroy_user_session_path, method: :delete
         - else
-          .login-links
-            .login-link-item.login-link
-              = link_to t('header.login'), new_user_session_path
-            .login-link-item.header-btn
-              = link_to t('header.start'), new_join_request_path
+          .personal-links
+            .next-round
+              -# TODO: add next round data
+            .user-data
+              -# TODO: move admin link to profile page
+              -# = link_to 'Admin Panel', rails_admin_path, class: 'admin-link', title: 'Admin Panel'
+              = link_to edit_user_registration_path do
+                .profile-logo
+                  = image_tag(current_user.team.logo_path)
       - else
-        .personal-links
-          .next-round
-            -# TODO: add next round data
-          .user-data
-            -# TODO: move admin link to profile page
-            -# = link_to 'Admin Panel', rails_admin_path, class: 'admin-link', title: 'Admin Panel'
-            = link_to edit_user_registration_path do
-              .profile-logo
-                = image_tag(current_user.team.logo_path)
+        .login-links{class: "external-header-#{external_actions?}"}
+          .login-link-item.login-link
+            = link_to t('header.login'), new_user_session_path
+          .login-link-item.header-btn
+            = link_to t('header.start'), new_join_request_path
     .burger-menu-block
       %nav{ role: 'navigation' }
         #menuToggle
@@ -74,14 +73,16 @@
           %span
           %ul#menu
             - if user_signed_in?
-              .burger-link= link_to 'Squad', team_path(current_user.team)
-              .burger-link= link_to 'Lineups', team_lineups_path(current_user.team)
-              .burger-link= link_to 'Table', league_results_path(current_user.league)
-              .burger-link= link_to 'Round', tour_path(current_user.league.active_tour || current_user.league.tours.last)
-              .burger-link= link_to 'Fixtures', league_tours_path(current_user.league)
-              .burger-link= link_to 'Results', league_tours_path(current_user.league, closed: true)
-              .burger-link= link_to 'Links', league_links_path(current_user.league)
-              .burger-link= link_to 'Leagues', leagues_path
+              .burger-link= link_to t('header.squad'), team_path(current_user.team)
+              .burger-link= link_to t('header.lineups'), team_lineups_path(current_user.team)
+              .burger-link= link_to t('header.table'), league_results_path(current_user.league)
+              - if current_user.league.active_tour || current_user.league.tours.last
+                .burger-link= link_to t('header.round'), tour_path(current_user.league.active_tour || current_user.league.tours.last)
+              .burger-link= link_to t('header.fixtures'), league_tours_path(current_user.league)
+              .burger-link= link_to t('header.results'), league_tours_path(current_user.league, closed: true)
+              .burger-link= link_to t('header.links'), league_links_path(current_user.league)
+              .burger-link= link_to t('header.leagues'), leagues_path
+              .burger-link= link_to t('header.players'), players_path
               .burger-link= link_to t('header.rules'), guide_path
             -else
               .burger-link= link_to t('header.start'), new_join_request_path

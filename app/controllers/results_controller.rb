@@ -6,7 +6,7 @@ class ResultsController < ApplicationController
   helper_method :league
 
   def index
-    @results = Result.by_league(params[:league_id]).ordered
+    @results = Result.where(league_id: params[:league_id]).ordered
 
     respond_with @results
   end
