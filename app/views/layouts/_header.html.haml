@@ -39,7 +39,7 @@
       .info-links-item
         = link_to t('header.guide'), guide_path
       .info-links-item.base-link-item
-        = link_to t('header.players'), ''
+        = link_to t('header.players'), players_path
 
   .right-header{class: "external-header-#{external_actions?}"}
     .right-header-links
@@ -82,7 +82,7 @@
               .burger-link= link_to t('header.results'), league_tours_path(current_user.league, closed: true)
               .burger-link= link_to t('header.links'), league_links_path(current_user.league)
               .burger-link= link_to t('header.leagues'), leagues_path
-              .burger-link= link_to t('header.players'), ''
+              .burger-link= link_to t('header.players'), players_path
               .burger-link= link_to t('header.rules'), guide_path
             -else
               .burger-link= link_to t('header.start'), new_join_request_path

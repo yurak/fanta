@@ -9,11 +9,14 @@ class Player < ApplicationRecord
 
   has_many :round_players, dependent: :destroy
 
+  BUCKET_URL = 'https://mantra-players.s3-eu-west-1.amazonaws.com'.freeze
+
   validates :name, uniqueness: { scope: :first_name }
   validates :name, presence: true
 
+  scope :by_club, ->(club_id) { where(club_id: club_id) }
   scope :by_position, ->(position) { joins(:positions).where(positions: { name: position }) }
-  scope :by_tournament, ->(tournament_id) { joins(:club).where(clubs: { tournament: tournament_id }) }
+  scope :by_tournament, ->(tournament_id) { joins(:club).where(clubs: { tournament: tournament_id, status: 'active' }) }
   scope :stats_query, -> { includes(:club, :positions).order(:name) }
   scope :with_team, -> { includes(:teams).where.not(teams: { id: nil }) }
 
@@ -29,8 +32,9 @@ class Player < ApplicationRecord
   }
 
   def avatar_path
-    path = "players/#{path_name}.png"
-    ActionController::Base.helpers.resolve_asset_path(path) ? path : 'players/avatar.png'
+    # path = "players/#{path_name}.png"
+    # ActionController::Base.helpers.resolve_asset_path(path) ? path : 'players/avatar.png'
+    "#{BUCKET_URL}/#{path_name}.png"
   end
 
   def country

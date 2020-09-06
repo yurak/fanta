@@ -2,6 +2,8 @@ class Club < ApplicationRecord
   belongs_to :tournament
   has_many :players
 
+  enum status: %i[active archived]
+
   validates :name, uniqueness: true
   validates :code, uniqueness: true
 

@@ -44,7 +44,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :players, only: [:show] do
+  resources :players, only: [:index, :show] do
     get :change_status
   end
 
