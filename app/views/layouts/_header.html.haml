@@ -59,7 +59,7 @@
                 .profile-logo
                   = image_tag(current_user.team.logo_path)
       - else
-        .login-links{class: "external-header-#{external_actions?}"}
+        .login-links
           .login-link-item.login-link
             = link_to t('header.login'), new_user_session_path
           .login-link-item.header-btn
