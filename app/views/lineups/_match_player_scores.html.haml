@@ -14,9 +14,9 @@
       .l-details-position-image
         = image_tag("positions/#{position.name}.png")
   .mp-edit-item-param.mp-edit-player-tscore{class: score_class(match_player.object)}
-    = match_player.object.result_score
+    = match_player.object.total_score
   .mp-edit-item-param.mp-edit-player-score
-    = match_player.object.player_score
+    = match_player.object.score
   - if lineup.slots[match_player.index]&.position == 'Por'
     .mp-edit-item-param
       - if match_player.object.round_player.missed_goals.to_i.nonzero?
@@ -68,5 +68,5 @@
     - if lineup.slots[match_player.index]&.position && lineup.slots[match_player.index]&.position != 'Por'
       = match_player.number_field :position_malus, in: 0..4.5, step: 1.5, class: 'form-control'
   .mp-edit-item-param
-    - if Position::CLEANSHEET_ZONE.include? lineup.slots[match_player.index]&.position
+    - if lineup.slots[match_player.index] && (Position::CLEANSHEET_ZONE & lineup.slots[match_player.index].positions).present?
       = match_player.check_box :cleansheet, {'data-toggle' => 'toggle', 'data-onstyle' => 'success', 'data-on' => 'Yes', 'data-off' => 'No', 'data-size' => 'small', 'data-height' => '38'}

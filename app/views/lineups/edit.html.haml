@@ -14,7 +14,8 @@
                   .player-data
                     .player-show-images
                       .player-show-face
-                        = image_tag(team.players.find(match_player.object.player.id).avatar_path, id: "avatar-mp-#{match_player.index}")
+                        %object{data: team.players.find(match_player.object.player.id).avatar_path, type: 'image/jpg', id: "avatar-mp-#{match_player.index}"}
+                          = image_tag('avatar.png')
                       .player-show-kit
                         = image_tag(team.players.find(match_player.object.player.id).kit_path, id: "kit-mp-#{match_player.index}", alt: "Club Kit")
                       .player-name
@@ -29,7 +30,8 @@
                   .player-data
                     .player-show-images
                       .player-show-face
-                        = image_tag(team.players.find(match_player.object.player.id).avatar_path, id: "avatar-mp-#{match_player.index}")
+                        %object{data: team.players.find(match_player.object.player.id).avatar_path, type: 'image/jpg', id: "avatar-mp-#{match_player.index}"}
+                          = image_tag('avatar.png')
                       .player-show-kit
                         = image_tag(team.players.find(match_player.object.player.id).kit_path, id: "kit-mp-#{match_player.index}", alt: "Club Kit")
                       .player-name
@@ -54,7 +56,7 @@
       dataType: 'json',
       url: '/players/'+player_id,
       success: function(data){
-        avatar_container.attr('src', location.origin + data.avatar_path);
+        avatar_container.attr('data', data.avatar_path);
         kit_container.attr('src', location.origin + data.kit_path);
         name_container.text(data.name);
       }

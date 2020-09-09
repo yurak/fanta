@@ -11,6 +11,7 @@ class Lineup < ApplicationRecord
 
   delegate :slots, to: :team_module
   delegate :tournament_round, to: :tour
+  delegate :league, to: :team
 
   scope :closed, ->(league_id) { where(tour_id: League.find(league_id).tours.closed.ids) }
   scope :by_league, ->(league_id) { where(tour_id: League.find(league_id).tours.ids) }
@@ -28,10 +29,10 @@ class Lineup < ApplicationRecord
   end
 
   def defence_bonus
-    return 0 if def_average_score < MIN_AVG_DEF_SCORE
-    return 5 if def_average_score >= MAX_AVG_DEF_SCORE
+    return 0 if def_average_score < min_avg_def_score
+    return 5 if def_average_score >= max_avg_def_score
 
-    ((def_average_score - MIN_AVG_DEF_SCORE) / DEF_BONUS_STEP + 1).floor
+    ((def_average_score - min_avg_def_score) / DEF_BONUS_STEP + 1).floor
   end
 
   def goals
@@ -72,12 +73,20 @@ class Lineup < ApplicationRecord
 
   private
 
+  def min_avg_def_score
+    league.min_avg_def_score || MIN_AVG_DEF_SCORE
+  end
+
+  def max_avg_def_score
+    league.max_avg_def_score || MAX_AVG_DEF_SCORE
+  end
+
   def def_count
     @def_count ||= match_players.defenders.count
   end
 
   def def_scores_sum
-    match_players.defenders.map(&:player_score).compact.sum
+    match_players.defenders.map(&:score).compact.sum
   end
 
   def def_average_score

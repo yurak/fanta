@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_05_091739) do
+ActiveRecord::Schema.define(version: 2020_09_07_161420) do
 
   create_table "articles", force: :cascade do |t|
     t.string "title"
@@ -49,6 +49,11 @@ ActiveRecord::Schema.define(version: 2020_09_05_091739) do
     t.datetime "updated_at", null: false
     t.integer "tour_difference", default: 0, null: false
     t.integer "season_id"
+    t.decimal "min_avg_def_score", default: "6.0", null: false
+    t.decimal "max_avg_def_score", default: "7.0", null: false
+    t.boolean "custom_bonuses", default: false, null: false
+    t.decimal "missed_goals", default: "2.0", null: false
+    t.decimal "failed_penalty", default: "3.0", null: false
     t.index ["season_id"], name: "index_leagues_on_season_id"
   end
 
