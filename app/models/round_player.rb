@@ -12,31 +12,37 @@ class RoundPlayer < ApplicationRecord
   scope :with_score, -> { where('score > ?', 0) }
   scope :ordered_by_club, -> { joins(player: :club).order('clubs.name') }
 
+  GOAL_BONUS = 3
+  CAUGHT_PENALTY_BONUS = 3
+  SCORED_PENALTY_BONUS = 2
+  ASSIST_BONUS = 1
+
+  MISSED_GOAL_MALUS = 2
+  MISSED_PENALTY_MALUS = 1
+  FAILED_PENALTY_MALUS = 3
+  OWN_GOAL_MALUS = 2
+  YELLOW_CARD_MALUS = 0.5
+  RED_CARD_MALUS = 1
+
   def result_score
     return 0 unless score
 
     total = score
 
-    # TODO: add ability customize bonuses/maluses values
     # bonuses
-    total += goals * 3 if goals
-    total += caught_penalty * 3 if caught_penalty
-    total += scored_penalty * 2 if scored_penalty
-    total += assists if assists
+    total += goals * GOAL_BONUS if goals
+    total += caught_penalty * CAUGHT_PENALTY_BONUS if caught_penalty
+    total += scored_penalty * SCORED_PENALTY_BONUS if scored_penalty
+    total += assists * ASSIST_BONUS if assists
 
     # maluses
-    total -= missed_goals * 2 if missed_goals
-    total -= missed_penalty if missed_penalty
-    total -= failed_penalty * 3 if failed_penalty
-    total -= own_goals * 2 if own_goals
-    total -= 0.5 if yellow_card
-    total -= 1 if red_card
+    total -= missed_goals * MISSED_GOAL_MALUS if missed_goals
+    total -= missed_penalty * MISSED_PENALTY_MALUS if missed_penalty
+    total -= failed_penalty * FAILED_PENALTY_MALUS if failed_penalty
+    total -= own_goals * OWN_GOAL_MALUS if own_goals
+    total -= YELLOW_CARD_MALUS if yellow_card
+    total -= RED_CARD_MALUS if red_card
 
     total
-  end
-
-  def player_score
-    # TODO: temp method for correct data migrations
-    score
   end
 end

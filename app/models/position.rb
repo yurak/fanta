@@ -26,6 +26,8 @@ class Position < ApplicationRecord
 
   DEFENCE = [DIFENSORE_CENTRALE, DIFENSORE_SINISTRO, DIFENSORE_DESTRO].freeze
 
+  FORWARDS = [ATTACCANTE, PUNTA].freeze
+
   MANTRA = [
     PORTIERE,
     ESTERNO,

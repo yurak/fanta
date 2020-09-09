@@ -2,12 +2,10 @@ class MatchPlayer < ApplicationRecord
   belongs_to :round_player
   belongs_to :lineup
 
-  delegate :tour, to: :lineup
-  delegate :player, :player_score, :result_score, to: :round_player
-  # TODO: should be released after migrations release
-  # delegate :player, :score, :result_score, :goals, :assists, :missed_goals,
-  #          :caught_penalty, :missed_penalty, :scored_penalty, :failed_penalty,
-  #          :own_goals, :yellow_card, :red_card, to: :round_player
+  delegate :tour, :league, to: :lineup
+  delegate :player, :score, :result_score, :goals, :assists, :missed_goals,
+           :caught_penalty, :missed_penalty, :scored_penalty, :failed_penalty,
+           :own_goals, :yellow_card, :red_card, to: :round_player
   delegate :position_names, :name, :club, :teams, to: :player
 
   enum subs_status: %i[initial get_out get_in not_in_squad]
@@ -21,6 +19,11 @@ class MatchPlayer < ApplicationRecord
   scope :reservists_by_tour, ->(tour_id) { subs.by_tour(tour_id) }
   scope :defenders, -> { where(real_position: Position::DEFENCE) }
   scope :by_real_position, ->(position) { where('real_position LIKE ?', '%' + position + '%') }
+
+  GOAL_PC_DIFF = -1
+  GOAL_A_DIFF = -0.5
+  BASE_CLEANSHEET_BONUS = 1
+  CUSTOM_CLEANSHEET_BONUS = 0.5
 
   def team_by(league)
     player.teams.find_by(league: league)
@@ -37,22 +40,61 @@ class MatchPlayer < ApplicationRecord
   def position_malus?
     return false unless real_position
 
-    (real_position.split('/') & position_names).empty?
+    (real_position_arr & position_names).empty?
   end
 
   def total_score
-    return 0 unless player_score
+    return 0 unless score
 
     total = result_score
+    total += custom_score if league.custom_bonuses
 
-    # TODO: add ability customize cleansheet value and logic
-    total += 1 if cleansheet
+    total += cleansheet_score if cleansheet
     total -= position_malus if position_malus
 
     total
   end
 
   def available_positions
-    real_position.split('/').map { |p| Position::DEPENDENCY[p] }.flatten.uniq
+    real_position_arr.map { |p| Position::DEPENDENCY[p] }.flatten.uniq
+  end
+
+  def real_position_arr
+    real_position ? real_position.split('/') : []
+  end
+
+  private
+
+  def custom_score
+    custom_diff = 0
+    custom_diff += recount_goals if (position_names & Position::FORWARDS).present? && goals.positive?
+    custom_diff += recount_missed_goals if real_position_arr.include?(Position::PORTIERE) && missed_goals.positive?
+    custom_diff += recount_failed_penalty if failed_penalty.positive?
+
+    custom_diff
+  end
+
+  def recount_goals
+    goal_diff = real_position_arr.include?(Position::PUNTA) ? GOAL_PC_DIFF : GOAL_A_DIFF
+    goal_diff * goals
+  end
+
+  def recount_missed_goals
+    (RoundPlayer::MISSED_GOAL_MALUS - league.missed_goals) * missed_goals
+  end
+
+  def recount_failed_penalty
+    (RoundPlayer::FAILED_PENALTY_MALUS - league.failed_penalty) * failed_penalty
+  end
+
+  def cleansheet_score
+    return 0 unless (real_position_arr & Position::CLEANSHEET_ZONE).present?
+    return 0 unless (position_names & Position::CLEANSHEET_ZONE).present?
+
+    if league.custom_bonuses && real_position_arr.include?(Position::MEDIANO) && position_names.include?(Position::MEDIANO)
+      CUSTOM_CLEANSHEET_BONUS
+    else
+      BASE_CLEANSHEET_BONUS
+    end
   end
 end

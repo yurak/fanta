@@ -3,7 +3,7 @@
     .player-show-images
       .player-show-face
         %object{data: player.avatar_path, type: 'image/jpg'}
-          = image_tag('players/avatar.png')
+          = image_tag('avatar.png')
       .player-show-kit
         = image_tag(player.kit_path, alt: 'Club Kit')
     .player-show-info
@@ -15,8 +15,9 @@
         .list-row-item
           .list-row-cell COUNTRY
           .list-row-cell.player-data-cell
-            = flag_icon(player.nationality.to_sym, element: :div)
-            = player.country.upcase
+            - if player.nationality
+              = flag_icon(player.nationality.to_sym, element: :div)
+              = player.country.upcase
         .list-row-item
           .list-row-cell CLUB
           .list-row-cell.player-data-cell
