@@ -33,7 +33,7 @@ class Player < ApplicationRecord
 
   def avatar_path
     # path = "players/#{path_name}.png"
-    # ActionController::Base.helpers.resolve_asset_path(path) ? path : 'players/avatar.png'
+    # ActionController::Base.helpers.resolve_asset_path(path) ? path : 'avatar.png'
     "#{BUCKET_URL}/#{path_name}.png"
   end
 
