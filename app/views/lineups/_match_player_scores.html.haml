@@ -14,7 +14,7 @@
       .l-details-position-image
         = image_tag("positions/#{position.name}.png")
   .mp-edit-item-param.mp-edit-player-tscore{class: score_class(match_player.object)}
-    = match_player.object.result_score
+    = match_player.object.total_score
   .mp-edit-item-param.mp-edit-player-score
     = match_player.object.score
   - if lineup.slots[match_player.index]&.position == 'Por'
