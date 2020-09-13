@@ -1,7 +1,6 @@
 class Tournament < ApplicationRecord
   has_many :leagues, dependent: :destroy
   has_many :clubs, dependent: :destroy
-
   has_many :tournament_rounds, dependent: :destroy
 
   validates :name, presence: true

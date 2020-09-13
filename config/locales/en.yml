@@ -47,6 +47,7 @@ en:
     links: "Links"
     leagues: "Leagues"
     players: "Players"
+    profile: "Profile"
   footer:
     current_tournaments: "Current tournaments"
     contact: "Contact"

@@ -84,6 +84,7 @@
               .burger-link= link_to t('header.leagues'), leagues_path
               .burger-link= link_to t('header.players'), players_path
               .burger-link= link_to t('header.rules'), guide_path
+              .burger-link= link_to t('header.profile'), edit_user_registration_path
             -else
               .burger-link= link_to t('header.start'), new_join_request_path
               .burger-link= link_to t('header.login'), new_user_session_path

@@ -1,6 +1,8 @@
 class Club < ApplicationRecord
   belongs_to :tournament
+
   has_many :players
+  has_many :tournament_matches
 
   enum status: %i[active archived]
 

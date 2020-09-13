@@ -5,7 +5,7 @@
   .lineup-block
     .lineup-field-block
       .lineup-field
-        = form_for [team, lineup], url: team_lineup_path(team, lineup), method: :put do |f|
+        = form_for [team, lineup], url: team_lineup_path(team, lineup), id: 'lineup_form', method: :put do |f|
           = f.fields_for :match_players do |match_player|
             - if lineup.slots[match_player.index]&.position
               .lineup-slot{class: "slot-#{lineup.slots[match_player.index]&.location}"}
@@ -41,7 +41,7 @@
                         = "R#{match_player.index-10}"
                   = match_player.select :round_player_id, options_for_select(available_for_select(team), match_player.object.player.id), {}, html: {selected: true}, disabled: lineup.tour.closed?, class: 'custom-select lineup-select', id: "mp-#{match_player.index}"
           .slot-sb
-            = f.submit 'CONFIRM LINEUP', class: 'submit-lineup-btn'
+            = f.submit 'CONFIRM LINEUP', class: 'submit-lineup-btn', id: 'submit-lineup-btn'
 
 :javascript
   $('.lineup-select').change(function(){
@@ -61,4 +61,20 @@
         name_container.text(data.name);
       }
     });
-  })
+  });
+
+  $(document).ready(function() {
+    $("#submit-lineup-btn").click(function(){
+      var player_ids = [];
+      $('.lineup-select').each(function() { player_ids.push($(this).val()); });
+
+      var duplicate_ids = player_ids.reduce(function(acc, el, i, arr) {
+        if (arr.indexOf(el) !== i && acc.indexOf(el) < 0) acc.push(el); return acc;
+      }, []);
+
+      if (duplicate_ids.length > 0) {
+        alert('Lineup contains duplicate players');
+        return false;
+      }
+    });
+  });
