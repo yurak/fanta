@@ -4,12 +4,14 @@ class Team < ApplicationRecord
 
   has_many :player_teams, dependent: :destroy
   has_many :players, through: :player_teams
+
   has_many :lineups, -> { order('tour_id desc') }, dependent: :destroy
+
   has_many :host_matches, foreign_key: 'host_id', class_name: 'Match', dependent: :destroy
   has_many :guest_matches, foreign_key: 'guest_id', class_name: 'Match', dependent: :destroy
+
   has_many :result, dependent: :destroy
 
-  # TODO: recommend max length for ui display - 15 chars
   validates :name, uniqueness: true, length: { in: 2..20 }
 
   def matches

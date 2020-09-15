@@ -1,7 +1,6 @@
 module Scores
   module Injectors
     class Calcio < ApplicationService
-      URL = 'https://www.magicleghe.fco.live/it/serie-a/2019-2020/diretta-live/'.freeze
       STATUS_FINISHED_MATCH = 'Terminata'.freeze
       attr_reader :tournament_round
 
@@ -38,7 +37,7 @@ module Scores
       end
 
       def all_matches_data
-        @all_matches_data ||= html_page.css('#app .giornata-matches .tab-content').children
+        @all_matches_data ||= TournamentRounds::SerieaEventsParser.call(tournament_round: tournament_round)
       end
 
       def match_status(match_info)
@@ -71,18 +70,6 @@ module Scores
 
       def guest_players_scores(match_info)
         match_info.css('.away-team-votes table tbody tr')
-      end
-
-      def html_page
-        @html_page ||= Nokogiri::HTML(request)
-      end
-
-      def request
-        RestClient.get(tournament_round_url)
-      end
-
-      def tournament_round_url
-        "#{URL}#{tournament_round.number}-giornata"
       end
     end
   end

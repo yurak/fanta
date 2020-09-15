@@ -9,7 +9,7 @@ class Player < ApplicationRecord
 
   has_many :round_players, dependent: :destroy
 
-  BUCKET_URL = 'https://mantra-players.s3-eu-west-1.amazonaws.com'.freeze
+  BUCKET_URL = 'https://mantrafootball.s3-eu-west-1.amazonaws.com'.freeze
 
   validates :name, uniqueness: { scope: :first_name }
   validates :name, presence: true
@@ -32,9 +32,7 @@ class Player < ApplicationRecord
   }
 
   def avatar_path
-    # path = "players/#{path_name}.png"
-    # ActionController::Base.helpers.resolve_asset_path(path) ? path : 'avatar.png'
-    "#{BUCKET_URL}/#{path_name}.png"
+    "#{BUCKET_URL}/players/#{path_name}.png"
   end
 
   def country
