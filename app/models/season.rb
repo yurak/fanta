@@ -1,5 +1,6 @@
 class Season < ApplicationRecord
   has_many :leagues, dependent: :destroy
+  has_many :tournament_rounds, dependent: :destroy
 
   MIN_START_YEAR = 2019
   MIN_END_YEAR = 2020

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_07_161420) do
+ActiveRecord::Schema.define(version: 2020_09_13_204836) do
 
   create_table "articles", force: :cascade do |t|
     t.string "title"
@@ -28,6 +28,7 @@ ActiveRecord::Schema.define(version: 2020_09_07_161420) do
     t.datetime "updated_at", null: false
     t.integer "tournament_id"
     t.integer "status", default: 0, null: false
+    t.string "full_name", default: "", null: false
     t.index ["tournament_id"], name: "index_clubs_on_tournament_id"
   end
 
@@ -195,14 +196,12 @@ ActiveRecord::Schema.define(version: 2020_09_07_161420) do
 
   create_table "tournament_matches", force: :cascade do |t|
     t.integer "tournament_round_id"
-    t.integer "host_club_id"
-    t.integer "guest_club_id"
+    t.bigint "host_club_id", null: false
+    t.bigint "guest_club_id", null: false
     t.integer "host_score"
     t.integer "guest_score"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["guest_club_id"], name: "index_tournament_matches_on_guest_club_id"
-    t.index ["host_club_id"], name: "index_tournament_matches_on_host_club_id"
     t.index ["tournament_round_id"], name: "index_tournament_matches_on_tournament_round_id"
   end
 

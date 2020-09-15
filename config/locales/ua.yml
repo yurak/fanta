@@ -16,6 +16,7 @@ ua:
     links: "Посилання"
     leagues: "Ліги"
     players: "Гравці"
+    profile: "Профіль"
   footer:
     current_tournaments: "Активні змагання"
     contact: "Контакти"
