@@ -2,7 +2,8 @@ class Club < ApplicationRecord
   belongs_to :tournament
 
   has_many :players
-  has_many :tournament_matches
+  has_many :host_tournament_matches, foreign_key: 'host_club_id', class_name: 'TournamentMatch', dependent: :destroy
+  has_many :guest_tournament_matches, foreign_key: 'guest_club_id', class_name: 'TournamentMatch', dependent: :destroy
 
   enum status: %i[active archived]
 

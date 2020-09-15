@@ -1,7 +1,7 @@
 module Scores
   module Injectors
     class Epl < ApplicationService
-      URL = 'http://132.145.254.115:8080/scrapper/mantra/rounds?round='.freeze
+      EPL_SCORES_URL = 'http://132.145.254.115:8080/scrapper/mantra/rounds?round='.freeze
       attr_reader :tournament_round
 
       def initialize(tournament_round: nil)
@@ -27,7 +27,7 @@ module Scores
       end
 
       def tournament_round_url
-        "#{URL}#{tournament_round.number}"
+        "#{EPL_SCORES_URL}#{tournament_round.number}"
       end
     end
   end
