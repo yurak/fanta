@@ -35,4 +35,16 @@ class Team < ApplicationRecord
   def human_name
     name.humanize.upcase
   end
+
+  def next_round
+    league.active_tour || league.tours.inactive.first
+  end
+
+  def next_match
+    @match ||= Match.by_team_and_tour(id, next_round.id).first
+  end
+
+  def next_opponent
+    next_match.host == self ? next_match.guest : next_match.host
+  end
 end

@@ -1,0 +1,333 @@
+.user-show {
+  width: 560px;
+  background-color: #FFFFFF;
+  margin: 20px auto 0;
+  padding: 32px;
+
+  .user-data {
+    padding-bottom: 24px;
+    border-bottom: 1px solid #E5E6E4;
+
+    .user-data-block {
+      display: grid;
+      grid-template-columns: auto 136px;
+    }
+
+    .user-params {
+      .user-subtitle {
+        margin-top: 28px;
+        font-weight: 500;
+        font-size: 12px;
+        line-height: 16px;
+        color: #847577;
+      }
+
+      .user-subtitle:first-child {
+        margin-top: 0;
+      }
+
+      .user-param-value {
+        font-size: 16px;
+        line-height: 24px;
+      }
+    }
+
+    .user-avatar {
+      padding: 0 24px;
+      text-align: center;
+
+      img {
+        width: 88px;
+        height: 88px;
+      }
+    }
+  }
+
+  .user-teams {
+    padding: 24px 0;
+    border-bottom: 1px solid #E5E6E4;
+
+    .user-team {
+      height: 64px;
+      padding: 12px;
+      border: 1px solid #E5E6E4;
+      box-sizing: border-box;
+      border-radius: 4px;
+      display: grid;
+      grid-template-columns: 40px auto 64px;
+      column-gap: 16px;
+      margin: 4px 0;
+      font-size: 16px;
+      line-height: 24px;
+
+      img {
+        width: 40px;
+        height: 40px;
+      }
+
+      .user-team-league {
+        font-size: 10px;
+        line-height: 14px;
+
+        .user-team-league-title {
+          display: inline-block;
+          color: #A6A2A2;
+        }
+
+        .user-team-league-name {
+          display: inline-block;
+        }
+      }
+    }
+
+    .user-team-activate {
+      padding-top: 5px;
+    }
+  }
+
+  .user-notifications {
+    padding: 24px 0 16px;
+
+    .user-notifications-block {
+      display: grid;
+      grid-template-columns: auto 48px;
+    }
+
+    .user-notifications-subtitle {
+      font-size: 10px;
+      line-height: 14px;
+      color: #A6A2A2;
+    }
+  }
+
+  .user-title {
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 24px;
+    padding-bottom: 16px;
+  }
+
+  .checkbox-block {
+    width: 40px;
+    height: 24px;
+    background: #A6A2A2;
+    border-radius: 12px;
+    margin: 7px 4px;
+    padding: 3px;
+
+    .checkbox-item {
+      background-color: #FFFFFF;
+      height: 18px;
+      width: 18px;
+      border-radius: 9px;
+    }
+  }
+
+  .change-link {
+    font-size: 12px;
+    line-height: 16px;
+    font-weight: 500;
+    color: #261FFF;
+    text-decoration: none;
+  }
+
+  .checkbox-on-true {
+    background: #261FFF;
+
+    .checkbox-item {
+      float: right;
+    }
+  }
+}
+
+.edit-user-avatar {
+  width: 606px;
+
+  .cc-selector input{
+    margin: 0;
+    padding: 0;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+  }
+
+  .cc-selector input:active +.drinkcard-cc{opacity: .9;}
+  .cc-selector input:checked +.drinkcard-cc{
+    -webkit-filter: none;
+    -moz-filter: none;
+    filter: none;
+  }
+  .drinkcard-cc{
+    margin: 10px;
+    cursor: pointer;
+    background-size: contain;
+    background-repeat: no-repeat;
+    display: inline-block;
+    width: 80px;
+    height: 80px;
+    -webkit-transition: all 100ms ease-in;
+    -moz-transition: all 100ms ease-in;
+    transition: all 100ms ease-in;
+    -webkit-filter: brightness(1.8) grayscale(1) opacity(.7);
+    -moz-filter: brightness(1.8) grayscale(1) opacity(.7);
+    filter: brightness(1.8) grayscale(1) opacity(.7);
+  }
+  .drinkcard-cc:hover{
+    -webkit-filter: brightness(1.2) grayscale(.5) opacity(.9);
+    -moz-filter: brightness(1.2) grayscale(.5) opacity(.9);
+    filter: brightness(1.2) grayscale(.5) opacity(.9);
+  }
+
+  .form-btn {
+    margin-top: 24px;
+    text-align: center;
+  }
+
+  .avatar_1 {background-image: image_url('avatars/avatar_1.png');}
+  .avatar_2 {background-image: image_url('avatars/avatar_2.png');}
+  .avatar_3 {background-image: image_url('avatars/avatar_3.png');}
+  .avatar_4 {background-image: image_url('avatars/avatar_4.png');}
+  .avatar_5 {background-image: image_url('avatars/avatar_5.png');}
+  .avatar_6 {background-image: image_url('avatars/avatar_6.png');}
+  .avatar_7 {background-image: image_url('avatars/avatar_7.png');}
+  .avatar_8 {background-image: image_url('avatars/avatar_8.png');}
+  .avatar_9 {background-image: image_url('avatars/avatar_9.png');}
+  .avatar_10 {background-image: image_url('avatars/avatar_10.png');}
+  .avatar_11 {background-image: image_url('avatars/avatar_11.png');}
+  .avatar_12 {background-image: image_url('avatars/avatar_12.png');}
+  .avatar_13 {background-image: image_url('avatars/avatar_13.png');}
+  .avatar_14 {background-image: image_url('avatars/avatar_14.png');}
+  .avatar_15 {background-image: image_url('avatars/avatar_15.png');}
+}
+
+@media (orientation: portrait) {
+  .user-show {
+    width: 760px;
+    padding: 48px;
+
+    .user-data {
+      padding-bottom: 32px;
+      border-bottom: 2px solid #E5E6E4;
+
+      .user-data-block {
+        grid-template-columns: auto 204px;
+      }
+
+      .user-params {
+        .user-subtitle {
+          margin-top: 28px;
+          font-size: 20px;
+          line-height: 26px;
+        }
+
+        .user-param-value {
+          font-size: 28px;
+          line-height: 36px;
+        }
+      }
+
+      .user-avatar {
+        padding: 0 36px;
+
+        img {
+          width: 132px;
+          height: 132px;
+        }
+      }
+    }
+
+    .user-teams {
+      padding: 32px 0;
+      border-bottom: 2px solid #E5E6E4;
+
+      .user-team {
+        height: 96px;
+        padding: 18px;
+        border: 2px solid #E5E6E4;
+        border-radius: 6px;
+        grid-template-columns: 60px auto 96px;
+        column-gap: 18px;
+        margin: 6px 0;
+        font-size: 28px;
+        line-height: 36px;
+
+        img {
+          width: 60px;
+          height: 60px;
+        }
+
+        .user-team-league {
+          font-size: 16px;
+          line-height: 24px;
+        }
+      }
+    }
+
+    .user-notifications {
+      padding: 32px 0 24px;
+
+      .user-notifications-block {
+        display: grid;
+        grid-template-columns: auto 60px;
+      }
+
+      .user-notifications-title {
+        font-size: 24px;
+        line-height: 32px;
+      }
+
+      .user-notifications-subtitle {
+        font-size: 16px;
+        line-height: 24px;
+      }
+    }
+
+    .user-title {
+      font-size: 28px;
+      line-height: 36px;
+      padding-bottom: 20px;
+    }
+
+    .change-link {
+      font-size: 20px;
+      line-height: 26px;
+    }
+
+    .checkbox-block {
+      position: relative;
+      width: 60px;
+      height: 36px;
+      border-radius: 18px;
+      padding: 4px;
+
+      .checkbox-item {
+        height: 28px;
+        width: 28px;
+        border-radius: 14px;
+      }
+    }
+
+    label {
+      font-size: 28px;
+    }
+
+    .text-muted {
+      font-size: 18px;
+    }
+  }
+
+  .edit-user-avatar {
+    .drinkcard-cc {
+      width: 192px;
+      height: 192px;
+    }
+  }
+
+  .form-item.form-btn {
+    margin-top: 36px;
+
+    input {
+      font-size: 28px;
+    }
+  }
+}

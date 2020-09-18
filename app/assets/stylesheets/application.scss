@@ -30,6 +30,7 @@
 @import "round_players";
 @import "teams";
 @import "tours";
+@import "users";
 @import "welcome";
 
 @font-face {
@@ -74,7 +75,7 @@ body, html {
 }
 
 .page-info {
-  padding: 140px 40px 80px;
+  padding: 140px 40px 20px;
 }
 
 .flash-block {

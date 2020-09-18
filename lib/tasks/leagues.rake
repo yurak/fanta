@@ -11,7 +11,8 @@ namespace :leagues do
       league_data['members'].each do |team, user_email|
         user = User.find_by(email: user_email)
         if user
-          user.team.update(name: team, league: league)
+          team = user.teams.find_by(name: team)
+          team.update(league: league)
         else
           user = User.create(email: user_email, password: '123456')
           Team.create(name: team, user: user, league: league)

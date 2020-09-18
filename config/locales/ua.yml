@@ -13,10 +13,14 @@ ua:
     round: "Раунд"
     fixtures: "Матчі"
     results: "Результати"
-    links: "Посилання"
+    links: "Корисні Посилання"
     leagues: "Ліги"
     players: "Гравці"
     profile: "Профіль"
+    my_teams: "Мої команди"
+    league: "Ліга"
+    next_round: "НАСТУПНИЙ РАУНД"
+    start_soon: "НЕВДОВЗІ СТАРТ РАУНДУ"
   footer:
     current_tournaments: "Активні змагання"
     contact: "Контакти"
@@ -73,6 +77,27 @@ ua:
       title: "Успіх"
       text1: "Ваш запит успішно створений"
       text2: "Адмін зв'яжеться з Вами найближчим часом"
+  users:
+    settings: "Налаштуваня"
+    settings_desc: "Керуй своїм акаунтом"
+    name: "Ім'я"
+    email: "Пошта"
+    password: "Пароль"
+    change: "Змінити"
+    update: "Оновити"
+    activate: "Активувати"
+    profile_info: "Профіль"
+    teams: "Команди"
+    league: "Ліга:"
+    notifications: "Сповіщення"
+    notifications_title: "Отримувати новини та іншу корисну інформацію"
+    notifications_subtitle: "Вся інформація буде надіслана на"
+    change_avatar: "Змінити аватар"
+    change_avatar_desc: "Вибери одне із зображень"
+    change_username: "Змінити ім'я користувача"
+    change_username_desc: "Ім'я повинне складатися з 2-15 літер"
+    change_password: "Змінити пароль"
+    change_password_desc: "Введіть ваш поточний пароль та двічі новий"
   models:
     join_request:
       attributes:
@@ -81,6 +106,11 @@ ua:
         email: "Пошта"
         leagues: "Турніри"
   activerecord:
+    attributes:
+      user:
+        password: "Пароль"
+        current_password: "Поточний пароль"
+        password_confirmation: "Підтвердження паролю"
     errors:
       models:
         join_request:

@@ -11,3 +11,4 @@ ua:
     registrations:
       edit:
         update: "Оновити"
+        we_need_your_current_password_to_confirm_your_changes: "Нам потрібен Ваш поточний пароль для підтвердження ваших змін"

@@ -1,0 +1,17 @@
+.local-header
+  .local-header-close
+    = link_to user_path(current_user) do
+      &times;
+  .local-header-text
+    .local-header-title= t('users.change_username')
+    .local-header-subtitle= t('users.change_username_desc')
+  .local-header-link
+
+.page-info
+  .user-show
+    = form_for user, url: user_path(user), method: :put do |f|
+      .form-group
+        = label_tag t('users.name')
+        = text_field_tag :name, nil, class: 'form-control'
+      .form-item.form-btn
+        = f.submit t('users.update'), class: 'btn btn-primary welcome-btn-form'
