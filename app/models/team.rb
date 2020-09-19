@@ -41,7 +41,7 @@ class Team < ApplicationRecord
   end
 
   def next_match
-    @match ||= Match.by_team_and_tour(id, next_round.id).first
+    @next_match ||= Match.by_team_and_tour(id, next_round.id).first
   end
 
   def next_opponent
