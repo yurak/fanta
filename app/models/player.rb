@@ -140,6 +140,6 @@ class Player < ApplicationRecord
   end
 
   def season_matches_with_scores
-    @matches_with_scores ||= round_players.with_score.by_tournament_round(Season.last.tournament_rounds)
+    @season_matches_with_scores ||= round_players.with_score.by_tournament_round(Season.last.tournament_rounds)
   end
 end
