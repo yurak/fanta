@@ -116,6 +116,18 @@ class Player < ApplicationRecord
     matches_with_scores.map(&:result_score).min || 0
   end
 
+  # Current season statistic
+
+  def season_scores_count
+    @season_scores_count ||= season_matches_with_scores.size
+  end
+
+  def season_average_result_score
+    return 0 if season_scores_count.zero?
+
+    @season_average_result_score ||= (season_matches_with_scores.map(&:result_score).sum / season_scores_count).round(2)
+  end
+
   private
 
   # def played_matches
@@ -125,5 +137,9 @@ class Player < ApplicationRecord
 
   def matches_with_scores
     @matches_with_scores ||= round_players.with_score
+  end
+
+  def season_matches_with_scores
+    @season_matches_with_scores ||= round_players.with_score.by_tournament_round(Season.last.tournament_rounds)
   end
 end

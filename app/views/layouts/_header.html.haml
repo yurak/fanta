@@ -10,9 +10,9 @@
     .base-links.info-links
       - if user_signed_in?
         .info-links-item.base-link-item
-          = link_to t('header.squad'), team_path(current_user.active_team)
-        .info-links-item.base-link-item
-          = link_to t('header.lineups'), team_lineups_path(current_user.active_team)
+          = link_to t('header.teams'), team_path(current_user.active_team)
+        -#.info-links-item.base-link-item
+        -#  = link_to t('header.lineups'), team_lineups_path(current_user.active_team)
         .info-links-item.base-link-item
           = link_to t('header.table'), league_results_path(current_user.active_league)
         -# TODO: combine Round Fixtures and Results in one link Rounds
@@ -23,11 +23,8 @@
           = link_to t('header.fixtures'), league_tours_path(current_user.active_league)
         .info-links-item.base-link-item
           = link_to t('header.results'), league_tours_path(current_user.active_league, closed: true)
-        -# TODO: temporary hidden links
-        -#.info-links-item.base-link-item
-        -#  = link_to 'Links', league_links_path(current_user.active_league)
-        -#.info-links-item.base-link-item
-        -#  = link_to 'Leagues', leagues_path
+        .info-links-item.base-link-item
+          = link_to t('header.leagues'), leagues_path
       - else
         -#- if external_actions?
         .info-links-item
@@ -66,9 +63,6 @@
                 .next-round-wait= t('header.start_soon')
 
             .user-data
-              -# TODO: move admin link to profile page
-              -# = link_to 'Admin Panel', rails_admin_path, class: 'admin-link', title: 'Admin Panel'
-              -#= link_to edit_user_registration_path, id: 'modal-btn' do
               #modal-btn
                 .profile-logo
                   = image_tag(current_user.active_team.logo_path)
@@ -114,6 +108,9 @@
                       .modal-link= link_to t('header.rules'), rules_path
                       .modal-link= link_to t('header.contact'), contact_path
                       .modal-link= link_to t('header.links'), league_links_path(current_user.active_league)
+                      - if current_user&.admin?
+                        .modal-link= link_to t('header.admin'), rails_admin_path
+
       - else
         .login-links
           .login-link-item.login-link
@@ -129,16 +126,16 @@
           %span
           %ul#menu
             - if user_signed_in?
-              .burger-link= link_to t('header.squad'), team_path(current_user.active_team)
-              .burger-link= link_to t('header.lineups'), team_lineups_path(current_user.active_team)
+              .burger-link= link_to t('header.teams'), team_path(current_user.active_team)
+              -#.burger-link= link_to t('header.lineups'), team_lineups_path(current_user.active_team)
               .burger-link= link_to t('header.table'), league_results_path(current_user.active_league)
               - if current_user.active_league.active_tour || current_user.active_league.tours.last
                 .burger-link= link_to t('header.round'), tour_path(current_user.active_league.active_tour || current_user.active_league.tours.last)
               .burger-link= link_to t('header.fixtures'), league_tours_path(current_user.active_league)
               .burger-link= link_to t('header.results'), league_tours_path(current_user.active_league, closed: true)
-              .burger-link= link_to t('header.links'), league_links_path(current_user.active_league)
               .burger-link= link_to t('header.leagues'), leagues_path
               .burger-link= link_to t('header.players'), players_path
+              .burger-link= link_to t('header.links'), league_links_path(current_user.active_league)
               .burger-link= link_to t('header.rules'), guide_path
               .burger-link= link_to t('header.profile'), user_path(current_user)
             -else

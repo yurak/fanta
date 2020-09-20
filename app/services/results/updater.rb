@@ -22,25 +22,25 @@ module Results
     private
 
     def update_result_win(match, winner, loser)
-      winner.result.update(
-        points: winner.result.points + 3,
-        wins: winner.result.wins + 1,
-        scored_goals: winner.result.scored_goals + match.scored_goals(winner),
-        missed_goals: winner.result.missed_goals + match.missed_goals(winner)
+      winner.results.last.update(
+        points: winner.results.last.points + 3,
+        wins: winner.results.last.wins + 1,
+        scored_goals: winner.results.last.scored_goals + match.scored_goals(winner),
+        missed_goals: winner.results.last.missed_goals + match.missed_goals(winner)
       )
-      loser.result.update(
-        loses: loser.result.loses + 1,
-        scored_goals: loser.result.scored_goals + match.scored_goals(loser),
-        missed_goals: loser.result.missed_goals + match.missed_goals(loser)
+      loser.results.last.update(
+        loses: loser.results.last.loses + 1,
+        scored_goals: loser.results.last.scored_goals + match.scored_goals(loser),
+        missed_goals: loser.results.last.missed_goals + match.missed_goals(loser)
       )
     end
 
     def update_result_draw(match, team)
-      team.result.update(
-        points: team.result.points + 1,
-        draws: team.result.draws + 1,
-        scored_goals: team.result.scored_goals + match.scored_goals(team),
-        missed_goals: team.result.missed_goals + match.missed_goals(team)
+      team.results.last.update(
+        points: team.results.last.points + 1,
+        draws: team.results.last.draws + 1,
+        scored_goals: team.results.last.scored_goals + match.scored_goals(team),
+        missed_goals: team.results.last.missed_goals + match.missed_goals(team)
       )
     end
   end
