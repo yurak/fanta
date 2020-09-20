@@ -14,12 +14,15 @@ class Result < ApplicationRecord
     @goals_difference ||= scored_goals - missed_goals
   end
 
-  # TODO: show correct lineups, related league and team (as team could have lineups in new season and league)
-  # def form
-  #   @form ||= closed_lineups.limit(5).map { |l| [l.result, l.match_result, l.opponent.code_name, l.tour_id] }
-  # end
-  #
-  # def closed_lineups
-  #   lineups.closed(league.id)
-  # end
+  def position
+    Result.where(league: league).ordered.find_index(self) + 1
+  end
+
+  def form
+    @form ||= closed_lineups.limit(5).map { |l| [l.result, l.match_result, l.opponent.code_name, l.tour_id] }
+  end
+
+  def closed_lineups
+    lineups.closed(league.id)
+  end
 end

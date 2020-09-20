@@ -10,7 +10,7 @@ class Team < ApplicationRecord
   has_many :host_matches, foreign_key: 'host_id', class_name: 'Match', dependent: :destroy
   has_many :guest_matches, foreign_key: 'guest_id', class_name: 'Match', dependent: :destroy
 
-  has_many :result, dependent: :destroy
+  has_many :results, dependent: :destroy
 
   validates :name, uniqueness: true, length: { in: 2..20 }
 

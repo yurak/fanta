@@ -1,17 +1,487 @@
-/* Team players list */
+.page-info.team-show {
+  padding: 120px 0 20px;
 
-@media screen and (max-device-width: 800px)  {
-  .list-team-players {
-    .list-row-item {
-      grid-template-columns: 100px auto 50px 60px 60px;
+  a {
+    text-decoration: none;
+  }
+
+  .teams-bar {
+    background-color: #FFEBC2;
+    width: 100%;
+    height: 112px;
+    text-align: center;
+
+    .team-bar-item {
+      display: inline-block;
+      width: 9%;
+      padding: 12px 0;
+      margin: 8px 4px;
+      background-color: #FFFFFF;
+      border-radius: 4px;
+    }
+
+    .current-team-true {
+      border: 1px solid #006EF5;
+    }
+
+    .team-bar-item-logo {
+      text-align: center;
+      img {
+        width: 40px;
+        height: 40px;
+      }
+    }
+
+    .team-bar-item-name {
+      height: 24px;
+      width: 100%;
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 24px;
+      margin: 8px 0 0;
+      color: #181715;
+      text-decoration: none;
+      overflow: hidden;
+    }
+  }
+
+  .team-section {
+    padding: 40px 10% 0;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    column-gap: 100px;
+
+    .team-data {
+      margin-top: 120px;
+      border: 2px solid #E5E6E4;
+      box-sizing: border-box;
+      border-radius: 4px;
+      text-align: center;
+      padding: 0 24px 40px;
+      max-height: 540px;
+
+      .team-logo {
+        position:relative;
+        top: -56px;
+        height: 56px;
+
+        img {
+          width: 112px;
+          height: 112px;
+        }
+      }
+
+      .team-name {
+        margin: 24px 0 8px;
+        font-weight: bold;
+        font-size: 32px;
+        line-height: 32px;
+      }
+
+      .team-points {
+        margin-bottom: 32px;
+        font-size: 24px;
+        line-height: 32px;
+      }
+
+      .team-position {
+        margin-bottom: 8px;
+        padding: 24px;
+        background: #FFEBC2;
+        border-radius: 4px;
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+
+        .team-position-left {
+          .team-position-title {
+            text-align: left;
+            padding-top: 4px;
+            font-weight: 500;
+            font-size: 18px;
+            line-height: 24px;
+          }
+
+          .team-rounds {
+            text-align: left;
+            font-weight: 500;
+            font-size: 12px;
+            line-height: 16px;
+
+            .team-rounds-text {
+              display: inline-block;
+            }
+
+            .team-rounds-played {
+              display: inline-block;
+              padding-left: 4px;
+            }
+
+            .team-rounds-total {
+              display: inline-block;
+              color: #847577;
+            }
+          }
+        }
+
+        .team-position-right {
+          font-size: 48px;
+          line-height: 48px;
+          text-align: right;
+        }
+      }
+
+      .team-matches {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        column-gap: 8px;
+        margin-bottom: 32px;
+
+        .team-matches-item {
+          background: #E5E5E5;
+          border-radius: 4px;
+          padding: 16px 0;
+
+          .team-matches-title {
+            font-weight: 500;
+            font-size: 12px;
+            line-height: 16px;
+          }
+
+          .team-matches-value {
+            margin: 8px 0;
+            font-size: 32px;
+            line-height: 32px;
+          }
+        }
+      }
+
+      .team-additional {
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+
+        .team-additional-text {
+          font-size: 12px;
+          line-height: 24px;
+          color: #847577;
+          text-align: left;
+        }
+
+        .team-manager-name {
+          font-weight: 500;
+          font-size: 18px;
+          line-height: 24px;
+          display: inline-block;
+          margin-right: 12px;
+        }
+
+        .team-manager-avatar {
+          display: inline-block;
+          img {
+            width: 40px;
+            height: 40px;
+          }
+        }
+
+        .team-form-value {
+          font-weight: bold;
+          font-size: 18px;
+          line-height: 24px;
+          text-align: right;
+
+          .team-form-item {
+            display: inline-block;
+          }
+
+          .team-form-W {
+            color: #4EAD57;
+          }
+
+          .team-form-D {
+            color: #847577;
+          }
+
+          .team-form-L {
+            color: #DB0A23;
+          }
+        }
+      }
+
+      .team-manager {
+        text-align: right;
+        margin-bottom: 16px;
+
+        .team-additional-text, .team-manager-data {
+          line-height: 40px;
+        }
+      }
+    }
+
+    .team-lists {
+      .team-lists-tabs {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        font-weight: bold;
+        font-size: 16px;
+        line-height: 24px;
+        text-align: center;
+        color: #A6A2A2;
+      }
+
+      .team-lists-tab-item {
+        padding-bottom: 12px;
+        border-bottom: 1px solid #E5E6E4;
+      }
+
+      .team-lists-tab-active {
+        color: #261FFF;
+        border-bottom: 3px solid #261FFF;
+      }
+
+      .team-players-headers {
+        padding: 32px 0 12px;
+        display: grid;
+        grid-template-columns: 10fr 6fr 4fr 4fr 4fr 2fr;
+        font-weight: 500;
+        font-size: 10px;
+        line-height: 14px;
+        color: #847577;
+
+        .team-players-header-position {
+          padding-left: 16px;
+        }
+      }
+
+      .team-player-item {
+        display: grid;
+        grid-template-columns: 10fr 6fr 4fr 4fr 4fr 2fr;
+        border: 1px solid #E5E6E4;
+        box-sizing: border-box;
+        border-radius: 4px;
+        margin-bottom: 4px;
+        height: 72px;
+
+        .team-player-data {
+          background: #FFEBC2;
+          display: grid;
+          grid-template-columns: 72px auto;
+
+          .team-player-avatar {
+            width: 100%;
+            padding: 4px 3px 0;
+
+            .player-show-face, .player-show-kit {
+              position: absolute;
+
+              img, object {
+                width: 66px;
+                height: 66px;
+              }
+            }
+          }
+
+          .team-player-name {
+            padding: 13px 0;
+            text-align: left;
+            font-size: 12px;
+            line-height: 16px;
+
+            .team-player-last-name {
+              font-weight: 500;
+              font-size: 18px;
+              line-height: 24px;
+              height: 24px;
+              display: inline-block;
+              width: 124px;
+              white-space: nowrap;
+              overflow: hidden !important;
+              text-overflow: ellipsis;
+            }
+          }
+        }
+
+        .team-player-position {
+          padding: 22px 0 0 16px;
+
+          .slot-position {
+            display: inline-block;
+            line-height: 24px;
+            font-size: 12px;
+            height: 24px;
+            width: 30px;
+            border-radius: 4px;
+          }
+        }
+
+        .team-player-appearances{
+          font-size: 24px;
+          line-height: 70px;
+          text-align: right;
+          color: #847577;
+        }
+
+        .team-player-rating{
+          font-size: 24px;
+          line-height: 70px;
+          text-align: right;
+          color: #181715;
+        }
+
+        .team-player-club {
+          margin: 19px 0;
+          text-align: center;
+
+          img {
+            width: 32px;
+            height: 32px;
+          }
+        }
+
+        .team-player-link {
+          margin-top: 21px;
+
+          img {
+            width: 14px;
+            height: 8px;
+          }
+        }
+      }
+
+      .team-games {
+        background-color: #66bb6a;
+      }
     }
   }
 }
 
-.club-logo {
-  margin: auto;
-  img {
-    height: 32px;
-    width: 32px;
+@media (orientation: portrait) {
+  .page-info.team-show {
+    padding: 200px 0 20px;
+
+    .team-section {
+      display: block;
+
+      .team-data {
+        margin: 80px 0 40px;
+        border: 2px solid #E5E6E4;
+        border-radius: 8px;
+        text-align: center;
+        padding: 24px;
+
+        .team-logo {
+          top: -80px;
+          height: 24px;
+        }
+
+        .team-name {
+          font-size: 44px;
+          line-height: 48px;
+        }
+
+        .team-points {
+          font-size: 32px;
+          line-height: 40px;
+          margin-bottom: 16px;
+        }
+
+        .team-league-data {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          column-gap: 8px;
+        }
+
+        .team-position {
+          border-radius: 8px;
+          margin-bottom: 0;
+
+          .team-position-left {
+            .team-position-title {
+              padding-top: 12px;
+              font-size: 24px;
+              line-height: 28px;
+            }
+
+            .team-rounds {
+              font-size: 16px;
+              line-height: 22px;
+            }
+          }
+
+          .team-position-right {
+            font-size: 48px;
+            line-height: 72px;
+            text-align: right;
+          }
+        }
+
+        .team-matches {
+          margin-bottom: 0;
+
+          .team-matches-item {
+            background: #E5E5E5;
+            border-radius: 8px;
+            padding: 24px 0;
+
+            .team-matches-title {
+              font-weight: 500;
+              font-size: 16px;
+              line-height: 22px;
+            }
+
+            .team-matches-value {
+              margin: 4px 0;
+              font-size: 32px;
+              line-height: 38px;
+            }
+          }
+        }
+
+        .team-additional {
+          display: none;
+        }
+      }
+
+      .team-lists {
+
+        .team-lists-tabs {
+          font-size: 24px;
+        }
+
+        .team-players-headers {
+          font-size: 16px;
+        }
+
+        .team-player-item {
+          .team-player-data {
+            .team-player-name {
+              padding: 10px 0;
+              font-size: 16px;
+              line-height: 18px;
+
+              .team-player-last-name {
+                font-size: 24px;
+                line-height: 28px;
+                height: 28px;
+                width: 144px;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (orientation: landscape) and (max-device-width: 1220px) {
+  .page-info.team-show {
+    padding: 100px 0 20px;
+
+    .team-section {
+      padding: 40px 20px;
+      column-gap: 20px;
+
+      .team-data {
+        padding: 0 12px 40px;
+      }
+    }
   }
 }
