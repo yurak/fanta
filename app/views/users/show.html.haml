@@ -1,0 +1,51 @@
+.local-header
+  .local-header-close
+    = link_to tour_path(current_user.active_league.active_tour || current_user.active_league.tours.last) do
+      &times;
+  .local-header-text
+    .local-header-title= t('users.settings')
+    .local-header-subtitle= t('users.settings_desc')
+  .local-header-link
+    = link_to destroy_user_session_path, method: :delete do
+      ⛩ #{t('header.logout')}
+
+.page-info
+  .user-show
+    .user-data
+      .user-title= t('users.profile_info')
+      .user-data-block
+        .user-params
+          .user-subtitle= t('users.name')
+          .user-param-value= current_user.name.presence || 'Username'
+          = link_to t('users.change'), edit_user_path, class: 'change-link'
+          .user-subtitle= t('users.email')
+          .user-param-value= current_user.email
+          .user-subtitle= t('users.password')
+          .user-param-value **********
+          = link_to t('users.change'), edit_user_registration_path, class: 'change-link'
+        .user-avatar
+          = image_tag(current_user.avatar_path)
+          = link_to t('users.change'), user_edit_avatar_path(current_user), class: 'change-link'
+    .user-teams
+      .user-title= t('users.teams')
+      - current_user.teams.each do |team|
+        .user-team
+          .user-team-logo= image_tag(team.logo_path)
+          .user-team-data
+            .user-team-name= team.name.titleize
+            .user-team-league
+              .user-team-league-title= t('users.league')
+              .user-team-league-name= team.league.name
+          .user-team-activate
+            - unless current_user.active_team == team
+              = link_to t('users.activate'), user_path(current_user, active_team_id: team.id), method: :put, class: 'change-link'
+    .user-notifications
+      .user-title= t('users.notifications')
+      .user-notifications-block
+        .user-notifications-text
+          .user-notifications-title= t('users.notifications_title')
+          .user-notifications-subtitle= "#{t('users.notifications_subtitle')} #{ current_user.email }"
+        .user-notifications-checkbox
+          = link_to user_path(current_user, notifications: !current_user.notifications), method: :put do
+            .checkbox-block{ class: "checkbox-on-#{ current_user.notifications }" }
+              .checkbox-item

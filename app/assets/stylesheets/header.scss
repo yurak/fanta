@@ -105,6 +105,72 @@
         background: #F4F4F4;
         border-left: 1px solid #E5E6E4;
         border-bottom: 1px solid #E5E6E4;
+        padding-left: 26px;
+
+        .next-round-title {
+          margin-top: 24px;
+          font-weight: 500;
+          font-size: 12px;
+          line-height: 16px;
+
+          .next-round-text {
+            color: #181715;
+            display: inline-block;
+          }
+
+          .next-round-number {
+            color: #847577;
+            display: inline-block;
+          }
+        }
+
+        .next-round-datetime {
+          font-size: 24px;
+          line-height: 32px;
+          padding-bottom: 8px;
+
+          .next-round-date {
+            font-weight: bold;
+            color: #181715;
+            display: inline-block;
+          }
+
+          .next-round-time {
+            color: #847577;
+            display: inline-block;
+          }
+        }
+
+        .next-round-opponent {
+          font-weight: 500;
+          font-size: 12px;
+          line-height: 16px;
+
+          .next-round-vs {
+            display: inline-block;
+            color: #847577;
+          }
+
+          .next-round-opponent-logo {
+            display: inline-block;
+            margin: 0 4px;
+
+            img {
+              width: 16px;
+              height: 16px;
+            }
+          }
+
+          .next-round-opponent-name {
+            color: #181715;
+            display: inline-block;
+          }
+        }
+
+        .next-round-wait {
+          font-size: 16px;
+          line-height: 120px;
+        }
       }
 
       .user-data {
@@ -123,6 +189,14 @@
             height: 56px;
             margin: 32px;
           }
+        }
+
+        .tournament-logo {
+          position: absolute;
+          width: 30px;
+          height: 30px;
+          right: 22px;
+          top: 66px;
         }
       }
     }
@@ -273,11 +347,206 @@
       }
     }
   }
+
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 101;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+  }
+
+  .modal-content {
+    background-color: #FFFFFF;
+    margin: 100px 20px;
+    border: 1px solid #E5E6E4;
+    box-sizing: border-box;
+    box-shadow: 6px 6px 8px rgba(24, 23, 21, 0.2), 1px 2px 5px rgba(24, 23, 21, 0.2);
+    border-radius: 4px;
+    width: 420px;
+    float: right;
+
+    .modal-user {
+      width: 100%;
+      height: 112px;
+      padding: 24px;
+      display: grid;
+      grid-template-columns: 64px auto 48px;
+      grid-column-gap: 16px;
+
+      .modal-user-avatar {
+        height: 64px;
+        width: 64px;
+
+        img {
+          height: 64px;
+          width: 64px;
+        }
+      }
+
+      .modal-user-data {
+        padding: 8px 0;
+        .modal-user-name {
+          font-size: 24px;
+          line-height: 32px;
+          color: #181715;
+        }
+
+        .modal-user-email {
+          font-size: 12px;
+          line-height: 16px;
+          color: #847577;
+        }
+      }
+
+      .modal-settings {
+        padding: 20px 12px;
+        img {
+          height: 24px;
+          width: 24px;
+        }
+      }
+    }
+
+    .modal-teams {
+      padding-bottom: 12px;
+
+      .modal-teams-title {
+        height: 16px;
+        line-height: 16px;
+        font-size: 12px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        margin-bottom: 8px;
+        text-transform: uppercase;
+
+        .modal-teams-title-item:first-child {
+          padding-left: 24px;
+        }
+
+        .modal-teams-title-item:last-child {
+          padding-left: 4px;
+          color: #847577;
+        }
+      }
+
+      .modal-teams-item {
+        height: 56px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        margin: 0 8px;
+        padding: 8px 16px;
+        font-size: 12px;
+        line-height: 40px;
+
+        .modal-team, .modal-league {
+          display: grid;
+          grid-template-columns: 40px auto;
+          column-gap: 8px;
+        }
+
+        .modal-league {
+          grid-template-columns: 36px auto;
+        }
+
+        .modal-team-logo {
+          img {
+            height: 40px;
+            width: 40px;
+          }
+        }
+        .modal-league-logo {
+          padding-left: 4px;
+          img {
+            height: 32px;
+            width: 32px;
+          }
+        }
+      }
+      .active-team {
+        background: #FFEBC2;
+        border-radius: 4px;
+      }
+    }
+
+    .modal-links {
+      margin: 0 20px;
+      padding: 16px 0;
+      border-top: 1px solid #E5E6E4;
+
+      .modal-link {
+        font-size: 12px;
+        line-height: 16px;
+        padding: 8px;
+      }
+    }
+  }
+}
+
+.local-header {
+  background-color: #FFFFFF;
+  height: 120px;
+  width: 100%;
+  position: fixed;
+  z-index: 111;
+  display: grid;
+  grid-template-columns: 90px auto 150px;
+
+  .local-header-close {
+    font-size: 40px;
+    text-align: center;
+    line-height: 110px;
+
+    a {
+      color: black;
+      text-decoration: none;
+    }
+  }
+
+  .local-header-close a:hover,
+  .local-header-close a:focus {
+    color: #847577;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .local-header-text {
+    padding: 36px 0;
+
+    .local-header-title {
+      font-size: 24px;
+      line-height: 32px;
+      font-weight: 500;
+    }
+
+    .local-header-subtitle {
+      font-size: 12px;
+      line-height: 16px;
+      color: #847577;
+    }
+  }
+
+  .local-header-link {
+    a {
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 120px;
+      color: #181715;
+    }
+
+    a:hover {
+      text-decoration: none;
+      color: #847577;
+    }
+  }
 }
 
 .header-grid {
   display: grid;
-  grid-template-columns: 3fr 1fr;
+  grid-template-columns: auto 370px;
 }
 
 @media (orientation: portrait) {
@@ -316,6 +585,37 @@
 
       .burger-menu-block {
         display: block;
+      }
+    }
+  }
+
+  .local-header {
+    height: 200px;
+    grid-template-columns: 150px auto 200px;
+
+    .local-header-close {
+      font-size: 60px;
+      line-height: 190px;
+    }
+
+    .local-header-text {
+      padding: 64px 0;
+
+      .local-header-title {
+        font-size: 36px;
+        line-height: 48px;
+      }
+
+      .local-header-subtitle {
+        font-size: 28px;
+        line-height: 24px;
+      }
+    }
+
+    .local-header-link {
+      a {
+        font-size: 28px;
+        line-height: 200px;
       }
     }
   }
@@ -365,8 +665,8 @@
         height: 100px;
 
         a {
-          font-size: 32px;
-          line-height: 50px;
+          font-size: 28px;
+          line-height: 40px;
         }
 
         #menuToggle {
@@ -397,7 +697,7 @@
           position: absolute;
           width: 1000%;
           margin: -130px 0 0 0;
-          padding: 150px 50px 500px 100px;
+          padding: 100px 50px 500px 50px;
           right: -100px;
         }
 

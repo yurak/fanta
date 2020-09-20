@@ -50,6 +50,10 @@ Rails.application.routes.draw do
 
   resources :articles
 
+  resources :users, only: [:show, :edit, :update] do
+    get :edit_avatar
+  end
+
   namespace :api do
     get :table, to: 'results#index'
     get :fixtures, to: 'matches#fixtures'

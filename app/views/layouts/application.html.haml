@@ -12,4 +12,5 @@
     = render 'layouts/header'
     .main-block
       = yield
-    = render 'layouts/footer'
+    - if external_actions?
+      = render 'layouts/footer'

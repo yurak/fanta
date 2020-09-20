@@ -10,7 +10,7 @@ class Team < ApplicationRecord
   has_many :host_matches, foreign_key: 'host_id', class_name: 'Match', dependent: :destroy
   has_many :guest_matches, foreign_key: 'guest_id', class_name: 'Match', dependent: :destroy
 
-  has_many :result, dependent: :destroy
+  has_many :results, dependent: :destroy
 
   validates :name, uniqueness: true, length: { in: 2..20 }
 
@@ -34,5 +34,17 @@ class Team < ApplicationRecord
 
   def human_name
     name.humanize.upcase
+  end
+
+  def next_round
+    league.active_tour || league.tours.inactive.first
+  end
+
+  def next_match
+    @next_match ||= Match.by_team_and_tour(id, next_round.id).first
+  end
+
+  def next_opponent
+    next_match.host == self ? next_match.guest : next_match.host
   end
 end
