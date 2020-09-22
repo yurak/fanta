@@ -56,9 +56,10 @@
                   .next-round-date= current_user.next_round.deadline&.strftime("%^a, %^b %e")
                   .next-round-time= current_user.next_round.deadline&.strftime("%H:%M")
                 .next-round-opponent
-                  .next-round-vs vs
-                  .next-round-opponent-logo= image_tag(current_user.active_team.next_opponent.logo_path)
-                  .next-round-opponent-name= current_user.active_team.next_opponent.name.titleize
+                  - if current_user.active_team.next_opponent
+                    .next-round-vs vs
+                    .next-round-opponent-logo= image_tag(current_user.active_team.next_opponent.logo_path)
+                    .next-round-opponent-name= current_user.active_team.next_opponent.name.titleize
               - else
                 .next-round-wait= t('header.start_soon')
 
