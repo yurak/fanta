@@ -41,10 +41,14 @@ class Team < ApplicationRecord
   end
 
   def next_match
+    return unless next_round
+
     @next_match ||= Match.by_team_and_tour(id, next_round.id).first
   end
 
   def next_opponent
+    return unless next_match
+
     next_match.host == self ? next_match.guest : next_match.host
   end
 end

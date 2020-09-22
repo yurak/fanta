@@ -7,7 +7,7 @@
     .local-header-subtitle= t('users.change_username_desc')
   .local-header-link
 
-.page-info
+.page-info.user-profile
   .user-show
     = form_for user, url: user_path(user), method: :put do |f|
       .form-group

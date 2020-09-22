@@ -606,8 +606,12 @@
 }
 
 .club-logo.l-details-club-logo {
-  width: 28px;
-  height: 28px;
+  text-align: center;
+
+  img {
+    width: 28px;
+    height: 28px;
+  }
 }
 
 .l-details-player-name, .l-details-player-tscore {

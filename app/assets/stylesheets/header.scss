@@ -11,7 +11,7 @@
   }
 
   .left-header {
-    background: #F4F4F4;
+    background: #FFFFFF;
     display: grid;
     grid-template-columns: 120px 80px auto;
 
@@ -99,10 +99,10 @@
       height: 120px;
       display: grid;
       grid-template-columns: auto 120px;
-      background: #F4F4F4;
+      background: #FFFFFF;
 
       .next-round {
-        background: #F4F4F4;
+        background: #FFFFFF;
         border-left: 1px solid #E5E6E4;
         border-bottom: 1px solid #E5E6E4;
         padding-left: 26px;
@@ -206,7 +206,7 @@
       overflow-x: hidden;
       z-index: 101;
       height: 200px;
-      background: #F4F4F4;
+      background: #FFFFFF;
 
       a {
         text-decoration: none;
