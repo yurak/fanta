@@ -1,222 +1,589 @@
-/* TOURS INDEX page */
+/* ROUNDS INDEX page */
+.page-info.rounds-page {
+  height: 100%;
+  padding: 120px 0 0;
+  display: grid;
+  grid-template-columns: 71fr 29fr;
 
-.tour-item {
-  background-color: #0657cc26;
-  margin-bottom: 20px;
-  width: 100%;
+  a { text-decoration: none }
 
-  a {
-    color: #001280;
-    text-decoration: none;
-    display: grid;
-    grid-template-columns: 1fr 5fr;
-    height: 100%;
-  }
+  .round-section {
+    padding: 40px;
 
-  .tour-short-info {
-    margin: auto;
-    height: 100%;
-    position: relative;
-  }
-
-  .tour-number {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-weight: bolder;
-    font-size: 60px;
-  }
-
-  .postponed {
-    color: #ef5350;
-  }
-
-  .list-items.list-tour-fixtures {
-    padding: 5px 20px 5px 0;
-    .list-row-item {
-      grid-template-columns: 3fr 1fr 3fr;
+    .rounds-league-name {
+      font-weight: bold;
+      font-size: 24px;
+      line-height: 32px;
+      margin-bottom: 16px;
     }
 
-    .tours-match-host {
-      display: grid;
-      grid-template-columns: auto 50px;
-      .match-team-name {
+    .rounds-block {
+      .round-link-block {
+        margin: 4px;
+        display: inline-block;
+        background: #F4F4F4;
+        border-radius: 4px;
+        font-weight: 500;
+        font-size: 18px;
+        line-height: 40px;
+        width: 56px;
+        color: #847577;
+        text-align: center;
+      }
+
+      .round-set_lineup, .round-locked {
+        color: #261FFF;
+        border: 2px solid #261FFF;
+        line-height: 36px;
+      }
+
+      .round-postponed {
+        color: #b40819;
+      }
+
+      .round-inactive {
+        background-color: #FFFFFF;
+        border: 2px solid #F4F4F4;
+        line-height: 36px;
+      }
+
+      .round-current-true {
+        background-color: #261FFF;
+        color: #FFFFFF;
+        border: none;
+        line-height: 40px;
+      }
+    }
+
+    .round-item {
+      padding: 40px 0 0;
+
+      .round-base {
+        display: grid;
+        grid-template-columns: auto 300px 204px;
+        line-height: 32px;
+        color: #181715;
+        padding-bottom: 32px;
+
+        .round-title {
+          font-weight: bold;
+          font-size: 32px;
+          line-height: 32px;
+
+          .round-title-text, .round-title-icon {
+            display: inline-block;
+          }
+
+          img {
+            width: 32px;
+            height: 32px;
+            margin-left: 4px;
+          }
+        }
+
+        .round-deadline {
+          display: grid;
+          grid-template-columns: 80px 126px 76px;
+          column-gap: 8px;
+        }
+
+        .round-deadline-text {
+          font-weight: 500;
+          font-size: 12px;
+          text-align: right;
+        }
+
+        .round-deadline-value {
+          margin: 4px 0;
+          background-color: #E5E6E4;
+          border-radius: 4px;
+          font-weight: bold;
+          font-size: 12px;
+          line-height: 24px;
+          color: #9B0819;
+          text-align: center;
+
+          a {
+            color: #9B0819;
+          }
+        }
+
+        .round-prev-next {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          font-weight: 500;
+          font-size: 12px;
+          margin: 4px 0;
+          line-height: 24px;
+
+          a {
+            display: grid;
+            color: #181715;
+          }
+
+          .round-prev {
+            border-right: 2px solid #E5E6E4;
+
+            a {
+              grid-template-columns: 10px auto;
+            }
+
+            .round-prev-text {
+              padding: 0 8px;
+            }
+          }
+
+          .round-next {
+            a {
+              grid-template-columns: auto 10px;
+            }
+
+            .round-next-text {
+              padding: 0 8px;
+              text-align: right;
+            }
+
+            img {
+              transform: rotate(180deg);
+            }
+          }
+
+          img {
+            width: 10px;
+            height: 6px;
+          }
+        }
+      }
+
+      .round-actions {
+        font-weight: bold;
+        font-size: 16px;
+        line-height: 40px;
+        padding-bottom: 32px;
+
+        a {
+          min-width: 150px;
+          display: inline-block;
+          text-align: center;
+          padding: 8px;
+          line-height: 24px;
+          margin-right: 16px;
+          border: 1px solid #D8D6FF;
+          border-radius: 4px;
+          color: #261FFF;
+        }
+      }
+
+      .round-match-item {
+        width: 100%;
+        border-bottom: 1px solid #E5E6E4;
+        padding: 16px 0;
+        line-height: 56px;
+        display: grid;
+        column-gap: 8px;
+
+        .round-match-team {
+          a {
+            color: #040052;
+            font-weight: 500;
+            font-size: 18px;
+            display: grid;
+            grid-template-columns: auto 96px;
+            text-align: right;
+          }
+
+          img {
+            margin: 4px 24px;
+            width: 48px;
+            height: 48px;
+          }
+        }
+
+        .round-match-guest a {
+          grid-template-columns: 96px auto;
+          text-align: left;
+        }
+      }
+
+      .round-match-set-lineup {
+        grid-template-columns: 11fr 33fr 12fr 33fr 11fr;
+
+        .round-match-status {
+          font-weight: 500;
+          font-size: 12px;
+
+          .round-lineup-not-set {
+            color: #A6A2A2;
+          }
+
+          .round-lineup-set {
+            color: #4EAD57;
+          }
+
+          .round-lineup-actions {
+            display: grid;
+            grid-template-columns: auto 40px;
+            column-gap: 8px;
+          }
+
+          .round-lineup-actions-guest {
+            grid-template-columns: 40px auto;
+          }
+
+          .round-lineup-set-squad {
+            margin: 6px 0;
+            background: #261FFF;
+            border-radius: 4px;
+            font-size: 16px;
+            line-height: 40px;
+            text-align: center;
+
+            img {
+              filter: invert(97%) sepia(7%) saturate(747%) hue-rotate(219deg) brightness(117%) contrast(91%); //#F4F4F4;
+            }
+          }
+
+          .round-lineup-clone {
+            margin: 6px 0;
+            border: 1px solid #D8D6FF;
+            border-radius: 4px;
+            text-align: center;
+            line-height: 38px;
+
+            img {
+              filter: invert(16%) sepia(86%) saturate(5354%) hue-rotate(245deg) brightness(94%) contrast(125%); //#261FFF;
+            }
+          }
+        }
+
+        .round-match-status-guest {
+          text-align: right;
+        }
+
+        .round-match-vs {
+          background-color: #FFEBC2;
+          font-weight: 500;
+          font-size: 18px;
+          text-align: center;
+
+          a {
+            color: #181715;
+            display: block;
+          }
+        }
+      }
+
+      .round-match-locked {
+        grid-template-columns: 8fr 3fr 3fr 3fr 8fr;
+
+        .round-match-result a {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          background-color: #261FFF;
+          font-weight: bold;
+          font-size: 24px;
+          line-height: 32px;
+          padding: 12px 0;
+          text-align: center;
+          color: #F4F4F4;
+
+          .round-match-host-goals {
+            border-right: 1px solid #006EF5;
+          }
+        }
+
+        .round-match-score {
+          text-align: center;
+          line-height: 32px;
+          margin: 12px 0;
+
+          .round-match-total-score {
+            display: inline-block;
+            font-weight: bold;
+            font-size: 24px;
+            color: #040052;
+          }
+
+          .round-match-scores-count {
+            display: inline-block;
+            font-size: 12px;
+            line-height: 16px;
+            color: #847577;
+            top: -12px;
+            position: relative;
+          }
+        }
+
+        .round-match-host-score {
+          border-left: 1px solid #E5E6E4;
+        }
+
+        .round-match-guest-score {
+          border-right: 1px solid #E5E6E4;
+        }
+      }
+
+      .round-match-closed {
+        grid-template-columns: 11fr 3fr 11fr;
+        padding: 0;
+        line-height: 92px;
+
+        .round-match-goals {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          background-color: #040052;
+          font-weight: bold;
+          font-size: 24px;
+          line-height: 32px;
+          padding: 12px 0;
+          text-align: center;
+          color: #F4F4F4;
+          margin-top: 19px;
+
+          .round-match-host-goals {
+            border-right: 1px solid #847577;
+          }
+        }
+
+        .round-match-total-score {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          font-weight: 500;
+          font-size: 10px;
+          line-height: 14px;
+          color: #847577;
+          text-align: center;
+          margin-top: 2px;
+        }
+      }
+    }
+  }
+
+  .stats-section {
+    background-color: #F4F4F4;
+    padding: 8px;
+
+    .round-table {
+      background-color: #FFFFFF;
+      padding: 16px;
+      margin-bottom: 8px;
+
+      .round-table-title-text, .round-table-title-icon {
+        display: inline-block;
+        font-weight: bold;
+        font-size: 16px;
+        line-height: 24px;
+        color: #181715;
+
+        img {
+          padding: 0 8px;
+          height: 9px;
+          transform: rotate(180deg);
+        }
+      }
+
+      .round-table-headers {
+        display: grid;
+        grid-template-columns: 1fr 5fr 1fr 1fr 1fr 1fr 1fr;
+        font-weight: 500;
+        font-size: 10px;
+        line-height: 14px;
         text-align: right;
+        color: #847577;
+      }
+
+      .round-table-item {
+        display: grid;
+        grid-template-columns: 1fr 5fr 1fr 1fr 1fr 1fr 1fr;
+        font-weight: 500;
+        font-size: 12px;
+        line-height: 40px;
+        color: #181715;
+        text-align: right;
+        border-bottom: 1px solid #E5E6E4;
+
+        .round-table-index {
+          text-align: center;
+        }
+
+        .round-table-item-team {
+          display: grid;
+          grid-template-columns: 24px auto;
+
+          img {
+            width: 24px;
+            height: 24px;
+          }
+
+          .results-team-name {
+            text-align: left;
+            padding-left: 16px;
+          }
+        }
+      }
+
+      .round-tournament-block {
+        margin-top: 8px;
+      }
+
+      .round-tournament-match {
+        display: grid;
+        grid-template-columns: 4fr 2fr 4fr;
+        column-gap: 12px;
+        font-weight: 500;
+        font-size: 12px;
+        line-height: 40px;
+        color: #181715;
+        border-bottom: 1px solid #E5E6E4;
+        text-align: center;
+
+        .round-tournament-match-club {
+          display: grid;
+          grid-template-columns: auto 24px;
+          font-weight: 500;
+
+          img {
+            width: 24px;
+            height: 24px;
+          }
+
+          .round-tournament-club-name {
+            text-align: right;
+            padding-right: 16px;
+
+            a {
+              color: #181715;
+            }
+          }
+        }
+
+        .round-tournament-match-guest {
+          grid-template-columns: 24px auto;
+
+          .round-tournament-club-name {
+            text-align: left;
+            padding-left: 16px;
+            color: #181715;
+          }
+        }
+
+        .round-tournament-match-result {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          background-color: #040052;
+          font-weight: bold;
+          line-height: 18px;
+          padding: 5px 0;
+          margin: 6px 0;
+          text-align: center;
+          color: #F4F4F4;
+
+          .round-tournament-match-result-host {
+            border-right: 1px solid #847577;
+          }
+        }
+      }
+
+      .best-players-title {
+        margin-bottom: 12px;
+      }
+
+      .round-player-stats-headers {
+        grid-template-columns: 1fr 13fr 2fr 3fr 3fr;
+        column-gap: 8px;
+
+        .round-table-header-player {
+          text-align: left;
+        }
+      }
+
+      .round-player-stats-item {
+        grid-template-columns: 1fr 13fr 2fr 3fr 3fr;
+        column-gap: 8px;
+        font-size: 16px;
+        line-height: 56px;
+        max-height: 56px;
+
+        .round-player-stats-data {
+          text-align: left;
+          display: grid;
+          grid-template-columns: 48px auto;
+          column-gap: 8px;
+          white-space: nowrap;
+          overflow: hidden;
+        }
+
+        .round-player-stats-img {
+          .round-player-show-face, .round-player-show-kit {
+            position: absolute;
+            padding-top: 3px;
+            height: 56px;
+
+            img, object {
+              width: 48px;
+              height: 48px;
+            }
+
+            object {
+              margin-top: 4px;
+            }
+          }
+        }
+
+        .round-player-stats-score {
+          font-weight: bold;
+        }
+
+        .round-player-stats-team {
+          img {
+            width: 24px;
+            height: 24px;
+          }
+        }
       }
     }
+  }
+}
 
-    .tours-match-guest {
+@media (orientation: portrait) {
+  .page-info.rounds-page {
+    padding: 200px 0 0;
+    display: block;
+
+    .stats-section {
       display: grid;
-      grid-template-columns: 50px auto;
-    }
+      grid-template-columns: 1fr 1fr;
+      column-gap: 16px;
 
-    .match-team-logo {
-      img {
-        margin: 0 10px 5px;
-        width: 32px;
-        height: 32px;
+      .round-table {
+        .round-table-item, .round-tournament-match {
+          font-size: 16px;
+        }
       }
     }
+  }
+}
 
-    .match-team-name {
-      text-align: left;
-      color: #001280;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      width: 100%;
-    }
+@media (orientation: landscape) and (max-device-width: 1220px) {
+  .page-info.rounds-page {
+    padding: 100px 0 0;
+    display: block;
 
-    .tour-match-result {
+    .stats-section {
       display: grid;
-      grid-template-columns: 1fr 0.7fr 1fr;
-    }
+      grid-template-columns: 1fr 1fr;
+      column-gap: 16px;
 
-    .list-row-cell:nth-child(even) {
-      background-color: #0657cc;
-    }
-
-    .list-row-item:nth-child(even) {
-      .list-row-cell:nth-child(even) {
-        background-color: #0f29a4;
-      }
-    }
-
-    .list-row-cell:nth-child(even)::after {
-      border-top: 40px solid #0657cc;
-    }
-
-    .list-row-item:nth-child(even) {
-      .list-row-cell:nth-child(even)::after {
-        border-top: 40px solid #0f29a4;
-      }
-    }
-
-    .list-row-cell:nth-child(even)::before {
-      border-bottom: 40px solid #0657cc;
-    }
-
-    .list-row-item:nth-child(even) {
-      .list-row-cell:nth-child(even):before {
-        border-bottom: 40px solid #0f29a4;
-      }
-    }
-  }
-
-  @media screen and (max-device-width: 1100px) {
-    a {
-      grid-template-columns: 1fr 6fr;
-    }
-
-    .list-items.list-tour-fixtures {
-      .list-row-item {
-        grid-template-columns: 4fr 1fr 4fr;
+      .round-table {
+        .round-table-item, .round-tournament-match {
+          font-size: 16px;
+        }
       }
     }
   }
 }
 
-/* TOUR SHOW page */
-
-.list-items-60-height.tour-base-info {
-  width: 100%;
-  margin-bottom: 30px;
-
-  .list-row-item {
-    grid-template-columns: 1fr 1fr;
-    font-size: 20px;
-
-    .list-row-cell {
-      color: #fff;
-    }
-
-    .tour-deadline-title {
-      background-color: #0f29a4;
-    }
-
-    .tour-deadline-date {
-      background-color: #0657cc;
-    }
-
-    .tour-deadline-title:after {
-      border-top: 60px solid #0f29a4;
-    }
-
-    .tour-deadline-date:before {
-      border-bottom: 60px solid #0657cc;
-    }
-  }
-}
-
-.list-tour-matches.list-items-60-height {
-  .list-row-item {
-    grid-template-columns: 1.2fr 1fr 1fr 1fr 1.2fr;
-  }
-
-  .list-row-cell {
-    font-size: 20px;
-  }
-
-  .tour-host a {
-    display: grid;
-    grid-template-columns: 60px auto;
-  }
-
-  .tour-guest a {
-    display: grid;
-    grid-template-columns: auto 60px;
-  }
-
-  .tour-team-logo {
-    img {
-      margin: 10px;
-      width: 40px;
-      height: 40px;
-    }
-  }
-
-  .tour-team-name {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    width: 100%;
-  }
-
-  .tour-result {
-    font-weight: bold;
-    display: grid;
-    grid-template-columns: 40% auto 40%;
-  }
-
-  .tour-team-points a {
-    font-size: 18px;
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    font-weight: normal;
-
-    .lineup-completed {
-      color: #6adde2;
-    }
-
-    .lineup-uncompleted {
-      color: #ef5350;
-    }
-  }
-
-  .no-lineup-links {
-    margin: 0 15px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    column-gap: 20px;
-
-    .lineup-link {
-      img {
-        margin: 9px 0 11px;
-        width: 30px;
-        height: 30px;
-      }
-    }
-  }
-}
+/*------ old styles -----------*/
 
 /* TOURNAMENT ROUND PLAYERS SCORES */
 

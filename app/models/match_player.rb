@@ -2,7 +2,7 @@ class MatchPlayer < ApplicationRecord
   belongs_to :round_player
   belongs_to :lineup
 
-  delegate :tour, :league, to: :lineup
+  delegate :tour, :league, :team, to: :lineup
   delegate :player, :score, :result_score, :goals, :assists, :missed_goals,
            :caught_penalty, :missed_penalty, :scored_penalty, :failed_penalty,
            :own_goals, :yellow_card, :red_card, to: :round_player
@@ -61,6 +61,10 @@ class MatchPlayer < ApplicationRecord
 
   def real_position_arr
     real_position ? real_position.split('/') : []
+  end
+
+  def club_played_match?
+    TournamentMatch.by_club_and_t_round(club.id, tour.tournament_round.id).first&.host_score.present?
   end
 
   private

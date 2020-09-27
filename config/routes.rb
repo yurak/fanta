@@ -10,20 +10,38 @@ Rails.application.routes.draw do
   get 'guide',    to: 'welcome#guide'
   get 'rules',    to: 'welcome#rules'
 
+  resources :articles
+
   resources :join_requests, only: [:new, :create]
   get :success_request, to: 'join_requests#success_request'
 
   resources :leagues, only: [:index] do
-    get :tours, to: 'tours#index'
-
     resources :results, only: [:index]
 
     resources :links, except: [:show]
   end
 
+  resources :matches, only: [:show]
+
+  resources :match_players, only: [:update]
+
+  resources :players, only: [:index, :show] do
+    get :change_status
+  end
+
   resources :tours, only: [:show, :edit, :update] do
     get :change_status
     get :inject_scores
+  end
+
+  resources :teams, only: [:show] do
+    resources :lineups, except: [:index, :show, :destroy] do
+      collection { get :clone }
+      get :edit_module
+      get :edit_scores
+      get :substitutions
+      put :subs_update
+    end
   end
 
   resources :tournament_rounds, only: [:show, :edit, :update] do
@@ -32,23 +50,6 @@ Rails.application.routes.draw do
 
     resources :round_players, only: [:index]
   end
-
-  resources :teams, only: [:show] do
-    resources :lineups, except: [:destroy] do
-      collection { get :clone }
-      get :details
-      get :edit_module
-      get :edit_scores
-      get :substitutions
-      put :subs_update
-    end
-  end
-
-  resources :players, only: [:index, :show] do
-    get :change_status
-  end
-
-  resources :articles
 
   resources :users, only: [:show, :edit, :update] do
     get :edit_avatar
