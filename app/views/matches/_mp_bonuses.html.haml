@@ -1,0 +1,43 @@
+- if match_player.player.positions_names_string == 'Por'
+  - if match_player.missed_goals.to_i.nonzero?
+    .match-player-bonus-item
+      - match_player.missed_goals.to_i.times do
+        = image_tag("bonuses/mg.png", title: 'Missed goal')
+  - if match_player.caught_penalty.to_i.nonzero?
+    .match-player-bonus-item
+      - match_player.caught_penalty.to_i.times do
+        = image_tag("bonuses/pen.png", title: 'Caught penalty')
+  - if match_player.missed_penalty.to_i.nonzero?
+    .match-player-bonus-item
+      - match_player.missed_penalty.to_i.times do
+        = image_tag("bonuses/miss_pen.png", title: 'Missed penalty')
+- else
+  - if match_player.goals.to_i.nonzero?
+    .match-player-bonus-item
+      - match_player.goals.to_i.times do
+        = image_tag("bonuses/goal.png", title: 'Goal')
+  - if match_player.scored_penalty.to_i.nonzero?
+    .match-player-bonus-item
+      - match_player.scored_penalty.to_i.times do
+        = image_tag("bonuses/pen.png", title: 'Scored penalty')
+  - if match_player.failed_penalty.to_i.nonzero?
+    .match-player-bonus-item
+      - match_player.failed_penalty.to_i.times do
+        = image_tag("bonuses/miss_pen.png", title: 'Failed penalty')
+- if match_player.assists.to_i.nonzero?
+  .match-player-bonus-item
+    - match_player.assists.to_i.times do
+      = image_tag("bonuses/assist.png", title: 'Assist')
+- if match_player.yellow_card
+  .match-player-bonus-item
+    = image_tag("bonuses/yc.png", title: 'Yellow card')
+- if match_player.red_card
+  .match-player-bonus-item
+    = image_tag("bonuses/rc.png", title: 'Red card')
+- if match_player.own_goals.to_i.nonzero?
+  .match-player-bonus-item
+    - match_player.own_goals.to_i.times do
+      = image_tag("bonuses/autogol.png", title: 'Goal')
+- if match_player.cleansheet
+  .match-player-bonus-item
+    = image_tag("bonuses/cs.png", title: 'Clean sheet')

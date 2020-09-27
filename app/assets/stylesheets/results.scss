@@ -2,6 +2,10 @@
   height: 100%;
   padding: 120px 150px 50px;
 
+  .table-block {
+    padding-bottom: 100px;
+  }
+
   .table-title {
     margin: 48px 0 32px;
     font-weight: bold;
@@ -100,7 +104,7 @@
     padding: 200px 40px 50px;
 
     .table-grid {
-      grid-template-columns: 2fr 24fr 144fr 36fr 36fr 36fr 36fr 36fr 36fr 36fr 36fr 30fr;
+      grid-template-columns: 2fr 24fr 144fr 36fr 36fr 36fr 36fr 36fr 36fr 36fr 36fr;
     }
 
     .table-header-item {
@@ -115,7 +119,7 @@
       }
     }
 
-    .form-cell {
+    .form-cell, .next-cell, .table-team-opponent {
       display: none;
     }
   }
@@ -136,7 +140,7 @@
     padding: 100px 40px 50px;
 
     .table-grid {
-      grid-template-columns: 2fr 28fr 140fr 36fr 36fr 36fr 36fr 36fr 36fr 40fr 33fr 90fr 24fr;
+      grid-template-columns: 2fr 28fr 140fr 40fr 40fr 40fr 40fr 40fr 40fr 40fr 40fr 110fr;
     }
 
     .table-team-item {
@@ -147,6 +151,10 @@
 
     .form-cell {
       padding-left: 30px;
+    }
+
+    .next-cell, .table-team-opponent {
+      display: none;
     }
   }
 }
