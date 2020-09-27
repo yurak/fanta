@@ -1,11 +1,7 @@
 class LineupsController < ApplicationController
-  skip_before_action :authenticate_user!, only: %i[index details show]
-
   respond_to :html
 
   helper_method :team, :lineup, :modules
-
-  def index; end
 
   def new
     modules
@@ -22,18 +18,6 @@ class LineupsController < ApplicationController
       flash[:notice] = 'Successfully created lineup'
       redirect_to edit_team_lineup_path(team, team_lineups_creator.lineup)
     end
-  end
-
-  def show
-    redirect_to team_path(team) && return unless lineup_of_team?
-
-    respond_with lineup
-  end
-
-  def details
-    redirect_to team_path(team) && return unless lineup_of_team?
-
-    respond_with lineup
   end
 
   def clone
@@ -53,7 +37,7 @@ class LineupsController < ApplicationController
       respond_with lineup
     else
       flash[:notice] = 'This lineup can not be edited'
-      redirect_to team_lineup_path(team, lineup)
+      redirect_to match_path(lineup.match)
     end
   end
 
@@ -63,7 +47,7 @@ class LineupsController < ApplicationController
       respond_with lineup
     else
       flash[:notice] = 'This lineup can not be edited'
-      redirect_to team_lineup_path(team, lineup)
+      redirect_to match_path(lineup.match)
     end
   end
 
@@ -72,7 +56,7 @@ class LineupsController < ApplicationController
       respond_with lineup
     else
       flash[:notice] = 'This lineup can not be edited'
-      redirect_to team_lineup_path(team, lineup)
+      redirect_to match_path(lineup.match)
     end
   end
 
@@ -84,7 +68,7 @@ class LineupsController < ApplicationController
       recount_round_players_params
       flash[:notice] = 'Successfully updated lineup' if lineup.update(update_lineup_params)
 
-      redirect_to team_lineup_path(team, lineup)
+      redirect_to match_path(lineup.match)
     end
   end
 
@@ -93,7 +77,7 @@ class LineupsController < ApplicationController
       respond_with lineup
     else
       flash[:notice] = 'Substitution can not be made'
-      redirect_to team_lineup_path(team, lineup)
+      redirect_to match_path(lineup.match)
     end
   end
 
@@ -108,7 +92,7 @@ class LineupsController < ApplicationController
         @mp_main.update(round_player_id: new_round_player.id, subs_status: :get_in, cleansheet: false, position_malus: 0)
       end
       flash[:notice] = 'Successfully made substitution'
-      redirect_to team_lineup_path(team, lineup)
+      redirect_to match_path(lineup.match)
     else
       flash[:error] = "#{@mp_reserve.player.name} can not take position #{@mp_main.real_position}"
       redirect_to team_lineup_substitutions_path(team, lineup)

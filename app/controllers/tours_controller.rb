@@ -1,12 +1,13 @@
 class ToursController < ApplicationController
-  skip_before_action :authenticate_user!, only: %i[index show]
+  skip_before_action :authenticate_user!, only: %i[show]
 
   respond_to :html, :json
 
   helper_method :tour, :tours, :league
 
-  def index
-    respond_with tours
+  def show
+    @tournament_players = tour.tournament_round.round_players.with_score.sort_by(&:result_score).reverse.take(5)
+    @league_players = MatchPlayer.by_tour(tour.id).main.with_score.sort_by(&:total_score).reverse.take(5)
   end
 
   def edit

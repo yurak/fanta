@@ -23,8 +23,9 @@
 @import "header";
 @import "leagues";
 @import "lineups";
-@import "list-template";
 @import "links";
+@import "list-template";
+@import "matches";
 @import "players";
 @import "results";
 @import "round_players";
@@ -53,7 +54,8 @@ body, html {
   margin: 0;
   padding: 0;
   position: relative;
-  background: #F4F4F4;
+  background: #FFFFFF;
+  font-family: 'Mont Regular';
 }
 
 /* ---------------- OLD UI ------------------------*/

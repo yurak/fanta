@@ -1,0 +1,25 @@
+.match-player-item
+  .match-player-avatar
+    .player-show-face
+      %object{data: match_player.player.avatar_path, type: 'image/jpg'}
+        = image_tag('avatar.png')
+    .player-show-kit
+      = image_tag(match_player.player.kit_path)
+  .match-player-data
+    .match-player-data
+      .match-player-data-base
+        = link_to player_path(match_player.player) do
+          .team-player-name
+            = match_player.player.name
+            = image_tag('icons/subs-off.svg') if match_player.get_out?
+        - if match_player.score.positive?
+          .team-player-scores
+            .team-player-cs-cell
+            .team-player-score= match_player.score
+            .team-player-total-score= match_player.total_score
+        - elsif match_player.club_played_match?
+          .team-player-score-not-played= t('matches.didnt_play')
+        - else
+          .team-player-score-unspecified= t('matches.unspecified')
+      .match-player-bonuses
+        = render 'mp_bonuses', match_player: match_player

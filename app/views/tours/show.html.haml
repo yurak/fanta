@@ -1,31 +1,277 @@
--#.page-header
--#  .page-header-icon
--#    = image_tag('navbar/tour.png')
--#  .page-header-title
--#    = "Round ##{tour.number}"
--#    .page-header-subtitle
--#      = tour.league.name
-.page-info
-  .list-items.list-action-items.center
-    .list-row-item
-      - if current_user&.admin?
-        = link_to "START ROUND", tour_change_status_path(tour, status: :set_lineup), class: 'list-row-cell', data: { confirm: 'Are you sure?' } if tour.inactive?
-        = link_to "LOCK ROUND", tour_change_status_path(tour, status: :locked), class: 'list-row-cell', data: { confirm: 'Are you sure?' } if tour.set_lineup?
-        = link_to "CLOSE ROUND", tour_change_status_path(tour, status: :closed), class: 'list-row-cell', data: { confirm: 'Are you sure?' } if tour.locked_or_postponed?
-        = link_to "POSTPONE ROUND", tour_change_status_path(tour, status: :postponed), class: 'list-row-cell', data: { confirm: 'Are you sure?' } if tour.locked?
-    .list-row-item
-      = link_to "EDIT SCORES", tournament_round_edit_scores_path(tour.tournament_round), class: 'list-row-cell' if current_user&.can_moderate? && tour.deadlined?
-      = link_to "STATISTICS", tournament_round_round_players_path(tour.tournament_round), class: 'list-row-cell' if tour.closed?
-      = link_to "INJECT SCORES", tour_inject_scores_path(tour), class: 'list-row-cell', data: { confirm: 'Are you sure?' } if tour.deadlined? && current_user&.admin?
-
-  .list-items.list-items-60-height.tour-base-info.center
-    .list-row-item
-      .list-row-cell.tour-deadline-title DEADLINE
-      .list-row-cell.tour-deadline-date
-        - if tour.set_lineup? && current_user&.admin?
-          = link_to tour.deadline&.strftime("%H:%M %d/%m/%y") || '--:--', edit_tour_path(tour)
+.page-info.rounds-page
+  .round-section
+    .rounds-league-name
+      = tour.league.name
+    .rounds-block
+      - tour.league.tours.each do |round|
+        = link_to tour_path(round) do
+          .round-link-block{ class: "round-#{round.status} round-current-#{tour == round}" }
+            = round.number
+    .round-item
+      .round-base
+        .round-title
+          .round-title-text= "#{t('tours.round')} ##{tour.number}"
+          .round-title-icon
+            - if tour.unlocked?
+              = image_tag('icons/round_status1.svg')
+            - elsif tour.locked_or_postponed?
+              = image_tag('icons/round_status2.svg')
+            - else
+              = image_tag('icons/round_status3.svg')
+        .round-deadline
+          .round-deadline-text= t('tours.deadline')
+          .round-deadline-value
+            - if tour.set_lineup? && current_user&.admin?
+              = link_to tour.deadline&.strftime("%a, %b %e at %H:%M") || '--:--', edit_tour_path(tour)
+            - else
+              = tour.deadline&.strftime("%a, %b %e at %H:%M")
+          .round-deadline-countdown
+        .round-prev-next
+          .round-prev
+            - if tour.number > 1
+              = link_to tour_path(tour.id - 1) do
+                .round-prev-arrow
+                  = image_tag('icons/arrow_blue.png')
+                .round-prev-text= t('tours.prev')
+          .round-next
+            - if tour.number < tour.league.tours.size
+              = link_to tour_path(tour.id + 1) do
+                .round-next-text= t('tours.next')
+                .round-next-arrow
+                  = image_tag('icons/arrow_blue.png')
+      .round-actions
+        - if current_user&.admin?
+          = link_to t('tours.start_round'), tour_change_status_path(tour, status: :set_lineup), data: { confirm: t('tours.are_you_sure') } if tour.inactive?
+          = link_to t('tours.lock_round'), tour_change_status_path(tour, status: :locked), data: { confirm: t('tours.are_you_sure') } if tour.set_lineup?
+          = link_to t('tours.close_round'), tour_change_status_path(tour, status: :closed), data: { confirm: t('tours.are_you_sure') } if tour.locked_or_postponed?
+          = link_to t('tours.postpone_round'), tour_change_status_path(tour, status: :postponed), data: { confirm: t('tours.are_you_sure') } if tour.locked?
+        -  if current_user&.can_moderate? && tour.deadlined?
+          = link_to t('tours.edit_scores'), tournament_round_edit_scores_path(tour.tournament_round)
+          = link_to t('tours.inject_scores'), tour_inject_scores_path(tour), data: { confirm: t('tours.are_you_sure') }
+      .round-matches
+        - if tour.unlocked?
+          - tour.matches.each do |match|
+            .round-match-item.round-match-set-lineup
+              .round-match-status
+                - if match.host_lineup
+                  .round-lineup-set= t('tours.set_done')
+                - elsif current_user == match.host.user && tour.set_lineup?
+                  .round-lineup-actions
+                    = link_to new_team_lineup_path(match.host) do
+                      .round-lineup-set-squad
+                        = image_tag('icons/plus.svg')
+                    - unless tour.number == 1
+                      = link_to clone_team_lineups_path(match.host, tour_id: tour.id) do
+                        .round-lineup-clone
+                          = image_tag('icons/clone.svg')
+                - else
+                  .round-lineup-not-set= t('tours.not_set')
+              .round-match-team.round-match-host
+                = link_to team_path(match.host) do
+                  .results-team-name
+                    = match.host.human_name.titleize[0..18]
+                  .results-team-logo
+                    = image_tag(image_path(match.host.logo_path))
+              .round-match-vs
+                = link_to 'vs', match_path(match)
+              .round-match-team.round-match-guest
+                = link_to team_path(match.guest) do
+                  .results-team-logo
+                    = image_tag(image_path(match.guest.logo_path))
+                  .results-team-name
+                    = match.guest.human_name.titleize[0..18]
+              .round-match-status.round-match-status-guest
+                - if match.guest_lineup
+                  .round-lineup-set= t('tours.set_done')
+                - elsif current_user == match.guest.user && tour.set_lineup?
+                  .round-lineup-actions.round-lineup-actions-guest
+                    - unless tour.number == 1
+                      = link_to clone_team_lineups_path(match.guest, tour_id: tour.id) do
+                        .round-lineup-clone
+                          = image_tag('icons/clone.svg')
+                    = link_to new_team_lineup_path(match.guest) do
+                      .round-lineup-set-squad
+                        = image_tag('icons/plus.svg')
+                - else
+                  .round-lineup-not-set= t('tours.not_set')
+        - elsif tour.locked_or_postponed?
+          - tour.matches.each do |match|
+            .round-match-item.round-match-locked
+              .round-match-team.round-match-host
+                = link_to team_path(match.host) do
+                  .results-team-name
+                    = match.host.human_name.titleize[0..18]
+                  .results-team-logo
+                    = image_tag(image_path(match.host.logo_path))
+              .round-match-score.round-match-host-score
+                .round-match-scores-count
+                  = match.host_lineup.mp_with_score
+                .round-match-total-score
+                  = match.host_lineup.total_score
+              .round-match-result
+                = link_to match_path(match) do
+                  .round-match-host-goals
+                    = match.host_lineup&.goals
+                  .round-match-guest-goals
+                    = match.guest_lineup&.goals
+              .round-match-score.round-match-guest-score
+                .round-match-total-score
+                  = match.guest_lineup.total_score
+                .round-match-scores-count
+                  = match.guest_lineup.mp_with_score
+              .round-match-team.round-match-guest
+                = link_to team_path(match.guest) do
+                  .results-team-logo
+                    = image_tag(image_path(match.guest.logo_path))
+                  .results-team-name
+                    = match.guest.human_name.titleize[0..18]
         - else
-          = tour.deadline&.strftime("%H:%M %d/%m/%y")
-  .list-items.list-items-60-height.list-tour-matches.center
-    - tour.matches.each do |match|
-      = render 'tour_match', match: match
+          - tour.matches.each do |match|
+            .round-match-item.round-match-closed
+              .round-match-team.round-match-host
+                = link_to team_path(match.host) do
+                  .results-team-name
+                    = match.host.human_name.titleize[0..18]
+                  .results-team-logo
+                    = image_tag(image_path(match.host.logo_path))
+              .round-match-result
+                = link_to match_path(match) do
+                  .round-match-goals
+                    .round-match-host-goals
+                      = match.host_lineup&.goals
+                    .round-match-guest-goals
+                      = match.guest_lineup&.goals
+                .round-match-total-score
+                  .round-match-host-total-score
+                    = match.host_lineup.total_score
+                  .round-match-guest-total-score
+                    = match.guest_lineup.total_score
+              .round-match-team.round-match-guest
+                = link_to team_path(match.guest) do
+                  .results-team-logo
+                    = image_tag(image_path(match.guest.logo_path))
+                  .results-team-name
+                    = match.guest.human_name.titleize[0..18]
+  .stats-section
+    - if tour.unlocked?
+      .round-table
+        .round-table-title
+          = link_to league_results_path(tour.league) do
+            .round-table-title-text= t('tours.table')
+            .round-table-title-icon
+              = image_tag('icons/arrow_blue.png')
+        .round-table-block
+          .round-table-headers
+            .round-table-header-cell
+            .round-table-header-cell
+            .round-table-header-cell= t('tours.w')
+            .round-table-header-cell= t('tours.d')
+            .round-table-header-cell= t('tours.l')
+            .round-table-header-cell= t('tours.gd')
+            .round-table-header-cell= t('tours.pnt')
+          - tour.league.results.ordered.each_with_index do |result, i|
+            .round-table-item
+              .round-table-item-cell.round-table-index= i + 1
+              .round-table-item-cell.round-table-item-team
+                .results-team-logo
+                  = image_tag(image_path(result.team.logo_path))
+                .results-team-name
+                  = result.team.human_name.titleize[0..15]
+              .round-table-item-cell= result.wins
+              .round-table-item-cell= result.draws
+              .round-table-item-cell= result.loses
+              .round-table-item-cell= result.goals_difference
+              .round-table-item-cell= result.points
+    - else
+      .round-table
+        .round-table-title.best-players-title
+          = link_to tournament_round_round_players_path(tour.tournament_round) do
+            .round-table-title-text= t('tours.tournament_players')
+            .round-table-title-icon
+              = image_tag('icons/arrow_blue.png')
+        .round-table-block
+          .round-table-headers.round-player-stats-headers
+            .round-table-header-cell
+            .round-table-header-cell.round-table-header-player= t('tours.player')
+            .round-table-header-cell= t('tours.bs')
+            .round-table-header-cell= t('tours.ts')
+            .round-table-header-cell= t('tours.team')
+          - @tournament_players.each_with_index do |r_player, i|
+            .round-table-item.round-player-stats-item
+              .round-player-stats-param.center= i + 1
+              .round-player-stats-param.round-player-stats-data
+                .round-player-stats-img
+                  .round-player-show-face
+                    %object{data: r_player.player.avatar_path, type: 'image/jpg'}
+                      = image_tag('avatar.png')
+                  .round-player-show-kit
+                    = image_tag(r_player.player.kit_path)
+                .round-player-stats-name= r_player.player.name
+              .round-player-stats-param= r_player.score
+              .round-player-stats-param.round-player-stats-score= r_player.result_score
+              .round-player-stats-param.round-player-stats-team
+                - if r_player.teams.where(league: tour.league).first
+                  = image_tag(r_player.teams.where(league: tour.league).first.logo_path)
+      .round-table
+        .round-table-title.best-players-title
+          -# TODO: add link to League best players page
+          = link_to '' do
+            .round-table-title-text= t('tours.league_players')
+            .round-table-title-icon
+              = image_tag('icons/arrow_blue.png')
+        .round-table-block
+          .round-table-headers.round-player-stats-headers
+            .round-table-header-cell
+            .round-table-header-cell.round-table-header-player= t('tours.player')
+            .round-table-header-cell= t('tours.bs')
+            .round-table-header-cell= t('tours.ts')
+            .round-table-header-cell= t('tours.team')
+          - @league_players.each_with_index do |r_player, i|
+            .round-table-item.round-player-stats-item
+              .round-player-stats-param.center= i + 1
+              .round-player-stats-param.round-player-stats-data
+                .round-player-stats-img
+                  .round-player-show-face
+                    %object{data: r_player.player.avatar_path, type: 'image/jpg'}
+                      = image_tag('avatar.png')
+                  .round-player-show-kit
+                    = image_tag(r_player.player.kit_path)
+                .round-player-stats-name= r_player.player.name
+              .round-player-stats-param= r_player.score
+              .round-player-stats-param.round-player-stats-score= r_player.result_score
+              .round-player-stats-param.round-player-stats-team
+                - if r_player.teams.where(league: tour.league).first
+                  = image_tag(r_player.teams.where(league: tour.league).first.logo_path)
+    .round-table
+      .round-table-title
+        -# TODO: add link to Tournament Round page
+        = link_to '' do
+          .round-table-title-text= "🏆 #{tour.league.tournament.name} #{t('tours.round')} ##{tour.tournament_round.number}"
+      .round-tournament-block
+        - tour.tournament_round.tournament_matches.each do |t_match|
+          .round-tournament-match
+            .round-tournament-match-cell.round-tournament-match-club
+              .round-tournament-club-name
+                -  if current_user&.can_moderate? && tour.deadlined?
+                  = link_to tournament_round_edit_scores_path(tour.tournament_round, club_id: t_match.host_club.id) do
+                    = t_match.host_club.code
+                - else
+                  = t_match.host_club.code
+              .round-tournament-club-logo
+                = image_tag(image_path(t_match.host_club.logo_path))
+            .round-tournament-match-cell
+              - if t_match.host_score
+                .round-tournament-match-result
+                  .round-tournament-match-result-host= t_match.host_score
+                  .round-tournament-match-result-guest= t_match.guest_score
+              - else
+                vs
+            .round-tournament-match-cell.round-tournament-match-club.round-tournament-match-guest
+              .round-tournament-club-logo
+                = image_tag(image_path(t_match.guest_club.logo_path))
+              .round-tournament-club-name
+                -  if current_user&.can_moderate? && tour.deadlined?
+                  = link_to tournament_round_edit_scores_path(tour.tournament_round, club_id: t_match.guest_club.id) do
+                    = t_match.guest_club.code
+                - else
+                  = t_match.guest_club.code

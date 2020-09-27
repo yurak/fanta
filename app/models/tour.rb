@@ -23,6 +23,10 @@ class Tour < ApplicationRecord
     locked? || postponed? || closed?
   end
 
+  def unlocked?
+    inactive? || set_lineup?
+  end
+
   def next_number
     number + 1
   end

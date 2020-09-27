@@ -11,18 +11,11 @@
       - if user_signed_in?
         .info-links-item.base-link-item
           = link_to t('header.teams'), team_path(current_user.active_team)
-        -#.info-links-item.base-link-item
-        -#  = link_to t('header.lineups'), team_lineups_path(current_user.active_team)
         .info-links-item.base-link-item
           = link_to t('header.table'), league_results_path(current_user.active_league)
-        -# TODO: combine Round Fixtures and Results in one link Rounds
         - if current_user.active_league.active_tour || current_user.active_league.tours.last
           .info-links-item.base-link-item
             = link_to t('header.round'), tour_path(current_user.active_league.active_tour || current_user.active_league.tours.last)
-        .info-links-item.base-link-item
-          = link_to t('header.fixtures'), league_tours_path(current_user.active_league)
-        .info-links-item.base-link-item
-          = link_to t('header.results'), league_tours_path(current_user.active_league, closed: true)
         .info-links-item.base-link-item
           = link_to t('header.leagues'), leagues_path
       - else
@@ -56,9 +49,10 @@
                   .next-round-date= current_user.next_round.deadline&.strftime("%^a, %^b %e")
                   .next-round-time= current_user.next_round.deadline&.strftime("%H:%M")
                 .next-round-opponent
-                  .next-round-vs vs
-                  .next-round-opponent-logo= image_tag(current_user.active_team.next_opponent.logo_path)
-                  .next-round-opponent-name= current_user.active_team.next_opponent.name.titleize
+                  - if current_user.active_team.next_opponent
+                    .next-round-vs vs
+                    .next-round-opponent-logo= image_tag(current_user.active_team.next_opponent.logo_path)
+                    .next-round-opponent-name= current_user.active_team.next_opponent.name.titleize
               - else
                 .next-round-wait= t('header.start_soon')
 
@@ -127,12 +121,9 @@
           %ul#menu
             - if user_signed_in?
               .burger-link= link_to t('header.teams'), team_path(current_user.active_team)
-              -#.burger-link= link_to t('header.lineups'), team_lineups_path(current_user.active_team)
               .burger-link= link_to t('header.table'), league_results_path(current_user.active_league)
               - if current_user.active_league.active_tour || current_user.active_league.tours.last
                 .burger-link= link_to t('header.round'), tour_path(current_user.active_league.active_tour || current_user.active_league.tours.last)
-              .burger-link= link_to t('header.fixtures'), league_tours_path(current_user.active_league)
-              .burger-link= link_to t('header.results'), league_tours_path(current_user.active_league, closed: true)
               .burger-link= link_to t('header.leagues'), leagues_path
               .burger-link= link_to t('header.players'), players_path
               .burger-link= link_to t('header.links'), league_links_path(current_user.active_league)

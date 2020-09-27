@@ -606,8 +606,12 @@
 }
 
 .club-logo.l-details-club-logo {
-  width: 28px;
-  height: 28px;
+  text-align: center;
+
+  img {
+    width: 28px;
+    height: 28px;
+  }
 }
 
 .l-details-player-name, .l-details-player-tscore {
@@ -663,20 +667,20 @@
   line-height: 34px;
 }
 
-.bonus-badge{
-  position: absolute;
-  bottom: 0;
-  left: 0;
-}
-
-@media screen and (min-device-width: 992px) {
-  .bonus-badge{
-    left: 5px;
-  }
-}
-
-@media screen and (min-device-width: 1200px) {
-  .bonus-badge{
-    left: 10px;
-  }
-}
+//.bonus-badge{
+//  position: absolute;
+//  bottom: 0;
+//  left: 0;
+//}
+//
+//@media screen and (min-device-width: 992px) {
+//  .bonus-badge{
+//    left: 5px;
+//  }
+//}
+//
+//@media screen and (min-device-width: 1200px) {
+//  .bonus-badge{
+//    left: 10px;
+//  }
+//}
