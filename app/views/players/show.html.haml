@@ -1,4 +1,4 @@
-.page-info
+.page-info.player-show-page
   .player-show
     .player-show-images
       .player-show-face
@@ -53,90 +53,81 @@
   -#  .player-param= player.played_matches_count
   -#  .player-param= player.scores_count
   -#  .player-param= player.average_score
-  -#  .player-param= player.average_total_score
-  -#.player-show-lineups
-  -#  %ul.nav.nav-tabs.nav-fill
-  -#    %li.nav-item
-  -#      %a{"data-toggle" => "tab", href: "#stat-lineups", class: 'nav-link active'} Lineups
-  -#    %li.nav-item
-  -#      %a{"data-toggle" => "tab", href: "#stat-chart", class: 'nav-link'} Chart
-  -#  .tab-content
-  -#    .tab-pane.pane.active#stat-lineups
-  -#      .alert.alert-primary.player-show-mp-bolder.player-show-details-headers
-  -#        .player-show-mp-header= '#'
-  -#        .player-show-mp-header{title: 'Position'} Pos
-  -#        .player-show-mp-header{title: 'Total score'} TS
-  -#        .player-show-mp-header{title: 'Base score'} BS
-  -#        .player-show-mp-header{title: 'Goals / Missed goals'} G/MG
-  -#        .player-show-mp-header{title: 'Scored penalty / Caught penalty'} SP/CP
-  -#        .player-show-mp-header{title: 'Failed penalty / Missed penalty'} FP/MP
-  -#        .player-show-mp-header{title: 'Assists'} A
-  -#        .player-show-mp-header{title: 'Clean sheet'} CS
-  -#        .player-show-mp-header{title: 'Yellow card'} YC
-  -#        .player-show-mp-header{title: 'Red card'} RC
-  -#        .player-show-mp-header{title: 'Own goals'} OG
-  -#        .player-show-mp-header{title: 'Position malus'} PM
-  -#      - player.match_players.reverse_each do |mp|
-  -#        .alert.player-show-details{class: squad_class(mp)}
-  -#          .player-show-mp-param.player-show-mp-bolder
-  -#            = mp.lineup.tour.number
-  -#          .player-show-mp-param.player-show-position
-  -#            = image_tag("positions/#{mp.real_position.gsub('/','_')}.png") if mp.real_position
-  -#          .player-show-mp-param.player-show-mp-bolder
-  -#            = mp.total_score
-  -#          .player-show-mp-param
-  -#            = mp.score
-  -#          - if player.positions_names_string == 'Por'
-  -#            .player-show-mp-param
-  -#              - if mp.missed_goals.to_i.nonzero?
-  -#                = image_tag("bonuses/mg.png", title: 'Missed goal')
-  -#                - if mp.missed_goals.to_i > 1
-  -#                  .badge.badge-danger.bonus-badge= mp.missed_goals.to_i
-  -#            .player-show-mp-param
-  -#              - if mp.caught_penalty.to_i.nonzero?
-  -#                = image_tag("bonuses/pen.png", title: 'Caught penalty')
-  -#                - if mp.caught_penalty.to_i > 1
-  -#                  .badge.badge-warning.bonus-badge= mp.caught_penalty.to_i
-  -#            .player-show-mp-param
-  -#              - if mp.missed_penalty.to_i.nonzero?
-  -#                = image_tag("bonuses/mg.png", title: 'Missed penalty')
-  -#                - if mp.missed_penalty.to_i > 1
-  -#                  .badge.badge-danger.bonus-badge= mp.missed_penalty.to_i
-  -#          - else
-  -#            .player-show-mp-param
-  -#              - if mp.goals.to_i.nonzero?
-  -#                = image_tag("bonuses/goal.png", title: 'Goal')
-  -#                - if mp.goals.to_i > 1
-  -#                  .badge.badge-success.bonus-badge= mp.goals.to_i
-  -#            .player-show-mp-param
-  -#              - if mp.scored_penalty.to_i.nonzero?
-  -#                = image_tag("bonuses/pen.png", title: 'Scored penalty')
-  -#                - if mp.scored_penalty.to_i > 1
-  -#                  .badge.badge-warning.bonus-badge= mp.scored_penalty.to_i
-  -#            .player-show-mp-param
-  -#              - if mp.failed_penalty.to_i.nonzero?
-  -#                = image_tag("bonuses/mg.png", title: 'Failed penalty')
-  -#                - if mp.failed_penalty.to_i > 1
-  -#                  .badge.badge-danger.bonus-badge= mp.failed_penalty.to_i
-  -#          .player-show-mp-param
-  -#            - if mp.assists.to_i.nonzero?
-  -#              = image_tag("bonuses/assist.png", title: 'Assist')
-  -#              - if mp.assists.to_i > 1
-  -#                .badge.badge-warning.bonus-badge= mp.assists.to_i
-  -#          .player-show-mp-param
-  -#            = image_tag("bonuses/cs.png", title: 'Clean sheet') if mp.cleansheet
-  -#          .player-show-mp-param
-  -#            = image_tag("bonuses/yc.png", title: 'Yellow card') if mp.yellow_card
-  -#          .player-show-mp-param
-  -#            = image_tag("bonuses/rc.png", title: 'Red card') if mp.red_card
-  -#          .player-show-mp-param
-  -#            - if mp.own_goals.to_i.nonzero?
-  -#              = image_tag("bonuses/autogol.png", title: 'Own goal')
-  -#              - if mp.own_goals.to_i > 1
-  -#                .badge.badge-warning.bonus-badge= mp.own_goals.to_i
-  -#          .player-show-mp-param
-  -#            - if mp.position_malus.nonzero?
-  -#              .badge.badge-danger= mp.position_malus
-  -#
-  -#    .tab-pane.fade#stat-chart
-  -#      = area_chart player.chart_info
+  -#  .player-param= player.average_result_score
+  .player-show-lineups
+    %ul.nav.nav-tabs.nav-fill
+      %li.nav-item
+        %a{"data-toggle" => "tab", href: "#stat-lineups", class: 'nav-link active'} Lineups
+      %li.nav-item
+        %a{"data-toggle" => "tab", href: "#stat-chart", class: 'nav-link'} Chart
+    .tab-content
+      .tab-pane.pane.active#stat-lineups
+        .alert.alert-primary.player-show-mp-bolder.player-show-details-headers
+          .player-show-mp-header= '#'
+          .player-show-mp-header{title: 'Total score'} TS
+          .player-show-mp-header{title: 'Base score'} BS
+          .player-show-mp-header{title: 'Goals / Missed goals'} G/MG
+          .player-show-mp-header{title: 'Scored penalty / Caught penalty'} SP/CP
+          .player-show-mp-header{title: 'Failed penalty / Missed penalty'} FP/MP
+          .player-show-mp-header{title: 'Assists'} A
+          .player-show-mp-header{title: 'Yellow card'} YC
+          .player-show-mp-header{title: 'Red card'} RC
+          .player-show-mp-header{title: 'Own goals'} OG
+        - player.season_matches_with_scores.reverse_each do |rp|
+          -#.alert.player-show-details{class: squad_class(rp)}
+          .alert.player-show-details.alert-success
+            .player-show-mp-param.player-show-mp-bolder
+              = rp.tournament_round.number
+            .player-show-mp-param.player-show-mp-bolder
+              = rp.result_score
+            .player-show-mp-param
+              = rp.score
+            - if player.positions_names_string == 'Por'
+              .player-show-mp-param
+                - if rp.missed_goals.to_i.nonzero?
+                  = image_tag("bonuses/mg.png", title: 'Missed goal')
+                  - if rp.missed_goals.to_i > 1
+                    .badge.badge-danger.bonus-badge= rp.missed_goals.to_i
+              .player-show-mp-param
+                - if rp.caught_penalty.to_i.nonzero?
+                  = image_tag("bonuses/pen.png", title: 'Caught penalty')
+                  - if rp.caught_penalty.to_i > 1
+                    .badge.badge-warning.bonus-badge= rp.caught_penalty.to_i
+              .player-show-mp-param
+                - if rp.missed_penalty.to_i.nonzero?
+                  = image_tag("bonuses/mg.png", title: 'Missed penalty')
+                  - if rp.missed_penalty.to_i > 1
+                    .badge.badge-danger.bonus-badge= rp.missed_penalty.to_i
+            - else
+              .player-show-mp-param
+                - if rp.goals.to_i.nonzero?
+                  = image_tag("bonuses/goal.png", title: 'Goal')
+                  - if rp.goals.to_i > 1
+                    .badge.badge-success.bonus-badge= rp.goals.to_i
+              .player-show-mp-param
+                - if rp.scored_penalty.to_i.nonzero?
+                  = image_tag("bonuses/pen.png", title: 'Scored penalty')
+                  - if rp.scored_penalty.to_i > 1
+                    .badge.badge-warning.bonus-badge= rp.scored_penalty.to_i
+              .player-show-mp-param
+                - if rp.failed_penalty.to_i.nonzero?
+                  = image_tag("bonuses/mg.png", title: 'Failed penalty')
+                  - if rp.failed_penalty.to_i > 1
+                    .badge.badge-danger.bonus-badge= rp.failed_penalty.to_i
+            .player-show-mp-param
+              - if rp.assists.to_i.nonzero?
+                = image_tag("bonuses/assist.png", title: 'Assist')
+                - if rp.assists.to_i > 1
+                  .badge.badge-warning.bonus-badge= rp.assists.to_i
+            .player-show-mp-param
+              = image_tag("bonuses/yc.png", title: 'Yellow card') if rp.yellow_card
+            .player-show-mp-param
+              = image_tag("bonuses/rc.png", title: 'Red card') if rp.red_card
+            .player-show-mp-param
+              - if rp.own_goals.to_i.nonzero?
+                = image_tag("bonuses/autogol.png", title: 'Own goal')
+                - if rp.own_goals.to_i > 1
+                  .badge.badge-warning.bonus-badge= rp.own_goals.to_i
+
+      .tab-pane.fade#stat-chart
+        = area_chart player.chart_info

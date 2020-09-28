@@ -72,14 +72,14 @@ class MatchPlayer < ApplicationRecord
   def custom_score
     custom_diff = 0
     custom_diff += recount_goals if (position_names & Position::FORWARDS).present? && goals.positive?
-    custom_diff += recount_missed_goals if real_position_arr.include?(Position::PORTIERE) && missed_goals.positive?
+    custom_diff += recount_missed_goals if (main_squad_por? || reserve_por?) && missed_goals.positive?
     custom_diff += recount_failed_penalty if failed_penalty.positive?
 
     custom_diff
   end
 
   def recount_goals
-    goal_diff = real_position_arr.include?(Position::PUNTA) ? GOAL_PC_DIFF : GOAL_A_DIFF
+    goal_diff = main_squad_pc? || reserve_pc? ? GOAL_PC_DIFF : GOAL_A_DIFF
     goal_diff * goals
   end
 
@@ -102,5 +102,21 @@ class MatchPlayer < ApplicationRecord
     else
       BASE_CLEANSHEET_BONUS
     end
+  end
+
+  def main_squad_pc?
+    real_position_arr.include?(Position::PUNTA)
+  end
+
+  def reserve_pc?
+    real_position.blank? && position_names.include?(Position::PUNTA)
+  end
+
+  def main_squad_por?
+    real_position_arr.include?(Position::PORTIERE)
+  end
+
+  def reserve_por?
+    real_position.blank? && position_names.include?(Position::PORTIERE)
   end
 end

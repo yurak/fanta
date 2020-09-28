@@ -1,11 +1,18 @@
 /* PLAYER INDEX page */
 
 .players-list {
+  background-color: #F4F4F4;
+
   .list-items.stats-headers {
-    grid-template-columns: 1fr 2fr 5fr 3fr;
+    grid-template-columns: 1fr 2fr 5fr 3fr 2fr 3fr;
   }
   .list-items.stats-players .list-row-item {
-    grid-template-columns: 1fr 2fr 5fr 3fr;
+    grid-template-columns: 1fr 2fr 5fr 3fr 2fr 3fr;
+
+    img {
+      width: 28px;
+      height: 28px;
+    }
   }
 
   .list-items.list-action-items.center .list-row-item.tournaments {
@@ -14,6 +21,11 @@
 }
 
 /* PLAYER SHOW page */
+
+.player-show-page {
+  background-color: #F4F4F4;
+  min-height: 100%;
+}
 
 .player-show {
   margin: 30px auto;
@@ -90,7 +102,7 @@
 .player-show-details, .player-show-details-headers {
   display: grid;
   font-size: 16px;
-  grid-template-columns: 4% 12% 10% 10% 8% 8% 8% 8% 6% 6% 6% 7% 7%;
+  grid-template-columns: 4fr 10fr 10fr 8fr 8fr 8fr 8fr 6fr 6fr 7fr;
 
 }
 

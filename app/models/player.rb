@@ -101,9 +101,9 @@ class Player < ApplicationRecord
   def chart_info
     bs = {}
     ts = {}
-    round_players.each do |rp|
-      bs[rp.lineup.tour.number] = rp.score
-      ts[rp.lineup.tour.number] = rp.result_score
+    season_matches_with_scores.each do |rp|
+      bs[rp.tournament_round.number] = rp.score
+      ts[rp.tournament_round.number] = rp.result_score
     end
     [{ name: 'Total score', data: ts }, { name: 'Score', data: bs }]
   end
@@ -128,6 +128,10 @@ class Player < ApplicationRecord
     @season_average_result_score ||= (season_matches_with_scores.map(&:result_score).sum / season_scores_count).round(2)
   end
 
+  def season_matches_with_scores
+    @season_matches_with_scores ||= round_players.with_score.by_tournament_round(Season.last.tournament_rounds)
+  end
+
   private
 
   # def played_matches
@@ -137,9 +141,5 @@ class Player < ApplicationRecord
 
   def matches_with_scores
     @matches_with_scores ||= round_players.with_score
-  end
-
-  def season_matches_with_scores
-    @season_matches_with_scores ||= round_players.with_score.by_tournament_round(Season.last.tournament_rounds)
   end
 end
