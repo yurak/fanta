@@ -24,16 +24,6 @@
                 .league-team-logo
                   = image_tag('navbar/table_d.png')
                 .league-link-name TABLE
-            = link_to league_tours_path(league), class: 'league-team-link' do
-              .league-subitem
-                .league-team-logo
-                  = image_tag('navbar/calendar_d.png')
-                .league-link-name FIXTURES
-            = link_to league_tours_path(league, closed: true), class: 'league-team-link' do
-              .league-subitem
-                .league-team-logo
-                  = image_tag('navbar/results_d.png')
-                .league-link-name RESULTS
           .league-links-block.league-teams
             - league.teams.each do |team|
               = link_to team_path(team), class: 'league-team-link' do

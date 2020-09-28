@@ -25,6 +25,8 @@
     .results-header-cell
       = link_to 'Name', players_path(tournament: params[:tournament], club: params['club'], order: 'name', position: params['position'])
     .results-header-cell Position
+    .results-header-cell Score
+    .results-header-cell Teams
     -#.results-header-cell.player-stats-headers
     -#  .player-stat-header= link_to 'BS', tournament_round_round_players_path(tournament_round, order: 'base_score', position: params['position'])
     -#.results-header-cell.player-stats-headers
@@ -42,6 +44,12 @@
           - player.positions.each do |position|
             .position-image.inline-block
               = image_tag("positions/#{position.name}.png")
+        .list-row-cell
+          .player-param= player.season_average_result_score
+        .list-row-cell
+          - player.teams.each do |team|
+            .position-image.inline-block
+              = image_tag(team.logo_path)
         -#.list-row-cell
         -#  .player-param= player.score
         -#.list-row-cell.player-result-score

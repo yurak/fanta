@@ -9,7 +9,7 @@
       = match_player.real_position
   .match-player-data
     .match-player-data
-      .match-player-data-base
+      .match-player-data-base{class: "scores-moderator#{current_user&.can_moderate?}"}
         = link_to player_path(match_player.player) do
           .team-player-name
             = match_player.player.name
@@ -33,5 +33,6 @@
             .team-player-score-not-played= t('matches.didnt_play')
         - else
           .team-player-score-unspecified= t('matches.unspecified')
-      .match-player-bonuses
-        = render 'mp_bonuses', match_player: match_player
+      .match-player-add-data
+        .match-player-bonuses
+          = render 'mp_bonuses', match_player: match_player

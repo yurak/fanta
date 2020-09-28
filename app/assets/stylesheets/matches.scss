@@ -311,7 +311,7 @@
 
       .match-player-data-base {
         display: grid;
-        grid-template-columns: auto 120px;
+        grid-template-columns: auto 108px;
         line-height: 24px;
         margin-top: 14px;
         font-weight: 500;
@@ -322,7 +322,7 @@
 
         .team-player-scores {
           display: grid;
-          grid-template-columns: 1fr 2fr 2fr;
+          grid-template-columns: 2fr 3fr 4fr;
 
           .team-player-cs-toggle {
             line-height: 22px;
@@ -363,11 +363,42 @@
         }
       }
 
-      .match-player-bonuses {
-        font-size: 16px;
+      .scores-moderator {
+        grid-template-columns: auto 90px;
+
+        .team-player-scores {
+          grid-template-columns: 3fr 4fr;
+        }
+
+        .team-player-cs-cell {
+          display: none;
+        }
+      }
+
+      .match-player-add-data {
+        display: grid;
+        grid-template-columns: auto 110px;
         line-height: 24px;
-        color: #181715;
-        margin: 4px 0 6px;
+
+        .match-player-bonuses {
+          font-size: 16px;
+          color: #181715;
+          margin: 4px 0 6px;
+          line-height: 24px;
+        }
+
+        .match-player-positions {
+          text-align: right;
+
+          .match-player-position {
+            display: inline-block;
+            font-size: 12px;
+            line-height: 22px;
+            height: 22px;
+            width: 32px;
+            border-radius: 4px;
+          }
+        }
       }
     }
 
@@ -377,6 +408,15 @@
       font-size: 16px;
       line-height: 24px;
       color: #181715;
+
+      .match-player-item .match-player-data-base {
+        grid-template-columns: auto 90px;
+
+        .team-player-scores {
+          display: grid;
+          grid-template-columns: 3fr 4fr;
+        }
+      }
     }
 
     .match-player-bonus-item {
