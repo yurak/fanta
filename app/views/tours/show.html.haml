@@ -238,7 +238,7 @@
                     = image_tag(r_player.player.kit_path)
                 .round-player-stats-name= r_player.player.name
               .round-player-stats-param= r_player.score
-              .round-player-stats-param.round-player-stats-score= r_player.result_score
+              .round-player-stats-param.round-player-stats-score= r_player.total_score
               .round-player-stats-param.round-player-stats-team
                 - if r_player.teams.where(league: tour.league).first
                   = image_tag(r_player.teams.where(league: tour.league).first.logo_path)
