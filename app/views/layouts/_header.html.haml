@@ -84,7 +84,7 @@
                           .modal-teams-item.active-team
                             .modal-team
                               .modal-team-logo= image_tag(team.logo_path)
-                              .modal-team-name= team.name.titleize
+                              .modal-team-name= team.human_name
                             .modal-league
                               .modal-league-logo= image_tag(team.league.tournament.logo_path)
                               .modal-league-name= team.league.name
@@ -93,7 +93,7 @@
                             .modal-teams-item
                               .modal-team
                                 .modal-team-logo= image_tag(team.logo_path)
-                                .modal-team-name= team.name.titleize
+                                .modal-team-name= team.human_name
                               .modal-league
                                 .modal-league-logo= image_tag(team.league.tournament.logo_path)
                                 .modal-league-name= team.league.name

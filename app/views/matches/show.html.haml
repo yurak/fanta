@@ -22,7 +22,7 @@
   .match-bar
     .match-host
       .match-team-logo= image_tag(match.host.logo_path)
-      .match-team-name= match.host.name.titleize
+      .match-team-name= match.host.human_name
     .match-result
       - if match.tour.unlocked?
         .match-result-soon= t('matches.start_soon')
@@ -51,7 +51,7 @@
               .round-match-scores-count-all= match.guest_lineup.mp_with_score
     .match-guest
       .match-team-logo= image_tag(match.guest.logo_path)
-      .match-team-name= match.guest.name.titleize
+      .match-team-name= match.guest.human_name
   .match-actions
     .match-host
       - if current_user == match.host.user
@@ -71,9 +71,9 @@
   .match-squads
     = render 'team_squad', lineup: match.host_lineup
     .match-lineups
-      .match-team-name= match.host.name.titleize
+      .match-team-name= match.host.human_name
       .match-lineups-field
         = image_tag('field_skeleton.svg')
         -# TODO: add lineups icons to field
-      .match-team-name= match.guest.name.titleize
+      .match-team-name= match.guest.human_name
     = render 'team_squad', lineup: match.guest_lineup

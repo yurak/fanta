@@ -6,13 +6,13 @@
           .team-bar-item-logo
             = image_tag(league_team.logo_path)
           .team-bar-item-name
-            = league_team.human_name.titleize
+            = league_team.human_name
   .team-section
     .team-data
       .team-logo
         = image_tag(team.logo_path)
       .team-name
-        = team.human_name.titleize
+        = team.human_name
       .team-points
         = t('teams.points', :count => team.results.last.points)
       .team-league-data

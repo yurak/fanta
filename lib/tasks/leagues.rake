@@ -8,14 +8,18 @@ namespace :leagues do
       league = League.create(name: league_name, tournament: tournament, status: 0, season: Season.last)
       next unless league
 
-      league_data['members'].each do |team, user_email|
+      league_data['members'].each do |team_name, user_email|
         user = User.find_by(email: user_email)
         if user
-          team = user.teams.find_by(name: team)
-          team.update(league: league)
+          team = user.teams.find_by(name: team_name)
         else
           user = User.create(email: user_email, password: '123456')
-          Team.create(name: team, user: user, league: league)
+        end
+
+        if team
+          team.update(league: league)
+        else
+          Team.create(name: team_name, user: user, league: league)
         end
       end
     end

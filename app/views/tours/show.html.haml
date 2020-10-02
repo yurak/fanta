@@ -69,7 +69,7 @@
               .round-match-team.round-match-host
                 = link_to team_path(match.host) do
                   .results-team-name
-                    = match.host.human_name.titleize[0..18]
+                    = match.host.human_name
                   .results-team-logo
                     = image_tag(image_path(match.host.logo_path))
               .round-match-vs
@@ -79,7 +79,7 @@
                   .results-team-logo
                     = image_tag(image_path(match.guest.logo_path))
                   .results-team-name
-                    = match.guest.human_name.titleize[0..18]
+                    = match.guest.human_name
               .round-match-status.round-match-status-guest
                 - if match.guest_lineup
                   .round-lineup-set= t('tours.set_done')
@@ -100,7 +100,7 @@
               .round-match-team.round-match-host
                 = link_to team_path(match.host) do
                   .results-team-name
-                    = match.host.human_name.titleize[0..18]
+                    = match.host.human_name
                   .results-team-logo
                     = image_tag(image_path(match.host.logo_path))
               .round-match-score.round-match-host-score
@@ -124,14 +124,14 @@
                   .results-team-logo
                     = image_tag(image_path(match.guest.logo_path))
                   .results-team-name
-                    = match.guest.human_name.titleize[0..18]
+                    = match.guest.human_name
         - else
           - tour.matches.each do |match|
             .round-match-item.round-match-closed
               .round-match-team.round-match-host
                 = link_to team_path(match.host) do
                   .results-team-name
-                    = match.host.human_name.titleize[0..18]
+                    = match.host.human_name
                   .results-team-logo
                     = image_tag(image_path(match.host.logo_path))
               .round-match-result
@@ -151,7 +151,7 @@
                   .results-team-logo
                     = image_tag(image_path(match.guest.logo_path))
                   .results-team-name
-                    = match.guest.human_name.titleize[0..18]
+                    = match.guest.human_name
   .stats-section
     - if tour.unlocked?
       .round-table
@@ -176,7 +176,7 @@
                 .results-team-logo
                   = image_tag(image_path(result.team.logo_path))
                 .results-team-name
-                  = result.team.human_name.titleize[0..15]
+                  = result.team.human_name[0..15]
               .round-table-item-cell= result.wins
               .round-table-item-cell= result.draws
               .round-table-item-cell= result.loses
