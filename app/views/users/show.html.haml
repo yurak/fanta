@@ -32,7 +32,7 @@
         .user-team
           .user-team-logo= image_tag(team.logo_path)
           .user-team-data
-            .user-team-name= team.name.titleize
+            .user-team-name= team.human_name
             .user-team-league
               .user-team-league-title= t('users.league')
               .user-team-league-name= team.league.name

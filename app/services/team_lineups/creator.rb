@@ -14,7 +14,7 @@ module TeamLineups
     end
 
     def call
-      errors.add(:base, "#{team.name.titleize} lineup already exist, to change the module - go to Edit Module page") if lineup_exist?
+      errors.add(:base, "#{team.human_name} lineup already exist, to change the module - go to Edit Module page") if lineup_exist?
       lineup.tour_id = active_tour&.id
       generate_match_players
       generate_reserve_players
