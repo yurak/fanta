@@ -24,7 +24,7 @@
             .results-team-logo
               = image_tag(image_path(result.team.logo_path))
             .results-team-name
-              = result.team.human_name.titleize[0..18]
+              = result.team.human_name
         .table-team-param
           = result.matches_played
         .table-team-param

@@ -9,7 +9,7 @@ class RoundPlayer < ApplicationRecord
 
   scope :by_tournament_round, ->(tournament_round_id) { where(tournament_round: tournament_round_id) }
   scope :by_club, ->(club_id) { joins(:player).where('players.club_id = ?', club_id) }
-  scope :by_name_and_club, ->(name, club_id) { joins(:player).where('players.name = ?', name).where('players.club_id = ?', club_id) }
+  scope :by_name_and_club, ->(name, club_id) { by_club(club_id).where('LOWER(players.name) = ?', name.downcase) }
   scope :with_score, -> { where('score > ?', 0) }
   scope :ordered_by_club, -> { joins(player: :club).order('clubs.name') }
 
