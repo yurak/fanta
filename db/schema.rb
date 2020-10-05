@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_30_192850) do
+ActiveRecord::Schema.define(version: 2020_10_04_213511) do
 
   create_table "articles", force: :cascade do |t|
     t.string "title"
@@ -55,6 +55,7 @@ ActiveRecord::Schema.define(version: 2020_09_30_192850) do
     t.boolean "custom_bonuses", default: false, null: false
     t.decimal "missed_goals", default: "2.0", null: false
     t.decimal "failed_penalty", default: "3.0", null: false
+    t.boolean "recount_goals", default: false, null: false
     t.index ["season_id"], name: "index_leagues_on_season_id"
   end
 
