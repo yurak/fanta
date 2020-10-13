@@ -1,12 +1,13 @@
 class ArticlesController < ApplicationController
   skip_before_action :authenticate_user!, only: %i[index show]
 
-  helper_method :article
+  helper_method :article, :article_tags
 
   respond_to :html
 
   def index
     @articles = Article.all.order(id: :desc)
+    @left, @right = @articles.partition.each_with_index { |_, i| i.even? }
   end
 
   def new
@@ -45,7 +46,11 @@ class ArticlesController < ApplicationController
     @article ||= Article.find(params[:id])
   end
 
+  def article_tags
+    @article_tags ||= ArticleTag.all
+  end
+
   def article_params
-    params.require(:article).permit(:title, :summary, :image_url, :description)
+    params.require(:article).permit(:title, :summary, :image_url, :description, :internal_image_url, :article_tag_id)
   end
 end

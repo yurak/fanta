@@ -24,6 +24,18 @@
 
   .input-group.mb-3
     .input-group-prepend
+      %span.input-group-text Internal Image URL
+    = f.text_field :internal_image_url, class: 'form-control'
+
+  .input-group.mb-3
+    .input-group-prepend
+      %span.input-group-text Tag
+    = f.select :article_tag_id, class: 'form-control' do
+      - article_tags.each do |tag|
+        = content_tag(:option, tag.name, value: tag.id)
+
+  .input-group.mb-3
+    .input-group-prepend
       %span.input-group-text Description*
     = f.text_area :description, class: 'form-control tinymce editor', rows: 40, cols: 160
     = tinymce

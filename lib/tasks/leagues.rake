@@ -19,7 +19,7 @@ namespace :leagues do
         if team
           team.update(league: league)
         else
-          Team.create(name: team_name, user: user, league: league)
+          Team.create(name: team_name, user: user, league: league, human_name: team_name.titleize[0..18])
         end
       end
     end

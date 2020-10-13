@@ -1,22 +1,19 @@
-.page-info
-  - if current_user&.admin?
-    .list-items.list-action-items.center
-      .list-row-item
-        .list-row-cell.hidden-cell
-        .list-row-cell.hidden-cell
-        .list-row-cell.item-c
-          = link_to 'NEW ARTICLE', new_article_path
+.page-info.news-page
+  .news-block-head
+    .news-title= t('news.news')
+    .news-add
+      - if current_user&.admin?
+        .add-article-btn
+          = link_to t('news.add_article'), new_article_path
+    .news-filters
+      -# TODO: add Tournaments filter
   .articles-block
+    .articles-column
+      - @left.each do |article|
+        = render 'article_item', article: article
+    .articles-column.articles-column-second
+      - @right.each do |article|
+        = render 'article_item', article: article
+  .articles-block-portrait
     - @articles.each do |article|
-      .article-item
-        = link_to article do
-          .article-block
-            .article-image
-              = image_tag(article.image)
-            .article-data
-              .article-title
-                %h3= article.title
-              .article-summary
-                %h5= article.summary
--# TODO: add button New Article for admin users
--# = link_to 'New Article', new_article_path, class: 'btn btn-primary' if current_user&.admin?
+      = render 'article_item', article: article
