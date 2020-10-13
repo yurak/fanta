@@ -14,7 +14,7 @@ class Team < ApplicationRecord
 
   validates :name, uniqueness: true, length: { in: 2..18 }
   validates :code, uniqueness: true, length: { in: 2..3 }, allow_blank: true
-  validates :human_name, uniqueness: true, length: { in: 2..18 }
+  validates :human_name, length: { in: 2..18 }
 
   def matches
     @matches ||= Match.where('host_id = ? OR guest_id = ?', id, id)
