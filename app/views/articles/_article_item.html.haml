@@ -1,0 +1,14 @@
+.article-item
+  = link_to article do
+    .article-item-block
+      .article-img{style: "background-image: url('#{ image_url(article.image) }');"}
+      .article-data
+        - if article.article_tag
+          .article-tag{style: "background-color: ##{ article.article_tag.color };"}
+            = article.article_tag.name
+        .article-date
+          = article.created_at.strftime("%b %e, %y")
+      .article-title
+        = article.title
+      .article-subtitle
+        = article.summary

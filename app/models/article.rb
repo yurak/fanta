@@ -1,5 +1,5 @@
 class Article < ApplicationRecord
-  # TODO: Add nested parameter - articles shown only in league news
+  belongs_to :article_tag, optional: true
 
   enum status: %i[published hidden]
 
@@ -11,5 +11,17 @@ class Article < ApplicationRecord
 
   def image
     image_url.presence || 'article1.png'
+  end
+
+  def internal_image
+    internal_image_url.presence || image
+  end
+
+  def related_articles
+    articles = Article.where(article_tag: article_tag).order(id: :desc).reject { |art| art == self } if article_tag
+
+    articles = Article.all.order(id: :desc).reject { |art| art == self } unless articles
+
+    articles.take(2)
   end
 end

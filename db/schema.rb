@@ -10,7 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_04_213511) do
+ActiveRecord::Schema.define(version: 2020_10_09_180454) do
+
+  create_table "article_tags", force: :cascade do |t|
+    t.string "name", default: "", null: false
+    t.string "color", default: "", null: false
+    t.integer "tournament_id"
+    t.integer "status", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "articles", force: :cascade do |t|
     t.string "title"
@@ -19,6 +28,8 @@ ActiveRecord::Schema.define(version: 2020_10_04_213511) do
     t.string "image_url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "article_tag_id"
+    t.string "internal_image_url"
   end
 
   create_table "clubs", force: :cascade do |t|

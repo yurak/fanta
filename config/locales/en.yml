@@ -122,6 +122,15 @@ en:
     without_squad: "Team is still without squad"
     didnt_play: "❌ Didn't play"
     unspecified: "Unspecified"
+  news:
+    add_article: "Add article"
+    back: "Back"
+    keep_reading: "Keep reading"
+    news: "News"
+    publish_date: "🗓 Publish date"
+    share_via: "🎤 Share via"
+    tag: "🎮 Tag"
+    tournament: "⚽️ Tournament"
   table:
     title: "Table"
     games: "GAMES"

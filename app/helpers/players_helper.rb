@@ -1,9 +1,8 @@
 module PlayersHelper
   def available_for_select(team)
     team.players.sort_by(&:position_sequence_number).collect do |x|
-      klass = x.status
       [
-        "(#{x.position_names.join('-')}) #{x.name} / #{x.club.code} /", x.id, { class: klass }
+        "(#{x.position_names.join('-')}) #{x.name} / #{x.club.code} /", x.id
       ]
     end
   end
