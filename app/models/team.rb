@@ -20,6 +20,10 @@ class Team < ApplicationRecord
     @matches ||= Match.where('host_id = ? OR guest_id = ?', id, id)
   end
 
+  def league_matches
+    @league_matches ||= matches.by_league(league.id)
+  end
+
   def logo_path
     if File.exist?("app/assets/images/teams/#{name}.png")
       "teams/#{name}.png"
@@ -42,9 +46,18 @@ class Team < ApplicationRecord
     @next_match ||= Match.by_team_and_tour(id, next_round.id).first
   end
 
+  def opponent_by_match(match)
+    match.host == self ? match.guest : match.host
+  end
+
   def next_opponent
     return unless next_match
 
     next_match.host == self ? next_match.guest : next_match.host
+  end
+
+  def players_not_in(lineup)
+    lineup_players_ids = lineup.round_players.map { |rp| rp.player.id }
+    players.where.not(id: lineup_players_ids)
   end
 end

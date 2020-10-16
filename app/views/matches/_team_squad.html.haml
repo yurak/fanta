@@ -15,6 +15,11 @@
       .match-reserve-players
         - lineup.match_players.subs.each do |match_player|
           = render 'subs_player', match_player: match_player
+    .match-reserve
+      .match-reserve-title= t('matches.not_lineup')
+      .match-reserve-players
+        - lineup.team.players_not_in(lineup).each do |player|
+          = render 'out_of_squad', player: player
   - else
     .match-no-lineup-icon ⏳
     .match-no-lineup-title= t('matches.waiting')

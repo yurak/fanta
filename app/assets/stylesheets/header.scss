@@ -54,11 +54,6 @@
         color: #181715;
       }
     }
-
-    .base-links {
-      // TODO: temp css
-      //background: rgba(239, 87, 44, 0.47);
-    }
   }
 
   .right-header {
@@ -331,13 +326,17 @@
   .external-header-false {
     border-bottom: 1px solid #E5E6E4;
 
+    .right-header-links {
+      background-color: #FFFFFF;
+    }
+
     .login-links {
       .login-link a {
         color: #261FFF;
       }
 
       .header-btn {
-        background: #261FFF;
+        background-color: #261FFF;
 
         a {
           color: #FFFFFF;

@@ -3,9 +3,23 @@ class LeaguesController < ApplicationController
 
   respond_to :html
 
-  def index
-    @leagues = League.active
+  helper_method :leagues, :counters
 
-    respond_with @leagues
+  private
+
+  def leagues
+    leagues = {}
+    leagues['registration'] = [] # TODO
+    leagues['ongoing'] = League.active
+    leagues['finished'] = League.archived
+    leagues
+  end
+
+  def counters
+    counters = {}
+    leagues.each do |type, leagues|
+      counters[type] = League.counters(leagues)
+    end
+    counters
   end
 end
