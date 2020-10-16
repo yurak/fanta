@@ -1,0 +1,28 @@
+.match-player-item
+  .match-player-avatar
+    .player-show-face
+      %object{data: player.avatar_path, type: 'image/jpg'}
+        = image_tag('avatar.png')
+    .player-show-kit
+      = image_tag(player.kit_path)
+  .match-player-data
+    .match-player-data
+      .match-player-data-base
+        = link_to player_path(player) do
+          .team-player-name
+            = player.name
+        -#- if match_player.score.positive?
+        -#  .team-player-scores
+        -#    .team-player-score= match_player.score
+        -#    .team-player-total-score= match_player.total_score
+        -#- elsif match_player.club_played_match?
+        -#  .team-player-score-not-played= t('matches.didnt_play')
+        -#- else
+        -#  .team-player-score-unspecified= t('matches.unspecified')
+      .match-player-add-data
+        .match-player-bonuses
+          -#= render 'mp_bonuses', match_player: match_player
+        .match-player-positions
+          - player.positions.each do |position|
+            .match-player-position.slot-position{class: "slot-position-#{position.name}"}
+              = position.name

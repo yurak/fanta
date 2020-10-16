@@ -1,34 +1,38 @@
-.page-info
-  .leagues-block
-    - @leagues.each do |league|
-      .league-item
-        .league-info-container
-          .league-info
-            -# TODO: add link to league#show page
-            .league-name
-              = league.name
-            .league-tournament-logo
-              = image_tag(league.tournament.logo_path, alt: 'Tournament Logo')
-            .league-tournament-title
-              = league.tournament.name
-        .league-links
-          .league-links-block.league-actions
-            - if league.active_tour || league.tours.last
-              = link_to tour_path(league.active_tour || league.tours.last), class: 'league-team-link' do
-                .league-subitem
-                  .league-team-logo
-                    = image_tag('navbar/tour_d.png')
-                  .league-link-name ROUND
-            = link_to league_results_path(league), class: 'league-team-link' do
-              .league-subitem
-                .league-team-logo
-                  = image_tag('navbar/table_d.png')
-                .league-link-name TABLE
-          .league-links-block.league-teams
-            - league.teams.each do |team|
-              = link_to team_path(team), class: 'league-team-link' do
-                .league-subitem
-                  .league-team-logo
-                    = image_tag(team&.logo_path, alt: 'Team Logo')
-                  .league-link-name
-                    = team.human_name
+.page-info.leagues-page
+  .leagues-block-head
+    .leagues-title= t('header.leagues')
+    .leagues-subtitle= t('league.subtitle')
+  .leagues-lists
+    .leagues-lists-tabs
+      #registration.leagues-lists-tab-item= t('league.reg_open')
+      #ongoing.leagues-lists-tab-item.leagues-lists-tab-active= t('league.ongoing')
+      #finished.leagues-lists-tab-item= t('league.finished')
+    .leagues-lists-content
+      .leagues-status-list.registration-list
+        -#TODO: Add registration list tab
+        -#.leagues-counters
+        -#  - counters['registration'].each do |counter|
+        -#    .leagues-counter{ class: "leagues-counter-#{counter[0].downcase.tr(' ', '-')}" }
+        -#      .leagues-counter-name
+        -#        = counter[0]
+        -#      .leagues-counter-value
+        -#        = counter[1]
+      .leagues-status-list.ongoing-list.active-list
+        = render 'leagues_list', leagues_type: 'ongoing'
+      .leagues-status-list.finished-list
+        = render 'leagues_list', leagues_type: 'finished'
+:javascript
+  $(document).ready(function() {
+    $(".leagues-status-list").hide();
+    $(".active-list").show();
+
+    $(".leagues-lists-tab-item").click(function(){
+      var listId = this.id;
+
+      $(".leagues-lists-tab-item").removeClass("leagues-lists-tab-active");
+      $(".leagues-status-list").hide();
+
+      $("#" + listId).addClass("leagues-lists-tab-active");
+      $("." + listId + "-list").show();
+    });
+  });

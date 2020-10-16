@@ -51,7 +51,7 @@
             - else
               .round-match-scores-count-all= match.guest_lineup.mp_with_score
     .match-guest
-      = link_to team_path(match.host) do
+      = link_to team_path(match.guest) do
         .match-team-logo= image_tag(match.guest.logo_path)
         .match-team-name= match.guest.human_name
   .match-actions
