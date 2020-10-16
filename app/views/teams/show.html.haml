@@ -55,10 +55,10 @@
               = form[0]
     .team-lists
       .team-lists-tabs
-        .team-lists-tab-item.team-lists-tab-active= t('teams.players')
-        .team-lists-tab-item= t('teams.games')
+        #players.team-lists-tab-item.team-lists-tab-active= t('teams.players')
+        #games.team-lists-tab-item= t('teams.games')
       .team-lists-content
-        .team-players
+        .team-list.team-players
           .team-players-headers
             .team-players-header-item= t('teams.player')
             .team-players-header-item.team-players-header-position= t('teams.positions')
@@ -93,11 +93,77 @@
               .team-player-param-item.team-player-link
                 = link_to player_path(player) do
                   = image_tag('icons/link_arrow.png')
-        -# TODO: add Games tab
-        -#.team-games GAMES ....
+        .team-list.team-games
+          .team-games-headers
+            .team-games-header-item= t('teams.round')
+            .team-games-header-item= t('teams.opponent')
+            .team-games-header-item= t('teams.score')
+            .team-games-header-item
+          - team.league_matches.each do |match|
+            .team-game-item
+              .team-game-param-item
+                .team-game-number= "##{match.tour.number}"
+                .team-game-vs VS
+              .team-game-param-item.team-game-opponent
+                = image_tag(team.opponent_by_match(match).logo_path)
+                = team.opponent_by_match(match).human_name
+              .team-game-param-item.team-game-result
+                - if match.tour.unlocked?
+                  .game-score-cell
+                    .result-cell-value vs
+                  .game-info-cell
+                    - if match.tour.deadline
+                      = match.tour.deadline&.strftime("%^a, %^b %e")
+                    - else
+                      Unknown
+                - elsif match.tour.locked_or_postponed?
+                  .game-score-cell.game-score-locked
+                    .result-cell-value vs
+                  .game-info-cell
+                    - if team == match.host
+                      = "#{sprintf('%.2f', match.host_lineup&.total_score)} - #{sprintf('%.2f', match.guest_lineup&.total_score)}"
+                    - else
+                      = "#{sprintf('%.2f', match.guest_lineup&.total_score)} - #{sprintf('%.2f', match.host_lineup&.total_score)}"
+                - else
+                  .game-score-cell.game-score-closed
+                    .result-cell-value
+                      - if team == match.host
+                        = "#{match.host_lineup&.goals}:#{match.guest_lineup&.goals}"
+                      - else
+                        = "#{match.guest_lineup&.goals}:#{match.host_lineup&.goals}"
+                  .game-info-cell
+                    - if team == match.host
+                      = "#{sprintf('%.2f', match.host_lineup&.total_score)} - #{sprintf('%.2f', match.guest_lineup&.total_score)}"
+                    - else
+                      = "#{sprintf('%.2f', match.guest_lineup&.total_score)} - #{sprintf('%.2f', match.host_lineup&.total_score)}"
+                  .game-result-cell
+                    - if team == match.host
+                      .game-result-value{ class: "game-result-#{match.host_lineup&.result}" }
+                        = match.host_lineup&.result
+                    - else
+                      .game-result-value{ class: "game-result-#{match.guest_lineup&.result}" }
+              .team-game-param-item.team-game-link
+                = link_to match_path(match) do
+                  = image_tag('icons/link_arrow.png')
+
 -# TODO: Temporary remove player status functionality
 -#    .badge{ class: status_class('badge', player.status) }
 -#      = player.status
 -#    - Player.statuses.each do |status, _value|
 -#      - if status != player.status
 -#        = link_to status, player_change_status_path(player, status: status), class: "btn btn-sm btn-primary #{status_class('btn', status)}"
+
+:javascript
+  $(document).ready(function() {
+    $(".team-games").hide();
+
+    $(".team-lists-tab-item").click(function(){
+      var listId = this.id;
+
+      $(".team-lists-tab-item").removeClass("team-lists-tab-active");
+      $(".team-list").hide();
+
+      $("#" + listId).addClass("team-lists-tab-active");
+      $(".team-" + listId).show();
+    });
+  });
