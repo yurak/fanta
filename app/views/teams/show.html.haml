@@ -142,6 +142,7 @@
                         = match.host_lineup&.result
                     - else
                       .game-result-value{ class: "game-result-#{match.guest_lineup&.result}" }
+                        = match.guest_lineup&.result
               .team-game-param-item.team-game-link
                 = link_to match_path(match) do
                   = image_tag('icons/link_arrow.png')
