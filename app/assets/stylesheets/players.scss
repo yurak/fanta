@@ -22,101 +22,301 @@
 
 /* PLAYER SHOW page */
 
-.player-show-page {
-  background-color: #F4F4F4;
-  min-height: 100%;
-}
+.page-info.player-show-page {
+  padding: 120px 150px 100px;
 
-.player-show {
-  margin: 30px auto;
-  display: grid;
-  grid-template-columns: 400px auto;
-  grid-column-gap: 20px;
-  height: 400px;
-  max-width: 1000px;
-}
-
-.player-show-images {
-  width: 100%;
-
-  .player-show-face, .player-show-kit {
-    position: absolute;
-    img, object {
-      width: 400px;
-      height: 400px;
-    }
+  a {
+    text-decoration: none;
+    color: #181715;
   }
-}
 
-.player-show-info {
-  padding-top: 40px;
+  .player-banner {
+    margin: 48px 0 16px;
+    width: 100%;
+    height: 380px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
 
-  .list-items .list-row-item {
-    grid-template-columns: 3fr 7fr;
+    .player-show-base {
+      color: #FFFFFF;
+      padding: 0 0 40px 92px;
+      display: flex;
+      justify-content: flex-end;
+      flex-direction: column;
 
-    .player-data-cell {
-      font-size: 24px;
-
-      img {
-        width: 38px;
-        height: 38px;
-        margin-bottom: 6px;
+      .player-show-first-name {
+        font-size: 32px;
+        line-height: 32px;
       }
 
-      .flag-icon {
-        margin-right: 5px;
+      .player-show-name {
+        font-weight: bold;
+        font-size: 44px;
+        line-height: 48px;
+        margin: 8px 0 16px;
       }
 
       .player-show-positions {
+        display: inline-block;
+
         .slot-position {
           display: inline-block;
-          line-height: 30px;
-          font-size: 18px;
+          font-size: 16px;
         }
       }
 
-      .player-tm-img {
-        img {
-          width: auto;
-          height: 40px;
+      .player-show-score {
+        display: inline-block;
+        margin-left: 24px;
+        vertical-align: bottom;
+
+        .player-show-score-value {
+          font-weight: bold;
+          line-height: 30px;
+          font-size: 24px;
         }
+      }
+    }
+
+    .player-show-avatar {
+      padding-top: 20px;
+      width: 100%;
+
+      .player-show-face, .player-show-kit {
+        position: absolute;
+        right: 18%;
+
+        img, object {
+          width: 360px;
+          height: 360px;
+        }
+      }
+    }
+  }
+
+  .player-tables {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    column-gap: 16px;
+
+    .player-table {
+      border: 1px solid #E5E6E4;
+      box-sizing: border-box;
+      border-radius: 4px;
+      padding: 24px;
+      margin-bottom: 16px;
+
+      .player-table-title {
+        font-weight: bold;
+        font-size: 16px;
+        line-height: 24px;
+        color: #181715;
+      }
+
+      .player-table-row {
+        padding: 16px 0;
+        border-bottom: 1px solid #F4F4F4;
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+
+        .player-table-row-key {
+          font-weight: 500;
+          font-size: 16px;
+          line-height: 32px;
+          color: #181715;
+          text-align: left;
+        }
+
+        .player-table-row-value {
+          font-weight: bold;
+          font-size: 16px;
+          line-height: 32px;
+          color: #181715;
+          text-align: right;
+
+          img {
+            width: 32px;
+            height: 32px;
+          }
+        }
+      }
+
+      .player-table-row-last {
+        border-bottom: none;
+        padding: 16px 0 0;
+      }
+
+      .flag-icon {
+        height: 24px;
+        width: 32px;
+        margin-left: 12px;
+        vertical-align: middle;
+      }
+
+      .player-table-club {
+        display: grid;
+        grid-template-columns: auto 32px;
+        column-gap: 16px;
+      }
+
+      .player-show-team {
+        display: grid;
+        grid-template-columns: auto 32px;
+        column-gap: 16px;
+        margin-bottom: 12px;
+
+        .player-team-name {
+          font-size: 16px;
+          line-height: 24px;
+        }
+
+        .player-team-league {
+          font-weight: normal;
+          font-size: 10px;
+          line-height: 14px;
+        }
+      }
+    }
+
+    .performance-table {
+      padding: 0;
+      text-align: left;
+
+      .player-table-title {
+        margin: 24px 24px 16px;
+      }
+
+      .player-table-headers {
+        padding: 0 24px 8px;
+        font-weight: 500;
+        font-size: 10px;
+        line-height: 14px;
+        color: #847577;
+      }
+
+      .player-table-row {
+        padding: 8px 24px;
+
+        .match-player-bonus-item {
+          display: inline-block;
+
+          img {
+            width: 20px;
+            height: 20px;
+          }
+        }
+      }
+
+      .table-total {
+        background-color: #F4F4F4;
+        padding: 12px 24px;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 24px;
+        color: #181715;
+
+        .table-total-cell {
+          img {
+            width: 20px;
+            height: 20px;
+          }
+        }
+      }
+
+      .performance-table-row {
+        display: grid;
+        grid-template-columns: 6fr 8fr 7fr 7fr 7fr 5fr 5fr 5fr 8fr 8fr;
       }
     }
   }
 }
 
-.player-show-lineups {
-  margin: 0 auto;
-  max-width: 1000px;
-}
+@media (orientation: landscape) and (max-device-width: 1220px) {
+  .page-info.player-show-page {
+    padding: 100px 100px 50px;
 
-#stat-lineups {
-  text-align: center;
+    .player-banner {
+      .player-show-base {
+        padding: 0 0 40px 60px;
+      }
 
-  .alert {
-    padding: 7px 10px;
-    margin: 10px 0 5px;
+      .player-show-avatar .player-show-face, .player-show-kit {
+        right: 16%;
+      }
+    }
+
+    .player-tables {
+      display: block;
+
+      .player-table .player-table-title {
+        font-size: 24px;
+        line-height: 32px;
+      }
+    }
   }
 }
 
-.player-show-details, .player-show-details-headers {
-  display: grid;
-  font-size: 16px;
-  grid-template-columns: 4fr 10fr 10fr 8fr 8fr 8fr 8fr 6fr 6fr 7fr;
+@media (orientation: portrait) {
+  .page-info.player-show-page {
+    padding: 200px 50px 50px;
 
-}
+    .player-banner {
+      .player-show-base {
+        padding: 0 0 40px 40px;
+      }
 
-.player-show-mp-bolder {
-  font-weight: bolder;
-}
+      .player-show-avatar .player-show-face, .player-show-kit {
+        right: 10%;
+      }
+    }
 
-.player-show-mp-param {
-  width: 100%;
-  line-height: 38px;
-  position: relative;
+    .player-tables {
+      display: block;
 
-  img {
-    height: 26px;
-    margin: 6px 0;
+      .player-table {
+        .player-table-title {
+          font-size: 24px;
+          line-height: 32px;
+        }
+
+        .player-table-row {
+          .player-table-row-key {
+            font-size: 24px;
+            line-height: 32px;
+          }
+
+          .player-table-row-value {
+            font-size: 24px;
+            line-height: 32px;
+          }
+        }
+
+        .player-show-team {
+          margin-bottom: 18px;
+
+          .player-team-name {
+            font-size: 24px;
+            line-height: 28px;
+          }
+
+          .player-team-league {
+            font-size: 14px;
+            line-height: 18px;
+          }
+        }
+      }
+
+      .performance-table {
+        .player-table-headers {
+          font-size: 14px;
+          line-height: 18px;
+        }
+
+        .player-table-row, .table-total {
+          font-size: 22px;
+          line-height: 28px;
+        }
+      }
+    }
   }
 }

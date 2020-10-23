@@ -5,7 +5,7 @@ class MatchPlayer < ApplicationRecord
   delegate :tour, :league, :team, to: :lineup
   delegate :player, :score, :result_score, :goals, :assists, :missed_goals,
            :caught_penalty, :missed_penalty, :scored_penalty, :failed_penalty,
-           :own_goals, :yellow_card, :red_card, to: :round_player
+           :own_goals, :yellow_card, :red_card, :club_played_match?, to: :round_player
   delegate :position_names, :name, :club, :teams, to: :player
 
   enum subs_status: %i[initial get_out get_in not_in_squad]
@@ -61,10 +61,6 @@ class MatchPlayer < ApplicationRecord
 
   def real_position_arr
     real_position ? real_position.split('/') : []
-  end
-
-  def club_played_match?
-    TournamentMatch.by_club_and_t_round(club.id, tour.tournament_round.id).first&.host_score.present?
   end
 
   private

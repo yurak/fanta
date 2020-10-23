@@ -292,7 +292,13 @@
         .player-show-face, .player-show-kit {
           position: absolute;
 
-          img, object {
+          img {
+            width: 66px;
+            height: 66px;
+          }
+
+          object {
+            margin-top: 4px;
             width: 66px;
             height: 66px;
           }

@@ -125,7 +125,7 @@
                     - else
                       = "#{sprintf('%.2f', match.guest_lineup&.total_score)} - #{sprintf('%.2f', match.host_lineup&.total_score)}"
                 - else
-                  .game-score-cell.game-score-closed
+                  .game-score-cell.game-score-closed{ class: "game-score-#{team == match.host ? match.host_lineup&.result : match.guest_lineup&.result}" }
                     .result-cell-value
                       - if team == match.host
                         = "#{match.host_lineup&.goals}:#{match.guest_lineup&.goals}"
