@@ -267,7 +267,7 @@
 
           .team-player-avatar {
             width: 100%;
-            padding: 4px 3px 0;
+            padding: 5px 3px 0;
 
             .player-show-face, .player-show-kit {
               position: absolute;
@@ -453,6 +453,18 @@
           .result-cell-value {
             color: #FFFFFF;
           }
+        }
+
+        .game-score-D {
+          background-color: #847577;
+        }
+
+        .game-score-W {
+          background-color: #4EAD57;
+        }
+
+        .game-score-L {
+          background-color: #DB0A23;
         }
 
         .team-game-link {

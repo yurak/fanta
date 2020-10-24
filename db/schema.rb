@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_09_180454) do
+ActiveRecord::Schema.define(version: 2020_10_21_181759) do
 
   create_table "article_tags", force: :cascade do |t|
     t.string "name", default: "", null: false
@@ -40,6 +40,7 @@ ActiveRecord::Schema.define(version: 2020_10_09_180454) do
     t.integer "tournament_id"
     t.integer "status", default: 0, null: false
     t.string "full_name", default: "", null: false
+    t.string "color", default: "181715", null: false
     t.index ["tournament_id"], name: "index_clubs_on_tournament_id"
   end
 

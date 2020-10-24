@@ -105,7 +105,7 @@ class Player < ApplicationRecord
       bs[rp.tournament_round.number] = rp.score
       ts[rp.tournament_round.number] = rp.result_score
     end
-    [{ name: 'Total score', data: ts }, { name: 'Score', data: bs }]
+    [{ name: 'Total score', data: ts }, { name: 'Base score', data: bs }]
   end
 
   def best_score
@@ -122,6 +122,12 @@ class Player < ApplicationRecord
     @season_scores_count ||= season_matches_with_scores.size
   end
 
+  def season_average_score
+    return 0 if season_scores_count.zero?
+
+    @season_average_score ||= (season_matches_with_scores.map(&:score).sum / season_scores_count).round(2)
+  end
+
   def season_average_result_score
     return 0 if season_scores_count.zero?
 
@@ -130,6 +136,14 @@ class Player < ApplicationRecord
 
   def season_matches_with_scores
     @season_matches_with_scores ||= round_players.with_score.by_tournament_round(Season.last.tournament_rounds)
+  end
+
+  def season_bonus_count(bonus)
+    season_matches_with_scores.map(&bonus.to_sym).sum.to_i
+  end
+
+  def season_cards_count(card)
+    season_matches_with_scores.where(card => true).count
   end
 
   private
