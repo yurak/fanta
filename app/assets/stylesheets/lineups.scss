@@ -220,7 +220,10 @@
         width: 100px;
         height: 100px;
         margin: 0 auto;
+
         .player-show-face, .player-show-kit, .player-warning {
+          position: absolute;
+
           img, object {
             width: 100px;
             height: 100px;
