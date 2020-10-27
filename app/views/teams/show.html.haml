@@ -67,31 +67,31 @@
             .team-players-header-item.center= t('teams.club')
             .team-players-header-item
           - team.players.sort_by(&:position_sequence_number).each do |player|
-            .team-player-item
-              .team-player-param-item.team-player-data
-                .team-player-avatar
-                  .player-show-face
-                    %object{data: player.avatar_path, type: 'image/jpg'}
-                      = image_tag('avatar.png')
-                  .player-show-kit
-                    = image_tag(player.kit_path)
-                .team-player-name
-                  .team-player-last-name
-                    = player.name
-                  .team-player-first-name
-                    = player.first_name
-              .team-player-param-item.team-player-position
-                - player.positions.each do |position|
-                  .slot-position{class: "slot-position-#{position.name}"}
-                    = position.name
-              .team-player-param-item.team-player-appearances
-                = player.season_scores_count
-              .team-player-param-item.team-player-rating
-                = player.season_average_result_score
-              .team-player-param-item.team-player-club
-                = image_tag(player.club.logo_path)
-              .team-player-param-item.team-player-link
-                = link_to player_path(player) do
+            = link_to player_path(player) do
+              .team-player-item
+                .team-player-param-item.team-player-data
+                  .team-player-avatar
+                    .player-show-face
+                      %object{data: player.avatar_path, type: 'image/jpg'}
+                        = image_tag('avatar.png')
+                    .player-show-kit
+                      = image_tag(player.kit_path)
+                  .team-player-name
+                    .team-player-last-name
+                      = player.name
+                    .team-player-first-name
+                      = player.first_name
+                .team-player-param-item.team-player-position
+                  - player.positions.each do |position|
+                    .slot-position{class: "slot-position-#{position.name}"}
+                      = position.name
+                .team-player-param-item.team-player-appearances
+                  = player.season_scores_count
+                .team-player-param-item.team-player-rating
+                  = player.season_average_result_score
+                .team-player-param-item.team-player-club
+                  = image_tag(player.club.logo_path)
+                .team-player-param-item.team-player-link
                   = image_tag('icons/link_arrow.png')
         .team-list.team-games
           .team-games-headers
@@ -100,51 +100,51 @@
             .team-games-header-item= t('teams.score')
             .team-games-header-item
           - team.league_matches.each do |match|
-            .team-game-item
-              .team-game-param-item
-                .team-game-number= "##{match.tour.number}"
-                .team-game-vs VS
-              .team-game-param-item.team-game-opponent
-                = image_tag(team.opponent_by_match(match).logo_path)
-                = team.opponent_by_match(match).human_name
-              .team-game-param-item.team-game-result
-                - if match.tour.unlocked?
-                  .game-score-cell
-                    .result-cell-value vs
-                  .game-info-cell
-                    - if match.tour.deadline
-                      = match.tour.deadline&.strftime("%^a, %^b %e")
-                    - else
-                      Unknown
-                - elsif match.tour.locked_or_postponed?
-                  .game-score-cell.game-score-locked
-                    .result-cell-value vs
-                  .game-info-cell
-                    - if team == match.host
-                      = "#{sprintf('%.2f', match.host_lineup&.total_score)} - #{sprintf('%.2f', match.guest_lineup&.total_score)}"
-                    - else
-                      = "#{sprintf('%.2f', match.guest_lineup&.total_score)} - #{sprintf('%.2f', match.host_lineup&.total_score)}"
-                - else
-                  .game-score-cell.game-score-closed{ class: "game-score-#{team == match.host ? match.host_lineup&.result : match.guest_lineup&.result}" }
-                    .result-cell-value
-                      - if team == match.host
-                        = "#{match.host_lineup&.goals}:#{match.guest_lineup&.goals}"
+            = link_to match_path(match) do
+              .team-game-item
+                .team-game-param-item
+                  .team-game-number= "##{match.tour.number}"
+                  .team-game-vs VS
+                .team-game-param-item.team-game-opponent
+                  = image_tag(team.opponent_by_match(match).logo_path)
+                  = team.opponent_by_match(match).human_name
+                .team-game-param-item.team-game-result
+                  - if match.tour.unlocked?
+                    .game-score-cell
+                      .result-cell-value vs
+                    .game-info-cell
+                      - if match.tour.deadline
+                        = match.tour.deadline&.strftime("%^a, %^b %e")
                       - else
-                        = "#{match.guest_lineup&.goals}:#{match.host_lineup&.goals}"
-                  .game-info-cell
-                    - if team == match.host
-                      = "#{sprintf('%.2f', match.host_lineup&.total_score)} - #{sprintf('%.2f', match.guest_lineup&.total_score)}"
-                    - else
-                      = "#{sprintf('%.2f', match.guest_lineup&.total_score)} - #{sprintf('%.2f', match.host_lineup&.total_score)}"
-                  .game-result-cell
-                    - if team == match.host
-                      .game-result-value{ class: "game-result-#{match.host_lineup&.result}" }
-                        = match.host_lineup&.result
-                    - else
-                      .game-result-value{ class: "game-result-#{match.guest_lineup&.result}" }
-                        = match.guest_lineup&.result
-              .team-game-param-item.team-game-link
-                = link_to match_path(match) do
+                        Unknown
+                  - elsif match.tour.locked_or_postponed?
+                    .game-score-cell.game-score-locked
+                      .result-cell-value vs
+                    .game-info-cell
+                      - if team == match.host
+                        = "#{sprintf('%.2f', match.host_lineup&.total_score)} - #{sprintf('%.2f', match.guest_lineup&.total_score)}"
+                      - else
+                        = "#{sprintf('%.2f', match.guest_lineup&.total_score)} - #{sprintf('%.2f', match.host_lineup&.total_score)}"
+                  - else
+                    .game-score-cell.game-score-closed{ class: "game-score-#{team == match.host ? match.host_lineup&.result : match.guest_lineup&.result}" }
+                      .result-cell-value
+                        - if team == match.host
+                          = "#{match.host_lineup&.goals}:#{match.guest_lineup&.goals}"
+                        - else
+                          = "#{match.guest_lineup&.goals}:#{match.host_lineup&.goals}"
+                    .game-info-cell
+                      - if team == match.host
+                        = "#{sprintf('%.2f', match.host_lineup&.total_score)} - #{sprintf('%.2f', match.guest_lineup&.total_score)}"
+                      - else
+                        = "#{sprintf('%.2f', match.guest_lineup&.total_score)} - #{sprintf('%.2f', match.host_lineup&.total_score)}"
+                    .game-result-cell
+                      - if team == match.host
+                        .game-result-value{ class: "game-result-#{match.host_lineup&.result}" }
+                          = match.host_lineup&.result
+                      - else
+                        .game-result-value{ class: "game-result-#{match.guest_lineup&.result}" }
+                          = match.guest_lineup&.result
+                .team-game-param-item.team-game-link
                   = image_tag('icons/link_arrow.png')
 
 -# TODO: Temporary remove player status functionality
