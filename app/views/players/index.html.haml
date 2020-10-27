@@ -1,56 +1,76 @@
-.page-info.players-list
-  .list-items.list-action-items.center
-    .list-row-item.tournaments
-      - @tournaments.each do |tournament|
-        .list-row-cell
-          = link_to tournament.name, players_path(tournament: tournament.id)
-  .list-items.list-action-items.center
-    .list-row-item
-      .list-row-cell
-        %select{onchange: "location = this.value;"}
-          %option{selected: true, disabled: true}= 'POSITION'
-          - @positions.each do |position|
-            %option{value: players_path(tournament: params[:tournament], position: position.name, order: params['order'])}= position.name
-      .list-row-cell
-        = link_to 'ALL PLAYERS', players_path(tournament: params[:tournament])
-      .list-row-cell
-        %select{onchange: "location = this.value;"}
-          %option{selected: true, disabled: true}= 'CLUB'
-          - @clubs.each do |club|
-            %option{value: players_path(tournament: params[:tournament], club: club.id, position: params['position'], order: params['order'])}= club.name
-  .list-items.stats-headers.center
-    .results-header-cell #
-    .results-header-cell
-      = link_to 'Club', players_path(tournament: params[:tournament], club: params['club'], order: 'club', position: params['position'])
-    .results-header-cell
-      = link_to 'Name', players_path(tournament: params[:tournament], club: params['club'], order: 'name', position: params['position'])
-    .results-header-cell Position
-    .results-header-cell Score
-    .results-header-cell Teams
-    -#.results-header-cell.player-stats-headers
-    -#  .player-stat-header= link_to 'BS', tournament_round_round_players_path(tournament_round, order: 'base_score', position: params['position'])
-    -#.results-header-cell.player-stats-headers
-    -#  .player-stat-header= link_to 'TS', tournament_round_round_players_path(tournament_round, order: 'total_score', position: params['position'])
-  .list-items.list-items-dark.stats-players.center
-    - @players.each_with_index do |player, i|
-      .list-row-item
-        .list-row-cell= i+1
-        .list-row-cell.player-icons
-          .club-logo.l-details-club-logo
-            = image_tag(player.club.logo_path, alt: 'Club Logo')
-        .list-row-cell
-          = link_to player.name.upcase, player_path(player)
-        .list-row-cell.position-cell.team-pl-positions
-          - player.positions.each do |position|
-            .position-image.inline-block
-              = image_tag("positions/#{position.name}.png")
-        .list-row-cell
-          .player-param= player.season_average_result_score
-        .list-row-cell
-          - player.teams.each do |team|
-            .position-image.inline-block
-              = image_tag(team.logo_path)
-        -#.list-row-cell
-        -#  .player-param= player.score
-        -#.list-row-cell.player-result-score
-        -#  .player-param= player.result_score
+.page-info.players-page
+  -# TODO: add i18n translations
+  .players-title-bar
+    .players-title Players
+    -# TODO: add Search functionality
+    .players-search
+  .players-filter-bar
+    .players-filters
+      .players-filter
+        .players-filter-name Filter by tournament
+        .players-filter-input
+          %select{onchange: "location = this.value;"}
+            %option{selected: true, disabled: true}= 'TOURNAMENT'
+            - @tournaments.each do |tournament|
+              %option{value: players_path(tournament: tournament)}= tournament.name
+          .select-icon
+            = image_tag('icons/triangle.svg')
+      .players-filter
+        .players-filter-name Filter by position
+        .players-filter-input
+          %select{onchange: "location = this.value;"}
+            %option{selected: true, disabled: true}= 'POSITION'
+            - @positions.each do |position|
+              %option{value: players_path(tournament: params[:tournament], position: position.name, order: params['order'])}= position.name
+          .select-icon
+            = image_tag('icons/triangle.svg')
+      .players-filter
+        .players-filter-name Filter by club
+        .players-filter-input
+          %select{onchange: "location = this.value;"}
+            %option{selected: true, disabled: true}= 'CLUB'
+            - @clubs.each do |club|
+              %option{value: players_path(tournament: params[:tournament], club: club.id, order: params['order'])}= club.name
+          .select-icon
+            = image_tag('icons/triangle.svg')
+  .players-list
+    .players-list-headers
+      .players-list-header.center NUMBER
+      .players-list-header PLAYER
+      .players-list-header.players-pos-padding POSITIONS
+      .players-list-header.center TEAM
+      .players-list-header.right APPEARANCES
+      .players-list-header.right RATING
+      .players-list-header.center CLUB
+      .players-list-header
+    - @players.take(20).each_with_index do |player, i|
+      .players-list-item
+        .players-list-number= i + 1
+        = link_to player_path(player) do
+          .players-list-row
+            .players-list-cell.players-list-player
+              .players-list-avatar
+                .player-show-face
+                  %object{data: player.avatar_path, type: 'image/jpg'}
+                    = image_tag('avatar.png')
+                .player-show-kit
+                  = image_tag(player.kit_path, alt: 'Club Kit')
+              .players-list-name
+                .players-list-last-name= player.name
+                .players-list-first-name= player.first_name
+            .players-list-cell.player-list-positions.players-pos-padding
+              - player.positions.each do |position|
+                .match-player-position.slot-position{class: "slot-position-#{position.name}"}
+                  = position.name
+            .players-list-cell.center
+              - player.teams.each do |team|
+                .team-image.inline-block
+                  = image_tag(team.logo_path)
+            .players-list-cell.players-list-appearances
+              = player.season_scores_count
+            .players-list-cell.players-list-rating
+              = player.season_average_result_score
+            .players-list-cell.center.team-image
+              = image_tag(player.club.logo_path)
+            .players-list-cell.players-list-arrow
+              = image_tag('icons/link_arrow.png')

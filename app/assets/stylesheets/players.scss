@@ -1,22 +1,194 @@
 /* PLAYER INDEX page */
 
-.players-list {
-  background-color: #F4F4F4;
+.page-info.players-page {
+  padding: 120px 150px 70px;
 
-  .list-items.stats-headers {
-    grid-template-columns: 1fr 2fr 5fr 3fr 2fr 3fr;
+  a {
+    text-decoration: none;
+    color: #181715;
   }
-  .list-items.stats-players .list-row-item {
-    grid-template-columns: 1fr 2fr 5fr 3fr 2fr 3fr;
 
-    img {
-      width: 28px;
-      height: 28px;
+  .players-title-bar {
+    margin-top: 48px;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    line-height: 64px;
+
+    .players-title {
+      font-weight: bold;
+      font-size: 48px;
+      color: #181715;
     }
   }
 
-  .list-items.list-action-items.center .list-row-item.tournaments {
-    grid-template-columns: 1fr 1fr;
+  .players-filter-bar {
+    height: 32px;
+    margin: 16px 0 48px;
+
+    .players-filters {
+      float: right;
+
+      .players-filter {
+        display: inline-block;
+        text-align: right;
+
+        .players-filter-name {
+          margin: 0 8px 0 32px;
+          display: inline-block;
+          font-size: 12px;
+          color: #847577;
+          text-align: right;
+        }
+
+        .players-filter-input {
+          display: inline-block;
+          position: relative;
+
+          select {
+            border: 1px solid #E5E6E4;
+            box-sizing: border-box;
+            border-radius: 4px;
+            font-weight: 500;
+            font-size: 12px;
+            line-height: 16px;
+            color: #261FFF;
+            padding: 8px 24px 8px 12px;
+
+            width: 100%;
+            height: 32px;
+            cursor: pointer;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+          }/* For IE <= 11 */
+          select::-ms-expand {
+            display: none;
+          }
+          .select-icon {
+            position: absolute;
+            top: 4px;
+            right: 8px;
+            pointer-events: none;
+          }
+        }
+      }
+    }
+  }
+
+  .players-list-headers {
+    font-weight: 500;
+    font-size: 10px;
+    line-height: 14px;
+    color: #847577;
+    display: grid;
+    grid-template-columns: 80px 220px 16fr 16fr 10fr 10fr 10fr 50px;
+    margin-bottom: 12px;
+  }
+
+  .players-list-item {
+    display: grid;
+    grid-template-columns: 80px auto;
+    margin-bottom: 4px;
+    line-height: 72px;
+    color: #181715;
+
+    .players-list-number {
+      font-size: 24px;
+      text-align: center;
+    }
+
+    .players-list-row {
+      border: 1px solid #E5E6E4;
+      box-sizing: border-box;
+      border-radius: 4px;
+    }
+
+    .players-list-row {
+      display: grid;
+      grid-template-columns: 220px 16fr 16fr 10fr 10fr 10fr 50px;
+
+      .team-image {
+        img {
+          margin: auto 4px;
+          width: 32px;
+          height: 32px;
+        }
+      }
+    }
+
+    .players-list-player {
+      background-color: #FFEBC2;
+      display: grid;
+      grid-template-columns: 66px auto;
+      column-gap: 6px;
+
+      .players-list-avatar {
+        .player-show-face, .player-show-kit {
+          position: absolute;
+          padding-top: 3px;
+
+          img {
+            width: 66px;
+            height: 66px;
+          }
+
+          object {
+            margin-top: 4px;
+            width: 66px;
+            height: 66px;
+          }
+        }
+      }
+
+      .players-list-name {
+        margin: auto 0;
+
+        .players-list-last-name{
+          font-weight: 500;
+          font-size: 18px;
+          line-height: 24px;
+        }
+
+        .players-list-first-name{
+          font-size: 12px;
+          line-height: 16px;
+        }
+      }
+    }
+
+    .player-list-positions {
+      .match-player-position {
+        display: inline-block;
+        font-size: 12px;
+        line-height: 22px;
+        height: 22px;
+        width: 32px;
+        border-radius: 4px;
+      }
+    }
+
+    .players-list-appearances {
+      font-size: 24px;
+      text-align: right;
+      color: #847577;
+    }
+
+    .players-list-rating {
+      font-size: 24px;
+      text-align: right;
+      color: #181715;
+    }
+
+    .players-list-arrow {
+      img {
+        width: 18px;
+        height: 10px;
+      }
+    }
+  }
+
+  .players-pos-padding {
+    padding-left: 30px;
   }
 }
 
