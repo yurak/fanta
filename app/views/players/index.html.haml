@@ -1,49 +1,52 @@
 .page-info.players-page
-  -# TODO: add i18n translations
   .players-title-bar
-    .players-title Players
+    .players-title
+      = t('players.players')
     -# TODO: add Search functionality
     .players-search
   .players-filter-bar
     .players-filters
       .players-filter
-        .players-filter-name Filter by tournament
+        .players-filter-name
+          = t('players.filter_tournament')
         .players-filter-input
           %select{onchange: "location = this.value;"}
-            %option{selected: true, disabled: true}= 'TOURNAMENT'
+            %option{selected: true, disabled: true}= t('players.tournament_option')
             - @tournaments.each do |tournament|
               %option{value: players_path(tournament: tournament)}= tournament.name
           .select-icon
             = image_tag('icons/triangle.svg')
       .players-filter
-        .players-filter-name Filter by position
+        .players-filter-name
+          = t('players.filter_position')
         .players-filter-input
           %select{onchange: "location = this.value;"}
-            %option{selected: true, disabled: true}= 'POSITION'
+            %option{selected: true, disabled: true}= t('players.position_option')
             - @positions.each do |position|
               %option{value: players_path(tournament: params[:tournament], position: position.name, order: params['order'])}= position.name
           .select-icon
             = image_tag('icons/triangle.svg')
       .players-filter
-        .players-filter-name Filter by club
+        .players-filter-name
+          = t('players.filter_club')
         .players-filter-input
           %select{onchange: "location = this.value;"}
-            %option{selected: true, disabled: true}= 'CLUB'
+            %option{selected: true, disabled: true}= t('players.club_option')
             - @clubs.each do |club|
               %option{value: players_path(tournament: params[:tournament], club: club.id, order: params['order'])}= club.name
           .select-icon
             = image_tag('icons/triangle.svg')
   .players-list
     .players-list-headers
-      .players-list-header.center NUMBER
-      .players-list-header PLAYER
-      .players-list-header.players-pos-padding POSITIONS
-      .players-list-header.center TEAM
-      .players-list-header.right APPEARANCES
-      .players-list-header.right RATING
-      .players-list-header.center CLUB
+      .players-list-header.center= t('players.number_header')
+      .players-list-header= t('players.player_header')
+      .players-list-header.players-pos-padding= t('players.positions_header')
+      .players-list-header.center= t('players.team_header')
+      .players-list-header.right= t('players.appearances_header')
+      .players-list-header.right= t('players.rating_header')
+      .players-list-header.center= t('players.club_header')
       .players-list-header
-    - @players.take(20).each_with_index do |player, i|
+    - @players.each_with_index do |player, i|
       .players-list-item
         .players-list-number= i + 1
         = link_to player_path(player) do
