@@ -3,12 +3,6 @@ class UsersController < ApplicationController
 
   helper_method :user
 
-  def show; end
-
-  def edit; end
-
-  def edit_avatar; end
-
   def update
     user.update(user_params)
 

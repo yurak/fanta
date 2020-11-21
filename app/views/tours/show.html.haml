@@ -153,36 +153,7 @@
                   .results-team-name
                     = match.guest.human_name
   .stats-section
-    - if tour.unlocked?
-      .round-table
-        .round-table-title
-          = link_to league_results_path(tour.league) do
-            .round-table-title-text= t('tours.table')
-            .round-table-title-icon
-              = image_tag('icons/arrow_blue.png')
-        .round-table-block
-          .round-table-headers
-            .round-table-header-cell
-            .round-table-header-cell
-            .round-table-header-cell= t('tours.w')
-            .round-table-header-cell= t('tours.d')
-            .round-table-header-cell= t('tours.l')
-            .round-table-header-cell= t('tours.gd')
-            .round-table-header-cell= t('tours.pnt')
-          - tour.league.results.ordered.each_with_index do |result, i|
-            .round-table-item
-              .round-table-item-cell.round-table-index= i + 1
-              .round-table-item-cell.round-table-item-team
-                .results-team-logo
-                  = image_tag(image_path(result.team.logo_path))
-                .results-team-name
-                  = result.team.human_name[0..15]
-              .round-table-item-cell= result.wins
-              .round-table-item-cell= result.draws
-              .round-table-item-cell= result.loses
-              .round-table-item-cell= result.goals_difference
-              .round-table-item-cell= result.points
-    - else
+    - if tour.deadlined?
       .round-table
         .round-table-title.best-players-title
           = link_to tournament_round_round_players_path(tour.tournament_round) do
@@ -242,6 +213,34 @@
               .round-player-stats-param.round-player-stats-team
                 - if r_player.teams.where(league: tour.league).first
                   = image_tag(r_player.teams.where(league: tour.league).first.logo_path)
+    .round-table
+      .round-table-title
+        = link_to league_results_path(tour.league) do
+          .round-table-title-text= t('tours.table')
+          .round-table-title-icon
+            = image_tag('icons/arrow_blue.png')
+      .round-table-block
+        .round-table-headers
+          .round-table-header-cell
+          .round-table-header-cell
+          .round-table-header-cell= t('tours.w')
+          .round-table-header-cell= t('tours.d')
+          .round-table-header-cell= t('tours.l')
+          .round-table-header-cell= t('tours.gd')
+          .round-table-header-cell= t('tours.pnt')
+        - tour.league.results.ordered.each_with_index do |result, i|
+          .round-table-item
+            .round-table-item-cell.round-table-index= i + 1
+            .round-table-item-cell.round-table-item-team
+              .results-team-logo
+                = image_tag(image_path(result.team.logo_path))
+              .results-team-name
+                = result.team.human_name[0..15]
+            .round-table-item-cell= result.wins
+            .round-table-item-cell= result.draws
+            .round-table-item-cell= result.loses
+            .round-table-item-cell= result.goals_difference
+            .round-table-item-cell= result.points
     .round-table
       .round-table-title
         -# TODO: add link to Tournament Round page
