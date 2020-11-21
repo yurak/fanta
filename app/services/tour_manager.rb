@@ -32,6 +32,7 @@ class TourManager
 
   def lock
     return unless tour.set_lineup? && status == 'locked'
+
     # TODO: clone lineup if is absent for some team
 
     tour.locked!
