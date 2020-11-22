@@ -1,7 +1,7 @@
 class Article < ApplicationRecord
   belongs_to :article_tag, optional: true
 
-  enum status: %i[published hidden]
+  enum status: %i[initial published archived]
 
   validates :title, presence: true
   validates :description, presence: true
@@ -18,9 +18,9 @@ class Article < ApplicationRecord
   end
 
   def related_articles
-    articles = Article.where(article_tag: article_tag).order(id: :desc).reject { |art| art == self } if article_tag
+    articles = Article.published.where(article_tag: article_tag).order(id: :desc).reject { |art| art == self } if article_tag
 
-    articles ||= Article.all.order(id: :desc).reject { |art| art == self }
+    articles ||= Article.published.order(id: :desc).reject { |art| art == self }
 
     articles.take(2)
   end
