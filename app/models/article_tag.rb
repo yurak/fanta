@@ -3,6 +3,8 @@ class ArticleTag < ApplicationRecord
 
   has_many :articles
 
+  enum status: %i[published hidden]
+
   validates :name, presence: true
   validates :color, presence: true, length: { is: 6 }
 end

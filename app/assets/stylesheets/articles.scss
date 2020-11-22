@@ -278,6 +278,12 @@
 
       .article-description > p {
         margin-bottom: 32px;
+
+        strong {
+          font-weight: 800;
+          font-family: 'Mont SemiBold', Arial, sans-serif;
+          font-style: italic;
+        }
       }
 
       .article-description {
