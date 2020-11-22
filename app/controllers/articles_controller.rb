@@ -6,7 +6,7 @@ class ArticlesController < ApplicationController
   respond_to :html
 
   def index
-    @articles = Article.all.order(id: :desc)
+    @articles = Article.published.order(id: :desc)
     @left, @right = @articles.partition.each_with_index { |_, i| i.even? }
   end
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_21_181759) do
+ActiveRecord::Schema.define(version: 2020_11_22_114849) do
 
   create_table "article_tags", force: :cascade do |t|
     t.string "name", default: "", null: false
@@ -30,6 +30,7 @@ ActiveRecord::Schema.define(version: 2020_10_21_181759) do
     t.datetime "updated_at", null: false
     t.integer "article_tag_id"
     t.string "internal_image_url"
+    t.integer "status", default: 0, null: false
   end
 
   create_table "clubs", force: :cascade do |t|
