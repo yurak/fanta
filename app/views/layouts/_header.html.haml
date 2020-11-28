@@ -13,9 +13,9 @@
           = link_to t('header.teams'), team_path(current_user.active_team)
         .info-links-item.base-link-item
           = link_to t('header.table'), league_results_path(current_user.active_league)
-        - if current_user.active_league.active_tour || current_user.active_league.tours.last
+        - if current_user.active_league.active_tour_or_last
           .info-links-item.base-link-item
-            = link_to t('header.round'), tour_path(current_user.active_league.active_tour || current_user.active_league.tours.last)
+            = link_to t('header.round'), tour_path(current_user.active_league.active_tour_or_last)
       - else
         -#- if external_actions?
         .info-links-item
@@ -30,6 +30,8 @@
         = link_to t('header.leagues'), leagues_path
       .info-links-item.base-link-item
         = link_to t('header.players'), players_path
+      .info-links-item.base-link-item
+        = link_to t('header.news'), articles_path
 
   .right-header{class: "external-header-#{external_actions?}"}
     .right-header-links
@@ -42,7 +44,7 @@
           .personal-links
             .next-round
               - if current_user.next_round
-                = link_to tour_path(current_user.active_league.active_tour || current_user.active_league.tours.last) do
+                = link_to tour_path(current_user.active_league.active_tour_or_last) do
                   .next-round-title
                     .next-round-text= t('header.next_round')
                     .next-round-number= "##{current_user.next_round.number}"
@@ -123,16 +125,18 @@
             - if user_signed_in?
               .burger-link= link_to t('header.teams'), team_path(current_user.active_team)
               .burger-link= link_to t('header.table'), league_results_path(current_user.active_league)
-              - if current_user.active_league.active_tour || current_user.active_league.tours.last
-                .burger-link= link_to t('header.round'), tour_path(current_user.active_league.active_tour || current_user.active_league.tours.last)
+              - if current_user.active_league.active_tour_or_last
+                .burger-link= link_to t('header.round'), tour_path(current_user.active_league.active_tour_or_last)
               .burger-link= link_to t('header.leagues'), leagues_path
               .burger-link= link_to t('header.players'), players_path
+              .burger-link= link_to t('header.news'), articles_path
               .burger-link= link_to t('header.links'), league_links_path(current_user.active_league)
               .burger-link= link_to t('header.rules'), guide_path
               .burger-link= link_to t('header.profile'), user_path(current_user)
             -else
               .burger-link= link_to t('header.start'), new_join_request_path
               .burger-link= link_to t('header.login'), new_user_session_path
+              .burger-link= link_to t('header.news'), articles_path
               .burger-link= link_to t('header.leagues'), leagues_path
               .burger-link= link_to t('header.players'), players_path
               .burger-link= link_to t('header.rules'), rules_path

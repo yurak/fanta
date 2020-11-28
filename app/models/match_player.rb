@@ -67,7 +67,7 @@ class MatchPlayer < ApplicationRecord
 
   def custom_score
     custom_diff = 0
-    custom_diff += recount_goals if league.recount_goals && (position_names & Position::FORWARDS).present? && goals.positive?
+    custom_diff += recount_goals if league.recount_goals && (real_position_arr & Position::FORWARDS).present? && goals.positive?
     custom_diff += recount_missed_goals if (main_squad_por? || reserve_por?) && missed_goals.positive?
     custom_diff += recount_failed_penalty if failed_penalty.positive?
 

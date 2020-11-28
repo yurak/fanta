@@ -1,6 +1,6 @@
 .local-header
   .local-header-close
-    = link_to tour_path(current_user.active_league.active_tour || current_user.active_league.tours.last) do
+    = link_to tour_path(current_user.active_league.active_tour_or_last) do
       &times;
   .local-header-text
     .local-header-title= t('users.settings')
