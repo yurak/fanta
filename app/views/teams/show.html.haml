@@ -116,7 +116,7 @@
                       - if match.tour.deadline
                         = match.tour.deadline&.strftime("%^a, %^b %e")
                       - else
-                        Unknown
+                        = t('teams.unknown')
                   - elsif match.tour.locked_or_postponed?
                     .game-score-cell.game-score-locked
                       .result-cell-value vs
