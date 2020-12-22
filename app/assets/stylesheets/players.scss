@@ -83,6 +83,10 @@
     display: grid;
     grid-template-columns: 80px 220px 16fr 16fr 10fr 10fr 10fr 50px;
     margin-bottom: 12px;
+
+    a {
+      color: #847577;
+    }
   }
 
   .players-list-item {
@@ -189,6 +193,18 @@
 
   .players-pos-padding {
     padding-left: 30px;
+  }
+}
+
+@media (orientation: landscape) and (max-device-width: 1220px) {
+  .page-info.players-page {
+    padding: 100px 50px 70px;
+  }
+}
+
+@media (orientation: portrait) {
+  .page-info.players-page {
+    padding: 200px 50px 70px;
   }
 }
 

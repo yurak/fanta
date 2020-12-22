@@ -1,47 +1,7 @@
 /* RoundPlayers INDEX page // Tour STATS page */
 
-.list-items.list-action-items {
-  select {
-    border: none;
-    color: #001280;
-    background-color: #ffffff;
-  }
-
-  .dark-select {
-    background-color: #0657ccb8;
-    color: #ffffff;
-  }
-}
-
-.list-items.stats-headers {
-  width: 100%;
-  line-height: 40px;
-  font-size: 20px;
-  height: 40px;
-  font-weight: bolder;
-  background-color: #0f29a4;
-  color: #6adde2;
-  display: grid;
-  grid-template-columns: 1fr 1fr 3fr 1.2fr 1fr 1.2fr;
-  column-gap: 30px;
-
-  a {
-    color: #6adde2;
-    text-decoration: none;
-  }
-}
-
-.list-items.stats-players {
-  .list-row-item {
-    grid-template-columns: 1fr 1fr 3fr 1.2fr 1fr 1.2fr;
-
-    .slot-position {
-      margin: 5px auto;
-      font-size: 16px;
-    }
-
-    .player-result-score {
-      font-weight: bolder;
-    }
+.page-info.players-page {
+  .players-title-bar {
+    display: block;
   }
 }

@@ -49,16 +49,12 @@ class PlayersController < ApplicationController
     case stats_params[:order]
     when 'club'
       players_with_filter.sort_by(&:club)
-    when 'name'
-      players_with_filter.sort_by(&:name)
+    when 'appearances'
+      players_with_filter.sort_by(&:season_scores_count).reverse
+    when 'rating'
+      players_with_filter.sort_by(&:season_average_result_score).reverse
     else
       players_with_filter.sort_by(&:name)
-      # when 'base_score'
-      #   players_with_filter.sort_by(&:score).reverse
-      # when 'total_score'
-      #   players_with_filter.sort_by(&:result_score).reverse
-      # else
-      #   players_with_filter.sort_by(&:result_score).reverse
     end
   end
 

@@ -39,12 +39,16 @@
   .players-list
     .players-list-headers
       .players-list-header.center= t('players.number_header')
-      .players-list-header= t('players.player_header')
+      .players-list-header
+        = link_to t('players.player_header'), players_path(tournament: params[:tournament], position: params[:position], club: params[:club], order: 'name')
       .players-list-header.players-pos-padding= t('players.positions_header')
       .players-list-header.center= t('players.team_header')
-      .players-list-header.right= t('players.appearances_header')
-      .players-list-header.right= t('players.rating_header')
-      .players-list-header.center= t('players.club_header')
+      .players-list-header.right
+        = link_to t('players.appearances_header'), players_path(tournament: params[:tournament], position: params[:position], club: params[:club], order: 'appearances')
+      .players-list-header.right
+        = link_to t('players.rating_header'), players_path(tournament: params[:tournament], position: params[:position], club: params[:club], order: 'rating')
+      .players-list-header.center
+        = link_to t('players.club_header'), players_path(tournament: params[:tournament], position: params[:position], club: params[:club], order: 'club')
       .players-list-header
     - @players.each_with_index do |player, i|
       .players-list-item
