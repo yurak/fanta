@@ -42,6 +42,7 @@ en:
     lineups: "Lineups"
     table: "Table"
     round: "Round"
+    news: "News"
     fixtures: "Fixtures"
     results: "Results"
     links: "Useful Links"
@@ -157,10 +158,13 @@ en:
     appearances_header: "APPEARANCES"
     rating_header: "RATING"
     club_header: "CLUB"
+    base_score_header: "BASE SCORE"
     bio: "📜️ Bio"
     chart: "📈️ Chart"
     performance: "💎️ Performance"
     age: "Age"
+    tm_price: "TM price"
+    birth_date: "Date of birth"
     height: "Height"
     number: "Number"
     country: "Country"
@@ -189,6 +193,8 @@ en:
     og: "OG"
     base_score: "BASE SCORE"
     total_score: "TOTAL SCORE"
+  round_players:
+    title: "%{tournament} Round #%{number} Best Players"
   table:
     title: "Table"
     games: "GAMES"
@@ -223,6 +229,7 @@ en:
     round: "ROUND"
     opponent: "OPPONENT"
     score: "SCORE"
+    unknown: "Unknown"
   tours:
     round: "Round"
     deadline: "☠️ Deadline:"

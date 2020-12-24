@@ -17,6 +17,10 @@ class League < ApplicationRecord
     tours&.active&.first || tours.inactive&.first
   end
 
+  def active_tour_or_last
+    active_tour || tours.last
+  end
+
   def leader
     result = results.find { |r| r.position == 1 }
     result.team
