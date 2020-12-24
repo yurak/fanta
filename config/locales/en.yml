@@ -163,6 +163,8 @@ en:
     chart: "📈️ Chart"
     performance: "💎️ Performance"
     age: "Age"
+    tm_price: "TM price"
+    birth_date: "Date of birth"
     height: "Height"
     number: "Number"
     country: "Country"

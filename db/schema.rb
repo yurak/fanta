@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_22_114849) do
+ActiveRecord::Schema.define(version: 2020_12_24_193541) do
 
   create_table "article_tags", force: :cascade do |t|
     t.string "name", default: "", null: false
@@ -133,6 +133,10 @@ ActiveRecord::Schema.define(version: 2020_11_22_114849) do
     t.string "nationality"
     t.string "tm_url"
     t.string "pseudonym", default: "", null: false
+    t.string "birth_date", default: "", null: false
+    t.integer "height"
+    t.integer "number"
+    t.integer "tm_price"
   end
 
   create_table "positions", force: :cascade do |t|
