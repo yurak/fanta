@@ -24,20 +24,10 @@
       .player-table
         .player-table-title
           = t('players.bio')
-        -# TODO: add Age, Height and Number params to Player model, injected from Transfermarkt
-        -#.player-table-row
-        -#  .player-table-row-key= t('players.age')
-        -#  .player-table-row-value
-        -#.player-table-row
-        -#  .player-table-row-key= t('players.height')
-        -#  .player-table-row-value
-        -#.player-table-row
-        -#  .player-table-row-key= t('players.number')
-        -#  .player-table-row-value
-        .player-table-row
-          .player-table-row-key= t('players.country')
-          .player-table-row-value
-            - if player.nationality
+        - if player.nationality
+          .player-table-row
+            .player-table-row-key= t('players.country')
+            .player-table-row-value
               = player.country
               = flag_icon(player.nationality.to_sym, element: :div)
         .player-table-row
@@ -45,13 +35,37 @@
           .player-table-row-value.player-table-club
             = player.club.name
             = image_tag(player.club.logo_path, alt: 'Club Logo')
-        .player-table-row
-          .player-table-row-key= t('players.transfermarkt')
-          .player-table-row-value
-            = link_to player.tm_url, target: :_blank do
-              .player-tm-img.player-table-club
-                = 'TM'
-                = image_tag("tm.jpg")
+        - if player.tm_url.present?
+          .player-table-row
+            .player-table-row-key= t('players.transfermarkt')
+            .player-table-row-value
+              = link_to player.tm_url, target: :_blank do
+                .player-tm-img.player-table-club
+                  = 'TM'
+                  = image_tag("tm.jpg")
+          .player-table-row
+            .player-table-row-key= t('players.tm_price')
+            .player-table-row-value
+              = "#{number_with_delimiter(player.tm_price, :delimiter => ',')} €"
+        - if player.birth_date.present?
+          .player-table-row
+            .player-table-row-key= t('players.age')
+            .player-table-row-value
+              = (Date.today.strftime('%Y%m%d').to_i - player.birth_date.to_date.strftime('%Y%m%d').to_i) / 10000
+          .player-table-row
+            .player-table-row-key= t('players.birth_date')
+            .player-table-row-value
+              = player.birth_date
+        - if player.height
+          .player-table-row
+            .player-table-row-key= t('players.height')
+            .player-table-row-value
+              = "#{player.height} cm"
+        - if player.number
+          .player-table-row
+            .player-table-row-key= t('players.number')
+            .player-table-row-value
+              = player.number
         .player-table-row.player-table-row-last
           .player-table-row-key= t('players.teams')
           .player-table-row-value
