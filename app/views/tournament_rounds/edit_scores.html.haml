@@ -1,13 +1,3 @@
--#.page-header
--#  .page-header-icon
--#    = image_tag('navbar/squad.png')
--#  .page-header-title
--#    %span.bolder Scores
--#    | Tournament Round #
--#    %span.bolder
--#      = tournament_round.number
--#    .page-header-subtitle
--#      = tournament_round.tournament.name
 .page-info
   = form_for :tour, url: tournament_round_update_scores_path(tournament_round), method: :put do
     .reservists-headers
@@ -29,7 +19,7 @@
             .club-logo.l-details-club-logo
               = image_tag(rp_f.object.club.logo_path, alt: 'Club Logo')
           .reservist-param.res-name
-            = rp_f.object.full_name
+            = rp_f.object.full_name_reverse
           .reservist-param
             = rp_f.object.result_score
 
