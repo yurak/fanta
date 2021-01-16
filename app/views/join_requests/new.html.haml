@@ -29,7 +29,7 @@
         .form-item
           .form-label Tournaments (you want to play)
           .form-input
-            - for tournament in all_tournaments
+            - for tournament in active_tournaments
               .form-checkbox-block
                 .form-checkbox
                   = f.check_box :leagues, {multiple: true}, tournament.id, nil

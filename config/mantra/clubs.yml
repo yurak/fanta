@@ -40,3 +40,22 @@ epl:
   WBA: West Bromwich
   WES: West Ham
   WOL: Wolverhampton
+bundesliga:
+  ARM: Arminia
+  AUG: Augsburg
+  LEV: Bayer Leverkusen
+  MUN: Bayern Munchen
+  BVB: Borussia Dortmund
+  BMG: Borussia Mbach
+  EIN: Eintracht
+  FRE: Freiburg
+  HER: Hertha
+  HOF: Hoffenheim
+  KOL: Koln
+  MAI: Mainz 05
+  RBL: RB Leipzig
+  S04: Schalke 04
+  STU: Stuttgart
+  UNI: Union Berlin
+  WER: Werder Bremen
+  WLF: Wolfsburg

@@ -1,0 +1,540 @@
+id,first_name,name,nationality,club_name,position1,position2,position3,tm_url
+,Stefan,Ortega,de,Arminia,Por,,,https://www.transfermarkt.com/stefan-ortega-moreno/profil/spieler/85941
+,Nikolai,Rehnen,de,Arminia,Por,,,https://www.transfermarkt.com/nikolai-rehnen/profil/spieler/264304
+,Oscar,Linner,se,Arminia,Por,,,https://www.transfermarkt.com/oscar-linner/profil/spieler/366974
+,Amos,Pieper,de,Arminia,Dc,,,https://www.transfermarkt.com/amos-pieper/profil/spieler/334221
+,Joakim,Nilsson,se,Arminia,Dc,,,https://www.transfermarkt.com/joakim-nilsson/profil/spieler/216804
+,Jacob,Laursen,dk,Arminia,Ds,E,,https://www.transfermarkt.com/jacob-barrett-laursen/profil/spieler/185164
+,Mike,van der Hoorn,nl,Arminia,Dc,,,https://www.transfermarkt.com/mike-van-der-hoorn/profil/spieler/187105
+,Nathan,de Medina,be,Arminia,Dc,Dd,Ds,https://www.transfermarkt.com/nathan-de-medina/profil/spieler/285951
+,Anderson,Lucoqui,ao,Arminia,Ds,E,,https://www.transfermarkt.com/anderson-lucoqui/profil/spieler/240274
+,Cedric,Brunner,ch,Arminia,Dc,Dd,E,https://www.transfermarkt.com/cedric-brunner/profil/spieler/147038
+,Christian,Gebauer,at,Arminia,W,A,,https://www.transfermarkt.com/christian-gebauer/profil/spieler/275423
+,Ritsu,Doan,jp,Arminia,T,W,,https://www.transfermarkt.com/ritsu-doan/profil/spieler/358504
+,Reinhold,Yabo,de,Arminia,C,T,,https://www.transfermarkt.com/reinhold-yabo/profil/spieler/74856
+,Joan Simun,Edmundsson,fo,Arminia,T,A,,https://www.transfermarkt.com/joan-simun-edmundsson/profil/spieler/123683
+,Fabian,Kunze,de,Arminia,M,,,https://www.transfermarkt.com/fabian-kunze/profil/spieler/334186
+,Cebio,Soukou,bj,Arminia,A,,,https://www.transfermarkt.com/cebio-soukou/profil/spieler/85000
+,Manuel,Prietl,at,Arminia,M,,,https://www.transfermarkt.com/manuel-prietl/profil/spieler/152317
+,Nils,Seufert,de,Arminia,C,,,https://www.transfermarkt.com/nils-seufert/profil/spieler/279064
+,Marcel,Hartel,de,Arminia,T,W,,https://www.transfermarkt.com/marcel-hartel/profil/spieler/189073
+,Arne,Maier,de,Arminia,M,C,,https://www.transfermarkt.com/arne-maier/profil/spieler/296397
+,Jomaine,Consbruch,de,Arminia,C,,,https://www.transfermarkt.com/jomaine-consbruch/profil/spieler/511246
+,Fabian,Klos,de,Arminia,Pc,,,https://www.transfermarkt.com/fabian-klos/profil/spieler/78147
+,Sebastian,Muller,de,Arminia,Pc,,,https://www.transfermarkt.com/sebastian-muller/profil/spieler/392139
+,Sergio,Cordova,ve,Arminia,Pc,,,https://www.transfermarkt.com/sergio-cordova/profil/spieler/377387
+,Andreas,Voglsammer,de,Arminia,Pc,,,https://www.transfermarkt.com/andreas-voglsammer/profil/spieler/94771
+,Noel,Niemann,de,Arminia,A,,,https://www.transfermarkt.com/noel-niemann/profil/spieler/519414
+,Sven,Schipplock,de,Arminia,Pc,,,https://www.transfermarkt.com/sven-schipplock/profil/spieler/52530
+,Rafal,Gikiewicz,pl,Augsburg,Por,,,https://www.transfermarkt.com/rafal-gikiewicz/profil/spieler/78339
+,Benjamin,Leneis,de,Augsburg,Por,,,https://www.transfermarkt.com/benjamin-leneis/profil/spieler/381250
+,Tomas,Koubek,cz,Augsburg,Por,,,https://www.transfermarkt.com/tomas-koubek/profil/spieler/146714
+,Robert,Gumny,pl,Augsburg,Dd,Ds,E,https://www.transfermarkt.com/robert-gumny/profil/spieler/353826
+,Mads,Pedersen,dk,Augsburg,Ds,E,,https://www.transfermarkt.com/mads-pedersen/profil/spieler/288429
+,Felix,Gotze,de,Augsburg,Dc,,,https://www.transfermarkt.com/felix-gotze/profil/spieler/330635
+,Marek,Suchy,cz,Augsburg,Dc,Dd,,https://www.transfermarkt.com/marek-suchy/profil/spieler/34542
+,Jeffrey,Gouweleeuw,nl,Augsburg,Dc,,,https://www.transfermarkt.com/jeffrey-gouweleeuw/profil/spieler/106405
+,Felix,Uduokhai,de,Augsburg,Dc,Ds,,https://www.transfermarkt.com/felix-uduokhai/profil/spieler/278343
+,,Iago,br,Augsburg,Ds,E,,https://www.transfermarkt.com/iago/profil/spieler/520468
+,Raphael,Framberger,de,Augsburg,Dd,E,,https://www.transfermarkt.com/raphael-framberger/profil/spieler/146163
+,Rani,Khedira,de,Augsburg,M,C,,https://www.transfermarkt.com/rani-khedira/profil/spieler/124410
+,Jan,Moravek,cz,Augsburg,C,T,,https://www.transfermarkt.com/jan-moravek/profil/spieler/63022
+,Ruben,Vargas,ch,Augsburg,W,A,,https://www.transfermarkt.com/ruben-vargas/profil/spieler/345886
+,Noah,Sarenren Bazee,ng,Augsburg,W,A,,https://www.transfermarkt.com/noah-joel-sarenren-bazee/profil/spieler/283001
+,Daniel,Caligiuri,it,Augsburg,E,W,,https://www.transfermarkt.com/daniel-caligiuri/profil/spieler/38410
+,Marco,Richter,de,Augsburg,W,A,,https://www.transfermarkt.com/marco-richter/profil/spieler/279009
+,Fredrik,Jensen,fi,Augsburg,T,W,,https://www.transfermarkt.com/fredrik-jensen/profil/spieler/249157
+,Carlos,Gruezo,ec,Augsburg,M,C,,https://www.transfermarkt.com/carlos-gruezo/profil/spieler/189475
+,Andre,Hahn,de,Augsburg,A,,,https://www.transfermarkt.com/andre-hahn/profil/spieler/42783
+,Tobias,Strobl,de,Augsburg,M,,,https://www.transfermarkt.com/tobias-strobl/profil/spieler/57845
+,Reece,Oxford,gb-eng,Augsburg,M,,,https://www.transfermarkt.com/reece-oxford/profil/spieler/314295
+,Tim,Civeja,de,Augsburg,C,,,https://www.transfermarkt.com/tim-civeja/profil/spieler/588747
+,Lukas,Petkov,de,Augsburg,Pc,,,https://www.transfermarkt.com/lukas-petkov/profil/spieler/401639
+,Florian,Niederlechner,de,Augsburg,Pc,,,https://www.transfermarkt.com/florian-niederlechner/profil/spieler/152963
+,Michael,Gregoritsch,at,Augsburg,A,,,https://www.transfermarkt.com/michael-gregoritsch/profil/spieler/120205
+,Alfred,Finnbogason,is,Augsburg,Pc,,,https://www.transfermarkt.com/alfred-finnbogason/profil/spieler/90024
+,Seong-Hoon,Cheon,kr,Augsburg,Pc,,,https://www.transfermarkt.com/seong-hoon-cheon/profil/spieler/545503
+,Dion,Berisha,xk,Augsburg,T,W,,https://www.transfermarkt.com/dion-berisha/profil/spieler/596186
+,Lukas,Hradecky,fi,Bayer Leverkusen,Por,,,https://www.transfermarkt.com/lukas-hradecky/profil/spieler/48015
+,Lennart,Grill,de,Bayer Leverkusen,Por,,,https://www.transfermarkt.com/lennart-grill/profil/spieler/309397
+,Niklas,Lomb,de,Bayer Leverkusen,Por,,,https://www.transfermarkt.com/niklas-lomb/profil/spieler/85543
+,Santiago,Arias,co,Bayer Leverkusen,Dd,E,,https://www.transfermarkt.com/santiago-arias/profil/spieler/120443
+,Jonathan,Tah,de,Bayer Leverkusen,Dc,,,https://www.transfermarkt.com/jonathan-tah/profil/spieler/196357
+,Sven,Bender,de,Bayer Leverkusen,Dc,,,https://www.transfermarkt.com/sven-bender/profil/spieler/29993
+,Aleksandar,Dragovic,at,Bayer Leverkusen,Dc,,,https://www.transfermarkt.com/aleksandar-dragovic/profil/spieler/59032
+,Lars,Bender,de,Bayer Leverkusen,Dd,E,M,https://www.transfermarkt.com/lars-bender/profil/spieler/30059
+,Edmond,Tapsoba,bf,Bayer Leverkusen,Dc,,,https://www.transfermarkt.com/edmond-tapsoba/profil/spieler/564545
+,Tin,Jedvaj,hr,Bayer Leverkusen,Dc,Dd,,https://www.transfermarkt.com/tin-jedvaj/profil/spieler/206386
+,,Wendell,br,Bayer Leverkusen,Ds,E,,https://www.transfermarkt.com/wendell/profil/spieler/228433
+,Daley,Sinkgraven,nl,Bayer Leverkusen,Ds,E,,https://www.transfermarkt.com/daley-sinkgraven/profil/spieler/215099
+,Mitchell,Weiser,de,Bayer Leverkusen,Dd,E,,https://www.transfermarkt.com/mitchell-weiser/profil/spieler/119211
+814,Timothy,Fosu-Mensah,nl,Bayer Leverkusen,Dd,Ds,E,https://www.transfermarkt.com/timothy-fosu-mensah/profil/spieler/315131
+,Kerem,Demirbay,de,Bayer Leverkusen,C,T,,https://www.transfermarkt.com/kerem-demirbay/profil/spieler/125858
+,Nadiem,Amiri,de,Bayer Leverkusen,C,T,,https://www.transfermarkt.com/nadiem-amiri/profil/spieler/232454
+,Julian,Baumgartlinger,at,Bayer Leverkusen,M,,,https://www.transfermarkt.com/julian-baumgartlinger/profil/spieler/34787
+,Charlez,Aranguiz,cl,Bayer Leverkusen,M,C,,https://www.transfermarkt.com/charles-aranguiz/profil/spieler/89701
+,Exequiel,Palacios,ar,Bayer Leverkusen,C,T,,https://www.transfermarkt.com/exequiel-palacios/profil/spieler/401578
+,Florian,Wirtz,de,Bayer Leverkusen,A,,,https://www.transfermarkt.com/florian-wirtz/profil/spieler/598577
+,Cem,Turkmen,tr,Bayer Leverkusen,C,T,,https://www.transfermarkt.com/cem-turkmen/profil/spieler/530157
+,,Paulinho,br,Bayer Leverkusen,A,,,https://www.transfermarkt.com/paulinho/profil/spieler/428791
+,Leon,Bailey,jm,Bayer Leverkusen,W,,,https://www.transfermarkt.com/leon-bailey/profil/spieler/387626
+,Lucas,Alario,ar,Bayer Leverkusen,Pc,,,https://www.transfermarkt.com/lucas-alario/profil/spieler/193782
+1277,Patrick,Schick,cz,Bayer Leverkusen,Pc,,,https://www.transfermarkt.com/patrik-schick/profil/spieler/242086
+,Moussa,Diaby,fr,Bayer Leverkusen,A,,,https://www.transfermarkt.com/moussa-diaby/profil/spieler/395516
+,Samed,Onur,tr,Bayer Leverkusen,A,,,https://www.transfermarkt.com/samed-onur/profil/spieler/538864
+,Emrehan,Gedikli,de,Bayer Leverkusen,Pc,,,https://www.transfermarkt.com/emrehan-gedikli/profil/spieler/580276
+,Karim,Bellarabi,de,Bayer Leverkusen,W,,,https://www.transfermarkt.com/karim-bellarabi/profil/spieler/61087
+,Manuel,Neuer,de,Bayern Munchen,Por,,,https://www.transfermarkt.com/manuel-neuer/profil/spieler/17259
+,Lukas,Schneller,de,Bayern Munchen,Por,,,https://www.transfermarkt.com/lukas-schneller/profil/spieler/453874
+,Alexander,Nubel,de,Bayern Munchen,Por,,,https://www.transfermarkt.com/alexander-nubel/profil/spieler/195778
+,Ron-Thorben,Hoffmann,de,Bayern Munchen,Por,,,https://www.transfermarkt.com/ron-thorben-hoffmann/profil/spieler/317444
+,Niklas,Sule,de,Bayern Munchen,Dc,,,https://www.transfermarkt.com/niklas-sule/profil/spieler/166601
+,Benjamin,Pavard,fr,Bayern Munchen,Dc,Dd,,https://www.transfermarkt.com/benjamin-pavard/profil/spieler/353366
+,Jerome,Boateng,de,Bayern Munchen,Dc,,,https://www.transfermarkt.com/jerome-boateng/profil/spieler/26485
+,Alphonso,Davies,ca,Bayern Munchen,Ds,E,,https://www.transfermarkt.com/alphonso-davies/profil/spieler/424204
+,Bouna,Sarr,fr,Bayern Munchen,Dd,E,,https://www.transfermarkt.com/bouna-sarr/profil/spieler/190685
+,Lucas,Hernandez,fr,Bayern Munchen,Dc,Ds,,https://www.transfermarkt.com/lucas-hernandez/profil/spieler/281963
+,Tanguy,Nianzou,fr,Bayern Munchen,Dc,,,https://www.transfermarkt.com/tanguy-nianzou/profil/spieler/538996
+,David,Alaba,at,Bayern Munchen,Dc,Ds,,https://www.transfermarkt.com/david-alaba/profil/spieler/59016
+,Kilian,Senkbeil,de,Bayern Munchen,Dc,,,https://www.transfermarkt.com/kilian-senkbeil/profil/spieler/335455
+,Chris,Richards,us,Bayern Munchen,Dc,Dd,,https://www.transfermarkt.com/chris-richards/profil/spieler/578539
+,Bright,Arrey-Mbi,de,Bayern Munchen,Dc,Ds,,https://www.transfermarkt.com/bright-arrey-mbi/profil/spieler/580193
+,Alexander,Lungwitz,de,Bayern Munchen,Ds,E,,https://www.transfermarkt.com/alexander-lungwitz/profil/spieler/422211
+,Joshua,Kimmich,de,Bayern Munchen,Dd,E,M,https://www.transfermarkt.com/joshua-kimmich/profil/spieler/161056
+,Javi,Martinez,es,Bayern Munchen,Dc,,,https://www.transfermarkt.com/javi-martinez/profil/spieler/44017
+,Leon,Goretzka,de,Bayern Munchen,C,,,https://www.transfermarkt.com/leon-goretzka/profil/spieler/153084
+,Marc,Roca,es,Bayern Munchen,M,C,,https://www.transfermarkt.com/marc-roca/profil/spieler/336869
+,Corentin,Tolisso,fr,Bayern Munchen,C,,,https://www.transfermarkt.com/corentin-tolisso/profil/spieler/190393
+,Tiago,Dantas,pt,Bayern Munchen,C,T,,https://www.transfermarkt.com/tiago-dantas/profil/spieler/429987
+,Angelo,Stiller,de,Bayern Munchen,M,C,,https://www.transfermarkt.com/angelo-stiller/profil/spieler/443710
+,Daniels,Ontuzans,lv,Bayern Munchen,T,W,,https://www.transfermarkt.com/daniels-ontuzans/profil/spieler/336324
+,Jamal,Musiala,gb-eng,Bayern Munchen,T,A,,https://www.transfermarkt.com/jamal-musiala/profil/spieler/580195
+,Maximilian,Zaiser,de,Bayern Munchen,C,T,,https://www.transfermarkt.com/maximilian-zaiser/profil/spieler/380423
+,Serge,Gnabry,de,Bayern Munchen,W,A,,https://www.transfermarkt.com/serge-gnabry/profil/spieler/159471
+,Robert,Lewandowski,pl,Bayern Munchen,Pc,,,https://www.transfermarkt.com/robert-lewandowski/profil/spieler/38253
+788,Leroy,Sane,de,Bayern Munchen,W,A,,https://www.transfermarkt.com/leroy-sane/profil/spieler/192565
+20,,Douglas Costa,br,Bayern Munchen,W,,,https://www.transfermarkt.com/douglas-costa/profil/spieler/75615
+,Eric,Maxim Choupo-Moting,cm,Bayern Munchen,Pc,,,https://www.transfermarkt.com/eric-maxim-choupo-moting/profil/spieler/45660
+,Joshua,Zirkzee,nl,Bayern Munchen,Pc,,,https://www.transfermarkt.com/joshua-zirkzee/profil/spieler/435648
+,Fiete,Arp,de,Bayern Munchen,Pc,,,https://www.transfermarkt.com/fiete-arp/profil/spieler/343337
+,Thomas,Muller,de,Bayern Munchen,A,,,https://www.transfermarkt.com/thomas-muller/profil/spieler/58358
+,Kingsley,Coman,fr,Bayern Munchen,W,A,,https://www.transfermarkt.com/kingsley-coman/profil/spieler/243714
+,Malik,Tillman,de,Bayern Munchen,Pc,,,https://www.transfermarkt.com/malik-tillman/profil/spieler/467437
+,Leon,Dajaku,de,Bayern Munchen,W,A,,https://www.transfermarkt.com/leon-dajaku/profil/spieler/483974
+,Armindo,Sieb,de,Bayern Munchen,A,,,https://www.transfermarkt.com/armindo-sieb/profil/spieler/569033
+,Roman,Burki,ch,Borussia Dortmund,Por,,,https://www.transfermarkt.com/roman-burki/profil/spieler/59027
+,Luca,Unbehaun,de,Borussia Dortmund,Por,,,https://www.transfermarkt.com/luca-unbehaun/profil/spieler/388815
+,Marwin,Hitz,ch,Borussia Dortmund,Por,,,https://www.transfermarkt.com/marwin-hitz/profil/spieler/59238
+,Stefan,Drljaca,de,Borussia Dortmund,Por,,,https://www.transfermarkt.com/stefan-drlja%C4%8Da/profil/spieler/388067
+,Mateu,Morey,es,Borussia Dortmund,Dd,E,,https://www.transfermarkt.com/mateu-morey-bauza/profil/spieler/388513
+,Dan-Axel,Zagadou,fr,Borussia Dortmund,Dc,,,https://www.transfermarkt.com/dan-axel-zagadou/profil/spieler/344598
+,Raphael,Guerreiro,pt,Borussia Dortmund,E,,,https://www.transfermarkt.com/raphael-guerreiro/profil/spieler/170986
+,Nico,Schulz,de,Borussia Dortmund,Ds,E,,https://www.transfermarkt.com/nico-schulz/profil/spieler/85867
+,Mats,Hummels,de,Borussia Dortmund,Dc,,,https://www.transfermarkt.com/mats-hummels/profil/spieler/39728
+,Manuel,Akanji,ch,Borussia Dortmund,Dc,,,https://www.transfermarkt.com/manuel-akanji/profil/spieler/284730
+,Lukasz,Piszczek,pl,Borussia Dortmund,Dc,Dd,,https://www.transfermarkt.com/lukasz-piszczek/profil/spieler/25727
+,Marcel,Schmelzer,de,Borussia Dortmund,Ds,E,,https://www.transfermarkt.com/marcel-schmelzer/profil/spieler/35208
+,Thomas,Delaney,dk,Borussia Dortmund,M,C,,https://www.transfermarkt.com/thomas-delaney/profil/spieler/91849
+,Jadon,Sancho,gb-eng,Borussia Dortmund,A,,,https://www.transfermarkt.com/jadon-sancho/profil/spieler/401173
+,Mahmoud,Dahoud,de,Borussia Dortmund,C,,,https://www.transfermarkt.com/mahmoud-dahoud/profil/spieler/191422
+,Thorgan,Hazard,be,Borussia Dortmund,T,A,,https://www.transfermarkt.com/thorgan-hazard/profil/spieler/102226
+,Julian,Brandt,de,Borussia Dortmund,T,W,,https://www.transfermarkt.com/julian-brandt/profil/spieler/187492
+,,Reinier,br,Borussia Dortmund,T,,,https://www.transfermarkt.com/reinier/profil/spieler/627226
+,Jude,Bellingham,gb-eng,Borussia Dortmund,C,W,,https://www.transfermarkt.com/jude-bellingham/profil/spieler/581678
+,Emre,Can,de,Borussia Dortmund,M,C,,https://www.transfermarkt.com/emre-can/profil/spieler/119296
+,Thomas,Meunier,be,Borussia Dortmund,E,,,https://www.transfermarkt.com/thomas-meunier/profil/spieler/100986
+,Axel,Witsel,be,Borussia Dortmund,M,C,,https://www.transfermarkt.com/axel-witsel/profil/spieler/35047
+,Felix,Passlack,de,Borussia Dortmund,Dd,E,,https://www.transfermarkt.com/felix-passlack/profil/spieler/274461
+,Giovanni,Reyna,us,Borussia Dortmund,T,A,,https://www.transfermarkt.com/giovanni-reyna/profil/spieler/504215
+,Tobias,Raschl,de,Borussia Dortmund,M,C,,https://www.transfermarkt.com/tobias-raschl/profil/spieler/384745
+,Dominik,Wanner,de,Borussia Dortmund,E,W,,https://www.transfermarkt.com/dominik-wanner/profil/spieler/333451
+,Erling,Haaland,no,Borussia Dortmund,Pc,,,https://www.transfermarkt.com/erling-haaland/profil/spieler/418560
+,Marco,Reus,de,Borussia Dortmund,A,,,https://www.transfermarkt.com/marco-reus/profil/spieler/35207
+,Youssoufa,Moukoko,de,Borussia Dortmund,Pc,,,https://www.transfermarkt.com/youssoufa-moukoko/profil/spieler/467720
+,Steffen,Tigges,de,Borussia Dortmund,Pc,,,https://www.transfermarkt.com/steffen-tigges/profil/spieler/296879
+,Ansgar,Knauff,de,Borussia Dortmund,W,,,https://www.transfermarkt.com/ansgar-knauff/profil/spieler/429874
+,Yann,Sommer,ch,Borussia Mbach,Por,,,https://www.transfermarkt.com/yann-sommer/profil/spieler/42205
+,Tobias,Sippel,de,Borussia Mbach,Por,,,https://www.transfermarkt.com/tobias-sippel/profil/spieler/31653
+,Max,Grun,de,Borussia Mbach,Por,,,https://www.transfermarkt.com/max-grun/profil/spieler/32779
+,Jan,Olschowsky,de,Borussia Mbach,Por,,,https://www.transfermarkt.com/jan-olschowsky/profil/spieler/455922
+,Michael,Lang,ch,Borussia Mbach,Dd,E,,https://www.transfermarkt.com/michael-lang/profil/spieler/51346
+,Mamadou,Doucoure,fr,Borussia Mbach,Dc,,,https://www.transfermarkt.com/mamadou-doucoure/profil/spieler/340480
+,Jordan,Beyer,de,Borussia Mbach,Dd,E,,https://www.transfermarkt.com/jordan-beyer/profil/spieler/403898
+,Oscar,Wendt,se,Borussia Mbach,Ds,E,,https://www.transfermarkt.com/oscar-wendt/profil/spieler/19305
+,Stefan,Lainer,at,Borussia Mbach,Dd,E,,https://www.transfermarkt.com/stefan-lainer/profil/spieler/85791
+,Tony,Jantschke,de,Borussia Mbach,Dc,Dd,,https://www.transfermarkt.com/tony-jantschke/profil/spieler/47587
+,Ramy,Bensebaini,dz,Borussia Mbach,Ds,E,,https://www.transfermarkt.com/ramy-bensebaini/profil/spieler/284732
+,Matthias,Ginter,de,Borussia Mbach,Dc,,,https://www.transfermarkt.com/matthias-ginter/profil/spieler/124502
+,Joe,Scally,us,Borussia Mbach,Dd,E,,https://www.transfermarkt.com/joe-scally/profil/spieler/504153
+,Nico,Elvedi,ch,Borussia Mbach,Dc,Dd,,https://www.transfermarkt.com/nico-elvedi/profil/spieler/192635
+,Kaan,Kurt,de,Borussia Mbach,Dd,E,,https://www.transfermarkt.com/kaan-kurt/profil/spieler/392154
+,Andreas,Poulsen,dk,Borussia Mbach,Ds,E,,https://www.transfermarkt.com/andreas-poulsen/profil/spieler/345746
+,Christoph,Kramer,de,Borussia Mbach,M,C,,https://www.transfermarkt.com/christoph-kramer/profil/spieler/82097
+,Denis,Zakaria,ch,Borussia Mbach,M,,,https://www.transfermarkt.com/denis-zakaria/profil/spieler/334526
+,Hannes,Wolf,at,Borussia Mbach,T,A,,https://www.transfermarkt.com/hannes-wolf/profil/spieler/321070
+,Lars,Stindl,de,Borussia Mbach,A,,,https://www.transfermarkt.com/lars-stindl/profil/spieler/48298
+847,Valentino,Lazaro,at,Borussia Mbach,E,W,,https://www.transfermarkt.com/valentino-lazaro/profil/spieler/186368
+,Laszlo,Benes,sk,Borussia Mbach,C,,,https://www.transfermarkt.com/laszlo-benes/profil/spieler/243188
+,Jonas,Hofmann,de,Borussia Mbach,C,T,,https://www.transfermarkt.com/jonas-hofmann/profil/spieler/7161
+,Torban,Musel,de,Borussia Mbach,T,A,,https://www.transfermarkt.com/torben-musel/profil/spieler/368860
+,Famana,Quizera,pt,Borussia Mbach,T,,,https://www.transfermarkt.com/famana-quizera/profil/spieler/504089
+,Florian,Neuhaus,de,Borussia Mbach,C,T,,https://www.transfermarkt.com/florian-neuhaus/profil/spieler/278332
+,Rocco,Reitz,de,Borussia Mbach,C,T,,https://www.transfermarkt.com/rocco-reitz/profil/spieler/467434
+,Patrick,Herrmann,de,Borussia Mbach,A,,,https://www.transfermarkt.com/patrick-herrmann/profil/spieler/32711
+,Marcus,Thuram,fr,Borussia Mbach,A,,,https://www.transfermarkt.com/marcus-thuram/profil/spieler/318528
+,Alassane,Plea,fr,Borussia Mbach,Pc,,,https://www.transfermarkt.com/alassane-plea/profil/spieler/167329
+,Ibrahima,Traore,gn,Borussia Mbach,T,W,,https://www.transfermarkt.com/ibrahima-traore/profil/spieler/47285
+,Julio,Villalba,py,Borussia Mbach,Pc,,,https://www.transfermarkt.com/julio-villalba/profil/spieler/401717
+,Breel,Embolo,ch,Borussia Mbach,A,,,https://www.transfermarkt.com/breel-embolo/profil/spieler/237662
+,Kevin,Trapp,de,Eintracht,Por,,,https://www.transfermarkt.com/kevin-trapp/profil/spieler/45672
+,Markus,Schubert,de,Eintracht,Por,,,https://www.transfermarkt.com/markus-schubert/profil/spieler/296741
+,Evan,Ndicka,fr,Eintracht,Dc,Ds,,https://www.transfermarkt.com/evan-ndicka/profil/spieler/371149
+,Martin,Hinteregger,at,Eintracht,Dc,,,https://www.transfermarkt.com/martin-hinteregger/profil/spieler/85789
+,Almamy,Toure,fr,Eintracht,Dd,E,,https://www.transfermarkt.com/almamy-toure/profil/spieler/216181
+,David,Abraham,ar,Eintracht,Dc,,,https://www.transfermarkt.com/david-abraham/profil/spieler/58178
+,Makoto,Hasebe,ja,Eintracht,M,,,https://www.transfermarkt.com/makoto-hasebe/profil/spieler/39259
+,Danny,da Costa,de,Eintracht,Dd,E,,https://www.transfermarkt.com/danny-da-costa/profil/spieler/85906
+,Erik,Durm,de,Eintracht,Dd,Ds,E,https://www.transfermarkt.com/erik-durm/profil/spieler/93922
+840,Jetro,Willems,nl,Eintracht,Ds,E,,https://www.transfermarkt.com/jetro-willems/profil/spieler/146258
+,,Tuta,br,Eintracht,Dc,Dd,,https://www.transfermarkt.com/tuta/profil/spieler/546213
+,Yannick,Brugger,de,Eintracht,Dc,,,https://www.transfermarkt.com/yannick-brugger/profil/spieler/441238
+,Stefan,Ilsanker,at,Eintracht,M,,,https://www.transfermarkt.com/stefan-ilsanker/profil/spieler/40074
+,Ajdin,Hrustic,au,Eintracht,T,W,,https://www.transfermarkt.com/ajdin-hrustic/profil/spieler/265625
+,Djibril,Sow,ch,Eintracht,M,C,,https://www.transfermarkt.com/djibril-sow/profil/spieler/212723
+,Filip,Kostic,rs,Eintracht,E,W,,https://www.transfermarkt.com/filip-kostic/profil/spieler/161011
+,Steven,Zuber,ch,Eintracht,E,W,,https://www.transfermarkt.com/steven-zuber/profil/spieler/68033
+,Daichi,Kamada,ja,Eintracht,T,A,,https://www.transfermarkt.com/daichi-kamada/profil/spieler/356141
+,Sebastian,Rode,de,Eintracht,M,C,,https://www.transfermarkt.com/sebastian-rode/profil/spieler/44466
+,Timothy,Chandler,us,Eintracht,Dd,E,,https://www.transfermarkt.com/timothy-chandler/profil/spieler/49723
+,Aymen,Barkok,ma,Eintracht,C,T,,https://www.transfermarkt.com/aymen-barkok/profil/spieler/315332
+,Dominik,Kohr,de,Eintracht,M,C,,https://www.transfermarkt.com/dominik-kohr/profil/spieler/118847
+414,Amin,Younes,de,Eintracht,W,A,,https://www.transfermarkt.com/amin-younes/profil/spieler/96167
+,Lukas,Fahrnberger,at,Eintracht,M,C,,https://www.transfermarkt.com/lukas-fahrnberger/profil/spieler/404262
+,Luka,Jovic,rs,Eintracht,Pc,,,https://www.transfermarkt.com/luka-jovic/profil/spieler/257462
+,Ragnar,Ache,de,Eintracht,Pc,,,https://www.transfermarkt.com/ragnar-ache/profil/spieler/416380
+,Andre,Silva,pt,Eintracht,Pc,,,https://www.transfermarkt.com/andre-silva/profil/spieler/198008
+,Jabez,Makanda,ao,Eintracht,Pc,,,https://www.transfermarkt.com/jabez-makanda/profil/spieler/519226
+,Benjamin,Uphoff,de,Freiburg,Por,,,https://www.transfermarkt.com/benjamin-uphoff/profil/spieler/120296
+,Florian,Muller,de,Freiburg,Por,,,https://www.transfermarkt.com/florian-muller/profil/spieler/284769
+,Mark,Flekken,nl,Freiburg,Por,,,https://www.transfermarkt.com/mark-flekken/profil/spieler/125714
+,Niclas,Thiede,de,Freiburg,Por,,,https://www.transfermarkt.com/niclas-thiede/profil/spieler/348778
+,Philipp,Lienhart,at,Freiburg,Dc,,,https://www.transfermarkt.com/philipp-lienhart/profil/spieler/225657
+,Manuel,Gulde,de,Freiburg,Dc,,,https://www.transfermarkt.com/manuel-gulde/profil/spieler/45683
+,Lukas,Kubler,de,Freiburg,Dc,Dd,,https://www.transfermarkt.com/lukas-kubler/profil/spieler/93604
+,Dominique,Heintz,de,Freiburg,Dc,Ds,,https://www.transfermarkt.com/dominique-heintz/profil/spieler/110036
+,Christian,Gunter,de,Freiburg,Ds,E,,https://www.transfermarkt.com/christian-gunter/profil/spieler/93707
+,Keven,Schlotterbeck,de,Freiburg,Dc,,,https://www.transfermarkt.com/keven-schlotterbeck/profil/spieler/413843
+,Amir,Abrashi,al,Freiburg,M,C,,https://www.transfermarkt.com/amir-abrashi/profil/spieler/66005
+,Jonathan,Schmid,fr,Freiburg,E,,,https://www.transfermarkt.com/jonathan-schmid/profil/spieler/70285
+,Baptiste,Santamaria,fr,Freiburg,M,C,,https://www.transfermarkt.com/baptiste-santamaria/profil/spieler/285323
+,Guus,Til,nl,Freiburg,C,T,,https://www.transfermarkt.com/guus-til/profil/spieler/372267
+,Janik,Haberer,de,Freiburg,C,T,,https://www.transfermarkt.com/janik-haberer/profil/spieler/177779
+,Roland,Sallai,hu,Freiburg,T,W,,https://www.transfermarkt.com/roland-sallai/profil/spieler/332798
+,Nicolas,Hofler,de,Freiburg,M,,,https://www.transfermarkt.com/nicolas-hofler/profil/spieler/55099
+,Changhoon,Kwon,kr,Freiburg,T,W,,https://www.transfermarkt.com/chang-hoon-kwon/profil/spieler/259350
+,Wooyeong,Jeong,kr,Freiburg,W,A,,https://www.transfermarkt.com/woo-yeong-jeong/profil/spieler/297583
+,Vincenzo,Grifo,it,Freiburg,T,W,,https://www.transfermarkt.com/vincenzo-grifo/profil/spieler/185077
+,Lino,Tempelmann,de,Freiburg,M,C,,https://www.transfermarkt.com/lino-tempelmann/profil/spieler/378883
+,Yannik,Keitel,de,Freiburg,M,,,https://www.transfermarkt.com/yannik-keitel/profil/spieler/342039
+,Carlo,Boukhalfa,de,Freiburg,M,,,https://www.transfermarkt.com/carlo-boukhalfa/profil/spieler/329373
+,Lucas,Holer,de,Freiburg,Pc,,,https://www.transfermarkt.com/lucas-holer/profil/spieler/248999
+,Ermedin,Demirovic,ba,Freiburg,Pc,,,https://www.transfermarkt.com/ermedin-demirovic/profil/spieler/335457
+,Nils,Petersen,de,Freiburg,Pc,,,https://www.transfermarkt.com/nils-petersen/profil/spieler/42936
+,Kevin,Schade,de,Freiburg,Pc,,,https://www.transfermarkt.com/kevin-schade/profil/spieler/473050
+,Alexander,Schwolow,de,Hertha,Por,,,https://www.transfermarkt.com/alexander-schwolow/profil/spieler/93763
+,Nils,Korber,de,Hertha,Por,,,https://www.transfermarkt.com/nils-korber/profil/spieler/241974
+,Rune,Jarstein,no,Hertha,Por,,,https://www.transfermarkt.com/rune-jarstein/profil/spieler/24112
+,Florian,Palmowski,de,Hertha,Por,,,https://www.transfermarkt.com/florian-palmowski/profil/spieler/467576
+,Peter,Pekarik,sk,Hertha,Dd,Ds,E,https://www.transfermarkt.com/peter-pekarik/profil/spieler/51100
+,Niklas,Stark,de,Hertha,Dc,,,https://www.transfermarkt.com/niklas-stark/profil/spieler/162434
+,Lukas,Klunter,de,Hertha,Dd,E,,https://www.transfermarkt.com/lukas-klunter/profil/spieler/282577
+,Omar,Alderete,py,Hertha,Dc,Ds,,https://www.transfermarkt.com/omar-alderete/profil/spieler/353032
+,Maximilian,Mittelstadt,de,Hertha,Ds,E,,https://www.transfermarkt.com/maximilian-mittelstadt/profil/spieler/282660
+,Dedryck,Boyata,be,Hertha,Dc,,,https://www.transfermarkt.com/dedryck-boyata/profil/spieler/88262
+,Marvin,Plattenhardt,de,Hertha,Ds,E,,https://www.transfermarkt.com/marvin-plattenhardt/profil/spieler/89592
+,Jordan,Torunarigha,de,Hertha,Dc,Ds,,https://www.transfermarkt.com/jordan-torunarigha/profil/spieler/227110
+,Marton,Dardai,de,Hertha,Dc,,,https://www.transfermarkt.com/marton-dardai/profil/spieler/432281
+,Luca,Netz,de,Hertha,Ds,E,,https://www.transfermarkt.com/luca-netz/profil/spieler/524285
+,Deyovaisio,Zeefuik,nl,Hertha,Dd,E,,https://www.transfermarkt.com/deyovaisio-zeefuik/profil/spieler/338032
+,Vladimir,Darida,cz,Hertha,C,,,https://www.transfermarkt.com/vladimir-darida/profil/spieler/179643
+,Mathew,Leckie,au,Hertha,A,,,https://www.transfermarkt.com/mathew-leckie/profil/spieler/126214
+528,Matteo,Guendouzi,fr,Hertha,M,C,,https://www.transfermarkt.com/matteo-guendouzi/profil/spieler/465830
+,Javairo,Dilrosun,nl,Hertha,T,W,,https://www.transfermarkt.com/javairo-dilrosun/profil/spieler/315125
+,Santiago,Ascacibar,ar,Hertha,M,C,,https://www.transfermarkt.com/santiago-ascacibar/profil/spieler/423436
+,Eduard,Lowen,de,Hertha,M,C,,https://www.transfermarkt.com/eduard-lowen/profil/spieler/260655
+,Lucas,Tousart,fr,Hertha,M,C,,https://www.transfermarkt.com/lucas-tousart/profil/spieler/353948
+,Maurice,Covic,de,Hertha,W,,,https://www.transfermarkt.com/maurice-covic/profil/spieler/335479
+,Julian,Albrecht,de,Hertha,M,C,,https://www.transfermarkt.com/julian-albrecht/profil/spieler/392149
+,Krzysztof,Piatek,pl,Hertha,Pc,,,https://www.transfermarkt.com/krzysztof-piatek/profil/spieler/327757
+,Matheus,Cunha,br,Hertha,Pc,,,https://www.transfermarkt.com/matheus-cunha/profil/spieler/517894
+,Dodi,Lukebakio,be,Hertha,A,,,https://www.transfermarkt.com/dodi-lukebakio/profil/spieler/3032599
+,Jhon,Cordoba,co,Hertha,Pc,,,https://www.transfermarkt.com/jhon-cordoba/profil/spieler/185245
+,Jessic,Ngankam,de,Hertha,Pc,,,https://www.transfermarkt.com/jessic-ngankam/profil/spieler/448177
+,Daishawn,Redan,nl,Hertha,Pc,,,https://www.transfermarkt.com/daishawn-redan/profil/spieler/361081
+,Oliver,Baumann,de,Hoffenheim,Por,,,https://www.transfermarkt.com/oliver-baumann/profil/spieler/55089
+,Philipp,Pentke,de,Hoffenheim,Por,,,https://www.transfermarkt.com/philipp-pentke/profil/spieler/8246
+,Luca,Philipp,de,Hoffenheim,Por,,,https://www.transfermarkt.com/luca-philipp/profil/spieler/432671
+,Joshua,Brenet,nl,Hoffenheim,Dd,Ds,E,https://www.transfermarkt.com/joshua-brenet/profil/spieler/207006
+,Pavel,Kaderabek,cz,Hoffenheim,Dd,Ds,E,https://www.transfermarkt.com/pavel-kaderabek/profil/spieler/143798
+,Ermin,Bicakcic,ba,Hoffenheim,Dc,Dd,,https://www.transfermarkt.com/ermin-bicakcic/profil/spieler/51676
+,Konstantinos,Stafylidis,gr,Hoffenheim,Ds,E,,https://www.transfermarkt.com/konstantinos-stafylidis/profil/spieler/148967
+,Havard,Nordtveit,no,Hoffenheim,Dc,,,https://www.transfermarkt.com/havard-nordtveit/profil/spieler/42234
+,Kasim,Adams,gh,Hoffenheim,Dc,,,https://www.transfermarkt.com/kasim-adams/profil/spieler/263801
+936,Ryan,Sessegnon,gb-eng,Hoffenheim,Ds,E,,https://www.transfermarkt.com/ryan-sessegnon/profil/spieler/392775
+,Benjamin,Hubner,de,Hoffenheim,Dc,Ds,,https://www.transfermarkt.com/benjamin-hubner/profil/spieler/52348
+,Kevin,Vogt,de,Hoffenheim,Dc,,,https://www.transfermarkt.com/kevin-vogt/profil/spieler/84435
+,Kevin,Akpoguma,ng,Hoffenheim,Dc,Dd,,https://www.transfermarkt.com/kevin-akpoguma/profil/spieler/160241
+,Melayro,Bogarde,nl,Hoffenheim,Dc,,,https://www.transfermarkt.com/melayro-bogarde/profil/spieler/476915
+,Stefan,Posch,at,Hoffenheim,Dc,Dd,,https://www.transfermarkt.com/stefan-posch/profil/spieler/223974
+,Alfons,Amade,de,Hoffenheim,M,C,,https://www.transfermarkt.com/alfons-amade/profil/spieler/296340
+,Dennis,Geiger,de,Hoffenheim,M,C,,https://www.transfermarkt.com/dennis-geiger/profil/spieler/251309
+,Florian,Grillitsch,at,Hoffenheim,C,T,,https://www.transfermarkt.com/florian-grillitsch/profil/spieler/195736
+,Christoph,Baumgartner,at,Hoffenheim,C,T,,https://www.transfermarkt.com/christoph-baumgartner/profil/spieler/324278
+,Sebastian,Rudy,de,Hoffenheim,M,C,,https://www.transfermarkt.com/sebastian-rudy/profil/spieler/57051
+,Diadie,Samassekou,ml,Hoffenheim,M,C,,https://www.transfermarkt.com/diadie-samassekou/profil/spieler/315604
+,Mijat,Gacinovic,rs,Hoffenheim,C,T,,https://www.transfermarkt.com/mijat-gacinovic/profil/spieler/215864
+,Marco,John,de,Hoffenheim,T,,,https://www.transfermarkt.com/marco-john/profil/spieler/450234
+,Max,Geschwill,de,Hoffenheim,Dd,Ds,E,https://www.transfermarkt.com/max-geschwill/profil/spieler/471890
+,Jacob,Bruun Larsen,dk,Hoffenheim,A,,,https://www.transfermarkt.com/jacob-bruun-larsen/profil/spieler/293281
+,Ihlas,Bebou,tg,Hoffenheim,A,,,https://www.transfermarkt.com/ihlas-bebou/profil/spieler/237164
+,Munas,Dabbur,il,Hoffenheim,Pc,,,https://www.transfermarkt.com/munas-dabbur/profil/spieler/145866
+,Ishak,Belfodil,dz,Hoffenheim,Pc,,,https://www.transfermarkt.com/ishak-belfodil/profil/spieler/111039
+,Sargis,Adamyan,am,Hoffenheim,Pc,,,https://www.transfermarkt.com/sargis-adamyan/profil/spieler/125614
+,Andrej,Kramaric,hr,Hoffenheim,Pc,,,https://www.transfermarkt.com/andrej-kramaric/profil/spieler/46580
+,Robert,Skov,dk,Hoffenheim,W,,,https://www.transfermarkt.com/robert-skov/profil/spieler/270393
+,Maximilian,Beier,de,Hoffenheim,Pc,,,https://www.transfermarkt.com/maximilian-beier/profil/spieler/578392
+,Timo,Horn,de,Koln,Por,,,https://www.transfermarkt.com/timo-horn/profil/spieler/84938
+,Ron-Robert,Zieler,de,Koln,Por,,,https://www.transfermarkt.com/ron-robert-zieler/profil/spieler/21327
+,Julian,Krahl,de,Koln,Por,,,https://www.transfermarkt.com/julian-krahl/profil/spieler/337082
+,Benno,Schmitz,de,Koln,Dd,E,,https://www.transfermarkt.com/benno-schmitz/profil/spieler/160968
+,Noah,Katterbach,de,Koln,Ds,E,,https://www.transfermarkt.com/noah-katterbach/profil/spieler/469949
+,Robert,Voloder,de,Koln,Dc,,,https://www.transfermarkt.com/robert-voloder/profil/spieler/452392
+,Rafael,Czichos,de,Koln,Dc,,,https://www.transfermarkt.com/rafael-czichos/profil/spieler/84150
+,Ismail,Jakobs,de,Koln,W,,,https://www.transfermarkt.com/ismail-jakobs/profil/spieler/375137
+,Kingsley,Ehizibue,ng,Koln,Dd,E,,https://www.transfermarkt.com/kingsley-ehizibue/profil/spieler/272812
+,Jorge,Mere,es,Koln,Dc,,,https://www.transfermarkt.com/jorge-mere/profil/spieler/286779
+,Jannes,Horn,de,Koln,Dc,Ds,E,https://www.transfermarkt.com/jannes-horn/profil/spieler/231586
+,Sava-Arangel,Cestic,rs,Koln,Dc,,,https://www.transfermarkt.com/sava-arangel-cestic/profil/spieler/464906
+,Frederik,Sorensen,dk,Koln,Dc,Dd,,https://www.transfermarkt.com/frederik-sorensen/profil/spieler/91716
+,Sebastiaan,Bornauw,be,Koln,Dc,,,https://www.transfermarkt.com/sebastiaan-bornauw/profil/spieler/338629
+,Marco,Hoger,de,Koln,M,C,,https://www.transfermarkt.com/marco-hoger/profil/spieler/55510
+,Florian,Kainz,at,Koln,T,W,,https://www.transfermarkt.com/florian-kainz/profil/spieler/106270
+,Jonas,Hector,de,Koln,M,E,,https://www.transfermarkt.com/jonas-hector/profil/spieler/108537
+,Dimitrios,Limnios,gr,Koln,A,,,https://www.transfermarkt.com/dimitrios-limnios/profil/spieler/324344
+869,Ondrej,Duda,sk,Koln,T,,,https://www.transfermarkt.com/ondrej-duda/profil/spieler/232418
+,Elvis,Rexhbecaj,de,Koln,C,,,https://www.transfermarkt.com/elvis-rexhbecaj/profil/spieler/280575
+,Salih,Ozcan,de,Koln,C,T,,https://www.transfermarkt.com/salih-ozcan/profil/spieler/244940
+,Dominick,Drexler,de,Koln,T,W,,https://www.transfermarkt.com/dominick-drexler/profil/spieler/53400
+,Tim,Lemperle,de,Koln,A,,,https://www.transfermarkt.com/tim-lemperle/profil/spieler/553285
+,Ellyes,Skhiri,tn,Koln,M,,,https://www.transfermarkt.com/ellyes-skhiri/profil/spieler/290587
+,Jan,Thielmann,de,Koln,A,,,https://www.transfermarkt.com/jan-thielmann/profil/spieler/472249
+,Marius,Wolf,de,Koln,W,,,https://www.transfermarkt.com/marius-wolf/profil/spieler/193900
+,Tolu,Arokodare,ng,Koln,Pc,,,https://www.transfermarkt.com/tolu-arokodare/profil/spieler/683571
+,Sebastian,Andersson,se,Koln,Pc,,,https://www.transfermarkt.com/sebastian-andersson/profil/spieler/147573
+,Anthony,Modeste,fr,Koln,Pc,,,https://www.transfermarkt.com/anthony-modeste/profil/spieler/50512
+,Jens,Castrop,de,Koln,T,A,,https://www.transfermarkt.com/jens-castrop/profil/spieler/613192
+,Marvin,Obuz,de,Koln,W,,,https://www.transfermarkt.com/marvin-obuz/profil/spieler/522084
+,Robin,Zentner,de,Mainz 05,Por,,,https://www.transfermarkt.com/robin-zentner/profil/spieler/160963
+,Omer,Hanin,il,Mainz 05,Por,,,https://www.transfermarkt.com/omer-hanin/profil/spieler/211530
+,Finn,Dahmen,de,Mainz 05,Por,,,https://www.transfermarkt.com/finn-dahmen/profil/spieler/251299
+,Marius,Liesegang,de,Mainz 05,Por,,,https://www.transfermarkt.com/marius-liesegang/profil/spieler/337090
+,Jeremiah,St Juste,nl,Mainz 05,Dc,,,https://www.transfermarkt.com/jeremiah-st-juste/profil/spieler/288253
+,Dimitri,Lavalee,be,Mainz 05,Dc,,,https://www.transfermarkt.com/dimitri-lavalee/profil/spieler/420890
+,Luca,Kilian,de,Mainz 05,Dc,,,https://www.transfermarkt.com/luca-kilian/profil/spieler/384553
+,Stefan,Bell,de,Mainz 05,Dc,,,https://www.transfermarkt.com/stefan-bell/profil/spieler/82350
+,Daniel,Brosinski,de,Mainz 05,Dd,Ds,E,https://www.transfermarkt.com/daniel-brosinski/profil/spieler/43984
+,Moussa,Niakhate,fr,Mainz 05,Dc,Ds,,https://www.transfermarkt.com/moussa-niakhate/profil/spieler/291200
+,Phillipp,Mwene,at,Mainz 05,Dd,Ds,E,https://www.transfermarkt.com/phillipp-mwene/profil/spieler/127573
+,Alexander,Hack,de,Mainz 05,Dc,,,https://www.transfermarkt.com/alexander-hack/profil/spieler/126281
+,Jean-Paul,Boetius,nl,Mainz 05,T,W,,https://www.transfermarkt.com/jean-paul-boetius/profil/spieler/182574
+,Danny,Latza,de,Mainz 05,M,C,,https://www.transfermarkt.com/danny-latza/profil/spieler/39025
+,Levin,Oztunali,de,Mainz 05,E,W,,https://www.transfermarkt.com/levin-oztunali/profil/spieler/168543
+,Pierre,Kunde Malong,cm,Mainz 05,M,C,,https://www.transfermarkt.com/pierre-kunde-malong/profil/spieler/339829
+,Kevin,Stoger,at,Mainz 05,T,W,,https://www.transfermarkt.com/kevin-stoger/profil/spieler/106872
+,Edimilson,Fernandes,ch,Mainz 05,M,C,,https://www.transfermarkt.com/edimilson-fernandes/profil/spieler/247555
+,Merveille,Papela,de,Mainz 05,M,C,,https://www.transfermarkt.com/merveille-papela/profil/spieler/405689
+,Niklas,Tauer,de,Mainz 05,M,,,https://www.transfermarkt.com/niklas-tauer/profil/spieler/470815
+,Paul,Nebel,de,Mainz 05,T,W,,https://www.transfermarkt.com/paul-nebel/profil/spieler/503160
+,Leandro,Barreiro,lu,Mainz 05,C,,,https://www.transfermarkt.com/leandro-barreiro/profil/spieler/357233
+,Robin,Quaison,se,Mainz 05,A,,,https://www.transfermarkt.com/robin-quaison/profil/spieler/206542
+,Jean-Philippe,Mateta,fr,Mainz 05,Pc,,,https://www.transfermarkt.com/jean-philippe-mateta/profil/spieler/420002
+,Dong-Won,Ji,kr,Mainz 05,A,,,https://www.transfermarkt.com/dong-won-ji/profil/spieler/164265
+,Karim,Onisiwo,at,Mainz 05,Pc,,,https://www.transfermarkt.com/karim-onisiwo/profil/spieler/119234
+,Adam,Szalai,hu,Mainz 05,Pc,,,https://www.transfermarkt.com/adam-szalai/profil/spieler/39106
+,Jonathan,Burkardt,de,Mainz 05,Pc,,,https://www.transfermarkt.com/jonathan-burkardt/profil/spieler/333647
+,Suliman,Mustapha,at,Mainz 05,Pc,,,https://www.transfermarkt.com/marlon-mustapha/profil/spieler/532495
+,Peter,Gulacsi,hu,RB Leipzig,Por,,,https://www.transfermarkt.com/peter-gulacsi/profil/spieler/57071
+,Philipp,Tschauner,de,RB Leipzig,Por,,,https://www.transfermarkt.com/philipp-tschauner/profil/spieler/21726
+,Tim,Schreiber,de,RB Leipzig,Por,,,https://www.transfermarkt.com/tim-schreiber/profil/spieler/426685
+,Josep,Martinez,es,RB Leipzig,Por,,,https://www.transfermarkt.com/josep-martinez/profil/spieler/388516
+1140,,Angelino,es,RB Leipzig,Ds,E,,https://www.transfermarkt.com/angelino/profil/spieler/277179
+,Willi,Orban,hu,RB Leipzig,Dc,,,https://www.transfermarkt.com/willi-orban/profil/spieler/93740
+,Dayot,Upamecano,fr,RB Leipzig,Dc,,,https://www.transfermarkt.com/dayot-upamecano/profil/spieler/344695
+,Ibrahima,Konate,fr,RB Leipzig,Dc,,,https://www.transfermarkt.com/ibrahima-konate/profil/spieler/357119
+,Lukas,Klostermann,de,RB Leipzig,Dc,Dd,E,https://www.transfermarkt.com/lukas-klostermann/profil/spieler/215599
+,Nordi,Mukiele,fr,RB Leipzig,Dc,Dd,E,https://www.transfermarkt.com/nordi-mukiele/profil/spieler/348026
+,Marcel,Halstenberg,de,RB Leipzig,Dc,Ds,E,https://www.transfermarkt.com/marcel-halstenberg/profil/spieler/70243
+,Benjamin,Henrichs,de,RB Leipzig,Dd,Ds,E,https://www.transfermarkt.com/benjamin-henrichs/profil/spieler/202591
+,Marcel,Sabitzer,at,RB Leipzig,T,W,,https://www.transfermarkt.com/marcel-sabitzer/profil/spieler/106987
+,Amadou,Haidara,ml,RB Leipzig,C,,,https://www.transfermarkt.com/amadou-haidara/profil/spieler/402008
+,Tyler,Adams,us,RB Leipzig,E,M,,https://www.transfermarkt.com/tyler-adams/profil/spieler/332705
+,Dominik,Szoboszlai,hu,RB Leipzig,T,W,,https://www.transfermarkt.com/dominik-szoboszlai/profil/spieler/451276
+,Christopher,Nkunku,fr,RB Leipzig,T,W,,https://www.transfermarkt.com/christopher-nkunku/profil/spieler/344381
+,Lazar,Samardzic,de,RB Leipzig,T,W,,https://www.transfermarkt.com/lazar-samardzic/profil/spieler/528833
+,Dani,Olmo,es,RB Leipzig,T,A,,https://www.transfermarkt.com/dani-olmo/profil/spieler/293385
+,Konrad,Laimer,at,RB Leipzig,M,C,,https://www.transfermarkt.com/konrad-laimer/profil/spieler/223967
+,Kevin,Kampl,si,RB Leipzig,C,,,https://www.transfermarkt.com/kevin-kampl/profil/spieler/53418
+,Joscha,Wosz,de,RB Leipzig,C,T,,https://www.transfermarkt.com/joscha-wosz/profil/spieler/597004
+,Yussuf,Poulsen,dk,RB Leipzig,Pc,,,https://www.transfermarkt.com/yussuf-poulsen/profil/spieler/157635
+,Emil,Forsberg,se,RB Leipzig,T,W,,https://www.transfermarkt.com/emil-forsberg/profil/spieler/111078
+,Hee-Chan,Hwang,kr,RB Leipzig,Pc,,,https://www.transfermarkt.com/hee-chan-hwang/profil/spieler/292246
+,Alexander,Sorloth,no,RB Leipzig,Pc,,,https://www.transfermarkt.com/alexander-sorloth/profil/spieler/238407
+145,Justin,Kluivert,nl,RB Leipzig,W,,,https://www.transfermarkt.com/justin-kluivert/profil/spieler/330659
+,Fabrice,Hartmann,de,RB Leipzig,A,,,https://www.transfermarkt.com/fabrice-hartmann/profil/spieler/405685
+,Hugo,Novoa,es,RB Leipzig,Pc,,,https://www.transfermarkt.com/hugo-novoa/profil/spieler/668276
+,Dennis,Borkowski,de,RB Leipzig,Pc,,,https://www.transfermarkt.com/dennis-borkowski/profil/spieler/467426
+,Ralf,Fahrmann,de,Schalke 04,Por,,,https://www.transfermarkt.com/ralf-fahrmann/profil/spieler/39015
+,Frederik,Ronnow,dk,Schalke 04,Por,,,https://www.transfermarkt.com/frederik-ronnow/profil/spieler/107775
+,Michael,Langer,at,Schalke 04,Por,,,https://www.transfermarkt.com/michael-langer/profil/spieler/19114
+,Soren,Ahlers,de,Schalke 04,Por,,,https://www.transfermarkt.com/soren-ahlers/profil/spieler/333074
+,Kilian,Ludewig,de,Schalke 04,Dd,E,,https://www.transfermarkt.com/kilian-ludewig/profil/spieler/361516
+,Hamza,Mendyl,ma,Schalke 04,Ds,E,,https://www.transfermarkt.com/hamza-mendyl/profil/spieler/447221
+,Ozan,Kabak,tr,Schalke 04,Dc,,,https://www.transfermarkt.com/ozan-kabak/profil/spieler/361260
+,Matija,Nastasic,rs,Schalke 04,Dc,,,https://www.transfermarkt.com/matija-nastasic/profil/spieler/143559
+,Benjamin,Stambouli,fr,Schalke 04,Dc,,,https://www.transfermarkt.com/benjamin-stambouli/profil/spieler/127160
+524,Sead,Kolasinac,ba,Schalke 04,Dc,Ds,E,https://www.transfermarkt.com/sead-kolasinac/profil/spieler/94005
+,Bastian,Oczipka,de,Schalke 04,Ds,E,,https://www.transfermarkt.com/bastian-oczipka/profil/spieler/53437
+,Salif,Sane,sn,Schalke 04,Dc,,,https://www.transfermarkt.com/salif-sane/profil/spieler/126534
+,Timo,Becker,de,Schalke 04,Dc,,,https://www.transfermarkt.com/timo-becker/profil/spieler/282349
+,Malick,Thiaw,fi,Schalke 04,Dc,,,https://www.transfermarkt.com/malick-thiaw/profil/spieler/521964
+,Omar,Mascarell,es,Schalke 04,M,C,,https://www.transfermarkt.com/omar-mascarell/profil/spieler/142031
+,Suat,Serdar,de,Schalke 04,C,,,https://www.transfermarkt.com/suat-serdar/profil/spieler/261905
+846,Nabil,Bentaleb,dz,Schalke 04,M,C,,https://www.transfermarkt.com/nabil-bentaleb/profil/spieler/245537
+,Nassim,Boujellab,ma,Schalke 04,C,T,,https://www.transfermarkt.com/nassim-boujellab/profil/spieler/346332
+,Amine,Harit,ma,Schalke 04,T,A,,https://www.transfermarkt.com/amine-harit/profil/spieler/372711
+,Alessandro,Schopf,at,Schalke 04,T,W,,https://www.transfermarkt.com/alessandro-schopf/profil/spieler/118397
+,Levent,Mercan,de,Schalke 04,C,T,,https://www.transfermarkt.com/levent-mercan/profil/spieler/388820
+,Can,Bozdogan,de,Schalke 04,C,T,,https://www.transfermarkt.com/can-bozdogan/profil/spieler/406609
+,Kerim,Calhanoglu,de,Schalke 04,E,,,https://www.transfermarkt.com/kerim-calhanoglu/profil/spieler/553905
+,Mark,Uth,de,Schalke 04,A,,,https://www.transfermarkt.com/mark-uth/profil/spieler/112935
+,Benito,Raman,be,Schalke 04,A,,,https://www.transfermarkt.com/benito-raman/profil/spieler/112930
+,Ahmed,Kutucu,tr,Schalke 04,Pc,,,https://www.transfermarkt.com/ahmed-kutucu/profil/spieler/452084
+,Goncalo,Paciencia,pt,Schalke 04,Pc,,,https://www.transfermarkt.com/goncalo-paciencia/profil/spieler/181547
+,Steven,Skrzybski,de,Schalke 04,A,,,https://www.transfermarkt.com/steven-skrzybski/profil/spieler/93827
+,Luca,Schuler,de,Schalke 04,Pc,,,https://www.transfermarkt.com/luca-schuler/profil/spieler/388029
+,Matthew,Hoppe,us,Schalke 04,Pc,,,https://www.transfermarkt.com/matthew-hoppe/profil/spieler/678194
+,Gregor,Kobel,ch,Stuttgart,Por,,,https://www.transfermarkt.com/gregor-kobel/profil/spieler/257814
+,Jens,Grahl,de,Stuttgart,Por,,,https://www.transfermarkt.com/jens-grahl/profil/spieler/40034
+,Fabian,Bredlow,de,Stuttgart,Por,,,https://www.transfermarkt.com/fabian-bredlow/profil/spieler/187624
+,Waldemar,Anton,de,Stuttgart,Dc,,,https://www.transfermarkt.com/waldemar-anton/profil/spieler/193004
+,Marc-Oliver,Kempf,de,Stuttgart,Dc,,,https://www.transfermarkt.com/marc-oliver-kempf/profil/spieler/160938
+,Konstantinos,Mavropanos,gr,Stuttgart,Dc,,,https://www.transfermarkt.com/konstantinos-mavropanos/profil/spieler/415912
+,Pascal,Stenzel,de,Stuttgart,Dd,E,,https://www.transfermarkt.com/pascal-stenzel/profil/spieler/195246
+,Atakan,Karazor,de,Stuttgart,Dc,,,https://www.transfermarkt.com/atakan-karazor/profil/spieler/232320
+,Maxime,Awoudja,de,Stuttgart,Dc,,,https://www.transfermarkt.com/maxime-awoudja/profil/spieler/312218
+,Borna,Sosa,hr,Stuttgart,Ds,E,,https://www.transfermarkt.com/borna-sosa/profil/spieler/293194
+,Antonis,Aidonis,de,Stuttgart,Dc,,,https://www.transfermarkt.com/antonis-aidonis/profil/spieler/405674
+,Holger,Badstuber,de,Stuttgart,Dc,,,https://www.transfermarkt.com/holger-badstuber/profil/spieler/54659
+,Marcin,Kaminski,pl,Stuttgart,Dc,,,https://www.transfermarkt.com/marcin-kaminski/profil/spieler/129358
+,Luca,Mack,de,Stuttgart,M,,,https://www.transfermarkt.com/luca-mack/profil/spieler/363424
+,Wataru,Endo,ja,Stuttgart,M,,,https://www.transfermarkt.com/wataru-endo/profil/spieler/146310
+,Clinton,Mola,gb-eng,Stuttgart,M,,,https://www.transfermarkt.com/clinton-mola/profil/spieler/470594
+,Tanguy,Coulibaly,fr,Stuttgart,A,,,https://www.transfermarkt.com/tanguy-coulibaly/profil/spieler/618425
+,Gonzalo,Castro,de,Stuttgart,C,,,https://www.transfermarkt.com/gonzalo-castro/profil/spieler/28947
+,Daniel,Didavi,de,Stuttgart,T,A,,https://www.transfermarkt.com/daniel-didavi/profil/spieler/57995
+,Erik,Thommy,de,Stuttgart,E,,,https://www.transfermarkt.com/erik-thommy/profil/spieler/156779
+,Darko,Churlinov,mk,Stuttgart,T,W,,https://www.transfermarkt.com/darko-churlinov/profil/spieler/386786
+,Philipp,Forster,de,Stuttgart,T,,,https://www.transfermarkt.com/philipp-forster/profil/spieler/179635
+,Philipp,Klement,de,Stuttgart,C,T,,https://www.transfermarkt.com/philipp-klement/profil/spieler/60394
+,Orel,Mangala,be,Stuttgart,M,C,,https://www.transfermarkt.com/orel-mangala/profil/spieler/289592
+,Lilian,Egloff,de,Stuttgart,T,A,,https://www.transfermarkt.com/lilian-egloff/profil/spieler/472243
+,Momo,Cisse,gn,Stuttgart,W,,,https://www.transfermarkt.com/momo-cisse/profil/spieler/768384
+,Roberto,Massimo,de,Stuttgart,E,,,https://www.transfermarkt.com/roberto-massimo/profil/spieler/431561
+,Mateo,Klimowicz,ar,Stuttgart,T,A,,https://www.transfermarkt.com/mateo-klimowicz/profil/spieler/540302
+,Naouirou,Ahamada,fr,Stuttgart,M,C,,https://www.transfermarkt.com/naouirou-ahamada/profil/spieler/538971
+,Sasa,Kalajdzic,at,Stuttgart,Pc,,,https://www.transfermarkt.com/sasa-kalajdzic/profil/spieler/369567
+,Silas,Wamangituka,cd,Stuttgart,A,,,https://www.transfermarkt.com/silas-wamangituka/profil/spieler/612826
+,Hamadi,Al Ghaddioui,ma,Stuttgart,Pc,,,https://www.transfermarkt.com/hamadi-al-ghaddioui/profil/spieler/193534
+,Nicolas,Gonzales,ar,Stuttgart,A,,,https://www.transfermarkt.com/nicolas-gonzalez/profil/spieler/486031
+,Andreas,Luthe,de,Union Berlin,Por,,,https://www.transfermarkt.com/andreas-luthe/profil/spieler/41323
+,Jakob,Busk,dk,Union Berlin,Por,,,https://www.transfermarkt.com/jakob-busk/profil/spieler/203411
+1125,Loris,Karius,de,Union Berlin,Por,,,https://www.transfermarkt.com/loris-karius/profil/spieler/85864
+,Nico,Schlotterbeck,de,Union Berlin,Dc,,,https://www.transfermarkt.com/nico-schlotterbeck/profil/spieler/388198
+,Marvin,Friedrich,de,Union Berlin,Dc,,,https://www.transfermarkt.com/marvin-friedrich/profil/spieler/196231
+,Julian,Ryerson,no,Union Berlin,Dd,E,,https://www.transfermarkt.com/julian-ryerson/profil/spieler/370789
+,Florian,Hubner,de,Union Berlin,Dc,,,https://www.transfermarkt.com/florian-hubner/profil/spieler/85822
+,Niko,Giesselmann,de,Union Berlin,Ds,E,,https://www.transfermarkt.com/niko-giesselmann/profil/spieler/72792
+,Christopher,Lenz,de,Union Berlin,Ds,E,,https://www.transfermarkt.com/christopher-lenz/profil/spieler/159844
+,Christopher,Trimmel,at,Union Berlin,Dd,E,,https://www.transfermarkt.com/christopher-trimmel/profil/spieler/75921
+,Robin,Knoche,de,Union Berlin,Dc,,,https://www.transfermarkt.com/robin-knoche/profil/spieler/94201
+,Mathis,Bruns,de,Union Berlin,Dc,,,https://www.transfermarkt.com/mathis-bruns/profil/spieler/699702
+,Akaki,Gogia,de,Union Berlin,T,W,,https://www.transfermarkt.com/akaki-gogia/profil/spieler/92472
+,Grischa,Promel,de,Union Berlin,M,C,,https://www.transfermarkt.com/grischa-promel/profil/spieler/234029
+,Robert,Andrich,de,Union Berlin,C,,,https://www.transfermarkt.com/robert-andrich/profil/spieler/159088
+,Sebastian,Griesbeck,de,Union Berlin,M,C,,https://www.transfermarkt.com/sebastian-griesbeck/profil/spieler/153555
+,Christian,Gentner,de,Union Berlin,M,C,,https://www.transfermarkt.com/christian-gentner/profil/spieler/19112
+,Joel,Pohjanpalo,fi,Union Berlin,Pc,,,https://www.transfermarkt.com/joel-pohjanpalo/profil/spieler/173491
+,Max,Kruse,de,Union Berlin,A,,,https://www.transfermarkt.com/max-kruse/profil/spieler/36182
+,Anthony,Ujah,ng,Union Berlin,Pc,,,https://www.transfermarkt.com/anthony-ujah/profil/spieler/142281
+1137,Taiwo,Awoniyi,ng,Union Berlin,Pc,,,https://www.transfermarkt.com/taiwo-awoniyi/profil/spieler/295313
+,Marius,Bulter,de,Union Berlin,W,A,,https://www.transfermarkt.com/marius-bulter/profil/spieler/116088
+,Tim,Maciejewski,de,Union Berlin,T,W,,https://www.transfermarkt.com/tim-maciejewski/profil/spieler/392156
+,Keita,Endo,ja,Union Berlin,W,,,https://www.transfermarkt.com/keita-endo/profil/spieler/421726
+,Sheraldo,Becker,nl,Union Berlin,A,,,https://www.transfermarkt.com/sheraldo-becker/profil/spieler/188888
+,Marcus,Ingvartsen,dk,Union Berlin,A,,,https://www.transfermarkt.com/marcus-ingvartsen/profil/spieler/269878
+,Cedric,Teuchert,de,Union Berlin,Pc,,,https://www.transfermarkt.com/cedric-teuchert/profil/spieler/207597
+,Jiri,Pavlenka,cz,Werder Bremen,Por,,,https://www.transfermarkt.com/jiri-pavlenka/profil/spieler/260053
+,Stefanos,Kapino,gr,Werder Bremen,Por,,,https://www.transfermarkt.com/stefanos-kapino/profil/spieler/68410
+,Eduardo,Dos Santos Haesler,de,Werder Bremen,Por,,,https://www.transfermarkt.com/eduardo-dos-santos-haesler/profil/spieler/369258
+,Ludwig,Augustinsson,se,Werder Bremen,Ds,E,,https://www.transfermarkt.com/ludwig-augustinsson/profil/spieler/170646
+,Milos,Veljkovic,rs,Werder Bremen,Dc,,,https://www.transfermarkt.com/milos-veljkovic/profil/spieler/202228
+,Felix,Agu,de,Werder Bremen,Dd,Ds,E,https://www.transfermarkt.com/felix-agu/profil/spieler/393512
+,Niklas,Moisander,fi,Werder Bremen,Dc,,,https://www.transfermarkt.com/niklas-moisander/profil/spieler/5017
+,Omer,Toprak,tr,Werder Bremen,Dc,,,https://www.transfermarkt.com/omer-toprak/profil/spieler/43512
+,Theodor,Gebre Selassie,cz,Werder Bremen,Dc,Dd,E,https://www.transfermarkt.com/theodor-gebre-selassie/profil/spieler/60632
+,Marco,Friedl,at,Werder Bremen,Dc,Ds,,https://www.transfermarkt.com/marco-friedl/profil/spieler/156990
+,Julian,Rieckmann,de,Werder Bremen,M,,,https://www.transfermarkt.com/julian-rieckmann/profil/spieler/380078
+,Christian,Gross,de,Werder Bremen,M,,,https://www.transfermarkt.com/christian-gross/profil/spieler/58396
+,Kevin,Mohwald,de,Werder Bremen,C,,,https://www.transfermarkt.com/kevin-mohwald/profil/spieler/94137
+,Milot,Rashica,xk,Werder Bremen,A,,,https://www.transfermarkt.com/milot-rashica/profil/spieler/291739
+,Leonardo,Bittencourt,de,Werder Bremen,T,W,,https://www.transfermarkt.com/leonardo-bittencourt/profil/spieler/93844
+,Oscar,Schonfelder,de,Werder Bremen,A,,,https://www.transfermarkt.com/oscar-schonfelder/profil/spieler/455933
+,Romano,Schmid,at,Werder Bremen,T,,,https://www.transfermarkt.com/romano-schmid/profil/spieler/346853
+817,Tahith,Chong,nl,Werder Bremen,W,,,https://www.transfermarkt.com/tahith-chong/profil/spieler/344830
+,Ilia,Gruev,bg,Werder Bremen,M,,,https://www.transfermarkt.com/ilia-gruev/profil/spieler/381753
+,Patrick,Erras,de,Werder Bremen,M,,,https://www.transfermarkt.com/patrick-erras/profil/spieler/193859
+,Jean-Manuel,Mbom,de,Werder Bremen,E,C,,https://www.transfermarkt.com/jean-manuel-mbom/profil/spieler/335003
+,Maximilian,Eggestein,de,Werder Bremen,M,C,,https://www.transfermarkt.com/maximilian-eggestein/profil/spieler/190284
+,Yuya,Osako,ja,Werder Bremen,A,,,https://www.transfermarkt.com/yuya-osako/profil/spieler/108650
+,Davie,Selke,de,Werder Bremen,Pc,,,https://www.transfermarkt.com/davie-selke/profil/spieler/178459
+,Niclas,Fullkrug,de,Werder Bremen,Pc,,,https://www.transfermarkt.com/niclas-fullkrug/profil/spieler/75489
+,Joshua,Sargent,us,Werder Bremen,Pc,,,https://www.transfermarkt.com/josh-sargent/profil/spieler/393325
+,Nick,Woltemade,de,Werder Bremen,A,,,https://www.transfermarkt.com/nick-woltemade/profil/spieler/455661
+,Eren,Dinkci,de,Werder Bremen,Pc,,,https://www.transfermarkt.com/eren-sami-dinkci/profil/spieler/645774
+,Koen,Casteels,be,Wolfsburg,Por,,,https://www.transfermarkt.com/koen-casteels/profil/spieler/108880
+,Pavao,Pervan,at,Wolfsburg,Por,,,https://www.transfermarkt.com/pavao-pervan/profil/spieler/51977
+,Niklas,Klinger,de,Wolfsburg,Por,,,https://www.transfermarkt.com/niklas-klinger/profil/spieler/192268
+,Lino,Kasten,de,Wolfsburg,Por,,,https://www.transfermarkt.com/lino-kasten/profil/spieler/441994
+,,William,br,Wolfsburg,Dd,E,,https://www.transfermarkt.com/william/profil/spieler/341710
+,Maxence,Lacroix,fr,Wolfsburg,Dc,,,https://www.transfermarkt.com/maxence-lacroix/profil/spieler/434224
+,Jeffrey,Bruma,nl,Wolfsburg,Dc,,,https://www.transfermarkt.com/jeffrey-bruma/profil/spieler/88721
+,Paulo,Otavio,br,Wolfsburg,Ds,E,,https://www.transfermarkt.com/paulo-otavio/profil/spieler/221611
+,Jerome,Roussillon,fr,Wolfsburg,Ds,E,,https://www.transfermarkt.com/jerome-roussillon/profil/spieler/127076
+,Kevin,Mbabu,ch,Wolfsburg,Dd,E,,https://www.transfermarkt.com/kevin-mbabu/profil/spieler/183321
+,John Anthony,Brooks,us,Wolfsburg,Dc,,,https://www.transfermarkt.com/john-anthony-brooks/profil/spieler/124732
+,Marin,Pongracic,hr,Wolfsburg,Dc,,,https://www.transfermarkt.com/marin-pongracic/profil/spieler/282144
+,Tim,Siersleben,de,Wolfsburg,Dc,,,https://www.transfermarkt.com/tim-siersleben/profil/spieler/3370922
+,Josip,Brekalo,hr,Wolfsburg,W,,,https://www.transfermarkt.com/josip-brekalo/profil/spieler/293169
+,Renato,Steffen,ch,Wolfsburg,W,,,https://www.transfermarkt.com/renato-steffen/profil/spieler/194638
+,Yunus,Malli,tr,Wolfsburg,T,,,https://www.transfermarkt.com/yunus-malli/profil/spieler/85352
+,Admir,Mehmedi,ch,Wolfsburg,A,,,https://www.transfermarkt.com/admir-mehmedi/profil/spieler/66058
+,Ridle,Baku,de,Wolfsburg,Dd,E,,https://www.transfermarkt.com/ridle-baku/profil/spieler/327251
+,Josuha,Guilavogui,fr,Wolfsburg,M,,,https://www.transfermarkt.com/josuha-guilavogui/profil/spieler/93704
+,Xaver,Schlager,at,Wolfsburg,C,,,https://www.transfermarkt.com/xaver-schlager/profil/spieler/223979
+,Maximilian,Arnold,de,Wolfsburg,C,,,https://www.transfermarkt.com/maximilian-arnold/profil/spieler/117674
+,Yannick,Gerhardt,de,Wolfsburg,C,,,https://www.transfermarkt.com/yannick-gerhardt/profil/spieler/119277
+,Joao,Victor,br,Wolfsburg,W,,,https://www.transfermarkt.com/joao-victor/profil/spieler/381724
+,Wout,Weghorst,nl,Wolfsburg,Pc,,,https://www.transfermarkt.com/wout-weghorst/profil/spieler/228645
+,Maximilian,Philipp,de,Wolfsburg,A,,,https://www.transfermarkt.com/maximilian-philipp/profil/spieler/143891
+,Bartosz,Bialek,pl,Wolfsburg,Pc,,,https://www.transfermarkt.com/bartosz-bialek/profil/spieler/535551
+,Daniel,Ginczek,de,Wolfsburg,Pc,,,https://www.transfermarkt.com/daniel-ginczek/profil/spieler/79501
