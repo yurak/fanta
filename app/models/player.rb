@@ -32,6 +32,10 @@ class Player < ApplicationRecord
   }
 
   def avatar_path
+    "#{BUCKET_URL}/player_avatars/#{path_name}.png"
+  end
+
+  def profile_avatar_path
     "#{BUCKET_URL}/players/#{path_name}.png"
   end
 
@@ -62,6 +66,10 @@ class Player < ApplicationRecord
   end
 
   def kit_path
+    "kits/kits_small/#{club.path_name}.png"
+  end
+
+  def profile_kit_path
     "kits/#{club.path_name}.png"
   end
 
