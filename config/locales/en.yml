@@ -120,6 +120,9 @@ en:
     leader: "LEADER"
     teams: "TEAMS"
     round: "ROUND"
+  links:
+    title: "Useful Links"
+    subtitle: ""
   matches:
     game_center: "Game center"
     start_soon: "Match will start soon"

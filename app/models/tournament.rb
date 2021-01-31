@@ -3,6 +3,7 @@ class Tournament < ApplicationRecord
   has_many :clubs, dependent: :destroy
   has_many :tournament_rounds, dependent: :destroy
   has_many :article_tags, dependent: :destroy
+  has_many :links, dependent: :destroy
 
   validates :name, presence: true
   validates :code, presence: true, uniqueness: true

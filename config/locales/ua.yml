@@ -89,6 +89,9 @@ ua:
     leader: "ЛІДЕР"
     teams: "КОМАНДИ"
     round: "РАУНД"
+  links:
+    title: "Корисні Посилання"
+    subtitle: ""
   matches:
     game_center: "Матч центр"
     start_soon: "Матч невдовзі розпочнеться"
