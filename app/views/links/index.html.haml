@@ -1,25 +1,37 @@
-.page-info
-  - if current_user&.admin?
-    .list-items.list-action-items.center
-      .list-row-item
-        .list-row-cell.hidden-cell
-        .list-row-cell.hidden-cell
-        .list-row-cell.item-c
-          = link_to 'NEW LINK', new_league_link_path(league)
+.page-info.links-page
+  .links-block-head
+    .links-title= t('links.title')
+    .links-subtitle= t('links.subtitle')
+  .links-lists
+    .links-lists-tabs
+      - active_tournaments.each do |tournament|
+        .links-lists-tab-item{id: tournament.code}
+          = tournament.name
+    .links-lists-content
+      - active_tournaments.each do |tournament|
+        .links-status-list{class: "#{tournament.code}-list"}
+          - tournament.links.each do |link|
+            = link_to link.url do
+              .links-list-item
+                .links-list-item-param.tournament-logo= image_tag(link.tournament.logo_path)
+                .links-list-item-param= link.name
+                .links-list-item-param.links-link
+                  = image_tag('icons/link_arrow.png')
 
-  .list-items.list-items-dark.list-items-dark70.links-items
-    - @links.each do |link|
-      .list-row-item
-        .list-row-cell
-          .link-data
-            = link_to link.url, target: '_blank' do
-              .link-name
-                = link.name
-              - if link.description.present?
-                .link-description
-                  = "/#{link.description}/"
-        .list-row-cell
-          - if current_user&.admin?
-            .link-btn-group.center
-              = link_to 'Edit', edit_league_link_path(league, link)
-              = link_to 'Destroy', league_link_path(league, link), method: :delete, data: { confirm: 'Are you sure?' }
+:javascript
+  $(document).ready(function() {
+    $(".links-status-list").hide();
+
+    $(".links-lists-tab-item").first().addClass("links-lists-tab-active");
+    $(".links-status-list").first().show();
+
+    $(".links-lists-tab-item").click(function(){
+      var listId = this.id;
+
+      $(".links-lists-tab-item").removeClass("links-lists-tab-active");
+      $(".links-status-list").hide();
+
+      $("#" + listId).addClass("links-lists-tab-active");
+      $("." + listId + "-list").show();
+    });
+  });

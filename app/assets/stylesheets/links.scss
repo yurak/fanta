@@ -1,31 +1,116 @@
-.list-items.links-items {
-  .list-row-item {
-    grid-template-columns: auto 160px;
+.page-info.links-page {
+  height: 100%;
+  padding: 120px 150px;
+
+  a { text-decoration: none; }
+
+  .links-block-head {
+    margin: 48px 0 36px;
+    color: #181715;
+
+    .links-title {
+      font-weight: bold;
+      font-size: 48px;
+      line-height: 48px;
+      margin-bottom: 16px;
+    }
+
+    .links-subtitle {
+      font-size: 16px;
+      line-height: 24px;
+    }
+  }
+
+  .links-lists {
+    padding-bottom: 100px;
+  }
+
+  .links-lists-tabs {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 24px;
+    text-align: center;
+    color: #A6A2A2;
+  }
+
+  .links-lists-tab-item {
+    padding-bottom: 12px;
+    border-bottom: 1px solid #E5E6E4;
+  }
+
+  .links-lists-tab-active {
+    color: #261FFF;
+    border-bottom: 3px solid #261FFF;
+  }
+
+  .links-list-headers {
+    display: grid;
+    grid-template-columns: 3fr 10fr 10fr 10fr 3fr 4fr 4fr;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 16px;
+    color: #847577;
+    text-align: left;
+  }
+
+  .links-list-item {
+    display: grid;
+    grid-template-columns: 80px auto 80px;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 64px;
+    color: #181715;
+    border-bottom: 1px solid #F4F4F4;
+
+    .tournament-logo {
+      text-align: center;
+
+      img {
+        width: 40px;
+        height: 40px;
+      }
+    }
+
+    .links-link {
+      text-align: center;
+
+      a {
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
+
+      img {
+        width: 14px;
+        height: 8px;
+      }
+    }
+
+    .links-list-leader {
+      display: grid;
+      grid-template-columns: 32px auto;
+      column-gap: 16px;
+      line-height: 64px;
+
+      img {
+        width: 32px;
+        height: 32px;
+        margin: auto 0;
+      }
+    }
   }
 }
 
-.link-data {
-  margin: 0 20px;
-  a {
-    width: 100%;
-  }
-  .link-name {
-    display: inline-block;
-    font-size: 22px;
-  }
-  .link-description {
-    display: inline-block;
-    font-size: 18px;
-    color: #6adde2;
-    font-style: italic;
+@media (orientation: landscape) and (max-device-width: 1220px) {
+  .page-info.links-page {
+    padding: 100px 50px;
   }
 }
 
-.list-row-cell .link-btn-group {
-  display: grid;
-  grid-template-columns: 1fr 1.7fr;
-  a {
-    color: #001280;
-    font-size: 20px;
+@media (orientation: portrait) {
+  .page-info.links-page {
+    padding: 200px 50px;
   }
 }

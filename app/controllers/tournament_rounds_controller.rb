@@ -7,7 +7,7 @@ class TournamentRoundsController < ApplicationController
     redirect_to leagues_path unless current_user&.can_moderate?
 
     @round_players = if params[:club_id]
-                       tournament_round.round_players.by_club(params[:club_id]).ordered_by_club
+                       tournament_round.round_players.by_club(params[:club_id]).order('name')
                      else
                        tournament_round.round_players.ordered_by_club
                      end

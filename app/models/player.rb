@@ -32,6 +32,10 @@ class Player < ApplicationRecord
   }
 
   def avatar_path
+    "#{BUCKET_URL}/player_avatars/#{path_name}.png"
+  end
+
+  def profile_avatar_path
     "#{BUCKET_URL}/players/#{path_name}.png"
   end
 
@@ -41,12 +45,16 @@ class Player < ApplicationRecord
     when 'gb-wls' then 'Wales'
     when 'gb-sct' then 'Scotland'
     when 'gb-nir' then 'Northern Ireland'
-    else ISO3166::Country.new(nationality).name
+    else ISO3166::Country.new(nationality)&.name
     end
   end
 
   def full_name
     first_name ? "#{first_name} #{name}" : name
+  end
+
+  def full_name_reverse
+    first_name ? "#{name} #{first_name}" : name
   end
 
   def pseudo_name
@@ -58,6 +66,10 @@ class Player < ApplicationRecord
   end
 
   def kit_path
+    "kits/kits_small/#{club.path_name}.png"
+  end
+
+  def profile_kit_path
     "kits/#{club.path_name}.png"
   end
 

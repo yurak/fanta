@@ -15,10 +15,10 @@
             = player.season_average_result_score
     .player-show-avatar
       .player-show-face
-        %object{data: player.avatar_path, type: 'image/jpg'}
+        %object{data: player.profile_avatar_path, type: 'image/jpg'}
           = image_tag('avatar.png')
       .player-show-kit
-        = image_tag(player.kit_path, alt: 'Club Kit')
+        = image_tag(player.profile_kit_path, alt: 'Club Kit')
   .player-tables
     .player-tables-left
       .player-table

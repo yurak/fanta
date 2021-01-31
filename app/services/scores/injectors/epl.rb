@@ -11,12 +11,16 @@ module Scores
       def call
         RoundPlayer.by_tournament_round(tournament_round.id).each do |rp|
           mp_pseudo = rp.player.pseudo_name.downcase
-          player_data = scores_arr.detect { |pl| pl['name'].mb_chars.normalize(:kd).gsub(/[^\x00-\x7F]/n, '').downcase.to_s == mp_pseudo }
+          player_data = scores_arr.detect { |pl| normalize_name(pl['name']) == mp_pseudo }
           rp.update(score: player_data['stat'].to_f) if player_data && player_data['stat'].to_f.positive?
         end
       end
 
       private
+
+      def normalize_name(name)
+        name.mb_chars.lstrip.normalize(:kd).gsub(/[^\x00-\x7F]/n, '').downcase.to_s
+      end
 
       def scores_arr
         @scores_arr ||= JSON.parse(request)

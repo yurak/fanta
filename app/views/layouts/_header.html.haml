@@ -104,7 +104,7 @@
                       .modal-link= link_to t('header.guide'), guide_path
                       .modal-link= link_to t('header.rules'), rules_path
                       .modal-link= link_to t('header.contact'), contact_path
-                      .modal-link= link_to t('header.links'), league_links_path(current_user.active_league)
+                      .modal-link= link_to t('header.links'), links_path
                       - if current_user&.admin?
                         .modal-link= link_to t('header.admin'), rails_admin_path
 
@@ -130,7 +130,7 @@
               .burger-link= link_to t('header.leagues'), leagues_path
               .burger-link= link_to t('header.players'), players_path
               .burger-link= link_to t('header.news'), articles_path
-              .burger-link= link_to t('header.links'), league_links_path(current_user.active_league)
+              .burger-link= link_to t('header.links'), links_path
               .burger-link= link_to t('header.rules'), guide_path
               .burger-link= link_to t('header.profile'), user_path(current_user)
             -else
