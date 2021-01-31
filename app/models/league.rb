@@ -4,7 +4,6 @@ class League < ApplicationRecord
 
   has_many :teams, dependent: :destroy
   has_many :tours, dependent: :destroy
-  has_many :links, dependent: :destroy
   has_many :results, dependent: :destroy
 
   enum status: %i[initial active archived]

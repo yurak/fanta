@@ -17,9 +17,9 @@ Rails.application.routes.draw do
 
   resources :leagues, only: [:index] do
     resources :results, only: [:index]
-
-    resources :links, except: [:show]
   end
+
+  resources :links, only: [:index]
 
   resources :matches, only: [:show]
 
