@@ -28,7 +28,7 @@
         - elsif match_player.club_played_match?
           - if match_player.tour.locked_or_postponed? && current_user&.can_moderate?
             .team-player-score-not-played
-              = link_to t('matches.didnt_play'), team_lineup_substitutions_path(match_player.team, match_player.lineup)
+              = link_to t('matches.didnt_play'), team_lineup_substitutions_path(match_player.team, match_player.lineup, mp: match_player)
           - else
             .team-player-score-not-played= t('matches.didnt_play')
         - else

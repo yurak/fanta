@@ -6,7 +6,7 @@ class MatchPlayer < ApplicationRecord
   delegate :player, :score, :result_score, :goals, :assists, :missed_goals,
            :caught_penalty, :missed_penalty, :scored_penalty, :failed_penalty,
            :own_goals, :yellow_card, :red_card, :club_played_match?, to: :round_player
-  delegate :position_names, :name, :club, :teams, to: :player
+  delegate :position_names, :name, :first_name, :club, :teams, to: :player
 
   enum subs_status: %i[initial get_out get_in not_in_squad]
 
@@ -27,6 +27,10 @@ class MatchPlayer < ApplicationRecord
 
   def team_by(league)
     player.teams.find_by(league: league)
+  end
+
+  def not_played?
+    score.zero? && club_played_match?
   end
 
   def malus

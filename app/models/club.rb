@@ -19,4 +19,17 @@ class Club < ApplicationRecord
   def path_name
     name.downcase.tr(' ', '_')
   end
+
+  def opponent_by_round(tournament_round)
+    match = host_tournament_matches.where(tournament_round: tournament_round).first
+
+    if match
+      opponent = match.guest_club
+    else
+      match = guest_tournament_matches.where(tournament_round: tournament_round).first
+      opponent = match.host_club
+    end
+
+    opponent
+  end
 end
