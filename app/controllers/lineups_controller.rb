@@ -1,7 +1,7 @@
 class LineupsController < ApplicationController
   respond_to :html
 
-  helper_method :team, :lineup, :modules
+  helper_method :team, :lineup, :modules, :match_player
 
   def new
     modules
@@ -73,8 +73,8 @@ class LineupsController < ApplicationController
   end
 
   def substitutions
-    if score_editable? && lineup.match_players.main.without_score.any?
-      respond_with lineup
+    if score_editable? && match_player.not_played?
+      respond_with match_player
     else
       flash[:notice] = 'Substitution can not be made'
       redirect_to match_path(lineup.match)
@@ -83,6 +83,7 @@ class LineupsController < ApplicationController
 
   def subs_update
     # TODO: move action to Substitution service
+    # TODO: check params[:in_mp_id] presence before substitution
     substitution_params
 
     if (@mp_main.available_positions & @mp_reserve.player.position_names).any?
@@ -177,6 +178,10 @@ class LineupsController < ApplicationController
 
   def modules
     @modules ||= TeamModule.all
+  end
+
+  def match_player
+    MatchPlayer.find(params[:mp])
   end
 
   def editable?

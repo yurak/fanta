@@ -1,14 +1,20 @@
-.page-info
+.page-info.subs-page
   = form_with url: team_lineup_subs_update_path(team, lineup),local: true, method: :put do |f|
     .subs-form
       .subs-input
-        = f.select :out_mp_id, available_for_substitution(lineup.match_players.main.without_score), {}, class: 'custom-select'
+        .team-player-item
+          = f.hidden_field :out_mp_id, value: match_player.id
+          .team-player-param-item.team-player-position
+            .slot-position{class: "slot-position-#{match_player.real_position.tr('/', '')}"}
+              = match_player.real_position
+          .team-player-name
+            = match_player.player.full_name_reverse
 
       .subs-img-block
         = image_tag("subs.png", class: 'subs-img')
 
-      .subs-input
-        = f.select :in_mp_id, available_for_substitution(lineup.match_players.subs_bench), {}, class: 'custom-select'
+      .subs-input.subs-select
+        = f.select :in_mp_id, available_for_substitution(lineup.match_players.subs_bench.with_score, match_player.available_positions), {}, class: 'custom-select'
 
     .subs-submit.submit
       = f.submit 'Substitute', class: 'btn btn-success btn-block', data: { confirm: 'Are you sure?' }

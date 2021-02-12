@@ -55,7 +55,7 @@
                     - if current_user.active_team.next_opponent
                       .next-round-vs vs
                       .next-round-opponent-logo= image_tag(current_user.active_team.next_opponent.logo_path)
-                      .next-round-opponent-name= current_user.active_team.next_opponent.name.titleize
+                      .next-round-opponent-name= current_user.active_team.next_opponent.human_name
               - else
                 .next-round-wait= t('header.start_soon')
 
