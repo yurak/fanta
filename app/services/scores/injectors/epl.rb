@@ -4,7 +4,7 @@ module Scores
       EPL_SCORES_URL = 'http://132.145.254.115:8080/scrapper/mantra/rounds?round='.freeze
       attr_reader :tournament_round
 
-      def initialize(tournament_round: nil)
+      def initialize(tournament_round:)
         @tournament_round = tournament_round
       end
 

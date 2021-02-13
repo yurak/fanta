@@ -4,7 +4,7 @@ module TournamentRounds
 
     attr_reader :tournament_round
 
-    def initialize(tournament_round: nil)
+    def initialize(tournament_round:)
       @tournament_round = tournament_round
     end
 
