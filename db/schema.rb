@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_28_193440) do
+ActiveRecord::Schema.define(version: 2021_02_12_223237) do
 
   create_table "article_tags", force: :cascade do |t|
     t.string "name", default: "", null: false
@@ -222,6 +222,7 @@ ActiveRecord::Schema.define(version: 2021_01_28_193440) do
     t.integer "guest_score"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "source_match_id", default: "", null: false
     t.index ["tournament_round_id"], name: "index_tournament_matches_on_tournament_round_id"
   end
 

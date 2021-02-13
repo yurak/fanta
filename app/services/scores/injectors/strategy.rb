@@ -7,6 +7,7 @@ module Scores
 
       CALCIO = 'serie_a'
       EPL = 'epl'
+      BUNDES = 'bundesliga'
 
       def initialize(tour)
         @tour = tour
@@ -17,6 +18,8 @@ module Scores
           Calcio
         elsif tournament_code == EPL
           Epl
+        elsif tournament_code == BUNDES
+          Bundes
         else
           Fake
         end

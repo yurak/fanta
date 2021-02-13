@@ -8,4 +8,9 @@ namespace :tournament_matches do
   task generate_seriea_matches: :environment do
     TournamentMatches::SerieaGenerator.call
   end
+
+  desc 'Create Bundesliga TournamentMatches'
+  task generate_bundes_matches: :environment do
+    TournamentMatches::BundesGenerator.call
+  end
 end

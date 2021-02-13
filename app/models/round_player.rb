@@ -6,7 +6,7 @@ class RoundPlayer < ApplicationRecord
   has_many :lineups, through: :match_players
 
   delegate :position_names, :positions, :name, :first_name, :full_name, :full_name_reverse,
-           :club, :teams, to: :player, allow_nil: true
+           :club, :teams, :pseudo_name, to: :player, allow_nil: true
 
   scope :by_tournament_round, ->(tournament_round_id) { where(tournament_round: tournament_round_id) }
   scope :by_club, ->(club_id) { joins(:player).where('players.club_id = ?', club_id) }

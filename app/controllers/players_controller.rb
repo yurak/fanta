@@ -6,6 +6,7 @@ class PlayersController < ApplicationController
   respond_to :html
 
   def index
+    # TODO: add pagination
     @players = order_players
     @tournaments = Tournament.with_clubs
     @positions = Position.all
