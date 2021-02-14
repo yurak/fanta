@@ -1,6 +1,5 @@
 module TournamentMatches
   class FotmobGenerator < ApplicationService
-
     attr_reader :tournament
 
     def initialize(tournament:)

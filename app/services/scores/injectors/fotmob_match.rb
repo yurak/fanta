@@ -53,7 +53,6 @@ module Scores
       end
 
       def match_finished?
-
         status['started'] && status['finished']
       end
 
