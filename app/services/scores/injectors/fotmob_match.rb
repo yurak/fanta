@@ -1,11 +1,12 @@
 module Scores
   module Injectors
     class FotmobMatch < ApplicationService
-      attr_reader :match_url, :match
+      FOTMOB_MATCH_URL = 'https://www.fotmob.com/matchDetails?matchId='.freeze
 
-      def initialize(match:, match_url:)
+      attr_reader :match
+
+      def initialize(match:)
         @match = match
-        @match_url = match_url
       end
 
       def call
@@ -52,11 +53,16 @@ module Scores
       end
 
       def match_finished?
-        match_data['header']['status']['finished']
+
+        status['started'] && status['finished']
       end
 
       def result
-        match_data['header']['status']['scoreStr'].split(' - ')
+        status['scoreStr'].split(' - ')
+      end
+
+      def status
+        @status ||= match_data['header']['status']
       end
 
       def match_data
@@ -65,6 +71,10 @@ module Scores
 
       def request
         RestClient.get(match_url)
+      end
+
+      def match_url
+        "#{FOTMOB_MATCH_URL}#{match.source_match_id}"
       end
     end
   end

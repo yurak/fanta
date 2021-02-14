@@ -1,7 +1,8 @@
 namespace :tournament_matches do
   desc 'Create EPL TournamentMatches'
   task generate_epl_matches: :environment do
-    TournamentMatches::EplGenerator.call
+    tournament = Tournament.find_by(code: Scores::Injectors::Strategy::EPL)
+    TournamentMatches::FotmobGenerator.call(tournament: tournament)
   end
 
   desc 'Create Serie A TournamentMatches'
@@ -11,6 +12,7 @@ namespace :tournament_matches do
 
   desc 'Create Bundesliga TournamentMatches'
   task generate_bundes_matches: :environment do
-    TournamentMatches::BundesGenerator.call
+    tournament = Tournament.find_by(code: Scores::Injectors::Strategy::BUNDES)
+    TournamentMatches::FotmobGenerator.call(tournament: tournament)
   end
 end

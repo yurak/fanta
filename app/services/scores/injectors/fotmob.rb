@@ -1,8 +1,6 @@
 module Scores
   module Injectors
-    class Bundes < ApplicationService
-      BUNDES_SCORES_URL = 'https://www.fotmob.com/matchDetails?matchId='.freeze
-
+    class Fotmob < ApplicationService
       attr_reader :tournament_round
 
       def initialize(tournament_round:)
@@ -20,14 +18,7 @@ module Scores
       private
 
       def inject_match_scores(tournament_match)
-        Scores::Injectors::FotmobMatch.call(
-          match: tournament_match,
-          match_url: tournament_match_url(tournament_match.source_match_id)
-        )
-      end
-
-      def tournament_match_url(match_id)
-        "#{BUNDES_SCORES_URL}#{match_id}"
+        Scores::Injectors::FotmobMatch.call(match: tournament_match)
       end
     end
   end
