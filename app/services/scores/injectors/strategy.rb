@@ -17,9 +17,9 @@ module Scores
         if tournament_code == CALCIO
           Calcio
         elsif tournament_code == EPL
-          Epl
+          Fotmob
         elsif tournament_code == BUNDES
-          Bundes
+          Fotmob
         else
           Fake
         end

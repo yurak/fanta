@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_12_223237) do
+ActiveRecord::Schema.define(version: 2021_02_14_111019) do
 
   create_table "article_tags", force: :cascade do |t|
     t.string "name", default: "", null: false
@@ -243,6 +243,7 @@ ActiveRecord::Schema.define(version: 2021_02_12_223237) do
     t.string "code"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "source_calendar_url", default: "", null: false
   end
 
   create_table "tours", force: :cascade do |t|

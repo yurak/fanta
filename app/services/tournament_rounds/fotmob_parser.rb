@@ -1,11 +1,10 @@
 module TournamentRounds
-  class BundesParser < ApplicationService
-    BUNDES_DATA_URL = 'https://www.fotmob.com/leagues?id=54&tab=matches&type=league'.freeze
+  class FotmobParser < ApplicationService
+    attr_reader :tournament_round, :tournament_url
 
-    attr_reader :tournament_round
-
-    def initialize(tournament_round:)
+    def initialize(tournament_round:, tournament_url:)
       @tournament_round = tournament_round
+      @tournament_url = tournament_url
     end
 
     def call
@@ -19,7 +18,7 @@ module TournamentRounds
     end
 
     def request
-      @request ||= RestClient.get(BUNDES_DATA_URL)
+      @request ||= RestClient.get(tournament_url)
     end
   end
 end
