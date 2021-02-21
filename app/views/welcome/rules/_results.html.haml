@@ -83,3 +83,38 @@
       Переможець матчу отримує 3 очка в турнірній таблиці ліги.
       У випадку нічиєї - обидві команди отримують по 1 очку.
       Команда, що програла отримує 0 очок.
+
+    %h4 Власні правила ліг
+
+    %p
+      %p
+        .leagues-rules-list
+          .leagues-rules-headers
+            .leagues-list-header Назва ліги
+            .leagues-list-header Діапазон бонусу захисту
+            .leagues-list-header Бонус за гол
+            .leagues-list-header Малус воротарю за проп. гол
+            .leagues-list-header Малус за незабитий пенальті
+            .leagues-list-header Бонус опорнику за кліншит
+          - active_leagues.each do |league|
+            .leagues-rules-item
+              .leagues-rules-cell.leagues-rules-name= league.name
+              .leagues-rules-cell
+                = "#{league.min_avg_def_score} - #{league.max_avg_def_score}"
+              .leagues-rules-cell
+                - if league.recount_goals
+                  +2/+2.5/+3*
+                - else
+                  +3
+              .leagues-rules-cell
+                = league.missed_goals
+              .leagues-rules-cell
+                = league.failed_penalty
+              .leagues-rules-cell
+                - if league.cleansheet_m
+                  0.5
+                - else
+                  %span -
+
+      %p
+        * - +2 для позицій A/Pc, +2,5 для W/A i T/A, +3 для всіх інших позицій

@@ -19,7 +19,7 @@
         - if match_player.score.positive?
           .team-player-scores
             .team-player-cs-cell
-              - if match_player.tour.locked_or_postponed? && current_user&.can_moderate? && (Position::CLEANSHEET_ZONE & match_player.real_position_arr).present?
+              - if match_player.tour.locked_or_postponed? && current_user&.can_moderate? && (match_player.league.cleansheet_zone & match_player.real_position_arr).present?
                 .team-player-cs-toggle
                   = link_to match_player_path(match_player, cleansheet: !match_player.cleansheet), method: :put do
                     = image_tag('bonuses/cs.png')

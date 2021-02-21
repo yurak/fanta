@@ -92,12 +92,13 @@ class MatchPlayer < ApplicationRecord
   end
 
   def cleansheet_score
+    # TODO: store cleansheet in RoundPlayer, in MatchPlayer only count it value
     return 0 unless (real_position_arr & Position::CLEANSHEET_ZONE).present?
     return 0 unless (position_names & Position::CLEANSHEET_ZONE).present?
 
     return 0 if !league.custom_bonuses && (real_position_arr & Position::CLASSIC_CLEANSHEET_ZONE).present?
 
-    if league.custom_bonuses && real_position_arr.include?(Position::MEDIANO) && position_names.include?(Position::MEDIANO)
+    if league.cleansheet_m && real_position_arr.include?(Position::MEDIANO) && position_names.include?(Position::MEDIANO)
       CUSTOM_CLEANSHEET_BONUS
     else
       BASE_CLEANSHEET_BONUS

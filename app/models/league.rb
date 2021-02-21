@@ -38,4 +38,8 @@ class League < ApplicationRecord
 
     counters
   end
+
+  def cleansheet_zone
+    cleansheet_m ? Position::CLEANSHEET_ZONE : Position::CLASSIC_CLEANSHEET_ZONE
+  end
 end
