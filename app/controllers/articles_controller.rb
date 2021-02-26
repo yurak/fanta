@@ -10,6 +10,8 @@ class ArticlesController < ApplicationController
     @left, @right = @articles.partition.each_with_index { |_, i| i.even? }
   end
 
+  def show; end
+
   def new
     @article = Article.new
   end

@@ -11,8 +11,7 @@ class Player < ApplicationRecord
 
   BUCKET_URL = 'https://mantrafootball.s3-eu-west-1.amazonaws.com'.freeze
 
-  validates :name, uniqueness: { scope: :first_name }
-  validates :name, presence: true
+  validates :name, uniqueness: { scope: :first_name }, presence: true
 
   scope :by_club, ->(club_id) { where(club_id: club_id) }
   scope :by_position, ->(position) { joins(:positions).where(positions: { name: position }) }
@@ -21,7 +20,7 @@ class Player < ApplicationRecord
   scope :with_team, -> { includes(:teams).where.not(teams: { id: nil }) }
 
   # TODO: move statuses to MatchPlayer model
-  enum status: %i[ready problematic injured disqualified]
+  enum status: { ready: 0, problematic: 1, injured: 2, disqualified: 3 }
   scope :order_by_status, lambda {
     order_by = ['CASE']
     statuses.values.each_with_index do |status, index|

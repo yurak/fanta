@@ -13,7 +13,7 @@ module Slots
     private
 
     def team_modules
-      YAML.load_file(Rails.root.join('config', 'mantra', 'team_modules.yml'))
+      YAML.load_file(Rails.root.join('config/mantra/team_modules.yml'))
     end
   end
 end

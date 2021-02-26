@@ -15,6 +15,9 @@ gem 'coffee-rails', '~> 4.2'
 gem 'jbuilder', '~> 2.5'
 
 gem 'rubocop', require: false
+gem 'rubocop-rails', require: false
+gem 'rubocop-rspec', require: false
+
 gem 'devise', '4.7.1'
 gem 'devise-bootstrap-views', '~> 1.0'
 gem 'bootsnap', '>= 1.1.0', require: false
@@ -59,4 +62,5 @@ group :test do
   gem 'factory_bot_rails', '5.1.0'
   gem 'rake'
   gem 'selenium-webdriver'
+  gem 'simplecov', require: false
 end

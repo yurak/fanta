@@ -1,8 +1,22 @@
-# README
+# MANTRA FOOTBALL
 
-This is fantasy football app:
-### Plase visit
+This is fantasy football application.
 
-[fanta-app](http://fanta.yurikuzhiy.net/)
+**_Fantasy football one step closer to the real one!_**
 
-For now is deployed old season teams. New Season is coming soon
+- Create your league to play with friends
+- Fight for best players at auction
+- Choose the Module and fill it with the best players you have
+- Score goals, receive bonuses and win the League
+
+### Please visit
+
+[MantraFootball application](http://mantrafootball.org/)
+
+### Getting started
+
+```
+gem install bundler
+bundle install
+rails db:setup
+```

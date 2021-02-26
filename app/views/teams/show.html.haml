@@ -147,13 +147,6 @@
                 .team-game-param-item.team-game-link
                   = image_tag('icons/link_arrow.png')
 
--# TODO: Temporary remove player status functionality
--#    .badge{ class: status_class('badge', player.status) }
--#      = player.status
--#    - Player.statuses.each do |status, _value|
--#      - if status != player.status
--#        = link_to status, player_change_status_path(player, status: status), class: "btn btn-sm btn-primary #{status_class('btn', status)}"
-
 :javascript
   $(document).ready(function() {
     $(".team-games").hide();

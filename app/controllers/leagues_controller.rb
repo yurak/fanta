@@ -5,6 +5,8 @@ class LeaguesController < ApplicationController
 
   helper_method :leagues, :counters
 
+  def index; end
+
   private
 
   def leagues
