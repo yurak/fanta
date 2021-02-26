@@ -1,7 +1,12 @@
 inherit_from: .rubocop_todo.yml
+require:
+  - rubocop-rails
+  - rubocop-rspec
 
 AllCops:
   TargetRubyVersion: 2.5
+  NewCops: enable
+  SuggestExtensions: false
   Exclude:
     - db/schema.rb
     - config/**/*
@@ -13,7 +18,7 @@ AllCops:
 Layout/LineLength:
   Max: 140
 Metrics/BlockLength:
-  ExcludedMethods:
+  IgnoredMethods:
     - describe
     - context
     - state_machine
@@ -27,3 +32,7 @@ Style/RescueStandardError:
   Enabled: false
 Style/FrozenStringLiteralComment:
   Enabled: false
+Lint/MissingSuper:
+  Exclude:
+    - 'app/services/**/*'
+

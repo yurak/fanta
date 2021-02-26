@@ -16,7 +16,7 @@ module PlayersHelper
 
     scope.collect do |x|
       klass = 'malus'
-      if positions && real_position && !x.position_names.include?(real_position)
+      if positions && real_position && x.position_names.exclude?(real_position)
         klass += Scores::PositionMalus::Counter.call(real_position, x.position_names).to_s.tr('.', '')
       end
 

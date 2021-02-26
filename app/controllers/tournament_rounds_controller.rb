@@ -16,9 +16,9 @@ class TournamentRoundsController < ApplicationController
 
   def update_scores
     round_players = update_params['round_players']
-    round_players.keys.each do |rp_id|
+    round_players.each_key do |rp_id|
       rp = RoundPlayer.find(rp_id.to_i)
-      rp.update_attributes(round_players[rp_id].to_hash)
+      rp.update(round_players[rp_id].to_hash)
     end
     redirect_to leagues_path
   end

@@ -8,17 +8,17 @@ class MatchPlayer < ApplicationRecord
            :own_goals, :yellow_card, :red_card, :club_played_match?, to: :round_player
   delegate :position_names, :name, :first_name, :club, :teams, to: :player
 
-  enum subs_status: %i[initial get_out get_in not_in_squad]
+  enum subs_status: { initial: 0, get_out: 1, get_in: 2, not_in_squad: 3 }
 
   scope :main, -> { where.not(real_position: nil) }
   scope :with_score, -> { includes(:round_player).joins(:round_player).where('round_players.score > ?', 0) }
   scope :subs, -> { where(real_position: nil) }
   scope :subs_bench, -> { where(real_position: nil).where.not(subs_status: :not_in_squad) }
   scope :without_score, -> { joins(:round_player).where('round_players.score': 0) }
-  scope :by_tour, ->(tour_id) { joins(:lineup).where('lineups.tour_id = ?', tour_id) }
+  scope :by_tour, ->(tour_id) { joins(:lineup).where(lineups: { tour_id: tour_id }) }
   scope :reservists_by_tour, ->(tour_id) { subs.by_tour(tour_id) }
   scope :defenders, -> { where(real_position: Position::DEFENCE) }
-  scope :by_real_position, ->(position) { where('real_position LIKE ?', '%' + position + '%') }
+  scope :by_real_position, ->(position) { where('real_position LIKE ?', "%#{position}%") }
 
   GOAL_PC_DIFF = -1
   GOAL_A_DIFF = -0.5
@@ -93,8 +93,8 @@ class MatchPlayer < ApplicationRecord
 
   def cleansheet_score
     # TODO: store cleansheet in RoundPlayer, in MatchPlayer only count it value
-    return 0 unless (real_position_arr & Position::CLEANSHEET_ZONE).present?
-    return 0 unless (position_names & Position::CLEANSHEET_ZONE).present?
+    return 0 if (real_position_arr & Position::CLEANSHEET_ZONE).blank?
+    return 0 if (position_names & Position::CLEANSHEET_ZONE).blank?
 
     return 0 if !league.custom_bonuses && (real_position_arr & Position::CLASSIC_CLEANSHEET_ZONE).present?
 

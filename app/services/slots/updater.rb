@@ -17,7 +17,7 @@ module Slots
     end
 
     def file_path
-      Rails.root.join('config', 'mantra', 'slots_location.csv')
+      Rails.root.join('config/mantra/slots_location.csv')
     end
   end
 end

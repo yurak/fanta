@@ -14,14 +14,10 @@ module Scores
       end
 
       def klass
-        if tournament_code == CALCIO
-          Calcio
-        elsif tournament_code == EPL
-          Fotmob
-        elsif tournament_code == BUNDES
-          Fotmob
-        else
-          Fake
+        case tournament_code
+        when CALCIO then Calcio
+        when EPL, BUNDES then Fotmob
+        else Fake
         end
       end
 

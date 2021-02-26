@@ -8,6 +8,6 @@ class UserCreator < ApplicationService
   private
 
   def users
-    YAML.load_file(Rails.root.join('config', 'mantra', 'users.yml'))
+    YAML.load_file(Rails.root.join('config/mantra/users.yml'))
   end
 end

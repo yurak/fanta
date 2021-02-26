@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_21_103644) do
+ActiveRecord::Schema.define(version: 2021_02_26_203405) do
 
   create_table "article_tags", force: :cascade do |t|
     t.string "name", default: "", null: false
@@ -42,6 +42,8 @@ ActiveRecord::Schema.define(version: 2021_02_21_103644) do
     t.integer "status", default: 0, null: false
     t.string "full_name", default: "", null: false
     t.string "color", default: "181715", null: false
+    t.index ["code"], name: "index_clubs_on_code", unique: true
+    t.index ["name"], name: "index_clubs_on_name", unique: true
     t.index ["tournament_id"], name: "index_clubs_on_tournament_id"
   end
 
@@ -70,6 +72,7 @@ ActiveRecord::Schema.define(version: 2021_02_21_103644) do
     t.decimal "failed_penalty", default: "3.0", null: false
     t.boolean "recount_goals", default: false, null: false
     t.boolean "cleansheet_m", default: true, null: false
+    t.index ["name"], name: "index_leagues_on_name", unique: true
     t.index ["season_id"], name: "index_leagues_on_season_id"
   end
 
@@ -138,12 +141,14 @@ ActiveRecord::Schema.define(version: 2021_02_21_103644) do
     t.integer "height"
     t.integer "number"
     t.integer "tm_price"
+    t.index ["name", "first_name"], name: "index_players_on_name_and_first_name", unique: true
   end
 
   create_table "positions", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_positions_on_name", unique: true
   end
 
   create_table "results", force: :cascade do |t|
@@ -186,6 +191,8 @@ ActiveRecord::Schema.define(version: 2021_02_21_103644) do
     t.integer "end_year"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["end_year"], name: "index_seasons_on_end_year", unique: true
+    t.index ["start_year"], name: "index_seasons_on_start_year", unique: true
   end
 
   create_table "slots", force: :cascade do |t|
@@ -201,6 +208,7 @@ ActiveRecord::Schema.define(version: 2021_02_21_103644) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_team_modules_on_name", unique: true
   end
 
   create_table "teams", force: :cascade do |t|
@@ -211,7 +219,9 @@ ActiveRecord::Schema.define(version: 2021_02_21_103644) do
     t.integer "league_id"
     t.string "code", default: "", null: false
     t.string "human_name", default: "", null: false
+    t.index ["code"], name: "index_teams_on_code", unique: true
     t.index ["league_id"], name: "index_teams_on_league_id"
+    t.index ["name"], name: "index_teams_on_name", unique: true
     t.index ["user_id"], name: "index_teams_on_user_id"
   end
 
@@ -245,6 +255,7 @@ ActiveRecord::Schema.define(version: 2021_02_21_103644) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "source_calendar_url", default: "", null: false
+    t.index ["code"], name: "index_tournaments_on_code", unique: true
   end
 
   create_table "tours", force: :cascade do |t|

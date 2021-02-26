@@ -7,7 +7,7 @@ class Tour < ApplicationRecord
   has_many :matches, dependent: :destroy
   has_many :lineups, dependent: :destroy
 
-  enum status: %i[inactive set_lineup locked closed postponed]
+  enum status: { inactive: 0, set_lineup: 1, locked: 2, closed: 3, postponed: 4 }
 
   after_update :send_notifications
 

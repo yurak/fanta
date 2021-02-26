@@ -6,7 +6,7 @@ class League < ApplicationRecord
   has_many :tours, dependent: :destroy
   has_many :results, dependent: :destroy
 
-  enum status: %i[initial active archived]
+  enum status: { initial: 0, active: 1, archived: 2 }
 
   validates :name, presence: true, uniqueness: true
 
@@ -30,7 +30,7 @@ class League < ApplicationRecord
     counters['All leagues'] = leagues.count
 
     if counters['All leagues'].positive?
-      Tournament.all.each do |t|
+      Tournament.all.find_each do |t|
         counter = leagues.by_tournament(t.id).count
         counters[t.name] = counter if counter.positive?
       end

@@ -22,7 +22,7 @@ class LineupsController < ApplicationController
 
   def clone
     if previous_lineup
-      if tour.lineups.where(team_id: previous_lineup.team_id).exists?
+      if tour.lineups.exists?(team_id: previous_lineup.team_id)
         flash[:error] = 'This team already has lineup for tour'
       else
         team_lineups_cloner.call

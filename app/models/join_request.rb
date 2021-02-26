@@ -1,5 +1,5 @@
 class JoinRequest < ApplicationRecord
-  enum status: %i[initial processed archived]
+  enum status: { initial: 0, processed: 1, archived: 2 }
 
   validates :username, presence: true
   validates :contact, presence: true
