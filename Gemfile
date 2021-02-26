@@ -62,4 +62,5 @@ group :test do
   gem 'factory_bot_rails', '5.1.0'
   gem 'rake'
   gem 'selenium-webdriver'
+  gem 'simplecov', require: false
 end

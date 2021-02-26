@@ -34,3 +34,5 @@
 .env.local
 
 # Ignore master key for decrypting credentials and more.
+
+coverage/
