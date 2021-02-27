@@ -1,6 +1,7 @@
 FactoryBot.define do
   factory :team do
-    sequence(:name) { |i| "name#{i}" }
+    name { FFaker::Company.name[0...18] }
+    human_name { name }
 
     association :league
   end

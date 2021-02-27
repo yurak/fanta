@@ -1,6 +1,8 @@
 FactoryBot.define do
   factory :club do
-    sequence(:name) { |i| "name#{i}" }
-    association :tournament
+    name { FFaker::Company.name }
+    code { name[0...3].upcase }
+
+    tournament
   end
 end
