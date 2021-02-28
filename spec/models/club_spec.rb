@@ -1,5 +1,5 @@
 RSpec.describe Club, type: :model do
-  let(:club) { create(:club, name: 'FC Karpaty Lviv') }
+  subject(:club) { create(:club, name: 'FC Karpaty Lviv') }
 
   describe 'Associations' do
     it { is_expected.to belong_to(:tournament) }

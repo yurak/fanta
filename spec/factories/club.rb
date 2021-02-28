@@ -1,8 +1,8 @@
 FactoryBot.define do
   factory :club do
-    name { FFaker::Company.name }
-    code { name[0...3].upcase }
+    sequence(:name) { |i| "#{FFaker::Company.name}#{i}" }
+    sequence(:code) { |i| i < 99 ? "c#{i}" : i.to_s }
 
-    tournament
+    association :tournament
   end
 end

@@ -23,7 +23,7 @@ RSpec.describe Article, type: :model do
     end
 
     context 'with image url' do
-      let(:article) { create(:article_with_image) }
+      let(:article) { create(:article, :with_image) }
 
       it 'returns image path' do
         expect(article.image).to eq(article.image_url)
@@ -41,7 +41,7 @@ RSpec.describe Article, type: :model do
     end
 
     context 'without internal image, with image_url' do
-      let(:article) { create(:article_with_image) }
+      let(:article) { create(:article, :with_image) }
 
       it 'returns image path' do
         expect(article.internal_image).to eq(article.image_url)
@@ -49,7 +49,7 @@ RSpec.describe Article, type: :model do
     end
 
     context 'with internal image' do
-      let(:article) { create(:article_with_internal_image) }
+      let(:article) { create(:article, :with_internal_image) }
 
       it 'returns internal image path' do
         expect(article.internal_image).to eq(article.internal_image_url)
