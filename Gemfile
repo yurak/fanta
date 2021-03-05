@@ -60,7 +60,9 @@ group :test do
   gem 'chromedriver-helper'
   gem 'database_cleaner'
   gem 'factory_bot_rails', '5.1.0'
+  gem 'ffaker'
   gem 'rake'
   gem 'selenium-webdriver'
+  gem 'shoulda-matchers', require: false
   gem 'simplecov', require: false
 end

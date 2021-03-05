@@ -3,9 +3,9 @@ class Club < ApplicationRecord
 
   has_many :players, dependent: :destroy
   has_many :host_tournament_matches, foreign_key: 'host_club_id', class_name: 'TournamentMatch',
-                                     dependent: :destroy, inverse_of: :clubs
+                                     dependent: :destroy, inverse_of: :host_club
   has_many :guest_tournament_matches, foreign_key: 'guest_club_id', class_name: 'TournamentMatch',
-                                      dependent: :destroy, inverse_of: :clubs
+                                      dependent: :destroy, inverse_of: :guest_club
 
   enum status: { active: 0, archived: 1 }
 

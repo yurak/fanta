@@ -22,14 +22,18 @@ class League < ApplicationRecord
 
   def leader
     result = results.find { |r| r.position == 1 }
-    result.team
+    result&.team
+  end
+
+  def cleansheet_zone
+    cleansheet_m ? Position::CLEANSHEET_ZONE : Position::CLASSIC_CLEANSHEET_ZONE
   end
 
   def self.counters(leagues)
     counters = {}
-    counters['All leagues'] = leagues.count
+    counters['All leagues'] = leagues&.count
 
-    if counters['All leagues'].positive?
+    if counters['All leagues']&.positive?
       Tournament.all.find_each do |t|
         counter = leagues.by_tournament(t.id).count
         counters[t.name] = counter if counter.positive?
@@ -37,9 +41,5 @@ class League < ApplicationRecord
     end
 
     counters
-  end
-
-  def cleansheet_zone
-    cleansheet_m ? Position::CLEANSHEET_ZONE : Position::CLASSIC_CLEANSHEET_ZONE
   end
 end

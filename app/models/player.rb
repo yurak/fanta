@@ -21,14 +21,6 @@ class Player < ApplicationRecord
 
   # TODO: move statuses to MatchPlayer model
   enum status: { ready: 0, problematic: 1, injured: 2, disqualified: 3 }
-  scope :order_by_status, lambda {
-    order_by = ['CASE']
-    statuses.values.each_with_index do |status, index|
-      order_by << "WHEN status=#{status} THEN #{index}"
-    end
-    order_by << 'END'
-    order(order_by.join(' '))
-  }
 
   def avatar_path
     "#{BUCKET_URL}/player_avatars/#{path_name}.png"
@@ -87,11 +79,6 @@ class Player < ApplicationRecord
   def can_clean_sheet?
     (position_names & Position::CLEANSHEET_ZONE).any?
   end
-
-  # def played_matches_count
-  #   # TODO: use matches played for team
-  #   @played_matches_count ||= played_matches.size
-  # end
 
   def scores_count
     @scores_count ||= matches_with_scores.size
@@ -158,11 +145,6 @@ class Player < ApplicationRecord
   end
 
   private
-
-  # def played_matches
-  #   # TODO: use matches played for team
-  #   @played_matches ||= match_players.main.with_score
-  # end
 
   def matches_with_scores
     @matches_with_scores ||= round_players.with_score

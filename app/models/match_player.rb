@@ -25,20 +25,8 @@ class MatchPlayer < ApplicationRecord
   BASE_CLEANSHEET_BONUS = 1
   CUSTOM_CLEANSHEET_BONUS = 0.5
 
-  def team_by(league)
-    player.teams.find_by(league: league)
-  end
-
   def not_played?
     score.zero? && club_played_match?
-  end
-
-  def malus
-    0 if own_position?
-  end
-
-  def own_position?
-    position_names.include?(real_position)
   end
 
   def position_malus?
@@ -96,10 +84,8 @@ class MatchPlayer < ApplicationRecord
     return 0 if (real_position_arr & Position::CLEANSHEET_ZONE).blank?
     return 0 if (position_names & Position::CLEANSHEET_ZONE).blank?
 
-    return 0 if !league.custom_bonuses && (real_position_arr & Position::CLASSIC_CLEANSHEET_ZONE).present?
-
-    if league.cleansheet_m && real_position_arr.include?(Position::MEDIANO) && position_names.include?(Position::MEDIANO)
-      CUSTOM_CLEANSHEET_BONUS
+    if real_position_arr.include?(Position::MEDIANO) && position_names.include?(Position::MEDIANO)
+      league.cleansheet_m ? CUSTOM_CLEANSHEET_BONUS : 0
     else
       BASE_CLEANSHEET_BONUS
     end

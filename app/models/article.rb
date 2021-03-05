@@ -20,7 +20,7 @@ class Article < ApplicationRecord
   def related_articles
     articles = Article.published.where(article_tag: article_tag).order(id: :desc).reject { |art| art == self } if article_tag
 
-    articles ||= Article.published.order(id: :desc).reject { |art| art == self }
+    articles = Article.published.order(id: :desc).reject { |art| art == self } if articles.empty?
 
     articles.take(2)
   end
