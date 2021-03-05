@@ -3,7 +3,6 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.5.1'
 
-gem 'rake'
 gem 'rails', '~> 5.2.3'
 gem 'sqlite3'
 gem 'puma', '3.12.6'
@@ -48,7 +47,7 @@ group :development, :test do
 end
 
 group :development do
-  gem 'capistrano', '~> 3.10', require: false
+  gem 'capistrano', '3.14.1', require: false
   gem 'capistrano-rails', '~> 1.4', require: false
   gem 'capistrano-passenger', '~> 0.2.0'
   gem 'capistrano-rvm'
