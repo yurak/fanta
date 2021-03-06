@@ -11,6 +11,33 @@ FactoryBot.define do
       end
     end
 
+    trait :with_scores do
+      after(:create) do |player|
+        create(:round_player, player: player, tournament_round: create(:tournament_round), score: 6)
+        create(:round_player, player: player, tournament_round: create(:tournament_round), score: 6)
+        create(:round_player, player: player, tournament_round: create(:tournament_round), score: 8)
+      end
+    end
+
+    trait :with_scores_n_bonuses do
+      after(:create) do |player|
+        create(:round_player, player: player, tournament_round: create(:tournament_round), score: 6, yellow_card: true)
+        create(:round_player, player: player, tournament_round: create(:tournament_round), score: 6)
+        create(:round_player, player: player, tournament_round: create(:tournament_round), score: 8, goals: 2)
+      end
+    end
+
+    trait :with_second_season do
+      after(:create) do |player|
+        create(:season)
+
+        create(:round_player, player: player, tournament_round: create(:tournament_round), score: 5, red_card: true)
+        create(:round_player, player: player, tournament_round: create(:tournament_round), score: 8, goals: 2)
+        create(:round_player, player: player, tournament_round: create(:tournament_round), score: 6, yellow_card: true)
+        create(:round_player, player: player, tournament_round: create(:tournament_round), score: 7, goals: 1, yellow_card: true)
+      end
+    end
+
     trait :with_pos_por do
       after(:create) do |player|
         create(:player_position, player: player, position: Position.find_by(name: 'Por'))
@@ -20,6 +47,14 @@ FactoryBot.define do
     trait :with_pos_dc do
       after(:create) do |player|
         create(:player_position, player: player, position: Position.find_by(name: 'Dc'))
+      end
+    end
+
+    trait :with_pos_dd_ds_e do
+      after(:create) do |player|
+        create(:player_position, player: player, position: Position.find_by(name: 'Dd'))
+        create(:player_position, player: player, position: Position.find_by(name: 'Ds'))
+        create(:player_position, player: player, position: Position.find_by(name: 'E'))
       end
     end
 
@@ -44,6 +79,13 @@ FactoryBot.define do
     trait :with_pos_w do
       after(:create) do |player|
         create(:player_position, player: player, position: Position.find_by(name: 'W'))
+      end
+    end
+
+    trait :with_pos_w_a do
+      after(:create) do |player|
+        create(:player_position, player: player, position: Position.find_by(name: 'W'))
+        create(:player_position, player: player, position: Position.find_by(name: 'A'))
       end
     end
 

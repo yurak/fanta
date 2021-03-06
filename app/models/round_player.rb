@@ -27,7 +27,7 @@ class RoundPlayer < ApplicationRecord
   RED_CARD_MALUS = 1
 
   def result_score
-    return 0 unless score
+    return 0 unless score.positive?
 
     total = score
 

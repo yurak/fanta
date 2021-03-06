@@ -22,6 +22,8 @@ class Result < ApplicationRecord
     @form ||= closed_lineups.limit(5).map { |l| [l.result, l.match_result, l.opponent.code_name, l.tour_id] }
   end
 
+  private
+
   def closed_lineups
     lineups.closed(league.id)
   end
