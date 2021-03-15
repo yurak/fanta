@@ -11,12 +11,12 @@
         .matches-bar-item{ class: "current-match-#{match == round_match}"}
           .matches-bar-team
             .matches-bar-team-param= image_tag(round_match.host.logo_path)
-            .matches-bar-team-param.matches-bar-team-name= round_match.host.code_name
+            .matches-bar-team-param.matches-bar-team-name= round_match.host.code
             .matches-bar-team-param.matches-bar-team-score= round_match.host_lineup&.total_score || 0.0
             .matches-bar-team-param= round_match.host_lineup&.goals || 0
           .matches-bar-team
             .matches-bar-team-param= image_tag(round_match.guest.logo_path)
-            .matches-bar-team-param.matches-bar-team-name= round_match.guest.code_name
+            .matches-bar-team-param.matches-bar-team-name= round_match.guest.code
             .matches-bar-team-param.matches-bar-team-score= round_match.guest_lineup&.total_score || 0.0
             .matches-bar-team-param= round_match.guest_lineup&.goals || 0
   .match-bar

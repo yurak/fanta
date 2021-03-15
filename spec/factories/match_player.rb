@@ -51,15 +51,5 @@ FactoryBot.define do
       association :round_player, :with_pos_pc, :with_score_six
       real_position { 'A/Pc' }
     end
-
-    # trait :with_team do
-    #   after(:create) do |mp|
-    #     player = create(:player)
-    #     mp.round_player = create(:round_player, player: player, tournament_round: mp.lineup.tournament_round)
-    #
-    #     binding.pry
-    #     mp.reload
-    #   end
-    # end
   end
 end

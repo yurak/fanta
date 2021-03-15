@@ -17,6 +17,10 @@ FactoryBot.define do
       status { :closed }
     end
 
+    factory :postponed_tour do
+      status { :postponed }
+    end
+
     trait :serie_a do
       association :league, :serie_a
     end

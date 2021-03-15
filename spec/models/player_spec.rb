@@ -1,6 +1,9 @@
 RSpec.describe Player, type: :model do
   subject(:player) { create(:player) }
 
+  let(:player_with_name) { create(:player, first_name: nil, name: 'Dida') }
+  let(:player_with_full_name) { create(:player, first_name: 'Pippo', name: 'Inzaghi') }
+
   describe 'Associations' do
     it { is_expected.to belong_to(:club) }
     it { is_expected.to have_many(:player_positions).dependent(:destroy) }
@@ -19,44 +22,34 @@ RSpec.describe Player, type: :model do
 
   describe '#avatar_path' do
     context 'without first name' do
-      let(:player) { create(:player, first_name: nil, name: 'Dida') }
-
       it 'returns avatar path' do
-        expect(player.avatar_path).to eq("#{Player::BUCKET_URL}/player_avatars/dida.png")
+        expect(player_with_name.avatar_path).to eq("#{Player::BUCKET_URL}/player_avatars/dida.png")
       end
     end
 
     context 'with first name' do
-      let(:player) { create(:player, first_name: 'Pippo', name: 'Inzaghi') }
-
       it 'returns avatar path' do
-        expect(player.avatar_path).to eq("#{Player::BUCKET_URL}/player_avatars/pippo_inzaghi.png")
+        expect(player_with_full_name.avatar_path).to eq("#{Player::BUCKET_URL}/player_avatars/pippo_inzaghi.png")
       end
     end
   end
 
   describe '#profile_avatar_path' do
     context 'without first name' do
-      let(:player) { create(:player, first_name: nil, name: 'Dida') }
-
       it 'returns profile avatar path' do
-        expect(player.profile_avatar_path).to eq("#{Player::BUCKET_URL}/players/dida.png")
+        expect(player_with_name.profile_avatar_path).to eq("#{Player::BUCKET_URL}/players/dida.png")
       end
     end
 
     context 'with first name' do
-      let(:player) { create(:player, first_name: 'Pippo', name: 'Inzaghi') }
-
       it 'returns profile avatar path' do
-        expect(player.profile_avatar_path).to eq("#{Player::BUCKET_URL}/players/pippo_inzaghi.png")
+        expect(player_with_full_name.profile_avatar_path).to eq("#{Player::BUCKET_URL}/players/pippo_inzaghi.png")
       end
     end
   end
 
   describe '#country' do
     context 'without nationality' do
-      let(:player) { create(:player) }
-
       it 'returns nil' do
         expect(player.country).to eq(nil)
       end
@@ -105,46 +98,36 @@ RSpec.describe Player, type: :model do
 
   describe '#full_name' do
     context 'without first name' do
-      let(:player) { create(:player, first_name: nil, name: 'Dida') }
-
       it 'returns name' do
-        expect(player.full_name).to eq('Dida')
+        expect(player_with_name.full_name).to eq('Dida')
       end
     end
 
     context 'with first name' do
-      let(:player) { create(:player, first_name: 'Pippo', name: 'Inzaghi') }
-
       it 'returns full name' do
-        expect(player.full_name).to eq('Pippo Inzaghi')
+        expect(player_with_full_name.full_name).to eq('Pippo Inzaghi')
       end
     end
   end
 
   describe '#full_name_reverse' do
     context 'without first name' do
-      let(:player) { create(:player, first_name: nil, name: 'Dida') }
-
       it 'returns name' do
-        expect(player.full_name_reverse).to eq('Dida')
+        expect(player_with_name.full_name_reverse).to eq('Dida')
       end
     end
 
     context 'with first name' do
-      let(:player) { create(:player, first_name: 'Pippo', name: 'Inzaghi') }
-
       it 'returns full name' do
-        expect(player.full_name_reverse).to eq('Inzaghi Pippo')
+        expect(player_with_full_name.full_name_reverse).to eq('Inzaghi Pippo')
       end
     end
   end
 
   describe '#pseudo_name' do
     context 'without pseudonym' do
-      let(:player) { create(:player, first_name: 'Pippo', name: 'Inzaghi') }
-
       it 'returns full name' do
-        expect(player.pseudo_name).to eq('Pippo Inzaghi')
+        expect(player_with_full_name.pseudo_name).to eq('Pippo Inzaghi')
       end
     end
 
@@ -159,18 +142,14 @@ RSpec.describe Player, type: :model do
 
   describe '#path_name' do
     context 'without first name' do
-      let(:player) { create(:player, first_name: nil, name: 'Dida') }
-
       it 'returns name' do
-        expect(player.path_name).to eq('dida')
+        expect(player_with_name.path_name).to eq('dida')
       end
     end
 
     context 'with first name' do
-      let(:player) { create(:player, first_name: 'Pippo', name: 'Inzaghi') }
-
       it 'returns path name' do
-        expect(player.path_name).to eq('pippo_inzaghi')
+        expect(player_with_full_name.path_name).to eq('pippo_inzaghi')
       end
     end
 
@@ -182,7 +161,7 @@ RSpec.describe Player, type: :model do
       end
     end
 
-    context 'when name contains apostropht' do
+    context 'when name contains apostrophe' do
       let(:player) { create(:player, first_name: 'Luigi', name: "Dell'Orco") }
 
       it 'returns path name' do
@@ -207,5 +186,193 @@ RSpec.describe Player, type: :model do
     end
   end
 
-  #  TODO: positions_names_string...
+  describe '#position_names' do
+    let(:player) { create(:player, :with_pos_w_a) }
+
+    it 'returns array with position names' do
+      expect(player.position_names).to eq(%w[W A])
+    end
+  end
+
+  describe '#position_sequence_number' do
+    context 'when player has one position' do
+      let(:player) { create(:player, :with_pos_a) }
+
+      it 'returns position id' do
+        expect(player.position_sequence_number).to eq(Position.find_by(name: 'A').id)
+      end
+    end
+
+    context 'when player has multiple positions' do
+      let(:player) { create(:player, :with_pos_w_a) }
+
+      it 'returns first position id' do
+        expect(player.position_sequence_number).to eq(Position.find_by(name: 'W').id)
+      end
+    end
+  end
+
+  describe '#chart_info' do
+    context 'when player has no matches with score' do
+      it 'returns arrays without data' do
+        expect(player.chart_info).to eq([{ data: {}, name: 'Total score' }, { data: {}, name: 'Base score' }])
+      end
+    end
+
+    context 'when player has matches with score' do
+      let(:player) { create(:player, :with_scores_n_bonuses) }
+
+      it 'returns arrays with total data' do
+        expect(player.chart_info.first[:data].values).to eq(['5.5', '6.0', '14.0'])
+      end
+
+      it 'returns arrays with base data' do
+        expect(player.chart_info.last[:data].values).to eq(['6.0', '6.0', '8.0'])
+      end
+    end
+  end
+
+  describe '#season_scores_count' do
+    context 'when player has no matches with score' do
+      it 'returns zero' do
+        expect(player.season_scores_count).to eq(0)
+      end
+    end
+
+    context 'when player has matches with score' do
+      let(:player) { create(:player, :with_scores) }
+
+      it 'returns count of matches with score' do
+        expect(player.season_scores_count).to eq(3)
+      end
+    end
+
+    context 'when player has matches with score and bonuses' do
+      let(:player) { create(:player, :with_scores_n_bonuses) }
+
+      it 'returns count of matches with score' do
+        expect(player.season_scores_count).to eq(3)
+      end
+    end
+  end
+
+  describe '#season_average_score' do
+    context 'when player has no matches with score' do
+      it 'returns zero' do
+        expect(player.season_average_score).to eq(0)
+      end
+    end
+
+    context 'when player has matches with score' do
+      let(:player) { create(:player, :with_scores) }
+
+      it 'returns average score' do
+        expect(player.season_average_score).to eq(6.67)
+      end
+    end
+
+    context 'when player has matches with score and bonuses' do
+      let(:player) { create(:player, :with_scores_n_bonuses) }
+
+      it 'returns average score without bonuses' do
+        expect(player.season_average_score).to eq(6.67)
+      end
+    end
+  end
+
+  describe '#season_average_result_score' do
+    context 'when player has no matches with score' do
+      it 'returns zero' do
+        expect(player.season_average_result_score).to eq(0)
+      end
+    end
+
+    context 'when player has matches with score' do
+      let(:player) { create(:player, :with_scores) }
+
+      it 'returns average result score' do
+        expect(player.season_average_result_score).to eq(6.67)
+      end
+    end
+
+    context 'when player has matches with score and bonuses' do
+      let(:player) { create(:player, :with_scores_n_bonuses) }
+
+      it 'returns average result score with bonuses' do
+        expect(player.season_average_result_score).to eq(8.5)
+      end
+    end
+  end
+
+  describe '#season_matches_with_scores' do
+    context 'when player has no matches in season' do
+      it 'returns empty array' do
+        expect(player.season_matches_with_scores).to eq([])
+      end
+    end
+
+    context 'when player has matches in one season' do
+      let(:player) { create(:player, :with_scores) }
+
+      it 'returns array with round_players' do
+        expect(player.season_matches_with_scores).to eq(player.round_players)
+      end
+    end
+
+    context 'when player has matches in multiple seasons' do
+      let(:player) { create(:player, :with_scores, :with_second_season) }
+
+      it 'returns array with not all round_players' do
+        expect(player.season_matches_with_scores).not_to eq(player.round_players)
+      end
+    end
+  end
+
+  describe '#season_bonus_count(bonus)' do
+    context 'when player has no matches in season' do
+      it 'returns zero' do
+        expect(player.season_bonus_count('goals')).to eq(0)
+      end
+    end
+
+    context 'when player has matches in one season' do
+      let(:player) { create(:player, :with_scores_n_bonuses) }
+
+      it 'returns season bonus count' do
+        expect(player.season_bonus_count('goals')).to eq(2)
+      end
+    end
+
+    context 'when player has matches in multiple seasons' do
+      let(:player) { create(:player, :with_scores_n_bonuses, :with_second_season) }
+
+      it 'returns last season bonus count' do
+        expect(player.season_bonus_count('goals')).to eq(3)
+      end
+    end
+  end
+
+  describe '#season_cards_count(card)' do
+    context 'when player has no matches in season' do
+      it 'returns zero' do
+        expect(player.season_cards_count('yellow_card')).to eq(0)
+      end
+    end
+
+    context 'when player has matches in one season' do
+      let(:player) { create(:player, :with_scores_n_bonuses) }
+
+      it 'returns season cards count' do
+        expect(player.season_cards_count('yellow_card')).to eq(1)
+      end
+    end
+
+    context 'when player has matches in multiple seasons' do
+      let(:player) { create(:player, :with_scores_n_bonuses, :with_second_season) }
+
+      it 'returns last season cards count' do
+        expect(player.season_cards_count('yellow_card')).to eq(2)
+      end
+    end
+  end
 end

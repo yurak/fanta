@@ -3,6 +3,6 @@ FactoryBot.define do
     sequence(:number) { |i| i }
 
     tournament { Tournament.first || association(:tournament) }
-    season { Season.first || association(:season) }
+    season { Season.last || association(:season) }
   end
 end

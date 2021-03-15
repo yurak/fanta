@@ -41,7 +41,10 @@ gem 'rails_admin', '~> 2.0'
 gem 'countries'
 gem 'flag-icons-rails'
 
+gem 'coveralls_reborn', '~> 0.20.0', require: false
+
 group :development, :test do
+  gem 'capybara'
   gem 'pry-rails'
   gem 'rspec-rails', '~> 3.8'
 end
@@ -56,8 +59,6 @@ group :development do
 end
 
 group :test do
-  gem 'capybara', '>= 2.15'
-  gem 'chromedriver-helper'
   gem 'database_cleaner'
   gem 'factory_bot_rails', '5.1.0'
   gem 'ffaker'
@@ -65,4 +66,5 @@ group :test do
   gem 'selenium-webdriver'
   gem 'shoulda-matchers', require: false
   gem 'simplecov', require: false
+  gem 'webdrivers'
 end

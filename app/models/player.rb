@@ -64,10 +64,6 @@ class Player < ApplicationRecord
     "kits/#{club.path_name}.png"
   end
 
-  def positions_names_string
-    position_names.join(' ')
-  end
-
   def position_names
     @position_names ||= positions.map(&:name)
   end
@@ -76,45 +72,17 @@ class Player < ApplicationRecord
     positions.first.id
   end
 
-  def can_clean_sheet?
-    (position_names & Position::CLEANSHEET_ZONE).any?
-  end
-
-  def scores_count
-    @scores_count ||= matches_with_scores.size
-  end
-
-  def average_score
-    return 0 if scores_count.zero?
-
-    @average_score ||= (matches_with_scores.map(&:score).sum / scores_count).round(2)
-  end
-
-  def average_result_score
-    return 0 if scores_count.zero?
-
-    @average_result_score ||= (matches_with_scores.map(&:result_score).sum / scores_count).round(2)
-  end
+  # Current season statistic
 
   def chart_info
     bs = {}
     ts = {}
     season_matches_with_scores.each do |rp|
-      bs[rp.tournament_round.number] = rp.score
-      ts[rp.tournament_round.number] = rp.result_score
+      bs[rp.tournament_round.number] = rp.score.to_s
+      ts[rp.tournament_round.number] = rp.result_score.to_s
     end
     [{ name: 'Total score', data: ts }, { name: 'Base score', data: bs }]
   end
-
-  def best_score
-    matches_with_scores.map(&:result_score).max || 0
-  end
-
-  def worst_score
-    matches_with_scores.map(&:result_score).min || 0
-  end
-
-  # Current season statistic
 
   def season_scores_count
     @season_scores_count ||= season_matches_with_scores.size
@@ -142,11 +110,5 @@ class Player < ApplicationRecord
 
   def season_cards_count(card)
     season_matches_with_scores.where(card => true).count
-  end
-
-  private
-
-  def matches_with_scores
-    @matches_with_scores ||= round_players.with_score
   end
 end

@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :tournament do
-    sequence(:name) { |i| "name#{i}" }
-    sequence(:code) { |i| "code#{i}" }
+    sequence(:name) { FFaker::Company.name }
+    sequence(:code) { FFaker::Internet.slug }
   end
 end
