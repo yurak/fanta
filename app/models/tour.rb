@@ -8,7 +8,6 @@ class Tour < ApplicationRecord
   enum status: { inactive: 0, set_lineup: 1, locked: 2, closed: 3, postponed: 4 }
 
   scope :closed_postponed, -> { closed.or(postponed) }
-
   scope :active, -> { set_lineup.or(locked) }
 
   def locked_or_postponed?
@@ -16,26 +15,14 @@ class Tour < ApplicationRecord
   end
 
   def deadlined?
-    locked? || postponed? || closed?
+    locked_or_postponed? || closed?
   end
 
   def unlocked?
     inactive? || set_lineup?
   end
 
-  def next_number
-    number + 1
-  end
-
-  def real_number
-    number + league.tour_difference
-  end
-
   def match_players
     MatchPlayer.by_tour(id)
-  end
-
-  def round_players
-    RoundPlayer.by_tour(id)
   end
 end

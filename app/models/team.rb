@@ -12,13 +12,9 @@ class Team < ApplicationRecord
 
   has_many :results, dependent: :destroy
 
-  validates :name, uniqueness: true, length: { in: 2..18 }
-  validates :code, uniqueness: true, length: { in: 2..3 }, allow_blank: true
+  validates :name, presence: true, uniqueness: true, length: { in: 2..18 }
+  validates :code, presence: true, uniqueness: true, length: { in: 2..3 }
   validates :human_name, length: { in: 2..18 }
-
-  def matches
-    @matches ||= Match.where('host_id = ? OR guest_id = ?', id, id)
-  end
 
   def league_matches
     @league_matches ||= matches.by_league(league.id)
@@ -32,18 +28,8 @@ class Team < ApplicationRecord
     end
   end
 
-  def code_name
-    (code || human_name[0..2]).upcase
-  end
-
   def next_round
     league.active_tour || league.tours.inactive.first
-  end
-
-  def next_match
-    return unless next_round
-
-    @next_match ||= Match.by_team_and_tour(id, next_round.id).first
   end
 
   def opponent_by_match(match)
@@ -57,8 +43,22 @@ class Team < ApplicationRecord
   end
 
   def players_not_in(lineup)
+    return unless lineup
+
     lineup_players_ids = lineup.round_players.map { |rp| rp.player.id }
     not_played_ids = players.where.not(id: lineup_players_ids).ids
     RoundPlayer.by_tournament_round(lineup.tournament_round.id).where(player_id: not_played_ids)
+  end
+
+  private
+
+  def next_match
+    return unless next_round
+
+    @next_match ||= Match.by_team_and_tour(id, next_round.id).first
+  end
+
+  def matches
+    @matches ||= Match.where('host_id = ? OR guest_id = ?', id, id)
   end
 end

@@ -41,6 +41,8 @@ gem 'rails_admin', '~> 2.0'
 gem 'countries'
 gem 'flag-icons-rails'
 
+gem 'coveralls', require: false
+
 group :development, :test do
   gem 'capybara'
   gem 'pry-rails'

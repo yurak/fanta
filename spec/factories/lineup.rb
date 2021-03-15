@@ -26,21 +26,21 @@ FactoryBot.define do
 
     trait :with_match_players do
       after(:create) do |lineup|
-        player_por = create(:round_player, :with_pos_por)
+        player_por = create(:round_player, :with_pos_por, tournament_round: lineup.tournament_round)
         create(:match_player, lineup: lineup, round_player: player_por,
                               real_position: player_por.positions.first.name)
 
         4.times do
-          player_dc = create(:round_player, :with_pos_dc)
+          player_dc = create(:round_player, :with_pos_dc, tournament_round: lineup.tournament_round)
           create(:match_player, lineup: lineup, round_player: player_dc,
                                 real_position: player_dc.positions.first.name)
         end
 
         3.times do
-          player_c = create(:round_player, :with_pos_c)
+          player_c = create(:round_player, :with_pos_c, tournament_round: lineup.tournament_round)
           create(:match_player, lineup: lineup, round_player: player_c,
                                 real_position: player_c.positions.first.name)
-          player_a = create(:round_player, :with_pos_a)
+          player_a = create(:round_player, :with_pos_a, tournament_round: lineup.tournament_round)
           create(:match_player, lineup: lineup, round_player: player_a,
                                 real_position: player_a.positions.first.name)
         end
