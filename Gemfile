@@ -41,7 +41,7 @@ gem 'rails_admin', '~> 2.0'
 gem 'countries'
 gem 'flag-icons-rails'
 
-gem 'coveralls', require: false
+gem 'coveralls_reborn', '~> 0.20.0', require: false
 
 group :development, :test do
   gem 'capybara'
