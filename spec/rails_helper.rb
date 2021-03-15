@@ -4,18 +4,18 @@ require 'simplecov'
 require 'coveralls'
 Coveralls.wear!('rails')
 
-SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new(
-  [
-    SimpleCov::Formatter::HTMLFormatter,
-    Coveralls::SimpleCov::Formatter
-  ]
-)
-
-SimpleCov.start 'rails' do
-  add_filter 'app/jobs/'
-  add_filter 'app/channels/'
-  add_filter 'app/mailers/'
-end
+# SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new(
+#   [
+#     SimpleCov::Formatter::HTMLFormatter,
+#     Coveralls::SimpleCov::Formatter
+#   ]
+# )
+#
+# SimpleCov.start 'rails' do
+#   add_filter 'app/jobs/'
+#   add_filter 'app/channels/'
+#   add_filter 'app/mailers/'
+# end
 
 require File.expand_path('../config/environment', __dir__)
 abort('The Rails environment is running in production mode!') if Rails.env.production?
