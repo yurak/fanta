@@ -31,9 +31,7 @@ class User < ApplicationRecord
   end
 
   def next_tour
-    return unless active_league
-
-    active_league.active_tour
+    active_league&.active_tour
   end
 
   def avatar_path
