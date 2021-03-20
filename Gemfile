@@ -62,6 +62,7 @@ group :test do
   gem 'database_cleaner'
   gem 'factory_bot_rails', '5.1.0'
   gem 'ffaker'
+  gem 'rails-controller-testing'
   gem 'rake'
   gem 'selenium-webdriver'
   gem 'shoulda-matchers', require: false

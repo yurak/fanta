@@ -8,7 +8,7 @@
         = link_to 'УКР', '?locale=ua' if I18n.locale == :en
         = link_to 'ENG', '?locale=en' if I18n.locale == :ua
     .base-links.info-links
-      - if user_signed_in?
+      - if user_signed_in? && current_user.active_team
         .info-links-item.base-link-item
           = link_to t('header.teams'), team_path(current_user.active_team)
         .info-links-item.base-link-item
@@ -17,7 +17,6 @@
           .info-links-item.base-link-item
             = link_to t('header.round'), tour_path(current_user.active_league.active_tour_or_last)
       - else
-        -#- if external_actions?
         .info-links-item
           = link_to t('header.about'), about_path
         .info-links-item
@@ -61,9 +60,10 @@
 
             .user-data
               #modal-btn
-                .profile-logo
-                  = image_tag(current_user.active_team.logo_path)
-                = image_tag(current_user.active_league.tournament.logo_path, alt: 'Tournament', class: 'tournament-logo')
+                - if current_user.active_team
+                  .profile-logo
+                    = image_tag(current_user.active_team.logo_path)
+                  = image_tag(current_user.active_league.tournament.logo_path, alt: 'Tournament', class: 'tournament-logo')
                 #my-modal.modal
                   .modal-content
                     %span.close
@@ -78,28 +78,29 @@
                       .modal-settings
                         = link_to user_path(current_user) do
                           = image_tag('icons/settings.png')
-                    .modal-teams
-                      .modal-teams-title
-                        .modal-teams-title-item= t('header.my_teams')
-                        .modal-teams-title-item= t('header.league')
-                      - current_user.teams.each do |team|
-                        - if current_user.active_team == team
-                          .modal-teams-item.active-team
-                            .modal-team
-                              .modal-team-logo= image_tag(team.logo_path)
-                              .modal-team-name= team.human_name
-                            .modal-league
-                              .modal-league-logo= image_tag(team.league.tournament.logo_path)
-                              .modal-league-name= team.league.name
-                        - else
-                          = link_to user_path(current_user, active_team_id: team.id), method: :put do
-                            .modal-teams-item
+                    - if current_user.active_team
+                      .modal-teams
+                        .modal-teams-title
+                          .modal-teams-title-item= t('header.my_teams')
+                          .modal-teams-title-item= t('header.league')
+                        - current_user.teams.each do |team|
+                          - if current_user.active_team == team
+                            .modal-teams-item.active-team
                               .modal-team
                                 .modal-team-logo= image_tag(team.logo_path)
                                 .modal-team-name= team.human_name
                               .modal-league
                                 .modal-league-logo= image_tag(team.league.tournament.logo_path)
                                 .modal-league-name= team.league.name
+                          - else
+                            = link_to user_path(current_user, active_team_id: team.id), method: :put do
+                              .modal-teams-item
+                                .modal-team
+                                  .modal-team-logo= image_tag(team.logo_path)
+                                  .modal-team-name= team.human_name
+                                .modal-league
+                                  .modal-league-logo= image_tag(team.league.tournament.logo_path)
+                                  .modal-league-name= team.league.name
                     .modal-links
                       .modal-link= link_to t('header.guide'), guide_path
                       .modal-link= link_to t('header.rules'), rules_path
@@ -123,10 +124,11 @@
           %span
           %ul#menu
             - if user_signed_in?
-              .burger-link= link_to t('header.teams'), team_path(current_user.active_team)
-              .burger-link= link_to t('header.table'), league_results_path(current_user.active_league)
-              - if current_user.active_league.active_tour_or_last
-                .burger-link= link_to t('header.round'), tour_path(current_user.active_league.active_tour_or_last)
+              - if current_user.active_team
+                .burger-link= link_to t('header.teams'), team_path(current_user.active_team)
+                .burger-link= link_to t('header.table'), league_results_path(current_user.active_league)
+                - if current_user.active_league.active_tour_or_last
+                  .burger-link= link_to t('header.round'), tour_path(current_user.active_league.active_tour_or_last)
               .burger-link= link_to t('header.leagues'), leagues_path
               .burger-link= link_to t('header.players'), players_path
               .burger-link= link_to t('header.news'), articles_path

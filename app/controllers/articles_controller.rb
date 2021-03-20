@@ -1,5 +1,6 @@
 class ArticlesController < ApplicationController
   skip_before_action :authenticate_user!, only: %i[index show]
+  before_action :check_access, except: %i[index show]
 
   helper_method :article, :article_tags
 
@@ -54,5 +55,9 @@ class ArticlesController < ApplicationController
 
   def article_params
     params.require(:article).permit(:title, :summary, :image_url, :description, :internal_image_url, :article_tag_id)
+  end
+
+  def check_access
+    redirect_to articles_url if cannot? :create, Article
   end
 end
