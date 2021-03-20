@@ -23,6 +23,7 @@ require 'spec_helper'
 require 'rspec/rails'
 require 'shoulda/matchers'
 require 'devise'
+require_relative 'support/auth_helper'
 
 Shoulda::Matchers.configure do |config|
   config.integrate do |with|
@@ -42,4 +43,5 @@ RSpec.configure do |config|
 
   config.include Devise::Test::ControllerHelpers, type: :controller
   config.include Devise::Test::IntegrationHelpers, type: :request
+  config.extend AuthHelper, type: :request
 end

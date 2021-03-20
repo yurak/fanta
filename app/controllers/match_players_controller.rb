@@ -4,7 +4,7 @@ class MatchPlayersController < ApplicationController
   helper_method :match_player
 
   def update
-    match_player.update(mp_params)
+    match_player.update(mp_params) if can? :update, MatchPlayer
 
     redirect_to match_path(match_player.lineup.match)
   end

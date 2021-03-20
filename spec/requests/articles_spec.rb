@@ -1,5 +1,3 @@
-include AuthHelper
-
 RSpec.describe 'Articles', type: :request do
   describe 'GET #index' do
     before do

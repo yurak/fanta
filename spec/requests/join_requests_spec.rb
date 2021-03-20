@@ -1,4 +1,4 @@
-RSpec.describe 'JoinRequest', type: :request do
+RSpec.describe 'JoinRequests', type: :request do
   describe 'GET #new' do
     before do
       get new_join_request_path
