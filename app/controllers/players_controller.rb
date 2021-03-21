@@ -20,14 +20,6 @@ class PlayersController < ApplicationController
     end
   end
 
-  # TODO: rename to #update
-  def change_status
-    status = params[:status]
-
-    player.send("#{status}!")
-    redirect_to team_path(team)
-  end
-
   private
 
   def identifier

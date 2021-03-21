@@ -25,9 +25,7 @@ Rails.application.routes.draw do
 
   resources :match_players, only: [:update]
 
-  resources :players, only: [:index, :show] do
-    get :change_status
-  end
+  resources :players, only: [:index, :show]
 
   resources :tours, only: [:show, :edit, :update] do
     get :change_status
@@ -53,11 +51,5 @@ Rails.application.routes.draw do
 
   resources :users, only: [:show, :edit, :update] do
     get :edit_avatar
-  end
-
-  namespace :api do
-    get :table, to: 'results#index'
-    get :fixtures, to: 'matches#fixtures'
-    get :results, to: 'matches#results'
   end
 end
