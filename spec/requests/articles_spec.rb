@@ -34,7 +34,6 @@ RSpec.describe 'Articles', type: :request do
     end
 
     context 'when user is logged out' do
-      it { expect(response).not_to be_successful }
       it { expect(response).to redirect_to('/users/sign_in') }
       it { expect(response).to have_http_status(:found) }
     end
@@ -46,7 +45,6 @@ RSpec.describe 'Articles', type: :request do
         get new_article_path
       end
 
-      it { expect(response).not_to be_successful }
       it { expect(response).to redirect_to(articles_path) }
       it { expect(response).to have_http_status(:found) }
     end
@@ -58,7 +56,6 @@ RSpec.describe 'Articles', type: :request do
         get new_article_path
       end
 
-      it { expect(response).not_to be_successful }
       it { expect(response).to redirect_to(articles_path) }
       it { expect(response).to have_http_status(:found) }
     end
@@ -87,7 +84,6 @@ RSpec.describe 'Articles', type: :request do
     end
 
     context 'when user is logged out' do
-      it { expect(response).not_to be_successful }
       it { expect(response).to redirect_to('/users/sign_in') }
       it { expect(response).to have_http_status(:found) }
     end
@@ -99,7 +95,6 @@ RSpec.describe 'Articles', type: :request do
         get edit_article_path(article)
       end
 
-      it { expect(response).not_to be_successful }
       it { expect(response).to redirect_to(articles_path) }
       it { expect(response).to have_http_status(:found) }
     end
@@ -111,7 +106,6 @@ RSpec.describe 'Articles', type: :request do
         get edit_article_path(article)
       end
 
-      it { expect(response).not_to be_successful }
       it { expect(response).to redirect_to(articles_path) }
       it { expect(response).to have_http_status(:found) }
     end
@@ -148,7 +142,6 @@ RSpec.describe 'Articles', type: :request do
     end
 
     context 'when user is logged out' do
-      it { expect(response).not_to be_successful }
       it { expect(response).to redirect_to('/users/sign_in') }
       it { expect(response).to have_http_status(:found) }
     end
@@ -159,7 +152,6 @@ RSpec.describe 'Articles', type: :request do
         post articles_path(params)
       end
 
-      it { expect(response).not_to be_successful }
       it { expect(response).to redirect_to(articles_path) }
       it { expect(response).to have_http_status(:found) }
     end
@@ -170,7 +162,6 @@ RSpec.describe 'Articles', type: :request do
         post articles_path(params)
       end
 
-      it { expect(response).not_to be_successful }
       it { expect(response).to redirect_to(articles_path) }
       it { expect(response).to have_http_status(:found) }
     end
@@ -226,7 +217,6 @@ RSpec.describe 'Articles', type: :request do
     end
 
     context 'when user is logged out' do
-      it { expect(response).not_to be_successful }
       it { expect(response).to redirect_to('/users/sign_in') }
       it { expect(response).to have_http_status(:found) }
     end
@@ -237,7 +227,6 @@ RSpec.describe 'Articles', type: :request do
         patch article_path(article, params)
       end
 
-      it { expect(response).not_to be_successful }
       it { expect(response).to redirect_to(articles_path) }
       it { expect(response).to have_http_status(:found) }
     end
@@ -248,7 +237,6 @@ RSpec.describe 'Articles', type: :request do
         patch article_path(article, params)
       end
 
-      it { expect(response).not_to be_successful }
       it { expect(response).to redirect_to(articles_path) }
       it { expect(response).to have_http_status(:found) }
     end
@@ -297,7 +285,6 @@ RSpec.describe 'Articles', type: :request do
     end
 
     context 'when user is logged out' do
-      it { expect(response).not_to be_successful }
       it { expect(response).to redirect_to('/users/sign_in') }
       it { expect(response).to have_http_status(:found) }
     end
@@ -308,7 +295,6 @@ RSpec.describe 'Articles', type: :request do
         delete article_path(article)
       end
 
-      it { expect(response).not_to be_successful }
       it { expect(response).to redirect_to(articles_path) }
       it { expect(response).to have_http_status(:found) }
     end
@@ -319,7 +305,6 @@ RSpec.describe 'Articles', type: :request do
         delete article_path(article)
       end
 
-      it { expect(response).not_to be_successful }
       it { expect(response).to redirect_to(articles_path) }
       it { expect(response).to have_http_status(:found) }
     end

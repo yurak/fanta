@@ -41,13 +41,13 @@
                   = image_tag('icons/arrow_blue.png')
       .round-actions
         - if current_user&.admin?
-          = link_to t('tours.start_round'), tour_change_status_path(tour, status: :set_lineup), data: { confirm: t('tours.are_you_sure') } if tour.inactive?
-          = link_to t('tours.lock_round'), tour_change_status_path(tour, status: :locked), data: { confirm: t('tours.are_you_sure') } if tour.set_lineup?
-          = link_to t('tours.close_round'), tour_change_status_path(tour, status: :closed), data: { confirm: t('tours.are_you_sure') } if tour.locked_or_postponed?
-          = link_to t('tours.postpone_round'), tour_change_status_path(tour, status: :postponed), data: { confirm: t('tours.are_you_sure') } if tour.locked?
+          = link_to t('tours.start_round'), change_status_tour_path(tour, status: :set_lineup), data: { confirm: t('tours.are_you_sure') } if tour.inactive?
+          = link_to t('tours.lock_round'), change_status_tour_path(tour, status: :locked), data: { confirm: t('tours.are_you_sure') } if tour.set_lineup?
+          = link_to t('tours.close_round'), change_status_tour_path(tour, status: :closed), data: { confirm: t('tours.are_you_sure') } if tour.locked_or_postponed?
+          = link_to t('tours.postpone_round'), change_status_tour_path(tour, status: :postponed), data: { confirm: t('tours.are_you_sure') } if tour.locked?
         -  if current_user&.can_moderate? && tour.deadlined?
-          = link_to t('tours.edit_scores'), tournament_round_edit_scores_path(tour.tournament_round)
-          = link_to t('tours.inject_scores'), tour_inject_scores_path(tour), data: { confirm: t('tours.are_you_sure') }
+          = link_to t('tours.edit_scores'), edit_tournament_round_path(tour.tournament_round)
+          = link_to t('tours.inject_scores'), inject_scores_tour_path(tour), data: { confirm: t('tours.are_you_sure') }
       .round-matches
         - if tour.unlocked?
           - tour.matches.each do |match|
@@ -252,7 +252,7 @@
             .round-tournament-match-cell.round-tournament-match-club
               .round-tournament-club-name
                 -  if current_user&.can_moderate? && tour.deadlined?
-                  = link_to tournament_round_edit_scores_path(tour.tournament_round, club_id: t_match.host_club.id) do
+                  = link_to edit_tournament_round_path(tour.tournament_round, club_id: t_match.host_club.id) do
                     = t_match.host_club.code
                 - else
                   = t_match.host_club.code
@@ -270,7 +270,7 @@
                 = image_tag(image_path(t_match.guest_club.logo_path))
               .round-tournament-club-name
                 -  if current_user&.can_moderate? && tour.deadlined?
-                  = link_to tournament_round_edit_scores_path(tour.tournament_round, club_id: t_match.guest_club.id) do
+                  = link_to edit_tournament_round_path(tour.tournament_round, club_id: t_match.guest_club.id) do
                     = t_match.guest_club.code
                 - else
                   = t_match.guest_club.code

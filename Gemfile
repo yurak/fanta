@@ -43,6 +43,8 @@ gem 'flag-icons-rails'
 
 gem 'coveralls_reborn', '~> 0.20.0', require: false
 
+gem 'kaminari'
+
 group :development, :test do
   gem 'capybara'
   gem 'pry-rails'

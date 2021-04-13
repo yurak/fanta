@@ -3,7 +3,7 @@ class ToursController < ApplicationController
 
   respond_to :html, :json
 
-  helper_method :tour, :tours, :league
+  helper_method :tour
 
   def show
     @tournament_players = tour.tournament_round.round_players.with_score.sort_by(&:result_score).reverse.take(5)
@@ -11,18 +11,17 @@ class ToursController < ApplicationController
   end
 
   def edit
-    redirect_to tour_path(tour) unless tour.set_lineup? && current_user&.admin?
-    respond_with tour
+    redirect_to tour_path(tour) unless tour.set_lineup? && (can? :edit, Tour)
   end
 
   def update
-    flash[:notice] = 'Successfully updated tour' if tour.update(update_tour_params)
+    tour.update(update_tour_params) if can? :update, Tour
 
     redirect_to tour_path(tour)
   end
 
   def change_status
-    tour_manager.call
+    tour_manager.call if can? :change_status, Tour
 
     flash[:error] = "Status was not updated: #{tour_manager.tour.errors.full_messages.to_sentence}" if tour.errors.present?
 
@@ -30,8 +29,10 @@ class ToursController < ApplicationController
   end
 
   def inject_scores
-    injector_klass.call(tournament_round: tour.tournament_round)
-    Scores::PositionMalus::Updater.call(tour: tour)
+    if can? :inject_scores, Tour
+      injector_klass.call(tournament_round: tour.tournament_round)
+      Scores::PositionMalus::Updater.call(tour: tour)
+    end
 
     redirect_to tour_path(tour)
   end
@@ -42,16 +43,8 @@ class ToursController < ApplicationController
     @injector_klass ||= Scores::Injectors::Strategy.new(tour).klass
   end
 
-  def identifier
-    params[:tour_id].presence || params[:id]
-  end
-
   def tour
-    @tour ||= Tour.find(identifier)
-  end
-
-  def tours
-    @tours = params[:closed] ? league.tours.closed_postponed.reverse : league.tours.inactive
+    @tour ||= Tour.find(params[:id])
   end
 
   def tour_manager
@@ -60,9 +53,5 @@ class ToursController < ApplicationController
 
   def update_tour_params
     params.require(:tour).permit(:deadline)
-  end
-
-  def league
-    @league ||= League.find(params[:league_id])
   end
 end

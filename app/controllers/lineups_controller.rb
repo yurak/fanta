@@ -161,6 +161,7 @@ class LineupsController < ApplicationController
   end
 
   def identifier
+    # TODO: remove after routes update - add 'on: :member' to actions
     params[:id] || params[:lineup_id]
   end
 

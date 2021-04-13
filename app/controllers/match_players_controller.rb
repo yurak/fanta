@@ -11,12 +11,8 @@ class MatchPlayersController < ApplicationController
 
   private
 
-  def identifier
-    params[:match_player_id].presence || params[:id]
-  end
-
   def match_player
-    @match_player ||= MatchPlayer.find(identifier)
+    @match_player ||= MatchPlayer.find(params[:id])
   end
 
   def mp_params

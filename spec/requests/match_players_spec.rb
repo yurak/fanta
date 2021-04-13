@@ -8,7 +8,6 @@ RSpec.describe 'MatchPlayers', type: :request do
     end
 
     context 'when user is logged out' do
-      it { expect(response).not_to be_successful }
       it { expect(response).to redirect_to('/users/sign_in') }
       it { expect(response).to have_http_status(:found) }
     end

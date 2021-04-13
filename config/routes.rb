@@ -27,13 +27,8 @@ Rails.application.routes.draw do
 
   resources :players, only: [:index, :show]
 
-  resources :tours, only: [:show, :edit, :update] do
-    get :change_status
-    get :inject_scores
-  end
-
   resources :teams, only: [:show] do
-    resources :lineups, except: [:index, :show, :destroy] do
+    resources :lineups, only: [:new, :create, :edit, :update] do
       collection { get :clone }
       get :edit_module
       get :edit_scores
@@ -42,14 +37,16 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :tournament_rounds, only: [:show, :edit, :update] do
-    get :edit_scores
-    put :update_scores
+  resources :tours, only: [:show, :edit, :update] do
+    get :change_status, on: :member
+    get :inject_scores, on: :member
+  end
 
+  resources :tournament_rounds, only: [:edit, :update] do
     resources :round_players, only: [:index]
   end
 
   resources :users, only: [:show, :edit, :update] do
-    get :edit_avatar
+    get :edit_avatar, on: :member
   end
 end
