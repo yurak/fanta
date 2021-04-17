@@ -14,10 +14,7 @@ class Ability
       can %i[update], MatchPlayer
       can %i[edit update], TournamentRound
       can %i[inject_scores], Tour
-    else
-      cannot %i[new create edit update destroy], Article
-      cannot %i[update], MatchPlayer
-      cannot %i[update], TournamentRound
+      can %i[substitutions subs_update], Lineup
     end
   end
 end

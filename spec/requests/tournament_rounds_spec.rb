@@ -126,12 +126,12 @@ RSpec.describe 'Users', type: :request do
     end
 
     context 'with invalid params when admin is logged in' do
+      let(:score) { 'invalid' }
+
       login_admin
       before do
         put tournament_round_path(tournament_round, params)
       end
-
-      let(:score) { 'invalid' }
 
       it { expect(response).to redirect_to(leagues_path) }
       it { expect(response).to have_http_status(:found) }

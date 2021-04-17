@@ -76,6 +76,80 @@ RSpec.describe 'Articles', type: :request do
     end
   end
 
+  describe 'POST #create' do
+    let(:title) { FFaker::Lorem.phrase }
+    let(:params) do
+      {
+        article: {
+          title: title,
+          description: FFaker::HTMLIpsum.body
+        }
+      }
+    end
+
+    before do
+      post articles_path(params)
+    end
+
+    context 'when user is logged out' do
+      it { expect(response).to redirect_to('/users/sign_in') }
+      it { expect(response).to have_http_status(:found) }
+    end
+
+    context 'when user is logged in' do
+      login_user
+      before do
+        post articles_path(params)
+      end
+
+      it { expect(response).to redirect_to(articles_path) }
+      it { expect(response).to have_http_status(:found) }
+    end
+
+    context 'when moderator is logged in' do
+      login_moderator
+      before do
+        post articles_path(params)
+      end
+
+      it { expect(response).to redirect_to(articles_path) }
+      it { expect(response).to have_http_status(:found) }
+    end
+
+    context 'with valid params when admin is logged in' do
+      let(:article) { Article.find_by(title: title) }
+
+      login_admin
+      before do
+        post articles_path(params)
+      end
+
+      it { expect(response).to redirect_to(articles_path) }
+      it { expect(response).to have_http_status(:found) }
+      it { expect(flash[:notice]).to eq('Article was successfully created.') }
+
+      it 'creates article with specified title' do
+        expect(article.title).to eq(title)
+      end
+    end
+
+    context 'with invalid params when admin is logged in' do
+      let(:title) { '' }
+
+      login_admin
+      before do
+        create_list(:article_tag, 3)
+        post articles_path(params)
+      end
+
+      it { expect(response).to be_successful }
+      it { expect(response).to render_template(:new) }
+      it { expect(response).to render_template(:_form) }
+      it { expect(response).to render_template(:_header) }
+      it { expect(response).to have_http_status(:ok) }
+    end
+  end
+
   describe 'GET #edit' do
     let(:article) { create(:article) }
 
@@ -123,80 +197,6 @@ RSpec.describe 'Articles', type: :request do
       it { expect(response).to render_template(:_header) }
       it { expect(response).to have_http_status(:ok) }
       it { expect(assigns(:article)).not_to be_nil }
-    end
-  end
-
-  describe 'POST #create' do
-    let(:title) { FFaker::Lorem.phrase }
-    let(:params) do
-      {
-        article: {
-          title: title,
-          description: FFaker::HTMLIpsum.body
-        }
-      }
-    end
-
-    before do
-      post articles_path(params)
-    end
-
-    context 'when user is logged out' do
-      it { expect(response).to redirect_to('/users/sign_in') }
-      it { expect(response).to have_http_status(:found) }
-    end
-
-    context 'when user is logged in' do
-      login_user
-      before do
-        post articles_path(params)
-      end
-
-      it { expect(response).to redirect_to(articles_path) }
-      it { expect(response).to have_http_status(:found) }
-    end
-
-    context 'when moderator is logged in' do
-      login_moderator
-      before do
-        post articles_path(params)
-      end
-
-      it { expect(response).to redirect_to(articles_path) }
-      it { expect(response).to have_http_status(:found) }
-    end
-
-    context 'with valid params when admin is logged in' do
-      login_admin
-      before do
-        post articles_path(params)
-      end
-
-      let(:article) { Article.find_by(title: title) }
-
-      it { expect(response).to redirect_to(articles_path) }
-      it { expect(response).to have_http_status(:found) }
-      it { expect(flash[:notice]).to eq('Article was successfully created.') }
-
-      it 'creates article with specified title' do
-        expect(article.title).to eq(title)
-      end
-    end
-
-    context 'with invalid params when admin is logged in' do
-      login_admin
-      before do
-        create_list(:article_tag, 3)
-        post articles_path(params)
-      end
-
-      let(:title) { '' }
-
-      it { expect(response).to be_successful }
-      it { expect(response).to render_template(:new) }
-      it { expect(response).to render_template(:_form) }
-      it { expect(response).to render_template(:_header) }
-      it { expect(response).to have_http_status(:ok) }
     end
   end
 
@@ -257,13 +257,13 @@ RSpec.describe 'Articles', type: :request do
     end
 
     context 'with invalid params when admin is logged in' do
+      let(:title) { '' }
+
       login_admin
       before do
         create_list(:article_tag, 3)
         patch article_path(article, params)
       end
-
-      let(:title) { '' }
 
       it { expect(response).to be_successful }
       it { expect(response).to render_template(:edit) }

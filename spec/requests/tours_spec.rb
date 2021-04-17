@@ -55,12 +55,12 @@ RSpec.describe 'Tours', type: :request do
     end
 
     context 'with set_lineup tour when admin is logged in' do
+      let(:tour) { create(:set_lineup_tour) }
+
       login_admin
       before do
         get edit_tour_path(tour)
       end
-
-      let(:tour) { create(:set_lineup_tour) }
 
       it { expect(response).to be_successful }
       it { expect(response).to render_template(:edit) }
@@ -187,12 +187,12 @@ RSpec.describe 'Tours', type: :request do
     end
 
     context 'with not valid tour status when admin is logged in' do
+      let(:status) { 'closed' }
+
       login_admin
       before do
         get change_status_tour_path(tour, params)
       end
-
-      let(:status) { 'closed' }
 
       it { expect(response).to redirect_to(tour_path(tour)) }
       it { expect(response).to have_http_status(:found) }
@@ -212,12 +212,12 @@ RSpec.describe 'Tours', type: :request do
   end
 
   describe 'GET #inject_scores' do
+    let(:strategy) { instance_double(Scores::Injectors::Strategy) }
+    let(:klass) { class_double(Scores::Injectors::Calcio) }
+
     before do
       get inject_scores_tour_path(tour)
     end
-
-    let(:strategy) { instance_double(Scores::Injectors::Strategy) }
-    let(:klass) { class_double(Scores::Injectors::Calcio) }
 
     context 'when user is logged out' do
       it { expect(response).to redirect_to('/users/sign_in') }

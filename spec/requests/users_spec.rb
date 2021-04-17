@@ -123,44 +123,52 @@ RSpec.describe 'Users', type: :request do
     end
 
     context 'when user is logged in and updates self data' do
-      login_user
+      let(:logged_user) { create(:user) }
+
       before do
-        patch user_path(User.last, params)
+        sign_in logged_user
+
+        patch user_path(logged_user, params)
       end
 
       it { expect(response).to redirect_to(user_path) }
       it { expect(response).to have_http_status(:found) }
 
       it 'updates user name' do
-        expect(User.last.reload.name).to eq(name)
+        expect(logged_user.reload.name).to eq(name)
       end
     end
 
     context 'when user is logged in and updates active_team_id' do
       let(:active_team_id) { 3 }
       let(:params) { { active_team_id: active_team_id } }
+      let(:logged_user) { create(:user) }
 
-      login_user
       before do
-        patch user_path(User.last, params)
+        sign_in logged_user
+
+        patch user_path(logged_user, params)
       end
 
       it { expect(response).to redirect_to(root_path) }
       it { expect(response).to have_http_status(:found) }
 
       it 'updates user name' do
-        expect(User.last.reload.active_team_id).to eq(active_team_id)
+        expect(logged_user.reload.active_team_id).to eq(active_team_id)
       end
     end
 
     context 'when user is logged in and updates other user data' do
-      login_user
+      let(:logged_user) { create(:user) }
+
       before do
+        sign_in logged_user
+
         patch user_path(other_user, params)
       end
 
       it { expect(response).to have_http_status(:found) }
-      it { expect(response).to redirect_to(user_path(User.last)) }
+      it { expect(response).to redirect_to(user_path(logged_user)) }
 
       it 'does not update other user name' do
         expect(other_user.reload.name).not_to eq(name)

@@ -26,18 +26,18 @@ RSpec.describe 'Welcome', type: :request do
     end
 
     context 'when user with active league is logged in' do
-      login_user
+      let(:logged_user) { create(:user) }
+      let(:team) { create(:team, user: logged_user) }
 
       before do
-        user = User.last
-        team = create(:team, user: user)
         create_list(:tour, 3, league: team.league)
+        sign_in logged_user
 
         get root_path
       end
 
       it do
-        tour = User.last.active_league.active_tour_or_last
+        tour = logged_user.active_league.active_tour_or_last
 
         expect(response).to redirect_to(tour_path(tour))
       end
