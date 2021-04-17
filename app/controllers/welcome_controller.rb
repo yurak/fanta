@@ -3,7 +3,15 @@ class WelcomeController < ApplicationController
 
   respond_to :html
 
+  helper_method :active_leagues
+
   def index
-    redirect_to tour_path(current_user.active_league.active_tour_or_last) if user_signed_in?
+    redirect_to tour_path(current_user.active_league.active_tour_or_last) if user_signed_in? && current_user.active_league
+  end
+
+  private
+
+  def active_leagues
+    League.active
   end
 end

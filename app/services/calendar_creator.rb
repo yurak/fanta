@@ -1,7 +1,7 @@
 class CalendarCreator < ApplicationService
   MIN_TEAMS = 2
 
-  def initialize(league_id, max_tours, add_round = false)
+  def initialize(league_id, max_tours, add_round: false)
     @league_id = league_id
     @max_tours = max_tours.to_i
     @add_round = add_round

@@ -16,6 +16,6 @@ class ClubManager < ApplicationService
   end
 
   def tournaments
-    YAML.load_file(Rails.root.join('config', 'mantra', 'clubs.yml'))
+    YAML.load_file(Rails.root.join('config/mantra/clubs.yml'))
   end
 end

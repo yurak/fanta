@@ -6,7 +6,7 @@ class League < ApplicationRecord
   has_many :tours, dependent: :destroy
   has_many :results, dependent: :destroy
 
-  enum status: %i[initial active archived]
+  enum status: { initial: 0, active: 1, archived: 2 }
 
   validates :name, presence: true, uniqueness: true
 
@@ -22,15 +22,19 @@ class League < ApplicationRecord
 
   def leader
     result = results.find { |r| r.position == 1 }
-    result.team
+    result&.team
+  end
+
+  def cleansheet_zone
+    cleansheet_m ? Position::CLEANSHEET_ZONE : Position::CLASSIC_CLEANSHEET_ZONE
   end
 
   def self.counters(leagues)
     counters = {}
-    counters['All leagues'] = leagues.count
+    counters['All leagues'] = leagues&.count
 
-    if counters['All leagues'].positive?
-      Tournament.all.each do |t|
+    if counters['All leagues']&.positive?
+      Tournament.all.find_each do |t|
         counter = leagues.by_tournament(t.id).count
         counters[t.name] = counter if counter.positive?
       end

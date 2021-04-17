@@ -1,6 +1,3 @@
--#.flash-block
--#  - flash.each do |key, value|
--#    = content_tag :div, value, class: "flash-item flash-#{key}"
 .page-info
   .lineup-block
     .lineup-field-block
@@ -23,7 +20,7 @@
                           = team.players.find(match_player.object.player.id).name.upcase
                       .slot-position{class: "slot-position-#{lineup.slots[match_player.index]&.position.tr('/', '')}"}
                         = lineup.slots[match_player.index]&.position
-                  = match_player.select :round_player_id, options_for_select(available_for_select_by_positions(team, positions: lineup.slots[match_player.index]&.positions_with_malus, real_position: lineup.slots[match_player.index]&.position), match_player.object.player.id), {}, html: {selected: true}, disabled: lineup.tour.closed?, class: 'custom-select lineup-select', id: "mp-#{match_player.index}"
+                  = match_player.select :round_player_id, options_for_select(available_by_positions(team, positions: lineup.slots[match_player.index]&.positions_with_malus, real_position: lineup.slots[match_player.index]&.position), match_player.object.player.id), {}, html: {selected: true}, disabled: lineup.tour.closed?, class: 'custom-select lineup-select', id: "mp-#{match_player.index}"
             - else
               .lineup-slot{class: "slot-r#{match_player.index}"}
                 .input-group

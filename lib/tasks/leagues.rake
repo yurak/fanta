@@ -1,7 +1,8 @@
 namespace :leagues do
   desc 'Create League with Users and Teams'
   task create_with_teams: :environment do
-    leagues_data = YAML.load_file(Rails.root.join('config', 'mantra', 'users.yml'))
+    # TODO: move functionality to services: LeagueCreator, used with UserCreator
+    leagues_data = YAML.load_file(Rails.root.join('config/mantra/users.yml'))
     leagues_data.each do |league_name, league_data|
       puts "Creating league: #{league_name}"
       tournament = Tournament.find_by(code: league_data['tournament'])

@@ -7,8 +7,6 @@ class ResultsController < ApplicationController
 
   def index
     @results = league.results.ordered
-
-    respond_with @results
   end
 
   private

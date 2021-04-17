@@ -32,7 +32,7 @@ module Players
     end
 
     def tm_price
-      return 0 unless html_page.css('.dataMarktwert').present?
+      return 0 if html_page.css('.dataMarktwert').blank?
 
       multiplier = case html_page.css('.dataMarktwert').children[1].children[2].text
                    when 'm' then THOUSAND * THOUSAND

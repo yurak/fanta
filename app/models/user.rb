@@ -7,30 +7,33 @@ class User < ApplicationRecord
   has_many :teams, dependent: :destroy
 
   EMAIL_LENGTH = (6..50).freeze
+  EMAIL_FORMAT_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.a[a-z]+)*\.[a-z]+\z/i.freeze
   NAME_LENGTH = (2..15).freeze
   ROLES = %w[customer admin moderator].freeze
 
   enum role: ROLES
 
-  validates :email, presence: true, format: { with: /\A[\w+\-.]+@[a-z\d\-]+(\.a[a-z]+)*\.[a-z]+\z/i }, uniqueness: true
+  validates :email, presence: true, format: { with: EMAIL_FORMAT_REGEX }, uniqueness: true
   validates :email, length: { in: EMAIL_LENGTH }
   validates :name, length: { in: NAME_LENGTH }, allow_blank: true
-  validates :role, presence: true, inclusion: { in: ROLES }
+  validates :role, presence: true
 
   def can_moderate?
     admin? || moderator?
   end
 
   def active_team
+    return unless teams
+
     @active_team ||= teams.find_by(id: active_team_id) || teams.first
   end
 
   def active_league
-    active_team.league
+    active_team&.league
   end
 
-  def next_round
-    active_league.active_tour || active_league.tours.inactive.first
+  def next_tour
+    active_league&.active_tour
   end
 
   def avatar_path

@@ -1,9 +1,17 @@
 FactoryBot.define do
   factory :user do
-    sequence(:email) { |i| "testuser+#{i}@test.com" }
-    password { 'Fanta1!' }
+    name { FFaker::Name.first_name[0...15] }
+    email { FFaker::Internet.safe_email[0...50] }
+    password { FFaker::Internet.password }
     password_confirmation { password }
+    role { :customer }
 
-    association :team
+    factory :admin do
+      role { :admin }
+    end
+
+    factory :moderator do
+      role { :moderator }
+    end
   end
 end

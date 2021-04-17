@@ -11,8 +11,7 @@ class Player < ApplicationRecord
 
   BUCKET_URL = 'https://mantrafootball.s3-eu-west-1.amazonaws.com'.freeze
 
-  validates :name, uniqueness: { scope: :first_name }
-  validates :name, presence: true
+  validates :name, uniqueness: { scope: :first_name }, presence: true
 
   scope :by_club, ->(club_id) { where(club_id: club_id) }
   scope :by_position, ->(position) { joins(:positions).where(positions: { name: position }) }
@@ -21,15 +20,7 @@ class Player < ApplicationRecord
   scope :with_team, -> { includes(:teams).where.not(teams: { id: nil }) }
 
   # TODO: move statuses to MatchPlayer model
-  enum status: %i[ready problematic injured disqualified]
-  scope :order_by_status, lambda {
-    order_by = ['CASE']
-    statuses.values.each_with_index do |status, index|
-      order_by << "WHEN status=#{status} THEN #{index}"
-    end
-    order_by << 'END'
-    order(order_by.join(' '))
-  }
+  enum status: { ready: 0, problematic: 1, injured: 2, disqualified: 3 }
 
   def avatar_path
     "#{BUCKET_URL}/player_avatars/#{path_name}.png"
@@ -73,10 +64,6 @@ class Player < ApplicationRecord
     "kits/#{club.path_name}.png"
   end
 
-  def positions_names_string
-    position_names.join(' ')
-  end
-
   def position_names
     @position_names ||= positions.map(&:name)
   end
@@ -85,50 +72,17 @@ class Player < ApplicationRecord
     positions.first.id
   end
 
-  def can_clean_sheet?
-    (position_names & Position::CLEANSHEET_ZONE).any?
-  end
-
-  # def played_matches_count
-  #   # TODO: use matches played for team
-  #   @played_matches_count ||= played_matches.size
-  # end
-
-  def scores_count
-    @scores_count ||= matches_with_scores.size
-  end
-
-  def average_score
-    return 0 if scores_count.zero?
-
-    @average_score ||= (matches_with_scores.map(&:score).sum / scores_count).round(2)
-  end
-
-  def average_result_score
-    return 0 if scores_count.zero?
-
-    @average_result_score ||= (matches_with_scores.map(&:result_score).sum / scores_count).round(2)
-  end
+  # Current season statistic
 
   def chart_info
     bs = {}
     ts = {}
     season_matches_with_scores.each do |rp|
-      bs[rp.tournament_round.number] = rp.score
-      ts[rp.tournament_round.number] = rp.result_score
+      bs[rp.tournament_round.number] = rp.score.to_s
+      ts[rp.tournament_round.number] = rp.result_score.to_s
     end
     [{ name: 'Total score', data: ts }, { name: 'Base score', data: bs }]
   end
-
-  def best_score
-    matches_with_scores.map(&:result_score).max || 0
-  end
-
-  def worst_score
-    matches_with_scores.map(&:result_score).min || 0
-  end
-
-  # Current season statistic
 
   def season_scores_count
     @season_scores_count ||= season_matches_with_scores.size
@@ -156,16 +110,5 @@ class Player < ApplicationRecord
 
   def season_cards_count(card)
     season_matches_with_scores.where(card => true).count
-  end
-
-  private
-
-  # def played_matches
-  #   # TODO: use matches played for team
-  #   @played_matches ||= match_players.main.with_score
-  # end
-
-  def matches_with_scores
-    @matches_with_scores ||= round_players.with_score
   end
 end

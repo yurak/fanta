@@ -14,45 +14,48 @@
       .team-name
         = team.human_name
       .team-points
-        = t('teams.points', :count => team.results.last.points)
-      .team-league-data
-        .team-position
-          .team-position-left
-            .team-position-title= t('teams.position')
-            .team-rounds
-              .team-rounds-text= t('teams.rounds')
-              .team-rounds-played
-                = team.results.last.matches_played
-              .team-rounds-total
-                = "/#{team.league.tours.count}"
-          .team-position-right
-            = "##{team.results.last.position}"
-        .team-matches
-          .team-matches-item
-            .team-matches-title= t('teams.wins')
-            .team-matches-value
-              = team.results.last.wins
-          .team-matches-item
-            .team-matches-title= t('teams.draws')
-            .team-matches-value
-              = team.results.last.draws
-          .team-matches-item
-            .team-matches-title= t('teams.loses')
-            .team-matches-value
-              = team.results.last.loses
-      .team-additional.team-manager
-        .team-additional-text= t('teams.manager')
-        .team-manager-data
-          .team-manager-name
-            = team.user.name
-          .team-manager-avatar
-            = image_tag(team.user.avatar_path)
-      .team-additional
-        .team-additional-text= t('teams.form')
-        .team-form-value
-          - team.results.last.form.each do |form|
-            .team-form-item{ class: "team-form-#{form[0]}" }
-              = form[0]
+        = t('teams.points', :count => team.results.last&.points)
+      - if team.results.last
+        .team-league-data
+          .team-position
+            .team-position-left
+              .team-position-title= t('teams.position')
+              .team-rounds
+                .team-rounds-text= t('teams.rounds')
+                .team-rounds-played
+                  = team.results.last.matches_played
+                .team-rounds-total
+                  = "/#{team.league.tours.count}"
+            .team-position-right
+              = "##{team.results.last.position}"
+          .team-matches
+            .team-matches-item
+              .team-matches-title= t('teams.wins')
+              .team-matches-value
+                = team.results.last.wins
+            .team-matches-item
+              .team-matches-title= t('teams.draws')
+              .team-matches-value
+                = team.results.last.draws
+            .team-matches-item
+              .team-matches-title= t('teams.loses')
+              .team-matches-value
+                = team.results.last.loses
+      - if team.user
+        .team-additional.team-manager
+          .team-additional-text= t('teams.manager')
+          .team-manager-data
+            .team-manager-name
+              = team.user.name
+            .team-manager-avatar
+              = image_tag(team.user.avatar_path)
+      - if team.results.last
+        .team-additional
+          .team-additional-text= t('teams.form')
+          .team-form-value
+            - team.results.last.form.each do |form|
+              .team-form-item{ class: "team-form-#{form[0]}" }
+                = form[0]
     .team-lists
       .team-lists-tabs
         #players.team-lists-tab-item.team-lists-tab-active= t('teams.players')
@@ -146,13 +149,6 @@
                           = match.guest_lineup&.result
                 .team-game-param-item.team-game-link
                   = image_tag('icons/link_arrow.png')
-
--# TODO: Temporary remove player status functionality
--#    .badge{ class: status_class('badge', player.status) }
--#      = player.status
--#    - Player.statuses.each do |status, _value|
--#      - if status != player.status
--#        = link_to status, player_change_status_path(player, status: status), class: "btn btn-sm btn-primary #{status_class('btn', status)}"
 
 :javascript
   $(document).ready(function() {

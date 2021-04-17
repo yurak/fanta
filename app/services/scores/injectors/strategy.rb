@@ -7,18 +7,17 @@ module Scores
 
       CALCIO = 'serie_a'
       EPL = 'epl'
+      BUNDES = 'bundesliga'
 
       def initialize(tour)
         @tour = tour
       end
 
       def klass
-        if tournament_code == CALCIO
-          Calcio
-        elsif tournament_code == EPL
-          Epl
-        else
-          Fake
+        case tournament_code
+        when CALCIO then Calcio
+        when EPL, BUNDES then Fotmob
+        else Fake
         end
       end
 

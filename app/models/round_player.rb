@@ -6,10 +6,10 @@ class RoundPlayer < ApplicationRecord
   has_many :lineups, through: :match_players
 
   delegate :position_names, :positions, :name, :first_name, :full_name, :full_name_reverse,
-           :club, :teams, to: :player, allow_nil: true
+           :club, :teams, :pseudo_name, to: :player, allow_nil: true
 
   scope :by_tournament_round, ->(tournament_round_id) { where(tournament_round: tournament_round_id) }
-  scope :by_club, ->(club_id) { joins(:player).where('players.club_id = ?', club_id) }
+  scope :by_club, ->(club_id) { joins(:player).where(players: { club_id: club_id }) }
   scope :by_name_and_club, ->(name, club_id) { by_club(club_id).where('LOWER(players.name) = ?', name.downcase) }
   scope :with_score, -> { where('score > ?', 0) }
   scope :ordered_by_club, -> { joins(player: :club).order('clubs.name') }
@@ -27,7 +27,7 @@ class RoundPlayer < ApplicationRecord
   RED_CARD_MALUS = 1
 
   def result_score
-    return 0 unless score
+    return 0 unless score.positive?
 
     total = score
 

@@ -1,8 +1,25 @@
-# README
+[![Build Status](https://travis-ci.com/yurak/fanta.svg?branch=master)](https://travis-ci.com/yurak/fanta)
+[![Coverage Status](https://coveralls.io/repos/github/yurak/fanta/badge.svg?branch=master)](https://coveralls.io/github/yurak/fanta?branch=master)
 
-This is fantasy football app:
-### Plase visit
+# MANTRA FOOTBALL
 
-[fanta-app](http://fanta.yurikuzhiy.net/)
+This is fantasy football application.
 
-For now is deployed old season teams. New Season is coming soon
+**_Fantasy football one step closer to the real one!_**
+
+- Create your league to play with friends
+- Fight for best players at auction
+- Choose the Module and fill it with the best players you have
+- Score goals, receive bonuses and win the League
+
+### Please visit
+
+[MantraFootball application](http://mantrafootball.org/)
+
+### Getting started
+
+```
+gem install bundler
+bundle install
+rails db:setup
+```

@@ -384,6 +384,36 @@
   img {
     max-width: 100%;
   }
+
+  .leagues-rules-headers {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1fr;
+    column-gap: 5px;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 16px;
+    color: #847577;
+    text-align: center;
+    padding: 15px 0;
+  }
+
+  .leagues-rules-item {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1fr;
+    column-gap: 5px;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    color: #181715;
+    border-top: 1px solid #F4F4F4;
+    padding: 15px 0;
+    text-align: center;
+  }
+
+  .leagues-rules-name {
+    font-weight: 800;
+    text-align: left;
+  }
 }
 
 .login-page .login-block {

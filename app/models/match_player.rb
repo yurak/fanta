@@ -6,35 +6,27 @@ class MatchPlayer < ApplicationRecord
   delegate :player, :score, :result_score, :goals, :assists, :missed_goals,
            :caught_penalty, :missed_penalty, :scored_penalty, :failed_penalty,
            :own_goals, :yellow_card, :red_card, :club_played_match?, to: :round_player
-  delegate :position_names, :name, :club, :teams, to: :player
+  delegate :position_names, :name, :first_name, :club, :teams, to: :player
 
-  enum subs_status: %i[initial get_out get_in not_in_squad]
+  enum subs_status: { initial: 0, get_out: 1, get_in: 2, not_in_squad: 3 }
 
   scope :main, -> { where.not(real_position: nil) }
   scope :with_score, -> { includes(:round_player).joins(:round_player).where('round_players.score > ?', 0) }
   scope :subs, -> { where(real_position: nil) }
   scope :subs_bench, -> { where(real_position: nil).where.not(subs_status: :not_in_squad) }
   scope :without_score, -> { joins(:round_player).where('round_players.score': 0) }
-  scope :by_tour, ->(tour_id) { joins(:lineup).where('lineups.tour_id = ?', tour_id) }
+  scope :by_tour, ->(tour_id) { joins(:lineup).where(lineups: { tour_id: tour_id }) }
   scope :reservists_by_tour, ->(tour_id) { subs.by_tour(tour_id) }
   scope :defenders, -> { where(real_position: Position::DEFENCE) }
-  scope :by_real_position, ->(position) { where('real_position LIKE ?', '%' + position + '%') }
+  scope :by_real_position, ->(position) { where('real_position LIKE ?', "%#{position}%") }
 
   GOAL_PC_DIFF = -1
   GOAL_A_DIFF = -0.5
   BASE_CLEANSHEET_BONUS = 1
   CUSTOM_CLEANSHEET_BONUS = 0.5
 
-  def team_by(league)
-    player.teams.find_by(league: league)
-  end
-
-  def malus
-    0 if own_position?
-  end
-
-  def own_position?
-    position_names.include?(real_position)
+  def not_played?
+    score.zero? && club_played_match?
   end
 
   def position_malus?
@@ -88,13 +80,12 @@ class MatchPlayer < ApplicationRecord
   end
 
   def cleansheet_score
-    return 0 unless (real_position_arr & Position::CLEANSHEET_ZONE).present?
-    return 0 unless (position_names & Position::CLEANSHEET_ZONE).present?
+    # TODO: store cleansheet in RoundPlayer, in MatchPlayer only count it value
+    return 0 if (real_position_arr & Position::CLEANSHEET_ZONE).blank?
+    return 0 if (position_names & Position::CLEANSHEET_ZONE).blank?
 
-    return 0 if !league.custom_bonuses && (real_position_arr & Position::CLASSIC_CLEANSHEET_ZONE).present?
-
-    if league.custom_bonuses && real_position_arr.include?(Position::MEDIANO) && position_names.include?(Position::MEDIANO)
-      CUSTOM_CLEANSHEET_BONUS
+    if real_position_arr.include?(Position::MEDIANO) && position_names.include?(Position::MEDIANO)
+      league.cleansheet_m ? CUSTOM_CLEANSHEET_BONUS : 0
     else
       BASE_CLEANSHEET_BONUS
     end

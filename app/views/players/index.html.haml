@@ -81,3 +81,6 @@
               = image_tag(player.club.logo_path)
             .players-list-cell.players-list-arrow
               = image_tag('icons/link_arrow.png')
+
+  .players-pagination.pagination.justify-content-center
+    = paginate @players

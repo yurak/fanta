@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+  before_action :check_user
+
   respond_to :html, :json
 
   helper_method :user
@@ -15,12 +17,12 @@ class UsersController < ApplicationController
 
   private
 
-  def identifier
-    params[:user_id].presence || params[:id]
+  def check_user
+    redirect_to user_path(user) unless current_user.id == params[:id].to_i
   end
 
   def user
-    @user ||= User.find(identifier)
+    @user ||= current_user
   end
 
   def user_params

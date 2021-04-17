@@ -3,7 +3,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.5.1'
 
-gem 'rails', '~> 5.2.3'
+gem 'rails', '5.2.5'
 gem 'sqlite3'
 gem 'puma', '3.12.6'
 gem 'sass-rails', '~> 5.0'
@@ -15,6 +15,9 @@ gem 'coffee-rails', '~> 4.2'
 gem 'jbuilder', '~> 2.5'
 
 gem 'rubocop', require: false
+gem 'rubocop-rails', require: false
+gem 'rubocop-rspec', require: false
+
 gem 'devise', '4.7.1'
 gem 'devise-bootstrap-views', '~> 1.0'
 gem 'bootsnap', '>= 1.1.0', require: false
@@ -38,13 +41,18 @@ gem 'rails_admin', '~> 2.0'
 gem 'countries'
 gem 'flag-icons-rails'
 
+gem 'coveralls_reborn', '~> 0.20.0', require: false
+
+gem 'kaminari'
+
 group :development, :test do
+  gem 'capybara'
   gem 'pry-rails'
   gem 'rspec-rails', '~> 3.8'
 end
 
 group :development do
-  gem 'capistrano', '~> 3.10', require: false
+  gem 'capistrano', '3.14.1', require: false
   gem 'capistrano-rails', '~> 1.4', require: false
   gem 'capistrano-passenger', '~> 0.2.0'
   gem 'capistrano-rvm'
@@ -53,10 +61,13 @@ group :development do
 end
 
 group :test do
-  gem 'capybara', '>= 2.15'
-  gem 'chromedriver-helper'
   gem 'database_cleaner'
   gem 'factory_bot_rails', '5.1.0'
+  gem 'ffaker'
+  gem 'rails-controller-testing'
   gem 'rake'
   gem 'selenium-webdriver'
+  gem 'shoulda-matchers', require: false
+  gem 'simplecov', require: false
+  gem 'webdrivers'
 end

@@ -1,1 +1,0 @@
-class ClubsController < ApplicationController; end

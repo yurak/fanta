@@ -11,7 +11,7 @@
       - active_tournaments.each do |tournament|
         .links-status-list{class: "#{tournament.code}-list"}
           - tournament.links.each do |link|
-            = link_to link.url do
+            = link_to link.url, target: '_blank' do
               .links-list-item
                 .links-list-item-param.tournament-logo= image_tag(link.tournament.logo_path)
                 .links-list-item-param= link.name

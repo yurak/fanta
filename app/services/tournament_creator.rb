@@ -8,6 +8,6 @@ class TournamentCreator < ApplicationService
   private
 
   def tournaments
-    YAML.load_file(Rails.root.join('config', 'mantra', 'tournaments.yml'))
+    YAML.load_file(Rails.root.join('config/mantra/tournaments.yml'))
   end
 end
