@@ -13,10 +13,6 @@ class RoundPlayersController < ApplicationController
 
   private
 
-  def identifier
-    params[:tournament_round_id].presence || params[:id]
-  end
-
   def tournament_round
     @tournament_round ||= TournamentRound.find(params[:tournament_round_id])
   end

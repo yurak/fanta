@@ -23,6 +23,8 @@ class User < ApplicationRecord
   end
 
   def active_team
+    return unless teams
+
     @active_team ||= teams.find_by(id: active_team_id) || teams.first
   end
 

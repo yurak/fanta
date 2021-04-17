@@ -7,7 +7,7 @@ module PlayersHelper
     end
   end
 
-  def available_for_select_by_positions(team, positions: nil, real_position: nil)
+  def available_by_positions(team, positions: nil, real_position: nil)
     if positions
       scope = team.players.includes(:positions).where(positions: { name: positions }).sort_by(&:position_sequence_number)
     else

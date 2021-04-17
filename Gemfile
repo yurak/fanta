@@ -3,7 +3,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.5.1'
 
-gem 'rails', '~> 5.2.3'
+gem 'rails', '5.2.5'
 gem 'sqlite3'
 gem 'puma', '3.12.6'
 gem 'sass-rails', '~> 5.0'
@@ -43,6 +43,8 @@ gem 'flag-icons-rails'
 
 gem 'coveralls_reborn', '~> 0.20.0', require: false
 
+gem 'kaminari'
+
 group :development, :test do
   gem 'capybara'
   gem 'pry-rails'
@@ -62,6 +64,7 @@ group :test do
   gem 'database_cleaner'
   gem 'factory_bot_rails', '5.1.0'
   gem 'ffaker'
+  gem 'rails-controller-testing'
   gem 'rake'
   gem 'selenium-webdriver'
   gem 'shoulda-matchers', require: false

@@ -1,13 +1,12 @@
 class PlayersController < ApplicationController
   skip_before_action :authenticate_user!, only: %i[index show]
 
-  helper_method :player, :team
+  helper_method :player
 
   respond_to :html
 
   def index
-    # TODO: add pagination
-    @players = order_players
+    @players = Kaminari.paginate_array(ordered_players).page(params[:page])
     @tournaments = Tournament.with_clubs
     @positions = Position.all
     @clubs = tournament.clubs.active.sort_by(&:name)
@@ -20,33 +19,13 @@ class PlayersController < ApplicationController
     end
   end
 
-  # TODO: rename to #update
-  def change_status
-    status = params[:status]
-
-    player.send("#{status}!")
-    redirect_to team_path(team)
-  end
-
   private
 
-  def identifier
-    params[:player_id].presence || params[:id]
-  end
-
-  def team
-    @team ||= Team.find(params[:team_id])
-  end
-
   def player
-    @player ||= Player.find(identifier)
+    @player ||= Player.find(params[:id])
   end
 
-  def player_params
-    params.require(:player).permit(:name, :status)
-  end
-
-  def order_players
+  def ordered_players
     case stats_params[:order]
     when 'club'
       players_with_filter.sort_by(&:club)

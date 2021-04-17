@@ -22,6 +22,8 @@ abort('The Rails environment is running in production mode!') if Rails.env.produ
 require 'spec_helper'
 require 'rspec/rails'
 require 'shoulda/matchers'
+require 'devise'
+require_relative 'support/auth_helper'
 
 Shoulda::Matchers.configure do |config|
   config.integrate do |with|
@@ -38,4 +40,8 @@ RSpec.configure do |config|
   config.infer_spec_type_from_file_location!
 
   config.filter_rails_from_backtrace!
+
+  config.include Devise::Test::ControllerHelpers, type: :controller
+  config.include Devise::Test::IntegrationHelpers, type: :request
+  config.extend AuthHelper, type: :request
 end

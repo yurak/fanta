@@ -25,39 +25,27 @@ Rails.application.routes.draw do
 
   resources :match_players, only: [:update]
 
-  resources :players, only: [:index, :show] do
-    get :change_status
-  end
-
-  resources :tours, only: [:show, :edit, :update] do
-    get :change_status
-    get :inject_scores
-  end
+  resources :players, only: [:index, :show]
 
   resources :teams, only: [:show] do
-    resources :lineups, except: [:index, :show, :destroy] do
+    resources :lineups, only: [:new, :create, :edit, :update] do
       collection { get :clone }
-      get :edit_module
-      get :edit_scores
-      get :substitutions
-      put :subs_update
+      get :edit_module, on: :member
+      get :substitutions, on: :member
+      put :subs_update, on: :member
     end
   end
 
-  resources :tournament_rounds, only: [:show, :edit, :update] do
-    get :edit_scores
-    put :update_scores
+  resources :tours, only: [:show, :edit, :update] do
+    get :change_status, on: :member
+    get :inject_scores, on: :member
+  end
 
+  resources :tournament_rounds, only: [:edit, :update] do
     resources :round_players, only: [:index]
   end
 
   resources :users, only: [:show, :edit, :update] do
-    get :edit_avatar
-  end
-
-  namespace :api do
-    get :table, to: 'results#index'
-    get :fixtures, to: 'matches#fixtures'
-    get :results, to: 'matches#results'
+    get :edit_avatar, on: :member
   end
 end

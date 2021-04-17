@@ -45,6 +45,11 @@ FactoryBot.define do
                                 real_position: player_a.positions.first.name)
         end
 
+        7.times do
+          player_res = create(:round_player, tournament_round: lineup.tournament_round)
+          create(:match_player, lineup: lineup, round_player: player_res)
+        end
+
         lineup.reload
       end
     end
