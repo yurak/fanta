@@ -92,26 +92,22 @@ class LineupsController < ApplicationController
   end
 
   def recount_round_players_params
-    return unless match_players_attributes
+    return if params[:lineup][:match_players_attributes].blank?
 
-    match_players_attributes.each do |k, _|
-      next unless match_players_attributes[k][:round_player_id]
+    params[:lineup][:match_players_attributes].each do |k, _|
+      next unless params[:lineup][:match_players_attributes][k][:round_player_id]
 
-      player = Player.find(match_players_attributes[k][:round_player_id])
+      player = Player.find(params[:lineup][:match_players_attributes][k][:round_player_id])
       round_player = RoundPlayer.find_or_create_by(tournament_round: tournament_round, player: player)
-      match_players_attributes[k][:round_player_id] = round_player.id
+      params[:lineup][:match_players_attributes][k][:round_player_id] = round_player.id
     end
   end
 
   def duplicate_players
-    return unless match_players_attributes
+    return if params[:lineup][:match_players_attributes].blank?
 
-    player_ids = match_players_attributes.values.each_with_object([]) { |el, p_ids| p_ids << el[:round_player_id] }
+    player_ids = params[:lineup][:match_players_attributes].values.each_with_object([]) { |el, p_ids| p_ids << el[:round_player_id] }
     player_ids.find_all { |id| player_ids.rindex(id) != player_ids.index(id) }
-  end
-
-  def match_players_attributes
-    update_lineup_params[:match_players_attributes]
   end
 
   def duplicate_names
