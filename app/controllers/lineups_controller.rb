@@ -155,6 +155,6 @@ class LineupsController < ApplicationController
   end
 
   def call_substituter
-    MatchPlayers::Substituter.new(out_mp_id: params[:out_mp_id], in_mp_id: params[:in_mp_id]).call
+    MatchPlayers::Substituter.call(out_mp_id: params[:out_mp_id], in_mp_id: params[:in_mp_id])
   end
 end

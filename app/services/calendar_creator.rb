@@ -1,20 +1,20 @@
 class CalendarCreator < ApplicationService
   MIN_TEAMS = 2
 
-  def initialize(league_id, max_tours, add_round: false)
+  def initialize(league_id, max_tours)
     @league_id = league_id
     @max_tours = max_tours.to_i
-    @add_round = add_round
   end
 
   def call
-    return unless league
-    return if teams_array.size < MIN_TEAMS
+    return false unless league
+    return false if teams_array.size < MIN_TEAMS
 
-    tour_number = 0
+    tour_number = 1
+    return false unless t_round(tour_number)
+
     rounds.times do |round_number|
       round_games.each do |tour_games|
-        tour_number += 1
         break if tour_number > @max_tours
 
         tour = Tour.create(number: tour_number, league: league, tournament_round: t_round(tour_number))
@@ -22,6 +22,7 @@ class CalendarCreator < ApplicationService
           team_ids = team_ids.reverse if round_number.odd?
           Match.create(tour: tour, host_id: team_ids[0], guest_id: team_ids[1])
         end
+        tour_number += 1
       end
     end
   end

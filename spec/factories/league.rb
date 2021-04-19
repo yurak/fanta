@@ -9,6 +9,18 @@ FactoryBot.define do
       status { :active }
     end
 
+    trait :with_five_teams do
+      after(:create) do |league|
+        create_list(:team, 5, league: league)
+      end
+    end
+
+    trait :with_ten_teams do
+      after(:create) do |league|
+        create_list(:team, 10, league: league)
+      end
+    end
+
     trait :serie_a do
       association :tournament, :serie_a
     end
