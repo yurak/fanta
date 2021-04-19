@@ -25,9 +25,7 @@ class TourManager
   def set_lineup
     return unless status == 'set_lineup'
 
-    RoundPlayerManager.call(tournament_round: tour.tournament_round)
-
-    tour.set_lineup!
+    tour.set_lineup! if RoundPlayers::Creator.call(tour.tournament_round.id)
   end
 
   def lock

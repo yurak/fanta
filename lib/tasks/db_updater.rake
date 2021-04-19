@@ -9,7 +9,7 @@ namespace :db_updater do
     Club.all.each { |c| c.update(tournament: tournament) }
 
     # create clubs
-    ClubManager.call
+    Clubs::Creator.call
 
     # create league (with tournament) for existed data
     league = League.create(name: 'Fanta-2019/2020', tournament: tournament, status: 1)
