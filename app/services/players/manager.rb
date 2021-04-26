@@ -6,15 +6,20 @@ module Players
     end
 
     def call
+      return false unless club
+
       if @id
         player = Player.find(@id)
 
         player.update(base_data.merge(club_id: club.id))
       else
+        return false if positions_arr.blank?
+
         player = Player.new(base_data)
         player.positions << Position.where(name: positions_arr)
         player.club = club
-        return unless player.valid?
+
+        return false unless player.valid?
 
         player.save
       end

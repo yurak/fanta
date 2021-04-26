@@ -44,7 +44,7 @@ class TourManager
     return unless tour.locked_or_postponed? && status == 'closed'
 
     tour.closed!
-    Results::Updater.call(tour: tour)
+    Results::Updater.call(tour)
   end
 
   def any_tour_in_progress?
