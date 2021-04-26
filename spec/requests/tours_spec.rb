@@ -177,9 +177,9 @@ RSpec.describe 'Tours', type: :request do
         expect(tour.reload.status).to eq(status)
       end
 
-      it 'calls TourManager service' do
-        manager = instance_double(TourManager)
-        allow(TourManager).to receive(:new).and_return(manager)
+      it 'calls Tours::Manager service' do
+        manager = instance_double(Tours::Manager)
+        allow(Tours::Manager).to receive(:new).and_return(manager)
         allow(manager).to receive(:call).and_return(tour)
 
         get change_status_tour_path(tour, params)
@@ -197,9 +197,9 @@ RSpec.describe 'Tours', type: :request do
       it { expect(response).to redirect_to(tour_path(tour)) }
       it { expect(response).to have_http_status(:found) }
 
-      it 'calls TourManager service' do
-        manager = instance_double(TourManager)
-        allow(TourManager).to receive(:new).and_return(manager)
+      it 'calls Tours::Manager service' do
+        manager = instance_double(Tours::Manager)
+        allow(Tours::Manager).to receive(:new).and_return(manager)
         allow(manager).to receive(:call).and_return(tour)
 
         get change_status_tour_path(tour, params)

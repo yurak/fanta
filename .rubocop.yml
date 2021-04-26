@@ -15,6 +15,7 @@ AllCops:
     - Gemfile
     - vendor/bundle/**/*
     - node_modules/**/*
+    - tmp/**/*
 Layout/LineLength:
   Max: 140
 Metrics/BlockLength:

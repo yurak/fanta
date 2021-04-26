@@ -1,5 +1,5 @@
 p 'Create Tournaments'
-TournamentCreator.call
+Tournaments::Creator.call
 
 p 'Create Positions'
 Positions::Creator.call
