@@ -2,7 +2,7 @@ namespace :db_updater do
   desc 'Update DB to add leagues and tournaments'
   task add_league_and_tournaments: :environment do
     # create tournaments
-    TournamentCreator.call
+    Tournaments::Creator.call
     tournament = Tournament.find_by(code: Scores::Injectors::Strategy::CALCIO)
 
     # add created tournament to existed clubs

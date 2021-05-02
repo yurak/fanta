@@ -48,7 +48,7 @@ class ToursController < ApplicationController
   end
 
   def tour_manager
-    @tour_manager ||= TourManager.new(tour: tour, status: params[:status])
+    @tour_manager ||= Tours::Manager.new(tour: tour, status: params[:status])
   end
 
   def update_tour_params

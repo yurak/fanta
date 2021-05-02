@@ -2,11 +2,13 @@ module Results
   class Updater < ApplicationService
     attr_reader :tour
 
-    def initialize(tour: nil)
+    def initialize(tour)
       @tour = tour
     end
 
     def call
+      return false unless tour&.matches.present? && tour.locked?
+
       tour.matches.each do |match|
         if match.host_win?
           update_result_win(match, match.host, match.guest)
