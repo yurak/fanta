@@ -15,6 +15,7 @@ class Lineup < ApplicationRecord
 
   scope :closed, ->(league_id) { where(tour_id: League.find(league_id).tours.closed.ids) }
   scope :by_league, ->(league_id) { where(tour_id: League.find(league_id).tours.ids) }
+  scope :by_team, ->(team_id) { where(team_id: team_id) }
 
   FIRST_GOAL = 66
   INCREMENT = 6

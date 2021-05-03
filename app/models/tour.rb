@@ -5,6 +5,8 @@ class Tour < ApplicationRecord
   has_many :matches, dependent: :destroy
   has_many :lineups, dependent: :destroy
 
+  delegate :teams, to: :league
+
   enum status: { inactive: 0, set_lineup: 1, locked: 2, closed: 3, postponed: 4 }
 
   scope :closed_postponed, -> { closed.or(postponed) }

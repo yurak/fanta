@@ -26,7 +26,7 @@ class LineupsController < ApplicationController
   end
 
   def clone
-    team_lineups_cloner.call if team_of_user? && previous_lineup && !tour.lineups.exists?(team_id: previous_lineup.team_id)
+    team_lineups_cloner.call if team_of_user?
 
     redirect_to tour_path(tour)
   end
@@ -76,11 +76,7 @@ class LineupsController < ApplicationController
   end
 
   def team_lineups_cloner
-    @team_lineups_cloner ||= TeamLineups::Cloner.new(old_lineup: previous_lineup, tour: tour)
-  end
-
-  def previous_lineup
-    team.lineups.first if team.lineups.first&.tour&.league == tour.league
+    @team_lineups_cloner ||= TeamLineups::Cloner.new(team: team, tour: tour)
   end
 
   def lineup_params

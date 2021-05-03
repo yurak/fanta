@@ -23,8 +23,6 @@ class ToursController < ApplicationController
   def change_status
     tour_manager.call if can? :change_status, Tour
 
-    flash[:error] = "Status was not updated: #{tour_manager.tour.errors.full_messages.to_sentence}" if tour.errors.present?
-
     redirect_to tour_path(tour)
   end
 
