@@ -1,5 +1,10 @@
 module Tours
-  class Manager
+  class Manager < ApplicationService
+    SET_LINEUP_STATUS = 'set_lineup'.freeze
+    LOCKED_STATUS = 'locked'.freeze
+    POSTPONED_STATUS = 'postponed'.freeze
+    CLOSED_STATUS = 'closed'.freeze
+
     attr_reader :tour, :status
 
     def initialize(tour:, status:)
@@ -8,11 +13,7 @@ module Tours
     end
 
     def call
-      if any_tour_in_progress?
-        tour.errors.add(:base, 'Please close active tour')
-      else
-        set_lineup
-      end
+      set_lineup
 
       lock
 
@@ -24,13 +25,13 @@ module Tours
     private
 
     def set_lineup
-      return unless status == 'set_lineup'
+      return if any_tour_in_progress? || status != SET_LINEUP_STATUS
 
       tour.set_lineup! if RoundPlayers::Creator.call(tour.tournament_round.id)
     end
 
     def lock
-      return unless tour.set_lineup? && status == 'locked'
+      return unless tour.set_lineup? && status == LOCKED_STATUS
 
       clone_missed_lineups
 
@@ -38,11 +39,11 @@ module Tours
     end
 
     def postpone
-      tour.postponed! if tour.locked? && status == 'postponed'
+      tour.postponed! if tour.locked? && status == POSTPONED_STATUS
     end
 
     def close
-      return unless tour.locked_or_postponed? && status == 'closed'
+      return unless tour.locked_or_postponed? && status == CLOSED_STATUS
 
       tour.closed!
       Results::Updater.call(tour)
