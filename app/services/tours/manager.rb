@@ -32,7 +32,7 @@ module Tours
     def lock
       return unless tour.set_lineup? && status == 'locked'
 
-      # TODO: clone lineup if is absent for some team
+      clone_missed_lineups
 
       tour.locked!
     end
@@ -46,6 +46,14 @@ module Tours
 
       tour.closed!
       Results::Updater.call(tour)
+    end
+
+    def clone_missed_lineups
+      tour.teams.each do |team|
+        next if tour.lineups.by_team(team.id).any?
+
+        TeamLineups::Cloner.call(team: team, tour: tour)
+      end
     end
 
     def any_tour_in_progress?

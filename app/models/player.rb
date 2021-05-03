@@ -101,7 +101,7 @@ class Player < ApplicationRecord
   end
 
   def season_matches_with_scores
-    @season_matches_with_scores ||= round_players.with_score.by_tournament_round(Season.last.tournament_rounds)
+    @season_matches_with_scores ||= round_players.with_score.by_tournament_round(Season.last.tournament_rounds).order(:tournament_round_id)
   end
 
   def season_bonus_count(bonus)
