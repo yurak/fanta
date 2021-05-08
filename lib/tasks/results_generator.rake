@@ -5,7 +5,7 @@ namespace :results_generator do
     # active_tour = Tour.active
     # unless active_tour
     #   active_tour = Tour.inactive.first
-    #   TourManager.new(tour: active_tour, status: 'set_lineup').call
+    #   Tours::Manager.new(tour: active_tour, status: 'set_lineup').call
     # end
     #
     # Team.all.each do |team|
@@ -18,7 +18,7 @@ namespace :results_generator do
     #     MatchPlayer.create(lineup_id: l.id, player_id: team.players[rand(1..24)].id)
     #   end
     # end
-    # TourManager.new(tour: active_tour, status: 'locked').call
-    # TourManager.new(tour: active_tour, status: 'closed').call
+    # Tours::Manager.new(tour: active_tour, status: 'locked').call
+    # Tours::Manager.new(tour: active_tour, status: 'closed').call
   end
 end

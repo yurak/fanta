@@ -7,7 +7,7 @@ module Players
     end
 
     def call
-      return unless @player&.tm_url
+      return false unless @player&.tm_url
 
       @player.update(
         birth_date: birth_date,

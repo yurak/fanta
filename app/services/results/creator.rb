@@ -5,7 +5,7 @@ module Results
     end
 
     def call
-      return unless league
+      return false if league&.teams.blank?
 
       league.teams.each do |team|
         Result.create(team: team, league: league)

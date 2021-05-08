@@ -4,7 +4,9 @@ module Slots
   class Updater < ApplicationService
     def call
       csv.each do |slot_data|
-        slot = Slot.find(slot_data[0])
+        slot = Slot.find_by(id: slot_data[0])
+        next unless slot
+
         slot.update(location: slot_data[1])
       end
     end

@@ -7,7 +7,7 @@ module Players
     end
 
     def call
-      return unless file_exist?
+      return false unless file_exist?
 
       csv.each do |player_data|
         Players::Manager.call(player_data.to_hash)

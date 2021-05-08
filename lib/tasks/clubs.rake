@@ -1,6 +1,6 @@
 namespace :clubs do
   desc 'Add new clubs'
   task refresh: :environment do
-    ClubManager.call
+    Clubs::Creator.call
   end
 end

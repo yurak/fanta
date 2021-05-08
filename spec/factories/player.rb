@@ -2,7 +2,7 @@ FactoryBot.define do
   factory :player do
     sequence(:name) { |i| "#{FFaker::Name.last_name}#{i}" }
     first_name { FFaker::Name.first_name }
-    association :club
+    club { Club.first || association(:club) }
 
     trait :with_team do
       after(:create) do |player|
