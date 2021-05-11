@@ -2,7 +2,7 @@ RSpec.describe Results::Updater do
   describe '#call' do
     subject(:updater) { described_class.new(tour) }
 
-    let(:tour) { create(:locked_tour) }
+    let(:tour) { create(:closed_tour) }
 
     context 'with blank tour' do
       let(:tour) { nil }
@@ -10,7 +10,7 @@ RSpec.describe Results::Updater do
       it { expect(updater.call).to eq(false) }
     end
 
-    context 'with unlocked tour' do
+    context 'with not closed tour' do
       let(:tour) { create(:tour) }
 
       it { expect(updater.call).to eq(false) }

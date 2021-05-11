@@ -7,7 +7,7 @@ module Results
     end
 
     def call
-      return false unless tour&.matches.present? && tour.locked?
+      return false unless tour&.matches.present? && tour.closed?
 
       tour.matches.each do |match|
         if match.host_win?
