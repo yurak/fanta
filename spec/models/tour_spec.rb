@@ -148,4 +148,72 @@ RSpec.describe Tour, type: :model do
       end
     end
   end
+
+  describe '#next_round' do
+    context 'without other tours' do
+      it 'returns nil' do
+        expect(tour.next_round).to eq(nil)
+      end
+    end
+
+    context 'when other league tours with lower numbers' do
+      let(:tour) { create(:tour, number: 3) }
+
+      before do
+        create(:tour, league: tour.league, number: 1)
+        create(:tour, league: tour.league, number: 2)
+      end
+
+      it 'returns nil' do
+        expect(tour.next_round).to eq(nil)
+      end
+    end
+
+    context 'when tours with upper numbers' do
+      let(:tour) { create(:tour, number: 1) }
+      let!(:next_tour) { create(:tour, league: tour.league, number: 2) }
+
+      before do
+        create(:tour, league: tour.league, number: 3)
+      end
+
+      it 'returns next round' do
+        expect(tour.next_round).to eq(next_tour)
+      end
+    end
+  end
+
+  describe '#prev_round' do
+    context 'without other tours' do
+      it 'returns nil' do
+        expect(tour.prev_round).to eq(nil)
+      end
+    end
+
+    context 'when other league tours with upper numbers' do
+      let(:tour) { create(:tour, number: 1) }
+
+      before do
+        create(:tour, league: tour.league, number: 2)
+        create(:tour, league: tour.league, number: 3)
+      end
+
+      it 'returns nil' do
+        expect(tour.prev_round).to eq(nil)
+      end
+    end
+
+    context 'when tours with lower numbers' do
+      let(:tour) { create(:tour, number: 3) }
+      let!(:prev_tour) { create(:tour, league: tour.league, number: 2) }
+
+      before do
+        create(:tour, league: tour.league, number: 1)
+      end
+
+      it 'returns previous round' do
+        expect(tour.prev_round).to eq(prev_tour)
+      end
+    end
+  end
 end
