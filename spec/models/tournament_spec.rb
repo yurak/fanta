@@ -2,11 +2,12 @@ RSpec.describe Tournament, type: :model do
   subject(:tournament) { create(:tournament) }
 
   describe 'Associations' do
-    it { is_expected.to have_many(:leagues).dependent(:destroy) }
-    it { is_expected.to have_many(:clubs).dependent(:destroy) }
-    it { is_expected.to have_many(:tournament_rounds).dependent(:destroy) }
     it { is_expected.to have_many(:article_tags).dependent(:destroy) }
+    it { is_expected.to have_many(:clubs).dependent(:destroy) }
+    it { is_expected.to have_many(:leagues).dependent(:destroy) }
     it { is_expected.to have_many(:links).dependent(:destroy) }
+    it { is_expected.to have_many(:national_teams).dependent(:destroy) }
+    it { is_expected.to have_many(:tournament_rounds).dependent(:destroy) }
   end
 
   describe 'Validations' do
