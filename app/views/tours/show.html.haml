@@ -28,14 +28,14 @@
           .round-deadline-countdown
         .round-prev-next
           .round-prev
-            - if tour.number > 1
-              = link_to tour_path(tour.id - 1) do
+            - if tour.number > 1 && tour.prev_round
+              = link_to tour_path(tour.prev_round) do
                 .round-prev-arrow
                   = image_tag('icons/arrow_blue.png')
                 .round-prev-text= t('tours.prev')
           .round-next
-            - if tour.number < tour.league.tours.size
-              = link_to tour_path(tour.id + 1) do
+            - if tour.number < tour.league.tours.size && tour.next_round
+              = link_to tour_path(tour.next_round) do
                 .round-next-text= t('tours.next')
                 .round-next-arrow
                   = image_tag('icons/arrow_blue.png')

@@ -27,4 +27,16 @@ class Tour < ApplicationRecord
   def match_players
     MatchPlayer.by_tour(id)
   end
+
+  def next_round
+    return if number >= league.tours.size
+
+    league.tours.find_by(number: number + 1)
+  end
+
+  def prev_round
+    return if number <= 1
+
+    league.tours.find_by(number: number - 1)
+  end
 end
