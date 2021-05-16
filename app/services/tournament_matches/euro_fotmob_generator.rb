@@ -59,7 +59,7 @@ module TournamentMatches
     def national_team(name)
       team = NationalTeam.find_by(name: name)
 
-      NationalTeam.find_by(name: 'Undefined') unless team
+      team || NationalTeam.find_by(name: 'Undefined')
     end
   end
 end
