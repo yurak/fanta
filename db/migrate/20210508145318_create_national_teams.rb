@@ -13,12 +13,10 @@ class CreateNationalTeams < ActiveRecord::Migration[5.2]
     add_index :national_teams, :code, unique: true
     add_index :national_teams, :name, unique: true
 
-    tournament = Tournament.find_by(code: 'euro')
-    tournament = Tournament.create(
+    tournament = Tournament.find_or_create_by(
       name: 'Euro 2020',
-      code: 'euro',
-      source_calendar_url: 'https://www.fotmob.com/leagues?id=50&tab=matches&type=league'
-    ) unless tournament
+      code: 'euro'
+    )
 
     TournamentRounds::Creator.call(tournament.id, Season.last.id, count: 22) if tournament
 
