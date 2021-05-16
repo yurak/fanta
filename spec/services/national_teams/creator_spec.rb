@@ -2,7 +2,16 @@ RSpec.describe NationalTeams::Creator do
   describe '#call' do
     subject(:creator) { described_class.new }
 
-    let(:file_content) { { euro: %w[ua it fr de] } }
+    let(:file_content) do
+      {
+        euro: {
+          ua: 'Ukraine',
+          it: 'Italy',
+          de: 'Germany',
+          fr: 'France'
+        }
+      }
+    end
 
     context 'without existed national teams' do
       before do
@@ -15,7 +24,17 @@ RSpec.describe NationalTeams::Creator do
 
     context 'with existed national team with same code' do
       before do
-        create(:national_team, code: 'ua', tournament: Tournament.find_by(code: 'euro'))
+        create(:national_team, name: 'Belgium', code: 'ua', tournament: Tournament.find_by(code: 'euro'))
+        allow(YAML).to receive(:load_file).and_return(file_content)
+        creator.call
+      end
+
+      it { expect(NationalTeam.all.count).to eq(4) }
+    end
+
+    context 'with existed national team with same name' do
+      before do
+        create(:national_team, name: 'Ukraine', code: 'be', tournament: Tournament.find_by(code: 'euro'))
         allow(YAML).to receive(:load_file).and_return(file_content)
         creator.call
       end
@@ -25,7 +44,7 @@ RSpec.describe NationalTeams::Creator do
 
     context 'with existed national team with other code' do
       before do
-        create(:national_team, code: 'be', tournament: Tournament.find_by(code: 'euro'))
+        create(:national_team, name: 'Belgium', code: 'be', tournament: Tournament.find_by(code: 'euro'))
         allow(YAML).to receive(:load_file).and_return(file_content)
         creator.call
       end
@@ -34,7 +53,14 @@ RSpec.describe NationalTeams::Creator do
     end
 
     context 'with invalid tournament code' do
-      let(:file_content) { { super_league: %w[ua it fr de] } }
+      let(:file_content) do
+        {
+          super_league: {
+            ua: 'Ukraine',
+            fr: 'France'
+          }
+        }
+      end
 
       before do
         allow(YAML).to receive(:load_file).and_return(file_content)
@@ -47,8 +73,18 @@ RSpec.describe NationalTeams::Creator do
     context 'with multiple tournaments with one invalid tournament code' do
       let(:file_content) do
         {
-          euro: %w[be nl cz hr rs at],
-          super_league: %w[ua it fr de]
+          euro: {
+            ua: 'Ukraine',
+            it: 'Italy',
+            de: 'Germany',
+            fr: 'France',
+            hr: 'Croatia',
+            be: 'Belgium'
+          },
+          super_league: {
+            br: 'Brazil',
+            us: 'United States'
+          }
         }
       end
 

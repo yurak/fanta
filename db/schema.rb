@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_08_145318) do
+ActiveRecord::Schema.define(version: 2021_05_15_122351) do
 
   create_table "article_tags", force: :cascade do |t|
     t.string "name", default: "", null: false
@@ -114,12 +114,29 @@ ActiveRecord::Schema.define(version: 2021_05_08_145318) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "national_matches", force: :cascade do |t|
+    t.integer "tournament_round_id"
+    t.bigint "host_team_id", null: false
+    t.bigint "guest_team_id", null: false
+    t.integer "host_score"
+    t.integer "guest_score"
+    t.string "time", default: "", null: false
+    t.string "date", default: "", null: false
+    t.string "round_name", default: "", null: false
+    t.string "source_match_id", default: "", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["tournament_round_id"], name: "index_national_matches_on_tournament_round_id"
+  end
+
   create_table "national_teams", force: :cascade do |t|
-    t.string "code"
+    t.string "name", default: "", null: false
+    t.string "code", default: "", null: false
     t.integer "tournament_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["code"], name: "index_national_teams_on_code", unique: true
+    t.index ["name"], name: "index_national_teams_on_name", unique: true
     t.index ["tournament_id"], name: "index_national_teams_on_tournament_id"
   end
 

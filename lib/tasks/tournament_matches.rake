@@ -15,4 +15,10 @@ namespace :tournament_matches do
     tournament = Tournament.find_by(code: Scores::Injectors::Strategy::BUNDES)
     TournamentMatches::FotmobGenerator.call(tournament: tournament)
   end
+
+  desc 'Create Euro2020 TournamentMatches'
+  task generate_euro20_matches: :environment do
+    tournament = Tournament.find_by(code: Scores::Injectors::Strategy::EURO)
+    TournamentMatches::EuroFotmobGenerator.call(tournament: tournament)
+  end
 end

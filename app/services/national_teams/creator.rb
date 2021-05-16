@@ -6,16 +6,16 @@ module NationalTeams
 
         next unless tournament
 
-        national_teams.each do |code|
-          NationalTeam.create(code: code, tournament: tournament) unless national_team(code)
+        national_teams.each do |code, name|
+          NationalTeam.create(code: code, name: name, tournament: tournament) unless national_team(code, name)
         end
       end
     end
 
     private
 
-    def national_team(code)
-      NationalTeam.find_by(code: code)
+    def national_team(code, name)
+      NationalTeam.find_by(code: code) || NationalTeam.find_by(name: name)
     end
 
     def tournaments
