@@ -244,6 +244,8 @@ en:
     postpone_round: "Postpone round"
     edit_scores: "Edit scores"
     inject_scores: "Inject scores"
+    edit_lineup: "Edit lineup"
+    create_lineup: "Create lineup"
     are_you_sure: "Are you sure?"
     set_done: "✅ Set"
     set: "Set"

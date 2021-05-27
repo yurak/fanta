@@ -17,11 +17,15 @@ module RoundPlayers
     private
 
     def tournament_round
-      TournamentRound.find_by(id: tournament_round_id)
+      @tournament_round ||= TournamentRound.find_by(id: tournament_round_id)
     end
 
     def tournament_players
-      Player.by_tournament(tournament_round.tournament.id)
+      if tournament_round.national_matches.any?
+        Player.by_national_tournament_round(tournament_round)
+      else
+        Player.by_tournament(tournament_round.tournament.id)
+      end
     end
   end
 end

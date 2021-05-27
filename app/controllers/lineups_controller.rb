@@ -1,25 +1,33 @@
 class LineupsController < ApplicationController
   respond_to :html
 
-  helper_method :team, :lineup, :modules, :match_player
+  helper_method :lineup, :match_player, :modules, :team, :tour
 
   def new
     redirect_to team_path(team) unless team_of_user?
 
     modules
-    @lineup = Lineup.new
+    @lineup = Lineup.new(team_module: team_module, tour: tour, team: team)
+    build_match_players
   end
 
   def create
     if team_of_user?
-      team_lineups_creator.call
+      @lineup = Lineup.new(lineup_params.merge(team: team))
 
-      if team_lineups_creator.lineup.errors.present?
-        flash[:error] = "Lineup was not created: #{team_lineups_creator.lineup.errors.full_messages.to_sentence}"
-        redirect_to new_team_lineup_path(team)
-      else
-        redirect_to edit_team_lineup_path(team, team_lineups_creator.lineup)
-      end
+      # TODO: update create action and specs
+      #
+      # if @lineup.save
+      #   binding.pry
+      # end
+      # team_lineups_creator.call
+      #
+      # if team_lineups_creator.lineup.errors.present?
+      #   flash[:error] = "Lineup was not created: #{team_lineups_creator.lineup.errors.full_messages.to_sentence}"
+      #   redirect_to new_team_lineup_path(team)
+      # else
+      #   redirect_to edit_team_lineup_path(team, team_lineups_creator.lineup)
+      # end
     else
       redirect_to team_path(team)
     end
@@ -71,16 +79,20 @@ class LineupsController < ApplicationController
 
   private
 
-  def team_lineups_creator
-    @team_lineups_creator ||= TeamLineups::Creator.new(params: lineup_params, team: team)
-  end
+  # def team_lineups_creator
+  #   @team_lineups_creator ||= TeamLineups::Creator.new(params: lineup_params, team: team)
+  # end
 
   def team_lineups_cloner
     @team_lineups_cloner ||= TeamLineups::Cloner.new(team: team, tour: tour)
   end
 
   def lineup_params
-    params.fetch(:lineup, {}).permit(:team_module_id, tema_module_id: [])
+    params.fetch(:lineup, {}).permit(:team_module_id, :tour_id, match_players_attributes: {})
+  end
+
+  def build_match_players
+    @lineup.players_count.times { @lineup.match_players.build }
   end
 
   def update_lineup_params
@@ -116,6 +128,10 @@ class LineupsController < ApplicationController
 
   def team
     @team ||= Team.find(params[:team_id])
+  end
+
+  def team_module
+    @team_module ||= TeamModule.find(params[:team_module_id] || TeamModule.first.id)
   end
 
   def tour

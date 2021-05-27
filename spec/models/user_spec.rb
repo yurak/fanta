@@ -42,11 +42,23 @@ RSpec.describe User, type: :model do
     end
   end
 
+  describe '#team_by_league(league)' do
+    let(:league) { create(:league) }
+
+    context 'without team in league' do
+      it { expect(user.team_by_league(league)).to eq(nil) }
+    end
+
+    context 'with team in league' do
+      let!(:team) { create(:team, user: user, league: league) }
+
+      it { expect(user.team_by_league(league)).to eq(team) }
+    end
+  end
+
   describe '#active_team' do
     context 'without team' do
-      it 'returns nil' do
-        expect(user.active_team).to eq(nil)
-      end
+      it { expect(user.active_team).to eq(nil) }
     end
 
     context 'with one team' do
@@ -77,9 +89,7 @@ RSpec.describe User, type: :model do
 
   describe '#active_league' do
     context 'without team' do
-      it 'returns nil' do
-        expect(user.active_league).to eq(nil)
-      end
+      it { expect(user.active_league).to eq(nil) }
     end
 
     context 'with one team' do
@@ -111,9 +121,7 @@ RSpec.describe User, type: :model do
 
   describe '#next_tour' do
     context 'without team' do
-      it 'returns nil' do
-        expect(user.next_tour).to eq(nil)
-      end
+      it { expect(user.next_tour).to eq(nil) }
     end
 
     context 'with team and league without rounds' do
@@ -136,9 +144,7 @@ RSpec.describe User, type: :model do
 
   describe '#avatar_path' do
     context 'with default avatar' do
-      it 'returns avatar path' do
-        expect(user.avatar_path).to eq('avatars/avatar_1.png')
-      end
+      it { expect(user.avatar_path).to eq('avatars/avatar_1.png') }
     end
 
     context 'with custom avatar' do

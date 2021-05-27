@@ -1,0 +1,103 @@
+- if tour.unlocked?
+  - tour.matches.each do |match|
+    .round-match-item.round-match-set-lineup
+      .round-match-status
+        - if match.host_lineup
+          .round-lineup-set= t('tours.set_done')
+        - elsif current_user == match.host.user && tour.set_lineup?
+          .round-lineup-actions
+            = link_to new_team_lineup_path(match.host) do
+              .round-lineup-set-squad
+                = image_tag('icons/plus.svg')
+            - unless tour.number == 1
+              = link_to clone_team_lineups_path(match.host, tour_id: tour.id) do
+                .round-lineup-clone
+                  = image_tag('icons/clone.svg')
+        - else
+          .round-lineup-not-set= t('tours.not_set')
+      .round-match-team.round-match-host
+        = link_to team_path(match.host) do
+          .results-team-name
+            = match.host.human_name
+          .results-team-logo
+            = image_tag(image_path(match.host.logo_path))
+      .round-match-vs
+        = link_to 'vs', match_path(match)
+      .round-match-team.round-match-guest
+        = link_to team_path(match.guest) do
+          .results-team-logo
+            = image_tag(image_path(match.guest.logo_path))
+          .results-team-name
+            = match.guest.human_name
+      .round-match-status.round-match-status-guest
+        - if match.guest_lineup
+          .round-lineup-set= t('tours.set_done')
+        - elsif current_user == match.guest.user && tour.set_lineup?
+          .round-lineup-actions.round-lineup-actions-guest
+            - unless tour.number == 1
+              = link_to clone_team_lineups_path(match.guest, tour_id: tour.id) do
+                .round-lineup-clone
+                  = image_tag('icons/clone.svg')
+            = link_to new_team_lineup_path(match.guest) do
+              .round-lineup-set-squad
+                = image_tag('icons/plus.svg')
+        - else
+          .round-lineup-not-set= t('tours.not_set')
+- elsif tour.locked_or_postponed?
+  - tour.matches.each do |match|
+    .round-match-item.round-match-locked
+      .round-match-team.round-match-host
+        = link_to team_path(match.host) do
+          .results-team-name
+            = match.host.human_name
+          .results-team-logo
+            = image_tag(image_path(match.host.logo_path))
+      .round-match-score.round-match-host-score
+        .round-match-scores-count
+          = match.host_lineup.mp_with_score
+        .round-match-total-score
+          = match.host_lineup.total_score
+      .round-match-result
+        = link_to match_path(match) do
+          .round-match-host-goals
+            = match.host_lineup&.goals
+          .round-match-guest-goals
+            = match.guest_lineup&.goals
+      .round-match-score.round-match-guest-score
+        .round-match-total-score
+          = match.guest_lineup.total_score
+        .round-match-scores-count
+          = match.guest_lineup.mp_with_score
+      .round-match-team.round-match-guest
+        = link_to team_path(match.guest) do
+          .results-team-logo
+            = image_tag(image_path(match.guest.logo_path))
+          .results-team-name
+            = match.guest.human_name
+- else
+  - tour.matches.each do |match|
+    .round-match-item.round-match-closed
+      .round-match-team.round-match-host
+        = link_to team_path(match.host) do
+          .results-team-name
+            = match.host.human_name
+          .results-team-logo
+            = image_tag(image_path(match.host.logo_path))
+      .round-match-result
+        = link_to match_path(match) do
+          .round-match-goals
+            .round-match-host-goals
+              = match.host_lineup&.goals
+            .round-match-guest-goals
+              = match.guest_lineup&.goals
+        .round-match-total-score
+          .round-match-host-total-score
+            = match.host_lineup.total_score
+          .round-match-guest-total-score
+            = match.guest_lineup.total_score
+      .round-match-team.round-match-guest
+        = link_to team_path(match.guest) do
+          .results-team-logo
+            = image_tag(image_path(match.guest.logo_path))
+          .results-team-name
+            = match.guest.human_name

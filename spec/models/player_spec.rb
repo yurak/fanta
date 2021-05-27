@@ -6,6 +6,7 @@ RSpec.describe Player, type: :model do
 
   describe 'Associations' do
     it { is_expected.to belong_to(:club) }
+    it { is_expected.to belong_to(:national_team).optional }
     it { is_expected.to have_many(:player_positions).dependent(:destroy) }
     it { is_expected.to have_many(:positions).through(:player_positions) }
     it { is_expected.to have_many(:player_teams).dependent(:destroy) }

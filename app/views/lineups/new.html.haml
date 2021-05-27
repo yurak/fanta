@@ -1,2 +1,73 @@
-.page-info
-  = render 'module_form', team: team, lineup: @lineup, modules: @modules
+.new-lineup-page
+  .new-lineup-header
+    .new-lineup-back
+      .new-lineup-close
+        = link_to tour_path(tour) do
+          &times;
+      .new-lineup-header-text
+        .new-lineup-header-title Setup lineup
+        .new-lineup-header-subtitle Select module and players
+    .new-lineup-confirm
+      = submit_tag "Confirm squad", form: 'new_lineup', class: 'submit'
+  .new-lineup-block
+    .module-section
+      #modules-modal-btn
+        .module-name
+          = @lineup.team_module.name
+          = image_tag('icons/dropdown.svg')
+        #modules-modal.modal
+          .modal-content
+            %span.close
+            .modal-title
+              Change module
+            .modal-modules-block
+              - @modules.each do |team_module|
+                = link_to new_team_lineup_path(team, team_module_id: team_module.id, tour_id: tour.id) do
+                  .team-module-block
+                    = team_module.name
+                    = image_tag("modules/#{team_module.name}.jpg")
+      .module-image
+        = image_tag("modules/#{@lineup.team_module.name}.jpg")
+    .players-section
+      .main-players-title
+        = 'Main squad'
+      .main-players
+        = form_with model: [team, @lineup], id: 'new_lineup' do |f|
+          = f.hidden_field :team_module_id, value: @lineup.team_module.id
+          = f.hidden_field :tour_id, value: tour.id
+          = f.fields_for :match_players do |mp|
+            .lineup-slot{class: "slot-#{lineup.slots[mp.index]&.location}"}
+              = mp.hidden_field(:real_position, value: lineup.slots[mp.index]&.position)
+              .input-group
+                .player-data
+                  .player-show-images
+                    -#.player-show-face
+                    -#  %object{data: team.players.find(mp.object.player.id).avatar_path, type: 'image/jpg', id: "avatar-mp-#{mp.index}"}
+                    -#    = image_tag('avatar.png')
+                    -#.player-show-kit
+                    -#  = image_tag(team.players.find(mp.object.player.id).kit_path, id: "kit-mp-#{mp.index}", alt: "Club Kit")
+                    -#.player-name
+                    -#  %span{ id: "name-mp-#{mp.index}" }
+                    -#    = team.players.find(mp.object.player.id).name.upcase
+                    .slot-position{class: "slot-position-#{lineup.slots[mp.index]&.position.tr('/', '')}"}
+                      = lineup.slots[mp.index]&.position
+                = mp.select :round_player_id, options_for_select(tournament_round_players(tour.tournament_round, lineup.slots[mp.index]&.position)), {}, html: {selected: true}, disabled: lineup.tour.closed?, class: 'custom-select lineup-select', id: "mp-#{mp.index}"
+                -# = mp.select :round_player_id, options_for_select(available_by_positions(team, positions: lineup.slots[mp.index]&.positions_with_malus, real_position: lineup.slots[mp.index]&.position), mp.object.player.id), {}, html: {selected: true}, disabled: lineup.tour.closed?, class: 'custom-select lineup-select', id: "mp-#{mp.index}"
+:javascript
+  var modal = document.getElementById("modules-modal");
+  var btn = document.getElementById("modules-modal-btn");
+  var span = document.getElementsByClassName("close")[0];
+
+  btn.onclick = function() {
+    modal.style.display = "block";
+  };
+
+  span.onclick = function() {
+    modal.style.display = "none";
+  };
+
+  window.onclick = function(event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  }

@@ -9,8 +9,7 @@ module TeamLineups
 
     def initialize(team:, params:)
       @team   = team
-      @params = params
-      @lineup = team.lineups.new(@params)
+      @lineup = team.lineups.new(params)
     end
 
     def call
@@ -59,6 +58,7 @@ module TeamLineups
     end
 
     def active_tour
+      # TODO: use tour from params
       team.league.tours.set_lineup.first
     end
   end

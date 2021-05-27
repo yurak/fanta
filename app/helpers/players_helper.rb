@@ -40,4 +40,9 @@ module PlayersHelper
   def opponent_code(player, team)
     player.club.opponent_by_round(team.next_round.tournament_round).code
   end
+
+  def tournament_round_players(tournament_round, real_position)
+    Player.by_national_tournament_round(tournament_round).by_position(real_position.split('/'))
+          .sort_by(&:position_sequence_number).map(&:full_name)
+  end
 end

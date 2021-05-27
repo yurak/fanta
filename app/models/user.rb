@@ -22,6 +22,10 @@ class User < ApplicationRecord
     admin? || moderator?
   end
 
+  def team_by_league(league)
+    teams.find_by(league_id: league.id)
+  end
+
   def active_team
     return unless teams
 

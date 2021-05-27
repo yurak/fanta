@@ -24,6 +24,18 @@ class Tour < ApplicationRecord
     inactive? || set_lineup?
   end
 
+  def mantra?
+    tournament_round.tournament_matches.any?
+  end
+
+  def national?
+    tournament_round.national_matches.any?
+  end
+
+  def lineup_exist?(team)
+    lineups.find_by(team_id: team.id).present?
+  end
+
   def match_players
     MatchPlayer.by_tour(id)
   end

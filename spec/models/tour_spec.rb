@@ -15,121 +15,151 @@ RSpec.describe Tour, type: :model do
 
   describe '#locked_or_postponed?' do
     context 'with inactive status' do
-      it 'returns false' do
-        expect(tour.locked_or_postponed?).to eq(false)
-      end
+      it { expect(tour.locked_or_postponed?).to eq(false) }
     end
 
     context 'with set_lineup status' do
       let(:tour) { create(:set_lineup_tour) }
 
-      it 'returns false' do
-        expect(tour.locked_or_postponed?).to eq(false)
-      end
+      it { expect(tour.locked_or_postponed?).to eq(false) }
     end
 
     context 'with locked status' do
       let(:tour) { create(:locked_tour) }
 
-      it 'returns false' do
-        expect(tour.locked_or_postponed?).to eq(true)
-      end
+      it { expect(tour.locked_or_postponed?).to eq(true) }
     end
 
     context 'with postponed status' do
       let(:tour) { create(:postponed_tour) }
 
-      it 'returns false' do
-        expect(tour.locked_or_postponed?).to eq(true)
-      end
+      it { expect(tour.locked_or_postponed?).to eq(true) }
     end
 
     context 'with closed status' do
       let(:tour) { create(:closed_tour) }
 
-      it 'returns false' do
-        expect(tour.locked_or_postponed?).to eq(false)
-      end
+      it { expect(tour.locked_or_postponed?).to eq(false) }
     end
   end
 
   describe '#deadlined?' do
     context 'with inactive status' do
-      it 'returns false' do
-        expect(tour.deadlined?).to eq(false)
-      end
+      it { expect(tour.deadlined?).to eq(false) }
     end
 
     context 'with set_lineup status' do
       let(:tour) { create(:set_lineup_tour) }
 
-      it 'returns false' do
-        expect(tour.deadlined?).to eq(false)
-      end
+      it { expect(tour.deadlined?).to eq(false) }
     end
 
     context 'with locked status' do
       let(:tour) { create(:locked_tour) }
 
-      it 'returns false' do
-        expect(tour.deadlined?).to eq(true)
-      end
+      it { expect(tour.deadlined?).to eq(true) }
     end
 
     context 'with postponed status' do
       let(:tour) { create(:postponed_tour) }
 
-      it 'returns false' do
-        expect(tour.deadlined?).to eq(true)
-      end
+      it { expect(tour.deadlined?).to eq(true) }
     end
 
     context 'with closed status' do
       let(:tour) { create(:closed_tour) }
 
-      it 'returns false' do
-        expect(tour.deadlined?).to eq(true)
-      end
+      it { expect(tour.deadlined?).to eq(true) }
     end
   end
 
   describe '#unlocked?' do
     context 'with inactive status' do
-      it 'returns false' do
-        expect(tour.unlocked?).to eq(true)
-      end
+      it { expect(tour.unlocked?).to eq(true) }
     end
 
     context 'with set_lineup status' do
       let(:tour) { create(:set_lineup_tour) }
 
-      it 'returns false' do
-        expect(tour.unlocked?).to eq(true)
-      end
+      it { expect(tour.unlocked?).to eq(true) }
     end
 
     context 'with locked status' do
       let(:tour) { create(:locked_tour) }
 
-      it 'returns false' do
-        expect(tour.unlocked?).to eq(false)
-      end
+      it { expect(tour.unlocked?).to eq(false) }
     end
 
     context 'with postponed status' do
       let(:tour) { create(:postponed_tour) }
 
-      it 'returns false' do
-        expect(tour.unlocked?).to eq(false)
-      end
+      it { expect(tour.unlocked?).to eq(false) }
     end
 
     context 'with closed status' do
       let(:tour) { create(:closed_tour) }
 
-      it 'returns false' do
-        expect(tour.unlocked?).to eq(false)
+      it { expect(tour.unlocked?).to eq(false) }
+    end
+  end
+
+  describe '#mantra?' do
+    context 'without tournament_round matches' do
+      it { expect(tour.mantra?).to eq(false) }
+    end
+
+    context 'with national_match' do
+      before do
+        create(:national_match, tournament_round: tour.tournament_round)
       end
+
+      it { expect(tour.mantra?).to eq(false) }
+    end
+
+    context 'with tournament_match' do
+      before do
+        create(:tournament_match, tournament_round: tour.tournament_round)
+      end
+
+      it { expect(tour.mantra?).to eq(true) }
+    end
+  end
+
+  describe '#national?' do
+    context 'without tournament_round matches' do
+      it { expect(tour.national?).to eq(false) }
+    end
+
+    context 'with tournament_match' do
+      before do
+        create(:tournament_match, tournament_round: tour.tournament_round)
+      end
+
+      it { expect(tour.national?).to eq(false) }
+    end
+
+    context 'with national_match' do
+      before do
+        create(:national_match, tournament_round: tour.tournament_round)
+      end
+
+      it { expect(tour.national?).to eq(true) }
+    end
+  end
+
+  describe '#lineup_exist?(teams)' do
+    let!(:team) { create(:team) }
+
+    context 'without team lineup' do
+      it { expect(tour.lineup_exist?(team)).to eq(false) }
+    end
+
+    context 'with team lineup' do
+      before do
+        create(:lineup, tour: tour, team: team)
+      end
+
+      it { expect(tour.lineup_exist?(team)).to eq(true) }
     end
   end
 
