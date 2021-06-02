@@ -9,4 +9,17 @@ class NationalTeam < ApplicationRecord
 
   validates :code, presence: true, uniqueness: true
   validates :name, presence: true, uniqueness: true
+
+  def opponent_by_round(tournament_round)
+    match = host_national_matches.find_by(tournament_round: tournament_round)
+
+    if match
+      opponent = match.guest_team
+    else
+      match = guest_national_matches.find_by(tournament_round: tournament_round)
+      opponent = match.host_team
+    end
+
+    opponent
+  end
 end

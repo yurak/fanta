@@ -30,7 +30,6 @@ Rails.application.routes.draw do
   resources :teams, only: [:show] do
     resources :lineups, only: [:new, :create, :edit, :update] do
       collection { get :clone }
-      get :edit_module, on: :member
       get :substitutions, on: :member
       put :subs_update, on: :member
     end

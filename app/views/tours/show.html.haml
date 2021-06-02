@@ -50,7 +50,7 @@
           = link_to t('tours.inject_scores'), inject_scores_tour_path(tour), data: { confirm: t('tours.are_you_sure') }
         - if current_user&.team_by_league(tour.league) && tour.national? && tour.set_lineup?
           - if tour.lineup_exist?(current_user.team_by_league(tour.league))
-            = link_to t('tours.edit_lineup'), ''
+            = link_to t('tours.edit_lineup'), edit_team_lineup_path(current_user.team_by_league(tour.league), current_user.lineup_by_tour(tour))
           - else
             = link_to t('tours.create_lineup'), new_team_lineup_path(current_user.team_by_league(tour.league), tour_id: tour.id)
       .round-matches

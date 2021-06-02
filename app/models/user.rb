@@ -26,6 +26,10 @@ class User < ApplicationRecord
     teams.find_by(league_id: league.id)
   end
 
+  def lineup_by_tour(tour)
+    team_by_league(tour.league)&.lineups&.find_by(tour: tour)
+  end
+
   def active_team
     return unless teams
 

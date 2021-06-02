@@ -3,9 +3,10 @@ RSpec.describe 'Lineups', type: :request do
 
   describe 'GET #new' do
     let(:team) { create(:team, :with_user) }
+    let(:tour) { create(:set_lineup_tour) }
 
     before do
-      get new_team_lineup_path(team)
+      get new_team_lineup_path(team, tour_id: tour.id)
     end
 
     context 'when user is logged out' do
@@ -16,10 +17,37 @@ RSpec.describe 'Lineups', type: :request do
     context 'with foreign team when user is logged in' do
       login_user
       before do
-        get new_team_lineup_path(team)
+        get new_team_lineup_path(team, tour_id: tour.id)
       end
 
-      it { expect(response).to redirect_to(team_path(team)) }
+      it { expect(response).to redirect_to(tour_path(tour)) }
+      it { expect(response).to have_http_status(:found) }
+    end
+
+    context 'with own team when lineup already exist' do
+      before do
+        logged_user = create(:user)
+        team = create(:team, user: logged_user)
+        sign_in logged_user
+        create(:lineup, tour: tour, team: team)
+        get new_team_lineup_path(team, tour_id: tour.id)
+      end
+
+      it { expect(response).to redirect_to(tour_path(tour)) }
+      it { expect(response).to have_http_status(:found) }
+    end
+
+    context 'with own team when not set_lineup tour' do
+      let(:tour) { create(:tour) }
+
+      before do
+        logged_user = create(:user)
+        team = create(:team, user: logged_user)
+        sign_in logged_user
+        get new_team_lineup_path(team, tour_id: tour.id)
+      end
+
+      it { expect(response).to redirect_to(tour_path(tour)) }
       it { expect(response).to have_http_status(:found) }
     end
 
@@ -28,12 +56,11 @@ RSpec.describe 'Lineups', type: :request do
         logged_user = create(:user)
         team = create(:team, user: logged_user)
         sign_in logged_user
-        get new_team_lineup_path(team)
+        get new_team_lineup_path(team, tour_id: tour.id)
       end
 
       it { expect(response).to be_successful }
       it { expect(response).to render_template(:new) }
-      it { expect(response).to render_template(:_module_form) }
       it { expect(response).to render_template(:_header) }
       it { expect(response).to have_http_status(:ok) }
       it { expect(assigns(:modules)).not_to be_nil }
@@ -43,9 +70,10 @@ RSpec.describe 'Lineups', type: :request do
 
   describe 'POST #create' do
     let(:team) { create(:team, :with_user) }
+    let(:tour) { create(:set_lineup_tour) }
     let(:params) do
       {
-        lineup: { team_module_id: 1 }
+        lineup: { team_module_id: 1, tour_id: tour.id }
       }
     end
 
@@ -64,7 +92,23 @@ RSpec.describe 'Lineups', type: :request do
         post team_lineups_path(team, params)
       end
 
-      it { expect(response).to redirect_to(team_path(team)) }
+      it { expect(response).to redirect_to(tour_path(tour)) }
+      it { expect(response).to have_http_status(:found) }
+    end
+
+    context 'with own team when lineup already exist' do
+      let(:logged_user) { create(:user) }
+      let(:team) { create(:team, user: logged_user) }
+
+      before do
+        tour = create(:set_lineup_tour, league: team.league)
+        create(:lineup, tour: tour, team: team)
+        sign_in logged_user
+
+        post team_lineups_path(team, params)
+      end
+
+      it { expect(response).to redirect_to(tour_path(tour)) }
       it { expect(response).to have_http_status(:found) }
     end
 
@@ -73,42 +117,31 @@ RSpec.describe 'Lineups', type: :request do
       let(:team) { create(:team, user: logged_user) }
 
       before do
-        creator = instance_double(TeamLineups::Creator)
-        allow(TeamLineups::Creator).to receive(:new).and_return(creator)
-        allow(creator).to receive(:call).and_return(lineup)
-        allow(creator).to receive(:lineup).and_return(lineup)
-
         create(:set_lineup_tour, league: team.league)
         sign_in logged_user
 
         post team_lineups_path(team, params)
       end
 
-      it { expect(response).to redirect_to(edit_team_lineup_path(team, lineup)) }
+      it { expect(response).to redirect_to(tour_path(tour)) }
       it { expect(response).to have_http_status(:found) }
     end
 
     context 'with own team and invalid params when user is logged in' do
       let(:logged_user) { create(:user) }
       let(:team) { create(:team, user: logged_user) }
-      let(:full_messages) { ['Lineup already exist'] }
+      let(:lineup) { create(:lineup, tour: tour) }
 
       before do
-        creator = instance_double(TeamLineups::Creator)
-        errors = instance_double(ActiveModel::Errors)
-        allow(TeamLineups::Creator).to receive(:new).and_return(creator)
-        allow(creator).to receive(:call).and_return(lineup)
-        allow(creator).to receive(:lineup).and_return(lineup)
-        allow(lineup).to receive(:errors).and_return(errors)
-        allow(errors).to receive(:full_messages).and_return(full_messages)
+        allow(Lineup).to receive(:new).and_return(lineup)
+        allow(lineup).to receive(:save).and_return(false)
 
-        create(:set_lineup_tour, league: team.league)
         sign_in logged_user
 
         post team_lineups_path(team, params)
       end
 
-      it { expect(response).to redirect_to(new_team_lineup_path(team)) }
+      it { expect(response).to redirect_to(new_team_lineup_path(team, team_module_id: lineup.team_module_id, tour_id: lineup.tour_id)) }
       it { expect(response).to have_http_status(:found) }
     end
   end
@@ -124,15 +157,16 @@ RSpec.describe 'Lineups', type: :request do
     end
 
     context 'with foreign team and set_lineup tour when user is logged in' do
-      let(:lineup) { create(:lineup, tour: create(:set_lineup_tour)) }
+      let(:tour) { create(:set_lineup_tour) }
+      let(:lineup) { create(:lineup, tour: tour) }
 
       login_user
       before do
-        create(:match, tour: lineup.tour, host: lineup.team)
+        create(:match, tour: tour, host: lineup.team)
         get edit_team_lineup_path(lineup.team, lineup)
       end
 
-      it { expect(response).to redirect_to(match_path(lineup.match)) }
+      it { expect(response).to redirect_to(tour_path(tour)) }
       it { expect(response).to have_http_status(:found) }
     end
 
@@ -146,7 +180,7 @@ RSpec.describe 'Lineups', type: :request do
         get edit_team_lineup_path(lineup.team, lineup)
       end
 
-      it { expect(response).to redirect_to(match_path(lineup.match)) }
+      it { expect(response).to redirect_to(tour_path(lineup.tour)) }
       it { expect(response).to have_http_status(:found) }
     end
 
@@ -224,7 +258,7 @@ RSpec.describe 'Lineups', type: :request do
         put team_lineup_path(lineup.team, lineup, params)
       end
 
-      it { expect(response).to redirect_to(match_path(lineup.match)) }
+      it { expect(response).to redirect_to(tour_path(lineup.tour)) }
       it { expect(response).to have_http_status(:found) }
     end
 
@@ -238,7 +272,7 @@ RSpec.describe 'Lineups', type: :request do
         put team_lineup_path(lineup.team, lineup, params)
       end
 
-      it { expect(response).to redirect_to(match_path(lineup.match)) }
+      it { expect(response).to redirect_to(tour_path(lineup.tour)) }
       it { expect(response).to have_http_status(:found) }
     end
 
@@ -283,7 +317,7 @@ RSpec.describe 'Lineups', type: :request do
         put team_lineup_path(lineup.team, lineup, params)
       end
 
-      it { expect(response).to redirect_to(match_path(lineup.match)) }
+      it { expect(response).to redirect_to(tour_path(lineup.tour)) }
       it { expect(response).to have_http_status(:found) }
     end
   end
@@ -362,62 +396,6 @@ RSpec.describe 'Lineups', type: :request do
 
         get clone_team_lineups_path(lineup.team, tour_id: tour.id)
       end
-    end
-  end
-
-  describe 'GET #edit_module' do
-    before do
-      get edit_module_team_lineup_path(lineup.team, lineup)
-    end
-
-    context 'when user is logged out' do
-      it { expect(response).to redirect_to('/users/sign_in') }
-      it { expect(response).to have_http_status(:found) }
-    end
-
-    context 'with foreign team and set_lineup tour when user is logged in' do
-      let(:lineup) { create(:lineup, tour: create(:set_lineup_tour)) }
-
-      login_user
-      before do
-        create(:match, tour: lineup.tour, host: lineup.team)
-        get edit_module_team_lineup_path(lineup.team, lineup)
-      end
-
-      it { expect(response).to redirect_to(match_path(lineup.match)) }
-      it { expect(response).to have_http_status(:found) }
-    end
-
-    context 'with own team and not set_lineup tour when user is logged in' do
-      let(:logged_user) { create(:user) }
-      let(:lineup) { create(:lineup, team: create(:team, user: logged_user)) }
-
-      before do
-        sign_in logged_user
-        create(:match, tour: lineup.tour, host: lineup.team)
-        get edit_module_team_lineup_path(lineup.team, lineup)
-      end
-
-      it { expect(response).to redirect_to(match_path(lineup.match)) }
-      it { expect(response).to have_http_status(:found) }
-    end
-
-    context 'with own team when user is logged in' do
-      let(:logged_user) { create(:user) }
-      let(:lineup) { create(:lineup, team: create(:team, user: logged_user), tour: create(:set_lineup_tour)) }
-
-      before do
-        sign_in logged_user
-        create(:match, tour: lineup.tour, host: lineup.team)
-        get edit_module_team_lineup_path(lineup.team, lineup)
-      end
-
-      it { expect(response).to be_successful }
-      it { expect(response).to render_template(:edit_module) }
-      it { expect(response).to render_template(:_header) }
-      it { expect(response).to have_http_status(:ok) }
-      it { expect(assigns(:modules)).not_to be_nil }
-      it { expect(assigns(:lineup)).not_to be_nil }
     end
   end
 

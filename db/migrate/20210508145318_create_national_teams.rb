@@ -1,8 +1,9 @@
 class CreateNationalTeams < ActiveRecord::Migration[5.2]
   def change
     create_table :national_teams do |t|
-      t.string :name, default: "", null: false
-      t.string :code, default: "", null: false
+      t.string :name, default: '', null: false
+      t.string :code, default: '', null: false
+      t.string :color, default: 'DB0A23', null: false
       t.references :tournament, foreign_key: true
 
       t.timestamps

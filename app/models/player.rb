@@ -59,6 +59,14 @@ class Player < ApplicationRecord
     full_name.downcase.tr(' ', '_').tr('-', '_').delete("'")
   end
 
+  def national_kit_path
+    "kits/national/kits_small/#{national_team.code}.png" if national_team
+  end
+
+  def profile_national_kit_path
+    "kits/national/#{national_team.code}.png" if national_team
+  end
+
   def kit_path
     "kits/kits_small/#{club.path_name}.png"
   end

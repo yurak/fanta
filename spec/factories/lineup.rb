@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :lineup do
-    association :team_module
+    team_module { TeamModule.first || association(:team_module) }
     association :tour
     association :team
 

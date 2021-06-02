@@ -24,4 +24,25 @@ RSpec.describe NationalTeam, type: :model do
     it { is_expected.to validate_presence_of :code }
     it { is_expected.to validate_uniqueness_of :code }
   end
+
+  describe '#opponent_by_round' do
+    let(:tournament_round) { create(:tournament_round) }
+    let(:national_team2) { create(:national_team, name: 'AC Milan') }
+
+    context 'when national_team is host of match' do
+      it 'returns opponent national_team' do
+        create(:national_match, tournament_round: tournament_round, host_team: national_team, guest_team: national_team2)
+
+        expect(national_team.opponent_by_round(tournament_round)).to eq(national_team2)
+      end
+    end
+
+    context 'when national_team is guest of match' do
+      it 'returns opponent national_team' do
+        create(:national_match, tournament_round: tournament_round, host_team: national_team2, guest_team: national_team)
+
+        expect(national_team.opponent_by_round(tournament_round)).to eq(national_team2)
+      end
+    end
+  end
 end

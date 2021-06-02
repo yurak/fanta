@@ -187,6 +187,42 @@ RSpec.describe Player, type: :model do
     end
   end
 
+  describe '#national_kit_path' do
+    context 'without national_team' do
+      it 'returns nil' do
+        expect(player.national_kit_path).to eq(nil)
+      end
+    end
+
+    context 'with national_team' do
+      let(:player) { create(:player, :with_national_team) }
+
+      it 'returns kit path' do
+        allow(player.national_team).to receive(:code).and_return('ac_milan')
+
+        expect(player.national_kit_path).to eq('kits/national/kits_small/ac_milan.png')
+      end
+    end
+  end
+
+  describe '#profile_national_kit_path' do
+    context 'without national_team' do
+      it 'returns nil' do
+        expect(player.profile_national_kit_path).to eq(nil)
+      end
+    end
+
+    context 'with national_team' do
+      let(:player) { create(:player, :with_national_team) }
+
+      it 'returns kit path' do
+        allow(player.national_team).to receive(:code).and_return('ac_milan')
+
+        expect(player.profile_national_kit_path).to eq('kits/national/ac_milan.png')
+      end
+    end
+  end
+
   describe '#position_names' do
     let(:player) { create(:player, :with_pos_w_a) }
 

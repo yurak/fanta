@@ -56,6 +56,29 @@ RSpec.describe User, type: :model do
     end
   end
 
+  describe '#lineup_by_tour(tour)' do
+    let(:tour) { create(:tour) }
+
+    context 'without team in league' do
+      it { expect(user.lineup_by_tour(tour)).to eq(nil) }
+    end
+
+    context 'without lineup for tour' do
+      before do
+        create(:team, user: user, league: tour.league)
+      end
+
+      it { expect(user.lineup_by_tour(tour)).to eq(nil) }
+    end
+
+    context 'with lineup for tour' do
+      let!(:team) { create(:team, user: user, league: tour.league) }
+      let!(:lineup) { create(:lineup, tour: tour, team: team) }
+
+      it { expect(user.lineup_by_tour(tour)).to eq(lineup) }
+    end
+  end
+
   describe '#active_team' do
     context 'without team' do
       it { expect(user.active_team).to eq(nil) }
