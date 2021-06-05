@@ -78,7 +78,7 @@ module TournamentMatches
     end
 
     def tournament_rounds
-      TournamentRound.where(season: season, tournament: tournament)
+      @tournament_rounds ||= TournamentRound.where(season: season, tournament: tournament)
     end
 
     def season

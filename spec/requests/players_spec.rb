@@ -97,7 +97,7 @@ RSpec.describe 'Players', type: :request do
       it 'returns player name' do
         body = JSON(response.body)
 
-        expect(body['name']).to eq(player.name.upcase)
+        expect(body['name']).to eq(player.name)
       end
 
       it 'returns player avatar_path' do

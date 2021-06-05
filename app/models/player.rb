@@ -1,5 +1,6 @@
 class Player < ApplicationRecord
   belongs_to :club
+  belongs_to :national_team, optional: true
 
   has_many :player_positions, dependent: :destroy
   has_many :positions, through: :player_positions
@@ -16,6 +17,8 @@ class Player < ApplicationRecord
   scope :by_club, ->(club_id) { where(club_id: club_id) }
   scope :by_position, ->(position) { joins(:positions).where(positions: { name: position }) }
   scope :by_tournament, ->(tournament_id) { joins(:club).where(clubs: { tournament: tournament_id, status: 'active' }) }
+  scope :by_national_teams, ->(nt_id) { where(national_team_id: nt_id) }
+  scope :by_national_tournament_round, ->(tr) { by_national_teams(tr.national_matches.pluck(:host_team_id, :guest_team_id).reduce([], :+)) }
   scope :stats_query, -> { includes(:club, :positions).order(:name) }
   scope :with_team, -> { includes(:teams).where.not(teams: { id: nil }) }
 
@@ -56,12 +59,20 @@ class Player < ApplicationRecord
     full_name.downcase.tr(' ', '_').tr('-', '_').delete("'")
   end
 
+  def national_kit_path
+    "#{BUCKET_URL}/kits/national_small/#{national_team.code}.png" if national_team
+  end
+
+  def profile_national_kit_path
+    "#{BUCKET_URL}/kits/national/#{national_team.code}.png" if national_team
+  end
+
   def kit_path
-    "kits/kits_small/#{club.path_name}.png"
+    "#{BUCKET_URL}/kits/club_small/#{club.path_name}.png"
   end
 
   def profile_kit_path
-    "kits/#{club.path_name}.png"
+    "#{BUCKET_URL}/kits/club/#{club.path_name}.png"
   end
 
   def position_names
@@ -69,7 +80,7 @@ class Player < ApplicationRecord
   end
 
   def position_sequence_number
-    positions.first.id
+    positions.first&.id
   end
 
   # Current season statistic

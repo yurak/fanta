@@ -20,8 +20,9 @@
       .leagues-list-item-param= league.name
       .leagues-list-item-param= league.tournament.name
       .leagues-list-item-param.leagues-list-leader
-        = image_tag(league.leader.logo_path)
-        = league.leader.human_name
+        - if league.leader
+          = image_tag(league.leader.logo_path)
+          = league.leader.human_name
       .leagues-list-item-param.right= league.teams.count
       .leagues-list-item-param.right= league.active_tour&.number || league.tours.count
       .leagues-list-item-param.league-link

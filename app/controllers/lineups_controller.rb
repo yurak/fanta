@@ -1,28 +1,32 @@
 class LineupsController < ApplicationController
+  before_action :modules, only: %i[new edit]
+
   respond_to :html
 
-  helper_method :team, :lineup, :modules, :match_player
+  helper_method :lineup, :match_player, :modules, :team, :team_module, :tour
 
   def new
-    redirect_to team_path(team) unless team_of_user?
+    redirect_to tour_path(tour) unless valid_conditions?
 
-    modules
-    @lineup = Lineup.new
+    @lineup = Lineup.new(team_module: team_module, tour: tour, team: team)
+    build_match_players
   end
 
   def create
-    if team_of_user?
-      team_lineups_creator.call
+    path = tour_path(tour)
 
-      if team_lineups_creator.lineup.errors.present?
-        flash[:error] = "Lineup was not created: #{team_lineups_creator.lineup.errors.full_messages.to_sentence}"
-        redirect_to new_team_lineup_path(team)
+    if valid_conditions?
+      if duplicate_players&.any? || invalid_players_count?
+        path = new_team_lineup_path(team, team_module_id: params[:lineup][:team_module_id], tour_id: tour.id)
       else
-        redirect_to edit_team_lineup_path(team, team_lineups_creator.lineup)
+        recount_round_players_params
+        @lineup = Lineup.new(lineup_params.merge(team: team))
+
+        path = new_team_lineup_path(team, team_module_id: @lineup.team_module_id, tour_id: @lineup.tour_id) unless @lineup.save
       end
-    else
-      redirect_to team_path(team)
     end
+
+    redirect_to path
   end
 
   def clone
@@ -32,20 +36,13 @@ class LineupsController < ApplicationController
   end
 
   def edit
-    redirect_to match_path(lineup.match) unless editable?
-  end
+    team_module
 
-  def edit_module
-    if editable?
-      modules
-    else
-      redirect_to match_path(lineup.match)
-    end
+    redirect_to tour_path(tour) unless editable?
   end
 
   def update
-    if duplicate_players&.any?
-      flash[:error] = "ERROR! Same player on multiple positions: #{duplicate_names}"
+    if duplicate_players&.any? || invalid_players_count?
       redirect_to edit_team_lineup_path(team, lineup)
     else
       if editable?
@@ -53,7 +50,7 @@ class LineupsController < ApplicationController
         lineup.update(update_lineup_params)
       end
 
-      redirect_to match_path(lineup.match)
+      redirect_to tour_path(tour)
     end
   end
 
@@ -71,20 +68,24 @@ class LineupsController < ApplicationController
 
   private
 
-  def team_lineups_creator
-    @team_lineups_creator ||= TeamLineups::Creator.new(params: lineup_params, team: team)
-  end
-
   def team_lineups_cloner
     @team_lineups_cloner ||= TeamLineups::Cloner.new(team: team, tour: tour)
   end
 
+  def call_substituter
+    MatchPlayers::Substituter.call(out_mp_id: params[:out_mp_id], in_mp_id: params[:in_mp_id])
+  end
+
   def lineup_params
-    params.fetch(:lineup, {}).permit(:team_module_id, tema_module_id: [])
+    params.fetch(:lineup, {}).permit(:team_module_id, :tour_id, match_players_attributes: {})
   end
 
   def update_lineup_params
     params.fetch(:lineup, {}).permit(:team_module_id, match_players_attributes: {})
+  end
+
+  def build_match_players
+    @lineup.players_count.times { @lineup.match_players.build }
   end
 
   def recount_round_players_params
@@ -94,36 +95,25 @@ class LineupsController < ApplicationController
       next unless params[:lineup][:match_players_attributes][k][:round_player_id]
 
       player = Player.find(params[:lineup][:match_players_attributes][k][:round_player_id])
-      round_player = RoundPlayer.find_or_create_by(tournament_round: tournament_round, player: player)
+      round_player = RoundPlayer.find_or_create_by(tournament_round: tour.tournament_round, player: player)
       params[:lineup][:match_players_attributes][k][:round_player_id] = round_player.id
     end
   end
 
-  def duplicate_players
-    return if params[:lineup][:match_players_attributes].blank?
-
-    player_ids = params[:lineup][:match_players_attributes].values.each_with_object([]) { |el, p_ids| p_ids << el[:round_player_id] }
-    player_ids.find_all { |id| player_ids.rindex(id) != player_ids.index(id) }
-  end
-
-  def duplicate_names
-    Player.find(duplicate_players.uniq).map(&:name).join(', ')
-  end
-
   def lineup
-    @lineup ||= Lineup.find(params[:id])
+    @lineup ||= Lineup.find_by(id: params[:id])
   end
 
   def team
     @team ||= Team.find(params[:team_id])
   end
 
-  def tour
-    @tour ||= Tour.find(params[:tour_id])
+  def team_module
+    @team_module ||= TeamModule.find_by(id: params[:team_module_id]) || TeamModule.first
   end
 
-  def tournament_round
-    lineup.tour.tournament_round
+  def tour
+    @tour ||= lineup&.tour || Tour.find(params[:tour_id] || lineup_params[:tour_id])
   end
 
   def modules
@@ -138,15 +128,41 @@ class LineupsController < ApplicationController
     team.user == current_user
   end
 
+  def valid_conditions?
+    team_of_user? && tour.set_lineup? && !tour_lineup_exist?
+  end
+
+  def players_ids
+    return if params[:lineup][:match_players_attributes].blank?
+
+    params[:lineup][:match_players_attributes].values.each_with_object([]) { |el, p_ids| p_ids << el[:round_player_id] }
+  end
+
+  def invalid_players_count?
+    return false unless tour.national?
+
+    national_team_ids = Player.find(players_ids).map(&:national_team_id)
+    return true if national_team_ids.uniq.count < tour.national_teams_count
+
+    national_teams_hash = national_team_ids.each_with_object(Hash.new(0)) { |word, counts| counts[word] += 1 }
+    return true if national_teams_hash.values.max > tour.max_country_players
+
+    false
+  end
+
+  def duplicate_players
+    players_ids&.find_all { |id| players_ids.rindex(id) != players_ids.index(id) }
+  end
+
+  def tour_lineup_exist?
+    tour.lineups.find_by(team: team)
+  end
+
   def editable?
-    lineup.tour.set_lineup? && team_of_user?
+    tour.set_lineup? && team_of_user?
   end
 
   def sub_available?
-    lineup.tour.locked_or_postponed? && match_player.not_played? && (can? :substitutions, Lineup)
-  end
-
-  def call_substituter
-    MatchPlayers::Substituter.call(out_mp_id: params[:out_mp_id], in_mp_id: params[:in_mp_id])
+    tour.locked_or_postponed? && match_player.not_played? && (can? :substitutions, Lineup)
   end
 end

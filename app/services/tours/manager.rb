@@ -25,7 +25,7 @@ module Tours
     private
 
     def set_lineup
-      return if any_tour_in_progress? || status != SET_LINEUP_STATUS
+      return if status != SET_LINEUP_STATUS
 
       tour.set_lineup! if RoundPlayers::Creator.call(tour.tournament_round.id)
     end
@@ -55,10 +55,6 @@ module Tours
 
         TeamLineups::Cloner.call(team: team, tour: tour)
       end
-    end
-
-    def any_tour_in_progress?
-      league.tours.set_lineup.exists? || league.tours.locked.exists?
     end
 
     def league

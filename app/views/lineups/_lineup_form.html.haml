@@ -1,0 +1,132 @@
+.new-lineup-page
+  .new-lineup-header
+    .new-lineup-back
+      .new-lineup-close
+        = link_to tour_path(tour) do
+          &times;
+      .new-lineup-header-text
+        .new-lineup-header-title Setup lineup
+        .new-lineup-header-subtitle Select module and players
+    .new-lineup-confirm
+      = submit_tag "Confirm squad", form: 'new_lineup', class: 'submit', id: 'submit-lineup-btn'
+  .new-lineup-block
+    .module-section
+      #modules-modal-btn
+        .module-name
+          = team_module&.name || lineup.team_module.name
+          = image_tag('icons/dropdown.svg')
+        #modules-modal.modal
+          .modal-content
+            %span.close
+            .modal-title
+              Change module
+            .modal-modules-block
+              - @modules.each do |team_module|
+                = link_to module_link(lineup, team_module) do
+                  .team-module-block
+                    = team_module.name
+                    = image_tag("modules/#{team_module.name}.jpg")
+      .module-image
+        = image_tag("modules/#{team_module&.name || lineup.team_module.name}.jpg")
+    .players-section
+      .main-players-title
+        = 'Main squad'
+      .main-players
+        = form_with model: [team, lineup], id: 'new_lineup', local: true do |f|
+          = f.hidden_field :team_module_id, value: team_module&.id || lineup.team_module.id
+          = f.hidden_field :tour_id, value: tour.id
+          = f.fields_for :match_players do |mp|
+            .lineup-slot
+              = mp.hidden_field(:real_position, value: team_module.slots[mp.index]&.position)
+              = mp.hidden_field(:round_player_id, value: player_by_mp(mp)&.id, class: 'round-player-input', id: "round-player-#{mp.index}")
+              .input-group
+                .player-data{id: "modal-player-data#{mp.index}"}
+                  .team-player-data
+                    .team-player-avatar
+                      .player-show-face
+                        %object{data: player_by_mp(mp)&.avatar_path || '', type: 'image/jpg', id: "avatar-#{mp.index}"}
+                          = image_tag('avatar.png')
+                      .player-show-kit
+                        %object{data: player_by_mp(mp)&.national_kit_path || '', type: 'image/jpg', id: "kit-#{mp.index}"}
+                          = image_tag('kit_small_default2.png')
+                      .squad-position
+                        .slot-position{class: "slot-position-#{team_module.slots[mp.index]&.position&.tr('/', '')}"}
+                          = team_module.slots[mp.index]&.position
+                    .team-player-name
+                      .team-player-last-name{ id: "name-#{mp.index}" }
+                        = player_by_mp(mp)&.name || 'Not selected'
+                      .team-player-first-name{ id: "first-name-#{mp.index}" }
+                        = player_by_mp(mp)&.first_name || ''
+                      .team-player-country{ id: "country-#{mp.index}", style: "display: none;" }= player_by_mp(mp)&.national_team&.name
+                    .team-player-dropdown
+                      = image_tag('icons/dropdown.svg')
+                  .modal-players-list{id: "modal-players-list#{mp.index}"}
+                    .players-modal-content
+                      %span.close
+                      .modal-players-title
+                        Select player
+                      .modal-modules-block
+                        - tournament_round_players(tour.tournament_round, team_module.slots[mp.index]&.position).each do |player|
+                          .modal-player-item{id: "player#{player.id}", style: "background-color: ##{ player.national_team.color };"}
+                            .player-show-images
+                              .player-show-face
+                                %object{data: player.avatar_path, type: 'image/jpg'}
+                                  = image_tag('avatar.png')
+                              .player-show-kit
+                                %object{data: player.national_kit_path, type: 'image/jpg'}
+                                  = image_tag('kit_small_default2.png')
+                            .player-name
+                              %span
+                                = player.name.upcase
+                            .player-match
+                              .player-match-team
+                                = flag_icon(player.nationality.to_sym, element: :div)
+                              .player-match-team
+                                vs
+                              .player-match-team
+                                = flag_icon(player.national_team.opponent_by_round(tour.tournament_round)&.code.to_sym, element: :div)
+
+%script{type: "text/javascript", src: "/javascripts/lib/new_lineup.js.erb"}
+
+:javascript
+  $(document).ready(function() {
+    $("#submit-lineup-btn").click(function(){
+      const player_countries = [];
+      $('.team-player-country').each(function() { player_countries.push(this.textContent); });
+      const unique_countries = player_countries.filter((v, i, a) => a.indexOf(v) === i).filter(Boolean);
+
+      if (unique_countries.length < "#{tour.national_teams_count}") {
+        alert('You should select minimum 1 player from each country');
+        return false;
+      }
+
+      const counts = {};
+      player_countries.filter(Boolean).forEach(function(x) { counts[x] = (counts[x] || 0)+1; });
+      const countries_values = Object.keys(counts).map(function(v) { return counts[v]; });
+      const max_country_players = Math.max.apply(Math, countries_values);
+      const country_players_limit = "#{tour.max_country_players}"
+
+      if (max_country_players > country_players_limit) {
+        alert("You can't select more than " + country_players_limit + ' players from one country');
+        return false;
+      }
+
+      const player_ids = [];
+      $('.round-player-input').each(function() { player_ids.push($(this).val()); });
+      const filtered = player_ids.filter(Boolean);
+
+      if (filtered.length < 11) {
+          alert('Lineup should contain 11 unique players');
+          return false;
+      }
+
+      const duplicate_ids = player_ids.reduce(function(acc, el, i, arr) {
+          if (arr.indexOf(el) !== i && acc.indexOf(el) < 0) acc.push(el); return acc;
+      }, []);
+
+      if (duplicate_ids.length > 0) {
+          alert('Lineup contains duplicate players');
+          return false;
+      }
+    });
+  });

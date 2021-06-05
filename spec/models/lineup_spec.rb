@@ -182,4 +182,18 @@ RSpec.describe Lineup, type: :model do
       end
     end
   end
+
+  describe '#players_count' do
+    context 'when mantra tour' do
+      it { expect(lineup.players_count).to eq(18) }
+    end
+
+    context 'when national tour' do
+      before do
+        create(:national_match, tournament_round: lineup.tour.tournament_round)
+      end
+
+      it { expect(lineup.players_count).to eq(11) }
+    end
+  end
 end

@@ -1,11 +1,7 @@
 class PlayerSerializer < ActiveModel::Serializer
-  attributes :id, :name, :avatar_path, :kit_path
+  attributes :avatar_path, :first_name, :id, :kit_path, :name, :national_kit_path, :national_team_name
 
-  def name
-    object.name.upcase
-  end
-
-  def kit_path
-    "/assets/#{ActionController::Base.helpers.resolve_asset_path(object.kit_path)}"
+  def national_team_name
+    object.national_team&.name
   end
 end

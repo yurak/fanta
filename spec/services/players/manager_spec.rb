@@ -20,16 +20,80 @@ RSpec.describe Players::Manager do
       }
     end
 
+    before do
+      create(:club, name: 'xxx')
+    end
+
     context 'with blank params' do
       let(:player_hash) { {} }
 
       it { expect(manager.call).to eq(false) }
     end
 
-    context 'without club_name' do
+    context 'without club_name and national_team' do
       let(:club_name) { nil }
 
       it { expect(manager.call).to eq(false) }
+    end
+
+    context 'with national_team flag and not existed national_team and without club_name' do
+      let(:player_hash) do
+        {
+          'id' => player_id,
+          'name' => player.name,
+          'club_name' => 'club_name',
+          'first_name' => 'Pippo',
+          'nationality' => 'it',
+          'position1' => player_position1,
+          'position2' => nil,
+          'position3' => nil,
+          'tm_url' => 'https://www.transfermarkt.com',
+          'national_team' => 'true'
+        }
+      end
+
+      it { expect(manager.call).to eq(false) }
+    end
+
+    context 'with national_team flag and existed national_team and without club_name' do
+      let(:player_hash) do
+        {
+          'id' => player_id,
+          'name' => player.name,
+          'club_name' => 'club_name',
+          'first_name' => 'Pippo',
+          'nationality' => 'it',
+          'position1' => player_position1,
+          'position2' => nil,
+          'position3' => nil,
+          'tm_url' => 'https://www.transfermarkt.com',
+          'national_team' => 'true'
+        }
+      end
+
+      before do
+        create(:national_team, code: 'it')
+      end
+
+      it { expect(manager.call).to eq(true) }
+
+      it 'creates player with correct name' do
+        manager.call
+
+        expect(Player.last.name).to eq(player.name)
+      end
+
+      it 'creates player with base club' do
+        manager.call
+
+        expect(Player.last.club.name).to eq('xxx')
+      end
+
+      it 'creates player with correct national_team' do
+        manager.call
+
+        expect(Player.last.national_team.code).to eq('it')
+      end
     end
 
     context 'without player id' do

@@ -3,7 +3,7 @@ class TeamsController < ApplicationController
 
   respond_to :html
 
-  helper_method :team, :league
+  helper_method :team
 
   def show; end
 

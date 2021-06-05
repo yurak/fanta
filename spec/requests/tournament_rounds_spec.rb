@@ -46,6 +46,20 @@ RSpec.describe 'Users', type: :request do
       it { expect(response).to have_http_status(:ok) }
       it { expect(assigns(:round_players)).not_to be_nil }
     end
+
+    context 'with national tournament when admin is logged in' do
+      login_admin
+      before do
+        create_list(:national_team, 4, tournament: tournament_round.tournament)
+        get edit_tournament_round_path(tournament_round)
+      end
+
+      it { expect(response).to be_successful }
+      it { expect(response).to render_template(:edit) }
+      it { expect(response).to render_template(:_header) }
+      it { expect(response).to have_http_status(:ok) }
+      it { expect(assigns(:round_players)).not_to be_nil }
+    end
   end
 
   describe 'PUT/PATCH #update' do

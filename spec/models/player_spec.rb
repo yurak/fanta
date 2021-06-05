@@ -6,6 +6,7 @@ RSpec.describe Player, type: :model do
 
   describe 'Associations' do
     it { is_expected.to belong_to(:club) }
+    it { is_expected.to belong_to(:national_team).optional }
     it { is_expected.to have_many(:player_positions).dependent(:destroy) }
     it { is_expected.to have_many(:positions).through(:player_positions) }
     it { is_expected.to have_many(:player_teams).dependent(:destroy) }
@@ -174,7 +175,7 @@ RSpec.describe Player, type: :model do
     it 'returns kit path' do
       allow(player.club).to receive(:path_name).and_return('ac_milan')
 
-      expect(player.kit_path).to eq('kits/kits_small/ac_milan.png')
+      expect(player.kit_path).to eq('https://mantrafootball.s3-eu-west-1.amazonaws.com/kits/club_small/ac_milan.png')
     end
   end
 
@@ -182,7 +183,43 @@ RSpec.describe Player, type: :model do
     it 'returns kit path' do
       allow(player.club).to receive(:path_name).and_return('ac_milan')
 
-      expect(player.profile_kit_path).to eq('kits/ac_milan.png')
+      expect(player.profile_kit_path).to eq('https://mantrafootball.s3-eu-west-1.amazonaws.com/kits/club/ac_milan.png')
+    end
+  end
+
+  describe '#national_kit_path' do
+    context 'without national_team' do
+      it 'returns nil' do
+        expect(player.national_kit_path).to eq(nil)
+      end
+    end
+
+    context 'with national_team' do
+      let(:player) { create(:player, :with_national_team) }
+
+      it 'returns kit path' do
+        allow(player.national_team).to receive(:code).and_return('ac_milan')
+
+        expect(player.national_kit_path).to eq('https://mantrafootball.s3-eu-west-1.amazonaws.com/kits/national_small/ac_milan.png')
+      end
+    end
+  end
+
+  describe '#profile_national_kit_path' do
+    context 'without national_team' do
+      it 'returns nil' do
+        expect(player.profile_national_kit_path).to eq(nil)
+      end
+    end
+
+    context 'with national_team' do
+      let(:player) { create(:player, :with_national_team) }
+
+      it 'returns kit path' do
+        allow(player.national_team).to receive(:code).and_return('ac_milan')
+
+        expect(player.profile_national_kit_path).to eq('https://mantrafootball.s3-eu-west-1.amazonaws.com/kits/national/ac_milan.png')
+      end
     end
   end
 

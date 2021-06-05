@@ -2,13 +2,15 @@ module TournamentRounds
   class FotmobParser < ApplicationService
     attr_reader :tournament_round, :tournament_url
 
-    def initialize(tournament_round:, tournament_url:)
+    def initialize(tournament_url:, tournament_round: nil)
       @tournament_round = tournament_round
       @tournament_url = tournament_url
     end
 
     def call
-      request.code == 200 ? all_matches_data[tournament_round.number.to_s] : []
+      return [] unless request.code == 200
+
+      tournament_round ? all_matches_data[tournament_round.number.to_s] : all_matches_data
     end
 
     private

@@ -18,7 +18,8 @@
         %object{data: player.profile_avatar_path, type: 'image/jpg'}
           = image_tag('avatar.png')
       .player-show-kit
-        = image_tag(player.profile_kit_path, alt: 'Club Kit')
+        %object{data: player.profile_kit_path, type: 'image/jpg'}
+          = image_tag('kit_default2.png')
   .player-tables
     .player-tables-left
       .player-table
@@ -34,7 +35,8 @@
           .player-table-row-key= t('players.club')
           .player-table-row-value.player-table-club
             = player.club.name
-            = image_tag(player.club.logo_path, alt: 'Club Logo')
+            %object{data: player.club.logo_path, type: 'image/jpg'}
+              = image_tag('default_logo.png')
         - if player.tm_url.present?
           .player-table-row
             .player-table-row-key= t('players.transfermarkt')

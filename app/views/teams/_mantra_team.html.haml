@@ -1,0 +1,167 @@
+.teams-bar
+  - team.league.teams.each do |league_team|
+    = link_to team_path(league_team) do
+      .team-bar-item{ class: "current-team-#{team == league_team}"}
+        .team-bar-item-logo
+          = image_tag(league_team.logo_path)
+        .team-bar-item-name
+          = league_team.human_name
+  .team-section
+    .team-data
+      .team-logo
+        = image_tag(team.logo_path)
+      .team-name
+        = team.human_name
+      .team-points
+        = t('teams.points', :count => team.results.last&.points)
+      - if team.results.last
+        .team-league-data
+          .team-position
+            .team-position-left
+              .team-position-title= t('teams.position')
+              .team-rounds
+                .team-rounds-text= t('teams.rounds')
+                .team-rounds-played
+                  = team.results.last.matches_played
+                .team-rounds-total
+                  = "/#{team.league.tours.count}"
+            .team-position-right
+              = "##{team.results.last.position}"
+          .team-matches
+            .team-matches-item
+              .team-matches-title= t('teams.wins')
+              .team-matches-value
+                = team.results.last.wins
+            .team-matches-item
+              .team-matches-title= t('teams.draws')
+              .team-matches-value
+                = team.results.last.draws
+            .team-matches-item
+              .team-matches-title= t('teams.loses')
+              .team-matches-value
+                = team.results.last.loses
+      - if team.user
+        .team-additional.team-manager
+          .team-additional-text= t('teams.manager')
+          .team-manager-data
+            .team-manager-name
+              = team.user.name
+            .team-manager-avatar
+              = image_tag(team.user.avatar_path)
+      - if team.results.last
+        .team-additional
+          .team-additional-text= t('teams.form')
+          .team-form-value
+            - team.results.last.form.each do |form|
+              .team-form-item{ class: "team-form-#{form[0]}" }
+                = form[0]
+    .team-lists
+      .team-lists-tabs
+        #players.team-lists-tab-item.team-lists-tab-active= t('teams.players')
+        #games.team-lists-tab-item= t('teams.games')
+      .team-lists-content
+        .team-list.team-players
+          .team-players-headers
+            .team-players-header-item= t('teams.player')
+            .team-players-header-item.team-players-header-position= t('teams.positions')
+            .team-players-header-item.right= t('teams.appearances')
+            .team-players-header-item.right= t('teams.rating')
+            .team-players-header-item.center= t('teams.club')
+            .team-players-header-item
+          - team.players.sort_by(&:position_sequence_number).each do |player|
+            = link_to player_path(player) do
+              .team-player-item
+                .team-player-param-item.team-player-data
+                  .team-player-avatar
+                    .player-show-face
+                      %object{data: player.avatar_path, type: 'image/jpg'}
+                        = image_tag('avatar.png')
+                    .player-show-kit
+                      %object{data: player.kit_path, type: 'image/jpg'}
+                        = image_tag('kit_small_default2.png')
+                  .team-player-name
+                    .team-player-last-name
+                      = player.name
+                    .team-player-first-name
+                      = player.first_name
+                .team-player-param-item.team-player-position
+                  - player.positions.each do |position|
+                    .slot-position{class: "slot-position-#{position.name}"}
+                      = position.name
+                .team-player-param-item.team-player-appearances
+                  = player.season_scores_count
+                .team-player-param-item.team-player-rating
+                  = player.season_average_result_score
+                .team-player-param-item.team-player-club
+                  %object{data: player.club.logo_path, type: 'image/jpg'}
+                    = image_tag('default_logo.png')
+                .team-player-param-item.team-player-link
+                  = image_tag('icons/link_arrow.png')
+        .team-list.team-games
+          .team-games-headers
+            .team-games-header-item= t('teams.round')
+            .team-games-header-item= t('teams.opponent')
+            .team-games-header-item= t('teams.score')
+            .team-games-header-item
+          - team.league_matches.each do |match|
+            = link_to match_path(match) do
+              .team-game-item
+                .team-game-param-item
+                  .team-game-number= "##{match.tour.number}"
+                  .team-game-vs VS
+                .team-game-param-item.team-game-opponent
+                  = image_tag(team.opponent_by_match(match).logo_path)
+                  = team.opponent_by_match(match).human_name
+                .team-game-param-item.team-game-result
+                  - if match.tour.unlocked?
+                    .game-score-cell
+                      .result-cell-value vs
+                    .game-info-cell
+                      - if match.tour.deadline
+                        = match.tour.deadline&.strftime("%^a, %^b %e")
+                      - else
+                        = t('teams.unknown')
+                  - elsif match.tour.locked_or_postponed?
+                    .game-score-cell.game-score-locked
+                      .result-cell-value vs
+                    .game-info-cell
+                      - if team == match.host
+                        = "#{sprintf('%.2f', match.host_lineup&.total_score)} - #{sprintf('%.2f', match.guest_lineup&.total_score)}"
+                      - else
+                        = "#{sprintf('%.2f', match.guest_lineup&.total_score)} - #{sprintf('%.2f', match.host_lineup&.total_score)}"
+                  - else
+                    .game-score-cell.game-score-closed{ class: "game-score-#{team == match.host ? match.host_lineup&.result : match.guest_lineup&.result}" }
+                      .result-cell-value
+                        - if team == match.host
+                          = "#{match.host_lineup&.goals}:#{match.guest_lineup&.goals}"
+                        - else
+                          = "#{match.guest_lineup&.goals}:#{match.host_lineup&.goals}"
+                    .game-info-cell
+                      - if team == match.host
+                        = "#{sprintf('%.2f', match.host_lineup&.total_score)} - #{sprintf('%.2f', match.guest_lineup&.total_score)}"
+                      - else
+                        = "#{sprintf('%.2f', match.guest_lineup&.total_score)} - #{sprintf('%.2f', match.host_lineup&.total_score)}"
+                    .game-result-cell
+                      - if team == match.host
+                        .game-result-value{ class: "game-result-#{match.host_lineup&.result}" }
+                          = match.host_lineup&.result
+                      - else
+                        .game-result-value{ class: "game-result-#{match.guest_lineup&.result}" }
+                          = match.guest_lineup&.result
+                .team-game-param-item.team-game-link
+                  = image_tag('icons/link_arrow.png')
+
+:javascript
+  $(document).ready(function() {
+    $(".team-games").hide();
+
+    $(".team-lists-tab-item").click(function(){
+      var listId = this.id;
+
+      $(".team-lists-tab-item").removeClass("team-lists-tab-active");
+      $(".team-list").hide();
+
+      $("#" + listId).addClass("team-lists-tab-active");
+      $(".team-" + listId).show();
+    });
+  });

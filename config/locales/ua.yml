@@ -213,6 +213,8 @@ ua:
     postpone_round: "Відкласти раунд"
     edit_scores: "Редагувати оцінки"
     inject_scores: "Затягнути оцінки"
+    edit_lineup: "Змінити склад"
+    create_lineup: "Виставити склад"
     are_you_sure: "Ви впевнені?"
     set_done: "✅ Вибрано"
     set: "Set"
