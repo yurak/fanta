@@ -120,6 +120,44 @@ class Player < ApplicationRecord
   end
 
   def season_cards_count(card)
+    return 0 unless season_matches_with_scores.any?
+
     season_matches_with_scores.where(card => true).count
+  end
+
+  # NationalTeams Tournament statistic
+
+  def national_scores_count
+    @national_scores_count ||= national_matches_with_scores.size
+  end
+
+  def national_average_score
+    return 0 if national_scores_count.zero?
+
+    @national_average_score ||= (national_matches_with_scores.map(&:score).sum / national_scores_count).round(2)
+  end
+
+  def national_average_result_score
+    return 0 if national_scores_count.zero?
+
+    @national_average_result_score ||= (national_matches_with_scores.map(&:result_score).sum / national_scores_count).round(2)
+  end
+
+  def national_matches_with_scores
+    return [] unless national_team
+
+    @national_matches_with_scores ||= round_players.with_score
+                                                   .by_tournament_round(Tournament.with_national_teams.last&.tournament_rounds)
+                                                   .order(:tournament_round_id)
+  end
+
+  def national_bonus_count(bonus)
+    national_matches_with_scores.map(&bonus.to_sym).sum.to_i
+  end
+
+  def national_cards_count(card)
+    return 0 unless national_matches_with_scores.any?
+
+    national_matches_with_scores.where(card => true).count
   end
 end

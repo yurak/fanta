@@ -46,9 +46,9 @@
                     .slot-position{class: "slot-position-#{position.name}"}
                       = position.name
                 .team-player-param-item.team-player-appearances
-                  -# = player.season_scores_count
+                  = player.national_scores_count
                 .team-player-param-item.team-player-rating
-                  -# = player.season_average_result_score
+                  = player.national_average_result_score
                 .team-player-param-item.team-player-club
                   %object{data: player.club.logo_path, type: 'image/jpg'}
                     = image_tag('default_logo.png')
