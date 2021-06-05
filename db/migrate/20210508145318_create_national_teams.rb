@@ -4,6 +4,7 @@ class CreateNationalTeams < ActiveRecord::Migration[5.2]
       t.string :name, default: '', null: false
       t.string :code, default: '', null: false
       t.string :color, default: 'DB0A23', null: false
+      t.integer :status, default: 0, null: false
       t.references :tournament, foreign_key: true
 
       t.timestamps

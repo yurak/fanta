@@ -16,11 +16,13 @@ class LineupsController < ApplicationController
     path = tour_path(tour)
 
     if valid_conditions?
-      recount_round_players_params
-      @lineup = Lineup.new(lineup_params.merge(team: team))
+      if duplicate_players&.any? || invalid_players_count?
+        path = new_team_lineup_path(team, team_module_id: params[:lineup][:team_module_id], tour_id: tour.id)
+      else
+        recount_round_players_params
+        @lineup = Lineup.new(lineup_params.merge(team: team))
 
-      if duplicate_players&.any? || invalid_players_count? || !@lineup.save
-        path = new_team_lineup_path(team, team_module_id: @lineup.team_module_id, tour_id: @lineup.tour_id)
+        path = new_team_lineup_path(team, team_module_id: @lineup.team_module_id, tour_id: @lineup.tour_id) unless @lineup.save
       end
     end
 

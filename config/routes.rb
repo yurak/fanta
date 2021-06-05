@@ -25,6 +25,8 @@ Rails.application.routes.draw do
 
   resources :match_players, only: [:update]
 
+  resources :national_teams, only: [:show]
+
   resources :players, only: [:index, :show]
 
   resources :teams, only: [:show] do

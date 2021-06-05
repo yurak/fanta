@@ -442,9 +442,14 @@
           grid-template-columns: auto 24px;
           font-weight: 500;
 
-          img {
+          img, object {
             width: 24px;
             height: 24px;
+          }
+
+          object {
+            position: relative;
+            top: 8px;
           }
 
           .round-tournament-club-name {

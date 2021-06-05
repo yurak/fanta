@@ -17,7 +17,7 @@ $(".modal-player-item").on('click', function(e){
         url: '/players/'+playerId,
         success: function(data){
             avatarContainer.attr('data', data.avatar_path);
-            kitContainer.attr('src', location.origin + data.national_kit_path);
+            kitContainer.attr('data', data.national_kit_path);
             nameContainer.text(data.name);
             countryContainer.text(data.national_team_name);
             roundPlayerContainer.attr('value', playerId);

@@ -52,9 +52,12 @@
     text-align: center;
 
     .round-tournament-match-team {
-      display: grid;
-      grid-template-columns: auto 32px;
-      font-weight: 500;
+      a {
+        display: grid;
+        grid-template-columns: auto 32px;
+        font-weight: 500;
+        text-decoration: none;
+      }
 
       .flag-icon {
         height: 24px;
@@ -62,23 +65,28 @@
         vertical-align: middle;
       }
 
-      img {
+      img, object {
         width: 32px;
         height: 32px;
+      }
+
+      object {
+        position: relative;
+        top: 6px;
       }
 
       .round-tournament-team-name {
         text-align: right;
         padding-right: 16px;
-
-        a {
-          color: #181715;
-        }
+        color: #181715;
       }
     }
 
     .round-tournament-match-guest {
-      grid-template-columns: 32px auto;
+      a {
+        grid-template-columns: 32px auto;
+        text-decoration: none;
+      }
 
       .round-tournament-team-name {
         text-align: left;

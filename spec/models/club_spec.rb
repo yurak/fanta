@@ -34,7 +34,7 @@ RSpec.describe Club, type: :model do
   describe '#logo_path' do
     context 'when name contains spaces' do
       it 'returns logo path' do
-        expect(club.logo_path).to eq('clubs/fc_karpaty_lviv.png')
+        expect(club.logo_path).to eq('https://mantrafootball.s3-eu-west-1.amazonaws.com/club_logo/fc_karpaty_lviv.png')
       end
     end
   end

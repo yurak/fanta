@@ -60,19 +60,19 @@ class Player < ApplicationRecord
   end
 
   def national_kit_path
-    "kits/national/kits_small/#{national_team.code}.png" if national_team
+    "#{BUCKET_URL}/kits/national_small/#{national_team.code}.png" if national_team
   end
 
   def profile_national_kit_path
-    "kits/national/#{national_team.code}.png" if national_team
+    "#{BUCKET_URL}/kits/national/#{national_team.code}.png" if national_team
   end
 
   def kit_path
-    "kits/kits_small/#{club.path_name}.png"
+    "#{BUCKET_URL}/kits/club_small/#{club.path_name}.png"
   end
 
   def profile_kit_path
-    "kits/#{club.path_name}.png"
+    "#{BUCKET_URL}/kits/club/#{club.path_name}.png"
   end
 
   def position_names
@@ -80,7 +80,7 @@ class Player < ApplicationRecord
   end
 
   def position_sequence_number
-    positions.first.id
+    positions.first&.id
   end
 
   # Current season statistic

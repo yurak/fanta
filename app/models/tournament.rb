@@ -18,4 +18,8 @@ class Tournament < ApplicationRecord
       'tournaments/uefa.png'
     end
   end
+
+  def national?
+    national_teams.any?
+  end
 end

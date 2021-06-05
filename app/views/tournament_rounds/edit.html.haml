@@ -17,7 +17,11 @@
         .reservist-item
           .reservist-param
             .club-logo.l-details-club-logo
-              = image_tag(rp_f.object.club.logo_path, alt: 'Club Logo')
+              - if tournament_round.tournament.national?
+                = flag_icon(rp_f.object.player.national_team.code.to_sym, element: :div)
+              - else
+                %object{data: rp_f.object.club.logo_path, type: 'image/jpg'}
+                  = image_tag('default_logo.png')
           .reservist-param.res-name
             = rp_f.object.full_name_reverse
           .reservist-param

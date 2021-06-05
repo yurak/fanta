@@ -16,10 +16,12 @@
         - matches.each do |match|
           .round-tournament-match
             .round-tournament-match-cell.round-tournament-match-team
-              .round-tournament-team-name
-                = match.host_club.name
-              .round-tournament-team-logo
-                = image_tag(image_path(match.host_club.logo_path))
+              = link_to '' do
+                .round-tournament-team-name
+                  = match.host_club.name
+                .round-tournament-team-logo
+                  %object{data: match.host_club.logo_path, type: 'image/jpg'}
+                    = image_tag('default_logo.png')
             .round-tournament-match-cell
               - if match.host_score
                 .round-tournament-match-result
@@ -28,7 +30,9 @@
               - else
                 vs
             .round-tournament-match-cell.round-tournament-match-team.round-tournament-match-guest
-              .round-tournament-team-logo
-                = image_tag(image_path(match.guest_club.logo_path))
-              .round-tournament-team-name
-                = match.guest_club.name
+              = link_to '' do
+                .round-tournament-team-logo
+                  %object{data: match.guest_club.logo_path, type: 'image/jpg'}
+                    = image_tag('default_logo.png')
+                .round-tournament-team-name
+                  = match.guest_club.name

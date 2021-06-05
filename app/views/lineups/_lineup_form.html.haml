@@ -47,7 +47,8 @@
                         %object{data: player_by_mp(mp)&.avatar_path || '', type: 'image/jpg', id: "avatar-#{mp.index}"}
                           = image_tag('avatar.png')
                       .player-show-kit
-                        = image_tag(player_by_mp(mp)&.national_kit_path || 'kits/kits_small/default1.png', id: "kit-#{mp.index}")
+                        %object{data: player_by_mp(mp)&.national_kit_path || '', type: 'image/jpg', id: "kit-#{mp.index}"}
+                          = image_tag('kit_small_default2.png')
                       .squad-position
                         .slot-position{class: "slot-position-#{team_module.slots[mp.index]&.position&.tr('/', '')}"}
                           = team_module.slots[mp.index]&.position
@@ -72,7 +73,8 @@
                                 %object{data: player.avatar_path, type: 'image/jpg'}
                                   = image_tag('avatar.png')
                               .player-show-kit
-                                = image_tag(player.national_kit_path)
+                                %object{data: player.national_kit_path, type: 'image/jpg'}
+                                  = image_tag('kit_small_default2.png')
                             .player-name
                               %span
                                 = player.name.upcase

@@ -50,7 +50,7 @@
           = link_to t('tours.inject_scores'), inject_scores_tour_path(tour), data: { confirm: t('tours.are_you_sure') }
         - if current_user&.team_by_league(tour.league) && tour.national? && tour.set_lineup?
           - if tour.lineup_exist?(current_user.team_by_league(tour.league))
-            = link_to t('tours.edit_lineup'), edit_team_lineup_path(current_user.team_by_league(tour.league), current_user.lineup_by_tour(tour))
+            = link_to t('tours.edit_lineup'), edit_team_lineup_path(current_user.team_by_league(tour.league), current_user.lineup_by_tour(tour), team_module_id: current_user.lineup_by_tour(tour).team_module.id)
           - else
             = link_to t('tours.create_lineup'), new_team_lineup_path(current_user.team_by_league(tour.league), tour_id: tour.id)
       .round-matches
@@ -83,7 +83,8 @@
                       %object{data: r_player.player.avatar_path, type: 'image/jpg'}
                         = image_tag('avatar.png')
                     .round-player-show-kit
-                      = image_tag(r_player.player.kit_path)
+                      %object{data: r_player.player.kit_path, type: 'image/jpg'}
+                        = image_tag('kit_small_default2.png')
                   .round-player-stats-name= r_player.player.name
                 .round-player-stats-param= r_player.score
                 .round-player-stats-param.round-player-stats-score= r_player.result_score
@@ -113,7 +114,8 @@
                       %object{data: r_player.player.avatar_path, type: 'image/jpg'}
                         = image_tag('avatar.png')
                     .round-player-show-kit
-                      = image_tag(r_player.player.kit_path)
+                      %object{data: r_player.player.kit_path, type: 'image/jpg'}
+                        = image_tag('kit_small_default2.png')
                   .round-player-stats-name= r_player.player.name
                 .round-player-stats-param= r_player.score
                 .round-player-stats-param.round-player-stats-score= r_player.total_score
@@ -165,7 +167,8 @@
                   - else
                     = t_match.host_club.code
                 .round-tournament-club-logo
-                  = image_tag(image_path(t_match.host_club.logo_path))
+                  %object{data: t_match.host_club.logo_path, type: 'image/jpg'}
+                    = image_tag('default_logo.png')
               .round-tournament-match-cell
                 - if t_match.host_score
                   .round-tournament-match-result
@@ -175,10 +178,13 @@
                   vs
               .round-tournament-match-cell.round-tournament-match-club.round-tournament-match-guest
                 .round-tournament-club-logo
-                  = image_tag(image_path(t_match.guest_club.logo_path))
+                  %object{data: t_match.guest_club.logo_path, type: 'image/jpg'}
+                    = image_tag('default_logo.png')
                 .round-tournament-club-name
                   -  if current_user&.can_moderate? && tour.deadlined?
                     = link_to edit_tournament_round_path(tour.tournament_round, club_id: t_match.guest_club.id) do
                       = t_match.guest_club.code
                   - else
                     = t_match.guest_club.code
+    - if tour.national?
+      -#.round-table

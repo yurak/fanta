@@ -23,6 +23,8 @@ RSpec.describe NationalTeam, type: :model do
     it { is_expected.to validate_uniqueness_of :name }
     it { is_expected.to validate_presence_of :code }
     it { is_expected.to validate_uniqueness_of :code }
+
+    it { is_expected.to define_enum_for(:status).with_values(%i[active archived]) }
   end
 
   describe '#opponent_by_round' do
@@ -42,6 +44,30 @@ RSpec.describe NationalTeam, type: :model do
         create(:national_match, tournament_round: tournament_round, host_team: national_team2, guest_team: national_team)
 
         expect(national_team.opponent_by_round(tournament_round)).to eq(national_team2)
+      end
+    end
+  end
+
+  describe '#matches' do
+    context 'without national matches' do
+      it 'returns empty array' do
+        expect(national_team.matches).to eq([])
+      end
+    end
+
+    context 'with host national matches' do
+      it 'returns team national matches' do
+        matches = create_list(:national_match, 3, host_team: national_team)
+
+        expect(national_team.matches).to eq(matches)
+      end
+    end
+
+    context 'with guest national matches' do
+      it 'returns team national matches' do
+        matches = create_list(:national_match, 2, guest_team: national_team)
+
+        expect(national_team.matches).to eq(matches)
       end
     end
   end

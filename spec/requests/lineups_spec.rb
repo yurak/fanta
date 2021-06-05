@@ -144,6 +144,119 @@ RSpec.describe 'Lineups', type: :request do
       it { expect(response).to redirect_to(new_team_lineup_path(team, team_module_id: lineup.team_module_id, tour_id: lineup.tour_id)) }
       it { expect(response).to have_http_status(:found) }
     end
+
+    context 'when national tour and duplicated players and user is logged in' do
+      let(:logged_user) { create(:user) }
+      let(:team) { create(:team, user: logged_user) }
+      let!(:tour) { create(:set_lineup_tour, league: team.league) }
+
+      before do
+        create(:national_match, tournament_round: tour.tournament_round)
+        round_player1 = create(:round_player, player: create(:player, :with_national_team))
+        params = {
+          lineup: {
+            team_module_id: 1, tour_id: tour.id, match_players_attributes: {
+              '0' => { round_player_id: round_player1.id },
+              '1' => { round_player_id: round_player1.id }
+            }
+          }
+        }
+
+        sign_in logged_user
+
+        post team_lineups_path(team, params)
+      end
+
+      it { expect(response).to redirect_to(new_team_lineup_path(team, team_module_id: lineup.team_module_id, tour_id: tour.id)) }
+      it { expect(response).to have_http_status(:found) }
+    end
+
+    context 'when national tour and not enough national teams used and user is logged in' do
+      let(:logged_user) { create(:user) }
+      let(:team) { create(:team, user: logged_user) }
+      let!(:tour) { create(:set_lineup_tour, league: team.league) }
+
+      before do
+        create(:national_match, tournament_round: tour.tournament_round)
+        round_player1 = create(:round_player, player: create(:player, :with_national_team))
+        params = {
+          lineup: {
+            team_module_id: 1, tour_id: tour.id, match_players_attributes: {
+              '0' => { round_player_id: round_player1.id }
+            }
+          }
+        }
+
+        sign_in logged_user
+
+        post team_lineups_path(team, params)
+      end
+
+      it { expect(response).to redirect_to(new_team_lineup_path(team, team_module_id: lineup.team_module_id, tour_id: tour.id)) }
+      it { expect(response).to have_http_status(:found) }
+    end
+
+    context 'when national tour and used too much players from one team and user is logged in' do
+      let(:logged_user) { create(:user) }
+      let(:team) { create(:team, user: logged_user) }
+      let!(:tour) { create(:set_lineup_tour, league: team.league) }
+
+      before do
+        create(:national_match, tournament_round: tour.tournament_round)
+        rp = create(:round_player, player: create(:player, :with_national_team))
+        params = {
+          lineup: {
+            team_module_id: 1, tour_id: tour.id, match_players_attributes: {
+              '0' => { round_player_id: create(:round_player, player: create(:player, :with_national_team)).id },
+              '1' => { round_player_id: rp.id },
+              '2' => { round_player_id: create(:round_player, player: create(:player, national_team: rp.player.national_team)).id },
+              '3' => { round_player_id: create(:round_player, player: create(:player, national_team: rp.player.national_team)).id },
+              '4' => { round_player_id: create(:round_player, player: create(:player, national_team: rp.player.national_team)).id },
+              '5' => { round_player_id: create(:round_player, player: create(:player, national_team: rp.player.national_team)).id },
+              '6' => { round_player_id: create(:round_player, player: create(:player, national_team: rp.player.national_team)).id },
+              '7' => { round_player_id: create(:round_player, player: create(:player, national_team: rp.player.national_team)).id },
+              '8' => { round_player_id: create(:round_player, player: create(:player, national_team: rp.player.national_team)).id },
+              '9' => { round_player_id: create(:round_player, player: create(:player, national_team: rp.player.national_team)).id },
+              '10' => { round_player_id: create(:round_player, player: create(:player, national_team: rp.player.national_team)).id }
+            }
+          }
+        }
+
+        sign_in logged_user
+
+        post team_lineups_path(team, params)
+      end
+
+      it { expect(response).to redirect_to(new_team_lineup_path(team, team_module_id: lineup.team_module_id, tour_id: tour.id)) }
+      it { expect(response).to have_http_status(:found) }
+    end
+
+    context 'when national tour and valid match_players and user is logged in' do
+      let(:logged_user) { create(:user) }
+      let(:team) { create(:team, user: logged_user) }
+      let!(:tour) { create(:set_lineup_tour, league: team.league) }
+
+      before do
+        create(:national_match, tournament_round: tour.tournament_round)
+        round_player1 = create(:round_player, player: create(:player, :with_national_team))
+        round_player2 = create(:round_player, player: create(:player, :with_national_team))
+        params = {
+          lineup: {
+            team_module_id: 1, tour_id: tour.id, match_players_attributes: {
+              '0' => { round_player_id: round_player1.id },
+              '1' => { round_player_id: round_player2.id }
+            }
+          }
+        }
+
+        sign_in logged_user
+
+        post team_lineups_path(team, params)
+      end
+
+      it { expect(response).to redirect_to(tour_path(tour)) }
+      it { expect(response).to have_http_status(:found) }
+    end
   end
 
   describe 'GET #edit' do

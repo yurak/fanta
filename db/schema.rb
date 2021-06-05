@@ -133,6 +133,7 @@ ActiveRecord::Schema.define(version: 2021_05_15_122351) do
     t.string "name", default: "", null: false
     t.string "code", default: "", null: false
     t.string "color", default: "DB0A23", null: false
+    t.integer "status", default: 0, null: false
     t.integer "tournament_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

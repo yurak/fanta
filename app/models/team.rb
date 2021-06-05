@@ -12,6 +12,8 @@ class Team < ApplicationRecord
 
   has_many :results, dependent: :destroy
 
+  delegate :tournament, to: :league
+
   validates :name, presence: true, uniqueness: true, length: { in: 2..18 }
   validates :code, presence: true, uniqueness: true, length: { in: 2..3 }
   validates :human_name, length: { in: 2..18 }

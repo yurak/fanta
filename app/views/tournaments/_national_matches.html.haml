@@ -1,10 +1,11 @@
 - matches.each do |match|
   .round-tournament-match
     .round-tournament-match-cell.round-tournament-match-team
-      .round-tournament-team-name
-        = match.host_team.name
-      .round-tournament-team-logo
-        = flag_icon(match.host_team.code.to_sym, element: :div)
+      = link_to national_team_path(match.host_team) do
+        .round-tournament-team-name
+          = match.host_team.name
+        .round-tournament-team-logo
+          = flag_icon(match.host_team.code.to_sym, element: :div)
     .round-tournament-match-cell
       - if match.host_score
         .round-tournament-match-result
@@ -13,7 +14,8 @@
       - else
         = match.time
     .round-tournament-match-cell.round-tournament-match-team.round-tournament-match-guest
-      .round-tournament-team-logo
-        = flag_icon(match.guest_team.code.to_sym, element: :div)
-      .round-tournament-team-name
-        = match.guest_team.name
+      = link_to national_team_path(match.guest_team) do
+        .round-tournament-team-logo
+          = flag_icon(match.guest_team.code.to_sym, element: :div)
+        .round-tournament-team-name
+          = match.guest_team.name

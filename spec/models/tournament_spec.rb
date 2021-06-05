@@ -35,4 +35,20 @@ RSpec.describe Tournament, type: :model do
       end
     end
   end
+
+  describe '#national?' do
+    context 'without national teams' do
+      it 'returns false' do
+        expect(tournament.national?).to eq(false)
+      end
+    end
+
+    context 'with national teams' do
+      it 'returns true' do
+        create_list(:national_team, 2, tournament: tournament)
+
+        expect(tournament.national?).to eq(true)
+      end
+    end
+  end
 end

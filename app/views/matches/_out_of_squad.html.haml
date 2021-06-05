@@ -4,7 +4,8 @@
       %object{data: match_player.player.avatar_path, type: 'image/jpg'}
         = image_tag('avatar.png')
     .player-show-kit
-      = image_tag(match_player.player.kit_path)
+      %object{data: match_player.player.kit_path, type: 'image/jpg'}
+        = image_tag('kit_small_default2.png')
   .match-player-data
     .match-player-data
       .match-player-data-base

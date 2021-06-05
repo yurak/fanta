@@ -1,9 +1,8 @@
 serie_a:
   ATA: Atalanta
-  BEN: Benevento
   BOL: Bologna
   CAG: Cagliari
-  CRO: Crotone
+  EMP: Empoli
   FIO: Fiorentina
   GEN: Genoa
   INT: Inter
@@ -11,51 +10,95 @@ serie_a:
   LAZ: Lazio
   MIL: Milan
   NAP: Napoli
-  PAR: Parma
   ROM: Roma
+  SAL: Salernitana
   SAM: Sampdoria
   SAS: Sassuolo
   SPE: Spezia
   TOR: Torino
   UDI: Udinese
+  VEN: Venezia
   VER: Verona
 epl:
   ARS: Arsenal
   ASV: Aston Villa
+  BRF: Brentford
   BRI: Brighton
   BUR: Burnley
   CHE: Chelsea
   CRY: Crystal Palace
   EVE: Everton
-  FUL: Fulham
   LEI: Leicester
   LEE: Leeds
   LIV: Liverpool
   MCI: Manchester City
   MUT: Manchester United
   NEW: Newcastle
-  SHU: Sheffield United
+  NOR: Norwich
   SOU: Southampton
   TOT: Tottenham
-  WBA: West Bromwich
+  WAT: Watford
   WES: West Ham
   WOL: Wolverhampton
 bundesliga:
   ARM: Arminia
   AUG: Augsburg
+  BOC: Bochum
   LEV: Bayer Leverkusen
   MUN: Bayern Munchen
   BVB: Borussia Dortmund
   BMG: Borussia Mbach
   EIN: Eintracht
   FRE: Freiburg
+  GRF: Greuther Furth
   HER: Hertha
   HOF: Hoffenheim
   KOL: Koln
   MAI: Mainz 05
   RBL: RB Leipzig
-  S04: Schalke 04
   STU: Stuttgart
   UNI: Union Berlin
-  WER: Werder Bremen
   WLF: Wolfsburg
+laliga:
+  ATB: Athletic Bilbao
+  ATM: Atletico Madrid
+  BAR: Barcelona
+  BET: Real Betis
+  CAD: Cadiz
+  CEL: Celta Vigo
+  ALA: Deportivo Alaves
+  ELC: Elche
+  ESP: Espanyol
+  GET: Getafe
+  GIR: Girona
+  GRA: Granada
+  LUD: Levante
+  MAL: Mallorca
+  OSA: Osasuna
+  RVA: Rayo Vallecano
+  RMA: Real Madrid
+  SOC: Real Sociedad
+  SEV: Sevilla
+  VAL: Valencia
+  VIL: Villarreal
+ligue_1:
+  ANG: Angers
+  BOR: Bordeaux
+  BRE: Brest
+  CLE: Clermont Foot
+  LEN: Lens
+  LIL: Lille
+  LOR: Lorient
+  LYO: Lyon
+  MAR: Marseille
+  MET: Metz
+  MON: Monaco
+  MPL: Montpellier
+  NAN: Nantes
+  NIC: Nice
+  PSG: PSG
+  REI: Reims
+  REN: Rennes
+  SEN: Saint-Etienne
+  STR: Strasbourg
+  TRO: Troyes

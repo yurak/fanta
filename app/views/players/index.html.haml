@@ -61,7 +61,8 @@
                   %object{data: player.avatar_path, type: 'image/jpg'}
                     = image_tag('avatar.png')
                 .player-show-kit
-                  = image_tag(player.kit_path, alt: 'Club Kit')
+                  %object{data: player.kit_path, type: 'image/jpg'}
+                    = image_tag('kit_small_default2.png')
               .players-list-name
                 .players-list-last-name= player.name
                 .players-list-first-name= player.first_name
@@ -78,7 +79,8 @@
             .players-list-cell.players-list-rating
               = player.season_average_result_score
             .players-list-cell.center.team-image
-              = image_tag(player.club.logo_path)
+              %object{data: player.club.logo_path, type: 'image/jpg'}
+                = image_tag('default_logo.png')
             .players-list-cell.players-list-arrow
               = image_tag('icons/link_arrow.png')
 
