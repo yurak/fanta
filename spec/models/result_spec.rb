@@ -94,4 +94,22 @@ RSpec.describe Result, type: :model do
       end
     end
   end
+
+  describe '#league_best_lineup' do
+    context 'without closed lineups' do
+      it 'returns 0' do
+        expect(result.league_best_lineup).to eq(0)
+      end
+    end
+
+    context 'with closed lineups' do
+      it 'returns lineup with best total_score' do
+        create(:lineup, :with_team_and_score_six, team: result.team, tour: create(:closed_tour, league: result.league))
+        lineup2 = create(:lineup, :with_team_and_score_seven, team: result.team, tour: create(:closed_tour, league: result.league))
+        create(:lineup, :with_team_and_score_five, team: result.team, tour: create(:closed_tour, league: result.league))
+
+        expect(result.league_best_lineup).to eq(lineup2.total_score)
+      end
+    end
+  end
 end

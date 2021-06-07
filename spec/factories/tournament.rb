@@ -10,5 +10,11 @@ FactoryBot.define do
         end
       end
     end
+
+    trait :with_national_teams do
+      after(:create) do |tournament|
+        create_list(:national_team, 4, tournament: tournament)
+      end
+    end
   end
 end

@@ -1,7 +1,7 @@
 class NationalTeam < ApplicationRecord
   belongs_to :tournament
 
-  has_many :players, dependent: :destroy
+  has_many :players, dependent: :nullify
   has_many :host_national_matches, foreign_key: 'host_team_id', class_name: 'NationalMatch',
                                    dependent: :destroy, inverse_of: :host_team
   has_many :guest_national_matches, foreign_key: 'guest_team_id', class_name: 'NationalMatch',

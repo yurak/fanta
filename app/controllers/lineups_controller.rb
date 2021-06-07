@@ -1,9 +1,14 @@
 class LineupsController < ApplicationController
+  skip_before_action :authenticate_user!, only: %i[show]
   before_action :modules, only: %i[new edit]
 
   respond_to :html
 
   helper_method :lineup, :match_player, :modules, :team, :team_module, :tour
+
+  def show
+    redirect_to tour_path(tour) unless viewable?
+  end
 
   def new
     redirect_to tour_path(tour) unless valid_conditions?
@@ -125,6 +130,8 @@ class LineupsController < ApplicationController
   end
 
   def team_of_user?
+    return false unless team.user
+
     team.user == current_user
   end
 
@@ -160,6 +167,10 @@ class LineupsController < ApplicationController
 
   def editable?
     tour.set_lineup? && team_of_user?
+  end
+
+  def viewable?
+    team_of_user? || tour.deadlined?
   end
 
   def sub_available?

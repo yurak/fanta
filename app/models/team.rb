@@ -52,6 +52,10 @@ class Team < ApplicationRecord
     RoundPlayer.by_tournament_round(lineup.tournament_round.id).where(player_id: not_played_ids)
   end
 
+  def best_lineup
+    lineups.by_league(league.id).max_by(&:total_score)
+  end
+
   private
 
   def next_match

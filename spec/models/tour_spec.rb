@@ -310,4 +310,22 @@ RSpec.describe Tour, type: :model do
       end
     end
   end
+
+  describe '#ordered_lineups' do
+    context 'without lineups' do
+      it 'returns empty array' do
+        expect(tour.ordered_lineups).to eq([])
+      end
+    end
+
+    context 'with lineups' do
+      it 'returns lineups ordered by total score' do
+        lineup1 = create(:lineup, :with_team_and_score_six, tour: tour)
+        lineup2 = create(:lineup, :with_team_and_score_seven, tour: tour)
+        lineup3 = create(:lineup, :with_team_and_score_five, tour: tour)
+
+        expect(tour.ordered_lineups).to eq([lineup2, lineup1, lineup3])
+      end
+    end
+  end
 end

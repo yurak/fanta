@@ -3,7 +3,7 @@ RSpec.describe NationalTeam, type: :model do
 
   describe 'Associations' do
     it { is_expected.to belong_to(:tournament) }
-    it { is_expected.to have_many(:players).dependent(:destroy) }
+    it { is_expected.to have_many(:players).dependent(:nullify) }
 
     it {
       expect(national_team).to have_many(:host_national_matches).class_name('NationalMatch')

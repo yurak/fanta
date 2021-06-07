@@ -34,10 +34,14 @@ RSpec.describe Tours::Manager do
     end
 
     context 'with set_lineup tour and locked status' do
-      let(:tour) { create(:set_lineup_tour) }
+      let(:tournament_round) { create(:tournament_round) }
+      let(:tour) { create(:set_lineup_tour, tournament_round: tournament_round) }
       let(:status) { 'locked' }
 
       before do
+        create(:tournament_match, tournament_round: tournament_round)
+        create_list(:team, 4, league: tour.league)
+
         manager.call
       end
 

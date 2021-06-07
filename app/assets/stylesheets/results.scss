@@ -19,6 +19,18 @@
     grid-template-columns: 2fr 38fr 124fr 36fr 36fr 36fr 36fr 36fr 36fr 40fr 33fr 84fr 36fr;
   }
 
+  .national-grid {
+    grid-template-columns: 1fr 24fr 86fr 35fr 35fr 35fr 35fr 35fr;
+  }
+
+  .table-header-dropdown {
+    display: inline-block;
+
+    .filter-grey {
+      filter: invert(50%) sepia(9%) saturate(418%) hue-rotate(302deg) brightness(92%) contrast(85%);
+    }
+  }
+
   .table-headers {
     padding-bottom: 16px;
   }
@@ -29,6 +41,11 @@
     line-height: 16px;
     text-align: right;
     color: #847577;
+
+    a {
+      text-decoration: none;
+      color: #847577;
+    }
   }
 
   .table-team-item {
@@ -107,8 +124,12 @@
       grid-template-columns: 2fr 24fr 144fr 36fr 36fr 36fr 36fr 36fr 36fr 36fr 36fr;
     }
 
+    .national-grid {
+      grid-template-columns: 1fr 24fr 120fr 30fr 30fr 30fr 30fr 40fr;
+    }
+
     .table-header-item {
-      font-size: 16px;
+      font-size: 14px;
     }
 
     .table-team-item {
@@ -132,6 +153,10 @@
     .table-grid {
       grid-template-columns: 2fr 28fr 140fr 36fr 36fr 36fr 36fr 36fr 36fr 40fr 33fr 94fr 24fr;
     }
+
+    .national-grid {
+      grid-template-columns: 1fr 24fr 86fr 35fr 35fr 35fr 35fr 35fr;
+    }
   }
 }
 
@@ -141,6 +166,10 @@
 
     .table-grid {
       grid-template-columns: 2fr 28fr 140fr 40fr 40fr 40fr 40fr 40fr 40fr 40fr 40fr 110fr;
+    }
+
+    .national-grid {
+      grid-template-columns: 1fr 24fr 86fr 35fr 35fr 35fr 35fr 35fr;
     }
 
     .table-team-item {
@@ -158,79 +187,3 @@
     }
   }
 }
-
-//.results-headers {
-//  width: 100%;
-//  line-height: 40px;
-//  font-size: 20px;
-//  height: 40px;
-//  font-weight: bolder;
-//  background-color: #0f29a4e6;
-//  color: white;
-//  display: grid;
-//  column-gap: 35px;
-//}
-//
-//.results-headers, .list-results .list-row-item {
-//  grid-template-columns: 1.5fr 4fr 13fr 5fr;
-//
-//  .results-stats-cell, .results-team-stats {
-//    display: grid;
-//    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1.2fr;
-//  }
-//}
-//
-//.list-results {
-//  .results-team > a {
-//    display: grid;
-//    grid-template-columns: 50px auto;
-//  }
-//  .results-team-logo {
-//    img {
-//      margin-bottom: 5px;
-//      width: 41px;
-//      height: 41px;
-//    }
-//  }
-//  .results-team-name {
-//    padding-left: 10px;
-//    text-align: left;
-//    color: #001280;
-//    overflow: hidden;
-//    text-overflow: ellipsis;
-//    width: 100%;
-//  }
-//  .results-team-stats {
-//    .results-team-field:not(:last-child) {
-//      font-size: 20px;
-//      font-weight: normal;
-//    }
-//  }
-//
-//  .results-team-points {
-//    font-weight: bold;
-//  }
-//
-//  .results-team-form {
-//    display: grid;
-//    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-//
-//    .form-item {
-//      width: 16px;
-//      height: 16px;
-//      margin: 17px 2px;
-//    }
-//
-//    .form-W {
-//      background-color: #28a745;
-//    }
-//
-//    .form-D {
-//      background-color: #6c757d;
-//    }
-//
-//    .form-L {
-//      background-color: #dc3545;
-//    }
-//  }
-//}
