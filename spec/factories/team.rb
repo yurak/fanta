@@ -25,6 +25,12 @@ FactoryBot.define do
       end
     end
 
+    trait :with_result do
+      after(:create) do |team|
+        create(:result, team: team, league: team.league)
+      end
+    end
+
     trait :with_matches do
       host_matches { build_list(:match, 2) }
       guest_matches { build_list(:match, 3) }

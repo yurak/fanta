@@ -9,6 +9,8 @@ module Results
     end
 
     def call
+      return false unless tour&.closed? && lineups.any?
+
       update_total_scores
       update_best_lineup
       update_f1_points
