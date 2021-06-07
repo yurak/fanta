@@ -63,4 +63,8 @@ class Tour < ApplicationRecord
 
     league.tours.find_by(number: number - 1)
   end
+
+  def ordered_lineups
+    lineups.sort { |a, b| b.total_score <=> a.total_score }
+  end
 end

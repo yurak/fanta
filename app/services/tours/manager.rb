@@ -33,7 +33,7 @@ module Tours
     def lock
       return unless tour.set_lineup? && status == LOCKED_STATUS
 
-      clone_missed_lineups
+      clone_missed_lineups if tour.mantra?
 
       tour.locked!
     end
@@ -46,7 +46,7 @@ module Tours
       return unless tour.locked_or_postponed? && status == CLOSED_STATUS
 
       tour.closed!
-      Results::Updater.call(tour)
+      tour.national? ? Results::NationalUpdater.call(tour) : Results::Updater.call(tour)
     end
 
     def clone_missed_lineups
@@ -55,10 +55,6 @@ module Tours
 
         TeamLineups::Cloner.call(team: team, tour: tour)
       end
-    end
-
-    def league
-      tour.league
     end
   end
 end

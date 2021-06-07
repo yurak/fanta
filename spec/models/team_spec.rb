@@ -165,4 +165,22 @@ RSpec.describe Team, type: :model do
       end
     end
   end
+
+  describe '#best_lineup' do
+    context 'without lineup' do
+      it 'returns nil' do
+        expect(team.best_lineup).to eq(nil)
+      end
+    end
+
+    context 'with lineup' do
+      it 'returns lineup with best total score' do
+        create(:lineup, :with_team_and_score_six, team: team, tour: create(:closed_tour, league: team.league))
+        lineup2 = create(:lineup, :with_team_and_score_seven, team: team, tour: create(:closed_tour, league: team.league))
+        create(:lineup, :with_team_and_score_five, team: team, tour: create(:closed_tour, league: team.league))
+
+        expect(team.best_lineup).to eq(lineup2)
+      end
+    end
+  end
 end

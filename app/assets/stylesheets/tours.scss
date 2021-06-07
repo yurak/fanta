@@ -356,6 +356,50 @@
           margin-top: 2px;
         }
       }
+
+      .round-lineups {
+        margin: 32px 0;
+
+        .round-lineups-block {
+          margin: auto;
+          text-align: center;
+
+          .round-lineups-item {
+            margin: 4px;
+            display: inline-block;
+            font-weight: 500;
+            font-size: 18px;
+            border-bottom: 2px solid #E5E6E4;
+            line-height: 64px;
+            color: #181715;
+
+            .round-lineups-item-grid {
+              display: grid;
+              grid-template-columns: 60px 178px 64px;
+            }
+
+            .lineup-team-name {
+              text-align: left;
+            }
+
+            .lineup-team-logo {
+              img {
+                margin: 8px 6px;
+                width: 48px;
+                height: 48px;
+              }
+            }
+
+            .lineup-result {
+              background-color: #40BBCD;
+              color: #FFFFFF;
+              margin: 12px 4px;
+              line-height: 48px;
+              border-radius: 4px;
+            }
+          }
+        }
+      }
     }
   }
 

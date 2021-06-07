@@ -1,6 +1,69 @@
 RSpec.describe 'Lineups', type: :request do
   let(:lineup) { create(:lineup) }
 
+  describe 'GET #show' do
+    context 'when user is logged out and tour is not deadlined' do
+      let(:tour) { create(:set_lineup_tour) }
+      let(:team) { create(:team, :with_user) }
+      let(:lineup) { create(:lineup, tour: tour, team: team) }
+
+      before do
+        get team_lineup_path(team, lineup)
+      end
+
+      it { expect(response).to redirect_to(tour_path(lineup.tour)) }
+      it { expect(response).to have_http_status(:found) }
+    end
+
+    context 'with foreign team when user is logged out and tour is not deadlined' do
+      let(:team) { create(:team, :with_user) }
+
+      login_user
+      before do
+        get team_lineup_path(team, lineup)
+      end
+
+      it { expect(response).to redirect_to(tour_path(lineup.tour)) }
+      it { expect(response).to have_http_status(:found) }
+    end
+
+    context 'with own team when user is logged in' do
+      let(:tour) { create(:set_lineup_tour) }
+
+      before do
+        logged_user = create(:user)
+        team = create(:team, user: logged_user)
+        sign_in logged_user
+        lineup = create(:lineup, tour: tour, team: team)
+
+        get team_lineup_path(team, lineup)
+      end
+
+      it { expect(response).to be_successful }
+      it { expect(response).to render_template(:show) }
+      it { expect(response).to render_template(:_header) }
+      it { expect(response).to have_http_status(:ok) }
+      it { expect(assigns(:lineup)).not_to be_nil }
+    end
+
+    context 'when user is logged out and tour is deadlined' do
+      let(:tour) { create(:locked_tour) }
+      let(:team) { create(:team, :with_user) }
+      let(:lineup) { create(:lineup, tour: tour, team: team) }
+
+      before do
+        get team_lineup_path(team, lineup)
+      end
+
+      it { expect(response).to be_successful }
+      it { expect(response).to render_template(:show) }
+      it { expect(response).to render_template(:_header) }
+      it { expect(response).to have_http_status(:ok) }
+      it { expect(assigns(:lineup)).not_to be_nil }
+      it { expect(assigns(:lineup)).to eq(lineup) }
+    end
+  end
+
   describe 'GET #new' do
     let(:team) { create(:team, :with_user) }
     let(:tour) { create(:set_lineup_tour) }

@@ -1,27 +1,72 @@
-/* Team lineups list */
+/* SHOW LINEUP page*/
 
-.list-items.list-items-60-height.list-team-lineups {
-  .list-row-item {
-    grid-template-columns: 0.7fr 1.2fr 1fr 0.7fr 1.2fr;
-  }
-
-  .lineup-tour-opponent > a {
-    width: 100%;
+.page-info.match-page.lineup-page {
+  .lineup-links{
+    font-weight: bold;
+    font-size: 24px;
+    line-height: 24px;
+    padding-bottom: 0;
     display: grid;
-    grid-template-columns: auto 60px;
+    grid-template-columns: 1fr 1fr;
 
-    .lineup-tour-opponent-logo {
-      img {
-        margin: 10px;
-        width: 40px;
-        height: 40px;
-      }
+    .lineup-round {
+      text-align: right;
     }
 
-    .lineup-tour-opponent-name {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      width: 100%;
+    a {
+      text-decoration: none;
+    }
+  }
+
+  .lineup-squad.match-squads {
+    grid-template-columns: 2fr 1fr;
+    column-gap: 0;
+
+    .lineup-module {
+      min-width: 350px;
+
+      .match-team-module {
+        text-align: right;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 24px;
+        color: #181715;
+        padding-bottom: 8px;
+        border-bottom: 1px solid #181715;
+
+        .match-team-data-text, .match-team-data-value {
+          display: inline-block;
+        }
+
+        .match-team-data-value {
+          font-weight: bold;
+          color: #BA44F1;
+        }
+      }
+
+      .module-image {
+        width: 100%;
+        text-align: right;
+        margin-top: 32px;
+        padding-right: 16px;
+
+        img {
+          width: 260px;
+          border-radius: 12px;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-device-width: 799px) {
+  .page-info.match-page.lineup-page .lineup-squad.match-squads {
+    .lineup-module {
+      min-width: 250px;
+
+      .module-image img {
+        width: 210px;
+      }
     }
   }
 }

@@ -22,6 +22,12 @@ class Result < ApplicationRecord
     @form ||= closed_lineups.limit(5).map { |l| [l.result, l.match_result, l.opponent.code, l.tour_id] }
   end
 
+  def league_best_lineup
+    return 0 if closed_lineups.empty?
+
+    closed_lineups.max_by(&:total_score).total_score
+  end
+
   private
 
   def closed_lineups
