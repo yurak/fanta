@@ -11,6 +11,7 @@
       .reservists-header{title: 'Assists'} A
       .reservists-header{title: 'Yellow card'} YC
       .reservists-header{title: 'Red card'} RC
+      .reservists-header{title: 'Cleansheet'} CS
       .reservists-header{title: 'Own goals'} OG
     - @round_players.each do |reservist|
       = fields_for "round_players[]", reservist do |rp_f|
@@ -49,6 +50,8 @@
             = rp_f.check_box :yellow_card, {'data-toggle' => 'toggle', 'data-onstyle' => 'warning', 'data-on' => 'Yes', 'data-off' => 'No', 'data-size' => 'small', 'data-height' => '38'}
           .reservist-param
             = rp_f.check_box :red_card, {'data-toggle' => 'toggle', 'data-onstyle' => 'danger', 'data-on' => 'Yes', 'data-off' => 'No', 'data-size' => 'small', 'data-height' => '38'}
+          .reservist-param
+            = rp_f.check_box :cleansheet, {'data-toggle' => 'toggle', 'data-onstyle' => 'success', 'data-on' => 'Yes', 'data-off' => 'No', 'data-size' => 'small', 'data-height' => '38'}
           .reservist-param
             = rp_f.number_field :own_goals, in: 0..9, step: 1, class: 'form-control'
 
