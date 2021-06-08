@@ -40,6 +40,22 @@ RSpec.describe RoundPlayer, type: :model do
       end
     end
 
+    context 'with score and goals and A position' do
+      let(:round_player) { create :round_player, :with_pos_a, :with_score_six, goals: 2 }
+
+      it 'returns score with bonus' do
+        expect(round_player.result_score).to eq(11)
+      end
+    end
+
+    context 'with score and goals and Pc position' do
+      let(:round_player) { create :round_player, :with_pos_pc, :with_score_six, goals: 4 }
+
+      it 'returns score with bonus' do
+        expect(round_player.result_score).to eq(14)
+      end
+    end
+
     context 'with score and caught penalty' do
       let(:round_player) { create :round_player, :with_score_six, caught_penalty: 1 }
 
@@ -76,7 +92,7 @@ RSpec.describe RoundPlayer, type: :model do
       let(:round_player) { create :round_player, :with_score_six, missed_goals: 2 }
 
       it 'returns score with malus' do
-        expect(round_player.result_score).to eq(4)
+        expect(round_player.result_score).to eq(3)
       end
     end
 
@@ -108,7 +124,15 @@ RSpec.describe RoundPlayer, type: :model do
       let(:round_player) { create :round_player, :with_score_six, yellow_card: true, red_card: true }
 
       it 'returns score with malus' do
-        expect(round_player.result_score).to eq(4.5)
+        expect(round_player.result_score).to eq(3.5)
+      end
+    end
+
+    context 'with score and cards for Por player' do
+      let(:round_player) { create :round_player, :with_score_six, :with_pos_por, yellow_card: true, red_card: true }
+
+      it 'returns score with malus' do
+        expect(round_player.result_score).to eq(2.5)
       end
     end
 
@@ -117,6 +141,46 @@ RSpec.describe RoundPlayer, type: :model do
 
       it 'returns score with malus' do
         expect(round_player.result_score).to eq(9.5)
+      end
+    end
+
+    context 'with score, cleansheet and Por position' do
+      let(:round_player) { create :round_player, :with_score_six, :with_pos_por, cleansheet: true }
+
+      it 'returns score with malus' do
+        expect(round_player.result_score).to eq(7.5)
+      end
+    end
+
+    context 'with score, cleansheet and Dc position' do
+      let(:round_player) { create :round_player, :with_score_six, :with_pos_dc, cleansheet: true }
+
+      it 'returns score with malus' do
+        expect(round_player.result_score).to eq(7)
+      end
+    end
+
+    context 'with score, cleansheet and E position' do
+      let(:round_player) { create :round_player, :with_score_six, :with_pos_e, cleansheet: true }
+
+      it 'returns score with malus' do
+        expect(round_player.result_score).to eq(6.5)
+      end
+    end
+
+    context 'with score, cleansheet and M position' do
+      let(:round_player) { create :round_player, :with_score_six, :with_pos_m, cleansheet: true }
+
+      it 'returns score with malus' do
+        expect(round_player.result_score).to eq(6.5)
+      end
+    end
+
+    context 'with score, cleansheet and С position' do
+      let(:round_player) { create :round_player, :with_score_six, :with_pos_c, cleansheet: true }
+
+      it 'returns score with malus' do
+        expect(round_player.result_score).to eq(6)
       end
     end
   end

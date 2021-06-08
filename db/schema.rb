@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_08_160526) do
+ActiveRecord::Schema.define(version: 2021_06_08_193206) do
 
   create_table "article_tags", force: :cascade do |t|
     t.string "name", default: "", null: false
@@ -59,7 +59,7 @@ ActiveRecord::Schema.define(version: 2021_06_08_160526) do
 
   create_table "leagues", force: :cascade do |t|
     t.string "name"
-    t.bigint "tournament_id", null: false
+    t.integer "tournament_id", null: false
     t.integer "status", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -67,11 +67,6 @@ ActiveRecord::Schema.define(version: 2021_06_08_160526) do
     t.integer "season_id"
     t.decimal "min_avg_def_score", default: "6.0", null: false
     t.decimal "max_avg_def_score", default: "7.0", null: false
-    t.boolean "custom_bonuses", default: false, null: false
-    t.decimal "missed_goals", default: "2.0", null: false
-    t.decimal "failed_penalty", default: "3.0", null: false
-    t.boolean "recount_goals", default: false, null: false
-    t.boolean "cleansheet_m", default: true, null: false
     t.index ["name"], name: "index_leagues_on_name", unique: true
     t.index ["season_id"], name: "index_leagues_on_season_id"
   end

@@ -20,8 +20,6 @@ class MatchPlayer < ApplicationRecord
   scope :defenders, -> { where(real_position: Position::DEFENCE) }
   scope :by_real_position, ->(position) { where('real_position LIKE ?', "%#{position}%") }
 
-  GOAL_PC_DIFF = -1
-  GOAL_A_DIFF = -0.5
   CLEANSHEET_BONUS_DIFF = 0.5
 
   def not_played?
@@ -38,7 +36,6 @@ class MatchPlayer < ApplicationRecord
     return 0 unless score
 
     total = result_score
-    total += custom_score if league.custom_bonuses
 
     total -= recount_cleansheet if cleansheet
     total -= position_malus if position_malus
@@ -56,28 +53,6 @@ class MatchPlayer < ApplicationRecord
 
   private
 
-  def custom_score
-    custom_diff = 0
-    custom_diff += recount_goals if league.recount_goals && (real_position_arr & Position::FORWARDS).present? && goals.positive?
-    custom_diff += recount_missed_goals if (main_squad_por? || reserve_por?) && missed_goals.positive?
-    custom_diff += recount_failed_penalty if failed_penalty.positive?
-
-    custom_diff
-  end
-
-  def recount_goals
-    goal_diff = main_squad_pc? || reserve_pc? ? GOAL_PC_DIFF : GOAL_A_DIFF
-    goal_diff * goals
-  end
-
-  def recount_missed_goals
-    (RoundPlayer::MISSED_GOAL_MALUS - league.missed_goals) * missed_goals
-  end
-
-  def recount_failed_penalty
-    (RoundPlayer::FAILED_PENALTY_MALUS - league.failed_penalty) * failed_penalty
-  end
-
   def recount_cleansheet
     # TODO: recount cleansheet value for players with E/W positions at E module position;
     if d_at_e_or_m? || m_not_at_m?
@@ -94,21 +69,5 @@ class MatchPlayer < ApplicationRecord
 
   def m_not_at_m?
     position_names.include?(Position::MEDIANO) && real_position_arr.exclude?(Position::MEDIANO)
-  end
-
-  def main_squad_pc?
-    real_position_arr.include?(Position::PUNTA)
-  end
-
-  def reserve_pc?
-    real_position.blank? && position_names.include?(Position::PUNTA)
-  end
-
-  def main_squad_por?
-    real_position_arr.include?(Position::PORTIERE)
-  end
-
-  def reserve_por?
-    real_position.blank? && position_names.include?(Position::PORTIERE)
   end
 end
