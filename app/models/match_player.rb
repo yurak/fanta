@@ -2,11 +2,11 @@ class MatchPlayer < ApplicationRecord
   belongs_to :round_player
   belongs_to :lineup
 
-  delegate :tour, :league, :team, to: :lineup
-  delegate :player, :score, :result_score, :goals, :assists, :missed_goals,
-           :caught_penalty, :missed_penalty, :scored_penalty, :failed_penalty,
-           :own_goals, :yellow_card, :red_card, :club_played_match?, to: :round_player
-  delegate :position_names, :name, :first_name, :club, :teams, to: :player
+  delegate :league, :team, :tour, to: :lineup
+  delegate :assists, :caught_penalty, :cleansheet, :club_played_match?, :failed_penalty, :goals,
+           :missed_goals, :missed_penalty, :own_goals, :player, :red_card, :result_score, :score, :scored_penalty,
+           :yellow_card, to: :round_player
+  delegate :club, :first_name, :name, :position_names, :teams, to: :player
 
   enum subs_status: { initial: 0, get_out: 1, get_in: 2, not_in_squad: 3 }
 
@@ -20,10 +20,7 @@ class MatchPlayer < ApplicationRecord
   scope :defenders, -> { where(real_position: Position::DEFENCE) }
   scope :by_real_position, ->(position) { where('real_position LIKE ?', "%#{position}%") }
 
-  GOAL_PC_DIFF = -1
-  GOAL_A_DIFF = -0.5
-  BASE_CLEANSHEET_BONUS = 1
-  CUSTOM_CLEANSHEET_BONUS = 0.5
+  CLEANSHEET_BONUS_DIFF = 0.5
 
   def not_played?
     score.zero? && club_played_match?
@@ -39,9 +36,8 @@ class MatchPlayer < ApplicationRecord
     return 0 unless score
 
     total = result_score
-    total += custom_score if league.custom_bonuses
 
-    total += cleansheet_score if cleansheet
+    total -= recount_cleansheet if cleansheet
     total -= position_malus if position_malus
 
     total
@@ -57,53 +53,21 @@ class MatchPlayer < ApplicationRecord
 
   private
 
-  def custom_score
-    custom_diff = 0
-    custom_diff += recount_goals if league.recount_goals && (real_position_arr & Position::FORWARDS).present? && goals.positive?
-    custom_diff += recount_missed_goals if (main_squad_por? || reserve_por?) && missed_goals.positive?
-    custom_diff += recount_failed_penalty if failed_penalty.positive?
-
-    custom_diff
-  end
-
-  def recount_goals
-    goal_diff = main_squad_pc? || reserve_pc? ? GOAL_PC_DIFF : GOAL_A_DIFF
-    goal_diff * goals
-  end
-
-  def recount_missed_goals
-    (RoundPlayer::MISSED_GOAL_MALUS - league.missed_goals) * missed_goals
-  end
-
-  def recount_failed_penalty
-    (RoundPlayer::FAILED_PENALTY_MALUS - league.failed_penalty) * failed_penalty
-  end
-
-  def cleansheet_score
-    # TODO: store cleansheet in RoundPlayer, in MatchPlayer only count it value
-    return 0 if (real_position_arr & Position::CLEANSHEET_ZONE).blank?
-    return 0 if (position_names & Position::CLEANSHEET_ZONE).blank?
-
-    if real_position_arr.include?(Position::MEDIANO) && position_names.include?(Position::MEDIANO)
-      league.cleansheet_m ? CUSTOM_CLEANSHEET_BONUS : 0
+  def recount_cleansheet
+    # TODO: recount cleansheet value for players with E/W positions at E module position;
+    if d_at_e_or_m? || m_not_at_m?
+      CLEANSHEET_BONUS_DIFF
     else
-      BASE_CLEANSHEET_BONUS
+      0
     end
   end
 
-  def main_squad_pc?
-    real_position_arr.include?(Position::PUNTA)
+  def d_at_e_or_m?
+    (position_names & Position::D_CLEANSHEET_ZONE).any? &&
+      (real_position_arr.include?(Position::ESTERNO) || real_position_arr.include?(Position::MEDIANO))
   end
 
-  def reserve_pc?
-    real_position.blank? && position_names.include?(Position::PUNTA)
-  end
-
-  def main_squad_por?
-    real_position_arr.include?(Position::PORTIERE)
-  end
-
-  def reserve_por?
-    real_position.blank? && position_names.include?(Position::PORTIERE)
+  def m_not_at_m?
+    position_names.include?(Position::MEDIANO) && real_position_arr.exclude?(Position::MEDIANO)
   end
 end

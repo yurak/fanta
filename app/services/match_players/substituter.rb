@@ -22,11 +22,9 @@ module MatchPlayers
         new_round_player = reserve_match_player.round_player
         reserve_match_player.update(round_player_id: main_match_player.round_player_id,
                                     subs_status: :get_out,
-                                    cleansheet: false,
                                     position_malus: 0)
         main_match_player.update(round_player_id: new_round_player.id,
                                  subs_status: :get_in,
-                                 cleansheet: false,
                                  position_malus: 0)
       end
     end

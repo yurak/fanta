@@ -25,10 +25,6 @@ class League < ApplicationRecord
     result&.team
   end
 
-  def cleansheet_zone
-    cleansheet_m ? Position::CLEANSHEET_ZONE : Position::CLASSIC_CLEANSHEET_ZONE
-  end
-
   def self.counters(leagues)
     counters = {}
     counters['All leagues'] = leagues&.count

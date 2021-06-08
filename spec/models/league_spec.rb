@@ -84,22 +84,6 @@ RSpec.describe League, type: :model do
     end
   end
 
-  describe '#cleansheet_zone' do
-    context 'without cleansheet_m value' do
-      let(:league) { create(:league, cleansheet_m: false) }
-
-      it 'returns classic array' do
-        expect(league.cleansheet_zone).to eq(%w[Por Dc Ds Dd])
-      end
-    end
-
-    context 'with cleansheet_m value' do
-      it 'returns extended array' do
-        expect(league.cleansheet_zone).to eq(%w[Por Dc Ds Dd M])
-      end
-    end
-  end
-
   describe '.counters' do
     context 'when leagues does not exist' do
       it 'returns all leagues nil' do

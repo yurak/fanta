@@ -110,7 +110,7 @@ RSpec.describe MatchPlayer, type: :model do
     end
 
     context 'with score and cleansheet and without real_position' do
-      let(:match_player) { create(:match_player, :with_score, cleansheet: true) }
+      let(:match_player) { create(:match_player, :with_score_and_cleansheet) }
 
       it 'returns total score value without cs bonus' do
         expect(match_player.total_score).to eq(6)
@@ -118,7 +118,7 @@ RSpec.describe MatchPlayer, type: :model do
     end
 
     context 'with score and cleansheet' do
-      let(:match_player) { create(:dc_match_player, cleansheet: true) }
+      let(:match_player) { create(:dc_match_player, round_player: create(:round_player, :with_pos_dc, :with_score_six, cleansheet: true)) }
 
       it 'returns total score value with cs bonus' do
         expect(match_player.total_score).to eq(7)
@@ -126,140 +126,74 @@ RSpec.describe MatchPlayer, type: :model do
     end
 
     context 'with score and cleansheet on def position but with E player position' do
-      let(:match_player) { create(:e_match_player, real_position: 'Dd', cleansheet: true) }
+      let(:match_player) do
+        create(:match_player, real_position: 'Dd', round_player: create(:round_player, :with_pos_e, :with_score_six, cleansheet: true))
+      end
 
-      it 'returns total score value without cs bonus' do
-        expect(match_player.total_score).to eq(6)
+      it 'returns total score value with E cs bonus' do
+        expect(match_player.total_score).to eq(6.5)
       end
     end
 
-    context 'with score and cleansheet on M position with cleansheet_m league bonus' do
-      let(:match_player) { create(:m_match_player, cleansheet: true) }
+    context 'with score and cleansheet on M position' do
+      let(:match_player) { create(:m_match_player, round_player: create(:round_player, :with_pos_m, :with_score_six, cleansheet: true)) }
 
       it 'returns total score value with M cs bonus' do
         expect(match_player.total_score).to eq(6.5)
       end
     end
 
-    context 'with score and cleansheet on M position without cleansheet_m bonus' do
-      let(:match_player) { create(:m_match_player, real_position: 'M/C', cleansheet: true) }
-
-      it 'returns total score value without cs bonus' do
-        allow(match_player.league).to receive(:cleansheet_m).and_return(false)
-
-        expect(match_player.total_score).to eq(6)
-      end
-    end
-
     context 'with score and cleansheet on M position but with C player position' do
-      let(:match_player) { create(:c_match_player, real_position: 'M/C', cleansheet: true) }
+      let(:match_player) do
+        create(:match_player, real_position: 'M/C', round_player: create(:round_player, :with_pos_c, :with_score_six, cleansheet: true))
+      end
 
       it 'returns total score value without cs bonus' do
         expect(match_player.total_score).to eq(6)
       end
     end
 
-    context 'with score and failed_penalty without league custom_bonuses' do
+    context 'with score and cleansheet on C position but with M player position' do
+      let(:match_player) do
+        create(:match_player, real_position: 'C', round_player: create(:round_player, :with_pos_m, :with_score_six, cleansheet: true))
+      end
+
+      it 'returns total score value without cs bonus' do
+        expect(match_player.total_score).to eq(6)
+      end
+    end
+
+    context 'with score and failed_penalty' do
       it 'returns recounted total score value' do
-        allow(match_player_with_score.league).to receive(:custom_bonuses).and_return(true)
         allow(match_player_with_score.round_player).to receive(:failed_penalty).and_return(1)
 
         expect(match_player_with_score.total_score).to eq(3)
       end
     end
 
-    context 'with score, league custom_bonuses and failed_penalty' do
-      it 'returns recounted total score value' do
-        allow(match_player_with_score.league).to receive(:custom_bonuses).and_return(true)
-        allow(match_player_with_score.league).to receive(:failed_penalty).and_return(2)
-        allow(match_player_with_score.round_player).to receive(:failed_penalty).and_return(1)
-
-        expect(match_player_with_score.total_score).to eq(4)
-      end
-    end
-
-    context 'with score and missed_goals without league custom_bonuses' do
+    context 'with score and missed_goals' do
       it 'returns total score value' do
         allow(match_player_with_score.round_player).to receive(:missed_goals).and_return(1)
 
-        expect(match_player_with_score.total_score).to eq(5)
+        expect(match_player_with_score.total_score).to eq(4.5)
       end
     end
 
-    context 'with score and missed_goals with league custom_bonuses for not Por position' do
-      let(:match_player) { create(:dc_match_player) }
-
-      it 'returns total score value' do
-        allow(match_player.league).to receive(:custom_bonuses).and_return(true)
-        allow(match_player.round_player).to receive(:missed_goals).and_return(1)
-
-        expect(match_player.total_score).to eq(5)
-      end
-    end
-
-    context 'with score and missed_goals with league custom_bonuses for main Por position' do
+    context 'with score and missed_goals for main Por position' do
       let(:match_player) { create(:por_match_player) }
 
       it 'returns recounted total score value' do
-        allow(match_player.league).to receive(:custom_bonuses).and_return(true)
         allow(match_player.round_player).to receive(:missed_goals).and_return(2)
 
-        expect(match_player.total_score).to eq(2)
+        expect(match_player.total_score).to eq(3)
       end
     end
 
-    context 'with score and missed_goals with league custom_bonuses for reserve Por position' do
-      let(:match_player) { create(:por_match_player, real_position: nil) }
-
-      it 'returns recounted total score value' do
-        allow(match_player.league).to receive(:custom_bonuses).and_return(true)
-        allow(match_player.round_player).to receive(:missed_goals).and_return(1)
-
-        expect(match_player.total_score).to eq(4)
-      end
-    end
-
-    context 'with score and goals without league custom_bonuses and recount_goals' do
+    context 'with score and goals' do
       it 'returns total score value' do
         allow(match_player_with_score.round_player).to receive(:goals).and_return(1)
 
         expect(match_player_with_score.total_score).to eq(9)
-      end
-    end
-
-    context 'with score and goals with league custom_bonuses and recount_goals for not forward positions' do
-      let(:match_player) { create(:dc_match_player) }
-
-      it 'returns total score value' do
-        allow(match_player.league).to receive(:custom_bonuses).and_return(true)
-        allow(match_player.league).to receive(:recount_goals).and_return(true)
-        allow(match_player.round_player).to receive(:goals).and_return(1)
-
-        expect(match_player.total_score).to eq(9)
-      end
-    end
-
-    context 'with score and goals with league custom_bonuses and recount_goals for W/A, T/A positions' do
-      let(:match_player) { create(:w_match_player) }
-
-      it 'returns recounted total score value' do
-        allow(match_player.league).to receive(:custom_bonuses).and_return(true)
-        allow(match_player.league).to receive(:recount_goals).and_return(true)
-        allow(match_player.round_player).to receive(:goals).and_return(1)
-
-        expect(match_player.total_score).to eq(8.5)
-      end
-    end
-
-    context 'with score and goals with league custom_bonuses and recount_goals for A/Pc positions' do
-      let(:match_player) { create(:pc_match_player) }
-
-      it 'returns recounted total score value' do
-        allow(match_player.league).to receive(:custom_bonuses).and_return(true)
-        allow(match_player.league).to receive(:recount_goals).and_return(true)
-        allow(match_player.round_player).to receive(:goals).and_return(1)
-
-        expect(match_player.total_score).to eq(8)
       end
     end
   end
