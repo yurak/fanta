@@ -57,19 +57,16 @@ RSpec.describe Team, type: :model do
   describe '#logo_path' do
     context 'when logo does not exist' do
       it 'returns default path' do
-        expect(team.logo_path).to eq('teams/default_logo.png')
+        expect(team.logo_path).to eq('default_logo.png')
       end
     end
 
-    context 'when logo exists' do
-      let(:name) { team.name }
-      let(:file_path) { "app/assets/images/teams/#{name}.png" }
+    context 'when logo url exists' do
+      let(:team) { create(:team, logo_url: logo_url) }
+      let(:logo_url) { 'url/logo.png' }
 
       it 'returns path to team logo' do
-        allow(File).to receive(:exist?).and_call_original
-        allow(File).to receive(:exist?).with(file_path).and_return(true)
-
-        expect(team.logo_path).to eq("teams/#{name}.png")
+        expect(team.logo_path).to eq(logo_url)
       end
     end
   end

@@ -23,11 +23,7 @@ class Team < ApplicationRecord
   end
 
   def logo_path
-    if File.exist?("app/assets/images/teams/#{name}.png")
-      "teams/#{name}.png"
-    else
-      'teams/default_logo.png'
-    end
+    logo_url.presence || 'default_logo.png'
   end
 
   def next_round
