@@ -170,7 +170,7 @@ class LineupsController < ApplicationController
   end
 
   def viewable?
-    team_of_user? || tour.deadlined?
+    (team_of_user? && team == lineup.team) || tour.deadlined?
   end
 
   def sub_available?
