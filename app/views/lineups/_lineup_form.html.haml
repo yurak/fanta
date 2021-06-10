@@ -80,6 +80,10 @@
                               .player-show-kit
                                 %object{data: player.national_kit_path, type: 'image/jpg'}
                                   = image_tag('kit_small_default2.png')
+                              .player-show-positions
+                                - player.position_names.reverse.each do |position|
+                                  .slot-position{class: "slot-position-#{position&.tr('/', '')}"}
+                                    = position
                             .player-name
                               %span
                                 = player.name.upcase
