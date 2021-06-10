@@ -375,11 +375,14 @@
 
             .round-lineups-item-grid {
               display: grid;
-              grid-template-columns: 60px 178px 64px;
+              grid-template-columns: 60px 205px 64px;
             }
 
             .lineup-team-name {
               text-align: left;
+              white-space: nowrap;
+              overflow: hidden !important;
+              text-overflow: ellipsis;
             }
 
             .lineup-team-logo {
