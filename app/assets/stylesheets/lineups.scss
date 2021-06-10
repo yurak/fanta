@@ -312,6 +312,7 @@
                     width: 100px;
                     height: 100px;
                     margin: 0 auto;
+                    position: relative;
 
                     .player-show-face, .player-show-kit {
                       position: absolute;
@@ -319,6 +320,20 @@
                       img, object {
                         width: 100px;
                         height: 100px;
+                      }
+                    }
+
+                    .player-show-positions {
+                      position: absolute;
+                      left: -31px;
+                      bottom: 6px;
+
+                      .slot-position {
+                        margin-top: 5px;
+                        height: 26px;
+                        width: 34px;
+                        line-height: 26px;
+                        font-size: 14px;
                       }
                     }
                   }
