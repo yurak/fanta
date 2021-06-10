@@ -88,7 +88,8 @@
             .round-table-header-cell.round-table-header-player= t('tours.player')
             .round-table-header-cell= t('tours.bs')
             .round-table-header-cell= t('tours.ts')
-            .round-table-header-cell= t('tours.team')
+            - if tour.mantra?
+              .round-table-header-cell= t('tours.team')
           - @tournament_players.each_with_index do |r_player, i|
             .round-table-item.round-player-stats-item
               .round-player-stats-param.center= i + 1
@@ -205,8 +206,69 @@
                     = t_match.guest_club.code
     - if tour.national?
       .round-table
-        .round-table-title
-          = link_to tournament_path(tour.league.tournament) do
-            .round-table-title-text= t('tours.calendar')
+        .round-table-title.best-players-title
+          = link_to league_results_path(tour.league) do
+            .round-table-title-text= t('tours.leaders_score')
             .round-table-title-icon
               = image_tag('icons/arrow_blue.png')
+        .round-table-block
+          .round-table-headers.round-national-table-item
+            .round-table-header-cell
+            .round-table-header-cell
+            .round-table-header-cell= t('tours.pnt')
+          - tour.league.results.ordered_by_score.limit(5).each_with_index do |result, i|
+            .round-table-item.round-national-table-item
+              .round-table-item-cell.round-table-index= i + 1
+              .round-table-item-cell.round-table-item-team
+                .results-team-logo
+                  = image_tag(image_path(result.team.logo_path))
+                .results-team-name
+                  = result.team.human_name[0..15]
+              .round-table-item-cell= result.total_score
+      .round-table
+        .round-table-title.best-players-title
+          = link_to league_results_path(tour.league, order: 'points') do
+            .round-table-title-text= t('tours.leaders_points')
+            .round-table-title-icon
+              = image_tag('icons/arrow_blue.png')
+        .round-table-block
+          .round-table-headers.round-national-table-item
+            .round-table-header-cell
+            .round-table-header-cell
+            .round-table-header-cell= t('tours.pnt')
+          - tour.league.results.ordered.limit(5).each_with_index do |result, i|
+            .round-table-item.round-national-table-item
+              .round-table-item-cell.round-table-index= i + 1
+              .round-table-item-cell.round-table-item-team
+                .results-team-logo
+                  = image_tag(image_path(result.team.logo_path))
+                .results-team-name
+                  = result.team.human_name[0..15]
+              .round-table-item-cell= result.points
+      - if tour.number < tour.league.tours.size && tour.next_round
+        .round-table
+          .round-table-title
+            = link_to tournament_path(tour.league.tournament) do
+              .round-table-title-text= t('tours.calendar')
+              .round-table-title-icon
+                = image_tag('icons/arrow_blue.png')
+          .round-tournament-block
+          - tour.next_round.tournament_round.national_matches.each do |n_match|
+            .round-tournament-match
+              .round-tournament-match-cell.round-tournament-match-club
+                .round-tournament-club-name
+                  = n_match.host_team.name
+                .round-tournament-club-logo
+                  = flag_icon(n_match.host_team.code.to_sym, element: :div)
+              .round-tournament-match-cell
+                - if n_match.host_score
+                  .round-tournament-match-result
+                    .round-tournament-match-result-host= n_match.host_score
+                    .round-tournament-match-result-guest= n_match.guest_score
+                - else
+                  = n_match.time
+              .round-tournament-match-cell.round-tournament-match-club.round-tournament-match-guest
+                .round-tournament-club-logo
+                  = flag_icon(n_match.guest_team.code.to_sym, element: :div)
+                .round-tournament-club-name
+                  = n_match.guest_team.name

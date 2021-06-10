@@ -5,6 +5,7 @@ class Result < ApplicationRecord
   delegate :lineups, to: :team
 
   scope :ordered, -> { order(points: :desc).order(Arel.sql('scored_goals - missed_goals desc')).order(scored_goals: :desc) }
+  scope :ordered_by_score, -> { order(total_score: :desc) }
 
   def matches_played
     @matches_played ||= wins + draws + loses

@@ -466,6 +466,15 @@
         }
       }
 
+      .round-national-table-item {
+        grid-template-columns: 1fr 8fr 2fr 1fr;
+      }
+
+      .round-table-item.round-national-table-item {
+        line-height: 55px;
+        font-size: 16px;
+      }
+
       .round-tournament-block {
         margin-top: 8px;
       }

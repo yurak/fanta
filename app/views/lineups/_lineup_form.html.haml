@@ -5,10 +5,10 @@
         = link_to tour_path(tour) do
           &times;
       .new-lineup-header-text
-        .new-lineup-header-title Setup lineup
-        .new-lineup-header-subtitle Select module and players
+        .new-lineup-header-title= t('lineups.setup_lineup')
+        .new-lineup-header-subtitle= t('lineups.select')
     .new-lineup-confirm
-      = submit_tag "Confirm squad", form: 'new_lineup', class: 'submit', id: 'submit-lineup-btn'
+      = submit_tag t('lineups.confirm_squad'), form: 'new_lineup', class: 'submit', id: 'submit-lineup-btn'
   .new-lineup-block
     .module-section
       #modules-modal-btn
@@ -19,7 +19,7 @@
           .modal-content
             %span.close
             .modal-title
-              Change module
+              = t('lineups.change_module')
             .modal-modules-block
               - @modules.each do |team_module|
                 = link_to module_link(lineup, team_module) do
@@ -28,9 +28,14 @@
                     = image_tag("modules/#{team_module.name}.jpg")
       .module-image
         = image_tag("modules/#{team_module&.name || lineup.team_module.name}.jpg")
+      .squad-rules
+        .squad-minimum-rule
+          = t('lineups.minimum')
+        .squad-maximum-rule
+          = t('lineups.limit', limit: tour.max_country_players)
     .players-section
       .main-players-title
-        = 'Main squad'
+        = t('lineups.main_squad')
       .main-players
         = form_with model: [team, lineup], id: 'new_lineup', local: true do |f|
           = f.hidden_field :team_module_id, value: team_module&.id || lineup.team_module.id
@@ -54,7 +59,7 @@
                           = team_module.slots[mp.index]&.position
                     .team-player-name
                       .team-player-last-name{ id: "name-#{mp.index}" }
-                        = player_by_mp(mp)&.name || 'Not selected'
+                        = player_by_mp(mp)&.name || t('lineups.not_selected')
                       .team-player-first-name{ id: "first-name-#{mp.index}" }
                         = player_by_mp(mp)&.first_name || ''
                       .team-player-country{ id: "country-#{mp.index}", style: "display: none;" }= player_by_mp(mp)&.national_team&.name
@@ -96,7 +101,7 @@
       const unique_countries = player_countries.filter((v, i, a) => a.indexOf(v) === i).filter(Boolean);
 
       if (unique_countries.length < "#{tour.national_teams_count}") {
-        alert('You should select minimum 1 player from each country');
+        alert("#{t('lineups.minimum')}");
         return false;
       }
 
@@ -107,7 +112,7 @@
       const country_players_limit = "#{tour.max_country_players}"
 
       if (max_country_players > country_players_limit) {
-        alert("You can't select more than " + country_players_limit + ' players from one country');
+        alert("#{t('lineups.limit', limit: tour.max_country_players)}");
         return false;
       }
 
@@ -116,7 +121,7 @@
       const filtered = player_ids.filter(Boolean);
 
       if (filtered.length < 11) {
-          alert('Lineup should contain 11 unique players');
+          alert("#{t('lineups.eleven')}");
           return false;
       }
 
@@ -125,7 +130,7 @@
       }, []);
 
       if (duplicate_ids.length > 0) {
-          alert('Lineup contains duplicate players');
+          alert("#{t('lineups.duplicates')}");
           return false;
       }
     });

@@ -122,6 +122,16 @@ en:
     round: "ROUND"
   lineups:
     team: "Team"
+    confirm_squad: "Confirm squad"
+    setup_lineup: "Setup lineup"
+    select: "Select module and players"
+    change_module: "Change module"
+    main_squad: "Main squad"
+    not_selected: "Not selected"
+    minimum: "You should select minimum 1 player from each country"
+    eleven: "Lineup should contain 11 unique players"
+    duplicates: "Lineup contains duplicate players"
+    limit: "You can't select more than %{limit} players from one country"
   links:
     title: "Useful Links"
     subtitle: ""
@@ -214,6 +224,11 @@ en:
     points: "POINTS"
     form: "FORM"
     next: "NEXT"
+    rounds: "Played rounds"
+    gamedays: "Gamedays"
+    f1_points: "F1 points"
+    total_score: "Total score"
+    best_lineup: "Best lineup"
   teams:
     points:
       zero: "0 points"
@@ -263,6 +278,8 @@ en:
     l: "L"
     gd: "GD"
     pnt: "PNT"
+    leaders_points: "Leaders by F1 points"
+    leaders_score: "Leaders by total score"
     tournament_players: "💪 Round best players"
     league_players: "💪 League best players"
     player: "PLAYER"
