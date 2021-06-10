@@ -60,7 +60,7 @@
 
       .round-base {
         display: grid;
-        grid-template-columns: auto 300px 204px;
+        grid-template-columns: auto 310px 204px;
         line-height: 32px;
         color: #181715;
         padding-bottom: 32px;
@@ -83,7 +83,7 @@
 
         .round-deadline {
           display: grid;
-          grid-template-columns: 80px 126px 76px;
+          grid-template-columns: 80px 136px 76px;
           column-gap: 8px;
         }
 
@@ -356,6 +356,53 @@
           margin-top: 2px;
         }
       }
+
+      .round-lineups {
+        margin: 32px 0;
+
+        .round-lineups-block {
+          margin: auto;
+          text-align: center;
+
+          .round-lineups-item {
+            margin: 4px;
+            display: inline-block;
+            font-weight: 500;
+            font-size: 18px;
+            border-bottom: 2px solid #E5E6E4;
+            line-height: 64px;
+            color: #181715;
+
+            .round-lineups-item-grid {
+              display: grid;
+              grid-template-columns: 60px 205px 64px;
+            }
+
+            .lineup-team-name {
+              text-align: left;
+              white-space: nowrap;
+              overflow: hidden !important;
+              text-overflow: ellipsis;
+            }
+
+            .lineup-team-logo {
+              img {
+                margin: 8px 6px;
+                width: 48px;
+                height: 48px;
+              }
+            }
+
+            .lineup-result {
+              background-color: #40BBCD;
+              color: #FFFFFF;
+              margin: 12px 4px;
+              line-height: 48px;
+              border-radius: 4px;
+            }
+          }
+        }
+      }
     }
   }
 
@@ -422,6 +469,15 @@
         }
       }
 
+      .round-national-table-item {
+        grid-template-columns: 1fr 8fr 2fr 1fr;
+      }
+
+      .round-table-item.round-national-table-item {
+        line-height: 55px;
+        font-size: 16px;
+      }
+
       .round-tournament-block {
         margin-top: 8px;
       }
@@ -442,9 +498,14 @@
           grid-template-columns: auto 24px;
           font-weight: 500;
 
-          img {
+          img, object {
             width: 24px;
             height: 24px;
+          }
+
+          object {
+            position: relative;
+            top: 8px;
           }
 
           .round-tournament-club-name {
@@ -589,7 +650,7 @@
 
 .reservist-item, .reservists-headers {
   display: grid;
-  grid-template-columns: 10% 18% 10% 8% 7% 7% 7% 7% 8% 8% 7%;
+  grid-template-columns: 8% 16% 8% 7% 7% 7% 7% 7% 8% 8% 8% 7%;
   grid-column-gap: 2px;
   font-size: 16px;
   text-align: center;

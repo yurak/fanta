@@ -328,12 +328,16 @@
         }
 
         .team-player-club {
-          margin: 19px 0;
           text-align: center;
 
-          img {
+          img, object {
             width: 32px;
             height: 32px;
+          }
+
+          object {
+            position: relative;
+            top: 19px;
           }
         }
 

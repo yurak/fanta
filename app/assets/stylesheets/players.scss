@@ -112,10 +112,15 @@
       grid-template-columns: 220px 16fr 16fr 10fr 10fr 10fr 50px;
 
       .team-image {
-        img {
+        img, object {
           margin: auto 4px;
           width: 32px;
           height: 32px;
+        }
+
+        object {
+          position: relative;
+          top: 10px;
         }
       }
     }
@@ -326,7 +331,7 @@
           color: #181715;
           text-align: right;
 
-          img {
+          img, object {
             width: 32px;
             height: 32px;
           }

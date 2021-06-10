@@ -5,18 +5,6 @@ RSpec.describe Tours::Manager do
     let(:tour) { create(:tour) }
     let(:status) { 'status' }
 
-    context 'with initial tour and existed set_lineup tour' do
-      let(:status) { 'set_lineup' }
-
-      before do
-        create(:set_lineup_tour, league: tour.league)
-
-        manager.call
-      end
-
-      it { expect(tour.reload.status).to eq('inactive') }
-    end
-
     context 'with initial tour and invalid status' do
       before do
         manager.call
@@ -46,10 +34,14 @@ RSpec.describe Tours::Manager do
     end
 
     context 'with set_lineup tour and locked status' do
-      let(:tour) { create(:set_lineup_tour) }
+      let(:tournament_round) { create(:tournament_round) }
+      let(:tour) { create(:set_lineup_tour, tournament_round: tournament_round) }
       let(:status) { 'locked' }
 
       before do
+        create(:tournament_match, tournament_round: tournament_round)
+        create_list(:team, 4, league: tour.league)
+
         manager.call
       end
 

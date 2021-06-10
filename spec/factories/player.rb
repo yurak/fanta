@@ -11,6 +11,13 @@ FactoryBot.define do
       end
     end
 
+    trait :with_national_team do
+      after(:create) do |player|
+        create(:national_team, players: [player])
+        player.reload
+      end
+    end
+
     trait :with_scores do
       after(:create) do |player|
         create(:round_player, player: player, tournament_round: create(:tournament_round), score: 6)

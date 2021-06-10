@@ -1,5 +1,6 @@
 class Player < ApplicationRecord
   belongs_to :club
+  belongs_to :national_team, optional: true
 
   has_many :player_positions, dependent: :destroy
   has_many :positions, through: :player_positions
@@ -16,6 +17,8 @@ class Player < ApplicationRecord
   scope :by_club, ->(club_id) { where(club_id: club_id) }
   scope :by_position, ->(position) { joins(:positions).where(positions: { name: position }) }
   scope :by_tournament, ->(tournament_id) { joins(:club).where(clubs: { tournament: tournament_id, status: 'active' }) }
+  scope :by_national_teams, ->(nt_id) { where(national_team_id: nt_id) }
+  scope :by_national_tournament_round, ->(tr) { by_national_teams(tr.national_matches.pluck(:host_team_id, :guest_team_id).reduce([], :+)) }
   scope :stats_query, -> { includes(:club, :positions).order(:name) }
   scope :with_team, -> { includes(:teams).where.not(teams: { id: nil }) }
 
@@ -56,12 +59,20 @@ class Player < ApplicationRecord
     full_name.downcase.tr(' ', '_').tr('-', '_').delete("'")
   end
 
+  def national_kit_path
+    "#{BUCKET_URL}/kits/national_small/#{national_team.code}.png" if national_team
+  end
+
+  def profile_national_kit_path
+    "#{BUCKET_URL}/kits/national/#{national_team.code}.png" if national_team
+  end
+
   def kit_path
-    "kits/kits_small/#{club.path_name}.png"
+    "#{BUCKET_URL}/kits/club_small/#{club.path_name}.png"
   end
 
   def profile_kit_path
-    "kits/#{club.path_name}.png"
+    "#{BUCKET_URL}/kits/club/#{club.path_name}.png"
   end
 
   def position_names
@@ -69,7 +80,7 @@ class Player < ApplicationRecord
   end
 
   def position_sequence_number
-    positions.first.id
+    positions.first&.id
   end
 
   # Current season statistic
@@ -109,6 +120,44 @@ class Player < ApplicationRecord
   end
 
   def season_cards_count(card)
+    return 0 unless season_matches_with_scores.any?
+
     season_matches_with_scores.where(card => true).count
+  end
+
+  # NationalTeams Tournament statistic
+
+  def national_scores_count
+    @national_scores_count ||= national_matches_with_scores.size
+  end
+
+  def national_average_score
+    return 0 if national_scores_count.zero?
+
+    @national_average_score ||= (national_matches_with_scores.map(&:score).sum / national_scores_count).round(2)
+  end
+
+  def national_average_result_score
+    return 0 if national_scores_count.zero?
+
+    @national_average_result_score ||= (national_matches_with_scores.map(&:result_score).sum / national_scores_count).round(2)
+  end
+
+  def national_matches_with_scores
+    return [] unless national_team
+
+    @national_matches_with_scores ||= round_players.with_score
+                                                   .by_tournament_round(Tournament.with_national_teams.last&.tournament_rounds)
+                                                   .order(:tournament_round_id)
+  end
+
+  def national_bonus_count(bonus)
+    national_matches_with_scores.map(&bonus.to_sym).sum.to_i
+  end
+
+  def national_cards_count(card)
+    return 0 unless national_matches_with_scores.any?
+
+    national_matches_with_scores.where(card => true).count
   end
 end

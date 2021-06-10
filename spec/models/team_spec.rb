@@ -57,19 +57,16 @@ RSpec.describe Team, type: :model do
   describe '#logo_path' do
     context 'when logo does not exist' do
       it 'returns default path' do
-        expect(team.logo_path).to eq('teams/default_logo.png')
+        expect(team.logo_path).to eq('default_logo.png')
       end
     end
 
-    context 'when logo exists' do
-      let(:name) { team.name }
-      let(:file_path) { "app/assets/images/teams/#{name}.png" }
+    context 'when logo url exists' do
+      let(:team) { create(:team, logo_url: logo_url) }
+      let(:logo_url) { 'url/logo.png' }
 
       it 'returns path to team logo' do
-        allow(File).to receive(:exist?).and_call_original
-        allow(File).to receive(:exist?).with(file_path).and_return(true)
-
-        expect(team.logo_path).to eq("teams/#{name}.png")
+        expect(team.logo_path).to eq(logo_url)
       end
     end
   end
@@ -162,6 +159,24 @@ RSpec.describe Team, type: :model do
 
       it 'returns players' do
         expect(team.players_not_in(lineup).count).to eq(7)
+      end
+    end
+  end
+
+  describe '#best_lineup' do
+    context 'without lineup' do
+      it 'returns nil' do
+        expect(team.best_lineup).to eq(nil)
+      end
+    end
+
+    context 'with lineup' do
+      it 'returns lineup with best total score' do
+        create(:lineup, :with_team_and_score_six, team: team, tour: create(:closed_tour, league: team.league))
+        lineup2 = create(:lineup, :with_team_and_score_seven, team: team, tour: create(:closed_tour, league: team.league))
+        create(:lineup, :with_team_and_score_five, team: team, tour: create(:closed_tour, league: team.league))
+
+        expect(team.best_lineup).to eq(lineup2)
       end
     end
   end

@@ -15,7 +15,7 @@ class Club < ApplicationRecord
   scope :order_by_players_count, -> { includes(:players).left_joins(:players).group(:id).order(Arel.sql('COUNT(players.id) DESC')) }
 
   def logo_path
-    "clubs/#{path_name}.png"
+    "#{Player::BUCKET_URL}/club_logo/#{path_name}.png"
   end
 
   def path_name

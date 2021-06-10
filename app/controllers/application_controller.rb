@@ -11,10 +11,14 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_in_path_for(resource)
+    return tour_path(current_user.active_league&.active_tour_or_last) if current_user&.active_league
+
     stored_location_for(resource) || articles_path
   end
 
   def after_sign_up_path_for(resource)
+    return tour_path(current_user.active_league&.active_tour_or_last) if current_user&.active_league
+
     stored_location_for(resource) || articles_path
   end
 end

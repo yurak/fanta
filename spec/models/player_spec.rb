@@ -6,6 +6,7 @@ RSpec.describe Player, type: :model do
 
   describe 'Associations' do
     it { is_expected.to belong_to(:club) }
+    it { is_expected.to belong_to(:national_team).optional }
     it { is_expected.to have_many(:player_positions).dependent(:destroy) }
     it { is_expected.to have_many(:positions).through(:player_positions) }
     it { is_expected.to have_many(:player_teams).dependent(:destroy) }
@@ -174,7 +175,7 @@ RSpec.describe Player, type: :model do
     it 'returns kit path' do
       allow(player.club).to receive(:path_name).and_return('ac_milan')
 
-      expect(player.kit_path).to eq('kits/kits_small/ac_milan.png')
+      expect(player.kit_path).to eq('https://mantrafootball.s3-eu-west-1.amazonaws.com/kits/club_small/ac_milan.png')
     end
   end
 
@@ -182,7 +183,43 @@ RSpec.describe Player, type: :model do
     it 'returns kit path' do
       allow(player.club).to receive(:path_name).and_return('ac_milan')
 
-      expect(player.profile_kit_path).to eq('kits/ac_milan.png')
+      expect(player.profile_kit_path).to eq('https://mantrafootball.s3-eu-west-1.amazonaws.com/kits/club/ac_milan.png')
+    end
+  end
+
+  describe '#national_kit_path' do
+    context 'without national_team' do
+      it 'returns nil' do
+        expect(player.national_kit_path).to eq(nil)
+      end
+    end
+
+    context 'with national_team' do
+      let(:player) { create(:player, :with_national_team) }
+
+      it 'returns kit path' do
+        allow(player.national_team).to receive(:code).and_return('ac_milan')
+
+        expect(player.national_kit_path).to eq('https://mantrafootball.s3-eu-west-1.amazonaws.com/kits/national_small/ac_milan.png')
+      end
+    end
+  end
+
+  describe '#profile_national_kit_path' do
+    context 'without national_team' do
+      it 'returns nil' do
+        expect(player.profile_national_kit_path).to eq(nil)
+      end
+    end
+
+    context 'with national_team' do
+      let(:player) { create(:player, :with_national_team) }
+
+      it 'returns kit path' do
+        allow(player.national_team).to receive(:code).and_return('ac_milan')
+
+        expect(player.profile_national_kit_path).to eq('https://mantrafootball.s3-eu-west-1.amazonaws.com/kits/national/ac_milan.png')
+      end
     end
   end
 
@@ -372,6 +409,124 @@ RSpec.describe Player, type: :model do
 
       it 'returns last season cards count' do
         expect(player.season_cards_count('yellow_card')).to eq(2)
+      end
+    end
+  end
+
+  describe '#national_scores_count' do
+    context 'when player has no national matches with score' do
+      it 'returns zero' do
+        expect(player.national_scores_count).to eq(0)
+      end
+    end
+
+    context 'when player has national matches with score' do
+      let(:player) { create(:player, :with_national_team) }
+
+      it 'returns scores count at national team' do
+        tr = create(:tournament_round, tournament: player.national_team.tournament)
+        create_list(:round_player, 3, player: player, tournament_round: tr, score: 6)
+
+        expect(player.national_scores_count).to eq(3)
+      end
+    end
+  end
+
+  describe '#national_average_score' do
+    context 'when player has no national matches with score' do
+      it 'returns zero' do
+        expect(player.national_average_score).to eq(0)
+      end
+    end
+
+    context 'when player has national matches with score' do
+      let(:player) { create(:player, :with_national_team) }
+
+      it 'returns average score at national team' do
+        tr = create(:tournament_round, tournament: player.national_team.tournament)
+        create_list(:round_player, 3, player: player, tournament_round: tr, score: 6)
+        create(:round_player, player: player, tournament_round: tr, score: 7)
+
+        expect(player.national_average_score).to eq(6.25)
+      end
+    end
+  end
+
+  describe '#national_average_result_score' do
+    context 'when player has no national matches with score' do
+      it 'returns zero' do
+        expect(player.national_average_result_score).to eq(0)
+      end
+    end
+
+    context 'when player has national matches with score' do
+      let(:player) { create(:player, :with_national_team) }
+
+      it 'returns average result score at national team' do
+        tr = create(:tournament_round, tournament: player.national_team.tournament)
+        create_list(:round_player, 3, player: player, tournament_round: tr, score: 6, assists: 1)
+        create(:round_player, player: player, tournament_round: tr, score: 7, goals: 1)
+
+        expect(player.national_average_result_score).to eq(7.75)
+      end
+    end
+  end
+
+  describe '#national_matches_with_scores' do
+    context 'when player has no matches in season' do
+      it 'returns empty array' do
+        expect(player.national_matches_with_scores).to eq([])
+      end
+    end
+
+    context 'when player has national matches' do
+      let(:player) { create(:player, :with_national_team) }
+
+      it 'returns array with round_players at national team' do
+        tr = create(:tournament_round, tournament: player.national_team.tournament)
+        round_players = create_list(:round_player, 3, player: player, tournament_round: tr, score: 6)
+
+        expect(player.national_matches_with_scores).to eq(round_players)
+      end
+    end
+  end
+
+  describe '#national_bonus_count(bonus)' do
+    context 'when player has no national matches' do
+      it 'returns zero' do
+        expect(player.national_bonus_count('goals')).to eq(0)
+      end
+    end
+
+    context 'when player has national matches' do
+      let(:player) { create(:player, :with_national_team) }
+
+      it 'returns bonus count at national team' do
+        tr = create(:tournament_round, tournament: player.national_team.tournament)
+        create_list(:round_player, 3, player: player, tournament_round: tr, score: 6, goals: 1)
+        create(:round_player, player: player, tournament_round: tr, score: 7, goals: 2)
+
+        expect(player.national_bonus_count('goals')).to eq(5)
+      end
+    end
+  end
+
+  describe '#national_cards_count(card)' do
+    context 'when player has no national matches' do
+      it 'returns zero' do
+        expect(player.national_cards_count('yellow_card')).to eq(0)
+      end
+    end
+
+    context 'when player has national matches' do
+      let(:player) { create(:player, :with_national_team) }
+
+      it 'returns cards count at national team' do
+        tr = create(:tournament_round, tournament: player.national_team.tournament)
+        create_list(:round_player, 3, player: player, tournament_round: tr, score: 6, yellow_card: 1)
+        create(:round_player, player: player, tournament_round: tr, score: 7)
+
+        expect(player.national_cards_count('yellow_card')).to eq(3)
       end
     end
   end

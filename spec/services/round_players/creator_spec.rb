@@ -21,6 +21,17 @@ RSpec.describe RoundPlayers::Creator do
       it { expect(RoundPlayer.all.count).to eq(5) }
     end
 
+    context 'with existed tournament_round with national matches and players' do
+      before do
+        nt = create(:national_team, tournament: tournament_round.tournament)
+        create(:national_match, host_team: nt, tournament_round: tournament_round)
+        create_list(:player, 3, national_team: nt)
+        creator.call
+      end
+
+      it { expect(RoundPlayer.all.count).to eq(3) }
+    end
+
     context 'with existed tournament_round, players and round_player' do
       before do
         players = create_list(:player, 5, club: club)

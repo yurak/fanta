@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_26_203405) do
+ActiveRecord::Schema.define(version: 2021_06_09_072844) do
 
   create_table "article_tags", force: :cascade do |t|
     t.string "name", default: "", null: false
@@ -59,7 +59,7 @@ ActiveRecord::Schema.define(version: 2021_02_26_203405) do
 
   create_table "leagues", force: :cascade do |t|
     t.string "name"
-    t.bigint "tournament_id", null: false
+    t.integer "tournament_id", null: false
     t.integer "status", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -67,11 +67,6 @@ ActiveRecord::Schema.define(version: 2021_02_26_203405) do
     t.integer "season_id"
     t.decimal "min_avg_def_score", default: "6.0", null: false
     t.decimal "max_avg_def_score", default: "7.0", null: false
-    t.boolean "custom_bonuses", default: false, null: false
-    t.decimal "missed_goals", default: "2.0", null: false
-    t.decimal "failed_penalty", default: "3.0", null: false
-    t.boolean "recount_goals", default: false, null: false
-    t.boolean "cleansheet_m", default: true, null: false
     t.index ["name"], name: "index_leagues_on_name", unique: true
     t.index ["season_id"], name: "index_leagues_on_season_id"
   end
@@ -99,7 +94,6 @@ ActiveRecord::Schema.define(version: 2021_02_26_203405) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "real_position"
-    t.boolean "cleansheet", default: false
     t.decimal "position_malus", default: "0.0"
     t.integer "subs_status", default: 0, null: false
     t.integer "round_player_id"
@@ -112,6 +106,34 @@ ActiveRecord::Schema.define(version: 2021_02_26_203405) do
     t.bigint "guest_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "national_matches", force: :cascade do |t|
+    t.integer "tournament_round_id"
+    t.bigint "host_team_id", null: false
+    t.bigint "guest_team_id", null: false
+    t.integer "host_score"
+    t.integer "guest_score"
+    t.string "time", default: "", null: false
+    t.string "date", default: "", null: false
+    t.string "round_name", default: "", null: false
+    t.string "source_match_id", default: "", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["tournament_round_id"], name: "index_national_matches_on_tournament_round_id"
+  end
+
+  create_table "national_teams", force: :cascade do |t|
+    t.string "name", default: "", null: false
+    t.string "code", default: "", null: false
+    t.string "color", default: "DB0A23", null: false
+    t.integer "status", default: 0, null: false
+    t.integer "tournament_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["code"], name: "index_national_teams_on_code", unique: true
+    t.index ["name"], name: "index_national_teams_on_name", unique: true
+    t.index ["tournament_id"], name: "index_national_teams_on_tournament_id"
   end
 
   create_table "player_positions", force: :cascade do |t|
@@ -141,7 +163,9 @@ ActiveRecord::Schema.define(version: 2021_02_26_203405) do
     t.integer "height"
     t.integer "number"
     t.integer "tm_price"
+    t.integer "national_team_id"
     t.index ["name", "first_name"], name: "index_players_on_name_and_first_name", unique: true
+    t.index ["national_team_id"], name: "index_players_on_national_team_id"
   end
 
   create_table "positions", force: :cascade do |t|
@@ -162,6 +186,7 @@ ActiveRecord::Schema.define(version: 2021_02_26_203405) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "league_id"
+    t.decimal "total_score", default: "0.0", null: false
     t.index ["league_id"], name: "index_results_on_league_id"
     t.index ["team_id"], name: "index_results_on_team_id"
   end
@@ -182,6 +207,7 @@ ActiveRecord::Schema.define(version: 2021_02_26_203405) do
     t.decimal "own_goals", default: "0.0"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "cleansheet", default: false
     t.index ["player_id"], name: "index_round_players_on_player_id"
     t.index ["tournament_round_id"], name: "index_round_players_on_tournament_round_id"
   end
@@ -219,6 +245,7 @@ ActiveRecord::Schema.define(version: 2021_02_26_203405) do
     t.integer "league_id"
     t.string "code", default: "", null: false
     t.string "human_name", default: "", null: false
+    t.string "logo_url", default: "", null: false
     t.index ["code"], name: "index_teams_on_code", unique: true
     t.index ["league_id"], name: "index_teams_on_league_id"
     t.index ["name"], name: "index_teams_on_name", unique: true

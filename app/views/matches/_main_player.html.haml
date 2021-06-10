@@ -4,7 +4,8 @@
       %object{data: match_player.player.avatar_path, type: 'image/jpg'}
         = image_tag('avatar.png')
     .player-show-kit
-      = image_tag(match_player.player.kit_path)
+      %object{data: match_player.player.kit_path, type: 'image/jpg'}
+        = image_tag('kit_small_default2.png')
     .module-position.slot-position{class: "slot-position-#{match_player.real_position.tr('/', '')}"}
       = match_player.real_position
   .match-player-data
@@ -19,10 +20,6 @@
         - if match_player.score.positive?
           .team-player-scores
             .team-player-cs-cell
-              - if match_player.tour.locked_or_postponed? && current_user&.can_moderate? && (match_player.league.cleansheet_zone & match_player.real_position_arr).present?
-                .team-player-cs-toggle
-                  = link_to match_player_path(match_player, cleansheet: !match_player.cleansheet), method: :put do
-                    = image_tag('bonuses/cs.png')
             .team-player-score= match_player.score
             .team-player-total-score= match_player.total_score
         - elsif match_player.club_played_match?

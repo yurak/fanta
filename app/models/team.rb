@@ -12,6 +12,8 @@ class Team < ApplicationRecord
 
   has_many :results, dependent: :destroy
 
+  delegate :tournament, to: :league
+
   validates :name, presence: true, uniqueness: true, length: { in: 2..18 }
   validates :code, presence: true, uniqueness: true, length: { in: 2..3 }
   validates :human_name, length: { in: 2..18 }
@@ -21,11 +23,7 @@ class Team < ApplicationRecord
   end
 
   def logo_path
-    if File.exist?("app/assets/images/teams/#{name}.png")
-      "teams/#{name}.png"
-    else
-      'teams/default_logo.png'
-    end
+    logo_url.presence || 'default_logo.png'
   end
 
   def next_round
@@ -48,6 +46,10 @@ class Team < ApplicationRecord
     lineup_players_ids = lineup.round_players.map { |rp| rp.player.id }
     not_played_ids = players.where.not(id: lineup_players_ids).ids
     RoundPlayer.by_tournament_round(lineup.tournament_round.id).where(player_id: not_played_ids)
+  end
+
+  def best_lineup
+    lineups.by_league(league.id).max_by(&:total_score)
   end
 
   private

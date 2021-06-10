@@ -4,7 +4,7 @@ RSpec.describe Slots::Creator do
 
     let(:file_content) do
       {
-        '4-3-3' => {
+        '5-3-2' => {
           1 => %w[Por],
           2 => %w[Dc],
           3 => %w[Dc],
@@ -37,7 +37,7 @@ RSpec.describe Slots::Creator do
       end
 
       it 'creates team module' do
-        expect(TeamModule.all.count).to eq(1)
+        expect(TeamModule.all.count).to eq(12)
       end
 
       it 'creates slots' do
@@ -52,7 +52,7 @@ RSpec.describe Slots::Creator do
         creator.call
       end
 
-      it { expect(TeamModule.all.count).to eq(1) }
+      it { expect(TeamModule.all.count).to eq(12) }
     end
   end
 end

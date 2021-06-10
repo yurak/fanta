@@ -1,0 +1,93 @@
+$(".modal-player-item").on('click', function(e){
+    e.stopPropagation();
+    const modalList = $(this).parent().parent().parent();
+
+    const blockId = modalList.attr('id').replace('modal-players-list','');
+    const playerId = $(this).attr('id').replace('player','');
+    const avatarContainer = $('#avatar-'+blockId);
+    const kitContainer = $('#kit-'+blockId);
+    const nameContainer = $('#name-'+blockId);
+    const firstNameContainer = $('#first-name-'+blockId);
+    const roundPlayerContainer = $('#round-player-'+blockId);
+    const countryContainer = $('#country-'+blockId);
+
+    $.ajax({
+        type: 'GET',
+        dataType: 'json',
+        url: '/players/'+playerId,
+        success: function(data){
+            avatarContainer.attr('data', data.avatar_path);
+            kitContainer.attr('data', data.national_kit_path);
+            nameContainer.text(data.name);
+            countryContainer.text(data.national_team_name);
+            roundPlayerContainer.attr('value', playerId);
+
+            if (data.first_name != null) {
+                firstNameContainer.text(data.first_name);
+            } else {
+                firstNameContainer.text('');
+            }
+        }
+    });
+
+    $(modalList).hide();
+});
+
+$(document).ready(function() {
+    const modal = document.getElementById("modules-modal");
+    const btn = document.getElementById("modules-modal-btn");
+    const span = document.getElementsByClassName("close")[0];
+
+    btn.onclick = function() { modal.style.display = "block"; };
+    span.onclick = function() { modal.style.display = "none"; };
+
+    const modal0 = document.getElementById("modal-players-list0");
+    const modal1 = document.getElementById("modal-players-list1");
+    const modal2 = document.getElementById("modal-players-list2");
+    const modal3 = document.getElementById("modal-players-list3");
+    const modal4 = document.getElementById("modal-players-list4");
+    const modal5 = document.getElementById("modal-players-list5");
+    const modal6 = document.getElementById("modal-players-list6");
+    const modal7 = document.getElementById("modal-players-list7");
+    const modal8 = document.getElementById("modal-players-list8");
+    const modal9 = document.getElementById("modal-players-list9");
+    const modal10 = document.getElementById("modal-players-list10");
+    const btn0 = document.getElementById("modal-player-data0");
+    const btn1 = document.getElementById("modal-player-data1");
+    const btn2 = document.getElementById("modal-player-data2");
+    const btn3 = document.getElementById("modal-player-data3");
+    const btn4 = document.getElementById("modal-player-data4");
+    const btn5 = document.getElementById("modal-player-data5");
+    const btn6 = document.getElementById("modal-player-data6");
+    const btn7 = document.getElementById("modal-player-data7");
+    const btn8 = document.getElementById("modal-player-data8");
+    const btn9 = document.getElementById("modal-player-data9");
+    const btn10 = document.getElementById("modal-player-data10");
+
+    btn0.onclick = function() { modal0.style.display = "block"; };
+    btn1.onclick = function() { modal1.style.display = "block"; };
+    btn2.onclick = function() { modal2.style.display = "block"; };
+    btn3.onclick = function() { modal3.style.display = "block"; };
+    btn4.onclick = function() { modal4.style.display = "block"; };
+    btn5.onclick = function() { modal5.style.display = "block"; };
+    btn6.onclick = function() { modal6.style.display = "block"; };
+    btn7.onclick = function() { modal7.style.display = "block"; };
+    btn8.onclick = function() { modal8.style.display = "block"; };
+    btn9.onclick = function() { modal9.style.display = "block"; };
+    btn10.onclick = function() { modal10.style.display = "block"; };
+
+    window.onclick = function(event) {
+        if (event.target == modal) { modal.style.display = "none"; }
+        if (event.target == modal0) { modal0.style.display = "none"; }
+        if (event.target == modal1) { modal1.style.display = "none"; }
+        if (event.target == modal2) { modal2.style.display = "none"; }
+        if (event.target == modal3) { modal3.style.display = "none"; }
+        if (event.target == modal4) { modal4.style.display = "none"; }
+        if (event.target == modal5) { modal5.style.display = "none"; }
+        if (event.target == modal6) { modal6.style.display = "none"; }
+        if (event.target == modal7) { modal7.style.display = "none"; }
+        if (event.target == modal8) { modal8.style.display = "none"; }
+        if (event.target == modal9) { modal9.style.display = "none"; }
+        if (event.target == modal10) { modal10.style.display = "none"; }
+    }
+});

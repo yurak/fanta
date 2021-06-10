@@ -24,6 +24,7 @@ class Lineup < ApplicationRecord
   DEF_BONUS_STEP = 0.25
   MAX_PLAYED_PLAYERS = 11
   MAX_PLAYERS = 18
+  MAX_POSTPONED_PLAYERS = 25
 
   def total_score
     match_players.main.map(&:total_score).compact.sum + defence_bonus
@@ -70,6 +71,17 @@ class Lineup < ApplicationRecord
 
   def match_result
     match.host == team ? "#{match.host_goals}-#{match.guest_goals}" : "#{match.guest_goals}-#{match.host_goals}"
+  end
+
+  def players_count
+    if tour.national?
+      MAX_PLAYED_PLAYERS
+    else
+      # TODO: match_players count related to tour calendar
+      # mantra tour - 18M Ps
+      # mantra "postponed" tour - 25 MPs
+      MAX_PLAYERS
+    end
   end
 
   private

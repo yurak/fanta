@@ -7,6 +7,10 @@ FactoryBot.define do
       association :round_player, :with_score_six
     end
 
+    trait :with_score_and_cleansheet do
+      association :round_player, :with_score_six, cleansheet: true
+    end
+
     trait :with_real_position do
       association :round_player, :with_pos_a
       real_position { 'W/A' }

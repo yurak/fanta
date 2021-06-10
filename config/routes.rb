@@ -23,18 +23,19 @@ Rails.application.routes.draw do
 
   resources :matches, only: [:show]
 
-  resources :match_players, only: [:update]
+  resources :national_teams, only: [:show]
 
   resources :players, only: [:index, :show]
 
   resources :teams, only: [:show] do
-    resources :lineups, only: [:new, :create, :edit, :update] do
+    resources :lineups, only: [:show, :new, :create, :edit, :update] do
       collection { get :clone }
-      get :edit_module, on: :member
       get :substitutions, on: :member
       put :subs_update, on: :member
     end
   end
+
+  resources :tournaments, only: [:show]
 
   resources :tours, only: [:show, :edit, :update] do
     get :change_status, on: :member

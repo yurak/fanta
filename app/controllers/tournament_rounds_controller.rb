@@ -6,7 +6,9 @@ class TournamentRoundsController < ApplicationController
   def edit
     redirect_to leagues_path unless can? :edit, TournamentRound
 
-    @round_players = if params[:club_id]
+    @round_players = if tournament_round.tournament.national?
+                       tournament_round.round_players.ordered_by_national
+                     elsif params[:club_id]
                        tournament_round.round_players.by_club(params[:club_id]).order('name')
                      else
                        tournament_round.round_players.ordered_by_club
@@ -31,7 +33,7 @@ class TournamentRoundsController < ApplicationController
   end
 
   def update_params
-    params.permit(round_players: %i[id score goals missed_goals scored_penalty failed_penalty
+    params.permit(round_players: %i[id score goals missed_goals scored_penalty failed_penalty cleansheet
                                     assists yellow_card red_card own_goals caught_penalty missed_penalty])
   end
 

@@ -1,0 +1,114 @@
+/* TOURNAMENT SHOW page */
+
+.page-info.tournament-page {
+  height: 100%;
+  padding: 120px 50px 50px;
+
+  .tournament-head {
+    margin: 48px 100px;
+    display: grid;
+    grid-template-columns: 72px auto;
+
+    .tournament-logo {
+      text-align: center;
+
+      img {
+        width: 72px;
+        height: 72px;
+      }
+    }
+
+    .tournament-title {
+      padding-left: 32px;
+      font-weight: bold;
+      font-size: 48px;
+      line-height: 72px;
+      color: #181715;
+    }
+  }
+
+  .tournaments-fixture {
+    margin: 12px 200px 48px;
+
+    .round-title {
+      font-size: 18px;
+      line-height: 32px;
+      margin-top: 12px;
+      text-align: center;
+    }
+  }
+}
+
+.round-matches {
+  .round-tournament-match {
+    display: grid;
+    grid-template-columns: 1fr 100px 1fr;
+    column-gap: 32px;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 44px;
+    color: #181715;
+    border-bottom: 1px solid #E5E6E4;
+    text-align: center;
+
+    .round-tournament-match-team {
+      a {
+        display: grid;
+        grid-template-columns: auto 32px;
+        font-weight: 500;
+        text-decoration: none;
+      }
+
+      .flag-icon {
+        height: 24px;
+        width: 32px;
+        vertical-align: middle;
+      }
+
+      img, object {
+        width: 32px;
+        height: 32px;
+      }
+
+      object {
+        position: relative;
+        top: 6px;
+      }
+
+      .round-tournament-team-name {
+        text-align: right;
+        padding-right: 16px;
+        color: #181715;
+      }
+    }
+
+    .round-tournament-match-guest {
+      a {
+        grid-template-columns: 32px auto;
+        text-decoration: none;
+      }
+
+      .round-tournament-team-name {
+        text-align: left;
+        padding-left: 16px;
+        color: #181715;
+      }
+    }
+
+    .round-tournament-match-result {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      background-color: #040052;
+      font-weight: bold;
+      line-height: 20px;
+      padding: 6px 0;
+      margin: 6px 0;
+      text-align: center;
+      color: #F4F4F4;
+
+      .round-tournament-match-result-host {
+        border-right: 1px solid #847577;
+      }
+    }
+  }
+}
