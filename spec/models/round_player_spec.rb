@@ -208,4 +208,19 @@ RSpec.describe RoundPlayer, type: :model do
       end
     end
   end
+
+  describe '#appearances' do
+    context 'without match players' do
+      it 'returns zero' do
+        expect(round_player.appearances).to eq(0)
+      end
+    end
+
+    context 'with match players' do
+      it 'returns match players count' do
+        create_list(:match_player, 3, round_player: round_player)
+        expect(round_player.appearances).to eq(3)
+      end
+    end
+  end
 end

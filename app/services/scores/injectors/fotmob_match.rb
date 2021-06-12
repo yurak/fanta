@@ -14,15 +14,27 @@ module Scores
 
         match.update(host_score: result[0], guest_score: result[1])
 
-        update_round_players(match.host_club, scores_data[0])
-        update_round_players(match.guest_club, scores_data[1])
+        if match.instance_of?(NationalMatch)
+          update_national_round_players(match.host_team, scores_data[0])
+          update_national_round_players(match.guest_team, scores_data[1])
+        else
+          update_club_round_players(match.host_club, scores_data[0])
+          update_club_round_players(match.guest_club, scores_data[1])
+        end
       end
 
       private
 
-      def update_round_players(club, club_hash)
+      def update_club_round_players(club, team_hash)
         match.tournament_round.round_players.by_club(club.id).each do |rp|
-          player_data = players_hash(club_hash)[rp.pseudo_name.downcase]
+          player_data = players_hash(team_hash)[rp.pseudo_name.downcase]
+          rp.update(score: player_data[:rating].to_f) if player_data
+        end
+      end
+
+      def update_national_round_players(team, team_hash)
+        match.tournament_round.round_players.by_national_team(team.id).each do |rp|
+          player_data = players_hash(team_hash)[rp.pseudo_name.downcase]
           rp.update(score: player_data[:rating].to_f) if player_data
         end
       end

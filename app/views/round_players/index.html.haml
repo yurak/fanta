@@ -15,28 +15,37 @@
           .select-icon
             = image_tag('icons/triangle.svg')
       .players-filter
-        .players-filter-name
-          = t('players.filter_club')
-        .players-filter-input
-          %select{onchange: "location = this.value;"}
-            %option{selected: true, disabled: true}= t('players.club_option')
-            - @clubs.each do |club|
-              %option{value: tournament_round_round_players_path(tournament_round, club: club.id, order: params['order'])}= club.name
-          .select-icon
-            = image_tag('icons/triangle.svg')
+        - unless tournament.national?
+          .players-filter-name
+            = t('players.filter_club')
+          .players-filter-input
+            %select{onchange: "location = this.value;"}
+              %option{selected: true, disabled: true}= t('players.club_option')
+              - @clubs.each do |club|
+                %option{value: tournament_round_round_players_path(tournament_round, club: club.id, order: params['order'])}= club.name
+            .select-icon
+              = image_tag('icons/triangle.svg')
   .players-list
     .players-list-headers
       .players-list-header.center= t('players.number_header')
       .players-list-header
         = link_to t('players.player_header'), tournament_round_round_players_path(tournament_round, order: 'name', position: params[:position], club: params[:club])
       .players-list-header.players-pos-padding= t('players.positions_header')
-      .players-list-header.center= t('players.team_header')
+      - if tournament.national?
+        .players-list-header.right
+          = link_to t('players.appearances_header'), tournament_round_round_players_path(tournament_round, order: 'matches', position: params[:position], club: params[:club])
+      - else
+        .players-list-header.center
+          = t('players.team_header')
       .players-list-header.right
         = link_to t('players.base_score_header'), tournament_round_round_players_path(tournament_round, order: 'base_score', position: params[:position], club: params[:club])
       .players-list-header.right
         = link_to t('players.rating_header'), tournament_round_round_players_path(tournament_round, order: 'result_score', position: params[:position], club: params[:club])
       .players-list-header.center
         = link_to t('players.club_header'), tournament_round_round_players_path(tournament_round, order: 'club', position: params[:position], club: params[:club])
+      .players-list-header.center
+        - if tournament.national?
+          = link_to t('players.national_header'), tournament_round_round_players_path(tournament_round, order: 'national', position: params[:position], club: params[:club])
       .players-list-header
     - @players.each_with_index do |rp, i|
       .players-list-item
@@ -49,7 +58,7 @@
                   %object{data: rp.player.avatar_path, type: 'image/jpg'}
                     = image_tag('avatar.png')
                 .player-show-kit
-                  %object{data: rp.player.kit_path, type: 'image/jpg'}
+                  %object{data: tournament.national? ? rp.player.national_kit_path : rp.player.kit_path, type: 'image/jpg'}
                     = image_tag('kit_small_default2.png')
               .players-list-name
                 .players-list-last-name= rp.name
@@ -58,10 +67,13 @@
               - rp.positions.each do |position|
                 .match-player-position.slot-position{class: "slot-position-#{position.name}"}
                   = position.name
-            .players-list-cell.center
-              - rp.teams.each do |team|
-                .team-image.inline-block
-                  = image_tag(team.logo_path)
+            .players-list-cell.players-list-appearances
+              - if tournament.national?
+                = rp.match_players.count if tournament_round.tours.last.deadlined?
+              - else
+                - rp.teams.each do |team|
+                  .team-image.inline-block
+                    = image_tag(team.logo_path)
             .players-list-cell.players-list-appearances
               = rp.score
             .players-list-cell.players-list-rating
@@ -69,5 +81,7 @@
             .players-list-cell.center.team-image
               %object{data: rp.club.logo_path, type: 'image/jpg'}
                 = image_tag('default_logo.png')
+            .players-list-cell.center.team-image
+              = flag_icon(rp.player.nationality.to_sym, element: :div)
             .players-list-cell.players-list-arrow
               = image_tag('icons/link_arrow.png')

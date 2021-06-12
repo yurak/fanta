@@ -81,7 +81,7 @@
     line-height: 14px;
     color: #847577;
     display: grid;
-    grid-template-columns: 80px 220px 16fr 16fr 10fr 10fr 10fr 50px;
+    grid-template-columns: 80px 220px 16fr 16fr 10fr 10fr 10fr 8fr 50px;
     margin-bottom: 12px;
 
     a {
@@ -109,7 +109,7 @@
 
     .players-list-row {
       display: grid;
-      grid-template-columns: 220px 16fr 16fr 10fr 10fr 10fr 50px;
+      grid-template-columns: 220px 16fr 16fr 10fr 10fr 10fr 8fr 50px;
 
       .team-image {
         img, object {
@@ -121,6 +121,12 @@
         object {
           position: relative;
           top: 10px;
+        }
+
+        .flag-icon {
+          height: 24px;
+          width: 32px;
+          vertical-align: middle;
         }
       }
     }
