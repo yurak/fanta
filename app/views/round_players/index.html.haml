@@ -33,7 +33,10 @@
       .players-list-header.players-pos-padding= t('players.positions_header')
       - if tournament.national?
         .players-list-header.right
-          = link_to t('players.appearances_header'), tournament_round_round_players_path(tournament_round, order: 'matches', position: params[:position], club: params[:club])
+          - if tournament_round.tours.last.deadlined?
+            = link_to t('players.appearances_header'), tournament_round_round_players_path(tournament_round, order: 'matches', position: params[:position], club: params[:club])
+          - else
+            = t('players.appearances_header')
       - else
         .players-list-header.center
           = t('players.team_header')

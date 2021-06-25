@@ -28,7 +28,7 @@ class RoundPlayersController < ApplicationController
     when 'national'
       players_with_filter
     when 'matches'
-      players_with_filter.sort_by(&:appearances).reverse
+      tournament_round.tours.last&.deadlined? ? players_with_filter.sort_by(&:appearances).reverse : players_with_filter
     when 'name'
       players_with_filter.sort_by(&:name)
     when 'base_score'

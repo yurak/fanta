@@ -23,9 +23,6 @@ class Player < ApplicationRecord
   scope :stats_query, -> { includes(:club, :positions).order(:name) }
   scope :with_team, -> { includes(:teams).where.not(teams: { id: nil }) }
 
-  # TODO: move statuses to MatchPlayer model
-  enum status: { ready: 0, problematic: 1, injured: 2, disqualified: 3 }
-
   def avatar_path
     "#{BUCKET_URL}/player_avatars/#{path_name}.png"
   end
@@ -113,7 +110,7 @@ class Player < ApplicationRecord
   end
 
   def season_matches_with_scores
-    @season_matches_with_scores ||= round_players.with_score.by_tournament_round(Season.last.tournament_rounds).order(:tournament_round_id)
+    @season_matches_with_scores ||= round_players.with_score.by_tournament_round(season_club_tournament_rounds).order(:tournament_round_id)
   end
 
   def season_bonus_count(bonus)
@@ -160,5 +157,11 @@ class Player < ApplicationRecord
     return 0 unless national_matches_with_scores.any?
 
     national_matches_with_scores.where(card => true).count
+  end
+
+  private
+
+  def season_club_tournament_rounds
+    TournamentRound.by_tournament(club.tournament.id).by_season(Season.last.id)
   end
 end

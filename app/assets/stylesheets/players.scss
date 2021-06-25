@@ -234,7 +234,7 @@
 /* PLAYER SHOW page */
 
 .page-info.player-show-page {
-  padding: 120px 150px 100px;
+  padding: 120px 50px 100px;
 
   a {
     text-decoration: none;
@@ -436,7 +436,7 @@
 
       .performance-table-row {
         display: grid;
-        grid-template-columns: 6fr 8fr 7fr 7fr 7fr 5fr 5fr 5fr 8fr 8fr;
+        grid-template-columns: 6fr 6fr 6fr 6fr 6fr 5fr 5fr 6fr 5fr 6fr 6fr;
       }
     }
   }
