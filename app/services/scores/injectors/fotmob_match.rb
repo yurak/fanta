@@ -14,31 +14,32 @@ module Scores
 
         match.update(host_score: result[0], guest_score: result[1])
 
-        if match.instance_of?(NationalMatch)
-          update_national_round_players(match.host_team, scores_data[0])
-          update_national_round_players(match.guest_team, scores_data[1])
-        else
-          update_club_round_players(match.host_club, scores_data[0])
-          update_club_round_players(match.guest_club, scores_data[1])
-        end
+        update_round_players
       end
 
       private
 
-      def update_club_round_players(club, team_hash)
-        match.tournament_round.round_players.by_club(club.id).each { |rp| update_round_player(rp, team_hash) }
+      def update_round_players
+        if match.tournament_round.tournament.national?
+          round_players.by_national_team(match.host_team.id).each { |rp| update_round_player(rp, scores_data[0], result[1]) }
+          round_players.by_national_team(match.guest_team.id).each { |rp| update_round_player(rp, scores_data[1], result[0]) }
+        else
+          round_players.by_club(match.host_club.id).each { |rp| update_round_player(rp, scores_data[0], result[1]) }
+          round_players.by_club(match.guest_club.id).each { |rp| update_round_player(rp, scores_data[1], result[0]) }
+        end
       end
 
-      def update_national_round_players(team, team_hash)
-        match.tournament_round.round_players.by_national_team(team.id).each { |rp| update_round_player(rp, team_hash) }
+      def round_players
+        @round_players ||= match.tournament_round.round_players
       end
 
-      def update_round_player(round_player, team_hash)
+      def update_round_player(round_player, team_hash, team_missed_goals)
         player_data = players_hash(team_hash)[round_player.pseudo_name.downcase]
         return unless player_data
 
         round_player.update(
           score: player_data[:rating].to_f,
+          cleansheet: cleansheet?(round_player, team_missed_goals.to_i),
           goals: player_data[:goals] || 0,
           assists: player_data[:assists] || 0,
           failed_penalty: player_data[:failed_penalty] || 0,
@@ -85,6 +86,12 @@ module Scores
       def player_name(player_data)
         name = "#{player_data['name']['firstName']} #{player_data['name']['lastName']}"
         name.mb_chars.lstrip.normalize(:kd).gsub(/[^\x00-\x7F]/n, '').downcase.to_s
+      end
+
+      def cleansheet?(round_player, team_missed_goals)
+        return false if team_missed_goals.positive? || (round_player.position_names & Position::CLEANSHEET_ZONE).blank?
+
+        true
       end
 
       def card?(card_value)

@@ -178,6 +178,8 @@ ua:
     yc: "ЖК"
     red_card: "Червона картка"
     rc: "ЧК"
+    cleansheet: "Сухі ворота"
+    cs: "СВ"
     own_goals: "Автоголи"
     og: "АГ"
     base_score: "БАЗ ОЦІНКА"

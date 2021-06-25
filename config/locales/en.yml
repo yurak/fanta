@@ -209,6 +209,8 @@ en:
     yc: "YC"
     red_card: "Red card"
     rc: "RC"
+    cleansheet: "Cleansheet"
+    cs: "CS"
     own_goals: "Own goals"
     og: "OG"
     base_score: "BASE SCORE"
