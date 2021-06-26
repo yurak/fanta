@@ -11,6 +11,7 @@
   .player-table-header= t('players.assists')
   .player-table-header{title: t('players.yellow_card')}= t('players.yc')
   .player-table-header{title: t('players.red_card')}= t('players.rc')
+  .player-table-header{title: t('players.cleansheet')}= t('players.cs')
   .player-table-header{title: t('players.own_goals')}= t('players.og')
   .player-table-header.right= t('players.base_score')
   .player-table-header.right= t('players.total_score')
@@ -41,6 +42,10 @@
       - if rp.red_card
         .match-player-bonus-item
           = image_tag("bonuses/rc.png")
+    .player-table-cell
+      - if rp.cleansheet
+        .match-player-bonus-item
+          = image_tag("bonuses/cs.png")
     .player-table-cell
       = render 'bonus_item', bonus: rp.own_goals, img_path: "bonuses/autogol.png"
     .player-table-cell.right= rp.score
@@ -87,6 +92,10 @@
         = image_tag("bonuses/rc.png")
         = "x #{player.national_cards_count('red_card')}"
     .table-total-cell
+      - if player.national_cards_count('cleansheet').nonzero?
+        = image_tag("bonuses/cs.png")
+        = "x #{player.national_cards_count('cleansheet')}"
+    .table-total-cell
       - if player.national_bonus_count('own_goals').nonzero?
         = image_tag("bonuses/autogol.png")
         = "x #{player.national_bonus_count('own_goals')}"
@@ -131,6 +140,10 @@
       - if player.season_cards_count('red_card').nonzero?
         = image_tag("bonuses/rc.png")
         = "x #{player.season_cards_count('red_card')}"
+    .table-total-cell
+      - if player.season_cards_count('cleansheet').nonzero?
+        = image_tag("bonuses/cs.png")
+        = "x #{player.season_cards_count('cleansheet')}"
     .table-total-cell
       - if player.season_bonus_count('own_goals').nonzero?
         = image_tag("bonuses/autogol.png")

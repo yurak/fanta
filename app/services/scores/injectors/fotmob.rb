@@ -8,7 +8,7 @@ module Scores
       end
 
       def call
-        tournament_round.tournament_matches.each do |tm|
+        matches.each do |tm|
           next if tm.source_match_id.empty?
 
           inject_match_scores(tm)
@@ -16,6 +16,10 @@ module Scores
       end
 
       private
+
+      def matches
+        tournament_round.tournament.national? ? tournament_round.national_matches : tournament_round.tournament_matches
+      end
 
       def inject_match_scores(tournament_match)
         Scores::Injectors::FotmobMatch.call(match: tournament_match)

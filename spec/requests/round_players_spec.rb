@@ -41,6 +41,30 @@ RSpec.describe 'RoundPlayers', type: :request do
       it { expect(assigns(:clubs)).not_to be_nil }
     end
 
+    context 'with national order param' do
+      let(:params) { { order: 'national' } }
+
+      it { expect(response).to be_successful }
+      it { expect(response).to render_template(:index) }
+      it { expect(response).to render_template(:_header) }
+      it { expect(response).to have_http_status(:ok) }
+      it { expect(assigns(:players)).not_to be_nil }
+      it { expect(assigns(:positions)).not_to be_nil }
+      it { expect(assigns(:clubs)).not_to be_nil }
+    end
+
+    context 'with matches order param' do
+      let(:params) { { order: 'matches' } }
+
+      it { expect(response).to be_successful }
+      it { expect(response).to render_template(:index) }
+      it { expect(response).to render_template(:_header) }
+      it { expect(response).to have_http_status(:ok) }
+      it { expect(assigns(:players)).not_to be_nil }
+      it { expect(assigns(:positions)).not_to be_nil }
+      it { expect(assigns(:clubs)).not_to be_nil }
+    end
+
     context 'with name order param' do
       let(:params) { { order: 'name' } }
 

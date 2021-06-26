@@ -8,7 +8,7 @@ class RoundPlayersController < ApplicationController
   def index
     @players = order_players
     @positions = Position.all
-    @clubs = tournament.clubs.active.sort_by(&:name)
+    @clubs = tournament.national? ? tournament.national_teams.active.sort_by(&:name) : tournament.clubs.active.sort_by(&:name)
   end
 
   private
@@ -18,13 +18,17 @@ class RoundPlayersController < ApplicationController
   end
 
   def tour_players
-    tournament_round.round_players.with_score
+    tournament.national? ? tournament_round.round_players : tournament_round.round_players.with_score
   end
 
   def order_players
     case stats_params[:order]
     when 'club'
       players_with_filter.sort_by(&:club)
+    when 'national'
+      players_with_filter
+    when 'matches'
+      tournament_round.tours.last&.deadlined? ? players_with_filter.sort_by(&:appearances).reverse : players_with_filter
     when 'name'
       players_with_filter.sort_by(&:name)
     when 'base_score'
@@ -39,6 +43,8 @@ class RoundPlayersController < ApplicationController
   end
 
   def player_ids_by_position
+    return Player.by_position(stats_params[:position]).by_national_tournament(tournament.id).ids if tournament.national?
+
     Player.by_position(stats_params[:position]).by_tournament(tournament.id).ids
   end
 

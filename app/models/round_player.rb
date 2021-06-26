@@ -5,11 +5,12 @@ class RoundPlayer < ApplicationRecord
   has_many :match_players, dependent: :destroy
   has_many :lineups, through: :match_players
 
-  delegate :position_names, :positions, :name, :first_name, :full_name, :full_name_reverse,
-           :club, :teams, :pseudo_name, to: :player, allow_nil: true
+  delegate :club, :first_name, :full_name, :full_name_reverse, :national_team, :name, :position_names,
+           :positions, :pseudo_name, :teams, to: :player, allow_nil: true
 
   scope :by_tournament_round, ->(tournament_round_id) { where(tournament_round: tournament_round_id) }
   scope :by_club, ->(club_id) { joins(:player).where(players: { club_id: club_id }) }
+  scope :by_national_team, ->(team_id) { joins(:player).where(players: { national_team_id: team_id }) }
   scope :by_name_and_club, ->(name, club_id) { by_club(club_id).where('LOWER(players.name) = ?', name.downcase) }
   scope :with_score, -> { where('score > ?', 0) }
   scope :ordered_by_club, -> { joins(player: :club).order('clubs.name') }
@@ -41,6 +42,10 @@ class RoundPlayer < ApplicationRecord
 
   def club_played_match?
     TournamentMatch.by_club_and_t_round(club.id, tournament_round.id).first&.host_score.present?
+  end
+
+  def appearances
+    match_players.count
   end
 
   private
