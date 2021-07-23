@@ -10,6 +10,18 @@ FactoryBot.define do
       association :user
     end
 
+    trait :with_players do
+      after(:create) do |team|
+        create_list(:player_team, 25, team: team)
+      end
+    end
+
+    trait :with_15_players do
+      after(:create) do |team|
+        create_list(:player_team, 15, team: team)
+      end
+    end
+
     trait :with_lineup do
       after(:create) do |team|
         create_list(:player_team, 25, team: team)

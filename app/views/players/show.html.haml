@@ -1,5 +1,5 @@
 .page-info.player-show-page
-  .player-banner{style: "background-color: ##{ player.national_team.present? ? player.national_team.color : player.club.color };"}
+  .player-banner{style: "background-color: ##{player.club.color};"}
     .player-show-base
       .player-show-first-name
         = player.first_name
@@ -18,7 +18,7 @@
         %object{data: player.profile_avatar_path, type: 'image/jpg'}
           = image_tag('avatar.png')
       .player-show-kit
-        %object{data: player.national_team.present? ? player.profile_national_kit_path : player.profile_kit_path, type: 'image/jpg'}
+        %object{data: player.profile_kit_path, type: 'image/jpg'}
           = image_tag('kit_default2.png')
   .player-tables
     .player-tables-left
@@ -53,7 +53,7 @@
           .player-table-row
             .player-table-row-key= t('players.age')
             .player-table-row-value
-              = (Date.today.strftime('%Y%m%d').to_i - player.birth_date.to_date.strftime('%Y%m%d').to_i) / 10000
+              = player.age
           .player-table-row
             .player-table-row-key= t('players.birth_date')
             .player-table-row-value
@@ -83,11 +83,11 @@
                     = image_tag(t.logo_path)
 
     .player-tables-right
-      - if player.national_team
-        .player-table.performance-table
-          .player-table-title
-            = t('players.national_performance')
-          = render('performance', player: player, matches: player.national_matches_with_scores, national: true)
+      -# - if player.national_team
+      -#   .player-table.performance-table
+      -#     .player-table-title
+      -#       = t('players.national_performance')
+      -#     = render('performance', player: player, matches: player.national_matches_with_scores, national: true)
       .player-table.performance-table
         .player-table-title
           = t('players.performance')

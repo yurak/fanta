@@ -2,22 +2,24 @@
 
 module Scores
   module Injectors
-    class Strategy
+    class Strategy < ApplicationService
       attr_reader :tour
 
+      BUNDES = 'bundesliga'
       CALCIO = 'serie_a'
       EPL = 'epl'
-      BUNDES = 'bundesliga'
       EURO = 'euro'
+      LALIGA = 'laliga'
+      LIGUE1 = 'ligue_1'
 
       def initialize(tour)
         @tour = tour
       end
 
-      def klass
+      def call
         case tournament_code
         when CALCIO then Calcio
-        when EPL, BUNDES, EURO then Fotmob
+        when BUNDES, EPL, EURO, LALIGA, LIGUE1 then Fotmob
         else Fake
         end
       end

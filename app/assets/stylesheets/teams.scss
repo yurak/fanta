@@ -240,7 +240,7 @@
       .team-players-headers {
         padding: 32px 0 12px;
         display: grid;
-        grid-template-columns: 10fr 6fr 4fr 4fr 4fr 2fr;
+        grid-template-columns: 5fr 3fr 2fr 2fr 2fr 1fr;
         font-weight: 500;
         font-size: 10px;
         line-height: 14px;
@@ -253,7 +253,7 @@
 
       .team-player-item {
         display: grid;
-        grid-template-columns: 10fr 6fr 4fr 4fr 4fr 2fr;
+        grid-template-columns: 5fr 3fr 2fr 2fr 2fr 1fr;
         border: 1px solid #E5E6E4;
         box-sizing: border-box;
         border-radius: 4px;

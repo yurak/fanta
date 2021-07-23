@@ -39,7 +39,7 @@
                 .round-next-text= t('tours.next')
                 .round-next-arrow
                   = image_tag('icons/arrow_blue.png')
-      .round-actions
+      .actions-buttons
         - if current_user&.admin?
           = link_to t('tours.start_round'), change_status_tour_path(tour, status: :set_lineup), data: { confirm: t('tours.are_you_sure') } if tour.inactive?
           = link_to t('tours.lock_round'), change_status_tour_path(tour, status: :locked), data: { confirm: t('tours.are_you_sure') } if tour.set_lineup?
@@ -204,6 +204,12 @@
                       = t_match.guest_club.code
                   - else
                     = t_match.guest_club.code
+      .round-table
+        .round-table-title
+          = link_to league_transfers_path(tour.league) do
+            .round-table-title-text= "💰 Transfers"
+            .round-table-title-icon
+              = image_tag('icons/arrow_blue.png')
     - if tour.national?
       .round-table
         .round-table-title.best-players-title

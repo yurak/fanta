@@ -30,6 +30,11 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
+  auction:
+    sold: "SOLD"
+    time_left: "Time left"
+    time_out: "TIME OUT"
+    seconds: "seconds"
   header:
     rules: "Rules"
     guide: "Guide"
@@ -252,11 +257,17 @@ en:
     positions: "POSITIONS"
     appearances: "APPEARANCES"
     rating: "RATING"
+    age: "AGE"
+    country: "COUNTRY"
     club: "CLUB"
     round: "ROUND"
     opponent: "OPPONENT"
     score: "SCORE"
     unknown: "Unknown"
+  transfers:
+    title: "%{league} Transfers"
+    auction_title: "%{league} Auction"
+    auction: "Auction"
   tours:
     round: "Round"
     deadline: "☠️ Deadline:"

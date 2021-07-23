@@ -1,0 +1,102 @@
+.page-info.transfers-page
+  .transfers-head
+    .tournament-logo= image_tag(league.tournament.logo_path)
+    .transfers-title
+      = t('transfers.auction_title', league: league.name)
+  .teams-section
+    - league.teams.each do |league_team|
+      .team-bar-item
+        .team-bar-item-name
+          = league_team.human_name
+        .team-bar-item-logo
+          = image_tag(league_team.logo_path)
+        .team-bar-item-budget
+          = "#{league_team.budget} $"
+        .team-bar-item-players{class: "team-bar-players#{league_team.vacancies}"}
+          = league_team.vacancies
+        .team-bar-item-max-rate
+          = "#{league_team.max_rate} $"
+  - if player
+    .player-section
+      .player-banner{style: "background-color: ##{player.club.color};"}
+        .player-show-base
+          .player-show-first-name
+            = player.first_name
+          .player-show-name
+            = player.name
+          .player-show-base-row
+            .player-show-positions
+              - player.positions.each do |position|
+                .slot-position{class: "slot-position-#{position.name}"}
+                  = position.name
+        .player-timer
+          .player-timer-desc= t('auction.time_left')
+          #timer 30
+          .player-timer-desc= t('auction.seconds')
+        .player-show-avatar
+          .player-show-face
+            %object{data: player.profile_avatar_path, type: 'image/jpg'}
+              = image_tag('avatar.png')
+          .player-show-kit
+            %object{data: player.profile_kit_path, type: 'image/jpg'}
+              = image_tag('kit_default2.png')
+      .transfer-form
+        = form_for :transfer, url: league_transfers_path(league), method: :post do |f|
+          = f.hidden_field :player_id, value: player.id
+          .transfer-form-row
+            = f.select :team_id, options_from_collection_for_select(league.teams, :id, :human_name), {}, class: 'custom-select'
+            = f.number_field :price, value: 1, min: 1, step: 1, class: 'price-input form-control'
+            = f.submit 'Sold', class: 'btn btn-success btn-block', data: { confirm: 'Are you sure?' }
+  - else
+    .search-section
+      = form_tag(league_auction_path(league), method: :get) do |f|
+        .search-input
+          = search_field_tag :search, params[:search], placeholder: 'Search player...', class: 'form-control'
+          = button_tag '', class: 'btn btn-search' do
+            = image_tag('icons/search.svg', class: 'filter-white')
+    .players-section
+      - if players&.any?
+        .auction-players
+          .auction-players-headers.players-section-grid
+            .team-players-header-item= t('teams.player')
+            .team-players-header-item.team-players-header-position= t('teams.positions')
+            .team-players-header-item.center= t('teams.age')
+            .team-players-header-item.center= t('teams.country')
+            .team-players-header-item.center= t('teams.club')
+            .team-players-header-item
+          - players.each do |player|
+            - if player.team_by_league(league.id)
+              .auction-player-item.players-section-grid
+                .player-sold= t('auction.sold')
+                = render 'player_row', player: player
+            - else
+              = link_to league_auction_path(player: player.id) do
+                .auction-player-item.players-section-grid
+                  = render 'player_row', player: player
+      - elsif params[:search].present?
+        .auction-not-found
+          Not found players with such name
+
+:javascript
+  var time = 30;
+
+  var x = setInterval(function() {
+    document.getElementById('timer').innerHTML = time;
+
+    if (time < 0) {
+      clearInterval(x);
+      document.getElementById('timer').innerHTML = "#{t('auction.time_out')}";
+      $(".player-timer-desc").hide();
+    } else {
+      time -= 1;
+    }
+  }, 1000);
+
+  var reset = document.getElementById('timer');
+
+  $( ".price-input" ).change(function() {
+    time = 30;
+  });
+  reset.onclick = function() {
+    time = 30;
+  };

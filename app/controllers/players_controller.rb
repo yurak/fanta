@@ -39,7 +39,7 @@ class PlayersController < ApplicationController
   end
 
   def tournament_players
-    Player.by_tournament(tournament.id)
+    Player.by_tournament(tournament)
   end
 
   def players_by_position

@@ -1,0 +1,8 @@
+.page-info.transfers-page
+  .transfers-head
+    .tournament-logo= image_tag(league.tournament.logo_path)
+    .transfers-title
+      = t('transfers.title', league: league.name)
+  .actions-buttons
+    -  if current_user&.can_moderate?
+      = link_to t('transfers.auction'), league_auction_path(league)

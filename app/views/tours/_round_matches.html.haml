@@ -54,9 +54,9 @@
             = image_tag(image_path(match.host.logo_path))
       .round-match-score.round-match-host-score
         .round-match-scores-count
-          = match.host_lineup.mp_with_score
+          = match.host_lineup&.mp_with_score
         .round-match-total-score
-          = match.host_lineup.total_score
+          = match.host_lineup&.total_score
       .round-match-result
         = link_to match_path(match) do
           .round-match-host-goals
@@ -65,9 +65,9 @@
             = match.guest_lineup&.goals
       .round-match-score.round-match-guest-score
         .round-match-total-score
-          = match.guest_lineup.total_score
+          = match.guest_lineup&.total_score
         .round-match-scores-count
-          = match.guest_lineup.mp_with_score
+          = match.guest_lineup&.mp_with_score
       .round-match-team.round-match-guest
         = link_to team_path(match.guest) do
           .results-team-logo

@@ -1,4 +1,9 @@
 ua:
+  auction:
+    sold: "ПРОДАНО"
+    time_left: "Залишилося"
+    time_out: "ЧАС ВИЙШОВ"
+    seconds: "секунд"
   header:
     rules: "Правила"
     guide: "Посібник"
@@ -222,10 +227,16 @@ ua:
     appearances: "ПОЯВИ"
     rating: "РЕЙТИНГ"
     club: "КЛУБ"
+    age: "ВІК"
+    country: "КРАЇНА"
     round: "РАУНД"
     opponent: "ОПОНЕНТ"
     score: "РЕЗУЛЬТАТ"
     unknown: "Невідомо"
+  transfers:
+    title: "Трансфери %{league}"
+    auction_title: "Аукціон %{league}"
+    auction: "Аукціон"
   tours:
     round: "Раунд"
     deadline: "☠️ Дедлайн:"

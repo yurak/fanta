@@ -45,7 +45,7 @@ class RoundPlayersController < ApplicationController
   def player_ids_by_position
     return Player.by_position(stats_params[:position]).by_national_tournament(tournament.id).ids if tournament.national?
 
-    Player.by_position(stats_params[:position]).by_tournament(tournament.id).ids
+    Player.by_position(stats_params[:position]).by_tournament(tournament).ids
   end
 
   def round_players_by_club
