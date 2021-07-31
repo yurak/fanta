@@ -28,11 +28,12 @@
                     = image_tag("modules/#{team_module.name}.jpg")
       .module-image
         = image_tag("modules/#{team_module&.name || lineup.team_module.name}.jpg")
-      .squad-rules
-        .squad-minimum-rule
-          = t('lineups.minimum')
-        .squad-maximum-rule
-          = t('lineups.limit', limit: tour.max_country_players)
+      - if tour.national?
+        .squad-rules
+          .squad-minimum-rule
+            = t('lineups.minimum')
+          .squad-maximum-rule
+            = t('lineups.limit', limit: tour.max_country_players)
     .players-section
       .main-players-title
         = t('lineups.main_squad')
@@ -42,7 +43,7 @@
           = f.hidden_field :tour_id, value: tour.id
           = f.fields_for :match_players do |mp|
             .lineup-slot
-              = mp.hidden_field(:real_position, value: team_module.slots[mp.index]&.position)
+              = mp.hidden_field(:real_position, value: team_module.slots[mp.index]&.position) if team_module.slots[mp.index]&.position
               = mp.hidden_field(:round_player_id, value: player_by_mp(mp)&.id, class: 'round-player-input', id: "round-player-#{mp.index}")
               .input-group
                 .player-data{id: "modal-player-data#{mp.index}"}
@@ -52,80 +53,121 @@
                         %object{data: player_by_mp(mp)&.avatar_path || '', type: 'image/jpg', id: "avatar-#{mp.index}"}
                           = image_tag('avatar.png')
                       .player-show-kit
-                        %object{data: player_by_mp(mp)&.national_kit_path || '', type: 'image/jpg', id: "kit-#{mp.index}"}
+                        %object{data: player_by_mp(mp)&.kit_path || '', type: 'image/jpg', id: "kit-#{mp.index}"}
                           = image_tag('kit_small_default2.png')
                       .squad-position
                         .slot-position{class: "slot-position-#{team_module.slots[mp.index]&.position&.tr('/', '')}"}
-                          = team_module.slots[mp.index]&.position
+                          - if team_module.slots[mp.index]&.position
+                            = team_module.slots[mp.index]&.position
+                          - elsif mp.index == 11
+                            = 'Por'
+                          - else
+                            = 'Res'
                     .team-player-name
                       .team-player-last-name{ id: "name-#{mp.index}" }
                         = player_by_mp(mp)&.name || t('lineups.not_selected')
                       .team-player-first-name{ id: "first-name-#{mp.index}" }
                         = player_by_mp(mp)&.first_name || ''
-                      .team-player-country{ id: "country-#{mp.index}", style: "display: none;" }= player_by_mp(mp)&.national_team&.name
+                      - if tour.national?
+                        .team-player-country{ id: "country-#{mp.index}", style: "display: none;" }= player_by_mp(mp)&.national_team&.name
                     .team-player-dropdown
                       = image_tag('icons/dropdown.svg')
                   .modal-players-list{id: "modal-players-list#{mp.index}"}
                     .players-modal-content
                       %span.close
                       .modal-players-title
-                        Select player
+                        .modal-players-title-text Select player
+                        .modal-players-title-position
+                          .slot-position{class: "slot-position-#{team_module.slots[mp.index]&.position&.tr('/', '')}"}
+                            - if team_module.slots[mp.index]&.position
+                              = team_module.slots[mp.index]&.position
+                            - elsif mp.index == 11
+                              = 'Por'
+                            - else
+                              = 'Res'
                       .modal-modules-block
-                        - tournament_round_players(tour.tournament_round, team_module.slots[mp.index]&.position).each do |player|
-                          .modal-player-item{id: "player#{player.id}", style: "background-color: ##{ player.national_team.color };"}
-                            .player-show-images
-                              .player-show-face
-                                %object{data: player.avatar_path, type: 'image/jpg'}
-                                  = image_tag('avatar.png')
-                              .player-show-kit
-                                %object{data: player.national_kit_path, type: 'image/jpg'}
-                                  = image_tag('kit_small_default2.png')
-                              .player-show-positions
-                                - player.position_names.reverse.each do |position|
-                                  .slot-position{class: "slot-position-#{position&.tr('/', '')}"}
-                                    = position
-                            .player-name
-                              %span
-                                = player.name.upcase
-                            .player-match
-                              .player-match-team
-                                = flag_icon(player.nationality.to_sym, element: :div)
-                              .player-match-team
-                                vs
-                              .player-match-team
-                                = flag_icon(player.national_team.opponent_by_round(tour.tournament_round)&.code.to_sym, element: :div)
+                        - if tour.mantra?
+                          - if team_module.slots[mp.index]&.position
+                            - available_hash = available_by_slot(team, team_module.slots[mp.index])
+                            .modal-malus-block
+                              - available_hash['']&.each do |player|
+                                = render 'lineup_player_item', player: player, tour: tour, position: team_module.slots[mp.index]&.position
+                            - if available_hash['1.5']
+                              .modal-malus-title 🎭 MALUS -1.5
+                              .modal-malus-block
+                                - available_hash['1.5'].each do |player|
+                                  = render 'lineup_player_item', player: player, tour: tour, position: team_module.slots[mp.index]&.position
+                            - if available_hash['3.0']
+                              .modal-malus-title 🎭 MALUS -3
+                              .modal-malus-block
+                                - available_hash['3.0'].each do |player|
+                                  = render 'lineup_player_item', player: player, tour: tour, position: team_module.slots[mp.index]&.position
+                          - elsif mp.index == 11
+                            .modal-malus-block
+                              - available_by_slot(team, team_module.slots.first)[''].each do |player|
+                                = render 'lineup_player_item', player: player, tour: tour, position: 'Por'
+                          - else
+                            .modal-malus-block
+                              - available_for_select(team).each do |player|
+                                = render 'lineup_player_item', player: player, tour: tour, position: 'Res'
+                        - if tour.national?
+                          - tournament_round_players(tour.tournament_round, team_module.slots[mp.index]&.position).each do |player|
+                            .modal-player-item{id: "player#{player.id}", style: "background-color: ##{ player.national_team.color };"}
+                              .player-show-images
+                                .player-show-face
+                                  %object{data: player.avatar_path, type: 'image/jpg'}
+                                    = image_tag('avatar.png')
+                                .player-show-kit
+                                  %object{data: player.national_kit_path, type: 'image/jpg'}
+                                    = image_tag('kit_small_default2.png')
+                                .player-show-positions
+                                  - player.position_names.reverse.each do |position|
+                                    .slot-position{class: "slot-position-#{position&.tr('/', '')}"}
+                                      = position
+                              .player-name
+                                %span
+                                  = player.name.upcase
+                              .player-match
+                                .player-match-team
+                                  = flag_icon(player.nationality.to_sym, element: :div)
+                                .player-match-team
+                                  vs
+                                .player-match-team
+                                  = flag_icon(player.national_team.opponent_by_round(tour.tournament_round)&.code.to_sym, element: :div)
 
 %script{type: "text/javascript", src: "/javascripts/lib/new_lineup.js.erb"}
 
 :javascript
   $(document).ready(function() {
     $("#submit-lineup-btn").click(function(){
-      const player_countries = [];
-      $('.team-player-country').each(function() { player_countries.push(this.textContent); });
-      const unique_countries = player_countries.filter((v, i, a) => a.indexOf(v) === i).filter(Boolean);
+      if (String("#{tour.national?}").toLowerCase() == "true") {
+        const player_countries = [];
+        $('.team-player-country').each(function() { player_countries.push(this.textContent); });
+        const unique_countries = player_countries.filter((v, i, a) => a.indexOf(v) === i).filter(Boolean);
 
-      if (unique_countries.length < "#{tour.national_teams_count}") {
-        alert("#{t('lineups.minimum')}");
-        return false;
-      }
+        if (unique_countries.length < "#{tour.national_teams_count}") {
+          alert("#{t('lineups.minimum')}");
+          return false;
+        }
 
-      const counts = {};
-      player_countries.filter(Boolean).forEach(function(x) { counts[x] = (counts[x] || 0)+1; });
-      const countries_values = Object.keys(counts).map(function(v) { return counts[v]; });
-      const max_country_players = Math.max.apply(Math, countries_values);
-      const country_players_limit = "#{tour.max_country_players}"
+        const counts = {};
+        player_countries.filter(Boolean).forEach(function(x) { counts[x] = (counts[x] || 0)+1; });
+        const countries_values = Object.keys(counts).map(function(v) { return counts[v]; });
+        const max_country_players = Math.max.apply(Math, countries_values);
+        const country_players_limit = "#{tour.max_country_players}"
 
-      if (max_country_players > country_players_limit) {
-        alert("#{t('lineups.limit', limit: tour.max_country_players)}");
-        return false;
+        if (max_country_players > country_players_limit) {
+          alert("#{t('lineups.limit', limit: tour.max_country_players)}");
+          return false;
+        }
       }
 
       const player_ids = [];
       $('.round-player-input').each(function() { player_ids.push($(this).val()); });
       const filtered = player_ids.filter(Boolean);
 
-      if (filtered.length < 11) {
-          alert("#{t('lineups.eleven')}");
+      if (filtered.length < 19) {
+          alert("#{t('lineups.total', number: 19)}");
           return false;
       }
 
