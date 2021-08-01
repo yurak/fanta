@@ -1,10 +1,12 @@
 module PlayersHelper
   def available_for_substitution(match_players, positions)
+    return [] unless match_players && positions
+
     available_mp = match_players.collect do |x|
       next if (x.position_names & positions).empty?
 
       [
-        "(#{x.player.position_names.join('-')}) #{x.player.name} - #{x.score}", x.id
+        "(#{x.position_names.join('-')}) #{x.player.name} - #{x.score}", x.id
       ]
     end
     available_mp.compact
@@ -15,6 +17,8 @@ module PlayersHelper
   end
 
   def available_by_slot(team, slot)
+    return {} unless slot
+
     scope = team.players.includes(:positions).where(positions: { name: slot.positions_with_malus }).sort_by(&:position_sequence_number)
 
     scope.group_by do |x|
