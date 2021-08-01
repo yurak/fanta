@@ -13,7 +13,7 @@
     .team-name
       = team.human_name
     .team-points
-      = t('teams.points', :count => team.results.last&.points)
+      = t('teams.points', count: team.results.last&.points || 0)
     - if team.results.last
       .team-league-data
         .team-position

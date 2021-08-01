@@ -1,6 +1,6 @@
 $(".modal-player-item").on('click', function(e){
     e.stopPropagation();
-    const modalList = $(this).parent().parent().parent();
+    const modalList = $(this).parent().parent().parent().parent();
 
     const blockId = modalList.attr('id').replace('modal-players-list','');
     const playerId = $(this).attr('id').replace('player','');
@@ -17,7 +17,7 @@ $(".modal-player-item").on('click', function(e){
         url: '/players/'+playerId,
         success: function(data){
             avatarContainer.attr('data', data.avatar_path);
-            kitContainer.attr('data', data.national_kit_path);
+            kitContainer.attr('data', data.kit_path);
             nameContainer.text(data.name);
             countryContainer.text(data.national_team_name);
             roundPlayerContainer.attr('value', playerId);
@@ -52,6 +52,14 @@ $(document).ready(function() {
     const modal8 = document.getElementById("modal-players-list8");
     const modal9 = document.getElementById("modal-players-list9");
     const modal10 = document.getElementById("modal-players-list10");
+    const modal11 = document.getElementById("modal-players-list11");
+    const modal12 = document.getElementById("modal-players-list12");
+    const modal13 = document.getElementById("modal-players-list13");
+    const modal14 = document.getElementById("modal-players-list14");
+    const modal15 = document.getElementById("modal-players-list15");
+    const modal16 = document.getElementById("modal-players-list16");
+    const modal17 = document.getElementById("modal-players-list17");
+    const modal18 = document.getElementById("modal-players-list18");
     const btn0 = document.getElementById("modal-player-data0");
     const btn1 = document.getElementById("modal-player-data1");
     const btn2 = document.getElementById("modal-player-data2");
@@ -63,6 +71,14 @@ $(document).ready(function() {
     const btn8 = document.getElementById("modal-player-data8");
     const btn9 = document.getElementById("modal-player-data9");
     const btn10 = document.getElementById("modal-player-data10");
+    const btn11 = document.getElementById("modal-player-data11");
+    const btn12 = document.getElementById("modal-player-data12");
+    const btn13 = document.getElementById("modal-player-data13");
+    const btn14 = document.getElementById("modal-player-data14");
+    const btn15 = document.getElementById("modal-player-data15");
+    const btn16 = document.getElementById("modal-player-data16");
+    const btn17 = document.getElementById("modal-player-data17");
+    const btn18 = document.getElementById("modal-player-data18");
 
     btn0.onclick = function() { modal0.style.display = "block"; };
     btn1.onclick = function() { modal1.style.display = "block"; };
@@ -75,6 +91,14 @@ $(document).ready(function() {
     btn8.onclick = function() { modal8.style.display = "block"; };
     btn9.onclick = function() { modal9.style.display = "block"; };
     btn10.onclick = function() { modal10.style.display = "block"; };
+    btn11.onclick = function() { modal11.style.display = "block"; };
+    btn12.onclick = function() { modal12.style.display = "block"; };
+    btn13.onclick = function() { modal13.style.display = "block"; };
+    btn14.onclick = function() { modal14.style.display = "block"; };
+    btn15.onclick = function() { modal15.style.display = "block"; };
+    btn16.onclick = function() { modal16.style.display = "block"; };
+    btn17.onclick = function() { modal17.style.display = "block"; };
+    btn18.onclick = function() { modal18.style.display = "block"; };
 
     window.onclick = function(event) {
         if (event.target == modal) { modal.style.display = "none"; }
@@ -89,5 +113,13 @@ $(document).ready(function() {
         if (event.target == modal8) { modal8.style.display = "none"; }
         if (event.target == modal9) { modal9.style.display = "none"; }
         if (event.target == modal10) { modal10.style.display = "none"; }
+        if (event.target == modal11) { modal11.style.display = "none"; }
+        if (event.target == modal12) { modal12.style.display = "none"; }
+        if (event.target == modal13) { modal13.style.display = "none"; }
+        if (event.target == modal14) { modal14.style.display = "none"; }
+        if (event.target == modal15) { modal15.style.display = "none"; }
+        if (event.target == modal16) { modal16.style.display = "none"; }
+        if (event.target == modal17) { modal17.style.display = "none"; }
+        if (event.target == modal18) { modal18.style.display = "none"; }
     }
 });

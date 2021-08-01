@@ -134,7 +134,7 @@ en:
     main_squad: "Main squad"
     not_selected: "Not selected"
     minimum: "You should select minimum 1 player from each country"
-    eleven: "Lineup should contain 11 unique players"
+    total: "Lineup should contain %{number} unique players"
     duplicates: "Lineup contains duplicate players"
     limit: "You can't select more than %{limit} players from one country"
   links:
@@ -153,6 +153,8 @@ en:
     not_lineup: "Not in squad"
     waiting: "Waiting for lineup"
     without_squad: "Team is still without squad"
+    with_squad: "Squad is ready for the match"
+    waiting_deadline: "Waiting for tour start"
     didnt_play: "❌ Didn't play"
     unspecified: "Unspecified"
   news:

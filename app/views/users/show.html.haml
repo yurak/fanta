@@ -1,7 +1,11 @@
 .local-header
   .local-header-close
-    = link_to tour_path(current_user.active_league.active_tour_or_last) do
-      &times;
+    - if current_user.next_tour
+      = link_to tour_path(current_user.active_league.active_tour_or_last) do
+        &times;
+    - else
+      = link_to leagues_path do
+        &times;
   .local-header-text
     .local-header-title= t('users.settings')
     .local-header-subtitle= t('users.settings_desc')

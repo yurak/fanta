@@ -23,7 +23,7 @@ class Lineup < ApplicationRecord
   MAX_AVG_DEF_SCORE = 7
   DEF_BONUS_STEP = 0.25
   MAX_PLAYED_PLAYERS = 11
-  MAX_PLAYERS = 18
+  MAX_PLAYERS = 19
   MAX_POSTPONED_PLAYERS = 25
 
   def total_score
