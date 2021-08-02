@@ -5,6 +5,7 @@ RSpec.describe Lineup, type: :model do
   let(:lineup_team_score_five) { create(:lineup, :with_team_and_score_five) }
   let(:lineup_team_score_six) { create(:lineup, :with_team_and_score_six) }
   let(:lineup_team_score_seven) { create(:lineup, :with_team_and_score_seven) }
+  let(:lineup_team_score_eight) { create(:lineup, :with_team_and_score_eight) }
 
   describe 'Associations' do
     it { is_expected.to belong_to(:team_module) }
@@ -86,7 +87,7 @@ RSpec.describe Lineup, type: :model do
 
     context 'when total_score more than minimum' do
       it 'returns goals number' do
-        expect(lineup_team_score_seven.goals).to eq(3)
+        expect(lineup_team_score_seven.goals).to eq(2)
       end
     end
   end
@@ -99,7 +100,7 @@ RSpec.describe Lineup, type: :model do
 
   describe '#result' do
     context 'when opponent has better result' do
-      let(:lineup_with_opponent) { create(:lineup, :with_team_and_score_five, :with_match_and_opponent_lineup) }
+      let(:lineup_with_opponent) { create(:lineup, :with_team_and_score_six, :with_match_and_opponent_lineup) }
 
       it 'returns L' do
         expect(lineup_with_opponent.result).to eq('L')
@@ -107,7 +108,7 @@ RSpec.describe Lineup, type: :model do
     end
 
     context 'when opponent has the same result' do
-      let(:lineup_with_opponent) { create(:lineup, :with_team_and_score_six, :with_match_and_opponent_lineup) }
+      let(:lineup_with_opponent) { create(:lineup, :with_team_and_score_seven, :with_match_and_opponent_lineup) }
 
       it 'returns D' do
         expect(lineup_with_opponent.result).to eq('D')
@@ -115,7 +116,7 @@ RSpec.describe Lineup, type: :model do
     end
 
     context 'when opponent has worst result' do
-      let(:lineup_with_opponent) { create(:lineup, :with_team_and_score_seven, :with_match_and_opponent_lineup) }
+      let(:lineup_with_opponent) { create(:lineup, :with_team_and_score_eight, :with_match_and_opponent_lineup) }
 
       it 'returns W' do
         expect(lineup_with_opponent.result).to eq('W')
@@ -167,18 +168,18 @@ RSpec.describe Lineup, type: :model do
     context 'when lineup of host team' do
       it 'returns result' do
         match = create(:match, host: lineup_team_score_seven.team, tour: lineup_team_score_seven.tour)
-        create(:lineup, :with_team_and_score_six, tour: lineup_team_score_seven.tour, team: match.guest)
+        create(:lineup, :with_team_and_score_seven, tour: lineup_team_score_eight.tour, team: match.guest)
 
-        expect(lineup_team_score_seven.match_result).to eq('3-1')
+        expect(lineup_team_score_seven.match_result).to eq('2-0')
       end
     end
 
     context 'when lineup of guest team' do
       it 'returns result' do
         match = create(:match, guest: lineup_team_score_seven.team, tour: lineup_team_score_seven.tour)
-        create(:lineup, :with_team_and_score_five, tour: lineup_team_score_seven.tour, team: match.host)
+        create(:lineup, :with_team_and_score_eight, tour: lineup_team_score_seven.tour, team: match.host)
 
-        expect(lineup_team_score_seven.match_result).to eq('3-0')
+        expect(lineup_team_score_seven.match_result).to eq('2-4')
       end
     end
   end

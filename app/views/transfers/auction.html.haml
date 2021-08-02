@@ -31,7 +31,7 @@
                   = position.name
         .player-timer
           .player-timer-desc= t('auction.time_left')
-          #timer 30
+          #timer 15
           .player-timer-desc= t('auction.seconds')
         .player-show-avatar
           .player-show-face
@@ -78,7 +78,7 @@
           Not found players with such name
 
 :javascript
-  var time = 30;
+  var time = 15;
 
   var x = setInterval(function() {
     document.getElementById('timer').innerHTML = time;
@@ -95,8 +95,8 @@
   var reset = document.getElementById('timer');
 
   $( ".price-input" ).change(function() {
-    time = 30;
+    time = 15;
   });
   reset.onclick = function() {
-    time = 30;
+    time = 15;
   };
