@@ -13,7 +13,7 @@ FactoryBot.define do
     trait :with_match_and_opponent_lineup do
       after(:create) do |lineup|
         match = create(:match, host: lineup.team, tour: lineup.tour)
-        create(:lineup, :with_team_and_score_six, tour: lineup.tour, team: match.guest)
+        create(:lineup, :with_team_and_score_seven, tour: lineup.tour, team: match.guest)
       end
     end
 
