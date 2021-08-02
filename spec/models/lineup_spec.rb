@@ -3,7 +3,6 @@ RSpec.describe Lineup, type: :model do
 
   let(:lineup_team) { create(:lineup, :with_match_players) }
   let(:lineup_team_score_five) { create(:lineup, :with_team_and_score_five) }
-  let(:lineup_team_score_six) { create(:lineup, :with_team_and_score_six) }
   let(:lineup_team_score_seven) { create(:lineup, :with_team_and_score_seven) }
   let(:lineup_team_score_eight) { create(:lineup, :with_team_and_score_eight) }
 
@@ -29,7 +28,7 @@ RSpec.describe Lineup, type: :model do
 
     context 'when scores are sufficient for defense bonus' do
       it 'returns sum of players scores defense bonus' do
-        expect(lineup_team_score_six.total_score).to eq(67)
+        expect(lineup_team_score_seven.total_score).to eq(82)
       end
     end
   end
@@ -43,6 +42,8 @@ RSpec.describe Lineup, type: :model do
 
     context 'when league with default bonus range and middle scores' do
       it 'returns minimal bonus' do
+        lineup_team_score_six = create(:lineup, :with_team_and_score_six)
+
         expect(lineup_team_score_six.defence_bonus).to eq(1)
       end
     end
