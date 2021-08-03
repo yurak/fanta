@@ -265,6 +265,8 @@ en:
     round: "ROUND"
     opponent: "OPPONENT"
     score: "SCORE"
+    team: "TEAM"
+    price: "PRICE"
     unknown: "Unknown"
   transfers:
     title: "%{league} Transfers"

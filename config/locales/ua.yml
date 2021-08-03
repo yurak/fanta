@@ -234,6 +234,8 @@ ua:
     round: "РАУНД"
     opponent: "ОПОНЕНТ"
     score: "РЕЗУЛЬТАТ"
+    team: "КОМАНДА"
+    price: "ВАРТІСТЬ"
     unknown: "Невідомо"
   transfers:
     title: "Трансфери %{league}"
