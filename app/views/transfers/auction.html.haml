@@ -1,92 +1,193 @@
-.page-info.transfers-page
-  .transfers-head
-    .tournament-logo= image_tag(league.tournament.logo_path)
-    .transfers-title
-      = t('transfers.auction_title', league: league.name)
-  .teams-section
-    - league.teams.each do |league_team|
-      .team-bar-item
-        .team-bar-item-name
-          = league_team.human_name
-        .team-bar-item-logo
-          = image_tag(league_team.logo_path)
-        .team-bar-item-budget
-          = "#{league_team.budget} $"
-        .team-bar-item-players{class: "team-bar-players#{league_team.vacancies}"}
-          = league_team.vacancies
-        .team-bar-item-max-rate
-          = "#{league_team.max_rate} $"
-  - if player
-    .player-section
-      .player-banner{style: "background-color: ##{player.club.color};"}
-        .player-show-base
-          .player-show-first-name
-            = player.first_name
-          .player-show-name
-            = player.name
-          .player-show-base-row
-            .player-show-positions
-              - player.positions.each do |position|
-                .slot-position{class: "slot-position-#{position.name}"}
-                  = position.name
-        .player-timer
-          .player-timer-desc= t('auction.time_left')
-          #timer 15
-          .player-timer-desc= t('auction.seconds')
-        .player-show-avatar
-          .player-show-face
-            %object{data: player.profile_avatar_path, type: 'image/jpg'}
-              = image_tag('avatar.png')
-          .player-show-kit
-            %object{data: player.profile_kit_path, type: 'image/jpg'}
-              = image_tag('kit_default2.png')
+.auction-page
+  .auction-data
+    .auction-base-data
+      .auction-data-row-one
+        .auction-close
+          = link_to league_transfers_path(league) do
+            .auction-close-x &times;
+            .auction-close-text= t('auction.close')
+        .auction-spend-text= t('auction.time_spend')
+      .auction-data-row-two
+        .auction-title= t('auction.auction')
+        .auction-spend-time
+          - if league.transfers.first
+            = Time.zone.at(Time.zone.now - league.transfers.first.created_at).strftime("%H:%M")
+          - else
+            = '00:00'
+      .auction-data-row-three
+        .auction-league
+          .auction-tournament-logo= image_tag(league.tournament.logo_path)
+          .auction-league-name= league.name
+        .auction-date
+          .auction-date-title= t('auction.date')
+          .auction-date-value= Time.zone.today.strftime("%b %e, %Y")
+    .auction-teams
+      .auction-teams-title
+        .auction-teams-title-text= t('auction.teams')
+        .auction-teams-title-count= league.teams.count
+      .auction-teams-section
+        - league.teams.each_with_index do |league_team, index|
+          .auction-team-item{ class: "active-team-#{index == auction_step(league)}"}
+            .auction-team-logo
+              = image_tag(league_team.logo_path)
+            .auction-team-name
+              = league_team.human_name
+            .auction-team-data
+              .auction-team-data-item.auction-team-players
+                .auction-team-data-icon 🎭️
+                .auction-team-data-title= t('auction.players')
+                .auction-team-data-value
+                  - if league_team.players.count < 25
+                    .auction-team-data-value-item
+                      = league_team.players.count
+                    .auction-team-data-value-item.auction-team-data-value-right
+                      = '/ 25'
+                  - else
+                    = '25'
+                  .auction-team-data-gk
+                    - league_team.players.by_position('Por').each do |_|
+                      .auction-team-gk-item
+              .auction-team-data-item.auction-team-budget
+                .auction-team-data-icon 💸️
+                .auction-team-data-title= t('auction.budget')
+                .auction-team-data-value
+                  = league_team.budget
+  .auction-active
+    - if player
+      .player-section
+        .player-banner{style: "background-color: ##{player.club.color};"}
+          .player-show-base
+            .player-show-first-name
+              = player.first_name
+            .player-show-name
+              = player.name
+            .player-show-base-row
+              .player-show-positions
+                .player-show-base-title= t('auction.positions')
+                .player-show-base-value
+                  - player.positions.each do |position|
+                    .slot-position{class: "slot-position-#{position.name}"}
+                      = position.name
+              .player-show-price
+                .player-show-base-title= t('auction.price')
+                .player-show-base-value
+                  = "#{player.tm_price.to_f / 1_000_000}M"
+              .player-show-club
+                .player-show-base-title= t('auction.club')
+                .player-show-base-value.player-show-base-club
+                  .player-show-club-logo
+                    %object{data: player.club.logo_path, type: 'image/jpg'}
+                      = image_tag('default_logo.png')
+                  .player-show-club-name
+                    = player.club.name
+          .player-show-avatar
+            .player-show-face
+              %object{data: player.profile_avatar_path, type: 'image/jpg'}
+                = image_tag('avatar.png')
+            .player-show-kit
+              %object{data: player.profile_kit_path, type: 'image/jpg'}
+                = image_tag('kit_default2.png')
+          .player-show-close
+            = link_to league_auction_path(league) do
+              .auction-close-x &times;
+      .player-timer
+        .player-timer-desc= t('auction.time_left')
+        #timer 00:15
       .transfer-form
         = form_for :transfer, url: league_transfers_path(league), method: :post do |f|
           = f.hidden_field :player_id, value: player.id
-          .transfer-form-row
-            = f.select :team_id, options_from_collection_for_select(league.teams, :id, :human_name), {}, class: 'custom-select'
-            = f.number_field :price, value: 1, min: 1, step: 1, class: 'price-input form-control'
-            = f.submit 'Sold', class: 'btn btn-success btn-block', data: { confirm: 'Are you sure?' }
-  - else
-    .search-section
-      = form_tag(league_auction_path(league), method: :get) do |f|
-        .search-input
-          = search_field_tag :search, params[:search], placeholder: 'Search player...', class: 'form-control'
-          = button_tag '', class: 'btn btn-search' do
-            = image_tag('icons/search.svg', class: 'filter-white')
-    .players-section
-      - if players&.any?
-        .auction-players
-          .auction-players-headers.players-section-grid
-            .team-players-header-item= t('teams.player')
-            .team-players-header-item.team-players-header-position= t('teams.positions')
-            .team-players-header-item.center= t('teams.age')
-            .team-players-header-item.center= t('teams.country')
-            .team-players-header-item.center= t('teams.club')
-            .team-players-header-item
-          - players.each do |player|
-            - if player.team_by_league(league.id)
-              .auction-player-item.players-section-grid
-                .player-sold= t('auction.sold')
-                = render 'player_row', player: player
-            - else
-              = link_to league_auction_path(player: player.id) do
-                .auction-player-item.players-section-grid
-                  = render 'player_row', player: player
-      - elsif params[:search].present?
-        .auction-not-found
-          Not found players with such name
+          .transfer-form-club
+            .transfer-form-club-title= t('auction.select_club')
+            .transfer-form-club-select
+              - league.teams.each do |team|
+                %label.layersMenu
+                  = f.radio_button :team_id, team.id
+                  .radio-team-item
+                    .radio-team-logo= image_tag(team.logo_path)
+                    .radio-team-name= team.human_name
+          .transfer-form-bid
+            .transfer-form-bid-title= t('auction.bid')
+            .transfer-form-bid-input
+              = f.number_field :price, value: 1, min: 1, step: 1, class: 'price-input form-control'
+          .transfer-form-accept-btn
+            = f.submit 'Accept bid', class: 'btn', data: { confirm: 'Are you sure?' }
+    - else
+      .search-section
+        .search-title= t('auction.player_search')
+        .search-form
+          = form_tag(league_auction_path(league), method: :get, autocomplete: 'off') do
+            .search-input
+              = search_field_tag :search, params[:search], placeholder: t('auction.enter_name')
+      .players-section
+        - if players&.any?
+          .auction-players
+            - players.each do |player|
+              - if player.team_by_league(league.id)
+                .auction-players-item.auction-players-item-sold
+                  .auction-players-item-name
+                    = player.full_name_reverse
+                  .auction-players-item-data
+                    = "#{player.position_names.join(', ')} - #{player.club.name}"
+              - else
+                = link_to league_auction_path(player: player.id) do
+                  .auction-players-item
+                    .auction-players-item-name
+                      = player.full_name_reverse
+                    .auction-players-item-data
+                      = "#{player.position_names.join(', ')} - #{player.club.name}"
+
+        - elsif params[:search].present?
+          .auction-not-found
+            Not found players with such name
+  .auction-purchases
+    .auction-purchases-title
+      .auction-purchases-title-text= t('auction.last_purchases')
+      .auction-purchases-title-count
+        .auction-purchases-title-current
+          = league.transfers.count
+        .auction-purchases-title-total
+          = "/ #{league.teams.count * 25}"
+    - league.transfers.reverse.take(8).each do |transfer|
+      .auction-purchases-item
+        .purchases-player-avatar
+          .player-show-face
+            %object{data: transfer.player.avatar_path, type: 'image/jpg'}
+              = image_tag('avatar.png')
+          .player-show-kit
+            %object{data: transfer.player.kit_path, type: 'image/jpg'}
+              = image_tag('kit_small_default2.png')
+          .player-show-team
+            %object{data: transfer.team.logo_path, type: 'image/jpg'}
+              = image_tag('default_logo.png')
+        .purchases-player-data
+          .purchases-player-data-top
+            .purchases-player-name
+              = transfer.player.name
+            .purchases-player-time
+              = transfer.created_at.strftime("%H:%M")
+          .purchases-player-data-bottom
+            .purchases-player-position
+              - transfer.player.positions.each do |position|
+                .slot-position{class: "slot-position-#{position.name}"}
+                  = position.name
+            .purchases-player-price
+              = "#{transfer.price} $"
+
 
 :javascript
   var time = 15;
 
   var x = setInterval(function() {
-    document.getElementById('timer').innerHTML = time;
+    if (time > 9) {
+      document.getElementById('timer').innerHTML = '00:' + time;
+    } else {
+      document.getElementById('timer').innerHTML = '00:0' + time;
+    }
 
     if (time < 0) {
       clearInterval(x);
       document.getElementById('timer').innerHTML = "#{t('auction.time_out')}";
-      $(".player-timer-desc").hide();
+      $(".player-timer-desc").css('color', 'white');
     } else {
       time -= 1;
     }
