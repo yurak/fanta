@@ -31,6 +31,21 @@
 
 en:
   auction:
+    auction: "Auction"
+    time_spend: "Time spend"
+    date: "Date"
+    close: "Close"
+    positions: "Positions"
+    price: "Price"
+    club: "Club"
+    player_search: "Player search"
+    players: "Players"
+    budget: "Budget"
+    enter_name: "Enter name"
+    teams: "⚽️ Teams"
+    last_purchases: "💰 Last purchases"
+    select_club: "Select club"
+    bid: "Bid"
     sold: "SOLD"
     time_left: "Time left"
     time_out: "TIME OUT"
