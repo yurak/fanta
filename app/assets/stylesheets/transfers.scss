@@ -413,13 +413,11 @@
         padding-left: 40px;
         display: grid;
         grid-template-columns: auto 206px 40px;
+        background-color: #181715;
 
         .player-show-base {
           color: #FFFFFF;
           padding: 32px 0;
-          //display: flex;
-          //justify-content: flex-end;
-          //flex-direction: column;
 
           .player-show-name {
             font-weight: bold;
