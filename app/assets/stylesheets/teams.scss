@@ -219,7 +219,7 @@
     .team-lists {
       .team-lists-tabs {
         display: grid;
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 1fr 1fr 1fr;
         font-weight: bold;
         font-size: 16px;
         line-height: 24px;
@@ -489,6 +489,20 @@
             width: 14px;
             height: 8px;
           }
+        }
+      }
+
+      .team-transfers-headers {
+        padding: 32px 0 12px;
+        display: grid;
+        grid-template-columns: 5fr 3fr 2fr 2fr 2fr 1fr;
+        font-weight: 500;
+        font-size: 10px;
+        line-height: 14px;
+        color: #847577;
+
+        .team-players-header-position {
+          padding-left: 16px;
         }
       }
     }

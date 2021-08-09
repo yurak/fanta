@@ -49,13 +49,13 @@
                       .auction-team-gk-item
               .auction-team-data-item.auction-team-budget
                 .auction-team-data-icon 💸️
-                .auction-team-data-title= t('auction.budget')
+                .auction-team-data-title= t('auction.max_bid')
                 .auction-team-data-value
-                  = league_team.budget
+                  = league_team.max_rate
   .auction-active
     - if player
       .player-section
-        .player-banner{style: "background-color: ##{player.club.color};"}
+        .player-banner
           .player-show-base
             .player-show-first-name
               = player.first_name
