@@ -41,6 +41,7 @@ en:
     player_search: "Player search"
     players: "Players"
     budget: "Budget"
+    max_bid: "Max bid"
     enter_name: "Enter name"
     teams: "⚽️ Teams"
     last_purchases: "💰 Last purchases"
@@ -270,6 +271,7 @@ en:
     form: "FORM"
     players: "🏃 Players"
     games: "🗓️ Games"
+    transfers: "💰️ Transfers"
     player: "PLAYER"
     positions: "POSITIONS"
     appearances: "APPEARANCES"
@@ -282,6 +284,7 @@ en:
     score: "SCORE"
     team: "TEAM"
     price: "PRICE"
+    status: "STATUS"
     unknown: "Unknown"
   transfers:
     title: "%{league} Transfers"
