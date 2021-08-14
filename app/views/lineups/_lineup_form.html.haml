@@ -42,6 +42,9 @@
           = f.hidden_field :team_module_id, value: team_module&.id || lineup.team_module.id
           = f.hidden_field :tour_id, value: tour.id
           = f.fields_for :match_players do |mp|
+            - if mp.index == 11
+              .reserve-players-title
+                = t('lineups.reserve_squad')
             .lineup-slot
               = mp.hidden_field(:real_position, value: team_module.slots[mp.index]&.position) if team_module.slots[mp.index]&.position
               = mp.hidden_field(:round_player_id, value: player_by_mp(mp)&.id, class: 'round-player-input', id: "round-player-#{mp.index}")

@@ -26,8 +26,8 @@
         .auction-teams-title-text= t('auction.teams')
         .auction-teams-title-count= league.teams.count
       .auction-teams-section
-        - league.teams.each_with_index do |league_team, index|
-          .auction-team-item{ class: "active-team-#{index == auction_step(league)}"}
+        - league.teams.each do |league_team|
+          .auction-team-item{ class: "active-team-#{league_team.id == auction_step(league)}"}
             .auction-team-logo
               = image_tag(league_team.logo_path)
             .auction-team-name

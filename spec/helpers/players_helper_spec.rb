@@ -156,11 +156,11 @@ RSpec.describe PlayersHelper, type: :helper do
     end
 
     context 'with teams and transfers' do
-      it 'returns auction step' do
+      it 'returns active team id' do
         create_list(:transfer, 2, league: league)
-        create_list(:team, 6, league: league)
+        teams = create_list(:team, 6, league: league)
 
-        expect(helper.auction_step(league)).to eq(2)
+        expect(helper.auction_step(league)).to eq(teams[2].id)
       end
     end
   end

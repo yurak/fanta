@@ -49,12 +49,12 @@ module PlayersHelper
   end
 
   def auction_step(league)
+    teams = league.teams
+    return 0 if teams.count.zero?
+
     transfers = league.transfers.count
-    return 0 if transfers.zero?
+    return teams[0].id if transfers.zero?
 
-    teams = league.teams.count
-    return 0 if teams.zero?
-
-    transfers % teams
+    teams[transfers % teams.count].id
   end
 end

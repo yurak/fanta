@@ -48,6 +48,11 @@
             = team.user.name
           .team-manager-avatar
             = image_tag(team.user.avatar_path)
+    .team-additional.team-budget
+      .team-additional-text= t('teams.budget')
+      .team-form-value
+        .team-budget-value
+          = team.budget
     - if team.results.last
       .team-additional
         .team-additional-text= t('teams.form')
