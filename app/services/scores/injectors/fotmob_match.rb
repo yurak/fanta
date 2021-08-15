@@ -2,6 +2,7 @@ module Scores
   module Injectors
     class FotmobMatch < ApplicationService
       FOTMOB_MATCH_URL = 'https://www.fotmob.com/matchDetails?matchId='.freeze
+      MIN_PLAYED_MINUTES_FOR_CS = 60
 
       attr_reader :match
 
@@ -37,17 +38,17 @@ module Scores
         player_data = players_hash(team_hash)[round_player.pseudo_name.downcase]
         return unless player_data
 
-        round_player.update(
-          score: player_data[:rating].to_f,
-          cleansheet: cleansheet?(round_player, team_missed_goals.to_i),
-          goals: player_data[:goals] || 0,
-          assists: player_data[:assists] || 0,
-          failed_penalty: player_data[:failed_penalty] || 0,
-          missed_goals: player_data[:missed_goals] || 0,
-          own_goals: player_data[:own_goals] || 0,
-          yellow_card: player_data[:yellow_card],
-          red_card: player_data[:red_card]
-        )
+        if round_player.manual_lock
+          round_player.update(score: player_data[:rating].to_f)
+        else
+          round_player.update(
+            score: player_data[:rating].to_f, goals: player_data[:goals] || 0, assists: player_data[:assists] || 0,
+            cleansheet: cleansheet?(round_player, team_missed_goals.to_i, player_data[:played_minutes]),
+            failed_penalty: player_data[:failed_penalty] || 0, missed_goals: player_data[:missed_goals] || 0,
+            own_goals: player_data[:own_goals] || 0, played_minutes: player_data[:played_minutes] || 0,
+            yellow_card: player_data[:yellow_card], red_card: player_data[:red_card]
+          )
+        end
       end
 
       def players_hash(team)
@@ -67,7 +68,11 @@ module Scores
       end
 
       def player_hash(player_data)
-        hash = { rating: player_data['rating']['num'], missed_goals: player_data['stats'][0]['Goals conceded']&.first }.compact
+        hash = {
+          rating: player_data['rating']['num'],
+          played_minutes: player_data['stats'][0]['Minutes played']&.first.to_i,
+          missed_goals: player_data['stats'][0]['Goals conceded']&.first
+        }.compact
 
         return hash unless player_data['events']
 
@@ -88,8 +93,10 @@ module Scores
         name.mb_chars.lstrip.normalize(:kd).gsub(/[^\x00-\x7F]/n, '').downcase.to_s
       end
 
-      def cleansheet?(round_player, team_missed_goals)
-        return false if team_missed_goals.positive? || (round_player.position_names & Position::CLEANSHEET_ZONE).blank?
+      def cleansheet?(round_player, team_missed_goals, played_minutes)
+        return false if played_minutes < MIN_PLAYED_MINUTES_FOR_CS
+        return false if team_missed_goals.positive?
+        return false if (round_player.position_names & Position::CLEANSHEET_ZONE).blank?
 
         true
       end

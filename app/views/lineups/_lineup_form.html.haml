@@ -47,16 +47,16 @@
                 = t('lineups.reserve_squad')
             .lineup-slot
               = mp.hidden_field(:real_position, value: team_module.slots[mp.index]&.position) if team_module.slots[mp.index]&.position
-              = mp.hidden_field(:round_player_id, value: player_by_mp(mp)&.id, class: 'round-player-input', id: "round-player-#{mp.index}")
+              = mp.hidden_field(:round_player_id, value: player_by_mp(mp, team_module)&.id, class: 'round-player-input', id: "round-player-#{mp.index}")
               .input-group
                 .player-data{id: "modal-player-data#{mp.index}"}
                   .team-player-data
                     .team-player-avatar
                       .player-show-face
-                        %object{data: player_by_mp(mp)&.avatar_path || '', type: 'image/jpg', id: "avatar-#{mp.index}"}
+                        %object{data: player_by_mp(mp, team_module)&.avatar_path || '', type: 'image/jpg', id: "avatar-#{mp.index}"}
                           = image_tag('avatar.png')
                       .player-show-kit
-                        %object{data: player_by_mp(mp)&.kit_path || '', type: 'image/jpg', id: "kit-#{mp.index}"}
+                        %object{data: player_by_mp(mp, team_module)&.kit_path || '', type: 'image/jpg', id: "kit-#{mp.index}"}
                           = image_tag('kit_small_default2.png')
                       .squad-position
                         .slot-position{class: "slot-position-#{team_module.slots[mp.index]&.position&.tr('/', '')}"}
@@ -68,11 +68,11 @@
                             = 'Res'
                     .team-player-name
                       .team-player-last-name{ id: "name-#{mp.index}" }
-                        = player_by_mp(mp)&.name || t('lineups.not_selected')
+                        = player_by_mp(mp, team_module)&.name || t('lineups.not_selected')
                       .team-player-first-name{ id: "first-name-#{mp.index}" }
-                        = player_by_mp(mp)&.first_name || ''
+                        = player_by_mp(mp, team_module)&.first_name || ''
                       - if tour.national?
-                        .team-player-country{ id: "country-#{mp.index}", style: "display: none;" }= player_by_mp(mp)&.national_team&.name
+                        .team-player-country{ id: "country-#{mp.index}", style: "display: none;" }= player_by_mp(mp, team_module)&.national_team&.name
                     .team-player-dropdown
                       = image_tag('icons/dropdown.svg')
                   .modal-players-list{id: "modal-players-list#{mp.index}"}
