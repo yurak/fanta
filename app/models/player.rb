@@ -11,6 +11,7 @@ class Player < ApplicationRecord
   has_many :round_players, dependent: :destroy
   has_many :transfers, dependent: :destroy
 
+  CONTENT_TYPE_PNG = 'image/png'.freeze
   BUCKET_URL = 'https://mantrafootball.s3-eu-west-1.amazonaws.com'.freeze
 
   validates :name, uniqueness: { scope: %i[first_name tm_url] }, presence: true
