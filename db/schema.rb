@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_09_072844) do
+ActiveRecord::Schema.define(version: 2021_08_15_094206) do
 
   create_table "article_tags", force: :cascade do |t|
     t.string "name", default: "", null: false
@@ -164,7 +164,7 @@ ActiveRecord::Schema.define(version: 2021_06_09_072844) do
     t.integer "number"
     t.integer "tm_price"
     t.integer "national_team_id"
-    t.index ["name", "first_name"], name: "index_players_on_name_and_first_name", unique: true
+    t.index ["name", "first_name", "tm_url"], name: "index_players_on_name_and_first_name_and_tm_url", unique: true
     t.index ["national_team_id"], name: "index_players_on_national_team_id"
   end
 
@@ -208,6 +208,8 @@ ActiveRecord::Schema.define(version: 2021_06_09_072844) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "cleansheet", default: false
+    t.boolean "manual_lock", default: false
+    t.integer "played_minutes", default: 0, null: false
     t.index ["player_id"], name: "index_round_players_on_player_id"
     t.index ["tournament_round_id"], name: "index_round_players_on_tournament_round_id"
   end
@@ -246,6 +248,7 @@ ActiveRecord::Schema.define(version: 2021_06_09_072844) do
     t.string "code", default: "", null: false
     t.string "human_name", default: "", null: false
     t.string "logo_url", default: "", null: false
+    t.integer "budget", default: 260
     t.index ["code"], name: "index_teams_on_code", unique: true
     t.index ["league_id"], name: "index_teams_on_league_id"
     t.index ["name"], name: "index_teams_on_name", unique: true
@@ -282,6 +285,8 @@ ActiveRecord::Schema.define(version: 2021_06_09_072844) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "source_calendar_url", default: "", null: false
+    t.integer "lineup_first_goal", default: 72, null: false
+    t.integer "lineup_increment", default: 7, null: false
     t.index ["code"], name: "index_tournaments_on_code", unique: true
   end
 
@@ -295,6 +300,19 @@ ActiveRecord::Schema.define(version: 2021_06_09_072844) do
     t.integer "tournament_round_id"
     t.index ["league_id"], name: "index_tours_on_league_id"
     t.index ["tournament_round_id"], name: "index_tours_on_tournament_round_id"
+  end
+
+  create_table "transfers", force: :cascade do |t|
+    t.integer "player_id"
+    t.integer "team_id"
+    t.integer "league_id"
+    t.integer "price", default: 1, null: false
+    t.integer "status", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["league_id"], name: "index_transfers_on_league_id"
+    t.index ["player_id"], name: "index_transfers_on_player_id"
+    t.index ["team_id"], name: "index_transfers_on_team_id"
   end
 
   create_table "users", force: :cascade do |t|

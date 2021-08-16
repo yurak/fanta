@@ -1,19 +1,13 @@
 namespace :tournament_matches do
-  desc 'Create EPL TournamentMatches'
-  task generate_epl_matches: :environment do
-    tournament = Tournament.find_by(code: Scores::Injectors::Strategy::EPL)
-    TournamentMatches::FotmobGenerator.call(tournament: tournament)
+  desc 'Create TournamentMatches from Fotmob'
+  task :generate_fotmob_matches, %i[tournament_id] => :environment do |_t, args|
+    tournament = Tournament.find(args[:tournament_id])
+    TournamentMatches::FotmobGenerator.call(tournament: tournament) if tournament
   end
 
   desc 'Create Serie A TournamentMatches'
   task generate_seriea_matches: :environment do
     TournamentMatches::SerieaGenerator.call
-  end
-
-  desc 'Create Bundesliga TournamentMatches'
-  task generate_bundes_matches: :environment do
-    tournament = Tournament.find_by(code: Scores::Injectors::Strategy::BUNDES)
-    TournamentMatches::FotmobGenerator.call(tournament: tournament)
   end
 
   desc 'Create Euro2020 TournamentMatches'

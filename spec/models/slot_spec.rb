@@ -40,7 +40,7 @@ RSpec.describe Slot, type: :model do
       let(:slot) { create(:slot, position: 'M') }
 
       it 'returns array with possible positions' do
-        expect(slot.positions_with_malus).to eq(%w[M C T])
+        expect(slot.positions_with_malus).to eq(%w[M C Dc])
       end
     end
 
@@ -48,7 +48,7 @@ RSpec.describe Slot, type: :model do
       let(:slot) { create(:slot, position: 'E/W') }
 
       it 'returns array with possible positions' do
-        expect(slot.positions_with_malus).to eq(%w[E Dd Ds W T])
+        expect(slot.positions_with_malus).to eq(%w[E Dd Ds W T A])
       end
     end
   end

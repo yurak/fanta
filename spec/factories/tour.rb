@@ -21,8 +21,28 @@ FactoryBot.define do
       status { :postponed }
     end
 
-    trait :serie_a do
-      association :league, :serie_a
+    factory :serie_a_tour do
+      association :league, :serie_a_league
+    end
+
+    factory :epl_tour do
+      association :league, :epl_league
+    end
+
+    factory :bundes_tour do
+      association :league, :bundes_league
+    end
+
+    factory :laliga_tour do
+      association :league, :laliga_league
+    end
+
+    factory :ligue1_tour do
+      association :league, :ligue1_league
+    end
+
+    factory :euro_tour do
+      association :league, :euro_league
     end
   end
 end

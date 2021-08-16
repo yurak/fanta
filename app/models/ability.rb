@@ -15,6 +15,7 @@ class Ability
       can %i[edit update], TournamentRound
       can %i[inject_scores], Tour
       can %i[substitutions subs_update], Lineup
+      can %i[auction create], Transfer
     end
   end
 end

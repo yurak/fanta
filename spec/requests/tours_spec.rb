@@ -245,7 +245,7 @@ RSpec.describe 'Tours', type: :request do
 
       it 'calls Strategy service' do
         allow(Scores::Injectors::Strategy).to receive(:new).with(tour).and_return(strategy)
-        allow(strategy).to receive(:klass).and_return(klass)
+        allow(strategy).to receive(:call).and_return(klass)
         allow(klass).to receive(:call).and_return('data')
 
         get inject_scores_tour_path(tour)
@@ -269,7 +269,7 @@ RSpec.describe 'Tours', type: :request do
 
       it 'calls Strategy service' do
         allow(Scores::Injectors::Strategy).to receive(:new).with(tour).and_return(strategy)
-        allow(strategy).to receive(:klass).and_return(klass)
+        allow(strategy).to receive(:call).and_return(klass)
         allow(klass).to receive(:call).and_return('data')
 
         get inject_scores_tour_path(tour)

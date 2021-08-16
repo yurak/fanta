@@ -30,11 +30,25 @@
   .tournaments-fixture {
     margin: 12px 200px 48px;
 
+    .tournament-head {
+      margin: 48px 50px;
+    }
+
     .round-title {
       font-size: 18px;
       line-height: 32px;
       margin-top: 12px;
       text-align: center;
+    }
+  }
+}
+
+@media (orientation: portrait) {
+  .page-info.tournament-page {
+    padding: 200px 50px 50px;
+
+    .tournaments-fixture {
+      margin: 12px 50px 48px;
     }
   }
 }

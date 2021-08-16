@@ -1,0 +1,49 @@
+.page-info.transfers-page
+  .transfers-head
+    .tournament-logo= image_tag(league.tournament.logo_path)
+    .transfers-title
+      = t('transfers.title', league: league.name)
+  .actions-buttons
+    -  if current_user&.can_moderate?
+      = link_to t('transfers.auction'), league_auction_path(league)
+  .transfers-block
+    .transfer-headers
+      .transfer-header-item= t('teams.player')
+      .transfer-header-item.transfer-header-position= t('teams.positions')
+      .transfer-header-item= t('teams.team')
+      .transfer-header-item.right= t('teams.price')
+      .transfer-header-item.center= t('teams.club')
+      .transfer-header-item
+    - @transfers.each do |transfer|
+      = link_to player_path(transfer.player) do
+        .transfer-item
+          .team-player-param-item.transfer-player-data
+            .transfer-player-avatar
+              .player-show-face
+                %object{data: transfer.player.avatar_path, type: 'image/jpg'}
+                  = image_tag('avatar.png')
+              .player-show-kit
+                %object{data: transfer.player.kit_path, type: 'image/jpg'}
+                  = image_tag('kit_small_default2.png')
+            .transfer-player-name
+              .transfer-player-last-name
+                = transfer.player.name
+              .transfer-player-first-name
+                = transfer.player.first_name
+          .team-player-param-item.transfer-player-position
+            - transfer.player.positions.each do |position|
+              .slot-position{class: "slot-position-#{position.name}"}
+                = position.name
+          .team-player-param-item.transfer-team-image
+            .team-image.inline-block
+              %object{data: transfer.team.logo_path, type: 'image/jpg'}
+                = image_tag('default_logo.png')
+          .team-player-param-item.transfer-player-rating
+            = transfer.price
+          .team-player-param-item.transfer-player-club
+            %object{data: transfer.player.club.logo_path, type: 'image/jpg'}
+              = image_tag('default_logo.png')
+          .team-player-param-item.transfer-player-link
+            = image_tag('icons/link_arrow.png')
+    .pagination-row.pagination.justify-content-center
+      = paginate @transfers

@@ -1,10 +1,10 @@
 .match-player-item
   .match-player-avatar
     .player-show-face
-      %object{data: match_player.player.avatar_path, type: 'image/jpg'}
+      %object{data: match_player.player.avatar_path, type: Player::CONTENT_TYPE_PNG}
         = image_tag('avatar.png')
     .player-show-kit
-      %object{data: match_player.player.kit_path, type: 'image/jpg'}
+      %object{data: match_player.player.kit_path, type: Player::CONTENT_TYPE_PNG}
         = image_tag('kit_small_default2.png')
     .module-position.slot-position{class: "slot-position-#{match_player.real_position.tr('/', '')}"}
       = match_player.real_position

@@ -8,6 +8,7 @@ RSpec.describe Team, type: :model do
     it { is_expected.to have_many(:players).through(:player_teams) }
     it { is_expected.to have_many(:lineups).order('tour_id desc').dependent(:destroy).inverse_of(:team) }
     it { is_expected.to have_many(:results).dependent(:destroy) }
+    it { is_expected.to have_many(:transfers).dependent(:destroy) }
 
     it {
       expect(team).to have_many(:host_matches).class_name('Match').with_foreign_key('host_id')
@@ -177,6 +178,54 @@ RSpec.describe Team, type: :model do
         create(:lineup, :with_team_and_score_five, team: team, tour: create(:closed_tour, league: team.league))
 
         expect(team.best_lineup).to eq(lineup2)
+      end
+    end
+  end
+
+  describe '#vacancies' do
+    context 'without players' do
+      it 'returns max value' do
+        expect(team.vacancies).to eq(Team::MAX_PLAYERS)
+      end
+    end
+
+    context 'with players' do
+      let(:team) { create(:team, :with_15_players) }
+
+      it 'returns number of empty vacancies' do
+        expect(team.vacancies).to eq(10)
+      end
+    end
+
+    context 'with max number of players' do
+      let(:team) { create(:team, :with_players) }
+
+      it 'returns zero' do
+        expect(team.vacancies).to eq(0)
+      end
+    end
+  end
+
+  describe '#max_rate' do
+    context 'with full budget' do
+      it 'returns max_rate value' do
+        expect(team.max_rate).to eq(236)
+      end
+    end
+
+    context 'with few players' do
+      let(:team) { create(:team, :with_15_players, budget: 99) }
+
+      it 'returns max_rate value' do
+        expect(team.max_rate).to eq(90)
+      end
+    end
+
+    context 'with max number of players and positive budget' do
+      let(:team) { create(:team, :with_players, budget: 13) }
+
+      it 'returns zero' do
+        expect(team.max_rate).to eq(0)
       end
     end
   end

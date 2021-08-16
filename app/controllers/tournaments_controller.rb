@@ -18,6 +18,10 @@ class TournamentsController < ApplicationController
   end
 
   def fixtures
-    TournamentMatch.where(tournament_round_id: tournament.tournament_rounds).group_by(&:tournament_round)
+    TournamentMatch.where(tournament_round_id: tournament_rounds).group_by(&:tournament_round)
+  end
+
+  def tournament_rounds
+    tournament.tournament_rounds.by_season(Season.last)
   end
 end

@@ -1,8 +1,12 @@
 namespace :players do
   desc 'Update and create players from csv file'
   task :run_csv_parser, %i[file_name] => :environment do |_t, args|
-    file_name = args[:file_name]
-    Players::CsvParser.call(file_name)
+    Players::CsvParser.call(file_name: args[:file_name])
+  end
+
+  desc 'Update and create players from external csv file by url'
+  task :run_csv_parser_url, %i[file_url] => :environment do |_t, args|
+    Players::CsvParser.call(file_url: args[:file_url])
   end
 
   desc 'Inject TM data'

@@ -24,13 +24,13 @@
 @import "leagues";
 @import "lineups";
 @import "links";
-@import "list-template";
 @import "matches";
 @import "national_teams";
 @import "players";
 @import "results";
 @import "round_players";
 @import "teams";
+@import "transfers";
 @import "tournaments";
 @import "tournament_rounds";
 @import "tours";
@@ -59,6 +59,30 @@ body, html {
   position: relative;
   background: #FFFFFF;
   font-family: 'Mont Regular';
+}
+
+.actions-buttons {
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 40px;
+  padding-bottom: 32px;
+
+  a {
+    text-decoration: none;
+    min-width: 150px;
+    display: inline-block;
+    text-align: center;
+    padding: 8px;
+    line-height: 24px;
+    margin-right: 16px;
+    border: 1px solid #D8D6FF;
+    border-radius: 4px;
+    color: #261FFF;
+  }
+}
+
+.pagination-row {
+  margin-top: 25px;
 }
 
 /* ---------------- OLD UI ------------------------*/

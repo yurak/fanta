@@ -12,11 +12,12 @@ RSpec.describe Player, type: :model do
     it { is_expected.to have_many(:player_teams).dependent(:destroy) }
     it { is_expected.to have_many(:teams).through(:player_teams) }
     it { is_expected.to have_many(:round_players).dependent(:destroy) }
+    it { is_expected.to have_many(:transfers).dependent(:destroy) }
   end
 
   describe 'Validations' do
     it { is_expected.to validate_presence_of :name }
-    it { is_expected.to validate_uniqueness_of(:name).scoped_to(:first_name) }
+    it { is_expected.to validate_uniqueness_of(:name).scoped_to(%i[first_name tm_url]) }
   end
 
   describe '#avatar_path' do
@@ -525,6 +526,61 @@ RSpec.describe Player, type: :model do
         create(:round_player, player: player, tournament_round: tr, score: 7)
 
         expect(player.national_cards_count('yellow_card')).to eq(3)
+      end
+    end
+  end
+
+  describe '#age' do
+    context 'without birth_date' do
+      it 'returns nil' do
+        expect(player.age).to eq(nil)
+      end
+    end
+
+    context 'with birth_date' do
+      let(:player) { create(:player, birth_date: birth_date) }
+      let(:birth_date) { "Jan 18, #{Time.zone.today.strftime('%Y').to_i - age}" }
+      let(:age) { 21 }
+
+      it 'returns player age' do
+        expect(player.age).to eq(age)
+      end
+    end
+  end
+
+  describe '#team_by_league(league_id)' do
+    let(:league_id) { nil }
+
+    context 'without teams' do
+      it 'returns empty array' do
+        expect(player.team_by_league(league_id)).to eq(nil)
+      end
+    end
+
+    context 'with one team' do
+      let(:team) { create(:team) }
+      let(:league_id) { team.league.id }
+
+      before do
+        create(:player_team, player: player, team: team)
+      end
+
+      it 'returns team by league' do
+        expect(player.team_by_league(league_id)).to eq(team)
+      end
+    end
+
+    context 'with multiple teams' do
+      let(:team) { create(:team) }
+      let(:league_id) { team.league.id }
+
+      before do
+        create(:player_team, player: player, team: team)
+        create_list(:player_team, 3, player: player)
+      end
+
+      it 'returns team by league' do
+        expect(player.team_by_league(league_id)).to eq(team)
       end
     end
   end

@@ -1,6 +1,6 @@
 module TournamentRounds
   class SerieaEventsParser < ApplicationService
-    ROUND_URL = 'https://www.magicleghe.fco.live/it/serie-a/2020-2021/diretta-live/'.freeze
+    ROUND_URL = 'https://www.magicleghe.fco.live/it/serie-a/2021-2022/diretta-live/'.freeze
 
     attr_reader :tournament_round
 

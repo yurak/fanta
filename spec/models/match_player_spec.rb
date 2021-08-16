@@ -209,7 +209,7 @@ RSpec.describe MatchPlayer, type: :model do
       let(:match_player) { create(:dc_match_player) }
 
       it 'returns array with available positions' do
-        expect(match_player.available_positions).to eq(%w[Dc Dd Ds])
+        expect(match_player.available_positions).to eq(%w[Dc Dd Ds M])
       end
     end
   end

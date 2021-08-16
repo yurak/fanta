@@ -24,7 +24,7 @@ module RoundPlayers
       if tournament_round.national_matches.any?
         Player.by_national_tournament_round(tournament_round)
       else
-        Player.by_tournament(tournament_round.tournament.id)
+        Player.by_tournament(tournament_round.tournament)
       end
     end
   end

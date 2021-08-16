@@ -38,7 +38,7 @@ class ToursController < ApplicationController
   private
 
   def injector_klass
-    @injector_klass ||= Scores::Injectors::Strategy.new(tour).klass
+    @injector_klass ||= Scores::Injectors::Strategy.call(tour)
   end
 
   def tour

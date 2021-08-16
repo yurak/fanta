@@ -3,6 +3,7 @@ class League < ApplicationRecord
   belongs_to :season
 
   has_many :teams, dependent: :destroy
+  has_many :transfers, dependent: :destroy
   has_many :tours, dependent: :destroy
   has_many :results, dependent: :destroy
 

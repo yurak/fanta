@@ -11,8 +11,11 @@ class Team < ApplicationRecord
   has_many :guest_matches, foreign_key: 'guest_id', class_name: 'Match', dependent: :destroy, inverse_of: :guest
 
   has_many :results, dependent: :destroy
+  has_many :transfers, dependent: :destroy
 
   delegate :tournament, to: :league
+
+  MAX_PLAYERS = 25
 
   validates :name, presence: true, uniqueness: true, length: { in: 2..18 }
   validates :code, presence: true, uniqueness: true, length: { in: 2..3 }
@@ -50,6 +53,16 @@ class Team < ApplicationRecord
 
   def best_lineup
     lineups.by_league(league.id).max_by(&:total_score)
+  end
+
+  def vacancies
+    MAX_PLAYERS - players.count
+  end
+
+  def max_rate
+    return 0 if vacancies <= 0
+
+    budget - vacancies + 1
   end
 
   private

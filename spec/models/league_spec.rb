@@ -5,6 +5,7 @@ RSpec.describe League, type: :model do
     it { is_expected.to belong_to(:tournament) }
     it { is_expected.to belong_to(:season) }
     it { is_expected.to have_many(:teams).dependent(:destroy) }
+    it { is_expected.to have_many(:transfers).dependent(:destroy) }
     it { is_expected.to have_many(:tours).dependent(:destroy) }
     it { is_expected.to have_many(:results).dependent(:destroy) }
   end

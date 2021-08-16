@@ -26,8 +26,8 @@ RSpec.describe Results::Updater do
       let!(:guest_result) { create(:result, team: match1.guest, league: tour.league) }
       let!(:lineups) do
         [
-          create(:lineup, :with_team_and_score_seven, tour: tour, team: match1.host),
-          create(:lineup, :with_team_and_score_six, tour: tour, team: match1.guest)
+          create(:lineup, :with_team_and_score_eight, tour: tour, team: match1.host),
+          create(:lineup, :with_team_and_score_seven, tour: tour, team: match1.guest)
         ]
       end
 
@@ -60,11 +60,11 @@ RSpec.describe Results::Updater do
       end
 
       it 'updates host team result scored goals' do
-        expect(host_result.reload.scored_goals).to eq(3)
+        expect(host_result.reload.scored_goals).to eq(4)
       end
 
       it 'updates host team result missed goals' do
-        expect(host_result.reload.missed_goals).to eq(1)
+        expect(host_result.reload.missed_goals).to eq(2)
       end
 
       it 'does not update guest team result points' do
@@ -84,11 +84,11 @@ RSpec.describe Results::Updater do
       end
 
       it 'updates guest team result scored goals' do
-        expect(guest_result.reload.scored_goals).to eq(1)
+        expect(guest_result.reload.scored_goals).to eq(2)
       end
 
       it 'updates guest team result missed goals' do
-        expect(guest_result.reload.missed_goals).to eq(3)
+        expect(guest_result.reload.missed_goals).to eq(4)
       end
     end
 
@@ -98,8 +98,8 @@ RSpec.describe Results::Updater do
       let!(:guest_result) { create(:result, team: match1.guest, league: tour.league) }
       let!(:lineups) do
         [
-          create(:lineup, :with_team_and_score_six, tour: tour, team: match1.host),
-          create(:lineup, :with_team_and_score_seven, tour: tour, team: match1.guest)
+          create(:lineup, :with_team_and_score_seven, tour: tour, team: match1.host),
+          create(:lineup, :with_team_and_score_eight, tour: tour, team: match1.guest)
         ]
       end
 
@@ -132,11 +132,11 @@ RSpec.describe Results::Updater do
       end
 
       it 'updates host team result scored goals' do
-        expect(host_result.reload.scored_goals).to eq(1)
+        expect(host_result.reload.scored_goals).to eq(2)
       end
 
       it 'updates host team result missed goals' do
-        expect(host_result.reload.missed_goals).to eq(3)
+        expect(host_result.reload.missed_goals).to eq(4)
       end
 
       it 'updates guest team result points' do
@@ -156,11 +156,11 @@ RSpec.describe Results::Updater do
       end
 
       it 'updates guest team result scored goals' do
-        expect(guest_result.reload.scored_goals).to eq(3)
+        expect(guest_result.reload.scored_goals).to eq(4)
       end
 
       it 'updates guest team result missed goals' do
-        expect(guest_result.reload.missed_goals).to eq(1)
+        expect(guest_result.reload.missed_goals).to eq(2)
       end
     end
 
@@ -204,11 +204,11 @@ RSpec.describe Results::Updater do
       end
 
       it 'updates host team result scored goals' do
-        expect(host_result.reload.scored_goals).to eq(3)
+        expect(host_result.reload.scored_goals).to eq(2)
       end
 
       it 'updates host team result missed goals' do
-        expect(host_result.reload.missed_goals).to eq(3)
+        expect(host_result.reload.missed_goals).to eq(2)
       end
 
       it 'updates guest team result points' do
@@ -228,11 +228,11 @@ RSpec.describe Results::Updater do
       end
 
       it 'updates guest team result scored goals' do
-        expect(guest_result.reload.scored_goals).to eq(3)
+        expect(guest_result.reload.scored_goals).to eq(2)
       end
 
       it 'updates guest team result missed goals' do
-        expect(guest_result.reload.missed_goals).to eq(3)
+        expect(guest_result.reload.missed_goals).to eq(2)
       end
     end
   end

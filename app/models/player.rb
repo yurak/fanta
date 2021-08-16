@@ -9,14 +9,17 @@ class Player < ApplicationRecord
   has_many :teams, through: :player_teams
 
   has_many :round_players, dependent: :destroy
+  has_many :transfers, dependent: :destroy
 
+  CONTENT_TYPE_PNG = 'image/png'.freeze
   BUCKET_URL = 'https://mantrafootball.s3-eu-west-1.amazonaws.com'.freeze
 
-  validates :name, uniqueness: { scope: :first_name }, presence: true
+  validates :name, uniqueness: { scope: %i[first_name tm_url] }, presence: true
 
   scope :by_club, ->(club_id) { where(club_id: club_id) }
+  scope :search_by_name, ->(search_str) { where('lower(name) LIKE :search OR lower(first_name) LIKE :search', search: "%#{search_str}%") }
   scope :by_position, ->(position) { joins(:positions).where(positions: { name: position }) }
-  scope :by_tournament, ->(tournament_id) { joins(:club).where(clubs: { tournament: tournament_id, status: 'active' }) }
+  scope :by_tournament, ->(tournament) { where(club: tournament.clubs.active) }
   scope :by_national_tournament, ->(tment_id) { joins(:national_team).where(national_teams: { tournament: tment_id, status: 'active' }) }
   scope :by_national_teams, ->(nt_id) { where(national_team_id: nt_id) }
   scope :by_national_tournament_round, ->(tr) { by_national_teams(tr.national_matches.pluck(:host_team_id, :guest_team_id).reduce([], :+)) }
@@ -157,6 +160,16 @@ class Player < ApplicationRecord
     return 0 unless national_matches_with_scores.any?
 
     national_matches_with_scores.where(card => true).count
+  end
+
+  def age
+    return if birth_date.empty?
+
+    (Time.zone.today.strftime('%Y%m%d').to_i - birth_date.to_date.strftime('%Y%m%d').to_i) / 10_000
+  end
+
+  def team_by_league(league_id)
+    teams.find_by(league_id: league_id)
   end
 
   private

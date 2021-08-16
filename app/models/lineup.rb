@@ -17,13 +17,11 @@ class Lineup < ApplicationRecord
   scope :by_league, ->(league_id) { where(tour_id: League.find(league_id).tours.ids) }
   scope :by_team, ->(team_id) { where(team_id: team_id) }
 
-  FIRST_GOAL = 66
-  INCREMENT = 6
   MIN_AVG_DEF_SCORE = 6
   MAX_AVG_DEF_SCORE = 7
   DEF_BONUS_STEP = 0.25
   MAX_PLAYED_PLAYERS = 11
-  MAX_PLAYERS = 18
+  MAX_PLAYERS = 19
   MAX_POSTPONED_PLAYERS = 25
 
   def total_score
@@ -38,9 +36,9 @@ class Lineup < ApplicationRecord
   end
 
   def goals
-    return 0 if total_score < FIRST_GOAL
+    return 0 if total_score < first_goal
 
-    ((total_score - FIRST_GOAL) / INCREMENT + 1).floor
+    ((total_score - first_goal) / goal_increment + 1).floor
   end
 
   def match
@@ -85,6 +83,14 @@ class Lineup < ApplicationRecord
   end
 
   private
+
+  def first_goal
+    team.tournament.lineup_first_goal
+  end
+
+  def goal_increment
+    team.tournament.lineup_increment
+  end
 
   def min_avg_def_score
     league.min_avg_def_score || MIN_AVG_DEF_SCORE
