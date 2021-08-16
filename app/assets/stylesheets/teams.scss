@@ -58,7 +58,7 @@
       border-radius: 4px;
       text-align: center;
       padding: 0 24px 40px;
-      max-height: 540px;
+      max-height: 580px;
 
       .team-logo {
         position:relative;
@@ -212,6 +212,19 @@
 
         .team-additional-text, .team-manager-data {
           line-height: 40px;
+        }
+      }
+
+      .team-budget {
+        margin-bottom: 20px;
+
+        .team-form-value {
+          text-align: right;
+
+          .team-budget-value {
+            width: 40px;
+            text-align: center;
+          }
         }
       }
     }
@@ -503,6 +516,16 @@
 
         .team-players-header-position {
           padding-left: 16px;
+        }
+      }
+
+      .team-player-transfer-status {
+        text-align: center;
+        margin: auto;
+
+        img {
+          width: 48px;
+          height: 48px;
         }
       }
     }

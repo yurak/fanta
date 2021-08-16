@@ -130,8 +130,34 @@ RSpec.describe PlayersHelper, type: :helper do
     it 'is a pending example for tournament_round_players'
   end
 
-  describe '#player_by_mp(match_player)' do
-    it 'is a pending example for player_by_mp'
+  describe '#player_by_mp(match_player, team_module)' do
+    let(:match_player) { create(:match_player, :with_real_position) }
+    let(:team_module) { TeamModule.first }
+    let(:match_player_double) { double }
+
+    context 'when player position does not include module position' do
+      before do
+        allow(match_player_double).to receive(:object).and_return(match_player)
+        allow(match_player_double).to receive(:index).and_return(2)
+      end
+
+      it 'returns nil' do
+        expect(helper.player_by_mp(match_player_double, team_module)).to eq(nil)
+      end
+    end
+
+    context 'when player position includes module position' do
+      let(:match_player_double2) { double }
+
+      before do
+        allow(match_player_double).to receive(:object).and_return(match_player)
+        allow(match_player_double).to receive(:index).and_return(9)
+      end
+
+      it 'returns player' do
+        expect(helper.player_by_mp(match_player_double, team_module)).to eq(match_player.player)
+      end
+    end
   end
 
   describe '#module_link(lineup, team_module)' do
@@ -156,11 +182,11 @@ RSpec.describe PlayersHelper, type: :helper do
     end
 
     context 'with teams and transfers' do
-      it 'returns auction step' do
+      it 'returns active team id' do
         create_list(:transfer, 2, league: league)
-        create_list(:team, 6, league: league)
+        teams = create_list(:team, 6, league: league)
 
-        expect(helper.auction_step(league)).to eq(2)
+        expect(helper.auction_step(league)).to eq(teams[2].id)
       end
     end
   end

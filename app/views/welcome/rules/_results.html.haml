@@ -83,17 +83,3 @@
       Переможець матчу отримує 3 очка в турнірній таблиці ліги.
       У випадку нічиєї - обидві команди отримують по 1 очку.
       Команда, що програла отримує 0 очок.
-
-    %h4 Власні правила ліг
-
-    %p
-      %p
-        .leagues-rules-list
-          .leagues-rules-headers
-            .leagues-list-header Назва ліги
-            .leagues-list-header Діапазон бонусу захисту
-          - active_leagues.each do |league|
-            .leagues-rules-item
-              .leagues-rules-cell.leagues-rules-name= league.name
-              .leagues-rules-cell
-                = "#{league.min_avg_def_score} - #{league.max_avg_def_score}"

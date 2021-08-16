@@ -31,7 +31,7 @@ module PlayersHelper
     Player.by_national_tournament_round(tournament_round).by_position(real_position&.split('/')).uniq.sort_by(&:national_team_id)
   end
 
-  def player_by_mp(match_player)
+  def player_by_mp(match_player, team_module)
     return unless match_player.object.round_player_id
 
     slot = team_module.slots[match_player.index]
@@ -49,12 +49,12 @@ module PlayersHelper
   end
 
   def auction_step(league)
+    teams = league.teams
+    return 0 if teams.count.zero?
+
     transfers = league.transfers.count
-    return 0 if transfers.zero?
+    return teams[0].id if transfers.zero?
 
-    teams = league.teams.count
-    return 0 if teams.zero?
-
-    transfers % teams
+    teams[transfers % teams.count].id
   end
 end

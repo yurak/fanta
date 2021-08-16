@@ -48,6 +48,11 @@
             = team.user.name
           .team-manager-avatar
             = image_tag(team.user.avatar_path)
+    .team-additional.team-budget
+      .team-additional-text= t('teams.budget')
+      .team-form-value
+        .team-budget-value
+          = team.budget
     - if team.results.last
       .team-additional
         .team-additional-text= t('teams.form')
@@ -155,7 +160,7 @@
         .team-transfers-headers
           .team-transfers-header-item= t('teams.player')
           .team-transfers-header-item.team-players-header-position= t('teams.positions')
-          .team-transfers-header-item.right= t('teams.status')
+          .team-transfers-header-item.center= t('teams.status')
           .team-transfers-header-item.right= t('teams.price')
           .team-transfers-header-item.center= t('teams.club')
           .team-transfers-header-item
@@ -179,8 +184,8 @@
                 - transfer.player.positions.each do |position|
                   .slot-position{class: "slot-position-#{position.name}"}
                     = position.name
-              .team-player-param-item.team-player-appearances
-                -# = transfer.status
+              .team-player-param-item.team-player-transfer-status
+                = image_tag("icons/#{transfer.status}.png")
               .team-player-param-item.team-player-rating
                 = transfer.price
               .team-player-param-item.team-player-club
