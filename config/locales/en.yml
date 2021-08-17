@@ -185,6 +185,7 @@ en:
     tournament: "⚽️ Tournament"
   players:
     players: "Players"
+    search_player: "Search player"
     filter_tournament: "Filter by tournament"
     filter_position: "Filter by position"
     filter_club: "Filter by club"
@@ -271,6 +272,7 @@ en:
     manager: "MANAGER"
     form: "FORM"
     budget: "BUDGET"
+    league: "LEAGUE"
     players: "🏃 Players"
     games: "🗓️ Games"
     transfers: "💰️ Transfers"

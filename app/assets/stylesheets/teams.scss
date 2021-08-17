@@ -58,7 +58,7 @@
       border-radius: 4px;
       text-align: center;
       padding: 0 24px 40px;
-      max-height: 580px;
+      max-height: 630px;
 
       .team-logo {
         position:relative;
@@ -187,6 +187,7 @@
           font-size: 18px;
           line-height: 24px;
           text-align: right;
+          margin-right: 10px;
 
           .team-form-item {
             display: inline-block;
@@ -218,7 +219,7 @@
       .team-budget {
         margin-bottom: 20px;
 
-        .team-form-value {
+        .team-budget-item {
           text-align: right;
 
           .team-budget-value {
@@ -226,6 +227,28 @@
             text-align: center;
             position: relative;
             float: right;
+          }
+        }
+      }
+
+      .team-league {
+        margin-bottom: 20px;
+
+        a {
+          text-decoration: none;
+          color: #181715;
+        }
+
+        .team-league-value {
+          display: grid;
+          grid-template-columns: auto 32px;
+        }
+
+        .team-league-logo {
+          img {
+            width: 24px;
+            height: 24px;
+            margin-right: 8px;
           }
         }
       }

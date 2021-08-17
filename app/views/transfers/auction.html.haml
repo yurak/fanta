@@ -175,29 +175,33 @@
 
 
 :javascript
-  var time = 15;
+  window.onload = function() {
+    if ($('#timer').length) {
+      var time = 15;
 
-  var x = setInterval(function() {
-    if (time > 9) {
-      document.getElementById('timer').innerHTML = '00:' + time;
-    } else {
-      document.getElementById('timer').innerHTML = '00:0' + time;
-    }
+      var x = setInterval(function() {
+        if (time > 9) {
+          $('#timer').innerHTML = '00:' + time;
+        } else {
+          $('#timer').innerHTML = '00:0' + time;
+        }
 
-    if (time < 0) {
-      clearInterval(x);
-      document.getElementById('timer').innerHTML = "#{t('auction.time_out')}";
-      $(".player-timer-desc").css('color', 'white');
-    } else {
-      time -= 1;
-    }
-  }, 1000);
+        if (time < 0) {
+          clearInterval(x);
+          $('#timer').innerHTML = "#{t('auction.time_out')}";
+          $(".player-timer-desc").css('color', 'white');
+        } else {
+          time -= 1;
+        }
+      }, 1000);
 
-  var reset = document.getElementById('timer');
+      var reset = $('#timer');
 
-  $( ".price-input" ).change(function() {
-    time = 15;
-  });
-  reset.onclick = function() {
-    time = 15;
+      $( ".price-input" ).change(function() {
+        time = 15;
+      });
+      reset.onclick = function() {
+        time = 15;
+      };
+    };
   };
