@@ -50,13 +50,29 @@
             = image_tag(team.user.avatar_path)
     .team-additional.team-budget
       .team-additional-text= t('teams.budget')
-      .team-form-value
+      .team-budget-item
         .team-budget-value
           = team.budget
+    .team-additional.team-league
+      .team-additional-text= t('teams.league')
+      - if team.league&.active_tour
+        = link_to tour_path(team.league&.active_tour) do
+          .team-league-value
+            .team-league-name.team-manager-name
+              = team.league.name
+            .team-league-logo
+              = image_tag(team.league.tournament.logo_path)
+      - else
+        = link_to league_results_path(team.league&.active_tour) do
+          .team-league-value
+            .team-league-name.team-manager-name
+              = team.league.name
+            .team-league-logo
+              = image_tag(team.league.tournament.logo_path)
     - if team.results.last
       .team-additional
         .team-additional-text= t('teams.form')
-        .team-form-value
+        .team-form-value.team-form
           - team.results.last.form.each do |form|
             .team-form-item{ class: "team-form-#{form[0]}" }
               = form[0]

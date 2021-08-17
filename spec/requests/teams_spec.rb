@@ -1,6 +1,6 @@
 RSpec.describe 'Teams', type: :request do
   describe 'GET #show' do
-    let(:team) { create(:team) }
+    let(:team) { create(:team, :with_league_matches) }
 
     before do
       get team_path(team)

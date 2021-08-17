@@ -648,6 +648,8 @@
   }
 
   .auction-purchases {
+    max-height: 100%;
+    overflow-y: scroll;
     border-left: 1px solid #E5E5E5;
     background-color: #FFFFFF;
     padding: 24px 16px;
@@ -678,6 +680,7 @@
     }
 
     .auction-purchases-item {
+      position: relative;
       display: grid;
       grid-template-columns: 56px auto;
       column-gap: 8px;
