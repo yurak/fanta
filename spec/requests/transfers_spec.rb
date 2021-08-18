@@ -352,4 +352,115 @@ RSpec.describe 'Transfers', type: :request do
       end
     end
   end
+
+  describe 'DELETE #destroy' do
+    let(:team) { create(:team, budget: 250) }
+    let(:player_team) { create(:player_team, team: team) }
+    let(:transfer) { create(:transfer, team: team, player: player_team.player, price: 10) }
+
+    context 'when user is logged out' do
+      before do
+        delete league_transfer_path(transfer.league, transfer)
+      end
+
+      it { expect(response).to redirect_to('/users/sign_in') }
+      it { expect(response).to have_http_status(:found) }
+
+      it 'does not update team budget' do
+        expect(team.reload.budget).to eq(250)
+      end
+
+      it 'does not remove player from team' do
+        expect(player_team.reload).to eq(player_team)
+      end
+
+      it 'does not destroy transfer' do
+        expect(transfer.reload).to eq(transfer)
+      end
+    end
+
+    context 'when user is logged in' do
+      login_user
+      before do
+        delete league_transfer_path(transfer.league, transfer)
+      end
+
+      it { expect(response).to redirect_to(league_auction_path(transfer.league)) }
+      it { expect(response).to have_http_status(:found) }
+
+      it 'does not update team budget' do
+        expect(team.reload.budget).to eq(250)
+      end
+
+      it 'does not remove player from team' do
+        expect(player_team.reload).to eq(player_team)
+      end
+
+      it 'does not destroy transfer' do
+        expect(transfer.reload).to eq(transfer)
+      end
+    end
+
+    context 'when moderator is logged in' do
+      login_moderator
+      before do
+        delete league_transfer_path(transfer.league, transfer)
+      end
+
+      it { expect(response).to redirect_to(league_auction_path(transfer.league)) }
+      it { expect(response).to have_http_status(:found) }
+
+      it 'updates team budget' do
+        expect(team.reload.budget).to eq(260)
+      end
+
+      it 'removes player from team' do
+        expect(PlayerTeam.find_by(id: player_team.id)).to be_nil
+      end
+
+      it 'destroys transfer' do
+        expect(Transfer.find_by(id: transfer.id)).to be_nil
+      end
+    end
+
+    context 'when admin is logged in' do
+      login_admin
+      before do
+        delete league_transfer_path(transfer.league, transfer)
+      end
+
+      it { expect(response).to redirect_to(league_auction_path(transfer.league)) }
+      it { expect(response).to have_http_status(:found) }
+
+      it 'updates team budget' do
+        expect(team.reload.budget).to eq(260)
+      end
+
+      it 'removes player from team' do
+        expect(PlayerTeam.find_by(id: player_team.id)).to be_nil
+      end
+
+      it 'destroys transfer' do
+        expect(Transfer.find_by(id: transfer.id)).to be_nil
+      end
+    end
+
+    context 'when admin is logged in but transfer is not exist' do
+      login_admin
+      before do
+        delete league_transfer_path(transfer.league, 'invalid_id')
+      end
+
+      it { expect(response).to redirect_to(league_auction_path(transfer.league)) }
+      it { expect(response).to have_http_status(:found) }
+
+      it 'does not update team budget' do
+        expect(team.reload.budget).to eq(250)
+      end
+
+      it 'does not remove player from team' do
+        expect(player_team.reload).to eq(player_team)
+      end
+    end
+  end
 end
