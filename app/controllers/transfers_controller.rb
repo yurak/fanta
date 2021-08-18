@@ -27,6 +27,20 @@ class TransfersController < ApplicationController
     redirect_to league_auction_path(league, player: player)
   end
 
+  def destroy
+    transfer = Transfer.find_by(id: params[:id])
+
+    if (can? :destroy, Transfer) && transfer
+      ActiveRecord::Base.transaction do
+        transfer.team.update(budget: transfer.team.budget + transfer.price)
+        PlayerTeam.find_by(team: transfer.team, player: transfer.player).destroy
+        transfer.destroy
+      end
+    end
+
+    redirect_to league_auction_path(league)
+  end
+
   private
 
   def league

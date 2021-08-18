@@ -17,7 +17,7 @@ Rails.application.routes.draw do
 
   resources :leagues, only: [:index] do
     resources :results, only: [:index]
-    resources :transfers, only: [:index, :create]
+    resources :transfers, only: [:index, :create, :destroy]
     get :auction, to: 'transfers#auction'
   end
 

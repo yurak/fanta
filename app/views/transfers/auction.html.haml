@@ -149,30 +149,33 @@
           = "/ #{league.teams.count * 25}"
     - league.transfers.reverse.take(8).each do |transfer|
       .auction-purchases-item
-        .purchases-player-avatar
-          .player-show-face
-            %object{data: transfer.player.avatar_path, type: 'image/jpg'}
-              = image_tag('avatar.png')
-          .player-show-kit
-            %object{data: transfer.player.kit_path, type: 'image/jpg'}
-              = image_tag('kit_small_default2.png')
-          .player-show-team
-            %object{data: transfer.team.logo_path, type: 'image/jpg'}
-              = image_tag('default_logo.png')
-        .purchases-player-data
-          .purchases-player-data-top
-            .purchases-player-name
-              = transfer.player.name
-            .purchases-player-time
-              = transfer.created_at.strftime("%H:%M")
-          .purchases-player-data-bottom
-            .purchases-player-position
-              - transfer.player.positions.each do |position|
-                .slot-position{class: "slot-position-#{position.name}"}
-                  = position.name
-            .purchases-player-price
-              = "#{transfer.price} $"
-
+        .auction-purchases-item-hidden
+          = link_to league_transfer_path(transfer.league, transfer), method: :delete do
+            .auction-transfer-cancel Cancel
+        .auction-purchases-item-visible
+          .purchases-player-avatar
+            .player-show-face
+              %object{data: transfer.player.avatar_path, type: 'image/jpg'}
+                = image_tag('avatar.png')
+            .player-show-kit
+              %object{data: transfer.player.kit_path, type: 'image/jpg'}
+                = image_tag('kit_small_default2.png')
+            .player-show-team
+              %object{data: transfer.team.logo_path, type: 'image/jpg'}
+                = image_tag('default_logo.png')
+          .purchases-player-data
+            .purchases-player-data-top
+              .purchases-player-name
+                = transfer.player.name
+              .purchases-player-time
+                = transfer.created_at.strftime("%H:%M")
+            .purchases-player-data-bottom
+              .purchases-player-position
+                - transfer.player.positions.each do |position|
+                  .slot-position{class: "slot-position-#{position.name}"}
+                    = position.name
+              .purchases-player-price
+                = "#{transfer.price} $"
 
 :javascript
   window.onload = function() {
