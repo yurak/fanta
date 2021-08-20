@@ -67,6 +67,24 @@ RSpec.describe League, type: :model do
     end
   end
 
+  describe '#auction_step' do
+    let(:league) { create(:league) }
+
+    context 'without transfers' do
+      it 'returns zero' do
+        expect(league.auction_step).to eq(0)
+      end
+    end
+
+    context 'without teams and with transfers' do
+      it 'returns zero' do
+        create_list(:transfer, 3, league: league)
+
+        expect(league.auction_step).to eq(0)
+      end
+    end
+  end
+
   describe '#leader' do
     context 'when results does not exist' do
       it 'returns nil' do

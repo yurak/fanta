@@ -26,6 +26,16 @@ class League < ApplicationRecord
     result&.team
   end
 
+  def auction_step
+    league_teams = teams.reject(&:full?)
+    return 0 if league_teams.count.zero?
+
+    bought = transfers.count
+    return league_teams[0].id if bought.zero?
+
+    league_teams[bought % league_teams.count].id
+  end
+
   def self.counters(leagues)
     counters = {}
     counters['All leagues'] = leagues&.count
