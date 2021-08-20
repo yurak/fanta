@@ -47,14 +47,4 @@ module PlayersHelper
       new_team_lineup_path(lineup.team, team_module_id: team_module.id, tour_id: lineup.tour.id)
     end
   end
-
-  def auction_step(league)
-    teams = league.teams
-    return 0 if teams.count.zero?
-
-    transfers = league.transfers.count
-    return teams[0].id if transfers.zero?
-
-    teams[transfers % teams.count].id
-  end
 end

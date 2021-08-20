@@ -163,31 +163,4 @@ RSpec.describe PlayersHelper, type: :helper do
   describe '#module_link(lineup, team_module)' do
     it 'is a pending example for module_link'
   end
-
-  describe '#auction_step(league)' do
-    let(:league) { create(:league) }
-
-    context 'without transfers' do
-      it 'returns zero' do
-        expect(helper.auction_step(league)).to eq(0)
-      end
-    end
-
-    context 'without teams and with transfers' do
-      it 'returns zero' do
-        create_list(:transfer, 3, league: league)
-
-        expect(helper.auction_step(league)).to eq(0)
-      end
-    end
-
-    context 'with teams and transfers' do
-      it 'returns active team id' do
-        create_list(:transfer, 2, league: league)
-        teams = create_list(:team, 6, league: league)
-
-        expect(helper.auction_step(league)).to eq(teams[2].id)
-      end
-    end
-  end
 end

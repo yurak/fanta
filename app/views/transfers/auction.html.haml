@@ -27,7 +27,7 @@
         .auction-teams-title-count= league.teams.count
       .auction-teams-section
         - league.teams.each do |league_team|
-          .auction-team-item{ class: "active-team-#{league_team.id == auction_step(league)}"}
+          .auction-team-item{ class: "active-team-#{league_team.id == league.auction_step}"}
             .auction-team-logo
               = image_tag(league_team.logo_path)
             .auction-team-name
@@ -37,13 +37,14 @@
                 .auction-team-data-icon 🎭️
                 .auction-team-data-title= t('auction.players')
                 .auction-team-data-value
-                  - if league_team.players.count < 25
+                  - if league_team.full?
+                    = '25'
+                  - else
                     .auction-team-data-value-item
                       = league_team.players.count
                     .auction-team-data-value-item.auction-team-data-value-right
                       = '/ 25'
-                  - else
-                    = '25'
+
                   .auction-team-data-gk
                     - league_team.players.by_position('Por').each do |_|
                       .auction-team-gk-item
