@@ -20,9 +20,11 @@
   .modal-player-name
     = player.name
   .modal-player-match
-    .player-match-team
-      %object{data: player.club.logo_path, type: 'image/jpg'}
-        = image_tag('default_logo.png')
+    .player-match-team.player-match-place
+      - if player.club.match_host?(tour.tournament_round)
+        = t('lineups.home')
+      - else
+        = t('lineups.away')
     .player-match-team
       vs
     .player-match-team

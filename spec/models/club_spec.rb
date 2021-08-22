@@ -59,4 +59,25 @@ RSpec.describe Club, type: :model do
       end
     end
   end
+
+  describe '#match_host?' do
+    let(:tournament_round) { create(:tournament_round) }
+    let(:club2) { create(:club, name: 'AC Milan') }
+
+    context 'when club is host of match' do
+      it 'returns true' do
+        create(:tournament_match, tournament_round: tournament_round, host_club: club, guest_club: club2)
+
+        expect(club.match_host?(tournament_round)).to eq(true)
+      end
+    end
+
+    context 'when club is guest of match' do
+      it 'returns false' do
+        create(:tournament_match, tournament_round: tournament_round, host_club: club2, guest_club: club)
+
+        expect(club.match_host?(tournament_round)).to eq(false)
+      end
+    end
+  end
 end

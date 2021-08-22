@@ -34,4 +34,12 @@ class Club < ApplicationRecord
 
     opponent
   end
+
+  def match_host?(tournament_round)
+    match = host_tournament_matches.find_by(tournament_round: tournament_round)
+
+    return true if match
+
+    false
+  end
 end
