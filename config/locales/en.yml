@@ -154,6 +154,8 @@ en:
     total: "Lineup should contain %{number} unique players"
     duplicates: "Lineup contains duplicate players"
     limit: "You can't select more than %{limit} players from one country"
+    home: "H"
+    away: "A"
   links:
     title: "Useful Links"
     subtitle: ""

@@ -66,13 +66,25 @@
                             = 'Por'
                           - else
                             = 'Res'
-                    .team-player-name
-                      .team-player-last-name{ id: "name-#{mp.index}" }
-                        = player_by_mp(mp, team_module)&.name || t('lineups.not_selected')
-                      .team-player-first-name{ id: "first-name-#{mp.index}" }
-                        = player_by_mp(mp, team_module)&.first_name || ''
-                      - if tour.national?
-                        .team-player-country{ id: "country-#{mp.index}", style: "display: none;" }= player_by_mp(mp, team_module)&.national_team&.name
+                    .team-player-name-pos
+                      .team-player-name
+                        .team-player-last-name{ id: "name-#{mp.index}" }
+                          = player_by_mp(mp, team_module)&.name || t('lineups.not_selected')
+                        .team-player-first-name{ id: "first-name-#{mp.index}" }
+                          = player_by_mp(mp, team_module)&.first_name || ''
+                        - if tour.national?
+                          .team-player-country{ id: "country-#{mp.index}", style: "display: none;" }= player_by_mp(mp, team_module)&.national_team&.name
+                      .team-player-positions{ id: "positions-#{mp.index}" }<
+                        - if player_by_mp(mp, team_module)
+                          - if player_by_mp(mp, team_module).position_names[0]
+                            .team-player-position.slot-position{class: "slot-position-#{player_by_mp(mp, team_module).position_names[0]}"}<
+                              = player_by_mp(mp, team_module).position_names[0]
+                          - if player_by_mp(mp, team_module).position_names[1]
+                            .team-player-position.slot-position{class: "slot-position-#{player_by_mp(mp, team_module).position_names[1]}"}<
+                              = player_by_mp(mp, team_module).position_names[1]
+                          - if player_by_mp(mp, team_module).position_names[2]
+                            .team-player-position.slot-position{class: "slot-position-#{player_by_mp(mp, team_module).position_names[2]}"}<
+                              = player_by_mp(mp, team_module).position_names[2]
                     .team-player-dropdown
                       = image_tag('icons/dropdown.svg')
                   .modal-players-list{id: "modal-players-list#{mp.index}"}
