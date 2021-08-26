@@ -26,10 +26,10 @@ class Club < ApplicationRecord
     match = host_tournament_matches.find_by(tournament_round: tournament_round)
 
     if match
-      opponent = match.guest_club
+      opponent = match&.guest_club
     else
       match = guest_tournament_matches.find_by(tournament_round: tournament_round)
-      opponent = match.host_club
+      opponent = match&.host_club
     end
 
     opponent
