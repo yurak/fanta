@@ -29,7 +29,7 @@ Rails.application.routes.draw do
 
   resources :players, only: [:index, :show]
 
-  resources :teams, only: [:show] do
+  resources :teams, only: [:show, :edit, :update] do
     resources :lineups, only: [:show, :new, :create, :edit, :update] do
       collection { get :clone }
       get :substitutions, on: :member

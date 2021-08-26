@@ -15,6 +15,7 @@ RSpec.describe League, type: :model do
     it { is_expected.to validate_uniqueness_of :name }
 
     it { is_expected.to define_enum_for(:status).with_values(%i[initial active archived]) }
+    it { is_expected.to define_enum_for(:transfer_status).with_values(%i[closed open]) }
   end
 
   describe '#active_tour' do

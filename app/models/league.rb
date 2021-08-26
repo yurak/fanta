@@ -8,6 +8,7 @@ class League < ApplicationRecord
   has_many :results, dependent: :destroy
 
   enum status: { initial: 0, active: 1, archived: 2 }
+  enum transfer_status: { closed: 0, open: 1 }
 
   validates :name, presence: true, uniqueness: true
 

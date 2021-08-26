@@ -84,6 +84,10 @@ class Player < ApplicationRecord
     positions.first&.id
   end
 
+  def transfer_by(team)
+    transfers.incoming.where(team: team).last
+  end
+
   # Current season statistic
 
   def chart_info
