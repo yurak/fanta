@@ -22,8 +22,11 @@
         - else
           .team-player-score-unspecified= t('matches.unspecified')
       .match-player-add-data
-        .match-player-bonuses
-          = render 'mp_bonuses', match_player: match_player
+        - if match_player.club_played_match?
+          .match-player-bonuses
+            = render 'mp_bonuses', match_player: match_player
+        - else
+          = render 'real-match', match_player: match_player, t_round: match_player.tour.tournament_round
         .match-player-positions
           - match_player.player.positions.each do |position|
             .match-player-position.slot-position{class: "slot-position-#{position.name}"}

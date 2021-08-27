@@ -46,12 +46,16 @@ class PlayersController < ApplicationController
     stats_params[:position] ? tournament_players.by_position(stats_params[:position]) : tournament_players
   end
 
-  def players_with_filter
+  def players_by_club
     stats_params[:club] ? players_by_position.by_club(stats_params[:club]) : players_by_position
   end
 
+  def players_with_filter
+    stats_params[:search] ? tournament_players.search_by_name(stats_params[:search]) : players_by_club
+  end
+
   def stats_params
-    params.permit(:club, :order, :position, :tournament)
+    params.permit(:club, :order, :position, :tournament, :search)
   end
 
   def tournament

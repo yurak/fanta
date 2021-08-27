@@ -17,7 +17,7 @@ Rails.application.routes.draw do
 
   resources :leagues, only: [:index] do
     resources :results, only: [:index]
-    resources :transfers, only: [:index, :create]
+    resources :transfers, only: [:index, :create, :destroy]
     get :auction, to: 'transfers#auction'
   end
 
@@ -29,7 +29,7 @@ Rails.application.routes.draw do
 
   resources :players, only: [:index, :show]
 
-  resources :teams, only: [:show] do
+  resources :teams, only: [:show, :edit, :update] do
     resources :lineups, only: [:show, :new, :create, :edit, :update] do
       collection { get :clone }
       get :substitutions, on: :member

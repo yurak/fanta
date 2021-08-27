@@ -58,7 +58,7 @@
       border-radius: 4px;
       text-align: center;
       padding: 0 24px 40px;
-      max-height: 580px;
+      max-height: 630px;
 
       .team-logo {
         position:relative;
@@ -187,6 +187,7 @@
           font-size: 18px;
           line-height: 24px;
           text-align: right;
+          margin-right: 10px;
 
           .team-form-item {
             display: inline-block;
@@ -218,7 +219,7 @@
       .team-budget {
         margin-bottom: 20px;
 
-        .team-form-value {
+        .team-budget-item {
           text-align: right;
 
           .team-budget-value {
@@ -228,6 +229,45 @@
             float: right;
           }
         }
+      }
+
+      .team-league {
+        margin-bottom: 20px;
+
+        a {
+          text-decoration: none;
+          color: #181715;
+        }
+
+        .team-league-value {
+          display: grid;
+          grid-template-columns: auto 32px;
+        }
+
+        .team-league-logo {
+          img {
+            width: 24px;
+            height: 24px;
+            margin-right: 8px;
+          }
+        }
+      }
+    }
+
+    .team-transfer-market {
+      border: 2px solid #E5E6E4;
+      border-radius: 4px;
+      text-align: center;
+      font-size: 18px;
+      margin: 24px auto 48px;
+
+      a {
+        text-decoration: none;
+        color: #261FFF;
+      }
+
+      .team-transfer-market-btn {
+        margin: 8px;
       }
     }
 
@@ -250,120 +290,6 @@
       .team-lists-tab-active {
         color: #261FFF;
         border-bottom: 3px solid #261FFF;
-      }
-
-      .team-players-headers {
-        padding: 32px 0 12px;
-        display: grid;
-        grid-template-columns: 5fr 3fr 2fr 2fr 2fr 1fr;
-        font-weight: 500;
-        font-size: 10px;
-        line-height: 14px;
-        color: #847577;
-
-        .team-players-header-position {
-          padding-left: 16px;
-        }
-      }
-
-      .team-player-item {
-        display: grid;
-        grid-template-columns: 5fr 3fr 2fr 2fr 2fr 1fr;
-        border: 1px solid #E5E6E4;
-        box-sizing: border-box;
-        border-radius: 4px;
-        margin-bottom: 4px;
-        height: 72px;
-
-        .team-player-data {
-          background: #FFEBC2;
-          display: grid;
-          grid-template-columns: 72px auto;
-
-          .team-player-avatar {
-            width: 100%;
-            padding: 5px 3px 0;
-
-            .player-show-face, .player-show-kit {
-              position: absolute;
-
-              img, object {
-                width: 66px;
-                height: 66px;
-              }
-            }
-          }
-
-          .team-player-name {
-            padding: 13px 0;
-            text-align: left;
-            font-size: 12px;
-            line-height: 16px;
-            color: #181715;
-
-            .team-player-last-name {
-              font-weight: 500;
-              font-size: 18px;
-              line-height: 24px;
-              height: 24px;
-              display: inline-block;
-              width: 124px;
-              white-space: nowrap;
-              overflow: hidden !important;
-              text-overflow: ellipsis;
-            }
-          }
-        }
-
-        .team-player-position {
-          padding: 22px 0 0 16px;
-
-          .slot-position {
-            display: inline-block;
-            line-height: 24px;
-            font-size: 12px;
-            height: 24px;
-            width: 30px;
-            border-radius: 4px;
-          }
-        }
-
-        .team-player-appearances{
-          font-size: 24px;
-          line-height: 70px;
-          text-align: right;
-          color: #847577;
-        }
-
-        .team-player-rating{
-          font-size: 24px;
-          line-height: 70px;
-          text-align: right;
-          color: #181715;
-        }
-
-        .team-player-club {
-          text-align: center;
-
-          img, object {
-            width: 32px;
-            height: 32px;
-          }
-
-          object {
-            position: relative;
-            top: 19px;
-          }
-        }
-
-        .team-player-link {
-          margin-top: 21px;
-
-          img {
-            width: 14px;
-            height: 8px;
-          }
-        }
       }
 
       .team-games-headers {
@@ -534,6 +460,120 @@
   }
 }
 
+.team-players-headers {
+  padding: 32px 0 12px;
+  display: grid;
+  grid-template-columns: 5fr 3fr 2fr 2fr 2fr 1fr;
+  font-weight: 500;
+  font-size: 10px;
+  line-height: 14px;
+  color: #847577;
+
+  .team-players-header-position {
+    padding-left: 16px;
+  }
+}
+
+.team-player-item {
+  display: grid;
+  grid-template-columns: 5fr 3fr 2fr 2fr 2fr 1fr;
+  border: 1px solid #E5E6E4;
+  box-sizing: border-box;
+  border-radius: 4px;
+  margin-bottom: 4px;
+  height: 72px;
+
+  .team-player-data {
+    background: #FFEBC2;
+    display: grid;
+    grid-template-columns: 72px auto;
+
+    .team-player-avatar {
+      width: 100%;
+      padding: 5px 3px 0;
+
+      .player-show-face, .player-show-kit {
+        position: absolute;
+
+        img, object {
+          width: 66px;
+          height: 66px;
+        }
+      }
+    }
+
+    .team-player-name {
+      padding: 13px 0;
+      text-align: left;
+      font-size: 12px;
+      line-height: 16px;
+      color: #181715;
+
+      .team-player-last-name {
+        font-weight: 500;
+        font-size: 18px;
+        line-height: 24px;
+        height: 24px;
+        display: inline-block;
+        width: 124px;
+        white-space: nowrap;
+        overflow: hidden !important;
+        text-overflow: ellipsis;
+      }
+    }
+  }
+
+  .team-player-position {
+    padding: 22px 0 0 16px;
+
+    .slot-position {
+      display: inline-block;
+      line-height: 24px;
+      font-size: 12px;
+      height: 24px;
+      width: 30px;
+      border-radius: 4px;
+    }
+  }
+
+  .team-player-appearances{
+    font-size: 24px;
+    line-height: 70px;
+    text-align: right;
+    color: #847577;
+  }
+
+  .team-player-rating{
+    font-size: 24px;
+    line-height: 70px;
+    text-align: right;
+    color: #181715;
+  }
+
+  .team-player-club {
+    text-align: center;
+
+    img, object {
+      width: 32px;
+      height: 32px;
+    }
+
+    object {
+      position: relative;
+      top: 19px;
+    }
+  }
+
+  .team-player-link {
+    margin-top: 21px;
+
+    img {
+      width: 14px;
+      height: 8px;
+    }
+  }
+}
+
 @media (orientation: portrait) {
   .page-info.team-show {
     padding: 200px 0 20px;
@@ -664,5 +704,92 @@
         padding: 0 12px 40px;
       }
     }
+  }
+}
+
+.page-info.team-transfers-page {
+  padding: 120px 0 100px;
+
+  .team-header {
+    background-color: #FFEBC2;
+    padding: 24px 150px;
+  }
+
+  .team-title-head {
+    display: grid;
+    grid-template-columns: 48px auto;
+    column-gap: 16px;
+
+    .team-logo {
+      img {
+        width: 48px;
+        height: 48px;
+      }
+    }
+
+    .team-title {
+      line-height: 48px;
+      font-size: 24px;
+    }
+  }
+
+  .team-data {
+    text-align: center;
+  }
+
+  .team-data-row {
+    display: grid;
+    grid-template-columns: 250px 250px 250px;
+    column-gap: 50px;
+    line-height: 40px;
+    padding-top: 24px;
+    width: 850px;
+    margin: auto;
+
+    .team-data-item {
+      background-color: #FFFFFF;
+      border: 1px solid #E5E6E4;
+      border-radius: 4px;
+      display: grid;
+      grid-template-columns: 5fr 2fr;
+
+      .team-data-value {
+        background-color: #F4F4F4;
+        font-weight: bolder;
+        font-size: 18px;
+      }
+
+      .players-sale {
+        display: inline-block;
+      }
+    }
+  }
+
+  .team-players-list {
+    padding: 0 150px;
+  }
+
+  .team-players-headers {
+    grid-template-columns: 6fr 3fr 2fr 2fr 3fr 1fr 4fr;
+  }
+
+  .team-player-item {
+    grid-template-columns: 6fr 3fr 2fr 2fr 3fr 1fr 4fr;
+
+    .team-player-transfer-status {
+      text-align: center;
+      padding: 16px 0;
+    }
+  }
+
+  input {
+    border: 1px solid #D8D6FF;
+    border-radius: 4px;
+    color: #261FFF;
+    width: 100%;
+    height: 48px;
+    font-size: 18px;
+    background: #FFFFFF;
+    margin-top: 12px;
   }
 }

@@ -2,8 +2,13 @@
   .players-title-bar
     .players-title
       = t('players.players')
-    -# TODO: add Search functionality
     .players-search
+      .search-icon
+        = image_tag('icons/search.svg')
+      = form_tag(players_path, method: :get, autocomplete: 'off') do
+        .search-input
+          = search_field_tag :search, params[:search], placeholder: t('players.search_player')
+          = hidden_field_tag :tournament, params[:tournament] || 1
   .players-filter-bar
     .players-filters
       .players-filter
@@ -52,7 +57,11 @@
       .players-list-header
     - @players.each_with_index do |player, i|
       .players-list-item
-        .players-list-number= i + 1
+        .players-list-number
+          - if params[:page]
+            = i + 1 + 30 * (params[:page].to_i - 1)
+          - else
+            = i + 1
         = link_to player_path(player) do
           .players-list-row
             .players-list-cell.players-list-player

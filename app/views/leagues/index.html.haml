@@ -9,14 +9,7 @@
       #finished.leagues-lists-tab-item= t('league.finished')
     .leagues-lists-content
       .leagues-status-list.registration-list
-        -#TODO: Add registration list tab
-        -#.leagues-counters
-        -#  - counters['registration'].each do |counter|
-        -#    .leagues-counter{ class: "leagues-counter-#{counter[0].downcase.tr(' ', '-')}" }
-        -#      .leagues-counter-name
-        -#        = counter[0]
-        -#      .leagues-counter-value
-        -#        = counter[1]
+        -#TODO: Add registration list tab - leagues_type: 'registration'
       .leagues-status-list.ongoing-list.active-list
         = render 'leagues_list', leagues_type: 'ongoing'
       .leagues-status-list.finished-list

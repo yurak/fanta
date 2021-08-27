@@ -1,0 +1,12 @@
+.match-player-real-match
+  .player-match-team.player-match-place
+    - if match_player.club.match_host?(t_round)
+      = t('lineups.home')
+    - else
+      = t('lineups.away')
+  .player-match-team.player-match-vs
+    vs
+  .player-match-team
+    - if match_player.club.opponent_by_round(t_round)
+      %object{data: match_player.club.opponent_by_round(t_round).logo_path, type: 'image/jpg'}
+        = image_tag('default_logo.png')

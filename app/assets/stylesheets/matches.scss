@@ -386,6 +386,33 @@
         grid-template-columns: auto 110px;
         line-height: 24px;
 
+        .match-player-real-match {
+          display: grid;
+          grid-template-columns: 20px 24px 20px;
+          font-size: 12px;
+          color: #847577;
+          text-align: center;
+          margin: 6px 0 4px;
+          line-height: 16px;
+
+          .player-match-team {
+            img, object {
+              width: 20px;
+              height: 20px;
+            }
+          }
+
+          .player-match-vs {
+            padding-top: 3px;
+          }
+
+          .player-match-place {
+            font-size: 16px;
+            font-weight: bolder;
+            padding-top: 3px;
+          }
+        }
+
         .match-player-bonuses {
           font-size: 16px;
           color: #181715;

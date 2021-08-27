@@ -18,7 +18,7 @@ class Team < ApplicationRecord
   MAX_PLAYERS = 25
 
   validates :name, presence: true, uniqueness: true, length: { in: 2..18 }
-  validates :code, presence: true, uniqueness: true, length: { in: 2..3 }
+  validates :code, presence: true, uniqueness: true, length: { in: 2..4 }
   validates :human_name, length: { in: 2..18 }
 
   def league_matches

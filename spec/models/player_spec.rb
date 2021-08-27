@@ -248,6 +248,50 @@ RSpec.describe Player, type: :model do
     end
   end
 
+  describe '#transfer_by(team)' do
+    context 'when player has not team and transfer' do
+      let(:team) { nil }
+
+      it 'returns nil' do
+        expect(player.transfer_by(team)).to eq(nil)
+      end
+    end
+
+    context 'when player has not transfer' do
+      let(:player) { create(:player, :with_team) }
+
+      it 'returns nil' do
+        expect(player.transfer_by(player.teams.last)).to eq(nil)
+      end
+    end
+
+    context 'when player has one transfer' do
+      let(:player) { create(:player, :with_team) }
+      let!(:transfer) { create(:transfer, player: player, team: player.teams.last) }
+
+      it 'returns transfer' do
+        expect(player.transfer_by(player.teams.last)).to eq(transfer)
+      end
+    end
+
+    context 'when player has multiple teams and transfers' do
+      before do
+        create_list(:player_team, 3, player: player)
+        create(:transfer, player: player, team: player.teams.first)
+      end
+
+      it 'returns transfer by last team' do
+        transfer = create(:transfer, player: player, team: player.teams.last)
+
+        expect(player.transfer_by(player.teams.last)).to eq(transfer)
+      end
+
+      it 'returns transfer by first team' do
+        expect(player.transfer_by(player.teams.first)).to eq(player.transfers.first)
+      end
+    end
+  end
+
   describe '#chart_info' do
     context 'when player has no matches with score' do
       it 'returns arrays without data' do
