@@ -1,8 +1,8 @@
 module Tournaments
   class Creator < ApplicationService
     def call
-      tournaments.each do |code, name|
-        Tournament.create(name: name, code: code)
+      tournaments.each do |code, params|
+        Tournament.create(name: params['name'], code: code, eurocup: params['eurocup'])
       end
     end
 

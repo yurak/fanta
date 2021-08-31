@@ -1,6 +1,6 @@
 .page-info.table-results
   .table-title= t('table.title')
-  - if league.tournament.national?
+  - if league.tournament.national? || league.tournament.eurocup?
     .table-block
       .table-headers.table-grid.national-grid
         .table-header-item

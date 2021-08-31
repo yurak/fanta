@@ -23,6 +23,7 @@ class Player < ApplicationRecord
   scope :by_national_tournament, ->(tment_id) { joins(:national_team).where(national_teams: { tournament: tment_id, status: 'active' }) }
   scope :by_national_teams, ->(nt_id) { where(national_team_id: nt_id) }
   scope :by_national_tournament_round, ->(tr) { by_national_teams(tr.national_matches.pluck(:host_team_id, :guest_team_id).reduce([], :+)) }
+  scope :by_tournament_round, ->(tr) { by_club(tr.tournament_matches.pluck(:host_club_id, :guest_club_id).reduce([], :+)) }
   scope :stats_query, -> { includes(:club, :positions).order(:name) }
   scope :with_team, -> { includes(:teams).where.not(teams: { id: nil }) }
 
@@ -179,6 +180,8 @@ class Player < ApplicationRecord
   private
 
   def season_club_tournament_rounds
+    return [] unless club.tournament
+
     TournamentRound.by_tournament(club.tournament.id).by_season(Season.last.id)
   end
 end

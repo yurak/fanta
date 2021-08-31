@@ -102,3 +102,36 @@ ligue_1:
   SEN: Saint-Etienne
   STR: Strasbourg
   TRO: Troyes
+champions_league:
+  BRU: Brugge
+  PSG: PSG
+  MCI: Manchester City
+  RBL: RB Leipzig
+  MIL: Milan
+  ATM: Atletico Madrid
+  FCP: Porto
+  LIV: Liverpool
+  AJA: Ajax
+  BES: Besiktas
+  BVB: Borussia Dortmund
+  SCP: Sporting
+  SHE: Sheriff
+  INT: Inter
+  RMA: Real Madrid
+  SHD: Shakhtar Donetsk
+  BAR: Barcelona
+  MUN: Bayern Munchen
+  BNF: Benfica
+  DYN: Dynamo Kyiv
+  ATA: Atalanta
+  MUT: Manchester United
+  VIL: Villarreal
+  YOU: Young Boys
+  LIL: Lille
+  RBS: Salzburg
+  SEV: Sevilla
+  WLF: Wolfsburg
+  CHE: Chelsea
+  JUV: Juventus
+  MFF: Malmo
+  ZEN: Zenit

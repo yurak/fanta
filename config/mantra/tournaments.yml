@@ -1,14 +1,24 @@
 serie_a:
-  'Serie A'
+  name: 'Serie A'
+  eurocup: false
 epl:
-  'Premier League'
+  name: 'Premier League'
+  eurocup: false
 bundesliga:
-  'Bundesliga'
+  name: 'Bundesliga'
+  eurocup: false
 ligue_1:
-  'Ligue 1'
+  name: 'Ligue 1'
+  eurocup: false
 laliga:
-  'LaLiga'
+  name: 'LaLiga'
+  eurocup: false
 upl:
-  'Ukrainian Premier League'
+  name: 'Ukrainian Premier League'
+  eurocup: false
 euro:
-  'Euro 2020'
+  name: 'Euro 2020'
+  eurocup: false
+champions_league:
+  name: 'Champions League'
+  eurocup: true

@@ -48,7 +48,7 @@
         -  if current_user&.can_moderate? && tour.deadlined?
           = link_to t('tours.edit_scores'), edit_tournament_round_path(tour.tournament_round)
           = link_to t('tours.inject_scores'), inject_scores_tour_path(tour), data: { confirm: t('tours.are_you_sure') }
-        - if current_user&.team_by_league(tour.league) && tour.national? && tour.set_lineup?
+        - if current_user&.team_by_league(tour.league) && tour.fanta? && tour.set_lineup?
           - if tour.lineup_exist?(current_user.team_by_league(tour.league))
             = link_to t('tours.my_lineup'), team_lineup_path(current_user.team_by_league(tour.league), current_user.lineup_by_tour(tour))
             = link_to t('tours.edit_lineup'), edit_team_lineup_path(current_user.team_by_league(tour.league), current_user.lineup_by_tour(tour), team_module_id: current_user.lineup_by_tour(tour).team_module.id)
@@ -59,7 +59,9 @@
           = render 'round_matches'
         - if tour.national?
           = render 'tournaments/national_matches', matches: tour.tournament_round.national_matches
-      - if tour.national? && tour.lineups.any?
+        - if tour.eurocup?
+          = render 'tournaments/tournament_matches', matches: tour.tournament_round.tournament_matches
+      - if tour.fanta? && tour.lineups.any?
         .round-lineups
           .rounds-league-name.round-lineups-title= t('tours.lineups')
           .round-lineups-block
@@ -75,7 +77,7 @@
                       .lineup-result
                         = lineup.total_score
   .stats-section
-    - if tour.deadlined? || tour.national?
+    - if tour.deadlined? || tour.fanta?
       .round-table
         .round-table-title.best-players-title
           = link_to tournament_round_round_players_path(tour.tournament_round) do
@@ -99,7 +101,7 @@
                     %object{data: r_player.player.avatar_path, type: 'image/jpg'}
                       = image_tag('avatar.png')
                   .round-player-show-kit
-                    %object{data: tour.mantra? ? r_player.player.kit_path : r_player.player.national_kit_path, type: 'image/jpg'}
+                    %object{data: tour.national? ? r_player.player.national_kit_path : r_player.player.kit_path, type: 'image/jpg'}
                       = image_tag('kit_small_default2.png')
                 .round-player-stats-name= r_player.player.name
               .round-player-stats-param= r_player.score
@@ -210,7 +212,7 @@
             .round-table-title-text= "💰 Transfers"
             .round-table-title-icon
               = image_tag('icons/arrow_blue.png')
-    - if tour.national?
+    - if tour.eurocup?
       .round-table
         .round-table-title.best-players-title
           = link_to league_results_path(tour.league) do
@@ -251,7 +253,7 @@
                 .results-team-name
                   = result.team.human_name[0..15]
               .round-table-item-cell= result.points
-      - if tour.number < tour.league.tours.size && tour.next_round
+      - if tour.national? && tour.number < tour.league.tours.size && tour.next_round
         .round-table
           .round-table-title
             = link_to tournament_path(tour.league.tournament) do

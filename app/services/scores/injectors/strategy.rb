@@ -7,6 +7,7 @@ module Scores
 
       BUNDES = 'bundesliga'
       CALCIO = 'serie_a'
+      ECL = 'champions_league'
       EPL = 'epl'
       EURO = 'euro'
       LALIGA = 'laliga'
@@ -19,7 +20,7 @@ module Scores
       def call
         case tournament_code
         when CALCIO then Calcio
-        when BUNDES, EPL, EURO, LALIGA, LIGUE1 then Fotmob
+        when BUNDES, ECL, EPL, EURO, LALIGA, LIGUE1 then Fotmob
         else Fake
         end
       end

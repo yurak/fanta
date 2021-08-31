@@ -8,6 +8,11 @@ RSpec.describe Tournament, type: :model do
     it { is_expected.to have_many(:links).dependent(:destroy) }
     it { is_expected.to have_many(:national_teams).dependent(:destroy) }
     it { is_expected.to have_many(:tournament_rounds).dependent(:destroy) }
+
+    it {
+      expect(tournament).to have_many(:ec_clubs).class_name('Club').with_foreign_key('ec_tournament_id')
+                                                .dependent(:destroy).inverse_of(:ec_tournament)
+    }
   end
 
   describe 'Validations' do

@@ -27,8 +27,13 @@ module PlayersHelper
   end
 
   def tournament_round_players(tournament_round, real_position)
-    # TODO: should be updated for national/eurocups tournaments
-    Player.by_national_tournament_round(tournament_round).by_position(real_position&.split('/')).uniq.sort_by(&:national_team_id)
+    if tournament_round.national_matches.any?
+      Player.by_national_tournament_round(tournament_round).by_position(real_position&.split('/')).uniq.sort_by(&:national_team_id)
+    elsif tournament_round.tournament.eurocup?
+      Player.by_tournament_round(tournament_round).by_position(real_position&.split('/')).uniq.sort_by(&:club_id)
+    else
+      []
+    end
   end
 
   def player_by_mp(match_player, team_module)

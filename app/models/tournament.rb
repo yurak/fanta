@@ -5,6 +5,8 @@ class Tournament < ApplicationRecord
   has_many :links, dependent: :destroy
   has_many :national_teams, dependent: :destroy
   has_many :tournament_rounds, dependent: :destroy
+  has_many :ec_clubs, foreign_key: 'ec_tournament_id', class_name: 'Club',
+                      dependent: :destroy, inverse_of: :ec_tournament
 
   validates :name, presence: true
   validates :code, presence: true, uniqueness: true

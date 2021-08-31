@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_24_104946) do
+ActiveRecord::Schema.define(version: 2021_08_27_181956) do
 
   create_table "article_tags", force: :cascade do |t|
     t.string "name", default: "", null: false
@@ -42,7 +42,9 @@ ActiveRecord::Schema.define(version: 2021_08_24_104946) do
     t.integer "status", default: 0, null: false
     t.string "full_name", default: "", null: false
     t.string "color", default: "181715", null: false
+    t.integer "ec_tournament_id"
     t.index ["code"], name: "index_clubs_on_code", unique: true
+    t.index ["ec_tournament_id"], name: "index_clubs_on_ec_tournament_id"
     t.index ["name"], name: "index_clubs_on_name", unique: true
     t.index ["tournament_id"], name: "index_clubs_on_tournament_id"
   end
@@ -266,6 +268,9 @@ ActiveRecord::Schema.define(version: 2021_08_24_104946) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "source_match_id", default: "", null: false
+    t.string "time", default: "", null: false
+    t.string "date", default: "", null: false
+    t.string "round_name", default: "", null: false
     t.index ["tournament_round_id"], name: "index_tournament_matches_on_tournament_round_id"
   end
 
@@ -289,6 +294,7 @@ ActiveRecord::Schema.define(version: 2021_08_24_104946) do
     t.string "source_calendar_url", default: "", null: false
     t.integer "lineup_first_goal", default: 72, null: false
     t.integer "lineup_increment", default: 7, null: false
+    t.boolean "eurocup", default: false
     t.index ["code"], name: "index_tournaments_on_code", unique: true
   end
 

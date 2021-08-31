@@ -10,6 +10,7 @@ $(".modal-player-item").on('click', function(e){
     const firstNameContainer = $('#first-name-'+blockId);
     const roundPlayerContainer = $('#round-player-'+blockId);
     const countryContainer = $('#country-'+blockId);
+    const clubContainer = $('#club-'+blockId);
     const positionsContainer = $('#positions-'+blockId);
 
     $.ajax({
@@ -20,6 +21,7 @@ $(".modal-player-item").on('click', function(e){
             avatarContainer.attr("data", data.avatar_path);
             kitContainer.attr("data", data.kit_path);
             nameContainer.text(data.name);
+            clubContainer.text(data.club_code);
             countryContainer.text(data.national_team_name);
             roundPlayerContainer.attr("value", playerId);
 

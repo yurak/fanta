@@ -72,7 +72,7 @@ class Lineup < ApplicationRecord
   end
 
   def players_count
-    if tour.national?
+    if tour.fanta?
       MAX_PLAYED_PLAYERS
     else
       # TODO: match_players count related to tour calendar

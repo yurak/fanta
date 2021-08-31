@@ -1,5 +1,6 @@
 class Club < ApplicationRecord
-  belongs_to :tournament
+  belongs_to :tournament, optional: true
+  belongs_to :ec_tournament, optional: true, class_name: 'Tournament'
 
   has_many :players, dependent: :destroy
   has_many :host_tournament_matches, foreign_key: 'host_club_id', class_name: 'TournamentMatch',

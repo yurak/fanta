@@ -17,7 +17,7 @@
           .match-team-data-text= t('matches.def_bonus')
           .match-team-data-value= lineup.defence_bonus
       .match-main-squad
-        - if lineup.tour.national?
+        - if lineup.tour.fanta?
           - lineup.match_players.main.each do |match_player|
             .match-player-item
               .match-player-avatar
@@ -25,7 +25,7 @@
                   %object{data: match_player.player.avatar_path, type: 'image/jpg'}
                     = image_tag('avatar.png')
                 .player-show-kit
-                  %object{data: match_player.player.national_kit_path, type: 'image/jpg'}
+                  %object{data: lineup.tour.national? ? match_player.player.national_kit_path : match_player.player.kit_path, type: 'image/jpg'}
                     = image_tag('kit_small_default2.png')
                 .module-position.slot-position{class: "slot-position-#{match_player.real_position.tr('/', '')}"}
                   = match_player.real_position
