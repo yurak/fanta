@@ -10,8 +10,7 @@ class CreateEclTournament < ActiveRecord::Migration[5.2]
 
     tournament = Tournament.find_or_create_by(
       name: 'Champions League',
-      code: 'champions_league',
-      eurocup: true
+      code: 'champions_league'
     )
 
     TournamentRounds::Creator.call(tournament.id, Season.last.id, count: 12) if tournament
