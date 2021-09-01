@@ -11,6 +11,7 @@
       .transfer-header-item= t('teams.player')
       .transfer-header-item.transfer-header-position= t('teams.positions')
       .transfer-header-item= t('teams.team')
+      .transfer-header-item= t('teams.status')
       .transfer-header-item.right= t('teams.price')
       .transfer-header-item.center= t('teams.club')
       .transfer-header-item
@@ -38,6 +39,8 @@
             .team-image.inline-block
               %object{data: transfer.team.logo_path, type: 'image/jpg'}
                 = image_tag('default_logo.png')
+          .team-player-param-item.team-player-transfer-status
+            = image_tag("icons/#{transfer.status}.png")
           .team-player-param-item.transfer-player-rating
             = transfer.price
           .team-player-param-item.transfer-player-club
