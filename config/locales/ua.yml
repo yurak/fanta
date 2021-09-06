@@ -209,6 +209,8 @@ ua:
     cs: "СВ"
     own_goals: "Автоголи"
     og: "АГ"
+    played_minutes: "Зіграні хвилини"
+    pm: "ЗХ"
     base_score: "БАЗ ОЦІНКА"
     total_score: "ЗАГ ОЦІНКА"
   round_players:

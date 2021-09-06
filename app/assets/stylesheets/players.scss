@@ -457,13 +457,13 @@
 
       .performance-table-row {
         display: grid;
-        grid-template-columns: 6fr 6fr 6fr 6fr 6fr 5fr 5fr 6fr 5fr 6fr 6fr;
+        grid-template-columns: 6fr 6fr 6fr 6fr 6fr 5fr 5fr 6fr 5fr 6fr 6fr 6fr;
       }
     }
   }
 }
 
-@media (orientation: landscape) and (max-device-width: 1220px) {
+@media (orientation: landscape) and (max-device-width: 1320px) {
   .page-info.player-show-page {
     padding: 100px 100px 50px;
 

@@ -240,6 +240,8 @@ en:
     cs: "CS"
     own_goals: "Own goals"
     og: "OG"
+    played_minutes: "Played minutes"
+    pm: "PM"
     base_score: "BASE SCORE"
     total_score: "TOTAL SCORE"
   round_players:
