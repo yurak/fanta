@@ -42,6 +42,19 @@ RSpec.describe RoundPlayers::Creator do
       it { expect(RoundPlayer.all.count).to eq(5) }
     end
 
+    context 'with existed eurocup tournament_round, players and round_player' do
+      let(:tournament_round) { create(:tournament_round, tournament: Tournament.find_by(eurocup: true)) }
+      let(:club) { create(:club, ec_tournament: tournament_round.tournament) }
+
+      before do
+        players = create_list(:player, 7, club: club)
+        create(:round_player, player: players.last, tournament_round: tournament_round)
+        creator.call
+      end
+
+      it { expect(RoundPlayer.all.count).to eq(7) }
+    end
+
     context 'with existed tournament_round and without players' do
       before do
         creator.call

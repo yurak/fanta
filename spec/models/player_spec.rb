@@ -456,6 +456,30 @@ RSpec.describe Player, type: :model do
     end
   end
 
+  describe '#season_played_minutes' do
+    context 'when player has no matches in season' do
+      it 'returns zero' do
+        expect(player.season_played_minutes).to eq(0)
+      end
+    end
+
+    context 'when player has matches in one season' do
+      let(:player) { create(:player, :with_scores_n_bonuses) }
+
+      it 'returns season played_minutes sum' do
+        expect(player.season_played_minutes).to eq(160)
+      end
+    end
+
+    context 'when player has matches in multiple seasons' do
+      let(:player) { create(:player, :with_scores_n_bonuses, :with_second_season) }
+
+      it 'returns last season played_minutes sum' do
+        expect(player.season_played_minutes).to eq(280)
+      end
+    end
+  end
+
   describe '#national_scores_count' do
     context 'when player has no national matches with score' do
       it 'returns zero' do

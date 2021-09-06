@@ -23,6 +23,8 @@ module RoundPlayers
     def tournament_players
       if tournament_round.national_matches.any?
         Player.by_national_tournament_round(tournament_round)
+      elsif tournament_round.tournament.eurocup?
+        Player.by_ec_tournament(tournament_round.tournament)
       else
         Player.by_tournament(tournament_round.tournament)
       end

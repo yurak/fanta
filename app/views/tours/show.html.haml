@@ -181,7 +181,7 @@
             .round-tournament-match
               .round-tournament-match-cell.round-tournament-match-club
                 .round-tournament-club-name
-                  -  if current_user&.can_moderate? && tour.deadlined?
+                  - if current_user&.can_moderate? && tour.deadlined?
                     = link_to edit_tournament_round_path(tour.tournament_round, club_id: t_match.host_club.id) do
                       = t_match.host_club.code
                   - else
@@ -201,7 +201,7 @@
                   %object{data: t_match.guest_club.logo_path, type: 'image/jpg'}
                     = image_tag('default_logo.png')
                 .round-tournament-club-name
-                  -  if current_user&.can_moderate? && tour.deadlined?
+                  - if current_user&.can_moderate? && tour.deadlined?
                     = link_to edit_tournament_round_path(tour.tournament_round, club_id: t_match.guest_club.id) do
                       = t_match.guest_club.code
                   - else

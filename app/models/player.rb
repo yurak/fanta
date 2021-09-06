@@ -20,6 +20,7 @@ class Player < ApplicationRecord
   scope :search_by_name, ->(search_str) { where('lower(name) LIKE :search OR lower(first_name) LIKE :search', search: "%#{search_str}%") }
   scope :by_position, ->(position) { joins(:positions).where(positions: { name: position }) }
   scope :by_tournament, ->(tournament) { where(club: tournament.clubs.active) }
+  scope :by_ec_tournament, ->(tournament) { where(club: tournament.ec_clubs.active) }
   scope :by_national_tournament, ->(tment_id) { joins(:national_team).where(national_teams: { tournament: tment_id, status: 'active' }) }
   scope :by_national_teams, ->(nt_id) { where(national_team_id: nt_id) }
   scope :by_national_tournament_round, ->(tr) { by_national_teams(tr.national_matches.pluck(:host_team_id, :guest_team_id).reduce([], :+)) }
@@ -129,6 +130,12 @@ class Player < ApplicationRecord
     return 0 unless season_matches_with_scores.any?
 
     season_matches_with_scores.where(card => true).count
+  end
+
+  def season_played_minutes
+    return 0 unless season_matches_with_scores.any?
+
+    @season_played_minutes ||= season_matches_with_scores.map(&:played_minutes).sum
   end
 
   # NationalTeams Tournament statistic

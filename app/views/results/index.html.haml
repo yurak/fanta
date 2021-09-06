@@ -8,12 +8,6 @@
         .table-header-item
         .table-header-item= t('table.rounds')
         .table-header-item
-          = link_to league_results_path(league, order: 'gamedays') do
-            - if params[:order] == 'gamedays'
-              .table-header-dropdown
-                = image_tag('icons/dropdown.svg', class: 'filter-grey')
-            = t('table.gamedays')
-        .table-header-item
           = link_to league_results_path(league, order: 'points') do
             - if params[:order] == 'points'
               .table-header-dropdown
@@ -43,8 +37,6 @@
                 = result.team.human_name
           .table-team-param
             = result.draws
-          .table-team-param
-            = result.wins
           .table-team-param
             = result.points
           .table-team-param.table-team-points
