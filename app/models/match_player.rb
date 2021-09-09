@@ -54,7 +54,6 @@ class MatchPlayer < ApplicationRecord
   private
 
   def recount_cleansheet
-    # TODO: recount cleansheet value for players with E/W positions at E module position;
     if d_at_e_or_m? || m_not_at_m?
       CLEANSHEET_BONUS_DIFF
     else

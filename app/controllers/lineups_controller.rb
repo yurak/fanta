@@ -35,7 +35,7 @@ class LineupsController < ApplicationController
   end
 
   def clone
-    team_lineups_cloner.call if team_of_user?
+    team_lineups_cloner.call if team_of_user? && team.league.cloneable?
 
     redirect_to tour_path(tour)
   end
