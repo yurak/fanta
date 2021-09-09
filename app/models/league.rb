@@ -7,6 +7,7 @@ class League < ApplicationRecord
   has_many :tours, dependent: :destroy
   has_many :results, dependent: :destroy
 
+  enum cloning_status: { unclonable: 0, cloneable: 1 }
   enum status: { initial: 0, active: 1, archived: 2 }
   enum transfer_status: { closed: 0, open: 1 }
 

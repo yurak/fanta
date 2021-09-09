@@ -553,10 +553,24 @@ RSpec.describe 'Lineups', type: :request do
       it { expect(tour.lineups).to eq([lineup]) }
     end
 
-    context 'with self team without existed lineup for tour when user is logged in' do
+    context 'with self team in unclonable league without existed lineup for tour when user is logged in' do
       let(:logged_user) { create(:user, team_ids: lineup.team.id) }
 
       before do
+        sign_in logged_user
+        get clone_team_lineups_path(lineup.team, tour_id: tour.id)
+      end
+
+      it { expect(response).to redirect_to(tour_path(tour)) }
+      it { expect(response).to have_http_status(:found) }
+      it { expect(tour.lineups).to eq([]) }
+    end
+
+    context 'with self team in cloneable league without existed lineup for tour when user is logged in' do
+      let(:logged_user) { create(:user, team_ids: lineup.team.id) }
+
+      before do
+        lineup.team.league.cloneable!
         sign_in logged_user
         get clone_team_lineups_path(lineup.team, tour_id: tour.id)
       end

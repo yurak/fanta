@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_27_181956) do
+ActiveRecord::Schema.define(version: 2021_09_09_073906) do
 
   create_table "article_tags", force: :cascade do |t|
     t.string "name", default: "", null: false
@@ -70,6 +70,7 @@ ActiveRecord::Schema.define(version: 2021_08_27_181956) do
     t.decimal "min_avg_def_score", default: "6.0", null: false
     t.decimal "max_avg_def_score", default: "7.0", null: false
     t.integer "transfer_status", default: 0
+    t.integer "cloning_status", default: 0, null: false
     t.index ["name"], name: "index_leagues_on_name", unique: true
     t.index ["season_id"], name: "index_leagues_on_season_id"
   end
