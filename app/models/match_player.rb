@@ -51,10 +51,14 @@ class MatchPlayer < ApplicationRecord
     real_position ? real_position.split('/') : []
   end
 
+  def hide_cleansheet?
+    e_not_at_e_or_d? || m_not_at_m_or_dc?
+  end
+
   private
 
   def recount_cleansheet
-    if d_at_e_or_m? || m_not_at_m? || e_not_at_e_or_d?
+    if d_at_e_or_m? || m_not_at_m_or_dc? || e_not_at_e_or_d?
       CLEANSHEET_BONUS_DIFF
     else
       0
@@ -66,8 +70,9 @@ class MatchPlayer < ApplicationRecord
       (real_position_arr.include?(Position::ESTERNO) || real_position_arr.include?(Position::MEDIANO))
   end
 
-  def m_not_at_m?
-    position_names.include?(Position::MEDIANO) && real_position_arr.exclude?(Position::MEDIANO)
+  def m_not_at_m_or_dc?
+    position_names.include?(Position::MEDIANO) &&
+      (real_position_arr & [Position::MEDIANO, Position::DIFENSORE_CENTRALE]).empty?
   end
 
   def e_not_at_e_or_d?
