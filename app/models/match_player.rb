@@ -54,7 +54,7 @@ class MatchPlayer < ApplicationRecord
   private
 
   def recount_cleansheet
-    if d_at_e_or_m? || m_not_at_m?
+    if d_at_e_or_m? || m_not_at_m? || e_not_at_e_or_d?
       CLEANSHEET_BONUS_DIFF
     else
       0
@@ -68,5 +68,10 @@ class MatchPlayer < ApplicationRecord
 
   def m_not_at_m?
     position_names.include?(Position::MEDIANO) && real_position_arr.exclude?(Position::MEDIANO)
+  end
+
+  def e_not_at_e_or_d?
+    position_names.include?(Position::ESTERNO) &&
+      (real_position_arr & [Position::ESTERNO, Position::DIFENSORE_SINISTRO, Position::DIFENSORE_DESTRO]).empty?
   end
 end
