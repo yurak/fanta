@@ -34,6 +34,9 @@
             = t('lineups.minimum')
           .squad-maximum-rule
             = t('lineups.limit', limit: tour.max_country_players)
+      - if tour.eurocup?
+        .round-matches
+          = render 'tournaments/tournament_matches', matches: tour.tournament_round.tournament_matches
     .players-section
       .main-players-title
         = t('lineups.main_squad')
