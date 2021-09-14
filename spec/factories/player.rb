@@ -78,6 +78,14 @@ FactoryBot.define do
       end
     end
 
+    trait :with_pos_dc_ds_e do
+      after(:create) do |player|
+        create(:player_position, player: player, position: Position.find_by(name: 'Dc'))
+        create(:player_position, player: player, position: Position.find_by(name: 'Ds'))
+        create(:player_position, player: player, position: Position.find_by(name: 'E'))
+      end
+    end
+
     trait :with_pos_e do
       after(:create) do |player|
         create(:player_position, player: player, position: Position.find_by(name: 'E'))
