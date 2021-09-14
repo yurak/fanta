@@ -9,4 +9,16 @@ class TournamentRound < ApplicationRecord
 
   scope :by_tournament, ->(tournament_id) { where(tournament: tournament_id) }
   scope :by_season, ->(season_id) { where(season: season_id) }
+
+  def eurocup_players
+    return [] unless tournament.eurocup?
+
+    round_players.by_club(eurocup_club_ids)
+  end
+
+  private
+
+  def eurocup_club_ids
+    tournament_matches.pluck(:host_club_id, :guest_club_id).reduce([], :+)
+  end
 end

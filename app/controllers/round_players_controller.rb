@@ -18,7 +18,13 @@ class RoundPlayersController < ApplicationController
   end
 
   def tour_players
-    tournament.national? ? tournament_round.round_players : tournament_round.round_players.with_score
+    if tournament.national?
+      tournament_round.round_players
+    elsif tournament.eurocup?
+      tournament_round.eurocup_players
+    else
+      tournament_round.round_players.with_score
+    end
   end
 
   def order_players
