@@ -25,4 +25,8 @@ class Tournament < ApplicationRecord
   def national?
     national_teams.any?
   end
+
+  def fanta?
+    national? || eurocup?
+  end
 end

@@ -6,7 +6,7 @@ class ResultsController < ApplicationController
   helper_method :league
 
   def index
-    @results = league.tournament.national? ? ordered_national_results : league.results.ordered
+    @results = league.tournament.fanta? ? ordered_national_results : league.results.ordered
   end
 
   private
