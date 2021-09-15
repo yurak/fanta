@@ -52,6 +52,7 @@ group :development, :test do
 end
 
 group :development do
+  gem 'bullet'
   gem 'capistrano', '3.14.1', require: false
   gem 'capistrano-rails', '~> 1.4', require: false
   gem 'capistrano-passenger', '~> 0.2.0'
