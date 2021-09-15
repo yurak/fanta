@@ -46,7 +46,7 @@ module Tours
       return unless tour.locked_or_postponed? && status == CLOSED_STATUS
 
       tour.closed!
-      tour.national? ? Results::NationalUpdater.call(tour) : Results::Updater.call(tour)
+      tour.fanta? ? Results::NationalUpdater.call(tour) : Results::Updater.call(tour)
     end
 
     def clone_missed_lineups

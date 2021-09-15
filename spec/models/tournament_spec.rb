@@ -56,4 +56,38 @@ RSpec.describe Tournament, type: :model do
       end
     end
   end
+
+  describe '#fanta?' do
+    context 'without national teams and not eurocup' do
+      it 'returns false' do
+        expect(tournament.fanta?).to eq(false)
+      end
+    end
+
+    context 'with national teams and not eurocup' do
+      it 'returns true' do
+        create_list(:national_team, 2, tournament: tournament)
+
+        expect(tournament.fanta?).to eq(true)
+      end
+    end
+
+    context 'without national teams and when eurocup' do
+      let(:tournament) { described_class.find_by(code: Scores::Injectors::Strategy::ECL) }
+
+      it 'returns true' do
+        expect(tournament.fanta?).to eq(true)
+      end
+    end
+
+    context 'with national teams and when eurocup' do
+      let(:tournament) { described_class.find_by(code: Scores::Injectors::Strategy::ECL) }
+
+      it 'returns true' do
+        create_list(:national_team, 2, tournament: tournament)
+
+        expect(tournament.fanta?).to eq(true)
+      end
+    end
+  end
 end

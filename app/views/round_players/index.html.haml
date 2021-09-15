@@ -15,7 +15,7 @@
           .select-icon
             = image_tag('icons/triangle.svg')
       .players-filter
-        - unless tournament.national? || tournament.eurocup?
+        - unless tournament.fanta?
           .players-filter-name
             = t('players.filter_club')
           .players-filter-input
@@ -31,7 +31,7 @@
       .players-list-header
         = link_to t('players.player_header'), tournament_round_round_players_path(tournament_round, order: 'name', position: params[:position], club: params[:club])
       .players-list-header.players-pos-padding= t('players.positions_header')
-      - if tournament.national? || tournament.eurocup?
+      - if tournament.fanta?
         .players-list-header.right
           - if tournament_round.tours.last&.deadlined?
             = link_to t('players.appearances_header'), tournament_round_round_players_path(tournament_round, order: 'matches', position: params[:position], club: params[:club])
@@ -70,7 +70,7 @@
               - rp.positions.each do |position|
                 .match-player-position.slot-position{class: "slot-position-#{position.name}"}
                   = position.name
-            - if tournament.national? || tournament.eurocup?
+            - if tournament.fanta?
               .players-list-cell.players-list-appearances
                 = rp.match_players.count if tournament_round.tours.last.deadlined?
             - else
