@@ -13,6 +13,8 @@ class Club < ApplicationRecord
   validates :name, uniqueness: true
   validates :code, uniqueness: true
 
+  default_scope { includes(:tournament) }
+
   scope :order_by_players_count, -> { includes(:players).left_joins(:players).group(:id).order(Arel.sql('COUNT(players.id) DESC')) }
 
   def logo_path

@@ -9,6 +9,8 @@ class Article < ApplicationRecord
                                   message: 'is invalid',
                                   allow_blank: true }
 
+  default_scope { includes(:article_tag) }
+
   def image
     image_url.presence || 'article1.png'
   end

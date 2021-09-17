@@ -16,6 +16,8 @@ class Player < ApplicationRecord
 
   validates :name, uniqueness: { scope: %i[first_name tm_url] }, presence: true
 
+  default_scope { includes(%i[club player_positions player_teams positions teams]) }
+
   scope :by_club, ->(club_id) { where(club_id: club_id) }
   scope :search_by_name, ->(search_str) { where('lower(name) LIKE :search OR lower(first_name) LIKE :search', search: "%#{search_str}%") }
   scope :by_position, ->(position) { joins(:positions).where(positions: { name: position }) }

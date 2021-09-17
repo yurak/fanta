@@ -9,6 +9,7 @@
     = javascript_include_tag 'application'
     = favicon_link_tag asset_path('mantra.ico')
   %body
+    = query_diet_widget if Rails.env.development?
     = render 'layouts/header'
     .main-block
       = yield

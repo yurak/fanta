@@ -21,6 +21,8 @@ class Team < ApplicationRecord
   validates :code, presence: true, uniqueness: true, length: { in: 2..4 }
   validates :human_name, length: { in: 2..18 }
 
+  default_scope { includes(%i[league user]) }
+
   def league_matches
     @league_matches ||= matches.by_league(league.id)
   end
