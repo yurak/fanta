@@ -6,7 +6,7 @@ class ResultsController < ApplicationController
   helper_method :league
 
   def index
-    @results = league.tournament.fanta? ? ordered_national_results : league.results.ordered
+    @results = league.tournament.fanta? ? ordered_national_results : league_results.ordered
   end
 
   private
@@ -14,13 +14,13 @@ class ResultsController < ApplicationController
   def ordered_national_results
     case order_params[:order]
     when 'points'
-      league.results.order(points: :desc)
+      league_results.order(points: :desc)
     when 'gamedays'
-      league.results.order(wins: :desc)
+      league_results.order(wins: :desc)
     when 'lineup'
-      league.results.sort_by(&:league_best_lineup).reverse
+      league_results.sort_by(&:league_best_lineup).reverse
     else
-      league.results.order(total_score: :desc)
+      league_results.order(total_score: :desc)
     end
   end
 
@@ -30,5 +30,9 @@ class ResultsController < ApplicationController
 
   def league
     @league ||= League.find(params[:league_id])
+  end
+
+  def league_results
+    @league_results ||= league.results
   end
 end

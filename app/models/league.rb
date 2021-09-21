@@ -13,6 +13,8 @@ class League < ApplicationRecord
 
   validates :name, presence: true, uniqueness: true
 
+  default_scope { includes(:tournament) }
+
   scope :by_tournament, ->(tournament_id) { where(tournament: tournament_id) }
 
   def active_tour

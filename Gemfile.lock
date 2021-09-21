@@ -72,6 +72,9 @@ GEM
       popper_js (>= 1.14.3, < 2)
       sassc-rails (>= 2.0.0)
     builder (3.2.4)
+    bullet (6.1.5)
+      activesupport (>= 3.0.0)
+      uniform_notifier (~> 1.11)
     cancancan (3.2.1)
     capistrano (3.14.1)
       airbrussh (>= 1.0.0)
@@ -251,6 +254,7 @@ GEM
     public_suffix (4.0.6)
     puma (4.3.8)
       nio4r (~> 2.0)
+    query_diet (0.7.0)
     racc (1.5.2)
     rack (2.2.3)
     rack-pjax (1.1.0)
@@ -426,6 +430,7 @@ GEM
     unf_ext (0.0.7.7)
     unicode-display_width (2.0.0)
     unicode_utils (1.4.0)
+    uniform_notifier (1.14.2)
     virtus (1.0.5)
       axiom-types (~> 0.1)
       coercible (~> 1.0)
@@ -455,6 +460,7 @@ DEPENDENCIES
   active_model_serializers (~> 0.10.0)
   bootsnap (>= 1.1.0)
   bootstrap (= 4.3.1)
+  bullet
   cancancan
   capistrano (= 3.14.1)
   capistrano-passenger (~> 0.2.0)
@@ -480,6 +486,7 @@ DEPENDENCIES
   mini_racer
   pry-rails
   puma (= 4.3.8)
+  query_diet
   rails (= 5.2.5)
   rails-controller-testing
   rails-i18n (~> 5.1)

@@ -13,6 +13,8 @@ class Lineup < ApplicationRecord
   delegate :tournament_round, to: :tour
   delegate :league, to: :team
 
+  default_scope { includes(%i[team tour]) }
+
   scope :closed, ->(league_id) { where(tour_id: League.find(league_id).tours.closed.ids) }
   scope :by_league, ->(league_id) { where(tour_id: League.find(league_id).tours.ids) }
   scope :by_team, ->(team_id) { where(team_id: team_id) }

@@ -10,6 +10,8 @@ class MatchPlayer < ApplicationRecord
 
   enum subs_status: { initial: 0, get_out: 1, get_in: 2, not_in_squad: 3 }
 
+  default_scope { includes(round_player: { player: %i[club player_positions positions] }) }
+
   scope :main, -> { where.not(real_position: nil) }
   scope :with_score, -> { includes(:round_player).joins(:round_player).where('round_players.score > ?', 0) }
   scope :subs, -> { where(real_position: nil) }
