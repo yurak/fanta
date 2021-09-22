@@ -48,8 +48,8 @@
                     .next-round-text= t('header.next_round')
                     .next-round-number= "##{current_user.next_tour.number}"
                   .next-round-datetime
-                    .next-round-date= current_user.next_tour.deadline&.strftime("%^a, %^b %e")
-                    .next-round-time= current_user.next_tour.deadline&.strftime("%H:%M")
+                    .next-round-date= current_user.next_tour.tournament_round.deadline&.strftime("%^a, %^b %e")
+                    .next-round-time= current_user.next_tour.tournament_round.deadline&.strftime("%H:%M")
                   .next-round-opponent
                     - if current_user.active_team.next_opponent
                       .next-round-vs vs
