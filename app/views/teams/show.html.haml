@@ -23,8 +23,8 @@
                       .game-score-cell
                         .result-cell-value _._
                       .game-info-cell
-                        - if lineup.tour.deadline
-                          = lineup.tour.deadline&.strftime("%^a, %^b %e, %H:%M")
+                        - if lineup.tournament_round.deadline
+                          = lineup.tournament_round.deadline&.strftime("%^a, %^b %e, %H:%M")
                         - else
                           = t('teams.unknown')
                     - else

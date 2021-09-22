@@ -145,8 +145,8 @@
                   .game-score-cell
                     .result-cell-value vs
                   .game-info-cell
-                    - if match.tour.deadline
-                      = match.tour.deadline&.strftime("%^a, %^b %e")
+                    - if match.tournament_round.deadline
+                      = match.tournament_round.deadline&.strftime("%^a, %^b %e")
                     - else
                       = t('teams.unknown')
                 - elsif match.tour.locked_or_postponed?

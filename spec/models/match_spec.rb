@@ -9,6 +9,7 @@ RSpec.describe Match, type: :model do
     it { is_expected.to belong_to(:tour) }
     it { is_expected.to belong_to(:host).class_name('Team') }
     it { is_expected.to belong_to(:guest).class_name('Team') }
+    it { is_expected.to delegate_method(:tournament_round).to(:tour) }
   end
 
   describe '#host_lineup' do

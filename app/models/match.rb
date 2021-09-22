@@ -3,6 +3,8 @@ class Match < ApplicationRecord
   belongs_to :host, class_name: 'Team'
   belongs_to :guest, class_name: 'Team'
 
+  delegate :tournament_round, to: :tour
+
   default_scope { includes(%i[host guest]) }
 
   scope :by_team_and_tour, ->(team_id, tour_id) { where(tour_id: tour_id).where('host_id = ? OR guest_id = ?', team_id, team_id) }

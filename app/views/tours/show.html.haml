@@ -21,10 +21,7 @@
         .round-deadline
           .round-deadline-text= t('tours.deadline')
           .round-deadline-value
-            - if tour.set_lineup? && current_user&.admin?
-              = link_to tour.deadline&.strftime("%a, %b %e at %H:%M") || '--:--', edit_tour_path(tour)
-            - else
-              = tour.deadline&.strftime("%a, %b %e at %H:%M")
+            = tour.tournament_round.deadline&.strftime("%a, %b %e at %H:%M")
           .round-deadline-countdown
         .round-prev-next
           .round-prev
