@@ -45,7 +45,10 @@ module Scores
       def update_player(player, club_id)
         return unless round_player(player, club_id)
 
-        round_player(player, club_id).update(score: player_score(player), played_minutes: played_minutes(player))
+        round_player(player, club_id).update(
+          score: player_score(player),
+          played_minutes: played_minutes(player) || 0
+        )
       end
 
       def all_matches_data

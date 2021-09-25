@@ -111,6 +111,28 @@ RSpec.describe Scores::Injectors::Calcio do
       end
     end
 
+    context 'when host club and player does not play' do
+      let!(:club) { create(:club, name: 'Milan') }
+      let(:player) { create(:player, name: 'Conti', club: club) }
+      let!(:round_player) { create(:round_player, tournament_round: tournament_round, player: player) }
+
+      it 'does not update round player score' do
+        VCR.use_cassette 'injector_calcio_scores' do
+          injector.call
+
+          expect(round_player.reload.score).to eq(0)
+        end
+      end
+
+      it 'does not update round player played_minutes' do
+        VCR.use_cassette 'injector_calcio_scores' do
+          injector.call
+
+          expect(round_player.reload.played_minutes).to eq(0)
+        end
+      end
+    end
+
     context 'when guest club and player exist' do
       let!(:club) { create(:club, name: 'Verona') }
       let(:player) { create(:player, name: 'Hongla', club: club) }
@@ -195,6 +217,28 @@ RSpec.describe Scores::Injectors::Calcio do
           injector.call
 
           expect(round_player.reload.played_minutes).to eq(34)
+        end
+      end
+    end
+
+    context 'when guest club and player does not play' do
+      let!(:club) { create(:club, name: 'Verona') }
+      let(:player) { create(:player, name: 'Svoboda', club: club) }
+      let!(:round_player) { create(:round_player, tournament_round: tournament_round, player: player) }
+
+      it 'does not update round player score' do
+        VCR.use_cassette 'injector_calcio_scores' do
+          injector.call
+
+          expect(round_player.reload.score).to eq(0)
+        end
+      end
+
+      it 'does not update round player played_minutes' do
+        VCR.use_cassette 'injector_calcio_scores' do
+          injector.call
+
+          expect(round_player.reload.played_minutes).to eq(0)
         end
       end
     end
