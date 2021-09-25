@@ -12,6 +12,7 @@
       .reservists-header{title: 'Yellow card'} YC
       .reservists-header{title: 'Red card'} RC
       .reservists-header{title: 'Cleansheet'} CS
+      .reservists-header{title: 'Cleansheet Possibility'} CSP
       .reservists-header{title: 'Own goals'} OG
       .reservists-header{title: 'Played minutes'} PM
       .reservists-header{title: 'Lock data'} Lock
@@ -54,6 +55,8 @@
             = rp_f.check_box :red_card, {'data-toggle' => 'toggle', 'data-onstyle' => 'danger', 'data-on' => 'Yes', 'data-off' => 'No', 'data-size' => 'small', 'data-height' => '38'}
           .reservist-param
             = rp_f.check_box :cleansheet, {'data-toggle' => 'toggle', 'data-onstyle' => 'success', 'data-on' => 'Yes', 'data-off' => 'No', 'data-size' => 'small', 'data-height' => '38'}
+          .reservist-param
+            = '+' if (rp_f.object.position_names & Position::CLEANSHEET_ZONE).any?
           .reservist-param
             = rp_f.number_field :own_goals, in: 0..9, step: 1, class: 'form-control'
           .reservist-param
