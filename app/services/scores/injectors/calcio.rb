@@ -9,6 +9,8 @@ module Scores
       end
 
       def call
+        return false unless tournament_round
+
         (1...all_matches_data.length).step(2).each do |index|
           match = all_matches_data[index]
           next unless match_status(match) == STATUS_FINISHED_MATCH
@@ -23,17 +25,27 @@ module Scores
       def update_host_players(match)
         host_club = Club.find_by(name: host_name(match))
 
+        return unless host_club
+
         host_players_scores(match).reverse_each do |player|
-          round_player(player, host_club.id)&.update(score: player_score(player))
+          update_player(player, host_club.id)
         end
       end
 
       def update_guest_players(match)
         guest_club = Club.find_by(name: guest_name(match))
 
+        return unless guest_club
+
         guest_players_scores(match).reverse_each do |player|
-          round_player(player, guest_club.id)&.update(score: player_score(player))
+          update_player(player, guest_club.id)
         end
+      end
+
+      def update_player(player, club_id)
+        return unless round_player(player, club_id)
+
+        round_player(player, club_id).update(score: player_score(player), played_minutes: played_minutes(player))
       end
 
       def all_matches_data
@@ -54,6 +66,12 @@ module Scores
 
       def player_score(player)
         player.css('.live-score-board-handler-vote').children.text.rstrip.to_f
+      end
+
+      def played_minutes(player)
+        value = player.css('.text-muted.fs-12').first.text.tr('(', '').tr("')", '').to_i if player.css('.text-muted.fs-12').first
+
+        player_score(player).positive? && (value.nil? || value > 90) ? 90 : value
       end
 
       def host_name(match_info)
