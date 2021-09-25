@@ -37,11 +37,13 @@ RSpec.describe Players::CsvParser do
       let(:file_url) { 'https://mantrafootball.s3.eu-west-1.amazonaws.com/players_lists/test.csv' }
 
       it 'call' do
-        manager = instance_double(Players::Manager)
+        VCR.use_cassette 'csv_parser_aws' do
+          manager = instance_double(Players::Manager)
 
-        allow(manager).to receive(:call).exactly(3).times
+          allow(manager).to receive(:call).exactly(3).times
 
-        parser.call
+          parser.call
+        end
       end
     end
   end
