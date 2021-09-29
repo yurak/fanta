@@ -30,7 +30,7 @@ module PlayersHelper
     if tournament_round.national_matches.any?
       Player.by_national_tournament_round(tournament_round).by_position(real_position&.split('/')).uniq.sort_by(&:national_team_id)
     elsif tournament_round.tournament.eurocup?
-      Player.by_tournament_round(tournament_round).by_position(real_position&.split('/')).uniq.sort_by(&:club_id)
+      Player.by_tournament_round(tournament_round).by_position(real_position&.split('/')).uniq.sort_by { |x| [x.club.name] }
     else
       []
     end
