@@ -110,8 +110,7 @@ RSpec.describe 'Users', type: :request do
   end
 
   describe 'PUT/PATCH #update' do
-    let(:name) { FFaker::Name.first_name }
-    let(:params) { { name: name } }
+    let(:params) { nil }
 
     before do
       patch user_path(other_user, params)
@@ -124,6 +123,8 @@ RSpec.describe 'Users', type: :request do
 
     context 'when user is logged in and updates self data' do
       let(:logged_user) { create(:user) }
+      let(:name) { FFaker::Name.first_name }
+      let(:params) { { name: name } }
 
       before do
         sign_in logged_user
@@ -140,9 +141,10 @@ RSpec.describe 'Users', type: :request do
     end
 
     context 'when user is logged in and updates active_team_id' do
-      let(:active_team_id) { 3 }
-      let(:params) { { active_team_id: active_team_id } }
       let(:logged_user) { create(:user) }
+      let(:active_team) { create(:team, user: logged_user) }
+      let!(:tour) { create(:tour, league: active_team.league) }
+      let(:params) { { active_team_id: active_team.id } }
 
       before do
         sign_in logged_user
@@ -150,15 +152,17 @@ RSpec.describe 'Users', type: :request do
         patch user_path(logged_user, params)
       end
 
-      it { expect(response).to redirect_to(root_path) }
+      it { expect(response).to redirect_to(tour_path(tour)) }
       it { expect(response).to have_http_status(:found) }
 
-      it 'updates user name' do
-        expect(logged_user.reload.active_team_id).to eq(active_team_id)
+      it 'updates user active_team_id' do
+        expect(logged_user.reload.active_team_id).to eq(active_team.id)
       end
     end
 
     context 'when user is logged in and updates other user data' do
+      let(:name) { FFaker::Name.first_name }
+      let(:params) { { name: name } }
       let(:logged_user) { create(:user) }
 
       before do

@@ -144,10 +144,10 @@
       .auction-purchases-title-text= t('auction.last_purchases')
       .auction-purchases-title-count
         .auction-purchases-title-current
-          = league.transfers.count
+          = league.transfers.incoming.count - league.transfers.outgoing.count
         .auction-purchases-title-total
           = "/ #{league.teams.count * 25}"
-    - league.transfers.reverse.take(8).each do |transfer|
+    - league.transfers.incoming.reverse.take(8).each do |transfer|
       .auction-purchases-item
         .auction-purchases-item-hidden
           = link_to league_transfer_path(transfer.league, transfer), method: :delete, data: { confirm: t('tours.are_you_sure') } do

@@ -45,13 +45,23 @@ class RoundPlayersController < ApplicationController
   end
 
   def round_players_by_position
-    RoundPlayer.where(tournament_round: tournament_round, player_id: player_ids_by_position) if stats_params[:position]
+    return unless stats_params[:position]
+
+    if tournament.eurocup?
+      tour_players.where(player_id: player_ids_by_position)
+    else
+      tournament_round.round_players.where(player_id: player_ids_by_position)
+    end
   end
 
   def player_ids_by_position
-    return Player.by_position(stats_params[:position]).by_national_tournament(tournament.id).ids if tournament.national?
-
-    Player.by_position(stats_params[:position]).by_tournament(tournament).ids
+    if tournament.national?
+      Player.by_position(stats_params[:position]).by_national_tournament(tournament.id).ids
+    elsif tournament.eurocup?
+      Player.by_position(stats_params[:position]).by_ec_tournament(tournament).ids
+    else
+      Player.by_position(stats_params[:position]).by_tournament(tournament).ids
+    end
   end
 
   def round_players_by_club

@@ -34,10 +34,12 @@
                   .match-player-data-base{class: "scores-moderator#{current_user&.can_moderate?}"}
                     = link_to player_path(match_player.player) do
                       .team-player-name
-                        = match_player.player.name
+                        = match_player.player.full_name
                         = image_tag('icons/subs-on.svg') if match_player.get_in?
                         - if match_player.position_malus?
                           ⚠️
+                        .team-player-score-unspecified.inline-block
+                          = match_player.player.club.name
                     - if match_player.score.positive?
                       .team-player-scores
                         .team-player-cs-cell

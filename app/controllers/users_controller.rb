@@ -9,7 +9,7 @@ class UsersController < ApplicationController
     user.update(user_params)
 
     if user_params[:active_team_id]
-      redirect_back(fallback_location: root_path)
+      redirect_to tour_path(user.active_league&.active_tour_or_last)
     else
       redirect_to user_path(user)
     end
