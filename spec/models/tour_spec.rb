@@ -11,6 +11,7 @@ RSpec.describe Tour, type: :model do
 
   describe 'Validations' do
     it { is_expected.to define_enum_for(:status).with_values(%i[inactive set_lineup locked closed postponed]) }
+    it { is_expected.to define_enum_for(:bench_status).with_values(%i[default_bench expanded]) }
   end
 
   describe '#locked_or_postponed?' do

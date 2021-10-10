@@ -77,10 +77,7 @@ class Lineup < ApplicationRecord
     if tour.fanta?
       MAX_PLAYED_PLAYERS
     else
-      # TODO: match_players count related to tour calendar
-      # mantra tour - 18M Ps
-      # mantra "postponed" tour - 25 MPs
-      MAX_PLAYERS
+      tour.expanded? ? MAX_POSTPONED_PLAYERS : MAX_PLAYERS
     end
   end
 
