@@ -1,5 +1,5 @@
-module MatchPlayers
-  class Substituter < ApplicationService
+module Substitutes
+  class Creator < ApplicationService
     attr_reader :in_mp_id, :out_mp_id
 
     def initialize(out_mp_id:, in_mp_id:)
@@ -20,6 +20,7 @@ module MatchPlayers
     def subs_transaction
       MatchPlayer.transaction do
         new_round_player = reserve_match_player.round_player
+        create_substitute
         reserve_match_player.update(round_player_id: main_match_player.round_player_id,
                                     subs_status: :get_out,
                                     position_malus: 0)
@@ -27,6 +28,15 @@ module MatchPlayers
                                  subs_status: :get_in,
                                  position_malus: 0)
       end
+    end
+
+    def create_substitute
+      Substitute.create(
+        main_mp: main_match_player,
+        reserve_mp: reserve_match_player,
+        out_rp: main_match_player.round_player,
+        in_rp: reserve_match_player.round_player
+      )
     end
 
     def main_match_player

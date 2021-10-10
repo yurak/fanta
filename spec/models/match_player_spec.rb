@@ -6,6 +6,17 @@ RSpec.describe MatchPlayer, type: :model do
   describe 'Associations' do
     it { is_expected.to belong_to(:lineup) }
     it { is_expected.to belong_to(:round_player) }
+
+    it {
+      expect(match_player).to have_many(:main_subs).class_name('Substitute').with_foreign_key('main_mp_id')
+                                                   .dependent(:destroy).inverse_of(:main_mp)
+    }
+
+    it {
+      expect(match_player).to have_many(:reserve_subs).class_name('Substitute').with_foreign_key('reserve_mp_id')
+                                                      .dependent(:destroy).inverse_of(:reserve_mp)
+    }
+
     it { is_expected.to delegate_method(:league).to(:lineup) }
     it { is_expected.to delegate_method(:team).to(:lineup) }
     it { is_expected.to delegate_method(:tour).to(:lineup) }
