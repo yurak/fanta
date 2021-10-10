@@ -31,7 +31,7 @@
                   = match_player.real_position
               .match-player-data
                 .match-player-data
-                  .match-player-data-base{class: "scores-moderator#{current_user&.can_moderate?}"}
+                  .match-player-data-base
                     = link_to player_path(match_player.player) do
                       .team-player-name
                         = match_player.player.full_name
@@ -46,11 +46,7 @@
                         .team-player-score= match_player.score
                         .team-player-total-score= match_player.total_score
                     - elsif match_player.club_played_match?
-                      - if match_player.tour.locked_or_postponed? && current_user&.can_moderate?
-                        .team-player-score-not-played
-                          = link_to t('matches.didnt_play'), substitutions_team_lineup_path(match_player.team, match_player.lineup, mp: match_player)
-                      - else
-                        .team-player-score-not-played= t('matches.didnt_play')
+                      .team-player-score-not-played= t('matches.didnt_play')
                     - else
                       .team-player-score-unspecified= t('matches.unspecified')
                   .match-player-add-data

@@ -369,18 +369,6 @@
         }
       }
 
-      .scores-moderator {
-        grid-template-columns: auto 90px;
-
-        .team-player-scores {
-          grid-template-columns: 3fr 4fr;
-        }
-
-        .team-player-cs-cell {
-          display: none;
-        }
-      }
-
       .match-player-add-data {
         display: grid;
         grid-template-columns: auto 110px;

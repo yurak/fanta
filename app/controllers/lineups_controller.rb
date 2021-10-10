@@ -59,26 +59,10 @@ class LineupsController < ApplicationController
     end
   end
 
-  def substitutions
-    redirect_to match_path(lineup.match) unless sub_available?
-  end
-
-  def subs_update
-    if (can? :subs_update, Lineup) && call_substituter
-      redirect_to match_path(lineup.match)
-    else
-      redirect_to substitutions_team_lineup_path(team, lineup)
-    end
-  end
-
   private
 
   def team_lineups_cloner
     @team_lineups_cloner ||= TeamLineups::Cloner.new(team: team, tour: tour)
-  end
-
-  def call_substituter
-    MatchPlayers::Substituter.call(out_mp_id: params[:out_mp_id], in_mp_id: params[:in_mp_id])
   end
 
   def lineup_params
@@ -125,10 +109,6 @@ class LineupsController < ApplicationController
     @modules ||= TeamModule.all
   end
 
-  def match_player
-    MatchPlayer.find(params[:mp])
-  end
-
   def team_of_user?
     return false unless team.user
 
@@ -171,9 +151,5 @@ class LineupsController < ApplicationController
 
   def viewable?
     (team_of_user? && team == lineup.team) || tour.deadlined?
-  end
-
-  def sub_available?
-    tour.locked_or_postponed? && match_player.not_played? && (can? :substitutions, Lineup)
   end
 end

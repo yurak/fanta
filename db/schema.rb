@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_21_180506) do
+ActiveRecord::Schema.define(version: 2021_10_05_130053) do
 
   create_table "article_tags", force: :cascade do |t|
     t.string "name", default: "", null: false
@@ -235,6 +235,15 @@ ActiveRecord::Schema.define(version: 2021_09_21_180506) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "location", default: "", null: false
+  end
+
+  create_table "substitutes", force: :cascade do |t|
+    t.bigint "main_mp_id", null: false
+    t.bigint "reserve_mp_id", null: false
+    t.bigint "in_rp_id", null: false
+    t.bigint "out_rp_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "team_modules", force: :cascade do |t|

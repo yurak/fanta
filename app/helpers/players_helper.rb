@@ -1,13 +1,11 @@
 module PlayersHelper
-  def available_for_substitution(match_players, positions)
-    return [] unless match_players && positions
+  def available_for_substitution(match_player, bench_players)
+    return [] unless bench_players && match_player&.available_positions
 
-    available_mp = match_players.collect do |x|
-      next if (x.position_names & positions).empty?
+    available_mp = bench_players.collect do |x|
+      next if (x.position_names & match_player.available_positions).empty?
 
-      [
-        "(#{x.position_names.join('-')}) #{x.player.name} - #{x.score}", x.id
-      ]
+      [x, Scores::PositionMalus::Counter.call(match_player.real_position, x.position_names).to_s]
     end
     available_mp.compact
   end

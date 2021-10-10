@@ -2,6 +2,9 @@ class MatchPlayer < ApplicationRecord
   belongs_to :round_player
   belongs_to :lineup
 
+  has_many :main_subs, foreign_key: 'main_mp_id', class_name: 'Substitute', dependent: :destroy, inverse_of: :main_mp
+  has_many :reserve_subs, foreign_key: 'reserve_mp_id', class_name: 'Substitute', dependent: :destroy, inverse_of: :reserve_mp
+
   delegate :league, :team, :tour, to: :lineup
   delegate :assists, :caught_penalty, :cleansheet, :club_played_match?, :failed_penalty, :goals,
            :missed_goals, :missed_penalty, :own_goals, :player, :red_card, :result_score, :score, :scored_penalty,
