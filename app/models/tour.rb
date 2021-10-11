@@ -8,6 +8,7 @@ class Tour < ApplicationRecord
   delegate :teams, to: :league
 
   enum status: { inactive: 0, set_lineup: 1, locked: 2, closed: 3, postponed: 4 }
+  enum bench_status: { default_bench: 0, expanded: 1 }
 
   scope :closed_postponed, -> { closed.or(postponed) }
   scope :active, -> { set_lineup.or(locked) }

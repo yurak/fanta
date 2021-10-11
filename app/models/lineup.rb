@@ -24,7 +24,7 @@ class Lineup < ApplicationRecord
   DEF_BONUS_STEP = 0.25
   MAX_PLAYED_PLAYERS = 11
   MAX_PLAYERS = 19
-  MAX_POSTPONED_PLAYERS = 25
+  MAX_PLAYERS_EXPANDED = 25
 
   def total_score
     match_players.main.map(&:total_score).compact.sum + defence_bonus
@@ -77,10 +77,7 @@ class Lineup < ApplicationRecord
     if tour.fanta?
       MAX_PLAYED_PLAYERS
     else
-      # TODO: match_players count related to tour calendar
-      # mantra tour - 18M Ps
-      # mantra "postponed" tour - 25 MPs
-      MAX_PLAYERS
+      tour.expanded? ? MAX_PLAYERS_EXPANDED : MAX_PLAYERS
     end
   end
 
