@@ -23,6 +23,7 @@ require 'spec_helper'
 require 'rspec/rails'
 require 'shoulda/matchers'
 require 'devise'
+require 'vcr'
 require_relative 'support/auth_helper'
 
 Shoulda::Matchers.configure do |config|
@@ -30,6 +31,12 @@ Shoulda::Matchers.configure do |config|
     with.test_framework :rspec
     with.library :rails
   end
+end
+
+VCR.configure do |c|
+  c.cassette_library_dir = 'spec/vcr'
+  c.hook_into :webmock
+  c.ignore_localhost = true
 end
 
 Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }

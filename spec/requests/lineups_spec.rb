@@ -553,10 +553,24 @@ RSpec.describe 'Lineups', type: :request do
       it { expect(tour.lineups).to eq([lineup]) }
     end
 
-    context 'with self team without existed lineup for tour when user is logged in' do
+    context 'with self team in unclonable league without existed lineup for tour when user is logged in' do
       let(:logged_user) { create(:user, team_ids: lineup.team.id) }
 
       before do
+        sign_in logged_user
+        get clone_team_lineups_path(lineup.team, tour_id: tour.id)
+      end
+
+      it { expect(response).to redirect_to(tour_path(tour)) }
+      it { expect(response).to have_http_status(:found) }
+      it { expect(tour.lineups).to eq([]) }
+    end
+
+    context 'with self team in cloneable league without existed lineup for tour when user is logged in' do
+      let(:logged_user) { create(:user, team_ids: lineup.team.id) }
+
+      before do
+        lineup.team.league.cloneable!
         sign_in logged_user
         get clone_team_lineups_path(lineup.team, tour_id: tour.id)
       end
@@ -572,255 +586,6 @@ RSpec.describe 'Lineups', type: :request do
 
         get clone_team_lineups_path(lineup.team, tour_id: tour.id)
       end
-    end
-  end
-
-  describe 'GET #substitutions' do
-    let(:lineup) { create(:lineup, :with_match_players) }
-    let(:match_player) { lineup.match_players.first }
-
-    before do
-      get substitutions_team_lineup_path(lineup.team, lineup, mp: match_player)
-    end
-
-    context 'when user is logged out' do
-      it { expect(response).to redirect_to('/users/sign_in') }
-      it { expect(response).to have_http_status(:found) }
-    end
-
-    context 'when user is logged in' do
-      let(:lineup) { create(:lineup, :with_match_players, tour: create(:locked_tour)) }
-
-      login_user
-      before do
-        allow(MatchPlayer).to receive(:find).and_return(match_player)
-        allow(match_player).to receive(:not_played?).and_return(true)
-        create(:match, tour: lineup.tour, host: lineup.team)
-        get substitutions_team_lineup_path(lineup.team, lineup, mp: match_player)
-      end
-
-      it { expect(response).to redirect_to(match_path(lineup.match)) }
-      it { expect(response).to have_http_status(:found) }
-    end
-
-    context 'when moderator is logged in' do
-      let(:lineup) { create(:lineup, :with_match_players, tour: create(:locked_tour)) }
-
-      login_moderator
-      before do
-        allow(MatchPlayer).to receive(:find).and_return(match_player)
-        allow(match_player).to receive(:not_played?).and_return(true)
-        create(:match, tour: lineup.tour, host: lineup.team)
-        get substitutions_team_lineup_path(lineup.team, lineup, mp: match_player)
-      end
-
-      it { expect(response).to be_successful }
-      it { expect(response).to render_template(:substitutions) }
-      it { expect(response).to render_template(:_header) }
-      it { expect(response).to have_http_status(:ok) }
-      it { expect(assigns(:lineup)).not_to be_nil }
-    end
-
-    context 'when admin is logged in' do
-      let(:lineup) { create(:lineup, :with_match_players, tour: create(:postponed_tour)) }
-
-      login_admin
-      before do
-        allow(MatchPlayer).to receive(:find).and_return(match_player)
-        allow(match_player).to receive(:not_played?).and_return(true)
-        create(:match, tour: lineup.tour, host: lineup.team)
-        get substitutions_team_lineup_path(lineup.team, lineup, mp: match_player)
-      end
-
-      it { expect(response).to be_successful }
-      it { expect(response).to render_template(:substitutions) }
-      it { expect(response).to render_template(:_header) }
-      it { expect(response).to have_http_status(:ok) }
-      it { expect(assigns(:lineup)).not_to be_nil }
-    end
-
-    context 'when admin is logged in with not available tour status' do
-      let(:lineup) { create(:lineup, :with_match_players) }
-
-      login_admin
-      before do
-        allow(MatchPlayer).to receive(:find).and_return(match_player)
-        allow(match_player).to receive(:not_played?).and_return(true)
-        create(:match, tour: lineup.tour, host: lineup.team)
-        get substitutions_team_lineup_path(lineup.team, lineup, mp: match_player)
-      end
-
-      it { expect(response).to redirect_to(match_path(lineup.match)) }
-      it { expect(response).to have_http_status(:found) }
-    end
-
-    context 'when admin is logged in and match_player did not play yet' do
-      let(:lineup) { create(:lineup, :with_match_players, tour: create(:locked_tour)) }
-
-      login_admin
-      before do
-        create(:match, tour: lineup.tour, host: lineup.team)
-        get substitutions_team_lineup_path(lineup.team, lineup, mp: match_player)
-      end
-
-      it { expect(response).to redirect_to(match_path(lineup.match)) }
-      it { expect(response).to have_http_status(:found) }
-    end
-  end
-
-  describe 'PUT #subs_update' do
-    let(:params) do
-      {
-        out_mp_id: 1,
-        in_mp_id: 2
-      }
-    end
-
-    before do
-      put subs_update_team_lineup_path(lineup.team, lineup, params)
-    end
-
-    context 'when user is logged out' do
-      it { expect(response).to redirect_to('/users/sign_in') }
-      it { expect(response).to have_http_status(:found) }
-    end
-
-    context 'when user is logged in' do
-      let(:lineup) { create(:lineup, :with_match_players, tour: create(:locked_tour)) }
-
-      login_user
-      before do
-        create(:match, tour: lineup.tour, host: lineup.team)
-        put subs_update_team_lineup_path(lineup.team, lineup, params)
-      end
-
-      it { expect(response).to redirect_to(substitutions_team_lineup_path(lineup.team, lineup)) }
-      it { expect(response).to have_http_status(:found) }
-    end
-
-    context 'when moderator is logged in' do
-      let(:lineup) { create(:lineup, tour: create(:locked_tour)) }
-      let(:mp_reserve) { create(:match_player, round_player: create(:round_player, :with_pos_dc)) }
-      let(:mp_main) { create(:dc_match_player) }
-
-      let(:params) do
-        {
-          out_mp_id: mp_main.id,
-          in_mp_id: mp_reserve.id
-        }
-      end
-
-      login_moderator
-      before do
-        create(:match, tour: lineup.tour, host: lineup.team)
-        put subs_update_team_lineup_path(lineup.team, lineup, params)
-      end
-
-      it { expect(response).to redirect_to(match_path(lineup.match)) }
-      it { expect(response).to have_http_status(:found) }
-    end
-
-    context 'when admin is logged in' do
-      let(:lineup) { create(:lineup, tour: create(:locked_tour)) }
-      let(:mp_reserve) { create(:match_player, round_player: create(:round_player, :with_pos_dc)) }
-      let(:mp_main) { create(:dc_match_player) }
-
-      let(:params) do
-        {
-          out_mp_id: mp_main.id,
-          in_mp_id: mp_reserve.id
-        }
-      end
-
-      login_admin
-      before do
-        create(:match, tour: lineup.tour, host: lineup.team)
-        put subs_update_team_lineup_path(lineup.team, lineup, params)
-      end
-
-      it { expect(response).to redirect_to(match_path(lineup.match)) }
-      it { expect(response).to have_http_status(:found) }
-    end
-
-    context 'with incompatible positions when admin is logged in' do
-      let(:lineup) { create(:lineup, tour: create(:locked_tour)) }
-      let(:mp_reserve) { create(:match_player, round_player: create(:round_player, :with_pos_dc)) }
-      let(:mp_main) { create(:w_match_player) }
-
-      let(:params) do
-        {
-          out_mp_id: mp_main.id,
-          in_mp_id: mp_reserve.id
-        }
-      end
-
-      login_admin
-      before do
-        create(:match, tour: lineup.tour, host: lineup.team)
-        put subs_update_team_lineup_path(lineup.team, lineup, params)
-      end
-
-      it { expect(response).to redirect_to(substitutions_team_lineup_path(lineup.team, lineup)) }
-      it { expect(response).to have_http_status(:found) }
-    end
-
-    context 'with invalid in_mp_id when admin is logged in' do
-      let(:lineup) { create(:lineup, tour: create(:locked_tour)) }
-      let(:mp_reserve) { create(:match_player, round_player: create(:round_player, :with_pos_dc)) }
-      let(:mp_main) { create(:dc_match_player) }
-
-      let(:params) do
-        {
-          out_mp_id: mp_main.id,
-          in_mp_id: 'invalid'
-        }
-      end
-
-      login_admin
-      before do
-        create(:match, tour: lineup.tour, host: lineup.team)
-        put subs_update_team_lineup_path(lineup.team, lineup, params)
-      end
-
-      it { expect(response).to redirect_to(substitutions_team_lineup_path(lineup.team, lineup)) }
-      it { expect(response).to have_http_status(:found) }
-    end
-
-    context 'with invalid out_mp_id when admin is logged in' do
-      let(:lineup) { create(:lineup, tour: create(:locked_tour)) }
-      let(:mp_reserve) { create(:match_player, round_player: create(:round_player, :with_pos_dc)) }
-      let(:mp_main) { create(:dc_match_player) }
-
-      let(:params) do
-        {
-          out_mp_id: 'invalid',
-          in_mp_id: mp_reserve.id
-        }
-      end
-
-      login_admin
-      before do
-        create(:match, tour: lineup.tour, host: lineup.team)
-        put subs_update_team_lineup_path(lineup.team, lineup, params)
-      end
-
-      it { expect(response).to redirect_to(substitutions_team_lineup_path(lineup.team, lineup)) }
-      it { expect(response).to have_http_status(:found) }
-    end
-
-    context 'without params when admin is logged in' do
-      let(:lineup) { create(:lineup, tour: create(:locked_tour)) }
-
-      let(:params) { '' }
-
-      login_admin
-      before do
-        create(:match, tour: lineup.tour, host: lineup.team)
-        put subs_update_team_lineup_path(lineup.team, lineup, params)
-      end
-
-      it { expect(response).to redirect_to(substitutions_team_lineup_path(lineup.team, lineup)) }
-      it { expect(response).to have_http_status(:found) }
     end
   end
 end

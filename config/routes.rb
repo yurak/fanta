@@ -29,11 +29,13 @@ Rails.application.routes.draw do
 
   resources :players, only: [:index, :show]
 
+  resources :match_players, only: [] do
+    resources :substitutes, only: [:new, :create, :destroy]
+  end
+
   resources :teams, only: [:show, :edit, :update] do
     resources :lineups, only: [:show, :new, :create, :edit, :update] do
       collection { get :clone }
-      get :substitutions, on: :member
-      put :subs_update, on: :member
     end
   end
 

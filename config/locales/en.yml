@@ -150,10 +150,10 @@ en:
     main_squad: "Main squad"
     reserve_squad: "Substitutes"
     not_selected: "Not selected"
-    minimum: "You should select minimum 1 player from each country"
+    minimum: "You should select minimum 1 player from each team"
     total: "Lineup should contain %{number} unique players"
     duplicates: "Lineup contains duplicate players"
-    limit: "You can't select more than %{limit} players from one country"
+    limit: "You can't select more than %{limit} players from one team"
     home: "H"
     away: "A"
   links:
@@ -240,6 +240,8 @@ en:
     cs: "CS"
     own_goals: "Own goals"
     og: "OG"
+    played_minutes: "Played minutes"
+    pm: "PM"
     base_score: "BASE SCORE"
     total_score: "TOTAL SCORE"
   round_players:

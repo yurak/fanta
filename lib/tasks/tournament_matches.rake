@@ -15,4 +15,10 @@ namespace :tournament_matches do
     tournament = Tournament.find_by(code: Scores::Injectors::Strategy::EURO)
     TournamentMatches::EuroFotmobGenerator.call(tournament: tournament)
   end
+
+  desc 'Create Champions League TournamentMatches'
+  task generate_ecl_matches: :environment do
+    tournament = Tournament.find_by(code: Scores::Injectors::Strategy::ECL)
+    TournamentMatches::EuroCupFotmobGenerator.call(tournament: tournament)
+  end
 end

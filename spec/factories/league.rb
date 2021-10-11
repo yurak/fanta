@@ -9,6 +9,10 @@ FactoryBot.define do
       status { :active }
     end
 
+    factory :cloneable_league do
+      cloning_status { :cloneable }
+    end
+
     trait :serie_a_league do
       tournament { Tournament.find_by(code: 'serie_a') }
     end

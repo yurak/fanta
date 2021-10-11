@@ -1,0 +1,93 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://mantrafootball.s3.eu-west-1.amazonaws.com/players_lists/test.csv
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Amz-Id-2:
+      - 6uY8WwwLZoQJbtQh6pNlELij0dX1ujrosrwbkRBFE40T8pmqn2yCrk/B+X95wPD5+Kb5Lz3W7cA=
+      X-Amz-Request-Id:
+      - 2M68PP1C15N82AVV
+      Date:
+      - Fri, 24 Sep 2021 19:43:44 GMT
+      Last-Modified:
+      - Fri, 23 Jul 2021 12:51:58 GMT
+      Etag:
+      - '"a7617acdd6016e9bf867acd7ad2a3193"'
+      X-Amz-Version-Id:
+      - 'null'
+      Accept-Ranges:
+      - bytes
+      Content-Type:
+      - text/csv
+      Server:
+      - AmazonS3
+      Content-Length:
+      - '394'
+    body:
+      encoding: UTF-8
+      string: "id,first_name,name,nationality,club_name,position1,position2,position3,tm_url\r\n,Jokin,Ezkieta,es,Athletic
+        Bilbao,Por,,,https://www.transfermarkt.com/jokin-ezkieta/profil/spieler/379548\r\n,Unai,Nunez,es,Athletic
+        Bilbao,Dc,,,https://www.transfermarkt.com/unai-nunez/profil/spieler/338285\r\n,Inigo,Martinez,es,Athletic
+        Bilbao,Dc,,,https://www.transfermarkt.com/inigo-martinez/profil/spieler/158863\r\n"
+  recorded_at: Fri, 24 Sep 2021 19:43:43 GMT
+- request:
+    method: get
+    uri: https://mantrafootball.s3.eu-west-1.amazonaws.com/players_lists/test.csv
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Amz-Id-2:
+      - X+ysO/xT1UscwTj5TGevk8nsc8o8gp32rBAekauf36i6vsZra9iSQ4BzZ5xM7MXV52GFLAepzmo=
+      X-Amz-Request-Id:
+      - 2M6A5FQXX86B90AW
+      Date:
+      - Fri, 24 Sep 2021 19:43:44 GMT
+      Last-Modified:
+      - Fri, 23 Jul 2021 12:51:58 GMT
+      Etag:
+      - '"a7617acdd6016e9bf867acd7ad2a3193"'
+      X-Amz-Version-Id:
+      - 'null'
+      Accept-Ranges:
+      - bytes
+      Content-Type:
+      - text/csv
+      Server:
+      - AmazonS3
+      Content-Length:
+      - '394'
+    body:
+      encoding: UTF-8
+      string: "id,first_name,name,nationality,club_name,position1,position2,position3,tm_url\r\n,Jokin,Ezkieta,es,Athletic
+        Bilbao,Por,,,https://www.transfermarkt.com/jokin-ezkieta/profil/spieler/379548\r\n,Unai,Nunez,es,Athletic
+        Bilbao,Dc,,,https://www.transfermarkt.com/unai-nunez/profil/spieler/338285\r\n,Inigo,Martinez,es,Athletic
+        Bilbao,Dc,,,https://www.transfermarkt.com/inigo-martinez/profil/spieler/158863\r\n"
+  recorded_at: Fri, 24 Sep 2021 19:43:43 GMT
+recorded_with: VCR 6.0.0

@@ -2,7 +2,8 @@ RSpec.describe Club, type: :model do
   subject(:club) { create(:club, name: 'FC Karpaty Lviv') }
 
   describe 'Associations' do
-    it { is_expected.to belong_to(:tournament) }
+    it { is_expected.to belong_to(:tournament).optional }
+    it { is_expected.to belong_to(:ec_tournament).class_name('Tournament').optional }
     it { is_expected.to have_many(:players).dependent(:destroy) }
 
     it {

@@ -13,6 +13,7 @@
   .player-table-header{title: t('players.red_card')}= t('players.rc')
   .player-table-header{title: t('players.cleansheet')}= t('players.cs')
   .player-table-header{title: t('players.own_goals')}= t('players.og')
+  .player-table-header.center{title: t('players.played_minutes')}= t('players.pm')
   .player-table-header.right= t('players.base_score')
   .player-table-header.right= t('players.total_score')
 - matches.reverse_each do |rp|
@@ -48,6 +49,7 @@
           = image_tag("bonuses/cs.png")
     .player-table-cell
       = render 'bonus_item', bonus: rp.own_goals, img_path: "bonuses/autogol.png"
+    .player-table-cell.center= rp.played_minutes
     .player-table-cell.right= rp.score
     .player-table-cell.right.bold= rp.result_score
 .table-total.performance-table-row
@@ -148,5 +150,6 @@
       - if player.season_bonus_count('own_goals').nonzero?
         = image_tag("bonuses/autogol.png")
         = "x #{player.season_bonus_count('own_goals')}"
+    .table-total-cell.center= player.season_played_minutes
     .table-total-cell.right= player.season_average_score
     .table-total-cell.right.bold= player.season_average_result_score

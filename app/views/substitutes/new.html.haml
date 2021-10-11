@@ -1,0 +1,51 @@
+.page-info.subs-page
+  = form_with url: match_player_substitutes_path(match_player),local: true, method: :post do |f|
+    .subs-form
+      .main-mp-block
+        .subs-player-item
+          .subs-player-images{style: "background-color: ##{ match_player.player.club.color };"}
+            .player-show-face
+              %object{data: match_player.player.avatar_path, type: 'image/jpg'}
+                = image_tag('avatar.png')
+            .player-show-kit
+              %object{data: match_player.player.kit_path, type: 'image/jpg'}
+                = image_tag('kit_small_default2.png')
+          .subs-player-data
+            .subs-player-name
+              = match_player.player.full_name
+            .player-positions
+              - match_player.player.position_names.each do |position|
+                .position-item{class: "position-item-#{position}"}
+                  = position.upcase
+
+      .subs-img-block
+        = image_tag("subs.png", class: 'subs-img')
+
+      .subs-select
+        .transfer-form-club-select
+          - available_for_substitution(match_player, lineup.match_players.subs_bench.with_score).each do |mp, malus|
+            %label.layersMenu
+              = f.radio_button :reserve_mp_id, mp.id
+              .radio-team-item
+                .subs-player-item.subs-reserve-item
+                  .subs-player-images{style: "background-color: ##{ mp.player.club.color };"}
+                    .player-show-face
+                      %object{data: mp.player.avatar_path, type: 'image/jpg'}
+                        = image_tag('avatar.png')
+                    .player-show-kit
+                      %object{data: mp.player.kit_path, type: 'image/jpg'}
+                        = image_tag('kit_small_default2.png')
+                  .subs-player-data
+                    .subs-player-name
+                      = mp.player.full_name
+                    .player-positions
+                      - mp.player.position_names.each do |position|
+                        .position-item{class: "position-item-#{position}"}
+                          = position.upcase
+                  .subs-player-malus{class: "subs-player-malus#{malus[0]}"}
+                    .subs-malus-value
+                      .subs-malus-text
+                        = malus
+
+    .subs-submit.submit
+      = f.submit 'Substitute', class: 'btn btn-success btn-block', data: { confirm: 'Are you sure?' }

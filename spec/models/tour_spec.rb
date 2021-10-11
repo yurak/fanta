@@ -11,6 +11,7 @@ RSpec.describe Tour, type: :model do
 
   describe 'Validations' do
     it { is_expected.to define_enum_for(:status).with_values(%i[inactive set_lineup locked closed postponed]) }
+    it { is_expected.to define_enum_for(:bench_status).with_values(%i[default_bench expanded]) }
   end
 
   describe '#locked_or_postponed?' do
@@ -147,6 +148,40 @@ RSpec.describe Tour, type: :model do
     end
   end
 
+  describe '#fanta?' do
+    context 'with not eurocup tournament and without tournament_round matches' do
+      it { expect(tour.fanta?).to eq(false) }
+    end
+
+    context 'with eurocup tournament' do
+      let(:tournament_round) { create(:tournament_round, tournament: Tournament.find_by(eurocup: true)) }
+      let(:tour) { create(:tour, tournament_round: tournament_round) }
+
+      it { expect(tour.fanta?).to eq(true) }
+    end
+
+    context 'with national_match' do
+      before do
+        create(:national_match, tournament_round: tour.tournament_round)
+      end
+
+      it { expect(tour.fanta?).to eq(true) }
+    end
+  end
+
+  describe '#eurocup?' do
+    context 'with not eurocup tournament' do
+      it { expect(tour.eurocup?).to eq(false) }
+    end
+
+    context 'with eurocup tournament' do
+      let(:tournament_round) { create(:tournament_round, tournament: Tournament.find_by(eurocup: true)) }
+      let(:tour) { create(:tour, tournament_round: tournament_round) }
+
+      it { expect(tour.eurocup?).to eq(true) }
+    end
+  end
+
   describe '#national_teams_count' do
     context 'without national matches' do
       it 'returns 0' do
@@ -206,6 +241,34 @@ RSpec.describe Tour, type: :model do
       it 'returns 0' do
         create_list(:national_match, 5, tournament_round: tour.tournament_round)
 
+        expect(tour.max_country_players).to eq(1)
+      end
+    end
+
+    context 'with 10 national matches' do
+      it 'returns 0' do
+        create_list(:national_match, 10, tournament_round: tour.tournament_round)
+
+        expect(tour.max_country_players).to eq(0)
+      end
+    end
+
+    context 'with eurocup tournament and 8 tournament matches' do
+      let(:tournament_round) { create(:tournament_round, tournament: Tournament.find_by(eurocup: true)) }
+      let(:tour) { create(:tour, tournament_round: tournament_round) }
+
+      it 'returns max_country_players value 1' do
+        create_list(:tournament_match, 8, tournament_round: tournament_round)
+
+        expect(tour.max_country_players).to eq(1)
+      end
+    end
+
+    context 'with eurocup tournament and without tournament matches' do
+      let(:tournament_round) { create(:tournament_round, tournament: Tournament.find_by(eurocup: true)) }
+      let(:tour) { create(:tour, tournament_round: tournament_round) }
+
+      it 'returns max_country_players value 0' do
         expect(tour.max_country_players).to eq(0)
       end
     end

@@ -14,7 +14,7 @@
     .leagues-list-header.right= t('league.teams')
     .leagues-list-header.right= t('league.round')
     .leagues-list-header
-  - leagues[leagues_type].each do |league|
+  - leagues[leagues_type].includes(:results).each do |league|
     = link_to league_link(league) do
       .leagues-list-item
         .leagues-list-item-param.tournament-logo= image_tag(league.tournament.logo_path)

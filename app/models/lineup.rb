@@ -13,6 +13,8 @@ class Lineup < ApplicationRecord
   delegate :tournament_round, to: :tour
   delegate :league, to: :team
 
+  default_scope { includes(%i[team tour]) }
+
   scope :closed, ->(league_id) { where(tour_id: League.find(league_id).tours.closed.ids) }
   scope :by_league, ->(league_id) { where(tour_id: League.find(league_id).tours.ids) }
   scope :by_team, ->(team_id) { where(team_id: team_id) }
@@ -22,7 +24,7 @@ class Lineup < ApplicationRecord
   DEF_BONUS_STEP = 0.25
   MAX_PLAYED_PLAYERS = 11
   MAX_PLAYERS = 19
-  MAX_POSTPONED_PLAYERS = 25
+  MAX_PLAYERS_EXPANDED = 25
 
   def total_score
     match_players.main.map(&:total_score).compact.sum + defence_bonus
@@ -72,13 +74,10 @@ class Lineup < ApplicationRecord
   end
 
   def players_count
-    if tour.national?
+    if tour.fanta?
       MAX_PLAYED_PLAYERS
     else
-      # TODO: match_players count related to tour calendar
-      # mantra tour - 18M Ps
-      # mantra "postponed" tour - 25 MPs
-      MAX_PLAYERS
+      tour.expanded? ? MAX_PLAYERS_EXPANDED : MAX_PLAYERS
     end
   end
 

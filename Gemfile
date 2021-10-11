@@ -49,14 +49,18 @@ group :development, :test do
   gem 'capybara'
   gem 'pry-rails'
   gem 'rspec-rails', '~> 3.8'
+  gem 'vcr'
+  gem 'webmock'
 end
 
 group :development do
+  gem 'bullet'
   gem 'capistrano', '3.14.1', require: false
   gem 'capistrano-rails', '~> 1.4', require: false
   gem 'capistrano-passenger', '~> 0.2.0'
   gem 'capistrano-rvm'
   gem 'listen', '>= 3.0.5', '< 3.2'
+  gem 'query_diet'
   gem 'web-console', '>= 3.3.0'
 end
 

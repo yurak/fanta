@@ -6,6 +6,17 @@ RSpec.describe RoundPlayer, type: :model do
     it { is_expected.to belong_to(:player) }
     it { is_expected.to have_many(:match_players).dependent(:destroy) }
     it { is_expected.to have_many(:lineups).through(:match_players) }
+
+    it {
+      expect(round_player).to have_many(:in_subs).class_name('Substitute').with_foreign_key('in_rp_id')
+                                                 .dependent(:destroy).inverse_of(:in_rp)
+    }
+
+    it {
+      expect(round_player).to have_many(:out_subs).class_name('Substitute').with_foreign_key('out_rp_id')
+                                                  .dependent(:destroy).inverse_of(:out_rp)
+    }
+
     it { is_expected.to delegate_method(:position_names).to(:player).allow_nil }
     it { is_expected.to delegate_method(:positions).to(:player).allow_nil }
     it { is_expected.to delegate_method(:name).to(:player).allow_nil }

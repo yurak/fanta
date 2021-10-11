@@ -1,66 +1,62 @@
 RSpec.describe PlayersHelper, type: :helper do
-  describe '#available_for_substitution(match_players, positions)' do
-    let(:match_players) { nil }
-    let(:positions) { nil }
+  describe '#available_for_substitution(match_player, bench_players)' do
+    let(:match_player) { nil }
+    let(:bench_players) { nil }
 
-    context 'without match_players and positions' do
+    context 'without match_player and bench_players' do
       it 'returns empty array' do
-        expect(helper.available_for_substitution(match_players, positions)).to eq([])
+        expect(helper.available_for_substitution(match_player, bench_players)).to eq([])
       end
     end
 
-    context 'with match_players and without positions' do
+    context 'with bench_players and without match_player' do
       let(:mp1) { create(:match_player, round_player: create(:round_player, :with_pos_e, :with_score_six)) }
       let(:mp2) { create(:match_player, round_player: create(:round_player, :with_pos_c, :with_score_six)) }
-      let(:match_players) { [mp1, mp2] }
+      let(:bench_players) { [mp1, mp2] }
 
       it 'returns empty array' do
-        expect(helper.available_for_substitution(match_players, positions)).to eq([])
+        expect(helper.available_for_substitution(match_player, bench_players)).to eq([])
       end
     end
 
-    context 'without match_players and with positions' do
-      let(:positions) { ['Dc'] }
+    context 'without bench_players and with match_player' do
+      let(:match_player) { create(:m_match_player) }
 
       it 'returns empty array' do
-        expect(helper.available_for_substitution(match_players, positions)).to eq([])
+        expect(helper.available_for_substitution(match_player, bench_players)).to eq([])
       end
     end
 
-    context 'with match_players where one is available for substitution positions' do
+    context 'with bench_players where one is available for match_player substitution' do
       let(:mp1) { create(:match_player, round_player: create(:round_player, :with_pos_e, :with_score_six)) }
       let(:mp2) { create(:match_player, round_player: create(:round_player, :with_pos_c, :with_score_six)) }
-      let(:match_players) { [mp1, mp2] }
-      let(:positions) { %w[Dc M C] }
+      let(:bench_players) { [mp1, mp2] }
+      let(:match_player) { create(:m_match_player) }
 
-      it 'returns array with match_players data' do
-        expect(helper.available_for_substitution(match_players, positions))
-          .to eq([["(#{mp2.position_names.join('-')}) #{mp2.player.name} - #{mp2.score}", mp2.id]])
+      it 'returns array with bench_players data' do
+        expect(helper.available_for_substitution(match_player, bench_players)).to eq([[mp2, '1.5']])
       end
     end
 
-    context 'with match_players where multiple are available for substitution positions' do
+    context 'with bench_players where multiple are available for match_player substitution' do
       let(:mp1) { create(:match_player, round_player: create(:round_player, :with_pos_dc, :with_score_seven)) }
       let(:mp2) { create(:match_player, round_player: create(:round_player, :with_pos_c, :with_score_six)) }
-      let(:match_players) { [mp1, mp2] }
-      let(:positions) { %w[Dc M C] }
+      let(:bench_players) { [mp1, mp2] }
+      let(:match_player) { create(:m_match_player) }
 
-      it 'returns array with match_players data' do
-        expect(helper.available_for_substitution(match_players, positions))
-          .to eq([["(#{mp1.position_names.join('-')}) #{mp1.player.name} - #{mp1.score}", mp1.id],
-                  ["(#{mp2.position_names.join('-')}) #{mp2.player.name} - #{mp2.score}", mp2.id]])
+      it 'returns array with bench_players data' do
+        expect(helper.available_for_substitution(match_player, bench_players)).to eq([[mp1, '3.0'], [mp2, '1.5']])
       end
     end
 
-    context 'with match_players when all are unavailable for substitution positions' do
+    context 'with bench_players when all are unavailable for match_player substitution' do
       let(:mp1) { create(:match_player, round_player: create(:round_player, :with_pos_e, :with_score_seven)) }
       let(:mp2) { create(:match_player, round_player: create(:round_player, :with_pos_a, :with_score_six)) }
-      let(:match_players) { [mp1, mp2] }
-      let(:positions) { %w[Dc M C] }
+      let(:bench_players) { [mp1, mp2] }
+      let(:match_player) { create(:m_match_player) }
 
       it 'returns array with match_players data' do
-        expect(helper.available_for_substitution(match_players, positions))
-          .to eq([])
+        expect(helper.available_for_substitution(match_player, bench_players)).to eq([])
       end
     end
   end
@@ -127,7 +123,47 @@ RSpec.describe PlayersHelper, type: :helper do
   end
 
   describe '#tournament_round_players(tournament_round, real_position)' do
-    it 'is a pending example for tournament_round_players'
+    context 'with mantra tournament' do
+      let(:tournament_round) { create(:tournament_round) }
+
+      it 'returns empty array' do
+        expect(helper.tournament_round_players(tournament_round, 'Por')).to eq([])
+      end
+    end
+
+    context 'with eurocup tournament without players' do
+      let(:tournament_round) { create(:tournament_round, tournament: Tournament.find_by(eurocup: true)) }
+
+      it 'returns empty array' do
+        expect(helper.tournament_round_players(tournament_round, 'Por')).to eq([])
+      end
+    end
+
+    context 'with eurocup tournament with players' do
+      let(:tournament) { Tournament.find_by(eurocup: true) }
+      let(:tournament_round) { create(:tournament_round, tournament: tournament) }
+      let(:club) { create(:club, ec_tournament: tournament) }
+
+      it 'returns players for this round by position' do
+        create(:tournament_match, host_club: club, tournament_round: tournament_round)
+        players = create_list(:player, 2, :with_pos_por, club: club)
+
+        expect(helper.tournament_round_players(tournament_round, 'Por')).to eq(players)
+      end
+    end
+
+    context 'with national tournament with players' do
+      let(:tournament_round) { create(:tournament_round) }
+      let(:team) { create(:national_team) }
+      # let(:matches) { create(:national_match, host_team: team, tournament_round: tournament_round) }
+
+      it 'returns players for this round by position' do
+        create(:national_match, host_team: team, tournament_round: tournament_round)
+        players = create_list(:player, 2, :with_pos_por, national_team: team)
+
+        expect(helper.tournament_round_players(tournament_round, 'Por')).to eq(players)
+      end
+    end
   end
 
   describe '#player_by_mp(match_player, team_module)' do

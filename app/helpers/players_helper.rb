@@ -1,13 +1,11 @@
 module PlayersHelper
-  def available_for_substitution(match_players, positions)
-    return [] unless match_players && positions
+  def available_for_substitution(match_player, bench_players)
+    return [] unless bench_players && match_player&.available_positions
 
-    available_mp = match_players.collect do |x|
-      next if (x.position_names & positions).empty?
+    available_mp = bench_players.collect do |x|
+      next if (x.position_names & match_player.available_positions).empty?
 
-      [
-        "(#{x.position_names.join('-')}) #{x.player.name} - #{x.score}", x.id
-      ]
+      [x, Scores::PositionMalus::Counter.call(match_player.real_position, x.position_names).to_s]
     end
     available_mp.compact
   end
@@ -27,8 +25,13 @@ module PlayersHelper
   end
 
   def tournament_round_players(tournament_round, real_position)
-    # TODO: should be updated for national/eurocups tournaments
-    Player.by_national_tournament_round(tournament_round).by_position(real_position&.split('/')).uniq.sort_by(&:national_team_id)
+    if tournament_round.national_matches.any?
+      Player.by_national_tournament_round(tournament_round).by_position(real_position&.split('/')).uniq.sort_by(&:national_team_id)
+    elsif tournament_round.tournament.eurocup?
+      Player.by_tournament_round(tournament_round).by_position(real_position&.split('/')).uniq.sort_by { |x| [x.club.name] }
+    else
+      []
+    end
   end
 
   def player_by_mp(match_player, team_module)

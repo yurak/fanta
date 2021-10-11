@@ -9,10 +9,11 @@
             = link_to new_team_lineup_path(match.host, tour_id: tour.id) do
               .round-lineup-set-squad
                 = image_tag('icons/plus.svg')
-            - unless tour.number == 1
-              = link_to clone_team_lineups_path(match.host, tour_id: tour.id) do
-                .round-lineup-clone
-                  = image_tag('icons/clone.svg')
+            .round-lineup-clone-block
+              - if tour.league.cloneable?
+                = link_to clone_team_lineups_path(match.host, tour_id: tour.id) do
+                  .round-lineup-clone
+                    = image_tag('icons/clone.svg')
         - else
           .round-lineup-not-set= t('tours.not_set')
       .round-match-team.round-match-host
@@ -34,10 +35,11 @@
           .round-lineup-set= t('tours.set_done')
         - elsif current_user == match.guest.user && tour.set_lineup?
           .round-lineup-actions.round-lineup-actions-guest
-            - unless tour.number == 1
-              = link_to clone_team_lineups_path(match.guest, tour_id: tour.id) do
-                .round-lineup-clone
-                  = image_tag('icons/clone.svg')
+            .round-lineup-clone-block
+              - if tour.league.cloneable?
+                = link_to clone_team_lineups_path(match.guest, tour_id: tour.id) do
+                  .round-lineup-clone
+                    = image_tag('icons/clone.svg')
             = link_to new_team_lineup_path(match.guest, tour_id: tour.id) do
               .round-lineup-set-squad
                 = image_tag('icons/plus.svg')

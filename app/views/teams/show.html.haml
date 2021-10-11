@@ -1,5 +1,5 @@
 .page-info.team-show
-  - if team.tournament.national?
+  - if team.tournament.fanta?
     .team-section
       .team-data
         .team-logo
@@ -13,7 +13,7 @@
               .team-games-header-item= t('teams.round')
               .team-games-header-item= t('teams.score')
               .team-games-header-item
-            - team.lineups.each do |lineup|
+            - team.lineups.by_league(team.league.id).each do |lineup|
               = link_to team_lineup_path(team, lineup) do
                 .team-game-item
                   .team-game-param-item
@@ -23,8 +23,8 @@
                       .game-score-cell
                         .result-cell-value _._
                       .game-info-cell
-                        - if lineup.tour.deadline
-                          = lineup.tour.deadline&.strftime("%^a, %^b %e, %H:%M")
+                        - if lineup.tournament_round.deadline
+                          = lineup.tournament_round.deadline&.strftime("%^a, %^b %e, %H:%M")
                         - else
                           = t('teams.unknown')
                     - else

@@ -125,5 +125,50 @@ RSpec.describe Clubs::Creator do
 
       it { expect(Club.all.count).to eq(2) }
     end
+
+    context 'when eurocup tournament with existed clubs' do
+      let(:file_content) do
+        {
+          champions_league: {
+            ATA: 'Atalanta',
+            MIL: 'Milan',
+            LIV: 'Liverpool',
+            AJA: 'Ajax'
+          }
+        }
+      end
+
+      before do
+        allow(YAML).to receive(:load_file).and_return(file_content)
+        creator.call
+      end
+
+      it { expect(Club.all.count).to eq(4) }
+    end
+
+    context 'when eurocup tournament with existed clubs with same name' do
+      let(:file_content) do
+        {
+          champions_league: {
+            ATA: 'Atalanta',
+            MIL: 'Milan',
+            LIV: 'Liverpool',
+            AJA: 'Ajax'
+          }
+        }
+      end
+      let!(:club) { create(:club, name: 'Milan', code: 'MLN') }
+
+      before do
+        allow(YAML).to receive(:load_file).and_return(file_content)
+        creator.call
+      end
+
+      it { expect(Club.all.count).to eq(4) }
+
+      it 'adds eurocup tournament to club' do
+        expect(club.reload.ec_tournament.code).to eq('champions_league')
+      end
+    end
   end
 end

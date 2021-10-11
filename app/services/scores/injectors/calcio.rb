@@ -9,9 +9,13 @@ module Scores
       end
 
       def call
+        return false unless tournament_round
+
         (1...all_matches_data.length).step(2).each do |index|
           match = all_matches_data[index]
           next unless match_status(match) == STATUS_FINISHED_MATCH
+
+          update_match_result(match)
 
           update_host_players(match)
           update_guest_players(match)
@@ -20,20 +24,37 @@ module Scores
 
       private
 
+      def update_match_result(match)
+        t_match = tournament_round.tournament_matches.find_by(host_club: host_club(match), guest_club: guest_club(match))
+
+        return unless t_match
+
+        t_match.update(host_score: host_club_score(match), guest_score: guest_club_score(match))
+      end
+
       def update_host_players(match)
-        host_club = Club.find_by(name: host_name(match))
+        return unless host_club(match)
 
         host_players_scores(match).reverse_each do |player|
-          round_player(player, host_club.id)&.update(score: player_score(player))
+          update_player(player, host_club(match).id)
         end
       end
 
       def update_guest_players(match)
-        guest_club = Club.find_by(name: guest_name(match))
+        return unless guest_club(match)
 
         guest_players_scores(match).reverse_each do |player|
-          round_player(player, guest_club.id)&.update(score: player_score(player))
+          update_player(player, guest_club(match).id)
         end
+      end
+
+      def update_player(player, club_id)
+        return unless round_player(player, club_id)
+
+        round_player(player, club_id).update(
+          score: player_score(player),
+          played_minutes: played_minutes(player) || 0
+        )
       end
 
       def all_matches_data
@@ -56,12 +77,26 @@ module Scores
         player.css('.live-score-board-handler-vote').children.text.rstrip.to_f
       end
 
-      def host_name(match_info)
-        match_info.css('.home-team-name').children.text
+      def played_minutes(player)
+        value = player.css('.text-muted.fs-12').first.text.tr('(', '').tr("')", '').to_i if player.css('.text-muted.fs-12').first
+
+        player_score(player).positive? && (value.nil? || value > 90) ? 90 : value
       end
 
-      def guest_name(match_info)
-        match_info.css('.away-team-name').children.text
+      def host_club(match)
+        Club.find_by(name: match.css('.home-team-name').children.text)
+      end
+
+      def guest_club(match)
+        Club.find_by(name: match.css('.away-team-name').children.text)
+      end
+
+      def host_club_score(match_info)
+        match_info.css('.score-container .home-score').children.text
+      end
+
+      def guest_club_score(match_info)
+        match_info.css('.score-container .away-score').children.text
       end
 
       def host_players_scores(match_info)

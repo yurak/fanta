@@ -16,13 +16,17 @@ class Player < ApplicationRecord
 
   validates :name, uniqueness: { scope: %i[first_name tm_url] }, presence: true
 
+  default_scope { includes(%i[club player_positions player_teams positions teams]) }
+
   scope :by_club, ->(club_id) { where(club_id: club_id) }
   scope :search_by_name, ->(search_str) { where('lower(name) LIKE :search OR lower(first_name) LIKE :search', search: "%#{search_str}%") }
   scope :by_position, ->(position) { joins(:positions).where(positions: { name: position }) }
   scope :by_tournament, ->(tournament) { where(club: tournament.clubs.active) }
+  scope :by_ec_tournament, ->(tournament) { where(club: tournament.ec_clubs.active) }
   scope :by_national_tournament, ->(tment_id) { joins(:national_team).where(national_teams: { tournament: tment_id, status: 'active' }) }
   scope :by_national_teams, ->(nt_id) { where(national_team_id: nt_id) }
   scope :by_national_tournament_round, ->(tr) { by_national_teams(tr.national_matches.pluck(:host_team_id, :guest_team_id).reduce([], :+)) }
+  scope :by_tournament_round, ->(tr) { by_club(tr.tournament_matches.pluck(:host_club_id, :guest_club_id).reduce([], :+)) }
   scope :stats_query, -> { includes(:club, :positions).order(:name) }
   scope :with_team, -> { includes(:teams).where.not(teams: { id: nil }) }
 
@@ -130,6 +134,12 @@ class Player < ApplicationRecord
     season_matches_with_scores.where(card => true).count
   end
 
+  def season_played_minutes
+    return 0 unless season_matches_with_scores.any?
+
+    @season_played_minutes ||= season_matches_with_scores.map(&:played_minutes).sum
+  end
+
   # NationalTeams Tournament statistic
 
   def national_scores_count
@@ -179,6 +189,8 @@ class Player < ApplicationRecord
   private
 
   def season_club_tournament_rounds
+    return [] unless club.tournament
+
     TournamentRound.by_tournament(club.tournament.id).by_season(Season.last.id)
   end
 end

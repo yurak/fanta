@@ -14,7 +14,6 @@
   .match-player-bonus-item
     = image_tag("bonuses/rc.png", title: 'Red card')
 = render 'players/bonus_item', bonus: match_player.own_goals, img_path: "bonuses/autogol.png"
--# TODO: not show CS icon for M at real position without M
-- if match_player.try(:cleansheet) && match_player.cleansheet
+- if match_player.cleansheet && (match_player.is_a?(MatchPlayer) && !match_player.hide_cleansheet? || match_player.is_a?(RoundPlayer))
   .match-player-bonus-item
     = image_tag("bonuses/cs.png", title: 'Clean sheet')

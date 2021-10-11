@@ -8,6 +8,11 @@ RSpec.describe Tournament, type: :model do
     it { is_expected.to have_many(:links).dependent(:destroy) }
     it { is_expected.to have_many(:national_teams).dependent(:destroy) }
     it { is_expected.to have_many(:tournament_rounds).dependent(:destroy) }
+
+    it {
+      expect(tournament).to have_many(:ec_clubs).class_name('Club').with_foreign_key('ec_tournament_id')
+                                                .dependent(:destroy).inverse_of(:ec_tournament)
+    }
   end
 
   describe 'Validations' do
@@ -48,6 +53,40 @@ RSpec.describe Tournament, type: :model do
         create_list(:national_team, 2, tournament: tournament)
 
         expect(tournament.national?).to eq(true)
+      end
+    end
+  end
+
+  describe '#fanta?' do
+    context 'without national teams and not eurocup' do
+      it 'returns false' do
+        expect(tournament.fanta?).to eq(false)
+      end
+    end
+
+    context 'with national teams and not eurocup' do
+      it 'returns true' do
+        create_list(:national_team, 2, tournament: tournament)
+
+        expect(tournament.fanta?).to eq(true)
+      end
+    end
+
+    context 'without national teams and when eurocup' do
+      let(:tournament) { described_class.find_by(code: Scores::Injectors::Strategy::ECL) }
+
+      it 'returns true' do
+        expect(tournament.fanta?).to eq(true)
+      end
+    end
+
+    context 'with national teams and when eurocup' do
+      let(:tournament) { described_class.find_by(code: Scores::Injectors::Strategy::ECL) }
+
+      it 'returns true' do
+        create_list(:national_team, 2, tournament: tournament)
+
+        expect(tournament.fanta?).to eq(true)
       end
     end
   end

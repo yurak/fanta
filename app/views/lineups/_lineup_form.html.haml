@@ -34,6 +34,9 @@
             = t('lineups.minimum')
           .squad-maximum-rule
             = t('lineups.limit', limit: tour.max_country_players)
+      - if tour.eurocup?
+        .round-matches
+          = render 'tournaments/tournament_matches', matches: tour.tournament_round.tournament_matches
     .players-section
       .main-players-title
         = t('lineups.main_squad')
@@ -72,6 +75,8 @@
                           = player_by_mp(mp, team_module)&.name || t('lineups.not_selected')
                         .team-player-first-name{ id: "first-name-#{mp.index}" }
                           = player_by_mp(mp, team_module)&.first_name || ''
+                        - if tour.eurocup?
+                          .team-player-club{ id: "club-#{mp.index}", style: "display: none;" }= player_by_mp(mp, team_module)&.club&.code
                         - if tour.national?
                           .team-player-country{ id: "country-#{mp.index}", style: "display: none;" }= player_by_mp(mp, team_module)&.national_team&.name
                       .team-player-positions{ id: "positions-#{mp.index}" }<
@@ -125,6 +130,10 @@
                             .modal-malus-block
                               - available_for_select(team).each do |player|
                                 = render 'lineup_player_item', player: player, tour: tour, position: 'Res'
+                        - if tour.eurocup?
+                          .modal-malus-block
+                            - tournament_round_players(tour.tournament_round, team_module.slots[mp.index]&.position).each do |player|
+                              = render 'lineup_player_item', player: player, tour: tour, position: team_module.slots[mp.index]&.position
                         - if tour.national?
                           - tournament_round_players(tour.tournament_round, team_module.slots[mp.index]&.position).each do |player|
                             .modal-player-item{id: "player#{player.id}", style: "background-color: ##{ player.national_team.color };"}
@@ -175,24 +184,40 @@
           alert("#{t('lineups.limit', limit: tour.max_country_players)}");
           return false;
         }
-      }
+      } else {
+        const player_ids = [];
+        $('.round-player-input').each(function() { player_ids.push($(this).val()); });
+        const filtered = player_ids.filter(Boolean);
 
-      const player_ids = [];
-      $('.round-player-input').each(function() { player_ids.push($(this).val()); });
-      const filtered = player_ids.filter(Boolean);
+        if (filtered.length < "#{lineup.players_count}") {
+            alert("#{t('lineups.total', number: lineup.players_count)}");
+            return false;
+        }
 
-      if (filtered.length < 19) {
-          alert("#{t('lineups.total', number: 19)}");
-          return false;
-      }
+        const duplicate_ids = player_ids.reduce(function(acc, el, i, arr) {
+            if (arr.indexOf(el) !== i && acc.indexOf(el) < 0) acc.push(el); return acc;
+        }, []);
 
-      const duplicate_ids = player_ids.reduce(function(acc, el, i, arr) {
-          if (arr.indexOf(el) !== i && acc.indexOf(el) < 0) acc.push(el); return acc;
-      }, []);
+        if (duplicate_ids.length > 0) {
+            alert("#{t('lineups.duplicates')}");
+            return false;
+        }
 
-      if (duplicate_ids.length > 0) {
-          alert("#{t('lineups.duplicates')}");
-          return false;
+        if (String("#{tour.eurocup?}").toLowerCase() == "true") {
+          const counts = {};
+          const clubs = [];
+          $('.team-player-club').each(function() { clubs.push(this.textContent); });
+          clubs.filter(Boolean).forEach(function(x) { counts[x] = (counts[x] || 0)+1; });
+
+          const clubs_values = Object.keys(counts).map(function(v) { return counts[v]; });
+          const max_club_players = Math.max.apply(Math, clubs_values);
+          const club_players_limit = "#{tour.max_country_players}"
+
+          if (max_club_players > club_players_limit) {
+            alert("#{t('lineups.limit', limit: tour.max_country_players)}");
+            return false;
+          }
+        }
       }
     });
   });

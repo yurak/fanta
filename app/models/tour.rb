@@ -8,11 +8,12 @@ class Tour < ApplicationRecord
   delegate :teams, to: :league
 
   enum status: { inactive: 0, set_lineup: 1, locked: 2, closed: 3, postponed: 4 }
+  enum bench_status: { default_bench: 0, expanded: 1 }
 
   scope :closed_postponed, -> { closed.or(postponed) }
   scope :active, -> { set_lineup.or(locked) }
 
-  PLAYERS_BY_NATIONAL_MATCHES = [0, 7, 4, 3, 2].freeze
+  PLAYERS_BY_FANTA_MATCHES = [0, 7, 4, 3, 2, 1, 1, 1, 1].freeze
 
   def locked_or_postponed?
     locked? || postponed?
@@ -27,11 +28,19 @@ class Tour < ApplicationRecord
   end
 
   def mantra?
-    tournament_round.tournament_matches.any?
+    tournament_round.tournament_matches.any? && !tournament_round.tournament.eurocup
   end
 
   def national?
     tournament_round.national_matches.any?
+  end
+
+  def eurocup?
+    tournament_round.tournament.eurocup
+  end
+
+  def fanta?
+    national? || eurocup?
   end
 
   def national_teams_count
@@ -41,7 +50,13 @@ class Tour < ApplicationRecord
   end
 
   def max_country_players
-    PLAYERS_BY_NATIONAL_MATCHES[tournament_round.national_matches&.count] || 0
+    if national?
+      PLAYERS_BY_FANTA_MATCHES[tournament_round.national_matches&.count] || 0
+    elsif eurocup?
+      PLAYERS_BY_FANTA_MATCHES[tournament_round.tournament_matches&.count] || 0
+    else
+      0
+    end
   end
 
   def lineup_exist?(team)
