@@ -15,10 +15,10 @@
             = player.season_average_result_score
     .player-show-avatar
       .player-show-face
-        %object{data: player.profile_avatar_path, type: 'image/jpg'}
+        %object{data: player.profile_avatar_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
           = image_tag('avatar.png')
       .player-show-kit
-        %object{data: player.profile_kit_path, type: 'image/jpg'}
+        %object{data: player.profile_kit_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
           = image_tag('kit_default2.png')
   .player-tables
     .player-tables-left
@@ -35,7 +35,7 @@
           .player-table-row-key= t('players.club')
           .player-table-row-value.player-table-club
             = player.club.name
-            %object{data: player.club.logo_path, type: 'image/jpg'}
+            %object{data: player.club.logo_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
               = image_tag('default_logo.png')
         - if player.tm_url.present?
           .player-table-row

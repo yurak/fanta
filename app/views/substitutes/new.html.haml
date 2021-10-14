@@ -5,10 +5,10 @@
         .subs-player-item
           .subs-player-images{style: "background-color: ##{ match_player.player.club.color };"}
             .player-show-face
-              %object{data: match_player.player.avatar_path, type: 'image/jpg'}
+              %object{data: match_player.player.avatar_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
                 = image_tag('avatar.png')
             .player-show-kit
-              %object{data: match_player.player.kit_path, type: 'image/jpg'}
+              %object{data: match_player.player.kit_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
                 = image_tag('kit_small_default2.png')
           .subs-player-data
             .subs-player-name
@@ -30,10 +30,10 @@
                 .subs-player-item.subs-reserve-item
                   .subs-player-images{style: "background-color: ##{ mp.player.club.color };"}
                     .player-show-face
-                      %object{data: mp.player.avatar_path, type: 'image/jpg'}
+                      %object{data: mp.player.avatar_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
                         = image_tag('avatar.png')
                     .player-show-kit
-                      %object{data: mp.player.kit_path, type: 'image/jpg'}
+                      %object{data: mp.player.kit_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
                         = image_tag('kit_small_default2.png')
                   .subs-player-data
                     .subs-player-name

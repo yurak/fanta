@@ -21,10 +21,10 @@
           .team-player-param-item.transfer-player-data
             .transfer-player-avatar
               .player-show-face
-                %object{data: transfer.player.avatar_path, type: 'image/jpg'}
+                %object{data: transfer.player.avatar_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
                   = image_tag('avatar.png')
               .player-show-kit
-                %object{data: transfer.player.kit_path, type: 'image/jpg'}
+                %object{data: transfer.player.kit_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
                   = image_tag('kit_small_default2.png')
             .transfer-player-name
               .transfer-player-last-name
@@ -37,14 +37,14 @@
                 = position.name
           .team-player-param-item.transfer-team-image
             .team-image.inline-block
-              %object{data: transfer.team.logo_path, type: 'image/jpg'}
+              %object{data: transfer.team.logo_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
                 = image_tag('default_logo.png')
           .team-player-param-item.team-player-transfer-status
             = image_tag("icons/#{transfer.status}.png")
           .team-player-param-item.transfer-player-rating
             = transfer.price
           .team-player-param-item.transfer-player-club
-            %object{data: transfer.player.club.logo_path, type: 'image/jpg'}
+            %object{data: transfer.player.club.logo_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
               = image_tag('default_logo.png')
           .team-player-param-item.transfer-player-link
             = image_tag('icons/link_arrow.png')
