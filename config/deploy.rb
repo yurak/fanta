@@ -5,7 +5,7 @@ set :application, "fanta"
 set :repo_url, "https://github.com/yurak/fanta"
 set :branch, ENV['BRANCH'] || 'master'
 
-append :linked_dirs, %w{config}
+append :linked_dirs, 'config'
 
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
