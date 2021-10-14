@@ -8,5 +8,5 @@
     vs
   .player-match-team
     - if match_player.club.opponent_by_round(t_round)
-      %object{data: match_player.club.opponent_by_round(t_round).logo_path, type: 'image/jpg'}
+      %object{data: match_player.club.opponent_by_round(t_round).logo_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
         = image_tag('default_logo.png')

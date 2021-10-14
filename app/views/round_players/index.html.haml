@@ -58,10 +58,10 @@
             .players-list-cell.players-list-player
               .players-list-avatar
                 .player-show-face
-                  %object{data: rp.player.avatar_path, type: 'image/jpg'}
+                  %object{data: rp.player.avatar_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
                     = image_tag('avatar.png')
                 .player-show-kit
-                  %object{data: tournament.national? ? rp.player.national_kit_path : rp.player.kit_path, type: 'image/jpg'}
+                  %object{data: tournament.national? ? rp.player.national_kit_path : rp.player.kit_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
                     = image_tag('kit_small_default2.png')
               .players-list-name
                 .players-list-last-name= rp.name
@@ -83,7 +83,7 @@
             .players-list-cell.players-list-rating
               = rp.result_score
             .players-list-cell.center.team-image
-              %object{data: rp.club.logo_path, type: 'image/jpg'}
+              %object{data: rp.club.logo_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
                 = image_tag('default_logo.png')
             - if tournament.national?
               .players-list-cell.center.team-image

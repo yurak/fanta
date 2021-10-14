@@ -1,10 +1,10 @@
 .modal-player-item{id: "player#{player.id}"}
   .modal-player-images{style: "background-color: ##{ player.club.color };"}
     .player-show-face
-      %object{data: player.avatar_path, type: 'image/jpg'}
+      %object{data: player.avatar_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
         = image_tag('avatar.png')
     .player-show-kit
-      %object{data: player.kit_path, type: 'image/jpg'}
+      %object{data: player.kit_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
         = image_tag('kit_small_default2.png')
   .modal-player-data
     .player-positions
@@ -24,5 +24,5 @@
     .player-match-team
       vs
     .player-match-team
-      %object{data: player.club.opponent_by_round(tour.tournament_round).logo_path, type: 'image/jpg'}
+      %object{data: player.club.opponent_by_round(tour.tournament_round).logo_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
         = image_tag('default_logo.png')

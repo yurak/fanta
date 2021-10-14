@@ -20,7 +20,7 @@
                 .round-tournament-team-name
                   = match.host_club.name
                 .round-tournament-team-logo
-                  %object{data: match.host_club.logo_path, type: 'image/jpg'}
+                  %object{data: match.host_club.logo_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
                     = image_tag('default_logo.png')
             .round-tournament-match-cell
               - if match.host_score
@@ -32,7 +32,7 @@
             .round-tournament-match-cell.round-tournament-match-team.round-tournament-match-guest
               = link_to '' do
                 .round-tournament-team-logo
-                  %object{data: match.guest_club.logo_path, type: 'image/jpg'}
+                  %object{data: match.guest_club.logo_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
                     = image_tag('default_logo.png')
                 .round-tournament-team-name
                   = match.guest_club.name
