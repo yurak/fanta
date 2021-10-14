@@ -45,8 +45,6 @@ gem 'coveralls_reborn', '~> 0.20.0', require: false
 
 gem 'kaminari'
 
-gem 'figaro', '1.2.0'
-
 group :development, :test do
   gem 'capybara'
   gem 'pry-rails'
