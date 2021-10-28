@@ -76,9 +76,9 @@
                 .players-list-last-name= player.name
                 .players-list-first-name= player.first_name
             .players-list-cell.player-list-positions.players-pos-padding
-              - player.positions.each do |position|
-                .match-player-position.slot-position{class: "slot-position-#{position.name}"}
-                  = position.name
+              - player.player_positions.each do |player_position|
+                .match-player-position.slot-position{class: "slot-position-#{player_position.position.name}"}
+                  = player_position.position.name
             .players-list-cell.center
               - player.teams.each do |team|
                 .team-image.inline-block
