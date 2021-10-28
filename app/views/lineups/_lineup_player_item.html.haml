@@ -8,9 +8,9 @@
         = image_tag('kit_small_default2.png')
   .modal-player-data
     .player-positions
-      - player.position_names.each do |position|
-        .position-item{class: "position-item-#{position}"}
-          = position.upcase
+      - player.player_positions.includes(:position).each do |player_position|
+        .position-item{class: "position-item-#{player_position.position.name}"}
+          = player_position.position.name.upcase
   -#  .player-score
   -#    = player.season_average_result_score
   .modal-player-name
