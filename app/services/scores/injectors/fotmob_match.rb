@@ -70,7 +70,7 @@ module Scores
       def player_hash(player_data)
         hash = {
           rating: player_data['rating']['num'],
-          played_minutes: player_data['stats'][0]['Minutes played']&.first.to_i,
+          played_minutes: player_data['minutesPlayed']&.first.to_i,
           missed_goals: player_data['stats'][0]['Goals conceded']&.first
         }.compact
 
