@@ -91,6 +91,16 @@ class Player < ApplicationRecord
     transfers.incoming.where(team: team).last
   end
 
+  def age
+    return if birth_date.empty?
+
+    (Time.zone.today.strftime('%Y%m%d').to_i - birth_date.to_date.strftime('%Y%m%d').to_i) / 10_000
+  end
+
+  def team_by_league(league_id)
+    teams.find_by(league_id: league_id)
+  end
+
   # Current season statistic
 
   def chart_info
@@ -103,86 +113,50 @@ class Player < ApplicationRecord
     [{ name: 'Total score', data: ts }, { name: 'Base score', data: bs }]
   end
 
-  def season_scores_count
-    @season_scores_count ||= season_matches_with_scores.size
-  end
-
-  def season_average_score
-    return 0 if season_scores_count.zero?
-
-    @season_average_score ||= (season_matches_with_scores.map(&:score).sum / season_scores_count).round(2)
-  end
-
-  def season_average_result_score
-    return 0 if season_scores_count.zero?
-
-    @season_average_result_score ||= (season_matches_with_scores.map(&:result_score).sum / season_scores_count).round(2)
-  end
-
   def season_matches_with_scores
     @season_matches_with_scores ||= round_players.with_score.by_tournament_round(season_club_tournament_rounds).order(:tournament_round_id)
   end
 
-  def season_bonus_count(bonus)
-    season_matches_with_scores.map(&bonus.to_sym).sum.to_i
-  end
-
-  def season_cards_count(card)
-    return 0 unless season_matches_with_scores.any?
-
-    season_matches_with_scores.where(card => true).count
-  end
-
-  def season_played_minutes
-    return 0 unless season_matches_with_scores.any?
-
-    @season_played_minutes ||= season_matches_with_scores.map(&:played_minutes).sum
-  end
-
-  # NationalTeams Tournament statistic
-
-  def national_scores_count
-    @national_scores_count ||= national_matches_with_scores.size
-  end
-
-  def national_average_score
-    return 0 if national_scores_count.zero?
-
-    @national_average_score ||= (national_matches_with_scores.map(&:score).sum / national_scores_count).round(2)
-  end
-
-  def national_average_result_score
-    return 0 if national_scores_count.zero?
-
-    @national_average_result_score ||= (national_matches_with_scores.map(&:result_score).sum / national_scores_count).round(2)
+  def season_ec_matches_with_scores
+    @season_ec_matches_with_scores ||= round_players.with_score.by_tournament_round(season_club_eurocup_rounds).order(:tournament_round_id)
   end
 
   def national_matches_with_scores
-    return [] unless national_team
-
-    @national_matches_with_scores ||= round_players.with_score
-                                                   .by_tournament_round(Tournament.with_national_teams.last&.tournament_rounds)
-                                                   .order(:tournament_round_id)
+    @national_matches_with_scores ||= round_players.with_score.by_tournament_round(national_team_rounds).order(:tournament_round_id)
   end
 
-  def national_bonus_count(bonus)
-    national_matches_with_scores.map(&bonus.to_sym).sum.to_i
+  def season_scores_count(matches = season_matches_with_scores)
+    matches.size
   end
 
-  def national_cards_count(card)
-    return 0 unless national_matches_with_scores.any?
+  def season_average_score(matches = season_matches_with_scores)
+    return 0 if season_scores_count(matches).zero?
 
-    national_matches_with_scores.where(card => true).count
+    (matches.map(&:score).sum / season_scores_count(matches)).round(2)
   end
 
-  def age
-    return if birth_date.empty?
+  def season_average_result_score(matches = season_matches_with_scores)
+    return 0 if season_scores_count(matches).zero?
 
-    (Time.zone.today.strftime('%Y%m%d').to_i - birth_date.to_date.strftime('%Y%m%d').to_i) / 10_000
+    (matches.map(&:result_score).sum / season_scores_count(matches)).round(2)
   end
 
-  def team_by_league(league_id)
-    teams.find_by(league_id: league_id)
+  def season_bonus_count(matches, bonus)
+    return 0 unless matches.any?
+
+    matches.map(&bonus.to_sym).sum.to_i
+  end
+
+  def season_cards_count(matches, card)
+    return 0 unless matches.any?
+
+    matches.where(card => true).count
+  end
+
+  def season_played_minutes(matches = season_matches_with_scores)
+    return 0 unless matches.any?
+
+    matches.map(&:played_minutes).sum
   end
 
   private
@@ -191,5 +165,17 @@ class Player < ApplicationRecord
     return [] unless club.tournament
 
     TournamentRound.by_tournament(club.tournament.id).by_season(Season.last.id)
+  end
+
+  def season_club_eurocup_rounds
+    return [] unless club.ec_tournament
+
+    TournamentRound.by_tournament(club.ec_tournament.id).by_season(Season.last.id)
+  end
+
+  def national_team_rounds
+    return [] unless national_team
+
+    Tournament.with_national_teams.last&.tournament_rounds
   end
 end

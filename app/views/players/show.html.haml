@@ -83,11 +83,6 @@
                     = image_tag(t.logo_path)
 
     .player-tables-right
-      -# - if player.national_team
-      -#   .player-table.performance-table
-      -#     .player-table-title
-      -#       = t('players.national_performance')
-      -#     = render('performance', player: player, matches: player.national_matches_with_scores, national: true)
       .player-table.performance-table
         .player-table-title
           = t('players.performance')
@@ -97,3 +92,13 @@
           = t('players.chart')
         .player-table-chart
           = area_chart player.chart_info
+      - if player.club.ec_tournament
+        .player-table.performance-table
+          .player-table-title
+            = t('players.eurocup_performance')
+          = render('performance', player: player, matches: player.season_ec_matches_with_scores, national: false)
+      - if player.national_team
+        .player-table.performance-table
+          .player-table-title
+            = t('players.national_performance')
+          = render('performance', player: player, matches: player.national_matches_with_scores, national: true)
