@@ -57,6 +57,7 @@
         .table-header-item= t('table.ga')
         .table-header-item= t('table.gd')
         .table-header-item= t('table.points')
+        .table-header-item.ts-cell= t('table.ts')
         .table-header-item.form-cell= t('table.form')
         .table-header-item.next-cell
           - if league.active?
@@ -87,6 +88,8 @@
             = result.goals_difference
           .table-team-param.table-team-points
             = result.points
+          .table-team-param.ts-cell
+            = result.total_score
           .table-team-param.form-cell
             - unless league.tournament.national?
               - result.form.each do |form|
