@@ -67,18 +67,18 @@
             .players-list-cell.players-list-player
               .players-list-avatar
                 .player-show-face
-                  %object{data: player.avatar_path, type: 'image/jpg'}
+                  %object{data: player.avatar_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
                     = image_tag('avatar.png')
                 .player-show-kit
-                  %object{data: player.kit_path, type: 'image/jpg'}
+                  %object{data: player.kit_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
                     = image_tag('kit_small_default2.png')
               .players-list-name
                 .players-list-last-name= player.name
                 .players-list-first-name= player.first_name
             .players-list-cell.player-list-positions.players-pos-padding
-              - player.positions.each do |position|
-                .match-player-position.slot-position{class: "slot-position-#{position.name}"}
-                  = position.name
+              - player.player_positions.each do |player_position|
+                .match-player-position.slot-position{class: "slot-position-#{player_position.position.name}"}
+                  = player_position.position.name
             .players-list-cell.center
               - player.teams.each do |team|
                 .team-image.inline-block
@@ -88,7 +88,7 @@
             .players-list-cell.players-list-rating
               = player.season_average_result_score
             .players-list-cell.center.team-image
-              %object{data: player.club.logo_path, type: 'image/jpg'}
+              %object{data: player.club.logo_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
                 = image_tag('default_logo.png')
             .players-list-cell.players-list-arrow
               = image_tag('icons/link_arrow.png')

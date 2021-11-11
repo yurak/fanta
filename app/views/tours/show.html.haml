@@ -95,10 +95,10 @@
               .round-player-stats-param.round-player-stats-data
                 .round-player-stats-img
                   .round-player-show-face
-                    %object{data: r_player.player.avatar_path, type: 'image/jpg'}
+                    %object{data: r_player.player.avatar_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
                       = image_tag('avatar.png')
                   .round-player-show-kit
-                    %object{data: tour.national? ? r_player.player.national_kit_path : r_player.player.kit_path, type: 'image/jpg'}
+                    %object{data: tour.national? ? r_player.player.national_kit_path : r_player.player.kit_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
                       = image_tag('kit_small_default2.png')
                 .round-player-stats-name= r_player.player.name
               .round-player-stats-param= r_player.score
@@ -128,10 +128,10 @@
                 .round-player-stats-param.round-player-stats-data
                   .round-player-stats-img
                     .round-player-show-face
-                      %object{data: r_player.player.avatar_path, type: 'image/jpg'}
+                      %object{data: r_player.player.avatar_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
                         = image_tag('avatar.png')
                     .round-player-show-kit
-                      %object{data: r_player.player.kit_path, type: 'image/jpg'}
+                      %object{data: r_player.player.kit_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
                         = image_tag('kit_small_default2.png')
                   .round-player-stats-name= r_player.player.name
                 .round-player-stats-param= r_player.score
@@ -184,7 +184,7 @@
                   - else
                     = t_match.host_club.code
                 .round-tournament-club-logo
-                  %object{data: t_match.host_club.logo_path, type: 'image/jpg'}
+                  %object{data: t_match.host_club.logo_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
                     = image_tag('default_logo.png')
               .round-tournament-match-cell
                 - if t_match.host_score
@@ -195,7 +195,7 @@
                   vs
               .round-tournament-match-cell.round-tournament-match-club.round-tournament-match-guest
                 .round-tournament-club-logo
-                  %object{data: t_match.guest_club.logo_path, type: 'image/jpg'}
+                  %object{data: t_match.guest_club.logo_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
                     = image_tag('default_logo.png')
                 .round-tournament-club-name
                   - if current_user&.can_moderate? && tour.deadlined?

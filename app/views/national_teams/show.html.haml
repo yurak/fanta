@@ -31,10 +31,10 @@
                 .team-player-param-item.team-player-data
                   .team-player-avatar
                     .player-show-face
-                      %object{data: player.avatar_path, type: 'image/jpg'}
+                      %object{data: player.avatar_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
                         = image_tag('avatar.png')
                     .player-show-kit
-                      %object{data: player.national_kit_path, type: 'image/jpg'}
+                      %object{data: player.national_kit_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
                         = image_tag('kit_small_default2.png')
                   .team-player-name
                     .team-player-last-name
@@ -46,11 +46,11 @@
                     .slot-position{class: "slot-position-#{position.name}"}
                       = position.name
                 .team-player-param-item.team-player-appearances
-                  = player.national_scores_count
+                  = player.season_scores_count(player.national_matches_with_scores)
                 .team-player-param-item.team-player-rating
-                  = player.national_average_result_score
+                  = player.season_average_result_score(player.national_matches_with_scores)
                 .team-player-param-item.team-player-club
-                  %object{data: player.club.logo_path, type: 'image/jpg'}
+                  %object{data: player.club.logo_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
                     = image_tag('default_logo.png')
                 .team-player-param-item.team-player-link
                   = image_tag('icons/link_arrow.png')

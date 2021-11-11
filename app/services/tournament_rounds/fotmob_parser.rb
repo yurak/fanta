@@ -8,9 +8,10 @@ module TournamentRounds
     end
 
     def call
+      return [] unless tournament_url
       return [] unless request.code == 200
 
-      tournament_round ? all_matches_data[tournament_round.number.to_s] : all_matches_data
+      tournament_round&.number ? all_matches_data[tournament_round.number.to_s] : all_matches_data
     end
 
     private

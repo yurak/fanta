@@ -67,6 +67,10 @@ RSpec.describe Results::Updater do
         expect(host_result.reload.missed_goals).to eq(2)
       end
 
+      it 'updates host team total score' do
+        expect(host_result.reload.total_score).to eq(93)
+      end
+
       it 'does not update guest team result points' do
         expect(guest_result.reload.points).to eq(0)
       end
@@ -89,6 +93,10 @@ RSpec.describe Results::Updater do
 
       it 'updates guest team result missed goals' do
         expect(guest_result.reload.missed_goals).to eq(4)
+      end
+
+      it 'updates guest team total score' do
+        expect(guest_result.reload.total_score).to eq(82)
       end
     end
 
@@ -139,6 +147,10 @@ RSpec.describe Results::Updater do
         expect(host_result.reload.missed_goals).to eq(4)
       end
 
+      it 'updates host team total score' do
+        expect(host_result.reload.total_score).to eq(82)
+      end
+
       it 'updates guest team result points' do
         expect(guest_result.reload.points).to eq(3)
       end
@@ -161,6 +173,10 @@ RSpec.describe Results::Updater do
 
       it 'updates guest team result missed goals' do
         expect(guest_result.reload.missed_goals).to eq(2)
+      end
+
+      it 'updates guest team total score' do
+        expect(guest_result.reload.total_score).to eq(93)
       end
     end
 
@@ -211,6 +227,10 @@ RSpec.describe Results::Updater do
         expect(host_result.reload.missed_goals).to eq(2)
       end
 
+      it 'updates host team total score' do
+        expect(host_result.reload.total_score).to eq(82)
+      end
+
       it 'updates guest team result points' do
         expect(guest_result.reload.points).to eq(1)
       end
@@ -233,6 +253,10 @@ RSpec.describe Results::Updater do
 
       it 'updates guest team result missed goals' do
         expect(guest_result.reload.missed_goals).to eq(2)
+      end
+
+      it 'updates guest team total score' do
+        expect(guest_result.reload.total_score).to eq(82)
       end
     end
   end

@@ -11,38 +11,41 @@ module Results
 
       tour.matches.each do |match|
         if match.host_win?
-          update_result_win(match, match.host, match.guest)
+          update_result_win(match, match.host, match.guest, match.host_lineup, match.guest_lineup)
         elsif match.guest_win?
-          update_result_win(match, match.guest, match.host)
+          update_result_win(match, match.guest, match.host, match.guest_lineup, match.host_lineup)
         elsif match.draw?
-          update_result_draw(match, match.host)
-          update_result_draw(match, match.guest)
+          update_result_draw(match, match.host, match.host_lineup)
+          update_result_draw(match, match.guest, match.guest_lineup)
         end
       end
     end
 
     private
 
-    def update_result_win(match, winner, loser)
+    def update_result_win(match, winner, loser, winner_lineup, loser_lineup)
       winner.results.last.update(
         points: winner.results.last.points + 3,
         wins: winner.results.last.wins + 1,
         scored_goals: winner.results.last.scored_goals + match.scored_goals(winner),
-        missed_goals: winner.results.last.missed_goals + match.missed_goals(winner)
+        missed_goals: winner.results.last.missed_goals + match.missed_goals(winner),
+        total_score: winner.results.last.total_score + winner_lineup.total_score
       )
       loser.results.last.update(
         loses: loser.results.last.loses + 1,
         scored_goals: loser.results.last.scored_goals + match.scored_goals(loser),
-        missed_goals: loser.results.last.missed_goals + match.missed_goals(loser)
+        missed_goals: loser.results.last.missed_goals + match.missed_goals(loser),
+        total_score: loser.results.last.total_score + loser_lineup.total_score
       )
     end
 
-    def update_result_draw(match, team)
+    def update_result_draw(match, team, lineup)
       team.results.last.update(
         points: team.results.last.points + 1,
         draws: team.results.last.draws + 1,
         scored_goals: team.results.last.scored_goals + match.scored_goals(team),
-        missed_goals: team.results.last.missed_goals + match.missed_goals(team)
+        missed_goals: team.results.last.missed_goals + match.missed_goals(team),
+        total_score: team.results.last.total_score + lineup.total_score
       )
     end
   end

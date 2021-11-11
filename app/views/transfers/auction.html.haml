@@ -76,16 +76,16 @@
                 .player-show-base-title= t('auction.club')
                 .player-show-base-value.player-show-base-club
                   .player-show-club-logo
-                    %object{data: player.club.logo_path, type: 'image/jpg'}
+                    %object{data: player.club.logo_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
                       = image_tag('default_logo.png')
                   .player-show-club-name
                     = player.club.name
           .player-show-avatar
             .player-show-face
-              %object{data: player.profile_avatar_path, type: 'image/jpg'}
+              %object{data: player.profile_avatar_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
                 = image_tag('avatar.png')
             .player-show-kit
-              %object{data: player.profile_kit_path, type: 'image/jpg'}
+              %object{data: player.profile_kit_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
                 = image_tag('kit_default2.png')
           .player-show-close
             = link_to league_auction_path(league) do
@@ -155,13 +155,13 @@
         .auction-purchases-item-visible
           .purchases-player-avatar
             .player-show-face
-              %object{data: transfer.player.avatar_path, type: 'image/jpg'}
+              %object{data: transfer.player.avatar_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
                 = image_tag('avatar.png')
             .player-show-kit
-              %object{data: transfer.player.kit_path, type: 'image/jpg'}
+              %object{data: transfer.player.kit_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
                 = image_tag('kit_small_default2.png')
             .player-show-team
-              %object{data: transfer.team.logo_path, type: 'image/jpg'}
+              %object{data: transfer.team.logo_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
                 = image_tag('default_logo.png')
           .purchases-player-data
             .purchases-player-data-top

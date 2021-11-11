@@ -54,102 +54,52 @@
     .player-table-cell.right.bold= rp.result_score
 .table-total.performance-table-row
   .table-total-cell= t('players.total')
-  - if national
-    - if player.position_names.include?(Position::PORTIERE)
-      .table-total-cell
-        - if player.national_bonus_count('missed_goals').nonzero?
-          = image_tag("bonuses/mg.png")
-          = "x #{player.national_bonus_count('missed_goals')}"
-      .table-total-cell
-        - if player.national_bonus_count('caught_penalty').nonzero?
-          = image_tag("bonuses/pen.png")
-          = "x #{player.national_bonus_count('caught_penalty')}"
-      .table-total-cell
-        - if player.national_bonus_count('missed_penalty').nonzero?
-          = image_tag("bonuses/miss_pen.png")
-          = "x #{player.national_bonus_count('missed_penalty')}"
-    - else
-      .table-total-cell
-        - if player.national_bonus_count('goals').nonzero?
-          = image_tag("bonuses/goal.png")
-          = "x #{player.national_bonus_count('goals')}"
-      .table-total-cell
-        - if player.national_bonus_count('scored_penalty').nonzero?
-          = image_tag("bonuses/pen.png")
-          = "x #{player.national_bonus_count('scored_penalty')}"
-      .table-total-cell
-        - if player.national_bonus_count('failed_penalty').nonzero?
-          = image_tag("bonuses/miss_pen.png")
-          = "x #{player.national_bonus_count('failed_penalty')}"
+  - if player.position_names.include?(Position::PORTIERE)
     .table-total-cell
-      - if player.national_bonus_count('assists').nonzero?
-        = image_tag("bonuses/assist.png")
-        = "x #{player.national_bonus_count('assists')}"
+      - if player.season_bonus_count(matches, 'missed_goals').nonzero?
+        = image_tag("bonuses/mg.png")
+        = "x #{player.season_bonus_count(matches, 'missed_goals')}"
     .table-total-cell
-      - if player.national_cards_count('yellow_card').nonzero?
-        = image_tag("bonuses/yc.png")
-        = "x #{player.national_cards_count('yellow_card')}"
+      - if player.season_bonus_count(matches, 'caught_penalty').nonzero?
+        = image_tag("bonuses/pen.png")
+        = "x #{player.season_bonus_count(matches, 'caught_penalty')}"
     .table-total-cell
-      - if player.national_cards_count('red_card').nonzero?
-        = image_tag("bonuses/rc.png")
-        = "x #{player.national_cards_count('red_card')}"
-    .table-total-cell
-      - if player.national_cards_count('cleansheet').nonzero?
-        = image_tag("bonuses/cs.png")
-        = "x #{player.national_cards_count('cleansheet')}"
-    .table-total-cell
-      - if player.national_bonus_count('own_goals').nonzero?
-        = image_tag("bonuses/autogol.png")
-        = "x #{player.national_bonus_count('own_goals')}"
-    .table-total-cell.right= player.national_average_score
-    .table-total-cell.right.bold= player.national_average_result_score
+      - if player.season_bonus_count(matches, 'missed_penalty').nonzero?
+        = image_tag("bonuses/miss_pen.png")
+        = "x #{player.season_bonus_count(matches, 'missed_penalty')}"
   - else
-    - if player.position_names.include?(Position::PORTIERE)
-      .table-total-cell
-        - if player.season_bonus_count('missed_goals').nonzero?
-          = image_tag("bonuses/mg.png")
-          = "x #{player.season_bonus_count('missed_goals')}"
-      .table-total-cell
-        - if player.season_bonus_count('caught_penalty').nonzero?
-          = image_tag("bonuses/pen.png")
-          = "x #{player.season_bonus_count('caught_penalty')}"
-      .table-total-cell
-        - if player.season_bonus_count('missed_penalty').nonzero?
-          = image_tag("bonuses/miss_pen.png")
-          = "x #{player.season_bonus_count('missed_penalty')}"
-    - else
-      .table-total-cell
-        - if player.season_bonus_count('goals').nonzero?
-          = image_tag("bonuses/goal.png")
-          = "x #{player.season_bonus_count('goals')}"
-      .table-total-cell
-        - if player.season_bonus_count('scored_penalty').nonzero?
-          = image_tag("bonuses/pen.png")
-          = "x #{player.season_bonus_count('scored_penalty')}"
-      .table-total-cell
-        - if player.season_bonus_count('failed_penalty').nonzero?
-          = image_tag("bonuses/miss_pen.png")
-          = "x #{player.season_bonus_count('failed_penalty')}"
     .table-total-cell
-      - if player.season_bonus_count('assists').nonzero?
-        = image_tag("bonuses/assist.png")
-        = "x #{player.season_bonus_count('assists')}"
+      - if player.season_bonus_count(matches, 'goals').nonzero?
+        = image_tag("bonuses/goal.png")
+        = "x #{player.season_bonus_count(matches, 'goals')}"
     .table-total-cell
-      - if player.season_cards_count('yellow_card').nonzero?
-        = image_tag("bonuses/yc.png")
-        = "x #{player.season_cards_count('yellow_card')}"
+      - if player.season_bonus_count(matches, 'scored_penalty').nonzero?
+        = image_tag("bonuses/pen.png")
+        = "x #{player.season_bonus_count(matches, 'scored_penalty')}"
     .table-total-cell
-      - if player.season_cards_count('red_card').nonzero?
-        = image_tag("bonuses/rc.png")
-        = "x #{player.season_cards_count('red_card')}"
-    .table-total-cell
-      - if player.season_cards_count('cleansheet').nonzero?
-        = image_tag("bonuses/cs.png")
-        = "x #{player.season_cards_count('cleansheet')}"
-    .table-total-cell
-      - if player.season_bonus_count('own_goals').nonzero?
-        = image_tag("bonuses/autogol.png")
-        = "x #{player.season_bonus_count('own_goals')}"
-    .table-total-cell.center= player.season_played_minutes
-    .table-total-cell.right= player.season_average_score
-    .table-total-cell.right.bold= player.season_average_result_score
+      - if player.season_bonus_count(matches, 'failed_penalty').nonzero?
+        = image_tag("bonuses/miss_pen.png")
+        = "x #{player.season_bonus_count(matches, 'failed_penalty')}"
+  .table-total-cell
+    - if player.season_bonus_count(matches, 'assists').nonzero?
+      = image_tag("bonuses/assist.png")
+      = "x #{player.season_bonus_count(matches, 'assists')}"
+  .table-total-cell
+    - if player.season_cards_count(matches, 'yellow_card').nonzero?
+      = image_tag("bonuses/yc.png")
+      = "x #{player.season_cards_count(matches, 'yellow_card')}"
+  .table-total-cell
+    - if player.season_cards_count(matches, 'red_card').nonzero?
+      = image_tag("bonuses/rc.png")
+      = "x #{player.season_cards_count(matches, 'red_card')}"
+  .table-total-cell
+    - if player.season_cards_count(matches, 'cleansheet').nonzero?
+      = image_tag("bonuses/cs.png")
+      = "x #{player.season_cards_count(matches, 'cleansheet')}"
+  .table-total-cell
+    - if player.season_bonus_count(matches, 'own_goals').nonzero?
+      = image_tag("bonuses/autogol.png")
+      = "x #{player.season_bonus_count(matches, 'own_goals')}"
+  .table-total-cell.center= player.season_played_minutes(matches)
+  .table-total-cell.right= player.season_average_score(matches)
+  .table-total-cell.right.bold= player.season_average_result_score(matches)
