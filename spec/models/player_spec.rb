@@ -292,6 +292,61 @@ RSpec.describe Player, type: :model do
     end
   end
 
+  describe '#age' do
+    context 'without birth_date' do
+      it 'returns nil' do
+        expect(player.age).to eq(nil)
+      end
+    end
+
+    context 'with birth_date' do
+      let(:player) { create(:player, birth_date: birth_date) }
+      let(:birth_date) { "Jan 18, #{Time.zone.today.strftime('%Y').to_i - age}" }
+      let(:age) { 21 }
+
+      it 'returns player age' do
+        expect(player.age).to eq(age)
+      end
+    end
+  end
+
+  describe '#team_by_league(league_id)' do
+    let(:league_id) { nil }
+
+    context 'without teams' do
+      it 'returns empty array' do
+        expect(player.team_by_league(league_id)).to eq(nil)
+      end
+    end
+
+    context 'with one team' do
+      let(:team) { create(:team) }
+      let(:league_id) { team.league.id }
+
+      before do
+        create(:player_team, player: player, team: team)
+      end
+
+      it 'returns team by league' do
+        expect(player.team_by_league(league_id)).to eq(team)
+      end
+    end
+
+    context 'with multiple teams' do
+      let(:team) { create(:team) }
+      let(:league_id) { team.league.id }
+
+      before do
+        create(:player_team, player: player, team: team)
+        create_list(:player_team, 3, player: player)
+      end
+
+      it 'returns team by league' do
+        expect(player.team_by_league(league_id)).to eq(team)
+      end
+    end
+  end
+
   describe '#chart_info' do
     context 'when player has no matches with score' do
       it 'returns arrays without data' do
@@ -308,6 +363,65 @@ RSpec.describe Player, type: :model do
 
       it 'returns arrays with base data' do
         expect(player.chart_info.last[:data].values).to eq(['6.0', '6.0', '8.0'])
+      end
+    end
+  end
+
+  describe '#season_matches_with_scores' do
+    context 'when player has no matches in season' do
+      it 'returns empty array' do
+        expect(player.season_matches_with_scores).to eq([])
+      end
+    end
+
+    context 'when player has matches in one season' do
+      let(:player) { create(:player, :with_scores) }
+
+      it 'returns array with round_players' do
+        expect(player.season_matches_with_scores).to eq(player.round_players)
+      end
+    end
+
+    context 'when player has matches in multiple seasons' do
+      let(:player) { create(:player, :with_scores, :with_second_season) }
+
+      it 'returns array with not all round_players' do
+        expect(player.season_matches_with_scores).not_to eq(player.round_players)
+      end
+    end
+  end
+
+  describe '#season_ec_matches_with_scores' do
+    context 'when player has no eurocup matches in season' do
+      it 'returns empty array' do
+        expect(player.season_ec_matches_with_scores).to eq([])
+      end
+    end
+
+    context 'when player has eurocup matches in one season' do
+      let(:player) { create(:player, :with_eurocup_scores) }
+
+      it 'returns array with round_players' do
+        expect(player.season_ec_matches_with_scores).to eq(player.round_players)
+      end
+    end
+  end
+
+  describe '#national_matches_with_scores' do
+    context 'when player has no matches in season' do
+      it 'returns empty array' do
+        expect(player.national_matches_with_scores).to eq([])
+      end
+    end
+
+    context 'when player has national matches' do
+      let(:player) { create(:player, :with_national_team) }
+
+      it 'returns array with round_players at national team' do
+        tr = create(:tournament_round, tournament: player.national_team.tournament)
+        round_players = create_list(:round_player, 3, player: player, tournament_round: tr, score: 6)
+
+        expect(player.national_matches_with_scores).to eq(round_players)
       end
     end
   end
@@ -384,34 +498,10 @@ RSpec.describe Player, type: :model do
     end
   end
 
-  describe '#season_matches_with_scores' do
-    context 'when player has no matches in season' do
-      it 'returns empty array' do
-        expect(player.season_matches_with_scores).to eq([])
-      end
-    end
-
-    context 'when player has matches in one season' do
-      let(:player) { create(:player, :with_scores) }
-
-      it 'returns array with round_players' do
-        expect(player.season_matches_with_scores).to eq(player.round_players)
-      end
-    end
-
-    context 'when player has matches in multiple seasons' do
-      let(:player) { create(:player, :with_scores, :with_second_season) }
-
-      it 'returns array with not all round_players' do
-        expect(player.season_matches_with_scores).not_to eq(player.round_players)
-      end
-    end
-  end
-
-  describe '#season_bonus_count(bonus)' do
+  describe '#season_bonus_count(matches, bonus)' do
     context 'when player has no matches in season' do
       it 'returns zero' do
-        expect(player.season_bonus_count('goals')).to eq(0)
+        expect(player.season_bonus_count(player.season_matches_with_scores, 'goals')).to eq(0)
       end
     end
 
@@ -419,7 +509,7 @@ RSpec.describe Player, type: :model do
       let(:player) { create(:player, :with_scores_n_bonuses) }
 
       it 'returns season bonus count' do
-        expect(player.season_bonus_count('goals')).to eq(2)
+        expect(player.season_bonus_count(player.season_matches_with_scores, 'goals')).to eq(2)
       end
     end
 
@@ -427,15 +517,15 @@ RSpec.describe Player, type: :model do
       let(:player) { create(:player, :with_scores_n_bonuses, :with_second_season) }
 
       it 'returns last season bonus count' do
-        expect(player.season_bonus_count('goals')).to eq(3)
+        expect(player.season_bonus_count(player.season_matches_with_scores, 'goals')).to eq(3)
       end
     end
   end
 
-  describe '#season_cards_count(card)' do
+  describe '#season_cards_count(matches, card)' do
     context 'when player has no matches in season' do
       it 'returns zero' do
-        expect(player.season_cards_count('yellow_card')).to eq(0)
+        expect(player.season_cards_count(player.season_matches_with_scores, 'yellow_card')).to eq(0)
       end
     end
 
@@ -443,7 +533,7 @@ RSpec.describe Player, type: :model do
       let(:player) { create(:player, :with_scores_n_bonuses) }
 
       it 'returns season cards count' do
-        expect(player.season_cards_count('yellow_card')).to eq(1)
+        expect(player.season_cards_count(player.season_matches_with_scores, 'yellow_card')).to eq(1)
       end
     end
 
@@ -451,12 +541,12 @@ RSpec.describe Player, type: :model do
       let(:player) { create(:player, :with_scores_n_bonuses, :with_second_season) }
 
       it 'returns last season cards count' do
-        expect(player.season_cards_count('yellow_card')).to eq(2)
+        expect(player.season_cards_count(player.season_matches_with_scores, 'yellow_card')).to eq(2)
       end
     end
   end
 
-  describe '#season_played_minutes' do
+  describe '#season_played_minutes(matches)' do
     context 'when player has no matches in season' do
       it 'returns zero' do
         expect(player.season_played_minutes).to eq(0)
@@ -476,179 +566,6 @@ RSpec.describe Player, type: :model do
 
       it 'returns last season played_minutes sum' do
         expect(player.season_played_minutes).to eq(280)
-      end
-    end
-  end
-
-  describe '#national_scores_count' do
-    context 'when player has no national matches with score' do
-      it 'returns zero' do
-        expect(player.national_scores_count).to eq(0)
-      end
-    end
-
-    context 'when player has national matches with score' do
-      let(:player) { create(:player, :with_national_team) }
-
-      it 'returns scores count at national team' do
-        tr = create(:tournament_round, tournament: player.national_team.tournament)
-        create_list(:round_player, 3, player: player, tournament_round: tr, score: 6)
-
-        expect(player.national_scores_count).to eq(3)
-      end
-    end
-  end
-
-  describe '#national_average_score' do
-    context 'when player has no national matches with score' do
-      it 'returns zero' do
-        expect(player.national_average_score).to eq(0)
-      end
-    end
-
-    context 'when player has national matches with score' do
-      let(:player) { create(:player, :with_national_team) }
-
-      it 'returns average score at national team' do
-        tr = create(:tournament_round, tournament: player.national_team.tournament)
-        create_list(:round_player, 3, player: player, tournament_round: tr, score: 6)
-        create(:round_player, player: player, tournament_round: tr, score: 7)
-
-        expect(player.national_average_score).to eq(6.25)
-      end
-    end
-  end
-
-  describe '#national_average_result_score' do
-    context 'when player has no national matches with score' do
-      it 'returns zero' do
-        expect(player.national_average_result_score).to eq(0)
-      end
-    end
-
-    context 'when player has national matches with score' do
-      let(:player) { create(:player, :with_national_team) }
-
-      it 'returns average result score at national team' do
-        tr = create(:tournament_round, tournament: player.national_team.tournament)
-        create_list(:round_player, 3, player: player, tournament_round: tr, score: 6, assists: 1)
-        create(:round_player, player: player, tournament_round: tr, score: 7, goals: 1)
-
-        expect(player.national_average_result_score).to eq(7.75)
-      end
-    end
-  end
-
-  describe '#national_matches_with_scores' do
-    context 'when player has no matches in season' do
-      it 'returns empty array' do
-        expect(player.national_matches_with_scores).to eq([])
-      end
-    end
-
-    context 'when player has national matches' do
-      let(:player) { create(:player, :with_national_team) }
-
-      it 'returns array with round_players at national team' do
-        tr = create(:tournament_round, tournament: player.national_team.tournament)
-        round_players = create_list(:round_player, 3, player: player, tournament_round: tr, score: 6)
-
-        expect(player.national_matches_with_scores).to eq(round_players)
-      end
-    end
-  end
-
-  describe '#national_bonus_count(bonus)' do
-    context 'when player has no national matches' do
-      it 'returns zero' do
-        expect(player.national_bonus_count('goals')).to eq(0)
-      end
-    end
-
-    context 'when player has national matches' do
-      let(:player) { create(:player, :with_national_team) }
-
-      it 'returns bonus count at national team' do
-        tr = create(:tournament_round, tournament: player.national_team.tournament)
-        create_list(:round_player, 3, player: player, tournament_round: tr, score: 6, goals: 1)
-        create(:round_player, player: player, tournament_round: tr, score: 7, goals: 2)
-
-        expect(player.national_bonus_count('goals')).to eq(5)
-      end
-    end
-  end
-
-  describe '#national_cards_count(card)' do
-    context 'when player has no national matches' do
-      it 'returns zero' do
-        expect(player.national_cards_count('yellow_card')).to eq(0)
-      end
-    end
-
-    context 'when player has national matches' do
-      let(:player) { create(:player, :with_national_team) }
-
-      it 'returns cards count at national team' do
-        tr = create(:tournament_round, tournament: player.national_team.tournament)
-        create_list(:round_player, 3, player: player, tournament_round: tr, score: 6, yellow_card: 1)
-        create(:round_player, player: player, tournament_round: tr, score: 7)
-
-        expect(player.national_cards_count('yellow_card')).to eq(3)
-      end
-    end
-  end
-
-  describe '#age' do
-    context 'without birth_date' do
-      it 'returns nil' do
-        expect(player.age).to eq(nil)
-      end
-    end
-
-    context 'with birth_date' do
-      let(:player) { create(:player, birth_date: birth_date) }
-      let(:birth_date) { "Jan 18, #{Time.zone.today.strftime('%Y').to_i - age}" }
-      let(:age) { 21 }
-
-      it 'returns player age' do
-        expect(player.age).to eq(age)
-      end
-    end
-  end
-
-  describe '#team_by_league(league_id)' do
-    let(:league_id) { nil }
-
-    context 'without teams' do
-      it 'returns empty array' do
-        expect(player.team_by_league(league_id)).to eq(nil)
-      end
-    end
-
-    context 'with one team' do
-      let(:team) { create(:team) }
-      let(:league_id) { team.league.id }
-
-      before do
-        create(:player_team, player: player, team: team)
-      end
-
-      it 'returns team by league' do
-        expect(player.team_by_league(league_id)).to eq(team)
-      end
-    end
-
-    context 'with multiple teams' do
-      let(:team) { create(:team) }
-      let(:league_id) { team.league.id }
-
-      before do
-        create(:player_team, player: player, team: team)
-        create_list(:player_team, 3, player: player)
-      end
-
-      it 'returns team by league' do
-        expect(player.team_by_league(league_id)).to eq(team)
       end
     end
   end

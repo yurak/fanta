@@ -16,7 +16,7 @@
 
   .table-grid {
     display: grid;
-    grid-template-columns: 2fr 38fr 124fr 36fr 36fr 36fr 36fr 36fr 36fr 40fr 33fr 84fr 36fr;
+    grid-template-columns: 1fr 19fr 62fr 16fr 16fr 16fr 16fr 14fr 14fr 14fr 16fr 21fr 42fr 13fr;
   }
 
   .national-grid {
@@ -121,7 +121,7 @@
     padding: 200px 40px 50px;
 
     .table-grid {
-      grid-template-columns: 2fr 24fr 144fr 36fr 36fr 36fr 36fr 36fr 36fr 36fr 36fr;
+      grid-template-columns: 2fr 24fr 176fr 32fr 32fr 32fr 32fr 32fr 32fr 32fr 32fr;
     }
 
     .national-grid {
@@ -140,7 +140,7 @@
       }
     }
 
-    .form-cell, .next-cell, .table-team-opponent {
+    .form-cell, .next-cell, .table-team-opponent, .ts-cell {
       display: none;
     }
   }
@@ -151,7 +151,7 @@
     padding: 120px 50px 50px;
 
     .table-grid {
-      grid-template-columns: 2fr 28fr 140fr 36fr 36fr 36fr 36fr 36fr 36fr 40fr 33fr 94fr 24fr;
+      grid-template-columns: 1fr 16fr 65fr 16fr 16fr 16fr 16fr 14fr 14fr 14fr 16fr 21fr 42fr 13fr;
     }
 
     .national-grid {
@@ -165,7 +165,7 @@
     padding: 100px 40px 50px;
 
     .table-grid {
-      grid-template-columns: 2fr 28fr 140fr 40fr 40fr 40fr 40fr 40fr 40fr 40fr 40fr 110fr;
+      grid-template-columns: 1fr 16fr 65fr 16fr 16fr 16fr 16fr 14fr 14fr 14fr 16fr 21fr 45fr;
     }
 
     .national-grid {

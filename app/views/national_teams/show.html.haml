@@ -46,9 +46,9 @@
                     .slot-position{class: "slot-position-#{position.name}"}
                       = position.name
                 .team-player-param-item.team-player-appearances
-                  = player.national_scores_count
+                  = player.season_scores_count(player.national_matches_with_scores)
                 .team-player-param-item.team-player-rating
-                  = player.national_average_result_score
+                  = player.season_average_result_score(player.national_matches_with_scores)
                 .team-player-param-item.team-player-club
                   %object{data: player.club.logo_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
                     = image_tag('default_logo.png')
