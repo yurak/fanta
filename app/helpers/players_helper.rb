@@ -24,11 +24,11 @@ module PlayersHelper
     end
   end
 
-  def tournament_round_players(tournament_round, real_position)
-    if tournament_round.national_matches.any?
-      Player.by_national_tournament_round(tournament_round).by_position(real_position&.split('/')).uniq.sort_by(&:national_team_id)
-    elsif tournament_round.tournament.eurocup?
-      Player.by_tournament_round(tournament_round).by_position(real_position&.split('/')).uniq.sort_by { |x| [x.club.name] }
+  def tournament_round_players(t_round, real_position)
+    if t_round.national_matches.any?
+      Player.by_national_tournament_round(t_round).by_position(real_position&.split('/')).uniq.sort_by(&:national_team_id)
+    elsif t_round.tournament.eurocup?
+      Player.by_tournament_round(t_round).by_position(real_position&.split('/')).uniq.sort_by { |x| [x.club.name] }.group_by(&:club)
     else
       []
     end
