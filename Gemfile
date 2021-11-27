@@ -45,6 +45,8 @@ gem 'coveralls_reborn', '~> 0.20.0', require: false
 
 gem 'kaminari'
 
+gem 'whenever', require: false
+
 group :development, :test do
   gem 'capybara'
   gem 'pry-rails'
