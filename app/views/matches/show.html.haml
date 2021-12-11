@@ -73,7 +73,27 @@
     .match-lineups
       .match-team-name= match.host.human_name
       .match-lineups-field
-        = image_tag('field_skeleton.svg')
-        -# TODO: add lineups icons to field
+        = image_tag('field_skeleton.svg', class: 'field_skeleton')
+        .match-modules
+          .match-module-lineup.match-module-home
+            - if match.host_lineup
+              - if current_user == match.host_lineup.team.user || match.host_lineup.tour.deadlined?
+                - match.host_lineup.match_players.main.each_with_index do |mp, index|
+                  .match-module-item{class: "slot-#{match.host_lineup.team_module.slots[index]&.location}"}
+                    .match-module-shirt{style: "background-image: url('#{ image_url("shirts/shirt_#{mp.real_position.tr('/', '_')}.svg") }');"}
+                      .match-module-item-name
+                        = match.host_lineup.team_module.slots[index]&.position
+                      .match-module-item-player
+                        = mp.player.name
+          .match-module-lineup.match-module-away
+            - if match.guest_lineup
+              - if current_user == match.guest_lineup.team.user || match.guest_lineup.tour.deadlined?
+                - match.guest_lineup.match_players.main.each_with_index do |mp, index|
+                  .match-module-item{class: "slot-#{match.guest_lineup.team_module.slots[index]&.location}"}
+                    .match-module-shirt{style: "background-image: url('#{ image_url("shirts/shirt_#{mp.real_position.tr('/', '_')}.svg") }');"}
+                      .match-module-item-name
+                        = match.guest_lineup.team_module.slots[index]&.position
+                      .match-module-item-player
+                        = mp.player.name
       .match-team-name= match.guest.human_name
     = render 'team_squad', lineup: match.guest_lineup

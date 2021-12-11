@@ -76,7 +76,7 @@
   }
 
   .match-bar {
-    padding: 38px 100px 16px;
+    padding: 38px 50px 16px;
     display: grid;
     grid-template-columns: 1fr 420px 1fr;
 
@@ -200,19 +200,120 @@
   }
 
   .match-squads {
-    padding: 32px 100px;
+    padding: 32px 50px;
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 420px 1fr;
     column-gap: 46px;
     grid-auto-rows: max-content;
 
     .match-lineups {
       .match-lineups-field {
         background-color: #4EAD57;
-        padding: 10px;
+        position: relative;
 
-        img {
+        .field_skeleton {
           width: 100%;
+          padding: 10px;
+        }
+
+        .match-modules {
+          position: absolute;
+          top: 0;
+          width: 100%;
+          height: 100%;
+
+          .match-module-lineup {
+            width: 100%;
+            height: 50%;
+            padding: 15px;
+            display: grid;
+            grid-template-columns: repeat(7, 52px);
+            column-gap: 5px;
+            grid-row-gap: 10px;
+
+            .slot-d1 { grid-area: d1; }
+            .slot-a2 { grid-area: a2; }
+            .slot-b2 { grid-area: b2; }
+            .slot-c2 { grid-area: c2; }
+            .slot-d2 { grid-area: d2; }
+            .slot-e2 { grid-area: e2; }
+            .slot-f2 { grid-area: f2; }
+            .slot-g2 { grid-area: g2; }
+            .slot-a3 { grid-area: a3; }
+            .slot-b3 { grid-area: b3; }
+            .slot-c3 { grid-area: c3; }
+            .slot-d3 { grid-area: d3; }
+            .slot-e3 { grid-area: e3; }
+            .slot-f3 { grid-area: f3; }
+            .slot-g3 { grid-area: g3; }
+            .slot-a4 { grid-area: a4; }
+            .slot-b4 { grid-area: b4; }
+            .slot-c4 { grid-area: c4; }
+            .slot-d4 { grid-area: d4; }
+            .slot-e4 { grid-area: e4; }
+            .slot-f4 { grid-area: f4; }
+            .slot-g4 { grid-area: g4; }
+            .slot-c5 { grid-area: c5; }
+            .slot-d5 { grid-area: d5; }
+            .slot-e5 { grid-area: e5; }
+          }
+
+          .match-module-item {
+            width: 100%;
+            height: 100%;
+
+            .match-module-shirt {
+              width: 100%;
+              height: 48px;
+              background-repeat: no-repeat;
+              background-size: 100% 100%;
+
+              .match-module-item-name {
+                color: #FFFFFF;
+                text-align: center;
+                font-size: 8px;
+                width: 100%;
+                padding-top: 16px;
+              }
+            }
+
+            .match-module-item-player {
+              background-color: #000000;
+              color: #FFFFFF;
+              text-align: center;
+              font-size: 8px;
+              width: 100%;
+              margin-top: 7px;
+              white-space: nowrap;
+              overflow: hidden !important;
+              text-overflow: ellipsis;
+            }
+          }
+
+          .match-module-home {
+            grid-template-areas:
+              "a1 b1 c1 d1 e1 f1 g1"
+              "a2 b2 c2 d2 e2 f2 g2"
+              "a3 b3 c3 d3 e3 f3 g3"
+              "a4 b4 c4 d4 e4 f4 g4"
+              "a5 b5 c5 d5 e5 f5 g5";
+          }
+
+          .match-module-away {
+            grid-template-areas:
+              "g5 f5 e5 d5 c5 b5 a5"
+              "g4 f4 e4 d4 c4 b4 a4"
+              "g3 f3 e3 d3 c3 b3 a3"
+              "g2 f2 e2 d2 c2 b2 a2"
+              "a1 b1 c1 d1 e1 f1 g1";
+
+            .match-module-item {
+              .match-module-item-player {
+                background-color: #FFFFFF;
+                color: #000000;
+              }
+            }
+          }
         }
       }
 
