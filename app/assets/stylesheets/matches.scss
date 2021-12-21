@@ -228,7 +228,7 @@
             padding: 15px;
             display: grid;
             grid-template-columns: repeat(7, 52px);
-            column-gap: 5px;
+            column-gap: 4px;
             grid-row-gap: 10px;
 
             .slot-d1 { grid-area: d1; }

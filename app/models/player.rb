@@ -60,7 +60,7 @@ class Player < ApplicationRecord
   end
 
   def path_name
-    full_name.downcase.tr(' ', '_').tr('-', '_').delete("'")
+    avatar_name || full_name.downcase.tr(' ', '_').tr('-', '_').delete("'")
   end
 
   def national_kit_path
