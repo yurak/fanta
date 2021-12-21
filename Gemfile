@@ -5,45 +5,37 @@ ruby '2.5.1'
 
 gem 'rails', '5.2.5'
 gem 'sqlite3'
-gem 'puma', '4.3.9'
-gem 'sass-rails', '~> 5.0'
-gem 'uglifier', '>= 1.3.0'
-gem 'bootstrap', '4.3.1'
-gem 'jquery-rails', '~> 4.3.1'
-gem 'haml-rails', '~> 2.0'
-gem 'coffee-rails', '~> 4.2'
-gem 'jbuilder', '~> 2.5'
 
+gem 'active_model_serializers', '~> 0.10.0'
+gem 'bootsnap', '>= 1.1.0', require: false
+gem 'bootstrap', '4.3.1'
+gem 'cancancan'
+gem 'chartkick', '3.4.0'
+gem 'coffee-rails', '~> 4.2'
+gem 'coveralls_reborn', '~> 0.20.0', require: false
+gem 'countries'
+gem 'devise', '4.7.1'
+gem 'devise-bootstrap-views', '~> 1.0'
+gem 'dotenv-rails', require: 'dotenv/rails-now'
+gem 'flag-icons-rails'
+gem 'haml-rails', '~> 2.0'
+gem 'jbuilder', '~> 2.5'
+gem 'jquery-rails', '~> 4.3.1'
+gem 'kaminari'
+gem 'mini_racer'
+gem 'puma', '4.3.9'
+gem 'rails_admin', '~> 2.0'
+gem 'rails-i18n', '~> 5.1'
+gem 'rb-readline'
+gem 'rest-client'
 gem 'rubocop', require: false
 gem 'rubocop-rails', require: false
 gem 'rubocop-rspec', require: false
-
-gem 'devise', '4.7.1'
-gem 'devise-bootstrap-views', '~> 1.0'
-gem 'bootsnap', '>= 1.1.0', require: false
-
-gem 'rb-readline'
-gem 'tinymce-rails'
-
-gem 'rails-i18n', '~> 5.1'
-gem 'rest-client'
-gem 'mini_racer'
-
-gem 'chartkick', '3.4.0'
-
-gem 'active_model_serializers', '~> 0.10.0'
-gem 'dotenv-rails', require: 'dotenv/rails-now'
+gem 'sass-rails', '~> 5.0'
 gem 'telegram-bot-ruby'
-
-gem 'cancancan'
-gem 'rails_admin', '~> 2.0'
-
-gem 'countries'
-gem 'flag-icons-rails'
-
-gem 'coveralls_reborn', '~> 0.20.0', require: false
-
-gem 'kaminari'
+gem 'tinymce-rails'
+gem 'uglifier', '>= 1.3.0'
+gem 'whenever', require: false
 
 group :development, :test do
   gem 'capybara'

@@ -141,6 +141,14 @@ RSpec.describe Player, type: :model do
   end
 
   describe '#path_name' do
+    context 'with avatar_name' do
+      let(:player_with_avatar_name) { create(:player, name: 'Suarez', avatar_name: 'suarez_uy') }
+
+      it 'returns avatar_path' do
+        expect(player_with_avatar_name.path_name).to eq('suarez_uy')
+      end
+    end
+
     context 'without first name' do
       it 'returns name' do
         expect(player_with_name.path_name).to eq('dida')

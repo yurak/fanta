@@ -131,9 +131,12 @@
                               - available_for_select(team).each do |player|
                                 = render 'lineup_player_item', player: player, tour: tour, position: 'Res'
                         - if tour.eurocup?
-                          .modal-malus-block
-                            - tournament_round_players(tour.tournament_round, team_module.slots[mp.index]&.position).each do |player|
-                              = render 'lineup_player_item', player: player, tour: tour, position: team_module.slots[mp.index]&.position
+                          - tournament_round_players(tour.tournament_round, team_module.slots[mp.index]&.position).each do |club, players|
+                            .modal-malus-title
+                              = club.name.upcase
+                            .modal-malus-block
+                              - players.each do |player|
+                                = render 'lineup_player_item', player: player, tour: tour, position: team_module.slots[mp.index]&.position
                         - if tour.national?
                           - tournament_round_players(tour.tournament_round, team_module.slots[mp.index]&.position).each do |player|
                             .modal-player-item{id: "player#{player.id}", style: "background-color: ##{ player.national_team.color };"}

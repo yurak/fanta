@@ -5,6 +5,17 @@ namespace :tours do
     tour&.set_lineup!
   end
 
+  desc 'Lock tours after deadline'
+  task lock_deadline: :environment do
+    League.active.each do |league|
+      league.tours.set_lineup.each do |tour|
+        tour_deadline = tour.tournament_round.deadline.asctime.in_time_zone('EET')
+
+        Tours::Manager.new(tour: tour, status: 'locked').call if tour_deadline < DateTime.now
+      end
+    end
+  end
+
   desc 'Create tours for Euro'
   task create_euro: :environment do
     tournament = Tournament.find_by(code: Scores::Injectors::Strategy::EURO)
