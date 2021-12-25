@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_21_153428) do
+ActiveRecord::Schema.define(version: 2021_12_21_175956) do
 
   create_table "article_tags", force: :cascade do |t|
     t.string "name", default: "", null: false
@@ -31,6 +31,17 @@ ActiveRecord::Schema.define(version: 2021_12_21_153428) do
     t.integer "article_tag_id"
     t.string "internal_image_url"
     t.integer "status", default: 0, null: false
+  end
+
+  create_table "auctions", force: :cascade do |t|
+    t.integer "league_id"
+    t.integer "status", default: 0, null: false
+    t.integer "number"
+    t.datetime "deadline"
+    t.datetime "event_time"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["league_id"], name: "index_auctions_on_league_id"
   end
 
   create_table "clubs", force: :cascade do |t|
@@ -331,6 +342,8 @@ ActiveRecord::Schema.define(version: 2021_12_21_153428) do
     t.integer "status", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "auction_id"
+    t.index ["auction_id"], name: "index_transfers_on_auction_id"
     t.index ["league_id"], name: "index_transfers_on_league_id"
     t.index ["player_id"], name: "index_transfers_on_player_id"
     t.index ["team_id"], name: "index_transfers_on_team_id"

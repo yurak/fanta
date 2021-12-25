@@ -16,9 +16,11 @@ Rails.application.routes.draw do
   get :success_request, to: 'join_requests#success_request'
 
   resources :leagues, only: [:index] do
+    resources :auctions, only: [:index, :show] do
+      resources :transfers, only: [:index, :create, :destroy]
+    end
+
     resources :results, only: [:index]
-    resources :transfers, only: [:index, :create, :destroy]
-    get :auction, to: 'transfers#auction'
   end
 
   resources :links, only: [:index]

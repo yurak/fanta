@@ -1,0 +1,23 @@
+.page-info.auctions-page
+  .auctions-head
+    .tournament-logo= image_tag(league.tournament.logo_path)
+    .auctions-title
+      = t('auction.title', league: league.name)
+  .auctions-block
+    .auctions-headers
+      .auctions-header-item.center #
+      .auctions-header-item= t('auction.status')
+      .auctions-header-item= t('auction.deadline')
+      .auctions-header-item= t('auction.event_time')
+      .auctions-header-item= t('auction.transfers_count')
+      .transfer-header-item
+    - @auctions.reverse.each do |auction|
+      = link_to auction.initial? ? '#' : league_auction_transfers_path(league, auction) do
+        .auction-item{ class: "auction-#{auction.status}"}
+          .auction-param-item.center= auction.number
+          .auction-param-item= auction.status
+          .auction-param-item= auction.deadline&.strftime("%^a, %^b %e, %H:%M")
+          .auction-param-item= auction.event_time&.strftime("%^a, %^b %e, %H:%M")
+          .auction-param-item= auction.transfers.count
+          .auction-param-item.auction-link
+            = image_tag('icons/link_arrow.png')
