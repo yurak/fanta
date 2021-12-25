@@ -3,7 +3,7 @@
     .auction-base-data
       .auction-data-row-one
         .auction-close
-          = link_to league_transfers_path(league) do
+          = link_to league_auction_transfers_path(league, auction) do
             .auction-close-x &times;
             .auction-close-text= t('auction.close')
         .auction-spend-text= t('auction.time_spend')
@@ -94,8 +94,9 @@
         .player-timer-desc= t('auction.time_left')
         #timer 00:15
       .transfer-form
-        = form_for :transfer, url: league_transfers_path(league), method: :post do |f|
+        = form_for :transfer, url: league_auction_transfers_path(league, auction), method: :post do |f|
           = f.hidden_field :player_id, value: player.id
+          = f.hidden_field :auction_id, value: auction.id
           .transfer-form-club
             .transfer-form-club-title= t('auction.select_club')
             .transfer-form-club-select
@@ -150,7 +151,7 @@
     - league.transfers.incoming.reverse.take(8).each do |transfer|
       .auction-purchases-item
         .auction-purchases-item-hidden
-          = link_to league_transfer_path(transfer.league, transfer), method: :delete, data: { confirm: t('tours.are_you_sure') } do
+          = link_to league_auction_transfer_path(transfer.league, auction, transfer), method: :delete, data: { confirm: t('tours.are_you_sure') } do
             .auction-transfer-cancel Cancel
         .auction-purchases-item-visible
           .purchases-player-avatar

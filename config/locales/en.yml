@@ -51,6 +51,11 @@ en:
     time_left: "Time left"
     time_out: "TIME OUT"
     seconds: "seconds"
+    status: "STATUS"
+    deadline: "DEADLINE"
+    event_time: "EVENT TIME"
+    transfers_count: "TRANSFERS COUNT"
+    title: "%{league} Auctions"
   header:
     rules: "Rules"
     guide: "Guide"

@@ -1,4 +1,5 @@
 class Transfer < ApplicationRecord
+  belongs_to :auction, optional: true
   belongs_to :league
   belongs_to :player
   belongs_to :team

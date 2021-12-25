@@ -20,6 +20,11 @@ ua:
     time_left: "Залишилося"
     time_out: "ЧАС ВИЙШОВ"
     seconds: "секунд"
+    status: "СТАТУС"
+    deadline: "ДЕДЛАЙН"
+    event_time: "ЧАС ПОДІЇ"
+    transfers_count: "К-СТЬ ТРАНСФЕРІВ"
+    title: "Аукціони %{league}"
   header:
     rules: "Правила"
     guide: "Посібник"
