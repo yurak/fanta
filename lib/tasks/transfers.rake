@@ -9,16 +9,8 @@ namespace :transfers do
       puts "----#{team.name}----"
 
       team.player_teams.transferable.each do |pt|
-        init_transfer = pt.player.transfer_by(team)
-        next unless init_transfer
-
-        puts "Transfer: #{pt.player.name} (#{pt.player.id}) from #{team.name}, price: #{init_transfer.price}"
-
-        ActiveRecord::Base.transaction do
-          Transfer.create(player: pt.player, team: team, league: league, price: init_transfer.price, status: :outgoing)
-          team.update(budget: team.budget + init_transfer.price)
-          pt.destroy
-        end
+        puts "Transfer: #{pt.player.name} (#{pt.player.id}) from #{team.name}"
+        Transfers::Seller.call(player: pt.player, team: team, status: :outgoing)
       end
     end
   end

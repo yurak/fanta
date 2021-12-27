@@ -64,10 +64,10 @@ RSpec.describe 'Teams', type: :request do
       it { expect(response).to have_http_status(:found) }
     end
 
-    context 'with own team and league with open transfer_status when user is logged in' do
+    context 'with own team and league with sales auction when user is logged in' do
       let(:logged_user) { create(:user) }
-      let(:league) { create(:league, transfer_status: :open) }
-      let(:team) { create(:team, league: league, user: logged_user) }
+      let(:auction) { create(:auction, status: :sales) }
+      let(:team) { create(:team, league: auction.league, user: logged_user) }
 
       before do
         sign_in logged_user
@@ -141,8 +141,8 @@ RSpec.describe 'Teams', type: :request do
 
     context 'with own team and league with open transfer_status when user is logged in' do
       let(:logged_user) { create(:user) }
-      let(:league) { create(:league, transfer_status: :open) }
-      let(:team) { create(:team, :with_players, league: league, user: logged_user) }
+      let(:auction) { create(:auction, status: :sales) }
+      let(:team) { create(:team, :with_players, league: auction.league, user: logged_user) }
 
       let(:params) do
         {

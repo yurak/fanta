@@ -81,6 +81,11 @@
                       = t.league.name
                   .player-team-logo
                     = image_tag(t.logo_path)
+      - if current_user&.admin? && player.teams.any?
+        .player-actions
+          = link_to player_path(player), method: :put, data: { confirm: 'Are you sure?' } do
+            .player-action-btn
+              = t('players.left_tournament')
 
     .player-tables-right
       .player-table.performance-table

@@ -34,7 +34,7 @@ class TeamsController < ApplicationController
   end
 
   def editable?
-    team.league.open? && team_of_user?
+    team.sales_period? && team_of_user?
   end
 
   def team_of_user?

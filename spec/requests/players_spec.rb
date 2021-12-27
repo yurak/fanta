@@ -107,4 +107,190 @@ RSpec.describe 'Players', type: :request do
       end
     end
   end
+
+  describe 'PUT #update' do
+    let(:team) { create(:team, budget: 250) }
+    let(:player) { create(:player) }
+    let!(:player_team) { create(:player_team, player: player, team: team) }
+    let!(:transfer) { create(:transfer, team: team, player: player, price: 10) }
+
+    context 'when user is logged out' do
+      before do
+        put player_path(player)
+      end
+
+      it { expect(response).to redirect_to('/users/sign_in') }
+      it { expect(response).to have_http_status(:found) }
+
+      it 'does not update team budget' do
+        expect(team.reload.budget).to eq(250)
+      end
+
+      it 'does not remove player from team' do
+        expect(player_team.reload).to eq(player_team)
+      end
+
+      it 'does not destroy initial transfer' do
+        expect(transfer.reload).to eq(transfer)
+      end
+
+      it 'does not create left transfer' do
+        expect(Transfer.left.count).to eq(0)
+      end
+    end
+
+    context 'when user is logged in' do
+      login_user
+      before do
+        put player_path(player)
+      end
+
+      it { expect(response).to redirect_to(player_path(player)) }
+      it { expect(response).to have_http_status(:found) }
+
+      it 'does not update team budget' do
+        expect(team.reload.budget).to eq(250)
+      end
+
+      it 'does not remove player from team' do
+        expect(player_team.reload).to eq(player_team)
+      end
+
+      it 'does not destroy initial transfer' do
+        expect(transfer.reload).to eq(transfer)
+      end
+
+      it 'does not create left transfer' do
+        expect(Transfer.left.count).to eq(0)
+      end
+    end
+
+    context 'when moderator is logged in' do
+      login_moderator
+      before do
+        put player_path(player)
+      end
+
+      it { expect(response).to redirect_to(player_path(player)) }
+      it { expect(response).to have_http_status(:found) }
+
+      it 'does not update team budget' do
+        expect(team.reload.budget).to eq(250)
+      end
+
+      it 'does not remove player from team' do
+        expect(player_team.reload).to eq(player_team)
+      end
+
+      it 'does not destroy initial transfer' do
+        expect(transfer.reload).to eq(transfer)
+      end
+
+      it 'does not create left transfer' do
+        expect(Transfer.left.count).to eq(0)
+      end
+    end
+
+    context 'with valid conditions when admin is logged in' do
+      login_admin
+      before do
+        create(:auction, league: team.league, status: :initial)
+
+        put player_path(player)
+      end
+
+      it { expect(response).to redirect_to(player_path(player)) }
+      it { expect(response).to have_http_status(:found) }
+
+      it 'updates team budget' do
+        expect(team.reload.budget).to eq(260)
+      end
+
+      it 'removes player from team' do
+        expect(team.players.find_by(id: player.id)).to be_nil
+      end
+
+      it 'does not destroy initial transfer' do
+        expect(transfer.reload).to eq(transfer)
+      end
+
+      it 'creates left transfer' do
+        expect(Transfer.left.count).to eq(1)
+      end
+
+      it 'calls Transfers::Seller service' do
+        seller = instance_double(Transfers::Seller)
+        allow(Transfers::Seller).to receive(:new).and_return(seller)
+        allow(seller).to receive(:call)
+
+        put player_path(player)
+      end
+    end
+
+    context 'without suitable auction when admin is logged in' do
+      login_admin
+      before do
+        put player_path(player)
+      end
+
+      it { expect(response).to redirect_to(player_path(player)) }
+      it { expect(response).to have_http_status(:found) }
+
+      it 'does not update team budget' do
+        expect(team.reload.budget).to eq(250)
+      end
+
+      it 'does not remove player from team' do
+        expect(player_team.reload).to eq(player_team)
+      end
+
+      it 'does not destroy initial transfer' do
+        expect(transfer.reload).to eq(transfer)
+      end
+
+      it 'does not create left transfer' do
+        expect(Transfer.left.count).to eq(0)
+      end
+
+      it 'calls Transfers::Seller service' do
+        seller = instance_double(Transfers::Seller)
+        allow(Transfers::Seller).to receive(:new).and_return(seller)
+        allow(seller).to receive(:call)
+
+        put player_path(player)
+      end
+    end
+
+    context 'without initial transfer when admin is logged in' do
+      let(:transfer) { nil }
+
+      login_admin
+      before do
+        put player_path(player)
+      end
+
+      it { expect(response).to redirect_to(player_path(player)) }
+      it { expect(response).to have_http_status(:found) }
+
+      it 'does not update team budget' do
+        expect(team.reload.budget).to eq(250)
+      end
+
+      it 'does not remove player from team' do
+        expect(player_team.reload).to eq(player_team)
+      end
+
+      it 'does not create left transfer' do
+        expect(Transfer.left.count).to eq(0)
+      end
+
+      it 'calls Transfers::Seller service' do
+        seller = instance_double(Transfers::Seller)
+        allow(Transfers::Seller).to receive(:new).and_return(seller)
+        allow(seller).to receive(:call)
+
+        put player_path(player)
+      end
+    end
+  end
 end
