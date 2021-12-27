@@ -11,9 +11,9 @@ class TransfersController < ApplicationController
 
   def create
     creator = Transfers::Creator.call(league: league, params: create_params) if can? :create, Transfer
-    player = transfer_player.id if !creator && transfer_player && !transfer_player.team_by_league(league.id)
+    player_id = player.id if !creator && player && !player.team_by_league(league.id)
 
-    redirect_to league_auction_path(league, auction, player: player)
+    redirect_to league_auction_path(league, auction, player: player_id)
   end
 
   def destroy
@@ -32,8 +32,8 @@ class TransfersController < ApplicationController
     @league ||= League.find(params[:league_id])
   end
 
-  def transfer_player
-    @transfer_player ||= Player.find_by(id: create_params[:player_id])
+  def player
+    @player ||= Player.find_by(id: create_params[:player_id])
   end
 
   def create_params

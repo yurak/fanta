@@ -17,7 +17,7 @@
               = team.player_teams.transferable.count
             .players-sale /
             .players-sale.players-sale-max
-              = team.players.count - 20
+              = team.league.auctions.sales.first.sales_count
         .team-data-item
           .team-data-title= t('teams.possible_budget')
           .team-data-value#possible-budget
@@ -95,7 +95,7 @@
 
       if(Number(currentSalePlayers) > Number(maxSalePlayers)) {
         e.preventDefault()
-        alert("#{t('teams.transfers_limit', limit: team.players.count - 20)}");
+        alert("#{t('teams.transfers_limit', limit: team.league.auctions.sales.first.sales_count)}");
       }
     });
   });

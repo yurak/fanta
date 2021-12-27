@@ -39,7 +39,7 @@
   .auctions-headers {
     padding: 32px 0 12px;
     display: grid;
-    grid-template-columns: 1fr 3fr 3fr 3fr 2fr 1fr;
+    grid-template-columns: 1fr 2fr 3fr 3fr 3fr 1fr;
     font-weight: 500;
     font-size: 10px;
     line-height: 14px;
@@ -48,7 +48,7 @@
 
   .auction-item {
     display: grid;
-    grid-template-columns: 1fr 3fr 3fr 3fr 2fr 1fr;
+    grid-template-columns: 1fr 2fr 3fr 3fr 3fr 1fr;
     border: 1px solid #E5E6E4;
     box-sizing: border-box;
     border-radius: 4px;
@@ -70,12 +70,12 @@
     background-color: #F9FBBC;
   }
 
-  .auction-open_bids {
-    background-color: #D0F0D4;
+  .auction-sales {
+    background-color: #FCC5CB;
   }
 
-  .auction-active {
-    background-color: #FCC5CB;
+  .auction-live,.auction-blind_bids  {
+    background-color: #D0F0D4;
   }
 }
 

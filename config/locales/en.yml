@@ -250,6 +250,7 @@ en:
     pm: "PM"
     base_score: "BASE SCORE"
     total_score: "TOTAL SCORE"
+    left_tournament: "Left tournament"
   round_players:
     title: "%{tournament} Round #%{number} Best Players"
   table:

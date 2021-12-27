@@ -29,7 +29,7 @@ Rails.application.routes.draw do
 
   resources :national_teams, only: [:show]
 
-  resources :players, only: [:index, :show]
+  resources :players, only: [:index, :show, :update]
 
   resources :match_players, only: [] do
     resources :substitutes, only: [:new, :create, :destroy]

@@ -229,4 +229,32 @@ RSpec.describe Team, type: :model do
       end
     end
   end
+
+  describe '#sales_period?' do
+    context 'without auctions' do
+      it 'returns false' do
+        expect(team.sales_period?).to eq(false)
+      end
+    end
+
+    context 'without sales auctions' do
+      before do
+        create(:auction, league: team.league)
+      end
+
+      it 'returns false' do
+        expect(team.sales_period?).to eq(false)
+      end
+    end
+
+    context 'with sales auctions' do
+      before do
+        create(:auction, status: 'sales', league: team.league)
+      end
+
+      it 'returns true' do
+        expect(team.sales_period?).to eq(true)
+      end
+    end
+  end
 end

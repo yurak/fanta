@@ -67,6 +67,10 @@ class Team < ApplicationRecord
     budget - vacancies + 1
   end
 
+  def sales_period?
+    league.auctions.sales.any?
+  end
+
   private
 
   def next_match

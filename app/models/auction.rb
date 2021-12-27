@@ -3,6 +3,10 @@ class Auction < ApplicationRecord
 
   has_many :transfers, dependent: :destroy
 
-  # TODO: update status names
-  enum status: { initial: 0, open_bids: 1, active: 2, closed: 3 }
+  # sales - outgoing transfers
+  # blind_bids - only for leagues with blind auctions
+  # live - only for leagues with live auctions
+  enum status: { initial: 0, sales: 1, blind_bids: 2, live: 3, closed: 4 }
+
+  scope :initial_sales, -> { initial.or(sales) }
 end

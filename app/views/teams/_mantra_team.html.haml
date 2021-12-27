@@ -77,7 +77,7 @@
             - team.results.last.form.each do |form|
               .team-form-item{ class: "team-form-#{form[0]}" }
                 = form[0]
-    - if team.user == current_user && team.league.open?
+    - if team.user == current_user && team.sales_period?
       .team-transfer-market
         = link_to edit_team_path(team) do
           .team-transfer-market-btn

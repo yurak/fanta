@@ -7,6 +7,6 @@ RSpec.describe Auction, type: :model do
   end
 
   describe 'Validations' do
-    it { is_expected.to define_enum_for(:status).with_values(%i[initial open_bids active closed]) }
+    it { is_expected.to define_enum_for(:status).with_values(%i[initial sales blind_bids live closed]) }
   end
 end

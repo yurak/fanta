@@ -219,6 +219,7 @@ ua:
     pm: "ЗХ"
     base_score: "БАЗ ОЦІНКА"
     total_score: "ЗАГ ОЦІНКА"
+    left_tournament: "Покинув турнір"
   round_players:
     title: "Найкращі Гравці %{tournament} Раунд #%{number}"
   table:

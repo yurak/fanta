@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_21_175956) do
+ActiveRecord::Schema.define(version: 2021_12_27_175258) do
 
   create_table "article_tags", force: :cascade do |t|
     t.string "name", default: "", null: false
@@ -41,6 +41,7 @@ ActiveRecord::Schema.define(version: 2021_12_21_175956) do
     t.datetime "event_time"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "sales_count", default: 5, null: false
     t.index ["league_id"], name: "index_auctions_on_league_id"
   end
 
@@ -54,6 +55,7 @@ ActiveRecord::Schema.define(version: 2021_12_21_175956) do
     t.string "full_name", default: "", null: false
     t.string "color", default: "181715", null: false
     t.integer "ec_tournament_id"
+    t.string "tm_name"
     t.index ["code"], name: "index_clubs_on_code", unique: true
     t.index ["ec_tournament_id"], name: "index_clubs_on_ec_tournament_id"
     t.index ["name"], name: "index_clubs_on_name", unique: true
