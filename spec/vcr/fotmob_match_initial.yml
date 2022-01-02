@@ -1,0 +1,96 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://www.fotmob.com/matchDetails?matchId=3629471
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - "*/*"
+      User-Agent:
+      - rest-client/2.1.0 (darwin20.3.0 x86_64) ruby/2.5.1p57
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Host:
+      - www.fotmob.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json; charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Origin:
+      - https://www.fotmob.com
+      Access-Control-Expose-Headers:
+      - TrackJS-Correlation-Id
+      Cache-Control:
+      - max-age=40
+      - public
+      Date:
+      - Sun, 02 Jan 2022 16:22:55 GMT
+      Etag:
+      - W/"17af-K+Ji9UoXSgO4agFRrOqJm4kJAp8"
+      Expires:
+      - Sun, 02 Jan 2022 16:23:35 GMT
+      Server:
+      - nginx/1.18.0
+      Trackjs-Correlation-Id:
+      - 841d31ea-1899-48a8-a920-072c400ad801
+      X-Gg-Bundle-Version:
+      - desktop
+      X-Gg-Cache-Date:
+      - Sun, 02 Jan 2022 16:22:55 GMT
+      X-Gg-Cache-Key:
+      - desktop/matchDetails?matchId=3629471Europe/Kiev
+      X-Gg-Country:
+      - UA
+      X-Gg-Timezone:
+      - Europe/Kiev
+      X-Powered-By:
+      - Express
+      Vary:
+      - Accept-Encoding
+      X-Cache:
+      - Miss from cloudfront
+      Via:
+      - 1.1 318cb50a962adf209b30dd5ad62f8111.cloudfront.net (CloudFront)
+      X-Amz-Cf-Pop:
+      - MRS52-C2
+      X-Amz-Cf-Id:
+      - qADdxHnBjkI8wv-ZTXh323L5MvkpOnkE5tNWLmJJj40ks1BC0WUQ8Q==
+    body:
+      encoding: ASCII-8BIT
+      string: '{"general":{"matchId":"3629471","matchName":"Valencia-vs-Celta Vigo_Sun,
+        May 22, 2022, 18:00 UTC","matchRound":"38","teamColors":{"home":"#000000","away":"#8AC3EE"},"leagueId":87,"leagueName":"LaLiga","leagueRoundName":"LaLiga
+        Round 38","parentLeagueId":87,"parentLeagueName":"LaLiga","parentLeagueSeason":"2021/2022","homeTeam":{"name":"Valencia","id":10267},"awayTeam":{"name":"Celta
+        Vigo","id":9910},"matchTimeUTC":"Sun, May 22, 2022, 18:00 UTC"},"header":{"teams":[{"name":"Valencia","id":10267,"score":0,"imageUrl":"https://images.fotmob.com/image_resources/logo/teamlogo/10267_small.png","pageUrl":"/teams/10267/overview/valencia","fifaRank":null},{"name":"Celta
+        Vigo","id":9910,"score":0,"imageUrl":"https://images.fotmob.com/image_resources/logo/teamlogo/9910_small.png","pageUrl":"/teams/9910/overview/celta-vigo","fifaRank":null}],"status":{"started":false,"cancelled":false,"finished":false,"startTimeStr":"21:00","startDateStr":"May
+        22, 2022","startDateStrShort":"22. May."},"events":null},"nav":["match facts","table"],"ongoing":false,"hasPendingVAR":false,"content":{"matchFacts":{"matchId":3629471,"highlights":null,"playerOfTheMatch":{},"matchesInRound":[{"id":"3629465","home":{"id":"8634","name":"Barcelona","shortName":"BAR"},"away":{"id":"10205","name":"Villarreal","shortName":"VIL"},"matchDate":"202205222000","status":{"started":false,"cancelled":false,"finished":false,"startTimeStr":"21:00","startDateStr":"May
+        22, 2022","startDateStrShort":"22. May."},"roundId":38,"roundName":"38"},{"id":"3629464","home":{"id":"9866","name":"Deportivo
+        Alaves","shortName":"ALA"},"away":{"id":"8385","name":"Cadiz","shortName":"CAD"},"matchDate":"202205222000","status":{"started":false,"cancelled":false,"finished":false,"startTimeStr":"21:00","startDateStr":"May
+        22, 2022","startDateStrShort":"22. May."},"roundId":38,"roundName":"38"},{"id":"3629473","home":{"id":"10268","name":"Elche","shortName":"ELC"},"away":{"id":"8305","name":"Getafe","shortName":"GET"},"matchDate":"202205222000","status":{"started":false,"cancelled":false,"finished":false,"startTimeStr":"21:00","startDateStr":"May
+        22, 2022","startDateStrShort":"22. May."},"roundId":38,"roundName":"38"},{"id":"3629466","home":{"id":"7878","name":"Granada","shortName":"GRA"},"away":{"id":"8558","name":"Espanyol","shortName":"ESB"},"matchDate":"202205222000","status":{"started":false,"cancelled":false,"finished":false,"startTimeStr":"21:00","startDateStr":"May
+        22, 2022","startDateStrShort":"22. May."},"roundId":38,"roundName":"38"},{"id":"3629467","home":{"id":"8371","name":"Osasuna","shortName":"OSA"},"away":{"id":"8661","name":"Mallorca","shortName":"MLL"},"matchDate":"202205222000","status":{"started":false,"cancelled":false,"finished":false,"startTimeStr":"21:00","startDateStr":"May
+        22, 2022","startDateStrShort":"22. May."},"roundId":38,"roundName":"38"},{"id":"3629472","home":{"id":"8370","name":"Rayo
+        Vallecano","shortName":"VAL"},"away":{"id":"8581","name":"Levante","shortName":"LEV"},"matchDate":"202205222000","status":{"started":false,"cancelled":false,"finished":false,"startTimeStr":"21:00","startDateStr":"May
+        22, 2022","startDateStrShort":"22. May."},"roundId":38,"roundName":"38"},{"id":"3629468","home":{"id":"8633","name":"Real
+        Madrid","shortName":"RMA"},"away":{"id":"8603","name":"Real Betis","shortName":"BES"},"matchDate":"202205222000","status":{"started":false,"cancelled":false,"finished":false,"startTimeStr":"21:00","startDateStr":"May
+        22, 2022","startDateStrShort":"22. May."},"roundId":38,"roundName":"38"},{"id":"3629469","home":{"id":"8560","name":"Real
+        Sociedad","shortName":"RSO"},"away":{"id":"9906","name":"Atletico Madrid","shortName":"ATM"},"matchDate":"202205222000","status":{"started":false,"cancelled":false,"finished":false,"startTimeStr":"21:00","startDateStr":"May
+        22, 2022","startDateStrShort":"22. May."},"roundId":38,"roundName":"38"},{"id":"3629470","home":{"id":"8302","name":"Sevilla","shortName":"FCS"},"away":{"id":"8315","name":"Athletic
+        Club","shortName":"ATH"},"matchDate":"202205222000","status":{"started":false,"cancelled":false,"finished":false,"startTimeStr":"21:00","startDateStr":"May
+        22, 2022","startDateStrShort":"22. May."},"roundId":38,"roundName":"38"},{"id":"3629471","home":{"id":"10267","name":"Valencia","shortName":"VAL"},"away":{"id":"9910","name":"Celta
+        Vigo","shortName":"VIG"},"matchDate":"202205222000","status":{"started":false,"cancelled":false,"finished":false,"startTimeStr":"21:00","startDateStr":"May
+        22, 2022","startDateStrShort":"22. May."},"roundId":38,"roundName":"38"}],"events":{"ongoing":true,"events":[],"penaltyShootoutEvents":null},"infoBox":{"Match
+        Date":{"dateFormatted":"Sun, May 22 2022","timeFormatted":"21:00"},"Tournament":{"id":87,"link":"/leagues/87/overview/laliga","leagueName":"LaLiga","round":"Round
+        38"},"Stadium":{"name":"Estadio Mestalla","country":""},"Referee":null},"teamForm":null,"odds":{"show":false},"poll":{"renderToTop":true},"topPlayers":{"homeTopPlayers":[],"awayTopPlayers":[]},"QAData":[]},"liveticker":false,"buzz":null,"stats":null,"shotmap":{"shots":[]},"lineup":false,"playoff":false,"table":{"url":"https://data.fotmob.com/tables.ext.87.fot.gz","teams":[10267,9910],"tournamentNameForUrl":"LaLiga","parentLeagueId":87,"parentLeagueName":"LaLiga"},"h2h":false},"seo":{"path":"valencia-vs-celta-vigo","eventJSONLD":{"@context":"https://schema.org","@type":"Event","name":"Valencia
+        vs Celta Vigo","description":"Follow Valencia vs Celta Vigo live on fotmob.com","startDate":"2022-05-22T18:00:00.000Z","endDate":"2022-05-22T20:00:00.000Z","eventStatus":"https://schema.org/EventScheduled","eventAttendanceMode":"https://schema.org/OnlineEventAttendanceMode","location":{"@type":"VirtualLocation","url":"https://www.fotmob.com/match/3629471"},"image":["https://images.fotmob.com/image_resources/logo/teamlogo/10267.png","https://images.fotmob.com/image_resources/logo/teamlogo/9910.png"],"organizer":{"@type":"Organization","name":"FotMob","url":"https://www.fotmob.com","logo":"https://www.fotmob.com/static/img/fotmob_icon_2017.png"}},"faqJSONLD":null}}'
+  recorded_at: Sun, 02 Jan 2022 16:22:55 GMT
+recorded_with: VCR 6.0.0

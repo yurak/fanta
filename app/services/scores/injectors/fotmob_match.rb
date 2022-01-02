@@ -16,17 +16,19 @@ module Scores
         match.update(host_score: result[0], guest_score: result[1])
 
         update_round_players
+
+        Audit::CsvWriter.call(match, host_scores_hash, guest_scores_hash)
       end
 
       private
 
       def update_round_players
         if match.tournament_round.tournament.national?
-          round_players.by_national_team(match.host_team.id).each { |rp| update_round_player(rp, scores_data[0], result[1]) }
-          round_players.by_national_team(match.guest_team.id).each { |rp| update_round_player(rp, scores_data[1], result[0]) }
+          round_players.by_national_team(match.host_team.id).each { |rp| update_round_player(rp, host_scores_hash, result[1]) }
+          round_players.by_national_team(match.guest_team.id).each { |rp| update_round_player(rp, guest_scores_hash, result[0]) }
         else
-          round_players.by_club(match.host_club.id).each { |rp| update_round_player(rp, scores_data[0], result[1]) }
-          round_players.by_club(match.guest_club.id).each { |rp| update_round_player(rp, scores_data[1], result[0]) }
+          round_players.by_club(match.host_club.id).each { |rp| update_round_player(rp, host_scores_hash, result[1]) }
+          round_players.by_club(match.guest_club.id).each { |rp| update_round_player(rp, guest_scores_hash, result[0]) }
         end
       end
 
@@ -35,7 +37,7 @@ module Scores
       end
 
       def update_round_player(round_player, team_hash, team_missed_goals)
-        player_data = players_hash(team_hash)[round_player.pseudo_name.downcase]
+        player_data = team_hash[round_player.pseudo_name.downcase]
         return unless player_data
 
         if round_player.manual_lock
@@ -49,6 +51,7 @@ module Scores
             yellow_card: player_data[:yellow_card], red_card: player_data[:red_card]
           )
         end
+        team_hash.except!(round_player.pseudo_name.downcase)
       end
 
       def players_hash(team)
@@ -107,8 +110,12 @@ module Scores
         card_value.positive?
       end
 
-      def scores_data
-        match_data['content']['lineup']['lineup']
+      def host_scores_hash
+        @host_scores_hash ||= players_hash(match_data['content']['lineup']['lineup'][0])
+      end
+
+      def guest_scores_hash
+        @guest_scores_hash ||= players_hash(match_data['content']['lineup']['lineup'][1])
       end
 
       def match_finished?
@@ -128,11 +135,7 @@ module Scores
       end
 
       def request
-        RestClient.get(match_url)
-      end
-
-      def match_url
-        "#{FOTMOB_MATCH_URL}#{match.source_match_id}"
+        RestClient.get("#{FOTMOB_MATCH_URL}#{match.source_match_id}")
       end
     end
   end

@@ -309,7 +309,7 @@ RSpec.describe Player, type: :model do
 
     context 'with birth_date' do
       let(:player) { create(:player, birth_date: birth_date) }
-      let(:birth_date) { "Jan 18, #{Time.zone.today.strftime('%Y').to_i - age}" }
+      let(:birth_date) { "Jan 1, #{Time.zone.today.strftime('%Y').to_i - age}" }
       let(:age) { 21 }
 
       it 'returns player age' do
