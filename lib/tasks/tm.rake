@@ -27,7 +27,7 @@ namespace :tm do
 
   desc 'Check TM players links from club pages'
   task :check_club_players, %i[id] => :environment do |_t, args|
-    clubs = args[:id] ? Club.where(id: args[:id]) : Club.active
+    clubs = args[:id] ? Club.where(id: args[:id]) : Club.active.order(:name)
 
     clubs.each do |club|
       p club.name

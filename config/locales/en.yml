@@ -284,6 +284,7 @@ en:
     manager: "MANAGER"
     form: "FORM"
     budget: "BUDGET"
+    players_title: "PLAYERS"
     league: "LEAGUE"
     players: "🏃 Players"
     games: "🗓️ Games"
