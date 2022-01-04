@@ -88,6 +88,8 @@ ua:
       results: "Розрахунок результатів"
       price: "Вартість"
       faq: "FAQs"
+      external_link_here: "Ви можете знайти посібник із гри тут:"
+      external_link: "ПОСИЛАННЯ"
     contact:
       title: "Контакти"
       join: "Телеграм чат"
