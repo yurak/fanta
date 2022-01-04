@@ -119,6 +119,8 @@ en:
       results: "Results"
       price: "Price"
       faq: "FAQs"
+      external_link_here: "You can find a game guide here:"
+      external_link: "LINK"
     contact:
       title: "Contact Us"
       join: "Join chat"
