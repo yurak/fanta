@@ -10,17 +10,7 @@ class ToursController < ApplicationController
     @league_players = MatchPlayer.by_tour(tour.id).main.with_score.sort_by(&:total_score).reverse.take(5)
   end
 
-  def edit
-    redirect_to tour_path(tour) unless tour.set_lineup? && (can? :edit, Tour)
-  end
-
   def update
-    tour.update(update_tour_params) if can? :update, Tour
-
-    redirect_to tour_path(tour)
-  end
-
-  def change_status
     tour_manager.call if can? :change_status, Tour
 
     redirect_to tour_path(tour)
@@ -47,9 +37,5 @@ class ToursController < ApplicationController
 
   def tour_manager
     @tour_manager ||= Tours::Manager.new(tour: tour, status: params[:status])
-  end
-
-  def update_tour_params
-    params.require(:tour).permit(:deadline)
   end
 end

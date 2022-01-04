@@ -43,8 +43,7 @@ Rails.application.routes.draw do
 
   resources :tournaments, only: [:show]
 
-  resources :tours, only: [:show, :edit, :update] do
-    get :change_status, on: :member
+  resources :tours, only: [:show, :update] do
     get :inject_scores, on: :member
   end
 
