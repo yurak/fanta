@@ -13,6 +13,12 @@ class AuctionsController < ApplicationController
     redirect_to league_auction_transfers_path(league, auction) unless can? :show, Auction
   end
 
+  def update
+    auction_manager.call if can? :update, Tour
+
+    redirect_to league_auctions_path(league)
+  end
+
   private
 
   def auction
@@ -29,5 +35,9 @@ class AuctionsController < ApplicationController
 
   def players
     @players ||= Player.by_tournament(league.tournament).search_by_name(params[:search]) if params[:search].present?
+  end
+
+  def auction_manager
+    @auction_manager ||= Auctions::Manager.new(auction: auction, status: params[:status])
   end
 end

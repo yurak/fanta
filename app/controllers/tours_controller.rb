@@ -11,7 +11,7 @@ class ToursController < ApplicationController
   end
 
   def update
-    tour_manager.call if can? :change_status, Tour
+    tour_manager.call if can? :update, Tour
 
     redirect_to tour_path(tour)
   end

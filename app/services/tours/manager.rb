@@ -1,9 +1,9 @@
 module Tours
   class Manager < ApplicationService
-    SET_LINEUP_STATUS = 'set_lineup'.freeze
+    CLOSED_STATUS = 'closed'.freeze
     LOCKED_STATUS = 'locked'.freeze
     POSTPONED_STATUS = 'postponed'.freeze
-    CLOSED_STATUS = 'closed'.freeze
+    SET_LINEUP_STATUS = 'set_lineup'.freeze
 
     attr_reader :tour, :status
 

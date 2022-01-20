@@ -98,4 +98,92 @@ RSpec.describe 'Auctions', type: :request do
       it { expect(assigns(:players)).not_to be_nil }
     end
   end
+
+  describe 'PUT/PATCH #update' do
+    let(:status) { 'sales' }
+    let(:params) { { status: status } }
+
+    before do
+      put league_auction_path(league, auction, params)
+    end
+
+    context 'when user is logged out' do
+      it { expect(response).to redirect_to('/users/sign_in') }
+      it { expect(response).to have_http_status(:found) }
+    end
+
+    context 'when user is logged in' do
+      login_user
+      before do
+        put league_auction_path(league, auction, params)
+      end
+
+      it { expect(response).to redirect_to(league_auctions_path(league)) }
+      it { expect(response).to have_http_status(:found) }
+
+      it 'does not update auction with specified status' do
+        expect(auction.reload.status).not_to eq(status)
+      end
+    end
+
+    context 'when moderator is logged in' do
+      login_moderator
+      before do
+        put league_auction_path(league, auction, params)
+      end
+
+      it { expect(response).to redirect_to(league_auctions_path(league)) }
+      it { expect(response).to have_http_status(:found) }
+
+      it 'does not update auction with specified status' do
+        expect(auction.reload.status).not_to eq(status)
+      end
+    end
+
+    context 'with valid auction status when admin is logged in' do
+      login_admin
+      before do
+        put league_auction_path(league, auction, params)
+      end
+
+      it { expect(response).to redirect_to(league_auctions_path(league)) }
+      it { expect(response).to have_http_status(:found) }
+
+      it 'updates auction with specified status' do
+        expect(auction.reload.status).to eq(status)
+      end
+
+      it 'calls Auctions::Manager service' do
+        manager = instance_double(Auctions::Manager)
+        allow(Auctions::Manager).to receive(:new).and_return(manager)
+        allow(manager).to receive(:call).and_return(auction)
+
+        put league_auction_path(league, auction, params)
+      end
+    end
+
+    context 'with not valid auction status when admin is logged in' do
+      let(:status) { 'closed' }
+
+      login_admin
+      before do
+        put league_auction_path(league, auction, params)
+      end
+
+      it { expect(response).to redirect_to(league_auctions_path(league)) }
+      it { expect(response).to have_http_status(:found) }
+
+      it 'does not update auction with specified status' do
+        expect(auction.reload.status).not_to eq(status)
+      end
+
+      it 'calls Auctions::Manager service' do
+        manager = instance_double(Auctions::Manager)
+        allow(Auctions::Manager).to receive(:new).and_return(manager)
+        allow(manager).to receive(:call).and_return(auction)
+
+        put league_auction_path(league, auction, params)
+      end
+    end
+  end
 end
