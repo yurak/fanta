@@ -4,7 +4,8 @@ module AuctionsHelper
     when 'initial'
       '#'
     when 'sales'
-      current_user ? edit_team_path(current_user&.team_by_league(auction.league)) : '#'
+      team = current_user&.team_by_league(auction.league)
+      team ? edit_team_path(team) : '#'
     else
       league_auction_transfers_path(auction.league, auction)
     end

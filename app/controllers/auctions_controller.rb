@@ -14,7 +14,7 @@ class AuctionsController < ApplicationController
   end
 
   def update
-    auction_manager.call if can? :update, Tour
+    auction_manager if can? :update, Auction
 
     redirect_to league_auctions_path(league)
   end
@@ -38,6 +38,6 @@ class AuctionsController < ApplicationController
   end
 
   def auction_manager
-    @auction_manager ||= Auctions::Manager.new(auction: auction, status: params[:status])
+    @auction_manager ||= Auctions::Manager.call(auction: auction, status: params[:status])
   end
 end

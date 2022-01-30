@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_18_162238) do
+ActiveRecord::Schema.define(version: 2022_01_29_114506) do
 
   create_table "article_tags", force: :cascade do |t|
     t.string "name", default: "", null: false
@@ -31,6 +31,15 @@ ActiveRecord::Schema.define(version: 2022_01_18_162238) do
     t.integer "article_tag_id"
     t.string "internal_image_url"
     t.integer "status", default: 0, null: false
+  end
+
+  create_table "auction_rounds", force: :cascade do |t|
+    t.integer "auction_id"
+    t.integer "number"
+    t.datetime "deadline"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["auction_id"], name: "index_auction_rounds_on_auction_id"
   end
 
   create_table "auctions", force: :cascade do |t|

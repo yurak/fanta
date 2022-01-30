@@ -32,7 +32,7 @@ module Auctions
     def blind_bids
       return unless (auction.initial? || auction.sales?) && status == BLIND_BIDS_STATUS
 
-      # TODO: create AuctionRound
+      auction.auction_rounds.create(number: auction.auction_rounds.count + 1)
 
       auction.blind_bids!
     end

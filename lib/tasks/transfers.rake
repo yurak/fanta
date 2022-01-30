@@ -4,7 +4,7 @@ namespace :transfers do
     League.active.each do |league|
       auction = league.auctions.sales.last
       next unless auction
-      next if auction.deadline.asctime.in_time_zone('EET') > DateTime.now
+      next if auction.deadline.nil? || auction.deadline.asctime.in_time_zone('EET') > DateTime.now
 
       puts league.name
       ActiveRecord::Base.transaction do
@@ -16,7 +16,7 @@ namespace :transfers do
         end
       end
 
-      auction.send("#{league.auction_type}!")
+      Auctions::Manager.call(auction: auction, status: league.auction_type)
     end
   end
 
