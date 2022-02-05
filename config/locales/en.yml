@@ -56,6 +56,8 @@ en:
     event_time: "EVENT TIME"
     transfers_count: "TRANSFERS COUNT"
     title: "%{league} Auctions"
+  auction_round:
+    title: "%{league} Auction Round"
   header:
     rules: "Rules"
     guide: "Guide"
@@ -160,7 +162,7 @@ en:
     minimum: "You should select minimum 1 player from each team"
     total: "Lineup should contain %{number} unique players"
     duplicates: "Lineup contains duplicate players"
-    limit: "You can't select more than %{limit} players from one team"
+    limit: "You can not select more than %{limit} players from one team"
     home: "H"
     away: "A"
   links:

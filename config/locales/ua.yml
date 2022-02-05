@@ -25,6 +25,8 @@ ua:
     event_time: "ЧАС ПОДІЇ"
     transfers_count: "К-СТЬ ТРАНСФЕРІВ"
     title: "Аукціони %{league}"
+  auction_round:
+    title: "Раунд аукціону %{league}"
   header:
     rules: "Правила"
     guide: "Посібник"
