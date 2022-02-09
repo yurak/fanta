@@ -74,7 +74,7 @@ module Scores
         hash = {
           rating: player_data['rating']['num'],
           played_minutes: player_data['minutesPlayed']&.to_i,
-          missed_goals: player_data['stats'][0]['stats']['Goals conceded']&.first
+          missed_goals: player_data['stats'][0]['stats']['Goals conceded']
         }.compact
 
         return hash unless player_data['events']
