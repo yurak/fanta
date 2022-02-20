@@ -4,6 +4,7 @@ RSpec.describe Team, type: :model do
   describe 'Associations' do
     it { is_expected.to belong_to(:league) }
     it { is_expected.to belong_to(:user).optional }
+    it { is_expected.to have_many(:auction_bids).dependent(:destroy) }
     it { is_expected.to have_many(:player_teams).dependent(:destroy) }
     it { is_expected.to have_many(:players).through(:player_teams) }
     it { is_expected.to have_many(:lineups).order('tour_id desc').dependent(:destroy).inverse_of(:team) }

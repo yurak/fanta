@@ -1,0 +1,188 @@
+/* AUCTION BID NEW page */
+.page-info.auction-bids-page {
+  height: 100%;
+  padding: 120px 0 0;
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+
+  a { text-decoration: none }
+
+  .round-section {
+    padding: 40px;
+
+    .rounds-league-name {
+      font-weight: bold;
+      font-size: 24px;
+      line-height: 32px;
+      margin-bottom: 16px;
+      a {
+        color: #181715;
+      }
+    }
+
+    .lineup-slot {
+      display: grid;
+      grid-template-columns: 5fr 1fr;
+    }
+
+    .price-input-block {
+      margin: auto;
+    }
+
+    .total-price-row {
+      display: grid;
+      grid-template-columns: 5fr 1fr;
+      font-size: 18px;
+      line-height: 32px;
+      margin: 6px 0;
+
+      .total-price-title {
+        text-align: right;
+      }
+
+      .total-price-value {
+        text-align: center;
+        background: #68D973;
+        margin: 0 32px;
+        border-radius: 10px;
+        font-weight: 800;
+      }
+    }
+
+    .confirm-btn {
+      border: 1px solid #D8D6FF;
+      border-radius: 4px;
+      color: #261FFF;
+      width: 100%;
+      height: 48px;
+      font-size: 18px;
+      background: #FFFFFF;
+      margin-top: 12px;
+    }
+  }
+
+  .players-modal-content {
+    .search-row {
+      display: grid;
+      grid-template-columns: 3fr 4fr;
+      padding: 8px 32px;
+    }
+
+    .players-search {
+      grid-template-columns: auto 24px;
+      padding: 0 18px;
+      width: 360px;
+
+      .search-icon {
+        margin: auto;
+      }
+
+      input {
+        height: 42px;
+        font-size: 20px;
+        width: 280px;
+      }
+    }
+
+    .search-positions {
+      .search-position {
+        display: inline-block;
+        margin: 4px 3px;
+      }
+    }
+
+    .search-clubs {
+      padding: 8px 32px;
+
+      .search-club-logo {
+        display: inline-block;
+        margin: 4px 7px;
+
+        img, object {
+          width: 32px;
+          height: 32px;
+        }
+      }
+    }
+
+    .player-sold {
+      color: #FFF;
+      position: absolute;
+      border: 2px solid red;
+      padding: 4px 8px 0;
+      line-height: 22px;
+      font-size: 16px;
+      background: #ff0000a6;
+      top: 36px;
+      left: 16px;
+    }
+  }
+
+  .stats-section {
+    .round-table {
+      .round-player-list-headers {
+        grid-template-columns: 1fr 10fr 2fr 8fr;
+      }
+
+      .round-player-list-item {
+        grid-template-columns: 1fr 10fr 2fr 8fr;
+      }
+
+      .player-show-positions {
+        display: inline-block;
+        font-size: 16px;
+        line-height: 24px;
+        text-align: center;
+        padding: 14px 0;
+
+        .slot-position {
+          display: inline-block;
+          font-size: 12px;
+          height: 24px;
+          width: 30px;
+          border-radius: 4px;
+          line-height: 24px;
+        }
+      }
+    }
+  }
+}
+
+// TODO: add cross-platform styles
+//@media (orientation: portrait) {
+//  .page-info.rounds-page {
+//    padding: 200px 0 0;
+//    display: block;
+//
+//    .stats-section {
+//      display: grid;
+//      grid-template-columns: 1fr 1fr;
+//      column-gap: 16px;
+//
+//      .round-table {
+//        .round-table-item, .round-tournament-match {
+//          font-size: 16px;
+//        }
+//      }
+//    }
+//  }
+//}
+//
+//@media (orientation: landscape) and (max-device-width: 1220px) {
+//  .page-info.rounds-page {
+//    padding: 100px 0 0;
+//    display: block;
+//
+//    .stats-section {
+//      display: grid;
+//      grid-template-columns: 1fr 1fr;
+//      column-gap: 16px;
+//
+//      .round-table {
+//        .round-table-item, .round-tournament-match {
+//          font-size: 16px;
+//        }
+//      }
+//    }
+//  }
+//}

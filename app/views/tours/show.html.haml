@@ -7,6 +7,12 @@
         = link_to tour_path(round) do
           .round-link-block{ class: "round-#{round.status} round-current-#{tour == round}" }
             = round.number
+    - if auction
+      .auction-block
+        .auction-msg
+          = auction_message(auction)
+        .auction-link
+          = link_to t('auction.auction'), auction_link(auction)
     .round-item
       .round-base
         .round-title

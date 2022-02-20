@@ -8,6 +8,7 @@ class Player < ApplicationRecord
   has_many :player_teams, dependent: :destroy
   has_many :teams, through: :player_teams
 
+  has_many :player_bids, dependent: :destroy
   has_many :round_players, dependent: :destroy
   has_many :transfers, dependent: :destroy
 
@@ -15,7 +16,7 @@ class Player < ApplicationRecord
 
   validates :name, uniqueness: { scope: %i[first_name tm_url] }, presence: true
 
-  default_scope { includes(%i[club player_positions player_teams positions teams]) }
+  default_scope { includes(%i[club national_team player_positions player_teams positions teams]) }
 
   scope :by_club, ->(club_id) { where(club_id: club_id) }
   scope :search_by_name, ->(search_str) { where('lower(name) LIKE :search OR lower(first_name) LIKE :search', search: "%#{search_str}%") }

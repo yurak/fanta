@@ -27,134 +27,134 @@
       color: #181715;
     }
   }
+}
 
-  .transfers-block {
-    margin-bottom: 100px;
+.transfers-block {
+  margin-bottom: 100px;
 
-    a {
-      text-decoration: none;
-    }
+  a {
+    text-decoration: none;
   }
+}
 
-  .transfer-headers {
-    padding: 32px 0 12px;
-    display: grid;
-    grid-template-columns: 4fr 3fr 2fr 1fr 1fr 3fr 1fr;
-    font-weight: 500;
-    font-size: 10px;
-    line-height: 14px;
-    color: #847577;
+.transfer-headers {
+  padding: 32px 0 12px;
+  display: grid;
+  grid-template-columns: 4fr 3fr 2fr 1fr 1fr 3fr 1fr;
+  font-weight: 500;
+  font-size: 10px;
+  line-height: 14px;
+  color: #847577;
 
-    .transfer-header-position {
-      padding-left: 16px;
-    }
+  .transfer-header-position {
+    padding-left: 16px;
   }
+}
 
-  .transfer-item {
+.transfer-item {
+  display: grid;
+  grid-template-columns: 4fr 3fr 2fr 1fr 1fr 3fr 1fr;
+  border: 1px solid #E5E6E4;
+  box-sizing: border-box;
+  border-radius: 4px;
+  margin-bottom: 4px;
+  height: 72px;
+
+  .transfer-player-data {
+    background: #FFEBC2;
     display: grid;
-    grid-template-columns: 4fr 3fr 2fr 1fr 1fr 3fr 1fr;
-    border: 1px solid #E5E6E4;
-    box-sizing: border-box;
-    border-radius: 4px;
-    margin-bottom: 4px;
-    height: 72px;
+    grid-template-columns: 72px auto;
 
-    .transfer-player-data {
-      background: #FFEBC2;
-      display: grid;
-      grid-template-columns: 72px auto;
+    .transfer-player-avatar {
+      width: 100%;
+      padding: 5px 3px 0;
 
-      .transfer-player-avatar {
-        width: 100%;
-        padding: 5px 3px 0;
+      .player-show-face, .player-show-kit {
+        position: absolute;
 
-        .player-show-face, .player-show-kit {
-          position: absolute;
-
-          img, object {
-            width: 66px;
-            height: 66px;
-          }
-        }
-      }
-
-      .transfer-player-name {
-        padding: 13px 0;
-        text-align: left;
-        font-size: 12px;
-        line-height: 16px;
-        color: #181715;
-
-        .transfer-player-last-name {
-          font-weight: 500;
-          font-size: 18px;
-          line-height: 24px;
-          height: 24px;
-          display: inline-block;
-          width: 124px;
-          white-space: nowrap;
-          overflow: hidden !important;
-          text-overflow: ellipsis;
-        }
-      }
-    }
-
-    .transfer-player-position {
-      padding: 22px 0 0 16px;
-
-      .slot-position {
-        display: inline-block;
-        line-height: 24px;
-        font-size: 12px;
-        height: 24px;
-        width: 30px;
-        border-radius: 4px;
-      }
-    }
-
-    .transfer-team-image {
-      .team-image {
         img, object {
-          margin: auto 4px;
-          width: 48px;
-          height: 48px;
-        }
-
-        object {
-          position: relative;
-          top: 10px;
+          width: 66px;
+          height: 66px;
         }
       }
     }
 
-    .transfer-player-rating {
-      font-size: 24px;
-      line-height: 70px;
-      text-align: right;
+    .transfer-player-name {
+      padding: 13px 0;
+      text-align: left;
+      font-size: 12px;
+      line-height: 16px;
       color: #181715;
+
+      .transfer-player-last-name {
+        font-weight: 500;
+        font-size: 18px;
+        line-height: 24px;
+        height: 24px;
+        display: inline-block;
+        width: 124px;
+        white-space: nowrap;
+        overflow: hidden !important;
+        text-overflow: ellipsis;
+      }
     }
+  }
 
-    .transfer-player-club {
-      text-align: center;
+  .transfer-player-position {
+    padding: 22px 0 0 16px;
 
+    .slot-position {
+      display: inline-block;
+      line-height: 24px;
+      font-size: 12px;
+      height: 24px;
+      width: 30px;
+      border-radius: 4px;
+    }
+  }
+
+  .transfer-team-image {
+    .team-image {
       img, object {
-        width: 32px;
-        height: 32px;
+        margin: auto 4px;
+        width: 48px;
+        height: 48px;
       }
 
       object {
         position: relative;
-        top: 19px;
+        top: 10px;
       }
     }
+  }
 
-    .transfer-player-link {
-      margin-top: 21px;
+  .transfer-player-rating {
+    font-size: 24px;
+    line-height: 70px;
+    text-align: right;
+    color: #181715;
+  }
 
-      img {
-        width: 14px;
-        height: 8px;
-      }
+  .transfer-player-club {
+    text-align: center;
+
+    img, object {
+      width: 32px;
+      height: 32px;
+    }
+
+    object {
+      position: relative;
+      top: 19px;
+    }
+  }
+
+  .transfer-player-link {
+    margin-top: 21px;
+
+    img {
+      width: 14px;
+      height: 8px;
     }
   }
 }

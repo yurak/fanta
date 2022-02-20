@@ -9,13 +9,16 @@
         = link_to 'ENG', '?locale=en' if I18n.locale == :ua
     .base-links.info-links
       - if user_signed_in? && current_user.active_team
+        - if current_user.active_league.active_tour_or_last
+          .info-links-item.base-link-item
+            = link_to t('header.round'), tour_path(current_user.active_league.active_tour_or_last)
+        - else
+          .info-links-item.base-link-item
+            = link_to t('header.league'), league_path(current_user.active_league)
         .info-links-item.base-link-item
           = link_to t('header.teams'), team_path(current_user.active_team)
         .info-links-item.base-link-item
           = link_to t('header.table'), league_results_path(current_user.active_league)
-        - if current_user.active_league.active_tour_or_last
-          .info-links-item.base-link-item
-            = link_to t('header.round'), tour_path(current_user.active_league.active_tour_or_last)
       - else
         .info-links-item
           = link_to t('header.about'), about_path

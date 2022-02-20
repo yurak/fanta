@@ -12,11 +12,11 @@ namespace :tm do
       club = Club.find_by(tm_name: tm_club_name)
 
       if club && tm_club_name != player.club.tm_name
-        p "Player #{player.id} #{player.name} changes club to #{tm_club_name}"
+        puts "Player #{player.id} #{player.name} changes club to #{tm_club_name}"
       elsif tm_club_name == ''
-        p "Player #{player.id} #{player.name} retired!"
+        puts "Player #{player.id} #{player.name} retired!"
       elsif player.club.name != 'xxx' && club.nil?
-        p "Player #{player.id} #{player.name} leave Mantra tournaments. New club: #{tm_club_name}"
+        puts "Player #{player.id} #{player.name} leave Mantra tournaments. New club: #{tm_club_name}"
       end
     end
   end
@@ -26,7 +26,7 @@ namespace :tm do
     clubs = args[:id] ? Club.where(id: args[:id]) : Club.active.order(:name)
 
     clubs.each do |club|
-      p club.name
+      puts "--------#{club.name}--------"
       html_page = Nokogiri::HTML(RestClient.get(club.tm_url))
       players = html_page.css('.posrela .hauptlink .hide-for-small')
 
@@ -36,7 +36,7 @@ namespace :tm do
         player_url = "https://www.transfermarkt.com#{href}"
         player = Player.find_by(tm_url: player_url)
 
-        p "#{player_name} - #{player_url}" unless player
+        puts "#{player_name} - #{player_url}" unless player
       end
     end
   end

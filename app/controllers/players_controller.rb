@@ -10,6 +10,11 @@ class PlayersController < ApplicationController
     @tournaments = Tournament.with_clubs
     @positions = Position.all
     @clubs = tournament.clubs.active.sort_by(&:name)
+
+    respond_to do |format|
+      format.html
+      format.json { render json: ordered_players }
+    end
   end
 
   def show

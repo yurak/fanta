@@ -1,0 +1,169 @@
+/* AUCTION ROUNDS SHOW page */
+.page-info.auction-rounds-page {
+  height: 100%;
+  padding: 120px 0 0;
+  display: grid;
+  grid-template-columns: 7fr 3fr;
+
+  a { text-decoration: none }
+
+  .round-section {
+    padding: 40px;
+
+    .rounds-league-name {
+      font-weight: bold;
+      font-size: 24px;
+      line-height: 32px;
+      margin-bottom: 16px;
+      a {
+        color: #181715;
+      }
+    }
+
+    .rounds-block {
+      .round-link-block {
+        margin: 4px;
+        display: inline-block;
+        background: #F4F4F4;
+        border-radius: 4px;
+        font-weight: 500;
+        font-size: 18px;
+        line-height: 40px;
+        width: 56px;
+        color: #847577;
+        text-align: center;
+      }
+
+      .round-set_lineup, .round-locked {
+        color: #261FFF;
+        border: 2px solid #261FFF;
+        line-height: 36px;
+      }
+
+      .round-processing {
+        color: #b40819;
+      }
+
+      .round-active {
+        color: #261FFF;
+        background-color: #FFFFFF;
+        border: 2px solid #F4F4F4;
+        line-height: 36px;
+      }
+
+      .round-current-true {
+        background-color: #261FFF;
+        color: #FFFFFF;
+        border: none;
+        line-height: 40px;
+      }
+    }
+
+    .round-item {
+      padding: 40px 0 0;
+
+      .round-base {
+        display: grid;
+        grid-template-columns: auto 310px 204px;
+        line-height: 32px;
+        color: #181715;
+        padding-bottom: 32px;
+
+        .round-title {
+          font-weight: bold;
+          font-size: 32px;
+          line-height: 32px;
+
+          .round-title-text, .round-title-icon {
+            display: inline-block;
+          }
+
+          img {
+            width: 32px;
+            height: 32px;
+            margin-left: 4px;
+          }
+        }
+
+        .round-deadline {
+          display: grid;
+          grid-template-columns: 80px 136px 76px;
+          column-gap: 8px;
+        }
+
+        .round-deadline-text {
+          font-weight: 500;
+          font-size: 12px;
+          text-align: right;
+        }
+
+        .round-deadline-value {
+          margin: 4px 0;
+          background-color: #E5E6E4;
+          border-radius: 4px;
+          font-weight: bold;
+          font-size: 12px;
+          line-height: 24px;
+          color: #9B0819;
+          text-align: center;
+
+          a {
+            color: #9B0819;
+          }
+        }
+      }
+    }
+
+    .auction-bid-block {
+      .auction-bid-title {
+        font-weight: bold;
+        font-size: 18px;
+        line-height: 32px;
+        margin-top: 16px;
+      }
+
+      .transfer-headers, .transfer-item {
+        grid-template-columns: 4fr 3fr 1fr 3fr 1fr;
+      }
+    }
+  }
+}
+
+// TODO: add cross-platform styles
+//@media (orientation: portrait) {
+//  .page-info.rounds-page {
+//    padding: 200px 0 0;
+//    display: block;
+//
+//    .stats-section {
+//      display: grid;
+//      grid-template-columns: 1fr 1fr;
+//      column-gap: 16px;
+//
+//      .round-table {
+//        .round-table-item, .round-tournament-match {
+//          font-size: 16px;
+//        }
+//      }
+//    }
+//  }
+//}
+//
+//@media (orientation: landscape) and (max-device-width: 1220px) {
+//  .page-info.rounds-page {
+//    padding: 100px 0 0;
+//    display: block;
+//
+//    .stats-section {
+//      display: grid;
+//      grid-template-columns: 1fr 1fr;
+//      column-gap: 16px;
+//
+//      .round-table {
+//        .round-table-item, .round-tournament-match {
+//          font-size: 16px;
+//        }
+//      }
+//    }
+//  }
+//}

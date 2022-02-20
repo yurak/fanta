@@ -12,10 +12,14 @@ Rails.application.routes.draw do
 
   resources :articles
 
+  resources :auction_rounds, only: [:show] do
+    resources :auction_bids, only: [:new, :create, :edit, :update]
+  end
+
   resources :join_requests, only: [:new, :create]
   get :success_request, to: 'join_requests#success_request'
 
-  resources :leagues, only: [:index] do
+  resources :leagues, only: [:index, :show] do
     resources :auctions, only: [:index, :show, :update] do
       resources :transfers, only: [:index, :create, :destroy]
     end

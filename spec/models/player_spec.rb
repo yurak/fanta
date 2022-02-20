@@ -11,6 +11,7 @@ RSpec.describe Player, type: :model do
     it { is_expected.to have_many(:positions).through(:player_positions) }
     it { is_expected.to have_many(:player_teams).dependent(:destroy) }
     it { is_expected.to have_many(:teams).through(:player_teams) }
+    it { is_expected.to have_many(:player_bids).dependent(:destroy) }
     it { is_expected.to have_many(:round_players).dependent(:destroy) }
     it { is_expected.to have_many(:transfers).dependent(:destroy) }
   end
