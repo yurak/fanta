@@ -103,66 +103,83 @@
 
 :javascript
   $(document).ready(function() {
-    const priceInputs = $(".price-input");
-    const totalPrice = $("#total-price")
-    const teamBudget = parseInt("#{team.budget}");
-    totalPrice.text(countTotalBid());
+      const priceInputs = $(".price-input");
+      const totalPrice = $("#total-price")
+      const teamBudget = parseInt("#{team.budget}");
+      totalPrice.text(countTotalBid());
 
-    priceInputs.change(function() {
-      const totalBid = countTotalBid();
-      totalPrice.text(totalBid);
+      priceInputs.change(function() {
+          const totalBid = countTotalBid();
+          totalPrice.text(totalBid);
 
-      if (totalBid > teamBudget) {
-        totalPrice.css("background-color", "#D96868");
-      } else {
-        totalPrice.css("background-color", "#68D973");
-      }
-    });
-
-    function countTotalBid() {
-      let totalBid = 0;
-      priceInputs.each( function(){
-        totalBid += parseInt($( this )[0].value);
+          if (totalBid > teamBudget) {
+              totalPrice.css("background-color", "#D96868");
+          } else {
+              totalPrice.css("background-color", "#68D973");
+          }
       });
-      return totalBid;
-    }
 
-    // Prevent form sending after Enter key press
-    $("form").bind("keypress", function (e) {
-      if (e.keyCode == 13) {
-          return false;
-      }
-    });
+      function countTotalBid() {
+          let totalBid = 0;
+          let error = false;
+          priceInputs.each( function(){
+              var itemPrice = parseInt($( this )[0].value) || 0;
 
-    $("#submit-bid-btn").click(function(){
-      if (countTotalBid() > teamBudget) {
-        alert("#{t('auction_bid.overprice')}");
-        return false;
-      }
+              if (itemPrice < 1) {
+                  error = true;
+              } else {
+                  totalBid += itemPrice
+              }
+          });
 
-      const slotsCount = parseInt("#{team.vacancies}");
-      const playerIds = [];
-      $('.round-player-input').each(function() { playerIds.push($(this).val()); });
-      const filtered = playerIds.filter(Boolean);
-
-      if (filtered.length < slotsCount) {
-          alert("#{t('auction_bid.empty_slots', count: team.vacancies)}");
-          return false;
+          if (error) {
+              return 0;
+          } else {
+              return totalBid;
+          }
       }
 
-      const duplicateIds = playerIds.reduce(function(acc, el, i, arr) {
-          if (arr.indexOf(el) !== i && acc.indexOf(el) < 0) acc.push(el); return acc;
-      }, []);
+      // Prevent form sending after Enter key press
+      $("form").bind("keypress", function (e) {
+          if (e.keyCode == 13) {
+              return false;
+          }
+      });
 
-      if (duplicateIds.length > 0) {
-          alert("#{t('auction_bid.duplicates')}");
-          return false;
-      }
+      $("#submit-bid-btn").click(function(){
+          if (countTotalBid() > teamBudget) {
+              alert("#{t('auction_bid.overprice')}");
+              return false;
+          }
 
-      const goaleeCount = parseInt("#{team.players.by_position('Por').count}") + $('.team-player-positions .slot-position-Por').size();
-      if (goaleeCount < 2) {
-          alert("#{t('auction_bid.goalee_count')}");
-          return false;
-      }
-    });
+          if (countTotalBid() < 1) {
+              alert("#{t('auction_bid.min_price')}");
+              return false;
+          }
+
+          const slotsCount = parseInt("#{team.vacancies}");
+          const playerIds = [];
+          $('.round-player-input').each(function() { playerIds.push($(this).val()); });
+          const filtered = playerIds.filter(Boolean);
+
+          if (filtered.length < slotsCount) {
+              alert("#{t('auction_bid.empty_slots', count: team.vacancies)}");
+              return false;
+          }
+
+          const duplicateIds = playerIds.reduce(function(acc, el, i, arr) {
+              if (arr.indexOf(el) !== i && acc.indexOf(el) < 0) acc.push(el); return acc;
+          }, []);
+
+          if (duplicateIds.length > 0) {
+              alert("#{t('auction_bid.duplicates')}");
+              return false;
+          }
+
+          const goaleeCount = parseInt("#{team.players.by_position('Por').count}") + $('.team-player-positions .slot-position-Por').size();
+          if (goaleeCount < 2) {
+              alert("#{t('auction_bid.goalee_count')}");
+              return false;
+          }
+      });
   });

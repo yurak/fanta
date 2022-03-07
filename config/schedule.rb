@@ -6,3 +6,7 @@ end
 every :hour do
   rake 'transfers:outgoing_active_league'
 end
+
+every 20.minutes do
+  rake 'auction_rounds:process'
+end

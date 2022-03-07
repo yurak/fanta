@@ -2,6 +2,7 @@ class AuctionRound < ApplicationRecord
   belongs_to :auction
 
   has_many :auction_bids, dependent: :destroy
+  has_many :player_bids, through: :auction_bids
 
   enum status: { active: 0, processing: 1, closed: 2 }
 

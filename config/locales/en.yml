@@ -65,11 +65,13 @@ en:
     duplicates: "Bid contains duplicate players"
     empty_slots: "You must select %{count} players"
     goalee_count: "The team must have at least 2 goalkeepers"
+    min_price: "The bid must be at least 1"
     overprice: "Your bid exceeds the team's budget"
     team: "⚽ Your team"
     text: "You need to buy %{players} players. The team budget - %{budget}. The team must have at least 2 goalkeepers."
   auction_round:
     auction: "%{league} Auction"
+    bets_placed: "🎯 Bets placed"
     bid: "BID"
     edit_bid: "Edit bid"
     price: "PRICE"

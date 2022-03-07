@@ -42,6 +42,7 @@ class AuctionBidsController < ApplicationController
 
   def valid_bid?
     return false unless editable?
+    return false if auction_round.bid_exist?(team)
     return false if duplicate_players&.any?
     return false if players_ids.count < team.vacancies
     return false if total_price > team.budget
@@ -69,7 +70,7 @@ class AuctionBidsController < ApplicationController
   def editable?
     return false unless team.user
 
-    team.user == current_user && auction_round.active?
+    team.user == current_user && team == auction_bid.team && auction_round.active?
   end
 
   def auction_bid

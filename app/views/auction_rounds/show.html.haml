@@ -35,48 +35,64 @@
           - else
             = link_to t('auction_round.place_bid'), new_auction_round_auction_bid_path(auction_round)
     .auction-bid-block
-      - if auction_round.closed?
-        -# TODO: show results - success bids
-      - else
-        - if user_auction_bid(auction_round, league)
-          .auction-bid-title= t('auction_round.your_bid')
-          .transfers-block
-            .transfer-headers
-              .transfer-header-item= t('teams.player')
-              .transfer-header-item.transfer-header-position= t('teams.positions')
-              .transfer-header-item.right= t('auction_round.bid')
-              .transfer-header-item.center= t('teams.club')
-              .transfer-header-item
-            - user_auction_bid(auction_round, league).player_bids.each do |player_bid|
-              = link_to player_path(player_bid.player) do
-                .transfer-item
-                  .team-player-param-item.transfer-player-data
-                    .transfer-player-avatar
-                      .player-show-face
-                        %object{data: player_bid.player.avatar_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                          = image_tag('avatar.png')
-                      .player-show-kit
-                        %object{data: player_bid.player.kit_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                          = image_tag('kit_small_default2.png')
-                    .transfer-player-name
-                      .transfer-player-last-name
-                        = player_bid.player.name
-                      .transfer-player-first-name
-                        = player_bid.player.first_name
-                  .team-player-param-item.transfer-player-position
-                    - player_bid.player.positions.each do |position|
-                      .slot-position{class: "slot-position-#{position.name}"}
-                        = position.name
-                  .team-player-param-item.transfer-player-rating
-                    = player_bid.price
-                  .team-player-param-item.transfer-player-club
-                    %object{data: player_bid.player.club.logo_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                      = image_tag('default_logo.png')
-                  .team-player-param-item.transfer-player-link
-                    = image_tag('icons/link_arrow.png')
-        - else
-          -# TODO:
+      - if user_auction_bid(auction_round, league)
+        .auction-bid-title= t('auction_round.your_bid')
+        .transfers-block
+          .transfer-headers
+            .transfer-header-item= t('teams.player')
+            .transfer-header-item.transfer-header-position= t('teams.positions')
+            .transfer-header-item.right= t('auction_round.bid')
+            .transfer-header-item.center= t('teams.club')
+            .transfer-header-item
+          - user_auction_bid(auction_round, league).player_bids.each do |player_bid|
+            = link_to player_path(player_bid.player) do
+              .transfer-item
+                .team-player-param-item.transfer-player-data{class: "transfer-player-data-#{player_bid.status}"}
+                  .transfer-player-avatar
+                    .player-show-face
+                      %object{data: player_bid.player.avatar_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
+                        = image_tag('avatar.png')
+                    .player-show-kit
+                      %object{data: player_bid.player.kit_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
+                        = image_tag('kit_small_default2.png')
+                  .transfer-player-name
+                    .transfer-player-last-name
+                      = player_bid.player.name
+                    .transfer-player-first-name
+                      = player_bid.player.first_name
+                .team-player-param-item.transfer-player-position
+                  - player_bid.player.positions.each do |position|
+                    .slot-position{class: "slot-position-#{position.name}"}
+                      = position.name
+                .team-player-param-item.transfer-player-rating
+                  = player_bid.price
+                .team-player-param-item.transfer-player-club
+                  %object{data: player_bid.player.club.logo_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
+                    = image_tag('default_logo.png')
+                .team-player-param-item.transfer-player-link
+                  = image_tag('icons/link_arrow.png')
   .stats-section
+    .round-table
+      .round-table-title.best-players-title
+        .round-table-title-text= t('auction_round.bets_placed')
+        .round-table-block
+      .round-table-headers
+        .round-table-header-cell
+        .round-table-header-cell
+      - league.teams.each_with_index do |team, i|
+        = link_to team_path(team) do
+          .round-table-item
+            .round-table-item-cell.round-table-index= i + 1
+            .round-table-item-cell.round-table-item-team
+              .results-team-logo
+                = image_tag(image_path(team.logo_path))
+              .results-team-name
+                = team.human_name[0..15]
+            .round-table-item-cell
+              - if auction_round.auction_bids.find_by(team: team)
+                ✅
+              - else
+                ❌
     .round-table
       .round-table-title.best-players-title
         = link_to league_auction_transfers_path(league, auction) do

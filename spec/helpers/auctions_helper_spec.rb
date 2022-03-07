@@ -123,4 +123,50 @@ RSpec.describe AuctionsHelper, type: :helper do
       end
     end
   end
+
+  describe '#user_auction_bid(auction_round, league)' do
+    context 'without current_user' do
+      let(:auction) { create(:auction) }
+      let(:auction_round) { create(:auction_round, auction: auction) }
+
+      before do
+        allow(helper).to receive(:current_user).and_return(nil)
+      end
+
+      it 'returns nil' do
+        expect(helper.user_auction_bid(auction_round, auction.league)).to eq(nil)
+      end
+    end
+
+    context 'with logged user and without auction_bid' do
+      let(:auction) { create(:auction) }
+      let(:auction_round) { create(:auction_round, auction: auction) }
+      let(:user) { create(:user) }
+
+      before do
+        create(:team, league: auction.league, user: user)
+        allow(helper).to receive(:current_user).and_return(user)
+      end
+
+      it 'returns nil' do
+        expect(helper.user_auction_bid(auction_round, auction.league)).to eq(nil)
+      end
+    end
+
+    context 'with logged user and auction_bid' do
+      let(:auction) { create(:auction) }
+      let(:auction_round) { create(:auction_round, auction: auction) }
+      let(:user) { create(:user) }
+      let(:team) { create(:team, league: auction.league, user: user) }
+      let!(:auction_bid) { create(:auction_bid, team: team, auction_round: auction_round) }
+
+      before do
+        allow(helper).to receive(:current_user).and_return(user)
+      end
+
+      it 'returns auction_bid' do
+        expect(helper.user_auction_bid(auction_round, auction.league)).to eq(auction_bid)
+      end
+    end
+  end
 end

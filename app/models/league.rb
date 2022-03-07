@@ -4,6 +4,7 @@ class League < ApplicationRecord
 
   has_many :auctions, dependent: :destroy
   has_many :teams, dependent: :destroy
+  has_many :players, through: :teams
   has_many :transfers, dependent: :destroy
   has_many :tours, dependent: :destroy
   has_many :results, dependent: :destroy
