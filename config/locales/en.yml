@@ -71,7 +71,7 @@ en:
     text: "You need to buy %{players} players. The team budget - %{budget}. The team must have at least 2 goalkeepers."
   auction_round:
     auction: "%{league} Auction"
-    bets_placed: "🎯 Bets placed"
+    bets_placed: "🎯 Bids placed"
     bid: "BID"
     edit_bid: "Edit bid"
     price: "PRICE"

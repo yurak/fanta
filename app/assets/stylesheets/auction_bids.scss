@@ -148,41 +148,46 @@
   }
 }
 
-// TODO: add cross-platform styles
-//@media (orientation: portrait) {
-//  .page-info.rounds-page {
-//    padding: 200px 0 0;
-//    display: block;
-//
-//    .stats-section {
-//      display: grid;
-//      grid-template-columns: 1fr 1fr;
-//      column-gap: 16px;
-//
-//      .round-table {
-//        .round-table-item, .round-tournament-match {
-//          font-size: 16px;
-//        }
-//      }
-//    }
-//  }
-//}
-//
-//@media (orientation: landscape) and (max-device-width: 1220px) {
-//  .page-info.rounds-page {
-//    padding: 100px 0 0;
-//    display: block;
-//
-//    .stats-section {
-//      display: grid;
-//      grid-template-columns: 1fr 1fr;
-//      column-gap: 16px;
-//
-//      .round-table {
-//        .round-table-item, .round-tournament-match {
-//          font-size: 16px;
-//        }
-//      }
-//    }
-//  }
-//}
+@media (orientation: portrait) {
+  .page-info.auction-bids-page {
+    padding: 200px 0 0;
+
+    .round-section {
+      .total-price-row {
+        .total-price-value {
+          margin: 0 16px;
+        }
+      }
+    }
+
+    .stats-section {
+      .round-table {
+        .round-table-item, .round-tournament-match {
+          font-size: 16px;
+        }
+      }
+    }
+  }
+}
+
+@media (orientation: landscape) and (max-device-width: 1220px) {
+  .page-info.auction-bids-page {
+    padding: 100px 0 0;
+
+    .round-section {
+      .total-price-row {
+        .total-price-value {
+          margin: 0 16px;
+        }
+      }
+    }
+
+    .stats-section {
+      .round-table {
+        .round-table-item, .round-tournament-match {
+          font-size: 16px;
+        }
+      }
+    }
+  }
+}

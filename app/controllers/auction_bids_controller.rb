@@ -13,7 +13,7 @@ class AuctionBidsController < ApplicationController
   def create
     @auction_bid = AuctionBid.new(auction_bid_params.merge(team: team, auction_round: auction_round))
 
-    if valid_bid? && @auction_bid.save
+    if !auction_round.bid_exist?(team) && valid_bid? && @auction_bid.save
       redirect_to auction_round_path(auction_round)
     else
       redirect_to new_auction_round_auction_bid_path(auction_round)
@@ -42,7 +42,6 @@ class AuctionBidsController < ApplicationController
 
   def valid_bid?
     return false unless editable?
-    return false if auction_round.bid_exist?(team)
     return false if duplicate_players&.any?
     return false if players_ids.count < team.vacancies
     return false if total_price > team.budget
