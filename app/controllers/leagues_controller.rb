@@ -21,7 +21,7 @@ class LeaguesController < ApplicationController
 
   def leagues
     leagues = {}
-    leagues['registration'] = [] # TODO
+    leagues['registration'] = [] # League.initial
     leagues['ongoing'] = League.active
     leagues['finished'] = League.archived
     leagues

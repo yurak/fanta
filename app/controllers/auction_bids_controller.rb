@@ -4,7 +4,7 @@ class AuctionBidsController < ApplicationController
   helper_method :auction_bid, :auction_round, :league, :team
 
   def new
-    redirect_to auction_round_path(auction_round) if !team || auction_round.bid_exist?(team)
+    redirect_to auction_round_path(auction_round) if !team || auction_round.bid_exist?(team) || team.vacancies.zero?
 
     @auction_bid = AuctionBid.new(auction_round: auction_round, team: team)
     team.vacancies.times { @auction_bid.player_bids.build }

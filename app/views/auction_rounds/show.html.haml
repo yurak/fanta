@@ -32,7 +32,7 @@
         - if current_user&.team_by_league(league) && auction_round.active?
           - if user_auction_bid(auction_round, league)
             = link_to t('auction_round.edit_bid'), edit_auction_round_auction_bid_path(auction_round, user_auction_bid(auction_round, league))
-          - else
+          - elsif current_user&.team_by_league(league).vacancies.positive?
             = link_to t('auction_round.place_bid'), new_auction_round_auction_bid_path(auction_round)
     .auction-bid-block
       - if user_auction_bid(auction_round, league)
