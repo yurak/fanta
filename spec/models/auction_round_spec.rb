@@ -17,6 +17,10 @@ RSpec.describe AuctionRound, type: :model do
       it { expect(auction_round.bid_exist?(team)).to eq(false) }
     end
 
+    context 'without team' do
+      it { expect(auction_round.bid_exist?(nil)).to eq(false) }
+    end
+
     context 'without auction_bids of specified team' do
       before do
         create_list(:auction_bid, 3, auction_round: auction_round)

@@ -4,10 +4,14 @@ class AuctionBidsController < ApplicationController
   helper_method :auction_bid, :auction_round, :league, :team
 
   def new
-    redirect_to auction_round_path(auction_round) if !team || auction_round.bid_exist?(team) || team.vacancies.zero?
+    if team && auction_round.active?
+      redirect_to auction_round_path(auction_round) if auction_round.bid_exist?(team) || team.vacancies.zero?
 
-    @auction_bid = AuctionBid.new(auction_round: auction_round, team: team)
-    team.vacancies.times { @auction_bid.player_bids.build }
+      @auction_bid = AuctionBid.new(auction_round: auction_round, team: team)
+      team.vacancies.times { @auction_bid.player_bids.build }
+    else
+      redirect_to auction_round_path(auction_round)
+    end
   end
 
   def create
@@ -67,7 +71,7 @@ class AuctionBidsController < ApplicationController
   end
 
   def editable?
-    return false unless team.user
+    return false unless team&.user
 
     team.user == current_user && team == auction_bid.team && auction_round.active?
   end

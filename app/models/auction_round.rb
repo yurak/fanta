@@ -7,6 +7,8 @@ class AuctionRound < ApplicationRecord
   enum status: { active: 0, processing: 1, closed: 2 }
 
   def bid_exist?(team)
+    return false unless team
+
     auction_bids.find_by(team_id: team.id).present?
   end
 end

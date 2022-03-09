@@ -89,7 +89,9 @@
               .results-team-name
                 = team.human_name[0..15]
             .round-table-item-cell
-              - if auction_round.auction_bids.find_by(team: team)
+              - if team.vacancies.zero?
+                ☑️
+              - elsif auction_round.auction_bids.find_by(team: team)
                 ✅
               - else
                 ❌
