@@ -69,7 +69,7 @@
               .team-league-logo
                 = image_tag(team.league.tournament.logo_path)
         - else
-          = link_to league_results_path(team.league&.active_tour) do
+          = link_to league_results_path(team.league) do
             .team-league-value
               .team-league-name.team-manager-name
                 = team.league.name

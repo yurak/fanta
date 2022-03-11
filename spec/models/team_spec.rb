@@ -4,6 +4,7 @@ RSpec.describe Team, type: :model do
   describe 'Associations' do
     it { is_expected.to belong_to(:league) }
     it { is_expected.to belong_to(:user).optional }
+    it { is_expected.to have_many(:auction_bids).dependent(:destroy) }
     it { is_expected.to have_many(:player_teams).dependent(:destroy) }
     it { is_expected.to have_many(:players).through(:player_teams) }
     it { is_expected.to have_many(:lineups).order('tour_id desc').dependent(:destroy).inverse_of(:team) }
@@ -202,6 +203,54 @@ RSpec.describe Team, type: :model do
 
       it 'returns zero' do
         expect(team.vacancies).to eq(0)
+      end
+    end
+  end
+
+  describe '#full_squad?' do
+    context 'without players' do
+      it 'returns false' do
+        expect(team.full_squad?).to eq(false)
+      end
+    end
+
+    context 'with players' do
+      let(:team) { create(:team, :with_15_players) }
+
+      it 'returns false' do
+        expect(team.full_squad?).to eq(false)
+      end
+    end
+
+    context 'with max number of players' do
+      let(:team) { create(:team, :with_players) }
+
+      it 'returns true' do
+        expect(team.full_squad?).to eq(true)
+      end
+    end
+  end
+
+  describe '#vacancies?' do
+    context 'without players' do
+      it 'returns true' do
+        expect(team.vacancies?).to eq(true)
+      end
+    end
+
+    context 'with players' do
+      let(:team) { create(:team, :with_15_players) }
+
+      it 'returns true' do
+        expect(team.vacancies?).to eq(true)
+      end
+    end
+
+    context 'with max number of players' do
+      let(:team) { create(:team, :with_players) }
+
+      it 'returns false' do
+        expect(team.vacancies?).to eq(false)
       end
     end
   end

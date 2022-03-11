@@ -34,9 +34,10 @@
             = t('lineups.minimum')
           .squad-maximum-rule
             = t('lineups.limit', limit: tour.max_country_players)
-      - if tour.eurocup?
-        .round-matches
-          = render 'tournaments/tournament_matches', matches: tour.tournament_round.tournament_matches
+      .module-name
+        = "#{t('tours.round')} ##{tour.tournament_round.number}"
+      .round-matches
+        = render 'tournaments/tournament_matches', matches: tour.tournament_round.tournament_matches
     .players-section
       .main-players-title
         = t('lineups.main_squad')
@@ -212,9 +213,17 @@
           $('.team-player-club').each(function() { clubs.push(this.textContent); });
           clubs.filter(Boolean).forEach(function(x) { counts[x] = (counts[x] || 0)+1; });
 
+          const unique_clubs = clubs.filter((v, i, a) => a.indexOf(v) === i).filter(Boolean);
+          const tour_clubs = "#{tour.tournament_round.tournament_matches.count * 2}";
+
+          if (tour_clubs < 12 && unique_clubs.length < tour_clubs) {
+            alert("#{t('lineups.minimum')}");
+            return false;
+          }
+
           const clubs_values = Object.keys(counts).map(function(v) { return counts[v]; });
           const max_club_players = Math.max.apply(Math, clubs_values);
-          const club_players_limit = "#{tour.max_country_players}"
+          const club_players_limit = "#{tour.max_country_players}";
 
           if (max_club_players > club_players_limit) {
             alert("#{t('lineups.limit', limit: tour.max_country_players)}");

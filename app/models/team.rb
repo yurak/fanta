@@ -2,6 +2,7 @@ class Team < ApplicationRecord
   belongs_to :league
   belongs_to :user, optional: true
 
+  has_many :auction_bids, dependent: :destroy
   has_many :player_teams, dependent: :destroy
   has_many :players, through: :player_teams
 
@@ -16,6 +17,7 @@ class Team < ApplicationRecord
   delegate :tournament, to: :league
 
   MAX_PLAYERS = 25
+  MIN_GK = 2
 
   validates :name, presence: true, uniqueness: true, length: { in: 2..18 }
   validates :code, presence: true, uniqueness: true, length: { in: 2..4 }
@@ -59,6 +61,14 @@ class Team < ApplicationRecord
 
   def vacancies
     MAX_PLAYERS - players.count
+  end
+
+  def vacancies?
+    !full_squad?
+  end
+
+  def full_squad?
+    vacancies.zero?
   end
 
   def max_rate

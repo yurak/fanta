@@ -79,6 +79,20 @@
   }
 }
 
+@media (orientation: landscape) and (max-device-width: 1220px) {
+  .page-info.auctions-page {
+    padding: 100px 24px;
+    margin: 0 0 100px;
+  }
+}
+
+@media (orientation: portrait) {
+  .page-info.auctions-page {
+    padding: 200px 24px;
+    margin: 0;
+  }
+}
+
 /* AUCTION SHOW page */
 
 .auction-page {

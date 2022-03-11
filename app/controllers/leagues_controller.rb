@@ -1,17 +1,27 @@
 class LeaguesController < ApplicationController
-  skip_before_action :authenticate_user!, only: [:index]
+  skip_before_action :authenticate_user!, only: %i[index show]
 
   respond_to :html
 
-  helper_method :leagues, :counters
+  helper_method :auction, :league, :leagues, :counters
 
   def index; end
 
+  def show; end
+
   private
+
+  def league
+    @league ||= League.find(params[:id])
+  end
+
+  def auction
+    @auction ||= league.auctions.active.last
+  end
 
   def leagues
     leagues = {}
-    leagues['registration'] = [] # TODO
+    leagues['registration'] = [] # League.initial
     leagues['ongoing'] = League.active
     leagues['finished'] = League.archived
     leagues

@@ -55,6 +55,36 @@
       }
     }
 
+    .auction-block {
+      background-color: #FFEBC2;
+      width: 100%;
+      font-size: 16px;
+      margin-top: 25px;
+      padding: 12px 20px;
+
+      .auction-msg {
+        display: inline-block;
+      }
+
+      .auction-link {
+        display: inline-block;
+      }
+
+      a {
+        text-decoration: none;
+        width: 100px;
+        display: inline-block;
+        text-align: center;
+        padding: 4px;
+        margin-left: 16px;
+        line-height: 24px;
+        background: #FFD57F;
+        border: 1px solid #D8D6FF;
+        border-radius: 4px;
+        color: #261FFF;
+      }
+    }
+
     .round-item {
       padding: 40px 0 0;
 
@@ -381,205 +411,6 @@
               line-height: 48px;
               border-radius: 4px;
             }
-          }
-        }
-      }
-    }
-  }
-
-  .stats-section {
-    background-color: #F4F4F4;
-    padding: 8px;
-
-    .round-table {
-      background-color: #FFFFFF;
-      padding: 16px;
-      margin-bottom: 8px;
-
-      .round-table-title-text, .round-table-title-icon {
-        display: inline-block;
-        font-weight: bold;
-        font-size: 16px;
-        line-height: 24px;
-        color: #181715;
-
-        img {
-          padding: 0 8px;
-          height: 9px;
-          transform: rotate(180deg);
-        }
-      }
-
-      .round-table-headers {
-        display: grid;
-        grid-template-columns: 1fr 5fr 1fr 1fr 1fr 1fr 1fr;
-        font-weight: 500;
-        font-size: 10px;
-        line-height: 14px;
-        text-align: right;
-        color: #847577;
-      }
-
-      .round-table-item {
-        display: grid;
-        grid-template-columns: 1fr 5fr 1fr 1fr 1fr 1fr 1fr;
-        font-weight: 500;
-        font-size: 12px;
-        line-height: 40px;
-        color: #181715;
-        text-align: right;
-        border-bottom: 1px solid #E5E6E4;
-
-        .round-table-index {
-          text-align: center;
-        }
-
-        .round-table-item-team {
-          display: grid;
-          grid-template-columns: 24px auto;
-
-          img {
-            width: 24px;
-            height: 24px;
-          }
-
-          .results-team-name {
-            text-align: left;
-            padding-left: 16px;
-          }
-        }
-      }
-
-      .round-national-table-item {
-        grid-template-columns: 1fr 8fr 2fr 1fr;
-      }
-
-      .round-table-item.round-national-table-item {
-        line-height: 55px;
-        font-size: 16px;
-      }
-
-      .round-tournament-block {
-        margin-top: 8px;
-      }
-
-      .round-tournament-match {
-        display: grid;
-        grid-template-columns: 4fr 2fr 4fr;
-        column-gap: 12px;
-        font-weight: 500;
-        font-size: 12px;
-        line-height: 40px;
-        color: #181715;
-        border-bottom: 1px solid #E5E6E4;
-        text-align: center;
-
-        .round-tournament-match-club {
-          display: grid;
-          grid-template-columns: auto 24px;
-          font-weight: 500;
-
-          img, object {
-            width: 24px;
-            height: 24px;
-          }
-
-          object {
-            position: relative;
-            top: 8px;
-          }
-
-          .round-tournament-club-name {
-            text-align: right;
-            padding-right: 16px;
-
-            a {
-              color: #181715;
-            }
-          }
-        }
-
-        .round-tournament-match-guest {
-          grid-template-columns: 24px auto;
-
-          .round-tournament-club-name {
-            text-align: left;
-            padding-left: 16px;
-            color: #181715;
-          }
-        }
-
-        .round-tournament-match-result {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          background-color: #040052;
-          font-weight: bold;
-          line-height: 18px;
-          padding: 5px 0;
-          margin: 6px 0;
-          text-align: center;
-          color: #F4F4F4;
-
-          .round-tournament-match-result-host {
-            border-right: 1px solid #847577;
-          }
-        }
-      }
-
-      .best-players-title {
-        margin-bottom: 12px;
-      }
-
-      .round-player-stats-headers {
-        grid-template-columns: 1fr 13fr 2fr 3fr 3fr;
-        column-gap: 8px;
-
-        .round-table-header-player {
-          text-align: left;
-        }
-      }
-
-      .round-player-stats-item {
-        grid-template-columns: 1fr 13fr 2fr 3fr 3fr;
-        column-gap: 8px;
-        font-size: 16px;
-        line-height: 56px;
-        max-height: 56px;
-
-        .round-player-stats-data {
-          text-align: left;
-          display: grid;
-          grid-template-columns: 48px auto;
-          column-gap: 8px;
-          white-space: nowrap;
-          overflow: hidden;
-        }
-
-        .round-player-stats-img {
-          .round-player-show-face, .round-player-show-kit {
-            position: absolute;
-            padding-top: 3px;
-            height: 56px;
-
-            img, object {
-              width: 48px;
-              height: 48px;
-            }
-
-            object {
-              margin-top: 4px;
-            }
-          }
-        }
-
-        .round-player-stats-score {
-          font-weight: bold;
-        }
-
-        .round-player-stats-team {
-          img {
-            width: 24px;
-            height: 24px;
           }
         }
       }

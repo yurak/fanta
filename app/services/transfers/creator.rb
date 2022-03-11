@@ -34,7 +34,7 @@ module Transfers
     def valid_transfer?
       return false unless player
       return false unless team
-      return false if team.vacancies.zero?
+      return false if team.full_squad?
       return false if price > team.max_rate || price < 1
       return false if player&.team_by_league(league.id)
 

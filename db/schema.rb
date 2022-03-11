@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_29_143658) do
+ActiveRecord::Schema.define(version: 2022_02_06_094948) do
 
   create_table "article_tags", force: :cascade do |t|
     t.string "name", default: "", null: false
@@ -31,6 +31,25 @@ ActiveRecord::Schema.define(version: 2021_12_29_143658) do
     t.integer "article_tag_id"
     t.string "internal_image_url"
     t.integer "status", default: 0, null: false
+  end
+
+  create_table "auction_bids", force: :cascade do |t|
+    t.integer "auction_round_id"
+    t.integer "team_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["auction_round_id"], name: "index_auction_bids_on_auction_round_id"
+    t.index ["team_id"], name: "index_auction_bids_on_team_id"
+  end
+
+  create_table "auction_rounds", force: :cascade do |t|
+    t.integer "auction_id"
+    t.integer "number"
+    t.datetime "deadline"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "status", default: 0
+    t.index ["auction_id"], name: "index_auction_rounds_on_auction_id"
   end
 
   create_table "auctions", force: :cascade do |t|
@@ -85,6 +104,7 @@ ActiveRecord::Schema.define(version: 2021_12_29_143658) do
     t.decimal "max_avg_def_score", default: "7.0", null: false
     t.integer "transfer_status", default: 0
     t.integer "cloning_status", default: 0, null: false
+    t.integer "auction_type", default: 0, null: false
     t.index ["name"], name: "index_leagues_on_name", unique: true
     t.index ["season_id"], name: "index_leagues_on_season_id"
   end
@@ -152,6 +172,17 @@ ActiveRecord::Schema.define(version: 2021_12_29_143658) do
     t.index ["code"], name: "index_national_teams_on_code", unique: true
     t.index ["name"], name: "index_national_teams_on_name", unique: true
     t.index ["tournament_id"], name: "index_national_teams_on_tournament_id"
+  end
+
+  create_table "player_bids", force: :cascade do |t|
+    t.integer "auction_bid_id"
+    t.integer "player_id"
+    t.integer "price", default: 1, null: false
+    t.integer "status", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["auction_bid_id"], name: "index_player_bids_on_auction_bid_id"
+    t.index ["player_id"], name: "index_player_bids_on_player_id"
   end
 
   create_table "player_positions", force: :cascade do |t|

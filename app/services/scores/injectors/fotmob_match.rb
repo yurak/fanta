@@ -2,6 +2,7 @@ module Scores
   module Injectors
     class FotmobMatch < ApplicationService
       FOTMOB_MATCH_URL = 'https://www.fotmob.com/matchDetails?matchId='.freeze
+      FOTMOB_MATCH_URL_NEW = 'https://www.fotmob.com/match/'.freeze
       MIN_PLAYED_MINUTES_FOR_CS = 60
 
       attr_reader :match
@@ -73,8 +74,8 @@ module Scores
       def player_hash(player_data)
         hash = {
           rating: player_data['rating']['num'],
-          played_minutes: player_data['minutesPlayed']&.first.to_i,
-          missed_goals: player_data['stats'][0]['Goals conceded']&.first
+          played_minutes: player_data['minutesPlayed']&.to_i,
+          missed_goals: player_data['stats'][0]['stats']['Goals conceded']
         }.compact
 
         return hash unless player_data['events']
@@ -131,11 +132,24 @@ module Scores
       end
 
       def match_data
-        @match_data ||= JSON.parse(request)
+        @match_data ||= new_api? ? JSON.parse(html_page)['props']['pageProps']['initialState']['matchFacts']['data'] : JSON.parse(request)
+      end
+
+      def html_page
+        @html_page ||= Nokogiri::HTML(request).css('#__NEXT_DATA__').text
       end
 
       def request
-        RestClient.get("#{FOTMOB_MATCH_URL}#{match.source_match_id}")
+        RestClient.get("#{fotmob_url}#{match.source_match_id}")
+      end
+
+      def fotmob_url
+        new_api? ? FOTMOB_MATCH_URL_NEW : FOTMOB_MATCH_URL
+      end
+
+      def new_api?
+        # TODO: add input parameter to this service
+        false
       end
     end
   end

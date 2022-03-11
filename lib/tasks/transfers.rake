@@ -1,17 +1,22 @@
 namespace :transfers do
-  desc 'Complete outgoing transfers for league'
-  task :outgoing, [:league_id] => :environment do |_t, args|
-    league = League.find_by(id: args[:league_id])
-    return unless league
+  desc 'Complete outgoing transfers for active league with auction deadline'
+  task outgoing_active_league: :environment do
+    League.active.each do |league|
+      auction = league.auctions.sales.last
+      next unless auction
+      next if auction.deadline.nil? || auction.deadline.asctime.in_time_zone('EET') > DateTime.now
 
-    puts league.name
-    league.teams.each do |team|
-      puts "----#{team.name}----"
-
-      team.player_teams.transferable.each do |pt|
-        puts "Transfer: #{pt.player.name} (#{pt.player.id}) from #{team.name}"
-        Transfers::Seller.call(player: pt.player, team: team, status: :outgoing)
+      puts league.name
+      ActiveRecord::Base.transaction do
+        league.teams.each do |team|
+          team.player_teams.transferable.each do |pt|
+            puts "Transfer: #{pt.player.name} (#{pt.player.id}) from #{team.name}"
+            Transfers::Seller.call(player: pt.player, team: team, status: :outgoing)
+          end
+        end
       end
+
+      Auctions::Manager.call(auction: auction, status: league.auction_type)
     end
   end
 

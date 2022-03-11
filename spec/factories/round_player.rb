@@ -47,6 +47,10 @@ FactoryBot.define do
       association :player, :with_pos_c
     end
 
+    trait :with_pos_e_c do
+      association :player, :with_pos_c, :with_pos_e
+    end
+
     trait :with_pos_w do
       association :player, :with_pos_w
     end
