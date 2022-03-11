@@ -25,7 +25,7 @@ RSpec.describe 'AuctionBids', type: :request do
     context 'with own team when auction bid already exist' do
       before do
         logged_user = create(:user)
-        team = create(:team, user: logged_user, league: auction_round.auction.league)
+        team = create(:team, user: logged_user, league: auction_round.league)
         sign_in logged_user
         create(:auction_bid, team: team, auction_round: auction_round)
         get new_auction_round_auction_bid_path(auction_round)
@@ -38,7 +38,7 @@ RSpec.describe 'AuctionBids', type: :request do
     context 'with own team without vacancies' do
       before do
         logged_user = create(:user)
-        create(:team, :with_25_players, user: logged_user, league: auction_round.auction.league)
+        create(:team, :with_25_players, user: logged_user, league: auction_round.league)
         sign_in logged_user
         get new_auction_round_auction_bid_path(auction_round)
       end
@@ -52,7 +52,7 @@ RSpec.describe 'AuctionBids', type: :request do
 
       before do
         logged_user = create(:user)
-        create(:team, user: logged_user, league: auction_round.auction.league)
+        create(:team, user: logged_user, league: auction_round.league)
         sign_in logged_user
         get new_auction_round_auction_bid_path(auction_round)
       end
@@ -66,7 +66,7 @@ RSpec.describe 'AuctionBids', type: :request do
 
       before do
         logged_user = create(:user)
-        create(:team, user: logged_user, league: auction_round.auction.league)
+        create(:team, user: logged_user, league: auction_round.league)
         sign_in logged_user
         get new_auction_round_auction_bid_path(auction_round)
       end
@@ -78,7 +78,7 @@ RSpec.describe 'AuctionBids', type: :request do
     context 'with own team' do
       before do
         logged_user = create(:user)
-        create(:team, user: logged_user, league: auction_round.auction.league)
+        create(:team, user: logged_user, league: auction_round.league)
         sign_in logged_user
         get new_auction_round_auction_bid_path(auction_round)
       end
@@ -131,7 +131,7 @@ RSpec.describe 'AuctionBids', type: :request do
     context 'with own team when auction bid already exist' do
       before do
         logged_user = create(:user)
-        team = create(:team, user: logged_user, league: auction_round.auction.league)
+        team = create(:team, user: logged_user, league: auction_round.league)
         sign_in logged_user
         create(:auction_bid, team: team, auction_round: auction_round)
         post auction_round_auction_bids_path(auction_round, params)
@@ -146,7 +146,7 @@ RSpec.describe 'AuctionBids', type: :request do
 
       before do
         logged_user = create(:user)
-        create(:team, user: logged_user, league: auction_round.auction.league)
+        create(:team, user: logged_user, league: auction_round.league)
         sign_in logged_user
         post auction_round_auction_bids_path(auction_round, params)
       end
@@ -160,7 +160,7 @@ RSpec.describe 'AuctionBids', type: :request do
 
       before do
         logged_user = create(:user)
-        create(:team, user: logged_user, league: auction_round.auction.league)
+        create(:team, user: logged_user, league: auction_round.league)
         sign_in logged_user
         post auction_round_auction_bids_path(auction_round, params)
       end

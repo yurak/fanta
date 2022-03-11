@@ -207,6 +207,54 @@ RSpec.describe Team, type: :model do
     end
   end
 
+  describe '#full_squad?' do
+    context 'without players' do
+      it 'returns false' do
+        expect(team.full_squad?).to eq(false)
+      end
+    end
+
+    context 'with players' do
+      let(:team) { create(:team, :with_15_players) }
+
+      it 'returns false' do
+        expect(team.full_squad?).to eq(false)
+      end
+    end
+
+    context 'with max number of players' do
+      let(:team) { create(:team, :with_players) }
+
+      it 'returns true' do
+        expect(team.full_squad?).to eq(true)
+      end
+    end
+  end
+
+  describe '#vacancies?' do
+    context 'without players' do
+      it 'returns true' do
+        expect(team.vacancies?).to eq(true)
+      end
+    end
+
+    context 'with players' do
+      let(:team) { create(:team, :with_15_players) }
+
+      it 'returns true' do
+        expect(team.vacancies?).to eq(true)
+      end
+    end
+
+    context 'with max number of players' do
+      let(:team) { create(:team, :with_players) }
+
+      it 'returns false' do
+        expect(team.vacancies?).to eq(false)
+      end
+    end
+  end
+
   describe '#max_rate' do
     context 'with full budget' do
       it 'returns max_rate value' do

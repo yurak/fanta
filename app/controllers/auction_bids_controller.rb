@@ -5,7 +5,7 @@ class AuctionBidsController < ApplicationController
 
   def new
     if team && auction_round.active?
-      redirect_to auction_round_path(auction_round) if auction_round.bid_exist?(team) || team.vacancies.zero?
+      redirect_to auction_round_path(auction_round) if auction_round.bid_exist?(team) || team.full_squad?
 
       @auction_bid = AuctionBid.new(auction_round: auction_round, team: team)
       team.vacancies.times { @auction_bid.player_bids.build }
@@ -85,7 +85,7 @@ class AuctionBidsController < ApplicationController
   end
 
   def league
-    @league ||= auction_round.auction.league
+    @league ||= auction_round.league
   end
 
   def team

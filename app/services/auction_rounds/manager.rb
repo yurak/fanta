@@ -9,7 +9,7 @@ module AuctionRounds
     def call
       return false unless round.active?
       return false if round.deadline.nil? || round.deadline.asctime.in_time_zone('EET') > DateTime.now
-      return false if league.teams.count.zero? || round.auction_bids.count < league.teams.count
+      return false if league.teams.count.zero? || round.auction_bids.count < round.members.count
 
       round.processing!
 

@@ -63,6 +63,14 @@ class Team < ApplicationRecord
     MAX_PLAYERS - players.count
   end
 
+  def vacancies?
+    !full_squad?
+  end
+
+  def full_squad?
+    vacancies.zero?
+  end
+
   def max_rate
     return 0 if vacancies <= 0
 
