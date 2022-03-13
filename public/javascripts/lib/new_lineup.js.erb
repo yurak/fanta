@@ -1,4 +1,4 @@
-$(".modal-player-item").on('click', function(e){
+$(document).on('click' ,'.modal-player-item' ,function(e) {
     e.stopPropagation();
     const modalList = $(this).parent().parent().parent().parent();
 
@@ -12,6 +12,7 @@ $(".modal-player-item").on('click', function(e){
     const countryContainer = $('#country-'+blockId);
     const clubContainer = $('#club-'+blockId);
     const positionsContainer = $('#positions-'+blockId);
+    const playerBidContainer = $('#player-bid-'+blockId);
 
     $.ajax({
         type: "GET",
@@ -24,6 +25,7 @@ $(".modal-player-item").on('click', function(e){
             clubContainer.text(data.club_code);
             countryContainer.text(data.national_team_name);
             roundPlayerContainer.attr("value", playerId);
+            playerBidContainer.attr("value", playerId);
 
             if (data.first_name != null) {
                 firstNameContainer.text(data.first_name);
@@ -31,7 +33,7 @@ $(".modal-player-item").on('click', function(e){
                 firstNameContainer.text("");
             }
 
-            positionsContainer.children(".team-player-position").hide();
+            positionsContainer.children(".team-player-position").remove();
             data.position_names.forEach((positionName) => {
                 $('<div/>',{
                     text: positionName,
@@ -45,12 +47,130 @@ $(".modal-player-item").on('click', function(e){
     $(modalList).hide();
 });
 
+$(".search-icon").on('click', function(e){
+    e.stopPropagation();
+
+    const slotId = $(this).attr('id').replace('search-icon','');
+    const searchStr = $('#search-field'+slotId)[0].value;
+    const tournamentId = $('#tournament')[0].getAttribute('value');
+    const leagueId = $('#league')[0].getAttribute('value');
+    const playersContainer = $('#modal-players-block-'+slotId);
+
+    playersContainer.empty();
+
+    $.ajax({
+        type: "GET",
+        dataType: "json",
+        url: "/players?search="+searchStr+"&tournament="+tournamentId,
+        success: function(data){
+            data.forEach((playerData) => {
+                renderPlayerItem(playerData, slotId, leagueId);
+            })
+        }
+    });
+});
+
+$(".search-club-logo").on('click', function(e){
+    e.stopPropagation();
+
+    const slotId = $(this).attr('class').replace('search-club-logo search-club','');
+    const clubId = $(this).attr('id').replace('search-club','');
+    const tournamentId = $('#tournament')[0].getAttribute('value');
+    const leagueId = $('#league')[0].getAttribute('value');
+    const playersContainer = $('#modal-players-block-'+slotId);
+
+    playersContainer.empty();
+
+    $.ajax({
+        type: "GET",
+        dataType: "json",
+        url: "/players?club="+clubId+"&tournament="+tournamentId,
+        success: function(data){
+            data.forEach((playerData) => {
+                renderPlayerItem(playerData, slotId, leagueId);
+            })
+        }
+    });
+});
+
+$(".search-position").on('click', function(e){
+    e.stopPropagation();
+
+    const slotId = $(this).attr('class').replace('search-position search-position','');
+    const positionName = $(this).attr('id').replace('search-position','');
+    const tournamentId = $('#tournament')[0].getAttribute('value');
+    const leagueId = $('#league')[0].getAttribute('value');
+    const playersContainer = $('#modal-players-block-'+slotId);
+
+    playersContainer.empty();
+
+    $.ajax({
+        type: "GET",
+        dataType: "json",
+        url: "/players?position="+positionName+"&tournament="+tournamentId,
+        success: function(data){
+            data.forEach((playerData) => {
+                renderPlayerItem(playerData, slotId, leagueId);
+            })
+        }
+    });
+});
+
+function renderPlayerItem(data, slotId, leagueId) {
+    const playersContainer = $('#modal-players-block-'+slotId);
+    const avatarImgSrc = $('#avatar-'+slotId).children()[0].src;
+
+    let positionsContainer = '<div class="player-positions">';
+    data.position_arr.forEach((positionName) => {
+        positionsContainer += '<div class="position-item position-item-'+positionName+'">'+positionName+'</div> ';
+    })
+    positionsContainer += '</div>';
+
+    const leagues = data.leagues;
+    let modalClass = "modal-player-item";
+    let soldElement = "";
+
+    if (leagues.includes(parseInt(leagueId))) {
+        modalClass = "modal-player-item-sold";
+        soldElement = '<div class="player-sold">SOLD</div>'
+    }
+
+    const playerHtml =
+        '<div class=' + modalClass + ' id="player' + data.id + '">' +
+            '<div class="modal-player-images">' +
+                '<div class="player-show-face">' +
+                    '<object data=' + data.avatar_path + ' type="image/png">' +
+                        '<img src=' + avatarImgSrc + '>' +
+                    '</object>' +
+                '</div>' +
+                '<div class="player-show-kit">' +
+                    '<object data=' + data.kit_path + ' type="image/png">' +
+                    '</object>' +
+                '</div>' +
+                soldElement +
+            '</div>' +
+            '<div class="modal-player-data">' +
+                positionsContainer +
+            '</div>' +
+            '<div class="modal-player-name">' +
+                data.name +
+            '</div>' +
+            '<div class="modal-player-club">' +
+                data.club_name +
+            '</div>' +
+        '</div>'
+
+    playersContainer.append(playerHtml);
+}
+
 $(document).ready(function() {
     const modal = document.getElementById("modules-modal");
-    const btn = document.getElementById("modules-modal-btn");
+    const modal_btn = document.getElementById("modules-modal-btn");
     const span = document.getElementsByClassName("close")[0];
 
-    btn.onclick = function() { modal.style.display = "block"; };
+    if (modal_btn) {
+        modal_btn.onclick = function() { modal.style.display = "block"; };
+    }
     span.onclick = function() { modal.style.display = "none"; };
 
     $('.player-data').click(function() {

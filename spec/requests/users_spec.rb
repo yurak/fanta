@@ -140,7 +140,7 @@ RSpec.describe 'Users', type: :request do
       end
     end
 
-    context 'when user is logged in and updates active_team_id' do
+    context 'when user is logged in and updates active_team_id with active tour' do
       let(:logged_user) { create(:user) }
       let(:active_team) { create(:team, user: logged_user) }
       let!(:tour) { create(:tour, league: active_team.league) }
@@ -153,6 +153,25 @@ RSpec.describe 'Users', type: :request do
       end
 
       it { expect(response).to redirect_to(tour_path(tour)) }
+      it { expect(response).to have_http_status(:found) }
+
+      it 'updates user active_team_id' do
+        expect(logged_user.reload.active_team_id).to eq(active_team.id)
+      end
+    end
+
+    context 'when user is logged in and updates active_team_id without active tour' do
+      let(:logged_user) { create(:user) }
+      let(:active_team) { create(:team, user: logged_user) }
+      let(:params) { { active_team_id: active_team.id } }
+
+      before do
+        sign_in logged_user
+
+        patch user_path(logged_user, params)
+      end
+
+      it { expect(response).to redirect_to(league_path(active_team.league)) }
       it { expect(response).to have_http_status(:found) }
 
       it 'updates user active_team_id' do

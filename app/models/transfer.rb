@@ -1,9 +1,10 @@
 class Transfer < ApplicationRecord
+  belongs_to :auction, optional: true
   belongs_to :league
   belongs_to :player
   belongs_to :team
 
-  enum status: { incoming: 0, outgoing: 1 }
+  enum status: { incoming: 0, outgoing: 1, left: 2 }
 
   default_scope { includes(%i[player team]) }
 

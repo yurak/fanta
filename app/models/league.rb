@@ -2,11 +2,14 @@ class League < ApplicationRecord
   belongs_to :tournament
   belongs_to :season
 
+  has_many :auctions, dependent: :destroy
   has_many :teams, dependent: :destroy
+  has_many :players, through: :teams
   has_many :transfers, dependent: :destroy
   has_many :tours, dependent: :destroy
   has_many :results, dependent: :destroy
 
+  enum auction_type: { blind_bids: 0, live: 1 }
   enum cloning_status: { unclonable: 0, cloneable: 1 }
   enum status: { initial: 0, active: 1, archived: 2 }
   enum transfer_status: { closed: 0, open: 1 }

@@ -1,9 +1,9 @@
 RSpec.describe 'Transfers', type: :request do
-  let(:league) { create(:league) }
+  let(:auction) { create(:auction) }
 
   describe 'GET #index' do
     before do
-      get league_transfers_path(league)
+      get league_auction_transfers_path(auction.league, auction)
     end
 
     it { expect(response).to be_successful }
@@ -13,95 +13,10 @@ RSpec.describe 'Transfers', type: :request do
     it { expect(assigns(:transfers)).not_to be_nil }
   end
 
-  describe 'GET #auction' do
-    before do
-      get league_auction_path(league)
-    end
-
-    context 'when user is logged out' do
-      it { expect(response).to redirect_to('/users/sign_in') }
-      it { expect(response).to have_http_status(:found) }
-    end
-
-    context 'when user is logged in' do
-      login_user
-      before do
-        get league_auction_path(league)
-      end
-
-      it { expect(response).to redirect_to(league_transfers_path(league)) }
-      it { expect(response).to have_http_status(:found) }
-    end
-
-    context 'when moderator is logged in' do
-      login_moderator
-      before do
-        get league_auction_path(league)
-      end
-
-      it { expect(response).to be_successful }
-      it { expect(response).to render_template(:auction) }
-      it { expect(response).to render_template(:_header) }
-      it { expect(response).to have_http_status(:ok) }
-    end
-
-    context 'when admin is logged in' do
-      login_admin
-      before do
-        get league_auction_path(league)
-      end
-
-      it { expect(response).to be_successful }
-      it { expect(response).to render_template(:auction) }
-      it { expect(response).to render_template(:_header) }
-      it { expect(response).to have_http_status(:ok) }
-    end
-
-    context 'when admin is logged in and player at params' do
-      let(:player) { create(:player) }
-      let(:params) do
-        {
-          player: player.id
-        }
-      end
-
-      login_admin
-      before do
-        get league_auction_path(league, params)
-      end
-
-      it { expect(response).to be_successful }
-      it { expect(response).to render_template(:auction) }
-      it { expect(response).to render_template(:_header) }
-      it { expect(response).to have_http_status(:ok) }
-      it { expect(assigns(:player)).not_to be_nil }
-    end
-
-    context 'when admin is logged in and search at params' do
-      let(:player) { create(:player) }
-      let(:params) do
-        {
-          search: player.name[0..3]
-        }
-      end
-
-      login_admin
-      before do
-        get league_auction_path(league, params)
-      end
-
-      it { expect(response).to be_successful }
-      it { expect(response).to render_template(:auction) }
-      it { expect(response).to render_template(:_header) }
-      it { expect(response).to have_http_status(:ok) }
-      it { expect(assigns(:players)).not_to be_nil }
-    end
-  end
-
   describe 'POST #create' do
-    let(:league) { create(:league, :with_five_teams) }
+    let(:auction) { create(:auction, league: create(:league, :with_five_teams)) }
     let(:player) { create(:player) }
-    let(:team) { league.teams.last }
+    let(:team) { auction.league.teams.last }
     let(:price) { 13 }
     let(:params) do
       {
@@ -114,7 +29,7 @@ RSpec.describe 'Transfers', type: :request do
     end
 
     before do
-      post league_transfers_path(league, params)
+      post league_auction_transfers_path(auction.league, auction, params)
     end
 
     context 'when user is logged out' do
@@ -125,20 +40,20 @@ RSpec.describe 'Transfers', type: :request do
     context 'when user is logged in' do
       login_user
       before do
-        post league_transfers_path(league, params)
+        post league_auction_transfers_path(auction.league, auction, params)
       end
 
-      it { expect(response).to redirect_to(league_auction_path(league, player: player)) }
+      it { expect(response).to redirect_to(league_auction_path(auction.league, auction, player: player)) }
       it { expect(response).to have_http_status(:found) }
     end
 
     context 'with valid params when moderator is logged in' do
       login_moderator
       before do
-        post league_transfers_path(league, params)
+        post league_auction_transfers_path(auction.league, auction, params)
       end
 
-      it { expect(response).to redirect_to(league_auction_path(league)) }
+      it { expect(response).to redirect_to(league_auction_path(auction.league, auction)) }
       it { expect(response).to have_http_status(:found) }
 
       it 'creates transfer' do
@@ -157,10 +72,10 @@ RSpec.describe 'Transfers', type: :request do
     context 'with valid params when admin is logged in' do
       login_admin
       before do
-        post league_transfers_path(league, params)
+        post league_auction_transfers_path(auction.league, auction, params)
       end
 
-      it { expect(response).to redirect_to(league_auction_path(league)) }
+      it { expect(response).to redirect_to(league_auction_path(auction.league, auction)) }
       it { expect(response).to have_http_status(:found) }
 
       it 'creates transfer' do
@@ -189,10 +104,10 @@ RSpec.describe 'Transfers', type: :request do
 
       login_admin
       before do
-        post league_transfers_path(league, params)
+        post league_auction_transfers_path(auction.league, auction, params)
       end
 
-      it { expect(response).to redirect_to(league_auction_path(league, player: player)) }
+      it { expect(response).to redirect_to(league_auction_path(auction.league, auction, player: player)) }
       it { expect(response).to have_http_status(:found) }
 
       it 'does not create transfer' do
@@ -217,10 +132,10 @@ RSpec.describe 'Transfers', type: :request do
 
       login_admin
       before do
-        post league_transfers_path(league, params)
+        post league_auction_transfers_path(auction.league, auction, params)
       end
 
-      it { expect(response).to redirect_to(league_auction_path(league)) }
+      it { expect(response).to redirect_to(league_auction_path(auction.league, auction)) }
       it { expect(response).to have_http_status(:found) }
 
       it 'does not create transfer' do
@@ -233,15 +148,14 @@ RSpec.describe 'Transfers', type: :request do
     end
 
     context 'without vacancies at team squad' do
-      let(:team) { create(:team, :with_players) }
-      let(:league) { team.league }
+      let(:team) { create(:team, :with_players, league: auction.league) }
 
       login_admin
       before do
-        post league_transfers_path(league, params)
+        post league_auction_transfers_path(team.league, auction, params)
       end
 
-      it { expect(response).to redirect_to(league_auction_path(league, player: player)) }
+      it { expect(response).to redirect_to(league_auction_path(team.league, auction, player: player)) }
       it { expect(response).to have_http_status(:found) }
 
       it 'does not create transfer' do
@@ -258,10 +172,10 @@ RSpec.describe 'Transfers', type: :request do
 
       login_admin
       before do
-        post league_transfers_path(league, params)
+        post league_auction_transfers_path(auction.league, auction, params)
       end
 
-      it { expect(response).to redirect_to(league_auction_path(league, player: player)) }
+      it { expect(response).to redirect_to(league_auction_path(auction.league, auction, player: player)) }
       it { expect(response).to have_http_status(:found) }
 
       it 'does not create transfer' do
@@ -278,10 +192,10 @@ RSpec.describe 'Transfers', type: :request do
 
       login_admin
       before do
-        post league_transfers_path(league, params)
+        post league_auction_transfers_path(auction.league, auction, params)
       end
 
-      it { expect(response).to redirect_to(league_auction_path(league, player: player)) }
+      it { expect(response).to redirect_to(league_auction_path(auction.league, auction, player: player)) }
       it { expect(response).to have_http_status(:found) }
 
       it 'does not create transfer' do
@@ -298,10 +212,10 @@ RSpec.describe 'Transfers', type: :request do
 
       login_admin
       before do
-        post league_transfers_path(league, params)
+        post league_auction_transfers_path(auction.league, auction, params)
       end
 
-      it { expect(response).to redirect_to(league_auction_path(league, player: player)) }
+      it { expect(response).to redirect_to(league_auction_path(auction.league, auction, player: player)) }
       it { expect(response).to have_http_status(:found) }
 
       it 'does not create transfer' do
@@ -318,10 +232,10 @@ RSpec.describe 'Transfers', type: :request do
 
       login_admin
       before do
-        post league_transfers_path(league, params)
+        post league_auction_transfers_path(auction.league, auction, params)
       end
 
-      it { expect(response).to redirect_to(league_auction_path(league, player: player)) }
+      it { expect(response).to redirect_to(league_auction_path(auction.league, auction, player: player)) }
       it { expect(response).to have_http_status(:found) }
 
       it 'does not create transfer' do
@@ -336,11 +250,11 @@ RSpec.describe 'Transfers', type: :request do
     context 'when player already sold at this league' do
       login_admin
       before do
-        create(:player_team, player: player, team: league.teams.first)
-        post league_transfers_path(league, params)
+        create(:player_team, player: player, team: auction.league.teams.first)
+        post league_auction_transfers_path(auction.league, auction, params)
       end
 
-      it { expect(response).to redirect_to(league_auction_path(league)) }
+      it { expect(response).to redirect_to(league_auction_path(auction.league, auction)) }
       it { expect(response).to have_http_status(:found) }
 
       it 'does not create transfer' do
@@ -360,7 +274,7 @@ RSpec.describe 'Transfers', type: :request do
 
     context 'when user is logged out' do
       before do
-        delete league_transfer_path(transfer.league, transfer)
+        delete league_auction_transfer_path(transfer.league, transfer.auction, transfer)
       end
 
       it { expect(response).to redirect_to('/users/sign_in') }
@@ -382,7 +296,7 @@ RSpec.describe 'Transfers', type: :request do
     context 'when user is logged in' do
       login_user
       before do
-        delete league_transfer_path(transfer.league, transfer)
+        delete league_auction_transfer_path(transfer.league, transfer.auction, transfer)
       end
 
       it { expect(response).to redirect_to(league_auction_path(transfer.league)) }
@@ -404,7 +318,7 @@ RSpec.describe 'Transfers', type: :request do
     context 'when moderator is logged in' do
       login_moderator
       before do
-        delete league_transfer_path(transfer.league, transfer)
+        delete league_auction_transfer_path(transfer.league, transfer.auction, transfer)
       end
 
       it { expect(response).to redirect_to(league_auction_path(transfer.league)) }
@@ -426,7 +340,7 @@ RSpec.describe 'Transfers', type: :request do
     context 'when admin is logged in' do
       login_admin
       before do
-        delete league_transfer_path(transfer.league, transfer)
+        delete league_auction_transfer_path(transfer.league, transfer.auction, transfer)
       end
 
       it { expect(response).to redirect_to(league_auction_path(transfer.league)) }
@@ -448,10 +362,10 @@ RSpec.describe 'Transfers', type: :request do
     context 'when admin is logged in but transfer is not exist' do
       login_admin
       before do
-        delete league_transfer_path(transfer.league, 'invalid_id')
+        delete league_auction_transfer_path(transfer.league, transfer.auction, 'invalid_id')
       end
 
-      it { expect(response).to redirect_to(league_auction_path(transfer.league)) }
+      it { expect(response).to redirect_to(league_auction_path(transfer.league, transfer.auction)) }
       it { expect(response).to have_http_status(:found) }
 
       it 'does not update team budget' do

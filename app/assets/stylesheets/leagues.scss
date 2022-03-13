@@ -153,3 +153,34 @@
     padding: 200px 50px;
   }
 }
+
+.page-info.rounds-page.league-page {
+  .league-teams {
+    padding: 32px 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    column-gap: 16px;
+    row-gap: 16px;
+
+    a {
+      text-decoration: none;
+    }
+
+    .league-team-item {
+      text-align: center;
+
+      .team-logo {
+        margin: auto;
+        img {
+          width: 100px;
+          height: 100px;
+        }
+      }
+
+      .team-name {
+        line-height: 32px;
+        font-size: 18px;
+      }
+    }
+  }
+}

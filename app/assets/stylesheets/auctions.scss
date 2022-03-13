@@ -1,0 +1,743 @@
+/* AUCTION INDEX page */
+
+.page-info.auctions-page {
+  height: 100%;
+  padding: 120px 0 50px;
+  margin: 0 100px;
+
+  .auctions-head {
+    display: grid;
+    grid-template-columns: 64px auto;
+    margin: 36px 0 18px;
+
+    .tournament-logo {
+      text-align: center;
+
+      img {
+        width: 64px;
+        height: 64px;
+      }
+    }
+
+    .auctions-title {
+      padding-left: 32px;
+      font-weight: bold;
+      font-size: 42px;
+      line-height: 64px;
+      color: #181715;
+    }
+  }
+
+  .auctions-block {
+    margin-bottom: 100px;
+
+    a {
+      text-decoration: none;
+    }
+  }
+
+  .auctions-headers {
+    padding: 32px 0 12px;
+    display: grid;
+    grid-template-columns: 1fr 2fr 3fr 3fr 3fr 1fr;
+    font-weight: 500;
+    font-size: 10px;
+    line-height: 14px;
+    color: #847577;
+  }
+
+  .auction-item {
+    display: grid;
+    grid-template-columns: 1fr 2fr 3fr 3fr 3fr 1fr;
+    border: 1px solid #E5E6E4;
+    box-sizing: border-box;
+    border-radius: 4px;
+    margin-bottom: 4px;
+    height: 72px;
+    line-height: 72px;
+    background-color: #E5E6E4;
+    color: #181715;
+
+    .auction-link {
+      img {
+        width: 24px;
+        height: 8px;
+      }
+    }
+  }
+
+  .auction-initial {
+    background-color: #F9FBBC;
+  }
+
+  .auction-sales {
+    background-color: #FCC5CB;
+  }
+
+  .auction-live,.auction-blind_bids  {
+    background-color: #D0F0D4;
+  }
+}
+
+@media (orientation: landscape) and (max-device-width: 1220px) {
+  .page-info.auctions-page {
+    padding: 100px 24px;
+    margin: 0 0 100px;
+  }
+}
+
+@media (orientation: portrait) {
+  .page-info.auctions-page {
+    padding: 200px 24px;
+    margin: 0;
+  }
+}
+
+/* AUCTION SHOW page */
+
+.auction-page {
+  z-index: 200;
+  height: 100%;
+  position: relative;
+  display: grid;
+  grid-template-columns: 378px auto 320px;
+
+  .auction-data {
+    background-color: #E5E5E5;
+    border-right: 1px solid #E5E5E5;
+
+    .auction-base-data {
+      background-color: #FFFFFF;
+      padding: 16px 16px 0;
+      height: 120px;
+
+      .auction-data-row-one {
+        line-height: 16px;
+        font-size: 12px;
+        margin: auto 0;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+
+        .auction-close {
+          a {
+            text-decoration: none;
+            color: #DB0A23;
+            display: grid;
+            grid-template-columns: 16px auto;
+
+            .auction-close-x {
+              font-size: 22px;
+            }
+          }
+        }
+
+        .auction-spend-text {
+          text-align: right;
+          color: #A6A2A2;
+        }
+      }
+
+      .auction-data-row-two {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        font-size: 24px;
+        line-height: 32px;
+        padding: 8px 0;
+        border-bottom: 1px solid #E5E5E5;
+
+        .auction-spend-time {
+          color: #BA44F1;
+          font-weight: 700;
+          text-align: right;
+        }
+      }
+
+      .auction-data-row-three {
+        display: grid;
+        grid-template-columns: auto 120px;
+        line-height: 16px;
+        font-size: 12px;
+        padding: 12px 0;
+
+        .auction-league {
+          display: grid;
+          grid-template-columns: 16px auto;
+          column-gap: 12px;
+
+          img {
+            width: 16px;
+            height: 16px;
+          }
+        }
+
+        .auction-date {
+          text-align: right;
+          display: grid;
+          grid-template-columns: auto 74px;
+          column-gap: 8px;
+
+          .auction-date-title {
+            color: #A6A2A2;
+          }
+        }
+      }
+    }
+
+    .auction-teams {
+      padding: 12px;
+
+      .auction-teams-title {
+        font-size: 16px;
+        line-height: 24px;
+        margin: 4px;
+
+        .auction-teams-title-text {
+          font-weight: 700;
+          display: inline-block;
+        }
+
+        .auction-teams-title-count {
+          display: inline-block;
+          color: #A6A2A2;
+          padding-left: 4px;
+        }
+      }
+
+      .auction-team-item {
+        background-color: #FFFFFF;
+        width: 168px;
+        height: 168px;
+        display: inline-block;
+        border-radius: 4px;
+        margin: 4px 3px;
+        padding: 16px 8px 8px;
+        text-align: center;
+        border: 1px solid #FFFFFF;
+
+        .auction-team-logo {
+          img {
+            width: 32px;
+            height: 32px;
+          }
+        }
+
+        .auction-team-name {
+          line-height: 24px;
+          font-size: 16px;
+          margin: 8px 0;
+          white-space: nowrap;
+          overflow: hidden !important;
+          text-overflow: ellipsis;
+        }
+
+        .auction-team-data {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          column-gap: 4px;
+
+          .auction-team-data-item {
+            line-height: 16px;
+            font-size: 12px;
+          }
+
+          .auction-team-data-value {
+            background-color: #FFEBC2;
+            border-radius: 4px;
+            font-size: 16px;
+            line-height: 24px;
+            margin-top: 8px;
+            padding: 4px;
+            position: relative;
+
+            .auction-team-data-value-item {
+              display: inline-block;
+            }
+
+            .auction-team-data-value-right {
+              color: #A6A2A2;
+            }
+
+            .auction-team-data-gk {
+              position: absolute;
+              right: 4px;
+              top: 8px;
+
+              .auction-team-gk-item {
+                width: 4px;
+                height: 4px;
+                border: 1px solid #181715;
+                border-radius: 2px;
+                margin-bottom: 2px;
+              }
+            }
+          }
+        }
+      }
+
+      .active-team-true {
+        border: 1px solid #181715;
+      }
+    }
+  }
+
+  .auction-active {
+    background-color: #FFFFFF;
+    width:100%;
+
+    .search-section {
+      padding: 40px 56px;
+      .search-title {
+        padding-bottom: 32px;
+        font-size: 18px;
+        line-height: 24px;
+      }
+
+      input {
+        border: none transparent;
+        outline: none;
+        height: 96px;
+        font-size: 48px;
+        line-height: 48px;
+      }
+
+      input::placeholder {
+        font-size: 16px;
+        line-height: 24px;
+        color: #A6A2A2;
+        padding-left: 100px;
+      }
+    }
+
+    .players-section {
+      padding: 0 56px;
+      color: #CFD2CD;
+      font-size: 32px;
+      line-height: 32px;
+
+      a {
+        text-decoration: none;
+        color: #CFD2CD;
+      }
+
+      a:hover {
+        color: #261FFF;
+      }
+
+      .auction-players-item {
+        margin-bottom: 24px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+
+        .auction-players-item-data {
+          font-size: 24px;
+          text-align: right;
+        }
+      }
+
+      .auction-players-item-sold {
+        text-decoration: line-through;
+      }
+    }
+
+    .player-section {
+      width: 100%;
+
+      .player-banner {
+        height: 216px;
+        padding-left: 40px;
+        display: grid;
+        grid-template-columns: auto 206px 40px;
+        background-color: #181715;
+
+        .player-show-base {
+          color: #FFFFFF;
+          padding: 32px 0;
+
+          .player-show-name {
+            font-weight: bold;
+            font-size: 48px;
+            line-height: 48px;
+            margin-bottom: 24px;
+          }
+
+          .player-show-first-name {
+            font-size: 32px;
+            line-height: 32px;
+          }
+
+          .player-show-base-row {
+            display: grid;
+            grid-template-columns: 110px 80px auto;
+
+            .player-show-base-title {
+              font-size: 12px;
+              line-height: 16px;
+              margin-bottom: 8px;
+            }
+
+            .player-show-base-value {
+              font-size: 16px;
+              line-height: 24px;
+            }
+
+            .player-show-positions {
+              display: inline-block;
+
+              .slot-position {
+                display: inline-block;
+                font-size: 12px;
+                height: 24px;
+                width: 30px;
+                border-radius: 4px;
+                line-height: 24px;
+              }
+            }
+
+            .player-show-base-club {
+              display: grid;
+              grid-template-columns: 24px auto;
+              column-gap: 8px;
+
+              .player-show-club-logo {
+                img, object {
+                  width: 24px;
+                  height: 24px;
+                }
+              }
+            }
+          }
+        }
+
+        .player-show-avatar {
+          padding-top: 20px;
+          width: 100%;
+          text-align: right;
+
+          .player-show-face, .player-show-kit {
+            position: absolute;
+            //right: 16%;
+
+            img, object {
+              width: 196px;
+              height: 196px;
+            }
+          }
+        }
+
+        .player-show-close {
+          width: 32px;
+          height: 32px;
+          border: 1px solid #E5E6E4;
+          border-radius: 16px;
+          margin-top: 8px;
+
+          a {
+            text-decoration: none;
+            color: #FFFFFF;
+            text-align: center;
+            line-height: 32px;
+            font-size: 24px;
+          }
+        }
+      }
+    }
+
+    .player-timer {
+      text-align: center;
+      margin-top: 64px;
+
+      .player-timer-desc {
+        font-size: 18px;
+        line-height: 24px;
+        margin-bottom: 16px;
+      }
+
+      //.timer-zero {
+      //  display: inline-block;
+      //}
+
+      #timer {
+        display: inline-block;
+        font-weight: bold;
+        font-size: 48px;
+        line-height: 48px;
+        align-items: center;
+        text-align: center;
+        color: #DB0A23;
+        border-bottom: 4px solid #E5E6E4;
+        padding-bottom: 16px;
+      }
+    }
+
+    .transfer-form {
+      margin: 150px 8px 8px;
+      text-align: center;
+
+      .transfer-form-club-title {
+        font-size: 18px;
+        line-height: 24px;
+        margin-bottom: 16px;
+      }
+
+      .transfer-form-club-select {
+        padding: 0 32px;
+
+        img {
+          width: 16px;
+          height: 16px;
+        }
+
+        label { display: inline-block }
+
+        label > input { /* HIDE RADIO */
+          visibility: hidden; /* Makes input not-clickable */
+          position: absolute; /* Remove input from document flow */
+        }
+
+        label > input + .radio-team-item { /* IMAGE STYLES */
+          cursor: pointer;
+          border: 1px solid #E5E5E5;
+          padding: 4px 8px;
+          border-radius: 24px;
+        }
+
+        label > input:checked + .radio-team-item { /* (RADIO CHECKED) IMAGE STYLES */
+          border: 1px solid #181715;
+          background-color: #181715;
+          color: #FFFFFF;
+        }
+
+        .radio-team-item {
+          display: grid;
+          grid-template-columns: 22px auto;
+
+          font-size: 12px;
+          line-height: 16px;
+        }
+      }
+
+      .transfer-form-bid {
+        background-color: #FFEBC2;
+        text-align: center;
+        margin-top: 8px;
+
+        .transfer-form-bid-title {
+          font-size: 18px;
+          line-height: 24px;
+          padding-top: 16px;
+        }
+
+        .transfer-form-bid-input {
+          input {
+            border: none transparent;
+            outline: none;
+            font-size: 72px;
+            line-height: 72px;
+            background-color : #FFEBC2;
+            text-align: center;
+          }
+
+          input::placeholder {
+            font-size: 16px;
+            line-height: 24px;
+            color: #A6A2A2;
+          }
+
+          input:focus{
+            outline: none;
+            box-shadow: none;
+          }
+
+          /* Chrome, Safari, Edge, Opera */
+          input::-webkit-outer-spin-button,
+          input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+          }
+
+          /* Firefox */
+          input[type=number] {
+            -moz-appearance: textfield;
+          }
+        }
+      }
+
+      .transfer-form-accept-btn {
+        margin: 8px 0;
+        height: 56px;
+
+        input {
+          font-weight: bold;
+          font-size: 16px;
+          line-height: 24px;
+          text-align: center;
+          color: #261FFF;
+          width: 100%;
+          height: 100%;
+          border: 1px solid #D8D6FF;
+          border-radius: 4px;
+        }
+      }
+    }
+  }
+
+  .auction-purchases {
+    max-height: 100%;
+    overflow-y: scroll;
+    border-left: 1px solid #E5E5E5;
+    background-color: #FFFFFF;
+    padding: 24px 16px;
+
+    .auction-purchases-title {
+      font-size: 16px;
+      line-height: 24px;
+      margin-bottom: 8px;
+
+      .auction-purchases-title-text {
+        font-weight: 700;
+        display: inline-block;
+      }
+
+      .auction-purchases-title-count {
+        display: inline-block;
+        padding-left: 8px;
+
+        .auction-purchases-title-current {
+          display: inline-block;
+        }
+
+        .auction-purchases-title-total {
+          display: inline-block;
+          color: #A6A2A2;
+        }
+      }
+    }
+
+    .auction-purchases-item {
+      position: relative;
+
+      .auction-purchases-item-hidden {
+        width: 100%;
+        height: 89px;
+        min-width: 200px;
+        background-color: rgba(166, 162, 162, 0.7);
+        position: absolute;
+        top: 0;
+        display:none;
+        z-index: 150;
+        border-radius: 4px;
+        line-height: 32px;
+
+        a {
+          text-decoration: none;
+          margin: auto;
+        }
+
+        .auction-transfer-cancel {
+          width: 100px;
+          background-color: #FFFFFF;
+          border-radius: 4px;
+          font-size: 16px;
+          line-height: 24px;
+          padding: 4px;
+          margin: auto;
+          text-align: center;
+          color: #261FFF;
+          border: 1px solid #D8D6FF;
+        }
+      }
+    }
+
+    .auction-purchases-item:hover .auction-purchases-item-hidden {
+      display: flex;
+      align-items: center;
+    }
+
+    .auction-purchases-item-visible {
+      position: relative;
+      display: grid;
+      grid-template-columns: 56px auto;
+      column-gap: 8px;
+      height: 89px;
+      padding: 16px 0;
+      border-bottom: 1px solid #E5E5E5;
+
+      .purchases-player-avatar {
+        .player-show-face, .player-show-kit {
+          position: absolute;
+
+          img, object {
+            width: 56px;
+            height: 56px;
+          }
+        }
+
+        .player-show-team {
+          position: absolute;
+
+          img, object {
+            width: 20px;
+            height: 20px;
+          }
+
+          object {
+            position: relative;
+            top: 36px;
+            left: 2px;
+          }
+
+          img {
+            position: relative;
+            bottom: 2px;
+          }
+        }
+      }
+
+      .purchases-player-data {
+        .purchases-player-data-top {
+          display: grid;
+          grid-template-columns: auto 40px;
+          line-height: 24px;
+          padding-bottom: 8px;
+
+          .purchases-player-name {
+            font-size: 18px;
+          }
+
+          .purchases-player-time {
+            font-size: 12px;
+            text-align: right;
+            color: #A6A2A2;
+          }
+        }
+
+        .purchases-player-data-bottom {
+          display: grid;
+          grid-template-columns: auto 50px;
+
+          .purchases-player-position {
+            .slot-position {
+              display: inline-block;
+              font-size: 12px;
+              height: 22px;
+              width: 30px;
+              border-radius: 4px;
+              line-height: 24px;
+            }
+          }
+
+          .purchases-player-price {
+            background-color: #FFEBC2;
+            border-radius: 4px;
+            font-size: 12px;
+            padding: 1px;
+            text-align: center;
+            line-height: 24px;
+            font-weight: bold;
+            width: 50px;
+          }
+        }
+      }
+    }
+  }
+}

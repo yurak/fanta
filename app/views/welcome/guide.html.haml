@@ -3,7 +3,10 @@
     .title-block
       .title-text= t('welcome.guide.game_guide')
       .title-bg
-    -#.guide-block
+    .guide-block
+      .temp-block
+        = t('welcome.guide.external_link_here')
+        = link_to t('welcome.guide.external_link'), 'https://drive.google.com/file/d/13vRxoK5QjOLivIdiZM0aCSvwCmBD0DIb/view', target: '_blank'
     -#  %ul.nav.nav-tabs.nav-fill
     -#    %li.nav-item
     -#      %a{"data-toggle" => "tab", href: "#rules-auction", class: 'nav-link active'}= t('welcome.guide.auction')

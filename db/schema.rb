@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_21_153428) do
+ActiveRecord::Schema.define(version: 2022_02_06_094948) do
 
   create_table "article_tags", force: :cascade do |t|
     t.string "name", default: "", null: false
@@ -33,6 +33,37 @@ ActiveRecord::Schema.define(version: 2021_12_21_153428) do
     t.integer "status", default: 0, null: false
   end
 
+  create_table "auction_bids", force: :cascade do |t|
+    t.integer "auction_round_id"
+    t.integer "team_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["auction_round_id"], name: "index_auction_bids_on_auction_round_id"
+    t.index ["team_id"], name: "index_auction_bids_on_team_id"
+  end
+
+  create_table "auction_rounds", force: :cascade do |t|
+    t.integer "auction_id"
+    t.integer "number"
+    t.datetime "deadline"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "status", default: 0
+    t.index ["auction_id"], name: "index_auction_rounds_on_auction_id"
+  end
+
+  create_table "auctions", force: :cascade do |t|
+    t.integer "league_id"
+    t.integer "status", default: 0, null: false
+    t.integer "number"
+    t.datetime "deadline"
+    t.datetime "event_time"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "sales_count", default: 5, null: false
+    t.index ["league_id"], name: "index_auctions_on_league_id"
+  end
+
   create_table "clubs", force: :cascade do |t|
     t.string "code"
     t.string "name"
@@ -43,6 +74,8 @@ ActiveRecord::Schema.define(version: 2021_12_21_153428) do
     t.string "full_name", default: "", null: false
     t.string "color", default: "181715", null: false
     t.integer "ec_tournament_id"
+    t.string "tm_name"
+    t.string "tm_url"
     t.index ["code"], name: "index_clubs_on_code", unique: true
     t.index ["ec_tournament_id"], name: "index_clubs_on_ec_tournament_id"
     t.index ["name"], name: "index_clubs_on_name", unique: true
@@ -71,6 +104,7 @@ ActiveRecord::Schema.define(version: 2021_12_21_153428) do
     t.decimal "max_avg_def_score", default: "7.0", null: false
     t.integer "transfer_status", default: 0
     t.integer "cloning_status", default: 0, null: false
+    t.integer "auction_type", default: 0, null: false
     t.index ["name"], name: "index_leagues_on_name", unique: true
     t.index ["season_id"], name: "index_leagues_on_season_id"
   end
@@ -138,6 +172,17 @@ ActiveRecord::Schema.define(version: 2021_12_21_153428) do
     t.index ["code"], name: "index_national_teams_on_code", unique: true
     t.index ["name"], name: "index_national_teams_on_name", unique: true
     t.index ["tournament_id"], name: "index_national_teams_on_tournament_id"
+  end
+
+  create_table "player_bids", force: :cascade do |t|
+    t.integer "auction_bid_id"
+    t.integer "player_id"
+    t.integer "price", default: 1, null: false
+    t.integer "status", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["auction_bid_id"], name: "index_player_bids_on_auction_bid_id"
+    t.index ["player_id"], name: "index_player_bids_on_player_id"
   end
 
   create_table "player_positions", force: :cascade do |t|
@@ -331,6 +376,8 @@ ActiveRecord::Schema.define(version: 2021_12_21_153428) do
     t.integer "status", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "auction_id"
+    t.index ["auction_id"], name: "index_transfers_on_auction_id"
     t.index ["league_id"], name: "index_transfers_on_league_id"
     t.index ["player_id"], name: "index_transfers_on_player_id"
     t.index ["team_id"], name: "index_transfers_on_team_id"

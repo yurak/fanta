@@ -4,6 +4,7 @@ RSpec.describe League, type: :model do
   describe 'Associations' do
     it { is_expected.to belong_to(:tournament) }
     it { is_expected.to belong_to(:season) }
+    it { is_expected.to have_many(:auctions).dependent(:destroy) }
     it { is_expected.to have_many(:teams).dependent(:destroy) }
     it { is_expected.to have_many(:transfers).dependent(:destroy) }
     it { is_expected.to have_many(:tours).dependent(:destroy) }
@@ -14,6 +15,7 @@ RSpec.describe League, type: :model do
     it { is_expected.to validate_presence_of :name }
     it { is_expected.to validate_uniqueness_of :name }
 
+    it { is_expected.to define_enum_for(:auction_type).with_values(%i[blind_bids live]) }
     it { is_expected.to define_enum_for(:cloning_status).with_values(%i[unclonable cloneable]) }
     it { is_expected.to define_enum_for(:status).with_values(%i[initial active archived]) }
     it { is_expected.to define_enum_for(:transfer_status).with_values(%i[closed open]) }

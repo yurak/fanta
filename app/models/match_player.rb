@@ -80,6 +80,7 @@ class MatchPlayer < ApplicationRecord
   end
 
   def e_not_at_e_or_d?
-    position_names.include?(Position::ESTERNO) && (real_position_arr & Position::CLEANSHEET_ZONE).empty?
+    position_names.include?(Position::ESTERNO) && (position_names & Position::D_CLEANSHEET_ZONE).empty? &&
+      (real_position_arr & Position::E_CLEANSHEET_ZONE).empty?
   end
 end

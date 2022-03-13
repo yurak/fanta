@@ -10,6 +10,11 @@ class PlayersController < ApplicationController
     @tournaments = Tournament.with_clubs
     @positions = Position.all
     @clubs = tournament.clubs.active.sort_by(&:name)
+
+    respond_to do |format|
+      format.html
+      format.json { render json: ordered_players }
+    end
   end
 
   def show
@@ -17,6 +22,12 @@ class PlayersController < ApplicationController
       format.html
       format.json { render json: player, serializer: PlayerSerializer }
     end
+  end
+
+  def update
+    player.teams.each { |team| Transfers::Seller.call(player: player, team: team, status: :left) } if can? :update, Player
+
+    redirect_to player_path(player)
   end
 
   private

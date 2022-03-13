@@ -12,13 +12,19 @@ Rails.application.routes.draw do
 
   resources :articles
 
+  resources :auction_rounds, only: [:show] do
+    resources :auction_bids, only: [:new, :create, :edit, :update]
+  end
+
   resources :join_requests, only: [:new, :create]
   get :success_request, to: 'join_requests#success_request'
 
-  resources :leagues, only: [:index] do
+  resources :leagues, only: [:index, :show] do
+    resources :auctions, only: [:index, :show, :update] do
+      resources :transfers, only: [:index, :create, :destroy]
+    end
+
     resources :results, only: [:index]
-    resources :transfers, only: [:index, :create, :destroy]
-    get :auction, to: 'transfers#auction'
   end
 
   resources :links, only: [:index]
@@ -27,7 +33,7 @@ Rails.application.routes.draw do
 
   resources :national_teams, only: [:show]
 
-  resources :players, only: [:index, :show]
+  resources :players, only: [:index, :show, :update]
 
   resources :match_players, only: [] do
     resources :substitutes, only: [:new, :create, :destroy]
@@ -41,8 +47,7 @@ Rails.application.routes.draw do
 
   resources :tournaments, only: [:show]
 
-  resources :tours, only: [:show, :edit, :update] do
-    get :change_status, on: :member
+  resources :tours, only: [:show, :update] do
     get :inject_scores, on: :member
   end
 

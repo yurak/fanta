@@ -1,0 +1,32 @@
+.page-info.auctions-page
+  .auctions-head
+    .tournament-logo= image_tag(league.tournament.logo_path)
+    .auctions-title
+      = t('auction.title', league: league.name)
+  .auctions-block
+    .auctions-headers
+      .auctions-header-item.center #
+      .auctions-header-item= t('auction.status')
+      .auctions-header-item.center= t('auction.deadline')
+      .auctions-header-item.center= t('auction.event_time')
+      .auctions-header-item.center= t('auction.transfers_count')
+      .transfer-header-item
+    - @auctions.reverse.each do |auction|
+      - if current_user&.admin?
+        - if auction.initial?
+          .actions-buttons
+            = link_to 'Sales', league_auction_path(league, auction, status: :sales), method: :put, data: { confirm: t('tours.are_you_sure') }
+            = link_to 'Blind Bids', league_auction_path(league, auction, status: :blind_bids), method: :put, data: { confirm: t('tours.are_you_sure') }
+            = link_to 'Live ', league_auction_path(league, auction, status: :live), method: :put, data: { confirm: t('tours.are_you_sure') }
+        - if auction.blind_bids? || auction.live?
+          .actions-buttons
+            = link_to 'Close', league_auction_path(league, auction, status: :closed), method: :put, data: { confirm: t('tours.are_you_sure') }
+      = link_to auction_link(auction) do
+        .auction-item{ class: "auction-#{auction.status}"}
+          .auction-param-item.center= auction.number
+          .auction-param-item= auction.status.tr('_',' ').capitalize
+          .auction-param-item.center= auction.deadline&.strftime("%^a, %^b %e, %H:%M")
+          .auction-param-item.center= auction.event_time&.strftime("%^a, %^b %e, %H:%M")
+          .auction-param-item.center= auction.transfers.count
+          .auction-param-item.auction-link
+            = image_tag('icons/link_arrow.png')
