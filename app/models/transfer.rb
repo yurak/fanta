@@ -10,4 +10,5 @@ class Transfer < ApplicationRecord
 
   scope :by_league, ->(league_id) { where(league_id: league_id) }
   scope :by_player, ->(player_id) { where(player_id: player_id) }
+  scope :by_auction, ->(auction_id) { where(auction_id: auction_id) }
 end

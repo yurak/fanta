@@ -5,6 +5,10 @@ FactoryBot.define do
 
     tournament { Tournament.first || association(:tournament) }
 
+    factory :archived_club do
+      status { :archived }
+    end
+
     trait :with_players_by_pos do
       after(:create) do |club|
         create_list(:player, 3, :with_pos_por, club: club)

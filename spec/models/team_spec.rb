@@ -306,4 +306,63 @@ RSpec.describe Team, type: :model do
       end
     end
   end
+
+  describe '#prepared_sales_count' do
+    context 'without auctions' do
+      it 'returns 0' do
+        expect(team.prepared_sales_count).to eq(0)
+      end
+    end
+
+    context 'without initial or sales auctions' do
+      before do
+        create(:auction, status: 'blind_bids', league: team.league)
+      end
+
+      it 'returns 0' do
+        expect(team.prepared_sales_count).to eq(0)
+      end
+    end
+
+    context 'with initial auction and without transferable players and outgoing transfers' do
+      before do
+        create(:auction, league: team.league)
+      end
+
+      it 'returns 0' do
+        expect(team.prepared_sales_count).to eq(0)
+      end
+    end
+
+    context 'with initial auction and transferable players and without outgoing transfers' do
+      let!(:player_teams) { create_list(:player_team, 2, team: team, transfer_status: 'transferable') }
+
+      before do
+        create(:auction, league: team.league)
+      end
+
+      it 'returns prepared sales count' do
+        expect(team.prepared_sales_count).to eq(player_teams.count)
+      end
+    end
+
+    context 'with sales auction and outgoing transfers and without transferable players' do
+      let(:auction) { create(:auction, status: 'sales', league: team.league) }
+      let!(:transfers) { create_list(:transfer, 2, team: team, league: team.league, auction: auction, status: 'outgoing') }
+
+      it 'returns prepared sales count' do
+        expect(team.prepared_sales_count).to eq(transfers.count)
+      end
+    end
+
+    context 'with sales auction, outgoing transfers and transferable players' do
+      let!(:player_teams) { create_list(:player_team, 2, team: team, transfer_status: 'transferable') }
+      let(:auction) { create(:auction, status: 'sales', league: team.league) }
+      let!(:transfers) { create_list(:transfer, 2, team: team, league: team.league, auction: auction, status: 'outgoing') }
+
+      it 'returns prepared sales count' do
+        expect(team.prepared_sales_count).to eq(transfers.count + player_teams.count)
+      end
+    end
+  end
 end

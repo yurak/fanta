@@ -49,6 +49,10 @@ class RoundPlayer < ApplicationRecord
     TournamentMatch.by_club_and_t_round(club.id, tournament_round.id).first&.host_score.present?
   end
 
+  def another_tournament?
+    club.archived? || (club.tournament != tournament_round.tournament)
+  end
+
   def appearances
     match_players.count
   end
