@@ -81,6 +81,12 @@ class Team < ApplicationRecord
     league.auctions.sales.any?
   end
 
+  def prepared_sales_count
+    return 0 unless current_auction
+
+    player_teams.transferable.count + transfers.outgoing.by_auction(current_auction.id).count
+  end
+
   private
 
   def next_match
@@ -91,5 +97,9 @@ class Team < ApplicationRecord
 
   def matches
     @matches ||= Match.where('host_id = ? OR guest_id = ?', id, id)
+  end
+
+  def current_auction
+    @current_auction ||= league.auctions.initial_sales.first
   end
 end

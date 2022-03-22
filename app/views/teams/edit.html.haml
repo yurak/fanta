@@ -14,7 +14,7 @@
           .team-data-title= t('teams.players_sale')
           .team-data-value#players-sale
             .players-sale.players-sale-current
-              = team.player_teams.transferable.count
+              = team.prepared_sales_count
             .players-sale /
             .players-sale.players-sale-max
               = team.league.auctions.sales.first.sales_count
