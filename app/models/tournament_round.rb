@@ -13,12 +13,10 @@ class TournamentRound < ApplicationRecord
   def eurocup_players
     return [] unless tournament.eurocup?
 
-    round_players.by_club(eurocup_club_ids)
+    round_players.by_club(clubs_ids)
   end
 
-  private
-
-  def eurocup_club_ids
-    tournament_matches.pluck(:host_club_id, :guest_club_id).reduce([], :+)
+  def clubs_ids
+    tournament_matches.pluck(:host_club_id, :guest_club_id).flatten
   end
 end
