@@ -28,7 +28,8 @@
           %select{onchange: "location = this.value;"}
             %option{selected: true, disabled: true}= t('players.position_option')
             - @positions.each do |position|
-              %option{value: players_path(tournament: params[:tournament], position: position.name, order: params['order'])}= position.name
+              %option{value: players_path(tournament: params[:tournament], position: position.name, order: params['order'])}
+                = position_name(position)
           .select-icon
             = image_tag('icons/triangle.svg')
       .players-filter
@@ -78,7 +79,7 @@
             .players-list-cell.player-list-positions.players-pos-padding
               - player.player_positions.each do |player_position|
                 .match-player-position.slot-position{class: "slot-position-#{player_position.position.name}"}
-                  = player_position.position.name
+                  = position_name(player_position.position)
             .players-list-cell.center
               - player.teams.each do |team|
                 .team-image.inline-block

@@ -9,6 +9,7 @@
         = form_with model: [auction_round, auction_bid], id: 'new_auction_bid', local: true do |f|
           #tournament{ type: "hidden", value: "#{league.tournament.id}"}
           #league{ type: "hidden", value: "#{league.id}"}
+          #position-naming{ type: "hidden", value: "#{current_user.ital_pos_naming}"}
           = f.fields_for :player_bids do |p_bid|
             .lineup-slot
               = p_bid.hidden_field(:player_id, value: p_bid.object.player&.id, class: 'round-player-input', id: "player-bid-#{p_bid.index}")
@@ -32,13 +33,13 @@
                         - if p_bid.object.player
                           - if p_bid.object.player.position_names[0]
                             .team-player-position.slot-position{class: "slot-position-#{p_bid.object.player.position_names[0]}"}<
-                              = p_bid.object.player.position_names[0]
+                              = slot_position_name(p_bid.object.player.position_names[0])
                           - if p_bid.object.player.position_names[1]
                             .team-player-position.slot-position{class: "slot-position-#{p_bid.object.player.position_names[1]}"}<
-                              = p_bid.object.player.position_names[1]
+                              = slot_position_name(p_bid.object.player.position_names[1])
                           - if p_bid.object.player.position_names[2]
                             .team-player-position.slot-position{class: "slot-position-#{p_bid.object.player.position_names[2]}"}<
-                              = p_bid.object.player.position_names[2]
+                              = slot_position_name(p_bid.object.player.position_names[2])
                     .team-player-dropdown
                       = image_tag('icons/dropdown.svg')
                   .modal-players-list{id: "modal-players-list#{p_bid.index}"}
@@ -56,7 +57,7 @@
                           - Position.all.each do |position|
                             .search-position{class: "search-position#{p_bid.index}",id: "search-position#{position.name}"}
                               .slot-position{class: "slot-position-#{position.name}"}
-                                = position.name
+                                = position_name(position)
                       .search-clubs
                         - league.tournament.clubs.active.each do |club|
                           .search-club-logo{class: "search-club#{p_bid.index}",id: "search-club#{club.id}"}
@@ -97,7 +98,7 @@
             .round-player-stats-param.round-player-stats-positions.player-show-positions
               - player.positions.each do |position|
                 .slot-position{class: "slot-position-#{position.name}"}
-                  = position.name
+                  = position_name(position)
 
 %script{type: "text/javascript", src: "/javascripts/lib/new_lineup.js.erb"}
 

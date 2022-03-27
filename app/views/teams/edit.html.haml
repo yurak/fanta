@@ -51,7 +51,7 @@
             .team-player-param-item.team-player-position
               - pt.player.positions.each do |position|
                 .slot-position{class: "slot-position-#{position.name}"}
-                  = position.name
+                  = position_name(position)
             .team-player-param-item.team-player-appearances
               = pt.player.season_scores_count
             .team-player-param-item.team-player-rating

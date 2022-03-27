@@ -1,4 +1,4 @@
-- if match_player.player.position_names.include?(Position::PORTIERE)
+- if match_player.player.position_names.include?(Position::GOALKEEPER)
   = render 'players/bonus_item', bonus: match_player.missed_goals, img_path: "bonuses/mg.png"
   = render 'players/bonus_item', bonus: match_player.caught_penalty, img_path: "bonuses/pen.png"
   = render 'players/bonus_item', bonus: match_player.missed_penalty, img_path: "bonuses/miss_pen.png"

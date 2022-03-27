@@ -13,6 +13,7 @@ $(document).on('click' ,'.modal-player-item' ,function(e) {
     const clubContainer = $('#club-'+blockId);
     const positionsContainer = $('#positions-'+blockId);
     const playerBidContainer = $('#player-bid-'+blockId);
+    const italPosNaming = ($('#position-naming')[0].getAttribute('value') === 'true');
 
     $.ajax({
         type: "GET",
@@ -34,12 +35,15 @@ $(document).on('click' ,'.modal-player-item' ,function(e) {
             }
 
             positionsContainer.children(".team-player-position").remove();
-            data.position_names.forEach((positionName) => {
+            data.position_names.forEach((positionName, index) => {
+                let posName = data.classic_positions[index];
+                if (italPosNaming) { posName = positionName; }
+
                 $('<div/>',{
-                    text: positionName,
+                    text: posName,
                     class: "team-player-position slot-position slot-position-" + positionName
                 }).appendTo(positionsContainer);
-                positionsContainer.append(' ')
+                positionsContainer.append(' ');
             })
         }
     });
@@ -119,10 +123,14 @@ $(".search-position").on('click', function(e){
 function renderPlayerItem(data, slotId, leagueId) {
     const playersContainer = $('#modal-players-block-'+slotId);
     const avatarImgSrc = $('#avatar-'+slotId).children()[0].src;
+    const italPosNaming = ($('#position-naming')[0].getAttribute('value') === 'true');
 
     let positionsContainer = '<div class="player-positions">';
-    data.position_arr.forEach((positionName) => {
-        positionsContainer += '<div class="position-item position-item-'+positionName+'">'+positionName+'</div> ';
+    data.position_arr.forEach((positionName, index) => {
+        let posName = data.position_classic_arr[index];
+        if (italPosNaming) { posName = positionName; }
+
+        positionsContainer += '<div class="position-item position-item-' + positionName + '">' + posName + '</div> ';
     })
     positionsContainer += '</div>';
 

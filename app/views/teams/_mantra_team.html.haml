@@ -120,7 +120,7 @@
               .team-player-param-item.team-player-position
                 - player.positions.each do |position|
                   .slot-position{class: "slot-position-#{position.name}"}
-                    = position.name
+                    = position_name(position)
               .team-player-param-item.team-player-appearances
                 = player.season_scores_count
               .team-player-param-item.team-player-rating
@@ -210,7 +210,7 @@
               .team-player-param-item.team-player-position
                 - transfer.player.positions.each do |position|
                   .slot-position{class: "slot-position-#{position.name}"}
-                    = position.name
+                    = position_name(position)
               .team-player-param-item.team-player-transfer-status
                 = image_tag("icons/#{transfer.status}.png")
               .team-player-param-item.team-player-rating

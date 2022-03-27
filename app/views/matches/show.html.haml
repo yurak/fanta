@@ -82,7 +82,7 @@
                   .match-module-item{class: "slot-#{match.host_lineup.team_module.slots[index]&.location}"}
                     .match-module-shirt{style: "background-image: url('#{ image_url("shirts/shirt_#{mp.real_position.tr('/', '_')}.svg") }');"}
                       .match-module-item-name
-                        = match.host_lineup.team_module.slots[index]&.position
+                        = slot_position_name(match.host_lineup.team_module.slots[index].position)
                       .match-module-item-player
                         = mp.player.name
           .match-module-lineup.match-module-away
@@ -92,7 +92,7 @@
                   .match-module-item{class: "slot-#{match.guest_lineup.team_module.slots[index]&.location}"}
                     .match-module-shirt{style: "background-image: url('#{ image_url("shirts/shirt_#{mp.real_position.tr('/', '_')}.svg") }');"}
                       .match-module-item-name
-                        = match.guest_lineup.team_module.slots[index]&.position
+                        = slot_position_name(match.guest_lineup.team_module.slots[index].position)
                       .match-module-item-player
                         = mp.player.name
       .match-team-name= match.guest.human_name

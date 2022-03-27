@@ -9,7 +9,7 @@
         .player-show-positions
           - player.positions.each do |position|
             .slot-position{class: "slot-position-#{position.name}"}
-              = position.name
+              = position_name(position)
         .player-show-score
           .player-show-score-value
             = player.season_average_result_score

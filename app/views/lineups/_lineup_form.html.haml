@@ -45,6 +45,7 @@
         = form_with model: [team, lineup], id: 'new_lineup', local: true do |f|
           = f.hidden_field :team_module_id, value: team_module&.id || lineup.team_module.id
           = f.hidden_field :tour_id, value: tour.id
+          #position-naming{ type: "hidden", value: "#{current_user.ital_pos_naming}"}
           = f.fields_for :match_players do |mp|
             - if mp.index == 11
               .reserve-players-title
@@ -63,11 +64,11 @@
                         %object{data: player_by_mp(mp, team_module)&.kit_path || '', type: ApplicationRecord::CONTENT_TYPE_PNG, id: "kit-#{mp.index}"}
                           = image_tag('kit_small_default2.png')
                       .squad-position
-                        .slot-position{class: "slot-position-#{team_module.slots[mp.index]&.position&.tr('/', '')}"}
+                        .module-position.slot-position{class: "slot-position-#{team_module.slots[mp.index]&.position&.tr('/', '')}"}
                           - if team_module.slots[mp.index]&.position
-                            = team_module.slots[mp.index]&.position
+                            = slot_position_name(team_module.slots[mp.index]&.position)
                           - elsif mp.index == 11
-                            = 'Por'
+                            = slot_position_name('Por')
                           - else
                             = 'Res'
                     .team-player-name-pos
@@ -84,13 +85,13 @@
                         - if player_by_mp(mp, team_module)
                           - if player_by_mp(mp, team_module).position_names[0]
                             .team-player-position.slot-position{class: "slot-position-#{player_by_mp(mp, team_module).position_names[0]}"}<
-                              = player_by_mp(mp, team_module).position_names[0]
+                              = slot_position_name(player_by_mp(mp, team_module).position_names[0])
                           - if player_by_mp(mp, team_module).position_names[1]
                             .team-player-position.slot-position{class: "slot-position-#{player_by_mp(mp, team_module).position_names[1]}"}<
-                              = player_by_mp(mp, team_module).position_names[1]
+                              = slot_position_name(player_by_mp(mp, team_module).position_names[1])
                           - if player_by_mp(mp, team_module).position_names[2]
                             .team-player-position.slot-position{class: "slot-position-#{player_by_mp(mp, team_module).position_names[2]}"}<
-                              = player_by_mp(mp, team_module).position_names[2]
+                              = slot_position_name(player_by_mp(mp, team_module).position_names[2])
                     .team-player-dropdown
                       = image_tag('icons/dropdown.svg')
                   .modal-players-list{id: "modal-players-list#{mp.index}"}
@@ -101,9 +102,9 @@
                         .modal-players-title-position
                           .slot-position{class: "slot-position-#{team_module.slots[mp.index]&.position&.tr('/', '')}"}
                             - if team_module.slots[mp.index]&.position
-                              = team_module.slots[mp.index]&.position
+                              = slot_position_name(team_module.slots[mp.index]&.position)
                             - elsif mp.index == 11
-                              = 'Por'
+                              = slot_position_name('Por')
                             - else
                               = 'Res'
                       .modal-modules-block
@@ -112,32 +113,32 @@
                             - available_hash = available_by_slot(team, team_module.slots[mp.index])
                             .modal-malus-block
                               - available_hash['']&.each do |player|
-                                = render 'lineup_player_item', player: player, tour: tour, position: team_module.slots[mp.index]&.position
+                                = render 'lineup_player_item', player: player, tour: tour
                             - if available_hash['1.5']
                               .modal-malus-title 🎭 MALUS -1.5
                               .modal-malus-block
                                 - available_hash['1.5'].each do |player|
-                                  = render 'lineup_player_item', player: player, tour: tour, position: team_module.slots[mp.index]&.position
+                                  = render 'lineup_player_item', player: player, tour: tour
                             - if available_hash['3.0']
                               .modal-malus-title 🎭 MALUS -3
                               .modal-malus-block
                                 - available_hash['3.0'].each do |player|
-                                  = render 'lineup_player_item', player: player, tour: tour, position: team_module.slots[mp.index]&.position
+                                  = render 'lineup_player_item', player: player, tour: tour
                           - elsif mp.index == 11
                             .modal-malus-block
                               - available_by_slot(team, team_module.slots.first)[''].each do |player|
-                                = render 'lineup_player_item', player: player, tour: tour, position: 'Por'
+                                = render 'lineup_player_item', player: player, tour: tour
                           - else
                             .modal-malus-block
                               - available_for_select(team).each do |player|
-                                = render 'lineup_player_item', player: player, tour: tour, position: 'Res'
+                                = render 'lineup_player_item', player: player, tour: tour
                         - if tour.eurocup?
                           - tournament_round_players(tour.tournament_round, team_module.slots[mp.index]&.position).each do |club, players|
                             .modal-malus-title
                               = club.name.upcase
                             .modal-malus-block
                               - players.each do |player|
-                                = render 'lineup_player_item', player: player, tour: tour, position: team_module.slots[mp.index]&.position
+                                = render 'lineup_player_item', player: player, tour: tour
                         - if tour.national?
                           - tournament_round_players(tour.tournament_round, team_module.slots[mp.index]&.position).each do |player|
                             .modal-player-item{id: "player#{player.id}", style: "background-color: ##{ player.national_team.color };"}
@@ -151,7 +152,7 @@
                                 .player-show-positions
                                   - player.position_names.reverse.each do |position|
                                     .slot-position{class: "slot-position-#{position&.tr('/', '')}"}
-                                      = position
+                                      = slot_position_name(position)
                               .player-name
                                 %span
                                   = player.name.upcase

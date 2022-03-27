@@ -72,15 +72,15 @@ class MatchPlayer < ApplicationRecord
 
   def d_at_e_or_m?
     (position_names & Position::D_CLEANSHEET_ZONE).any? &&
-      (real_position_arr.include?(Position::ESTERNO) || real_position_arr.include?(Position::MEDIANO))
+      (real_position_arr.include?(Position::WING_BACK) || real_position_arr.include?(Position::DEFENCE_MF))
   end
 
   def m_not_at_m_or_dc?
-    position_names.include?(Position::MEDIANO) && (real_position_arr & Position::CLEANSHEET_ZONE).empty?
+    position_names.include?(Position::DEFENCE_MF) && (real_position_arr & Position::CLEANSHEET_ZONE).empty?
   end
 
   def e_not_at_e_or_d?
-    position_names.include?(Position::ESTERNO) && (position_names & Position::D_CLEANSHEET_ZONE).empty? &&
+    position_names.include?(Position::WING_BACK) && (position_names & Position::D_CLEANSHEET_ZONE).empty? &&
       (real_position_arr & Position::E_CLEANSHEET_ZONE).empty?
   end
 end
