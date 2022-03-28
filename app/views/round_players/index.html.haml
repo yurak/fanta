@@ -11,7 +11,8 @@
           %select{onchange: "location = this.value;"}
             %option{selected: true, disabled: true}= t('players.position_option')
             - @positions.each do |position|
-              %option{value: tournament_round_round_players_path(tournament_round, position: position.name, order: params['order'])}= position.name
+              %option{value: tournament_round_round_players_path(tournament_round, position: position.name, order: params['order'])}
+                = position_name(position)
           .select-icon
             = image_tag('icons/triangle.svg')
       .players-filter
@@ -69,7 +70,7 @@
             .players-list-cell.player-list-positions.players-pos-padding
               - rp.positions.each do |position|
                 .match-player-position.slot-position{class: "slot-position-#{position.name}"}
-                  = position.name
+                  = position_name(position)
             - if tournament.fanta?
               .players-list-cell.players-list-appearances
                 = rp.match_players.count if tournament_round.tours.last.deadlined?

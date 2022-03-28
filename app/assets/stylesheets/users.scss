@@ -90,15 +90,15 @@
     }
   }
 
-  .user-notifications {
+  .user-config {
     padding: 24px 0 16px;
 
-    .user-notifications-block {
+    .user-config-block {
       display: grid;
       grid-template-columns: auto 48px;
     }
 
-    .user-notifications-subtitle {
+    .user-config-subtitle {
       font-size: 10px;
       line-height: 14px;
       color: #A6A2A2;
@@ -268,20 +268,20 @@
       }
     }
 
-    .user-notifications {
+    .user-config {
       padding: 32px 0 24px;
 
-      .user-notifications-block {
+      .user-config-block {
         display: grid;
         grid-template-columns: auto 60px;
       }
 
-      .user-notifications-title {
+      .user-config-title {
         font-size: 24px;
         line-height: 32px;
       }
 
-      .user-notifications-subtitle {
+      .user-config-subtitle {
         font-size: 16px;
         line-height: 24px;
       }

@@ -1,6 +1,6 @@
 .player-table-headers.performance-table-row
   .player-table-header= t('players.round')
-  - if player.position_names.include?(Position::PORTIERE)
+  - if player.position_names.include?(Position::GOALKEEPER)
     .player-table-header{title: t('players.missed_goals')}= t('players.mg')
     .player-table-header{title: t('players.caught_penalty')}= t('players.cp')
     .player-table-header{title: t('players.missed_penalty')}= t('players.mp')
@@ -19,7 +19,7 @@
 - matches.reverse_each do |rp|
   .player-table-row.performance-table-row
     .player-table-cell= rp.tournament_round.number
-    - if player.position_names.include?(Position::PORTIERE)
+    - if player.position_names.include?(Position::GOALKEEPER)
       .player-table-cell
         = render 'bonus_item', bonus: rp.missed_goals, img_path: "bonuses/mg.png"
       .player-table-cell
@@ -54,7 +54,7 @@
     .player-table-cell.right.bold= rp.result_score
 .table-total.performance-table-row
   .table-total-cell= t('players.total')
-  - if player.position_names.include?(Position::PORTIERE)
+  - if player.position_names.include?(Position::GOALKEEPER)
     .table-total-cell
       - if player.season_bonus_count(matches, 'missed_goals').nonzero?
         = image_tag("bonuses/mg.png")

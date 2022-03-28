@@ -7,7 +7,7 @@
       %object{data: match_player.player.kit_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
         = image_tag('kit_small_default2.png')
     .module-position.slot-position{class: "slot-position-#{match_player.real_position.tr('/', '')}"}
-      = match_player.real_position
+      = slot_position_name(match_player.real_position)
   .match-player-data
     .match-player-data
       .match-player-data-base

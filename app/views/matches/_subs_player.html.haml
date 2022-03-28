@@ -30,4 +30,4 @@
         .match-player-positions
           - match_player.player.positions.each do |position|
             .match-player-position.slot-position{class: "slot-position-#{position.name}"}
-              = position.name
+              = position_name(position)

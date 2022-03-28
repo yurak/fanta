@@ -30,6 +30,6 @@ class UsersController < ApplicationController
   end
 
   def user_params
-    params.permit(:name, :active_team_id, :notifications, :avatar)
+    params.permit(:active_team_id, :avatar, :name, :notifications, :ital_pos_naming)
   end
 end

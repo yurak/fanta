@@ -63,7 +63,7 @@
                 .team-player-param-item.transfer-player-position
                   - player_bid.player.positions.each do |position|
                     .slot-position{class: "slot-position-#{position.name}"}
-                      = position.name
+                      = position_name(position)
                 .team-player-param-item.transfer-player-rating
                   = player_bid.price
                 .team-player-param-item.transfer-player-club

@@ -85,9 +85,9 @@ class RoundPlayer < ApplicationRecord
   end
 
   def goal_bonus
-    if position_names.include?(Position::PUNTA)
+    if position_names.include?(Position::STRIKER)
       PC_GOAL_BONUS
-    elsif position_names.include?(Position::ATTACCANTE)
+    elsif position_names.include?(Position::FORWARD)
       A_GOAL_BONUS
     else
       GOAL_BONUS
@@ -97,7 +97,7 @@ class RoundPlayer < ApplicationRecord
   def cleansheet_bonus
     return 0 if (position_names & Position::CLEANSHEET_ZONE).blank?
 
-    if position_names.include?(Position::PORTIERE)
+    if position_names.include?(Position::GOALKEEPER)
       POR_CLEANSHEET_BONUS
     elsif (position_names & Position::D_CLEANSHEET_ZONE).any?
       D_CLEANSHEET_BONUS
@@ -107,7 +107,7 @@ class RoundPlayer < ApplicationRecord
   end
 
   def red_card_malus
-    if position_names.include?(Position::PORTIERE)
+    if position_names.include?(Position::GOALKEEPER)
       POR_RED_CARD_MALUS
     else
       RED_CARD_MALUS

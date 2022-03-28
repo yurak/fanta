@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_06_094948) do
+ActiveRecord::Schema.define(version: 2022_03_24_175356) do
 
   create_table "article_tags", force: :cascade do |t|
     t.string "name", default: "", null: false
@@ -204,7 +204,6 @@ ActiveRecord::Schema.define(version: 2022_02_06_094948) do
     t.integer "club_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "status", default: 0
     t.string "first_name"
     t.string "nationality"
     t.string "tm_url"
@@ -223,6 +222,7 @@ ActiveRecord::Schema.define(version: 2022_02_06_094948) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "human_name", default: "", null: false
     t.index ["name"], name: "index_positions_on_name", unique: true
   end
 
@@ -335,7 +335,6 @@ ActiveRecord::Schema.define(version: 2022_02_06_094948) do
     t.integer "season_id"
     t.integer "number"
     t.integer "status", default: 0
-    t.datetime "start_time"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "deadline"
@@ -397,11 +396,11 @@ ActiveRecord::Schema.define(version: 2022_02_06_094948) do
     t.string "last_sign_in_ip"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.decimal "summer_balance", default: "0.0"
     t.string "name", default: "", null: false
     t.integer "active_team_id"
     t.boolean "notifications", default: false, null: false
     t.string "avatar", default: "1", null: false
+    t.boolean "ital_pos_naming", default: false, null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
