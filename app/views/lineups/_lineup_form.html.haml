@@ -25,9 +25,9 @@
                 = link_to module_link(lineup, team_module) do
                   .team-module-block
                     = team_module.name
-                    = image_tag("modules/#{team_module.name}.jpg")
+                    = image_tag("#{modules_path}#{team_module.name}.jpg")
       .module-image
-        = image_tag("modules/#{team_module&.name || lineup.team_module.name}.jpg")
+        = image_tag("#{modules_path}#{team_module&.name || lineup.team_module.name}.jpg")
       - if tour.national?
         .squad-rules
           .squad-minimum-rule
