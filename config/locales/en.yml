@@ -77,7 +77,8 @@ en:
     price: "PRICE"
     positions: "POSITIONS"
     place_bid: "Place bid"
-    transfers: "💰️ The most expensive transfers"
+    transfers: "💰️ Auction transfers"
+    vacancies: "VACANCIES"
     your_bid: "Your bids at the auction:"
   header:
     rules: "Rules"
@@ -369,6 +370,7 @@ en:
     leaders_points: "Leaders by F1 points"
     leaders_score: "Leaders by total score"
     tournament_players: "💪 Round best players"
+    transfers_history: "💰 Transfers history"
     league_players: "💪 League best players"
     player: "PLAYER"
     bs: "BS"

@@ -135,6 +135,14 @@
       }
     }
   }
+
+  .stats-section {
+    .round-table {
+      .round-table-headers, .auction-round-table-item {
+        grid-template-columns: 1fr 5fr 1fr 2fr 2fr;
+      }
+    }
+  }
 }
 
 @media (orientation: portrait) {

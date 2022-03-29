@@ -18,7 +18,7 @@ module AuctionsHelper
     when 'sales'
       t('auction.sales_msg', date: auction.deadline&.strftime('%H:%M %e/%m/%y') || '--:--')
     when 'blind_bids'
-      t('auction.blind_bids_msg', date: auction.event_time&.strftime('%H:%M %e/%m/%y') || '--:--')
+      t('auction.blind_bids_msg', date: auction.auction_rounds.last&.deadline&.strftime('%H:%M %e/%m/%y') || '--:--')
     when 'live'
       t('auction.live_msg', date: auction.event_time&.strftime('%H:%M %e/%m/%y') || '--:--')
     else
