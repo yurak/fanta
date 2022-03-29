@@ -7,7 +7,7 @@
         = link_to tour_path(round) do
           .round-link-block{ class: "round-#{round.status}" }
             = round.number
-    - if auction
+    - if auction && current_user&.team_by_league(league)
       .auction-block
         .auction-msg
           = auction_message(auction)

@@ -77,50 +77,58 @@
         .round-table-title-text= t('auction_round.bets_placed')
         .round-table-block
       .round-table-headers
-        .round-table-header-cell
-        .round-table-header-cell
+        .round-table-header-cell.center #
+        .round-table-header-cell.left= t('teams.team')
+        .round-table-header-cell.center= t('auction_round.bid')
+        .round-table-header-cell.center= t('auction_round.vacancies')
+        .round-table-header-cell.center= t('teams.budget')
       - league.teams.each_with_index do |team, i|
         = link_to team_path(team) do
-          .round-table-item
+          .round-table-item.auction-round-table-item
             .round-table-item-cell.round-table-index= i + 1
             .round-table-item-cell.round-table-item-team
               .results-team-logo
                 = image_tag(image_path(team.logo_path))
               .results-team-name
                 = team.human_name[0..15]
-            .round-table-item-cell
+            .round-table-item-cell.center
               - if team.full_squad?
                 ☑️
               - elsif auction_round.auction_bids.find_by(team: team)
                 ✅
               - else
                 ❌
+            .round-table-item-cell.center
+              = team.vacancies
+            .round-table-item-cell.center
+              = team.budget
     .round-table
       .round-table-title.best-players-title
         = link_to league_auction_transfers_path(league, auction) do
           .round-table-title-text= t('auction_round.transfers')
           .round-table-title-icon
             = image_tag('icons/arrow_blue.png')
-      .round-table-block
-        .round-table-headers.round-player-stats-headers
-          .round-table-header-cell
-          .round-table-header-cell.round-table-header-player= t('tours.player')
-          .round-table-header-cell
-          .round-table-header-cell= t('auction_round.price')
-          .round-table-header-cell= t('tours.team')
-        - @transfers.each_with_index do |transfer, i|
-          .round-table-item.round-player-stats-item
-            .round-player-stats-param.center= i + 1
-            .round-player-stats-param.round-player-stats-data
-              .round-player-stats-img
-                .round-player-show-face
-                  %object{data: transfer.player.avatar_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                    = image_tag('avatar.png')
-                .round-player-show-kit
-                  %object{data: transfer.player.kit_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                    = image_tag('kit_small_default2.png')
-              .round-player-stats-name= transfer.player.name
-            .round-player-stats-param
-            .round-player-stats-param.round-player-stats-score= transfer.price
-            .round-player-stats-param.round-player-stats-team
-              = image_tag(transfer.team.logo_path)
+      - if @transfers.any?
+        .round-table-block
+          .round-table-headers.round-player-stats-headers
+            .round-table-header-cell
+            .round-table-header-cell.round-table-header-player= t('tours.player')
+            .round-table-header-cell
+            .round-table-header-cell= t('auction_round.price')
+            .round-table-header-cell= t('tours.team')
+          - @transfers.each_with_index do |transfer, i|
+            .round-table-item.round-player-stats-item
+              .round-player-stats-param.center= i + 1
+              .round-player-stats-param.round-player-stats-data
+                .round-player-stats-img
+                  .round-player-show-face
+                    %object{data: transfer.player.avatar_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
+                      = image_tag('avatar.png')
+                  .round-player-show-kit
+                    %object{data: transfer.player.kit_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
+                      = image_tag('kit_small_default2.png')
+                .round-player-stats-name= transfer.player.name
+              .round-player-stats-param
+              .round-player-stats-param.round-player-stats-score= transfer.price
+              .round-player-stats-param.round-player-stats-team
+                = image_tag(transfer.team.logo_path)

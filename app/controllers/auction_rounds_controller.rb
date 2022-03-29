@@ -6,8 +6,7 @@ class AuctionRoundsController < ApplicationController
   helper_method :auction, :auction_round, :league
 
   def show
-    # TODO: show correct transfers, with actual price if player have few incoming transfers in league
-    @transfers = league.transfers.incoming.sort_by(&:price).reverse.take(5)
+    @transfers = auction.transfers.incoming.sort_by(&:price).reverse.take(5)
   end
 
   private
