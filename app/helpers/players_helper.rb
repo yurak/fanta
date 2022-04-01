@@ -51,13 +51,9 @@ module PlayersHelper
     end
   end
 
-  def auction_step(league)
-    teams = league.teams
-    return 0 if teams.count.zero?
+  def user_tournament_team(tournament_id)
+    return false unless current_user
 
-    transfers = league.transfers.count
-    return teams[0].id if transfers.zero?
-
-    teams[transfers % teams.count].id
+    @user_tournament_team ||= current_user&.teams.by_tournament(tournament_id || 1).first
   end
 end

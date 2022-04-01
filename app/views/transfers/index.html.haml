@@ -4,7 +4,7 @@
     .transfers-title
       = t('transfers.title', league: league.name)
   .actions-buttons
-    -  if current_user&.can_moderate?
+    -  if current_user&.can_moderate? && auction.live?
       = link_to t('transfers.auction'), league_auction_path(league, auction)
   .transfers-block
     .transfer-headers
@@ -34,7 +34,7 @@
           .team-player-param-item.transfer-player-position
             - transfer.player.positions.each do |position|
               .slot-position{class: "slot-position-#{position.name}"}
-                = position.name
+                = position_name(position)
           .team-player-param-item.transfer-team-image
             .team-image.inline-block
               %object{data: transfer.team.logo_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
