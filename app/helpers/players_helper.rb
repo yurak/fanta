@@ -54,6 +54,6 @@ module PlayersHelper
   def user_tournament_team(tournament_id)
     return false unless current_user
 
-    @user_tournament_team ||= current_user&.teams.by_tournament(tournament_id || 1).first
+    @user_tournament_team ||= current_user.teams.by_tournament(tournament_id || 1).first
   end
 end
