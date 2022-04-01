@@ -25,6 +25,8 @@ class Team < ApplicationRecord
 
   default_scope { includes(%i[league user]) }
 
+  scope :by_tournament, ->(tournament_id) { joins(:league).where(leagues: { tournament_id: tournament_id }) }
+
   def league_matches
     @league_matches ||= matches.by_league(league.id)
   end

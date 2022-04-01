@@ -92,10 +92,10 @@
               .results-team-name
                 = team.human_name[0..15]
             .round-table-item-cell.center
-              - if team.full_squad?
-                ☑️
-              - elsif auction_round.auction_bids.find_by(team: team)
+              - if auction_round.auction_bids.find_by(team: team)
                 ✅
+              - elsif team.full_squad?
+                ☑️
               - else
                 ❌
             .round-table-item-cell.center
