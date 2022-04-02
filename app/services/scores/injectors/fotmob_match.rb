@@ -94,7 +94,7 @@ module Scores
 
       def player_name(player_data)
         name = "#{player_data['name']['firstName']} #{player_data['name']['lastName']}"
-        name.mb_chars.lstrip.gsub(/[^\x00-\x7F]/n, '').downcase.to_s
+        name.unicode_normalize(:nfd).gsub(/[^\x00-\x7F]/n, '').downcase.to_s
       end
 
       def cleansheet?(round_player, team_missed_goals, played_minutes)
