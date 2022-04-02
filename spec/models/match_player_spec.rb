@@ -73,6 +73,14 @@ RSpec.describe MatchPlayer, type: :model do
         expect(match_player_with_score.not_played?).to eq(false)
       end
     end
+
+    context 'when player moved to another tournament' do
+      it 'returns true' do
+        allow(match_player.round_player).to receive(:another_tournament?).and_return(true)
+
+        expect(match_player.not_played?).to eq(true)
+      end
+    end
   end
 
   describe '#position_malus?' do

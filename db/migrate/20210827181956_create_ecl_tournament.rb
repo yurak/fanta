@@ -2,7 +2,8 @@ class CreateEclTournament < ActiveRecord::Migration[5.2]
   def change
     add_column :tournaments, :eurocup, :boolean, default: false
 
-    add_reference :clubs, :ec_tournament, foreign_key: true
+    add_column :clubs, :ec_tournament_id, :integer, foreign_key: true
+    add_index :clubs, :ec_tournament_id
 
     add_column :tournament_matches, :time, :string, null: false, default: ''
     add_column :tournament_matches, :date, :string, null: false, default: ''

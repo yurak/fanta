@@ -200,29 +200,39 @@ RSpec.describe PlayersHelper, type: :helper do
     it 'is a pending example for module_link'
   end
 
-  describe '#auction_step(league)' do
-    let(:league) { create(:league) }
+  describe '#user_tournament_team(tournament_id)' do
+    let(:tournament) { Tournament.last }
 
-    context 'without transfers' do
-      it 'returns zero' do
-        expect(helper.auction_step(league)).to eq(0)
+    context 'without current_user' do
+      before do
+        allow(helper).to receive(:current_user).and_return(nil)
+      end
+
+      it 'returns false' do
+        expect(helper.user_tournament_team(tournament.id)).to eq(false)
       end
     end
 
-    context 'without teams and with transfers' do
-      it 'returns zero' do
-        create_list(:transfer, 3, league: league)
+    context 'with logged user and without team in tournament' do
+      before do
+        allow(helper).to receive(:current_user).and_return(create(:user))
+      end
 
-        expect(helper.auction_step(league)).to eq(0)
+      it 'returns nil' do
+        expect(helper.user_tournament_team(tournament.id)).to eq(nil)
       end
     end
 
-    context 'with teams and transfers' do
-      it 'returns active team id' do
-        create_list(:transfer, 2, league: league)
-        teams = create_list(:team, 6, league: league)
+    context 'with logged user and team in tournament' do
+      let(:user) { create(:user) }
+      let!(:team) { create(:team, league: create(:league, tournament: tournament), user: user) }
 
-        expect(helper.auction_step(league)).to eq(teams[2].id)
+      before do
+        allow(helper).to receive(:current_user).and_return(user)
+      end
+
+      it 'returns team from tournament' do
+        expect(helper.user_tournament_team(tournament.id)).to eq(team)
       end
     end
   end

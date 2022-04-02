@@ -2,7 +2,7 @@
   .auctions-head
     .tournament-logo= image_tag(league.tournament.logo_path)
     .auctions-title
-      = t('auction.title', league: league.name)
+      = link_to t('auction_round.auction', league: league.name), league_link(league)
   .auctions-block
     .auctions-headers
       .auctions-header-item.center #

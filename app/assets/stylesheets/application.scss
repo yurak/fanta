@@ -285,7 +285,7 @@ body, html {
 
           .modal-player-data {
             display: grid;
-            grid-template-columns: 2fr 1fr;
+            grid-template-columns: 5fr 2fr;
             line-height: 16px;
             font-size: 12px;
             padding-top: 8px;
@@ -381,14 +381,14 @@ body, html {
         }
 
         .squad-position {
-          left: 8px;
-          bottom: 8px;
+          left: 5px;
+          bottom: 7px;
 
           .slot-position {
-            height: 26px;
-            width: 40px;
-            line-height: 26px;
-            font-size: 14px;
+            height: 20px;
+            width: 54px;
+            line-height: 20px;
+            font-size: 13px;
           }
         }
       }
@@ -719,6 +719,10 @@ body, html {
 
 .right {
   text-align: right;
+}
+
+.left {
+  text-align: left;
 }
 
 .bold {

@@ -58,4 +58,4 @@
         .match-team-data-text= t('matches.module')
         .match-team-data-value= lineup.team_module.name
       .module-image
-        = image_tag("modules/#{lineup.team_module.name}.jpg")
+        = image_tag("#{modules_path}#{lineup.team_module.name}.jpg")

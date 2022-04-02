@@ -25,6 +25,8 @@ class Team < ApplicationRecord
 
   default_scope { includes(%i[league user]) }
 
+  scope :by_tournament, ->(tournament_id) { joins(:league).where(leagues: { tournament_id: tournament_id }) }
+
   def league_matches
     @league_matches ||= matches.by_league(league.id)
   end
@@ -81,6 +83,12 @@ class Team < ApplicationRecord
     league.auctions.sales.any?
   end
 
+  def prepared_sales_count
+    return 0 unless current_auction
+
+    player_teams.transferable.count + transfers.outgoing.by_auction(current_auction.id).count
+  end
+
   private
 
   def next_match
@@ -91,5 +99,9 @@ class Team < ApplicationRecord
 
   def matches
     @matches ||= Match.where('host_id = ? OR guest_id = ?', id, id)
+  end
+
+  def current_auction
+    @current_auction ||= league.auctions.initial_sales.first
   end
 end

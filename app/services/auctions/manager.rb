@@ -32,7 +32,7 @@ module Auctions
     def blind_bids
       return unless (auction.initial? || auction.sales?) && status == BLIND_BIDS_STATUS
 
-      auction.auction_rounds.create(number: auction.auction_rounds.count + 1)
+      create_auction_round
 
       auction.blind_bids!
     end
@@ -43,6 +43,13 @@ module Auctions
 
     def close
       auction.closed! if (auction.blind_bids? || auction.live?) && status == CLOSED_STATUS
+    end
+
+    def create_auction_round
+      auction.auction_rounds.create(
+        number: auction.auction_rounds.count + 1,
+        deadline: (auction.deadline.presence || Time.zone.now) + 1.day
+      )
     end
   end
 end

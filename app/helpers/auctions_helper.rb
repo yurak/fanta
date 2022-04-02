@@ -7,7 +7,7 @@ module AuctionsHelper
       team = current_user&.team_by_league(auction.league)
       team ? edit_team_path(team) : '#'
     when 'blind_bids'
-      auction.auction_rounds.any? ? auction_round_path(auction.auction_rounds.active.first) : '#'
+      auction.auction_rounds.active.any? ? auction_round_path(auction.auction_rounds.active.first) : '#'
     else
       league_auction_transfers_path(auction.league, auction)
     end
@@ -18,7 +18,7 @@ module AuctionsHelper
     when 'sales'
       t('auction.sales_msg', date: auction.deadline&.strftime('%H:%M %e/%m/%y') || '--:--')
     when 'blind_bids'
-      t('auction.blind_bids_msg', date: auction.event_time&.strftime('%H:%M %e/%m/%y') || '--:--')
+      t('auction.blind_bids_msg', date: auction.auction_rounds.last&.deadline&.strftime('%H:%M %e/%m/%y') || '--:--')
     when 'live'
       t('auction.live_msg', date: auction.event_time&.strftime('%H:%M %e/%m/%y') || '--:--')
     else

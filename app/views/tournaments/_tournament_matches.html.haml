@@ -21,7 +21,7 @@
             .round-tournament-match-result-host= match.host_score
             .round-tournament-match-result-guest= match.guest_score
       - else
-        = match.time
+        = match.time.presence || 'vs'
     .round-tournament-match-cell.round-tournament-match-team.round-tournament-match-guest
       -# TODO: add link to CLub page
       -# = link_to national_team_path(match.guest_club) do

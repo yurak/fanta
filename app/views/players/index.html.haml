@@ -28,7 +28,8 @@
           %select{onchange: "location = this.value;"}
             %option{selected: true, disabled: true}= t('players.position_option')
             - @positions.each do |position|
-              %option{value: players_path(tournament: params[:tournament], position: position.name, order: params['order'])}= position.name
+              %option{value: players_path(tournament: params[:tournament], position: position.name, order: params['order'])}
+                = position_name(position)
           .select-icon
             = image_tag('icons/triangle.svg')
       .players-filter
@@ -47,7 +48,8 @@
       .players-list-header
         = link_to t('players.player_header'), players_path(tournament: params[:tournament], position: params[:position], club: params[:club], order: 'name')
       .players-list-header.players-pos-padding= t('players.positions_header')
-      .players-list-header.center= t('players.team_header')
+      .players-list-header.right= t('players.team_header')
+      .players-list-header.center= t('players.my_league_header')
       .players-list-header.right
         = link_to t('players.appearances_header'), players_path(tournament: params[:tournament], position: params[:position], club: params[:club], order: 'appearances')
       .players-list-header.right
@@ -78,11 +80,13 @@
             .players-list-cell.player-list-positions.players-pos-padding
               - player.player_positions.each do |player_position|
                 .match-player-position.slot-position{class: "slot-position-#{player_position.position.name}"}
-                  = player_position.position.name
+                  = position_name(player_position.position)
+            .players-list-cell.players-list-appearances
+              = player.teams.count if player.teams.count.positive?
             .players-list-cell.center
-              - player.teams.each do |team|
+              - if user_tournament_team(params[:tournament]) && player.team_by_league(user_tournament_team(params[:tournament]).league_id)
                 .team-image.inline-block
-                  = image_tag(team.logo_path)
+                  = image_tag(player.team_by_league(user_tournament_team(params[:tournament]).league_id).logo_path)
             .players-list-cell.players-list-appearances
               = player.season_scores_count
             .players-list-cell.players-list-rating

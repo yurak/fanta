@@ -43,13 +43,23 @@
           .user-team-activate
             - unless current_user.active_team == team
               = link_to t('users.activate'), user_path(current_user, active_team_id: team.id), method: :put, class: 'change-link'
-    .user-notifications
-      .user-title= t('users.notifications')
-      .user-notifications-block
-        .user-notifications-text
-          .user-notifications-title= t('users.notifications_title')
-          .user-notifications-subtitle= "#{t('users.notifications_subtitle')} #{ current_user.email }"
-        .user-notifications-checkbox
-          = link_to user_path(current_user, notifications: !current_user.notifications), method: :put do
-            .checkbox-block{ class: "checkbox-on-#{ current_user.notifications }" }
+    .user-config
+      .user-title= t('users.positions_naming')
+      .user-config-block
+        .user-config-text
+          .user-config-title= t('users.pos_naming_title')
+          .user-config-subtitle= t('users.pos_naming_subtitle')
+        .user-config-checkbox
+          = link_to user_path(current_user, ital_pos_naming: !current_user.ital_pos_naming), method: :put do
+            .checkbox-block{ class: "checkbox-on-#{ current_user.ital_pos_naming }" }
               .checkbox-item
+    -#.user-config
+    -#  .user-title= t('users.notifications')
+    -#  .user-config-block
+    -#    .user-config-text
+    -#      .user-config-title= t('users.notifications_title')
+    -#      .user-config-subtitle= "#{t('users.notifications_subtitle')} #{ current_user.email }"
+    -#    .user-config-checkbox
+    -#      = link_to user_path(current_user, notifications: !current_user.notifications), method: :put do
+    -#        .checkbox-block{ class: "checkbox-on-#{ current_user.notifications }" }
+    -#          .checkbox-item

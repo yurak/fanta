@@ -30,4 +30,20 @@ RSpec.describe TournamentRound, type: :model do
       end
     end
   end
+
+  describe '#clubs_ids' do
+    context 'without tournament matches' do
+      it 'returns empty array' do
+        expect(tournament_round.clubs_ids).to eq([])
+      end
+    end
+
+    context 'with tournament matches' do
+      let!(:tournament_match) { create(:tournament_match, tournament_round: tournament_round) }
+
+      it 'returns array with clubs ids' do
+        expect(tournament_round.clubs_ids).to eq([tournament_match.host_club_id, tournament_match.guest_club_id])
+      end
+    end
+  end
 end

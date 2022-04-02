@@ -6,7 +6,7 @@ class MatchPlayer < ApplicationRecord
   has_many :reserve_subs, foreign_key: 'reserve_mp_id', class_name: 'Substitute', dependent: :destroy, inverse_of: :reserve_mp
 
   delegate :league, :team, :tour, to: :lineup
-  delegate :assists, :caught_penalty, :cleansheet, :club_played_match?, :failed_penalty, :goals,
+  delegate :another_tournament?, :assists, :caught_penalty, :cleansheet, :club_played_match?, :failed_penalty, :goals,
            :missed_goals, :missed_penalty, :own_goals, :player, :red_card, :result_score, :score, :scored_penalty,
            :yellow_card, to: :round_player
   delegate :club, :first_name, :name, :position_names, :teams, to: :player
@@ -28,7 +28,7 @@ class MatchPlayer < ApplicationRecord
   CLEANSHEET_BONUS_DIFF = 0.5
 
   def not_played?
-    score.zero? && club_played_match?
+    (score.zero? && club_played_match?) || another_tournament?
   end
 
   def position_malus?
@@ -72,15 +72,15 @@ class MatchPlayer < ApplicationRecord
 
   def d_at_e_or_m?
     (position_names & Position::D_CLEANSHEET_ZONE).any? &&
-      (real_position_arr.include?(Position::ESTERNO) || real_position_arr.include?(Position::MEDIANO))
+      (real_position_arr.include?(Position::WING_BACK) || real_position_arr.include?(Position::DEFENCE_MF))
   end
 
   def m_not_at_m_or_dc?
-    position_names.include?(Position::MEDIANO) && (real_position_arr & Position::CLEANSHEET_ZONE).empty?
+    position_names.include?(Position::DEFENCE_MF) && (real_position_arr & Position::CLEANSHEET_ZONE).empty?
   end
 
   def e_not_at_e_or_d?
-    position_names.include?(Position::ESTERNO) && (position_names & Position::D_CLEANSHEET_ZONE).empty? &&
+    position_names.include?(Position::WING_BACK) && (position_names & Position::D_CLEANSHEET_ZONE).empty? &&
       (real_position_arr & Position::E_CLEANSHEET_ZONE).empty?
   end
 end

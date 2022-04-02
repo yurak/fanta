@@ -27,7 +27,7 @@
         .auction-teams-title-count= league.teams.count
       .auction-teams-section
         - league.teams.each do |league_team|
-          .auction-team-item{ class: "active-team-#{league_team.id == auction_step(league)}"}
+          .auction-team-item
             .auction-team-logo
               = image_tag(league_team.logo_path)
             .auction-team-name
@@ -67,7 +67,7 @@
                 .player-show-base-value
                   - player.positions.each do |position|
                     .slot-position{class: "slot-position-#{position.name}"}
-                      = position.name
+                      = position_name(position)
               .player-show-price
                 .player-show-base-title= t('auction.price')
                 .player-show-base-value
@@ -128,14 +128,14 @@
                   .auction-players-item-name
                     = player.full_name_reverse
                   .auction-players-item-data
-                    = "#{player.position_names.join(', ')} - #{player.club.name}"
+                    = "#{player.positions.map { |pos| position_name(pos) }.join(', ')} - #{player.club.name}"
               - else
                 = link_to league_auction_path(player: player.id) do
                   .auction-players-item
                     .auction-players-item-name
                       = player.full_name_reverse
                     .auction-players-item-data
-                      = "#{player.position_names.join(', ')} - #{player.club.name}"
+                      = "#{player.positions.map { |pos| position_name(pos) }.join(', ')} - #{player.club.name}"
 
         - elsif params[:search].present?
           .auction-not-found
@@ -174,7 +174,7 @@
               .purchases-player-position
                 - transfer.player.positions.each do |position|
                   .slot-position{class: "slot-position-#{position.name}"}
-                    = position.name
+                    = position_name(position)
               .purchases-player-price
                 = "#{transfer.price} $"
 

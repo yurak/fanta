@@ -2,15 +2,15 @@
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
 #
-# Note that this schema.rb definition is the authoritative source for your
-# database schema. If you need to create the application database on another
-# system, you should be using db:schema:load, not running all the migrations
-# from scratch. The latter is a flawed and unsustainable approach (the more migrations
-# you'll amass, the slower it'll run and the greater likelihood for issues).
+# This file is the source Rails uses to define your schema when running `bin/rails
+# db:schema:load`. When creating a new database, `bin/rails db:schema:load` tends to
+# be faster and is potentially less error prone than running all of your
+# migrations from scratch. Old migrations may fail to apply correctly if those
+# migrations use external dependencies or application code.
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_06_094948) do
+ActiveRecord::Schema.define(version: 2022_03_24_175356) do
 
   create_table "article_tags", force: :cascade do |t|
     t.string "name", default: "", null: false
@@ -204,7 +204,6 @@ ActiveRecord::Schema.define(version: 2022_02_06_094948) do
     t.integer "club_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "status", default: 0
     t.string "first_name"
     t.string "nationality"
     t.string "tm_url"
@@ -223,6 +222,7 @@ ActiveRecord::Schema.define(version: 2022_02_06_094948) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "human_name", default: "", null: false
     t.index ["name"], name: "index_positions_on_name", unique: true
   end
 
@@ -335,7 +335,6 @@ ActiveRecord::Schema.define(version: 2022_02_06_094948) do
     t.integer "season_id"
     t.integer "number"
     t.integer "status", default: 0
-    t.datetime "start_time"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "deadline"
@@ -397,13 +396,42 @@ ActiveRecord::Schema.define(version: 2022_02_06_094948) do
     t.string "last_sign_in_ip"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.decimal "summer_balance", default: "0.0"
     t.string "name", default: "", null: false
     t.integer "active_team_id"
     t.boolean "notifications", default: false, null: false
     t.string "avatar", default: "1", null: false
+    t.boolean "ital_pos_naming", default: false, null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "auction_bids", "auction_rounds"
+  add_foreign_key "auction_bids", "teams"
+  add_foreign_key "auction_rounds", "auctions"
+  add_foreign_key "auctions", "leagues"
+  add_foreign_key "clubs", "tournaments"
+  add_foreign_key "leagues", "seasons"
+  add_foreign_key "links", "tournaments"
+  add_foreign_key "match_players", "round_players"
+  add_foreign_key "national_matches", "tournament_rounds"
+  add_foreign_key "national_teams", "tournaments"
+  add_foreign_key "player_bids", "auction_bids"
+  add_foreign_key "player_bids", "players"
+  add_foreign_key "player_teams", "players"
+  add_foreign_key "player_teams", "teams"
+  add_foreign_key "players", "national_teams"
+  add_foreign_key "results", "leagues"
+  add_foreign_key "round_players", "players"
+  add_foreign_key "round_players", "tournament_rounds"
+  add_foreign_key "teams", "leagues"
+  add_foreign_key "teams", "users"
+  add_foreign_key "tournament_matches", "tournament_rounds"
+  add_foreign_key "tournament_rounds", "seasons"
+  add_foreign_key "tournament_rounds", "tournaments"
+  add_foreign_key "tours", "leagues"
+  add_foreign_key "tours", "tournament_rounds"
+  add_foreign_key "transfers", "auctions"
+  add_foreign_key "transfers", "leagues"
+  add_foreign_key "transfers", "players"
+  add_foreign_key "transfers", "teams"
 end

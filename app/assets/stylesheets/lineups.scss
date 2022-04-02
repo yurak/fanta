@@ -51,7 +51,8 @@
         padding-right: 16px;
 
         img {
-          width: 260px;
+          width: 100%;
+          margin-left: 20px;
           border-radius: 12px;
         }
       }
@@ -193,14 +194,14 @@
             font-weight: 500;
             font-size: 18px;
             line-height: 26px;
-            width: 172px;
-            height: 250px;
+            width: 264px;
+            height: 222px;
             color: #847577;
             text-align: center;
 
             img {
-              width: 172px;
-              height: 228px;
+              width: 264px;
+              height: 200px;
               border-radius: 8px;
             }
           }
@@ -208,7 +209,7 @@
       }
 
       .module-name {
-        padding: 48px 0 32px;
+        padding: 48px 0 18px;
         font-size: 24px;
         line-height: 32px;
         text-align: center;
@@ -223,10 +224,8 @@
       .module-image {
         width: 100%;
         text-align: center;
-        margin: 32px auto;
 
         img {
-          width: 260px;
           border-radius: 8px;
         }
       }
@@ -246,6 +245,8 @@
       .round-matches {
         .round-tournament-match {
           border-bottom: 1px solid rgba(24, 23, 21, 0.2);
+          grid-template-columns: 1fr 50px 1fr;
+          column-gap: 12px;
         }
       }
     }

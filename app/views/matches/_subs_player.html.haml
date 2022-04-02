@@ -17,7 +17,7 @@
           .team-player-scores
             .team-player-score= match_player.score
             .team-player-total-score= match_player.total_score
-        - elsif match_player.club_played_match?
+        - elsif match_player.club_played_match? || match_player.another_tournament?
           .team-player-score-not-played= t('matches.didnt_play')
         - else
           .team-player-score-unspecified= t('matches.unspecified')
@@ -30,4 +30,4 @@
         .match-player-positions
           - match_player.player.positions.each do |position|
             .match-player-position.slot-position{class: "slot-position-#{position.name}"}
-              = position.name
+              = position_name(position)

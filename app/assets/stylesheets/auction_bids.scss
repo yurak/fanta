@@ -86,6 +86,7 @@
 
     .search-positions {
       .search-position {
+        cursor: pointer;
         display: inline-block;
         margin: 4px 3px;
       }
@@ -97,6 +98,7 @@
       .search-club-logo {
         display: inline-block;
         margin: 4px 7px;
+        cursor: pointer;
 
         img, object {
           width: 32px;

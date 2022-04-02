@@ -17,6 +17,8 @@ class TeamsController < ApplicationController
   end
 
   def update
+    # TODO: compare count of transferable players and count of auction slots
+    # player_teams.to_h.map{|pt, v| pt if v["transfer_status"] == "transferable"}.compact.count
     if editable?
       player_teams.each_pair do |id, params|
         player_team = PlayerTeam.find(id.to_i)
@@ -44,7 +46,7 @@ class TeamsController < ApplicationController
   end
 
   def player_teams
-    update_params['player_teams']
+    @player_teams ||= update_params['player_teams']
   end
 
   def update_params

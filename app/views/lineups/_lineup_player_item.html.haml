@@ -10,7 +10,7 @@
     .player-positions
       - player.player_positions.includes(:position).each do |player_position|
         .position-item{class: "position-item-#{player_position.position.name}"}
-          = player_position.position.name.upcase
+          = position_name(player_position.position)
   -#  .player-score
   -#    = player.season_average_result_score
   .modal-player-name

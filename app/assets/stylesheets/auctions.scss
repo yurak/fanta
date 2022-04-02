@@ -24,7 +24,10 @@
       font-weight: bold;
       font-size: 42px;
       line-height: 64px;
-      color: #181715;
+      a {
+        color: #181715;
+        text-decoration: none;
+      }
     }
   }
 
@@ -272,10 +275,6 @@
             }
           }
         }
-      }
-
-      .active-team-true {
-        border: 1px solid #181715;
       }
     }
   }

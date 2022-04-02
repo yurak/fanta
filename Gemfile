@@ -3,7 +3,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.5.1'
 
-gem 'rails', '5.2.5'
+gem 'rails', '6.1.5'
 gem 'sqlite3'
 
 gem 'active_model_serializers', '~> 0.10.0'
@@ -14,18 +14,18 @@ gem 'chartkick', '3.4.0'
 gem 'coffee-rails', '~> 4.2'
 gem 'coveralls_reborn', '~> 0.20.0', require: false
 gem 'countries'
-gem 'devise', '4.7.1'
+gem 'devise'
 gem 'devise-bootstrap-views', '~> 1.0'
 gem 'dotenv-rails', require: 'dotenv/rails-now'
 gem 'flag-icons-rails'
 gem 'haml-rails', '~> 2.0'
 gem 'jbuilder', '~> 2.5'
-gem 'jquery-rails', '~> 4.3.1'
+gem 'jquery-rails', '~> 4.4.0'
 gem 'kaminari'
 gem 'mini_racer'
-gem 'puma', '4.3.11'
+gem 'puma', '4.3.12'
 gem 'rails_admin', '~> 2.0'
-gem 'rails-i18n', '~> 5.1'
+gem 'rails-i18n', '~> 6.0'
 gem 'rb-readline'
 gem 'rest-client'
 gem 'rubocop', require: false
@@ -38,9 +38,8 @@ gem 'uglifier', '>= 1.3.0'
 gem 'whenever', require: false
 
 group :development, :test do
-  gem 'capybara'
   gem 'pry-rails'
-  gem 'rspec-rails', '~> 3.8'
+  gem 'rspec-rails'
   gem 'vcr'
   gem 'webmock'
 end

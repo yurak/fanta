@@ -7,7 +7,7 @@
       %object{data: match_player.player.kit_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
         = image_tag('kit_small_default2.png')
     .module-position.slot-position{class: "slot-position-#{match_player.real_position.tr('/', '')}"}
-      = match_player.real_position
+      = slot_position_name(match_player.real_position)
   .match-player-data
     .match-player-data
       .match-player-data-base
@@ -28,7 +28,7 @@
                     = image_tag('icons/subs-on.svg')
             .team-player-score= match_player.score
             .team-player-total-score= match_player.total_score
-        - elsif match_player.club_played_match?
+        - elsif match_player.club_played_match? || match_player.another_tournament?
           - if match_player.tour.locked_or_postponed? && current_user&.can_moderate?
             .team-player-score-not-played
               = link_to t('matches.didnt_play'), new_match_player_substitute_path(match_player)
@@ -37,7 +37,7 @@
         - else
           .team-player-score-unspecified= t('matches.unspecified')
       .match-player-add-data
-        - if match_player.club_played_match?
+        - if match_player.club_played_match? || match_player.another_tournament?
           .match-player-bonuses
             = render 'mp_bonuses', match_player: match_player
         - else
