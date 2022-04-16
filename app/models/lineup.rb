@@ -26,6 +26,8 @@ class Lineup < ApplicationRecord
   MAX_PLAYERS = 19
 
   def total_score
+    return final_score unless final_score.zero?
+
     match_players.main.map(&:total_score).compact.sum + defence_bonus
   end
 

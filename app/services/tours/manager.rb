@@ -43,9 +43,17 @@ module Tours
     end
 
     def close
-      return unless tour.locked_or_postponed? && status == CLOSED_STATUS
+      return unless tour.locked_or_postponed? && status == CLOSED_STATUS && tour.tournament_round.finished?
 
-      tour.closed!
+      Tour.transaction do
+        tour.closed!
+        update_results
+        Lineups::Updater.call(tour)
+        RoundPlayers::Updater.call(tour.tournament_round)
+      end
+    end
+
+    def update_results
       tour.fanta? ? Results::NationalUpdater.call(tour) : Results::Updater.call(tour)
     end
 

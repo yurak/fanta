@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_24_175356) do
+ActiveRecord::Schema.define(version: 2022_04_03_151106) do
 
   create_table "article_tags", force: :cascade do |t|
     t.string "name", default: "", null: false
@@ -115,6 +115,7 @@ ActiveRecord::Schema.define(version: 2022_03_24_175356) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "tour_id"
+    t.decimal "final_score", precision: 4, scale: 2, default: "0.0"
   end
 
   create_table "links", force: :cascade do |t|
@@ -261,6 +262,7 @@ ActiveRecord::Schema.define(version: 2022_03_24_175356) do
     t.boolean "cleansheet", default: false
     t.boolean "manual_lock", default: false
     t.integer "played_minutes", default: 0, null: false
+    t.decimal "final_score", precision: 4, scale: 2, default: "0.0"
     t.index ["player_id"], name: "index_round_players_on_player_id"
     t.index ["tournament_round_id"], name: "index_round_players_on_tournament_round_id"
   end
