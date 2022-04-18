@@ -19,4 +19,8 @@ class TournamentRound < ApplicationRecord
   def clubs_ids
     tournament_matches.pluck(:host_club_id, :guest_club_id).flatten
   end
+
+  def finished?
+    tournament_matches.any? && tournament_matches.where(host_score: nil).empty?
+  end
 end

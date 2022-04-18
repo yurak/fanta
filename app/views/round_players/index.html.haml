@@ -75,10 +75,10 @@
               .players-list-cell.players-list-appearances
                 = rp.match_players.count if tournament_round.tours.last.deadlined?
             - else
-              .players-list-cell
-                - rp.teams.each do |team|
+              .players-list-cell.center
+                - if user_tournament_team(tournament.id) && rp.player.team_by_league(user_tournament_team(tournament.id).league_id)
                   .team-image.inline-block
-                    = image_tag(team.logo_path)
+                    = image_tag(rp.player.team_by_league(user_tournament_team(tournament.id).league_id).logo_path)
             .players-list-cell.players-list-appearances
               = rp.score
             .players-list-cell.players-list-rating

@@ -89,8 +89,20 @@ RSpec.describe Tours::Manager do
       it { expect(tour.reload.status).to eq('postponed') }
     end
 
-    context 'with locked tour and closed status' do
+    context 'with locked tour and closed status with not finished tournament_round' do
       let(:tour) { create(:locked_tour) }
+      let(:status) { 'closed' }
+
+      before do
+        manager.call
+      end
+
+      it { expect(tour.reload.status).to eq('locked') }
+    end
+
+    context 'with locked tour and closed status with finished tournament_round' do
+      let(:tournament_round) { create(:tournament_round, :with_finished_matches) }
+      let(:tour) { create(:locked_tour, tournament_round: tournament_round) }
       let(:status) { 'closed' }
 
       before do

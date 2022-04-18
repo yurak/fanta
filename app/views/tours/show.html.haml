@@ -46,10 +46,10 @@
         - if current_user&.admin?
           = link_to t('tours.start_round'), tour_path(tour, status: :set_lineup), method: :put, data: { confirm: t('tours.are_you_sure') } if tour.inactive?
           = link_to t('tours.lock_round'), tour_path(tour, status: :locked), method: :put, data: { confirm: t('tours.are_you_sure') } if tour.set_lineup?
-          = link_to t('tours.close_round'), tour_path(tour, status: :closed), method: :put, data: { confirm: t('tours.are_you_sure') } if tour.locked_or_postponed?
+          = link_to t('tours.close_round'), tour_path(tour, status: :closed), method: :put, data: { confirm: t('tours.are_you_sure') } if tour.locked_or_postponed?  && tour.tournament_round.finished?
           = link_to t('tours.postpone_round'), tour_path(tour, status: :postponed), method: :put, data: { confirm: t('tours.are_you_sure') } if tour.locked? && tour.mantra?
         -  if current_user&.can_moderate? && tour.deadlined?
-          = link_to t('tours.edit_scores'), edit_tournament_round_path(tour.tournament_round)
+          -# = link_to t('tours.edit_scores'), edit_tournament_round_path(tour.tournament_round)
           = link_to t('tours.inject_scores'), inject_scores_tour_path(tour), data: { confirm: t('tours.are_you_sure') }
         - if current_user&.team_by_league(tour.league) && tour.fanta? && tour.set_lineup?
           - if tour.lineup_exist?(current_user.team_by_league(tour.league))

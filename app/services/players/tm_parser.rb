@@ -20,21 +20,21 @@ module Players
     private
 
     def number
-      html_page.css('.dataRN').text.tr('#', '')
+      html_page.css('.data-header__shirt-number').text.strip.tr('#', '')
     end
 
     def birth_date
-      html_page.css('.dataDaten').children[1].children[3].text.strip[0..11]
+      html_page.css('.data-header__info-box .data-header__details').children[1].children[1].children[1].children.text.strip[0..11]
     end
 
     def height
-      html_page.css('.dataDaten').children[8].children[3].text[0..3].tr(',', '')
+      html_page.css('.data-header__info-box .data-header__details').children[3].children[1].children[1].children.text[0..3].tr(',', '')
     end
 
     def tm_price
-      return 0 if html_page.css('.dataMarktwert').blank?
+      return 0 if html_page.css('.data-header__market-value-wrapper').blank?
 
-      multiplier = case html_page.css('.dataMarktwert').children[1].children[2].text
+      multiplier = case html_page.css('.data-header__market-value-wrapper').children[2].text
                    when 'm' then THOUSAND * THOUSAND
                    when 'Th.' then THOUSAND
                    else 1
@@ -43,7 +43,7 @@ module Players
     end
 
     def price_value
-      html_page.css('.dataMarktwert').children[1].children[1].text
+      html_page.css('.data-header__market-value-wrapper').children[1].text
     end
 
     def html_page

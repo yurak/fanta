@@ -16,9 +16,11 @@
             .player-positions
               - match_player.player.position_names.each do |position|
                 .position-item{class: "position-item-#{position}"}
-                  = position.upcase
+                  = slot_position_name(position)
 
       .subs-img-block
+        .module-position.slot-position{class: "slot-position-#{match_player.real_position.tr('/', '')}"}
+          = slot_position_name(match_player.real_position)
         = image_tag("subs.png", class: 'subs-img')
 
       .subs-select
@@ -41,7 +43,7 @@
                     .player-positions
                       - mp.player.position_names.each do |position|
                         .position-item{class: "position-item-#{position}"}
-                          = position.upcase
+                          = slot_position_name(position)
                   .subs-player-malus{class: "subs-player-malus#{malus[0]}"}
                     .subs-malus-value
                       .subs-malus-text
