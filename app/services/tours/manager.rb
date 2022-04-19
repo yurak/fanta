@@ -61,7 +61,7 @@ module Tours
       tour.teams.each do |team|
         next if tour.lineups.by_team(team.id).any?
 
-        TeamLineups::Cloner.call(team: team, tour: tour)
+        Lineups::Cloner.call(team: team, tour: tour)
       end
     end
   end
