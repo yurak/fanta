@@ -80,20 +80,26 @@
               - if current_user == match.host_lineup.team.user || match.host_lineup.tour.deadlined?
                 - match.host_lineup.match_players.main.each_with_index do |mp, index|
                   .match-module-item{class: "slot-#{match.host_lineup.team_module.slots[index]&.location}"}
-                    .match-module-shirt{style: "background-image: url('#{ image_url("shirts/shirt_#{mp.real_position.tr('/', '_')}.svg") }');"}
-                      .match-module-item-name
-                        = slot_position_name(match.host_lineup.team_module.slots[index].position)
+                    .match-module-item-pos
+                      .module-position-block.player-positions-block
+                        - match.host_lineup.team_module.slots[index].positions.each do |position|
+                          .player-position{class: "player-position-#{position}"}
+                            = slot_position_name(position)
+                    .match-module-item-player-wrapper
                       .match-module-item-player
-                        = mp.player.name
+                        = mp.player.name.length > 13 ? "#{mp.player.name[0..10]}..." : mp.player.name
           .match-module-lineup.match-module-away
             - if match.guest_lineup
               - if current_user == match.guest_lineup.team.user || match.guest_lineup.tour.deadlined?
                 - match.guest_lineup.match_players.main.each_with_index do |mp, index|
                   .match-module-item{class: "slot-#{match.guest_lineup.team_module.slots[index]&.location}"}
-                    .match-module-shirt{style: "background-image: url('#{ image_url("shirts/shirt_#{mp.real_position.tr('/', '_')}.svg") }');"}
-                      .match-module-item-name
-                        = slot_position_name(match.guest_lineup.team_module.slots[index].position)
+                    .match-module-item-pos
+                      .module-position-block.player-positions-block
+                        - match.guest_lineup.team_module.slots[index].positions.each do |position|
+                          .player-position{class: "player-position-#{position}"}
+                            = slot_position_name(position)
+                    .match-module-item-player-wrapper
                       .match-module-item-player
-                        = mp.player.name
+                        = mp.player.name.length > 15 ? "#{mp.player.name[0..10]}..." : mp.player.name
       .match-team-name= match.guest.human_name
     = render 'team_squad', lineup: match.guest_lineup
