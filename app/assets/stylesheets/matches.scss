@@ -11,9 +11,10 @@
     width: 100%;
     height: 112px;
     text-align: left;
+    display: grid;
+    grid-template-columns: 280px auto;
 
     .matches-bar-title {
-      display: inline-block;
       padding: 28px 32px;
 
       .matches-bar-round {
@@ -560,9 +561,16 @@
 
     .matches-bar {
       text-align: center;
+      display: block;
+      height: 186px;
 
       .matches-bar-title {
-        display: none;
+        padding: 8px 32px 0;
+
+        .matches-bar-round {
+          font-size: 24px;
+          line-height: 32px;
+        }
       }
 
       .matches-bar-item {
@@ -604,9 +612,16 @@
 
     .matches-bar {
       text-align: center;
+      display: block;
+      height: 186px;
 
       .matches-bar-title {
-        display: none;
+        padding: 8px 32px 0;
+
+        .matches-bar-round {
+          font-size: 24px;
+          line-height: 32px;
+        }
       }
 
       .matches-bar-item {
