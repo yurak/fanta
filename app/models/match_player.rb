@@ -25,6 +25,7 @@ class MatchPlayer < ApplicationRecord
   scope :defenders, -> { where(real_position: Position::DEFENCE) }
   scope :by_real_position, ->(position) { where('real_position LIKE ?', "%#{position}%") }
 
+  CLEANSHEET_BONUS_DIFF_FULL = 1
   CLEANSHEET_BONUS_DIFF = 0.5
 
   def not_played?
@@ -63,11 +64,18 @@ class MatchPlayer < ApplicationRecord
   private
 
   def recount_cleansheet
-    if d_at_e_or_m? || m_not_at_m_or_dc? || e_not_at_e_or_d?
+    if d_at_w?
+      CLEANSHEET_BONUS_DIFF_FULL
+    elsif d_at_e_or_m? || m_not_at_m_or_dc? || e_not_at_e_or_d?
       CLEANSHEET_BONUS_DIFF
     else
       0
     end
+  end
+
+  def d_at_w?
+    (position_names & Position::D_CLEANSHEET_ZONE).any? && (real_position_arr & Position::E_CLEANSHEET_ZONE).empty? &&
+      real_position_arr.include?(Position::WINGER)
   end
 
   def d_at_e_or_m?
@@ -80,7 +88,7 @@ class MatchPlayer < ApplicationRecord
   end
 
   def e_not_at_e_or_d?
-    position_names.include?(Position::WING_BACK) && (position_names & Position::D_CLEANSHEET_ZONE).empty? &&
+    position_names.include?(Position::WING_BACK) && (real_position_arr & Position::D_CLEANSHEET_ZONE).empty? &&
       (real_position_arr & Position::E_CLEANSHEET_ZONE).empty?
   end
 end

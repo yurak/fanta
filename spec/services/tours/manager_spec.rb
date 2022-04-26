@@ -62,7 +62,7 @@ RSpec.describe Tours::Manager do
       it { expect(tour.reload.status).to eq('locked') }
 
       it 'calls Cloner service' do
-        allow(TeamLineups::Cloner).to receive(:call).and_return('lineup')
+        allow(Lineups::Cloner).to receive(:call).and_return('lineup')
 
         manager.call
       end

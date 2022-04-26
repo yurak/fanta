@@ -33,18 +33,23 @@
 
       .round-set_lineup, .round-locked {
         color: #261FFF;
-        border: 2px solid #261FFF;
-        line-height: 36px;
+        border: 1px solid #261FFF;
+        line-height: 38px;
+        background: #FFFFFF;
       }
 
       .round-postponed {
-        color: #b40819;
+        color: #DB0A23;
+        background: #FFFFFF;
+        border: 1px solid #FCC5CB;
+        line-height: 38px;
       }
 
       .round-inactive {
         background-color: #FFFFFF;
-        border: 2px solid #F4F4F4;
-        line-height: 36px;
+        border: 1px solid #F4F4F4;
+        line-height: 38px;
+        color: #181715;
       }
 
       .round-current-true {
