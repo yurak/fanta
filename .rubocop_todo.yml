@@ -35,7 +35,7 @@ Metrics/MethodLength:
 # Offense count: 5
 # Configuration parameters: IgnoredMethods.
 Metrics/PerceivedComplexity:
-  Max: 10
+  Max: 11
 
 # Offense count: 25
 RSpec/NestedGroups:
