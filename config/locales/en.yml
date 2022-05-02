@@ -278,6 +278,10 @@ en:
     base_score: "BASE SCORE"
     total_score: "TOTAL SCORE"
     left_tournament: "Left tournament"
+    change_arguments: "Arguments for changing player's positions"
+    change_positions: "Positions that player should have"
+    change_request: "Change positions"
+    change_request_send: "Send change request"
   round_players:
     title: "%{tournament} Round #%{number} Best Players"
   table:
