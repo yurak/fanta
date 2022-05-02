@@ -257,15 +257,17 @@
         font-weight: bold;
         font-size: 44px;
         line-height: 48px;
-        margin: 8px 0 16px;
+        margin: 8px 0;
       }
 
       .player-show-positions {
         display: inline-block;
+        height: 24px;
 
-        .slot-position {
-          display: inline-block;
-          font-size: 16px;
+        .player-position {
+          height: 24px;
+          font-size: 14px;
+          line-height: 18px;
         }
       }
 
@@ -276,7 +278,7 @@
 
         .player-show-score-value {
           font-weight: bold;
-          line-height: 30px;
+          line-height: 36px;
           font-size: 24px;
         }
       }
@@ -538,6 +540,23 @@
           line-height: 28px;
         }
       }
+    }
+  }
+}
+
+/* PLAYER REQUEST NEW page */
+
+.player-request-page {
+  .form-item {
+    margin-bottom: 18px;
+  }
+
+  .form-checkbox-block {
+    display: inline-block;
+    margin: 4px 24px 4px 0;
+
+    .form-checkbox {
+      text-align: center;
     }
   }
 }

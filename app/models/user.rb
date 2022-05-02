@@ -5,6 +5,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :trackable, :validatable
 
   has_many :teams, dependent: :destroy
+  has_many :player_requests, dependent: :destroy
 
   EMAIL_LENGTH = (6..50).freeze
   EMAIL_FORMAT_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.a[a-z]+)*\.[a-z]+\z/i.freeze

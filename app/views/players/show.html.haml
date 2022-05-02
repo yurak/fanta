@@ -6,9 +6,9 @@
       .player-show-name
         = player.name
       .player-show-base-row
-        .player-show-positions
+        .player-positions-block.player-show-positions
           - player.positions.each do |position|
-            .slot-position{class: "slot-position-#{position.name}"}
+            .player-position{class: "player-position-#{position.name}"}
               = position_name(position)
         .player-show-score
           .player-show-score-value
@@ -81,6 +81,10 @@
                       = t.league.name
                   .player-team-logo
                     = image_tag(t.logo_path)
+      .player-actions
+        = link_to new_player_player_request_path(player) do
+          .player-action-btn
+            = t('players.change_request')
       - if current_user&.admin? && player.teams.any?
         .player-actions
           = link_to player_path(player), method: :put, data: { confirm: 'Are you sure?' } do

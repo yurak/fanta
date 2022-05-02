@@ -3,6 +3,7 @@ RSpec.describe User, type: :model do
 
   describe 'Associations' do
     it { is_expected.to have_many(:teams).dependent(:destroy) }
+    it { is_expected.to have_many(:player_requests).dependent(:destroy) }
   end
 
   describe 'Validations' do
