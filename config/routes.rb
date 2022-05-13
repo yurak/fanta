@@ -57,6 +57,8 @@ Rails.application.routes.draw do
     resources :round_players, only: [:index]
   end
 
+  telegram_webhook TelegramWebhooksController
+
   resources :users, only: [:show, :edit, :update] do
     get :edit_avatar, on: :member
   end
