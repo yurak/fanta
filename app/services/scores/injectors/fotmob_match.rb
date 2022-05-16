@@ -147,8 +147,8 @@ module Scores
       end
 
       def new_api?
-        # TODO: add input parameter to this service
-        false
+        # TODO: add config variable to this service
+        true
       end
     end
   end
