@@ -14,13 +14,13 @@
       .match-reserve
         .match-reserve-title= t('matches.substitutes')
         .match-reserve-players
-          - lineup.match_players.subs.each do |match_player|
+          - lineup.match_players.subs_bench.each do |match_player|
             = render 'subs_player', match_player: match_player
       .match-reserve
         .match-reserve-title= t('matches.not_lineup')
         .match-reserve-players
-          - lineup.team.players_not_in(lineup).each do |round_player|
-            = render 'out_of_squad', match_player: round_player
+          - lineup.match_players.not_in_lineup.each do |match_player|
+            = render 'subs_player', match_player: match_player
     - else
       .match-no-lineup-icon ✅
       .match-no-lineup-title= t('matches.waiting_deadline')

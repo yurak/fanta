@@ -34,6 +34,7 @@ module Tours
       return unless tour.set_lineup? && status == LOCKED_STATUS
 
       clone_missed_lineups if tour.mantra?
+      generate_not_in_squad_players if tour.mantra?
 
       tour.locked!
     end
@@ -62,6 +63,14 @@ module Tours
         next if tour.lineups.by_team(team.id).any?
 
         Lineups::Cloner.call(team: team, tour: tour)
+      end
+    end
+
+    def generate_not_in_squad_players
+      tour.lineups.each do |lineup|
+        lineup.team.players_not_in(lineup).each do |round_player|
+          MatchPlayer.create(lineup: lineup, round_player: round_player, subs_status: :not_in_squad)
+        end
       end
     end
   end

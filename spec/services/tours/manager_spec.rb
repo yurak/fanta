@@ -48,6 +48,27 @@ RSpec.describe Tours::Manager do
       it { expect(tour.reload.status).to eq('locked') }
     end
 
+    context 'with set_lineup tour and locked status and players out of squad' do
+      let(:tournament_round) { create(:tournament_round) }
+      let(:tour) { create(:set_lineup_tour, tournament_round: tournament_round) }
+      let(:status) { 'locked' }
+      let(:team) { create(:team, league: tour.league) }
+      let!(:lineup) { create(:lineup, :with_match_players, tour: tour, team: team) }
+
+      before do
+        create(:tournament_match, tournament_round: tournament_round)
+        create_list(:team, 4, league: tour.league)
+        round_player = create(:round_player, tournament_round: tournament_round)
+        create(:player_team, team: team, player: round_player.player)
+
+        manager.call
+      end
+
+      it 'generates out_of_squad match_players' do
+        expect(lineup.match_players.not_in_lineup.count).to eq(1)
+      end
+    end
+
     context 'with set_lineup tour, valid status with old teams lineups' do
       let(:tour) { create(:set_lineup_tour) }
       let(:status) { 'locked' }
