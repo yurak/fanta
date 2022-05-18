@@ -18,7 +18,8 @@ class MatchPlayer < ApplicationRecord
   scope :main, -> { where.not(real_position: nil) }
   scope :with_score, -> { includes(:round_player).joins(:round_player).where('round_players.score > ?', 0) }
   scope :subs, -> { where(real_position: nil) }
-  scope :subs_bench, -> { where(real_position: nil).where.not(subs_status: :not_in_squad) }
+  scope :subs_bench, -> { subs.where.not(subs_status: :not_in_squad) }
+  scope :not_in_lineup, -> { subs.where(subs_status: :not_in_squad) }
   scope :without_score, -> { joins(:round_player).where('round_players.score': 0) }
   scope :by_tour, ->(tour_id) { joins(:lineup).where(lineups: { tour_id: tour_id }) }
   scope :reservists_by_tour, ->(tour_id) { subs.by_tour(tour_id) }
