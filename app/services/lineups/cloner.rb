@@ -12,8 +12,7 @@ module Lineups
 
       lineup.update(tour: tour, final_score: 0)
       old_lineup.match_players.limit(Lineup::MAX_PLAYERS).each do |old_mp|
-        new_round_player = RoundPlayer.find_or_create_by(tournament_round: tournament_round, player: old_mp.round_player.player)
-        MatchPlayer.create(lineup: lineup, real_position: old_mp.real_position, round_player: new_round_player)
+        MatchPlayer.create(lineup: lineup, real_position: old_mp.real_position, round_player: new_round_player(old_mp))
       end
     end
 
@@ -37,6 +36,19 @@ module Lineups
 
     def tournament_round
       tour.tournament_round
+    end
+
+    def new_round_player(match_player)
+      RoundPlayer.find_or_create_by(tournament_round: tournament_round, player: player(match_player))
+    end
+
+    def player(match_player)
+      player = match_player.player
+
+      player = match_player.main_subs.first.reserve_mp.player if match_player.main_subs.any?
+      player = match_player.reserve_subs.first.main_mp.player if match_player.reserve_subs.any?
+
+      player
     end
   end
 end
