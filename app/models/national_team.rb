@@ -26,6 +26,6 @@ class NationalTeam < ApplicationRecord
   end
 
   def matches
-    @matches ||= NationalMatch.where('host_team_id = ? OR guest_team_id = ?', id, id)
+    @matches ||= NationalMatch.by_team(id).by_t_round(tournament.tournament_rounds)
   end
 end

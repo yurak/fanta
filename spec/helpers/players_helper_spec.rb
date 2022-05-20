@@ -155,13 +155,12 @@ RSpec.describe PlayersHelper, type: :helper do
     context 'with national tournament with players' do
       let(:tournament_round) { create(:tournament_round) }
       let(:team) { create(:national_team) }
-      # let(:matches) { create(:national_match, host_team: team, tournament_round: tournament_round) }
 
       it 'returns players for this round by position' do
         create(:national_match, host_team: team, tournament_round: tournament_round)
         players = create_list(:player, 2, :with_pos_por, national_team: team)
 
-        expect(helper.tournament_round_players(tournament_round, 'Por')).to eq(players)
+        expect(helper.tournament_round_players(tournament_round, 'Por').first).to eq([team, players])
       end
     end
   end

@@ -49,6 +49,8 @@ RSpec.describe NationalTeam, type: :model do
   end
 
   describe '#matches' do
+    let(:tournament_round) { create(:tournament_round, tournament: national_team.tournament) }
+
     context 'without national matches' do
       it 'returns empty array' do
         expect(national_team.matches).to eq([])
@@ -57,7 +59,7 @@ RSpec.describe NationalTeam, type: :model do
 
     context 'with host national matches' do
       it 'returns team national matches' do
-        matches = create_list(:national_match, 3, host_team: national_team)
+        matches = create_list(:national_match, 3, host_team: national_team, tournament_round: tournament_round)
 
         expect(national_team.matches).to eq(matches)
       end
@@ -65,7 +67,7 @@ RSpec.describe NationalTeam, type: :model do
 
     context 'with guest national matches' do
       it 'returns team national matches' do
-        matches = create_list(:national_match, 2, guest_team: national_team)
+        matches = create_list(:national_match, 2, guest_team: national_team, tournament_round: tournament_round)
 
         expect(national_team.matches).to eq(matches)
       end
