@@ -14,6 +14,7 @@ $(document).on('click' ,'.modal-player-item' ,function(e) {
     const positionsContainer = $('#positions-'+blockId);
     const playerBidContainer = $('#player-bid-'+blockId);
     const italPosNaming = ($('#position-naming')[0].getAttribute('value') === 'true');
+    const nationalTour = ($('#national-tour')[0].getAttribute('value') === 'true');
 
     $.ajax({
         type: "GET",
@@ -21,12 +22,17 @@ $(document).on('click' ,'.modal-player-item' ,function(e) {
         url: "/players/"+playerId,
         success: function(data){
             avatarContainer.attr("data", data.avatar_path);
-            kitContainer.attr("data", data.kit_path);
             nameContainer.text(data.name);
             clubContainer.text(data.club_code);
             countryContainer.text(data.national_team_name);
             roundPlayerContainer.attr("value", playerId);
             playerBidContainer.attr("value", playerId);
+
+            if (nationalTour) {
+                kitContainer.attr("data", data.national_kit_path);
+            } else {
+                kitContainer.attr("data", data.kit_path);
+            }
 
             if (data.first_name != null) {
                 firstNameContainer.text(data.first_name);

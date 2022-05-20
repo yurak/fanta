@@ -178,6 +178,6 @@ class Player < ApplicationRecord
   def national_team_rounds
     return [] unless national_team
 
-    Tournament.with_national_teams.last&.tournament_rounds
+    national_team.tournament&.tournament_rounds
   end
 end
