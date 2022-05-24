@@ -24,7 +24,7 @@ RSpec.describe League, type: :model do
   describe '#active_tour' do
     context 'when tours does not exist' do
       it 'returns nil' do
-        expect(league.active_tour).to eq(nil)
+        expect(league.active_tour).to be(nil)
       end
     end
 
@@ -46,7 +46,7 @@ RSpec.describe League, type: :model do
   describe '#active_tour_or_last' do
     context 'when tours does not exist' do
       it 'returns nil' do
-        expect(league.active_tour_or_last).to eq(nil)
+        expect(league.active_tour_or_last).to be(nil)
       end
     end
 
@@ -74,7 +74,7 @@ RSpec.describe League, type: :model do
   describe '#leader' do
     context 'when results does not exist' do
       it 'returns nil' do
-        expect(league.leader).to eq(nil)
+        expect(league.leader).to be(nil)
       end
     end
 

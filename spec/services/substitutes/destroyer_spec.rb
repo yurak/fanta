@@ -8,7 +8,7 @@ RSpec.describe Substitutes::Destroyer do
     context 'without existing substitute' do
       let(:subs_id) { '' }
 
-      it { expect(destroyer.call).to eq(false) }
+      it { expect(destroyer.call).to be(false) }
     end
 
     context 'with valid params' do
@@ -19,19 +19,19 @@ RSpec.describe Substitutes::Destroyer do
         destroyer.call
       end
 
-      it 'updates round_player of main match_player ' do
+      it 'updates round_player of main match_player' do
         expect(substitute.main_mp.reload.round_player).to eq(substitute.out_rp)
       end
 
-      it 'updates subs_status of main match_player ' do
+      it 'updates subs_status of main match_player' do
         expect(substitute.main_mp.reload.subs_status).to eq('initial')
       end
 
-      it 'updates round_player of reserve match_player ' do
+      it 'updates round_player of reserve match_player' do
         expect(substitute.reserve_mp.reload.round_player).to eq(substitute.in_rp)
       end
 
-      it 'updates subs_status of reserve match_player ' do
+      it 'updates subs_status of reserve match_player' do
         expect(substitute.reserve_mp.reload.subs_status).to eq('initial')
       end
 

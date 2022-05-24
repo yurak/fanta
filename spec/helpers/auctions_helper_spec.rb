@@ -144,7 +144,7 @@ RSpec.describe AuctionsHelper, type: :helper do
       end
 
       it 'returns nil' do
-        expect(helper.user_auction_bid(auction_round, auction.league)).to eq(nil)
+        expect(helper.user_auction_bid(auction_round, auction.league)).to be(nil)
       end
     end
 
@@ -159,7 +159,7 @@ RSpec.describe AuctionsHelper, type: :helper do
       end
 
       it 'returns nil' do
-        expect(helper.user_auction_bid(auction_round, auction.league)).to eq(nil)
+        expect(helper.user_auction_bid(auction_round, auction.league)).to be(nil)
       end
     end
 

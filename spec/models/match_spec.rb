@@ -15,7 +15,7 @@ RSpec.describe Match, type: :model do
   describe '#host_lineup' do
     context 'when host lineup does not exist' do
       it 'returns nil' do
-        expect(match.host_lineup).to eq(nil)
+        expect(match.host_lineup).to be(nil)
       end
     end
 
@@ -31,7 +31,7 @@ RSpec.describe Match, type: :model do
   describe '#guest_lineup' do
     context 'when guest lineup does not exist' do
       it 'returns nil' do
-        expect(match.guest_lineup).to eq(nil)
+        expect(match.guest_lineup).to be(nil)
       end
     end
 
@@ -47,7 +47,7 @@ RSpec.describe Match, type: :model do
   describe '#host_score' do
     context 'when host lineup does not exist' do
       it 'returns nil' do
-        expect(match.host_score).to eq(nil)
+        expect(match.host_score).to be(nil)
       end
     end
 
@@ -63,7 +63,7 @@ RSpec.describe Match, type: :model do
   describe '#guest_score' do
     context 'when guest lineup does not exist' do
       it 'returns nil' do
-        expect(match.guest_score).to eq(nil)
+        expect(match.guest_score).to be(nil)
       end
     end
 
@@ -147,25 +147,25 @@ RSpec.describe Match, type: :model do
   describe '#host_win?' do
     context 'when lineups do not exist' do
       it 'returns false' do
-        expect(match.host_win?).to eq(false)
+        expect(match.host_win?).to be(false)
       end
     end
 
     context 'when lineups exist and host win' do
       it 'returns true' do
-        expect(match_with_lineups_host_win.host_win?).to eq(true)
+        expect(match_with_lineups_host_win.host_win?).to be(true)
       end
     end
 
     context 'when lineups exist and host lose' do
       it 'returns false' do
-        expect(match_with_lineups.host_win?).to eq(false)
+        expect(match_with_lineups.host_win?).to be(false)
       end
     end
 
     context 'when lineups exist and draw' do
       it 'returns false' do
-        expect(match_with_lineups_draw.host_win?).to eq(false)
+        expect(match_with_lineups_draw.host_win?).to be(false)
       end
     end
   end
@@ -173,25 +173,25 @@ RSpec.describe Match, type: :model do
   describe '#guest_win?' do
     context 'when lineups do not exist' do
       it 'returns false' do
-        expect(match.guest_win?).to eq(false)
+        expect(match.guest_win?).to be(false)
       end
     end
 
     context 'when lineups exist and host win' do
       it 'returns false' do
-        expect(match_with_lineups_host_win.guest_win?).to eq(false)
+        expect(match_with_lineups_host_win.guest_win?).to be(false)
       end
     end
 
     context 'when lineups exist and host lose' do
       it 'returns true' do
-        expect(match_with_lineups.guest_win?).to eq(true)
+        expect(match_with_lineups.guest_win?).to be(true)
       end
     end
 
     context 'when lineups exist and draw' do
       it 'returns false' do
-        expect(match_with_lineups_draw.guest_win?).to eq(false)
+        expect(match_with_lineups_draw.guest_win?).to be(false)
       end
     end
   end
@@ -199,25 +199,25 @@ RSpec.describe Match, type: :model do
   describe '#draw?' do
     context 'when lineups do not exist' do
       it 'returns true' do
-        expect(match.draw?).to eq(true)
+        expect(match.draw?).to be(true)
       end
     end
 
     context 'when lineups exist and host win' do
       it 'returns false' do
-        expect(match_with_lineups_host_win.draw?).to eq(false)
+        expect(match_with_lineups_host_win.draw?).to be(false)
       end
     end
 
     context 'when lineups exist and host lose' do
       it 'returns false' do
-        expect(match_with_lineups.draw?).to eq(false)
+        expect(match_with_lineups.draw?).to be(false)
       end
     end
 
     context 'when lineups exist and draw' do
       it 'returns true' do
-        expect(match_with_lineups_draw.draw?).to eq(true)
+        expect(match_with_lineups_draw.draw?).to be(true)
       end
     end
   end

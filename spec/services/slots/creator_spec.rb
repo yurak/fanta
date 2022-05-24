@@ -27,7 +27,7 @@ RSpec.describe Slots::Creator do
         allow(YAML).to receive(:load_file).and_return(file_content)
       end
 
-      it { expect(creator.call).to eq(false) }
+      it { expect(creator.call).to be(false) }
     end
 
     context 'with modules in file' do

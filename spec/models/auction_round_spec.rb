@@ -14,11 +14,11 @@ RSpec.describe AuctionRound, type: :model do
     let!(:team) { create(:team) }
 
     context 'without auction_bids' do
-      it { expect(auction_round.bid_exist?(team)).to eq(false) }
+      it { expect(auction_round.bid_exist?(team)).to be(false) }
     end
 
     context 'without team' do
-      it { expect(auction_round.bid_exist?(nil)).to eq(false) }
+      it { expect(auction_round.bid_exist?(nil)).to be(false) }
     end
 
     context 'without auction_bids of specified team' do
@@ -26,7 +26,7 @@ RSpec.describe AuctionRound, type: :model do
         create_list(:auction_bid, 3, auction_round: auction_round)
       end
 
-      it { expect(auction_round.bid_exist?(team)).to eq(false) }
+      it { expect(auction_round.bid_exist?(team)).to be(false) }
     end
 
     context 'with auction_bids of specified team' do
@@ -34,7 +34,7 @@ RSpec.describe AuctionRound, type: :model do
         create(:auction_bid, auction_round: auction_round, team: team)
       end
 
-      it { expect(auction_round.bid_exist?(team)).to eq(true) }
+      it { expect(auction_round.bid_exist?(team)).to be(true) }
     end
   end
 

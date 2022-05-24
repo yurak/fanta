@@ -69,7 +69,7 @@ RSpec.describe Club, type: :model do
       it 'returns true' do
         create(:tournament_match, tournament_round: tournament_round, host_club: club, guest_club: club2)
 
-        expect(club.match_host?(tournament_round)).to eq(true)
+        expect(club.match_host?(tournament_round)).to be(true)
       end
     end
 
@@ -77,7 +77,7 @@ RSpec.describe Club, type: :model do
       it 'returns false' do
         create(:tournament_match, tournament_round: tournament_round, host_club: club2, guest_club: club)
 
-        expect(club.match_host?(tournament_round)).to eq(false)
+        expect(club.match_host?(tournament_round)).to be(false)
       end
     end
   end

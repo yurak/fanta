@@ -44,7 +44,7 @@ RSpec.describe Tournament, type: :model do
   describe '#national?' do
     context 'without national teams' do
       it 'returns false' do
-        expect(tournament.national?).to eq(false)
+        expect(tournament.national?).to be(false)
       end
     end
 
@@ -52,7 +52,7 @@ RSpec.describe Tournament, type: :model do
       it 'returns true' do
         create_list(:national_team, 2, tournament: tournament)
 
-        expect(tournament.national?).to eq(true)
+        expect(tournament.national?).to be(true)
       end
     end
   end
@@ -60,7 +60,7 @@ RSpec.describe Tournament, type: :model do
   describe '#fanta?' do
     context 'without national teams and not eurocup' do
       it 'returns false' do
-        expect(tournament.fanta?).to eq(false)
+        expect(tournament.fanta?).to be(false)
       end
     end
 
@@ -68,7 +68,7 @@ RSpec.describe Tournament, type: :model do
       it 'returns true' do
         create_list(:national_team, 2, tournament: tournament)
 
-        expect(tournament.fanta?).to eq(true)
+        expect(tournament.fanta?).to be(true)
       end
     end
 
@@ -76,7 +76,7 @@ RSpec.describe Tournament, type: :model do
       let(:tournament) { described_class.find_by(code: Scores::Injectors::Strategy::ECL) }
 
       it 'returns true' do
-        expect(tournament.fanta?).to eq(true)
+        expect(tournament.fanta?).to be(true)
       end
     end
 
@@ -86,7 +86,7 @@ RSpec.describe Tournament, type: :model do
       it 'returns true' do
         create_list(:national_team, 2, tournament: tournament)
 
-        expect(tournament.fanta?).to eq(true)
+        expect(tournament.fanta?).to be(true)
       end
     end
   end

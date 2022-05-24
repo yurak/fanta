@@ -199,7 +199,7 @@ RSpec.describe RoundPlayer, type: :model do
   describe '#club_played_match?' do
     context 'without tournament match result' do
       it 'returns false' do
-        expect(round_player.club_played_match?).to eq(false)
+        expect(round_player.club_played_match?).to be(false)
       end
     end
 
@@ -207,7 +207,7 @@ RSpec.describe RoundPlayer, type: :model do
       let(:round_player) { create(:round_player, :with_tournament_match) }
 
       it 'returns false' do
-        expect(round_player.club_played_match?).to eq(false)
+        expect(round_player.club_played_match?).to be(false)
       end
     end
 
@@ -215,7 +215,7 @@ RSpec.describe RoundPlayer, type: :model do
       let(:round_player) { create(:round_player, :with_finished_t_match) }
 
       it 'returns true' do
-        expect(round_player.club_played_match?).to eq(true)
+        expect(round_player.club_played_match?).to be(true)
       end
     end
   end
@@ -223,7 +223,7 @@ RSpec.describe RoundPlayer, type: :model do
   describe '#another_tournament?' do
     context 'with active club' do
       it 'returns true' do
-        expect(round_player.another_tournament?).to eq(false)
+        expect(round_player.another_tournament?).to be(false)
       end
     end
 
@@ -232,7 +232,7 @@ RSpec.describe RoundPlayer, type: :model do
       let(:round_player) { create :round_player, player: player }
 
       it 'returns true' do
-        expect(round_player.another_tournament?).to eq(true)
+        expect(round_player.another_tournament?).to be(true)
       end
     end
 
@@ -245,7 +245,7 @@ RSpec.describe RoundPlayer, type: :model do
       end
 
       it 'returns true' do
-        expect(round_player.another_tournament?).to eq(true)
+        expect(round_player.another_tournament?).to be(true)
       end
     end
   end
