@@ -50,7 +50,7 @@ RSpec.describe TournamentRound, type: :model do
   describe '#finished?' do
     context 'without tournament matches' do
       it 'returns false' do
-        expect(tournament_round.finished?).to eq(false)
+        expect(tournament_round.finished?).to be(false)
       end
     end
 
@@ -58,7 +58,7 @@ RSpec.describe TournamentRound, type: :model do
       let(:tournament_round) { create(:tournament_round, :with_initial_matches) }
 
       it 'returns false' do
-        expect(tournament_round.finished?).to eq(false)
+        expect(tournament_round.finished?).to be(false)
       end
     end
 
@@ -66,7 +66,7 @@ RSpec.describe TournamentRound, type: :model do
       let(:tournament_round) { create(:tournament_round, :with_finished_matches) }
 
       it 'returns true' do
-        expect(tournament_round.finished?).to eq(true)
+        expect(tournament_round.finished?).to be(true)
       end
     end
   end

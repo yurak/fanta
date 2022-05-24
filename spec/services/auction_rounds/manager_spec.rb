@@ -6,7 +6,7 @@ RSpec.describe AuctionRounds::Manager do
 
     context 'with active status and without deadline' do
       it 'returns false' do
-        expect(manager.call).to eq(false)
+        expect(manager.call).to be(false)
       end
     end
 
@@ -14,7 +14,7 @@ RSpec.describe AuctionRounds::Manager do
       let(:auction_round) { create(:auction_round, deadline: Time.zone.now + 4.hours) }
 
       it 'returns false' do
-        expect(manager.call).to eq(false)
+        expect(manager.call).to be(false)
       end
     end
 
@@ -22,7 +22,7 @@ RSpec.describe AuctionRounds::Manager do
       let(:auction_round) { create(:auction_round, deadline: Time.zone.now - 1.hour) }
 
       it 'returns false' do
-        expect(manager.call).to eq(false)
+        expect(manager.call).to be(false)
       end
     end
 
@@ -36,7 +36,7 @@ RSpec.describe AuctionRounds::Manager do
       end
 
       it 'returns false' do
-        expect(manager.call).to eq(false)
+        expect(manager.call).to be(false)
       end
     end
 
@@ -50,7 +50,7 @@ RSpec.describe AuctionRounds::Manager do
       end
 
       it 'returns true' do
-        expect(manager.call).to eq(true)
+        expect(manager.call).to be(true)
       end
 
       context 'when service call' do
@@ -110,7 +110,7 @@ RSpec.describe AuctionRounds::Manager do
       end
 
       it 'returns true' do
-        expect(manager.call).to eq(true)
+        expect(manager.call).to be(true)
       end
 
       context 'when service call' do
@@ -163,7 +163,7 @@ RSpec.describe AuctionRounds::Manager do
       let(:auction_round) { create(:processing_auction_round) }
 
       it 'returns false' do
-        expect(manager.call).to eq(false)
+        expect(manager.call).to be(false)
       end
     end
 
@@ -171,7 +171,7 @@ RSpec.describe AuctionRounds::Manager do
       let(:auction_round) { create(:closed_auction_round) }
 
       it 'returns false' do
-        expect(manager.call).to eq(false)
+        expect(manager.call).to be(false)
       end
     end
   end

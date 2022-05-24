@@ -107,7 +107,7 @@ RSpec.describe PlayersHelper, type: :helper do
       end
     end
 
-    context 'with slot and team with players ' do
+    context 'with slot and team with players' do
       it 'returns players without malus' do
         expect(helper.available_by_slot(team, slot)).to have_key('')
       end
@@ -177,7 +177,7 @@ RSpec.describe PlayersHelper, type: :helper do
       end
 
       it 'returns nil' do
-        expect(helper.player_by_mp(match_player_double, team_module)).to eq(nil)
+        expect(helper.player_by_mp(match_player_double, team_module)).to be(nil)
       end
     end
 
@@ -208,7 +208,7 @@ RSpec.describe PlayersHelper, type: :helper do
       end
 
       it 'returns false' do
-        expect(helper.user_tournament_team(tournament.id)).to eq(false)
+        expect(helper.user_tournament_team(tournament.id)).to be(false)
       end
     end
 
@@ -218,7 +218,7 @@ RSpec.describe PlayersHelper, type: :helper do
       end
 
       it 'returns nil' do
-        expect(helper.user_tournament_team(tournament.id)).to eq(nil)
+        expect(helper.user_tournament_team(tournament.id)).to be(nil)
       end
     end
 

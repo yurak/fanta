@@ -6,7 +6,7 @@ RSpec.describe Players::CsvParser do
     let(:file_url) { nil }
 
     context 'without file_name and file_url' do
-      it { expect(parser.call).to eq(false) }
+      it { expect(parser.call).to be(false) }
     end
 
     context 'with file_name but without existing file' do
@@ -16,7 +16,7 @@ RSpec.describe Players::CsvParser do
         allow(File).to receive(:exist?).and_return(false)
       end
 
-      it { expect(parser.call).to eq(false) }
+      it { expect(parser.call).to be(false) }
     end
 
     context 'with file_name and existing file' do

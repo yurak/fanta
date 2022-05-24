@@ -59,7 +59,7 @@ class AuctionBidsController < ApplicationController
   end
 
   def players_ids
-    auction_bid_params[:player_bids_attributes].values.each_with_object([]) { |el, p_ids| p_ids << el[:player_id].to_i }.reject(&:blank?)
+    auction_bid_params[:player_bids_attributes].values.each_with_object([]) { |el, p_ids| p_ids << el[:player_id].to_i }.compact_blank
   end
 
   def duplicate_players

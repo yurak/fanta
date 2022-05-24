@@ -9,7 +9,7 @@ RSpec.describe Scores::Injectors::Calcio do
     context 'with nil tournament round' do
       let(:tournament_round) { nil }
 
-      it { expect(injector.call).to eq(false) }
+      it { expect(injector.call).to be(false) }
     end
 
     context 'when clubs do not exist' do

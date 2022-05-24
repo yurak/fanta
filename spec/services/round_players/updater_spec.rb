@@ -7,17 +7,17 @@ RSpec.describe RoundPlayers::Updater do
     context 'with blank tournament_round' do
       let(:tournament_round) { nil }
 
-      it { expect(updater.call).to eq(false) }
+      it { expect(updater.call).to be(false) }
     end
 
     context 'with not finished tournament_round' do
       let(:tournament_round) { create(:tournament_round) }
 
-      it { expect(updater.call).to eq(false) }
+      it { expect(updater.call).to be(false) }
     end
 
     context 'when tournament_round without round_players' do
-      it { expect(updater.call).to eq(false) }
+      it { expect(updater.call).to be(false) }
     end
 
     context 'when tournament_round with round_players without scores' do

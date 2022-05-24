@@ -8,19 +8,19 @@ RSpec.describe CalendarCreator do
     context 'with invalid league id' do
       let(:league_id) { 'invalid' }
 
-      it { expect(creator.call).to eq(false) }
+      it { expect(creator.call).to be(false) }
     end
 
     context 'when there are fewer league teams than allowed' do
       let(:league) { create(:league) }
 
-      it { expect(creator.call).to eq(false) }
+      it { expect(creator.call).to be(false) }
     end
 
     context 'when league without tournament_rounds' do
       let(:league) { create(:league, :with_ten_teams) }
 
-      it { expect(creator.call).to eq(false) }
+      it { expect(creator.call).to be(false) }
     end
 
     context 'with valid params and even teams count' do

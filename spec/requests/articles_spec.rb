@@ -126,7 +126,6 @@ RSpec.describe 'Articles', type: :request do
 
       it { expect(response).to redirect_to(articles_path) }
       it { expect(response).to have_http_status(:found) }
-      it { expect(flash[:notice]).to eq('Article was successfully created.') }
 
       it 'creates article with specified title' do
         expect(article.title).to eq(title)
@@ -249,7 +248,6 @@ RSpec.describe 'Articles', type: :request do
 
       it { expect(response).to redirect_to(articles_path) }
       it { expect(response).to have_http_status(:found) }
-      it { expect(flash[:notice]).to eq('Article was successfully updated.') }
 
       it 'updates article with specified title' do
         expect(article.reload.title).to eq(title)
@@ -317,10 +315,9 @@ RSpec.describe 'Articles', type: :request do
 
       it { expect(response).to redirect_to(articles_path) }
       it { expect(response).to have_http_status(:found) }
-      it { expect(flash[:notice]).to eq('Article was successfully destroyed.') }
 
       it 'destroys article' do
-        expect(Article.find_by(id: article.id)).to eq(nil)
+        expect(Article.find_by(id: article.id)).to be(nil)
       end
     end
   end

@@ -8,13 +8,13 @@ RSpec.describe Results::Creator do
     context 'with blank league_id' do
       let(:league_id) { nil }
 
-      it { expect(creator.call).to eq(false) }
+      it { expect(creator.call).to be(false) }
     end
 
     context 'when league without teams' do
       let(:league) { create(:league) }
 
-      it { expect(creator.call).to eq(false) }
+      it { expect(creator.call).to be(false) }
     end
 
     context 'when league with teams' do

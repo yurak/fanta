@@ -9,7 +9,7 @@ RSpec.describe RoundPlayers::Creator do
     context 'with invalid tournament_round id' do
       let(:tournament_round_id) { 'invalid' }
 
-      it { expect(creator.call).to eq(false) }
+      it { expect(creator.call).to be(false) }
     end
 
     context 'with existed tournament_round and players' do
