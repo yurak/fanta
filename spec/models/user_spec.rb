@@ -47,7 +47,7 @@ RSpec.describe User, type: :model do
     let(:league) { create(:league) }
 
     context 'without team in league' do
-      it { expect(user.team_by_league(league)).to be(nil) }
+      it { expect(user.team_by_league(league)).to be_nil }
     end
 
     context 'with team in league' do
@@ -61,7 +61,7 @@ RSpec.describe User, type: :model do
     let(:tour) { create(:tour) }
 
     context 'without team in league' do
-      it { expect(user.lineup_by_tour(tour)).to be(nil) }
+      it { expect(user.lineup_by_tour(tour)).to be_nil }
     end
 
     context 'without lineup for tour' do
@@ -69,7 +69,7 @@ RSpec.describe User, type: :model do
         create(:team, user: user, league: tour.league)
       end
 
-      it { expect(user.lineup_by_tour(tour)).to be(nil) }
+      it { expect(user.lineup_by_tour(tour)).to be_nil }
     end
 
     context 'with lineup for tour' do
@@ -82,7 +82,7 @@ RSpec.describe User, type: :model do
 
   describe '#active_team' do
     context 'without team' do
-      it { expect(user.active_team).to be(nil) }
+      it { expect(user.active_team).to be_nil }
     end
 
     context 'with one team' do
@@ -113,7 +113,7 @@ RSpec.describe User, type: :model do
 
   describe '#active_league' do
     context 'without team' do
-      it { expect(user.active_league).to be(nil) }
+      it { expect(user.active_league).to be_nil }
     end
 
     context 'with one team' do
@@ -145,14 +145,14 @@ RSpec.describe User, type: :model do
 
   describe '#next_tour' do
     context 'without team' do
-      it { expect(user.next_tour).to be(nil) }
+      it { expect(user.next_tour).to be_nil }
     end
 
     context 'with team and league without rounds' do
       it 'returns nil' do
         create(:team, user: user)
 
-        expect(user.next_tour).to be(nil)
+        expect(user.next_tour).to be_nil
       end
     end
 

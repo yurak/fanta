@@ -177,7 +177,7 @@ RSpec.describe PlayersHelper, type: :helper do
       end
 
       it 'returns nil' do
-        expect(helper.player_by_mp(match_player_double, team_module)).to be(nil)
+        expect(helper.player_by_mp(match_player_double, team_module)).to be_nil
       end
     end
 
@@ -218,7 +218,7 @@ RSpec.describe PlayersHelper, type: :helper do
       end
 
       it 'returns nil' do
-        expect(helper.user_tournament_team(tournament.id)).to be(nil)
+        expect(helper.user_tournament_team(tournament.id)).to be_nil
       end
     end
 

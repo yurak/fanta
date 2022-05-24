@@ -15,7 +15,7 @@ RSpec.describe Match, type: :model do
   describe '#host_lineup' do
     context 'when host lineup does not exist' do
       it 'returns nil' do
-        expect(match.host_lineup).to be(nil)
+        expect(match.host_lineup).to be_nil
       end
     end
 
@@ -31,7 +31,7 @@ RSpec.describe Match, type: :model do
   describe '#guest_lineup' do
     context 'when guest lineup does not exist' do
       it 'returns nil' do
-        expect(match.guest_lineup).to be(nil)
+        expect(match.guest_lineup).to be_nil
       end
     end
 
@@ -47,7 +47,7 @@ RSpec.describe Match, type: :model do
   describe '#host_score' do
     context 'when host lineup does not exist' do
       it 'returns nil' do
-        expect(match.host_score).to be(nil)
+        expect(match.host_score).to be_nil
       end
     end
 
@@ -63,7 +63,7 @@ RSpec.describe Match, type: :model do
   describe '#guest_score' do
     context 'when guest lineup does not exist' do
       it 'returns nil' do
-        expect(match.guest_score).to be(nil)
+        expect(match.guest_score).to be_nil
       end
     end
 

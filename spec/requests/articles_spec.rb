@@ -317,7 +317,7 @@ RSpec.describe 'Articles', type: :request do
       it { expect(response).to have_http_status(:found) }
 
       it 'destroys article' do
-        expect(Article.find_by(id: article.id)).to be(nil)
+        expect(Article.find_by(id: article.id)).to be_nil
       end
     end
   end

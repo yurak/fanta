@@ -309,7 +309,7 @@ RSpec.describe Tour, type: :model do
   describe '#next_round' do
     context 'without other tours' do
       it 'returns nil' do
-        expect(tour.next_round).to be(nil)
+        expect(tour.next_round).to be_nil
       end
     end
 
@@ -322,7 +322,7 @@ RSpec.describe Tour, type: :model do
       end
 
       it 'returns nil' do
-        expect(tour.next_round).to be(nil)
+        expect(tour.next_round).to be_nil
       end
     end
 
@@ -343,7 +343,7 @@ RSpec.describe Tour, type: :model do
   describe '#prev_round' do
     context 'without other tours' do
       it 'returns nil' do
-        expect(tour.prev_round).to be(nil)
+        expect(tour.prev_round).to be_nil
       end
     end
 
@@ -356,7 +356,7 @@ RSpec.describe Tour, type: :model do
       end
 
       it 'returns nil' do
-        expect(tour.prev_round).to be(nil)
+        expect(tour.prev_round).to be_nil
       end
     end
 

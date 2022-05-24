@@ -28,7 +28,7 @@ RSpec.describe Players::TmParser do
     #
     #   it { expect(parser.call).to be(true) }
     #   it { expect(player.reload.tm_price).to eq(0) }
-    #   it { expect(player.reload.number).to be(nil) }
+    #   it { expect(player.reload.number).to be_nil }
     # end
     #
     # context 'with player full data' do
@@ -40,8 +40,8 @@ RSpec.describe Players::TmParser do
     #
     #   it { expect(parser.call).to be(true) }
     #   it { expect(player.reload.tm_price).not_to eq(0) }
-    #   it { expect(player.reload.number).not_to be(nil) }
-    #   it { expect(player.reload.height).not_to be(nil) }
+    #   it { expect(player.reload.number).not_to be_nil }
+    #   it { expect(player.reload.height).not_to be_nil }
     #   it { expect(player.reload.birth_date).to eq('Apr 13, 2001') }
     # end
   end

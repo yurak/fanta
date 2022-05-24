@@ -76,7 +76,7 @@ RSpec.describe Team, type: :model do
   describe '#next_round' do
     context 'when league without tours' do
       it 'returns nil' do
-        expect(team.next_round).to be(nil)
+        expect(team.next_round).to be_nil
       end
     end
 
@@ -119,7 +119,7 @@ RSpec.describe Team, type: :model do
   describe '#next_opponent' do
     context 'when league without tours and matches' do
       it 'returns nil' do
-        expect(team.next_opponent).to be(nil)
+        expect(team.next_opponent).to be_nil
       end
     end
 
@@ -127,7 +127,7 @@ RSpec.describe Team, type: :model do
       it 'returns nil' do
         create_list(:tour, 3, league: team.league)
 
-        expect(team.next_opponent).to be(nil)
+        expect(team.next_opponent).to be_nil
       end
     end
 
@@ -151,7 +151,7 @@ RSpec.describe Team, type: :model do
   describe '#players_not_in(lineup)' do
     context 'without lineup' do
       it 'returns nil' do
-        expect(team.players_not_in(nil)).to be(nil)
+        expect(team.players_not_in(nil)).to be_nil
       end
     end
 
@@ -168,7 +168,7 @@ RSpec.describe Team, type: :model do
   describe '#best_lineup' do
     context 'without lineup' do
       it 'returns nil' do
-        expect(team.best_lineup).to be(nil)
+        expect(team.best_lineup).to be_nil
       end
     end
 
