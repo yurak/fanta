@@ -47,9 +47,9 @@ module Scores
           round_player.update(
             score: player_data[:rating].to_f, goals: player_data[:goals] || 0, assists: player_data[:assists] || 0,
             cleansheet: cleansheet?(round_player, team_missed_goals.to_i, player_data[:played_minutes]),
-            failed_penalty: player_data[:failed_penalty] || 0, missed_goals: player_data[:missed_goals] || 0,
-            own_goals: player_data[:own_goals] || 0, played_minutes: player_data[:played_minutes] || 0,
-            yellow_card: player_data[:yellow_card], red_card: player_data[:red_card]
+            failed_penalty: player_data[:failed_penalty] || 0, caught_penalty: player_data[:caught_penalty] || 0,
+            missed_goals: player_data[:missed_goals] || 0, own_goals: player_data[:own_goals] || 0,
+            played_minutes: player_data[:played_minutes] || 0, yellow_card: player_data[:yellow_card], red_card: player_data[:red_card]
           )
         end
         team_hash.except!(round_player.pseudo_name.downcase)
@@ -82,9 +82,8 @@ module Scores
 
         hash.merge!(
           {
-            goals: player_data['events']['g'],
-            assists: player_data['events']['as'],
-            failed_penalty: player_data['events']['mp'],
+            goals: player_data['events']['g'], assists: player_data['events']['as'],
+            caught_penalty: player_data['events']['savedPenalties'], failed_penalty: player_data['events']['mp'],
             own_goals: player_data['events']['og'],
             yellow_card: card?(player_data['events']['yc']),
             red_card: card?(player_data['events']['ycrc']) || card?(player_data['events']['rc'])
@@ -94,7 +93,7 @@ module Scores
 
       def player_name(player_data)
         name = "#{player_data['name']['firstName']} #{player_data['name']['lastName']}"
-        name.mb_chars.lstrip.gsub(/[^\x00-\x7F]/n, '').downcase.to_s
+        name.lstrip.unicode_normalize(:nfd).gsub(/[^\x00-\x7F]/n, '').downcase.to_s
       end
 
       def cleansheet?(round_player, team_missed_goals, played_minutes)
@@ -148,8 +147,8 @@ module Scores
       end
 
       def new_api?
-        # TODO: add input parameter to this service
-        false
+        # TODO: add config variable to this service
+        true
       end
     end
   end

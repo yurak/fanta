@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_24_175356) do
+ActiveRecord::Schema.define(version: 2022_04_30_162535) do
 
   create_table "article_tags", force: :cascade do |t|
     t.string "name", default: "", null: false
@@ -115,6 +115,7 @@ ActiveRecord::Schema.define(version: 2022_03_24_175356) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "tour_id"
+    t.decimal "final_score", precision: 4, scale: 2, default: "0.0"
   end
 
   create_table "links", force: :cascade do |t|
@@ -191,6 +192,17 @@ ActiveRecord::Schema.define(version: 2022_03_24_175356) do
     t.index ["player_id", "position_id"], name: "player_position"
   end
 
+  create_table "player_requests", force: :cascade do |t|
+    t.integer "player_id"
+    t.integer "user_id"
+    t.string "positions"
+    t.string "comment"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["player_id"], name: "index_player_requests_on_player_id"
+    t.index ["user_id"], name: "index_player_requests_on_user_id"
+  end
+
   create_table "player_teams", force: :cascade do |t|
     t.integer "player_id"
     t.integer "team_id"
@@ -261,6 +273,7 @@ ActiveRecord::Schema.define(version: 2022_03_24_175356) do
     t.boolean "cleansheet", default: false
     t.boolean "manual_lock", default: false
     t.integer "played_minutes", default: 0, null: false
+    t.decimal "final_score", precision: 4, scale: 2, default: "0.0"
     t.index ["player_id"], name: "index_round_players_on_player_id"
     t.index ["tournament_round_id"], name: "index_round_players_on_tournament_round_id"
   end
@@ -417,6 +430,8 @@ ActiveRecord::Schema.define(version: 2022_03_24_175356) do
   add_foreign_key "national_teams", "tournaments"
   add_foreign_key "player_bids", "auction_bids"
   add_foreign_key "player_bids", "players"
+  add_foreign_key "player_requests", "players"
+  add_foreign_key "player_requests", "users"
   add_foreign_key "player_teams", "players"
   add_foreign_key "player_teams", "teams"
   add_foreign_key "players", "national_teams"

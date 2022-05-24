@@ -48,7 +48,7 @@ RSpec.describe MatchPlayer, type: :model do
   describe '#not_played?' do
     context 'without score and when club did not play' do
       it 'returns false' do
-        expect(match_player.not_played?).to eq(false)
+        expect(match_player.not_played?).to be(false)
       end
     end
 
@@ -56,13 +56,13 @@ RSpec.describe MatchPlayer, type: :model do
       it 'returns true' do
         allow(match_player.round_player).to receive(:club_played_match?).and_return(true)
 
-        expect(match_player.not_played?).to eq(true)
+        expect(match_player.not_played?).to be(true)
       end
     end
 
     context 'with score and when club did not play' do
       it 'returns false' do
-        expect(match_player_with_score.not_played?).to eq(false)
+        expect(match_player_with_score.not_played?).to be(false)
       end
     end
 
@@ -70,7 +70,7 @@ RSpec.describe MatchPlayer, type: :model do
       it 'returns false' do
         allow(match_player_with_score.round_player).to receive(:club_played_match?).and_return(true)
 
-        expect(match_player_with_score.not_played?).to eq(false)
+        expect(match_player_with_score.not_played?).to be(false)
       end
     end
 
@@ -78,7 +78,7 @@ RSpec.describe MatchPlayer, type: :model do
       it 'returns true' do
         allow(match_player.round_player).to receive(:another_tournament?).and_return(true)
 
-        expect(match_player.not_played?).to eq(true)
+        expect(match_player.not_played?).to be(true)
       end
     end
   end
@@ -86,7 +86,7 @@ RSpec.describe MatchPlayer, type: :model do
   describe '#position_malus?' do
     context 'without real position' do
       it 'returns false' do
-        expect(match_player.position_malus?).to eq(false)
+        expect(match_player.position_malus?).to be(false)
       end
     end
 
@@ -94,7 +94,7 @@ RSpec.describe MatchPlayer, type: :model do
       let(:match_player) { create(:match_player, :with_real_position) }
 
       it 'returns false' do
-        expect(match_player.position_malus?).to eq(false)
+        expect(match_player.position_malus?).to be(false)
       end
     end
 
@@ -102,7 +102,7 @@ RSpec.describe MatchPlayer, type: :model do
       let(:match_player) { create(:match_player, :with_position_malus) }
 
       it 'returns true' do
-        expect(match_player.position_malus?).to eq(true)
+        expect(match_player.position_malus?).to be(true)
       end
     end
   end
@@ -198,6 +198,17 @@ RSpec.describe MatchPlayer, type: :model do
     context 'with score and cleansheet on W position but with E player position' do
       let(:match_player) do
         create(:match_player, real_position: 'W', round_player: create(:round_player, :with_pos_e, :with_score_six, cleansheet: true))
+      end
+
+      it 'returns total score value without cs bonus' do
+        expect(match_player.total_score).to eq(6)
+      end
+    end
+
+    context 'with score and cleansheet on W/A position but with Ds and E player positions' do
+      let(:match_player) do
+        create(:match_player, real_position: 'W/A',
+                              round_player: create(:round_player, :with_pos_dc_ds_e, :with_score_six, cleansheet: true))
       end
 
       it 'returns total score value without cs bonus' do
@@ -335,7 +346,7 @@ RSpec.describe MatchPlayer, type: :model do
       let(:match_player) { create(:match_player, real_position: 'E', round_player: create(:round_player, :with_pos_e)) }
 
       it 'returns false' do
-        expect(match_player.hide_cleansheet?).to eq(false)
+        expect(match_player.hide_cleansheet?).to be(false)
       end
     end
 
@@ -343,7 +354,7 @@ RSpec.describe MatchPlayer, type: :model do
       let(:match_player) { create(:match_player, real_position: 'W', round_player: create(:round_player, :with_pos_e)) }
 
       it 'returns true' do
-        expect(match_player.hide_cleansheet?).to eq(true)
+        expect(match_player.hide_cleansheet?).to be(true)
       end
     end
 
@@ -351,7 +362,7 @@ RSpec.describe MatchPlayer, type: :model do
       let(:match_player) { create(:match_player, real_position: 'M', round_player: create(:round_player, :with_pos_m)) }
 
       it 'returns false' do
-        expect(match_player.hide_cleansheet?).to eq(false)
+        expect(match_player.hide_cleansheet?).to be(false)
       end
     end
 
@@ -359,7 +370,7 @@ RSpec.describe MatchPlayer, type: :model do
       let(:match_player) { create(:match_player, real_position: 'C', round_player: create(:round_player, :with_pos_m)) }
 
       it 'returns true' do
-        expect(match_player.hide_cleansheet?).to eq(true)
+        expect(match_player.hide_cleansheet?).to be(true)
       end
     end
   end

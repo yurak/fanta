@@ -12,6 +12,7 @@ RSpec.describe Player, type: :model do
     it { is_expected.to have_many(:player_teams).dependent(:destroy) }
     it { is_expected.to have_many(:teams).through(:player_teams) }
     it { is_expected.to have_many(:player_bids).dependent(:destroy) }
+    it { is_expected.to have_many(:player_requests).dependent(:destroy) }
     it { is_expected.to have_many(:round_players).dependent(:destroy) }
     it { is_expected.to have_many(:transfers).dependent(:destroy) }
   end
@@ -52,7 +53,7 @@ RSpec.describe Player, type: :model do
   describe '#country' do
     context 'without nationality' do
       it 'returns nil' do
-        expect(player.country).to eq(nil)
+        expect(player.country).to be_nil
       end
     end
 
@@ -198,7 +199,7 @@ RSpec.describe Player, type: :model do
   describe '#national_kit_path' do
     context 'without national_team' do
       it 'returns nil' do
-        expect(player.national_kit_path).to eq(nil)
+        expect(player.national_kit_path).to be_nil
       end
     end
 
@@ -216,7 +217,7 @@ RSpec.describe Player, type: :model do
   describe '#profile_national_kit_path' do
     context 'without national_team' do
       it 'returns nil' do
-        expect(player.profile_national_kit_path).to eq(nil)
+        expect(player.profile_national_kit_path).to be_nil
       end
     end
 
@@ -262,7 +263,7 @@ RSpec.describe Player, type: :model do
       let(:team) { nil }
 
       it 'returns nil' do
-        expect(player.transfer_by(team)).to eq(nil)
+        expect(player.transfer_by(team)).to be_nil
       end
     end
 
@@ -270,7 +271,7 @@ RSpec.describe Player, type: :model do
       let(:player) { create(:player, :with_team) }
 
       it 'returns nil' do
-        expect(player.transfer_by(player.teams.last)).to eq(nil)
+        expect(player.transfer_by(player.teams.last)).to be_nil
       end
     end
 
@@ -304,7 +305,7 @@ RSpec.describe Player, type: :model do
   describe '#age' do
     context 'without birth_date' do
       it 'returns nil' do
-        expect(player.age).to eq(nil)
+        expect(player.age).to be_nil
       end
     end
 
@@ -324,7 +325,7 @@ RSpec.describe Player, type: :model do
 
     context 'without teams' do
       it 'returns empty array' do
-        expect(player.team_by_league(league_id)).to eq(nil)
+        expect(player.team_by_league(league_id)).to be_nil
       end
     end
 

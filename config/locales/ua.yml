@@ -247,6 +247,10 @@ ua:
     base_score: "БАЗ ОЦІНКА"
     total_score: "ЗАГ ОЦІНКА"
     left_tournament: "Покинув турнір"
+    change_arguments: "Аргументи для зміни позицій гравця"
+    change_positions: "Позиції, які повинен мати гравець"
+    change_request: "Змінити позиції"
+    change_request_send: "Надіслати запит"
   round_players:
     title: "Найкращі Гравці %{tournament} Раунд #%{number}"
   table:

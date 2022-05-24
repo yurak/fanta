@@ -18,6 +18,7 @@ class RoundPlayer < ApplicationRecord
   scope :by_national_team, ->(team_id) { joins(:player).where(players: { national_team_id: team_id }) }
   scope :by_name_and_club, ->(name, club_id) { by_club(club_id).where('LOWER(players.name) = ?', name.downcase) }
   scope :with_score, -> { where('score > ?', 0) }
+  scope :without_final_score, -> { where(final_score: 0) }
   scope :ordered_by_club, -> { joins(player: :club).order('clubs.name') }
   scope :ordered_by_national, -> { joins(player: :national_team).order('national_teams.id').order('players.name') }
 
@@ -41,6 +42,7 @@ class RoundPlayer < ApplicationRecord
 
   def result_score
     return 0 unless score.positive?
+    return final_score unless final_score.zero?
 
     bonuses - maluses
   end

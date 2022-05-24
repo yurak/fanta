@@ -8,8 +8,9 @@ RSpec.describe Scores::Injectors::FotmobMatch do
       let(:match) { create(:tournament_match, source_match_id: '3629471') }
 
       it 'returns nil' do
-        VCR.use_cassette 'fotmob_match_initial' do
-          expect(injector.call).to eq(nil)
+        # VCR.use_cassette 'fotmob_match_initial' do
+        VCR.use_cassette 'fotmob_match_new_initial' do
+          expect(injector.call).to be_nil
         end
       end
     end
@@ -21,7 +22,7 @@ RSpec.describe Scores::Injectors::FotmobMatch do
       it 'is a pending example'
       # it 'returns path name' do
       #   VCR.use_cassette 'fotmob_match_finished' do
-      #     expect(injector.call).to eq(nil)
+      #     expect(injector.call).to be_nil
       #   end
       # end
     end
@@ -36,7 +37,7 @@ RSpec.describe Scores::Injectors::FotmobMatch do
       it 'is a pending example'
       # it 'returns path name' do
       #   VCR.use_cassette 'fotmob_match_finished_national' do
-      #     expect(injector.call).to eq(nil)
+      #     expect(injector.call).to be_nil
       #   end
       # end
     end

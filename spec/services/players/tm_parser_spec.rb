@@ -10,13 +10,13 @@ RSpec.describe Players::TmParser do
     # context 'without player' do
     #   let(:player) { nil }
     #
-    #   it { expect(parser.call).to eq(false) }
+    #   it { expect(parser.call).to be(false) }
     # end
     #
     # context 'without player tm_url' do
     #   let(:player) { create(:player) }
     #
-    #   it { expect(parser.call).to eq(false) }
+    #   it { expect(parser.call).to be(false) }
     # end
     #
     # context 'with player without number and price' do
@@ -26,9 +26,9 @@ RSpec.describe Players::TmParser do
     #     parser.call
     #   end
     #
-    #   it { expect(parser.call).to eq(true) }
+    #   it { expect(parser.call).to be(true) }
     #   it { expect(player.reload.tm_price).to eq(0) }
-    #   it { expect(player.reload.number).to eq(nil) }
+    #   it { expect(player.reload.number).to be_nil }
     # end
     #
     # context 'with player full data' do
@@ -38,10 +38,10 @@ RSpec.describe Players::TmParser do
     #     parser.call
     #   end
     #
-    #   it { expect(parser.call).to eq(true) }
+    #   it { expect(parser.call).to be(true) }
     #   it { expect(player.reload.tm_price).not_to eq(0) }
-    #   it { expect(player.reload.number).not_to eq(nil) }
-    #   it { expect(player.reload.height).not_to eq(nil) }
+    #   it { expect(player.reload.number).not_to be_nil }
+    #   it { expect(player.reload.height).not_to be_nil }
     #   it { expect(player.reload.birth_date).to eq('Apr 13, 2001') }
     # end
   end

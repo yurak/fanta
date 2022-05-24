@@ -214,27 +214,6 @@
       padding-right: 70px;
       padding-bottom: 70px;
 
-      .error-item {
-        font-weight: normal;
-        line-height: 24px;
-        font-size: 16px;
-        display: grid;
-        grid-template-columns: 24px auto;
-        column-gap: 16px;
-        margin: 10px 25px;
-        color: #ff0000;
-
-        .error-icon {
-          width: 100%;
-          height: 100%;
-
-          img {
-            width: 24px;
-            height: 24px;
-          }
-        }
-      }
-
       .form-item {
         margin: 10px 25px;
       }
@@ -278,7 +257,7 @@
     }
 
     .follow-links {
-      margin: 0 auto auto auto;
+      margin: 0 auto auto;
       line-height: 100px;
     }
 

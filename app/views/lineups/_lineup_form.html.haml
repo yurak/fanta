@@ -46,6 +46,7 @@
           = f.hidden_field :team_module_id, value: team_module&.id || lineup.team_module.id
           = f.hidden_field :tour_id, value: tour.id
           #position-naming{ type: "hidden", value: "#{current_user.ital_pos_naming}"}
+          #national-tour{ type: "hidden", value: "#{tour.national?}"}
           = f.fields_for :match_players do |mp|
             - if mp.index == 11
               .reserve-players-title
@@ -61,8 +62,12 @@
                         %object{data: player_by_mp(mp, team_module)&.avatar_path || '', type: ApplicationRecord::CONTENT_TYPE_PNG, id: "avatar-#{mp.index}"}
                           = image_tag('avatar.png')
                       .player-show-kit
-                        %object{data: player_by_mp(mp, team_module)&.kit_path || '', type: ApplicationRecord::CONTENT_TYPE_PNG, id: "kit-#{mp.index}"}
-                          = image_tag('kit_small_default2.png')
+                        - if tour.national?
+                          %object{data: player_by_mp(mp, team_module)&.national_kit_path || '', type: ApplicationRecord::CONTENT_TYPE_PNG, id: "kit-#{mp.index}"}
+                            = image_tag('kit_small_default2.png')
+                        - else
+                          %object{data: player_by_mp(mp, team_module)&.kit_path || '', type: ApplicationRecord::CONTENT_TYPE_PNG, id: "kit-#{mp.index}"}
+                            = image_tag('kit_small_default2.png')
                       .squad-position
                         .module-position.slot-position{class: "slot-position-#{team_module.slots[mp.index]&.position&.tr('/', '')}"}
                           - if team_module.slots[mp.index]&.position
@@ -140,29 +145,33 @@
                               - players.each do |player|
                                 = render 'lineup_player_item', player: player, tour: tour
                         - if tour.national?
-                          - tournament_round_players(tour.tournament_round, team_module.slots[mp.index]&.position).each do |player|
-                            .modal-player-item{id: "player#{player.id}", style: "background-color: ##{ player.national_team.color };"}
-                              .player-show-images
-                                .player-show-face
-                                  %object{data: player.avatar_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                                    = image_tag('avatar.png')
-                                .player-show-kit
-                                  %object{data: player.national_kit_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                                    = image_tag('kit_small_default2.png')
-                                .player-show-positions
-                                  - player.position_names.reverse.each do |position|
-                                    .slot-position{class: "slot-position-#{position&.tr('/', '')}"}
-                                      = slot_position_name(position)
-                              .player-name
-                                %span
-                                  = player.name.upcase
-                              .player-match
-                                .player-match-team
-                                  = flag_icon(player.nationality.to_sym, element: :div)
-                                .player-match-team
-                                  vs
-                                .player-match-team
-                                  = flag_icon(player.national_team.opponent_by_round(tour.tournament_round)&.code.to_sym, element: :div)
+                          - tournament_round_players(tour.tournament_round, team_module.slots[mp.index]&.position).each do |national_team, players|
+                            .modal-malus-title
+                              = national_team.name.upcase
+                            .modal-malus-block
+                              - players.each do |player|
+                                .modal-player-item{id: "player#{player.id}"}
+                                  .modal-player-images{style: "background-color: ##{ player.national_team.color };"}
+                                    .player-show-face
+                                      %object{data: player.avatar_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
+                                        = image_tag('avatar.png')
+                                    .player-show-kit
+                                      %object{data: player.national_kit_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
+                                        = image_tag('kit_small_default2.png')
+                                  .modal-player-data
+                                    .player-positions
+                                      - player.player_positions.includes(:position).each do |player_position|
+                                        .position-item{class: "position-item-#{player_position.position.name}"}
+                                          = position_name(player_position.position)
+                                  .modal-player-name
+                                    = player.name
+                                  .modal-player-match
+                                    .player-match-team
+                                      = flag_icon(player.national_team.code.to_sym, element: :div)
+                                    .player-match-team
+                                      vs
+                                    .player-match-team
+                                      = flag_icon(player.national_team.opponent_by_round(tour.tournament_round)&.code.to_sym, element: :div)
 
 %script{type: "text/javascript", src: "/javascripts/lib/new_lineup.js.erb"}
 

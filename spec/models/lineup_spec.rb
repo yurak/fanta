@@ -128,13 +128,13 @@ RSpec.describe Lineup, type: :model do
   describe '#completed?' do
     context 'when less than 11 main players have score' do
       it 'returns false' do
-        expect(lineup_team.completed?).to eq(false)
+        expect(lineup_team.completed?).to be(false)
       end
     end
 
     context 'when all 11 main players have score' do
       it 'returns true' do
-        expect(lineup_team_score_seven.completed?).to eq(true)
+        expect(lineup_team_score_seven.completed?).to be(true)
       end
     end
   end

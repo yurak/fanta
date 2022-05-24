@@ -6,7 +6,7 @@
 
   .subs-form {
     display: grid;
-    grid-template-columns: 1fr 100px 1fr;
+    grid-template-columns: 1fr 120px 1fr;
     column-gap: 16px;
     margin: 50px 0;
 
@@ -17,19 +17,21 @@
 
   .subs-img-block {
     margin: auto;
+    position: relative;
+
+    .module-position {
+      margin: 0 auto;
+      position: absolute;
+      top: 45px;
+      left: 30px;
+      width: 60px;
+    }
   }
 
   .subs-img {
-    width: 100px;
-    height: 100px;
+    width: 120px;
+    height: 120px;
   }
-
-  //@media screen and (max-device-width: 767px) {
-  //  .subs-form {
-  //    grid-template-columns: 100%;
-  //    margin: 20px 0;
-  //  }
-  //}
 
   .subs-player-item {
     display: grid;
@@ -138,8 +140,6 @@
         }
 
         .subs-player-malus {
-          //background-color: #4EAD57; red D53434 yellow D5CB34
-          //background-color: #43BB18;
           color: #FFFFFF;
           border-radius: 4px;
           margin: 16px;

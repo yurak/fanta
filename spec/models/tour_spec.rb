@@ -16,97 +16,97 @@ RSpec.describe Tour, type: :model do
 
   describe '#locked_or_postponed?' do
     context 'with inactive status' do
-      it { expect(tour.locked_or_postponed?).to eq(false) }
+      it { expect(tour.locked_or_postponed?).to be(false) }
     end
 
     context 'with set_lineup status' do
       let(:tour) { create(:set_lineup_tour) }
 
-      it { expect(tour.locked_or_postponed?).to eq(false) }
+      it { expect(tour.locked_or_postponed?).to be(false) }
     end
 
     context 'with locked status' do
       let(:tour) { create(:locked_tour) }
 
-      it { expect(tour.locked_or_postponed?).to eq(true) }
+      it { expect(tour.locked_or_postponed?).to be(true) }
     end
 
     context 'with postponed status' do
       let(:tour) { create(:postponed_tour) }
 
-      it { expect(tour.locked_or_postponed?).to eq(true) }
+      it { expect(tour.locked_or_postponed?).to be(true) }
     end
 
     context 'with closed status' do
       let(:tour) { create(:closed_tour) }
 
-      it { expect(tour.locked_or_postponed?).to eq(false) }
+      it { expect(tour.locked_or_postponed?).to be(false) }
     end
   end
 
   describe '#deadlined?' do
     context 'with inactive status' do
-      it { expect(tour.deadlined?).to eq(false) }
+      it { expect(tour.deadlined?).to be(false) }
     end
 
     context 'with set_lineup status' do
       let(:tour) { create(:set_lineup_tour) }
 
-      it { expect(tour.deadlined?).to eq(false) }
+      it { expect(tour.deadlined?).to be(false) }
     end
 
     context 'with locked status' do
       let(:tour) { create(:locked_tour) }
 
-      it { expect(tour.deadlined?).to eq(true) }
+      it { expect(tour.deadlined?).to be(true) }
     end
 
     context 'with postponed status' do
       let(:tour) { create(:postponed_tour) }
 
-      it { expect(tour.deadlined?).to eq(true) }
+      it { expect(tour.deadlined?).to be(true) }
     end
 
     context 'with closed status' do
       let(:tour) { create(:closed_tour) }
 
-      it { expect(tour.deadlined?).to eq(true) }
+      it { expect(tour.deadlined?).to be(true) }
     end
   end
 
   describe '#unlocked?' do
     context 'with inactive status' do
-      it { expect(tour.unlocked?).to eq(true) }
+      it { expect(tour.unlocked?).to be(true) }
     end
 
     context 'with set_lineup status' do
       let(:tour) { create(:set_lineup_tour) }
 
-      it { expect(tour.unlocked?).to eq(true) }
+      it { expect(tour.unlocked?).to be(true) }
     end
 
     context 'with locked status' do
       let(:tour) { create(:locked_tour) }
 
-      it { expect(tour.unlocked?).to eq(false) }
+      it { expect(tour.unlocked?).to be(false) }
     end
 
     context 'with postponed status' do
       let(:tour) { create(:postponed_tour) }
 
-      it { expect(tour.unlocked?).to eq(false) }
+      it { expect(tour.unlocked?).to be(false) }
     end
 
     context 'with closed status' do
       let(:tour) { create(:closed_tour) }
 
-      it { expect(tour.unlocked?).to eq(false) }
+      it { expect(tour.unlocked?).to be(false) }
     end
   end
 
   describe '#mantra?' do
     context 'without tournament_round matches' do
-      it { expect(tour.mantra?).to eq(false) }
+      it { expect(tour.mantra?).to be(false) }
     end
 
     context 'with national_match' do
@@ -114,7 +114,7 @@ RSpec.describe Tour, type: :model do
         create(:national_match, tournament_round: tour.tournament_round)
       end
 
-      it { expect(tour.mantra?).to eq(false) }
+      it { expect(tour.mantra?).to be(false) }
     end
 
     context 'with tournament_match' do
@@ -122,13 +122,13 @@ RSpec.describe Tour, type: :model do
         create(:tournament_match, tournament_round: tour.tournament_round)
       end
 
-      it { expect(tour.mantra?).to eq(true) }
+      it { expect(tour.mantra?).to be(true) }
     end
   end
 
   describe '#national?' do
     context 'without tournament_round matches' do
-      it { expect(tour.national?).to eq(false) }
+      it { expect(tour.national?).to be(false) }
     end
 
     context 'with tournament_match' do
@@ -136,7 +136,7 @@ RSpec.describe Tour, type: :model do
         create(:tournament_match, tournament_round: tour.tournament_round)
       end
 
-      it { expect(tour.national?).to eq(false) }
+      it { expect(tour.national?).to be(false) }
     end
 
     context 'with national_match' do
@@ -144,20 +144,20 @@ RSpec.describe Tour, type: :model do
         create(:national_match, tournament_round: tour.tournament_round)
       end
 
-      it { expect(tour.national?).to eq(true) }
+      it { expect(tour.national?).to be(true) }
     end
   end
 
   describe '#fanta?' do
     context 'with not eurocup tournament and without tournament_round matches' do
-      it { expect(tour.fanta?).to eq(false) }
+      it { expect(tour.fanta?).to be(false) }
     end
 
     context 'with eurocup tournament' do
       let(:tournament_round) { create(:tournament_round, tournament: Tournament.find_by(eurocup: true)) }
       let(:tour) { create(:tour, tournament_round: tournament_round) }
 
-      it { expect(tour.fanta?).to eq(true) }
+      it { expect(tour.fanta?).to be(true) }
     end
 
     context 'with national_match' do
@@ -165,20 +165,20 @@ RSpec.describe Tour, type: :model do
         create(:national_match, tournament_round: tour.tournament_round)
       end
 
-      it { expect(tour.fanta?).to eq(true) }
+      it { expect(tour.fanta?).to be(true) }
     end
   end
 
   describe '#eurocup?' do
     context 'with not eurocup tournament' do
-      it { expect(tour.eurocup?).to eq(false) }
+      it { expect(tour.eurocup?).to be(false) }
     end
 
     context 'with eurocup tournament' do
       let(:tournament_round) { create(:tournament_round, tournament: Tournament.find_by(eurocup: true)) }
       let(:tour) { create(:tour, tournament_round: tournament_round) }
 
-      it { expect(tour.eurocup?).to eq(true) }
+      it { expect(tour.eurocup?).to be(true) }
     end
   end
 
@@ -278,7 +278,7 @@ RSpec.describe Tour, type: :model do
     let!(:team) { create(:team) }
 
     context 'without team lineup' do
-      it { expect(tour.lineup_exist?(team)).to eq(false) }
+      it { expect(tour.lineup_exist?(team)).to be(false) }
     end
 
     context 'with team lineup' do
@@ -286,7 +286,7 @@ RSpec.describe Tour, type: :model do
         create(:lineup, tour: tour, team: team)
       end
 
-      it { expect(tour.lineup_exist?(team)).to eq(true) }
+      it { expect(tour.lineup_exist?(team)).to be(true) }
     end
   end
 
@@ -309,7 +309,7 @@ RSpec.describe Tour, type: :model do
   describe '#next_round' do
     context 'without other tours' do
       it 'returns nil' do
-        expect(tour.next_round).to eq(nil)
+        expect(tour.next_round).to be_nil
       end
     end
 
@@ -322,7 +322,7 @@ RSpec.describe Tour, type: :model do
       end
 
       it 'returns nil' do
-        expect(tour.next_round).to eq(nil)
+        expect(tour.next_round).to be_nil
       end
     end
 
@@ -343,7 +343,7 @@ RSpec.describe Tour, type: :model do
   describe '#prev_round' do
     context 'without other tours' do
       it 'returns nil' do
-        expect(tour.prev_round).to eq(nil)
+        expect(tour.prev_round).to be_nil
       end
     end
 
@@ -356,7 +356,7 @@ RSpec.describe Tour, type: :model do
       end
 
       it 'returns nil' do
-        expect(tour.prev_round).to eq(nil)
+        expect(tour.prev_round).to be_nil
       end
     end
 

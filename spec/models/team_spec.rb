@@ -76,7 +76,7 @@ RSpec.describe Team, type: :model do
   describe '#next_round' do
     context 'when league without tours' do
       it 'returns nil' do
-        expect(team.next_round).to eq(nil)
+        expect(team.next_round).to be_nil
       end
     end
 
@@ -119,7 +119,7 @@ RSpec.describe Team, type: :model do
   describe '#next_opponent' do
     context 'when league without tours and matches' do
       it 'returns nil' do
-        expect(team.next_opponent).to eq(nil)
+        expect(team.next_opponent).to be_nil
       end
     end
 
@@ -127,7 +127,7 @@ RSpec.describe Team, type: :model do
       it 'returns nil' do
         create_list(:tour, 3, league: team.league)
 
-        expect(team.next_opponent).to eq(nil)
+        expect(team.next_opponent).to be_nil
       end
     end
 
@@ -151,7 +151,7 @@ RSpec.describe Team, type: :model do
   describe '#players_not_in(lineup)' do
     context 'without lineup' do
       it 'returns nil' do
-        expect(team.players_not_in(nil)).to eq(nil)
+        expect(team.players_not_in(nil)).to be_nil
       end
     end
 
@@ -168,7 +168,7 @@ RSpec.describe Team, type: :model do
   describe '#best_lineup' do
     context 'without lineup' do
       it 'returns nil' do
-        expect(team.best_lineup).to eq(nil)
+        expect(team.best_lineup).to be_nil
       end
     end
 
@@ -210,7 +210,7 @@ RSpec.describe Team, type: :model do
   describe '#full_squad?' do
     context 'without players' do
       it 'returns false' do
-        expect(team.full_squad?).to eq(false)
+        expect(team.full_squad?).to be(false)
       end
     end
 
@@ -218,7 +218,7 @@ RSpec.describe Team, type: :model do
       let(:team) { create(:team, :with_15_players) }
 
       it 'returns false' do
-        expect(team.full_squad?).to eq(false)
+        expect(team.full_squad?).to be(false)
       end
     end
 
@@ -226,7 +226,7 @@ RSpec.describe Team, type: :model do
       let(:team) { create(:team, :with_players) }
 
       it 'returns true' do
-        expect(team.full_squad?).to eq(true)
+        expect(team.full_squad?).to be(true)
       end
     end
   end
@@ -234,7 +234,7 @@ RSpec.describe Team, type: :model do
   describe '#vacancies?' do
     context 'without players' do
       it 'returns true' do
-        expect(team.vacancies?).to eq(true)
+        expect(team.vacancies?).to be(true)
       end
     end
 
@@ -242,7 +242,7 @@ RSpec.describe Team, type: :model do
       let(:team) { create(:team, :with_15_players) }
 
       it 'returns true' do
-        expect(team.vacancies?).to eq(true)
+        expect(team.vacancies?).to be(true)
       end
     end
 
@@ -250,7 +250,7 @@ RSpec.describe Team, type: :model do
       let(:team) { create(:team, :with_players) }
 
       it 'returns false' do
-        expect(team.vacancies?).to eq(false)
+        expect(team.vacancies?).to be(false)
       end
     end
   end
@@ -282,7 +282,7 @@ RSpec.describe Team, type: :model do
   describe '#sales_period?' do
     context 'without auctions' do
       it 'returns false' do
-        expect(team.sales_period?).to eq(false)
+        expect(team.sales_period?).to be(false)
       end
     end
 
@@ -292,7 +292,7 @@ RSpec.describe Team, type: :model do
       end
 
       it 'returns false' do
-        expect(team.sales_period?).to eq(false)
+        expect(team.sales_period?).to be(false)
       end
     end
 
@@ -302,7 +302,7 @@ RSpec.describe Team, type: :model do
       end
 
       it 'returns true' do
-        expect(team.sales_period?).to eq(true)
+        expect(team.sales_period?).to be(true)
       end
     end
   end

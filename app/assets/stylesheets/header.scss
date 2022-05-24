@@ -252,7 +252,7 @@
 
         z-index: 1;
 
-        transform-origin: 4px 0px;
+        transform-origin: 4px 0;
 
         transition: transform 0.5s cubic-bezier(0.77,0.2,0.05,1.0),
         background 0.5s cubic-bezier(0.77,0.2,0.05,1.0),
@@ -286,7 +286,7 @@
       #menu {
         position: absolute;
         width: 1200%;
-        margin: -150px 0 0 0;
+        margin: -150px 0 0;
         padding: 150px 50px 150px 150px;
         right: -100px;
 
@@ -693,8 +693,8 @@
         #menu {
           position: absolute;
           width: 1000%;
-          margin: -130px 0 0 0;
-          padding: 100px 50px 500px 50px;
+          margin: -130px 0 0;
+          padding: 100px 50px 500px;
           right: -100px;
         }
 

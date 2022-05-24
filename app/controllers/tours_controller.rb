@@ -8,7 +8,7 @@ class ToursController < ApplicationController
   def show
     redirect_to leagues_path unless tour
 
-    @tournament_players = tour.tournament_round.round_players.sort_by(&:result_score).reverse.take(5)
+    @tournament_players = tour.tournament_round.round_players.with_score.sort_by(&:result_score).reverse.take(5)
     @league_players = MatchPlayer.by_tour(tour.id).main.with_score.sort_by(&:total_score).reverse.take(5)
   end
 

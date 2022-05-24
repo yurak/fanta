@@ -580,8 +580,8 @@ RSpec.describe 'Lineups', type: :request do
       it { expect(tour.lineups.count).to eq(1) }
 
       it 'calls Cloner service' do
-        cloner = instance_double(TeamLineups::Cloner)
-        allow(TeamLineups::Cloner).to receive(:new).and_return(cloner)
+        cloner = instance_double(Lineups::Cloner)
+        allow(Lineups::Cloner).to receive(:new).and_return(cloner)
         allow(cloner).to receive(:call).and_return('lineup')
 
         get clone_team_lineups_path(lineup.team, tour_id: tour.id)

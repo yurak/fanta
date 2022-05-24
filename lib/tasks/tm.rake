@@ -8,12 +8,12 @@ namespace :tm do
 
       p id
       html_page = Nokogiri::HTML(RestClient.get(player.tm_url))
-      tm_club_name = html_page.css('.hauptpunkt').children.children.text
+      tm_club_name = html_page.css('.data-header__club').children[1]&.text
       club = Club.find_by(tm_name: tm_club_name)
 
       if club && tm_club_name != player.club.tm_name
         puts "Player #{player.id} #{player.name} changes club to #{tm_club_name}"
-      elsif tm_club_name == ''
+      elsif tm_club_name.nil?
         puts "Player #{player.id} #{player.name} retired!"
       elsif player.club.name != 'xxx' && club.nil?
         puts "Player #{player.id} #{player.name} leave Mantra tournaments. New club: #{tm_club_name}"

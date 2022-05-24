@@ -27,8 +27,10 @@
                 .player-show-kit
                   %object{data: lineup.tour.national? ? match_player.player.national_kit_path : match_player.player.kit_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
                     = image_tag('kit_small_default2.png')
-                .module-position.slot-position{class: "slot-position-#{match_player.real_position.tr('/', '')}"}
-                  = match_player.real_position
+                .module-position-block.player-positions-block
+                  - match_player.real_position_arr.each do |position|
+                    .player-position{class: "player-position-#{position}"}
+                      = slot_position_name(position)
               .match-player-data
                 .match-player-data
                   .match-player-data-base

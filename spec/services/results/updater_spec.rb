@@ -7,17 +7,17 @@ RSpec.describe Results::Updater do
     context 'with blank tour' do
       let(:tour) { nil }
 
-      it { expect(updater.call).to eq(false) }
+      it { expect(updater.call).to be(false) }
     end
 
     context 'with not closed tour' do
       let(:tour) { create(:tour) }
 
-      it { expect(updater.call).to eq(false) }
+      it { expect(updater.call).to be(false) }
     end
 
     context 'when tour without matches' do
-      it { expect(updater.call).to eq(false) }
+      it { expect(updater.call).to be(false) }
     end
 
     context 'when tour with matches and host team win' do

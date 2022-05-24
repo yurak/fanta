@@ -107,7 +107,7 @@ RSpec.describe PlayersHelper, type: :helper do
       end
     end
 
-    context 'with slot and team with players ' do
+    context 'with slot and team with players' do
       it 'returns players without malus' do
         expect(helper.available_by_slot(team, slot)).to have_key('')
       end
@@ -155,13 +155,12 @@ RSpec.describe PlayersHelper, type: :helper do
     context 'with national tournament with players' do
       let(:tournament_round) { create(:tournament_round) }
       let(:team) { create(:national_team) }
-      # let(:matches) { create(:national_match, host_team: team, tournament_round: tournament_round) }
 
       it 'returns players for this round by position' do
         create(:national_match, host_team: team, tournament_round: tournament_round)
         players = create_list(:player, 2, :with_pos_por, national_team: team)
 
-        expect(helper.tournament_round_players(tournament_round, 'Por')).to eq(players)
+        expect(helper.tournament_round_players(tournament_round, 'Por').first).to eq([team, players])
       end
     end
   end
@@ -178,7 +177,7 @@ RSpec.describe PlayersHelper, type: :helper do
       end
 
       it 'returns nil' do
-        expect(helper.player_by_mp(match_player_double, team_module)).to eq(nil)
+        expect(helper.player_by_mp(match_player_double, team_module)).to be_nil
       end
     end
 
@@ -209,7 +208,7 @@ RSpec.describe PlayersHelper, type: :helper do
       end
 
       it 'returns false' do
-        expect(helper.user_tournament_team(tournament.id)).to eq(false)
+        expect(helper.user_tournament_team(tournament.id)).to be(false)
       end
     end
 
@@ -219,7 +218,7 @@ RSpec.describe PlayersHelper, type: :helper do
       end
 
       it 'returns nil' do
-        expect(helper.user_tournament_team(tournament.id)).to eq(nil)
+        expect(helper.user_tournament_team(tournament.id)).to be_nil
       end
     end
 

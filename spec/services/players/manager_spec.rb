@@ -27,13 +27,13 @@ RSpec.describe Players::Manager do
     context 'with blank params' do
       let(:player_hash) { {} }
 
-      it { expect(manager.call).to eq(false) }
+      it { expect(manager.call).to be(false) }
     end
 
     context 'without club_name and national_team' do
       let(:club_name) { nil }
 
-      it { expect(manager.call).to eq(false) }
+      it { expect(manager.call).to be(false) }
     end
 
     context 'with national_team flag and not existed national_team and without club_name' do
@@ -52,7 +52,7 @@ RSpec.describe Players::Manager do
         }
       end
 
-      it { expect(manager.call).to eq(false) }
+      it { expect(manager.call).to be(false) }
     end
 
     context 'with national_team flag and existed national_team and without club_name' do
@@ -75,7 +75,7 @@ RSpec.describe Players::Manager do
         create(:national_team, code: 'it')
       end
 
-      it { expect(manager.call).to eq(true) }
+      it { expect(manager.call).to be(true) }
 
       it 'creates player with correct name' do
         manager.call
@@ -107,7 +107,7 @@ RSpec.describe Players::Manager do
         }
       end
 
-      it { expect(manager.call).to eq(true) }
+      it { expect(manager.call).to be(true) }
 
       it 'creates player with correct name' do
         manager.call
@@ -132,7 +132,7 @@ RSpec.describe Players::Manager do
       let(:player_id) { nil }
       let(:player_position1) { nil }
 
-      it { expect(manager.call).to eq(false) }
+      it { expect(manager.call).to be(false) }
     end
 
     context 'with multiple positions' do
@@ -148,7 +148,7 @@ RSpec.describe Players::Manager do
         }
       end
 
-      it { expect(manager.call).to eq(true) }
+      it { expect(manager.call).to be(true) }
 
       it 'creates player with correct name' do
         manager.call

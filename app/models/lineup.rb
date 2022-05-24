@@ -26,6 +26,8 @@ class Lineup < ApplicationRecord
   MAX_PLAYERS = 19
 
   def total_score
+    return final_score unless final_score.zero?
+
     match_players.main.map(&:total_score).compact.sum + defence_bonus
   end
 
@@ -33,13 +35,13 @@ class Lineup < ApplicationRecord
     return 0 if def_average_score < min_avg_def_score
     return 5 if def_average_score >= max_avg_def_score
 
-    ((def_average_score - min_avg_def_score) / DEF_BONUS_STEP + 1).floor
+    (((def_average_score - min_avg_def_score) / DEF_BONUS_STEP) + 1).floor
   end
 
   def goals
     return 0 if total_score < first_goal
 
-    ((total_score - first_goal) / goal_increment + 1).floor
+    (((total_score - first_goal) / goal_increment) + 1).floor
   end
 
   def match
@@ -117,10 +119,10 @@ class Lineup < ApplicationRecord
   end
 
   def win?
-    match.host_win? && match.host == team || match.guest_win? && match.guest == team
+    (match.host_win? && match.host == team) || (match.guest_win? && match.guest == team)
   end
 
   def lose?
-    match.guest_win? && match.host == team || match.host_win? && match.guest == team
+    (match.guest_win? && match.host == team) || (match.host_win? && match.guest == team)
   end
 end

@@ -11,13 +11,13 @@ RSpec.describe TournamentRounds::Creator do
     context 'with invalid tournament id' do
       let(:tournament_id) { 'invalid' }
 
-      it { expect(creator.call).to eq(false) }
+      it { expect(creator.call).to be(false) }
     end
 
     context 'with invalid season id' do
       let(:season_id) { 'invalid' }
 
-      it { expect(creator.call).to eq(false) }
+      it { expect(creator.call).to be(false) }
     end
 
     context 'without count param' do

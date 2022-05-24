@@ -90,7 +90,7 @@ RSpec.describe 'Teams', type: :request do
     let(:params) do
       {
         player_teams: {
-          "12345": { transfer_status: 'transferable' }
+          '12345': { transfer_status: 'transferable' }
         }
       }
     end

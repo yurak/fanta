@@ -163,6 +163,67 @@ body, html {
   }
 }
 
+/* ----- Player position icons ----- */
+
+.player-positions-block {
+  font-size: 0;
+  width: fit-content;
+  height: 20px;
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+
+.player-position {
+  position: relative;
+  display: inline-block;
+  color: #ffffff;
+  padding: 4px 6px;
+  height: 20px;
+  font-size: 12px;
+  line-height: 14px;
+  text-align: center;
+  font-weight: 700;
+}
+
+.module-position-block {
+  display: flex;
+  column-gap: 1px;
+  background: #181715;
+  border: 1px solid #181715;
+  width: fit-content;
+  height: 20px;
+  border-radius: 4px;
+  font-size: 0;
+
+  .player-position {
+    height: 18px;
+    padding: 3px 4px;
+  }
+}
+
+.player-position-Por {
+  background: #FFB319;
+}
+
+.player-position-Dc, .player-position-Dd, .player-position-Ds {
+  background: #4EAD57;
+}
+
+.player-position-E, .player-position-M, .player-position-C {
+  background: #006EF5;
+}
+
+.player-position-T, .player-position-W {
+  background: #BA44F1;
+}
+
+.player-position-A, .player-position-Pc {
+  background: #DB0A23;
+}
+
+/*------------------------------------------*/
+
 .main-players {
   .player-data {
     border-bottom: 1px solid #E5E6E4;
@@ -660,6 +721,29 @@ body, html {
           height: 24px;
         }
       }
+    }
+  }
+}
+
+/*---------------- forms error notices --------------------*/
+
+.error-item {
+  font-weight: normal;
+  line-height: 24px;
+  font-size: 16px;
+  display: grid;
+  grid-template-columns: 24px auto;
+  column-gap: 16px;
+  margin: 10px 25px;
+  color: #ff0000;
+
+  .error-icon {
+    width: 100%;
+    height: 100%;
+
+    img {
+      width: 24px;
+      height: 24px;
     }
   }
 }
