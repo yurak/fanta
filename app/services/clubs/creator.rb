@@ -3,26 +3,29 @@ module Clubs
     def call
       tournaments.each do |tournament_code, clubs|
         tournament = Tournament.find_by(code: tournament_code)
-
         next unless tournament
 
-        clubs.each do |code, name|
-          club = find_club(code, name)
-
-          if tournament.eurocup
-            if club
-              club.update(ec_tournament: tournament)
-            else
-              Club.create(code: code, name: name, ec_tournament: tournament)
-            end
-          else
-            Club.create(code: code, name: name, tournament: tournament) unless club
-          end
-        end
+        process_clubs(clubs, tournament)
       end
     end
 
     private
+
+    def process_clubs(clubs, tournament)
+      clubs.each do |code, name|
+        club = find_club(code, name)
+
+        if tournament.eurocup?
+          if club
+            club.update(ec_tournament: tournament)
+          else
+            Club.create(code: code, name: name, ec_tournament: tournament)
+          end
+        else
+          Club.create(code: code, name: name, tournament: tournament) unless club
+        end
+      end
+    end
 
     def find_club(code, name)
       Club.find_by(code: code) || Club.find_by(name: name)

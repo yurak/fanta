@@ -86,7 +86,7 @@
                 = image_tag('avatar.png')
             .player-show-kit
               %object{data: player.profile_kit_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                = image_tag('kit_default2.png')
+                = image_tag('kit_default.png')
           .player-show-close
             = link_to league_auction_path(league) do
               .auction-close-x &times;
@@ -160,7 +160,7 @@
                 = image_tag('avatar.png')
             .player-show-kit
               %object{data: transfer.player.kit_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                = image_tag('kit_small_default2.png')
+                = image_tag('kit_small_default.png')
             .player-show-team
               %object{data: transfer.team.logo_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
                 = image_tag('default_logo.png')

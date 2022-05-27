@@ -67,13 +67,19 @@ module TournamentMatches
         guest_club: club(match_data['away']['name']),
         source_match_id: match_data['id'],
         round_name: match_data['roundName'],
-        time: (Time.parse(match_data['status']['startTimeStr']).utc + 1.hour).strftime('%H:%M'),
+        time: start_time(match_data),
         date: match_data['status']['startDateStr']
       )
     end
 
     def club(name)
       Club.find_by(name: name) || Club.find_by(full_name: name)
+    end
+
+    def start_time(match_data)
+      return '' unless match_data['status']['startTimeStr']
+
+      (Time.parse(match_data['status']['startTimeStr']).utc + 1.hour).strftime('%H:%M')
     end
 
     def tournament_rounds

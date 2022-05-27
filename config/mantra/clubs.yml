@@ -102,6 +102,31 @@ ligue_1:
   SEN: Saint-Etienne
   STR: Strasbourg
   TRO: Troyes
+championship:
+  BIR: Birmingham City
+  BLB: Blackburn Rovers
+  BLP: Blackpool
+  BRC: Bristol City
+  BOU: Bournemouth
+  CAR: Cardiff City
+  COV: Coventry City
+  FUL: Fulham
+  HUD: Huddersfield Town
+  HUL: Hull City
+  LUT: Luton Town
+  MID: Middlesbrough
+  MLW: Millwall
+  NFO: Nottingham Forest
+  PRE: Preston North End
+  QPR: Queens Park Rangers
+  REA: Reading
+  ROT: Rotherham United
+  SHU: Sheffield United
+  STO: Stoke City
+  SUN: Sunderland
+  SWA: Swansea City
+  WBA: West Bromwich
+  WIG: Wigan Athletic
 champions_league:
   BRU: Brugge
   PSG: PSG

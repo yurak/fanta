@@ -12,13 +12,17 @@ module Transfers
       return unless init_transfer && player_team && auction
 
       ActiveRecord::Base.transaction do
-        Transfer.create(player: player, team: team, league: team.league, auction: auction, price: init_transfer.price, status: status)
+        create_transfer
         team.update(budget: team.budget + init_transfer.price)
         player_team.destroy
       end
     end
 
     private
+
+    def create_transfer
+      Transfer.create(player: player, team: team, league: team.league, auction: auction, price: init_transfer.price, status: status)
+    end
 
     def init_transfer
       @init_transfer ||= player.transfer_by(team)

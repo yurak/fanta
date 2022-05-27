@@ -26,16 +26,20 @@ module AuctionRounds
       round.player_bids.initial.group_by(&:player_id).each do |player_group|
         player_bids = player_group[1].sort_by(&:price).reverse
 
-        if player_bids.count == 1
-          process_bid(player_bids.first)
-        else
-          top_bids = player_bids.group_by(&:price).first[1]
-
-          process_bid(top_bids.first) if top_bids.count == 1
-        end
+        process_player_bids(player_bids)
       end
 
       round.player_bids.initial.map(&:failed!)
+    end
+
+    def process_player_bids(player_bids)
+      if player_bids.count == 1
+        process_bid(player_bids.first)
+      else
+        top_bids = player_bids.group_by(&:price).first[1]
+
+        process_bid(top_bids.first) if top_bids.count == 1
+      end
     end
 
     def process_bid(bid)

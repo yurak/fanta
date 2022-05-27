@@ -3,6 +3,7 @@ namespace :teams do
   task reset: :environment do
     Team.all.each do |team|
       team.players.clear
+      team.update(budget: 260)
     end
     puts 'Done!'
   end
@@ -14,6 +15,7 @@ namespace :teams do
 
     league.teams.each do |team|
       team.players.clear
+      team.update(budget: 260)
     end
     puts 'Done!'
   end

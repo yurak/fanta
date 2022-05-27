@@ -31,6 +31,10 @@ class Team < ApplicationRecord
     @league_matches ||= matches.by_league(league.id)
   end
 
+  def league_transfers
+    @league_transfers ||= transfers.by_league(league.id)
+  end
+
   def logo_path
     logo_url.presence || 'default_logo.png'
   end

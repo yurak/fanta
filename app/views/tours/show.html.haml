@@ -105,7 +105,7 @@
                       = image_tag('avatar.png')
                   .round-player-show-kit
                     %object{data: tour.national? ? r_player.player.national_kit_path : r_player.player.kit_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                      = image_tag('kit_small_default2.png')
+                      = image_tag('kit_small_default.png')
                 .round-player-stats-name= r_player.player.name
               .round-player-stats-param= r_player.score
               .round-player-stats-param.round-player-stats-score= r_player.result_score
@@ -138,7 +138,7 @@
                         = image_tag('avatar.png')
                     .round-player-show-kit
                       %object{data: r_player.player.kit_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                        = image_tag('kit_small_default2.png')
+                        = image_tag('kit_small_default.png')
                   .round-player-stats-name= r_player.player.name
                 .round-player-stats-param= r_player.score
                 .round-player-stats-param.round-player-stats-score= r_player.total_score

@@ -7,7 +7,7 @@ namespace :tournament_matches do
 
   desc 'Create Serie A TournamentMatches'
   task generate_seriea_matches: :environment do
-    TournamentMatches::SerieaGenerator.call
+    # TournamentMatches::SerieaGenerator.call
   end
 
   desc 'Create Euro2020 TournamentMatches'
