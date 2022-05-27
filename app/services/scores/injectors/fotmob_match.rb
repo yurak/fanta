@@ -1,8 +1,7 @@
 module Scores
   module Injectors
     class FotmobMatch < ApplicationService
-      FOTMOB_MATCH_URL = 'https://www.fotmob.com/matchDetails?matchId='.freeze
-      FOTMOB_MATCH_URL_NEW = 'https://www.fotmob.com/match/'.freeze
+      FOTMOB_MATCH_URL = 'https://www.fotmob.com/match/'.freeze
       MIN_PLAYED_MINUTES_FOR_CS = 60
 
       attr_reader :match
@@ -41,31 +40,38 @@ module Scores
         player_data = team_hash[round_player.pseudo_name.downcase]
         return unless player_data
 
-        if round_player.manual_lock
-          round_player.update(score: player_data[:rating].to_f)
-        else
-          round_player.update(
-            score: player_data[:rating].to_f, goals: player_data[:goals] || 0, assists: player_data[:assists] || 0,
-            cleansheet: cleansheet?(round_player, team_missed_goals.to_i, player_data[:played_minutes]),
-            failed_penalty: player_data[:failed_penalty] || 0, caught_penalty: player_data[:caught_penalty] || 0,
-            missed_goals: player_data[:missed_goals] || 0, own_goals: player_data[:own_goals] || 0,
-            played_minutes: player_data[:played_minutes] || 0, yellow_card: player_data[:yellow_card], red_card: player_data[:red_card]
-          )
-        end
+        round_player.update(round_player_params(round_player, player_data, team_missed_goals))
+
         team_hash.except!(round_player.pseudo_name.downcase)
+      end
+
+      def round_player_params(round_player, player_data, team_missed_goals)
+        return { score: rating(player_data) } if round_player.manual_lock
+
+        full_player_hash(round_player, player_data, team_missed_goals)
+      end
+
+      def full_player_hash(round_player, player_data, team_missed_goals)
+        {
+          score: rating(player_data), goals: player_data[:goals] || 0, assists: player_data[:assists] || 0,
+          cleansheet: cleansheet?(round_player, team_missed_goals.to_i, player_data[:played_minutes]),
+          failed_penalty: player_data[:failed_penalty] || 0, caught_penalty: player_data[:caught_penalty] || 0,
+          missed_goals: player_data[:missed_goals] || 0, own_goals: player_data[:own_goals] || 0,
+          played_minutes: player_data[:played_minutes] || 0, yellow_card: player_data[:yellow_card], red_card: player_data[:red_card]
+        }
       end
 
       def players_hash(team)
         scores_hash = team['players'].each_with_object({}) do |line, hash|
           line.each do |player_data|
-            next unless player_data.dig('rating', 'num')
+            next if player_data['minutesPlayed'].zero?
 
             hash[player_name(player_data)] = player_hash(player_data)
           end
         end
 
         team['bench'].each_with_object(scores_hash) do |player_data, hash|
-          next unless player_data.dig('rating', 'num')
+          next if player_data['minutesPlayed'].zero?
 
           hash[player_name(player_data)] = player_hash(player_data)
         end
@@ -80,20 +86,28 @@ module Scores
 
         return hash unless player_data['events']
 
-        hash.merge!(
-          {
-            goals: player_data['events']['g'], assists: player_data['events']['as'],
-            caught_penalty: player_data['events']['savedPenalties'], failed_penalty: player_data['events']['mp'],
-            own_goals: player_data['events']['og'],
-            yellow_card: card?(player_data['events']['yc']),
-            red_card: card?(player_data['events']['ycrc']) || card?(player_data['events']['rc'])
-          }
-        )
+        hash.merge!(player_events_hash(player_data))
+      end
+
+      def player_events_hash(player_data)
+        {
+          goals: player_data['events']['g'], assists: player_data['events']['as'],
+          caught_penalty: player_data['events']['savedPenalties'], failed_penalty: player_data['events']['mp'],
+          own_goals: player_data['events']['og'],
+          yellow_card: card?(player_data['events']['yc']),
+          red_card: card?(player_data['events']['ycrc']) || card?(player_data['events']['rc'])
+        }
       end
 
       def player_name(player_data)
         name = "#{player_data['name']['firstName']} #{player_data['name']['lastName']}"
         name.lstrip.unicode_normalize(:nfd).gsub(/[^\x00-\x7F]/n, '').downcase.to_s
+      end
+
+      def rating(player_data)
+        return 6 if player_data[:rating].nil? && player_data[:played_minutes].positive?
+
+        player_data[:rating].to_f
       end
 
       def cleansheet?(round_player, team_missed_goals, played_minutes)
@@ -131,7 +145,7 @@ module Scores
       end
 
       def match_data
-        @match_data ||= new_api? ? JSON.parse(html_page)['props']['pageProps']['initialState']['matchFacts']['data'] : JSON.parse(request)
+        @match_data ||= JSON.parse(html_page)['props']['pageProps']['initialState']['matchFacts']['data']
       end
 
       def html_page
@@ -139,16 +153,7 @@ module Scores
       end
 
       def request
-        RestClient.get("#{fotmob_url}#{match.source_match_id}")
-      end
-
-      def fotmob_url
-        new_api? ? FOTMOB_MATCH_URL_NEW : FOTMOB_MATCH_URL
-      end
-
-      def new_api?
-        # TODO: add config variable to this service
-        true
+        RestClient.get("#{FOTMOB_MATCH_URL}#{match.source_match_id}")
       end
     end
   end

@@ -17,11 +17,15 @@ module TournamentRounds
     private
 
     def all_matches_data
-      JSON.parse(request)['matchesTab']['data']['matchesCombinedByRound']
+      JSON.parse(html_page)['props']['pageProps']['initialState']['league'].first[1]['data']['matches']['data']['matchesCombinedByRound']
+    end
+
+    def html_page
+      @html_page ||= Nokogiri::HTML(request).css('#__NEXT_DATA__').text
     end
 
     def request
-      @request ||= RestClient.get(tournament_url)
+      @request = RestClient.get(tournament_url)
     end
   end
 end

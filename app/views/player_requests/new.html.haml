@@ -16,7 +16,7 @@
           = image_tag('avatar.png')
       .player-show-kit
         %object{data: player.profile_kit_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-          = image_tag('kit_default2.png')
+          = image_tag('kit_default.png')
   .request-block
     .form-block
       = form_for @player_request, url: player_player_requests_path(player) do |f|

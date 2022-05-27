@@ -6,6 +6,7 @@ RSpec.describe Tour, type: :model do
     it { is_expected.to belong_to(:tournament_round) }
     it { is_expected.to have_many(:matches).dependent(:destroy) }
     it { is_expected.to have_many(:lineups).dependent(:destroy) }
+    it { is_expected.to have_many(:round_players).through(:tournament_round) }
     it { is_expected.to delegate_method(:teams).to(:league) }
   end
 

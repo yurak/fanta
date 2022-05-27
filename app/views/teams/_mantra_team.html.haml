@@ -111,7 +111,7 @@
                       = image_tag('avatar.png')
                   .player-show-kit
                     %object{data: player.kit_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                      = image_tag('kit_small_default2.png')
+                      = image_tag('kit_small_default.png')
                 .team-player-name
                   .team-player-last-name
                     = player.name
@@ -191,7 +191,7 @@
           .team-transfers-header-item.right= t('teams.price')
           .team-transfers-header-item.center= t('teams.club')
           .team-transfers-header-item
-        - team.transfers.reverse.each do |transfer|
+        - team.league_transfers.reverse.each do |transfer|
           = link_to player_path(transfer.player) do
             .team-player-item
               .team-player-param-item.team-player-data
@@ -201,7 +201,7 @@
                       = image_tag('avatar.png')
                   .player-show-kit
                     %object{data: transfer.player.kit_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                      = image_tag('kit_small_default2.png')
+                      = image_tag('kit_small_default.png')
                 .team-player-name
                   .team-player-last-name
                     = transfer.player.name

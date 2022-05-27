@@ -64,10 +64,10 @@
                       .player-show-kit
                         - if tour.national?
                           %object{data: player_by_mp(mp, team_module)&.national_kit_path || '', type: ApplicationRecord::CONTENT_TYPE_PNG, id: "kit-#{mp.index}"}
-                            = image_tag('kit_small_default2.png')
+                            = image_tag('kit_small_default.png')
                         - else
                           %object{data: player_by_mp(mp, team_module)&.kit_path || '', type: ApplicationRecord::CONTENT_TYPE_PNG, id: "kit-#{mp.index}"}
-                            = image_tag('kit_small_default2.png')
+                            = image_tag('kit_small_default.png')
                       .squad-position
                         .module-position.slot-position{class: "slot-position-#{team_module.slots[mp.index]&.position&.tr('/', '')}"}
                           - if team_module.slots[mp.index]&.position
@@ -157,7 +157,7 @@
                                         = image_tag('avatar.png')
                                     .player-show-kit
                                       %object{data: player.national_kit_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                                        = image_tag('kit_small_default2.png')
+                                        = image_tag('kit_small_default.png')
                                   .modal-player-data
                                     .player-positions
                                       - player.player_positions.includes(:position).each do |player_position|

@@ -8,8 +8,8 @@ class ToursController < ApplicationController
   def show
     redirect_to leagues_path unless tour
 
-    @tournament_players = tour.tournament_round.round_players.with_score.sort_by(&:result_score).reverse.take(5)
-    @league_players = MatchPlayer.by_tour(tour.id).main.with_score.sort_by(&:total_score).reverse.take(5)
+    @tournament_players = tour.round_players.with_score.sort_by(&:result_score).reverse.take(5)
+    @league_players = MatchPlayer.by_tour(tour.id).main_with_score.sort_by(&:total_score).reverse.take(5)
   end
 
   def update
@@ -18,9 +18,10 @@ class ToursController < ApplicationController
     redirect_to tour_path(tour)
   end
 
+  # TODO: move action to RoundPlayersController#update
   def inject_scores
     if can? :inject_scores, Tour
-      injector_klass.call(tournament_round: tour.tournament_round)
+      Scores::Injectors::Fotmob.call(tournament_round: tour.tournament_round)
       Scores::PositionMalus::Updater.call(tour: tour)
     end
 
@@ -28,10 +29,6 @@ class ToursController < ApplicationController
   end
 
   private
-
-  def injector_klass
-    @injector_klass ||= Scores::Injectors::Strategy.call(tour)
-  end
 
   def tour
     @tour ||= Tour.find(params[:id])

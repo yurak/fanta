@@ -4,6 +4,7 @@ class Tour < ApplicationRecord
 
   has_many :matches, dependent: :destroy
   has_many :lineups, dependent: :destroy
+  has_many :round_players, through: :tournament_round
 
   delegate :teams, to: :league
 

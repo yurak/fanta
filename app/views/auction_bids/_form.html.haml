@@ -22,7 +22,7 @@
                           = image_tag('avatar.png')
                       .player-show-kit
                         %object{data: p_bid.object.player&.kit_path || '', type: ApplicationRecord::CONTENT_TYPE_PNG, id: "kit-#{p_bid.index}"}
-                          = image_tag('kit_small_default2.png')
+                          = image_tag('kit_small_default.png')
                     .team-player-name-pos
                       .team-player-name
                         .team-player-last-name{ id: "name-#{p_bid.index}" }
@@ -92,7 +92,7 @@
                     = image_tag('avatar.png')
                 .round-player-show-kit
                   %object{data: player.kit_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                    = image_tag('kit_small_default2.png')
+                    = image_tag('kit_small_default.png')
               .round-player-stats-name= player.name
             .round-player-stats-param.round-player-stats-score= league.transfers.by_player(player)&.last.price
             .round-player-stats-param.round-player-stats-positions.player-show-positions

@@ -32,7 +32,7 @@ RSpec.describe TournamentRounds::FotmobParser do
     end
 
     context 'with tournament_url and without tournament_round' do
-      let(:tournament_url) { 'https://www.fotmob.com/leagues?id=54&tab=matches&type=league' }
+      let(:tournament_url) { 'https://www.fotmob.com/leagues/54/matches/1.-bundesliga/by-round' }
 
       it 'returns match day data' do
         VCR.use_cassette 'fotmob_league_data' do
@@ -42,7 +42,7 @@ RSpec.describe TournamentRounds::FotmobParser do
     end
 
     context 'with tournament_url and with tournament_round with number nil' do
-      let(:tournament_url) { 'https://www.fotmob.com/leagues?id=54&tab=matches&type=league' }
+      let(:tournament_url) { 'https://www.fotmob.com/leagues/54/matches/1.-bundesliga/by-round' }
       let(:tournament_round) { create(:tournament_round, number: nil) }
 
       it 'returns match day data' do
@@ -53,7 +53,7 @@ RSpec.describe TournamentRounds::FotmobParser do
     end
 
     context 'with tournament_url and with tournament_round with existed number' do
-      let(:tournament_url) { 'https://www.fotmob.com/leagues?id=54&tab=matches&type=league' }
+      let(:tournament_url) { 'https://www.fotmob.com/leagues/54/matches/1.-bundesliga/by-round' }
       let(:tournament_round) { create(:tournament_round, number: 2) }
       let(:round_match_day_data) do
         [

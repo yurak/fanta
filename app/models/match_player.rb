@@ -17,6 +17,7 @@ class MatchPlayer < ApplicationRecord
 
   scope :main, -> { where.not(real_position: nil) }
   scope :with_score, -> { includes(:round_player).joins(:round_player).where('round_players.score > ?', 0) }
+  scope :main_with_score, -> { main.with_score }
   scope :subs, -> { where(real_position: nil) }
   scope :subs_bench, -> { subs.where.not(subs_status: :not_in_squad) }
   scope :not_in_lineup, -> { subs.where(subs_status: :not_in_squad) }
