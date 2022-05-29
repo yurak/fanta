@@ -215,7 +215,7 @@
             .round-table-title-text= t('tours.transfers_history')
             .round-table-title-icon
               = image_tag('icons/arrow_blue.png')
-    - if tour.eurocup?
+    - if tour.fanta?
       .round-table
         .round-table-title.best-players-title
           = link_to league_results_path(tour.league) do
