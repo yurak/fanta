@@ -13,7 +13,6 @@
  */
 
 @import "bootstrap";
-@import "multi-select";
 @import "bootstrap-toggle";
 @import "flag-icon";
 
@@ -29,6 +28,7 @@
 @import "links";
 @import "matches";
 @import "national_teams";
+@import "nav_panel";
 @import "players";
 @import "results";
 @import "round_players";
@@ -63,6 +63,10 @@ body, html {
   position: relative;
   background: #FFFFFF;
   font-family: 'Mont Regular';
+}
+
+.page-block {
+  height: 100%;
 }
 
 .actions-buttons {
@@ -749,53 +753,6 @@ body, html {
 }
 
 /* ---------------- OLD UI ------------------------*/
-
-.page {
-  display: grid;
-  grid-template-columns: 200px auto;
-  height: 100%;
-}
-
-.main-block {
-  height: 100%;
-}
-.main {
-  padding-top: 140px;
-  background: image_url('bg-grey.jpg') #e2e2e2 round;
-  height: 100%;
-  width: 100%;
-}
-
-.page-info {
-  padding: 140px 40px 20px;
-}
-
-.flash-block {
-  height: 50px;
-  line-height: 50px;
-  width: 100%;
-  max-width: 1080px;
-  margin: 0 auto;
-  padding: 0 40px;
-  text-align: center;
-
-  .flash-item {
-    height: 100%;
-    width: 100%;
-    font-size: 20px;
-    font-weight: bolder;
-  }
-
-  .flash-notice {
-    background-color: #78d236ad;
-    color: #001280
-  }
-
-  .flash-error {
-    background-color: #ff0000bd;
-    color: #000000; //#001280
-  }
-}
 
 .center {
   text-align: center;

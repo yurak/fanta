@@ -1,0 +1,48 @@
+.nav-panel
+  .left-nav
+    .root-logo
+      = link_to root_path do
+        = image_tag('logo628.png')
+    - if user_signed_in?
+      - current_user.teams.each do |team|
+        - if current_user.active_team == team
+          .nav-logo.nav-logo-active
+            = image_tag(team.league.tournament.logo_path)
+        - else
+          .nav-logo
+            = link_to user_path(current_user, active_team_id: team.id), method: :put do
+              = image_tag(team.league.tournament.logo_path)
+    .nav-logo-bottom
+      .nav-logo-small
+        = link_to leagues_path do
+          .nav-link-icon= '🏑'
+          .nav-link-title= t('header.leagues')
+      -#.nav-logo-small
+      -#  = link_to '' do
+      -#    .nav-link-icon= '🗓'
+      -#    .nav-link-title= t('header.fixtures')
+      -#.nav-logo-small
+      -#  = link_to '' do
+      -#    .nav-link-icon= '🏆'
+      -#    .nav-link-title= t('header.deeds')
+      .nav-logo-small
+        = link_to '' do
+          .nav-link-icon= '⁉️'
+          .nav-link-title= t('header.help')
+      -#.nav-logo-small
+      -#  = link_to '' do
+      -#    .nav-link-icon= '❤️'
+      -#    .nav-link-title= t('header.donate')
+      - if current_user&.admin?
+        .nav-logo-small
+          = link_to rails_admin_path do
+            .nav-link-icon= '⛔️'
+            .nav-link-title= t('header.admin')
+      - if user_signed_in?
+        .nav-logo-small
+          = link_to user_path(current_user) do
+            .nav-link-img
+              = image_tag(current_user.avatar_path)
+            .nav-link-title= current_user.name
+  .right-nav
+    test2

@@ -1,0 +1,77 @@
+.nav-panel {
+  position: fixed;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 72px 200px;
+
+  .left-nav {
+    padding: 10px 0;
+
+    a {
+      text-decoration: none;
+    }
+
+    .root-logo {
+      margin: 6px 12px;
+
+      img {
+        width: 48px;
+        height: 48px;
+      }
+    }
+
+    .nav-logo {
+      margin: 6px 12px;
+      text-align: center;
+      height: 48px;
+      padding: 8px;
+
+      img {
+        width: 32px;
+        height: 32px;
+      }
+    }
+
+    .nav-logo-active {
+      padding: 6px;
+      border: 2px solid #261FFF;
+      border-radius: 4px;
+    }
+
+    .nav-logo-small {
+      margin: 10px 8px;
+      text-align: center;
+
+      img {
+        width: 32px;
+        height: 32px;
+      }
+    }
+
+    .nav-logo-bottom {
+      position: fixed;
+      bottom: 20px;
+      width: 72px;
+    }
+
+    .nav-link-icon {
+      font-size: 18px;
+      line-height: 24px;
+    }
+
+    .nav-link-img {
+      margin: auto;
+    }
+
+    .nav-link-title {
+      font-size: 10px;
+      line-height: 14px;
+      color: #847577;
+      margin-top: 4px;
+    }
+  }
+
+  .right-nav {
+    background: #FFEBC2;
+  }
+}
