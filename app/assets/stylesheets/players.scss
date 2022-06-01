@@ -1,7 +1,7 @@
 /* PLAYER INDEX page */
 
 .page-info.players-page {
-  padding: 120px 150px 70px;
+  padding: 32px 10px 70px 282px;
 
   a {
     text-decoration: none;
@@ -9,7 +9,6 @@
   }
 
   .players-title-bar {
-    margin-top: 48px;
     display: grid;
     grid-template-columns: 1fr 2fr;
     line-height: 64px;

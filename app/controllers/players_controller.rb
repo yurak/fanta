@@ -1,7 +1,7 @@
 class PlayersController < ApplicationController
   skip_before_action :authenticate_user!, only: %i[index show]
 
-  helper_method :player
+  helper_method :league, :player, :tournament
 
   respond_to :html
 
@@ -66,10 +66,14 @@ class PlayersController < ApplicationController
   end
 
   def stats_params
-    params.permit(:club, :order, :position, :tournament, :search)
+    params.permit(:club, :order, :position, :tournament, :search, :league)
   end
 
   def tournament
     stats_params[:tournament] ? Tournament.find(stats_params[:tournament]) : Tournament.first
+  end
+
+  def league
+    stats_params[:league] ? League.find(stats_params[:league]) : tournament.leagues.active.first
   end
 end

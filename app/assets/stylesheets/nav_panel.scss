@@ -3,13 +3,15 @@
   height: 100%;
   display: grid;
   grid-template-columns: 72px 200px;
+  color: #181715;
+  z-index: 200;
+
+  a {
+    text-decoration: none;
+  }
 
   .left-nav {
     padding: 10px 0;
-
-    a {
-      text-decoration: none;
-    }
 
     .root-logo {
       margin: 6px 12px;
@@ -32,20 +34,31 @@
       }
     }
 
-    .nav-logo-active {
+    .nav-logo:hover {
+      background: #F4F4F4;
+      border-radius: 4px;
+    }
+
+    .nav-logo-true {
       padding: 6px;
       border: 2px solid #261FFF;
       border-radius: 4px;
     }
 
     .nav-logo-small {
-      margin: 10px 8px;
+      margin: 8px;
       text-align: center;
+      padding: 5px 0;
 
       img {
         width: 32px;
         height: 32px;
       }
+    }
+
+    .nav-logo-small:hover {
+      background: #F4F4F4;
+      border-radius: 4px;
     }
 
     .nav-logo-bottom {
@@ -73,5 +86,256 @@
 
   .right-nav {
     background: #FFEBC2;
+    padding: 16px 8px;
+
+    .league-name {
+      font-weight: 700;
+      font-size: 18px;
+      line-height: 24px;
+    }
+
+    .league-season {
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 16px;
+      color: #847577;
+    }
+
+    .next-round {
+      background: #FFFFFF;
+      border-radius: 4px;
+      padding: 8px;
+      margin: 16px 0;
+
+      .next-round-title {
+        font-weight: 500;
+        font-size: 10px;
+        line-height: 16px;
+
+        .next-round-text {
+          color: #181715;
+          display: inline-block;
+        }
+
+        .next-round-number {
+          color: #847577;
+          display: inline-block;
+        }
+      }
+
+      .next-round-datetime {
+        font-size: 18px;
+        line-height: 24px;
+
+        .next-round-date {
+          font-weight: 700;
+          color: #181715;
+          display: inline-block;
+        }
+
+        .next-round-time {
+          color: #847577;
+          display: inline-block;
+        }
+      }
+
+      .next-round-opponent {
+        padding-top: 8px;
+        font-size: 12px;
+        line-height: 16px;
+
+        .next-round-vs {
+          display: inline-block;
+          color: #847577;
+        }
+
+        .next-round-opponent-logo {
+          display: inline-block;
+          margin: 0 2px 0 4px;
+
+          img {
+            width: 16px;
+            height: 16px;
+          }
+        }
+
+        .next-round-opponent-name {
+          display: inline-block;
+        }
+      }
+
+      .next-round-wait {
+        font-size: 16px;
+        line-height: 120px;
+      }
+    }
+
+    .league-link {
+      margin-bottom: 8px;
+      padding: 10px 16px;
+
+      .league-link-icon {
+        display: inline-block;
+        margin-right: 12px;
+
+        img {
+          width: 20px;
+          height: 20px;
+        }
+      }
+
+      .league-link-text {
+        display: inline-block;
+        color: #181715;
+        font-size: 16px;
+        line-height: 20px;
+      }
+    }
+
+    .link-active-true {
+      background: #181715;
+      border-radius: 8px;
+
+      .league-link-text {
+        color: #EDF67D;
+      }
+
+      img {
+        filter: invert(86%) sepia(44%) saturate(453%) hue-rotate(12deg) brightness(106%) contrast(93%);
+      }
+    }
+
+    .league-link:hover {
+      background: #F4F4F4;
+      border-radius: 8px;
+
+      .league-link-text {
+        color: #181715;
+      }
+
+      img {
+        filter: invert(0%) sepia(1%) saturate(5%) hue-rotate(304deg) brightness(97%) contrast(103%);
+      }
+    }
+
+    .league-team {
+      position: fixed;
+      bottom: 0;
+      border-top: 1px solid rgba(24, 23, 21, 0.2);
+      font-size: 16px;
+      line-height: 24px;
+      width: 184px;
+      padding: 4px 0;
+
+      .league-team-exist {
+        padding: 12px;
+        display: grid;
+        grid-template-columns: 24px auto;
+        column-gap: 12px;
+      }
+
+      img {
+        width: 24px;
+        height: 24px;
+      }
+
+      .league-team-name {
+        color: #181715;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .league-team-empty {
+        font-size: 10px;
+        color: #847577;
+        padding: 16px 0;
+      }
+    }
+  }
+
+  .active-right-nav-false {
+    background: #E5E6E4;
+
+    .league-link:hover {
+      background: #F4F4F4;
+      border-radius: 8px;
+    }
+  }
+
+  .help-modal {
+    display: none;
+    position: fixed;
+    z-index: 201;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+
+    .help-modal-content {
+      z-index: 202;
+      background-color: #FFFFFF;
+      width: 188px;
+      border-radius: 4px;
+      box-sizing: border-box;
+      box-shadow: 1px 2px 5px rgba(24, 23, 21, 0.2);
+      position: absolute;
+      left: 78px;
+      bottom: 64px;
+      padding: 8px 4px;
+
+      .help-modal-plus-links {
+        border-top: 1px solid #E5E6E4;
+        margin: 8px 16px;
+        padding-top: 8px;
+        position: relative;
+
+        .help-modal-link {
+          padding: 8px;
+
+          .help-modal-link-text {
+            display: inline-block;
+            font-weight: 500;
+            font-size: 12px;
+            line-height: 16px;
+            color: #847577;
+          }
+
+          .help-modal-link-icon {
+            display: inline-block;
+
+            img {
+              width: 16px;
+              height: 16px;
+            }
+          }
+        }
+      }
+
+      .help-modal-link {
+        padding: 12px 16px;
+
+        a {
+          display: block;
+          width: 100%;
+          font-weight: 700;
+          font-size: 14px;
+          line-height: 16px;
+          color: #181715;
+        }
+      }
+
+      .help-modal-link:hover {
+        background: #F4F4F4;
+        border-radius: 4px;
+      }
+    }
+  }
+}
+
+@media (orientation: landscape) and (max-device-width: 1220px) {
+  .nav-panel {
+    min-height: 500px;
   }
 }

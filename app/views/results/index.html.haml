@@ -1,100 +1,102 @@
-.page-info.table-results
-  .table-title= t('table.title')
-  - if league.tournament.fanta?
-    .table-block
-      .table-headers.table-grid.national-grid
-        .table-header-item
-        .table-header-item
-        .table-header-item
-        .table-header-item= t('table.rounds')
-        .table-header-item
-          = link_to league_results_path(league, order: 'points') do
-            - if params[:order] == 'points'
-              .table-header-dropdown
-                = image_tag('icons/dropdown.svg', class: 'filter-grey')
-            = t('table.f1_points')
-        .table-header-item
-          = link_to league_results_path(league, order: 'score') do
-            - if !params[:order] || params[:order] == 'score'
-              .table-header-dropdown
-                = image_tag('icons/dropdown.svg', class: 'filter-grey')
-            = t('table.total_score')
-        .table-header-item
-          = link_to league_results_path(league, order: 'lineup') do
-            - if params[:order] == 'lineup'
-              .table-header-dropdown
-                = image_tag('icons/dropdown.svg', class: 'filter-grey')
-            = t('table.best_lineup')
-      - @results.each_with_index do |result, i|
-        .table-team-item.table-grid.national-grid
-          .table-team-param.table-team-prize{ class: "place#{i}" }
-          .table-team-param.center= i+1
-          .table-team-param.table-team-data
-            = link_to team_path(result.team) do
-              .results-team-logo
-                = image_tag(image_path(result.team.logo_path))
-              .results-team-name
-                = result.team.human_name
-          .table-team-param
-            = result.draws
-          .table-team-param
-            = result.points
-          .table-team-param.table-team-points
-            = result.total_score
-          .table-team-param
-            = result.team.best_lineup&.total_score
-  - else
-    .table-block
-      .table-headers.table-grid
-        .table-header-item
-        .table-header-item
-        .table-header-item
-        .table-header-item= t('table.games')
-        .table-header-item= t('table.wins')
-        .table-header-item= t('table.draws')
-        .table-header-item= t('table.loses')
-        .table-header-item= t('table.gf')
-        .table-header-item= t('table.ga')
-        .table-header-item= t('table.gd')
-        .table-header-item= t('table.points')
-        .table-header-item.ts-cell= t('table.ts')
-        .table-header-item.form-cell= t('table.form')
-        .table-header-item.next-cell
-          - if league.active?
-            = t('table.next')
-      - @results.each_with_index do |result, i|
-        .table-team-item.table-grid
-          .table-team-param.table-team-prize{ class: "place#{i}" }
-          .table-team-param.center= i+1
-          .table-team-param.table-team-data
-            = link_to team_path(result.team) do
-              .results-team-logo
-                = image_tag(image_path(result.team.logo_path))
-              .results-team-name
-                = result.team.human_name
-          .table-team-param
-            = result.matches_played
-          .table-team-param
-            = result.wins
-          .table-team-param
-            = result.draws
-          .table-team-param
-            = result.loses
-          .table-team-param
-            = result.scored_goals
-          .table-team-param
-            = result.missed_goals
-          .table-team-param
-            = result.goals_difference
-          .table-team-param.table-team-points
-            = result.points
-          .table-team-param.ts-cell
-            = result.total_score
-          .table-team-param.form-cell
-            - unless league.tournament.national?
-              - result.form.each do |form|
-                .team-form-item{ class: "team-form-#{form[0]}" }
-                  = form[0]
-          .table-team-param.table-team-opponent
-            - if league.active? && result.team.next_opponent
-              = image_tag(result.team.next_opponent.logo_path)
+.page-block
+  = render 'layouts/nav_panel', league: league
+  .page-info.table-results
+    .table-title= t('table.title')
+    - if league.tournament.fanta?
+      .table-block
+        .table-headers.table-grid.national-grid
+          .table-header-item
+          .table-header-item
+          .table-header-item
+          .table-header-item= t('table.rounds')
+          .table-header-item
+            = link_to league_results_path(league, order: 'points') do
+              - if params[:order] == 'points'
+                .table-header-dropdown
+                  = image_tag('icons/dropdown.svg', class: 'filter-grey')
+              = t('table.f1_points')
+          .table-header-item
+            = link_to league_results_path(league, order: 'score') do
+              - if !params[:order] || params[:order] == 'score'
+                .table-header-dropdown
+                  = image_tag('icons/dropdown.svg', class: 'filter-grey')
+              = t('table.total_score')
+          .table-header-item
+            = link_to league_results_path(league, order: 'lineup') do
+              - if params[:order] == 'lineup'
+                .table-header-dropdown
+                  = image_tag('icons/dropdown.svg', class: 'filter-grey')
+              = t('table.best_lineup')
+        - @results.each_with_index do |result, i|
+          .table-team-item.table-grid.national-grid
+            .table-team-param.table-team-prize{ class: "place#{i}" }
+            .table-team-param.center= i+1
+            .table-team-param.table-team-data
+              = link_to team_path(result.team) do
+                .results-team-logo
+                  = image_tag(image_path(result.team.logo_path))
+                .results-team-name
+                  = result.team.human_name
+            .table-team-param
+              = result.draws
+            .table-team-param
+              = result.points
+            .table-team-param.table-team-points
+              = result.total_score
+            .table-team-param
+              = result.team.best_lineup&.total_score
+    - else
+      .table-block
+        .table-headers.table-grid
+          .table-header-item
+          .table-header-item
+          .table-header-item
+          .table-header-item= t('table.games')
+          .table-header-item= t('table.wins')
+          .table-header-item= t('table.draws')
+          .table-header-item= t('table.loses')
+          .table-header-item= t('table.gf')
+          .table-header-item= t('table.ga')
+          .table-header-item= t('table.gd')
+          .table-header-item= t('table.points')
+          .table-header-item.ts-cell= t('table.ts')
+          .table-header-item.form-cell= t('table.form')
+          .table-header-item.next-cell
+            - if league.active?
+              = t('table.next')
+        - @results.each_with_index do |result, i|
+          .table-team-item.table-grid
+            .table-team-param.table-team-prize{ class: "place#{i}" }
+            .table-team-param.center= i+1
+            .table-team-param.table-team-data
+              = link_to team_path(result.team) do
+                .results-team-logo
+                  = image_tag(image_path(result.team.logo_path))
+                .results-team-name
+                  = result.team.human_name
+            .table-team-param
+              = result.matches_played
+            .table-team-param
+              = result.wins
+            .table-team-param
+              = result.draws
+            .table-team-param
+              = result.loses
+            .table-team-param
+              = result.scored_goals
+            .table-team-param
+              = result.missed_goals
+            .table-team-param
+              = result.goals_difference
+            .table-team-param.table-team-points
+              = result.points
+            .table-team-param.ts-cell
+              = result.total_score
+            .table-team-param.form-cell
+              - unless league.tournament.national?
+                - result.form.each do |form|
+                  .team-form-item{ class: "team-form-#{form[0]}" }
+                    = form[0]
+            .table-team-param.table-team-opponent
+              - if league.active? && result.team.next_opponent
+                = image_tag(result.team.next_opponent.logo_path)

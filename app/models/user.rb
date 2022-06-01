@@ -5,6 +5,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :trackable, :validatable
 
   has_many :teams, dependent: :destroy
+  has_many :leagues, through: :teams
   has_many :player_requests, dependent: :destroy
 
   EMAIL_LENGTH = (6..50).freeze

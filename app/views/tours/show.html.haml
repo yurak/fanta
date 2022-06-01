@@ -1,5 +1,5 @@
 .page-block
-  = render 'layouts/nav_panel'
+  = render 'layouts/nav_panel', league: tour.league
   .page-info.rounds-page
     .round-section
       .rounds-league-name
@@ -285,3 +285,4 @@
                     = flag_icon(n_match.guest_team.code.to_sym, element: :div)
                   .round-tournament-club-name
                     = n_match.guest_team.name
+

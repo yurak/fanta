@@ -213,6 +213,12 @@
             width: 48px;
             height: 48px;
           }
+
+          .results-team-name {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
         }
 
         .round-match-guest a {
@@ -425,14 +431,10 @@
 
 @media (orientation: portrait) {
   .page-info.rounds-page {
-    padding: 200px 0 0;
+    padding: 0 0 0 272px;
     display: block;
 
     .stats-section {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      column-gap: 16px;
-
       .round-table {
         .round-table-item, .round-tournament-match {
           font-size: 16px;
@@ -444,14 +446,10 @@
 
 @media (orientation: landscape) and (max-device-width: 1220px) {
   .page-info.rounds-page {
-    padding: 100px 0 0;
+    padding: 0 0 0 272px;
     display: block;
 
     .stats-section {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      column-gap: 16px;
-
       .round-table {
         .round-table-item, .round-tournament-match {
           font-size: 16px;
