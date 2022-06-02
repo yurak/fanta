@@ -8,11 +8,17 @@
           = flag_icon(match.host_team.code.to_sym, element: :div)
     .round-tournament-match-cell
       - if match.host_score
-        .round-tournament-match-result
-          .round-tournament-match-result-host= match.host_score
-          .round-tournament-match-result-guest= match.guest_score
+        - if current_user&.can_moderate?
+          = link_to edit_tournament_round_path(match.tournament_round) do
+            .round-tournament-match-result
+              .round-tournament-match-result-host= match.host_score
+              .round-tournament-match-result-guest= match.guest_score
+        - else
+          .round-tournament-match-result
+            .round-tournament-match-result-host= match.host_score
+            .round-tournament-match-result-guest= match.guest_score
       - else
-        = match.time
+        = match.time.presence || 'vs'
     .round-tournament-match-cell.round-tournament-match-team.round-tournament-match-guest
       = link_to national_team_path(match.guest_team) do
         .round-tournament-team-logo
