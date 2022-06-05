@@ -87,11 +87,11 @@
             .next-round-opponent-name= user_team_by_league(current_user, league).next_opponent.human_name
     .league-links
       = link_to tour_path(league.active_tour_or_last) do
-        .league-link{class: "link-active-#{ params[:controller] == 'tours' && params[:action] == 'show' }"}
+        .league-link{class: "link-active-#{ params[:controller] == 'tours' || params[:controller] == 'matches' }"}
           .league-link-icon= image_tag('icons/round/round.svg')
           .league-link-text= t('header.round')
       = link_to league_results_path(league) do
-        .league-link{class: "link-active-#{ params[:controller] == 'results' && params[:action] == 'index' }"}
+        .league-link{class: "link-active-#{ params[:controller] == 'results' }"}
           .league-link-icon= image_tag('icons/round/table.svg')
           .league-link-text= t('header.table')
       = link_to team_path(user_team_by_league(current_user, league) || league.teams.first) do

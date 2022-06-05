@@ -63,7 +63,7 @@ RSpec.describe 'Players', type: :request do
   end
 
   describe 'GET #show' do
-    let(:club) { create(:club, name: 'xxx') }
+    let(:club) { create(:club, name: 'Outside') }
     let(:player) { create(:player, club: club) }
 
     context 'with html format' do

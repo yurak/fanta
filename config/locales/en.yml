@@ -359,10 +359,12 @@ en:
     auction_title: "%{league} Auction"
     auction: "Auction"
   tours:
-    round: "Round"
-    deadline: "☠️ Deadline:"
-    prev: "Prev round"
     next: "Next round"
+    prev: "Prev round"
+    round: "Round"
+    round_inactive: "🔒 Round inactive. It will be opened at the right time"
+
+    deadline: "☠️ Deadline:"
     start_round: "Start round"
     lock_round: "Lock round"
     close_round: "Close round"

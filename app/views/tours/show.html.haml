@@ -2,35 +2,24 @@
   = render 'layouts/nav_panel', league: tour.league
   .page-info.rounds-page
     .round-section
-      .rounds-league-name
-        = tour.league.name
       .rounds-block
         - tour.league.tours.each do |round|
           = link_to tour_path(round) do
             .round-link-block{ class: "round-#{round.status} round-current-#{tour == round}" }
               = round.number
-      - if auction
-        .auction-block
-          .auction-msg
-            = auction_message(auction)
-          .auction-link
-            = link_to t('auction.auction'), auction_link(auction)
+      -# - if auction
+      -#   .auction-block
+      -#     .auction-msg
+      -#       = auction_message(auction)
+      -#     .auction-link
+      -#       = link_to t('auction.auction'), auction_link(auction)
       .round-item
         .round-base
           .round-title
-            .round-title-text= "#{t('tours.round')} ##{tour.number}"
             .round-title-icon
-              - if tour.unlocked?
-                = image_tag('icons/round_status1.svg')
-              - elsif tour.locked_or_postponed?
-                = image_tag('icons/round_status2.svg')
-              - else
-                = image_tag('icons/round_status3.svg')
-          .round-deadline
-            .round-deadline-text= t('tours.deadline')
-            .round-deadline-value
-              = tour.tournament_round.deadline&.strftime("%a, %b %e at %H:%M")
-            .round-deadline-countdown
+              = image_tag("icons/round/status_#{tour.status}.svg")
+            .round-title-text= t('tours.round')
+            .round-title-number= tour.number
           .round-prev-next
             .round-prev
               - if tour.number > 1 && tour.prev_round
@@ -44,6 +33,16 @@
                   .round-next-text= t('tours.next')
                   .round-next-arrow
                     = image_tag('icons/arrow_blue.png')
+        .round-add-data
+          - if tour.inactive?
+            .round-add-data-inactive
+              = t('tours.round_inactive')
+          - elsif tour.set_lineup?
+            .round-deadline
+              .round-deadline-text= t('tours.deadline')
+              .round-deadline-value
+                = tour.tournament_round.deadline&.strftime("%a, %b %e at %H:%M")
+              .round-deadline-countdown
         .actions-buttons
           - if current_user&.admin?
             = link_to t('tours.start_round'), tour_path(tour, status: :set_lineup), method: :put, data: { confirm: t('tours.are_you_sure') } if tour.inactive?
@@ -68,7 +67,7 @@
             = render 'tournaments/tournament_matches', matches: tour.tournament_round.tournament_matches
         - if tour.fanta? && tour.lineups.any?
           .round-lineups
-            .rounds-league-name.round-lineups-title= t('tours.lineups')
+            .round-lineups-title= t('tours.lineups')
             .round-lineups-block
               - tour.ordered_lineups.each do |lineup|
                 = link_to team_lineup_path(lineup.team, lineup) do

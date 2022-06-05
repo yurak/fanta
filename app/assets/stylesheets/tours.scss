@@ -8,16 +8,12 @@
   a { text-decoration: none }
 
   .round-section {
-    padding: 40px;
-
-    .rounds-league-name {
-      font-weight: bold;
-      font-size: 24px;
-      line-height: 32px;
-      margin-bottom: 16px;
-    }
+    padding: 16px;
 
     .rounds-block {
+      padding-bottom: 16px;
+      border-bottom: 1px solid #E5E6E4;
+
       .round-link-block {
         margin: 4px;
         display: inline-block;
@@ -91,14 +87,14 @@
     }
 
     .round-item {
-      padding: 40px 0 0;
+      padding: 32px 0 0;
 
       .round-base {
         display: grid;
-        grid-template-columns: auto 310px 204px;
+        grid-template-columns: auto 204px;
         line-height: 32px;
         color: #181715;
-        padding-bottom: 32px;
+        padding-bottom: 16px;
 
         .round-title {
           font-weight: bold;
@@ -109,10 +105,15 @@
             display: inline-block;
           }
 
+          .round-title-number {
+            display: inline-block;
+            color: #847577;
+          }
+
           img {
-            width: 32px;
-            height: 32px;
-            margin-left: 4px;
+            width: 26px;
+            height: 26px;
+            margin-top: -6px;
           }
         }
 
@@ -142,51 +143,16 @@
             color: #9B0819;
           }
         }
+      }
 
-        .round-prev-next {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          font-weight: 500;
-          font-size: 12px;
-          margin: 4px 0;
+      .round-add-data {
+        padding-left: 35px;
+
+        .round-add-data-inactive {
+          font-weight: 400;
+          font-size: 16px;
           line-height: 24px;
-
-          a {
-            display: grid;
-            color: #181715;
-          }
-
-          .round-prev {
-            border-right: 2px solid #E5E6E4;
-
-            a {
-              grid-template-columns: 10px auto;
-            }
-
-            .round-prev-text {
-              padding: 0 8px;
-            }
-          }
-
-          .round-next {
-            a {
-              grid-template-columns: auto 10px;
-            }
-
-            .round-next-text {
-              padding: 0 8px;
-              text-align: right;
-            }
-
-            img {
-              transform: rotate(180deg);
-            }
-          }
-
-          img {
-            width: 10px;
-            height: 6px;
-          }
+          margin-bottom: 12px;
         }
       }
 
@@ -381,6 +347,13 @@
 
       .round-lineups {
         margin: 32px 0;
+
+        .round-lineups-title {
+          font-weight: bold;
+          font-size: 24px;
+          line-height: 32px;
+          margin-bottom: 16px;
+        }
 
         .round-lineups-block {
           margin: auto;

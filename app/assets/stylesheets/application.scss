@@ -167,6 +167,52 @@ body, html {
   }
 }
 
+.round-prev-next {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  font-weight: 500;
+  font-size: 12px;
+  margin: 4px 0;
+  line-height: 24px;
+
+  a {
+    display: grid;
+    color: #181715;
+  }
+
+  .round-prev {
+    border-right: 2px solid #E5E6E4;
+
+    a {
+      grid-template-columns: 10px auto;
+    }
+
+    .round-prev-text {
+      padding: 0 8px;
+    }
+  }
+
+  .round-next {
+    a {
+      grid-template-columns: auto 10px;
+    }
+
+    .round-next-text {
+      padding: 0 8px;
+      text-align: right;
+    }
+
+    img {
+      transform: rotate(180deg);
+    }
+  }
+
+  img {
+    width: 10px;
+    height: 6px;
+  }
+}
+
 /* ----- Player position icons ----- */
 
 .player-positions-block {

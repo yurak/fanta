@@ -13,9 +13,9 @@ namespace :tm do
 
       if club && tm_club_name != player.club.tm_name
         puts "Player #{player.id} #{player.name} changes club to #{tm_club_name}"
-      elsif tm_club_name.nil?
+      elsif player.club.name != 'Retired' && tm_club_name.nil?
         puts "Player #{player.id} #{player.name} retired!"
-      elsif player.club.name != 'xxx' && club.nil?
+      elsif player.club.name != 'Outside' && club.nil?
         puts "Player #{player.id} #{player.name} leave Mantra tournaments. New club: #{tm_club_name}"
       end
     end
