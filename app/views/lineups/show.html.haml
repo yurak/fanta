@@ -1,63 +1,66 @@
-.page-info.match-page.lineup-page
-  .lineup-squad.match-squads.lineup-links
-    .lineup-team
-      = "#{t('lineups.team')}: "
-      = link_to team_path(lineup.team) do
-        = "#{lineup.team.human_name}"
-    .lineup-round
-      = link_to tour_path(lineup.tour) do
-        = "#{t('tours.round')} ##{ lineup.tour.number }"
-  .lineup-squad.match-squads
-    .match-team-squad
-      .match-team-data
-        .match-team-module
-          .match-team-data-text= t('matches.total_score')
-          .match-team-data-value= lineup.total_score
-        .match-team-def-bonus
-          .match-team-data-text= t('matches.def_bonus')
-          .match-team-data-value= lineup.defence_bonus
-      .match-main-squad
-        - if lineup.tour.fanta?
-          - lineup.match_players.main.each do |match_player|
-            .match-player-item
-              .match-player-avatar
-                .player-show-face
-                  %object{data: match_player.player.avatar_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                    = image_tag('avatar.png')
-                .player-show-kit
-                  %object{data: lineup.tour.national? ? match_player.player.national_kit_path : match_player.player.kit_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                    = image_tag('kit_small_default.png')
-                .module-position-block.player-positions-block
-                  - match_player.real_position_arr.each do |position|
-                    .player-position{class: "player-position-#{position}"}
-                      = slot_position_name(position)
-              .match-player-data
+.page-block
+  = render 'layouts/left_nav', league: lineup.tour.league
+  = render 'layouts/right_nav', league: lineup.tour.league
+  .page-info.match-page.lineup-page
+    .lineup-squad.match-squads.lineup-links
+      .lineup-team
+        = "#{t('lineups.team')}: "
+        = link_to team_path(lineup.team) do
+          = "#{lineup.team.human_name}"
+      .lineup-round
+        = link_to tour_path(lineup.tour) do
+          = "#{t('tours.round')} ##{ lineup.tour.number }"
+    .lineup-squad.match-squads
+      .match-team-squad
+        .match-team-data
+          .match-team-module
+            .match-team-data-text= t('matches.total_score')
+            .match-team-data-value= lineup.total_score
+          .match-team-def-bonus
+            .match-team-data-text= t('matches.def_bonus')
+            .match-team-data-value= lineup.defence_bonus
+        .match-main-squad
+          - if lineup.tour.fanta?
+            - lineup.match_players.main.each do |match_player|
+              .match-player-item
+                .match-player-avatar
+                  .player-show-face
+                    %object{data: match_player.player.avatar_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
+                      = image_tag('avatar.png')
+                  .player-show-kit
+                    %object{data: lineup.tour.national? ? match_player.player.national_kit_path : match_player.player.kit_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
+                      = image_tag('kit_small_default.png')
+                  .module-position-block.player-positions-block
+                    - match_player.real_position_arr.each do |position|
+                      .player-position{class: "player-position-#{position}"}
+                        = slot_position_name(position)
                 .match-player-data
-                  .match-player-data-base
-                    = link_to player_path(match_player.player) do
-                      .team-player-name
-                        = match_player.player.full_name
-                        = image_tag('icons/subs-on.svg') if match_player.get_in?
-                        - if match_player.position_malus?
-                          ⚠️
-                        .team-player-score-unspecified.inline-block
-                          = match_player.player.club.name
-                    - if match_player.score.positive?
-                      .team-player-scores
-                        .team-player-cs-cell
-                        .team-player-score= match_player.score
-                        .team-player-total-score= match_player.total_score
-                    - elsif match_player.club_played_match?
-                      .team-player-score-not-played= t('matches.didnt_play')
-                    - else
-                      .team-player-score-unspecified= t('matches.unspecified')
-                  .match-player-add-data
-                    .match-player-bonuses
-                      = render 'matches/mp_bonuses', match_player: match_player
+                  .match-player-data
+                    .match-player-data-base
+                      = link_to player_path(match_player.player) do
+                        .team-player-name
+                          = match_player.player.full_name
+                          = image_tag('icons/subs-on.svg') if match_player.get_in?
+                          - if match_player.position_malus?
+                            ⚠️
+                          .team-player-score-unspecified.inline-block
+                            = match_player.player.club.name
+                      - if match_player.score.positive?
+                        .team-player-scores
+                          .team-player-cs-cell
+                          .team-player-score= match_player.score
+                          .team-player-total-score= match_player.total_score
+                      - elsif match_player.club_played_match?
+                        .team-player-score-not-played= t('matches.didnt_play')
+                      - else
+                        .team-player-score-unspecified= t('matches.unspecified')
+                    .match-player-add-data
+                      .match-player-bonuses
+                        = render 'matches/mp_bonuses', match_player: match_player
 
-    .lineup-module
-      .match-team-module
-        .match-team-data-text= t('matches.module')
-        .match-team-data-value= lineup.team_module.name
-      .module-image
-        = image_tag("#{modules_path}#{lineup.team_module.name}.jpg")
+      .lineup-module
+        .match-team-module
+          .match-team-data-text= t('matches.module')
+          .match-team-data-value= lineup.team_module.name
+        .module-image
+          = image_tag("#{modules_path}#{lineup.team_module.name}.jpg")

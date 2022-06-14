@@ -65,6 +65,10 @@ body, html {
   font-family: 'Mont Regular';
 }
 
+.main-block {
+  height: 100%;
+}
+
 .page-block {
   height: 100%;
 }
@@ -96,73 +100,104 @@ body, html {
 .round-matches {
   .round-tournament-match {
     display: grid;
-    grid-template-columns: 1fr 100px 1fr;
-    column-gap: 32px;
-    font-weight: 500;
-    font-size: 16px;
-    line-height: 44px;
+    grid-template-columns: 1fr 56px 1fr;
+    column-gap: 24px;
+    font-size: 18px;
+    line-height: 90px;
     color: #181715;
     border-bottom: 1px solid #E5E6E4;
     text-align: center;
 
     .round-tournament-match-team {
+      padding: 21px 0;
+
       a {
         display: grid;
-        grid-template-columns: auto 32px;
-        font-weight: 500;
+        grid-template-columns: auto 48px;
+        font-weight: 400;
         text-decoration: none;
       }
 
       .flag-icon {
-        height: 24px;
-        width: 32px;
+        height: 48px;
+        width: 48px;
         vertical-align: middle;
       }
 
       img, object {
-        width: 32px;
-        height: 32px;
+        width: 48px;
+        height: 48px;
       }
 
-      object {
-        position: relative;
-        top: 6px;
+      img {
+        vertical-align: inherit;
       }
 
       .round-tournament-team-name {
         text-align: right;
         padding-right: 16px;
         color: #181715;
+        height: 48px;
+        line-height: 48px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
+    }
+
+    .round-tournament-match-team:hover {
+      .round-tournament-team-name {
+        color: #261FFF;
+      }
+    }
+
+    .round-tournament-team-logo {
+      height: 48px;
     }
 
     .round-tournament-match-guest {
       a {
-        grid-template-columns: 32px auto;
+        grid-template-columns: 48px auto;
         text-decoration: none;
       }
 
       .round-tournament-team-name {
         text-align: left;
-        padding-left: 16px;
+        padding: 0 0 0 16px;
         color: #181715;
+      }
+    }
+
+    .round-tournament-match-cell {
+      font-weight: 700;
+      color: #A6A2A2;
+      line-height: 40px;
+      height: 90px;
+    }
+
+    .round-tournament-match-cell-result {
+      padding: 25px 5px;
+
+      a {
+        text-align: center;
       }
     }
 
     .round-tournament-match-result {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      background-color: #040052;
-      font-weight: bold;
-      line-height: 20px;
-      padding: 6px 0;
-      margin: 6px 0;
-      text-align: center;
-      color: #F4F4F4;
+      background: #E5E6E4;
+      font-weight: 700;
+      font-size: 18px;
+      line-height: 24px;
+      border-radius: 4px;
+      padding: 8px 10px;
+      color: #181715;
+      width: 48px;
+    }
 
-      .round-tournament-match-result-host {
-        border-right: 1px solid #847577;
-      }
+    .round-tournament-match-result-text {
+      width: 28px;
     }
   }
 }
@@ -178,6 +213,10 @@ body, html {
   a {
     display: grid;
     color: #181715;
+  }
+
+  a:hover {
+    color: #261FFF;
   }
 
   .round-prev {
@@ -577,55 +616,68 @@ body, html {
 }
 
 .stats-section {
-  background-color: #F4F4F4;
-  padding: 8px;
+  background-color: #FFFFFF;
+  border-left: 1px solid #E5E6E4;
 
   .round-table {
     background-color: #FFFFFF;
     padding: 16px;
-    margin-bottom: 8px;
+    border-bottom: 1px solid #E5E6E4;
+
+    .round-table-title-header {
+      display: grid;
+      grid-template-columns: auto 24px;
+      column-gap: 8px;
+    }
 
     .round-table-title-text, .round-table-title-icon {
       display: inline-block;
-      font-weight: bold;
+      font-weight: 700;
       font-size: 16px;
       line-height: 24px;
       color: #181715;
 
       img {
-        padding: 0 8px;
-        height: 9px;
-        transform: rotate(180deg);
+        padding: 0 4px;
+        height: 8px;
       }
     }
 
-    .round-table-headers {
-      display: grid;
-      grid-template-columns: 1fr 5fr 1fr 1fr 1fr 1fr 1fr;
-      font-weight: 500;
-      font-size: 10px;
-      line-height: 14px;
-      text-align: right;
-      color: #847577;
+    .round-table-hide {
+      cursor: pointer;
+
+      img {
+        width: 12px;
+        height: 6px;
+        margin: auto 6px;
+      }
+    }
+
+    .round-table-hidden {
+      display: none;
     }
 
     .round-table-item {
       display: grid;
-      grid-template-columns: 1fr 5fr 1fr 1fr 1fr 1fr 1fr;
-      font-weight: 500;
+      grid-template-columns: 32px auto 32px;
+      font-weight: 400;
       font-size: 12px;
-      line-height: 40px;
+      line-height: 24px;
       color: #181715;
-      text-align: right;
       border-bottom: 1px solid #E5E6E4;
 
       .round-table-index {
-        text-align: center;
+        text-align: right;
+        padding: 4px 8px;
       }
 
       .round-table-item-team {
         display: grid;
-        grid-template-columns: 24px auto;
+        grid-template-columns: 40px auto;
+
+        .results-team-logo {
+          padding: 4px 8px;
+        }
 
         img {
           width: 24px;
@@ -634,9 +686,19 @@ body, html {
 
         .results-team-name {
           text-align: left;
-          padding-left: 16px;
+          padding: 4px 8px;
         }
       }
+
+      .round-table-item-points {
+        padding: 4px 8px;
+        text-align: center;
+        font-weight: 700;
+      }
+    }
+
+    .round-table-item:last-child {
+      border: none;
     }
 
     .round-national-table-item {
@@ -648,7 +710,7 @@ body, html {
       font-size: 16px;
     }
 
-    .round-tournament-block {
+    .round-list {
       margin-top: 8px;
     }
 
@@ -658,7 +720,7 @@ body, html {
       column-gap: 12px;
       font-weight: 500;
       font-size: 12px;
-      line-height: 40px;
+      line-height: 32px;
       color: #181715;
       border-bottom: 1px solid #E5E6E4;
       text-align: center;
@@ -668,6 +730,15 @@ body, html {
         grid-template-columns: auto 24px;
         font-weight: 500;
 
+        .round-tournament-club-logo-wrapper {
+          padding: 4px 0;
+        }
+
+        .round-tournament-club-logo {
+          line-height: 24px;
+          height: 24px;
+        }
+
         img, object {
           width: 24px;
           height: 24px;
@@ -675,7 +746,6 @@ body, html {
 
         object {
           position: relative;
-          top: 8px;
         }
 
         .round-tournament-club-name {
@@ -715,54 +785,52 @@ body, html {
       }
     }
 
+    .round-tournament-match:last-child {
+      border: none;
+    }
+
     .best-players-title {
       margin-bottom: 12px;
     }
 
-    .round-player-stats-headers {
-      grid-template-columns: 1fr 13fr 2fr 3fr 3fr;
-      column-gap: 8px;
-
-      .round-table-header-player {
-        text-align: left;
-      }
-    }
-
     .round-player-stats-item {
-      grid-template-columns: 1fr 13fr 2fr 3fr 3fr;
+      grid-template-columns: 24px auto 24px 40px;
       column-gap: 8px;
-      font-size: 16px;
-      line-height: 56px;
-      max-height: 56px;
+      font-weight: 400;
+      font-size: 12px;
+      line-height: 32px;
+      height: 32px;
 
       .round-player-stats-data {
         text-align: left;
         display: grid;
-        grid-template-columns: 48px auto;
+        grid-template-columns: 32px auto;
         column-gap: 8px;
+      }
+
+      .round-player-stats-name {
         white-space: nowrap;
         overflow: hidden;
+        text-overflow: ellipsis;
       }
 
       .round-player-stats-img {
         .round-player-show-face, .round-player-show-kit {
           position: absolute;
-          padding-top: 3px;
-          height: 56px;
+          padding-top: 1px;
+          height: 32px;
 
           img, object {
-            width: 48px;
-            height: 48px;
-          }
-
-          object {
-            margin-top: 4px;
+            width: 30px;
+            height: 30px;
           }
         }
       }
 
       .round-player-stats-score {
-        font-weight: bold;
+        font-weight: 700;
+        font-size: 12px;
+        text-align: center;
       }
 
       .round-player-stats-team {

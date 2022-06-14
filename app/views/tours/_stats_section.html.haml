@@ -1,0 +1,183 @@
+.stats-section
+  - if tour.deadlined? || tour.fanta?
+    .round-table
+      .round-table-title-header
+        .round-table-title
+          = link_to tournament_round_round_players_path(tour.tournament_round) do
+            .round-table-title-text= t('tours.tournament_players')
+            .round-table-title-icon
+              = image_tag('icons/arrow_blue.svg')
+        .round-table-hide.round-table-visible
+          = image_tag('icons/arrow_up.svg')
+        .round-table-hide.round-table-hidden
+          = image_tag('icons/arrow_down.svg')
+      .round-list.round-table-block
+        - @tournament_players.each_with_index do |r_player, i|
+          .round-table-item.round-player-stats-item
+            .center= position_number(i + 1)
+            .round-player-stats-data
+              .round-player-stats-img
+                .round-player-show-face
+                  %object{data: r_player.player.avatar_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
+                    = image_tag('avatar.png')
+                .round-player-show-kit
+                  %object{data: tour.national? ? r_player.player.national_kit_path : r_player.player.kit_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
+                    = image_tag('kit_small_default.png')
+              .round-player-stats-name= r_player.player.name
+            .round-player-stats-team
+              - if r_player.teams.where(league: tour.league).first
+                = image_tag(r_player.teams.where(league: tour.league).first.logo_path)
+            .round-player-stats-score= r_player.result_score
+  - if tour.mantra?
+    - if tour.deadlined?
+      .round-table
+        .round-table-title-header
+          .round-table-title
+            -# TODO: add link to League best players page
+            = link_to '' do
+              .round-table-title-text= t('tours.league_players')
+              -#.round-table-title-icon
+              -#  = image_tag('icons/arrow_blue.svg')
+          .round-table-hide.round-table-visible
+            = image_tag('icons/arrow_up.svg')
+          .round-table-hide.round-table-hidden
+            = image_tag('icons/arrow_down.svg')
+        .round-list.round-table-block
+          - @league_players.each_with_index do |r_player, i|
+            .round-table-item.round-player-stats-item
+              .center= position_number(i + 1)
+              .round-player-stats-data
+                .round-player-stats-img
+                  .round-player-show-face
+                    %object{data: r_player.player.avatar_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
+                      = image_tag('avatar.png')
+                  .round-player-show-kit
+                    %object{data: tour.national? ? r_player.player.national_kit_path : r_player.player.kit_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
+                      = image_tag('kit_small_default.png')
+                .round-player-stats-name= r_player.player.name
+              .round-player-stats-team
+                - if r_player.teams.where(league: tour.league).first
+                  = image_tag(r_player.teams.where(league: tour.league).first.logo_path)
+              .round-player-stats-score= r_player.result_score
+    - unless tour.inactive?
+      .round-table
+        .round-table-title-header
+          .round-table-title
+            = link_to league_results_path(tour.league) do
+              .round-table-title-text= t('tours.table')
+              .round-table-title-icon
+                = image_tag('icons/arrow_blue.svg')
+          .round-table-hide.round-table-visible
+            = image_tag('icons/arrow_up.svg')
+          .round-table-hide.round-table-hidden
+            = image_tag('icons/arrow_down.svg')
+        .round-list.round-table-block
+          - tour.league.results.ordered.each_with_index do |result, i|
+            .round-table-item
+              .round-table-index= i + 1
+              .round-table-item-team
+                .results-team-logo= image_tag(image_path(result.team.logo_path))
+                .results-team-name= result.team.human_name
+              .round-table-item-points= result.points
+    .round-table
+      .round-table-title-header
+        .round-table-title
+          = link_to tournament_path(tour.league.tournament) do
+            .round-table-title-text= "🗓 #{tour.league.tournament.name} #{t('tours.fixtures')} ##{tour.tournament_round.number}"
+            .round-table-title-icon
+              = image_tag('icons/arrow_blue.svg')
+        .round-table-hide.round-table-visible
+          = image_tag('icons/arrow_up.svg')
+        .round-table-hide.round-table-hidden
+          = image_tag('icons/arrow_down.svg')
+      .round-list.round-tournament-block
+        - tour.tournament_round.tournament_matches.each do |t_match|
+          .round-tournament-match
+            .round-tournament-match-cell.round-tournament-match-club
+              .round-tournament-club-name
+                - if current_user&.can_moderate? && tour.deadlined?
+                  = link_to edit_tournament_round_path(tour.tournament_round, club_id: t_match.host_club.id) do
+                    = t_match.host_club.code
+                - else
+                  = t_match.host_club.code
+              .round-tournament-club-logo-wrapper
+                .round-tournament-club-logo
+                  %object{data: t_match.host_club.logo_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
+                    = image_tag('default_logo.png')
+            .round-tournament-match-cell
+              - if t_match.host_score
+                .round-tournament-match-result
+                  .round-tournament-match-result-host= t_match.host_score
+                  .round-tournament-match-result-guest= t_match.guest_score
+              - else
+                vs
+            .round-tournament-match-cell.round-tournament-match-club.round-tournament-match-guest
+              .round-tournament-club-logo-wrapper
+                .round-tournament-club-logo
+                  %object{data: t_match.guest_club.logo_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
+                    = image_tag('default_logo.png')
+              .round-tournament-club-name
+                - if current_user&.can_moderate? && tour.deadlined?
+                  = link_to edit_tournament_round_path(tour.tournament_round, club_id: t_match.guest_club.id) do
+                    = t_match.guest_club.code
+                - else
+                  = t_match.guest_club.code
+  - if tour.fanta?
+    .round-table
+      .round-table-title-header
+        .round-table-title
+          = link_to league_results_path(tour.league) do
+            .round-table-title-text= t('tours.leaders_score')
+            .round-table-title-icon
+              = image_tag('icons/arrow_blue.svg')
+        .round-table-hide.round-table-visible
+          = image_tag('icons/arrow_up.svg')
+        .round-table-hide.round-table-hidden
+          = image_tag('icons/arrow_down.svg')
+      .round-list.round-table-block
+        - tour.league.results.ordered_by_score.limit(5).each_with_index do |result, i|
+          .round-table-item
+            .round-table-index= i + 1
+            .round-table-item-team
+              .results-team-logo= image_tag(image_path(result.team.logo_path))
+              .results-team-name= result.team.human_name
+            .round-table-item-points= result.points
+    .round-table
+      .round-table-title-header
+        .round-table-title
+          = link_to league_results_path(tour.league, order: 'points') do
+            .round-table-title-text= t('tours.leaders_points')
+            .round-table-title-icon
+              = image_tag('icons/arrow_blue.svg')
+        .round-table-hide.round-table-visible
+          = image_tag('icons/arrow_up.svg')
+        .round-table-hide.round-table-hidden
+          = image_tag('icons/arrow_down.svg')
+      .round-list.round-table-block
+        - tour.league.results.ordered_by_score.limit(5).each_with_index do |result, i|
+          .round-table-item
+            .round-table-index= i + 1
+            .round-table-item-team
+              .results-team-logo= image_tag(image_path(result.team.logo_path))
+              .results-team-name= result.team.human_name
+            .round-table-item-points= result.points
+
+:javascript
+  $(document).ready(function() {
+    $(".round-table-hide").click(function(){
+      var statsTable = this.parentNode.parentNode;
+      var list = statsTable.querySelector(".round-list");
+
+      if (this.classList.contains("round-table-visible")) {
+          list.style.display = "none";
+          this.style.display = "none";
+          statsTable.querySelector(".round-table-hidden").style.display = "block";
+      }
+
+      if (this.classList.contains("round-table-hidden")) {
+          list.style.display = "block";
+          this.style.display = "none";
+          statsTable.querySelector(".round-table-visible").style.display = "block";
+      }
+    });
+  });

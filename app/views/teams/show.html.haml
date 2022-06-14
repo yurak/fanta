@@ -1,5 +1,6 @@
 .page-block
-  = render 'layouts/nav_panel', league: team.league
+  = render 'layouts/left_nav', league: team.league
+  = render 'layouts/right_nav', league: team.league
   .page-info.team-show
     - if team.tournament.fanta?
       .team-section

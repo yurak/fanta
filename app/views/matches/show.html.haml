@@ -1,5 +1,6 @@
 .page-block
-  = render 'layouts/nav_panel', league: match.tour.league
+  = render 'layouts/left_nav', league: match.tour.league
+  = render 'layouts/right_nav', league: match.tour.league
   .page-info.match-page
     .match-round-links
       .match-round-link

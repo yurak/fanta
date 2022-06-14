@@ -1,5 +1,6 @@
 .page-block
-  = render 'layouts/nav_panel', league: league
+  = render 'layouts/left_nav', league: league
+  = render 'layouts/right_nav', league: league if league
   .page-info.players-page
     .players-title-bar
       .players-title

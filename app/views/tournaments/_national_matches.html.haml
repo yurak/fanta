@@ -6,11 +6,11 @@
           = match.host_team.name
         .round-tournament-team-logo
           = flag_icon(match.host_team.code.to_sym, element: :div)
-    .round-tournament-match-cell
+    .round-tournament-match-cell.round-tournament-match-cell-result
       - if match.host_score
         .round-tournament-match-result
-          .round-tournament-match-result-host= match.host_score
-          .round-tournament-match-result-guest= match.guest_score
+          .round-tournament-match-result-text
+            = "#{match.host_score}:#{match.guest_score}"
       - else
         = match.time
     .round-tournament-match-cell.round-tournament-match-team.round-tournament-match-guest

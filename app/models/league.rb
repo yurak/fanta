@@ -33,6 +33,10 @@ class League < ApplicationRecord
     result&.team
   end
 
+  def mantra?
+    tours.first&.mantra?
+  end
+
   def self.counters(leagues)
     counters = {}
     counters['All leagues'] = leagues&.count

@@ -1,5 +1,6 @@
 .page-block
-  = render 'layouts/nav_panel', league: league
+  = render 'layouts/left_nav', league: league
+  = render 'layouts/right_nav', league: league
   .page-info.auctions-page
     .auctions-head
       .tournament-logo= image_tag(league.tournament.logo_path)
@@ -17,12 +18,12 @@
         - if current_user&.admin?
           - if auction.initial?
             .actions-buttons
-              = link_to 'Sales', league_auction_path(league, auction, status: :sales), method: :put, data: { confirm: t('tours.are_you_sure') }
-              = link_to 'Blind Bids', league_auction_path(league, auction, status: :blind_bids), method: :put, data: { confirm: t('tours.are_you_sure') }
-              = link_to 'Live ', league_auction_path(league, auction, status: :live), method: :put, data: { confirm: t('tours.are_you_sure') }
+              = link_to 'Sales', league_auction_path(league, auction, status: :sales), method: :put, data: { confirm: t('header.are_you_sure') }
+              = link_to 'Blind Bids', league_auction_path(league, auction, status: :blind_bids), method: :put, data: { confirm: t('header.are_you_sure') }
+              = link_to 'Live ', league_auction_path(league, auction, status: :live), method: :put, data: { confirm: t('header.are_you_sure') }
           - if auction.blind_bids? || auction.live?
             .actions-buttons
-              = link_to 'Close', league_auction_path(league, auction, status: :closed), method: :put, data: { confirm: t('tours.are_you_sure') }
+              = link_to 'Close', league_auction_path(league, auction, status: :closed), method: :put, data: { confirm: t('header.are_you_sure') }
         = link_to auction_link(auction) do
           .auction-item{ class: "auction-#{auction.status}"}
             .auction-param-item.center= auction.number

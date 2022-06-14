@@ -40,11 +40,17 @@ class Team < ApplicationRecord
   end
 
   def next_round
-    league.active_tour || league.tours.inactive.first
+    @next_round ||= league.active_tour || league.tours.inactive.first
   end
 
   def opponent_by_match(match)
     match.host == self ? match.guest : match.host
+  end
+
+  def next_match
+    return unless next_round
+
+    @next_match ||= Match.by_team_and_tour(id, next_round.id).first
   end
 
   def next_opponent
@@ -94,12 +100,6 @@ class Team < ApplicationRecord
   end
 
   private
-
-  def next_match
-    return unless next_round
-
-    @next_match ||= Match.by_team_and_tour(id, next_round.id).first
-  end
 
   def matches
     @matches ||= Match.where('host_id = ? OR guest_id = ?', id, id)
