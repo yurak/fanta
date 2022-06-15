@@ -48,7 +48,8 @@ class RoundPlayer < ApplicationRecord
   end
 
   def club_played_match?
-    TournamentMatch.by_club_and_t_round(club.id, tournament_round.id).first&.host_score.present?
+    TournamentMatch.by_club_and_t_round(club.id, tournament_round.id).first&.host_score.present? ||
+      NationalMatch.by_team(national_team&.id).by_t_round(tournament_round.id).first&.host_score.present?
   end
 
   def another_tournament?

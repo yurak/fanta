@@ -37,7 +37,10 @@
       .module-name
         = "#{t('tours.round')} ##{tour.tournament_round.number}"
       .round-matches
-        = render 'tournaments/tournament_matches', matches: tour.tournament_round.tournament_matches
+        - if tour.national?
+          = render 'tournaments/national_matches', matches: tour.tournament_round.national_matches
+        - else
+          = render 'tournaments/tournament_matches', matches: tour.tournament_round.tournament_matches
     .players-section
       .main-players-title
         = t('lineups.main_squad')

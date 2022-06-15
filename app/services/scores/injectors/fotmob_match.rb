@@ -64,14 +64,14 @@ module Scores
       def players_hash(team)
         scores_hash = team['players'].each_with_object({}) do |line, hash|
           line.each do |player_data|
-            next if player_data['minutesPlayed'].zero?
+            next if player_data['minutesPlayed'].to_i.zero?
 
             hash[player_name(player_data)] = player_hash(player_data)
           end
         end
 
         team['bench'].each_with_object(scores_hash) do |player_data, hash|
-          next if player_data['minutesPlayed'].zero?
+          next if player_data['minutesPlayed'].to_i.zero?
 
           hash[player_name(player_data)] = player_hash(player_data)
         end
@@ -80,7 +80,7 @@ module Scores
       def player_hash(player_data)
         hash = {
           rating: player_data['rating']['num'],
-          played_minutes: player_data['minutesPlayed']&.to_i,
+          played_minutes: player_data['minutesPlayed'].to_i,
           missed_goals: player_data['stats'][0]['stats']['Goals conceded']
         }.compact
 
