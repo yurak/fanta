@@ -21,6 +21,7 @@ class TournamentRound < ApplicationRecord
   end
 
   def finished?
-    tournament_matches.any? && tournament_matches.where(host_score: nil).empty?
+    (tournament_matches.any? && tournament_matches.where(host_score: nil).empty?) ||
+      (national_matches.any? && national_matches.where(host_score: nil).empty?)
   end
 end
