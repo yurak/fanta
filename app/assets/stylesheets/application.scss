@@ -659,7 +659,7 @@ body, html {
 
     .round-table-item {
       display: grid;
-      grid-template-columns: 32px auto 32px;
+      grid-template-columns: 32px auto 48px;
       font-weight: 400;
       font-size: 12px;
       line-height: 24px;
@@ -692,7 +692,7 @@ body, html {
 
       .round-table-item-points {
         padding: 4px 8px;
-        text-align: center;
+        text-align: right;
         font-weight: 700;
       }
     }
