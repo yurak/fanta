@@ -7,7 +7,6 @@ RSpec.describe 'Welcome', type: :request do
     context 'when user is logged out' do
       it { expect(response).to be_successful }
       it { expect(response).to render_template(:index) }
-      it { expect(response).to render_template(:_header) }
       it { expect(response).to render_template(:_footer) }
       it { expect(response).to have_http_status(:ok) }
     end
@@ -20,7 +19,6 @@ RSpec.describe 'Welcome', type: :request do
 
       it { expect(response).to be_successful }
       it { expect(response).to render_template(:index) }
-      it { expect(response).to render_template(:_header) }
       it { expect(response).to render_template(:_footer) }
       it { expect(response).to have_http_status(:ok) }
     end
@@ -53,7 +51,6 @@ RSpec.describe 'Welcome', type: :request do
 
     it { expect(response).to be_successful }
     it { expect(response).to render_template(:about) }
-    it { expect(response).to render_template(:_header) }
     it { expect(response).to render_template(:_footer) }
     it { expect(response).to have_http_status(:ok) }
   end
@@ -65,7 +62,6 @@ RSpec.describe 'Welcome', type: :request do
 
     it { expect(response).to be_successful }
     it { expect(response).to render_template(:contact) }
-    it { expect(response).to render_template(:_header) }
     it { expect(response).to render_template(:_footer) }
     it { expect(response).to have_http_status(:ok) }
   end
@@ -77,7 +73,6 @@ RSpec.describe 'Welcome', type: :request do
 
     it { expect(response).to be_successful }
     it { expect(response).to render_template(:guide) }
-    it { expect(response).to render_template(:_header) }
     it { expect(response).to render_template(:_footer) }
     it { expect(response).to have_http_status(:ok) }
   end
@@ -89,7 +84,6 @@ RSpec.describe 'Welcome', type: :request do
 
     it { expect(response).to be_successful }
     it { expect(response).to render_template(:rules) }
-    it { expect(response).to render_template(:_header) }
     it { expect(response).to render_template(:_footer) }
     it { expect(response).to have_http_status(:ok) }
   end

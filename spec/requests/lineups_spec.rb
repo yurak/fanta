@@ -41,7 +41,6 @@ RSpec.describe 'Lineups', type: :request do
 
       it { expect(response).to be_successful }
       it { expect(response).to render_template(:show) }
-      it { expect(response).to render_template(:_header) }
       it { expect(response).to have_http_status(:ok) }
       it { expect(assigns(:lineup)).not_to be_nil }
     end
@@ -57,7 +56,6 @@ RSpec.describe 'Lineups', type: :request do
 
       it { expect(response).to be_successful }
       it { expect(response).to render_template(:show) }
-      it { expect(response).to render_template(:_header) }
       it { expect(response).to have_http_status(:ok) }
       it { expect(assigns(:lineup)).not_to be_nil }
       it { expect(assigns(:lineup)).to eq(lineup) }
@@ -124,7 +122,6 @@ RSpec.describe 'Lineups', type: :request do
 
       it { expect(response).to be_successful }
       it { expect(response).to render_template(:new) }
-      it { expect(response).to render_template(:_header) }
       it { expect(response).to have_http_status(:ok) }
       it { expect(assigns(:modules)).not_to be_nil }
       it { expect(assigns(:lineup)).not_to be_nil }
@@ -372,7 +369,6 @@ RSpec.describe 'Lineups', type: :request do
 
       it { expect(response).to be_successful }
       it { expect(response).to render_template(:edit) }
-      it { expect(response).to render_template(:_header) }
       it { expect(response).to have_http_status(:ok) }
       it { expect(assigns(:lineup)).not_to be_nil }
     end

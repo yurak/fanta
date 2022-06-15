@@ -2,13 +2,16 @@ serie_a:
   ATA: Atalanta
   BOL: Bologna
   CAG: Cagliari
+  CRE: Cremonese
   EMP: Empoli
   FIO: Fiorentina
   GEN: Genoa
   INT: Inter
   JUV: Juventus
   LAZ: Lazio
+  LEC: Lecce
   MIL: Milan
+  MNZ: Monza
   NAP: Napoli
   ROM: Roma
   SAL: Salernitana
@@ -56,10 +59,13 @@ bundesliga:
   KOL: Koln
   MAI: Mainz 05
   RBL: RB Leipzig
+  S04: Schalke 04
   STU: Stuttgart
   UNI: Union Berlin
+  WER: Werder Bremen
   WLF: Wolfsburg
 laliga:
+  ALM: Almeria
   ATB: Athletic Bilbao
   ATM: Atletico Madrid
   BAR: Barcelona
@@ -78,11 +84,14 @@ laliga:
   RVA: Rayo Vallecano
   RMA: Real Madrid
   SOC: Real Sociedad
+  VLD: Real Valladolid
   SEV: Sevilla
   VAL: Valencia
   VIL: Villarreal
 ligue_1:
+  AJC: Ajaccio
   ANG: Angers
+  AUX: Auxerre
   BOR: Bordeaux
   BRS: Brest
   CLE: Clermont Foot
@@ -101,6 +110,7 @@ ligue_1:
   REN: Rennes
   SEN: Saint-Etienne
   STR: Strasbourg
+  TOU: Toulouse
   TRO: Troyes
 championship:
   BIR: Birmingham City

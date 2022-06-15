@@ -1,5 +1,5 @@
 .page-info.team-show {
-  padding: 120px 0 20px;
+  padding: 0 0 0 272px;
 
   a {
     text-decoration: none;
@@ -46,10 +46,10 @@
   }
 
   .team-section {
-    padding: 40px 10% 0;
+    padding: 40px;
     display: grid;
     grid-template-columns: 1fr 2fr;
-    column-gap: 100px;
+    column-gap: 64px;
 
     .team-data {
       margin-top: 120px;

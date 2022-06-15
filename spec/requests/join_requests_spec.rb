@@ -6,7 +6,6 @@ RSpec.describe 'JoinRequests', type: :request do
 
     it { expect(response).to be_successful }
     it { expect(response).to render_template(:new) }
-    it { expect(response).to render_template(:_header) }
     it { expect(response).to have_http_status(:ok) }
     it { expect(assigns(:join_request)).not_to be_nil }
   end
@@ -43,7 +42,6 @@ RSpec.describe 'JoinRequests', type: :request do
 
       it { expect(response).to be_successful }
       it { expect(response).to render_template(:new) }
-      it { expect(response).to render_template(:_header) }
       it { expect(response).to have_http_status(:ok) }
     end
   end
@@ -55,7 +53,6 @@ RSpec.describe 'JoinRequests', type: :request do
 
     it { expect(response).to be_successful }
     it { expect(response).to render_template(:success_request) }
-    it { expect(response).to render_template(:_header) }
     it { expect(response).to have_http_status(:ok) }
   end
 end

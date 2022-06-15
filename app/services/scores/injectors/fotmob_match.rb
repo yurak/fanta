@@ -17,7 +17,7 @@ module Scores
 
         update_round_players
 
-        # Audit::CsvWriter.call(match, host_scores_hash, guest_scores_hash)
+        Audit::CsvWriter.call(match, host_scores_hash, guest_scores_hash)
       end
 
       private

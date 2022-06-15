@@ -1,49 +1,47 @@
 .page-info.match-page {
   height: 100%;
-  padding: 120px 0 0;
+  padding: 0 0 0 272px;
 
   a {
     text-decoration: none;
   }
 
-  .matches-bar {
-    background-color: #FFEBC2;
-    width: 100%;
-    height: 112px;
-    text-align: left;
+  .match-round-links {
+    padding: 28px 36px 28px 8px;
     display: grid;
-    grid-template-columns: 280px auto;
+    grid-template-columns: 280px auto 200px;
 
-    .matches-bar-title {
-      padding: 28px 32px;
+    .match-round-link a {
+      display: grid;
+      grid-template-columns: 40px auto;
+      column-gap: 8px;
+      text-decoration: none;
+      color: #181715;
+      font-weight: 700;
+      font-size: 32px;
+      line-height: 32px;
 
-      .matches-bar-round {
-        font-size: 16px;
-        line-height: 24px;
-        color: #181715;
-
-        a {
-          color: #261FFF;
-        }
-      }
-
-      .matches-bar-center {
-        font-weight: bold;
-        font-size: 28px;
-        line-height: 32px;
-        color: #181715;
+      .match-round-link-arrow {
+        text-align: center;
       }
     }
+  }
+
+  .matches-bar {
+    width: 100%;
+    height: 104px;
+    text-align: center;
 
     .matches-bar-item {
       display: inline-block;
+      border: 1px solid #E5E6E4;
       background-color: #FFFFFF;
       border-radius: 4px;
       line-height: 40px;
       font-size: 16px;
       height: 96px;
       width: 196px;
-      margin: 8px 4px;
+      margin: 4px;
       padding: 8px 21px;
       font-weight: 500;
       color: #A6A2A2;
@@ -60,24 +58,25 @@
 
         .matches-bar-team-name {
           padding-left: 16px;
-          color: #040052;
+          color: #181715;
           text-align: left;
         }
 
         .matches-bar-team-score {
           font-weight: bold;
-          color: #040052;
+          color: #181715;
         }
       }
     }
 
     .current-match-true {
-      border: 1px solid #006EF5;
+      background: #FFEBC2;
+      border: 1px solid #FFB319;
     }
   }
 
   .match-bar {
-    padding: 38px 50px 16px;
+    padding: 38px 16px 16px;
     display: grid;
     grid-template-columns: 1fr 420px 1fr;
 
@@ -134,7 +133,8 @@
         .round-match-goals {
           display: grid;
           grid-template-columns: 1fr 1fr;
-          background-color: #040052;
+          background: #181715;
+          border-radius: 4px;
           font-weight: bold;
           font-size: 24px;
           line-height: 32px;
@@ -149,7 +149,7 @@
         .round-match-score {
           font-weight: bold;
           font-size: 24px;
-          color: #040052;
+          color: #181715;
         }
 
         .round-match-scores-count {
@@ -201,10 +201,10 @@
   }
 
   .match-squads {
-    padding: 32px 50px;
+    padding: 32px 16px;
     display: grid;
     grid-template-columns: 1fr 420px 1fr;
-    column-gap: 46px;
+    column-gap: 32px;
     grid-auto-rows: max-content;
 
     .match-lineups {
@@ -564,15 +564,6 @@
       display: block;
       height: 186px;
 
-      .matches-bar-title {
-        padding: 8px 32px 0;
-
-        .matches-bar-round {
-          font-size: 24px;
-          line-height: 32px;
-        }
-      }
-
       .matches-bar-item {
         width: 170px;
         padding: 8px 10px;
@@ -614,15 +605,6 @@
       text-align: center;
       display: block;
       height: 186px;
-
-      .matches-bar-title {
-        padding: 8px 32px 0;
-
-        .matches-bar-round {
-          font-size: 24px;
-          line-height: 32px;
-        }
-      }
 
       .matches-bar-item {
         width: 170px;

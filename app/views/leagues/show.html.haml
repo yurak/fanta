@@ -7,12 +7,6 @@
         = link_to tour_path(round) do
           .round-link-block{ class: "round-#{round.status}" }
             = round.number
-    - if auction && current_user&.team_by_league(league)
-      .auction-block
-        .auction-msg
-          = auction_message(auction)
-        .auction-link
-          = link_to t('auction.auction'), auction_link(auction)
     .league-teams
       - league.teams.each do |team|
         .league-team-item
@@ -21,38 +15,3 @@
               = image_tag(team.logo_path)
             .team-name
               = team.human_name
-  .stats-section
-    .round-table
-      .round-table-title
-        = link_to league_results_path(league) do
-          .round-table-title-text= t('tours.table')
-          .round-table-title-icon
-            = image_tag('icons/arrow_blue.png')
-      .round-table-block
-        .round-table-headers
-          .round-table-header-cell
-          .round-table-header-cell
-          .round-table-header-cell= t('tours.w')
-          .round-table-header-cell= t('tours.d')
-          .round-table-header-cell= t('tours.l')
-          .round-table-header-cell= t('tours.gd')
-          .round-table-header-cell= t('tours.pnt')
-        - league.results.ordered.each_with_index do |result, i|
-          .round-table-item
-            .round-table-item-cell.round-table-index= i + 1
-            .round-table-item-cell.round-table-item-team
-              .results-team-logo
-                = image_tag(image_path(result.team.logo_path))
-              .results-team-name
-                = result.team.human_name[0..15]
-            .round-table-item-cell= result.wins
-            .round-table-item-cell= result.draws
-            .round-table-item-cell= result.loses
-            .round-table-item-cell= result.goals_difference
-            .round-table-item-cell= result.points
-    .round-table
-      .round-table-title
-        = link_to league_auctions_path(league) do
-          .round-table-title-text= "💰 Transfers"
-          .round-table-title-icon
-            = image_tag('icons/arrow_blue.png')

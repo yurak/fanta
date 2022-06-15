@@ -13,22 +13,12 @@
         .round-title
           .round-title-text= "#{t('tours.round')} ##{auction_round.number}"
           .round-title-icon
-            - if auction_round.active?
-              = image_tag('icons/round_status1.svg')
-            - elsif auction_round.processing?
-              = image_tag('icons/round_status2.svg')
-            - else
-              = image_tag('icons/round_status3.svg')
         .round-deadline
           .round-deadline-text= t('tours.deadline')
           .round-deadline-value
             = auction_round.deadline&.strftime("%a, %b %e at %H:%M")
           .round-deadline-countdown
       .actions-buttons
-        -# - if current_user&.admin?
-        -#   = link_to
-        -# -  if current_user&.can_moderate?
-        -#   = link_to
         - if current_user&.team_by_league(league) && auction_round.active?
           - if user_auction_bid(auction_round, league)
             = link_to t('auction_round.edit_bid'), edit_auction_round_auction_bid_path(auction_round, user_auction_bid(auction_round, league))
