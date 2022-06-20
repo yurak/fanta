@@ -15,14 +15,14 @@
           - if match.tour.number > 1 && match.tour.prev_round
             = link_to tour_path(match.tour.prev_round) do
               .round-prev-arrow
-                = image_tag('icons/arrow_blue.png')
+                = image_tag('icons/arrow_blue.svg')
               .round-prev-text= t('tours.prev')
         .round-next
           - if match.tour.number < match.tour.league.tours.size && match.tour.next_round
             = link_to tour_path(match.tour.next_round) do
               .round-next-text= t('tours.next')
               .round-next-arrow
-                = image_tag('icons/arrow_blue.png')
+                = image_tag('icons/arrow_blue.svg')
     .matches-bar
       .matches-bar-items
         - match.tour.matches.each do |round_match|

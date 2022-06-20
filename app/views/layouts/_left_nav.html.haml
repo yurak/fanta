@@ -1,7 +1,7 @@
 .left-nav
   .root-logo
     = link_to root_path do
-      = image_tag('logo628.png')
+      = image_tag('logo.svg')
   - if user_signed_in?
     - current_user.teams.each do |team|
       - if team.league.active_tour_or_last
@@ -40,15 +40,18 @@
     - if user_signed_in?
       .nav-logo-small
         = link_to user_path(current_user) do
-          .nav-link-img
-            = image_tag(current_user.avatar_path)
+          .nav-link-img= image_tag(current_user.avatar_path)
           .nav-link-title= current_user.name
+    - else
+      .nav-logo-small.sign-out-btn
+        = link_to root_path do
+          .sign-out-btn-img= image_tag('icons/sign_out_square.svg')
 
     #help-modal.help-modal
       .help-modal-content
         -# TODO: add links to help pages
-        .help-modal-link= link_to t('header.faq'), ''
-        .help-modal-link= link_to t('header.rules'), ''
+        .help-modal-link= link_to t('header.rules_faq'), ''
+        .help-modal-link= link_to t('header.rules_nav'), ''
         .help-modal-link= link_to t('header.dictionary'), ''
         .help-modal-link= link_to t('header.links'), ''
         .help-modal-link= link_to t('header.tips'), ''
