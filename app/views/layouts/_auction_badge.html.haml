@@ -30,7 +30,7 @@
       - elsif active_auction.blind_bids? && active_auction.auction_rounds.active.any?
         .next-round-date= active_auction.auction_rounds.active.first.deadline&.strftime("%^a, %^b %e")
         .next-round-time= active_auction.auction_rounds.active.first.deadline&.strftime("%H:%M")
-- elsif league.auctions.initial.any? && TimeDifference.between(Time.zone.now, initial_auction.deadline).in_days < 7
+- elsif league.auctions.initial.any? && initial_auction.deadline && TimeDifference.between(Time.zone.now, initial_auction.deadline).in_days < 7
   .next-round.auction-block-soon
     .auction-badge= t('header.coming_soon')
     .auction-text= "#{t('header.auction')} ##{initial_auction.number}"
