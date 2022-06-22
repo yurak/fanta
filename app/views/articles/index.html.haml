@@ -1,19 +1,21 @@
-.page-info.news-page
-  .news-block-head
-    .news-title= t('news.news')
-    .news-add
-      - if current_user&.admin?
-        .add-article-btn
-          = link_to t('news.add_article'), new_article_path
-    .news-filters
-      -# TODO: add Tournaments filter
-  .articles-block
-    .articles-column
-      - @left.each do |article|
+.page-block
+  = render 'layouts/left_nav', league: nil
+  .page-info.news-page
+    .news-block-head
+      .news-title= t('news.news')
+      .news-add
+        - if current_user&.admin?
+          .add-article-btn
+            = link_to t('news.add_article'), new_article_path
+      .news-filters
+        -# TODO: add Tournaments filter
+    .articles-block
+      .articles-column
+        - @left.each do |article|
+          = render 'article_item', article: article
+      .articles-column.articles-column-second
+        - @right.each do |article|
+          = render 'article_item', article: article
+    .articles-block-portrait
+      - @articles.each do |article|
         = render 'article_item', article: article
-    .articles-column.articles-column-second
-      - @right.each do |article|
-        = render 'article_item', article: article
-  .articles-block-portrait
-    - @articles.each do |article|
-      = render 'article_item', article: article

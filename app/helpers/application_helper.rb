@@ -4,7 +4,7 @@ module ApplicationHelper
   end
 
   def active_tournaments
-    Tournament.with_clubs
+    Tournament.with_clubs + Tournament.with_ec_clubs
   end
 
   def random_player_img_path

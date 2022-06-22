@@ -1,17 +1,20 @@
-.page-info.rounds-page.league-page
-  .round-section
-    .rounds-league-name
-      = league.name
-    .rounds-block
-      - league.tours.each do |round|
-        = link_to tour_path(round) do
-          .round-link-block{ class: "round-#{round.status}" }
-            = round.number
-    .league-teams
-      - league.teams.each do |team|
-        .league-team-item
-          = link_to team_path(team) do
-            .team-logo
-              = image_tag(team.logo_path)
-            .team-name
-              = team.human_name
+.page-block
+  = render 'layouts/left_nav', league: league
+  = render 'layouts/right_nav', league: league
+  .page-info.rounds-page.league-page
+    .round-section
+      .rounds-league-name
+        = league.name
+      .rounds-block
+        - league.tours.each do |round|
+          = link_to tour_path(round) do
+            .round-link-block{ class: "round-#{round.status}" }
+              = round.number
+      .league-teams
+        - league.teams.each do |team|
+          .league-team-item
+            = link_to team_path(team) do
+              .team-logo
+                = image_tag(team.logo_path)
+              .team-name
+                = team.human_name

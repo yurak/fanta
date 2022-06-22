@@ -1,6 +1,6 @@
 .page-info.leagues-page {
   height: 100%;
-  padding: 120px 150px;
+  padding: 50px 150px 120px 222px;
 
   a { text-decoration: none; }
 
@@ -155,6 +155,8 @@
 }
 
 .page-info.rounds-page.league-page {
+  padding-left: 272px;
+
   .league-teams {
     padding: 32px 0;
     display: grid;

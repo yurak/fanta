@@ -1,29 +1,25 @@
-.login-page.welcome-page.welcome-subpage.header-grid
-  .left-block
-    .title-block
-      .title-text= t('.sign_in')
-      .title-bg
-    .login-block
-      = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
-        .form-group.text-input
-          = f.label t('.email')
-          = f.email_field :email, autofocus: true, autocomplete: 'email', class: 'form-control'
-        .form-group.text-input
-          = f.label  t('.password')
-          = f.password_field :password, autocomplete: 'current-password', class: 'form-control'
-        - if devise_mapping.rememberable?
-          .form-group.form-check
-            = f.check_box :remember_me, class: 'form-check-input'
-            = f.label :remember_me, class: 'form-check-label' do
-              = t('.remember_me')
-        .form-group
-          = f.submit  t('.sign_in'), class: 'btn btn-primary welcome-btn-form'
-  .right-block
-    .pitch-layer
-    .player-layer
-      .player-image-wrapper
-        .player-image
-          = image_tag(random_player_img_path)
+.page-block
+  = render 'layouts/left_nav', league: nil
+  .login-page.welcome-page.welcome-subpage.header-grid
+    .left-block
+      .title-block
+        .title-text= t('.sign_in')
+        .title-bg
+      .login-block
+        = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
+          .form-group.text-input
+            = f.label t('.email')
+            = f.email_field :email, autofocus: true, autocomplete: 'email', class: 'form-control'
+          .form-group.text-input
+            = f.label  t('.password')
+            = f.password_field :password, autocomplete: 'current-password', class: 'form-control'
+          - if devise_mapping.rememberable?
+            .form-group.form-check
+              = f.check_box :remember_me, class: 'form-check-input'
+              = f.label :remember_me, class: 'form-check-label' do
+                = t('.remember_me')
+          .form-group
+            = f.submit  t('.sign_in'), class: 'btn btn-primary welcome-btn-form'
 
 
 

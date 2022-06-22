@@ -38,7 +38,7 @@
         position: absolute;
         text-align: center;
         width: 100%;
-        margin-left: 8px;
+        padding-left: 16px;
       }
     }
 
@@ -68,15 +68,10 @@
         font-family: 'Archivo Bold';
         font-size: 18px;
         line-height: 54px;
+        margin: 0 6px;
 
         a {
           line-height: 24px;
-        }
-      }
-
-      .landing-action-login:hover {
-        a {
-          color: #FFFFFF;
         }
       }
 
@@ -183,168 +178,295 @@
     }
 
     .screen-img {
-      height: 414px;
+      height: 374px;
       border-bottom-left-radius: 6px;
       background-size: cover;
       background-position: left center;
       background-image: image_url('landing/screen1.jpg');
     }
   }
-}
 
-//.welcome-page {
-//  position:relative;
-//  height: 100%;
-//  width: 100%;
-//  font-family: 'Mont SemiBold';
-//
-//  .left-block {
-//    margin: 120px 35% 100px 12%;
-//    width: 700px;
-//    height: 75%;
-//    display: grid;
-//    grid-template-rows: 42% 15% 43%;
-//
-//    .title-block {
-//      .title-bg {
-//        background: #FFEBC2;
-//        margin-top: 10%;
-//        height: 69%;
-//      }
-//      .title-text {
-//        font-style: normal;
-//        font-weight: bold;
-//        font-size: 128px;
-//        line-height: 128px;
-//        padding-left: 25px;
-//        position: absolute;
-//        width: 500px;
-//        color: #261FFF;
-//        font-family: 'Mont Bold';
-//      }
-//    }
-//    .slogan-block {
-//      padding-left: 25px;
-//      font-style: normal;
-//      font-weight: normal;
-//      font-size: 24px;
-//      line-height: 32px;
-//      color: #181715;
-//
-//      .slogan-start {
-//        display: inline-block;
-//        font-weight: bold;
-//      }
-//
-//      .slogan-end {
-//        display: inline-block;
-//      }
-//    }
-//    .description-block {
-//      padding-left: 25px;
-//      font-style: normal;
-//      line-height: 24px;
-//      color: #181715;
-//
-//      .description-title {
-//        font-weight: bold;
-//        font-size: 18px;
-//        margin-bottom: 20px;
-//      }
-//      .description-item {
-//        font-weight: normal;
-//        line-height: 32px;
-//        font-size: 16px;
-//        margin-bottom: 8px;
-//        display: grid;
-//        grid-template-columns: 32px auto;
-//        column-gap: 16px;
-//
-//        .description-icon {
-//          width: 100%;
-//          height: 100%;
-//          border-radius:50%;
-//          background: #FFEBC2;
-//
-//          img {
-//            margin: auto 8px;
-//          }
-//        }
-//
-//        .description-icon2 {
-//          background: #D0F0D4;
-//        }
-//
-//        .description-icon3 {
-//          background: #D8D6FF;
-//
-//          img {
-//            margin: auto 10px;
-//          }
-//        }
-//
-//        .description-icon4 {
-//          background: #EAC6FB;
-//        }
-//      }
-//    }
-//    .team-image {
-//      display: none;
-//    }
-//  }
-//
-//  .right-block {
-//    position: fixed;
-//    width: 370px;
-//    height: 100%;
-//    right: 0;
-//    background: #261FFF;
-//    z-index: 10;
-//
-//    .pitch-layer {
-//      width: 100%;
-//      height: 100%;
-//      z-index: 15;
-//      opacity: 0.5;
-//      box-sizing: border-box;
-//      background: image_url('pitch.png') no-repeat left;
-//    }
-//
-//    .player-layer {
-//      z-index: 25;
-//      width: 100%;
-//      height: 100%;
-//      position: absolute;
-//      bottom: 0;
-//
-//      .player-image-wrapper {
-//        width: 100%;
-//        height: 83%;
-//        position: absolute;
-//        left: -100%;
-//        bottom: 0;
-//
-//        .player-image {
-//          position: relative;
-//          width: 200%;
-//          height: 100%;
-//          text-align: center;
-//          overflow: hidden;
-//
-//          img {
-//            height: 100%;
-//            position: absolute;
-//            top: -9999px;
-//            bottom: -9999px;
-//            left: -9999px;
-//            right: -9999px;
-//            margin: auto;
-//          }
-//        }
-//      }
-//    }
-//  }
-//}
+  .better-section {
+    background: #181715;
+    color: #FFFFFF;
+    padding: 60px 152px 80px;
+
+    .better-title1 {
+      font-family: 'Archivo Bold';
+      font-size: 72px;
+      line-height: 72px;
+      color: #EDF67D;
+    }
+
+    .better-title2 {
+      font-family: 'Archivo Bold';
+      font-size: 72px;
+      line-height: 72px;
+    }
+
+    .better-diff {
+      margin-top: 56px;
+      font-family: 'Archivo Regular';
+      font-size: 18px;
+      line-height: 24px;
+      text-transform: uppercase;
+      color: #A6A2A2;
+    }
+
+    .better-item {
+      border-bottom: 1px solid #847577;
+      display: grid;
+      grid-template-columns: 368px auto;
+      column-gap: 16px;
+      font-size: 24px;
+      line-height: 32px;
+      padding: 24px 0;
+    }
+
+    .better-item-text {
+      font-family: 'Archivo Regular';
+      color: #CFD2CD;
+    }
+
+    .better-item:last-child {
+      border: none;
+    }
+
+    .better-links {
+      margin-top: 32px;
+      font-size: 16px;
+      line-height: 24px;
+
+      .better-link-title {
+        display: inline-block;
+        font-family: 'Archivo Regular';
+        color: #CFD2CD;
+      }
+
+      .better-link {
+        display: inline-block;
+        border-bottom: 1px solid #847577;
+        margin-left: 16px;
+
+        a {
+          font-family: 'Archivo Bold';
+          color: #EDF67D;
+        }
+      }
+
+      .better-link:hover a {
+        color: #FFEBC2;
+      }
+    }
+  }
+
+  .start-section {
+    padding: 96px 152px 124px;
+
+    .start-title {
+      font-family: 'Archivo Bold';
+      font-size: 72px;
+      line-height: 72px;
+      margin-bottom: 42px;
+    }
+
+    .start-content {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      column-gap: 48px;
+
+      .step-item {
+        display: grid;
+        grid-template-columns: 60px auto;
+        column-gap: 42px;
+        color: #A6A2A2;
+        margin-bottom: 24px;
+
+        .step-number {
+          font-family: 'Archivo Regular';
+          font-size: 16px;
+          line-height: 24px;
+          margin-top: 6px;
+        }
+
+        .step-title {
+          font-size: 24px;
+          line-height: 32px;
+        }
+      }
+
+      .step-active {
+        color: #181715;
+      }
+
+      .start-btn {
+        margin-left: 102px;
+        width: 156px;
+      }
+    }
+  }
+
+  .tournaments-section {
+    padding: 40px;
+    background: #F4F4F4;
+    text-align: center;
+    font-family: 'Archivo Regular';
+
+    .tournaments-season {
+      font-size: 12px;
+      line-height: 16px;
+      text-transform: uppercase;
+    }
+
+    .tournaments-current {
+      font-family: 'Archivo Bold';
+      font-size: 24px;
+      line-height: 32px;
+    }
+
+    .tournaments-desc {
+      font-size: 16px;
+      line-height: 24px;
+    }
+
+    .tournaments-row {
+      margin-top: 48px;
+
+      .tournament-item {
+        display: inline-block;
+        width: 120px;
+        height: 120px;
+        //margin: 0 10px;
+
+        .tournament-logo {
+          height: 104px;
+          padding: 16px 24px;
+        }
+
+        img {
+          width: 72px;
+          height: 72px;
+        }
+
+        .tournament-name {
+          font-size: 12px;
+          line-height: 16px;
+          color: #847577;
+        }
+      }
+    }
+  }
+
+  .people-section {
+    padding: 88px 152px 152px;
+    font-family: 'Archivo Bold';
+
+    .people-say {
+      font-size: 72px;
+      line-height: 72px;
+    }
+
+    .people-love {
+      font-size: 72px;
+      line-height: 72px;
+      color: #A6A2A2;
+      margin-bottom: 56px;
+    }
+
+    .people-content {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      column-gap: 112px;
+
+      .people-response {
+        background: #FFEBC2;
+        padding: 40px;
+
+        .people-citation {
+          margin-top: 46px;
+          font-size: 32px;
+          line-height: 32px;
+          height: 370px;
+        }
+
+        .people-author {
+          display: grid;
+          grid-template-columns: 48px auto;
+          column-gap: 24px;
+          height: 48px;
+
+          .people-author-smile {
+            font-size: 24px;
+            line-height: 48px;
+            border: 1px solid #9F6C05;
+            border-radius: 24px;
+            text-align: center;
+          }
+
+          .people-author-name {
+            font-size: 24px;
+            line-height: 32px;
+          }
+
+          .people-author-team {
+            font-family: 'Archivo Regular';
+            font-size: 14px;
+            line-height: 16px;
+            color: #847577;
+          }
+        }
+      }
+
+      .people-numbers-title {
+        font-size: 24px;
+        line-height: 32px;
+      }
+
+      .people-numbers-item {
+        border-bottom: 2px solid #CFD2CD;
+        padding: 40px 0 16px;
+
+        .people-number {
+          font-family: 'Archivo Regular';
+          font-size: 72px;
+          line-height: 72px;
+          color: #BA44F1;
+          margin-bottom: 24px;
+        }
+
+        .people-number-text {
+          font-family: 'Archivo Medium';
+          font-size: 18px;
+          line-height: 24px;
+          color: #847577;
+        }
+      }
+    }
+  }
+
+  .lets-section {
+    padding: 72px 152px;
+    background: #261FFF;
+
+    .lets-text {
+      font-family: 'Archivo Medium';
+      font-size: 72px;
+      line-height: 72px;
+      color: #EDF67D;
+    }
+
+    .lets-btn {
+      width: 180px;
+      margin-top: 40px;
+    }
+
+    .lets-img {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+    }
+  }
+}
 
 .welcome-subpage {
   .left-block {
@@ -388,6 +510,8 @@
 }
 
 .start-page {
+  padding-left: 72px;
+
   .left-block {
     grid-template-rows: 100px auto;
     width: 650px;
@@ -494,6 +618,8 @@
 }
 
 .success-page {
+  padding-left: 72px;
+
   .left-block {
     grid-template-rows: 15% 40% 45%;
 
@@ -589,8 +715,12 @@
   }
 }
 
-.login-page .login-block {
-  padding: 50px 25px;
+.login-page {
+  padding: 100px 0 0 100px;
+
+  .login-block {
+    padding: 50px 25px;
+  }
 }
 
 .welcome-btn-form {

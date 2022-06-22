@@ -407,17 +407,15 @@
 
 .local-header {
   background-color: #FFFFFF;
-  height: 120px;
+  height: 96px;
   width: 100%;
-  position: fixed;
-  z-index: 111;
   display: grid;
   grid-template-columns: 90px auto 150px;
 
   .local-header-close {
     font-size: 40px;
     text-align: center;
-    line-height: 110px;
+    line-height: 96px;
 
     a {
       color: black;
@@ -433,7 +431,7 @@
   }
 
   .local-header-text {
-    padding: 36px 0;
+    padding: 24px 0;
 
     .local-header-title {
       font-size: 24px;
@@ -452,7 +450,7 @@
     a {
       font-weight: 500;
       font-size: 16px;
-      line-height: 120px;
+      line-height: 96px;
       color: #181715;
     }
 

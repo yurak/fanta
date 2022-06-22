@@ -1,7 +1,7 @@
 /* PLAYER INDEX page */
 
 .page-info.players-page {
-  padding: 32px 10px 70px 282px;
+  padding: 32px 24px 70px 96px;
 
   a {
     text-decoration: none;
@@ -80,7 +80,7 @@
     line-height: 14px;
     color: #847577;
     display: grid;
-    grid-template-columns: 80px 220px 16fr 5fr 9fr 5fr 9fr 10fr 50px;
+    grid-template-columns: 80px 220px 16fr 5fr 9fr 5fr 9fr 4fr 50px;
     margin-bottom: 12px;
 
     a {
@@ -109,7 +109,7 @@
       box-sizing: border-box;
       border-radius: 4px;
       display: grid;
-      grid-template-columns: 220px 16fr 5fr 9fr 5fr 9fr 10fr 50px;
+      grid-template-columns: 220px 16fr 5fr 9fr 5fr 9fr 4fr 50px;
 
       .team-image {
         img, object {
@@ -226,7 +226,7 @@
 /* PLAYER SHOW page */
 
 .page-info.player-show-page {
-  padding: 120px 50px 100px;
+  padding: 50px 50px 100px 122px;
 
   a {
     text-decoration: none;
@@ -234,7 +234,7 @@
   }
 
   .player-banner {
-    margin: 48px 0 16px;
+    margin-bottom: 16px;
     width: 100%;
     height: 380px;
     display: grid;

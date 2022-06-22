@@ -1,49 +1,51 @@
-.page-info.player-show-page.player-request-page
-  .player-banner{style: "background-color: ##{player.club.color};"}
-    .player-show-base
-      .player-show-first-name
-        = player.first_name
-      .player-show-name
-        = player.name
-      .player-show-base-row
-        .player-positions-block.player-show-positions
-          - player.positions.each do |position|
-            .player-position{class: "player-position-#{position.name}"}
-              = position_name(position)
-    .player-show-avatar
-      .player-show-face
-        %object{data: player.profile_avatar_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-          = image_tag('avatar.png')
-      .player-show-kit
-        %object{data: player.profile_kit_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-          = image_tag('kit_default.png')
-  .request-block
-    .form-block
-      = form_for @player_request, url: player_player_requests_path(player) do |f|
-        - if @player_request.errors.any?
-          .error-block
-            - @player_request.errors.full_messages.each do |message|
-              .error-item
-                .error-icon
-                  = image_tag("icons/caution.png")
-                .error-text
-                  = message
-        = f.hidden_field :player_id, value: player.id
-        = f.hidden_field :user_id, value: current_user.id
-        .form-item
-          .form-label= t('players.change_positions')
-          .form-input
-            - for position in Position.all
-              .form-checkbox-block
-                .form-checkbox-label
-                  .player-positions-block.player-show-positions
-                    .player-position{class: "player-position-#{position.name}"}
-                      = position_name(position)
-                .form-checkbox
-                  = f.check_box :positions, {multiple: true}, position.name, nil
-        .form-item
-          .form-label= t('players.change_arguments')
-          .form-input.text-input
-            = f.text_area :comment, class: 'form-control'
-        .form-item.form-btn
-          = f.submit t('players.change_request_send'), class: 'btn btn-primary welcome-btn-form'
+.page-block
+  = render 'layouts/left_nav', league: nil
+  .page-info.player-show-page.player-request-page
+    .player-banner{style: "background-color: ##{player.club.color};"}
+      .player-show-base
+        .player-show-first-name
+          = player.first_name
+        .player-show-name
+          = player.name
+        .player-show-base-row
+          .player-positions-block.player-show-positions
+            - player.positions.each do |position|
+              .player-position{class: "player-position-#{position.name}"}
+                = position_name(position)
+      .player-show-avatar
+        .player-show-face
+          %object{data: player.profile_avatar_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
+            = image_tag('avatar.png')
+        .player-show-kit
+          %object{data: player.profile_kit_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
+            = image_tag('kit_default.png')
+    .request-block
+      .form-block
+        = form_for @player_request, url: player_player_requests_path(player) do |f|
+          - if @player_request.errors.any?
+            .error-block
+              - @player_request.errors.full_messages.each do |message|
+                .error-item
+                  .error-icon
+                    = image_tag("icons/caution.png")
+                  .error-text
+                    = message
+          = f.hidden_field :player_id, value: player.id
+          = f.hidden_field :user_id, value: current_user.id
+          .form-item
+            .form-label= t('players.change_positions')
+            .form-input
+              - for position in Position.all
+                .form-checkbox-block
+                  .form-checkbox-label
+                    .player-positions-block.player-show-positions
+                      .player-position{class: "player-position-#{position.name}"}
+                        = position_name(position)
+                  .form-checkbox
+                    = f.check_box :positions, {multiple: true}, position.name, nil
+          .form-item
+            .form-label= t('players.change_arguments')
+            .form-input.text-input
+              = f.text_area :comment, class: 'form-control'
+          .form-item.form-btn
+            = f.submit t('players.change_request_send'), class: 'btn btn-primary welcome-btn-form'
