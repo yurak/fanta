@@ -77,14 +77,9 @@
               = submit_tag t('auction_bid.confirm'), form: 'new_auction_bid', class: 'confirm-btn', id: 'submit-bid-btn'
     .stats-section
       .round-table
-        .round-table-title.best-players-title
+        .round-table-title
           .round-table-title-text= t('auction_bid.team')
         .round-table-block
-          -#.round-table-headers.round-player-stats-headers.round-player-list-headers
-          -#  .round-table-header-cell
-          -#  .round-table-header-cell.round-table-header-player= t('tours.player')
-          -#  .round-table-header-cell= t('auction_round.price')
-          -#  .round-table-header-cell.center= t('auction_round.positions')
           - team.players.sort_by(&:position_sequence_number).each_with_index do |player, i|
             .round-table-item.round-player-stats-item.round-player-list-item
               .round-player-stats-param.center= i + 1

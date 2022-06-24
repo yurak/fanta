@@ -97,7 +97,7 @@
 
 @media (orientation: landscape) and (max-device-width: 1320px) {
   .news-page.page-info {
-    padding: 120px 30px 50px;
+    padding: 20px 30px 50px 102px;
 
     .news-block-head {
       margin: 48px 70px 64px;
@@ -107,8 +107,6 @@
 
 @media (orientation: landscape) and (max-device-width: 1120px) {
   .news-page.page-info {
-    padding: 100px 30px 50px;
-
     .news-block-head {
       grid-template-columns: 1fr 1fr 1fr;
     }
@@ -127,7 +125,7 @@
 
 @media (orientation: portrait) {
   .news-page.page-info {
-    padding: 200px 30px 50px;
+    padding: 20px 30px 50px 102px;
 
     .news-block-head {
       grid-template-columns: 1fr 1fr 1fr;
@@ -143,11 +141,11 @@
   }
 
   .article-item {
-    width: 700px;
+    width: 600px;
 
     .article-img {
-      width: 700px;
-      height: 700px;
+      width: 600px;
+      height: 600px;
       background-size: cover;
       background-position: center;
       margin-bottom: 24px;
@@ -336,10 +334,10 @@
 
 @media (orientation: landscape) and (max-device-width: 1220px) {
   .page-info.article-page {
-    padding: 100px 0 50px;
+    padding: 20px 0 50px 72px;
 
     .article-section {
-      padding: 0 80px;
+      padding: 0 40px;
     }
 
     .article-keep-reading {
@@ -359,10 +357,10 @@
 
 @media (orientation: portrait) {
   .page-info.article-page {
-    padding: 200px 0 50px;
+    padding: 20px 0 50px 72px;
 
     .article-section {
-      padding: 0 100px;
+      padding: 0 20px;
 
       .article-block {
         display: flex;

@@ -17,7 +17,7 @@
 
     .mantra-section-title {
       margin: 40px auto;
-      font-family: 'Archivo Bold';
+      font-family: 'Nunito Bold';
       font-size: 112px;
       line-height: 112px;
       letter-spacing: 0.5em;
@@ -30,6 +30,7 @@
         text-align: center;
         width: 100%;
         margin-top: 8px;
+        padding-left: 40px;
       }
 
       .mantra-section-title-stroke {
@@ -38,7 +39,7 @@
         position: absolute;
         text-align: center;
         width: 100%;
-        padding-left: 16px;
+        padding-left: 56px;
       }
     }
 
@@ -49,12 +50,12 @@
 
       .slogan-start {
         display: inline-block;
-        font-family: 'Archivo Bold';
+        font-family: 'Nunito Bold';
       }
 
       .slogan-end {
         display: inline-block;
-        font-family: 'Archivo Regular';
+        font-family: 'Nunito Regular';
       }
     }
 
@@ -65,7 +66,7 @@
         display: inline-block;
         width: 200px;
         height: 54px;
-        font-family: 'Archivo Bold';
+        font-family: 'Nunito Bold';
         font-size: 18px;
         line-height: 54px;
         margin: 0 6px;
@@ -95,7 +96,7 @@
     padding: 112px 0 106px 112px;
 
     .what-is-title {
-      font-family: 'Archivo Bold';
+      font-family: 'Nunito Bold';
       font-size: 72px;
       line-height: 72px;
     }
@@ -107,7 +108,7 @@
       margin-top: 24px;
 
       .what-is-left-title {
-        font-family: 'Archivo Regular';
+        font-family: 'Nunito Regular';
         font-size: 24px;
         line-height: 32px;
         margin-bottom: 32px;
@@ -145,13 +146,13 @@
       }
 
       .what-is-item-title {
-        font-family: 'Archivo Bold';
+        font-family: 'Nunito Bold';
         font-size: 16px;
         line-height: 24px;
       }
 
       .what-is-item-description {
-        font-family: 'Archivo Regular';
+        font-family: 'Nunito Regular';
         font-size: 14px;
         line-height: 16px;
         color: #847577;
@@ -192,21 +193,21 @@
     padding: 60px 152px 80px;
 
     .better-title1 {
-      font-family: 'Archivo Bold';
+      font-family: 'Nunito Bold';
       font-size: 72px;
       line-height: 72px;
       color: #EDF67D;
     }
 
     .better-title2 {
-      font-family: 'Archivo Bold';
+      font-family: 'Nunito Bold';
       font-size: 72px;
       line-height: 72px;
     }
 
     .better-diff {
       margin-top: 56px;
-      font-family: 'Archivo Regular';
+      font-family: 'Nunito Regular';
       font-size: 18px;
       line-height: 24px;
       text-transform: uppercase;
@@ -224,7 +225,7 @@
     }
 
     .better-item-text {
-      font-family: 'Archivo Regular';
+      font-family: 'Nunito Regular';
       color: #CFD2CD;
     }
 
@@ -239,7 +240,7 @@
 
       .better-link-title {
         display: inline-block;
-        font-family: 'Archivo Regular';
+        font-family: 'Nunito Regular';
         color: #CFD2CD;
       }
 
@@ -249,7 +250,7 @@
         margin-left: 16px;
 
         a {
-          font-family: 'Archivo Bold';
+          font-family: 'Nunito Bold';
           color: #EDF67D;
         }
       }
@@ -264,7 +265,7 @@
     padding: 96px 152px 124px;
 
     .start-title {
-      font-family: 'Archivo Bold';
+      font-family: 'Nunito Bold';
       font-size: 72px;
       line-height: 72px;
       margin-bottom: 42px;
@@ -283,7 +284,7 @@
         margin-bottom: 24px;
 
         .step-number {
-          font-family: 'Archivo Regular';
+          font-family: 'Nunito Regular';
           font-size: 16px;
           line-height: 24px;
           margin-top: 6px;
@@ -310,7 +311,7 @@
     padding: 40px;
     background: #F4F4F4;
     text-align: center;
-    font-family: 'Archivo Regular';
+    font-family: 'Nunito Regular';
 
     .tournaments-season {
       font-size: 12px;
@@ -319,7 +320,7 @@
     }
 
     .tournaments-current {
-      font-family: 'Archivo Bold';
+      font-family: 'Nunito Bold';
       font-size: 24px;
       line-height: 32px;
     }
@@ -359,7 +360,7 @@
 
   .people-section {
     padding: 88px 152px 152px;
-    font-family: 'Archivo Bold';
+    font-family: 'Nunito Bold';
 
     .people-say {
       font-size: 72px;
@@ -409,7 +410,7 @@
           }
 
           .people-author-team {
-            font-family: 'Archivo Regular';
+            font-family: 'Nunito Regular';
             font-size: 14px;
             line-height: 16px;
             color: #847577;
@@ -427,7 +428,7 @@
         padding: 40px 0 16px;
 
         .people-number {
-          font-family: 'Archivo Regular';
+          font-family: 'Nunito Regular';
           font-size: 72px;
           line-height: 72px;
           color: #BA44F1;
@@ -435,7 +436,7 @@
         }
 
         .people-number-text {
-          font-family: 'Archivo Medium';
+          font-family: 'Nunito Medium';
           font-size: 18px;
           line-height: 24px;
           color: #847577;
@@ -449,7 +450,7 @@
     background: #261FFF;
 
     .lets-text {
-      font-family: 'Archivo Medium';
+      font-family: 'Nunito Medium';
       font-size: 72px;
       line-height: 72px;
       color: #EDF67D;
@@ -728,266 +729,65 @@
 }
 
 @media (orientation: portrait) {
-  .root-page {
-    .left-block {
-      margin: 300px 0 0 12%;
-      grid-template-rows: 27% 10% 0;
+  .landing-page {
+    .mantra-section-image-team {
+      left: 23%;
 
-      .title-block {
-        .title-bg {
-          height: 225px;
-        }
-        .title-text {
-          font-size: 140px;
-          line-height: 140px;
-        }
-      }
-
-      .slogan-block {
-        padding-left: 30px;
-        font-size: 40px;
-        line-height: 48px;
-
-        .slogan-start {
-          font-size: 50px;
-          line-height: 60px;
-        }
-      }
-
-      .description-block {
-        display: none;
-      }
-
-      .team-image {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        display: block;
-        width: 100%;
-
-        img {
-          width: 100%;
-          height: auto;
-        }
-      }
-    }
-  }
-
-  .welcome-page .right-block {
-    display: none;
-  }
-
-  .welcome-subpage .left-block {
-    margin: 240px 100px 50px;
-    width: 100%;
-
-    .login-block {
-      label, input { font-size: 32px; }
-
-      .form-check-input { margin-top: 0.9rem; }
-
-      .form-group { margin-bottom: 40px; }
-    }
-
-    .rules-block {
-      padding: 0 25px;
-
-      .rules-item {
-        .rules-title {
-          font-size: 32px;
-          line-height: 50px;
-        }
-
-        .rules-subtitle {
-          font-size: 28px;
-          line-height: 36px;
-        }
-
-        .rules-description {
-          font-size: 24px;
-          line-height: 28px;
-        }
+      img {
+        width: 600px;
       }
     }
 
-    .about-block {
-      font-size: 30px;
-      line-height: 40px;
+    .better-section {
+      padding: 60px 88px 80px;
+    }
 
-      .join-us {
-        font-size: 36px;
+    .start-section {
+      padding: 96px 88px 124px;
+    }
+
+    .people-section {
+      padding: 88px 88px 152px;
+
+      .people-content {
+        column-gap: 44px;
       }
     }
 
-    .contact-block, .follow-block, .success-block {
-      font-size: 30px;
-    }
-  }
-
-  .start-page.welcome-subpage {
-    .left-block .form-block {
-      padding: 0;
-      font-size: 30px;
-      line-height: 44px;
-
-      .form-item {
-        margin-bottom: 44px;
-      }
-
-      .form-checkbox-block {
-        line-height: 44px;
-      }
-
-      .form-btn input {
-        font-size: 30px;
-      }
-
-      .error-item {
-        line-height: 38px;
-        font-size: 24px;
-        grid-template-columns: 30px auto;
-
-        .error-icon img {
-          width: 30px;
-          height: 30px;
-        }
-      }
-    }
-
-    .title-block .title-text {
-      font-size: 62px;
-      width: 650px;
-    }
-  }
-
-  .success-page .title-block {
-    .title-text {
-      font-size: 72px;
-    }
-
-    .title-bg {
-      margin-top: 3%;
-      height: 30%;
-    }
-  }
-
-  .guide-block {
-    .tab-content {
-      p, li {
-        font-size: 20px;
-      }
-
-      h3 {
-        font-size: 28px;
-      }
-
-      h4 {
-        font-size: 26px;
-      }
-
-      h5 {
-        font-size: 24px;
-      }
+    .lets-section {
+      padding: 72px 88px;
+      height: 750px;
     }
   }
 }
 
 @media (orientation: landscape) and (max-device-width: 1220px) {
-  .welcome-page {
-    .left-block {
-      margin: 100px 100px 50px;
-      width: 100%;
-    }
-
-    .right-block {
-      display: none;
-    }
-  }
-
-  .root-page .left-block {
-    grid-template-rows: 90px 80px 200px;
-    //margin-top: 120px;
-    padding-top: 50px;
-
-    .title-block {
-      .title-text {
-        font-size: 72px;
-        line-height: 72px;
-        width: 100%;
-      }
-
-      .title-bg {
-        margin-top: 3%;
-        height: 60%;
+  .landing-page {
+    .mantra-section-image-team {
+      img {
+        width: 600px;
       }
     }
 
-    .slogan-block {
-      font-size: 26px;
+    .better-section {
+      padding: 60px 88px 80px;
     }
 
-    .description-block {
-      .description-title {
-        font-size: 20px;
-      }
-
-      .description-item {
-        font-size: 18px;
-      }
+    .start-section {
+      padding: 96px 88px 124px;
     }
-  }
 
-  .welcome-subpage .left-block {
-    grid-template-rows: 90px auto;
+    .people-section {
+      padding: 88px 88px 152px;
 
-    .title-block {
-      .title-text {
-        font-size: 50px;
-        padding-left: 25px;
-      }
-
-      .title-bg {
-        margin-top: 4%;
-        height: 45%;
+      .people-content {
+        column-gap: 44px;
       }
     }
-  }
 
-  .start-page .left-block .form-block {
-    padding-right: 0;
-  }
-
-  .login-page .login-block {
-    padding: 10px 25px;
-  }
-
-  .contact-page .left-block .follow-block, .success-page .left-block .follow-block {
-    padding: 0;
-
-    .follow-links {
-      line-height: 70px;
+    .lets-section {
+      padding: 72px 88px;
+      height: 750px;
     }
-  }
-
-  .contact-page .left-block {
-    grid-template-rows: 90px 75px 75px 120px;
-
-    .contact-block .contact-text {
-      padding-left: 110px;
-    }
-  }
-
-  .about-page .left-block .about-block {
-    .about-item {
-      padding: 24px 25px 0;
-    }
-
-    .join-us {
-      padding-bottom: 70px;
-    }
-  }
-
-  .success-page .left-block .success-block {
-    padding-top: 25px;
   }
 }

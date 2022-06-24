@@ -27,7 +27,7 @@
 
   .leagues-lists-tabs {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
     font-weight: bold;
     font-size: 16px;
     line-height: 24px;
@@ -144,13 +144,13 @@
 
 @media (orientation: landscape) and (max-device-width: 1220px) {
   .page-info.leagues-page {
-    padding: 100px 50px;
+    padding: 0 30px 100px 102px;
   }
 }
 
 @media (orientation: portrait) {
   .page-info.leagues-page {
-    padding: 200px 50px;
+    padding: 0 30px 100px 102px;
   }
 }
 

@@ -8,7 +8,7 @@
         .player-show-name
           = player.name
         .player-show-base-row
-          .player-positions-block.player-show-positions
+          .module-position-block.player-positions-block.player-show-positions
             - player.positions.each do |position|
               .player-position{class: "player-position-#{position.name}"}
                 = position_name(position)

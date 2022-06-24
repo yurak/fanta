@@ -1,15 +1,19 @@
-.page-block
+.page-block.lineup-show-page
   = render 'layouts/left_nav', league: lineup.tour.league
   = render 'layouts/right_nav', league: lineup.tour.league
   .page-info.match-page.lineup-page
+    .match-round-links
+      .match-round-link
+        = link_to tour_path(lineup.tour) do
+          .match-round-link-arrow
+            = image_tag('icons/arrow.svg')
+          .match-round-link-text
+            = "#{t('tours.round')} ##{lineup.tour.number}"
     .lineup-squad.match-squads.lineup-links
       .lineup-team
         = "#{t('lineups.team')}: "
         = link_to team_path(lineup.team) do
           = "#{lineup.team.human_name}"
-      .lineup-round
-        = link_to tour_path(lineup.tour) do
-          = "#{t('tours.round')} ##{ lineup.tour.number }"
     .lineup-squad.match-squads
       .match-team-squad
         .match-team-data

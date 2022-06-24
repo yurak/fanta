@@ -344,7 +344,7 @@
         }
 
         .round-match-result:hover .round-match-goals {
-          background: #040052;
+          background: #261FFF;
 
           .round-match-host-goals {
             border-right: 1px solid #006EF5;
@@ -525,6 +525,11 @@
   .page-info.rounds-page {
     padding: 0 0 0 272px;
     display: block;
+
+    .round-section .round-item .fanta-block {
+      grid-template-columns: 7fr 5fr;
+      column-gap: 16px;
+    }
 
     .stats-section {
       .round-table {

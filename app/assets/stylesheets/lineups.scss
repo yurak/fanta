@@ -20,7 +20,7 @@
 
   .lineup-squad.match-squads {
     grid-template-columns: 2fr 1fr;
-    column-gap: 0;
+    column-gap: 16px;
 
     .lineup-module {
       min-width: 350px;
@@ -48,11 +48,9 @@
         width: 100%;
         text-align: right;
         margin-top: 32px;
-        padding-right: 16px;
 
         img {
           width: 100%;
-          margin-left: 20px;
           border-radius: 12px;
         }
       }
@@ -60,13 +58,47 @@
   }
 }
 
-@media screen and (max-device-width: 799px) {
+@media (orientation: landscape) and (max-device-width: 1140px) {
   .page-info.match-page.lineup-page .lineup-squad.match-squads {
     .lineup-module {
       min-width: 250px;
 
       .module-image img {
-        width: 210px;
+        width: 250px;
+      }
+    }
+  }
+}
+
+@media (orientation: landscape) and (max-device-width: 1030px) {
+  .lineup-show-page {
+    .right-nav {
+      display: none;
+    }
+
+    .page-info.match-page {
+      padding: 0 0 0 72px;
+    }
+  }
+}
+
+@media (orientation: portrait) {
+  .lineup-show-page {
+    .right-nav {
+      display: none;
+    }
+
+    .page-info.match-page {
+      padding: 0 0 0 72px;
+
+      .lineup-squad.match-squads {
+        .lineup-module {
+          min-width: 250px;
+
+          .module-image img {
+            width: 250px;
+          }
+        }
       }
     }
   }

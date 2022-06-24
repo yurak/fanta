@@ -126,16 +126,14 @@
       .people-numbers
         .people-numbers-title= t('welcome.index.people.numbers')
         .people-numbers-item
-          .people-number 1234
+          .people-number= Tour.closed.count
           .people-number-text= t('welcome.index.people.rounds')
         .people-numbers-item
-          .people-number 46
+          .people-number= Auction.closed.count
           .people-number-text= t('welcome.index.people.auctions')
         .people-numbers-item
-          .people-number 87%
+          .people-number 94%
           .people-number-text= t('welcome.index.people.users')
-
-
   .lets-section
     .lets-text= t('welcome.index.lets')
     .lets-text= t('welcome.index.lets_begin')

@@ -43,7 +43,7 @@
   .league-links
     - if league.active_tour_or_last
       = link_to tour_path(league.active_tour_or_last) do
-        .league-link{class: "link-active-#{ params[:controller] == 'tours' || params[:controller] == 'matches' }"}
+        .league-link{class: "link-active-#{ params[:controller] == 'tours' }"}
           .league-link-icon= image_tag('icons/round/round.svg')
           .league-link-text= t('header.round')
     = link_to league_results_path(league) do

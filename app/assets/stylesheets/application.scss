@@ -42,6 +42,19 @@
 @import "welcome";
 
 @font-face {
+  font-family: 'Nunito Medium';
+  src: font-url('Nunito-Medium.ttf') format('truetype');
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Nunito Regular';
+  src: font-url('Nunito-Regular.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Nunito Bold';
+  src: font-url('Archivo-Bold.ttf') format('truetype');
+}
+@font-face {
   font-family: 'Archivo Medium';
   src: font-url('Archivo-Medium.ttf') format('truetype');
   font-style: normal;
@@ -75,7 +88,7 @@ body, html {
   padding: 0;
   position: relative;
   background: #FFFFFF;
-  font-family: 'Archivo Medium';
+  font-family: 'Nunito Medium';
 }
 
 .main-block {
@@ -345,7 +358,7 @@ body, html {
 
   .player-position {
     height: 18px;
-    padding: 3px 4px;
+    padding: 2px 4px;
   }
 }
 
@@ -745,6 +758,9 @@ body, html {
         .results-team-name {
           text-align: left;
           padding: 4px 8px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
         }
       }
 
@@ -847,10 +863,6 @@ body, html {
       border: none;
     }
 
-    .best-players-title {
-      margin-bottom: 12px;
-    }
-
     .round-player-stats-item {
       grid-template-columns: 24px auto 24px 40px;
       column-gap: 8px;
@@ -893,8 +905,8 @@ body, html {
 
       .round-player-stats-team {
         img {
-          width: 24px;
-          height: 24px;
+          width: 20px;
+          height: 20px;
         }
       }
     }
@@ -946,14 +958,6 @@ body, html {
   display: inline-block;
 }
 
-.small-number {
-  width: 60px;
-}
-
-.nav-item {
-  font-size: 17px;
-}
-
 .input-group-prepend {
   width: 110px;
 
@@ -966,41 +970,8 @@ body, html {
   width: 90%;
 }
 
-.disqualified, .injured {
-  opacity: 0.7;
-}
-
-.clr-success {
-  background-color: #66bb6a;
-}
-
-.clr-danger, .injured {
-  background-color: #ef5350;
-}
-
-.clr-warning, .problematic {
-  background-color: #ffee58;
-}
-
-.clr-secondary, .disqualified {
-  background-color: #bdbdbd;
-}
-
-.malus15 {
-  background-color: yellow;
-}
-
-.malus30 {
-  background-color: orange;
-}
-
-.malus45 {
-  background-color: red;
-}
-
 @media (orientation: portrait) {
   .page-info {
-    padding: 220px 40px 80px;
+    padding: 20px 40px 80px;
   }
 }
-

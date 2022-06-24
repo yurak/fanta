@@ -219,7 +219,7 @@
 
 @media (orientation: portrait) {
   .page-info.players-page {
-    padding: 200px 50px 70px;
+    padding: 20px 20px 70px 92px;
   }
 }
 
@@ -264,9 +264,9 @@
         height: 24px;
 
         .player-position {
-          height: 24px;
+          height: 22px;
           font-size: 14px;
-          line-height: 18px;
+          line-height: 16px;
         }
       }
 
@@ -455,7 +455,7 @@
 
 @media (orientation: landscape) and (max-device-width: 1320px) {
   .page-info.player-show-page {
-    padding: 100px 100px 50px;
+    padding: 50px 50px 50px 122px;
 
     .player-banner {
       .player-show-base {
@@ -480,7 +480,7 @@
 
 @media (orientation: portrait) {
   .page-info.player-show-page {
-    padding: 200px 50px 50px;
+    padding: 50px 20px 50px 92px;
 
     .player-banner {
       .player-show-base {
