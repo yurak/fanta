@@ -43,7 +43,7 @@
   .league-links
     - if league.active_tour_or_last
       = link_to tour_path(league.active_tour_or_last) do
-        .league-link{class: "link-active-#{ params[:controller] == 'tours' }"}
+        .league-link{class: "link-active-#{ params[:controller] == 'tours' || params[:controller] == 'matches' }"}
           .league-link-icon= image_tag('icons/round/round.svg')
           .league-link-text= t('header.round')
     = link_to league_results_path(league) do
@@ -61,7 +61,7 @@
         .league-link-text= t('header.players')
     - if league.mantra?
       = link_to league_auctions_path(league) do
-        .league-link{class: "link-active-#{ params[:controller] == 'auctions' && params[:action] == 'index' }"}
+        .league-link{class: "link-active-#{ params[:controller] == 'auctions' || params[:controller] == 'auction_bids' || params[:controller] == 'auction_rounds' }"}
           .league-link-icon= image_tag('icons/round/auctions.svg')
           .league-link-text= t('header.auctions')
     -# = link_to '' do

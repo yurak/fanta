@@ -1,4 +1,4 @@
-.guide-page.welcome-page.welcome-subpage.header-grid
+.guide-page.header-grid
   .left-block
     .title-block
       .title-text= t('welcome.guide.game_guide')
@@ -7,30 +7,3 @@
       .temp-block
         = t('welcome.guide.external_link_here')
         = link_to t('welcome.guide.external_link'), 'https://drive.google.com/file/d/13vRxoK5QjOLivIdiZM0aCSvwCmBD0DIb/view', target: '_blank'
-    -#  %ul.nav.nav-tabs.nav-fill
-    -#    %li.nav-item
-    -#      %a{"data-toggle" => "tab", href: "#rules-auction", class: 'nav-link active'}= t('welcome.guide.auction')
-    -#
-    -#    %li.nav-item
-    -#      %a{"data-toggle" => "tab", href: "#rules-modules", class: 'nav-link'}= t('welcome.guide.modules')
-    -#
-    -#    %li.nav-item
-    -#      %a{"data-toggle" => "tab", href: "#rules-players", class: 'nav-link'}= t('welcome.guide.players')
-    -#
-    -#    %li.nav-item
-    -#      %a{"data-toggle" => "tab", href: "#rules-results", class: 'nav-link'}= t('welcome.guide.results')
-    -#
-    -#    %li.nav-item
-    -#      %a{"data-toggle" => "tab", href: "#rules-prizes", class: 'nav-link'}= t('welcome.guide.price')
-    -#
-    -#    %li.nav-item
-    -#      %a{"data-toggle" => "tab", href: "#rules-faqs", class: 'nav-link'}= t('welcome.guide.faq')
-    -#
-    -#  .tab-content
-    -#    = render 'welcome/rules/auction'
-    -#    = render 'welcome/rules/modules'
-    -#    = render 'welcome/rules/players'
-    -#    = render 'welcome/rules/results'
-    -#    = render 'welcome/rules/prizes'
-    -#    = render 'welcome/rules/faqs'
-

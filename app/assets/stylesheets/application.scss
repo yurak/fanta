@@ -51,8 +51,12 @@
   src: font-url('Nunito-Regular.ttf') format('truetype');
 }
 @font-face {
-  font-family: 'Nunito Bold';
-  src: font-url('Nunito-Bold.ttf') format('truetype');
+  font-family: 'Nunito SemiBold';
+  src: font-url('Nunito-SemiBold.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Nunito ExtraBold';
+  src: font-url('Nunito-ExtraBold.ttf') format('truetype');
 }
 @font-face {
   font-family: 'Archivo Medium';

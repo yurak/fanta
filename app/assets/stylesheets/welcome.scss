@@ -17,7 +17,7 @@
 
     .mantra-section-title {
       margin: 40px auto;
-      font-family: 'Nunito Bold';
+      font-family: 'Archivo Bold';
       font-size: 112px;
       line-height: 112px;
       letter-spacing: 0.5em;
@@ -50,7 +50,7 @@
 
       .slogan-start {
         display: inline-block;
-        font-family: 'Nunito Bold';
+        font-family: 'Nunito ExtraBold';
       }
 
       .slogan-end {
@@ -66,7 +66,7 @@
         display: inline-block;
         width: 200px;
         height: 54px;
-        font-family: 'Nunito Bold';
+        font-family: 'Nunito ExtraBold';
         font-size: 18px;
         line-height: 54px;
         margin: 0 6px;
@@ -96,7 +96,7 @@
     padding: 112px 0 106px 112px;
 
     .what-is-title {
-      font-family: 'Nunito Bold';
+      font-family: 'Nunito ExtraBold';
       font-size: 72px;
       line-height: 72px;
     }
@@ -146,7 +146,7 @@
       }
 
       .what-is-item-title {
-        font-family: 'Nunito Bold';
+        font-family: 'Nunito ExtraBold';
         font-size: 16px;
         line-height: 24px;
       }
@@ -161,26 +161,14 @@
   }
 
   .screen-block {
-    background: #181715;
     border-radius: 8px 0 0 8px;
-    line-height: 26px;
     padding: 2px 0 2px 2px;
     max-width: 670px;
     margin: 0 0 0 auto;
-    width: 100%;
-
-    .screen-dot {
-      display: inline-block;
-      background: #FFFFFF;
-      height: 12px;
-      width: 12px;
-      border-radius: 6px;
-      margin-left: 10px;
-    }
 
     .screen-img {
       height: 374px;
-      border-bottom-left-radius: 6px;
+      border-bottom-right-radius: 0;
       background-size: cover;
       background-position: left center;
       background-image: image_url('landing/screen1.jpg');
@@ -193,14 +181,14 @@
     padding: 60px 152px 80px;
 
     .better-title1 {
-      font-family: 'Nunito Bold';
+      font-family: 'Nunito ExtraBold';
       font-size: 72px;
       line-height: 72px;
       color: #EDF67D;
     }
 
     .better-title2 {
-      font-family: 'Nunito Bold';
+      font-family: 'Nunito ExtraBold';
       font-size: 72px;
       line-height: 72px;
     }
@@ -250,7 +238,7 @@
         margin-left: 16px;
 
         a {
-          font-family: 'Nunito Bold';
+          font-family: 'Nunito ExtraBold';
           color: #EDF67D;
         }
       }
@@ -265,7 +253,7 @@
     padding: 96px 152px 124px;
 
     .start-title {
-      font-family: 'Nunito Bold';
+      font-family: 'Nunito ExtraBold';
       font-size: 72px;
       line-height: 72px;
       margin-bottom: 42px;
@@ -320,7 +308,7 @@
     }
 
     .tournaments-current {
-      font-family: 'Nunito Bold';
+      font-family: 'Nunito ExtraBold';
       font-size: 24px;
       line-height: 32px;
     }
@@ -329,38 +317,11 @@
       font-size: 16px;
       line-height: 24px;
     }
-
-    .tournaments-row {
-      margin-top: 48px;
-
-      .tournament-item {
-        display: inline-block;
-        width: 120px;
-        height: 120px;
-        //margin: 0 10px;
-
-        .tournament-logo {
-          height: 104px;
-          padding: 16px 24px;
-        }
-
-        img {
-          width: 72px;
-          height: 72px;
-        }
-
-        .tournament-name {
-          font-size: 12px;
-          line-height: 16px;
-          color: #847577;
-        }
-      }
-    }
   }
 
   .people-section {
     padding: 88px 152px 152px;
-    font-family: 'Nunito Bold';
+    font-family: 'Nunito ExtraBold';
 
     .people-say {
       font-size: 72px;
@@ -450,7 +411,7 @@
     background: #261FFF;
 
     .lets-text {
-      font-family: 'Nunito Medium';
+      font-family: 'Nunito ExtraBold';
       font-size: 72px;
       line-height: 72px;
       color: #EDF67D;
@@ -469,24 +430,86 @@
   }
 }
 
-.welcome-subpage {
-  .left-block {
-    grid-template-rows: 130px auto;
+.screen-block {
+  background: #181715;
+  border-radius: 8px;
+  line-height: 26px;
+  padding: 2px;
+  width: 100%;
 
-    .title-block {
-      .title-bg {
-        background: #D0F0D4;
-        margin-top: 3%;
-        height: 50%;
-      }
+  .screen-dot {
+    display: inline-block;
+    background: #FFFFFF;
+    height: 12px;
+    width: 12px;
+    border-radius: 6px;
+    margin-left: 10px;
+    margin-bottom: 2px;
+  }
 
-      .title-text {
-        font-size: 72px;
-        line-height: 72px;
-        padding-left: 25px;
-        color: #261FFF;
-        width: 550px;
-      }
+  .screen-img {
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+
+    img {
+      width: 100%;
+      height: 100%;
+      border-bottom-left-radius: 6px;
+      border-bottom-right-radius: 6px;
+    }
+  }
+}
+
+.screen-desc {
+  font-family: 'Nunito Regular';
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 0.02em;
+  display: grid;
+  grid-template-columns: 40px auto;
+  column-gap: 16px;
+
+  .screen-desc-line-wrapper {
+    padding: 7px 0;
+  }
+
+  .screen-desc-line {
+    height: 2px;
+    background: #CFD2CD;
+  }
+
+  .screen-desc-title {
+    display: inline-block;
+    margin-right: 8px;
+  }
+
+  .screen-desc-desc {
+    display: inline-block;
+    color: #847577;
+  }
+}
+
+.tournaments-row {
+  margin-top: 48px;
+
+  .tournament-item {
+    display: inline-block;
+
+    .tournament-logo {
+      height: 104px;
+      padding: 16px 24px;
+    }
+
+    img {
+      width: 72px;
+      height: 72px;
+    }
+
+    .tournament-name {
+      font-size: 12px;
+      line-height: 16px;
+      color: #847577;
+      text-align: center;
     }
   }
 }
@@ -650,27 +673,270 @@
 }
 
 .rules-page {
-  .rules-block {
-    padding: 0 75px 70px 25px;
+  color: #181715;
+  padding: 48px 120px;
+  font-family: 'Nunito Regular';
 
-    .rules-item {
-      padding-bottom: 20px;
+  .rules-title {
+    font-family: 'Nunito ExtraBold';
+    display: grid;
+    grid-template-columns: 48px auto;
+    column-gap: 24px;
+    font-size: 48px;
+    line-height: 48px;
+    margin-bottom: 40px;
+  }
 
-      .rules-title {
-        font-size: 24px;
-        line-height: 40px;
-        font-weight: bolder;
+  .rules-text {
+    position: relative;
+    width: 750px;
+    display: inline-block;
+    height: 1100px;
+    font-size: 24px;
+    line-height: 32px;
+
+    .rules-subtitle {
+      font-family: 'Nunito ExtraBold';
+      font-size: 32px;
+      line-height: 32px;
+    }
+
+    .rules-subtitle1 {
+      color: #847577;
+      margin-top: 32px;
+    }
+
+    .rules-chapter {
+      background: #510872;
+      padding: 72px;
+      font-size: 48px;
+      line-height: 48px;
+      font-family: 'Nunito ExtraBold';
+      color: #FFFFFF;
+      display: grid;
+      grid-template-columns: auto 256px;
+      margin: 80px 0 40px;
+
+      .rules-chapter-text {
+        display: flex;
+        align-items: center;
       }
-      .rules-subtitle {
-        font-size: 20px;
-        line-height: 28px;
-        font-weight: bolder;
-      }
-      .rules-description {
-        font-size: 16px;
-        line-height: 24px;
+
+      img {
+        width: 256px;
+        height: 256px;
       }
     }
+
+    .rules-chapter-blue {
+      background: #006EF5;
+    }
+
+    .rules-chapter-brown {
+      background: #9F6C05;
+    }
+
+    .rules-chapter-green {
+      background: #1D5D26;
+    }
+
+    .rules-chapter-red {
+      background: #9B0819;
+    }
+
+    .rules-header {
+      margin: 40px 0 16px;
+      font-family: 'Nunito ExtraBold';
+    }
+
+    .bonus-header {
+      margin-bottom: 16px;
+      font-family: 'Nunito ExtraBold';
+    }
+
+    .rules-paragraph-next {
+      margin-top: 24px;
+    }
+
+    .tournaments-row {
+      margin-top: 24px;
+
+      .tournament-item {
+        .tournament-logo {
+          height: 92px;
+          padding: 16px 30px;
+        }
+
+        img {
+          width: 60px;
+          height: 60px;
+        }
+      }
+    }
+
+    .screen-block {
+      margin: 40px 0 16px;
+    }
+
+    ul a {
+      font-family: 'Nunito ExtraBold';
+      color: #261FFF;
+    }
+
+    .rules-positions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      column-gap: 32px;
+      margin-top: 16px;
+
+      img {
+        width: 100%;
+      }
+
+      .rules-position-item {
+        font-size: 18px;
+        line-height: 24px;
+        margin-bottom: 16px;
+      }
+
+      .rules-position-item-name {
+        display: inline-block;
+        margin-right: 4px;
+        font-family: 'Nunito SemiBold';
+      }
+
+      .rules-position-item-subname {
+        display: inline-block;
+        margin-right: 4px;
+        font-family: 'Nunito SemiBold';
+        color: #847577;
+      }
+
+      .rules-position-item-desc {
+        display: inline-block;
+      }
+
+      .rules-positions-remark {
+        font-family: 'Nunito SemiBold';
+        font-size: 14px;
+        line-height: 16px;
+        color: #847577;
+      }
+    }
+
+    .rules-full-img img {
+      width: 100%;
+      margin-top: 40px;
+    }
+
+    .rules-fotmob-links a {
+      margin-right: 24px;
+    }
+
+    .rules-example {
+      background: #F4F4F4;
+      margin: 16px 0;
+      padding: 16px;
+      display: grid;
+      grid-template-columns: 345px auto;
+      column-gap: 32px;
+
+      .rules-example-img {
+        width: 100%;
+      }
+
+      .rules-example-text {
+        font-size: 18px;
+        line-height: 24px;
+      }
+
+      .rules-example-title {
+        margin-bottom: 16px;
+      }
+
+      ul {
+        margin-top: 16px;
+      }
+
+      .rules-example-remark {
+        color: #847577;
+      }
+    }
+
+    .rules-note {
+      background: #FFEBC2;
+      border-radius: 4px;
+      font-size: 16px;
+      line-height: 24px;
+      padding: 16px;
+
+      .rules-note-title {
+        font-family: 'Nunito ExtraBold';
+        color: #9F6C05;
+        margin-bottom: 16px;
+      }
+    }
+
+    .rules-table-block {
+      background: #F4F4F4;
+      margin: 16px 0;
+      padding: 16px;
+
+      .rules-table-headers {
+        font-family: 'Nunito ExtraBold';
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        line-height: 40px;
+        font-size: 16px;
+        text-transform: uppercase;
+        color: #847577;;
+      }
+
+      .rules-table-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        background: #FFFFFF;
+        padding: 12px;
+        font-size: 18px;
+        margin-top: 1px;
+      }
+    }
+  }
+
+  .rules-nav {
+    position: fixed;
+    right: 152px;
+    top: 144px;
+    padding: 16px;
+    display: grid;
+    grid-template-columns: 20px auto;
+    column-gap: 8px;
+    background: #FFEBC2;
+    width: 270px;
+    font-family: 'Nunito ExtraBold';
+    font-size: 16px;
+    line-height: 24px;
+
+    .rules-nav-header {
+      margin-bottom: 16px;
+    }
+
+    .rules-nav-link {
+      color: #261FFF;
+      margin-bottom: 16px;
+    }
+
+    .rules-nav-link:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.rules-user-true {
+  padding: 48px 120px 48px 192px;
+
+  .rules-nav {
+    top: 136px;
   }
 }
 
