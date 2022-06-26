@@ -50,24 +50,24 @@
     #help-modal.help-modal
       .help-modal-content
         -# TODO: add links to help pages
-        .help-modal-link= link_to t('header.rules_faq'), ''
-        .help-modal-link= link_to t('header.rules_nav'), ''
+        -#.help-modal-link= link_to t('header.rules_faq'), ''
+        .help-modal-link= link_to t('header.rules_nav'), rules_path
         .help-modal-link= link_to t('header.dictionary'), ''
         .help-modal-link= link_to t('header.links'), links_path
-        .help-modal-link= link_to t('header.tips'), ''
+        -#.help-modal-link= link_to t('header.tips'), ''
         .help-modal-plus-links
-          .help-modal-link
-            = link_to '' do
-              .help-modal-link-text= t('header.about')
-              .help-modal-link-icon= image_tag('icons/link_out.svg')
+          -#.help-modal-link
+          -#  = link_to '' do
+          -#    .help-modal-link-text= t('header.about')
+          -#    .help-modal-link-icon= image_tag('icons/link_out.svg')
           .help-modal-link
             = link_to '' do
               .help-modal-link-text= t('header.prices')
               .help-modal-link-icon= image_tag('icons/link_out.svg')
-          .help-modal-link
-            = link_to '' do
-              .help-modal-link-text= t('header.contact')
-              .help-modal-link-icon= image_tag('icons/link_out.svg')
+          -#.help-modal-link
+          -#  = link_to '' do
+          -#    .help-modal-link-text= t('header.contact')
+          -#    .help-modal-link-icon= image_tag('icons/link_out.svg')
 
 :javascript
   var modal = document.getElementById("help-modal");

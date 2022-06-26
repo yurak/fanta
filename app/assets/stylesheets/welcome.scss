@@ -912,7 +912,7 @@
     grid-template-columns: 20px auto;
     column-gap: 8px;
     background: #FFEBC2;
-    width: 270px;
+    width: 240px;
     font-family: 'Nunito ExtraBold';
     font-size: 16px;
     line-height: 24px;
@@ -924,6 +924,20 @@
     .rules-nav-link {
       color: #261FFF;
       margin-bottom: 16px;
+
+      a {
+        text-decoration: none;
+        border-bottom: 1px dashed #D8D6FF;
+      }
+    }
+
+    .rules-nav-link:hover {
+      color: #261FFF;
+      margin-bottom: 16px;
+
+      a {
+        border-bottom: 1px dashed #261FFF;
+      }
     }
 
     .rules-nav-link:last-child {
@@ -1025,6 +1039,29 @@
       height: 750px;
     }
   }
+
+  .rules-page .rules-nav {
+    display: none;
+  }
+
+  .rules-user-true {
+    padding: 48px 40px 48px 112px;
+  }
+}
+
+@media (orientation: landscape) and (max-device-width: 1350px) {
+  .rules-page {
+    padding: 48px 80px;
+
+    .rules-nav {
+      position: fixed;
+      right: 80px;
+    }
+  }
+
+  .rules-user-true {
+    padding: 48px 40px 48px 112px;
+  }
 }
 
 @media (orientation: landscape) and (max-device-width: 1220px) {
@@ -1054,6 +1091,58 @@
     .lets-section {
       padding: 72px 88px;
       height: 750px;
+    }
+  }
+
+  .rules-page {
+    padding: 48px 40px;
+
+    .rules-nav {
+      position: fixed;
+      right: 40px;
+    }
+  }
+
+  .rules-user-true {
+    padding: 48px 30px 48px 102px;
+
+    .rules-text {
+      width: 650px;
+    }
+  }
+}
+
+@media (orientation: landscape) and (max-device-width: 1080px) {
+  .rules-page {
+    padding: 48px 30px;
+
+    .rules-nav {
+      position: fixed;
+      right: 30px;
+    }
+
+    .rules-text {
+      width: 650px;
+    }
+  }
+
+  .rules-user-true {
+    padding: 48px 20px 48px 92px;
+
+    .rules-text {
+      width: 600px;
+    }
+  }
+}
+
+@media (orientation: landscape) and (max-device-width: 960px) {
+  .rules-page {
+    .rules-text {
+      width: 100%;
+    }
+
+    .rules-nav {
+      display: none;
     }
   }
 }
