@@ -24,13 +24,13 @@
                 - if current_user.lineup_by_tour(tour)
                   .round-lineup-edit-block
                     = link_to edit_team_lineup_path(user_team_by_league(current_user, tour.league), current_user.lineup_by_tour(tour), team_module_id: current_user.lineup_by_tour(tour).team_module.id) do
-                      .round-lineup-clone{ title: t('tours.clone') }
+                      .grey-btn.round-lineup-edit{ title: t('tours.edit') }
                         = image_tag('icons/edit.svg')
                   .round-lineup-set-block
                     = t('tours.set_done')
                 - else
                   = link_to new_team_lineup_path(user_team_by_league(current_user, tour.league), tour_id: tour.id) do
-                    .round-lineup-set-squad{ title: t('tours.create') }
+                    .blue-btn.round-lineup-set-squad{ title: t('tours.create') }
                       = image_tag('icons/plus.svg')
         - tour.league.teams.each do |team|
           - next if team == user_team_by_league(current_user, tour.league)

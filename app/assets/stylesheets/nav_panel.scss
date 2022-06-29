@@ -3,6 +3,7 @@
   position: fixed;
   height: 100%;
   padding: 10px 0;
+  background: #FFFFFF;
 
   a {
     text-decoration: none;
@@ -13,7 +14,6 @@
 
     img {
       width: 48px;
-      height: 48px;
     }
   }
 
@@ -76,6 +76,22 @@
     line-height: 14px;
     color: #847577;
     margin-top: 4px;
+  }
+
+  .sign-out-btn {
+    background: #261FFF;
+    border-radius: 4px;
+    padding: 8px 0;
+
+    img {
+      width: 24px;
+      height: 24px;
+    }
+  }
+
+  .sign-out-btn:hover {
+    background: #3530CA;
+    box-shadow: 1px 2px 5px rgba(24, 23, 21, 0.2);
   }
 }
 
@@ -390,6 +406,20 @@
     }
   }
 
+  .league-link:hover {
+    border: 1px solid #FFB319;
+    border-radius: 8px;
+    padding: 9px 15px;
+
+    .league-link-text {
+      color: #181715;
+    }
+
+    img {
+      filter: invert(0%) sepia(1%) saturate(5%) hue-rotate(304deg) brightness(97%) contrast(103%); // #181715;
+    }
+  }
+
   .link-active-true {
     background: #181715;
     border-radius: 8px;
@@ -403,18 +433,17 @@
     }
   }
 
-  .league-link:hover {
-    background: #FFEBC2;
-    border: 1px solid #FFB319;
-    border-radius: 8px;
-    padding: 9px 15px;
+  .link-active-true:hover {
+    background: #181715;
+    border: none;
+    padding: 10px 16px;
 
     .league-link-text {
-      color: #181715;
+      color: #EDF67D;
     }
 
     img {
-      filter: invert(0%) sepia(1%) saturate(5%) hue-rotate(304deg) brightness(97%) contrast(103%); // #181715;
+      filter: invert(86%) sepia(44%) saturate(453%) hue-rotate(12deg) brightness(106%) contrast(93%); // #EDF67D;
     }
   }
 
@@ -464,9 +493,13 @@
   background: #E5E6E4;
 
   .league-link:hover {
-    background: #E5E6E4;
     border: 1px solid rgba(24, 23, 21, 0.2);
     border-radius: 8px;
+  }
+
+  .link-active-true:hover {
+    border: none;
+    padding: 10px 16px;
   }
 }
 

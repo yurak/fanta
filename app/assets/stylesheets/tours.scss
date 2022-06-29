@@ -25,7 +25,7 @@
         font-size: 18px;
         line-height: 40px;
         width: 56px;
-        margin: 4px;
+        margin: 4px 2px;
       }
 
       .round-link-block:hover {
@@ -55,11 +55,18 @@
         color: #181715;
       }
 
-      .round-current-true {
+      .round-current {
         background-color: #261FFF;
         color: #FFFFFF;
         border: none;
         line-height: 40px;
+      }
+
+      .round-current:hover {
+        background-color: #261FFF;
+        color: #FFFFFF;
+        border: 1px solid #261FFF;
+        line-height: 38px;
       }
     }
 
@@ -243,43 +250,8 @@
         grid-template-columns: 40px 40px;
         column-gap: 8px;
 
-        .round-lineup-set-squad {
-          margin: 6px 0;
-          background: #261FFF;
-          border-radius: 4px;
-          font-size: 16px;
-          line-height: 40px;
-          text-align: center;
-
-          img {
-            filter: invert(97%) sepia(7%) saturate(747%) hue-rotate(219deg) brightness(117%) contrast(91%); //#F4F4F4;
-          }
-        }
-
         .round-lineup-clone {
-          margin: 6px 0;
-          border: 1px solid #181715;
-          background: #F4F4F4;
           border-radius: 20px;
-          text-align: center;
-          line-height: 38px;
-
-          img {
-            filter: invert(0%) sepia(1%) saturate(5%) hue-rotate(304deg) brightness(97%) contrast(103%); // #181715;
-          }
-        }
-
-        .round-lineup-clone:hover {
-          background: #181715;
-
-          img {
-            filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(104deg) brightness(103%) contrast(102%); // #FFFFFF;
-          }
-        }
-
-        .round-lineup-set-squad:hover {
-          background: #3530CA;
-          box-shadow: 1px 2px 5px rgba(24, 23, 21, 0.2);
         }
       }
 
@@ -379,7 +351,7 @@
         }
 
         .round-match-result:hover .round-match-goals {
-          background: #040052;
+          background: #261FFF;
 
           .round-match-host-goals {
             border-right: 1px solid #006EF5;
@@ -541,9 +513,8 @@
             }
           }
 
-          .round-lineup-clone {
+          .round-lineup-edit {
             margin: 0;
-            border-radius: 4px;
             line-height: 30px;
 
             img {
@@ -561,6 +532,11 @@
   .page-info.rounds-page {
     padding: 0 0 0 272px;
     display: block;
+
+    .round-section .round-item .fanta-block {
+      grid-template-columns: 7fr 5fr;
+      column-gap: 16px;
+    }
 
     .stats-section {
       .round-table {

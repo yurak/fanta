@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   resource :welcome, only: [:index]
   get 'about',    to: 'welcome#about'
   get 'contact',  to: 'welcome#contact'
+  get 'fees',     to: 'welcome#fees'
   get 'guide',    to: 'welcome#guide'
   get 'rules',    to: 'welcome#rules'
 

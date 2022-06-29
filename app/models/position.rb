@@ -74,4 +74,21 @@ class Position < ApplicationRecord
                  ATTACKING_MF => M_MALUS },
     STRIKER => { FORWARD => S_MALUS }
   }.freeze
+
+  # Position in Transfermarkt
+  TM_POS = {
+    'Goalkeeper' => 'GK',
+    'Centre-Back' => 'CB',
+    'Left-Back' => 'LB',
+    'Right-Back' => 'RB',
+    'Defensive Midfield' => 'DM',
+    'Central Midfield' => 'CM',
+    'Left Midfield' => 'LM',
+    'Right Midfield' => 'RM',
+    'Attacking Midfield' => 'AM',
+    'Left Winger' => 'LW',
+    'Right Winger' => 'RW',
+    'Second Striker' => 'SS',
+    'Centre-Forward' => 'CF'
+  }.freeze
 end

@@ -1,70 +1,73 @@
-.page-info.team-transfers-page
-  .team-header
-    .team-title-head
-      .team-logo= image_tag(team.logo_path)
-      .team-title
-        = "#{team.human_name} #{t('teams.transfer_list')}"
-    .team-data
-      .team-data-row
-        .team-data-item
-          .team-data-title= t('teams.current_balance')
-          .team-data-value
-            = team.budget
-        .team-data-item
-          .team-data-title= t('teams.players_sale')
-          .team-data-value#players-sale
-            .players-sale.players-sale-current
-              = team.prepared_sales_count
-            .players-sale /
-            .players-sale.players-sale-max
-              = team.league.auctions.sales.first.sales_count
-        .team-data-item
-          .team-data-title= t('teams.possible_budget')
-          .team-data-value#possible-budget
-            = team.budget + team.player_teams.transferable.sum { |pt| pt.player.transfer_by(team)&.price }
-  .team-players-list
-    .team-players-headers
-      .team-players-header-item= t('teams.player')
-      .team-players-header-item.team-players-header-position= t('teams.positions')
-      .team-players-header-item.right= t('teams.appearances')
-      .team-players-header-item.right= t('teams.rating')
-      .team-players-header-item.center= t('teams.club')
-      .team-players-header-item.right= t('teams.price')
-      .team-players-header-item.center= t('teams.status')
-    = form_for :team, url: team_path(team), method: :put do
-      - team.player_teams.sort_by{ |pt| pt.player.position_sequence_number }.each do |pt|
-        = fields_for "player_teams[]", pt do |pt_field|
-          .team-player-item
-            .team-player-param-item.team-player-data
-              .team-player-avatar
-                .player-show-face
-                  %object{data: pt.player.avatar_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                    = image_tag('avatar.png')
-                .player-show-kit
-                  %object{data: pt.player.kit_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                    = image_tag('kit_small_default.png')
-              .team-player-name
-                .team-player-last-name
-                  = pt.player.name
-                .team-player-first-name
-                  = pt.player.first_name
-            .team-player-param-item.team-player-position
-              - pt.player.positions.each do |position|
-                .slot-position{class: "slot-position-#{position.name}"}
-                  = position_name(position)
-            .team-player-param-item.team-player-appearances
-              = pt.player.season_scores_count
-            .team-player-param-item.team-player-rating
-              = pt.player.season_average_result_score
-            .team-player-param-item.team-player-club
-              %object{data: pt.player.club.logo_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                = image_tag('default_logo.png')
-            .team-player-param-item.team-player-rating.transfer-price
-              = pt.player.transfer_by(team)&.price
-            .team-player-param-item.team-player-transfer-status
-              = pt_field.check_box :transfer_status, {'data-toggle' => 'toggle', 'data-onstyle' => 'warning', 'data-on' => "#{t('teams.sell')}", 'data-off' => "#{t('teams.keep')}", 'data-size' => 'medium', 'data-height' => '38'}, 'transferable', 'untouchable'
-      .form-group
-        = submit_tag t('teams.confirm_transfers')
+.page-block.team-transfers-page
+  = render 'layouts/left_nav', league: team.league
+  = render 'layouts/right_nav', league: team.league
+  .page-info
+    .team-header
+      .team-title-head
+        .team-logo= image_tag(team.logo_path)
+        .team-title
+          = "#{team.human_name} #{t('teams.transfer_list')}"
+      .team-data
+        .team-data-row
+          .team-data-item
+            .team-data-title= t('teams.current_balance')
+            .team-data-value
+              = team.budget
+          .team-data-item
+            .team-data-title= t('teams.players_sale')
+            .team-data-value#players-sale
+              .players-sale.players-sale-current
+                = team.prepared_sales_count
+              .players-sale /
+              .players-sale.players-sale-max
+                = team.league.auctions.sales.first.sales_count
+          .team-data-item
+            .team-data-title= t('teams.possible_budget')
+            .team-data-value#possible-budget
+              = team.budget + team.player_teams.transferable.sum { |pt| pt.player.transfer_by(team)&.price }
+    .team-players-list
+      .team-players-headers
+        .team-players-header-item= t('teams.player')
+        .team-players-header-item.team-players-header-position= t('teams.positions')
+        .team-players-header-item.right= t('teams.appearances')
+        .team-players-header-item.right= t('teams.rating')
+        .team-players-header-item.center= t('teams.club')
+        .team-players-header-item.right= t('teams.price')
+        .team-players-header-item.center= t('teams.status')
+      = form_for :team, url: team_path(team), method: :put do
+        - team.player_teams.sort_by{ |pt| pt.player.position_sequence_number }.each do |pt|
+          = fields_for "player_teams[]", pt do |pt_field|
+            .team-player-item
+              .team-player-param-item.team-player-data
+                .team-player-avatar
+                  .player-show-face
+                    %object{data: pt.player.avatar_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
+                      = image_tag('avatar.png')
+                  .player-show-kit
+                    %object{data: pt.player.kit_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
+                      = image_tag('kit_small_default.png')
+                .team-player-name
+                  .team-player-last-name
+                    = pt.player.name
+                  .team-player-first-name
+                    = pt.player.first_name
+              .team-player-param-item.team-player-position
+                - pt.player.positions.each do |position|
+                  .slot-position{class: "slot-position-#{position.name}"}
+                    = position_name(position)
+              .team-player-param-item.team-player-appearances
+                = pt.player.season_scores_count
+              .team-player-param-item.team-player-rating
+                = pt.player.season_average_result_score
+              .team-player-param-item.team-player-club
+                %object{data: pt.player.club.logo_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
+                  = image_tag('default_logo.png')
+              .team-player-param-item.team-player-rating.transfer-price
+                = pt.player.transfer_by(team)&.price
+              .team-player-param-item.team-player-transfer-status
+                = pt_field.check_box :transfer_status, {'data-toggle' => 'toggle', 'data-onstyle' => 'warning', 'data-on' => "#{t('teams.sell')}", 'data-off' => "#{t('teams.keep')}", 'data-size' => 'medium', 'data-height' => '38'}, 'transferable', 'untouchable'
+        .form-group
+          = submit_tag t('teams.confirm_transfers')
 
 :javascript
   $(document).ready(function() {

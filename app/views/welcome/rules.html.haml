@@ -1,35 +1,445 @@
-.rules-page.welcome-page.welcome-subpage.header-grid
-  .left-block
-    .title-block
-      .title-text= t('welcome.rules.game_rules')
-      .title-bg
-    .rules-block
-      .rules-item
-        .rules-subtitle= t('welcome.rules.subtitle01')
-        .rules-subtitle= t('welcome.rules.subtitle02')
-      .rules-item
-        .rules-title= t('welcome.rules.title1')
-        .rules-subtitle= t('welcome.rules.subtitle1')
-        .rules-description= t('welcome.rules.description1')
-      .rules-item
-        .rules-title= t('welcome.rules.title2')
-        .rules-subtitle= t('welcome.rules.subtitle2')
-        .rules-description= t('welcome.rules.description2')
-      .rules-item
-        .rules-title= t('welcome.rules.title3')
-        .rules-subtitle= t('welcome.rules.subtitle3')
-        .rules-description= t('welcome.rules.description3')
-      .rules-item
-        .rules-title= t('welcome.rules.title4')
-        .rules-subtitle= t('welcome.rules.subtitle4')
-        .rules-description= t('welcome.rules.description4')
-      .rules-item
-        .rules-title= t('welcome.rules.title5')
-        .rules-subtitle= t('welcome.rules.subtitle5')
-        .rules-description= t('welcome.rules.description5')
-  .right-block
-    .pitch-layer
-    .player-layer
-      .player-image-wrapper
-        .player-image
-          = image_tag('welcome_persons/dean.png')
+.page-block
+  - if user_signed_in?
+    = render 'layouts/left_nav', league: nil
+  - else
+    = render 'layouts/header'
+  .rules-page{ class: "rules-user-#{user_signed_in?}"}
+    .rules-title
+      .rules-title-icon 📝
+      .rules-title-text= t('welcome.rules.title')
+    .rules-content
+      .rules-text
+        .rules-subtitle= t('welcome.rules.subtitle')
+        .rules-subtitle.rules-subtitle1= t('welcome.rules.subtitle1')
+        .rules-subtitle.rules-subtitle1= t('welcome.rules.subtitle2')
+
+        .rules-chapter#basic
+          .rules-chapter-text= t('welcome.rules.basic.title')
+          .rules-chapter-img= image_tag('rules/chapter.svg')
+        %ol.basic-list
+          %li= t('welcome.rules.basic.ol1')
+          %li= t('welcome.rules.basic.ol2')
+          %li= t('welcome.rules.basic.ol3')
+          %li= t('welcome.rules.basic.ol4')
+          %li= t('welcome.rules.basic.ol5')
+          %li= t('welcome.rules.basic.ol6')
+          %li= t('welcome.rules.basic.ol7')
+        .rules-header= t('welcome.rules.basic.header1')
+        %ul
+          %li= t('welcome.rules.basic.ul1')
+          %li= t('welcome.rules.basic.ul2')
+          %li= t('welcome.rules.basic.ul3')
+          %li= t('welcome.rules.basic.ul4')
+          %li= t('welcome.rules.basic.ul5')
+        .rules-header= t('welcome.rules.basic.header2')
+        .rules-paragraph= t('welcome.rules.basic.paragraph1')
+        .rules-paragraph.rules-paragraph-next= t('welcome.rules.basic.paragraph2')
+        .rules-header= t('welcome.rules.basic.header3')
+        .rules-paragraph= t('welcome.rules.basic.paragraph3')
+        .tournaments-row
+          - active_tournaments.each do |tournament|
+            .tournament-item
+              .tournament-logo= image_tag(tournament.logo_path, alt: 'Tournament Logo')
+              .tournament-name= tournament.name
+
+        .rules-chapter.rules-chapter-green#auction
+          .rules-chapter-text= t('welcome.rules.auction.title')
+          .rules-chapter-img= image_tag('rules/chapter.svg')
+        %ul
+          %li= t('welcome.rules.auction.ul01')
+          %li= t('welcome.rules.auction.ul02')
+          %li= t('welcome.rules.auction.ul03')
+          %li= t('welcome.rules.auction.ul04')
+          %li= t('welcome.rules.auction.ul05')
+          %li= t('welcome.rules.auction.ul06')
+          %li= t('welcome.rules.auction.ul07')
+        .rules-header= t('welcome.rules.auction.header1')
+        .rules-paragraph= t('welcome.rules.auction.paragraph1')
+        .rules-paragraph.rules-paragraph-next= t('welcome.rules.auction.paragraph2')
+        .screen-block
+          .screen-dots-line
+            .screen-dot
+            .screen-dot
+            .screen-dot
+          .screen-img= image_tag('rules/auction_screen1.png')
+        .screen-desc
+          .screen-desc-line-wrapper
+            .screen-desc-line
+          .screen-desc-header
+            .screen-desc-title= t('welcome.rules.auction.screen1.title')
+            .screen-desc-desc= t('welcome.rules.auction.screen1.text')
+        .rules-header= t('welcome.rules.auction.header2')
+        .rules-paragraph= t('welcome.rules.auction.paragraph3')
+        %ul.rules-paragraph-next
+          %li= t('welcome.rules.auction.ul11')
+          %li= t('welcome.rules.auction.ul12')
+          %li= t('welcome.rules.auction.ul13')
+          %li= t('welcome.rules.auction.ul14')
+          %li= t('welcome.rules.auction.ul15')
+        .rules-header= t('welcome.rules.auction.header3')
+        .rules-paragraph= t('welcome.rules.auction.paragraph4')
+        .rules-paragraph.rules-paragraph-next= t('welcome.rules.auction.paragraph5')
+        .rules-paragraph.rules-paragraph-next= t('welcome.rules.auction.paragraph6')
+        .rules-paragraph.rules-paragraph-next= t('welcome.rules.auction.paragraph7')
+        .rules-chapter.rules-chapter-brown#round
+          .rules-chapter-text= t('welcome.rules.round.title')
+          .rules-chapter-img= image_tag('rules/chapter.svg')
+        .rules-paragraph= t('welcome.rules.round.paragraph1')
+        .rules-paragraph.rules-paragraph-next= t('welcome.rules.round.paragraph2')
+        %ul.rules-paragraph-next
+          %li= t('welcome.rules.round.ul00')
+          %li= t('welcome.rules.round.ul01')
+          %li
+            = t('welcome.rules.round.ul02')
+            = link_to 'FotMob', 'https://www.fotmob.com'
+          %li= t('welcome.rules.round.ul03')
+          %li= t('welcome.rules.round.ul04')
+          %li= t('welcome.rules.round.ul05')
+          %li= t('welcome.rules.round.ul06')
+          %li= t('welcome.rules.round.ul07')
+        .screen-block
+          .screen-dots-line
+            .screen-dot
+            .screen-dot
+            .screen-dot
+          .screen-img= image_tag('rules/round_screen1.png')
+        .screen-desc
+          .screen-desc-line-wrapper
+            .screen-desc-line
+          .screen-desc-header
+            .screen-desc-title= t('welcome.rules.round.screen1.title')
+            .screen-desc-desc= t('welcome.rules.round.screen1.text')
+        .rules-chapter.rules-chapter-red#calculation
+          .rules-chapter-text= t('welcome.rules.calculation.title')
+          .rules-chapter-img= image_tag('rules/chapter.svg')
+        .rules-paragraph= t('welcome.rules.calculation.paragraph1')
+        %ul.rules-paragraph-next
+          %li= t('welcome.rules.calculation.ul01')
+          %li= t('welcome.rules.calculation.ul02')
+          %li= t('welcome.rules.calculation.ul03')
+          %li= t('welcome.rules.calculation.ul04')
+          %li= t('welcome.rules.calculation.ul05')
+          %li= t('welcome.rules.calculation.ul06')
+        .rules-paragraph.rules-paragraph-next= t('welcome.rules.calculation.paragraph2')
+        .rules-header= t('welcome.rules.calculation.header1')
+        .rules-paragraph= t('welcome.rules.calculation.paragraph3')
+        %ul.rules-paragraph-next
+          %li= t('welcome.rules.calculation.ul11')
+          %li= t('welcome.rules.calculation.ul12')
+          %li= t('welcome.rules.calculation.ul13')
+        .rules-paragraph.rules-paragraph-next= t('welcome.rules.calculation.paragraph4')
+        .rules-paragraph.rules-paragraph-next= t('welcome.rules.calculation.paragraph5')
+        .screen-block
+          .screen-dots-line
+            .screen-dot
+            .screen-dot
+            .screen-dot
+          .screen-img= image_tag('rules/calculation_screen1.png')
+        .screen-desc
+          .screen-desc-line-wrapper
+            .screen-desc-line
+          .screen-desc-header
+            .screen-desc-title= t('welcome.rules.calculation.screen1.title')
+            .screen-desc-desc= t('welcome.rules.calculation.screen1.text')
+        .rules-chapter.rules-chapter-blue#positions
+          .rules-chapter-text= t('welcome.rules.positions.title')
+          .rules-chapter-img= image_tag('rules/chapter.svg')
+        .rules-paragraph= t('welcome.rules.positions.paragraph1')
+        .rules-positions
+          .rules-positions-img= image_tag('rules/positions_map.jpg')
+          .rules-positions-list
+            .rules-position-item
+              .rules-position-item-name GK
+              .rules-position-item-subname (Por*)
+              .rules-position-item-desc= t('welcome.rules.positions.list.gk')
+            .rules-position-item
+              .rules-position-item-name RB
+              .rules-position-item-subname (Dd)
+              .rules-position-item-desc= t('welcome.rules.positions.list.rb')
+            .rules-position-item
+              .rules-position-item-name CB
+              .rules-position-item-subname (Dc)
+              .rules-position-item-desc= t('welcome.rules.positions.list.cb')
+            .rules-position-item
+              .rules-position-item-name LB
+              .rules-position-item-subname (Ds)
+              .rules-position-item-desc= t('welcome.rules.positions.list.lb')
+            .rules-position-item
+              .rules-position-item-name WB
+              .rules-position-item-subname (E)
+              .rules-position-item-desc= t('welcome.rules.positions.list.wb')
+            .rules-position-item
+              .rules-position-item-name DM
+              .rules-position-item-subname (M)
+              .rules-position-item-desc= t('welcome.rules.positions.list.dm')
+            .rules-position-item
+              .rules-position-item-name CM
+              .rules-position-item-subname (C)
+              .rules-position-item-desc= t('welcome.rules.positions.list.cm')
+            .rules-position-item
+              .rules-position-item-name W
+              .rules-position-item-subname (W)
+              .rules-position-item-desc= t('welcome.rules.positions.list.w')
+            .rules-position-item
+              .rules-position-item-name FW
+              .rules-position-item-subname (A)
+              .rules-position-item-desc= t('welcome.rules.positions.list.fw')
+            .rules-position-item
+              .rules-position-item-name ST
+              .rules-position-item-subname (Pc)
+              .rules-position-item-desc= t('welcome.rules.positions.list.st')
+            .rules-positions-remark= t('welcome.rules.positions.remark')
+        .rules-chapter#modules
+          .rules-chapter-text= t('welcome.rules.modules.title')
+          .rules-chapter-img= image_tag('rules/chapter.svg')
+        .rules-paragraph= t('welcome.rules.modules.paragraph1')
+        .rules-paragraph.rules-paragraph-next= t('welcome.rules.calculation.paragraph2')
+        .rules-full-img= image_tag('rules/modules.png')
+        .rules-chapter.rules-chapter-green#player_score
+          .rules-chapter-text= t('welcome.rules.player_score.title')
+          .rules-chapter-img= image_tag('rules/chapter.svg')
+        .rules-paragraph
+          = t('welcome.rules.player_score.paragraph1')
+          = link_to 'FotMob', 'https://www.fotmob.com'
+        .rules-paragraph.rules-paragraph-next= t('welcome.rules.player_score.paragraph2')
+        .rules-paragraph.rules-paragraph-next= t('welcome.rules.player_score.paragraph3')
+        .rules-full-img= image_tag('rules/fotmob.png')
+        .rules-header= t('welcome.rules.player_score.header1')
+        .rules-fotmob-links
+          = link_to 'https://apps.apple.com/us/app/fotmob-soccer-live-scores/id488575683' do
+            = image_tag('rules/fotmob_appstore.svg')
+          = link_to 'https://play.google.com/store/apps/details?id=com.mobilefootie.wc2010&hl=uk&gl=US' do
+            = image_tag('rules/fotmob_google.svg')
+        .rules-chapter.rules-chapter-red#bonuses
+          .rules-chapter-text= t('welcome.rules.bonuses.title')
+          .rules-chapter-img= image_tag('rules/chapter.svg')
+        .rules-paragraph= t('welcome.rules.bonuses.paragraph1')
+        .rules-header= t('welcome.rules.bonuses.header1')
+        .bonus-header= t('welcome.rules.bonuses.bonus_header1')
+        .rules-paragraph= t('welcome.rules.bonuses.paragraph2')
+        %ul.rules-paragraph-next
+          %li= t('welcome.rules.bonuses.ul01')
+          %li= t('welcome.rules.bonuses.ul02')
+          %li= t('welcome.rules.bonuses.ul03')
+        .rules-paragraph.rules-paragraph-next= t('welcome.rules.bonuses.paragraph3')
+        .rules-example
+          .rules-example-img= image_tag('rules/bonuses_ex1.png')
+          .rules-example-text
+            .bonus-header= t('welcome.rules.bonuses.example.header')
+            .rules-paragraph= t('welcome.rules.bonuses.example.paragraph1')
+            %ul
+              %li= t('welcome.rules.bonuses.example.ul01')
+              %li= t('welcome.rules.bonuses.example.ul02')
+              %li= t('welcome.rules.bonuses.example.ul03')
+              %li= t('welcome.rules.bonuses.example.ul04')
+        .bonus-header= t('welcome.rules.bonuses.bonus_header2')
+        .bonus-header= t('welcome.rules.bonuses.bonus_header3')
+        .bonus-header= t('welcome.rules.bonuses.bonus_header4')
+        .bonus-header= t('welcome.rules.bonuses.bonus_header5')
+        .rules-paragraph= t('welcome.rules.bonuses.paragraph4')
+        %ul.rules-paragraph-next
+          %li= t('welcome.rules.bonuses.ul11')
+          %li= t('welcome.rules.bonuses.ul12')
+          %li= t('welcome.rules.bonuses.ul13')
+        .rules-example
+          .rules-example-img= image_tag('rules/bonuses_ex2.png')
+          .rules-example-text
+            .bonus-header= t('welcome.rules.bonuses.example.header')
+            .rules-paragraph= t('welcome.rules.bonuses.example.paragraph2')
+            %ul
+              %li= t('welcome.rules.bonuses.example.ul11')
+              %li= t('welcome.rules.bonuses.example.ul12')
+              %li= t('welcome.rules.bonuses.example.ul13')
+              %li
+                = t('welcome.rules.bonuses.example.ul14')
+                .rules-example-remark= t('welcome.rules.bonuses.example.remark1')
+              %li
+                = t('welcome.rules.bonuses.example.ul15')
+                .rules-example-remark= t('welcome.rules.bonuses.example.remark2')
+        .rules-note
+          .rules-note-title= t('welcome.rules.note')
+          %ol
+            %li= t('welcome.rules.bonuses.note.ol1')
+            %li= t('welcome.rules.bonuses.note.ol2')
+        .rules-header= t('welcome.rules.bonuses.header2')
+        .bonus-header= t('welcome.rules.bonuses.bonus_header6')
+        .bonus-header= t('welcome.rules.bonuses.bonus_header7')
+        .rules-paragraph= t('welcome.rules.bonuses.paragraph5')
+        .rules-paragraph.rules-paragraph-next= t('welcome.rules.bonuses.paragraph6')
+        .bonus-header.rules-paragraph-next= t('welcome.rules.bonuses.bonus_header8')
+        .bonus-header= t('welcome.rules.bonuses.bonus_header9')
+        .bonus-header= t('welcome.rules.bonuses.bonus_header10')
+        .bonus-header= t('welcome.rules.bonuses.bonus_header11')
+        .rules-example
+          .rules-example-img= image_tag('rules/bonuses_ex3.png')
+          .rules-example-text
+            .bonus-header= t('welcome.rules.bonuses.example.header')
+            .rules-paragraph= t('welcome.rules.bonuses.example.paragraph3')
+            %ul
+              %li
+                = t('welcome.rules.bonuses.example.ul21')
+                .rules-example-remark= t('welcome.rules.bonuses.example.remark3')
+              %li
+                = t('welcome.rules.bonuses.example.ul22')
+                .rules-example-remark= t('welcome.rules.bonuses.example.remark4')
+        .bonus-header.rules-paragraph-next= t('welcome.rules.bonuses.bonus_header12')
+        .rules-paragraph= t('welcome.rules.bonuses.paragraph7')
+        .rules-paragraph.rules-paragraph-next= t('welcome.rules.bonuses.paragraph8')
+        %ol.rules-paragraph-next
+          %li= t('welcome.rules.bonuses.ol1')
+          %li= t('welcome.rules.bonuses.ol2')
+          %li= t('welcome.rules.bonuses.ol3')
+        .screen-block
+          .screen-dots-line
+            .screen-dot
+            .screen-dot
+            .screen-dot
+          .screen-img= image_tag('rules/pos_malus_screen.png')
+        .screen-desc
+          .screen-desc-line-wrapper
+            .screen-desc-line
+          .screen-desc-header
+            .screen-desc-title= t('welcome.rules.bonuses.screen1.title')
+            .screen-desc-desc= t('welcome.rules.bonuses.screen1.text')
+        .bonus-header.rules-paragraph-next= t('welcome.rules.bonuses.bonus_header13')
+        .rules-paragraph= t('welcome.rules.bonuses.paragraph9')
+        .rules-paragraph.rules-paragraph-next= t('welcome.rules.bonuses.paragraph10')
+        .rules-table-block
+          .rules-table-headers
+            .rules-table-header1= t('welcome.rules.bonuses.table.header1')
+            .rules-table-header2.right= t('welcome.rules.bonuses.table.header2')
+          .rules-table-row
+            .rules-table-bonus= t('welcome.rules.bonuses.table.bonus1')
+            .rules-table-value.right= t('welcome.rules.bonuses.table.value1')
+          .rules-table-row
+            .rules-table-bonus 7.00 - 7.24
+            .rules-table-value.right= t('welcome.rules.bonuses.table.value2')
+          .rules-table-row
+            .rules-table-bonus 7.25 - 7.49
+            .rules-table-value.right= t('welcome.rules.bonuses.table.value3')
+          .rules-table-row
+            .rules-table-bonus 7.50 - 7.74
+            .rules-table-value.right= t('welcome.rules.bonuses.table.value3')
+          .rules-table-row
+            .rules-table-bonus 7.75 - 7.99
+            .rules-table-value.right= t('welcome.rules.bonuses.table.value5')
+          .rules-table-row
+            .rules-table-bonus= t('welcome.rules.bonuses.table.bonus6')
+            .rules-table-value.right= t('welcome.rules.bonuses.table.value6')
+        .rules-example
+          .rules-example-img= image_tag('rules/bonuses_ex4.png')
+          .rules-example-text
+            .bonus-header= t('welcome.rules.bonuses.example.header')
+            .rules-paragraph (8.4 + 5.3 + 7.5 + 8.5)/4 = 29,7/4=7.425
+            .rules-paragraph.rules-paragraph-next= t('welcome.rules.bonuses.example.paragraph4')
+        .rules-chapter.rules-chapter-green#substitution
+          .rules-chapter-text= t('welcome.rules.substitution.title')
+          .rules-chapter-img= image_tag('rules/chapter.svg')
+        .rules-paragraph= t('welcome.rules.substitution.paragraph1')
+        .rules-paragraph.rules-paragraph-next= t('welcome.rules.substitution.paragraph2')
+        .rules-paragraph.rules-paragraph-next= t('welcome.rules.substitution.paragraph3')
+        .rules-paragraph.rules-paragraph-next= t('welcome.rules.substitution.paragraph4')
+        .screen-block
+          .screen-dots-line
+            .screen-dot
+            .screen-dot
+            .screen-dot
+          .screen-img= image_tag('rules/subs_screen.png')
+        .screen-desc
+          .screen-desc-line-wrapper
+            .screen-desc-line
+          .screen-desc-header
+            .screen-desc-title= t('welcome.rules.substitution.screen1.title')
+            .screen-desc-desc= t('welcome.rules.substitution.screen1.text')
+        .rules-paragraph.rules-paragraph-next= t('welcome.rules.substitution.paragraph5')
+        .rules-paragraph.rules-paragraph-next= t('welcome.rules.substitution.paragraph6')
+        .rules-chapter.rules-chapter-blue#lineup
+          .rules-chapter-text= t('welcome.rules.lineup.title')
+          .rules-chapter-img= image_tag('rules/chapter.svg')
+        .rules-paragraph= t('welcome.rules.lineup.paragraph1')
+        .screen-block
+          .screen-dots-line
+            .screen-dot
+            .screen-dot
+            .screen-dot
+          .screen-img= image_tag('rules/lineup_screen1.png')
+        .screen-desc
+          .screen-desc-line-wrapper
+            .screen-desc-line
+          .screen-desc-header
+            .screen-desc-title= t('welcome.rules.lineup.screen1.title')
+            .screen-desc-desc= t('welcome.rules.lineup.screen1.text')
+        .rules-paragraph.rules-paragraph-next= t('welcome.rules.lineup.paragraph2')
+        .rules-paragraph.rules-paragraph-next= t('welcome.rules.lineup.paragraph3')
+        .rules-paragraph.rules-paragraph-next= t('welcome.rules.lineup.paragraph4')
+        .screen-block
+          .screen-dots-line
+            .screen-dot
+            .screen-dot
+            .screen-dot
+          .screen-img= image_tag('rules/lineup_screen2.png')
+        .screen-desc
+          .screen-desc-line-wrapper
+            .screen-desc-line
+          .screen-desc-header
+            .screen-desc-title= t('welcome.rules.lineup.screen2.title')
+            .screen-desc-desc= t('welcome.rules.lineup.screen2.text')
+        .rules-note.rules-paragraph-next
+          .rules-note-title= t('welcome.rules.note')
+          .rules-paragraph= t('welcome.rules.lineup.paragraph5')
+          .rules-note-img.rules-paragraph-next= image_tag('rules/lineup_note.png')
+        .rules-chapter.rules-chapter-brown#fanta
+          .rules-chapter-text= t('welcome.rules.fanta.title')
+          .rules-chapter-img= image_tag('rules/chapter.svg')
+        .rules-paragraph= t('welcome.rules.fanta.paragraph1')
+        .rules-header= t('welcome.rules.fanta.header1')
+        %ul
+          %li= t('welcome.rules.fanta.ul1')
+          %li= t('welcome.rules.fanta.ul2')
+          %li= t('welcome.rules.fanta.ul3')
+        .screen-block
+          .screen-dots-line
+            .screen-dot
+            .screen-dot
+            .screen-dot
+          .screen-img= image_tag('rules/fanta_screen.png')
+        .screen-desc
+          .screen-desc-line-wrapper
+            .screen-desc-line
+          .screen-desc-header
+            .screen-desc-title= t('welcome.rules.fanta.screen1.title')
+            .screen-desc-desc= t('welcome.rules.fanta.screen1.text')
+        .rules-header= t('welcome.rules.fanta.header2')
+        .rules-paragraph= t('welcome.rules.fanta.paragraph2')
+        %ol.rules-paragraph-next
+          %li= t('welcome.rules.fanta.ol1')
+          %li= t('welcome.rules.fanta.ol2')
+          %li= t('welcome.rules.fanta.ol3')
+        .screen-block
+          .screen-dots-line
+            .screen-dot
+            .screen-dot
+            .screen-dot
+          .screen-img= image_tag('rules/fanta_screen2.png')
+        .screen-desc
+          .screen-desc-line-wrapper
+            .screen-desc-line
+          .screen-desc-header
+            .screen-desc-title= t('welcome.rules.fanta.screen2.title')
+            .screen-desc-desc= t('welcome.rules.fanta.screen2.text')
+      .rules-nav
+        .rules-nav-anchor ⚓️
+        .rules-nav-list
+          .rules-nav-header= t('welcome.rules.nav_title')
+          .rules-nav-link= link_to t('welcome.rules.basic.title'), '#basic'
+          .rules-nav-link= link_to t('welcome.rules.auction.title'), '#auction'
+          .rules-nav-link= link_to t('welcome.rules.round.title'), '#round'
+          .rules-nav-link= link_to t('welcome.rules.calculation.title'), '#calculation'
+          .rules-nav-link= link_to t('welcome.rules.positions.title'), '#positions'
+          .rules-nav-link= link_to t('welcome.rules.modules.title'), '#modules'
+          .rules-nav-link= link_to t('welcome.rules.player_score.title'), '#player_score'
+          .rules-nav-link= link_to t('welcome.rules.bonuses.title'), '#bonuses'
+          .rules-nav-link= link_to t('welcome.rules.substitution.title'), '#substitution'
+          .rules-nav-link= link_to t('welcome.rules.lineup.title'), '#lineup'
+          .rules-nav-link= link_to t('welcome.rules.fanta.title'), '#fanta'
+  = render 'layouts/footer'

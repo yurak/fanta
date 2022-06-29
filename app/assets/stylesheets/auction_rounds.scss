@@ -1,14 +1,14 @@
 /* AUCTION ROUNDS SHOW page */
 .page-info.auction-rounds-page {
   height: 100%;
-  padding: 120px 0 0;
+  padding-left: 272px;
   display: grid;
   grid-template-columns: 7fr 3fr;
 
   a { text-decoration: none }
 
   .round-section {
-    padding: 40px;
+    padding: 24px;
 
     .rounds-league-name {
       font-weight: bold;
@@ -51,7 +51,7 @@
         line-height: 36px;
       }
 
-      .round-current-true {
+      .round-current {
         background-color: #261FFF;
         color: #FFFFFF;
         border: none;
@@ -64,7 +64,7 @@
 
       .round-base {
         display: grid;
-        grid-template-columns: auto 310px 204px;
+        grid-template-columns: 180px 310px auto;
         line-height: 32px;
         color: #181715;
         padding-bottom: 32px;
@@ -147,7 +147,6 @@
 
 @media (orientation: portrait) {
   .page-info.auction-rounds-page {
-    padding: 200px 0 0;
     display: block;
 
     .stats-section {
@@ -166,7 +165,6 @@
 
 @media (orientation: landscape) and (max-device-width: 1220px) {
   .page-info.auction-rounds-page {
-    padding: 100px 0 0;
     display: block;
 
     .stats-section {

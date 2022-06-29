@@ -42,27 +42,47 @@
 @import "welcome";
 
 @font-face {
-  font-family: 'Mont Regular';
-  src: font-url('Mont-Regular.ttf') format('truetype');
+  font-family: 'Nunito Regular'; // 400
+  src: font-url('Nunito-Regular.ttf') format('truetype');
   font-style: normal;
 }
 @font-face {
-  font-family: 'Mont SemiBold';
-  src: font-url('Mont-SemiBold.ttf') format('truetype');
+  font-family: 'Nunito Medium'; // 500
+  src: font-url('Nunito-Medium.ttf') format('truetype');
+  font-style: normal;
 }
 @font-face {
-  font-family: 'Mont Bold';
-  src: font-url('Mont-Bold.ttf') format('truetype');
+  font-family: 'Nunito SemiBold'; // 600
+  src: font-url('Nunito-SemiBold.ttf') format('truetype');
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Nunito Bold'; // 700
+  src: font-url('Nunito-Bold.ttf') format('truetype');
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Nunito ExtraBold'; // 800
+  src: font-url('Nunito-ExtraBold.ttf') format('truetype');
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Archivo Bold'; // 700
+  src: font-url('Archivo-Bold.ttf') format('truetype');
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body, html {
+  font-family: 'Nunito Medium';
   height: 100%;
   width: 100%;
   margin: 0;
   padding: 0;
   position: relative;
   background: #FFFFFF;
-  font-family: 'Mont Regular';
 }
 
 .main-block {
@@ -73,8 +93,82 @@ body, html {
   height: 100%;
 }
 
+.grey-btn {
+  margin: 6px 0;
+  padding: 0 16px;
+  border: 1px solid #D8D6FF;
+  background: #FFFFFF;
+  border-radius: 4px;
+  text-align: center;
+  line-height: 38px;
+  color: #261FFF;
+  cursor: pointer;
+
+  a {
+    width: 100%;
+    display: inline-block;
+    text-decoration: none;
+    color: #261FFF;
+  }
+
+  img {
+    filter: invert(0%) sepia(1%) saturate(5%) hue-rotate(304deg) brightness(97%) contrast(103%); // #181715;
+  }
+}
+
+.grey-btn:hover {
+  background: #040052;
+  color: #FFFFFF;
+
+  a {
+    color: #FFFFFF;
+  }
+
+  img {
+    filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(104deg) brightness(103%) contrast(102%); // #FFFFFF;
+  }
+}
+
+.donate-btn {
+  display: inline-block;
+  background: #FCC5CB;
+  border: 1px solid #DB0A23;
+
+  a {
+    color: #DB0A23;
+  }
+}
+
+.donate-btn:hover {
+  display: inline-block;
+  background: #DB0A23;
+  border: 1px solid #FCC5CB;
+
+  a {
+    color: #FCC5CB;
+  }
+}
+
+.blue-btn {
+  margin: 6px 0;
+  background: #261FFF;
+  border: 1px solid #261FFF;
+  border-radius: 4px;
+  font-size: 16px;
+  line-height: 38px;
+  text-align: center;
+
+  img {
+    filter: invert(97%) sepia(7%) saturate(747%) hue-rotate(219deg) brightness(117%) contrast(91%); //#F4F4F4;
+  }
+}
+
+.blue-btn:hover {
+  background: #3530CA;
+  box-shadow: 1px 2px 5px rgba(24, 23, 21, 0.2);
+}
+
 .actions-buttons {
-  font-weight: bold;
   font-size: 16px;
   line-height: 40px;
   padding-bottom: 32px;
@@ -112,9 +206,9 @@ body, html {
       padding: 21px 0;
 
       a {
+        font-family: 'Nunito Regular';
         display: grid;
         grid-template-columns: auto 48px;
-        font-weight: 400;
         text-decoration: none;
       }
 
@@ -169,7 +263,7 @@ body, html {
     }
 
     .round-tournament-match-cell {
-      font-weight: 700;
+      font-family: 'Nunito Bold';
       color: #A6A2A2;
       line-height: 40px;
       height: 90px;
@@ -184,10 +278,10 @@ body, html {
     }
 
     .round-tournament-match-result {
+      font-family: 'Nunito Bold';
       display: grid;
       grid-template-columns: 1fr 1fr;
       background: #E5E6E4;
-      font-weight: 700;
       font-size: 18px;
       line-height: 24px;
       border-radius: 4px;
@@ -203,9 +297,9 @@ body, html {
 }
 
 .round-prev-next {
+  font-family: 'Nunito Medium';
   display: grid;
   grid-template-columns: 1fr 1fr;
-  font-weight: 500;
   font-size: 12px;
   margin: 4px 0;
   line-height: 24px;
@@ -229,6 +323,10 @@ body, html {
     .round-prev-text {
       padding: 0 8px;
     }
+
+    img {
+      transform: rotate(180deg);
+    }
   }
 
   .round-next {
@@ -240,15 +338,21 @@ body, html {
       padding: 0 8px;
       text-align: right;
     }
+  }
 
-    img {
-      transform: rotate(180deg);
-    }
+  .round-prev-next-disabled {
+    display: grid;
+    grid-template-columns: 10px auto;
+    color: #A6A2A2;
+  }
+
+  .round-next.round-prev-next-disabled {
+    grid-template-columns: auto 10px;
   }
 
   img {
     width: 10px;
-    height: 6px;
+    height: 8px;
   }
 }
 
@@ -276,6 +380,7 @@ body, html {
 }
 
 .module-position-block {
+  font-family: 'Nunito Bold';
   display: flex;
   column-gap: 1px;
   background: #181715;
@@ -287,7 +392,7 @@ body, html {
 
   .player-position {
     height: 18px;
-    padding: 3px 4px;
+    padding: 2px 4px;
   }
 }
 
@@ -645,12 +750,18 @@ body, html {
 
     .round-table-hide {
       cursor: pointer;
+      //padding: 4px;
 
       img {
         width: 12px;
         height: 6px;
         margin: auto 6px;
       }
+    }
+
+    .round-table-hide:hover {
+      background: #F4F4F4;
+      border-radius: 12px;
     }
 
     .round-table-hidden {
@@ -687,6 +798,9 @@ body, html {
         .results-team-name {
           text-align: left;
           padding: 4px 8px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
         }
       }
 
@@ -789,10 +903,6 @@ body, html {
       border: none;
     }
 
-    .best-players-title {
-      margin-bottom: 12px;
-    }
-
     .round-player-stats-item {
       grid-template-columns: 24px auto 24px 40px;
       column-gap: 8px;
@@ -835,8 +945,8 @@ body, html {
 
       .round-player-stats-team {
         img {
-          width: 24px;
-          height: 24px;
+          width: 20px;
+          height: 20px;
         }
       }
     }
@@ -888,14 +998,6 @@ body, html {
   display: inline-block;
 }
 
-.small-number {
-  width: 60px;
-}
-
-.nav-item {
-  font-size: 17px;
-}
-
 .input-group-prepend {
   width: 110px;
 
@@ -908,41 +1010,8 @@ body, html {
   width: 90%;
 }
 
-.disqualified, .injured {
-  opacity: 0.7;
-}
-
-.clr-success {
-  background-color: #66bb6a;
-}
-
-.clr-danger, .injured {
-  background-color: #ef5350;
-}
-
-.clr-warning, .problematic {
-  background-color: #ffee58;
-}
-
-.clr-secondary, .disqualified {
-  background-color: #bdbdbd;
-}
-
-.malus15 {
-  background-color: yellow;
-}
-
-.malus30 {
-  background-color: orange;
-}
-
-.malus45 {
-  background-color: red;
-}
-
 @media (orientation: portrait) {
   .page-info {
-    padding: 220px 40px 80px;
+    padding: 20px 40px 80px;
   }
 }
-

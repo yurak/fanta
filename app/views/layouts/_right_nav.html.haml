@@ -61,7 +61,7 @@
         .league-link-text= t('header.players')
     - if league.mantra?
       = link_to league_auctions_path(league) do
-        .league-link{class: "link-active-#{ params[:controller] == 'auctions' && params[:action] == 'index' }"}
+        .league-link{class: "link-active-#{ params[:controller] == 'auctions' || params[:controller] == 'auction_bids' || params[:controller] == 'auction_rounds' }"}
           .league-link-icon= image_tag('icons/round/auctions.svg')
           .league-link-text= t('header.auctions')
     -# = link_to '' do

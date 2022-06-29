@@ -1,4 +1,4 @@
-.page-block
+.page-block.match-page-all
   = render 'layouts/left_nav', league: match.tour.league
   = render 'layouts/right_nav', league: match.tour.league
   .page-info.match-page
@@ -11,18 +11,28 @@
             = "#{t('tours.round')} ##{match.tour.number}"
       .match-round-link-blank
       .round-prev-next
-        .round-prev
-          - if match.tour.number > 1 && match.tour.prev_round
-            = link_to tour_path(match.tour.prev_round) do
+        - if match.tour.number > 1 && match.tour.prev_round
+          .round-prev
+            = link_to match_path(match.tour.prev_round.matches.first) do
               .round-prev-arrow
-                = image_tag('icons/arrow_blue.png')
+                = image_tag('icons/arrow_blue.svg')
               .round-prev-text= t('tours.prev')
-        .round-next
-          - if match.tour.number < match.tour.league.tours.size && match.tour.next_round
-            = link_to tour_path(match.tour.next_round) do
+        - else
+          .round-prev.round-prev-next-disabled
+            .round-prev-arrow
+              = image_tag('icons/arrow_grey.svg')
+            .round-prev-text= t('tours.prev')
+        - if match.tour.number < match.tour.league.tours.size && match.tour.next_round
+          .round-next
+            = link_to match_path(match.tour.next_round.matches.first) do
               .round-next-text= t('tours.next')
               .round-next-arrow
-                = image_tag('icons/arrow_blue.png')
+                = image_tag('icons/arrow_blue.svg')
+        - else
+          .round-next.round-prev-next-disabled
+            .round-next-text= t('tours.next')
+            .round-next-arrow
+              = image_tag('icons/arrow_grey.svg')
     .matches-bar
       .matches-bar-items
         - match.tour.matches.each do |round_match|
@@ -90,35 +100,47 @@
     .match-squads
       = render 'team_squad', lineup: match.host_lineup
       .match-lineups
-        .match-team-name= match.host.human_name.upcase
-        .match-lineups-field
-          = image_tag('field_skeleton.svg', class: 'field_skeleton')
-          .match-modules
-            .match-module-lineup.match-module-home
-              - if match.host_lineup
-                - if current_user == match.host_lineup.team.user || match.host_lineup.tour.deadlined?
-                  - match.host_lineup.match_players.main.each_with_index do |mp, index|
-                    .match-module-item{class: "slot-#{match.host_lineup.team_module.slots[index]&.location}"}
-                      .match-module-item-pos
-                        .module-position-block.player-positions-block
-                          - match.host_lineup.team_module.slots[index].positions.each do |position|
-                            .player-position{class: "player-position-#{position}"}
-                              = slot_position_name(position)
-                      .match-module-item-player-wrapper
-                        .match-module-item-player
-                          = mp.player.name.length > 13 ? "#{mp.player.name[0..10]}..." : mp.player.name
-            .match-module-lineup.match-module-away
-              - if match.guest_lineup
-                - if current_user == match.guest_lineup.team.user || match.guest_lineup.tour.deadlined?
-                  - match.guest_lineup.match_players.main.each_with_index do |mp, index|
-                    .match-module-item{class: "slot-#{match.guest_lineup.team_module.slots[index]&.location}"}
-                      .match-module-item-pos
-                        .module-position-block.player-positions-block
-                          - match.guest_lineup.team_module.slots[index].positions.each do |position|
-                            .player-position{class: "player-position-#{position}"}
-                              = slot_position_name(position)
-                      .match-module-item-player-wrapper
-                        .match-module-item-player
-                          = mp.player.name.length > 15 ? "#{mp.player.name[0..10]}..." : mp.player.name
-        .match-team-name= match.guest.human_name.upcase
+        #match-lineups
+          .match-team-name= match.host.human_name.upcase
+          .match-lineups-field
+            = image_tag('field_skeleton.svg', class: 'field_skeleton')
+            .match-modules
+              .match-module-lineup.match-module-home
+                - if match.host_lineup
+                  - if current_user == match.host_lineup.team.user || match.host_lineup.tour.deadlined?
+                    - match.host_lineup.match_players.main.each_with_index do |mp, index|
+                      .match-module-item{class: "slot-#{match.host_lineup.team_module.slots[index]&.location}"}
+                        .match-module-item-pos
+                          .module-position-block.player-positions-block
+                            - match.host_lineup.team_module.slots[index].positions.each do |position|
+                              .player-position{class: "player-position-#{position}"}
+                                = slot_position_name(position)
+                        .match-module-item-player-wrapper
+                          .match-module-item-player
+                            = mp.player.name.length > 13 ? "#{mp.player.name[0..10]}..." : mp.player.name
+              .match-module-lineup.match-module-away
+                - if match.guest_lineup
+                  - if current_user == match.guest_lineup.team.user || match.guest_lineup.tour.deadlined?
+                    - match.guest_lineup.match_players.main.each_with_index do |mp, index|
+                      .match-module-item{class: "slot-#{match.guest_lineup.team_module.slots[index]&.location}"}
+                        .match-module-item-pos
+                          .module-position-block.player-positions-block
+                            - match.guest_lineup.team_module.slots[index].positions.each do |position|
+                              .player-position{class: "player-position-#{position}"}
+                                = slot_position_name(position)
+                        .match-module-item-player-wrapper
+                          .match-module-item-player
+                            = mp.player.name.length > 15 ? "#{mp.player.name[0..10]}..." : mp.player.name
+          .match-team-name= match.guest.human_name.upcase
       = render 'team_squad', lineup: match.guest_lineup
+
+:javascript
+  $(document).scroll(function() {
+    var y = $(document).scrollTop(),
+      lineups = $("#match-lineups");
+    if(y >= 370)  {
+      lineups.css({position: "fixed", top: 0});
+    } else {
+      lineups.css("position", "relative");
+    }
+  });

@@ -1,11 +1,14 @@
 serie_a:
   ATA: Atalanta
+#  BEN: Benevento
   BOL: Bologna
-  CAG: Cagliari
+#  BRE: Brescia
+#  CAG: Cagliari
   CRE: Cremonese
+#  CRO: Crotone
   EMP: Empoli
   FIO: Fiorentina
-  GEN: Genoa
+#  GEN: Genoa
   INT: Inter
   JUV: Juventus
   LAZ: Lazio
@@ -13,14 +16,16 @@ serie_a:
   MIL: Milan
   MNZ: Monza
   NAP: Napoli
+#  PAR: Parma
   ROM: Roma
   SAL: Salernitana
   SAM: Sampdoria
   SAS: Sassuolo
+#  SPA: SPAL
   SPE: Spezia
   TOR: Torino
   UDI: Udinese
-  VEN: Venezia
+#  VEN: Venezia
   VER: Verona
 epl:
   ARS: Arsenal
@@ -44,16 +49,16 @@ epl:
   WES: West Ham
   WOL: Wolverhampton
 bundesliga:
-  ARM: Arminia
+#  ARM: Arminia
   AUG: Augsburg
-  BOC: Bochum
   LEV: Bayer Leverkusen
   MUN: Bayern Munchen
+  BOC: Bochum
   BVB: Borussia Dortmund
   BMG: Borussia Mbach
   EIN: Eintracht
   FRE: Freiburg
-  GRF: Greuther Furth
+#  GRF: Greuther Furth
   HER: Hertha
   HOF: Hoffenheim
   KOL: Koln
@@ -72,13 +77,13 @@ laliga:
   BET: Real Betis
   CAD: Cadiz
   CEL: Celta Vigo
-  ALA: Deportivo Alaves
+#  ALA: Deportivo Alaves
   ELC: Elche
   ESP: Espanyol
   GET: Getafe
   GIR: Girona
-  GRA: Granada
-  LUD: Levante
+#  GRA: Granada
+#  LUD: Levante
   MAL: Mallorca
   OSA: Osasuna
   RVA: Rayo Vallecano
@@ -92,7 +97,7 @@ ligue_1:
   AJC: Ajaccio
   ANG: Angers
   AUX: Auxerre
-  BOR: Bordeaux
+#  BOR: Bordeaux
   BRS: Brest
   CLE: Clermont Foot
   LEN: Lens
@@ -100,7 +105,7 @@ ligue_1:
   LOR: Lorient
   LYO: Lyon
   MAR: Marseille
-  MET: Metz
+#  MET: Metz
   MON: Monaco
   MPL: Montpellier
   NAN: Nantes
@@ -108,7 +113,7 @@ ligue_1:
   PSG: PSG
   REI: Reims
   REN: Rennes
-  SEN: Saint-Etienne
+#  SEN: Saint-Etienne
   STR: Strasbourg
   TOU: Toulouse
   TRO: Troyes
@@ -137,36 +142,93 @@ championship:
   SWA: Swansea City
   WBA: West Bromwich
   WIG: Wigan Athletic
-champions_league:
+jupiler:
+  AND: Anderlecht
   BRU: Brugge
-  PSG: PSG
-  MCI: Manchester City
-  RBL: RB Leipzig
-  MIL: Milan
-  ATM: Atletico Madrid
-  FCP: Porto
-  LIV: Liverpool
-  AJA: Ajax
-  BES: Besiktas
-  BVB: Borussia Dortmund
-  SCP: Sporting
-  SHE: Sheriff
-  INT: Inter
-  RMA: Real Madrid
-  SHD: Shakhtar Donetsk
-  BAR: Barcelona
-  MUN: Bayern Munchen
+  CBG: Cercle Brugge
+  CHR: Charleroi
+  EPN: Eupen
+  GNK: Genk
+  GNT: Gent
+  KRT: Kortrijk
+  LVN: Leuven
+  MLN: Mechelen
+  OST: Oostende
+  RAN: Royal Antwerp
+  SRN: Seraing
+  STT: Sint-Truiden
+  STD: Standard Liege
+  USG: Union St.Gilloise
+  WST: Westerlo
+  ZWR: Zulte Waregem
+liga_portugal:
+  ARC: Arouca
   BNF: Benfica
-  DYN: Dynamo Kyiv
-  ATA: Atalanta
-  MUT: Manchester United
-  VIL: Villarreal
-  YOU: Young Boys
-  LIL: Lille
-  RBS: Salzburg
-  SEV: Sevilla
-  WLF: Wolfsburg
-  CHE: Chelsea
-  JUV: Juventus
-  MFF: Malmo
-  ZEN: Zenit
+  BVS: Boavista
+  BRG: Braga
+  CSP: Casa Pia
+  CHV: Chaves
+  EST: Estoril
+  FML: Famalicao
+  GLV: Gil Vicente
+  MRT: Maritimo
+  PCF: Paсos Ferreira
+  PRT: Portimonense
+  FCP: Porto
+  RAV: Rio Ave
+  SCL: Santa Clara
+  SCP: Sporting
+  VTG: Vitoria Guimaraes
+  VZL: Vizela
+eredivisie:
+  AJA: Ajax
+  AZA: AZ Alkmaar
+  CMB: Cambuur
+  EMN: Emmen
+  EXL: Excelsior
+  FND: Feyenoord
+  FRS: Fortuna Sittard
+  GAE: Go Ahead Eagles
+  GRN: Groningen
+  HRN: Heerenveen
+  NEC: NEC
+  PSV: PSV
+  RKC: RKC Waalwijk
+  SPR: Sparta
+  TWT: Twente
+  UTR: Utrecht
+  VTS: Vitesse
+  VLN: Volendam
+#champions_league:
+#  BRU: Brugge
+#  PSG: PSG
+#  MCI: Manchester City
+#  RBL: RB Leipzig
+#  MIL: Milan
+#  ATM: Atletico Madrid
+#  FCP: Porto
+#  LIV: Liverpool
+#  AJA: Ajax
+#  BES: Besiktas
+#  BVB: Borussia Dortmund
+#  SCP: Sporting
+#  SHE: Sheriff
+#  INT: Inter
+#  RMA: Real Madrid
+#  SHD: Shakhtar Donetsk
+#  BAR: Barcelona
+#  MUN: Bayern Munchen
+#  BNF: Benfica
+#  DYN: Dynamo Kyiv
+#  ATA: Atalanta
+#  MUT: Manchester United
+#  VIL: Villarreal
+#  YOU: Young Boys
+#  LIL: Lille
+#  RBS: Salzburg
+#  SEV: Sevilla
+#  WLF: Wolfsburg
+#  CHE: Chelsea
+#  JUV: Juventus
+#  MFF: Malmo
+#  ZEN: Zenit
