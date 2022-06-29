@@ -8,9 +8,13 @@
       .rounds-block
         - if auction.auction_rounds.count > 1
           - auction.auction_rounds.each do |round|
-            = link_to auction_round_path(round) do
-              .round-link-block{ class: "round-#{round.status} round-current-#{auction_round == round}" }
+            - if auction_round == round
+              .round-link-block.round-current{ class: "round-#{round.status}" }
                 = round.number
+            - else
+              = link_to auction_round_path(round) do
+                .round-link-block{ class: "round-#{round.status}" }
+                  = round.number
       .round-item
         .round-base
           .round-title

@@ -12,12 +12,12 @@
     grid-template-columns: 280px auto 200px;
 
     .match-round-link a {
+      font-family: 'Nunito Bold';
       display: grid;
       grid-template-columns: 40px auto;
       column-gap: 8px;
       text-decoration: none;
       color: #181715;
-      font-weight: 700;
       font-size: 32px;
       line-height: 32px;
 
@@ -33,6 +33,7 @@
     text-align: center;
 
     .matches-bar-item {
+      font-family: 'Nunito SemiBold';
       display: inline-block;
       border: 1px solid #E5E6E4;
       background-color: #FFFFFF;
@@ -43,7 +44,6 @@
       width: 196px;
       margin: 4px;
       padding: 8px 21px;
-      font-weight: 500;
       color: #A6A2A2;
       text-align: center;
 
@@ -63,7 +63,7 @@
         }
 
         .matches-bar-team-score {
-          font-weight: bold;
+          font-family: 'Nunito ExtraBold';
           color: #181715;
         }
       }
@@ -81,14 +81,18 @@
     grid-template-columns: 1fr 440px 1fr;
 
     .match-host, .match-guest {
+      font-family: 'Nunito Medium';
       text-align: center;
-      font-weight: 500;
       font-size: 24px;
       line-height: 32px;
 
       .match-team-name {
         color: #181715;
         margin-top: 8px;
+      }
+
+      .match-team-name:hover {
+        color: #261FFF;
       }
 
       img {
@@ -102,7 +106,7 @@
       padding-top: 16px;
 
       .match-result-soon {
-        font-weight: bold;
+        font-family: 'Nunito SemiBold';
         font-size: 28px;
         line-height: 32px;
         color: #000000;
@@ -110,10 +114,10 @@
       }
 
       .match-result-deadline {
+        font-family: 'Nunito SemiBold';
         margin: 0 auto;
         background-color: #E5E6E4;
         border-radius: 4px;
-        font-weight: bold;
         font-size: 12px;
         line-height: 24px;
         color: #9B0819;
@@ -131,11 +135,11 @@
         }
 
         .round-match-goals {
+          font-family: 'Nunito ExtraBold';
           display: grid;
           grid-template-columns: 1fr 1fr;
           background: #181715;
           border-radius: 4px;
-          font-weight: bold;
           font-size: 24px;
           line-height: 32px;
           padding: 12px 0;
@@ -147,7 +151,7 @@
         }
 
         .round-match-score {
-          font-weight: bold;
+          font-family: 'Nunito ExtraBold';
           font-size: 24px;
           color: #181715;
         }
@@ -162,6 +166,7 @@
         }
 
         .round-match-scores-host-count {
+          font-family: 'Nunito Regular';
           text-align: right;
           border-right: 1px solid #C4C4C4;
           padding-right: 8px;
@@ -170,6 +175,7 @@
         }
 
         .round-match-scores-guest-count {
+          font-family: 'Nunito Regular';
           text-align: left;
           border-left: 1px solid #C4C4C4;
           padding-left: 8px;
@@ -189,7 +195,7 @@
   }
 
   .match-action-link {
-    font-weight: bold;
+    font-family: 'Nunito SemiBold';
     font-size: 16px;
     line-height: 24px;
     border: 1px solid #D8D6FF;
@@ -208,6 +214,10 @@
     grid-auto-rows: max-content;
 
     .match-lineups {
+      #match-lineups {
+        width: 440px;
+      }
+
       .match-lineups-field {
         background-color: #4EAD57;
         position: relative;
@@ -276,7 +286,7 @@
                 height: 18px;
 
                 .player-position {
-                  padding: 0 4px;
+                  padding: 1px 4px 0;
                   font-size: 10px;
                 }
               }
@@ -288,6 +298,7 @@
             }
 
             .match-module-item-player {
+              font-family: 'Nunito SemiBold';
               background-color: #000000;
               color: #FFFFFF;
               text-align: center;
@@ -328,6 +339,7 @@
       }
 
       .match-team-name {
+        font-family: 'Nunito Medium';
         font-size: 12px;
         line-height: 16px;
         text-align: center;
@@ -337,7 +349,7 @@
     }
 
     .match-team-data {
-      font-weight: 500;
+      font-family: 'Nunito SemiBold';
       font-size: 16px;
       line-height: 24px;
       color: #181715;
@@ -351,7 +363,7 @@
       }
 
       .match-team-data-value {
-        font-weight: bold;
+        font-family: 'Nunito ExtraBold';
         color: #BA44F1;
       }
 
@@ -368,7 +380,7 @@
     }
 
     .match-no-lineup-title {
-      font-weight: bold;
+      font-family: 'Nunito Bold';
       font-size: 24px;
       line-height: 32px;
       text-align: center;
@@ -377,7 +389,7 @@
     }
 
     .match-no-lineup-subtitle {
-      font-weight: 500;
+      font-family: 'Nunito Medium';
       font-size: 18px;
       line-height: 24px;
       text-align: center;
@@ -387,7 +399,6 @@
     .match-player-item {
       line-height: 72px;
       border-bottom: 1px solid #E5E6E4;
-      font-weight: 500;
       font-size: 18px;
       color: #181715;
       display: grid;
@@ -396,7 +407,7 @@
 
       .match-player-avatar {
         width: 100%;
-        padding: 3px 3px 0;
+        padding: 2px 3px 0;
         height: 72px;
         position: relative;
 
@@ -426,7 +437,7 @@
         grid-template-columns: auto 108px;
         line-height: 24px;
         margin-top: 14px;
-        font-weight: 500;
+        font-family: 'Nunito SemiBold';
 
         .team-player-name {
           color: #181715;
@@ -448,13 +459,14 @@
           }
 
           .team-player-score {
+            font-family: 'Nunito Regular';
             text-align: right;
             color: #A6A2A2;
           }
 
           .team-player-total-score {
+            font-family: 'Nunito ExtraBold';
             text-align: right;
-            font-weight: bold;
           }
         }
 
@@ -467,7 +479,6 @@
         }
 
         .team-player-score-unspecified {
-          font-weight: 500;
           font-size: 12px;
           text-align: right;
           color: #A6A2A2;
@@ -500,8 +511,8 @@
           }
 
           .player-match-place {
+            font-family: 'Nunito Bold';
             font-size: 16px;
-            font-weight: bolder;
             padding-top: 3px;
           }
         }
@@ -523,9 +534,17 @@
       }
     }
 
+    .match-player-item:hover {
+      border-bottom: 1px solid #181715;
+      cursor: pointer;
+
+      .team-player-name {
+        color: #261FFF;
+      }
+    }
+
     .match-reserve {
       margin-top: 40px;
-      font-weight: bold;
       font-size: 16px;
       line-height: 24px;
       color: #181715;

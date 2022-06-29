@@ -1,52 +1,99 @@
 .footer {
   width: 100%;
-  height: 64px;
-  position: fixed;
-  bottom: 0;
-  background: #E5E5E5;
-  z-index: 5;
+  background: #181715;
+  padding: 0 152px 80px;
 
-  .footer-block {
+  a {
+    text-decoration: none;
+    color: #FFFFFF;
+  }
+
+  a:hover {
+    color: #261FFF;
+  }
+
+  .footer-row {
+    padding: 45px 0;
+    border-bottom: 1px solid #847577;
+  }
+
+  .footer-row-top {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .footer-base {
+    display: grid;
+    grid-template-columns: 64px auto;
+    column-gap: 40px;
+  }
+
+  .footer-sign {
+    text-align: right;
+  }
+
+  .footer-link-sign {
     display: inline-block;
-    height: 100%;
-    line-height: 64px;
-    margin: 0 32px;
+    margin-left: 32px;
+  }
 
-    .footer-block-title {
-      display: inline-block;
+  .footer-link {
+    display: inline-block;
+    margin-right: 32px;
+  }
 
-      font-weight: bold;
-      font-size: 10px;
-      line-height: 14px;
-      color: #181715;
+  .footer-link-center {
+    margin-right: 0;
+  }
+
+  .footer-link-right {
+    float: right;
+    margin: 0 0 0 32px;
+  }
+
+  .grey-btn {
+    margin: 8px 0;
+  }
+
+  .footer-bottom {
+    padding-top: 90px;
+    text-align: center;
+    width: 100%;
+    color: #FFFFFF;
+    font-size: 18px;
+    line-height: 24px;
+
+    .footer-mantra {
+      font-family: 'Nunito ExtraBold';
     }
 
-    .footer-block-item {
-      display: inline-block;
-      margin: auto auto auto 18px;
-      img {
-        width: 36px;
-        height: 36px;
-      }
+    .footer-social {
+      padding-top: 32px;
     }
 
-    .social-media-item {
-      img {
-        width: 24px;
-        height: 24px;
-      }
+    .footer-social-icon {
+      display: inline;
+      margin: 0 12px;
     }
   }
 }
 
+.footer.footer-left-true {
+  padding: 0 102px 80px 174px;
+}
+
 @media (orientation: portrait) {
   .footer {
-    display: none;
+    padding: 0 32px 80px;
+  }
+
+  .footer.footer-left-true {
+    padding: 0 24px 80px 96px;
   }
 }
 
 @media (orientation: landscape) and (max-device-width: 1220px) {
   .footer {
-    display: none;
+    padding: 0 48px 80px;
   }
 }

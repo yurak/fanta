@@ -514,168 +514,11 @@
   }
 }
 
-.about-page {
-  .left-block {
-    .about-block {
-      font-size: 22px;
-      line-height: 32px;
-      color: #181715;
-
-      .about-item {
-        padding: 24px 100px 0 25px;
-      }
-
-      .join-us {
-        font-size: 26px;
-        font-weight: bolder;
-      }
-    }
-  }
-}
-
-.start-page {
-  padding-left: 72px;
-
-  .left-block {
-    grid-template-rows: 100px auto;
-    width: 650px;
-
-    .title-block {
-      .title-bg {
-        margin-top: 4%;
-        height: 45%;
-      }
-
-      .title-text {
-        font-size: 50px;
-        padding-left: 25px;
-      }
-    }
-
-    .form-block {
-      padding-right: 70px;
-      padding-bottom: 70px;
-
-      .form-item {
-        margin: 10px 25px;
-      }
-
-      .form-checkbox-block {
-        margin: 5px 0 0 10px;
-        display: grid;
-        grid-template-columns: 15px 50px auto;
-        line-height: 32px;
-
-        .form-checkbox-icon {
-          margin: auto;
-
-          img {
-            width: 32px;
-            height: 32px;
-          }
-        }
-      }
-
-      .form-item.form-btn {
-        margin-top: 24px;
-      }
-    }
-  }
-}
-
-.contact-page, .success-page {
-  .left-block .follow-block {
-    padding: 40px 150px;
-    display: grid;
-    grid-template-rows: 50px auto;
-    font-size: 24px;
-    line-height: 50px;
-    color: #181715;
-
-    .follow-title {
-      width: 100%;
-      margin: auto;
-      text-align: center;
-    }
-
-    .follow-links {
-      margin: 0 auto auto;
-      line-height: 100px;
-    }
-
-    .social-media-link {
-      display: inline-block;
-      padding: 0 20px;
-    }
-  }
-}
-
-.contact-page {
-  .left-block {
-    grid-template-rows: 130px 15% 15% auto;
-
-    img {
-      width: 50px;
-      height: 50px;
-    }
-
-    .contact-block {
-      display: grid;
-      grid-template-columns: 65% auto;
-      padding: 0 150px;
-      font-size: 24px;
-      line-height: 50px;
-      color: #181715;
-
-      .contact-text {
-        width: 100%;
-        margin: auto;
-        text-align: left;
-        padding-left: 58px;
-      }
-
-      .social-media-link {
-        margin: auto auto auto 20px;
-      }
-    }
-  }
-}
-
-.success-page {
-  padding-left: 72px;
-
-  .left-block {
-    grid-template-rows: 15% 40% 45%;
-
-    .title-block {
-      .title-bg {
-        margin-top: 4%;
-        height: 45%;
-      }
-
-      .title-text {
-        font-size: 50px;
-      }
-    }
-
-    .success-block {
-      padding-top: 75px;
-      padding-left: 25px;
-      font-size: 24px;
-      line-height: 50px;
-    }
-
-    img {
-      width: 50px;
-      height: 50px;
-    }
-  }
-}
-
 .rules-page {
+  font-family: 'Nunito Regular';
   color: #181715;
   padding: 48px 120px;
-  font-family: 'Nunito Regular';
+  scroll-behavior: smooth;
 
   .rules-title {
     font-family: 'Nunito ExtraBold';
@@ -954,6 +797,377 @@
   }
 }
 
+.fees-content {
+  .fees-text {
+    display: grid;
+    grid-template-columns: 37fr 65fr;
+    column-gap: 96px;
+
+    .fees-subtitle-p {
+      font-size: 32px;
+      line-height: 32px;
+      margin-bottom: 32px;
+    }
+
+    .fees-note {
+      background: #FFEBC2;
+      border-radius: 4px;
+      padding: 4px 8px;
+      display: grid;
+      grid-template-columns: 16px auto;
+      column-gap: 8px;
+      font-size: 12px;
+      line-height: 16px;
+    }
+
+    .fees-desc-p {
+      font-size: 16px;
+      line-height: 24px;
+      margin-bottom: 32px;
+    }
+  }
+
+  .fees-types-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    column-gap: 32px;
+    margin: 80px 0;
+
+    .fees-item {
+      border: 1px solid #FCC5CB;
+    }
+
+    .fees-type {
+      padding: 16px 24px;
+      background: #FCC5CB;
+
+      .type-number {
+        font-family: 'Nunito ExtraBold';
+        font-size: 18px;
+        line-height: 24px;
+        color: #9B0819;
+        margin-bottom: 40px;
+      }
+
+      .type-value {
+        font-size: 72px;
+        line-height: 72px;
+        display: flex;
+      }
+
+      .type-value-number {
+        font-family: 'Nunito ExtraBold';
+      }
+
+      .type-per {
+        font-size: 24px;
+        line-height: 32px;
+        margin-bottom: 32px;
+      }
+    }
+
+    .type-list {
+      background: #FFFFFF;
+      padding: 8px 24px;
+
+      .type-league {
+        display: grid;
+        grid-template-columns: 32px auto;
+        column-gap: 8px;
+        padding: 16px 0;
+        font-size: 14px;
+        line-height: 16px;
+        border-bottom: 1px solid #E5E6E4;
+
+        img {
+          width: 32px;
+          height: 32px;
+        }
+
+        .type-league-data {
+          display: grid;
+          grid-template-columns: auto 48px;
+        }
+
+        .type-league-name {
+          font-family: 'Nunito ExtraBold';
+        }
+
+        .type-league-country {
+          color: #847577;
+        }
+      }
+
+      .type-league:last-child {
+        border: none;
+      }
+    }
+
+    .fees-item-green {
+      border: 1px solid #D0F0D4;
+
+      .fees-type {
+        background: #D0F0D4;
+
+        .type-number {
+          color: #1D5D26;
+        }
+      }
+    }
+
+    .fees-item-violet {
+      border: 1px solid #EAC6FB;
+
+      .fees-type {
+        background: #EAC6FB;
+
+        .type-number {
+          color: #510872;
+        }
+      }
+    }
+  }
+
+  .fees-discounts {
+    text-align: center;
+    width: 600px;
+    margin: auto;
+
+    .fees-discounts-title {
+      font-family: 'Nunito ExtraBold';
+      font-size: 12px;
+      line-height: 16px;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      color: #847577;
+      margin-bottom: 32px;
+    }
+
+    .slider-row {
+      width: 100%;
+    }
+
+    .slider {
+      margin: auto;
+      width: 370px;
+      height: 56px;
+      background: #E5E6E4;
+      border-radius: 28px;
+      display: flex;
+
+      .slider-item {
+        font-family: 'Nunito ExtraBold';
+        padding: 16px;
+        width: 185px;
+        border-radius: 28px;
+        font-size: 16px;
+        line-height: 24px;
+        cursor: pointer;
+      }
+
+      .slider-active {
+        background: #261FFF;
+        color: #FFFFFF;
+      }
+    }
+
+    .discount-items {
+      margin: 32px 0 40px;
+      display: flex;
+    }
+
+    .discount-item {
+      width: 300px;
+      text-align: center;
+      margin: 0 auto 12px;
+      font-size: 14px;
+      line-height: 16px;
+
+      .discount-item-icon {
+        margin: auto;
+        width: 64px;
+        height: 64px;
+        background: #EDF67D;
+        border-radius: 32px;
+        font-size: 24px;
+        line-height: 64px;
+      }
+
+      .discount-item-title {
+        font-family: 'Nunito ExtraBold';
+      }
+
+      .discount-item-note {
+        color: #847577;
+        height: 32px;
+      }
+    }
+
+    .old-discount {
+      display: none;
+    }
+  }
+}
+
+// OLD
+.about-page {
+  .left-block {
+    .about-block {
+      font-size: 22px;
+      line-height: 32px;
+      color: #181715;
+
+      .about-item {
+        padding: 24px 100px 0 25px;
+      }
+
+      .join-us {
+        font-size: 26px;
+        font-weight: bolder;
+      }
+    }
+  }
+}
+// OLD
+.start-page {
+  padding-left: 72px;
+
+  .left-block {
+    grid-template-rows: 100px auto;
+    width: 650px;
+
+    .title-block {
+      .title-bg {
+        margin-top: 4%;
+        height: 45%;
+      }
+
+      .title-text {
+        font-size: 50px;
+        padding-left: 25px;
+      }
+    }
+
+    .form-block {
+      padding-right: 70px;
+      padding-bottom: 70px;
+
+      .form-item {
+        margin: 10px 25px;
+      }
+
+      .form-checkbox-block {
+        margin: 5px 0 0 10px;
+        display: grid;
+        grid-template-columns: 15px 50px auto;
+        line-height: 32px;
+
+        .form-checkbox-icon {
+          margin: auto;
+
+          img {
+            width: 32px;
+            height: 32px;
+          }
+        }
+      }
+
+      .form-item.form-btn {
+        margin-top: 24px;
+      }
+    }
+  }
+}
+// OLD
+.contact-page, .success-page {
+  .left-block .follow-block {
+    padding: 40px 150px;
+    display: grid;
+    grid-template-rows: 50px auto;
+    font-size: 24px;
+    line-height: 50px;
+    color: #181715;
+
+    .follow-title {
+      width: 100%;
+      margin: auto;
+      text-align: center;
+    }
+
+    .follow-links {
+      margin: 0 auto auto;
+      line-height: 100px;
+    }
+
+    .social-media-link {
+      display: inline-block;
+      padding: 0 20px;
+    }
+  }
+}
+// OLD
+.contact-page {
+  .left-block {
+    grid-template-rows: 130px 15% 15% auto;
+
+    img {
+      width: 50px;
+      height: 50px;
+    }
+
+    .contact-block {
+      display: grid;
+      grid-template-columns: 65% auto;
+      padding: 0 150px;
+      font-size: 24px;
+      line-height: 50px;
+      color: #181715;
+
+      .contact-text {
+        width: 100%;
+        margin: auto;
+        text-align: left;
+        padding-left: 58px;
+      }
+
+      .social-media-link {
+        margin: auto auto auto 20px;
+      }
+    }
+  }
+}
+// OLD
+.success-page {
+  padding-left: 72px;
+
+  .left-block {
+    grid-template-rows: 15% 40% 45%;
+
+    .title-block {
+      .title-bg {
+        margin-top: 4%;
+        height: 45%;
+      }
+
+      .title-text {
+        font-size: 50px;
+      }
+    }
+
+    .success-block {
+      padding-top: 75px;
+      padding-left: 25px;
+      font-size: 24px;
+      line-height: 50px;
+    }
+
+    img {
+      width: 50px;
+      height: 50px;
+    }
+  }
+}
+// OLD
 .guide-block {
   width: 100%;
 
@@ -995,17 +1209,13 @@
     text-align: left;
   }
 }
-
+// OLD
 .login-page {
   padding: 100px 0 0 100px;
 
   .login-block {
     padding: 50px 25px;
   }
-}
-
-.welcome-btn-form {
-  background-color: #261FFF;
 }
 
 @media (orientation: portrait) {

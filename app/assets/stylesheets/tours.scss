@@ -25,7 +25,7 @@
         font-size: 18px;
         line-height: 40px;
         width: 56px;
-        margin: 4px;
+        margin: 4px 2px;
       }
 
       .round-link-block:hover {
@@ -55,11 +55,18 @@
         color: #181715;
       }
 
-      .round-current-true {
+      .round-current {
         background-color: #261FFF;
         color: #FFFFFF;
         border: none;
         line-height: 40px;
+      }
+
+      .round-current:hover {
+        background-color: #261FFF;
+        color: #FFFFFF;
+        border: 1px solid #261FFF;
+        line-height: 38px;
       }
     }
 
