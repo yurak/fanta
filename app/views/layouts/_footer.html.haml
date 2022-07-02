@@ -15,14 +15,14 @@
           = link_to t('header.start_playing'), new_join_request_path
   .footer-row
     .footer-links
-      .footer-link= link_to t('header.rules_faq'), ''
+      -#.footer-link= link_to t('header.rules_faq'), ''
       .footer-link= link_to t('header.rules_nav'), rules_path
-      .footer-link= link_to t('header.dictionary'), ''
+      -#.footer-link= link_to t('header.dictionary'), ''
       .footer-link= link_to t('header.links'), links_path
-      .footer-link.footer-link-center= link_to t('header.tips'), ''
-      .footer-link.footer-link-right= link_to t('header.contact'), ''
+      -#.footer-link.footer-link-center= link_to t('header.tips'), ''
+      -#.footer-link.footer-link-right= link_to t('header.contact'), ''
       .footer-link.footer-link-right= link_to t('header.prices'), fees_path
-      .footer-link.footer-link-right= link_to t('header.about'), ''
+      -#.footer-link.footer-link-right= link_to t('header.about'), ''
   .footer-bottom
     .footer-mantra MantraFootball
     .footer-slogan= "#{t('welcome.index.slogan1')} #{t('welcome.index.slogan2')}"
