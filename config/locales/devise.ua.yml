@@ -2,13 +2,28 @@
 
 ua:
   devise:
-    sessions:
+    passwords:
+      edit:
+        change_password: "Змінити пароль"
+        confirm_new_password: "Підтвердити пароль"
+        new_password: "Новий пароль"
       new:
-        sign_in: "Увійти"
         email: "Пошта"
-        password: "Пароль"
-        remember_me: "Запам'ятати мене"
+        subtitle: "Не хвилюйся. Ми надішлемо вам електронною поштою інструкції щодо зміни пароля."
+        reset: "Скинути пароль"
+        return: "Повернутися до Входу"
+        title: "Скинути пароль"
     registrations:
       edit:
         update: "Оновити"
         we_need_your_current_password_to_confirm_your_changes: "Нам потрібен Ваш поточний пароль для підтвердження ваших змін"
+    sessions:
+      new:
+        dont_have: "Немає акаунту?"
+        email: "Пошта"
+        forgot: "Забули пароль?"
+        password: "Пароль"
+        remember_me: "Запам'ятати мене"
+        sign_in: "Увійти"
+    shared:
+      minimum_password_length: "Мінімум 6 символів"
