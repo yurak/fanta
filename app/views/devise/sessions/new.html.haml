@@ -1,26 +1,32 @@
-.page-block
-  = render 'layouts/left_nav', league: nil
-  .login-page.header-grid
-    .left-block
-      .title-block
-        .title-text= t('.sign_in')
-        .title-bg
-      .login-block
-        = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
-          .form-group.text-input
-            = f.label t('.email')
-            = f.email_field :email, autofocus: true, autocomplete: 'email', class: 'form-control'
-          .form-group.text-input
-            = f.label  t('.password')
-            = f.password_field :password, autocomplete: 'current-password', class: 'form-control'
-          - if devise_mapping.rememberable?
-            .form-group.form-check
-              = f.check_box :remember_me, class: 'form-check-input'
-              = f.label :remember_me, class: 'form-check-label' do
-                = t('.remember_me')
-          .form-group
-            = f.submit  t('.sign_in'), class: 'btn btn-primary welcome-btn-form'
-
-
-
-
+.login-page
+  .login-icon
+    .mantra-logo
+      = link_to root_path do
+        = image_tag('logo.svg')
+  .login-block
+    .title-block
+      .title-text= t('.sign_in')
+    .login-form
+      = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
+        .login-input
+          .login-label= t('.email')
+          .login-input-icon= image_tag('icons/login/mail.svg')
+          .login-input-text
+            = f.email_field :email, autofocus: true, autocomplete: 'email', class: 'form-control', placeholder: t('.email')
+        #email-error
+          = alert
+        .login-input
+          .login-label= t('.password')
+          .login-input-icon= image_tag('icons/login/password.svg')
+          .login-input-text
+            = f.password_field :password, autocomplete: 'current-password', class: 'form-control', placeholder: t('.password')
+        - if devise_mapping.rememberable?
+          .form-check
+            = f.check_box :remember_me, checked: true, hidden: true
+        .login-link.forgot-link= link_to t('.forgot'), new_password_path(resource_name)
+        .login-btn-form
+          = f.submit t('.sign_in'), class: 'login-btn blue-btn'
+  -# TODO: show after signup implementation
+  -#.sign-up-row
+  -#  .sign-up-text= t('.dont_have')
+  -#  .login-link= link_to "Sign up", new_registration_path(resource_name)

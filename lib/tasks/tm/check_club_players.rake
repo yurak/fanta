@@ -1,7 +1,7 @@
 namespace :tm do
   desc 'Check TM players list from club pages'
   task :check_club_players, %i[tournament_id] => :environment do |_t, args|
-    clubs = args[:tournament_id] ? Club.active.where(tournament_id: args[:tournament_id]) : Club.active.order(:name)
+    clubs = args[:tournament_id] ? Club.active.where(tournament_id: args[:tournament_id]).order(:name) : Club.active.order(:name)
 
     CSV.open('log/club_players.csv', 'ab') do |writer|
       clubs.each do |club|
