@@ -34,32 +34,4 @@ namespace :transfers do
       end
     end
   end
-
-  desc 'Generate auctions (temp task)'
-  task generate_auctions: :environment do
-    auctions_data = YAML.load_file(Rails.root.join('config/mantra/auctions.yml'))
-
-    auctions_data.each do |league_data|
-      league = League.find_by(id: league_data[0])
-      next unless league
-
-      league_data[1].each do |auc_data|
-        auction = league.auctions.create(
-          number: auc_data[0],
-          deadline: Transfer.find_by(id: auc_data[1].first.to_i).created_at,
-          event_time: Transfer.find_by(id: auc_data[1].last.to_i).created_at
-        )
-
-        transfer_ids = auc_data[1].map { |ids| ids.to_i == ids ? ids : ids.split('..').inject { |s, e| s.to_i..e.to_i }.to_a }.flatten
-
-        transfer_ids.each do |t_id|
-          transfer = Transfer.find_by(id: t_id)
-          p "Transfer ##{t_id} is not found" unless transfer
-          next unless transfer
-
-          transfer.update(auction: auction)
-        end
-      end
-    end
-  end
 end

@@ -11,8 +11,8 @@
   .user-show.edit-user-avatar
     = form_for user, url: user_path(user), method: :put do |f|
       .cc-selector
-        - (1..15).each do |avatar_id|
-          = radio_button_tag :avatar, avatar_id, avatar_id == 1
+        - (2..16).each do |avatar_id|
+          = radio_button_tag :avatar, avatar_id, avatar_id == 16
           %label{ class: "drinkcard-cc avatar_#{avatar_id}", for: "avatar_#{avatar_id}"}
       .form-item.form-btn
         = f.submit t('users.update'), class: 'btn btn-primary welcome-btn-form'

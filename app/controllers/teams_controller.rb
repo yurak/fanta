@@ -12,6 +12,19 @@ class TeamsController < ApplicationController
     end
   end
 
+  def create
+    redirect_to root_path if current_user.teams.any?
+
+    team = Team.new(create_params)
+
+    if team.save
+      team.user.with_team!
+      redirect_to new_join_request_path
+    else
+      render :new
+    end
+  end
+
   def edit
     redirect_to team_path(team) unless editable?
   end
@@ -47,6 +60,18 @@ class TeamsController < ApplicationController
 
   def player_teams
     @player_teams ||= update_params['player_teams']
+  end
+
+  def create_params
+    input_params.merge(code: input_params[:human_name].delete(" \t\r\n")[0..3].upcase, name: generate_name, user_id: current_user.id)
+  end
+
+  def generate_name
+    "#{input_params[:human_name].delete(" \t\r\n")[0..9]}_#{current_user.id}_#{Team.last&.id.to_i + 1}".downcase
+  end
+
+  def input_params
+    params.require(:team).permit(:human_name, :logo_url)
   end
 
   def update_params

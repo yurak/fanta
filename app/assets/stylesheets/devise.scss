@@ -37,6 +37,10 @@
     font-size: 32px;
     line-height: 32px;
     margin-bottom: 32px;
+
+    .title-subtext {
+      color: #A6A2A2;
+    }
   }
 
   .login-link a {
@@ -180,6 +184,10 @@
     line-height: 24px;
     text-align: center;
     margin-bottom: 32px;
+
+    .confirm-email {
+      font-family: 'Nunito ExtraBold';
+    }
   }
 
   .login-password-note {
@@ -187,5 +195,24 @@
     color: #847577;
     font-size: 12px;
     line-height: 16px;
+  }
+
+  .name-edit-note {
+    font-family: 'Nunito Regular';
+    font-size: 16px;
+    line-height: 24px;
+    margin-top: 16px;
+  }
+
+  .logo-input {
+    text-align: center;
+    margin-bottom: 48px;
+
+    .logo-input-label {
+      font-family: 'Nunito ExtraBold';
+      font-size: 14px;
+      line-height: 16px;
+      margin-bottom: 16px;
+    }
   }
 }

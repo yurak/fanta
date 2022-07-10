@@ -12,7 +12,7 @@
     .mantra-section-actions
       = link_to new_user_session_path do
         .grey-btn.landing-action.landing-action-login= t('header.login')
-      = link_to new_join_request_path do
+      = link_to new_user_registration_path do
         .blue-btn.landing-action.landing-action-start= t('header.start_playing')
     .mantra-section-images
       .mantra-section-image-field
@@ -44,7 +44,7 @@
           .what-is-item-text
             .what-is-item-title= t('welcome.index.what_is.success')
             .what-is-item-description= t('welcome.index.what_is.success_text')
-      .screen-block
+      .screen-block.screen-block-what
         .screen-dots-line
           .screen-dot
           .screen-dot
@@ -100,8 +100,13 @@
           .step-number= t('welcome.index.start.step5')
           .step-title= t('welcome.index.start.step5_title')
         .start-btn.grey-btn
-          = link_to t('header.start_playing'), new_join_request_path
-      .start-right
+          = link_to t('header.start_playing'), new_user_registration_path
+      .screen-block.start-right
+        .screen-dots-line
+          .screen-dot
+          .screen-dot
+          .screen-dot
+        .screen-img
   .tournaments-section
     .tournaments-season= "#{t('welcome.index.tournaments.season')} #{Season.last.start_year.to_s[2..3]}/#{Season.last.end_year.to_s[2..3]}"
     .tournaments-current= t('welcome.index.tournaments.current')
@@ -138,7 +143,7 @@
     .lets-text= t('welcome.index.lets')
     .lets-text= t('welcome.index.lets_begin')
     .lets-btn.grey-btn
-      = link_to t('header.start_playing'), new_join_request_path
+      = link_to t('header.start_playing'), new_user_registration_path
     .lets-img
       = image_tag('landing/manager.png', alt: 'Manager')
 = render 'layouts/footer'

@@ -13,6 +13,84 @@ RSpec.describe 'Teams', type: :request do
     it { expect(response).to have_http_status(:ok) }
   end
 
+  describe 'GET #new' do
+    context 'when user is logged out' do
+      before do
+        get new_team_path
+      end
+
+      it { expect(response).to redirect_to('/users/sign_in') }
+      it { expect(response).to have_http_status(:found) }
+    end
+
+    context 'when user is logged in' do
+      login_user
+      before do
+        get new_team_path
+      end
+
+      it { expect(response).to be_successful }
+      it { expect(response).to render_template(:new) }
+      it { expect(response).to have_http_status(:ok) }
+    end
+  end
+
+  describe 'POST #create' do
+    let(:human_name) { 'Forza' }
+    let(:logo_url) { 'forza.png' }
+    let(:params) do
+      {
+        team: {
+          human_name: human_name,
+          logo_url: logo_url
+        }
+      }
+    end
+
+    context 'when user is logged out' do
+      before do
+        post teams_path(params)
+      end
+
+      it { expect(response).to redirect_to('/users/sign_in') }
+      it { expect(response).to have_http_status(:found) }
+    end
+
+    context 'when user is logged in' do
+      let(:logged_user) { create(:user, status: 'with_avatar') }
+
+      before do
+        sign_in logged_user
+        post teams_path(params)
+      end
+
+      context 'with valid params' do
+        it { expect(response).to redirect_to(new_join_request_path) }
+        it { expect(response).to have_http_status(:found) }
+
+        it 'creates team with specified human_name' do
+          expect(Team.last.human_name).to eq(human_name)
+        end
+
+        it 'creates team with specified logo_url' do
+          expect(Team.last.logo_url).to eq(logo_url)
+        end
+
+        it 'updates team user status' do
+          expect(logged_user.reload.status).to eq('with_team')
+        end
+      end
+
+      context 'with invalid params' do
+        let(:human_name) { '' }
+
+        it { expect(response).to be_successful }
+        it { expect(response).to render_template(:new) }
+        it { expect(response).to have_http_status(:ok) }
+      end
+    end
+  end
+
   describe 'GET #edit' do
     before do
       get edit_team_path(team)

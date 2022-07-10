@@ -1,5 +1,5 @@
 class Team < ApplicationRecord
-  belongs_to :league
+  belongs_to :league, optional: true
   belongs_to :user, optional: true
 
   has_many :auction_bids, dependent: :destroy
@@ -20,7 +20,7 @@ class Team < ApplicationRecord
   MIN_GK = 2
 
   validates :name, presence: true, uniqueness: true, length: { in: 2..18 }
-  validates :code, presence: true, uniqueness: true, length: { in: 2..4 }
+  validates :code, presence: true, length: { in: 2..4 }
   validates :human_name, length: { in: 2..18 }
 
   default_scope { includes(%i[league user]) }
@@ -28,11 +28,11 @@ class Team < ApplicationRecord
   scope :by_tournament, ->(tournament_id) { joins(:league).where(leagues: { tournament_id: tournament_id }) }
 
   def league_matches
-    @league_matches ||= matches.by_league(league.id)
+    @league_matches ||= matches.by_league(league&.id)
   end
 
   def league_transfers
-    @league_transfers ||= transfers.by_league(league.id)
+    @league_transfers ||= transfers.by_league(league&.id)
   end
 
   def logo_path
@@ -90,6 +90,8 @@ class Team < ApplicationRecord
   end
 
   def sales_period?
+    return false unless league
+
     league.auctions.sales.any?
   end
 

@@ -1,5 +1,5 @@
 .header.header-grid{class: "landing-#{ params[:controller] == 'welcome' && params[:action] == 'index' }"}
-  .left-header{class: "external-header-#{ external_actions? }"}
+  .left-header
     .mantra-logo
       = link_to root_path do
         = image_tag('logo.svg')
@@ -28,7 +28,7 @@
         = link_to t('header.login'), new_user_session_path
       .header-link-item
         .grey-btn.header-link-start
-          = link_to t('header.start_playing'), new_join_request_path
+          = link_to t('header.start_playing'), new_user_registration_path
 
 -#    .burger-menu-block
 -#      %nav{ role: 'navigation' }
@@ -38,7 +38,7 @@
 -#          %span
 -#          %span
 -#          %ul#menu
--#            .burger-link= link_to t('header.start'), new_join_request_path
+-#            .burger-link= link_to t('header.start'), new_user_registration_path
 -#            .burger-link= link_to t('header.login'), new_user_session_path
 -#            .burger-link= link_to t('header.news'), articles_path
 -#            .burger-link= link_to t('header.rules'), rules_path

@@ -31,10 +31,13 @@ en:
       failure: "Could not authenticate you from %{kind} because \"%{reason}\"."
       success: "Successfully authenticated from %{kind} account."
     passwords:
+      index:
+        recovery: "Password recovery"
+        instructions: "We have sent password recovery instructions to"
       edit:
-        change_password: "Change password"
-        confirm_new_password: "Confirm new password"
-        new_password: "New password"
+        change_password: "Set password"
+        confirm_new_password: "Confirm password"
+        new_password: "Password"
       new:
         email: "Email"
         subtitle: "Don't worry. We will email you instructions on how to change your password."
@@ -55,6 +58,15 @@ en:
       update_needs_confirmation: "You updated your account successfully, but we need to verify your new email address. Please check your email and follow the confirmation link to confirm your new email address."
       updated: "Your account has been updated successfully."
       updated_but_not_signed_in: "Your account has been updated successfully, but since your password was changed, you need to sign in again."
+      index:
+        verify: "Verify your email"
+        instructions: "We have sent verification instructions to"
+      new:
+        create_account: "Create your account"
+        compete: "To compete with others"
+        continue: "Continue with email"
+        email: "Email"
+        sign_up: "Sign up"
     sessions:
       new:
         dont_have: "Don’t have an account?"

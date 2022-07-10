@@ -1,0 +1,16 @@
+.login-page
+  .login-icon
+    .mantra-logo
+      = link_to root_path do
+        = image_tag('logo.svg')
+  .login-block.new-user-avatar
+    .title-block
+      .title-text= t('users.new_avatar.select')
+    .login-form
+      = form_for user, url: new_update_user_path(user), method: :put do |f|
+        .cc-selector
+          - (2..16).each do |avatar_id|
+            = radio_button_tag :avatar, avatar_id, avatar_id == 16
+            %label{ class: "drinkcard-cc avatar_#{avatar_id}", for: "avatar_#{avatar_id}"}
+        .login-btn-form
+          = f.submit t('users.new_name.next'), class: 'login-btn blue-btn'

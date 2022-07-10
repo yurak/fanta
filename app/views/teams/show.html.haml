@@ -2,7 +2,7 @@
   = render 'layouts/left_nav', league: team.league
   = render 'layouts/right_nav', league: team.league
   .page-info.team-show
-    - if team.tournament.fanta?
+    - if team.league && team.tournament.fanta?
       .team-section
         .team-data
           .team-logo

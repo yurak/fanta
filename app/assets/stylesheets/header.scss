@@ -75,28 +75,6 @@
     }
   }
 
-  .external-header-false {
-    border-bottom: 1px solid #E5E6E4;
-
-    .right-header-links {
-      background-color: #FFFFFF;
-    }
-
-    .login-links {
-      .login-link a {
-        color: #261FFF;
-      }
-
-      .header-btn {
-        background-color: #261FFF;
-
-        a {
-          color: #FFFFFF;
-        }
-      }
-    }
-  }
-
   .modal {
     display: none;
     position: fixed;

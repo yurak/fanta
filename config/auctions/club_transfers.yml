@@ -1,5 +1,0 @@
-# For change player's club, create records like this:
-# club_transfers:
-#   Kurtic:
-#     from: SPA
-#     to: PAR

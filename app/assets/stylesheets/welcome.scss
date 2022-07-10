@@ -160,7 +160,7 @@
     }
   }
 
-  .screen-block {
+  .screen-block-what {
     border-radius: 8px 0 0 8px;
     padding: 2px 0 2px 2px;
     max-width: 670px;
@@ -268,7 +268,7 @@
         display: grid;
         grid-template-columns: 60px auto;
         column-gap: 42px;
-        color: #A6A2A2;
+        //color: #A6A2A2;
         margin-bottom: 24px;
 
         .step-number {
@@ -291,6 +291,17 @@
       .start-btn {
         margin-left: 102px;
         width: 156px;
+      }
+
+      .start-right {
+        max-width: 700px;
+
+        .screen-img {
+          height: 370px;
+          background-size: cover;
+          background-position: center center;
+          background-image: image_url('landing/screen2.jpg');
+        }
       }
     }
   }
@@ -1056,157 +1067,10 @@
         margin: 10px 25px;
       }
 
-      .form-checkbox-block {
-        margin: 5px 0 0 10px;
-        display: grid;
-        grid-template-columns: 15px 50px auto;
-        line-height: 32px;
-
-        .form-checkbox-icon {
-          margin: auto;
-
-          img {
-            width: 32px;
-            height: 32px;
-          }
-        }
-      }
-
       .form-item.form-btn {
         margin-top: 24px;
       }
     }
-  }
-}
-// OLD
-.contact-page, .success-page {
-  .left-block .follow-block {
-    padding: 40px 150px;
-    display: grid;
-    grid-template-rows: 50px auto;
-    font-size: 24px;
-    line-height: 50px;
-    color: #181715;
-
-    .follow-title {
-      width: 100%;
-      margin: auto;
-      text-align: center;
-    }
-
-    .follow-links {
-      margin: 0 auto auto;
-      line-height: 100px;
-    }
-
-    .social-media-link {
-      display: inline-block;
-      padding: 0 20px;
-    }
-  }
-}
-// OLD
-.contact-page {
-  .left-block {
-    grid-template-rows: 130px 15% 15% auto;
-
-    img {
-      width: 50px;
-      height: 50px;
-    }
-
-    .contact-block {
-      display: grid;
-      grid-template-columns: 65% auto;
-      padding: 0 150px;
-      font-size: 24px;
-      line-height: 50px;
-      color: #181715;
-
-      .contact-text {
-        width: 100%;
-        margin: auto;
-        text-align: left;
-        padding-left: 58px;
-      }
-
-      .social-media-link {
-        margin: auto auto auto 20px;
-      }
-    }
-  }
-}
-// OLD
-.success-page {
-  padding-left: 72px;
-
-  .left-block {
-    grid-template-rows: 15% 40% 45%;
-
-    .title-block {
-      .title-bg {
-        margin-top: 4%;
-        height: 45%;
-      }
-
-      .title-text {
-        font-size: 50px;
-      }
-    }
-
-    .success-block {
-      padding-top: 75px;
-      padding-left: 25px;
-      font-size: 24px;
-      line-height: 50px;
-    }
-
-    img {
-      width: 50px;
-      height: 50px;
-    }
-  }
-}
-// OLD
-.guide-block {
-  width: 100%;
-
-  .tab-content {
-    padding: 25px 25px 70px;
-  }
-
-  img {
-    max-width: 100%;
-  }
-
-  .leagues-rules-headers {
-    display: grid;
-    grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1fr;
-    column-gap: 5px;
-    font-weight: 500;
-    font-size: 14px;
-    line-height: 16px;
-    color: #847577;
-    text-align: center;
-    padding: 15px 0;
-  }
-
-  .leagues-rules-item {
-    display: grid;
-    grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1fr;
-    column-gap: 5px;
-    font-weight: 500;
-    font-size: 16px;
-    line-height: 24px;
-    color: #181715;
-    border-top: 1px solid #F4F4F4;
-    padding: 15px 0;
-    text-align: center;
-  }
-
-  .leagues-rules-name {
-    font-weight: 800;
-    text-align: left;
   }
 }
 

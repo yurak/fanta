@@ -1,7 +1,7 @@
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable and :omniauthable
-  devise :database_authenticatable, :registerable,
+  # :lockable, :timeoutable and :omniauthable
+  devise :database_authenticatable, :confirmable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
   has_many :teams, dependent: :destroy
@@ -10,14 +10,15 @@ class User < ApplicationRecord
 
   EMAIL_LENGTH = (6..50).freeze
   EMAIL_FORMAT_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.a[a-z]+)*\.[a-z]+\z/i.freeze
-  NAME_LENGTH = (2..15).freeze
+  NAME_LENGTH = (2..20).freeze
   ROLES = %w[customer admin moderator].freeze
 
   enum role: ROLES
+  enum status: { initial: 0, named: 1, with_avatar: 2, with_team: 3, configured: 4 }
 
   validates :email, presence: true, format: { with: EMAIL_FORMAT_REGEX }, uniqueness: true
   validates :email, length: { in: EMAIL_LENGTH }
-  validates :name, length: { in: NAME_LENGTH }, allow_blank: true
+  validates :name, length: { in: NAME_LENGTH }, allow_blank: false, if: :name_changed?
   validates :role, presence: true
 
   def can_moderate?
@@ -25,7 +26,7 @@ class User < ApplicationRecord
   end
 
   def team_by_league(league)
-    teams.find_by(league_id: league.id)
+    teams.find_by(league_id: league&.id)
   end
 
   def lineup_by_tour(tour)
@@ -48,5 +49,15 @@ class User < ApplicationRecord
 
   def avatar_path
     "avatars/avatar_#{avatar}.png"
+  end
+
+  def initial_avatar?
+    avatar == '1'
+  end
+
+  protected
+
+  def password_required?
+    confirmed? ? super : false
   end
 end

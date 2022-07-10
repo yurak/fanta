@@ -1,8 +1,17 @@
 Rails.application.routes.draw do
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
-  devise_for :users
+  devise_for :users, controllers: {
+    confirmations: 'users/confirmations',
+    passwords: 'users/passwords',
+    registrations: 'users/registrations'
+  }
 
   root to: 'welcome#index'
+
+  devise_scope :user do
+    get "users/confirmations", to: "users/confirmations#index"
+    get "users/passwords"    , to: "users/passwords#index"
+  end
 
   resource :welcome, only: [:index]
   get 'about',    to: 'welcome#about'
@@ -17,8 +26,7 @@ Rails.application.routes.draw do
     resources :auction_bids, only: [:new, :create, :edit, :update]
   end
 
-  resources :join_requests, only: [:new, :create]
-  get :success_request, to: 'join_requests#success_request'
+  resources :join_requests, only: [:new, :create, :index]
 
   resources :leagues, only: [:index, :show] do
     resources :auctions, only: [:index, :show, :update] do
@@ -42,7 +50,7 @@ Rails.application.routes.draw do
     resources :substitutes, only: [:new, :create, :destroy]
   end
 
-  resources :teams, only: [:show, :edit, :update] do
+  resources :teams, only: [:show, :edit, :update, :new, :create] do
     resources :lineups, only: [:show, :new, :create, :edit, :update] do
       collection { get :clone }
     end
@@ -60,5 +68,8 @@ Rails.application.routes.draw do
 
   resources :users, only: [:show, :edit, :update] do
     get :edit_avatar, on: :member
+    get :new_avatar, on: :member
+    get :new_name, on: :member
+    put :new_update, on: :member
   end
 end
