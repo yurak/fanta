@@ -22,7 +22,7 @@ RSpec.describe 'JoinRequests', type: :request do
   end
 
   describe 'POST #create' do
-    let(:leagues) { %w[1 4] }
+    let(:leagues) { ['1'] }
     let(:params) do
       {
         join_request: {
@@ -51,7 +51,7 @@ RSpec.describe 'JoinRequests', type: :request do
         it { expect(response).to have_http_status(:found) }
 
         it 'creates join_request with specified leagues' do
-          expect(JoinRequest.last.leagues).to eq(leagues)
+          expect(JoinRequest.last.leagues).to eq(leagues.to_json)
         end
       end
 
