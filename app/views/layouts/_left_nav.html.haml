@@ -4,7 +4,7 @@
       = image_tag('logo.svg')
   - if user_signed_in?
     - current_user.teams.each do |team|
-      - if team.league.active_tour_or_last
+      - if team.league&.active_tour_or_last
         .nav-logo{ class: "nav-logo-#{ team.league == league }"}
           = link_to tour_path(team.league.active_tour_or_last) do
             = image_tag(team.league.tournament.logo_path)

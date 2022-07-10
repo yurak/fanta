@@ -13,7 +13,7 @@
           .login-label= t('.new_password')
           .login-input-icon= image_tag('icons/login/password.svg')
           .login-input-text
-            = f.password_field :password, autofocus: true, class: 'form-control', placeholder: t('.new_password')
+            = f.password_field :password, autofocus: true, autocomplete: 'off', class: 'form-control', placeholder: t('.new_password')
         - if @minimum_password_length
           .login-password-note= t('devise.shared.minimum_password_length', count: @minimum_password_length)
         #email-error

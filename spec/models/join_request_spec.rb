@@ -1,11 +1,10 @@
 RSpec.describe JoinRequest, type: :model do
-  describe 'Validations' do
-    it { is_expected.to validate_presence_of :username }
-    it { is_expected.to validate_presence_of :contact }
-    it { is_expected.to validate_presence_of :email }
+  describe 'Associations' do
+    it { is_expected.to belong_to(:user) }
+  end
 
-    it { is_expected.not_to allow_value('bad_email').for(:email) }
-    it { is_expected.to allow_value('good@email.com').for(:email) }
+  describe 'Validations' do
+    it { is_expected.to validate_presence_of :leagues }
 
     it { is_expected.to define_enum_for(:status).with_values(%i[initial processed archived]) }
   end

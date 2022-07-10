@@ -1,50 +1,18 @@
--# TODO: create sign up flow
--#.container
--#  %h1= t('.sign_up')
--#  = form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
--#    = bootstrap_devise_error_messages!
--#    .form-group
--#      = f.label :email
--#      = f.email_field :email, autofocus: true, autocomplete: 'email', class: 'form-control'
--#    .form-group
--#      = f.label :password
--#      = f.password_field :password, autocomplete: 'current-password', class: 'form-control'
--#      - if @minimum_password_length
--#        %small.form-text.text-muted= t('devise.shared.minimum_password_length', count: @minimum_password_length)
--#    .form-group
--#      = f.label :password_confirmation
--#      = f.password_field :password_confirmation, autocomplete: 'current-password', class: 'form-control'
--#    .form-group
--#      = f.submit t('.sign_up'), class: 'btn btn-primary'
--#  = render 'devise/shared/links'
-
--#<!--DEFAULT DEVISE PAGE-->
--#<h2>Sign up</h2>
--#
--#<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
--#  <%= render "devise/shared/error_messages", resource: resource %>
--#
--#  <div class="field">
--#    <%= f.label :email %><br />
--#    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
--#  </div>
--#
--#  <div class="field">
--#    <%= f.label :password %>
--#    <% if @minimum_password_length %>
--#    <em>(<%= @minimum_password_length %> characters minimum)</em>
--#    <% end %><br />
--#    <%= f.password_field :password, autocomplete: "new-password" %>
--#  </div>
--#
--#  <div class="field">
--#    <%= f.label :password_confirmation %><br />
--#    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
--#  </div>
--#
--#  <div class="actions">
--#    <%= f.submit "Sign up" %>
--#  </div>
--#<% end %>
--#
--#<%= render "devise/shared/links" %>
+.login-page
+  .login-icon
+    .mantra-logo
+      = link_to root_path do
+        = image_tag('logo.svg')
+  .login-block
+    .title-block
+      .title-text= t('.create_account')
+      .title-subtext= t('.compete')
+    .login-form
+      = form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
+        .login-input
+          .login-label= t('.email')
+          .login-input-icon= image_tag('icons/login/mail.svg')
+          .login-input-text
+            = f.email_field :email, autofocus: true, autocomplete: 'email', class: 'form-control', placeholder: t('.email')
+        .login-btn-form
+          = f.submit t('.continue'), class: 'login-btn blue-btn'

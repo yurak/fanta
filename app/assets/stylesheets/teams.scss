@@ -573,6 +573,106 @@
   }
 }
 
+#logo-input-icon img {
+  width: 104px;
+  height: 104px;
+}
+
+#logo-modal {
+  background: #FFFFFF;
+  box-shadow: 1px 2px 5px rgba(24, 23, 21, 0.2);
+  padding: 56px 40px;
+  width: 100%;
+  overflow: auto;
+  max-height: 100%;
+
+  .logo-modal-title {
+    font-family: 'Nunito ExtraBold';
+    text-align: center;
+    font-size: 32px;
+    line-height: 32px;
+    margin-bottom: 32px;
+  }
+
+  .logo-modal-icons {
+    margin-top: 32px;
+
+    .logo-modal-icon {
+      display: inline-block;
+      margin: 8px;
+      cursor: pointer;
+    }
+
+    .logo-modal-icon:hover {
+      background: #E5E6E4;
+      border-radius: 4px;
+    }
+
+    img {
+      width: 64px;
+      height: 64px;
+    }
+  }
+}
+
+.login-block.join-request-block {
+  width: 540px;
+}
+
+.tournament-checkbox {
+  text-align: center;
+
+  .tournament-container {
+    display: inline-block;
+    width: 104px;
+    margin: 4px 2px;
+  }
+
+  input {
+    display: none;
+  }
+
+  .checked {
+    background: #FFEBC2;
+    border-radius: 8px;
+
+    .checkbox-team-name {
+      color: #181715;
+    }
+  }
+
+  .checkbox-data {
+    padding: 8px 0;
+  }
+
+  .checkbox-data:hover {
+    background: #F4F4F4;
+    cursor: pointer;
+    border-radius: 8px;
+  }
+
+  .checked:hover {
+    background: #FFEBC2;
+  }
+
+  img {
+    width: 64px;
+    height: 64px;
+  }
+
+  .checkbox-team-name {
+    font-family: 'Nunito Regular';
+    font-size: 12px;
+    line-height: 16px;
+    color: #A6A2A2;
+    margin-top: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 0 8px;
+  }
+}
+
 @media (orientation: portrait) {
   .page-info.team-show {
     padding: 20px 0 20px 272px;

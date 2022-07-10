@@ -1,11 +1,12 @@
 .teams-bar
-  - team.league.teams.each do |league_team|
-    = link_to team_path(league_team) do
-      .team-bar-item{ class: "current-team-#{team == league_team}"}
-        .team-bar-item-logo
-          = image_tag(league_team.logo_path)
-        .team-bar-item-name
-          = league_team.human_name
+  - if team.league
+    - team.league.teams.each do |league_team|
+      = link_to team_path(league_team) do
+        .team-bar-item{ class: "current-team-#{team == league_team}"}
+          .team-bar-item-logo
+            = image_tag(league_team.logo_path)
+          .team-bar-item-name
+            = league_team.human_name
 .team-section
   .team-data-section
     .team-data
@@ -62,20 +63,20 @@
       .team-additional.team-league
         .team-additional-text= t('teams.league')
         - if team.league&.active_tour
-          = link_to tour_path(team.league&.active_tour) do
+          = link_to tour_path(team.league.active_tour) do
             .team-league-value
               .team-league-name.team-manager-name
                 = team.league.name
               .team-league-logo
                 = image_tag(team.league.tournament.logo_path)
-        - else
+        - elsif team.league
           = link_to league_results_path(team.league) do
             .team-league-value
               .team-league-name.team-manager-name
                 = team.league.name
               .team-league-logo
-                = image_tag(team.league.tournament.logo_path)
-      - if team.results.last
+                = image_tag(team.tournament.logo_path)
+      - if team.results&.last
         .team-additional
           .team-additional-text= t('teams.form')
           .team-form-value.team-form
