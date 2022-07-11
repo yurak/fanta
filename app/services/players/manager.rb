@@ -52,7 +52,7 @@ module Players
     end
 
     def base_club
-      Club.find_by(name: 'xxx')
+      Club.find_by(name: 'Outside')
     end
 
     def national_team?

@@ -1,179 +1,1026 @@
-.welcome-page {
-  position:relative;
-  height: 100%;
-  width: 100%;
-  font-family: 'Mont SemiBold';
+.landing-page {
+  position: relative;
+  min-width: 100%;
+  color: #181715;
 
-  .left-block {
-    margin: 120px 35% 100px 12%;
-    width: 700px;
-    height: 75%;
-    display: grid;
-    grid-template-rows: 42% 15% 43%;
+  a {
+    color: #181715;
+    text-decoration: none;
+  }
 
-    .title-block {
-      .title-bg {
-        background: #FFEBC2;
-        margin-top: 10%;
-        height: 69%;
-      }
-      .title-text {
-        font-style: normal;
-        font-weight: bold;
-        font-size: 128px;
-        line-height: 128px;
-        padding-left: 25px;
+  .mantra-section {
+    width: 100%;
+    background: #FFEBC2;
+    padding-top: 84px;
+    position: relative;
+    text-align: center;
+
+    .mantra-section-title {
+      margin: 40px auto;
+      font-family: 'Archivo Bold';
+      font-size: 112px;
+      line-height: 112px;
+      letter-spacing: 0.5em;
+      text-transform: uppercase;
+      position: relative;
+      height: 112px;
+
+      .mantra-section-title-main {
         position: absolute;
-        width: 500px;
-        color: #261FFF;
-        font-family: 'Mont Bold';
+        text-align: center;
+        width: 100%;
+        margin-top: 8px;
+        padding-left: 40px;
+      }
+
+      .mantra-section-title-stroke {
+        color: transparent;
+        -webkit-text-stroke: 1px #FFB319;
+        position: absolute;
+        text-align: center;
+        width: 100%;
+        padding-left: 56px;
       }
     }
-    .slogan-block {
-      padding-left: 25px;
-      font-style: normal;
-      font-weight: normal;
-      font-size: 24px;
-      line-height: 32px;
-      color: #181715;
+
+    .mantra-section-slogan {
+      padding-bottom: 72px;
+      font-size: 18px;
+      line-height: 24px;
 
       .slogan-start {
         display: inline-block;
-        font-weight: bold;
+        font-family: 'Nunito ExtraBold';
       }
 
       .slogan-end {
         display: inline-block;
+        font-family: 'Nunito Regular';
       }
     }
-    .description-block {
-      padding-left: 25px;
-      font-style: normal;
-      line-height: 24px;
-      color: #181715;
 
-      .description-title {
-        font-weight: bold;
+    .mantra-section-actions {
+      padding-bottom: 86px;
+
+      .landing-action {
+        display: inline-block;
+        width: 200px;
+        height: 54px;
+        font-family: 'Nunito ExtraBold';
         font-size: 18px;
-        margin-bottom: 20px;
+        line-height: 54px;
+        margin: 0 6px;
+
+        a {
+          line-height: 24px;
+        }
       }
-      .description-item {
-        font-weight: normal;
+
+      .landing-action-start {
+        color: #FFFFFF;
+      }
+    }
+
+    .mantra-section-images {
+      position: relative;
+
+      .mantra-section-image-team {
+        position: absolute;
+        bottom: 0;
+        left: 25%;
+      }
+    }
+  }
+
+  .what-is-section {
+    padding: 112px 0 106px 112px;
+
+    .what-is-title {
+      font-family: 'Nunito ExtraBold';
+      font-size: 72px;
+      line-height: 72px;
+    }
+
+    .what-is-content {
+      display: grid;
+      grid-template-columns: 588px auto;
+      column-gap: 16px;
+      margin-top: 24px;
+
+      .what-is-left-title {
+        font-family: 'Nunito Regular';
+        font-size: 24px;
         line-height: 32px;
+        margin-bottom: 32px;
+      }
+    }
+
+    .what-is-item {
+      display: grid;
+      grid-template-columns: 48px auto;
+      column-gap: 24px;
+      margin-bottom: 24px;
+
+      .what-is-item-icon {
+        background: #D0F0D4;
+        border-radius: 24px;
+        text-align: center;
+        font-size: 24px;
+        line-height: 48px;
+      }
+
+      .what-is-item-icon-drive {
+        background: #D8D6FF;
+      }
+
+      .what-is-item-icon-strategy {
+        background: #FFEBC2;
+      }
+
+      .what-is-item-icon-success {
+        background: #EAC6FB;
+      }
+
+      .what-is-item-text {
+        padding: 4px 0;
+      }
+
+      .what-is-item-title {
+        font-family: 'Nunito ExtraBold';
         font-size: 16px;
-        margin-bottom: 8px;
+        line-height: 24px;
+      }
+
+      .what-is-item-description {
+        font-family: 'Nunito Regular';
+        font-size: 14px;
+        line-height: 16px;
+        color: #847577;
+      }
+    }
+  }
+
+  .screen-block-what {
+    border-radius: 8px 0 0 8px;
+    padding: 2px 0 2px 2px;
+    max-width: 670px;
+    margin: 0 0 0 auto;
+
+    .screen-img {
+      height: 374px;
+      border-bottom-right-radius: 0;
+      background-size: cover;
+      background-position: left center;
+      background-image: image_url('landing/screen1.jpg');
+    }
+  }
+
+  .better-section {
+    background: #181715;
+    color: #FFFFFF;
+    padding: 60px 152px 80px;
+
+    .better-title1 {
+      font-family: 'Nunito ExtraBold';
+      font-size: 72px;
+      line-height: 72px;
+      color: #EDF67D;
+    }
+
+    .better-title2 {
+      font-family: 'Nunito ExtraBold';
+      font-size: 72px;
+      line-height: 72px;
+    }
+
+    .better-diff {
+      margin-top: 56px;
+      font-family: 'Nunito Regular';
+      font-size: 18px;
+      line-height: 24px;
+      text-transform: uppercase;
+      color: #A6A2A2;
+    }
+
+    .better-item {
+      border-bottom: 1px solid #847577;
+      display: grid;
+      grid-template-columns: 368px auto;
+      column-gap: 16px;
+      font-size: 24px;
+      line-height: 32px;
+      padding: 24px 0;
+    }
+
+    .better-item-text {
+      font-family: 'Nunito Regular';
+      color: #CFD2CD;
+    }
+
+    .better-item:last-child {
+      border: none;
+    }
+
+    .better-links {
+      margin-top: 32px;
+      font-size: 16px;
+      line-height: 24px;
+
+      .better-link-title {
+        display: inline-block;
+        font-family: 'Nunito Regular';
+        color: #CFD2CD;
+      }
+
+      .better-link {
+        display: inline-block;
+        border-bottom: 1px solid #847577;
+        margin-left: 16px;
+
+        a {
+          font-family: 'Nunito ExtraBold';
+          color: #EDF67D;
+        }
+      }
+
+      .better-link:hover a {
+        color: #FFEBC2;
+      }
+    }
+  }
+
+  .start-section {
+    padding: 96px 152px 124px;
+
+    .start-title {
+      font-family: 'Nunito ExtraBold';
+      font-size: 72px;
+      line-height: 72px;
+      margin-bottom: 42px;
+    }
+
+    .start-content {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      column-gap: 48px;
+
+      .step-item {
+        display: grid;
+        grid-template-columns: 60px auto;
+        column-gap: 42px;
+        //color: #A6A2A2;
+        margin-bottom: 24px;
+
+        .step-number {
+          font-family: 'Nunito Regular';
+          font-size: 16px;
+          line-height: 24px;
+          margin-top: 6px;
+        }
+
+        .step-title {
+          font-size: 24px;
+          line-height: 32px;
+        }
+      }
+
+      .step-active {
+        color: #181715;
+      }
+
+      .start-btn {
+        margin-left: 102px;
+        width: 156px;
+      }
+
+      .start-right {
+        max-width: 700px;
+
+        .screen-img {
+          height: 370px;
+          background-size: cover;
+          background-position: center center;
+          background-image: image_url('landing/screen2.jpg');
+        }
+      }
+    }
+  }
+
+  .tournaments-section {
+    padding: 40px;
+    background: #F4F4F4;
+    text-align: center;
+    font-family: 'Nunito Regular';
+
+    .tournaments-season {
+      font-size: 12px;
+      line-height: 16px;
+      text-transform: uppercase;
+    }
+
+    .tournaments-current {
+      font-family: 'Nunito ExtraBold';
+      font-size: 24px;
+      line-height: 32px;
+    }
+
+    .tournaments-desc {
+      font-size: 16px;
+      line-height: 24px;
+    }
+  }
+
+  .people-section {
+    padding: 88px 152px 152px;
+    font-family: 'Nunito ExtraBold';
+
+    .people-say {
+      font-size: 72px;
+      line-height: 72px;
+    }
+
+    .people-love {
+      font-size: 72px;
+      line-height: 72px;
+      color: #A6A2A2;
+      margin-bottom: 56px;
+    }
+
+    .people-content {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      column-gap: 112px;
+
+      .people-response {
+        background: #FFEBC2;
+        padding: 40px;
+
+        .people-citation {
+          margin-top: 46px;
+          font-size: 32px;
+          line-height: 32px;
+          height: 370px;
+        }
+
+        .people-author {
+          display: grid;
+          grid-template-columns: 48px auto;
+          column-gap: 24px;
+          height: 48px;
+
+          .people-author-smile {
+            font-size: 24px;
+            line-height: 48px;
+            border: 1px solid #9F6C05;
+            border-radius: 24px;
+            text-align: center;
+          }
+
+          .people-author-name {
+            font-size: 24px;
+            line-height: 32px;
+          }
+
+          .people-author-team {
+            font-family: 'Nunito Regular';
+            font-size: 14px;
+            line-height: 16px;
+            color: #847577;
+          }
+        }
+      }
+
+      .people-numbers-title {
+        font-size: 24px;
+        line-height: 32px;
+      }
+
+      .people-numbers-item {
+        border-bottom: 2px solid #CFD2CD;
+        padding: 40px 0 16px;
+
+        .people-number {
+          font-family: 'Nunito Regular';
+          font-size: 72px;
+          line-height: 72px;
+          color: #BA44F1;
+          margin-bottom: 24px;
+        }
+
+        .people-number-text {
+          font-family: 'Nunito Medium';
+          font-size: 18px;
+          line-height: 24px;
+          color: #847577;
+        }
+      }
+    }
+  }
+
+  .lets-section {
+    padding: 72px 152px;
+    background: #261FFF;
+
+    .lets-text {
+      font-family: 'Nunito ExtraBold';
+      font-size: 72px;
+      line-height: 72px;
+      color: #EDF67D;
+    }
+
+    .lets-btn {
+      width: 180px;
+      margin-top: 40px;
+    }
+
+    .lets-img {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+    }
+  }
+}
+
+.screen-block {
+  background: #181715;
+  border-radius: 8px;
+  line-height: 26px;
+  padding: 2px;
+  width: 100%;
+
+  .screen-dot {
+    display: inline-block;
+    background: #FFFFFF;
+    height: 12px;
+    width: 12px;
+    border-radius: 6px;
+    margin-left: 10px;
+    margin-bottom: 2px;
+  }
+
+  .screen-img {
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+
+    img {
+      width: 100%;
+      height: 100%;
+      border-bottom-left-radius: 6px;
+      border-bottom-right-radius: 6px;
+    }
+  }
+}
+
+.screen-desc {
+  font-family: 'Nunito Regular';
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 0.02em;
+  display: grid;
+  grid-template-columns: 40px auto;
+  column-gap: 16px;
+
+  .screen-desc-line-wrapper {
+    padding: 7px 0;
+  }
+
+  .screen-desc-line {
+    height: 2px;
+    background: #CFD2CD;
+  }
+
+  .screen-desc-title {
+    display: inline-block;
+    margin-right: 8px;
+  }
+
+  .screen-desc-desc {
+    display: inline-block;
+    color: #847577;
+  }
+}
+
+.tournaments-row {
+  margin-top: 48px;
+
+  .tournament-item {
+    display: inline-block;
+
+    .tournament-logo {
+      height: 104px;
+      padding: 16px 24px;
+    }
+
+    img {
+      width: 72px;
+      height: 72px;
+    }
+
+    .tournament-name {
+      font-size: 12px;
+      line-height: 16px;
+      color: #847577;
+      text-align: center;
+    }
+  }
+}
+
+.rules-page {
+  font-family: 'Nunito Regular';
+  color: #181715;
+  padding: 48px 120px;
+  scroll-behavior: smooth;
+
+  .rules-title {
+    font-family: 'Nunito ExtraBold';
+    display: grid;
+    grid-template-columns: 48px auto;
+    column-gap: 24px;
+    font-size: 48px;
+    line-height: 48px;
+    margin-bottom: 40px;
+  }
+
+  .rules-text {
+    position: relative;
+    width: 750px;
+    display: inline-block;
+    height: 1100px;
+    font-size: 24px;
+    line-height: 32px;
+
+    .rules-subtitle {
+      font-family: 'Nunito ExtraBold';
+      font-size: 32px;
+      line-height: 32px;
+    }
+
+    .rules-subtitle1 {
+      color: #847577;
+      margin-top: 32px;
+    }
+
+    .rules-chapter {
+      background: #510872;
+      padding: 72px;
+      font-size: 48px;
+      line-height: 48px;
+      font-family: 'Nunito ExtraBold';
+      color: #FFFFFF;
+      display: grid;
+      grid-template-columns: auto 256px;
+      margin: 80px 0 40px;
+
+      .rules-chapter-text {
+        display: flex;
+        align-items: center;
+      }
+
+      img {
+        width: 256px;
+        height: 256px;
+      }
+    }
+
+    .rules-chapter-blue {
+      background: #006EF5;
+    }
+
+    .rules-chapter-brown {
+      background: #9F6C05;
+    }
+
+    .rules-chapter-green {
+      background: #1D5D26;
+    }
+
+    .rules-chapter-red {
+      background: #9B0819;
+    }
+
+    .rules-header {
+      margin: 40px 0 16px;
+      font-family: 'Nunito ExtraBold';
+    }
+
+    .bonus-header {
+      margin-bottom: 16px;
+      font-family: 'Nunito ExtraBold';
+    }
+
+    .rules-paragraph-next {
+      margin-top: 24px;
+    }
+
+    .tournaments-row {
+      margin-top: 24px;
+
+      .tournament-item {
+        .tournament-logo {
+          height: 92px;
+          padding: 16px 30px;
+        }
+
+        img {
+          width: 60px;
+          height: 60px;
+        }
+      }
+    }
+
+    .screen-block {
+      margin: 40px 0 16px;
+    }
+
+    ul a {
+      font-family: 'Nunito ExtraBold';
+      color: #261FFF;
+    }
+
+    .rules-positions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      column-gap: 32px;
+      margin-top: 16px;
+
+      img {
+        width: 100%;
+      }
+
+      .rules-position-item {
+        font-size: 18px;
+        line-height: 24px;
+        margin-bottom: 16px;
+      }
+
+      .rules-position-item-name {
+        display: inline-block;
+        margin-right: 4px;
+        font-family: 'Nunito SemiBold';
+      }
+
+      .rules-position-item-subname {
+        display: inline-block;
+        margin-right: 4px;
+        font-family: 'Nunito SemiBold';
+        color: #847577;
+      }
+
+      .rules-position-item-desc {
+        display: inline-block;
+      }
+
+      .rules-positions-remark {
+        font-family: 'Nunito SemiBold';
+        font-size: 14px;
+        line-height: 16px;
+        color: #847577;
+      }
+    }
+
+    .rules-full-img img {
+      width: 100%;
+      margin-top: 40px;
+    }
+
+    .rules-fotmob-links a {
+      margin-right: 24px;
+    }
+
+    .rules-example {
+      background: #F4F4F4;
+      margin: 16px 0;
+      padding: 16px;
+      display: grid;
+      grid-template-columns: 345px auto;
+      column-gap: 32px;
+
+      .rules-example-img {
+        width: 100%;
+      }
+
+      .rules-example-text {
+        font-size: 18px;
+        line-height: 24px;
+      }
+
+      .rules-example-title {
+        margin-bottom: 16px;
+      }
+
+      ul {
+        margin-top: 16px;
+      }
+
+      .rules-example-remark {
+        color: #847577;
+      }
+    }
+
+    .rules-note {
+      background: #FFEBC2;
+      border-radius: 4px;
+      font-size: 16px;
+      line-height: 24px;
+      padding: 16px;
+
+      .rules-note-title {
+        font-family: 'Nunito ExtraBold';
+        color: #9F6C05;
+        margin-bottom: 16px;
+      }
+    }
+
+    .rules-table-block {
+      background: #F4F4F4;
+      margin: 16px 0;
+      padding: 16px;
+
+      .rules-table-headers {
+        font-family: 'Nunito ExtraBold';
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        line-height: 40px;
+        font-size: 16px;
+        text-transform: uppercase;
+        color: #847577;;
+      }
+
+      .rules-table-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        background: #FFFFFF;
+        padding: 12px;
+        font-size: 18px;
+        margin-top: 1px;
+      }
+    }
+  }
+
+  .rules-nav {
+    position: fixed;
+    right: 152px;
+    top: 144px;
+    padding: 16px;
+    display: grid;
+    grid-template-columns: 20px auto;
+    column-gap: 8px;
+    background: #FFEBC2;
+    width: 240px;
+    font-family: 'Nunito ExtraBold';
+    font-size: 16px;
+    line-height: 24px;
+
+    .rules-nav-header {
+      margin-bottom: 16px;
+    }
+
+    .rules-nav-link {
+      color: #261FFF;
+      margin-bottom: 16px;
+
+      a {
+        text-decoration: none;
+        border-bottom: 1px dashed #D8D6FF;
+      }
+    }
+
+    .rules-nav-link:hover {
+      color: #261FFF;
+      margin-bottom: 16px;
+
+      a {
+        border-bottom: 1px dashed #261FFF;
+      }
+    }
+
+    .rules-nav-link:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.rules-user-true {
+  padding: 48px 120px 48px 192px;
+
+  .rules-nav {
+    top: 136px;
+  }
+}
+
+.fees-content {
+  .fees-text {
+    display: grid;
+    grid-template-columns: 37fr 65fr;
+    column-gap: 96px;
+
+    .fees-subtitle-p {
+      font-size: 32px;
+      line-height: 32px;
+      margin-bottom: 32px;
+    }
+
+    .fees-note {
+      background: #FFEBC2;
+      border-radius: 4px;
+      padding: 4px 8px;
+      display: grid;
+      grid-template-columns: 16px auto;
+      column-gap: 8px;
+      font-size: 12px;
+      line-height: 16px;
+    }
+
+    .fees-desc-p {
+      font-size: 16px;
+      line-height: 24px;
+      margin-bottom: 32px;
+    }
+  }
+
+  .fees-types-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    column-gap: 32px;
+    margin: 80px 0;
+
+    .fees-item {
+      border: 1px solid #FCC5CB;
+    }
+
+    .fees-type {
+      padding: 16px 24px;
+      background: #FCC5CB;
+
+      .type-number {
+        font-family: 'Nunito ExtraBold';
+        font-size: 18px;
+        line-height: 24px;
+        color: #9B0819;
+        margin-bottom: 40px;
+      }
+
+      .type-value {
+        font-size: 72px;
+        line-height: 72px;
+        display: flex;
+      }
+
+      .type-value-number {
+        font-family: 'Nunito ExtraBold';
+      }
+
+      .type-per {
+        font-size: 24px;
+        line-height: 32px;
+        margin-bottom: 32px;
+      }
+    }
+
+    .type-list {
+      background: #FFFFFF;
+      padding: 8px 24px;
+
+      .type-league {
         display: grid;
         grid-template-columns: 32px auto;
-        column-gap: 16px;
+        column-gap: 8px;
+        padding: 16px 0;
+        font-size: 14px;
+        line-height: 16px;
+        border-bottom: 1px solid #E5E6E4;
 
-        .description-icon {
-          width: 100%;
-          height: 100%;
-          border-radius:50%;
-          background: #FFEBC2;
-
-          img {
-            margin: auto 8px;
-          }
+        img {
+          width: 32px;
+          height: 32px;
         }
 
-        .description-icon2 {
-          background: #D0F0D4;
+        .type-league-data {
+          display: grid;
+          grid-template-columns: auto 48px;
         }
 
-        .description-icon3 {
-          background: #D8D6FF;
-
-          img {
-            margin: auto 10px;
-          }
+        .type-league-name {
+          font-family: 'Nunito ExtraBold';
         }
 
-        .description-icon4 {
-          background: #EAC6FB;
+        .type-league-country {
+          color: #847577;
+        }
+      }
+
+      .type-league:last-child {
+        border: none;
+      }
+    }
+
+    .fees-item-green {
+      border: 1px solid #D0F0D4;
+
+      .fees-type {
+        background: #D0F0D4;
+
+        .type-number {
+          color: #1D5D26;
         }
       }
     }
-    .team-image {
+
+    .fees-item-violet {
+      border: 1px solid #EAC6FB;
+
+      .fees-type {
+        background: #EAC6FB;
+
+        .type-number {
+          color: #510872;
+        }
+      }
+    }
+  }
+
+  .fees-discounts {
+    text-align: center;
+    width: 600px;
+    margin: auto;
+
+    .fees-discounts-title {
+      font-family: 'Nunito ExtraBold';
+      font-size: 12px;
+      line-height: 16px;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      color: #847577;
+      margin-bottom: 32px;
+    }
+
+    .slider-row {
+      width: 100%;
+    }
+
+    .slider {
+      margin: auto;
+      width: 370px;
+      height: 56px;
+      background: #E5E6E4;
+      border-radius: 28px;
+      display: flex;
+
+      .slider-item {
+        font-family: 'Nunito ExtraBold';
+        padding: 16px;
+        width: 185px;
+        border-radius: 28px;
+        font-size: 16px;
+        line-height: 24px;
+        cursor: pointer;
+      }
+
+      .slider-active {
+        background: #261FFF;
+        color: #FFFFFF;
+      }
+    }
+
+    .discount-items {
+      margin: 32px 0 40px;
+      display: flex;
+    }
+
+    .discount-item {
+      width: 300px;
+      text-align: center;
+      margin: 0 auto 12px;
+      font-size: 14px;
+      line-height: 16px;
+
+      .discount-item-icon {
+        margin: auto;
+        width: 64px;
+        height: 64px;
+        background: #EDF67D;
+        border-radius: 32px;
+        font-size: 24px;
+        line-height: 64px;
+      }
+
+      .discount-item-title {
+        font-family: 'Nunito ExtraBold';
+      }
+
+      .discount-item-note {
+        color: #847577;
+        height: 32px;
+      }
+    }
+
+    .old-discount {
       display: none;
     }
   }
-
-  .right-block {
-    position: fixed;
-    width: 370px;
-    height: 100%;
-    right: 0;
-    background: #261FFF;
-    z-index: 10;
-
-    .pitch-layer {
-      width: 100%;
-      height: 100%;
-      z-index: 15;
-      opacity: 0.5;
-      box-sizing: border-box;
-      background: image_url('pitch.png') no-repeat left;
-    }
-
-    .player-layer {
-      z-index: 25;
-      width: 100%;
-      height: 100%;
-      position: absolute;
-      bottom: 0;
-
-      .player-image-wrapper {
-        width: 100%;
-        height: 83%;
-        position: absolute;
-        left: -100%;
-        bottom: 0;
-
-        .player-image {
-          position: relative;
-          width: 200%;
-          height: 100%;
-          text-align: center;
-          overflow: hidden;
-
-          img {
-            height: 100%;
-            position: absolute;
-            top: -9999px;
-            bottom: -9999px;
-            left: -9999px;
-            right: -9999px;
-            margin: auto;
-          }
-        }
-      }
-    }
-  }
 }
 
-.welcome-subpage {
-  .left-block {
-    grid-template-rows: 130px auto;
-
-    .title-block {
-      .title-bg {
-        background: #D0F0D4;
-        margin-top: 3%;
-        height: 50%;
-      }
-
-      .title-text {
-        font-size: 72px;
-        line-height: 72px;
-        padding-left: 25px;
-        color: #261FFF;
-        width: 550px;
-      }
-    }
-  }
-}
-
+// OLD
 .about-page {
   .left-block {
     .about-block {
@@ -192,8 +1039,10 @@
     }
   }
 }
-
+// OLD
 .start-page {
+  padding-left: 72px;
+
   .left-block {
     grid-template-rows: 100px auto;
     width: 650px;
@@ -218,22 +1067,6 @@
         margin: 10px 25px;
       }
 
-      .form-checkbox-block {
-        margin: 5px 0 0 10px;
-        display: grid;
-        grid-template-columns: 15px 50px auto;
-        line-height: 32px;
-
-        .form-checkbox-icon {
-          margin: auto;
-
-          img {
-            width: 32px;
-            height: 32px;
-          }
-        }
-      }
-
       .form-item.form-btn {
         margin-top: 24px;
       }
@@ -241,429 +1074,141 @@
   }
 }
 
-.contact-page, .success-page {
-  .left-block .follow-block {
-    padding: 40px 150px;
-    display: grid;
-    grid-template-rows: 50px auto;
-    font-size: 24px;
-    line-height: 50px;
-    color: #181715;
-
-    .follow-title {
-      width: 100%;
-      margin: auto;
-      text-align: center;
-    }
-
-    .follow-links {
-      margin: 0 auto auto;
-      line-height: 100px;
-    }
-
-    .social-media-link {
-      display: inline-block;
-      padding: 0 20px;
-    }
-  }
-}
-
-.contact-page {
-  .left-block {
-    grid-template-rows: 130px 15% 15% auto;
-
-    img {
-      width: 50px;
-      height: 50px;
-    }
-
-    .contact-block {
-      display: grid;
-      grid-template-columns: 65% auto;
-      padding: 0 150px;
-      font-size: 24px;
-      line-height: 50px;
-      color: #181715;
-
-      .contact-text {
-        width: 100%;
-        margin: auto;
-        text-align: left;
-        padding-left: 58px;
-      }
-
-      .social-media-link {
-        margin: auto auto auto 20px;
-      }
-    }
-  }
-}
-
-.success-page {
-  .left-block {
-    grid-template-rows: 15% 40% 45%;
-
-    .title-block {
-      .title-bg {
-        margin-top: 4%;
-        height: 45%;
-      }
-
-      .title-text {
-        font-size: 50px;
-      }
-    }
-
-    .success-block {
-      padding-top: 75px;
-      padding-left: 25px;
-      font-size: 24px;
-      line-height: 50px;
-    }
-
-    img {
-      width: 50px;
-      height: 50px;
-    }
-  }
-}
-
-.rules-page {
-  .rules-block {
-    padding: 0 75px 70px 25px;
-
-    .rules-item {
-      padding-bottom: 20px;
-
-      .rules-title {
-        font-size: 24px;
-        line-height: 40px;
-        font-weight: bolder;
-      }
-      .rules-subtitle {
-        font-size: 20px;
-        line-height: 28px;
-        font-weight: bolder;
-      }
-      .rules-description {
-        font-size: 16px;
-        line-height: 24px;
-      }
-    }
-  }
-}
-
-.guide-block {
-  width: 100%;
-
-  .tab-content {
-    padding: 25px 25px 70px;
-  }
-
-  img {
-    max-width: 100%;
-  }
-
-  .leagues-rules-headers {
-    display: grid;
-    grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1fr;
-    column-gap: 5px;
-    font-weight: 500;
-    font-size: 14px;
-    line-height: 16px;
-    color: #847577;
-    text-align: center;
-    padding: 15px 0;
-  }
-
-  .leagues-rules-item {
-    display: grid;
-    grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1fr;
-    column-gap: 5px;
-    font-weight: 500;
-    font-size: 16px;
-    line-height: 24px;
-    color: #181715;
-    border-top: 1px solid #F4F4F4;
-    padding: 15px 0;
-    text-align: center;
-  }
-
-  .leagues-rules-name {
-    font-weight: 800;
-    text-align: left;
-  }
-}
-
-.login-page .login-block {
-  padding: 50px 25px;
-}
-
-.welcome-btn-form {
-  background-color: #261FFF;
-}
-
 @media (orientation: portrait) {
-  .root-page {
-    .left-block {
-      margin: 300px 0 0 12%;
-      grid-template-rows: 27% 10% 0;
+  .landing-page {
+    .mantra-section-image-team {
+      left: 23%;
 
-      .title-block {
-        .title-bg {
-          height: 225px;
-        }
-        .title-text {
-          font-size: 140px;
-          line-height: 140px;
-        }
+      img {
+        width: 600px;
       }
+    }
 
-      .slogan-block {
-        padding-left: 30px;
-        font-size: 40px;
-        line-height: 48px;
+    .better-section {
+      padding: 60px 88px 80px;
+    }
 
-        .slogan-start {
-          font-size: 50px;
-          line-height: 60px;
-        }
+    .start-section {
+      padding: 96px 88px 124px;
+    }
+
+    .people-section {
+      padding: 88px 88px 152px;
+
+      .people-content {
+        column-gap: 44px;
       }
+    }
 
-      .description-block {
-        display: none;
-      }
-
-      .team-image {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        display: block;
-        width: 100%;
-
-        img {
-          width: 100%;
-          height: auto;
-        }
-      }
+    .lets-section {
+      padding: 72px 88px;
+      height: 750px;
     }
   }
 
-  .welcome-page .right-block {
+  .rules-page .rules-nav {
     display: none;
   }
 
-  .welcome-subpage .left-block {
-    margin: 240px 100px 50px;
-    width: 100%;
+  .rules-user-true {
+    padding: 48px 40px 48px 112px;
+  }
+}
 
-    .login-block {
-      label, input { font-size: 32px; }
+@media (orientation: landscape) and (max-device-width: 1350px) {
+  .rules-page {
+    padding: 48px 80px;
 
-      .form-check-input { margin-top: 0.9rem; }
-
-      .form-group { margin-bottom: 40px; }
-    }
-
-    .rules-block {
-      padding: 0 25px;
-
-      .rules-item {
-        .rules-title {
-          font-size: 32px;
-          line-height: 50px;
-        }
-
-        .rules-subtitle {
-          font-size: 28px;
-          line-height: 36px;
-        }
-
-        .rules-description {
-          font-size: 24px;
-          line-height: 28px;
-        }
-      }
-    }
-
-    .about-block {
-      font-size: 30px;
-      line-height: 40px;
-
-      .join-us {
-        font-size: 36px;
-      }
-    }
-
-    .contact-block, .follow-block, .success-block {
-      font-size: 30px;
+    .rules-nav {
+      position: fixed;
+      right: 80px;
     }
   }
 
-  .start-page.welcome-subpage {
-    .left-block .form-block {
-      padding: 0;
-      font-size: 30px;
-      line-height: 44px;
-
-      .form-item {
-        margin-bottom: 44px;
-      }
-
-      .form-checkbox-block {
-        line-height: 44px;
-      }
-
-      .form-btn input {
-        font-size: 30px;
-      }
-
-      .error-item {
-        line-height: 38px;
-        font-size: 24px;
-        grid-template-columns: 30px auto;
-
-        .error-icon img {
-          width: 30px;
-          height: 30px;
-        }
-      }
-    }
-
-    .title-block .title-text {
-      font-size: 62px;
-      width: 650px;
-    }
-  }
-
-  .success-page .title-block {
-    .title-text {
-      font-size: 72px;
-    }
-
-    .title-bg {
-      margin-top: 3%;
-      height: 30%;
-    }
-  }
-
-  .guide-block {
-    .tab-content {
-      p, li {
-        font-size: 20px;
-      }
-
-      h3 {
-        font-size: 28px;
-      }
-
-      h4 {
-        font-size: 26px;
-      }
-
-      h5 {
-        font-size: 24px;
-      }
-    }
+  .rules-user-true {
+    padding: 48px 40px 48px 112px;
   }
 }
 
 @media (orientation: landscape) and (max-device-width: 1220px) {
-  .welcome-page {
-    .left-block {
-      margin: 100px 100px 50px;
+  .landing-page {
+    .mantra-section-image-team {
+      img {
+        width: 600px;
+      }
+    }
+
+    .better-section {
+      padding: 60px 88px 80px;
+    }
+
+    .start-section {
+      padding: 96px 88px 124px;
+    }
+
+    .people-section {
+      padding: 88px 88px 152px;
+
+      .people-content {
+        column-gap: 44px;
+      }
+    }
+
+    .lets-section {
+      padding: 72px 88px;
+      height: 750px;
+    }
+  }
+
+  .rules-page {
+    padding: 48px 40px;
+
+    .rules-nav {
+      position: fixed;
+      right: 40px;
+    }
+  }
+
+  .rules-user-true {
+    padding: 48px 30px 48px 102px;
+
+    .rules-text {
+      width: 650px;
+    }
+  }
+}
+
+@media (orientation: landscape) and (max-device-width: 1080px) {
+  .rules-page {
+    padding: 48px 30px;
+
+    .rules-nav {
+      position: fixed;
+      right: 30px;
+    }
+
+    .rules-text {
+      width: 650px;
+    }
+  }
+
+  .rules-user-true {
+    padding: 48px 20px 48px 92px;
+
+    .rules-text {
+      width: 600px;
+    }
+  }
+}
+
+@media (orientation: landscape) and (max-device-width: 960px) {
+  .rules-page {
+    .rules-text {
       width: 100%;
     }
 
-    .right-block {
+    .rules-nav {
       display: none;
     }
-  }
-
-  .root-page .left-block {
-    grid-template-rows: 90px 80px 200px;
-    //margin-top: 120px;
-    padding-top: 50px;
-
-    .title-block {
-      .title-text {
-        font-size: 72px;
-        line-height: 72px;
-        width: 100%;
-      }
-
-      .title-bg {
-        margin-top: 3%;
-        height: 60%;
-      }
-    }
-
-    .slogan-block {
-      font-size: 26px;
-    }
-
-    .description-block {
-      .description-title {
-        font-size: 20px;
-      }
-
-      .description-item {
-        font-size: 18px;
-      }
-    }
-  }
-
-  .welcome-subpage .left-block {
-    grid-template-rows: 90px auto;
-
-    .title-block {
-      .title-text {
-        font-size: 50px;
-        padding-left: 25px;
-      }
-
-      .title-bg {
-        margin-top: 4%;
-        height: 45%;
-      }
-    }
-  }
-
-  .start-page .left-block .form-block {
-    padding-right: 0;
-  }
-
-  .login-page .login-block {
-    padding: 10px 25px;
-  }
-
-  .contact-page .left-block .follow-block, .success-page .left-block .follow-block {
-    padding: 0;
-
-    .follow-links {
-      line-height: 70px;
-    }
-  }
-
-  .contact-page .left-block {
-    grid-template-rows: 90px 75px 75px 120px;
-
-    .contact-block .contact-text {
-      padding-left: 110px;
-    }
-  }
-
-  .about-page .left-block .about-block {
-    .about-item {
-      padding: 24px 25px 0;
-    }
-
-    .join-us {
-      padding-bottom: 70px;
-    }
-  }
-
-  .success-page .left-block .success-block {
-    padding-top: 25px;
   }
 }

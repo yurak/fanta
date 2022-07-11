@@ -5,55 +5,57 @@
 -#%meta{ property: 'og:description', content: article.summary }
 -#%meta{ property: 'og:image', content: article.image }
 
-.page-info.article-page
-  .article-section
-    .article-actions
-      .article-back
-        = link_to articles_path do
-          .article-back-arrow
-            = image_tag('icons/arrow.svg')
-          .article-back-text= t('news.back')
-      .article-admin-btn
-        - if current_user&.admin?
-          .article-btn
-            = link_to 'Edit', edit_article_path(article)
-          .article-btn
-            = link_to 'Destroy', article, method: :delete, data: { confirm: 'Are you sure?' }
-    .article-title
-      = article.title
-    .article-image
-      = image_tag(article.internal_image)
-    .article-block
-      .article-data
-        .article-data-item
-          .article-data-title= t('news.publish_date')
-          .article-data-value
-            = article.created_at.strftime("%b %e, %y")
-        - if article.article_tag
+.page-block
+  = render 'layouts/left_nav', league: nil
+  .page-info.article-page
+    .article-section
+      .article-actions
+        .article-back
+          = link_to articles_path do
+            .article-back-arrow
+              = image_tag('icons/arrow.svg')
+            .article-back-text= t('news.back')
+        .article-admin-btn
+          - if current_user&.admin?
+            .article-btn
+              = link_to 'Edit', edit_article_path(article)
+            .article-btn
+              = link_to 'Destroy', article, method: :delete, data: { confirm: 'Are you sure?' }
+      .article-title
+        = article.title
+      .article-image
+        = image_tag(article.internal_image)
+      .article-block
+        .article-data
           .article-data-item
-            .article-data-title= t('news.tag')
+            .article-data-title= t('news.publish_date')
             .article-data-value
-              = article.article_tag.name
-          - if article.article_tag.tournament
+              = article.created_at.strftime("%b %e, %y")
+          - if article.article_tag
             .article-data-item
-              .article-data-title= t('news.tournament')
+              .article-data-title= t('news.tag')
               .article-data-value
-                = article.article_tag.tournament.name
-        .article-data-item
-          .article-data-title= t('news.share_via')
-          .article-data-value.article-data-link
-            = link_to 'Facebook', "https://www.facebook.com/sharer/sharer.php?u=#{article_url(article)}", target: '_blank'
-          .article-data-value.article-data-link
-            = link_to 'Telegram', "https://telegram.me/share/url?url=#{article_url(article)}&text=#{article.title}", target: '_blank'
-          -# TODO: add Copy link
-          -#.article-data-value.article-data-link
-          -#  = link_to 'Copy link', '', target: '_blank'
-          .article-data-value.article-data-link
-            = link_to 'Email', "mailto:?subject=#{article.title}&amp;body=Check out article #{article_url(article)}", target: '_blank'
-      .article-description
-        %p= article.description.html_safe
-  .article-keep-reading
-    .article-keep-title= t('news.keep_reading')
-    .article-keep-articles
-      - article.related_articles.each do |article|
-        = render 'article_item', article: article
+                = article.article_tag.name
+            - if article.article_tag.tournament
+              .article-data-item
+                .article-data-title= t('news.tournament')
+                .article-data-value
+                  = article.article_tag.tournament.name
+          .article-data-item
+            .article-data-title= t('news.share_via')
+            .article-data-value.article-data-link
+              = link_to 'Facebook', "https://www.facebook.com/sharer/sharer.php?u=#{article_url(article)}", target: '_blank'
+            .article-data-value.article-data-link
+              = link_to 'Telegram', "https://telegram.me/share/url?url=#{article_url(article)}&text=#{article.title}", target: '_blank'
+            -# TODO: add Copy link
+            -#.article-data-value.article-data-link
+            -#  = link_to 'Copy link', '', target: '_blank'
+            .article-data-value.article-data-link
+              = link_to 'Email', "mailto:?subject=#{article.title}&amp;body=Check out article #{article_url(article)}", target: '_blank'
+        .article-description
+          %p= article.description.html_safe
+    .article-keep-reading
+      .article-keep-title= t('news.keep_reading')
+      .article-keep-articles
+        - article.related_articles.each do |article|
+          = render 'article_item', article: article

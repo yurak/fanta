@@ -1,0 +1,57 @@
+.fanta-block
+  .fixtures-block
+    .block-title= t('tours.fixtures')
+    .round-matches
+      - if tour.national?
+        = render 'tournaments/national_matches', matches: tour.tournament_round.national_matches
+      - if tour.eurocup?
+        = render 'tournaments/tournament_matches', matches: tour.tournament_round.tournament_matches
+  - unless tour.inactive?
+    .lineups-block
+      .block-title= t('tours.lineups')
+      - if tour.set_lineup?
+        - if user_team_by_league(current_user, tour.league)
+          .self-team.team-row{ class: "team-lineup-#{current_user.lineup_by_tour(tour).present?}" }
+            .team-row-logo= image_tag(image_path(user_team_by_league(current_user, tour.league).logo_path))
+            .team-row-name
+              - if current_user.lineup_by_tour(tour)
+                = link_to team_lineup_path(current_user.team_by_league(tour.league), current_user.lineup_by_tour(tour)) do
+                  = user_team_by_league(current_user, tour.league).human_name
+              - else
+                = user_team_by_league(current_user, tour.league).human_name
+            .team-row-name-lineup
+              .round-lineup-actions
+                - if current_user.lineup_by_tour(tour)
+                  .round-lineup-edit-block
+                    = link_to edit_team_lineup_path(user_team_by_league(current_user, tour.league), current_user.lineup_by_tour(tour), team_module_id: current_user.lineup_by_tour(tour).team_module.id) do
+                      .grey-btn.round-lineup-edit{ title: t('tours.edit') }
+                        = image_tag('icons/edit.svg')
+                  .round-lineup-set-block
+                    = t('tours.set_done')
+                - else
+                  = link_to new_team_lineup_path(user_team_by_league(current_user, tour.league), tour_id: tour.id) do
+                    .blue-btn.round-lineup-set-squad{ title: t('tours.create') }
+                      = image_tag('icons/plus.svg')
+        - tour.league.teams.each do |team|
+          - next if team == user_team_by_league(current_user, tour.league)
+          .team-row{ class: "team-lineup-#{team.lineups.where(tour: tour).any?}" }
+            .team-row-logo= image_tag(image_path(team.logo_path))
+            .team-row-name= team.human_name
+            .team-row-name-lineup
+              - if team.lineups.where(tour: tour).any?
+                = t('tours.set_done')
+              - else
+                = t('tours.not_set')
+      - else
+        .tour-deadlined{ class: "tour-closed-#{tour.closed?}" }
+          - tour.ordered_lineups.each_with_index do |lineup, i|
+            = link_to team_lineup_path(lineup.team, lineup) do
+              .team-row
+                .lineup-team-position
+                  = position_number(i + 1)
+                .team-row-logo
+                  = image_tag(image_path(lineup.team.logo_path))
+                .team-row-name
+                  = lineup.team.human_name
+                .lineup-result
+                  = lineup.total_score

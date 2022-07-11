@@ -1,15 +1,27 @@
-%h1= t('.change_your_password')
-= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f|
-  = bootstrap_devise_error_messages!
-  = f.hidden_field :reset_password_token
-  .form-group
-    = f.label :password, t('.new_password')
-    = f.password_field :password, autofocus: true, class: 'form-control'
-    - if @minimum_password_length
-      %small.form-text.text-muted= t('devise.shared.minimum_password_length', count: @minimum_password_length)
-  .form-group
-    = f.label :password_confirmation, t('.confirm_new_password')
-    = f.password_field :password_confirmation, autocomplete: 'off', class: 'form-control'
-  .form-group
-    = f.submit t('.change_my_password'), class: 'btn btn-primary'
-= render 'devise/shared/links'
+.login-page
+  .login-icon
+    .mantra-logo
+      = link_to root_path do
+        = image_tag('logo.svg')
+  .login-block
+    .title-block
+      .title-text= t('.change_password')
+    .login-form
+      = form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f|
+        = f.hidden_field :reset_password_token
+        .login-input
+          .login-label= t('.new_password')
+          .login-input-icon= image_tag('icons/login/password.svg')
+          .login-input-text
+            = f.password_field :password, autofocus: true, autocomplete: 'off', class: 'form-control', placeholder: t('.new_password')
+        - if @minimum_password_length
+          .login-password-note= t('devise.shared.minimum_password_length', count: @minimum_password_length)
+        #email-error
+          = alert
+        .login-input
+          .login-label= t('.confirm_new_password')
+          .login-input-icon= image_tag('icons/login/password.svg')
+          .login-input-text
+            = f.password_field :password_confirmation, autocomplete: 'off', class: 'form-control', placeholder: t('.confirm_new_password')
+        .login-btn-form
+          = f.submit t('.change_password'), class: 'login-btn blue-btn'

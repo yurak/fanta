@@ -10,7 +10,6 @@ RSpec.describe 'Players', type: :request do
     context 'without params' do
       it { expect(response).to be_successful }
       it { expect(response).to render_template(:index) }
-      it { expect(response).to render_template(:_header) }
       it { expect(response).to render_template(:_paginator) }
       it { expect(response).to have_http_status(:ok) }
       it { expect(assigns(:players)).not_to be_nil }
@@ -24,7 +23,6 @@ RSpec.describe 'Players', type: :request do
 
       it { expect(response).to be_successful }
       it { expect(response).to render_template(:index) }
-      it { expect(response).to render_template(:_header) }
       it { expect(response).to render_template(:_paginator) }
       it { expect(response).to have_http_status(:ok) }
       it { expect(assigns(:players)).not_to be_nil }
@@ -38,7 +36,6 @@ RSpec.describe 'Players', type: :request do
 
       it { expect(response).to be_successful }
       it { expect(response).to render_template(:index) }
-      it { expect(response).to render_template(:_header) }
       it { expect(response).to render_template(:_paginator) }
       it { expect(response).to have_http_status(:ok) }
       it { expect(assigns(:players)).not_to be_nil }
@@ -52,7 +49,6 @@ RSpec.describe 'Players', type: :request do
 
       it { expect(response).to be_successful }
       it { expect(response).to render_template(:index) }
-      it { expect(response).to render_template(:_header) }
       it { expect(response).to render_template(:_paginator) }
       it { expect(response).to have_http_status(:ok) }
       it { expect(assigns(:players)).not_to be_nil }
@@ -63,7 +59,7 @@ RSpec.describe 'Players', type: :request do
   end
 
   describe 'GET #show' do
-    let(:club) { create(:club, name: 'xxx') }
+    let(:club) { create(:club, name: 'Outside') }
     let(:player) { create(:player, club: club) }
 
     context 'with html format' do
@@ -73,7 +69,6 @@ RSpec.describe 'Players', type: :request do
 
       it { expect(response).to be_successful }
       it { expect(response).to render_template(:show) }
-      it { expect(response).to render_template(:_header) }
       it { expect(response).to have_http_status(:ok) }
       it { expect(assigns(:player)).not_to be_nil }
     end

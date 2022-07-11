@@ -1,19 +1,35 @@
-.footer
-  .footer-block
-    .footer-block-title= t('footer.current_tournaments')
-    - active_tournaments.each do |tournament|
-      .footer-block-item
-        -# TODO: add links to Tournament#show page
-        = link_to '#', target: '_blank' do
-          = image_tag(tournament.logo_path, alt: 'Tournament Logo')
-  .footer-block
-    .footer-block-title= t('footer.contact')
-    .footer-block-item.social-media-item
-      = link_to 'https://www.instagram.com/mantrafootball', target: '_blank' do
-        = image_tag('social_media/insta.png')
-    .footer-block-item.social-media-item
-      = link_to 'https://t.me/mantrafootball', target: '_blank' do
-        = image_tag('social_media/tg.png')
-    .footer-block-item.social-media-item
-      = link_to 'https://www.facebook.com/mantrafootball', target: '_blank' do
-        = image_tag('social_media/fb.png')
+.footer{ class: "footer-left-#{user_signed_in?}"}
+  .footer-row.footer-row-top
+    .footer-base
+      .mantra-logo
+        = link_to root_path do
+          = image_tag('logo.svg')
+      .mantra-donate
+        .grey-btn.donate-btn
+          = link_to t('header.help_project'), ''
+    .footer-sign
+      .footer-link-sign
+        = link_to t('header.login'), new_user_session_path
+      .footer-link-sign
+        .grey-btn
+          = link_to t('header.start_playing'), new_user_registration_path
+  .footer-row
+    .footer-links
+      -#.footer-link= link_to t('header.rules_faq'), ''
+      .footer-link= link_to t('header.rules_nav'), rules_path
+      -#.footer-link= link_to t('header.dictionary'), ''
+      .footer-link= link_to t('header.links'), links_path
+      -#.footer-link.footer-link-center= link_to t('header.tips'), ''
+      -#.footer-link.footer-link-right= link_to t('header.contact'), ''
+      .footer-link.footer-link-right= link_to t('header.prices'), fees_path
+      -#.footer-link.footer-link-right= link_to t('header.about'), ''
+  .footer-bottom
+    .footer-mantra MantraFootball
+    .footer-slogan= "#{t('welcome.index.slogan1')} #{t('welcome.index.slogan2')}"
+    .footer-social
+      .footer-social-icon
+        = link_to 'https://www.facebook.com/mantrafootball', target: '_blank' do
+          = image_tag('social_media/facebook.svg')
+      .footer-social-icon
+        = link_to 'https://www.instagram.com/mantrafootball', target: '_blank' do
+          = image_tag('social_media/instagram.svg')

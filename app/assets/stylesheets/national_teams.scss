@@ -1,5 +1,5 @@
 .page-info.team-show.national-team-show {
-  padding: 120px 0 20px;
+  padding: 0 0 20px 72px;
 
   a {
     text-decoration: none;
@@ -63,7 +63,7 @@
 
 @media (orientation: portrait) {
   .page-info.team-show.national-team-show {
-    padding: 200px 0 20px;
+    padding: 0 0 20px 72px;
 
     .teams-bar {
       height: 202px;
@@ -77,7 +77,7 @@
 
 @media (orientation: landscape) and (max-device-width: 1220px) {
   .page-info.team-show.national-team-show {
-    padding: 100px 0 20px;
+    padding: 0 0 20px 72px;
 
     .team-section {
       display: block;
@@ -92,15 +92,7 @@
 }
 
 @media (orientation: landscape) and (max-device-width: 1000px) {
-  .page-info.team-show.national-team-show {
-    padding: 100px 0 20px;
-
-    .teams-bar {
-      height: 202px;
-
-      .teams-bar-section {
-        width: 650px;
-      }
-    }
+  .page-info.team-show.national-team-show  .teams-bar  .teams-bar-section {
+    width: 650px;
   }
 }

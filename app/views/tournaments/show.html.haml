@@ -1,38 +1,18 @@
-.page-info.tournament-page
-  .tournament-head
-    .tournament-logo= image_tag(tournament.logo_path)
-    .tournament-title
-      = tournament.name
-  .tournaments-fixture
-    - national_fixtures.each do |t_round, matches|
-      .round-title
-        = "Round ##{t_round.number}"
-      .round-matches
-        = render 'national_matches', matches: matches
-    - fixtures.each do |t_round, matches|
-      .round-title
-        = "Round ##{t_round.number}"
-      .round-matches
-        - matches.each do |match|
-          .round-tournament-match
-            .round-tournament-match-cell.round-tournament-match-team
-              = link_to '' do
-                .round-tournament-team-name
-                  = match.host_club.name
-                .round-tournament-team-logo
-                  %object{data: match.host_club.logo_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                    = image_tag('default_logo.png')
-            .round-tournament-match-cell
-              - if match.host_score
-                .round-tournament-match-result
-                  .round-tournament-match-result-host= match.host_score
-                  .round-tournament-match-result-guest= match.guest_score
-              - else
-                vs
-            .round-tournament-match-cell.round-tournament-match-team.round-tournament-match-guest
-              = link_to '' do
-                .round-tournament-team-logo
-                  %object{data: match.guest_club.logo_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                    = image_tag('default_logo.png')
-                .round-tournament-team-name
-                  = match.guest_club.name
+.page-block
+  = render 'layouts/left_nav', league: nil
+  .page-info.tournament-page
+    .tournament-head
+      .tournament-logo= image_tag(tournament.logo_path)
+      .tournament-title
+        = tournament.name
+    .tournaments-fixture
+      - national_fixtures.each do |t_round, matches|
+        .round-title
+          = "Round ##{t_round.number}"
+        .round-matches
+          = render 'national_matches', matches: matches
+      - fixtures.each do |t_round, matches|
+        .round-title
+          = "Round ##{t_round.number}"
+        .round-matches
+          = render 'tournament_matches', matches: matches

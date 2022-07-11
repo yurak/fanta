@@ -1,0 +1,48 @@
+.login-page
+  .login-icon
+    .mantra-logo
+      = link_to root_path do
+        = image_tag('logo.svg')
+  .login-block
+    .title-block
+      .title-text= t('teams.new.create')
+      .name-edit-note= t('teams.new.note')
+    .login-form
+      = form_for :team, url: teams_path, method: :post do |f|
+        .logo-input
+          .logo-input-label= t('teams.new.logo')
+          #logo-input-icon= image_tag('icons/team_logo_folder.svg')
+          = f.hidden_field :logo_url, value: nil, id: 'logo-url'
+          #logo-modal.modal
+            .logo-modal-title= t('teams.new.сhoose')
+            .logo-modal-icons
+              - (1..141).each do |i|
+                .logo-modal-icon= image_tag("https://mantrafootball.s3.eu-west-1.amazonaws.com/teams/default_icons/default#{i}.png")
+        .login-input
+          .login-label= t('teams.new.name')
+          .login-input-icon= image_tag('icons/login/user.svg')
+          .login-input-text
+            = f.text_field :human_name, class: 'form-control', placeholder: t('teams.new.name')
+        .login-password-note= t('teams.new.name_note')
+        .login-btn-form
+          = f.submit t('teams.new.create'), class: 'login-btn blue-btn'
+
+:javascript
+  $(document).ready(function() {
+    const modal = document.getElementById("logo-modal");
+    const modal_btn = document.getElementById("logo-input-icon");
+
+    if (modal_btn) {
+      modal_btn.onclick = function() { modal.style.display = "block"; };
+    }
+
+    $('.logo-modal-icon').click(function() {
+      modal.style.display = "none";
+      modal_btn.children[0].src = this.children[0].src;
+      document.getElementById("logo-url").value = this.children[0].src;
+    });
+
+    window.onclick = function(event) {
+      if (event.target == modal) { modal.style.display = "none"; }
+    }
+  });

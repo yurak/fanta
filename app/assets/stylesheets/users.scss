@@ -1,12 +1,13 @@
 .user-profile {
   background-color: #F4F4F4;
   min-height: 100%;
+  padding: 20px;
 }
 
 .user-show {
   width: 560px;
   background-color: #FFFFFF;
-  margin: 20px auto 0;
+  margin: 0 auto;
   padding: 32px;
 
   .user-data {
@@ -146,7 +147,11 @@
 }
 
 .edit-user-avatar {
-  width: 606px;
+  padding: 32px 40px;
+}
+
+.edit-user-avatar, .login-page .new-user-avatar {
+  width: 620px;
 
   .cc-selector input{
     margin: 0;
@@ -156,12 +161,16 @@
     appearance: none;
   }
 
-  .cc-selector input:active +.drinkcard-cc{opacity: .9;}
+  .cc-selector input:active +.drinkcard-cc{
+    opacity: .9;
+  }
+
   .cc-selector input:checked +.drinkcard-cc{
     -webkit-filter: none;
     -moz-filter: none;
     filter: none;
   }
+
   .drinkcard-cc{
     margin: 10px;
     cursor: pointer;
@@ -177,6 +186,7 @@
     -moz-filter: brightness(1.8) grayscale(1) opacity(.7);
     filter: brightness(1.8) grayscale(1) opacity(.7);
   }
+
   .drinkcard-cc:hover{
     -webkit-filter: brightness(1.2) grayscale(.5) opacity(.9);
     -moz-filter: brightness(1.2) grayscale(.5) opacity(.9);
@@ -203,6 +213,7 @@
   .avatar_13 {background-image: image_url('avatars/avatar_13.png');}
   .avatar_14 {background-image: image_url('avatars/avatar_14.png');}
   .avatar_15 {background-image: image_url('avatars/avatar_15.png');}
+  .avatar_16 {background-image: image_url('avatars/avatar_16.png');}
 }
 
 @media (orientation: portrait) {

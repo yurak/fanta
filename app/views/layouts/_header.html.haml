@@ -1,169 +1,66 @@
-.header.header-grid
-  .left-header{class: "external-header-#{external_actions?}"}
+.header.header-grid{class: "landing-#{ params[:controller] == 'welcome' && params[:action] == 'index' }"}
+  .left-header
     .mantra-logo
       = link_to root_path do
-        = image_tag('logo628.png')
+        = image_tag('logo.svg')
     .locale
       .locale-btn
-        = link_to 'УКР', '?locale=ua' if I18n.locale == :en
-        = link_to 'ENG', '?locale=en' if I18n.locale == :ua
-    .base-links.info-links
-      - if user_signed_in? && current_user.active_team
-        - if current_user.active_league.active_tour_or_last
-          .info-links-item.base-link-item
-            = link_to t('header.round'), tour_path(current_user.active_league.active_tour_or_last)
-        - else
-          .info-links-item.base-link-item
-            = link_to t('header.league'), league_path(current_user.active_league)
-        .info-links-item.base-link-item
-          = link_to t('header.teams'), team_path(current_user.active_team)
-        .info-links-item.base-link-item
-          = link_to t('header.table'), league_results_path(current_user.active_league)
-      - else
-        .info-links-item
-          = link_to t('header.about'), about_path
-        .info-links-item
-          = link_to t('header.contact'), contact_path
-        .info-links-item
-          = link_to t('header.rules'), rules_path
-        .info-links-item
-          = link_to t('header.guide'), guide_path
-      .info-links-item.base-link-item
-        = link_to t('header.leagues'), leagues_path
-      .info-links-item.base-link-item
-        = link_to t('header.players'), players_path
-      .info-links-item.base-link-item
-        = link_to t('header.news'), articles_path
+        = link_to '🇺🇦 Укр', '?locale=ua' if I18n.locale == :en
+        = link_to '🇬🇧 Eng', '?locale=en' if I18n.locale == :ua
 
-  .right-header{class: "external-header-#{external_actions?}"}
-    .right-header-links
-      - if user_signed_in?
-        - if external_actions?
-          .login-links
-            .login-link-item.header-btn
-              = link_to t('header.logout'), destroy_user_session_path, method: :delete
-        - else
-          .personal-links
-            .next-round
-              - if current_user.next_tour
-                = link_to tour_path(current_user.active_league.active_tour_or_last) do
-                  .next-round-title
-                    .next-round-text= t('header.next_round')
-                    .next-round-number= "##{current_user.next_tour.number}"
-                  .next-round-datetime
-                    .next-round-date= current_user.next_tour.tournament_round.deadline&.strftime("%^a, %^b %e")
-                    .next-round-time= current_user.next_tour.tournament_round.deadline&.strftime("%H:%M")
-                  .next-round-opponent
-                    - if current_user.active_team.next_opponent
-                      .next-round-vs vs
-                      .next-round-opponent-logo= image_tag(current_user.active_team.next_opponent.logo_path)
-                      .next-round-opponent-name= current_user.active_team.next_opponent.human_name
-              - else
-                .next-round-wait= t('header.start_soon')
+  .header-links
+    .header-links-section.header-links-section-border
+      .header-link-item
+        = link_to t('header.rules'), rules_path
+      .header-link-item
+        = link_to t('header.prices'), fees_path
+    -#.header-links-section.header-links-section-border
+      -#.header-link-item
+      -#  = link_to t('header.about'), about_path
+      -#.header-link-item
+      -#  = link_to t('header.faq'), ''
+      -#.header-link-item
+      -#  = link_to t('header.contact'), contact_path
+      -#.header-link-item
+      -#  = link_to t('header.demo'), ''
+    .header-links-section.header-links-section-sign
+      .header-link-item
+        = link_to t('header.login'), new_user_session_path
+      .header-link-item
+        .grey-btn.header-link-start
+          = link_to t('header.start_playing'), new_user_registration_path
 
-            .user-data
-              #modal-btn
-                - if current_user.active_team
-                  .profile-logo
-                    = image_tag(current_user.active_team.logo_path)
-                  = image_tag(current_user.active_league.tournament.logo_path, alt: 'Tournament', class: 'tournament-logo')
-                #my-modal.modal
-                  .modal-content
-                    %span.close
-                    .modal-user
-                      .modal-user-avatar
-                        = image_tag(current_user.avatar_path)
-                      .modal-user-data
-                        .modal-user-name
-                          = current_user.name.presence || 'Username'
-                        .modal-user-email
-                          = current_user.email
-                      .modal-settings
-                        = link_to user_path(current_user) do
-                          = image_tag('icons/settings.png')
-                    - if current_user.active_team
-                      .modal-teams
-                        .modal-teams-title
-                          .modal-teams-title-item= t('header.my_teams')
-                          .modal-teams-title-item= t('header.league')
-                        - current_user.teams.each do |team|
-                          - if current_user.active_team == team
-                            .modal-teams-item.active-team
-                              .modal-team
-                                .modal-team-logo= image_tag(team.logo_path)
-                                .modal-team-name= team.human_name
-                              .modal-league
-                                .modal-league-logo= image_tag(team.league.tournament.logo_path)
-                                .modal-league-name= team.league.name
-                          - else
-                            = link_to user_path(current_user, active_team_id: team.id), method: :put do
-                              .modal-teams-item
-                                .modal-team
-                                  .modal-team-logo= image_tag(team.logo_path)
-                                  .modal-team-name= team.human_name
-                                .modal-league
-                                  .modal-league-logo= image_tag(team.league.tournament.logo_path)
-                                  .modal-league-name= team.league.name
-                    .modal-links
-                      .modal-link= link_to t('header.guide'), guide_path
-                      .modal-link= link_to t('header.rules'), rules_path
-                      .modal-link= link_to t('header.contact'), contact_path
-                      .modal-link= link_to t('header.links'), links_path
-                      - if current_user&.admin?
-                        .modal-link= link_to t('header.admin'), rails_admin_path
-
-      - else
-        .login-links
-          .login-link-item.login-link
-            = link_to t('header.login'), new_user_session_path
-          .login-link-item.header-btn
-            = link_to t('header.start'), new_join_request_path
-    .burger-menu-block
-      %nav{ role: 'navigation' }
-        #menuToggle
-          %input{ type: 'checkbox' }
-          %span
-          %span
-          %span
-          %ul#menu
-            - if user_signed_in?
-              - if current_user.active_team
-                .burger-link= link_to t('header.teams'), team_path(current_user.active_team)
-                .burger-link= link_to t('header.table'), league_results_path(current_user.active_league)
-                - if current_user.active_league.active_tour_or_last
-                  .burger-link= link_to t('header.round'), tour_path(current_user.active_league.active_tour_or_last)
-              .burger-link= link_to t('header.leagues'), leagues_path
-              .burger-link= link_to t('header.players'), players_path
-              .burger-link= link_to t('header.news'), articles_path
-              .burger-link= link_to t('header.links'), links_path
-              .burger-link= link_to t('header.rules'), guide_path
-              .burger-link= link_to t('header.profile'), user_path(current_user)
-            -else
-              .burger-link= link_to t('header.start'), new_join_request_path
-              .burger-link= link_to t('header.login'), new_user_session_path
-              .burger-link= link_to t('header.news'), articles_path
-              .burger-link= link_to t('header.leagues'), leagues_path
-              .burger-link= link_to t('header.players'), players_path
-              .burger-link= link_to t('header.rules'), rules_path
-              .burger-link= link_to t('header.guide'), guide_path
-              .burger-link= link_to t('header.about'), about_path
-              .burger-link= link_to t('header.contact'), contact_path
-
-:javascript
-  var modal = document.getElementById("my-modal");
-  var btn = document.getElementById("modal-btn");
-  var span = document.getElementsByClassName("close")[0];
-
-  btn.onclick = function() {
-    modal.style.display = "block";
-  };
-
-  span.onclick = function() {
-    modal.style.display = "none";
-  };
-
-  window.onclick = function(event) {
-    if (event.target == modal) {
-      modal.style.display = "none";
-    }
-  }
+-#    .burger-menu-block
+-#      %nav{ role: 'navigation' }
+-#        #menuToggle
+-#          %input{ type: 'checkbox' }
+-#          %span
+-#          %span
+-#          %span
+-#          %ul#menu
+-#            .burger-link= link_to t('header.start'), new_user_registration_path
+-#            .burger-link= link_to t('header.login'), new_user_session_path
+-#            .burger-link= link_to t('header.news'), articles_path
+-#            .burger-link= link_to t('header.rules'), rules_path
+-#            .burger-link= link_to t('header.guide'), guide_path
+-#            .burger-link= link_to t('header.about'), about_path
+-#            .burger-link= link_to t('header.contact'), contact_path
+-#
+-#:javascript
+-#  var modal = document.getElementById("my-modal");
+-#  var btn = document.getElementById("modal-btn");
+-#  var span = document.getElementsByClassName("close")[0];
+-#
+-#  btn.onclick = function() {
+-#    modal.style.display = "block";
+-#  };
+-#
+-#  span.onclick = function() {
+-#    modal.style.display = "none";
+-#  };
+-#
+-#  window.onclick = function(event) {
+-#    if (event.target == modal) {
+-#      modal.style.display = "none";
+-#    }
+-#  }

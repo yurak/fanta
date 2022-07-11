@@ -1,84 +1,86 @@
-.page-info.team-show.national-team-show
-  .teams-bar
-    .teams-bar-section
-      - national_team.tournament.national_teams.active.each do |team|
-        = link_to national_team_path(team) do
-          .team-bar-item{ class: "current-team-#{team == national_team}"}
-            .team-bar-item-logo
-              = flag_icon(team.code.to_sym, element: :div)
-  .team-section
-    .team-data
-      .team-logo
-        = flag_icon(national_team.code.to_sym, element: :div)
-      .team-name
-        = national_team.name
-    .team-lists
-      .team-lists-tabs
-        #players.team-lists-tab-item.team-lists-tab-active= t('teams.players')
-        #games.team-lists-tab-item= t('teams.games')
-      .team-lists-content
-        .team-list.team-players
-          .team-players-headers
-            .team-players-header-item= t('teams.player')
-            .team-players-header-item.team-players-header-position= t('teams.positions')
-            .team-players-header-item.right= t('teams.appearances')
-            .team-players-header-item.right= t('teams.rating')
-            .team-players-header-item.center= t('teams.club')
-            .team-players-header-item
-          - national_team.players.sort_by(&:position_sequence_number).each do |player|
-            = link_to player_path(player) do
-              .team-player-item
-                .team-player-param-item.team-player-data
-                  .team-player-avatar
-                    .player-show-face
-                      %object{data: player.avatar_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                        = image_tag('avatar.png')
-                    .player-show-kit
-                      %object{data: player.national_kit_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                        = image_tag('kit_small_default.png')
-                  .team-player-name
-                    .team-player-last-name
-                      = player.name
-                    .team-player-first-name
-                      = player.first_name
-                .team-player-param-item.team-player-position
-                  - player.positions.each do |position|
-                    .slot-position{class: "slot-position-#{position.name}"}
-                      = position_name(position)
-                .team-player-param-item.team-player-appearances
-                  = player.season_scores_count(player.national_matches_with_scores)
-                .team-player-param-item.team-player-rating
-                  = player.season_average_result_score(player.national_matches_with_scores)
-                .team-player-param-item.team-player-club
-                  %object{data: player.club.logo_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                    = image_tag('default_logo.png')
-                .team-player-param-item.team-player-link
-                  = image_tag('icons/link_arrow.png')
-        .team-list.team-games
-          .team-games-headers
-            .team-games-header-item= t('teams.round')
-            .team-games-header-item= t('teams.opponent')
-            .team-games-header-item= t('teams.score')
-            .team-games-header-item
-          - national_team.matches.each do |match|
-            .team-game-item
-              .team-game-param-item
-                .team-game-number= "##{match.tournament_round.number}"
-                .team-game-vs VS
-              .team-game-param-item.team-game-opponent
-                = flag_icon(national_team.opponent_by_round(match.tournament_round).code.to_sym, element: :div)
-                = national_team.opponent_by_round(match.tournament_round).name
-              .team-game-param-item.team-game-result
-                - if match.host_score
-                  .game-score-cell.game-score-closed
-                    .result-cell-value
-                      - if national_team == match.host_team
-                        = "#{match.host_score}:#{match.guest_score}"
-                      - else
-                        = "#{match.guest_score}:#{match.host_score}"
-                - else
-                  .game-score-cell
-                    .result-cell-value -:-
+.page-block
+  = render 'layouts/left_nav', league: nil
+  .page-info.team-show.national-team-show
+    .teams-bar
+      .teams-bar-section
+        - national_team.tournament.national_teams.active.each do |team|
+          = link_to national_team_path(team) do
+            .team-bar-item{ class: "current-team-#{team == national_team}"}
+              .team-bar-item-logo
+                = flag_icon(team.code.to_sym, element: :div)
+    .team-section
+      .team-data
+        .team-logo
+          = flag_icon(national_team.code.to_sym, element: :div)
+        .team-name
+          = national_team.name
+      .team-lists
+        .team-lists-tabs
+          #players.team-lists-tab-item.team-lists-tab-active= t('teams.players')
+          #games.team-lists-tab-item= t('teams.games')
+        .team-lists-content
+          .team-list.team-players
+            .team-players-headers
+              .team-players-header-item= t('teams.player')
+              .team-players-header-item.team-players-header-position= t('teams.positions')
+              .team-players-header-item.right= t('teams.appearances')
+              .team-players-header-item.right= t('teams.rating')
+              .team-players-header-item.center= t('teams.club')
+              .team-players-header-item
+            - national_team.players.sort_by(&:position_sequence_number).each do |player|
+              = link_to player_path(player) do
+                .team-player-item
+                  .team-player-param-item.team-player-data
+                    .team-player-avatar
+                      .player-show-face
+                        %object{data: player.avatar_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
+                          = image_tag('avatar.png')
+                      .player-show-kit
+                        %object{data: player.national_kit_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
+                          = image_tag('kit_small_default.png')
+                    .team-player-name
+                      .team-player-last-name
+                        = player.name
+                      .team-player-first-name
+                        = player.first_name
+                  .team-player-param-item.team-player-position
+                    - player.positions.each do |position|
+                      .slot-position{class: "slot-position-#{position.name}"}
+                        = position_name(position)
+                  .team-player-param-item.team-player-appearances
+                    = player.season_scores_count(player.national_matches_with_scores)
+                  .team-player-param-item.team-player-rating
+                    = player.season_average_result_score(player.national_matches_with_scores)
+                  .team-player-param-item.team-player-club
+                    %object{data: player.club.logo_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
+                      = image_tag('default_logo.png')
+                  .team-player-param-item.team-player-link
+                    = image_tag('icons/link_arrow.png')
+          .team-list.team-games
+            .team-games-headers
+              .team-games-header-item= t('teams.round')
+              .team-games-header-item= t('teams.opponent')
+              .team-games-header-item= t('teams.score')
+              .team-games-header-item
+            - national_team.matches.each do |match|
+              .team-game-item
+                .team-game-param-item
+                  .team-game-number= "##{match.tournament_round.number}"
+                  .team-game-vs VS
+                .team-game-param-item.team-game-opponent
+                  = flag_icon(national_team.opponent_by_round(match.tournament_round).code.to_sym, element: :div)
+                  = national_team.opponent_by_round(match.tournament_round).name
+                .team-game-param-item.team-game-result
+                  - if match.host_score
+                    .game-score-cell.game-score-closed
+                      .result-cell-value
+                        - if national_team == match.host_team
+                          = "#{match.host_score}:#{match.guest_score}"
+                        - else
+                          = "#{match.guest_score}:#{match.host_score}"
+                  - else
+                    .game-score-cell
+                      .result-cell-value -:-
 
 :javascript
   $(document).ready(function() {
