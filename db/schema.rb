@@ -10,7 +10,6 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-
 ActiveRecord::Schema.define(version: 2022_07_11_125555) do
 
   create_table "article_tags", force: :cascade do |t|
