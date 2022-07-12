@@ -2,7 +2,7 @@ namespace :tournament_matches do
   desc 'Create TournamentMatches from Fotmob'
   task :generate_fotmob_matches, %i[tournament_id] => :environment do |_t, args|
     tournament = Tournament.find(args[:tournament_id])
-    TournamentMatches::FotmobGenerator.call(tournament: tournament) if tournament
+    TournamentMatches::FotmobGenerator.call(tournament) if tournament
   end
 
   desc 'Create Serie A TournamentMatches'
@@ -13,12 +13,12 @@ namespace :tournament_matches do
   desc 'Create Euro2020 TournamentMatches'
   task generate_euro20_matches: :environment do
     tournament = Tournament.find_by(code: Scores::Injectors::Strategy::EURO)
-    TournamentMatches::EuroFotmobGenerator.call(tournament: tournament)
+    TournamentMatches::EuroFotmobGenerator.call(tournament)
   end
 
   desc 'Create Champions League TournamentMatches'
   task generate_ecl_matches: :environment do
     tournament = Tournament.find_by(code: Scores::Injectors::Strategy::ECL)
-    TournamentMatches::EuroCupFotmobGenerator.call(tournament: tournament)
+    TournamentMatches::EuroCupFotmobGenerator.call(tournament)
   end
 end

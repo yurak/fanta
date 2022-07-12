@@ -1,5 +1,5 @@
 lang: ruby
-rvm: 2.5.1
+rvm: 3.0.1
 
 before_install:
   - yes | gem update --system --force

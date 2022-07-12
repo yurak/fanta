@@ -2,7 +2,7 @@ module AuctionRounds
   class Manager < ApplicationService
     attr_reader :round
 
-    def initialize(auction_round:)
+    def initialize(auction_round)
       @round = auction_round
     end
 
@@ -51,7 +51,7 @@ module AuctionRounds
           price: bid.price
         }
 
-        return if Transfers::Creator.call(league: league, params: params) && bid.success!
+        return if Transfers::Creator.call(league, params) && bid.success!
       end
 
       bid.failed!

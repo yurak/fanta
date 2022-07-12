@@ -2,7 +2,7 @@ module Substitutes
   class Creator < ApplicationService
     attr_reader :in_mp_id, :out_mp_id
 
-    def initialize(out_mp_id:, in_mp_id:)
+    def initialize(out_mp_id, in_mp_id)
       @in_mp_id = in_mp_id
       @out_mp_id = out_mp_id
     end

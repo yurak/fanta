@@ -6,7 +6,6 @@ class Article < ApplicationRecord
   validates :title, presence: true
   validates :description, presence: true
   validates :image_url, format: { with: ApplicationRecord::URL_REGEXP,
-                                  message: 'is invalid',
                                   allow_blank: true }
 
   default_scope { includes(:article_tag) }

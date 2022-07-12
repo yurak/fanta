@@ -2,7 +2,7 @@ module TournamentMatches
   class FotmobGenerator < ApplicationService
     attr_reader :tournament
 
-    def initialize(tournament:)
+    def initialize(tournament)
       @tournament = tournament
     end
 
@@ -54,10 +54,7 @@ module TournamentMatches
     end
 
     def round_data(t_round)
-      TournamentRounds::FotmobParser.call(
-        tournament_round: t_round,
-        tournament_url: tournament.source_calendar_url
-      )
+      TournamentRounds::FotmobParser.call(t_round, tournament.source_calendar_url)
     end
 
     def create_match(round, match_data)

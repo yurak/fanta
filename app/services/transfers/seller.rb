@@ -2,7 +2,7 @@ module Transfers
   class Seller < ApplicationService
     attr_reader :player, :team, :status
 
-    def initialize(player:, team:, status:)
+    def initialize(player, team, status)
       @player = player
       @team = team
       @status = status

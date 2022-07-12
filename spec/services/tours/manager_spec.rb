@@ -1,6 +1,6 @@
 RSpec.describe Tours::Manager do
   describe '#call' do
-    subject(:manager) { described_class.new(tour: tour, status: status) }
+    subject(:manager) { described_class.new(tour, status) }
 
     let(:tour) { create(:tour) }
     let(:status) { 'status' }
@@ -81,12 +81,6 @@ RSpec.describe Tours::Manager do
       end
 
       it { expect(tour.reload.status).to eq('locked') }
-
-      it 'calls Cloner service' do
-        allow(Lineups::Cloner).to receive(:call).and_return('lineup')
-
-        manager.call
-      end
     end
 
     context 'with locked tour and invalid status' do

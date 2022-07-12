@@ -1,6 +1,6 @@
 RSpec.describe Auctions::Manager do
   describe '#call' do
-    subject(:manager) { described_class.new(auction: auction, status: status) }
+    subject(:manager) { described_class.new(auction, status) }
 
     let(:auction) { create(:auction, status: current_status) }
     let(:current_status) { 'initial' }

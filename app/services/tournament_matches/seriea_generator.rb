@@ -2,7 +2,7 @@
 #   class SerieaGenerator < ApplicationService
 #     def call
 #       tournament_rounds.each do |t_round|
-#         round_data = TournamentRounds::SerieaEventsParser.call(tournament_round: t_round)
+#         round_data = TournamentRounds::SerieaEventsParser.call(t_round)
 #         (1...round_data.length).step(2).each do |index|
 #           match = round_data[index]
 #           TournamentMatch.find_or_create_by(

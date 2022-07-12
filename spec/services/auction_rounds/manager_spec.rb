@@ -1,6 +1,6 @@
 RSpec.describe AuctionRounds::Manager do
   describe '#call' do
-    subject(:manager) { described_class.new(auction_round: auction_round) }
+    subject(:manager) { described_class.new(auction_round) }
 
     let(:auction_round) { create(:auction_round) }
 
@@ -11,7 +11,7 @@ RSpec.describe AuctionRounds::Manager do
     end
 
     context 'with active status and before deadline' do
-      let(:auction_round) { create(:auction_round, deadline: Time.zone.now + 4.hours) }
+      let(:auction_round) { create(:auction_round, deadline: 4.hours.from_now) }
 
       it 'returns false' do
         expect(manager.call).to be(false)
@@ -19,7 +19,7 @@ RSpec.describe AuctionRounds::Manager do
     end
 
     context 'with active status and without league teams' do
-      let(:auction_round) { create(:auction_round, deadline: Time.zone.now - 1.hour) }
+      let(:auction_round) { create(:auction_round, deadline: 1.hour.ago) }
 
       it 'returns false' do
         expect(manager.call).to be(false)
@@ -27,7 +27,7 @@ RSpec.describe AuctionRounds::Manager do
     end
 
     context 'with active status and when not all teams have created auction bids' do
-      let(:auction_round) { create(:auction_round, deadline: Time.zone.now - 1.hour) }
+      let(:auction_round) { create(:auction_round, deadline: 1.hour.ago) }
       let(:league) { auction_round.league }
       let(:teams) { create_list(:team, 4, league: league) }
 
@@ -41,7 +41,7 @@ RSpec.describe AuctionRounds::Manager do
     end
 
     context 'with active status and auction bids' do
-      let(:auction_round) { create(:auction_round, number: 1, deadline: Time.zone.now - 1.hour) }
+      let(:auction_round) { create(:auction_round, number: 1, deadline: 1.hour.ago) }
       let(:league) { auction_round.league }
       let(:teams) { create_list(:team, 4, league: league) }
 
@@ -100,7 +100,7 @@ RSpec.describe AuctionRounds::Manager do
     end
 
     context 'with active status and auction bids when some team is already staffed' do
-      let(:auction_round) { create(:auction_round, number: 1, deadline: Time.zone.now - 1.hour) }
+      let(:auction_round) { create(:auction_round, number: 1, deadline: 1.hour.ago) }
       let(:league) { auction_round.league }
       let(:teams) { create_list(:team, 3, league: league) }
 

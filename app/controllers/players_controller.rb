@@ -25,7 +25,7 @@ class PlayersController < ApplicationController
   end
 
   def update
-    player.teams.each { |team| Transfers::Seller.call(player: player, team: team, status: :left) } if can? :update, Player
+    player.teams.each { |team| Transfers::Seller.call(player, team, :left) } if can? :update, Player
 
     redirect_to player_path(player)
   end
