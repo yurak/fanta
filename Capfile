@@ -10,4 +10,4 @@ require 'capistrano/rvm'
 require 'whenever/capistrano'
 
 set :rvm_type, :user
-set :rvm_ruby_version, '3.0.1'
+set :rvm_ruby_version, 'ruby-3.0.1'
