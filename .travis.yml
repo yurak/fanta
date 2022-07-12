@@ -1,5 +1,6 @@
 language: ruby
 rvm: 3.0.1
+os: linux
 dist: bionic
 
 before_install:
