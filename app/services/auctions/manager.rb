@@ -8,7 +8,7 @@ module Auctions
 
     attr_reader :auction, :status
 
-    def initialize(auction:, status:)
+    def initialize(auction, status)
       @auction = auction
       @status = status
     end

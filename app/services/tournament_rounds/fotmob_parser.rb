@@ -2,7 +2,7 @@ module TournamentRounds
   class FotmobParser < ApplicationService
     attr_reader :tournament_round, :tournament_url
 
-    def initialize(tournament_url:, tournament_round: nil)
+    def initialize(tournament_url, tournament_round = nil)
       @tournament_round = tournament_round
       @tournament_url = tournament_url
     end

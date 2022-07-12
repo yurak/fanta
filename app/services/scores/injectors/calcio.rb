@@ -58,7 +58,7 @@ module Scores
       end
 
       def all_matches_data
-        @all_matches_data ||= TournamentRounds::SerieaEventsParser.call(tournament_round: tournament_round)
+        @all_matches_data ||= TournamentRounds::SerieaEventsParser.call(tournament_round)
       end
 
       def match_status(match_info)

@@ -11,12 +11,12 @@ namespace :transfers do
         league.teams.each do |team|
           team.player_teams.transferable.each do |pt|
             puts "Transfer: #{pt.player.name} (#{pt.player.id}) from #{team.name}"
-            Transfers::Seller.call(player: pt.player, team: team, status: :outgoing)
+            Transfers::Seller.call(pt.player, team, :outgoing)
           end
         end
       end
 
-      Auctions::Manager.call(auction: auction, status: league.auction_type)
+      Auctions::Manager.call(auction, league.auction_type)
     end
   end
 

@@ -1,6 +1,6 @@
 RSpec.describe Substitutes::Destroyer do
   describe '#call' do
-    subject(:destroyer) { described_class.new(subs_id: subs_id) }
+    subject(:destroyer) { described_class.new(subs_id) }
 
     let(:substitute) { create(:substitute) }
     let(:subs_id) { substitute.id }

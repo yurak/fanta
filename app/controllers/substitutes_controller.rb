@@ -28,11 +28,11 @@ class SubstitutesController < ApplicationController
   end
 
   def call_subs_creator
-    Substitutes::Creator.call(out_mp_id: permit_params[:match_player_id], in_mp_id: permit_params[:reserve_mp_id])
+    Substitutes::Creator.call(permit_params[:match_player_id], permit_params[:reserve_mp_id])
   end
 
   def call_subs_destroyer
-    Substitutes::Destroyer.call(subs_id: permit_params[:id])
+    Substitutes::Destroyer.call(permit_params[:id])
   end
 
   def sub_available?

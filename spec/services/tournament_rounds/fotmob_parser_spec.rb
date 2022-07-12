@@ -1,6 +1,6 @@
 RSpec.describe TournamentRounds::FotmobParser do
   describe '#call' do
-    subject(:parser) { described_class.new(tournament_url: tournament_url, tournament_round: tournament_round) }
+    subject(:parser) { described_class.new(tournament_url, tournament_round) }
 
     let(:response) { parser.call }
     let(:tournament_url) { nil }

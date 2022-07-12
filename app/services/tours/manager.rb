@@ -7,7 +7,7 @@ module Tours
 
     attr_reader :tour, :status
 
-    def initialize(tour:, status:)
+    def initialize(tour, status)
       @tour = tour
       @status = status
     end
@@ -62,7 +62,7 @@ module Tours
       tour.teams.each do |team|
         next if tour.lineups.by_team(team.id).any?
 
-        Lineups::Cloner.call(team: team, tour: tour)
+        Lineups::Cloner.call(team, tour)
       end
     end
 

@@ -45,7 +45,7 @@ class Player < ApplicationRecord
     when 'gb-wls' then 'Wales'
     when 'gb-sct' then 'Scotland'
     when 'gb-nir' then 'Northern Ireland'
-    else ISO3166::Country.new(nationality)&.name
+    else ISO3166::Country.new(nationality)&.iso_short_name
     end
   end
 

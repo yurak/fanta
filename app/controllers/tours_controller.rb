@@ -21,8 +21,8 @@ class ToursController < ApplicationController
   # TODO: move action to RoundPlayersController#update
   def inject_scores
     if can? :inject_scores, Tour
-      Scores::Injectors::Fotmob.call(tournament_round: tour.tournament_round)
-      Scores::PositionMalus::Updater.call(tour: tour)
+      Scores::Injectors::Fotmob.call(tour.tournament_round)
+      Scores::PositionMalus::Updater.call(tour)
     end
 
     redirect_to tour_path(tour)
@@ -35,7 +35,7 @@ class ToursController < ApplicationController
   end
 
   def tour_manager
-    @tour_manager ||= Tours::Manager.new(tour: tour, status: params[:status])
+    @tour_manager ||= Tours::Manager.new(tour, params[:status])
   end
 
   def auction

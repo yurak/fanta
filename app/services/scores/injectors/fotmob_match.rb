@@ -6,7 +6,7 @@ module Scores
 
       attr_reader :match
 
-      def initialize(match:)
+      def initialize(match)
         @match = match
       end
 

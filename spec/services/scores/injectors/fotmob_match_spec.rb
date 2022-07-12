@@ -1,6 +1,6 @@
 RSpec.describe Scores::Injectors::FotmobMatch do
   describe '#call' do
-    subject(:injector) { described_class.new(match: match) }
+    subject(:injector) { described_class.new(match) }
 
     let(:match) { create(:tournament_match) }
 

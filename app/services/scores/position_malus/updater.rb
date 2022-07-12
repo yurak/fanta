@@ -1,7 +1,7 @@
 module Scores
   module PositionMalus
     class Updater < ApplicationService
-      def initialize(tour: nil)
+      def initialize(tour = nil)
         @tour = tour
       end
 

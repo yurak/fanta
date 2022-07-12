@@ -52,8 +52,8 @@ Rails.application.configure do
 
   # To test if the mail really gets sent in development, use :smtp
   # To prevent sending real emails during development, use :test
-  config.action_mailer.delivery_method = :test
-  # config.action_mailer.delivery_method = :smtp
+  # config.action_mailer.delivery_method = :test
+  config.action_mailer.delivery_method = :smtp
 
   # SMTP settings for gmail
   config.action_mailer.smtp_settings = {

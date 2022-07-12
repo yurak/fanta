@@ -1,6 +1,6 @@
 RSpec.describe TournamentRounds::Creator do
   describe '#call' do
-    subject(:creator) { described_class.new(tournament_id, season_id, count: count) }
+    subject(:creator) { described_class.new(tournament_id, season_id, count) }
 
     let(:tournament) { Tournament.last }
     let(:tournament_id) { tournament.id }
