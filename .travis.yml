@@ -1,5 +1,6 @@
-lang: ruby
+language: ruby
 rvm: 3.0.1
+dist: bionic
 
 before_install:
   - yes | gem update --system --force
