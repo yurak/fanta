@@ -54,7 +54,7 @@ module TournamentMatches
     end
 
     def round_data(t_round)
-      TournamentRounds::FotmobParser.call(t_round, tournament.source_calendar_url)
+      TournamentRounds::FotmobParser.call(tournament.source_calendar_url, t_round)
     end
 
     def create_match(round, match_data)
