@@ -5,14 +5,15 @@
         = link_to root_path do
           = image_tag('logo.svg')
       .mantra-donate
-        .grey-btn.donate-btn
-          = link_to t('header.help_project'), ''
+        -#.grey-btn.donate-btn
+        -#  = link_to t('header.help_project'), ''
     .footer-sign
-      .footer-link-sign
-        = link_to t('header.login'), new_user_session_path
-      .footer-link-sign
-        .grey-btn
-          = link_to t('header.start_playing'), new_user_registration_path
+      - unless user_signed_in?
+        .footer-link-sign
+          = link_to t('header.login'), new_user_session_path
+        .footer-link-sign
+          .grey-btn
+            = link_to t('header.start_playing'), new_user_registration_path
   .footer-row
     .footer-links
       -#.footer-link= link_to t('header.rules_faq'), ''

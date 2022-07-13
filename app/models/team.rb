@@ -21,7 +21,7 @@ class Team < ApplicationRecord
 
   validates :name, presence: true, uniqueness: true, length: { in: 2..18 }
   validates :code, presence: true, length: { in: 2..4 }
-  validates :human_name, length: { in: 2..18 }
+  validates :human_name, length: { in: 2..24 }
 
   default_scope { includes(%i[league user]) }
 
