@@ -5,7 +5,7 @@
         = image_tag('avatar.png')
     .player-show-kit
       %object{data: match_player.player.kit_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-        = image_tag('kit_small_default2.png')
+        = image_tag('kit_small_default.png')
     .module-position-block.player-positions-block
       - match_player.real_position_arr.each do |position|
         .player-position{class: "player-position-#{position}"}
@@ -24,7 +24,7 @@
               - if match_player.get_in?
                 .team-player-substitute{title: "Replaced: #{match_player.main_subs.last&.out_rp&.full_name_reverse}"}
                   - if match_player.tour.locked_or_postponed? && current_user&.can_moderate? && match_player.main_subs.last
-                    = link_to match_player_substitute_path(match_player, match_player.main_subs.last), method: :delete, data: { confirm: t('tours.are_you_sure') } do
+                    = link_to match_player_substitute_path(match_player, match_player.main_subs.last), method: :delete, data: { confirm: t('header.are_you_sure') } do
                       = image_tag('icons/subs-on.svg')
                   - else
                     = image_tag('icons/subs-on.svg')

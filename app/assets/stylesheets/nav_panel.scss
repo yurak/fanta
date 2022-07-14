@@ -1,0 +1,580 @@
+.left-nav {
+  z-index: 200;
+  position: fixed;
+  height: 100%;
+  padding: 10px 0;
+  background: #FFFFFF;
+
+  a {
+    text-decoration: none;
+  }
+
+  .root-logo {
+    margin: 6px 12px;
+
+    img {
+      width: 48px;
+    }
+  }
+
+  .nav-logo {
+    margin: 6px 12px;
+    text-align: center;
+    height: 48px;
+    padding: 8px;
+
+    img {
+      width: 32px;
+      height: 32px;
+    }
+  }
+
+  .nav-logo:hover {
+    background: #F4F4F4;
+    border-radius: 4px;
+  }
+
+  .nav-logo-true {
+    padding: 6px;
+    border: 2px solid #261FFF;
+    border-radius: 4px;
+  }
+
+  .nav-logo-small {
+    margin: 8px;
+    text-align: center;
+    padding: 5px 0;
+
+    img {
+      width: 32px;
+      height: 32px;
+    }
+  }
+
+  .nav-logo-small:hover {
+    background: #F4F4F4;
+    border-radius: 4px;
+  }
+
+  .nav-logo-bottom {
+    position: fixed;
+    bottom: 20px;
+    width: 72px;
+  }
+
+  .nav-link-icon {
+    font-size: 18px;
+    line-height: 24px;
+  }
+
+  .nav-link-img {
+    margin: auto;
+  }
+
+  .nav-link-title {
+    font-size: 10px;
+    line-height: 14px;
+    color: #847577;
+    margin-top: 4px;
+  }
+
+  .sign-out-btn {
+    background: #261FFF;
+    border-radius: 4px;
+    padding: 8px 0;
+
+    img {
+      width: 24px;
+      height: 24px;
+    }
+  }
+
+  .sign-out-btn:hover {
+    background: #3530CA;
+    box-shadow: 1px 2px 5px rgba(24, 23, 21, 0.2);
+  }
+}
+
+.right-nav {
+  z-index: 150;
+  position: fixed;
+  height: 100%;
+  left: 72px;
+  width: 200px;
+  background: #FFEBC2;
+  padding: 16px 8px;
+
+  a {
+    text-decoration: none;
+  }
+
+  .league-name {
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 24px;
+  }
+
+  .league-season {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 16px;
+    color: #847577;
+    margin-bottom: 16px;
+  }
+
+  .next-round {
+    background: #FFFFFF;
+    border-radius: 4px;
+    padding: 8px;
+    margin-bottom: 16px;
+
+    .next-round-title {
+      font-weight: 500;
+      font-size: 10px;
+      line-height: 16px;
+
+      .next-round-text {
+        color: #181715;
+        display: inline-block;
+      }
+
+      .next-round-number {
+        color: #847577;
+        display: inline-block;
+      }
+    }
+
+    .next-round-opponent {
+      padding-top: 8px;
+      font-size: 12px;
+      line-height: 16px;
+
+      .next-round-vs {
+        display: inline-block;
+        color: #847577;
+      }
+
+      .next-round-opponent-logo {
+        display: inline-block;
+        margin: 0 2px 0 4px;
+
+        img {
+          width: 16px;
+          height: 16px;
+        }
+      }
+
+      .next-round-opponent-name {
+        display: inline-block;
+      }
+    }
+
+    .next-round-wait {
+      font-size: 16px;
+      line-height: 120px;
+    }
+
+    .next-round-team {
+      margin-top: 8px;
+      display: grid;
+      grid-template-columns: 24px 64px 32px 24px;
+      column-gap: 8px;
+      font-size: 12px;
+      line-height: 24px;
+      font-weight: 700;
+
+      img {
+        width: 24px;
+        height: 24px;
+      }
+
+      .next-round-name {
+        font-weight: 500;
+        white-space: nowrap;
+        overflow: hidden !important;
+        text-overflow: ellipsis;
+      }
+
+      .next-round-score {
+        text-align: center;
+      }
+
+      .next-round-goals {
+        background: #BA44F1;
+        border-radius: 4px;
+        text-align: center;
+        color: #FFFFFF;
+      }
+    }
+  }
+
+  .next-round-datetime {
+    font-size: 18px;
+    line-height: 24px;
+
+    .next-round-date {
+      font-weight: 700;
+      color: #181715;
+      display: inline-block;
+    }
+
+    .next-round-time {
+      color: #847577;
+      display: inline-block;
+    }
+  }
+
+  .auction-badge {
+    padding: 2px 6px;
+    margin-right: 4px;
+    height: 20px;
+    font-size: 10px;
+    line-height: 16px;
+    background: #BA44F1;
+    border-radius: 4px;
+    color: #FFFFFF;
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden !important;
+    text-overflow: ellipsis;
+  }
+
+  .auction-text {
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 20px;
+    color: #181715;
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden !important;
+    text-overflow: ellipsis;
+  }
+
+  .auction-block-soon {
+    background: #EAC6FB;
+
+    .auction-text {
+      font-size: 10px;
+      font-weight: 400;
+      text-transform: uppercase;
+    }
+  }
+
+  .auction-block-finished {
+    background: #E5E6E4;
+    height: 36px;
+
+    .auction-badge {
+      color: #FFFFFF;
+      background: #181715;
+      margin: 0;
+    }
+
+    .auction-text {
+      font-size: 13px;
+    }
+  }
+
+  .auction-block-sales {
+    .auction-badge {
+      background: #9F6C05;
+    }
+
+    .auction-line {
+      display: grid;
+      grid-template-columns: auto 72px;
+      line-height: 24px;
+      margin-bottom: 4px;
+    }
+  }
+
+  .auction-block-blind_bids {
+    .auction-line {
+      display: grid;
+      grid-template-columns: auto 74px;
+      line-height: 24px;
+      margin-bottom: 4px;
+    }
+  }
+
+  .auction-block-live {
+    .auction-block-header {
+      line-height: 20px;
+      display: grid;
+      grid-template-columns: 72px auto;
+      column-gap: 4px;
+
+      .live-badge {
+        margin-right: 0;
+        display: block;
+        width: fit-content;
+      }
+    }
+  }
+
+  .auction-block-active {
+    .bid-made {
+      font-weight: 500;
+      font-size: 12px;
+      text-align: right;
+      color: #4EAD57;
+      display: inline-block;
+      width: 84px;
+    }
+
+    .auction-text {
+      font-weight: 700;
+      font-size: 14px;
+      color: #181715;
+    }
+
+    .auction-link-area {
+      margin-left:auto;
+      margin-right:0;
+    }
+
+    .auction-link {
+      padding: 3px 4px;
+      background: #F4F4F4;
+      border: 1px solid #181715;
+      border-radius: 4px;
+      font-weight: 700;
+      font-size: 12px;
+      line-height: 16px;
+      text-align: center;
+      width: fit-content;
+
+      a {
+        color: #181715;
+      }
+    }
+
+    .auction-link:hover {
+      background: #181715;
+      box-shadow: 1px 2px 5px rgba(24, 23, 21, 0.2);
+      a {
+        color: #FFFFFF;
+      }
+    }
+  }
+
+  .live-badge {
+    padding: 2px 6px;
+    margin-right: 8px;
+    height: 20px;
+    font-size: 10px;
+    line-height: 16px;
+    background: #DB0A23;
+    border-radius: 4px;
+    color: #FFFFFF;
+    display: inline-block;
+
+    .live-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 3px;
+      background: #FFFFFF;
+      display: inline-block;
+    }
+
+    .live-text {
+      display: inline-block;
+      margin-left: 4px;
+    }
+  }
+
+  .league-link {
+    margin-bottom: 8px;
+    padding: 10px 16px;
+
+    .league-link-icon {
+      display: inline-block;
+      margin-right: 12px;
+
+      img {
+        width: 20px;
+        height: 20px;
+      }
+    }
+
+    .league-link-text {
+      display: inline-block;
+      color: #181715;
+      font-size: 16px;
+      line-height: 20px;
+      max-width: 115px;
+    }
+  }
+
+  .league-link:hover {
+    border: 1px solid #FFB319;
+    border-radius: 8px;
+    padding: 9px 15px;
+
+    .league-link-text {
+      color: #181715;
+    }
+
+    img {
+      filter: invert(0%) sepia(1%) saturate(5%) hue-rotate(304deg) brightness(97%) contrast(103%); // #181715;
+    }
+  }
+
+  .link-active-true {
+    background: #181715;
+    border-radius: 8px;
+
+    .league-link-text {
+      color: #EDF67D;
+    }
+
+    img {
+      filter: invert(86%) sepia(44%) saturate(453%) hue-rotate(12deg) brightness(106%) contrast(93%); // #EDF67D;
+    }
+  }
+
+  .link-active-true:hover {
+    background: #181715;
+    border: none;
+    padding: 10px 16px;
+
+    .league-link-text {
+      color: #EDF67D;
+    }
+
+    img {
+      filter: invert(86%) sepia(44%) saturate(453%) hue-rotate(12deg) brightness(106%) contrast(93%); // #EDF67D;
+    }
+  }
+
+  .admin-actions {
+    position: fixed;
+    width: 184px;
+    bottom: 56px;
+  }
+
+  .league-team {
+    position: fixed;
+    bottom: 0;
+    border-top: 1px solid rgba(24, 23, 21, 0.2);
+    font-size: 16px;
+    line-height: 24px;
+    width: 184px;
+    padding: 4px 0;
+
+    .league-team-exist {
+      padding: 12px;
+      display: grid;
+      grid-template-columns: 24px auto;
+      column-gap: 12px;
+    }
+
+    img {
+      width: 24px;
+      height: 24px;
+    }
+
+    .league-team-name {
+      color: #181715;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .league-team-empty {
+      font-size: 10px;
+      color: #847577;
+      padding: 12px 0;
+    }
+  }
+}
+
+.active-right-nav-false {
+  background: #E5E6E4;
+
+  .league-link:hover {
+    border: 1px solid rgba(24, 23, 21, 0.2);
+    border-radius: 8px;
+  }
+
+  .link-active-true:hover {
+    border: none;
+    padding: 10px 16px;
+  }
+}
+
+.help-modal {
+  display: none;
+  position: fixed;
+  z-index: 201;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+
+  .help-modal-content {
+    z-index: 202;
+    background-color: #FFFFFF;
+    width: 188px;
+    border-radius: 4px;
+    box-sizing: border-box;
+    box-shadow: 1px 2px 5px rgba(24, 23, 21, 0.2);
+    position: absolute;
+    left: 78px;
+    bottom: 64px;
+    padding: 8px 4px;
+
+    .help-modal-plus-links {
+      border-top: 1px solid #E5E6E4;
+      margin: 8px 16px;
+      padding-top: 8px;
+      position: relative;
+
+      .help-modal-link {
+        padding: 8px;
+
+        .help-modal-link-text {
+          display: inline-block;
+          font-weight: 500;
+          font-size: 12px;
+          line-height: 16px;
+          color: #847577;
+        }
+
+        .help-modal-link-icon {
+          display: inline-block;
+
+          img {
+            width: 16px;
+            height: 16px;
+          }
+        }
+      }
+    }
+
+    .help-modal-link {
+      padding: 12px 16px;
+
+      a {
+        display: block;
+        width: 100%;
+        font-weight: 700;
+        font-size: 14px;
+        line-height: 16px;
+        color: #181715;
+      }
+    }
+
+    .help-modal-link:hover {
+      background: #F4F4F4;
+      border-radius: 4px;
+    }
+  }
+}
+
+@media (orientation: landscape) and (max-device-width: 1220px) {
+  .nav-panel {
+    min-height: 500px;
+  }
+}

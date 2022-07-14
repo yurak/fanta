@@ -20,7 +20,7 @@ class CreateNationalTeams < ActiveRecord::Migration[5.2]
       code: 'euro'
     )
 
-    TournamentRounds::Creator.call(tournament.id, Season.last.id, count: 22) if tournament
+    TournamentRounds::Creator.call(tournament.id, Season.last.id, 22) if tournament
 
     NationalTeams::Creator.call
   end

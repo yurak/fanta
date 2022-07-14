@@ -1,0 +1,20 @@
+.login-page
+  .login-icon
+    .mantra-logo
+      = link_to root_path do
+        = image_tag('logo.svg')
+  .login-block
+    .title-block
+      .title-text= t('users.new_name.create_alter_ego')
+      .title-subtext= t('users.new_name.add_name')
+      .name-edit-note= t('users.new_name.note')
+    .login-form
+      = form_for user, url: new_update_user_path(user), method: :put do |f|
+        .login-input
+          .login-label= t('users.new_name.name')
+          .login-input-icon= image_tag('icons/login/user.svg')
+          .login-input-text
+            = text_field_tag :name, nil, class: 'form-control', placeholder: t('users.new_name.name')
+        .login-password-note= t('users.edit.change_username_desc')
+        .login-btn-form
+          = f.submit t('users.new_name.next'), class: 'login-btn blue-btn'

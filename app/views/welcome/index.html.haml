@@ -1,43 +1,149 @@
-.root-page.welcome-page.header-grid
-  .left-block
-    .title-block
-      .title-text Mantra Football
-      .title-bg
-    .slogan-block
+= render 'layouts/header'
+.landing-page
+  .mantra-section
+    .mantra-section-title
+      .mantra-section-title-stroke MANTRA
+      .mantra-section-title-main MANTRA
+    .mantra-section-slogan
       .slogan-start
         = t('welcome.index.slogan1')
       .slogan-end
         = t('welcome.index.slogan2')
-    .description-block
-      .description-title
-        = t('welcome.index.description_title')
-      .description-item
-        .description-icon
-          = image_tag("icons/smile1.png")
-        .description-text
-          = t('welcome.index.description1')
-      .description-item
-        .description-icon.description-icon2
-          = image_tag("icons/smile2.png")
-        .description-text
-          = t('welcome.index.description2')
-      .description-item
-        .description-icon.description-icon3
-          = image_tag("icons/smile3.png")
-        .description-text
-          = t('welcome.index.description3')
-      .description-item
-        .description-icon.description-icon4
-          = image_tag("icons/smile4.png")
-        .description-text
-          = t('welcome.index.description4')
-    .team-image
-      = image_tag('welcome_persons/liverpool.png')
-
-
-  .right-block
-    .pitch-layer
-    .player-layer
-      .player-image-wrapper
-        .player-image
-          = image_tag('welcome_persons/ciro.png')
+    .mantra-section-actions
+      = link_to new_user_session_path do
+        .grey-btn.landing-action.landing-action-login= t('header.login')
+      = link_to new_user_registration_path do
+        .blue-btn.landing-action.landing-action-start= t('header.start_playing')
+    .mantra-section-images
+      .mantra-section-image-field
+        = image_tag('landing/field.svg', alt: 'Field')
+      .mantra-section-image-team
+        = image_tag('landing/team.png', alt: 'Team')
+  .what-is-section
+    .what-is-title= t('welcome.index.what_is.mantra')
+    .what-is-content
+      .what-is-left
+        .what-is-left-title= t('welcome.index.what_is.subtitle')
+        .what-is-item
+          .what-is-item-icon 😎
+          .what-is-item-text
+            .what-is-item-title= t('welcome.index.what_is.friends')
+            .what-is-item-description= t('welcome.index.what_is.friends_text')
+        .what-is-item
+          .what-is-item-icon.what-is-item-icon-drive ️🐐
+          .what-is-item-text
+            .what-is-item-title= t('welcome.index.what_is.drive')
+            .what-is-item-description= t('welcome.index.what_is.drive_text')
+        .what-is-item
+          .what-is-item-icon.what-is-item-icon-strategy 🎯
+          .what-is-item-text
+            .what-is-item-title= t('welcome.index.what_is.strategy')
+            .what-is-item-description= t('welcome.index.what_is.strategy_text')
+        .what-is-item
+          .what-is-item-icon.what-is-item-icon-success 🏆
+          .what-is-item-text
+            .what-is-item-title= t('welcome.index.what_is.success')
+            .what-is-item-description= t('welcome.index.what_is.success_text')
+      .screen-block.screen-block-what
+        .screen-dots-line
+          .screen-dot
+          .screen-dot
+          .screen-dot
+        .screen-img
+  .better-section
+    .better-title1= t('welcome.index.better.than')
+    .better-title2= t('welcome.index.better.classic')
+    .better-diff= t('welcome.index.better.key_diff')
+    .better-items-list
+      .better-item
+        .better-item-title= t('welcome.index.better.item1_title')
+        .better-item-text= t('welcome.index.better.item1_text')
+      .better-item
+        .better-item-title= t('welcome.index.better.item2_title')
+        .better-item-text= t('welcome.index.better.item2_text')
+      .better-item
+        .better-item-title= t('welcome.index.better.item3_title')
+        .better-item-text= t('welcome.index.better.item3_text')
+      .better-item
+        .better-item-title= t('welcome.index.better.item4_title')
+        .better-item-text= t('welcome.index.better.item4_text')
+      .better-item
+        .better-item-title= t('welcome.index.better.item5_title')
+        .better-item-text= t('welcome.index.better.item5_text')
+      .better-item
+        .better-item-title= t('welcome.index.better.item6_title')
+        .better-item-text= t('welcome.index.better.item6_text')
+      .better-item
+        .better-item-title= t('welcome.index.better.item7_title')
+        .better-item-text= t('welcome.index.better.item7_text')
+    .better-links
+      .better-link-title= t('welcome.index.better.link_title')
+      .better-link= link_to t('welcome.index.better.link1'), rules_path
+      .better-link= link_to t('welcome.index.better.link2'), ''
+  .start-section
+    .start-title= t('welcome.index.start.title')
+    .start-content
+      .start-left
+        #step-item1.step-item.step-active
+          .step-number= t('welcome.index.start.step1')
+          .step-title= t('welcome.index.start.step1_title')
+        #step-item2.step-item
+          .step-number= t('welcome.index.start.step2')
+          .step-title= t('welcome.index.start.step2_title')
+        #step-item3.step-item
+          .step-number= t('welcome.index.start.step3')
+          .step-title= t('welcome.index.start.step3_title')
+        #step-item4.step-item
+          .step-number= t('welcome.index.start.step4')
+          .step-title= t('welcome.index.start.step4_title')
+        #step-item5.step-item
+          .step-number= t('welcome.index.start.step5')
+          .step-title= t('welcome.index.start.step5_title')
+        .start-btn.grey-btn
+          = link_to t('header.start_playing'), new_user_registration_path
+      .screen-block.start-right
+        .screen-dots-line
+          .screen-dot
+          .screen-dot
+          .screen-dot
+        .screen-img
+  .tournaments-section
+    .tournaments-season= "#{t('welcome.index.tournaments.season')} #{Season.last.start_year.to_s[2..3]}/#{Season.last.end_year.to_s[2..3]}"
+    .tournaments-current= t('welcome.index.tournaments.current')
+    .tournaments-desc= t('welcome.index.tournaments.desc')
+    .tournaments-row
+      - active_tournaments.each do |tournament|
+        .tournament-item
+          .tournament-logo= image_tag(tournament.logo_path, alt: 'Tournament Logo')
+          .tournament-name= tournament.name
+  .people-section
+    .people-say= t('welcome.index.people.say')
+    .people-love= t('welcome.index.people.love')
+    .people-content
+      .people-response
+        .people-quotes= image_tag('landing/quotes.svg', alt: 'Quotes')
+        .people-citation= t('welcome.index.people.citation')
+        .people-author
+          .people-author-smile 😎
+          .people-author-data
+            .people-author-name= t('welcome.index.people.name')
+            .people-author-team= t('welcome.index.people.team')
+      .people-numbers
+        .people-numbers-title= t('welcome.index.people.numbers')
+        .people-numbers-item
+          .people-number= Tour.closed.count
+          .people-number-text= t('welcome.index.people.rounds')
+        .people-numbers-item
+          .people-number= Auction.closed.count
+          .people-number-text= t('welcome.index.people.auctions')
+        .people-numbers-item
+          .people-number 94%
+          .people-number-text= t('welcome.index.people.users')
+  .lets-section
+    .lets-text= t('welcome.index.lets')
+    .lets-text= t('welcome.index.lets_begin')
+    .lets-btn.grey-btn
+      = link_to t('header.start_playing'), new_user_registration_path
+    .lets-img
+      = image_tag('landing/manager.png', alt: 'Manager')
+= render 'layouts/footer'

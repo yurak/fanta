@@ -2,7 +2,7 @@ module Transfers
   class Creator < ApplicationService
     attr_reader :league, :params
 
-    def initialize(league:, params:)
+    def initialize(league, params)
       @league = league
       @params = params
     end

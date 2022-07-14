@@ -3,7 +3,7 @@ module Scores
     class Fotmob < ApplicationService
       attr_reader :tournament_round
 
-      def initialize(tournament_round:)
+      def initialize(tournament_round)
         @tournament_round = tournament_round
       end
 
@@ -22,7 +22,7 @@ module Scores
       end
 
       def inject_match_scores(tournament_match)
-        Scores::Injectors::FotmobMatch.call(match: tournament_match)
+        Scores::Injectors::FotmobMatch.call(tournament_match)
       end
     end
   end

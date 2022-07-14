@@ -29,7 +29,6 @@ RSpec.describe 'Users', type: :request do
 
       it { expect(response).to be_successful }
       it { expect(response).to render_template(:edit) }
-      it { expect(response).to render_template(:_header) }
       it { expect(response).to have_http_status(:ok) }
       it { expect(assigns(:round_players)).not_to be_nil }
     end
@@ -42,7 +41,6 @@ RSpec.describe 'Users', type: :request do
 
       it { expect(response).to be_successful }
       it { expect(response).to render_template(:edit) }
-      it { expect(response).to render_template(:_header) }
       it { expect(response).to have_http_status(:ok) }
       it { expect(assigns(:round_players)).not_to be_nil }
     end
@@ -56,7 +54,6 @@ RSpec.describe 'Users', type: :request do
 
       it { expect(response).to be_successful }
       it { expect(response).to render_template(:edit) }
-      it { expect(response).to render_template(:_header) }
       it { expect(response).to have_http_status(:ok) }
       it { expect(assigns(:round_players)).not_to be_nil }
     end

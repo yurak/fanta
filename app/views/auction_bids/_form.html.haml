@@ -1,104 +1,102 @@
-.page-info.auction-bids-page
-  .round-section
-    .rounds-league-name
-      = link_to t('auction_round.auction', league: league.name), auction_round_path(auction_round)
-    .bid-text
-      = t('auction_bid.text', players: team.vacancies, budget: team.budget)
-    .bids-block
-      .main-players
-        = form_with model: [auction_round, auction_bid], id: 'new_auction_bid', local: true do |f|
-          #tournament{ type: "hidden", value: "#{league.tournament.id}"}
-          #league{ type: "hidden", value: "#{league.id}"}
-          #position-naming{ type: "hidden", value: "#{current_user.ital_pos_naming}"}
-          = f.fields_for :player_bids do |p_bid|
-            .lineup-slot
-              = p_bid.hidden_field(:player_id, value: p_bid.object.player&.id, class: 'round-player-input', id: "player-bid-#{p_bid.index}")
-              .input-group
-                .player-data{id: "modal-player-data#{p_bid.index}"}
-                  .team-player-data
-                    .team-player-avatar
-                      .player-show-face
-                        %object{data: p_bid.object.player&.avatar_path || '', type: ApplicationRecord::CONTENT_TYPE_PNG, id: "avatar-#{p_bid.index}"}
-                          = image_tag('avatar.png')
-                      .player-show-kit
-                        %object{data: p_bid.object.player&.kit_path || '', type: ApplicationRecord::CONTENT_TYPE_PNG, id: "kit-#{p_bid.index}"}
-                          = image_tag('kit_small_default2.png')
-                    .team-player-name-pos
-                      .team-player-name
-                        .team-player-last-name{ id: "name-#{p_bid.index}" }
-                          = p_bid.object.player&.name || t('lineups.not_selected')
-                        .team-player-first-name{ id: "first-name-#{p_bid.index}" }
-                          = p_bid.object.player&.first_name || ''
-                      .team-player-positions{ id: "positions-#{p_bid.index}" }<
-                        - if p_bid.object.player
-                          - if p_bid.object.player.position_names[0]
-                            .team-player-position.slot-position{class: "slot-position-#{p_bid.object.player.position_names[0]}"}<
-                              = slot_position_name(p_bid.object.player.position_names[0])
-                          - if p_bid.object.player.position_names[1]
-                            .team-player-position.slot-position{class: "slot-position-#{p_bid.object.player.position_names[1]}"}<
-                              = slot_position_name(p_bid.object.player.position_names[1])
-                          - if p_bid.object.player.position_names[2]
-                            .team-player-position.slot-position{class: "slot-position-#{p_bid.object.player.position_names[2]}"}<
-                              = slot_position_name(p_bid.object.player.position_names[2])
-                    .team-player-dropdown
-                      = image_tag('icons/dropdown.svg')
-                  .modal-players-list{id: "modal-players-list#{p_bid.index}"}
-                    .players-modal-content
-                      %span.close
-                      .modal-players-title
-                        .modal-players-title-text= t('players.search_player')
-                      .search-row
-                        .players-search
-                          .search-input
-                            = search_field_tag :search, params[:search], value: '', id: "search-field#{p_bid.index}", placeholder: t('players.search_player'), autocomplete: 'off'
-                          .search-icon{id: "search-icon#{p_bid.index}"}
-                            = image_tag('icons/search.svg')
-                        .search-positions
-                          - Position.all.each do |position|
-                            .search-position{class: "search-position#{p_bid.index}",id: "search-position#{position.name}"}
-                              .slot-position{class: "slot-position-#{position.name}"}
-                                = position_name(position)
-                      .search-clubs
-                        - league.tournament.clubs.active.each do |club|
-                          .search-club-logo{class: "search-club#{p_bid.index}",id: "search-club#{club.id}"}
-                            %object{data: club.logo_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                              = image_tag('default_logo.png')
-                      .modal-modules-block
-                        .modal-malus-block{id: "modal-players-block-#{p_bid.index}"}
-              .price-input-block
-                = p_bid.number_field :price, min: 1, step: 1, class: 'form-control price-input'
-          .total-price-row
-            .total-price-title Total bid
-            .total-price-value#total-price 0
-          .form-group
-            = submit_tag t('auction_bid.confirm'), form: 'new_auction_bid', class: 'confirm-btn', id: 'submit-bid-btn'
-  .stats-section
-    .round-table
-      .round-table-title.best-players-title
-        .round-table-title-text= t('auction_bid.team')
-      .round-table-block
-        .round-table-headers.round-player-stats-headers.round-player-list-headers
-          .round-table-header-cell
-          .round-table-header-cell.round-table-header-player= t('tours.player')
-          .round-table-header-cell= t('auction_round.price')
-          .round-table-header-cell.center= t('auction_round.positions')
-        - team.players.sort_by(&:position_sequence_number).each_with_index do |player, i|
-          .round-table-item.round-player-stats-item.round-player-list-item
-            .round-player-stats-param.center= i + 1
-            .round-player-stats-param.round-player-stats-data
-              .round-player-stats-img
-                .round-player-show-face
-                  %object{data: player.avatar_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                    = image_tag('avatar.png')
-                .round-player-show-kit
-                  %object{data: player.kit_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                    = image_tag('kit_small_default2.png')
-              .round-player-stats-name= player.name
-            .round-player-stats-param.round-player-stats-score= league.transfers.by_player(player)&.last.price
-            .round-player-stats-param.round-player-stats-positions.player-show-positions
-              - player.positions.each do |position|
-                .slot-position{class: "slot-position-#{position.name}"}
-                  = position_name(position)
+.page-block
+  = render 'layouts/left_nav', league: league
+  = render 'layouts/right_nav', league: league
+  .page-info.auction-bids-page
+    .round-section
+      .rounds-league-name
+        = link_to t('auction_round.auction', league: league.name), auction_round_path(auction_round)
+      .bid-text
+        = t('auction_bid.text', players: team.vacancies, budget: team.budget)
+      .bids-block
+        .main-players
+          = form_with model: [auction_round, auction_bid], id: 'new_auction_bid', local: true do |f|
+            #tournament{ type: "hidden", value: "#{league.tournament.id}"}
+            #league{ type: "hidden", value: "#{league.id}"}
+            #position-naming{ type: "hidden", value: "#{current_user.ital_pos_naming}"}
+            = f.fields_for :player_bids do |p_bid|
+              .lineup-slot
+                = p_bid.hidden_field(:player_id, value: p_bid.object.player&.id, class: 'round-player-input', id: "player-bid-#{p_bid.index}")
+                .input-group
+                  .player-data{id: "modal-player-data#{p_bid.index}"}
+                    .team-player-data
+                      .team-player-avatar
+                        .player-show-face
+                          %object{data: p_bid.object.player&.avatar_path || '', type: ApplicationRecord::CONTENT_TYPE_PNG, id: "avatar-#{p_bid.index}"}
+                            = image_tag('avatar.png')
+                        .player-show-kit
+                          %object{data: p_bid.object.player&.kit_path || '', type: ApplicationRecord::CONTENT_TYPE_PNG, id: "kit-#{p_bid.index}"}
+                            = image_tag('kit_small_default.png')
+                      .team-player-name-pos
+                        .team-player-name
+                          .team-player-last-name{ id: "name-#{p_bid.index}" }
+                            = p_bid.object.player&.name || t('lineups.not_selected')
+                          .team-player-first-name{ id: "first-name-#{p_bid.index}" }
+                            = p_bid.object.player&.first_name || ''
+                        .team-player-positions{ id: "positions-#{p_bid.index}" }<
+                          - if p_bid.object.player
+                            - if p_bid.object.player.position_names[0]
+                              .team-player-position.slot-position{class: "slot-position-#{p_bid.object.player.position_names[0]}"}<
+                                = slot_position_name(p_bid.object.player.position_names[0])
+                            - if p_bid.object.player.position_names[1]
+                              .team-player-position.slot-position{class: "slot-position-#{p_bid.object.player.position_names[1]}"}<
+                                = slot_position_name(p_bid.object.player.position_names[1])
+                            - if p_bid.object.player.position_names[2]
+                              .team-player-position.slot-position{class: "slot-position-#{p_bid.object.player.position_names[2]}"}<
+                                = slot_position_name(p_bid.object.player.position_names[2])
+                      .team-player-dropdown
+                        = image_tag('icons/dropdown.svg')
+                    .modal-players-list{id: "modal-players-list#{p_bid.index}"}
+                      .players-modal-content
+                        %span.close
+                        .modal-players-title
+                          .modal-players-title-text= t('players.search_player')
+                        .search-row
+                          .players-search
+                            .search-input
+                              = search_field_tag :search, params[:search], value: '', id: "search-field#{p_bid.index}", placeholder: t('players.search_player'), autocomplete: 'off'
+                            .search-icon{id: "search-icon#{p_bid.index}"}
+                              = image_tag('icons/search.svg')
+                          .search-positions
+                            - Position.all.each do |position|
+                              .search-position{class: "search-position#{p_bid.index}",id: "search-position#{position.name}"}
+                                .slot-position{class: "slot-position-#{position.name}"}
+                                  = position_name(position)
+                        .search-clubs
+                          - league.tournament.clubs.active.each do |club|
+                            .search-club-logo{class: "search-club#{p_bid.index}",id: "search-club#{club.id}"}
+                              %object{data: club.logo_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
+                                = image_tag('default_logo.png')
+                        .modal-modules-block
+                          .modal-malus-block{id: "modal-players-block-#{p_bid.index}"}
+                .price-input-block
+                  = p_bid.number_field :price, min: 1, step: 1, class: 'form-control price-input'
+            .total-price-row
+              .total-price-title Total bid
+              .total-price-value#total-price 0
+            .form-group
+              = submit_tag t('auction_bid.confirm'), form: 'new_auction_bid', class: 'confirm-btn', id: 'submit-bid-btn'
+    .stats-section
+      .round-table
+        .round-table-title
+          .round-table-title-text= t('auction_bid.team')
+        .round-table-block
+          - team.players.sort_by(&:position_sequence_number).each_with_index do |player, i|
+            .round-table-item.round-player-stats-item.round-player-list-item
+              .round-player-stats-param.center= i + 1
+              .round-player-stats-param.round-player-stats-data
+                .round-player-stats-img
+                  .round-player-show-face
+                    %object{data: player.avatar_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
+                      = image_tag('avatar.png')
+                  .round-player-show-kit
+                    %object{data: player.kit_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
+                      = image_tag('kit_small_default.png')
+                .round-player-stats-name= player.name
+              .round-player-stats-param.round-player-stats-score= league.transfers.by_player(player)&.last.price
+              .round-player-stats-param.round-player-stats-positions.player-show-positions
+                - player.positions.each do |position|
+                  .slot-position{class: "slot-position-#{position.name}"}
+                    = position_name(position)
 
 %script{type: "text/javascript", src: "/javascripts/lib/new_lineup.js.erb"}
 

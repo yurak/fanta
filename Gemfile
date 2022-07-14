@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '2.5.1'
+ruby '3.0.1'
 
 gem 'rails', '6.1.5'
 gem 'sqlite3'
@@ -32,8 +32,8 @@ gem 'rubocop', require: false
 gem 'rubocop-rails', require: false
 gem 'rubocop-rspec', require: false
 gem 'sass-rails', '~> 5.0'
-gem 'telegram-bot-ruby'
-gem 'tinymce-rails'
+gem 'telegram-bot'
+gem 'time_difference'
 gem 'uglifier', '>= 1.3.0'
 gem 'whenever', require: false
 
@@ -46,11 +46,11 @@ end
 
 group :development do
   gem 'bullet'
-  gem 'capistrano', '3.14.1', require: false
+  gem 'capistrano', '3.17', require: false
   gem 'capistrano-rails', '~> 1.4', require: false
   gem 'capistrano-passenger', '~> 0.2.0'
   gem 'capistrano-rvm'
-  gem 'listen', '>= 3.0.5', '< 3.2'
+  gem 'listen'
   gem 'query_diet'
   gem 'web-console', '>= 3.3.0'
 end

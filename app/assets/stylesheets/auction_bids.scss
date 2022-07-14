@@ -1,14 +1,14 @@
 /* AUCTION BID NEW page */
 .page-info.auction-bids-page {
   height: 100%;
-  padding: 120px 0 0;
+  padding-left: 272px;
   display: grid;
   grid-template-columns: 3fr 2fr;
 
   a { text-decoration: none }
 
   .round-section {
-    padding: 40px;
+    padding: 24px;
 
     .rounds-league-name {
       font-weight: bold;
@@ -135,7 +135,6 @@
         font-size: 16px;
         line-height: 24px;
         text-align: center;
-        padding: 14px 0;
 
         .slot-position {
           display: inline-block;
@@ -152,7 +151,7 @@
 
 @media (orientation: portrait) {
   .page-info.auction-bids-page {
-    padding: 200px 0 0;
+    display: block;
 
     .round-section {
       .total-price-row {
@@ -174,7 +173,7 @@
 
 @media (orientation: landscape) and (max-device-width: 1220px) {
   .page-info.auction-bids-page {
-    padding: 100px 0 0;
+    display: block;
 
     .round-section {
       .total-price-row {

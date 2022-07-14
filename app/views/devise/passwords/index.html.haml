@@ -1,0 +1,11 @@
+.login-page
+  .login-icon
+    .mantra-logo
+      = link_to root_path do
+        = image_tag('logo.svg')
+  .login-block
+    .title-block
+      .title-text= t('devise.passwords.index.recovery')
+    .subtitle-text
+      = t('devise.passwords.index.instructions')
+      .confirm-email= @email

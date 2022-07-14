@@ -1,9 +1,21 @@
-%h1= t('.forgot_your_password')
-= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f|
-  = bootstrap_devise_error_messages!
-  .form-group
-    = f.label :email
-    = f.email_field :email, autofocus: true, autocomplete: 'email', class: 'form-control'
-  .form-group
-    = f.submit t('.send_me_reset_password_instructions'), class: 'btn btn-primary'
-= render 'devise/shared/links'
+.login-page
+  .login-icon
+    .mantra-logo
+      = link_to root_path do
+        = image_tag('logo.svg')
+  .login-return
+    .login-return-icon= image_tag('icons/arrow_grey.svg')
+    = link_to t('.return'), new_session_path(resource_name)
+  .login-block
+    .title-block
+      .title-text= t('.title')
+    .subtitle-text= t('.subtitle')
+    .login-form
+      = form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f|
+        .login-input
+          .login-label= t('.email')
+          .login-input-icon= image_tag('icons/login/mail.svg')
+          .login-input-text
+            = f.email_field :email, autofocus: true, autocomplete: 'email', class: 'form-control', placeholder: t('.email')
+        .login-btn-form
+          = f.submit t('.reset'), class: 'login-btn blue-btn'

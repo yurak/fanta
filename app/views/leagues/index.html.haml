@@ -1,19 +1,21 @@
-.page-info.leagues-page
-  .leagues-block-head
-    .leagues-title= t('header.leagues')
-    .leagues-subtitle= t('league.subtitle')
-  .leagues-lists
-    .leagues-lists-tabs
-      #registration.leagues-lists-tab-item= t('league.reg_open')
-      #ongoing.leagues-lists-tab-item.leagues-lists-tab-active= t('league.ongoing')
-      #finished.leagues-lists-tab-item= t('league.finished')
-    .leagues-lists-content
-      .leagues-status-list.registration-list
-        -#TODO: Add registration list tab - leagues_type: 'registration'
-      .leagues-status-list.ongoing-list.active-list
-        = render 'leagues_list', leagues_type: 'ongoing'
-      .leagues-status-list.finished-list
-        = render 'leagues_list', leagues_type: 'finished'
+.page-block
+  = render 'layouts/left_nav', league: nil
+  .page-info.leagues-page
+    .leagues-block-head
+      .leagues-title= t('header.leagues')
+      .leagues-subtitle= t('league.subtitle')
+    .leagues-lists
+      .leagues-lists-tabs
+        -##registration.leagues-lists-tab-item= t('league.reg_open')
+        #ongoing.leagues-lists-tab-item.leagues-lists-tab-active= t('league.ongoing')
+        #finished.leagues-lists-tab-item= t('league.finished')
+      .leagues-lists-content
+        -#.leagues-status-list.registration-list
+          -#TODO: Add registration list tab - leagues_type: 'registration'
+        .leagues-status-list.ongoing-list.active-list
+          = render 'leagues_list', leagues_type: 'ongoing'
+        .leagues-status-list.finished-list
+          = render 'leagues_list', leagues_type: 'finished'
 :javascript
   $(document).ready(function() {
     $(".leagues-status-list").hide();

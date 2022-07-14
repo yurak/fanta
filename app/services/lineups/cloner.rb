@@ -2,7 +2,7 @@ module Lineups
   class Cloner < ApplicationService
     attr_reader :team, :tour
 
-    def initialize(team:, tour:)
+    def initialize(team, tour)
       @team = team
       @tour = tour
     end

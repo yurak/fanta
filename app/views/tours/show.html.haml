@@ -1,285 +1,66 @@
-.page-info.rounds-page
-  .round-section
-    .rounds-league-name
-      = tour.league.name
-    .rounds-block
-      - tour.league.tours.each do |round|
-        = link_to tour_path(round) do
-          .round-link-block{ class: "round-#{round.status} round-current-#{tour == round}" }
-            = round.number
-    - if auction
-      .auction-block
-        .auction-msg
-          = auction_message(auction)
-        .auction-link
-          = link_to t('auction.auction'), auction_link(auction)
-    .round-item
-      .round-base
-        .round-title
-          .round-title-text= "#{t('tours.round')} ##{tour.number}"
-          .round-title-icon
-            - if tour.unlocked?
-              = image_tag('icons/round_status1.svg')
-            - elsif tour.locked_or_postponed?
-              = image_tag('icons/round_status2.svg')
-            - else
-              = image_tag('icons/round_status3.svg')
-        .round-deadline
-          .round-deadline-text= t('tours.deadline')
-          .round-deadline-value
-            = tour.tournament_round.deadline&.strftime("%a, %b %e at %H:%M")
-          .round-deadline-countdown
-        .round-prev-next
-          .round-prev
+.page-block
+  = render 'layouts/left_nav', league: tour.league
+  = render 'layouts/right_nav', league: tour.league
+  .page-info.rounds-page
+    .round-section
+      .rounds-block
+        - tour.league.tours.each do |round|
+          - if tour == round
+            .round-link-block.round-current{ class: "round-#{round.status}" }
+              = round.number
+          - else
+            = link_to tour_path(round) do
+              .round-link-block{ class: "round-#{round.status}" }
+                = round.number
+      .round-item
+        .round-base
+          .round-title
+            .round-title-icon
+              = image_tag("icons/round/status_#{tour.status}.svg")
+            .round-title-text= t('tours.round')
+            .round-title-number= tour.number
+          .round-prev-next
             - if tour.number > 1 && tour.prev_round
-              = link_to tour_path(tour.prev_round) do
+              .round-prev
+                = link_to tour_path(tour.prev_round) do
+                  .round-prev-arrow
+                    = image_tag('icons/arrow_blue.svg')
+                  .round-prev-text= t('tours.prev')
+            - else
+              .round-prev.round-prev-next-disabled
                 .round-prev-arrow
-                  = image_tag('icons/arrow_blue.png')
+                  = image_tag('icons/arrow_grey.svg')
                 .round-prev-text= t('tours.prev')
-          .round-next
             - if tour.number < tour.league.tours.size && tour.next_round
-              = link_to tour_path(tour.next_round) do
+              .round-next
+                = link_to tour_path(tour.next_round) do
+                  .round-next-text= t('tours.next')
+                  .round-next-arrow
+                    = image_tag('icons/arrow_blue.svg')
+            - else
+              .round-next.round-prev-next-disabled
                 .round-next-text= t('tours.next')
                 .round-next-arrow
-                  = image_tag('icons/arrow_blue.png')
-      .actions-buttons
-        - if current_user&.admin?
-          = link_to t('tours.start_round'), tour_path(tour, status: :set_lineup), method: :put, data: { confirm: t('tours.are_you_sure') } if tour.inactive?
-          = link_to t('tours.lock_round'), tour_path(tour, status: :locked), method: :put, data: { confirm: t('tours.are_you_sure') } if tour.set_lineup?
-          = link_to t('tours.close_round'), tour_path(tour, status: :closed), method: :put, data: { confirm: t('tours.are_you_sure') } if tour.locked_or_postponed?  && tour.tournament_round.finished?
-          = link_to t('tours.postpone_round'), tour_path(tour, status: :postponed), method: :put, data: { confirm: t('tours.are_you_sure') } if tour.locked? && tour.mantra?
-        -  if current_user&.can_moderate? && tour.deadlined?
-          -# = link_to t('tours.edit_scores'), edit_tournament_round_path(tour.tournament_round)
-          = link_to t('tours.inject_scores'), inject_scores_tour_path(tour), data: { confirm: t('tours.are_you_sure') }
-        - if current_user&.team_by_league(tour.league) && tour.fanta? && tour.set_lineup?
-          - if tour.lineup_exist?(current_user.team_by_league(tour.league))
-            = link_to t('tours.my_lineup'), team_lineup_path(current_user.team_by_league(tour.league), current_user.lineup_by_tour(tour))
-            = link_to t('tours.edit_lineup'), edit_team_lineup_path(current_user.team_by_league(tour.league), current_user.lineup_by_tour(tour), team_module_id: current_user.lineup_by_tour(tour).team_module.id)
-          - else
-            = link_to t('tours.create_lineup'), new_team_lineup_path(current_user.team_by_league(tour.league), tour_id: tour.id)
-      .round-matches
+                  = image_tag('icons/arrow_grey.svg')
+        .round-add-data
+          - if tour.inactive?
+            .round-add-data-inactive
+              = t('tours.round_inactive')
+          - elsif tour.set_lineup?
+            .round-deadline
+              .round-deadline-text= t('tours.deadline')
+              .round-deadline-value
+                = tour.tournament_round.deadline&.strftime("%a, %b %e at %H:%M")
+              .round-deadline-countdown
+                = time_to_deadline(tour.tournament_round.time_to_deadline)
+          - elsif tour.closed?
+            .round-finished
+              .round-finished-title= t('tours.finished')
+              .round-finished-date= tour.updated_at.strftime("%b %e, %Y")
         - if tour.mantra?
-          = render 'round_matches'
-        - if tour.national?
-          = render 'tournaments/national_matches', matches: tour.tournament_round.national_matches
-        - if tour.eurocup?
-          = render 'tournaments/tournament_matches', matches: tour.tournament_round.tournament_matches
-      - if tour.fanta? && tour.lineups.any?
-        .round-lineups
-          .rounds-league-name.round-lineups-title= t('tours.lineups')
-          .round-lineups-block
-            - tour.ordered_lineups.each do |lineup|
-              = link_to team_lineup_path(lineup.team, lineup) do
-                .round-lineups-item
-                  .round-lineups-item-grid
-                    .lineup-team-logo
-                      = image_tag(image_path(lineup.team.logo_path))
-                    .lineup-team-name
-                      = lineup.team.human_name
-                    - if lineup.tour.deadlined?
-                      .lineup-result
-                        = lineup.total_score
-  .stats-section
-    - if tour.deadlined? || tour.fanta?
-      .round-table
-        .round-table-title.best-players-title
-          = link_to tournament_round_round_players_path(tour.tournament_round) do
-            .round-table-title-text= t('tours.tournament_players')
-            .round-table-title-icon
-              = image_tag('icons/arrow_blue.png')
-        .round-table-block
-          .round-table-headers.round-player-stats-headers
-            .round-table-header-cell
-            .round-table-header-cell.round-table-header-player= t('tours.player')
-            .round-table-header-cell= t('tours.bs')
-            .round-table-header-cell= t('tours.ts')
-            - if tour.mantra?
-              .round-table-header-cell= t('tours.team')
-          - @tournament_players.each_with_index do |r_player, i|
-            .round-table-item.round-player-stats-item
-              .round-player-stats-param.center= i + 1
-              .round-player-stats-param.round-player-stats-data
-                .round-player-stats-img
-                  .round-player-show-face
-                    %object{data: r_player.player.avatar_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                      = image_tag('avatar.png')
-                  .round-player-show-kit
-                    %object{data: tour.national? ? r_player.player.national_kit_path : r_player.player.kit_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                      = image_tag('kit_small_default2.png')
-                .round-player-stats-name= r_player.player.name
-              .round-player-stats-param= r_player.score
-              .round-player-stats-param.round-player-stats-score= r_player.result_score
-              .round-player-stats-param.round-player-stats-team
-                - if r_player.teams.where(league: tour.league).first
-                  = image_tag(r_player.teams.where(league: tour.league).first.logo_path)
-    - if tour.mantra?
-      - if tour.deadlined?
-        .round-table
-          .round-table-title.best-players-title
-            -# TODO: add link to League best players page
-            = link_to '' do
-              .round-table-title-text= t('tours.league_players')
-              -#.round-table-title-icon
-              -#  = image_tag('icons/arrow_blue.png')
-          .round-table-block
-            .round-table-headers.round-player-stats-headers
-              .round-table-header-cell
-              .round-table-header-cell.round-table-header-player= t('tours.player')
-              .round-table-header-cell= t('tours.bs')
-              .round-table-header-cell= t('tours.ts')
-              .round-table-header-cell= t('tours.team')
-            - @league_players.each_with_index do |r_player, i|
-              .round-table-item.round-player-stats-item
-                .round-player-stats-param.center= i + 1
-                .round-player-stats-param.round-player-stats-data
-                  .round-player-stats-img
-                    .round-player-show-face
-                      %object{data: r_player.player.avatar_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                        = image_tag('avatar.png')
-                    .round-player-show-kit
-                      %object{data: r_player.player.kit_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                        = image_tag('kit_small_default2.png')
-                  .round-player-stats-name= r_player.player.name
-                .round-player-stats-param= r_player.score
-                .round-player-stats-param.round-player-stats-score= r_player.total_score
-                .round-player-stats-param.round-player-stats-team
-                  - if r_player.teams.where(league: tour.league).first
-                    = image_tag(r_player.teams.where(league: tour.league).first.logo_path)
-      .round-table
-        .round-table-title
-          = link_to league_results_path(tour.league) do
-            .round-table-title-text= t('tours.table')
-            .round-table-title-icon
-              = image_tag('icons/arrow_blue.png')
-        .round-table-block
-          .round-table-headers
-            .round-table-header-cell
-            .round-table-header-cell
-            .round-table-header-cell= t('tours.w')
-            .round-table-header-cell= t('tours.d')
-            .round-table-header-cell= t('tours.l')
-            .round-table-header-cell= t('tours.gd')
-            .round-table-header-cell= t('tours.pnt')
-          - tour.league.results.ordered.each_with_index do |result, i|
-            .round-table-item
-              .round-table-item-cell.round-table-index= i + 1
-              .round-table-item-cell.round-table-item-team
-                .results-team-logo
-                  = image_tag(image_path(result.team.logo_path))
-                .results-team-name
-                  = result.team.human_name[0..15]
-              .round-table-item-cell= result.wins
-              .round-table-item-cell= result.draws
-              .round-table-item-cell= result.loses
-              .round-table-item-cell= result.goals_difference
-              .round-table-item-cell= result.points
-      .round-table
-        .round-table-title
-          = link_to tournament_path(tour.league.tournament) do
-            .round-table-title-text= "🏆 #{tour.league.tournament.name} #{t('tours.round')} ##{tour.tournament_round.number}"
-            .round-table-title-icon
-              = image_tag('icons/arrow_blue.png')
-        .round-tournament-block
-          - tour.tournament_round.tournament_matches.each do |t_match|
-            .round-tournament-match
-              .round-tournament-match-cell.round-tournament-match-club
-                .round-tournament-club-name
-                  - if current_user&.can_moderate? && tour.deadlined?
-                    = link_to edit_tournament_round_path(tour.tournament_round, club_id: t_match.host_club.id) do
-                      = t_match.host_club.code
-                  - else
-                    = t_match.host_club.code
-                .round-tournament-club-logo
-                  %object{data: t_match.host_club.logo_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                    = image_tag('default_logo.png')
-              .round-tournament-match-cell
-                - if t_match.host_score
-                  .round-tournament-match-result
-                    .round-tournament-match-result-host= t_match.host_score
-                    .round-tournament-match-result-guest= t_match.guest_score
-                - else
-                  vs
-              .round-tournament-match-cell.round-tournament-match-club.round-tournament-match-guest
-                .round-tournament-club-logo
-                  %object{data: t_match.guest_club.logo_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                    = image_tag('default_logo.png')
-                .round-tournament-club-name
-                  - if current_user&.can_moderate? && tour.deadlined?
-                    = link_to edit_tournament_round_path(tour.tournament_round, club_id: t_match.guest_club.id) do
-                      = t_match.guest_club.code
-                  - else
-                    = t_match.guest_club.code
-      .round-table
-        .round-table-title
-          = link_to league_auctions_path(tour.league) do
-            .round-table-title-text= t('tours.transfers_history')
-            .round-table-title-icon
-              = image_tag('icons/arrow_blue.png')
-    - if tour.eurocup?
-      .round-table
-        .round-table-title.best-players-title
-          = link_to league_results_path(tour.league) do
-            .round-table-title-text= t('tours.leaders_score')
-            .round-table-title-icon
-              = image_tag('icons/arrow_blue.png')
-        .round-table-block
-          .round-table-headers.round-national-table-item
-            .round-table-header-cell
-            .round-table-header-cell
-            .round-table-header-cell= t('tours.pnt')
-          - tour.league.results.ordered_by_score.limit(5).each_with_index do |result, i|
-            .round-table-item.round-national-table-item
-              .round-table-item-cell.round-table-index= i + 1
-              .round-table-item-cell.round-table-item-team
-                .results-team-logo
-                  = image_tag(image_path(result.team.logo_path))
-                .results-team-name
-                  = result.team.human_name[0..15]
-              .round-table-item-cell= result.total_score
-      .round-table
-        .round-table-title.best-players-title
-          = link_to league_results_path(tour.league, order: 'points') do
-            .round-table-title-text= t('tours.leaders_points')
-            .round-table-title-icon
-              = image_tag('icons/arrow_blue.png')
-        .round-table-block
-          .round-table-headers.round-national-table-item
-            .round-table-header-cell
-            .round-table-header-cell
-            .round-table-header-cell= t('tours.pnt')
-          - tour.league.results.ordered.limit(5).each_with_index do |result, i|
-            .round-table-item.round-national-table-item
-              .round-table-item-cell.round-table-index= i + 1
-              .round-table-item-cell.round-table-item-team
-                .results-team-logo
-                  = image_tag(image_path(result.team.logo_path))
-                .results-team-name
-                  = result.team.human_name[0..15]
-              .round-table-item-cell= result.points
-      - if tour.national? && tour.number < tour.league.tours.size && tour.next_round
-        .round-table
-          .round-table-title
-            = link_to tournament_path(tour.league.tournament) do
-              .round-table-title-text= t('tours.calendar')
-              .round-table-title-icon
-                = image_tag('icons/arrow_blue.png')
-          .round-tournament-block
-          - tour.next_round.tournament_round.national_matches.each do |n_match|
-            .round-tournament-match
-              .round-tournament-match-cell.round-tournament-match-club
-                .round-tournament-club-name
-                  = n_match.host_team.name
-                .round-tournament-club-logo
-                  = flag_icon(n_match.host_team.code.to_sym, element: :div)
-              .round-tournament-match-cell
-                - if n_match.host_score
-                  .round-tournament-match-result
-                    .round-tournament-match-result-host= n_match.host_score
-                    .round-tournament-match-result-guest= n_match.guest_score
-                - else
-                  = n_match.time
-              .round-tournament-match-cell.round-tournament-match-club.round-tournament-match-guest
-                .round-tournament-club-logo
-                  = flag_icon(n_match.guest_team.code.to_sym, element: :div)
-                .round-tournament-club-name
-                  = n_match.guest_team.name
+          .round-matches
+            = render 'round_matches'
+        - else
+          = render 'fanta_round'
+
+    = render 'stats_section', tour: tour

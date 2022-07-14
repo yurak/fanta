@@ -19,6 +19,18 @@ class UsersController < ApplicationController
     end
   end
 
+  def new_update
+    user_add_params = user.initial? && user_params[:name].present? ? user_params.merge(status: :named) : user_params
+    user_add_params = user.named? && user_params[:avatar].present? ? user_add_params.merge(status: :with_avatar) : user_add_params
+    user.assign_attributes(user_add_params)
+
+    if !user.initial? && user.save
+      redirect_to user.named? ? new_avatar_user_path(user) : new_team_path
+    else
+      redirect_to new_name_user_path(user)
+    end
+  end
+
   private
 
   def check_user

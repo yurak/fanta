@@ -1,0 +1,7 @@
+.page-block
+  = render 'layouts/left_nav', league: nil
+  .join-requests-page
+    .requests-img= image_tag('icons/requests-ready.svg')
+    .title-text= t('join_request.index.title')
+    .subtitle-text= t('join_request.index.subtitle')
+    .requests-text= t('join_request.index.text')

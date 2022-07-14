@@ -4,6 +4,9 @@ FactoryBot.define do
     email { FFaker::Internet.safe_email[0...50] }
     password { FFaker::Internet.password }
     password_confirmation { password }
+    status { :configured }
+    confirmed_at { DateTime.now }
+    confirmation_sent_at { DateTime.now }
     role { :customer }
 
     factory :admin do

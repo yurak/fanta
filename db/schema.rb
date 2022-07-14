@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_30_162535) do
+ActiveRecord::Schema.define(version: 2022_07_11_125555) do
 
   create_table "article_tags", force: :cascade do |t|
     t.string "name", default: "", null: false
@@ -83,13 +83,12 @@ ActiveRecord::Schema.define(version: 2022_04_30_162535) do
   end
 
   create_table "join_requests", force: :cascade do |t|
-    t.string "username", default: "", null: false
-    t.string "contact", default: "", null: false
-    t.string "email"
     t.string "leagues"
     t.integer "status", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "user_id"
+    t.index ["user_id"], name: "index_join_requests_on_user_id"
   end
 
   create_table "leagues", force: :cascade do |t|
@@ -395,6 +394,15 @@ ActiveRecord::Schema.define(version: 2022_04_30_162535) do
     t.index ["team_id"], name: "index_transfers_on_team_id"
   end
 
+  create_table "user_profiles", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "tg_chat_id"
+    t.string "tg_name"
+    t.boolean "bot_enabled", default: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -414,6 +422,12 @@ ActiveRecord::Schema.define(version: 2022_04_30_162535) do
     t.boolean "notifications", default: false, null: false
     t.string "avatar", default: "1", null: false
     t.boolean "ital_pos_naming", default: false, null: false
+    t.integer "status", default: 0, null: false
+    t.string "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
+    t.string "unconfirmed_email"
+    t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
@@ -423,6 +437,7 @@ ActiveRecord::Schema.define(version: 2022_04_30_162535) do
   add_foreign_key "auction_rounds", "auctions"
   add_foreign_key "auctions", "leagues"
   add_foreign_key "clubs", "tournaments"
+  add_foreign_key "join_requests", "users"
   add_foreign_key "leagues", "seasons"
   add_foreign_key "links", "tournaments"
   add_foreign_key "match_players", "round_players"

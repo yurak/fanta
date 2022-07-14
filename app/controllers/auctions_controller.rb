@@ -38,6 +38,6 @@ class AuctionsController < ApplicationController
   end
 
   def auction_manager
-    @auction_manager ||= Auctions::Manager.call(auction: auction, status: params[:status])
+    @auction_manager ||= Auctions::Manager.call(auction, params[:status])
   end
 end

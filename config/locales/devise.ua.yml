@@ -2,13 +2,50 @@
 
 ua:
   devise:
-    sessions:
+    failure:
+      already_authenticated: "Ви вже ввійшли."
+      inactive: "Ваш обліковий запис ще не активовано."
+      invalid: "Неправильний %{authentication_keys} або пароль."
+      locked: "Ваш обліковий запис заблоковано."
+      last_attempt: "У вас є ще одна спроба, перш ніж ваш обліковий запис буде заблоковано."
+      not_found_in_database: "Неправильний %{authentication_keys} або пароль."
+      timeout: "Ваш сеанс закінчився. Увійдіть знову, щоб продовжити."
+      unauthenticated: "Вам потрібно увійти або зареєструватися, перш ніж продовжити."
+      unconfirmed: "Перш ніж продовжити, вам потрібно підтвердити свою електронну адресу."
+    passwords:
+      index:
+        recovery: "Відновлення паролю"
+        instructions: "Ми надіслали інструкції щодо відновлення паролю на"
+      edit:
+        change_password: "Встановити пароль"
+        confirm_new_password: "Підтвердити пароль"
+        new_password: "Пароль"
       new:
-        sign_in: "Увійти"
         email: "Пошта"
-        password: "Пароль"
-        remember_me: "Запам'ятати мене"
+        subtitle: "Не хвилюйся. Ми надішлемо вам електронною поштою інструкції щодо зміни пароля."
+        reset: "Скинути пароль"
+        return: "Повернутися до Входу"
+        title: "Скинути пароль"
     registrations:
       edit:
         update: "Оновити"
         we_need_your_current_password_to_confirm_your_changes: "Нам потрібен Ваш поточний пароль для підтвердження ваших змін"
+      index:
+        verify: "Підтвердження електронної пошти"
+        instructions: "Ми надіслали інструкції щодо верифікації на"
+      new:
+        create_account: "Cтвори свій акаунт"
+        compete: "Щоб змагатися з іншими"
+        continue: "Продовжити"
+        email: "Пошта"
+        sign_up: "Реєстрація"
+    sessions:
+      new:
+        dont_have: "Немає акаунту?"
+        email: "Пошта"
+        forgot: "Забули пароль?"
+        password: "Пароль"
+        remember_me: "Запам'ятати мене"
+        sign_in: "Увійти"
+    shared:
+      minimum_password_length: "Мінімум 6 символів"

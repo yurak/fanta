@@ -10,20 +10,30 @@ module Results
       return false unless tour&.matches.present? && tour.closed?
 
       tour.matches.each do |match|
-        if match.host_win?
-          update_result_win(match, match.host, match.guest, match.host_lineup, match.guest_lineup)
-        elsif match.guest_win?
-          update_result_win(match, match.guest, match.host, match.guest_lineup, match.host_lineup)
-        elsif match.draw?
-          update_result_draw(match, match.host, match.host_lineup)
-          update_result_draw(match, match.guest, match.guest_lineup)
-        end
+        update_results(match)
       end
     end
 
     private
 
+    def update_results(match)
+      if match.host_win?
+        update_result_win(match, match.host, match.guest, match.host_lineup, match.guest_lineup)
+      elsif match.guest_win?
+        update_result_win(match, match.guest, match.host, match.guest_lineup, match.host_lineup)
+      elsif match.draw?
+        update_result_draw(match, match.host, match.host_lineup)
+        update_result_draw(match, match.guest, match.guest_lineup)
+      end
+    end
+
     def update_result_win(match, winner, loser, winner_lineup, loser_lineup)
+      update_winner(match, winner, winner_lineup)
+
+      update_loser(match, loser, loser_lineup)
+    end
+
+    def update_winner(match, winner, winner_lineup)
       winner.results.last.update(
         points: winner.results.last.points + 3,
         wins: winner.results.last.wins + 1,
@@ -31,6 +41,9 @@ module Results
         missed_goals: winner.results.last.missed_goals + match.missed_goals(winner),
         total_score: winner.results.last.total_score + winner_lineup.total_score
       )
+    end
+
+    def update_loser(match, loser, loser_lineup)
       loser.results.last.update(
         loses: loser.results.last.loses + 1,
         scored_goals: loser.results.last.scored_goals + match.scored_goals(loser),

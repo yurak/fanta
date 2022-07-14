@@ -13,19 +13,6 @@ module AuctionsHelper
     end
   end
 
-  def auction_message(auction)
-    case auction.status
-    when 'sales'
-      t('auction.sales_msg', date: auction.deadline&.strftime('%H:%M %e/%m/%y') || '--:--')
-    when 'blind_bids'
-      t('auction.blind_bids_msg', date: auction.auction_rounds.last&.deadline&.strftime('%H:%M %e/%m/%y') || '--:--')
-    when 'live'
-      t('auction.live_msg', date: auction.event_time&.strftime('%H:%M %e/%m/%y') || '--:--')
-    else
-      ''
-    end
-  end
-
   def user_auction_bid(auction_round, league)
     return unless current_user
 

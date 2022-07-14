@@ -14,7 +14,10 @@ $(document).on('click' ,'.modal-player-item' ,function(e) {
     const positionsContainer = $('#positions-'+blockId);
     const playerBidContainer = $('#player-bid-'+blockId);
     const italPosNaming = ($('#position-naming')[0].getAttribute('value') === 'true');
-    const nationalTour = ($('#national-tour')[0].getAttribute('value') === 'true');
+    const nationalTour = false;
+    if ($('#national-tour').length > 0) {
+        const nationalTour = ($('#national-tour')[0].getAttribute('value') === 'true');
+    }
 
     $.ajax({
         type: "GET",

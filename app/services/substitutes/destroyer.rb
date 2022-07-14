@@ -2,7 +2,7 @@ module Substitutes
   class Destroyer < ApplicationService
     attr_reader :subs_id
 
-    def initialize(subs_id:)
+    def initialize(subs_id)
       @subs_id = subs_id
     end
 

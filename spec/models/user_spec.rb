@@ -2,8 +2,11 @@ RSpec.describe User, type: :model do
   subject(:user) { create(:user) }
 
   describe 'Associations' do
+    it { is_expected.to have_many(:join_requests).dependent(:destroy) }
     it { is_expected.to have_many(:teams).dependent(:destroy) }
+    it { is_expected.to have_many(:leagues).through(:teams) }
     it { is_expected.to have_many(:player_requests).dependent(:destroy) }
+    it { is_expected.to have_one(:user_profile).dependent(:destroy) }
   end
 
   describe 'Validations' do
@@ -13,7 +16,7 @@ RSpec.describe User, type: :model do
     it { is_expected.not_to allow_value('test@test').for(:email) }
     it { is_expected.to allow_value('test@test.com').for(:email) }
     it { is_expected.to validate_length_of(:email).is_at_least(6).is_at_most(50) }
-    it { is_expected.to validate_length_of(:name).is_at_least(2).is_at_most(15).allow_blank }
+    it { is_expected.to validate_length_of(:name).is_at_least(2).is_at_most(20) }
     it { is_expected.to validate_presence_of :role }
 
     it { is_expected.to define_enum_for(:role).with_values(%i[customer admin moderator]) }
@@ -176,6 +179,20 @@ RSpec.describe User, type: :model do
 
       it 'returns avatar path' do
         expect(user.avatar_path).to eq('avatars/avatar_3.png')
+      end
+    end
+  end
+
+  describe '#initial_avatar?' do
+    context 'with default avatar' do
+      it { expect(user.initial_avatar?).to be(true) }
+    end
+
+    context 'with custom avatar' do
+      let(:user) { create(:user, avatar: '3') }
+
+      it 'returns avatar path' do
+        expect(user.initial_avatar?).to be(false)
       end
     end
   end

@@ -13,7 +13,6 @@
  */
 
 @import "bootstrap";
-@import "multi-select";
 @import "bootstrap-toggle";
 @import "flag-icon";
 
@@ -22,13 +21,16 @@
 @import "auction_bids";
 @import "auction_rounds";
 @import "clubs";
+@import "devise";
 @import "footer";
 @import "header";
+@import "join_requests";
 @import "leagues";
 @import "lineups";
 @import "links";
 @import "matches";
 @import "national_teams";
+@import "nav_panel";
 @import "players";
 @import "results";
 @import "round_players";
@@ -42,31 +44,133 @@
 @import "welcome";
 
 @font-face {
-  font-family: 'Mont Regular';
-  src: font-url('Mont-Regular.ttf') format('truetype');
+  font-family: 'Nunito Regular'; // 400
+  src: font-url('Nunito-Regular.ttf') format('truetype');
   font-style: normal;
 }
 @font-face {
-  font-family: 'Mont SemiBold';
-  src: font-url('Mont-SemiBold.ttf') format('truetype');
+  font-family: 'Nunito Medium'; // 500
+  src: font-url('Nunito-Medium.ttf') format('truetype');
+  font-style: normal;
 }
 @font-face {
-  font-family: 'Mont Bold';
-  src: font-url('Mont-Bold.ttf') format('truetype');
+  font-family: 'Nunito SemiBold'; // 600
+  src: font-url('Nunito-SemiBold.ttf') format('truetype');
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Nunito Bold'; // 700
+  src: font-url('Nunito-Bold.ttf') format('truetype');
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Nunito ExtraBold'; // 800
+  src: font-url('Nunito-ExtraBold.ttf') format('truetype');
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Archivo Bold'; // 700
+  src: font-url('Archivo-Bold.ttf') format('truetype');
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body, html {
+  font-family: 'Nunito Medium';
   height: 100%;
   width: 100%;
   margin: 0;
   padding: 0;
   position: relative;
   background: #FFFFFF;
-  font-family: 'Mont Regular';
+}
+
+.main-block {
+  height: 100%;
+}
+
+.page-block {
+  height: 100%;
+}
+
+.grey-btn {
+  margin: 6px 0;
+  padding: 0 16px;
+  border: 1px solid #D8D6FF;
+  background: #FFFFFF;
+  border-radius: 4px;
+  text-align: center;
+  line-height: 38px;
+  color: #261FFF;
+  cursor: pointer;
+
+  a {
+    width: 100%;
+    display: inline-block;
+    text-decoration: none;
+    color: #261FFF;
+  }
+
+  img {
+    filter: invert(0%) sepia(1%) saturate(5%) hue-rotate(304deg) brightness(97%) contrast(103%); // #181715;
+  }
+}
+
+.grey-btn:hover {
+  background: #040052;
+  color: #FFFFFF;
+
+  a {
+    color: #FFFFFF;
+  }
+
+  img {
+    filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(104deg) brightness(103%) contrast(102%); // #FFFFFF;
+  }
+}
+
+.donate-btn {
+  display: inline-block;
+  background: #FCC5CB;
+  border: 1px solid #DB0A23;
+
+  a {
+    color: #DB0A23;
+  }
+}
+
+.donate-btn:hover {
+  display: inline-block;
+  background: #DB0A23;
+  border: 1px solid #FCC5CB;
+
+  a {
+    color: #FCC5CB;
+  }
+}
+
+.blue-btn {
+  margin: 6px 0;
+  background: #261FFF;
+  border: 1px solid #261FFF;
+  border-radius: 4px;
+  font-size: 16px;
+  line-height: 38px;
+  text-align: center;
+
+  img {
+    filter: invert(97%) sepia(7%) saturate(747%) hue-rotate(219deg) brightness(117%) contrast(91%); //#F4F4F4;
+  }
+}
+
+.blue-btn:hover {
+  background: #3530CA;
+  box-shadow: 1px 2px 5px rgba(24, 23, 21, 0.2);
 }
 
 .actions-buttons {
-  font-weight: bold;
   font-size: 16px;
   line-height: 40px;
   padding-bottom: 32px;
@@ -92,74 +196,165 @@ body, html {
 .round-matches {
   .round-tournament-match {
     display: grid;
-    grid-template-columns: 1fr 100px 1fr;
-    column-gap: 32px;
-    font-weight: 500;
-    font-size: 16px;
-    line-height: 44px;
+    grid-template-columns: 1fr 56px 1fr;
+    column-gap: 24px;
+    font-size: 18px;
+    line-height: 90px;
     color: #181715;
     border-bottom: 1px solid #E5E6E4;
     text-align: center;
 
     .round-tournament-match-team {
+      padding: 21px 0;
+
       a {
+        font-family: 'Nunito Regular';
         display: grid;
-        grid-template-columns: auto 32px;
-        font-weight: 500;
+        grid-template-columns: auto 48px;
         text-decoration: none;
       }
 
       .flag-icon {
-        height: 24px;
-        width: 32px;
+        height: 48px;
+        width: 48px;
         vertical-align: middle;
       }
 
       img, object {
-        width: 32px;
-        height: 32px;
+        width: 48px;
+        height: 48px;
       }
 
-      object {
-        position: relative;
-        top: 6px;
+      img {
+        vertical-align: inherit;
       }
 
       .round-tournament-team-name {
         text-align: right;
         padding-right: 16px;
         color: #181715;
+        height: 48px;
+        line-height: 48px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
+    }
+
+    .round-tournament-match-team:hover {
+      .round-tournament-team-name {
+        color: #261FFF;
+      }
+    }
+
+    .round-tournament-team-logo {
+      height: 48px;
     }
 
     .round-tournament-match-guest {
       a {
-        grid-template-columns: 32px auto;
+        grid-template-columns: 48px auto;
         text-decoration: none;
       }
 
       .round-tournament-team-name {
         text-align: left;
-        padding-left: 16px;
+        padding: 0 0 0 16px;
         color: #181715;
       }
     }
 
-    .round-tournament-match-result {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      background-color: #040052;
-      font-weight: bold;
-      line-height: 20px;
-      padding: 6px 0;
-      margin: 6px 0;
-      text-align: center;
-      color: #F4F4F4;
+    .round-tournament-match-cell {
+      font-family: 'Nunito Bold';
+      color: #A6A2A2;
+      line-height: 40px;
+      height: 90px;
+    }
 
-      .round-tournament-match-result-host {
-        border-right: 1px solid #847577;
+    .round-tournament-match-cell-result {
+      padding: 25px 5px;
+
+      a {
+        text-align: center;
       }
     }
+
+    .round-tournament-match-result {
+      font-family: 'Nunito Bold';
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      background: #E5E6E4;
+      font-size: 18px;
+      line-height: 24px;
+      border-radius: 4px;
+      padding: 8px 10px;
+      color: #181715;
+      width: 48px;
+    }
+
+    .round-tournament-match-result-text {
+      width: 28px;
+    }
+  }
+}
+
+.round-prev-next {
+  font-family: 'Nunito Medium';
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  font-size: 12px;
+  margin: 4px 0;
+  line-height: 24px;
+
+  a {
+    display: grid;
+    color: #181715;
+  }
+
+  a:hover {
+    color: #261FFF;
+  }
+
+  .round-prev {
+    border-right: 2px solid #E5E6E4;
+
+    a {
+      grid-template-columns: 10px auto;
+    }
+
+    .round-prev-text {
+      padding: 0 8px;
+    }
+
+    img {
+      transform: rotate(180deg);
+    }
+  }
+
+  .round-next {
+    a {
+      grid-template-columns: auto 10px;
+    }
+
+    .round-next-text {
+      padding: 0 8px;
+      text-align: right;
+    }
+  }
+
+  .round-prev-next-disabled {
+    display: grid;
+    grid-template-columns: 10px auto;
+    color: #A6A2A2;
+  }
+
+  .round-next.round-prev-next-disabled {
+    grid-template-columns: auto 10px;
+  }
+
+  img {
+    width: 10px;
+    height: 8px;
   }
 }
 
@@ -187,6 +382,7 @@ body, html {
 }
 
 .module-position-block {
+  font-family: 'Nunito Bold';
   display: flex;
   column-gap: 1px;
   background: #181715;
@@ -198,7 +394,7 @@ body, html {
 
   .player-position {
     height: 18px;
-    padding: 3px 4px;
+    padding: 2px 4px;
   }
 }
 
@@ -527,55 +723,74 @@ body, html {
 }
 
 .stats-section {
-  background-color: #F4F4F4;
-  padding: 8px;
+  background-color: #FFFFFF;
+  border-left: 1px solid #E5E6E4;
 
   .round-table {
     background-color: #FFFFFF;
     padding: 16px;
-    margin-bottom: 8px;
+    border-bottom: 1px solid #E5E6E4;
+
+    .round-table-title-header {
+      display: grid;
+      grid-template-columns: auto 24px;
+      column-gap: 8px;
+    }
 
     .round-table-title-text, .round-table-title-icon {
       display: inline-block;
-      font-weight: bold;
+      font-weight: 700;
       font-size: 16px;
       line-height: 24px;
       color: #181715;
 
       img {
-        padding: 0 8px;
-        height: 9px;
-        transform: rotate(180deg);
+        padding: 0 4px;
+        height: 8px;
       }
     }
 
-    .round-table-headers {
-      display: grid;
-      grid-template-columns: 1fr 5fr 1fr 1fr 1fr 1fr 1fr;
-      font-weight: 500;
-      font-size: 10px;
-      line-height: 14px;
-      text-align: right;
-      color: #847577;
+    .round-table-hide {
+      cursor: pointer;
+      //padding: 4px;
+
+      img {
+        width: 12px;
+        height: 6px;
+        margin: auto 6px;
+      }
+    }
+
+    .round-table-hide:hover {
+      background: #F4F4F4;
+      border-radius: 12px;
+    }
+
+    .round-table-hidden {
+      display: none;
     }
 
     .round-table-item {
       display: grid;
-      grid-template-columns: 1fr 5fr 1fr 1fr 1fr 1fr 1fr;
-      font-weight: 500;
+      grid-template-columns: 32px auto 48px;
+      font-weight: 400;
       font-size: 12px;
-      line-height: 40px;
+      line-height: 24px;
       color: #181715;
-      text-align: right;
       border-bottom: 1px solid #E5E6E4;
 
       .round-table-index {
-        text-align: center;
+        text-align: right;
+        padding: 4px 8px;
       }
 
       .round-table-item-team {
         display: grid;
-        grid-template-columns: 24px auto;
+        grid-template-columns: 40px auto;
+
+        .results-team-logo {
+          padding: 4px 8px;
+        }
 
         img {
           width: 24px;
@@ -584,9 +799,22 @@ body, html {
 
         .results-team-name {
           text-align: left;
-          padding-left: 16px;
+          padding: 4px 8px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
         }
       }
+
+      .round-table-item-points {
+        padding: 4px 8px;
+        text-align: right;
+        font-weight: 700;
+      }
+    }
+
+    .round-table-item:last-child {
+      border: none;
     }
 
     .round-national-table-item {
@@ -598,7 +826,7 @@ body, html {
       font-size: 16px;
     }
 
-    .round-tournament-block {
+    .round-list {
       margin-top: 8px;
     }
 
@@ -608,7 +836,7 @@ body, html {
       column-gap: 12px;
       font-weight: 500;
       font-size: 12px;
-      line-height: 40px;
+      line-height: 32px;
       color: #181715;
       border-bottom: 1px solid #E5E6E4;
       text-align: center;
@@ -618,6 +846,15 @@ body, html {
         grid-template-columns: auto 24px;
         font-weight: 500;
 
+        .round-tournament-club-logo-wrapper {
+          padding: 4px 0;
+        }
+
+        .round-tournament-club-logo {
+          line-height: 24px;
+          height: 24px;
+        }
+
         img, object {
           width: 24px;
           height: 24px;
@@ -625,7 +862,6 @@ body, html {
 
         object {
           position: relative;
-          top: 8px;
         }
 
         .round-tournament-club-name {
@@ -665,60 +901,54 @@ body, html {
       }
     }
 
-    .best-players-title {
-      margin-bottom: 12px;
-    }
-
-    .round-player-stats-headers {
-      grid-template-columns: 1fr 13fr 2fr 3fr 3fr;
-      column-gap: 8px;
-
-      .round-table-header-player {
-        text-align: left;
-      }
+    .round-tournament-match:last-child {
+      border: none;
     }
 
     .round-player-stats-item {
-      grid-template-columns: 1fr 13fr 2fr 3fr 3fr;
+      grid-template-columns: 24px auto 24px 40px;
       column-gap: 8px;
-      font-size: 16px;
-      line-height: 56px;
-      max-height: 56px;
+      font-weight: 400;
+      font-size: 12px;
+      line-height: 32px;
+      height: 32px;
 
       .round-player-stats-data {
         text-align: left;
         display: grid;
-        grid-template-columns: 48px auto;
+        grid-template-columns: 32px auto;
         column-gap: 8px;
+      }
+
+      .round-player-stats-name {
         white-space: nowrap;
         overflow: hidden;
+        text-overflow: ellipsis;
       }
 
       .round-player-stats-img {
         .round-player-show-face, .round-player-show-kit {
           position: absolute;
-          padding-top: 3px;
-          height: 56px;
+          padding-top: 1px;
+          height: 32px;
 
           img, object {
-            width: 48px;
-            height: 48px;
-          }
-
-          object {
-            margin-top: 4px;
+            width: 30px;
+            height: 30px;
           }
         }
       }
 
       .round-player-stats-score {
-        font-weight: bold;
+        font-weight: 700;
+        font-size: 12px;
+        text-align: center;
       }
 
       .round-player-stats-team {
         img {
-          width: 24px;
-          height: 24px;
+          width: 20px;
+          height: 20px;
         }
       }
     }
@@ -750,53 +980,6 @@ body, html {
 
 /* ---------------- OLD UI ------------------------*/
 
-.page {
-  display: grid;
-  grid-template-columns: 200px auto;
-  height: 100%;
-}
-
-.main-block {
-  height: 100%;
-}
-.main {
-  padding-top: 140px;
-  background: image_url('bg-grey.jpg') #e2e2e2 round;
-  height: 100%;
-  width: 100%;
-}
-
-.page-info {
-  padding: 140px 40px 20px;
-}
-
-.flash-block {
-  height: 50px;
-  line-height: 50px;
-  width: 100%;
-  max-width: 1080px;
-  margin: 0 auto;
-  padding: 0 40px;
-  text-align: center;
-
-  .flash-item {
-    height: 100%;
-    width: 100%;
-    font-size: 20px;
-    font-weight: bolder;
-  }
-
-  .flash-notice {
-    background-color: #78d236ad;
-    color: #001280
-  }
-
-  .flash-error {
-    background-color: #ff0000bd;
-    color: #000000; //#001280
-  }
-}
-
 .center {
   text-align: center;
 }
@@ -817,14 +1000,6 @@ body, html {
   display: inline-block;
 }
 
-.small-number {
-  width: 60px;
-}
-
-.nav-item {
-  font-size: 17px;
-}
-
 .input-group-prepend {
   width: 110px;
 
@@ -833,45 +1008,8 @@ body, html {
   }
 }
 
-.tox-tinymce {
-  width: 90%;
-}
-
-.disqualified, .injured {
-  opacity: 0.7;
-}
-
-.clr-success {
-  background-color: #66bb6a;
-}
-
-.clr-danger, .injured {
-  background-color: #ef5350;
-}
-
-.clr-warning, .problematic {
-  background-color: #ffee58;
-}
-
-.clr-secondary, .disqualified {
-  background-color: #bdbdbd;
-}
-
-.malus15 {
-  background-color: yellow;
-}
-
-.malus30 {
-  background-color: orange;
-}
-
-.malus45 {
-  background-color: red;
-}
-
 @media (orientation: portrait) {
   .page-info {
-    padding: 220px 40px 80px;
+    padding: 20px 40px 80px;
   }
 }
-

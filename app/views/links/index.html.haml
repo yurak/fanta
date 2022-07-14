@@ -1,22 +1,24 @@
-.page-info.links-page
-  .links-block-head
-    .links-title= t('links.title')
-    .links-subtitle= t('links.subtitle')
-  .links-lists
-    .links-lists-tabs
-      - active_tournaments.each do |tournament|
-        .links-lists-tab-item{id: tournament.code}
-          = tournament.name
-    .links-lists-content
-      - active_tournaments.each do |tournament|
-        .links-status-list{class: "#{tournament.code}-list"}
-          - tournament.links.each do |link|
-            = link_to link.url, target: '_blank' do
-              .links-list-item
-                .links-list-item-param.tournament-logo= image_tag(link.tournament.logo_path)
-                .links-list-item-param= link.name
-                .links-list-item-param.links-link
-                  = image_tag('icons/link_arrow.png')
+.page-block
+  = render 'layouts/left_nav', league: nil
+  .page-info.links-page
+    .links-block-head
+      .links-title= t('links.title')
+      .links-subtitle= t('links.subtitle')
+    .links-lists
+      .links-lists-tabs
+        - active_tournaments.each do |tournament|
+          .links-lists-tab-item{id: tournament.code}
+            = tournament.name
+      .links-lists-content
+        - active_tournaments.each do |tournament|
+          .links-status-list{class: "#{tournament.code}-list"}
+            - tournament.links.each do |link|
+              = link_to link.url, target: '_blank' do
+                .links-list-item
+                  .links-list-item-param.tournament-logo= image_tag(link.tournament.logo_path)
+                  .links-list-item-param= link.name
+                  .links-list-item-param.links-link
+                    = image_tag('icons/link_arrow.png')
 
 :javascript
   $(document).ready(function() {

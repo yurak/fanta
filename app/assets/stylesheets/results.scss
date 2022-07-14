@@ -1,147 +1,154 @@
-.page-info.table-results {
-  height: 100%;
-  padding: 120px 150px 50px;
+.table-results {
+  .page-info {
+    height: 100%;
+    padding: 10px 20px 50px 292px;
 
-  .table-block {
-    padding-bottom: 100px;
-  }
-
-  .table-title {
-    margin: 48px 0 32px;
-    font-weight: bold;
-    font-size: 48px;
-    line-height: 48px;
-    color: #181715;
-  }
-
-  .table-grid {
-    display: grid;
-    grid-template-columns: 1fr 19fr 62fr 16fr 16fr 16fr 16fr 14fr 14fr 14fr 16fr 21fr 42fr 13fr;
-  }
-
-  .national-grid {
-    grid-template-columns: 1fr 24fr 86fr 35fr 35fr 35fr 35fr;
-  }
-
-  .table-header-dropdown {
-    display: inline-block;
-
-    .filter-grey {
-      filter: invert(50%) sepia(9%) saturate(418%) hue-rotate(302deg) brightness(92%) contrast(85%);
-    }
-  }
-
-  .table-headers {
-    padding-bottom: 16px;
-  }
-
-  .table-header-item {
-    font-weight: 500;
-    font-size: 12px;
-    line-height: 16px;
-    text-align: right;
-    color: #847577;
-
-    a {
-      text-decoration: none;
-      color: #847577;
-    }
-  }
-
-  .table-team-item {
-    line-height: 56px;
-    border-bottom: 1px solid #F4F4F4;
-    font-size: 16px;
-    text-align: right;
-    color: #181715;
-
-    img {
-      width: 32px;
-      height: 32px;
+    .table-block {
+      padding-bottom: 100px;
     }
 
-    .table-team-data a {
-      text-decoration: none;
-      text-align: left;
-      display: grid;
-      grid-template-columns: 80px auto;
+    .table-title {
+      margin: 48px 0 32px;
+      font-weight: bold;
+      font-size: 48px;
+      line-height: 48px;
       color: #181715;
+    }
 
-      .results-team-logo {
-        text-align: center;
+    .table-grid {
+      display: grid;
+      grid-template-columns: 1fr 19fr 62fr 16fr 16fr 16fr 16fr 14fr 14fr 14fr 16fr 21fr 42fr 13fr;
+    }
+
+    .national-grid {
+      grid-template-columns: 1fr 24fr 86fr 35fr 35fr 35fr 35fr;
+    }
+
+    .table-header-dropdown {
+      display: inline-block;
+
+      .filter-grey {
+        filter: invert(50%) sepia(9%) saturate(418%) hue-rotate(302deg) brightness(92%) contrast(85%);
       }
     }
 
-    .table-team-points {
-      font-weight: bold;
+    .table-headers {
+      padding-bottom: 16px;
     }
 
-    .table-team-opponent img {
-      border: 1px solid #F4F4F4;
-      border-radius: 16px;
-    }
+    .table-header-item {
+      font-weight: 500;
+      font-size: 12px;
+      line-height: 16px;
+      text-align: right;
+      color: #847577;
 
-    .form-cell  {
-      font-weight: bold;
-      font-size: 18px;
-
-      .team-form-item {
-        display: inline-block;
-        text-align: center;
-        color: #4EAD57;
-        width: 20px;
-      }
-
-      .team-form-D {
+      a {
+        text-decoration: none;
         color: #847577;
       }
+    }
 
-      .team-form-L {
-        color: #DB0A23;
+    .table-team-item {
+      line-height: 56px;
+      border-bottom: 1px solid #F4F4F4;
+      font-size: 16px;
+      text-align: right;
+      color: #181715;
+
+      img {
+        width: 32px;
+        height: 32px;
+      }
+
+      .table-team-data a {
+        text-decoration: none;
+        text-align: left;
+        display: grid;
+        grid-template-columns: 80px auto;
+        color: #181715;
+
+        .results-team-logo {
+          text-align: center;
+        }
+      }
+
+      .table-team-points {
+        font-weight: bold;
+      }
+
+      .table-team-opponent img {
+        border: 1px solid #F4F4F4;
+        border-radius: 16px;
+      }
+
+      .form-cell {
+        font-weight: bold;
+        font-size: 18px;
+
+        .team-form-item {
+          display: inline-block;
+          text-align: center;
+          color: #4EAD57;
+          width: 20px;
+        }
+
+        .team-form-D {
+          color: #847577;
+        }
+
+        .team-form-L {
+          color: #DB0A23;
+        }
+      }
+
+      .place0 {
+        background-color: #4EAD57;
+      }
+
+      .place1, .place2 {
+        background-color: #FFB319;
       }
     }
 
-    .place0 {
-      background-color: #4EAD57;
+    .form-cell {
+      text-align: left;
+      padding-left: 40px;
     }
-
-    .place1, .place2 {
-      background-color: #FFB319;
-    }
-  }
-
-  .form-cell {
-    text-align: left;
-    padding-left: 40px;
   }
 }
 
 @media (orientation: portrait) {
-  .page-info.table-results {
-    padding: 200px 40px 50px;
-
-    .table-grid {
-      grid-template-columns: 2fr 24fr 176fr 32fr 32fr 32fr 32fr 32fr 32fr 32fr 32fr;
-    }
-
-    .national-grid {
-      grid-template-columns: 1fr 24fr 100fr 30fr 30fr 30fr 40fr;
-    }
-
-    .table-header-item {
-      font-size: 14px;
-    }
-
-    .table-team-item {
-      font-size: 24px;
-
-      .table-team-data a {
-        grid-template-columns: 60px auto;
-      }
-    }
-
-    .form-cell, .next-cell, .table-team-opponent, .ts-cell {
+  .table-results {
+    .right-nav {
       display: none;
+    }
+    .page-info {
+      padding: 50px 20px 50px 92px;
+
+      .table-grid {
+        grid-template-columns: 2fr 24fr 176fr 32fr 32fr 32fr 32fr 32fr 32fr 32fr 32fr;
+      }
+
+      .national-grid {
+        grid-template-columns: 1fr 24fr 100fr 30fr 30fr 30fr 40fr;
+      }
+
+      .table-header-item {
+        font-size: 14px;
+      }
+
+      .table-team-item {
+        font-size: 24px;
+
+        .table-team-data a {
+          grid-template-columns: 60px auto;
+        }
+      }
+
+      .form-cell, .next-cell, .table-team-opponent, .ts-cell {
+        display: none;
+      }
     }
   }
 }

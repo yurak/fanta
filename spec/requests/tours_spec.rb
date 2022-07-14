@@ -8,7 +8,6 @@ RSpec.describe 'Tours', type: :request do
 
     it { expect(response).to be_successful }
     it { expect(response).to render_template(:show) }
-    it { expect(response).to render_template(:_header) }
     it { expect(response).to have_http_status(:ok) }
     it { expect(assigns(:tournament_players)).not_to be_nil }
     it { expect(assigns(:league_players)).not_to be_nil }
@@ -129,7 +128,7 @@ RSpec.describe 'Tours', type: :request do
     context 'when moderator is logged in' do
       login_moderator
       before do
-        allow(TournamentRounds::SerieaEventsParser).to receive(:new).with(tournament_round: tour.tournament_round).and_return(parser)
+        allow(TournamentRounds::SerieaEventsParser).to receive(:new).with(tour.tournament_round).and_return(parser)
         allow(parser).to receive(:call).and_return([])
 
         get inject_scores_tour_path(tour)
@@ -156,7 +155,7 @@ RSpec.describe 'Tours', type: :request do
     context 'when admin is logged in' do
       login_admin
       before do
-        allow(TournamentRounds::SerieaEventsParser).to receive(:new).with(tournament_round: tour.tournament_round).and_return(parser)
+        allow(TournamentRounds::SerieaEventsParser).to receive(:new).with(tour.tournament_round).and_return(parser)
         allow(parser).to receive(:call).and_return([])
 
         get inject_scores_tour_path(tour)

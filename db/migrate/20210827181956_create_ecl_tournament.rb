@@ -14,6 +14,6 @@ class CreateEclTournament < ActiveRecord::Migration[5.2]
       code: 'champions_league'
     )
 
-    TournamentRounds::Creator.call(tournament.id, Season.last.id, count: 12) if tournament
+    TournamentRounds::Creator.call(tournament.id, Season.last.id, 12) if tournament
   end
 end

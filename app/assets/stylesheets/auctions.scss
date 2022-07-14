@@ -2,8 +2,7 @@
 
 .page-info.auctions-page {
   height: 100%;
-  padding: 120px 0 50px;
-  margin: 0 100px;
+  padding: 10px 20px 50px 292px;
 
   .auctions-head {
     display: grid;
@@ -42,7 +41,7 @@
   .auctions-headers {
     padding: 32px 0 12px;
     display: grid;
-    grid-template-columns: 1fr 2fr 3fr 3fr 3fr 1fr;
+    grid-template-columns: 1fr 2fr 3fr 3fr 2fr 1fr;
     font-weight: 500;
     font-size: 10px;
     line-height: 14px;
@@ -51,7 +50,7 @@
 
   .auction-item {
     display: grid;
-    grid-template-columns: 1fr 2fr 3fr 3fr 3fr 1fr;
+    grid-template-columns: 1fr 2fr 3fr 3fr 2fr 1fr;
     border: 1px solid #E5E6E4;
     box-sizing: border-box;
     border-radius: 4px;
@@ -82,16 +81,9 @@
   }
 }
 
-@media (orientation: landscape) and (max-device-width: 1220px) {
-  .page-info.auctions-page {
-    padding: 100px 24px;
-    margin: 0 0 100px;
-  }
-}
-
 @media (orientation: portrait) {
   .page-info.auctions-page {
-    padding: 200px 24px;
+    padding: 20px 24px 20px 296px;
     margin: 0;
   }
 }

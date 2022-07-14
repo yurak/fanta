@@ -70,4 +70,20 @@ RSpec.describe TournamentRound, type: :model do
       end
     end
   end
+
+  describe '#time_to_deadline' do
+    context 'without deadline' do
+      it 'returns empty string' do
+        expect(tournament_round.time_to_deadline).to eq('')
+      end
+    end
+
+    context 'with deadline' do
+      let(:tournament_round) { create(:tournament_round, deadline: 2.days.ago) }
+
+      it 'returns hash with time difference' do
+        expect(tournament_round.time_to_deadline[:days]).to eq(2)
+      end
+    end
+  end
 end

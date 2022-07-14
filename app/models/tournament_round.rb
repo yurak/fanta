@@ -21,6 +21,13 @@ class TournamentRound < ApplicationRecord
   end
 
   def finished?
-    tournament_matches.any? && tournament_matches.where(host_score: nil).empty?
+    (tournament_matches.any? && tournament_matches.where(host_score: nil).empty?) ||
+      (national_matches.any? && national_matches.where(host_score: nil).empty?)
+  end
+
+  def time_to_deadline
+    return '' unless deadline
+
+    TimeDifference.between(Time.zone.parse(deadline&.strftime('%a, %b %e at %H:%M')), Time.zone.now).in_general
   end
 end

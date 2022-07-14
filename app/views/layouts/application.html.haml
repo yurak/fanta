@@ -11,8 +11,5 @@
     %script{type: "text/javascript", src: "/javascripts/lib/hotjar.js"}
   %body
     = query_diet_widget if Rails.env.development?
-    = render 'layouts/header'
     .main-block
       = yield
-    - if external_actions?
-      = render 'layouts/footer'

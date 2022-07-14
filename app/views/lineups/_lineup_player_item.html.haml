@@ -5,7 +5,7 @@
         = image_tag('avatar.png')
     .player-show-kit
       %object{data: player.kit_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-        = image_tag('kit_small_default2.png')
+        = image_tag('kit_small_default.png')
   .modal-player-data
     .player-positions
       - player.player_positions.includes(:position).each do |player_position|

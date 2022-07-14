@@ -1,6 +1,6 @@
 RSpec.describe Substitutes::Creator do
   describe '#call' do
-    subject(:creator) { described_class.new(out_mp_id: main_player_id, in_mp_id: reserve_player_id) }
+    subject(:creator) { described_class.new(main_player_id, reserve_player_id) }
 
     let(:main_player) { create(:dc_match_player, position_malus: -3) }
     let(:reserve_player) { create(:match_player, round_player: create(:round_player, :with_pos_dc)) }

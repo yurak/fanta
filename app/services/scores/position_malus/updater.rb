@@ -1,12 +1,12 @@
 module Scores
   module PositionMalus
     class Updater < ApplicationService
-      def initialize(tour: nil)
+      def initialize(tour = nil)
         @tour = tour
       end
 
       def call
-        @tour.match_players.main.with_score.each do |mp|
+        @tour.match_players.main_with_score.each do |mp|
           next unless mp.position_malus?
 
           mp.update(position_malus: malus(mp)) if mp.score.positive?

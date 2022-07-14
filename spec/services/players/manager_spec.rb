@@ -21,7 +21,7 @@ RSpec.describe Players::Manager do
     end
 
     before do
-      create(:club, name: 'xxx')
+      create(:club, name: 'Outside')
     end
 
     context 'with blank params' do
@@ -86,7 +86,7 @@ RSpec.describe Players::Manager do
       it 'creates player with base club' do
         manager.call
 
-        expect(Player.last.club.name).to eq('xxx')
+        expect(Player.last.club.name).to eq('Outside')
       end
 
       it 'creates player with correct national_team' do

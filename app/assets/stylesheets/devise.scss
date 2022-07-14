@@ -1,0 +1,218 @@
+.login-page {
+  background: #FFEBC2;
+  width: 100%;
+  height: 100%;
+  padding: 45px 0;
+
+  .login-icon {
+    margin-bottom: 82px;
+
+    .mantra-logo {
+      width: 64px;
+      margin: auto;
+    }
+
+    a {
+      height: 57px;
+      display: block;
+    }
+
+    img {
+      width: 64px;
+    }
+  }
+
+  .login-block {
+    background: #FFFFFF;
+    box-shadow: 1px 2px 5px rgba(24, 23, 21, 0.2);
+    border-radius: 8px;
+    padding: 56px 40px;
+    width: 464px;
+    margin: auto;
+  }
+
+  .title-block {
+    font-family: 'Nunito ExtraBold';
+    text-align: center;
+    font-size: 32px;
+    line-height: 32px;
+    margin-bottom: 32px;
+
+    .title-subtext {
+      color: #A6A2A2;
+    }
+  }
+
+  .login-link a {
+    font-family: 'Nunito ExtraBold';
+    color: #261FFF;
+    font-size: 12px;
+    line-height: 16px;
+  }
+
+  .login-input {
+    padding: 0 16px;
+    height: 56px;
+    display: grid;
+    grid-template-columns: 24px auto;
+    column-gap: 16px;
+    border: 1px solid #A6A2A2;
+    border-radius: 4px;
+    position: relative;
+
+    .login-label {
+      font-family: 'Nunito SemiBold';
+      position: absolute;
+      color: #847577;
+      font-size: 12px;
+      line-height: 16px;
+      background: #FFFFFF;
+      top: -9px;
+      left: 14px;
+      letter-spacing: 0.02em;
+      padding: 0 4px;
+      display: none;
+    }
+
+    .login-input-icon {
+      padding: 13px 0;
+    }
+
+    .login-input-text {
+      padding: 7px 0;
+
+      input {
+        font-family: 'Nunito Regular';
+        padding: 0;
+        border: none;
+        line-height: 24px;
+        font-size: 16px;
+        color: #040052;
+      }
+
+      input::placeholder {
+        color: #847577;
+      }
+
+      input:focus{
+        outline: none;
+        box-shadow: none;
+      }
+
+      input:-webkit-autofill,
+      input:-webkit-autofill:hover,
+      input:-webkit-autofill:focus,
+      input:-webkit-autofill:active {
+        transition: background-color 5000s ease-in-out 0s;
+        background: #FFFFFF !important;
+      }
+    }
+  }
+
+  .login-input:focus-within {
+    .login-label {
+      display: block;
+    }
+  }
+
+  .login-btn {
+    font-family: 'Nunito ExtraBold';
+    width: 100%;
+    color: #FFFFFF;
+    font-size: 18px;
+    margin: 24px 0 0;
+    height: 56px;
+  }
+
+  #email-error {
+    font-family: 'Nunito SemiBold';
+    min-height: 24px;
+    font-size: 12px;
+    line-height: 16px;
+    letter-spacing: 0.02em;
+    color: #DB0A23;
+    padding: 2px 16px;
+  }
+
+  .forgot-link {
+    margin-top: 12px;
+  }
+
+  .sign-up-row {
+    font-family: 'Nunito SemiBold';
+    margin-top: 32px;
+    font-size: 12px;
+    line-height: 16px;
+    color: #847577;
+    display: flex;
+    justify-content: center;
+
+    .sign-up-text {
+      margin-right: 4px;
+    }
+  }
+
+  .login-return {
+    font-family: 'Nunito Bold';
+    width: 464px;
+    margin: 0 auto 16px;
+    display: flex;
+    font-size: 16px;
+    line-height: 24px;
+
+    a {
+      color: #847577;
+    }
+
+    .login-return-icon {
+      margin-right: 12px;
+
+      img {
+        transform: rotate(180deg);
+        filter: invert(48%) sepia(8%) saturate(527%) hue-rotate(303deg) brightness(96%) contrast(78%);
+      }
+    }
+
+    .title-block {
+      margin-bottom: 16px;
+    }
+  }
+
+  .subtitle-text {
+    font-family: 'Nunito Regular';
+    font-size: 16px;
+    line-height: 24px;
+    text-align: center;
+    margin-bottom: 32px;
+
+    .confirm-email {
+      font-family: 'Nunito ExtraBold';
+    }
+  }
+
+  .login-password-note {
+    margin-left: 16px;
+    color: #847577;
+    font-size: 12px;
+    line-height: 16px;
+  }
+
+  .name-edit-note {
+    font-family: 'Nunito Regular';
+    font-size: 16px;
+    line-height: 24px;
+    margin-top: 16px;
+  }
+
+  .logo-input {
+    text-align: center;
+    margin-bottom: 48px;
+
+    .logo-input-label {
+      font-family: 'Nunito ExtraBold';
+      font-size: 14px;
+      line-height: 16px;
+      margin-bottom: 16px;
+    }
+  }
+}

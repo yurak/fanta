@@ -62,7 +62,7 @@ class LineupsController < ApplicationController
   private
 
   def team_lineups_cloner
-    @team_lineups_cloner ||= Lineups::Cloner.new(team: team, tour: tour)
+    @team_lineups_cloner ||= Lineups::Cloner.new(team, tour)
   end
 
   def lineup_params

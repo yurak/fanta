@@ -1,7 +1,7 @@
 class PlayersController < ApplicationController
   skip_before_action :authenticate_user!, only: %i[index show]
 
-  helper_method :player
+  helper_method :league, :player, :tournament
 
   respond_to :html
 
@@ -25,7 +25,7 @@ class PlayersController < ApplicationController
   end
 
   def update
-    player.teams.each { |team| Transfers::Seller.call(player: player, team: team, status: :left) } if can? :update, Player
+    player.teams.each { |team| Transfers::Seller.call(player, team, :left) } if can? :update, Player
 
     redirect_to player_path(player)
   end
@@ -66,10 +66,14 @@ class PlayersController < ApplicationController
   end
 
   def stats_params
-    params.permit(:club, :order, :position, :tournament, :search)
+    params.permit(:club, :order, :position, :tournament, :search, :league)
   end
 
   def tournament
     stats_params[:tournament] ? Tournament.find(stats_params[:tournament]) : Tournament.first
+  end
+
+  def league
+    stats_params[:league] ? League.find(stats_params[:league]) : tournament.leagues.active.first
   end
 end

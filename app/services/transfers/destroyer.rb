@@ -2,7 +2,7 @@ module Transfers
   class Destroyer < ApplicationService
     attr_reader :transfer_id
 
-    def initialize(transfer_id:)
+    def initialize(transfer_id)
       @transfer_id = transfer_id
     end
 

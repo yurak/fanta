@@ -1,6 +1,6 @@
 module TournamentRounds
   class Creator < ApplicationService
-    def initialize(tournament_id, season_id, count: 38)
+    def initialize(tournament_id, season_id, count = 38)
       @tournament = Tournament.find_by(id: tournament_id)
       @season = Season.find_by(id: season_id)
       @count = count

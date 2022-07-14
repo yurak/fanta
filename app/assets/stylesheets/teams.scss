@@ -1,12 +1,11 @@
 .page-info.team-show {
-  padding: 120px 0 20px;
+  padding: 0 0 0 272px;
 
   a {
     text-decoration: none;
   }
 
   .teams-bar {
-    background-color: #FFEBC2;
     width: 100%;
     height: 112px;
     text-align: center;
@@ -46,10 +45,10 @@
   }
 
   .team-section {
-    padding: 40px 10% 0;
+    padding: 40px;
     display: grid;
     grid-template-columns: 1fr 2fr;
-    column-gap: 100px;
+    column-gap: 64px;
 
     .team-data {
       margin-top: 120px;
@@ -574,9 +573,109 @@
   }
 }
 
+#logo-input-icon img {
+  width: 104px;
+  height: 104px;
+}
+
+#logo-modal {
+  background: #FFFFFF;
+  box-shadow: 1px 2px 5px rgba(24, 23, 21, 0.2);
+  padding: 56px 40px;
+  width: 100%;
+  overflow: auto;
+  max-height: 100%;
+
+  .logo-modal-title {
+    font-family: 'Nunito ExtraBold';
+    text-align: center;
+    font-size: 32px;
+    line-height: 32px;
+    margin-bottom: 32px;
+  }
+
+  .logo-modal-icons {
+    margin-top: 32px;
+
+    .logo-modal-icon {
+      display: inline-block;
+      margin: 8px;
+      cursor: pointer;
+    }
+
+    .logo-modal-icon:hover {
+      background: #E5E6E4;
+      border-radius: 4px;
+    }
+
+    img {
+      width: 64px;
+      height: 64px;
+    }
+  }
+}
+
+.login-block.join-request-block {
+  width: 540px;
+}
+
+.tournament-checkbox {
+  text-align: center;
+
+  .tournament-container {
+    display: inline-block;
+    width: 104px;
+    margin: 4px 2px;
+  }
+
+  input {
+    display: none;
+  }
+
+  .checked {
+    background: #FFEBC2;
+    border-radius: 8px;
+
+    .checkbox-team-name {
+      color: #181715;
+    }
+  }
+
+  .checkbox-data {
+    padding: 8px 0;
+  }
+
+  .checkbox-data:hover {
+    background: #F4F4F4;
+    cursor: pointer;
+    border-radius: 8px;
+  }
+
+  .checked:hover {
+    background: #FFEBC2;
+  }
+
+  img {
+    width: 64px;
+    height: 64px;
+  }
+
+  .checkbox-team-name {
+    font-family: 'Nunito Regular';
+    font-size: 12px;
+    line-height: 16px;
+    color: #A6A2A2;
+    margin-top: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 0 8px;
+  }
+}
+
 @media (orientation: portrait) {
   .page-info.team-show {
-    padding: 200px 0 20px;
+    padding: 20px 0 20px 272px;
 
     .team-section {
       display: block;
@@ -707,89 +806,117 @@
   }
 }
 
-.page-info.team-transfers-page {
-  padding: 120px 0 100px;
+.team-transfers-page {
+  .page-info {
+    padding: 0 0 100px 272px;
 
-  .team-header {
-    background-color: #FFEBC2;
-    padding: 24px 150px;
-  }
-
-  .team-title-head {
-    display: grid;
-    grid-template-columns: 48px auto;
-    column-gap: 16px;
-
-    .team-logo {
-      img {
-        width: 48px;
-        height: 48px;
-      }
+    .team-header {
+      background-color: #E5E6E4;
+      padding: 24px 50px;
     }
 
-    .team-title {
-      line-height: 48px;
-      font-size: 24px;
-    }
-  }
-
-  .team-data {
-    text-align: center;
-  }
-
-  .team-data-row {
-    display: grid;
-    grid-template-columns: 250px 250px 250px;
-    column-gap: 50px;
-    line-height: 40px;
-    padding-top: 24px;
-    width: 850px;
-    margin: auto;
-
-    .team-data-item {
-      background-color: #FFFFFF;
-      border: 1px solid #E5E6E4;
-      border-radius: 4px;
+    .team-title-head {
       display: grid;
-      grid-template-columns: 5fr 2fr;
+      grid-template-columns: 48px auto;
+      column-gap: 16px;
 
-      .team-data-value {
-        background-color: #F4F4F4;
-        font-weight: bolder;
-        font-size: 18px;
+      .team-logo {
+        img {
+          width: 48px;
+          height: 48px;
+        }
       }
 
-      .players-sale {
-        display: inline-block;
+      .team-title {
+        line-height: 48px;
+        font-size: 24px;
       }
     }
-  }
 
-  .team-players-list {
-    padding: 0 150px;
-  }
-
-  .team-players-headers {
-    grid-template-columns: 6fr 3fr 2fr 2fr 3fr 1fr 4fr;
-  }
-
-  .team-player-item {
-    grid-template-columns: 6fr 3fr 2fr 2fr 3fr 1fr 4fr;
-
-    .team-player-transfer-status {
+    .team-data {
       text-align: center;
-      padding: 16px 0;
+    }
+
+    .team-data-row {
+      display: grid;
+      grid-template-columns: 250px 250px 250px;
+      column-gap: 50px;
+      line-height: 40px;
+      padding-top: 24px;
+      width: 850px;
+      margin: auto;
+
+      .team-data-item {
+        background-color: #FFFFFF;
+        border: 1px solid #E5E6E4;
+        border-radius: 4px;
+        display: grid;
+        grid-template-columns: 5fr 2fr;
+
+        .team-data-value {
+          background-color: #F4F4F4;
+          font-weight: bolder;
+          font-size: 18px;
+        }
+
+        .players-sale {
+          display: inline-block;
+        }
+      }
+    }
+
+    .team-players-list {
+      padding: 0 50px;
+    }
+
+    .team-players-headers {
+      grid-template-columns: 6fr 3fr 2fr 2fr 3fr 1fr 4fr;
+    }
+
+    .team-player-item {
+      grid-template-columns: 6fr 3fr 2fr 2fr 3fr 1fr 4fr;
+
+      .team-player-transfer-status {
+        text-align: center;
+        padding: 16px 0;
+      }
+    }
+
+    input {
+      border: 1px solid #D8D6FF;
+      border-radius: 4px;
+      color: #261FFF;
+      width: 100%;
+      height: 48px;
+      font-size: 18px;
+      background: #FFFFFF;
+      margin-top: 12px;
     }
   }
+}
 
-  input {
-    border: 1px solid #D8D6FF;
-    border-radius: 4px;
-    color: #261FFF;
-    width: 100%;
-    height: 48px;
-    font-size: 18px;
-    background: #FFFFFF;
-    margin-top: 12px;
+@media (orientation: portrait) {
+  .team-transfers-page {
+    .right-nav {
+      display: none;
+    }
+
+    .page-info {
+      padding: 0 0 100px 72px;
+
+      .team-header {
+        background-color: #E5E6E4;
+        padding: 24px 20px;
+      }
+
+      .team-data-row {
+        column-gap: 20px;
+        width: 790px;
+      }
+
+      .team-players-list {
+        padding: 0 20px;
+      }
+    }
   }
 }

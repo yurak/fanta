@@ -13,9 +13,7 @@
 //= require popper
 //= require jquery
 //= require bootstrap-sprockets
-//= require tinymce
 //= require bootstrap-toggle
-//= require jquery.multiselect
 //= require jquery_ujs
 //= require chartkick
 //= require Chart.bundle

@@ -39,10 +39,10 @@
             .user-team-name= team.human_name
             .user-team-league
               .user-team-league-title= t('users.league')
-              .user-team-league-name= team.league.name
+              .user-team-league-name= team.league&.name
           .user-team-activate
-            - unless current_user.active_team == team
-              = link_to t('users.activate'), user_path(current_user, active_team_id: team.id), method: :put, class: 'change-link'
+            -# - unless current_user.active_team == team
+            -#   = link_to t('users.activate'), user_path(current_user, active_team_id: team.id), method: :put, class: 'change-link'
     .user-config
       .user-title= t('users.positions_naming')
       .user-config-block
