@@ -3,7 +3,7 @@ require 'open-uri'
 
 module Players
   class CsvParser < ApplicationService
-    def initialize(file_url: nil, file_name: nil)
+    def initialize(file_url = nil, file_name = nil)
       @file_name = file_name
       @file_url = file_url
     end
