@@ -1,4 +1,6 @@
 en:
+  words:
+    invalid: 'is invalid'
   auction:
     auction: "Auction"
     time_spend: "Time spend"
