@@ -32,7 +32,7 @@ gem 'rubocop', require: false
 gem 'rubocop-rails', require: false
 gem 'rubocop-rspec', require: false
 gem 'sass-rails', '~> 5.0'
-gem 'telegram-bot-ruby'
+gem 'telegram-bot'
 gem 'time_difference'
 gem 'uglifier', '>= 1.3.0'
 gem 'whenever', require: false

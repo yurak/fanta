@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_07_10_094954) do
+ActiveRecord::Schema.define(version: 2022_07_11_125555) do
 
   create_table "article_tags", force: :cascade do |t|
     t.string "name", default: "", null: false
@@ -392,6 +392,15 @@ ActiveRecord::Schema.define(version: 2022_07_10_094954) do
     t.index ["league_id"], name: "index_transfers_on_league_id"
     t.index ["player_id"], name: "index_transfers_on_player_id"
     t.index ["team_id"], name: "index_transfers_on_team_id"
+  end
+
+  create_table "user_profiles", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "tg_chat_id"
+    t.string "tg_name"
+    t.boolean "bot_enabled", default: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "users", force: :cascade do |t|

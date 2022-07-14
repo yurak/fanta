@@ -4,9 +4,11 @@ class User < ApplicationRecord
   devise :database_authenticatable, :confirmable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
+  has_many :join_requests, dependent: :destroy
   has_many :teams, dependent: :destroy
   has_many :leagues, through: :teams
   has_many :player_requests, dependent: :destroy
+  has_one :user_profile, dependent: :destroy
 
   EMAIL_LENGTH = (6..50).freeze
   EMAIL_FORMAT_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.a[a-z]+)*\.[a-z]+\z/i.freeze

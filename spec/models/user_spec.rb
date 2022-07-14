@@ -2,9 +2,11 @@ RSpec.describe User, type: :model do
   subject(:user) { create(:user) }
 
   describe 'Associations' do
+    it { is_expected.to have_many(:join_requests).dependent(:destroy) }
     it { is_expected.to have_many(:teams).dependent(:destroy) }
     it { is_expected.to have_many(:leagues).through(:teams) }
     it { is_expected.to have_many(:player_requests).dependent(:destroy) }
+    it { is_expected.to have_one(:user_profile).dependent(:destroy) }
   end
 
   describe 'Validations' do
