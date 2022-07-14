@@ -3,7 +3,7 @@ every 5.minutes do
   rake 'tours:lock_deadline'
 end
 
-every 5.minutes do
+every :hour do
   rake 'tg:send_notifications'
 end
 

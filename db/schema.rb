@@ -397,6 +397,7 @@ ActiveRecord::Schema.define(version: 2022_07_11_125555) do
   create_table "user_profiles", force: :cascade do |t|
     t.integer "user_id"
     t.integer "tg_chat_id"
+    t.string "tg_name"
     t.boolean "bot_enabled", default: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
