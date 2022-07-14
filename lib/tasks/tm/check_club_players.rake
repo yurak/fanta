@@ -31,7 +31,7 @@ namespace :tm do
               last_name = name_data[1]&.text&.strip
             end
             country_name = player_page.css('.data-header__items .data-header__content .flaggenrahmen')[0].attributes['title'].value
-            country_code = ISO3166::Country.find_country_by_name(country_name)&.alpha2&.downcase
+            country_code = ISO3166::Country.find_country_by_iso_short_name(country_name)&.alpha2&.downcase
             positions = player_page.css('.detail-position__position')
             tm_pos1 = Position::TM_POS[positions[0]&.text]
             tm_pos2 = Position::TM_POS[positions[2]&.text]

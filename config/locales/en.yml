@@ -258,7 +258,7 @@ en:
       create: "Create a team"
       logo: "Logo"
       name: "Name"
-      name_note: "Team name should contain 2-18 characters"
+      name_note: "Team name should contain 2-24 characters"
       note: "Make your team unique and lead it to victories!"
     points:
       zero: "0 points"

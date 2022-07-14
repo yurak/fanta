@@ -1,6 +1,6 @@
 RSpec.describe Players::CsvParser do
   describe '#call' do
-    subject(:parser) { described_class.new(file_name: file_name, file_url: file_url) }
+    subject(:parser) { described_class.new(file_url, file_name) }
 
     let(:file_name) { nil }
     let(:file_url) { nil }
