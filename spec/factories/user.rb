@@ -16,5 +16,11 @@ FactoryBot.define do
     factory :moderator do
       role { :moderator }
     end
+
+    trait :with_profile do
+      after(:create) do |user|
+        create(:user_profile, user: user)
+      end
+    end
   end
 end

@@ -10,6 +10,8 @@ class User < ApplicationRecord
   has_many :player_requests, dependent: :destroy
   has_one :user_profile, dependent: :destroy
 
+  accepts_nested_attributes_for :user_profile
+
   EMAIL_LENGTH = (6..50).freeze
   EMAIL_FORMAT_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.a[a-z]+)*\.[a-z]+\z/i.freeze
   NAME_LENGTH = (2..20).freeze
