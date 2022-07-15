@@ -349,6 +349,58 @@ RSpec.describe 'Users', type: :request do
       end
     end
 
+    context 'when initial user without profile is logged in and updates self name and tg_name' do
+      let(:logged_user) { create(:user, name: '', status: :initial) }
+      let(:name) { FFaker::Name.first_name }
+      let(:tg_name) { FFaker::Name.first_name }
+      let(:params) { { name: name, tg_name: tg_name } }
+
+      before do
+        sign_in logged_user
+
+        put new_update_user_path(logged_user, params)
+      end
+
+      it { expect(response).to redirect_to(new_avatar_user_path(logged_user)) }
+      it { expect(response).to have_http_status(:found) }
+
+      it 'updates user name' do
+        expect(logged_user.reload.name).to eq(name)
+      end
+
+      it 'updates user status' do
+        expect(logged_user.reload.status).to eq('named')
+      end
+    end
+
+    context 'when initial user with profile is logged in and updates self name and tg_name' do
+      let(:logged_user) { create(:user, :with_profile, name: '', status: :initial) }
+      let(:name) { FFaker::Name.first_name }
+      let(:tg_name) { FFaker::Name.first_name }
+      let(:params) { { name: name, tg_name: tg_name } }
+
+      before do
+        sign_in logged_user
+
+        put new_update_user_path(logged_user, params)
+      end
+
+      it { expect(response).to redirect_to(new_avatar_user_path(logged_user)) }
+      it { expect(response).to have_http_status(:found) }
+
+      it 'updates user name' do
+        expect(logged_user.reload.name).to eq(name)
+      end
+
+      it 'updates user status' do
+        expect(logged_user.reload.status).to eq('named')
+      end
+
+      it 'updates user profile name' do
+        expect(logged_user.reload.user_profile.tg_name).to eq(tg_name)
+      end
+    end
+
     context 'when initial user is logged in and updates self avatar' do
       let(:logged_user) { create(:user, name: '', status: :initial) }
       let(:avatar) { '3' }
