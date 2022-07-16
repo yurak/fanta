@@ -798,6 +798,11 @@
       margin-bottom: 0;
     }
   }
+
+  .about-text {
+    width: 900px;
+    height: 700px;
+  }
 }
 
 .rules-user-true {
@@ -1020,25 +1025,6 @@
   }
 }
 
-// OLD
-.about-page {
-  .left-block {
-    .about-block {
-      font-size: 22px;
-      line-height: 32px;
-      color: #181715;
-
-      .about-item {
-        padding: 24px 100px 0 25px;
-      }
-
-      .join-us {
-        font-size: 26px;
-        font-weight: bolder;
-      }
-    }
-  }
-}
 // OLD
 .start-page {
   padding-left: 72px;
