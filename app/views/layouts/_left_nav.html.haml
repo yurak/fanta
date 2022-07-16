@@ -56,10 +56,10 @@
         .help-modal-link= link_to t('header.links'), links_path
         -#.help-modal-link= link_to t('header.tips'), ''
         .help-modal-plus-links
-          -#.help-modal-link
-          -#  = link_to '' do
-          -#    .help-modal-link-text= t('header.about')
-          -#    .help-modal-link-icon= image_tag('icons/link_out.svg')
+          .help-modal-link
+            = link_to about_path do
+              .help-modal-link-text= t('header.about')
+              .help-modal-link-icon= image_tag('icons/link_out.svg')
           .help-modal-link
             = link_to fees_path do
               .help-modal-link-text= t('header.prices')
