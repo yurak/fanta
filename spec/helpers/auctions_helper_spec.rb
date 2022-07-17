@@ -24,13 +24,14 @@ RSpec.describe AuctionsHelper, type: :helper do
       let(:auction) { create(:auction, status: :sales) }
       let(:user) { create(:user) }
       let!(:team) { create(:team, league: auction.league, user: user) }
+      let!(:player_team) { create(:player_team, team: team) }
 
       before do
         allow(helper).to receive(:current_user).and_return(user)
       end
 
       it 'returns path' do
-        expect(helper.auction_link(auction)).to eq(edit_team_path(team))
+        expect(helper.auction_link(auction)).to eq(edit_team_player_team_path(team, player_team))
       end
     end
 

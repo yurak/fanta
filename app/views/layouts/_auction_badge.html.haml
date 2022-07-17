@@ -15,7 +15,7 @@
           - if active_auction.sales?
             .auction-link-area
               .auction-link
-                = link_to t('header.sell'), edit_team_path(user_team_by_league(current_user, league))
+                = link_to t('header.sell'), edit_team_player_team_path(user_team_by_league(current_user, league), user_team_by_league(current_user, league).player_teams.first)
           - elsif active_auction.blind_bids? && active_auction.auction_rounds.active.any? && user_team_by_league(current_user, league).vacancies.positive?
             .auction-link-area
               .auction-link

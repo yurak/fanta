@@ -256,6 +256,9 @@ en:
     total_score: "Total score"
     best_lineup: "Best lineup"
   teams:
+    edit:
+      title: "Edit team data"
+      update: "Update team"
     new:
       сhoose: "Choose a logo"
       create: "Create a team"
@@ -339,6 +342,7 @@ en:
       note: "A manager name will allow other players to address you appropriately. You can change it at any time"
       tg_name: "Telegram name or phone"
       tg_note: "This data will help us contact you"
+    edit_team: "Edit team"
     settings: "Settings"
     settings_desc: "Manage your account"
     name: "Name"

@@ -41,6 +41,7 @@
               .user-team-league-title= t('users.league')
               .user-team-league-name= team.league&.name
           .user-team-activate
+            = link_to t('users.edit_team'), edit_team_path(team), class: 'change-link'
             -# - unless current_user.active_team == team
             -#   = link_to t('users.activate'), user_path(current_user, active_team_id: team.id), method: :put, class: 'change-link'
     .user-config

@@ -4,7 +4,7 @@
       = link_to root_path do
         = image_tag('logo.svg')
   .login-block
-    .title-block
+    .login-title-block
       .title-text= t('.sign_in')
     .login-form
       = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
