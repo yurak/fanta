@@ -5,7 +5,7 @@ module AuctionsHelper
       '#'
     when 'sales'
       team = current_user&.team_by_league(auction.league)
-      team ? edit_team_path(team) : '#'
+      team ? edit_team_player_team_path(team, team.player_teams.first) : '#'
     when 'blind_bids'
       auction.auction_rounds.active.any? ? auction_round_path(auction.auction_rounds.active.first) : '#'
     else

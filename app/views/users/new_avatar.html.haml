@@ -4,7 +4,7 @@
       = link_to root_path do
         = image_tag('logo.svg')
   .login-block.new-user-avatar
-    .title-block
+    .login-title-block
       .title-text= t('users.new_avatar.select')
     .login-form
       = form_for user, url: new_update_user_path(user), method: :put do |f|

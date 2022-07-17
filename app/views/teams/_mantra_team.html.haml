@@ -85,7 +85,7 @@
                 = form[0]
     - if team.user == current_user && team.sales_period?
       .team-transfer-market
-        = link_to edit_team_path(team) do
+        = link_to edit_team_player_team_path(team, team.player_teams.first) do
           .team-transfer-market-btn
             = t('teams.transfer_list')
   .team-lists
