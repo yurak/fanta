@@ -69,6 +69,7 @@ en:
     faq: "FAQ"
     finished: "🏁 FINISHED"
     fixtures: "Fixtures"
+    guide: "Guide"
     help: "Help"
     help_project: "❤️ Help the project"
     leagues: "Leagues"
@@ -360,6 +361,18 @@ en:
     change_password: "Change password"
     change_password_desc: "Input your current password and new one twice"
   welcome:
+    about:
+      join: "Join us!"
+      paragraph1: "In 2017, the project started among the Lviv fans of AC Milan as a classic fantasy football with one Serie A league for 5 players."
+      paragraph2: "Since 2018, the Premier League has been launched according to the rules that have already been tested in practice, and 2 leagues for this tournament have appeared in the project. Since then, we have been expanding every year. Thus, in the 20/21 season, a tournament based on the Bundesliga started for the first time, and in the 21/22 season - La Liga and Ligue 1. In the 22/23 season, we add Belgium, the Netherlands, Portugal and the Championship to the list of available leagues."
+      paragraph3: "In addition, according to slightly changed rules, we organize tournaments based on Champions League, European Championship and League of Nations. A tournament based on the World Cup in Qatar is planned."
+      paragraph4: "In 2022, we still remain a project of like-minded people who have combined their professional skills (designers, marketers, developers, etc.) for the development of Ukrainian football fantasy."
+      subtitle: "MantraFootball is an adaptation of the Italian fantasy football system."
+      title: "About Us"
+    contact:
+      title: "Contact Us"
+      ask: "Ask questions"
+      follow: "Follow public channels"
     fee:
       country:
         belgium: "Belgium"
@@ -394,6 +407,22 @@ en:
       subtitle2: "The amount of our fees is available to everyone."
       title: "Organizational fees"
       type: "Type"
+    guide:
+      game_guide: "Game Guide"
+      header: "How are the competitions going?"
+      rules: "You can read the detailed rules of the game on "
+      rules_link: "Rules page"
+      ul01: "We form a league of 8 managers (if you want to be together with a friend - let us know and we will take it into account)."
+      ul02: "We hold an auction where managers form their teams of 25 players. Each football player can be in the team of only one manager of the league - the one who paid the most for him. You can sell and buy new players to the team only in transfer windows."
+      ul03: "All football players are divided into 11 unique positions in which they can perform (some players can play in several positions)."
+      ul04: "Every round, the manager chooses the scheme for the game, the lineup of 11 main players and the bench (all schemes are balanced and usually include, in addition to the goalkeeper, 5 defensive and 5 attacking positions)."
+      ul05: "The game takes place in the Head to Head system, that is, in each round you face one of the opposing managers."
+      ul06: "The start of the Round (deadline for creating the lineup) is 1.5 hours before the first match of the tour (the round always coincides with the round of the calendar, if any match of the tour was not played due to postponement, then this round is not closed, but is waiting for completion). We do not have any 'paired' tours."
+      ul07: "Based on the results of real matches, players are awarded not only bonuses and penalties for their actions, but also a Base rating. A third-party statistical resource assigns this rating to a player based on his actions in a real match. We use Fotmob as such a resource."
+      ul08: "If the player did not play in the real Tour, he can be replaced by someone from the bench who can play in this position."
+      ul09: "The basic scores of the main players, as well as maluses and bonuses, are added up and converted into game goals according to the principle: 72 points - 1 goal, each subsequent goal - for an additional 7 points."
+      ul10: "The team that scored more goals in the match wins it. 3 points are awarded for a win, 1 for a draw. The tournament table is formed on the basis of these points."
+      ul11: "The team with the most points at the end of the tournament wins the league and the trophy."
     index:
       better:
         classic: "Classic fantasy"
@@ -693,26 +722,3 @@ en:
       subtitle3: "And it's a great way to have fun with friends and find new ones!"
       subtitle4: "After the start of the game, each match of your player acquires a new meaning."
       title: "Rules"
-    guide:
-      game_guide: "Game Guide"
-      auction: "Auction"
-      modules: "Modules"
-      players: "Players"
-      results: "Results"
-      price: "Price"
-      faq: "FAQs"
-      external_link_here: "You can find a game guide here:"
-      external_link: "LINK"
-    contact:
-      title: "Contact Us"
-      join: "Join chat"
-      ask: "Ask questions"
-      follow: "Follow public channels"
-    about:
-      join: "Join us!"
-      paragraph1: "In 2017, the project started among the Lviv fans of AC Milan as a classic fantasy football with one Serie A league for 5 players."
-      paragraph2: "Since 2018, the Premier League has been launched according to the rules that have already been tested in practice, and 2 leagues for this tournament have appeared in the project. Since then, we have been expanding every year. Thus, in the 20/21 season, a tournament based on the Bundesliga started for the first time, and in the 21/22 season - La Liga and Ligue 1. In the 22/23 season, we add Belgium, the Netherlands, Portugal and the Championship to the list of available leagues."
-      paragraph3: "In addition, according to slightly changed rules, we organize tournaments based on Champions League, European Championship and League of Nations. A tournament based on the World Cup in Qatar is planned."
-      paragraph4: "In 2022, we still remain a project of like-minded people who have combined their professional skills (designers, marketers, developers, etc.) for the development of Ukrainian football fantasy."
-      subtitle: "MantraFootball is an adaptation of the Italian fantasy football system."
-      title: "About Us"

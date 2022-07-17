@@ -19,10 +19,12 @@
         = link_to t('header.about'), about_path
       -#.header-link-item
       -#  = link_to t('header.faq'), ''
-      -#.header-link-item
-      -#  = link_to t('header.contact'), contact_path
-      -#.header-link-item
-      -#  = link_to t('header.demo'), ''
+      .header-link-item
+        = link_to t('header.contact'), contact_path
+      .header-link-item
+        -# TODO: implement demo page instead of guide
+        -#= link_to t('header.demo'), demo_path
+        = link_to t('header.guide'), guide_path
     .header-links-section.header-links-section-sign
       .header-link-item
         = link_to t('header.login'), new_user_session_path

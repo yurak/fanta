@@ -66,6 +66,8 @@ en:
         compete: "To compete with others"
         continue: "Continue with email"
         email: "Email"
+        note: "⚠️ To participate in the game, you will need to "
+        note_link: "make a fee"
         sign_up: "Sign up"
     sessions:
       new:
