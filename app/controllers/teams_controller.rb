@@ -33,7 +33,7 @@ class TeamsController < ApplicationController
     if !team_of_user? || team.update(input_params)
       redirect_to user_path(current_user)
     else
-      render :new
+      render :edit
     end
   end
 

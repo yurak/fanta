@@ -134,7 +134,7 @@ RSpec.describe 'Teams', type: :request do
     let(:logged_user) { create(:user) }
     let(:team) { create(:team, user: logged_user) }
     let(:human_name) { 'Forza' }
-    let(:logo_url) { 'forza.png' }
+    let(:logo_url) { 'default_logo.png' }
     let(:params) do
       {
         team: {
@@ -173,7 +173,7 @@ RSpec.describe 'Teams', type: :request do
         put team_path(team, params)
       end
 
-      it { expect(response).to render_template(:new) }
+      it { expect(response).to render_template(:edit) }
       it { expect(response).to have_http_status(:ok) }
 
       it 'does not update team human_name' do
