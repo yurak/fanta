@@ -201,6 +201,18 @@
     line-height: 16px;
   }
 
+  .signup-note {
+    margin: 12px 0 0;
+
+    .signup-note-link {
+      display: inline-block;
+
+      a {
+        text-decoration: none;
+      }
+    }
+  }
+
   .name-edit-note {
     font-family: 'Nunito Regular';
     font-size: 16px;

@@ -1,9 +1,28 @@
-.guide-page.header-grid
-  .left-block
-    .title-block
-      .title-text= t('welcome.guide.game_guide')
-      .title-bg
-    .guide-block
-      .temp-block
-        = t('welcome.guide.external_link_here')
-        = link_to t('welcome.guide.external_link'), 'https://drive.google.com/file/d/13vRxoK5QjOLivIdiZM0aCSvwCmBD0DIb/view', target: '_blank'
+.page-block
+  - if user_signed_in?
+    = render 'layouts/left_nav', league: nil
+  - else
+    = render 'layouts/header'
+  .rules-page{ class: "rules-user-#{user_signed_in?}"}
+    .rules-title
+      .rules-title-icon 📖
+      .rules-title-text= t('welcome.guide.game_guide')
+    .rules-content
+      .rules-text
+        .rules-paragraph
+          = t('welcome.guide.rules')
+          = link_to t('welcome.guide.rules_link'), rules_path
+        .rules-header= t('welcome.guide.header')
+        %ul
+          %li= t('welcome.guide.ul01')
+          %li= t('welcome.guide.ul02')
+          %li= t('welcome.guide.ul03')
+          %li= t('welcome.guide.ul04')
+          %li= t('welcome.guide.ul05')
+          %li= t('welcome.guide.ul06')
+          %li= t('welcome.guide.ul07')
+          %li= t('welcome.guide.ul08')
+          %li= t('welcome.guide.ul09')
+          %li= t('welcome.guide.ul10')
+          %li= t('welcome.guide.ul11')
+  = render 'layouts/footer'

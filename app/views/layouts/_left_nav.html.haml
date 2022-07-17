@@ -64,10 +64,10 @@
             = link_to fees_path do
               .help-modal-link-text= t('header.prices')
               .help-modal-link-icon= image_tag('icons/link_out.svg')
-          -#.help-modal-link
-          -#  = link_to '' do
-          -#    .help-modal-link-text= t('header.contact')
-          -#    .help-modal-link-icon= image_tag('icons/link_out.svg')
+          .help-modal-link
+            = link_to contact_path do
+              .help-modal-link-text= t('header.contact')
+              .help-modal-link-icon= image_tag('icons/link_out.svg')
 
 :javascript
   var modal = document.getElementById("help-modal");
