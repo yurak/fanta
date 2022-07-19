@@ -19,7 +19,7 @@ class Team < ApplicationRecord
   MAX_PLAYERS = 25
   MIN_GK = 2
 
-  validates :name, presence: true, uniqueness: true, length: { in: 2..18 }
+  validates :name, presence: true, length: { in: 2..18 }
   validates :code, presence: true, length: { in: 2..4 }
   validates :human_name, length: { in: 2..24 }
 
