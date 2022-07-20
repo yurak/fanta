@@ -20,7 +20,7 @@ class Team < ApplicationRecord
   MIN_GK = 2
 
   validates :name, presence: true, length: { in: 2..18 }
-  validates :code, presence: true, length: { in: 2..4 }
+  validates :code, presence: true, length: { in: 2..3 }
   validates :human_name, length: { in: 2..24 }
 
   default_scope { includes(%i[league user]) }

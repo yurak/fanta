@@ -50,7 +50,7 @@ class TeamsController < ApplicationController
   end
 
   def create_params
-    input_params.merge(code: input_params[:human_name].delete(" \t\r\n")[0..3].upcase, name: generate_name, user_id: current_user.id)
+    input_params.merge(code: input_params[:human_name].delete(" \t\r\n")[0..2].upcase, name: generate_name, user_id: current_user.id)
   end
 
   def generate_name
