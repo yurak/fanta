@@ -166,6 +166,9 @@
 
       .next-round-opponent-name {
         display: inline-block;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
     }
 
@@ -358,31 +361,6 @@
     }
   }
 
-  .live-badge {
-    padding: 2px 6px;
-    margin-right: 8px;
-    height: 20px;
-    font-size: 10px;
-    line-height: 16px;
-    background: #DB0A23;
-    border-radius: 4px;
-    color: #FFFFFF;
-    display: inline-block;
-
-    .live-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 3px;
-      background: #FFFFFF;
-      display: inline-block;
-    }
-
-    .live-text {
-      display: inline-block;
-      margin-left: 4px;
-    }
-  }
-
   .league-link {
     margin-bottom: 8px;
     padding: 10px 16px;
@@ -489,6 +467,31 @@
   }
 }
 
+.live-badge {
+  padding: 2px 6px;
+  margin-right: 8px;
+  height: 20px;
+  font-size: 10px;
+  line-height: 16px;
+  background: #DB0A23;
+  border-radius: 4px;
+  color: #FFFFFF;
+  display: inline-block;
+
+  .live-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 3px;
+    background: #FFFFFF;
+    display: inline-block;
+  }
+
+  .live-text {
+    display: inline-block;
+    margin-left: 4px;
+  }
+}
+
 .active-right-nav-false {
   background: #E5E6E4;
 
@@ -507,10 +510,10 @@
   display: none;
   position: fixed;
   z-index: 201;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
+  left: 78px;
+  bottom: 64px;
+  width: 188px;
+  height: 500px;
   overflow: auto;
 
   .help-modal-content {
@@ -521,8 +524,8 @@
     box-sizing: border-box;
     box-shadow: 1px 2px 5px rgba(24, 23, 21, 0.2);
     position: absolute;
-    left: 78px;
-    bottom: 64px;
+    left: 0;
+    bottom: 0;
     padding: 8px 4px;
 
     .help-modal-plus-links {

@@ -10,66 +10,6 @@
   .round-section {
     padding: 16px;
 
-    .rounds-block {
-      padding-bottom: 16px;
-      border-bottom: 1px solid #E5E6E4;
-
-      .round-link-block {
-        display: inline-block;
-        text-align: center;
-        background: #F4F4F4;
-        border: 1px solid #F4F4F4;
-        color: #847577;
-        border-radius: 4px;
-        font-weight: 500;
-        font-size: 18px;
-        line-height: 40px;
-        width: 56px;
-        margin: 4px 2px;
-      }
-
-      .round-link-block:hover {
-        background: #D8D6FF;
-        border: 1px solid #D8D6FF;
-        color: #261FFF;
-      }
-
-      .round-set_lineup, .round-locked {
-        color: #261FFF;
-        border: 1px solid #D8D6FF;
-        line-height: 38px;
-        background: #FFFFFF;
-      }
-
-      .round-postponed {
-        color: #DB0A23;
-        background: #FFFFFF;
-        border: 1px solid #FCC5CB;
-        line-height: 38px;
-      }
-
-      .round-inactive {
-        background-color: #FFFFFF;
-        border: 1px solid #F4F4F4;
-        line-height: 38px;
-        color: #181715;
-      }
-
-      .round-current {
-        background-color: #261FFF;
-        color: #FFFFFF;
-        border: none;
-        line-height: 40px;
-      }
-
-      .round-current:hover {
-        background-color: #261FFF;
-        color: #FFFFFF;
-        border: 1px solid #261FFF;
-        line-height: 38px;
-      }
-    }
-
     .round-item {
       padding: 32px 0 0;
 
@@ -113,34 +53,6 @@
           font-size: 16px;
         }
 
-        .round-deadline {
-          display: grid;
-          grid-template-columns: 80px 144px 144px;
-          column-gap: 8px;
-
-          .round-deadline-text {
-            font-weight: 500;
-            font-size: 12px;
-            text-align: right;
-          }
-
-          .round-deadline-value {
-            border: 1px solid #FCC5CB;
-            border-radius: 4px;
-            font-weight: 700;
-            font-size: 12px;
-            line-height: 22px;
-            color: #DB0A23;
-            text-align: center;
-          }
-
-          .round-deadline-countdown {
-            font-weight: 400;
-            font-size: 14px;
-            color: #847577;
-          }
-        }
-
         .round-finished {
           background: #E5E6E4;
           border-radius: 4px;
@@ -148,8 +60,12 @@
           line-height: 16px;
           padding: 4px 8px;
           display: grid;
-          grid-template-columns: 92px 92px;
-          width: 190px;
+          grid-template-columns: 108px 92px;
+          width: 215px;
+
+          .round-finished-title {
+            text-align: center;
+          }
 
           .round-finished-date {
             font-weight: 400;
@@ -252,11 +168,12 @@
 
         .round-lineup-clone {
           border-radius: 20px;
+          padding: 0 7px;
         }
       }
 
       .round-match-locked {
-        grid-template-columns: 8fr 3fr 120px 3fr 8fr;
+        grid-template-columns: 1fr 96px 120px 96px 1fr;
 
         .round-match-result {
           a {
@@ -528,23 +445,848 @@
   }
 }
 
-@media (orientation: portrait) {
-  .page-info.rounds-page {
-    padding: 0 0 0 272px;
-    display: block;
+.rounds-block {
+  padding-bottom: 16px;
+  border-bottom: 1px solid #E5E6E4;
 
-    .round-section .round-item .fanta-block {
-      grid-template-columns: 7fr 5fr;
-      column-gap: 16px;
+  .round-link-block {
+    display: inline-block;
+    text-align: center;
+    background: #F4F4F4;
+    border: 1px solid #F4F4F4;
+    color: #847577;
+    border-radius: 4px;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 40px;
+    width: 56px;
+    margin: 4px 2px;
+  }
+
+  .round-link-block:hover {
+    background: #D8D6FF;
+    border: 1px solid #D8D6FF;
+    color: #261FFF;
+  }
+
+  .round-set_lineup, .round-locked {
+    color: #261FFF;
+    border: 1px solid #D8D6FF;
+    line-height: 38px;
+    background: #FFFFFF;
+  }
+
+  .round-postponed {
+    color: #DB0A23;
+    background: #FFFFFF;
+    border: 1px solid #FCC5CB;
+    line-height: 38px;
+  }
+
+  .round-inactive {
+    background-color: #FFFFFF;
+    border: 1px solid #F4F4F4;
+    line-height: 38px;
+    color: #181715;
+  }
+
+  .round-current {
+    background-color: #261FFF;
+    color: #FFFFFF;
+    border: none;
+    line-height: 40px;
+  }
+
+  .round-current:hover {
+    background-color: #261FFF;
+    color: #FFFFFF;
+    border: 1px solid #261FFF;
+    line-height: 38px;
+  }
+}
+
+.round-deadline {
+  display: grid;
+  grid-template-columns: 80px 144px 144px;
+  column-gap: 8px;
+  font-size: 12px;
+
+  .round-deadline-text {
+    font-weight: 500;
+    text-align: right;
+  }
+
+  .round-deadline-value {
+    //border: 1px solid #FCC5CB;
+    //line-height: 24px;
+    border-radius: 4px;
+    font-weight: 700;
+    color: #DB0A23;
+    text-align: center;
+  }
+
+  .round-deadline-countdown {
+    font-weight: 400;
+    font-size: 14px;
+    color: #847577;
+  }
+}
+
+.round-portrait-page {
+  display: none;
+
+  a {
+    text-decoration: none;
+    color: #181715;
+  }
+
+  .portrait-header {
+    background: #FFFFFF;
+    box-shadow: 3px 6px 15px rgba(24, 23, 21, 0.2);
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 10;
+  }
+
+  .base-header {
+    display: grid;
+    grid-template-columns: 192px auto 192px;
+    position: relative;
+
+    .league-data {
+      padding-top: 42px;
+      text-align: center;
+
+      .league-name {
+        font-family: 'Nunito ExtraBold';
+        font-size: 42px;
+        line-height: 48px;
+        margin-bottom: 12px;
+      }
+
+      .league-season {
+        font-family: 'Nunito Regular';
+        font-size: 36px;
+        line-height: 48px;
+      }
     }
 
-    .stats-section {
-      .round-table {
-        .round-table-item, .round-tournament-match {
-          font-size: 16px;
+    img {
+      margin: 36px;
+      width: 120px;
+    }
+
+    .league-icon {
+      position: absolute;
+      width: 72px;
+      height: 72px;
+      background: #FFFFFF;
+      border: 3px solid #D8D6FF;
+      border-radius: 36px;
+      right: 18px;
+      top: 82px;
+
+      img {
+        position: relative;
+        width: 54px;
+        height: 54px;
+        border-radius: 12px;
+        margin: 6px;
+      }
+    }
+  }
+
+  #burger-menu-block {
+    font-family: 'Nunito ExtraBold';
+    display: none;
+    width: 100%;
+    min-height: 100%;
+    overflow: auto;
+    background: #FFFFFF;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 111;
+    text-align: center;
+
+    .base-header {
+      height: 192px;
+    }
+
+    .league-data {
+      padding-top: 24px;
+      margin: 0 auto;
+
+      .league-name {
+        line-height: 132px;
+      }
+    }
+
+    .user-data {
+      font-size: 42px;
+      line-height: 72px;
+      padding: 24px;
+      border: 3px solid #E5E6E4;
+      border-radius: 72px;
+      display: grid;
+      grid-template-columns: 72px auto;
+      column-gap: 36px;
+      width: fit-content;
+
+      img {
+        width: 72px;
+        height: 72px;
+        border-radius: 36px;
+        margin: 0;
+      }
+
+      .user-name {
+        width: fit-content;
+        padding-right: 18px;
+      }
+    }
+
+    .menu-content {
+      position: fixed;
+      top: 192px;
+      width: 100%;
+      height: 90%;
+    }
+
+    .nav-links {
+      width: 100%;
+
+      .nav-logo-small {
+        margin-top: 48px;
+        padding: 24px 72px;
+        font-size: 48px;
+        line-height: 72px;
+
+        a {
+          display: grid;
+          grid-template-columns: 72px auto;
+          column-gap: 48px;
+          cursor: pointer;
+        }
+
+        .nav-link-title {
+          text-align: left;
         }
       }
     }
+
+    .my-leagues {
+      font-family: 'Nunito ExtraBold';
+      margin: 96px 0 24px;
+      padding: 0 36px;
+      text-align: left;
+
+      .my-leagues-title {
+        font-size: 36px;
+        line-height: 48px;
+        letter-spacing: 0.02em;
+        text-transform: uppercase;
+        margin-bottom: 24px;
+      }
+
+      .my-league {
+        border: 3px solid #E5E6E4;
+        border-radius: 12px;
+        line-height: 162px;
+        font-size: 42px;
+        padding: 0 24px;
+        margin-bottom: 12px;
+
+        a {
+          display: grid;
+          grid-template-columns: 168px auto 180px 72px;
+          column-gap: 48px;
+        }
+
+        .my-league-logo {
+          margin: auto;
+        }
+
+        img {
+          width: 126px;
+          height: 126px;
+        }
+      }
+
+      .my-league-true {
+        background: #FFEBC2;
+        border: 3px solid #FFEBC2;
+      }
+    }
+  }
+
+  .badges-block {
+    padding: 192px 0 72px;
+
+    .next-round {
+      font-family: 'Nunito ExtraBold';
+      height: 144px;
+      padding: 36px;
+      display: grid;
+      grid-template-columns: 72px auto 102px 72px 72px 102px auto 72px;
+      column-gap: 24px;
+      text-align: center;
+      font-size: 36px;
+      line-height: 72px;
+      box-shadow: 3px 6px 15px rgba(24, 23, 21, 0.2);
+
+      img {
+        width: 72px;
+        height: 72px;
+      }
+
+      .next-round-name {
+        font-family: 'Nunito Regular';
+      }
+
+      .next-round-goals {
+        background: #BA44F1;
+        border-radius: 12px;
+      }
+    }
+
+    .next-round-opponent-row {
+      grid-template-columns: 420px auto;
+
+      .next-round-opponent {
+        font-family: 'Nunito SemiBold';
+        display: grid;
+        grid-template-columns: 48px 72px auto;
+        column-gap: 24px;
+        text-align: left;
+      }
+
+      .next-round-opponent-name {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+
+    .auction-badge {
+      font-family: 'Nunito Medium';
+      border-radius: 12px;
+      font-size: 30px;
+      line-height: 48px;
+      text-transform: uppercase;
+      color: #FFFFFF;
+      padding: 6px 12px;
+      margin: 6px 0;
+    }
+
+    .auction-text {
+      text-align: left;
+      font-family: 'Nunito Medium';
+      font-size: 30px;
+      line-height: 72px;
+      text-transform: uppercase;
+    }
+
+    .next-round-datetime {
+      text-align: right;
+      display: grid;
+      grid-template-columns: auto 140px;
+      font-size: 42px;
+
+      .next-round-time {
+        font-family: 'Nunito Regular';
+      }
+    }
+
+    .auction-block-soon {
+      padding: 36px;
+      background: #EAC6FB;
+      display: grid;
+      grid-template-columns: 244px 190px auto;
+      column-gap: 24px;
+
+      .auction-badge {
+        background: #BA44F1;
+      }
+    }
+
+    .auction-block-active {
+      padding: 36px;
+      display: grid;
+      grid-template-columns: 460px auto;
+      column-gap: 16px;
+
+      .auction-block-header {
+        display: grid;
+        grid-template-columns: 240px auto;
+        column-gap: 12px;
+      }
+
+      .live-badge {
+        padding: 6px 18px;
+        margin-top: 9px;
+        height: 60px;
+        font-size: 30px;
+        line-height: 48px;
+        border-radius: 12px;
+
+        .live-dot {
+          width: 18px;
+          height: 18px;
+          border-radius: 9px;
+        }
+
+        .live-text {
+          margin-left: 12px;
+        }
+      }
+
+      .auction-text-live, .bid-made, .auction-badge-sales {
+        display: none;
+      }
+
+      .auction-link {
+        font-family: 'Nunito Bold';
+        padding: 12px 16px;
+        background: #F4F4F4;
+        border: 2px solid #181715;
+        border-radius: 12px;
+        font-size: 36px;
+        line-height: 48px;
+        text-align: center;
+        width: fit-content;
+
+        a {
+          color: #181715;
+        }
+      }
+    }
+
+    .auction-block-finished {
+      background: #E5E6E4;
+      display: grid;
+      grid-template-columns: 270px auto;
+      column-gap: 24px;
+
+      .auction-badge {
+        background: #181715;
+      }
+    }
+  }
+
+  .round-block {
+    margin-bottom: 96px;
+
+    .round-title {
+      font-family: 'Nunito Bold';
+      font-size: 72px;
+      line-height: 96px;
+      text-align: center;
+      margin: 72px 0 48px;
+      cursor: pointer;
+
+      .round-title-number {
+        font-family: 'Nunito Regular';
+        color: #847577;
+      }
+
+      img {
+        width: 64px;
+        height: 64px;
+        margin-top: -14px;
+      }
+
+      .round-title-dropdown {
+        margin-left: 12px;
+
+        img {
+          width: 32px;
+          height: 18px;
+        }
+      }
+    }
+
+    .round-deadline {
+      font-size: 36px;
+      line-height: 42px;
+      margin-bottom: 72px;
+      padding: 0 36px;
+      grid-template-columns: 6fr 10fr 7fr;
+
+      .round-deadline-countdown {
+        font-size: 36px;
+      }
+    }
+
+    .round-match-item {
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 208px auto 208px;
+      column-gap: 24px;
+      padding: 54px 36px;
+      border-bottom: 3px solid #E5E6E4;
+      font-size: 42px;
+      line-height: 96px;
+      text-align: center;
+
+      .round-match-team a {
+        display: grid;
+        grid-template-columns: 96px 96px;
+        column-gap: 16px;
+      }
+
+      .round-match-link {
+        .round-match-lock {
+          margin: auto;
+          background: #E5E6E4;
+          border-radius: 12px;
+          width: 142px;
+        }
+
+        a {
+          display: grid;
+          grid-template-columns: 124px auto 124px;
+          column-gap: 24px;
+        }
+      }
+
+      .round-lineup-vs {
+        background: #FFEBC2;
+        border-radius: 12px;
+        color: #261FFF;
+      }
+
+      .round-match-score {
+        font-family: 'Nunito ExtraBold';
+      }
+
+      .round-match-result {
+        font-family: 'Nunito ExtraBold';
+        background: #BA44F1;
+        border-radius: 12px;
+        display: grid;
+        grid-template-columns: auto 2px auto;
+        color: #F4F4F4;
+        line-height: 48px;
+        font-size: 48px;
+        padding: 24px 0;
+
+        .round-match-line {
+          background: #EAC6FB;
+        }
+      }
+
+      img {
+        width: 96px;
+        height: 96px;
+      }
+    }
+
+    .round-match-item:last-child {
+      border: none;
+    }
+
+    .mob-round-match-set_lineup {
+      grid-template-columns: 48px 220px auto 220px 48px;
+      column-gap: 48px;
+    }
+  }
+
+  .rounds-block {
+    display: none;
+    border-bottom: none;
+    text-align: center;
+    background: #FFFFFF;
+    position: fixed;
+    z-index: 101;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+
+    .rounds-title {
+      font-family: 'Nunito Bold';
+      font-size: 72px;
+      line-height: 96px;
+      text-align: center;
+      margin: 168px 0 48px;
+    }
+
+    .round-link-block {
+      border: 3px solid #F4F4F4;
+      border-radius: 12px;
+      font-size: 54px;
+      line-height: 120px;
+      width: 168px;
+      margin: 8px;
+    }
+
+    .round-set_lineup, .round-locked {
+      border: 3px solid #D8D6FF;
+      line-height: 114px;
+    }
+
+    .round-postponed {
+      border: 3px solid #FCC5CB;
+      line-height: 114px;
+    }
+
+    .round-inactive {
+      border: 3px solid #F4F4F4;
+      line-height: 114px;
+    }
+
+    .round-current {
+      line-height: 120px;
+    }
+  }
+
+  .stats-section {
+    border-left: none;
+    padding-bottom: 214px;
+
+    .round-table {
+      padding: 48px;
+      border-bottom: 3px solid #E5E6E4;
+
+      .round-table-title-header {
+        grid-template-columns: auto 72px;
+        column-gap: 24px;
+      }
+
+      .round-table-title-text, .round-table-title-icon {
+        font-size: 48px;
+        line-height: 72px;
+
+        img {
+          padding: 0 12px;
+          height: 24px;
+        }
+      }
+
+      .round-table-hide {
+        img {
+          width: 36px;
+          height: 18px;
+          margin: 24px 18px;
+        }
+      }
+
+      .round-table-item {
+        grid-template-columns: 96px auto 144px;
+        font-size: 36px;
+        line-height: 72px;
+        border-bottom: 3px solid #E5E6E4;
+
+        .round-table-index {
+          padding: 12px 24px;
+        }
+
+        .round-table-item-team {
+          grid-template-columns: 120px auto;
+
+          .results-team-logo {
+            padding: 12px 24px;
+          }
+
+          img {
+            width: 72px;
+            height: 72px;
+          }
+
+          .results-team-name {
+            padding: 12px 24px;
+          }
+        }
+
+        .round-table-item-points {
+          padding: 12px 24px;
+        }
+      }
+
+      .round-national-table-item {
+        grid-template-columns: 1fr 8fr 2fr 1fr;
+      }
+
+      .round-table-item.round-national-table-item {
+        line-height: 165px;
+        font-size: 48px;
+      }
+
+      .round-list {
+        margin-top: 24px;
+      }
+
+      .round-tournament-match {
+        column-gap: 36px;
+        font-size: 36px;
+        line-height: 96px;
+        border-bottom: 3px solid #E5E6E4;
+
+        .round-tournament-match-club {
+          grid-template-columns: auto 72px;
+
+          .round-tournament-club-logo-wrapper {
+            padding: 12px 0;
+          }
+
+          .round-tournament-club-logo {
+            line-height: 72px;
+            height: 72px;
+          }
+
+          img, object {
+            width: 72px;
+            height: 72px;
+          }
+
+          .round-tournament-club-name {
+            padding-right: 48px;
+          }
+        }
+
+        .round-tournament-match-guest {
+          grid-template-columns: 72px auto;
+
+          .round-tournament-club-name {
+            padding-left: 48px;
+          }
+        }
+
+        .round-tournament-match-result {
+          line-height: 54px;
+          padding: 5px 0;
+          margin: 18px 0;
+
+          .round-tournament-match-result-host {
+            border-right: 3px solid #847577;
+          }
+        }
+      }
+
+      .round-player-stats-item {
+        grid-template-columns: 72px auto 72px 120px;
+        column-gap: 24px;
+        font-size: 36px;
+        line-height: 96px;
+        height: 96px;
+
+        .round-player-stats-data {
+          grid-template-columns: 96px auto;
+          column-gap: 24px;
+        }
+
+        .round-player-stats-img {
+          .round-player-show-face, .round-player-show-kit {
+            padding-top: 3px;
+            height: 96px;
+
+            img, object {
+              width: 90px;
+              height: 90px;
+            }
+          }
+        }
+
+        .round-player-stats-score {
+          font-size: 36px;
+        }
+
+        .round-player-stats-team {
+          img {
+            width: 60px;
+            height: 60px;
+          }
+        }
+      }
+    }
+  }
+
+  .create-lineup-row {
+    font-family: 'Nunito SemiBold';
+    background: #181715;
+    margin: 0 2%;
+    padding: 36px;
+    font-size: 42px;
+    line-height: 48px;
+    color: #CFD2CD;
+    width: 96%;
+    height: 120px;
+    border-radius: 12px;
+    box-shadow: 3px 6px 15px rgba(24, 23, 21, 0.2);
+    position: fixed;
+    bottom: 264px;
+    display: grid;
+    grid-template-columns: 5fr 3fr 3fr;
+
+    .create-lineup-link {
+      font-family: 'Nunito Bold';
+      text-align: right;
+
+      a {
+        color: #EDF67D;
+        text-decoration: underline;
+      }
+    }
+  }
+
+  .portrait-footer {
+    height: 216px;
+    width: 100%;
+    background: #FFEBC2;
+    position: fixed;
+    bottom: 0;
+    padding: 24px 36px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    column-gap: 10px;
+
+    a {
+      text-align: center;
+      text-decoration: none;
+    }
+
+    img {
+      width: 72px;
+      height: 72px;
+    }
+
+    .league-link {
+      height: 100%;
+      padding: 26px 0;
+
+      .league-link-text {
+        font-family: 'Nunito SemiBold';
+        color: #181715;
+        font-size: 30px;
+        line-height: 42px;
+      }
+    }
+
+    .link-active-true {
+      background: #181715;
+      border-radius: 24px;
+
+      .league-link-text {
+        color: #EDF67D;
+      }
+
+      img {
+        filter: invert(86%) sepia(44%) saturate(453%) hue-rotate(12deg) brightness(106%) contrast(93%); // #EDF67D;
+      }
+    }
+  }
+}
+
+@media (orientation: portrait) {
+  .round-page {
+    display: none;
+  }
+
+  .round-portrait-page {
+    display: block;
   }
 }
 

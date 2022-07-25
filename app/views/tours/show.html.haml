@@ -1,4 +1,4 @@
-.page-block
+.page-block.round-page
   = render 'layouts/left_nav', league: tour.league
   = render 'layouts/right_nav', league: tour.league
   .page-info.rounds-page
@@ -64,3 +64,6 @@
           = render 'fanta_round'
 
     = render 'stats_section', tour: tour
+
+.round-portrait-page
+  = render 'mob_show', tour: tour

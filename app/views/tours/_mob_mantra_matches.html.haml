@@ -1,0 +1,43 @@
+- tour.matches.each do |match|
+  .round-match-item{ class: "mob-round-match-#{tour.status}" }
+    - if tour.set_lineup?
+      - if match.host_lineup
+        .round-lineup-status ✅️
+      - else
+        .round-lineup-status -
+    .round-match-team.round-match-host
+      = link_to team_path(match.host) do
+        .results-team-logo
+          = image_tag(image_path(match.host.logo_path))
+        .results-team-name
+          = match.host.code
+    .round-match-link
+      - if tour.inactive?
+        .round-match-link
+          .round-match-lock🔒
+      - elsif tour.set_lineup?
+        .round-match-set
+          .round-lineup-vs vs
+      - else
+        = link_to match_path(match) do
+          .round-match-score.round-match-host-score
+            = match.host_lineup&.total_score
+          .round-match-result
+            .round-match-host-goals
+              = match.host_lineup&.goals
+            .round-match-line
+            .round-match-guest-goals
+              = match.guest_lineup&.goals
+          .round-match-score.round-match-guest-score
+            = match.guest_lineup&.total_score
+    .round-match-team.round-match-guest
+      = link_to team_path(match.guest) do
+        .results-team-name
+          = match.guest.code
+        .results-team-logo
+          = image_tag(image_path(match.guest.logo_path))
+    - if tour.set_lineup?
+      - if match.guest_lineup
+        .round-lineup-status ✅️
+      - else
+        .round-lineup-status -
