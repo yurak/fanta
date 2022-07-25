@@ -712,6 +712,26 @@
           width: 126px;
           height: 126px;
         }
+
+        .my-league-type {
+          height: 72px;
+          font-size: 36px;
+          line-height: 72px;
+          text-align: center;
+          margin: auto;
+
+          .my-league-type-item {
+            padding: 0 24px;
+            background: #D8D6FF;
+            color: #040052;
+            border-radius: 36px;
+          }
+
+          .my-league-fanta {
+            background: #FCC5CB;
+            color: #DB0A23;
+          }
+        }
       }
 
       .my-league-true {
@@ -990,6 +1010,12 @@
     .mob-round-match-set_lineup {
       grid-template-columns: 48px 220px auto 220px 48px;
       column-gap: 48px;
+    }
+
+    .mob-round-match-closed {
+      .round-match-result {
+        background: #181715;
+      }
     }
   }
 
@@ -1277,6 +1303,12 @@
         filter: invert(86%) sepia(44%) saturate(453%) hue-rotate(12deg) brightness(106%) contrast(93%); // #EDF67D;
       }
     }
+  }
+
+  .portrait-footer-false {
+    grid-template-columns: 1fr 1fr 1fr;
+    padding: 24px 190px;
+    column-gap: 36px;
   }
 }
 

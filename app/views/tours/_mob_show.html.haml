@@ -59,9 +59,9 @@
                   .my-league-name= team.league.name
                   .my-league-type
                     - if team.league.mantra?
-                      .my-league-mantra= t('header.mantra')
+                      .my-league-type-item.my-league-mantra= t('header.mantra')
                     - else
-                      .my-league-fanta= t('header.fanta')
+                      .my-league-type-item.my-league-fanta= t('header.fanta')
                   - if team.league == tour.league
                     .my-league-check ✅
 
@@ -128,7 +128,7 @@
         = link_to t('tours.clone_mob'), clone_team_lineups_path(user_team_by_league(current_user, tour.league), tour_id: tour.id)
     .create-lineup-link= link_to t('tours.create_mob'), new_team_lineup_path(user_team_by_league(current_user, tour.league), tour_id: tour.id)
 
-.portrait-footer
+.portrait-footer{ class: "portrait-footer-#{tour.league.mantra?}"}
   = render 'layouts/league_links', league: tour.league
 
 :javascript
