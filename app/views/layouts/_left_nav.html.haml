@@ -6,7 +6,7 @@
     - current_user.teams.each do |team|
       - if team.league&.active_tour_or_last && !team.league.archived?
         .nav-logo{ class: "nav-logo-#{ team.league == league }"}
-          = link_to tour_path(team.league.active_tour_or_last) do
+          = link_to user_path(current_user, active_team_id: team.id), method: :put do
             = image_tag(team.league.tournament.logo_path)
   .nav-logo-bottom
     .nav-logo-small
@@ -52,7 +52,7 @@
         -# TODO: add links to help pages
         -#.help-modal-link= link_to t('header.rules_faq'), ''
         .help-modal-link= link_to t('header.rules_nav'), rules_path
-        .help-modal-link= link_to t('header.dictionary'), ''
+        -#.help-modal-link= link_to t('header.dictionary'), ''
         .help-modal-link= link_to t('header.links'), links_path
         -#.help-modal-link= link_to t('header.tips'), ''
         .help-modal-plus-links

@@ -370,6 +370,7 @@ body, html {
 }
 
 .player-position {
+  font-family: 'Nunito Bold';
   position: relative;
   display: inline-block;
   color: #ffffff;
@@ -378,7 +379,6 @@ body, html {
   font-size: 12px;
   line-height: 14px;
   text-align: center;
-  font-weight: 700;
 }
 
 .module-position-block {
@@ -450,7 +450,7 @@ body, html {
         width: 1092px;
 
         .modal-players-title {
-          font-weight: bold;
+          font-family: 'Nunito Bold';
           font-size: 24px;
           line-height: 32px;
           text-align: left;
@@ -484,8 +484,8 @@ body, html {
           }
 
           .modal-player-item {
+            font-family: 'Nunito Medium';
             display: inline-block;
-            font-weight: 500;
             width: 112px;
             height: 182px;
             border-radius: 4px;
@@ -494,8 +494,8 @@ body, html {
           }
 
           .modal-player-item-sold {
+            font-family: 'Nunito Medium';
             display: inline-block;
-            font-weight: 500;
             width: 112px;
             height: 182px;
             border-radius: 4px;
@@ -610,8 +610,8 @@ body, html {
             }
 
             .player-match-place {
+              font-family: 'Nunito SemiBold';
               font-size: 16px;
-              font-weight: bolder;
               padding-top: 1px;
             }
           }
@@ -677,7 +677,7 @@ body, html {
         color: #181715;
 
         .team-player-last-name {
-          font-weight: 500;
+          font-family: 'Nunito Medium';
           font-size: 18px;
           line-height: 24px;
           height: 24px;
@@ -738,8 +738,8 @@ body, html {
     }
 
     .round-table-title-text, .round-table-title-icon {
+      font-family: 'Nunito Bold';
       display: inline-block;
-      font-weight: 700;
       font-size: 16px;
       line-height: 24px;
       color: #181715;
@@ -771,9 +771,9 @@ body, html {
     }
 
     .round-table-item {
+      font-family: 'Nunito Regular';
       display: grid;
       grid-template-columns: 32px auto 48px;
-      font-weight: 400;
       font-size: 12px;
       line-height: 24px;
       color: #181715;
@@ -807,9 +807,9 @@ body, html {
       }
 
       .round-table-item-points {
+        font-family: 'Nunito Bold';
         padding: 4px 8px;
         text-align: right;
-        font-weight: 700;
       }
     }
 
@@ -831,10 +831,10 @@ body, html {
     }
 
     .round-tournament-match {
+      font-family: 'Nunito Medium';
       display: grid;
       grid-template-columns: 4fr 2fr 4fr;
       column-gap: 12px;
-      font-weight: 500;
       font-size: 12px;
       line-height: 32px;
       color: #181715;
@@ -844,7 +844,6 @@ body, html {
       .round-tournament-match-club {
         display: grid;
         grid-template-columns: auto 24px;
-        font-weight: 500;
 
         .round-tournament-club-logo-wrapper {
           padding: 4px 0;
@@ -885,10 +884,10 @@ body, html {
       }
 
       .round-tournament-match-result {
+        font-family: 'Nunito Bold';
         display: grid;
         grid-template-columns: 1fr 1fr;
         background-color: #040052;
-        font-weight: bold;
         line-height: 18px;
         padding: 5px 0;
         margin: 6px 0;
@@ -906,9 +905,9 @@ body, html {
     }
 
     .round-player-stats-item {
+      font-family: 'Nunito Regular';
       grid-template-columns: 24px auto 24px 40px;
       column-gap: 8px;
-      font-weight: 400;
       font-size: 12px;
       line-height: 32px;
       height: 32px;
@@ -940,7 +939,7 @@ body, html {
       }
 
       .round-player-stats-score {
-        font-weight: 700;
+        font-family: 'Nunito Bold';
         font-size: 12px;
         text-align: center;
       }
@@ -958,7 +957,7 @@ body, html {
 /*---------------- forms error notices --------------------*/
 
 .error-item {
-  font-weight: normal;
+  font-family: 'Nunito Regular';
   line-height: 24px;
   font-size: 16px;
   display: grid;
@@ -993,7 +992,7 @@ body, html {
 }
 
 .bold {
-  font-weight: bold;
+  font-family: 'Nunito Bold';
 }
 
 .inline-block {

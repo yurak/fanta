@@ -1,0 +1,158 @@
+.portrait-header
+  .base-header
+    .root-logo
+      = link_to root_path do
+        = image_tag('logo.svg')
+    .league-data
+      .league-name
+        = tour.league&.name
+      .league-season
+        = "#{t('header.season')} #{tour.league.season.start_year.to_s[2..3]}-#{tour.league.season.end_year.to_s[2..3]} • #{tour.league.mantra? ? t('header.mantra') : t('header.fanta')}"
+    .burger-menu#burger-menu
+      = image_tag('icons/burger_menu.svg')
+      - if user_team_by_league(current_user, tour.league)
+        .league-icon
+          = image_tag(tour.league.tournament.logo_path)
+
+#burger-menu-block
+  .base-header
+    .root-logo
+      = link_to root_path do
+        = image_tag('logo.svg')
+    .league-data
+      - if user_signed_in?
+        .user-data
+          .user-avatar= image_tag(current_user.avatar_path)
+          .user-name= current_user.name
+      - else
+        .league-name= 'MantraFootball'
+    .burger-menu#burger-menu-close
+      = image_tag('icons/burger_close.svg')
+  .menu-content
+    .nav-links
+      - unless user_signed_in?
+        .nav-logo-small
+          = link_to new_user_session_path do
+            .nav-link-icon= '🗝'
+            .nav-link-title= t('devise.sessions.new.sign_in')
+      .nav-logo-small
+        = link_to leagues_path do
+          .nav-link-icon= '🏑'
+          .nav-link-title= t('header.leagues')
+      .nav-logo-small
+        = link_to rules_path do
+          .nav-link-icon= '⚖️'
+          .nav-link-title= t('header.rules')
+      .nav-logo-small
+        = link_to links_path do
+          .nav-link-icon= '🔗️'
+          .nav-link-title= t('header.links')
+    - if user_signed_in?
+      .my-leagues
+        .my-leagues-title My leagues
+        .my-leagues-links
+          - current_user.teams.each do |team|
+            - if team.league&.active_tour_or_last && !team.league.archived?
+              .my-league{ class: "my-league-#{ team.league == tour.league }"}
+                = link_to user_path(current_user, active_team_id: team.id), method: :put do
+                  .my-league-logo= image_tag(team.league.tournament.logo_path)
+                  .my-league-name= team.league.name
+                  .my-league-type
+                    - if team.league.mantra?
+                      .my-league-type-item.my-league-mantra= t('header.mantra')
+                    - else
+                      .my-league-type-item.my-league-fanta= t('header.fanta')
+                  - if team.league == tour.league
+                    .my-league-check ✅
+
+.badges-block
+  - if user_team_by_league(current_user, tour.league)
+    - if tour.league.active_tour&.mantra? && tour.league.active_tour.locked?
+      .next-round
+        .next-round-param= image_tag(user_team_by_league(current_user, tour.league).next_match.host.logo_path)
+        .next-round-name= user_team_by_league(current_user, tour.league).next_match.host.code
+        .next-round-param= user_team_by_league(current_user, tour.league).next_match.host_lineup&.total_score || 0.0
+        .next-round-goals= user_team_by_league(current_user, tour.league).next_match.host_lineup&.goals || 0
+        .next-round-goals= user_team_by_league(current_user, tour.league).next_match.guest_lineup&.goals || 0
+        .next-round-param= user_team_by_league(current_user, tour.league).next_match.guest_lineup&.total_score || 0.0
+        .next-round-name= user_team_by_league(current_user, tour.league).next_match.guest.code
+        .next-round-param= image_tag(user_team_by_league(current_user, tour.league).next_match.guest.logo_path)
+    - elsif tour.league.active_tour&.unlocked?
+      .next-round.next-round-opponent-row
+        .next-round-opponent
+          - if user_team_by_league(current_user, tour.league.active_tour)&.next_opponent
+            .next-round-vs vs
+            .next-round-opponent-logo= image_tag(user_team_by_league(current_user, tour.league.active_tour).next_opponent.logo_path)
+            .next-round-opponent-name= user_team_by_league(current_user, tour.league.active_tour).next_opponent.human_name
+        .next-round-datetime
+          .next-round-date= tour.league.active_tour.tournament_round.deadline&.strftime("%^a, %^b %e")
+          .next-round-time= tour.league.active_tour.tournament_round.deadline&.strftime("%H:%M")
+
+  = render 'layouts/auction_badge', league: tour.league, initial_auction: tour.league.auctions.initial.first, active_auction: tour.league.auctions.active.first
+
+.round-block
+  .round-title#rounds-row
+    .round-title-icon.inline-block
+      = image_tag("icons/round/status_#{tour.status}.svg")
+    .round-title-text.inline-block= t('tours.round')
+    .round-title-number.inline-block= tour.number
+    .round-title-dropdown.inline-block= image_tag("icons/dropdown_grey.svg")
+  .rounds-block#rounds-block
+    .rounds-title= t('tours.rounds')
+    - tour.league.tours.each do |round|
+      - if tour == round
+        .round-link-block.round-current{ class: "round-#{round.status}" }
+          = round.number
+      - else
+        = link_to tour_path(round) do
+          .round-link-block{ class: "round-#{round.status}" }
+            = round.number
+  - if tour.set_lineup?
+    .round-deadline
+      .round-deadline-text= t('tours.deadline')
+      .round-deadline-value
+        = tour.tournament_round.deadline&.strftime("%a, %b %e at %H:%M")
+      .round-deadline-countdown
+        = time_to_deadline(tour.tournament_round.time_to_deadline)
+  - if tour.mantra?
+    .round-matches
+      = render 'mob_mantra_matches'
+
+= render 'stats_section', tour: tour
+
+- if tour.set_lineup? && user_signed_in? && current_user&.lineup_by_tour(tour).blank?
+  .create-lineup-row
+    .create-lineup-text= t('tours.setup')
+    .create-lineup-link
+      - if tour.league.cloneable?
+        = link_to t('tours.clone_mob'), clone_team_lineups_path(user_team_by_league(current_user, tour.league), tour_id: tour.id)
+    .create-lineup-link= link_to t('tours.create_mob'), new_team_lineup_path(user_team_by_league(current_user, tour.league), tour_id: tour.id)
+
+.portrait-footer{ class: "portrait-footer-#{tour.league.mantra?}"}
+  = render 'layouts/league_links', league: tour.league
+
+:javascript
+  $(document).ready(function() {
+    var rounds_modal = document.getElementById("rounds-block");
+    var rounds_btn = document.getElementById("rounds-row");
+    var burger_modal = document.getElementById("burger-menu-block");
+    var burger_btn = document.getElementById("burger-menu");
+    var burger_close_btn = document.getElementById("burger-menu-close");
+
+    rounds_btn.onclick = function() {
+      rounds_modal.style.display = "block";
+    };
+
+    burger_btn.onclick = function() {
+      burger_modal.style.display = "grid";
+    };
+
+    burger_close_btn.onclick = function() {
+      burger_modal.style.display = "none";
+    };
+
+    window.onclick = function(e) {
+      if (e.target == rounds_modal) { rounds_modal.style.display = "none"; }
+      if (e.target == burger_modal) { burger_modal.style.display = "none"; }
+    }
+  });

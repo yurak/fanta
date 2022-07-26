@@ -187,7 +187,7 @@ RSpec.describe Lineup, type: :model do
 
   describe '#players_count' do
     context 'when mantra tour' do
-      it { expect(lineup.players_count).to eq(19) }
+      it { expect(lineup.players_count).to eq(20) }
     end
 
     context 'when national tour' do

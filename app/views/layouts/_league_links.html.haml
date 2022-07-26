@@ -1,0 +1,27 @@
+- if league.active_tour_or_last
+  = link_to tour_path(league.active_tour_or_last) do
+    .league-link{class: "link-active-#{ params[:controller] == 'tours' || params[:controller] == 'matches' }"}
+      .league-link-icon= image_tag('icons/round/round.svg')
+      .league-link-text= t('header.round')
+= link_to league_results_path(league) do
+  .league-link{class: "link-active-#{ params[:controller] == 'results' }"}
+    .league-link-icon= image_tag('icons/round/table.svg')
+    .league-link-text= t('header.table')
+- if league.teams.present?
+  = link_to team_path(user_team_by_league(current_user, league) || league.teams.first) do
+    .league-link{class: "link-active-#{ params[:controller] == 'teams' && params[:action] == 'show' }"}
+      .league-link-icon= image_tag('icons/round/teams.svg')
+      .league-link-text= t('header.teams')
+- if league.mantra?
+  = link_to players_path(tournament: league.tournament, league: league) do
+    .league-link{class: "link-active-#{ params[:controller] == 'players' && params[:action] == 'index' }"}
+      .league-link-icon= image_tag('icons/round/players.svg')
+      .league-link-text= t('header.players')
+  = link_to league_auctions_path(league) do
+    .league-link{class: "link-active-#{ params[:controller] == 'auctions' || params[:controller] == 'auction_bids' || params[:controller] == 'auction_rounds' }"}
+      .league-link-icon= image_tag('icons/round/auctions.svg')
+      .league-link-text= t('header.auctions')
+    -# = link_to '' do
+    -#   .league-link
+    -#     .league-link-icon= image_tag('icons/round/statistics.svg')
+    -#     .league-link-text= t('header.statistics')
