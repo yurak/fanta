@@ -15,8 +15,8 @@ namespace :tg do
           next if team.lineups&.find_by(tour: tour)
 
           p user
-          Telegram.bots[:mantra_prod].send_message(chat_id: user.user_profile.tg_chat_id,
-                                                   text: "#{user.name} please setup lineup for tour: #{tour.tournament_round.number}")
+          # Telegram.bots[:mantra_prod].send_message(chat_id: user.user_profile.tg_chat_id,
+          #                                          text: "#{user.name} please setup lineup for tour: #{tour.tournament_round.number}")
         end
       end
     end
