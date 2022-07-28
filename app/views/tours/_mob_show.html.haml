@@ -120,7 +120,7 @@
 
 = render 'stats_section', tour: tour
 
-- if tour.set_lineup? && user_signed_in? && current_user&.lineup_by_tour(tour).blank?
+- if tour.set_lineup? && user_signed_in? && user_team_by_league(current_user, tour.league) && current_user&.lineup_by_tour(tour).blank?
   .create-lineup-row
     .create-lineup-text= t('tours.setup')
     .create-lineup-link
