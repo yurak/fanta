@@ -21,9 +21,10 @@
         = image_tag('logo.svg')
     .league-data
       - if user_signed_in?
-        .user-data
-          .user-avatar= image_tag(current_user.avatar_path)
-          .user-name= current_user.name
+        = link_to user_path(current_user) do
+          .user-data
+            .user-avatar= image_tag(current_user.avatar_path)
+            .user-name= current_user.name
       - else
         .league-name= 'MantraFootball'
     .burger-menu#burger-menu-close
