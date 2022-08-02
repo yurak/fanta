@@ -105,6 +105,7 @@ en:
     lock_round: "Lock round"
     postpone_round: "Postpone r..."
     start_round: "Start round"
+    play_more_title: "Do you want to play other leagues as well? Create a request!"
   join_request:
     index:
       contact: "You can also contact us "

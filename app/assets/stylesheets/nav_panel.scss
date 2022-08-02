@@ -425,10 +425,32 @@
     }
   }
 
-  .admin-actions {
+  .play-more {
     position: fixed;
     width: 184px;
     bottom: 56px;
+
+    .league-request {
+      padding: 8px 16px;
+      margin-top: 12px;
+      font-size: 18px;
+      line-height: 24px;
+      background: #BA44F1;
+      border-radius: 4px;
+      text-align: center;
+
+      a {
+        color: #FFFFFF;
+      }
+    }
+  }
+
+  .admin-actions {
+    position: fixed;
+    width: 184px;
+    bottom: 300px;
+    // TODO: hide .play-more and uncomment
+    //bottom: 56px;
   }
 
   .league-team {

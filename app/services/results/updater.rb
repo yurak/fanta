@@ -39,7 +39,7 @@ module Results
         wins: winner.results.last.wins + 1,
         scored_goals: winner.results.last.scored_goals + match.scored_goals(winner),
         missed_goals: winner.results.last.missed_goals + match.missed_goals(winner),
-        total_score: winner.results.last.total_score + winner_lineup.total_score
+        total_score: winner.results.last.total_score + winner_lineup.total_score.round(2)
       )
     end
 
@@ -48,7 +48,7 @@ module Results
         loses: loser.results.last.loses + 1,
         scored_goals: loser.results.last.scored_goals + match.scored_goals(loser),
         missed_goals: loser.results.last.missed_goals + match.missed_goals(loser),
-        total_score: loser.results.last.total_score + loser_lineup.total_score
+        total_score: loser.results.last.total_score + loser_lineup.total_score.round(2)
       )
     end
 
@@ -58,7 +58,7 @@ module Results
         draws: team.results.last.draws + 1,
         scored_goals: team.results.last.scored_goals + match.scored_goals(team),
         missed_goals: team.results.last.missed_goals + match.missed_goals(team),
-        total_score: team.results.last.total_score + lineup.total_score
+        total_score: team.results.last.total_score + lineup.total_score.round(2)
       )
     end
   end
