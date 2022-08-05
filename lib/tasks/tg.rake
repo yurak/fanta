@@ -7,7 +7,7 @@ namespace :tg do
 
         tour_deadline = tour.tournament_round.deadline.asctime.in_time_zone('EET')
 
-        next if DateTime.now < (tour_deadline - 2.hours)
+        next if DateTime.now < (tour_deadline - 3.hours)
 
         tour.teams.each do |team|
           user = team.user
