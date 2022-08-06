@@ -146,10 +146,12 @@
 
     burger_btn.onclick = function() {
       burger_modal.style.display = "grid";
+      document.body.style.position = "fixed";
     };
 
     burger_close_btn.onclick = function() {
       burger_modal.style.display = "none";
+      document.body.style.position = "relative";
     };
 
     window.onclick = function(e) {
