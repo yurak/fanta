@@ -6,7 +6,7 @@ class TransfersController < ApplicationController
   helper_method :auction, :league
 
   def index
-    @transfers = Kaminari.paginate_array(auction.transfers.reverse).page(params[:page])
+    @transfers = Kaminari.paginate_array(auction.transfers.order(:price).reverse).page(params[:page])
   end
 
   def create
