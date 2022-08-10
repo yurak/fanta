@@ -1,11 +1,18 @@
-.about-page.header-grid
-  .left-block
-    .title-block
-      .title-text= t('welcome.about.title')
-      .title-bg
-    .about-block
-      .about-item= t('welcome.about.item1')
-      .about-item= t('welcome.about.item2')
-      .about-item= t('welcome.about.item3')
-      .about-item= t('welcome.about.item4')
-      .about-item.join-us= t('welcome.about.item5')
+.page-block
+  - if user_signed_in?
+    = render 'layouts/left_nav', league: nil
+  - else
+    = render 'layouts/header'
+  .rules-page{ class: "rules-user-#{user_signed_in?}"}
+    .rules-title
+      .rules-title-icon 📜
+      .rules-title-text= t('welcome.about.title')
+    .rules-content
+      .about-text.rules-text
+        .rules-subtitle.rules-subtitle1= t('welcome.about.subtitle')
+        .rules-paragraph.rules-paragraph-next= t('welcome.about.paragraph1')
+        .rules-paragraph.rules-paragraph-next= t('welcome.about.paragraph2')
+        .rules-paragraph.rules-paragraph-next= t('welcome.about.paragraph3')
+        .rules-paragraph.rules-paragraph-next= t('welcome.about.paragraph4')
+        .rules-subtitle.rules-paragraph-next.center= t('welcome.about.join')
+  = render 'layouts/footer'

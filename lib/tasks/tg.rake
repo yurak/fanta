@@ -7,16 +7,15 @@ namespace :tg do
 
         tour_deadline = tour.tournament_round.deadline.asctime.in_time_zone('EET')
 
-        next if DateTime.now < (tour_deadline - 3.hours) && tour_deadline.today?
+        next if DateTime.now < (tour_deadline - 3.hours)
 
         tour.teams.each do |team|
           user = team.user
           next unless user.user_profile&.bot_enabled
           next if team.lineups&.find_by(tour: tour)
 
-          p user
-          Telegram.bots[:mantra_prod].send_message(chat_id: user.user_profile.tg_chat_id,
-                                                   text: "#{user.name} please setup lineup for tour: #{tour.tournament_round.number}")
+          TelegramBot::Sender.call(user,
+                                   "The deadline is coming soon! Create your lineup #{Rails.application.routes.url_helpers.tour_url(tour)}")
         end
       end
     end

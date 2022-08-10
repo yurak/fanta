@@ -2,7 +2,7 @@
   .next-round.auction-block-active{ class: "auction-block-#{active_auction.status}"}
     .auction-block-header
       - if active_auction.sales?
-        .auction-badge= t('header.sales_period')
+        .auction-badge.auction-badge-sales= t('header.sales_period')
       - else
         .live-badge
           .live-dot
@@ -15,7 +15,7 @@
           - if active_auction.sales?
             .auction-link-area
               .auction-link
-                = link_to t('header.sell'), edit_team_path(user_team_by_league(current_user, league))
+                = link_to t('header.sell'), edit_team_player_team_path(user_team_by_league(current_user, league), user_team_by_league(current_user, league).player_teams.first)
           - elsif active_auction.blind_bids? && active_auction.auction_rounds.active.any? && user_team_by_league(current_user, league).vacancies.positive?
             .auction-link-area
               .auction-link
@@ -37,7 +37,7 @@
     .next-round-datetime
       .next-round-date= initial_auction.deadline&.strftime("%^a, %^b %e")
       .next-round-time= initial_auction.deadline&.strftime("%H:%M")
-- elsif league.auctions.closed.any? && TimeDifference.between(league.auctions.closed.last.updated_at, Time.zone.now).in_days < 4
+- elsif league.auctions.closed.any? && TimeDifference.between(league.auctions.closed.last.updated_at, Time.zone.now).in_days < 2
   .next-round.auction-block-finished
     .auction-badge= t('header.finished')
     .auction-text= "#{t('header.auction')} ##{league.auctions.closed.last.number}"

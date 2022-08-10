@@ -4,7 +4,7 @@
       = link_to root_path do
         = image_tag('logo.svg')
   .login-block
-    .title-block
+    .login-title-block
       .title-text= t('users.new_name.create_alter_ego')
       .title-subtext= t('users.new_name.add_name')
       .name-edit-note= t('users.new_name.note')
@@ -16,5 +16,11 @@
           .login-input-text
             = text_field_tag :name, nil, class: 'form-control', placeholder: t('users.new_name.name')
         .login-password-note= t('users.edit.change_username_desc')
+        .login-input.login-input-second
+          .login-label= t('users.new_name.tg_name')
+          .login-input-icon= image_tag('icons/login/user.svg')
+          .login-input-text
+            = text_field_tag :tg_name, nil, class: 'form-control', placeholder: t('users.new_name.tg_name')
+        .login-password-note= t('users.new_name.tg_note')
         .login-btn-form
           = f.submit t('users.new_name.next'), class: 'login-btn blue-btn'

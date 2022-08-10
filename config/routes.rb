@@ -54,6 +54,8 @@ Rails.application.routes.draw do
     resources :lineups, only: [:show, :new, :create, :edit, :update] do
       collection { get :clone }
     end
+
+    resources :player_teams, only: [:edit, :update]
   end
 
   resources :tournaments, only: [:show]

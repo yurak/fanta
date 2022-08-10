@@ -23,7 +23,7 @@ class Lineup < ApplicationRecord
   MAX_AVG_DEF_SCORE = 7
   DEF_BONUS_STEP = 0.25
   MAX_PLAYED_PLAYERS = 11
-  MAX_PLAYERS = 19
+  MAX_PLAYERS = 20
 
   def total_score
     return final_score unless final_score.zero?
@@ -85,10 +85,14 @@ class Lineup < ApplicationRecord
   private
 
   def first_goal
+    return 72 unless team.league
+
     team.tournament.lineup_first_goal
   end
 
   def goal_increment
+    return 7 unless team.league
+
     team.tournament.lineup_increment
   end
 

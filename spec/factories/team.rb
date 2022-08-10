@@ -1,8 +1,8 @@
 FactoryBot.define do
   factory :team do
-    sequence(:name) { |i| "#{FFaker::Internet.slug[0...14]}#{i}" }
+    sequence(:name) { FFaker::Internet.slug[0...14] }
     human_name { name }
-    sequence(:code) { |i| i < 99 ? "c#{i}" : i.to_s }
+    sequence(:code) { FFaker::Internet.slug[0..2] }
 
     association :league
 

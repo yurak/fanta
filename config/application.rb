@@ -12,6 +12,7 @@ module Fanta
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 5.2
 
+    # TODO: add translations and switch to :ua
     config.i18n.default_locale = :en
 
     config.before_configuration do

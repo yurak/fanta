@@ -43,7 +43,7 @@
             .table-team-param
               = result.points
             .table-team-param.table-team-points
-              = result.total_score
+              = result.total_score.round(2)
             .table-team-param
               = result.team.best_lineup&.total_score
     - else
@@ -92,7 +92,7 @@
             .table-team-param.table-team-points
               = result.points
             .table-team-param.ts-cell
-              = result.total_score
+              = result.total_score.round(2)
             .table-team-param.form-cell
               - unless league.tournament.national?
                 - result.form.each do |form|

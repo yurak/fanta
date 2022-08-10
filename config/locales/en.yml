@@ -69,10 +69,12 @@ en:
     faq: "FAQ"
     finished: "🏁 FINISHED"
     fixtures: "Fixtures"
+    guide: "Guide"
     help: "Help"
     help_project: "❤️ Help the project"
     leagues: "Leagues"
-    links: "🔗 Useful Links"
+    links: "Useful Links"
+    links_nav: "🔗 Useful Links"
     live: "LIVE"
     login: "🗝 Login"
     logout: "Log Out"
@@ -103,11 +105,14 @@ en:
     lock_round: "Lock round"
     postpone_round: "Postpone r..."
     start_round: "Start round"
+    play_more_title: "Do you want to play other leagues as well? Create a request!"
   join_request:
     index:
-      title: "All done!"
+      contact: "You can also contact us "
+      link: "via the link"
       subtitle: "Registration is complete"
       text: "Administrator will contact you shortly with details regarding the terms of participation in the league."
+      title: "All done!"
     new:
       confirm: "Confirm"
       subtitle: "in which you want to compete"
@@ -253,6 +258,9 @@ en:
     total_score: "Total score"
     best_lineup: "Best lineup"
   teams:
+    edit:
+      title: "Edit team data"
+      update: "Update team"
     new:
       сhoose: "Choose a logo"
       create: "Create a team"
@@ -305,7 +313,9 @@ en:
     auction: "Auction"
   tours:
     clone: "Clone previous lineup"
+    clone_mob: "Copy"
     create: "Create lineup"
+    create_mob: "Create"
     deadline: "☠️ Deadline:"
     edit: "Edit lineup"
     finished: "🏁️ Finished:"
@@ -318,8 +328,10 @@ en:
     not_set: "Not set"
     prev: "Prev round"
     round: "Round"
+    rounds: "Rounds"
     round_inactive: "🔒 Round inactive. It will be opened at the right time"
     set_done: "✅ Set"
+    setup: "Ready to set squad?"
     table: "🏅 Table"
     tournament_players: "✊ Overall best"
   users:
@@ -334,6 +346,9 @@ en:
       name: "Manager name"
       next: "Next"
       note: "A manager name will allow other players to address you appropriately. You can change it at any time"
+      tg_name: "Telegram name or phone"
+      tg_note: "This data will help us contact you"
+    edit_team: "Edit team"
     settings: "Settings"
     settings_desc: "Manage your account"
     name: "Name"
@@ -356,6 +371,18 @@ en:
     change_password: "Change password"
     change_password_desc: "Input your current password and new one twice"
   welcome:
+    about:
+      join: "Join us!"
+      paragraph1: "In 2017, the project started among the Lviv fans of AC Milan as a classic fantasy football with one Serie A league for 5 players."
+      paragraph2: "Since 2018, the Premier League has been launched according to the rules that have already been tested in practice, and 2 leagues for this tournament have appeared in the project. Since then, we have been expanding every year. Thus, in the 20/21 season, a tournament based on the Bundesliga started for the first time, and in the 21/22 season - La Liga and Ligue 1. In the 22/23 season, we add Belgium, the Netherlands, Portugal and the Championship to the list of available leagues."
+      paragraph3: "In addition, according to slightly changed rules, we organize tournaments based on Champions League, European Championship and League of Nations. A tournament based on the World Cup in Qatar is planned."
+      paragraph4: "In 2022, we still remain a project of like-minded people who have combined their professional skills (designers, marketers, developers, etc.) for the development of Ukrainian football fantasy."
+      subtitle: "MantraFootball is an adaptation of the Italian fantasy football system."
+      title: "About Us"
+    contact:
+      title: "Contact Us"
+      ask: "Ask questions"
+      follow: "Follow public channels"
     fee:
       country:
         belgium: "Belgium"
@@ -390,6 +417,22 @@ en:
       subtitle2: "The amount of our fees is available to everyone."
       title: "Organizational fees"
       type: "Type"
+    guide:
+      game_guide: "Game Guide"
+      header: "How are the competitions going?"
+      rules: "You can read the detailed rules of the game on "
+      rules_link: "Rules page"
+      ul01: "We form a league of 8 managers (if you want to be together with a friend - let us know and we will take it into account)."
+      ul02: "We hold an auction where managers form their teams of 25 players. Each football player can be in the team of only one manager of the league - the one who paid the most for him. You can sell and buy new players to the team only in transfer windows."
+      ul03: "All football players are divided into 11 unique positions in which they can perform (some players can play in several positions)."
+      ul04: "Every round, the manager chooses the scheme for the game, the lineup of 11 main players and the bench (all schemes are balanced and usually include, in addition to the goalkeeper, 5 defensive and 5 attacking positions)."
+      ul05: "The game takes place in the Head to Head system, that is, in each round you face one of the opposing managers."
+      ul06: "The start of the Round (deadline for creating the lineup) is 1.5 hours before the first match of the tour (the round always coincides with the round of the calendar, if any match of the tour was not played due to postponement, then this round is not closed, but is waiting for completion). We do not have any 'paired' tours."
+      ul07: "Based on the results of real matches, players are awarded not only bonuses and penalties for their actions, but also a Base rating. A third-party statistical resource assigns this rating to a player based on his actions in a real match. We use Fotmob as such a resource."
+      ul08: "If the player did not play in the real Tour, he can be replaced by someone from the bench who can play in this position."
+      ul09: "The basic scores of the main players, as well as maluses and bonuses, are added up and converted into game goals according to the principle: 72 points - 1 goal, each subsequent goal - for an additional 7 points."
+      ul10: "The team that scored more goals in the match wins it. 3 points are awarded for a win, 1 for a draw. The tournament table is formed on the basis of these points."
+      ul11: "The team with the most points at the end of the tournament wins the league and the trophy."
     index:
       better:
         classic: "Classic fantasy"
@@ -464,8 +507,9 @@ en:
         paragraph4: "All auctions, except the starting one, are held on the same principle: before the deadline, the manager must select the players he wants to sell in this transfer window. The amount paid by the manager for this player is returned to the account, and the player becomes a free agent (will be available to all teams except the one who sold it)."
         paragraph5: "The number of slots for sale varies: 5 for the winter auction and 3 for all others. Players who leave the tournament by transfer are counted outside the slots."
         paragraph6: "Additional auctions are held in a blind format."
-        paragraph7: "It is not possible to buy / sell players outside the transfer windows."
-        paragraph8: "Manager also can't buy back a player he has sold within that transfer window."
+        paragraph7: "Manager can't buy back a player he has sold within that transfer window."
+        paragraph8: "It is not possible to buy / sell players outside the transfer windows, with the only exception:"
+        paragraph9: "if team remains with one goalkeeper (due to the transfer of one of the goalkeepers to another tournament) when the transfer window is closed, then the manager of this team must choose another goalkeeper (for 1 million) to replace him by the deadline of the next round. Manager can choose a new goalkeeper only from the club that represents the team's only goalkeeper."
         screen1:
           title: "Auction page"
           text: "Here you can see the course of the auction for Eden Hazard"
@@ -689,25 +733,3 @@ en:
       subtitle3: "And it's a great way to have fun with friends and find new ones!"
       subtitle4: "After the start of the game, each match of your player acquires a new meaning."
       title: "Rules"
-    guide:
-      game_guide: "Game Guide"
-      auction: "Auction"
-      modules: "Modules"
-      players: "Players"
-      results: "Results"
-      price: "Price"
-      faq: "FAQs"
-      external_link_here: "You can find a game guide here:"
-      external_link: "LINK"
-    contact:
-      title: "Contact Us"
-      join: "Join chat"
-      ask: "Ask questions"
-      follow: "Follow public channels"
-    about:
-      title: "About Us"
-      item1: "At 2017 project started as a classic fantasy football application with 1 league by Serie A for 5 users."
-      item2: "From 2018 Mantra rules were implemented and our league continued to grow."
-      item3: "At 2020 EPL tournament was added to our project with 2 new leagues."
-      item4: "MantraFootball now supports 2 tournaments with 40 clubs and more than 1000 players."
-      item5: "Join us!"

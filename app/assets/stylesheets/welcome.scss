@@ -743,7 +743,7 @@
         line-height: 40px;
         font-size: 16px;
         text-transform: uppercase;
-        color: #847577;;
+        color: #847577;
       }
 
       .rules-table-row {
@@ -797,6 +797,15 @@
     .rules-nav-link:last-child {
       margin-bottom: 0;
     }
+  }
+
+  .about-text {
+    width: 900px;
+    height: 700px;
+  }
+
+  .contact-title {
+    margin-bottom: 64px;
   }
 }
 
@@ -1020,56 +1029,32 @@
   }
 }
 
-// OLD
-.about-page {
-  .left-block {
-    .about-block {
-      font-size: 22px;
-      line-height: 32px;
-      color: #181715;
+.contact-page {
+  min-height: 600px;
+  padding-top: 120px;
 
-      .about-item {
-        padding: 24px 100px 0 25px;
-      }
-
-      .join-us {
-        font-size: 26px;
-        font-weight: bolder;
-      }
-    }
-  }
-}
-// OLD
-.start-page {
-  padding-left: 72px;
-
-  .left-block {
-    grid-template-rows: 100px auto;
-    width: 650px;
-
-    .title-block {
-      .title-bg {
-        margin-top: 4%;
-        height: 45%;
-      }
-
-      .title-text {
-        font-size: 50px;
-        padding-left: 25px;
-      }
+  .contact-content {
+    .contact-block {
+      display: grid;
+      grid-template-columns: 400px auto;
+      margin-bottom: 64px;
     }
 
-    .form-block {
-      padding-right: 70px;
-      padding-bottom: 70px;
+    .contact-text {
+      font-family: 'Nunito ExtraBold';
+      font-size: 32px;
+      line-height: 64px;
+      color: #847577;
+    }
 
-      .form-item {
-        margin: 10px 25px;
-      }
+    .contact-links {
+      display: flex;
+    }
 
-      .form-item.form-btn {
-        margin-top: 24px;
-      }
+    img {
+      margin: 0 24px;
+      width: 64px;
+      height: 64px;
     }
   }
 }

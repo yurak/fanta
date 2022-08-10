@@ -1,27 +1,32 @@
-.contact-page.header-grid
-  .left-block
-    .title-block
-      .title-text= t('welcome.contact.title')
-      .title-bg
-    .contact-block
-      .contact-text= t('welcome.contact.join')
-      .social-media-link
-        = link_to 'https://t.me/+YI3eIjz9ooAzNDhi', target: '_blank' do
-          = image_tag('social_media/tg_col.png')
-    .contact-block
-      .contact-text= t('welcome.contact.ask')
-      .social-media-link
-        = mail_to 'mantrafootball.info@gmail.com', target: '_blank' do
-          = image_tag('social_media/gmail_col.png')
-    .follow-block
-      .follow-title= t('welcome.contact.follow')
-      .follow-links
-        .social-media-link
-          = link_to 'https://www.instagram.com/mantrafootball', target: '_blank' do
-            = image_tag('social_media/insta_col.png')
-        .social-media-link
-          = link_to 'https://t.me/mantrafootball', target: '_blank' do
-            = image_tag('social_media/tg_col.png')
-        .social-media-link
-          = link_to 'https://www.facebook.com/mantrafootball', target: '_blank' do
-            = image_tag('social_media/fb_col.png')
+.page-block
+  - if user_signed_in?
+    = render 'layouts/left_nav', league: nil
+  - else
+    = render 'layouts/header'
+  .rules-page.contact-page{ class: "rules-user-#{user_signed_in?}"}
+    .contact-title.rules-title
+      .rules-title-icon 📬
+      .rules-title-text= t('welcome.contact.title')
+    .contact-content
+      .contact-block
+        .contact-text= t('welcome.contact.ask')
+        .contact-links
+          .social-media-link
+            = link_to 'https://t.me/mantra_help', target: '_blank' do
+              = image_tag('social_media/tg_col.png')
+          .social-media-link
+            = mail_to 'mantrafootball.info@gmail.com', target: '_blank' do
+              = image_tag('social_media/gmail_col.png')
+      .contact-block
+        .contact-text= t('welcome.contact.follow')
+        .contact-links
+          .social-media-link
+            = link_to 'https://t.me/mantrafootball', target: '_blank' do
+              = image_tag('social_media/tg_col.png')
+          .social-media-link
+            = link_to 'https://www.instagram.com/mantrafootball', target: '_blank' do
+              = image_tag('social_media/insta_col.png')
+          .social-media-link
+            = link_to 'https://www.facebook.com/mantrafootball', target: '_blank' do
+              = image_tag('social_media/fb_col.png')
+  = render 'layouts/footer'

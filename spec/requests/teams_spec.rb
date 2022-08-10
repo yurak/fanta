@@ -101,50 +101,22 @@ RSpec.describe 'Teams', type: :request do
       it { expect(response).to have_http_status(:found) }
     end
 
-    context 'with foreign team and league with closed transfer_status when user is logged in' do
-      let(:league) { create(:league, transfer_status: :closed) }
-      let(:team) { create(:team, league: league) }
-
-      login_user
-      before do
-        get edit_team_path(team)
-      end
-
-      it { expect(response).to redirect_to(team_path(team)) }
-      it { expect(response).to have_http_status(:found) }
-    end
-
-    context 'with foreign team and league with open transfer_status when user is logged in' do
-      let(:league) { create(:league, transfer_status: :open) }
-      let(:team) { create(:team, league: league) }
-
-      login_user
-      before do
-        get edit_team_path(team)
-      end
-
-      it { expect(response).to redirect_to(team_path(team)) }
-      it { expect(response).to have_http_status(:found) }
-    end
-
-    context 'with own team and league with closed transfer_status when user is logged in' do
+    context 'with foreign team when user is logged in' do
       let(:logged_user) { create(:user) }
-      let(:league) { create(:league, transfer_status: :closed) }
-      let(:team) { create(:team, league: league, user: logged_user) }
+      let(:team) { create(:team) }
 
       before do
         sign_in logged_user
         get edit_team_path(team)
       end
 
-      it { expect(response).to redirect_to(team_path(team)) }
+      it { expect(response).to redirect_to(user_path(logged_user)) }
       it { expect(response).to have_http_status(:found) }
     end
 
-    context 'with own team and league with sales auction when user is logged in' do
+    context 'with own team when user is logged in' do
       let(:logged_user) { create(:user) }
-      let(:auction) { create(:auction, status: :sales) }
-      let(:team) { create(:team, league: auction.league, user: logged_user) }
+      let(:team) { create(:team, user: logged_user) }
 
       before do
         sign_in logged_user
@@ -160,13 +132,14 @@ RSpec.describe 'Teams', type: :request do
 
   describe 'PUT/PATCH #update' do
     let(:logged_user) { create(:user) }
-    let(:league) { create(:league, transfer_status: :closed) }
-    let(:team) { create(:team, league: league, user: logged_user) }
-
+    let(:team) { create(:team, user: logged_user) }
+    let(:human_name) { 'Forza' }
+    let(:logo_url) { 'default_logo.png' }
     let(:params) do
       {
-        player_teams: {
-          '12345': { transfer_status: 'transferable' }
+        team: {
+          human_name: human_name,
+          logo_url: logo_url
         }
       }
     end
@@ -180,72 +153,53 @@ RSpec.describe 'Teams', type: :request do
       it { expect(response).to have_http_status(:found) }
     end
 
-    context 'with foreign team and league with closed transfer_status when user is logged in' do
-      login_user
-      before do
-        put team_path(team, params)
-      end
-
-      it { expect(response).to redirect_to(team_path(team)) }
-      it { expect(response).to have_http_status(:found) }
-    end
-
-    context 'with foreign team and league with open transfer_status when user is logged in' do
-      let(:league) { create(:league, transfer_status: :open) }
-
-      login_user
-      before do
-        put team_path(team, params)
-      end
-
-      it { expect(response).to redirect_to(team_path(team)) }
-      it { expect(response).to have_http_status(:found) }
-    end
-
-    context 'with own team and league with closed transfer_status when user is logged in' do
-      let(:logged_user) { create(:user) }
-      let(:team) { create(:team, league: league, user: logged_user) }
+    context 'with foreign team when user is logged in' do
+      let(:team) { create(:team) }
 
       before do
         sign_in logged_user
         put team_path(team, params)
       end
 
-      it { expect(response).to redirect_to(team_path(team)) }
+      it { expect(response).to redirect_to(user_path(logged_user)) }
       it { expect(response).to have_http_status(:found) }
     end
 
-    context 'with own team and league with open transfer_status when user is logged in' do
-      let(:logged_user) { create(:user) }
-      let(:auction) { create(:auction, status: :sales) }
-      let(:team) { create(:team, :with_players, league: auction.league, user: logged_user) }
-
-      let(:params) do
-        {
-          player_teams: {
-            "#{team.player_teams[0].id}": { transfer_status: 'untouchable' },
-            "#{team.player_teams[1].id}": { transfer_status: 'untouchable' },
-            "#{team.player_teams[2].id}": { transfer_status: 'transferable' },
-            "#{team.player_teams[3].id}": { transfer_status: 'untouchable' },
-            "#{team.player_teams[4].id}": { transfer_status: 'untouchable' }
-          }
-        }
-      end
+    context 'with own team and invalid params when user is logged in' do
+      let(:human_name) { 'Forza Milan! Forza Milan! Forza Milan! Forza Milan!' }
 
       before do
         sign_in logged_user
         put team_path(team, params)
       end
 
-      it { expect(response).to redirect_to(team_path(team)) }
-      it { expect(response).to have_http_status(:found) }
+      it { expect(response).to render_template(:edit) }
+      it { expect(response).to have_http_status(:ok) }
 
-      it 'not updates player_team transfer_status when untouchable' do
-        expect(team.player_teams[0].reload.transfer_status).to eq('untouchable')
+      it 'does not update team human_name' do
+        expect(team.reload.human_name).to eq(team.human_name)
       end
 
-      it 'updates player_team transfer_status' do
-        expect(team.player_teams[2].reload.transfer_status).to eq('transferable')
+      it 'does not update team logo_url' do
+        expect(team.reload.logo_url).to eq(team.logo_url)
+      end
+    end
+
+    context 'with own team and valid params when user is logged in' do
+      before do
+        sign_in logged_user
+        put team_path(team, params)
+      end
+
+      it { expect(response).to redirect_to(user_path(logged_user)) }
+      it { expect(response).to have_http_status(:found) }
+
+      it 'updates team human_name' do
+        expect(team.reload.human_name).to eq(human_name)
+      end
+
+      it 'updates team logo_url' do
+        expect(team.reload.logo_url).to eq(logo_url)
       end
     end
   end

@@ -4,7 +4,7 @@
       = link_to root_path do
         = image_tag('logo.svg')
   .login-block
-    .title-block
+    .login-title-block
       .title-text= t('.create_account')
       .title-subtext= t('.compete')
     .login-form
@@ -14,5 +14,8 @@
           .login-input-icon= image_tag('icons/login/mail.svg')
           .login-input-text
             = f.email_field :email, autofocus: true, autocomplete: 'email', class: 'form-control', placeholder: t('.email')
+        .signup-note.login-password-note
+          .inline-block= t('.note')
+          .signup-note-link= link_to t('.note_link'), fees_path
         .login-btn-form
           = f.submit t('.continue'), class: 'login-btn blue-btn'

@@ -42,33 +42,19 @@
               .next-round-opponent-name= user_team_by_league(current_user, league).next_opponent.human_name
 
     .league-links
-      - if league.active_tour_or_last
-        = link_to tour_path(league.active_tour_or_last) do
-          .league-link{class: "link-active-#{ params[:controller] == 'tours' || params[:controller] == 'matches' }"}
-            .league-link-icon= image_tag('icons/round/round.svg')
-            .league-link-text= t('header.round')
-      = link_to league_results_path(league) do
-        .league-link{class: "link-active-#{ params[:controller] == 'results' }"}
-          .league-link-icon= image_tag('icons/round/table.svg')
-          .league-link-text= t('header.table')
-      - if league.teams.present?
-        = link_to team_path(user_team_by_league(current_user, league) || league.teams.first) do
-          .league-link{class: "link-active-#{ params[:controller] == 'teams' && params[:action] == 'show' }"}
-            .league-link-icon= image_tag('icons/round/teams.svg')
-            .league-link-text= t('header.teams')
-      = link_to players_path(tournament: league.tournament, league: league) do
-        .league-link{class: "link-active-#{ params[:controller] == 'players' && params[:action] == 'index' }"}
-          .league-link-icon= image_tag('icons/round/players.svg')
-          .league-link-text= t('header.players')
-      - if league.mantra?
-        = link_to league_auctions_path(league) do
-          .league-link{class: "link-active-#{ params[:controller] == 'auctions' || params[:controller] == 'auction_bids' || params[:controller] == 'auction_rounds' }"}
-            .league-link-icon= image_tag('icons/round/auctions.svg')
-            .league-link-text= t('header.auctions')
-      -# = link_to '' do
-      -#   .league-link
-      -#     .league-link-icon= image_tag('icons/round/statistics.svg')
-      -#     .league-link-text= t('header.statistics')
+      = render 'layouts/league_links', league: league
+
+      -# - if user_signed_in? && (current_user.join_requests.where('leagues like ?', "%1\%").blank? || current_user.join_requests.where('leagues like ?', "%5\%").blank?)
+      -#   .next-round.auction-block-soon.play-more
+      -#     .auction-badge= t('header.coming_soon')
+      -#     .play-more-title= t('header.play_more_title')
+      -#     - if current_user.join_requests.where('leagues like ?', "%1\%").blank?
+      -#       .league-request
+      -#         = link_to 'Serie A 🇮🇹', join_requests_path(join_request: { leagues: ['1'] }), method: :post
+      -#     - if current_user.join_requests.where('leagues like ?', "%5\%").blank?
+      -#       .league-request
+      -#         = link_to 'La Liga 🇪🇸', join_requests_path(join_request: { leagues: ['5'] }), method: :post
+
       - if params[:controller] == 'tours'
         .admin-actions
           - if current_user&.can_moderate? && tour.deadlined?

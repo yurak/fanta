@@ -26,20 +26,15 @@ class TeamsController < ApplicationController
   end
 
   def edit
-    redirect_to team_path(team) unless editable?
+    redirect_to user_path(current_user) unless team_of_user?
   end
 
   def update
-    # TODO: compare count of transferable players and count of auction slots
-    # player_teams.to_h.map{|pt, v| pt if v["transfer_status"] == "transferable"}.compact.count
-    if editable?
-      player_teams.each_pair do |id, params|
-        player_team = PlayerTeam.find(id.to_i)
-        player_team.update(params.to_hash)
-      end
+    if !team_of_user? || team.update(input_params)
+      redirect_to user_path(current_user)
+    else
+      render :edit
     end
-
-    redirect_to team_path(team)
   end
 
   private
@@ -48,22 +43,14 @@ class TeamsController < ApplicationController
     @team ||= Team.find(params[:id])
   end
 
-  def editable?
-    team.sales_period? && team_of_user?
-  end
-
   def team_of_user?
     return false unless team.user
 
     team.user == current_user
   end
 
-  def player_teams
-    @player_teams ||= update_params['player_teams']
-  end
-
   def create_params
-    input_params.merge(code: input_params[:human_name].delete(" \t\r\n")[0..3].upcase, name: generate_name, user_id: current_user.id)
+    input_params.merge(code: input_params[:human_name].delete(" \t\r\n")[0..2].upcase, name: generate_name, user_id: current_user.id)
   end
 
   def generate_name
@@ -72,9 +59,5 @@ class TeamsController < ApplicationController
 
   def input_params
     params.require(:team).permit(:human_name, :logo_url)
-  end
-
-  def update_params
-    params.permit(player_teams: %i[transfer_status])
   end
 end

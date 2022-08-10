@@ -16,7 +16,7 @@
         = team.human_name
       .team-points
         = t('teams.points', count: team.results.last&.points || 0)
-      - if team.results.last
+      - if team.league && team.results.last
         .team-league-data
           .team-position
             .team-position-left
@@ -76,7 +76,7 @@
                 = team.league.name
               .team-league-logo
                 = image_tag(team.tournament.logo_path)
-      - if team.results&.last
+      - if team.league && team.results&.last
         .team-additional
           .team-additional-text= t('teams.form')
           .team-form-value.team-form
@@ -85,7 +85,7 @@
                 = form[0]
     - if team.user == current_user && team.sales_period?
       .team-transfer-market
-        = link_to edit_team_path(team) do
+        = link_to edit_team_player_team_path(team, team.player_teams.first) do
           .team-transfer-market-btn
             = t('teams.transfer_list')
   .team-lists
