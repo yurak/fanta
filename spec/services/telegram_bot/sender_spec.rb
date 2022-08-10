@@ -17,24 +17,24 @@ RSpec.describe TelegramBot::Sender do
 
     context 'when user profile with enabled bot notifications' do
       let(:user) { create(:user, user_profile: create(:user_profile, bot_enabled: true)) }
+      let(:telegram_client) { instance_double(Telegram::Bot::Client) }
+      let(:telegram_double) { double }
 
       it 'calls Telegram service' do
-        telegram_client = instance_double(Telegram::Bot::Client)
-        telegram_double = double
         allow(Telegram).to receive(:bots).and_return(telegram_double)
         allow(telegram_double).to receive(:[]).and_return(telegram_client)
-        allow(telegram_client).to receive(:send_message).and_return({"ok"=>true})
+        allow(telegram_client).to receive(:send_message).and_return({ 'ok' => true })
 
-        expect(sender.call).to eq({"ok"=>true})
+        expect(sender.call).to eq({ 'ok' => true })
       end
     end
 
     context 'when user profile with enabled bot notifications and Telegram raise Forbidden error' do
       let(:user) { create(:user, user_profile: create(:user_profile, bot_enabled: true)) }
+      let(:telegram_client) { instance_double(Telegram::Bot::Client) }
+      let(:telegram_double) { double }
 
       it 'returns false' do
-        telegram_client = instance_double(Telegram::Bot::Client)
-        telegram_double = double
         allow(Telegram).to receive(:bots).and_return(telegram_double)
         allow(telegram_double).to receive(:[]).and_return(telegram_client)
         allow(telegram_client).to receive(:send_message).and_raise(Telegram::Bot::Forbidden)
