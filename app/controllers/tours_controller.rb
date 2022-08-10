@@ -3,7 +3,7 @@ class ToursController < ApplicationController
 
   respond_to :html, :json
 
-  helper_method :auction, :tour
+  helper_method :tour
 
   def show
     redirect_to leagues_path unless tour
@@ -36,9 +36,5 @@ class ToursController < ApplicationController
 
   def tour_manager
     @tour_manager ||= Tours::Manager.new(tour, params[:status])
-  end
-
-  def auction
-    @auction ||= tour.league.auctions.active.last
   end
 end

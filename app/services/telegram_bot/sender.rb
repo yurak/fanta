@@ -6,13 +6,14 @@ module TelegramBot
     end
 
     def call
-      return unless @user_profile
-      return unless @user_profile.bot_enabled
+      return false unless @user_profile
+      return false unless @user_profile.bot_enabled
 
       begin
         Telegram.bots[:mantra_prod].send_message(chat_id: @user_profile.tg_chat_id, text: @message)
       rescue Telegram::Bot::Forbidden => _e
         # TODO: log error
+        false
       end
     end
   end
