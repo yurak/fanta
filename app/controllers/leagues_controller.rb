@@ -3,7 +3,7 @@ class LeaguesController < ApplicationController
 
   respond_to :html
 
-  helper_method :auction, :league, :leagues, :counters
+  helper_method :counters, :league, :leagues
 
   def index; end
 
@@ -13,10 +13,6 @@ class LeaguesController < ApplicationController
 
   def league
     @league ||= League.find(params[:id])
-  end
-
-  def auction
-    @auction ||= league.auctions.active.last
   end
 
   def leagues

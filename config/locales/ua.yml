@@ -121,6 +121,7 @@ ua:
     lock_round: "Заблокувати"
     postpone_round: "Відкласти р.."
     start_round: "Стартувати"
+    play_more_title: "Хочеш зіграти ще й інші ліги? Залишай заявку!"
   join_request:
     index:
       contact: "Ви також можете звязатися з нами "

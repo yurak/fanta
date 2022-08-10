@@ -275,10 +275,28 @@
       }
 
       .round-matches {
+        a {
+          cursor: auto;
+        }
+
         .round-tournament-match {
           border-bottom: 1px solid rgba(24, 23, 21, 0.2);
-          grid-template-columns: 1fr 50px 1fr;
+          grid-template-columns: 1fr 64px 1fr;
           column-gap: 12px;
+
+          .round-tournament-match-team {
+            padding: 11px 0;
+          }
+
+          .round-tournament-match-cell {
+            height: 70px;
+          }
+
+          .round-tournament-match-cell-result {
+            padding: 15px 5px;
+            color: #181715;
+            text-align: center;
+          }
         }
       }
     }

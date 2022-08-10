@@ -46,7 +46,7 @@
           - if tour.inactive?
             .round-add-data-inactive
               = t('tours.round_inactive')
-          - elsif tour.set_lineup?
+          - if tour.set_lineup? || (tour.inactive? && current_user&.admin?)
             .round-deadline
               .round-deadline-text= t('tours.deadline')
               .round-deadline-value

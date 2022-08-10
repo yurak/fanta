@@ -85,10 +85,14 @@ class Lineup < ApplicationRecord
   private
 
   def first_goal
+    return 72 unless team.league
+
     team.tournament.lineup_first_goal
   end
 
   def goal_increment
+    return 7 unless team.league
+
     team.tournament.lineup_increment
   end
 

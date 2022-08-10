@@ -16,7 +16,7 @@
         = team.human_name
       .team-points
         = t('teams.points', count: team.results.last&.points || 0)
-      - if team.results.last
+      - if team.league && team.results.last
         .team-league-data
           .team-position
             .team-position-left
@@ -76,7 +76,7 @@
                 = team.league.name
               .team-league-logo
                 = image_tag(team.tournament.logo_path)
-      - if team.results&.last
+      - if team.league && team.results&.last
         .team-additional
           .team-additional-text= t('teams.form')
           .team-form-value.team-form

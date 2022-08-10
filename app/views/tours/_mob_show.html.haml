@@ -21,9 +21,10 @@
         = image_tag('logo.svg')
     .league-data
       - if user_signed_in?
-        .user-data
-          .user-avatar= image_tag(current_user.avatar_path)
-          .user-name= current_user.name
+        = link_to user_path(current_user) do
+          .user-data
+            .user-avatar= image_tag(current_user.avatar_path)
+            .user-name= current_user.name
       - else
         .league-name= 'MantraFootball'
     .burger-menu#burger-menu-close
@@ -120,7 +121,7 @@
 
 = render 'stats_section', tour: tour
 
-- if tour.set_lineup? && user_signed_in? && current_user&.lineup_by_tour(tour).blank?
+- if tour.set_lineup? && user_signed_in? && user_team_by_league(current_user, tour.league) && current_user&.lineup_by_tour(tour).blank?
   .create-lineup-row
     .create-lineup-text= t('tours.setup')
     .create-lineup-link
@@ -145,10 +146,12 @@
 
     burger_btn.onclick = function() {
       burger_modal.style.display = "grid";
+      document.body.style.position = "fixed";
     };
 
     burger_close_btn.onclick = function() {
       burger_modal.style.display = "none";
+      document.body.style.position = "relative";
     };
 
     window.onclick = function(e) {

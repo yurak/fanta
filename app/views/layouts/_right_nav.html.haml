@@ -44,6 +44,17 @@
     .league-links
       = render 'layouts/league_links', league: league
 
+      -# - if user_signed_in? && (current_user.join_requests.where('leagues like ?', "%1\%").blank? || current_user.join_requests.where('leagues like ?', "%5\%").blank?)
+      -#   .next-round.auction-block-soon.play-more
+      -#     .auction-badge= t('header.coming_soon')
+      -#     .play-more-title= t('header.play_more_title')
+      -#     - if current_user.join_requests.where('leagues like ?', "%1\%").blank?
+      -#       .league-request
+      -#         = link_to 'Serie A 🇮🇹', join_requests_path(join_request: { leagues: ['1'] }), method: :post
+      -#     - if current_user.join_requests.where('leagues like ?', "%5\%").blank?
+      -#       .league-request
+      -#         = link_to 'La Liga 🇪🇸', join_requests_path(join_request: { leagues: ['5'] }), method: :post
+
       - if params[:controller] == 'tours'
         .admin-actions
           - if current_user&.can_moderate? && tour.deadlined?

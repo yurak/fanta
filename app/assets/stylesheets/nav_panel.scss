@@ -425,6 +425,26 @@
     }
   }
 
+  .play-more {
+    position: fixed;
+    width: 184px;
+    bottom: 56px;
+
+    .league-request {
+      padding: 8px 16px;
+      margin-top: 12px;
+      font-size: 18px;
+      line-height: 24px;
+      background: #BA44F1;
+      border-radius: 4px;
+      text-align: center;
+
+      a {
+        color: #FFFFFF;
+      }
+    }
+  }
+
   .admin-actions {
     position: fixed;
     width: 184px;
@@ -510,10 +530,10 @@
   display: none;
   position: fixed;
   z-index: 201;
-  left: 78px;
-  bottom: 64px;
-  width: 188px;
-  height: 500px;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
   overflow: auto;
 
   .help-modal-content {
@@ -524,8 +544,8 @@
     box-sizing: border-box;
     box-shadow: 1px 2px 5px rgba(24, 23, 21, 0.2);
     position: absolute;
-    left: 0;
-    bottom: 0;
+    left: 78px;
+    bottom: 64px;
     padding: 8px 4px;
 
     .help-modal-plus-links {
