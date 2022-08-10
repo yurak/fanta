@@ -25,7 +25,7 @@ RSpec.describe TelegramBot::Sender do
         allow(telegram_double).to receive(:[]).and_return(telegram_client)
         allow(telegram_client).to receive(:send_message).and_return({ 'ok' => true })
 
-        expect(sender.call).to eq({ 'ok' => true })
+        expect(sender.call).to be(true)
       end
     end
 

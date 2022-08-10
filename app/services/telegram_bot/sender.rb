@@ -11,6 +11,7 @@ module TelegramBot
 
       begin
         Telegram.bots[:mantra_prod].send_message(chat_id: @user_profile.tg_chat_id, text: @message)
+        true
       rescue Telegram::Bot::Forbidden => _e
         # TODO: log error
         false
