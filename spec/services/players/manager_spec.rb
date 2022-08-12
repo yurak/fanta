@@ -228,13 +228,13 @@ RSpec.describe Players::Manager do
       it 'updates player tm_url' do
         manager.call
 
-        expect(player.reload.tm_url).to eq('https://player/321123')
+        expect(player.reload.tm_url).to eq('https://player/321')
       end
 
       it 'updates player tm_id' do
         manager.call
 
-        expect(player.reload.tm_id).to eq(321123)
+        expect(player.reload.tm_id).to eq(321)
       end
     end
   end
