@@ -203,7 +203,7 @@ RSpec.describe Players::Manager do
           'club_name' => club_name,
           'first_name' => 'Achraf',
           'nationality' => 'mr',
-          'tm_url' => 'https://player/321123'
+          'tm_url' => 'https://player/321'
         }
       end
 
