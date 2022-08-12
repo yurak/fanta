@@ -19,7 +19,8 @@ RSpec.describe Player, type: :model do
 
   describe 'Validations' do
     it { is_expected.to validate_presence_of :name }
-    it { is_expected.to validate_uniqueness_of(:name).scoped_to(%i[first_name tm_url]) }
+    it { is_expected.to validate_uniqueness_of(:tm_id) }
+    it { is_expected.to validate_uniqueness_of(:fotmob_id) }
   end
 
   describe '#avatar_path' do
@@ -228,6 +229,22 @@ RSpec.describe Player, type: :model do
         allow(player.national_team).to receive(:code).and_return('ac_milan')
 
         expect(player.profile_national_kit_path).to eq('https://mantrafootball.s3-eu-west-1.amazonaws.com/kits/national/ac_milan.png')
+      end
+    end
+  end
+
+  describe '#tm_path' do
+    context 'without tm_id' do
+      it 'returns empty string' do
+        expect(player.tm_path).to eq('')
+      end
+    end
+
+    context 'with tm_id' do
+      let(:player) { create(:player, tm_id: '123321') }
+
+      it 'returns player TM path' do
+        expect(player.tm_path).to eq('https://www.transfermarkt.com/player-path/profil/spieler/123321')
       end
     end
   end

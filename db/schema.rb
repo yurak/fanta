@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_07_19_190412) do
+ActiveRecord::Schema.define(version: 2022_08_11_152824) do
 
   create_table "article_tags", force: :cascade do |t|
     t.string "name", default: "", null: false
@@ -225,8 +225,11 @@ ActiveRecord::Schema.define(version: 2022_07_19_190412) do
     t.integer "tm_price"
     t.integer "national_team_id"
     t.string "avatar_name"
-    t.index ["name", "first_name", "tm_url"], name: "index_players_on_name_and_first_name_and_tm_url", unique: true
+    t.integer "tm_id"
+    t.integer "fotmob_id"
+    t.index ["fotmob_id"], name: "index_players_on_fotmob_id", unique: true
     t.index ["national_team_id"], name: "index_players_on_national_team_id"
+    t.index ["tm_id"], name: "index_players_on_tm_id", unique: true
   end
 
   create_table "positions", force: :cascade do |t|

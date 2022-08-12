@@ -15,7 +15,9 @@ class Player < ApplicationRecord
 
   BUCKET_URL = 'https://mantrafootball.s3-eu-west-1.amazonaws.com'.freeze
 
-  validates :name, uniqueness: { scope: %i[first_name tm_url] }, presence: true
+  validates :name, presence: true
+  validates :tm_id, uniqueness: true, allow_nil: true
+  validates :fotmob_id, uniqueness: true, allow_nil: true
 
   default_scope { includes(%i[club national_team player_positions player_teams positions teams]) }
 
@@ -81,6 +83,12 @@ class Player < ApplicationRecord
     "#{BUCKET_URL}/kits/club/#{club.path_name}.png"
   end
 
+  def tm_path
+    return '' unless tm_id
+
+    "https://www.transfermarkt.com/player-path/profil/spieler/#{tm_id}"
+  end
+
   def position_names
     @position_names ||= positions.map(&:name)
   end
@@ -103,6 +111,7 @@ class Player < ApplicationRecord
     teams.find_by(league_id: league_id)
   end
 
+  # TODO: move to stats service
   # Current season statistic
 
   def chart_info

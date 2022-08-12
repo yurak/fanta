@@ -4,10 +4,10 @@ namespace :tm do
     ids_range = args[:start_id].to_i..args[:last_id].to_i
     ids_range.to_a.each do |id|
       player = Player.find_by(id: id)
-      next unless player&.tm_url
+      next unless player&.tm_id
 
       p id if (id % 20).zero?
-      html_page = Nokogiri::HTML(RestClient.get(player.tm_url))
+      html_page = Nokogiri::HTML(RestClient.get(player.tm_path))
       tm_club_name = html_page.css('.data-header__club').children[1]&.text
       club = Club.find_by(tm_name: tm_club_name)
 

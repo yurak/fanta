@@ -39,11 +39,11 @@
               = player.club.name
               %object{data: player.club.logo_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
                 = image_tag('default_logo.png')
-          - if player.tm_url.present?
+          - if player.tm_id.present?
             .player-table-row
               .player-table-row-key= t('players.transfermarkt')
               .player-table-row-value
-                = link_to player.tm_url, target: :_blank do
+                = link_to player.tm_path, target: :_blank do
                   .player-tm-img.player-table-club
                     = 'TM'
                     = image_tag("tm.jpg")

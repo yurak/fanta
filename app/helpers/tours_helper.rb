@@ -1,6 +1,6 @@
 module ToursHelper
   def time_to_deadline(time_hash)
-    return '' unless time_hash
+    return '' if time_hash.blank?
 
     time_str = ''
     time_str += "#{time_hash[:days]}d " if time_hash[:days]&.positive?

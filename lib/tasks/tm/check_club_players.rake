@@ -14,7 +14,7 @@ namespace :tm do
           # player_name = player_data.children.first.attributes['title'].value
           href = player_data.children.first.attributes['href'].value
           player_url = "https://www.transfermarkt.com#{href}"
-          player = Player.find_by(tm_url: player_url)
+          player = Player.find_by(tm_id: href.split('/').last)
 
           if player
             puts "#{player_count} - #{player.name} --- #{player.club.name}"

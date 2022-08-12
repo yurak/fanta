@@ -103,6 +103,7 @@ RSpec.describe Players::Manager do
           'club_name' => club_name,
           'first_name' => 'Kilian',
           'nationality' => 'it',
+          'tm_url' => 'player/321123',
           'position1' => player_position1
         }
       end
@@ -128,6 +129,20 @@ RSpec.describe Players::Manager do
       end
     end
 
+    context 'without player id and tm_url' do
+      let(:player_hash) do
+        {
+          'name' => 'Mbappe',
+          'club_name' => club_name,
+          'first_name' => 'Kilian',
+          'nationality' => 'it',
+          'position1' => player_position1
+        }
+      end
+
+      it { expect(manager.call).to be(false) }
+    end
+
     context 'without player id and positions' do
       let(:player_id) { nil }
       let(:player_position1) { nil }
@@ -142,6 +157,7 @@ RSpec.describe Players::Manager do
           'club_name' => club_name,
           'first_name' => 'Achraf',
           'nationality' => 'mr',
+          'tm_url' => 'player/321123',
           'position1' => 'Dd',
           'position2' => 'Ds',
           'position3' => 'E'
@@ -187,7 +203,7 @@ RSpec.describe Players::Manager do
           'club_name' => club_name,
           'first_name' => 'Achraf',
           'nationality' => 'mr',
-          'tm_url' => 'https://new_url'
+          'tm_url' => 'https://player/321123'
         }
       end
 
@@ -212,7 +228,13 @@ RSpec.describe Players::Manager do
       it 'updates player tm_url' do
         manager.call
 
-        expect(player.reload.tm_url).to eq('https://new_url')
+        expect(player.reload.tm_url).to eq('https://player/321123')
+      end
+
+      it 'updates player tm_id' do
+        manager.call
+
+        expect(player.reload.tm_id).to eq(321123)
       end
     end
   end
