@@ -21,7 +21,7 @@ namespace :tm do
         puts "Player #{player.id} #{player.name} (#{player.club.name}) leave Mantra tournaments. New club: #{tm_club_name}"
       end
 
-      sleep(12)
+      sleep(20) if (id % 4).zero?
     end
   end
 end
