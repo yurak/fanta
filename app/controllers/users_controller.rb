@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   before_action :check_user
+  skip_before_action :verify_authenticity_token, only: :update
 
   respond_to :html, :json
 
