@@ -15,11 +15,12 @@ $(document).on('click' ,'.modal-player-item' ,function(e) {
     const positionsContainer = $('#positions-'+blockId);
     const playerBidContainer = $('#player-bid-'+blockId);
     const italPosNaming = ($('#position-naming')[0].getAttribute('value') === 'true');
-    const nationalTour = false;
-    if ($('#national-tour').length > 0) {
-        const nationalTour = ($('#national-tour')[0].getAttribute('value') === 'true');
-    }
-    const slotPosition = $('#real-position-'+blockId).attr("value").split("/");
+
+    let nationalTour = false;
+    if ($('#national-tour').length > 0) { nationalTour = ($('#national-tour')[0].getAttribute('value') === 'true'); }
+
+    let slotPosition = [];
+    if ($('#real-position-'+blockId).length > 0) { slotPosition = $('#real-position-'+blockId).attr("value").split("/"); }
 
     $.ajax({
         type: "GET",
