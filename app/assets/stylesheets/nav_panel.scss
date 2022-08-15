@@ -124,6 +124,7 @@
 
   .next-round {
     background: #FFFFFF;
+    color: #181715;
     border-radius: 4px;
     padding: 8px;
     margin-bottom: 16px;
@@ -148,15 +149,17 @@
       padding-top: 8px;
       font-size: 12px;
       line-height: 16px;
+      display: grid;
+      grid-template-columns: 12px 16px auto;
+      column-gap: 8px;
 
       .next-round-vs {
-        display: inline-block;
+        text-align: right;
         color: #847577;
       }
 
       .next-round-opponent-logo {
-        display: inline-block;
-        margin: 0 2px 0 4px;
+        margin: 0;
 
         img {
           width: 16px;
@@ -165,7 +168,6 @@
       }
 
       .next-round-opponent-name {
-        display: inline-block;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
