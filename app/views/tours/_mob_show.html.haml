@@ -67,27 +67,27 @@
                     .my-league-check ✅
 
 .badges-block
-  - if user_team_by_league(current_user, tour.league)
-    - if tour.league.active_tour&.mantra? && tour.league.active_tour.locked?
-      .next-round
-        .next-round-param= image_tag(user_team_by_league(current_user, tour.league).next_match.host.logo_path)
-        .next-round-name= user_team_by_league(current_user, tour.league).next_match.host.code
-        .next-round-param= user_team_by_league(current_user, tour.league).next_match.host_lineup&.total_score || 0.0
-        .next-round-goals= user_team_by_league(current_user, tour.league).next_match.host_lineup&.goals || 0
-        .next-round-goals= user_team_by_league(current_user, tour.league).next_match.guest_lineup&.goals || 0
-        .next-round-param= user_team_by_league(current_user, tour.league).next_match.guest_lineup&.total_score || 0.0
-        .next-round-name= user_team_by_league(current_user, tour.league).next_match.guest.code
-        .next-round-param= image_tag(user_team_by_league(current_user, tour.league).next_match.guest.logo_path)
-    - elsif tour.league.active_tour&.unlocked?
-      .next-round.next-round-opponent-row
-        .next-round-opponent
-          - if user_team_by_league(current_user, tour.league.active_tour)&.next_opponent
+  - if user_team_by_league(current_user, tour.league)&.next_match
+    = link_to match_path(user_team_by_league(current_user, tour.league).next_match) do
+      - if tour.league.active_tour&.mantra? && tour.league.active_tour.locked?
+        .next-round
+          .next-round-param= image_tag(user_team_by_league(current_user, tour.league).next_match.host.logo_path)
+          .next-round-name= user_team_by_league(current_user, tour.league).next_match.host.code
+          .next-round-param= user_team_by_league(current_user, tour.league).next_match.host_lineup&.total_score || 0.0
+          .next-round-goals= user_team_by_league(current_user, tour.league).next_match.host_lineup&.goals || 0
+          .next-round-goals= user_team_by_league(current_user, tour.league).next_match.guest_lineup&.goals || 0
+          .next-round-param= user_team_by_league(current_user, tour.league).next_match.guest_lineup&.total_score || 0.0
+          .next-round-name= user_team_by_league(current_user, tour.league).next_match.guest.code
+          .next-round-param= image_tag(user_team_by_league(current_user, tour.league).next_match.guest.logo_path)
+      - elsif tour.league.active_tour&.unlocked?
+        .next-round.next-round-opponent-row
+          .next-round-opponent
             .next-round-vs vs
             .next-round-opponent-logo= image_tag(user_team_by_league(current_user, tour.league.active_tour).next_opponent.logo_path)
             .next-round-opponent-name= user_team_by_league(current_user, tour.league.active_tour).next_opponent.human_name
-        .next-round-datetime
-          .next-round-date= tour.league.active_tour.tournament_round.deadline&.strftime("%^a, %^b %e")
-          .next-round-time= tour.league.active_tour.tournament_round.deadline&.strftime("%H:%M")
+          .next-round-datetime
+            .next-round-date= tour.league.active_tour.tournament_round.deadline&.strftime("%^a, %^b %e")
+            .next-round-time= tour.league.active_tour.tournament_round.deadline&.strftime("%H:%M")
 
   = render 'layouts/auction_badge', league: tour.league, initial_auction: tour.league.auctions.initial.first, active_auction: tour.league.auctions.active.first
 
