@@ -55,7 +55,7 @@
               .reserve-players-title
                 = t('lineups.reserve_squad')
             .lineup-slot
-              = mp.hidden_field(:real_position, value: team_module.slots[mp.index]&.position) if team_module.slots[mp.index]&.position
+              = mp.hidden_field(:real_position, value: team_module.slots[mp.index]&.position, id: "real-position-#{mp.index}") if team_module.slots[mp.index]&.position
               = mp.hidden_field(:round_player_id, value: player_by_mp(mp, team_module)&.id, class: 'round-player-input', id: "round-player-#{mp.index}")
               .input-group
                 .player-data{id: "modal-player-data#{mp.index}"}

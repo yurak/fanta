@@ -19,7 +19,7 @@ $(document).on('click' ,'.modal-player-item' ,function(e) {
     if ($('#national-tour').length > 0) {
         const nationalTour = ($('#national-tour')[0].getAttribute('value') === 'true');
     }
-    const slotPosition = modalList.find('.modal-players-title-position').text().replace(/[\r\n]/gm, '').split("/");
+    const slotPosition = $('#real-position-'+blockId).attr("value").split("/");
 
     $.ajax({
         type: "GET",
