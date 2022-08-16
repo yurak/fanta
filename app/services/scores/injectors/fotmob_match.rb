@@ -41,6 +41,7 @@ module Scores
         return unless player_data
 
         round_player.update(round_player_params(round_player, player_data, team_missed_goals))
+        round_player.player.update(fotmob_id: player_data[:fotmob_id]&.to_i) if round_player.player.fotmob_id.blank?
 
         team_hash.except!(round_player.pseudo_name.downcase)
       end
@@ -79,6 +80,7 @@ module Scores
 
       def player_hash(player_data)
         hash = {
+          fotmob_id: player_data['id'],
           rating: player_data['rating']['num'],
           played_minutes: player_data['minutesPlayed'].to_i,
           missed_goals: player_data['stats'][0]['stats']['Goals conceded']

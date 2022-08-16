@@ -8,16 +8,16 @@
     - if user_team_by_league(current_user, league) || current_user&.admin?
       = render 'layouts/auction_badge', league: league, initial_auction: league.auctions.initial.first, active_auction: league.auctions.active.first
 
-    - if league.active_tour
-      .next-round
-        - if league.active_tour.locked? && user_team_by_league(current_user, league)
-          .next-round-title
-            .live-badge
-              .live-dot
-              .live-text= t('header.live')
-            .next-round-number= "#{t('header.next_round')} ##{league.active_tour.number}"
-          .next-round-match
-            - if league.active_tour.mantra?
+    - if league.active_tour&.mantra? && user_team_by_league(current_user, league)&.next_match
+      = link_to match_path(user_team_by_league(current_user, league).next_match) do
+        .next-round
+          - if league.active_tour.locked?
+            .next-round-title
+              .live-badge
+                .live-dot
+                .live-text= t('header.live')
+              .next-round-number= "#{t('header.next_round')} ##{league.active_tour.number}"
+            .next-round-match
               .next-round-team
                 .next-round-team-param= image_tag(user_team_by_league(current_user, league).next_match.host.logo_path)
                 .next-round-team-param.next-round-name= user_team_by_league(current_user, league).next_match.host.human_name
@@ -28,14 +28,13 @@
                 .next-round-team-param.next-round-name= user_team_by_league(current_user, league).next_match.guest.human_name
                 .next-round-team-param.next-round-score= user_team_by_league(current_user, league).next_match.guest_lineup&.total_score || 0.0
                 .next-round-team-param.next-round-goals= user_team_by_league(current_user, league).next_match.guest_lineup&.goals || 0
-        - else
-          .next-round-title
-            .next-round-text= t('header.next')
-            .next-round-number= "#{t('header.next_round')} ##{league.active_tour.number}"
-          .next-round-datetime
-            .next-round-date= league.active_tour.tournament_round.deadline&.strftime("%^a, %^b %e")
-            .next-round-time= league.active_tour.tournament_round.deadline&.strftime("%H:%M")
-          - if user_team_by_league(current_user, league)&.next_opponent
+          - else
+            .next-round-title
+              .next-round-text= t('header.next')
+              .next-round-number= "#{t('header.next_round')} ##{league.active_tour.number}"
+            .next-round-datetime
+              .next-round-date= league.active_tour.tournament_round.deadline&.strftime("%^a, %^b %e")
+              .next-round-time= league.active_tour.tournament_round.deadline&.strftime("%H:%M")
             .next-round-opponent
               .next-round-vs vs
               .next-round-opponent-logo= image_tag(user_team_by_league(current_user, league).next_opponent.logo_path)

@@ -38,6 +38,7 @@
       .next-round-date= initial_auction.deadline&.strftime("%^a, %^b %e")
       .next-round-time= initial_auction.deadline&.strftime("%H:%M")
 - elsif league.auctions.closed.any? && TimeDifference.between(league.auctions.closed.last.updated_at, Time.zone.now).in_days < 2
-  .next-round.auction-block-finished
-    .auction-badge= t('header.finished')
-    .auction-text= "#{t('header.auction')} ##{league.auctions.closed.last.number}"
+  = link_to league_auction_transfers_path(league, league.auctions.closed.last) do
+    .next-round.auction-block-finished
+      .auction-badge= t('header.finished')
+      .auction-text= "#{t('header.auction')} ##{league.auctions.closed.last.number}"
