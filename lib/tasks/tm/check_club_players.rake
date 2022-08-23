@@ -41,8 +41,12 @@ namespace :tm do
             price = price_data[1]&.text.to_s + price_data[2]&.text.to_s
 
             writer << ['', first_name, last_name, country_code, club.name, pos1, '', '', player_url, '', tm_pos1, tm_pos2, tm_pos3, price]
+
+            sleep(5)
           end
         end
+
+        sleep(10)
       end
     end
   end
