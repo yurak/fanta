@@ -1,7 +1,7 @@
 class AuctionBidsController < ApplicationController
   respond_to :html
 
-  helper_method :auction_bid, :auction_round, :league, :team
+  helper_method :auction_bid, :auction_round, :dumped_player_ids, :league, :team
 
   def new
     if team && auction_round.active?
@@ -50,6 +50,7 @@ class AuctionBidsController < ApplicationController
     return false if players_ids.count < team.vacancies
     return false if total_price > team.budget
     return false if gk_count < Team::MIN_GK
+    return false if contains_dumped?
 
     true
   end
@@ -68,6 +69,14 @@ class AuctionBidsController < ApplicationController
 
   def gk_count
     @gk_count ||= Player.by_position('Por').where(id: players_ids + team.players.map(&:id)).count
+  end
+
+  def dumped_player_ids
+    team.transfers.outgoing.by_auction(auction_round.auction).pluck(:player_id)
+  end
+
+  def contains_dumped?
+    players_ids.intersection(dumped_player_ids).any?
   end
 
   def editable?

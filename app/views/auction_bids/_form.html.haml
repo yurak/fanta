@@ -13,6 +13,7 @@
             #tournament{ type: "hidden", value: "#{league.tournament.id}"}
             #league{ type: "hidden", value: "#{league.id}"}
             #position-naming{ type: "hidden", value: "#{current_user.ital_pos_naming}"}
+            #dumped{ type: "hidden", value: "#{dumped_player_ids.join(',')}"}
             = f.fields_for :player_bids do |p_bid|
               .lineup-slot
                 = p_bid.hidden_field(:player_id, value: p_bid.object.player&.id, class: 'round-player-input', id: "player-bid-#{p_bid.index}")

@@ -6,7 +6,7 @@ namespace :tm do
       player = Player.find_by(id: id)
       next unless player&.tm_id
 
-      p id # if (id % 20).zero?
+      p id if (id % 4).zero?
       html_page = Nokogiri::HTML(RestClient.get(player.tm_path))
       tm_club_name = html_page.css('.data-header__club').children[1]&.text
       club = Club.find_by(tm_name: tm_club_name)

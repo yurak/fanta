@@ -111,12 +111,19 @@
       color: #FFF;
       position: absolute;
       border: 2px solid red;
-      padding: 4px 8px 0;
+      border-radius: 4px;
+      padding: 2px 8px;
       line-height: 22px;
       font-size: 16px;
       background: #ff0000a6;
       top: 36px;
       left: 16px;
+    }
+
+    .player-dumped {
+      border: 2px solid #bf00ff;
+      background: rgba(170, 0, 255, 0.65);
+      left: 3px;
     }
   }
 
