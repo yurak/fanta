@@ -76,7 +76,7 @@ module TournamentMatches
     def start_time(match_data)
       return '' unless match_data['status']['startTimeStr']
 
-      (Time.parse(match_data['status']['startTimeStr']).utc + 3.hour).strftime('%H:%M')
+      (Time.parse(match_data['status']['startTimeStr']).utc + 3.hours).strftime('%H:%M')
     end
 
     def tournament_rounds
