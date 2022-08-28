@@ -10,8 +10,8 @@ class Club < ApplicationRecord
 
   enum status: { active: 0, archived: 1 }
 
-  validates :name, uniqueness: true
-  validates :code, uniqueness: true
+  validates :name, presence: true, uniqueness: true
+  validates :code, presence: true, uniqueness: true
 
   default_scope { includes(:tournament) }
 
