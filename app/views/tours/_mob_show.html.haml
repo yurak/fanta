@@ -134,8 +134,7 @@
   .create-lineup-row
     .create-lineup-text= t('tours.want_edit')
     .create-lineup-link
-    .create-lineup-link= link_to t('tours.edit_mob'), edit_team_lineup_path(user_team_by_league(current_user, tour.league), current_user&.lineup_by_tour(tour), tour_id: tour.id)
-
+    .create-lineup-link= link_to t('tours.edit_mob'), edit_team_lineup_path(user_team_by_league(current_user, tour.league), current_user.lineup_by_tour(tour), team_module_id: current_user.lineup_by_tour(tour).team_module.id, tour_id: tour.id)
 
 .portrait-footer{ class: "portrait-footer-#{tour.league.mantra?}"}
   = render 'layouts/league_links', league: tour.league
