@@ -435,11 +435,13 @@
 
     .round-lineup-edit {
       margin: 0;
+      padding: 0;
       line-height: 30px;
 
       img {
         width: 18px;
         height: 18px;
+        filter: invert(13%) sepia(85%) saturate(4155%) hue-rotate(243deg) brightness(112%) contrast(131%); // #261FFF;
       }
     }
   }
@@ -1291,6 +1293,22 @@
 
       .round-tournament-match-result-host {
         border-right: 3px solid #847577;
+      }
+    }
+  }
+
+  .fixtures-block .round-tournament-match {
+    .round-tournament-match-result {
+      line-height: 54px;
+      padding: 0;
+      margin: 0;
+      width: 100%;
+
+      .round-tournament-match-result-text {
+        width: 100%;
+        text-align: center;
+        padding: 0 32px;
+        font-size: 32px;
       }
     }
   }
