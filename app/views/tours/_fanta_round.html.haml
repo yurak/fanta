@@ -29,7 +29,7 @@
                   .round-lineup-set-block
                     = t('tours.set_done')
                 - else
-                  = link_to new_team_lineup_path(user_team_by_league(current_user, tour.league), tour_id: tour.id) do
+                  = link_to new_team_lineup_path(user_team_by_league(current_user, tour.league), tour_id: tour.id, team_module_id: user_team_by_league(current_user, tour.league).lineups.last&.team_module_id) do
                     .blue-btn.round-lineup-set-squad{ title: t('tours.create') }
                       = image_tag('icons/plus.svg')
         - tour.league.teams.each do |team|
