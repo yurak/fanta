@@ -129,7 +129,7 @@
     .create-lineup-link
       - if tour.league.cloneable?
         = link_to t('tours.clone_mob'), clone_team_lineups_path(user_team_by_league(current_user, tour.league), tour_id: tour.id)
-    .create-lineup-link= link_to t('tours.create_mob'), new_team_lineup_path(user_team_by_league(current_user, tour.league), tour_id: tour.id, team_module_id: user_team_by_league(current_user, tour.league).lineups.last&.team_module_id)
+    .create-lineup-link= link_to t('tours.create_mob'), new_team_lineup_path(user_team_by_league(current_user, tour.league), tour_id: tour.id, team_module_id: user_team_by_league(current_user, tour.league).lineups.first&.team_module_id)
 - if tour.set_lineup? && tour.fanta? && user_signed_in? && user_team_by_league(current_user, tour.league) && current_user&.lineup_by_tour(tour).present?
   .create-lineup-row
     .create-lineup-text= t('tours.want_edit')
