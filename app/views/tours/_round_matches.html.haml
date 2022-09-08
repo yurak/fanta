@@ -40,7 +40,6 @@
             .round-lineup-set= t('tours.set_done')
           - elsif current_user == match.guest.user && tour.set_lineup?
             .round-lineup-actions.round-lineup-actions-guest
-              - binding.pry
               .round-lineup-clone-block
                 - if tour.league.cloneable?
                   = link_to clone_team_lineups_path(match.guest, tour_id: tour.id) do
