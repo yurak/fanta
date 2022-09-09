@@ -318,6 +318,7 @@ en:
     create_mob: "Create"
     deadline: "☠️ Deadline:"
     edit: "Edit lineup"
+    edit_mob: "Edit"
     finished: "🏁️ Finished:"
     fixtures: "Fixtures"
     league_players: "💪 Best picks"
@@ -334,6 +335,7 @@ en:
     setup: "Ready to set squad?"
     table: "🏅 Table"
     tournament_players: "✊ Overall best"
+    want_edit: "Want to edit squad?"
   users:
     edit:
       change_username: "Change user name"

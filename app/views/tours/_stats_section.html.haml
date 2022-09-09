@@ -141,7 +141,7 @@
             .round-table-item-team
               .results-team-logo= image_tag(image_path(result.team.logo_path))
               .results-team-name= result.team.human_name
-            .round-table-item-points= result.total_score
+            .round-table-item-points= result.total_score.round(2)
     .round-table
       .round-table-title-header
         .round-table-title
@@ -154,7 +154,7 @@
         .round-table-hide.round-table-hidden
           = image_tag('icons/arrow_down.svg')
       .round-list.round-table-block
-        - tour.league.results.ordered_by_score.limit(5).each_with_index do |result, i|
+        - tour.league.results.ordered.limit(5).each_with_index do |result, i|
           .round-table-item
             .round-table-index= i + 1
             .round-table-item-team

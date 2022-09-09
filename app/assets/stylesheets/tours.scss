@@ -275,171 +275,173 @@
           }
         }
       }
+    }
+  }
+}
 
-      .fanta-block {
+.fanta-block {
+  display: grid;
+  grid-template-columns: 9fr 5fr;
+  column-gap: 9%;
+  margin-top: 40px;
+
+  .block-title {
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 24px;
+    color: #181715;
+  }
+
+  .lineups-block {
+    .block-title {
+      margin-bottom: 16px;
+    }
+
+    .team-row {
+      border-bottom: 1px solid #E5E6E4;
+      padding: 8px 0;
+      height: 48px;
+      display: grid;
+      grid-template-columns: 32px auto 48px;
+      column-gap: 16px;
+      line-height: 32px;
+
+      .team-row-name {
+        font-size: 14px;
+        color: #847577;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .team-row-name-lineup {
+        font-weight: 400;
+        font-size: 12px;
+        color: #847577;
+        text-align: right;
+      }
+
+      img {
+        width: 32px;
+        height: 32px;
+      }
+    }
+
+    .team-lineup-true {
+      .team-row-name {
+        color: #181715;
+      }
+
+      .team-row-name-lineup {
+        font-weight: 700;
+        color: #4EAD57;
+      }
+    }
+
+    .self-team {
+      border-bottom: 1px solid #181715;
+
+      .team-row-name {
+        color: #181715;
+
+        a {
+          color: #181715;
+          width: 100%;
+          display: block;
+        }
+
+        a:hover {
+          color: #261FFF;
+        }
+      }
+
+      .round-lineup-actions {
+        margin-left: auto;
+        margin-right: 0;
+      }
+    }
+
+    .self-team.team-lineup-true {
+      grid-template-columns: 32px auto 84px;
+
+      .round-lineup-actions {
         display: grid;
-        grid-template-columns: 9fr 5fr;
-        column-gap: 9%;
-        margin-top: 40px;
+        grid-template-columns: 32px 48px;
+        column-gap: 4px;
+        margin: 0;
 
-        .block-title {
-          font-weight: 700;
-          font-size: 16px;
-          line-height: 24px;
+        .round-lineup-set-block {
+          width: 48px;
+        }
+      }
+    }
+
+    .tour-deadlined {
+      .team-row {
+        grid-template-columns: 32px 32px auto 48px;
+        column-gap: 8px;
+        color: #181715;
+
+        .team-row-name {
           color: #181715;
         }
 
-        .lineups-block {
-          .block-title {
-            margin-bottom: 16px;
-          }
-
-          .team-row {
-            border-bottom: 1px solid #E5E6E4;
-            padding: 8px 0;
-            height: 48px;
-            display: grid;
-            grid-template-columns: 32px auto 48px;
-            column-gap: 16px;
-            line-height: 32px;
-
-            .team-row-name {
-              font-size: 14px;
-              color: #847577;
-              white-space: nowrap;
-              overflow: hidden;
-              text-overflow: ellipsis;
-            }
-
-            .team-row-name-lineup {
-              font-weight: 400;
-              font-size: 12px;
-              color: #847577;
-              text-align: right;
-            }
-
-            img {
-              width: 32px;
-              height: 32px;
-            }
-          }
-
-          .team-lineup-true {
-            .team-row-name {
-              color: #181715;
-            }
-
-            .team-row-name-lineup {
-              font-weight: 700;
-              color: #4EAD57;
-            }
-          }
-
-          .self-team {
-            border-bottom: 1px solid #181715;
-
-            .team-row-name {
-              color: #181715;
-
-              a {
-                color: #181715;
-                width: 100%;
-                display: block;
-              }
-
-              a:hover {
-                color: #261FFF;
-              }
-            }
-
-            .round-lineup-actions {
-              margin-left: auto;
-              margin-right: 0;
-            }
-          }
-
-          .self-team.team-lineup-true {
-            grid-template-columns: 32px auto 84px;
-
-            .round-lineup-actions {
-              display: grid;
-              grid-template-columns: 32px 48px;
-              column-gap: 4px;
-              margin: 0;
-
-              .round-lineup-set-block {
-                width: 48px;
-              }
-            }
-          }
-
-          .tour-deadlined {
-            .team-row {
-              grid-template-columns: 32px 32px auto 48px;
-              column-gap: 8px;
-              color: #181715;
-
-              .team-row-name {
-                color: #181715;
-              }
-
-              .lineup-team-position {
-                text-align: center;
-              }
-
-              .lineup-result {
-                padding: 8px;
-                background: #BA44F1;
-                border-radius: 4px;
-                font-weight: 700;
-                font-size: 14px;
-                line-height: 16px;
-                color: #FFFFFF;
-                text-align: center;
-              }
-            }
-
-            .team-row:hover {
-              .team-row-name {
-                color: #261FFF;
-              }
-            }
-          }
-
-          .tour-closed-true {
-            .team-row .lineup-result {
-              background: #181715;
-            }
-          }
+        .lineup-team-position {
+          text-align: center;
         }
 
-        .round-lineup-actions {
-          display: block;
-          width: 32px;
-
-          .round-lineup-set-squad {
-            margin: 0;
-            font-size: 10px;
-            line-height: 14px;
-            height: 32px;
-            padding: 4px;
-
-            img {
-              width: 24px;
-              height: 24px;
-            }
-          }
-
-          .round-lineup-edit {
-            margin: 0;
-            line-height: 30px;
-
-            img {
-              width: 18px;
-              height: 18px;
-            }
-          }
+        .lineup-result {
+          padding: 8px;
+          background: #BA44F1;
+          border-radius: 4px;
+          font-weight: 700;
+          font-size: 14px;
+          line-height: 16px;
+          color: #FFFFFF;
+          text-align: center;
         }
+      }
+
+      .team-row:hover {
+        .team-row-name {
+          color: #261FFF;
+        }
+      }
+    }
+
+    .tour-closed-true {
+      .team-row .lineup-result {
+        background: #181715;
+      }
+    }
+  }
+
+  .round-lineup-actions {
+    display: block;
+    width: 32px;
+
+    .round-lineup-set-squad {
+      margin: 0;
+      font-size: 10px;
+      line-height: 14px;
+      height: 32px;
+      padding: 4px;
+
+      img {
+        width: 24px;
+        height: 24px;
+      }
+    }
+
+    .round-lineup-edit {
+      margin: 0;
+      padding: 0;
+      line-height: 30px;
+
+      img {
+        width: 18px;
+        height: 18px;
+        filter: invert(13%) sepia(85%) saturate(4155%) hue-rotate(243deg) brightness(112%) contrast(131%); // #261FFF;
       }
     }
   }
@@ -1020,6 +1022,68 @@
         background: #181715;
       }
     }
+
+    .fanta-block {
+      display: block;
+
+      .block-title {
+        text-align: center;
+        font-size: 48px;
+        line-height: 48px;
+        margin: 48px 24px 24px;
+      }
+
+      .round-tournament-match {
+        grid-template-columns: 1fr 120px 1fr;
+      }
+
+      .lineups-block {
+        .team-row {
+          border-bottom: 3px solid #E5E6E4;
+          padding: 24px 48px;
+          height: 120px;
+          grid-template-columns: 64px auto 144px;
+          column-gap: 32px;
+          line-height: 64px;
+
+          .team-row-name {
+            font-size: 36px;
+          }
+
+          .team-row-name-lineup {
+            font-size: 24px;
+          }
+
+          img {
+            width: 64px;
+            height: 64px;
+          }
+        }
+
+        .self-team {
+          border-bottom: 3px solid #181715;
+
+          .team-row-name-lineup .round-lineup-actions {
+            display: none;
+          }
+        }
+
+        .tour-deadlined {
+          .team-row {
+            grid-template-columns: 48px 64px auto 144px;
+            column-gap: 24px;
+            font-size: 42px;
+
+            .lineup-result {
+              padding: 11px;
+              border-radius: 12px;
+              font-size: 36px;
+              line-height: 48px;
+            }
+          }
+        }
+      }
+    }
   }
 
   .rounds-block {
@@ -1148,53 +1212,6 @@
         margin-top: 24px;
       }
 
-      .round-tournament-match {
-        column-gap: 36px;
-        font-size: 36px;
-        line-height: 96px;
-        border-bottom: 3px solid #E5E6E4;
-
-        .round-tournament-match-club {
-          grid-template-columns: auto 72px;
-
-          .round-tournament-club-logo-wrapper {
-            padding: 12px 0;
-          }
-
-          .round-tournament-club-logo {
-            line-height: 72px;
-            height: 72px;
-          }
-
-          img, object {
-            width: 72px;
-            height: 72px;
-          }
-
-          .round-tournament-club-name {
-            padding-right: 48px;
-          }
-        }
-
-        .round-tournament-match-guest {
-          grid-template-columns: 72px auto;
-
-          .round-tournament-club-name {
-            padding-left: 48px;
-          }
-        }
-
-        .round-tournament-match-result {
-          line-height: 54px;
-          padding: 5px 0;
-          margin: 18px 0;
-
-          .round-tournament-match-result-host {
-            border-right: 3px solid #847577;
-          }
-        }
-      }
-
       .round-player-stats-item {
         grid-template-columns: 72px auto 72px 120px;
         column-gap: 24px;
@@ -1229,6 +1246,69 @@
             height: 60px;
           }
         }
+      }
+    }
+  }
+
+  .stats-section .round-table .round-tournament-match, .fixtures-block .round-tournament-match {
+    column-gap: 36px;
+    font-size: 36px;
+    line-height: 96px;
+    border-bottom: 3px solid #E5E6E4;
+
+    .round-tournament-match-club {
+      grid-template-columns: auto 72px;
+
+      .round-tournament-club-logo-wrapper {
+        padding: 12px 0;
+      }
+
+      .round-tournament-club-logo {
+        line-height: 72px;
+        height: 72px;
+      }
+
+      img, object {
+        width: 72px;
+        height: 72px;
+      }
+
+      .round-tournament-club-name {
+        padding-right: 48px;
+      }
+    }
+
+    .round-tournament-match-guest {
+      grid-template-columns: 72px auto;
+
+      .round-tournament-club-name {
+        padding-left: 48px;
+      }
+    }
+
+    .round-tournament-match-result {
+      line-height: 54px;
+      padding: 5px 0;
+      margin: 18px 0;
+
+      .round-tournament-match-result-host {
+        border-right: 3px solid #847577;
+      }
+    }
+  }
+
+  .fixtures-block .round-tournament-match {
+    .round-tournament-match-result {
+      line-height: 54px;
+      padding: 0;
+      margin: 0;
+      width: 100%;
+
+      .round-tournament-match-result-text {
+        width: 100%;
+        text-align: center;
+        padding: 0 32px;
+        font-size: 32px;
       }
     }
   }
