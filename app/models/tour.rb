@@ -16,7 +16,7 @@ class Tour < ApplicationRecord
   scope :closed_postponed, -> { closed.or(postponed) }
   scope :active, -> { set_lineup.or(locked) }
 
-  PLAYERS_BY_FANTA_MATCHES = [0, 7, 4, 3, 2, 1, 1, 1, 1].freeze
+  PLAYERS_BY_FANTA_MATCHES = [0, 7, 4, 3, 2, 1, 1, 1, 1, 1].freeze
 
   def locked_or_postponed?
     locked? || postponed?
