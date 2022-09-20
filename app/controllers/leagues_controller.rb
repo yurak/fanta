@@ -18,16 +18,17 @@ class LeaguesController < ApplicationController
   def leagues
     leagues = {}
     leagues['registration'] = [] # League.initial
-    leagues['ongoing'] = League.active
-    leagues['finished'] = League.archived
+    leagues['ongoing'] = League.active.includes(:results).sort_by(&:tournament_id)
+    leagues['finished'] = League.archived.includes(:results).sort_by(&:season_id)
     leagues
   end
 
   def counters
-    counters = {}
-    leagues.each do |type, leagues|
-      counters[type] = League.counters(leagues)
-    end
-    counters
+    # TODO: temp
+    # counters = {}
+    # leagues.each do |type, leagues|
+    #   counters[type] = League.counters(leagues)
+    # end
+    # counters
   end
 end

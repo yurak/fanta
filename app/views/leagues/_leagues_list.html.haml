@@ -1,10 +1,10 @@
 .leagues-counters
-  - counters[leagues_type].each do |counter|
-    .leagues-counter{ class: "leagues-counter-#{counter[0].downcase.tr(' ', '-')}" }
-      .leagues-counter-name
-        = counter[0]
-      .leagues-counter-value
-        = counter[1]
+  -# - counters[leagues_type].each do |counter|
+  -#   .leagues-counter{ class: "leagues-counter-#{counter[0].downcase.tr(' ', '-')}" }
+  -#     .leagues-counter-name
+  -#       = counter[0]
+  -#     .leagues-counter-value
+  -#       = counter[1]
 .leagues-list
   .leagues-list-headers
     .leagues-list-header
@@ -14,7 +14,7 @@
     .leagues-list-header.right= t('league.teams')
     .leagues-list-header.right= t('league.round')
     .leagues-list-header
-  - leagues[leagues_type].includes(:results).each do |league|
+  - leagues[leagues_type].each do |league|
     = link_to league_link(league) do
       .leagues-list-item
         .leagues-list-item-param.tournament-logo= image_tag(league.tournament.logo_path)
