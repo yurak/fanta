@@ -2,11 +2,11 @@
   - if team.league
     - team.league.teams.each do |league_team|
       = link_to team_path(league_team) do
-        .team-bar-item{ class: "current-team-#{team == league_team}"}
+        .team-bar-item{ class: "current-team-#{team == league_team} team-bar-items#{team.league.teams.count}"}
           .team-bar-item-logo
             = image_tag(league_team.logo_path)
           .team-bar-item-name
-            = league_team.human_name
+            = league_team.code
 .team-section
   .team-data-section
     .team-data
