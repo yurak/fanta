@@ -1,6 +1,7 @@
 class League < ApplicationRecord
-  belongs_to :tournament
+  belongs_to :division, optional: true
   belongs_to :season
+  belongs_to :tournament
 
   has_many :auctions, dependent: :destroy
   has_many :teams, dependent: :destroy
@@ -16,7 +17,7 @@ class League < ApplicationRecord
 
   validates :name, presence: true, uniqueness: true
 
-  default_scope { includes(:tournament) }
+  default_scope { includes(%i[division season tournament]) }
 
   scope :by_tournament, ->(tournament_id) { where(tournament: tournament_id) }
 
@@ -35,19 +36,5 @@ class League < ApplicationRecord
 
   def mantra?
     tours.first&.mantra?
-  end
-
-  def self.counters(leagues)
-    counters = {}
-    counters['All leagues'] = leagues&.count
-
-    if counters['All leagues']&.positive?
-      Tournament.all.find_each do |t|
-        counter = leagues.by_tournament(t.id).count
-        counters[t.name] = counter if counter.positive?
-      end
-    end
-
-    counters
   end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_08_11_152824) do
+ActiveRecord::Schema.define(version: 2022_09_25_103839) do
 
   create_table "article_tags", force: :cascade do |t|
     t.string "name", default: "", null: false
@@ -82,6 +82,13 @@ ActiveRecord::Schema.define(version: 2022_08_11_152824) do
     t.index ["tournament_id"], name: "index_clubs_on_tournament_id"
   end
 
+  create_table "divisions", force: :cascade do |t|
+    t.string "level"
+    t.integer "number"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "join_requests", force: :cascade do |t|
     t.string "leagues"
     t.integer "status", default: 0, null: false
@@ -104,6 +111,7 @@ ActiveRecord::Schema.define(version: 2022_08_11_152824) do
     t.integer "transfer_status", default: 0
     t.integer "cloning_status", default: 0, null: false
     t.integer "auction_type", default: 0, null: false
+    t.integer "division_id"
     t.index ["name"], name: "index_leagues_on_name", unique: true
     t.index ["season_id"], name: "index_leagues_on_season_id"
   end
@@ -206,6 +214,8 @@ ActiveRecord::Schema.define(version: 2022_08_11_152824) do
     t.integer "player_id"
     t.integer "team_id"
     t.integer "transfer_status", default: 0
+    t.datetime "created_at", default: "2022-09-29 19:54:51", null: false
+    t.datetime "updated_at", default: "2022-09-29 19:54:51", null: false
     t.index ["player_id"], name: "index_player_teams_on_player_id"
     t.index ["team_id"], name: "index_player_teams_on_team_id"
   end
@@ -364,6 +374,7 @@ ActiveRecord::Schema.define(version: 2022_08_11_152824) do
     t.integer "lineup_first_goal", default: 72, null: false
     t.integer "lineup_increment", default: 7, null: false
     t.boolean "eurocup", default: false
+    t.string "short_name"
     t.index ["code"], name: "index_tournaments_on_code", unique: true
   end
 

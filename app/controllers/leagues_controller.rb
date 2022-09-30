@@ -3,7 +3,7 @@ class LeaguesController < ApplicationController
 
   respond_to :html
 
-  helper_method :counters, :league, :leagues
+  helper_method :league, :leagues
 
   def index; end
 
@@ -16,19 +16,6 @@ class LeaguesController < ApplicationController
   end
 
   def leagues
-    leagues = {}
-    leagues['registration'] = [] # League.initial
-    leagues['ongoing'] = League.active.includes(:results).sort_by(&:tournament_id)
-    leagues['finished'] = League.archived.includes(:results).sort_by(&:season_id)
-    leagues
-  end
-
-  def counters
-    # TODO: temp
-    # counters = {}
-    # leagues.each do |type, leagues|
-    #   counters[type] = League.counters(leagues)
-    # end
-    # counters
+    League.active.or(League.archived).includes(:results).order('season_id DESC, tournament_id ASC, division_id ASC')
   end
 end
