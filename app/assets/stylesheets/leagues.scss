@@ -6,8 +6,8 @@
   a { text-decoration: none; }
 
   .leagues-block-head {
-    display: grid;
-    grid-template-columns: auto 180px;
+    //display: grid;
+    //grid-template-columns: auto 180px;
     margin-bottom: 52px;
     color: #181715;
 
@@ -58,45 +58,6 @@
     border-bottom: 3px solid #261FFF;
   }
 
-  .leagues-counters {
-    margin: 36px 0;
-
-    .leagues-counter {
-      display: inline-block;
-      margin-right: 24px;
-      font-weight: 500;
-      font-size: 16px;
-      line-height: 32px;
-      color: #A6A2A2;
-    }
-
-    .leagues-counter-name {
-      display: inline-block;
-      margin-right: 8px;
-    }
-
-    .leagues-counter-value {
-      display: inline-block;
-      border: 1px solid #E5E6E4;
-      box-sizing: border-box;
-      border-radius: 4px;
-      padding: 4px 8px;
-      line-height: 30px;
-    }
-
-    .leagues-counter-all-leagues {
-      .leagues-counter-name {
-        color: #181715;
-      }
-
-      .leagues-counter-value {
-        background-color: #F4F4F4;
-        border: none;
-        color: #181715;
-      }
-    }
-  }
-
   .leagues-list-headers {
     font-family: 'Nunito ExtraBold';
     line-height: 40px;
@@ -119,7 +80,6 @@
   }
 
   .leagues-list-item {
-    font-weight: 500;
     font-size: 16px;
     line-height: 56px;
     color: #181715;
@@ -216,7 +176,95 @@
 
 @media (orientation: portrait) {
   .page-info.leagues-page {
-    padding: 50px 16px 100px 88px;
+    padding: 240px 24px 100px;
+
+    .leagues-block-head {
+      display: none;
+    }
+
+    .leagues-lists {
+      display: grid;
+      grid-template-columns: 112px auto;
+      column-gap: 32px;
+    }
+
+    .leagues-lists-tabs {
+      display: block;
+      border-bottom: none;
+
+      .leagues-lists-tab-item {
+        min-width: 112px;
+        padding: 24px;
+
+        img {
+          width: 64px;
+          height: 64px;
+        }
+      }
+
+      .leagues-tab-name {
+        display: none;
+      }
+    }
+
+    .leagues-lists-tab-active {
+      color: #261FFF;
+      border-right: 4px solid #261FFF;
+      border-bottom: none;
+    }
+
+    .leagues-list-headers {
+      line-height: 80px;
+      margin: 24px 0;
+
+      .leagues-list-header {
+        padding: 0 24px;
+        margin: 16px 0;
+        font-size: 24px;
+        line-height: 32px;
+        height: 32px;
+        border-right: 3px solid #E5E6E4;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+
+    .leagues-list-item {
+      font-size: 28px;
+      line-height: 112px;
+      border-bottom: 2px solid #F4F4F4;
+
+      .mob-hide {
+        display: none;
+      }
+
+      .leagues-list-item-name {
+        grid-template-columns: 64px auto;
+        column-gap: 16px;
+
+        .tournament-logo {
+          img {
+            width: 48px;
+            height: 48px;
+          }
+        }
+      }
+
+      .leagues-list-status {
+        font-size: 18px;
+        line-height: 36px;
+        margin: 38px 16px;
+      }
+    }
+
+    .leagues-list-grid {
+      grid-template-columns: 3fr 1fr 2fr 172px;
+    }
+
+    .mob-hide {
+      display: none;
+    }
   }
 }
 

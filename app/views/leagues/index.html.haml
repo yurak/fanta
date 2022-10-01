@@ -1,5 +1,6 @@
 .page-block
-  = render 'layouts/left_nav', league: nil
+  .web-header= render 'layouts/left_nav', league: nil
+  .mob-header= render 'layouts/mob_header', league: nil, title: t('header.leagues')
   .page-info.leagues-page
     .leagues-block-head
       .leagues-block-head-left
@@ -21,10 +22,10 @@
           .leagues-list-header= t('league.name')
           .leagues-list-header= t('league.division')
           .leagues-list-header= t('league.season')
-          .leagues-list-header= t('league.tournament')
-          .leagues-list-header= t('league.leader')
-          .leagues-list-header= t('league.teams')
-          .leagues-list-header= t('league.round')
+          .leagues-list-header.mob-hide= t('league.tournament')
+          .leagues-list-header.mob-hide= t('league.leader')
+          .leagues-list-header.mob-hide= t('league.teams')
+          .leagues-list-header.mob-hide= t('league.round')
           .leagues-list-header= t('league.status')
         - leagues.each do |league|
           = link_to league_link(league) do
@@ -34,13 +35,13 @@
                 .league-item-name= league.name
               .leagues-list-item-param.center= league.division.name if league.division
               .leagues-list-item-param.center= "#{league.season.start_year}-#{league.season.end_year}"
-              .leagues-list-item-param.leagues-list-tournament= league.tournament.name
-              .leagues-list-item-param.leagues-list-leader
+              .leagues-list-item-param.mob-hide.leagues-list-tournament= league.tournament.name
+              .leagues-list-item-param.mob-hide.leagues-list-leader
                 - if league.leader
-                  = image_tag(league.leader.logo_path)
+                  .leader-logo= image_tag(league.leader.logo_path)
                   .leader-name= league.leader.human_name
-              .leagues-list-item-param.leagues-list-number= league.results.count
-              .leagues-list-item-param.leagues-list-number= league.active_tour&.number || league.tours.count
+              .leagues-list-item-param.mob-hide.leagues-list-number= league.results.count
+              .leagues-list-item-param.mob-hide.leagues-list-number= league.active_tour&.number || league.tours.count
               .leagues-list-item-param
                 .leagues-list-status
                   - if league.active?
@@ -48,18 +49,12 @@
                   - if league.archived?
                     .league-status.league-archived-status= t('league.finished')
 
-              -#.leagues-list-item-param.league-link
-              -#  = image_tag('icons/link_arrow.png')
-
 :javascript
   $(document).ready(function() {
     $(".archived-status").hide();
-    // $(".active-list").show();
 
     $(".leagues-lists-tab-item").click(function(){
       var listId = this.id;
-
-      // console.log(listId)
 
       $(".leagues-lists-tab-item").removeClass("leagues-lists-tab-active");
       $("#" + listId).addClass("leagues-lists-tab-active");
@@ -70,7 +65,7 @@
       } else {
         $(".leagues-list-item").hide();
         $("." + listId + "-league").show();
-        $(".archived-status").hide();
+        // $(".archived-status").hide();
       }
     });
   });
