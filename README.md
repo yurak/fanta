@@ -1,5 +1,6 @@
 [![Build Status](https://travis-ci.com/yurak/fanta.svg?branch=master)](https://travis-ci.com/yurak/fanta)
 [![Coverage Status](https://coveralls.io/repos/github/yurak/fanta/badge.svg?branch=master)](https://coveralls.io/github/yurak/fanta?branch=master)
+[![CodeFactor](https://www.codefactor.io/repository/github/yurak/fanta/badge)](https://www.codefactor.io/repository/github/yurak/fanta)
 
 # MANTRA FOOTBALL
 

@@ -2,8 +2,9 @@ RSpec.describe League, type: :model do
   subject(:league) { create(:league) }
 
   describe 'Associations' do
-    it { is_expected.to belong_to(:tournament) }
+    it { is_expected.to belong_to(:division).optional }
     it { is_expected.to belong_to(:season) }
+    it { is_expected.to belong_to(:tournament) }
     it { is_expected.to have_many(:auctions).dependent(:destroy) }
     it { is_expected.to have_many(:teams).dependent(:destroy) }
     it { is_expected.to have_many(:transfers).dependent(:destroy) }
@@ -85,30 +86,6 @@ RSpec.describe League, type: :model do
         create(:result, points: 25, league: league)
 
         expect(league.leader).to eq(result.team)
-      end
-    end
-  end
-
-  describe '.counters' do
-    context 'when leagues does not exist' do
-      it 'returns all leagues nil' do
-        expect(described_class.counters(nil)).to eq('All leagues' => nil)
-      end
-    end
-
-    context 'when leagues exist' do
-      let(:counters) do
-        { 'All leagues' => 5,
-          'Bundesliga' => 3,
-          'Serie A' => 2 }
-      end
-
-      it 'returns hash with leagues count' do
-        create_list(:league, 2, tournament: Tournament.find(1))
-        create_list(:league, 3, tournament: Tournament.find(3))
-        leagues = described_class.all
-
-        expect(described_class.counters(leagues)).to eq(counters)
       end
     end
   end

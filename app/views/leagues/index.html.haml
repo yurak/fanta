@@ -1,33 +1,71 @@
 .page-block
-  = render 'layouts/left_nav', league: nil
+  .web-header= render 'layouts/left_nav', league: nil
+  .mob-header= render 'layouts/mob_header', league: nil, title: t('header.leagues')
   .page-info.leagues-page
     .leagues-block-head
-      .leagues-title= t('header.leagues')
-      .leagues-subtitle= t('league.subtitle')
+      .leagues-block-head-left
+        .leagues-title= t('header.leagues')
+        .leagues-subtitle= t('league.subtitle')
+      .leagues-block-head-right
+        .archived-switcher
     .leagues-lists
       .leagues-lists-tabs
-        -##registration.leagues-lists-tab-item= t('league.reg_open')
-        #ongoing.leagues-lists-tab-item.leagues-lists-tab-active= t('league.ongoing')
-        #finished.leagues-lists-tab-item= t('league.finished')
+        #all_leagues.leagues-lists-tab-item.leagues-lists-tab-active
+          .leagues-tab-icon= image_tag('icons/leagues.svg')
+          .leagues-tab-name= t('league.all')
+        - active_tournaments.each do |tournament|
+          .leagues-lists-tab-item{ id: tournament.code }
+            .leagues-tab-icon= image_tag("tournaments/#{tournament.code}.png")
+            .leagues-tab-name= tournament.short_name || tournament.name
       .leagues-lists-content
-        -#.leagues-status-list.registration-list
-          -#TODO: Add registration list tab - leagues_type: 'registration'
-        .leagues-status-list.ongoing-list.active-list
-          = render 'leagues_list', leagues_type: 'ongoing'
-        .leagues-status-list.finished-list
-          = render 'leagues_list', leagues_type: 'finished'
+        .leagues-list-headers.leagues-list-grid
+          .leagues-list-header= t('league.name')
+          .leagues-list-header= t('league.division')
+          .leagues-list-header= t('league.season')
+          .leagues-list-header.mob-hide= t('league.tournament')
+          .leagues-list-header.mob-hide= t('league.leader')
+          .leagues-list-header.mob-hide= t('league.teams')
+          .leagues-list-header.mob-hide= t('league.round')
+          .leagues-list-header= t('league.status')
+        - leagues.each do |league|
+          = link_to league_link(league) do
+            .leagues-list-item.leagues-list-grid{ class: "#{league.status}-status #{league.tournament.code}-league"}
+              .leagues-list-item-param.leagues-list-item-name
+                .tournament-logo= image_tag(league.tournament.logo_path)
+                .league-item-name= league.name
+              .leagues-list-item-param.center= league.division.name if league.division
+              .leagues-list-item-param.center= "#{league.season.start_year}-#{league.season.end_year}"
+              .leagues-list-item-param.mob-hide.leagues-list-tournament= league.tournament.name
+              .leagues-list-item-param.mob-hide.leagues-list-leader
+                - if league.leader
+                  .leader-logo= image_tag(league.leader.logo_path)
+                  .leader-name= league.leader.human_name
+              .leagues-list-item-param.mob-hide.leagues-list-number= league.results.count
+              .leagues-list-item-param.mob-hide.leagues-list-number= league.active_tour&.number || league.tours.count
+              .leagues-list-item-param
+                .leagues-list-status
+                  - if league.active?
+                    .league-status.league-active-status= t('league.ongoing')
+                  - if league.archived?
+                    .league-status.league-archived-status= t('league.finished')
+
 :javascript
   $(document).ready(function() {
-    $(".leagues-status-list").hide();
-    $(".active-list").show();
+    $(".archived-status").hide();
 
     $(".leagues-lists-tab-item").click(function(){
       var listId = this.id;
 
       $(".leagues-lists-tab-item").removeClass("leagues-lists-tab-active");
-      $(".leagues-status-list").hide();
-
       $("#" + listId).addClass("leagues-lists-tab-active");
-      $("." + listId + "-list").show();
+
+      if(listId == "all_leagues") {
+        $(".leagues-list-item").show();
+        $(".archived-status").hide();
+      } else {
+        $(".leagues-list-item").hide();
+        $("." + listId + "-league").show();
+        // $(".archived-status").hide();
+      }
     });
   });

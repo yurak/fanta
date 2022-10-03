@@ -1,0 +1,118 @@
+.portrait-header
+  .base-header
+    .root-logo
+      = link_to root_path do
+        = image_tag('logo.svg')
+    .league-data
+      - if league
+        .league-name
+          = league&.name
+        .league-season
+          = "#{t('header.season')} #{league.season.start_year.to_s[2..3]}-#{league.season.end_year.to_s[2..3]} • #{league.mantra? ? t('header.mantra') : t('header.fanta')}"
+      - elsif title
+        .league-name.header-title
+          = title
+    .burger-menu#burger-menu
+      = image_tag('icons/burger_menu.svg')
+      - if league && user_team_by_league(current_user, league)
+        .league-icon
+          = image_tag(league.tournament.logo_path)
+
+#burger-menu-block
+  .base-header
+    .root-logo
+      = link_to root_path do
+        = image_tag('logo.svg')
+    .league-data
+      - if user_signed_in?
+        = link_to user_path(current_user) do
+          .user-data
+            .user-avatar= image_tag(current_user.avatar_path)
+            .user-name= current_user.name
+      - else
+        .league-name= 'MantraFootball'
+    .burger-menu#burger-menu-close
+      = image_tag('icons/burger_close.svg')
+  .menu-content
+    .nav-links
+      - unless user_signed_in?
+        .nav-logo-small
+          = link_to new_user_session_path do
+            .nav-link-icon= '🗝'
+            .nav-link-title= t('devise.sessions.new.sign_in')
+      .nav-logo-small
+        = link_to leagues_path do
+          .nav-link-icon= '🏑'
+          .nav-link-title= t('header.leagues')
+      .nav-logo-small
+        = link_to rules_path do
+          .nav-link-icon= '⚖️'
+          .nav-link-title= t('header.rules')
+      .nav-logo-small
+        = link_to links_path do
+          .nav-link-icon= '🔗️'
+          .nav-link-title= t('header.links')
+    - if user_signed_in?
+      .my-leagues
+        .my-leagues-title My leagues
+        .my-leagues-links
+          - current_user.teams.each do |team|
+            - if team.league&.active_tour_or_last && !team.league.archived?
+              .my-league{ class: "my-league-#{ team.league == league }"}
+                = link_to user_path(current_user, active_team_id: team.id), method: :put do
+                  .my-league-logo= image_tag(team.league.tournament.logo_path)
+                  .my-league-name= team.league.name
+                  .my-league-type
+                    - if team.league.mantra?
+                      .my-league-type-item.my-league-mantra= t('header.mantra')
+                    - else
+                      .my-league-type-item.my-league-fanta= t('header.fanta')
+                  - if team.league == league
+                    .my-league-check ✅
+
+- if league
+  .badges-block
+    - if user_team_by_league(current_user, league)&.next_match
+      = link_to match_path(user_team_by_league(current_user, league).next_match) do
+        - if league.active_tour&.mantra? && league.active_tour.locked?
+          .next-round
+            .next-round-param= image_tag(user_team_by_league(current_user, league).next_match.host.logo_path)
+            .next-round-name= user_team_by_league(current_user, league).next_match.host.code
+            .next-round-param= user_team_by_league(current_user, league).next_match.host_lineup&.total_score || 0.0
+            .next-round-goals= user_team_by_league(current_user, league).next_match.host_lineup&.goals || 0
+            .next-round-goals= user_team_by_league(current_user, league).next_match.guest_lineup&.goals || 0
+            .next-round-param= user_team_by_league(current_user, league).next_match.guest_lineup&.total_score || 0.0
+            .next-round-name= user_team_by_league(current_user, league).next_match.guest.code
+            .next-round-param= image_tag(user_team_by_league(current_user, league).next_match.guest.logo_path)
+        - elsif league.active_tour&.unlocked?
+          .next-round.next-round-opponent-row
+            .next-round-opponent
+              .next-round-vs vs
+              .next-round-opponent-logo= image_tag(user_team_by_league(current_user, league.active_tour).next_opponent.logo_path)
+              .next-round-opponent-name= user_team_by_league(current_user, league.active_tour).next_opponent.human_name
+            .next-round-datetime
+              .next-round-date= league.active_tour.tournament_round.deadline&.strftime("%^a, %^b %e")
+              .next-round-time= league.active_tour.tournament_round.deadline&.strftime("%H:%M")
+
+    = render 'layouts/auction_badge', league: league, initial_auction: league.auctions.initial.first, active_auction: league.auctions.active.first
+
+:javascript
+  $(document).ready(function() {
+    var burger_modal = document.getElementById("burger-menu-block");
+    var burger_btn = document.getElementById("burger-menu");
+    var burger_close_btn = document.getElementById("burger-menu-close");
+
+    burger_btn.onclick = function() {
+      burger_modal.style.display = "grid";
+      document.body.style.position = "fixed";
+    };
+
+    burger_close_btn.onclick = function() {
+      burger_modal.style.display = "none";
+      document.body.style.position = "relative";
+    };
+
+    window.onclick = function(e) {
+      if (e.target == burger_modal) { burger_modal.style.display = "none"; }
+    }
+  });
