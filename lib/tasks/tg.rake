@@ -14,8 +14,10 @@ namespace :tg do
           next unless user.user_profile&.bot_enabled
           next if team.lineups&.find_by(tour: tour)
 
-          TelegramBot::Sender.call(user,
-                                   "The deadline is coming soon! Create your lineup #{Rails.application.routes.url_helpers.tour_url(tour)}")
+          message = "#{league.tournament.icon} The deadline is coming soon - today at #{tour_deadline&.strftime('%H:%M')} (EET) 🔚\n" \
+                 "🟡 Create your lineup #{Rails.application.routes.url_helpers.tour_url(tour)}"
+
+          TelegramBot::Sender.call(user, message)
         end
       end
     end

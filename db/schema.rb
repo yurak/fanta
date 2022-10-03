@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_09_25_103839) do
+ActiveRecord::Schema.define(version: 2022_10_03_102804) do
 
   create_table "article_tags", force: :cascade do |t|
     t.string "name", default: "", null: false
@@ -214,8 +214,8 @@ ActiveRecord::Schema.define(version: 2022_09_25_103839) do
     t.integer "player_id"
     t.integer "team_id"
     t.integer "transfer_status", default: 0
-    t.datetime "created_at", default: "2022-09-29 19:54:51", null: false
-    t.datetime "updated_at", default: "2022-09-29 19:54:51", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.index ["player_id"], name: "index_player_teams_on_player_id"
     t.index ["team_id"], name: "index_player_teams_on_team_id"
   end
@@ -375,6 +375,7 @@ ActiveRecord::Schema.define(version: 2022_09_25_103839) do
     t.integer "lineup_increment", default: 7, null: false
     t.boolean "eurocup", default: false
     t.string "short_name"
+    t.string "icon"
     t.index ["code"], name: "index_tournaments_on_code", unique: true
   end
 

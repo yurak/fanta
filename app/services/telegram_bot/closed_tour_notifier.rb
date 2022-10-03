@@ -3,8 +3,8 @@ module TelegramBot
     private
 
     def message(_)
-      "Round ##{@tour.number} of #{league.name} League has been closed. " \
-        "You can check the final results here - #{Rails.application.routes.url_helpers.tour_url(@tour)}"
+      "#{league.tournament.icon} Round ##{@tour.number} of #{league.name} League has been closed.\n" \
+        "🔴 You can check the final results here - #{Rails.application.routes.url_helpers.tour_url(@tour)}"
     end
   end
 end
