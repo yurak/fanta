@@ -1,7 +1,10 @@
 .right-nav{ class: "active-right-nav-#{ user_team_by_league(current_user, league).present? }"}
   - if league
     .league-name
-      = league&.name
+      - if league.division
+        = "#{league&.name} | #{league.division.name}"
+      - else
+        = league&.name
     .league-season
       = "#{t('header.season')} #{league.season.start_year.to_s[2..3]}-#{league.season.end_year.to_s[2..3]} • #{league.mantra? ? t('header.mantra') : t('header.fanta')}"
 

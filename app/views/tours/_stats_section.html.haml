@@ -83,7 +83,7 @@
       .round-table-title-header
         .round-table-title
           = link_to tournament_path(tour.league.tournament) do
-            .round-table-title-text= "🗓 #{tour.league.tournament.name} #{t('tours.fixtures')} ##{tour.tournament_round.number}"
+            .round-table-title-text= "🗓 #{tour.league.tournament.short_name || tour.league.tournament.name} #{t('tours.fixtures')} ##{tour.tournament_round.number}"
             .round-table-title-icon
               = image_tag('icons/arrow_blue.svg')
         .round-table-hide.round-table-visible

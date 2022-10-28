@@ -6,8 +6,6 @@
   a { text-decoration: none; }
 
   .leagues-block-head {
-    //display: grid;
-    //grid-template-columns: auto 180px;
     margin-bottom: 52px;
     color: #181715;
 
@@ -38,7 +36,7 @@
   }
 
   .leagues-lists-tab-item {
-    padding: 0 16px 12px;
+    padding: 16px 16px 12px;
     min-width: 80px;
     cursor: pointer;
 
@@ -163,7 +161,7 @@
     grid-template-columns: 25fr 11fr 14fr 19fr 25fr 9fr 9fr 120px;
   }
 
-  .leagues-list-item:hover {
+  .leagues-list-item:hover, .leagues-lists-tab-item:hover {
     background: #F4F4F4;
   }
 }
