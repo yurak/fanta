@@ -147,12 +147,16 @@ module Scores
         @status ||= match_data['header']['status']
       end
 
-      # API version
+      ## API version
       def match_data
-        @match_data ||= JSON.parse(Nokogiri::HTML(request))
+        @match_data ||= JSON.parse(html_page)
       end
 
-      # Web parsing version
+      def html_page
+        @html_page ||= Nokogiri::HTML(request)
+      end
+
+      ## Web parsing version
       # def match_data
       #   @match_data ||= JSON.parse(html_page)['props']['pageProps']['content']['matchFacts']['data']
       # end
