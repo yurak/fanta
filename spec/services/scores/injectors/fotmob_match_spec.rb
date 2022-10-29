@@ -5,11 +5,10 @@ RSpec.describe Scores::Injectors::FotmobMatch do
     let(:match) { create(:tournament_match) }
 
     context 'with not finished match' do
-      let(:match) { create(:tournament_match, source_match_id: '3629471') }
+      let(:match) { create(:tournament_match, source_match_id: '3901068') }
 
       it 'returns nil' do
-        # VCR.use_cassette 'fotmob_match_initial' do
-        VCR.use_cassette 'fotmob_match_new_initial' do
+        VCR.use_cassette 'fotmob_match_initial' do
           expect(injector.call).to be_nil
         end
       end
@@ -17,7 +16,7 @@ RSpec.describe Scores::Injectors::FotmobMatch do
 
     # TODO: add test cases
     context 'with finished match' do
-      let(:match) { create(:tournament_match, source_match_id: '3919071') }
+      let(:match) { create(:tournament_match, source_match_id: '4010208') }
 
       it 'updates players and returns missed players data' do
         VCR.use_cassette 'fotmob_match_finished' do
