@@ -1,4 +1,4 @@
-RSpec.describe 'Tours', type: :request do
+RSpec.describe 'Tours' do
   let(:tour) { create(:tour) }
 
   describe 'GET #show' do
@@ -73,6 +73,8 @@ RSpec.describe 'Tours', type: :request do
         allow(manager).to receive(:call).and_return(tour)
 
         put tour_path(tour, params)
+
+        expect(response).to redirect_to(tour_path(tour))
       end
     end
 
@@ -93,6 +95,8 @@ RSpec.describe 'Tours', type: :request do
         allow(manager).to receive(:call).and_return(tour)
 
         put tour_path(tour, params)
+
+        expect(response).to redirect_to(tour_path(tour))
       end
 
       it 'does not update tour with specified status' do
@@ -143,12 +147,16 @@ RSpec.describe 'Tours', type: :request do
         allow(klass).to receive(:call).and_return('data')
 
         get inject_scores_tour_path(tour)
+
+        expect(response).to redirect_to(tour_path(tour))
       end
 
       it 'calls Updater service' do
         allow(Scores::PositionMalus::Updater).to receive(:call)
 
         get inject_scores_tour_path(tour)
+
+        expect(response).to redirect_to(tour_path(tour))
       end
     end
 
@@ -170,12 +178,16 @@ RSpec.describe 'Tours', type: :request do
         allow(klass).to receive(:call).and_return('data')
 
         get inject_scores_tour_path(tour)
+
+        expect(response).to redirect_to(tour_path(tour))
       end
 
       it 'calls Updater service' do
         allow(Scores::PositionMalus::Updater).to receive(:call)
 
         get inject_scores_tour_path(tour)
+
+        expect(response).to redirect_to(tour_path(tour))
       end
     end
   end

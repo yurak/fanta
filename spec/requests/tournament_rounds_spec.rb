@@ -1,4 +1,4 @@
-RSpec.describe 'Users', type: :request do
+RSpec.describe 'Users' do
   let(:tournament_round) { create(:tournament_round) }
 
   describe 'GET #edit' do

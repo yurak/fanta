@@ -1,4 +1,4 @@
-RSpec.describe Team, type: :model do
+RSpec.describe Team do
   subject(:team) { create(:team) }
 
   describe 'Associations' do

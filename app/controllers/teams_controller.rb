@@ -12,6 +12,10 @@ class TeamsController < ApplicationController
     end
   end
 
+  def edit
+    redirect_to user_path(current_user) unless team_of_user?
+  end
+
   def create
     redirect_to root_path if current_user.teams.any?
 
@@ -23,10 +27,6 @@ class TeamsController < ApplicationController
     else
       render :new
     end
-  end
-
-  def edit
-    redirect_to user_path(current_user) unless team_of_user?
   end
 
   def update

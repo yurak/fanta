@@ -76,7 +76,7 @@ laliga:
   BAR: Barcelona
   BET: Real Betis
   CAD: Cadiz
-  CEL: Celta Vigo
+  CVG: Celta Vigo
 #  ALA: Deportivo Alaves
   ELC: Elche
   ESP: Espanyol
@@ -154,7 +154,7 @@ jupiler:
   LVN: Leuven
   MLN: Mechelen
   OST: Oostende
-  RAN: Royal Antwerp
+  ROY: Royal Antwerp
   SRN: Seraing
   STT: Sint-Truiden
   STD: Standard Liege
@@ -199,36 +199,18 @@ eredivisie:
   UTR: Utrecht
   VTS: Vitesse
   VLN: Volendam
-#champions_league:
-#  BRU: Brugge
-#  PSG: PSG
-#  MCI: Manchester City
-#  RBL: RB Leipzig
-#  MIL: Milan
-#  ATM: Atletico Madrid
-#  FCP: Porto
-#  LIV: Liverpool
-#  AJA: Ajax
+champions_league:
 #  BES: Besiktas
-#  BVB: Borussia Dortmund
-#  SCP: Sporting
-#  SHE: Sheriff
-#  INT: Inter
-#  RMA: Real Madrid
-#  SHD: Shakhtar Donetsk
-#  BAR: Barcelona
-#  MUN: Bayern Munchen
-#  BNF: Benfica
+  CEL: Celtic
+  COP: Copenhagen
+  DZG: Dinamo Zagreb
 #  DYN: Dynamo Kyiv
-#  ATA: Atalanta
-#  MUT: Manchester United
-#  VIL: Villarreal
-#  YOU: Young Boys
-#  LIL: Lille
-#  RBS: Salzburg
-#  SEV: Sevilla
-#  WLF: Wolfsburg
-#  CHE: Chelsea
-#  JUV: Juventus
+  MHF: Maccabi Haifa
 #  MFF: Malmo
+  RAN: Rangers
+  RBS: Salzburg
+  SHD: Shakhtar Donetsk
+#  SHE: Sheriff
+  VPL: Viktoria Plzen
+#  YOU: Young Boys
 #  ZEN: Zenit

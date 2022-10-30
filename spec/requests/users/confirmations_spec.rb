@@ -1,4 +1,4 @@
-RSpec.describe 'Users::Confirmations', type: :request do
+RSpec.describe 'Users::Confirmations' do
   describe 'GET #index' do
     let(:user) { create(:user) }
 

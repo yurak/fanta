@@ -1,4 +1,4 @@
-RSpec.describe 'Users', type: :request do
+RSpec.describe 'Users' do
   let(:other_user) { create(:user) }
 
   describe 'GET #show' do

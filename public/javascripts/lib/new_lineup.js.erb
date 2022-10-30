@@ -4,6 +4,7 @@ $(document).on('click' ,'.modal-player-item' ,function(e) {
 
     const blockId = modalList.attr('id').replace('modal-players-list','');
     const playerId = $(this).attr('id').replace('player','');
+    const playerRow = $('#modal-player-data'+blockId);
     const avatarContainer = $('#avatar-'+blockId);
     const kitContainer = $('#kit-'+blockId);
     const nameContainer = $('#name-'+blockId);
@@ -14,10 +15,12 @@ $(document).on('click' ,'.modal-player-item' ,function(e) {
     const positionsContainer = $('#positions-'+blockId);
     const playerBidContainer = $('#player-bid-'+blockId);
     const italPosNaming = ($('#position-naming')[0].getAttribute('value') === 'true');
-    const nationalTour = false;
-    if ($('#national-tour').length > 0) {
-        const nationalTour = ($('#national-tour')[0].getAttribute('value') === 'true');
-    }
+
+    let nationalTour = false;
+    if ($('#national-tour').length > 0) { nationalTour = ($('#national-tour')[0].getAttribute('value') === 'true'); }
+
+    let slotPosition = [];
+    if ($('#real-position-'+blockId).length > 0) { slotPosition = $('#real-position-'+blockId).attr("value").split("/"); }
 
     $.ajax({
         type: "GET",
@@ -25,7 +28,6 @@ $(document).on('click' ,'.modal-player-item' ,function(e) {
         url: "/players/"+playerId,
         success: function(data){
             avatarContainer.attr("data", data.avatar_path);
-            nameContainer.text(data.name);
             clubContainer.text(data.club_code);
             countryContainer.text(data.national_team_name);
             roundPlayerContainer.attr("value", playerId);
@@ -54,6 +56,17 @@ $(document).on('click' ,'.modal-player-item' ,function(e) {
                 }).appendTo(positionsContainer);
                 positionsContainer.append(' ');
             })
+
+            let malus = "";
+            if (slotPosition.length > 0) {
+                const intersection = slotPosition.filter(element => data.position_names.includes(element));
+                if (intersection.length === 0) {
+                    playerRow.css("border-bottom","1px solid #DB0A23");
+                    malus = "⚠️ ";
+                }
+            }
+
+            nameContainer.text(malus + data.name);
         }
     });
 
@@ -133,6 +146,7 @@ function renderPlayerItem(data, slotId, leagueId) {
     const playersContainer = $('#modal-players-block-'+slotId);
     const avatarImgSrc = $('#avatar-'+slotId).children()[0].src;
     const italPosNaming = ($('#position-naming')[0].getAttribute('value') === 'true');
+    const dumpedIds = $('#dumped')[0].getAttribute('value').split(',');
 
     let positionsContainer = '<div class="player-positions">';
     data.position_arr.forEach((positionName, index) => {
@@ -150,6 +164,11 @@ function renderPlayerItem(data, slotId, leagueId) {
     if (leagues.includes(parseInt(leagueId))) {
         modalClass = "modal-player-item-sold";
         soldElement = '<div class="player-sold">SOLD</div>'
+    }
+
+    if (dumpedIds.includes(data.id.toString())) {
+        modalClass = "modal-player-item-sold";
+        soldElement = '<div class="player-sold player-dumped">DUMPED</div>'
     }
 
     const playerHtml =

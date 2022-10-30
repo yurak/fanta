@@ -1,4 +1,4 @@
-RSpec.describe NationalMatch, type: :model do
+RSpec.describe NationalMatch do
   subject(:national_match) { create(:national_match) }
 
   describe 'Associations' do

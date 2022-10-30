@@ -1,4 +1,4 @@
-RSpec.describe 'RoundPlayers', type: :request do
+RSpec.describe 'RoundPlayers' do
   describe 'GET #index' do
     let(:tournament_round) { create(:tournament_round) }
     let(:params) { nil }

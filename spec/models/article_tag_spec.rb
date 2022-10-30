@@ -1,4 +1,4 @@
-RSpec.describe ArticleTag, type: :model do
+RSpec.describe ArticleTag do
   describe 'Associations' do
     it { is_expected.to belong_to(:tournament).optional }
     it { is_expected.to have_many(:articles).dependent(:destroy) }

@@ -1,4 +1,4 @@
-RSpec.describe 'Tournaments', type: :request do
+RSpec.describe 'Tournaments' do
   let(:tournament) { create(:tournament) }
 
   describe 'GET #show' do

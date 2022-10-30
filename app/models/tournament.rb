@@ -11,9 +11,8 @@ class Tournament < ApplicationRecord
   validates :name, presence: true
   validates :code, presence: true, uniqueness: true
 
-  scope :with_clubs, -> { includes(:clubs).where.not(clubs: { id: nil, status: 'archived' }) }
-  scope :with_ec_clubs, -> { includes(:ec_clubs).where.not(ec_clubs: { id: nil, status: 'archived' }) }
-  scope :with_national_teams, -> { includes(:national_teams).where.not(national_teams: { id: nil, status: 'archived' }) }
+  scope :with_clubs, -> { includes(:clubs).where.not(clubs: { id: nil }).where.not(clubs: { status: 'archived' }) }
+  scope :with_ec_clubs, -> { includes(:ec_clubs).where.not(ec_clubs: { id: nil }).where.not(ec_clubs: { status: 'archived' }) }
 
   def logo_path
     if File.exist?("app/assets/images/tournaments/#{code}.png")

@@ -1,4 +1,4 @@
-RSpec.describe NationalTeam, type: :model do
+RSpec.describe NationalTeam do
   subject(:national_team) { create(:national_team) }
 
   describe 'Associations' do

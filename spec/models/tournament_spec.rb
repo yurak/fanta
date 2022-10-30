@@ -1,4 +1,4 @@
-RSpec.describe Tournament, type: :model do
+RSpec.describe Tournament do
   subject(:tournament) { create(:tournament) }
 
   describe 'Associations' do

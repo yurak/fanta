@@ -1,4 +1,4 @@
-RSpec.describe 'PlayerTeams', type: :request do
+RSpec.describe 'PlayerTeams' do
   let(:team) { create(:team) }
   let(:player_team) { create(:player_team, team: team) }
 

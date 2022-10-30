@@ -1,4 +1,4 @@
-RSpec.describe Club, type: :model do
+RSpec.describe Club do
   subject(:club) { create(:club, name: 'FC Karpaty Lviv') }
 
   describe 'Associations' do
@@ -18,6 +18,8 @@ RSpec.describe Club, type: :model do
   end
 
   describe 'Validations' do
+    it { is_expected.to validate_presence_of :name }
+    it { is_expected.to validate_presence_of :code }
     it { is_expected.to validate_uniqueness_of :name }
     it { is_expected.to validate_uniqueness_of :code }
 

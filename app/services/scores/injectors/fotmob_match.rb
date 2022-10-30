@@ -1,7 +1,8 @@
 module Scores
   module Injectors
     class FotmobMatch < ApplicationService
-      FOTMOB_MATCH_URL = 'https://www.fotmob.com/match/'.freeze
+      # FOTMOB_MATCH_URL = 'https://www.fotmob.com/match/'.freeze
+      FOTMOB_MATCH_URL = 'https://www.fotmob.com/api/matchDetails?matchId='.freeze
       MIN_PLAYED_MINUTES_FOR_CS = 60
 
       attr_reader :match
@@ -41,6 +42,7 @@ module Scores
         return unless player_data
 
         round_player.update(round_player_params(round_player, player_data, team_missed_goals))
+        round_player.player.update(fotmob_id: player_data[:fotmob_id]&.to_i) if round_player.player.fotmob_id.blank?
 
         team_hash.except!(round_player.pseudo_name.downcase)
       end
@@ -79,6 +81,7 @@ module Scores
 
       def player_hash(player_data)
         hash = {
+          fotmob_id: player_data['id'],
           rating: player_data['rating']['num'],
           played_minutes: player_data['minutesPlayed'].to_i,
           missed_goals: player_data['stats'][0]['stats']['Goals conceded']
@@ -144,13 +147,23 @@ module Scores
         @status ||= match_data['header']['status']
       end
 
+      ## API version
       def match_data
-        @match_data ||= JSON.parse(html_page)['props']['pageProps']['initialState']['matchFacts']['data']
+        @match_data ||= JSON.parse(html_page)
       end
 
       def html_page
-        @html_page ||= Nokogiri::HTML(request).css('#__NEXT_DATA__').text
+        @html_page ||= Nokogiri::HTML(request)
       end
+
+      ## Web parsing version
+      # def match_data
+      #   @match_data ||= JSON.parse(html_page)['props']['pageProps']['content']['matchFacts']['data']
+      # end
+      #
+      # def html_page
+      #   @html_page ||= Nokogiri::HTML(request).css('#__NEXT_DATA__').text
+      # end
 
       def request
         RestClient.get("#{FOTMOB_MATCH_URL}#{match.source_match_id}")

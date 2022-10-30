@@ -1,4 +1,4 @@
-RSpec.describe 'Users::Passwords', type: :request do
+RSpec.describe 'Users::Passwords' do
   describe 'GET #index' do
     let(:email) { FFaker::Internet.safe_email[0...50] }
 

@@ -1,4 +1,4 @@
-RSpec.describe 'AuctionRounds', type: :request do
+RSpec.describe 'AuctionRounds' do
   let(:auction_round) { create(:auction_round) }
 
   describe 'GET #show' do

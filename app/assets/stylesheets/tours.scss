@@ -275,171 +275,173 @@
           }
         }
       }
+    }
+  }
+}
 
-      .fanta-block {
+.fanta-block {
+  display: grid;
+  grid-template-columns: 9fr 5fr;
+  column-gap: 9%;
+  margin-top: 40px;
+
+  .block-title {
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 24px;
+    color: #181715;
+  }
+
+  .lineups-block {
+    .block-title {
+      margin-bottom: 16px;
+    }
+
+    .team-row {
+      border-bottom: 1px solid #E5E6E4;
+      padding: 8px 0;
+      height: 48px;
+      display: grid;
+      grid-template-columns: 32px auto 48px;
+      column-gap: 16px;
+      line-height: 32px;
+
+      .team-row-name {
+        font-size: 14px;
+        color: #847577;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .team-row-name-lineup {
+        font-weight: 400;
+        font-size: 12px;
+        color: #847577;
+        text-align: right;
+      }
+
+      img {
+        width: 32px;
+        height: 32px;
+      }
+    }
+
+    .team-lineup-true {
+      .team-row-name {
+        color: #181715;
+      }
+
+      .team-row-name-lineup {
+        font-weight: 700;
+        color: #4EAD57;
+      }
+    }
+
+    .self-team {
+      border-bottom: 1px solid #181715;
+
+      .team-row-name {
+        color: #181715;
+
+        a {
+          color: #181715;
+          width: 100%;
+          display: block;
+        }
+
+        a:hover {
+          color: #261FFF;
+        }
+      }
+
+      .round-lineup-actions {
+        margin-left: auto;
+        margin-right: 0;
+      }
+    }
+
+    .self-team.team-lineup-true {
+      grid-template-columns: 32px auto 84px;
+
+      .round-lineup-actions {
         display: grid;
-        grid-template-columns: 9fr 5fr;
-        column-gap: 9%;
-        margin-top: 40px;
+        grid-template-columns: 32px 48px;
+        column-gap: 4px;
+        margin: 0;
 
-        .block-title {
-          font-weight: 700;
-          font-size: 16px;
-          line-height: 24px;
+        .round-lineup-set-block {
+          width: 48px;
+        }
+      }
+    }
+
+    .tour-deadlined {
+      .team-row {
+        grid-template-columns: 32px 32px auto 48px;
+        column-gap: 8px;
+        color: #181715;
+
+        .team-row-name {
           color: #181715;
         }
 
-        .lineups-block {
-          .block-title {
-            margin-bottom: 16px;
-          }
-
-          .team-row {
-            border-bottom: 1px solid #E5E6E4;
-            padding: 8px 0;
-            height: 48px;
-            display: grid;
-            grid-template-columns: 32px auto 48px;
-            column-gap: 16px;
-            line-height: 32px;
-
-            .team-row-name {
-              font-size: 14px;
-              color: #847577;
-              white-space: nowrap;
-              overflow: hidden;
-              text-overflow: ellipsis;
-            }
-
-            .team-row-name-lineup {
-              font-weight: 400;
-              font-size: 12px;
-              color: #847577;
-              text-align: right;
-            }
-
-            img {
-              width: 32px;
-              height: 32px;
-            }
-          }
-
-          .team-lineup-true {
-            .team-row-name {
-              color: #181715;
-            }
-
-            .team-row-name-lineup {
-              font-weight: 700;
-              color: #4EAD57;
-            }
-          }
-
-          .self-team {
-            border-bottom: 1px solid #181715;
-
-            .team-row-name {
-              color: #181715;
-
-              a {
-                color: #181715;
-                width: 100%;
-                display: block;
-              }
-
-              a:hover {
-                color: #261FFF;
-              }
-            }
-
-            .round-lineup-actions {
-              margin-left: auto;
-              margin-right: 0;
-            }
-          }
-
-          .self-team.team-lineup-true {
-            grid-template-columns: 32px auto 84px;
-
-            .round-lineup-actions {
-              display: grid;
-              grid-template-columns: 32px 48px;
-              column-gap: 4px;
-              margin: 0;
-
-              .round-lineup-set-block {
-                width: 48px;
-              }
-            }
-          }
-
-          .tour-deadlined {
-            .team-row {
-              grid-template-columns: 32px 32px auto 48px;
-              column-gap: 8px;
-              color: #181715;
-
-              .team-row-name {
-                color: #181715;
-              }
-
-              .lineup-team-position {
-                text-align: center;
-              }
-
-              .lineup-result {
-                padding: 8px;
-                background: #BA44F1;
-                border-radius: 4px;
-                font-weight: 700;
-                font-size: 14px;
-                line-height: 16px;
-                color: #FFFFFF;
-                text-align: center;
-              }
-            }
-
-            .team-row:hover {
-              .team-row-name {
-                color: #261FFF;
-              }
-            }
-          }
-
-          .tour-closed-true {
-            .team-row .lineup-result {
-              background: #181715;
-            }
-          }
+        .lineup-team-position {
+          text-align: center;
         }
 
-        .round-lineup-actions {
-          display: block;
-          width: 32px;
-
-          .round-lineup-set-squad {
-            margin: 0;
-            font-size: 10px;
-            line-height: 14px;
-            height: 32px;
-            padding: 4px;
-
-            img {
-              width: 24px;
-              height: 24px;
-            }
-          }
-
-          .round-lineup-edit {
-            margin: 0;
-            line-height: 30px;
-
-            img {
-              width: 18px;
-              height: 18px;
-            }
-          }
+        .lineup-result {
+          padding: 8px;
+          background: #BA44F1;
+          border-radius: 4px;
+          font-weight: 700;
+          font-size: 14px;
+          line-height: 16px;
+          color: #FFFFFF;
+          text-align: center;
         }
+      }
+
+      .team-row:hover {
+        .team-row-name {
+          color: #261FFF;
+        }
+      }
+    }
+
+    .tour-closed-true {
+      .team-row .lineup-result {
+        background: #181715;
+      }
+    }
+  }
+
+  .round-lineup-actions {
+    display: block;
+    width: 32px;
+
+    .round-lineup-set-squad {
+      margin: 0;
+      font-size: 10px;
+      line-height: 14px;
+      height: 32px;
+      padding: 4px;
+
+      img {
+        width: 24px;
+        height: 24px;
+      }
+    }
+
+    .round-lineup-edit {
+      margin: 0;
+      padding: 0;
+      line-height: 30px;
+
+      img {
+        width: 18px;
+        height: 18px;
+        filter: invert(13%) sepia(85%) saturate(4155%) hue-rotate(243deg) brightness(112%) contrast(131%); // #261FFF;
       }
     }
   }
@@ -538,363 +540,6 @@
   a {
     text-decoration: none;
     color: #181715;
-  }
-
-  .portrait-header {
-    background: #FFFFFF;
-    box-shadow: 3px 6px 15px rgba(24, 23, 21, 0.2);
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 10;
-  }
-
-  .base-header {
-    display: grid;
-    grid-template-columns: 192px auto 192px;
-    position: relative;
-
-    .league-data {
-      padding-top: 42px;
-      text-align: center;
-
-      .league-name {
-        font-family: 'Nunito ExtraBold';
-        font-size: 42px;
-        line-height: 48px;
-        margin-bottom: 12px;
-      }
-
-      .league-season {
-        font-family: 'Nunito Regular';
-        font-size: 36px;
-        line-height: 48px;
-      }
-    }
-
-    img {
-      margin: 36px;
-      width: 120px;
-    }
-
-    .league-icon {
-      position: absolute;
-      width: 72px;
-      height: 72px;
-      background: #FFFFFF;
-      border: 3px solid #D8D6FF;
-      border-radius: 36px;
-      right: 18px;
-      top: 82px;
-
-      img {
-        position: relative;
-        width: 54px;
-        height: 54px;
-        border-radius: 12px;
-        margin: 6px;
-      }
-    }
-  }
-
-  #burger-menu-block {
-    font-family: 'Nunito ExtraBold';
-    display: none;
-    width: 100%;
-    min-height: 100%;
-    overflow: auto;
-    background: #FFFFFF;
-    position: fixed;
-    left: 0;
-    top: 0;
-    z-index: 111;
-    text-align: center;
-
-    .base-header {
-      height: 192px;
-    }
-
-    .league-data {
-      padding-top: 24px;
-      margin: 0 auto;
-
-      .league-name {
-        line-height: 132px;
-      }
-    }
-
-    .user-data {
-      font-size: 42px;
-      line-height: 72px;
-      padding: 24px;
-      border: 3px solid #E5E6E4;
-      border-radius: 72px;
-      display: grid;
-      grid-template-columns: 72px auto;
-      column-gap: 36px;
-      width: fit-content;
-
-      img {
-        width: 72px;
-        height: 72px;
-        border-radius: 36px;
-        margin: 0;
-      }
-
-      .user-name {
-        width: fit-content;
-        padding-right: 18px;
-      }
-    }
-
-    .menu-content {
-      position: fixed;
-      top: 192px;
-      width: 100%;
-      height: 90%;
-      overflow: scroll;
-    }
-
-    .nav-links {
-      width: 100%;
-
-      .nav-logo-small {
-        margin-top: 48px;
-        padding: 24px 72px;
-        font-size: 48px;
-        line-height: 72px;
-
-        a {
-          display: grid;
-          grid-template-columns: 72px auto;
-          column-gap: 48px;
-          cursor: pointer;
-        }
-
-        .nav-link-title {
-          text-align: left;
-        }
-      }
-    }
-
-    .my-leagues {
-      font-family: 'Nunito ExtraBold';
-      margin: 96px 0 180px;
-      padding: 0 36px;
-      text-align: left;
-      height: fit-content;
-
-      .my-leagues-title {
-        font-size: 36px;
-        line-height: 48px;
-        letter-spacing: 0.02em;
-        text-transform: uppercase;
-        margin-bottom: 24px;
-      }
-
-      .my-league {
-        border: 3px solid #E5E6E4;
-        border-radius: 12px;
-        line-height: 162px;
-        font-size: 42px;
-        padding: 0 24px;
-        margin-bottom: 12px;
-
-        a {
-          display: grid;
-          grid-template-columns: 168px auto 180px 72px;
-          column-gap: 48px;
-        }
-
-        .my-league-logo {
-          margin: auto;
-        }
-
-        img {
-          width: 126px;
-          height: 126px;
-        }
-
-        .my-league-type {
-          height: 72px;
-          font-size: 36px;
-          line-height: 72px;
-          text-align: center;
-          margin: auto;
-
-          .my-league-type-item {
-            padding: 0 24px;
-            background: #D8D6FF;
-            color: #040052;
-            border-radius: 36px;
-          }
-
-          .my-league-fanta {
-            background: #FCC5CB;
-            color: #DB0A23;
-          }
-        }
-      }
-
-      .my-league-true {
-        background: #FFEBC2;
-        border: 3px solid #FFEBC2;
-      }
-    }
-  }
-
-  .badges-block {
-    padding: 192px 0 72px;
-
-    .next-round {
-      font-family: 'Nunito ExtraBold';
-      height: 144px;
-      padding: 36px;
-      display: grid;
-      grid-template-columns: 72px auto 102px 72px 72px 102px auto 72px;
-      column-gap: 24px;
-      text-align: center;
-      font-size: 36px;
-      line-height: 72px;
-      box-shadow: 3px 6px 15px rgba(24, 23, 21, 0.2);
-
-      img {
-        width: 72px;
-        height: 72px;
-      }
-
-      .next-round-name {
-        font-family: 'Nunito Regular';
-      }
-
-      .next-round-goals {
-        background: #BA44F1;
-        border-radius: 12px;
-      }
-    }
-
-    .next-round-opponent-row {
-      grid-template-columns: 420px auto;
-
-      .next-round-opponent {
-        font-family: 'Nunito SemiBold';
-        display: grid;
-        grid-template-columns: 48px 72px auto;
-        column-gap: 24px;
-        text-align: left;
-      }
-
-      .next-round-opponent-name {
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-    }
-
-    .auction-badge {
-      font-family: 'Nunito Medium';
-      border-radius: 12px;
-      font-size: 30px;
-      line-height: 48px;
-      text-transform: uppercase;
-      color: #FFFFFF;
-      padding: 6px 12px;
-      margin: 6px 0;
-    }
-
-    .auction-text {
-      text-align: left;
-      font-family: 'Nunito Medium';
-      font-size: 30px;
-      line-height: 72px;
-      text-transform: uppercase;
-    }
-
-    .next-round-datetime {
-      text-align: right;
-      display: grid;
-      grid-template-columns: auto 140px;
-      font-size: 42px;
-
-      .next-round-time {
-        font-family: 'Nunito Regular';
-      }
-    }
-
-    .auction-block-soon {
-      padding: 36px;
-      background: #EAC6FB;
-      display: grid;
-      grid-template-columns: 244px 190px auto;
-      column-gap: 24px;
-
-      .auction-badge {
-        background: #BA44F1;
-      }
-    }
-
-    .auction-block-active {
-      padding: 36px;
-      display: grid;
-      grid-template-columns: 460px auto;
-      column-gap: 16px;
-
-      .auction-block-header {
-        display: grid;
-        grid-template-columns: 240px auto;
-        column-gap: 12px;
-      }
-
-      .live-badge {
-        padding: 6px 18px;
-        margin-top: 9px;
-        height: 60px;
-        font-size: 30px;
-        line-height: 48px;
-        border-radius: 12px;
-
-        .live-dot {
-          width: 18px;
-          height: 18px;
-          border-radius: 9px;
-        }
-
-        .live-text {
-          margin-left: 12px;
-        }
-      }
-
-      .auction-text-live, .bid-made, .auction-badge-sales {
-        display: none;
-      }
-
-      .auction-link {
-        font-family: 'Nunito Bold';
-        padding: 12px 16px;
-        background: #F4F4F4;
-        border: 2px solid #181715;
-        border-radius: 12px;
-        font-size: 36px;
-        line-height: 48px;
-        text-align: center;
-        width: fit-content;
-
-        a {
-          color: #181715;
-        }
-      }
-    }
-
-    .auction-block-finished {
-      background: #E5E6E4;
-      display: grid;
-      grid-template-columns: 270px auto;
-      column-gap: 24px;
-
-      .auction-badge {
-        background: #181715;
-      }
-    }
   }
 
   .round-block {
@@ -1017,6 +662,68 @@
     .mob-round-match-closed {
       .round-match-result {
         background: #181715;
+      }
+    }
+
+    .fanta-block {
+      display: block;
+
+      .block-title {
+        text-align: center;
+        font-size: 48px;
+        line-height: 48px;
+        margin: 48px 24px 24px;
+      }
+
+      .round-tournament-match {
+        grid-template-columns: 1fr 120px 1fr;
+      }
+
+      .lineups-block {
+        .team-row {
+          border-bottom: 3px solid #E5E6E4;
+          padding: 24px 48px;
+          height: 120px;
+          grid-template-columns: 64px auto 144px;
+          column-gap: 32px;
+          line-height: 64px;
+
+          .team-row-name {
+            font-size: 36px;
+          }
+
+          .team-row-name-lineup {
+            font-size: 24px;
+          }
+
+          img {
+            width: 64px;
+            height: 64px;
+          }
+        }
+
+        .self-team {
+          border-bottom: 3px solid #181715;
+
+          .team-row-name-lineup .round-lineup-actions {
+            display: none;
+          }
+        }
+
+        .tour-deadlined {
+          .team-row {
+            grid-template-columns: 48px 64px auto 144px;
+            column-gap: 24px;
+            font-size: 42px;
+
+            .lineup-result {
+              padding: 11px;
+              border-radius: 12px;
+              font-size: 36px;
+              line-height: 48px;
+            }
+          }
+        }
       }
     }
   }
@@ -1147,53 +854,6 @@
         margin-top: 24px;
       }
 
-      .round-tournament-match {
-        column-gap: 36px;
-        font-size: 36px;
-        line-height: 96px;
-        border-bottom: 3px solid #E5E6E4;
-
-        .round-tournament-match-club {
-          grid-template-columns: auto 72px;
-
-          .round-tournament-club-logo-wrapper {
-            padding: 12px 0;
-          }
-
-          .round-tournament-club-logo {
-            line-height: 72px;
-            height: 72px;
-          }
-
-          img, object {
-            width: 72px;
-            height: 72px;
-          }
-
-          .round-tournament-club-name {
-            padding-right: 48px;
-          }
-        }
-
-        .round-tournament-match-guest {
-          grid-template-columns: 72px auto;
-
-          .round-tournament-club-name {
-            padding-left: 48px;
-          }
-        }
-
-        .round-tournament-match-result {
-          line-height: 54px;
-          padding: 5px 0;
-          margin: 18px 0;
-
-          .round-tournament-match-result-host {
-            border-right: 3px solid #847577;
-          }
-        }
-      }
-
       .round-player-stats-item {
         grid-template-columns: 72px auto 72px 120px;
         column-gap: 24px;
@@ -1228,6 +888,69 @@
             height: 60px;
           }
         }
+      }
+    }
+  }
+
+  .stats-section .round-table .round-tournament-match, .fixtures-block .round-tournament-match {
+    column-gap: 36px;
+    font-size: 36px;
+    line-height: 96px;
+    border-bottom: 3px solid #E5E6E4;
+
+    .round-tournament-match-club {
+      grid-template-columns: auto 72px;
+
+      .round-tournament-club-logo-wrapper {
+        padding: 12px 0;
+      }
+
+      .round-tournament-club-logo {
+        line-height: 72px;
+        height: 72px;
+      }
+
+      img, object {
+        width: 72px;
+        height: 72px;
+      }
+
+      .round-tournament-club-name {
+        padding-right: 48px;
+      }
+    }
+
+    .round-tournament-match-guest {
+      grid-template-columns: 72px auto;
+
+      .round-tournament-club-name {
+        padding-left: 48px;
+      }
+    }
+
+    .round-tournament-match-result {
+      line-height: 54px;
+      padding: 5px 0;
+      margin: 18px 0;
+
+      .round-tournament-match-result-host {
+        border-right: 3px solid #847577;
+      }
+    }
+  }
+
+  .fixtures-block .round-tournament-match {
+    .round-tournament-match-result {
+      line-height: 54px;
+      padding: 0;
+      margin: 0;
+      width: 100%;
+
+      .round-tournament-match-result-text {
+        width: 100%;
+        text-align: center;
+        padding: 0 32px;
+        font-size: 32px;
       }
     }
   }

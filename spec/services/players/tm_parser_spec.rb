@@ -2,7 +2,7 @@ RSpec.describe Players::TmParser do
   describe '#call' do
     subject(:parser) { described_class.new(player) }
 
-    let(:player) { create(:player, tm_url: 'valid') }
+    let(:player) { create(:player, tm_id: '123456') }
 
     # TODO: update test cases with vcr cassettes
     it 'is a pending example'

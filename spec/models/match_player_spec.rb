@@ -1,4 +1,4 @@
-RSpec.describe MatchPlayer, type: :model do
+RSpec.describe MatchPlayer do
   subject(:match_player) { create(:match_player) }
 
   let(:match_player_with_score) { create(:match_player, :with_score) }

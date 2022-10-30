@@ -7,7 +7,7 @@ module Players
     end
 
     def call
-      return false unless @player&.tm_url
+      return false unless @player&.tm_id
 
       @player.update(
         birth_date: birth_date,
@@ -51,7 +51,7 @@ module Players
     end
 
     def request
-      @request ||= RestClient.get(@player.tm_url)
+      @request ||= RestClient.get(@player.tm_path)
     end
   end
 end

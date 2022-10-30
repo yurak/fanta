@@ -1,4 +1,4 @@
-RSpec.describe 'Teams', type: :request do
+RSpec.describe 'Teams' do
   let(:team) { create(:team) }
 
   describe 'GET #show' do

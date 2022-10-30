@@ -1,4 +1,4 @@
-RSpec.describe Link, type: :model do
+RSpec.describe Link do
   describe 'Associations' do
     it { is_expected.to belong_to(:tournament) }
   end

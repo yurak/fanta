@@ -120,13 +120,16 @@ en:
   league:
     subtitle: "Here you can find available leagues for registration or learn more about ongoing leagues"
     reg_open: "🍾 Registration open"
-    ongoing: "🕺️ Ongoing"
+    ongoing: "🚀️ Ongoing"
     finished: "🏁️ Finished"
-    name: "NAME"
-    tournament: "TOURNAMENT"
+    division: "DIVISION"
     leader: "LEADER"
-    teams: "TEAMS"
+    name: "NAME"
     round: "ROUND"
+    season: "SEASON"
+    status: "STATUS"
+    teams: "TEAMS"
+    tournament: "TOURNAMENT"
   lineups:
     team: "Team"
     confirm_squad: "Confirm squad"
@@ -318,6 +321,7 @@ en:
     create_mob: "Create"
     deadline: "☠️ Deadline:"
     edit: "Edit lineup"
+    edit_mob: "Edit"
     finished: "🏁️ Finished:"
     fixtures: "Fixtures"
     league_players: "💪 Best picks"
@@ -334,6 +338,7 @@ en:
     setup: "Ready to set squad?"
     table: "🏅 Table"
     tournament_players: "✊ Overall best"
+    want_edit: "Want to edit squad?"
   users:
     edit:
       change_username: "Change user name"

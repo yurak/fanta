@@ -1,4 +1,4 @@
-RSpec.describe 'NationalTeams', type: :request do
+RSpec.describe 'NationalTeams' do
   describe 'GET #show' do
     let(:national_team) { create(:national_team) }
 

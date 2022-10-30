@@ -1,4 +1,4 @@
-RSpec.describe RoundPlayer, type: :model do
+RSpec.describe RoundPlayer do
   subject(:round_player) { create(:round_player) }
 
   describe 'Associations' do
@@ -229,7 +229,7 @@ RSpec.describe RoundPlayer, type: :model do
 
     context 'with archived club' do
       let(:player) { create(:player, club: create(:archived_club)) }
-      let(:round_player) { create :round_player, player: player }
+      let(:round_player) { create(:round_player, player: player) }
 
       it 'returns true' do
         expect(round_player.another_tournament?).to be(true)
@@ -238,7 +238,7 @@ RSpec.describe RoundPlayer, type: :model do
 
     context 'when player moved to another tournament' do
       let(:club) { create(:club, tournament: Tournament.last) }
-      let(:round_player) { create :round_player }
+      let(:round_player) { create(:round_player) }
 
       before do
         round_player.player.update(club: club)

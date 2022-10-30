@@ -1,4 +1,4 @@
-RSpec.describe 'PlayerRequests', type: :request do
+RSpec.describe 'PlayerRequests' do
   let(:player) { create(:player) }
 
   describe 'GET #new' do

@@ -36,4 +36,3 @@ Style/FrozenStringLiteralComment:
 Lint/MissingSuper:
   Exclude:
     - 'app/services/**/*'
-

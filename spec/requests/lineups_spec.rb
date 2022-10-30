@@ -1,4 +1,4 @@
-RSpec.describe 'Lineups', type: :request do
+RSpec.describe 'Lineups' do
   let(:lineup) { create(:lineup) }
 
   describe 'GET #show' do
@@ -581,6 +581,8 @@ RSpec.describe 'Lineups', type: :request do
         allow(cloner).to receive(:call).and_return('lineup')
 
         get clone_team_lineups_path(lineup.team, tour_id: tour.id)
+
+        expect(response).to redirect_to(tour_path(tour))
       end
     end
   end

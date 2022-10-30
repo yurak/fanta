@@ -1,4 +1,4 @@
-RSpec.describe PlayerTeam, type: :model do
+RSpec.describe PlayerTeam do
   describe 'Associations' do
     it { is_expected.to belong_to(:player) }
     it { is_expected.to belong_to(:team) }

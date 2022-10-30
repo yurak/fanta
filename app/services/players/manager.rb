@@ -13,7 +13,7 @@ module Players
 
         player.update(player_data)
       else
-        return false if positions_arr.blank?
+        return false if positions_arr.blank? || tm_url.blank?
 
         player = Player.new(player_data)
         player.positions << Position.where(name: positions_arr)
@@ -32,11 +32,19 @@ module Players
 
     def player_data
       data = national_team ? base_data.merge(national_team_id: national_team.id) : base_data
-      data.merge(club_id: club_id)
+      data.merge(club_id: club_id, tm_id: tm_id)
     end
 
     def club_id
       club ? club.id : base_club.id
+    end
+
+    def tm_id
+      tm_url.split('/').last
+    end
+
+    def tm_url
+      @tm_url ||= @player_hash['tm_url']
     end
 
     def positions_arr

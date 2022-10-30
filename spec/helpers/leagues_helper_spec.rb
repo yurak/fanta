@@ -1,4 +1,4 @@
-RSpec.describe LeaguesHelper, type: :helper do
+RSpec.describe LeaguesHelper do
   describe '#league_link(league)' do
     let(:league) { create(:league) }
 

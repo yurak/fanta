@@ -1,4 +1,4 @@
-RSpec.describe 'Transfers', type: :request do
+RSpec.describe 'Transfers' do
   let(:auction) { create(:auction) }
 
   describe 'GET #index' do
