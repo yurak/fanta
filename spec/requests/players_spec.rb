@@ -1,4 +1,4 @@
-RSpec.describe 'Players', type: :request do
+RSpec.describe 'Players' do
   describe 'GET #index' do
     let(:players) { create_list(:player, 20) }
     let(:params) { nil }
@@ -219,6 +219,8 @@ RSpec.describe 'Players', type: :request do
         allow(seller).to receive(:call)
 
         put player_path(player)
+
+        expect(response).to redirect_to(player_path(player))
       end
     end
 
@@ -253,6 +255,8 @@ RSpec.describe 'Players', type: :request do
         allow(seller).to receive(:call)
 
         put player_path(player)
+
+        expect(response).to redirect_to(player_path(player))
       end
     end
 
@@ -285,6 +289,8 @@ RSpec.describe 'Players', type: :request do
         allow(seller).to receive(:call)
 
         put player_path(player)
+
+        expect(response).to redirect_to(player_path(player))
       end
     end
   end

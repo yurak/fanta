@@ -1,4 +1,4 @@
-RSpec.describe Slot, type: :model do
+RSpec.describe Slot do
   subject(:slot) { create(:slot) }
 
   describe 'Associations' do

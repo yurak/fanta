@@ -1,4 +1,4 @@
-RSpec.describe 'JoinRequests', type: :request do
+RSpec.describe 'JoinRequests' do
   describe 'GET #new' do
     context 'when user is logged out' do
       before do

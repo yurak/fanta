@@ -1,4 +1,4 @@
-RSpec.describe 'Leagues', type: :request do
+RSpec.describe 'Leagues' do
   describe 'GET #index' do
     before do
       get leagues_path

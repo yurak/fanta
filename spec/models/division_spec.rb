@@ -1,4 +1,4 @@
-RSpec.describe Division, type: :model do
+RSpec.describe Division do
   subject(:division) { create(:division) }
 
   describe 'Associations' do

@@ -1,4 +1,4 @@
-RSpec.describe Transfer, type: :model do
+RSpec.describe Transfer do
   subject(:transfer) { create(:transfer) }
 
   describe 'Associations' do

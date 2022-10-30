@@ -1,4 +1,4 @@
-RSpec.describe Season, type: :model do
+RSpec.describe Season do
   describe 'Associations' do
     it { is_expected.to have_many(:leagues).dependent(:destroy) }
     it { is_expected.to have_many(:tournament_rounds).dependent(:destroy) }

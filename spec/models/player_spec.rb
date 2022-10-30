@@ -1,4 +1,4 @@
-RSpec.describe Player, type: :model do
+RSpec.describe Player do
   subject(:player) { create(:player) }
 
   let(:player_with_name) { create(:player, first_name: nil, name: 'Dida') }

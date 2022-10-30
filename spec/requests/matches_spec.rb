@@ -1,4 +1,4 @@
-RSpec.describe 'Matches', type: :request do
+RSpec.describe 'Matches' do
   describe 'GET #show' do
     let(:match1) { create(:match) }
 

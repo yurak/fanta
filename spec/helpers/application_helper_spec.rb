@@ -1,4 +1,4 @@
-RSpec.describe ApplicationHelper, type: :helper do
+RSpec.describe ApplicationHelper do
   describe '#position_number(index)' do
     context 'with prize index' do
       it 'returns medal emoji' do

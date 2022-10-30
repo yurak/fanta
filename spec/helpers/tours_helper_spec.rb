@@ -1,4 +1,4 @@
-RSpec.describe ToursHelper, type: :helper do
+RSpec.describe ToursHelper do
   describe '#time_to_deadline(time_hash)' do
     let(:time_hash) { nil }
 

@@ -1,4 +1,4 @@
-RSpec.describe Club, type: :model do
+RSpec.describe Club do
   subject(:club) { create(:club, name: 'FC Karpaty Lviv') }
 
   describe 'Associations' do

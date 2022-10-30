@@ -1,4 +1,4 @@
-RSpec.describe 'Links', type: :request do
+RSpec.describe 'Links' do
   describe 'GET #index' do
     before do
       get links_path

@@ -1,4 +1,4 @@
-RSpec.describe AuctionsHelper, type: :helper do
+RSpec.describe AuctionsHelper do
   let(:auction) { create(:auction) }
 
   describe '#auction_link(auction)' do

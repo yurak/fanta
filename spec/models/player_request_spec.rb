@@ -1,4 +1,4 @@
-RSpec.describe PlayerRequest, type: :model do
+RSpec.describe PlayerRequest do
   subject(:player_request) { create(:player_request) }
 
   describe 'Associations' do
