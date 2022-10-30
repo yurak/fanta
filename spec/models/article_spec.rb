@@ -1,4 +1,4 @@
-RSpec.describe Article, type: :model do
+RSpec.describe Article do
   describe 'Associations' do
     it { is_expected.to belong_to(:article_tag).optional }
   end

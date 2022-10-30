@@ -1,4 +1,4 @@
-RSpec.describe User, type: :model do
+RSpec.describe User do
   subject(:user) { create(:user) }
 
   describe 'Associations' do

@@ -1,4 +1,4 @@
-RSpec.describe Result, type: :model do
+RSpec.describe Result do
   subject(:result) { create(:result) }
 
   describe 'Associations' do

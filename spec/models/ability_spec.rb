@@ -1,6 +1,6 @@
 require 'cancan/matchers'
 
-RSpec.describe Ability, type: :model do
+RSpec.describe Ability do
   subject(:ability) { described_class.new(user) }
 
   let(:user) { create(:user) }

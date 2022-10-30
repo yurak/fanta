@@ -1,4 +1,4 @@
-RSpec.describe PositionsHelper, type: :helper do
+RSpec.describe PositionsHelper do
   describe '#position_name(position)' do
     it 'is a pending example for position_name'
   end

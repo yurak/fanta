@@ -1,4 +1,4 @@
-RSpec.describe 'Auctions', type: :request do
+RSpec.describe 'Auctions' do
   let(:league) { create(:league) }
   let(:auction) { create(:auction, league: league) }
 
@@ -154,6 +154,8 @@ RSpec.describe 'Auctions', type: :request do
         allow(manager).to receive(:call).and_return(auction)
 
         put league_auction_path(league, auction, params)
+
+        expect(response).to redirect_to(league_auctions_path(league))
       end
     end
 
@@ -178,6 +180,8 @@ RSpec.describe 'Auctions', type: :request do
         allow(manager).to receive(:call).and_return(auction)
 
         put league_auction_path(league, auction, params)
+
+        expect(response).to redirect_to(league_auctions_path(league))
       end
     end
   end

@@ -1,4 +1,4 @@
-RSpec.describe JoinRequest, type: :model do
+RSpec.describe JoinRequest do
   describe 'Associations' do
     it { is_expected.to belong_to(:user) }
   end

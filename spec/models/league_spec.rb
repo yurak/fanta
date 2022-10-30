@@ -1,4 +1,4 @@
-RSpec.describe League, type: :model do
+RSpec.describe League do
   subject(:league) { create(:league) }
 
   describe 'Associations' do

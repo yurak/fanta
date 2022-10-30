@@ -15,6 +15,7 @@ module Players
       csv.each do |player_data|
         Players::Manager.call(player_data.to_hash)
       end
+      true
     end
 
     private

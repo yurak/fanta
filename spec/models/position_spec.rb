@@ -1,4 +1,4 @@
-RSpec.describe Position, type: :model do
+RSpec.describe Position do
   describe 'Associations' do
     it { is_expected.to have_many(:player_positions).dependent(:destroy) }
     it { is_expected.to have_many(:players).through(:player_positions) }

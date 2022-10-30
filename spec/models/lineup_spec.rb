@@ -1,4 +1,4 @@
-RSpec.describe Lineup, type: :model do
+RSpec.describe Lineup do
   subject(:lineup) { create(:lineup, :with_match) }
 
   let(:lineup_team) { create(:lineup, :with_match_players) }

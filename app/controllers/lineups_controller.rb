@@ -17,6 +17,12 @@ class LineupsController < ApplicationController
     build_match_players
   end
 
+  def edit
+    team_module
+
+    redirect_to tour_path(tour) unless editable?
+  end
+
   def create
     path = tour_path(tour)
 
@@ -34,18 +40,6 @@ class LineupsController < ApplicationController
     redirect_to path
   end
 
-  def clone
-    team_lineups_cloner.call if team_of_user? && team.league.cloneable?
-
-    redirect_to tour_path(tour)
-  end
-
-  def edit
-    team_module
-
-    redirect_to tour_path(tour) unless editable?
-  end
-
   def update
     if duplicate_players&.any? || invalid_players_count?
       redirect_to edit_team_lineup_path(team, lineup)
@@ -57,6 +51,12 @@ class LineupsController < ApplicationController
 
       redirect_to tour_path(tour)
     end
+  end
+
+  def clone
+    team_lineups_cloner.call if team_of_user? && team.league.cloneable?
+
+    redirect_to tour_path(tour)
   end
 
   private

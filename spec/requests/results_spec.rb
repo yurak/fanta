@@ -1,4 +1,4 @@
-RSpec.describe 'Results', type: :request do
+RSpec.describe 'Results' do
   describe 'GET #index' do
     context 'with clubs league' do
       let(:league) { create(:league) }

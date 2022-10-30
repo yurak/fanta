@@ -1,4 +1,4 @@
-RSpec.describe PlayersHelper, type: :helper do
+RSpec.describe PlayersHelper do
   describe '#available_for_substitution(match_player, bench_players)' do
     let(:match_player) { nil }
     let(:bench_players) { nil }

@@ -1,4 +1,4 @@
-RSpec.describe Tour, type: :model do
+RSpec.describe Tour do
   subject(:tour) { create(:tour) }
 
   describe 'Associations' do

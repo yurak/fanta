@@ -27,7 +27,7 @@ RSpec.describe Players::CsvParser do
 
         allow(manager).to receive(:call).exactly(3).times
 
-        parser.call
+        expect(parser.call).to be(true)
       end
     end
 
@@ -40,7 +40,7 @@ RSpec.describe Players::CsvParser do
 
           allow(manager).to receive(:call).exactly(3).times
 
-          parser.call
+          expect(parser.call).to be(true)
         end
       end
     end

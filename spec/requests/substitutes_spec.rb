@@ -1,4 +1,4 @@
-RSpec.describe 'Substitutes', type: :request do
+RSpec.describe 'Substitutes' do
   let(:substitute) { create(:substitute) }
 
   describe 'GET #new' do

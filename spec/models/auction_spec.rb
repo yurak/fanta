@@ -1,4 +1,4 @@
-RSpec.describe Auction, type: :model do
+RSpec.describe Auction do
   subject(:auction) { create(:auction) }
 
   describe 'Associations' do

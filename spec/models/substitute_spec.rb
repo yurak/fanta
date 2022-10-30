@@ -1,4 +1,4 @@
-RSpec.describe Substitute, type: :model do
+RSpec.describe Substitute do
   subject(:substitute) { create(:substitute) }
 
   describe 'Associations' do

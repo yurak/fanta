@@ -14,6 +14,10 @@ class AuctionBidsController < ApplicationController
     end
   end
 
+  def edit
+    redirect_to auction_round_path(auction_round) unless editable?
+  end
+
   def create
     @auction_bid = AuctionBid.new(auction_bid_params.merge(team: team, auction_round: auction_round))
 
@@ -22,10 +26,6 @@ class AuctionBidsController < ApplicationController
     else
       redirect_to new_auction_round_auction_bid_path(auction_round)
     end
-  end
-
-  def edit
-    redirect_to auction_round_path(auction_round) unless editable?
   end
 
   def update

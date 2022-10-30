@@ -1,4 +1,4 @@
-RSpec.describe 'Welcome', type: :request do
+RSpec.describe 'Welcome' do
   describe 'GET #index(root)' do
     before do
       get root_path
