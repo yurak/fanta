@@ -28,7 +28,7 @@ class TournamentRound < ApplicationRecord
   def time_to_deadline
     return '' unless deadline
 
-    # TODO: remove '+ 3.hours' and implement timezones
-    TimeDifference.between(Time.zone.parse(deadline&.strftime('%a, %b %e at %H:%M')), 3.hours.from_now).in_general
+    # TODO: remove '+ 2.hours' and implement timezones
+    TimeDifference.between(Time.zone.parse(deadline&.strftime('%a, %b %e at %H:%M')), 2.hours.from_now).in_general
   end
 end
