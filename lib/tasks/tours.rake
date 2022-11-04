@@ -16,14 +16,18 @@ namespace :tours do
     end
   end
 
-  desc 'Create tours for Euro'
-  task create_euro: :environment do
-    tournament = Tournament.find_by(code: Scores::Injectors::Strategy::EURO)
+  desc 'Create tours for World Cup'
+  task create_national: :environment do
+    tournament = Tournament.find_by(code: 'world_cup')
     league = tournament.leagues.last
-    tournament.tournament_rounds.each do |round|
-      first_match = round.national_matches.first
-      deadline = DateTime.parse("#{first_match.date} #{first_match.time}") - 90.minutes
-      Tour.create(tournament_round: round, league: league, number: round.number, deadline: deadline)
+    ActiveRecord::Base.transaction do
+      tournament.tournament_rounds.each do |round|
+        first_match = round.national_matches.first
+        deadline = DateTime.parse("#{first_match.date} #{first_match.time}") - 90.minutes
+        round.update(deadline: deadline)
+
+        Tour.create(tournament_round: round, league: league, number: round.number)
+      end
     end
   end
 
