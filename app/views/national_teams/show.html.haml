@@ -3,7 +3,7 @@
   .page-info.team-show.national-team-show
     .teams-bar
       .teams-bar-section
-        - national_team.tournament.national_teams.active.each do |team|
+        - national_teams.each do |team|
           = link_to national_team_path(team) do
             .team-bar-item{ class: "current-team-#{team == national_team}"}
               .team-bar-item-logo
