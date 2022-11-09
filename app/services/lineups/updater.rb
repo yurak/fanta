@@ -10,7 +10,7 @@ module Lineups
       return false if tour&.lineups.blank?
 
       tour.lineups.each do |lineup|
-        lineup.update(final_score: lineup.total_score)
+        lineup.update(final_score: lineup.current_score)
       end
     end
   end
