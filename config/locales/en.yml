@@ -238,7 +238,7 @@ en:
     left_tournament: "Left tournament"
     change_arguments: "Arguments for changing player's positions"
     change_positions: "Positions that player should have"
-    change_request: "Change positions"
+    change_request: "🌪 Propose positions change"
     change_request_send: "Send change request"
   round_players:
     title: "%{tournament} Round #%{number} Best Players"

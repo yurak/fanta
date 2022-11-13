@@ -226,19 +226,69 @@
 /* PLAYER SHOW page */
 
 .page-info.player-show-page {
-  padding: 50px 50px 100px 122px;
+  padding: 0 50px 100px 122px;
 
   a {
     text-decoration: none;
     color: #181715;
   }
 
+  .player-content {
+    max-width: 1136px;
+    margin: auto;
+  }
+
+  .player-links {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin: 8px 0;
+
+    .player-back {
+      width: 32px;
+      height: 32px;
+      border: 1px solid #E5E6E4;
+      border-radius: 4px;
+      text-align: center;
+
+      a {
+        width: 32px;
+        height: 32px;
+        display: block;
+      }
+    }
+
+    .player-back:hover img {
+      filter: invert(13%) sepia(85%) saturate(4155%) hue-rotate(243deg) brightness(112%) contrast(131%); // #261FFF;
+    }
+
+    .player-pos-change {
+      font-family: 'Nunito ExtraBold';
+      line-height: 32px;
+
+      a {
+        color: #847577;
+        letter-spacing: 0.02em;
+        font-size: 12px;
+      }
+
+      .player-pos-change-link {
+        width: fit-content;
+        float: right;
+      }
+
+      .player-pos-change-link:hover a {
+        color: #261FFF;
+      }
+    }
+  }
+
   .player-banner {
     margin-bottom: 16px;
     width: 100%;
-    height: 380px;
+    height: 328px;
     display: grid;
     grid-template-columns: 1fr 1fr;
+    border-radius: 8px;
 
     .player-show-base {
       color: #FFFFFF;
@@ -248,15 +298,16 @@
       flex-direction: column;
 
       .player-show-first-name {
+        font-family: 'Nunito Regular';
         font-size: 32px;
         line-height: 32px;
       }
 
       .player-show-name {
-        font-weight: bold;
-        font-size: 44px;
+        font-family: 'Nunito ExtraBold';
+        font-size: 48px;
         line-height: 48px;
-        margin: 8px 0;
+        margin-bottom: 24px;
       }
 
       .player-show-positions {
@@ -277,7 +328,7 @@
         vertical-align: bottom;
 
         .player-show-score-value {
-          font-weight: bold;
+          font-family: 'Nunito ExtraBold';
           line-height: 36px;
           font-size: 24px;
         }
@@ -285,7 +336,7 @@
     }
 
     .player-show-avatar {
-      padding-top: 20px;
+      padding-top: 32px;
       width: 100%;
 
       .player-show-face, .player-show-kit {
@@ -293,8 +344,8 @@
         right: 18%;
 
         img, object {
-          width: 360px;
-          height: 360px;
+          width: 296px;
+          height: 296px;
         }
       }
     }
@@ -313,7 +364,7 @@
       margin-bottom: 16px;
 
       .player-table-title {
-        font-weight: bold;
+        font-family: 'Nunito ExtraBold';
         font-size: 16px;
         line-height: 24px;
         color: #181715;
@@ -323,10 +374,11 @@
         padding: 16px 0;
         border-bottom: 1px solid #F4F4F4;
         display: grid;
-        grid-template-columns: 1fr 2fr;
+        grid-template-columns: 110px auto;
+        column-gap: 32px;
 
         .player-table-row-key {
-          font-weight: 500;
+          font-family: 'Nunito Regular';
           font-size: 16px;
           line-height: 32px;
           color: #181715;
@@ -334,11 +386,10 @@
         }
 
         .player-table-row-value {
-          font-weight: bold;
+          font-family: 'Nunito ExtraBold';
           font-size: 16px;
           line-height: 32px;
           color: #181715;
-          text-align: right;
 
           img, object {
             width: 32px;
@@ -363,6 +414,27 @@
         display: grid;
         grid-template-columns: auto 32px;
         column-gap: 16px;
+        max-width: fit-content;
+
+        .player-table-club-name {
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      }
+
+      .player-tm-link {
+        color: #261FFF;
+        border-bottom: 1px solid #D8D6FF;
+        width: fit-content;
+      }
+
+      .player-table-birth {
+        font-family: 'Nunito Regular';
+        font-size: 12px;
+        line-height: 12px;
+        letter-spacing: 0.02em;
+        color: #847577;
       }
 
       .player-show-team {
@@ -377,7 +449,7 @@
         }
 
         .player-team-league {
-          font-weight: normal;
+          font-family: 'Nunito Regular';
           font-size: 10px;
           line-height: 14px;
         }

@@ -1,15 +1,15 @@
 .page-info.links-page {
   height: 100%;
-  padding: 120px 150px 120px 222px;
+  padding: 48px 150px 120px 222px;
 
   a { text-decoration: none; }
 
   .links-block-head {
-    margin: 48px 0 36px;
+    margin: 0 0 36px;
     color: #181715;
 
     .links-title {
-      font-weight: bold;
+      font-family: 'Nunito ExtraBold';
       font-size: 48px;
       line-height: 48px;
       margin-bottom: 16px;
@@ -26,9 +26,9 @@
   }
 
   .links-lists-tabs {
+    font-family: 'Nunito ExtraBold';
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-    font-weight: bold;
     font-size: 16px;
     line-height: 24px;
     text-align: center;
@@ -46,9 +46,9 @@
   }
 
   .links-list-headers {
+    font-family: 'Nunito Medium';
     display: grid;
     grid-template-columns: 3fr 10fr 10fr 10fr 3fr 4fr 4fr;
-    font-weight: 500;
     font-size: 12px;
     line-height: 16px;
     color: #847577;
@@ -56,9 +56,9 @@
   }
 
   .links-list-item {
+    font-family: 'Nunito Medium';
     display: grid;
     grid-template-columns: 80px auto 80px;
-    font-weight: 500;
     font-size: 16px;
     line-height: 64px;
     color: #181715;
@@ -87,19 +87,6 @@
         height: 8px;
       }
     }
-
-    .links-list-leader {
-      display: grid;
-      grid-template-columns: 32px auto;
-      column-gap: 16px;
-      line-height: 64px;
-
-      img {
-        width: 32px;
-        height: 32px;
-        margin: auto 0;
-      }
-    }
   }
 }
 
@@ -111,6 +98,28 @@
 
 @media (orientation: portrait) {
   .page-info.links-page {
-    padding: 50px 50px 50px 122px;
+    padding: 240px 24px 100px;
+
+    .links-block-head {
+      display: none;
+    }
+
+    .links-list-item {
+      grid-template-columns: auto 80px;
+      font-size: 32px;
+      line-height: 128px;
+      border-bottom: 2px solid #F4F4F4;
+
+      .tournament-logo {
+        display: none;
+      }
+
+      .links-link {
+        img {
+          width: 28px;
+          height: 16px;
+        }
+      }
+    }
   }
 }

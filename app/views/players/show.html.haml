@@ -1,116 +1,115 @@
 .page-block
   = render 'layouts/left_nav', league: nil
   .page-info.player-show-page
-    .player-banner{style: "background-color: ##{player.club.color};"}
-      .player-show-base
-        .player-show-first-name
-          = player.first_name
-        .player-show-name
-          = player.name
-        .player-show-base-row
-          .module-position-block.player-positions-block.player-show-positions
-            - player.positions.each do |position|
-              .player-position{class: "player-position-#{position.name}"}
-                = position_name(position)
-          .player-show-score
-            .player-show-score-value
-              = player.season_average_result_score
-      .player-show-avatar
-        .player-show-face
-          %object{data: player.profile_avatar_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-            = image_tag('avatar.png')
-        .player-show-kit
-          %object{data: player.profile_kit_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-            = image_tag('kit_default.png')
-    .player-tables
-      .player-tables-left
-        .player-table
-          .player-table-title
-            = t('players.bio')
-          - if player.nationality
+    .player-content
+      .player-links
+        .player-back
+          = link_to :back do
+            .round-prev-arrow
+              = image_tag('icons/arrow.svg')
+        .player-pos-change
+          - if user_signed_in?
+            .player-pos-change-link
+              = link_to new_player_player_request_path(player) do
+                .player-action-btn
+                  = t('players.change_request')
+      .player-banner{style: "background-color: ##{player.club.color};"}
+        .player-show-base
+          .player-show-first-name
+            = player.first_name
+          .player-show-name
+            = player.name
+          .player-show-base-row
+            .module-position-block.player-positions-block.player-show-positions
+              - player.positions.each do |position|
+                .player-position{class: "player-position-#{position.name}"}
+                  = position_name(position)
+            .player-show-score
+              .player-show-score-value
+                = player.season_average_result_score
+        .player-show-avatar
+          .player-show-face
+            %object{data: player.profile_avatar_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
+              = image_tag('avatar.png')
+          .player-show-kit
+            %object{data: player.profile_kit_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
+              = image_tag('kit_default.png')
+      .player-tables
+        .player-tables-left
+          .player-table
+            .player-table-title
+              = t('players.bio')
+            - if player.nationality
+              .player-table-row
+                .player-table-row-key= t('players.country')
+                .player-table-row-value
+                  = player.country
+                  = flag_icon(player.nationality.to_sym, element: :div)
             .player-table-row
-              .player-table-row-key= t('players.country')
+              .player-table-row-key= t('players.club')
+              .player-table-row-value.player-table-club
+                .player-table-club-name= player.club.name
+                %object{data: player.club.logo_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
+                  = image_tag('default_logo.png')
+            - if player.tm_id.present?
+              .player-table-row
+                .player-table-row-key= t('players.transfermarkt')
+                .player-table-row-value
+                  = link_to player.tm_path, target: :_blank do
+                    .player-tm-link
+                      = "#{number_with_delimiter(player.tm_price, :delimiter => ',')} €"
+            - if player.birth_date.present?
+              .player-table-row
+                .player-table-row-key= t('players.age')
+                .player-table-row-value
+                  .player-table-age= player.age
+                  .player-table-birth= player.birth_date
+            - if player.height
+              .player-table-row
+                .player-table-row-key= t('players.height')
+                .player-table-row-value
+                  = "#{player.height} cm"
+            - if player.number
+              .player-table-row
+                .player-table-row-key= t('players.number')
+                .player-table-row-value
+                  = player.number
+            .player-table-row.player-table-row-last
+              .player-table-row-key= t('players.teams')
               .player-table-row-value
-                = player.country
-                = flag_icon(player.nationality.to_sym, element: :div)
-          .player-table-row
-            .player-table-row-key= t('players.club')
-            .player-table-row-value.player-table-club
-              = player.club.name
-              %object{data: player.club.logo_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                = image_tag('default_logo.png')
-          - if player.tm_id.present?
-            .player-table-row
-              .player-table-row-key= t('players.transfermarkt')
-              .player-table-row-value
-                = link_to player.tm_path, target: :_blank do
-                  .player-tm-img.player-table-club
-                    = 'TM'
-                    = image_tag("tm.jpg")
-            .player-table-row
-              .player-table-row-key= t('players.tm_price')
-              .player-table-row-value
-                = "#{number_with_delimiter(player.tm_price, :delimiter => ',')} €"
-          - if player.birth_date.present?
-            .player-table-row
-              .player-table-row-key= t('players.age')
-              .player-table-row-value
-                = player.age
-            .player-table-row
-              .player-table-row-key= t('players.birth_date')
-              .player-table-row-value
-                = player.birth_date
-          - if player.height
-            .player-table-row
-              .player-table-row-key= t('players.height')
-              .player-table-row-value
-                = "#{player.height} cm"
-          - if player.number
-            .player-table-row
-              .player-table-row-key= t('players.number')
-              .player-table-row-value
-                = player.number
-          .player-table-row.player-table-row-last
-            .player-table-row-key= t('players.teams')
-            .player-table-row-value
-              - player.teams.each do |t|
-                = link_to team_path(t) do
-                  .player-show-team
-                    .player-team-data
-                      .player-team-name
-                        = t.human_name
-                      .player-team-league
-                        = t.league.name
-                    .player-team-logo
-                      = image_tag(t.logo_path)
-        - if user_signed_in?
-          .player-actions
-            = link_to new_player_player_request_path(player) do
-              .player-action-btn
-                = t('players.change_request')
-        - if current_user&.admin? && player.teams.any?
-          .player-actions
-            = link_to player_path(player), method: :put, data: { confirm: 'Are you sure?' } do
-              .player-action-btn
-                = t('players.left_tournament')
+                - player.teams.each do |t|
+                  = link_to team_path(t) do
+                    .player-show-team
+                      .player-team-data
+                        .player-team-name
+                          = t.human_name
+                        .player-team-league
+                          = t.league.name
+                      .player-team-logo
+                        = image_tag(t.logo_path)
+          - if current_user&.admin? && player.teams.any?
+            .player-actions
+              = link_to player_path(player), method: :put, data: { confirm: 'Are you sure?' } do
+                .player-action-btn
+                  = t('players.left_tournament')
 
-      .player-tables-right
-        .player-table.performance-table
-          .player-table-title
-            = t('players.performance')
-          = render('performance', player: player, matches: player.season_matches_with_scores, national: false)
-        .player-table
-          .player-table-title
-            = t('players.chart')
-          .player-table-chart
-            = area_chart player.chart_info
-        - if player.club.ec_tournament
+        .player-tables-right
           .player-table.performance-table
             .player-table-title
-              = t('players.eurocup_performance')
-            = render('performance', player: player, matches: player.season_ec_matches_with_scores, national: false)
-        - if player.national_team
-          .player-table.performance-table
+              = t('players.performance')
+            = render('performance', player: player, matches: player.season_matches_with_scores, national: false)
+          .player-table
             .player-table-title
-              = t('players.national_performance')
-            = render('performance', player: player, matches: player.national_matches_with_scores, national: true)
+              = t('players.chart')
+            .player-table-chart
+              = area_chart player.chart_info
+          - if player.club.ec_tournament
+            .player-table.performance-table
+              .player-table-title
+                = t('players.eurocup_performance')
+              = render('performance', player: player, matches: player.season_ec_matches_with_scores, national: false)
+          - if player.national_team
+            .player-table.performance-table
+              .player-table-title
+                = t('players.national_performance')
+              = render('performance', player: player, matches: player.national_matches_with_scores, national: true)

@@ -26,36 +26,6 @@
     padding-bottom: 100px;
   }
 
-  .leagues-lists-tabs {
-    font-family: 'Nunito ExtraBold';
-    display: flex;
-    font-size: 16px;
-    line-height: 24px;
-    text-align: center;
-    border-bottom: 1px solid #E5E6E4;
-  }
-
-  .leagues-lists-tab-item {
-    padding: 16px 16px 12px;
-    min-width: 80px;
-    cursor: pointer;
-
-    img {
-      width: 32px;
-      height: 32px;
-    }
-
-    .leagues-tab-name {
-      margin-top: 4px;
-      white-space: nowrap;
-    }
-  }
-
-  .leagues-lists-tab-active {
-    color: #261FFF;
-    border-bottom: 3px solid #261FFF;
-  }
-
   .leagues-list-headers {
     font-family: 'Nunito ExtraBold';
     line-height: 40px;
@@ -178,37 +148,6 @@
 
     .leagues-block-head {
       display: none;
-    }
-
-    .leagues-lists {
-      display: grid;
-      grid-template-columns: 112px auto;
-      column-gap: 32px;
-    }
-
-    .leagues-lists-tabs {
-      display: block;
-      border-bottom: none;
-
-      .leagues-lists-tab-item {
-        min-width: 112px;
-        padding: 24px;
-
-        img {
-          width: 64px;
-          height: 64px;
-        }
-      }
-
-      .leagues-tab-name {
-        display: none;
-      }
-    }
-
-    .leagues-lists-tab-active {
-      color: #261FFF;
-      border-right: 4px solid #261FFF;
-      border-bottom: none;
     }
 
     .leagues-list-headers {
