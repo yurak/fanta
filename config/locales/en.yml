@@ -240,6 +240,7 @@ en:
     change_positions: "Positions that player should have"
     change_request: "🌪 Propose positions change"
     change_request_send: "Send change request"
+    profile: "Player profile"
   round_players:
     title: "%{tournament} Round #%{number} Best Players"
   table:

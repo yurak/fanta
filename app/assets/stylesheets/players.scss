@@ -504,6 +504,11 @@
       .performance-table-row {
         display: grid;
         grid-template-columns: 6fr 6fr 6fr 6fr 6fr 5fr 5fr 6fr 5fr 6fr 6fr 6fr;
+        column-gap: 12px;
+
+        .player-table-cell {
+          text-align: center;
+        }
       }
     }
 
@@ -543,6 +548,10 @@
     .player-tables {
       display: block;
 
+      .player-tables-left .player-table .player-table-row {
+        grid-template-columns: 1fr 2fr;
+      }
+
       .player-table .player-table-title {
         font-size: 24px;
         line-height: 32px;
@@ -553,15 +562,81 @@
 
 @media (orientation: portrait) {
   .page-info.player-show-page {
-    padding: 50px 20px 50px 92px;
+    padding: 200px 24px 100px;
+
+    .player-links {
+      margin: 24px 0;
+
+      .player-back {
+        width: 64px;
+        height: 64px;
+        border: 2px solid #E5E6E4;
+        border-radius: 8px;
+
+        a {
+          width: 64px;
+          height: 64px;
+
+          .round-prev-arrow {
+            line-height: 64px;
+          }
+        }
+
+        img {
+          width: 32px;
+        }
+      }
+
+      .player-pos-change {
+        line-height: 64px;
+
+        a {
+          font-size: 24px;
+        }
+      }
+    }
 
     .player-banner {
+      grid-template-columns: 10fr 7fr;
+      border-radius: 16px;
+
       .player-show-base {
         padding: 0 0 40px 40px;
+
+        .player-show-first-name {
+          font-size: 48px;
+          line-height: 48px;
+        }
+
+        .player-show-name{
+          font-size: 72px;
+          line-height: 72px;
+        }
+
+        .player-show-positions {
+          height: 36px;
+          border: 2px solid #181715;
+
+          .player-position {
+            height: 32px;
+            font-size: 24px;
+            line-height: 30px;
+            padding: 3px 4px;
+          }
+        }
+
+        .player-show-score {
+          margin-left: 36px;
+
+          .player-show-score-value {
+            line-height: 48px;
+            font-size: 36px;
+          }
+        }
       }
 
       .player-show-avatar .player-show-face, .player-show-avatar .player-show-kit {
-        right: 10%;
+        right: 9%;
       }
     }
 
@@ -569,36 +644,60 @@
       display: block;
 
       .player-table {
+        border-radius: 16px;
+        border: 2px solid #E5E6E4;
+
         .player-table-title {
-          font-size: 24px;
-          line-height: 32px;
+          font-size: 36px;
+          line-height: 48px;
         }
 
         .player-table-row {
+          border-bottom: 2px solid #F4F4F4;
+
           .player-table-row-key {
-            font-size: 24px;
-            line-height: 32px;
+            font-size: 36px;
+            line-height: 48px;
           }
 
           .player-table-row-value {
-            font-size: 24px;
-            line-height: 32px;
+            font-size: 36px;
+            line-height: 48px;
+
+            img, object {
+              width: 48px;
+              height: 48px;
+            }
           }
+        }
+
+        .player-table-row-last {
+          border-bottom: none;
+        }
+
+        .player-table-birth {
+          font-size: 24px;
+          line-height: 24px;
         }
 
         .player-show-team {
           margin-bottom: 18px;
+          grid-template-columns: auto 64px;
 
           .player-team-name {
-            font-size: 24px;
-            line-height: 28px;
+            font-size: 36px;
+            line-height: 40px;
           }
 
           .player-team-league {
-            font-size: 14px;
-            line-height: 18px;
+            font-size: 24px;
+            line-height: 26px;
           }
         }
+      }
+
+      .player-tables-left .player-table .player-table-row {
+        grid-template-columns: 1fr 2fr;
       }
 
       .performance-table {
