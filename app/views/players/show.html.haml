@@ -77,17 +77,39 @@
                   = player.number
             .player-table-row.player-table-row-last
               .player-table-row-key= t('players.teams')
-              .player-table-row-value
-                - player.teams.each do |t|
-                  = link_to team_path(t) do
-                    .player-show-team
-                      .player-team-data
-                        .player-team-name
-                          = t.human_name
-                        .player-team-league
-                          = t.league.name
-                      .player-team-logo
-                        = image_tag(t.logo_path)
+              .player-table-row-value#teams-btn
+                .player-tm-link= player.teams.count
+            .player-teams-block#teams-block
+              .player-teams-content
+                .player-teams-title= t('players.teams')
+                .player-teams-summary
+                  .player-teams-summary-block
+                    .player-teams-summary-title= t('players.total_owners')
+                    .player-teams-summary-value= player.teams.count
+                  .player-teams-summary-block
+                    .player-teams-summary-title= t('players.av_price')
+                    .player-teams-summary-value= "#{player.current_average_price}M"
+                .teams-list
+                  .default-headers.teams-list-grid
+                    .default-header-cell= t('players.team')
+                    .default-header-cell= t('players.league')
+                    .default-header-cell= t('players.auction')
+                    .default-header-cell= t('players.price')
+                  - player.teams.each do |t|
+                    .teams-list-row.teams-list-grid
+                      .teams-list-item-team
+                        = link_to team_path(t) do
+                          .player-team-link
+                            .teams-list-item-logo= image_tag(t.logo_path)
+                            .teams-list-item-name= t.human_name
+                      .teams-list-item
+                        .teams-list-item-league= "#{t.league.name} #{t.league.division&.name}"
+                      .teams-list-item
+                        - auction = player.transfer_by(t)&.auction
+                        - if auction
+                          = link_to league_auction_transfers_path(t.league, auction) do
+                            .teams-list-item-auction= "#{auction.updated_at.strftime("%b %e")} (##{auction.number})"
+                      .teams-list-item.teams-list-item-price= "#{player.transfer_by(t)&.price}M"
           - if current_user&.admin? && player.teams.any?
             .player-actions
               = link_to player_path(player), method: :put, data: { confirm: 'Are you sure?' } do
@@ -114,3 +136,17 @@
               .player-table-title
                 = t('players.national_performance')
               = render('performance', player: player, matches: player.national_matches_with_scores, national: true)
+
+:javascript
+  $(document).ready(function() {
+    var teams_modal = document.getElementById("teams-block");
+    var teams_btn = document.getElementById("teams-btn");
+
+    teams_btn.onclick = function() {
+      teams_modal.style.display = "block";
+    };
+
+    window.onclick = function(e) {
+      if (e.target == teams_modal) { teams_modal.style.display = "none"; }
+    }
+  });

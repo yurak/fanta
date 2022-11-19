@@ -101,6 +101,12 @@ class Player < ApplicationRecord
     transfers.incoming.where(team: team).last
   end
 
+  def current_average_price
+    return 0 if teams.blank?
+
+    (teams.map { |team| transfer_by(team)&.price || 0 }.sum(0.0) / teams.count).round(1)
+  end
+
   def age
     return if birth_date.empty?
 

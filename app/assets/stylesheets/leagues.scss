@@ -27,24 +27,7 @@
   }
 
   .leagues-list-headers {
-    font-family: 'Nunito ExtraBold';
-    line-height: 40px;
-    color: #847577;
-    text-align: left;
     margin: 24px 0 8px;
-
-    .leagues-list-header {
-      padding: 0 8px;
-      margin: 12px 0;
-      font-size: 12px;
-      line-height: 16px;
-      height: 16px;
-      border-right: 1px solid #E5E6E4;
-    }
-
-    .leagues-list-header:last-child {
-      border-right:none;
-    }
   }
 
   .leagues-list-item {
@@ -154,7 +137,7 @@
       line-height: 80px;
       margin: 24px 0;
 
-      .leagues-list-header {
+      .default-header-cell {
         padding: 0 24px;
         margin: 16px 0;
         font-size: 24px;
@@ -164,6 +147,10 @@
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+      }
+
+      .default-header-cell:last-child {
+        border-right: none;
       }
     }
 

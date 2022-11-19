@@ -18,15 +18,15 @@
             .leagues-tab-icon= image_tag("tournaments/#{tournament.code}.png")
             .leagues-tab-name= tournament.short_name || tournament.name
       .leagues-lists-content
-        .leagues-list-headers.leagues-list-grid
-          .leagues-list-header= t('league.name')
-          .leagues-list-header= t('league.division')
-          .leagues-list-header= t('league.season')
-          .leagues-list-header.mob-hide= t('league.tournament')
-          .leagues-list-header.mob-hide= t('league.leader')
-          .leagues-list-header.mob-hide= t('league.teams')
-          .leagues-list-header.mob-hide= t('league.round')
-          .leagues-list-header= t('league.status')
+        .default-headers.leagues-list-headers.leagues-list-grid
+          .default-header-cell= t('league.name')
+          .default-header-cell= t('league.division')
+          .default-header-cell= t('league.season')
+          .default-header-cell.mob-hide= t('league.tournament')
+          .default-header-cell.mob-hide= t('league.leader')
+          .default-header-cell.mob-hide= t('league.teams')
+          .default-header-cell.mob-hide= t('league.round')
+          .default-header-cell= t('league.status')
         - leagues.each do |league|
           = link_to league_link(league) do
             .leagues-list-item.leagues-list-grid{ class: "#{league.status}-status #{league.tournament.code}-league"}

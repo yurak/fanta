@@ -319,6 +319,37 @@ RSpec.describe Player do
     end
   end
 
+  describe '#current_average_price' do
+    context 'when player has not team and transfer' do
+      let(:team) { nil }
+
+      it 'returns 0' do
+        expect(player.current_average_price).to eq(0)
+      end
+    end
+
+    context 'when player has one transfer' do
+      let(:player) { create(:player, :with_team) }
+      let!(:transfer) { create(:transfer, player: player, team: player.teams.last, price: 13) }
+
+      it 'returns transfer price' do
+        expect(player.current_average_price).to eq(transfer.price)
+      end
+    end
+
+    context 'when player has multiple teams and transfers' do
+      before do
+        create_list(:player_team, 2, player: player)
+        create(:transfer, player: player, team: player.teams.first, price: 12)
+        create(:transfer, player: player, team: player.teams.last, price: 11)
+      end
+
+      it 'returns average price' do
+        expect(player.current_average_price).to eq(11.5)
+      end
+    end
+  end
+
   describe '#age' do
     context 'without birth_date' do
       it 'returns nil' do

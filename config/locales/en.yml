@@ -240,7 +240,14 @@ en:
     change_positions: "Positions that player should have"
     change_request: "🌪 Propose positions change"
     change_request_send: "Send change request"
+
+    auction: "AUCTION"
+    av_price: "Average price"
+    league: "LEAGUE"
+    price: "PRICE"
     profile: "Player profile"
+    team: "TEAM"
+    total_owners: "Total owners"
   round_players:
     title: "%{tournament} Round #%{number} Best Players"
   table:

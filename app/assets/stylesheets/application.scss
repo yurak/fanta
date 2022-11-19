@@ -742,6 +742,26 @@ body, html {
   }
 }
 
+.default-headers {
+  font-family: 'Nunito ExtraBold';
+  line-height: 40px;
+  color: #847577;
+  text-align: left;
+
+  .default-header-cell {
+    padding: 0 8px;
+    margin: 12px 0;
+    font-size: 12px;
+    line-height: 16px;
+    height: 16px;
+    border-right: 1px solid #E5E6E4;
+  }
+
+  .default-header-cell:last-child {
+    border-right: none;
+  }
+}
+
 /* ----- Tabs with league icon ----- */
 
 .leagues-lists-tabs {
