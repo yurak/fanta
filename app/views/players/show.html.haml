@@ -120,25 +120,38 @@
           .player-table.performance-table
             .player-table-title
               = t('players.performance')
-            = render('performance', player: player, matches: player.season_matches_with_scores, national: false)
-          .player-table
-            .player-table-title
-              = t('players.chart')
-            .player-table-chart
-              = area_chart player.chart_info
-          - if player.club.ec_tournament
-            .player-table.performance-table
-              .player-table-title
-                = t('players.eurocup_performance')
-              = render('performance', player: player, matches: player.season_ec_matches_with_scores, national: false)
-          - if player.national_team
-            .player-table.performance-table
-              .player-table-title
-                = t('players.national_performance')
-              = render('performance', player: player, matches: player.national_matches_with_scores, national: true)
+            .default-tabs.player-perf-tabs
+              #domestic.default-tab-item
+                .default-tab-name= t('players.domestic')
+              #eurocups.default-tab-item
+                .default-tab-name= t('players.eurocups')
+              #international.default-tab-item
+                .default-tab-name= t('players.international')
+            .player-tabs-content
+              .domestic.player-tab-content
+                = render('performance', player: player, matches: player.season_matches_with_scores)
+              .eurocups.player-tab-content
+                = render('performance', player: player, matches: player.season_ec_matches_with_scores)
+              .international.player-tab-content
+                = render('performance', player: player, matches: player.national_matches_with_scores)
 
 :javascript
   $(document).ready(function() {
+    $(".player-tab-content").hide();
+
+    $(".default-tab-item").first().addClass("default-tab-active");
+    $(".player-tab-content").first().show();
+
+    $(".default-tab-item").click(function(){
+      var listId = this.id;
+
+      $(".default-tab-item").removeClass("default-tab-active");
+      $(".player-tab-content").hide();
+
+      $("#" + listId).addClass("default-tab-active");
+      $("." + listId).show();
+    });
+
     var teams_modal = document.getElementById("teams-block");
     var teams_btn = document.getElementById("teams-btn");
 

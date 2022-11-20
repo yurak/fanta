@@ -9,14 +9,14 @@
       .leagues-block-head-right
         .archived-switcher
     .leagues-lists
-      .leagues-lists-tabs
-        #all_leagues.leagues-lists-tab-item.leagues-lists-tab-active
-          .leagues-tab-icon= image_tag('icons/leagues.svg')
-          .leagues-tab-name= t('league.all')
+      .default-tabs.default-vertical-tabs
+        #all_leagues.default-tab-item.default-tab-active
+          .default-tab-icon= image_tag('icons/leagues.svg')
+          .default-tab-name= t('league.all')
         - active_tournaments.each do |tournament|
-          .leagues-lists-tab-item{ id: tournament.code }
-            .leagues-tab-icon= image_tag("tournaments/#{tournament.code}.png")
-            .leagues-tab-name= tournament.short_name || tournament.name
+          .default-tab-item{ id: tournament.code }
+            .default-tab-icon= image_tag("tournaments/#{tournament.code}.png")
+            .default-tab-name= tournament.short_name || tournament.name
       .leagues-lists-content
         .default-headers.leagues-list-headers.leagues-list-grid
           .default-header-cell= t('league.name')
@@ -53,11 +53,11 @@
   $(document).ready(function() {
     $(".archived-status").hide();
 
-    $(".leagues-lists-tab-item").click(function(){
+    $(".default-tab-item").click(function(){
       var listId = this.id;
 
-      $(".leagues-lists-tab-item").removeClass("leagues-lists-tab-active");
-      $("#" + listId).addClass("leagues-lists-tab-active");
+      $(".default-tab-item").removeClass("default-tab-active");
+      $("#" + listId).addClass("default-tab-active");
 
       if(listId == "all_leagues") {
         $(".leagues-list-item").show();

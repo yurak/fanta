@@ -764,7 +764,7 @@ body, html {
 
 /* ----- Tabs with league icon ----- */
 
-.leagues-lists-tabs {
+.default-tabs {
   font-family: 'Nunito ExtraBold';
   display: flex;
   font-size: 16px;
@@ -772,7 +772,7 @@ body, html {
   text-align: center;
   border-bottom: 1px solid #E5E6E4;
 
-  .leagues-lists-tab-item {
+  .default-tab-item {
     padding: 16px 16px 12px;
     min-width: 80px;
     cursor: pointer;
@@ -782,24 +782,24 @@ body, html {
       height: 32px;
     }
 
-    .leagues-tab-name {
+    .default-tab-name {
       margin-top: 4px;
       white-space: nowrap;
     }
   }
 
-  .leagues-lists-tab-active {
+  .default-tab-active {
     color: #261FFF;
     border-bottom: 3px solid #261FFF;
   }
 }
 
 @media (orientation: portrait) {
-  .leagues-lists-tabs {
+  .default-vertical-tabs {
     display: block;
     border-bottom: none;
 
-    .leagues-lists-tab-item {
+    .default-tab-item {
       min-width: 112px;
       padding: 24px;
 
@@ -809,11 +809,11 @@ body, html {
       }
     }
 
-    .leagues-tab-name {
+    .default-tab-name {
       display: none;
     }
 
-    .leagues-lists-tab-active {
+    .default-tab-active {
       color: #261FFF;
       border-right: 4px solid #261FFF;
       border-bottom: none;
@@ -1457,10 +1457,6 @@ body, html {
 
 .left {
   text-align: left;
-}
-
-.bold {
-  font-family: 'Nunito Bold';
 }
 
 .inline-block {

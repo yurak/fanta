@@ -234,7 +234,7 @@
   }
 
   .player-content {
-    max-width: 1136px;
+    max-width: 1300px;
     margin: auto;
   }
 
@@ -438,6 +438,14 @@
       }
     }
 
+    .player-table-chart {
+      margin: 32px 0 8px;
+
+      .player-table-chart-view {
+        margin-top: 24px;
+      }
+    }
+
     .player-teams-block {
       display: none;
       position: fixed;
@@ -563,41 +571,57 @@
     }
 
     .performance-table {
-      padding: 0;
+      padding: 24px 24px 32px;
       text-align: left;
 
-      .player-table-title {
-        margin: 24px 24px 16px;
-      }
+      .season-title {
+        font-family: 'Nunito ExtraBold';
+        margin-top: 16px;
+        padding-left: 8px;
+        font-size: 12px;
+        line-height: 16px;
 
-      .player-table-headers {
-        padding: 0 24px 8px;
-        font-weight: 500;
-        font-size: 10px;
-        line-height: 14px;
-        color: #847577;
-      }
+        .season-title-years {
+          margin-right: 8px;
+        }
 
-      .player-table-row {
-        padding: 8px 24px;
-
-        .match-player-bonus-item {
-          display: inline-block;
+        .season-title-arrow {
+          padding-bottom: 2px;
 
           img {
-            width: 20px;
-            height: 20px;
+            width: 10px;
+            padding-bottom: 3px;
           }
         }
       }
 
+      .player-table-title {
+        margin-bottom: 16px;
+      }
+
+      .player-perf-tabs {
+        width: fit-content;
+      }
+
+      .default-headers .default-header-cell {
+        margin: 8px 0;
+      }
+
+      .player-table-headers {
+        padding: 8px 0;
+        font-size: 12px;
+        line-height: 16px;
+        color: #847577;
+      }
+
       .table-total {
-        background-color: #F4F4F4;
-        padding: 12px 24px;
-        font-weight: 500;
+        font-family: 'Nunito ExtraBold';
+        background-color: #FFEBC2;
+        padding: 8px 0;
         font-size: 16px;
         line-height: 24px;
         color: #181715;
+        text-align: center;
 
         .table-total-cell {
           img {
@@ -608,12 +632,36 @@
       }
 
       .performance-table-row {
+        padding: 8px 0;
+        line-height: 32px;
         display: grid;
-        grid-template-columns: 6fr 6fr 6fr 6fr 6fr 5fr 5fr 6fr 5fr 6fr 6fr 6fr;
-        column-gap: 12px;
+        grid-template-columns: 6fr 6fr 6fr 6fr 6fr 5fr 5fr 5fr 5fr 5fr 5fr 5fr;
+        column-gap: 0;
+
+        .match-player-bonus-item {
+          display: inline-block;
+
+          img {
+            width: 16px;
+            height: 16px;
+          }
+        }
+
+        .blank-bonus {
+          color: #CFD2CD;
+        }
 
         .player-table-cell {
           text-align: center;
+        }
+
+        .player-table-score {
+          text-align: right;
+          padding-right: 8px;
+        }
+
+        .player-table-ts {
+          font-family: 'Nunito ExtraBold';
         }
       }
     }
@@ -634,6 +682,13 @@
         margin: 8px;
       }
     }
+  }
+}
+
+@media (orientation: landscape) and (max-device-width: 1420px) {
+  .page-info.player-show-page  .player-content {
+    max-width: 1136px;
+    margin: auto;
   }
 }
 
@@ -792,6 +847,10 @@
       }
 
       .performance-table {
+        .player-perf-tabs {
+          font-size: 32px;
+        }
+
         .player-table-headers {
           font-size: 14px;
           line-height: 18px;

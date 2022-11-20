@@ -405,22 +405,25 @@ RSpec.describe Player do
     end
   end
 
-  describe '#chart_info' do
+  describe '#chart_info(matches)' do
+    let(:matches) { [] }
+
     context 'when player has no matches with score' do
       it 'returns arrays without data' do
-        expect(player.chart_info).to eq([{ data: {}, name: 'Total score' }, { data: {}, name: 'Base score' }])
+        expect(player.chart_info(matches)).to eq([{ data: {}, name: 'Total score' }, { data: {}, name: 'Base score' }])
       end
     end
 
     context 'when player has matches with score' do
       let(:player) { create(:player, :with_scores_n_bonuses) }
+      let(:matches) { player.season_matches_with_scores }
 
       it 'returns arrays with total data' do
-        expect(player.chart_info.first[:data].values).to eq(['5.5', '6.0', '14.0'])
+        expect(player.chart_info(matches).first[:data].values).to eq(%w[5.5 6.0 14.0])
       end
 
       it 'returns arrays with base data' do
-        expect(player.chart_info.last[:data].values).to eq(['6.0', '6.0', '8.0'])
+        expect(player.chart_info(matches).last[:data].values).to eq(%w[6.0 6.0 8.0])
       end
     end
   end

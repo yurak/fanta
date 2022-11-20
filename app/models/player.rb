@@ -120,10 +120,10 @@ class Player < ApplicationRecord
   # TODO: move to stats service
   # Current season statistic
 
-  def chart_info
+  def chart_info(matches)
     bs = {}
     ts = {}
-    season_matches_with_scores.each do |rp|
+    matches.each do |rp|
       bs[rp.tournament_round.number] = rp.score.to_s
       ts[rp.tournament_round.number] = rp.result_score.to_s
     end
