@@ -165,7 +165,7 @@
     .player-table-title
       = t('players.chart')
     .player-table-chart-view
-      = area_chart player.chart_info(matches), colors: %w[#261FFF8C #FFFF00B5],
+      = area_chart player.chart_info(matches), colors: %w[#261FFF #FFB319], curve: false,
                                                min: player.chart_info(matches).map { |scores| scores[:data].values.map(&:to_f).min }.min.floor - 1,
                                                max: player.chart_info(matches).map { |scores| scores[:data].values.map(&:to_f).max }.max.ceil + 1
 
