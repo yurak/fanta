@@ -160,13 +160,14 @@
   .table-total-cell.player-table-score= player.season_average_score(matches)
   .table-total-cell.player-table-score= player.season_average_result_score(matches)
 
-- if matches.any?
+- if matches.count > 1
   .player-table-chart
     .player-table-title
       = t('players.chart')
     .player-table-chart-view
-      = area_chart player.chart_info(matches), colors: %w[#261FFF #FFB319], curve: false,
-                                               min: player.chart_info(matches).map { |scores| scores[:data].values.map(&:to_f).min }.min.floor - 1,
-                                               max: player.chart_info(matches).map { |scores| scores[:data].values.map(&:to_f).max }.max.ceil + 1
+      - chart_data = player.chart_info(matches)
+      = area_chart chart_data, colors: %w[#261FFF #FFB319], curve: false, xmin: chart_data.first[:data].first.first.to_i, discrete: true,
+                                               min: chart_data.map { |scores| scores[:data].values.map(&:to_f).min }.min.floor - 1,
+                                               max: chart_data.map { |scores| scores[:data].values.map(&:to_f).max }.max.ceil + 1
 
 -# = player.season_stats
