@@ -181,6 +181,18 @@
 :javascript
   $(document).ready(function() {
     $("#submit-lineup-btn").click(function(){
+      const player_ids = [];
+      $('.round-player-input').each(function() { player_ids.push($(this).val()); });
+
+      const duplicate_ids = player_ids.reduce(function(acc, el, i, arr) {
+          if (arr.indexOf(el) !== i && acc.indexOf(el) < 0) acc.push(el); return acc;
+      }, []);
+
+      if (duplicate_ids.length > 0) {
+          alert("#{t('lineups.duplicates')}");
+          return false;
+      }
+
       if (String("#{tour.national?}").toLowerCase() == "true") {
         const player_countries = [];
         $('.team-player-country').each(function() { player_countries.push(this.textContent); });
@@ -202,21 +214,12 @@
           return false;
         }
       } else {
-        const player_ids = [];
-        $('.round-player-input').each(function() { player_ids.push($(this).val()); });
+        // const player_ids = [];
+        // $('.round-player-input').each(function() { player_ids.push($(this).val()); });
         const filtered = player_ids.filter(Boolean);
 
         if (filtered.length < "#{lineup.players_count}") {
             alert("#{t('lineups.total', number: lineup.players_count)}");
-            return false;
-        }
-
-        const duplicate_ids = player_ids.reduce(function(acc, el, i, arr) {
-            if (arr.indexOf(el) !== i && acc.indexOf(el) < 0) acc.push(el); return acc;
-        }, []);
-
-        if (duplicate_ids.length > 0) {
-            alert("#{t('lineups.duplicates')}");
             return false;
         }
 

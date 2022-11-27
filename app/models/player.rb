@@ -101,6 +101,12 @@ class Player < ApplicationRecord
     transfers.incoming.where(team: team).last
   end
 
+  def current_average_price
+    return 0 if teams.blank?
+
+    (teams.map { |team| transfer_by(team)&.price || 0 }.sum(0.0) / teams.count).round(1)
+  end
+
   def age
     return if birth_date.empty?
 
@@ -114,10 +120,10 @@ class Player < ApplicationRecord
   # TODO: move to stats service
   # Current season statistic
 
-  def chart_info
+  def chart_info(matches)
     bs = {}
     ts = {}
-    season_matches_with_scores.each do |rp|
+    matches.each do |rp|
       bs[rp.tournament_round.number] = rp.score.to_s
       ts[rp.tournament_round.number] = rp.result_score.to_s
     end

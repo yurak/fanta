@@ -1,14 +1,16 @@
 .page-block
-  = render 'layouts/left_nav', league: nil
+  .web-header= render 'layouts/left_nav', league: nil
+  .mob-header= render 'layouts/mob_header', league: nil, title: t('links.title')
   .page-info.links-page
     .links-block-head
       .links-title= t('links.title')
       .links-subtitle= t('links.subtitle')
-    .links-lists
-      .links-lists-tabs
+    .links-lists.leagues-lists
+      .default-tabs.default-vertical-tabs
         - active_tournaments.each do |tournament|
-          .links-lists-tab-item{id: tournament.code}
-            = tournament.name
+          .default-tab-item{ id: tournament.code }
+            .default-tab-icon= image_tag("tournaments/#{tournament.code}.png")
+            .default-= tournament.short_name || tournament.name
       .links-lists-content
         - active_tournaments.each do |tournament|
           .links-status-list{class: "#{tournament.code}-list"}
@@ -24,16 +26,16 @@
   $(document).ready(function() {
     $(".links-status-list").hide();
 
-    $(".links-lists-tab-item").first().addClass("links-lists-tab-active");
+    $(".default-tab-item").first().addClass("default-tab-active");
     $(".links-status-list").first().show();
 
-    $(".links-lists-tab-item").click(function(){
+    $(".default-tab-item").click(function(){
       var listId = this.id;
 
-      $(".links-lists-tab-item").removeClass("links-lists-tab-active");
+      $(".default-tab-item").removeClass("default-tab-active");
       $(".links-status-list").hide();
 
-      $("#" + listId).addClass("links-lists-tab-active");
+      $("#" + listId).addClass("default-tab-active");
       $("." + listId + "-list").show();
     });
   });

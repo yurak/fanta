@@ -16,5 +16,12 @@ RSpec.describe Audit::CsvWriter do
 
       it { expect(writer.call).to eq({}) }
     end
+
+    context 'with national match' do
+      let(:tournament) { create(:tournament, :with_national_teams) }
+      let(:tournament_match) { create(:national_match, tournament_round: create(:tournament_round, tournament: tournament)) }
+
+      it { expect(writer.call).to eq(guest_players) }
+    end
   end
 end
