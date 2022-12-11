@@ -890,6 +890,10 @@
         }
       }
     }
+
+    .tournament-table {
+      padding-bottom: 192px;
+    }
   }
 
   .stats-section .round-table .round-tournament-match, .fixtures-block .round-tournament-match {
@@ -981,6 +985,11 @@
         text-decoration: underline;
       }
     }
+  }
+
+  .inject-scores-row {
+    display: grid;
+    grid-template-columns: 5fr 6fr;
   }
 }
 
