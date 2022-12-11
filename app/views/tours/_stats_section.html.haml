@@ -79,7 +79,7 @@
                 .results-team-logo= image_tag(image_path(result.team.logo_path))
                 .results-team-name= result.team.human_name
               .round-table-item-points= result.points
-    .round-table
+    .round-table.tournament-table
       .round-table-title-header
         .round-table-title
           = link_to tournament_path(tour.league.tournament) do

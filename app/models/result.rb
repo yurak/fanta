@@ -8,6 +8,7 @@ class Result < ApplicationRecord
 
   scope :ordered, -> { order(points: :desc).order(scored_goals: :desc).order(Arel.sql('scored_goals - missed_goals desc')) }
   scope :ordered_by_score, -> { order(total_score: :desc) }
+  scope :by_team, ->(team_id) { where(team_id: team_id) }
 
   def matches_played
     @matches_played ||= wins + draws + loses
