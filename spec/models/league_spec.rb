@@ -89,4 +89,35 @@ RSpec.describe League do
       end
     end
   end
+
+  describe '#chart_data' do
+    context 'when league does not have closed tour' do
+      it 'returns empty hash' do
+        expect(league.chart_data).to eq({})
+      end
+    end
+
+    context 'when league has closed tour' do
+      let!(:result1) do
+        create(:result, team: create(:team, league: league), league: league, history: [nil, { pos: 1 }, { pos: 2 }].to_json)
+      end
+      let!(:result2) do
+        create(:result, team: create(:team, league: league), league: league, history: [nil, { pos: 2 }, { pos: 1 }].to_json)
+      end
+
+      before do
+        create(:closed_tour, number: 1, league: league)
+        create(:closed_tour, number: 2, league: league)
+      end
+
+      it 'returns hash with tour labels' do
+        expect(JSON.parse(league.chart_data)['labels']).to eq([1, 2])
+      end
+
+      it 'returns hash with teams datasets' do
+        expect(JSON.parse(league.chart_data)['datasets']).to eq([{ 'data' => [1, 2], 'label' => result1.team.human_name },
+                                                                 { 'data' => [2, 1], 'label' => result2.team.human_name }])
+      end
+    end
+  end
 end

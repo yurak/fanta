@@ -255,6 +255,8 @@ en:
     title: "%{tournament} Round #%{number} Best Players"
   table:
     title: "Table"
+    trend_title: "📈 Leaders trend"
+    team: "TEAM"
     games: "GAMES"
     wins: "WINS"
     draws: "DRAWS"
