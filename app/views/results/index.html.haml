@@ -1,33 +1,34 @@
 .page-block.table-results
-  = render 'layouts/left_nav', league: league
-  = render 'layouts/right_nav', league: league
+  .web-header= render 'layouts/left_nav', league: league
+  .web-header= render 'layouts/right_nav', league: league
+  .mob-header= render 'layouts/mob_header', league: league, title: t('players.profile')
   .page-info
     .table-title= t('table.title')
     - if league.tournament.fanta?
       .table-block
-        .table-headers.table-grid.national-grid
-          .table-header-item
-          .table-header-item
-          .table-header-item
-          .table-header-item= t('table.rounds')
-          .table-header-item
+        .default-headers.table-grid.national-grid
+          .default-header-cell
+          .default-header-cell
+          .default-header-cell= t('table.team')
+          .default-header-cell= t('table.rounds')
+          .default-header-cell
             = link_to league_results_path(league, order: 'points') do
+              = t('table.f1_points')
               - if params[:order] == 'points'
                 .table-header-dropdown
                   = image_tag('icons/dropdown.svg', class: 'filter-grey')
-              = t('table.f1_points')
-          .table-header-item
+          .default-header-cell
             = link_to league_results_path(league, order: 'score') do
+              = t('table.total_score')
               - if !params[:order] || params[:order] == 'score'
                 .table-header-dropdown
                   = image_tag('icons/dropdown.svg', class: 'filter-grey')
-              = t('table.total_score')
-          .table-header-item
+          .default-header-cell
             = link_to league_results_path(league, order: 'lineup') do
+              = t('table.best_lineup')
               - if params[:order] == 'lineup'
                 .table-header-dropdown
                   = image_tag('icons/dropdown.svg', class: 'filter-grey')
-              = t('table.best_lineup')
         - @results.each_with_index do |result, i|
           .table-team-item.table-grid.national-grid
             .table-team-param.table-team-prize{ class: "place#{i}" }
@@ -48,21 +49,21 @@
               = result.team.best_lineup&.total_score
     - else
       .table-block
-        .table-headers.table-grid
-          .table-header-item
-          .table-header-item
-          .table-header-item
-          .table-header-item= t('table.games')
-          .table-header-item= t('table.wins')
-          .table-header-item= t('table.draws')
-          .table-header-item= t('table.loses')
-          .table-header-item= t('table.gf')
-          .table-header-item= t('table.ga')
-          .table-header-item= t('table.gd')
-          .table-header-item= t('table.points')
-          .table-header-item.ts-cell= t('table.ts')
-          .table-header-item.form-cell= t('table.form')
-          .table-header-item.next-cell
+        .default-headers.table-grid
+          .default-header-cell
+          .default-header-cell
+          .default-header-cell= t('table.team')
+          .default-header-cell= t('table.games')
+          .default-header-cell= t('table.wins')
+          .default-header-cell= t('table.draws')
+          .default-header-cell= t('table.loses')
+          .default-header-cell= t('table.gf')
+          .default-header-cell= t('table.ga')
+          .default-header-cell= t('table.gd')
+          .default-header-cell= t('table.points')
+          .default-header-cell.ts-cell= t('table.ts')
+          .default-header-cell.form-cell= t('table.form')
+          .default-header-cell.next-cell
             - if league.active?
               = t('table.next')
         - @results.each_with_index do |result, i|
@@ -101,3 +102,35 @@
             .table-team-param.table-team-opponent
               - if league.active? && result.team.next_opponent
                 = image_tag(result.team.next_opponent.logo_path)
+
+    - if league.tours.closed.count > 1 && !league.tournament.fanta?
+      .league-chart
+        .league-chart-title= t('table.trend_title')
+        %canvas#myChart
+
+  .portrait-footer{ class: "portrait-footer-#{league.mantra?}"}
+    = render 'layouts/league_links', league: league
+
+%script{type: "text/javascript", src: "https://cdn.jsdelivr.net/npm/chart.js"}
+
+:javascript
+  $(document).ready(function() {
+    const ctx = document.getElementById('myChart');
+    const chart_data = JSON.parse("#{league.chart_data}".replace(/&quot;/g, '"'));
+
+    new Chart(ctx, {
+      type: 'line',
+      data: chart_data,
+      options: {
+        responsive: true,
+        scales: {
+          y: { reverse: true, ticks: { precision: 0 } }
+        },
+        plugins: {},
+        transitions: {
+          show: { animations: { x: { from: 0 }, y: { from: 0 } } },
+          hide: { animations: { x: { to: 0 }, y: { to: 0 } } }
+        }
+      }
+    });
+  });

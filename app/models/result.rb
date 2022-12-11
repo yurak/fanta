@@ -25,6 +25,10 @@ class Result < ApplicationRecord
     @form ||= closed_lineups.limit(5).reverse.map { |l| [l.result, l.match_result, l.opponent.code, l.tour_id] }
   end
 
+  def history_arr
+    @history_arr ||= JSON.parse(history)
+  end
+
   def league_best_lineup
     return 0 if closed_lineups.empty?
 

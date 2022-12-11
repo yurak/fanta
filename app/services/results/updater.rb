@@ -12,6 +12,8 @@ module Results
       tour.matches.each do |match|
         update_results(match)
       end
+
+      update_history
     end
 
     private
@@ -60,6 +62,16 @@ module Results
         missed_goals: team.results.last.missed_goals + match.missed_goals(team),
         total_score: team.results.last.total_score + lineup.total_score.round(2)
       )
+    end
+
+    def update_history
+      tour.league.results.each do |result|
+        history_arr = result.history_arr
+        # position:, points:, scored_goals:, missed_goals:, wins:, draws:, loses:, total_score:
+        history_arr[tour.number] = { pos: result.position, p: result.points, sg: result.scored_goals, mg: result.missed_goals,
+                                     w: result.wins, d: result.draws, l: result.loses, ts: result.total_score }
+        result.update(history: history_arr.to_json)
+      end
     end
   end
 end

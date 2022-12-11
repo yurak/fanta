@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_10_03_102804) do
+ActiveRecord::Schema.define(version: 2022_12_11_075551) do
 
   create_table "article_tags", force: :cascade do |t|
     t.string "name", default: "", null: false
@@ -262,6 +262,7 @@ ActiveRecord::Schema.define(version: 2022_10_03_102804) do
     t.datetime "updated_at", null: false
     t.integer "league_id"
     t.decimal "total_score", default: "0.0", null: false
+    t.text "history", default: "[]"
     t.index ["league_id"], name: "index_results_on_league_id"
     t.index ["team_id"], name: "index_results_on_team_id"
   end

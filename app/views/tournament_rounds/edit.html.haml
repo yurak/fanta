@@ -60,7 +60,7 @@
           .reservist-param
             = rp_f.number_field :own_goals, in: 0..9, step: 1, class: 'form-control'
           .reservist-param
-            = rp_f.number_field :played_minutes, in: 0..99, step: 1, class: 'form-control'
+            = rp_f.number_field :played_minutes, in: 0..120, step: 1, class: 'form-control'
           .reservist-param
             = rp_f.check_box :manual_lock, {'data-toggle' => 'toggle', 'data-onstyle' => 'primary', 'data-on' => 'Yes', 'data-off' => 'No', 'data-size' => 'small', 'data-height' => '38'}
 

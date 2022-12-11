@@ -37,4 +37,16 @@ class League < ApplicationRecord
   def mantra?
     tours.first&.mantra?
   end
+
+  def chart_data
+    return {} if tours.closed.blank?
+
+    positions = teams.each_with_object([]) do |team, array|
+      history_arr = JSON.parse(team.results.last.history).drop(1)
+      team_pos_arr = history_arr.each_with_object([]) { |round, pos_arr| pos_arr << round&.dig('pos') }
+      array << { label: team.human_name, data: team_pos_arr } # borderColor: 'red', backgroundColor: 'green'
+    end
+
+    { labels: (1..tours.closed.last.number).to_a, datasets: positions }.to_json
+  end
 end
