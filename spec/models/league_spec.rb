@@ -115,8 +115,10 @@ RSpec.describe League do
       end
 
       it 'returns hash with teams datasets' do
-        expect(JSON.parse(league.chart_data)['datasets']).to eq([{ 'data' => [1, 2], 'label' => result1.team.human_name },
-                                                                 { 'data' => [2, 1], 'label' => result2.team.human_name }])
+        expect(JSON.parse(league.chart_data)['datasets']).to eq([{ 'backgroundColor' => '#007bff', 'borderColor' => '#007bff',
+                                                                   'data' => [1, 2], 'label' => result1.team.human_name },
+                                                                 { 'backgroundColor' => '#fd7e14', 'borderColor' => '#fd7e14',
+                                                                   'data' => [2, 1], 'label' => result2.team.human_name }])
       end
     end
   end
