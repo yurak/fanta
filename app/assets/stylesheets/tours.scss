@@ -391,7 +391,7 @@
         }
 
         .lineup-result {
-          padding: 8px;
+          padding: 8px 0;
           background: #BA44F1;
           border-radius: 4px;
           font-weight: 700;
@@ -890,6 +890,10 @@
         }
       }
     }
+
+    .tournament-table {
+      padding-bottom: 192px;
+    }
   }
 
   .stats-section .round-table .round-tournament-match, .fixtures-block .round-tournament-match {
@@ -983,57 +987,9 @@
     }
   }
 
-  .portrait-footer {
-    height: 216px;
-    width: 100%;
-    background: #FFEBC2;
-    position: fixed;
-    bottom: 0;
-    padding: 24px 36px;
+  .inject-scores-row {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-    column-gap: 10px;
-
-    a {
-      text-align: center;
-      text-decoration: none;
-    }
-
-    img {
-      width: 72px;
-      height: 72px;
-    }
-
-    .league-link {
-      height: 100%;
-      padding: 26px 0;
-
-      .league-link-text {
-        font-family: 'Nunito SemiBold';
-        color: #181715;
-        font-size: 30px;
-        line-height: 42px;
-      }
-    }
-
-    .link-active-true {
-      background: #181715;
-      border-radius: 24px;
-
-      .league-link-text {
-        color: #EDF67D;
-      }
-
-      img {
-        filter: invert(86%) sepia(44%) saturate(453%) hue-rotate(12deg) brightness(106%) contrast(93%); // #EDF67D;
-      }
-    }
-  }
-
-  .portrait-footer-false {
-    grid-template-columns: 1fr 1fr 1fr;
-    padding: 24px 190px;
-    column-gap: 36px;
+    grid-template-columns: 5fr 6fr;
   }
 }
 

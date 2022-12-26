@@ -28,7 +28,11 @@ class Lineup < ApplicationRecord
   def total_score
     return final_score unless final_score.zero?
 
-    match_players.main.map(&:total_score).compact.sum + defence_bonus
+    current_score
+  end
+
+  def current_score
+    @current_score ||= match_players.main.map(&:total_score).compact.sum + defence_bonus
   end
 
   def defence_bonus

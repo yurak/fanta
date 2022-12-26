@@ -17,7 +17,7 @@ module TournamentRounds
     private
 
     def all_matches_data
-      JSON.parse(html_page)['props']['pageProps']['initialState']['league'].first[1]['data']['matches']['data']['matchesCombinedByRound']
+      JSON.parse(html_page)['props']['pageProps']['matches']['data']['matchesCombinedByRound']
     end
 
     def html_page

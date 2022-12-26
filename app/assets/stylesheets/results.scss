@@ -1,15 +1,15 @@
 .table-results {
   .page-info {
-    height: 100%;
-    padding: 10px 20px 50px 292px;
+    //height: 100%;
+    padding: 16px 16px 96px 288px;
 
     .table-block {
-      padding-bottom: 100px;
+      padding-bottom: 64px;
     }
 
     .table-title {
-      margin: 48px 0 32px;
-      font-weight: bold;
+      font-family: 'Nunito ExtraBold';
+      margin: 24px 0;
       font-size: 48px;
       line-height: 48px;
       color: #181715;
@@ -32,17 +32,7 @@
       }
     }
 
-    .table-headers {
-      padding-bottom: 16px;
-    }
-
-    .table-header-item {
-      font-weight: 500;
-      font-size: 12px;
-      line-height: 16px;
-      text-align: right;
-      color: #847577;
-
+    .default-header-cell {
       a {
         text-decoration: none;
         color: #847577;
@@ -80,7 +70,7 @@
       }
 
       .table-team-points {
-        font-weight: bold;
+        font-family: 'Nunito ExtraBold';
       }
 
       .table-team-opponent img {
@@ -89,7 +79,7 @@
       }
 
       .form-cell {
-        font-weight: bold;
+        font-family: 'Nunito ExtraBold';
         font-size: 18px;
 
         .team-form-item {
@@ -112,32 +102,42 @@
         background-color: #4EAD57;
       }
 
-      .place1, .place2 {
-        background-color: #FFB319;
-      }
+      //.place1, .place2 {
+      //  background-color: #FFB319;
+      //}
     }
 
     .form-cell {
       text-align: left;
-      padding-left: 40px;
+      padding-left: 16px;
+    }
+
+    .league-chart-title {
+      font-family: 'Nunito ExtraBold';
+      font-size: 24px;
+      line-height: 32px;
+      margin-bottom: 24px;
     }
   }
 }
 
 @media (orientation: portrait) {
   .table-results {
-    .right-nav {
-      display: none;
-    }
     .page-info {
-      padding: 50px 20px 50px 92px;
+      padding: 0 16px 288px;
+
+      .table-title {
+        margin: 0 0 32px;
+        font-size: 72px;
+        line-height: 96px;
+      }
 
       .table-grid {
         grid-template-columns: 2fr 24fr 176fr 32fr 32fr 32fr 32fr 32fr 32fr 32fr 32fr;
       }
 
       .national-grid {
-        grid-template-columns: 1fr 24fr 100fr 30fr 30fr 30fr 40fr;
+        grid-template-columns: 1fr 24fr 80fr 30fr 30fr 30fr 40fr;
       }
 
       .table-header-item {

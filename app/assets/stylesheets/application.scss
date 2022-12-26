@@ -95,7 +95,7 @@ body, html {
   height: 100%;
 }
 
-/* ----- Web and Mob headers ----- */
+/* ----- Web and Mob headers / footers ----- */
 
 .mob-header {
   display: none;
@@ -468,6 +468,59 @@ body, html {
   }
 }
 
+.portrait-footer {
+  height: 216px;
+  width: 100%;
+  background: #FFEBC2;
+  position: fixed;
+  bottom: 0;
+  padding: 24px 36px;
+  display: none;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  column-gap: 10px;
+
+  a {
+    text-align: center;
+    text-decoration: none;
+  }
+
+  img {
+    width: 72px;
+    height: 72px;
+  }
+
+  .league-link {
+    height: 100%;
+    padding: 26px 0;
+
+    .league-link-text {
+      font-family: 'Nunito SemiBold';
+      color: #181715;
+      font-size: 30px;
+      line-height: 42px;
+    }
+  }
+
+  .link-active-true {
+    background: #181715;
+    border-radius: 24px;
+
+    .league-link-text {
+      color: #EDF67D;
+    }
+
+    img {
+      filter: invert(86%) sepia(44%) saturate(453%) hue-rotate(12deg) brightness(106%) contrast(93%); // #EDF67D;
+    }
+  }
+}
+
+.portrait-footer-false {
+  grid-template-columns: 1fr 1fr 1fr;
+  padding: 24px 190px;
+  column-gap: 36px;
+}
+
 @media (orientation: portrait) {
   .mob-header {
     display: block;
@@ -475,6 +528,10 @@ body, html {
 
   .web-header {
     display: none;
+  }
+
+  .portrait-footer {
+    display: grid;
   }
 }
 /* ----- -------------------- ----- */
@@ -739,6 +796,91 @@ body, html {
   img {
     width: 10px;
     height: 8px;
+  }
+}
+
+.default-headers {
+  font-family: 'Nunito ExtraBold';
+  line-height: 40px;
+  color: #847577;
+  text-align: left;
+
+  .default-header-cell {
+    padding: 0 8px;
+    margin: 12px 0;
+    font-size: 12px;
+    line-height: 16px;
+    height: 16px;
+    border-right: 1px solid #E5E6E4;
+  }
+
+  .default-header-cell:last-child {
+    border-right: none;
+  }
+}
+
+/* ----- Tabs with league icon ----- */
+
+.default-tabs {
+  font-family: 'Nunito ExtraBold';
+  display: flex;
+  font-size: 16px;
+  line-height: 24px;
+  text-align: center;
+  border-bottom: 1px solid #E5E6E4;
+
+  .default-tab-item {
+    padding: 16px 16px 12px;
+    min-width: 80px;
+    cursor: pointer;
+
+    img {
+      width: 32px;
+      height: 32px;
+    }
+
+    .default-tab-name {
+      margin-top: 4px;
+      white-space: nowrap;
+    }
+  }
+
+  .default-tab-active {
+    color: #261FFF;
+    border-bottom: 3px solid #261FFF;
+  }
+}
+
+@media (orientation: portrait) {
+  .default-vertical-tabs {
+    display: block;
+    border-bottom: none;
+
+    .default-tab-item {
+      min-width: 112px;
+      padding: 24px;
+
+      img {
+        width: 64px;
+        height: 64px;
+      }
+    }
+
+    .default-tab-name {
+      display: none;
+    }
+
+    .default-tab-active {
+      color: #261FFF;
+      border-right: 4px solid #261FFF;
+      border-bottom: none;
+    }
+  }
+
+  .leagues-lists {
+    display: grid;
+    grid-template-columns: 112px auto;
+    column-gap: 32px;
   }
 }
 
@@ -1372,10 +1514,6 @@ body, html {
 
 .left {
   text-align: left;
-}
-
-.bold {
-  font-family: 'Nunito Bold';
 }
 
 .inline-block {

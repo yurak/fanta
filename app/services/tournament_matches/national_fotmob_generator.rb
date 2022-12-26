@@ -1,5 +1,5 @@
 module TournamentMatches
-  class EuroFotmobGenerator < FotmobGenerator
+  class NationalFotmobGenerator < FotmobGenerator
     def call
       t_round_index = 0
       matches_data.each do |round_data|
@@ -51,7 +51,7 @@ module TournamentMatches
         guest_team: national_team(match_data['away']['name']),
         source_match_id: match_data['id'],
         round_name: match_data['roundName'],
-        time: (Time.parse(match_data['status']['startTimeStr']).utc + 1.hour).strftime('%H:%M'),
+        time: DateTime.parse(match_data['status']['startTimeStr']).utc.in_time_zone('EET').strftime('%H:%M'),
         date: match_data['status']['startDateStr']
       )
     end

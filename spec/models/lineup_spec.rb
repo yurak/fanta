@@ -33,6 +33,20 @@ RSpec.describe Lineup do
     end
   end
 
+  describe '#current_score' do
+    context 'when scores are too small for defense bonus' do
+      it 'returns sum of players scores' do
+        expect(lineup_team_score_five.current_score).to eq(55)
+      end
+    end
+
+    context 'when scores are sufficient for defense bonus' do
+      it 'returns sum of players scores defense bonus' do
+        expect(lineup_team_score_seven.current_score).to eq(82)
+      end
+    end
+  end
+
   describe '#defence_bonus' do
     context 'when league with default bonus range and small scores' do
       it 'returns zero' do

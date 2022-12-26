@@ -8,6 +8,8 @@ namespace :tm do
 
       p "Inject player data: #{player.name} (id: #{player.id})"
       Players::TmParser.call(player)
+
+      sleep(15) if (id % 4).zero?
     end
   end
 end

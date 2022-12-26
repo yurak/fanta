@@ -38,13 +38,13 @@ module Scores
       end
 
       def update_round_player(round_player, team_hash, team_missed_goals)
-        player_data = team_hash[round_player.pseudo_name.downcase]
+        player_data = team_hash[round_player.fotmob_id.to_s]
         return unless player_data
 
         round_player.update(round_player_params(round_player, player_data, team_missed_goals))
         round_player.player.update(fotmob_id: player_data[:fotmob_id]&.to_i) if round_player.player.fotmob_id.blank?
 
-        team_hash.except!(round_player.pseudo_name.downcase)
+        team_hash.except!(round_player.fotmob_id.to_s)
       end
 
       def round_player_params(round_player, player_data, team_missed_goals)
@@ -68,20 +68,21 @@ module Scores
           line.each do |player_data|
             next if player_data['minutesPlayed'].to_i.zero?
 
-            hash[player_name(player_data)] = player_hash(player_data)
+            hash[player_data['id']] = player_hash(player_data)
           end
         end
 
         team['bench'].each_with_object(scores_hash) do |player_data, hash|
           next if player_data['minutesPlayed'].to_i.zero?
 
-          hash[player_name(player_data)] = player_hash(player_data)
+          hash[player_data['id']] = player_hash(player_data)
         end
       end
 
       def player_hash(player_data)
         hash = {
           fotmob_id: player_data['id'],
+          fotmob_name: player_name(player_data),
           rating: player_data['rating']['num'],
           played_minutes: player_data['minutesPlayed'].to_i,
           missed_goals: player_data['stats'][0]['stats']['Goals conceded']

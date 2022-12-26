@@ -1,4 +1,6 @@
 class League < ApplicationRecord
+  COLORS = %w[#007bff #fd7e14 #28a745 #6c757d #ffc107 #dc3545 #6f42c1 #20c997 #e83e8c #17a2b8 #6610f2].freeze
+
   belongs_to :division, optional: true
   belongs_to :season
   belongs_to :tournament
@@ -36,5 +38,17 @@ class League < ApplicationRecord
 
   def mantra?
     tours.first&.mantra?
+  end
+
+  def chart_data
+    return {} if tours.closed.blank?
+
+    positions = teams.each_with_object([]).with_index do |(team, array), index|
+      history_arr = JSON.parse(team.results.last.history).drop(1)
+      team_pos_arr = history_arr.each_with_object([]) { |round, pos_arr| pos_arr << round&.dig('pos') }
+      array << { label: team.human_name, data: team_pos_arr, borderColor: COLORS[index], backgroundColor: COLORS[index] }
+    end
+
+    { labels: (1..tours.closed.last.number).to_a, datasets: positions }.to_json
   end
 end

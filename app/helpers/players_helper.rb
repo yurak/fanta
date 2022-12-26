@@ -57,4 +57,8 @@ module PlayersHelper
 
     @user_tournament_team ||= current_user.teams.by_tournament(tournament_id || 1).first
   end
+
+  def current_season
+    @current_season ||= Season.last
+  end
 end

@@ -8,7 +8,7 @@ class RoundPlayer < ApplicationRecord
   has_many :in_subs, foreign_key: 'in_rp_id', class_name: 'Substitute', dependent: :destroy, inverse_of: :in_rp
   has_many :out_subs, foreign_key: 'out_rp_id', class_name: 'Substitute', dependent: :destroy, inverse_of: :out_rp
 
-  delegate :club, :first_name, :full_name, :full_name_reverse, :national_team, :name, :position_names,
+  delegate :club, :first_name, :fotmob_id, :full_name, :full_name_reverse, :national_team, :name, :position_names,
            :positions, :pseudo_name, :teams, to: :player, allow_nil: true
 
   default_scope { includes([:tournament_round, { player: %i[club player_positions positions] }]) }

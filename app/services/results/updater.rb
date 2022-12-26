@@ -12,6 +12,8 @@ module Results
       tour.matches.each do |match|
         update_results(match)
       end
+
+      update_history
     end
 
     private
@@ -34,32 +36,53 @@ module Results
     end
 
     def update_winner(match, winner, winner_lineup)
-      winner.results.last.update(
-        points: winner.results.last.points + 3,
-        wins: winner.results.last.wins + 1,
-        scored_goals: winner.results.last.scored_goals + match.scored_goals(winner),
-        missed_goals: winner.results.last.missed_goals + match.missed_goals(winner),
-        total_score: winner.results.last.total_score + winner_lineup.total_score.round(2)
+      result = results.by_team(winner.id).last
+      result.update(
+        points: result.points + 3,
+        wins: result.wins + 1,
+        scored_goals: result.scored_goals + match.scored_goals(winner),
+        missed_goals: result.missed_goals + match.missed_goals(winner),
+        total_score: result.total_score + winner_lineup.total_score.round(2)
       )
     end
 
     def update_loser(match, loser, loser_lineup)
-      loser.results.last.update(
-        loses: loser.results.last.loses + 1,
-        scored_goals: loser.results.last.scored_goals + match.scored_goals(loser),
-        missed_goals: loser.results.last.missed_goals + match.missed_goals(loser),
-        total_score: loser.results.last.total_score + loser_lineup.total_score.round(2)
+      result = results.by_team(loser.id).last
+      result.update(
+        loses: result.loses + 1,
+        scored_goals: result.scored_goals + match.scored_goals(loser),
+        missed_goals: result.missed_goals + match.missed_goals(loser),
+        total_score: result.total_score + loser_lineup.total_score.round(2)
       )
     end
 
     def update_result_draw(match, team, lineup)
-      team.results.last.update(
-        points: team.results.last.points + 1,
-        draws: team.results.last.draws + 1,
-        scored_goals: team.results.last.scored_goals + match.scored_goals(team),
-        missed_goals: team.results.last.missed_goals + match.missed_goals(team),
-        total_score: team.results.last.total_score + lineup.total_score.round(2)
+      result = results.by_team(team.id).last
+      result.update(
+        points: result.points + 1,
+        draws: result.draws + 1,
+        scored_goals: result.scored_goals + match.scored_goals(team),
+        missed_goals: result.missed_goals + match.missed_goals(team),
+        total_score: result.total_score + lineup.total_score.round(2)
       )
+    end
+
+    def update_history
+      results.each do |result|
+        history_arr = result.history_arr
+        # position:, points:, scored_goals:, missed_goals:, wins:, draws:, loses:, total_score:
+        history_arr[tour.number] = { pos: result.position, p: result.points, sg: result.scored_goals, mg: result.missed_goals,
+                                     w: result.wins, d: result.draws, l: result.loses, ts: result.total_score }
+        result.update(history: history_arr.to_json)
+      end
+    end
+
+    def results
+      @results ||= league.results
+    end
+
+    def league
+      @league ||= tour.league
     end
   end
 end

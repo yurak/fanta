@@ -36,7 +36,7 @@ module Players
 
       multiplier = case html_page.css('.data-header__market-value-wrapper').children[2].text
                    when 'm' then THOUSAND * THOUSAND
-                   when 'Th.' then THOUSAND
+                   when 'k' then THOUSAND
                    else 1
                    end
       multiplier * price_value.to_f
