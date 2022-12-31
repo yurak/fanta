@@ -1,3 +1,5 @@
+/* ----- Team show page ----- */
+
 .page-info.team-show {
   padding: 0 0 0 272px;
 
@@ -7,24 +9,26 @@
 
   .teams-bar {
     width: 100%;
-    height: 112px;
+    height: 120px;
     text-align: center;
 
     .team-bar-item {
       display: inline-block;
-      width: 9%;
+      width: 11%;
       padding: 12px 0;
-      margin: 8px 4px;
+      margin: 16px 4px;
       background-color: #FFFFFF;
-      border-radius: 4px;
+      border-radius: 8px;
+      border: 1px solid #E5E6E4;
     }
 
     .team-bar-items10 {
-      width: 7%;
+      width: 8%;
     }
 
     .current-team-true {
-      border: 1px solid #006EF5;
+      background: #FFEBC2;
+      border: 1px solid #FFB319;
     }
 
     .team-bar-item-logo {
@@ -36,12 +40,11 @@
     }
 
     .team-bar-item-name {
-      height: 24px;
+      font-family: 'Nunito SemiBold';
       width: 100%;
-      font-weight: 500;
-      font-size: 16px;
-      line-height: 24px;
-      margin: 8px 0 0;
+      font-size: 14px;
+      line-height: 16px;
+      margin-top: 8px;
       color: #181715;
       text-decoration: none;
       overflow: hidden;
@@ -49,86 +52,125 @@
   }
 
   .team-section {
-    padding: 40px;
+    margin: 16px;
     display: grid;
-    grid-template-columns: 1fr 2fr;
+    grid-template-columns: 368px auto;
     column-gap: 64px;
 
     .team-data {
-      margin-top: 120px;
-      border: 2px solid #E5E6E4;
+      margin-top: 56px;
+      border: 1px solid #E5E6E4;
       box-sizing: border-box;
-      border-radius: 4px;
+      border-radius: 16px;
       text-align: center;
-      padding: 0 24px 40px;
-      //max-height: 630px;
+      padding: 0 24px 16px;
 
       .team-logo {
         position:relative;
         top: -56px;
         height: 56px;
+        width: 112px;
+        text-align: center;
+        left: calc(50% - 56px);
 
-        img {
+        .team-logo-border {
           width: 112px;
           height: 112px;
+          border: 1px solid #E5E6E4;
+          border-radius: 80px;
+          padding: 15px;
+          background: #FFFFFF;
+        }
+
+        img {
+          border-radius: 40px;
+          width: 80px;
+          height: 80px;
         }
       }
 
+      .team-data-name {
+        margin: 8px 0 24px;
+      }
+
       .team-name {
-        margin: 24px 0 8px;
-        font-weight: bold;
+        font-family: 'Nunito ExtraBold';
         font-size: 32px;
         line-height: 32px;
       }
 
-      .team-points {
-        margin-bottom: 32px;
-        font-size: 24px;
-        line-height: 32px;
+      .team-data-opponent {
+        font-family: 'Nunito SemiBold';
+        margin-top: 8px;
+        display: flex;
+        gap: 8px;
+        justify-content: center;
+        line-height: 22px;
+
+        .team-data-opponent-text {
+          font-size: 14px;
+          color: #847577;
+          padding-top: 2px;
+        }
+
+        img {
+          width: 24px;
+          height: 24px;
+        }
+
+        .team-data-opponent-name {
+          padding-top: 2px;
+          max-width: 92px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
       }
 
       .team-position {
         margin-bottom: 8px;
-        padding: 24px;
+        padding: 16px 24px;
         background: #FFEBC2;
-        border-radius: 4px;
+        border-radius: 8px;
         display: grid;
-        grid-template-columns: 2fr 1fr;
+        grid-template-columns: 3fr 1fr;
 
         .team-position-left {
           .team-position-title {
+            font-family: 'Nunito ExtraBold';
             text-align: left;
-            padding-top: 4px;
-            font-weight: 500;
             font-size: 18px;
             line-height: 24px;
+            margin-bottom: 4px;
           }
 
-          .team-rounds {
+          .team-pos-data {
+            font-family: 'Nunito Regular';
+            margin-top: 4px;
             text-align: left;
-            font-weight: 500;
-            font-size: 12px;
+            font-size: 14px;
             line-height: 16px;
 
-            .team-rounds-text {
+            .team-pos-data-text {
+              display: inline-block;
+              margin-right: 4px;
+            }
+
+            .team-pos-data-current {
               display: inline-block;
             }
 
-            .team-rounds-played {
+            .team-pos-data-total {
               display: inline-block;
-              padding-left: 4px;
-            }
-
-            .team-rounds-total {
-              display: inline-block;
-              color: #847577;
+              color: #9F6C05;
             }
           }
         }
 
         .team-position-right {
+          font-family: 'Nunito ExtraBold';
           font-size: 48px;
-          line-height: 48px;
+          line-height: 68px;
           text-align: right;
         }
       }
@@ -140,60 +182,75 @@
         margin-bottom: 32px;
 
         .team-matches-item {
-          background: #E5E5E5;
-          border-radius: 4px;
+          background: #F4F4F4;
+          border-radius: 8px;
           padding: 16px 0;
 
           .team-matches-title {
-            font-weight: 500;
-            font-size: 12px;
+            font-family: 'Nunito Regular';
+            font-size: 14px;
             line-height: 16px;
           }
 
           .team-matches-value {
-            margin: 8px 0;
+            font-family: 'Nunito ExtraBold';
+            margin-top: 8px;
             font-size: 32px;
             line-height: 32px;
+            color: #847577;
+          }
+
+          .team-matches-value-green {
+            color: #4EAD57;
+          }
+
+          .team-matches-value-red {
+            color: #DB0A23;
           }
         }
       }
 
       .team-additional {
         display: grid;
-        grid-template-columns: 1fr 2fr;
+        grid-template-columns: 120px auto;
+        text-align: left;
+        height: 56px;
+        border-bottom: 1px solid #E5E6E4;
+        line-height: 32px;
+        padding: 12px 0;
+        font-size: 16px;
 
         .team-additional-text {
-          font-size: 12px;
-          line-height: 24px;
-          color: #847577;
-          text-align: left;
+          font-family: 'Nunito Regular';
         }
 
-        .team-manager-name {
-          font-weight: 500;
-          font-size: 18px;
-          line-height: 24px;
-          display: inline-block;
-          margin-right: 12px;
+        .team-additional-value {
+          font-family: 'Nunito ExtraBold';
         }
 
-        .team-manager-avatar {
-          display: inline-block;
+        .team-manager-data {
+          display: grid;
+          grid-template-columns: 32px auto;
+          column-gap: 16px;
+
           img {
-            width: 40px;
-            height: 40px;
+            width: 32px;
+            height: 32px;
+          }
+
+          .team-manager-name {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
           }
         }
 
-        .team-form-value {
-          font-weight: bold;
-          font-size: 18px;
-          line-height: 24px;
-          text-align: right;
-          margin-right: 10px;
+        .team-form {
+          display: flex;
+          gap: 4px;
 
           .team-form-item {
-            display: inline-block;
+            width: 24px;
           }
 
           .team-form-W {
@@ -210,79 +267,49 @@
         }
       }
 
-      .team-manager {
-        text-align: right;
-        margin-bottom: 16px;
-
-        .team-additional-text, .team-manager-data {
-          line-height: 40px;
-        }
-      }
-
-      .team-budget {
-        margin-bottom: 20px;
-
-        .team-budget-item {
-          text-align: right;
-
-          .team-budget-value {
-            width: 40px;
-            text-align: center;
-            position: relative;
-            float: right;
-          }
-        }
+      .team-additional:last-child {
+        border: none;
       }
 
       .team-league {
-        margin-bottom: 20px;
-
         a {
           text-decoration: none;
-          color: #181715;
+          width: fit-content;
         }
 
         .team-league-value {
-          display: grid;
-          grid-template-columns: auto 32px;
+          display: flex;
+          gap: 16px;
         }
 
         .team-league-logo {
           img {
-            width: 24px;
-            height: 24px;
-            margin-right: 8px;
+            width: 32px;
+            height: 32px;
           }
+        }
+
+        .team-league-name {
+          font-family: 'Nunito ExtraBold';
+          color: #261FFF;
+          border-bottom: 1px solid #D8D6FF;
+          line-height: 24px;
+          margin: 4px 0;
         }
       }
     }
 
-    .team-transfer-market {
-      border: 2px solid #E5E6E4;
-      border-radius: 4px;
-      text-align: center;
-      font-size: 18px;
-      margin: 24px auto 48px;
-
-      a {
-        text-decoration: none;
-        color: #261FFF;
-      }
-
-      .team-transfer-market-btn {
-        margin: 8px;
-      }
-    }
-
     .team-lists {
+      margin-top: 16px;
+
       .team-lists-tabs {
+        font-family: 'Nunito ExtraBold';
         display: grid;
         grid-template-columns: 1fr 1fr 1fr;
-        font-weight: bold;
         font-size: 16px;
         line-height: 24px;
         text-align: center;
-        color: #A6A2A2;
+        margin-bottom: 24px;
       }
 
       .team-lists-tab-item {
@@ -292,208 +319,205 @@
 
       .team-lists-tab-active {
         color: #261FFF;
-        border-bottom: 3px solid #261FFF;
+        border-bottom: 4px solid #261FFF;
       }
 
-      .team-games-headers {
-        padding: 32px 0 12px;
-        display: grid;
-        grid-template-columns: 13fr 21fr 22fr 5fr;
-        font-weight: 500;
-        font-size: 10px;
-        line-height: 14px;
-        color: #847577;
-        text-align: left;
-      }
+      .team-games {
+        .team-games-next {
+          margin: 24px 0;
 
-      .team-game-item {
-        display: grid;
-        grid-template-columns: 13fr 21fr 22fr 5fr;
-        border: 1px solid #E5E6E4;
-        box-sizing: border-box;
-        border-radius: 4px;
-        margin-bottom: 4px;
-        height: 72px;
-
-        .team-game-number {
-          display: inline-block;
-          font-size: 18px;
-          color: #181715;
-          margin: auto 24px;
-          line-height: 72px;
-          min-width: 35px;
-        }
-
-        .team-game-vs {
-          display: inline-block;
-          font-size: 16px;
-          color: #847577;
-          margin-right: 16px;
-          line-height: 72px;
-        }
-
-        .team-game-opponent {
-          display: grid;
-          grid-template-columns: 32px auto;
-          column-gap: 16px;
-          line-height: 72px;
-          color: #181715;
-
-          img {
-            width: 32px;
-            height: 32px;
-            margin: auto 0;
+          .team-games-next-title {
+            font-family: 'Nunito ExtraBold';
+            font-size: 16px;
+            line-height: 24px;
+            margin-bottom: 8px;
           }
         }
 
-        .game-score-cell {
-          display: inline-block;
-          height: 40px;
-          width: 52px;
-          background-color: #FFEBC2;
-          border-radius: 4px;
-          margin: 15px 0;
+        .team-games-grid {
+          display: grid;
+          grid-template-columns: 108fr 276fr 272fr;
+        }
 
-          .result-cell-value {
-            font-weight: bold;
-            font-size: 18px;
+        .team-game-item {
+          font-family: 'Nunito Regular';
+          font-size: 16px;
+          line-height: 40px;
+          color: #181715;
+          height: 72px;
+          padding: 16px 0;
+          border: 1px solid #E5E6E4;
+          box-sizing: border-box;
+          border-radius: 8px;
+          margin-bottom: 4px;
+
+          .team-game-number-cell {
+            display: grid;
+            grid-template-columns: 36px auto;
+            column-gap: 16px;
+            margin-left: 16px;
+
+            .team-game-vs {
+              color: #847577;
+            }
+          }
+
+          .team-game-opponent {
+            font-family: 'Nunito ExtraBold';
+            display: grid;
+            grid-template-columns: 40px auto;
+            column-gap: 16px;
             line-height: 40px;
-            text-align: center;
+            margin-left: 8px;
+
+            img {
+              width: 40px;
+              height: 40px;
+            }
+
+            .team-game-opponent-name {
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+            }
+          }
+
+          .team-game-result {
+            display: grid;
+            grid-template-columns: 48px auto 24px 24px;
+            column-gap: 16px;
+            margin: 0 16px 0 8px;
+          }
+
+          .game-score-cell {
+            height: 40px;
+            background-color: #FFEBC2;
+            border-radius: 4px;
+
+            .result-cell-value {
+              font-family: 'Nunito ExtraBold';
+              text-align: center;
+            }
+          }
+
+          .game-info-cell {
+            min-width: 100px;
+            color: #847577;
+            font-size: 14px;
+          }
+
+          .game-info-cell-closed {
             color: #181715;
           }
-        }
 
-        .game-info-cell {
-          display: inline-block;
-          font-size: 16px;
-          line-height: 72px;
-          min-width: 100px;
-          color: #847577;
-          margin-left: 16px;
-        }
+          .game-result-cell {
+            font-family: 'Nunito ExtraBold';
+            color: #847577;
 
-        .game-result-cell {
-          display: inline-block;
-          font-weight: bold;
-          font-size: 18px;
-          line-height: 72px;
-          text-align: center;
-          color: #847577;
-          width: 20px;
-          margin-left: 24px;
+            .game-result-W {
+              color: #4EAD57;
+            }
 
-          .game-result-W {
-            color: #4EAD57;
+            .game-result-L {
+              color: #DB0A23;
+            }
           }
 
-          .game-result-L {
-            color: #DB0A23;
-          }
-        }
+          .game-score-locked {
+            background-color: #261FFF;
 
-        .game-score-locked {
-          background-color: #261FFF;
-
-          .result-cell-value {
-            color: #FFFFFF;
-          }
-        }
-
-        .game-score-closed {
-          background-color: #040052;
-
-          .result-cell-value {
-            color: #FFFFFF;
-          }
-        }
-
-        .game-score-D {
-          background-color: #847577;
-        }
-
-        .game-score-W {
-          background-color: #4EAD57;
-        }
-
-        .game-score-L {
-          background-color: #DB0A23;
-        }
-
-        .team-game-link {
-          line-height: 72px;
-          text-align: center;
-
-          a {
-            display: block;
-            width: 100%;
-            height: 100%;
+            .result-cell-value {
+              color: #FFFFFF;
+            }
           }
 
-          img {
-            width: 14px;
-            height: 8px;
+          .game-score-closed {
+            background-color: #040052;
+
+            .result-cell-value {
+              color: #FFFFFF;
+            }
+          }
+
+          .game-score-D {
+            background-color: #847577;
+          }
+
+          .game-score-W {
+            background-color: #4EAD57;
+          }
+
+          .game-score-L {
+            background-color: #DB0A23;
+          }
+
+          .team-game-link {
+            text-align: center;
+
+            img {
+              width: 24px;
+              height: 24px;
+            }
           }
         }
       }
 
-      .team-transfers-headers {
-        padding: 32px 0 12px;
+      .team-transfers-grid {
         display: grid;
-        grid-template-columns: 5fr 3fr 2fr 2fr 2fr 1fr;
-        font-weight: 500;
-        font-size: 10px;
-        line-height: 14px;
-        color: #847577;
-
-        .team-players-header-position {
-          padding-left: 16px;
-        }
+        grid-template-columns: 29fr 15fr 13fr 13fr 12fr;
       }
 
       .team-player-transfer-status {
-        text-align: center;
-        margin: auto;
+        font-family: 'Nunito ExtraBold';
+        font-size: 18px;
+        line-height: 70px;
+        color: #4EAD57;
+        margin-left: 8px;
+      }
 
-        img {
-          width: 48px;
-          height: 48px;
-        }
+      .transfer-status-left {
+        color: #FFB319;
+      }
+
+      .transfer-status-outgoing {
+        color: #DB0A23;
       }
     }
   }
-}
 
-.team-players-headers {
-  padding: 32px 0 12px;
-  display: grid;
-  grid-template-columns: 5fr 3fr 2fr 2fr 2fr 1fr;
-  font-weight: 500;
-  font-size: 10px;
-  line-height: 14px;
-  color: #847577;
-
-  .team-players-header-position {
-    padding-left: 16px;
+  #overview {
+    display: none;
   }
 }
 
-.team-player-item {
+/* ------ Team players lists ------ */
+
+.team-players-grid {
   display: grid;
-  grid-template-columns: 5fr 3fr 2fr 2fr 2fr 1fr;
+  grid-template-columns: 29fr 15fr 13fr 13fr 12fr;
+}
+
+.team-player-item {
   border: 1px solid #E5E6E4;
   box-sizing: border-box;
-  border-radius: 4px;
+  border-radius: 8px;
   margin-bottom: 4px;
   height: 72px;
+  color: #181715;
+
+  .team-player-data-mob, .team-player-transfer-status-mob {
+    display: none;
+  }
 
   .team-player-data {
-    background: #FFEBC2;
+    font-family: 'Nunito ExtraBold';
     display: grid;
-    grid-template-columns: 72px auto;
+    grid-template-columns: 82px auto;
+    column-gap: 8px;
 
     .team-player-avatar {
       width: 100%;
-      padding: 5px 3px 0;
+      padding: 5px 8px 0;
 
       .player-show-face, .player-show-kit {
         position: absolute;
@@ -508,74 +532,73 @@
     .team-player-name {
       padding: 13px 0;
       text-align: left;
-      font-size: 12px;
-      line-height: 16px;
-      color: #181715;
 
       .team-player-last-name {
-        font-weight: 500;
-        font-size: 18px;
+        font-size: 16px;
         line-height: 24px;
-        height: 24px;
-        display: inline-block;
-        width: 124px;
+        width: 100%;
         white-space: nowrap;
-        overflow: hidden !important;
+        overflow: hidden;
         text-overflow: ellipsis;
+      }
+
+      .team-player-first-name {
+        font-family: 'Nunito Regular';
+        font-size: 14px;
+        line-height: 16px;
+        color: #847577;
       }
     }
   }
 
   .team-player-position {
-    padding: 22px 0 0 16px;
-
-    .slot-position {
-      display: inline-block;
-      line-height: 24px;
-      font-size: 12px;
-      height: 24px;
-      width: 30px;
-      border-radius: 4px;
-    }
+    padding-left: 8px;
+    display: flex;
+    align-items: center;
   }
 
-  .team-player-appearances{
-    font-size: 24px;
+  .team-player-stats-number {
+    font-family: 'Nunito Regular';
+    font-size: 18px;
     line-height: 70px;
     text-align: right;
-    color: #847577;
-  }
-
-  .team-player-rating{
-    font-size: 24px;
-    line-height: 70px;
-    text-align: right;
+    padding-right: 24px;
     color: #181715;
   }
 
+  .team-player-rating {
+    font-family: 'Nunito ExtraBold';
+  }
+
   .team-player-club {
-    text-align: center;
+    display: grid;
+    grid-template-columns: 48px auto;
 
     img, object {
-      width: 32px;
-      height: 32px;
+      width: 40px;
+      height: 40px;
     }
 
     object {
+      margin-left: 8px;
       position: relative;
-      top: 19px;
+      top: 15px;
     }
-  }
 
-  .team-player-link {
-    margin-top: 21px;
+    .team-player-link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
 
-    img {
-      width: 14px;
-      height: 8px;
+      img {
+        width: 24px;
+        height: 24px;
+      }
     }
   }
 }
+
+/* ------ ------ */
 
 #logo-input-icon img {
   width: 104px;
@@ -677,138 +700,7 @@
   }
 }
 
-@media (orientation: portrait) {
-  .page-info.team-show {
-    padding: 20px 0 20px 272px;
-
-    .team-section {
-      display: block;
-
-      .team-data {
-        margin: 80px 0 40px;
-        border: 2px solid #E5E6E4;
-        border-radius: 8px;
-        text-align: center;
-        padding: 24px;
-
-        .team-logo {
-          top: -80px;
-          height: 24px;
-        }
-
-        .team-name {
-          font-size: 44px;
-          line-height: 48px;
-        }
-
-        .team-points {
-          font-size: 32px;
-          line-height: 40px;
-          margin-bottom: 16px;
-        }
-
-        .team-league-data {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          column-gap: 8px;
-        }
-
-        .team-position {
-          border-radius: 8px;
-          margin-bottom: 0;
-
-          .team-position-left {
-            .team-position-title {
-              padding-top: 12px;
-              font-size: 24px;
-              line-height: 28px;
-            }
-
-            .team-rounds {
-              font-size: 16px;
-              line-height: 22px;
-            }
-          }
-
-          .team-position-right {
-            font-size: 48px;
-            line-height: 72px;
-            text-align: right;
-          }
-        }
-
-        .team-matches {
-          margin-bottom: 0;
-
-          .team-matches-item {
-            background: #E5E5E5;
-            border-radius: 8px;
-            padding: 24px 0;
-
-            .team-matches-title {
-              font-weight: 500;
-              font-size: 16px;
-              line-height: 22px;
-            }
-
-            .team-matches-value {
-              margin: 4px 0;
-              font-size: 32px;
-              line-height: 38px;
-            }
-          }
-        }
-
-        .team-additional {
-          display: none;
-        }
-      }
-
-      .team-lists {
-
-        .team-lists-tabs {
-          font-size: 24px;
-        }
-
-        .team-players-headers {
-          font-size: 16px;
-        }
-
-        .team-player-item {
-          .team-player-data {
-            .team-player-name {
-              padding: 10px 0;
-              font-size: 16px;
-              line-height: 18px;
-
-              .team-player-last-name {
-                font-size: 24px;
-                line-height: 28px;
-                height: 28px;
-                width: 144px;
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-}
-
-@media (orientation: landscape) and (max-device-width: 1220px) {
-  .page-info.team-show {
-    padding: 100px 0 20px;
-
-    .team-section {
-      padding: 40px 20px;
-      column-gap: 20px;
-
-      .team-data {
-        padding: 0 12px 40px;
-      }
-    }
-  }
-}
+/* ----- Team transfers page ----- */
 
 .team-transfers-page {
   .page-info {
@@ -873,13 +765,12 @@
       padding: 0 50px;
     }
 
-    .team-players-headers {
-      grid-template-columns: 6fr 3fr 2fr 2fr 3fr 1fr 4fr;
+    .team-transfers-grid {
+      display: grid;
+      grid-template-columns: 6fr 3fr 2fr 2fr 2fr 2fr 3fr;
     }
 
     .team-player-item {
-      grid-template-columns: 6fr 3fr 2fr 2fr 3fr 1fr 4fr;
-
       .team-player-transfer-status {
         text-align: center;
         padding: 16px 0;
@@ -900,6 +791,440 @@
 }
 
 @media (orientation: portrait) {
+  .page-info.team-show {
+    padding: 0 0 288px;
+
+    .teams-bar {
+      width: 100%;
+      height: 120px;
+      margin-bottom: 60px;
+      text-align: center;
+      padding: 0 12px;
+      overflow-x: scroll;
+      overflow-y: hidden;
+      white-space: nowrap;
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+
+      a {
+        display: inline-block;
+        vertical-align: middle;
+      }
+
+      .team-bar-item-name {
+        display: none;
+      }
+
+      .team-bar-item {
+        display: block;
+        width: 120px;
+        height: 120px;
+        padding: 21px;
+        margin: 0 12px;
+        border-radius: 60px;
+        border: 3px solid #E5E6E4;
+      }
+
+      .current-team-true {
+        border: 3px solid #FFB319;
+      }
+
+      .team-bar-item-logo {
+        text-align: center;
+
+        img {
+          border-radius: 36px;
+          width: 72px;
+          height: 72px;
+        }
+      }
+    }
+
+    .teams-bar::-webkit-scrollbar {
+      display: none;
+    }
+
+    .team-section {
+      display: block;
+      margin: 36px;
+
+      .team-data-web {
+        display: none;
+      }
+
+      .team-data {
+        margin-top: 240px;
+        border: 3px solid #E5E6E4;
+        border-radius: 48px;
+        padding: 0 48px 48px;
+
+        .team-logo {
+          top: -168px;
+          height: 168px;
+          width: 336px;
+          left: calc(50% - 168px);
+
+          .team-logo-border {
+            width: 336px;
+            height: 336px;
+            border: 3px solid #E5E6E4;
+            border-radius: 180px;
+            padding: 45px;
+          }
+
+          img {
+            border-radius: 120px;
+            width: 240px;
+            height: 240px;
+          }
+        }
+
+        .team-data-name {
+          margin: 36px 0 72px;
+        }
+
+        .team-name {
+          font-size: 72px;
+          line-height: 72px;
+        }
+
+        .team-data-opponent {
+          margin-top: 24px;
+          gap: 24px;
+          line-height: 64px;
+          font-size: 32px;
+
+          .team-data-opponent-text {
+            font-size: 32px;
+          }
+
+          img {
+            width: 64px;
+            height: 64px;
+          }
+
+          .team-data-opponent-name {
+            max-width: 280px;
+          }
+        }
+
+        .team-position {
+          margin-bottom: 24px;
+          padding: 48px 72px;
+          border-radius: 24px;
+
+          .team-position-left {
+            .team-position-title {
+              font-size: 54px;
+              line-height: 72px;
+              margin-bottom: 12px;
+            }
+
+            .team-pos-data {
+              margin-top: 12px;
+              font-size: 36px;
+              line-height: 48px;
+
+              .team-pos-data-text {
+                margin-right: 12px;
+              }
+            }
+          }
+
+          .team-position-right {
+            font-size: 132px;
+            line-height: 192px;
+          }
+        }
+
+        .team-matches {
+          column-gap: 24px;
+          margin-bottom: 72px;
+
+          .team-matches-item {
+            border-radius: 24px;
+            padding: 48px 0;
+
+            .team-matches-title {
+              font-size: 38px;
+              line-height: 48px;
+            }
+
+            .team-matches-value {
+              margin-top: 32px;
+              font-size: 88px;
+              line-height: 72px;
+            }
+          }
+        }
+
+        .team-additional {
+          grid-template-columns: 280px auto;
+          height: 168px;
+          border-bottom: 3px solid #E5E6E4;
+          line-height: 96px;
+          padding: 36px 0;
+          font-size: 42px;
+
+          .team-manager-data {
+            grid-template-columns: 96px auto;
+            column-gap: 32px;
+
+            img {
+              width: 96px;
+              height: 96px;
+            }
+          }
+
+          .team-form {
+            display: flex;
+            gap: 12px;
+
+            .team-form-item {
+              width: 72px;
+            }
+          }
+        }
+
+        .team-league {
+          .team-league-value {
+            gap: 32px;
+          }
+
+          .team-league-logo {
+            img {
+              width: 96px;
+              height: 96px;
+            }
+          }
+
+          .team-league-name {
+            border-bottom: 3px solid #D8D6FF;
+            line-height: 72px;
+            margin: 12px 0;
+          }
+        }
+      }
+
+      .team-lists {
+        .team-lists-tabs {
+          font-size: 36px;
+          width: 100%;
+          height: 90px;
+          line-height: 72px;
+          text-align: center;
+          padding: 0;
+          grid-template-columns: auto auto auto auto;
+
+          #overview {
+            display: block;
+          }
+
+          .team-lists-tab-item {
+            border-bottom: 2px solid #E5E6E4;
+          }
+
+          .team-lists-tab-active {
+            border-bottom: 6px solid #261FFF;
+          }
+        }
+
+        .team-players .default-headers, .team-games .default-headers, .team-transfers .default-headers {
+          display: none;
+        }
+
+        .team-players-grid {
+          grid-template-columns: 9fr 22fr 7fr;
+        }
+
+        .team-player-item {
+          border: 3px solid #E5E6E4;
+          border-radius: 24px;
+          margin-bottom: 24px;
+          height: 172px;
+
+          .team-player-apps, .team-player-position, .team-player-name, .team-player-club {
+            display: none;
+          }
+
+          .team-player-data {
+            display: block;
+
+            .team-player-avatar {
+              width: 100%;
+              padding: 9px 24px 0;
+
+              .player-show-face, .player-show-kit {
+                img, object {
+                  width: 156px;
+                  height: 156px;
+                }
+              }
+            }
+          }
+
+          .team-player-data-mob {
+            display: block;
+            padding: 19px 0;
+
+            .team-player-name-mob {
+              font-family: 'Nunito ExtraBold';
+              font-size: 42px;
+              line-height: 64px;
+              margin-bottom: 8px;
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+            }
+
+            .team-player-subdata-mob {
+              line-height: 56px;
+              display: flex;
+              gap: 16px;
+
+              .player-positions-block {
+                height: 56px;
+                border-radius: 12px;
+              }
+
+              .player-position {
+                padding: 12px 18px;
+                height: 56px;
+                font-size: 32px;
+                line-height: 36px;
+              }
+
+              .team-player-line-mob {
+                background: #CFD2CD;
+                width: 3px;
+                height: 30px;
+                margin: auto 0;
+              }
+
+              img, object {
+                width: 56px;
+                height: 56px;
+              }
+
+              .team-player-stats-number {
+                font-size: 32px;
+                line-height: 56px;
+                padding-right: 0;
+              }
+            }
+          }
+
+          .team-player-rating {
+            font-size: 48px;
+            line-height: 164px;
+            padding-right: 32px;
+          }
+        }
+
+        .team-games {
+          .team-games-next {
+            margin-bottom: 72px;
+
+            .team-games-next-title {
+              font-size: 36px;
+              line-height: 64px;
+            }
+          }
+
+          .team-games-grid {
+            grid-template-columns: 1fr 5fr 6fr;
+            column-gap: 24px;
+          }
+
+          .team-game-item {
+            border: 3px solid #E5E6E4;
+            border-radius: 24px;
+            margin-bottom: 24px;
+            height: 172px;
+            line-height: 96px;
+            padding: 35px 42px;
+            font-size: 32px;
+
+            .team-game-number-cell {
+              background: #FFEBC2;
+              border-radius: 12px;
+              display: block;
+              margin: 16px 0;
+              line-height: 64px;
+              text-align: center;
+
+              .team-game-vs {
+                display: none;
+              }
+            }
+
+            .team-game-opponent {
+              grid-template-columns: 64px auto;
+              column-gap: 24px;
+              line-height: 64px;
+              margin: 16px 0;
+              font-size: 36px;
+
+              img {
+                width: 64px;
+                height: 64px;
+              }
+            }
+
+            .team-game-result {
+              grid-template-columns: 112px auto;
+              grid-auto-flow: dense;
+              direction: rtl;
+              column-gap: 32px;
+              margin: 0;
+
+              .game-info-cell {
+                font-family: 'Nunito SemiBold';
+                font-size: 32px;
+                text-align: right;
+              }
+
+              .game-score-cell {
+                height: 96px;
+                border-radius: 12px;
+                font-size: 42px;
+              }
+            }
+
+            .team-game-result-true {
+              display: block;
+
+              .game-score-cell {
+                display: none;
+              }
+            }
+
+            .game-result-cell, .team-game-link {
+              display: none;
+            }
+          }
+        }
+
+        .team-transfers-grid {
+          grid-template-columns: 9fr 21fr 4fr 4fr;
+        }
+
+        .team-transfers {
+          .team-player-transfer-status {
+            display: none;
+          }
+
+          .team-player-transfer-status-mob {
+            display: block;
+            font-size: 32px;
+            line-height: 164px;
+            padding-right: 0;
+          }
+        }
+      }
+    }
+  }
+
   .team-transfers-page {
     .right-nav {
       display: none;
@@ -920,6 +1245,21 @@
 
       .team-players-list {
         padding: 0 20px;
+      }
+    }
+  }
+}
+
+@media (orientation: landscape) and (max-device-width: 1220px) {
+  .page-info.team-show {
+    padding: 100px 0 20px;
+
+    .team-section {
+      padding: 40px 20px;
+      column-gap: 20px;
+
+      .team-data {
+        padding: 0 12px 40px;
       }
     }
   }

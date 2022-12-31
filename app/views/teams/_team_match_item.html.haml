@@ -1,0 +1,50 @@
+= link_to match_path(match) do
+  .team-game-item.team-games-grid
+    .team-game-number-cell
+      .team-game-number= "##{match.tour.number}"
+      .team-game-vs VS
+    .team-game-opponent
+      .team-game-opponent-logo
+        = image_tag(team.opponent_by_match(match).logo_path)
+      .team-game-opponent-name
+        = team.opponent_by_match(match).human_name
+    .team-game-result{ class: "team-game-result-#{match.tour.unlocked?}" }
+      - if match.tour.unlocked?
+        .game-score-cell
+          .result-cell-value vs
+        .game-info-cell
+          - if match.tournament_round.deadline
+            = match.tournament_round.deadline&.strftime("%^a, %^b %e")
+          - else
+            = t('teams.unknown')
+        .game-result-cell
+      - elsif match.tour.locked_or_postponed?
+        .game-score-cell.game-score-locked
+          .result-cell-value vs
+        .game-info-cell
+          - if team == match.host
+            = "#{sprintf('%.2f', match.host_lineup&.total_score)} - #{sprintf('%.2f', match.guest_lineup&.total_score)}"
+          - else
+            = "#{sprintf('%.2f', match.guest_lineup&.total_score)} - #{sprintf('%.2f', match.host_lineup&.total_score)}"
+        .game-result-cell
+      - else
+        .game-score-cell.game-score-closed{ class: "game-score-#{team == match.host ? match.host_lineup&.result : match.guest_lineup&.result}" }
+          .result-cell-value
+            - if team == match.host
+              = "#{match.host_lineup&.goals}:#{match.guest_lineup&.goals}"
+            - else
+              = "#{match.guest_lineup&.goals}:#{match.host_lineup&.goals}"
+        .game-info-cell.game-info-cell-closed
+          - if team == match.host
+            = "#{sprintf('%.2f', match.host_lineup&.total_score)} - #{sprintf('%.2f', match.guest_lineup&.total_score)}"
+          - else
+            = "#{sprintf('%.2f', match.guest_lineup&.total_score)} - #{sprintf('%.2f', match.host_lineup&.total_score)}"
+        .game-result-cell
+          - if team == match.host
+            .game-result-value{ class: "game-result-#{match.host_lineup&.result}" }
+              = match.host_lineup&.result
+          - else
+            .game-result-value{ class: "game-result-#{match.guest_lineup&.result}" }
+              = match.guest_lineup&.result
+      .team-game-link
+        = image_tag('icons/arrow_right.svg')

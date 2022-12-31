@@ -1,0 +1,77 @@
+.team-data-section
+  .team-data
+    .team-logo
+      .team-logo-border
+        = image_tag(team.logo_path)
+    .team-data-name
+      .team-name
+        = team.human_name
+      - if team.league.active? && team.next_opponent
+        .team-data-opponent
+          .team-data-opponent-text= t('teams.next_round_base')
+          .team-data-opponent-logo= image_tag(team.next_opponent.logo_path)
+          .team-data-opponent-name= team.next_opponent.human_name
+    - if team.league && team.results.last
+      .team-league-data
+        .team-position
+          .team-position-left
+            .team-position-title= t('teams.position')
+            .team-pos-data
+              .team-pos-data-text= t('teams.pos_points')
+              .team-pos-data-current
+                = team.results.last.points
+              .team-pos-data-total
+                = "(#{(team.league.tours.count - team.results.last.matches_played) * 3} #{t('teams.pos_in_play')})"
+            .team-pos-data
+              .team-pos-data-text= t('teams.pos_played')
+              .team-pos-data-current
+                = team.results.last.matches_played
+              .team-pos-data-total
+                = "/#{team.league.tours.count} (#{team.league.tours.count - team.results.last.matches_played} #{t('teams.pos_left')})"
+          .team-position-right
+            = "##{team.results.last.position}"
+        .team-matches
+          .team-matches-item
+            .team-matches-title= t('teams.wins')
+            .team-matches-value.team-matches-value-green
+              = team.results.last.wins
+          .team-matches-item
+            .team-matches-title= t('teams.draws')
+            .team-matches-value
+              = team.results.last.draws
+          .team-matches-item
+            .team-matches-title= t('teams.loses')
+            .team-matches-value.team-matches-value-red
+              = team.results.last.loses
+    - if team.user
+      .team-additional.team-manager
+        .team-additional-text= t('teams.manager')
+        .team-additional-value.team-manager-data
+          .team-manager-avatar
+            = image_tag(team.user.avatar_path)
+          .team-manager-name
+            = team.user.name
+    - if team.league && team.results&.last
+      .team-additional
+        .team-additional-text= t('teams.form')
+        .team-additional-value.team-form
+          - team.results.last.form.each do |form|
+            .team-form-item{ class: "team-form-#{form[0]}" }
+              = form[0]
+    .team-additional
+      .team-additional-text= t('teams.budget')
+      .team-additional-value
+        = team.budget
+    .team-additional
+      .team-additional-text= t('teams.players_title')
+      .team-additional-value
+        = team.players.count
+    - if team.league
+      .team-additional.team-league
+        .team-additional-text= t('teams.league')
+        = link_to team_league_link(team.league) do
+          .team-league-value
+            .team-league-logo
+              = image_tag(team.league.tournament.logo_path)
+            .team-league-name
+              = team.league.name

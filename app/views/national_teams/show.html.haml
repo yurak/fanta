@@ -20,17 +20,16 @@
           #games.team-lists-tab-item= t('teams.games')
         .team-lists-content
           .team-list.team-players
-            .team-players-headers
-              .team-players-header-item= t('teams.player')
-              .team-players-header-item.team-players-header-position= t('teams.positions')
-              .team-players-header-item.right= t('teams.appearances')
-              .team-players-header-item.right= t('teams.rating')
-              .team-players-header-item.center= t('teams.club')
-              .team-players-header-item
+            .default-headers.team-players-grid
+              .default-header-cell= t('teams.player')
+              .default-header-cell= t('teams.positions')
+              .default-header-cell= t('teams.appearances')
+              .default-header-cell= t('teams.rating')
+              .default-header-cell= t('teams.club')
             - national_team.players.sort_by(&:position_sequence_number).each do |player|
               = link_to player_path(player) do
-                .team-player-item
-                  .team-player-param-item.team-player-data
+                .team-player-item.team-players-grid
+                  .team-player-data
                     .team-player-avatar
                       .player-show-face
                         %object{data: player.avatar_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
@@ -43,19 +42,20 @@
                         = player.name
                       .team-player-first-name
                         = player.first_name
-                  .team-player-param-item.team-player-position
-                    - player.positions.each do |position|
-                      .slot-position{class: "slot-position-#{position.name}"}
-                        = position_name(position)
-                  .team-player-param-item.team-player-appearances
+                  .team-player-position
+                    .player-positions-block
+                      - player.positions.each do |position|
+                        .player-position{class: "player-position-#{position.name}"}
+                          = position_name(position)
+                  .team-player-stats-number
                     = player.season_scores_count(player.national_matches_with_scores)
-                  .team-player-param-item.team-player-rating
+                  .team-player-stats-number.team-player-rating
                     = player.season_average_result_score(player.national_matches_with_scores)
-                  .team-player-param-item.team-player-club
+                  .team-player-club
                     %object{data: player.club.logo_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
                       = image_tag('default_logo.png')
-                  .team-player-param-item.team-player-link
-                    = image_tag('icons/link_arrow.png')
+                    .team-player-param-item.team-player-link
+                      = image_tag('icons/arrow_right.svg')
           .team-list.team-games
             .team-games-headers
               .team-games-header-item= t('teams.round')
