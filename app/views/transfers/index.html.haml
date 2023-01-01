@@ -1,13 +1,15 @@
 .page-block
-  = render 'layouts/left_nav', league: league
-  = render 'layouts/right_nav', league: league
+  .web-header= render 'layouts/left_nav', league: league
+  .web-header= render 'layouts/right_nav', league: league
+  .mob-header= render 'layouts/mob_header', league: league
+
   .page-info.transfers-page
     .transfers-head
       .tournament-logo= image_tag(league.tournament.logo_path)
       .transfers-title
         = t('transfers.title', league: league.name)
-    .actions-buttons
-      -  if current_user&.can_moderate? && auction.live?
+    -  if current_user&.can_moderate? && auction.live?
+      .actions-buttons
         = link_to t('transfers.auction'), league_auction_path(league, auction)
     .transfers-block
       .transfer-headers
@@ -53,3 +55,6 @@
               = image_tag('icons/link_arrow.png')
       .pagination-row.pagination.justify-content-center
         = paginate @transfers
+
+  .portrait-footer{ class: "portrait-footer-#{league.mantra?}"}
+    = render 'layouts/league_links', league: league

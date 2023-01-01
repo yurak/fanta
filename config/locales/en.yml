@@ -23,7 +23,7 @@ en:
     status: "STATUS"
     deadline: "DEADLINE"
     event_time: "EVENT TIME"
-    transfers_count: "TRANSFERS COUNT"
+    transfers: "TRANSFERS"
     title: "%{league} Auctions"
     sales_msg: "The transfer window is open until %{date}.You can sell your players here:"
     live_msg: "Auction date - %{date}. The results of the transfer window here:"

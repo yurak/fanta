@@ -18,7 +18,7 @@
       .league-link-icon= image_tag('icons/round/players.svg')
       .league-link-text= t('header.players')
   = link_to league_auctions_path(league) do
-    .league-link{class: "link-active-#{ params[:controller] == 'auctions' || params[:controller] == 'auction_bids' || params[:controller] == 'auction_rounds' }"}
+    .league-link{class: "link-active-#{ params[:controller] == 'auctions' || params[:controller] == 'auction_bids' || params[:controller] == 'auction_rounds' || params[:controller] == 'transfers' }"}
       .league-link-icon= image_tag('icons/round/auctions.svg')
       .league-link-text= t('header.auctions')
     -# = link_to '' do
