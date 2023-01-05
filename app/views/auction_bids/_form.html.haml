@@ -1,6 +1,8 @@
 .page-block
-  = render 'layouts/left_nav', league: league
-  = render 'layouts/right_nav', league: league
+  .web-header= render 'layouts/left_nav', league: league
+  .web-header= render 'layouts/right_nav', league: league
+  .mob-header= render 'layouts/mob_header', league: league
+
   .page-info.auction-bids-page
     .round-section
       .rounds-league-name
@@ -98,6 +100,9 @@
                 - player.positions.each do |position|
                   .slot-position{class: "slot-position-#{position.name}"}
                     = position_name(position)
+
+  .portrait-footer{ class: "portrait-footer-#{league.mantra?}"}
+    = render 'layouts/league_links', league: league
 
 %script{type: "text/javascript", src: "/javascripts/lib/new_lineup.js.erb"}
 
