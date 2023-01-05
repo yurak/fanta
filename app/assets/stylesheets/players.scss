@@ -219,7 +219,11 @@
 
 @media (orientation: portrait) {
   .page-info.players-page {
-    padding: 20px 20px 70px 92px;
+    padding: 0 16px 244px;
+
+    .pagination {
+      font-size: 32px;
+    }
   }
 }
 

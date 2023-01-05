@@ -1,6 +1,7 @@
 .page-block.team-transfers-page
-  = render 'layouts/left_nav', league: team.league
-  = render 'layouts/right_nav', league: team.league
+  .web-header= render 'layouts/left_nav', league: team.league
+  .web-header= render 'layouts/right_nav', league: team.league
+  .mob-header= render 'layouts/mob_header', league: team.league
   .page-info
     .team-header
       .team-title-head
@@ -69,6 +70,9 @@
                 = pt_field.check_box :transfer_status, {'data-toggle' => 'toggle', 'data-onstyle' => 'warning', 'data-on' => "#{t('teams.sell')}", 'data-off' => "#{t('teams.keep')}", 'data-size' => 'medium', 'data-height' => '38'}, 'transferable', 'untouchable'
         .form-group
           = submit_tag t('teams.confirm_transfers')
+
+  .portrait-footer{ class: "portrait-footer-#{team.league.mantra?}"}
+    = render 'layouts/league_links', league: team.league
 
 :javascript
   $(document).ready(function() {

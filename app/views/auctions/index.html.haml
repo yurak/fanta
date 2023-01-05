@@ -1,19 +1,20 @@
 .page-block
-  = render 'layouts/left_nav', league: league
-  = render 'layouts/right_nav', league: league
+  .web-header= render 'layouts/left_nav', league: league
+  .web-header= render 'layouts/right_nav', league: league
+  .mob-header= render 'layouts/mob_header', league: league
+
   .page-info.auctions-page
     .auctions-head
       .tournament-logo= image_tag(league.tournament.logo_path)
       .auctions-title
         = link_to t('auction_round.auction', league: league.name), league_link(league)
     .auctions-block
-      .auctions-headers
-        .auctions-header-item.center #
-        .auctions-header-item= t('auction.status')
-        .auctions-header-item.center= t('auction.deadline')
-        .auctions-header-item.center= t('auction.event_time')
-        .auctions-header-item.center= t('auction.transfers_count')
-        .transfer-header-item
+      .default-headers.auctions-headers.auctions-headers-grid
+        .default-header-cell #
+        .default-header-cell= t('auction.status')
+        .default-header-cell= t('auction.deadline')
+        -#.default-header-cell.event-web= t('auction.event_time')
+        .default-header-cell= t('auction.transfers')
       - @auctions.reverse.each do |auction|
         - if current_user&.admin?
           - if auction.initial?
@@ -25,11 +26,13 @@
             .actions-buttons
               = link_to 'Close', league_auction_path(league, auction, status: :closed), method: :put, data: { confirm: t('header.are_you_sure') }
         = link_to auction_link(auction) do
-          .auction-item{ class: "auction-#{auction.status}"}
-            .auction-param-item.center= auction.number
-            .auction-param-item= auction.status.tr('_',' ').capitalize
-            .auction-param-item.center= auction.deadline&.strftime("%^a, %^b %e, %H:%M")
-            .auction-param-item.center= auction.event_time&.strftime("%^a, %^b %e, %H:%M")
-            .auction-param-item.center= auction.transfers.count
-            .auction-param-item.auction-link
-              = image_tag('icons/link_arrow.png')
+          .auction-item.auctions-headers-grid{ class: "auction-#{auction.status}"}
+            .auction-number.center= auction.number
+            .auction-status-badge
+              = auction.status.tr('_',' ').capitalize
+            .auction-param-item= auction.deadline&.strftime("%^a, %^b %e, %H:%M")
+            -#.auction-param-item.event-web.center= auction.event_time&.strftime("%^a, %^b %e, %H:%M")
+            .auction-param-item= auction.transfers.count
+
+  .portrait-footer{ class: "portrait-footer-#{league.mantra?}"}
+    = render 'layouts/league_links', league: league

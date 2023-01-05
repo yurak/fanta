@@ -159,6 +159,11 @@
 @media (orientation: portrait) {
   .page-info.auction-bids-page {
     display: block;
+    padding: 0 16px 288px;
+
+    .main-players .player-data .modal-players-list .players-modal-content {
+      width: 90%;
+    }
 
     .round-section {
       .total-price-row {

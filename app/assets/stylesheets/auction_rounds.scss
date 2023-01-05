@@ -8,109 +8,75 @@
   a { text-decoration: none }
 
   .round-section {
-    padding: 24px;
+    padding: 16px;
 
-    .rounds-league-name {
-      font-weight: bold;
-      font-size: 24px;
-      line-height: 32px;
-      margin-bottom: 16px;
-      a {
+    .auction-round-back {
+      display: grid;
+      grid-template-columns: 40px auto;
+      column-gap: 8px;
+      line-height: 40px;
+
+      img {
+        width: 16px;
+        height: 16px;
+        margin: 10px 12px;
+        transform: rotate(180deg);
+      }
+
+      .auction-link-text {
+        font-family: 'Nunito ExtraBold';
         color: #181715;
-      }
-    }
-
-    .rounds-block {
-      .round-link-block {
-        margin: 4px;
-        display: inline-block;
-        background: #F4F4F4;
-        border-radius: 4px;
-        font-weight: 500;
-        font-size: 18px;
-        line-height: 40px;
-        width: 56px;
-        color: #847577;
-        text-align: center;
-      }
-
-      .round-set_lineup, .round-locked {
-        color: #261FFF;
-        border: 2px solid #261FFF;
-        line-height: 36px;
-      }
-
-      .round-processing {
-        color: #b40819;
-      }
-
-      .round-active {
-        color: #261FFF;
-        background-color: #FFFFFF;
-        border: 2px solid #F4F4F4;
-        line-height: 36px;
-      }
-
-      .round-current {
-        background-color: #261FFF;
-        color: #FFFFFF;
-        border: none;
+        font-size: 24px;
         line-height: 40px;
       }
     }
 
-    .round-item {
-      padding: 40px 0 0;
+    .auction-round-header {
+      margin-top: 20px;
+      padding: 16px;
+      background: #FFEBC2;
+      border-radius: 8px 8px 0 0;
 
-      .round-base {
+      .auction-round-base {
         display: grid;
-        grid-template-columns: 180px 310px auto;
-        line-height: 32px;
+        grid-template-columns: 100px auto 276px 144px;
+        line-height: 40px;
         color: #181715;
-        padding-bottom: 32px;
 
-        .round-title {
-          font-weight: bold;
-          font-size: 32px;
-          line-height: 32px;
-
-          .round-title-text, .round-title-icon {
-            display: inline-block;
-          }
-
-          img {
-            width: 32px;
-            height: 32px;
-            margin-left: 4px;
-          }
+        .auction-round-title {
+          font-family: 'Nunito Bold';
+          font-size: 18px;
         }
 
         .round-deadline {
           display: grid;
-          grid-template-columns: 80px 136px 76px;
+          grid-template-columns: 100px 136px;
           column-gap: 8px;
-        }
 
-        .round-deadline-text {
-          font-weight: 500;
-          font-size: 12px;
-          text-align: right;
-        }
+          .round-deadline-text {
+            font-family: 'Nunito SemiBold';
+            font-size: 14px;
+            text-align: right;
+          }
 
-        .round-deadline-value {
-          margin: 4px 0;
-          background-color: #E5E6E4;
-          border-radius: 4px;
-          font-weight: bold;
-          font-size: 12px;
-          line-height: 24px;
-          color: #9B0819;
-          text-align: center;
-
-          a {
-            color: #9B0819;
+          .round-deadline-value {
+            font-family: 'Nunito ExtraBold';
+            margin: 7px 0;
+            background: #FFFFFF;
+            border: 1px solid #FCC5CB;
+            border-radius: 4px;
+            font-size: 12px;
+            line-height: 24px;
+            color: #DB0A23;
+            text-align: center;
           }
         }
+      }
+
+      .rounds-block {
+        margin-top: 8px;
+        padding-bottom: 0;
+        border-bottom: none;
       }
     }
 
@@ -138,8 +104,88 @@
 
   .stats-section {
     .round-table {
-      .round-table-headers, .auction-round-table-item {
-        grid-template-columns: 1fr 5fr 1fr 2fr 2fr;
+      .auction-round-table-link {
+        display: block;
+        border-bottom: 1px solid #E5E6E4;
+      }
+
+      .auction-round-table-link:last-child {
+        border-bottom: none;
+      }
+
+      .auction-round-table-item {
+        line-height: 32px;
+        grid-template-columns: auto 32px 48px 32px;
+
+        .results-team-logo, .results-team-name {
+          padding: 0 8px;
+        }
+
+        .auction-round-team-budget {
+          font-family: 'Nunito ExtraBold';
+          padding-right: 8px;
+          text-align: right;
+        }
+      }
+
+      .auction-round-budget {
+        font-family: 'Nunito Regular';
+        margin-top: 16px;
+        font-size: 14px;
+        line-height: 16px;
+
+        .auction-round-budget-list {
+          border-bottom: 1px solid #E5E6E4;
+        }
+
+        .auction-round-budget-row {
+          display: grid;
+          grid-template-columns: 8px auto 48px;
+          column-gap: 8px;
+          margin-bottom: 8px;
+
+          .auction-round-budget-dot {
+            background: #4EAD57;
+            border-radius: 4px;
+            margin: 4px 0;
+          }
+
+          .budget-dot-spent-auc {
+            background: #BA44F1;
+          }
+
+          .budget-dot-spent-total {
+            background: #CFD2CD;
+          }
+
+          .auction-round-budget-value {
+            font-family: 'Nunito ExtraBold';
+            text-align: right;
+          }
+
+          .budget-value-balance {
+            color: #4EAD57;
+          }
+
+          .budget-value-spent-auc {
+            color: #BA44F1;
+          }
+
+          .budget-value-spent-total {
+            color: #A6A2A2;
+          }
+        }
+
+        .auction-round-budget-summary-row {
+          display: grid;
+          grid-template-columns: auto 48px;
+          color: #847577;
+          margin-top: 8px;
+
+          .auction-round-budget-summary-value {
+            text-align: right;
+          }
+        }
       }
     }
   }
@@ -148,6 +194,7 @@
 @media (orientation: portrait) {
   .page-info.auction-rounds-page {
     display: block;
+    padding: 0 16px 288px;
 
     .stats-section {
       display: grid;

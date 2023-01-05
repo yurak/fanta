@@ -1,6 +1,8 @@
 .page-block.match-page-all
-  = render 'layouts/left_nav', league: match.tour.league
-  = render 'layouts/right_nav', league: match.tour.league
+  .web-header= render 'layouts/left_nav', league: match.tour.league
+  .web-header= render 'layouts/right_nav', league: match.tour.league
+  .mob-header= render 'layouts/mob_header', league: match.tour.league
+
   .page-info.match-page
     .match-round-links
       .match-round-link
@@ -133,6 +135,9 @@
                             = mp.player.name.length > 15 ? "#{mp.player.name[0..10]}..." : mp.player.name
           .match-team-name= match.guest.human_name.upcase
       = render 'team_squad', lineup: match.guest_lineup
+
+  .portrait-footer{ class: "portrait-footer-#{match.tour.league.mantra?}"}
+    = render 'layouts/league_links', league: match.tour.league
 
 :javascript
   $(document).scroll(function() {

@@ -158,3 +158,10 @@
     }
   }
 }
+
+@media (orientation: portrait) {
+  .page-info.transfers-page {
+    height: fit-content;
+    padding: 0 0 144px;
+  }
+}
