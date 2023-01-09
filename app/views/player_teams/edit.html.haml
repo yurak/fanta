@@ -64,7 +64,7 @@
               .team-player-club
                 %object{data: pt.player.club.logo_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
                   = image_tag('default_logo.png')
-              .team-player-stats-number.team-player-rating
+              .team-player-stats-number.team-player-rating.transfer-price
                 = pt.player.transfer_by(team)&.price
               .team-player-transfer-status
                 = pt_field.check_box :transfer_status, {'data-toggle' => 'toggle', 'data-onstyle' => 'warning', 'data-on' => "#{t('teams.sell')}", 'data-off' => "#{t('teams.keep')}", 'data-size' => 'medium', 'data-height' => '38'}, 'transferable', 'untouchable'

@@ -24,7 +24,9 @@ class ToursController < ApplicationController
       Tour.transaction do
         Scores::Injectors::Fotmob.call(tour.tournament_round)
         Scores::PositionMalus::Updater.call(tour)
-        Lineups::Updater.call(tour)
+        tour.tournament_round.tours.each do |tour|
+          Lineups::Updater.call(tour)
+        end
       end
     end
 
