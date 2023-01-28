@@ -117,7 +117,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.12.2)
-    concurrent-ruby (1.1.10)
+    concurrent-ruby (1.2.0)
     countries (5.1.0)
       sixarm_ruby_unaccent (~> 1.1)
     coveralls_reborn (0.20.0)
@@ -161,7 +161,7 @@ GEM
     ffi (1.15.5)
     flag-icons-rails (3.4.6.1)
       sass-rails
-    globalid (1.0.0)
+    globalid (1.1.0)
       activesupport (>= 5.0)
     haml (5.2.2)
       temple (>= 0.8.0)
@@ -222,7 +222,7 @@ GEM
     mime-types-data (3.2022.0105)
     mini_mime (1.1.2)
     mini_portile2 (2.8.0)
-    minitest (5.16.2)
+    minitest (5.17.0)
     msgpack (1.5.3)
     nested_form (0.3.2)
     net-scp (1.2.1)
@@ -248,7 +248,7 @@ GEM
       nio4r (~> 2.0)
     query_diet (0.7.1)
     racc (1.6.1)
-    rack (2.2.4)
+    rack (2.2.6.2)
     rack-pjax (1.1.0)
       nokogiri (~> 1.5)
       rack (>= 1.1)
@@ -414,7 +414,7 @@ GEM
       activesupport
     tins (1.31.1)
       sync
-    tzinfo (2.0.4)
+    tzinfo (2.0.5)
       concurrent-ruby (~> 1.0)
     uglifier (4.2.0)
       execjs (>= 0.3.0, < 3)
@@ -445,7 +445,7 @@ GEM
     websocket-extensions (0.1.5)
     whenever (1.0.0)
       chronic (>= 0.6.3)
-    zeitwerk (2.6.0)
+    zeitwerk (2.6.6)
 
 PLATFORMS
   ruby
