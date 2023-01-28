@@ -66,7 +66,7 @@ namespace :tm do
         puts tm_id unless player
       end
 
-      sleep(20)
+      sleep(10)
     end
   end
 end

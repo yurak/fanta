@@ -577,7 +577,12 @@
     }
 
     .page-info.match-page {
-      padding: 0 0 0 72px;
+      padding: 0 0 288px;
+      height: fit-content;
+
+      .match-round-links {
+        padding-top: 0;
+      }
 
       .matches-bar {
         .matches-bar-item {

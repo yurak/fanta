@@ -8,104 +8,28 @@
           .team-bar-item-name
             = league_team.code
 .team-section
-  .team-data-section
-    .team-data
-      .team-logo
-        = image_tag(team.logo_path)
-      .team-name
-        = team.human_name
-      .team-points
-        = t('teams.points', count: team.results.last&.points || 0)
-      - if team.league && team.results.last
-        .team-league-data
-          .team-position
-            .team-position-left
-              .team-position-title= t('teams.position')
-              .team-rounds
-                .team-rounds-text= t('teams.rounds')
-                .team-rounds-played
-                  = team.results.last.matches_played
-                .team-rounds-total
-                  = "/#{team.league.tours.count}"
-            .team-position-right
-              = "##{team.results.last.position}"
-          .team-matches
-            .team-matches-item
-              .team-matches-title= t('teams.wins')
-              .team-matches-value
-                = team.results.last.wins
-            .team-matches-item
-              .team-matches-title= t('teams.draws')
-              .team-matches-value
-                = team.results.last.draws
-            .team-matches-item
-              .team-matches-title= t('teams.loses')
-              .team-matches-value
-                = team.results.last.loses
-      - if team.user
-        .team-additional.team-manager
-          .team-additional-text= t('teams.manager')
-          .team-manager-data
-            .team-manager-name
-              = team.user.name
-            .team-manager-avatar
-              = image_tag(team.user.avatar_path)
-      .team-additional.team-budget
-        .team-additional-text= t('teams.budget')
-        .team-budget-item
-          .team-budget-value
-            = team.budget
-      .team-additional.team-budget
-        .team-additional-text= t('teams.players_title')
-        .team-budget-item
-          .team-budget-value
-            = team.players.count
-      .team-additional.team-league
-        .team-additional-text= t('teams.league')
-        - if team.league&.active_tour
-          = link_to tour_path(team.league.active_tour) do
-            .team-league-value
-              .team-league-name.team-manager-name
-                = team.league.name
-              .team-league-logo
-                = image_tag(team.league.tournament.logo_path)
-        - elsif team.league
-          = link_to league_results_path(team.league) do
-            .team-league-value
-              .team-league-name.team-manager-name
-                = team.league.name
-              .team-league-logo
-                = image_tag(team.tournament.logo_path)
-      - if team.league && team.results&.last
-        .team-additional
-          .team-additional-text= t('teams.form')
-          .team-form-value.team-form
-            - team.results.last.form.each do |form|
-              .team-form-item{ class: "team-form-#{form[0]}" }
-                = form[0]
-    - if team.user == current_user && team.sales_period?
-      .team-transfer-market
-        = link_to edit_team_player_team_path(team, team.player_teams.first) do
-          .team-transfer-market-btn
-            = t('teams.transfer_list')
+  .team-data-web
+    = render 'team_data_section', team: team
   .team-lists
     .team-lists-tabs
+      #overview.team-lists-tab-item= t('teams.overview')
       #players.team-lists-tab-item.team-lists-tab-active= t('teams.players')
       #games.team-lists-tab-item= t('teams.games')
       #transfers.team-lists-tab-item= t('teams.transfers')
     .team-lists-content
+      .team-list.team-overview
+        = render 'team_data_section', team: team
       .team-list.team-players
-        .team-players-headers
-          .team-players-header-item= t('teams.player')
-          .team-players-header-item.team-players-header-position= t('teams.positions')
-          .team-players-header-item.right= t('teams.appearances')
-          .team-players-header-item.right= t('teams.rating')
-          .team-players-header-item.center= t('teams.club')
-          .team-players-header-item
+        .default-headers.team-players-grid
+          .default-header-cell= t('teams.player')
+          .default-header-cell= t('teams.positions')
+          .default-header-cell= t('teams.appearances')
+          .default-header-cell= t('teams.rating')
+          .default-header-cell= t('teams.club')
         - team.players.sort_by(&:position_sequence_number).each do |player|
           = link_to player_path(player) do
-            .team-player-item
-              .team-player-param-item.team-player-data
+            .team-player-item.team-players-grid
+              .team-player-data
                 .team-player-avatar
                   .player-show-face
                     %object{data: player.avatar_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
@@ -118,84 +42,58 @@
                     = player.name
                   .team-player-first-name
                     = player.first_name
-              .team-player-param-item.team-player-position
-                - player.positions.each do |position|
-                  .slot-position{class: "slot-position-#{position.name}"}
-                    = position_name(position)
-              .team-player-param-item.team-player-appearances
+              .team-player-data-mob
+                .team-player-name-mob
+                  = "#{player.name} #{player.first_name}"
+                .team-player-subdata-mob
+                  .team-player-position-mob
+                    .player-positions-block
+                      - player.positions.each do |position|
+                        .player-position{class: "player-position-#{position.name}"}
+                          = position_name(position)
+                  .team-player-line-mob
+                  %object{data: player.club.logo_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
+                    = image_tag('default_logo.png')
+                  .team-player-line-mob
+                  .team-player-stats-number
+                    = "#{player.season_scores_count} #{t('teams.apps')}"
+              .team-player-position
+                .player-positions-block
+                  - player.positions.each do |position|
+                    .player-position{class: "player-position-#{position.name}"}
+                      = position_name(position)
+              .team-player-stats-number.team-player-apps
                 = player.season_scores_count
-              .team-player-param-item.team-player-rating
+              .team-player-stats-number.team-player-rating
                 = player.season_average_result_score
-              .team-player-param-item.team-player-club
+              .team-player-club
                 %object{data: player.club.logo_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
                   = image_tag('default_logo.png')
-              .team-player-param-item.team-player-link
-                = image_tag('icons/link_arrow.png')
+                .team-player-param-item.team-player-link
+                  = image_tag('icons/arrow_right.svg')
       .team-list.team-games
-        .team-games-headers
-          .team-games-header-item= t('teams.round')
-          .team-games-header-item= t('teams.opponent')
-          .team-games-header-item= t('teams.score')
-          .team-games-header-item
+        - if team.next_match
+          .team-games-next
+            .team-games-next-title= t('teams.next_round')
+            .team-games-next-data
+              = render 'team_match_item', match: team.next_match
+        .default-headers.team-games-grid
+          .default-header-cell= t('teams.round')
+          .default-header-cell= t('teams.opponent')
+          .default-header-cell= t('teams.score')
         - team.league_matches.each do |match|
-          = link_to match_path(match) do
-            .team-game-item
-              .team-game-param-item
-                .team-game-number= "##{match.tour.number}"
-                .team-game-vs VS
-              .team-game-param-item.team-game-opponent
-                = image_tag(team.opponent_by_match(match).logo_path)
-                = team.opponent_by_match(match).human_name
-              .team-game-param-item.team-game-result
-                - if match.tour.unlocked?
-                  .game-score-cell
-                    .result-cell-value vs
-                  .game-info-cell
-                    - if match.tournament_round.deadline
-                      = match.tournament_round.deadline&.strftime("%^a, %^b %e")
-                    - else
-                      = t('teams.unknown')
-                - elsif match.tour.locked_or_postponed?
-                  .game-score-cell.game-score-locked
-                    .result-cell-value vs
-                  .game-info-cell
-                    - if team == match.host
-                      = "#{sprintf('%.2f', match.host_lineup&.total_score)} - #{sprintf('%.2f', match.guest_lineup&.total_score)}"
-                    - else
-                      = "#{sprintf('%.2f', match.guest_lineup&.total_score)} - #{sprintf('%.2f', match.host_lineup&.total_score)}"
-                - else
-                  .game-score-cell.game-score-closed{ class: "game-score-#{team == match.host ? match.host_lineup&.result : match.guest_lineup&.result}" }
-                    .result-cell-value
-                      - if team == match.host
-                        = "#{match.host_lineup&.goals}:#{match.guest_lineup&.goals}"
-                      - else
-                        = "#{match.guest_lineup&.goals}:#{match.host_lineup&.goals}"
-                  .game-info-cell
-                    - if team == match.host
-                      = "#{sprintf('%.2f', match.host_lineup&.total_score)} - #{sprintf('%.2f', match.guest_lineup&.total_score)}"
-                    - else
-                      = "#{sprintf('%.2f', match.guest_lineup&.total_score)} - #{sprintf('%.2f', match.host_lineup&.total_score)}"
-                  .game-result-cell
-                    - if team == match.host
-                      .game-result-value{ class: "game-result-#{match.host_lineup&.result}" }
-                        = match.host_lineup&.result
-                    - else
-                      .game-result-value{ class: "game-result-#{match.guest_lineup&.result}" }
-                        = match.guest_lineup&.result
-              .team-game-param-item.team-game-link
-                = image_tag('icons/link_arrow.png')
+          = render 'team_match_item', match: match
       .team-list.team-transfers
-        .team-transfers-headers
-          .team-transfers-header-item= t('teams.player')
-          .team-transfers-header-item.team-players-header-position= t('teams.positions')
-          .team-transfers-header-item.center= t('teams.status')
-          .team-transfers-header-item.right= t('teams.price')
-          .team-transfers-header-item.center= t('teams.club')
-          .team-transfers-header-item
+        .default-headers.team-transfers-grid
+          .default-header-cell= t('teams.player')
+          .default-header-cell= t('teams.positions')
+          .default-header-cell= t('teams.status')
+          .default-header-cell= t('teams.price')
+          .default-header-cell= t('teams.club')
         - team.league_transfers.reverse.each do |transfer|
           = link_to player_path(transfer.player) do
-            .team-player-item
-              .team-player-param-item.team-player-data
+            .team-player-item.team-transfers-grid
+              .team-player-data
                 .team-player-avatar
                   .player-show-face
                     %object{data: transfer.player.avatar_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
@@ -208,24 +106,39 @@
                     = transfer.player.name
                   .team-player-first-name
                     = transfer.player.first_name
-              .team-player-param-item.team-player-position
-                - transfer.player.positions.each do |position|
-                  .slot-position{class: "slot-position-#{position.name}"}
-                    = position_name(position)
-              .team-player-param-item.team-player-transfer-status
-                = image_tag("icons/#{transfer.status}.png")
-              .team-player-param-item.team-player-rating
+              .team-player-data-mob
+                .team-player-name-mob
+                  = "#{transfer.player.name} #{transfer.player.first_name}"
+                .team-player-subdata-mob
+                  .team-player-position-mob
+                    .player-positions-block
+                      - transfer.player.positions.each do |position|
+                        .player-position{class: "player-position-#{position.name}"}
+                          = position_name(position)
+                  .team-player-line-mob
+                  %object{data: transfer.player.club.logo_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
+                    = image_tag('default_logo.png')
+              .team-player-position
+                .player-positions-block
+                  - transfer.player.positions.each do |position|
+                    .player-position{class: "player-position-#{position.name}"}
+                      = position_name(position)
+              .team-player-transfer-status{ class: "transfer-status-#{transfer.status}" }
+                = t("teams.#{transfer.status}")
+              .team-player-stats-number.team-player-rating
                 = transfer.price
-              .team-player-param-item.team-player-club
+              .team-player-transfer-status-mob
+                = t("teams.#{transfer.status}")[0]
+              .team-player-club
                 %object{data: transfer.player.club.logo_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
                   = image_tag('default_logo.png')
-              .team-player-param-item.team-player-link
-                = image_tag('icons/link_arrow.png')
+                .team-player-param-item.team-player-link
+                  = image_tag('icons/arrow_right.svg')
 
 :javascript
   $(document).ready(function() {
-    $(".team-games").hide();
-    $(".team-transfers").hide();
+    $(".team-list").hide();
+    $(".team-players").show();
 
     $(".team-lists-tab-item").click(function(){
       var listId = this.id;

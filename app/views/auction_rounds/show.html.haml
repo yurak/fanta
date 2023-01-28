@@ -1,12 +1,30 @@
 .page-block
-  = render 'layouts/left_nav', league: league
-  = render 'layouts/right_nav', league: league
+  .web-header= render 'layouts/left_nav', league: league
+  .web-header= render 'layouts/right_nav', league: league
+  .mob-header= render 'layouts/mob_header', league: league
+
   .page-info.auction-rounds-page
     .round-section
-      .rounds-league-name
-        = link_to t('auction_round.auction', league: league.name), league_link(league)
-      .rounds-block
-        - if auction.auction_rounds.count > 1
+      .auction-round-back
+        .auction-link-arrow
+          = image_tag('icons/arrow_grey.svg')
+        = link_to league_auctions_path(league) do
+          .auction-link-text= "#{t('auction_round.auction')} ##{auction.number}"
+      .auction-round-header
+        .auction-round-base
+          .auction-round-title= "#{t('auction_round.stage')} ##{auction_round.number}"
+          -# TODO: auction bid status
+          -#.auction-round-status ongoing
+          .auction-round-status
+          .round-deadline
+            .round-deadline-text= t('tours.deadline')
+            .round-deadline-value
+              = auction_round.deadline&.strftime("%a, %b %e at %H:%M")
+          -# TODO: link to change auction bid status
+          -#.round-deadline Submit stage
+          .round-deadline
+        .rounds-block
+          -# - if auction.auction_rounds.count > 1
           - auction.auction_rounds.each do |round|
             - if auction_round == round
               .round-link-block.round-current{ class: "round-#{round.status}" }
@@ -15,22 +33,12 @@
               = link_to auction_round_path(round) do
                 .round-link-block{ class: "round-#{round.status}" }
                   = round.number
-      .round-item
-        .round-base
-          .round-title
-            .round-title-text= "#{t('tours.round')} ##{auction_round.number}"
-            .round-title-icon
-          .round-deadline
-            .round-deadline-text= t('tours.deadline')
-            .round-deadline-value
-              = auction_round.deadline&.strftime("%a, %b %e at %H:%M")
-            .round-deadline-countdown
-        .actions-buttons
-          - if current_user&.team_by_league(league) && auction_round.active?
-            - if user_auction_bid(auction_round, league)
-              = link_to t('auction_round.edit_bid'), edit_auction_round_auction_bid_path(auction_round, user_auction_bid(auction_round, league))
-            - elsif current_user&.team_by_league(league).vacancies.positive?
-              = link_to t('auction_round.place_bid'), new_auction_round_auction_bid_path(auction_round)
+        -#.actions-buttons
+        -#  - if current_user&.team_by_league(league) && auction_round.active?
+        -#    - if user_auction_bid(auction_round, league)
+        -#      = link_to t('auction_round.edit_bid'), edit_auction_round_auction_bid_path(auction_round, user_auction_bid(auction_round, league))
+        -#    - elsif current_user&.team_by_league(league).vacancies.positive?
+        -#      = link_to t('auction_round.place_bid'), new_auction_round_auction_bid_path(auction_round)
       .auction-bid-block
         - if user_auction_bid(auction_round, league)
           .auction-bid-title= t('auction_round.your_bid')
@@ -69,36 +77,64 @@
                   .team-player-param-item.transfer-player-link
                     = image_tag('icons/link_arrow.png')
     .stats-section
+      - if current_user&.team_by_league(league)
+        .round-table
+          .round-table-title-header
+            .round-table-title
+              .round-table-title-text= t('auction_round.budget')
+            .round-table-hide.round-table-visible
+              = image_tag('icons/arrow_up.svg')
+            .round-table-hide.round-table-hidden
+              = image_tag('icons/arrow_down.svg')
+          .round-list.auction-round-budget
+            .auction-round-budget-list
+              .auction-round-budget-row
+                .auction-round-budget-dot.budget-dot-balance
+                .auction-round-budget-text= t('auction_round.balance')
+                .auction-round-budget-value.budget-value-balance= "#{current_user&.team_by_league(league).budget}M"
+              .auction-round-budget-row
+                .auction-round-budget-dot.budget-dot-spent-auc
+                .auction-round-budget-text= t('auction_round.spent_auction')
+                .auction-round-budget-value.budget-value-spent-auc= "#{current_user&.team_by_league(league).spent_budget(auction)}M"
+              .auction-round-budget-row
+                .auction-round-budget-dot.budget-dot-spent-total
+                .auction-round-budget-text= t('auction_round.spent_total')
+                .auction-round-budget-value.budget-value-spent-total= "#{Team::DEFAULT_BUDGET - current_user&.team_by_league(league).budget}M"
+            .auction-round-budget-summary
+              .auction-round-budget-summary-row
+                .auction-round-budget-summary-text= t('auction_round.total_budget')
+                .auction-round-budget-summary-value= "#{Team::DEFAULT_BUDGET}M"
+              .auction-round-budget-summary-row
+                .auction-round-budget-summary-text= t('auction_round.max_bid')
+                .auction-round-budget-summary-value= "#{current_user&.team_by_league(league).max_rate}M"
       .round-table
-        .round-table-title
-          .round-table-title-text= t('auction_round.bets_placed')
-          .round-table-block
-        -#.round-table-headers
-        -#  .round-table-header-cell.center #
-        -#  .round-table-header-cell.left= t('teams.team')
-        -#  .round-table-header-cell.center= t('auction_round.bid')
-        -#  .round-table-header-cell.center= t('auction_round.vacancies')
-        -#  .round-table-header-cell.center= t('teams.budget')
-        - league.teams.each_with_index do |team, i|
-          = link_to team_path(team) do
-            .round-table-item.auction-round-table-item
-              .round-table-item-cell.round-table-index= i + 1
-              .round-table-item-cell.round-table-item-team
-                .results-team-logo
-                  = image_tag(image_path(team.logo_path))
-                .results-team-name
-                  = team.human_name[0..15]
-              .round-table-item-cell.center
-                - if auction_round.auction_bids.find_by(team: team)
-                  ✅
-                - elsif team.full_squad?
-                  ☑️
-                - else
-                  ❌
-              .round-table-item-cell.center
-                = team.vacancies
-              .round-table-item-cell.center
-                = team.budget
+        .round-table-title-header
+          .round-table-title
+            .round-table-title-text= t('auction_round.bets_placed')
+          .round-table-hide.round-table-visible
+            = image_tag('icons/arrow_up.svg')
+          .round-table-hide.round-table-hidden
+            = image_tag('icons/arrow_down.svg')
+        .round-list
+          - league.teams.each_with_index do |team, i|
+            = link_to team_path(team), class: 'auction-round-table-link' do
+              .round-table-item.auction-round-table-item
+                .round-table-item-cell.round-table-item-team
+                  .results-team-logo
+                    = image_tag(image_path(team.logo_path))
+                  .results-team-name
+                    = team.human_name[0..15]
+                .round-table-item-cell.center
+                  = team.vacancies
+                .round-table-item-cell.auction-round-team-budget
+                  = "#{team.budget}M"
+                .round-table-item-cell.center
+                  - if auction_round.auction_bids.find_by(team: team)
+                    ✅
+                  - elsif team.full_squad?
+                    🏁️
+                  - else
+                    ⌛️
       .round-table
         .round-table-title
           = link_to league_auction_transfers_path(league, auction) do
@@ -127,3 +163,26 @@
                 .round-player-stats-param.round-player-stats-score= transfer.price
                 .round-player-stats-param.round-player-stats-team
                   = image_tag(transfer.team.logo_path)
+
+  .portrait-footer{ class: "portrait-footer-#{league.mantra?}"}
+    = render 'layouts/league_links', league: league
+
+:javascript
+  $(document).ready(function() {
+    $(".round-table-hide").click(function(){
+      var statsTable = this.parentNode.parentNode;
+      var list = statsTable.querySelector(".round-list");
+
+      if (this.classList.contains("round-table-visible")) {
+          list.style.display = "none";
+          this.style.display = "none";
+          statsTable.querySelector(".round-table-hidden").style.display = "block";
+      }
+
+      if (this.classList.contains("round-table-hidden")) {
+          list.style.display = "block";
+          this.style.display = "none";
+          statsTable.querySelector(".round-table-visible").style.display = "block";
+      }
+    });
+  });

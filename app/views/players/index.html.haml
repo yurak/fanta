@@ -1,6 +1,6 @@
 .page-block
-  = render 'layouts/left_nav', league: league
-  -# = render 'layouts/right_nav', league: league if league
+  .web-header= render 'layouts/left_nav', league: league
+  .mob-header= render 'layouts/mob_header', league: league, title: t('players.players')
   .page-info.players-page
     .players-title-bar
       .players-title
@@ -102,3 +102,7 @@
 
     .pagination-row.pagination.justify-content-center
       = paginate @players
+
+  - if league
+    .portrait-footer{ class: "portrait-footer-#{league.mantra?}"}
+      = render 'layouts/league_links', league: league

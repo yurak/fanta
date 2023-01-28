@@ -18,6 +18,7 @@ class Team < ApplicationRecord
 
   MAX_PLAYERS = 25
   MIN_GK = 2
+  DEFAULT_BUDGET = 260
 
   validates :name, presence: true, length: { in: 2..18 }
   validates :code, presence: true, length: { in: 2..3 }
@@ -99,6 +100,12 @@ class Team < ApplicationRecord
     return 0 unless current_auction
 
     player_teams.transferable.count + transfers.outgoing.by_auction(current_auction.id).count
+  end
+
+  def spent_budget(auction)
+    return 0 unless auction
+
+    transfers.incoming.by_auction(auction).sum(&:price)
   end
 
   private

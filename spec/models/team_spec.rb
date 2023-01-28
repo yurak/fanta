@@ -363,4 +363,41 @@ RSpec.describe Team do
       end
     end
   end
+
+  describe '#spent_budget(auction)' do
+    context 'without auctions' do
+      it 'returns 0' do
+        expect(team.spent_budget(nil)).to eq(0)
+      end
+    end
+
+    context 'with auction and without incoming transfers' do
+      let(:auction) { create(:auction, league: team.league) }
+
+      it 'returns 0' do
+        expect(team.spent_budget(auction)).to eq(0)
+      end
+    end
+
+    context 'with auction and with incoming transfer on other auction' do
+      let(:auction) { create(:auction, league: team.league) }
+
+      before do
+        create(:transfer, league: team.league, team: team, price: 77)
+      end
+
+      it 'returns 0' do
+        expect(team.spent_budget(auction)).to eq(0)
+      end
+    end
+
+    context 'with auction and incoming transfer' do
+      let(:auction) { create(:auction, league: team.league) }
+      let!(:transfer) { create(:transfer, auction: auction, league: team.league, team: team, price: 77) }
+
+      it 'returns spent budget value' do
+        expect(team.spent_budget(auction)).to eq(transfer.price)
+      end
+    end
+  end
 end

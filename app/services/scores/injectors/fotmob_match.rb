@@ -137,7 +137,7 @@ module Scores
       end
 
       def match_finished?
-        status['started'] && status['finished']
+        (status['started'] || status['awarded']) && status['finished']
       end
 
       def result

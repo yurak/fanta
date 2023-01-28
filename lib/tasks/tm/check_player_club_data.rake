@@ -11,15 +11,16 @@ namespace :tm do
       tm_club_name = html_page.css('.data-header__club').children[1]&.text
       tm_club_name = html_page.css('.data-header__club').children[0]&.text&.strip if tm_club_name.nil?
       club = Club.find_by(tm_name: tm_club_name)
+      player_data = "Player #{player.id} / #{player.tm_id} #{player.name}"
 
       if club && tm_club_name != player.club.tm_name
-        puts "Player #{player.id} #{player.name} (#{player.club.name}) changes club to #{tm_club_name}"
+        puts "#{player_data} (#{player.club.name}) changes club to #{tm_club_name}"
       elsif tm_club_name == 'Without Club'
-        puts "Player #{player.id} #{player.name} (#{player.club.name}) currently is FREE" if player.club.name != 'Free agent'
+        puts "#{player_data} (#{player.club.name}) currently is FREE" if player.club.name != 'Free agent'
       elsif player.club.name != 'Retired' && tm_club_name.nil?
-        puts "Player #{player.id} #{player.name} retired!"
+        puts "#{player_data} retired!"
       elsif player.club.name != 'Outside' && player.club.name != 'Retired' && club.nil?
-        puts "Player #{player.id} #{player.name} (#{player.club.name}) leave Mantra tournaments. New club: #{tm_club_name}"
+        puts "#{player_data} (#{player.club.name}) leave Mantra tournaments. New club: #{tm_club_name}"
       end
 
       sleep(20) if (id % 4).zero?
