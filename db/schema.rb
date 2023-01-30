@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_12_11_075551) do
+ActiveRecord::Schema.define(version: 2023_01_16_211223) do
 
   create_table "article_tags", force: :cascade do |t|
     t.string "name", default: "", null: false
@@ -38,6 +38,7 @@ ActiveRecord::Schema.define(version: 2022_12_11_075551) do
     t.integer "team_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "status", default: 0
     t.index ["auction_round_id"], name: "index_auction_bids_on_auction_round_id"
     t.index ["team_id"], name: "index_auction_bids_on_team_id"
   end

@@ -17,7 +17,7 @@ module AuctionRounds
 
       round.closed!
 
-      true if vacancies? && auction.auction_rounds.create(number: round.number + 1, deadline: round.deadline + 1.day)
+      true if vacancies? && AuctionRounds::Creator.call(auction)
     end
 
     private
