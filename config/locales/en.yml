@@ -561,7 +561,7 @@ en:
         paragraph2: "Each manager in turn names the player for whom he is ready to pay 1 million. After that, other managers can place their bids. Each subsequent bid must be at least one step higher than the previous one. The bid step is determined by the current bid. If the current bid is in the range from 1 to 19 - a minimum step is 1 million, in the range of 20-29 - 2 million, in the range of 30-39 - 3 million and so on. If no one exceeds the current bid within 15 seconds, the player is considered sold."
         paragraph3: "Because a live auction is time consuming, league participants can replace it with a blind one:"
         paragraph4: "All auctions, except the starting one, are held on the same principle: before the deadline, the manager must select the players he wants to sell in this transfer window. The amount paid by the manager for this player is returned to the account, and the player becomes a free agent (will be available to all teams except the one who sold it)."
-        paragraph5: "The number of slots for sale varies: 5 for the winter auction and 3 for all others. Players who leave the tournament by transfer are counted outside the slots."
+        paragraph5: "The number of slots for sale: 3 for all auctions. Players who leave the tournament by transfer are counted outside the slots."
         paragraph6: "Additional auctions are held in a blind format."
         paragraph7: "Manager can't buy back a player he has sold within that transfer window."
         paragraph8: "It is not possible to buy / sell players outside the transfer windows, with the only exception:"

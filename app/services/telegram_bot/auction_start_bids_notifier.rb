@@ -17,7 +17,7 @@ module TelegramBot
       "#{league.tournament.icon} Auction round #{auction_round.number} has started in #{league.name} League.\n" \
         "🔜 Deadline: #{auction_round.deadline&.strftime('%^a, %^b %e, %H:%M')} (EET) 🔚\n\n" \
         "‼️️ You must bid on #{team.vacancies} players for #{team.human_name} - " \
-        "#{Rails.application.routes.url_helpers.auction_round_path(auction_round)}"
+        "#{Rails.application.routes.url_helpers.auction_round_url(auction_round)}"
     end
 
     def auction_round
