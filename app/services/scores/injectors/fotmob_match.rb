@@ -58,8 +58,9 @@ module Scores
           score: rating(player_data), goals: player_data[:goals] || 0, assists: player_data[:assists] || 0,
           cleansheet: cleansheet?(round_player, team_missed_goals.to_i, player_data[:played_minutes]),
           failed_penalty: player_data[:failed_penalty] || 0, caught_penalty: player_data[:caught_penalty] || 0,
-          missed_goals: player_data[:missed_goals] || 0, own_goals: player_data[:own_goals] || 0,
-          played_minutes: player_data[:played_minutes] || 0, yellow_card: player_data[:yellow_card], red_card: player_data[:red_card]
+          missed_goals: player_data[:missed_goals] || 0, own_goals: player_data[:own_goals] || 0, saves: player_data[:saves] || 0,
+          played_minutes: player_data[:played_minutes] || 0, yellow_card: player_data[:yellow_card], red_card: player_data[:red_card],
+          conceded_penalty: player_data[:conceded_penalty] || 0, penalties_won: player_data[:penalties_won] || 0
         }
       end
 
@@ -85,7 +86,10 @@ module Scores
           fotmob_name: player_name(player_data),
           rating: player_data['rating']['num'],
           played_minutes: player_data['minutesPlayed'].to_i,
-          missed_goals: player_data['stats'][0]['stats']['Goals conceded']
+          missed_goals: player_data['stats'][0]['stats']['Goals conceded'],
+          saves: player_data['stats'][0]['stats']['Saves'],
+          conceded_penalty: player_data['stats'][0]['stats']['Conceded penalty'],
+          penalties_won: player_data['stats'][0]['stats']['Penalties won']
         }.compact
 
         return hash unless player_data['events']

@@ -1,9 +1,4 @@
 - if bonus.to_i.nonzero?
-  - if bonus.to_i > 1
-    .match-player-bonus-item
-      = image_tag(img_path)
-      = "x #{bonus.to_i}"
-  - else
-    .match-player-bonus-item
-      - bonus.to_i.times do
-        = image_tag(img_path)
+  .match-player-bonus-item
+    = image_tag(img_path)
+    = "x #{bonus.to_i}" if bonus.to_i > 1
