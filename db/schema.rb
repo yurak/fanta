@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_01_16_211223) do
+ActiveRecord::Schema.define(version: 2023_02_11_202259) do
 
   create_table "article_tags", force: :cascade do |t|
     t.string "name", default: "", null: false
@@ -288,6 +288,9 @@ ActiveRecord::Schema.define(version: 2023_01_16_211223) do
     t.boolean "manual_lock", default: false
     t.integer "played_minutes", default: 0, null: false
     t.decimal "final_score", precision: 4, scale: 2, default: "0.0"
+    t.integer "saves", default: 0, null: false
+    t.integer "conceded_penalty", default: 0, null: false
+    t.integer "penalties_won", default: 0, null: false
     t.index ["player_id"], name: "index_round_players_on_player_id"
     t.index ["tournament_round_id"], name: "index_round_players_on_tournament_round_id"
   end
