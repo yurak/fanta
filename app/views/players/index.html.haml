@@ -13,6 +13,18 @@
             = search_field_tag :search, params[:search], placeholder: t('players.search_player')
             = hidden_field_tag :tournament, params[:tournament] || 1
     .players-filter-bar
+      - if current_user && current_user.teams.by_tournament(params[:tournament] || 1).count > 1
+        .players-filters
+          .players-filter
+            .players-filter-name
+              = t('players.filter_league')
+            .players-filter-input
+              %select{onchange: "location = this.value;"}
+                %option{selected: true, disabled: true}= t('players.league_option')
+                - current_user.teams.by_tournament(params[:tournament] || 1).each do |team|
+                  %option{value: players_path(tournament: params[:tournament], club: params[:club], position: params[:position], order: params['order'], league: team.league)}= team.league.name
+              .select-icon
+                = image_tag('icons/triangle.svg')
       .players-filters
         .players-filter
           .players-filter-name
@@ -31,7 +43,7 @@
             %select{onchange: "location = this.value;"}
               %option{selected: true, disabled: true}= t('players.position_option')
               - @positions.each do |position|
-                %option{value: players_path(tournament: params[:tournament], position: position.name, order: params['order'])}
+                %option{value: players_path(tournament: params[:tournament], position: position.name, order: params['order'], league: params[:league])}
                   = position_name(position)
             .select-icon
               = image_tag('icons/triangle.svg')
@@ -42,23 +54,23 @@
             %select{onchange: "location = this.value;"}
               %option{selected: true, disabled: true}= t('players.club_option')
               - @clubs.each do |club|
-                %option{value: players_path(tournament: params[:tournament], club: club.id, order: params['order'])}= club.name
+                %option{value: players_path(tournament: params[:tournament], club: club.id, order: params['order'], league: params[:league])}= club.name
             .select-icon
               = image_tag('icons/triangle.svg')
     .players-list
       .players-list-headers
         .players-list-header.center= t('players.number_header')
         .players-list-header
-          = link_to t('players.player_header'), players_path(tournament: params[:tournament], position: params[:position], club: params[:club], order: 'name')
+          = link_to t('players.player_header'), players_path(tournament: params[:tournament], position: params[:position], club: params[:club], league: params[:league], order: 'name')
         .players-list-header.players-pos-padding= t('players.positions_header')
         .players-list-header.right= t('players.team_header')
         .players-list-header.center= t('players.my_league_header')
         .players-list-header.right
-          = link_to t('players.appearances_header'), players_path(tournament: params[:tournament], position: params[:position], club: params[:club], order: 'appearances')
+          = link_to t('players.appearances_header'), players_path(tournament: params[:tournament], position: params[:position], club: params[:club], league: params[:league], order: 'appearances')
         .players-list-header.right
-          = link_to t('players.rating_header'), players_path(tournament: params[:tournament], position: params[:position], club: params[:club], order: 'rating')
+          = link_to t('players.rating_header'), players_path(tournament: params[:tournament], position: params[:position], club: params[:club], league: params[:league], order: 'rating')
         .players-list-header.center
-          = link_to t('players.club_header'), players_path(tournament: params[:tournament], position: params[:position], club: params[:club], order: 'club')
+          = link_to t('players.club_header'), players_path(tournament: params[:tournament], position: params[:position], club: params[:club], league: params[:league], order: 'club')
         .players-list-header
       - @players.each_with_index do |player, i|
         .players-list-item
@@ -87,9 +99,9 @@
               .players-list-cell.players-list-appearances
                 = player.teams.count if player.teams.count.positive?
               .players-list-cell.center
-                - if user_tournament_team(params[:tournament]) && player.team_by_league(user_tournament_team(params[:tournament]).league_id)
+                - if user_tournament_team(params[:tournament]) && player.team_by_league(league.id || user_tournament_team(params[:tournament]).league_id)
                   .team-image.inline-block
-                    = image_tag(player.team_by_league(user_tournament_team(params[:tournament]).league_id).logo_path)
+                    = image_tag(player.team_by_league(league.id || user_tournament_team(params[:tournament]).league_id).logo_path)
               .players-list-cell.players-list-appearances
                 = player.season_scores_count
               .players-list-cell.players-list-rating
