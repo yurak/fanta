@@ -9,8 +9,7 @@ module AuctionRounds
     def call
       @auction_round = create_auction_round
 
-      # TODO: uncomment after new UI implementation
-      # create_auction_bids
+      create_auction_bids
     end
 
     private

@@ -63,7 +63,7 @@ RSpec.describe AuctionRounds::Manager do
         end
 
         it 'updates player_bids status' do
-          expect(teams.last.auction_bids.last.player_bids.last.status).to eq('success')
+          expect(teams.last.auction_bids.first.player_bids.last.status).to eq('success')
         end
 
         it 'updates auction_round status' do
@@ -123,7 +123,7 @@ RSpec.describe AuctionRounds::Manager do
         end
 
         it 'updates player_bids status' do
-          expect(teams.last.auction_bids.last.player_bids.last.status).to eq('success')
+          expect(teams.last.auction_bids.first.player_bids.last.status).to eq('success')
         end
 
         it 'updates auction_round status' do

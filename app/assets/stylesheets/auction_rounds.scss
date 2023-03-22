@@ -48,6 +48,25 @@
           font-size: 18px;
         }
 
+        .auction-round-status {
+          font-family: 'Nunito ExtraBold';
+          padding: 8px 0;
+
+          .auction-round-status-badge {
+            color: #FFFFFF;
+            background: #FFB319;
+            border-radius: 16px;
+            padding: 0 8px;
+            width: fit-content;
+            height: 24px;
+            font-size: 12px;
+            line-height: 24px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+        }
+
         .round-deadline {
           display: grid;
           grid-template-columns: 100px 136px;
@@ -80,24 +99,392 @@
       }
     }
 
+    .auction-round-base-submitted {
+      background: #D0F0D4;
+
+      .auction-round-base {
+        .auction-round-status .auction-round-status-badge {
+          background: #46A767;
+        }
+      }
+    }
+
+    .auction-round-base-completed {
+      background: #FCC5CB;
+
+      .auction-round-base {
+        .auction-round-status .auction-round-status-badge {
+          background: #DB0A23;
+        }
+      }
+    }
+
+    .auction-round-base-processed {
+      background: #F4F4F4;
+
+      .auction-round-base {
+        .auction-round-status .auction-round-status-badge {
+          background: #847577;
+        }
+      }
+    }
+
+    .auction-round-add-header {
+      border: 1px solid #FFEBC2;
+      border-radius: 0 0 8px 8px;
+      border-top: none;
+      padding: 12px 16px;
+      font-size: 14px;
+      line-height: 24px;
+      height: 48px;
+      display: flex;
+      gap: 4px;
+
+      .auction-round-add-item-badge {
+        font-family: 'Nunito ExtraBold';
+        background: #FCC5CB;
+        border-radius: 16px;
+        font-size: 12px;
+        color: #DB0A23;
+        padding: 0 8px;
+      }
+
+      .auction-round-add-item-badge-gk {
+        background: #FFEBC2;
+        color: #9F6C05;
+      }
+
+      .auction-round-add-item-badge-budget {
+        background: #D8D6FF;
+        color: #040052;
+      }
+    }
+
     .auction-bid-block {
       .auction-bid-title {
-        font-weight: bold;
-        font-size: 18px;
-        line-height: 32px;
-        margin-top: 16px;
+        font-family: 'Nunito ExtraBold';
+        font-size: 16px;
+        line-height: 24px;
+        margin: 32px 0 16px;
       }
 
-      .transfer-headers, .transfer-item {
-        grid-template-columns: 3fr 2fr 1fr 3fr 1fr;
+      .auction-bid-slot {
+        height: 72px;
+        border: 1px solid #E5E6E4;
+        color: #181715;
+        border-radius: 8px;
+        padding: 0 16px;
+        margin-bottom: 8px;
+        display: grid;
+        grid-template-columns: 24px 72px 2fr 1fr 1fr 168px;
+        column-gap: 16px;
+        font-size: 16px;
+        line-height: 70px;
+
+        .player-bid-avatar {
+          //background: #68D973;
+          .player-bid-face, .player-bid-kit {
+            position: absolute;
+
+            img {
+              //margin-top: 2px;
+              width: 66px;
+              height: 66px;
+            }
+
+            object {
+              margin-top: 4px;
+              width: 66px;
+              height: 66px;
+            }
+          }
+        }
+
+        .player-bid-name {
+          padding: 13px 0;
+          line-height: 42px;
+
+          .player-bid-unselected {
+            font-size: 14px;
+            color: #847577;
+          }
+
+          .player-bid-last-name {
+            font-family: 'Nunito ExtraBold';
+            font-size: 16px;
+            line-height: 24px;
+          }
+
+          .player-bid-first-name {
+            font-size: 14px;
+            line-height: 18px;
+            color: #847577;
+          }
+        }
+
+        .player-bid-positions {
+          //background: #cfffc2;
+
+          .player-positions-block {
+            display: flex;
+            align-items: center;
+            margin: 25px 0;
+          }
+        }
+
+        .player-bid-club {
+          //background: #da82b4;
+          padding: 15px 0;
+          line-height: 40px;
+          height: 70px;
+          text-align: center;
+
+          img, object {
+            width: 40px;
+            height: 40px;
+          }
+        }
+
+        .player-bid-actions {
+          //background: #f5bc00;
+
+          .player-bid-action-select {
+            font-family: 'Nunito ExtraBold';
+            margin: 27px 16px;
+            font-size: 14px;
+            line-height: 16px;
+            color: #261FFF;
+            width: fit-content;
+            border-bottom: 1px solid #D8D6FF;
+            float: right;
+            cursor: pointer;
+          }
+
+          .player-transfer-completed {
+            display: grid;
+            grid-template-columns: auto 24px;
+            column-gap: 32px;
+
+            .player-transfer-price {
+              font-family: 'Nunito ExtraBold';
+              text-align: right;
+              font-size: 18px;
+            }
+          }
+        }
       }
 
-      .transfer-player-data-failed {
-        background: #ffc2c2;
+      .auction-bid-slot:hover {
+        cursor: pointer;
+        border: 1px solid #181715;
       }
 
-      .transfer-player-data-success {
-        background: #cfffc2;
+      .modal-auction-players-list {
+        display: none;
+        position: fixed;
+        z-index: 260;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0,0,0, 0.5);
+
+        .auction-bid-modal-content {
+          margin: 80px auto;
+          width: 832px;
+          min-height: 224px;
+          background: #FFFFFF;
+          box-shadow: 6px 6px 8px rgba(24, 23, 21, 0.2), 1px 2px 5px rgba(24, 23, 21, 0.2);
+          border-radius: 8px;
+          cursor: auto;
+
+          .ab-modal-title {
+            padding: 40px 0 24px;
+
+            .ab-modal-title-text {
+              font-family: 'Nunito ExtraBold';
+              text-align: center;
+              font-size: 24px;
+              line-height: 32px;
+            }
+          }
+
+          .ab-search-row {
+            height: 56px;
+            line-height: 56px;
+            margin: 0 32px;
+
+            .ab-players-search {
+              line-height: 24px;
+              border-radius: 28px;
+              border: 1px solid #CFD2CD;
+              width: 100%;
+              display: grid;
+              grid-template-columns: 24px auto 134px;
+              column-gap: 16px;
+              padding: 15px 16px;
+
+              img {
+                width: 24px;
+                height: 24px;
+              }
+
+              input[type="search"]::-webkit-search-decoration,
+              input[type="search"]::-webkit-search-cancel-button,
+              input[type="search"]::-webkit-search-results-button,
+              input[type="search"]::-webkit-search-results-decoration {
+                display: none;
+              }
+
+              input {
+                border: none transparent;
+                outline: none;
+                font-size: 16px;
+                line-height: 22px;
+                width: 100%;
+              }
+
+              .search-action {
+                display: grid;
+                grid-template-columns: auto 24px;
+                column-gap: 16px;
+
+                img {
+                  width: 22px;
+                  height: 22px;
+                  margin-top: -3px;
+                }
+
+                .search-error {
+                  font-family: 'Nunito ExtraBold';
+                  font-size: 10px;
+                  letter-spacing: 0.05em;
+                  color: #DB0A23;
+                  text-align: right;
+                  display: none;
+                }
+
+                .search-clear {
+                  display: none;
+                }
+              }
+            }
+          }
+
+          .ab-filters-block {
+            margin: 16px 32px;
+
+            .ab-filters-title-row {
+              font-family: 'Nunito ExtraBold';
+              padding-left: 8px;
+              display: grid;
+              grid-template-columns: 16px 80px;
+              column-gap: 8px;
+              font-size: 12px;
+              line-height: 24px;
+              color: #847577;
+
+              img {
+                margin-top: -2px;
+              }
+            }
+          }
+
+          .ab-players-block {
+            max-height: 500px;
+            overflow-y: scroll;
+            position: relative;
+            padding-bottom: 32px;
+
+            .ab-player-item-row {
+              display: grid;
+              grid-template-columns: auto 32px;
+              column-gap: 16px;
+              padding: 0 32px;
+
+              .ab-player-link-content {
+                text-align: center;
+              }
+            }
+
+            .ab-player-item {
+              height: 72px;
+              display: grid;
+              grid-template-columns: 66px auto 112px 80px 108px;
+              column-gap: 16px;
+
+              .player-show-face, .player-show-kit {
+                position: absolute;
+
+                object, img {
+                  margin-top: 6px;
+                  width: 66px;
+                  height: 66px;
+                }
+              }
+
+              .ab-player-name {
+                padding: 16px 0;
+
+                .ab-player-last-name {
+                  font-family: 'Nunito ExtraBold';
+                  font-size: 16px;
+                  line-height: 24px;
+                }
+
+                .ab-player-first-name {
+                  font-size: 14px;
+                  line-height: 16px;
+                  color: #847577;
+                }
+              }
+
+              .ab-player-club {
+                text-align: center;
+                margin: auto;
+                height: 40px;
+
+                object {
+                  width: 40px;
+                  height: 40px;
+                }
+              }
+
+              .ab-player-status {
+                font-family: 'Nunito ExtraBold';
+                text-align: center;
+                font-size: 10px;
+                letter-spacing: 0.05em;
+                color: #4EAD57;
+              }
+            }
+
+            .ab-player-sold {
+              .ab-player-name  .ab-player-last-name {
+                color: #A6A2A2;
+              }
+
+              .ab-player-status {
+                color: #DB0A23;
+              }
+            }
+
+            .ab-player-dumped {
+              .ab-player-name  .ab-player-last-name {
+                color: #A6A2A2;
+              }
+
+              .ab-player-status {
+                color: #BA44F1;
+              }
+            }
+
+            .ab-player-item-row:hover {
+              background: #F4F4F4;
+            }
+          }
+        }
       }
     }
   }

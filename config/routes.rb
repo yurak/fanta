@@ -46,6 +46,8 @@ Rails.application.routes.draw do
     resources :player_requests, only: [:new, :create]
   end
 
+  resources :player_bids, only: [:update]
+
   resources :match_players, only: [] do
     resources :substitutes, only: [:new, :create, :destroy]
   end
