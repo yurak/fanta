@@ -96,5 +96,6 @@
               .players-list-cell.players-list-arrow
                 = image_tag('icons/link_arrow.png')
 
-  .portrait-footer{ class: "portrait-footer-#{tournament.leagues.last.mantra?}"}
-    = render 'layouts/league_links', league: tournament.leagues.last
+  - if tournament.leagues.last
+    .portrait-footer{ class: "portrait-footer-#{tournament.leagues.last.mantra?}"}
+      = render 'layouts/league_links', league: tournament.leagues.last
