@@ -6,6 +6,12 @@
   }
 }
 
-.page-info.players-page.round-players-page {
-  padding: 288px 16px 288px;
+@media (orientation: portrait) {
+  .page-info.players-page.round-players-page {
+    padding: 240px 16px 288px;
+
+    .round-players-title-bar {
+      display: none;
+    }
+  }
 }

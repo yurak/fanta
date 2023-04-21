@@ -1,5 +1,6 @@
 .page-block
-  = render 'layouts/left_nav', league: nil
+  .web-header= render 'layouts/left_nav', league: nil
+  .mob-header= render 'layouts/mob_header', league: nil, title: t('players.profile')
   .page-info.player-show-page.player-request-page
     .player-banner{style: "background-color: ##{player.club.color};"}
       .player-show-base

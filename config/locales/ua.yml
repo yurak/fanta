@@ -305,6 +305,7 @@ ua:
     total_score: "Загальна оцінка"
     ts: "ЗО"
   round_players:
+    short_title: "Найкращі Гравці"
     title: "Найкращі Гравці %{tournament} Раунд #%{number}"
   table:
     title: "Таблиця"

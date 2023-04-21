@@ -966,3 +966,9 @@
     }
   }
 }
+
+@media (orientation: portrait) {
+  .page-info.player-show-page.player-request-page {
+    padding: 240px 24px 100px;
+  }
+}

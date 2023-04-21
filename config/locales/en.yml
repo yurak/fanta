@@ -282,6 +282,7 @@ en:
     total_score: "Total score"
     ts: "TS"
   round_players:
+    short_title: "Best Players"
     title: "%{tournament} Round #%{number} Best Players"
   table:
     title: "Table"
