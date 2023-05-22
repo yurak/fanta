@@ -39,8 +39,9 @@
 
       .auction-round-base {
         display: grid;
-        grid-template-columns: 100px auto 276px 144px;
-        line-height: 40px;
+        grid-template-columns: 100px auto 276px 190px 20px;
+        column-gap: 8px;
+        line-height: 37px;
         color: #181715;
 
         .auction-round-title {
@@ -88,6 +89,105 @@
             line-height: 24px;
             color: #DB0A23;
             text-align: center;
+          }
+        }
+
+        .round-action-btn {
+          #submit-bid-btn {
+            border: 1px solid #261FFF;
+            height: 40px;
+            background: #261FFF;
+            border-radius: 4px;
+            width: 100%;
+            color: #FFFFFF;
+            font-size: 16px;
+          }
+        }
+
+        .round-action-info {
+          .tooltip-img {
+            padding: 10px 0;
+          }
+
+          img {
+            width: 20px;
+            height: 20px;
+          }
+
+          .wrapper {
+            font-size: 12px;
+            line-height: 16px;
+            cursor: help;
+            position: relative;
+            text-align: center;
+            -webkit-transform: translateZ(0); /* webkit flicker fix */
+            -webkit-font-smoothing: antialiased; /* webkit text rendering fix */
+          }
+
+          .wrapper .tooltip {
+            width: 340px;
+            background: #181715;
+            color: #fff;
+            border-radius: 8px;
+            display: block;
+            top: 40px;
+            left: -5px;
+            margin-bottom: 15px;
+            opacity: 0;
+            padding: 16px;
+            pointer-events: none;
+            position: absolute;
+            -webkit-transform: translateY(10px);
+            -moz-transform: translateY(10px);
+            -ms-transform: translateY(10px);
+            -o-transform: translateY(10px);
+            transform: translateY(10px);
+            -webkit-transition: all .25s ease-out;
+            -moz-transition: all .25s ease-out;
+            -ms-transition: all .25s ease-out;
+            -o-transition: all .25s ease-out;
+            transition: all .25s ease-out;
+            -webkit-box-shadow: 1px 2px 5px rgba(24, 23, 21, 0.2);
+            -moz-box-shadow: 1px 2px 5px rgba(24, 23, 21, 0.2);
+            -ms-box-shadow: 1px 2px 5px rgba(24, 23, 21, 0.2);
+            -o-box-shadow: 1px 2px 5px rgba(24, 23, 21, 0.2);
+            box-shadow: 1px 2px 5px rgba(24, 23, 21, 0.2);
+          }
+
+          /* This bridges the gap so you can mouse into the tooltip without it disappearing */
+          .wrapper .tooltip:before {
+            bottom: 30px;
+            content: " ";
+            display: block;
+            height: 30px;
+            left: 0;
+            position: absolute;
+            width: 100%;
+          }
+
+          .wrapper:hover .tooltip {
+            opacity: 1;
+            pointer-events: auto;
+            -webkit-transform: translateY(0px);
+            -moz-transform: translateY(0px);
+            -ms-transform: translateY(0px);
+            -o-transform: translateY(0px);
+            transform: translateY(0px);
+          }
+
+          .tooltip-header {
+            font-family: 'Nunito ExtraBold', serif;
+            margin-bottom: 4px;
+          }
+
+          .tooltip-base-header {
+            font-family: 'Nunito ExtraBold', serif;
+            margin: 8px 0 4px;
+          }
+
+          ol {
+            padding-left: 20px;
+            margin-bottom: 0;
           }
         }
       }
@@ -173,7 +273,7 @@
         border: 1px solid #E5E6E4;
         color: #181715;
         border-radius: 8px;
-        padding: 0 16px;
+        padding: 0 24px 0 16px;
         margin-bottom: 8px;
         display: grid;
         grid-template-columns: 24px 72px 2fr 1fr 1fr 168px;
@@ -260,6 +360,10 @@
             cursor: pointer;
           }
 
+          .player-select-false {
+            display: none;
+          }
+
           .player-transfer-completed {
             display: grid;
             grid-template-columns: auto 24px;
@@ -270,6 +374,35 @@
               text-align: right;
               font-size: 18px;
             }
+          }
+
+          .player-manage-block {
+            display: grid;
+            grid-template-columns: auto 24px;
+            column-gap: 24px;
+
+            .price-input-block {
+              margin: auto;
+            }
+
+            input {
+              outline: none;
+              border-width: 0 0 1px;
+              border-color: #847577;
+              border-radius: 0;
+              font-size: 16px;
+              background: #F4F4F4;
+              text-align: center;
+            }
+
+            input:focus{
+              outline: none;
+              box-shadow: none;
+            }
+          }
+
+          .player-manage-false {
+            display: none;
           }
         }
       }
@@ -388,6 +521,27 @@
               img {
                 margin-top: -2px;
               }
+            }
+          }
+
+          .ab-filters-positions {
+            margin: 24px 32px;
+            line-height: 36px;
+
+            .search-position {
+              height: 36px;
+              cursor: pointer;
+              display: inline-block;
+              padding: 4px 8px;
+              border: 1px solid #FFFFFF;
+            }
+
+            .search-position-border {
+              border: 1px solid #181715;
+            }
+
+            .player-position {
+              border-radius: 4px;
             }
           }
 
@@ -532,9 +686,13 @@
           margin-bottom: 8px;
 
           .auction-round-budget-dot {
-            background: #4EAD57;
+            background: #181715;
             border-radius: 4px;
             margin: 4px 0;
+          }
+
+          .budget-dot-available {
+            background: #4EAD57;
           }
 
           .budget-dot-spent-auc {
@@ -550,11 +708,15 @@
             text-align: right;
           }
 
-          .budget-value-balance {
+          #budget-value-balance {
+            color: #181715;
+          }
+
+          #budget-value-available {
             color: #4EAD57;
           }
 
-          .budget-value-spent-auc {
+          #budget-value-spent-auc {
             color: #BA44F1;
           }
 
@@ -571,6 +733,39 @@
 
           .auction-round-budget-summary-value {
             text-align: right;
+          }
+        }
+
+        .ar-budget-bar {
+          width: 100%;
+          height: 8px;
+          border-radius: 4px;
+          background: #4EAD57;
+          margin-top: 16px;
+
+          .ar-budget-bar-spent {
+            width: 0;
+            max-width: 100%;
+            height: 8px;
+            border-radius: 4px;
+            background: #BA44F1;
+          }
+        }
+
+        .ar-budget-alert {
+          padding: 4px 4px 4px 8px;
+          width: 100%;
+          background: #FCC5CB;
+          border-radius: 4px;
+          display: none;
+          grid-template-columns: 16px auto;
+          column-gap: 8px;
+          margin-top: 8px;
+          font-size: 12px;
+          line-height: 16px;
+
+          .ar-budget-alert-header {
+            font-family: 'Nunito ExtraBold';
           }
         }
       }

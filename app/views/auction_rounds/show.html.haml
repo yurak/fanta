@@ -12,7 +12,7 @@
           .auction-link-text= "#{t('auction_round.auction')} ##{auction.number}"
       .auction-round-header{ class: "auction-round-base-#{auction_bid&.status}" }
         .auction-round-base
-          .auction-round-title= "#{t('auction_round.stage')} ##{auction_round.number}"
+          .auction-round-title= "#{t('auction_round.stage').upcase} ##{auction_round.number}"
           .auction-round-status
             - if auction_bid
               .auction-round-status-badge
@@ -22,8 +22,19 @@
             .round-deadline-value
               = auction_round.deadline&.strftime("%a, %b %e at %H:%M")
           -# TODO: link to change auction bid status
-          -#.round-deadline Submit bid
-          .round-deadline
+          .round-action-btn
+            = submit_tag t('auction_round.submit_bid'), form: 'auction_bid_form', class: 'submit-btn', id: 'submit-bid-btn'
+          .round-action-info
+            .wrapper
+              .tooltip
+                .tooltip-header= t("auction_round.tooltip.header.#{auction_bid.status}")
+                .tooltip-round-data= t("auction_round.tooltip.description.#{auction_bid.status}")
+                .tooltip-base-header= t('auction_round.tooltip.base_header')
+                %ol
+                  %li.tooltip-base-data= t('auction_round.tooltip.base_data_one')
+                  %li.tooltip-base-data= t('auction_round.tooltip.base_data_two')
+                  %li.tooltip-base-data= t('auction_round.tooltip.base_data_three')
+              .tooltip-img= image_tag('icons/info.svg')
         .rounds-block
           - if auction.auction_rounds.count > 1
             - auction.auction_rounds.each do |round|
@@ -53,19 +64,37 @@
               #position-naming{ type: "hidden", value: "#{current_user.ital_pos_naming}"}
               #dumped{ type: "hidden", value: "#{current_user&.team_by_league(league).dumped_player_ids(auction).join(',')}"}
               = f.fields_for :player_bids do |player_bid|
+                = player_bid.hidden_field(:player_id, value: player_bid.object.player&.id, class: 'round-player-input', id: "player-bid-#{player_bid.index}")
                 .auction-bid-slot.auction-bid-slot-modal{id: "modal-player-data#{player_bid.index}"}
                   .player-bid-index.right= player_bid.index + 1
                   .player-bid-avatar
-                    .player-bid-face{id: "avatar-#{player_bid.index}"}
-                      = image_tag('avatar.png')
+                    .player-bid-face
+                      %object{data: player_bid.object.player&.avatar_path || '', type: ApplicationRecord::CONTENT_TYPE_PNG, id: "avatar-#{player_bid.index}"}
+                        = image_tag('avatar.png')
                     .player-bid-kit
-                      = image_tag('kit_small_default.png')
+                      %object{data: player_bid.object.player&.kit_path || '', type: ApplicationRecord::CONTENT_TYPE_PNG, id: "kit-#{player_bid.index}"}
+                        = image_tag('kit_small_default.png')
                   .player-bid-name
-                    .player-bid-unselected= t('auction_round.unselected')
+                    .player-bid-last-name{id: "last-name-#{player_bid.index}"}
+                      = player_bid.object.player&.name || ' '
+                    .player-bid-first-name{id: "first-name-#{player_bid.index}"}
+                      = player_bid.object.player ? player_bid.object.player.first_name : t('auction_round.unselected')
                   .player-bid-positions
+                    .player-positions-block{id: "positions-#{player_bid.index}"}
+                      - if player_bid.object.player
+                        - player_bid.object.player.positions.each do |position|
+                          .player-position{class: "player-position-#{position.name}"}
+                            = position_name(position)
                   .player-bid-club
-                  .player-bid-actions.right
-                    .player-bid-action-select= t('auction_round.select')
+                    %object{data: player_bid.object.player&.club&.logo_path || '', type: ApplicationRecord::CONTENT_TYPE_PNG, id: "club-#{player_bid.index}"}
+                  .player-bid-actions.right{id: "actions-#{player_bid.index}"}
+                    .player-manage-block{class: "player-manage-#{player_bid.object.player.present?}"}
+                      .price-input-block
+                        = player_bid.number_field :price, min: 1, step: 1, class: 'form-control price-input', id: "price-#{player_bid.object.id}"
+                      .change-player
+                        = image_tag('icons/refresh.svg')
+                    .player-bid-action-select{class: "player-select-#{player_bid.object.player.nil?}"}
+                      = t('auction_round.select')
 
                   -#.main-players
                   .modal-auction-players-list{id: "modal-players-list#{player_bid.index}"}
@@ -82,15 +111,16 @@
                               .search-error{id: "search-error#{player_bid.index}"} Min 2 characters
                             .search-clear-container
                               .search-clear{id: "search-clear#{player_bid.index}"}= image_tag('icons/close_ring.svg')
-                      .ab-filters-block
-                        .ab-filters-title-row
-                          .ab-filters-title-icon= image_tag('icons/filters.svg')
-                          .ab-filters-title-text= t('auction_round.filters')
-                      -#.search-positions
-                      -#  - Position.all.each do |position|
-                      -#    .search-position{class: "search-position#{i}",id: "search-position#{position.name}"}
-                      -#      .slot-position{class: "slot-position-#{position.name}"}
-                      -#        = position_name(position)
+                      -#.ab-filters-block
+                      -#  .ab-filters-title-row
+                      -#    .ab-filters-title-icon= image_tag('icons/filters.svg')
+                      -#    .ab-filters-title-text= t('auction_round.filters')
+                      .ab-filters-positions
+                        - Position.all.each do |position|
+                          .search-position.player-positions-block{class: "search-position#{player_bid.index}",id: "search-position#{position.name}"}
+                            .player-position{class: "player-position-#{position.name}"}
+                              = position_name(position)
+
                       -#.search-clubs
                       -#  - league.tournament.clubs.active.each do |club|
                       -#    .search-club-logo{class: "search-club#{i}",id: "search-club#{club.id}"}
@@ -99,10 +129,8 @@
                       -#.modal-modules-block
                       -#  .modal-malus-block{id: "modal-players-block-#{i}"}
                       .ab-players-block{id: "ab-players-block-#{player_bid.index}"}
-              .form-group
-                = submit_tag t('auction_bid.confirm'), form: 'auction_bid_form', class: 'confirm-btn', id: 'submit-bid-btn'
             - current_user&.team_by_league(league).players.each_with_index do |player, i|
-              = link_to player_path(player) do
+              = link_to player_path(player), target: '_blank' do
                 .auction-bid-slot
                   .player-bid-index.right= i + 1 + current_user&.team_by_league(league)&.vacancies
                   .player-bid-avatar
@@ -125,7 +153,7 @@
                       = image_tag('default_logo.png')
                   .player-bid-actions
                     .player-transfer-completed
-                      .player-transfer-price= player.transfers.incoming.by_league(league&.id).last.price
+                      .player-transfer-price= player.transfers.incoming.by_league(league&.id).last&.price
                       .player-transfer-check ✅
 
     .stats-section
@@ -143,11 +171,15 @@
               .auction-round-budget-row
                 .auction-round-budget-dot.budget-dot-balance
                 .auction-round-budget-text= t('auction_round.balance')
-                .auction-round-budget-value.budget-value-balance= "#{current_user&.team_by_league(league).budget}M"
+                .auction-round-budget-value#budget-value-balance= "#{current_user&.team_by_league(league).budget}M"
+              .auction-round-budget-row
+                .auction-round-budget-dot.budget-dot-available
+                .auction-round-budget-text= t('auction_round.available_budget')
+                .auction-round-budget-value#budget-value-available= "#{current_user&.team_by_league(league).budget - (auction_bid ? auction_bid.player_bids.sum(&:price) : 0)}M"
               .auction-round-budget-row
                 .auction-round-budget-dot.budget-dot-spent-auc
                 .auction-round-budget-text= t('auction_round.spent_auction')
-                .auction-round-budget-value.budget-value-spent-auc= "#{current_user&.team_by_league(league).spent_budget(auction)}M"
+                .auction-round-budget-value#budget-value-spent-auc= "#{auction_bid ? auction_bid.player_bids.sum(&:price) : 0}M"
               .auction-round-budget-row
                 .auction-round-budget-dot.budget-dot-spent-total
                 .auction-round-budget-text= t('auction_round.spent_total')
@@ -159,6 +191,13 @@
               .auction-round-budget-summary-row
                 .auction-round-budget-summary-text= t('auction_round.max_bid')
                 .auction-round-budget-summary-value= "#{current_user&.team_by_league(league).max_rate}M"
+            .ar-budget-bar
+              .ar-budget-bar-spent
+            .ar-budget-alert
+              .ar-budget-alert-icon ⛔️
+              .ar-budget-alert-text
+                .ar-budget-alert-header Budget exceeded
+                .ar-budget-alert-desc Decrease bid to match yor budget
       .round-table
         .round-table-title-header
           .round-table-title
@@ -214,19 +253,24 @@
 
 :javascript
   $(document).ready(function() {
+    // Prevent form sending after Enter key press
     $("form").bind("keypress", function (e) {
       if (e.keyCode == 13) {
         return false;
       }
     });
 
+    // Clear search input
     $('.search-clear').click(function() {
       const slotId = $(this).attr('id').replace('search-clear','');
 
       clearSlotModal(slotId);
     });
 
-    $('.auction-bid-slot-modal').click(function() {
+    // Show modal
+    $('.auction-bid-slot-modal').click(function(e) {
+      if($(e.target).is("input")) return;
+
       const btn = $(this);
       const playersList = btn.children(".modal-auction-players-list")
 
@@ -243,29 +287,56 @@
     //        });
     });
 
+    // Select player and set data in player slot
     $('.player-bids-block').on('click', '.ab-player-available', function() {
       const playerBidId = $(this).parent().parent().parent()[0].id.replace('player-bid','');
       const playerId = $(this)[0].id.replace('player','');
       const slotId = $(this).parent().parent()[0].id.replace('ab-players-block-','');
+      const italPosNaming = ($('#position-naming')[0].getAttribute('value') === 'true');
+      const positionsContainer = $('#positions-' + slotId);
+      const actionsContainer = $('#actions-' + slotId);
 
       $.ajax({
         type: "PUT",
         dataType: 'json',
         url: "/player_bids/"+playerBidId,
-        data: { _method: 'PUT', player_id: playerId }
-      });
+        data: { _method: 'PUT', player_id: playerId },
+        success: function(data){
+          $('#player-bid-' + slotId).attr("value", playerId);
+          $('#avatar-' + slotId).attr("data", data.avatar_path);
+          $('#kit-' + slotId).attr("data", data.kit_path);
+          $('#club-' + slotId).attr("data", data.club_logo);
+          $('#first-name-' + slotId).text(data.first_name || ' ');
+          $('#last-name-' + slotId).text(data.name);
 
-      // TODO: add player data to slot
+          positionsContainer.children(".player-position").remove();
+          data.position_names.forEach((positionName, index) => {
+            let posName = data.classic_positions[index];
+            if (italPosNaming) { posName = positionName; }
+
+            $('<div/>',{
+              text: posName,
+              class: "player-position player-position-" + positionName
+            }).appendTo(positionsContainer);
+            positionsContainer.append(' ');
+          })
+
+          actionsContainer.children(".player-manage-block").css("display", "grid");
+          actionsContainer.children(".player-bid-action-select").hide();
+        }
+      });
 
       clearSlotModal(slotId);
       $('#modal-players-list' + slotId).css("display", "none");
     });
 
+    // Search player by name
     $(".search-input input").on("input", function() {
       const slotId = $(this).attr('id').replace('search-field','');
       const playersContainer = $('#ab-players-block-'+slotId);
       const str_length = $(this).val().length;
 
+      $('.player-positions-block').removeClass('search-position-border');
       playersContainer.empty();
 
       if (str_length > 0 && str_length < 2) {
@@ -298,6 +369,34 @@
       }
     });
 
+    // Search player by position
+    $(".search-position").on('click', function(e){
+      e.stopPropagation();
+
+      const slotId = $(this).attr('class').replace('search-position player-positions-block search-position','');
+      const positionName = $(this).attr('id').replace('search-position','');
+      const tournamentId = $('#tournament')[0].getAttribute('value');
+      const leagueId = $('#league')[0].getAttribute('value');
+      const playersContainer = $('#ab-players-block-'+slotId);
+
+      $('.player-positions-block').removeClass('search-position-border');
+      $(this).addClass('search-position-border');
+      $(".search-input input").val('');
+      playersContainer.empty();
+
+      $.ajax({
+        type: "GET",
+        dataType: "json",
+        url: "/players?position="+positionName+"&tournament="+tournamentId,
+        success: function(data){
+          data.forEach((playerData) => {
+            renderPlayerItem(playerData, slotId, leagueId);
+          })
+        }
+      });
+    });
+
+    // Render players in modal window
     function renderPlayerItem(data, slotId, leagueId) {
       const playersContainer = $('#ab-players-block-'+slotId);
       const avatarImgSrc = $('#avatar-'+slotId).children()[0].src;
@@ -348,7 +447,7 @@
                 data.name +
               '</div>' +
               '<div class="ab-player-first-name">' +
-                data.first_name +
+                (data.first_name || ' ') +
               '</div>' +
             '</div>' +
             '<div class="player-bid-positions">' +
@@ -374,6 +473,7 @@
       playersContainer.append(playerHtml);
     }
 
+    // Clear players and input in modal
     function clearSlotModal(slotId) {
       $('#search-field' + slotId).val('');
       $("#search-clear" + slotId).hide();
@@ -381,6 +481,116 @@
       $('#ab-players-block-'+slotId).empty();
     }
 
+    // Count total price of bid
+    const priceInputs = $(".price-input");
+    const spentBar = $(".ar-budget-bar-spent");
+    const totalPrice = $("#budget-value-spent-auc");
+    const availableBudget = $("#budget-value-available");
+    const teamBudget = parseInt("#{auction_bid.team.budget}");
+    const initialBid = countTotalBid();
+
+    totalPrice.text(initialBid + "M");
+    availableBudget.text(teamBudget - initialBid + "M");
+    spentBar.css("width", (initialBid * 100 / teamBudget) + "%");
+
+    priceInputs.change(function() {
+      const playerBidId = $(this).attr('id').replace('price-','');
+      const totalBid = countTotalBid();
+      const alertDiv = $(".ar-budget-alert");
+      let barWidth = totalBid * 100 / teamBudget;
+
+      $.ajax({
+        type: "PUT",
+        dataType: 'json',
+        url: "/player_bids/"+playerBidId,
+        data: { _method: 'PUT', price: $(this).val() },
+        success: function(){
+          // TODO: refresh page if status "submitted" or "completed"
+          location.reload()
+          // else:
+          totalPrice.text(totalBid + "M");
+          availableBudget.text(teamBudget - totalBid + "M");
+
+          if (barWidth > 100) {
+            barWidth = 100;
+          }
+          spentBar.css("width", barWidth + "%");
+
+          if (totalBid > teamBudget) {
+            alertDiv.css("display", "grid");
+          } else {
+            alertDiv.css("display", "none");
+          }
+        }
+      });
+    });
+
+    function countTotalBid() {
+      let totalBid = 0;
+      let error = false;
+      priceInputs.each( function(){
+        var itemPrice = parseInt($( this )[0].value) || 0;
+
+        if (itemPrice < 1) {
+          error = true;
+        } else {
+          totalBid += itemPrice
+        }
+      });
+
+      if (error) {
+        return 0;
+      } else {
+        return totalBid;
+      }
+    }
+
+    // Validate auction bid
+    $("#submit-bid-btn").click(function(){
+      if (countTotalBid() > teamBudget) {
+        alert("#{t('auction_bid.overprice')}");
+        return false;
+      }
+
+      if (countTotalBid() < 1) {
+        alert("#{t('auction_bid.min_price')}");
+        return false;
+      }
+
+      const slotsCount = parseInt("#{auction_bid.team.vacancies}");
+      const playerIds = [];
+      $('.round-player-input').each(function() { playerIds.push($(this).val()); });
+      const filtered = playerIds.filter(Boolean);
+      const duplicateIds = playerIds.reduce(function(acc, el, i, arr) {
+        if (arr.indexOf(el) !== i && acc.indexOf(el) < 0) acc.push(el); return acc;
+      }, []);
+
+      if (duplicateIds.length > 0) {
+        const duplicateNames = [];
+        $('.round-player-input').each(function() {
+          if (duplicateIds.includes($(this).val())) {
+            let slotNumber = parseInt($(this).first().first().attr('id').replace('player-bid-','')) + 1
+            duplicateNames.push(slotNumber);
+          }
+        });
+
+        alert("#{t('auction_bid.duplicates')}"+duplicateNames);
+        return false;
+      }
+
+      if (filtered.length < slotsCount) {
+        alert("#{t('auction_bid.empty_slots', count: auction_bid.team.vacancies)}");
+        return false;
+      }
+
+      const goaleeCount = parseInt("#{auction_bid.team.players.by_position('Por').count}") + $('.player-position-Por').size();
+      if (goaleeCount < 2) {
+        alert("#{t('auction_bid.goalee_count')}");
+        return false;
+      }
+    });
+
+    // Close modal window
     window.onclick = function(event) {
       if (event.target.className == "modal-auction-players-list") {
         let slotId = event.target.id.replace('modal-players-list','');
@@ -390,6 +600,7 @@
       }
     };
 
+    // Show/hide stats
     $(".round-table-hide").click(function(){
       var statsTable = this.parentNode.parentNode;
       var list = statsTable.querySelector(".round-list");

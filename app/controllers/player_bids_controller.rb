@@ -1,14 +1,13 @@
 class PlayerBidsController < ApplicationController
   respond_to :html, :json
 
-  # helper_method :auction_bid, :auction_round, :dumped_player_ids, :league, :team
-
   def update
-    if player_bid && player && player_available?
-      player_bid.update(player: player)
+    if player_bid && player && auction_round.active? && player_available?
+      player_bid.auction_bid.ongoing! if player_bid.auction_bid.submitted?
+      player_bid.update(player_bid_params)
     end
 
-    head :ok
+    render json: player
   end
 
   private
@@ -21,7 +20,7 @@ class PlayerBidsController < ApplicationController
   end
 
   def player_bid_params
-    params.permit(:player_id)
+    params.permit(:player_id, :price)
   end
 
   def player_bid
@@ -29,7 +28,7 @@ class PlayerBidsController < ApplicationController
   end
 
   def player
-    @player ||= Player.find_by(id: player_bid_params[:player_id])
+    @player ||= Player.find_by(id: player_bid_params[:player_id] || player_bid.player_id)
   end
 
   def team
@@ -37,7 +36,11 @@ class PlayerBidsController < ApplicationController
   end
 
   def auction
-    @auction ||= player_bid.auction_bid.auction
+    @auction ||= auction_round.auction
+  end
+
+  def auction_round
+    @auction ||= player_bid.auction_bid.auction_round
   end
 
   def league
