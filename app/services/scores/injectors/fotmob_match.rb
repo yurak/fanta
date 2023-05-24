@@ -86,15 +86,19 @@ module Scores
           fotmob_name: player_name(player_data),
           rating: player_data['rating']['num'],
           played_minutes: player_data['minutesPlayed'].to_i,
-          missed_goals: player_data['stats'][0]['stats']['Goals conceded'],
-          saves: player_data['stats'][0]['stats']['Saves'],
-          conceded_penalty: player_data['stats'][0]['stats']['Conceded penalty'],
-          penalties_won: player_data['stats'][0]['stats']['Penalties won']
+          missed_goals: player_stats(player_data, 'Goals conceded'),
+          saves: player_stats(player_data, 'Saves'),
+          conceded_penalty: player_stats(player_data, 'Conceded penalty'),
+          penalties_won: player_stats(player_data, 'Penalties won')
         }.compact
 
         return hash unless player_data['events']
 
         hash.merge!(player_events_hash(player_data))
+      end
+
+      def player_stats(player_data, key)
+        player_data['stats'][0]['stats'][key] ? player_data['stats'][0]['stats'][key]['value'] : 0
       end
 
       def player_events_hash(player_data)

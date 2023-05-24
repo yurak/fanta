@@ -39,6 +39,11 @@
       }
     }
 
+    .table-header-cell-first {
+      padding: 0;
+      border-right: none;
+    }
+
     .table-team-item {
       line-height: 56px;
       border-bottom: 1px solid #F4F4F4;
@@ -69,8 +74,16 @@
         }
       }
 
+      .table-cell-number {
+        padding-right: 16px;
+      }
+
       .table-team-points {
         font-family: 'Nunito ExtraBold';
+      }
+
+      .ts-cell {
+        padding-right: 8px;
       }
 
       .table-team-opponent img {

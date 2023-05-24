@@ -50,7 +50,7 @@
     - else
       .table-block
         .default-headers.table-grid
-          .default-header-cell
+          .default-header-cell.table-header-cell-first
           .default-header-cell
           .default-header-cell= t('table.team')
           .default-header-cell= t('table.games')
@@ -76,21 +76,21 @@
                   = image_tag(image_path(result.team.logo_path))
                 .results-team-name
                   = result.team.human_name
-            .table-team-param
+            .table-team-param.table-cell-number
               = result.matches_played
-            .table-team-param
+            .table-team-param.table-cell-number
               = result.wins
-            .table-team-param
+            .table-team-param.table-cell-number
               = result.draws
-            .table-team-param
+            .table-team-param.table-cell-number
               = result.loses
-            .table-team-param
+            .table-team-param.table-cell-number
               = result.scored_goals
-            .table-team-param
+            .table-team-param.table-cell-number
               = result.missed_goals
-            .table-team-param
+            .table-team-param.table-cell-number
               = result.goals_difference
-            .table-team-param.table-team-points
+            .table-team-param.table-team-points.table-cell-number
               = result.points
             .table-team-param.ts-cell
               = result.total_score.round(2)
