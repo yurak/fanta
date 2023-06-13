@@ -57,7 +57,8 @@ namespace :tm do
 
     clubs.each do |club|
       puts "--------#{club.name}--------"
-      html_page = Nokogiri::HTML(RestClient.get(club.tm_url))
+      response = RestClient::Request.execute(method: :get, url: club.tm_url, headers: { 'User-Agent': 'product/version' })
+      html_page = Nokogiri::HTML(response)
       players = html_page.css('.posrela .hauptlink .hide-for-small')
 
       players.each do |player_data|

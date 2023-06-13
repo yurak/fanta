@@ -6,43 +6,50 @@ module AuctionBids
     COMPLETED_STATUS = 'completed'.freeze
     PROCESSED_STATUS = 'processed'.freeze
 
-    attr_reader :auction_bid, :params, :status, :team
+    attr_reader :auction_bid, :auction_status, :params
 
-    def initialize(auction_bid, team, params)
+    def initialize(auction_bid, params)
       @auction_bid = auction_bid
-      @status = auction_bid.status
-      @team = team
+      @auction_status = auction_bid&.status
       @params = params
     end
 
     def call
-      submit
+      return false unless auction_bid && team
+      return false if auction_status == PROCESSED_STATUS
 
-      complete
+      submit if new_status == SUBMITTED_STATUS
 
-      # TODO: add actions for other statuses
+      complete if new_status == COMPLETED_STATUS
+
+      ongoing if new_status == ONGOING_STATUS
     end
 
     private
 
     def submit
-      return false if [INITIAL_STATUS, ONGOING_STATUS].exclude? status
+      return false if [INITIAL_STATUS, ONGOING_STATUS].exclude? auction_status
       return false unless valid_bid?
 
       auction_bid.update(params)
-      auction_bid.submitted!
     end
 
     def complete
-      return false unless status == SUBMITTED_STATUS
+      return false unless auction_status == SUBMITTED_STATUS
+      return false unless valid_bid?
 
-      # TODO:
-      # auction_bid.update(params)
+      auction_bid.update(params)
+    end
+
+    def ongoing
+      return false unless auction_status == COMPLETED_STATUS
+
+      auction_bid.update(params.slice(:status))
     end
 
     def valid_bid?
-      return false if duplicate_players&.any?
       return false if players_ids.count < team.vacancies
+      return false if duplicate_players&.any?
       return false if total_price > team.budget
       return false if gk_count < Team::MIN_GK
       return false if contains_dumped?
@@ -50,11 +57,17 @@ module AuctionBids
       true
     end
 
+    def new_status
+      params[:status]
+    end
+
     def total_price
       params[:player_bids_attributes].values.each_with_object([]) { |el, prices| prices << el[:price] }.sum(&:to_i)
     end
 
     def players_ids
+      return [] unless params[:player_bids_attributes]
+
       params[:player_bids_attributes].values.each_with_object([]) { |el, p_ids| p_ids << el[:player_id].to_i }.compact_blank
     end
 
@@ -72,6 +85,10 @@ module AuctionBids
 
     def dumped_player_ids
       team.transfers.outgoing.by_auction(auction_round.auction).pluck(:player_id)
+    end
+
+    def team
+      @team ||= auction_bid.team
     end
 
     def auction_round

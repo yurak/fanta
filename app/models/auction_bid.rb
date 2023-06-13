@@ -11,4 +11,8 @@ class AuctionBid < ApplicationRecord
   default_scope { includes(:player_bids) }
 
   accepts_nested_attributes_for :player_bids
+
+  def editable?
+    initial? || ongoing? || submitted?
+  end
 end

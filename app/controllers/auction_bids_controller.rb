@@ -2,7 +2,7 @@ class AuctionBidsController < ApplicationController
   respond_to :html, :json
 
   def update
-    AuctionBids::Manager.call(auction_bid, team, auction_bid_params) if editable?
+    AuctionBids::Manager.call(auction_bid, auction_bid_params) if editable?
 
     redirect_to auction_round_path(auction_round)
   end
@@ -10,7 +10,7 @@ class AuctionBidsController < ApplicationController
   private
 
   def auction_bid_params
-    params.fetch(:auction_bid, {}).permit(player_bids_attributes: {})
+    params.fetch(:auction_bid, {}).permit(:status, player_bids_attributes: {})
   end
 
   def editable?

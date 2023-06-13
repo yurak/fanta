@@ -43,6 +43,11 @@ en:
     available_budget: "Available budget"
     balance: "Budget balance"
     bets_placed: "🎯 Bids overview"
+    bid_action:
+      completed: "Return to Ongoing"
+      initial: "Submit bid"
+      ongoing: "Submit bid"
+      submitted: "Complete in advance"
     budget: "💰 Budget"
     filters: "Filters"
     max_bid: "Maximum bid"

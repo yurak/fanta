@@ -368,18 +368,18 @@
             display: grid;
             grid-template-columns: auto 24px;
             column-gap: 32px;
+          }
 
-            .player-transfer-price {
-              font-family: 'Nunito ExtraBold';
-              text-align: right;
-              font-size: 18px;
-            }
+          .player-transfer-price {
+            font-family: 'Nunito ExtraBold';
+            text-align: right;
+            font-size: 18px;
           }
 
           .player-manage-block {
             display: grid;
             grid-template-columns: auto 24px;
-            column-gap: 24px;
+            column-gap: 32px;
 
             .price-input-block {
               margin: auto;

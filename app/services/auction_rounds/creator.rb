@@ -7,6 +7,8 @@ module AuctionRounds
     end
 
     def call
+      return false unless auction
+
       @auction_round = create_auction_round
 
       create_auction_bids

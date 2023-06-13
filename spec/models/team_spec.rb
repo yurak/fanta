@@ -400,4 +400,41 @@ RSpec.describe Team do
       end
     end
   end
+
+  describe '#dumped_player_ids(auction)' do
+    context 'without auction' do
+      it 'returns empty array' do
+        expect(team.dumped_player_ids(nil)).to eq([])
+      end
+    end
+
+    context 'with auction and without outgoing transfers' do
+      let(:auction) { create(:auction, league: team.league) }
+
+      it 'returns empty array' do
+        expect(team.dumped_player_ids(auction)).to eq([])
+      end
+    end
+
+    context 'with auction and with outgoing transfer on other auction' do
+      let(:auction) { create(:auction, league: team.league) }
+
+      before do
+        create(:transfer, status: 'outgoing', league: team.league, team: team, price: 77)
+      end
+
+      it 'returns empty array' do
+        expect(team.dumped_player_ids(auction)).to eq([])
+      end
+    end
+
+    context 'with auction and outgoing transfer' do
+      let(:auction) { create(:auction, league: team.league) }
+      let!(:transfer) { create(:transfer, status: 'outgoing', auction: auction, league: team.league, team: team, price: 77) }
+
+      it 'returns spent budget value' do
+        expect(team.dumped_player_ids(auction)).to eq([transfer.player_id])
+      end
+    end
+  end
 end
