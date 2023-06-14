@@ -31,4 +31,8 @@ module AuctionsHelper
       ''
     end
   end
+
+  def max_bid(league)
+    @max_bid ||= current_user&.team_by_league(league)&.max_rate
+  end
 end

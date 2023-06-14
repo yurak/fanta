@@ -84,7 +84,7 @@
                     .player-positions-block{id: "positions-#{player_bid.index}"}
                       - if player_bid.object.player
                         - player_bid.object.player.positions.each do |position|
-                          .player-position{class: "player-position-#{position.name}"}
+                          .player-position{class: "player-position-#{position.name} selected-player-#{position.name}"}
                             = position_name(position)
                   .player-bid-club
                     %object{data: player_bid.object.player&.club&.logo_path || '', type: ApplicationRecord::CONTENT_TYPE_PNG, id: "club-#{player_bid.index}"}
@@ -92,7 +92,7 @@
                     .player-manage-block{class: "player-manage-#{player_bid.object.player.present?}"}
                       - if auction_bid.editable?
                         .price-input-block
-                          = player_bid.number_field :price, min: 1, step: 1, class: 'form-control price-input', id: "price-#{player_bid.object.id}"
+                          = player_bid.number_field :price, min: 1, step: 1, max: max_bid(league), class: 'form-control price-input', id: "price-#{player_bid.object.id}"
                         .change-player
                           = image_tag('icons/refresh.svg')
                       - if auction_bid.completed?
@@ -331,7 +331,7 @@
 
                 $('<div/>',{
                   text: posName,
-                  class: "player-position player-position-" + positionName
+                  class: "player-position player-position-" + positionName + " selected-player-" + positionName
                 }).appendTo(positionsContainer);
                 positionsContainer.append(' ');
               })
@@ -495,6 +495,7 @@
         $("#search-clear" + slotId).hide();
         $("#search-error" + slotId).hide();
         $('#ab-players-block-'+slotId).empty();
+        $('.player-positions-block').removeClass('search-position-border');
       }
 
       // Count total price of bid
@@ -511,6 +512,12 @@
 
       priceInputs.change(function() {
         const playerBidId = $(this).attr('id').replace('price-','');
+        const maxBid = parseInt("#{max_bid(league)}");
+
+        if ($(this).val() > maxBid) {
+          $(this).val(maxBid);
+        }
+
         const totalBid = countTotalBid();
         const alertDiv = $(".ar-budget-alert");
         let barWidth = totalBid * 100 / teamBudget;
@@ -578,33 +585,38 @@
           return false;
         }
 
-        const slotsCount = parseInt("#{auction_bid&.team&.vacancies}");
+        const inputs = $('.round-player-input');
         const playerIds = [];
-        $('.round-player-input').each(function() { playerIds.push($(this).val()); });
-        const filtered = playerIds.filter(Boolean);
+        inputs.each(function() { playerIds.push($(this).val()); });
         const duplicateIds = playerIds.reduce(function(acc, el, i, arr) {
           if (arr.indexOf(el) !== i && acc.indexOf(el) < 0) acc.push(el); return acc;
         }, []);
 
+        const emptySlots = [];
+        inputs.each(function() {
+          if (!$(this).val()) {
+            emptySlots.push(parseInt($(this).first().first().attr('id').replace('player-bid-','')) + 1);
+          }
+        })
+        if (emptySlots.length > 0) {
+          alert("#{t('auction_bid.empty_slots')}"+emptySlots);
+          return false;
+        };
+
         if (duplicateIds.length > 0) {
-          const duplicateNames = [];
-          $('.round-player-input').each(function() {
+          const duplicateSlots = [];
+          inputs.each(function() {
             if (duplicateIds.includes($(this).val())) {
               let slotNumber = parseInt($(this).first().first().attr('id').replace('player-bid-','')) + 1
-              duplicateNames.push(slotNumber);
+              duplicateSlots.push(slotNumber);
             }
           });
 
-          alert("#{t('auction_bid.duplicates')}"+duplicateNames);
+          alert("#{t('auction_bid.duplicates')}"+duplicateSlots);
           return false;
         }
 
-        if (filtered.length < slotsCount) {
-          alert("#{t('auction_bid.empty_slots', count: auction_bid&.team&.vacancies)}");
-          return false;
-        }
-
-        const goaleeCount = parseInt("#{auction_bid&.team&.players&.by_position('Por')&.count}") + $('.player-position-Por').size();
+        const goaleeCount = parseInt("#{auction_bid&.team&.players&.by_position('Por')&.count}") + $('.player-position-Por.selected-player-Por').size();
         if (goaleeCount < 2) {
           alert("#{t('auction_bid.goalee_count')}");
           return false;
