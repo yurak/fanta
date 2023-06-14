@@ -278,7 +278,7 @@
         if ($(e.target).is("input")) return;
 
         const bidStatus = "#{auction_bid&.status}";
-        if (bidStatus != "submitted" || bidStatus != "completed") return;
+        if (bidStatus == "processed" || bidStatus == "completed") return;
 
         const btn = $(this);
         const playersList = btn.children(".modal-auction-players-list")
