@@ -23,6 +23,7 @@ RSpec.describe 'AuctionRounds' do
 
         get auction_round_path(auction_round)
       end
+
       it { expect(response).to be_successful }
       it { expect(response).to render_template(:show) }
       it { expect(response).to have_http_status(:ok) }
