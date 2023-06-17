@@ -2,8 +2,7 @@ namespace :auction_rounds do
   desc 'auction_rounds:process - Process auction bids'
   task process: :environment do
     AuctionRound.active.each do |round|
-      # TODO: temporary disabled
-      # AuctionRounds::Manager.call(round)
+      AuctionRounds::Manager.call(round)
     end
   end
 end

@@ -8,12 +8,14 @@ module AuctionRounds
 
     def call
       return false unless round.active?
-      return false if round.deadline.nil? || round.deadline.asctime.in_time_zone('EET') > DateTime.now
-      return false if league.teams.count.zero? || round.auction_bids.initial.any?
+      return false if round.deadline.nil? || league.teams.count.zero? || bids_not_ready?
+      return false unless deadline_passed? || all_bids_completed?
 
       round.processing!
 
       manage_bids
+
+      round.auction_bids.map(&:processed!)
 
       round.closed!
 
@@ -61,8 +63,24 @@ module AuctionRounds
       league.players.count < league.teams.count * Team::MAX_PLAYERS
     end
 
+    def deadline_passed?
+      DateTime.now > round.deadline.asctime.in_time_zone('EET')
+    end
+
+    def bids_not_ready?
+      round.auction_bids.select { |ab| %w[submitted completed].exclude? ab.status }.any?
+    end
+
+    def all_bids_completed?
+      round.auction_bids.not_completed.empty?
+    end
+
     def league
       @league ||= auction.league
+    end
+
+    def auction_bids
+      @auction_bids ||= round.auction_bids
     end
 
     def auction

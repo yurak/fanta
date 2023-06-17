@@ -17,24 +17,25 @@
             - if auction_bid
               .auction-round-status-badge
                 = t("auction_round.status.#{auction_bid.status}")
-          .round-deadline
-            .round-deadline-text= t('tours.deadline')
-            .round-deadline-value
-              = auction_round.deadline&.strftime("%a, %b %e at %H:%M")
-          .round-action-btn
-            - if auction_bid && !auction_bid.processed?
-              = submit_tag t("auction_round.bid_action.#{auction_bid.status}"), form: 'auction_bid_form', class: 'submit-btn', id: 'submit-bid-btn'
-          .round-action-info
-            .wrapper
-              .tooltip
-                .tooltip-header= t("auction_round.tooltip.header.#{auction_bid&.status || 'initial'}")
-                .tooltip-round-data= t("auction_round.tooltip.description.#{auction_bid&.status || 'initial'}")
-                .tooltip-base-header= t('auction_round.tooltip.base_header')
-                %ol
-                  %li.tooltip-base-data= t('auction_round.tooltip.base_data_one')
-                  %li.tooltip-base-data= t('auction_round.tooltip.base_data_two')
-                  %li.tooltip-base-data= t('auction_round.tooltip.base_data_three')
-              .tooltip-img= image_tag('icons/info.svg')
+          - unless auction_round.closed?
+            .round-deadline
+              .round-deadline-text= t('tours.deadline')
+              .round-deadline-value
+                = auction_round.deadline&.strftime("%a, %b %e at %H:%M")
+            .round-action-btn
+              - if auction_bid && !auction_bid.processed?
+                = submit_tag t("auction_round.bid_action.#{auction_bid.status}"), form: 'auction_bid_form', class: 'submit-btn', id: 'submit-bid-btn'
+            .round-action-info
+              .wrapper
+                .tooltip
+                  .tooltip-header= t("auction_round.tooltip.header.#{auction_bid&.status || 'initial'}")
+                  .tooltip-round-data= t("auction_round.tooltip.description.#{auction_bid&.status || 'initial'}")
+                  .tooltip-base-header= t('auction_round.tooltip.base_header')
+                  %ol
+                    %li.tooltip-base-data= t('auction_round.tooltip.base_data_one')
+                    %li.tooltip-base-data= t('auction_round.tooltip.base_data_two')
+                    %li.tooltip-base-data= t('auction_round.tooltip.base_data_three')
+                .tooltip-img= image_tag('icons/info.svg')
         .rounds-block
           - if auction.auction_rounds.count > 1
             - auction.auction_rounds.each do |round|
@@ -45,7 +46,7 @@
                 = link_to auction_round_path(round) do
                   .round-link-block{ class: "round-#{round.status}" }
                     = round.number
-      - if current_user&.team_by_league(league)&.vacancies&.positive?
+      - if !auction_round.closed? && current_user&.team_by_league(league)&.vacancies&.positive?
         .auction-round-add-header
           .auction-round-add-text= t('auction_round.subheader.text1')
           .auction-round-add-item-badge= t('auction_round.subheader.players', players: current_user&.team_by_league(league).vacancies)
@@ -56,7 +57,7 @@
           .auction-round-add-item-badge.auction-round-add-item-badge-budget= "#{current_user&.team_by_league(league).budget}M"
       .auction-bid-block
         - if auction_bid
-          .auction-bid-title= t('auction_round.team')
+          .auction-bid-title= t('auction_round.bids')
           .player-bids-block
             = form_with model: [auction_round, auction_bid], id: 'auction_bid_form', local: true do |f|
               = f.hidden_field(:status, value: next_bid_status(auction_bid))
@@ -98,6 +99,12 @@
                       - if auction_bid.completed?
                         .player-transfer-price= player_bid.object.price
                         .player-transfer-check 🔒
+                      - if player_bid.object.failed?
+                        .player-transfer-price= player_bid.object.price
+                        .player-transfer-check ❌
+                      - if player_bid.object.success?
+                        .player-transfer-price= player_bid.object.price
+                        .player-transfer-check ✅
                     .player-bid-action-select{class: "player-select-#{player_bid.object.player.nil?}"}
                       = t('auction_round.select')
 
@@ -134,7 +141,11 @@
                       -#.modal-modules-block
                       -#  .modal-malus-block{id: "modal-players-block-#{i}"}
                       .ab-players-block{id: "ab-players-block-#{player_bid.index}"}
+
+            .auction-bid-title= t('auction_round.team')
             - current_user&.team_by_league(league).players.each_with_index do |player, i|
+              - next if auction_bid.player_bids.success.where(player: player).any?
+
               = link_to player_path(player), target: '_blank' do
                 .auction-bid-slot
                   .player-bid-index.right= i + 1 + current_user&.team_by_league(league)&.vacancies

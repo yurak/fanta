@@ -12,7 +12,7 @@
 
     .auction-round-back {
       display: grid;
-      grid-template-columns: 40px auto;
+      grid-template-columns: 40px 148px;
       column-gap: 8px;
       line-height: 40px;
 
@@ -220,11 +220,12 @@
     }
 
     .auction-round-base-processed {
-      background: #F4F4F4;
+      background: #C2D4FF;
+      border-radius: 8px;
 
       .auction-round-base {
         .auction-round-status .auction-round-status-badge {
-          background: #847577;
+          background: #261FFF;
         }
       }
     }
@@ -282,12 +283,10 @@
         line-height: 70px;
 
         .player-bid-avatar {
-          //background: #68D973;
           .player-bid-face, .player-bid-kit {
             position: absolute;
 
             img {
-              //margin-top: 2px;
               width: 66px;
               height: 66px;
             }
@@ -323,8 +322,6 @@
         }
 
         .player-bid-positions {
-          //background: #cfffc2;
-
           .player-positions-block {
             display: flex;
             align-items: center;
@@ -333,7 +330,6 @@
         }
 
         .player-bid-club {
-          //background: #da82b4;
           padding: 15px 0;
           line-height: 40px;
           height: 70px;
@@ -346,8 +342,6 @@
         }
 
         .player-bid-actions {
-          //background: #f5bc00;
-
           .player-bid-action-select {
             font-family: 'Nunito ExtraBold';
             margin: 27px 16px;

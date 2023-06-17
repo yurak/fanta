@@ -43,6 +43,7 @@ en:
     available_budget: "Available budget"
     balance: "Budget balance"
     bets_placed: "🎯 Bids overview"
+    bids: "💶 Bids"
     bid_action:
       completed: "Return to Ongoing"
       initial: "Submit bid"
