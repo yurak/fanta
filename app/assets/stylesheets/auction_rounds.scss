@@ -31,6 +31,10 @@
       }
     }
 
+    .auction-round-mob {
+      display: none;
+    }
+
     .auction-round-header {
       margin-top: 20px;
       padding: 16px;
@@ -92,18 +96,6 @@
           }
         }
 
-        .round-action-btn {
-          #submit-bid-btn {
-            border: 1px solid #261FFF;
-            height: 40px;
-            background: #261FFF;
-            border-radius: 4px;
-            width: 100%;
-            color: #FFFFFF;
-            font-size: 16px;
-          }
-        }
-
         .round-action-info {
           .tooltip-img {
             padding: 10px 0;
@@ -130,8 +122,8 @@
             color: #fff;
             border-radius: 8px;
             display: block;
-            top: 40px;
-            left: -5px;
+            top: 50px;
+            left: -300px;
             margin-bottom: 15px;
             opacity: 0;
             padding: 16px;
@@ -196,6 +188,18 @@
         margin-top: 8px;
         padding-bottom: 0;
         border-bottom: none;
+      }
+    }
+
+    .round-action-btn {
+      #submit-bid-btn {
+        border: 1px solid #261FFF;
+        height: 40px;
+        background: #261FFF;
+        border-radius: 4px;
+        width: 100%;
+        color: #FFFFFF;
+        font-size: 16px;
       }
     }
 
@@ -770,7 +774,223 @@
 @media (orientation: portrait) {
   .page-info.auction-rounds-page {
     display: block;
-    padding: 0 16px 288px;
+    padding: 0 16px 360px;
+
+    .round-section {
+      .auction-round-web {
+        display: none;
+      }
+
+      .auction-round-mob {
+        display: block;
+      }
+
+      .auction-round-back {
+        grid-template-columns: 54px 248px;
+        column-gap: 16px;
+        line-height: 80px;
+
+        img {
+          width: 32px;
+          height: 32px;
+          margin: 10px 12px;
+        }
+
+        .auction-link-text {
+          font-size: 36px;
+          line-height: 80px;
+        }
+      }
+
+      .auction-round-header {
+        padding: 24px;
+        border-radius: 16px 16px 0 0;
+
+        .auction-round-base {
+          grid-template-columns: 160px auto 330px 40px;
+          column-gap: 12px;
+          line-height: 54px;
+
+          .auction-round-title {
+            font-size: 36px;
+          }
+
+          .auction-round-status {
+            padding: 11px 0;
+
+            .auction-round-status-badge {
+              padding: 0 12px;
+              height: 32px;
+              font-size: 20px;
+              line-height: 32px;
+            }
+          }
+
+          .round-deadline {
+            display: grid;
+            grid-template-columns: 124px 184px;
+            column-gap: 8px;
+
+            .round-deadline-text {
+              font-size: 20px;
+            }
+
+            .round-deadline-value {
+              border: 2px solid #FCC5CB;
+              border-radius: 8px;
+              font-size: 18px;
+              line-height: 32px;
+              padding-top: 4px;
+            }
+          }
+
+          .round-action-info {
+            .tooltip-img {
+              padding: 10px 0;
+            }
+
+            img {
+              width: 40px;
+              height: 40px;
+            }
+          }
+        }
+
+        .rounds-block {
+          margin-top: 16px;
+
+          .round-link-block {
+            border-radius: 8px;
+            font-size: 32px;
+            line-height: 72px;
+            width: 88px;
+            margin: 4px 4px;
+          }
+        }
+      }
+
+      .round-action-btn {
+        margin: 32px 0;
+
+        #submit-bid-btn {
+          height: 88px;
+          border-radius: 12px;
+          font-size: 36px;
+        }
+      }
+
+      .auction-round-add-header {
+        border: 3px solid #FFEBC2;
+        border-radius: 0 0 16px 16px;
+        padding: 24px 32px;
+        font-size: 24px;
+        line-height: 32px;
+        height: fit-content;
+        gap: 8px;
+        display: grid;
+        grid-template-columns: auto auto;
+
+        .auction-round-add-item-badge {
+          border-radius: 16px;
+          font-size: 24px;
+          padding: 0 12px;
+          width: fit-content;
+        }
+      }
+
+      .auction-bid-block {
+        .auction-bid-title {
+          font-size: 28px;
+          line-height: 40px;
+          margin: 32px 0 16px;
+        }
+
+        .auction-bid-slot {
+          height: 120px;
+          border: 2px solid #E5E6E4;
+          border-radius: 16px;
+          padding: 0 36px 0 32px;
+          margin-bottom: 16px;
+          grid-template-columns: 32px 120px 2fr 1fr 1fr 168px;
+          column-gap: 32px;
+          font-size: 32px;
+          line-height: 116px;
+
+          .player-bid-avatar {
+            .player-bid-face, .player-bid-kit {
+              position: absolute;
+
+              img {
+                width: 108px;
+                height: 108px;
+              }
+
+              object {
+                margin-top: 9px;
+                width: 108px;
+                height: 108px;
+              }
+            }
+          }
+
+          .player-bid-name {
+            padding: 28px 0;
+            line-height: 60px;
+
+            .player-bid-unselected {
+              font-size: 24px;
+            }
+
+            .player-bid-last-name {
+              font-size: 24px;
+              line-height: 36px;
+            }
+
+            .player-bid-first-name {
+              font-size: 20px;
+              line-height: 24px;
+            }
+          }
+
+          .player-bid-positions .player-positions-block {
+            margin: 47px 0;
+          }
+
+          .player-bid-club {
+            padding: 28px 0;
+            line-height: 60px;
+            height: 116px;
+
+            img, object {
+              width: 60px;
+              height: 60px;
+            }
+          }
+
+          .player-bid-actions {
+            //.player-bid-action-select {
+            //  margin: 27px 16px;
+            //  font-size: 14px;
+            //  line-height: 16px;
+            //  color: #261FFF;
+            //  width: fit-content;
+            //  border-bottom: 1px solid #D8D6FF;
+            //}
+
+            .player-transfer-price {
+              font-size: 32px;
+            }
+
+            .player-manage-block {
+              input {
+                border-width: 0 0 3px;
+                font-size: 32px;
+              }
+            }
+          }
+        }
+      }
+    }
 
     .stats-section {
       display: grid;

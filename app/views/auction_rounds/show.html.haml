@@ -10,6 +10,9 @@
           = image_tag('icons/arrow_grey.svg')
         = link_to league_auctions_path(league) do
           .auction-link-text= "#{t('auction_round.auction')} ##{auction.number}"
+      .round-action-btn.auction-round-mob
+        - if auction_bid && !auction_bid.processed?
+          = submit_tag t("auction_round.bid_action.#{auction_bid.status}"), form: 'auction_bid_form', class: 'submit-btn', id: 'submit-bid-btn'
       .auction-round-header{ class: "auction-round-base-#{auction_bid&.status}" }
         .auction-round-base
           .auction-round-title= "#{t('auction_round.stage').upcase} ##{auction_round.number}"
@@ -22,7 +25,7 @@
               .round-deadline-text= t('tours.deadline')
               .round-deadline-value
                 = auction_round.deadline&.strftime("%a, %b %e at %H:%M")
-            .round-action-btn
+            .round-action-btn.auction-round-web
               - if auction_bid && !auction_bid.processed?
                 = submit_tag t("auction_round.bid_action.#{auction_bid.status}"), form: 'auction_bid_form', class: 'submit-btn', id: 'submit-bid-btn'
             .round-action-info
@@ -173,7 +176,7 @@
                       .player-transfer-check ✅
 
     .stats-section
-      - if current_user&.team_by_league(league)
+      - if current_user&.team_by_league(league) && auction_bid
         .round-table
           .round-table-title-header
             .round-table-title
@@ -195,7 +198,11 @@
               .auction-round-budget-row
                 .auction-round-budget-dot.budget-dot-spent-auc
                 .auction-round-budget-text= t('auction_round.spent_auction')
-                .auction-round-budget-value#budget-value-spent-auc= "#{auction_bid ? auction_bid.player_bids.sum(&:price) : 0}M"
+                .auction-round-budget-value#budget-value-spent-auc
+                  - if auction_bid.processed?
+                    = "#{auction_bid.player_bids.success.sum(&:price)}M"
+                  - else
+                    = "#{auction_bid.player_bids.sum(&:price)}M"
               .auction-round-budget-row
                 .auction-round-budget-dot.budget-dot-spent-total
                 .auction-round-budget-text= t('auction_round.spent_total')
@@ -515,11 +522,16 @@
       const totalPrice = $("#budget-value-spent-auc");
       const availableBudget = $("#budget-value-available");
       const teamBudget = parseInt("#{auction_bid&.team&.budget}");
-      const initialBid = countTotalBid();
 
-      totalPrice.text(initialBid + "M");
-      availableBudget.text(teamBudget - initialBid + "M");
-      spentBar.css("width", (initialBid * 100 / teamBudget) + "%");
+      if ("#{auction_bid.processed?}" === "true") {
+        availableBudget.text(teamBudget + "M");
+      } else {
+        const initialBid = countTotalBid();
+
+        totalPrice.text(initialBid + "M");
+        availableBudget.text(teamBudget - initialBid + "M");
+        spentBar.css("width", (initialBid * 100 / teamBudget) + "%");
+      }
 
       priceInputs.change(function() {
         const playerBidId = $(this).attr('id').replace('price-','');

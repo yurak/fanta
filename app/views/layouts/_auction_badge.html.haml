@@ -8,7 +8,7 @@
           .live-dot
           .live-text= t('header.live')
         - if active_auction.blind_bids? && active_auction.auction_rounds.active.any? && user_auction_bid(active_auction.auction_rounds.active.first, league)
-          .bid-made= t('header.bid_made')
+          .bid-made= t("auction_round.status.#{user_auction_bid(active_auction.auction_rounds.active.first, league).status}")
       .auction-line
         .auction-text-live= "#{t('header.auction')} ##{active_auction.number}"
         - if user_team_by_league(current_user, league)
