@@ -51,7 +51,9 @@ module Players
     end
 
     def request
-      @request ||= RestClient.get(@player.tm_path)
+      @request ||= RestClient::Request.execute(
+        method: :get, url: @player.tm_path, headers: { 'User-Agent': 'product/version' }
+      )
     end
   end
 end

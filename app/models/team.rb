@@ -108,6 +108,10 @@ class Team < ApplicationRecord
     transfers.incoming.by_auction(auction).sum(&:price)
   end
 
+  def dumped_player_ids(auction)
+    transfers.outgoing.by_auction(auction).pluck(:player_id)
+  end
+
   private
 
   def matches

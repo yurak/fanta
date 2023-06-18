@@ -1,5 +1,5 @@
 namespace :tm do
-  desc 'Check TM player club data'
+  desc 'tm:check_player_club_data - Check TM player club data'
   task :check_player_club_data, %i[start_id last_id] => :environment do |_t, args|
     ids_range = args[:start_id].to_i..args[:last_id].to_i
     ids_range.to_a.each do |id|
@@ -8,7 +8,9 @@ namespace :tm do
 
       p id if (id % 4).zero?
       begin
-        html_page = Nokogiri::HTML(RestClient.get(player.tm_path))
+        response = RestClient::Request.execute(method: :get, url: player.tm_path, headers: { 'User-Agent': 'product/version' })
+
+        html_page = Nokogiri::HTML(response)
         tm_club_name = html_page.css('.data-header__club').children[1]&.text
         tm_club_name = html_page.css('.data-header__club').children[0]&.text&.strip if tm_club_name.nil?
         club = Club.find_by(tm_name: tm_club_name)

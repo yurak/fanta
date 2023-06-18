@@ -954,196 +954,6 @@ body, html {
     height: 72px;
     width: 100%;
 
-    .modal-players-list {
-      display: none;
-      position: fixed;
-      z-index: 260;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      overflow: auto;
-      background-color: rgba(0,0,0, 0.5);
-
-      .players-modal-content {
-        background-color: #FFFFFF;
-        margin: 80px auto;
-        border: 1px solid #E5E6E4;
-        box-sizing: border-box;
-        box-shadow: 6px 6px 8px rgba(24, 23, 21, 0.2), 1px 2px 5px rgba(24, 23, 21, 0.2);
-        border-radius: 4px;
-        width: 1092px;
-
-        .modal-players-title {
-          font-family: 'Nunito Bold';
-          font-size: 24px;
-          line-height: 32px;
-          text-align: left;
-          padding: 24px 32px 16px;
-          display: grid;
-          grid-template-columns: 184px auto;
-
-          .slot-position {
-            height: 26px;
-            width: 40px;
-            line-height: 26px;
-            font-size: 14px;
-          }
-        }
-
-        .modal-modules-block {
-          padding: 0 24px 24px;
-
-          .modal-malus-title {
-            background-color: #F4F4F4;
-            width: 100%;
-            line-height: 16px;
-            font-size: 12px;
-            padding: 8px;
-            margin: 8px 0;
-            color: #BA44F1;
-          }
-
-          a {
-            text-decoration: none;
-          }
-
-          .modal-player-item {
-            font-family: 'Nunito Medium';
-            display: inline-block;
-            width: 112px;
-            height: 182px;
-            border-radius: 4px;
-            border: 1px solid #FFFFFF;
-            padding: 8px;
-          }
-
-          .modal-player-item-sold {
-            font-family: 'Nunito Medium';
-            display: inline-block;
-            width: 112px;
-            height: 182px;
-            border-radius: 4px;
-            border: 1px solid #FFFFFF;
-            padding: 8px;
-            background: #CECECE;
-
-            .modal-player-images {
-              background: #CECECE;
-            }
-
-            .modal-player-name {
-              text-decoration: line-through;
-            }
-          }
-
-          .modal-player-item:hover {
-            border: 1px solid #CFD2CD;
-            cursor: pointer;
-          }
-
-          .modal-player-images {
-            width: 96px;
-            height: 96px;
-            border-radius: 4px;
-            margin: 0 auto;
-            position: relative;
-            background: #F4F4F4;
-
-            .player-show-face, .player-show-kit {
-              position: absolute;
-
-              img, object {
-                width: 88px;
-                height: 88px;
-                margin: 8px 4px 0;
-              }
-
-              img {
-                margin: 8px 0 0;
-              }
-            }
-          }
-
-          .modal-player-data {
-            display: grid;
-            grid-template-columns: 5fr 2fr;
-            line-height: 16px;
-            font-size: 12px;
-            padding-top: 8px;
-
-            .player-positions {
-              display: grid;
-              grid-template-columns: 1fr 1fr 1fr;
-            }
-
-            .player-score {
-              text-align: right;
-            }
-
-            .position-item {
-              color: #4EAD57;
-            }
-
-            .position-item-Por {
-              color: #FFB319;
-            }
-
-            .position-item-E, .position-item-M, .position-item-C {
-              color: #006EF5;
-            }
-
-            .position-item-W, .position-item-T {
-              color: #BA44F1;
-            }
-
-            .position-item-A, .position-item-Pc {
-              color: #DB0A23;
-            }
-          }
-
-          .modal-player-name {
-            line-height: 24px;
-            font-size: 18px;
-            white-space: nowrap;
-            overflow: hidden !important;
-            text-overflow: ellipsis;
-          }
-
-          .modal-player-club {
-            line-height: 18px;
-            font-size: 14px;
-            color: #AFB3AD;
-            white-space: nowrap;
-            overflow: hidden !important;
-            text-overflow: ellipsis;
-          }
-
-          .modal-player-match {
-            display: grid;
-            grid-template-columns: 16px 22px 16px;
-            font-size: 10px;
-            line-height: 16px;
-            color: #847577;
-            text-align: center;
-
-            .player-match-team {
-              img, object {
-                width: 16px;
-                height: 16px;
-              }
-            }
-
-            .player-match-place {
-              font-family: 'Nunito SemiBold';
-              font-size: 16px;
-              padding-top: 1px;
-            }
-          }
-        }
-      }
-    }
-
     .team-player-data {
       display: grid;
       grid-template-columns: 100px auto 50px;
@@ -1217,6 +1027,196 @@ body, html {
       .team-player-dropdown {
         text-align: center;
         line-height: 72px;
+      }
+    }
+  }
+
+  .modal-players-list {
+    display: none;
+    position: fixed;
+    z-index: 260;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0, 0.5);
+
+    .players-modal-content {
+      background-color: #FFFFFF;
+      margin: 80px auto;
+      border: 1px solid #E5E6E4;
+      box-sizing: border-box;
+      box-shadow: 6px 6px 8px rgba(24, 23, 21, 0.2), 1px 2px 5px rgba(24, 23, 21, 0.2);
+      border-radius: 4px;
+      width: 1092px;
+
+      .modal-players-title {
+        font-family: 'Nunito Bold';
+        font-size: 24px;
+        line-height: 32px;
+        text-align: left;
+        padding: 24px 32px 16px;
+        display: grid;
+        grid-template-columns: 184px auto;
+
+        .slot-position {
+          height: 26px;
+          width: 40px;
+          line-height: 26px;
+          font-size: 14px;
+        }
+      }
+
+      .modal-modules-block {
+        padding: 0 24px 24px;
+
+        .modal-malus-title {
+          background-color: #F4F4F4;
+          width: 100%;
+          line-height: 16px;
+          font-size: 12px;
+          padding: 8px;
+          margin: 8px 0;
+          color: #BA44F1;
+        }
+
+        a {
+          text-decoration: none;
+        }
+
+        .modal-player-item {
+          font-family: 'Nunito Medium';
+          display: inline-block;
+          width: 112px;
+          height: 182px;
+          border-radius: 4px;
+          border: 1px solid #FFFFFF;
+          padding: 8px;
+        }
+
+        .modal-player-item-sold {
+          font-family: 'Nunito Medium';
+          display: inline-block;
+          width: 112px;
+          height: 182px;
+          border-radius: 4px;
+          border: 1px solid #FFFFFF;
+          padding: 8px;
+          background: #CECECE;
+
+          .modal-player-images {
+            background: #CECECE;
+          }
+
+          .modal-player-name {
+            text-decoration: line-through;
+          }
+        }
+
+        .modal-player-item:hover {
+          border: 1px solid #CFD2CD;
+          cursor: pointer;
+        }
+
+        .modal-player-images {
+          width: 96px;
+          height: 96px;
+          border-radius: 4px;
+          margin: 0 auto;
+          position: relative;
+          background: #F4F4F4;
+
+          .player-show-face, .player-show-kit {
+            position: absolute;
+
+            img, object {
+              width: 88px;
+              height: 88px;
+              margin: 8px 4px 0;
+            }
+
+            img {
+              margin: 8px 0 0;
+            }
+          }
+        }
+
+        .modal-player-data {
+          display: grid;
+          grid-template-columns: 5fr 2fr;
+          line-height: 16px;
+          font-size: 12px;
+          padding-top: 8px;
+
+          .player-positions {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+          }
+
+          .player-score {
+            text-align: right;
+          }
+
+          .position-item {
+            color: #4EAD57;
+          }
+
+          .position-item-Por {
+            color: #FFB319;
+          }
+
+          .position-item-E, .position-item-M, .position-item-C {
+            color: #006EF5;
+          }
+
+          .position-item-W, .position-item-T {
+            color: #BA44F1;
+          }
+
+          .position-item-A, .position-item-Pc {
+            color: #DB0A23;
+          }
+        }
+
+        .modal-player-name {
+          line-height: 24px;
+          font-size: 18px;
+          white-space: nowrap;
+          overflow: hidden !important;
+          text-overflow: ellipsis;
+        }
+
+        .modal-player-club {
+          line-height: 18px;
+          font-size: 14px;
+          color: #AFB3AD;
+          white-space: nowrap;
+          overflow: hidden !important;
+          text-overflow: ellipsis;
+        }
+
+        .modal-player-match {
+          display: grid;
+          grid-template-columns: 16px 22px 16px;
+          font-size: 10px;
+          line-height: 16px;
+          color: #847577;
+          text-align: center;
+
+          .player-match-team {
+            img, object {
+              width: 16px;
+              height: 16px;
+            }
+          }
+
+          .player-match-place {
+            font-family: 'Nunito SemiBold';
+            font-size: 16px;
+            padding-top: 1px;
+          }
+        }
       }
     }
   }

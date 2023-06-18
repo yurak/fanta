@@ -36,3 +36,5 @@ Style/FrozenStringLiteralComment:
 Lint/MissingSuper:
   Exclude:
     - 'app/services/**/*'
+RSpec/NestedGroups:
+  Max: 5

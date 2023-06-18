@@ -10,7 +10,7 @@ every :hour do
 end
 
 # Sell players from teams by deadline for auctions with sales status
-every :hour do
+every 15.minutes do
   rake 'transfers:outgoing_active_league'
 end
 

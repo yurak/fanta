@@ -18,4 +18,21 @@ module AuctionsHelper
 
     auction_round.auction_bids.find_by(team: current_user&.team_by_league(league))
   end
+
+  def next_bid_status(auction_bid)
+    case auction_bid&.status
+    when 'initial', 'ongoing'
+      'submitted'
+    when 'submitted'
+      'completed'
+    when 'completed'
+      'ongoing'
+    else
+      ''
+    end
+  end
+
+  def max_bid(league)
+    @max_bid ||= current_user&.team_by_league(league)&.max_rate
+  end
 end

@@ -46,6 +46,12 @@ FactoryBot.define do
       end
     end
 
+    trait :with_full_squad do
+      after(:create) do |team|
+        create_list(:player_team, Team::MAX_PLAYERS, team: team)
+      end
+    end
+
     trait :with_lineup do
       after(:create) do |team|
         create_list(:player_team, 25, team: team)

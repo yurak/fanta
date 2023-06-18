@@ -114,4 +114,46 @@ RSpec.describe AuctionsHelper do
       end
     end
   end
+
+  describe '#next_bid_status(auction_bid)' do
+    let(:auction_bid) { create(:auction_bid) }
+
+    context 'without auction_bid' do
+      let(:auction_bid) { nil }
+
+      it 'returns empty string' do
+        expect(helper.next_bid_status(auction_bid)).to eq('')
+      end
+    end
+
+    context 'with initial auction_bid' do
+      it 'returns submitted as next status' do
+        expect(helper.next_bid_status(auction_bid)).to eq('submitted')
+      end
+    end
+
+    context 'with ongoing auction_bid' do
+      let(:auction_bid) { create(:auction_bid, status: 'ongoing') }
+
+      it 'returns submitted as next status' do
+        expect(helper.next_bid_status(auction_bid)).to eq('submitted')
+      end
+    end
+
+    context 'with submitted auction_bid' do
+      let(:auction_bid) { create(:auction_bid, status: 'submitted') }
+
+      it 'returns completed as next status' do
+        expect(helper.next_bid_status(auction_bid)).to eq('completed')
+      end
+    end
+
+    context 'with completed auction_bid' do
+      let(:auction_bid) { create(:auction_bid, status: 'completed') }
+
+      it 'returns ongoing as next status' do
+        expect(helper.next_bid_status(auction_bid)).to eq('ongoing')
+      end
+    end
+  end
 end
