@@ -523,7 +523,7 @@
       const availableBudget = $("#budget-value-available");
       const teamBudget = parseInt("#{auction_bid&.team&.budget}");
 
-      if ("#{auction_bid.processed?}" === "true") {
+      if ("#{auction_bid&.processed?}" === "true") {
         availableBudget.text(teamBudget + "M");
       } else {
         const initialBid = countTotalBid();
