@@ -40,8 +40,6 @@ module Auctions
         AuctionRounds::Creator.call(auction)
 
         auction.blind_bids!
-
-        TelegramBot::AuctionStartBidsNotifier.call(auction)
       end
     end
 

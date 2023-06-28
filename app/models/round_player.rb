@@ -1,6 +1,7 @@
 class RoundPlayer < ApplicationRecord
   belongs_to :tournament_round
   belongs_to :player
+  belongs_to :club, optional: true
 
   has_many :match_players, dependent: :destroy
   has_many :lineups, through: :match_players

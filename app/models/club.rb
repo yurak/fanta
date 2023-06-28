@@ -3,6 +3,7 @@ class Club < ApplicationRecord
   belongs_to :ec_tournament, optional: true, class_name: 'Tournament'
 
   has_many :players, dependent: :destroy
+  has_many :player_season_stats, dependent: :destroy
   has_many :host_tournament_matches, foreign_key: 'host_club_id', class_name: 'TournamentMatch',
                                      dependent: :destroy, inverse_of: :host_club
   has_many :guest_tournament_matches, foreign_key: 'guest_club_id', class_name: 'TournamentMatch',

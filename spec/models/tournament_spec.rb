@@ -7,6 +7,7 @@ RSpec.describe Tournament do
     it { is_expected.to have_many(:leagues).dependent(:destroy) }
     it { is_expected.to have_many(:links).dependent(:destroy) }
     it { is_expected.to have_many(:national_teams).dependent(:destroy) }
+    it { is_expected.to have_many(:player_season_stats).dependent(:destroy) }
     it { is_expected.to have_many(:tournament_rounds).dependent(:destroy) }
 
     it {
