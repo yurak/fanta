@@ -35,7 +35,7 @@ RSpec.describe RoundPlayers::Creator do
     context 'with existed tournament_round, players and round_player' do
       before do
         players = create_list(:player, 5, club: club)
-        create(:round_player, player: players.last, tournament_round: tournament_round)
+        create(:round_player, player: players.last, club: club, tournament_round: tournament_round)
         creator.call
       end
 
@@ -48,7 +48,7 @@ RSpec.describe RoundPlayers::Creator do
 
       before do
         players = create_list(:player, 7, club: club)
-        create(:round_player, player: players.last, tournament_round: tournament_round)
+        create(:round_player, player: players.last, club: club, tournament_round: tournament_round)
         create(:tournament_match, tournament_round: tournament_round, host_club: club)
         creator.call
       end

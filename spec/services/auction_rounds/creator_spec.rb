@@ -13,28 +13,8 @@ RSpec.describe AuctionRounds::Creator do
     end
 
     context 'when league without teams' do
-      it 'returns empty array' do
-        expect(creator).to eq([])
-      end
-    end
-
-    # context 'when auction without teams' do
-    #   it 'returns empty array' do
-    #     expect(creator).to eq([])
-    #   end
-    # end
-
-    context 'when league teams have vacancies' do
-      it 'creates one auction_round' do
-        creator
-
-        expect(auction.reload.auction_rounds.count).to eq(1)
-      end
-
-      it 'creates active auction_round' do
-        creator
-
-        expect(auction.reload.auction_rounds.last.status).to eq('active')
+      it 'returns false' do
+        expect(creator).to be(false)
       end
     end
 

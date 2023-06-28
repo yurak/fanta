@@ -39,7 +39,7 @@ module Lineups
     end
 
     def new_round_player(match_player)
-      RoundPlayer.find_or_create_by(tournament_round: tournament_round, player: player(match_player))
+      RoundPlayer.find_or_create_by(tournament_round: tournament_round, player: player(match_player), club: player(match_player)&.club)
     end
 
     def player(match_player)

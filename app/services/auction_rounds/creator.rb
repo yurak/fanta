@@ -8,10 +8,13 @@ module AuctionRounds
 
     def call
       return false unless auction
+      return false if auction.league.teams.empty?
 
       @auction_round = create_auction_round
 
       create_auction_bids
+
+      TelegramBot::AuctionStartBidsNotifier.call(auction)
     end
 
     private

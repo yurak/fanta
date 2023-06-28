@@ -10,6 +10,7 @@ class Player < ApplicationRecord
 
   has_many :player_bids, dependent: :destroy
   has_many :player_requests, dependent: :destroy
+  has_many :player_season_stats, dependent: :destroy
   has_many :round_players, dependent: :destroy
   has_many :transfers, dependent: :destroy
 

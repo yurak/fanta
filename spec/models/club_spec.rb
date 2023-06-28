@@ -5,6 +5,7 @@ RSpec.describe Club do
     it { is_expected.to belong_to(:tournament).optional }
     it { is_expected.to belong_to(:ec_tournament).class_name('Tournament').optional }
     it { is_expected.to have_many(:players).dependent(:destroy) }
+    it { is_expected.to have_many(:player_season_stats).dependent(:destroy) }
 
     it {
       expect(club).to have_many(:host_tournament_matches).class_name('TournamentMatch').with_foreign_key('host_club_id')
