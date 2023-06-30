@@ -182,7 +182,7 @@ RSpec.describe AuctionsHelper do
       end
     end
 
-    context 'with logged user and without team in league' do
+    context 'with logged user and with team in league' do
       let(:user) { create(:user) }
 
       before do
