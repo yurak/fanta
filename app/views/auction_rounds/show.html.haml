@@ -12,7 +12,7 @@
           .auction-link-text= "#{t('auction_round.auction')} ##{auction.number}"
       .round-action-btn.auction-round-mob
         - if auction_bid && !auction_bid.processed?
-          = submit_tag t("auction_round.bid_action.#{auction_bid.status}"), form: 'auction_bid_form', class: 'submit-btn', id: 'submit-bid-btn'
+          = submit_tag t("auction_round.bid_action.#{auction_bid.status}"), form: 'auction_bid_form', class: 'submit-btn', id: 'submit-bid-btn-mob'
       .auction-round-header{ class: "auction-round-base-#{auction_bid&.status}" }
         .auction-round-base
           .auction-round-title= "#{t('auction_round.stage').upcase} ##{auction_round.number}"
@@ -96,7 +96,7 @@
                     .player-manage-block{class: "player-manage-#{player_bid.object.player.present?}"}
                       - if auction_bid.editable?
                         .price-input-block
-                          = player_bid.number_field :price, min: 1, step: 1, max: max_bid(league), class: 'form-control price-input', id: "price-#{player_bid.object.id}"
+                          = player_bid.number_field :price, min: min_bid(auction_round, player_bid.object.player), step: 1, max: max_bid(league), class: "form-control price-input price-input-#{player_bid.index}", id: "price-#{player_bid.object.id}"
                         .change-player
                           = image_tag('icons/refresh.svg')
                       - if auction_bid.completed?
@@ -291,6 +291,8 @@
     });
 
     if ("#{auction_bid.present?}" === 'true') {
+      const basicAuction = "#{auction_bid&.auction_round&.basic}" === 'true'
+
       // Show modal
       $('.auction-bid-slot-modal').click(function(e) {
         if ($(e.target).is("input")) return;
@@ -341,6 +343,11 @@
               $('#club-' + slotId).attr("data", data.club_logo);
               $('#first-name-' + slotId).text(data.first_name || ' ');
               $('#last-name-' + slotId).text(data.name);
+              // alert(data.stats_price)
+              // alert($('#price-input-' + slotId))
+              $('.price-input-' + slotId).val(data.stats_price);
+              $('.price-input-' + slotId).attr("min", data.stats_price);
+              // TODO: update min price
 
               positionsContainer.children(".player-position").remove();
               data.position_names.forEach((positionName, index) => {
@@ -439,6 +446,9 @@
         const imagePath = "#{asset_path('icons/player_link.svg')}";
         const playerPath = "#{player_path(1).tr('1', '')}" + data.id;
 
+        let minPrice = " ";
+        if (basicAuction) { minPrice = data.stats_price }
+
         let positionsContainer = '<div class="player-positions-block">';
         data.position_arr.forEach((positionName, index) => {
           let posName = data.position_classic_arr[index];
@@ -483,6 +493,9 @@
                 '<div class="ab-player-first-name">' +
                   (data.first_name || ' ') +
                 '</div>' +
+              '</div>' +
+              '<div class="ab-player-price ab-player-price' + minPrice + '">' +
+                minPrice +
               '</div>' +
               '<div class="player-bid-positions">' +
                 positionsContainer +
@@ -595,7 +608,7 @@
       }
 
       // Validate auction bid
-      $("#submit-bid-btn").click(function(){
+      $("#submit-bid-btn, #submit-bid-btn-mob").click(function(){
         const bidStatus = "#{auction_bid&.status}";
 
         if (countTotalBid() > teamBudget) {

@@ -406,6 +406,46 @@ RSpec.describe Player do
     end
   end
 
+  describe '#stats_price' do
+    context 'without player_season_stats' do
+      it 'returns initial price' do
+        expect(player.stats_price).to eq(1)
+      end
+    end
+
+    context 'without player_season_stats in previous season' do
+      before do
+        create(:player_season_stat, position_price: 20, player: player, season: Season.last, tournament: player.club.tournament)
+      end
+
+      it 'returns initial price' do
+        expect(player.stats_price).to eq(1)
+      end
+    end
+
+    context 'with player_season_stats in other tournament' do
+      before do
+        create(:player_season_stat, position_price: 20, player: player, season: Season.last)
+        create(:season)
+      end
+
+      it 'returns initial price' do
+        expect(player.stats_price).to eq(1)
+      end
+    end
+
+    context 'with player_season_stats from previous season in tournament' do
+      before do
+        create(:player_season_stat, position_price: 20, player: player, season: Season.last, tournament: player.club.tournament)
+        create(:season)
+      end
+
+      it 'returns initial price' do
+        expect(player.stats_price).to eq(20)
+      end
+    end
+  end
+
   describe '#chart_info(matches)' do
     let(:matches) { [] }
 

@@ -15,7 +15,7 @@ module AuctionRounds
 
       manage_bids
 
-      round.auction_bids.map(&:processed!)
+      auction_bids.map(&:processed!)
 
       round.closed!
 
@@ -68,11 +68,11 @@ module AuctionRounds
     end
 
     def bids_not_ready?
-      round.auction_bids.select { |ab| %w[submitted completed].exclude? ab.status }.any?
+      auction_bids.select { |ab| %w[submitted completed].exclude? ab.status }.any?
     end
 
     def all_bids_completed?
-      round.auction_bids.not_completed.empty?
+      auction_bids.not_completed.empty?
     end
 
     def league

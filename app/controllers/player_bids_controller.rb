@@ -4,7 +4,11 @@ class PlayerBidsController < ApplicationController
   def update
     if player_bid && player && auction_round.active? && player_available? && auction_bid.editable?
       auction_bid.ongoing! if auction_bid.submitted?
-      player_bid.update(player_bid_params)
+
+      bid = player_bid_params
+      bid = bid.merge(price: player.stats_price) if auction_round.basic? && bid[:price].to_i < player.stats_price
+
+      player_bid.update(bid)
     end
 
     render json: player
@@ -21,7 +25,7 @@ class PlayerBidsController < ApplicationController
   end
 
   def player_bid_params
-    params.permit(:player_id, :price)
+    params.permit(:player_id, :price).to_unsafe_h
   end
 
   def player_bid

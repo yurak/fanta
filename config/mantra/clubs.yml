@@ -3,12 +3,13 @@ serie_a:
 #  BEN: Benevento
   BOL: Bologna
 #  BRE: Brescia
-#  CAG: Cagliari
-  CRE: Cremonese
+  CAG: Cagliari
+#  CRE: Cremonese
 #  CRO: Crotone
   EMP: Empoli
   FIO: Fiorentina
-#  GEN: Genoa
+  FRO: Frosinone
+  GEN: Genoa
   INT: Inter
   JUV: Juventus
   LAZ: Lazio
@@ -19,10 +20,10 @@ serie_a:
 #  PAR: Parma
   ROM: Roma
   SAL: Salernitana
-  SAM: Sampdoria
+#  SAM: Sampdoria
   SAS: Sassuolo
 #  SPA: SPAL
-  SPE: Spezia
+#  SPE: Spezia
   TOR: Torino
   UDI: Udinese
 #  VEN: Venezia
@@ -30,22 +31,22 @@ serie_a:
 epl:
   ARS: Arsenal
   ASV: Aston Villa
+  BOU: Bournemouth
   BRF: Brentford
   BRI: Brighton
   BUR: Burnley
   CHE: Chelsea
   CRY: Crystal Palace
   EVE: Everton
-  LEI: Leicester
-  LEE: Leeds
+  FUL: Fulham
   LIV: Liverpool
+  LUT: Luton Town
   MCI: Manchester City
   MUT: Manchester United
   NEW: Newcastle
-  NOR: Norwich
-  SOU: Southampton
+  NFO: Nottingham Forest
+  SHU: Sheffield United
   TOT: Tottenham
-  WAT: Watford
   WES: West Ham
   WOL: Wolverhampton
 bundesliga:
@@ -56,15 +57,17 @@ bundesliga:
   BOC: Bochum
   BVB: Borussia Dortmund
   BMG: Borussia Mbach
+  DAR: Darmstadt
   EIN: Eintracht
   FRE: Freiburg
 #  GRF: Greuther Furth
-  HER: Hertha
+  HEI: Heidenheim
+#  HER: Hertha
   HOF: Hoffenheim
   KOL: Koln
   MAI: Mainz 05
   RBL: RB Leipzig
-  S04: Schalke 04
+#  S04: Schalke 04
   STU: Stuttgart
   UNI: Union Berlin
   WER: Werder Bremen
@@ -77,35 +80,37 @@ laliga:
   BET: Real Betis
   CAD: Cadiz
   CVG: Celta Vigo
-#  ALA: Deportivo Alaves
-  ELC: Elche
-  ESP: Espanyol
+  ALA: Deportivo Alaves
+#  ELC: Elche
+#  ESP: Espanyol
   GET: Getafe
   GIR: Girona
-#  GRA: Granada
+  GRA: Granada
 #  LUD: Levante
+  LPA: Las Palmas
   MAL: Mallorca
   OSA: Osasuna
   RVA: Rayo Vallecano
   RMA: Real Madrid
   SOC: Real Sociedad
-  VLD: Real Valladolid
+#  VLD: Real Valladolid
   SEV: Sevilla
   VAL: Valencia
   VIL: Villarreal
 ligue_1:
-  AJC: Ajaccio
-  ANG: Angers
-  AUX: Auxerre
+#  AJC: Ajaccio
+#  ANG: Angers
+#  AUX: Auxerre
 #  BOR: Bordeaux
   BRS: Brest
   CLE: Clermont Foot
+  HAV: Havre
   LEN: Lens
   LIL: Lille
   LOR: Lorient
   LYO: Lyon
   MAR: Marseille
-#  MET: Metz
+  MET: Metz
   MON: Monaco
   MPL: Montpellier
   NAN: Nantes
@@ -116,32 +121,35 @@ ligue_1:
 #  SEN: Saint-Etienne
   STR: Strasbourg
   TOU: Toulouse
-  TRO: Troyes
+#  TRO: Troyes
 championship:
   BIR: Birmingham City
   BLB: Blackburn Rovers
-  BLP: Blackpool
+#  BLP: Blackpool
   BRC: Bristol City
-  BOU: Bournemouth
   CAR: Cardiff City
   COV: Coventry City
-  FUL: Fulham
   HUD: Huddersfield Town
   HUL: Hull City
-  LUT: Luton Town
+  IPS: Ipswich
+  LEI: Leicester
+  LEE: Leeds
   MID: Middlesbrough
   MLW: Millwall
-  NFO: Nottingham Forest
+  NOR: Norwich
+  PLY: Plymouth
   PRE: Preston North End
   QPR: Queens Park Rangers
-  REA: Reading
+#  REA: Reading
   ROT: Rotherham United
-  SHU: Sheffield United
+  SHW: Sheffield Wednesday
+  SOU: Southampton
   STO: Stoke City
   SUN: Sunderland
   SWA: Swansea City
+  WAT: Watford
   WBA: West Bromwich
-  WIG: Wigan Athletic
+#  WIG: Wigan Athletic
 jupiler:
   AND: Anderlecht
   BRU: Brugge
@@ -153,14 +161,15 @@ jupiler:
   KRT: Kortrijk
   LVN: Leuven
   MLN: Mechelen
-  OST: Oostende
+  MOL: Molenbeek
+#  OST: Oostende
   ROY: Royal Antwerp
-  SRN: Seraing
+#  SRN: Seraing
   STT: Sint-Truiden
   STD: Standard Liege
   USG: Union SG
   WST: Westerlo
-  ZWR: Zulte Waregem
+#  ZWR: Zulte Waregem
 liga_portugal:
   ARC: Arouca
   BNF: Benfica
@@ -169,27 +178,32 @@ liga_portugal:
   CSP: Casa Pia
   CHV: Chaves
   EST: Estoril
+  ESA: Estrela
   FML: Famalicao
+  FAR: Farense
   GLV: Gil Vicente
-  MRT: Maritimo
-  PCF: Paсos Ferreira
+#  MRT: Maritimo
+  MOR: Moreirense
+#  PCF: Paсos Ferreira
   PRT: Portimonense
   FCP: Porto
   RAV: Rio Ave
-  SCL: Santa Clara
+#  SCL: Santa Clara
   SCP: Sporting
   VTG: Vitoria Guimaraes
   VZL: Vizela
 eredivisie:
   AJA: Ajax
+  ALC: Almere City
   AZA: AZ Alkmaar
-  CMB: Cambuur
-  EMN: Emmen
+#  CMB: Cambuur
+#  EMN: Emmen
   EXL: Excelsior
   FND: Feyenoord
   FRS: Fortuna Sittard
   GAE: Go Ahead Eagles
-  GRN: Groningen
+#  GRN: Groningen
+  HRC: Heracles
   HRN: Heerenveen
   NEC: NEC
   PSV: PSV
@@ -199,6 +213,7 @@ eredivisie:
   UTR: Utrecht
   VTS: Vitesse
   VLN: Volendam
+  ZWO: Zwolle
 champions_league:
 #  BES: Besiktas
   CEL: Celtic
