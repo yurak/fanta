@@ -192,7 +192,7 @@
     }
 
     .round-action-btn {
-      #submit-bid-btn {
+      #submit-bid-btn, #submit-bid-btn-mob {
         border: 1px solid #261FFF;
         height: 40px;
         background: #261FFF;
@@ -563,7 +563,7 @@
             .ab-player-item {
               height: 72px;
               display: grid;
-              grid-template-columns: 66px auto 112px 80px 108px;
+              grid-template-columns: 66px auto 40px 112px 80px 108px;
               column-gap: 16px;
 
               .player-show-face, .player-show-kit {
@@ -590,6 +590,30 @@
                   line-height: 16px;
                   color: #847577;
                 }
+              }
+
+              .ab-player-price {
+                font-family: 'Nunito ExtraBold';
+                font-size: 16px;
+                line-height: 24px;
+                color: #4EAD57;
+                margin: auto 0;
+              }
+
+              .ab-player-price5 {
+                color: #006EF5;
+              }
+
+              .ab-player-price10 {
+                color: #FFB319;
+              }
+
+              .ab-player-price15 {
+                color: #DB0A23;
+              }
+
+              .ab-player-price20 {
+                color: #6E133C;
               }
 
               .ab-player-club {
@@ -872,7 +896,7 @@
       .round-action-btn {
         margin: 32px 0;
 
-        #submit-bid-btn {
+        #submit-bid-btn, #submit-bid-btn-mob {
           height: 88px;
           border-radius: 12px;
           font-size: 36px;

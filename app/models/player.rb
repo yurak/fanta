@@ -118,6 +118,10 @@ class Player < ApplicationRecord
     teams.find_by(league_id: league_id)
   end
 
+  def stats_price
+    @stats_price ||= player_season_stats.where(season: Season.second_to_last, tournament: club.tournament).last&.position_price || 1
+  end
+
   # TODO: move to stats service
   # Current season statistic
 

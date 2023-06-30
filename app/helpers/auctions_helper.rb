@@ -35,4 +35,10 @@ module AuctionsHelper
   def max_bid(league)
     @max_bid ||= current_user&.team_by_league(league)&.max_rate
   end
+
+  def min_bid(auction_round, player)
+    return 1 unless auction_round&.basic? && player
+
+    player.stats_price
+  end
 end

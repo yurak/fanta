@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_06_20_203758) do
+ActiveRecord::Schema.define(version: 2023_06_29_103628) do
 
   create_table "article_tags", force: :cascade do |t|
     t.string "name", default: "", null: false
@@ -50,6 +50,7 @@ ActiveRecord::Schema.define(version: 2023_06_20_203758) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "status", default: 0
+    t.boolean "basic", default: false, null: false
     t.index ["auction_id"], name: "index_auction_rounds_on_auction_id"
   end
 

@@ -1,7 +1,7 @@
 class PlayerSerializer < ActiveModel::Serializer
   attributes :avatar_path, :classic_positions, :club_code, :club_logo, :club_name, :first_name, :id, :kit_path,
              :leagues, :name, :national_kit_path, :national_team_name,
-             :position_arr, :position_classic_arr, :position_names
+             :position_arr, :position_classic_arr, :position_names, :stats_price
 
   def classic_positions
     object.position_names.map { |pn| Slot::POS_MAPPING[pn] }
