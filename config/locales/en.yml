@@ -69,7 +69,7 @@ en:
       completed: "🔒"
       processed: "🏁"
     subheader:
-      goalkeeper: "%{gk_count} goalkeeper"
+      goalkeeper: "%{gk_count} goalkeepers"
       players: "%{players} players"
       text1: "For this phase you need to buy"
       text2: "of which at least"

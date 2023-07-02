@@ -214,17 +214,32 @@ eredivisie:
   VTS: Vitesse
   VLN: Volendam
   ZWO: Zwolle
+upl:
+  DN1: SK Dnipro-1
+  DYN: Dynamo Kyiv
+  OLE: Oleksandriya
+  SHD: Shakhtar Donetsk
+  VOR: Vorskla
+  ZOR: Zorya
+  KLS: Kolos
+  RUH: Rukh
+  POL: Polissya
+  KRY: Kryvbas
+  MTL: Metalist 1925
+  CHO: Chornomorets
+  VRS: Veres
+  LNZ: LNZ
+  MIN: Minaj
+  OBO: Obolon
 champions_league:
 #  BES: Besiktas
   CEL: Celtic
   COP: Copenhagen
   DZG: Dinamo Zagreb
-#  DYN: Dynamo Kyiv
   MHF: Maccabi Haifa
 #  MFF: Malmo
   RAN: Rangers
   RBS: Salzburg
-  SHD: Shakhtar Donetsk
 #  SHE: Sheriff
   VPL: Viktoria Plzen
 #  YOU: Young Boys
