@@ -215,22 +215,22 @@ eredivisie:
   VLN: Volendam
   ZWO: Zwolle
 upl:
+  CHO: Chornomorets
   DN1: SK Dnipro-1
   DYN: Dynamo Kyiv
+  KLS: Kolos
+  KRY: Kryvbas
+  LNZ: LNZ
+  MTL: Metalist 1925
+  MIN: Minaj
+  OBO: Obolon
   OLE: Oleksandriya
+  POL: Polissya
+  RUH: Rukh
   SHD: Shakhtar Donetsk
   VOR: Vorskla
   ZOR: Zorya
-  KLS: Kolos
-  RUH: Rukh
-  POL: Polissya
-  KRY: Kryvbas
-  MTL: Metalist 1925
-  CHO: Chornomorets
   VRS: Veres
-  LNZ: LNZ
-  MIN: Minaj
-  OBO: Obolon
 champions_league:
 #  BES: Besiktas
   CEL: Celtic
