@@ -135,14 +135,11 @@
                           .search-position.player-positions-block{class: "search-position#{player_bid.index}",id: "search-position#{position.name}"}
                             .player-position{class: "player-position-#{position.name}"}
                               = position_name(position)
-
-                      -#.search-clubs
-                      -#  - league.tournament.clubs.active.each do |club|
-                      -#    .search-club-logo{class: "search-club#{i}",id: "search-club#{club.id}"}
-                      -#      %object{data: club.logo_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                      -#        = image_tag('default_logo.png')
-                      -#.modal-modules-block
-                      -#  .modal-malus-block{id: "modal-players-block-#{i}"}
+                      .ab-filters-clubs
+                        - league.tournament.clubs.active.each do |club|
+                          .search-club-logo{class: "search-club#{player_bid.index}",id: "search-club#{club.id}"}
+                            %object{data: club.logo_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
+                              = image_tag('default_logo.png')
                       .ab-players-block{id: "ab-players-block-#{player_bid.index}"}
 
             .auction-bid-title= t('auction_round.team')
@@ -343,11 +340,10 @@
               $('#club-' + slotId).attr("data", data.club_logo);
               $('#first-name-' + slotId).text(data.first_name || ' ');
               $('#last-name-' + slotId).text(data.name);
-              // alert(data.stats_price)
-              // alert($('#price-input-' + slotId))
-              $('.price-input-' + slotId).val(data.stats_price);
-              $('.price-input-' + slotId).attr("min", data.stats_price);
-              // TODO: update min price
+
+              const priceInput = $('.price-input-' + slotId);
+              priceInput.val(data.stats_price);
+              priceInput.attr("min", data.stats_price);
 
               positionsContainer.children(".player-position").remove();
               data.position_names.forEach((positionName, index) => {
@@ -420,6 +416,8 @@
         const leagueId = $('#league')[0].getAttribute('value');
         const playersContainer = $('#ab-players-block-'+slotId);
 
+        clearSlotModal(slotId);
+
         $('.player-positions-block').removeClass('search-position-border');
         $(this).addClass('search-position-border');
         $(".search-input input").val('');
@@ -429,6 +427,35 @@
           type: "GET",
           dataType: "json",
           url: "/players?position="+positionName+"&tournament="+tournamentId,
+          success: function(data){
+            data.forEach((playerData) => {
+              renderPlayerItem(playerData, slotId, leagueId);
+            })
+          }
+        });
+      });
+
+      // Search player by club
+      $(".search-club-logo").on('click', function(e){
+        e.stopPropagation();
+
+        const slotId = $(this).attr('class').replace('search-club-logo search-club','');
+        const clubId = $(this).attr('id').replace('search-club','');
+        const tournamentId = $('#tournament')[0].getAttribute('value');
+        const leagueId = $('#league')[0].getAttribute('value');
+        const playersContainer = $('#ab-players-block-'+slotId);
+
+        clearSlotModal(slotId);
+
+        $('.search-club-logo ').removeClass('search-club-border');
+        $(this).addClass('search-club-border');
+        $(".search-input input").val('');
+        playersContainer.empty();
+
+        $.ajax({
+          type: "GET",
+          dataType: "json",
+          url: "/players?club="+clubId+"&tournament="+tournamentId,
           success: function(data){
             data.forEach((playerData) => {
               renderPlayerItem(playerData, slotId, leagueId);
@@ -527,6 +554,7 @@
         $("#search-error" + slotId).hide();
         $('#ab-players-block-'+slotId).empty();
         $('.player-positions-block').removeClass('search-position-border');
+        $('.search-club-logo ').removeClass('search-club-border');
       }
 
       // Count total price of bid
@@ -549,9 +577,15 @@
       priceInputs.change(function() {
         const playerBidId = $(this).attr('id').replace('price-','');
         const maxBid = parseInt("#{max_bid(league)}");
+        const slotId = $(this).attr('class').replace('form-control price-input price-input-','');
 
         if ($(this).val() > maxBid) {
           $(this).val(maxBid);
+        }
+
+        const priceInput = $('.price-input-' + slotId)
+        if (priceInput.val() < priceInput.attr("min")) {
+          priceInput.val(priceInput.attr("min"));
         }
 
         const totalBid = countTotalBid();

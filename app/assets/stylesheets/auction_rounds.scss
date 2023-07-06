@@ -316,6 +316,9 @@
             font-family: 'Nunito ExtraBold';
             font-size: 16px;
             line-height: 24px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
           }
 
           .player-bid-first-name {
@@ -523,7 +526,7 @@
           }
 
           .ab-filters-positions {
-            margin: 24px 32px;
+            margin: 24px 32px 8px;
             line-height: 36px;
 
             .search-position {
@@ -539,6 +542,29 @@
             }
 
             .player-position {
+              border-radius: 4px;
+            }
+          }
+
+          .ab-filters-clubs {
+            margin: 0 32px 24px;
+            line-height: 30px;
+
+            .search-club-logo {
+              display: inline-block;
+              cursor: pointer;
+              margin: 0 2px;
+              height: 30px;
+              width: 30px;
+
+              img, object {
+                width: 28px;
+                height: 28px;
+              }
+            }
+
+            .search-club-border {
+              border: 1px solid #181715;
               border-radius: 4px;
             }
           }
@@ -831,7 +857,7 @@
         border-radius: 16px 16px 0 0;
 
         .auction-round-base {
-          grid-template-columns: 160px auto 330px 40px;
+          grid-template-columns: 196px auto 232px 40px;
           column-gap: 12px;
           line-height: 54px;
 
@@ -851,12 +877,10 @@
           }
 
           .round-deadline {
-            display: grid;
-            grid-template-columns: 124px 184px;
-            column-gap: 8px;
+            display: block;
 
             .round-deadline-text {
-              font-size: 20px;
+              display: none;
             }
 
             .round-deadline-value {
@@ -968,6 +992,7 @@
             .player-bid-last-name {
               font-size: 24px;
               line-height: 36px;
+              max-width: 172px;
             }
 
             .player-bid-first-name {
@@ -1013,13 +1038,16 @@
             }
           }
         }
+
+        .modal-auction-players-list .auction-bid-modal-content .ab-players-block {
+          max-height: 1200px;
+        }
       }
     }
 
     .stats-section {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      column-gap: 16px;
+      display: block;
+      padding-bottom: 240px;
 
       .round-table {
         .round-table-item, .round-tournament-match {
@@ -1034,6 +1062,17 @@
   .page-info.auction-rounds-page {
     display: block;
 
+    .round-section .auction-round-header .auction-round-base {
+      grid-template-columns: 100px auto 152px 190px 20px;
+
+      .round-deadline {
+        display: block;
+
+        .round-deadline-text {
+          display: none;
+        }
+      }
+    }
     .stats-section {
       display: grid;
       grid-template-columns: 1fr 1fr;
