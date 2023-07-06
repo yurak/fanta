@@ -1,6 +1,6 @@
 # rubocop:disable Metrics/BlockLength:
 namespace :tm do
-  desc 'Check TM players list from club pages and write to csv'
+  desc "'tm:check_club_players_csv[15]' - Check TM players list from club pages and write to csv"
   task :check_club_players_csv, %i[tournament_id] => :environment do |_t, args|
     clubs = args[:tournament_id] ? Club.active.where(tournament_id: args[:tournament_id]).order(:name) : Club.active.order(:name)
 

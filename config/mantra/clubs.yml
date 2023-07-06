@@ -220,7 +220,7 @@ upl:
   DYN: Dynamo Kyiv
   KLS: Kolos
   KRY: Kryvbas
-  LNZ: LNZ
+  LNZ: LNZ Cherkasy
   MTL: Metalist 1925
   MIN: Minaj
   OBO: Obolon
@@ -228,9 +228,9 @@ upl:
   POL: Polissya
   RUH: Rukh
   SHD: Shakhtar Donetsk
+  VRS: Veres
   VOR: Vorskla
   ZOR: Zorya
-  VRS: Veres
 champions_league:
 #  BES: Besiktas
   CEL: Celtic
