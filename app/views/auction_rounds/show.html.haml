@@ -691,6 +691,10 @@
           alert("#{t('auction_bid.goalee_count')}");
           return false;
         }
+        if (goaleeCount > 5) {
+          alert("#{t('auction_bid.goalee_max_count')}");
+          return false;
+        }
       });
 
       // Close modal window
