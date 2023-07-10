@@ -1,78 +1,70 @@
 RSpec.describe TournamentRounds::FotmobParser do
   describe '#call' do
-    subject(:parser) { described_class.new(tournament_url, tournament_round) }
+    subject(:parser) { described_class.new(tournament, tournament_round) }
 
     let(:response) { parser.call }
-    let(:tournament_url) { nil }
+    let(:tournament) { create(:tournament) }
     let(:tournament_round) { nil }
     let(:match_day_data) do
-      [
-        'Friday, 05 August 2022',
-        [
-          {
-            'monthKey' => 'Friday, 05 August 2022',
-            'round' => 1,
-            'roundName' => 1,
-            'pageUrl' => '/match/3903543/matchfacts/eintracht-frankfurt-vs-bayern-mnchen',
-            'id' => '3903543',
-            'home' => { 'name' => 'Eintracht Frankfurt', 'shortName' => 'Frankfurt', 'id' => '9810' },
-            'away' => { 'name' => 'Bayern München', 'shortName' => 'Bayern München', 'id' => '9823' },
-            'status' => { 'finished' => true, 'started' => true, 'cancelled' => false, 'scoreStr' => '1 - 6',
-                          'startDateStr' => 'Aug 5, 2022', 'startDateStrShort' => '5. Aug.',
-                          'reason' => { 'short' => 'FT', 'long' => 'Full-Time' } }
-          }
-        ]
-      ]
+      {
+        "away" => {"id"=>"9876", "name"=>"Hellas Verona", "shortName"=>"Hellas Verona"},
+        "home" => {"id"=>"8534", "name"=>"Empoli", "shortName"=>"Empoli"},
+        "id" => "4230531",
+        "pageUrl" => "/match/4230531/matchfacts/empoli-vs-hellas-verona",
+        "round" => 1,
+        "roundName" => 1,
+        "status" => {"cancelled"=>false, "finished"=>false, "started"=>false, "utcTime"=>"2023-08-19T16:30:00.000Z"},
+      }
     end
 
-    context 'without tournament_url and tournament_round' do
+    context 'without tournament' do
+      let(:tournament) { nil }
+
       it 'returns empty array' do
         expect(response).to eq([])
       end
     end
 
-    context 'with tournament_url and without tournament_round' do
-      let(:tournament_url) { 'https://www.fotmob.com/leagues/54/matches/1.-bundesliga/by-round' }
+    context 'without source_id and tournament_round' do
+      it 'returns empty array' do
+        expect(response).to eq([])
+      end
+    end
+
+    context 'with source_id and without tournament_round' do
+      let(:tournament) { create(:tournament, source_id: 55) }
 
       it 'returns match day data' do
         VCR.use_cassette 'fotmob_league_data' do
-          expect(response.first[1].first).to eq(match_day_data)
+          expect(response.first).to eq(match_day_data)
         end
       end
     end
 
-    context 'with tournament_url and with tournament_round with number nil' do
-      let(:tournament_url) { 'https://www.fotmob.com/leagues/54/matches/1.-bundesliga/by-round' }
-      let(:tournament_round) { create(:tournament_round, number: nil) }
+    context 'with source_id and with tournament_round with number nil' do
+      let(:tournament) { create(:tournament, source_id: 55) }
+      let(:tournament_round) { create(:tournament_round, tournament: tournament, number: nil) }
 
       it 'returns match day data' do
         VCR.use_cassette 'fotmob_league_data' do
-          expect(response.first[1].first).to eq(match_day_data)
+          expect(response.first).to eq(match_day_data)
         end
       end
     end
 
-    context 'with tournament_url and with tournament_round with existed number' do
-      let(:tournament_url) { 'https://www.fotmob.com/leagues/54/matches/1.-bundesliga/by-round' }
-      let(:tournament_round) { create(:tournament_round, number: 2) }
+    context 'with source_id and with tournament_round with existed number' do
+      let(:tournament) { create(:tournament, source_id: 55) }
+      let(:tournament_round) { create(:tournament_round, tournament: tournament, number: 2) }
       let(:round_match_day_data) do
-        [
-          'Friday, 12 August 2022',
-          [
-            {
-              'monthKey' => 'Friday, 12 August 2022',
-              'round' => 2,
-              'roundName' => 2,
-              'pageUrl' => '/match/3903555/matchfacts/sc-freiburg-vs-borussia-dortmund',
-              'id' => '3903555',
-              'home' => { 'name' => 'SC Freiburg', 'shortName' => 'Freiburg', 'id' => '8358' },
-              'away' => { 'name' => 'Borussia Dortmund', 'shortName' => 'Dortmund', 'id' => '9789' },
-              'status' => { 'finished' => true, 'started' => true, 'cancelled' => false, 'scoreStr' => '1 - 3',
-                            'startDateStr' => 'Aug 12, 2022', 'startDateStrShort' => '12. Aug.',
-                            'reason' => { 'short' => 'FT', 'long' => 'Full-Time' } }
-            }
-          ]
-        ]
+        {
+          "away" => {"id"=>"8636", "name"=>"Inter", "shortName"=>"Inter"},
+          "home" => {"id"=>"8529", "name"=>"Cagliari", "shortName"=>"Cagliari"},
+          "id" => "4230541",
+          "pageUrl" => "/match/4230541/matchfacts/cagliari-vs-inter",
+          "round" => 2,
+          "roundName" => 2,
+          "status" => {"cancelled"=>false, "finished"=>false, "started"=>false, "utcTime"=>"2023-08-27T16:00:00.000Z"},
+        }
       end
 
       it 'returns match day data' do

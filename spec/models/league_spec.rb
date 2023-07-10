@@ -83,7 +83,7 @@ RSpec.describe League do
       it 'returns team which result has more points' do
         create(:result, points: 15, league: league)
         result = create(:result, points: 35, league: league)
-        create(:result, points: 25, league: league)
+        create(:result, points: 24, league: league)
 
         expect(league.leader).to eq(result.team)
       end

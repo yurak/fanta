@@ -1,5 +1,6 @@
 namespace :tm do
-  desc 'tm:check_player_club_data - Check TM player club data'
+  # rake 'tm:check_player_club_data[start_id,last_id]'
+  desc 'Check TM player club data'
   task :check_player_club_data, %i[start_id last_id] => :environment do |_t, args|
     ids_range = args[:start_id].to_i..args[:last_id].to_i
     ids_range.to_a.each do |id|
