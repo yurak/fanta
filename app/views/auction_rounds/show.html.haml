@@ -342,8 +342,12 @@
               $('#last-name-' + slotId).text(data.name);
 
               const priceInput = $('.price-input-' + slotId);
-              priceInput.val(data.stats_price);
-              priceInput.attr("min", data.stats_price);
+              let playerPrice = 1;
+              if (basicAuction) {
+                playerPrice = data.stats_price;
+              }
+              priceInput.val(playerPrice);
+              priceInput.attr("min", playerPrice);
 
               positionsContainer.children(".player-position").remove();
               data.position_names.forEach((positionName, index) => {
