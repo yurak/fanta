@@ -1,6 +1,6 @@
 module TournamentRounds
   class FotmobParser < ApplicationService
-    LEAGUE_URL = "https://www.fotmob.com/api/leagues?id=".freeze
+    LEAGUE_URL = 'https://www.fotmob.com/api/leagues?id='.freeze
     attr_reader :tournament_round, :tournament
 
     def initialize(tournament, tournament_round = nil)
@@ -12,7 +12,7 @@ module TournamentRounds
       return [] unless tournament&.source_id
       return [] unless request.code == 200
 
-      tournament_round&.number ? all_matches_data.select{ |r| r['round'] == tournament_round.number} : all_matches_data
+      tournament_round&.number ? all_matches_data.select { |r| r['round'] == tournament_round.number } : all_matches_data
     end
 
     private

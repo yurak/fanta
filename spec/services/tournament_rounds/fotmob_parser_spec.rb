@@ -7,13 +7,13 @@ RSpec.describe TournamentRounds::FotmobParser do
     let(:tournament_round) { nil }
     let(:match_day_data) do
       {
-        "away" => {"id"=>"9876", "name"=>"Hellas Verona", "shortName"=>"Hellas Verona"},
-        "home" => {"id"=>"8534", "name"=>"Empoli", "shortName"=>"Empoli"},
-        "id" => "4230531",
-        "pageUrl" => "/match/4230531/matchfacts/empoli-vs-hellas-verona",
-        "round" => 1,
-        "roundName" => 1,
-        "status" => {"cancelled"=>false, "finished"=>false, "started"=>false, "utcTime"=>"2023-08-19T16:30:00.000Z"},
+        'away' => { 'id' => '9876', 'name' => 'Hellas Verona', 'shortName' => 'Hellas Verona' },
+        'home' => { 'id' => '8534', 'name' => 'Empoli', 'shortName' => 'Empoli' },
+        'id' => '4230531',
+        'pageUrl' => '/match/4230531/matchfacts/empoli-vs-hellas-verona',
+        'round' => 1,
+        'roundName' => 1,
+        'status' => { 'cancelled' => false, 'finished' => false, 'started' => false, 'utcTime' => '2023-08-19T16:30:00.000Z' }
       }
     end
 
@@ -57,13 +57,13 @@ RSpec.describe TournamentRounds::FotmobParser do
       let(:tournament_round) { create(:tournament_round, tournament: tournament, number: 2) }
       let(:round_match_day_data) do
         {
-          "away" => {"id"=>"8636", "name"=>"Inter", "shortName"=>"Inter"},
-          "home" => {"id"=>"8529", "name"=>"Cagliari", "shortName"=>"Cagliari"},
-          "id" => "4230541",
-          "pageUrl" => "/match/4230541/matchfacts/cagliari-vs-inter",
-          "round" => 2,
-          "roundName" => 2,
-          "status" => {"cancelled"=>false, "finished"=>false, "started"=>false, "utcTime"=>"2023-08-27T16:00:00.000Z"},
+          'away' => { 'id' => '8636', 'name' => 'Inter', 'shortName' => 'Inter' },
+          'home' => { 'id' => '8529', 'name' => 'Cagliari', 'shortName' => 'Cagliari' },
+          'id' => '4230541',
+          'pageUrl' => '/match/4230541/matchfacts/cagliari-vs-inter',
+          'round' => 2,
+          'roundName' => 2,
+          'status' => { 'cancelled' => false, 'finished' => false, 'started' => false, 'utcTime' => '2023-08-27T16:00:00.000Z' }
         }
       end
 
