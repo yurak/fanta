@@ -71,7 +71,7 @@ RSpec.describe AuctionRounds::Manager do
         end
 
         it 'creates transfers' do
-          expect(Transfer.all.count).to eq(20)
+          expect(Transfer.all.count).to eq(24)
         end
 
         it 'updates player_bids status' do
@@ -134,7 +134,7 @@ RSpec.describe AuctionRounds::Manager do
         end
 
         it 'creates transfers' do
-          expect(Transfer.all.count).to eq(20)
+          expect(Transfer.all.count).to eq(24)
         end
 
         it 'updates player_bids status' do
@@ -184,7 +184,7 @@ RSpec.describe AuctionRounds::Manager do
       let(:teams) { create_list(:team, 3, league: league) }
 
       before do
-        create(:team, :with_25_players, league: league)
+        create(:team, :with_full_squad, league: league)
         teams.each { |team| create(:submitted_auction_bid, :with_player_bids, team: team, auction_round: auction_round) }
       end
 
@@ -198,7 +198,7 @@ RSpec.describe AuctionRounds::Manager do
         end
 
         it 'creates transfers' do
-          expect(Transfer.all.count).to eq(15)
+          expect(Transfer.all.count).to eq(18)
         end
 
         it 'updates player_bids status' do

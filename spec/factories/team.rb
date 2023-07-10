@@ -12,7 +12,7 @@ FactoryBot.define do
 
     trait :with_players do
       after(:create) do |team|
-        create_list(:player_team, 25, team: team)
+        create_list(:player_team, Team::MAX_PLAYERS, team: team)
       end
     end
 
@@ -40,9 +40,9 @@ FactoryBot.define do
       end
     end
 
-    trait :with_25_players do
+    trait :with_full_squad do
       after(:create) do |team|
-        create_list(:player_team, 25, team: team)
+        create_list(:player_team, Team::MAX_PLAYERS, team: team)
       end
     end
 

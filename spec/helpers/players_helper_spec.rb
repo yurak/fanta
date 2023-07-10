@@ -28,7 +28,7 @@ RSpec.describe PlayersHelper do
     end
 
     context 'with bench_players where one is available for match_player substitution' do
-      let(:mp1) { create(:match_player, round_player: create(:round_player, :with_pos_e, :with_score_six)) }
+      let(:mp1) { create(:match_player, round_player: create(:round_player, :with_pos_w, :with_score_six)) }
       let(:mp2) { create(:match_player, round_player: create(:round_player, :with_pos_c, :with_score_six)) }
       let(:bench_players) { [mp1, mp2] }
       let(:match_player) { create(:m_match_player) }
@@ -50,7 +50,7 @@ RSpec.describe PlayersHelper do
     end
 
     context 'with bench_players when all are unavailable for match_player substitution' do
-      let(:mp1) { create(:match_player, round_player: create(:round_player, :with_pos_e, :with_score_seven)) }
+      let(:mp1) { create(:match_player, round_player: create(:round_player, :with_pos_dd, :with_score_seven)) }
       let(:mp2) { create(:match_player, round_player: create(:round_player, :with_pos_a, :with_score_six)) }
       let(:bench_players) { [mp1, mp2] }
       let(:match_player) { create(:m_match_player) }

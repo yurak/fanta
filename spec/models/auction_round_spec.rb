@@ -61,7 +61,7 @@ RSpec.describe AuctionRound do
       let(:auction_round) { create(:auction_round, auction: auction) }
 
       before do
-        create(:team, :with_25_players, league: league)
+        create(:team, :with_full_squad, league: league)
       end
 
       it 'returns array without staffed team' do
@@ -79,7 +79,7 @@ RSpec.describe AuctionRound do
       let(:auction_round) { create(:auction_round, auction: auction) }
 
       before do
-        create_list(:team, 2, :with_25_players, league: league)
+        create_list(:team, 2, :with_full_squad, league: league)
       end
 
       it 'returns empty array' do

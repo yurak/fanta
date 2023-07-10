@@ -28,10 +28,10 @@ RSpec.describe AuctionRounds::Creator do
         expect(team_one.auction_bids.count).to eq(1)
       end
 
-      it 'creates 25 player_bids for team_one' do
+      it 'creates 26 player_bids for team_one' do
         creator
 
-        expect(team_one.auction_bids.last.player_bids.count).to eq(25)
+        expect(team_one.auction_bids.last.player_bids.count).to eq(Team::MAX_PLAYERS)
       end
 
       it 'creates one auction_bid with player_bids for team_two' do
@@ -40,10 +40,10 @@ RSpec.describe AuctionRounds::Creator do
         expect(team_two.auction_bids.count).to eq(1)
       end
 
-      it 'creates 25 player_bids for team_two' do
+      it 'creates 26 player_bids for team_two' do
         creator
 
-        expect(team_two.auction_bids.last.player_bids.count).to eq(25)
+        expect(team_two.auction_bids.last.player_bids.count).to eq(Team::MAX_PLAYERS)
       end
     end
 
@@ -57,10 +57,10 @@ RSpec.describe AuctionRounds::Creator do
         expect(team_one.auction_bids.count).to eq(1)
       end
 
-      it 'creates 10 player_bids for team_one' do
+      it 'creates 11 player_bids for team_one' do
         creator
 
-        expect(team_one.auction_bids.last.player_bids.count).to eq(10)
+        expect(team_one.auction_bids.last.player_bids.count).to eq(11)
       end
 
       it 'creates one auction_bid with player_bids for team_two' do
@@ -69,10 +69,10 @@ RSpec.describe AuctionRounds::Creator do
         expect(team_two.auction_bids.count).to eq(1)
       end
 
-      it 'creates 5 player_bids for team_two' do
+      it 'creates 6 player_bids for team_two' do
         creator
 
-        expect(team_two.auction_bids.last.player_bids.count).to eq(5)
+        expect(team_two.auction_bids.last.player_bids.count).to eq(6)
       end
     end
 
@@ -86,10 +86,10 @@ RSpec.describe AuctionRounds::Creator do
         expect(team_one.auction_bids.count).to eq(1)
       end
 
-      it 'creates 10 player_bids for team_one' do
+      it 'creates 11 player_bids for team_one' do
         creator
 
-        expect(team_one.auction_bids.last.player_bids.count).to eq(10)
+        expect(team_one.auction_bids.last.player_bids.count).to eq(11)
       end
 
       it 'does not create auction_bid for team_two' do

@@ -44,8 +44,9 @@ RSpec.describe AuctionBids::Manager do
                 '0': { player_id: '123', price: '128', id: auction_bid.player_bids[0] },
                 '1': { player_id: '123', price: '9', id: auction_bid.player_bids[1] },
                 '2': { player_id: '321', price: '27', id: auction_bid.player_bids[2] },
-                '3': { player_id: '333', price: '15', id: auction_bid.player_bids[3] },
-                '4': { player_id: '456', price: '4', id: auction_bid.player_bids[4] }
+                '3': { player_id: '333', price: '12', id: auction_bid.player_bids[3] },
+                '4': { player_id: '456', price: '4', id: auction_bid.player_bids[4] },
+                '5': { player_id: '543', price: '3', id: auction_bid.player_bids[5] }
               }
             }
           end
@@ -71,8 +72,9 @@ RSpec.describe AuctionBids::Manager do
                 '0': { player_id: '123', price: '128', id: auction_bid.player_bids[0] },
                 '1': { player_id: '143', price: '129', id: auction_bid.player_bids[1] },
                 '2': { player_id: '321', price: '27', id: auction_bid.player_bids[2] },
-                '3': { player_id: '333', price: '15', id: auction_bid.player_bids[3] },
-                '4': { player_id: '456', price: '4', id: auction_bid.player_bids[4] }
+                '3': { player_id: '333', price: '12', id: auction_bid.player_bids[3] },
+                '4': { player_id: '456', price: '4', id: auction_bid.player_bids[4] },
+                '5': { player_id: '543', price: '3', id: auction_bid.player_bids[5] }
               }
             }
           end
@@ -98,8 +100,9 @@ RSpec.describe AuctionBids::Manager do
                 '0': { player_id: '123', price: '28', id: auction_bid.player_bids[0] },
                 '1': { player_id: '143', price: '29', id: auction_bid.player_bids[1] },
                 '2': { player_id: '321', price: '27', id: auction_bid.player_bids[2] },
-                '3': { player_id: '333', price: '15', id: auction_bid.player_bids[3] },
-                '4': { player_id: '456', price: '4', id: auction_bid.player_bids[4] }
+                '3': { player_id: '333', price: '12', id: auction_bid.player_bids[3] },
+                '4': { player_id: '456', price: '4', id: auction_bid.player_bids[4] },
+                '5': { player_id: '543', price: '3', id: auction_bid.player_bids[5] }
               }
             }
           end
@@ -129,8 +132,9 @@ RSpec.describe AuctionBids::Manager do
                 '0': { player_id: transfer.player.id, price: '28', id: auction_bid.player_bids[0] },
                 '1': { player_id: players_gk[0].id, price: '29', id: auction_bid.player_bids[1] },
                 '2': { player_id: players_gk[1].id, price: '27', id: auction_bid.player_bids[2] },
-                '3': { player_id: '333', price: '15', id: auction_bid.player_bids[3] },
-                '4': { player_id: '456', price: '4', id: auction_bid.player_bids[4] }
+                '3': { player_id: '333', price: '12', id: auction_bid.player_bids[3] },
+                '4': { player_id: '456', price: '4', id: auction_bid.player_bids[4] },
+                '5': { player_id: '543', price: '3', id: auction_bid.player_bids[5] }
               }
             }
           end
@@ -149,16 +153,17 @@ RSpec.describe AuctionBids::Manager do
         end
 
         context 'with valid params' do
-          let(:players_gk) { create_list(:player, 2, :with_pos_por) }
+          let(:players_gk) { create_list(:player, 3, :with_pos_por) }
           let(:params) do
             {
               status: 'submitted',
               player_bids_attributes: {
                 '0': { player_id: players_gk[0].id, price: '28', id: auction_bid.player_bids[0].id },
                 '1': { player_id: players_gk[1].id, price: '29', id: auction_bid.player_bids[1].id },
-                '2': { player_id: create(:player).id, price: '27', id: auction_bid.player_bids[2].id },
-                '3': { player_id: create(:player).id, price: '15', id: auction_bid.player_bids[3].id },
-                '4': { player_id: create(:player).id, price: '4', id: auction_bid.player_bids[4].id }
+                '2': { player_id: players_gk[2].id, price: '27', id: auction_bid.player_bids[2].id },
+                '3': { player_id: create(:player).id, price: '12', id: auction_bid.player_bids[3].id },
+                '4': { player_id: create(:player).id, price: '4', id: auction_bid.player_bids[4].id },
+                '5': { player_id: create(:player).id, price: '3', id: auction_bid.player_bids[5].id }
               }
             }
           end
@@ -230,8 +235,9 @@ RSpec.describe AuctionBids::Manager do
                 '0': { player_id: '123', price: '128', id: auction_bid.player_bids[0] },
                 '1': { player_id: '123', price: '9', id: auction_bid.player_bids[1] },
                 '2': { player_id: '321', price: '27', id: auction_bid.player_bids[2] },
-                '3': { player_id: '333', price: '15', id: auction_bid.player_bids[3] },
-                '4': { player_id: '456', price: '4', id: auction_bid.player_bids[4] }
+                '3': { player_id: '333', price: '12', id: auction_bid.player_bids[3] },
+                '4': { player_id: '456', price: '4', id: auction_bid.player_bids[4] },
+                '5': { player_id: '877', price: '3', id: auction_bid.player_bids[5] }
               }
             }
           end
@@ -257,8 +263,9 @@ RSpec.describe AuctionBids::Manager do
                 '0': { player_id: '123', price: '128', id: auction_bid.player_bids[0] },
                 '1': { player_id: '143', price: '129', id: auction_bid.player_bids[1] },
                 '2': { player_id: '321', price: '27', id: auction_bid.player_bids[2] },
-                '3': { player_id: '333', price: '15', id: auction_bid.player_bids[3] },
-                '4': { player_id: '456', price: '4', id: auction_bid.player_bids[4] }
+                '3': { player_id: '333', price: '12', id: auction_bid.player_bids[3] },
+                '4': { player_id: '456', price: '4', id: auction_bid.player_bids[4] },
+                '5': { player_id: '787', price: '3', id: auction_bid.player_bids[5] }
               }
             }
           end
@@ -284,8 +291,9 @@ RSpec.describe AuctionBids::Manager do
                 '0': { player_id: '123', price: '28', id: auction_bid.player_bids[0] },
                 '1': { player_id: '143', price: '29', id: auction_bid.player_bids[1] },
                 '2': { player_id: '321', price: '27', id: auction_bid.player_bids[2] },
-                '3': { player_id: '333', price: '15', id: auction_bid.player_bids[3] },
-                '4': { player_id: '456', price: '4', id: auction_bid.player_bids[4] }
+                '3': { player_id: '333', price: '12', id: auction_bid.player_bids[3] },
+                '4': { player_id: '456', price: '4', id: auction_bid.player_bids[4] },
+                '5': { player_id: '787', price: '3', id: auction_bid.player_bids[5] }
               }
             }
           end
@@ -315,8 +323,9 @@ RSpec.describe AuctionBids::Manager do
                 '0': { player_id: transfer.player.id, price: '28', id: auction_bid.player_bids[0] },
                 '1': { player_id: players_gk[0].id, price: '29', id: auction_bid.player_bids[1] },
                 '2': { player_id: players_gk[1].id, price: '27', id: auction_bid.player_bids[2] },
-                '3': { player_id: '333', price: '15', id: auction_bid.player_bids[3] },
-                '4': { player_id: '456', price: '4', id: auction_bid.player_bids[4] }
+                '3': { player_id: '333', price: '12', id: auction_bid.player_bids[3] },
+                '4': { player_id: '456', price: '4', id: auction_bid.player_bids[4] },
+                '5': { player_id: '787', price: '3', id: auction_bid.player_bids[5] }
               }
             }
           end
@@ -335,16 +344,17 @@ RSpec.describe AuctionBids::Manager do
         end
 
         context 'with valid params' do
-          let(:players_gk) { create_list(:player, 2, :with_pos_por) }
+          let(:players_gk) { create_list(:player, 3, :with_pos_por) }
           let(:params) do
             {
               status: 'submitted',
               player_bids_attributes: {
                 '0': { player_id: players_gk[0].id, price: '28', id: auction_bid.player_bids[0].id },
                 '1': { player_id: players_gk[1].id, price: '29', id: auction_bid.player_bids[1].id },
-                '2': { player_id: create(:player).id, price: '27', id: auction_bid.player_bids[2].id },
-                '3': { player_id: create(:player).id, price: '15', id: auction_bid.player_bids[3].id },
-                '4': { player_id: create(:player).id, price: '4', id: auction_bid.player_bids[4].id }
+                '2': { player_id: players_gk[2].id, price: '27', id: auction_bid.player_bids[2].id },
+                '3': { player_id: create(:player).id, price: '12', id: auction_bid.player_bids[3].id },
+                '4': { player_id: create(:player).id, price: '4', id: auction_bid.player_bids[4].id },
+                '5': { player_id: create(:player).id, price: '3', id: auction_bid.player_bids[5].id }
               }
             }
           end
@@ -426,8 +436,9 @@ RSpec.describe AuctionBids::Manager do
                 '0': { player_id: '123', price: '128', id: auction_bid.player_bids[0] },
                 '1': { player_id: '123', price: '9', id: auction_bid.player_bids[1] },
                 '2': { player_id: '321', price: '27', id: auction_bid.player_bids[2] },
-                '3': { player_id: '333', price: '15', id: auction_bid.player_bids[3] },
-                '4': { player_id: '456', price: '4', id: auction_bid.player_bids[4] }
+                '3': { player_id: '333', price: '12', id: auction_bid.player_bids[3] },
+                '4': { player_id: '456', price: '4', id: auction_bid.player_bids[4] },
+                '5': { player_id: '787', price: '3', id: auction_bid.player_bids[5] }
               }
             }
           end
@@ -453,8 +464,9 @@ RSpec.describe AuctionBids::Manager do
                 '0': { player_id: '123', price: '128', id: auction_bid.player_bids[0] },
                 '1': { player_id: '143', price: '129', id: auction_bid.player_bids[1] },
                 '2': { player_id: '321', price: '27', id: auction_bid.player_bids[2] },
-                '3': { player_id: '333', price: '15', id: auction_bid.player_bids[3] },
-                '4': { player_id: '456', price: '4', id: auction_bid.player_bids[4] }
+                '3': { player_id: '333', price: '12', id: auction_bid.player_bids[3] },
+                '4': { player_id: '456', price: '4', id: auction_bid.player_bids[4] },
+                '5': { player_id: '787', price: '3', id: auction_bid.player_bids[5] }
               }
             }
           end
@@ -480,8 +492,9 @@ RSpec.describe AuctionBids::Manager do
                 '0': { player_id: '123', price: '28', id: auction_bid.player_bids[0] },
                 '1': { player_id: '143', price: '29', id: auction_bid.player_bids[1] },
                 '2': { player_id: '321', price: '27', id: auction_bid.player_bids[2] },
-                '3': { player_id: '333', price: '15', id: auction_bid.player_bids[3] },
-                '4': { player_id: '456', price: '4', id: auction_bid.player_bids[4] }
+                '3': { player_id: '333', price: '12', id: auction_bid.player_bids[3] },
+                '4': { player_id: '456', price: '4', id: auction_bid.player_bids[4] },
+                '5': { player_id: '787', price: '3', id: auction_bid.player_bids[5] }
               }
             }
           end
@@ -511,8 +524,9 @@ RSpec.describe AuctionBids::Manager do
                 '0': { player_id: transfer.player.id, price: '28', id: auction_bid.player_bids[0] },
                 '1': { player_id: players_gk[0].id, price: '29', id: auction_bid.player_bids[1] },
                 '2': { player_id: players_gk[1].id, price: '27', id: auction_bid.player_bids[2] },
-                '3': { player_id: '333', price: '15', id: auction_bid.player_bids[3] },
-                '4': { player_id: '456', price: '4', id: auction_bid.player_bids[4] }
+                '3': { player_id: '333', price: '12', id: auction_bid.player_bids[3] },
+                '4': { player_id: '456', price: '4', id: auction_bid.player_bids[4] },
+                '5': { player_id: '787', price: '3', id: auction_bid.player_bids[5] }
               }
             }
           end
@@ -531,16 +545,17 @@ RSpec.describe AuctionBids::Manager do
         end
 
         context 'with valid params' do
-          let(:players_gk) { create_list(:player, 2, :with_pos_por) }
+          let(:players_gk) { create_list(:player, 3, :with_pos_por) }
           let(:params) do
             {
               status: 'completed',
               player_bids_attributes: {
                 '0': { player_id: players_gk[0].id, price: '28', id: auction_bid.player_bids[0].id },
                 '1': { player_id: players_gk[1].id, price: '29', id: auction_bid.player_bids[1].id },
-                '2': { player_id: create(:player).id, price: '27', id: auction_bid.player_bids[2].id },
-                '3': { player_id: create(:player).id, price: '15', id: auction_bid.player_bids[3].id },
-                '4': { player_id: create(:player).id, price: '4', id: auction_bid.player_bids[4].id }
+                '2': { player_id: players_gk[2].id, price: '27', id: auction_bid.player_bids[2].id },
+                '3': { player_id: create(:player).id, price: '12', id: auction_bid.player_bids[3].id },
+                '4': { player_id: create(:player).id, price: '4', id: auction_bid.player_bids[4].id },
+                '5': { player_id: create(:player).id, price: '3', id: auction_bid.player_bids[5].id }
               }
             }
           end
@@ -591,8 +606,9 @@ RSpec.describe AuctionBids::Manager do
               '0': { player_id: '111', price: '128', id: auction_bid.player_bids[0] },
               '1': { player_id: '123', price: '9', id: auction_bid.player_bids[1] },
               '2': { player_id: '321', price: '27', id: auction_bid.player_bids[2] },
-              '3': { player_id: '333', price: '15', id: auction_bid.player_bids[3] },
-              '4': { player_id: '456', price: '4', id: auction_bid.player_bids[4] }
+              '3': { player_id: '333', price: '12', id: auction_bid.player_bids[3] },
+              '4': { player_id: '456', price: '4', id: auction_bid.player_bids[4] },
+              '5': { player_id: '787', price: '3', id: auction_bid.player_bids[5] }
             }
           }
         end
