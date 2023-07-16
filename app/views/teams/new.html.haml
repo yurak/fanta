@@ -14,7 +14,7 @@
           #logo-input-icon= image_tag('icons/team_logo_folder.svg')
           = f.hidden_field :logo_url, value: nil, id: 'logo-url'
           #logo-modal.modal
-            .logo-modal-title= t('teams.new.сhoose')
+            .logo-modal-title= t('teams.new.choose')
             .logo-modal-icons
               - (1..141).each do |i|
                 .logo-modal-icon= image_tag("https://mantrafootball.s3.eu-west-1.amazonaws.com/teams/default_icons/default#{i}.png")

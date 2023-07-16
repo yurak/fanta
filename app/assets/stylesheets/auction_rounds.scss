@@ -589,7 +589,7 @@
             .ab-player-item {
               height: 72px;
               display: grid;
-              grid-template-columns: 66px auto 40px 112px 80px 108px;
+              grid-template-columns: 66px auto 40px 112px 88px 88px;
               column-gap: 16px;
 
               .player-show-face, .player-show-kit {
@@ -622,24 +622,24 @@
                 font-family: 'Nunito ExtraBold';
                 font-size: 16px;
                 line-height: 24px;
-                color: #4EAD57;
+                color: #847577;
                 margin: auto 0;
               }
 
               .ab-player-price5 {
-                color: #006EF5;
+                color: #4EAD57;
               }
 
               .ab-player-price10 {
-                color: #FFB319;
+                color: #006EF5;
               }
 
               .ab-player-price15 {
-                color: #DB0A23;
+                color: #BA44F1;
               }
 
               .ab-player-price20 {
-                color: #6E133C;
+                color: #DB0A23;
               }
 
               .ab-player-club {
@@ -655,7 +655,7 @@
 
               .ab-player-status {
                 font-family: 'Nunito ExtraBold';
-                text-align: center;
+                text-align: left;
                 font-size: 10px;
                 letter-spacing: 0.05em;
                 color: #4EAD57;
