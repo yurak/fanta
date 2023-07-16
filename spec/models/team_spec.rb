@@ -192,7 +192,7 @@ RSpec.describe Team do
       let(:team) { create(:team, :with_15_players) }
 
       it 'returns number of empty vacancies' do
-        expect(team.vacancies).to eq(10)
+        expect(team.vacancies).to eq(11)
       end
     end
 
@@ -256,7 +256,7 @@ RSpec.describe Team do
   describe '#max_rate' do
     context 'with full budget' do
       it 'returns max_rate value' do
-        expect(team.max_rate).to eq(236)
+        expect(team.max_rate).to eq(235)
       end
     end
 
@@ -264,7 +264,7 @@ RSpec.describe Team do
       let(:team) { create(:team, :with_15_players, budget: 99) }
 
       it 'returns max_rate value' do
-        expect(team.max_rate).to eq(90)
+        expect(team.max_rate).to eq(89)
       end
     end
 

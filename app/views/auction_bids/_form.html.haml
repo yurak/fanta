@@ -182,7 +182,7 @@
           }
 
           const goaleeCount = parseInt("#{team.players.by_position('Por').count}") + $('.team-player-positions .slot-position-Por').size();
-          if (goaleeCount < 2) {
+          if (goaleeCount < 3) {
               alert("#{t('auction_bid.goalee_count')}");
               return false;
           }

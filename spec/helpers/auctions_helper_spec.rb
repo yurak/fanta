@@ -191,7 +191,7 @@ RSpec.describe AuctionsHelper do
       end
 
       it 'returns nil' do
-        expect(helper.max_bid(league)).to eq(236)
+        expect(helper.max_bid(league)).to eq(235)
       end
     end
   end

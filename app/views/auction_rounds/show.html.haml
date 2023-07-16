@@ -53,9 +53,9 @@
         .auction-round-add-header
           .auction-round-add-text= t('auction_round.subheader.text1')
           .auction-round-add-item-badge= t('auction_round.subheader.players', players: current_user&.team_by_league(league).vacancies)
-          - if current_user&.team_by_league(league).players.by_position('Por').count < 2
+          - if current_user&.team_by_league(league).players.by_position('Por').count < Team::MIN_GK
             .auction-round-add-text= t('auction_round.subheader.text2')
-            .auction-round-add-item-badge.auction-round-add-item-badge-gk= t('auction_round.subheader.goalkeeper', gk_count: 2 - current_user&.team_by_league(league).players.by_position('Por').count )
+            .auction-round-add-item-badge.auction-round-add-item-badge-gk= t('auction_round.subheader.goalkeeper', gk_count: Team::MIN_GK - current_user&.team_by_league(league).players.by_position('Por').count )
           .auction-round-add-text= t('auction_round.subheader.text3')
           .auction-round-add-item-badge.auction-round-add-item-badge-budget= "#{current_user&.team_by_league(league).budget}M"
       .auction-bid-block
@@ -342,8 +342,12 @@
               $('#last-name-' + slotId).text(data.name);
 
               const priceInput = $('.price-input-' + slotId);
-              priceInput.val(data.stats_price);
-              priceInput.attr("min", data.stats_price);
+              let playerPrice = 1;
+              if (basicAuction) {
+                playerPrice = data.stats_price;
+              }
+              priceInput.val(playerPrice);
+              priceInput.attr("min", playerPrice);
 
               positionsContainer.children(".player-position").remove();
               data.position_names.forEach((positionName, index) => {
@@ -687,7 +691,7 @@
         }
 
         const goaleeCount = parseInt("#{auction_bid&.team&.players&.by_position('Por')&.count}") + $('.player-position-Por.selected-player-Por').size();
-        if (goaleeCount < 2) {
+        if (goaleeCount < 3) {
           alert("#{t('auction_bid.goalee_count')}");
           return false;
         }

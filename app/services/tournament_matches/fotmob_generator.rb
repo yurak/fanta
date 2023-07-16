@@ -19,12 +19,10 @@ module TournamentMatches
     private
 
     def update_round_matches(t_round)
-      round_data(t_round).each do |day_data|
-        day_data[1].each do |match_data|
-          match = find_match(match_data['id'])
+      round_data(t_round).each do |match_data|
+        match = find_match(match_data['id'])
 
-          update_match(match, match_data) if match
-        end
+        update_match(match, match_data) if match
       end
     end
 
@@ -46,15 +44,13 @@ module TournamentMatches
     end
 
     def create_round_matches(t_round)
-      round_data(t_round).each do |day_data|
-        day_data[1].each do |match_data|
-          create_match(t_round, match_data)
-        end
+      round_data(t_round).each do |match_data|
+        create_match(t_round, match_data)
       end
     end
 
     def round_data(t_round)
-      TournamentRounds::FotmobParser.call(tournament.source_calendar_url, t_round)
+      TournamentRounds::FotmobParser.call(tournament, t_round)
     end
 
     def create_match(round, match_data)
@@ -65,7 +61,7 @@ module TournamentMatches
         source_match_id: match_data['id'],
         round_name: match_data['roundName'],
         time: start_time(match_data),
-        date: match_data['status']['startDateStr']
+        date: match_data['status']['utcTime']
       )
     end
 

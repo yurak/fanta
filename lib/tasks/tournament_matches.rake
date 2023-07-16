@@ -1,4 +1,5 @@
 namespace :tournament_matches do
+  # rake 'tournament_matches:generate_fotmob_matches[1]'
   desc 'Create TournamentMatches from Fotmob'
   task :generate_fotmob_matches, %i[tournament_id] => :environment do |_t, args|
     tournament = Tournament.find(args[:tournament_id])

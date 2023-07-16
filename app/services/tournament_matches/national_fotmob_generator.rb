@@ -37,7 +37,7 @@ module TournamentMatches
     end
 
     def matches_data
-      TournamentRounds::FotmobParser.call(tournament.source_calendar_url)
+      TournamentRounds::FotmobParser.call(tournament)
     end
 
     def find_match(source_match_id)

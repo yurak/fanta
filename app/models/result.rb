@@ -6,7 +6,13 @@ class Result < ApplicationRecord
 
   default_scope { includes(:team) }
 
-  scope :ordered, -> { order(points: :desc).order(scored_goals: :desc).order(Arel.sql('scored_goals - missed_goals desc')) }
+  scope :ordered, lambda {
+                    order(points: :desc)
+                      .order(scored_goals: :desc)
+                      .order(wins: :desc)
+                      .order(total_score: :desc)
+                      .order(Arel.sql('scored_goals - missed_goals desc'))
+                  }
   scope :ordered_by_score, -> { order(total_score: :desc) }
   scope :by_team, ->(team_id) { where(team_id: team_id) }
 

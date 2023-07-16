@@ -16,8 +16,8 @@ class Team < ApplicationRecord
 
   delegate :tournament, to: :league
 
-  MAX_PLAYERS = 25
-  MIN_GK = 2
+  MAX_PLAYERS = 26
+  MIN_GK = 3
   DEFAULT_BUDGET = 260
 
   validates :name, presence: true, length: { in: 2..18 }

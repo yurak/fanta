@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_06_29_103628) do
+ActiveRecord::Schema.define(version: 2023_07_10_094035) do
 
   create_table "article_tags", force: :cascade do |t|
     t.string "name", default: "", null: false
@@ -414,6 +414,7 @@ ActiveRecord::Schema.define(version: 2023_06_29_103628) do
     t.boolean "eurocup", default: false
     t.string "short_name"
     t.string "icon"
+    t.integer "source_id"
     t.index ["code"], name: "index_tournaments_on_code", unique: true
   end
 
