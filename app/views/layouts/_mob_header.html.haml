@@ -70,8 +70,8 @@
                   - if team.league == league
                     .my-league-check ✅
 
-- if league
-  .badges-block
+.badges-block
+  - if league
     - if user_team_by_league(current_user, league)&.next_match
       = link_to match_path(user_team_by_league(current_user, league).next_match) do
         - if league.active_tour&.mantra? && league.active_tour.locked?
