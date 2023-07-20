@@ -143,12 +143,14 @@
                       .ab-players-block{id: "ab-players-block-#{player_bid.index}"}
 
             .auction-bid-title= t('auction_round.team')
-            - current_user&.team_by_league(league).players.each_with_index do |player, i|
+            - i = 0
+            - current_user&.team_by_league(league).players.sort_by(&:position_sequence_number).each do |player|
               - next if auction_bid.player_bids.success.where(player: player).any?
 
+              - i = i + 1
               = link_to player_path(player), target: '_blank' do
                 .auction-bid-slot
-                  .player-bid-index.right= i + 1 + current_user&.team_by_league(league)&.vacancies
+                  .player-bid-index.right= i + auction_bid&.player_bids&.count
                   .player-bid-avatar
                     .player-bid-face
                       %object{data: player.avatar_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
