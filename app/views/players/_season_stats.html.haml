@@ -1,0 +1,65 @@
+.player-table
+  .performance-table
+    .player-table-title
+      = t('players.stats')
+
+    .default-headers.player-table-headers.performance-table-row.season-stats-row
+      .default-header-cell{title: t('players.season')}= 'Season'
+      .default-header-cell{title: t('players.club')}= 'Club'
+      .default-header-cell{title: t('players.positions')}= 'Positions'
+      .default-header-cell{title: t('players.played_matches')}= 'PM'
+      - if player.position_names.include?(Position::GOALKEEPER)
+        .default-header-cell{title: t('players.missed_goals')}= t('players.mg')
+        .default-header-cell{title: t('players.missed_penalty')}= t('players.mp')
+        .default-header-cell{title: t('players.caught_penalty')}= t('players.cp')
+        .default-header-cell{title: t('players.saves')}= t('players.s')
+      - else
+        .default-header-cell= t('players.goals')
+        .default-header-cell{title: t('players.scored_penalty')}= t('players.sp')
+        .default-header-cell{title: t('players.failed_penalty')}= t('players.fp')
+        .default-header-cell{title: t('players.earned_penalty')}= t('players.ep')
+      .default-header-cell{title: t('players.assists')}= t('players.as')
+      .default-header-cell{title: t('players.yellow_card')}= t('players.yc')
+      .default-header-cell{title: t('players.red_card')}= t('players.rc')
+      .default-header-cell{title: t('players.cleansheet')}= t('players.cs')
+      .default-header-cell{title: t('players.own_goals')}= t('players.og')
+      .default-header-cell{title: t('players.penalty_foul')}= t('players.pf')
+      .default-header-cell{title: t('players.played_minutes')}= t('players.pm')
+      .default-header-cell{title: t('players.base_score')}= t('players.bs')
+      .default-header-cell{title: t('players.total_score')}= t('players.ts')
+    - @stats.each do |stat|
+      .player-table-row.performance-table-row.season-stats-row
+        .stats-cell= "#{stat.season.start_year}-#{stat.season.end_year}"
+        .stats-cell.stats-club
+          %object{data: stat.club.logo_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
+            = image_tag('default_logo.png')
+        .stats-positions
+          .module-position-block.player-positions-block.player-show-positions
+            .player-position{class: "player-position-#{stat.position1}"}
+              = slot_position_name(stat.position1)
+            - if stat.position2
+              .player-position{class: "player-position-#{stat.position2}"}
+                = slot_position_name(stat.position2)
+            - if stat.position3
+              .player-position{class: "player-position-#{stat.position3}"}
+                = slot_position_name(stat.position3)
+        .stats-cell= stat.played_matches
+        - if player.position_names.include?(Position::GOALKEEPER)
+          .stats-cell= stat.missed_goals
+          .stats-cell= stat.missed_penalty
+          .stats-cell= stat.caught_penalty
+          .stats-cell= stat.saves
+        - else
+          .stats-cell= stat.goals
+          .stats-cell= stat.scored_penalty
+          .stats-cell= stat.failed_penalty
+          .stats-cell= stat.penalties_won
+        .stats-cell= stat.assists
+        .stats-cell= stat.yellow_card
+        .stats-cell= stat.red_card
+        .stats-cell= stat.cleansheet
+        .stats-cell= stat.own_goals
+        .stats-cell= stat.conceded_penalty
+        .stats-cell= stat.played_minutes
+        .stats-cell.player-table-ts= stat.score
+        .stats-cell.player-table-ts= stat.final_score

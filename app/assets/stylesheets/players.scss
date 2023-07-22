@@ -670,6 +670,39 @@
         font-family: 'Nunito ExtraBold';
       }
     }
+
+    .season-stats-row {
+      grid-template-columns: 96px 48px 96px 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 56px 64px 64px;
+      column-gap: 8px;
+      text-align: center;
+
+      .default-header-cell {
+        padding: 0;
+      }
+    }
+
+    .player-table-row.season-stats-row {
+      line-height: 32px;
+      height: 48px;
+
+      .stats-club {
+        width: 48px;
+        height: 32px;
+
+        img, object {
+          width: 32px;
+          height: 32px;
+        }
+      }
+
+      .stats-positions {
+        padding: 6px 0;
+
+        .module-position-block {
+          margin: auto;
+        }
+      }
+    }
   }
 
   .player-actions {

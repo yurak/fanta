@@ -18,6 +18,8 @@ class PlayersController < ApplicationController
   end
 
   def show
+    @stats = player.player_season_stats.joins(:season, :club, :tournament).order(season_id: :desc, created_at: :desc)
+
     respond_to do |format|
       format.html
       format.json { render json: player, serializer: PlayerSerializer }

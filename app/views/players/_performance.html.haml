@@ -5,8 +5,8 @@
   .default-header-cell{title: t('players.round')}= '#'
   - if player.position_names.include?(Position::GOALKEEPER)
     .default-header-cell{title: t('players.missed_goals')}= t('players.mg')
-    .default-header-cell{title: t('players.caught_penalty')}= t('players.cp')
     .default-header-cell{title: t('players.missed_penalty')}= t('players.mp')
+    .default-header-cell{title: t('players.caught_penalty')}= t('players.cp')
     .default-header-cell{title: t('players.saves')}= t('players.s')
   - else
     .default-header-cell= t('players.goals')
@@ -32,15 +32,15 @@
         - else
           = render 'bonus_item', bonus: rp.missed_goals, img_path: "bonuses/mg.png"
       .player-table-cell
-        - if rp.caught_penalty.to_i.zero?
-          .blank-bonus -
-        - else
-          = render 'bonus_item', bonus: rp.caught_penalty, img_path: "bonuses/pen.png"
-      .player-table-cell
         - if rp.missed_penalty.to_i.zero?
           .blank-bonus -
         - else
           = render 'bonus_item', bonus: rp.missed_penalty, img_path: "bonuses/miss_pen.png"
+      .player-table-cell
+        - if rp.caught_penalty.to_i.zero?
+          .blank-bonus -
+        - else
+          = render 'bonus_item', bonus: rp.caught_penalty, img_path: "bonuses/pen.png"
       .player-table-cell
         - if rp.saves.to_i.zero?
           .blank-bonus -
