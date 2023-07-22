@@ -4,9 +4,9 @@
       = t('players.stats')
 
     .default-headers.player-table-headers.performance-table-row.season-stats-row
-      .default-header-cell{title: t('players.season')}= 'Season'
-      .default-header-cell{title: t('players.club')}= 'Club'
-      .default-header-cell{title: t('players.positions')}= 'Positions'
+      .default-header-cell= t('players.season')
+      .default-header-cell= t('players.club')
+      .default-header-cell= t('players.positions')
       .default-header-cell{title: t('players.played_matches')}= 'PM'
       - if player.position_names.include?(Position::GOALKEEPER)
         .default-header-cell{title: t('players.missed_goals')}= t('players.mg')
