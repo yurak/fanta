@@ -7,7 +7,7 @@
       .default-header-cell= t('players.season')
       .default-header-cell= t('players.club')
       .default-header-cell= t('players.positions')
-      .default-header-cell{title: t('players.played_matches')}= 'PM'
+      .default-header-cell{title: t('players.played_matches')}= t('players.pma')
       - if player.position_names.include?(Position::GOALKEEPER)
         .default-header-cell{title: t('players.missed_goals')}= t('players.mg')
         .default-header-cell{title: t('players.missed_penalty')}= t('players.mp')
