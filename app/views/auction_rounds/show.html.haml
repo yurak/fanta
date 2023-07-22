@@ -12,7 +12,7 @@
           .auction-link-text= "#{t('auction_round.auction')} ##{auction.number}"
       .round-action-btn.auction-round-mob
         - if auction_bid && !auction_bid.processed?
-          = submit_tag t("auction_round.bid_action.#{auction_bid.status}"), form: 'auction_bid_form', class: 'submit-btn', id: 'submit-bid-btn-mob'
+          = submit_tag t("auction_round.bid_action.#{auction_bid.status}"), form: 'auction_bid_form', class: "submit-btn submit-btn-#{auction_bid.status}", id: 'submit-bid-btn-mob'
       .auction-round-header{ class: "auction-round-base-#{auction_bid&.status}" }
         .auction-round-base
           .auction-round-title= "#{t('auction_round.stage').upcase} ##{auction_round.number}"
@@ -27,7 +27,7 @@
                 = auction_round.deadline&.strftime("%a, %b %e at %H:%M")
             .round-action-btn.auction-round-web
               - if auction_bid && !auction_bid.processed?
-                = submit_tag t("auction_round.bid_action.#{auction_bid.status}"), form: 'auction_bid_form', class: 'submit-btn', id: 'submit-bid-btn'
+                = submit_tag t("auction_round.bid_action.#{auction_bid.status}"), form: 'auction_bid_form', class: "submit-btn submit-btn-#{auction_bid.status}", id: 'submit-bid-btn'
             .round-action-info
               .wrapper
                 .tooltip
@@ -590,7 +590,7 @@
         }
 
         const priceInput = $('.price-input-' + slotId)
-        if (priceInput.val() < priceInput.attr("min")) {
+        if (parseInt(priceInput.val()) < parseInt(priceInput.attr("min"))) {
           priceInput.val(priceInput.attr("min"));
         }
 
