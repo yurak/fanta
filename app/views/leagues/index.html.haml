@@ -12,7 +12,7 @@
       .default-tabs.default-vertical-tabs
         #all_leagues.default-tab-item.default-tab-active
           .default-tab-icon= image_tag('icons/leagues.svg')
-          .default-tab-name= t('league.all')
+          .default-tab-name= t('league.active')
         - active_tournaments.each do |tournament|
           .default-tab-item{ id: tournament.code }
             .default-tab-icon= image_tag("tournaments/#{tournament.code}.png")
@@ -37,9 +37,10 @@
               .leagues-list-item-param.center= "#{league.season.start_year}-#{league.season.end_year}"
               .leagues-list-item-param.mob-hide.leagues-list-tournament= league.tournament.name
               .leagues-list-item-param.mob-hide.leagues-list-leader
-                - if league.leader
-                  .leader-logo= image_tag(league.leader.logo_path)
-                  .leader-name= league.leader.human_name
+                -# TODO: optimise leader request
+                -# - if league.leader
+                -#   .leader-logo= image_tag(league.leader.logo_path)
+                -#   .leader-name= league.leader.human_name
               .leagues-list-item-param.mob-hide.leagues-list-number= league.results.count
               .leagues-list-item-param.mob-hide.leagues-list-number= league.active_tour&.number || league.tours.count
               .leagues-list-item-param
