@@ -360,332 +360,365 @@
     display: grid;
     grid-template-columns: 1fr 2fr;
     column-gap: 16px;
+  }
 
-    .player-table {
-      border: 1px solid #E5E6E4;
-      box-sizing: border-box;
-      border-radius: 4px;
-      padding: 24px;
-      margin-bottom: 16px;
+  .player-table {
+    border: 1px solid #E5E6E4;
+    box-sizing: border-box;
+    border-radius: 4px;
+    padding: 24px;
+    margin-bottom: 16px;
 
-      .player-table-title {
+    .player-table-title {
+      font-family: 'Nunito ExtraBold';
+      font-size: 16px;
+      line-height: 24px;
+      color: #181715;
+    }
+
+    .player-table-row {
+      padding: 16px 0;
+      border-bottom: 1px solid #F4F4F4;
+      display: grid;
+      grid-template-columns: 110px auto;
+      column-gap: 32px;
+
+      .player-table-row-key {
+        font-family: 'Nunito Regular';
+        font-size: 16px;
+        line-height: 32px;
+        color: #181715;
+        text-align: left;
+      }
+
+      .player-table-row-value {
         font-family: 'Nunito ExtraBold';
         font-size: 16px;
-        line-height: 24px;
+        line-height: 32px;
         color: #181715;
-      }
 
-      .player-table-row {
-        padding: 16px 0;
-        border-bottom: 1px solid #F4F4F4;
-        display: grid;
-        grid-template-columns: 110px auto;
-        column-gap: 32px;
-
-        .player-table-row-key {
-          font-family: 'Nunito Regular';
-          font-size: 16px;
-          line-height: 32px;
-          color: #181715;
-          text-align: left;
-        }
-
-        .player-table-row-value {
-          font-family: 'Nunito ExtraBold';
-          font-size: 16px;
-          line-height: 32px;
-          color: #181715;
-
-          img, object {
-            width: 32px;
-            height: 32px;
-          }
+        img, object {
+          width: 32px;
+          height: 32px;
         }
       }
+    }
 
-      .player-table-row-last {
-        border-bottom: none;
-        padding: 16px 0 0;
+    .player-table-row-last {
+      border-bottom: none;
+      padding: 16px 0 0;
+    }
+
+    .flag-icon {
+      height: 24px;
+      width: 32px;
+      margin-left: 12px;
+      vertical-align: middle;
+    }
+
+    .player-table-club {
+      display: grid;
+      grid-template-columns: auto 32px;
+      column-gap: 16px;
+      max-width: fit-content;
+
+      .player-table-club-name {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+
+    .player-tm-link {
+      color: #261FFF;
+      border-bottom: 1px solid #D8D6FF;
+      width: fit-content;
+    }
+
+    .player-table-birth {
+      font-family: 'Nunito Regular';
+      font-size: 12px;
+      line-height: 12px;
+      letter-spacing: 0.02em;
+      color: #847577;
+    }
+  }
+
+  .player-table-chart {
+    margin: 32px 0 8px;
+
+    .player-table-chart-view {
+      margin-top: 24px;
+    }
+  }
+
+  .player-teams-block {
+    display: none;
+    position: fixed;
+    z-index: 250;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0, 0.5);
+
+    .player-teams-content {
+      font-family: 'Nunito ExtraBold';
+      background-color: #FFFFFF;
+      margin: 90px auto 120px;
+      border: 1px solid #E5E6E4;
+      box-sizing: border-box;
+      box-shadow: 6px 6px 8px rgba(24, 23, 21, 0.2), 1px 2px 5px rgba(24, 23, 21, 0.2);
+      border-radius: 8px;
+      width: 752px;
+      padding: 40px;
+
+      .player-teams-title {
+        font-size: 24px;
+        line-height: 32px;
+        text-align: center;
       }
 
-      .flag-icon {
-        height: 24px;
-        width: 32px;
-        margin-left: 12px;
-        vertical-align: middle;
-      }
-
-      .player-table-club {
+      .player-teams-summary {
         display: grid;
-        grid-template-columns: auto 32px;
+        grid-template-columns: 1fr 1fr;
         column-gap: 16px;
-        max-width: fit-content;
+        width: 304px;
+        margin: 24px auto 32px;
 
-        .player-table-club-name {
+        .player-teams-summary-block {
+          padding: 16px;
+          width: 144px;
+          height: 88px;
+          background: #FFEBC2;
+          border-radius: 8px;
+          text-align: center;
+        }
+
+        .player-teams-summary-title {
+          font-size: 14px;
+          line-height: 16px;
+          color: #9F6C05;
+          margin-bottom: 8px;
+        }
+
+        .player-teams-summary-value {
+          font-size: 32px;
+          line-height: 32px;
+          color: #BA44F1;
+        }
+      }
+
+      .teams-list {
+        .default-headers {
+          margin-bottom: 8px;
+        }
+
+        .teams-list-grid {
+          display: grid;
+          grid-template-columns: 26fr 17fr 15fr 10fr;
+        }
+
+        .teams-list-row {
+          font-size: 16px;
+          height: 56px;
+          line-height: 56px;
+          border-bottom: 1px solid #E5E6E4;
+        }
+
+        .player-team-link {
+          display: grid;
+          grid-template-columns: 56px auto;
+          column-gap: 8px;
+        }
+
+        .teams-list-item-logo {
+          margin: auto;
+        }
+
+        .teams-list-item-name {
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
         }
-      }
 
-      .player-tm-link {
-        color: #261FFF;
-        border-bottom: 1px solid #D8D6FF;
-        width: fit-content;
-      }
-
-      .player-table-birth {
-        font-family: 'Nunito Regular';
-        font-size: 12px;
-        line-height: 12px;
-        letter-spacing: 0.02em;
-        color: #847577;
-      }
-    }
-
-    .player-table-chart {
-      margin: 32px 0 8px;
-
-      .player-table-chart-view {
-        margin-top: 24px;
-      }
-    }
-
-    .player-teams-block {
-      display: none;
-      position: fixed;
-      z-index: 250;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      overflow: auto;
-      background-color: rgba(0,0,0, 0.5);
-
-      .player-teams-content {
-        font-family: 'Nunito ExtraBold';
-        background-color: #FFFFFF;
-        margin: 90px auto 120px;
-        border: 1px solid #E5E6E4;
-        box-sizing: border-box;
-        box-shadow: 6px 6px 8px rgba(24, 23, 21, 0.2), 1px 2px 5px rgba(24, 23, 21, 0.2);
-        border-radius: 8px;
-        width: 752px;
-        padding: 40px;
-
-        .player-teams-title {
-          font-size: 24px;
-          line-height: 32px;
-          text-align: center;
+        img {
+          width: 32px;
+          height: 32px;
         }
 
-        .player-teams-summary {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          column-gap: 16px;
-          width: 304px;
-          margin: 24px auto 32px;
-
-          .player-teams-summary-block {
-            padding: 16px;
-            width: 144px;
-            height: 88px;
-            background: #FFEBC2;
-            border-radius: 8px;
-            text-align: center;
-          }
-
-          .player-teams-summary-title {
-            font-size: 14px;
-            line-height: 16px;
-            color: #9F6C05;
-            margin-bottom: 8px;
-          }
-
-          .player-teams-summary-value {
-            font-size: 32px;
-            line-height: 32px;
-            color: #BA44F1;
-          }
+        .teams-list-item {
+          padding: 0 16px;
         }
 
-        .teams-list {
-          .default-headers {
-            margin-bottom: 8px;
-          }
-
-          .teams-list-grid {
-            display: grid;
-            grid-template-columns: 26fr 17fr 15fr 10fr;
-          }
-
-          .teams-list-row {
-            font-size: 16px;
-            height: 56px;
-            line-height: 56px;
-            border-bottom: 1px solid #E5E6E4;
-          }
-
-          .player-team-link {
-            display: grid;
-            grid-template-columns: 56px auto;
-            column-gap: 8px;
-          }
-
-          .teams-list-item-logo {
-            margin: auto;
-          }
-
-          .teams-list-item-name {
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-          }
-
-          img {
-            width: 32px;
-            height: 32px;
-          }
-
-          .teams-list-item {
-            padding: 0 16px;
-          }
-
-          .teams-list-item-league {
-            padding: 4px 8px;
-            font-size: 12px;
-            line-height: 16px;
-            background: #D8D6FF;
-            border-radius: 16px;
-            margin: 16px 0;
-            color: #040052;
-            width: fit-content;
-          }
-
-          .teams-list-item-auction {
-            font-family: 'Nunito Bold';
-            text-decoration-line: underline;
-            color: #261FFF;
-          }
-
-          .teams-list-item-price {
-            text-align: right;
-          }
-        }
-      }
-    }
-
-    .performance-table {
-      padding: 24px 24px 32px;
-      text-align: left;
-
-      .season-title {
-        font-family: 'Nunito ExtraBold';
-        margin-top: 16px;
-        padding-left: 8px;
-        font-size: 12px;
-        line-height: 16px;
-
-        .season-title-years {
-          margin-right: 8px;
+        .teams-list-item-league {
+          padding: 4px 8px;
+          font-size: 12px;
+          line-height: 16px;
+          background: #D8D6FF;
+          border-radius: 16px;
+          margin: 16px 0;
+          color: #040052;
+          width: fit-content;
         }
 
-        .season-title-arrow {
-          padding-bottom: 2px;
-
-          img {
-            width: 10px;
-            padding-bottom: 3px;
-          }
-        }
-      }
-
-      .player-table-title {
-        margin-bottom: 16px;
-      }
-
-      .player-perf-tabs {
-        width: fit-content;
-      }
-
-      .default-headers .default-header-cell {
-        margin: 8px 0;
-      }
-
-      .player-table-headers {
-        padding: 8px 0;
-        font-size: 12px;
-        line-height: 16px;
-        color: #847577;
-      }
-
-      .table-total {
-        font-family: 'Nunito ExtraBold';
-        background-color: #FFEBC2;
-        padding: 8px 0;
-        font-size: 16px;
-        line-height: 24px;
-        color: #181715;
-        text-align: center;
-
-        .table-total-cell {
-          img {
-            width: 20px;
-            height: 20px;
-          }
-        }
-      }
-
-      .performance-table-row {
-        padding: 8px 0;
-        line-height: 32px;
-        display: grid;
-        grid-template-columns: 6fr 6fr 6fr 6fr 6fr 5fr 5fr 5fr 5fr 5fr 5fr 5fr;
-        column-gap: 0;
-
-        .match-player-bonus-item {
-          display: inline-block;
-
-          img {
-            width: 16px;
-            height: 16px;
-          }
+        .teams-list-item-auction {
+          font-family: 'Nunito Bold';
+          text-decoration-line: underline;
+          color: #261FFF;
         }
 
-        .blank-bonus {
-          color: #CFD2CD;
-        }
-
-        .player-table-cell {
-          text-align: center;
-        }
-
-        .player-table-score {
+        .teams-list-item-price {
           text-align: right;
-          padding-right: 8px;
         }
+      }
+    }
+  }
 
-        .player-table-ts {
-          font-family: 'Nunito ExtraBold';
+  .performance-table {
+    padding: 24px 24px 32px;
+    text-align: left;
+
+    .season-title {
+      font-family: 'Nunito ExtraBold';
+      margin-top: 16px;
+      padding-left: 8px;
+      font-size: 12px;
+      line-height: 16px;
+
+      .season-title-years {
+        margin-right: 8px;
+      }
+
+      .season-title-arrow {
+        padding-bottom: 2px;
+
+        img {
+          width: 10px;
+          padding-bottom: 3px;
         }
       }
     }
 
-    .player-actions {
-      border: 1px solid #E5E6E4;
-      border-radius: 4px;
+    .player-table-title {
+      margin-bottom: 16px;
+    }
+
+    .player-perf-tabs {
+      width: fit-content;
+    }
+
+    .default-headers .default-header-cell {
+      margin: 8px 0;
+    }
+
+    .player-table-headers {
+      padding: 8px 0;
+      font-size: 12px;
+      line-height: 16px;
+      color: #847577;
+    }
+
+    .table-total {
+      font-family: 'Nunito ExtraBold';
+      background-color: #FFEBC2;
+      padding: 8px 0;
+      font-size: 16px;
+      line-height: 24px;
+      color: #181715;
       text-align: center;
-      font-size: 18px;
-      margin: 24px auto 48px;
 
-      a {
-        text-decoration: none;
-        color: #261FFF;
+      .table-total-cell {
+        img {
+          width: 18px;
+          height: 18px;
+        }
+      }
+    }
+
+    .performance-table-row {
+      padding: 8px 0;
+      line-height: 32px;
+      display: grid;
+      grid-template-columns: 4fr 6fr 6fr 6fr 6fr 5fr 5fr 5fr 5fr 5fr 5fr 5fr 5fr 5fr;
+      column-gap: 0;
+
+      .match-player-bonus-item {
+        display: inline-block;
+
+        img {
+          width: 16px;
+          height: 16px;
+        }
       }
 
-      .player-action-btn {
-        margin: 8px;
+      .blank-bonus {
+        color: #CFD2CD;
       }
+
+      .player-table-cell {
+        text-align: center;
+      }
+
+      .player-table-score {
+        text-align: right;
+        padding-right: 8px;
+      }
+
+      .player-table-ts {
+        font-family: 'Nunito ExtraBold';
+      }
+    }
+
+    .season-stats-row {
+      grid-template-columns: 96px 48px 96px 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 56px 64px 64px;
+      column-gap: 8px;
+      text-align: center;
+
+      .default-header-cell {
+        padding: 0;
+      }
+    }
+
+    .player-table-row.season-stats-row {
+      line-height: 32px;
+      height: 48px;
+
+      .stats-club {
+        width: 48px;
+        height: 32px;
+
+        img, object {
+          width: 32px;
+          height: 32px;
+        }
+      }
+
+      .stats-positions {
+        padding: 6px 0;
+
+        .module-position-block {
+          margin: auto;
+        }
+      }
+    }
+  }
+
+  .player-actions {
+    border: 1px solid #E5E6E4;
+    border-radius: 4px;
+    text-align: center;
+    font-size: 18px;
+    margin: 24px auto 48px;
+
+    a {
+      text-decoration: none;
+      color: #261FFF;
+    }
+
+    .player-action-btn {
+      margin: 8px;
     }
   }
 }

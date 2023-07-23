@@ -12,7 +12,7 @@
           .auction-link-text= "#{t('auction_round.auction')} ##{auction.number}"
       .round-action-btn.auction-round-mob
         - if auction_bid && !auction_bid.processed?
-          = submit_tag t("auction_round.bid_action.#{auction_bid.status}"), form: 'auction_bid_form', class: 'submit-btn', id: 'submit-bid-btn-mob'
+          = submit_tag t("auction_round.bid_action.#{auction_bid.status}"), form: 'auction_bid_form', class: "submit-btn submit-btn-#{auction_bid.status}", id: 'submit-bid-btn-mob'
       .auction-round-header{ class: "auction-round-base-#{auction_bid&.status}" }
         .auction-round-base
           .auction-round-title= "#{t('auction_round.stage').upcase} ##{auction_round.number}"
@@ -27,7 +27,7 @@
                 = auction_round.deadline&.strftime("%a, %b %e at %H:%M")
             .round-action-btn.auction-round-web
               - if auction_bid && !auction_bid.processed?
-                = submit_tag t("auction_round.bid_action.#{auction_bid.status}"), form: 'auction_bid_form', class: 'submit-btn', id: 'submit-bid-btn'
+                = submit_tag t("auction_round.bid_action.#{auction_bid.status}"), form: 'auction_bid_form', class: "submit-btn submit-btn-#{auction_bid.status}", id: 'submit-bid-btn'
             .round-action-info
               .wrapper
                 .tooltip
@@ -143,12 +143,14 @@
                       .ab-players-block{id: "ab-players-block-#{player_bid.index}"}
 
             .auction-bid-title= t('auction_round.team')
-            - current_user&.team_by_league(league).players.each_with_index do |player, i|
+            - i = 0
+            - current_user&.team_by_league(league).players.sort_by(&:position_sequence_number).each do |player|
               - next if auction_bid.player_bids.success.where(player: player).any?
 
+              - i = i + 1
               = link_to player_path(player), target: '_blank' do
                 .auction-bid-slot
-                  .player-bid-index.right= i + 1 + current_user&.team_by_league(league)&.vacancies
+                  .player-bid-index.right= i + auction_bid&.player_bids&.count
                   .player-bid-avatar
                     .player-bid-face
                       %object{data: player.avatar_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
@@ -588,7 +590,7 @@
         }
 
         const priceInput = $('.price-input-' + slotId)
-        if (priceInput.val() < priceInput.attr("min")) {
+        if (parseInt(priceInput.val()) < parseInt(priceInput.attr("min"))) {
           priceInput.val(priceInput.attr("min"));
         }
 

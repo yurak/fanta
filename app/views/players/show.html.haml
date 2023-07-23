@@ -135,6 +135,9 @@
               .international.player-tab-content
                 = render('performance', player: player, matches: player.national_matches_with_scores)
 
+      - if @stats.any?
+        = render('season_stats', player: player)
+
 :javascript
   $(document).ready(function() {
     $(".player-tab-content").hide();

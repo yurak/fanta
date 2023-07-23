@@ -201,6 +201,12 @@
         color: #FFFFFF;
         font-size: 16px;
       }
+
+      .submit-btn-completed#submit-bid-btn, .submit-btn-completed#submit-bid-btn-mob {
+        border: 1px solid #E9E9FF;
+        background: #FFFFFF;
+        color: #261FFF;
+      }
     }
 
     .auction-round-base-submitted {
