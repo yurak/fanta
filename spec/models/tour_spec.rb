@@ -388,7 +388,7 @@ RSpec.describe Tour do
         lineup_two = create(:lineup, :with_team_and_score_seven, tour: tour)
         lineup_three = create(:lineup, :with_team_and_score_five, tour: tour)
 
-        expect(tour.ordered_lineups).to eq([lineup_one, lineup_two, lineup_three])
+        expect(tour.ordered_lineups).to eq([lineup_two, lineup_one, lineup_three])
       end
     end
   end
