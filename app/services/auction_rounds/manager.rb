@@ -7,8 +7,7 @@ module AuctionRounds
     end
 
     def call
-      return false unless round.active?
-      return false if round.deadline.nil? || league.teams.count.zero? || bids_not_ready?
+      return false if round_not_ready?
       return false unless deadline_passed? || all_bids_completed?
 
       round.processing!
@@ -57,6 +56,10 @@ module AuctionRounds
       end
 
       bid.failed!
+    end
+
+    def round_not_ready?
+      !round.active? || round.deadline.nil? || league.teams.count.zero? || bids_not_ready?
     end
 
     def vacancies?
