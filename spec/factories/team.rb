@@ -4,10 +4,10 @@ FactoryBot.define do
     human_name { name }
     sequence(:code) { FFaker::Internet.slug[0..2] }
 
-    association :league
+    league
 
     trait :with_user do
-      association :user
+      user
     end
 
     trait :with_players do

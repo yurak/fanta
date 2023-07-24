@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :player_request do
-    association :player
-    association :user
+    player
+    user
 
     positions { [Position.last.name] }
   end

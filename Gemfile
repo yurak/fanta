@@ -31,6 +31,7 @@ gem 'rails-i18n', '~> 6.0'
 gem 'rb-readline'
 gem 'rest-client'
 gem 'rubocop', require: false
+gem 'rubocop-factory_bot'
 gem 'rubocop-rails', require: false
 gem 'rubocop-rspec', require: false
 gem 'sass-rails', '~> 5.0'

@@ -173,10 +173,10 @@ RSpec.describe Team do
     context 'with lineup' do
       it 'returns lineup with best total score' do
         create(:lineup, :with_team_and_score_six, team: team, tour: create(:closed_tour, league: team.league))
-        lineup2 = create(:lineup, :with_team_and_score_seven, team: team, tour: create(:closed_tour, league: team.league))
+        lineup_two = create(:lineup, :with_team_and_score_seven, team: team, tour: create(:closed_tour, league: team.league))
         create(:lineup, :with_team_and_score_five, team: team, tour: create(:closed_tour, league: team.league))
 
-        expect(team.best_lineup).to eq(lineup2)
+        expect(team.best_lineup).to eq(lineup_two)
       end
     end
   end

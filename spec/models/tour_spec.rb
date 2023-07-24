@@ -384,11 +384,11 @@ RSpec.describe Tour do
 
     context 'with lineups' do
       it 'returns lineups ordered by total score' do
-        lineup1 = create(:lineup, :with_team_and_score_six, tour: tour)
-        lineup2 = create(:lineup, :with_team_and_score_seven, tour: tour)
-        lineup3 = create(:lineup, :with_team_and_score_five, tour: tour)
+        lineup_one = create(:lineup, :with_team_and_score_six, tour: tour)
+        lineup_two = create(:lineup, :with_team_and_score_seven, tour: tour)
+        lineup_three = create(:lineup, :with_team_and_score_five, tour: tour)
 
-        expect(tour.ordered_lineups).to eq([lineup2, lineup1, lineup3])
+        expect(tour.ordered_lineups).to eq([lineup_one, lineup_two, lineup_three])
       end
     end
   end

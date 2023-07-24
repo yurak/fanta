@@ -98,10 +98,10 @@ RSpec.describe League do
     end
 
     context 'when league has closed tour' do
-      let!(:result1) do
+      let!(:result_one) do
         create(:result, team: create(:team, league: league), league: league, history: [nil, { pos: 1 }, { pos: 2 }].to_json)
       end
-      let!(:result2) do
+      let!(:result_two) do
         create(:result, team: create(:team, league: league), league: league, history: [nil, { pos: 2 }, { pos: 1 }].to_json)
       end
 
@@ -116,9 +116,9 @@ RSpec.describe League do
 
       it 'returns hash with teams datasets' do
         expect(JSON.parse(league.chart_data)['datasets']).to eq([{ 'backgroundColor' => '#007bff', 'borderColor' => '#007bff',
-                                                                   'data' => [1, 2], 'label' => result1.team.human_name },
+                                                                   'data' => [1, 2], 'label' => result_one.team.human_name },
                                                                  { 'backgroundColor' => '#fd7e14', 'borderColor' => '#fd7e14',
-                                                                   'data' => [2, 1], 'label' => result2.team.human_name }])
+                                                                   'data' => [2, 1], 'label' => result_two.team.human_name }])
       end
     end
   end

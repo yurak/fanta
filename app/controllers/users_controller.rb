@@ -26,7 +26,7 @@ class UsersController < ApplicationController
 
   def new_update
     user_add_params = user.initial? && user_params[:name].present? ? user_params.merge(status: :named) : user_params
-    user_add_params = user.named? && user_params[:avatar].present? ? user_add_params.merge(status: :with_avatar) : user_add_params
+    user_add_params = user_add_params.merge(status: :with_avatar) if user.named? && user_params[:avatar].present?
     user.assign_attributes(user_add_params)
 
     if !user.initial? && user.save

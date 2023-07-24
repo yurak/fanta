@@ -3,6 +3,6 @@ FactoryBot.define do
     name { FFaker::Color.name }
     color { FFaker::Color.hex_code }
 
-    association :tournament
+    tournament
   end
 end

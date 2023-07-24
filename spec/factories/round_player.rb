@@ -1,10 +1,10 @@
 FactoryBot.define do
   factory :round_player do
     tournament_round { TournamentRound.first || association(:tournament_round) }
-    association :player
+    player
 
     trait :with_team do
-      association :player, :with_team
+      player factory: %i[player with_team]
     end
 
     trait :with_score_five do
@@ -20,47 +20,47 @@ FactoryBot.define do
     end
 
     trait :with_pos_por do
-      association :player, :with_pos_por
+      player factory: %i[player with_pos_por]
     end
 
     trait :with_pos_dc do
-      association :player, :with_pos_dc
+      player factory: %i[player with_pos_dc]
     end
 
     trait :with_pos_dd do
-      association :player, :with_pos_dd
+      player factory: %i[player with_pos_dd]
     end
 
     trait :with_pos_dc_ds_e do
-      association :player, :with_pos_dc_ds_e
+      player factory: %i[player with_pos_dc_ds_e]
     end
 
     trait :with_pos_e do
-      association :player, :with_pos_e
+      player factory: %i[player with_pos_e]
     end
 
     trait :with_pos_m do
-      association :player, :with_pos_m
+      player factory: %i[player with_pos_m]
     end
 
     trait :with_pos_c do
-      association :player, :with_pos_c
+      player factory: %i[player with_pos_c]
     end
 
     trait :with_pos_e_c do
-      association :player, :with_pos_c, :with_pos_e
+      player factory: %i[player with_pos_c with_pos_e]
     end
 
     trait :with_pos_w do
-      association :player, :with_pos_w
+      player factory: %i[player with_pos_w]
     end
 
     trait :with_pos_a do
-      association :player, :with_pos_a
+      player factory: %i[player with_pos_a]
     end
 
     trait :with_pos_pc do
-      association :player, :with_pos_pc
+      player factory: %i[player with_pos_pc]
     end
 
     trait :with_tournament_match do

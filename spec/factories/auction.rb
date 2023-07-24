@@ -1,5 +1,5 @@
 FactoryBot.define do
   factory :auction do
-    association :league
+    league
   end
 end

@@ -4,7 +4,7 @@ FactoryBot.define do
     summary { FFaker::Lorem.sentence }
     description { FFaker::HTMLIpsum.body }
 
-    association :article_tag
+    article_tag
 
     factory :published_article do
       status { :published }

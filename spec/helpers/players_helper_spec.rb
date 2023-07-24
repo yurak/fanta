@@ -10,9 +10,9 @@ RSpec.describe PlayersHelper do
     end
 
     context 'with bench_players and without match_player' do
-      let(:mp1) { create(:match_player, round_player: create(:round_player, :with_pos_e, :with_score_six)) }
-      let(:mp2) { create(:match_player, round_player: create(:round_player, :with_pos_c, :with_score_six)) }
-      let(:bench_players) { [mp1, mp2] }
+      let(:mp_one) { create(:match_player, round_player: create(:round_player, :with_pos_e, :with_score_six)) }
+      let(:mp_two) { create(:match_player, round_player: create(:round_player, :with_pos_c, :with_score_six)) }
+      let(:bench_players) { [mp_one, mp_two] }
 
       it 'returns empty array' do
         expect(helper.available_for_substitution(match_player, bench_players)).to eq([])
@@ -28,31 +28,31 @@ RSpec.describe PlayersHelper do
     end
 
     context 'with bench_players where one is available for match_player substitution' do
-      let(:mp1) { create(:match_player, round_player: create(:round_player, :with_pos_w, :with_score_six)) }
-      let(:mp2) { create(:match_player, round_player: create(:round_player, :with_pos_c, :with_score_six)) }
-      let(:bench_players) { [mp1, mp2] }
+      let(:mp_one) { create(:match_player, round_player: create(:round_player, :with_pos_w, :with_score_six)) }
+      let(:mp_two) { create(:match_player, round_player: create(:round_player, :with_pos_c, :with_score_six)) }
+      let(:bench_players) { [mp_one, mp_two] }
       let(:match_player) { create(:m_match_player) }
 
       it 'returns array with bench_players data' do
-        expect(helper.available_for_substitution(match_player, bench_players)).to eq([[mp2, '1.5']])
+        expect(helper.available_for_substitution(match_player, bench_players)).to eq([[mp_two, '1.5']])
       end
     end
 
     context 'with bench_players where multiple are available for match_player substitution' do
-      let(:mp1) { create(:match_player, round_player: create(:round_player, :with_pos_dc, :with_score_seven)) }
-      let(:mp2) { create(:match_player, round_player: create(:round_player, :with_pos_c, :with_score_six)) }
-      let(:bench_players) { [mp1, mp2] }
+      let(:mp_one) { create(:match_player, round_player: create(:round_player, :with_pos_dc, :with_score_seven)) }
+      let(:mp_two) { create(:match_player, round_player: create(:round_player, :with_pos_c, :with_score_six)) }
+      let(:bench_players) { [mp_one, mp_two] }
       let(:match_player) { create(:m_match_player) }
 
       it 'returns array with bench_players data' do
-        expect(helper.available_for_substitution(match_player, bench_players)).to eq([[mp1, '3.0'], [mp2, '1.5']])
+        expect(helper.available_for_substitution(match_player, bench_players)).to eq([[mp_one, '3.0'], [mp_two, '1.5']])
       end
     end
 
     context 'with bench_players when all are unavailable for match_player substitution' do
-      let(:mp1) { create(:match_player, round_player: create(:round_player, :with_pos_dd, :with_score_seven)) }
-      let(:mp2) { create(:match_player, round_player: create(:round_player, :with_pos_a, :with_score_six)) }
-      let(:bench_players) { [mp1, mp2] }
+      let(:mp_one) { create(:match_player, round_player: create(:round_player, :with_pos_dd, :with_score_seven)) }
+      let(:mp_two) { create(:match_player, round_player: create(:round_player, :with_pos_a, :with_score_six)) }
+      let(:bench_players) { [mp_one, mp_two] }
       let(:match_player) { create(:m_match_player) }
 
       it 'returns array with match_players data' do

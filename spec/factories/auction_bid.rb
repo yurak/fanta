@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :auction_bid do
-    association :auction_round
-    association :team
+    auction_round
+    team
 
     trait :with_player_bids do
       after(:create) do |auction_bid|

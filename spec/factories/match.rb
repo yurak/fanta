@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :match do
-    association :tour
+    tour
 
     host { association :team }
     guest { association :team }

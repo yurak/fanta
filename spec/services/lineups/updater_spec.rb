@@ -27,19 +27,19 @@ RSpec.describe Lineups::Updater do
     end
 
     context 'when tour with lineups with scores' do
-      let!(:lineup1) { create(:lineup, :with_team_and_score_five, tour: tour) }
-      let!(:lineup2) { create(:lineup, :with_team_and_score_eight, tour: tour) }
+      let!(:lineup_one) { create(:lineup, :with_team_and_score_five, tour: tour) }
+      let!(:lineup_two) { create(:lineup, :with_team_and_score_eight, tour: tour) }
 
       before do
         updater.call
       end
 
       it 'updates first lineup final_score' do
-        expect(lineup1.reload.final_score).to eq(55)
+        expect(lineup_one.reload.final_score).to eq(55)
       end
 
       it 'updates last lineup final_score' do
-        expect(lineup2.reload.final_score).to eq(93)
+        expect(lineup_two.reload.final_score).to eq(93)
       end
     end
   end

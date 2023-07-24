@@ -68,7 +68,7 @@ module AuctionRounds
     end
 
     def bids_not_ready?
-      auction_bids.select { |ab| %w[submitted completed].exclude? ab.status }.any?
+      auction_bids.any? { |ab| %w[submitted completed].exclude? ab.status }
     end
 
     def all_bids_completed?
