@@ -2,7 +2,7 @@ class PlayerBidsController < ApplicationController
   respond_to :html, :json
 
   def update
-    if player_bid && player && auction_round.active? && player_available? && auction_bid.editable?
+    if valid_update?
       auction_bid.ongoing! if auction_bid.submitted?
 
       bid = player_bid_params
@@ -15,6 +15,10 @@ class PlayerBidsController < ApplicationController
   end
 
   private
+
+  def valid_update?
+    player_bid && player && auction_round.active? && player_available? && auction_bid.editable?
+  end
 
   def player_available?
     return false unless team && team == auction_bid.team

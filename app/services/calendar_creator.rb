@@ -33,13 +33,7 @@ class CalendarCreator < ApplicationService
     teams_array.push nil if teams_array.size.odd?
     n = teams_array.size
     pivot = teams_array.pop
-    games = (n - 1).times.map do |tour|
-      next if tour.odd?
-
-      tour_games = [[pivot, teams_array.first]] + (1...(n / 2)).map { |j| [teams_array[j], teams_array[n - 1 - j]] }
-      teams_array.rotate!
-      tour_games
-    end
+    games = tour_games(n, pivot)
 
     (n - 1).times.map do |tour|
       next if tour.even?
@@ -49,6 +43,16 @@ class CalendarCreator < ApplicationService
     end
     teams_array.push pivot unless pivot.nil?
     games
+  end
+
+  def tour_games(count, pivot)
+    (count - 1).times.map do |tour|
+      next if tour.odd?
+
+      tour_games = [[pivot, teams_array.first]] + (1...(count / 2)).map { |j| [teams_array[j], teams_array[count - 1 - j]] }
+      teams_array.rotate!
+      tour_games
+    end
   end
 
   def rounds
