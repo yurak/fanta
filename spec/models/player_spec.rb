@@ -13,6 +13,7 @@ RSpec.describe Player do
     it { is_expected.to have_many(:teams).through(:player_teams) }
     it { is_expected.to have_many(:player_bids).dependent(:destroy) }
     it { is_expected.to have_many(:player_requests).dependent(:destroy) }
+    it { is_expected.to have_many(:player_season_stats).dependent(:destroy) }
     it { is_expected.to have_many(:round_players).dependent(:destroy) }
     it { is_expected.to have_many(:transfers).dependent(:destroy) }
   end
@@ -401,6 +402,46 @@ RSpec.describe Player do
 
       it 'returns team by league' do
         expect(player.team_by_league(league_id)).to eq(team)
+      end
+    end
+  end
+
+  describe '#stats_price' do
+    context 'without player_season_stats' do
+      it 'returns initial price' do
+        expect(player.stats_price).to eq(1)
+      end
+    end
+
+    context 'without player_season_stats in previous season' do
+      before do
+        create(:player_season_stat, position_price: 20, player: player, season: Season.last, tournament: player.club.tournament)
+      end
+
+      it 'returns initial price' do
+        expect(player.stats_price).to eq(1)
+      end
+    end
+
+    context 'with player_season_stats in other tournament' do
+      before do
+        create(:player_season_stat, position_price: 20, player: player, season: Season.last)
+        create(:season)
+      end
+
+      it 'returns initial price' do
+        expect(player.stats_price).to eq(1)
+      end
+    end
+
+    context 'with player_season_stats from previous season in tournament' do
+      before do
+        create(:player_season_stat, position_price: 20, player: player, season: Season.last, tournament: player.club.tournament)
+        create(:season)
+      end
+
+      it 'returns initial price' do
+        expect(player.stats_price).to eq(20)
       end
     end
   end

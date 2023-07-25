@@ -1,6 +1,7 @@
 class RoundPlayer < ApplicationRecord
   belongs_to :tournament_round
   belongs_to :player
+  belongs_to :club, optional: true
 
   has_many :match_players, dependent: :destroy
   has_many :lineups, through: :match_players
@@ -22,23 +23,30 @@ class RoundPlayer < ApplicationRecord
   scope :ordered_by_club, -> { joins(player: :club).order('clubs.name') }
   scope :ordered_by_national, -> { joins(player: :national_team).order('national_teams.id').order('players.name') }
 
-  PC_GOAL_BONUS = 2
-  A_GOAL_BONUS = 2.5
+  STRIKER_GOAL_BONUS = 2
+  FORWARD_GOAL_BONUS = 2.5
   GOAL_BONUS = 3
   CAUGHT_PENALTY_BONUS = 3
   SCORED_PENALTY_BONUS = 2
   ASSIST_BONUS = 1
-  POR_CLEANSHEET_BONUS = 1.5
+  PENALTY_WON_BONUS = 1
+  GK_CLEANSHEET_BONUS = 1.5
   D_CLEANSHEET_BONUS = 1
   E_M_CLEANSHEET_BONUS = 0.5
+  UPPER_SAVES_BONUS = 1
+  LOWER_SAVES_BONUS = 0.5
 
-  MISSED_GOAL_MALUS = 1.5
+  MISSED_GOAL_MALUS = 1
   MISSED_PENALTY_MALUS = 1
-  FAILED_PENALTY_MALUS = 3
+  FAILED_PENALTY_MALUS = 2
+  CONCEDED_PENALTY_MALUS = 1
   OWN_GOAL_MALUS = 2
   YELLOW_CARD_MALUS = 0.5
   RED_CARD_MALUS = 2
   POR_RED_CARD_MALUS = 3
+
+  UPPER_SAVES_LIMIT = 6
+  LOWER_SAVES_LIMIT = 3
 
   def result_score
     return 0 unless score.positive?
@@ -69,7 +77,9 @@ class RoundPlayer < ApplicationRecord
     total += caught_penalty * CAUGHT_PENALTY_BONUS if caught_penalty
     total += scored_penalty * SCORED_PENALTY_BONUS if scored_penalty
     total += assists * ASSIST_BONUS if assists
+    total += penalties_won * PENALTY_WON_BONUS if penalties_won
     total += cleansheet_bonus if cleansheet
+    total += saves_bonus if saves
 
     total
   end
@@ -80,6 +90,7 @@ class RoundPlayer < ApplicationRecord
     total += missed_goals * MISSED_GOAL_MALUS if missed_goals
     total += missed_penalty * MISSED_PENALTY_MALUS if missed_penalty
     total += failed_penalty * FAILED_PENALTY_MALUS if failed_penalty
+    total += conceded_penalty * CONCEDED_PENALTY_MALUS if conceded_penalty
     total += own_goals * OWN_GOAL_MALUS if own_goals
     total += YELLOW_CARD_MALUS if yellow_card
     total += red_card_malus if red_card
@@ -89,9 +100,9 @@ class RoundPlayer < ApplicationRecord
 
   def goal_bonus
     if position_names.include?(Position::STRIKER)
-      PC_GOAL_BONUS
+      STRIKER_GOAL_BONUS
     elsif position_names.include?(Position::FORWARD)
-      A_GOAL_BONUS
+      FORWARD_GOAL_BONUS
     else
       GOAL_BONUS
     end
@@ -101,7 +112,7 @@ class RoundPlayer < ApplicationRecord
     return 0 if (position_names & Position::CLEANSHEET_ZONE).blank?
 
     if position_names.include?(Position::GOALKEEPER)
-      POR_CLEANSHEET_BONUS
+      GK_CLEANSHEET_BONUS
     elsif (position_names & Position::D_CLEANSHEET_ZONE).any?
       D_CLEANSHEET_BONUS
     elsif (position_names & Position::E_M_CLEANSHEET_ZONE).any?
@@ -114,6 +125,16 @@ class RoundPlayer < ApplicationRecord
       POR_RED_CARD_MALUS
     else
       RED_CARD_MALUS
+    end
+  end
+
+  def saves_bonus
+    return 0 if position_names.exclude?(Position::GOALKEEPER) || saves < LOWER_SAVES_LIMIT
+
+    if saves >= UPPER_SAVES_LIMIT
+      UPPER_SAVES_BONUS
+    else
+      LOWER_SAVES_BONUS
     end
   end
 end

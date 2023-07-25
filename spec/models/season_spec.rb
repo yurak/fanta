@@ -1,6 +1,7 @@
 RSpec.describe Season do
   describe 'Associations' do
     it { is_expected.to have_many(:leagues).dependent(:destroy) }
+    it { is_expected.to have_many(:player_season_stats).dependent(:destroy) }
     it { is_expected.to have_many(:tournament_rounds).dependent(:destroy) }
   end
 

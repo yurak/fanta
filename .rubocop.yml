@@ -2,6 +2,7 @@ inherit_from: .rubocop_todo.yml
 require:
   - rubocop-rails
   - rubocop-rspec
+  - rubocop-factory_bot
 
 AllCops:
   TargetRubyVersion: 2.5
@@ -19,7 +20,7 @@ AllCops:
 Layout/LineLength:
   Max: 140
 Metrics/BlockLength:
-  IgnoredMethods:
+  AllowedMethods:
     - describe
     - context
     - state_machine
@@ -36,3 +37,5 @@ Style/FrozenStringLiteralComment:
 Lint/MissingSuper:
   Exclude:
     - 'app/services/**/*'
+RSpec/NestedGroups:
+  Max: 5

@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :player_bid do
-    association :auction_bid
-    association :player
+    auction_bid
+    player
   end
 end

@@ -13,8 +13,8 @@ ligue_1:
 laliga:
   name: 'LaLiga'
   eurocup: false
-upl:
-  name: 'Ukrainian Premier League'
+liga:
+  name: 'Liga'
   eurocup: false
 euro:
   name: 'Euro 2020'

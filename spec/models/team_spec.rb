@@ -173,10 +173,10 @@ RSpec.describe Team do
     context 'with lineup' do
       it 'returns lineup with best total score' do
         create(:lineup, :with_team_and_score_six, team: team, tour: create(:closed_tour, league: team.league))
-        lineup2 = create(:lineup, :with_team_and_score_seven, team: team, tour: create(:closed_tour, league: team.league))
+        lineup_two = create(:lineup, :with_team_and_score_seven, team: team, tour: create(:closed_tour, league: team.league))
         create(:lineup, :with_team_and_score_five, team: team, tour: create(:closed_tour, league: team.league))
 
-        expect(team.best_lineup).to eq(lineup2)
+        expect(team.best_lineup).to eq(lineup_two)
       end
     end
   end
@@ -192,7 +192,7 @@ RSpec.describe Team do
       let(:team) { create(:team, :with_15_players) }
 
       it 'returns number of empty vacancies' do
-        expect(team.vacancies).to eq(10)
+        expect(team.vacancies).to eq(11)
       end
     end
 
@@ -256,7 +256,7 @@ RSpec.describe Team do
   describe '#max_rate' do
     context 'with full budget' do
       it 'returns max_rate value' do
-        expect(team.max_rate).to eq(236)
+        expect(team.max_rate).to eq(235)
       end
     end
 
@@ -264,7 +264,7 @@ RSpec.describe Team do
       let(:team) { create(:team, :with_15_players, budget: 99) }
 
       it 'returns max_rate value' do
-        expect(team.max_rate).to eq(90)
+        expect(team.max_rate).to eq(89)
       end
     end
 
@@ -397,6 +397,43 @@ RSpec.describe Team do
 
       it 'returns spent budget value' do
         expect(team.spent_budget(auction)).to eq(transfer.price)
+      end
+    end
+  end
+
+  describe '#dumped_player_ids(auction)' do
+    context 'without auction' do
+      it 'returns empty array' do
+        expect(team.dumped_player_ids(nil)).to eq([])
+      end
+    end
+
+    context 'with auction and without outgoing transfers' do
+      let(:auction) { create(:auction, league: team.league) }
+
+      it 'returns empty array' do
+        expect(team.dumped_player_ids(auction)).to eq([])
+      end
+    end
+
+    context 'with auction and with outgoing transfer on other auction' do
+      let(:auction) { create(:auction, league: team.league) }
+
+      before do
+        create(:transfer, status: 'outgoing', league: team.league, team: team, price: 77)
+      end
+
+      it 'returns empty array' do
+        expect(team.dumped_player_ids(auction)).to eq([])
+      end
+    end
+
+    context 'with auction and outgoing transfer' do
+      let(:auction) { create(:auction, league: team.league) }
+      let!(:transfer) { create(:transfer, status: 'outgoing', auction: auction, league: team.league, team: team, price: 77) }
+
+      it 'returns spent budget value' do
+        expect(team.dumped_player_ids(auction)).to eq([transfer.player_id])
       end
     end
   end

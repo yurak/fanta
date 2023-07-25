@@ -23,7 +23,7 @@ Rails.application.routes.draw do
   resources :articles
 
   resources :auction_rounds, only: [:show] do
-    resources :auction_bids, only: [:new, :create, :edit, :update]
+    resources :auction_bids, only: [:update]
   end
 
   resources :join_requests, only: [:new, :create, :index]
@@ -45,6 +45,8 @@ Rails.application.routes.draw do
   resources :players, only: [:index, :show, :update] do
     resources :player_requests, only: [:new, :create]
   end
+
+  resources :player_bids, only: [:update]
 
   resources :match_players, only: [] do
     resources :substitutes, only: [:new, :create, :destroy]

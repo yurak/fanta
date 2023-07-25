@@ -21,13 +21,14 @@ class ToursController < ApplicationController
   # TODO: move action to RoundPlayersController#update
   def inject_scores
     if can? :inject_scores, Tour
-      Tour.transaction do
-        Scores::Injectors::Fotmob.call(tour.tournament_round)
+      # TODO: temp removed
+      # Tour.transaction do
+      Scores::Injectors::Fotmob.call(tour.tournament_round)
+      tour.tournament_round.tours.each do |tour|
         Scores::PositionMalus::Updater.call(tour)
-        tour.tournament_round.tours.each do |tour|
-          Lineups::Updater.call(tour)
-        end
+        Lineups::Updater.call(tour)
       end
+      # end
     end
 
     redirect_to tour_path(tour)

@@ -10,6 +10,7 @@ class Player < ApplicationRecord
 
   has_many :player_bids, dependent: :destroy
   has_many :player_requests, dependent: :destroy
+  has_many :player_season_stats, dependent: :destroy
   has_many :round_players, dependent: :destroy
   has_many :transfers, dependent: :destroy
 
@@ -115,6 +116,10 @@ class Player < ApplicationRecord
 
   def team_by_league(league_id)
     teams.find_by(league_id: league_id)
+  end
+
+  def stats_price
+    @stats_price ||= player_season_stats.where(season: Season.second_to_last, tournament: club.tournament).last&.position_price || 1
   end
 
   # TODO: move to stats service

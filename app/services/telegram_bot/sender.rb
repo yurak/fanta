@@ -2,7 +2,7 @@ module TelegramBot
   class Sender < ApplicationService
     def initialize(user, message)
       @message = message
-      @user_profile = user.user_profile
+      @user_profile = user&.user_profile
     end
 
     def call

@@ -1,8 +1,8 @@
 FactoryBot.define do
   factory :lineup do
     team_module { TeamModule.first || association(:team_module) }
-    association :tour
-    association :team
+    tour
+    team
 
     trait :with_match do
       after(:create) do |lineup|

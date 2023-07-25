@@ -278,7 +278,7 @@ RSpec.describe MatchPlayer do
       it 'returns recounted total score value' do
         allow(match_player_with_score.round_player).to receive(:failed_penalty).and_return(1)
 
-        expect(match_player_with_score.total_score).to eq(3)
+        expect(match_player_with_score.total_score).to eq(4)
       end
     end
 
@@ -286,7 +286,7 @@ RSpec.describe MatchPlayer do
       it 'returns total score value' do
         allow(match_player_with_score.round_player).to receive(:missed_goals).and_return(1)
 
-        expect(match_player_with_score.total_score).to eq(4.5)
+        expect(match_player_with_score.total_score).to eq(5)
       end
     end
 
@@ -296,7 +296,7 @@ RSpec.describe MatchPlayer do
       it 'returns recounted total score value' do
         allow(match_player.round_player).to receive(:missed_goals).and_return(2)
 
-        expect(match_player.total_score).to eq(3)
+        expect(match_player.total_score).to eq(4)
       end
     end
 

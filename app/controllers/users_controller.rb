@@ -25,8 +25,8 @@ class UsersController < ApplicationController
   end
 
   def new_update
-    user_add_params = user.initial? && user_params[:name].present? ? user_params.merge(status: :named) : user_params
-    user_add_params = user.named? && user_params[:avatar].present? ? user_add_params.merge(status: :with_avatar) : user_add_params
+    user_add_params = user_new_params
+    user_add_params = user_add_params.merge(status: :with_avatar) if user.named? && user_params[:avatar].present?
     user.assign_attributes(user_add_params)
 
     if !user.initial? && user.save
@@ -54,6 +54,10 @@ class UsersController < ApplicationController
 
   def user_params
     params.permit(:active_team_id, :avatar, :name, :notifications, :ital_pos_naming)
+  end
+
+  def user_new_params
+    user.initial? && user_params[:name].present? ? user_params.merge(status: :named) : user_params
   end
 
   def user_profile_params

@@ -105,10 +105,10 @@ RSpec.describe Result do
     context 'with closed lineups' do
       it 'returns lineup with best total_score' do
         create(:lineup, :with_team_and_score_six, team: result.team, tour: create(:closed_tour, league: result.league))
-        lineup2 = create(:lineup, :with_team_and_score_seven, team: result.team, tour: create(:closed_tour, league: result.league))
+        lineup_two = create(:lineup, :with_team_and_score_seven, team: result.team, tour: create(:closed_tour, league: result.league))
         create(:lineup, :with_team_and_score_five, team: result.team, tour: create(:closed_tour, league: result.league))
 
-        expect(result.league_best_lineup).to eq(lineup2.total_score)
+        expect(result.league_best_lineup).to eq(lineup_two.total_score)
       end
     end
   end

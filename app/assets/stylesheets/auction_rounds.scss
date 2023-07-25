@@ -12,7 +12,7 @@
 
     .auction-round-back {
       display: grid;
-      grid-template-columns: 40px auto;
+      grid-template-columns: 40px 148px;
       column-gap: 8px;
       line-height: 40px;
 
@@ -31,6 +31,10 @@
       }
     }
 
+    .auction-round-mob {
+      display: none;
+    }
+
     .auction-round-header {
       margin-top: 20px;
       padding: 16px;
@@ -39,13 +43,33 @@
 
       .auction-round-base {
         display: grid;
-        grid-template-columns: 100px auto 276px 144px;
-        line-height: 40px;
+        grid-template-columns: 100px auto 276px 190px 20px;
+        column-gap: 8px;
+        line-height: 37px;
         color: #181715;
 
         .auction-round-title {
           font-family: 'Nunito Bold';
           font-size: 18px;
+        }
+
+        .auction-round-status {
+          font-family: 'Nunito ExtraBold';
+          padding: 8px 0;
+
+          .auction-round-status-badge {
+            color: #FFFFFF;
+            background: #FFB319;
+            border-radius: 16px;
+            padding: 0 8px;
+            width: fit-content;
+            height: 24px;
+            font-size: 12px;
+            line-height: 24px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
         }
 
         .round-deadline {
@@ -71,6 +95,93 @@
             text-align: center;
           }
         }
+
+        .round-action-info {
+          .tooltip-img {
+            padding: 10px 0;
+          }
+
+          img {
+            width: 20px;
+            height: 20px;
+          }
+
+          .wrapper {
+            font-size: 12px;
+            line-height: 16px;
+            cursor: help;
+            position: relative;
+            text-align: center;
+            -webkit-transform: translateZ(0); /* webkit flicker fix */
+            -webkit-font-smoothing: antialiased; /* webkit text rendering fix */
+          }
+
+          .wrapper .tooltip {
+            width: 340px;
+            background: #181715;
+            color: #fff;
+            border-radius: 8px;
+            display: block;
+            top: 50px;
+            left: -300px;
+            margin-bottom: 15px;
+            opacity: 0;
+            padding: 16px;
+            pointer-events: none;
+            position: absolute;
+            -webkit-transform: translateY(10px);
+            -moz-transform: translateY(10px);
+            -ms-transform: translateY(10px);
+            -o-transform: translateY(10px);
+            transform: translateY(10px);
+            -webkit-transition: all .25s ease-out;
+            -moz-transition: all .25s ease-out;
+            -ms-transition: all .25s ease-out;
+            -o-transition: all .25s ease-out;
+            transition: all .25s ease-out;
+            -webkit-box-shadow: 1px 2px 5px rgba(24, 23, 21, 0.2);
+            -moz-box-shadow: 1px 2px 5px rgba(24, 23, 21, 0.2);
+            -ms-box-shadow: 1px 2px 5px rgba(24, 23, 21, 0.2);
+            -o-box-shadow: 1px 2px 5px rgba(24, 23, 21, 0.2);
+            box-shadow: 1px 2px 5px rgba(24, 23, 21, 0.2);
+          }
+
+          /* This bridges the gap so you can mouse into the tooltip without it disappearing */
+          .wrapper .tooltip:before {
+            bottom: 30px;
+            content: " ";
+            display: block;
+            height: 30px;
+            left: 0;
+            position: absolute;
+            width: 100%;
+          }
+
+          .wrapper:hover .tooltip {
+            opacity: 1;
+            pointer-events: auto;
+            -webkit-transform: translateY(0px);
+            -moz-transform: translateY(0px);
+            -ms-transform: translateY(0px);
+            -o-transform: translateY(0px);
+            transform: translateY(0px);
+          }
+
+          .tooltip-header {
+            font-family: 'Nunito ExtraBold', serif;
+            margin-bottom: 4px;
+          }
+
+          .tooltip-base-header {
+            font-family: 'Nunito ExtraBold', serif;
+            margin: 8px 0 4px;
+          }
+
+          ol {
+            padding-left: 20px;
+            margin-bottom: 0;
+          }
+        }
       }
 
       .rounds-block {
@@ -80,24 +191,508 @@
       }
     }
 
+    .round-action-btn {
+      #submit-bid-btn, #submit-bid-btn-mob {
+        border: 1px solid #261FFF;
+        height: 40px;
+        background: #261FFF;
+        border-radius: 4px;
+        width: 100%;
+        color: #FFFFFF;
+        font-size: 16px;
+      }
+
+      .submit-btn-completed#submit-bid-btn, .submit-btn-completed#submit-bid-btn-mob {
+        border: 1px solid #E9E9FF;
+        background: #FFFFFF;
+        color: #261FFF;
+      }
+    }
+
+    .auction-round-base-submitted {
+      background: #D0F0D4;
+
+      .auction-round-base {
+        .auction-round-status .auction-round-status-badge {
+          background: #46A767;
+        }
+      }
+    }
+
+    .auction-round-base-completed {
+      background: #FCC5CB;
+
+      .auction-round-base {
+        .auction-round-status .auction-round-status-badge {
+          background: #DB0A23;
+        }
+      }
+    }
+
+    .auction-round-base-processed {
+      background: #C2D4FF;
+      border-radius: 8px;
+
+      .auction-round-base {
+        .auction-round-status .auction-round-status-badge {
+          background: #261FFF;
+        }
+      }
+    }
+
+    .auction-round-add-header {
+      border: 1px solid #FFEBC2;
+      border-radius: 0 0 8px 8px;
+      border-top: none;
+      padding: 12px 16px;
+      font-size: 14px;
+      line-height: 24px;
+      height: 48px;
+      display: flex;
+      gap: 4px;
+
+      .auction-round-add-item-badge {
+        font-family: 'Nunito ExtraBold';
+        background: #FCC5CB;
+        border-radius: 16px;
+        font-size: 12px;
+        color: #DB0A23;
+        padding: 0 8px;
+      }
+
+      .auction-round-add-item-badge-gk {
+        background: #FFEBC2;
+        color: #9F6C05;
+      }
+
+      .auction-round-add-item-badge-budget {
+        background: #D8D6FF;
+        color: #040052;
+      }
+    }
+
     .auction-bid-block {
       .auction-bid-title {
-        font-weight: bold;
-        font-size: 18px;
-        line-height: 32px;
-        margin-top: 16px;
+        font-family: 'Nunito ExtraBold';
+        font-size: 16px;
+        line-height: 24px;
+        margin: 32px 0 16px;
       }
 
-      .transfer-headers, .transfer-item {
-        grid-template-columns: 3fr 2fr 1fr 3fr 1fr;
+      .auction-bid-slot {
+        height: 72px;
+        border: 1px solid #E5E6E4;
+        color: #181715;
+        border-radius: 8px;
+        padding: 0 24px 0 16px;
+        margin-bottom: 8px;
+        display: grid;
+        grid-template-columns: 24px 72px 2fr 1fr 1fr 168px;
+        column-gap: 16px;
+        font-size: 16px;
+        line-height: 70px;
+
+        .player-bid-avatar {
+          .player-bid-face, .player-bid-kit {
+            position: absolute;
+
+            img {
+              width: 66px;
+              height: 66px;
+            }
+
+            object {
+              margin-top: 4px;
+              width: 66px;
+              height: 66px;
+            }
+          }
+        }
+
+        .player-bid-name {
+          padding: 13px 0;
+          line-height: 42px;
+
+          .player-bid-unselected {
+            font-size: 14px;
+            color: #847577;
+          }
+
+          .player-bid-last-name {
+            font-family: 'Nunito ExtraBold';
+            font-size: 16px;
+            line-height: 24px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+
+          .player-bid-first-name {
+            font-size: 14px;
+            line-height: 18px;
+            color: #847577;
+          }
+        }
+
+        .player-bid-positions {
+          .player-positions-block {
+            display: flex;
+            align-items: center;
+            margin: 25px 0;
+          }
+        }
+
+        .player-bid-club {
+          padding: 15px 0;
+          line-height: 40px;
+          height: 70px;
+          text-align: center;
+
+          img, object {
+            width: 40px;
+            height: 40px;
+          }
+        }
+
+        .player-bid-actions {
+          .player-bid-action-select {
+            font-family: 'Nunito ExtraBold';
+            margin: 27px 16px;
+            font-size: 14px;
+            line-height: 16px;
+            color: #261FFF;
+            width: fit-content;
+            border-bottom: 1px solid #D8D6FF;
+            float: right;
+            cursor: pointer;
+          }
+
+          .player-select-false {
+            display: none;
+          }
+
+          .player-transfer-completed {
+            display: grid;
+            grid-template-columns: auto 24px;
+            column-gap: 32px;
+          }
+
+          .player-transfer-price {
+            font-family: 'Nunito ExtraBold';
+            text-align: right;
+            font-size: 18px;
+          }
+
+          .player-manage-block {
+            display: grid;
+            grid-template-columns: auto 24px;
+            column-gap: 32px;
+
+            .price-input-block {
+              margin: auto;
+            }
+
+            input {
+              outline: none;
+              border-width: 0 0 1px;
+              border-color: #847577;
+              border-radius: 0;
+              font-size: 16px;
+              background: #F4F4F4;
+              text-align: center;
+            }
+
+            input:focus{
+              outline: none;
+              box-shadow: none;
+            }
+          }
+
+          .player-manage-false {
+            display: none;
+          }
+        }
       }
 
-      .transfer-player-data-failed {
-        background: #ffc2c2;
+      .auction-bid-slot:hover {
+        cursor: pointer;
+        border: 1px solid #181715;
       }
 
-      .transfer-player-data-success {
-        background: #cfffc2;
+      .modal-auction-players-list {
+        display: none;
+        position: fixed;
+        z-index: 260;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0,0,0, 0.5);
+
+        .auction-bid-modal-content {
+          margin: 80px auto;
+          width: 832px;
+          min-height: 224px;
+          background: #FFFFFF;
+          box-shadow: 6px 6px 8px rgba(24, 23, 21, 0.2), 1px 2px 5px rgba(24, 23, 21, 0.2);
+          border-radius: 8px;
+          cursor: auto;
+
+          .ab-modal-title {
+            padding: 40px 0 24px;
+
+            .ab-modal-title-text {
+              font-family: 'Nunito ExtraBold';
+              text-align: center;
+              font-size: 24px;
+              line-height: 32px;
+            }
+          }
+
+          .ab-search-row {
+            height: 56px;
+            line-height: 56px;
+            margin: 0 32px;
+
+            .ab-players-search {
+              line-height: 24px;
+              border-radius: 28px;
+              border: 1px solid #CFD2CD;
+              width: 100%;
+              display: grid;
+              grid-template-columns: 24px auto 134px;
+              column-gap: 16px;
+              padding: 15px 16px;
+
+              img {
+                width: 24px;
+                height: 24px;
+              }
+
+              input[type="search"]::-webkit-search-decoration,
+              input[type="search"]::-webkit-search-cancel-button,
+              input[type="search"]::-webkit-search-results-button,
+              input[type="search"]::-webkit-search-results-decoration {
+                display: none;
+              }
+
+              input {
+                border: none transparent;
+                outline: none;
+                font-size: 16px;
+                line-height: 22px;
+                width: 100%;
+              }
+
+              .search-action {
+                display: grid;
+                grid-template-columns: auto 24px;
+                column-gap: 16px;
+
+                img {
+                  width: 22px;
+                  height: 22px;
+                  margin-top: -3px;
+                }
+
+                .search-error {
+                  font-family: 'Nunito ExtraBold';
+                  font-size: 10px;
+                  letter-spacing: 0.05em;
+                  color: #DB0A23;
+                  text-align: right;
+                  display: none;
+                }
+
+                .search-clear {
+                  display: none;
+                }
+              }
+            }
+          }
+
+          .ab-filters-block {
+            margin: 16px 32px;
+
+            .ab-filters-title-row {
+              font-family: 'Nunito ExtraBold';
+              padding-left: 8px;
+              display: grid;
+              grid-template-columns: 16px 80px;
+              column-gap: 8px;
+              font-size: 12px;
+              line-height: 24px;
+              color: #847577;
+
+              img {
+                margin-top: -2px;
+              }
+            }
+          }
+
+          .ab-filters-positions {
+            margin: 24px 32px 8px;
+            line-height: 36px;
+
+            .search-position {
+              height: 36px;
+              cursor: pointer;
+              display: inline-block;
+              padding: 4px 8px;
+              border: 1px solid #FFFFFF;
+            }
+
+            .search-position-border {
+              border: 1px solid #181715;
+            }
+
+            .player-position {
+              border-radius: 4px;
+            }
+          }
+
+          .ab-filters-clubs {
+            margin: 0 32px 24px;
+            line-height: 30px;
+
+            .search-club-logo {
+              display: inline-block;
+              cursor: pointer;
+              margin: 0 2px;
+              height: 30px;
+              width: 30px;
+
+              img, object {
+                width: 28px;
+                height: 28px;
+              }
+            }
+
+            .search-club-border {
+              border: 1px solid #181715;
+              border-radius: 4px;
+            }
+          }
+
+          .ab-players-block {
+            max-height: 500px;
+            overflow-y: scroll;
+            position: relative;
+            padding-bottom: 32px;
+
+            .ab-player-item-row {
+              display: grid;
+              grid-template-columns: auto 32px;
+              column-gap: 16px;
+              padding: 0 32px;
+
+              .ab-player-link-content {
+                text-align: center;
+              }
+            }
+
+            .ab-player-item {
+              height: 72px;
+              display: grid;
+              grid-template-columns: 66px auto 40px 112px 88px 88px;
+              column-gap: 16px;
+
+              .player-show-face, .player-show-kit {
+                position: absolute;
+
+                object, img {
+                  margin-top: 6px;
+                  width: 66px;
+                  height: 66px;
+                }
+              }
+
+              .ab-player-name {
+                padding: 16px 0;
+
+                .ab-player-last-name {
+                  font-family: 'Nunito ExtraBold';
+                  font-size: 16px;
+                  line-height: 24px;
+                }
+
+                .ab-player-first-name {
+                  font-size: 14px;
+                  line-height: 16px;
+                  color: #847577;
+                }
+              }
+
+              .ab-player-price {
+                font-family: 'Nunito ExtraBold';
+                font-size: 16px;
+                line-height: 24px;
+                color: #847577;
+                margin: auto 0;
+              }
+
+              .ab-player-price5 {
+                color: #4EAD57;
+              }
+
+              .ab-player-price10 {
+                color: #006EF5;
+              }
+
+              .ab-player-price15 {
+                color: #BA44F1;
+              }
+
+              .ab-player-price20 {
+                color: #DB0A23;
+              }
+
+              .ab-player-club {
+                text-align: center;
+                margin: auto;
+                height: 40px;
+
+                object {
+                  width: 40px;
+                  height: 40px;
+                }
+              }
+
+              .ab-player-status {
+                font-family: 'Nunito ExtraBold';
+                text-align: left;
+                font-size: 10px;
+                letter-spacing: 0.05em;
+                color: #4EAD57;
+              }
+            }
+
+            .ab-player-sold {
+              .ab-player-name  .ab-player-last-name {
+                color: #A6A2A2;
+              }
+
+              .ab-player-status {
+                color: #DB0A23;
+              }
+            }
+
+            .ab-player-dumped {
+              .ab-player-name  .ab-player-last-name {
+                color: #A6A2A2;
+              }
+
+              .ab-player-status {
+                color: #BA44F1;
+              }
+            }
+
+            .ab-player-item-row:hover {
+              background: #F4F4F4;
+            }
+          }
+        }
       }
     }
   }
@@ -145,9 +740,13 @@
           margin-bottom: 8px;
 
           .auction-round-budget-dot {
-            background: #4EAD57;
+            background: #181715;
             border-radius: 4px;
             margin: 4px 0;
+          }
+
+          .budget-dot-available {
+            background: #4EAD57;
           }
 
           .budget-dot-spent-auc {
@@ -163,11 +762,15 @@
             text-align: right;
           }
 
-          .budget-value-balance {
+          #budget-value-balance {
+            color: #181715;
+          }
+
+          #budget-value-available {
             color: #4EAD57;
           }
 
-          .budget-value-spent-auc {
+          #budget-value-spent-auc {
             color: #BA44F1;
           }
 
@@ -186,6 +789,39 @@
             text-align: right;
           }
         }
+
+        .ar-budget-bar {
+          width: 100%;
+          height: 8px;
+          border-radius: 4px;
+          background: #4EAD57;
+          margin-top: 16px;
+
+          .ar-budget-bar-spent {
+            width: 0;
+            max-width: 100%;
+            height: 8px;
+            border-radius: 4px;
+            background: #BA44F1;
+          }
+        }
+
+        .ar-budget-alert {
+          padding: 4px 4px 4px 8px;
+          width: 100%;
+          background: #FCC5CB;
+          border-radius: 4px;
+          display: none;
+          grid-template-columns: 16px auto;
+          column-gap: 8px;
+          margin-top: 8px;
+          font-size: 12px;
+          line-height: 16px;
+
+          .ar-budget-alert-header {
+            font-family: 'Nunito ExtraBold';
+          }
+        }
       }
     }
   }
@@ -194,12 +830,230 @@
 @media (orientation: portrait) {
   .page-info.auction-rounds-page {
     display: block;
-    padding: 0 16px 288px;
+    padding: 0 16px 360px;
+
+    .round-section {
+      .auction-round-web {
+        display: none;
+      }
+
+      .auction-round-mob {
+        display: block;
+      }
+
+      .auction-round-back {
+        grid-template-columns: 54px 248px;
+        column-gap: 16px;
+        line-height: 80px;
+
+        img {
+          width: 32px;
+          height: 32px;
+          margin: 10px 12px;
+        }
+
+        .auction-link-text {
+          font-size: 36px;
+          line-height: 80px;
+        }
+      }
+
+      .auction-round-header {
+        padding: 24px;
+        border-radius: 16px 16px 0 0;
+
+        .auction-round-base {
+          grid-template-columns: 196px auto 232px 40px;
+          column-gap: 12px;
+          line-height: 54px;
+
+          .auction-round-title {
+            font-size: 36px;
+          }
+
+          .auction-round-status {
+            padding: 11px 0;
+
+            .auction-round-status-badge {
+              padding: 0 12px;
+              height: 32px;
+              font-size: 20px;
+              line-height: 32px;
+            }
+          }
+
+          .round-deadline {
+            display: block;
+
+            .round-deadline-text {
+              display: none;
+            }
+
+            .round-deadline-value {
+              border: 2px solid #FCC5CB;
+              border-radius: 8px;
+              font-size: 18px;
+              line-height: 32px;
+              padding-top: 4px;
+            }
+          }
+
+          .round-action-info {
+            .tooltip-img {
+              padding: 10px 0;
+            }
+
+            img {
+              width: 40px;
+              height: 40px;
+            }
+          }
+        }
+
+        .rounds-block {
+          margin-top: 16px;
+
+          .round-link-block {
+            border-radius: 8px;
+            font-size: 32px;
+            line-height: 72px;
+            width: 88px;
+            margin: 4px;
+          }
+        }
+      }
+
+      .round-action-btn {
+        margin: 32px 0;
+
+        #submit-bid-btn, #submit-bid-btn-mob {
+          height: 88px;
+          border-radius: 12px;
+          font-size: 36px;
+        }
+      }
+
+      .auction-round-add-header {
+        border: 3px solid #FFEBC2;
+        border-radius: 0 0 16px 16px;
+        padding: 24px 32px;
+        font-size: 24px;
+        line-height: 32px;
+        height: fit-content;
+        gap: 8px;
+        display: grid;
+        grid-template-columns: auto auto;
+
+        .auction-round-add-item-badge {
+          border-radius: 16px;
+          font-size: 24px;
+          padding: 0 12px;
+          width: fit-content;
+        }
+      }
+
+      .auction-bid-block {
+        .auction-bid-title {
+          font-size: 28px;
+          line-height: 40px;
+          margin: 32px 0 16px;
+        }
+
+        .auction-bid-slot {
+          height: 120px;
+          border: 2px solid #E5E6E4;
+          border-radius: 16px;
+          padding: 0 36px 0 32px;
+          margin-bottom: 16px;
+          grid-template-columns: 32px 120px 2fr 1fr 1fr 168px;
+          column-gap: 32px;
+          font-size: 32px;
+          line-height: 116px;
+
+          .player-bid-avatar {
+            .player-bid-face, .player-bid-kit {
+              position: absolute;
+
+              img {
+                width: 108px;
+                height: 108px;
+              }
+
+              object {
+                margin-top: 9px;
+                width: 108px;
+                height: 108px;
+              }
+            }
+          }
+
+          .player-bid-name {
+            padding: 28px 0;
+            line-height: 60px;
+
+            .player-bid-unselected {
+              font-size: 24px;
+            }
+
+            .player-bid-last-name {
+              font-size: 24px;
+              line-height: 36px;
+              max-width: 172px;
+            }
+
+            .player-bid-first-name {
+              font-size: 20px;
+              line-height: 24px;
+            }
+          }
+
+          .player-bid-positions .player-positions-block {
+            margin: 47px 0;
+          }
+
+          .player-bid-club {
+            padding: 28px 0;
+            line-height: 60px;
+            height: 116px;
+
+            img, object {
+              width: 60px;
+              height: 60px;
+            }
+          }
+
+          .player-bid-actions {
+            //.player-bid-action-select {
+            //  margin: 27px 16px;
+            //  font-size: 14px;
+            //  line-height: 16px;
+            //  color: #261FFF;
+            //  width: fit-content;
+            //  border-bottom: 1px solid #D8D6FF;
+            //}
+
+            .player-transfer-price {
+              font-size: 32px;
+            }
+
+            .player-manage-block {
+              input {
+                border-width: 0 0 3px;
+                font-size: 32px;
+              }
+            }
+          }
+        }
+
+        .modal-auction-players-list .auction-bid-modal-content .ab-players-block {
+          max-height: 1200px;
+        }
+      }
+    }
 
     .stats-section {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      column-gap: 16px;
+      display: block;
+      padding-bottom: 240px;
 
       .round-table {
         .round-table-item, .round-tournament-match {
@@ -214,6 +1068,17 @@
   .page-info.auction-rounds-page {
     display: block;
 
+    .round-section .auction-round-header .auction-round-base {
+      grid-template-columns: 100px auto 152px 190px 20px;
+
+      .round-deadline {
+        display: block;
+
+        .round-deadline-text {
+          display: none;
+        }
+      }
+    }
     .stats-section {
       display: grid;
       grid-template-columns: 1fr 1fr;

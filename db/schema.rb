@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_12_11_075551) do
+ActiveRecord::Schema.define(version: 2023_07_10_094035) do
 
   create_table "article_tags", force: :cascade do |t|
     t.string "name", default: "", null: false
@@ -38,6 +38,7 @@ ActiveRecord::Schema.define(version: 2022_12_11_075551) do
     t.integer "team_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "status", default: 0
     t.index ["auction_round_id"], name: "index_auction_bids_on_auction_round_id"
     t.index ["team_id"], name: "index_auction_bids_on_team_id"
   end
@@ -49,6 +50,7 @@ ActiveRecord::Schema.define(version: 2022_12_11_075551) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "status", default: 0
+    t.boolean "basic", default: false, null: false
     t.index ["auction_id"], name: "index_auction_rounds_on_auction_id"
   end
 
@@ -210,6 +212,37 @@ ActiveRecord::Schema.define(version: 2022_12_11_075551) do
     t.index ["user_id"], name: "index_player_requests_on_user_id"
   end
 
+  create_table "player_season_stats", force: :cascade do |t|
+    t.integer "player_id", null: false
+    t.integer "season_id", null: false
+    t.integer "club_id", null: false
+    t.integer "tournament_id", null: false
+    t.integer "played_matches", default: 0, null: false
+    t.decimal "score", precision: 10, scale: 2, default: "0.0", null: false
+    t.decimal "final_score", precision: 10, scale: 2, default: "0.0", null: false
+    t.integer "goals", default: 0, null: false
+    t.integer "assists", default: 0, null: false
+    t.integer "scored_penalty", default: 0, null: false
+    t.integer "failed_penalty", default: 0, null: false
+    t.integer "cleansheet", default: 0, null: false
+    t.integer "missed_goals", default: 0, null: false
+    t.integer "missed_penalty", default: 0, null: false
+    t.integer "caught_penalty", default: 0, null: false
+    t.integer "saves", default: 0, null: false
+    t.integer "yellow_card", default: 0, null: false
+    t.integer "red_card", default: 0, null: false
+    t.integer "own_goals", default: 0, null: false
+    t.integer "conceded_penalty", default: 0, null: false
+    t.integer "penalties_won", default: 0, null: false
+    t.integer "played_minutes", default: 0, null: false
+    t.integer "position_price", default: 1, null: false
+    t.string "position1"
+    t.string "position2"
+    t.string "position3"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "player_teams", force: :cascade do |t|
     t.integer "player_id"
     t.integer "team_id"
@@ -287,6 +320,10 @@ ActiveRecord::Schema.define(version: 2022_12_11_075551) do
     t.boolean "manual_lock", default: false
     t.integer "played_minutes", default: 0, null: false
     t.decimal "final_score", precision: 4, scale: 2, default: "0.0"
+    t.integer "saves", default: 0, null: false
+    t.integer "conceded_penalty", default: 0, null: false
+    t.integer "penalties_won", default: 0, null: false
+    t.integer "club_id"
     t.index ["player_id"], name: "index_round_players_on_player_id"
     t.index ["tournament_round_id"], name: "index_round_players_on_tournament_round_id"
   end
@@ -377,6 +414,7 @@ ActiveRecord::Schema.define(version: 2022_12_11_075551) do
     t.boolean "eurocup", default: false
     t.string "short_name"
     t.string "icon"
+    t.integer "source_id"
     t.index ["code"], name: "index_tournaments_on_code", unique: true
   end
 

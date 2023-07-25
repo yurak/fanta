@@ -55,12 +55,17 @@ module Scores
 
       def full_player_hash(round_player, player_data, team_missed_goals)
         {
-          score: rating(player_data), goals: player_data[:goals] || 0, assists: player_data[:assists] || 0,
+          score: rating(player_data), goals: stat_value(:goals), assists: stat_value(:assists),
           cleansheet: cleansheet?(round_player, team_missed_goals.to_i, player_data[:played_minutes]),
-          failed_penalty: player_data[:failed_penalty] || 0, caught_penalty: player_data[:caught_penalty] || 0,
-          missed_goals: player_data[:missed_goals] || 0, own_goals: player_data[:own_goals] || 0,
-          played_minutes: player_data[:played_minutes] || 0, yellow_card: player_data[:yellow_card], red_card: player_data[:red_card]
+          failed_penalty: stat_value(:failed_penalty), caught_penalty: stat_value(:caught_penalty),
+          missed_goals: stat_value(:missed_goals), own_goals: stat_value(:own_goals), saves: stat_value(:saves),
+          played_minutes: stat_value(:played_minutes), yellow_card: player_data[:yellow_card], red_card: player_data[:red_card],
+          conceded_penalty: stat_value(:conceded_penalty), penalties_won: stat_value(:penalties_won)
         }
+      end
+
+      def stat_value(key)
+        player_data[key] || 0
       end
 
       def players_hash(team)
@@ -85,12 +90,19 @@ module Scores
           fotmob_name: player_name(player_data),
           rating: player_data['rating']['num'],
           played_minutes: player_data['minutesPlayed'].to_i,
-          missed_goals: player_data['stats'][0]['stats']['Goals conceded']
+          missed_goals: player_stats(player_data, 'Goals conceded'),
+          saves: player_stats(player_data, 'Saves'),
+          conceded_penalty: player_stats(player_data, 'Conceded penalty'),
+          penalties_won: player_stats(player_data, 'Penalties won')
         }.compact
 
         return hash unless player_data['events']
 
         hash.merge!(player_events_hash(player_data))
+      end
+
+      def player_stats(player_data, key)
+        player_data['stats'][0]['stats'][key] ? player_data['stats'][0]['stats'][key]['value'] : 0
       end
 
       def player_events_hash(player_data)

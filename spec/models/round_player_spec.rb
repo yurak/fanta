@@ -103,7 +103,23 @@ RSpec.describe RoundPlayer do
       let(:round_player) { create(:round_player, :with_score_six, missed_goals: 2) }
 
       it 'returns score with malus' do
-        expect(round_player.result_score).to eq(3)
+        expect(round_player.result_score).to eq(4)
+      end
+    end
+
+    context 'with score, missed goals and few saves' do
+      let(:round_player) { create(:round_player, :with_score_six, player: create(:player, :with_pos_por), missed_goals: 2, saves: 4) }
+
+      it 'returns score with malus and bonus' do
+        expect(round_player.result_score).to eq(4.5)
+      end
+    end
+
+    context 'with score, missed goals and many saves' do
+      let(:round_player) { create(:round_player, :with_score_six, player: create(:player, :with_pos_por), missed_goals: 1, saves: 6) }
+
+      it 'returns score with malus and bonus' do
+        expect(round_player.result_score).to eq(6)
       end
     end
 
@@ -119,7 +135,7 @@ RSpec.describe RoundPlayer do
       let(:round_player) { create(:round_player, :with_score_six, failed_penalty: 1) }
 
       it 'returns score with malus' do
-        expect(round_player.result_score).to eq(3)
+        expect(round_player.result_score).to eq(4)
       end
     end
 
@@ -151,7 +167,23 @@ RSpec.describe RoundPlayer do
       let(:round_player) { create(:round_player, :with_score_six, yellow_card: true, failed_penalty: 1, goals: 2, assists: 1) }
 
       it 'returns score with malus' do
-        expect(round_player.result_score).to eq(9.5)
+        expect(round_player.result_score).to eq(10.5)
+      end
+    end
+
+    context 'with score and won penalty' do
+      let(:round_player) { create(:round_player, :with_score_six, penalties_won: 1) }
+
+      it 'returns score with bonus' do
+        expect(round_player.result_score).to eq(7)
+      end
+    end
+
+    context 'with score and conceded penalty' do
+      let(:round_player) { create(:round_player, :with_score_six, conceded_penalty: 2) }
+
+      it 'returns score with malus' do
+        expect(round_player.result_score).to eq(4)
       end
     end
 

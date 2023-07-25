@@ -16,8 +16,8 @@ class Team < ApplicationRecord
 
   delegate :tournament, to: :league
 
-  MAX_PLAYERS = 25
-  MIN_GK = 2
+  MAX_PLAYERS = 26
+  MIN_GK = 3
   DEFAULT_BUDGET = 260
 
   validates :name, presence: true, length: { in: 2..18 }
@@ -106,6 +106,10 @@ class Team < ApplicationRecord
     return 0 unless auction
 
     transfers.incoming.by_auction(auction).sum(&:price)
+  end
+
+  def dumped_player_ids(auction)
+    transfers.outgoing.by_auction(auction).pluck(:player_id)
   end
 
   private

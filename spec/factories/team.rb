@@ -1,18 +1,18 @@
 FactoryBot.define do
   factory :team do
-    sequence(:name) { FFaker::Internet.slug[0...14] }
+    sequence(:name) { |i| "#{FFaker::Internet.slug[0...11]}#{i}" }
     human_name { name }
-    sequence(:code) { FFaker::Internet.slug[0..2] }
+    sequence(:code) { |i| "#{FFaker::Internet.slug[0...2]}#{i.to_s[0]}" }
 
-    association :league
+    league
 
     trait :with_user do
-      association :user
+      user
     end
 
     trait :with_players do
       after(:create) do |team|
-        create_list(:player_team, 25, team: team)
+        create_list(:player_team, Team::MAX_PLAYERS, team: team)
       end
     end
 
@@ -40,9 +40,15 @@ FactoryBot.define do
       end
     end
 
-    trait :with_25_players do
+    trait :with_full_squad do
       after(:create) do |team|
-        create_list(:player_team, 25, team: team)
+        create_list(:player_team, Team::MAX_PLAYERS, team: team)
+      end
+    end
+
+    trait :with_full_squad do
+      after(:create) do |team|
+        create_list(:player_team, Team::MAX_PLAYERS, team: team)
       end
     end
 

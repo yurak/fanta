@@ -37,13 +37,13 @@
                 .auction-team-data-icon 🎭️
                 .auction-team-data-title= t('auction.players')
                 .auction-team-data-value
-                  - if league_team.players.count < 25
+                  - if league_team.players.count < Team::MAX_PLAYERS
                     .auction-team-data-value-item
                       = league_team.players.count
                     .auction-team-data-value-item.auction-team-data-value-right
-                      = '/ 25'
+                      = "/ #{Team::MAX_PLAYERS}"
                   - else
-                    = '25'
+                    = Team::MAX_PLAYERS
                   .auction-team-data-gk
                     - league_team.players.by_position('Por').each do |_|
                       .auction-team-gk-item
@@ -147,7 +147,7 @@
         .auction-purchases-title-current
           = league.transfers.incoming.count - league.transfers.outgoing.count
         .auction-purchases-title-total
-          = "/ #{league.teams.count * 25}"
+          = "/ #{league.teams.count * Team::MAX_PLAYERS}"
     - league.transfers.incoming.reverse.take(8).each do |transfer|
       .auction-purchases-item
         .auction-purchases-item-hidden

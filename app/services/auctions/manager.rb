@@ -26,15 +26,21 @@ module Auctions
     private
 
     def sales
-      auction.sales! if auction.initial? && status == SALES_STATUS
+      return unless auction.initial? && status == SALES_STATUS
+
+      auction.sales!
+
+      TelegramBot::AuctionSalesNotifier.call(auction)
     end
 
     def blind_bids
       return unless (auction.initial? || auction.sales?) && status == BLIND_BIDS_STATUS
 
-      create_auction_round
+      Auction.transaction do
+        AuctionRounds::Creator.call(auction)
 
-      auction.blind_bids!
+        auction.blind_bids!
+      end
     end
 
     def live
@@ -43,13 +49,6 @@ module Auctions
 
     def close
       auction.closed! if (auction.blind_bids? || auction.live?) && status == CLOSED_STATUS
-    end
-
-    def create_auction_round
-      auction.auction_rounds.create(
-        number: auction.auction_rounds.count + 1,
-        deadline: (auction.deadline.presence || Time.zone.now) + 1.day
-      )
     end
   end
 end

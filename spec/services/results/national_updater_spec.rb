@@ -21,24 +21,24 @@ RSpec.describe Results::NationalUpdater do
     end
 
     context 'when tour with lineups' do
-      let(:team1) { create(:team, :with_result) }
-      let(:team2) { create(:team, :with_result) }
+      let(:team_one) { create(:team, :with_result) }
+      let(:team_two) { create(:team, :with_result) }
 
       before do
-        create(:lineup, :with_team_and_score_six, team: team1, tour: tour)
-        create(:lineup, :with_team_and_score_seven, team: team2, tour: tour)
+        create(:lineup, :with_team_and_score_six, team: team_one, tour: tour)
+        create(:lineup, :with_team_and_score_seven, team: team_two, tour: tour)
 
         updater.call
       end
 
-      it { expect(team1.results.last.total_score).to eq(67) }
-      it { expect(team1.results.last.points).to eq(18) }
-      it { expect(team1.results.last.wins).to eq(0) }
-      it { expect(team1.results.last.draws).to eq(1) }
-      it { expect(team2.results.last.total_score).to eq(82) }
-      it { expect(team2.results.last.points).to eq(25) }
-      it { expect(team2.results.last.wins).to eq(1) }
-      it { expect(team2.results.last.draws).to eq(1) }
+      it { expect(team_one.results.last.total_score).to eq(67) }
+      it { expect(team_one.results.last.points).to eq(18) }
+      it { expect(team_one.results.last.wins).to eq(0) }
+      it { expect(team_one.results.last.draws).to eq(1) }
+      it { expect(team_two.results.last.total_score).to eq(82) }
+      it { expect(team_two.results.last.points).to eq(25) }
+      it { expect(team_two.results.last.wins).to eq(1) }
+      it { expect(team_two.results.last.draws).to eq(1) }
     end
   end
 end

@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :result do
-    association :team
-    association :league
+    team
+    league
 
     trait :with_opponents do
       after(:create) do |result|
