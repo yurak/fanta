@@ -10,7 +10,7 @@ namespace :tm do
         puts "--------#{club.name}--------"
         response = RestClient::Request.execute(method: :get, url: club.tm_url, headers: { 'User-Agent': 'product/version' })
         html_page = Nokogiri::HTML(response)
-        players = html_page.css('.posrela .inline-table .hauptlink')
+        players = html_page.css('.inline-table .hauptlink')
         player_count = 1
 
         players.each do |player_data|
@@ -64,7 +64,7 @@ namespace :tm do
       puts "--------#{club.name}--------"
       response = RestClient::Request.execute(method: :get, url: club.tm_url, headers: { 'User-Agent': 'product/version' })
       html_page = Nokogiri::HTML(response)
-      players = html_page.css('.posrela .inline-table .hauptlink')
+      players = html_page.css('.inline-table .hauptlink')
 
       players.each do |player_data|
         tm_id = player_data.children.first.attributes['href'].value.split('/').last
