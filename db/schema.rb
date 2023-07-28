@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_07_10_094035) do
+ActiveRecord::Schema.define(version: 2023_07_27_150740) do
 
   create_table "article_tags", force: :cascade do |t|
     t.string "name", default: "", null: false
@@ -374,6 +374,20 @@ ActiveRecord::Schema.define(version: 2023_07_10_094035) do
     t.integer "budget", default: 260
     t.index ["league_id"], name: "index_teams_on_league_id"
     t.index ["user_id"], name: "index_teams_on_user_id"
+  end
+
+  create_table "tg_messages", force: :cascade do |t|
+    t.integer "update_id", null: false
+    t.integer "message_id"
+    t.integer "chat_id"
+    t.string "text"
+    t.string "username"
+    t.string "first_name"
+    t.string "last_name"
+    t.datetime "date"
+    t.string "full_data"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "tournament_matches", force: :cascade do |t|

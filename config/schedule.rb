@@ -9,6 +9,11 @@ every :hour do
   rake 'tg:send_notifications'
 end
 
+# Save messages from Telegram Bot
+every '20 * * * *' do
+  rake 'tg:save_messages'
+end
+
 # Sell players from teams by deadline for auctions with sales status
 every 15.minutes do
   rake 'transfers:outgoing_active_league'
