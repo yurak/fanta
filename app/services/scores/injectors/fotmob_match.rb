@@ -53,18 +53,18 @@ module Scores
         full_player_hash(round_player, player_data, team_missed_goals)
       end
 
-      def full_player_hash(round_player, player_data, team_missed_goals)
+      def full_player_hash(round_player, data, team_missed_goals)
         {
-          score: rating(player_data), goals: stat_value(:goals), assists: stat_value(:assists),
-          cleansheet: cleansheet?(round_player, team_missed_goals.to_i, player_data[:played_minutes]),
-          failed_penalty: stat_value(:failed_penalty), caught_penalty: stat_value(:caught_penalty),
-          missed_goals: stat_value(:missed_goals), own_goals: stat_value(:own_goals), saves: stat_value(:saves),
-          played_minutes: stat_value(:played_minutes), yellow_card: player_data[:yellow_card], red_card: player_data[:red_card],
-          conceded_penalty: stat_value(:conceded_penalty), penalties_won: stat_value(:penalties_won)
+          score: rating(data), goals: stat_value(data, :goals), assists: stat_value(data, :assists),
+          cleansheet: cleansheet?(round_player, team_missed_goals.to_i, data[:played_minutes]),
+          failed_penalty: stat_value(data, :failed_penalty), caught_penalty: stat_value(data, :caught_penalty),
+          missed_goals: stat_value(data, :missed_goals), own_goals: stat_value(data, :own_goals), saves: stat_value(data, :saves),
+          played_minutes: stat_value(data, :played_minutes), yellow_card: data[:yellow_card], red_card: data[:red_card],
+          conceded_penalty: stat_value(data, :conceded_penalty), penalties_won: stat_value(data, :penalties_won)
         }
       end
 
-      def stat_value(key)
+      def stat_value(player_data, key)
         player_data[key] || 0
       end
 

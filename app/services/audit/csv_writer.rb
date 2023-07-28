@@ -22,19 +22,19 @@ module Audit
 
     def write_club_data(writer)
       host_players.each do |player_record|
-        writer << [DateTime.now, tournament.name, t_match.tournament_round.number, t_match.host_club.name, t_match.id, player_record]
+        writer << [DateTime.now, tournament.name, t_match.tournament_round.id, t_match.host_club.name, t_match.id, player_record]
       end
       guest_players.each do |player_record|
-        writer << [DateTime.now, tournament.name, t_match.tournament_round.number, t_match.guest_club.name, t_match.id, player_record]
+        writer << [DateTime.now, tournament.name, t_match.tournament_round.id, t_match.guest_club.name, t_match.id, player_record]
       end
     end
 
     def write_national_data(writer)
       host_players.each do |player_record|
-        writer << [DateTime.now, tournament.name, t_match.tournament_round.number, t_match.host_team.name, t_match.id, player_record]
+        writer << [DateTime.now, tournament.name, t_match.tournament_round.id, t_match.host_team.name, t_match.id, player_record]
       end
       guest_players.each do |player_record|
-        writer << [DateTime.now, tournament.name, t_match.tournament_round.number, t_match.guest_team.name, t_match.id, player_record]
+        writer << [DateTime.now, tournament.name, t_match.tournament_round.id, t_match.guest_team.name, t_match.id, player_record]
       end
     end
 
