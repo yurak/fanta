@@ -1008,7 +1008,15 @@
           }
 
           .player-bid-positions .player-positions-block {
-            margin: 47px 0;
+            margin: 44px 0;
+            height: 28px;
+
+            .player-position {
+              padding: 4px 8px;
+              height: 28px;
+              font-size: 16px;
+              line-height: 22px;
+            }
           }
 
           .player-bid-club {
@@ -1045,8 +1053,84 @@
           }
         }
 
-        .modal-auction-players-list .auction-bid-modal-content .ab-players-block {
-          max-height: 1200px;
+        .modal-auction-players-list .auction-bid-modal-content {
+          .ab-filters-clubs {
+            margin: 0 32px 24px;
+            line-height: 40px;
+
+            .search-club-logo {
+              display: inline-block;
+              cursor: pointer;
+              margin: 0 2px;
+              height: 40px;
+              width: 40px;
+
+              img, object {
+                width: 38px;
+                height: 38px;
+              }
+            }
+
+            .search-club-border {
+              border: 1px solid #181715;
+              border-radius: 4px;
+            }
+          }
+
+          .ab-players-block {
+            max-height: 1200px;
+
+            .ab-player-item-row {
+              grid-template-columns: auto 48px;
+
+              .ab-player-link {
+                img {
+                  width: 36px;
+                  height: 36px;
+                }
+              }
+            }
+
+            .ab-player-item {
+              height: 116px;
+              grid-template-columns: 110px auto 40px 122px 64px 88px;
+
+              .player-show-face, .player-show-kit {
+                object, img {
+                  width: 110px;
+                  height: 110px;
+                }
+              }
+
+              .ab-player-name {
+                padding: 24px 0;
+
+                .ab-player-last-name {
+                  font-size: 24px;
+                  line-height: 36px;
+                }
+
+                .ab-player-first-name {
+                  font-size: 18px;
+                  line-height: 32px;
+                }
+              }
+
+              .ab-player-price {
+                font-size: 24px;
+                line-height: 36px;
+              }
+
+              .ab-player-club {
+                height: 88px;
+
+                object {
+                  width: 48px;
+                  height: 48px;
+                }
+              }
+            }
+          }
         }
       }
     }
