@@ -53,6 +53,7 @@ en:
     budget: "💰 Budget"
     filters: "Filters"
     max_bid: "Maximum bid"
+    modules: "Modules"
     select: "Select player"
     spent_auction: "Spend on this stage"
     spent_total: "Spent in total"

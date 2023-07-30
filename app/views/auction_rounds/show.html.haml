@@ -247,6 +247,20 @@
                   - else
                     = t("auction_round.status_icon.#{auction_round.auction_bids.find_by(team: team).status}")
       .round-table
+        .round-table-title-header
+          .round-table-title
+            .round-table-title-text= t('auction_round.modules')
+          .round-table-hide.round-table-visible
+            = image_tag('icons/arrow_up.svg')
+          .round-table-hide.round-table-hidden
+            = image_tag('icons/arrow_down.svg')
+        .round-list
+          - @modules.each do |team_module|
+            .module-btn= team_module.name
+          - @modules.each do |team_module|
+            .module-img{id: "module-img-#{team_module.name}"}= image_tag("#{modules_path}#{team_module.name}.jpg")
+
+      .round-table
         .round-table-title
           = link_to league_auction_transfers_path(league, auction) do
             .round-table-title-text= t('auction_round.transfers')
@@ -730,5 +744,13 @@
         this.style.display = "none";
         statsTable.querySelector(".round-table-visible").style.display = "block";
       }
+    });
+
+    // Show module images
+    $(".module-btn").click(function(){
+      $(".module-btn").removeClass("module-btn-active");
+      $(".module-img").hide();
+      this.classList.add("module-btn-active");
+      $("#module-img-"+this.textContent).show();
     });
   });

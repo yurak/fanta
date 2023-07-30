@@ -7,6 +7,7 @@ class AuctionRoundsController < ApplicationController
 
   def show
     @transfers = auction.transfers.incoming.sort_by(&:price).reverse.take(5)
+    @modules = TeamModule.all
   end
 
   private

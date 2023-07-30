@@ -823,6 +823,35 @@
           }
         }
       }
+
+      .module-btn {
+        font-family: "Nunito ExtraBold";
+        height: 24px;
+        display: inline-block;
+        border: 1px solid #CFD2CD;
+        border-radius: 12px;
+        font-size: 12px;
+        line-height: 16px;
+        text-align: left;
+        padding: 3px 8px;
+        margin-bottom: 8px;
+      }
+
+      .module-btn-active {
+        background: #D8D6FF;
+        border: 1px solid #D8D6FF;
+        color: #261FFF;
+      }
+
+      .module-img {
+        width: 100%;
+        margin-top: 16px;
+        display: none;
+
+        img {
+          width: 100%;
+        }
+      }
     }
   }
 }
