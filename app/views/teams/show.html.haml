@@ -42,5 +42,6 @@
     - else
       = render 'mantra_team', team: team
 
-  .portrait-footer{ class: "portrait-footer-#{team.league&.mantra?}"}
-    = render 'layouts/league_links', league: team.league
+  - if team.league
+    .portrait-footer{ class: "portrait-footer-#{team.league.mantra?}"}
+      = render 'layouts/league_links', league: team.league
