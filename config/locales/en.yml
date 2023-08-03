@@ -54,7 +54,7 @@ en:
     filters: "Filters"
     max_bid: "Maximum bid"
     module_no_fit: "Not applicable (Bid on at least 10 field players)"
-    module_no_match: "❌ No match! Try to select players with different positions!"
+    module_no_match: "❌ No match! Try to select players with different positions"
     modules: "Modules"
     select: "Select player"
     spent_auction: "Spend on this stage"
