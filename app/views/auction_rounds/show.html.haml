@@ -58,24 +58,24 @@
             .auction-round-add-item-badge.auction-round-add-item-badge-gk= t('auction_round.subheader.goalkeeper', gk_count: Team::MIN_GK - current_user&.team_by_league(league).players.by_position('Por').count )
           .auction-round-add-text= t('auction_round.subheader.text3')
           .auction-round-add-item-badge.auction-round-add-item-badge-budget= "#{current_user&.team_by_league(league).budget}M"
-      .auction-bid-block
-        .auction-bid-suitable-modules
-          .auction-bid-title-modules
-            .auction-bid-title= t('auction_round.suitable_modules')
-            .tooltip-info
-              .wrapper
-                .tooltip
-                  .tooltip-header= t("auction_round.tooltip2.header")
-                  .tooltip-round-data= t("auction_round.tooltip2.description")
-                  .tooltip-base-header= t("auction_round.tooltip2.base_header")
-                  %ol
-                    %li.tooltip-base-data= t("auction_round.tooltip2.base_data_one")
-                    %li.tooltip-base-data= t("auction_round.tooltip2.base_data_two")
-                    %li.tooltip-base-data= t("auction_round.tooltip2.base_data_three")
-                .tooltip-img= image_tag('icons/info.svg')
-          .auction-bid-modules-block
+      - if auction_bid
+        .auction-bid-block
+          .auction-bid-suitable-modules
+            .auction-bid-title-modules
+              .auction-bid-title= t('auction_round.suitable_modules')
+              .tooltip-info
+                .wrapper
+                  .tooltip
+                    .tooltip-header= t("auction_round.tooltip2.header")
+                    .tooltip-round-data= t("auction_round.tooltip2.description")
+                    .tooltip-base-header= t("auction_round.tooltip2.base_header")
+                    %ol
+                      %li.tooltip-base-data= t("auction_round.tooltip2.base_data_one")
+                      %li.tooltip-base-data= t("auction_round.tooltip2.base_data_two")
+                      %li.tooltip-base-data= t("auction_round.tooltip2.base_data_three")
+                  .tooltip-img= image_tag('icons/info.svg')
+            .auction-bid-modules-block
 
-        - if auction_bid
           .auction-bid-title= t('auction_round.bids')
           .player-bids-block
             = form_with model: [auction_round, auction_bid], id: 'auction_bid_form', local: true do |f|
@@ -779,7 +779,9 @@
     });
 
     // Check suitable modules
-    checkModules();
+    if ("#{auction_bid.present?}" === 'true') {
+      checkModules();
+    }
 
     function checkModules() {
       $('.module-lineUp').remove();
