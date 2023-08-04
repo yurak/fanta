@@ -199,7 +199,7 @@
 
         .auction-bid-title-modules {
           display: grid;
-          grid-template-columns: auto 36px;
+          grid-template-columns: 164px 36px;
           max-height: 56px;
 
           .tooltip-info .wrapper .tooltip {
@@ -954,6 +954,14 @@
       }
 
       .auction-bid-block {
+        .auction-bid-suitable-modules {
+          display: block;
+
+          .auction-bid-title-modules {
+            grid-template-columns: 300px 36px;
+          }
+        }
+
         .auction-bid-title {
           font-size: 28px;
           line-height: 40px;

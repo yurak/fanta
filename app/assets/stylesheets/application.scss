@@ -557,6 +557,8 @@ body, html {
     text-align: center;
     -webkit-transform: translateZ(0); /* webkit flicker fix */
     -webkit-font-smoothing: antialiased; /* webkit text rendering fix */
+    display: flex;
+    z-index: 11;
   }
 
   .wrapper .tooltip {
