@@ -957,8 +957,19 @@
         .auction-bid-suitable-modules {
           display: block;
 
+          .auction-bid-modules-block .module-lineUp {
+            font-size: 16px;
+            line-height: 24px;
+          }
+
           .auction-bid-title-modules {
             grid-template-columns: 300px 36px;
+
+            .tooltip-info .wrapper .tooltip {
+              left: -180px;
+              width: 600px;
+              font-size: 24px;
+            }
           }
         }
 
