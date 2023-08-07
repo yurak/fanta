@@ -12,6 +12,8 @@
           .search-input
             = search_field_tag :search, params[:search], placeholder: t('players.search_player')
             = hidden_field_tag :tournament, params[:tournament] || 1
+            - if params[:league]
+              = hidden_field_tag :league, params[:league]
     .players-filter-bar
       - if current_user && current_user.teams.by_tournament(params[:tournament] || 1).count > 1
         .players-filters
