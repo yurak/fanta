@@ -6,7 +6,7 @@
     .team-data-name
       .team-name
         = team.human_name
-      - if team.league.active? && team.next_opponent
+      - if team.league&.active? && team.next_opponent
         .team-data-opponent
           .team-data-opponent-text= t('teams.next_round_base')
           .team-data-opponent-logo= image_tag(team.next_opponent.logo_path)

@@ -10,15 +10,17 @@ module AuctionRounds
       return false if round_not_ready?
       return false unless deadline_passed? || all_bids_completed?
 
-      round.processing!
+      AuctionRound.transaction do
+        round.processing!
 
-      manage_bids
+        manage_bids
 
-      auction_bids.map(&:processed!)
+        auction_bids.map(&:processed!)
 
-      round.closed!
+        round.closed!
 
-      true if vacancies? && AuctionRounds::Creator.call(auction)
+        true if vacancies? && AuctionRounds::Creator.call(auction)
+      end
     end
 
     private

@@ -41,6 +41,8 @@ class Team < ApplicationRecord
   end
 
   def next_round
+    return unless league
+
     @next_round ||= league.active_tour || league.tours.inactive.first
   end
 

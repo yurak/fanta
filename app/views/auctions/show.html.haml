@@ -92,7 +92,7 @@
               .auction-close-x &times;
       .player-timer
         .player-timer-desc= t('auction.time_left')
-        #timer 00:15
+        #timer 00:10
       .transfer-form
         = form_for :transfer, url: league_auction_transfers_path(league, auction), method: :post do |f|
           = f.hidden_field :player_id, value: player.id
@@ -182,7 +182,7 @@
   $(document).ready(function() {
     var timer = $('#timer');
     if (timer.length) {
-      var time = 15;
+      var time = 10;
 
       var x = setInterval(function() {
         if (time > 9) {
@@ -201,7 +201,7 @@
       }, 1000);
 
       $( ".price-input" ).change(function() {
-        time = 15;
+        time = 10;
       });
     }
   });
