@@ -2,9 +2,9 @@
   - if league
     .league-name
       - if league.division
-        = "#{league&.name} | #{league.division.name}"
+        = "#{league.division.name} | #{league.name}"
       - else
-        = league&.name
+        = league.name
     .league-season
       = "#{t('header.season')} #{league.season.start_year.to_s[2..3]}-#{league.season.end_year.to_s[2..3]} • #{league.mantra? ? t('header.mantra') : t('header.fanta')}"
 
