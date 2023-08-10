@@ -279,6 +279,12 @@ body, html {
           margin: auto;
         }
 
+        .my-league-name {
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+
         img {
           width: 126px;
           height: 126px;
