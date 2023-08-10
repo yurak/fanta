@@ -172,8 +172,7 @@ RSpec.describe PlayersHelper do
 
     context 'when player position does not include module position' do
       before do
-        allow(match_player_double).to receive(:object).and_return(match_player)
-        allow(match_player_double).to receive(:index).and_return(2)
+        allow(match_player_double).to receive_messages(object: match_player, index: 2)
       end
 
       it 'returns nil' do
@@ -185,8 +184,7 @@ RSpec.describe PlayersHelper do
       let(:match_player_double2) { double }
 
       before do
-        allow(match_player_double).to receive(:object).and_return(match_player)
-        allow(match_player_double).to receive(:index).and_return(9)
+        allow(match_player_double).to receive_messages(object: match_player, index: 9)
       end
 
       it 'returns player' do

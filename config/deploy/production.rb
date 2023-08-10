@@ -6,11 +6,3 @@
 #    forward_agent: false,
 #    auth_methods: %w(publickey password)
 # }
-role :app, %w{ubuntu@34.240.85.84}
-role :web, %w{ubuntu@34.240.85.84}
-role :db, %w{ubuntu@34.240.85.84}
-set :ssh_options, {
-  keys: %w(~/.ssh/mantrakey.pem),
-  forward_agent: false,
-  auth_methods: %w(publickey password)
-}
