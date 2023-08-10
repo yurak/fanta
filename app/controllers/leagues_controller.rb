@@ -16,6 +16,7 @@ class LeaguesController < ApplicationController
   end
 
   def leagues
-    League.active.or(League.archived).includes(:results).order('season_id DESC, tournament_id ASC, division_id ASC')
+    League.active.or(League.archived).includes(:results).order('season_id DESC, tournament_id ASC')
+          .order(Arel.sql('CASE WHEN division_id IS NULL THEN 1 ELSE 0 END, division_id ASC'))
   end
 end

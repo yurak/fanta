@@ -1,6 +1,6 @@
 module ApplicationHelper
   def active_tournaments
-    Tournament.with_clubs + Tournament.with_ec_clubs
+    Tournament.with_clubs.order(:id) + Tournament.with_ec_clubs
   end
 
   def position_number(index)
