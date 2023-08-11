@@ -9,7 +9,8 @@ namespace :tm do
 
       p id if (id % 4).zero?
       begin
-        response = RestClient::Request.execute(method: :get, url: player.tm_path, headers: { 'User-Agent': 'product/version' })
+        response = RestClient::Request.execute(method: :get, url: player.tm_path, headers: { 'User-Agent': 'product/version' },
+                                               verify_ssl: false)
 
         html_page = Nokogiri::HTML(response)
         tm_club_name = html_page.css('.data-header__club').children[1]&.text

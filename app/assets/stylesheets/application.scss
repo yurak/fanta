@@ -279,6 +279,12 @@ body, html {
           margin: auto;
         }
 
+        .my-league-name {
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+
         img {
           width: 126px;
           height: 126px;
@@ -536,6 +542,97 @@ body, html {
   }
 }
 /* ----- -------------------- ----- */
+
+.tooltip-info {
+  margin: auto;
+
+  .tooltip-img {
+    padding: 10px 0;
+  }
+
+  img {
+    width: 20px;
+    height: 20px;
+  }
+
+  .wrapper {
+    font-size: 12px;
+    line-height: 16px;
+    cursor: help;
+    position: relative;
+    text-align: center;
+    -webkit-transform: translateZ(0); /* webkit flicker fix */
+    -webkit-font-smoothing: antialiased; /* webkit text rendering fix */
+    display: flex;
+    z-index: 11;
+  }
+
+  .wrapper .tooltip {
+    width: 340px;
+    background: #181715;
+    color: #fff;
+    border-radius: 8px;
+    display: block;
+    top: 50px;
+    left: -300px;
+    margin-bottom: 15px;
+    opacity: 0;
+    padding: 16px;
+    pointer-events: none;
+    position: absolute;
+    -webkit-transform: translateY(10px);
+    -moz-transform: translateY(10px);
+    -ms-transform: translateY(10px);
+    -o-transform: translateY(10px);
+    transform: translateY(10px);
+    -webkit-transition: all .25s ease-out;
+    -moz-transition: all .25s ease-out;
+    -ms-transition: all .25s ease-out;
+    -o-transition: all .25s ease-out;
+    transition: all .25s ease-out;
+    -webkit-box-shadow: 1px 2px 5px rgba(24, 23, 21, 0.2);
+    -moz-box-shadow: 1px 2px 5px rgba(24, 23, 21, 0.2);
+    -ms-box-shadow: 1px 2px 5px rgba(24, 23, 21, 0.2);
+    -o-box-shadow: 1px 2px 5px rgba(24, 23, 21, 0.2);
+    box-shadow: 1px 2px 5px rgba(24, 23, 21, 0.2);
+  }
+
+  /* This bridges the gap so you can mouse into the tooltip without it disappearing */
+  .wrapper .tooltip:before {
+    bottom: 30px;
+    content: " ";
+    display: block;
+    height: 30px;
+    left: 0;
+    position: absolute;
+    width: 100%;
+  }
+
+  .wrapper:hover .tooltip {
+    opacity: 1;
+    pointer-events: auto;
+    -webkit-transform: translateY(0px);
+    -moz-transform: translateY(0px);
+    -ms-transform: translateY(0px);
+    -o-transform: translateY(0px);
+    transform: translateY(0px);
+  }
+
+  .tooltip-header {
+    font-family: 'Nunito ExtraBold', serif;
+    margin-bottom: 4px;
+  }
+
+  .tooltip-base-header {
+    font-family: 'Nunito ExtraBold', serif;
+    margin: 8px 0 4px;
+  }
+
+  ol {
+    padding-left: 20px;
+    margin-bottom: 0;
+  }
+}
 
 .grey-btn {
   margin: 6px 0;

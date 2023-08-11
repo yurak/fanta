@@ -17,6 +17,7 @@ AllCops:
     - vendor/bundle/**/*
     - node_modules/**/*
     - tmp/**/*
+    - public/**/*
 Layout/LineLength:
   Max: 140
 Metrics/BlockLength:

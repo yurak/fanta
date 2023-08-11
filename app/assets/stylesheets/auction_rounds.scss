@@ -95,93 +95,6 @@
             text-align: center;
           }
         }
-
-        .round-action-info {
-          .tooltip-img {
-            padding: 10px 0;
-          }
-
-          img {
-            width: 20px;
-            height: 20px;
-          }
-
-          .wrapper {
-            font-size: 12px;
-            line-height: 16px;
-            cursor: help;
-            position: relative;
-            text-align: center;
-            -webkit-transform: translateZ(0); /* webkit flicker fix */
-            -webkit-font-smoothing: antialiased; /* webkit text rendering fix */
-          }
-
-          .wrapper .tooltip {
-            width: 340px;
-            background: #181715;
-            color: #fff;
-            border-radius: 8px;
-            display: block;
-            top: 50px;
-            left: -300px;
-            margin-bottom: 15px;
-            opacity: 0;
-            padding: 16px;
-            pointer-events: none;
-            position: absolute;
-            -webkit-transform: translateY(10px);
-            -moz-transform: translateY(10px);
-            -ms-transform: translateY(10px);
-            -o-transform: translateY(10px);
-            transform: translateY(10px);
-            -webkit-transition: all .25s ease-out;
-            -moz-transition: all .25s ease-out;
-            -ms-transition: all .25s ease-out;
-            -o-transition: all .25s ease-out;
-            transition: all .25s ease-out;
-            -webkit-box-shadow: 1px 2px 5px rgba(24, 23, 21, 0.2);
-            -moz-box-shadow: 1px 2px 5px rgba(24, 23, 21, 0.2);
-            -ms-box-shadow: 1px 2px 5px rgba(24, 23, 21, 0.2);
-            -o-box-shadow: 1px 2px 5px rgba(24, 23, 21, 0.2);
-            box-shadow: 1px 2px 5px rgba(24, 23, 21, 0.2);
-          }
-
-          /* This bridges the gap so you can mouse into the tooltip without it disappearing */
-          .wrapper .tooltip:before {
-            bottom: 30px;
-            content: " ";
-            display: block;
-            height: 30px;
-            left: 0;
-            position: absolute;
-            width: 100%;
-          }
-
-          .wrapper:hover .tooltip {
-            opacity: 1;
-            pointer-events: auto;
-            -webkit-transform: translateY(0px);
-            -moz-transform: translateY(0px);
-            -ms-transform: translateY(0px);
-            -o-transform: translateY(0px);
-            transform: translateY(0px);
-          }
-
-          .tooltip-header {
-            font-family: 'Nunito ExtraBold', serif;
-            margin-bottom: 4px;
-          }
-
-          .tooltip-base-header {
-            font-family: 'Nunito ExtraBold', serif;
-            margin: 8px 0 4px;
-          }
-
-          ol {
-            padding-left: 20px;
-            margin-bottom: 0;
-          }
-        }
       }
 
       .rounds-block {
@@ -276,7 +189,62 @@
         font-family: 'Nunito ExtraBold';
         font-size: 16px;
         line-height: 24px;
-        margin: 32px 0 16px;
+        margin: 16px 0;
+      }
+
+      .auction-bid-suitable-modules {
+        display: grid;
+        grid-template-columns: 200px auto;
+        column-gap: 16px;
+
+        .auction-bid-title-modules {
+          display: grid;
+          grid-template-columns: 164px 36px;
+          max-height: 56px;
+
+          .tooltip-info .wrapper .tooltip {
+            left: 0;
+            top: 32px;
+          }
+        }
+
+        .auction-bid-modules-block {
+          margin: 16px 0;
+
+          .module-lineUp {
+            font-family: 'Nunito ExtraBold';
+            border-radius: 16px;
+            border: 1px solid #FFB319;
+            background: #FFEBC2;
+            color: #9F6C05;
+            padding: 3px 8px;
+            font-size: 12px;
+            line-height: 16px;
+            display: inline-block;
+            text-align: center;
+            margin: 2px;
+          }
+
+          .module-lineUpWithReserve {
+            border: 1px solid #4EAD57;
+            background: #D0F0D4;
+            color: #1D5D26;
+          }
+
+          .module_no_fit {
+            font-family: 'Nunito SemiBold';
+            font-size: 14px;
+            line-height: 24px;
+            color: #A6A2A2;
+          }
+
+          .module_no_match {
+            font-family: 'Nunito SemiBold';
+            font-size: 14px;
+            line-height: 24px;
+            color: #DB0A23;
+          }
+        }
       }
 
       .auction-bid-slot {
@@ -339,6 +307,10 @@
             display: flex;
             align-items: center;
             margin: 25px 0;
+          }
+
+          .algo-position {
+            display: none;
           }
         }
 
@@ -823,6 +795,35 @@
           }
         }
       }
+
+      .module-btn {
+        font-family: "Nunito ExtraBold";
+        height: 24px;
+        display: inline-block;
+        border: 1px solid #CFD2CD;
+        border-radius: 12px;
+        font-size: 12px;
+        line-height: 16px;
+        text-align: left;
+        padding: 3px 8px;
+        margin-bottom: 8px;
+      }
+
+      .module-btn-active {
+        background: #D8D6FF;
+        border: 1px solid #D8D6FF;
+        color: #261FFF;
+      }
+
+      .module-img {
+        width: 100%;
+        margin-top: 16px;
+        display: none;
+
+        img {
+          width: 100%;
+        }
+      }
     }
   }
 }
@@ -898,7 +899,7 @@
             }
           }
 
-          .round-action-info {
+          .tooltip-info {
             .tooltip-img {
               padding: 10px 0;
             }
@@ -953,10 +954,28 @@
       }
 
       .auction-bid-block {
+        .auction-bid-suitable-modules {
+          display: block;
+
+          .auction-bid-modules-block .module-lineUp {
+            font-size: 16px;
+            line-height: 24px;
+          }
+
+          .auction-bid-title-modules {
+            grid-template-columns: 300px 36px;
+
+            .tooltip-info .wrapper .tooltip {
+              left: -180px;
+              width: 600px;
+              font-size: 24px;
+            }
+          }
+        }
+
         .auction-bid-title {
           font-size: 28px;
           line-height: 40px;
-          margin: 32px 0 16px;
         }
 
         .auction-bid-slot {
@@ -1008,7 +1027,15 @@
           }
 
           .player-bid-positions .player-positions-block {
-            margin: 47px 0;
+            margin: 44px 0;
+            height: 28px;
+
+            .player-position {
+              padding: 4px 8px;
+              height: 28px;
+              font-size: 16px;
+              line-height: 22px;
+            }
           }
 
           .player-bid-club {
@@ -1045,8 +1072,84 @@
           }
         }
 
-        .modal-auction-players-list .auction-bid-modal-content .ab-players-block {
-          max-height: 1200px;
+        .modal-auction-players-list .auction-bid-modal-content {
+          .ab-filters-clubs {
+            margin: 0 32px 24px;
+            line-height: 40px;
+
+            .search-club-logo {
+              display: inline-block;
+              cursor: pointer;
+              margin: 0 2px;
+              height: 40px;
+              width: 40px;
+
+              img, object {
+                width: 38px;
+                height: 38px;
+              }
+            }
+
+            .search-club-border {
+              border: 1px solid #181715;
+              border-radius: 4px;
+            }
+          }
+
+          .ab-players-block {
+            max-height: 1200px;
+
+            .ab-player-item-row {
+              grid-template-columns: auto 48px;
+
+              .ab-player-link {
+                img {
+                  width: 36px;
+                  height: 36px;
+                }
+              }
+            }
+
+            .ab-player-item {
+              height: 116px;
+              grid-template-columns: 110px auto 40px 122px 64px 88px;
+
+              .player-show-face, .player-show-kit {
+                object, img {
+                  width: 110px;
+                  height: 110px;
+                }
+              }
+
+              .ab-player-name {
+                padding: 24px 0;
+
+                .ab-player-last-name {
+                  font-size: 24px;
+                  line-height: 36px;
+                }
+
+                .ab-player-first-name {
+                  font-size: 18px;
+                  line-height: 32px;
+                }
+              }
+
+              .ab-player-price {
+                font-size: 24px;
+                line-height: 36px;
+              }
+
+              .ab-player-club {
+                height: 88px;
+
+                object {
+                  width: 48px;
+                  height: 48px;
+                }
+              }
+            }
+          }
         }
       }
     }

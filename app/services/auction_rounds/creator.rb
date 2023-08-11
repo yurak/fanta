@@ -22,7 +22,7 @@ module AuctionRounds
     def create_auction_round
       auction.auction_rounds.create(
         number: auction.auction_rounds.count + 1,
-        deadline: (auction.deadline.presence || Time.zone.now) + 1.day,
+        deadline: (auction.auction_rounds.last&.deadline || auction.deadline.presence || Time.zone.now) + 1.day,
         basic: basic?
       )
     end

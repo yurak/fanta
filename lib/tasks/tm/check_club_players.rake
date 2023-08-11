@@ -8,9 +8,10 @@ namespace :tm do
     CSV.open('log/club_players.csv', 'ab') do |writer|
       clubs.each do |club|
         puts "--------#{club.name}--------"
-        response = RestClient::Request.execute(method: :get, url: club.tm_url, headers: { 'User-Agent': 'product/version' })
+        response = RestClient::Request.execute(method: :get, url: club.tm_url, headers: { 'User-Agent': 'product/version' },
+                                               verify_ssl: false)
         html_page = Nokogiri::HTML(response)
-        players = html_page.css('.posrela .inline-table .hauptlink')
+        players = html_page.css('.inline-table .hauptlink')
         player_count = 1
 
         players.each do |player_data|
@@ -23,7 +24,8 @@ namespace :tm do
             puts "#{player_count} - #{player.name} --- #{player.club.name}"
             player_count += 1
           else
-            player_response = RestClient::Request.execute(method: :get, url: player_url, headers: { 'User-Agent': 'product/version' })
+            player_response = RestClient::Request.execute(method: :get, url: player_url, headers: { 'User-Agent': 'product/version' },
+                                                          verify_ssl: false)
             player_page = Nokogiri::HTML(player_response)
 
             name_data = player_page.css('.data-header__headline-wrapper').children
@@ -62,9 +64,10 @@ namespace :tm do
 
     clubs.each do |club|
       puts "--------#{club.name}--------"
-      response = RestClient::Request.execute(method: :get, url: club.tm_url, headers: { 'User-Agent': 'product/version' })
+      response = RestClient::Request.execute(method: :get, url: club.tm_url, headers: { 'User-Agent': 'product/version' },
+                                             verify_ssl: false)
       html_page = Nokogiri::HTML(response)
-      players = html_page.css('.posrela .inline-table .hauptlink')
+      players = html_page.css('.inline-table .hauptlink')
 
       players.each do |player_data|
         tm_id = player_data.children.first.attributes['href'].value.split('/').last
