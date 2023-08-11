@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 const formations = {
     f343: {
         lineUp: ['Dc', 'Dc', 'Dc', 'E', 'E', 'M/C', 'C', 'W/A', 'W/A', 'A/Pc' ],
@@ -104,4 +102,3 @@ function getFilledFormations(teamComposition) {
 
     return filledFormations;
 }
-/* eslint-enable */
