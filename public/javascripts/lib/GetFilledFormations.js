@@ -104,3 +104,5 @@ function getFilledFormations(teamComposition) {
 
     return filledFormations;
 }
+
+getFilledFormations([]);
