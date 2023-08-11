@@ -1,4 +1,4 @@
-/*eslint no-unused-vars: "error"*/
+/*eslint no-unused-vars: ["error", { "caughtErrorsIgnorePattern": "^getFilled" }]*/
 
 const formations = {
     f343: {
@@ -104,5 +104,3 @@ function getFilledFormations(teamComposition) {
 
     return filledFormations;
 }
-
-getFilledFormations([]);
