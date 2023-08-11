@@ -1,4 +1,4 @@
-/* eslint-disable no-unused-vars */
+/* eslint-disable */
 
 const formations = {
     f343: {
@@ -104,4 +104,4 @@ function getFilledFormations(teamComposition) {
 
     return filledFormations;
 }
-/* eslint-enable no-unused-vars */
+/* eslint-enable */
