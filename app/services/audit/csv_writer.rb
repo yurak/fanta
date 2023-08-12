@@ -11,7 +11,7 @@ module Audit
     def call
       CSV.open('log/missed_players.csv', 'ab') do |writer|
         if host_players.any? || guest_players.any?
-          writer << ["==== #{DateTime.now.strftime('%^a, %^b %e, %H:%M')} ==== #{tournament.name} ==== ##{t_match.tournament_round.id} "]
+          writer << ["===== #{DateTime.now.strftime('%^a, %^b %e, %H:%M')} ==== #{tournament.name} ==== ##{t_match.tournament_round.id} "]
 
           if tournament.national_teams.any?
             write_national_data(writer)
