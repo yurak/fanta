@@ -14,7 +14,7 @@ RSpec.describe Audit::CsvWriter do
       let(:host_players) { {} }
       let(:guest_players) { {} }
 
-      it { expect(writer.call).to eq({}) }
+      it { expect(writer.call).to be_nil }
     end
 
     context 'with national match' do
