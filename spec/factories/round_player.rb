@@ -65,13 +65,13 @@ FactoryBot.define do
 
     trait :with_tournament_match do
       after(:create) do |rp|
-        create(:tournament_match, tournament_round: rp.tournament_round, host_club: rp.club)
+        create(:tournament_match, tournament_round: rp.tournament_round, host_club: rp.player.club)
       end
     end
 
     trait :with_finished_t_match do
       after(:create) do |rp|
-        create(:tournament_match, tournament_round: rp.tournament_round, host_club: rp.club, host_score: 1)
+        create(:tournament_match, tournament_round: rp.tournament_round, host_club: rp.player.club, host_score: 1)
       end
     end
   end

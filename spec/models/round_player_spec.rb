@@ -23,7 +23,6 @@ RSpec.describe RoundPlayer do
     it { is_expected.to delegate_method(:first_name).to(:player).allow_nil }
     it { is_expected.to delegate_method(:full_name).to(:player).allow_nil }
     it { is_expected.to delegate_method(:full_name_reverse).to(:player).allow_nil }
-    it { is_expected.to delegate_method(:club).to(:player).allow_nil }
     it { is_expected.to delegate_method(:teams).to(:player).allow_nil }
     it { is_expected.to delegate_method(:pseudo_name).to(:player).allow_nil }
   end
