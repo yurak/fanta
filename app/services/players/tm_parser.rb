@@ -52,7 +52,7 @@ module Players
 
     def request
       @request ||= RestClient::Request.execute(
-        method: :get, url: @player.tm_path, headers: { 'User-Agent': 'product/version' }
+        method: :get, url: @player.tm_path, headers: { 'User-Agent': 'product/version' }, verify_ssl: false
       )
     end
   end
