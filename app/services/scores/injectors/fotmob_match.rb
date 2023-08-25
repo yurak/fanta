@@ -60,12 +60,18 @@ module Scores
           failed_penalty: stat_value(data, :failed_penalty), caught_penalty: stat_value(data, :caught_penalty),
           missed_goals: stat_value(data, :missed_goals), own_goals: stat_value(data, :own_goals), saves: stat_value(data, :saves),
           played_minutes: stat_value(data, :played_minutes), yellow_card: data[:yellow_card], red_card: data[:red_card],
-          conceded_penalty: stat_value(data, :conceded_penalty), penalties_won: stat_value(data, :penalties_won)
+          conceded_penalty: conceded_penalty(data), penalties_won: stat_value(data, :penalties_won)
         }
       end
 
       def stat_value(player_data, key)
         player_data[key] || 0
+      end
+
+      def conceded_penalty(player_data)
+        conceded_penalty = player_data[:conceded_penalty] || 0
+        conceded_penalty = player_data[:penalty_missed_goals] if player_data[:penalty_missed_goals].positive?
+        conceded_penalty
       end
 
       def players_hash(team)
@@ -91,6 +97,7 @@ module Scores
           rating: player_data['rating']['num'],
           played_minutes: player_data['minutesPlayed'].to_i,
           missed_goals: player_stats(player_data, 'Goals conceded'),
+          penalty_missed_goals: player_stats(player_data, 'Penalty goals conceded'),
           saves: player_stats(player_data, 'Saves'),
           conceded_penalty: player_stats(player_data, 'Conceded penalty'),
           penalties_won: player_stats(player_data, 'Penalties won')
