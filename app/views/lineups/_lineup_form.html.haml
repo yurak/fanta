@@ -75,7 +75,7 @@
                         .module-position.slot-position{class: "slot-position-#{team_module.slots[mp.index]&.position&.tr('/', '')}"}
                           - if team_module.slots[mp.index]&.position
                             = slot_position_name(team_module.slots[mp.index]&.position)
-                          - elsif mp.index == 11
+                          - elsif mp.index == 11 && tour.mantra?
                             = slot_position_name('Por')
                           - else
                             = 'Res'
@@ -111,7 +111,7 @@
                           .slot-position{class: "slot-position-#{team_module.slots[mp.index]&.position&.tr('/', '')}"}
                             - if team_module.slots[mp.index]&.position
                               = slot_position_name(team_module.slots[mp.index]&.position)
-                            - elsif mp.index == 11
+                            - elsif mp.index == 11 && tour.mantra?
                               = slot_position_name('Por')
                             - else
                               = 'Res'
@@ -176,22 +176,86 @@
                                     .player-match-team
                                       = flag_icon(player.national_team.opponent_by_round(tour.tournament_round)&.code.to_sym, element: :div)
 
-%script{type: "text/javascript", src: "/javascripts/lib/new_lineup.js.erb"}
-
 :javascript
   $(document).ready(function() {
+    $(document).on('click' ,'.modal-player-item' ,function(e) {
+      e.stopPropagation();
+      const modalList = $(this).parent().parent().parent().parent();
+
+      const blockId = modalList.attr('id').replace('modal-players-list','');
+      const playerId = $(this).attr('id').replace('player','');
+      const playerRow = $('#modal-player-data'+blockId);
+      const avatarContainer = $('#avatar-'+blockId);
+      const kitContainer = $('#kit-'+blockId);
+      const nameContainer = $('#name-'+blockId);
+      const firstNameContainer = $('#first-name-'+blockId);
+      const roundPlayerContainer = $('#round-player-'+blockId);
+      const countryContainer = $('#country-'+blockId);
+      const clubContainer = $('#club-'+blockId);
+      const positionsContainer = $('#positions-'+blockId);
+      const playerBidContainer = $('#player-bid-'+blockId);
+      const italPosNaming = ($('#position-naming')[0].getAttribute('value') === 'true');
+
+      let nationalTour = false;
+      if ($('#national-tour').length > 0) { nationalTour = ($('#national-tour')[0].getAttribute('value') === 'true'); }
+
+      let slotPosition = [];
+      if ($('#real-position-'+blockId).length > 0) { slotPosition = $('#real-position-'+blockId).attr("value").split("/"); }
+
+      $.ajax({
+        type: "GET",
+        dataType: "json",
+        url: "/players/"+playerId,
+        success: function(data){
+          avatarContainer.attr("data", data.avatar_path);
+          clubContainer.text(data.club_code);
+          countryContainer.text(data.national_team_name);
+          roundPlayerContainer.attr("value", playerId);
+          playerBidContainer.attr("value", playerId);
+
+          if (nationalTour) {
+            kitContainer.attr("data", data.national_kit_path);
+          } else {
+            kitContainer.attr("data", data.kit_path);
+          }
+
+          if (data.first_name != null) {
+            firstNameContainer.text(data.first_name);
+          } else {
+            firstNameContainer.text("");
+          }
+
+          positionsContainer.children(".team-player-position").remove();
+          data.position_names.forEach((positionName, index) => {
+            let posName = data.classic_positions[index];
+            if (italPosNaming) { posName = positionName; }
+
+            $('<div/>',{
+              text: posName,
+              class: "team-player-position slot-position slot-position-" + positionName
+            }).appendTo(positionsContainer);
+            positionsContainer.append(' ');
+          })
+
+          let malus = "";
+          if (slotPosition.length > 0) {
+            const intersection = slotPosition.filter(element => data.position_names.includes(element));
+            if (intersection.length === 0) {
+              playerRow.css("border-bottom","1px solid #DB0A23");
+              malus = "⚠️ ";
+            }
+          }
+
+          nameContainer.text(malus + data.name);
+        }
+      });
+
+      $(modalList).hide();
+    });
+
     $("#submit-lineup-btn").click(function(){
       const player_ids = [];
       $('.round-player-input').each(function() { player_ids.push($(this).val()); });
-
-      const duplicate_ids = player_ids.reduce(function(acc, el, i, arr) {
-          if (arr.indexOf(el) !== i && acc.indexOf(el) < 0) acc.push(el); return acc;
-      }, []);
-
-      if (duplicate_ids.length > 0) {
-          alert("#{t('lineups.duplicates')}");
-          return false;
-      }
 
       if (String("#{tour.national?}").toLowerCase() == "true") {
         const player_countries = [];
@@ -247,5 +311,48 @@
           }
         }
       }
+
+      const duplicate_ids = player_ids.reduce(function(acc, el, i, arr) {
+          if (arr.indexOf(el) !== i && acc.indexOf(el) < 0) acc.push(el); return acc;
+      }, []);
+
+      if (duplicate_ids.length > 0) {
+          alert("#{t('lineups.duplicates')}");
+          return false;
+      }
     });
+
+    const modal = document.getElementById("modules-modal");
+    const modal_btn = document.getElementById("modules-modal-btn");
+    const span = document.getElementsByClassName("close")[0];
+
+    if (modal_btn) {
+      modal_btn.onclick = function() { modal.style.display = "block"; };
+    }
+    span.onclick = function() { modal.style.display = "none"; };
+
+    $('.player-data').click(function() {
+      const btn = $(this);
+      const playersList = btn.children(".modal-players-list")
+
+      playersList.css("display", "block");
+
+      const playerIds = [];
+      $('.round-player-input').each(function() { playerIds.push($(this).val()); });
+      const pickedPlayers = playerIds.filter(Boolean);
+
+      playersList.find(".modal-player-item").each(function(innerIndex, innerElement) {
+        if (pickedPlayers.includes(innerElement.id.replace("player", ""))) {
+          innerElement.style.backgroundColor = "rgb(230, 230, 230)";
+        }
+      });
+    });
+
+    window.onclick = function(event) {
+      if (event.target == modal) { modal.style.display = "none"; }
+
+      if (event.target.className == "modal-players-list") {
+        $('#' + event.target.id).css("display", "none");
+      }
+    }
   });

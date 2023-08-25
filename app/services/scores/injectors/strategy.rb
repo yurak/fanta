@@ -5,13 +5,13 @@ module Scores
     class Strategy < ApplicationService
       attr_reader :tour
 
-      BUNDES = 'bundesliga'
-      CALCIO = 'serie_a'
-      ECL = 'champions_league'
-      EPL = 'epl'
+      BUNDES = 'germany'
+      CALCIO = 'italy'
+      ECL = 'europe'
+      EPL = 'england'
       EURO = 'euro'
-      LALIGA = 'laliga'
-      LIGUE1 = 'ligue_1'
+      LALIGA = 'spain'
+      LIGUE1 = 'france'
 
       def initialize(tour)
         @tour = tour

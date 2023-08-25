@@ -23,6 +23,7 @@ namespace :tournament_matches do
     TournamentMatches::NationalFotmobGenerator.call(tournament)
   end
 
+  # rake 'tournament_matches:generate_ecl_matches'
   desc 'Create Champions League TournamentMatches'
   task generate_ecl_matches: :environment do
     tournament = Tournament.find_by(code: Scores::Injectors::Strategy::ECL)
