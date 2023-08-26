@@ -6,8 +6,8 @@ namespace :tournament_matches do
     TournamentMatches::FotmobGenerator.call(tournament) if tournament
   end
 
-  desc 'Create Serie A TournamentMatches'
-  task generate_seriea_matches: :environment do
+  desc 'Create Italy TournamentMatches'
+  task generate_italy_matches: :environment do
     # TournamentMatches::SerieaGenerator.call
   end
 
@@ -23,9 +23,10 @@ namespace :tournament_matches do
     TournamentMatches::NationalFotmobGenerator.call(tournament)
   end
 
+  # rake 'tournament_matches:generate_ecl_matches'
   desc 'Create Champions League TournamentMatches'
   task generate_ecl_matches: :environment do
-    tournament = Tournament.find_by(code: Scores::Injectors::Strategy::ECL)
+    tournament = Tournament.find_by(code: Scores::Injectors::Strategy::EUROPE_CL)
     TournamentMatches::EuroCupFotmobGenerator.call(tournament)
   end
 end

@@ -45,6 +45,7 @@
       .main-players-title
         = t('lineups.main_squad')
       .main-players
+        #position-naming{ type: "hidden", value: "#{current_user.ital_pos_naming}"}
         = form_with model: [team, lineup], id: 'new_lineup', local: true do |f|
           = f.hidden_field :team_module_id, value: team_module&.id || lineup.team_module.id
           = f.hidden_field :tour_id, value: tour.id
@@ -59,7 +60,7 @@
               = mp.hidden_field(:round_player_id, value: player_by_mp(mp, team_module)&.id, class: 'round-player-input', id: "round-player-#{mp.index}")
               .input-group
                 .player-data{id: "modal-player-data#{mp.index}"}
-                  .team-player-data
+                  .team-player-data{id: "team-player-data#{mp.index}"}
                     .team-player-avatar
                       .player-show-face
                         %object{data: player_by_mp(mp, team_module)&.avatar_path || '', type: ApplicationRecord::CONTENT_TYPE_PNG, id: "avatar-#{mp.index}"}
@@ -75,7 +76,7 @@
                         .module-position.slot-position{class: "slot-position-#{team_module.slots[mp.index]&.position&.tr('/', '')}"}
                           - if team_module.slots[mp.index]&.position
                             = slot_position_name(team_module.slots[mp.index]&.position)
-                          - elsif mp.index == 11
+                          - elsif mp.index == 11 && tour.mantra?
                             = slot_position_name('Por')
                           - else
                             = 'Res'
@@ -107,15 +108,15 @@
                       %span.close
                       .modal-players-title
                         .modal-players-title-text Select player
-                        .modal-players-title-position
+                        .modal-players-title-position{class: "modal-position-#{team_module.slots[mp.index]&.position}", id: "modal-position#{mp.index}"}
                           .slot-position{class: "slot-position-#{team_module.slots[mp.index]&.position&.tr('/', '')}"}
                             - if team_module.slots[mp.index]&.position
                               = slot_position_name(team_module.slots[mp.index]&.position)
-                            - elsif mp.index == 11
+                            - elsif mp.index == 11 && tour.mantra?
                               = slot_position_name('Por')
                             - else
                               = 'Res'
-                      .modal-modules-block
+                      .modal-modules-block{id: "modal-modules-block#{mp.index}"}
                         - if tour.mantra?
                           - if team_module.slots[mp.index]&.position
                             - available_hash = available_by_slot(team, team_module.slots[mp.index])
@@ -139,13 +140,6 @@
                           - else
                             .modal-malus-block
                               - available_for_select(team).each do |player|
-                                = render 'lineup_player_item', player: player, tour: tour
-                        - if tour.eurocup?
-                          - tournament_round_players(tour.tournament_round, team_module.slots[mp.index]&.position).each do |club, players|
-                            .modal-malus-title
-                              = club.name.upcase
-                            .modal-malus-block
-                              - players.each do |player|
                                 = render 'lineup_player_item', player: player, tour: tour
                         - if tour.national?
                           - tournament_round_players(tour.tournament_round, team_module.slots[mp.index]&.position).each do |national_team, players|
@@ -176,22 +170,86 @@
                                     .player-match-team
                                       = flag_icon(player.national_team.opponent_by_round(tour.tournament_round)&.code.to_sym, element: :div)
 
-%script{type: "text/javascript", src: "/javascripts/lib/new_lineup.js.erb"}
-
 :javascript
   $(document).ready(function() {
+    $(document).on('click' ,'.modal-player-item' ,function(e) {
+      e.stopPropagation();
+      const modalList = $(this).parent().parent().parent().parent();
+
+      const blockId = modalList.attr('id').replace('modal-players-list','');
+      const playerId = $(this).attr('id').replace('player','');
+      const playerRow = $('#modal-player-data'+blockId);
+      const avatarContainer = $('#avatar-'+blockId);
+      const kitContainer = $('#kit-'+blockId);
+      const nameContainer = $('#name-'+blockId);
+      const firstNameContainer = $('#first-name-'+blockId);
+      const roundPlayerContainer = $('#round-player-'+blockId);
+      const countryContainer = $('#country-'+blockId);
+      const clubContainer = $('#club-'+blockId);
+      const positionsContainer = $('#positions-'+blockId);
+      const playerBidContainer = $('#player-bid-'+blockId);
+      const italPosNaming = ($('#position-naming')[0].getAttribute('value') === 'true');
+
+      let nationalTour = false;
+      if ($('#national-tour').length > 0) { nationalTour = ($('#national-tour')[0].getAttribute('value') === 'true'); }
+
+      let slotPosition = [];
+      if ($('#real-position-'+blockId).length > 0) { slotPosition = $('#real-position-'+blockId).attr("value").split("/"); }
+
+      $.ajax({
+        type: "GET",
+        dataType: "json",
+        url: "/players/"+playerId,
+        success: function(data){
+          avatarContainer.attr("data", data.avatar_path);
+          clubContainer.text(data.club_code);
+          countryContainer.text(data.national_team_name);
+          roundPlayerContainer.attr("value", playerId);
+          playerBidContainer.attr("value", playerId);
+
+          if (nationalTour) {
+            kitContainer.attr("data", data.national_kit_path);
+          } else {
+            kitContainer.attr("data", data.kit_path);
+          }
+
+          if (data.first_name != null) {
+            firstNameContainer.text(data.first_name);
+          } else {
+            firstNameContainer.text("");
+          }
+
+          positionsContainer.children(".team-player-position").remove();
+          data.position_names.forEach((positionName, index) => {
+            let posName = data.classic_positions[index];
+            if (italPosNaming) { posName = positionName; }
+
+            $('<div/>',{
+              text: posName,
+              class: "team-player-position slot-position slot-position-" + positionName
+            }).appendTo(positionsContainer);
+            positionsContainer.append(' ');
+          })
+
+          let malus = "";
+          if (slotPosition.length > 0) {
+            const intersection = slotPosition.filter(element => data.position_names.includes(element));
+            if (intersection.length === 0) {
+              playerRow.css("border-bottom","1px solid #DB0A23");
+              malus = "⚠️ ";
+            }
+          }
+
+          nameContainer.text(malus + data.name);
+        }
+      });
+
+      $(modalList).hide();
+    });
+
     $("#submit-lineup-btn").click(function(){
       const player_ids = [];
       $('.round-player-input').each(function() { player_ids.push($(this).val()); });
-
-      const duplicate_ids = player_ids.reduce(function(acc, el, i, arr) {
-          if (arr.indexOf(el) !== i && acc.indexOf(el) < 0) acc.push(el); return acc;
-      }, []);
-
-      if (duplicate_ids.length > 0) {
-          alert("#{t('lineups.duplicates')}");
-          return false;
-      }
 
       if (String("#{tour.national?}").toLowerCase() == "true") {
         const player_countries = [];
@@ -247,5 +305,110 @@
           }
         }
       }
+
+      const duplicate_ids = player_ids.reduce(function(acc, el, i, arr) {
+          if (arr.indexOf(el) !== i && acc.indexOf(el) < 0) acc.push(el); return acc;
+      }, []);
+
+      if (duplicate_ids.length > 0) {
+          alert("#{t('lineups.duplicates')}");
+          return false;
+      }
     });
+
+    const modal = document.getElementById("modules-modal");
+    const modal_btn = document.getElementById("modules-modal-btn");
+    const span = document.getElementsByClassName("close")[0];
+
+    if (modal_btn) {
+      modal_btn.onclick = function() { modal.style.display = "block"; };
+    }
+    span.onclick = function() { modal.style.display = "none"; };
+
+    $('.team-player-data').click(function() {
+      const slotId = $(this).attr('id').replace('team-player-data','');
+      const playersList = $('#modal-players-list' + slotId);
+
+      playersList.css("display", "block");
+
+      if ("#{tour.eurocup?}" === 'true') {
+        const slotPositionName = $('#modal-position' + slotId).attr('class').replace('modal-players-title-position modal-position-','');
+        const avatarImgSrc = $('#avatar-'+slotId).children()[0].src;
+        const italPosNaming = ($('#position-naming')[0].getAttribute('value') === 'true');
+
+        $.ajax({
+          type: "GET",
+          dataType: 'json',
+          url: "/slots",
+          data: { tour_id: "#{tour.id}", position: slotPositionName },
+          success: function(data){
+            const modalBlock = $('#modal-modules-block' + slotId);
+            modalBlock.empty();
+            const playersHash = data.eurocup_players;
+            let listHtml = '';
+
+            for (var key in playersHash){
+              listHtml += '<div class="modal-malus-title">' + key + '</div> <div class="modal-malus-block">';
+              playersHash[key].forEach(function(player) {
+                // console.log(player)
+
+                let positionsItems = '';
+                player.position_arr.forEach((positionName, index) => {
+                  let posName = player.position_classic_arr[index];
+                  if (italPosNaming) { posName = positionName; }
+
+                  positionsItems += '<div class="position-item position-item-' + positionName + '">' + posName + '</div> ';
+                })
+
+                listHtml +=
+                  '<div class="modal-player-item" id="' + player.id + '">' +
+                    '<div class="modal-player-images" style="background-color: #' + player.club_color + '">' +
+                      '<div class="player-show-face">' +
+                        '<object data=' + player.avatar_path + ' type="image/png">' +
+                          '<img src=' + avatarImgSrc + '>' +
+                        '</object>' +
+                      '</div>' +
+                      '<div class="player-show-kit">' +
+                        '<object data=' + player.kit_path + ' type="image/png">' +
+                        '</object>' +
+                      '</div>' +
+                    '</div>' +
+                    '<div class="modal-player-data">' +
+                      '<div class="player-positions">' +
+                        positionsItems +
+                      '</div>' +
+                    '</div>' +
+                    '<div class="modal-player-name">' +
+                      player.name +
+                    '</div>' +
+                    '<div class="modal-player-first-name">' +
+                      player.first_name +
+                    '</div>' +
+                  '</div>';
+              });
+              listHtml += '</div>';
+            }
+            modalBlock.append(listHtml);
+          }
+        });
+      } else {
+        const playerIds = [];
+        $('.round-player-input').each(function() { playerIds.push($(this).val()); });
+        const pickedPlayers = playerIds.filter(Boolean);
+
+        playersList.find(".modal-player-item").each(function(innerIndex, innerElement) {
+          if (pickedPlayers.includes(innerElement.id.replace("player", ""))) {
+            innerElement.style.backgroundColor = "rgb(230, 230, 230)";
+          }
+        });
+      }
+    });
+
+    window.onclick = function(event) {
+      if (event.target == modal) { modal.style.display = "none"; }
+
+      if (event.target.className == "modal-players-list") {
+        $('#' + event.target.id).css("display", "none");
+      }
+    }
   });

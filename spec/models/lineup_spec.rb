@@ -209,7 +209,7 @@ RSpec.describe Lineup do
         create(:national_match, tournament_round: lineup.tour.tournament_round)
       end
 
-      it { expect(lineup.players_count).to eq(11) }
+      it { expect(lineup.players_count).to eq(16) }
     end
   end
 end

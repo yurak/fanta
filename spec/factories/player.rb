@@ -27,7 +27,7 @@ FactoryBot.define do
     end
 
     trait :with_eurocup_scores do
-      club { association :club, ec_tournament: Tournament.find_by(code: Scores::Injectors::Strategy::ECL) }
+      club { association :club, ec_tournament: Tournament.find_by(code: Scores::Injectors::Strategy::EUROPE_CL) }
 
       after(:create) do |player|
         create(:round_player, player: player, tournament_round: create(:tournament_round, tournament: player.club.ec_tournament), score: 6)
@@ -64,78 +64,78 @@ FactoryBot.define do
 
     trait :with_pos_por do
       after(:create) do |player|
-        create(:player_position, player: player, position: Position.find_by(name: 'Por'))
+        create(:player_position, player: player, position: Position.find_by(name: Position::GOALKEEPER))
       end
     end
 
     trait :with_pos_dc do
       after(:create) do |player|
-        create(:player_position, player: player, position: Position.find_by(name: 'Dc'))
+        create(:player_position, player: player, position: Position.find_by(name: Position::CENTER_BACK))
       end
     end
 
     trait :with_pos_dd do
       after(:create) do |player|
-        create(:player_position, player: player, position: Position.find_by(name: 'Dd'))
+        create(:player_position, player: player, position: Position.find_by(name: Position::RIGHT_BACK))
       end
     end
 
     trait :with_pos_dd_ds_e do
       after(:create) do |player|
-        create(:player_position, player: player, position: Position.find_by(name: 'Dd'))
-        create(:player_position, player: player, position: Position.find_by(name: 'Ds'))
-        create(:player_position, player: player, position: Position.find_by(name: 'E'))
+        create(:player_position, player: player, position: Position.find_by(name: Position::RIGHT_BACK))
+        create(:player_position, player: player, position: Position.find_by(name: Position::LEFT_BACK))
+        create(:player_position, player: player, position: Position.find_by(name: Position::WING_BACK))
       end
     end
 
     trait :with_pos_dc_ds_e do
       after(:create) do |player|
-        create(:player_position, player: player, position: Position.find_by(name: 'Dc'))
-        create(:player_position, player: player, position: Position.find_by(name: 'Ds'))
-        create(:player_position, player: player, position: Position.find_by(name: 'E'))
+        create(:player_position, player: player, position: Position.find_by(name: Position::CENTER_BACK))
+        create(:player_position, player: player, position: Position.find_by(name: Position::LEFT_BACK))
+        create(:player_position, player: player, position: Position.find_by(name: Position::WING_BACK))
       end
     end
 
     trait :with_pos_e do
       after(:create) do |player|
-        create(:player_position, player: player, position: Position.find_by(name: 'E'))
+        create(:player_position, player: player, position: Position.find_by(name: Position::WING_BACK))
       end
     end
 
     trait :with_pos_c do
       after(:create) do |player|
-        create(:player_position, player: player, position: Position.find_by(name: 'C'))
+        create(:player_position, player: player, position: Position.find_by(name: Position::CENTER_MF))
       end
     end
 
     trait :with_pos_m do
       after(:create) do |player|
-        create(:player_position, player: player, position: Position.find_by(name: 'M'))
+        create(:player_position, player: player, position: Position.find_by(name: Position::DEFENCE_MF))
       end
     end
 
     trait :with_pos_w do
       after(:create) do |player|
-        create(:player_position, player: player, position: Position.find_by(name: 'W'))
+        create(:player_position, player: player, position: Position.find_by(name: Position::WINGER))
       end
     end
 
     trait :with_pos_w_a do
       after(:create) do |player|
-        create(:player_position, player: player, position: Position.find_by(name: 'W'))
-        create(:player_position, player: player, position: Position.find_by(name: 'A'))
+        create(:player_position, player: player, position: Position.find_by(name: Position::WINGER))
+        create(:player_position, player: player, position: Position.find_by(name: Position::FORWARD))
       end
     end
 
     trait :with_pos_a do
       after(:create) do |player|
-        create(:player_position, player: player, position: Position.find_by(name: 'A'))
+        create(:player_position, player: player, position: Position.find_by(name: Position::FORWARD))
       end
     end
 
     trait :with_pos_pc do
       after(:create) do |player|
-        create(:player_position, player: player, position: Position.find_by(name: 'Pc'))
+        create(:player_position, player: player, position: Position.find_by(name: Position::STRIKER))
       end
     end
   end

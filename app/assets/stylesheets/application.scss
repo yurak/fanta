@@ -1285,6 +1285,14 @@ body, html {
           text-overflow: ellipsis;
         }
 
+        .modal-player-first-name {
+          line-height: 18px;
+          font-size: 14px;
+          white-space: nowrap;
+          overflow: hidden !important;
+          text-overflow: ellipsis;
+        }
+
         .modal-player-club {
           line-height: 18px;
           font-size: 14px;

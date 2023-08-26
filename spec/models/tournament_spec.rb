@@ -74,7 +74,7 @@ RSpec.describe Tournament do
     end
 
     context 'without national teams and when eurocup' do
-      let(:tournament) { described_class.find_by(code: Scores::Injectors::Strategy::ECL) }
+      let(:tournament) { described_class.find_by(code: Scores::Injectors::Strategy::EUROPE_CL) }
 
       it 'returns true' do
         expect(tournament.fanta?).to be(true)
@@ -82,7 +82,7 @@ RSpec.describe Tournament do
     end
 
     context 'with national teams and when eurocup' do
-      let(:tournament) { described_class.find_by(code: Scores::Injectors::Strategy::ECL) }
+      let(:tournament) { described_class.find_by(code: Scores::Injectors::Strategy::EUROPE_CL) }
 
       it 'returns true' do
         create_list(:national_team, 2, tournament: tournament)

@@ -4,7 +4,7 @@ RSpec.describe Clubs::Creator do
 
     let(:file_content) do
       {
-        serie_a: {
+        italy: {
           ATA: 'Atalanta',
           MIL: 'Milan',
           SAS: 'Sassuolo',
@@ -24,7 +24,7 @@ RSpec.describe Clubs::Creator do
 
     context 'with existed clubs with same name and code' do
       before do
-        create(:club, name: 'Milan', code: 'MIL', tournament: Tournament.find_by(code: 'serie_a'))
+        create(:club, name: 'Milan', code: 'MIL', tournament: Tournament.find_by(code: 'italy'))
         allow(YAML).to receive(:load_file).and_return(file_content)
         creator.call
       end
@@ -34,7 +34,7 @@ RSpec.describe Clubs::Creator do
 
     context 'with existed clubs with same name' do
       before do
-        create(:club, name: 'Sassuolo', code: 'OLO', tournament: Tournament.find_by(code: 'serie_a'))
+        create(:club, name: 'Sassuolo', code: 'OLO', tournament: Tournament.find_by(code: 'italy'))
         allow(YAML).to receive(:load_file).and_return(file_content)
         creator.call
       end
@@ -44,7 +44,7 @@ RSpec.describe Clubs::Creator do
 
     context 'with existed clubs with same code' do
       before do
-        create(:club, name: 'Atlas', code: 'ATA', tournament: Tournament.find_by(code: 'serie_a'))
+        create(:club, name: 'Atlas', code: 'ATA', tournament: Tournament.find_by(code: 'italy'))
         allow(YAML).to receive(:load_file).and_return(file_content)
         creator.call
       end
@@ -54,7 +54,7 @@ RSpec.describe Clubs::Creator do
 
     context 'with existed clubs with other name and code' do
       before do
-        create(:club, name: 'Inter', code: 'INT', tournament: Tournament.find_by(code: 'serie_a'))
+        create(:club, name: 'Inter', code: 'INT', tournament: Tournament.find_by(code: 'italy'))
         allow(YAML).to receive(:load_file).and_return(file_content)
         creator.call
       end
@@ -65,13 +65,13 @@ RSpec.describe Clubs::Creator do
     context 'with multiple tournaments' do
       let(:file_content) do
         {
-          serie_a: {
+          italy: {
             ATA: 'Atalanta',
             MIL: 'Milan',
             SAS: 'Sassuolo',
             VER: 'Verona'
           },
-          epl: {
+          england: {
             LIV: 'Liverpool',
             EVE: 'Everton'
           }
@@ -107,7 +107,7 @@ RSpec.describe Clubs::Creator do
     context 'with multiple tournaments with one invalid tournament code' do
       let(:file_content) do
         {
-          epl: {
+          england: {
             LIV: 'Liverpool',
             EVE: 'Everton'
           },
@@ -129,7 +129,7 @@ RSpec.describe Clubs::Creator do
     context 'when eurocup tournament with existed clubs' do
       let(:file_content) do
         {
-          champions_league: {
+          europe: {
             ATA: 'Atalanta',
             MIL: 'Milan',
             LIV: 'Liverpool',
@@ -149,7 +149,7 @@ RSpec.describe Clubs::Creator do
     context 'when eurocup tournament with existed clubs with same name' do
       let(:file_content) do
         {
-          champions_league: {
+          europe: {
             ATA: 'Atalanta',
             MIL: 'Milan',
             LIV: 'Liverpool',
@@ -167,7 +167,7 @@ RSpec.describe Clubs::Creator do
       it { expect(Club.all.count).to eq(4) }
 
       it 'adds eurocup tournament to club' do
-        expect(club.reload.ec_tournament.code).to eq('champions_league')
+        expect(club.reload.ec_tournament.code).to eq('europe')
       end
     end
   end

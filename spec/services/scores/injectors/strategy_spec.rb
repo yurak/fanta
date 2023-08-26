@@ -2,40 +2,40 @@ RSpec.describe Scores::Injectors::Strategy do
   describe '#call' do
     subject(:strategy) { described_class.call(tour) }
 
-    context 'with serie_a tour' do
-      let(:tour) { create(:serie_a_tour) }
+    context 'with italy tour' do
+      let(:tour) { create(:italy_tour) }
 
       it 'returns calcio injector' do
         expect(strategy).to eq(Scores::Injectors::Calcio)
       end
     end
 
-    context 'with epl tour' do
-      let(:tour) { create(:epl_tour) }
+    context 'with england tour' do
+      let(:tour) { create(:england_tour) }
 
       it 'returns fotmob injector' do
         expect(strategy).to eq(Scores::Injectors::Fotmob)
       end
     end
 
-    context 'with bundes tour' do
-      let(:tour) { create(:bundes_tour) }
+    context 'with germany tour' do
+      let(:tour) { create(:germany_tour) }
 
       it 'returns fotmob injector' do
         expect(strategy).to eq(Scores::Injectors::Fotmob)
       end
     end
 
-    context 'with laliga tour' do
-      let(:tour) { create(:laliga_tour) }
+    context 'with spain tour' do
+      let(:tour) { create(:spain_tour) }
 
       it 'returns fotmob injector' do
         expect(strategy).to eq(Scores::Injectors::Fotmob)
       end
     end
 
-    context 'with ligue 1 tour' do
-      let(:tour) { create(:ligue1_tour) }
+    context 'with france tour' do
+      let(:tour) { create(:france_tour) }
 
       it 'returns fotmob injector' do
         expect(strategy).to eq(Scores::Injectors::Fotmob)

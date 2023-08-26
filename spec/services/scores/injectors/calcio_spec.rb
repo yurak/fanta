@@ -1,7 +1,7 @@
 RSpec.describe Scores::Injectors::Calcio do
   subject(:injector) { described_class.new(tournament_round: tournament_round) }
 
-  let(:tournament_round) { create(:tournament_round, :with_serie_a_tournament, number: 5) }
+  let(:tournament_round) { create(:tournament_round, :with_italy_tournament, number: 5) }
   let(:host_club) { create(:club, name: 'Salernitana') }
   let(:guest_club) { create(:club, name: 'Verona') }
 

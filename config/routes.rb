@@ -52,6 +52,8 @@ Rails.application.routes.draw do
     resources :substitutes, only: [:new, :create, :destroy]
   end
 
+  resources :slots, only: [:index]
+
   resources :teams, only: [:show, :edit, :update, :new, :create] do
     resources :lineups, only: [:show, :new, :create, :edit, :update] do
       collection { get :clone }
