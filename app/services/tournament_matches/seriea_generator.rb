@@ -25,7 +25,7 @@
 #     end
 #
 #     def tournament
-#       @tournament ||= Tournament.find_by(code: Scores::Injectors::Strategy::CALCIO)
+#       @tournament ||= Tournament.find_by(code: Scores::Injectors::Strategy::ITALY)
 #     end
 #
 #     def season

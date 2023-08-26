@@ -131,27 +131,6 @@ RSpec.describe PlayersHelper do
       end
     end
 
-    context 'with eurocup tournament without players' do
-      let(:tournament_round) { create(:tournament_round, tournament: Tournament.find_by(eurocup: true)) }
-
-      it 'returns empty array' do
-        expect(helper.tournament_round_players(tournament_round, 'Por')).to eq({})
-      end
-    end
-
-    context 'with eurocup tournament with players' do
-      let(:tournament) { Tournament.find_by(eurocup: true) }
-      let(:tournament_round) { create(:tournament_round, tournament: tournament) }
-      let(:club) { create(:club, ec_tournament: tournament) }
-
-      it 'returns club with players for this round by position' do
-        create(:tournament_match, host_club: club, tournament_round: tournament_round)
-        players = create_list(:player, 2, :with_pos_por, club: club)
-
-        expect(helper.tournament_round_players(tournament_round, 'Por').first).to eq([club, players])
-      end
-    end
-
     context 'with national tournament with players' do
       let(:tournament_round) { create(:tournament_round) }
       let(:team) { create(:national_team) }

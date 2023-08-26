@@ -28,13 +28,6 @@ module PlayersHelper
     if t_round.national_matches.any?
       Player.by_national_tournament_round(t_round).by_position(real_position&.split('/')).uniq
             .sort_by(&:national_team_id).group_by(&:national_team)
-    elsif t_round.tournament.eurocup?
-      if real_position
-        Player.includes(player_positions: :position).by_tournament_round(t_round).by_position(real_position&.split('/'))
-              .uniq.sort_by { |x| [x.club.name] }.group_by(&:club)
-      else
-        Player.includes(player_positions: :position).by_tournament_round(t_round).uniq.sort_by { |x| [x.club.name] }.group_by(&:club)
-      end
     else
       []
     end

@@ -1,4 +1,4 @@
-serie_a:
+italy:
   ATA: Atalanta
 #  BEN: Benevento
   BOL: Bologna
@@ -28,7 +28,7 @@ serie_a:
   UDI: Udinese
 #  VEN: Venezia
   VER: Verona
-epl:
+england:
   ARS: Arsenal
   ASV: Aston Villa
   BOU: Bournemouth
@@ -49,7 +49,7 @@ epl:
   TOT: Tottenham
   WES: West Ham
   WOL: Wolverhampton
-bundesliga:
+germany:
 #  ARM: Arminia
   AUG: Augsburg
   LEV: Bayer Leverkusen
@@ -72,7 +72,7 @@ bundesliga:
   UNI: Union Berlin
   WER: Werder Bremen
   WLF: Wolfsburg
-laliga:
+spain:
   ALM: Almeria
   ATB: Athletic Bilbao
   ATM: Atletico Madrid
@@ -97,7 +97,7 @@ laliga:
   SEV: Sevilla
   VAL: Valencia
   VIL: Villarreal
-ligue_1:
+france:
 #  AJC: Ajaccio
 #  ANG: Angers
 #  AUX: Auxerre
@@ -122,7 +122,7 @@ ligue_1:
   STR: Strasbourg
   TOU: Toulouse
 #  TRO: Troyes
-championship:
+britain:
   BIR: Birmingham City
   BLB: Blackburn Rovers
 #  BLP: Blackpool
@@ -150,7 +150,7 @@ championship:
   WAT: Watford
   WBA: West Bromwich
 #  WIG: Wigan Athletic
-jupiler:
+belgium:
   AND: Anderlecht
   BRU: Brugge
   CBG: Cercle Brugge
@@ -170,7 +170,7 @@ jupiler:
   USG: Union SG
   WST: Westerlo
 #  ZWR: Zulte Waregem
-liga_portugal:
+portugal:
   ARC: Arouca
   BNF: Benfica
   BVS: Boavista
@@ -192,7 +192,7 @@ liga_portugal:
   SCP: Sporting
   VTG: Vitoria Guimaraes
   VZL: Vizela
-eredivisie:
+netherlands:
   AJA: Ajax
   ALC: Almere City
   AZA: AZ Alkmaar
@@ -214,7 +214,7 @@ eredivisie:
   VTS: Vitesse
   VLN: Volendam
   ZWO: Zwolle
-upl:
+ukraine:
   CHO: Chornomorets
   DN1: SK Dnipro-1
   DYN: Dynamo Kyiv
@@ -231,7 +231,7 @@ upl:
   VRS: Veres
   VOR: Vorskla
   ZOR: Zorya
-champions_league:
+europe:
 #  BES: Besiktas
   CEL: Celtic
   COP: Copenhagen

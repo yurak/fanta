@@ -5,13 +5,13 @@ module Scores
     class Strategy < ApplicationService
       attr_reader :tour
 
-      BUNDES = 'germany'
-      CALCIO = 'italy'
-      ECL = 'europe'
-      EPL = 'england'
+      GERMANY = 'germany'
+      ITALY = 'italy'
+      EUROPE_CL = 'europe'
+      ENGLAND = 'england'
       EURO = 'euro'
-      LALIGA = 'spain'
-      LIGUE1 = 'france'
+      SPAIN = 'spain'
+      FRANCE = 'france'
 
       def initialize(tour)
         @tour = tour
@@ -19,8 +19,8 @@ module Scores
 
       def call
         case tournament_code
-        when CALCIO then Calcio
-        when BUNDES, ECL, EPL, EURO, LALIGA, LIGUE1 then Fotmob
+        when ITALY then Calcio
+        when GERMANY, EUROPE_CL, ENGLAND, EURO, SPAIN, FRANCE then Fotmob
         else Fake
         end
       end
