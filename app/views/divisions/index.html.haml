@@ -1,0 +1,18 @@
+.page-block
+  .web-header= render 'layouts/left_nav', league: nil
+  .mob-header= render 'layouts/mob_header', league: nil, title: t('divisions.title')
+  .page-info.divisions-page
+    .divisions-title-bar
+      .divisions-title
+        = t('divisions.title')
+    .divisions-grid-block
+      .divisions-leagues.divisions-leagues-grid
+        - @leagues.each do |league|
+          .league-item{class: "slot-#{league.division.name}"}
+            .league-name= "#{league.division.name} | #{league.name}"
+            .league-results
+              - league.results.ordered.each_with_index do |result, i|
+                .league-result
+                  .league-result-position{class: "promotion-#{ i < league.promotion} relegation-#{ i >= (league.teams.count - league.relegation)}"}= i + 1
+                  .league-result-team= result.team.human_name
+                  .league-result-points= result.points

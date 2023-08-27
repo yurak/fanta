@@ -22,6 +22,7 @@ class League < ApplicationRecord
   default_scope { includes(%i[division season tournament]) }
 
   scope :by_tournament, ->(tournament_id) { where(tournament: tournament_id) }
+  scope :with_division, -> { where.not(division: { id: nil }) }
 
   def active_tour
     tours&.active&.first || tours.inactive&.first

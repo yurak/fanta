@@ -1,0 +1,134 @@
+/* DIVISIONS INDEX page */
+
+.page-info.divisions-page {
+  padding: 32px 24px 70px 96px;
+
+  a {
+    text-decoration: none;
+    color: #181715;
+  }
+
+  .divisions-title-bar {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    line-height: 64px;
+
+    .divisions-title {
+      font-weight: bold;
+      font-size: 48px;
+      color: #181715;
+    }
+  }
+
+  .divisions-grid-block {
+    .divisions-leagues {
+      display: grid;
+      grid-template-columns: repeat(8, 12%);
+      column-gap: 4px;
+      grid-row-gap: 10px;
+
+      .league-item {
+        .league-name {
+          font-family: 'Nunito ExtraBold';
+          background: #FFEBC2;
+          font-size: 14px;
+          line-height: 18px;
+          padding: 4px 8px;
+          white-space: nowrap;
+          overflow: hidden !important;
+          text-overflow: ellipsis;
+        }
+
+        .league-results {
+          font-size: 12px;
+          line-height: 16px;
+        }
+
+        .league-result {
+          display: grid;
+          grid-template-columns: 24px auto 24px;
+          border-bottom: 1px solid #E5E6E4;
+        }
+
+        .promotion-true {
+          background: #D0F0D4;
+        }
+
+        .relegation-true {
+          background: #FCC5CB;
+        }
+
+        .league-result-position {
+          text-align: center;
+        }
+
+        .league-result-team {
+          padding-left: 4px;
+          white-space: nowrap;
+          overflow: hidden !important;
+          text-overflow: ellipsis;
+        }
+
+        .league-result-points {
+          font-family: 'Nunito ExtraBold';
+          text-align: center;
+        }
+      }
+
+      .slot-A1 { grid-area: A1; }
+      .slot-B1 { grid-area: B1; }
+      .slot-B2 { grid-area: B2; }
+      .slot-C1 { grid-area: C1; }
+      .slot-C2 { grid-area: C2; }
+      .slot-C3 { grid-area: C3; }
+      .slot-D1 { grid-area: D1; }
+      .slot-D2 { grid-area: D2; }
+      .slot-D3 { grid-area: D3; }
+      .slot-D4 { grid-area: D4; }
+      .slot-E1 { grid-area: E1; }
+      .slot-E2 { grid-area: E2; }
+      .slot-E3 { grid-area: E3; }
+      .slot-E4 { grid-area: E4; }
+      .slot-F1 { grid-area: F1; }
+      .slot-F2 { grid-area: F2; }
+      .slot-F3 { grid-area: F3; }
+      .slot-F4 { grid-area: F4; }
+      .slot-G1 { grid-area: G1; }
+      .slot-G2 { grid-area: G2; }
+      .slot-G3 { grid-area: G3; }
+      .slot-G4 { grid-area: G4; }
+      .slot-H1 { grid-area: H1; }
+      .slot-H2 { grid-area: H2; }
+      .slot-H3 { grid-area: H3; }
+      .slot-H4 { grid-area: H4; }
+    }
+
+    .divisions-leagues-grid {
+      grid-template-areas:
+        "xA2 xA3 xA4 A1 xA5 xA6 xA7 xA8"
+        "xB3 xB4 B1 xB5 B2 xB6 xB7 xB8"
+        "xC4 C1 xC5 C2 xC6 C3 xC7 xC8"
+        "D1 xD5 D2 xD6 D3 xD7 D4 xD8"
+        "xE5 E1 xE6 E2 xE7 E3 xE8 E4"
+        "F1 xF5 F2 xF6 F3 xF7 F4 xF8"
+        "xG5 G1 xG6 G2 xG7 G3 xG8 G4"
+        "H1 xH5 H2 xH6 H3 xH7 H4 xH8";
+    }
+  }
+}
+
+@media (orientation: landscape) and (max-device-width: 1220px) {
+  .page-info.divisions-page {
+    padding: 100px 50px 70px;
+  }
+}
+
+@media (orientation: portrait) {
+  .page-info.divisions-page {
+    padding: 0 16px 44px;
+
+    .divisions-title-bar {
+      display: none;
+    }
+  }
+}
