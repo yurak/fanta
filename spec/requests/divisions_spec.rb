@@ -36,6 +36,7 @@ RSpec.describe 'Divisions' do
       it { expect(response).to be_successful }
       it { expect(response).to render_template(:index) }
       it { expect(response).to have_http_status(:ok) }
+
       it 'returns leagues' do
         expect(assigns(:leagues)).to eq([league])
       end
