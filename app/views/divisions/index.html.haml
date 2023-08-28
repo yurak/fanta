@@ -9,10 +9,12 @@
       .divisions-leagues.divisions-leagues-grid
         - @leagues.each do |league|
           .league-item{class: "slot-#{league.division.name}"}
-            .league-name= "#{league.division.name} | #{league.name}"
+            = link_to league_results_path(league) do
+              .league-name= "#{league.division.name} | #{league.name}"
             .league-results
               - league.results.ordered.each_with_index do |result, i|
-                .league-result
-                  .league-result-position{class: "promotion-#{ i < league.promotion} relegation-#{ i >= (league.teams.count - league.relegation)}"}= i + 1
-                  .league-result-team= result.team.human_name
-                  .league-result-points= result.points
+                = link_to team_path(result.team) do
+                  .league-result
+                    .league-result-position{class: "promotion-#{ i < league.promotion} relegation-#{ i >= (league.results.count - league.relegation)}"}= i + 1
+                    .league-result-team= result.team.human_name
+                    .league-result-points= result.points

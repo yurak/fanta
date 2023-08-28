@@ -70,7 +70,7 @@
               = t('table.next')
         - @results.each_with_index do |result, i|
           .table-team-item.table-grid
-            .table-team-param.center{class: "promotion-#{ i < league.promotion} relegation-#{ i >= (league.teams.count - league.relegation)}"}
+            .table-team-param.center{class: "promotion-#{ i < league.promotion} relegation-#{ i >= (league.results.count - league.relegation)}"}
               = i+1
             .table-team-param.table-team-data
               = link_to team_path(result.team) do
