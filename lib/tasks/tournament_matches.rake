@@ -24,7 +24,7 @@ namespace :tournament_matches do
   end
 
   # rake 'tournament_matches:generate_ecl_matches'
-  desc 'Create Champions League TournamentMatches'
+  desc 'Create Champions League TournamentMatches for Group stage'
   task generate_ecl_matches: :environment do
     tournament = Tournament.find_by(code: Scores::Injectors::Strategy::EUROPE_CL)
     TournamentMatches::EuroCupFotmobGenerator.call(tournament)

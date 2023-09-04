@@ -1,23 +1,23 @@
 module TournamentMatches
   class EuroCupFotmobGenerator < FotmobGenerator
     def call
-      t_round_index = 0
-      matches_data.each do |round_data|
-        round_data[1].each do |day_data|
-          next if day_data[0].to_date < DateTime.current
+      t_round_number = 1
+      t_match_index = 1
 
-          round = tournament_rounds[t_round_index]
+      matches_data.each do |match_data|
+        next if match_data['status']['utcTime'] < DateTime.current
 
-          day_data[1].each do |match_data|
-            if find_match(match_data['id'])
-              update_match(find_match(match_data['id']), match_data)
-            else
-              create_match(round, match_data)
-            end
-          end
+        if find_match(match_data['id'])
+          update_match(find_match(match_data['id']), match_data)
+        else
+          round = TournamentRound.find_by(season: season, tournament: tournament, number: t_round_number)
+          next unless round
 
-          t_round_index += 1
+          create_match(round, match_data)
         end
+
+        t_round_number += 1 if (t_match_index % 8).zero?
+        t_match_index += 1
       end
     end
 
