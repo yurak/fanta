@@ -1,0 +1,134 @@
+/* DIVISIONS INDEX page */
+
+.page-info.divisions-page {
+  padding: 32px 24px 70px 96px;
+
+  a {
+    text-decoration: none;
+    color: #181715;
+  }
+
+  .divisions-title-bar {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    line-height: 64px;
+
+    .divisions-title {
+      font-weight: bold;
+      font-size: 48px;
+      color: #181715;
+    }
+  }
+
+  .divisions-grid-block {
+    .divisions-leagues {
+      display: grid;
+      grid-template-columns: repeat(17, 5.5%);
+      column-gap: 4px;
+      grid-row-gap: 10px;
+
+      .league-item {
+        .league-name {
+          font-family: 'Nunito ExtraBold';
+          background: #FFEBC2;
+          font-size: 14px;
+          line-height: 18px;
+          padding: 4px 8px;
+          white-space: nowrap;
+          overflow: hidden !important;
+          text-overflow: ellipsis;
+        }
+
+        .league-results {
+          font-size: 12px;
+          line-height: 18px;
+        }
+
+        .league-result {
+          display: grid;
+          grid-template-columns: 24px auto 24px;
+          border-bottom: 1px solid #E5E6E4;
+        }
+
+        .promotion-true {
+          background: #D0F0D4;
+        }
+
+        .relegation-true {
+          background: #FCC5CB;
+        }
+
+        .league-result-position {
+          text-align: center;
+        }
+
+        .league-result-team {
+          padding-left: 4px;
+          white-space: nowrap;
+          overflow: hidden !important;
+          text-overflow: ellipsis;
+        }
+
+        .league-result-points {
+          font-family: 'Nunito ExtraBold';
+          text-align: center;
+        }
+      }
+
+      .slot-A1 { grid-area: a07 / a07 / a09 / a09; }
+      .slot-B1 { grid-area: b05 / b05 / b07 / b07; }
+      .slot-B2 { grid-area: b09 / b09 / b11 / b11; }
+      .slot-C1 { grid-area: c03 / c03 / c05 / c05; }
+      .slot-C2 { grid-area: c07 / c07 / c09 / c09; }
+      .slot-C3 { grid-area: c11 / c11 / c13 / c13; }
+      .slot-D1 { grid-area: d01 / d01 / d03 / d03; }
+      .slot-D2 { grid-area: d05 / d05 / d07 / d07; }
+      .slot-D3 { grid-area: d09 / d09 / d11 / d11; }
+      .slot-D4 { grid-area: d13 / d13 / d15 / d15; }
+      .slot-E1 { grid-area: e03 / e03 / e05 / e05; }
+      .slot-E2 { grid-area: e07 / e07 / e09 / e09; }
+      .slot-E3 { grid-area: e11 / e11 / e13 / e13; }
+      .slot-E4 { grid-area: e15 / e15 / e17 / e17; }
+      .slot-F1 { grid-area: f01 / f01 / f03 / f03; }
+      .slot-F2 { grid-area: f05 / f05 / f07 / f07; }
+      .slot-F3 { grid-area: f09 / f09 / f11 / f11; }
+      .slot-F4 { grid-area: f13 / f13 / f15 / f15; }
+      .slot-G1 { grid-area: g03 / g03 / g05 / g05; }
+      .slot-G2 { grid-area: g07 / g07 / g09 / g09; }
+      .slot-G3 { grid-area: g11 / g11 / g13 / g13; }
+      .slot-G4 { grid-area: g15 / g15 / g17 / g17; }
+      .slot-H1 { grid-area: h01 / h01 / h03 / h03; }
+      .slot-H2 { grid-area: h05 / h05 / h07 / h07; }
+      .slot-H3 { grid-area: h09 / h09 / h11 / h11; }
+      .slot-H4 { grid-area: h13 / h13 / h15 / h15; }
+    }
+
+    .divisions-leagues-grid {
+      grid-template-areas:
+        "a01 a02 a03 a04 a05 a06 a07 a08 a09 a10 a11 a12 a13 a14 a15 a16 a17"
+        "b01 b02 b03 b04 b05 b06 b07 b08 b09 b10 b11 b12 b13 b14 b15 b16 b17"
+        "c01 c02 c03 c04 c05 c06 c07 c08 c09 c10 c11 c12 c13 c14 c15 c16 c17"
+        "d01 d02 d03 d04 d05 d06 d07 d08 d09 d10 d11 d12 d13 d14 d15 d16 d17"
+        "e01 e02 e03 e04 e05 e06 e07 e08 e09 e10 e11 e12 e13 e14 e15 e16 e17"
+        "f01 f02 f03 f04 f05 f06 f07 f08 f09 f10 f11 f12 f13 f14 f15 f16 f17"
+        "g01 g02 g03 g04 g05 g06 g07 g08 g09 g10 g11 g12 g13 g14 g15 g16 g17"
+        "h01 h02 h03 h04 h05 h06 h07 h08 h09 h10 h11 h12 h13 h14 h15 h16 h17";
+    }
+  }
+}
+
+@media (orientation: landscape) and (max-device-width: 1220px) {
+  .page-info.divisions-page {
+    padding: 100px 50px 70px;
+  }
+}
+
+@media (orientation: portrait) {
+  .page-info.divisions-page {
+    padding: 0 16px 44px;
+
+    .divisions-title-bar {
+      display: none;
+    }
+  }
+}

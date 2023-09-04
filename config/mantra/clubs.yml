@@ -235,12 +235,14 @@ europe:
 #  BES: Besiktas
   CEL: Celtic
   COP: Copenhagen
-  DZG: Dinamo Zagreb
-  MHF: Maccabi Haifa
+  ZVE: Crvena Zvezda
+#  DZG: Dinamo Zagreb
+  GAL: Galatasaray
+#  MHF: Maccabi Haifa
 #  MFF: Malmo
-  RAN: Rangers
+#  RAN: Rangers
   RBS: Salzburg
 #  SHE: Sheriff
-  VPL: Viktoria Plzen
-#  YOU: Young Boys
+#  VPL: Viktoria Plzen
+  YOU: Young Boys
 #  ZEN: Zenit

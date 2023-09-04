@@ -3,6 +3,31 @@
     //height: 100%;
     padding: 16px 16px 96px 288px;
 
+    .divisions-link {
+      text-align: right;
+      font-size: 16px;
+      line-height: 24px;
+      margin-bottom: 16px;
+
+      a {
+        color: #181715;
+        text-decoration: none;
+      }
+
+      .divisions-link-text, .divisions-link-icon {
+        font-family: 'Nunito Bold';
+        display: inline-block;
+        font-size: 16px;
+        line-height: 24px;
+        color: #181715;
+
+        img {
+          padding: 0 4px;
+          height: 8px;
+        }
+      }
+    }
+
     .table-block {
       padding-bottom: 64px;
     }
@@ -17,11 +42,11 @@
 
     .table-grid {
       display: grid;
-      grid-template-columns: 1fr 19fr 62fr 16fr 16fr 16fr 16fr 14fr 14fr 14fr 16fr 21fr 42fr 13fr;
+      grid-template-columns: 19fr 62fr 16fr 16fr 16fr 16fr 14fr 14fr 14fr 16fr 21fr 42fr 13fr;
     }
 
     .national-grid {
-      grid-template-columns: 1fr 24fr 86fr 35fr 35fr 35fr 35fr;
+      grid-template-columns: 24fr 86fr 35fr 35fr 35fr 35fr;
     }
 
     .table-header-dropdown {
@@ -111,13 +136,13 @@
         }
       }
 
-      .place0 {
-        background-color: #4EAD57;
+      .promotion-true {
+        background: #D0F0D4;
       }
 
-      //.place1, .place2 {
-      //  background-color: #FFB319;
-      //}
+      .relegation-true {
+        background: #FCC5CB;
+      }
     }
 
     .form-cell {

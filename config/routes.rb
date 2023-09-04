@@ -62,7 +62,9 @@ Rails.application.routes.draw do
     resources :player_teams, only: [:edit, :update]
   end
 
-  resources :tournaments, only: [:show]
+  resources :tournaments, only: [:show] do
+    resources :divisions, only: [:index]
+  end
 
   resources :tours, only: [:show, :update] do
     get :inject_scores, on: :member

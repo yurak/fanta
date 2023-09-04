@@ -131,6 +131,8 @@ ua:
 #    place_bid: "Зробити ставку"
 #    vacancies: "ВАКАНСІЇ"
 #    your_bid: "Ваші ставки на аукціоні:"
+  divisions:
+    title: "Дивізіони"
   footer:
     current_tournaments: "Активні змагання"
     contact: "Контакти"
