@@ -21,6 +21,7 @@ namespace :transfers do
     end
   end
 
+  # rake 'transfers:league_transfer_list[1]'
   desc 'Show league outgoing transfer lists'
   task :league_transfer_list, [:league_id] => :environment do |_t, args|
     league = League.find_by(id: args[:league_id])
