@@ -1,4 +1,5 @@
 namespace :transfers do
+  # rake transfers:outgoing_active_league
   desc 'Complete outgoing transfers for active league with auction deadline'
   task outgoing_active_league: :environment do
     League.active.each do |league|

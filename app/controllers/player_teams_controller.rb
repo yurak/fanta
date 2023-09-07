@@ -8,9 +8,7 @@ class PlayerTeamsController < ApplicationController
   end
 
   def update
-    # TODO: compare count of transferable players and count of auction slots
-    # player_teams.to_h.map{|pt, v| pt if v["transfer_status"] == "transferable"}.compact.count
-    if editable?
+    if editable? && valid?
       player_teams.each_pair do |id, params|
         player_team = PlayerTeam.find(id.to_i)
         player_team.update(params.to_hash)
@@ -30,10 +28,20 @@ class PlayerTeamsController < ApplicationController
     team.sales_period? && team_of_user?
   end
 
+  def valid?
+    return false unless auction
+
+    player_teams.to_h.map { |pt, v| pt if v['transfer_status'] == 'transferable' }.compact.count <= auction.sales_count
+  end
+
   def team_of_user?
     return false unless team.user
 
     team.user == current_user
+  end
+
+  def auction
+    @auction ||= team.league.auctions.sales.first
   end
 
   def player_teams
