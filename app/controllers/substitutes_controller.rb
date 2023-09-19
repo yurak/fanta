@@ -9,7 +9,8 @@ class SubstitutesController < ApplicationController
 
   def create
     if (can? :create, Substitute) && call_subs_creator
-      redirect_to match_path(lineup.match)
+      path = lineup.tour.fanta? ? team_lineup_path(lineup.team, lineup) : match_path(lineup.match)
+      redirect_to path
     else
       redirect_to new_match_player_substitute_path(match_player)
     end
