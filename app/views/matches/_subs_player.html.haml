@@ -17,16 +17,16 @@
           .team-player-scores
             .team-player-score= match_player.score
             .team-player-total-score= match_player.total_score
-        - elsif match_player.club_played_match? || match_player.another_tournament?
+        - elsif match_player.club_played_match? || (match_player.tour.mantra? && match_player.another_tournament?)
           .team-player-score-not-played= t('matches.didnt_play')
         - else
           .team-player-score-unspecified= t('matches.unspecified')
       .match-player-add-data
         - if match_player.club_played_match?
           .match-player-bonuses
-            = render 'mp_bonuses', match_player: match_player
+            = render 'matches/mp_bonuses', match_player: match_player
         - else
-          = render 'real-match', match_player: match_player, t_round: match_player.tour.tournament_round
+          = render 'matches/real-match', match_player: match_player, t_round: match_player.tour.tournament_round
         .match-player-positions
           .player-positions-block
             - match_player.player.positions.each do |position|

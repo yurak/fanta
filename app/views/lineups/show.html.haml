@@ -55,12 +55,21 @@
                           .team-player-score= match_player.score
                           .team-player-total-score= match_player.total_score
                       - elsif match_player.club_played_match?
-                        .team-player-score-not-played= t('matches.didnt_play')
+                        - if match_player.tour.locked_or_postponed? && current_user&.can_moderate?
+                          .team-player-score-not-played
+                            = link_to t('matches.didnt_play'), new_match_player_substitute_path(match_player)
+                        - else
+                          .team-player-score-not-played= t('matches.didnt_play')
                       - else
                         .team-player-score-unspecified= t('matches.unspecified')
                     .match-player-add-data
                       .match-player-bonuses
                         = render 'matches/mp_bonuses', match_player: match_player
+        .match-reserve
+          .match-reserve-title= t('matches.substitutes')
+          .match-reserve-players
+            - lineup.match_players.subs_bench.each do |match_player|
+              = render 'matches/subs_player', match_player: match_player
 
       .lineup-module
         .match-team-module

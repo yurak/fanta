@@ -27,9 +27,10 @@ class Lineup < ApplicationRecord
   MAX_PLAYERS = 20
 
   def total_score
-    return final_score unless final_score.zero?
-
-    current_score
+    # return final_score unless final_score.zero?
+    #
+    # current_score
+    final_score
   end
 
   def current_score
