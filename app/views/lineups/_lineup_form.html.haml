@@ -360,6 +360,11 @@
                   positionsItems += '<div class="position-item position-item-' + positionName + '">' + posName + '</div> ';
                 })
 
+                let firstName = ' ';
+                if (player.first_name != null) {
+                  firstName = player.first_name;
+                }
+
                 listHtml +=
                   '<div class="modal-player-item" id="' + player.id + '">' +
                     '<div class="modal-player-images" style="background-color: #' + player.club_color + '">' +
@@ -382,7 +387,7 @@
                       player.name +
                     '</div>' +
                     '<div class="modal-player-first-name">' +
-                      player.first_name +
+                      firstName +
                     '</div>' +
                   '</div>';
               });

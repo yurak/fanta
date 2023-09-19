@@ -44,7 +44,8 @@
             .table-team-param.table-team-points
               = result.total_score.round(2)
             .table-team-param
-              = result.team.best_lineup&.total_score
+              -# TODO: save best lineup in database
+              -# = result.team.best_lineup&.total_score
     - else
       .divisions-link
         = link_to tournament_divisions_path(league.tournament) do

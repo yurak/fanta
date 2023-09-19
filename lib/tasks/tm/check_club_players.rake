@@ -52,7 +52,7 @@ namespace :tm do
           end
         end
 
-        sleep(10)
+        sleep(5)
       end
     end
   end
