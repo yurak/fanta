@@ -15,10 +15,8 @@ class ResultsController < ApplicationController
     case order_params[:order]
     when 'points'
       league_results.order(points: :desc)
-    when 'gamedays'
-      league_results.order(wins: :desc)
     when 'lineup'
-      league_results.sort_by(&:league_best_lineup).reverse
+      league_results.order(best_lineup: :desc)
     else
       league_results.order(total_score: :desc)
     end

@@ -33,11 +33,11 @@ RSpec.describe Results::NationalUpdater do
 
       it { expect(team_one.results.last.total_score).to eq(67) }
       it { expect(team_one.results.last.points).to eq(18) }
-      it { expect(team_one.results.last.wins).to eq(0) }
+      it { expect(team_one.results.last.best_lineup).to eq(67) }
       it { expect(team_one.results.last.draws).to eq(1) }
       it { expect(team_two.results.last.total_score).to eq(82) }
       it { expect(team_two.results.last.points).to eq(25) }
-      it { expect(team_two.results.last.wins).to eq(1) }
+      it { expect(team_two.results.last.best_lineup).to eq(82) }
       it { expect(team_two.results.last.draws).to eq(1) }
     end
   end

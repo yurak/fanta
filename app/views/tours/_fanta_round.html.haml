@@ -44,7 +44,7 @@
                 = t('tours.not_set')
       - else
         .tour-deadlined{ class: "tour-closed-#{tour.closed?}" }
-          - tour.ordered_lineups.each_with_index do |lineup, i|
+          - tour.lineups.order(final_score: :desc).each_with_index do |lineup, i|
             = link_to team_lineup_path(lineup.team, lineup) do
               .team-row
                 .lineup-team-position

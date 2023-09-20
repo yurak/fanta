@@ -12,7 +12,6 @@ module Results
       return false unless tour&.closed? && lineups.any?
 
       update_total_scores
-      update_best_lineup
       update_f1_points
     end
 
@@ -22,18 +21,12 @@ module Results
       lineups.each do |lineup|
         result = lineup.team.results.last
 
+        result.update(best_lineup: lineup.total_score.round(2)) if lineup.total_score > result.best_lineup
+
         result.update(
-          total_score: result.total_score + lineup.total_score,
+          total_score: result.total_score + lineup.total_score.round(2),
           draws: result.draws + 1
         )
-      end
-    end
-
-    def update_best_lineup
-      lineups.group_by(&:total_score).first[1].each do |lineup|
-        result = lineup.team.results.last
-
-        result.update(wins: result.wins + 1)
       end
     end
 

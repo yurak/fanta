@@ -29,7 +29,7 @@
                 .table-header-dropdown
                   = image_tag('icons/dropdown.svg', class: 'filter-grey')
         - @results.each_with_index do |result, i|
-          .table-team-item.table-grid.national-grid
+          .table-team-item.table-grid.national-grid.national-table-item
             .table-team-param.center= i+1
             .table-team-param.table-team-data
               = link_to team_path(result.team) do
@@ -44,7 +44,7 @@
             .table-team-param.table-team-points
               = result.total_score.round(2)
             .table-team-param
-              = result.team.best_lineup&.total_score
+              = result.best_lineup.round(2)
     - else
       .divisions-link
         = link_to tournament_divisions_path(league.tournament) do

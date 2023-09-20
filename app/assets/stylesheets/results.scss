@@ -145,6 +145,10 @@
       }
     }
 
+    .national-table-item {
+      text-align: center;
+    }
+
     .form-cell {
       text-align: left;
       padding-left: 16px;
@@ -171,11 +175,11 @@
       }
 
       .table-grid {
-        grid-template-columns: 2fr 24fr 176fr 32fr 32fr 32fr 32fr 32fr 32fr 32fr 32fr;
+        grid-template-columns: 24fr 176fr 32fr 32fr 32fr 32fr 32fr 32fr 32fr 32fr;
       }
 
       .national-grid {
-        grid-template-columns: 1fr 24fr 80fr 30fr 30fr 30fr 40fr;
+        grid-template-columns: 24fr 80fr 30fr 30fr 30fr 40fr;
       }
 
       .table-header-item {
@@ -202,11 +206,11 @@
     padding: 120px 50px 50px;
 
     .table-grid {
-      grid-template-columns: 1fr 16fr 65fr 16fr 16fr 16fr 16fr 14fr 14fr 14fr 16fr 21fr 42fr 13fr;
+      grid-template-columns: 16fr 65fr 16fr 16fr 16fr 16fr 14fr 14fr 14fr 16fr 21fr 42fr 13fr;
     }
 
     .national-grid {
-      grid-template-columns: 1fr 24fr 86fr 35fr 35fr 35fr 35fr;
+      grid-template-columns: 24fr 86fr 35fr 35fr 35fr 35fr;
     }
   }
 }
@@ -216,11 +220,11 @@
     padding: 100px 40px 50px;
 
     .table-grid {
-      grid-template-columns: 1fr 16fr 65fr 16fr 16fr 16fr 16fr 14fr 14fr 14fr 16fr 21fr 45fr;
+      grid-template-columns: 16fr 65fr 16fr 16fr 16fr 16fr 14fr 14fr 14fr 16fr 21fr 45fr;
     }
 
     .national-grid {
-      grid-template-columns: 1fr 24fr 86fr 35fr 35fr 35fr 35fr;
+      grid-template-columns: 24fr 86fr 35fr 35fr 35fr 35fr;
     }
 
     .table-team-item {
