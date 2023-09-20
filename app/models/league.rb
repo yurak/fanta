@@ -44,10 +44,10 @@ class League < ApplicationRecord
   def chart_data
     return {} if tours.closed.blank?
 
-    positions = teams.each_with_object([]).with_index do |(team, array), index|
-      history_arr = JSON.parse(team.results.last.history).drop(1)
+    positions = results.each_with_object([]).with_index do |(result, array), index|
+      history_arr = JSON.parse(result.history).drop(1)
       team_pos_arr = history_arr.each_with_object([]) { |round, pos_arr| pos_arr << round&.dig('pos') }
-      array << { label: team.human_name, data: team_pos_arr, borderColor: COLORS[index], backgroundColor: COLORS[index] }
+      array << { label: result.team.human_name, data: team_pos_arr, borderColor: COLORS[index], backgroundColor: COLORS[index] }
     end
 
     { labels: (1..tours.closed.last.number).to_a, datasets: positions }.to_json
