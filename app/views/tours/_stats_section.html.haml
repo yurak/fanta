@@ -59,33 +59,31 @@
                 - if r_player.teams.where(league: tour.league).first
                   = image_tag(r_player.teams.where(league: tour.league).first.logo_path)
               .round-player-stats-score= r_player.result_score
-    - unless tour.inactive?
-      .round-table
-        .round-table-title-header
-          .round-table-title
-            = link_to league_results_path(tour.league) do
-              .round-table-title-text= t('tours.table')
-              .round-table-title-icon
-                = image_tag('icons/arrow_blue.svg')
-          .round-table-hide.round-table-visible
-            = image_tag('icons/arrow_up.svg')
-          .round-table-hide.round-table-hidden
-            = image_tag('icons/arrow_down.svg')
-        .round-list.round-table-block
-          - tour.league.results.ordered.each_with_index do |result, i|
-            .round-table-item
-              .round-table-index= i + 1
-              .round-table-item-team
-                .results-team-logo= image_tag(image_path(result.team.logo_path))
-                .results-team-name= result.team.human_name
-              .round-table-item-points= result.points
-    .round-table.tournament-table
+    .round-table
       .round-table-title-header
         .round-table-title
-          = link_to tournament_path(tour.league.tournament) do
-            .round-table-title-text= "🗓 #{tour.league.tournament.short_name || tour.league.tournament.name} #{t('tours.fixtures')} ##{tour.tournament_round.number}"
+          = link_to league_results_path(tour.league) do
+            .round-table-title-text= t('tours.table')
             .round-table-title-icon
               = image_tag('icons/arrow_blue.svg')
+        .round-table-hide.round-table-visible
+          = image_tag('icons/arrow_up.svg')
+        .round-table-hide.round-table-hidden
+          = image_tag('icons/arrow_down.svg')
+      .round-list.round-table-block
+        - tour.league.results.ordered.each_with_index do |result, i|
+          .round-table-item
+            .round-table-index= i + 1
+            .round-table-item-team
+              .results-team-logo= image_tag(image_path(result.team.logo_path))
+              .results-team-name= result.team.human_name
+            .round-table-item-points= result.points
+    .round-table.tournament-table.hidden-stats
+      .round-tournament-header
+        = "#{tour.league.tournament.icon}  #{tour.league.tournament.short_name || tour.league.tournament.name}"
+      .round-table-title-header
+        .round-table-title
+          .round-table-title-text= "🗓 #{t('tours.fixtures')} ##{tour.tournament_round.number}"
         .round-table-hide.round-table-visible
           = image_tag('icons/arrow_up.svg')
         .round-table-hide.round-table-hidden
@@ -122,6 +120,19 @@
                     = t_match.guest_club.code
                 - else
                   = t_match.guest_club.code
+    - if tour.league.tournament.sofa_number.present?
+      .round-table.tournament-table.hidden-stats
+        .round-table-title-header
+          .round-table-title
+            .round-table-title-text= "📊 #{t('tours.standings')}"
+          .round-table-hide.round-table-visible
+            = image_tag('icons/arrow_up.svg')
+          .round-table-hide.round-table-hidden
+            = image_tag('icons/arrow_down.svg')
+        .round-list.table-iframe-block
+          .table-iframe
+            %iframe{ id: "sofa-standings-embed-#{tour.league.tournament.sofa_number}", src: "https://widgets.sofascore.com/embed/tournament/#{tour.league.tournament.sofa_number.split('-')[0]}/season/#{tour.league.tournament.sofa_number.split('-')[1]}/standings", style: "height:794px!important;width:100%!important;border:none;", frameborder: "0", scrolling: "no", sandbox: "allow-pointer-lock allow-scripts" }
+
   - if tour.fanta?
     .round-table
       .round-table-title-header

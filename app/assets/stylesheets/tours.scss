@@ -3,7 +3,7 @@
   min-height: 100%;
   padding: 0 0 0 272px;
   display: grid;
-  grid-template-columns: auto 288px;
+  grid-template-columns: auto 304px;
 
   a { text-decoration: none }
 
@@ -786,6 +786,12 @@
       padding: 48px;
       border-bottom: 3px solid #E5E6E4;
 
+      .round-tournament-header {
+        padding: 24px 0 64px;
+        font-size: 42px;
+        line-height: 48px;
+      }
+
       .round-table-title-header {
         grid-template-columns: auto 72px;
         column-gap: 24px;
@@ -889,10 +895,21 @@
           }
         }
       }
+
+      .table-iframe-block {
+        .table-iframe {
+          margin-left: 0;
+          width: 100%;
+        }
+      }
     }
 
-    .tournament-table {
-      padding-bottom: 192px;
+    .tournament-table:last-child {
+      padding: 16px 48px 192px;
+    }
+
+    .hidden-stats {
+      border-bottom: none;
     }
   }
 

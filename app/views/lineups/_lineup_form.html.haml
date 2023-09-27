@@ -28,22 +28,33 @@
                     = image_tag("#{modules_path}#{team_module.name}.jpg")
       .module-image
         = image_tag("#{modules_path}#{team_module&.name || lineup.team_module.name}.jpg")
-      - if tour.national?
-        .squad-rules
-          .squad-minimum-rule
-            = t('lineups.minimum')
-          .squad-maximum-rule
-            = t('lineups.limit', limit: tour.max_country_players)
-      .module-name
-        = "#{t('tours.round')} ##{tour.tournament_round.number}"
-      .round-matches
-        - if tour.national?
-          = render 'tournaments/national_matches', matches: tour.tournament_round.national_matches
-        - else
-          = render 'tournaments/tournament_matches', matches: tour.tournament_round.tournament_matches
+      .lineup-round-data
+        .lineup-tabs.default-tabs
+          #fixtures.default-tab-item.default-tab-active
+            .default-= "#{t('tours.round')} #{tour.tournament_round.number}"
+          #standings.default-tab-item
+            .default-= "#{tour.league.tournament.name} #{t('tours.standings')}"
+        .fixtures.lineup-round-tab-content.round-matches
+          - if tour.national?
+            = render 'tournaments/national_matches', matches: tour.tournament_round.national_matches
+          - else
+            = render 'tournaments/tournament_matches', matches: tour.tournament_round.tournament_matches
+        .standings.lineup-round-tab-content
+          - if tour.league.tournament.sofa_number.present?
+            %iframe{ id: "sofa-standings-embed-#{tour.league.tournament.sofa_number}", src: "https://widgets.sofascore.com/embed/tournament/#{tour.league.tournament.sofa_number.split('-')[0]}/season/#{tour.league.tournament.sofa_number.split('-')[1]}/standings", style: "height:794px!important;width:100%!important;border:none;", frameborder: "0", scrolling: "no", sandbox: "allow-pointer-lock allow-scripts" }
+
     .players-section
       .main-players-title
         = t('lineups.main_squad')
+      - if tour.fanta?
+        .main-conditions
+          .main-conditions-title
+            = t('lineups.conditions')
+          .squad-rules
+            %ul
+              %li= t('lineups.minimum')
+              %li= t('lineups.limit', limit: tour.max_country_players)
+
       .main-players
         #position-naming{ type: "hidden", value: "#{current_user.ital_pos_naming}"}
         = form_with model: [team, lineup], id: 'new_lineup', local: true do |f|
@@ -416,4 +427,19 @@
         $('#' + event.target.id).css("display", "none");
       }
     }
+
+    $(".lineup-round-tab-content").hide();
+
+    $(".default-tab-item").first().addClass("default-tab-active");
+    $(".lineup-round-tab-content").first().show();
+
+    $(".default-tab-item").click(function(){
+      var listId = this.id;
+
+      $(".default-tab-item").removeClass("default-tab-active");
+      $(".lineup-round-tab-content").hide();
+
+      $("#" + listId).addClass("default-tab-active");
+      $("." + listId).show();
+    });
   });
