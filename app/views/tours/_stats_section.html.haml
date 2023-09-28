@@ -120,18 +120,18 @@
                     = t_match.guest_club.code
                 - else
                   = t_match.guest_club.code
-    - if tour.league.tournament.sofa_number.present?
-      .round-table.tournament-table.hidden-stats
-        .round-table-title-header
-          .round-table-title
-            .round-table-title-text= "📊 #{t('tours.standings')}"
-          .round-table-hide.round-table-visible
-            = image_tag('icons/arrow_up.svg')
-          .round-table-hide.round-table-hidden
-            = image_tag('icons/arrow_down.svg')
-        .round-list.table-iframe-block
-          .table-iframe
-            %iframe{ id: "sofa-standings-embed-#{tour.league.tournament.sofa_number}", src: "https://widgets.sofascore.com/embed/tournament/#{tour.league.tournament.sofa_number.split('-')[0]}/season/#{tour.league.tournament.sofa_number.split('-')[1]}/standings", style: "height:794px!important;width:100%!important;border:none;", frameborder: "0", scrolling: "no", sandbox: "allow-pointer-lock allow-scripts" }
+    -# - if tour.league.tournament.sofa_number.present?
+    -#   .round-table.tournament-table.hidden-stats
+    -#     .round-table-title-header
+    -#       .round-table-title
+    -#         .round-table-title-text= "📊 #{t('tours.standings')}"
+    -#       .round-table-hide.round-table-visible
+    -#         = image_tag('icons/arrow_up.svg')
+    -#       .round-table-hide.round-table-hidden
+    -#         = image_tag('icons/arrow_down.svg')
+    -#     .round-list.table-iframe-block
+    -#       .table-iframe
+    -#         %iframe{ id: "sofa-standings-embed-#{tour.league.tournament.sofa_number}", src: "https://widgets.sofascore.com/embed/tournament/#{tour.league.tournament.sofa_number.split('-')[0]}/season/#{tour.league.tournament.sofa_number.split('-')[1]}/standings", style: "height:794px!important;width:100%!important;border:none;", frameborder: "0", scrolling: "no", sandbox: "allow-pointer-lock allow-scripts" }
 
   - if tour.fanta?
     .round-table
