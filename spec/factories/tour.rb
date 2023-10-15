@@ -21,24 +21,24 @@ FactoryBot.define do
       status { :postponed }
     end
 
-    factory :serie_a_tour do
-      league factory: %i[league serie_a_league]
+    factory :italy_tour do
+      league factory: %i[league italy_league]
     end
 
-    factory :epl_tour do
-      league factory: %i[league epl_league]
+    factory :england_tour do
+      league factory: %i[league england_league]
     end
 
-    factory :bundes_tour do
-      league factory: %i[league bundes_league]
+    factory :germany_tour do
+      league factory: %i[league germany_league]
     end
 
-    factory :laliga_tour do
-      league factory: %i[league laliga_league]
+    factory :spain_tour do
+      league factory: %i[league spain_league]
     end
 
-    factory :ligue1_tour do
-      league factory: %i[league ligue1_league]
+    factory :france_tour do
+      league factory: %i[league france_league]
     end
 
     factory :euro_tour do

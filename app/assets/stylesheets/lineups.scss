@@ -179,7 +179,7 @@
     padding-top: 96px;
     height: 100%;
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 3fr 2fr;
 
     .module-section {
       background-color: #4EAD57;
@@ -262,41 +262,43 @@
         }
       }
 
-      .squad-rules {
-        text-align: center;
-        margin: 48px auto;
-        font-weight: 500;
-        font-size: 18px;
-        line-height: 24px;
+      .lineup-round-data {
+        margin: 32px 48px;
 
-        .squad-minimum-rule {
-          margin-bottom: 18px;
-        }
-      }
-
-      .round-matches {
-        a {
-          cursor: auto;
+        .default-tab-item {
+          width: 100%;
         }
 
-        .round-tournament-match {
-          border-bottom: 1px solid rgba(24, 23, 21, 0.2);
-          grid-template-columns: 1fr 64px 1fr;
-          column-gap: 12px;
+        .round-matches {
+          padding-top: 16px;
 
-          .round-tournament-match-team {
-            padding: 11px 0;
+          a {
+            cursor: auto;
           }
 
-          .round-tournament-match-cell {
-            height: 70px;
-          }
+          .round-tournament-match {
+            border-bottom: 1px solid rgba(24, 23, 21, 0.2);
+            grid-template-columns: 1fr 64px 1fr;
+            column-gap: 12px;
 
-          .round-tournament-match-cell-result {
-            padding: 15px 5px;
-            color: #181715;
-            text-align: center;
+            .round-tournament-match-team {
+              padding: 11px 0;
+            }
+
+            .round-tournament-match-cell {
+              height: 70px;
+            }
+
+            .round-tournament-match-cell-result {
+              padding: 15px 5px;
+              color: #181715;
+              text-align: center;
+            }
           }
+        }
+
+        .standings {
+          padding-top: 24px;
         }
       }
     }
@@ -306,13 +308,36 @@
       background-color: #FFFFFF;
 
       .main-players-title, .reserve-players-title {
+        font-family: 'Nunito ExtraBold';
         font-size: 24px;
         line-height: 32px;
-        padding-bottom: 24px;
+        padding-bottom: 16px;
       }
 
       .reserve-players-title {
         padding: 32px 0 16px;
+      }
+
+      .main-conditions {
+        margin-bottom: 32px;
+
+        .main-conditions-title {
+          font-family: 'Nunito Medium';
+          font-size: 12px;
+          line-height: 16px;
+          text-transform: uppercase;
+          margin-bottom: 8px;
+        }
+
+        li {
+          font-family: 'Nunito SemiBold';
+          padding: 4px;
+          color: #A6A2A2;
+          font-size: 14px;
+          line-height: 16px;
+          left: -18px;
+          position: relative;
+        }
       }
     }
   }

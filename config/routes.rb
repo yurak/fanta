@@ -52,6 +52,8 @@ Rails.application.routes.draw do
     resources :substitutes, only: [:new, :create, :destroy]
   end
 
+  resources :slots, only: [:index]
+
   resources :teams, only: [:show, :edit, :update, :new, :create] do
     resources :lineups, only: [:show, :new, :create, :edit, :update] do
       collection { get :clone }
@@ -60,7 +62,9 @@ Rails.application.routes.draw do
     resources :player_teams, only: [:edit, :update]
   end
 
-  resources :tournaments, only: [:show]
+  resources :tournaments, only: [:show] do
+    resources :divisions, only: [:index]
+  end
 
   resources :tours, only: [:show, :update] do
     get :inject_scores, on: :member

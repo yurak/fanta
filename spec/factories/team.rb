@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :team do
-    sequence(:name) { |i| "#{FFaker::Internet.slug[0...11]}#{i}" }
+    sequence(:name) { |i| "#{FFaker::Internet.slug[0...10]}#{i}" }
     human_name { name }
     sequence(:code) { |i| "#{FFaker::Internet.slug[0...2]}#{i.to_s[0]}" }
 

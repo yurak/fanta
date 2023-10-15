@@ -31,16 +31,19 @@ namespace :tours do
     end
   end
 
+  # rake tours:create_ecl
   desc 'Create tours for Champions League'
   task create_ecl: :environment do
-    tournament = Tournament.find_by(code: Scores::Injectors::Strategy::ECL)
+    tournament = Tournament.find_by(code: Scores::Injectors::Strategy::EUROPE_CL)
     league = tournament.leagues.last
     tournament.tournament_rounds.where(season: Season.last).each do |round|
       first_match = round.tournament_matches.first
       next unless first_match
 
       deadline = DateTime.parse("#{first_match.date} #{first_match.time}") - 90.minutes
-      Tour.create(tournament_round: round, league: league, number: round.number, deadline: deadline)
+      round.update(deadline: deadline)
+
+      Tour.create(tournament_round: round, league: league, number: round.number)
     end
   end
 end

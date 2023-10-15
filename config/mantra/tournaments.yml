@@ -1,24 +1,24 @@
-serie_a:
-  name: 'Serie A'
+italy:
+  name: 'Italy'
   eurocup: false
-epl:
-  name: 'Premier League'
+england:
+  name: 'England'
   eurocup: false
-bundesliga:
-  name: 'Bundesliga'
+germany:
+  name: 'Germany'
   eurocup: false
-ligue_1:
-  name: 'Ligue 1'
+france:
+  name: 'France'
   eurocup: false
-laliga:
-  name: 'LaLiga'
+spain:
+  name: 'Spain'
   eurocup: false
-liga:
-  name: 'Liga'
+ukraine:
+  name: 'Ukraine'
   eurocup: false
 euro:
-  name: 'Euro 2020'
+  name: 'Euro 2024'
   eurocup: false
-champions_league:
-  name: 'Champions League'
+europe:
+  name: 'Europe CL'
   eurocup: true

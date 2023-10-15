@@ -13,24 +13,24 @@ FactoryBot.define do
       cloning_status { :cloneable }
     end
 
-    trait :serie_a_league do
-      tournament { Tournament.find_by(code: 'serie_a') }
+    trait :italy_league do
+      tournament { Tournament.find_by(code: 'italy') }
     end
 
-    trait :epl_league do
-      tournament { Tournament.find_by(code: 'epl') }
+    trait :england_league do
+      tournament { Tournament.find_by(code: 'england') }
     end
 
-    trait :bundes_league do
-      tournament { Tournament.find_by(code: 'bundesliga') }
+    trait :germany_league do
+      tournament { Tournament.find_by(code: 'germany') }
     end
 
-    trait :laliga_league do
-      tournament { Tournament.find_by(code: 'laliga') }
+    trait :spain_league do
+      tournament { Tournament.find_by(code: 'spain') }
     end
 
-    trait :ligue1_league do
-      tournament { Tournament.find_by(code: 'ligue_1') }
+    trait :france_league do
+      tournament { Tournament.find_by(code: 'france') }
     end
 
     trait :euro_league do

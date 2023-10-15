@@ -88,7 +88,7 @@
               .players-list-cell.players-list-rating
                 = rp.result_score
               .players-list-cell.center.team-image
-                %object{data: rp.club.logo_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
+                %object{data: rp.club&.logo_path || rp.player.club.logo_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
                   = image_tag('default_logo.png')
               - if tournament.national?
                 .players-list-cell.center.team-image

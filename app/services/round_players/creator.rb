@@ -10,7 +10,8 @@ module RoundPlayers
       return false unless tournament_round
 
       tournament_players.each do |player|
-        RoundPlayer.find_or_create_by(tournament_round: tournament_round, player: player, club: player.club)
+        round_player = RoundPlayer.find_or_create_by(tournament_round: tournament_round, player: player)
+        round_player.update(club: player.club)
       end
     end
 

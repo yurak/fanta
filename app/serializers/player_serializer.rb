@@ -1,5 +1,5 @@
 class PlayerSerializer < ActiveModel::Serializer
-  attributes :avatar_path, :classic_positions, :club_code, :club_logo, :club_name, :first_name, :id, :kit_path,
+  attributes :avatar_path, :classic_positions, :club_code, :club_color, :club_logo, :club_name, :first_name, :id, :kit_path,
              :leagues, :name, :national_kit_path, :national_team_name,
              :position_arr, :position_classic_arr, :position_names, :stats_price
 
@@ -9,6 +9,10 @@ class PlayerSerializer < ActiveModel::Serializer
 
   def club_code
     object.club&.code
+  end
+
+  def club_color
+    object.club&.color
   end
 
   def club_logo

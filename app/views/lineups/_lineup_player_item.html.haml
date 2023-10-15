@@ -8,7 +8,7 @@
         = image_tag('kit_small_default.png')
   .modal-player-data
     .player-positions
-      - player.player_positions.includes(:position).each do |player_position|
+      - player.player_positions.each do |player_position|
         .position-item{class: "position-item-#{player_position.position.name}"}
           = position_name(player_position.position)
   -#  .player-score

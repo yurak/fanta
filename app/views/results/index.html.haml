@@ -8,7 +8,6 @@
       .table-block
         .default-headers.table-grid.national-grid
           .default-header-cell
-          .default-header-cell
           .default-header-cell= t('table.team')
           .default-header-cell= t('table.rounds')
           .default-header-cell
@@ -30,8 +29,7 @@
                 .table-header-dropdown
                   = image_tag('icons/dropdown.svg', class: 'filter-grey')
         - @results.each_with_index do |result, i|
-          .table-team-item.table-grid.national-grid
-            .table-team-param.table-team-prize{ class: "place#{i}" }
+          .table-team-item.table-grid.national-grid.national-table-item
             .table-team-param.center= i+1
             .table-team-param.table-team-data
               = link_to team_path(result.team) do
@@ -46,12 +44,16 @@
             .table-team-param.table-team-points
               = result.total_score.round(2)
             .table-team-param
-              = result.team.best_lineup&.total_score
+              = result.best_lineup.round(2)
     - else
+      .divisions-link
+        = link_to tournament_divisions_path(league.tournament) do
+          .divisions-link-text= '📊 Divisions' #t('auction_round.transfers')
+          .divisions-link-icon
+            = image_tag('icons/arrow_blue.svg')
       .table-block
         .default-headers.table-grid
           .default-header-cell.table-header-cell-first
-          .default-header-cell
           .default-header-cell= t('table.team')
           .default-header-cell= t('table.games')
           .default-header-cell= t('table.wins')
@@ -68,8 +70,8 @@
               = t('table.next')
         - @results.each_with_index do |result, i|
           .table-team-item.table-grid
-            .table-team-param.table-team-prize{ class: "place#{i}" }
-            .table-team-param.center= i+1
+            .table-team-param.center{class: "promotion-#{ i < league.promotion} relegation-#{ i >= (league.results.count - league.relegation)}"}
+              = i+1
             .table-team-param.table-team-data
               = link_to team_path(result.team) do
                 .results-team-logo

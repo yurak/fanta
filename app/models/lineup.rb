@@ -23,10 +23,12 @@ class Lineup < ApplicationRecord
   MAX_AVG_DEF_SCORE = 7
   DEF_BONUS_STEP = 0.25
   MAX_PLAYED_PLAYERS = 11
+  MAX_FANTA_PLAYERS = 16
   MAX_PLAYERS = 20
 
   def total_score
     return final_score unless final_score.zero?
+    return final_score if tour.fanta?
 
     current_score
   end
@@ -80,7 +82,7 @@ class Lineup < ApplicationRecord
 
   def players_count
     if tour.fanta?
-      MAX_PLAYED_PLAYERS
+      MAX_FANTA_PLAYERS
     else
       tour.expanded? ? team&.players&.count : MAX_PLAYERS
     end

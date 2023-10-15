@@ -9,10 +9,10 @@ class RoundPlayer < ApplicationRecord
   has_many :in_subs, foreign_key: 'in_rp_id', class_name: 'Substitute', dependent: :destroy, inverse_of: :in_rp
   has_many :out_subs, foreign_key: 'out_rp_id', class_name: 'Substitute', dependent: :destroy, inverse_of: :out_rp
 
-  delegate :club, :first_name, :fotmob_id, :full_name, :full_name_reverse, :national_team, :name, :position_names,
+  delegate :first_name, :fotmob_id, :full_name, :full_name_reverse, :national_team, :name, :position_names,
            :positions, :pseudo_name, :teams, to: :player, allow_nil: true
 
-  default_scope { includes([:tournament_round, { player: %i[club player_positions positions] }]) }
+  default_scope { includes([:club, :tournament_round, { player: %i[club player_positions positions] }]) }
 
   scope :by_tournament_round, ->(tournament_round_id) { where(tournament_round: tournament_round_id) }
   scope :by_club, ->(club_id) { joins(:player).where(players: { club_id: club_id }) }
@@ -56,12 +56,12 @@ class RoundPlayer < ApplicationRecord
   end
 
   def club_played_match?
-    TournamentMatch.by_club_and_t_round(club.id, tournament_round.id).first&.host_score.present? ||
+    TournamentMatch.by_club_and_t_round(club_id || player.club.id, tournament_round.id).first&.host_score.present? ||
       NationalMatch.by_team(national_team&.id).by_t_round(tournament_round.id).first&.host_score.present?
   end
 
   def another_tournament?
-    club.archived? || (club.tournament != tournament_round.tournament)
+    player.club.archived? || (player.club.tournament != tournament_round.tournament)
   end
 
   def appearances

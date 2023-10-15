@@ -84,7 +84,9 @@ class LineupsController < ApplicationController
       next unless params[:lineup][:match_players_attributes][k][:round_player_id]
 
       player = Player.find(params[:lineup][:match_players_attributes][k][:round_player_id])
-      round_player = RoundPlayer.find_or_create_by(tournament_round: tour.tournament_round, player: player, club: player.club)
+
+      round_player = RoundPlayer.find_or_create_by(tournament_round: tour.tournament_round, player: player)
+      round_player.update(club: player.club) if round_player.club_id != player.club_id
       params[:lineup][:match_players_attributes][k][:round_player_id] = round_player.id
     end
   end

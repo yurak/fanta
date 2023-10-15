@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_07_27_150740) do
+ActiveRecord::Schema.define(version: 2023_09_26_165036) do
 
   create_table "article_tags", force: :cascade do |t|
     t.string "name", default: "", null: false
@@ -114,6 +114,8 @@ ActiveRecord::Schema.define(version: 2023_07_27_150740) do
     t.integer "cloning_status", default: 0, null: false
     t.integer "auction_type", default: 0, null: false
     t.integer "division_id"
+    t.integer "promotion", default: 0, null: false
+    t.integer "relegation", default: 0, null: false
     t.index ["name"], name: "index_leagues_on_name", unique: true
     t.index ["season_id"], name: "index_leagues_on_season_id"
   end
@@ -296,6 +298,7 @@ ActiveRecord::Schema.define(version: 2023_07_27_150740) do
     t.integer "league_id"
     t.decimal "total_score", default: "0.0", null: false
     t.text "history", default: "[]"
+    t.decimal "best_lineup", default: "0.0", null: false
     t.index ["league_id"], name: "index_results_on_league_id"
     t.index ["team_id"], name: "index_results_on_team_id"
   end
@@ -429,6 +432,7 @@ ActiveRecord::Schema.define(version: 2023_07_27_150740) do
     t.string "short_name"
     t.string "icon"
     t.integer "source_id"
+    t.string "sofa_number", default: "", null: false
     t.index ["code"], name: "index_tournaments_on_code", unique: true
   end
 

@@ -16,7 +16,7 @@ namespace :tm do
 
         players.each do |player_data|
           # player_name = player_data.children.first.attributes['title'].value
-          href = player_data.children.first.attributes['href'].value
+          href = player_data.children[1].attributes['href'].value
           player_url = "https://www.transfermarkt.com#{href}"
           player = Player.find_by(tm_id: href.split('/').last)
 
@@ -52,7 +52,7 @@ namespace :tm do
           end
         end
 
-        sleep(10)
+        sleep(5)
       end
     end
   end

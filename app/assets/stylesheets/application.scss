@@ -22,6 +22,7 @@
 @import "auction_rounds";
 @import "clubs";
 @import "devise";
+@import "divisions";
 @import "footer";
 @import "header";
 @import "join_requests";
@@ -1285,6 +1286,15 @@ body, html {
           text-overflow: ellipsis;
         }
 
+        .modal-player-first-name {
+          height: 18px;
+          line-height: 18px;
+          font-size: 14px;
+          white-space: nowrap;
+          overflow: hidden !important;
+          text-overflow: ellipsis;
+        }
+
         .modal-player-club {
           line-height: 18px;
           font-size: 14px;
@@ -1348,6 +1358,7 @@ body, html {
 .stats-section {
   background-color: #FFFFFF;
   border-left: 1px solid #E5E6E4;
+  padding-bottom: 32px;
 
   .round-table {
     background-color: #FFFFFF;
@@ -1358,6 +1369,13 @@ body, html {
       display: grid;
       grid-template-columns: auto 24px;
       column-gap: 8px;
+    }
+
+    .round-tournament-header {
+      padding: 16px 0;
+      color: #847577;
+      font-size: 14px;
+      line-height: 16px;
     }
 
     .round-table-title-text, .round-table-title-icon {
@@ -1573,6 +1591,30 @@ body, html {
           height: 20px;
         }
       }
+    }
+
+    .table-iframe-block {
+      .table-iframe {
+        margin-left: -8px;
+        width: 288px;
+      }
+    }
+  }
+
+  .hidden-stats {
+    border-bottom: none;
+    padding: 8px 16px;
+
+    .round-list {
+      display: none;
+    }
+
+    .round-table-visible {
+      display: none;
+    }
+
+    .round-table-hidden {
+      display: block;
     }
   }
 }
