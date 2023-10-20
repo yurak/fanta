@@ -40,8 +40,12 @@
   ],
   "devDependencies": {
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.11",
+    "@types/react": "^18.2.31",
+    "@types/react-dom": "^18.2.14",
     "react-refresh": "^0.14.0",
     "sass-loader": "^13.3.2",
+    "ts-loader": "^9.5.0",
+    "typescript": "^5.2.2",
     "webpack-dev-server": "4"
   }
 }
