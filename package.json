@@ -5,12 +5,23 @@
     "@babel/core": "7",
     "@babel/plugin-transform-runtime": "7",
     "@babel/preset-env": "7",
+    "@babel/preset-react": "^7.22.15",
     "@babel/runtime": "7",
     "@types/babel__core": "7",
     "@types/webpack": "5",
     "babel-loader": "8",
+    "babel-plugin-macros": "^3.1.0",
+    "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
     "compression-webpack-plugin": "9",
+    "css-loader": "^6.8.1",
+    "css-minimizer-webpack-plugin": "^5.0.1",
+    "mini-css-extract-plugin": "^2.7.6",
+    "prop-types": "^15.8.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-on-rails": "13.4.0",
     "shakapacker": "7.1.0",
+    "style-loader": "^3.3.3",
     "terser-webpack-plugin": "5",
     "webpack": "5",
     "webpack-assets-manifest": "5",
@@ -27,6 +38,8 @@
     "defaults"
   ],
   "devDependencies": {
+    "@pmmmwh/react-refresh-webpack-plugin": "^0.5.11",
+    "react-refresh": "^0.14.0",
     "webpack-dev-server": "4"
   }
 }
