@@ -39,6 +39,8 @@ gem 'telegram-bot'
 gem 'time_difference'
 gem 'uglifier', '>= 1.3.0'
 gem 'whenever', require: false
+gem "shakapacker", "= 7.1"
+gem "react_on_rails", "= 13.4"
 
 group :development, :test do
   gem 'pry-rails'
