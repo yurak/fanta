@@ -1,4 +1,6 @@
+$color: green;
+
 .bright {
-  color: green;
+  color: $color;
   font-weight: bold;
 }

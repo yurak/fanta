@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import React, { useState, useEffect } from "react";
-import style from "./HelloWorld.module.css";
+import style from "./HelloWorld.module.scss";
 
 const HelloWorld = (props) => {
   const [name, setName] = useState(props.name);
