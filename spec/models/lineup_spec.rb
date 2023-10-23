@@ -105,6 +105,14 @@ RSpec.describe Lineup do
         expect(lineup_team_score_seven.goals).to eq(2)
       end
     end
+
+    context 'with lineup final_goals' do
+      let(:lineup_team) { create(:lineup, :with_match_players, final_goals: 3) }
+
+      it 'returns final_goals' do
+        expect(lineup_team.goals).to eq(3)
+      end
+    end
   end
 
   describe '#match' do
