@@ -17,6 +17,6 @@
     "moduleResolution": "Node",
     "skipLibCheck": true
   },
-  "include": ["./app/javascript/**/*"],
+  "include": ["./app/frontend/**/*"],
   "exclude": ["node_modules/**/*"]
 }
