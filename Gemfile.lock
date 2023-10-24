@@ -161,6 +161,7 @@ GEM
     ffi (1.15.5)
     flag-icons-rails (3.4.6.1)
       sass-rails
+    glob (0.4.0)
     globalid (1.1.0)
       activesupport (>= 5.0)
     haml (5.2.2)
@@ -178,6 +179,9 @@ GEM
     httpclient (2.8.3)
     i18n (1.14.1)
       concurrent-ruby (~> 1.0)
+    i18n-js (4.2.3)
+      glob (>= 0.4.0)
+      i18n
     jbuilder (2.11.5)
       actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
@@ -501,6 +505,7 @@ DEPENDENCIES
   ffaker
   flag-icons-rails
   haml-rails (~> 2.0)
+  i18n-js
   jbuilder (~> 2.5)
   jquery-rails (~> 4.4.0)
   kaminari
