@@ -115,6 +115,28 @@ RSpec.describe Lineup do
     end
   end
 
+  describe '#live_goals' do
+    context 'when total_score less than minimum' do
+      it 'returns zero' do
+        expect(lineup_team_score_five.live_goals).to eq(0)
+      end
+    end
+
+    context 'when total_score more than minimum' do
+      it 'returns goals number' do
+        expect(lineup_team_score_seven.live_goals).to eq(2)
+      end
+    end
+
+    context 'with lineup final_goals' do
+      let(:lineup_team) { create(:lineup, :with_match_players, final_goals: 3) }
+
+      it 'returns live goals' do
+        expect(lineup_team.live_goals).to eq(0)
+      end
+    end
+  end
+
   describe '#match' do
     it 'returns lineup match' do
       expect(lineup.match.class).to eq(Match)
