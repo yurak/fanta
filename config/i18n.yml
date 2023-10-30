@@ -2,7 +2,7 @@
 <% group = "{en,ua}" %>
 
 translations:
-  - file: app/frontend/locales.json
+  - file: app/frontend/locales/locales.json
     patterns:
       - "<%= group %>.*"
       - "!*.devise"
