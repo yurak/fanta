@@ -9,6 +9,9 @@
       .reservists-header{title: 'Scored penalty / Caught penalty'} SP/CP
       .reservists-header{title: 'Failed penalty / Missed penalty'} FP/MP
       .reservists-header{title: 'Assists'} A
+      .reservists-header{title: 'Saves'} Sav
+      .reservists-header{title: 'Conceded Penalty'} ConP
+      .reservists-header{title: 'Penalties won'} PW
       .reservists-header{title: 'Yellow card'} YC
       .reservists-header{title: 'Red card'} RC
       .reservists-header{title: 'Cleansheet'} CS
@@ -49,6 +52,12 @@
               = rp_f.number_field :failed_penalty, in: 0..9, step: 1, class: 'form-control'
           .reservist-param
             = rp_f.number_field :assists, in: 0..9, step: 1, class: 'form-control'
+          .reservist-param
+            = rp_f.number_field :saves, in: 0..99, step: 1, class: 'form-control'
+          .reservist-param
+            = rp_f.number_field :conceded_penalty, in: 0..9, step: 1, class: 'form-control'
+          .reservist-param
+            = rp_f.number_field :penalties_won, in: 0..9, step: 1, class: 'form-control'
           .reservist-param
             = rp_f.check_box :yellow_card, {'data-toggle' => 'toggle', 'data-onstyle' => 'warning', 'data-on' => 'Yes', 'data-off' => 'No', 'data-size' => 'small', 'data-height' => '38'}
           .reservist-param
