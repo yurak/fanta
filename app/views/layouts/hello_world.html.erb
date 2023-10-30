@@ -3,6 +3,9 @@
   <head>
     <title>ReactOnRailsWithShakapacker</title>
     <%= csrf_meta_tags %>
+    <script type="text/javascript">
+      var i18nLocale = "<%= I18n.locale %>";
+    </script>
     <%= javascript_pack_tag 'hello-world-bundle' %>
     <%= stylesheet_pack_tag 'hello-world-bundle' %>
   </head>
