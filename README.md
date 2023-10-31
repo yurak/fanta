@@ -24,3 +24,9 @@ gem install bundler
 bundle install
 rails db:setup
 ```
+
+### Start & watch
+
+```
+./bin/dev
+```
