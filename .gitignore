@@ -41,8 +41,8 @@ coverage/
 # Ignore application configuration
 /config/application.yml
 
-/public/packs
-/public/packs-test
+/public/entry
+/public/entry-test
 /node_modules
 /yarn-error.log
 yarn-debug.log*
