@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { AppProvider } from "../../providers/AppProvider";
+import { withBootstrap } from "../../bootstrap/withBootstrap";
 import style from "./HelloWorld.module.scss";
 
 interface IProps {
@@ -27,8 +27,4 @@ const HelloWorld = ({ name: defaultName }: IProps) => {
   );
 };
 
-export default (props: IProps) => (
-  <AppProvider>
-    <HelloWorld {...props} />
-  </AppProvider>
-);
+export default withBootstrap(HelloWorld);
