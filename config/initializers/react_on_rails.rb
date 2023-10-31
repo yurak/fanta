@@ -55,4 +55,6 @@ ReactOnRails.configure do |config|
   # generated directory. default is false, you can pass option at the time of individual usage or update the default
   # in the following line
   config.auto_load_bundle = false
+  
+  config.same_bundle_for_client_and_server = true
 end
