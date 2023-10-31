@@ -4,7 +4,7 @@ import { resources } from "../locales/resources";
 
 i18n.use(initReactI18next).init({
   resources,
-  lng: typeof window === "object" ? (window as any).i18nLocale : "en",
+  lng: typeof window === "object" ? window.i18nLocale : "en",
   fallbackLng: "en",
   interpolation: {
     escapeValue: false,
