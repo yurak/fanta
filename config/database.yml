@@ -23,3 +23,7 @@ test:
 production:
   <<: *default
   database: /var/www/fanta/shared/db/production.sqlite3
+
+staging:
+  <<: *default
+  database: /var/www/fanta/shared/db/staging.sqlite3

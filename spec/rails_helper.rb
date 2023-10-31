@@ -2,7 +2,6 @@ ENV['RAILS_ENV'] = 'test'
 
 require 'simplecov'
 require 'coveralls'
-Coveralls.wear!('rails')
 
 SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new(
   [
