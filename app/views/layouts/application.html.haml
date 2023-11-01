@@ -8,6 +8,10 @@
     = stylesheet_link_tag 'application', media: 'all'
     = javascript_include_tag 'application'
     = favicon_link_tag asset_path('mantra.ico')
+    %script{type: "text/javascript"}
+      var i18nLocale = "#{I18n.locale}";
+    = javascript_pack_tag 'client-bundle'
+    = stylesheet_pack_tag 'client-bundle'
     -#%script{type: "text/javascript", src: "/javascripts/lib/hotjar.js"}
   %body
     = query_diet_widget if Rails.env.development?
