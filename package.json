@@ -26,7 +26,8 @@
     "shakapacker": "7.1.0",
     "style-loader": "^3.3.3",
     "terser-webpack-plugin": "5",
-    "webpack": "5",
+    "ts-loader": "^9.5.0",
+    "webpack": "^5.89.0",
     "webpack-assets-manifest": "5",
     "webpack-cli": "4",
     "webpack-merge": "5"
@@ -46,7 +47,6 @@
     "@types/react-dom": "^18.2.14",
     "react-refresh": "^0.14.0",
     "sass-loader": "^13.3.2",
-    "ts-loader": "^9.5.0",
     "typescript": "^5.2.2",
     "webpack-dev-server": "4"
   }
