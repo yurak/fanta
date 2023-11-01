@@ -14,7 +14,7 @@ const commonOptions = {
     rules: [
       {
         test: /\.(ts|tsx)$/,
-        loader: "ts-loader",
+        loader: "sass-loader",
       },
     ],
   },
