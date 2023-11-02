@@ -59,7 +59,7 @@ production:
   compile: false
 
   # Cache manifest.json for performance
-  cache_manifest: true
+  cache_manifest: false
 
 staging:
   <<: *default
@@ -68,4 +68,4 @@ staging:
   compile: false
 
   # Cache manifest.json for performance
-  cache_manifest: true
+  cache_manifest: false
