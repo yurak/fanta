@@ -56,6 +56,7 @@ group :development do
   gem 'capistrano-rails', '~> 1.4', require: false
   gem 'capistrano-passenger', '~> 0.2.0'
   gem 'capistrano-rvm'
+  gem 'capistrano-yarn'
   gem 'listen'
   gem 'query_diet'
   gem 'web-console', '>= 3.3.0'
