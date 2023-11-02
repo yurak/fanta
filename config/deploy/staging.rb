@@ -1,8 +1,8 @@
 # cap staging deploy BRANCH=staging
 
-role :app, %w{ubuntu@54.246.29.19}
-role :web, %w{ubuntu@54.246.29.19}
-role :db, %w{ubuntu@54.246.29.19}
+role :app, %w{ubuntu@52.212.43.168}
+role :web, %w{ubuntu@52.212.43.168}
+role :db, %w{ubuntu@52.212.43.168}
 set :ssh_options, {
   keys: %w(~/.ssh/mantrakey.pem),
   forward_agent: false,
