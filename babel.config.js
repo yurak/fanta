@@ -8,7 +8,6 @@ module.exports = function (api) {
 
   const changesOnDefault = {
     presets: [
-      "@babel/preset-typescript",
       [
         '@babel/preset-react',
         {
