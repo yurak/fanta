@@ -46,7 +46,6 @@
     "defaults"
   ],
   "devDependencies": {
-    "@babel/preset-typescript": "^7.23.2",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.11",
     "react-refresh": "^0.14.0",
     "typescript": "^5.2.2",
