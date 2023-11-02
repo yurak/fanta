@@ -8,7 +8,7 @@ import { resources } from "../locales/resources";
 import { AppProvider } from "./AppProvider";
 
 export const withBootstrap =
-  <T extends Record<string, any>>(
+  <T extends Record<string, unknown>>(
     Component: React.ComponentType<T>
   ): ReactComponentOrRenderFunction =>
   (props: T, railsContext: RailsContext) => {
