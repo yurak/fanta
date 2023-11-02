@@ -3,11 +3,7 @@ import { useTranslation } from "react-i18next";
 import { withBootstrap } from "../../bootstrap/withBootstrap";
 import style from "./HelloWorld.module.scss";
 
-interface IProps {
-  name: string;
-}
-
-const HelloWorld = ({ name: defaultName }: IProps) => {
+const HelloWorld = ({ name: defaultName }: { name: string }) => {
   const { t } = useTranslation();
 
   const [name, setName] = useState(defaultName);
