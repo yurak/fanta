@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { withBootstrap } from "../../bootstrap/withBootstrap";
 import style from "./HelloWorld.module.scss";
 
-interface IProps extends Record<string, unknown> {
+interface IProps {
   name: string;
 }
 
