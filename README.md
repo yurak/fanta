@@ -22,6 +22,7 @@ This is fantasy football application.
 ```
 gem install bundler
 bundle install
+yarn install
 rails db:setup
 ```
 
