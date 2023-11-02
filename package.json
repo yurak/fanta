@@ -8,6 +8,8 @@
     "@babel/preset-react": "^7.22.15",
     "@babel/runtime": "7",
     "@types/babel__core": "7",
+    "@types/react": "^18.2.31",
+    "@types/react-dom": "^18.2.14",
     "@types/webpack": "5",
     "babel-loader": "8",
     "babel-plugin-macros": "^3.1.0",
@@ -45,8 +47,6 @@
   ],
   "devDependencies": {
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.11",
-    "@types/react": "^18.2.31",
-    "@types/react-dom": "^18.2.14",
     "react-refresh": "^0.14.0",
     "typescript": "^5.2.2",
     "webpack-dev-server": "4"
