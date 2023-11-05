@@ -23,6 +23,12 @@ class League < ApplicationRecord
 
   scope :by_tournament, ->(tournament_id) { where(tournament: tournament_id) }
   scope :with_division, -> { where.not(division: { id: nil }) }
+  scope :viewable, -> { active.or(archived) }
+  scope :serial, lambda {
+    includes(:division, :results, :season, :teams, :tournament, :tours)
+      .order('season_id DESC, tournament_id ASC')
+      .order(Arel.sql('CASE WHEN division_id IS NULL THEN 1 ELSE 0 END, division_id ASC'))
+  }
 
   def active_tour
     tours&.active&.first || tours.inactive&.first
