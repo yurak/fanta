@@ -12,7 +12,6 @@ const Search = ({
   placeholder?: string;
 }) => {
   const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
-    event.preventDefault();
     onChange(event.target.value);
   };
 
