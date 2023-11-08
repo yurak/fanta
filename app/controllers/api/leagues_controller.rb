@@ -5,9 +5,8 @@ module Api
     respond_to :json
 
     def index
-      active_leagues = League.active.serial.map { |l| LeagueSerializer.new(l) }
-      active_tournaments = Tournament.active.map { |t| TournamentSerializer.new(t) }
-      render json: { leagues: active_leagues, tournaments: active_tournaments }
+      leagues = League.serial.map { |l| LeagueSerializer.new(l) }
+      render json: { data: leagues }
     end
   end
 end
