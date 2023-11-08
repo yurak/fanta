@@ -1,7 +1,11 @@
 class TournamentSerializer < ActiveModel::Serializer
-  attributes :id, :logo_path, :name, :leagues
+  attributes :id
+  attributes :icon
+  attributes :logo
+  attributes :name
+  attributes :short_name
 
-  def leagues
-    object.leagues.viewable.serial.map { |l| LeagueSerializer.new(l) }
+  def logo
+    ActionController::Base.helpers.asset_path(object.logo_path)
   end
 end

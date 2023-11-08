@@ -1,6 +1,18 @@
 class LeagueSerializer < ActiveModel::Serializer
-  attributes :id, :division, :leader, :name, :round, :season_end_year, :season_start_year, :status,
-             :teams_count, :tournament_logo, :tournament_name
+  include Rails.application.routes.url_helpers
+  include LeaguesHelper
+
+  attributes :id
+  attributes :division
+  attributes :leader
+  attributes :link
+  attributes :name
+  attributes :round
+  attributes :season_end_year
+  attributes :season_start_year
+  attributes :status
+  attributes :teams_count
+  attributes :tournament_id
 
   def division
     object.division&.name
@@ -8,6 +20,10 @@ class LeagueSerializer < ActiveModel::Serializer
 
   def leader
     # object.leader
+  end
+
+  def link
+    league_link(object)
   end
 
   def round
@@ -24,13 +40,5 @@ class LeagueSerializer < ActiveModel::Serializer
 
   def teams_count
     object.results.count
-  end
-
-  def tournament_logo
-    object.tournament.logo_path
-  end
-
-  def tournament_name
-    object.tournament.name
   end
 end
