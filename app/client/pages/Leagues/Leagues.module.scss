@@ -1,0 +1,66 @@
+.title {
+  font-family: "Nunito ExtraBold";
+  font-size: 32px;
+  line-height: 1;
+  margin-bottom: 8px;
+}
+
+.subtitle {
+  font-size: 16px;
+  line-height: 1.5;
+  margin-bottom: 0;
+}
+
+.header {
+  --year-select-width: 124px;
+  --gap: 24px;
+
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--gap);
+  max-width: 1136px; // TODO: remove it
+}
+
+.yearSelect {
+  width: var(--year-select-width);
+}
+
+.heading {
+  flex: 0 0 calc(100% - var(--year-select-width) - var(--gap));
+}
+
+.search {
+  max-width: 718px;
+  flex: 1;
+}
+
+.finished {
+  flex: 0 0 auto;
+  align-self: center;
+}
+
+// .listHeaders {
+//   margin: 24px 0 8px;
+
+//   @media (orientation: portrait) {
+//     line-height: 80px;
+//     margin: 24px 0;
+
+//     :global(.default-header-cell) {
+//       padding: 0 24px;
+//       margin: 16px 0;
+//       font-size: 24px;
+//       line-height: 32px;
+//       height: 32px;
+//       border-right: 3px solid #e5e6e4;
+//       white-space: nowrap;
+//       overflow: hidden;
+//       text-overflow: ellipsis;
+
+//       &:last-child {
+//         border-right: none;
+//       }
+//     }
+//   }
+// }

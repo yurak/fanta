@@ -1,0 +1,72 @@
+.page-block
+  .web-header= render 'layouts/left_nav', league: nil
+  .mob-header= render 'layouts/mob_header', league: nil, title: t('header.leagues')
+  .page-info.leagues-page
+    .leagues-block-head
+      .leagues-block-head-left
+        .leagues-title= t('header.leagues')
+        .leagues-subtitle= t('league.subtitle')
+      .leagues-block-head-right
+        .archived-switcher
+    .leagues-lists
+      .default-tabs.default-vertical-tabs
+        #all_leagues.default-tab-item.default-tab-active
+          .default-tab-icon= image_tag('icons/leagues.svg')
+          .default-tab-name= t('league.active')
+        - active_tournaments.each do |tournament|
+          .default-tab-item{ id: tournament.code }
+            .default-tab-icon= image_tag("tournaments/#{tournament.code}.png")
+            .default-tab-name= tournament.short_name || tournament.name
+      .leagues-lists-content
+        .default-headers.leagues-list-headers.leagues-list-grid
+          .default-header-cell= t('league.name')
+          .default-header-cell= t('league.division')
+          .default-header-cell= t('league.season')
+          .default-header-cell.mob-hide= t('league.tournament')
+          -#.default-header-cell.mob-hide= t('league.leader')
+          .default-header-cell.mob-hide= t('league.teams')
+          .default-header-cell.mob-hide= t('league.round')
+          .default-header-cell= t('league.status')
+        - leagues.each do |league|
+          = link_to league_link(league) do
+            .leagues-list-item.leagues-list-grid{ class: "#{league.status}-status #{league.tournament.code}-league"}
+              .leagues-list-item-param.leagues-list-item-name
+                .tournament-logo= image_tag(league.tournament.logo_path)
+                .league-item-name= league.name
+              .leagues-list-item-param.center= league.division.name if league.division
+              .leagues-list-item-param.center= "#{league.season.start_year}-#{league.season.end_year}"
+              .leagues-list-item-param.mob-hide.leagues-list-tournament= league.tournament.name
+              -# TODO: optimise leader request
+              -#.leagues-list-item-param.mob-hide.leagues-list-leader
+              -#  - if league.leader
+              -#    .leader-logo= image_tag(league.leader.logo_path)
+              -#    .leader-name= league.leader.human_name
+              .leagues-list-item-param.mob-hide.leagues-list-number= league.results.count
+              .leagues-list-item-param.mob-hide.leagues-list-number= league.active_tour&.number || league.tours.count
+              .leagues-list-item-param
+                .leagues-list-status
+                  - if league.active?
+                    .league-status.league-active-status= t('league.ongoing')
+                  - if league.archived?
+                    .league-status.league-archived-status= t('league.finished')
+
+:javascript
+  $(document).ready(function() {
+    $(".archived-status").hide();
+
+    $(".default-tab-item").click(function(){
+      var listId = this.id;
+
+      $(".default-tab-item").removeClass("default-tab-active");
+      $("#" + listId).addClass("default-tab-active");
+
+      if(listId == "all_leagues") {
+        $(".leagues-list-item").show();
+        $(".archived-status").hide();
+      } else {
+        $(".leagues-list-item").hide();
+        $("." + listId + "-league").show();
+        // $(".archived-status").hide();
+      }
+    });
+  });
