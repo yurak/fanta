@@ -23,7 +23,7 @@ const Switcher = ({
           [styles.isChecked]: checked,
         })}
       />
-      {label && <span>{label}</span>}
+      {label && <span className={styles.label}>{label}</span>}
     </label>
   );
 };
