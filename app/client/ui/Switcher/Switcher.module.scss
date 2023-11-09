@@ -1,8 +1,13 @@
 .switcher {
   position: relative;
-  display: inline-flex;
+  display: flex;
+  align-items: center;
   cursor: pointer;
   gap: 16px;
+  margin-bottom: 0;
+  font-family: "Nunito Medium";
+  font-size: 14px;
+  line-height: 16px;
 
   input {
     opacity: 0;

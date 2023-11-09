@@ -37,6 +37,9 @@ const Select = <Option extends unknown, IsMulti extends boolean = false>({
           }),
         }),
       }}
+      classNames={{
+        control: () => styles.select,
+      }}
       options={options}
       isSearchable={false}
       placeholder={placeholder}
@@ -46,7 +49,7 @@ const Select = <Option extends unknown, IsMulti extends boolean = false>({
         IndicatorSeparator: null,
         DropdownIndicator: () => (
           <span className={styles.dropdownIndicator}>
-            <img src={arrowDown} />
+            <img src={arrowDown} width={10} />
           </span>
         ),
         ValueContainer: (props) => (
