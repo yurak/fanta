@@ -5,6 +5,7 @@ namespace :tours do
     tour&.set_lineup!
   end
 
+  # rake tours:lock_deadline
   desc 'Lock tours after deadline'
   task lock_deadline: :environment do
     League.active.each do |league|
