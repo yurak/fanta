@@ -2,15 +2,26 @@
   font-family: "Nunito ExtraBold";
   display: flex;
   font-size: 16px;
-  line-height: 24px;
+  line-height: 1.5;
   text-align: center;
   border-bottom: 1px solid #e5e6e4;
+  overflow: auto;
+
+  @media (max-width: 768px) {
+    font-size: 14px;
+  }
 }
 
 .item {
   padding: 16px 16px 12px;
   min-width: 80px;
   cursor: pointer;
+  flex: 0 0 auto;
+
+  @media (max-width: 768px) {
+    min-width: 60px;
+    padding: 12px 12px 8px;
+  }
 }
 
 .activeItem {
