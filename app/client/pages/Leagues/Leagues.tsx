@@ -1,18 +1,18 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 // import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import calendarIcon from "../../../assets/images/icons/calendar.svg";
-// import cn from "classnames";
 import { withBootstrap } from "../../bootstrap/withBootstrap";
 import { ILeague } from "../../interfaces/League";
 import { ITournament } from "../../interfaces/Tournament";
 import Search from "../../ui/Search";
 import Switcher from "../../ui/Switcher";
 import Select from "../../ui/Select";
+import Tabs, { ITab } from "../../ui/Tabs";
 import styles from "./Leagues.module.scss";
 
 // const getLeagueLink = (league: ILeague): string => `/tours/${league.id}`;
-// const getAssetsLink = (path: string) => `/assets/${path}`;
+const getAssetsLink = (path: string) => `/assets/${path}`;
 
 interface YearOption {
   value: string;
@@ -33,11 +33,32 @@ const LeaguesPage = ({
     { value: "19/20", label: "19/20" },
   ];
 
+  const [activeLeague, setActiveLeague] = useState<"all" | number>("all");
   const [search, setSearch] = useState("");
   const [showFinished, setShowFinished] = useState(false);
   const [selectedYear, setSelectedYear] = useState<YearOption | null>(yearOptions[1] as YearOption);
 
   const { t } = useTranslation();
+
+  type LeagueTab = ITab<typeof activeLeague> & { count: number };
+
+  const leaguesTabs: LeagueTab[] = useMemo(
+    () => [
+      {
+        id: "all",
+        name: t("league.all"),
+        icon: <img src={getAssetsLink("icons/leagues.svg")} alt="" />,
+        count: 543,
+      },
+      ...active_tournaments.map((tournament) => ({
+        id: tournament.id,
+        name: tournament.short_name ?? tournament.name,
+        icon: <img src={getAssetsLink(`tournaments/${tournament.code}.png`)} alt="" />,
+        count: tournament.id,
+      })),
+    ],
+    [t, active_tournaments]
+  );
 
   // const [activeTab, setActiveTab] = useState<"all" | number>("all");
 
@@ -77,36 +98,18 @@ const LeaguesPage = ({
           <Switcher checked={showFinished} onChange={setShowFinished} label="🏁️  Show finished" />
         </div>
       </div>
-      Search: {search}
-      {/* <div className="leagues-lists">
-        <div className="default-tabs default-vertical-tabs">
-          <div
-            className={cn("default-tab-item", {
-              "default-tab-active": activeTab === "all",
-            })}
-            onClick={() => setActiveTab("all")}
-          >
-            <div className="default-tab-icon">
-              <img src={getAssetsLink("icons/leagues.svg")} alt="" />
-            </div>
-            <div className="default-tab-name">{t("league.active")}</div>
-          </div>
-          {active_tournaments.map((tournament) => (
-            <div
-              key={tournament.id}
-              className={cn("default-tab-item", {
-                "default-tab-active": activeTab === tournament.id,
-              })}
-              onClick={() => setActiveTab(tournament.id)}
-            >
-              <div className="default-tab-icon">
-                <img src={getAssetsLink(`tournaments/${tournament.code}.png`)} alt="" />
-              </div>
-              <div className="default-tab-name">{tournament.short_name || tournament.name}</div>
-            </div>
-          ))}
-        </div>
-      </div> */}
+      <div style={{ marginTop: 28 }}>
+        <Tabs
+          active={activeLeague}
+          onChange={setActiveLeague}
+          tabs={leaguesTabs}
+          nameRender={(tab) => (
+            <>
+              {tab.name} ({tab.count})
+            </>
+          )}
+        />
+      </div>
     </>
   );
 };
