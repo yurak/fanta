@@ -3,13 +3,14 @@ import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import calendarIcon from "../../../assets/images/icons/calendar.svg";
 import { withBootstrap } from "../../bootstrap/withBootstrap";
-import { ILeague } from "../../interfaces/League";
-import { ITournament } from "../../interfaces/Tournament";
+// import { ILeague } from "../../interfaces/League";
+// import { ITournament } from "../../interfaces/Tournament";
 import Search from "../../ui/Search";
 import Switcher from "../../ui/Switcher";
 import Select from "../../ui/Select";
 import Tabs, { ITab } from "../../ui/Tabs";
 import styles from "./Leagues.module.scss";
+import { useTournaments } from "../../api/query/tournaments";
 
 // const getLeagueLink = (league: ILeague): string => `/tours/${league.id}`;
 const getAssetsLink = (path: string) => `/assets/${path}`;
@@ -19,13 +20,9 @@ interface YearOption {
   label: string;
 }
 
-const LeaguesPage = ({
-  leagues,
-  active_tournaments,
-}: {
-  leagues: ILeague[];
-  active_tournaments: ITournament[];
-}) => {
+const LeaguesPage = () => {
+  const tournaments = useTournaments();
+
   const yearOptions: YearOption[] = [
     { value: "22/23", label: "22/23" },
     { value: "21/22", label: "21/22" },
@@ -40,24 +37,20 @@ const LeaguesPage = ({
 
   const { t } = useTranslation();
 
-  type LeagueTab = ITab<typeof activeLeague> & { count: number };
-
-  const leaguesTabs: LeagueTab[] = useMemo(
+  const leaguesTabs: ITab<typeof activeLeague>[] = useMemo(
     () => [
       {
         id: "all",
         name: t("league.all"),
         icon: <img src={getAssetsLink("icons/leagues.svg")} alt="" />,
-        count: 543,
       },
-      ...active_tournaments.map((tournament) => ({
+      ...tournaments.data.map((tournament) => ({
         id: tournament.id,
         name: tournament.short_name ?? tournament.name,
-        icon: <img src={getAssetsLink(`tournaments/${tournament.code}.png`)} alt="" />,
-        count: tournament.id,
+        icon: <img src={tournament.logo} alt="" />,
       })),
     ],
-    [t, active_tournaments]
+    [t, tournaments.data]
   );
 
   // const [activeTab, setActiveTab] = useState<"all" | number>("all");
@@ -74,7 +67,7 @@ const LeaguesPage = ({
   //   [leagues, activeTab]
   // );
 
-  console.log({ leagues, active_tournaments, selectedYear });
+  // console.log({ leagues, active_tournaments, selectedYear });
 
   return (
     <>
@@ -99,16 +92,16 @@ const LeaguesPage = ({
         </div>
       </div>
       <div style={{ marginTop: 28 }}>
-        <Tabs
-          active={activeLeague}
-          onChange={setActiveLeague}
-          tabs={leaguesTabs}
-          nameRender={(tab) => (
-            <>
-              {tab.name} ({tab.count})
-            </>
-          )}
-        />
+        {tournaments.isLoading ? (
+          "Is loading"
+        ) : (
+          <Tabs
+            active={activeLeague}
+            onChange={setActiveLeague}
+            tabs={leaguesTabs}
+            nameRender={(tab) => <>{tab.name}</>}
+          />
+        )}
       </div>
     </>
   );
