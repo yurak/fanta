@@ -1,39 +1,68 @@
-import { useMemo, useState } from "react";
-// import { useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import calendarIcon from "../../../assets/images/icons/calendar.svg";
 import { withBootstrap } from "../../bootstrap/withBootstrap";
-// import { ILeague } from "../../interfaces/League";
-// import { ITournament } from "../../interfaces/Tournament";
+import { useTournaments } from "../../api/query/tournaments";
+import { useLeagues } from "../../api/query/leagues";
 import Search from "../../ui/Search";
 import Switcher from "../../ui/Switcher";
 import Select from "../../ui/Select";
 import Tabs, { ITab } from "../../ui/Tabs";
+import Table from "../../ui/Table";
+import calendarIcon from "../../../assets/images/icons/calendar.svg";
 import styles from "./Leagues.module.scss";
-import { useTournaments } from "../../api/query/tournaments";
 
 // const getLeagueLink = (league: ILeague): string => `/tours/${league.id}`;
 const getAssetsLink = (path: string) => `/assets/${path}`;
 
-interface YearOption {
-  value: string;
-  label: string;
-}
-
 const LeaguesPage = () => {
-  const tournaments = useTournaments();
+  const tournamentsQuery = useTournaments();
+  const leaguesQuery = useLeagues();
 
-  const yearOptions: YearOption[] = [
-    { value: "22/23", label: "22/23" },
-    { value: "21/22", label: "21/22" },
-    { value: "20/21", label: "20/21" },
-    { value: "19/20", label: "19/20" },
-  ];
+  const allLeagues = useMemo(() => {
+    const tournamentMap = new Map(
+      tournamentsQuery.data.map((tournament) => [tournament.id, tournament])
+    );
+
+    return leaguesQuery.data.map((league) => ({
+      ...league,
+      tournament: tournamentMap.get(league.tournament_id),
+    }));
+  }, [leaguesQuery.data, tournamentsQuery.data]);
+
+  const yearOptions = useMemo(() => {
+    return Object.values(
+      allLeagues.reduce((acc, league) => {
+        const uniqueKey = `${league.season_start_year}-${league.season_end_year}`;
+
+        return {
+          ...acc,
+          [uniqueKey]: {
+            startYear: league.season_start_year,
+            endYear: league.season_end_year,
+          },
+        };
+      }, {} as Record<string, { startYear: number; endYear: number }>)
+    ).map((value) => {
+      const startYearShort = value.startYear.toString().slice(-2);
+      const endYearShort = value.endYear.toString().slice(-2);
+
+      return {
+        value,
+        label: `${startYearShort}/${endYearShort}`,
+      };
+    });
+  }, [allLeagues]);
 
   const [activeLeague, setActiveLeague] = useState<"all" | number>("all");
   const [search, setSearch] = useState("");
   const [showFinished, setShowFinished] = useState(false);
-  const [selectedYear, setSelectedYear] = useState<YearOption | null>(yearOptions[1] as YearOption);
+  const [selectedSeason, setSelectedSeason] = useState<(typeof yearOptions)[0] | null>(null);
+
+  useEffect(() => {
+    if (yearOptions.length > 0 && !selectedSeason) {
+      setSelectedSeason(yearOptions[0] ?? null);
+    }
+  }, [yearOptions]);
 
   const { t } = useTranslation();
 
@@ -44,30 +73,70 @@ const LeaguesPage = () => {
         name: t("league.all"),
         icon: <img src={getAssetsLink("icons/leagues.svg")} alt="" />,
       },
-      ...tournaments.data.map((tournament) => ({
+      ...tournamentsQuery.data.map((tournament) => ({
         id: tournament.id,
         name: tournament.short_name ?? tournament.name,
         icon: <img src={tournament.logo} alt="" />,
       })),
     ],
-    [t, tournaments.data]
+    [t, tournamentsQuery.data]
   );
 
-  // const [activeTab, setActiveTab] = useState<"all" | number>("all");
+  const showActiveLeagues = useCallback(
+    (leagues: typeof allLeagues) => {
+      if (activeLeague === "all") {
+        return leagues;
+      }
 
-  // const visibleLeagues = useMemo(
-  //   () =>
-  //     leagues.filter((league) => {
-  //       if (activeTab === "all") {
-  //         return league.status === "active";
-  //       }
+      return leagues.filter((league) => league.tournament_id === activeLeague);
+    },
+    [activeLeague]
+  );
 
-  //       return league.tournament_id === activeTab;
-  //     }),
-  //   [leagues, activeTab]
-  // );
+  const toggleFinished = useCallback(
+    (leagues: typeof allLeagues) => {
+      if (showFinished) {
+        return leagues;
+      }
 
-  // console.log({ leagues, active_tournaments, selectedYear });
+      return leagues.filter((league) => league.status !== "archived");
+    },
+    [showFinished]
+  );
+
+  const searchLeague = useCallback(
+    (leagues: typeof allLeagues) => {
+      if (!search) {
+        return leagues;
+      }
+
+      const searchInLowerCase = search.toLowerCase();
+
+      return leagues.filter((league) => league.name.toLowerCase().includes(searchInLowerCase));
+    },
+    [search]
+  );
+
+  const filterBySeason = useCallback(
+    (leagues: typeof allLeagues) => {
+      if (!selectedSeason) {
+        return leagues;
+      }
+
+      return leagues.filter(
+        (league) =>
+          league.season_start_year === selectedSeason.value.startYear &&
+          league.season_end_year === selectedSeason.value.endYear
+      );
+    },
+    [selectedSeason]
+  );
+
+  const filteredLeagues = useMemo(() => {
+    return toggleFinished(filterBySeason(showActiveLeagues(searchLeague(allLeagues))));
+  }, [allLeagues, toggleFinished, showActiveLeagues, searchLeague, filterBySeason]);
+
+  const isLoading = tournamentsQuery.isLoading || leaguesQuery.isLoading;
 
   return (
     <>
@@ -78,10 +147,13 @@ const LeaguesPage = () => {
         </div>
         <div className={styles.yearSelect}>
           <Select
-            value={selectedYear}
+            value={selectedSeason}
             options={yearOptions}
             icon={<img src={calendarIcon} />}
-            onChange={(value) => setSelectedYear(value)}
+            onChange={(value) => {
+              console.log({ value });
+              return setSelectedSeason(value);
+            }}
           />
         </div>
         <div className={styles.search}>
@@ -92,7 +164,7 @@ const LeaguesPage = () => {
         </div>
       </div>
       <div style={{ marginTop: 28 }}>
-        {tournaments.isLoading ? (
+        {isLoading ? (
           "Is loading"
         ) : (
           <Tabs
@@ -103,84 +175,66 @@ const LeaguesPage = () => {
           />
         )}
       </div>
+      <div>
+        <Table
+          dataSource={filteredLeagues}
+          columns={[
+            {
+              dataKey: "tournamentLogo",
+              render: (item) => {
+                if (!item.tournament) {
+                  return null;
+                }
+
+                return <img src={item.tournament.logo} width="32" height="32" />;
+              },
+              headColSpan: 0,
+              width: 30,
+            },
+            {
+              title: t("league.name"),
+              dataKey: "name",
+              headColSpan: 2,
+              className: styles.leagueName,
+            },
+            {
+              title: t("league.season"),
+              dataKey: "season",
+              width: 112,
+              render: (item) => `${item.season_start_year} - ${item.season_end_year}`,
+              noWrap: true,
+            },
+            {
+              title: t("league.tournament"),
+              dataKey: "tournament",
+              render: (item) => item.tournament?.name ?? "",
+            },
+            {
+              title: t("league.teams"),
+              dataKey: "teams_count",
+              align: "right",
+              width: 112,
+            },
+            {
+              title: t("league.leader"),
+              dataKey: "leader",
+            },
+            {
+              title: t("league.round"),
+              dataKey: "round",
+              width: 112,
+            },
+            {
+              title: t("league.status"),
+              dataKey: "status",
+              width: 112,
+            },
+          ]}
+          rowLink={(item) => item.link}
+        />
+      </div>
     </>
   );
 };
 
 export default withBootstrap(LeaguesPage);
-
-// <div className="leagues-lists-content">
-//           <div className={cn(styles.listHeaders, "default-headers leagues-list-grid")}>
-//             <div className="default-header-cell">{t("league.name")}</div>
-//             <div className="default-header-cell">{t("league.division")}</div>
-//             <div className="default-header-cell">{t("league.season")}</div>
-//             <div className="default-header-cell mob-hide">{t("league.tournament")}</div>
-//             {/* Uncomment the line below if 'league.leader' is needed */}
-//             {/* <div className="default-header-cell mob-hide">{t('league.leader')}</div> */}
-//             <div className="default-header-cell mob-hide">{t("league.teams")}</div>
-//             <div className="default-header-cell mob-hide">{t("league.round")}</div>
-//             <div className="default-header-cell">{t("league.status")}</div>
-//           </div>
-//           {visibleLeagues.map((league) => {
-//             const leagueTournament = active_tournaments.find(
-//               (tournament) => tournament.id === league.tournament_id
-//             );
-
-//             return (
-//               <a key={league.id} href={getLeagueLink(league)}>
-//                 <div className="leagues-list-item leagues-list-grid">
-//                   <div className="leagues-list-item-param leagues-list-item-name">
-//                     <div className="tournament-logo">
-//                       {leagueTournament && (
-//                         <img
-//                           src={getAssetsLink(`tournaments/${leagueTournament.code}.png`)}
-//                           alt=""
-//                         />
-//                       )}
-//                     </div>
-//                     <div className="league-item-name">{league.name}</div>
-//                   </div>
-//                   <div className="leagues-list-item-param center">
-//                     {/* {league.division ? league.division.name : ""} */}
-//                   </div>
-//                   <div className="leagues-list-item-param center">
-//                     {/* {`${league.season.start_year}-${league.season.end_year}`} */}
-//                   </div>
-//                   <div className="leagues-list-item-param mob-hide leagues-list-tournament">
-//                     {leagueTournament?.name}
-//                   </div>
-//                   {/* Uncomment the lines below if 'league.leader' is needed */}
-//                   {/* <div className="leagues-list-item-param mob-hide leagues-list-leader">
-//                 {league.leader ? (
-//                   <>
-//                     <div className="leader-logo">
-//                       Add content for leader logo
-//                     </div>
-//                     <div className="leader-name">{league.leader.human_name}</div>
-//                   </>
-//                 ) : ''}
-//               </div> */}
-//                   <div className="leagues-list-item-param mob-hide leagues-list-number">
-//                     {/* {league.results.count} */}
-//                   </div>
-//                   <div className="leagues-list-item-param mob-hide leagues-list-number">
-//                     {/* {league.active_tour?.number || league.tours.count} */}
-//                   </div>
-//                   <div className="leagues-list-item-param">
-//                     <div className="leagues-list-status">
-//                       {/* {league.active ? (
-//               <div className="league-status league-active-status">t('league.ongoing')</div>
-//             ) : league.archived ? (
-//               <div className="league-status league-archived-status">
-//                 t('league.finished')
-//               </div>
-//             ) : (
-//               ""
-//             )} */}
-//                     </div>
-//                   </div>
-//                 </div>
-//               </a>
-//             );
-//           })}
-//         </div>
