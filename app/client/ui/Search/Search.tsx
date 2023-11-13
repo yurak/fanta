@@ -1,4 +1,4 @@
-import { ChangeEvent } from "react";
+import React from "react";
 import searchSvg from "../../../assets/images/icons/search.svg";
 import styles from "./Search.module.scss";
 
@@ -11,7 +11,7 @@ const Search = ({
   onChange: (value: string) => void;
   placeholder?: string;
 }) => {
-  const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
+  const onChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     onChange(event.target.value);
   };
 
