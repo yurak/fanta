@@ -1,18 +1,13 @@
 export interface ILeague {
-  auction_type: string;
-  cloning_status: string;
-  created_at: string;
-  division_id: number;
   id: number;
-  max_avg_def_score: string;
-  min_avg_def_score: string;
+  division: string;
+  leader: null;
+  link: string;
   name: string;
-  promotion: number;
-  relegation: number;
-  season_id: number;
+  round: null;
+  season_end_year: number;
+  season_start_year: number;
   status: string;
-  tour_difference: number;
+  teams_count: number;
   tournament_id: number;
-  transfer_status: string;
-  updated_at: string;
 }
