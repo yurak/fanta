@@ -1,0 +1,67 @@
+.table {
+  margin-top: 30px;
+  width: 100%;
+}
+
+.thead {
+  margin-bottom: 7px;
+}
+
+.td {
+  font-size: 16px;
+  line-height: 24px;
+  padding: 16px 12px;
+  color: #181715;
+  border-bottom: 1px solid #e5e6e4;
+}
+
+.th {
+  font-family: "Nunito ExtraBold";
+  color: #847577;
+  font-size: 12px;
+  line-height: 16px;
+  padding: 12px 8px;
+  letter-spacing: 0.02em;
+  position: relative;
+
+  &::after {
+    position: absolute;
+    content: "";
+    right: 0;
+    width: 1px;
+    height: 16px;
+    background-color: #e5e6e4;
+  }
+
+  &:last-child {
+    &::after {
+      display: none;
+    }
+  }
+}
+
+.tr {
+  position: relative;
+
+  &:hover {
+    .td {
+      background-color: #f4f4f4;
+    }
+  }
+}
+
+.right {
+  text-align: right;
+}
+
+.noWrap {
+  white-space: nowrap;
+}
+
+.rowLink {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+}
