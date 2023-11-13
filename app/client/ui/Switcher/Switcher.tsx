@@ -1,4 +1,4 @@
-import { ChangeEvent } from "react";
+import React from "react";
 import cn from "classnames";
 import styles from "./Switcher.module.scss";
 
@@ -11,7 +11,7 @@ const Switcher = ({
   onChange: (checked: boolean) => void;
   label?: string;
 }) => {
-  const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
+  const onChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     onChange(event.target.checked);
   };
 
@@ -23,7 +23,7 @@ const Switcher = ({
           [styles.isChecked]: checked,
         })}
       />
-      {label && <span className={styles.label}>{label}</span>}
+      {label && <span>{label}</span>}
     </label>
   );
 };
