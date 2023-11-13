@@ -81,4 +81,9 @@ Rails.application.routes.draw do
     get :new_name, on: :member
     put :new_update, on: :member
   end
+
+  namespace :api do
+    resources :leagues, only: [:index]
+    resources :tournaments, only: [:index]
+  end
 end
