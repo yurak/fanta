@@ -186,6 +186,7 @@ en:
       subtitle: "in which you want to compete"
       title: "Select the tournaments"
   league:
+    all: "All"
     subtitle: "Here you can find available leagues for registration or learn more about ongoing leagues"
     reg_open: "🍾 Registration open"
     ongoing: "🚀️ Ongoing"

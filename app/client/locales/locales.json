@@ -638,6 +638,7 @@
       }
     },
     "league": {
+      "all": "All",
       "division": "DIVISION",
       "finished": "🏁️ Finished",
       "leader": "LEADER",
@@ -1808,6 +1809,7 @@
       }
     },
     "league": {
+      "all": "Усі",
       "division": "ДИВІЗІОН",
       "finished": "🏁️ Завершена",
       "leader": "ЛІДЕР",
