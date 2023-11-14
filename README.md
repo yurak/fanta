@@ -22,6 +22,7 @@ This is fantasy football application.
 ```
 gem install bundler
 bundle install
+brew install overmind
 yarn install
 rails db:setup
 ```
