@@ -8,6 +8,7 @@ import Switcher from "../../ui/Switcher";
 import Select from "../../ui/Select";
 import Table from "../../ui/Table";
 import TournamentsTabs from "../../components/TournamentsTabs";
+import PageHeading from "../../components/PageHeading";
 import calendarIcon from "../../../assets/images/icons/calendar.svg";
 import styles from "./Leagues.module.scss";
 
@@ -121,8 +122,7 @@ const LeaguesPage = () => {
     <>
       <div className={styles.header}>
         <div className={styles.heading}>
-          <h3 className={styles.title}>{t("header.leagues")}</h3>
-          <p className={styles.subtitle}>{t("league.subtitle")}</p>
+          <PageHeading title={t("header.leagues")} description={t("league.subtitle")} />
         </div>
         <div className={styles.yearSelect}>
           <Select
