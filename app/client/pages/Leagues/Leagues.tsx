@@ -1,18 +1,15 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { withBootstrap } from "../../bootstrap/withBootstrap";
-import { useTournaments } from "../../api/query/tournaments";
-import { useLeagues } from "../../api/query/leagues";
+import { useTournaments } from "../../api/query/useTournaments";
+import { useLeagues } from "../../api/query/useLeagues";
 import Search from "../../ui/Search";
 import Switcher from "../../ui/Switcher";
 import Select from "../../ui/Select";
-import Tabs, { ITab } from "../../ui/Tabs";
 import Table from "../../ui/Table";
+import TournamentsTabs from "../../components/TournamentsTabs";
 import calendarIcon from "../../../assets/images/icons/calendar.svg";
 import styles from "./Leagues.module.scss";
-
-// const getLeagueLink = (league: ILeague): string => `/tours/${league.id}`;
-const getAssetsLink = (path: string) => `/assets/${path}`;
 
 const LeaguesPage = () => {
   const tournamentsQuery = useTournaments();
@@ -53,7 +50,7 @@ const LeaguesPage = () => {
     });
   }, [allLeagues]);
 
-  const [activeLeague, setActiveLeague] = useState<"all" | number>("all");
+  const [activeTournament, setActiveTournament] = useState<number | null>(null);
   const [search, setSearch] = useState("");
   const [showFinished, setShowFinished] = useState(false);
   const [selectedSeason, setSelectedSeason] = useState<(typeof yearOptions)[0] | null>(null);
@@ -66,31 +63,15 @@ const LeaguesPage = () => {
 
   const { t } = useTranslation();
 
-  const leaguesTabs: ITab<typeof activeLeague>[] = useMemo(
-    () => [
-      {
-        id: "all",
-        name: t("league.all"),
-        icon: <img src={getAssetsLink("icons/leagues.svg")} alt="" />,
-      },
-      ...tournamentsQuery.data.map((tournament) => ({
-        id: tournament.id,
-        name: tournament.short_name ?? tournament.name,
-        icon: <img src={tournament.logo} alt="" />,
-      })),
-    ],
-    [t, tournamentsQuery.data]
-  );
-
   const showActiveLeagues = useCallback(
     (leagues: typeof allLeagues) => {
-      if (activeLeague === "all") {
+      if (!activeTournament) {
         return leagues;
       }
 
-      return leagues.filter((league) => league.tournament_id === activeLeague);
+      return leagues.filter((league) => league.tournament_id === activeTournament);
     },
-    [activeLeague]
+    [activeTournament]
   );
 
   const toggleFinished = useCallback(
@@ -136,8 +117,6 @@ const LeaguesPage = () => {
     return toggleFinished(filterBySeason(showActiveLeagues(searchLeague(allLeagues))));
   }, [allLeagues, toggleFinished, showActiveLeagues, searchLeague, filterBySeason]);
 
-  const isLoading = tournamentsQuery.isLoading || leaguesQuery.isLoading;
-
   return (
     <>
       <div className={styles.header}>
@@ -150,10 +129,7 @@ const LeaguesPage = () => {
             value={selectedSeason}
             options={yearOptions}
             icon={<img src={calendarIcon} />}
-            onChange={(value) => {
-              console.log({ value });
-              return setSelectedSeason(value);
-            }}
+            onChange={setSelectedSeason}
           />
         </div>
         <div className={styles.search}>
@@ -164,16 +140,7 @@ const LeaguesPage = () => {
         </div>
       </div>
       <div style={{ marginTop: 28 }}>
-        {isLoading ? (
-          "Is loading"
-        ) : (
-          <Tabs
-            active={activeLeague}
-            onChange={setActiveLeague}
-            tabs={leaguesTabs}
-            nameRender={(tab) => <>{tab.name}</>}
-          />
-        )}
+        <TournamentsTabs showAll active={activeTournament} onChange={setActiveTournament} />
       </div>
       <div>
         <Table
