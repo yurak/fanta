@@ -2,7 +2,7 @@ import React from "react";
 import cn from "classnames";
 import styles from "./Table.module.scss";
 
-interface IColumn<DataItem> {
+export interface IColumn<DataItem> {
   title?: string;
   dataKey: string;
   key?: string;
