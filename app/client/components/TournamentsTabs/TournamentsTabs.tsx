@@ -9,9 +9,9 @@ const TournamentsTabs = ({
   active,
   onChange,
 }: {
-  showAll: boolean;
   active: number | null;
   onChange: (active: number | null) => void;
+  showAll?: boolean;
 }) => {
   const { t } = useTranslation();
   const tournamentsQuery = useTournaments();
