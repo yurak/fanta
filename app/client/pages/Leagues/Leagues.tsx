@@ -6,24 +6,25 @@ import { useLeagues } from "../../api/query/useLeagues";
 import Search from "../../ui/Search";
 import Switcher from "../../ui/Switcher";
 import Select from "../../ui/Select";
-import Table from "../../ui/Table";
 import TournamentsTabs from "../../components/TournamentsTabs";
 import PageHeading from "../../components/PageHeading";
+import LeaguesTable from "./LeaguesTable";
 import calendarIcon from "../../../assets/images/icons/calendar.svg";
+import { ILeaguesWithTournament } from "./interfaces";
 import styles from "./Leagues.module.scss";
 
 const LeaguesPage = () => {
   const tournamentsQuery = useTournaments();
   const leaguesQuery = useLeagues();
 
-  const allLeagues = useMemo(() => {
+  const allLeagues = useMemo<ILeaguesWithTournament[]>(() => {
     const tournamentMap = new Map(
       tournamentsQuery.data.map((tournament) => [tournament.id, tournament])
     );
 
     return leaguesQuery.data.map((league) => ({
       ...league,
-      tournament: tournamentMap.get(league.tournament_id),
+      tournament: tournamentMap.get(league.tournament_id) ?? null,
     }));
   }, [leaguesQuery.data, tournamentsQuery.data]);
 
@@ -143,62 +144,7 @@ const LeaguesPage = () => {
         <TournamentsTabs showAll active={activeTournament} onChange={setActiveTournament} />
       </div>
       <div>
-        <Table
-          dataSource={filteredLeagues}
-          columns={[
-            {
-              dataKey: "tournamentLogo",
-              render: (item) => {
-                if (!item.tournament) {
-                  return null;
-                }
-
-                return <img src={item.tournament.logo} width="32" height="32" />;
-              },
-              headColSpan: 0,
-              width: 30,
-            },
-            {
-              title: t("league.name"),
-              dataKey: "name",
-              headColSpan: 2,
-              className: styles.leagueName,
-            },
-            {
-              title: t("league.season"),
-              dataKey: "season",
-              width: 112,
-              render: (item) => `${item.season_start_year} - ${item.season_end_year}`,
-              noWrap: true,
-            },
-            {
-              title: t("league.tournament"),
-              dataKey: "tournament",
-              render: (item) => item.tournament?.name ?? "",
-            },
-            {
-              title: t("league.teams"),
-              dataKey: "teams_count",
-              align: "right",
-              width: 112,
-            },
-            {
-              title: t("league.leader"),
-              dataKey: "leader",
-            },
-            {
-              title: t("league.round"),
-              dataKey: "round",
-              width: 112,
-            },
-            {
-              title: t("league.status"),
-              dataKey: "status",
-              width: 112,
-            },
-          ]}
-          rowLink={(item) => item.link}
-        />
+        <LeaguesTable dataSource={filteredLeagues} />
       </div>
     </>
   );
