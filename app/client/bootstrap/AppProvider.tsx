@@ -1,4 +1,5 @@
 import React from "react";
+import "react-loading-skeleton/dist/skeleton.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { initReactI18next } from "react-i18next";
 import i18n from "i18next";
