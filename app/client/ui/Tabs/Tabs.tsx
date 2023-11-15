@@ -11,7 +11,7 @@ export interface ITab<ID> extends Record<string, unknown> {
 
 const TabsSkeleton = ({ items }: { items: number }) => {
   return Array.from({ length: items }).map((_, index) => (
-    <div key={index} className={styles.item}>
+    <div key={index} className={cn(styles.item, styles.skeletonItem)}>
       <Skeleton className={styles.skeletonIcon} inline />
       <Skeleton className={styles.skeletonName} inline />
     </div>
