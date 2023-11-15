@@ -15,13 +15,16 @@
 .item {
   padding: 16px 16px 12px;
   min-width: 80px;
-  cursor: pointer;
   flex: 0 0 auto;
 
   @media (max-width: 768px) {
     min-width: 60px;
     padding: 12px 12px 8px;
   }
+}
+
+.itemHoverable {
+  cursor: pointer;
 
   &:hover {
     background-color: #f4f4f4;
@@ -43,4 +46,13 @@
 .name {
   margin-top: 4px;
   white-space: nowrap;
+}
+
+.skeletonName {
+  margin-top: 8px;
+}
+
+.skeletonIcon {
+  width: 32px;
+  height: 24px;
 }

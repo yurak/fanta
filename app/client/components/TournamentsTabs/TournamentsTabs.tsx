@@ -42,6 +42,8 @@ const TournamentsTabs = ({
       onChange={onChange}
       tabs={tournaments}
       nameRender={(tab) => <>{tab.name}</>}
+      isLoading={tournamentsQuery.isLoading}
+      skeletonItems={10}
     />
   );
 };
