@@ -48,6 +48,14 @@
   white-space: nowrap;
 }
 
+.skeletonItem {
+  min-width: 100px;
+
+  @media (max-width: 768px) {
+    min-width: 80px;
+  }
+}
+
 .skeletonName {
   margin-top: 8px;
 }
