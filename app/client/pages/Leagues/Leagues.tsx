@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { withBootstrap } from "../../bootstrap/withBootstrap";
 import { useTournaments } from "../../api/query/useTournaments";
@@ -12,10 +12,22 @@ import LeaguesTable from "./LeaguesTable";
 import calendarIcon from "../../../assets/images/icons/calendar.svg";
 import { ILeaguesWithTournament } from "./interfaces";
 import styles from "./Leagues.module.scss";
+import { useSeasons } from "./filters/useSeasons";
+import { useFinished } from "./filters/useFinished";
+import { useSearch } from "./filters/useSearch";
 
 const LeaguesPage = () => {
   const tournamentsQuery = useTournaments();
   const leaguesQuery = useLeagues();
+
+  const {
+    options: seasonsOptions,
+    selected: selectedSeason,
+    setSelected: setSelectedSeason,
+    filterBySeason,
+  } = useSeasons();
+  const { showFinished, setShowFinished, filterFinished } = useFinished();
+  const { filterBySearch, search, setSearch } = useSearch();
 
   const allLeagues = useMemo<ILeaguesWithTournament[]>(() => {
     const tournamentMap = new Map(
@@ -28,40 +40,7 @@ const LeaguesPage = () => {
     }));
   }, [leaguesQuery.data, tournamentsQuery.data]);
 
-  const yearOptions = useMemo(() => {
-    return Object.values(
-      allLeagues.reduce((acc, league) => {
-        const uniqueKey = `${league.season_start_year}-${league.season_end_year}`;
-
-        return {
-          ...acc,
-          [uniqueKey]: {
-            startYear: league.season_start_year,
-            endYear: league.season_end_year,
-          },
-        };
-      }, {} as Record<string, { startYear: number; endYear: number }>)
-    ).map((value) => {
-      const startYearShort = value.startYear.toString().slice(-2);
-      const endYearShort = value.endYear.toString().slice(-2);
-
-      return {
-        value,
-        label: `${startYearShort}/${endYearShort}`,
-      };
-    });
-  }, [allLeagues]);
-
   const [activeTournament, setActiveTournament] = useState<number | null>(null);
-  const [search, setSearch] = useState("");
-  const [showFinished, setShowFinished] = useState(false);
-  const [selectedSeason, setSelectedSeason] = useState<(typeof yearOptions)[0] | null>(null);
-
-  useEffect(() => {
-    if (yearOptions.length > 0 && !selectedSeason) {
-      setSelectedSeason(yearOptions[0] ?? null);
-    }
-  }, [yearOptions]);
 
   const { t } = useTranslation();
 
@@ -76,48 +55,9 @@ const LeaguesPage = () => {
     [activeTournament]
   );
 
-  const toggleFinished = useCallback(
-    (leagues: typeof allLeagues) => {
-      if (showFinished) {
-        return leagues;
-      }
-
-      return leagues.filter((league) => league.status !== "archived");
-    },
-    [showFinished]
-  );
-
-  const searchLeague = useCallback(
-    (leagues: typeof allLeagues) => {
-      if (!search) {
-        return leagues;
-      }
-
-      const searchInLowerCase = search.toLowerCase();
-
-      return leagues.filter((league) => league.name.toLowerCase().includes(searchInLowerCase));
-    },
-    [search]
-  );
-
-  const filterBySeason = useCallback(
-    (leagues: typeof allLeagues) => {
-      if (!selectedSeason) {
-        return leagues;
-      }
-
-      return leagues.filter(
-        (league) =>
-          league.season_start_year === selectedSeason.value.startYear &&
-          league.season_end_year === selectedSeason.value.endYear
-      );
-    },
-    [selectedSeason]
-  );
-
   const filteredLeagues = useMemo(() => {
-    return toggleFinished(filterBySeason(showActiveLeagues(searchLeague(allLeagues))));
-  }, [allLeagues, toggleFinished, showActiveLeagues, searchLeague, filterBySeason]);
+    return filterFinished(filterBySeason(filterBySearch(showActiveLeagues(allLeagues))));
+  }, [allLeagues, filterFinished, showActiveLeagues, filterBySearch, filterBySeason]);
 
   return (
     <>
@@ -128,7 +68,7 @@ const LeaguesPage = () => {
         <div className={styles.yearSelect}>
           <Select
             value={selectedSeason}
-            options={yearOptions}
+            options={seasonsOptions}
             icon={<img src={calendarIcon} />}
             onChange={setSelectedSeason}
           />
