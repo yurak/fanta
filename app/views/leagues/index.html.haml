@@ -2,4 +2,4 @@
   .web-header= render 'layouts/left_nav', league: nil
   .mob-header= render 'layouts/mob_header', league: nil, title: t('header.leagues')
   .page-info.leagues-page
-    = react_component("Leagues", props: { leagues: leagues, active_tournaments: active_tournaments }, prerender: true)
+    = react_component("Leagues", props: {}, prerender: true)
