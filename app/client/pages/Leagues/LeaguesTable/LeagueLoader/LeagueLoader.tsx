@@ -1,6 +1,7 @@
 import Skeleton from "react-loading-skeleton";
 import { useLeague } from "../../../../api/query/useLeague";
 import { ILeagueFullData } from "../../../../interfaces/League";
+import { useIntersectionObserver } from "../../../../hooks/useIntersectionObserver";
 
 const LeagueLoader = ({
   leagueId,
@@ -9,13 +10,10 @@ const LeagueLoader = ({
   leagueId: number;
   children: (item: ILeagueFullData) => React.ReactNode;
 }) => {
-  const { data, isLoading } = useLeague(leagueId);
+  const [ref, entry] = useIntersectionObserver<HTMLSpanElement>({ rootMargin: "50%" });
+  const { data, isLoading } = useLeague(leagueId, entry?.isIntersecting ?? false);
 
-  if (isLoading || !data) {
-    return <Skeleton />;
-  }
-
-  return children(data);
+  return <span ref={ref}>{isLoading || !data ? <Skeleton /> : children(data)}</span>;
 };
 
 export default LeagueLoader;
