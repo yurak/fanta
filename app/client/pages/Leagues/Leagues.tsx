@@ -4,14 +4,12 @@ import { withBootstrap } from "../../bootstrap/withBootstrap";
 import { useTournaments } from "../../api/query/useTournaments";
 import { useLeagues } from "../../api/query/useLeagues";
 import Search from "../../ui/Search";
-import Switcher from "../../ui/Switcher";
 import TournamentsTabs from "../../components/TournamentsTabs";
 import PageHeading from "../../components/PageHeading";
 import SeasonsSelect from "../../components/SeasonsSelect";
 import LeaguesTable from "./LeaguesTable";
 import { ILeaguesWithTournament } from "./interfaces";
 import { ISeason } from "../../interfaces/Season";
-import { useFinished } from "./filters/useFinished";
 import { useSearch } from "./filters/useSearch";
 import styles from "./Leagues.module.scss";
 
@@ -21,7 +19,6 @@ const LeaguesPage = () => {
 
   const [selectedSeason, setSelectedSeason] = useState<ISeason | null>(null);
   const [activeTournament, setActiveTournament] = useState<number | null>(null);
-  const { showFinished, setShowFinished, filterFinished } = useFinished();
   const { filterBySearch, search, setSearch } = useSearch();
 
   const allLeagues = useMemo<ILeaguesWithTournament[]>(() => {
@@ -64,9 +61,6 @@ const LeaguesPage = () => {
         </div>
         <div className={styles.search}>
           <Search value={search} onChange={setSearch} placeholder="Search league" />
-        </div>
-        <div className={styles.finished}>
-          <Switcher checked={showFinished} onChange={setShowFinished} label="🏁️  Show finished" />
         </div>
       </div>
       <div style={{ marginTop: 28 }}>
