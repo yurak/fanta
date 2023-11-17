@@ -5,6 +5,7 @@ import { ITournament } from "../../interfaces/Tournament";
 
 export const useTournaments = () => {
   const query = useQuery({
+    staleTime: 1000 * 60 * 60 * 24, // 1 day
     queryKey: ["tournaments"],
     queryFn: async ({ signal }) => {
       return (await axios.get<ICollectionResponse<ITournament[]>>("/tournaments", { signal })).data
