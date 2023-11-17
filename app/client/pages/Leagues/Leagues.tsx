@@ -54,7 +54,11 @@ const LeaguesPage = () => {
         <TournamentsTabs showAll active={activeTournament} onChange={setActiveTournament} />
       </div>
       <div>
-        <LeaguesTable dataSource={allLeagues} search={search} />
+        <LeaguesTable
+          dataSource={allLeagues}
+          search={search}
+          isLoading={leaguesQuery.status === "pending"}
+        />
       </div>
     </>
   );
