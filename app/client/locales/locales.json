@@ -648,7 +648,6 @@
       "round": "ROUND",
       "season": "SEASON",
       "status": "STATUS",
-      "subtitle": "Here you can find available leagues for registration or learn more about ongoing leagues",
       "teams": "TEAMS",
       "tournament": "TOURNAMENT"
     },
@@ -1819,7 +1818,6 @@
       "round": "РАУНД",
       "season": "СЕЗОН",
       "status": "СТАТУС",
-      "subtitle": "Тут ви знайдете доступні для реєстрації ліги та можете дізнатися більше про ліги, які тривають",
       "teams": "КОМАНДИ",
       "tournament": "ТУРНІР"
     },

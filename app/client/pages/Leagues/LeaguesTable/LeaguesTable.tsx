@@ -6,27 +6,13 @@ import LeagueLoader from "./LeagueLoader";
 import styles from "./LeaguesTable.module.scss";
 
 const LeaguesTable = ({
-  dataSource: originDataSource,
-  search,
+  dataSource,
   isLoading,
 }: {
   dataSource: ILeaguesWithTournament[];
-  search: string;
   isLoading: boolean;
 }) => {
   const { t } = useTranslation();
-
-  const dataSource = useMemo(() => {
-    if (!search) {
-      return originDataSource;
-    }
-
-    const searchInLowerCase = search.toLowerCase();
-
-    return originDataSource.filter((league) =>
-      league.name.toLowerCase().includes(searchInLowerCase)
-    );
-  }, [originDataSource, search]);
 
   const columns = useMemo<IColumn<ILeaguesWithTournament>[]>(
     () => [

@@ -13,19 +13,20 @@ import { ISeason } from "../../interfaces/Season";
 import styles from "./Leagues.module.scss";
 
 const LeaguesPage = () => {
-  const tournamentsQuery = useTournaments();
+  const { t } = useTranslation();
 
   const [selectedSeason, setSelectedSeason] = useState<ISeason | null>(null);
   const [activeTournament, setActiveTournament] = useState<number>();
   const [search, setSearch] = useState("");
 
-  const { t } = useTranslation();
-
+  const tournamentsQuery = useTournaments();
   const leaguesQuery = useLeagues({
-    tournament: activeTournament,
     season: selectedSeason?.id,
   });
 
+  /**
+   * Add tournament info to leagues
+   */
   const allLeagues = useMemo<ILeaguesWithTournament[]>(() => {
     const tournamentMap = new Map(
       tournamentsQuery.data.map((tournament) => [tournament.id, tournament])
@@ -37,11 +38,37 @@ const LeaguesPage = () => {
     }));
   }, [leaguesQuery.data, tournamentsQuery.data]);
 
+  /**
+   * Filter by tournament
+   */
+  const filteredByTournament = useMemo(() => {
+    if (!activeTournament) {
+      return allLeagues;
+    }
+
+    return allLeagues.filter((league) => league.tournament_id === activeTournament);
+  }, [allLeagues, activeTournament]);
+
+  /**
+   * Filter by search
+   */
+  const filteredBySearch = useMemo(() => {
+    if (!search) {
+      return filteredByTournament;
+    }
+
+    const searchInLowerCase = search.toLowerCase();
+
+    return filteredByTournament.filter((league) =>
+      league.name.toLowerCase().includes(searchInLowerCase)
+    );
+  }, [filteredByTournament, search]);
+
   return (
     <>
       <div className={styles.header}>
         <div className={styles.heading}>
-          <PageHeading title={t("header.leagues")} description={t("league.subtitle")} />
+          <PageHeading title={t("header.leagues")} />
         </div>
         <div className={styles.yearSelect}>
           <SeasonsSelect value={selectedSeason} onChange={setSelectedSeason} />
@@ -55,9 +82,8 @@ const LeaguesPage = () => {
       </div>
       <div>
         <LeaguesTable
-          dataSource={allLeagues}
-          search={search}
-          isLoading={leaguesQuery.status === "pending"}
+          dataSource={filteredBySearch}
+          isLoading={leaguesQuery.isPending || tournamentsQuery.isPending}
         />
       </div>
     </>
