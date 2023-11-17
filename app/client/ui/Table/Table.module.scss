@@ -42,7 +42,9 @@
 
 .tr {
   position: relative;
+}
 
+.hoverableTr {
   &:hover {
     .td {
       background-color: #f4f4f4;

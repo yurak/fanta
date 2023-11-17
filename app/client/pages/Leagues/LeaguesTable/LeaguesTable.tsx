@@ -7,9 +7,11 @@ import styles from "./LeaguesTable.module.scss";
 const LeaguesTable = ({
   dataSource: originDataSource,
   search,
+  isLoading,
 }: {
   dataSource: ILeaguesWithTournament[];
   search: string;
+  isLoading: boolean;
 }) => {
   const { t } = useTranslation();
 
@@ -81,7 +83,14 @@ const LeaguesTable = ({
     [t]
   );
 
-  return <Table dataSource={dataSource} columns={columns} rowLink={(item) => item.link} />;
+  return (
+    <Table
+      dataSource={dataSource}
+      columns={columns}
+      rowLink={(item) => item.link}
+      isLoading={isLoading}
+    />
+  );
 };
 
 export default LeaguesTable;
