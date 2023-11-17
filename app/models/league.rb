@@ -21,7 +21,8 @@ class League < ApplicationRecord
 
   default_scope { includes(%i[division season tournament]) }
 
-  scope :by_tournament, ->(tournament_id) { where(tournament: tournament_id) }
+  scope :by_tournament, ->(tournament_id) { where(tournament_id: tournament_id) if tournament_id.present? }
+  scope :by_season, ->(season_id) { where(season_id: season_id) if season_id.present? }
   scope :with_division, -> { where.not(division: { id: nil }) }
   scope :viewable, -> { active.or(archived) }
   scope :serial, lambda {
