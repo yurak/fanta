@@ -1,5 +1,13 @@
 import React from "react";
-import ReactSelect, { ActionMeta, OnChangeValue, PropsValue, components } from "react-select";
+import ReactSelect, {
+  ActionMeta,
+  FormatOptionLabelMeta,
+  GetOptionValue,
+  OnChangeValue,
+  PropsValue,
+  components,
+} from "react-select";
+import Skeleton from "react-loading-skeleton";
 import arrowDown from "../../../assets/images/icons/arrow_down.svg";
 import { useIsClient } from "../../hooks/useIsClient";
 import styles from "./Select.module.scss";
@@ -9,18 +17,27 @@ const Select = <Option extends unknown, IsMulti extends boolean = false>({
   onChange,
   options,
   placeholder,
+  isLoading,
   icon,
+  formatOptionLabel,
+  getOptionValue,
 }: {
   options: Option[];
   value: PropsValue<Option>;
   onChange: (newValue: OnChangeValue<Option, IsMulti>, actionMeta: ActionMeta<Option>) => void;
   placeholder?: string;
+  isLoading?: boolean;
   icon?: React.ReactNode;
+  formatOptionLabel?: (
+    data: Option,
+    formatOptionLabelMeta: FormatOptionLabelMeta<Option>
+  ) => React.ReactNode;
+  getOptionValue?: GetOptionValue<Option>;
 }) => {
   // TODO: temporary solution, need to fix working with ssr
   const isClient = useIsClient();
-  if (!isClient) {
-    return null;
+  if (!isClient || isLoading) {
+    return <Skeleton height={40} />;
   }
 
   return (
@@ -43,6 +60,8 @@ const Select = <Option extends unknown, IsMulti extends boolean = false>({
       options={options}
       isSearchable={false}
       placeholder={placeholder}
+      formatOptionLabel={formatOptionLabel}
+      getOptionValue={getOptionValue}
       onChange={onChange}
       value={value}
       components={{
