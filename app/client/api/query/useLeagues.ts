@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
-import { IResponse } from "../../interfaces/api/Response";
+import { ICollectionResponse } from "../../interfaces/api/Response";
 import { ILeague } from "../../interfaces/League";
 import { useMemo } from "react";
 
@@ -17,7 +17,7 @@ export const useLeagues = ({ season, tournament }: { season?: number; tournament
     queryKey: ["leagues", filter],
     queryFn: async () => {
       return (
-        await axios.get<IResponse<ILeague[]>>("/leagues", {
+        await axios.get<ICollectionResponse<ILeague[]>>("/leagues", {
           params: {
             filter,
           },
