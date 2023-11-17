@@ -1,5 +1,6 @@
 import React from "react";
 import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import "react-loading-skeleton/dist/skeleton.css";
 import { initReactI18next } from "react-i18next";
 import i18n from "i18next";
@@ -26,6 +27,7 @@ export const AppProvider = ({ children }: IProps) => {
   return (
     <PersistQueryClientProvider client={queryClient} persistOptions={persistOptions}>
       {children}
+      <ReactQueryDevtools />
     </PersistQueryClientProvider>
   );
 };
