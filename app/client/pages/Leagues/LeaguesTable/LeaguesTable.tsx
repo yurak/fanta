@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import Table, { IColumn } from "../../../ui/Table";
 import { ILeaguesWithTournament } from "../interfaces";
+import LeagueLoader from "./LeagueLoader";
 import styles from "./LeaguesTable.module.scss";
 
 const LeaguesTable = ({
@@ -51,8 +52,12 @@ const LeaguesTable = ({
         title: t("league.season"),
         dataKey: "season",
         width: 112,
-        // render: (item) => `${item.season_start_year} - ${item.season_end_year}`,
         noWrap: true,
+        render: (item) => (
+          <LeagueLoader leagueId={item.id}>
+            {(league) => `${league.season_start_year}-${league.season_end_year}`}
+          </LeagueLoader>
+        ),
       },
       {
         title: t("league.tournament"),
@@ -60,23 +65,34 @@ const LeaguesTable = ({
         render: (item) => item.tournament?.name ?? "",
       },
       {
+        title: t("league.leader"),
+        dataKey: "leader",
+        render: (item) => (
+          <LeagueLoader leagueId={item.id}>{(league) => <>{league.leader}</>}</LeagueLoader>
+        ),
+      },
+      {
         title: t("league.teams"),
         dataKey: "teams_count",
         align: "right",
         width: 112,
-      },
-      {
-        title: t("league.leader"),
-        dataKey: "leader",
+        render: (item) => (
+          <LeagueLoader leagueId={item.id}>{(league) => league.teams_count}</LeagueLoader>
+        ),
       },
       {
         title: t("league.round"),
         dataKey: "round",
         width: 112,
+        align: "right",
+        render: (item) => (
+          <LeagueLoader leagueId={item.id}>{(league) => league.round}</LeagueLoader>
+        ),
       },
       {
         title: t("league.status"),
         dataKey: "status",
+        align: "right",
         width: 112,
       },
     ],
@@ -89,6 +105,7 @@ const LeaguesTable = ({
       columns={columns}
       rowLink={(item) => item.link}
       isLoading={isLoading}
+      skeletonItems={10}
     />
   );
 };
