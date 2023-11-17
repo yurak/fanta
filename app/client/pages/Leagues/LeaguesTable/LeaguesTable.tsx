@@ -4,8 +4,26 @@ import Table, { IColumn } from "../../../ui/Table";
 import { ILeaguesWithTournament } from "../interfaces";
 import styles from "./LeaguesTable.module.scss";
 
-const LeaguesTable = ({ dataSource }: { dataSource: ILeaguesWithTournament[] }) => {
+const LeaguesTable = ({
+  dataSource: originDataSource,
+  search,
+}: {
+  dataSource: ILeaguesWithTournament[];
+  search: string;
+}) => {
   const { t } = useTranslation();
+
+  const dataSource = useMemo(() => {
+    if (!search) {
+      return originDataSource;
+    }
+
+    const searchInLowerCase = search.toLowerCase();
+
+    return originDataSource.filter((league) =>
+      league.name.toLowerCase().includes(searchInLowerCase)
+    );
+  }, [originDataSource, search]);
 
   const columns = useMemo<IColumn<ILeaguesWithTournament>[]>(
     () => [
@@ -31,7 +49,7 @@ const LeaguesTable = ({ dataSource }: { dataSource: ILeaguesWithTournament[] }) 
         title: t("league.season"),
         dataKey: "season",
         width: 112,
-        render: (item) => `${item.season_start_year} - ${item.season_end_year}`,
+        // render: (item) => `${item.season_start_year} - ${item.season_end_year}`,
         noWrap: true,
       },
       {

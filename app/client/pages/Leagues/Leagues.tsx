@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { withBootstrap } from "../../bootstrap/withBootstrap";
 import { useTournaments } from "../../api/query/useTournaments";
@@ -10,16 +10,21 @@ import SeasonsSelect from "../../components/SeasonsSelect";
 import LeaguesTable from "./LeaguesTable";
 import { ILeaguesWithTournament } from "./interfaces";
 import { ISeason } from "../../interfaces/Season";
-import { useSearch } from "./filters/useSearch";
 import styles from "./Leagues.module.scss";
 
 const LeaguesPage = () => {
   const tournamentsQuery = useTournaments();
-  const leaguesQuery = useLeagues();
 
   const [selectedSeason, setSelectedSeason] = useState<ISeason | null>(null);
-  const [activeTournament, setActiveTournament] = useState<number | null>(null);
-  const { filterBySearch, search, setSearch } = useSearch();
+  const [activeTournament, setActiveTournament] = useState<number>();
+  const [search, setSearch] = useState("");
+
+  const { t } = useTranslation();
+
+  const leaguesQuery = useLeagues({
+    tournament: activeTournament,
+    season: selectedSeason?.id,
+  });
 
   const allLeagues = useMemo<ILeaguesWithTournament[]>(() => {
     const tournamentMap = new Map(
@@ -31,24 +36,6 @@ const LeaguesPage = () => {
       tournament: tournamentMap.get(league.tournament_id) ?? null,
     }));
   }, [leaguesQuery.data, tournamentsQuery.data]);
-
-
-  const { t } = useTranslation();
-
-  const showActiveLeagues = useCallback(
-    (leagues: typeof allLeagues) => {
-      if (!activeTournament) {
-        return leagues;
-      }
-
-      return leagues.filter((league) => league.tournament_id === activeTournament);
-    },
-    [activeTournament]
-  );
-
-  const filteredLeagues = useMemo(() => {
-    return filterFinished(filterBySearch(showActiveLeagues(allLeagues)));
-  }, [allLeagues, filterFinished, showActiveLeagues, filterBySearch]);
 
   return (
     <>
@@ -67,7 +54,7 @@ const LeaguesPage = () => {
         <TournamentsTabs showAll active={activeTournament} onChange={setActiveTournament} />
       </div>
       <div>
-        <LeaguesTable dataSource={filteredLeagues} />
+        <LeaguesTable dataSource={allLeagues} search={search} />
       </div>
     </>
   );
