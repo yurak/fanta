@@ -15,12 +15,13 @@ export const useLeagues = ({ season, tournament }: { season?: number; tournament
 
   const query = useQuery({
     queryKey: ["leagues", filter],
-    queryFn: async () => {
+    queryFn: async ({ signal }) => {
       return (
         await axios.get<ICollectionResponse<ILeague[]>>("/leagues", {
           params: {
             filter,
           },
+          signal,
         })
       ).data.data;
     },

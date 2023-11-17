@@ -6,8 +6,9 @@ import { ITournament } from "../../interfaces/Tournament";
 export const useTournaments = () => {
   const query = useQuery({
     queryKey: ["tournaments"],
-    queryFn: async () => {
-      return (await axios.get<ICollectionResponse<ITournament[]>>("/tournaments")).data.data;
+    queryFn: async ({ signal }) => {
+      return (await axios.get<ICollectionResponse<ITournament[]>>("/tournaments", { signal })).data
+        .data;
     },
   });
 

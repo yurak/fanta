@@ -5,8 +5,8 @@ import { ILeagueFullData } from "../../interfaces/League";
 export const useLeague = (id: number) => {
   const query = useQuery({
     queryKey: ["league", id],
-    queryFn: async () => {
-      return (await axios.get<ILeagueFullData>(`/leagues/${id}`)).data;
+    queryFn: async ({ signal }) => {
+      return (await axios.get<ILeagueFullData>(`/leagues/${id}`, { signal })).data;
     },
   });
 

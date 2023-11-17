@@ -6,8 +6,8 @@ import { ISeason } from "../../interfaces/Season";
 export const useSeasons = () => {
   const query = useQuery({
     queryKey: ["seasons"],
-    queryFn: async () => {
-      return (await axios.get<ICollectionResponse<ISeason[]>>("/seasons")).data.data;
+    queryFn: async ({ signal }) => {
+      return (await axios.get<ICollectionResponse<ISeason[]>>("/seasons", { signal })).data.data;
     },
   });
 
