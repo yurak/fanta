@@ -1,13 +1,10 @@
 export interface ILeague {
   id: number;
   division: string;
-  leader: null;
+  division_id: number;
   link: string;
   name: string;
-  round: null;
-  season_end_year: number;
-  season_start_year: number;
+  season_id: number;
   status: string;
-  teams_count: number;
-  tournament_id: number;
+  tournament_id: 1;
 }

@@ -9,8 +9,8 @@ const TournamentsTabs = ({
   active,
   onChange,
 }: {
-  active: number | null;
-  onChange: (active: number | null) => void;
+  active?: number;
+  onChange: (active?: number) => void;
   showAll?: boolean;
 }) => {
   const { t } = useTranslation();
@@ -21,7 +21,7 @@ const TournamentsTabs = ({
       ...(showAll
         ? [
             {
-              id: null,
+              id: undefined,
               name: t("league.all"),
               icon: <img src={leaguesIcon} alt="" />,
             },
