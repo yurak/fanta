@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import Table, { IColumn } from "../../../ui/Table";
 import { ILeaguesWithTournament } from "../interfaces";
 import LeagueLoader from "./LeagueLoader";
+import LeagueStatus from "../../../components/LeagueStatus";
 import styles from "./LeaguesTable.module.scss";
 
 const LeaguesTable = ({
@@ -80,6 +81,7 @@ const LeaguesTable = ({
         dataKey: "status",
         align: "right",
         width: 112,
+        render: (item) => <LeagueStatus status={item.status} />,
       },
     ],
     [t]
