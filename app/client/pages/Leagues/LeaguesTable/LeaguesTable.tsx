@@ -36,6 +36,10 @@ const LeaguesTable = ({
         className: styles.leagueName,
       },
       {
+        title: t("league.division"),
+        dataKey: "division",
+      },
+      {
         title: t("league.season"),
         dataKey: "season",
         width: 112,
