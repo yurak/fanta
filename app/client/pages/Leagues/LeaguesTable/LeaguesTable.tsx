@@ -5,6 +5,7 @@ import { ILeaguesWithTournament } from "../interfaces";
 import LeagueLoader from "./LeagueLoader";
 import LeagueStatus from "../../../components/LeagueStatus";
 import styles from "./LeaguesTable.module.scss";
+import Skeleton from "react-loading-skeleton";
 
 const LeaguesTable = ({
   dataSource,
@@ -18,32 +19,36 @@ const LeaguesTable = ({
   const columns = useMemo<IColumn<ILeaguesWithTournament>[]>(
     () => [
       {
-        dataKey: "tournamentLogo",
-        render: (item) => {
-          if (!item.tournament) {
-            return null;
-          }
-
-          return <img src={item.tournament.logo} width="32" height="32" />;
-        },
-        headColSpan: 0,
-        width: 30,
-      },
-      {
         title: t("league.name"),
         dataKey: "name",
-        headColSpan: 2,
-        className: styles.leagueName,
+        className: styles.leagueNameCell,
+        render: (item) => (
+          <span className={styles.leagueName}>
+            {item.tournament && (
+              <span className={styles.leagueImage}>
+                <img src={item.tournament.logo} />
+              </span>
+            )}
+            <span className={styles.leagueNameName}>{item.name}</span>
+          </span>
+        ),
+        skeleton: (
+          <span className={styles.leagueNameSkeleton}>
+            <Skeleton height={26} width={32} containerClassName={styles.leagueNameSkeletonImage} />
+            <Skeleton containerClassName={styles.leagueNameSkeletonName} />
+          </span>
+        ),
       },
       {
         title: t("league.division"),
         dataKey: "division",
+        className: styles.divisionCell,
       },
       {
         title: t("league.season"),
         dataKey: "season",
-        width: 112,
         noWrap: true,
+        className: styles.seasonCell,
         render: (item) => (
           <LeagueLoader leagueId={item.id}>
             {(league) => `${league.season_start_year}-${league.season_end_year}`}
@@ -53,11 +58,13 @@ const LeaguesTable = ({
       {
         title: t("league.tournament"),
         dataKey: "tournament",
+        className: styles.tournamentCell,
         render: (item) => item.tournament?.name ?? "",
       },
       {
         title: t("league.leader"),
         dataKey: "leader",
+        className: styles.leaderCell,
         render: (item) => (
           <LeagueLoader leagueId={item.id}>{(league) => <>{league.leader}</>}</LeagueLoader>
         ),
@@ -66,7 +73,7 @@ const LeaguesTable = ({
         title: t("league.teams"),
         dataKey: "teams_count",
         align: "right",
-        width: 112,
+        className: styles.teamsCell,
         render: (item) => (
           <LeagueLoader leagueId={item.id}>{(league) => league.teams_count}</LeagueLoader>
         ),
@@ -74,8 +81,8 @@ const LeaguesTable = ({
       {
         title: t("league.round"),
         dataKey: "round",
-        width: 112,
         align: "right",
+        className: styles.roundCell,
         render: (item) => (
           <LeagueLoader leagueId={item.id}>{(league) => league.round}</LeagueLoader>
         ),
@@ -84,7 +91,7 @@ const LeaguesTable = ({
         title: t("league.status"),
         dataKey: "status",
         align: "right",
-        width: 112,
+        className: styles.statusCell,
         render: (item) => <LeagueStatus status={item.status} />,
       },
     ],
