@@ -1,21 +1,37 @@
 .table {
-  margin-top: 30px;
   width: 100%;
 }
 
-.thead {
+.header {
   margin-bottom: 7px;
 }
 
-.td {
-  font-size: 16px;
-  line-height: 24px;
-  padding: 16px 12px;
-  color: #181715;
+.row {
+  display: flex;
+  position: relative;
+
+  &.hoverableRow {
+    &:hover {
+      background-color: #f4f4f4;
+    }
+  }
+}
+
+.dataRow {
   border-bottom: 1px solid #e5e6e4;
 }
 
-.th {
+.column {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.columnInner {
+  flex: 1;
+}
+
+.headerColumn {
   font-family: "Nunito ExtraBold";
   color: #847577;
   font-size: 12px;
@@ -32,24 +48,13 @@
     height: 16px;
     background-color: #e5e6e4;
   }
-
-  &:last-child {
-    &::after {
-      display: none;
-    }
-  }
 }
 
-.tr {
-  position: relative;
-}
-
-.hoverableTr {
-  &:hover {
-    .td {
-      background-color: #f4f4f4;
-    }
-  }
+.dataColumn {
+  font-size: 16px;
+  line-height: 24px;
+  padding: 16px 12px;
+  color: #181715;
 }
 
 .right {

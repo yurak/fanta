@@ -1,5 +1,94 @@
+.leagueNameCell {
+  min-width: 100px;
+  flex: 3;
+}
+
+.divisionCell {
+  flex: 0 0 max(100px, 10%);
+}
+
+.seasonCell {
+  flex: 0 0 max(100px, 10%);
+}
+
+.tournamentCell {
+  flex: 0 0 max(130px, 12%);
+}
+
+.teamsCell {
+  flex: 0 0 max(80px, 6%);
+
+  @media (max-width: 1200px) {
+    display: none;
+  }
+}
+
+.roundCell {
+  flex: 0 0 max(80px, 6%);
+
+  @media (max-width: 1200px) {
+    display: none;
+  }
+}
+
+.leaderCell {
+  min-width: 100px;
+  flex: 2;
+}
+
+.statusCell {
+  flex: 0 0 110px;
+}
+
+.leaderCell {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .leagueName {
   font-family: "Nunito ExtraBold";
   font-size: 16px;
   line-height: 1.5;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: flex;
+  align-items: center;
+}
+
+.leagueNameName {
+  flex: 1;
+}
+
+.leagueImage {
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+  margin-right: 28px;
+
+  @media (max-width: 1200px) {
+    display: none;
+  }
+
+  img {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.leagueNameSkeleton {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+.leagueNameSkeletonName {
+  flex: 1;
+}
+
+.leagueNameSkeletonImage {
+  @media (max-width: 1200px) {
+    display: none;
+  }
 }

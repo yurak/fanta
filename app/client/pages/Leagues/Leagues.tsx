@@ -77,15 +77,13 @@ const LeaguesPage = () => {
           <Search value={search} onChange={setSearch} placeholder="Search league" />
         </div>
       </div>
-      <div style={{ marginTop: 28 }}>
+      <div className={styles.tabs}>
         <TournamentsTabs showAll active={activeTournament} onChange={setActiveTournament} />
       </div>
-      <div>
-        <LeaguesTable
-          dataSource={filteredBySearch}
-          isLoading={leaguesQuery.isPending || tournamentsQuery.isPending}
-        />
-      </div>
+      <LeaguesTable
+        dataSource={filteredBySearch}
+        isLoading={leaguesQuery.isPending || tournamentsQuery.isPending}
+      />
     </>
   );
 };

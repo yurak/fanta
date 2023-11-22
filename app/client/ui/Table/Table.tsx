@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import cn from "classnames";
 import styles from "./Table.module.scss";
 import Skeleton from "react-loading-skeleton";
@@ -8,32 +8,30 @@ export interface IColumn<DataItem extends {} = {}> {
   dataKey: string;
   key?: string;
   render?: (item: DataItem) => React.ReactNode;
-  headColSpan?: number;
-  width?: number | string;
+  skeleton?: React.ReactNode;
+  className?: string;
+  dataClassName?: string;
   align?: "left" | "right";
   noWrap?: boolean;
-  className?: string;
 }
 
 const getColumnKey = (column: IColumn) => column.key ?? column.dataKey;
 
 const LoadingSkeleton = ({ columns, items }: { columns: IColumn[]; items: number }) => {
   return Array.from({ length: items }).map((_, index) => (
-    <tr key={index.toString()} className={styles.tr}>
+    <div key={index} className={cn(styles.row, styles.dataRow)}>
       {columns.map((column) => (
-        <td
+        <div
           key={getColumnKey(column)}
-          className={cn(styles.td, column.className, {
+          className={cn(styles.column, styles.dataColumn, column.className, column.dataClassName, {
             [styles.right]: column.align === "right",
             [styles.noWrap]: column.noWrap,
           })}
         >
-          <span>
-            <Skeleton />
-          </span>
-        </td>
+          <span className={styles.columnInner}>{column.skeleton ?? <Skeleton />}</span>
+        </div>
       ))}
-    </tr>
+    </div>
   ));
 };
 
@@ -64,53 +62,59 @@ const Table = <DataItem extends {} = {}>({
     return column.render?.(item) ?? item[column.dataKey];
   };
 
+  const computedColumns = useMemo(
+    () =>
+      columns.map((column) => {
+        return {
+          ...column,
+          _key: getColumnKey(column),
+        };
+      }),
+    [columns]
+  );
+
   return (
-    <table className={styles.table}>
-      <colgroup>
-        {columns.map((column) => (
-          <col key={getColumnKey(column)} style={{ width: column.width }} />
+    <div className={styles.table}>
+      <div className={cn(styles.header, styles.row)}>
+        {computedColumns.map((column) => (
+          <div
+            key={column._key}
+            className={cn(styles.column, styles.headerColumn, column.className)}
+          >
+            {column.title && <span className={styles.columnInner}>{column.title}</span>}
+          </div>
         ))}
-      </colgroup>
-      <thead className={styles.thead}>
-        <tr>
-          {columns
-            .filter((column) => column.headColSpan !== 0)
-            .map((column) => (
-              <th
-                key={getColumnKey(column)}
-                className={styles.th}
-                {...(column.headColSpan && { colSpan: column.headColSpan })}
-              >
-                {column.title && <span>{column.title}</span>}
-              </th>
-            ))}
-        </tr>
-      </thead>
-      <tbody>
-        {isLoading ? (
-          <LoadingSkeleton columns={columns} items={skeletonItems} />
-        ) : (
-          dataSource.map((dataItem) => (
-            <tr key={getRowKey(dataItem)} className={cn(styles.tr, styles.hoverableTr)}>
-              {columns.map((column, index) => (
-                <td
-                  key={getColumnKey(column)}
-                  className={cn(styles.td, column.className, {
+      </div>
+      {isLoading ? (
+        <LoadingSkeleton columns={columns} items={skeletonItems} />
+      ) : (
+        dataSource.map((dataItem) => (
+          <div
+            key={getRowKey(dataItem)}
+            className={cn(styles.row, styles.dataRow, styles.hoverableRow)}
+          >
+            {rowLink && <a href={rowLink(dataItem)} className={styles.rowLink} />}
+            {computedColumns.map((column) => (
+              <div
+                key={column._key}
+                className={cn(
+                  styles.column,
+                  styles.dataColumn,
+                  column.className,
+                  column.dataClassName,
+                  {
                     [styles.right]: column.align === "right",
                     [styles.noWrap]: column.noWrap,
-                  })}
-                >
-                  {index === 0 && rowLink && (
-                    <a href={rowLink(dataItem)} className={styles.rowLink} />
-                  )}
-                  <span>{renderCellData(dataItem, column)}</span>
-                </td>
-              ))}
-            </tr>
-          ))
-        )}
-      </tbody>
-    </table>
+                  }
+                )}
+              >
+                <span className={styles.columnInner}>{renderCellData(dataItem, column)}</span>
+              </div>
+            ))}
+          </div>
+        ))
+      )}
+    </div>
   );
 };
 
