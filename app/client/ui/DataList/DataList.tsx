@@ -1,4 +1,5 @@
 import React from "react";
+import cn from "classnames";
 import Skeleton from "react-loading-skeleton";
 import styles from "./DataList.module.scss";
 
@@ -20,6 +21,7 @@ const DataList = <DataItem extends {} = {}>({
   dataSource,
   renderItem,
   itemKey,
+  itemLink,
   isLoading,
   skeletonRender,
   skeletonItems,
@@ -27,6 +29,7 @@ const DataList = <DataItem extends {} = {}>({
   dataSource: DataItem[];
   renderItem: (item: DataItem) => React.ReactNode;
   itemKey: (item: DataItem) => string | number;
+  itemLink?: (item: DataItem) => string;
   isLoading?: boolean;
   skeletonRender?: () => React.ReactNode;
   skeletonItems?: number;
@@ -37,7 +40,8 @@ const DataList = <DataItem extends {} = {}>({
         <LoadingSkeleton skeletonRender={skeletonRender} items={skeletonItems} />
       ) : (
         dataSource.map((dataItem) => (
-          <div key={itemKey(dataItem)} className={styles.item}>
+          <div key={itemKey(dataItem)} className={cn(styles.item, styles.hoverableItem)}>
+            {itemLink && <a href={itemLink(dataItem)} className={styles.itemLink} />}
             {renderItem(dataItem)}
           </div>
         ))
