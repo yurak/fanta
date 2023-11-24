@@ -7,7 +7,7 @@ import Search from "../../ui/Search";
 import TournamentsTabs from "../../components/TournamentsTabs";
 import PageHeading from "../../components/PageHeading";
 import SeasonsSelect from "../../components/SeasonsSelect";
-import LeaguesTable from "./LeaguesTable";
+import LeaguesList from "./LeaguesList";
 import { ILeaguesWithTournament } from "./interfaces";
 import { ISeason } from "../../interfaces/Season";
 import styles from "./Leagues.module.scss";
@@ -80,7 +80,7 @@ const LeaguesPage = () => {
       <div className={styles.tabs}>
         <TournamentsTabs showAll active={activeTournament} onChange={setActiveTournament} />
       </div>
-      <LeaguesTable
+      <LeaguesList
         dataSource={filteredBySearch}
         isLoading={leaguesQuery.isPending || tournamentsQuery.isPending}
       />

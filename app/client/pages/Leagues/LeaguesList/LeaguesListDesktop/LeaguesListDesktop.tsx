@@ -1,13 +1,13 @@
 import { useMemo } from "react";
-import { useTranslation } from "react-i18next";
-import Table, { IColumn } from "../../../ui/Table";
-import { ILeaguesWithTournament } from "../interfaces";
-import LeagueLoader from "./LeagueLoader";
-import LeagueStatus from "../../../components/LeagueStatus";
-import styles from "./LeaguesTable.module.scss";
 import Skeleton from "react-loading-skeleton";
+import { useTranslation } from "react-i18next";
+import Table, { IColumn } from "../../../../ui/Table";
+import { ILeaguesWithTournament } from "../../interfaces";
+import LeagueLoader from "../LeagueLoader";
+import LeagueStatus from "../../../../components/LeagueStatus";
+import styles from "./LeaguesListDesktop.module.scss";
 
-const LeaguesTable = ({
+const LeaguesListDesktop = ({
   dataSource,
   isLoading,
 }: {
@@ -109,4 +109,4 @@ const LeaguesTable = ({
   );
 };
 
-export default LeaguesTable;
+export default LeaguesListDesktop;
