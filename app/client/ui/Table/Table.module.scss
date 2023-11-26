@@ -2,23 +2,39 @@
   width: 100%;
 }
 
-.header {
-  margin-bottom: 7px;
-}
-
 .row {
   display: flex;
   position: relative;
+}
 
-  &.hoverableRow {
-    &:hover {
+.dataRow {
+  position: relative;
+
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 1px;
+    width: 100%;
+    background-color: #e5e6e4;
+  }
+}
+
+.hoverableRow {
+  &:hover {
+    background-color: #f4f4f4;
+
+    &::after {
       background-color: #f4f4f4;
     }
   }
 }
 
-.dataRow {
-  border-bottom: 1px solid #e5e6e4;
+.hoverableRow:has(+ .hoverableRow:hover) {
+  &::after {
+    background-color: #f4f4f4;
+  }
 }
 
 .column {
@@ -31,13 +47,17 @@
   flex: 1;
 }
 
-.headerColumn {
+.header {
   font-family: "Nunito ExtraBold";
-  color: #847577;
   font-size: 12px;
   line-height: 16px;
-  padding: 12px 8px;
   letter-spacing: 0.02em;
+  margin-bottom: 7px;
+}
+
+.headerColumn {
+  color: #847577;
+  padding: 12px 8px;
   position: relative;
 
   &::after {
@@ -53,7 +73,7 @@
 .dataColumn {
   font-size: 16px;
   line-height: 24px;
-  padding: 16px 12px;
+  padding: 12px;
   color: #181715;
 }
 

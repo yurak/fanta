@@ -88,6 +88,11 @@
 }
 
 .leagueNameSkeletonImage {
+  height: 26px;
+  width: 32px;
+  margin-top: 3px;
+  margin-bottom: 3px;
+
   @media (max-width: 1200px) {
     display: none;
   }
