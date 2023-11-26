@@ -35,24 +35,26 @@ const Tabs = <ID extends any, Tab extends ITab<ID>>({
 }) => {
   return (
     <div className={styles.tabs}>
-      {isLoading ? (
-        <TabsSkeleton items={skeletonItems} />
-      ) : (
-        tabs.map((tab) => (
-          <div
-            key={String(tab.id)}
-            className={cn(styles.item, styles.itemHoverable, {
-              [styles.activeItem]: active === tab.id,
-            })}
-            onClick={() => onChange(tab.id)}
-          >
-            {tab.icon && <div className={styles.icon}>{tab.icon}</div>}
-            <div className={styles.name}>
-              {typeof nameRender === "function" ? nameRender(tab) : tab.name}
+      <div className={styles.tabsInner}>
+        {isLoading ? (
+          <TabsSkeleton items={skeletonItems} />
+        ) : (
+          tabs.map((tab) => (
+            <div
+              key={String(tab.id)}
+              className={cn(styles.item, styles.itemHoverable, {
+                [styles.activeItem]: active === tab.id,
+              })}
+              onClick={() => onChange(tab.id)}
+            >
+              {tab.icon && <div className={styles.icon}>{tab.icon}</div>}
+              <div className={styles.name}>
+                {typeof nameRender === "function" ? nameRender(tab) : tab.name}
+              </div>
             </div>
-          </div>
-        ))
-      )}
+          ))
+        )}
+      </div>
     </div>
   );
 };
