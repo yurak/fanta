@@ -4,8 +4,18 @@
   font-size: 16px;
   line-height: 1.5;
   text-align: center;
-  border-bottom: 1px solid #e5e6e4;
   overflow: auto;
+  position: relative;
+
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 1px;
+    background-color: #e5e6e4;
+  }
 
   @media (max-width: 768px) {
     font-size: 14px;
@@ -16,6 +26,15 @@
   padding: 16px 16px 12px;
   min-width: 80px;
   flex: 0 0 auto;
+  position: relative;
+
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+  }
 
   @media (max-width: 768px) {
     min-width: 60px;
@@ -33,7 +52,13 @@
 
 .activeItem {
   color: #261fff;
-  border-bottom: 3px solid #261fff;
+
+  &::after {
+    height: 4px;
+    background-color: #261fff;
+    border-top-right-radius: 4px;
+    border-top-left-radius: 4px;
+  }
 }
 
 .icon {
@@ -56,11 +81,9 @@
   }
 }
 
-.skeletonName {
-  margin-top: 8px;
-}
-
 .skeletonIcon {
   width: 32px;
-  height: 24px;
+  height: 26px;
+  margin-top: 3px;
+  margin-bottom: 7px;
 }
