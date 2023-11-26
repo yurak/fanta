@@ -10,10 +10,18 @@
 
 .yearSelect {
   width: var(--year-select-width);
+
+  @media (max-width: 768px) {
+    order: 1;
+  }
 }
 
 .heading {
   flex: 0 0 calc(100% - var(--year-select-width) - var(--gap));
+
+  @media (max-width: 768px) {
+    display: none;
+  }
 }
 
 .search {
@@ -24,4 +32,9 @@
 .tabs {
   margin-top: 28px;
   margin-bottom: 30px;
+
+  @media (max-width: 768px) {
+    margin-top: 24px;
+    margin-bottom: 12px;
+  }
 }
