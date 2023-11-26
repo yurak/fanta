@@ -23,12 +23,14 @@
 .contentTop {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   gap: 12px;
 }
 
 .status {
   flex: 0 0 auto;
   min-width: 60px;
+  line-height: 1;
 }
 
 .name {
