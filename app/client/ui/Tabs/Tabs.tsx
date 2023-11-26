@@ -13,7 +13,7 @@ const TabsSkeleton = ({ items }: { items: number }) => {
   return Array.from({ length: items }).map((_, index) => (
     <div key={index} className={cn(styles.item, styles.skeletonItem)}>
       <Skeleton className={styles.skeletonIcon} inline />
-      <Skeleton className={styles.skeletonName} inline />
+      <Skeleton inline />
     </div>
   ));
 };
