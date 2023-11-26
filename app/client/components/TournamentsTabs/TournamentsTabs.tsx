@@ -43,7 +43,7 @@ const TournamentsTabs = ({
       tabs={tournaments}
       nameRender={(tab) => <>{tab.name}</>}
       isLoading={tournamentsQuery.isLoading}
-      skeletonItems={10}
+      skeletonItems={12}
     />
   );
 };
