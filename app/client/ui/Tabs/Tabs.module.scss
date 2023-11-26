@@ -1,21 +1,14 @@
 .tabs {
+  overflow: auto;
+}
+
+.tabsInner {
   font-family: "Nunito ExtraBold";
   display: flex;
   font-size: 16px;
   line-height: 1.5;
   text-align: center;
-  overflow: auto;
-  position: relative;
-
-  &::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    height: 1px;
-    background-color: #e5e6e4;
-  }
+  border-bottom: 1px solid #e5e6e4;
 
   @media (max-width: 768px) {
     font-size: 14px;
@@ -23,7 +16,7 @@
 }
 
 .item {
-  padding: 16px 16px 12px;
+  padding: 16px 16px 11px;
   min-width: 80px;
   flex: 0 0 auto;
   position: relative;
@@ -32,13 +25,13 @@
     content: "";
     position: absolute;
     left: 0;
-    bottom: 0;
+    bottom: -1px;
     width: 100%;
   }
 
   @media (max-width: 768px) {
     min-width: 60px;
-    padding: 12px 12px 8px;
+    padding: 12px 12px 7px;
   }
 }
 
