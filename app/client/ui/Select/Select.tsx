@@ -37,7 +37,7 @@ const Select = <Option extends unknown, IsMulti extends boolean = false>({
   // TODO: temporary solution, need to fix working with ssr
   const isClient = useIsClient();
   if (!isClient || isLoading) {
-    return <Skeleton height={40} />;
+    return <Skeleton height={36} />;
   }
 
   return (
