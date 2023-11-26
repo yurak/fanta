@@ -64,6 +64,14 @@ const LeaguesPage = () => {
     );
   }, [filteredByTournament, search]);
 
+  const getLeagueCountByTournament = (tournamentId?: number) => {
+    if (!tournamentId) {
+      return allLeagues.length;
+    }
+
+    return allLeagues.filter((league) => league.tournament_id === tournamentId).length;
+  };
+
   return (
     <>
       <div className={styles.header}>
@@ -78,7 +86,13 @@ const LeaguesPage = () => {
         </div>
       </div>
       <div className={styles.tabs}>
-        <TournamentsTabs showAll active={activeTournament} onChange={setActiveTournament} />
+        <TournamentsTabs
+          showAll
+          active={activeTournament}
+          nameRender={(tab) => `${tab.name} (${getLeagueCountByTournament(tab.id)})`}
+          onChange={setActiveTournament}
+          isLoading={leaguesQuery.isPending}
+        />
       </div>
       <LeaguesList
         dataSource={filteredBySearch}

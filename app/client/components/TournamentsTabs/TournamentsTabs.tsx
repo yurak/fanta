@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import Tabs from "../../ui/Tabs";
+import Tabs, { ITab } from "../../ui/Tabs";
 import { useTournaments } from "../../api/query/useTournaments";
 import leaguesIcon from "../../../assets/images/icons/leagues.svg";
 
@@ -8,15 +8,19 @@ const TournamentsTabs = ({
   showAll,
   active,
   onChange,
+  nameRender,
+  isLoading,
 }: {
   active?: number;
   onChange: (active?: number) => void;
+  nameRender?: (tab: ITab<number | undefined>) => React.ReactNode;
   showAll?: boolean;
+  isLoading?: boolean;
 }) => {
   const { t } = useTranslation();
   const tournamentsQuery = useTournaments();
 
-  const tournaments = useMemo(
+  const tournaments = useMemo<ITab<number | undefined>[]>(
     () => [
       ...(showAll
         ? [
@@ -41,8 +45,8 @@ const TournamentsTabs = ({
       active={active}
       onChange={onChange}
       tabs={tournaments}
-      nameRender={(tab) => <>{tab.name}</>}
-      isLoading={tournamentsQuery.isLoading}
+      nameRender={nameRender}
+      isLoading={tournamentsQuery.isLoading || isLoading}
       skeletonItems={12}
     />
   );
