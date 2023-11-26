@@ -28,7 +28,7 @@ const LoadingSkeleton = ({ columns, items }: { columns: IColumn[]; items: number
             [styles.noWrap]: column.noWrap,
           })}
         >
-          <span className={styles.columnInner}>{column.skeleton ?? <Skeleton />}</span>
+          {column.skeleton ?? <Skeleton />}
         </div>
       ))}
     </div>
@@ -108,7 +108,7 @@ const Table = <DataItem extends {} = {}>({
                   }
                 )}
               >
-                <span className={styles.columnInner}>{renderCellData(dataItem, column)}</span>
+                {renderCellData(dataItem, column)}
               </div>
             ))}
           </div>
