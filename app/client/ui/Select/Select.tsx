@@ -64,6 +64,7 @@ const Select = <Option extends unknown, IsMulti extends boolean = false>({
       getOptionValue={getOptionValue}
       onChange={onChange}
       value={value}
+      blurInputOnSelect
       components={{
         IndicatorSeparator: null,
         DropdownIndicator: () => (
