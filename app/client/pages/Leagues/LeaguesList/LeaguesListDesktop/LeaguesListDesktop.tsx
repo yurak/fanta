@@ -34,7 +34,7 @@ const LeaguesListDesktop = ({
         ),
         skeleton: (
           <span className={styles.leagueNameSkeleton}>
-            <Skeleton height={26} width={32} containerClassName={styles.leagueNameSkeletonImage} />
+            <Skeleton containerClassName={styles.leagueNameSkeletonImage} />
             <Skeleton containerClassName={styles.leagueNameSkeletonName} />
           </span>
         ),
