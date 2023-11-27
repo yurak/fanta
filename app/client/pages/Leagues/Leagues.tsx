@@ -81,14 +81,14 @@ const LeaguesPage = () => {
   );
 
   useEffect(() => {
-    if (leaguesQuery.isFetched) {
+    if (leaguesQuery.dataUpdatedAt) {
       const currentTabCount = getLeagueCountByTournament(activeTournament);
 
       if (currentTabCount === 0) {
         setActiveTournament(undefined);
       }
     }
-  }, [leaguesQuery.isFetched]);
+  }, [leaguesQuery.dataUpdatedAt]);
 
   return (
     <>
