@@ -1,10 +1,10 @@
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { withBootstrap } from "../../bootstrap/withBootstrap";
 import { useTournaments } from "../../api/query/useTournaments";
 import { useLeagues } from "../../api/query/useLeagues";
 import Search from "../../ui/Search";
-import TournamentsTabs from "../../components/TournamentsTabs";
+import TournamentsTabs, { TournamentTab } from "../../components/TournamentsTabs";
 import PageHeading from "../../components/PageHeading";
 import SeasonsSelect from "../../components/SeasonsSelect";
 import LeaguesList from "./LeaguesList";
@@ -64,13 +64,21 @@ const LeaguesPage = () => {
     );
   }, [filteredByTournament, search]);
 
-  const getLeagueCountByTournament = (tournamentId?: number) => {
-    if (!tournamentId) {
-      return allLeagues.length;
-    }
+  const getLeagueCountByTournament = useCallback(
+    (tournamentId?: number) => {
+      if (!tournamentId) {
+        return allLeagues.length;
+      }
 
-    return allLeagues.filter((league) => league.tournament_id === tournamentId).length;
-  };
+      return allLeagues.filter((league) => league.tournament_id === tournamentId).length;
+    },
+    [allLeagues]
+  );
+
+  const filterTournament = useCallback(
+    (tab: TournamentTab) => getLeagueCountByTournament(tab.id) > 0,
+    [getLeagueCountByTournament]
+  );
 
   return (
     <>
@@ -90,6 +98,7 @@ const LeaguesPage = () => {
           showAll
           active={activeTournament}
           nameRender={(tab) => `${tab.name} (${getLeagueCountByTournament(tab.id)})`}
+          filterTournament={filterTournament}
           onChange={setActiveTournament}
           isLoading={leaguesQuery.isPending}
         />
