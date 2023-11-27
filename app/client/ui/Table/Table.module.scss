@@ -87,3 +87,11 @@
   bottom: 0;
   right: 0;
 }
+
+.emptyState {
+  padding: 24px;
+
+  @media (max-width: 768px) {
+    padding: 12px;
+  }
+}

@@ -1,7 +1,8 @@
 import React, { useMemo } from "react";
-import cn from "classnames";
-import styles from "./Table.module.scss";
 import Skeleton from "react-loading-skeleton";
+import cn from "classnames";
+import EmptyState from "../EmptyState";
+import styles from "./Table.module.scss";
 
 export interface IColumn<DataItem extends {} = {}> {
   title?: string;
@@ -42,6 +43,9 @@ const Table = <DataItem extends {} = {}>({
   rowLink,
   isLoading,
   skeletonItems = 6,
+  emptyState = {
+    title: "No data",
+  },
 }: {
   columns: IColumn<DataItem>[];
   dataSource: DataItem[];
@@ -49,6 +53,10 @@ const Table = <DataItem extends {} = {}>({
   rowLink?: (item: DataItem) => string;
   isLoading?: boolean;
   skeletonItems?: number;
+  emptyState?: {
+    title: string;
+    description?: string;
+  };
 }) => {
   const getRowKey = (item: DataItem) => {
     if (typeof rowKey === "function") {
@@ -88,31 +96,39 @@ const Table = <DataItem extends {} = {}>({
       {isLoading ? (
         <LoadingSkeleton columns={columns} items={skeletonItems} />
       ) : (
-        dataSource.map((dataItem) => (
-          <div
-            key={getRowKey(dataItem)}
-            className={cn(styles.row, styles.dataRow, styles.hoverableRow)}
-          >
-            {rowLink && <a href={rowLink(dataItem)} className={styles.rowLink} />}
-            {computedColumns.map((column) => (
+        <>
+          {dataSource.length > 0 ? (
+            dataSource.map((dataItem) => (
               <div
-                key={column._key}
-                className={cn(
-                  styles.column,
-                  styles.dataColumn,
-                  column.className,
-                  column.dataClassName,
-                  {
-                    [styles.right]: column.align === "right",
-                    [styles.noWrap]: column.noWrap,
-                  }
-                )}
+                key={getRowKey(dataItem)}
+                className={cn(styles.row, styles.dataRow, styles.hoverableRow)}
               >
-                {renderCellData(dataItem, column)}
+                {rowLink && <a href={rowLink(dataItem)} className={styles.rowLink} />}
+                {computedColumns.map((column) => (
+                  <div
+                    key={column._key}
+                    className={cn(
+                      styles.column,
+                      styles.dataColumn,
+                      column.className,
+                      column.dataClassName,
+                      {
+                        [styles.right]: column.align === "right",
+                        [styles.noWrap]: column.noWrap,
+                      }
+                    )}
+                  >
+                    {renderCellData(dataItem, column)}
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
-        ))
+            ))
+          ) : (
+            <div className={styles.emptyState}>
+              <EmptyState title={emptyState.title} description={emptyState.description} />
+            </div>
+          )}
+        </>
       )}
     </div>
   );
