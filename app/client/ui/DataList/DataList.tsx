@@ -2,6 +2,7 @@ import React from "react";
 import cn from "classnames";
 import Skeleton from "react-loading-skeleton";
 import styles from "./DataList.module.scss";
+import EmptyState from "../EmptyState";
 
 const LoadingSkeleton = ({
   skeletonRender = () => <Skeleton />,
@@ -25,6 +26,7 @@ const DataList = <DataItem extends {} = {}>({
   isLoading,
   skeletonRender,
   skeletonItems,
+  emptyState = { title: "No data" },
 }: {
   dataSource: DataItem[];
   renderItem: (item: DataItem) => React.ReactNode;
@@ -33,18 +35,30 @@ const DataList = <DataItem extends {} = {}>({
   isLoading?: boolean;
   skeletonRender?: () => React.ReactNode;
   skeletonItems?: number;
+  emptyState?: {
+    title: string;
+    description?: string;
+  };
 }) => {
   return (
     <div className={styles.list}>
       {isLoading ? (
         <LoadingSkeleton skeletonRender={skeletonRender} items={skeletonItems} />
       ) : (
-        dataSource.map((dataItem) => (
-          <div key={itemKey(dataItem)} className={cn(styles.item, styles.hoverableItem)}>
-            {itemLink && <a href={itemLink(dataItem)} className={styles.itemLink} />}
-            {renderItem(dataItem)}
-          </div>
-        ))
+        <>
+          {dataSource.length > 0 ? (
+            dataSource.map((dataItem) => (
+              <div key={itemKey(dataItem)} className={cn(styles.item, styles.hoverableItem)}>
+                {itemLink && <a href={itemLink(dataItem)} className={styles.itemLink} />}
+                {renderItem(dataItem)}
+              </div>
+            ))
+          ) : (
+            <div className={styles.emptyState}>
+              <EmptyState title={emptyState.title} description={emptyState.description} />
+            </div>
+          )}
+        </>
       )}
     </div>
   );
