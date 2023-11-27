@@ -81,7 +81,7 @@ const Table = <DataItem extends {} = {}>({
             key={column._key}
             className={cn(styles.column, styles.headerColumn, column.className)}
           >
-            {column.title && <span className={styles.columnInner}>{column.title}</span>}
+            {column.title}
           </div>
         ))}
       </div>
