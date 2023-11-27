@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { withBootstrap } from "../../bootstrap/withBootstrap";
 import { useTournaments } from "../../api/query/useTournaments";
@@ -79,6 +79,16 @@ const LeaguesPage = () => {
     (tab: TournamentTab) => getLeagueCountByTournament(tab.id) > 0,
     [getLeagueCountByTournament]
   );
+
+  useEffect(() => {
+    if (leaguesQuery.isFetched) {
+      const currentTabCount = getLeagueCountByTournament(activeTournament);
+
+      if (currentTabCount === 0) {
+        setActiveTournament(undefined);
+      }
+    }
+  }, [leaguesQuery.isFetched]);
 
   return (
     <>
