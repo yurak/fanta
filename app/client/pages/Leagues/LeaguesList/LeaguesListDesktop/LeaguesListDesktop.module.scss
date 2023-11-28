@@ -9,6 +9,10 @@
 
 .seasonCell {
   flex: 0 0 max(100px, 10%);
+
+  @media (max-width: 991px) {
+    display: none;
+  }
 }
 
 .tournamentCell {
