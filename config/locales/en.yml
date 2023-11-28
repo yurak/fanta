@@ -188,6 +188,8 @@ en:
   league:
     all: "All"
     reg_open: "🍾 Registration open"
+    search_placeholder: "Search league"
+    empty_placeholder: "No leagues were found for this request"
     ongoing: "🚀️ Ongoing"
     finished: "🏁️ Finished"
     division: "DIVISION"

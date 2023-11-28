@@ -100,7 +100,11 @@ const LeaguesPage = () => {
           <SeasonsSelect value={selectedSeason} onChange={setSelectedSeason} />
         </div>
         <div className={styles.search}>
-          <Search value={search} onChange={setSearch} placeholder="Search league" />
+          <Search
+            value={search}
+            onChange={setSearch}
+            placeholder={t("league.search_placeholder")}
+          />
         </div>
       </div>
       <div className={styles.tabs}>
