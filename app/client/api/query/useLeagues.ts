@@ -14,7 +14,7 @@ export const useLeagues = ({ season, tournament }: { season?: number; tournament
   );
 
   const query = useQuery({
-    staleTime: 1000 * 60 * 10, // 10 minutes
+    staleTime: 1000 * 60 * 10, // 30 minutes
     queryKey: ["leagues", filter],
     queryFn: async ({ signal }) => {
       return (
