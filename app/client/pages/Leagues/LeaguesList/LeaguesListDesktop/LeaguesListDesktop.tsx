@@ -105,6 +105,7 @@ const LeaguesListDesktop = ({
       rowLink={(item) => item.link}
       isLoading={isLoading}
       skeletonItems={10}
+      emptyState={{ title: t("league.empty_placeholder") }}
     />
   );
 };
