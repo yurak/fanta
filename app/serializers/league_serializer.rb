@@ -8,6 +8,7 @@ class LeagueSerializer < ActiveModel::Serializer
   attributes :division
   attributes :division_id
   attributes :leader
+  attributes :leader_logo
   attributes :link
   attributes :max_avg_def_score
   attributes :min_avg_def_score
@@ -29,6 +30,10 @@ class LeagueSerializer < ActiveModel::Serializer
 
   def leader
     object.leader.human_name
+  end
+
+  def leader_logo
+    ActionController::Base.helpers.asset_path(object.leader.logo_path)
   end
 
   def link
