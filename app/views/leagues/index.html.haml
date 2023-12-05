@@ -1,5 +1,4 @@
 .page-block
   .web-header= render 'layouts/left_nav', league: nil
   .mob-header= render 'layouts/mob_header', league: nil, title: t('header.leagues')
-  .page-info.leagues-page
-    = react_component("Leagues", props: {}, prerender: true)
+  = react_component("Leagues", prerender: true)

@@ -5,6 +5,9 @@ class LeaguesController < ApplicationController
 
   helper_method :league
 
+  # Specify the layout for the index action
+  layout 'react_application', only: [:index]
+
   def index; end
 
   def show; end

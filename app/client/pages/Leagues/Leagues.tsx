@@ -11,6 +11,7 @@ import LeaguesList from "./LeaguesList";
 import { ILeaguesWithTournament } from "./interfaces";
 import { ISeason } from "../../interfaces/Season";
 import styles from "./Leagues.module.scss";
+import PageLayout from "../../layouts/PageLayout";
 
 const LeaguesPage = () => {
   const { t } = useTranslation();
@@ -91,7 +92,7 @@ const LeaguesPage = () => {
   }, [leaguesQuery.dataUpdatedAt]);
 
   return (
-    <>
+    <PageLayout>
       <div className={styles.header}>
         <div className={styles.heading}>
           <PageHeading title={t("header.leagues")} />
@@ -121,7 +122,7 @@ const LeaguesPage = () => {
         dataSource={filteredBySearch}
         isLoading={leaguesQuery.isPending || tournamentsQuery.isPending}
       />
-    </>
+    </PageLayout>
   );
 };
 

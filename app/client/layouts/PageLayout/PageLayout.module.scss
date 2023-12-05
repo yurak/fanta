@@ -1,0 +1,7 @@
+.layout {
+  padding: 50px 72px 0 144px;
+
+  @media (max-width: 768px) {
+    padding: 16px 12px 24px;
+  }
+}
