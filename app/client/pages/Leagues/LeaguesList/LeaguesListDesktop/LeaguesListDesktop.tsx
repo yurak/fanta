@@ -66,7 +66,30 @@ const LeaguesListDesktop = ({
         dataKey: "leader",
         className: styles.leaderCell,
         render: (item) => (
-          <LeagueLoader leagueId={item.id}>{(league) => <>{league.leader}</>}</LeagueLoader>
+          <LeagueLoader
+            leagueId={item.id}
+            skeleton={
+              <span className={styles.leaderNameSkeleton}>
+                <Skeleton containerClassName={styles.leaderNameSkeletonImage} />
+                <Skeleton containerClassName={styles.leaderNameSkeletonName} />
+              </span>
+            }
+          >
+            {(league) => (
+              <span className={styles.leaderName}>
+                <span className={styles.leaderImage}>
+                  <img src={league.leader_logo} />
+                </span>
+                <span className={styles.leaderNameName}>{league.leader}</span>
+              </span>
+            )}
+          </LeagueLoader>
+        ),
+        skeleton: (
+          <span className={styles.leaderNameSkeleton}>
+            <Skeleton containerClassName={styles.leaderNameSkeletonImage} />
+            <Skeleton containerClassName={styles.leaderNameSkeletonName} />
+          </span>
         ),
       },
       {
