@@ -54,6 +54,10 @@
   font-family: "Nunito ExtraBold";
   font-size: 16px;
   line-height: 1.5;
+}
+
+.leagueName,
+.leaderName {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -61,15 +65,16 @@
   align-items: center;
 }
 
-.leagueNameName {
+.leagueNameName,
+.leaderNameName {
   flex: 1;
 }
 
-.leagueImage {
+.leagueImage,
+.leaderImage {
   display: inline-block;
   width: 32px;
   height: 32px;
-  margin-right: 28px;
 
   @media (max-width: 1200px) {
     display: none;
@@ -81,17 +86,39 @@
   }
 }
 
-.leagueNameSkeleton {
+.leagueImage {
+  margin-right: 28px;
+}
+
+.leaderImage {
+  margin-right: 12px;
+
+  img {
+    border-radius: 50%;
+  }
+}
+
+.leagueNameSkeleton,
+.leaderNameSkeleton {
   display: flex;
   align-items: center;
+}
+
+.leagueNameSkeleton {
   gap: 28px;
 }
 
-.leagueNameSkeletonName {
+.leaderNameSkeleton {
+  gap: 12px;
+}
+
+.leagueNameSkeletonName,
+.leaderNameSkeletonName {
   flex: 1;
 }
 
-.leagueNameSkeletonImage {
+.leagueNameSkeletonImage,
+.leaderNameSkeletonImage {
   height: 26px;
   width: 32px;
   margin-top: 3px;

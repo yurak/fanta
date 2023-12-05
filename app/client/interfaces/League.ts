@@ -13,6 +13,7 @@ export interface ILeagueFullData extends ILeague {
   auction_type: string;
   cloning_status: string;
   leader: string;
+  leader_logo: string;
   max_avg_def_score: string;
   min_avg_def_score: string;
   promotion: number;
