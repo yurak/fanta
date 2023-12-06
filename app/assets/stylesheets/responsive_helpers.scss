@@ -1,0 +1,28 @@
+body.react-application {
+  --window-size: 980; // https://stackoverflow.com/questions/31767904/why-is-document-documentelement-clientwidth-980px-on-mobile-phone
+  --unit-multiplier: calc(100 / var(--window-size));
+}
+
+@mixin reactApplication {
+  body.react-application & {
+    @content;
+  }
+}
+
+@mixin notReactApplication {
+  body:not(.react-application) & {
+    @content;
+  }
+}
+
+@function strip-unit($number) {
+  @if type-of($number) == "number" and not unitless($number) {
+    @return $number / ($number * 0 + 1);
+  }
+
+  @return $number;
+}
+
+@function responsivePixels($n) {
+  @return calc(#{strip-unit($n)} * 1vw * var(--unit-multiplier));
+}

@@ -43,6 +43,7 @@
 @import "tours";
 @import "users";
 @import "welcome";
+@import "responsive_helpers";
 
 @font-face {
   font-family: 'Nunito Regular'; // 400
@@ -113,6 +114,10 @@ body, html {
     top: 0;
     width: 100%;
     z-index: 10;
+
+    @include reactApplication {
+      box-shadow: responsivePixels(3px) responsivePixels(6px) responsivePixels(15px) rgba(24, 23, 21, 0.2);
+    }
   }
 
   .base-header {
@@ -120,31 +125,59 @@ body, html {
     grid-template-columns: 192px auto 192px;
     position: relative;
 
+    @include reactApplication {
+      grid-template-columns: responsivePixels(192px) auto responsivePixels(192px);
+    }
+
     .league-data {
       padding-top: 42px;
       text-align: center;
+
+      @include reactApplication {
+        padding-top: responsivePixels(42px);
+      }
 
       .league-name {
         font-family: 'Nunito ExtraBold';
         font-size: 42px;
         line-height: 48px;
         margin-bottom: 12px;
+
+        @include reactApplication {
+          font-size: responsivePixels(42px);
+          line-height: responsivePixels(48px);
+          margin-bottom: responsivePixels(12px);
+        }
       }
 
       .league-season {
         font-family: 'Nunito Regular';
         font-size: 36px;
         line-height: 48px;
+
+        @include reactApplication {
+          font-size: responsivePixels(36px);
+          line-height: responsivePixels(48px);
+        }
       }
 
       .header-title {
         padding-top: 24px;
+
+        @include reactApplication {
+          padding-top: responsivePixels(24px);
+        }
       }
     }
 
     img {
       margin: 36px;
       width: 120px;
+
+      @include reactApplication {
+        margin: responsivePixels(36px);
+        width: responsivePixels(120px);
+      }
     }
 
     .league-icon {
@@ -157,12 +190,28 @@ body, html {
       right: 18px;
       top: 82px;
 
+      @include reactApplication {
+        width: responsivePixels(72px);
+        height: responsivePixels(72px);
+        border-width: responsivePixels(3);
+        border-radius: responsivePixels(36px);
+        right: responsivePixels(18px);
+        top: responsivePixels(82px);
+      }
+
       img {
         position: relative;
         width: 54px;
         height: 54px;
         border-radius: 12px;
         margin: 6px;
+
+        @include reactApplication {
+          width: responsivePixels(54px);
+          height: responsivePixels(54px);
+          border-radius: responsivePixels(12px);
+          margin: responsivePixels(6px);
+        }
       }
     }
   }
@@ -182,14 +231,26 @@ body, html {
 
     .base-header {
       height: 192px;
+
+      @include reactApplication {
+        height: responsivePixels(192px);
+      }
     }
 
     .league-data {
       padding-top: 24px;
       margin: 0 auto;
 
+      @include reactApplication {
+        padding-top: responsivePixels(24px);
+      }
+
       .league-name {
         line-height: 132px;
+
+        @include reactApplication {
+          line-height: responsivePixels(132px);
+        }
       }
     }
 
@@ -204,16 +265,36 @@ body, html {
       column-gap: 36px;
       width: fit-content;
 
+      @include reactApplication {
+        font-size: responsivePixels(42px);
+        line-height: responsivePixels(72px);
+        padding: responsivePixels(24px);
+        border-width: responsivePixels(3px);
+        border-radius: responsivePixels(72px);
+        grid-template-columns: responsivePixels(72px) auto;
+        column-gap: responsivePixels(36px);
+      }
+
       img {
         width: 72px;
         height: 72px;
         border-radius: 36px;
         margin: 0;
+
+        @include reactApplication {
+          width: responsivePixels(72px);
+          height: responsivePixels(72px);
+          border-radius: responsivePixels(36px);
+        }
       }
 
       .user-name {
         width: fit-content;
         padding-right: 18px;
+
+        @include reactApplication {
+          padding-right: responsivePixels(18px);
+        }
       }
     }
 
@@ -223,6 +304,10 @@ body, html {
       width: 100%;
       height: 90%;
       overflow: scroll;
+
+      @include reactApplication {
+        top: responsivePixels(192px);
+      }
     }
 
     .nav-links {
@@ -234,11 +319,23 @@ body, html {
         font-size: 48px;
         line-height: 72px;
 
+        @include reactApplication {
+          margin-top: responsivePixels(48px);
+          padding: responsivePixels(24px) responsivePixels(72px);
+          font-size: responsivePixels(48px);
+          line-height: responsivePixels(72px);
+        }
+
         a {
           display: grid;
           grid-template-columns: 72px auto;
           column-gap: 48px;
           cursor: pointer;
+
+          @include reactApplication {
+            grid-template-columns: responsivePixels(72px) auto;
+            column-gap: responsivePixels(48px);
+          }
         }
 
         .nav-link-title {
@@ -254,12 +351,23 @@ body, html {
       text-align: left;
       height: fit-content;
 
+      @include reactApplication {
+        margin: responsivePixels(96px) 0 responsivePixels(180px);
+        padding: 0 responsivePixels(36px);
+      }
+
       .my-leagues-title {
         font-size: 36px;
         line-height: 48px;
         letter-spacing: 0.02em;
         text-transform: uppercase;
         margin-bottom: 24px;
+
+        @include reactApplication {
+          font-size: responsivePixels(36px);
+          line-height: responsivePixels(48px);
+          margin-bottom: responsivePixels(24px);
+        }
       }
 
       .my-league {
@@ -270,10 +378,24 @@ body, html {
         padding: 0 24px;
         margin-bottom: 12px;
 
+        @include reactApplication {
+          border-width: responsivePixels(3px);
+          border-radius: responsivePixels(12px);
+          line-height: responsivePixels(162px);
+          font-size: responsivePixels(42px);
+          padding: 0 responsivePixels(24px);
+          margin-bottom: responsivePixels(12px);
+        }
+
         a {
           display: grid;
           grid-template-columns: 168px auto 180px 72px;
           column-gap: 48px;
+
+          @include reactApplication {
+            grid-template-columns: responsivePixels(168px) auto responsivePixels(180px) responsivePixels(72px);
+            column-gap: responsivePixels(48px);
+          }
         }
 
         .my-league-logo {
@@ -289,6 +411,11 @@ body, html {
         img {
           width: 126px;
           height: 126px;
+
+          @include reactApplication {
+            width: responsivePixels(126px);
+            height: responsivePixels(126px);
+          }
         }
 
         .my-league-type {
@@ -298,11 +425,22 @@ body, html {
           text-align: center;
           margin: auto;
 
+          @include reactApplication {
+            height: responsivePixels(72px);
+            font-size: responsivePixels(36px);
+            line-height: responsivePixels(72px);
+          }
+
           .my-league-type-item {
             padding: 0 24px;
             background: #D8D6FF;
             color: #040052;
             border-radius: 36px;
+
+            @include reactApplication {
+              padding: 0 responsivePixels(24px);
+              border-radius: responsivePixels(36px);
+            }
           }
 
           .my-league-fanta {
@@ -321,6 +459,10 @@ body, html {
 
   .badges-block {
     padding: 192px 0 72px;
+
+    @include reactApplication {
+      padding: responsivePixels(194px) 0 0;
+    }
 
     .next-round {
       font-family: 'Nunito ExtraBold';
@@ -530,14 +672,30 @@ body, html {
 }
 
 @media (orientation: portrait) {
-  .mob-header {
-    display: block;
-  }
+  body:not(.react-application) {
+    .mob-header {
+      display: block;
+    }
 
-  .web-header {
-    display: none;
+    .web-header {
+      display: none;
+    }
   }
+}
 
+@media (max-width: 768px) {
+  body.react-application {
+    .mob-header {
+      display: block;
+    }
+
+    .web-header {
+      display: none;
+    }
+  }
+}
+
+@media (orientation: portrait) {
   .portrait-footer {
     display: grid;
   }
