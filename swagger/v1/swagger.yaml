@@ -1,0 +1,272 @@
+---
+openapi: 3.0.1
+info:
+  title: MantraFootball API V1
+  version: v1
+paths:
+  "/api/leagues":
+    get:
+      summary: list leagues
+      tags:
+      - Leagues
+      parameters:
+      - name: filter
+        in: query
+        type: object
+        required: false
+        schema:
+          type: object
+          properties:
+            season_id:
+              type: integer
+              example: '123'
+            tournament_id:
+              type: integer
+              example: '123'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      "$ref": "#/components/schemas/league_base"
+  "/api/leagues/{id}":
+    parameters:
+    - name: id
+      in: path
+      description: id
+      required: true
+      schema:
+        type: string
+    get:
+      summary: show league
+      tags:
+      - Leagues
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    "$ref": "#/components/schemas/league"
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/error_not_found"
+  "/api/seasons":
+    get:
+      summary: list seasons
+      tags:
+      - Seasons
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      "$ref": "#/components/schemas/season"
+  "/api/tournaments":
+    get:
+      summary: list tournaments
+      tags:
+      - Tournaments
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      "$ref": "#/components/schemas/tournament"
+servers:
+- url: http://localhost:3333
+- url: https://staging.mantrafootball.org
+- url: https://mantrafootball.org
+components:
+  schemas:
+    error_not_found:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              key:
+                type: string
+                example: not_found
+              message:
+                type: string
+                example: Resource not found
+      required:
+      - key
+      - message
+    league:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 123
+        auction_type:
+          type: string
+          example: blind_bids
+          description: 'Available values: blind_bids, live'
+        cloning_status:
+          type: string
+          example: unclonable
+          description: 'Available values: unclonable, cloneable'
+        division:
+          type: string
+          example: A1
+          nullable: true
+        division_id:
+          type: integer
+          example: '123'
+          nullable: true
+        leader:
+          type: string
+          example: Rossoneri
+          nullable: true
+        leader_logo:
+          type: string
+          example: https://s3.amazonaws.com/teams/default.png
+          nullable: true
+        link:
+          type: string
+          example: "/leagues/link"
+        max_avg_def_score:
+          type: string
+          example: '8.0'
+        min_avg_def_score:
+          type: string
+          example: '7.0'
+        name:
+          type: string
+          example: San Siro
+        promotion:
+          type: integer
+          example: 2
+        relegation:
+          type: integer
+          example: 3
+        round:
+          type: integer
+          example: 13
+        season_id:
+          type: integer
+          example: 123
+        season_end_year:
+          type: integer
+          example: 2024
+        season_start_year:
+          type: integer
+          example: 2023
+        status:
+          type: string
+          example: active
+          description: 'Available values: initial, active, archived'
+        teams_count:
+          type: integer
+          example: 8
+        tournament_id:
+          type: integer
+          example: 321
+        transfer_status:
+          type: string
+          example: closed
+          description: 'Available values: closed, open'
+      required:
+      - id
+      - name
+    league_base:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 123
+        division:
+          type: string
+          example: A1
+          nullable: true
+        division_id:
+          type: integer
+          example: 123
+          nullable: true
+        link:
+          type: string
+          example: "/leagues/link"
+        name:
+          type: string
+          example: San Siro
+        season_id:
+          type: integer
+          example: 123
+        status:
+          type: string
+          example: active
+          description: 'Available values: initial, active, archived'
+        tournament_id:
+          type: integer
+          example: 321
+      required:
+      - id
+      - name
+    season:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 123
+        end_year:
+          type: integer
+          example: 2024
+        start_year:
+          type: integer
+          example: 2023
+      required:
+      - id
+      - end_year
+      - start_year
+    tournament:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 123
+        name:
+          type: string
+          example: Italy
+        icon:
+          type: string
+          example: "\U0001F1EE\U0001F1F9"
+          nullable: true
+        logo:
+          type: string
+          example: "/assets/path/italy.png"
+          nullable: true
+        short_name:
+          type: string
+          example: Italy
+          nullable: true
+      required:
+      - id
+      - name

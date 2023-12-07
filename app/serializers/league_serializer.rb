@@ -29,11 +29,11 @@ class LeagueSerializer < ActiveModel::Serializer
   end
 
   def leader
-    object.leader.human_name
+    object.leader&.human_name
   end
 
   def leader_logo
-    ActionController::Base.helpers.asset_path(object.leader.logo_path)
+    ActionController::Base.helpers.asset_path(object.leader.logo_path) if object.leader
   end
 
   def link
