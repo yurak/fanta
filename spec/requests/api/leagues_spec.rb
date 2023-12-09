@@ -1,6 +1,6 @@
 require 'swagger_helper'
 
-RSpec.describe 'Leagues', type: :request do
+RSpec.describe 'Leagues' do
   path '/api/leagues' do
     get('list leagues') do
       tags 'Leagues'
@@ -15,7 +15,7 @@ RSpec.describe 'Leagues', type: :request do
       }
 
       let!(:league_one) { create(:active_league) }
-      let!(:league_two) { create(:league) }
+      let(:league_two) { create(:league) }
       let!(:league_three) { create(:active_league) }
 
       response 200, 'Success' do
@@ -28,14 +28,14 @@ RSpec.describe 'Leagues', type: :request do
           body = JSON.parse(response.body)
 
           expect(body['data'].size).to eq 2
-          expect(body['data'].pluck('id')).to match_array [league_one.id, league_three.id]
+          expect(body['data'].pluck('id')).to contain_exactly(league_one.id, league_three.id)
         end
       end
     end
   end
 
   path '/api/leagues/{id}' do
-    parameter name: 'id', in: :path, type: :string, description: 'id'
+    parameter name: 'id', in: :path, type: :string, description: 'League id'
 
     get('show league') do
       tags 'Leagues'

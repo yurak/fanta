@@ -1,7 +1,6 @@
 require 'swagger_helper'
 
-RSpec.describe 'Seasons', type: :request do
-
+RSpec.describe 'Seasons' do
   path '/api/seasons' do
     get('list seasons') do
       tags 'Seasons'
@@ -21,7 +20,7 @@ RSpec.describe 'Seasons', type: :request do
           body = JSON.parse(response.body)
 
           expect(body['data'].size).to eq 2
-          expect(body['data'].pluck('id')).to match_array [season_one.id, season_two.id]
+          expect(body['data'].pluck('id')).to contain_exactly(season_one.id, season_two.id)
         end
       end
     end

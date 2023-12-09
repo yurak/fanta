@@ -85,8 +85,11 @@ Rails.application.routes.draw do
   end
 
   namespace :api do
-    resources :leagues, only: [:index, :show]
-    resources :tournaments, only: [:index]
+    resources :leagues, only: [:index, :show] do
+      resources :results, only: [:index]
+    end
     resources :seasons, only: [:index]
+    resources :teams, only: [:show]
+    resources :tournaments, only: [:index]
   end
 end

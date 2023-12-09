@@ -42,8 +42,6 @@ class Result < ApplicationRecord
     closed_lineups.max_by(&:total_score).total_score
   end
 
-  private
-
   def closed_lineups
     lineups.closed(league.id)
   end

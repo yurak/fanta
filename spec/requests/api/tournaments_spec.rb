@@ -1,6 +1,6 @@
 require 'swagger_helper'
 
-RSpec.describe 'Tournaments', type: :request do
+RSpec.describe 'Tournaments' do
   path '/api/tournaments' do
     get('list tournaments') do
       tags 'Tournaments'
@@ -20,7 +20,7 @@ RSpec.describe 'Tournaments', type: :request do
           body = JSON.parse(response.body)
 
           expect(body['data'].size).to eq 2
-          expect(body['data'].pluck('id')).to match_array [tournament_one.id, tournament_two.id]
+          expect(body['data'].pluck('id')).to contain_exactly(tournament_one.id, tournament_two.id)
         end
       end
     end
