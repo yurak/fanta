@@ -13,13 +13,17 @@ module Api
     end
 
     def show
-      render json: league, serializer: LeagueSerializer
+      if league
+        render json: { data: LeagueSerializer.new(league) }
+      else
+        not_found
+      end
     end
 
     private
 
     def league
-      @league ||= League.find(params[:id])
+      @league ||= League.find_by(id: params[:id])
     end
 
     def filtered_leagues

@@ -27,6 +27,18 @@ yarn install
 rails db:setup
 ```
 
+### API
+
+Run API specs
+```
+rspec --tag rswag
+```
+
+Generate swagger docs
+```
+RAILS_ENV=test rails rswag
+```
+
 ### Start & watch
 
 ```
