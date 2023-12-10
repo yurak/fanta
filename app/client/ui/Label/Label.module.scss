@@ -1,0 +1,35 @@
+.label {
+  padding: 4px 8px;
+  display: inline-block;
+  background-color: #f4f4f4;
+  color: #181715;
+  font-family: "Nunito ExtraBold";
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 0.02em;
+  border-radius: 12px;
+}
+
+.icon {
+  margin-right: 4px;
+}
+
+.alert {
+  background-color: #ffebc2;
+  color: #9f6c05;
+}
+
+.error {
+  background-color: #fcc5cb;
+  color: #db0a23;
+}
+
+.success {
+  background-color: #d0f0d4;
+  color: #1d5d26;
+}
+
+.new {
+  background-color: #d8d6ff;
+  color: #040052;
+}
