@@ -1,7 +1,7 @@
 namespace :positions do
   desc 'Update position names and locations'
   task new_names: :environment do
-    Position.all.find_each do |position|
+    Position.find_each do |position|
       position.update(human_name: Slot::POS_MAPPING[position.name])
     end
 
