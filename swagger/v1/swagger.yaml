@@ -213,6 +213,10 @@ components:
         link:
           type: string
           example: "/leagues/link"
+        mantra_format:
+          type: boolean
+          example: true
+          description: true for Mantra, false for national and eurocup leagues
         max_avg_def_score:
           type: string
           example: '8.0'
