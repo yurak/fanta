@@ -19,7 +19,7 @@ RSpec.describe NationalTeams::Creator do
         creator.call
       end
 
-      it { expect(NationalTeam.all.count).to eq(4) }
+      it { expect(NationalTeam.count).to eq(4) }
     end
 
     context 'with existed national team with same code' do
@@ -29,7 +29,7 @@ RSpec.describe NationalTeams::Creator do
         creator.call
       end
 
-      it { expect(NationalTeam.all.count).to eq(4) }
+      it { expect(NationalTeam.count).to eq(4) }
     end
 
     context 'with existed national team with same name' do
@@ -39,7 +39,7 @@ RSpec.describe NationalTeams::Creator do
         creator.call
       end
 
-      it { expect(NationalTeam.all.count).to eq(4) }
+      it { expect(NationalTeam.count).to eq(4) }
     end
 
     context 'with existed national team with other code' do
@@ -49,7 +49,7 @@ RSpec.describe NationalTeams::Creator do
         creator.call
       end
 
-      it { expect(NationalTeam.all.count).to eq(5) }
+      it { expect(NationalTeam.count).to eq(5) }
     end
 
     context 'with invalid tournament code' do
@@ -67,7 +67,7 @@ RSpec.describe NationalTeams::Creator do
         creator.call
       end
 
-      it { expect(NationalTeam.all.count).to eq(0) }
+      it { expect(NationalTeam.count).to eq(0) }
     end
 
     context 'with multiple tournaments with one invalid tournament code' do
@@ -93,7 +93,7 @@ RSpec.describe NationalTeams::Creator do
         creator.call
       end
 
-      it { expect(NationalTeam.all.count).to eq(6) }
+      it { expect(NationalTeam.count).to eq(6) }
     end
   end
 end
