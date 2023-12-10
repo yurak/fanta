@@ -30,6 +30,8 @@ gem 'rails_admin', '~> 2.0'
 gem 'rails-i18n', '~> 6.0'
 gem 'rb-readline'
 gem 'rest-client'
+gem 'rswag-api'
+gem 'rswag-ui'
 gem 'rubocop', '~> 1.57.0', require: false
 gem 'rubocop-factory_bot'
 gem 'rubocop-rails', require: false
@@ -46,6 +48,7 @@ gem "i18n-js"
 group :development, :test do
   gem 'pry-rails'
   gem 'rspec-rails'
+  gem 'rswag-specs'
   gem 'vcr'
   gem 'webmock'
 end
