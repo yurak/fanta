@@ -1,3 +1,3 @@
-export interface ICollectionResponse<Data extends any> {
+export interface IResponse<Data extends any> {
   data: Data;
 }
