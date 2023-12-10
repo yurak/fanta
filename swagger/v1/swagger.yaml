@@ -4,6 +4,42 @@ info:
   title: MantraFootball API V1
   version: v1
 paths:
+  "/api/tournaments/{tournament_id}/divisions":
+    parameters:
+    - name: tournament_id
+      in: path
+      description: Tournament id
+      required: true
+      schema:
+        type: string
+    - name: season_id
+      in: query
+      required: false
+      description: Season id
+      schema:
+        type: string
+    get:
+      summary: list tournament divisions
+      tags:
+      - Divisions
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      "$ref": "#/components/schemas/division"
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/error_not_found"
   "/api/leagues":
     get:
       summary: list leagues
@@ -161,6 +197,22 @@ servers:
 - url: https://mantrafootball.org
 components:
   schemas:
+    division:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 123
+        level:
+          type: string
+          example: A
+        leagues:
+          type: array
+          items:
+            "$ref": "#/components/schemas/league_base"
+      required:
+      - id
+      - level
     error_not_found:
       type: object
       properties:
@@ -451,9 +503,6 @@ components:
         id:
           type: integer
           example: 123
-        name:
-          type: string
-          example: Italy
         icon:
           type: string
           example: "\U0001F1EE\U0001F1F9"
@@ -462,6 +511,13 @@ components:
           type: string
           example: "/assets/path/italy.png"
           nullable: true
+        mantra_format:
+          type: boolean
+          example: true
+          description: true for Mantra, false for national and eurocup leagues
+        name:
+          type: string
+          example: Italy
         short_name:
           type: string
           example: Italy
