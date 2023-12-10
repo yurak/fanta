@@ -7,7 +7,7 @@ module Api
     def index
       if tournament
         divisions = division_levels
-                      .map { |t| DivisionLevelSerializer.new(t, tournament_id: tournament.id, season_id: season.id ) }
+                    .map { |t| DivisionLevelSerializer.new(t, tournament_id: tournament.id, season_id: season.id) }
         render json: { data: divisions }
       else
         not_found

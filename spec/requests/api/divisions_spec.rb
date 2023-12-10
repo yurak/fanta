@@ -14,7 +14,7 @@ RSpec.describe 'Divisions' do
         let!(:tournament) { create(:tournament) }
         let!(:division) { create(:division, level: 'A') }
         let!(:league) { create(:league, tournament: tournament, division: division) }
-        let!(:tournament_id) { tournament.id }
+        let(:tournament_id) { tournament.id }
 
         schema type: :object,
                properties: {
@@ -30,7 +30,7 @@ RSpec.describe 'Divisions' do
       end
 
       response 404, 'Not found' do
-        let!(:tournament_id) { 'invalid' }
+        let(:tournament_id) { 'invalid' }
 
         schema '$ref' => '#/components/schemas/error_not_found'
 

@@ -41,8 +41,4 @@ Metrics/PerceivedComplexity:
 # This cop supports unsafe autocorrection (--autocorrect-all).
 RSpec/EmptyExampleGroup:
   Exclude:
-    - 'spec/requests/api/leagues_spec.rb'
-    - 'spec/requests/api/results_spec.rb'
-    - 'spec/requests/api/seasons_spec.rb'
-    - 'spec/requests/api/teams_spec.rb'
-    - 'spec/requests/api/tournaments_spec.rb'
+    - 'spec/requests/api/**/*'
