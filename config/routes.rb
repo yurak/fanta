@@ -90,6 +90,8 @@ Rails.application.routes.draw do
     end
     resources :seasons, only: [:index]
     resources :teams, only: [:show]
-    resources :tournaments, only: [:index]
+    resources :tournaments, only: [:index] do
+      resources :divisions, only: [:index]
+    end
   end
 end

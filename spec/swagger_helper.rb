@@ -35,6 +35,20 @@ RSpec.configure do |config|
       ],
       components: {
         schemas: {
+          division: {
+            type: :object,
+            properties: {
+              id: { type: :integer, example: 123 },
+              level: { type: :string, example: 'A' },
+              leagues: {
+                type: :array,
+                items: {
+                  '$ref' => '#/components/schemas/league_base'
+                }
+              }
+            },
+            required: %w[id level]
+          },
           error_not_found: {
             type: :object,
             properties: {
@@ -159,9 +173,10 @@ RSpec.configure do |config|
             type: :object,
             properties: {
               id: { type: :integer, example: 123 },
-              name: { type: :string, example: 'Italy' },
               icon: { type: :string, example: '🇮🇹', nullable: true },
               logo: { type: :string, example: '/assets/path/italy.png', nullable: true },
+              mantra_format: { type: :boolean, example: true, description: 'true for Mantra, false for national and eurocup leagues' },
+              name: { type: :string, example: 'Italy' },
               short_name: { type: :string, example: 'Italy', nullable: true }
             },
             required: %w[id name]
