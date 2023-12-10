@@ -63,6 +63,7 @@ RSpec.configure do |config|
               leader: { type: :string, example: 'Rossoneri', nullable: true },
               leader_logo: { type: :string, example: 'https://s3.amazonaws.com/teams/default.png', nullable: true },
               link: { type: :string, example: '/leagues/link' },
+              mantra_format: { type: :boolean, example: true, description: 'true for Mantra, false for national and eurocup leagues' },
               max_avg_def_score: { type: :string, example: '8.0' },
               min_avg_def_score: { type: :string, example: '7.0' },
               name: { type: :string, example: 'San Siro' },

@@ -19,7 +19,7 @@ RSpec.describe Clubs::Creator do
         creator.call
       end
 
-      it { expect(Club.all.count).to eq(4) }
+      it { expect(Club.count).to eq(4) }
     end
 
     context 'with existed clubs with same name and code' do
@@ -29,7 +29,7 @@ RSpec.describe Clubs::Creator do
         creator.call
       end
 
-      it { expect(Club.all.count).to eq(4) }
+      it { expect(Club.count).to eq(4) }
     end
 
     context 'with existed clubs with same name' do
@@ -39,7 +39,7 @@ RSpec.describe Clubs::Creator do
         creator.call
       end
 
-      it { expect(Club.all.count).to eq(4) }
+      it { expect(Club.count).to eq(4) }
     end
 
     context 'with existed clubs with same code' do
@@ -49,7 +49,7 @@ RSpec.describe Clubs::Creator do
         creator.call
       end
 
-      it { expect(Club.all.count).to eq(4) }
+      it { expect(Club.count).to eq(4) }
     end
 
     context 'with existed clubs with other name and code' do
@@ -59,7 +59,7 @@ RSpec.describe Clubs::Creator do
         creator.call
       end
 
-      it { expect(Club.all.count).to eq(5) }
+      it { expect(Club.count).to eq(5) }
     end
 
     context 'with multiple tournaments' do
@@ -83,7 +83,7 @@ RSpec.describe Clubs::Creator do
         creator.call
       end
 
-      it { expect(Club.all.count).to eq(6) }
+      it { expect(Club.count).to eq(6) }
     end
 
     context 'with invalid tournament code' do
@@ -101,7 +101,7 @@ RSpec.describe Clubs::Creator do
         creator.call
       end
 
-      it { expect(Club.all.count).to eq(0) }
+      it { expect(Club.count).to eq(0) }
     end
 
     context 'with multiple tournaments with one invalid tournament code' do
@@ -123,7 +123,7 @@ RSpec.describe Clubs::Creator do
         creator.call
       end
 
-      it { expect(Club.all.count).to eq(2) }
+      it { expect(Club.count).to eq(2) }
     end
 
     context 'when eurocup tournament with existed clubs' do
@@ -143,7 +143,7 @@ RSpec.describe Clubs::Creator do
         creator.call
       end
 
-      it { expect(Club.all.count).to eq(4) }
+      it { expect(Club.count).to eq(4) }
     end
 
     context 'when eurocup tournament with existed clubs with same name' do
@@ -164,7 +164,7 @@ RSpec.describe Clubs::Creator do
         creator.call
       end
 
-      it { expect(Club.all.count).to eq(4) }
+      it { expect(Club.count).to eq(4) }
 
       it 'adds eurocup tournament to club' do
         expect(club.reload.ec_tournament.code).to eq('europe')
