@@ -10,6 +10,7 @@ class LeagueSerializer < ActiveModel::Serializer
   attributes :leader
   attributes :leader_logo
   attributes :link
+  attributes :mantra_format
   attributes :max_avg_def_score
   attributes :min_avg_def_score
   attributes :name
@@ -29,15 +30,19 @@ class LeagueSerializer < ActiveModel::Serializer
   end
 
   def leader
-    object.leader&.human_name
+    leader_team&.human_name
   end
 
   def leader_logo
-    ActionController::Base.helpers.asset_path(object.leader.logo_path) if object.leader
+    ActionController::Base.helpers.asset_path(leader_team.logo_path) if leader_team
   end
 
   def link
     league_link(object)
+  end
+
+  def mantra_format
+    !object.tournament.fanta?
   end
 
   def round
@@ -54,5 +59,11 @@ class LeagueSerializer < ActiveModel::Serializer
 
   def teams_count
     object.results.count
+  end
+
+  private
+
+  def leader_team
+    @leader_team ||= object.leader
   end
 end
