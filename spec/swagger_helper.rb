@@ -27,7 +27,7 @@ RSpec.configure do |config|
           url: 'http://localhost:3333'
         },
         {
-          url: 'https://staging.mantrafootball.org'
+          url: 'http://staging.mantrafootball.org'
         },
         {
           url: 'https://mantrafootball.org'
