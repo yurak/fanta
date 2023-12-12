@@ -5,6 +5,10 @@ class ResultsController < ApplicationController
 
   helper_method :league
 
+  layout 'react_application'
+
+  # TODO: check def's
+
   def index
     @results = league.tournament.fanta? ? ordered_national_results : league_results.ordered
   end

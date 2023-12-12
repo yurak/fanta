@@ -12,3 +12,16 @@
     padding: 24px 12px 36px;
   }
 }
+
+.withSidebar {
+  padding-left: calc(var(--nav-width) + 216px);
+  padding-right: 16px;
+
+  @media (max-width: 991px) {
+    // TODO: add styles for laptop
+  }
+
+  @media (max-width: 768px) {
+    // TODO: add styles for mobile
+  }
+}
