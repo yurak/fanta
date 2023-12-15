@@ -22,7 +22,7 @@ class PlayersController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.json { render json: player, serializer: PlayerSerializer }
+      format.json { render json: player, serializer: PlayerLineupSerializer }
     end
   end
 
@@ -51,20 +51,14 @@ class PlayersController < ApplicationController
     end
   end
 
-  def tournament_players
-    Player.by_tournament(tournament)
-  end
-
-  def players_by_position
-    stats_params[:position] ? tournament_players.by_position(stats_params[:position]) : tournament_players
-  end
-
-  def players_by_club
-    stats_params[:club] ? players_by_position.by_club(stats_params[:club]) : players_by_position
-  end
-
   def players_with_filter
-    stats_params[:search] ? tournament_players.search_by_name(stats_params[:search]) : players_by_club
+    Players::Search.call(
+      club_id: stats_params[:club],
+      league_id: stats_params[:league],
+      name: stats_params[:search],
+      position: Slot::POS_MAPPING[stats_params[:position]],
+      tournament_id: stats_params[:tournament]
+    )
   end
 
   def stats_params

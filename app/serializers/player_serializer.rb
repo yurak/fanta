@@ -1,41 +1,29 @@
-class PlayerSerializer < ActiveModel::Serializer
-  attributes :avatar_path, :classic_positions, :club_code, :club_color, :club_logo, :club_name, :first_name, :id, :kit_path,
-             :leagues, :name, :national_kit_path, :national_team_name,
-             :position_arr, :position_classic_arr, :position_names, :stats_price
-
-  def classic_positions
-    object.position_names.map { |pn| Slot::POS_MAPPING[pn] }
-  end
-
-  def club_code
-    object.club&.code
-  end
-
-  def club_color
-    object.club&.color
-  end
-
-  def club_logo
-    object.club&.logo_path
-  end
-
-  def club_name
-    object.club&.name
-  end
+class PlayerSerializer < PlayerBaseSerializer
+  # attributes from PlayerBaseSerializer
+  # :id, :appearances, :avatar_path, :average_base_score, :average_price, :average_total_score, :club, :first_name,
+  # :league_price, :league_team_logo, :name, :position_classic_arr, :position_ital_arr, :teams_count
+  attributes :age
+  attributes :birth_date
+  attributes :country
+  attributes :height
+  attributes :leagues
+  attributes :national_team
+  attributes :number
+  attributes :profile_avatar_path
+  attributes :stats_price
+  attributes :team_ids
+  attributes :tm_price
+  attributes :tm_url
 
   def leagues
-    object.teams.map(&:league_id)
+    teams.pluck(:league_id)
   end
 
-  def national_team_name
-    object.national_team&.name
+  def national_team
+    NationalTeamSerializer.new(object.national_team) if object.national_team
   end
 
-  def position_arr
-    object.player_positions.map { |pp| pp.position.name }
-  end
-
-  def position_classic_arr
-    object.player_positions.map { |pp| Slot::POS_MAPPING[pp.position.name] }
+  def team_ids
+    teams.pluck(:id)
   end
 end

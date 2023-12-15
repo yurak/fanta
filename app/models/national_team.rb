@@ -28,4 +28,12 @@ class NationalTeam < ApplicationRecord
   def matches
     @matches ||= NationalMatch.by_team(id).by_t_round(tournament.tournament_rounds)
   end
+
+  def kit_path
+    "#{Player::BUCKET_URL}/kits/national_small/#{code}.png"
+  end
+
+  def profile_kit_path
+    "#{Player::BUCKET_URL}/kits/national/#{code}.png"
+  end
 end
