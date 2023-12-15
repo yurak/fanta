@@ -9,8 +9,8 @@ RSpec.describe 'Leagues' do
       parameter name: :filter, in: :query, type: :object, required: false, schema: {
         type: :object,
         properties: {
-          season_id: { type: 'integer', example: '123' },
-          tournament_id: { type: 'integer', example: '123' }
+          season_id: { type: :integer, example: 123 },
+          tournament_id: { type: :integer, example: 123 }
         }
       }
 

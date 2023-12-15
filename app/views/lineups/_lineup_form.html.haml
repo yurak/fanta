@@ -231,8 +231,8 @@
           }
 
           positionsContainer.children(".team-player-position").remove();
-          data.position_names.forEach((positionName, index) => {
-            let posName = data.classic_positions[index];
+          data.position_arr.forEach((positionName, index) => {
+            let posName = data.position_classic_arr[index];
             if (italPosNaming) { posName = positionName; }
 
             $('<div/>',{
@@ -244,7 +244,7 @@
 
           let malus = "";
           if (slotPosition.length > 0) {
-            const intersection = slotPosition.filter(element => data.position_names.includes(element));
+            const intersection = slotPosition.filter(element => data.position_arr.includes(element));
             if (intersection.length === 0) {
               playerRow.css("border-bottom","1px solid #DB0A23");
               malus = "⚠️ ";

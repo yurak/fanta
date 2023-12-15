@@ -21,7 +21,7 @@ class SlotsController < ApplicationController
                 round_players
               end
 
-    players.each_with_object({}) { |cp, hash| hash[cp[0].name] = cp[1].map { |item| PlayerSerializer.new(item).serializable_hash } }
+    players.each_with_object({}) { |cp, hash| hash[cp[0].name] = cp[1].map { |item| PlayerLineupSerializer.new(item).serializable_hash } }
   end
 
   def round_players
