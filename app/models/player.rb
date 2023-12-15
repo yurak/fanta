@@ -20,12 +20,15 @@ class Player < ApplicationRecord
   validates :tm_id, uniqueness: true, allow_nil: true
   validates :fotmob_id, uniqueness: true, allow_nil: true
 
+  delegate :kit_path, :profile_kit_path, to: :club
+
   default_scope { includes(%i[club national_team player_positions player_teams positions teams]) }
 
-  scope :by_club, ->(club_id) { where(club_id: club_id) }
+  scope :by_club, ->(club_id) { where(club_id: club_id) if club_id.present? }
   scope :search_by_name, ->(search_str) { where('lower(name) LIKE :search OR lower(first_name) LIKE :search', search: "%#{search_str}%") }
-  scope :by_position, ->(position) { joins(:positions).where(positions: { name: position }) }
-  scope :by_tournament, ->(tournament) { where(club: tournament.clubs.active) }
+  scope :by_position, ->(position) { joins(:positions).where(positions: { name: position }) if position.present? }
+  scope :by_classic_position, ->(position) { joins(:positions).where(positions: { human_name: position }) if position.present? }
+  scope :by_tournament, ->(tournament) { where(club: tournament.clubs.active) if tournament.present? }
   scope :by_ec_tournament, ->(tournament) { where(club: tournament.ec_clubs.active) }
   scope :by_national_tournament, ->(tment_id) { joins(:national_team).where(national_teams: { tournament: tment_id, status: 'active' }) }
   scope :by_national_teams, ->(nt_id) { where(national_team_id: nt_id) }
@@ -65,23 +68,15 @@ class Player < ApplicationRecord
   end
 
   def path_name
-    avatar_name || full_name.downcase.tr(' ', '_').tr('-', '_').delete("'")
+    @path_name ||= avatar_name || full_name.downcase.tr(' ', '_').tr('-', '_').delete("'")
   end
 
   def national_kit_path
-    "#{BUCKET_URL}/kits/national_small/#{national_team.code}.png" if national_team
+    national_team&.kit_path
   end
 
   def profile_national_kit_path
-    "#{BUCKET_URL}/kits/national/#{national_team.code}.png" if national_team
-  end
-
-  def kit_path
-    "#{BUCKET_URL}/kits/club_small/#{club.path_name}.png"
-  end
-
-  def profile_kit_path
-    "#{BUCKET_URL}/kits/club/#{club.path_name}.png"
+    national_team&.profile_kit_path
   end
 
   def tm_path

@@ -386,9 +386,9 @@
 
               positionsContainer.children(".algo-position").remove();
               positionsContainer.children(".player-position").remove();
-              $('<div/>',{ class: "algo-position algo-position-" + data.position_names.join('/') }).appendTo(positionsContainer);
-              data.position_names.forEach((positionName, index) => {
-                let posName = data.classic_positions[index];
+              $('<div/>',{ class: "algo-position algo-position-" + data.position_arr.join('/') }).appendTo(positionsContainer);
+              data.position_arr.forEach((positionName, index) => {
+                let posName = data.position_classic_arr[index];
                 if (italPosNaming) { posName = positionName; }
 
                 $('<div/>',{
