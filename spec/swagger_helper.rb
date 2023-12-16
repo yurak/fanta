@@ -35,6 +35,22 @@ RSpec.configure do |config|
       ],
       components: {
         schemas: {
+          club: {
+            type: :object,
+            properties: {
+              id: { type: :integer, example: 123 },
+              code: { type: :string, example: 'MIL' },
+              color: { type: :string, example: 'DB0A23' },
+              kit_path: { type: :string, example: 'https://aws.com/assets/path/kit.png' },
+              logo_path: { type: :string, example: 'https://aws.com/assets/path/logo.png' },
+              name: { type: :string, example: 'Milan' },
+              profile_kit_path: { type: :string, example: 'https://aws.com/assets/path/kit.png' },
+              status: { type: :string, example: 'active', description: 'Available values: active, archived' },
+              tm_url: { type: :string, example: 'https://www.transfermarkt.com/ac-mailand/startseite/verein/5', nullable: true },
+              tournament_id: { type: :integer, example: 321 }
+            },
+            required: %w[id code name]
+          },
           division: {
             type: :object,
             properties: {
@@ -108,6 +124,78 @@ RSpec.configure do |config|
             },
             required: %w[id name]
           },
+          national_team: {
+            type: :object,
+            properties: {
+              id: { type: :integer, example: 123 },
+              code: { type: :string, example: 'it' },
+              color: { type: :string, example: 'DB0A23' },
+              kit_path: { type: :string, example: 'https://aws.com/assets/path/kit.png' },
+              name: { type: :string, example: 'Italy' },
+              profile_kit_path: { type: :string, example: 'https://aws.com/assets/path/kit.png' },
+              status: { type: :string, example: 'active', description: 'Available values: active, archived' },
+              tournament_id: { type: :integer, example: 321 }
+            },
+            required: %w[id code name]
+          },
+          player: {
+            type: :object,
+            properties: {
+              id: { type: :integer, example: 123 },
+              appearances: { type: :integer, example: 123 },
+              avatar_path: { type: :string, example: 'https://aws.com/assets/path/kit.png' },
+              average_base_score: { type: :float, example: 7.65 },
+              average_price: { type: :float, example: 33.3 },
+              average_total_score: { type: :float, example: 7.89 },
+              club: {
+                '$ref' => '#/components/schemas/club'
+              },
+              first_name: { type: :string, example: 'David', nullable: true },
+              league_price: { type: :integer, example: 25, nullable: true },
+              league_team_logo: { type: :string, example: 'https://aws.com/assets/path/team.png', nullable: true },
+              name: { type: :string, example: 'Beckham' },
+              position_classic_arr: { type: :array, items: { type: :string, example: 'RB' }, example: %w[RB WB] },
+              position_ital_arr: { type: :array, items: { type: :string, example: 'Dd' }, example: %w[Dd E] },
+              teams_count: { type: :integer, example: 13 },
+              age: { type: :integer, example: 33, nullable: true },
+              birth_date: { type: :string, example: 'Apr 17, 1996' },
+              country: { type: :string, example: 'Italy', nullable: true },
+              height: { type: :integer, example: 189, nullable: true },
+              leagues: { type: :array, items: { type: :integer, example: 44 }, example: [44, 55] },
+              national_team: {
+                '$ref' => '#/components/schemas/national_team', nullable: true
+              },
+              number: { type: :integer, example: 189, nullable: true },
+              profile_avatar_path: { type: :string, example: 'https://aws.com/assets/path/kit.png' },
+              stats_price: { type: :integer, example: 15 },
+              team_ids: { type: :array, items: { type: :integer, example: 444 }, example: [444, 555] },
+              tm_price: { type: :integer, example: 1_000_000, nullable: true },
+              tm_url: { type: :string, example: 'https://www.transfermarkt.com/profil/spieler/123', nullable: true }
+            },
+            required: %w[id name]
+          },
+          player_base: {
+            type: :object,
+            properties: {
+              id: { type: :integer, example: 123 },
+              appearances: { type: :integer, example: 123 },
+              avatar_path: { type: :string, example: 'https://aws.com/assets/path/kit.png' },
+              average_base_score: { type: :float, example: 7.65 },
+              average_price: { type: :float, example: 33.3 },
+              average_total_score: { type: :float, example: 7.89 },
+              club: {
+                '$ref' => '#/components/schemas/club'
+              },
+              first_name: { type: :string, example: 'David', nullable: true },
+              league_price: { type: :integer, example: 25, nullable: true },
+              league_team_logo: { type: :string, example: 'https://aws.com/assets/path/team.png', nullable: true },
+              name: { type: :string, example: 'Beckham' },
+              position_classic_arr: { type: :array, items: { type: :string, example: 'RB' }, example: %w[RB WB] },
+              position_ital_arr: { type: :array, items: { type: :string, example: 'Dd' }, example: %w[Dd E] },
+              teams_count: { type: :integer, example: 13 }
+            },
+            required: %w[id name]
+          },
           result: {
             type: :object,
             properties: {
@@ -163,7 +251,7 @@ RSpec.configure do |config|
               code: { type: :string, example: 'ROS' },
               human_name: { type: :string, example: 'Rossoneri' },
               league_id: { type: :integer, example: 123, nullable: true },
-              logo_path: { type: :string, example: '/assets/path/team.png' },
+              logo_path: { type: :string, example: 'https://aws.com/assets/path/team.png' },
               players: { type: :array, items: { type: :integer, example: 13 }, example: %w[13 4323 954] },
               user_id: { type: :integer, example: 123, nullable: true }
             },
