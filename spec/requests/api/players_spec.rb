@@ -9,11 +9,17 @@ RSpec.describe 'Players' do
       parameter name: :filter, in: :query, type: :object, required: false, schema: {
         type: :object,
         properties: {
-          club_id: { type: :integer, example: 123 },
+          club_id: { type: :array, items: { type: :integer, example: 44 }, example: [44, 55] },
           league_id: { type: :integer, example: 123 },
+          max_app: { type: :integer, example: 22 },
+          max_base_score: { type: :float, example: 6.99 },
+          max_total_score: { type: :float, example: 7.65 },
+          min_app: { type: :integer, example: 11 },
+          min_base_score: { type: :float, example: 6.78 },
+          min_total_score: { type: :float, example: 7.00 },
           name: { type: :string, example: 'David' },
-          position: { type: :string, example: 'RB' },
-          tournament_id: { type: :integer, example: 123 }
+          position: { type: :array, items: { type: :string, example: 'RB' }, example: %w[RB WB] },
+          tournament_id: { type: :array, items: { type: :integer, example: 44 }, example: [44, 55] }
         }
       }
       parameter name: :page, in: :query, type: :object, required: false, schema: {
@@ -23,9 +29,17 @@ RSpec.describe 'Players' do
           size: { type: :integer, example: 30 }
         }
       }
+      parameter name: :order, in: :query, type: :object, required: false, schema: {
+        type: :object,
+        properties: {
+          field: { type: :string, example: 'total_score',
+                   description: 'Available options: name, appearances, base_score, total_score, club, position' },
+          direction: { type: :string, example: 'asc', description: 'Available options: asc, desc' }
+        }
+      }
 
-      let!(:player_one) { create(:player) }
-      let!(:player_two) { create(:player) }
+      let!(:player_one) { create(:player, name: 'Xavi') }
+      let!(:player_two) { create(:player, name: 'Anelka') }
 
       response 200, 'Success' do
         schema type: :object,
