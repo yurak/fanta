@@ -70,7 +70,7 @@
         .players-list-header.right
           = link_to t('players.appearances_header'), players_path(tournament: params[:tournament], position: params[:position], club: params[:club], league: params[:league], order: 'appearances')
         .players-list-header.right
-          = link_to t('players.rating_header'), players_path(tournament: params[:tournament], position: params[:position], club: params[:club], league: params[:league], order: 'rating')
+          = link_to t('players.rating_header'), players_path(tournament: params[:tournament], position: params[:position], club: params[:club], league: params[:league], order: 'total_score')
         .players-list-header.center
           = link_to t('players.club_header'), players_path(tournament: params[:tournament], position: params[:position], club: params[:club], league: params[:league], order: 'club')
         .players-list-header
