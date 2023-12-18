@@ -8,30 +8,40 @@ export interface IColumn<DataItem extends {} = {}> {
   title?: string;
   dataKey: string;
   key?: string;
-  render?: (item: DataItem) => React.ReactNode;
-  skeleton?: React.ReactNode;
+  render?: (item: DataItem, rowIndex: number) => React.ReactNode;
+  skeleton?: React.ReactNode | ((rowIndex: number) => React.ReactNode);
   className?: string;
-  dataClassName?: string;
-  align?: "left" | "right";
+  dataClassName?: string | ((item: DataItem | null, rowIndex: number) => string);
+  align?: "left" | "center" | "right";
   noWrap?: boolean;
 }
 
 const getColumnKey = (column: IColumn) => column.key ?? column.dataKey;
 
 const LoadingSkeleton = ({ columns, items }: { columns: IColumn[]; items: number }) => {
-  return Array.from({ length: items }).map((_, index) => (
-    <div key={index} className={cn(styles.row, styles.dataRow)}>
-      {columns.map((column) => (
-        <div
-          key={getColumnKey(column)}
-          className={cn(styles.column, styles.dataColumn, column.className, column.dataClassName, {
-            [styles.right]: column.align === "right",
-            [styles.noWrap]: column.noWrap,
-          })}
-        >
-          {column.skeleton ?? <Skeleton />}
-        </div>
-      ))}
+  return Array.from({ length: items }).map((_, rowIndex) => (
+    <div key={rowIndex} className={cn(styles.row, styles.dataRow)}>
+      {columns.map((column) => {
+        const dataClassName =
+          typeof column.dataClassName === "function"
+            ? column.dataClassName(null, rowIndex)
+            : column.dataClassName;
+
+        return (
+          <div
+            key={getColumnKey(column)}
+            className={cn(styles.column, styles.dataColumn, column.className, dataClassName, {
+              [styles.right]: column.align === "right",
+              [styles.center]: column.align === "center",
+              [styles.noWrap]: column.noWrap,
+            })}
+          >
+            {typeof column.skeleton === "function"
+              ? column.skeleton(rowIndex)
+              : column.skeleton ?? <Skeleton />}
+          </div>
+        );
+      })}
     </div>
   ));
 };
@@ -66,8 +76,8 @@ const Table = <DataItem extends {} = {}>({
     return item[rowKey ?? "id"];
   };
 
-  const renderCellData = (item: DataItem, column: IColumn<DataItem>) => {
-    return column.render?.(item) ?? item[column.dataKey];
+  const renderCellData = (item: DataItem, column: IColumn<DataItem>, rowIndex: number) => {
+    return column.render?.(item, rowIndex) ?? item[column.dataKey];
   };
 
   const computedColumns = useMemo(
@@ -87,7 +97,9 @@ const Table = <DataItem extends {} = {}>({
         {computedColumns.map((column) => (
           <div
             key={column._key}
-            className={cn(styles.column, styles.headerColumn, column.className)}
+            className={cn(styles.column, styles.headerColumn, column.className, {
+              [styles.withoutTitle]: !column.title,
+            })}
           >
             {column.title}
           </div>
@@ -98,29 +110,37 @@ const Table = <DataItem extends {} = {}>({
       ) : (
         <>
           {dataSource.length > 0 ? (
-            dataSource.map((dataItem) => (
+            dataSource.map((dataItem, rowIndex) => (
               <div
                 key={getRowKey(dataItem)}
                 className={cn(styles.row, styles.dataRow, styles.hoverableRow)}
               >
                 {rowLink && <a href={rowLink(dataItem)} className={styles.rowLink} />}
-                {computedColumns.map((column) => (
-                  <div
-                    key={column._key}
-                    className={cn(
-                      styles.column,
-                      styles.dataColumn,
-                      column.className,
-                      column.dataClassName,
-                      {
-                        [styles.right]: column.align === "right",
-                        [styles.noWrap]: column.noWrap,
-                      }
-                    )}
-                  >
-                    {renderCellData(dataItem, column)}
-                  </div>
-                ))}
+                {computedColumns.map((column) => {
+                  const dataClassName =
+                    typeof column.dataClassName === "function"
+                      ? column.dataClassName(dataItem, rowIndex)
+                      : column.dataClassName;
+
+                  return (
+                    <div
+                      key={column._key}
+                      className={cn(
+                        styles.column,
+                        styles.dataColumn,
+                        column.className,
+                        dataClassName,
+                        {
+                          [styles.right]: column.align === "right",
+                          [styles.center]: column.align === "center",
+                          [styles.noWrap]: column.noWrap,
+                        }
+                      )}
+                    >
+                      {renderCellData(dataItem, column, rowIndex)}
+                    </div>
+                  );
+                })}
               </div>
             ))
           ) : (
