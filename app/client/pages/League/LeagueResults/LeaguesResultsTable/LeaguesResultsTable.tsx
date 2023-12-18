@@ -3,6 +3,7 @@ import { useLeagueResults } from "../../../../api/query/useLeagueResults";
 import Table from "../../../../ui/Table";
 
 import styles from "./LeaguesResultsTable.module.scss";
+import TeamLoader from "./TeamLoader";
 
 const LeaguesResultsTable = ({
   leagueId,
@@ -16,8 +17,6 @@ const LeaguesResultsTable = ({
   teamsCount: number;
 }) => {
   const leaguesResults = useLeagueResults(leagueId);
-
-  console.log({ data: leaguesResults.data });
 
   return (
     <Table
@@ -56,9 +55,19 @@ const LeaguesResultsTable = ({
         {
           dataKey: "team",
           title: "Team",
-          render: ({ team_id }) => {
-            return <>{team_id}</>;
-          },
+          className: styles.team,
+          render: ({ team_id }) => (
+            <TeamLoader teamId={team_id}>
+              {(team) => (
+                <span className={styles.teamName}>
+                  <span className={styles.teamNameImg}>
+                    <img src={team.logo_path} />
+                  </span>
+                  <span className={styles.teamNameName}>{team.human_name}</span>
+                </span>
+              )}
+            </TeamLoader>
+          ),
         },
         {
           dataKey: "matches_played",
@@ -118,32 +127,37 @@ const LeaguesResultsTable = ({
         {
           dataKey: "form",
           title: "Form",
-          render: ({ form }) => {
-            return (
-              <span className={styles.formData}>
-                {form.map((state, index) => (
-                  <span
-                    key={index}
-                    className={cn({
-                      [styles.formWin]: state === "W",
-                      [styles.formLose]: state === "L",
-                      [styles.formDraw]: state === "D",
-                    })}
-                  >
-                    {state}
-                  </span>
-                ))}
-              </span>
-            );
-          },
+          render: ({ form }) => (
+            <span className={styles.formData}>
+              {form.map((state, index) => (
+                <span
+                  key={index}
+                  className={cn({
+                    [styles.formWin]: state === "W",
+                    [styles.formLose]: state === "L",
+                    [styles.formDraw]: state === "D",
+                  })}
+                >
+                  {state}
+                </span>
+              ))}
+            </span>
+          ),
           className: styles.form,
         },
         {
           dataKey: "next",
           title: "Next",
-          render: ({ next_opponent_id }) => {
-            return <>{next_opponent_id}</>;
-          },
+          className: styles.next,
+          render: ({ next_opponent_id }) => (
+            <TeamLoader teamId={next_opponent_id}>
+              {(team) => (
+                <div className={styles.opponent}>
+                  <img src={team.logo_path} />
+                </div>
+              )}
+            </TeamLoader>
+          ),
         },
       ]}
     />

@@ -15,7 +15,7 @@ const LeagueLoader = ({
   const [ref, entry] = useIntersectionObserver<HTMLSpanElement>({ rootMargin: "50%" });
   const { data, isLoading } = useLeague(leagueId, entry?.isIntersecting ?? false);
 
-  return <span ref={ref}>{isLoading || !data ? skeleton : children(data)}</span>;
+  return <div ref={ref}>{isLoading || !data ? skeleton : children(data)}</div>;
 };
 
 export default LeagueLoader;
