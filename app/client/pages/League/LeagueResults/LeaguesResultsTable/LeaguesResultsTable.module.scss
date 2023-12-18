@@ -1,0 +1,58 @@
+.position {
+  flex: 0 0 48px;
+}
+
+.played {
+  flex: 0 0 96px;
+}
+
+.games {
+  flex: 0 0 88px;
+}
+
+.goals {
+  flex: 0 0 88px;
+}
+
+.points {
+  flex: 0 0 88px;
+}
+
+.form {
+  flex: 0 0 136px;
+}
+
+.isPromotion {
+  background-color: #d0f0d4;
+}
+
+.isRelegation {
+  background-color: #fcc5cb;
+}
+
+.pointsData {
+  font-family: "Nunito ExtraBold";
+}
+
+.formData {
+  font-family: "Nunito ExtraBold";
+  font-size: 18px;
+  display: flex;
+  text-align: center;
+
+  span {
+    width: 24px;
+  }
+}
+
+.formWin {
+  color: #4ead57;
+}
+
+.formLose {
+  color: #db0a23;
+}
+
+.formDraw {
+  color: #847577;
+}

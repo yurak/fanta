@@ -23,4 +23,5 @@ export interface ILeagueFullData extends ILeague {
   season_start_year: number;
   teams_count: number;
   transfer_status: string;
+  mantra_format: boolean;
 }
