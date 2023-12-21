@@ -1,6 +1,6 @@
 module Api
   class PlayersController < ApplicationController
-    skip_before_action :authenticate_user!, only: %i[index show]
+    skip_before_action :authenticate_user!, only: %i[index show stats]
 
     respond_to :json
 
@@ -16,6 +16,14 @@ module Api
     def show
       if player
         render json: { data: PlayerSerializer.new(player) }
+      else
+        not_found
+      end
+    end
+
+    def stats
+      if player
+        render json: { data: PlayerStatsSerializer.new(player) }
       else
         not_found
       end
@@ -37,8 +45,9 @@ module Api
 
     def filter_params
       params.fetch(:filter, {})
-            .permit(:league_id, :max_app, :min_app, :name,
-                    position: [], tournament_id: [], club_id: [])
+            .permit(:league_id, :name, :without_team,
+                    app: {}, base_score: {}, total_score: {},
+                    club_id: [], position: [], team_id: [], tournament_id: [])
     end
 
     def order_params

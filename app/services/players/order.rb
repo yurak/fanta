@@ -10,6 +10,13 @@ module Players
     TOTAL_SCORE = 'total_score'.freeze
     POSITION = 'position'.freeze
 
+    SORT_METHOD = {
+      APPEARANCES => :season_scores_count,
+      BASE_SCORE => :season_average_score,
+      TOTAL_SCORE => :season_average_result_score,
+      POSITION => :position_sequence_number
+    }.freeze
+
     def initialize(players, params)
       @players = players
       @direction = params[:direction] || DESC_DIRECTION
@@ -25,20 +32,18 @@ module Players
     private
 
     def order
-      case field
-      when APPEARANCES
-        players.sort_by(&:season_scores_count).reverse
-      when BASE_SCORE
-        players.sort_by(&:season_average_score).reverse
-      when CLUB
-        players.includes(:club).order('clubs.name')
-      when TOTAL_SCORE
-        players.sort_by(&:season_average_result_score).reverse
-      when POSITION
-        players.sort_by(&:position_sequence_number).reverse
-      else
-        players.sort_by(&:name)
-      end
+      return club_order if field == CLUB
+      return name_order if SORT_METHOD.keys.exclude?(field)
+
+      players.sort_by(&SORT_METHOD[field]).reverse
+    end
+
+    def name_order
+      players.sort_by(&:name)
+    end
+
+    def club_order
+      players.includes(:club).order('clubs.name')
     end
   end
 end
