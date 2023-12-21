@@ -51,17 +51,35 @@ RSpec.configure do |config|
             },
             required: %w[id code name]
           },
+          current_season_stats: {
+            type: :object,
+            properties: {
+              assists: { type: :integer, example: 5 },
+              base_score: { type: :float, example: 7.42 },
+              caught_penalty: { type: :integer, example: 5 },
+              cleansheet: { type: :integer, example: 5 },
+              conceded_penalty: { type: :integer, example: 5 },
+              failed_penalty: { type: :integer, example: 5 },
+              goals: { type: :integer, example: 5 },
+              missed_goals: { type: :integer, example: 5 },
+              missed_penalty: { type: :integer, example: 5 },
+              own_goals: { type: :integer, example: 5 },
+              penalties_won: { type: :integer, example: 5 },
+              played_matches: { type: :integer, example: 25 },
+              played_minutes: { type: :integer, example: 777 },
+              red_card: { type: :integer, example: 5 },
+              saves: { type: :integer, example: 5 },
+              scored_penalty: { type: :integer, example: 5 },
+              total_score: { type: :float, example: 8.99 },
+              yellow_card: { type: :integer, example: 5 }
+            }
+          },
           division: {
             type: :object,
             properties: {
               id: { type: :integer, example: 123 },
               level: { type: :string, example: 'A' },
-              leagues: {
-                type: :array,
-                items: {
-                  '$ref' => '#/components/schemas/league_base'
-                }
-              }
+              leagues: { type: :array, items: { '$ref' => '#/components/schemas/league_base' } }
             },
             required: %w[id level]
           },
@@ -147,9 +165,7 @@ RSpec.configure do |config|
               average_base_score: { type: :float, example: 7.65 },
               average_price: { type: :float, example: 33.3 },
               average_total_score: { type: :float, example: 7.89 },
-              club: {
-                '$ref' => '#/components/schemas/club'
-              },
+              club: { '$ref' => '#/components/schemas/club' },
               first_name: { type: :string, example: 'David', nullable: true },
               league_price: { type: :integer, example: 25, nullable: true },
               league_team_logo: { type: :string, example: 'https://aws.com/assets/path/team.png', nullable: true },
@@ -162,9 +178,7 @@ RSpec.configure do |config|
               country: { type: :string, example: 'Italy', nullable: true },
               height: { type: :integer, example: 189, nullable: true },
               leagues: { type: :array, items: { type: :integer, example: 44 }, example: [44, 55] },
-              national_team: {
-                '$ref' => '#/components/schemas/national_team', nullable: true
-              },
+              national_team: { '$ref' => '#/components/schemas/national_team', nullable: true },
               number: { type: :integer, example: 189, nullable: true },
               profile_avatar_path: { type: :string, example: 'https://aws.com/assets/path/kit.png' },
               stats_price: { type: :integer, example: 15 },
@@ -173,6 +187,52 @@ RSpec.configure do |config|
               tm_url: { type: :string, example: 'https://www.transfermarkt.com/profil/spieler/123', nullable: true }
             },
             required: %w[id name]
+          },
+          player_season_stat: {
+            type: :object,
+            properties: {
+              id: { type: :integer, example: 123 },
+              assists: { type: :integer, example: 5 },
+              base_score: { type: :float, example: 7.42 },
+              caught_penalty: { type: :integer, example: 5 },
+              cleansheet: { type: :integer, example: 5 },
+              club_id: { type: :integer, example: 123 },
+              conceded_penalty: { type: :integer, example: 5 },
+              failed_penalty: { type: :integer, example: 5 },
+              goals: { type: :integer, example: 5 },
+              missed_goals: { type: :integer, example: 5 },
+              missed_penalty: { type: :integer, example: 5 },
+              own_goals: { type: :integer, example: 5 },
+              penalties_won: { type: :integer, example: 5 },
+              played_matches: { type: :integer, example: 25 },
+              played_minutes: { type: :integer, example: 777 },
+              player_id: { type: :integer, example: 123 },
+              position_price: { type: :integer, example: 15 },
+              position_classic_arr: { type: :array, items: { type: :string, example: 'RB' }, example: %w[RB WB] },
+              position_ital_arr: { type: :array, items: { type: :string, example: 'Dd' }, example: %w[Dd E] },
+              red_card: { type: :integer, example: 5 },
+              saves: { type: :integer, example: 5 },
+              scored_penalty: { type: :integer, example: 5 },
+              season_id: { type: :integer, example: 123 },
+              total_score: { type: :float, example: 8.99 },
+              tournament_id: { type: :integer, example: 123 },
+              yellow_card: { type: :integer, example: 5 }
+            },
+            required: %w[id]
+          },
+          player_stats: {
+            type: :object,
+            properties: {
+              id: { type: :integer, example: 123 },
+              current_season_stat: { '$ref' => '#/components/schemas/current_season_stats' },
+              current_season_stat_eurocup: { '$ref' => '#/components/schemas/current_season_stats' },
+              current_season_stat_national: { '$ref' => '#/components/schemas/current_season_stats' },
+              round_stats: { type: :array, items: { '$ref' => '#/components/schemas/round_stats' } },
+              round_stats_eurocup: { type: :array, items: { '$ref' => '#/components/schemas/round_stats' } },
+              round_stats_national: { type: :array, items: { '$ref' => '#/components/schemas/round_stats' } },
+              season_stats: { type: :array, items: { '$ref' => '#/components/schemas/player_season_stat' } }
+            },
+            required: %w[id]
           },
           player_base: {
             type: :object,
@@ -183,9 +243,7 @@ RSpec.configure do |config|
               average_base_score: { type: :float, example: 7.65 },
               average_price: { type: :float, example: 33.3 },
               average_total_score: { type: :float, example: 7.89 },
-              club: {
-                '$ref' => '#/components/schemas/club'
-              },
+              club: { '$ref' => '#/components/schemas/club' },
               first_name: { type: :string, example: 'David', nullable: true },
               league_price: { type: :integer, example: 25, nullable: true },
               league_team_logo: { type: :string, example: 'https://aws.com/assets/path/team.png', nullable: true },
@@ -228,11 +286,38 @@ RSpec.configure do |config|
               next_opponent_id: { type: :integer, example: 123, nullable: true, description: 'Team id of next opponent' },
               points: { type: :integer, example: 43 },
               scored_goals: { type: :integer, example: 53 },
-              team_id: { type: :integer, example: 153 },
+              team: { '$ref' => '#/components/schemas/team' },
               total_score: { type: :string, example: '899.5' },
               wins: { type: :integer, example: 3 }
             },
-            required: %w[id league_id team_id]
+            required: %w[id league_id team]
+          },
+          round_stats: {
+            type: :object,
+            properties: {
+              id: { type: :integer, example: 123 },
+              assists: { type: :float, example: 1.0 },
+              base_score: { type: :float, example: 7.42 },
+              caught_penalty: { type: :float, example: 1.0 },
+              cleansheet: { type: :float, example: 1.0 },
+              club_id: { type: :integer, example: 5, nullable: true },
+              conceded_penalty: { type: :integer, example: 5 },
+              failed_penalty: { type: :float, example: 1.0 },
+              goals: { type: :float, example: 1.0 },
+              missed_goals: { type: :float, example: 1.0 },
+              missed_penalty: { type: :float, example: 1.0 },
+              own_goals: { type: :float, example: 1.0 },
+              penalties_won: { type: :integer, example: 5 },
+              played_minutes: { type: :integer, example: 777 },
+              player_id: { type: :integer, example: 123 },
+              red_card: { type: :float, example: 2.0 },
+              saves: { type: :integer, example: 5 },
+              scored_penalty: { type: :float, example: 1.0 },
+              total_score: { type: :float, example: 8.99 },
+              tournament_round_id: { type: :integer, example: 5 },
+              tournament_round_number: { type: :integer, example: 5 },
+              yellow_card: { type: :float, example: 1.0 }
+            }
           },
           season: {
             type: :object,

@@ -9,16 +9,31 @@ RSpec.describe 'Players' do
       parameter name: :filter, in: :query, type: :object, required: false, schema: {
         type: :object,
         properties: {
+          app: {
+            type: :object,
+            properties: {
+              max: { type: :integer, example: 15 },
+              min: { type: :integer, example: 3 }
+            }
+          },
+          base_score: {
+            type: :object,
+            properties: {
+              max: { type: :float, example: 7.89 },
+              min: { type: :float, example: 6.78 }
+            }
+          },
           club_id: { type: :array, items: { type: :integer, example: 44 }, example: [44, 55] },
           league_id: { type: :integer, example: 123 },
-          max_app: { type: :integer, example: 22 },
-          max_base_score: { type: :float, example: 6.99 },
-          max_total_score: { type: :float, example: 7.65 },
-          min_app: { type: :integer, example: 11 },
-          min_base_score: { type: :float, example: 6.78 },
-          min_total_score: { type: :float, example: 7.00 },
           name: { type: :string, example: 'David' },
           position: { type: :array, items: { type: :string, example: 'RB' }, example: %w[RB WB] },
+          total_score: {
+            type: :object,
+            properties: {
+              max: { type: :float, example: 7.89 },
+              min: { type: :float, example: 6.78 }
+            }
+          },
           tournament_id: { type: :array, items: { type: :integer, example: 44 }, example: [44, 55] }
         }
       }
@@ -83,6 +98,48 @@ RSpec.describe 'Players' do
 
           expect(body['data']['id']).to eq id
           expect(body['data']['name']).to eq player.name
+        end
+      end
+
+      response 404, 'Not found' do
+        let!(:id) { 'invalid' }
+
+        schema '$ref' => '#/components/schemas/error_not_found'
+
+        run_test!
+      end
+    end
+  end
+
+  path '/api/players/{id}/stats' do
+    parameter name: 'id', in: :path, type: :string, description: 'Player id'
+
+    get('show player statistic data') do
+      tags 'Players'
+      consumes 'application/json'
+      produces 'application/json'
+
+      response 200, 'Success' do
+        let!(:player) { create(:player) }
+        let!(:id) { player.id }
+
+        schema type: :object,
+               properties: {
+                 data: { '$ref' => '#/components/schemas/player_stats' }
+               }
+
+        before do
+          create(:player_season_stat, player: player, tournament: player.club.tournament)
+          create(:season)
+          create(:round_player, player: player, tournament_round: create(:tournament_round, tournament: player.club.tournament), score: 6)
+        end
+
+        run_test! do |response|
+          body = JSON.parse(response.body)
+
+          expect(body['data']['id']).to eq id
+          expect(body['data']['round_stats'].count).to eq 1
+          expect(body['data']['season_stats'].count).to eq 1
         end
       end
 

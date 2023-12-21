@@ -12,7 +12,7 @@ class ResultSerializer < ActiveModel::Serializer
   attributes :next_opponent_id
   attributes :points
   attributes :scored_goals
-  attributes :team_id
+  attributes :team
   attributes :total_score
   attributes :wins
 
@@ -27,5 +27,9 @@ class ResultSerializer < ActiveModel::Serializer
 
   def next_opponent_id
     object.team.next_opponent&.id
+  end
+
+  def team
+    TeamSerializer.new(object.team)
   end
 end

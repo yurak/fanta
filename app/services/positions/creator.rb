@@ -4,6 +4,10 @@ module Positions
       positions.each do |name|
         Position.find_or_create_by(name: name)
       end
+
+      Position.find_each do |position|
+        position.update(human_name: Slot::POS_MAPPING[position.name]) if Slot::POS_MAPPING[position.name]
+      end
     end
 
     private
