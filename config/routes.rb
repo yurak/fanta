@@ -88,7 +88,9 @@ Rails.application.routes.draw do
     resources :leagues, only: [:index, :show] do
       resources :results, only: [:index]
     end
-    resources :players, only: [:index, :show]
+    resources :players, only: [:index, :show] do
+      get :stats, on: :member
+    end
     resources :seasons, only: [:index]
     resources :teams, only: [:show]
     resources :tournaments, only: [:index] do

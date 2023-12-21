@@ -1,4 +1,5 @@
 namespace :positions do
+  # rake positions:new_names
   desc 'Update position names and locations'
   task new_names: :environment do
     Position.find_each do |position|
