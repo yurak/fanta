@@ -70,11 +70,21 @@ module Players
     def search_by_team(players)
       return players unless league && (team_id.present? || without_team)
 
-      players_ids = []
-      players_ids += players.select { |pl| team_id.include?(pl.team_by_league(league_id)&.id&.to_s) }.pluck(:id) if team_id
-      players_ids += players.select { |pl| pl.team_by_league(league_id).nil? }.pluck(:id) if without_team
+      players_ids = search_by_team_id(players) + search_without_team(players)
 
       Player.where(id: players_ids)
+    end
+
+    def search_by_team_id(players)
+      return [] unless team_id
+
+      players.select { |pl| team_id.include?(pl.team_by_league(league_id)&.id&.to_s) }.pluck(:id)
+    end
+
+    def search_without_team(players)
+      return [] unless without_team
+
+      players.select { |pl| pl.team_by_league(league_id).nil? }.pluck(:id)
     end
 
     def club_ids
