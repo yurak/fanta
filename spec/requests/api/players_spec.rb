@@ -27,6 +27,7 @@ RSpec.describe 'Players' do
           league_id: { type: :integer, example: 123 },
           name: { type: :string, example: 'David' },
           position: { type: :array, items: { type: :string, example: 'RB' }, example: %w[RB WB] },
+          team_id: { type: :array, items: { type: :integer, example: 44 }, example: [44, 55] },
           total_score: {
             type: :object,
             properties: {
@@ -34,7 +35,8 @@ RSpec.describe 'Players' do
               min: { type: :float, example: 6.78 }
             }
           },
-          tournament_id: { type: :array, items: { type: :integer, example: 44 }, example: [44, 55] }
+          tournament_id: { type: :array, items: { type: :integer, example: 44 }, example: [44, 55] },
+          without_team: { type: :boolean, example: true }
         }
       }
       parameter name: :page, in: :query, type: :object, required: false, schema: {
