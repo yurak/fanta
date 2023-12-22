@@ -152,6 +152,14 @@ paths:
               example:
               - RB
               - WB
+            team_id:
+              type: array
+              items:
+                type: integer
+                example: 44
+              example:
+              - 44
+              - 55
             total_score:
               type: object
               properties:
@@ -169,6 +177,9 @@ paths:
               example:
               - 44
               - 55
+            without_team:
+              type: boolean
+              example: true
       - name: page
         in: query
         type: object

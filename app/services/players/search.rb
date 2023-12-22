@@ -20,7 +20,7 @@ module Players
       @position = params[:position]
       @team_id = params[:team_id]
       @tournament_id = params[:tournament_id]
-      @without_team = params[:without_team]
+      @without_team = ActiveModel::Type::Boolean.new.cast(params[:without_team])
     end
 
     def call
