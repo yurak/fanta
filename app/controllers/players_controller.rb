@@ -39,19 +39,10 @@ class PlayersController < ApplicationController
   end
 
   def ordered_players
-    case stats_params[:order]
-    when 'club'
-      players_with_filter.sort_by(&:club)
-    when 'appearances'
-      players_with_filter.sort_by(&:season_scores_count).reverse
-    when 'rating'
-      players_with_filter.sort_by(&:season_average_result_score).reverse
-    else
-      players_with_filter.sort_by(&:name)
-    end
+    Players::Order.call(filtered_players, { field: stats_params[:order] })
   end
 
-  def players_with_filter
+  def filtered_players
     Players::Search.call(
       club_id: stats_params[:club],
       league_id: stats_params[:league],
