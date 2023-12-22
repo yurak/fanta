@@ -20,6 +20,7 @@ export const useQueryClient = () => {
     persister: createSyncStoragePersister({
       storage: typeof window !== "undefined" ? window.localStorage : null,
     }),
+    maxAge: 1000 * 60 * 60 * 24, // 1 day
     buster: packageJson.version,
   });
 

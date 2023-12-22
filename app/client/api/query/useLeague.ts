@@ -5,7 +5,7 @@ import { ILeagueFullData } from "../../interfaces/League";
 
 export const useLeague = (id: number, enabled: boolean) => {
   const query = useQuery({
-    staleTime: 1000 * 60 * 10, // 30 minutes
+    staleTime: 1000 * 60 * 30, // 30 minutes
     queryKey: ["league", id],
     queryFn: async ({ signal }) => {
       return (await axios.get<IResponse<ILeagueFullData>>(`/leagues/${id}`, { signal })).data.data;
