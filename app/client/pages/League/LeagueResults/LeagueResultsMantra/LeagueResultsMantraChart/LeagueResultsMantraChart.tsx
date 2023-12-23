@@ -1,18 +1,21 @@
 import { useMemo } from "react";
 import { ChartData } from "chart.js";
 import Chart, { DEFAULT_COLORS } from "../../../../../ui/Chart";
-import { useLeagueResults } from "../../../../../api/query/useLeagueResults";
+import { ILeagueResults } from "../../../../../interfaces/LeagueResults";
+import styles from "./LeagueResultsMantraChart.module.scss";
 
 type ChartDataType = ChartData<"line", number[], React.ReactNode>;
 
 const LeagueResultsMantraChart = ({
-  leagueId,
   teamsCount,
+  leaguesResults,
+  isLoading,
 }: {
-  leagueId: number;
   teamsCount: number;
+  leaguesResults: ILeagueResults[];
+  isLoading: boolean;
 }) => {
-  const leaguesResults = useLeagueResults(leagueId);
+  console.log({ isLoading });
 
   const labels = useMemo<ChartDataType["labels"]>(
     () => Array.from({ length: teamsCount }).map((_, index) => index + 1),
@@ -20,7 +23,7 @@ const LeagueResultsMantraChart = ({
   );
 
   const datasets = useMemo<ChartDataType["datasets"]>(() => {
-    return [...leaguesResults.data]
+    return [...leaguesResults]
       .sort((teamA, teamB) => teamA.team.id - teamB.team.id)
       .map((teamResult, index): ChartDataType["datasets"][0] => ({
         label: teamResult.team?.human_name ?? teamResult.id.toString(),
@@ -28,17 +31,21 @@ const LeagueResultsMantraChart = ({
         backgroundColor: DEFAULT_COLORS[index],
         borderColor: DEFAULT_COLORS[index],
       }));
-  }, [leaguesResults.data]);
+  }, [leaguesResults]);
 
   const chartData = useMemo<ChartDataType>(
     () => ({
       labels,
       datasets,
     }),
-    [labels]
+    [datasets, labels]
   );
 
-  return <Chart type="line" data={chartData} />;
+  return (
+    <div className={styles.chart}>
+      <Chart type="line" data={chartData} />
+    </div>
+  );
 };
 
 export default LeagueResultsMantraChart;

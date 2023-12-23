@@ -1,5 +1,13 @@
 import { useEffect, useRef } from "react";
-import { ChartData, Chart as ChartJS, ChartType, DefaultDataPoint, registerables } from "chart.js";
+import {
+  ChartData,
+  ChartTypeRegistry,
+  Chart as ChartJS,
+  ChartType,
+  DefaultDataPoint,
+  registerables,
+} from "chart.js";
+import styles from "./Сhart.module.scss";
 
 ChartJS.register(...registerables);
 
@@ -29,13 +37,14 @@ const Chart = <
   type: ChartType;
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const chart = useRef<ChartJS<keyof ChartTypeRegistry, TData, TLabel>>();
 
   useEffect(() => {
     if (!canvasRef.current) {
       return;
     }
 
-    const chartJs = new ChartJS(canvasRef.current, {
+    chart.current = new ChartJS(canvasRef.current, {
       type,
       data,
       options: {
@@ -55,13 +64,13 @@ const Chart = <
     });
 
     return () => {
-      chartJs.destroy();
+      chart.current?.destroy();
     };
-  }, []);
+  }, [data]);
 
   return (
     <div>
-      <canvas ref={canvasRef} />
+      <canvas className={styles.canvas} ref={canvasRef} />
     </div>
   );
 };

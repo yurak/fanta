@@ -1,26 +1,26 @@
 import cn from "classnames";
-import { useLeagueResults } from "../../../../../api/query/useLeagueResults";
+import { ILeagueResults } from "../../../../../interfaces/LeagueResults";
 import Table from "../../../../../ui/Table";
 
 import styles from "./LeagueResultsMantraTable.module.scss";
 
 const LeagueResultsMantraTable = ({
-  leagueId,
+  leaguesResults,
+  isLoading,
   promotion,
   relegation,
   teamsCount,
 }: {
-  leagueId: number;
+  leaguesResults: ILeagueResults[];
+  isLoading: boolean;
   promotion: number;
   relegation: number;
   teamsCount: number;
 }) => {
-  const leaguesResults = useLeagueResults(leagueId);
-
   return (
     <Table
-      dataSource={leaguesResults.data}
-      isLoading={leaguesResults.isLoading}
+      dataSource={leaguesResults}
+      isLoading={isLoading}
       skeletonItems={8}
       rowLink={({ team }) => `/teams/${team.id}`}
       columns={[
@@ -145,9 +145,7 @@ const LeagueResultsMantraTable = ({
           title: "Next",
           className: styles.next,
           render: ({ next_opponent_id }) => {
-            const opponent = leaguesResults.data.find(
-              ({ team }) => team.id === next_opponent_id
-            )?.team;
+            const opponent = leaguesResults.find(({ team }) => team.id === next_opponent_id)?.team;
 
             if (!opponent) {
               return null;

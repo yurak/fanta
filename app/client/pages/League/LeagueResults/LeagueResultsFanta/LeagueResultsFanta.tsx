@@ -1,14 +1,16 @@
+import { useLeagueResults } from "../../../../api/query/useLeagueResults";
 import { ILeagueFullData } from "../../../../interfaces/League";
 
-const LeagueResultsMantra = ({
+const LeagueResultsFanta = ({
   leagueData,
   leagueId,
 }: {
   leagueData: ILeagueFullData;
   leagueId: number;
 }) => {
-  console.log({ leagueData, leagueId });
-  return <>test</>;
+  const leaguesResults = useLeagueResults(leagueId);
+  console.log({ leagueData, leagueId, leaguesResults });
+  return <>loading...</>;
 };
 
-export default LeagueResultsMantra;
+export default LeagueResultsFanta;
