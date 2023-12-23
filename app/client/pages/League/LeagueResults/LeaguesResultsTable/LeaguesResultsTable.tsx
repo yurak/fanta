@@ -3,7 +3,6 @@ import { useLeagueResults } from "../../../../api/query/useLeagueResults";
 import Table from "../../../../ui/Table";
 
 import styles from "./LeaguesResultsTable.module.scss";
-import TeamLoader from "./TeamLoader";
 
 const LeaguesResultsTable = ({
   leagueId,
@@ -23,7 +22,7 @@ const LeaguesResultsTable = ({
       dataSource={leaguesResults.data}
       isLoading={leaguesResults.isLoading}
       skeletonItems={8}
-      rowLink={({ team_id }) => `/teams/${team_id}`}
+      rowLink={({ team }) => `/teams/${team.id}`}
       columns={[
         {
           dataKey: "position",
@@ -56,17 +55,13 @@ const LeaguesResultsTable = ({
           dataKey: "team",
           title: "Team",
           className: styles.team,
-          render: ({ team_id }) => (
-            <TeamLoader teamId={team_id}>
-              {(team) => (
-                <span className={styles.teamName}>
-                  <span className={styles.teamNameImg}>
-                    <img src={team.logo_path} />
-                  </span>
-                  <span className={styles.teamNameName}>{team.human_name}</span>
-                </span>
-              )}
-            </TeamLoader>
+          render: ({ team }) => (
+            <span className={styles.teamName}>
+              <span className={styles.teamNameImg}>
+                <img src={team.logo_path} />
+              </span>
+              <span className={styles.teamNameName}>{team.human_name}</span>
+            </span>
           ),
         },
         {
@@ -149,15 +144,21 @@ const LeaguesResultsTable = ({
           dataKey: "next",
           title: "Next",
           className: styles.next,
-          render: ({ next_opponent_id }) => (
-            <TeamLoader teamId={next_opponent_id}>
-              {(team) => (
-                <div className={styles.opponent}>
-                  <img src={team.logo_path} />
-                </div>
-              )}
-            </TeamLoader>
-          ),
+          render: ({ next_opponent_id }) => {
+            const opponent = leaguesResults.data.find(
+              ({ team }) => team.id === next_opponent_id
+            )?.team;
+
+            if (!opponent) {
+              return null;
+            }
+
+            return (
+              <div className={styles.opponent}>
+                <img src={opponent.logo_path} />
+              </div>
+            );
+          },
         },
       ]}
     />

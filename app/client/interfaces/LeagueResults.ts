@@ -1,3 +1,5 @@
+import { ITeam } from "./Team";
+
 type ScoreType = string;
 
 export interface ILeagueResults {
@@ -27,6 +29,6 @@ export interface ILeagueResults {
   scored_goals: number;
   missed_goals: number;
   goals_difference: number;
-  team_id: number;
+  team: ITeam;
   total_score: ScoreType;
 }
