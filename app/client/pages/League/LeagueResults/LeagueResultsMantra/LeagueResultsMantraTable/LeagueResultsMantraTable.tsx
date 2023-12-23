@@ -1,10 +1,10 @@
 import cn from "classnames";
-import { useLeagueResults } from "../../../../api/query/useLeagueResults";
-import Table from "../../../../ui/Table";
+import { useLeagueResults } from "../../../../../api/query/useLeagueResults";
+import Table from "../../../../../ui/Table";
 
-import styles from "./LeaguesResultsTable.module.scss";
+import styles from "./LeagueResultsMantraTable.module.scss";
 
-const LeaguesResultsTable = ({
+const LeagueResultsMantraTable = ({
   leagueId,
   promotion,
   relegation,
@@ -165,4 +165,4 @@ const LeaguesResultsTable = ({
   );
 };
 
-export default LeaguesResultsTable;
+export default LeagueResultsMantraTable;

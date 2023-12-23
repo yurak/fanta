@@ -1,11 +1,17 @@
 import { useMemo } from "react";
 import { ChartData } from "chart.js";
-import Chart, { DEFAULT_COLORS } from "../../../../ui/Chart";
-import { useLeagueResults } from "../../../../api/query/useLeagueResults";
+import Chart, { DEFAULT_COLORS } from "../../../../../ui/Chart";
+import { useLeagueResults } from "../../../../../api/query/useLeagueResults";
 
 type ChartDataType = ChartData<"line", number[], React.ReactNode>;
 
-const LeagueResultsChart = ({ leagueId, teamsCount }: { leagueId: number; teamsCount: number }) => {
+const LeagueResultsMantraChart = ({
+  leagueId,
+  teamsCount,
+}: {
+  leagueId: number;
+  teamsCount: number;
+}) => {
   const leaguesResults = useLeagueResults(leagueId);
 
   const labels = useMemo<ChartDataType["labels"]>(
@@ -35,4 +41,4 @@ const LeagueResultsChart = ({ leagueId, teamsCount }: { leagueId: number; teamsC
   return <Chart type="line" data={chartData} />;
 };
 
-export default LeagueResultsChart;
+export default LeagueResultsMantraChart;
