@@ -3,7 +3,7 @@ import { ILeagueFullData } from "../../../../interfaces/League";
 import LeagueResultsMantraChart from "./LeagueResultsMantraChart";
 import LeagueResultsMantraTable from "./LeagueResultsMantraTable";
 import styles from "./LeagueResultsMantra.module.scss";
-import PageHeading from "../../../../components/PageHeading";
+import PageHeading from "../../../../components/Heading";
 
 const LeagueResultsMantra = ({
   leagueData,
@@ -24,7 +24,11 @@ const LeagueResultsMantra = ({
         isLoading={leaguesResults.isLoading}
       />
       <div className={styles.chart}>
-        <PageHeading title="Leaders trend" />
+        <PageHeading
+          tag="h4"
+          title="Leaders trend"
+          titleIcon="⛰" //TODO: update icon
+        />
         <LeagueResultsMantraChart
           teamsCount={leagueData.teams_count}
           leaguesResults={leaguesResults.data}

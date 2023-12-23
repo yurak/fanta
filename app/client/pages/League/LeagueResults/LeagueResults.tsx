@@ -1,6 +1,6 @@
 import { useLeague } from "../../../api/query/useLeague";
 import { withBootstrap } from "../../../bootstrap/withBootstrap";
-import PageHeading from "../../../components/PageHeading";
+import PageHeading from "../../../components/Heading";
 import PageLayout from "../../../layouts/PageLayout";
 import LeagueResultsMantra from "./LeagueResultsMantra";
 import LeagueResultsFanta from "./LeagueResultsFanta";

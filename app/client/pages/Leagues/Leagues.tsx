@@ -5,7 +5,7 @@ import { useTournaments } from "../../api/query/useTournaments";
 import { useLeagues } from "../../api/query/useLeagues";
 import Search from "../../ui/Search";
 import TournamentsTabs, { TournamentTab } from "../../components/TournamentsTabs";
-import PageHeading from "../../components/PageHeading";
+import Heading from "../../components/Heading";
 import SeasonsSelect from "../../components/SeasonsSelect";
 import LeaguesList from "./LeaguesList";
 import { ILeaguesWithTournament } from "./interfaces";
@@ -95,7 +95,7 @@ const LeaguesPage = () => {
     <PageLayout>
       <div className={styles.header}>
         <div className={styles.heading}>
-          <PageHeading title={t("header.leagues")} />
+          <Heading title={t("header.leagues")} noSpace />
         </div>
         <div className={styles.yearSelect}>
           <SeasonsSelect value={selectedSeason} onChange={setSelectedSeason} />
