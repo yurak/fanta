@@ -70,7 +70,7 @@ const Table = <DataItem extends {} = {}>({
     description?: string;
   };
 }) => {
-  const [sortColumnKey, setSortColumnKey] = useState<null | string>(defaultSortColumn ?? null);
+  const [sortColumnKey, setSortColumnKey] = useState<null | string>(null);
 
   const getRowKey = (item: DataItem) => {
     if (typeof rowKey === "function") {
