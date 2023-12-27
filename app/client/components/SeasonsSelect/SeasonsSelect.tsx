@@ -2,7 +2,7 @@ import { useEffect, useMemo } from "react";
 import Select from "../../ui/Select";
 import { useSeasons } from "../../api/query/useSeasons";
 import { ISeason } from "../../interfaces/Season";
-import calendarIcon from "../../../assets/images/icons/calendar.svg";
+import CalendarIcon from "../../assets/icons/calendar.svg";
 
 const SeasonsSelect = ({
   value,
@@ -31,7 +31,7 @@ const SeasonsSelect = ({
     <Select
       value={value}
       options={options}
-      icon={<img src={calendarIcon} />}
+      icon={<CalendarIcon />}
       onChange={onChange}
       isLoading={seasonsQuery.isLoading}
       formatOptionLabel={({ start_year, end_year }) => {

@@ -1,5 +1,5 @@
 import React from "react";
-import searchSvg from "../../../assets/images/icons/search.svg";
+import SearchIcon from "../../assets/icons/search.svg";
 import styles from "./Search.module.scss";
 
 const Search = ({
@@ -18,7 +18,7 @@ const Search = ({
   return (
     <div className={styles.inputWrapper}>
       <span className={styles.iconWrapper}>
-        <img src={searchSvg} alt="Search" />
+        <SearchIcon />
       </span>
       <input
         type="search"

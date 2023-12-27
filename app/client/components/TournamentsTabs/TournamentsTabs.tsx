@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import Tabs, { ITab } from "../../ui/Tabs";
 import { useTournaments } from "../../api/query/useTournaments";
-import leaguesIcon from "../../../assets/images/icons/leagues.svg";
+import LeaguesIcon from "../../assets/icons/leagues.svg";
 
 export type TournamentTab = ITab<number | undefined>;
 
@@ -34,7 +34,7 @@ const TournamentsTabs = ({
               {
                 id: undefined,
                 name: t("league.all"),
-                icon: <img src={leaguesIcon} alt="" />,
+                icon: <LeaguesIcon height={32} width={32} />,
               },
             ]
           : []),
