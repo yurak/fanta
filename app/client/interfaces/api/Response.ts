@@ -1,3 +1,3 @@
-export interface IResponse<Data extends any> {
+export interface IResponse<Data> {
   data: Data;
 }
