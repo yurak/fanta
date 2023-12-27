@@ -35,16 +35,13 @@
   }
 }
 
-.leaderCell {
-  min-width: 100px;
-  flex: 2;
-}
-
 .statusCell {
   flex: 0 0 110px;
 }
 
 .leaderCell {
+  min-width: 100px;
+  flex: 2;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
