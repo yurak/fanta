@@ -22,6 +22,10 @@ const LeagueResultsMantraTable = ({
     return leaguesResults.map((item, index) => {
       return {
         ...item,
+        total_score: Number(item.total_score),
+        formPoints: item.form
+          .map((form) => (form === "W" && 3) || (form === "D" && 1) || 0)
+          .reduce((totalPoints, point) => totalPoints + point, 0),
         position: index + 1,
       };
     });
@@ -63,7 +67,9 @@ const LeagueResultsMantraTable = ({
           dataKey: "team",
           title: "Team",
           className: styles.team,
-          sorter: (teamA, teamB) => teamA.team.human_name.localeCompare(teamB.team.human_name),
+          sorter: {
+            compare: (teamA, teamB) => teamA.team.human_name.localeCompare(teamB.team.human_name),
+          },
           render: ({ team }) => (
             <span className={styles.teamName}>
               <span className={styles.teamNameImg}>
@@ -84,42 +90,54 @@ const LeagueResultsMantraTable = ({
           title: "Wins",
           align: "right",
           className: styles.games,
-          sorter: (teamA, teamB) => teamB.wins - teamA.wins,
+          sorter: {
+            compare: (teamA, teamB) => teamB.wins - teamA.wins,
+          },
         },
         {
           dataKey: "draws",
           title: "Draws",
           align: "right",
           className: styles.games,
-          sorter: (teamA, teamB) => teamB.draws - teamA.draws,
+          sorter: {
+            compare: (teamA, teamB) => teamB.draws - teamA.draws,
+          },
         },
         {
           dataKey: "loses",
           title: "Loses",
           align: "right",
           className: styles.games,
-          sorter: (teamA, teamB) => teamB.loses - teamA.loses,
+          sorter: {
+            compare: (teamA, teamB) => teamB.loses - teamA.loses,
+          },
         },
         {
           dataKey: "scored_goals",
           title: "GF",
           align: "right",
           className: styles.goals,
-          sorter: (teamA, teamB) => teamB.scored_goals - teamA.scored_goals,
+          sorter: {
+            compare: (teamA, teamB) => teamB.scored_goals - teamA.scored_goals,
+          },
         },
         {
           dataKey: "missed_goals",
           title: "GA",
           align: "right",
           className: styles.goals,
-          sorter: (teamA, teamB) => teamB.missed_goals - teamA.missed_goals,
+          sorter: {
+            compare: (teamA, teamB) => teamB.missed_goals - teamA.missed_goals,
+          },
         },
         {
           dataKey: "goals_difference",
           title: "GD",
           align: "right",
           className: styles.goals,
-          sorter: (teamA, teamB) => teamB.goals_difference - teamA.goals_difference,
+          sorter: {
+            compare: (teamA, teamB) => teamB.goals_difference - teamA.goals_difference,
+          },
         },
         {
           dataKey: "points",
@@ -127,14 +145,20 @@ const LeagueResultsMantraTable = ({
           align: "right",
           className: styles.points,
           dataClassName: styles.pointsData,
-          sorter: (teamA, teamB) => teamB.points - teamA.points,
+          sorter: {
+            compare: (teamA, teamB) => teamB.points - teamA.points,
+            priority: 1,
+          },
         },
         {
           dataKey: "total_score",
           title: "TS",
           align: "right",
           className: styles.points,
-          sorter: (teamA, teamB) => Number(teamB.total_score) - Number(teamA.total_score),
+          sorter: {
+            compare: (teamA, teamB) => teamB.total_score - teamA.total_score,
+            priority: 2,
+          },
         },
         {
           dataKey: "form",
@@ -156,20 +180,8 @@ const LeagueResultsMantraTable = ({
             </span>
           ),
           className: styles.form,
-          sorter: (itemA, itemB) => {
-            const teamAPoints = itemA.form.reduce((totalPoints, form) => {
-              const point = (form === "D" && 1) || (form === "W" && 3) || 0;
-
-              return totalPoints + point;
-            }, 0);
-
-            const teamBPoints = itemB.form.reduce((totalPoints, form) => {
-              const point = (form === "D" && 1) || (form === "W" && 3) || 0;
-
-              return totalPoints + point;
-            }, 0);
-
-            return teamBPoints - teamAPoints;
+          sorter: {
+            compare: (itemA, itemB) => itemB.formPoints - itemA.formPoints,
           },
         },
         {

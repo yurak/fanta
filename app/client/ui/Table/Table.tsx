@@ -5,6 +5,8 @@ import EmptyState from "../EmptyState";
 import SortDownIcon from "../../assets/icons/sortDown.svg";
 import styles from "./Table.module.scss";
 
+type SortFunctionType<DataItem> = (itemA: DataItem, itemB: DataItem) => number;
+
 export interface IColumn<DataItem extends {} = {}> {
   title?: string;
   dataKey: string;
@@ -13,7 +15,10 @@ export interface IColumn<DataItem extends {} = {}> {
   skeleton?: React.ReactNode | ((rowIndex: number) => React.ReactNode);
   className?: string;
   dataClassName?: string | ((item: DataItem | null, rowIndex: number) => string);
-  sorter?: (itemA: DataItem, itemB: DataItem) => number;
+  sorter?: {
+    compare: SortFunctionType<DataItem>;
+    priority?: number;
+  };
   align?: "left" | "center" | "right";
   noWrap?: boolean;
 }
@@ -96,30 +101,60 @@ const Table = <DataItem extends {} = {}>({
   );
 
   const onSort = (columnKey: string) => {
-    setSortColumnKey(columnKey);
+    setSortColumnKey((sortColumnKey) => (sortColumnKey === columnKey ? null : columnKey));
   };
 
-  const sorterFunction = useMemo(() => {
+  const columnSortFunction = useMemo(() => {
     if (!sortColumnKey) {
       return null;
     }
 
     const sortedColumn = computedColumns.find((column) => sortColumnKey === column._key);
 
-    if (!sortedColumn) {
-      return null;
-    }
-
-    return sortedColumn.sorter;
+    return sortedColumn?.sorter?.compare ?? null;
   }, [computedColumns, sortColumnKey]);
 
+  const prioritySortingFunctions = useMemo(() => {
+    return computedColumns
+      .filter((column) => column.sorter)
+      .filter((column) => typeof column.sorter?.priority !== "undefined")
+      .sort(
+        (columnA, columnB) =>
+          (columnA.sorter?.priority ?? Number.POSITIVE_INFINITY) -
+          (columnB.sorter?.priority ?? Number.POSITIVE_INFINITY)
+      )
+      .map((column) => column.sorter?.compare) as SortFunctionType<DataItem>[];
+  }, [computedColumns]);
+
+  const sorterFunctions = useMemo(() => {
+    if (!columnSortFunction) {
+      return [];
+    }
+
+    return [
+      columnSortFunction,
+      ...prioritySortingFunctions.filter((fn) => fn !== columnSortFunction),
+    ];
+  }, [prioritySortingFunctions, columnSortFunction]);
+
   const sortedDataSource = useMemo(() => {
-    if (!sorterFunction) {
+    if (!sorterFunctions.length) {
       return dataSource;
     }
 
-    return [...dataSource].sort(sorterFunction);
-  }, [dataSource, sorterFunction]);
+    return [...dataSource].sort((itemA, itemB) => {
+      let result: number | undefined;
+      let i = 0;
+
+      do {
+        const sorter = sorterFunctions[i] as SortFunctionType<DataItem>;
+        result = sorter(itemA, itemB);
+        i++;
+      } while (result === 0 && sorterFunctions[i]);
+
+      return result;
+    });
+  }, [dataSource, sorterFunctions]);
 
   return (
     <div className={styles.table}>
