@@ -1,7 +1,8 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import Skeleton from "react-loading-skeleton";
 import cn from "classnames";
 import EmptyState from "../EmptyState";
+import SortDownIcon from "../../assets/icons/sortDown.svg";
 import styles from "./Table.module.scss";
 
 export interface IColumn<DataItem extends {} = {}> {
@@ -12,6 +13,7 @@ export interface IColumn<DataItem extends {} = {}> {
   skeleton?: React.ReactNode | ((rowIndex: number) => React.ReactNode);
   className?: string;
   dataClassName?: string | ((item: DataItem | null, rowIndex: number) => string);
+  sorter?: (itemA: DataItem, itemB: DataItem) => number;
   align?: "left" | "center" | "right";
   noWrap?: boolean;
 }
@@ -53,6 +55,7 @@ const Table = <DataItem extends {} = {}>({
   rowLink,
   isLoading,
   skeletonItems = 6,
+  defaultSortColumn,
   emptyState = {
     title: "No data",
   },
@@ -63,11 +66,14 @@ const Table = <DataItem extends {} = {}>({
   rowLink?: (item: DataItem) => string;
   isLoading?: boolean;
   skeletonItems?: number;
+  defaultSortColumn?: string;
   emptyState?: {
     title: string;
     description?: string;
   };
 }) => {
+  const [sortColumnKey, setSortColumnKey] = useState<null | string>(defaultSortColumn ?? null);
+
   const getRowKey = (item: DataItem) => {
     if (typeof rowKey === "function") {
       return rowKey(item);
@@ -91,6 +97,32 @@ const Table = <DataItem extends {} = {}>({
     [columns]
   );
 
+  const onSort = (columnKey: string) => {
+    setSortColumnKey(columnKey);
+  };
+
+  const sorterFunction = useMemo(() => {
+    if (!sortColumnKey) {
+      return null;
+    }
+
+    const sortedColumn = computedColumns.find((column) => sortColumnKey === column._key);
+
+    if (!sortedColumn) {
+      return null;
+    }
+
+    return sortedColumn.sorter;
+  }, [computedColumns, sortColumnKey]);
+
+  const sortedDataSource = useMemo(() => {
+    if (!sorterFunction) {
+      return dataSource;
+    }
+
+    return [...dataSource].sort(sorterFunction);
+  }, [dataSource, sorterFunction]);
+
   return (
     <div className={styles.table}>
       <div className={cn(styles.header, styles.row)}>
@@ -99,9 +131,21 @@ const Table = <DataItem extends {} = {}>({
             key={column._key}
             className={cn(styles.column, styles.headerColumn, column.className, {
               [styles.withoutTitle]: !column.title,
+              [styles.withSort]: !!column.sorter,
+              [styles.isSorter]: column._key === sortColumnKey,
             })}
+            onClick={() => {
+              if (column.sorter) {
+                onSort(column._key);
+              }
+            }}
           >
             {column.title}
+            {column.sorter && (
+              <span className={cn(styles.sortIcon)}>
+                <SortDownIcon />
+              </span>
+            )}
           </div>
         ))}
       </div>
@@ -109,8 +153,8 @@ const Table = <DataItem extends {} = {}>({
         <LoadingSkeleton columns={columns} items={skeletonItems} />
       ) : (
         <>
-          {dataSource.length > 0 ? (
-            dataSource.map((dataItem, rowIndex) => (
+          {sortedDataSource.length > 0 ? (
+            sortedDataSource.map((dataItem, rowIndex) => (
               <div
                 key={getRowKey(dataItem)}
                 className={cn(styles.row, styles.dataRow, styles.hoverableRow)}
