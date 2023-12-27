@@ -55,7 +55,6 @@ const Table = <DataItem extends {} = {}>({
   rowLink,
   isLoading,
   skeletonItems = 6,
-  defaultSortColumn,
   emptyState = {
     title: "No data",
   },
@@ -66,7 +65,6 @@ const Table = <DataItem extends {} = {}>({
   rowLink?: (item: DataItem) => string;
   isLoading?: boolean;
   skeletonItems?: number;
-  defaultSortColumn?: string;
   emptyState?: {
     title: string;
     description?: string;

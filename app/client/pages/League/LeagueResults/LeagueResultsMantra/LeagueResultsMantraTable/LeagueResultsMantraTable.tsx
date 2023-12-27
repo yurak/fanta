@@ -33,7 +33,6 @@ const LeagueResultsMantraTable = ({
       isLoading={isLoading}
       skeletonItems={8}
       rowLink={({ team }) => `/teams/${team.id}`}
-      defaultSortColumn="points"
       columns={[
         {
           dataKey: "position",
