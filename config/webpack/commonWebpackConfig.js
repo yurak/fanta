@@ -4,7 +4,11 @@
 // Common configuration applying to client and server configuration
 const { generateWebpackConfig, merge } = require("shakapacker");
 
-const baseClientWebpackConfig = generateWebpackConfig();
+const baseClientWebpackConfig = generateWebpackConfig({});
+
+// clear default svg rules
+const svgRule = baseClientWebpackConfig.module.rules.find((rule) => rule.test.test(".svg"));
+svgRule.test = new RegExp(svgRule.test.source.replace("|svg", ""));
 
 const commonOptions = {
   resolve: {
@@ -15,6 +19,28 @@ const commonOptions = {
       {
         test: /\.(ts|tsx)$/,
         loader: "ts-loader",
+      },
+      {
+        test: /\.svg$/,
+        use: [
+          {
+            loader: "@svgr/webpack",
+            options: {
+              svgoConfig: {
+                plugins: [
+                  {
+                    name: "preset-default",
+                    params: {
+                      overrides: {
+                        removeViewBox: false,
+                      },
+                    },
+                  },
+                ],
+              },
+            },
+          },
+        ],
       },
     ],
   },

@@ -1,5 +1,5 @@
 import cn from "classnames";
-import emptyStateImage from "./../../../assets/images/empty_state.svg";
+import EmptyStateIcon from "../../assets/images/empty-state.svg";
 import styles from "./EmptyState.module.scss";
 
 const EmptyState = ({
@@ -17,9 +17,7 @@ const EmptyState = ({
         [styles.large]: size === "large",
       })}
     >
-      <div className={styles.image}>
-        <img src={emptyStateImage} alt="No data" />
-      </div>
+      <EmptyStateIcon className={styles.image} />
       <div className={styles.title}>{title}</div>
       {description && <div className={styles.description}>{description}</div>}
     </div>

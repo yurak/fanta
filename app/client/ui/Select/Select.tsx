@@ -8,7 +8,7 @@ import ReactSelect, {
   components,
 } from "react-select";
 import Skeleton from "react-loading-skeleton";
-import arrowDown from "../../../assets/images/icons/arrow_down.svg";
+import ArrowDownIcon from "../../assets/icons/arrow-down.svg";
 import { useIsClient } from "../../hooks/useIsClient";
 import styles from "./Select.module.scss";
 
@@ -67,11 +67,7 @@ const Select = <Option extends unknown, IsMulti extends boolean = false>({
       blurInputOnSelect
       components={{
         IndicatorSeparator: null,
-        DropdownIndicator: () => (
-          <span className={styles.dropdownIndicator}>
-            <img src={arrowDown} width={10} />
-          </span>
-        ),
+        DropdownIndicator: () => <ArrowDownIcon className={styles.dropdownIndicator} />,
         ValueContainer: (props) => (
           <>
             {icon && <span className={styles.valueIcon}>{icon}</span>}
