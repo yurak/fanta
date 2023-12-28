@@ -92,6 +92,7 @@ const LeagueResultsMantraTable = ({
           className: styles.games,
           sorter: {
             compare: (teamA, teamB) => teamB.wins - teamA.wins,
+            priority: 3,
           },
         },
         {
@@ -119,6 +120,7 @@ const LeagueResultsMantraTable = ({
           className: styles.goals,
           sorter: {
             compare: (teamA, teamB) => teamB.scored_goals - teamA.scored_goals,
+            priority: 2,
           },
         },
         {
@@ -157,7 +159,7 @@ const LeagueResultsMantraTable = ({
           className: styles.points,
           sorter: {
             compare: (teamA, teamB) => teamB.total_score - teamA.total_score,
-            priority: 2,
+            priority: 4,
           },
         },
         {
