@@ -46,7 +46,7 @@ class League < ApplicationRecord
 
     positions = results.each_with_object([]).with_index do |(result, array), index|
       history_arr = JSON.parse(result.history).drop(1)
-      team_pos_arr = history_arr.each_with_object([]) { |round, pos_arr| pos_arr << round&.dig('pos') }
+      team_pos_arr = history_arr.each_with_object([]) { |round, pos_arr| pos_arr << round&.fetch('pos') }
       array << { label: result.team.human_name, data: team_pos_arr, borderColor: COLORS[index], backgroundColor: COLORS[index] }
     end
 

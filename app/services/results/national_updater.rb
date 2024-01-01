@@ -32,7 +32,7 @@ module Results
 
     def update_f1_points
       i = 0
-      lineups.take(10).group_by(&:total_score).each do |_, lineups|
+      lineups.take(10).group_by(&:total_score).each_value do |lineups|
         lineups.each do |lineup|
           result = lineup.team.results.last
 
