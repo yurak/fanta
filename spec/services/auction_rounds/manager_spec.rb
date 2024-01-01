@@ -71,7 +71,7 @@ RSpec.describe AuctionRounds::Manager do
         end
 
         it 'creates transfers' do
-          expect(Transfer.all.count).to eq(24)
+          expect(Transfer.count).to eq(24)
         end
 
         it 'updates player_bids status' do
@@ -134,7 +134,7 @@ RSpec.describe AuctionRounds::Manager do
         end
 
         it 'creates transfers' do
-          expect(Transfer.all.count).to eq(24)
+          expect(Transfer.count).to eq(24)
         end
 
         it 'updates player_bids status' do
@@ -198,7 +198,7 @@ RSpec.describe AuctionRounds::Manager do
         end
 
         it 'creates transfers' do
-          expect(Transfer.all.count).to eq(18)
+          expect(Transfer.count).to eq(18)
         end
 
         it 'updates player_bids status' do

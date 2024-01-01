@@ -80,7 +80,7 @@ class LineupsController < ApplicationController
   def recount_round_players_params
     return if params[:lineup][:match_players_attributes].blank?
 
-    params[:lineup][:match_players_attributes].each do |k, _|
+    params[:lineup][:match_players_attributes].each_key do |k|
       next unless params[:lineup][:match_players_attributes][k][:round_player_id]
 
       player = Player.find(params[:lineup][:match_players_attributes][k][:round_player_id])

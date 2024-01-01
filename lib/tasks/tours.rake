@@ -37,7 +37,7 @@ namespace :tours do
   task create_ecl: :environment do
     tournament = Tournament.find_by(code: Scores::Injectors::Strategy::EUROPE_CL)
     league = tournament.leagues.last
-    tournament.tournament_rounds.where(season: Season.last).each do |round|
+    tournament.tournament_rounds.where(season: Season.last).find_each do |round|
       first_match = round.tournament_matches.first
       next unless first_match
 

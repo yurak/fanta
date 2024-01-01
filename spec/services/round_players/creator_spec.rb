@@ -18,7 +18,7 @@ RSpec.describe RoundPlayers::Creator do
         creator.call
       end
 
-      it { expect(RoundPlayer.all.count).to eq(5) }
+      it { expect(RoundPlayer.count).to eq(5) }
     end
 
     context 'with existed tournament_round with national matches and players' do
@@ -29,7 +29,7 @@ RSpec.describe RoundPlayers::Creator do
         creator.call
       end
 
-      it { expect(RoundPlayer.all.count).to eq(3) }
+      it { expect(RoundPlayer.count).to eq(3) }
     end
 
     context 'with existed tournament_round, players and round_player' do
@@ -39,7 +39,7 @@ RSpec.describe RoundPlayers::Creator do
         creator.call
       end
 
-      it { expect(RoundPlayer.all.count).to eq(5) }
+      it { expect(RoundPlayer.count).to eq(5) }
     end
 
     context 'with existed eurocup tournament_round, players and round_player' do
@@ -53,7 +53,7 @@ RSpec.describe RoundPlayers::Creator do
         creator.call
       end
 
-      it { expect(RoundPlayer.all.count).to eq(7) }
+      it { expect(RoundPlayer.count).to eq(7) }
     end
 
     context 'with existed tournament_round and without players' do
@@ -61,7 +61,7 @@ RSpec.describe RoundPlayers::Creator do
         creator.call
       end
 
-      it { expect(RoundPlayer.all.count).to eq(0) }
+      it { expect(RoundPlayer.count).to eq(0) }
     end
   end
 end
