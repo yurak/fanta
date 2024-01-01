@@ -6,7 +6,7 @@ namespace :db_updater do
     tournament = Tournament.find_by(code: Scores::Injectors::Strategy::ITALY)
 
     # add created tournament to existed clubs
-    Club.all.find_each { |c| c.update(tournament: tournament) }
+    Club.find_each { |c| c.update(tournament: tournament) }
 
     # create clubs
     Clubs::Creator.call
@@ -15,12 +15,12 @@ namespace :db_updater do
     league = League.create(name: 'Fanta-2019/2020', tournament: tournament, status: 1)
 
     # add created league to existed teams
-    Team.all.find_each { |t| t.update(league: league) }
+    Team.find_each { |t| t.update(league: league) }
 
     # add created league to existed tours
-    Tour.all.find_each { |t| t.update(league: league) }
+    Tour.find_each { |t| t.update(league: league) }
 
     # add created league to existed links
-    Link.all.find_each { |l| l.update(league: league) }
+    Link.find_each { |l| l.update(league: league) }
   end
 end

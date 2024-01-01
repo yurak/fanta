@@ -1,7 +1,7 @@
 namespace :teams do
   desc 'Reset teams players'
   task reset: :environment do
-    Team.all.find_each do |team|
+    Team.find_each do |team|
       team.players.clear
       team.update(budget: Team::DEFAULT_BUDGET)
     end
