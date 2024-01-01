@@ -12,7 +12,7 @@ module Players
       ATTACK_POS = [FORWARD, STRIKER].freeze
       DEFENCE_POS = %w[CB RB LB].freeze
       FULLBACK_POS = %w[RB LB].freeze
-      LOWER_POS_PAIRS = [%w[W WB], %w[W CM], %w[DM CB], %w[CM DM], %w[AM WB], %w[AM CM], %w[FW AM], %w[FW W]].freeze
+      LOWER_POS_PAIRS = [%w[W WB], %w[W CM], %w[W DM], %w[DM CB], %w[CM DM], %w[AM WB], %w[AM DM], %w[AM CM], %w[FW AM], %w[FW W]].freeze
       VIOLET_LINE_POS = %w[W AM].freeze
 
       attr_reader :player, :current_year
