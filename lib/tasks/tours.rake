@@ -5,6 +5,7 @@ namespace :tours do
     tour&.set_lineup!
   end
 
+  # rake tours:lock_deadline
   desc 'Lock tours after deadline'
   task lock_deadline: :environment do
     League.active.each do |league|
@@ -36,7 +37,7 @@ namespace :tours do
   task create_ecl: :environment do
     tournament = Tournament.find_by(code: Scores::Injectors::Strategy::EUROPE_CL)
     league = tournament.leagues.last
-    tournament.tournament_rounds.where(season: Season.last).each do |round|
+    tournament.tournament_rounds.where(season: Season.last).find_each do |round|
       first_match = round.tournament_matches.first
       next unless first_match
 

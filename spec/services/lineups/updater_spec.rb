@@ -38,8 +38,16 @@ RSpec.describe Lineups::Updater do
         expect(lineup_one.reload.final_score).to eq(55)
       end
 
+      it 'updates first lineup final_goals' do
+        expect(lineup_one.reload.final_goals).to eq(0)
+      end
+
       it 'updates last lineup final_score' do
         expect(lineup_two.reload.final_score).to eq(93)
+      end
+
+      it 'updates last lineup final_goals' do
+        expect(lineup_two.reload.final_goals).to eq(4)
       end
     end
   end

@@ -10,7 +10,7 @@ RSpec.describe Positions::Creator do
         creator.call
       end
 
-      it { expect(Position.all.count).to eq(14) }
+      it { expect(Position.count).to eq(14) }
       it { expect(Position.last.name).to eq('Pos3') }
     end
 
@@ -22,7 +22,7 @@ RSpec.describe Positions::Creator do
         creator.call
       end
 
-      it { expect(Position.all.count).to eq(13) }
+      it { expect(Position.count).to eq(13) }
       it { expect(Position.last.name).to eq('Pos2') }
     end
   end
