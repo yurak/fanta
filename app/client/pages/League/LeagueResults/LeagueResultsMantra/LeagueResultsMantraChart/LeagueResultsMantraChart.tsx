@@ -4,7 +4,7 @@ import Chart, { DEFAULT_COLORS } from "../../../../../ui/Chart";
 import { ILeagueResults } from "../../../../../interfaces/LeagueResults";
 import styles from "./LeagueResultsMantraChart.module.scss";
 
-type ChartDataType = ChartData<"line", number[], React.ReactNode>;
+type ChartDataType = ChartData<"line", (number | null)[], React.ReactNode>;
 
 const LeagueResultsMantraChart = ({
   teamsCount,
@@ -27,7 +27,7 @@ const LeagueResultsMantraChart = ({
       .sort((teamA, teamB) => teamA.team.id - teamB.team.id)
       .map((teamResult, index): ChartDataType["datasets"][0] => ({
         label: teamResult.team?.human_name ?? teamResult.id.toString(),
-        data: teamResult.history.map((teamFormItem) => teamFormItem?.pos ?? 0).filter(Boolean),
+        data: teamResult.history.map((teamFormItem) => teamFormItem?.pos ?? null),
         backgroundColor: DEFAULT_COLORS[index],
         borderColor: DEFAULT_COLORS[index],
       }));
