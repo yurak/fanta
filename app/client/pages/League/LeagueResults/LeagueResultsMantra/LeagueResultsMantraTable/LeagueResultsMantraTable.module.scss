@@ -1,6 +1,5 @@
 .position {
   flex: 0 0 48px;
-  margin-right: 8px;
   align-self: auto;
   display: flex;
   align-items: center;
@@ -103,4 +102,27 @@
     border-radius: 50%;
     object-fit: contain;
   }
+}
+
+.positionUpdate {
+  flex: 0 0 24px;
+  padding: 6px;
+}
+
+.positionUpdateIcon {
+  &.top {
+    transform: rotate(180deg);
+    color: green;
+  }
+
+  &.down {
+    color: red;
+  }
+}
+
+.positionUpdateNoChange {
+  display: block;
+  width: 100%;
+  height: 2px;
+  background-color: #a6a2a2;
 }

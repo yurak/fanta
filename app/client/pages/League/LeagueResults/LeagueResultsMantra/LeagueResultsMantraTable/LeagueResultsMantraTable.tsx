@@ -1,9 +1,31 @@
 import { useMemo } from "react";
 import cn from "classnames";
-import { ILeagueResults } from "../../../../../interfaces/LeagueResults";
+import { ILeagueResults, ILeagueResultsHistory } from "../../../../../interfaces/LeagueResults";
 import Table from "../../../../../ui/Table";
+import TriangleDownIcon from "../../../../../assets/icons/triangleDown.svg";
 
 import styles from "./LeagueResultsMantraTable.module.scss";
+
+const getPositionUpdate = (teamResult: ILeagueResults): null | "top" | "down" => {
+  const { history } = teamResult;
+  const existHistory = history.filter(Boolean) as ILeagueResultsHistory[];
+  const currentPosition = existHistory[existHistory.length - 1]?.pos;
+  const prevPosition = existHistory[existHistory.length - 2]?.pos;
+
+  if (!(currentPosition && prevPosition)) {
+    return null;
+  }
+
+  if (currentPosition < prevPosition) {
+    return "top";
+  }
+
+  if (currentPosition > prevPosition) {
+    return "down";
+  }
+
+  return null;
+};
 
 const LeagueResultsMantraTable = ({
   leaguesResults,
@@ -19,14 +41,15 @@ const LeagueResultsMantraTable = ({
   teamsCount: number;
 }) => {
   const dataSource = useMemo(() => {
-    return leaguesResults.map((item, index) => {
+    return leaguesResults.map((teamResult, index) => {
       return {
-        ...item,
-        total_score: Number(item.total_score),
-        formPoints: item.form
+        ...teamResult,
+        total_score: Number(teamResult.total_score),
+        formPoints: teamResult.form
           .map((form) => (form === "W" && 3) || (form === "D" && 1) || 0)
           .reduce((totalPoints, point) => totalPoints + point, 0),
         position: index + 1,
+        positionUpdate: getPositionUpdate(teamResult),
       };
     });
   }, [leaguesResults]);
@@ -62,6 +85,22 @@ const LeagueResultsMantraTable = ({
               [styles.isPromotion]: item && item.position <= promotion,
               [styles.isRelegation]: item && item.position > teamsCount - relegation,
             }),
+        },
+        {
+          dataKey: "positionUpdate",
+          align: "center",
+          className: styles.positionUpdate,
+          render: ({ positionUpdate }) =>
+            positionUpdate ? (
+              <TriangleDownIcon
+                className={cn(styles.positionUpdateIcon, {
+                  [styles.top]: positionUpdate === "top",
+                  [styles.down]: positionUpdate === "down",
+                })}
+              />
+            ) : (
+              <span className={styles.positionUpdateNoChange} />
+            ),
         },
         {
           dataKey: "team",
