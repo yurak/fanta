@@ -1,3 +1,7 @@
+.table {
+  min-width: 1000px;
+}
+
 .position {
   flex: 0 0 48px;
   align-self: auto;
@@ -7,19 +11,52 @@
 }
 
 .team {
-  flex: 1;
+  flex: 1 0 0;
+  min-width: 140px;
 }
 
-.games {
+.matchesPlayed {
+  flex: 0 0 88px;
+
+  @media (max-width: 1600px) {
+    flex: 0 0 65px;
+  }
+}
+
+.matchesWins {
+  flex: 0 0 88px;
+
+  @media (max-width: 1600px) {
+    flex: 0 0 85px;
+  }
+}
+
+.matchesDraws {
+  flex: 0 0 96px;
+}
+
+.matchesLoses {
   flex: 0 0 88px;
 }
 
 .goals {
   flex: 0 0 88px;
+
+  @media (max-width: 1600px) {
+    flex: 0 0 68px;
+  }
 }
 
 .points {
+  flex: 0 0 96px;
+}
+
+.totalScore {
   flex: 0 0 88px;
+
+  @media (max-width: 1600px) {
+    flex-basis: 76px;
+  }
 }
 
 .form {
@@ -66,9 +103,6 @@
 }
 
 .teamName {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
   display: flex;
   align-items: center;
   font-family: "Nunito ExtraBold";
@@ -76,11 +110,15 @@
 
 .teamNameName {
   flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .teamNameImg {
   width: 32px;
   height: 32px;
+  flex: 0 0 32px;
   margin-right: 28px;
 
   img {

@@ -42,6 +42,7 @@ const Table = <DataItem extends {} = {}>({
   rowLink,
   isLoading,
   skeletonItems = 6,
+  tableClassName,
   emptyState = {
     title: "No data",
   },
@@ -52,6 +53,7 @@ const Table = <DataItem extends {} = {}>({
   rowLink?: (item: DataItem) => string;
   isLoading?: boolean;
   skeletonItems?: number;
+  tableClassName?: string;
   emptyState?: {
     title: string;
     description?: string;
@@ -86,76 +88,80 @@ const Table = <DataItem extends {} = {}>({
   });
 
   return (
-    <div className={styles.table}>
-      <div className={cn(styles.header, styles.row)}>
-        {computedColumns.map((column) => (
-          <div
-            key={column._key}
-            className={cn(styles.column, styles.headerColumn, column.className, {
-              [styles.withoutTitle]: !column.title,
-              [styles.withSort]: !!column.sorter,
-              [styles.isSorter]: column._key === sortColumnKey,
-            })}
-            onClick={() => {
-              if (column.sorter) {
-                onSort(column._key);
-              }
-            }}
-          >
-            {column.title}
-            {column.sorter && (
-              <span className={cn(styles.sortIcon)}>
-                <SortDownIcon />
-              </span>
-            )}
-          </div>
-        ))}
-      </div>
-      {isLoading ? (
-        <LoadingSkeleton columns={computedColumns} items={skeletonItems} />
-      ) : (
-        <>
-          {sortedDataSource.length > 0 ? (
-            sortedDataSource.map((dataItem, rowIndex) => (
-              <div
-                key={getRowKey(dataItem)}
-                className={cn(styles.row, styles.dataRow, styles.hoverableRow)}
-              >
-                {rowLink && <a href={rowLink(dataItem)} className={styles.rowLink} />}
-                {computedColumns.map((column) => {
-                  const dataClassName =
-                    typeof column.dataClassName === "function"
-                      ? column.dataClassName(dataItem, rowIndex)
-                      : column.dataClassName;
-
-                  return (
-                    <div
-                      key={column._key}
-                      className={cn(
-                        styles.column,
-                        styles.dataColumn,
-                        column.className,
-                        dataClassName,
-                        {
-                          [styles.right]: column.align === "right",
-                          [styles.center]: column.align === "center",
-                          [styles.noWrap]: column.noWrap,
-                        }
-                      )}
-                    >
-                      {renderCellData(dataItem, column, rowIndex)}
-                    </div>
-                  );
-                })}
-              </div>
-            ))
-          ) : (
-            <div className={styles.emptyState}>
-              <EmptyState title={emptyState.title} description={emptyState.description} />
+    <div className={styles.tableWrapper}>
+      <div className={cn(styles.table, tableClassName)}>
+        <div className={cn(styles.header, styles.row)}>
+          {computedColumns.map((column) => (
+            <div
+              key={column._key}
+              className={cn(styles.column, styles.headerColumn, column.className, {
+                [styles.withoutTitle]: !column.title,
+                [styles.withSort]: !!column.sorter,
+                [styles.isSorter]: column._key === sortColumnKey,
+              })}
+              onClick={() => {
+                if (column.sorter) {
+                  onSort(column._key);
+                }
+              }}
+            >
+              {column.title}
+              {column.sorter && (
+                <span className={cn(styles.sortIcon)}>
+                  <SortDownIcon />
+                </span>
+              )}
             </div>
-          )}
-        </>
-      )}
+          ))}
+        </div>
+        {isLoading ? (
+          <LoadingSkeleton columns={computedColumns} items={skeletonItems} />
+        ) : (
+          <>
+            {sortedDataSource.length > 0 ? (
+              sortedDataSource.map((dataItem, rowIndex) => (
+                <div
+                  key={getRowKey(dataItem)}
+                  className={cn(styles.row, styles.dataRow, {
+                    [styles.hoverableRow]: Boolean(rowLink),
+                  })}
+                >
+                  {rowLink && <a href={rowLink(dataItem)} className={styles.rowLink} />}
+                  {computedColumns.map((column) => {
+                    const dataClassName =
+                      typeof column.dataClassName === "function"
+                        ? column.dataClassName(dataItem, rowIndex)
+                        : column.dataClassName;
+
+                    return (
+                      <div
+                        key={column._key}
+                        className={cn(
+                          styles.column,
+                          styles.dataColumn,
+                          column.className,
+                          dataClassName,
+                          {
+                            [styles.right]: column.align === "right",
+                            [styles.center]: column.align === "center",
+                            [styles.noWrap]: column.noWrap,
+                          }
+                        )}
+                      >
+                        {renderCellData(dataItem, column, rowIndex)}
+                      </div>
+                    );
+                  })}
+                </div>
+              ))
+            ) : (
+              <div className={styles.emptyState}>
+                <EmptyState title={emptyState.title} description={emptyState.description} />
+              </div>
+            )}
+          </>
+        )}
+      </div>
     </div>
   );
 };

@@ -59,7 +59,8 @@ const LeagueResultsMantraTable = ({
       dataSource={dataSource}
       isLoading={isLoading}
       skeletonItems={8}
-      rowLink={({ team }) => `/teams/${team.id}`}
+      // rowLink={({ team }) => `/teams/${team.id}`}
+      tableClassName={styles.table}
       columns={[
         {
           dataKey: "position",
@@ -122,13 +123,13 @@ const LeagueResultsMantraTable = ({
           dataKey: "matches_played",
           title: "Games",
           align: "right",
-          className: styles.games,
+          className: styles.matchesPlayed,
         },
         {
           dataKey: "wins",
           title: "Wins",
           align: "right",
-          className: styles.games,
+          className: styles.matchesWins,
           sorter: {
             compare: (teamA, teamB) => teamB.wins - teamA.wins,
             priority: 3,
@@ -138,7 +139,7 @@ const LeagueResultsMantraTable = ({
           dataKey: "draws",
           title: "Draws",
           align: "right",
-          className: styles.games,
+          className: styles.matchesDraws,
           sorter: {
             compare: (teamA, teamB) => teamB.draws - teamA.draws,
           },
@@ -147,7 +148,7 @@ const LeagueResultsMantraTable = ({
           dataKey: "loses",
           title: "Loses",
           align: "right",
-          className: styles.games,
+          className: styles.matchesLoses,
           sorter: {
             compare: (teamA, teamB) => teamB.loses - teamA.loses,
           },
@@ -195,7 +196,7 @@ const LeagueResultsMantraTable = ({
           dataKey: "total_score",
           title: "TS",
           align: "right",
-          className: styles.points,
+          className: styles.totalScore,
           sorter: {
             compare: (teamA, teamB) => teamB.total_score - teamA.total_score,
             priority: 4,
