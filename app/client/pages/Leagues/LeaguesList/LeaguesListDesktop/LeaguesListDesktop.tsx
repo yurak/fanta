@@ -75,17 +75,14 @@ const LeaguesListDesktop = ({
               </span>
             }
           >
-            {(league) => {
-              console.log({ league });
-              return (
-                <span className={styles.leaderName}>
-                  <span className={styles.leaderImage}>
-                    <img src={league.leader_logo} />
-                  </span>
-                  <span className={styles.leaderNameName}>{league.leader}</span>
+            {(league) => (
+              <span className={styles.leaderName}>
+                <span className={styles.leaderImage}>
+                  <img src={league.leader_logo} />
                 </span>
-              );
-            }}
+                <span className={styles.leaderNameName}>{league.leader}</span>
+              </span>
+            )}
           </LeagueLoader>
         ),
         skeleton: (
