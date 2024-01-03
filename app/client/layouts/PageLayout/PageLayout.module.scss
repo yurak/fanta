@@ -1,27 +1,21 @@
 .layout {
   --nav-width: 72px;
 
-  padding: 40px 116px 60px calc(var(--nav-width) + 116px);
+  padding: 24px 12px 36px;
 
-  @media (max-width: 991px) {
+  @media (min-width: 769px) {
     padding-left: calc(var(--nav-width) + 56px);
     padding-right: 56px;
   }
 
-  @media (max-width: 768px) {
-    padding: 24px 12px 36px;
+  @media (min-width: 992px) {
+    padding: 40px 116px 60px calc(var(--nav-width) + 116px);
   }
 }
 
 .withSidebar {
-  padding-left: calc(var(--nav-width) + 216px);
-  padding-right: 16px;
-
-  @media (max-width: 991px) {
-    // TODO: add styles for laptop
-  }
-
-  @media (max-width: 768px) {
-    // TODO: add styles for mobile
+  @media (min-width: 769px) {
+    padding-left: calc(var(--nav-width) + 216px);
+    padding-right: 16px;
   }
 }
