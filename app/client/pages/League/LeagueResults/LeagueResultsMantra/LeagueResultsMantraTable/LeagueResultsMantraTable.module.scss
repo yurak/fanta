@@ -2,6 +2,20 @@
   min-width: 1000px;
 }
 
+.fullTitle {
+  @media (max-width: 1600px) {
+    display: none;
+  }
+}
+
+.shortTitle {
+  display: none;
+
+  @media (max-width: 1600px) {
+    display: inline;
+  }
+}
+
 .position {
   flex: 0 0 48px;
   align-self: auto;
@@ -19,7 +33,7 @@
   flex: 0 0 88px;
 
   @media (max-width: 1600px) {
-    flex: 0 0 65px;
+    flex: 0 0 68px;
   }
 }
 
@@ -27,16 +41,24 @@
   flex: 0 0 88px;
 
   @media (max-width: 1600px) {
-    flex: 0 0 85px;
+    flex: 0 0 68px;
   }
 }
 
 .matchesDraws {
   flex: 0 0 96px;
+
+  @media (max-width: 1600px) {
+    flex: 0 0 68px;
+  }
 }
 
 .matchesLoses {
   flex: 0 0 88px;
+
+  @media (max-width: 1600px) {
+    flex: 0 0 68px;
+  }
 }
 
 .goals {
@@ -49,6 +71,10 @@
 
 .points {
   flex: 0 0 96px;
+
+  @media (max-width: 1600px) {
+    flex: 0 0 76px;
+  }
 }
 
 .totalScore {

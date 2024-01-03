@@ -121,13 +121,23 @@ const LeagueResultsMantraTable = ({
         },
         {
           dataKey: "matches_played",
-          title: "Games",
+          title: (
+            <>
+              <span className={styles.fullTitle}>Played</span>
+              <span className={styles.shortTitle}>PL</span>
+            </>
+          ),
           align: "right",
           className: styles.matchesPlayed,
         },
         {
           dataKey: "wins",
-          title: "Wins",
+          title: (
+            <>
+              <span className={styles.fullTitle}>Wins</span>
+              <span className={styles.shortTitle}>W</span>
+            </>
+          ),
           align: "right",
           className: styles.matchesWins,
           sorter: {
@@ -137,7 +147,12 @@ const LeagueResultsMantraTable = ({
         },
         {
           dataKey: "draws",
-          title: "Draws",
+          title: (
+            <>
+              <span className={styles.fullTitle}>Draws</span>
+              <span className={styles.shortTitle}>D</span>
+            </>
+          ),
           align: "right",
           className: styles.matchesDraws,
           sorter: {
@@ -146,7 +161,12 @@ const LeagueResultsMantraTable = ({
         },
         {
           dataKey: "loses",
-          title: "Loses",
+          title: (
+            <>
+              <span className={styles.fullTitle}>Loses</span>
+              <span className={styles.shortTitle}>L</span>
+            </>
+          ),
           align: "right",
           className: styles.matchesLoses,
           sorter: {
@@ -183,7 +203,12 @@ const LeagueResultsMantraTable = ({
         },
         {
           dataKey: "points",
-          title: "Points",
+          title: (
+            <>
+              <span className={styles.fullTitle}>Points</span>
+              <span className={styles.shortTitle}>PTS</span>
+            </>
+          ),
           align: "right",
           className: styles.points,
           dataClassName: styles.pointsData,

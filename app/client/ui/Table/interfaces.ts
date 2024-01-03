@@ -1,7 +1,9 @@
+import React from "react";
+
 export type SortFunctionType<DataItem> = (itemA: DataItem, itemB: DataItem) => number;
 
 export interface IColumn<DataItem extends {} = {}> {
-  title?: string;
+  title?: React.ReactNode;
   dataKey: string;
   key?: string;
   render?: (item: DataItem, rowIndex: number) => React.ReactNode;
