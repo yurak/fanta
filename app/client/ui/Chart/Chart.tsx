@@ -6,7 +6,9 @@ import {
   ChartType,
   DefaultDataPoint,
   registerables,
+  PluginOptionsByType,
 } from "chart.js";
+import { _DeepPartialObject } from "chart.js/dist/types/utils";
 import Skeleton from "react-loading-skeleton";
 import styles from "./Сhart.module.scss";
 
@@ -33,6 +35,7 @@ interface IChartProps<
 > {
   data: ChartData<TType, TData, TLabel>;
   type: ChartType;
+  plugins?: _DeepPartialObject<PluginOptionsByType<keyof ChartTypeRegistry>> | undefined;
 }
 
 const Chart = <
@@ -42,6 +45,7 @@ const Chart = <
 >({
   data,
   type,
+  plugins,
 }: IChartProps<TType, TData, TLabel>) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const chart = useRef<ChartJS<keyof ChartTypeRegistry, TData, TLabel>>();
@@ -55,6 +59,7 @@ const Chart = <
       type,
       data,
       options: {
+        plugins,
         responsive: true,
         maintainAspectRatio: false,
         scales: {

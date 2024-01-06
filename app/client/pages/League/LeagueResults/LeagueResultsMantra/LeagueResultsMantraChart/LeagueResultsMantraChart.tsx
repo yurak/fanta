@@ -43,7 +43,19 @@ const LeagueResultsMantraChart = ({
     [datasets, labels]
   );
 
-  return <Chart type="line" isLoading={isLoading} data={chartData} className={styles.canvas} />;
+  return (
+    <Chart
+      type="line"
+      isLoading={isLoading}
+      data={chartData}
+      className={styles.canvas}
+      plugins={{
+        tooltip: {
+          itemSort: (a, b) => Number(a.formattedValue) - Number(b.formattedValue),
+        },
+      }}
+    />
+  );
 };
 
 export default LeagueResultsMantraChart;
