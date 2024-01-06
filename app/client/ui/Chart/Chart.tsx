@@ -32,9 +32,11 @@ const Chart = <
 >({
   data,
   type,
+  className,
 }: {
   data: ChartData<TType, TData, TLabel>;
   type: ChartType;
+  className?: string;
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const chart = useRef<ChartJS<keyof ChartTypeRegistry, TData, TLabel>>();
@@ -49,6 +51,7 @@ const Chart = <
       data,
       options: {
         responsive: true,
+        maintainAspectRatio: false,
         scales: {
           y: { reverse: true, ticks: { precision: 0 } },
         },
@@ -69,7 +72,7 @@ const Chart = <
   }, [data]);
 
   return (
-    <div>
+    <div className={className}>
       <canvas className={styles.canvas} ref={canvasRef} />
     </div>
   );

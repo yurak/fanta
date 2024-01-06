@@ -7,30 +7,34 @@ import styles from "./LeagueResultsMantraChart.module.scss";
 type ChartDataType = ChartData<"line", (number | null)[], React.ReactNode>;
 
 const LeagueResultsMantraChart = ({
-  teamsCount,
   leaguesResults,
   isLoading,
 }: {
-  teamsCount: number;
   leaguesResults: ILeagueResults[];
   isLoading: boolean;
 }) => {
   console.log({ isLoading });
 
+  const historyItems = leaguesResults[0]?.history.length ?? 0;
+
   const labels = useMemo<ChartDataType["labels"]>(
-    () => Array.from({ length: teamsCount }).map((_, index) => index + 1),
-    [teamsCount]
+    () => Array.from({ length: historyItems - 1 }).map((_, index) => index + 1),
+    [historyItems]
   );
 
   const datasets = useMemo<ChartDataType["datasets"]>(() => {
     return [...leaguesResults]
       .sort((teamA, teamB) => teamA.team.id - teamB.team.id)
-      .map((teamResult, index): ChartDataType["datasets"][0] => ({
-        label: teamResult.team?.human_name ?? teamResult.id.toString(),
-        data: teamResult.history.map((teamFormItem) => teamFormItem?.pos ?? null),
-        backgroundColor: DEFAULT_COLORS[index],
-        borderColor: DEFAULT_COLORS[index],
-      }));
+      .map((teamResult, index): ChartDataType["datasets"][0] => {
+        const [_, ...history] = teamResult.history;
+
+        return {
+          label: teamResult.team?.human_name ?? teamResult.id.toString(),
+          data: history.map((teamFormItem) => teamFormItem?.pos ?? null),
+          backgroundColor: DEFAULT_COLORS[index],
+          borderColor: DEFAULT_COLORS[index],
+        };
+      });
   }, [leaguesResults]);
 
   const chartData = useMemo<ChartDataType>(
@@ -41,11 +45,7 @@ const LeagueResultsMantraChart = ({
     [datasets, labels]
   );
 
-  return (
-    <div className={styles.chart}>
-      <Chart type="line" data={chartData} />
-    </div>
-  );
+  return <Chart type="line" data={chartData} className={styles.canvas} />;
 };
 
 export default LeagueResultsMantraChart;
