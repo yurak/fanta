@@ -18,7 +18,7 @@ class ResultSerializer < ActiveModel::Serializer
 
   def form
     # object.form
-    object.closed_lineups.limit(5).reverse.map(&:result)
+    object.closed_lineups.limit(5).reverse.map(&:result) if object.league.mantra?
   end
 
   def history
