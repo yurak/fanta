@@ -22,17 +22,17 @@ const Select = <Option, IsMulti extends boolean = false>({
   formatOptionLabel,
   getOptionValue,
 }: {
-  options: Option[];
-  value: PropsValue<Option>;
-  onChange: (newValue: OnChangeValue<Option, IsMulti>, actionMeta: ActionMeta<Option>) => void;
-  placeholder?: string;
-  isLoading?: boolean;
-  icon?: React.ReactNode;
+  options: Option[],
+  value: PropsValue<Option>,
+  onChange: (newValue: OnChangeValue<Option, IsMulti>, actionMeta: ActionMeta<Option>) => void,
+  placeholder?: string,
+  isLoading?: boolean,
+  icon?: React.ReactNode,
   formatOptionLabel?: (
     data: Option,
     formatOptionLabelMeta: FormatOptionLabelMeta<Option>
-  ) => React.ReactNode;
-  getOptionValue?: GetOptionValue<Option>;
+  ) => React.ReactNode,
+  getOptionValue?: GetOptionValue<Option>,
 }) => {
   // TODO: temporary solution, need to fix working with ssr
   const isClient = useIsClient();

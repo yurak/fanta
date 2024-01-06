@@ -17,7 +17,20 @@
   },
   "plugins": ["@typescript-eslint", "react"],
   "rules": {
-    "react/display-name": "off"
+    "react/display-name": "off",
+    "@typescript-eslint/member-delimiter-style": [
+      "warn",
+      {
+        "multiline": {
+          "delimiter": "comma",
+          "requireLast": true
+        },
+        "singleline": {
+          "delimiter": "comma",
+          "requireLast": false
+        }
+      }
+    ]
   },
   "settings": {
     "react": {

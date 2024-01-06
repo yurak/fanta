@@ -8,8 +8,8 @@ const LoadingSkeleton = ({
   skeletonRender = () => <Skeleton />,
   items = 5,
 }: {
-  skeletonRender?: () => React.ReactNode;
-  items?: number;
+  skeletonRender?: () => React.ReactNode,
+  items?: number,
 }) => {
   return Array.from({ length: items }).map((_, index) => (
     <div key={index} className={styles.item}>
@@ -28,17 +28,17 @@ const DataList = <DataItem extends object = object>({
   skeletonItems,
   emptyState = { title: "No data" },
 }: {
-  dataSource: DataItem[];
-  renderItem: (item: DataItem) => React.ReactNode;
-  itemKey: (item: DataItem) => string | number;
-  itemLink?: (item: DataItem) => string;
-  isLoading?: boolean;
-  skeletonRender?: () => React.ReactNode;
-  skeletonItems?: number;
+  dataSource: DataItem[],
+  renderItem: (item: DataItem) => React.ReactNode,
+  itemKey: (item: DataItem) => string | number,
+  itemLink?: (item: DataItem) => string,
+  isLoading?: boolean,
+  skeletonRender?: () => React.ReactNode,
+  skeletonItems?: number,
   emptyState?: {
-    title: string;
-    description?: string;
-  };
+    title: string,
+    description?: string,
+  },
 }) => {
   return (
     <div className={styles.list}>

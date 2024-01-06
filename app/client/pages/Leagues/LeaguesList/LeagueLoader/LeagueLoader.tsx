@@ -8,9 +8,9 @@ const LeagueLoader = ({
   children,
   skeleton = <Skeleton />,
 }: {
-  leagueId: number;
-  children: (item: ILeagueFullData) => React.ReactNode;
-  skeleton?: React.ReactNode;
+  leagueId: number,
+  children: (item: ILeagueFullData) => React.ReactNode,
+  skeleton?: React.ReactNode,
 }) => {
   const [ref, entry] = useIntersectionObserver<HTMLSpanElement>({ rootMargin: "50%" });
   const { data, isLoading } = useLeague(leagueId, entry?.isIntersecting ?? false);

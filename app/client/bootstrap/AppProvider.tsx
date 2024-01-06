@@ -18,7 +18,7 @@ i18n.use(initReactI18next).init({
 });
 
 interface IProps {
-  children: React.ReactNode;
+  children: React.ReactNode,
 }
 
 export const AppProvider = ({ children }: IProps) => {

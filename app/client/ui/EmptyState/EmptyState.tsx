@@ -7,9 +7,9 @@ const EmptyState = ({
   description,
   size = "normal",
 }: {
-  title: string;
-  description?: string;
-  size?: "normal" | "large";
+  title: string,
+  description?: string,
+  size?: "normal" | "large",
 }) => {
   return (
     <div

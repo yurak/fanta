@@ -16,12 +16,12 @@ const TournamentsTabs = ({
   filterTournament = defaultFilterTournament,
   isLoading,
 }: {
-  active?: number;
-  onChange: (active?: number) => void;
-  nameRender?: (tab: TournamentTab) => React.ReactNode;
-  filterTournament?: (tab: TournamentTab) => boolean;
-  showAll?: boolean;
-  isLoading?: boolean;
+  active?: number,
+  onChange: (active?: number) => void,
+  nameRender?: (tab: TournamentTab) => React.ReactNode,
+  filterTournament?: (tab: TournamentTab) => boolean,
+  showAll?: boolean,
+  isLoading?: boolean,
 }) => {
   const { t } = useTranslation();
   const tournamentsQuery = useTournaments();

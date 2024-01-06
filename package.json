@@ -2,7 +2,8 @@
   "name": "app",
   "private": true,
   "scripts": {
-    "lint": "eslint -c .eslintrc.json ."
+    "lint": "eslint -c .eslintrc.json .",
+    "lint:fix": "eslint --fix -c .eslintrc.json ."
   },
   "dependencies": {
     "@babel/core": "7",

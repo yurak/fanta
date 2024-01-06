@@ -5,20 +5,20 @@ import EmptyState from "../EmptyState";
 import styles from "./Table.module.scss";
 
 export interface IColumn<DataItem extends object = object> {
-  title?: string;
-  dataKey: string;
-  key?: string;
-  render?: (item: DataItem) => React.ReactNode;
-  skeleton?: React.ReactNode;
-  className?: string;
-  dataClassName?: string;
-  align?: "left" | "right";
-  noWrap?: boolean;
+  title?: string,
+  dataKey: string,
+  key?: string,
+  render?: (item: DataItem) => React.ReactNode,
+  skeleton?: React.ReactNode,
+  className?: string,
+  dataClassName?: string,
+  align?: "left" | "right",
+  noWrap?: boolean,
 }
 
 const getColumnKey = (column: IColumn) => column.key ?? column.dataKey;
 
-const LoadingSkeleton = ({ columns, items }: { columns: IColumn[]; items: number }) => {
+const LoadingSkeleton = ({ columns, items }: { columns: IColumn[], items: number }) => {
   return Array.from({ length: items }).map((_, index) => (
     <div key={index} className={cn(styles.row, styles.dataRow)}>
       {columns.map((column) => (
@@ -47,16 +47,16 @@ const Table = <DataItem extends object = object>({
     title: "No data",
   },
 }: {
-  columns: IColumn<DataItem>[];
-  dataSource: DataItem[];
-  rowKey?: string | ((item: DataItem) => string | number);
-  rowLink?: (item: DataItem) => string;
-  isLoading?: boolean;
-  skeletonItems?: number;
+  columns: IColumn<DataItem>[],
+  dataSource: DataItem[],
+  rowKey?: string | ((item: DataItem) => string | number),
+  rowLink?: (item: DataItem) => string,
+  isLoading?: boolean,
+  skeletonItems?: number,
   emptyState?: {
-    title: string;
-    description?: string;
-  };
+    title: string,
+    description?: string,
+  },
 }) => {
   const getRowKey = (item: DataItem) => {
     if (typeof rowKey === "function") {
