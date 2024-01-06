@@ -4,7 +4,7 @@ import cn from "classnames";
 import EmptyState from "../EmptyState";
 import styles from "./Table.module.scss";
 
-export interface IColumn<DataItem extends {} = {}> {
+export interface IColumn<DataItem extends object = object> {
   title?: string;
   dataKey: string;
   key?: string;
@@ -36,7 +36,7 @@ const LoadingSkeleton = ({ columns, items }: { columns: IColumn[]; items: number
   ));
 };
 
-const Table = <DataItem extends {} = {}>({
+const Table = <DataItem extends object = object>({
   columns,
   dataSource,
   rowKey,

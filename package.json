@@ -1,6 +1,9 @@
 {
   "name": "app",
   "private": true,
+  "scripts": {
+    "lint": "eslint -c .eslintrc.json ."
+  },
   "dependencies": {
     "@babel/core": "7",
     "@babel/plugin-transform-runtime": "7",
@@ -57,6 +60,10 @@
   ],
   "devDependencies": {
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.11",
+    "@typescript-eslint/eslint-plugin": "^6.18.0",
+    "@typescript-eslint/parser": "^6.18.0",
+    "eslint": "^8.56.0",
+    "eslint-plugin-react": "^7.33.2",
     "react-refresh": "^0.14.0",
     "typescript": "^5.2.2",
     "webpack-dev-server": "4"

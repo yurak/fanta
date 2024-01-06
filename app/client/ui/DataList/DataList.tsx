@@ -18,7 +18,7 @@ const LoadingSkeleton = ({
   ));
 };
 
-const DataList = <DataItem extends {} = {}>({
+const DataList = <DataItem extends object = object>({
   dataSource,
   renderItem,
   itemKey,

@@ -12,7 +12,7 @@ import ArrowDownIcon from "../../assets/icons/arrow-down.svg";
 import { useIsClient } from "../../hooks/useIsClient";
 import styles from "./Select.module.scss";
 
-const Select = <Option extends unknown, IsMulti extends boolean = false>({
+const Select = <Option, IsMulti extends boolean = false>({
   value,
   onChange,
   options,

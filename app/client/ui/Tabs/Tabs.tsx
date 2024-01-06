@@ -18,7 +18,7 @@ const TabsSkeleton = ({ items }: { items: number }) => {
   ));
 };
 
-const Tabs = <ID extends any, Tab extends ITab<ID>>({
+const Tabs = <ID, Tab extends ITab<ID>>({
   tabs,
   active,
   onChange,
