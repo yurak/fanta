@@ -968,6 +968,7 @@ components:
           - W
           - D
           - L
+          nullable: true
         goals_difference:
           type: integer
           example: 13

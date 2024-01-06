@@ -55,6 +55,8 @@ class Lineup < ApplicationRecord
   end
 
   def result
+    return '' unless match
+
     if win?
       'W'
     elsif lose?
