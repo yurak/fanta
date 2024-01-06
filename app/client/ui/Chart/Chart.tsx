@@ -7,6 +7,7 @@ import {
   DefaultDataPoint,
   registerables,
 } from "chart.js";
+import Skeleton from "react-loading-skeleton";
 import styles from "./Сhart.module.scss";
 
 ChartJS.register(...registerables);
@@ -25,6 +26,15 @@ export const DEFAULT_COLORS = [
   "#6610f2",
 ];
 
+interface IChartProps<
+  TType extends ChartType = ChartType,
+  TData = DefaultDataPoint<TType>,
+  TLabel = unknown
+> {
+  data: ChartData<TType, TData, TLabel>;
+  type: ChartType;
+}
+
 const Chart = <
   TType extends ChartType = ChartType,
   TData = DefaultDataPoint<TType>,
@@ -32,12 +42,7 @@ const Chart = <
 >({
   data,
   type,
-  className,
-}: {
-  data: ChartData<TType, TData, TLabel>;
-  type: ChartType;
-  className?: string;
-}) => {
+}: IChartProps<TType, TData, TLabel>) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const chart = useRef<ChartJS<keyof ChartTypeRegistry, TData, TLabel>>();
 
@@ -71,11 +76,36 @@ const Chart = <
     };
   }, [data]);
 
+  return <canvas className={styles.canvas} ref={canvasRef} />;
+};
+
+interface IChartContainerProps<
+  TType extends ChartType = ChartType,
+  TData = DefaultDataPoint<TType>,
+  TLabel = unknown
+> extends IChartProps<TType, TData, TLabel> {
+  isLoading?: boolean;
+  className?: string;
+}
+
+const ChartContainer = <
+  TType extends ChartType = ChartType,
+  TData = DefaultDataPoint<TType>,
+  TLabel = unknown
+>({
+  className,
+  isLoading,
+  ...restProps
+}: IChartContainerProps<TType, TData, TLabel>) => {
   return (
     <div className={className}>
-      <canvas className={styles.canvas} ref={canvasRef} />
+      {isLoading ? (
+        <Skeleton containerClassName={styles.skeletonContainer} className={styles.skeleton} />
+      ) : (
+        <Chart {...restProps} />
+      )}
     </div>
   );
 };
 
-export default Chart;
+export default ChartContainer;

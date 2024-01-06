@@ -2,3 +2,9 @@
   width: 100% !important;
   height: 100% !important;
 }
+
+.skeletonContainer,
+.skeleton {
+  display: block;
+  height: 100%;
+}

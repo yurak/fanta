@@ -13,8 +13,6 @@ const LeagueResultsMantraChart = ({
   leaguesResults: ILeagueResults[];
   isLoading: boolean;
 }) => {
-  console.log({ isLoading });
-
   const historyItems = leaguesResults[0]?.history.length ?? 0;
 
   const labels = useMemo<ChartDataType["labels"]>(
@@ -45,7 +43,7 @@ const LeagueResultsMantraChart = ({
     [datasets, labels]
   );
 
-  return <Chart type="line" data={chartData} className={styles.canvas} />;
+  return <Chart type="line" isLoading={isLoading} data={chartData} className={styles.canvas} />;
 };
 
 export default LeagueResultsMantraChart;
