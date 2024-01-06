@@ -12,7 +12,11 @@
 }
 
 .titleIcon {
-  margin-right: 0.66em;
+  margin-right: 16px;
+
+  svg {
+    vertical-align: top;
+  }
 }
 
 .h3 {

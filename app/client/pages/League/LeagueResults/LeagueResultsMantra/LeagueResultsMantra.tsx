@@ -1,9 +1,12 @@
+import { useState } from "react";
 import { useLeagueResults } from "../../../../api/query/useLeagueResults";
 import { ILeagueFullData } from "../../../../interfaces/League";
+import PageHeading from "../../../../components/Heading";
+import Switcher from "../../../../ui/Switcher";
+import ChartIndicator from "../../../../assets/images/chartIndicator.svg";
 import LeagueResultsMantraChart from "./LeagueResultsMantraChart";
 import LeagueResultsMantraTable from "./LeagueResultsMantraTable";
 import styles from "./LeagueResultsMantra.module.scss";
-import PageHeading from "../../../../components/Heading";
 
 const LeagueResultsMantra = ({
   leagueData,
@@ -12,6 +15,8 @@ const LeagueResultsMantra = ({
   leagueData: ILeagueFullData;
   leagueId: number;
 }) => {
+  const [isLoading, setIsLoading] = useState(false);
+
   const leaguesResults = useLeagueResults(leagueId);
 
   return (
@@ -21,18 +26,18 @@ const LeagueResultsMantra = ({
         relegation={leagueData.relegation}
         teamsCount={leagueData.teams_count}
         leaguesResults={leaguesResults.data}
-        isLoading={leaguesResults.isLoading}
+        isLoading={isLoading || leaguesResults.isLoading}
       />
       <div className={styles.chart}>
-        <PageHeading
-          tag="h4"
-          title="Leaders trend"
-          titleIcon="⛰" //TODO: update icon
+        <Switcher
+          checked={isLoading}
+          onChange={setIsLoading}
+          label={isLoading ? "Turn off loading" : "Turn on loading"}
         />
+        <PageHeading tag="h4" title="Leaders trend" titleIcon={<ChartIndicator />} />
         <LeagueResultsMantraChart
-          teamsCount={leagueData.teams_count}
           leaguesResults={leaguesResults.data}
-          isLoading={leaguesResults.isLoading}
+          isLoading={isLoading || leaguesResults.isLoading}
         />
       </div>
     </>
