@@ -22,7 +22,7 @@ class PlayersController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.json { render json: player, serializer: PlayerSerializer }
+      format.json { render json: player, serializer: PlayerLineupSerializer }
     end
   end
 
@@ -39,32 +39,17 @@ class PlayersController < ApplicationController
   end
 
   def ordered_players
-    case stats_params[:order]
-    when 'club'
-      players_with_filter.sort_by(&:club)
-    when 'appearances'
-      players_with_filter.sort_by(&:season_scores_count).reverse
-    when 'rating'
-      players_with_filter.sort_by(&:season_average_result_score).reverse
-    else
-      players_with_filter.sort_by(&:name)
-    end
+    Players::Order.call(filtered_players, { field: stats_params[:order] })
   end
 
-  def tournament_players
-    Player.by_tournament(tournament)
-  end
-
-  def players_by_position
-    stats_params[:position] ? tournament_players.by_position(stats_params[:position]) : tournament_players
-  end
-
-  def players_by_club
-    stats_params[:club] ? players_by_position.by_club(stats_params[:club]) : players_by_position
-  end
-
-  def players_with_filter
-    stats_params[:search] ? tournament_players.search_by_name(stats_params[:search]) : players_by_club
+  def filtered_players
+    Players::Search.call(
+      club_id: stats_params[:club],
+      league_id: stats_params[:league],
+      name: stats_params[:search],
+      position: Slot::POS_MAPPING[stats_params[:position]],
+      tournament_id: stats_params[:tournament]
+    )
   end
 
   def stats_params

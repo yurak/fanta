@@ -1,0 +1,20 @@
+!!!
+%html
+  %head
+    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+    %meta{:name => "viewport", :content => "width=device-width, initial-scale=1.0"}/
+    %title MantraFootball
+    = csrf_meta_tags
+    = csp_meta_tag
+    = stylesheet_link_tag 'application', media: 'all'
+    = javascript_include_tag 'application'
+    = favicon_link_tag asset_path('mantra.ico')
+    %script{type: "text/javascript"}
+      var i18nLocale = "#{I18n.locale}";
+    = javascript_pack_tag 'client-bundle'
+    = stylesheet_pack_tag 'client-bundle'
+    -#%script{type: "text/javascript", src: "/javascripts/lib/hotjar.js"}
+  %body{:class => "react-application"}
+    = query_diet_widget if Rails.env.development?
+    .main-block
+      = yield

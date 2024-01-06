@@ -17,9 +17,18 @@ class Club < ApplicationRecord
   default_scope { includes(:tournament) }
 
   scope :order_by_players_count, -> { includes(:players).left_joins(:players).group(:id).order(Arel.sql('COUNT(players.id) DESC')) }
+  scope :by_tournament, ->(tournament_id) { where(tournament_id: tournament_id) if tournament_id.present? }
 
   def logo_path
     "#{Player::BUCKET_URL}/club_logo/#{path_name}.png"
+  end
+
+  def kit_path
+    "#{Player::BUCKET_URL}/kits/club_small/#{path_name}.png"
+  end
+
+  def profile_kit_path
+    "#{Player::BUCKET_URL}/kits/club/#{path_name}.png"
   end
 
   def path_name

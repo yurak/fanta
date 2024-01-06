@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '3.0.1'
+ruby '3.2.2'
 
 gem 'rails', '6.1.5'
 gem 'sqlite3'
@@ -12,7 +12,7 @@ gem 'bootstrap', '4.3.1'
 gem 'cancancan'
 gem 'chartkick', '3.4.0'
 gem 'coffee-rails', '~> 4.2'
-gem 'coveralls_reborn', '~> 0.20.0', require: false
+gem 'coveralls_reborn', '~> 0.28.0', require: false
 gem 'countries'
 gem 'devise'
 gem 'devise-bootstrap-views', '~> 1.0'
@@ -30,7 +30,9 @@ gem 'rails_admin', '~> 2.0'
 gem 'rails-i18n', '~> 6.0'
 gem 'rb-readline'
 gem 'rest-client'
-gem 'rubocop', require: false
+gem 'rswag-api'
+gem 'rswag-ui'
+gem 'rubocop', '~> 1.57.0', require: false
 gem 'rubocop-factory_bot'
 gem 'rubocop-rails', require: false
 gem 'rubocop-rspec', require: false
@@ -39,10 +41,14 @@ gem 'telegram-bot'
 gem 'time_difference'
 gem 'uglifier', '>= 1.3.0'
 gem 'whenever', require: false
+gem "shakapacker", "= 7.1"
+gem "react_on_rails", "= 13.4"
+gem "i18n-js"
 
 group :development, :test do
   gem 'pry-rails'
   gem 'rspec-rails'
+  gem 'rswag-specs'
   gem 'vcr'
   gem 'webmock'
 end
@@ -53,6 +59,7 @@ group :development do
   gem 'capistrano-rails', '~> 1.4', require: false
   gem 'capistrano-passenger', '~> 0.2.0'
   gem 'capistrano-rvm'
+  gem 'capistrano-yarn'
   gem 'listen'
   gem 'query_diet'
   gem 'web-console', '>= 3.3.0'
@@ -60,7 +67,7 @@ end
 
 group :test do
   gem 'database_cleaner'
-  gem 'factory_bot_rails', '5.1.0'
+  gem 'factory_bot_rails', '6.2.0'
   gem 'ffaker'
   gem 'rails-controller-testing'
   gem 'rake'

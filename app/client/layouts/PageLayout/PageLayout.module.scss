@@ -1,0 +1,14 @@
+.layout {
+  --nav-width: 72px;
+
+  padding: 40px 116px 60px calc(var(--nav-width) + 116px);
+
+  @media (max-width: 991px) {
+    padding-left: calc(var(--nav-width) + 56px);
+    padding-right: 56px;
+  }
+
+  @media (max-width: 768px) {
+    padding: 24px 12px 36px;
+  }
+}

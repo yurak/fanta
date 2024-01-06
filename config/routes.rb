@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  mount Rswag::Ui::Engine => '/api-docs'
+  mount Rswag::Api::Engine => '/api-docs'
+  get 'hello_world', to: 'hello_world#index'
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   devise_for :users, controllers: {
     confirmations: 'users/confirmations',
@@ -79,5 +82,19 @@ Rails.application.routes.draw do
     get :new_avatar, on: :member
     get :new_name, on: :member
     put :new_update, on: :member
+  end
+
+  namespace :api do
+    resources :leagues, only: [:index, :show] do
+      resources :results, only: [:index]
+    end
+    resources :players, only: [:index, :show] do
+      get :stats, on: :member
+    end
+    resources :seasons, only: [:index]
+    resources :teams, only: [:show]
+    resources :tournaments, only: [:index] do
+      resources :divisions, only: [:index]
+    end
   end
 end

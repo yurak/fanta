@@ -2,7 +2,6 @@ ENV['RAILS_ENV'] = 'test'
 
 require 'simplecov'
 require 'coveralls'
-Coveralls.wear!('rails')
 
 SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new(
   [
@@ -44,6 +43,10 @@ Dir[Rails.root.join('spec/support/**/*.rb')].sort.each { |f| require f }
 ActiveRecord::Migration.maintain_test_schema!
 
 RSpec.configure do |config|
+  # Ensure that if we are running js tests, we are using latest webpack assets
+  # This will use the defaults of :js and :server_rendering meta tags
+  ReactOnRails::TestHelper.configure_rspec_to_compile_assets(config)
+
   config.infer_spec_type_from_file_location!
 
   config.filter_rails_from_backtrace!

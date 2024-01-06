@@ -1,0 +1,82 @@
+.tabs {
+  overflow: auto;
+}
+
+.tabsInner {
+  font-family: "Nunito ExtraBold";
+  display: flex;
+  font-size: 16px;
+  line-height: 1.5;
+  text-align: center;
+  border-bottom: 1px solid #e5e6e4;
+
+  @media (max-width: 768px) {
+    font-size: 14px;
+  }
+}
+
+.item {
+  padding: 16px 16px 11px;
+  min-width: 80px;
+  flex: 0 0 auto;
+  position: relative;
+
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -1px;
+    width: 100%;
+  }
+
+  @media (max-width: 768px) {
+    min-width: 60px;
+    padding: 12px 12px 7px;
+  }
+}
+
+.itemHoverable {
+  cursor: pointer;
+
+  &:hover {
+    background-color: #f4f4f4;
+  }
+}
+
+.activeItem {
+  color: #261fff;
+
+  &::after {
+    height: 4px;
+    background-color: #261fff;
+    border-top-right-radius: 4px;
+    border-top-left-radius: 4px;
+  }
+}
+
+.icon {
+  img {
+    width: 32px;
+    height: 32px;
+  }
+}
+
+.name {
+  margin-top: 4px;
+  white-space: nowrap;
+}
+
+.skeletonItem {
+  min-width: 100px;
+
+  @media (max-width: 768px) {
+    min-width: 80px;
+  }
+}
+
+.skeletonIcon {
+  width: 32px;
+  height: 26px;
+  margin-top: 3px;
+  margin-bottom: 7px;
+}

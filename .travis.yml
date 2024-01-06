@@ -1,11 +1,12 @@
 language: ruby
-rvm: 3.0.1
+rvm: 3.2.2
 os: linux
 dist: bionic
 
 before_install:
   - yes | gem update --system --force
   - gem install bundler
+  - yarn install
 
 script:
   - bundle exec rails db:migrate RAILS_ENV=test

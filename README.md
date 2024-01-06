@@ -22,5 +22,25 @@ This is fantasy football application.
 ```
 gem install bundler
 bundle install
+brew install overmind
+yarn install
 rails db:setup
+```
+
+### Start & watch
+
+```
+./bin/dev
+```
+
+### API
+
+Run API specs
+```
+rspec --tag rswag
+```
+
+Generate swagger docs
+```
+RAILS_ENV=test rails rswag
 ```

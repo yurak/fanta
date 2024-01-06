@@ -1,0 +1,97 @@
+.table {
+  width: 100%;
+}
+
+.row {
+  display: flex;
+  position: relative;
+}
+
+.dataRow {
+  position: relative;
+
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 1px;
+    width: 100%;
+    background-color: #e5e6e4;
+  }
+}
+
+.hoverableRow {
+  &:hover {
+    background-color: #f4f4f4;
+
+    &::after {
+      background-color: #f4f4f4;
+    }
+  }
+}
+
+.hoverableRow:has(+ .hoverableRow:hover) {
+  &::after {
+    background-color: #f4f4f4;
+  }
+}
+
+.column {
+  flex: 1;
+  align-self: center;
+}
+
+.header {
+  font-family: "Nunito ExtraBold";
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 0.02em;
+  margin-bottom: 7px;
+}
+
+.headerColumn {
+  color: #847577;
+  padding: 12px 8px;
+  position: relative;
+
+  &::after {
+    position: absolute;
+    content: "";
+    right: 0;
+    width: 1px;
+    height: 16px;
+    background-color: #e5e6e4;
+  }
+}
+
+.dataColumn {
+  font-size: 16px;
+  line-height: 24px;
+  padding: 12px;
+  color: #181715;
+}
+
+.right {
+  text-align: right;
+}
+
+.noWrap {
+  white-space: nowrap;
+}
+
+.rowLink {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+}
+
+.emptyState {
+  padding: 24px;
+
+  @media (max-width: 768px) {
+    padding: 12px;
+  }
+}

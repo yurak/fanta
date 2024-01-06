@@ -1,0 +1,28 @@
+.inputWrapper {
+  position: relative;
+}
+
+.input {
+  --icon-space-size: 40px;
+  --padding: 15px;
+
+  padding: var(--padding) var(--padding) var(--padding)
+    calc(var(--icon-space-size) + var(--padding));
+  border-radius: 28px;
+  border: 1px solid #cfd2cd;
+  width: 100%;
+  color: #181715;
+
+  @media (max-width: 768px) {
+    --padding: 7px;
+  }
+}
+
+.iconWrapper {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: #181715;
+}

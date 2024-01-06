@@ -1,0 +1,8 @@
+---
+<% group = "{en,ua}" %>
+
+translations:
+  - file: app/client/locales/locales.json
+    patterns:
+      - "<%= group %>.*"
+      - "!*.devise"
