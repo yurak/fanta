@@ -8,8 +8,8 @@ const SeasonsSelect = ({
   value,
   onChange,
 }: {
-  value: ISeason | null;
-  onChange: (season: ISeason) => void;
+  value: ISeason | null,
+  onChange: (season: ISeason) => void,
 }) => {
   const seasonsQuery = useSeasons();
 

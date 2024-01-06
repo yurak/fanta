@@ -7,9 +7,9 @@ const Label = ({
   icon,
   type = "default",
 }: {
-  children: React.ReactNode;
-  icon?: React.ReactNode;
-  type?: "default" | "alert" | "error" | "success" | "new";
+  children: React.ReactNode,
+  icon?: React.ReactNode,
+  type?: "default" | "alert" | "error" | "success" | "new",
 }) => {
   return (
     <span

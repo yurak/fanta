@@ -65,8 +65,8 @@ const LeaguesListMobile = ({
   dataSource,
   isLoading,
 }: {
-  dataSource: ILeaguesWithTournament[];
-  isLoading: boolean;
+  dataSource: ILeaguesWithTournament[],
+  isLoading: boolean,
 }) => {
   const { t } = useTranslation();
 

@@ -8,8 +8,8 @@ const LeaguesList = ({
   dataSource,
   isLoading,
 }: {
-  dataSource: ILeaguesWithTournament[];
-  isLoading: boolean;
+  dataSource: ILeaguesWithTournament[],
+  isLoading: boolean,
 }) => {
   return (
     <>
