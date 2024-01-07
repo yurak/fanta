@@ -33,9 +33,9 @@ interface IChartProps<
   TData = DefaultDataPoint<TType>,
   TLabel = unknown
 > {
-  data: ChartData<TType, TData, TLabel>;
-  type: ChartType;
-  plugins?: _DeepPartialObject<PluginOptionsByType<keyof ChartTypeRegistry>> | undefined;
+  data: ChartData<TType, TData, TLabel>,
+  type: ChartType,
+  plugins?: _DeepPartialObject<PluginOptionsByType<keyof ChartTypeRegistry>> | undefined,
 }
 
 const Chart = <
@@ -89,8 +89,8 @@ interface IChartContainerProps<
   TData = DefaultDataPoint<TType>,
   TLabel = unknown
 > extends IChartProps<TType, TData, TLabel> {
-  isLoading?: boolean;
-  className?: string;
+  isLoading?: boolean,
+  className?: string,
 }
 
 const ChartContainer = <

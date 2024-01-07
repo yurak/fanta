@@ -9,11 +9,11 @@ const Heading = ({
   description,
   noSpace,
 }: {
-  title: string;
-  titleIcon?: React.ReactNode;
-  tag?: "h3" | "h4";
-  description?: string;
-  noSpace?: boolean;
+  title: string,
+  titleIcon?: React.ReactNode,
+  tag?: "h3" | "h4",
+  description?: string,
+  noSpace?: boolean,
 }) => (
   <div className={cn(styles.heading, { [styles.noSpace]: noSpace })}>
     <TitleTag

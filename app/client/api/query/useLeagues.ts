@@ -4,7 +4,7 @@ import { IResponse } from "../../interfaces/api/Response";
 import { ILeague } from "../../interfaces/League";
 import { useMemo } from "react";
 
-export const useLeagues = ({ season, tournament }: { season?: number; tournament?: number }) => {
+export const useLeagues = ({ season, tournament }: { season?: number, tournament?: number }) => {
   const filter = useMemo(
     () => ({
       season_id: season,

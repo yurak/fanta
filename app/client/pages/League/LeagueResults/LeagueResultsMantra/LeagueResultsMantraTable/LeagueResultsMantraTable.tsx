@@ -34,11 +34,11 @@ const LeagueResultsMantraTable = ({
   relegation,
   teamsCount,
 }: {
-  leaguesResults: ILeagueResults[];
-  isLoading: boolean;
-  promotion: number;
-  relegation: number;
-  teamsCount: number;
+  leaguesResults: ILeagueResults[],
+  isLoading: boolean,
+  promotion: number,
+  relegation: number,
+  teamsCount: number,
 }) => {
   const dataSource = useMemo(() => {
     return leaguesResults.map((teamResult, index) => {

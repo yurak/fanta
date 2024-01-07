@@ -10,8 +10,8 @@ const LeagueResultsMantraChart = ({
   leaguesResults,
   isLoading,
 }: {
-  leaguesResults: ILeagueResults[];
-  isLoading: boolean;
+  leaguesResults: ILeagueResults[],
+  isLoading: boolean,
 }) => {
   const historyItems = leaguesResults[0]?.history.length ?? 0;
 

@@ -5,8 +5,8 @@ const LeagueResultsFanta = ({
   leagueData,
   leagueId,
 }: {
-  leagueData: ILeagueFullData;
-  leagueId: number;
+  leagueData: ILeagueFullData,
+  leagueId: number,
 }) => {
   const leaguesResults = useLeagueResults(leagueId);
   console.log({ leagueData, leagueId, leaguesResults });

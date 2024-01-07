@@ -12,8 +12,8 @@ const LeagueResultsMantra = ({
   leagueData,
   leagueId,
 }: {
-  leagueData: ILeagueFullData;
-  leagueId: number;
+  leagueData: ILeagueFullData,
+  leagueId: number,
 }) => {
   const [isLoading, setIsLoading] = useState(false);
 

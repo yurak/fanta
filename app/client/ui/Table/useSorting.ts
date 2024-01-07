@@ -1,12 +1,12 @@
 import { useMemo, useState } from "react";
 import { IComputedColumn, SortFunctionType } from "./interfaces";
 
-export const useSorting = <DataItem extends {} = {}>({
+export const useSorting = <DataItem extends object = object>({
   columns,
   dataSource,
 }: {
-  columns: IComputedColumn<DataItem>[];
-  dataSource: DataItem[];
+  columns: IComputedColumn<DataItem>[],
+  dataSource: DataItem[],
 }) => {
   const [sortColumnKey, setSortColumnKey] = useState<null | string>(null);
 
