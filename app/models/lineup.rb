@@ -45,6 +45,12 @@ class Lineup < ApplicationRecord
   end
 
   def goals
+    return final_goals unless final_goals.nil?
+
+    live_goals
+  end
+
+  def live_goals
     return 0 if total_score < first_goal
 
     (((total_score - first_goal) / goal_increment) + 1).floor
@@ -55,6 +61,8 @@ class Lineup < ApplicationRecord
   end
 
   def result
+    return '' unless match
+
     if win?
       'W'
     elsif lose?

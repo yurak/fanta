@@ -7,9 +7,9 @@ const Search = ({
   onChange,
   placeholder,
 }: {
-  value: string;
-  onChange: (value: string) => void;
-  placeholder?: string;
+  value: string,
+  onChange: (value: string) => void,
+  placeholder?: string,
 }) => {
   const onChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     onChange(event.target.value);

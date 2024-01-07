@@ -260,7 +260,7 @@ RSpec.configure do |config|
               id: { type: :integer, example: 123 },
               best_lineup: { type: :string, example: '99.5' },
               draws: { type: :integer, example: 3 },
-              form: { type: :array, items: { type: :string, example: 'W' }, example: %w[W D L] },
+              form: { type: :array, items: { type: :string, example: 'W' }, example: %w[W D L], nullable: true },
               goals_difference: { type: :integer, example: 13 },
               history: {
                 type: :array,

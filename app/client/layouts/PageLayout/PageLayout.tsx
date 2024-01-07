@@ -6,8 +6,8 @@ const PageLayout = ({
   children,
   withSidebar,
 }: {
-  children: React.ReactNode;
-  withSidebar?: boolean;
+  children: React.ReactNode,
+  withSidebar?: boolean,
 }) => {
   return (
     <div

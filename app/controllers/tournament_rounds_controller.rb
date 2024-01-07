@@ -33,9 +33,9 @@ class TournamentRoundsController < ApplicationController
   end
 
   def update_params
-    params.permit(round_players: %i[id score goals missed_goals scored_penalty failed_penalty cleansheet
-                                    assists yellow_card red_card own_goals caught_penalty missed_penalty
-                                    played_minutes manual_lock])
+    params.permit(round_players: %i[id score goals missed_goals scored_penalty failed_penalty cleansheet saves
+                                    assists yellow_card red_card own_goals caught_penalty missed_penalty conceded_penalty
+                                    played_minutes penalties_won manual_lock])
   end
 
   def tournament_round

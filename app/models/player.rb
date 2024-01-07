@@ -85,6 +85,12 @@ class Player < ApplicationRecord
     "https://www.transfermarkt.com/player-path/profil/spieler/#{tm_id}"
   end
 
+  def tm_position_path(season_start_year)
+    return '' unless tm_id
+
+    "https://www.transfermarkt.com/player-path/leistungsdaten/spieler/#{tm_id}/plus/0?saison=#{season_start_year}"
+  end
+
   def position_names
     @position_names ||= positions.map(&:name)
   end

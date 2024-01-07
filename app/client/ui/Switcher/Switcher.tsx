@@ -7,9 +7,9 @@ const Switcher = ({
   onChange,
   label,
 }: {
-  checked: boolean;
-  onChange: (checked: boolean) => void;
-  label?: string;
+  checked: boolean,
+  onChange: (checked: boolean) => void,
+  label?: string,
 }) => {
   const onChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     onChange(event.target.checked);

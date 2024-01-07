@@ -2,6 +2,6 @@ export {};
 
 declare global {
   interface Window {
-    i18nLocale: string;
+    i18nLocale: string,
   }
 }

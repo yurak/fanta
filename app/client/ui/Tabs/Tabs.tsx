@@ -4,9 +4,9 @@ import cn from "classnames";
 import styles from "./Tabs.module.scss";
 
 export interface ITab<ID> extends Record<string, unknown> {
-  id: ID;
-  name: string;
-  icon?: React.ReactNode;
+  id: ID,
+  name: string,
+  icon?: React.ReactNode,
 }
 
 const TabsSkeleton = ({ items }: { items: number }) => {
@@ -18,7 +18,7 @@ const TabsSkeleton = ({ items }: { items: number }) => {
   ));
 };
 
-const Tabs = <ID extends any, Tab extends ITab<ID>>({
+const Tabs = <ID, Tab extends ITab<ID>>({
   tabs,
   active,
   onChange,
@@ -26,12 +26,12 @@ const Tabs = <ID extends any, Tab extends ITab<ID>>({
   isLoading,
   skeletonItems = 6,
 }: {
-  tabs: Tab[];
-  active: ID;
-  onChange: (active: ID) => void;
-  nameRender?: (tab: Tab) => React.ReactNode;
-  isLoading?: boolean;
-  skeletonItems?: number;
+  tabs: Tab[],
+  active: ID,
+  onChange: (active: ID) => void,
+  nameRender?: (tab: Tab) => React.ReactNode,
+  isLoading?: boolean,
+  skeletonItems?: number,
 }) => {
   return (
     <div className={styles.tabs}>

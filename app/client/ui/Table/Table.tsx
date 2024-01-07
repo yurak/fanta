@@ -7,7 +7,7 @@ import { IColumn, IComputedColumn } from "./interfaces";
 import { useSorting } from "./useSorting";
 import styles from "./Table.module.scss";
 
-const LoadingSkeleton = ({ columns, items }: { columns: IComputedColumn[]; items: number }) => {
+const LoadingSkeleton = ({ columns, items }: { columns: IComputedColumn[], items: number }) => {
   return Array.from({ length: items }).map((_, rowIndex) => (
     <div key={rowIndex} className={cn(styles.row, styles.dataRow)}>
       {columns.map((column) => {
@@ -35,7 +35,7 @@ const LoadingSkeleton = ({ columns, items }: { columns: IComputedColumn[]; items
   ));
 };
 
-const Table = <DataItem extends {} = {}>({
+const Table = <DataItem extends object = object>({
   columns,
   dataSource,
   rowKey,
@@ -47,17 +47,17 @@ const Table = <DataItem extends {} = {}>({
     title: "No data",
   },
 }: {
-  columns: IColumn<DataItem>[];
-  dataSource: DataItem[];
-  rowKey?: string | ((item: DataItem) => string | number);
-  rowLink?: (item: DataItem) => string;
-  isLoading?: boolean;
-  skeletonItems?: number;
-  tableClassName?: string;
+  columns: IColumn<DataItem>[],
+  dataSource: DataItem[],
+  rowKey?: string | ((item: DataItem) => string | number),
+  rowLink?: (item: DataItem) => string,
+  isLoading?: boolean,
+  skeletonItems?: number,
+  tableClassName?: string,
   emptyState?: {
-    title: string;
-    description?: string;
-  };
+    title: string,
+    description?: string,
+  },
 }) => {
   const getRowKey = (item: DataItem) => {
     if (typeof rowKey === "function") {
