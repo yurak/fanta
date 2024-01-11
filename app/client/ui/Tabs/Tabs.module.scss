@@ -1,6 +1,14 @@
 .tabs {
   overflow: auto;
   border-bottom: 1px solid #e5e6e4;
+
+  /* Hide scrollbar for Gecko-based browsers */
+  scrollbar-width: none; // hide scrollbar for
+
+  /* Hide scrollbar for WebKit-based browsers */
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 .tabsInner {
