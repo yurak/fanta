@@ -1,5 +1,6 @@
 .tabs {
   overflow: auto;
+  border-bottom: 1px solid #e5e6e4;
 }
 
 .tabsInner {
@@ -8,7 +9,6 @@
   font-size: 16px;
   line-height: 1.5;
   text-align: center;
-  border-bottom: 1px solid #e5e6e4;
 
   @media (max-width: 768px) {
     font-size: 14px;
