@@ -13,16 +13,40 @@
   width: 100%;
   color: #181715;
 
+  &:focus {
+    outline: 1px solid #181715;
+    border-color: #181715;
+  }
+
   @media (max-width: 768px) {
     --padding: 7px;
   }
 }
 
-.iconWrapper {
+.icon {
   position: absolute;
-  left: 16px;
   top: 50%;
   transform: translateY(-50%);
+  width: 24px;
+  height: 24px;
+}
+
+.searchIcon {
+  @extend .icon;
+
+  left: 16px;
   pointer-events: none;
   color: #181715;
+}
+
+.clearButton {
+  @extend .icon;
+
+  cursor: pointer;
+  right: 16px;
+  color: #261fff;
+  border: 0;
+  background: none;
+  padding: 0;
+  line-height: 0;
 }
