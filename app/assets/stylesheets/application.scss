@@ -629,6 +629,12 @@ body, html {
   column-gap: 10px;
   z-index: 10;
 
+  @include reactApplication {
+    height: responsivePixels(216px);
+    padding: responsivePixels(24px) responsivePixels(36px);
+    column-gap: responsivePixels(10px);
+  }
+
   a {
     text-align: center;
     text-decoration: none;
@@ -637,23 +643,41 @@ body, html {
   img {
     width: 72px;
     height: 72px;
+
+    @include reactApplication {
+      width: responsivePixels(72px);
+      height: responsivePixels(72px);
+    }
   }
 
   .league-link {
     height: 100%;
     padding: 26px 0;
 
+    @include reactApplication {
+      padding: responsivePixels(26px) 0;
+    }
+
     .league-link-text {
       font-family: 'Nunito SemiBold';
       color: #181715;
       font-size: 30px;
       line-height: 42px;
+      
+      @include reactApplication {
+        font-size: responsivePixels(30px);
+        line-height: responsivePixels(42px);
+      }
     }
   }
 
   .link-active-true {
     background: #181715;
     border-radius: 24px;
+      
+    @include reactApplication {
+      border-radius: responsivePixels(24px);
+    }
 
     .league-link-text {
       color: #EDF67D;
@@ -669,6 +693,11 @@ body, html {
   grid-template-columns: 1fr 1fr 1fr;
   padding: 24px 190px;
   column-gap: 36px;
+      
+  @include reactApplication {
+    padding: responsivePixels(24px) responsivePixels(190px);
+    column-gap: responsivePixels(36px);
+  }
 }
 
 @media (orientation: portrait) {
@@ -679,6 +708,10 @@ body, html {
 
     .web-header {
       display: none;
+    }
+
+    .portrait-footer {
+      display: grid;
     }
   }
 }
@@ -692,14 +725,13 @@ body, html {
     .web-header {
       display: none;
     }
+
+    .portrait-footer {
+      display: grid;
+    }
   }
 }
 
-@media (orientation: portrait) {
-  .portrait-footer {
-    display: grid;
-  }
-}
 /* ----- -------------------- ----- */
 
 .tooltip-info {
