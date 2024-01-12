@@ -4,6 +4,7 @@ import PageHeading from "../../../components/Heading";
 import PageLayout from "../../../layouts/PageLayout";
 import LeagueResultsMantra from "./LeagueResultsMantra";
 import LeagueResultsFanta from "./LeagueResultsFanta";
+import ArrowRight from "../../../assets/icons/arrow-right.svg";
 import styles from "./LeagueResults.module.scss";
 
 const getLeagueId = () => {
@@ -23,7 +24,16 @@ const LeagueResultsPage = () => {
   return (
     <PageLayout withSidebar>
       <div className={styles.heading}>
-        <PageHeading title="Table" />
+        <PageHeading title="Table" noSpace />
+        {league.data && (
+          <a
+            className={styles.divisionsLink}
+            href={`/tournaments/${league.data?.division_id}/divisions`}
+          >
+            📊 Divisions
+            <ArrowRight className={styles.divisionsLinkIcon} />
+          </a>
+        )}
       </div>
       {league.data ? (
         <>
