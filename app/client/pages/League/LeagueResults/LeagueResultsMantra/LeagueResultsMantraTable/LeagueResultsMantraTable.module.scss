@@ -132,6 +132,12 @@
   display: flex;
   align-items: center;
   font-family: "Nunito ExtraBold";
+  color: #181715;
+
+  &:hover {
+    color: #181715;
+    text-decoration: none;
+  }
 }
 
 .teamNameName {
@@ -154,6 +160,7 @@
 }
 
 .opponent {
+  display: inline-block;
   width: 32px;
   height: 32px;
   border: 1px solid #e5e6e4;

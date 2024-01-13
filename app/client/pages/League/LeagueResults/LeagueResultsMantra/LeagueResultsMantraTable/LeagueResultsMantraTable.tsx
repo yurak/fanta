@@ -59,7 +59,6 @@ const LeagueResultsMantraTable = ({
       dataSource={dataSource}
       isLoading={isLoading}
       skeletonItems={8}
-      // rowLink={({ team }) => `/teams/${team.id}`}
       tableClassName={styles.table}
       columns={[
         {
@@ -111,12 +110,12 @@ const LeagueResultsMantraTable = ({
             compare: (teamA, teamB) => teamA.team.human_name.localeCompare(teamB.team.human_name),
           },
           render: ({ team }) => (
-            <span className={styles.teamName}>
+            <a href={`/teams/${team.id}`} className={styles.teamName}>
               <span className={styles.teamNameImg}>
                 <img src={team.logo_path} />
               </span>
               <span className={styles.teamNameName}>{team.human_name}</span>
-            </span>
+            </a>
           ),
         },
         {
@@ -263,9 +262,9 @@ const LeagueResultsMantraTable = ({
             }
 
             return (
-              <div className={styles.opponent}>
+              <a href={`/teams/${opponent.id}`} className={styles.opponent}>
                 <img src={opponent.logo_path} />
-              </div>
+              </a>
             );
           },
         },
