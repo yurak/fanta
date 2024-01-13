@@ -16,9 +16,12 @@ namespace :tm do
         tm_club_name = html_page.css('.data-header__club').children[1]&.text
         tm_club_name = html_page.css('.data-header__club').children[0]&.text&.strip if tm_club_name.nil?
         club = Club.find_by(tm_name: tm_club_name)
+        club_res = Club.where('reserve_clubs LIKE ?', "%#{tm_club_name}%").first unless club
         player_data = "Player #{player.id} / #{player.tm_id} #{player.name}"
 
-        if club && tm_club_name != player.club.tm_name
+        if club_res && club_res == player.club
+          puts "#{player_data} (#{player.club.name}) in reserve"
+        elsif club && tm_club_name != player.club.tm_name
           puts "#{player_data} (#{player.club.name}) changes club to #{tm_club_name}"
         elsif tm_club_name == 'Without Club'
           puts "#{player_data} (#{player.club.name}) currently is FREE" if player.club.name != 'Free agent'

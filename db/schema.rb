@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_10_23_150828) do
+ActiveRecord::Schema.define(version: 2024_01_13_091140) do
 
   create_table "article_tags", force: :cascade do |t|
     t.string "name", default: "", null: false
@@ -78,6 +78,7 @@ ActiveRecord::Schema.define(version: 2023_10_23_150828) do
     t.integer "ec_tournament_id"
     t.string "tm_name"
     t.string "tm_url"
+    t.text "reserve_clubs", default: "--- []\n"
     t.index ["code"], name: "index_clubs_on_code", unique: true
     t.index ["ec_tournament_id"], name: "index_clubs_on_ec_tournament_id"
     t.index ["name"], name: "index_clubs_on_name", unique: true
