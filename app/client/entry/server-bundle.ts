@@ -1,9 +1,7 @@
 import ReactOnRails from "react-on-rails";
 
-import Leagues from "../pages/Leagues";
-import LeagueResults from "../pages/League/LeagueResults";
+import App from "../App";
 
 ReactOnRails.register({
-  Leagues,
-  LeagueResults,
+  App,
 });

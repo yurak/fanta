@@ -2,7 +2,7 @@
   .web-header= render 'layouts/left_nav', league: league
   .web-header= render 'layouts/right_nav', league: league
   .mob-header= render 'layouts/mob_header', league: league, title: t('players.profile')
-  = react_component("LeagueResults", prerender: true)
+  = react_component("App")
   .page-info
     .table-title= t('table.title')
     - if league.tournament.fanta?
