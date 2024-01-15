@@ -92,25 +92,26 @@ const Table = <DataItem extends object = object>({
       <div className={cn(styles.table, tableClassName)}>
         <div className={cn(styles.header, styles.row)}>
           {computedColumns.map((column) => (
-            <div
-              key={column._key}
-              className={cn(styles.column, styles.headerColumn, column.className, {
-                [styles.withoutTitle]: !column.title,
-                [styles.withSort]: !!column.sorter,
-                [styles.isSorter]: column._key === sortColumnKey,
-              })}
-              onClick={() => {
-                if (column.sorter) {
-                  onSort(column._key);
-                }
-              }}
-            >
-              {column.title}
-              {column.sorter && (
-                <span className={cn(styles.sortIcon)}>
-                  <SortDownIcon />
-                </span>
-              )}
+            <div key={column._key} className={cn(styles.column, column.className)}>
+              <div
+                className={cn(styles.headerColumn, {
+                  [styles.withoutTitle]: !column.title,
+                  [styles.withSort]: !!column.sorter,
+                  [styles.isSorter]: column._key === sortColumnKey,
+                })}
+                onClick={() => {
+                  if (column.sorter) {
+                    onSort(column._key);
+                  }
+                }}
+              >
+                {column.title}
+                {column.sorter && (
+                  <span className={cn(styles.sortIcon)}>
+                    <SortDownIcon />
+                  </span>
+                )}
+              </div>
             </div>
           ))}
         </div>

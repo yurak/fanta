@@ -48,6 +48,8 @@
 .column {
   flex: 1;
   align-self: center;
+  word-break: break-word;
+  min-width: 0;
 }
 
 .header {
