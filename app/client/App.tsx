@@ -9,7 +9,7 @@ const router = createBrowserRouter([
     element: <Leagues />,
   },
   {
-    path: "/leagues/:id/results",
+    path: "/leagues/:leagueId/results",
     element: <LeagueResults />,
   },
 ]);

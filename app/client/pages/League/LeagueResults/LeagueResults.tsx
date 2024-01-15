@@ -1,3 +1,4 @@
+import { useParams } from "react-router-dom";
 import { useLeague } from "../../../api/query/useLeague";
 import PageHeading from "../../../components/Heading";
 import PageLayout from "../../../layouts/PageLayout";
@@ -6,18 +7,9 @@ import LeagueResultsFanta from "./LeagueResultsFanta";
 import ArrowRight from "../../../assets/icons/arrow-right.svg";
 import styles from "./LeagueResults.module.scss";
 
-const getLeagueId = () => {
-  if (typeof window !== "object") {
-    return null;
-  }
-
-  const id = window.location.pathname.split("/")[2];
-
-  return Number(id);
-};
-
 const LeagueResultsPage = () => {
-  const leagueId = getLeagueId() as number;
+  const params = useParams<{ leagueId: string }>();
+  const leagueId = Number(params.leagueId);
   const league = useLeague(leagueId);
 
   return (
