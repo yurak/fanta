@@ -25,7 +25,7 @@ const LeagueResultsPage = () => {
     <PageLayout withSidebar>
       <div className={styles.heading}>
         <PageHeading title="Table" noSpace />
-        {league.data && (
+        {league.data?.mantra_format && (
           <a
             className={styles.divisionsLink}
             href={`/tournaments/${league.data?.division_id}/divisions`}
@@ -40,7 +40,7 @@ const LeagueResultsPage = () => {
           {league.data.mantra_format ? (
             <LeagueResultsMantra leagueData={league.data} leagueId={leagueId} />
           ) : (
-            <LeagueResultsFanta leagueData={league.data} leagueId={leagueId} />
+            <LeagueResultsFanta leagueId={leagueId} />
           )}
         </>
       ) : (

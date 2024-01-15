@@ -1,16 +1,16 @@
 import { useLeagueResults } from "../../../../api/query/useLeagueResults";
-import { ILeagueFullData } from "../../../../interfaces/League";
+import { ILeagueFantaResults } from "../../../../interfaces/LeagueResults";
+import LeagueResultsFantaTable from "./LeagueResultsFantaTable";
 
-const LeagueResultsFanta = ({
-  leagueData,
-  leagueId,
-}: {
-  leagueData: ILeagueFullData,
-  leagueId: number,
-}) => {
-  const leaguesResults = useLeagueResults(leagueId);
-  console.log({ leagueData, leagueId, leaguesResults });
-  return <>loading...</>;
+const LeagueResultsFanta = ({ leagueId }: { leagueId: number }) => {
+  const leaguesResults = useLeagueResults<ILeagueFantaResults>(leagueId);
+
+  return (
+    <LeagueResultsFantaTable
+      isLoading={leaguesResults.isLoading}
+      leaguesResults={leaguesResults.data}
+    />
+  );
 };
 
 export default LeagueResultsFanta;

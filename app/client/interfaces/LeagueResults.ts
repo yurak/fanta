@@ -31,3 +31,12 @@ export interface ILeagueResults {
   team: ITeam,
   total_score: ScoreType,
 }
+
+export interface ILeagueFantaResults {
+  id: number,
+  league_id: number,
+  best_lineup: string,
+  team: ITeam,
+  points: number,
+  total_score: string,
+}

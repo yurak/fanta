@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useLeagueResults } from "../../../../api/query/useLeagueResults";
 import { ILeagueFullData } from "../../../../interfaces/League";
+import { ILeagueResults } from "../../../../interfaces/LeagueResults";
 import PageHeading from "../../../../components/Heading";
 import Switcher from "../../../../ui/Switcher";
 import ChartIndicator from "../../../../assets/images/chartIndicator.svg";
@@ -17,7 +18,7 @@ const LeagueResultsMantra = ({
 }) => {
   const [isLoading, setIsLoading] = useState(false);
 
-  const leaguesResults = useLeagueResults(leagueId);
+  const leaguesResults = useLeagueResults<ILeagueResults>(leagueId);
 
   return (
     <>

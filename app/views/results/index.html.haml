@@ -113,27 +113,3 @@
 
   .portrait-footer{ class: "portrait-footer-#{league.mantra?}"}
     = render 'layouts/league_links', league: league
-
-%script{type: "text/javascript", src: "https://cdn.jsdelivr.net/npm/chart.js"}
-
-:javascript
-  $(document).ready(function() {
-    const ctx = document.getElementById('myChart');
-    const chart_data = JSON.parse("#{league.chart_data}".replace(/&quot;/g, '"'));
-
-    new Chart(ctx, {
-      type: 'line',
-      data: chart_data,
-      options: {
-        responsive: true,
-        scales: {
-          y: { reverse: true, ticks: { precision: 0 } }
-        },
-        plugins: {},
-        transitions: {
-          show: { animations: { x: { from: 0 }, y: { from: 0 } } },
-          hide: { animations: { x: { to: 0 }, y: { to: 0 } } }
-        }
-      }
-    });
-  });
