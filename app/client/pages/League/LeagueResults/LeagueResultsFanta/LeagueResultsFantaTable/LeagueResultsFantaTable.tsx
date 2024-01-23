@@ -1,4 +1,3 @@
-import { useMemo } from "react";
 import { ILeagueFantaResults } from "../../../../../interfaces/LeagueResults";
 import Table from "../../../../../ui/Table";
 import { useHistorySort } from "../../../../../hooks/useHistorySort";
@@ -12,20 +11,11 @@ const LeagueResultsFantaTable = ({
   leaguesResults: ILeagueFantaResults[],
   isLoading: boolean,
 }) => {
-  const dataSource = useMemo(() => {
-    return leaguesResults.map((teamResult, index) => {
-      return {
-        ...teamResult,
-        position: index + 1,
-      };
-    });
-  }, [leaguesResults]);
-
   const historySort = useHistorySort();
 
   return (
     <Table
-      dataSource={dataSource}
+      dataSource={leaguesResults}
       isLoading={isLoading}
       skeletonItems={8}
       sorting={historySort}
@@ -33,7 +23,9 @@ const LeagueResultsFantaTable = ({
         {
           dataKey: "position",
           align: "center",
-          render: ({ position }) => {
+          render: (_, index) => {
+            const position = index + 1;
+
             if (position === 1) {
               return <>🥇</>;
             }
@@ -92,6 +84,7 @@ const LeagueResultsFantaTable = ({
           },
         },
         {
+          key: "score",
           dataKey: "total_score",
           title: (
             <>
@@ -106,6 +99,7 @@ const LeagueResultsFantaTable = ({
           },
         },
         {
+          key: "lineup",
           dataKey: "best_lineup",
           title: (
             <>
