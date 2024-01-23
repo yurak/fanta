@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import { ILeagueFantaResults } from "../../../../../interfaces/LeagueResults";
 import Table from "../../../../../ui/Table";
+import { useHistorySort } from "../../../../../hooks/useHistorySort";
 
 import styles from "./LeagueResultsFantaTable.module.scss";
 
@@ -20,13 +21,14 @@ const LeagueResultsFantaTable = ({
     });
   }, [leaguesResults]);
 
-  console.log({ dataSource });
+  const historySort = useHistorySort();
 
   return (
     <Table
       dataSource={dataSource}
       isLoading={isLoading}
       skeletonItems={8}
+      sorting={historySort}
       columns={[
         {
           dataKey: "position",

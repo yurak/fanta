@@ -21,3 +21,8 @@ export interface IColumn<DataItem extends object = object> {
 export interface IComputedColumn<DataItem extends object = object> extends IColumn<DataItem> {
   _key: string,
 }
+
+export type ITableSorting = {
+  sortColumn?: string | null,
+  setSortColumn?: (column: string | null) => void,
+};

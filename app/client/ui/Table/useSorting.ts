@@ -1,17 +1,26 @@
 import { useMemo, useState } from "react";
-import { IComputedColumn, SortFunctionType } from "./interfaces";
+import { IComputedColumn, ITableSorting, SortFunctionType } from "./interfaces";
 
 export const useSorting = <DataItem extends object = object>({
+  sorting,
   columns,
   dataSource,
 }: {
+  sorting?: ITableSorting,
   columns: IComputedColumn<DataItem>[],
   dataSource: DataItem[],
 }) => {
-  const [sortColumnKey, setSortColumnKey] = useState<null | string>(null);
+  /* Added state for cases where no need to control sort state outside of table component */
+  const [_sortColumnKey, _setSortColumnKey]: [string | null, (column: string | null) => void] =
+    useState<null | string>(null);
+
+  const sortColumnKey = sorting?.sortColumn ?? _sortColumnKey;
+  const setSortColumnKey = sorting?.setSortColumn ?? _setSortColumnKey;
 
   const onSort = (columnKey: string) => {
-    setSortColumnKey((sortColumnKey) => (sortColumnKey === columnKey ? null : columnKey));
+    const newSortColumnKey = sortColumnKey === columnKey ? null : columnKey;
+
+    setSortColumnKey(newSortColumnKey);
   };
 
   const columnSortFunction = useMemo(() => {

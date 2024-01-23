@@ -3,7 +3,7 @@ import Skeleton from "react-loading-skeleton";
 import cn from "classnames";
 import EmptyState from "../EmptyState";
 import SortDownIcon from "../../assets/icons/sortDown.svg";
-import { IColumn, IComputedColumn } from "./interfaces";
+import { IColumn, IComputedColumn, ITableSorting } from "./interfaces";
 import { useSorting } from "./useSorting";
 import styles from "./Table.module.scss";
 
@@ -43,6 +43,7 @@ const Table = <DataItem extends object = object>({
   isLoading,
   skeletonItems = 6,
   tableClassName,
+  sorting,
   emptyState = {
     title: "No data",
   },
@@ -54,6 +55,7 @@ const Table = <DataItem extends object = object>({
   isLoading?: boolean,
   skeletonItems?: number,
   tableClassName?: string,
+  sorting?: ITableSorting,
   emptyState?: {
     title: string,
     description?: string,
@@ -83,6 +85,7 @@ const Table = <DataItem extends object = object>({
   );
 
   const { onSort, sortColumnKey, sortedDataSource } = useSorting({
+    sorting,
     columns: computedColumns,
     dataSource,
   });
