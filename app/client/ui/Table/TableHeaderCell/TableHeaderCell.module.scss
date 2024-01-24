@@ -17,14 +17,29 @@
     top: 50%;
     transform: translateY(-50%);
   }
+
+  @media (max-width: 768px) {
+    padding: 5px 8px;
+    font-size: 10px;
+    line-height: 14px;
+    letter-spacing: 0.05em;
+  }
 }
 
 .withSort {
   cursor: pointer;
   padding-right: 40px;
 
+  @media (max-width: 768px) {
+    padding-right: 36px;
+  }
+
   &:hover {
-    background-color: #f4f4f4;
+    color: #181715;
+
+    .sortIcon {
+      color: #847577;
+    }
   }
 }
 
@@ -34,6 +49,11 @@
   right: 8px;
   top: 50%;
   transform: translateY(-50%);
+
+  @media (max-width: 768px) {
+    width: 20px;
+    height: 20px;
+  }
 }
 
 .isSorter {

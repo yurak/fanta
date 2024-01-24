@@ -31,11 +31,7 @@ const TableHeaderCell = ({
       }}
     >
       {title}
-      {withSort && (
-        <span className={cn(styles.sortIcon)}>
-          <SortDownIcon />
-        </span>
-      )}
+      {withSort && <SortDownIcon className={cn(styles.sortIcon)} />}
     </TableCell>
   );
 };
