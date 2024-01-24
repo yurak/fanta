@@ -1,10 +1,11 @@
 import { useMemo } from "react";
 import Skeleton from "react-loading-skeleton";
 import cn from "classnames";
+import TableBodyCell from "./TableBodyCell";
+import TableHeaderCell from "./TableHeaderCell";
 import EmptyState from "../EmptyState";
-import SortDownIcon from "../../assets/icons/sortDown.svg";
-import { IColumn, IComputedColumn, ITableSorting } from "./interfaces";
 import { useSorting } from "./useSorting";
+import { IColumn, IComputedColumn, ITableSorting } from "./interfaces";
 import styles from "./Table.module.scss";
 
 const LoadingSkeleton = ({ columns, items }: { columns: IComputedColumn[], items: number }) => {
@@ -17,18 +18,16 @@ const LoadingSkeleton = ({ columns, items }: { columns: IComputedColumn[], items
             : column.dataClassName;
 
         return (
-          <div
+          <TableBodyCell
             key={column._key}
-            className={cn(styles.column, styles.dataColumn, column.className, dataClassName, {
-              [styles.right]: column.align === "right",
-              [styles.center]: column.align === "center",
-              [styles.noWrap]: column.noWrap,
-            })}
+            align={column.align}
+            noWrap={column.noWrap}
+            className={cn(column.className, dataClassName)}
           >
             {typeof column.skeleton === "function"
               ? column.skeleton(rowIndex)
               : column.skeleton ?? <Skeleton />}
-          </div>
+          </TableBodyCell>
         );
       })}
     </div>
@@ -95,27 +94,14 @@ const Table = <DataItem extends object = object>({
       <div className={cn(styles.table, tableClassName)}>
         <div className={cn(styles.header, styles.row)}>
           {computedColumns.map((column) => (
-            <div key={column._key} className={cn(styles.column, column.className)}>
-              <div
-                className={cn(styles.headerColumn, {
-                  [styles.withoutTitle]: !column.title,
-                  [styles.withSort]: !!column.sorter,
-                  [styles.isSorter]: column._key === sortColumnKey,
-                })}
-                onClick={() => {
-                  if (column.sorter) {
-                    onSort(column._key);
-                  }
-                }}
-              >
-                {column.title}
-                {column.sorter && (
-                  <span className={cn(styles.sortIcon)}>
-                    <SortDownIcon />
-                  </span>
-                )}
-              </div>
-            </div>
+            <TableHeaderCell
+              key={column._key}
+              className={column.className}
+              title={column.title}
+              withSort={!!column.sorter}
+              isSorter={column._key === sortColumnKey}
+              onSort={() => onSort(column._key)}
+            />
           ))}
         </div>
         {isLoading ? (
@@ -138,22 +124,14 @@ const Table = <DataItem extends object = object>({
                         : column.dataClassName;
 
                     return (
-                      <div
+                      <TableBodyCell
                         key={column._key}
-                        className={cn(
-                          styles.column,
-                          styles.dataColumn,
-                          column.className,
-                          dataClassName,
-                          {
-                            [styles.right]: column.align === "right",
-                            [styles.center]: column.align === "center",
-                            [styles.noWrap]: column.noWrap,
-                          }
-                        )}
+                        align={column.align}
+                        noWrap={column.noWrap}
+                        className={cn(styles.column, column.className, dataClassName)}
                       >
                         {renderCellData(dataItem, column, rowIndex)}
-                      </div>
+                      </TableBodyCell>
                     );
                   })}
                 </div>
