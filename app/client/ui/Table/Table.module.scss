@@ -7,7 +7,6 @@
 
 .table {
   width: 100%;
-  padding-bottom: 1px;
 }
 
 .row {
@@ -17,19 +16,18 @@
 
 .dataRow {
   position: relative;
-  border-bottom: 1px solid #e5e6e4;
-  margin-bottom: -1px;
+  --border-color: #e5e6e4;
 }
 
 .hoverableRow {
   &:hover {
     background-color: #f4f4f4;
-    border-color: #f4f4f4;
+    --border-color: #f4f4f4;
   }
 }
 
 .hoverableRow:has(+ .hoverableRow:hover) {
-  border-color: #f4f4f4;
+  --border-color: #f4f4f4;
 }
 
 .header {

@@ -3,6 +3,17 @@
   line-height: 24px;
   padding: 12px;
   color: #181715;
+
+  &:after {
+    content: "";
+    display: block;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: var(--border-color);
+    height: 1px;
+  }
 }
 
 .right {

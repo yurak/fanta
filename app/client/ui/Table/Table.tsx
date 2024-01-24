@@ -116,7 +116,6 @@ const Table = <DataItem extends object = object>({
                     [styles.hoverableRow]: Boolean(rowLink),
                   })}
                 >
-                  {rowLink && <a href={rowLink(dataItem)} className={styles.rowLink} />}
                   {computedColumns.map((column) => {
                     const dataClassName =
                       typeof column.dataClassName === "function"
@@ -128,12 +127,13 @@ const Table = <DataItem extends object = object>({
                         key={column._key}
                         align={column.align}
                         noWrap={column.noWrap}
-                        className={cn(styles.column, column.className, dataClassName)}
+                        className={cn(column.className, dataClassName)}
                       >
                         {renderCellData(dataItem, column, rowIndex)}
                       </TableBodyCell>
                     );
                   })}
+                  {rowLink && <a href={rowLink(dataItem)} className={styles.rowLink} />}
                 </div>
               ))
             ) : (
