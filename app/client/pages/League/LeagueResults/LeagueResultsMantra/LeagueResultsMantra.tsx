@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useLeagueResults } from "../../../../api/query/useLeagueResults";
 import { ILeagueFullData } from "../../../../interfaces/League";
 import { ILeagueResults } from "../../../../interfaces/LeagueResults";
@@ -20,6 +20,11 @@ const LeagueResultsMantra = ({
 
   const leaguesResults = useLeagueResults<ILeagueResults>(leagueId);
 
+  const isThereSomeChartData = useMemo(
+    () => leaguesResults.data.some((item) => item.history.some(Boolean)),
+    []
+  );
+
   return (
     <>
       <LeagueResultsMantraTable
@@ -29,18 +34,20 @@ const LeagueResultsMantra = ({
         leaguesResults={leaguesResults.data}
         isLoading={isLoading || leaguesResults.isLoading}
       />
-      <div className={styles.chart}>
-        <Switcher
-          checked={isLoading}
-          onChange={setIsLoading}
-          label={isLoading ? "Turn off loading" : "Turn on loading"}
-        />
-        <PageHeading tag="h4" title="Leaders trend" titleIcon={<ChartIndicator />} />
-        <LeagueResultsMantraChart
-          leaguesResults={leaguesResults.data}
-          isLoading={isLoading || leaguesResults.isLoading}
-        />
-      </div>
+      <Switcher
+        checked={isLoading}
+        onChange={setIsLoading}
+        label={isLoading ? "Turn off loading" : "Turn on loading"}
+      />
+      {(leaguesResults.isLoading || isThereSomeChartData) && (
+        <div className={styles.chart}>
+          <PageHeading tag="h4" title="Leaders trend" titleIcon={<ChartIndicator />} />
+          <LeagueResultsMantraChart
+            leaguesResults={leaguesResults.data}
+            isLoading={isLoading || leaguesResults.isLoading}
+          />
+        </div>
+      )}
     </>
   );
 };
