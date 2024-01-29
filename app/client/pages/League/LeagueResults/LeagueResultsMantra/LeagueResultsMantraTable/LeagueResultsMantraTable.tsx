@@ -3,11 +3,10 @@ import cn from "classnames";
 import { ILeagueResults, ILeagueResultsHistory } from "../../../../../interfaces/LeagueResults";
 import Table from "../../../../../ui/Table";
 import TriangleDownIcon from "../../../../../assets/icons/triangleDown.svg";
-
+import { sorters } from "../../../../../helpers/sorters";
 import styles from "./LeagueResultsMantraTable.module.scss";
 
-const getPositionUpdate = (teamResult: ILeagueResults): null | "top" | "down" => {
-  const { history } = teamResult;
+const getPositionUpdate = ({ history }: ILeagueResults): null | "top" | "down" => {
   const existHistory = history.filter(Boolean) as ILeagueResultsHistory[];
   const currentPosition = existHistory[existHistory.length - 1]?.pos;
   const prevPosition = existHistory[existHistory.length - 2]?.pos;
@@ -27,6 +26,12 @@ const getPositionUpdate = (teamResult: ILeagueResults): null | "top" | "down" =>
   return null;
 };
 
+const getFormPoints = (form: ILeagueResults["form"]) => {
+  return form
+    .map((form) => (form === "W" && 3) || (form === "D" && 1) || 0)
+    .reduce((totalPoints, point) => totalPoints + point, 0);
+};
+
 const LeagueResultsMantraTable = ({
   leaguesResults,
   isLoading,
@@ -40,26 +45,23 @@ const LeagueResultsMantraTable = ({
   relegation: number,
   teamsCount: number,
 }) => {
-  const dataSource = useMemo(() => {
-    return leaguesResults.map((teamResult, index) => {
-      return {
+  const dataSource = useMemo(
+    () =>
+      leaguesResults.map((teamResult, index) => ({
         ...teamResult,
-        total_score: Number(teamResult.total_score),
-        formPoints: teamResult.form
-          .map((form) => (form === "W" && 3) || (form === "D" && 1) || 0)
-          .reduce((totalPoints, point) => totalPoints + point, 0),
+        teamName: teamResult.team.human_name,
+        formPoints: getFormPoints(teamResult.form),
         position: index + 1,
         positionUpdate: getPositionUpdate(teamResult),
-      };
-    });
-  }, [leaguesResults]);
+      })),
+    [leaguesResults]
+  );
 
   return (
     <Table
       dataSource={dataSource}
       isLoading={isLoading}
       skeletonItems={8}
-      tableClassName={styles.table}
       columns={[
         {
           dataKey: "position",
@@ -107,7 +109,7 @@ const LeagueResultsMantraTable = ({
           title: "Team",
           className: styles.team,
           sorter: {
-            compare: (teamA, teamB) => teamA.team.human_name.localeCompare(teamB.team.human_name),
+            compare: sorters.string("teamName"),
           },
           render: ({ team }) => (
             <a href={`/teams/${team.id}`} className={styles.teamName}>
@@ -140,7 +142,7 @@ const LeagueResultsMantraTable = ({
           align: "right",
           className: styles.matchesWins,
           sorter: {
-            compare: (teamA, teamB) => teamB.wins - teamA.wins,
+            compare: sorters.numbers("wins"),
             priority: 3,
           },
         },
@@ -155,7 +157,7 @@ const LeagueResultsMantraTable = ({
           align: "right",
           className: styles.matchesDraws,
           sorter: {
-            compare: (teamA, teamB) => teamB.draws - teamA.draws,
+            compare: sorters.numbers("draws"),
           },
         },
         {
@@ -169,7 +171,7 @@ const LeagueResultsMantraTable = ({
           align: "right",
           className: styles.matchesLoses,
           sorter: {
-            compare: (teamA, teamB) => teamB.loses - teamA.loses,
+            compare: sorters.numbers("loses"),
           },
         },
         {
@@ -178,7 +180,7 @@ const LeagueResultsMantraTable = ({
           align: "right",
           className: styles.goals,
           sorter: {
-            compare: (teamA, teamB) => teamB.scored_goals - teamA.scored_goals,
+            compare: sorters.numbers("scored_goals"),
             priority: 2,
           },
         },
@@ -188,7 +190,7 @@ const LeagueResultsMantraTable = ({
           align: "right",
           className: styles.goals,
           sorter: {
-            compare: (teamA, teamB) => teamB.missed_goals - teamA.missed_goals,
+            compare: sorters.numbers("missed_goals"),
           },
         },
         {
@@ -197,7 +199,7 @@ const LeagueResultsMantraTable = ({
           align: "right",
           className: styles.goals,
           sorter: {
-            compare: (teamA, teamB) => teamB.goals_difference - teamA.goals_difference,
+            compare: sorters.numbers("goals_difference"),
           },
         },
         {
@@ -212,7 +214,7 @@ const LeagueResultsMantraTable = ({
           className: styles.points,
           dataClassName: styles.pointsData,
           sorter: {
-            compare: (teamA, teamB) => teamB.points - teamA.points,
+            compare: sorters.numbers("points"),
             priority: 1,
           },
         },
@@ -222,7 +224,7 @@ const LeagueResultsMantraTable = ({
           align: "right",
           className: styles.totalScore,
           sorter: {
-            compare: (teamA, teamB) => teamB.total_score - teamA.total_score,
+            compare: sorters.numbers("total_score", true),
             priority: 4,
           },
         },
@@ -247,7 +249,7 @@ const LeagueResultsMantraTable = ({
           ),
           className: styles.form,
           sorter: {
-            compare: (itemA, itemB) => itemB.formPoints - itemA.formPoints,
+            compare: sorters.numbers("formPoints"),
           },
         },
         {

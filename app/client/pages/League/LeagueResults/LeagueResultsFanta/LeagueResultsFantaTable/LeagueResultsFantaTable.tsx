@@ -1,8 +1,9 @@
+import { useMemo } from "react";
 import cn from "classnames";
 import { ILeagueFantaResults } from "../../../../../interfaces/LeagueResults";
 import Table from "../../../../../ui/Table";
 import { useHistorySort } from "../../../../../hooks/useHistorySort";
-
+import { sorters } from "../../../../../helpers/sorters";
 import styles from "./LeagueResultsFantaTable.module.scss";
 
 const LeagueResultsFantaTable = ({
@@ -14,9 +15,16 @@ const LeagueResultsFantaTable = ({
 }) => {
   const historySort = useHistorySort();
 
+  const data = useMemo(() => {
+    return leaguesResults.map((item) => ({
+      ...item,
+      teamName: item.team.human_name,
+    }));
+  }, [leaguesResults]);
+
   return (
     <Table
-      dataSource={leaguesResults}
+      dataSource={data}
       isLoading={isLoading}
       skeletonItems={8}
       sorting={historySort}
@@ -49,7 +57,7 @@ const LeagueResultsFantaTable = ({
           title: "Team",
           className: styles.team,
           sorter: {
-            compare: (teamA, teamB) => teamA.team.human_name.localeCompare(teamB.team.human_name),
+            compare: sorters.string("teamName"),
           },
           render: ({ team }) => (
             <a href={`/teams/${team.id}`} className={styles.teamName}>
@@ -84,7 +92,7 @@ const LeagueResultsFantaTable = ({
           align: "right",
           className: styles.stats,
           sorter: {
-            compare: (teamA, teamB) => teamB.points - teamA.points,
+            compare: sorters.numbers("points"),
           },
         },
         {
@@ -100,7 +108,7 @@ const LeagueResultsFantaTable = ({
           align: "right",
           className: cn(styles.stats, styles.bold),
           sorter: {
-            compare: (teamA, teamB) => Number(teamB.total_score) - Number(teamA.total_score),
+            compare: sorters.numbers("total_score", true),
           },
         },
         {
@@ -115,7 +123,7 @@ const LeagueResultsFantaTable = ({
           align: "right",
           className: styles.stats,
           sorter: {
-            compare: (teamA, teamB) => Number(teamB.best_lineup) - Number(teamA.best_lineup),
+            compare: sorters.numbers("best_lineup", true),
           },
         },
       ]}
