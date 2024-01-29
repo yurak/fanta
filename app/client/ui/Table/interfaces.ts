@@ -15,6 +15,7 @@ export interface IColumn<DataItem extends object = object> {
     compare: SortFunctionType<DataItem>,
     priority?: number,
   },
+  sticky?: boolean,
   align?: "left" | "center" | "right",
   noWrap?: boolean,
 }

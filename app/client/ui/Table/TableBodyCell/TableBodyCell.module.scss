@@ -33,3 +33,11 @@
 .noWrap {
   white-space: nowrap;
 }
+
+.sticky {
+  border-right: 1px solid var(--border-color);
+  background-color: #fff;
+  z-index: 1;
+  position: sticky;
+  left: 0;
+}

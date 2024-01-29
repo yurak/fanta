@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, useRef } from "react";
 import Skeleton from "react-loading-skeleton";
 import cn from "classnames";
 import TableBodyCell from "./TableBodyCell";
@@ -127,6 +127,7 @@ const Table = <DataItem extends object = object>({
                         key={column._key}
                         align={column.align}
                         noWrap={column.noWrap}
+                        sticky={column.sticky}
                         className={cn(column.className, dataClassName)}
                       >
                         {renderCellData(dataItem, column, rowIndex)}

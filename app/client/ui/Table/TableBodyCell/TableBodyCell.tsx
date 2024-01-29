@@ -7,11 +7,13 @@ const TableBodyCell = ({
   align,
   noWrap,
   className,
+  sticky,
 }: {
   children: React.ReactNode,
   className: string,
   align?: "right" | "left" | "center",
   noWrap?: boolean,
+  sticky?: boolean,
 }) => {
   return (
     <TableCell
@@ -19,6 +21,7 @@ const TableBodyCell = ({
         [styles.right]: align === "right",
         [styles.center]: align === "center",
         [styles.noWrap]: noWrap,
+        [styles.sticky]: sticky,
       })}
     >
       {children}

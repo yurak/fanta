@@ -109,6 +109,7 @@ const LeagueResultsMantraTable = ({
           key: "mobileTeamLogo",
           className: styles.teamLogoCell,
           headClassName: styles.teamLogoHeadCell,
+          sticky: true,
           render: ({ team }) => (
             <a href={`/teams/${team.id}`} className={styles.teamName}>
               <span className={styles.teamNameImg}>
