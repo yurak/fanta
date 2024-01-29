@@ -4,11 +4,19 @@
   display: flex;
   align-items: center;
   justify-content: center;
+
+  @media (max-width: 768px) {
+    flex-basis: 40px;
+  }
 }
 
 .team {
   flex: 2;
   min-width: 140px;
+
+  @media (max-width: 1200px) {
+    min-width: 100px;
+  }
 }
 
 .teamName {
@@ -36,6 +44,17 @@
   flex: 0 0 32px;
   margin-right: 28px;
 
+  @media (max-width: 768px) {
+    width: 24px;
+    height: 24px;
+    flex: 0 0 24px;
+    margin-right: 16px;
+  }
+
+  @media (max-width: 480px) {
+    margin-right: 12px;
+  }
+
   img {
     width: 100%;
     height: 100%;
@@ -62,4 +81,24 @@
   @media (max-width: 1200px) {
     flex: 0 0 80px;
   }
+
+  @media (max-width: 480px) {
+    flex-basis: 60px;
+  }
+}
+
+.played {
+  flex: 1;
+
+  @media (max-width: 1200px) {
+    flex: 0 0 80px;
+  }
+
+  @media (max-width: 480px) {
+    flex: 0 0 32px;
+  }
+}
+
+.bold {
+  font-family: "Nunito ExtraBold";
 }

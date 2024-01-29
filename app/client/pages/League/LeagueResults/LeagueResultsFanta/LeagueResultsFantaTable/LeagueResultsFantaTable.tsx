@@ -1,3 +1,4 @@
+import cn from "classnames";
 import { ILeagueFantaResults } from "../../../../../interfaces/LeagueResults";
 import Table from "../../../../../ui/Table";
 import { useHistorySort } from "../../../../../hooks/useHistorySort";
@@ -23,6 +24,7 @@ const LeagueResultsFantaTable = ({
         {
           dataKey: "position",
           align: "center",
+          noWrap: true,
           render: (_, index) => {
             const position = index + 1;
 
@@ -66,8 +68,9 @@ const LeagueResultsFantaTable = ({
               <span className={styles.shortTitle}>PL</span>
             </>
           ),
+          noWrap: true,
           align: "right",
-          className: styles.stats,
+          className: styles.played,
         },
         {
           dataKey: "points",
@@ -77,6 +80,7 @@ const LeagueResultsFantaTable = ({
               <span className={styles.shortTitle}>F1</span>
             </>
           ),
+          noWrap: true,
           align: "right",
           className: styles.stats,
           sorter: {
@@ -92,8 +96,9 @@ const LeagueResultsFantaTable = ({
               <span className={styles.shortTitle}>TS</span>
             </>
           ),
+          noWrap: true,
           align: "right",
-          className: styles.stats,
+          className: cn(styles.stats, styles.bold),
           sorter: {
             compare: (teamA, teamB) => Number(teamB.total_score) - Number(teamA.total_score),
           },
