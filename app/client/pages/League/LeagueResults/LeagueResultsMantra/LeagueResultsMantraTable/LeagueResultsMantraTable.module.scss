@@ -20,7 +20,7 @@
   justify-content: center;
 
   @media (max-width: 768px) {
-    display: none;
+    flex-basis: 40px;
   }
 }
 
@@ -28,9 +28,14 @@
   flex: 1 0 0;
   min-width: 140px;
 
-  @media (max-width: 768px) {
-    min-width: 120px;
-  }
+  // TODO: sticky cell
+  // @media (max-width: 768px) {
+  //   min-width: 120px;
+  //   position: sticky;
+  //   left: 0;
+  //   background-color: #fff;
+  //   z-index: 1;
+  // }
 }
 
 .matchesPlayed {
