@@ -7,12 +7,12 @@ export const sorters = {
   numbers: <T extends object = object>(key: keyof T, toNumber = false) => {
     if (toNumber) {
       return (object1: T, object2: T) => {
-        return Number(object1[key]) - Number(object2[key]);
+        return Number(object2[key]) - Number(object1[key]);
       };
     }
 
     return (object1: T, object2: T) => {
-      return (object1[key] as number) - (object2[key] as number);
+      return (object2[key] as number) - (object1[key] as number);
     };
   },
 };
