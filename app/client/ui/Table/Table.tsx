@@ -1,4 +1,4 @@
-import { useMemo, useRef } from "react";
+import { useMemo } from "react";
 import Skeleton from "react-loading-skeleton";
 import cn from "classnames";
 import TableBodyCell from "./TableBodyCell";
