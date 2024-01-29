@@ -1,8 +1,8 @@
 import { ReactNode } from "react";
 import cn from "classnames";
+import TableCell from "../TableCell";
 import SortDownIcon from "../../../assets/icons/sortDown.svg";
 import styles from "./TableHeaderCell.module.scss";
-import TableCell from "../TableCell";
 
 const TableHeaderCell = ({
   className,
@@ -23,6 +23,9 @@ const TableHeaderCell = ({
         [styles.isSorter]: isSorter,
         [styles.withoutTitle]: !title,
         [styles.withSort]: withSort,
+      })}
+      innerClassName={cn(styles.headerColumnInner, {
+        [styles.withSortInner]: withSort,
       })}
       onClick={() => {
         if (withSort) {

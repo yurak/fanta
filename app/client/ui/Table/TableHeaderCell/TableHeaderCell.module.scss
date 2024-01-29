@@ -27,13 +27,12 @@
   }
 }
 
+.headerColumnInner {
+  position: relative;
+}
+
 .withSort {
   cursor: pointer;
-  padding-right: 40px;
-
-  @media (max-width: 768px) {
-    padding-right: 36px;
-  }
 
   &:hover {
     color: #181715;
@@ -44,10 +43,18 @@
   }
 }
 
+.withSortInner {
+  padding-right: 32px;
+
+  @media (max-width: 768px) {
+    padding-right: 28px;
+  }
+}
+
 .sortIcon {
   color: #e5e6e4;
   position: absolute;
-  right: 8px;
+  right: 0;
   top: 50%;
   transform: translateY(-50%);
 
