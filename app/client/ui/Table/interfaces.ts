@@ -10,6 +10,7 @@ export interface IColumn<DataItem extends object = object> {
   skeleton?: React.ReactNode | ((rowIndex: number) => React.ReactNode),
   className?: string,
   dataClassName?: string | ((item: DataItem | null, rowIndex: number) => string),
+  headClassName?: string,
   sorter?: {
     compare: SortFunctionType<DataItem>,
     priority?: number,

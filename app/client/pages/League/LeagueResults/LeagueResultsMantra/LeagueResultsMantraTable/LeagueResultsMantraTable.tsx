@@ -106,8 +106,22 @@ const LeagueResultsMantraTable = ({
         },
         {
           dataKey: "team",
+          key: "mobileTeamLogo",
+          className: styles.teamLogoCell,
+          headClassName: styles.teamLogoHeadCell,
+          render: ({ team }) => (
+            <a href={`/teams/${team.id}`} className={styles.teamName}>
+              <span className={styles.teamNameImg}>
+                <img src={team.logo_path} />
+              </span>
+            </a>
+          ),
+        },
+        {
+          dataKey: "team",
           title: "Team",
           className: styles.team,
+          headClassName: styles.teamHeadCell,
           sorter: {
             compare: sorters.string("teamName"),
           },

@@ -21,6 +21,7 @@
 
   @media (max-width: 768px) {
     flex-basis: 40px;
+    display: none;
   }
 }
 
@@ -28,14 +29,33 @@
   flex: 1 0 0;
   min-width: 140px;
 
-  // TODO: sticky cell
-  // @media (max-width: 768px) {
-  //   min-width: 120px;
-  //   position: sticky;
-  //   left: 0;
-  //   background-color: #fff;
-  //   z-index: 1;
-  // }
+  @media (max-width: 768px) {
+    flex: 0 0 100px;
+    min-width: 100px;
+
+    .teamNameImg {
+      display: none;
+    }
+  }
+}
+
+.teamHeadCell {
+  @media (max-width: 768px) {
+    flex: 0 0 140px;
+  }
+}
+
+.teamLogoCell {
+  display: none;
+
+  @media (max-width: 768px) {
+    flex: 0 0 40px;
+    display: flex;
+  }
+}
+
+.teamLogoHeadCell {
+  display: none;
 }
 
 .matchesPlayed {

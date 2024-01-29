@@ -96,7 +96,7 @@ const Table = <DataItem extends object = object>({
           {computedColumns.map((column) => (
             <TableHeaderCell
               key={column._key}
-              className={column.className}
+              className={cn(column.className, column.headClassName)}
               title={column.title}
               withSort={!!column.sorter}
               isSorter={column._key === sortColumnKey}
