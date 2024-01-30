@@ -1,4 +1,4 @@
-RSpec.describe TelegramBot::AuctionSalesNotifier do
+RSpec.describe TelegramBot::AuctionSalesOpenNotifier do
   describe '#call' do
     subject(:notifier) { described_class.new(auction) }
 

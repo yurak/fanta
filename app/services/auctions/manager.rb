@@ -30,7 +30,7 @@ module Auctions
 
       auction.sales!
 
-      TelegramBot::AuctionSalesNotifier.call(auction)
+      TelegramBot::AuctionSalesOpenNotifier.call(auction)
     end
 
     def blind_bids
