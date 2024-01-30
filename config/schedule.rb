@@ -4,9 +4,14 @@ every 5.minutes do
   rake 'tours:lock_deadline'
 end
 
-# Send notifications by Telegram bot before deadline
+# Send notifications by Telegram bot before tour deadline
 every :hour do
-  rake 'tg:send_notifications'
+  rake 'tg:send_tour_deadline'
+end
+
+# Send notifications by Telegram bot before auction sales deadline
+every '5 11,16 * * *' do
+  rake 'tg:send_auction_sales_deadline'
 end
 
 # Save messages from Telegram Bot
