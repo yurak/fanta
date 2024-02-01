@@ -18,4 +18,8 @@
     padding-left: calc(var(--nav-width) + 216px);
     padding-right: 16px;
   }
+
+  @media (max-width: 768px) {
+    padding-bottom: calc(216 * 1vw * var(--unit-multiplier) + 36px);
+  }
 }
