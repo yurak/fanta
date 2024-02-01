@@ -22,7 +22,7 @@ const LeagueResultsPage = () => {
         {league.data?.mantra_format && (
           <a
             className={styles.divisionsLink}
-            href={`/tournaments/${league.data?.division_id}/divisions`}
+            href={`/tournaments/${league.data?.tournament_id}/divisions`}
           >
             📊 {t("divisions.title")}
             <ArrowRight className={styles.divisionsLinkIcon} />
