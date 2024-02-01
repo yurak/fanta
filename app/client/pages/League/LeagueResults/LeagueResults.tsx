@@ -4,6 +4,7 @@ import PageHeading from "../../../components/Heading";
 import PageLayout from "../../../layouts/PageLayout";
 import LeagueResultsMantra from "./LeagueResultsMantra";
 import LeagueResultsFanta from "./LeagueResultsFanta";
+import LeagueResultsSkeleton from "./LeagueResultsSkeleton";
 import ArrowRight from "../../../assets/icons/arrow-right.svg";
 import styles from "./LeagueResults.module.scss";
 
@@ -35,7 +36,7 @@ const LeagueResultsPage = () => {
           )}
         </>
       ) : (
-        "League loading..."
+        <LeagueResultsSkeleton />
       )}
     </PageLayout>
   );
