@@ -1,4 +1,3 @@
-import Skeleton from "react-loading-skeleton";
 import { useMemo } from "react";
 import cn from "classnames";
 import { ILeagueResults, ILeagueResultsHistory } from "../../../../../interfaces/LeagueResults";
@@ -6,6 +5,7 @@ import Table from "../../../../../ui/Table";
 import TriangleDownIcon from "../../../../../assets/icons/triangleDown.svg";
 import { sorters } from "../../../../../helpers/sorters";
 import styles from "./LeagueResultsMantraTable.module.scss";
+import TeamName, { TeamNameSkeleton } from "../../../../../components/TeamName";
 
 const getPositionUpdate = ({ history }: ILeagueResults): null | "top" | "down" => {
   const existHistory = history.filter(Boolean) as ILeagueResultsHistory[];
@@ -111,18 +111,8 @@ const LeagueResultsMantraTable = ({
           className: styles.teamLogoCell,
           headClassName: styles.teamLogoHeadCell,
           sticky: true,
-          render: ({ team }) => (
-            <a href={`/teams/${team.id}`} className={styles.teamName}>
-              <span className={styles.teamNameImg}>
-                <img src={team.logo_path} />
-              </span>
-            </a>
-          ),
-          skeleton: (
-            <span className={styles.teamNameSkeleton}>
-              <Skeleton containerClassName={styles.teamNameSkeletonImage} />
-            </span>
-          ),
+          render: ({ team }) => <TeamName team={team} hideName />,
+          skeleton: <TeamNameSkeleton hideName />,
         },
         {
           dataKey: "team",
@@ -132,20 +122,8 @@ const LeagueResultsMantraTable = ({
           sorter: {
             compare: sorters.string("teamName"),
           },
-          render: ({ team }) => (
-            <a href={`/teams/${team.id}`} className={styles.teamName}>
-              <span className={styles.teamNameImg}>
-                <img src={team.logo_path} />
-              </span>
-              <span className={styles.teamNameName}>{team.human_name}</span>
-            </a>
-          ),
-          skeleton: (
-            <span className={styles.teamNameSkeleton}>
-              <Skeleton containerClassName={styles.teamNameSkeletonImage} />
-              <Skeleton containerClassName={styles.teamNameSkeletonName} />
-            </span>
-          ),
+          render: ({ team }) => <TeamName team={team} hideLogoOnMobile />,
+          skeleton: <TeamNameSkeleton hideLogoOnMobile />,
         },
         {
           dataKey: "matches_played",

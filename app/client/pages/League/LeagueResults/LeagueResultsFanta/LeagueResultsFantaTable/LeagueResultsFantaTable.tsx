@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import cn from "classnames";
 import { ILeagueFantaResults } from "../../../../../interfaces/LeagueResults";
 import Table from "../../../../../ui/Table";
+import TeamName, { TeamNameSkeleton } from "../../../../../components/TeamName";
 import { useHistorySort } from "../../../../../hooks/useHistorySort";
 import { sorters } from "../../../../../helpers/sorters";
 import styles from "./LeagueResultsFantaTable.module.scss";
@@ -59,14 +60,8 @@ const LeagueResultsFantaTable = ({
           sorter: {
             compare: sorters.string("teamName"),
           },
-          render: ({ team }) => (
-            <a href={`/teams/${team.id}`} className={styles.teamName}>
-              <span className={styles.teamNameImg}>
-                <img src={team.logo_path} />
-              </span>
-              <span className={styles.teamNameName}>{team.human_name}</span>
-            </a>
-          ),
+          render: ({ team }) => <TeamName team={team} />,
+          skeleton: <TeamNameSkeleton />,
         },
         {
           dataKey: "matches_played",
