@@ -27,6 +27,10 @@
     background-color: #fcc5cb;
   }
 
+  @media (min-width: 769px) {
+    position: static;
+  }
+
   @media (max-width: 768px) {
     flex: 0 0 12px;
     padding: 0;
@@ -96,7 +100,7 @@
   flex: 0 0 88px;
 
   @media (max-width: 1600px) {
-    flex: 0 0 68px;
+    flex-basis: 68px;
   }
 
   @media (max-width: 768px) {
@@ -108,11 +112,11 @@
   flex: 0 0 88px;
 
   @media (max-width: 1600px) {
-    flex: 0 0 68px;
+    flex-basis: 68px;
   }
 
   @media (max-width: 768px) {
-    flex: 0 0 48px;
+    flex-basis: 48px;
   }
 }
 
@@ -120,11 +124,11 @@
   flex: 0 0 96px;
 
   @media (max-width: 1600px) {
-    flex: 0 0 68px;
+    flex-basis: 68px;
   }
 
   @media (max-width: 768px) {
-    flex: 0 0 48px;
+    flex-basis: 48px;
   }
 }
 
@@ -132,11 +136,11 @@
   flex: 0 0 88px;
 
   @media (max-width: 1600px) {
-    flex: 0 0 68px;
+    flex-basis: 68px;
   }
 
   @media (max-width: 768px) {
-    flex: 0 0 48px;
+    flex-basis: 48px;
   }
 }
 
@@ -144,11 +148,11 @@
   flex: 0 0 88px;
 
   @media (max-width: 1600px) {
-    flex: 0 0 68px;
+    flex-basis: 68px;
   }
 
   @media (max-width: 768px) {
-    flex: 0 0 58px;
+    flex-basis: 58px;
   }
 }
 
@@ -156,11 +160,11 @@
   flex: 0 0 96px;
 
   @media (max-width: 1600px) {
-    flex: 0 0 76px;
+    flex-basis: 76px;
   }
 
   @media (max-width: 768px) {
-    flex: 0 0 66px;
+    flex-basis: 66px;
   }
 }
 
@@ -176,7 +180,7 @@
   flex: 0 0 136px;
 
   @media (max-width: 768px) {
-    flex: 0 0 106px;
+    flex-basis: 106px;
   }
 }
 
