@@ -1,4 +1,5 @@
 import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import cn from "classnames";
 import { ILeagueResults, ILeagueResultsHistory } from "../../../../../interfaces/LeagueResults";
 import Table from "../../../../../ui/Table";
@@ -46,6 +47,8 @@ const LeagueResultsMantraTable = ({
   relegation: number,
   teamsCount: number,
 }) => {
+  const { t } = useTranslation();
+
   const dataSource = useMemo(
     () =>
       leaguesResults.map((teamResult, index) => ({
@@ -116,7 +119,7 @@ const LeagueResultsMantraTable = ({
         },
         {
           dataKey: "team",
-          title: "Team",
+          title: t("table.team"),
           className: styles.team,
           headClassName: styles.teamHeadCell,
           sorter: {
@@ -129,8 +132,8 @@ const LeagueResultsMantraTable = ({
           dataKey: "matches_played",
           title: (
             <>
-              <span className={styles.fullTitle}>Played</span>
-              <span className={styles.shortTitle}>PL</span>
+              <span className={styles.fullTitle}>{t("table.games")}</span>
+              <span className={styles.shortTitle}>{t("table.games_short")}</span>
             </>
           ),
           align: "right",
@@ -140,8 +143,8 @@ const LeagueResultsMantraTable = ({
           dataKey: "wins",
           title: (
             <>
-              <span className={styles.fullTitle}>Wins</span>
-              <span className={styles.shortTitle}>W</span>
+              <span className={styles.fullTitle}>{t("table.wins")}</span>
+              <span className={styles.shortTitle}>{t("table.wins_short")}</span>
             </>
           ),
           align: "right",
@@ -155,8 +158,8 @@ const LeagueResultsMantraTable = ({
           dataKey: "draws",
           title: (
             <>
-              <span className={styles.fullTitle}>Draws</span>
-              <span className={styles.shortTitle}>D</span>
+              <span className={styles.fullTitle}>{t("table.draws")}</span>
+              <span className={styles.shortTitle}>{t("table.draws_short")}</span>
             </>
           ),
           align: "right",
@@ -169,8 +172,8 @@ const LeagueResultsMantraTable = ({
           dataKey: "loses",
           title: (
             <>
-              <span className={styles.fullTitle}>Loses</span>
-              <span className={styles.shortTitle}>L</span>
+              <span className={styles.fullTitle}>{t("table.loses")}</span>
+              <span className={styles.shortTitle}>{t("table.loses_short")}</span>
             </>
           ),
           align: "right",
@@ -181,7 +184,7 @@ const LeagueResultsMantraTable = ({
         },
         {
           dataKey: "scored_goals",
-          title: "GF",
+          title: t("table.gf"),
           align: "right",
           className: styles.goals,
           sorter: {
@@ -191,7 +194,7 @@ const LeagueResultsMantraTable = ({
         },
         {
           dataKey: "missed_goals",
-          title: "GA",
+          title: t("table.ga"),
           align: "right",
           className: styles.goals,
           sorter: {
@@ -200,7 +203,7 @@ const LeagueResultsMantraTable = ({
         },
         {
           dataKey: "goals_difference",
-          title: "GD",
+          title: t("table.gd"),
           align: "right",
           className: styles.goals,
           sorter: {
@@ -211,8 +214,8 @@ const LeagueResultsMantraTable = ({
           dataKey: "points",
           title: (
             <>
-              <span className={styles.fullTitle}>Points</span>
-              <span className={styles.shortTitle}>PTS</span>
+              <span className={styles.fullTitle}>{t("table.points")}</span>
+              <span className={styles.shortTitle}>{t("table.points_short")}</span>
             </>
           ),
           align: "right",
@@ -225,7 +228,7 @@ const LeagueResultsMantraTable = ({
         },
         {
           dataKey: "total_score",
-          title: "TS",
+          title: t("table.ts"),
           align: "right",
           className: styles.totalScore,
           sorter: {
@@ -235,7 +238,7 @@ const LeagueResultsMantraTable = ({
         },
         {
           dataKey: "form",
-          title: "Form",
+          title: t("table.form"),
           render: ({ form }) => (
             <span className={styles.formData}>
               {form.map((state, index) => (
@@ -259,8 +262,9 @@ const LeagueResultsMantraTable = ({
         },
         {
           dataKey: "next",
-          title: "Next",
+          title: t("table.next"),
           className: styles.next,
+          headEllipsis: styles.nextHead,
           render: ({ next_opponent_id }) => {
             const opponent = leaguesResults.find(({ team }) => team.id === next_opponent_id)?.team;
 

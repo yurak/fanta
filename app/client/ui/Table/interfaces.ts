@@ -11,6 +11,7 @@ export interface IColumn<DataItem extends object = object> {
   className?: string,
   dataClassName?: string | ((item: DataItem | null, rowIndex: number) => string),
   headClassName?: string,
+  headEllipsis?: boolean,
   sorter?: {
     compare: SortFunctionType<DataItem>,
     priority?: number,

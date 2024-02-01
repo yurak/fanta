@@ -241,3 +241,9 @@
   height: 2px;
   background-color: #a6a2a2;
 }
+
+.nextHead {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

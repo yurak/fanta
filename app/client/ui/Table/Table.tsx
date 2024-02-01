@@ -43,6 +43,7 @@ const Table = <DataItem extends object = object>({
   isLoading,
   skeletonItems = 6,
   tableClassName,
+  bodyClassName,
   sorting,
   emptyState = {
     title: "No data",
@@ -55,6 +56,7 @@ const Table = <DataItem extends object = object>({
   isLoading?: boolean,
   skeletonItems?: number,
   tableClassName?: string,
+  bodyClassName?: string,
   sorting?: ITableSorting,
   emptyState?: {
     title: string,
@@ -98,6 +100,7 @@ const Table = <DataItem extends object = object>({
             <TableHeaderCell
               key={column._key}
               className={cn(column.className, column.headClassName)}
+              ellipsis={column.headEllipsis}
               title={column.title}
               withSort={!!column.sorter}
               isSorter={column._key === sortColumnKey}
@@ -108,7 +111,7 @@ const Table = <DataItem extends object = object>({
         {isLoading ? (
           <LoadingSkeleton columns={computedColumns} items={skeletonItems} />
         ) : (
-          <>
+          <div className={bodyClassName}>
             {sortedDataSource.length > 0 ? (
               sortedDataSource.map((dataItem, rowIndex) => (
                 <div
@@ -143,7 +146,7 @@ const Table = <DataItem extends object = object>({
                 <EmptyState title={emptyState.title} description={emptyState.description} />
               </div>
             )}
-          </>
+          </div>
         )}
       </div>
     </div>

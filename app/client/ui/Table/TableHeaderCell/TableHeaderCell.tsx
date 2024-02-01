@@ -6,6 +6,7 @@ import styles from "./TableHeaderCell.module.scss";
 
 const TableHeaderCell = ({
   className,
+  ellipsis,
   onSort,
   withSort,
   isSorter,
@@ -15,6 +16,7 @@ const TableHeaderCell = ({
   onSort: () => void,
   withSort: boolean,
   isSorter: boolean,
+  ellipsis?: boolean,
   title?: ReactNode,
 }) => {
   return (
@@ -26,6 +28,7 @@ const TableHeaderCell = ({
       })}
       innerClassName={cn(styles.headerColumnInner, {
         [styles.withSortInner]: withSort,
+        [styles.headerEllipsis]: ellipsis,
       })}
       onClick={() => {
         if (withSort) {

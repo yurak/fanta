@@ -31,6 +31,12 @@
   position: relative;
 }
 
+.headerEllipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .withSort {
   cursor: pointer;
 

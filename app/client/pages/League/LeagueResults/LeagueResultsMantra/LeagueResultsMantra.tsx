@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { useMemo } from "react";
 import { useLeagueResults } from "../../../../api/query/useLeagueResults";
 import { ILeagueFullData } from "../../../../interfaces/League";
@@ -22,6 +23,8 @@ const LeagueResultsMantra = ({
     []
   );
 
+  const { t } = useTranslation();
+
   return (
     <>
       <LeagueResultsMantraTable
@@ -33,7 +36,7 @@ const LeagueResultsMantra = ({
       />
       {(leaguesResults.isLoading || isThereSomeChartData) && (
         <div className={styles.chart}>
-          <PageHeading tag="h4" title="Leaders trend" titleIcon={<ChartIndicator />} />
+          <PageHeading tag="h4" title={t("table.trend_title")} titleIcon={<ChartIndicator />} />
           <LeagueResultsMantraChart
             leaguesResults={leaguesResults.data}
             isLoading={leaguesResults.isLoading}

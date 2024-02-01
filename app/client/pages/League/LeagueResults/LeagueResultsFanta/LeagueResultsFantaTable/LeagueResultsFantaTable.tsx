@@ -1,4 +1,5 @@
 import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import cn from "classnames";
 import { ILeagueFantaResults } from "../../../../../interfaces/LeagueResults";
 import Table from "../../../../../ui/Table";
@@ -15,6 +16,7 @@ const LeagueResultsFantaTable = ({
   isLoading: boolean,
 }) => {
   const historySort = useHistorySort();
+  const { t } = useTranslation();
 
   const data = useMemo(() => {
     return leaguesResults.map((item) => ({
@@ -55,7 +57,7 @@ const LeagueResultsFantaTable = ({
         },
         {
           dataKey: "team",
-          title: "Team",
+          title: t("table.team"),
           className: styles.team,
           sorter: {
             compare: sorters.string("teamName"),
@@ -67,8 +69,8 @@ const LeagueResultsFantaTable = ({
           dataKey: "matches_played",
           title: (
             <>
-              <span className={styles.fullTitle}>Played</span>
-              <span className={styles.shortTitle}>PL</span>
+              <span className={styles.fullTitle}>{t("table.games")}</span>
+              <span className={styles.shortTitle}>{t("table.games_short")}</span>
             </>
           ),
           noWrap: true,
@@ -79,7 +81,7 @@ const LeagueResultsFantaTable = ({
           dataKey: "points",
           title: (
             <>
-              <span className={styles.fullTitle}>F1 Points</span>
+              <span className={styles.fullTitle}>{t("table.f1_points")}</span>
               <span className={styles.shortTitle}>F1</span>
             </>
           ),
@@ -95,8 +97,8 @@ const LeagueResultsFantaTable = ({
           dataKey: "total_score",
           title: (
             <>
-              <span className={styles.fullTitle}>Total score</span>
-              <span className={styles.shortTitle}>TS</span>
+              <span className={styles.fullTitle}>{t("table.total_score")}</span>
+              <span className={styles.shortTitle}>{t("table.total_score_short")}</span>
             </>
           ),
           noWrap: true,
@@ -111,8 +113,8 @@ const LeagueResultsFantaTable = ({
           dataKey: "best_lineup",
           title: (
             <>
-              <span className={styles.fullTitle}>Best lineup</span>
-              <span className={styles.shortTitle}>Best</span>
+              <span className={styles.fullTitle}>{t("table.best_lineup")}</span>
+              <span className={styles.shortTitle}>{t("table.best_lineup_short")}</span>
             </>
           ),
           align: "right",
