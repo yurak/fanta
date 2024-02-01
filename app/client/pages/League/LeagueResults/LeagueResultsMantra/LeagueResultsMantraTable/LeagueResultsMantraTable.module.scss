@@ -279,7 +279,9 @@
 }
 
 .body {
-  margin-left: -12px;
-  width: calc(100% + 12px);
-  max-width: calc(100% + 12px);
+  @media (max-width: 768px) {
+    margin-left: -12px;
+    width: calc(100% + 12px);
+    max-width: calc(100% + 12px);
+  }
 }

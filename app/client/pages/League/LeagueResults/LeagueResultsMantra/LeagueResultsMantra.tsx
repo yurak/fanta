@@ -20,7 +20,7 @@ const LeagueResultsMantra = ({
 
   const isThereSomeChartData = useMemo(
     () => leaguesResults.data.some((item) => item.history.some(Boolean)),
-    []
+    [leaguesResults.data]
   );
 
   const { t } = useTranslation();
