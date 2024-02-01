@@ -26,6 +26,7 @@ export interface IComputedColumn<DataItem extends object = object> extends IColu
 }
 
 export type ITableSorting = {
+  defaultSortColumn?: string | null,
   sortColumn?: string | null,
   setSortColumn?: (column: string | null) => void,
 };

@@ -15,7 +15,7 @@ const LeagueResultsFantaTable = ({
   leaguesResults: ILeagueFantaResults[],
   isLoading: boolean,
 }) => {
-  const historySort = useHistorySort();
+  const historySort = useHistorySort({ defaultSortColumn: "score" });
   const { t } = useTranslation();
 
   const data = useMemo(() => {
@@ -103,6 +103,7 @@ const LeagueResultsFantaTable = ({
           ),
           noWrap: true,
           align: "right",
+          headEllipsis: true,
           className: cn(styles.stats, styles.bold),
           sorter: {
             compare: sorters.numbers("total_score", true),
@@ -117,6 +118,7 @@ const LeagueResultsFantaTable = ({
               <span className={styles.shortTitle}>{t("table.best_lineup_short")}</span>
             </>
           ),
+          headEllipsis: true,
           align: "right",
           className: styles.stats,
           sorter: {
