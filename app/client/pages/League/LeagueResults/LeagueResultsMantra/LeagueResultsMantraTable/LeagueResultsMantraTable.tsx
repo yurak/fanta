@@ -66,6 +66,7 @@ const LeagueResultsMantraTable = ({
       dataSource={dataSource}
       isLoading={isLoading}
       skeletonItems={8}
+      tableClassName={styles.body}
       columns={[
         {
           dataKey: "position",
@@ -85,6 +86,7 @@ const LeagueResultsMantraTable = ({
 
             return <>{position}</>;
           },
+          sticky: true,
           className: styles.position,
           dataClassName: (item) =>
             cn(styles.position, {

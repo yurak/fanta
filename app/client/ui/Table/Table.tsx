@@ -40,9 +40,10 @@ const Table = <DataItem extends object = object>({
   dataSource,
   rowKey,
   rowLink,
-  isLoading,
   skeletonItems = 6,
+  isLoading,
   tableClassName,
+  tableInnerClassName,
   bodyClassName,
   sorting,
   emptyState = {
@@ -56,6 +57,7 @@ const Table = <DataItem extends object = object>({
   isLoading?: boolean,
   skeletonItems?: number,
   tableClassName?: string,
+  tableInnerClassName?: string,
   bodyClassName?: string,
   sorting?: ITableSorting,
   emptyState?: {
@@ -93,8 +95,8 @@ const Table = <DataItem extends object = object>({
   });
 
   return (
-    <div className={styles.tableWrapper}>
-      <div className={cn(styles.table, tableClassName)}>
+    <div className={cn(styles.tableWrapper, tableClassName)}>
+      <div className={cn(styles.table, tableInnerClassName)}>
         <div className={cn(styles.header, styles.row)}>
           {computedColumns.map((column) => (
             <TableHeaderCell
