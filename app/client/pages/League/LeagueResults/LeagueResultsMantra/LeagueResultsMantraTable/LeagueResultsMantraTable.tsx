@@ -1,3 +1,4 @@
+import Skeleton from "react-loading-skeleton";
 import { useMemo } from "react";
 import cn from "classnames";
 import { ILeagueResults, ILeagueResultsHistory } from "../../../../../interfaces/LeagueResults";
@@ -117,6 +118,11 @@ const LeagueResultsMantraTable = ({
               </span>
             </a>
           ),
+          skeleton: (
+            <span className={styles.teamNameSkeleton}>
+              <Skeleton containerClassName={styles.teamNameSkeletonImage} />
+            </span>
+          ),
         },
         {
           dataKey: "team",
@@ -133,6 +139,12 @@ const LeagueResultsMantraTable = ({
               </span>
               <span className={styles.teamNameName}>{team.human_name}</span>
             </a>
+          ),
+          skeleton: (
+            <span className={styles.teamNameSkeleton}>
+              <Skeleton containerClassName={styles.teamNameSkeletonImage} />
+              <Skeleton containerClassName={styles.teamNameSkeletonName} />
+            </span>
           ),
         },
         {

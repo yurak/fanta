@@ -33,7 +33,8 @@
     flex: 0 0 100px;
     min-width: 100px;
 
-    .teamNameImg {
+    .teamNameImg,
+    .teamNameSkeletonImage {
       display: none;
     }
   }
@@ -282,4 +283,29 @@
   width: 100%;
   height: 2px;
   background-color: #a6a2a2;
+}
+
+.teamNameSkeleton {
+  display: flex;
+  align-items: center;
+}
+
+.teamNameSkeleton {
+  gap: 28px;
+}
+
+.teamNameSkeletonName {
+  flex: 1;
+}
+
+.teamNameSkeletonImage {
+  height: 26px;
+  width: 32px;
+  margin-top: 3px;
+  margin-bottom: 3px;
+
+  @media (max-width: 768px) {
+    width: 24px;
+    height: 18px;
+  }
 }

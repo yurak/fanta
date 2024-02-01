@@ -22,6 +22,7 @@ const LoadingSkeleton = ({ columns, items }: { columns: IComputedColumn[], items
             key={column._key}
             align={column.align}
             noWrap={column.noWrap}
+            sticky={column.sticky}
             className={cn(column.className, dataClassName)}
           >
             {typeof column.skeleton === "function"
