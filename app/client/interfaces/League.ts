@@ -1,7 +1,7 @@
 export interface ILeague {
   id: number,
-  division: string,
-  division_id: number,
+  division: string | null,
+  division_id: number | null,
   link: string,
   name: string,
   season_id: number,
