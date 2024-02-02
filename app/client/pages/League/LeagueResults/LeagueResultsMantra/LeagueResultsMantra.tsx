@@ -33,6 +33,7 @@ const LeagueResultsMantra = ({
         teamsCount={leagueData.teams_count}
         leaguesResults={leaguesResults.data}
         isLoading={leaguesResults.isLoading}
+        isActiveLeague={leagueData.status === "active"}
       />
       {(leaguesResults.isLoading || isThereSomeChartData) && (
         <div className={styles.chart}>

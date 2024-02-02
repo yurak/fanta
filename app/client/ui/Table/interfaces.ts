@@ -12,6 +12,7 @@ export interface IColumn<DataItem extends object = object> {
   dataClassName?: string | ((item: DataItem | null, rowIndex: number) => string),
   headClassName?: string,
   headEllipsis?: boolean,
+  isHidden?: boolean,
   sorter?: {
     compare: SortFunctionType<DataItem>,
     priority?: number,

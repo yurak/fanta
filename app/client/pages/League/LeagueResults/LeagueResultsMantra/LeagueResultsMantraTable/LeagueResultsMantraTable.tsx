@@ -5,8 +5,9 @@ import { ILeagueResults, ILeagueResultsHistory } from "../../../../../interfaces
 import Table from "../../../../../ui/Table";
 import TriangleDownIcon from "../../../../../assets/icons/triangleDown.svg";
 import { sorters } from "../../../../../helpers/sorters";
-import styles from "./LeagueResultsMantraTable.module.scss";
 import TeamName, { TeamNameSkeleton } from "../../../../../components/TeamName";
+import { useHistorySort } from "../../../../../hooks/useHistorySort";
+import styles from "./LeagueResultsMantraTable.module.scss";
 
 const getPositionUpdate = ({ history }: ILeagueResults): null | "top" | "down" => {
   const existHistory = history.filter(Boolean) as ILeagueResultsHistory[];
@@ -40,14 +41,17 @@ const LeagueResultsMantraTable = ({
   promotion,
   relegation,
   teamsCount,
+  isActiveLeague,
 }: {
   leaguesResults: ILeagueResults[],
   isLoading: boolean,
   promotion: number,
   relegation: number,
   teamsCount: number,
+  isActiveLeague: boolean,
 }) => {
   const { t } = useTranslation();
+  const historySort = useHistorySort();
 
   const dataSource = useMemo(
     () =>
@@ -61,12 +65,15 @@ const LeagueResultsMantraTable = ({
     [leaguesResults]
   );
 
+  const isNextHidden = !isActiveLeague;
+
   return (
     <Table
       dataSource={dataSource}
       isLoading={isLoading}
       skeletonItems={8}
       tableClassName={styles.body}
+      sorting={historySort}
       columns={[
         {
           dataKey: "position",
@@ -266,6 +273,7 @@ const LeagueResultsMantraTable = ({
           title: t("table.next"),
           className: styles.next,
           headEllipsis: styles.nextHead,
+          isHidden: isNextHidden,
           render: ({ next_opponent_id }) => {
             const opponent = leaguesResults.find(({ team }) => team.id === next_opponent_id)?.team;
 

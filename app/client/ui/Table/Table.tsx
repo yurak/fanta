@@ -78,12 +78,14 @@ const Table = <DataItem extends object = object>({
 
   const computedColumns = useMemo<IComputedColumn<DataItem>[]>(
     () =>
-      columns.map((column) => {
-        return {
-          ...column,
-          _key: column.key ?? column.dataKey,
-        };
-      }),
+      columns
+        .filter((column) => !column.isHidden)
+        .map((column) => {
+          return {
+            ...column,
+            _key: column.key ?? column.dataKey,
+          };
+        }),
     [columns]
   );
 

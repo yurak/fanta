@@ -317,6 +317,12 @@
 
 .body {
   @media (max-width: 991px) {
+    margin-left: -16px;
+    width: calc(100% + 16px);
+    max-width: calc(100% + 16px);
+  }
+
+  @media (max-width: 768px) {
     margin-left: -12px;
     width: calc(100% + 12px);
     max-width: calc(100% + 12px);
