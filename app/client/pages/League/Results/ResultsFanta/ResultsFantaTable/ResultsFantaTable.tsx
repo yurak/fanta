@@ -6,9 +6,9 @@ import Table from "../../../../../ui/Table";
 import TeamName, { TeamNameSkeleton } from "../../../../../components/TeamName";
 import { useHistorySort } from "../../../../../hooks/useHistorySort";
 import { sorters } from "../../../../../helpers/sorters";
-import styles from "./LeagueResultsFantaTable.module.scss";
+import styles from "./ResultsFantaTable.module.scss";
 
-const LeagueResultsFantaTable = ({
+const ResultsFantaTable = ({
   leaguesResults,
   isLoading,
 }: {
@@ -131,4 +131,4 @@ const LeagueResultsFantaTable = ({
   );
 };
 
-export default LeagueResultsFantaTable;
+export default ResultsFantaTable;

@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import { ChartData } from "chart.js";
 import Chart, { DEFAULT_COLORS } from "../../../../../ui/Chart";
 import { ILeagueResults } from "../../../../../interfaces/LeagueResults";
-import styles from "./LeagueResultsMantraChart.module.scss";
+import styles from "./ResultsMantraChart.module.scss";
 
 type ChartDataType = ChartData<"line", (number | null)[], React.ReactNode>;
 

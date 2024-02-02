@@ -7,7 +7,7 @@ import TriangleDownIcon from "../../../../../assets/icons/triangleDown.svg";
 import { sorters } from "../../../../../helpers/sorters";
 import TeamName, { TeamNameSkeleton } from "../../../../../components/TeamName";
 import { useHistorySort } from "../../../../../hooks/useHistorySort";
-import styles from "./LeagueResultsMantraTable.module.scss";
+import styles from "./ResultsMantraTable.module.scss";
 
 const getPositionUpdate = ({ history }: ILeagueResults): null | "top" | "down" => {
   const existHistory = history.filter(Boolean) as ILeagueResultsHistory[];
@@ -35,7 +35,7 @@ const getFormPoints = (form: ILeagueResults["form"]) => {
     .reduce((totalPoints, point) => totalPoints + point, 0);
 };
 
-const LeagueResultsMantraTable = ({
+const ResultsMantraTable = ({
   leaguesResults,
   isLoading,
   promotion,
@@ -293,4 +293,4 @@ const LeagueResultsMantraTable = ({
   );
 };
 
-export default LeagueResultsMantraTable;
+export default ResultsMantraTable;

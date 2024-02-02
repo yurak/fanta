@@ -1,7 +1,7 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Leagues from "./pages/Leagues";
 import { withBootstrap } from "./bootstrap/withBootstrap";
-import LeagueResults from "./pages/League/LeagueResults";
+import Results from "./pages/League/Results";
 
 const router = createBrowserRouter([
   {
@@ -10,7 +10,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/leagues/:leagueId/results",
-    element: <LeagueResults />,
+    element: <Results />,
   },
 ]);
 

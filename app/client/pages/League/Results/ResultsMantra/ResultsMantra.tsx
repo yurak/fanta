@@ -5,11 +5,11 @@ import { ILeagueFullData } from "../../../../interfaces/League";
 import { ILeagueResults } from "../../../../interfaces/LeagueResults";
 import PageHeading from "../../../../components/Heading";
 import ChartIndicator from "../../../../assets/images/chartIndicator.svg";
-import LeagueResultsMantraChart from "./LeagueResultsMantraChart";
-import LeagueResultsMantraTable from "./LeagueResultsMantraTable";
-import styles from "./LeagueResultsMantra.module.scss";
+import ResultsMantraChart from "./ResultsMantraChart";
+import ResultsMantraTable from "./ResultsMantraTable";
+import styles from "./ResultsMantra.module.scss";
 
-const LeagueResultsMantra = ({
+const ResultsMantra = ({
   leagueData,
   leagueId,
 }: {
@@ -27,7 +27,7 @@ const LeagueResultsMantra = ({
 
   return (
     <>
-      <LeagueResultsMantraTable
+      <ResultsMantraTable
         promotion={leagueData.promotion}
         relegation={leagueData.relegation}
         teamsCount={leagueData.teams_count}
@@ -38,7 +38,7 @@ const LeagueResultsMantra = ({
       {(leaguesResults.isLoading || isThereSomeChartData) && (
         <div className={styles.chart}>
           <PageHeading tag="h4" title={t("table.trend_title")} titleIcon={<ChartIndicator />} />
-          <LeagueResultsMantraChart
+          <ResultsMantraChart
             leaguesResults={leaguesResults.data}
             isLoading={leaguesResults.isLoading}
           />
@@ -48,4 +48,4 @@ const LeagueResultsMantra = ({
   );
 };
 
-export default LeagueResultsMantra;
+export default ResultsMantra;

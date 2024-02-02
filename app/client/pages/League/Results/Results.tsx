@@ -3,13 +3,13 @@ import { useParams } from "react-router-dom";
 import { useLeague } from "../../../api/query/useLeague";
 import PageHeading from "../../../components/Heading";
 import PageLayout from "../../../layouts/PageLayout";
-import LeagueResultsMantra from "./LeagueResultsMantra";
-import LeagueResultsFanta from "./LeagueResultsFanta";
-import LeagueResultsSkeleton from "./LeagueResultsSkeleton";
+import ResultsMantra from "./ResultsMantra";
+import ResultsFanta from "./ResultsFanta";
+import ResultsSkeleton from "./ResultsSkeleton";
 import ArrowRight from "../../../assets/icons/arrow-right.svg";
-import styles from "./LeagueResults.module.scss";
+import styles from "./Results.module.scss";
 
-const LeagueResultsPage = () => {
+const ResultsPage = () => {
   const params = useParams<{ leagueId: string }>();
   const leagueId = Number(params.leagueId);
   const league = useLeague(leagueId);
@@ -32,16 +32,16 @@ const LeagueResultsPage = () => {
       {league.data ? (
         <>
           {league.data.mantra_format ? (
-            <LeagueResultsMantra leagueData={league.data} leagueId={leagueId} />
+            <ResultsMantra leagueData={league.data} leagueId={leagueId} />
           ) : (
-            <LeagueResultsFanta leagueId={leagueId} />
+            <ResultsFanta leagueId={leagueId} />
           )}
         </>
       ) : (
-        <LeagueResultsSkeleton />
+        <ResultsSkeleton />
       )}
     </PageLayout>
   );
 };
 
-export default LeagueResultsPage;
+export default ResultsPage;

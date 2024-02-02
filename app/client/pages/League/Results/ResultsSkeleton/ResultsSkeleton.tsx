@@ -1,6 +1,6 @@
 import Table from "../../../../ui/Table";
 
-const LeagueResultsSkeleton = () => {
+const ResultsSkeleton = () => {
   return (
     <Table
       dataSource={[]}
@@ -27,4 +27,4 @@ const LeagueResultsSkeleton = () => {
   );
 };
 
-export default LeagueResultsSkeleton;
+export default ResultsSkeleton;
