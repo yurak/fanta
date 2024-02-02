@@ -64,11 +64,6 @@
 .team {
   flex: 1 0 0;
   min-width: 140px;
-
-  @media (max-width: 768px) {
-    flex: 0 0 100px;
-    min-width: 100px;
-  }
 }
 
 .matchesPlayed {
@@ -78,8 +73,8 @@
     flex-basis: 68px;
   }
 
-  @media (max-width: 768px) {
-    flex: 0 0 48px;
+  @media (max-width: 1200px) {
+    flex: 0 0 44px;
   }
 }
 
@@ -90,8 +85,8 @@
     flex-basis: 68px;
   }
 
-  @media (max-width: 768px) {
-    flex-basis: 48px;
+  @media (max-width: 1200px) {
+    flex: 0 0 44px;
   }
 }
 
@@ -102,8 +97,8 @@
     flex-basis: 68px;
   }
 
-  @media (max-width: 768px) {
-    flex-basis: 48px;
+  @media (max-width: 1200px) {
+    flex: 0 0 44px;
   }
 }
 
@@ -114,8 +109,8 @@
     flex-basis: 68px;
   }
 
-  @media (max-width: 768px) {
-    flex-basis: 48px;
+  @media (max-width: 1200px) {
+    flex: 0 0 44px;
   }
 }
 
@@ -126,8 +121,8 @@
     flex-basis: 68px;
   }
 
-  @media (max-width: 768px) {
-    flex-basis: 58px;
+  @media (max-width: 1200px) {
+    flex: 0 0 44px;
   }
 }
 
@@ -138,8 +133,8 @@
     flex-basis: 76px;
   }
 
-  @media (max-width: 768px) {
-    flex-basis: 66px;
+  @media (max-width: 1200px) {
+    flex: 0 0 44px;
   }
 }
 
@@ -154,16 +149,16 @@
 .form {
   flex: 0 0 136px;
 
-  @media (max-width: 768px) {
-    flex-basis: 106px;
+  @media (max-width: 1400px) {
+    display: none;
   }
 }
 
 .next {
   flex: 0 0 56px;
 
-  @media (max-width: 768px) {
-    flex-basis: 46px;
+  @media (max-width: 1400px) {
+    display: none;
   }
 }
 
@@ -177,16 +172,8 @@
   display: flex;
   text-align: center;
 
-  @media (max-width: 768px) {
-    font-size: 14px;
-  }
-
   span {
     width: 24px;
-
-    @media (max-width: 768px) {
-      width: 18px;
-    }
   }
 }
 

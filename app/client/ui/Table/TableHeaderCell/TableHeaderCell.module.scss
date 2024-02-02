@@ -50,27 +50,27 @@
 }
 
 .withSortInner {
-  padding-right: 32px;
-
-  @media (max-width: 768px) {
-    padding-right: 28px;
+  @media (min-width: 1201px) {
+    padding-right: 32px;
   }
 }
 
 .sortIcon {
+  display: none;
   color: #e5e6e4;
   position: absolute;
   right: 0;
   top: 50%;
   transform: translateY(-50%);
 
-  @media (max-width: 768px) {
-    width: 20px;
-    height: 20px;
+  @media (min-width: 1201px) {
+    display: block;
   }
 }
 
 .isSorter {
+  color: #181715;
+
   .sortIcon {
     color: #847577;
   }
