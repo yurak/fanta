@@ -87,7 +87,7 @@ const LeagueResultsFantaTable = ({
           ),
           noWrap: true,
           align: "right",
-          className: styles.stats,
+          className: cn(styles.stats, styles.statsF1Points),
           sorter: {
             compare: sorters.numbers("points"),
           },
@@ -119,6 +119,7 @@ const LeagueResultsFantaTable = ({
             </>
           ),
           headEllipsis: true,
+          noWrap: true,
           align: "right",
           className: styles.stats,
           sorter: {

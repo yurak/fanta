@@ -8,6 +8,10 @@
   @media (max-width: 768px) {
     flex-basis: 40px;
   }
+
+  @media (max-width: 480px) {
+    flex-basis: 24px;
+  }
 }
 
 .team {
@@ -15,7 +19,7 @@
   min-width: 140px;
 
   @media (max-width: 768px) {
-    min-width: 100px;
+    min-width: 0;
   }
 }
 
@@ -37,11 +41,15 @@
   flex: 1;
 
   @media (max-width: 1200px) {
-    flex: 0 0 80px;
+    flex: 0 0 62px;
   }
 
   @media (max-width: 480px) {
-    flex-basis: 60px;
+    flex-basis: 52px;
+
+    &.statsF1Points {
+      flex-basis: 40px;
+    }
   }
 }
 
@@ -49,7 +57,11 @@
   flex: 1;
 
   @media (max-width: 1200px) {
-    flex: 0 0 80px;
+    flex: 0 0 62px;
+  }
+
+  @media (max-width: 768px) {
+    flex-basis: 62px;
   }
 
   @media (max-width: 480px) {
