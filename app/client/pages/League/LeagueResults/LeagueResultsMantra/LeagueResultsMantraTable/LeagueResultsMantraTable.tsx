@@ -86,6 +86,7 @@ const LeagueResultsMantraTable = ({
 
             return <>{position}</>;
           },
+          noWrap: true,
           className: styles.position,
           dataClassName: (item) =>
             cn(styles.position, {
@@ -127,6 +128,7 @@ const LeagueResultsMantraTable = ({
               <span className={styles.shortTitle}>{t("table.games_short")}</span>
             </>
           ),
+          noWrap: true,
           align: "right",
           className: styles.matchesPlayed,
         },
@@ -138,6 +140,7 @@ const LeagueResultsMantraTable = ({
               <span className={styles.shortTitle}>{t("table.wins_short")}</span>
             </>
           ),
+          noWrap: true,
           align: "right",
           className: styles.matchesWins,
           sorter: {
@@ -153,6 +156,7 @@ const LeagueResultsMantraTable = ({
               <span className={styles.shortTitle}>{t("table.draws_short")}</span>
             </>
           ),
+          noWrap: true,
           align: "right",
           className: styles.matchesDraws,
           sorter: {
@@ -167,6 +171,7 @@ const LeagueResultsMantraTable = ({
               <span className={styles.shortTitle}>{t("table.loses_short")}</span>
             </>
           ),
+          noWrap: true,
           align: "right",
           className: styles.matchesLoses,
           sorter: {
@@ -176,6 +181,7 @@ const LeagueResultsMantraTable = ({
         {
           dataKey: "scored_goals",
           title: t("table.gf"),
+          noWrap: true,
           align: "right",
           className: styles.goals,
           sorter: {
@@ -186,6 +192,7 @@ const LeagueResultsMantraTable = ({
         {
           dataKey: "missed_goals",
           title: t("table.ga"),
+          noWrap: true,
           align: "right",
           className: styles.goals,
           sorter: {
@@ -195,6 +202,7 @@ const LeagueResultsMantraTable = ({
         {
           dataKey: "goals_difference",
           title: t("table.gd"),
+          noWrap: true,
           align: "right",
           className: styles.goals,
           sorter: {
@@ -209,6 +217,7 @@ const LeagueResultsMantraTable = ({
               <span className={styles.shortTitle}>{t("table.points_short")}</span>
             </>
           ),
+          noWrap: true,
           align: "right",
           className: styles.points,
           dataClassName: styles.pointsData,
@@ -220,6 +229,7 @@ const LeagueResultsMantraTable = ({
         {
           dataKey: "total_score",
           title: t("table.ts"),
+          noWrap: true,
           align: "right",
           className: styles.totalScore,
           sorter: {

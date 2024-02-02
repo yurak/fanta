@@ -3,6 +3,7 @@
   align-items: center;
   font-family: "Nunito ExtraBold";
   color: #181715;
+  gap: 1em;
 
   &:hover {
     color: #181715;
@@ -18,57 +19,13 @@
 }
 
 .teamNameImg {
-  width: 32px;
-  height: 32px;
-  flex: 0 0 32px;
-  margin-right: 28px;
-
-  @media (max-width: 991px) {
-    width: 24px;
-    height: 24px;
-    flex: 0 0 24px;
-    margin-right: 16px;
-  }
-
-  @media (max-width: 480px) {
-    width: 18px;
-    height: 18px;
-    flex: 0 0 18px;
-    margin-right: 12px;
-  }
+  font-size: 2em;
+  width: 1em;
+  height: 1em;
+  flex: 0 0 1em;
 
   img {
     width: 100%;
     height: 100%;
-  }
-}
-
-.teamNameSkeleton {
-  display: flex;
-  align-items: center;
-  gap: 28px;
-
-  @media (max-width: 991px) {
-    gap: 16px;
-  }
-
-  @media (max-width: 480px) {
-    gap: 12px;
-  }
-}
-
-.teamNameSkeletonName {
-  flex: 1;
-}
-
-.teamNameSkeletonImage {
-  height: 26px;
-  width: 32px;
-  margin-top: 3px;
-  margin-bottom: 3px;
-
-  @media (max-width: 768px) {
-    width: 24px;
-    height: 18px;
   }
 }

@@ -15,9 +15,9 @@ const TeamName = ({ team }: { team: ITeam }) => {
 
 export const TeamNameSkeleton = () => {
   return (
-    <span className={styles.teamNameSkeleton}>
-      <Skeleton containerClassName={styles.teamNameSkeletonImage} />
-      <Skeleton containerClassName={styles.teamNameSkeletonName} />
+    <span className={styles.teamName}>
+      <Skeleton containerClassName={styles.teamNameImg} />
+      <Skeleton containerClassName={styles.teamNameName} />
     </span>
   );
 };
