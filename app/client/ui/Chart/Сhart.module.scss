@@ -1,6 +1,14 @@
+.chart {
+  overflow: auto;
+}
+
 .canvas {
   width: 100% !important;
   height: 100% !important;
+}
+
+.canvasWrapper {
+  height: 100%;
 }
 
 .skeletonContainer,

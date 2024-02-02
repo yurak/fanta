@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import cn from "classnames";
 import {
   ChartData,
   ChartTypeRegistry,
@@ -36,6 +37,7 @@ interface IChartProps<
   data: ChartData<TType, TData, TLabel>,
   type: ChartType,
   plugins?: _DeepPartialObject<PluginOptionsByType<keyof ChartTypeRegistry>> | undefined,
+  canvasClassName?: string,
 }
 
 const Chart = <
@@ -46,6 +48,7 @@ const Chart = <
   data,
   type,
   plugins,
+  canvasClassName,
 }: IChartProps<TType, TData, TLabel>) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const chart = useRef<ChartJS<keyof ChartTypeRegistry, TData, TLabel>>();
@@ -81,7 +84,11 @@ const Chart = <
     };
   }, [data]);
 
-  return <canvas className={styles.canvas} ref={canvasRef} />;
+  return (
+    <div className={cn(styles.canvasWrapper, canvasClassName)}>
+      <canvas className={styles.canvas} ref={canvasRef} />
+    </div>
+  );
 };
 
 interface IChartContainerProps<
@@ -103,7 +110,7 @@ const ChartContainer = <
   ...restProps
 }: IChartContainerProps<TType, TData, TLabel>) => {
   return (
-    <div className={className}>
+    <div className={cn(styles.chart, className)}>
       {isLoading ? (
         <Skeleton containerClassName={styles.skeletonContainer} className={styles.skeleton} />
       ) : (

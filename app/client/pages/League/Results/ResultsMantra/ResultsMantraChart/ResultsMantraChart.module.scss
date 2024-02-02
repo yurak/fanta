@@ -1,3 +1,11 @@
-.canvas {
+.chart {
   height: 450px;
+
+  @media (max-width: 768px) {
+    height: 300px;
+  }
+}
+
+.canvas {
+  min-width: calc(var(--item-count) * 25px);
 }

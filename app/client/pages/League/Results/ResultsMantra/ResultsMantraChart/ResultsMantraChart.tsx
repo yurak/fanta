@@ -44,17 +44,26 @@ const LeagueResultsMantraChart = ({
   );
 
   return (
-    <Chart
-      type="line"
-      isLoading={isLoading}
-      data={chartData}
-      className={styles.canvas}
-      plugins={{
-        tooltip: {
-          itemSort: (a, b) => Number(a.formattedValue) - Number(b.formattedValue),
-        },
-      }}
-    />
+    <div
+      style={
+        {
+          "--item-count": historyItems,
+        } as React.CSSProperties
+      }
+    >
+      <Chart
+        type="line"
+        isLoading={isLoading}
+        data={chartData}
+        className={styles.chart}
+        canvasClassName={styles.canvas}
+        plugins={{
+          tooltip: {
+            itemSort: (a, b) => Number(a.formattedValue) - Number(b.formattedValue),
+          },
+        }}
+      />
+    </div>
   );
 };
 
