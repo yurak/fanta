@@ -371,8 +371,8 @@
             } else {
               $('#player-bid-' + slotId).attr("value", playerId);
               $('#avatar-' + slotId).attr("data", data.avatar_path);
-              $('#kit-' + slotId).attr("data", data.kit_path);
-              $('#club-' + slotId).attr("data", data.club_logo);
+              $('#kit-' + slotId).attr("data", data.club.kit_path);
+              $('#club-' + slotId).attr("data", data.club.logo_path);
               $('#first-name-' + slotId).text(data.first_name || ' ');
               $('#last-name-' + slotId).text(data.name);
 
@@ -386,8 +386,8 @@
 
               positionsContainer.children(".algo-position").remove();
               positionsContainer.children(".player-position").remove();
-              $('<div/>',{ class: "algo-position algo-position-" + data.position_arr.join('/') }).appendTo(positionsContainer);
-              data.position_arr.forEach((positionName, index) => {
+              $('<div/>',{ class: "algo-position algo-position-" + data.position_ital_arr.join('/') }).appendTo(positionsContainer);
+              data.position_ital_arr.forEach((positionName, index) => {
                 let posName = data.position_classic_arr[index];
                 if (italPosNaming) { posName = positionName; }
 
@@ -521,7 +521,7 @@
         if (basicAuction) { minPrice = data.stats_price }
 
         let positionsContainer = '<div class="player-positions-block">';
-        data.position_arr.forEach((positionName, index) => {
+        data.position_ital_arr.forEach((positionName, index) => {
           let posName = data.position_classic_arr[index];
           if (italPosNaming) { posName = positionName; }
 
@@ -553,7 +553,7 @@
                   '</object>' +
                 '</div>' +
                 '<div class="player-show-kit">' +
-                  '<object data=' + data.kit_path + ' type="image/png">' +
+                  '<object data=' + data.club.kit_path + ' type="image/png">' +
                   '</object>' +
                 '</div>' +
               '</div>' +
@@ -572,7 +572,7 @@
                 positionsContainer +
               '</div>' +
               '<div class="ab-player-club">' +
-                '<object data=' + data.club_logo + ' type="image/png">' +
+                '<object data=' + data.club.logo_path + ' type="image/png">' +
                 '</object>' +
               '</div>' +
               '<div class="ab-player-status">' +
