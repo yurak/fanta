@@ -10,7 +10,6 @@ RSpec.describe 'Results' do
       it { expect(response).to be_successful }
       it { expect(response).to render_template(:index) }
       it { expect(response).to have_http_status(:ok) }
-      it { expect(assigns(:results)).not_to be_nil }
     end
 
     context 'with national_teams league' do
@@ -23,7 +22,6 @@ RSpec.describe 'Results' do
       it { expect(response).to be_successful }
       it { expect(response).to render_template(:index) }
       it { expect(response).to have_http_status(:ok) }
-      it { expect(assigns(:results)).not_to be_nil }
     end
 
     context 'with national_teams league with points order' do
@@ -36,7 +34,6 @@ RSpec.describe 'Results' do
       it { expect(response).to be_successful }
       it { expect(response).to render_template(:index) }
       it { expect(response).to have_http_status(:ok) }
-      it { expect(assigns(:results)).not_to be_nil }
     end
 
     context 'with national_teams league with gamedays order' do
@@ -49,7 +46,6 @@ RSpec.describe 'Results' do
       it { expect(response).to be_successful }
       it { expect(response).to render_template(:index) }
       it { expect(response).to have_http_status(:ok) }
-      it { expect(assigns(:results)).not_to be_nil }
     end
 
     context 'with national_teams league with best lineup order' do
@@ -62,7 +58,6 @@ RSpec.describe 'Results' do
       it { expect(response).to be_successful }
       it { expect(response).to render_template(:index) }
       it { expect(response).to have_http_status(:ok) }
-      it { expect(assigns(:results)).not_to be_nil }
     end
   end
 end

@@ -57,7 +57,7 @@ RSpec.describe Team do
   describe '#logo_path' do
     context 'when logo does not exist' do
       it 'returns default path' do
-        expect(team.logo_path).to eq('default_logo.png')
+        expect(team.logo_path).to eq(ActionController::Base.helpers.asset_path('default_logo.png'))
       end
     end
 
