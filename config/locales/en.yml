@@ -341,6 +341,7 @@ en:
     title: "%{tournament} Round #%{number} Best Players"
   table:
     title: "Table"
+    division: 'Division'
     trend_title: "Leaders trend"
     team: "Team"
     games: "Games"

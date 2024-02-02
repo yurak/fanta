@@ -875,6 +875,7 @@
     "table": {
       "best_lineup": "Best lineup",
       "best_lineup_short": "Best",
+      "division": "Division",
       "draws": "Draws",
       "draws_short": "D",
       "f1_points": "F1 points",
@@ -1988,6 +1989,7 @@
     "table": {
       "best_lineup": "Найкращий склад",
       "best_lineup_short": "НС",
+      "division": "Дивізіон",
       "draws": "Н",
       "draws_short": "Н",
       "f1_points": "Очки Ф1",

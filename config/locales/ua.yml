@@ -364,6 +364,7 @@ ua:
     title: "Найкращі Гравці %{tournament} Раунд #%{number}"
   table:
     title: "Таблиця"
+    division: "Дивізіон"
     trend_title: "Тенденція лідерів"
     team: "Команда"
     games: "Матчі"
