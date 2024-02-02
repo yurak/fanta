@@ -37,7 +37,7 @@ class Team < ApplicationRecord
   end
 
   def logo_path
-    logo_url.presence || 'default_logo.png'
+    logo_url.presence || ActionController::Base.helpers.asset_path('default_logo.png')
   end
 
   def next_round
