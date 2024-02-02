@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-// import { withBootstrap } from "../../bootstrap/withBootstrap";
 import { useTournaments } from "../../api/query/useTournaments";
 import { useLeagues } from "../../api/query/useLeagues";
 import Search from "../../ui/Search";
