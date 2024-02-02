@@ -19,11 +19,15 @@
     transform: translateY(-50%);
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 991px) {
     padding: 5px 8px;
     font-size: 10px;
     line-height: 14px;
     letter-spacing: 0.05em;
+  }
+
+  @media (max-width: 480px) {
+    padding: 5px 4px;
   }
 }
 

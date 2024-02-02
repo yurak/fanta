@@ -15,10 +15,15 @@
     height: 1px;
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 991px) {
     padding: 8px;
     font-size: 14px;
     line-height: 16px;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 12px;
+    padding: 4px;
   }
 }
 

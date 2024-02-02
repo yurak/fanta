@@ -27,14 +27,16 @@
     background-color: #fcc5cb;
   }
 
-  @media (max-width: 768px) {
-    flex: 0 0 12px;
-    padding: 0;
-    font-size: 0;
-    color: transparent;
+  @media (max-width: 991px) {
+    flex-basis: 24px;
+    margin-left: 12px;
 
-    &:after {
-      display: none;
+    &.isPromotion {
+      background-color: transparent;
+    }
+
+    &.isRelegation {
+      background-color: transparent;
     }
 
     &::before {
@@ -44,26 +46,43 @@
       width: 4px;
       border-top-right-radius: 4px;
       border-bottom-right-radius: 4px;
-      background-color: currentColor;
-      left: 0;
+      background-color: transparent;
+      left: -12px;
       top: 0;
     }
 
     &.isPromotion {
-      color: #4ead57;
-      background-color: #fff;
+      &:before {
+        background-color: #4ead57;
+      }
     }
 
     &.isRelegation {
-      color: #db0a23;
-      background-color: #fff;
+      &:before {
+        background-color: #db0a23;
+      }
     }
+  }
+
+  @media (max-width: 480px) {
+    flex-basis: 16px;
+  }
+
+  @media (max-width: 350px) {
+    padding: 0;
+    flex-basis: 0;
+    font-size: 0;
+    color: transparent;
   }
 }
 
 .team {
   flex: 1 0 0;
   min-width: 140px;
+
+  @media (max-width: 991px) {
+    min-width: 0;
+  }
 }
 
 .matchesPlayed {
@@ -73,8 +92,12 @@
     flex-basis: 68px;
   }
 
-  @media (max-width: 1200px) {
-    flex: 0 0 44px;
+  @media (max-width: 991px) {
+    flex-basis: 34px;
+  }
+
+  @media (max-width: 768px) {
+    display: none;
   }
 }
 
@@ -86,7 +109,15 @@
   }
 
   @media (max-width: 1200px) {
-    flex: 0 0 44px;
+    flex-basis: 44px;
+  }
+
+  @media (max-width: 991px) {
+    flex-basis: 34px;
+  }
+
+  @media (max-width: 480px) {
+    flex-basis: 24px;
   }
 }
 
@@ -98,7 +129,15 @@
   }
 
   @media (max-width: 1200px) {
-    flex: 0 0 44px;
+    flex-basis: 44px;
+  }
+
+  @media (max-width: 991px) {
+    flex-basis: 34px;
+  }
+
+  @media (max-width: 480px) {
+    flex-basis: 24px;
   }
 }
 
@@ -110,7 +149,15 @@
   }
 
   @media (max-width: 1200px) {
-    flex: 0 0 44px;
+    flex-basis: 44px;
+  }
+
+  @media (max-width: 991px) {
+    flex-basis: 34px;
+  }
+
+  @media (max-width: 480px) {
+    flex-basis: 24px;
   }
 }
 
@@ -122,7 +169,15 @@
   }
 
   @media (max-width: 1200px) {
-    flex: 0 0 44px;
+    flex-basis: 44px;
+  }
+
+  @media (max-width: 991px) {
+    flex-basis: 34px;
+  }
+
+  @media (max-width: 480px) {
+    flex-basis: 24px;
   }
 }
 
@@ -134,7 +189,15 @@
   }
 
   @media (max-width: 1200px) {
-    flex: 0 0 44px;
+    flex-basis: 44px;
+  }
+
+  @media (max-width: 991px) {
+    flex-basis: 34px;
+  }
+
+  @media (max-width: 480px) {
+    flex-basis: 24px;
   }
 }
 
@@ -143,6 +206,14 @@
 
   @media (max-width: 1600px) {
     flex-basis: 76px;
+  }
+
+  @media (max-width: 991px) {
+    flex-basis: 62px;
+  }
+
+  @media (max-width: 480px) {
+    flex-basis: 48px;
   }
 }
 
@@ -215,7 +286,7 @@
   flex: 0 0 24px;
   padding: 6px;
 
-  @media (max-width: 768px) {
+  @media (max-width: 991px) {
     display: none;
   }
 }
@@ -245,7 +316,7 @@
 }
 
 .body {
-  @media (max-width: 768px) {
+  @media (max-width: 991px) {
     margin-left: -12px;
     width: calc(100% + 12px);
     max-width: calc(100% + 12px);
