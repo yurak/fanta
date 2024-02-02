@@ -86,7 +86,6 @@ const LeagueResultsMantraTable = ({
 
             return <>{position}</>;
           },
-          sticky: true,
           className: styles.position,
           dataClassName: (item) =>
             cn(styles.position, {
@@ -112,23 +111,13 @@ const LeagueResultsMantraTable = ({
         },
         {
           dataKey: "team",
-          key: "mobileTeamLogo",
-          className: styles.teamLogoCell,
-          headClassName: styles.teamLogoHeadCell,
-          sticky: true,
-          render: ({ team }) => <TeamName team={team} hideName />,
-          skeleton: <TeamNameSkeleton hideName />,
-        },
-        {
-          dataKey: "team",
           title: t("table.team"),
           className: styles.team,
-          headClassName: styles.teamHeadCell,
           sorter: {
             compare: sorters.string("teamName"),
           },
-          render: ({ team }) => <TeamName team={team} hideLogoOnMobile />,
-          skeleton: <TeamNameSkeleton hideLogoOnMobile />,
+          render: ({ team }) => <TeamName team={team} />,
+          skeleton: <TeamNameSkeleton />,
         },
         {
           dataKey: "matches_played",

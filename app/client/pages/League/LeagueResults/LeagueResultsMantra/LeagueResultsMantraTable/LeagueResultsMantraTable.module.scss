@@ -27,10 +27,6 @@
     background-color: #fcc5cb;
   }
 
-  @media (min-width: 769px) {
-    position: static;
-  }
-
   @media (max-width: 768px) {
     flex: 0 0 12px;
     padding: 0;
@@ -73,27 +69,6 @@
     flex: 0 0 100px;
     min-width: 100px;
   }
-}
-
-.teamHeadCell {
-  @media (max-width: 768px) {
-    flex: 0 0 140px;
-  }
-}
-
-.teamLogoCell {
-  display: none;
-
-  @media (max-width: 768px) {
-    flex: 0 0 40px;
-    display: flex;
-    left: 12px;
-    border-right: 1px solid var(--border-color);
-  }
-}
-
-.teamLogoHeadCell {
-  display: none;
 }
 
 .matchesPlayed {
