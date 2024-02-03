@@ -10,7 +10,7 @@ every :hour do
 end
 
 # Send notifications by Telegram bot before auction sales deadline
-every '5 11,16 * * *' do
+every '5 10,14 * * *' do
   rake 'tg:send_auction_sales_deadline'
 end
 
