@@ -12,21 +12,31 @@
 }
 
 .titleIcon {
-  margin-right: 16px;
+  margin-right: 0.75em;
 
   svg {
     vertical-align: top;
+    width: 1em;
+    height: 1em;
   }
 }
 
 .h3 {
   font-size: 32px;
   line-height: 1;
+
+  @media (max-width: 768px) {
+    font-size: 24px;
+  }
 }
 
 .h4 {
   font-size: 24px;
   line-height: 1.33;
+
+  @media (max-width: 768px) {
+    font-size: 18px;
+  }
 }
 
 .description {
