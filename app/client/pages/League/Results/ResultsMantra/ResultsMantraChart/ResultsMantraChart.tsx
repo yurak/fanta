@@ -1,7 +1,10 @@
 import { useMemo } from "react";
 import { ChartData } from "chart.js";
+import { useTranslation } from "react-i18next";
 import Chart, { DEFAULT_COLORS } from "../../../../../ui/Chart";
 import { ILeagueResults } from "../../../../../interfaces/LeagueResults";
+import Heading from "../../../../../components/Heading";
+import ChartIndicator from "../../../../../assets/images/chartIndicator.svg";
 import styles from "./ResultsMantraChart.module.scss";
 
 type ChartDataType = ChartData<"line", (number | null)[], React.ReactNode>;
@@ -13,6 +16,8 @@ const LeagueResultsMantraChart = ({
   leaguesResults: ILeagueResults[],
   isLoading: boolean,
 }) => {
+  const { t } = useTranslation();
+
   const historyItems = leaguesResults[0]?.history.length ?? 0;
 
   const labels = useMemo<ChartDataType["labels"]>(
@@ -51,6 +56,7 @@ const LeagueResultsMantraChart = ({
         } as React.CSSProperties
       }
     >
+      <Heading tag="h4" title={t("table.trend_title")} titleIcon={<ChartIndicator />} />
       <Chart
         type="line"
         isLoading={isLoading}

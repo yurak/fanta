@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 import Link from "../../../ui/Link";
 import { useLeague } from "../../../api/query/useLeague";
-import PageHeading from "../../../components/Heading";
+import Heading from "../../../components/Heading";
 import PageLayout from "../../../layouts/PageLayout";
 import ResultsMantra from "./ResultsMantra";
 import ResultsFanta from "./ResultsFanta";
@@ -18,7 +18,7 @@ const ResultsPage = () => {
   return (
     <PageLayout withSidebar>
       <div className={styles.heading}>
-        <PageHeading title={t("table.title")} noSpace />
+        <Heading title={t("table.title")} noSpace />
         {league.data?.mantra_format && league.data?.division && (
           <Link to={`/tournaments/${league.data?.tournament_id}/divisions`}>
             {t("table.division")} {league.data?.division}
