@@ -1,0 +1,31 @@
+.legends {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+}
+
+.legendsItem {
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  gap: 6px;
+  color: #212529;
+  cursor: pointer;
+}
+
+.legendsItemPoint {
+  display: inline-flex;
+  flex-shrink: 0;
+  width: 40px;
+  height: 14px;
+  background-color: var(--color);
+
+  @media (max-width: 991px) {
+    width: 20px;
+  }
+}
+
+.isNotActive {
+  text-decoration: line-through;
+}

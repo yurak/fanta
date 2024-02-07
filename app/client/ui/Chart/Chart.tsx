@@ -10,6 +10,7 @@ import {
   PluginOptionsByType,
 } from "chart.js";
 import { _DeepPartialObject } from "chart.js/dist/types/utils";
+import ChartLegend, { useChartLegend } from "./ChartLegend";
 import Skeleton from "react-loading-skeleton";
 import styles from "./Сhart.module.scss";
 
@@ -37,6 +38,7 @@ interface IChartProps<
   data: ChartData<TType, TData, TLabel>,
   type: ChartType,
   plugins?: _DeepPartialObject<PluginOptionsByType<keyof ChartTypeRegistry>> | undefined,
+  className?: string,
   canvasClassName?: string,
 }
 
@@ -48,6 +50,7 @@ const Chart = <
   data,
   type,
   plugins,
+  className,
   canvasClassName,
 }: IChartProps<TType, TData, TLabel>) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -62,7 +65,12 @@ const Chart = <
       type,
       data,
       options: {
-        plugins,
+        plugins: {
+          ...(plugins ?? {}),
+          legend: {
+            display: false,
+          },
+        },
         responsive: true,
         maintainAspectRatio: false,
         scales: {
@@ -84,10 +92,19 @@ const Chart = <
     };
   }, [data]);
 
+  const legend = useChartLegend(data.datasets, chart.current);
+
   return (
-    <div className={cn(styles.canvasWrapper, canvasClassName)}>
-      <canvas className={styles.canvas} ref={canvasRef} />
-    </div>
+    <>
+      <div className={styles.legend}>
+        <ChartLegend {...legend} />
+      </div>
+      <div className={cn(styles.chart, className)}>
+        <div className={cn(styles.canvasWrapper, canvasClassName)}>
+          <canvas className={styles.canvas} ref={canvasRef} />
+        </div>
+      </div>
+    </>
   );
 };
 
@@ -97,7 +114,6 @@ interface IChartContainerProps<
   TLabel = unknown
 > extends IChartProps<TType, TData, TLabel> {
   isLoading?: boolean,
-  className?: string,
 }
 
 const ChartContainer = <
@@ -105,14 +121,20 @@ const ChartContainer = <
   TData = DefaultDataPoint<TType>,
   TLabel = unknown
 >({
-  className,
   isLoading,
   ...restProps
 }: IChartContainerProps<TType, TData, TLabel>) => {
   return (
-    <div className={cn(styles.chart, className)}>
+    <div>
       {isLoading ? (
-        <Skeleton containerClassName={styles.skeletonContainer} className={styles.skeleton} />
+        <>
+          <div className={styles.legend}>
+            <Skeleton inline containerClassName={styles.skeletonLegend} count={4} />
+          </div>
+          <div className={restProps.className}>
+            <Skeleton containerClassName={styles.chartSkeleton} className={styles.chartSkeleton} />
+          </div>
+        </>
       ) : (
         <Chart {...restProps} />
       )}

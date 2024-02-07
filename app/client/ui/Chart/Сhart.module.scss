@@ -7,12 +7,22 @@
   height: 100% !important;
 }
 
+.legend {
+  margin-bottom: 8px;
+}
+
 .canvasWrapper {
   height: 100%;
 }
 
-.skeletonContainer,
-.skeleton {
+.chartSkeleton {
   display: block;
   height: 100%;
+}
+
+.skeletonLegend {
+  display: flex;
+  font-size: 18px;
+  line-height: 1;
+  gap: 8px;
 }
