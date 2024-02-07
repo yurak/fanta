@@ -8,6 +8,7 @@
 .legendsItem {
   display: flex;
   align-items: center;
+  user-select: none;
   font-size: 12px;
   gap: 6px;
   color: #212529;

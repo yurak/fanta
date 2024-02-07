@@ -1,13 +1,25 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { ChartData } from "chart.js";
 import { useTranslation } from "react-i18next";
+import { sorters } from "../../../../../helpers/sorters";
 import Chart, { DEFAULT_COLORS } from "../../../../../ui/Chart";
 import { ILeagueResults } from "../../../../../interfaces/LeagueResults";
 import Heading from "../../../../../components/Heading";
 import ChartIndicator from "../../../../../assets/images/chartIndicator.svg";
+import Select from "../../../../../ui/Select";
 import styles from "./ResultsMantraChart.module.scss";
 
 type ChartDataType = ChartData<"line", (number | null)[], React.ReactNode>;
+
+interface ISourceOption {
+  label: string,
+  key: string,
+}
+
+const dataSourceOptions: ISourceOption[] = [
+  { label: "Position", key: "pos" },
+  { label: "Points", key: "p" },
+];
 
 const LeagueResultsMantraChart = ({
   leaguesResults,
@@ -16,6 +28,7 @@ const LeagueResultsMantraChart = ({
   leaguesResults: ILeagueResults[],
   isLoading: boolean,
 }) => {
+  const [source, setSource] = useState<ISourceOption>(dataSourceOptions[0] as ISourceOption);
   const { t } = useTranslation();
 
   const historyItems = leaguesResults[0]?.history.length ?? 0;
@@ -33,12 +46,12 @@ const LeagueResultsMantraChart = ({
 
         return {
           label: teamResult.team?.human_name ?? teamResult.id.toString(),
-          data: history.map((teamFormItem) => teamFormItem?.pos ?? null),
+          data: history.map((teamFormItem) => teamFormItem?.[source.key] ?? null),
           backgroundColor: DEFAULT_COLORS[index],
           borderColor: DEFAULT_COLORS[index],
         };
       });
-  }, [leaguesResults]);
+  }, [leaguesResults, source]);
 
   const chartData = useMemo<ChartDataType>(
     () => ({
@@ -48,6 +61,8 @@ const LeagueResultsMantraChart = ({
     [datasets, labels]
   );
 
+  const isReverse = source.key === "pos";
+
   return (
     <div
       style={
@@ -56,7 +71,15 @@ const LeagueResultsMantraChart = ({
         } as React.CSSProperties
       }
     >
-      <Heading tag="h4" title={t("table.trend_title")} titleIcon={<ChartIndicator />} />
+      <div className={styles.heading}>
+        <Heading tag="h4" title={t("table.trend_title")} titleIcon={<ChartIndicator />} noSpace />
+        <Select
+          options={dataSourceOptions}
+          onChange={(value) => setSource(value as ISourceOption)}
+          value={source}
+          getOptionValue={(option) => option.key}
+        />
+      </div>
       <Chart
         type="line"
         isLoading={isLoading}
@@ -65,8 +88,12 @@ const LeagueResultsMantraChart = ({
         canvasClassName={styles.canvas}
         plugins={{
           tooltip: {
-            itemSort: (a, b) => Number(a.formattedValue) - Number(b.formattedValue),
+            itemSort: sorters.numbers("formattedValue", true, isReverse),
           },
+        }}
+        scales={{
+          y: { reverse: isReverse, ticks: { precision: 0 } },
+          x: { ticks: { maxRotation: 0, autoSkipPadding: 20 } },
         }}
       />
     </div>

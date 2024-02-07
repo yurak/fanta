@@ -8,8 +8,9 @@ import {
   DefaultDataPoint,
   registerables,
   PluginOptionsByType,
+  ScaleOptionsByType,
 } from "chart.js";
-import { _DeepPartialObject } from "chart.js/dist/types/utils";
+import { DeepPartial } from "chart.js/dist/types/utils";
 import ChartLegend, { useChartLegend } from "./ChartLegend";
 import Skeleton from "react-loading-skeleton";
 import styles from "./Сhart.module.scss";
@@ -37,7 +38,10 @@ interface IChartProps<
 > {
   data: ChartData<TType, TData, TLabel>,
   type: ChartType,
-  plugins?: _DeepPartialObject<PluginOptionsByType<keyof ChartTypeRegistry>> | undefined,
+  plugins?: DeepPartial<PluginOptionsByType<keyof ChartTypeRegistry>> | undefined,
+  scales?: DeepPartial<{
+    [key: string]: ScaleOptionsByType<ChartTypeRegistry[TType]["scales"]>,
+  }>,
   className?: string,
   canvasClassName?: string,
 }
@@ -50,6 +54,7 @@ const Chart = <
   data,
   type,
   plugins,
+  scales,
   className,
   canvasClassName,
 }: IChartProps<TType, TData, TLabel>) => {
@@ -61,7 +66,7 @@ const Chart = <
       return;
     }
 
-    chart.current = new ChartJS(canvasRef.current, {
+    chart.current = new ChartJS<keyof ChartTypeRegistry, TData, TLabel>(canvasRef.current, {
       type,
       data,
       options: {
@@ -73,9 +78,7 @@ const Chart = <
         },
         responsive: true,
         maintainAspectRatio: false,
-        scales: {
-          y: { reverse: true, ticks: { precision: 0 } },
-        },
+        scales,
         transitions: {
           show: { animations: { x: { from: 0 }, y: { from: 0 } } },
           hide: { animations: { x: { to: 0 }, y: { to: 0 } } },

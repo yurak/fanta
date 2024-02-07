@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   ChartTypeRegistry,
   Chart as ChartJS,
@@ -15,14 +15,21 @@ export const useChartLegend = <
 >(
   datasets: ChartDataset<TType, TData>[],
   chartInstance?: ChartJS<keyof ChartTypeRegistry, TData, TLabel>
-): IChartLegendProps => {
+) => {
   const [hiddenDatasets, setHiddenDatasets] = useState<number[]>([]);
+
+  useEffect(() => {
+    setHiddenDatasets([]);
+  }, [datasets]);
 
   const onClick = (index: number) => {
     const isHidden = hiddenDatasets.includes(index);
 
-    chartInstance?.setDatasetVisibility(index, isHidden);
-    chartInstance?.update();
+    if (isHidden) {
+      chartInstance?.show(index);
+    } else {
+      chartInstance?.hide(index);
+    }
 
     setHiddenDatasets((hiddenDatasets) => {
       if (hiddenDatasets.includes(index)) {
@@ -43,6 +50,7 @@ export const useChartLegend = <
   }, [datasets, hiddenDatasets]);
 
   return {
+    hiddenDatasets,
     onClick,
     legends,
   };
