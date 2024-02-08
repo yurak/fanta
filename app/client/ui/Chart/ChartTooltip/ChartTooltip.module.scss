@@ -1,0 +1,20 @@
+.tooltip {
+  position: absolute;
+  pointer-events: none;
+  padding: 4px;
+}
+
+.tooltipContainer {
+  background-color: #181715;
+  color: #fff;
+  border-radius: 4px;
+  padding: 8px;
+  box-shadow: 1px 2px 5px 0px rbga(24, 23, 21, 0.2);
+}
+
+.tooltipTitle {
+  text-align: center;
+  font-size: 18px;
+  line-height: 24px;
+  font-family: "Nunito ExtraBold";
+}

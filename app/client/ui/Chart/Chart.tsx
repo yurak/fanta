@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import cn from "classnames";
 import {
   ChartData,
@@ -11,8 +11,9 @@ import {
   ScaleOptionsByType,
 } from "chart.js";
 import { DeepPartial } from "chart.js/dist/types/utils";
-import ChartLegend, { useChartLegend } from "./ChartLegend";
 import Skeleton from "react-loading-skeleton";
+import ChartLegend, { useChartLegend } from "./ChartLegend";
+import ChartTooltip, { ITooltip } from "./ChartTooltip";
 import styles from "./Сhart.module.scss";
 
 ChartJS.register(...registerables);
@@ -60,6 +61,8 @@ const Chart = <
 }: IChartProps<TType, TData, TLabel>) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const chart = useRef<ChartJS<keyof ChartTypeRegistry, TData, TLabel>>();
+  const legend = useChartLegend(data.datasets, chart.current);
+  const [tooltip, setTooltip] = useState<ITooltip | null>(null);
 
   useEffect(() => {
     if (!canvasRef.current) {
@@ -74,6 +77,24 @@ const Chart = <
           ...(plugins ?? {}),
           legend: {
             display: false,
+          },
+          tooltip: {
+            enabled: false,
+            external: ({ chart, tooltip }) => {
+              if (!tooltip.opacity) {
+                setTooltip(null);
+
+                return;
+              }
+
+              setTooltip({
+                left: tooltip.xAlign === "left" ? tooltip.x : undefined,
+                right:
+                  tooltip.xAlign === "right" ? chart.width - tooltip.x - tooltip.width : undefined,
+                bottom: chart.height - chart.chartArea.bottom,
+                title: tooltip.title,
+              });
+            },
           },
         },
         responsive: true,
@@ -95,8 +116,6 @@ const Chart = <
     };
   }, [data]);
 
-  const legend = useChartLegend(data.datasets, chart.current);
-
   return (
     <>
       <div className={styles.legend}>
@@ -104,6 +123,7 @@ const Chart = <
       </div>
       <div className={cn(styles.chart, className)}>
         <div className={cn(styles.canvasWrapper, canvasClassName)}>
+          <ChartTooltip tooltip={tooltip} />
           <canvas className={styles.canvas} ref={canvasRef} />
         </div>
       </div>
