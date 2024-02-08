@@ -1,4 +1,5 @@
 import cn from "classnames";
+import Chip from "../../Chip";
 import styles from "./ChartLegend.module.scss";
 
 export interface IProps {
@@ -14,23 +15,24 @@ export interface IProps {
 const ChartLegend = ({ legends, onClick }: IProps) => {
   return (
     <div className={styles.legends}>
-      {legends.map((legend) => (
-        <div
-          className={cn(styles.legendsItem, { [styles.isNotActive]: !legend.isActive })}
-          key={legend.label}
-          onClick={() => onClick(legend.index)}
-        >
-          <span
-            className={styles.legendsItemPoint}
-            style={
-              {
-                "--color": legend.color,
-              } as React.CSSProperties
-            }
-          />
-          <span>{legend.label}</span>
-        </div>
-      ))}
+      {legends.map((legend) => {
+        const disabled = !legend.isActive;
+
+        return (
+          <Chip key={legend.label} onClick={() => onClick(legend.index)} asDisabled={disabled}>
+            <span
+              className={cn(styles.legendsItem, { [styles.disabled]: disabled })}
+              style={
+                {
+                  "--color": legend.color,
+                } as React.CSSProperties
+              }
+            >
+              {legend.label}
+            </span>
+          </Chip>
+        );
+      })}
     </div>
   );
 };

@@ -8,7 +8,11 @@
 }
 
 .legend {
-  margin-bottom: 8px;
+  margin-bottom: 12px;
+
+  @media (max-width: 767px) {
+    margin-bottom: 8px;
+  }
 }
 
 .canvasWrapper {

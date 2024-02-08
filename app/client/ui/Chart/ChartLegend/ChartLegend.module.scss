@@ -2,35 +2,28 @@
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  justify-content: center;
 }
 
 .legendsItem {
-  display: flex;
-  align-items: center;
   user-select: none;
-  font-size: 12px;
-  gap: 6px;
-  color: #212529;
-  cursor: pointer;
-}
+  padding-left: 22px;
+  position: relative;
 
-.legendsItemPoint {
-  display: inline-flex;
-  flex-shrink: 0;
-  width: 40px;
-  height: 14px;
-  background-color: var(--color);
-
-  @media (max-width: 991px) {
-    width: 20px;
+  &::before {
+    position: absolute;
+    content: "";
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background-color: var(--color);
   }
 
-  @media (max-width: 767px) {
-    width: 14px;
+  &.disabled {
+    &::before {
+      opacity: 0.3;
+    }
   }
-}
-
-.isNotActive {
-  text-decoration: line-through;
 }
