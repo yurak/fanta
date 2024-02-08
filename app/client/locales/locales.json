@@ -875,6 +875,8 @@
     "table": {
       "best_lineup": "Best lineup",
       "best_lineup_short": "Best",
+      "by_points": "Points",
+      "by_position": "Position",
       "division": "Division",
       "draws": "Draws",
       "draws_short": "D",
@@ -1989,6 +1991,8 @@
     "table": {
       "best_lineup": "Найкращий склад",
       "best_lineup_short": "НС",
+      "by_points": "Очки",
+      "by_position": "Позиція",
       "division": "Дивізіон",
       "draws": "Н",
       "draws_short": "Н",

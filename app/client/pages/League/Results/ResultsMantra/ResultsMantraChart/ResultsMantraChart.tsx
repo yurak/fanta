@@ -16,11 +16,6 @@ interface ISourceOption {
   key: string,
 }
 
-const dataSourceOptions: ISourceOption[] = [
-  { label: "Position", key: "pos" },
-  { label: "Points", key: "p" },
-];
-
 const LeagueResultsMantraChart = ({
   leaguesResults,
   isLoading,
@@ -28,8 +23,17 @@ const LeagueResultsMantraChart = ({
   leaguesResults: ILeagueResults[],
   isLoading: boolean,
 }) => {
-  const [source, setSource] = useState<ISourceOption>(dataSourceOptions[0] as ISourceOption);
   const { t } = useTranslation();
+
+  const dataSourceOptions: ISourceOption[] = useMemo(
+    () => [
+      { label: t("table.by_position"), key: "pos" },
+      { label: t("table.by_points"), key: "p" },
+    ],
+    [t]
+  );
+
+  const [source, setSource] = useState<ISourceOption>(dataSourceOptions[0] as ISourceOption);
 
   const historyItems = leaguesResults[0]?.history.length ?? 0;
 

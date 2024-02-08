@@ -341,7 +341,7 @@ en:
     title: "%{tournament} Round #%{number} Best Players"
   table:
     title: "Table"
-    division: 'Division'
+    division: "Division"
     trend_title: "Leaders trend"
     team: "Team"
     games: "Games"
@@ -366,6 +366,8 @@ en:
     total_score_short: "TS"
     best_lineup: "Best lineup"
     best_lineup_short: "Best"
+    by_position: "Position"
+    by_points: "Points"
   teams:
     edit:
       title: "Edit team data"

@@ -389,6 +389,8 @@ ua:
     total_score_short: "ЗР"
     best_lineup: "Найкращий склад"
     best_lineup_short: "НС"
+    by_position: "Позиція"
+    by_points: "Очки"
   teams:
     edit:
       title: "Редагувати дані команди"
