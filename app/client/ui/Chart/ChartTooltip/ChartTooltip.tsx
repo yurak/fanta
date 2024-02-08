@@ -1,9 +1,10 @@
+import cn from "classnames";
 import { ChartType, TooltipItem } from "chart.js";
 import styles from "./ChartTooltip.module.scss";
 
 export interface ITooltip<TType extends ChartType = ChartType> {
-  left?: number,
-  right?: number,
+  leftAlign: boolean,
+  offset: number,
   bottom: number,
   title: string[],
   dataPoints: TooltipItem<TType>[],
@@ -18,10 +19,13 @@ const ChartTooltip = ({ tooltip }: IProps) => {
     return;
   }
 
-  const { left, right, bottom, title, dataPoints } = tooltip;
+  const { bottom, title, dataPoints, offset, leftAlign } = tooltip;
 
   return (
-    <div className={styles.tooltip} style={{ bottom, left, right }}>
+    <div
+      className={cn(styles.tooltip, { [styles.leftAlign]: leftAlign })}
+      style={{ bottom, "--tooltip-offset": offset } as React.CSSProperties}
+    >
       <div className={styles.tooltipContainer}>
         <div className={styles.tooltipTitle}>{title.join(" ")}</div>
         <div className={styles.points}>

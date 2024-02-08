@@ -3,9 +3,22 @@
   pointer-events: none;
   padding: 4px;
   max-width: 200px;
+  right: calc(1px * var(--tooltip-offset));
 
   @media (max-width: 767px) {
     max-width: 150px;
+    right: auto;
+    left: 15px;
+  }
+}
+
+.leftAlign {
+  right: auto;
+  left: calc(1px * var(--tooltip-offset));
+
+  @media (max-width: 767px) {
+    left: auto;
+    right: 0;
   }
 }
 

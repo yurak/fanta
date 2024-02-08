@@ -96,9 +96,9 @@ const Chart = <
               }
 
               setTooltip({
-                left: tooltip.xAlign === "left" ? tooltip.x : undefined,
-                right:
-                  tooltip.xAlign === "right" ? chart.width - tooltip.x - tooltip.width : undefined,
+                leftAlign: tooltip.xAlign === "left",
+                offset:
+                  tooltip.xAlign === "left" ? tooltip.x : chart.width - tooltip.x - tooltip.width,
                 bottom: chart.height - chart.chartArea.bottom,
                 title: tooltip.title,
                 dataPoints,
