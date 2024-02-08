@@ -52,8 +52,8 @@
             = t('lineups.conditions')
           .squad-rules
             %ul
-              %li= t('lineups.minimum')
-              %li= t('lineups.limit', limit: tour.max_country_players)
+              %li= t('lineups.min_limit', limit: tour.min_country_players)
+              %li= t('lineups.max_limit', limit: tour.max_country_players)
 
       .main-players
         #position-naming{ type: "hidden", value: "#{current_user.ital_pos_naming}"}
@@ -268,7 +268,7 @@
         const unique_countries = player_countries.filter((v, i, a) => a.indexOf(v) === i).filter(Boolean);
 
         if (unique_countries.length < "#{tour.national_teams_count}") {
-          alert("#{t('lineups.minimum')}");
+          alert("#{t('lineups.min_limit', limit: tour.min_country_players)}");
           return false;
         }
 
@@ -302,7 +302,7 @@
           const tour_clubs = "#{tour.tournament_round.tournament_matches.count * 2}";
 
           if (tour_clubs < 12 && unique_clubs.length < tour_clubs) {
-            alert("#{t('lineups.minimum')}");
+            alert("#{t('lineups.min_limit', limit: tour.min_country_players)}");
             return false;
           }
 
