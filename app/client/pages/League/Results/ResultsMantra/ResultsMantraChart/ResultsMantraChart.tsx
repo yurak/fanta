@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { ChartData } from "chart.js";
+import { ChartData, ScriptableLineSegmentContext } from "chart.js";
 import { useTranslation } from "react-i18next";
 import { sorters } from "../../../../../helpers/sorters";
 import Chart, { DEFAULT_COLORS } from "../../../../../ui/Chart";
@@ -39,6 +39,10 @@ const LeagueResultsMantraChart = ({
   );
 
   const datasets = useMemo<ChartDataType["datasets"]>(() => {
+    const skipped = (ctx: ScriptableLineSegmentContext, value: number[]) => {
+      return ctx.p0.skip || ctx.p1.skip ? value : undefined;
+    };
+
     return [...leaguesResults]
       .sort((teamA, teamB) => teamA.team.id - teamB.team.id)
       .map((teamResult, index): ChartDataType["datasets"][0] => {
@@ -54,6 +58,10 @@ const LeagueResultsMantraChart = ({
           pointHoverBorderColor: DEFAULT_COLORS[index],
           backgroundColor: DEFAULT_COLORS[index],
           borderColor: DEFAULT_COLORS[index],
+          segment: {
+            borderDash: (ctx) => skipped(ctx, [6, 6]),
+          },
+          spanGaps: true,
         };
       });
   }, [leaguesResults, source]);
