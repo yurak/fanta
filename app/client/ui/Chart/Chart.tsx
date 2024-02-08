@@ -62,7 +62,7 @@ const Chart = <
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const chart = useRef<ChartJS<keyof ChartTypeRegistry, TData, TLabel>>();
   const legend = useChartLegend(data.datasets, chart.current);
-  const [tooltip, setTooltip] = useState<ITooltip | null>(null);
+  const [tooltip, setTooltip] = useState<ITooltip<TType> | null>(null);
 
   useEffect(() => {
     if (!canvasRef.current) {
@@ -87,12 +87,21 @@ const Chart = <
                 return;
               }
 
+              let dataPoints = tooltip.dataPoints;
+
+              if (typeof plugins?.tooltip?.itemSort === "function") {
+                dataPoints = dataPoints.sort((a, b) =>
+                  plugins.tooltip!.itemSort!(a, b, chart.data)
+                );
+              }
+
               setTooltip({
                 left: tooltip.xAlign === "left" ? tooltip.x : undefined,
                 right:
                   tooltip.xAlign === "right" ? chart.width - tooltip.x - tooltip.width : undefined,
                 bottom: chart.height - chart.chartArea.bottom,
                 title: tooltip.title,
+                dataPoints,
               });
             },
           },

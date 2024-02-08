@@ -90,7 +90,6 @@ const LeagueResultsMantraChart = ({
         isLoading={isLoading}
         data={chartData}
         className={styles.chart}
-        canvasClassName={styles.canvas}
         plugins={{
           tooltip: {
             itemSort: sorters.numbers("formattedValue", true, isReverse),

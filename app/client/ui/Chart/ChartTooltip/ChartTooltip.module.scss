@@ -2,6 +2,11 @@
   position: absolute;
   pointer-events: none;
   padding: 4px;
+  max-width: 200px;
+
+  @media (max-width: 767px) {
+    max-width: 150px;
+  }
 }
 
 .tooltipContainer {
@@ -17,4 +22,49 @@
   font-size: 18px;
   line-height: 24px;
   font-family: "Nunito ExtraBold";
+  margin-bottom: 4px;
+
+  @media (max-width: 767px) {
+    font-size: 14px;
+    line-height: 20px;
+  }
+}
+
+.points {
+  font-size: 12px;
+  letter-spacing: 0.02em;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  @media (max-width: 767px) {
+    font-size: 10px;
+  }
+}
+
+.pointItem {
+  display: flex;
+  gap: 8px;
+  justify-content: space-between;
+  position: relative;
+  padding-left: 20px;
+}
+
+.pointLabel {
+  font-family: "Nunito ExtraBold";
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.point {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 1px solid #fff;
 }
