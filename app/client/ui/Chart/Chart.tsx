@@ -121,6 +121,7 @@ const Chart = <
     });
 
     return () => {
+      setTooltip(null);
       chart.current?.destroy();
     };
   }, [data]);
