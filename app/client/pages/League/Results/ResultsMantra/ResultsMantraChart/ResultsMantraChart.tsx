@@ -47,6 +47,11 @@ const LeagueResultsMantraChart = ({
         return {
           label: teamResult.team?.human_name ?? teamResult.id.toString(),
           data: history.map((teamFormItem) => teamFormItem?.[source.key] ?? null),
+          borderWidth: window.outerWidth < 768 ? 2 : 3,
+          pointBackgroundColor: "transparent",
+          pointBorderColor: "transparent",
+          pointHoverBackgroundColor: DEFAULT_COLORS[index],
+          pointHoverBorderColor: DEFAULT_COLORS[index],
           backgroundColor: DEFAULT_COLORS[index],
           borderColor: DEFAULT_COLORS[index],
         };

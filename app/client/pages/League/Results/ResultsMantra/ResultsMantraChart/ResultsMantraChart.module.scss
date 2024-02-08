@@ -6,16 +6,6 @@
   }
 }
 
-.canvas {
-  --item-size: 25px;
-
-  min-width: calc(var(--item-count) * var(--item-size));
-
-  @media (max-width: 768px) {
-    --item-size: 20px;
-  }
-}
-
 .heading {
   display: flex;
   align-items: center;
