@@ -15,7 +15,7 @@ module Results
       return false unless tour&.closed? && lineups.any?
 
       update_total_scores
-      update_f1_points
+      update_points
     end
 
     private
@@ -33,7 +33,7 @@ module Results
       end
     end
 
-    def update_f1_points
+    def update_points
       i = 0
       lineups.take(POINTS_MAP.length).group_by(&:total_score).each_value do |lineups|
         lineups.each do |lineup|

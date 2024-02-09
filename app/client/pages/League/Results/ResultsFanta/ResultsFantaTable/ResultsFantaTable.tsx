@@ -82,7 +82,7 @@ const ResultsFantaTable = ({
           title: (
             <>
               <span className={styles.fullTitle}>{t("table.f1_points")}</span>
-              <span className={styles.shortTitle}>F1</span>
+              <span className={styles.shortTitle}>{t("table.points_short")}</span>
             </>
           ),
           noWrap: true,
