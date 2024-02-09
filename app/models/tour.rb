@@ -16,7 +16,8 @@ class Tour < ApplicationRecord
   scope :closed_postponed, -> { closed.or(postponed) }
   scope :active, -> { set_lineup.or(locked) }
 
-  PLAYERS_BY_FANTA_MATCHES = [0, 7, 4, 3, 2, 1, 1, 1, 1, 1].freeze
+  MIN_PLAYERS_BY_FANTA_MATCHES = [0, 8, 4, 2, 2, 1, 1, 1, 1, 0].freeze
+  MAX_PLAYERS_BY_FANTA_MATCHES = [0, 8, 4, 3, 2, 2, 2, 2, 1, 1].freeze
 
   def locked_or_postponed?
     locked? || postponed?
@@ -54,9 +55,19 @@ class Tour < ApplicationRecord
 
   def max_country_players
     if national?
-      PLAYERS_BY_FANTA_MATCHES[tournament_round.national_matches&.count] || 0
+      MAX_PLAYERS_BY_FANTA_MATCHES[tournament_round.national_matches&.count] || 0
     elsif eurocup?
-      PLAYERS_BY_FANTA_MATCHES[tournament_round.tournament_matches&.count] || 0
+      MAX_PLAYERS_BY_FANTA_MATCHES[tournament_round.tournament_matches&.count] || 0
+    else
+      0
+    end
+  end
+
+  def min_country_players
+    if national?
+      MIN_PLAYERS_BY_FANTA_MATCHES[tournament_round.national_matches&.count] || 0
+    elsif eurocup?
+      MIN_PLAYERS_BY_FANTA_MATCHES[tournament_round.tournament_matches&.count] || 0
     else
       0
     end

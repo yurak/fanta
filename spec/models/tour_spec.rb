@@ -207,10 +207,10 @@ RSpec.describe Tour do
     end
 
     context 'with 1 national match' do
-      it 'returns max_country_players value 7' do
+      it 'returns max_country_players value 8' do
         create(:national_match, tournament_round: tour.tournament_round)
 
-        expect(tour.max_country_players).to eq(7)
+        expect(tour.max_country_players).to eq(8)
       end
     end
 
@@ -242,7 +242,7 @@ RSpec.describe Tour do
       it 'returns 0' do
         create_list(:national_match, 5, tournament_round: tour.tournament_round)
 
-        expect(tour.max_country_players).to eq(1)
+        expect(tour.max_country_players).to eq(2)
       end
     end
 
@@ -271,6 +271,82 @@ RSpec.describe Tour do
 
       it 'returns max_country_players value 0' do
         expect(tour.max_country_players).to eq(0)
+      end
+    end
+  end
+
+  describe '#min_country_players' do
+    context 'without national matches' do
+      it 'returns 0' do
+        expect(tour.min_country_players).to eq(0)
+      end
+    end
+
+    context 'with 1 national match' do
+      it 'returns min_country_players value 7' do
+        create(:national_match, tournament_round: tour.tournament_round)
+
+        expect(tour.min_country_players).to eq(8)
+      end
+    end
+
+    context 'with 2 national matches' do
+      it 'returns min_country_players value 4' do
+        create_list(:national_match, 2, tournament_round: tour.tournament_round)
+
+        expect(tour.min_country_players).to eq(4)
+      end
+    end
+
+    context 'with 3 national matches' do
+      it 'returns min_country_players value 3' do
+        create_list(:national_match, 3, tournament_round: tour.tournament_round)
+
+        expect(tour.min_country_players).to eq(2)
+      end
+    end
+
+    context 'with 4 national matches' do
+      it 'returns min_country_players value 2' do
+        create_list(:national_match, 4, tournament_round: tour.tournament_round)
+
+        expect(tour.min_country_players).to eq(2)
+      end
+    end
+
+    context 'with 5 national matches' do
+      it 'returns 0' do
+        create_list(:national_match, 5, tournament_round: tour.tournament_round)
+
+        expect(tour.min_country_players).to eq(1)
+      end
+    end
+
+    context 'with 10 national matches' do
+      it 'returns 0' do
+        create_list(:national_match, 10, tournament_round: tour.tournament_round)
+
+        expect(tour.min_country_players).to eq(0)
+      end
+    end
+
+    context 'with eurocup tournament and 8 tournament matches' do
+      let(:tournament_round) { create(:tournament_round, tournament: Tournament.find_by(eurocup: true)) }
+      let(:tour) { create(:tour, tournament_round: tournament_round) }
+
+      it 'returns min_country_players value 1' do
+        create_list(:tournament_match, 8, tournament_round: tournament_round)
+
+        expect(tour.min_country_players).to eq(1)
+      end
+    end
+
+    context 'with eurocup tournament and without tournament matches' do
+      let(:tournament_round) { create(:tournament_round, tournament: Tournament.find_by(eurocup: true)) }
+      let(:tour) { create(:tour, tournament_round: tournament_round) }
+
+      it 'returns min_country_players value 0' do
+        expect(tour.min_country_players).to eq(0)
       end
     end
   end
