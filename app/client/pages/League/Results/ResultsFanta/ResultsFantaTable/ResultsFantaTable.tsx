@@ -1,11 +1,11 @@
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import cn from "classnames";
-import { ILeagueFantaResults } from "../../../../../interfaces/LeagueResults";
-import Table from "../../../../../ui/Table";
-import TeamName, { TeamNameSkeleton } from "../../../../../components/TeamName";
-import { useHistorySort } from "../../../../../hooks/useHistorySort";
-import { sorters } from "../../../../../helpers/sorters";
+import { ILeagueFantaResults } from "@/interfaces/LeagueResults";
+import Table from "@/ui/Table";
+import TeamName, { TeamNameSkeleton } from "@/components/TeamName";
+import { useHistorySort } from "@/hooks/useHistorySort";
+import { sorters } from "@/helpers/sorters";
 import styles from "./ResultsFantaTable.module.scss";
 
 const ResultsFantaTable = ({
