@@ -33,10 +33,18 @@
 
     &.isPromotion {
       background-color: transparent;
+
+      &:before {
+        background-color: #4ead57;
+      }
     }
 
     &.isRelegation {
       background-color: transparent;
+
+      &:before {
+        background-color: #db0a23;
+      }
     }
 
     &::before {
@@ -49,18 +57,6 @@
       background-color: transparent;
       left: -12px;
       top: 0;
-    }
-
-    &.isPromotion {
-      &:before {
-        background-color: #4ead57;
-      }
-    }
-
-    &.isRelegation {
-      &:before {
-        background-color: #db0a23;
-      }
     }
   }
 
