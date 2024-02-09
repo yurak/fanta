@@ -1,12 +1,12 @@
 import { useMemo, useState } from "react";
 import { ChartData, ScriptableLineSegmentContext } from "chart.js";
 import { useTranslation } from "react-i18next";
-import { sorters } from "../../../../../helpers/sorters";
-import Chart, { DEFAULT_COLORS } from "../../../../../ui/Chart";
-import { ILeagueResults } from "../../../../../interfaces/LeagueResults";
-import Heading from "../../../../../components/Heading";
-import ChartIndicator from "../../../../../assets/images/chartIndicator.svg";
-import Select from "../../../../../ui/Select";
+import { sorters } from "@/helpers/sorters";
+import Chart, { DEFAULT_COLORS } from "@/ui/Chart";
+import { ILeagueResults } from "@/interfaces/LeagueResults";
+import Heading from "@/components/Heading";
+import ChartIndicator from "@/assets/images/chartIndicator.svg";
+import Select from "@/ui/Select";
 import styles from "./ResultsMantraChart.module.scss";
 
 type ChartDataType = ChartData<"line", (number | null)[], React.ReactNode>;

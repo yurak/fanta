@@ -1,9 +1,9 @@
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
-import Link from "../../../ui/Link";
-import { useLeague } from "../../../api/query/useLeague";
-import Heading from "../../../components/Heading";
-import PageLayout from "../../../layouts/PageLayout";
+import Link from "@/ui/Link";
+import { useLeague } from "@/api/query/useLeague";
+import Heading from "@/components/Heading";
+import PageLayout from "@/layouts/PageLayout";
 import ResultsMantra from "./ResultsMantra";
 import ResultsFanta from "./ResultsFanta";
 import ResultsSkeleton from "./ResultsSkeleton";

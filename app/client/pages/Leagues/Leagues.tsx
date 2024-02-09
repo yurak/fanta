@@ -1,16 +1,16 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useTournaments } from "../../api/query/useTournaments";
-import { useLeagues } from "../../api/query/useLeagues";
-import Search from "../../ui/Search";
-import TournamentsTabs, { TournamentTab } from "../../components/TournamentsTabs";
-import Heading from "../../components/Heading";
-import SeasonsSelect from "../../components/SeasonsSelect";
+import { useTournaments } from "@/api/query/useTournaments";
+import { useLeagues } from "@/api/query/useLeagues";
+import Search from "@/ui/Search";
+import TournamentsTabs, { TournamentTab } from "@/components/TournamentsTabs";
+import Heading from "@/components/Heading";
+import SeasonsSelect from "@/components/SeasonsSelect";
+import { ISeason } from "@/interfaces/Season";
+import PageLayout from "@/layouts/PageLayout";
 import LeaguesList from "./LeaguesList";
 import { ILeaguesWithTournament } from "./interfaces";
-import { ISeason } from "../../interfaces/Season";
 import styles from "./Leagues.module.scss";
-import PageLayout from "../../layouts/PageLayout";
 
 const LeaguesPage = () => {
   const { t } = useTranslation();

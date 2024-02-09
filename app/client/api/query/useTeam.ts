@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
-import { IResponse } from "../../interfaces/api/Response";
-import { ITeam } from "../../interfaces/Team";
+import { IResponse } from "@/interfaces/api/Response";
+import { ITeam } from "@/interfaces/Team";
 
 export const useTeam = (id: number) => {
   const query = useQuery({

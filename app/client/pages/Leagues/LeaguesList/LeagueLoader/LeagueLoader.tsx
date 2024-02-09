@@ -1,7 +1,7 @@
 import Skeleton from "react-loading-skeleton";
-import { useLeague } from "../../../../api/query/useLeague";
-import { ILeagueFullData } from "../../../../interfaces/League";
-import { useIntersectionObserver } from "../../../../hooks/useIntersectionObserver";
+import { useLeague } from "@/api/query/useLeague";
+import { ILeagueFullData } from "@/interfaces/League";
+import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 
 const LeagueLoader = ({
   leagueId,

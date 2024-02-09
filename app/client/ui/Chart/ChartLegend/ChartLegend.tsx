@@ -1,5 +1,5 @@
 import cn from "classnames";
-import Chip from "../../Chip";
+import Chip from "@/ui/Chip";
 import styles from "./ChartLegend.module.scss";
 
 export interface IProps {

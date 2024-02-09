@@ -1,5 +1,5 @@
-import { useLeagueResults } from "../../../../api/query/useLeagueResults";
-import { ILeagueFantaResults } from "../../../../interfaces/LeagueResults";
+import { useLeagueResults } from "@/api/query/useLeagueResults";
+import { ILeagueFantaResults } from "@/interfaces/LeagueResults";
 import ResultsFantaTable from "./ResultsFantaTable";
 
 const ResultsFanta = ({ leagueId }: { leagueId: number }) => {

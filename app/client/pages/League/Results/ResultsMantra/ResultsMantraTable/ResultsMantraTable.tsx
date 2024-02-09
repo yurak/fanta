@@ -1,12 +1,12 @@
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import cn from "classnames";
-import { ILeagueResults, ILeagueResultsHistory } from "../../../../../interfaces/LeagueResults";
-import Table from "../../../../../ui/Table";
-import TriangleDownIcon from "../../../../../assets/icons/triangleDown.svg";
-import { sorters } from "../../../../../helpers/sorters";
-import TeamName, { TeamNameSkeleton } from "../../../../../components/TeamName";
-import { useHistorySort } from "../../../../../hooks/useHistorySort";
+import { ILeagueResults, ILeagueResultsHistory } from "@/interfaces/LeagueResults";
+import Table from "@/ui/Table";
+import TriangleDownIcon from "@/assets/icons/triangleDown.svg";
+import { sorters } from "@/helpers/sorters";
+import TeamName, { TeamNameSkeleton } from "@/components/TeamName";
+import { useHistorySort } from "@/hooks/useHistorySort";
 import styles from "./ResultsMantraTable.module.scss";
 
 const getPositionUpdate = ({ history }: ILeagueResults): null | "top" | "down" => {

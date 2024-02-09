@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
-import { IResponse } from "../../interfaces/api/Response";
-import { ILeagueFullData } from "../../interfaces/League";
+import { IResponse } from "@/interfaces/api/Response";
+import { ILeagueFullData } from "@/interfaces/League";
 
 export const useLeague = (id: number, enabled?: boolean) => {
   const query = useQuery({

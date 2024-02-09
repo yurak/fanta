@@ -1,8 +1,8 @@
 import React from "react";
 import cn from "classnames";
 import Skeleton from "react-loading-skeleton";
+import EmptyState from "@/ui/EmptyState";
 import styles from "./DataList.module.scss";
-import EmptyState from "../EmptyState";
 
 const LoadingSkeleton = ({
   skeletonRender = () => <Skeleton />,

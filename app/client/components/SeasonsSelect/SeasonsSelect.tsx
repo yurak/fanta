@@ -1,8 +1,8 @@
 import { useEffect, useMemo } from "react";
-import Select from "../../ui/Select";
-import { useSeasons } from "../../api/query/useSeasons";
-import { ISeason } from "../../interfaces/Season";
-import CalendarIcon from "../../assets/icons/calendar.svg";
+import Select from "@/ui/Select";
+import { useSeasons } from "@/api/query/useSeasons";
+import { ISeason } from "@/interfaces/Season";
+import CalendarIcon from "@/assets/icons/calendar.svg";
 
 const SeasonsSelect = ({
   value,

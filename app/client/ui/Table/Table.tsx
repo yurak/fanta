@@ -3,7 +3,7 @@ import Skeleton from "react-loading-skeleton";
 import cn from "classnames";
 import TableBodyCell from "./TableBodyCell";
 import TableHeaderCell from "./TableHeaderCell";
-import EmptyState from "../EmptyState";
+import EmptyState from "@/ui/EmptyState";
 import { useSorting } from "./useSorting";
 import { IColumn, IComputedColumn, ITableSorting } from "./interfaces";
 import styles from "./Table.module.scss";

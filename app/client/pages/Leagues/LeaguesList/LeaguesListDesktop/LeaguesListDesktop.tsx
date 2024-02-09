@@ -1,10 +1,10 @@
 import { useMemo } from "react";
 import Skeleton from "react-loading-skeleton";
 import { useTranslation } from "react-i18next";
-import Table, { IColumn } from "../../../../ui/Table";
+import Table, { IColumn } from "@/ui/Table";
+import LeagueStatus from "@/components/LeagueStatus";
 import { ILeaguesWithTournament } from "../../interfaces";
 import LeagueLoader from "../LeagueLoader";
-import LeagueStatus from "../../../../components/LeagueStatus";
 import styles from "./LeaguesListDesktop.module.scss";
 
 const LeaguesListDesktop = ({

@@ -1,5 +1,5 @@
 import Skeleton from "react-loading-skeleton";
-import { ITeam } from "../../interfaces/Team";
+import { ITeam } from "@/interfaces/Team";
 import styles from "./TeamName.module.scss";
 
 const TeamName = ({ team }: { team: ITeam }) => {

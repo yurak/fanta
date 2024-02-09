@@ -1,7 +1,7 @@
 import { useMemo } from "react";
-import { useLeagueResults } from "../../../../api/query/useLeagueResults";
-import { ILeagueFullData } from "../../../../interfaces/League";
-import { ILeagueResults } from "../../../../interfaces/LeagueResults";
+import { useLeagueResults } from "@/api/query/useLeagueResults";
+import { ILeagueFullData } from "@/interfaces/League";
+import { ILeagueResults } from "@/interfaces/LeagueResults";
 import ResultsMantraChart from "./ResultsMantraChart";
 import ResultsMantraTable from "./ResultsMantraTable";
 import styles from "./ResultsMantra.module.scss";

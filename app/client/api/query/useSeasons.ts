@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
-import { IResponse } from "../../interfaces/api/Response";
-import { ISeason } from "../../interfaces/Season";
+import { IResponse } from "@/interfaces/api/Response";
+import { ISeason } from "@/interfaces/Season";
 
 export const useSeasons = () => {
   const query = useQuery({

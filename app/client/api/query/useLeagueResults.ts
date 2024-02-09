@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
-import { IResponse } from "../../interfaces/api/Response";
-import { ILeagueFantaResults, ILeagueResults } from "../../interfaces/LeagueResults";
+import { IResponse } from "@/interfaces/api/Response";
+import { ILeagueFantaResults, ILeagueResults } from "@/interfaces/LeagueResults";
 
 export const useLeagueResults = <T extends ILeagueFantaResults | ILeagueResults>(id: number) => {
   const query = useQuery({
