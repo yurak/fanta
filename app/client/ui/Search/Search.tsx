@@ -1,6 +1,6 @@
 import React from "react";
-import SearchIcon from "../../assets/icons/search.svg";
-import ClearIcon from "../../assets/icons/closeRing.svg";
+import SearchIcon from "@/assets/icons/search.svg";
+import ClearIcon from "@/assets/icons/closeRing.svg";
 import styles from "./Search.module.scss";
 
 const Search = ({

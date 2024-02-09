@@ -1,4 +1,4 @@
-import Label from "../../ui/Label";
+import Label from "@/ui/Label";
 
 const LeagueStatus = ({ status }: { status: string }) => {
   if (status === "active") {

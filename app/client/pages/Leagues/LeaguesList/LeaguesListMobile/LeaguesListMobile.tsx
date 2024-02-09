@@ -1,7 +1,7 @@
 import Skeleton from "react-loading-skeleton";
 import { useTranslation } from "react-i18next";
-import LeagueStatus from "../../../../components/LeagueStatus";
-import DataList from "../../../../ui/DataList";
+import LeagueStatus from "@/components/LeagueStatus";
+import DataList from "@/ui/DataList";
 import { ILeaguesWithTournament } from "../../interfaces";
 import LeagueLoader from "../LeagueLoader";
 import styles from "./LeaguesListMobile.module.scss";

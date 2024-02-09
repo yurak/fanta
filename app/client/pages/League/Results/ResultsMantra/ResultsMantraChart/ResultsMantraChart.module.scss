@@ -1,0 +1,15 @@
+.chart {
+  height: 450px;
+
+  @media (max-width: 768px) {
+    height: 300px;
+  }
+}
+
+.heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 24px;
+}

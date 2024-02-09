@@ -4,7 +4,7 @@ import {
   ReactComponentOrRenderFunction,
 } from "react-on-rails/node_package/lib/types";
 import { useSSR } from "react-i18next";
-import { resources } from "../locales/resources";
+import { resources } from "@/locales/resources";
 import { AppProvider } from "./AppProvider";
 
 export const withBootstrap =

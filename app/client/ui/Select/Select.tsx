@@ -8,8 +8,8 @@ import ReactSelect, {
   components,
 } from "react-select";
 import Skeleton from "react-loading-skeleton";
-import ArrowDownIcon from "../../assets/icons/arrow-down.svg";
-import { useIsClient } from "../../hooks/useIsClient";
+import ArrowDownIcon from "@/assets/icons/arrow-down.svg";
+import { useIsClient } from "@/hooks/useIsClient";
 import styles from "./Select.module.scss";
 
 const Select = <Option, IsMulti extends boolean = false>({

@@ -15,7 +15,11 @@
     "strictNullChecks": true,
     "isolatedModules": true,
     "moduleResolution": "Node",
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "baseUrl": "./app/client",
+    "paths": {
+      "@/*": ["./*"]
+    }
   },
   "include": ["./app/client/**/*"],
   "exclude": ["node_modules/**/*"]

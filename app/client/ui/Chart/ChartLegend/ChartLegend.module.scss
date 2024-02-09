@@ -1,0 +1,29 @@
+.legends {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.legendsItem {
+  user-select: none;
+  padding-left: 22px;
+  position: relative;
+
+  &::before {
+    position: absolute;
+    content: "";
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background-color: var(--color);
+  }
+
+  &.disabled {
+    &::before {
+      opacity: 0.3;
+    }
+  }
+}

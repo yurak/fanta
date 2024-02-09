@@ -33,7 +33,6 @@
 @import "national_teams";
 @import "nav_panel";
 @import "players";
-@import "results";
 @import "round_players";
 @import "substitutes";
 @import "teams";
@@ -476,9 +475,32 @@ body, html {
       line-height: 72px;
       box-shadow: 3px 6px 15px rgba(24, 23, 21, 0.2);
 
+      @include reactApplication {
+        height: responsivePixels(144px);
+        padding: responsivePixels(36px);
+        grid-template-columns: 
+          responsivePixels(72px) 
+          auto 
+          responsivePixels(102px) 
+          responsivePixels(72px) 
+          responsivePixels(72px) 
+          responsivePixels(102px) 
+          auto 
+          responsivePixels(72px);
+        column-gap: responsivePixels(24px);
+        font-size: responsivePixels(36px);
+        line-height: responsivePixels(72px);
+        box-shadow: responsivePixels(3px) responsivePixels(6px) responsivePixels(15px) rgba(24, 23, 21, 0.2);
+      }
+
       img {
         width: 72px;
         height: 72px;
+
+        @include reactApplication {
+          width: responsivePixels(72px);
+          height: responsivePixels(72px);
+        }
       }
 
       .next-round-name {
@@ -489,11 +511,19 @@ body, html {
         background: #BA44F1;
         border-radius: 12px;
         color: #FFFFFF;
+
+        @include reactApplication {
+          border-radius: responsivePixels(12px);
+        }
       }
     }
 
     .next-round-opponent-row {
       grid-template-columns: 420px auto;
+
+      @include reactApplication {
+        grid-template-columns: responsivePixels(420px) auto;
+      }
 
       .next-round-opponent {
         font-family: 'Nunito SemiBold';
@@ -501,6 +531,11 @@ body, html {
         grid-template-columns: 48px 72px auto;
         column-gap: 24px;
         text-align: left;
+
+        @include reactApplication {
+          grid-template-columns: responsivePixels(48px) responsivePixels(72px) auto;
+          column-gap: responsivePixels(24px);
+        }
       }
 
       .next-round-opponent-name {
@@ -519,6 +554,14 @@ body, html {
       color: #FFFFFF;
       padding: 6px 12px;
       margin: 6px 0;
+
+      @include reactApplication {
+        border-radius: responsivePixels(12px);
+        font-size: responsivePixels(30px);
+        line-height: responsivePixels(48px);
+        padding: responsivePixels(6px) responsivePixels(12px);
+        margin: responsivePixels(6px) 0;
+      }
     }
 
     .auction-text {
@@ -527,6 +570,11 @@ body, html {
       font-size: 30px;
       line-height: 72px;
       text-transform: uppercase;
+
+      @include reactApplication {
+        font-size: responsivePixels(30px);
+        line-height: responsivePixels(72px);
+      }
     }
 
     .next-round-datetime {
@@ -534,6 +582,11 @@ body, html {
       display: grid;
       grid-template-columns: auto 140px;
       font-size: 42px;
+
+      @include reactApplication {
+        grid-template-columns: auto responsivePixels(140px);
+        font-size: responsivePixels(42px);
+      }
 
       .next-round-time {
         font-family: 'Nunito Regular';
@@ -547,6 +600,12 @@ body, html {
       grid-template-columns: 244px 190px auto;
       column-gap: 24px;
 
+      @include reactApplication {
+        padding: responsivePixels(36px);
+        grid-template-columns: responsivePixels(244px) responsivePixels(190px) auto;
+        column-gap: responsivePixels(24px);
+      }
+
       .auction-badge {
         background: #BA44F1;
       }
@@ -558,10 +617,21 @@ body, html {
       grid-template-columns: 460px auto;
       column-gap: 16px;
 
+      @include reactApplication {
+        padding: responsivePixels(36px);
+        grid-template-columns: responsivePixels(460px) auto;
+        column-gap: responsivePixels(16px);
+      }
+
       .auction-block-header {
         display: grid;
         grid-template-columns: 240px auto;
         column-gap: 12px;
+
+        @include reactApplication {
+          grid-template-columns: responsivePixels(240px) auto;
+          column-gap: responsivePixels(12px);
+        }
       }
 
       .live-badge {
@@ -572,14 +642,33 @@ body, html {
         line-height: 48px;
         border-radius: 12px;
 
+        @include reactApplication {
+          padding: responsivePixels(6px) responsivePixels(18px);
+          margin-top: responsivePixels(9px);
+          height: responsivePixels(60px);
+          font-size: responsivePixels(30px);
+          line-height: responsivePixels(48px);
+          border-radius: responsivePixels(12px);
+        }
+
         .live-dot {
           width: 18px;
           height: 18px;
           border-radius: 9px;
+
+          @include reactApplication {
+            width: responsivePixels(18px);
+            height: responsivePixels(18px);
+            border-radius: responsivePixels(9px);
+          }
         }
 
         .live-text {
           margin-left: 12px;
+
+          @include reactApplication {
+            margin-left: responsivePixels(12px);
+          }
         }
       }
 
@@ -598,6 +687,14 @@ body, html {
         text-align: center;
         width: fit-content;
 
+        @include reactApplication {
+          padding: responsivePixels(12px) responsivePixels(16px);
+          border: responsivePixels(2px) solid #181715;
+          border-radius: responsivePixels(12px);
+          font-size: responsivePixels(36px);
+          line-height: responsivePixels(48px);
+        }
+
         a {
           color: #181715;
         }
@@ -609,6 +706,11 @@ body, html {
       display: grid;
       grid-template-columns: 270px auto;
       column-gap: 24px;
+
+      @include reactApplication {
+        grid-template-columns: responsivePixels(270px) auto;
+        column-gap: responsivePixels(24px);
+      }
 
       .auction-badge {
         background: #181715;
@@ -629,6 +731,12 @@ body, html {
   column-gap: 10px;
   z-index: 10;
 
+  @include reactApplication {
+    height: responsivePixels(216px);
+    padding: responsivePixels(24px) responsivePixels(36px);
+    column-gap: responsivePixels(10px);
+  }
+
   a {
     text-align: center;
     text-decoration: none;
@@ -637,23 +745,41 @@ body, html {
   img {
     width: 72px;
     height: 72px;
+
+    @include reactApplication {
+      width: responsivePixels(72px);
+      height: responsivePixels(72px);
+    }
   }
 
   .league-link {
     height: 100%;
     padding: 26px 0;
 
+    @include reactApplication {
+      padding: responsivePixels(26px) 0;
+    }
+
     .league-link-text {
       font-family: 'Nunito SemiBold';
       color: #181715;
       font-size: 30px;
       line-height: 42px;
+      
+      @include reactApplication {
+        font-size: responsivePixels(30px);
+        line-height: responsivePixels(42px);
+      }
     }
   }
 
   .link-active-true {
     background: #181715;
     border-radius: 24px;
+      
+    @include reactApplication {
+      border-radius: responsivePixels(24px);
+    }
 
     .league-link-text {
       color: #EDF67D;
@@ -669,6 +795,11 @@ body, html {
   grid-template-columns: 1fr 1fr 1fr;
   padding: 24px 190px;
   column-gap: 36px;
+      
+  @include reactApplication {
+    padding: responsivePixels(24px) responsivePixels(190px);
+    column-gap: responsivePixels(36px);
+  }
 }
 
 @media (orientation: portrait) {
@@ -679,6 +810,10 @@ body, html {
 
     .web-header {
       display: none;
+    }
+
+    .portrait-footer {
+      display: grid;
     }
   }
 }
@@ -692,14 +827,13 @@ body, html {
     .web-header {
       display: none;
     }
+
+    .portrait-footer {
+      display: grid;
+    }
   }
 }
 
-@media (orientation: portrait) {
-  .portrait-footer {
-    display: grid;
-  }
-}
 /* ----- -------------------- ----- */
 
 .tooltip-info {

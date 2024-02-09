@@ -1,4 +1,5 @@
-import Table, { IColumn } from "./Table";
+import Table from "./Table";
+import { IColumn } from "./interfaces";
 
 export type { IColumn };
 export default Table;

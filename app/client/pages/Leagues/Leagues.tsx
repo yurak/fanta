@@ -1,17 +1,16 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { withBootstrap } from "../../bootstrap/withBootstrap";
-import { useTournaments } from "../../api/query/useTournaments";
-import { useLeagues } from "../../api/query/useLeagues";
-import Search from "../../ui/Search";
-import TournamentsTabs, { TournamentTab } from "../../components/TournamentsTabs";
-import PageHeading from "../../components/PageHeading";
-import SeasonsSelect from "../../components/SeasonsSelect";
+import { useTournaments } from "@/api/query/useTournaments";
+import { useLeagues } from "@/api/query/useLeagues";
+import Search from "@/ui/Search";
+import TournamentsTabs, { TournamentTab } from "@/components/TournamentsTabs";
+import Heading from "@/components/Heading";
+import SeasonsSelect from "@/components/SeasonsSelect";
+import { ISeason } from "@/interfaces/Season";
+import PageLayout from "@/layouts/PageLayout";
 import LeaguesList from "./LeaguesList";
 import { ILeaguesWithTournament } from "./interfaces";
-import { ISeason } from "../../interfaces/Season";
 import styles from "./Leagues.module.scss";
-import PageLayout from "../../layouts/PageLayout";
 
 const LeaguesPage = () => {
   const { t } = useTranslation();
@@ -95,7 +94,7 @@ const LeaguesPage = () => {
     <PageLayout>
       <div className={styles.header}>
         <div className={styles.heading}>
-          <PageHeading title={t("header.leagues")} />
+          <Heading title={t("header.leagues")} noSpace />
         </div>
         <div className={styles.yearSelect}>
           <SeasonsSelect value={selectedSeason} onChange={setSelectedSeason} />
@@ -126,4 +125,4 @@ const LeaguesPage = () => {
   );
 };
 
-export default withBootstrap(LeaguesPage);
+export default LeaguesPage;
