@@ -3,6 +3,9 @@
 
 // Common configuration applying to client and server configuration
 const { generateWebpackConfig, merge } = require("shakapacker");
+const path = require("path");
+
+console.log("__dirname", __dirname);
 
 const baseClientWebpackConfig = generateWebpackConfig({});
 
@@ -13,6 +16,9 @@ svgRule.test = new RegExp(svgRule.test.source.replace("|svg", ""));
 const commonOptions = {
   resolve: {
     extensions: [".css", ".ts", ".tsx"],
+    alias: {
+      "@": path.resolve(__dirname, "../../app/client"),
+    },
   },
   module: {
     rules: [

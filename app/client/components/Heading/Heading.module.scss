@@ -1,0 +1,47 @@
+.heading {
+  margin-bottom: 24px;
+}
+
+.noSpace {
+  margin-bottom: 0;
+}
+
+.title {
+  font-family: "Nunito ExtraBold";
+  margin-bottom: 0;
+}
+
+.titleIcon {
+  margin-right: 0.75em;
+
+  svg {
+    vertical-align: top;
+    width: 1em;
+    height: 1em;
+  }
+}
+
+.h3 {
+  font-size: 32px;
+  line-height: 1;
+
+  @media (max-width: 768px) {
+    font-size: 24px;
+  }
+}
+
+.h4 {
+  font-size: 24px;
+  line-height: 1.33;
+
+  @media (max-width: 768px) {
+    font-size: 18px;
+  }
+}
+
+.description {
+  font-size: 16px;
+  line-height: 1.5;
+  margin-bottom: 0;
+  margin-top: 8px;
+}

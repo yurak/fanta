@@ -1,0 +1,33 @@
+.chart {
+  overflow: auto;
+}
+
+.canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.legend {
+  margin-bottom: 12px;
+
+  @media (max-width: 767px) {
+    margin-bottom: 8px;
+  }
+}
+
+.canvasWrapper {
+  height: 100%;
+  position: relative;
+}
+
+.chartSkeleton {
+  display: block;
+  height: 100%;
+}
+
+.skeletonLegend {
+  display: flex;
+  font-size: 18px;
+  line-height: 1;
+  gap: 8px;
+}

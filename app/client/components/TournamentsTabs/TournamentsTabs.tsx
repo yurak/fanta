@@ -1,8 +1,8 @@
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import Tabs, { ITab } from "../../ui/Tabs";
-import { useTournaments } from "../../api/query/useTournaments";
-import LeaguesIcon from "../../assets/icons/leagues.svg";
+import Tabs, { ITab } from "@/ui/Tabs";
+import { useTournaments } from "@/api/query/useTournaments";
+import LeaguesIcon from "@/assets/icons/leagues.svg";
 
 export type TournamentTab = ITab<number | undefined>;
 

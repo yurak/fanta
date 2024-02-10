@@ -1,5 +1,5 @@
 import cn from "classnames";
-import EmptyStateIcon from "../../assets/images/empty-state.svg";
+import EmptyStateIcon from "@/assets/images/empty-state.svg";
 import styles from "./EmptyState.module.scss";
 
 const EmptyState = ({

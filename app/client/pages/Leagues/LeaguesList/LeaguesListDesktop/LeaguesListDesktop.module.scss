@@ -36,7 +36,12 @@
 }
 
 .statusCell {
-  flex: 0 0 110px;
+  flex: 0 0 112px;
+  line-height: 1;
+
+  @media (max-width: 991px) {
+    flex-basis: 100px;
+  }
 }
 
 .leaderCell {

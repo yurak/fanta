@@ -1,0 +1,7 @@
+.chart {
+  margin-top: 56px;
+
+  @media (max-width: 768px) {
+    margin-top: 40px;
+  }
+}

@@ -1,6 +1,9 @@
 module Results
   class NationalUpdater < ApplicationService
-    F1_POINTS = [25, 18, 15, 12, 10, 8, 6, 4, 2, 1].freeze
+    POINTS_MAP = [60, 54, 48, 43, 40, 38, 36, 34, 32, 31,
+                  30, 29, 28, 27, 26, 25, 24, 23, 22, 21,
+                  20, 19, 18, 17, 16, 15, 14, 13, 12, 11,
+                  10,  9,  8,  7,  6,  5,  4,  3,  2,  1].freeze
 
     attr_reader :tour
 
@@ -12,7 +15,7 @@ module Results
       return false unless tour&.closed? && lineups.any?
 
       update_total_scores
-      update_f1_points
+      update_points
     end
 
     private
@@ -30,13 +33,13 @@ module Results
       end
     end
 
-    def update_f1_points
+    def update_points
       i = 0
-      lineups.take(10).group_by(&:total_score).each_value do |lineups|
+      lineups.take(POINTS_MAP.length).group_by(&:total_score).each_value do |lineups|
         lineups.each do |lineup|
           result = lineup.team.results.last
 
-          result.update(points: result.points + F1_POINTS[i])
+          result.update(points: result.points + POINTS_MAP[i])
         end
         i += lineups.count
       end

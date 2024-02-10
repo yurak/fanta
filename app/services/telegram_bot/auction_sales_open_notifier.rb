@@ -1,5 +1,5 @@
 module TelegramBot
-  class AuctionSalesNotifier < AuctionNotifier
+  class AuctionSalesOpenNotifier < AuctionNotifier
     private
 
     def message(team)

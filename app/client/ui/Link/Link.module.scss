@@ -1,0 +1,33 @@
+.link {
+  color: #261fff;
+  position: relative;
+
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 1px;
+    background-color: #d8d6ff;
+  }
+
+  &:hover {
+    color: #261fff;
+    text-decoration: none;
+
+    &::after {
+      background-color: #261fff;
+    }
+  }
+}
+
+.large {
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.small {
+  font-size: 14px;
+  line-height: 16px;
+}

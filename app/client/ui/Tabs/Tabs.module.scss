@@ -1,5 +1,14 @@
 .tabs {
   overflow: auto;
+  border-bottom: 1px solid #e5e6e4;
+
+  /* Hide scrollbar for Gecko-based browsers */
+  scrollbar-width: none;
+
+  /* Hide scrollbar for WebKit-based browsers */
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 .tabsInner {
@@ -8,7 +17,6 @@
   font-size: 16px;
   line-height: 1.5;
   text-align: center;
-  border-bottom: 1px solid #e5e6e4;
 
   @media (max-width: 768px) {
     font-size: 14px;
@@ -25,7 +33,7 @@
     content: "";
     position: absolute;
     left: 0;
-    bottom: -1px;
+    bottom: 0;
     width: 100%;
   }
 

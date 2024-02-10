@@ -1,0 +1,74 @@
+.position {
+  flex: 0 0 48px;
+  align-self: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  @media (max-width: 768px) {
+    flex-basis: 40px;
+  }
+
+  @media (max-width: 480px) {
+    flex-basis: 24px;
+  }
+}
+
+.team {
+  flex: 2;
+  min-width: 140px;
+
+  @media (max-width: 768px) {
+    min-width: 0;
+  }
+}
+
+.fullTitle {
+  @media (max-width: 1200px) {
+    display: none;
+  }
+}
+
+.shortTitle {
+  display: none;
+
+  @media (max-width: 1200px) {
+    display: inline;
+  }
+}
+
+.stats {
+  flex: 1;
+
+  @media (max-width: 1200px) {
+    flex: 0 0 62px;
+  }
+
+  @media (max-width: 480px) {
+    flex-basis: 52px;
+
+    &.statsF1Points {
+      flex-basis: 40px;
+    }
+  }
+}
+
+.played {
+  flex: 1;
+
+  @media (max-width: 1200px) {
+    flex: 0 0 62px;
+  }
+
+  @media (max-width: 768px) {
+    flex-basis: 62px;
+  }
+
+  @media (max-width: 480px) {
+    flex-basis: 32px;
+  }
+}
+
+.bold {
+  font-family: "Nunito ExtraBold";
+}

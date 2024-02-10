@@ -1,9 +1,9 @@
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
-import { IResponse } from "../../interfaces/api/Response";
-import { ILeagueFullData } from "../../interfaces/League";
+import { IResponse } from "@/interfaces/api/Response";
+import { ILeagueFullData } from "@/interfaces/League";
 
-export const useLeague = (id: number, enabled: boolean) => {
+export const useLeague = (id: number, enabled?: boolean) => {
   const query = useQuery({
     staleTime: 1000 * 60 * 30, // 30 minutes
     queryKey: ["league", id],

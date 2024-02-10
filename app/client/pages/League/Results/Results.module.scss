@@ -1,0 +1,25 @@
+.heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.divisionsLink {
+  font-family: "Nunito Bold";
+  color: #181715;
+  font-size: 16px;
+  line-height: 24px;
+
+  &:hover {
+    color: #181715;
+    text-decoration: none;
+  }
+}
+
+.divisionsLinkIcon {
+  margin: 0 4px;
+  height: 8px;
+  display: inline-block;
+  color: #261fff;
+}

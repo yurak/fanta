@@ -1,5 +1,6 @@
 import React from "react";
-import SearchIcon from "../../assets/icons/search.svg";
+import SearchIcon from "@/assets/icons/search.svg";
+import ClearIcon from "@/assets/icons/closeRing.svg";
 import styles from "./Search.module.scss";
 
 const Search = ({
@@ -15,18 +16,25 @@ const Search = ({
     onChange(event.target.value);
   };
 
+  const clear = () => {
+    onChange("");
+  };
+
   return (
     <div className={styles.inputWrapper}>
-      <span className={styles.iconWrapper}>
-        <SearchIcon />
-      </span>
+      <SearchIcon className={styles.searchIcon} />
       <input
-        type="search"
+        type="text"
         className={styles.input}
         value={value}
         onChange={onChangeHandler}
         placeholder={placeholder}
       />
+      {value.length > 0 && (
+        <button onClick={clear} className={styles.clearButton}>
+          <ClearIcon />
+        </button>
+      )}
     </div>
   );
 };

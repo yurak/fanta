@@ -9,6 +9,8 @@ class Club < ApplicationRecord
   has_many :guest_tournament_matches, foreign_key: 'guest_club_id', class_name: 'TournamentMatch',
                                       dependent: :destroy, inverse_of: :guest_club
 
+  serialize :reserve_clubs, Array
+
   enum status: { active: 0, archived: 1 }
 
   validates :name, presence: true, uniqueness: true
