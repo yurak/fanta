@@ -279,7 +279,7 @@
         const country_players_limit = "#{tour.max_country_players}"
 
         if (max_country_players > country_players_limit) {
-          alert("#{t('lineups.limit', limit: tour.max_country_players)}");
+          alert("#{t('lineups.max_limit', limit: tour.max_country_players)}");
           return false;
         }
       } else {
@@ -311,7 +311,7 @@
           const club_players_limit = "#{tour.max_country_players}";
 
           if (max_club_players > club_players_limit) {
-            alert("#{t('lineups.limit', limit: tour.max_country_players)}");
+            alert("#{t('lineups.max_limit', limit: tour.max_country_players)}");
             return false;
           }
         }
