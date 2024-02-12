@@ -5,17 +5,10 @@ class PlayersController < ApplicationController
 
   respond_to :html
 
-  def index
-    @players = Kaminari.paginate_array(ordered_players).page(params[:page])
-    @tournaments = Tournament.with_clubs
-    @positions = Position.all
-    @clubs = tournament.clubs.active.sort_by(&:name)
+  # Specify the layout for the index action
+  layout 'react_application', only: [:index]
 
-    respond_to do |format|
-      format.html
-      format.json { render json: ordered_players }
-    end
-  end
+  def index; end
 
   def show
     @stats = player.player_season_stats.joins(:season, :club, :tournament).order(season_id: :desc, created_at: :desc)
