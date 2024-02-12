@@ -7,7 +7,7 @@ module Api
     helper_method :player
 
     def index
-      players = Kaminari.paginate_array(ordered_players).page(page[:number]).per(page[:size])
+      players = ordered_players.page(page[:number]).per(page[:size])
 
       players_ser = players.map { |l| PlayerBaseSerializer.new(l, league_id: filter_params[:league_id]) }
       render json: { data: players_ser, meta: response_options(players) }
