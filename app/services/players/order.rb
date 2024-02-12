@@ -24,6 +24,8 @@ module Players
     end
 
     def call
+      return players unless field
+
       ordered_players = order
       ordered_players = ordered_players.reverse if direction == ASC_DIRECTION
       ordered_players
