@@ -3,12 +3,10 @@ class PlayersController < ApplicationController
 
   respond_to :html
 
-  def index
-    @players = Kaminari.paginate_array(ordered_players).page(params[:page])
-    @tournaments = Tournament.with_clubs
-    @positions = Position.all
-    @clubs = tournament.clubs.active.sort_by(&:name)
-  end
+  # Specify the layout for the index action
+  layout 'react_application', only: [:index]
+
+  def index; end
 
   def show
     redirect_to leagues_path unless player
