@@ -33,17 +33,6 @@ class PlayersController < ApplicationController
     @player = Player.includes(transfers: :auction).find_by(id: params[:id])
   end
 
-  def ordered_players
-    Players::Query.call(
-      club_id: stats_params[:club],
-      field: stats_params[:order] || 'name',
-      league_id: stats_params[:league],
-      name: stats_params[:search],
-      position: Slot::POS_MAPPING[stats_params[:position]],
-      tournament_id: stats_params[:tournament]
-    )
-  end
-
   def stats_params
     params.permit(:club, :order, :position, :tournament, :search, :league)
   end
