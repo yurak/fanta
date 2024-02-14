@@ -31,20 +31,6 @@ class PlayersController < ApplicationController
     @player ||= Player.find(params[:id])
   end
 
-  def ordered_players
-    Players::Order.call(filtered_players, { field: stats_params[:order] })
-  end
-
-  def filtered_players
-    Players::Search.call(
-      club_id: stats_params[:club],
-      league_id: stats_params[:league],
-      name: stats_params[:search],
-      position: Slot::POS_MAPPING[stats_params[:position]],
-      tournament_id: stats_params[:tournament]
-    )
-  end
-
   def stats_params
     params.permit(:club, :order, :position, :tournament, :search, :league)
   end
