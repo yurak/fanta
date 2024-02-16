@@ -1,8 +1,9 @@
+import { useMemo } from "react";
 import axios from "axios";
+import { useDebounceValue } from "usehooks-ts";
 import { keepPreviousData, useInfiniteQuery } from "@tanstack/react-query";
 import { IPlayer } from "@/interfaces/Player";
 import { ICollectionResponse } from "@/interfaces/api/Response";
-import { useMemo } from "react";
 
 export const usePlayers = ({ search }: { search: string }) => {
   const filter = useMemo(
@@ -12,15 +13,17 @@ export const usePlayers = ({ search }: { search: string }) => {
     [search]
   );
 
+  const [debouncedFilter] = useDebounceValue(filter, 500);
+
   const query = useInfiniteQuery<ICollectionResponse<IPlayer[]>>({
     staleTime: 1000 * 60 * 10, // 10 minutes
     initialPageParam: 1,
-    queryKey: ["players", filter],
+    queryKey: ["players", debouncedFilter],
     queryFn: async ({ signal, pageParam: pageNumber }) => {
       return (
         await axios.get<ICollectionResponse<IPlayer[]>>("/players", {
           params: {
-            filter,
+            filter: debouncedFilter,
             page: {
               number: pageNumber,
               size: 30,
