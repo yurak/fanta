@@ -1,0 +1,22 @@
+.avatar {
+  position: relative;
+  width: 66px;
+  height: 66px;
+  overflow: hidden;
+}
+
+.face,
+.kit {
+  position: absolute;
+
+  object {
+    margin-top: 4px;
+    width: 66px;
+    height: 66px;
+  }
+
+  img {
+    width: 66px;
+    height: 66px;
+  }
+}
