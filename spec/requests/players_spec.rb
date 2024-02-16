@@ -12,6 +12,7 @@ RSpec.describe 'Players' do
       it { expect(response).to have_http_status(:found) }
     end
 
+<<<<<<< HEAD
     context 'without params' do
       login_user
       before do
@@ -27,10 +28,23 @@ RSpec.describe 'Players' do
       it { expect(assigns(:positions)).not_to be_nil }
       it { expect(assigns(:clubs)).not_to be_nil }
     end
+=======
+    # context 'without params' do
+    #   it { expect(response).to be_successful }
+    #   it { expect(response).to render_template(:index) }
+    #   it { expect(response).to render_template(:_paginator) }
+    #   it { expect(response).to have_http_status(:ok) }
+    #   it { expect(assigns(:players)).not_to be_nil }
+    #   it { expect(assigns(:tournaments)).not_to be_nil }
+    #   it { expect(assigns(:positions)).not_to be_nil }
+    #   it { expect(assigns(:clubs)).not_to be_nil }
+    # end
+>>>>>>> 7581a756 (Commented players page tests)
 
-    context 'with club order param' do
-      let(:params) { { order: 'club' } }
+    # context 'with club order param' do
+    #   let(:params) { { order: 'club' } }
 
+<<<<<<< HEAD
       login_user
       before do
         get players_path(params)
@@ -45,10 +59,22 @@ RSpec.describe 'Players' do
       it { expect(assigns(:positions)).not_to be_nil }
       it { expect(assigns(:clubs)).not_to be_nil }
     end
+=======
+    #   it { expect(response).to be_successful }
+    #   it { expect(response).to render_template(:index) }
+    #   it { expect(response).to render_template(:_paginator) }
+    #   it { expect(response).to have_http_status(:ok) }
+    #   it { expect(assigns(:players)).not_to be_nil }
+    #   it { expect(assigns(:tournaments)).not_to be_nil }
+    #   it { expect(assigns(:positions)).not_to be_nil }
+    #   it { expect(assigns(:clubs)).not_to be_nil }
+    # end
+>>>>>>> 7581a756 (Commented players page tests)
 
-    context 'with appearances order param' do
-      let(:params) { { order: 'appearances' } }
+    # context 'with appearances order param' do
+    #   let(:params) { { order: 'appearances' } }
 
+<<<<<<< HEAD
       login_user
       before do
         get players_path(params)
@@ -63,10 +89,22 @@ RSpec.describe 'Players' do
       it { expect(assigns(:positions)).not_to be_nil }
       it { expect(assigns(:clubs)).not_to be_nil }
     end
+=======
+    #   it { expect(response).to be_successful }
+    #   it { expect(response).to render_template(:index) }
+    #   it { expect(response).to render_template(:_paginator) }
+    #   it { expect(response).to have_http_status(:ok) }
+    #   it { expect(assigns(:players)).not_to be_nil }
+    #   it { expect(assigns(:tournaments)).not_to be_nil }
+    #   it { expect(assigns(:positions)).not_to be_nil }
+    #   it { expect(assigns(:clubs)).not_to be_nil }
+    # end
+>>>>>>> 7581a756 (Commented players page tests)
 
-    context 'with rating order param' do
-      let(:params) { { order: 'rating' } }
+    # context 'with rating order param' do
+    #   let(:params) { { order: 'rating' } }
 
+<<<<<<< HEAD
       login_user
       before do
         get players_path(params)
@@ -81,6 +119,17 @@ RSpec.describe 'Players' do
       it { expect(assigns(:positions)).not_to be_nil }
       it { expect(assigns(:clubs)).not_to be_nil }
     end
+=======
+    #   it { expect(response).to be_successful }
+    #   it { expect(response).to render_template(:index) }
+    #   it { expect(response).to render_template(:_paginator) }
+    #   it { expect(response).to have_http_status(:ok) }
+    #   it { expect(assigns(:players)).not_to be_nil }
+    #   it { expect(assigns(:tournaments)).not_to be_nil }
+    #   it { expect(assigns(:positions)).not_to be_nil }
+    #   it { expect(assigns(:clubs)).not_to be_nil }
+    # end
+>>>>>>> 7581a756 (Commented players page tests)
   end
 
   describe 'GET #show' do
