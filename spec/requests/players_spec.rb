@@ -1,62 +1,62 @@
 RSpec.describe 'Players' do
-  describe 'GET #index' do
-    let(:players) { create_list(:player, 20) }
-    let(:params) { nil }
+  # describe 'GET #index' do
+  #   let(:players) { create_list(:player, 20) }
+  #   let(:params) { nil }
 
-    before do
-      get players_path(params)
-    end
+  #   before do
+  #     get players_path(params)
+  #   end
 
-    # context 'without params' do
-    #   it { expect(response).to be_successful }
-    #   it { expect(response).to render_template(:index) }
-    #   it { expect(response).to render_template(:_paginator) }
-    #   it { expect(response).to have_http_status(:ok) }
-    #   it { expect(assigns(:players)).not_to be_nil }
-    #   it { expect(assigns(:tournaments)).not_to be_nil }
-    #   it { expect(assigns(:positions)).not_to be_nil }
-    #   it { expect(assigns(:clubs)).not_to be_nil }
-    # end
+  #   context 'without params' do
+  #     it { expect(response).to be_successful }
+  #     it { expect(response).to render_template(:index) }
+  #     it { expect(response).to render_template(:_paginator) }
+  #     it { expect(response).to have_http_status(:ok) }
+  #     it { expect(assigns(:players)).not_to be_nil }
+  #     it { expect(assigns(:tournaments)).not_to be_nil }
+  #     it { expect(assigns(:positions)).not_to be_nil }
+  #     it { expect(assigns(:clubs)).not_to be_nil }
+  #   end
 
-    # context 'with club order param' do
-    #   let(:params) { { order: 'club' } }
+  #   context 'with club order param' do
+  #     let(:params) { { order: 'club' } }
 
-    #   it { expect(response).to be_successful }
-    #   it { expect(response).to render_template(:index) }
-    #   it { expect(response).to render_template(:_paginator) }
-    #   it { expect(response).to have_http_status(:ok) }
-    #   it { expect(assigns(:players)).not_to be_nil }
-    #   it { expect(assigns(:tournaments)).not_to be_nil }
-    #   it { expect(assigns(:positions)).not_to be_nil }
-    #   it { expect(assigns(:clubs)).not_to be_nil }
-    # end
+  #     it { expect(response).to be_successful }
+  #     it { expect(response).to render_template(:index) }
+  #     it { expect(response).to render_template(:_paginator) }
+  #     it { expect(response).to have_http_status(:ok) }
+  #     it { expect(assigns(:players)).not_to be_nil }
+  #     it { expect(assigns(:tournaments)).not_to be_nil }
+  #     it { expect(assigns(:positions)).not_to be_nil }
+  #     it { expect(assigns(:clubs)).not_to be_nil }
+  #   end
 
-    # context 'with appearances order param' do
-    #   let(:params) { { order: 'appearances' } }
+  #   context 'with appearances order param' do
+  #     let(:params) { { order: 'appearances' } }
 
-    #   it { expect(response).to be_successful }
-    #   it { expect(response).to render_template(:index) }
-    #   it { expect(response).to render_template(:_paginator) }
-    #   it { expect(response).to have_http_status(:ok) }
-    #   it { expect(assigns(:players)).not_to be_nil }
-    #   it { expect(assigns(:tournaments)).not_to be_nil }
-    #   it { expect(assigns(:positions)).not_to be_nil }
-    #   it { expect(assigns(:clubs)).not_to be_nil }
-    # end
+  #     it { expect(response).to be_successful }
+  #     it { expect(response).to render_template(:index) }
+  #     it { expect(response).to render_template(:_paginator) }
+  #     it { expect(response).to have_http_status(:ok) }
+  #     it { expect(assigns(:players)).not_to be_nil }
+  #     it { expect(assigns(:tournaments)).not_to be_nil }
+  #     it { expect(assigns(:positions)).not_to be_nil }
+  #     it { expect(assigns(:clubs)).not_to be_nil }
+  #   end
 
-    # context 'with rating order param' do
-    #   let(:params) { { order: 'rating' } }
+  #   context 'with rating order param' do
+  #     let(:params) { { order: 'rating' } }
 
-    #   it { expect(response).to be_successful }
-    #   it { expect(response).to render_template(:index) }
-    #   it { expect(response).to render_template(:_paginator) }
-    #   it { expect(response).to have_http_status(:ok) }
-    #   it { expect(assigns(:players)).not_to be_nil }
-    #   it { expect(assigns(:tournaments)).not_to be_nil }
-    #   it { expect(assigns(:positions)).not_to be_nil }
-    #   it { expect(assigns(:clubs)).not_to be_nil }
-    # end
-  end
+  #     it { expect(response).to be_successful }
+  #     it { expect(response).to render_template(:index) }
+  #     it { expect(response).to render_template(:_paginator) }
+  #     it { expect(response).to have_http_status(:ok) }
+  #     it { expect(assigns(:players)).not_to be_nil }
+  #     it { expect(assigns(:tournaments)).not_to be_nil }
+  #     it { expect(assigns(:positions)).not_to be_nil }
+  #     it { expect(assigns(:clubs)).not_to be_nil }
+  #   end
+  # end
 
   describe 'GET #show' do
     let(:club) { create(:club, name: 'Outside') }
