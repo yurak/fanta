@@ -3,6 +3,7 @@ import Heading from "@/components/Heading";
 import SeasonsSelect from "@/components/SeasonsSelect";
 import PageLayout from "@/layouts/PageLayout";
 import { ISeason } from "@/interfaces/Season";
+import { formatNumber } from "@/helpers/formatNumber";
 import Search from "@/ui/Search";
 import { usePlayers } from "@/api/query/usePlayers";
 import PlayersFilters from "./PlayersFilters";
@@ -47,8 +48,11 @@ const Players = () => {
           <PlayersFilters />
         </div>
         <div className={styles.total}>
-          Showing <br />
-          <span> {totalItemCount} players</span>
+          Showing
+          <br />
+          <span>
+            {formatNumber(totalItemCount)} {totalItemCount === 1 ? "player" : "players"}
+          </span>
         </div>
       </div>
       <div>
