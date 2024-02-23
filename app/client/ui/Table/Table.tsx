@@ -8,7 +8,15 @@ import { useSorting } from "./useSorting";
 import { IColumn, IComputedColumn, ITableSorting } from "./interfaces";
 import styles from "./Table.module.scss";
 
-const LoadingSkeleton = ({ columns, items }: { columns: IComputedColumn[], items: number }) => {
+const LoadingSkeleton = ({
+  columns,
+  items,
+  rounded,
+}: {
+  columns: IComputedColumn[],
+  items: number,
+  rounded?: boolean,
+}) => {
   return Array.from({ length: items }).map((_, rowIndex) => (
     <div key={rowIndex} className={cn(styles.row, styles.dataRow)}>
       {columns.map((column) => {
@@ -22,6 +30,7 @@ const LoadingSkeleton = ({ columns, items }: { columns: IComputedColumn[], items
             key={column._key}
             align={column.align}
             noWrap={column.noWrap}
+            withBorder={!rounded}
             className={cn(column.className, dataClassName)}
           >
             {typeof column.skeleton === "function"
@@ -39,6 +48,7 @@ const Table = <DataItem extends object = object>({
   dataSource,
   rowKey,
   rowLink,
+  rounded,
   skeletonItems = 6,
   isLoading,
   tableClassName,
@@ -53,6 +63,7 @@ const Table = <DataItem extends object = object>({
   dataSource: DataItem[],
   rowKey?: string | ((item: DataItem) => string | number),
   rowLink?: (item: DataItem) => string,
+  rounded?: boolean,
   isLoading?: boolean,
   skeletonItems?: number,
   tableClassName?: string,
@@ -112,15 +123,23 @@ const Table = <DataItem extends object = object>({
           ))}
         </div>
         {isLoading ? (
-          <LoadingSkeleton columns={computedColumns} items={skeletonItems} />
+          <LoadingSkeleton columns={computedColumns} items={skeletonItems} rounded={rounded} />
         ) : (
-          <div className={bodyClassName}>
+          <div
+            className={cn(styles.body, bodyClassName, {
+              [styles.roundedBody]: rounded,
+            })}
+          >
             {sortedDataSource.length > 0 ? (
               sortedDataSource.map((dataItem, rowIndex) => (
                 <div
                   key={getRowKey(dataItem)}
                   className={cn(styles.row, styles.dataRow, {
-                    [styles.hoverableRow]: Boolean(rowLink),
+                    ...(Boolean(rowLink) && {
+                      [styles.hoverableRow]: true,
+                      [styles.defaultHoverableRow]: !rounded,
+                    }),
+                    [styles.roundedRow]: rounded,
                   })}
                 >
                   {computedColumns.map((column) => {
@@ -134,6 +153,7 @@ const Table = <DataItem extends object = object>({
                         key={column._key}
                         align={column.align}
                         noWrap={column.noWrap}
+                        withBorder={!rounded}
                         className={cn(column.className, dataClassName)}
                       >
                         {renderCellData(dataItem, column, rowIndex)}
