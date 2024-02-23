@@ -1,5 +1,5 @@
 const PlayerFilters = () => {
-  return <>Filters</>;
+  return <></>;
 };
 
 export default PlayerFilters;

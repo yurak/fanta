@@ -6,8 +6,8 @@ import { ISeason } from "@/interfaces/Season";
 import Search from "@/ui/Search";
 import { usePlayers } from "@/api/query/usePlayers";
 import PlayersFilters from "./PlayersFilters";
-import styles from "./Players.module.scss";
 import PlayersList from "./PlayersList";
+import styles from "./Players.module.scss";
 
 const Players = () => {
   const [search, setSearch] = useState("");
@@ -42,12 +42,13 @@ const Players = () => {
           <Search value={search} onChange={setSearch} placeholder="Search player" />
         </div>
       </div>
-      <div>
+      <div className={styles.filtersWrapper}>
         <div>
           <PlayersFilters />
         </div>
-        <div>
-          Showing <b> {totalItemCount} players</b>
+        <div className={styles.total}>
+          Showing <br />
+          <span> {totalItemCount} players</span>
         </div>
       </div>
       <div>
