@@ -1,0 +1,22 @@
+.wrapper {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.avatar {
+  flex: 0 0 66px;
+}
+
+.lastName {
+  color: #181715;
+  font-size: 16px;
+  line-height: 24px;
+  font-family: "Nunito ExtraBold";
+}
+
+.firstName {
+  font-size: 14px;
+  line-height: 16px;
+  color: #847577;
+}

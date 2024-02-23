@@ -1,6 +1,6 @@
-import PlayerAvatar from "@/components/PlayerAvatar";
 import { IPlayer } from "@/interfaces/Player";
 import Table from "@/ui/Table";
+import PlayersListInfo from "./PlayersListInfo";
 
 const PlayersList = ({
   items,
@@ -21,17 +21,7 @@ const PlayersList = ({
           {
             dataKey: "name",
             title: "Name",
-            render: ({ first_name, name, avatar_path, club }) => (
-              <div>
-                <div>
-                  <PlayerAvatar avatarSrc={avatar_path} clubKitSrc={club.kit_path} />
-                </div>
-                <div>
-                  <div>{first_name}</div>
-                  <div>{name}</div>
-                </div>
-              </div>
-            ),
+            render: (player) => <PlayersListInfo player={player} />,
           },
           {
             dataKey: "average_price",
