@@ -16,6 +16,7 @@ const PlayersList = ({
   return (
     <div>
       <Table
+        rounded
         dataSource={items}
         columns={[
           {
