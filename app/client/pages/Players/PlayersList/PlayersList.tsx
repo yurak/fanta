@@ -1,6 +1,7 @@
 import { IPlayer } from "@/interfaces/Player";
 import Table from "@/ui/Table";
 import PlayersListInfo from "./PlayersListInfo";
+import styles from "./PlayersList.module.scss";
 
 const PlayersList = ({
   items,
@@ -22,6 +23,7 @@ const PlayersList = ({
           {
             dataKey: "name",
             title: "Name",
+            dataClassName: styles.nameDataCell,
             render: (player) => <PlayersListInfo player={player} />,
           },
           {
@@ -44,6 +46,17 @@ const PlayersList = ({
           {
             dataKey: "average_total_score",
             title: "TS",
+          },
+          {
+            dataKey: "club",
+            title: "Club",
+            render: ({ club }) => {
+              return (
+                <div className={styles.logo}>
+                  <img src={club.logo_path} alt={club.name} />
+                </div>
+              );
+            },
           },
         ]}
       />
