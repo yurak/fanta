@@ -16,8 +16,10 @@ const QueryLoader = <TData, TError = DefaultError>({
   skeleton = <Skeleton />,
   children,
 }: IProps<TData, TError>) => {
-  const [ref, entry] = useIntersectionObserver<HTMLSpanElement>({ rootMargin: "50%" });
-  const { isLoading, data } = useQuery(entry?.isIntersecting ?? false);
+  const [ref, isIntersecting] = useIntersectionObserver({
+    rootMargin: "100%",
+  });
+  const { isLoading, data } = useQuery(isIntersecting);
 
   return <div ref={ref}>{isLoading || !data ? skeleton : children(data)}</div>;
 };

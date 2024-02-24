@@ -3,23 +3,33 @@ import Table from "@/ui/Table";
 import PlayersListInfo from "./PlayersListInfo";
 import styles from "./PlayersList.module.scss";
 import TournamentsLoader from "@/components/loaders/TournamentsLoader";
+import InfiniteScrollDetector from "@/components/InfiniteScrollDetector/InfiniteScrollDetector";
 
 const PlayersList = ({
   items,
   fetchNextPage,
   hasNextPage,
   isFetchingNextPage,
+  isLoading,
 }: {
   items: IPlayer[],
   fetchNextPage: () => void,
   hasNextPage: boolean,
   isFetchingNextPage: boolean,
+  isLoading: boolean,
 }) => {
+  const loadMore = () => {
+    if (hasNextPage && !isFetchingNextPage) {
+      fetchNextPage();
+    }
+  };
+
   return (
     <div>
       <Table
         rounded
         dataSource={items}
+        isLoading={isLoading}
         columns={[
           {
             dataKey: "name",
@@ -88,15 +98,11 @@ const PlayersList = ({
           },
         ]}
       />
-      <div>
-        <button onClick={() => fetchNextPage()} disabled={!hasNextPage || isFetchingNextPage}>
-          {isFetchingNextPage
-            ? "Loading more..."
-            : hasNextPage
-            ? "Load More"
-            : "Nothing more to load"}
-        </button>
-      </div>
+      {hasNextPage && (
+        <InfiniteScrollDetector className={styles.loading} loadMore={loadMore}>
+          Loading...
+        </InfiniteScrollDetector>
+      )}
     </div>
   );
 };
