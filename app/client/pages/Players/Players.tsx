@@ -14,8 +14,17 @@ const Players = () => {
   const [search, setSearch] = useState("");
   const [selectedSeason, setSelectedSeason] = useState<ISeason | null>(null);
 
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = usePlayers({
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isPending, ...rest } = usePlayers({
     search,
+  });
+
+  console.log({
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isPending,
+    ...rest,
   });
 
   const items = useMemo(() => data?.pages.flatMap((page) => page.data) ?? [], [data]);
@@ -56,7 +65,13 @@ const Players = () => {
         </div>
       </div>
       <div>
-        <PlayersList {...{ fetchNextPage, hasNextPage, isFetchingNextPage }} items={items} />
+        <PlayersList
+          fetchNextPage={fetchNextPage}
+          hasNextPage={hasNextPage}
+          isFetchingNextPage={isFetchingNextPage}
+          isLoading={isPending}
+          items={items}
+        />
       </div>
     </PageLayout>
   );
