@@ -2,6 +2,7 @@ import { IPlayer } from "@/interfaces/Player";
 import Table from "@/ui/Table";
 import PlayersListInfo from "./PlayersListInfo";
 import styles from "./PlayersList.module.scss";
+import TournamentsLoader from "@/components/loaders/TournamentsLoader";
 
 const PlayersList = ({
   items,
@@ -25,6 +26,33 @@ const PlayersList = ({
             title: "Name",
             dataClassName: styles.nameDataCell,
             render: (player) => <PlayersListInfo player={player} />,
+          },
+          {
+            dataKey: "tournament",
+            title: "TMNT",
+            render: ({ club }) => {
+              if (!club.tournament_id) {
+                return null;
+              }
+
+              return (
+                <TournamentsLoader>
+                  {(tournaments) => {
+                    const tournament = tournaments.find((t) => t.id === club.tournament_id);
+
+                    if (!tournament) {
+                      return null;
+                    }
+
+                    return (
+                      <div className={styles.logo}>
+                        <img src={tournament.logo} alt={tournament.name} />
+                      </div>
+                    );
+                  }}
+                </TournamentsLoader>
+              );
+            },
           },
           {
             dataKey: "average_price",

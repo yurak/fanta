@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import Table, { IColumn } from "@/ui/Table";
 import LeagueStatus from "@/components/LeagueStatus";
 import { ILeaguesWithTournament } from "../../interfaces";
-import LeagueLoader from "../LeagueLoader";
+import LeagueLoader from "@/components/loaders/LeagueLoader";
 import styles from "./LeaguesListDesktop.module.scss";
 
 const LeaguesListDesktop = ({

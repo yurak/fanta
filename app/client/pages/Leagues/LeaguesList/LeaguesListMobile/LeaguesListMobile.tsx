@@ -2,8 +2,8 @@ import Skeleton from "react-loading-skeleton";
 import { useTranslation } from "react-i18next";
 import LeagueStatus from "@/components/LeagueStatus";
 import DataList from "@/ui/DataList";
+import LeagueLoader from "@/components/loaders/LeagueLoader";
 import { ILeaguesWithTournament } from "../../interfaces";
-import LeagueLoader from "../LeagueLoader";
 import styles from "./LeaguesListMobile.module.scss";
 
 const LeagueItem = ({ name, tournament, status, division, id }: ILeaguesWithTournament) => {

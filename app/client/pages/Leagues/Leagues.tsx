@@ -29,7 +29,7 @@ const LeaguesPage = () => {
    */
   const allLeagues = useMemo<ILeaguesWithTournament[]>(() => {
     const tournamentMap = new Map(
-      tournamentsQuery.data.map((tournament) => [tournament.id, tournament])
+      (tournamentsQuery.data ?? []).map((tournament) => [tournament.id, tournament])
     );
 
     return leaguesQuery.data.map((league) => ({
