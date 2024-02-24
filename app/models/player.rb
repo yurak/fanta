@@ -137,7 +137,7 @@ class Player < ApplicationRecord
   end
 
   def season_matches_with_scores
-    @season_matches_with_scores ||= round_players.with_score.by_tournament_round(season_club_tournament_rounds).order(:tournament_round_id)
+    @season_matches_with_scores ||= round_players.with_score.by_tournament_round(season_club_tournament_rounds)
   end
 
   def season_ec_matches_with_scores
@@ -185,20 +185,17 @@ class Player < ApplicationRecord
   private
 
   def season_club_tournament_rounds
-    return [] unless club.tournament
-
-    TournamentRound.by_tournament(club.tournament.id).by_season(Season.last.id)
+    TournamentRound.by_tournament(Tournament.with_clubs).by_season(Season.last.id).order(deadline: :desc)
   end
 
   def season_club_eurocup_rounds
-    return [] unless club.ec_tournament
-
-    TournamentRound.by_tournament(club.ec_tournament.id).by_season(Season.last.id)
+    TournamentRound.by_tournament(Tournament.with_ec_clubs).by_season(Season.last.id)
   end
 
   def national_team_rounds
     return [] unless national_team
+    return [] unless national_team.tournament
 
-    national_team.tournament&.tournament_rounds
+    national_team.tournament.tournament_rounds.by_season(Season.last.id)
   end
 end
