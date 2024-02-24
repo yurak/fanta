@@ -22,6 +22,7 @@
   .default-header-cell{title: t('players.played_minutes')}= t('players.pm')
   .default-header-cell.right{title: t('players.base_score')}= t('players.bs')
   .default-header-cell.right{title: t('players.total_score')}= t('players.ts')
+  .default-header-cell.center{title: t('players.round_club')}= t('players.round_c')
 - matches.reverse_each do |rp|
   .player-table-row.performance-table-row
     .player-table-cell= rp.tournament_round.number
@@ -103,6 +104,10 @@
     .player-table-cell.center= rp.played_minutes
     .player-table-cell.player-table-score= rp.score
     .player-table-cell.player-table-score.player-table-ts= rp.result_score
+    .player-table-cell.center.round-table-club
+      - if rp.club&.logo_path
+        %object{data: rp.club.logo_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
+          = image_tag('default_logo.png')
 .table-total.performance-table-row
   -#.table-total-cell= t('players.total')
   .table-total-cell= player.season_scores_count(matches)
@@ -195,6 +200,7 @@
   .table-total-cell= player.season_played_minutes(matches)
   .table-total-cell.player-table-score= player.season_average_score(matches)
   .table-total-cell.player-table-score= player.season_average_result_score(matches)
+  .table-total-cell
 
 - if matches.count > 1
   .player-table-chart

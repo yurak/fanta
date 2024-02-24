@@ -641,7 +641,7 @@
       padding: 8px 0;
       line-height: 32px;
       display: grid;
-      grid-template-columns: 4fr 6fr 6fr 6fr 6fr 5fr 5fr 5fr 5fr 5fr 5fr 5fr 5fr 5fr;
+      grid-template-columns: 4fr 6fr 6fr 6fr 6fr 5fr 5fr 5fr 5fr 5fr 5fr 5fr 5fr 5fr 4fr;
       column-gap: 0;
 
       .match-player-bonus-item {
@@ -668,6 +668,18 @@
 
       .player-table-ts {
         font-family: 'Nunito ExtraBold';
+      }
+
+      .round-table-club {
+        width: 32px;
+        height: 32px;
+        padding: 4px;
+        margin: auto;
+
+        img, object {
+          width: 24px;
+          height: 24px;
+        }
       }
     }
 
