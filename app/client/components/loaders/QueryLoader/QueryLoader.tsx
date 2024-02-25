@@ -17,7 +17,7 @@ const QueryLoader = <TData, TError = DefaultError>({
   children,
 }: IProps<TData, TError>) => {
   const [ref, isIntersecting] = useIntersectionObserver({
-    rootMargin: "100%",
+    rootMargin: "1000px",
   });
   const { isLoading, data } = useQuery(isIntersecting);
 
