@@ -11,7 +11,7 @@ const InfiniteScrollDetector = ({
   className: string,
 }) => {
   const [ref, isIntersecting] = useIntersectionObserver({
-    rootMargin: "100%",
+    rootMargin: "1000px",
   });
 
   useEffect(() => {
