@@ -7,16 +7,21 @@ export const useSearchParam = <T = string>(key: string) => {
   const value = searchParams.get(key);
 
   const setValue = (value?: T) => {
-    setSearchParams((prev) => {
-      if (value) {
-        prev.set(key, value.toString());
+    setSearchParams(
+      (prev) => {
+        if (value) {
+          prev.set(key, value.toString());
+          return prev;
+        }
+
+        prev.delete(key);
+
         return prev;
+      },
+      {
+        replace: true,
       }
-
-      prev.delete(key);
-
-      return prev;
-    });
+    );
   };
 
   return useMemo<[string | null, (value?: T | null) => void]>(
