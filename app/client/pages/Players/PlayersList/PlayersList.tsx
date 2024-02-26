@@ -4,6 +4,7 @@ import PlayersListInfo from "./PlayersListInfo";
 import styles from "./PlayersList.module.scss";
 import TournamentsLoader from "@/components/loaders/TournamentsLoader";
 import InfiniteScrollDetector from "@/components/InfiniteScrollDetector/InfiniteScrollDetector";
+import PlayerPositions from "@/components/PlayerPositions/PlayerPositions";
 
 const PlayersList = ({
   items,
@@ -63,6 +64,13 @@ const PlayersList = ({
                 </TournamentsLoader>
               );
             },
+          },
+          {
+            dataKey: "position",
+            title: "Position",
+            render: ({ position_classic_arr }) => (
+              <PlayerPositions positions={position_classic_arr} />
+            ),
           },
           {
             dataKey: "average_price",
