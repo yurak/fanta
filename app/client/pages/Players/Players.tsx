@@ -12,20 +12,22 @@ import styles from "./Players.module.scss";
 
 const Players = () => {
   const [search, setSearch] = useState("");
+  const [sortField, setSortField] = useState<string | null>(null);
   const [selectedSeason, setSelectedSeason] = useState<ISeason | null>(null);
 
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isPending, ...rest } = usePlayers({
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isPending } = usePlayers({
     search,
+    sortField,
   });
 
-  console.log({
-    data,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-    isPending,
-    ...rest,
-  });
+  // console.log({
+  //   data,
+  //   fetchNextPage,
+  //   hasNextPage,
+  //   isFetchingNextPage,
+  //   isPending,
+  //   ...rest,
+  // });
 
   const items = useMemo(() => data?.pages.flatMap((page) => page.data) ?? [], [data]);
 
@@ -71,6 +73,8 @@ const Players = () => {
           isFetchingNextPage={isFetchingNextPage}
           isLoading={isPending}
           items={items}
+          setSortField={setSortField}
+          sortField={sortField}
         />
       </div>
     </PageLayout>

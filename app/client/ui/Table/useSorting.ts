@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { IComputedColumn, ITableSorting, SortFunctionType } from "./interfaces";
+import { IColumn, IComputedColumn, ITableSorting, SortFunctionType } from "./interfaces";
 
 export const useSorting = <DataItem extends object = object>({
   sorting,
@@ -23,6 +23,14 @@ export const useSorting = <DataItem extends object = object>({
     setSortColumnKey(newSortColumnKey);
   };
 
+  const getSorterObject = (column: IColumn) => {
+    if (typeof column.sorter === "object") {
+      return column.sorter;
+    }
+
+    return null;
+  };
+
   const columnSortFunction = useMemo(() => {
     if (!sortColumnKey) {
       return null;
@@ -30,19 +38,23 @@ export const useSorting = <DataItem extends object = object>({
 
     const sortedColumn = columns.find((column) => sortColumnKey === column._key);
 
-    return sortedColumn?.sorter?.compare ?? null;
+    if (!sortedColumn) {
+      return null;
+    }
+
+    return getSorterObject(sortedColumn)?.compare ?? null;
   }, [columns, sortColumnKey]);
 
   const prioritySortingFunctions = useMemo(() => {
     return columns
-      .filter((column) => column.sorter)
-      .filter((column) => typeof column.sorter?.priority !== "undefined")
-      .sort(
-        (columnA, columnB) =>
-          (columnA.sorter?.priority ?? Number.POSITIVE_INFINITY) -
-          (columnB.sorter?.priority ?? Number.POSITIVE_INFINITY)
-      )
-      .map((column) => column.sorter?.compare) as SortFunctionType<DataItem>[];
+      .filter((column) => getSorterObject(column)?.priority ?? false)
+      .sort((columnA, columnB) => {
+        return (
+          (getSorterObject(columnA)?.priority ?? Number.POSITIVE_INFINITY) -
+          (getSorterObject(columnB)?.priority ?? Number.POSITIVE_INFINITY)
+        );
+      })
+      .map((column) => getSorterObject(column)?.compare) as SortFunctionType<DataItem>[];
   }, [columns]);
 
   const sorterFunctions = useMemo(() => {

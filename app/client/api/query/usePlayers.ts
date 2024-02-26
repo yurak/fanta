@@ -5,7 +5,7 @@ import { keepPreviousData, useInfiniteQuery } from "@tanstack/react-query";
 import { IPlayer } from "@/interfaces/Player";
 import { ICollectionResponse } from "@/interfaces/api/Response";
 
-export const usePlayers = ({ search }: { search: string }) => {
+export const usePlayers = ({ search, sortField }: { search: string, sortField: string | null }) => {
   const filter = useMemo(
     () => ({
       name: search,
@@ -13,17 +13,29 @@ export const usePlayers = ({ search }: { search: string }) => {
     [search]
   );
 
+  const order = useMemo(() => {
+    if (!sortField) {
+      return undefined;
+    }
+
+    return {
+      field: sortField,
+      direction: "asc",
+    };
+  }, [sortField]);
+
   const [debouncedFilter] = useDebounceValue(filter, 500);
 
   const query = useInfiniteQuery<ICollectionResponse<IPlayer[]>>({
     staleTime: 1000 * 60 * 10, // 10 minutes
     initialPageParam: 1,
-    queryKey: ["players", debouncedFilter],
+    queryKey: ["players", debouncedFilter, order],
     queryFn: async ({ signal, pageParam: pageNumber }) => {
       return (
         await axios.get<ICollectionResponse<IPlayer[]>>("/players", {
           params: {
             filter: debouncedFilter,
+            order,
             page: {
               number: pageNumber,
               size: 30,

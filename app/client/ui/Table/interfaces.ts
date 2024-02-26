@@ -13,10 +13,12 @@ export interface IColumn<DataItem extends object = object> {
   headClassName?: string,
   headEllipsis?: boolean,
   isHidden?: boolean,
-  sorter?: {
-    compare: SortFunctionType<DataItem>,
-    priority?: number,
-  },
+  sorter?:
+    | boolean
+    | {
+        compare: SortFunctionType<DataItem>,
+        priority?: number,
+      },
   align?: "left" | "center" | "right",
   noWrap?: boolean,
 }

@@ -13,12 +13,16 @@ const PlayersList = ({
   hasNextPage,
   isFetchingNextPage,
   isLoading,
+  setSortField,
+  sortField,
 }: {
   items: IPlayer[],
   fetchNextPage: () => void,
   hasNextPage: boolean,
   isFetchingNextPage: boolean,
   isLoading: boolean,
+  setSortField: (sortField: null | string) => void,
+  sortField: null | string,
 }) => {
   const loadMore = () => {
     if (hasNextPage && !isFetchingNextPage) {
@@ -32,18 +36,24 @@ const PlayersList = ({
         rounded
         dataSource={items}
         isLoading={isLoading}
+        sorting={{
+          setSortColumn: setSortField,
+          sortColumn: sortField,
+        }}
         columns={[
           {
             dataKey: "name",
             title: "Name",
             dataClassName: styles.nameDataCell,
             className: styles.nameCell,
+            sorter: true,
             render: (player) => <PlayersListInfo player={player} />,
           },
           {
             dataKey: "tournament",
             title: "TMNT",
             className: styles.tournamentCell,
+            sorter: true,
             render: ({ club }) => {
               if (!club.tournament_id) {
                 return null;
@@ -72,6 +82,7 @@ const PlayersList = ({
             dataKey: "position",
             title: "Position",
             className: styles.positionsCell,
+            sorter: true,
             render: ({ position_classic_arr }) => (
               <PlayerPositions positions={position_classic_arr} />
             ),
@@ -81,6 +92,7 @@ const PlayersList = ({
             title: "Price",
             align: "right",
             className: styles.priceCell,
+            sorter: true,
             render: ({ average_price }) => {
               return formatNumber(average_price, {
                 zeroFallback: "-",
@@ -95,6 +107,7 @@ const PlayersList = ({
             title: "# of teams",
             align: "right",
             className: styles.totalTeamsCell,
+            sorter: true,
             render: ({ teams_count }) => {
               if (teams_count === 0) {
                 return 0;
@@ -112,6 +125,7 @@ const PlayersList = ({
             title: "Apps",
             align: "right",
             className: styles.appsCell,
+            sorter: true,
             render: ({ appearances }) => {
               if (appearances === 0) {
                 return 0;
@@ -129,6 +143,7 @@ const PlayersList = ({
             align: "right",
             title: "BS",
             className: styles.baseScoreCell,
+            sorter: true,
             render: ({ average_base_score }) => {
               return formatNumber(Number(average_base_score), {
                 minimumFractionDigits: 2,
@@ -142,6 +157,7 @@ const PlayersList = ({
             align: "right",
             dataClassName: styles.totalScoreDataCell,
             className: styles.totalScoreCell,
+            sorter: true,
             render: ({ average_total_score }) => {
               return formatNumber(Number(average_total_score), {
                 minimumFractionDigits: 2,
@@ -153,6 +169,7 @@ const PlayersList = ({
             dataKey: "club",
             title: "Club",
             className: styles.clubCell,
+            sorter: true,
             render: ({ club }) => {
               return (
                 <div className={styles.logo}>
