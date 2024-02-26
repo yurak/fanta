@@ -3,6 +3,10 @@
   padding-bottom: 0;
 }
 
+.totalScoreDataCell {
+  font-family: "Nunito ExtraBold";
+}
+
 .logo {
   width: 32px;
   height: 32px;
@@ -23,6 +27,36 @@
   color: #847577;
 }
 
-.totalScore {
-  font-family: "Nunito ExtraBold";
+/* Cell */
+.nameCell {
+  flex: 1;
+}
+
+.tournamentCell {
+  flex: 0 0 86px;
+}
+
+.positionsCell {
+  flex: 0 0 120px;
+}
+
+.priceCell {
+  flex: 0 0 88px;
+}
+
+.totalTeamsCell {
+  flex: 0 0 125px;
+}
+
+.appsCell {
+  flex: 0 0 84px;
+}
+
+.baseScoreCell,
+.totalScoreCell {
+  flex: 0 0 76px;
+}
+
+.clubCell {
+  flex: 0 0 86px;
 }
