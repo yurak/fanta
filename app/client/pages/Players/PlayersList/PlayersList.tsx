@@ -5,6 +5,7 @@ import styles from "./PlayersList.module.scss";
 import TournamentsLoader from "@/components/loaders/TournamentsLoader";
 import InfiniteScrollDetector from "@/components/InfiniteScrollDetector/InfiniteScrollDetector";
 import PlayerPositions from "@/components/PlayerPositions/PlayerPositions";
+import { formatNumber } from "@/helpers/formatNumber";
 
 const PlayersList = ({
   items,
@@ -75,23 +76,64 @@ const PlayersList = ({
           {
             dataKey: "average_price",
             title: "Price",
-            render: ({ average_price }) => (average_price ? `${average_price}M` : "-"),
+            align: "right",
+            render: ({ average_price }) => {
+              return formatNumber(average_price, {
+                zeroFallback: "-",
+                minimumFractionDigits: 1,
+                maximumFractionDigits: 1,
+                suffix: "M",
+              });
+            },
           },
           {
             dataKey: "teams_count",
             title: "# of teams",
+            align: "right",
+            render: ({ teams_count }) => {
+              return (
+                <>
+                  {formatNumber(teams_count)}
+                  <span>(n/a)</span>
+                </>
+              );
+            },
           },
           {
             dataKey: "appearances",
             title: "Apps",
+            align: "right",
+            render: ({ appearances }) => {
+              return (
+                <>
+                  {formatNumber(appearances)}
+                  <span>(n/a)</span>
+                </>
+              );
+            },
           },
           {
             dataKey: "average_base_score",
+            align: "right",
             title: "BS",
+            render: ({ average_base_score }) => {
+              return formatNumber(Number(average_base_score), {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              });
+            },
           },
           {
             dataKey: "average_total_score",
             title: "TS",
+            align: "right",
+            dataClassName: styles.totalScore,
+            render: ({ average_total_score }) => {
+              return formatNumber(Number(average_total_score), {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              });
+            },
           },
           {
             dataKey: "club",
