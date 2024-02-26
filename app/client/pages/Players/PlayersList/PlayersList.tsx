@@ -96,10 +96,13 @@ const PlayersList = ({
             align: "right",
             className: styles.totalTeamsCell,
             render: ({ teams_count }) => {
+              if (teams_count === 0) {
+                return 0;
+              }
+
               return (
                 <>
-                  {formatNumber(teams_count)}
-                  <span>(n/a)</span>
+                  {formatNumber(teams_count)} <span className={styles.totalTeamCount}>(n/a)</span>
                 </>
               );
             },
@@ -110,10 +113,13 @@ const PlayersList = ({
             align: "right",
             className: styles.appsCell,
             render: ({ appearances }) => {
+              if (appearances === 0) {
+                return 0;
+              }
+
               return (
                 <>
-                  {formatNumber(appearances)}
-                  <span>(n/a)</span>
+                  {formatNumber(appearances)} <span className={styles.totalApps}>(n/a)</span>
                 </>
               );
             },
