@@ -4,7 +4,8 @@ import { positionMappers } from "./constants";
 import styles from "./PlayerPositions.module.scss";
 
 const PlayerPositions = ({ positions }: { positions: IPlayer["position_classic_arr"] }) => {
-  const isFantaFormat = true;
+  // TODO: get from back this value
+  const isFantaFormat = false;
 
   const positionLabels = positions.map((position) => {
     const { color, label, fantaLabel } = positionMappers[position];
