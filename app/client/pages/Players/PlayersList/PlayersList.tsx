@@ -37,11 +37,13 @@ const PlayersList = ({
             dataKey: "name",
             title: "Name",
             dataClassName: styles.nameDataCell,
+            className: styles.nameCell,
             render: (player) => <PlayersListInfo player={player} />,
           },
           {
             dataKey: "tournament",
             title: "TMNT",
+            className: styles.tournamentCell,
             render: ({ club }) => {
               if (!club.tournament_id) {
                 return null;
@@ -69,6 +71,7 @@ const PlayersList = ({
           {
             dataKey: "position",
             title: "Position",
+            className: styles.positionsCell,
             render: ({ position_classic_arr }) => (
               <PlayerPositions positions={position_classic_arr} />
             ),
@@ -77,6 +80,7 @@ const PlayersList = ({
             dataKey: "average_price",
             title: "Price",
             align: "right",
+            className: styles.priceCell,
             render: ({ average_price }) => {
               return formatNumber(average_price, {
                 zeroFallback: "-",
@@ -90,6 +94,7 @@ const PlayersList = ({
             dataKey: "teams_count",
             title: "# of teams",
             align: "right",
+            className: styles.totalTeamsCell,
             render: ({ teams_count }) => {
               return (
                 <>
@@ -103,6 +108,7 @@ const PlayersList = ({
             dataKey: "appearances",
             title: "Apps",
             align: "right",
+            className: styles.appsCell,
             render: ({ appearances }) => {
               return (
                 <>
@@ -116,6 +122,7 @@ const PlayersList = ({
             dataKey: "average_base_score",
             align: "right",
             title: "BS",
+            className: styles.baseScoreCell,
             render: ({ average_base_score }) => {
               return formatNumber(Number(average_base_score), {
                 minimumFractionDigits: 2,
@@ -127,7 +134,8 @@ const PlayersList = ({
             dataKey: "average_total_score",
             title: "TS",
             align: "right",
-            dataClassName: styles.totalScore,
+            dataClassName: styles.totalScoreDataCell,
+            className: styles.totalScoreCell,
             render: ({ average_total_score }) => {
               return formatNumber(Number(average_total_score), {
                 minimumFractionDigits: 2,
@@ -138,6 +146,7 @@ const PlayersList = ({
           {
             dataKey: "club",
             title: "Club",
+            className: styles.clubCell,
             render: ({ club }) => {
               return (
                 <div className={styles.logo}>
