@@ -38,7 +38,7 @@ export const usePlayers = ({ search, sortField }: { search: string, sortField: s
             order,
             page: {
               number: pageNumber,
-              size: 30,
+              size: 25,
             },
           },
           signal,
