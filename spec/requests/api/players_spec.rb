@@ -77,7 +77,7 @@ RSpec.describe 'Players' do
       end
 
       response 200, 'Success', document: false do
-        let!(:order) { { field: 'name' } }
+        let(:order) { { order: { field: 'name' } } }
 
         schema type: :object,
                properties: {
