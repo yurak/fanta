@@ -2,6 +2,7 @@ import { ReactNode } from "react";
 import cn from "classnames";
 import SortDownIcon from "@/assets/icons/sortDown.svg";
 import TableCell from "../TableCell";
+import { SortOrder } from "../interfaces";
 import styles from "./TableHeaderCell.module.scss";
 
 const TableHeaderCell = ({
@@ -10,12 +11,14 @@ const TableHeaderCell = ({
   onSort,
   withSort,
   isSorter,
+  sortOrder,
   title,
 }: {
   className?: string,
   onSort: () => void,
   withSort: boolean,
   isSorter: boolean,
+  sortOrder?: SortOrder | null,
   ellipsis?: boolean,
   title?: ReactNode,
 }) => {
@@ -37,7 +40,13 @@ const TableHeaderCell = ({
       }}
     >
       {title}
-      {withSort && <SortDownIcon className={cn(styles.sortIcon)} />}
+      {withSort && (
+        <SortDownIcon
+          className={cn(styles.sortIcon, {
+            [styles.reverseIcon]: sortOrder === "asc",
+          })}
+        />
+      )}
     </TableCell>
   );
 };

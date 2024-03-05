@@ -100,7 +100,7 @@ const Table = <DataItem extends object = object>({
     [columns]
   );
 
-  const { onSort, sortColumnKey, sortedDataSource } = useSorting({
+  const { onSort, sortOrder, sortBy, sortedDataSource } = useSorting({
     sorting,
     columns: computedColumns,
     dataSource,
@@ -117,8 +117,9 @@ const Table = <DataItem extends object = object>({
               ellipsis={column.headEllipsis}
               title={column.title}
               withSort={!!column.sorter}
-              isSorter={column._key === sortColumnKey}
-              onSort={() => onSort(column._key)}
+              isSorter={column._key === sortBy}
+              sortOrder={column._key === sortBy ? sortOrder : null}
+              onSort={() => onSort(column)}
             />
           ))}
         </div>

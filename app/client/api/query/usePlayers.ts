@@ -4,8 +4,17 @@ import { useDebounceValue } from "usehooks-ts";
 import { keepPreviousData, useInfiniteQuery } from "@tanstack/react-query";
 import { IPlayer } from "@/interfaces/Player";
 import { ICollectionResponse } from "@/interfaces/api/Response";
+import { SortOrder } from "@/ui/Table/interfaces";
 
-export const usePlayers = ({ search, sortField }: { search: string, sortField: string | null }) => {
+export const usePlayers = ({
+  search,
+  sortBy,
+  sortOrder,
+}: {
+  search: string,
+  sortBy?: string | null,
+  sortOrder?: SortOrder | null,
+}) => {
   const filter = useMemo(
     () => ({
       name: search,
@@ -14,15 +23,15 @@ export const usePlayers = ({ search, sortField }: { search: string, sortField: s
   );
 
   const order = useMemo(() => {
-    if (!sortField) {
+    if (!sortBy) {
       return undefined;
     }
 
     return {
-      field: sortField,
-      direction: "asc",
+      field: sortBy,
+      direction: sortOrder,
     };
-  }, [sortField]);
+  }, [sortBy, sortOrder]);
 
   const [debouncedFilter] = useDebounceValue(filter, 500);
 
