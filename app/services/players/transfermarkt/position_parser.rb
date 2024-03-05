@@ -6,6 +6,7 @@ module Players
         'LB' => 'LB',
         'RB' => 'RB',
         'CB' => 'CB',
+        'SW' => 'CB',
         'RM' => 'WB',
         'LM' => 'WB',
         'DM' => 'DM',
