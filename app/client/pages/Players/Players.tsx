@@ -6,28 +6,22 @@ import { ISeason } from "@/interfaces/Season";
 import { formatNumber } from "@/helpers/formatNumber";
 import Search from "@/ui/Search";
 import { usePlayers } from "@/api/query/usePlayers";
+import { useHistorySort } from "@/hooks/useHistorySort";
 import PlayersFilters from "./PlayersFilters";
 import PlayersList from "./PlayersList";
 import styles from "./Players.module.scss";
 
 const Players = () => {
   const [search, setSearch] = useState("");
-  const [sortField, setSortField] = useState<string | null>(null);
   const [selectedSeason, setSelectedSeason] = useState<ISeason | null>(null);
+
+  const historySort = useHistorySort();
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isPending } = usePlayers({
     search,
-    sortField,
+    sortBy: historySort.sortBy,
+    sortOrder: historySort.sortOrder,
   });
-
-  // console.log({
-  //   data,
-  //   fetchNextPage,
-  //   hasNextPage,
-  //   isFetchingNextPage,
-  //   isPending,
-  //   ...rest,
-  // });
 
   const items = useMemo(() => data?.pages.flatMap((page) => page.data) ?? [], [data]);
 
@@ -73,8 +67,7 @@ const Players = () => {
           isFetchingNextPage={isFetchingNextPage}
           isLoading={isPending}
           items={items}
-          setSortField={setSortField}
-          sortField={sortField}
+          sorting={historySort}
         />
       </div>
     </PageLayout>

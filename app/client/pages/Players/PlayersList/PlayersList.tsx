@@ -1,11 +1,12 @@
 import { IPlayer } from "@/interfaces/Player";
 import Table from "@/ui/Table";
-import PlayersListInfo from "./PlayersListInfo";
-import styles from "./PlayersList.module.scss";
 import TournamentsLoader from "@/components/loaders/TournamentsLoader";
 import InfiniteScrollDetector from "@/components/InfiniteScrollDetector/InfiniteScrollDetector";
 import PlayerPositions from "@/components/PlayerPositions/PlayerPositions";
 import { formatNumber } from "@/helpers/formatNumber";
+import { ITableSorting } from "@/ui/Table/interfaces";
+import PlayersListInfo from "./PlayersListInfo";
+import styles from "./PlayersList.module.scss";
 
 const PlayersList = ({
   items,
@@ -13,16 +14,14 @@ const PlayersList = ({
   hasNextPage,
   isFetchingNextPage,
   isLoading,
-  setSortField,
-  sortField,
+  sorting,
 }: {
   items: IPlayer[],
   fetchNextPage: () => void,
   hasNextPage: boolean,
   isFetchingNextPage: boolean,
   isLoading: boolean,
-  setSortField: (sortField: null | string) => void,
-  sortField: null | string,
+  sorting: ITableSorting,
 }) => {
   const loadMore = () => {
     if (hasNextPage && !isFetchingNextPage) {
@@ -36,10 +35,7 @@ const PlayersList = ({
         rounded
         dataSource={items}
         isLoading={isLoading}
-        sorting={{
-          setSortColumn: setSortField,
-          sortColumn: sortField,
-        }}
+        sorting={sorting}
         columns={[
           {
             dataKey: "name",
@@ -47,6 +43,7 @@ const PlayersList = ({
             dataClassName: styles.nameDataCell,
             className: styles.nameCell,
             sorter: true,
+            supportAscSorting: true,
             render: (player) => <PlayersListInfo player={player} />,
           },
           {
@@ -54,6 +51,7 @@ const PlayersList = ({
             title: "TMNT",
             className: styles.tournamentCell,
             sorter: true,
+            supportAscSorting: true,
             render: ({ club }) => {
               if (!club.tournament_id) {
                 return null;
@@ -83,6 +81,7 @@ const PlayersList = ({
             title: "Position",
             className: styles.positionsCell,
             sorter: true,
+            supportAscSorting: true,
             render: ({ position_classic_arr }) => (
               <PlayerPositions positions={position_classic_arr} />
             ),
@@ -93,6 +92,7 @@ const PlayersList = ({
             align: "right",
             className: styles.priceCell,
             sorter: true,
+            supportAscSorting: true,
             render: ({ average_price }) => {
               return formatNumber(average_price, {
                 zeroFallback: "-",
@@ -108,6 +108,7 @@ const PlayersList = ({
             align: "right",
             className: styles.totalTeamsCell,
             sorter: true,
+            supportAscSorting: true,
             render: ({ teams_count }) => {
               if (teams_count === 0) {
                 return 0;
@@ -126,6 +127,7 @@ const PlayersList = ({
             align: "right",
             className: styles.appsCell,
             sorter: true,
+            supportAscSorting: true,
             render: ({ appearances }) => {
               if (appearances === 0) {
                 return 0;
@@ -144,6 +146,7 @@ const PlayersList = ({
             title: "BS",
             className: styles.baseScoreCell,
             sorter: true,
+            supportAscSorting: true,
             render: ({ average_base_score }) => {
               return formatNumber(Number(average_base_score), {
                 minimumFractionDigits: 2,
@@ -158,6 +161,7 @@ const PlayersList = ({
             dataClassName: styles.totalScoreDataCell,
             className: styles.totalScoreCell,
             sorter: true,
+            supportAscSorting: true,
             render: ({ average_total_score }) => {
               return formatNumber(Number(average_total_score), {
                 minimumFractionDigits: 2,
@@ -170,6 +174,7 @@ const PlayersList = ({
             title: "Club",
             className: styles.clubCell,
             sorter: true,
+            supportAscSorting: true,
             render: ({ club }) => {
               return (
                 <div className={styles.logo}>
