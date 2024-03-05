@@ -15,6 +15,7 @@ module Transfers
         create_transfer
         team.update(budget: team.budget + init_transfer.price)
         player_team.destroy
+        TelegramBot::PlayerSoldNotifier.call(player, team)
       end
     end
 
