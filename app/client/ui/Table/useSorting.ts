@@ -24,7 +24,7 @@ export const useSorting = <DataItem extends object = object>({
 
   const onSort = (column: IComputedColumn<DataItem>) => {
     const supportAscSorting = column.supportAscSorting ?? false;
-    const sortOrders: ["asc", "desc"] | ["desc"] = supportAscSorting ? ["asc", "desc"] : ["desc"];
+    const sortOrders: ["desc", "asc"] | ["desc"] = supportAscSorting ? ["desc", "asc"] : ["desc"];
     const supportedSortOrders = [null, ...sortOrders];
 
     if (sortBy !== column._key) {
