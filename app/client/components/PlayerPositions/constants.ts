@@ -59,12 +59,12 @@ export const positionMappers: Record<
   },
   // red
   [PlayerPosition.FW]: {
-    color: "purple",
+    color: "red",
     label: "FW",
     fantaLabel: "A",
   },
   [PlayerPosition.ST]: {
-    color: "purple",
+    color: "red",
     label: "ST",
     fantaLabel: "Pc",
   },
