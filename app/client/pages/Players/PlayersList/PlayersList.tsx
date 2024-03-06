@@ -141,7 +141,7 @@ const PlayersList = ({
             },
           },
           {
-            dataKey: "average_base_score",
+            dataKey: "base_score",
             align: "right",
             title: "BS",
             className: styles.baseScoreCell,
@@ -155,7 +155,7 @@ const PlayersList = ({
             },
           },
           {
-            dataKey: "average_total_score",
+            dataKey: "total_score",
             title: "TS",
             align: "right",
             dataClassName: styles.totalScoreDataCell,
