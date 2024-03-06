@@ -48,7 +48,11 @@ module Auctions
     end
 
     def close
-      auction.closed! if (auction.blind_bids? || auction.live?) && status == CLOSED_STATUS
+      return unless (auction.blind_bids? || auction.live?) && status == CLOSED_STATUS
+
+      auction.closed!
+
+      TelegramBot::AuctionFinishedNotifier.call(auction)
     end
   end
 end

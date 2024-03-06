@@ -4,16 +4,17 @@ namespace :tm do
   desc 'Check TM players position and write to csv if diff'
   task :check_club_player_position, %i[tournament_id] => :environment do |_t, args|
     clubs = args[:tournament_id] ? Club.active.where(tournament_id: args[:tournament_id]).order(:name) : Club.active.order(:tournament_id)
+    # clubs = Club.archived.order(:tournament_id)
 
     CSV.open('log/player_position.csv', 'ab') do |writer|
       writer << ['id', 'name', 'club', 'tm_url', 'actual positions', 'recommended positions']
-      clubs.limit(33).each do |club|
+      clubs.each do |club|
         puts "--------#{club.name}--------"
         club.players.each do |pl|
           res = Players::Transfermarkt::PositionMapper.call(pl, 2023)
           pos = pl.player_positions.map { |pp| Slot::POS_MAPPING[pp.position.name] }
           if res
-            unless (res & pos) == res
+            unless pos.sort == res.compact.sort
               writer << [pl.id, pl.name, club.name, pl.tm_url, pos.join(','), res.join(','), pl.current_average_price]
             end
           else

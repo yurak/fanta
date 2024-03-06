@@ -75,6 +75,26 @@ RSpec.describe 'Players' do
           expect(body['meta']['page']['current_page']).to eq 1
         end
       end
+
+      response 200, 'Success', document: false do
+        let(:order) { { order: { field: 'name' } } }
+
+        schema type: :object,
+               properties: {
+                 data: { type: :array, items: { '$ref' => '#/components/schemas/player_base' } }
+               }
+
+        run_test! do |response|
+          body = JSON.parse(response.body)
+
+          expect(body['data'].size).to eq 2
+          expect(body['data'].pluck('id')).to contain_exactly(player_one.id, player_two.id)
+          expect(body['meta']['size']).to eq 2
+          expect(body['meta']['page']['per_page']).to eq 30
+          expect(body['meta']['page']['total_pages']).to eq 1
+          expect(body['meta']['page']['current_page']).to eq 1
+        end
+      end
     end
   end
 
