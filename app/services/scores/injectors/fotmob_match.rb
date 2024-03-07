@@ -91,32 +91,40 @@ module Scores
       end
 
       def player_hash(player_data)
+        # TODO: fetch rating from rating: player_stats(player_data, 'FotMob rating')
         hash = {
           fotmob_id: player_data['id'],
           fotmob_name: player_name(player_data),
           rating: player_data['rating']['num'],
-          played_minutes: player_data['minutesPlayed'].to_i,
+          played_minutes: player_stats(player_data, 'Minutes played'),
+          goals: player_stats(player_data, 'Goals'),
+          assists: player_stats(player_data, 'Assists'),
           missed_goals: player_stats(player_data, 'Goals conceded'),
           penalty_missed_goals: player_stats(player_data, 'Penalty goals conceded'),
-          saves: player_stats(player_data, 'Saves'),
-          conceded_penalty: player_stats(player_data, 'Conceded penalty'),
-          penalties_won: player_stats(player_data, 'Penalties won')
-        }.compact
+          own_goals: player_stats(player_data, 'Own goal'),
+          saves: player_stats(player_data, 'Saves')
+        }.merge!(penalty_stats(player_data)).compact
 
         return hash unless player_data['events']
 
-        hash.merge!(player_events_hash(player_data))
+        hash.merge!(player_cards_hash(player_data))
+      end
+
+      def penalty_stats(player_data)
+        {
+          caught_penalty: player_stats(player_data, 'Saved penalties'),
+          failed_penalty: player_stats(player_data, 'Missed penalty'),
+          conceded_penalty: player_stats(player_data, 'Conceded penalty'),
+          penalties_won: player_stats(player_data, 'Penalties won')
+        }.compact
       end
 
       def player_stats(player_data, key)
-        player_data['stats'][0]['stats'][key] ? player_data['stats'][0]['stats'][key]['value'] : 0
+        player_data['stats'][0]['stats'][key] ? player_data['stats'][0]['stats'][key]['stat']['value'] : 0
       end
 
-      def player_events_hash(player_data)
+      def player_cards_hash(player_data)
         {
-          goals: player_data['events']['g'], assists: player_data['events']['as'],
-          caught_penalty: player_data['events']['savedPenalties'], failed_penalty: player_data['events']['mp'],
-          own_goals: player_data['events']['og'],
           yellow_card: card?(player_data['events']['yc']),
           red_card: card?(player_data['events']['ycrc']) || card?(player_data['events']['rc'])
         }
