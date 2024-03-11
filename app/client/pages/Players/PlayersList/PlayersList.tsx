@@ -50,8 +50,6 @@ const PlayersList = ({
             dataKey: "tournament",
             title: "TMNT",
             className: styles.tournamentCell,
-            sorter: true,
-            supportAscSorting: true,
             render: ({ club }) => {
               if (!club.tournament_id) {
                 return null;
@@ -107,8 +105,6 @@ const PlayersList = ({
             title: "# of teams",
             align: "right",
             className: styles.totalTeamsCell,
-            sorter: true,
-            supportAscSorting: true,
             render: ({ teams_count }) => {
               if (teams_count === 0) {
                 return 0;
@@ -173,8 +169,6 @@ const PlayersList = ({
             dataKey: "club",
             title: "Club",
             className: styles.clubCell,
-            sorter: true,
-            supportAscSorting: true,
             render: ({ club }) => {
               return (
                 <div className={styles.logo}>
