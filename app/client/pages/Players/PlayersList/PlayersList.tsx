@@ -52,7 +52,7 @@ const PlayersList = ({
             className: styles.tournamentCell,
             render: ({ club }) => {
               if (!club.tournament_id) {
-                return null;
+                return "-";
               }
 
               return (
@@ -61,7 +61,7 @@ const PlayersList = ({
                     const tournament = tournaments.find((t) => t.id === club.tournament_id);
 
                     if (!tournament) {
-                      return null;
+                      return "-";
                     }
 
                     return (
@@ -71,6 +71,18 @@ const PlayersList = ({
                     );
                   }}
                 </TournamentsLoader>
+              );
+            },
+          },
+          {
+            dataKey: "club",
+            title: "Club",
+            className: styles.clubCell,
+            render: ({ club }) => {
+              return (
+                <div className={styles.logo}>
+                  <img src={club.logo_path} alt={club.name} />
+                </div>
               );
             },
           },
@@ -89,6 +101,7 @@ const PlayersList = ({
             title: "Price",
             align: "right",
             className: styles.priceCell,
+            noWrap: true,
             sorter: true,
             supportAscSorting: true,
             render: ({ average_price }) => {
@@ -102,7 +115,12 @@ const PlayersList = ({
           },
           {
             dataKey: "teams_count",
-            title: "# of teams",
+            title: (
+              <>
+                <span className={styles.desktopTitle}># of teams</span>
+                <span className={styles.mobileTitle}>Teams</span>
+              </>
+            ),
             align: "right",
             className: styles.totalTeamsCell,
             render: ({ teams_count }) => {
@@ -163,18 +181,6 @@ const PlayersList = ({
                 minimumFractionDigits: 2,
                 maximumFractionDigits: 2,
               });
-            },
-          },
-          {
-            dataKey: "club",
-            title: "Club",
-            className: styles.clubCell,
-            render: ({ club }) => {
-              return (
-                <div className={styles.logo}>
-                  <img src={club.logo_path} alt={club.name} />
-                </div>
-              );
             },
           },
         ]}
