@@ -6,15 +6,16 @@ import { ISeason } from "@/interfaces/Season";
 import { formatNumber } from "@/helpers/formatNumber";
 import Search from "@/ui/Search";
 import { usePlayers } from "@/api/query/usePlayers";
+import { useHistorySearch } from "@/hooks/useHistorySearch";
 import { useHistorySort } from "@/hooks/useHistorySort";
 import PlayersFilters from "./PlayersFilters";
 import PlayersList from "./PlayersList";
 import styles from "./Players.module.scss";
 
 const Players = () => {
-  const [search, setSearch] = useState("");
   const [selectedSeason, setSelectedSeason] = useState<ISeason | null>(null);
 
+  const [search, setSearch] = useHistorySearch("martinez");
   const historySort = useHistorySort();
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isPending } = usePlayers({
