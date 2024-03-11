@@ -9,10 +9,8 @@ interface IProps {
 const PlayersListInfo = ({ player: { avatar_path, club, first_name, name } }: IProps) => {
   return (
     <div className={styles.wrapper}>
-      <div className={styles.avatar}>
-        <PlayerAvatar avatarSrc={avatar_path} clubKitSrc={club.kit_path} />
-      </div>
-      <div>
+      <PlayerAvatar className={styles.avatar} avatarSrc={avatar_path} clubKitSrc={club.kit_path} />
+      <div className={styles.info}>
         <div className={styles.lastName}>{name}</div>
         <div className={styles.firstName}>{first_name}</div>
       </div>

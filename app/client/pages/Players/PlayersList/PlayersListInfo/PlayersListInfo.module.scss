@@ -5,18 +5,36 @@
 }
 
 .avatar {
-  flex: 0 0 66px;
+  flex: 0 0 72px;
+  width: 72px;
+
+  @media (max-width: 1300px) {
+    flex-basis: 60px;
+    width: 60px;
+  }
+}
+
+.info {
+  flex: 1;
+  min-width: 0;
 }
 
 .lastName {
   color: #181715;
   font-size: 16px;
-  line-height: 24px;
+  line-height: 18px;
+  margin-bottom: 2px;
   font-family: "Nunito ExtraBold";
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 .firstName {
   font-size: 14px;
   line-height: 16px;
   color: #847577;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
