@@ -1,8 +1,7 @@
+import { useMediaQuery } from "usehooks-ts";
 import { ILeaguesWithTournament } from "../interfaces";
 import LeaguesListDesktop from "./LeaguesListDesktop";
 import LeaguesListMobile from "./LeaguesListMobile";
-
-import styles from "./LeaguesList.module.scss";
 
 const LeaguesList = ({
   dataSource,
@@ -11,16 +10,13 @@ const LeaguesList = ({
   dataSource: ILeaguesWithTournament[],
   isLoading: boolean,
 }) => {
-  return (
-    <>
-      <div className={styles.desktop}>
-        <LeaguesListDesktop dataSource={dataSource} isLoading={isLoading} />
-      </div>
-      <div className={styles.mobile}>
-        <LeaguesListMobile dataSource={dataSource} isLoading={isLoading} />
-      </div>
-    </>
-  );
+  const isMobile = useMediaQuery("(max-width: 768px)");
+
+  if (isMobile) {
+    return <LeaguesListMobile dataSource={dataSource} isLoading={isLoading} />;
+  }
+
+  return <LeaguesListDesktop dataSource={dataSource} isLoading={isLoading} />;
 };
 
 export default LeaguesList;
