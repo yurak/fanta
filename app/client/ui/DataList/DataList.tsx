@@ -23,6 +23,7 @@ const DataList = <DataItem extends object = object>({
   renderItem,
   itemKey,
   itemLink,
+  itemClassName,
   isLoading,
   skeletonRender,
   skeletonItems,
@@ -32,6 +33,7 @@ const DataList = <DataItem extends object = object>({
   renderItem: (item: DataItem) => React.ReactNode,
   itemKey: (item: DataItem) => string | number,
   itemLink?: (item: DataItem) => string,
+  itemClassName?: string,
   isLoading?: boolean,
   skeletonRender?: () => React.ReactNode,
   skeletonItems?: number,
@@ -48,7 +50,10 @@ const DataList = <DataItem extends object = object>({
         <>
           {dataSource.length > 0 ? (
             dataSource.map((dataItem) => (
-              <div key={itemKey(dataItem)} className={cn(styles.item, styles.hoverableItem)}>
+              <div
+                key={itemKey(dataItem)}
+                className={cn(styles.item, styles.hoverableItem, itemClassName)}
+              >
                 {itemLink && <a href={itemLink(dataItem)} className={styles.itemLink} />}
                 {renderItem(dataItem)}
               </div>

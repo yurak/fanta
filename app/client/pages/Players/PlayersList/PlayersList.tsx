@@ -32,7 +32,7 @@ const PlayersList = ({
   return (
     <div>
       {isMobile ? (
-        <PlayersListMobile items={items} isLoading={isLoading} sorting={sorting} />
+        <PlayersListMobile items={items} isLoading={isLoading} />
       ) : (
         <PlayersListDesktop items={items} isLoading={isLoading} sorting={sorting} />
       )}
