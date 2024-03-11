@@ -19,7 +19,7 @@ module TelegramBot
     private
 
     def message(team)
-      "#{league.tournament.icon} Auction message to #{team.human_name}"
+      "#{league.tournament.icon} Auction message to #{team.human_name} team"
     end
 
     def league
