@@ -4,7 +4,6 @@
 
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
   gap: var(--gap);
 }
 
@@ -16,9 +15,18 @@
   }
 }
 
-.heading {
-  flex: 0 0 calc(100% - var(--year-select-width) - var(--gap));
+.headerTop {
+  width: 100%;
+  display: flex;
+  gap: var(--gap);
+  justify-content: space-between;
 
+  @media (max-width: 768px) {
+    display: contents;
+  }
+}
+
+.heading {
   @media (max-width: 768px) {
     display: none;
   }

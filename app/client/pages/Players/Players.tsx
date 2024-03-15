@@ -39,11 +39,13 @@ const Players = () => {
   return (
     <PageLayout>
       <div className={styles.header}>
-        <div className={styles.heading}>
-          <Heading title="Players" noSpace />
-        </div>
-        <div className={styles.yearSelect}>
-          <SeasonsSelect value={selectedSeason} onChange={setSelectedSeason} />
+        <div className={styles.headerTop}>
+          <div className={styles.heading}>
+            <Heading title="Players" noSpace />
+          </div>
+          <div className={styles.yearSelect}>
+            <SeasonsSelect value={selectedSeason} onChange={setSelectedSeason} />
+          </div>
         </div>
         <div className={styles.search}>
           <Search value={search} onChange={setSearch} placeholder="Search player" />
