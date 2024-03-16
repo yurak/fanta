@@ -24,7 +24,7 @@ Rails.application.routes.draw do
   get 'rules',    to: 'welcome#rules'
 
 
-  telegram_webhook Telegram::WebhookController
+  # telegram_webhook Telegram::WebhookController
   telegram_webhook Telegram::WebhookController, :mantra_prod
 
   resources :articles
