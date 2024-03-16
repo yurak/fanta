@@ -3,9 +3,9 @@ module Telegram
 
     include Telegram::Bot::UpdatesController::MessageContext
 
-    def start!(*)
-      respond_with :message, text: 'started'
-    end
+    # def start!(*)
+    #   respond_with :message, text: 'started'
+    # end
 
     def start!
       puts 'starting'
