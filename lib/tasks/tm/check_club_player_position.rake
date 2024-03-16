@@ -6,12 +6,13 @@ namespace :tm do
     clubs = args[:tournament_id] ? Club.active.where(tournament_id: args[:tournament_id]).order(:name) : Club.active.order(:tournament_id)
     # clubs = Club.archived.order(:tournament_id)
 
+    year = Season.last.start_year
     CSV.open('log/player_position.csv', 'ab') do |writer|
       writer << ['id', 'name', 'club', 'tm_url', 'actual positions', 'recommended positions']
       clubs.each do |club|
         puts "--------#{club.name}--------"
         club.players.each do |pl|
-          res = Players::Transfermarkt::PositionMapper.call(pl, 2023)
+          res = Players::Transfermarkt::PositionMapper.call(pl, year)
           pos = pl.player_positions.map { |pp| Slot::POS_MAPPING[pp.position.name] }
           if res
             unless pos.sort == res.compact.sort
@@ -30,13 +31,14 @@ namespace :tm do
   task :check_player_position_two_season, %i[tournament_id] => :environment do |_t, args|
     clubs = args[:tournament_id] ? Club.active.where(tournament_id: args[:tournament_id]).order(:name) : Club.active.order(:tournament_id)
 
+    year = Season.last.start_year
     CSV.open('log/player_position.csv', 'ab') do |writer|
       writer << ['id', 'name', 'club', 'tm_url', 'actual positions', 'recommended positions 22/23', 'recommended positions 23/24']
       clubs.limit(33).each do |club|
         puts "--------#{club.name}--------"
         club.players.each do |pl|
-          res = Players::Transfermarkt::PositionMapper.call(pl, 2022)
-          res2 = Players::Transfermarkt::PositionMapper.call(pl, 2023)
+          res = Players::Transfermarkt::PositionMapper.call(pl, year - 1)
+          res2 = Players::Transfermarkt::PositionMapper.call(pl, year)
           pos = pl.player_positions.map { |pp| Slot::POS_MAPPING[pp.position.name] }
           if res && res2
             unless (res2 & pos) == res2

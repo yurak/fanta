@@ -12,7 +12,8 @@ module Players
       ATTACK_POS = [FORWARD, STRIKER].freeze
       DEFENCE_POS = %w[CB RB LB].freeze
       FULLBACK_POS = %w[RB LB].freeze
-      LOWER_POS_PAIRS = [%w[W WB], %w[W CM], %w[W DM], %w[DM CB], %w[CM DM], %w[AM WB], %w[AM DM], %w[AM CM], %w[FW AM], %w[FW W]].freeze
+      # LOWER_POS_PAIRS = [%w[W WB], %w[W CM], %w[W DM], %w[DM CB], %w[CM DM], %w[AM WB], %w[AM DM], %w[AM CM], %w[FW AM], %w[FW W]].freeze
+      LOWER_POS_PAIRS = [%w[CM DM]].freeze
       VIOLET_LINE_POS = %w[W AM].freeze
 
       attr_reader :player, :current_year
@@ -33,9 +34,9 @@ module Players
         return @result_arr if ATTACK_POS.include?(@result_arr.first)
 
         add_second_pos
+        remove_lower_pos
         add_wb_to_fullback
         add_def_to_wingback
-        remove_lower_pos
         process_am_w
 
         @result_arr
@@ -62,6 +63,12 @@ module Players
         @result_arr << mantra_arr.second&.first if mantra_arr.second&.second.to_i > (SECOND_COEFFICIENT * sum)
       end
 
+      def remove_lower_pos
+        return unless @result_arr[1]
+
+        @result_arr.pop(1) if other_line? || LOWER_POS_PAIRS.include?(@result_arr)
+      end
+
       def add_wb_to_fullback
         @result_arr << WING_BACK if (@result_arr - FULLBACK_POS).empty?
       end
@@ -72,10 +79,6 @@ module Players
         DEFENCE_POS.each do |pos|
           @result_arr << pos if two_seasons_stat[pos].to_i > MIN_DEF_NUMBER
         end
-      end
-
-      def remove_lower_pos
-        @result_arr.pop(1) if LOWER_POS_PAIRS.include?(@result_arr)
       end
 
       def process_am_w
@@ -111,6 +114,14 @@ module Players
 
       def two_seasons_stat
         @two_seasons_stat ||= current_stat.merge(previous_stat) { |_, cur, prev| cur + prev }
+      end
+
+      def other_line?
+        (line(@result_arr[0]) > line(@result_arr[1])) || (line(@result_arr[1]) - line(@result_arr[0]) == 2)
+      end
+
+      def line(position)
+        Position::LINE_VALUE[Position::HUMAN_MAP[position]]
       end
     end
   end

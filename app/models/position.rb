@@ -23,6 +23,12 @@ class Position < ApplicationRecord
   M_MALUS = 3.0
   L_MALUS = 4.5
 
+  ORANGE_LINE = 0
+  GREEN_LINE = 1
+  BLUE_LINE = 2
+  PURPLE_LINE = 3
+  RED_LINE = 4
+
   LIST = [GOALKEEPER, CENTER_BACK, LEFT_BACK, RIGHT_BACK, WING_BACK, DEFENCE_MF, CENTER_MF, WINGER, ATTACKING_MF, FORWARD, STRIKER].freeze
   CLEANSHEET_ZONE = [GOALKEEPER, CENTER_BACK, LEFT_BACK, RIGHT_BACK, DEFENCE_MF, WING_BACK].freeze
   D_CLEANSHEET_ZONE = [CENTER_BACK, LEFT_BACK, RIGHT_BACK].freeze
@@ -95,5 +101,52 @@ class Position < ApplicationRecord
     'Right Winger' => 'RW',
     'Second Striker' => 'SS',
     'Centre-Forward' => 'CF'
+  }.freeze
+
+  TM_POSITION_MAP = {
+    'GK' => 'GK',
+    'LB' => 'LB',
+    'RB' => 'RB',
+    'CB' => 'CB',
+    'SW' => 'CB',
+    'RM' => 'WB',
+    'LM' => 'WB',
+    'DM' => 'DM',
+    'CM' => 'CM',
+    'RW' => 'W',
+    'LW' => 'W',
+    'AM' => 'AM',
+    'SS' => 'FW',
+    'CF' => 'ST'
+  }.freeze
+
+  # Human name to classic
+  HUMAN_MAP = {
+    'GK' => GOALKEEPER,
+    'LB' => LEFT_BACK,
+    'RB' => RIGHT_BACK,
+    'CB' => CENTER_BACK,
+    'WB' => WING_BACK,
+    'DM' => DEFENCE_MF,
+    'CM' => CENTER_MF,
+    'W' => WINGER,
+    'AM' => ATTACKING_MF,
+    'FW' => FORWARD,
+    'ST' => STRIKER
+  }.freeze
+
+  # Position line in module
+  LINE_VALUE = {
+    GOALKEEPER => ORANGE_LINE,
+    LEFT_BACK => GREEN_LINE,
+    RIGHT_BACK => GREEN_LINE,
+    CENTER_BACK => GREEN_LINE,
+    WING_BACK => BLUE_LINE,
+    DEFENCE_MF => BLUE_LINE,
+    CENTER_MF => BLUE_LINE,
+    WINGER => PURPLE_LINE,
+    ATTACKING_MF => PURPLE_LINE,
+    FORWARD => RED_LINE,
+    STRIKER => RED_LINE
   }.freeze
 end
