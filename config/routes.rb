@@ -25,6 +25,7 @@ Rails.application.routes.draw do
 
 
   telegram_webhook Telegram::WebhookController
+  telegram_webhook Telegram::WebhookController, :mantra_prod
 
   resources :articles
 
