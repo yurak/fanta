@@ -14,6 +14,7 @@ module Stats
         club.players.each do |player|
           next if player.season_scores_count.zero?
 
+          # TODO: create statistics for each club where the player played during the season
           stats(player).update(stats_hash(player))
         end
       end
