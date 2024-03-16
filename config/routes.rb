@@ -23,6 +23,9 @@ Rails.application.routes.draw do
   get 'guide',    to: 'welcome#guide'
   get 'rules',    to: 'welcome#rules'
 
+
+  telegram_webhook Telegram::WebhookController
+
   resources :articles
 
   resources :auction_rounds, only: [:show] do
