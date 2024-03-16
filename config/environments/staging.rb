@@ -69,9 +69,10 @@ Rails.application.configure do
 
   config.action_mailer.delivery_method = :test
 
-  config.action_mailer.default_url_options = { host: 'localhost', port: 3333, protocol: 'http', only_path: false }
-  # config.action_mailer.default_url_options = { host: 'mantrafootball.org', protocol: 'https' }
-  config.action_controller.default_url_options =  { host: 'staging.mantrafootball.org', protocol: 'https' }
+  # config.action_mailer.default_url_options = { host: 'localhost', port: 3333, protocol: 'http', only_path: false }
+  config.action_mailer.default_url_options = { host: 'staging.mantrafootball.org', protocol: 'https' }
+  # config.action_controller.default_url_options =  { host: 'staging.mantrafootball.org', protocol: 'https' }
+
   # SMTP settings for gmail
   # config.action_mailer.smtp_settings = {
   #   :address              => 'smtp.gmail.com',
