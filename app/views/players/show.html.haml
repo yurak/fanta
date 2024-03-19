@@ -27,7 +27,7 @@
                   = position_name(position)
             .player-show-score
               .player-show-score-value
-                = player.season_average_result_score
+                = player.season_average_result_score(player.season_club_matches_w_scores)
         .player-show-avatar
           .player-show-face
             %object{data: player.profile_avatar_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
@@ -129,7 +129,7 @@
                 .default-tab-name= t('players.international')
             .player-tabs-content
               .domestic.player-tab-content
-                = render('performance', player: player, matches: player.season_matches_with_scores)
+                = render('performance', player: player, matches: player.season_club_matches_w_scores)
               .eurocups.player-tab-content
                 = render('performance', player: player, matches: player.season_ec_matches_with_scores)
               .international.player-tab-content

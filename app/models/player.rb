@@ -137,7 +137,11 @@ class Player < ApplicationRecord
   end
 
   def season_matches_with_scores
-    @season_matches_with_scores ||= round_players.with_score.by_tournament_round(season_club_tournament_rounds)
+    @season_matches_with_scores ||= round_players.with_score.by_tournament_round(club_tournament_season_rounds)
+  end
+
+  def season_club_matches_w_scores
+    @season_club_matches_w_scores ||= round_players.with_score.by_tournament_round(season_tournament_rounds)
   end
 
   def season_ec_matches_with_scores
@@ -184,7 +188,15 @@ class Player < ApplicationRecord
 
   private
 
-  def season_club_tournament_rounds
+  # all TournamentRound in current tournament for this season
+  def club_tournament_season_rounds
+    return [] unless club.tournament
+
+    TournamentRound.by_tournament(club.tournament.id).by_season(Season.last.id)
+  end
+
+  # all TournamentRound for this season
+  def season_tournament_rounds
     TournamentRound.by_tournament(Tournament.with_clubs).by_season(Season.last.id).order(deadline: :desc)
   end
 
