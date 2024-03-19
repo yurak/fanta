@@ -5,20 +5,19 @@
   align-items: center;
 }
 
-.image {
-  width: 96px;
-  height: 96px;
+.pseudoIcon {
+  width: 2em;
+  height: 2em;
+  font-size: 48px;
+  line-height: 2;
+  background-color: #e5e6e4;
+  border-radius: 50%;
+  padding-top: 0.05em;
   margin-bottom: 24px;
 
   @media (max-width: 1200px) {
-    width: 64px;
-    height: 64px;
+    font-size: 32px;
     margin-bottom: 18px;
-  }
-
-  img {
-    width: 100%;
-    height: 100%;
   }
 }
 
