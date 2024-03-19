@@ -6,26 +6,14 @@
 }
 
 .image {
-  width: 64px;
-  height: 64px;
-  margin-bottom: 18px;
+  width: 96px;
+  height: 96px;
+  margin-bottom: 24px;
 
-  @media (max-width: 768px) {
-    width: 48px;
-    height: 48px;
-    margin-bottom: 12px;
-  }
-
-  .large & {
-    width: 96px;
-    height: 96px;
-    margin-bottom: 24px;
-
-    @media (max-width: 768px) {
-      width: 64px;
-      height: 64px;
-      margin-bottom: 18px;
-    }
+  @media (max-width: 1200px) {
+    width: 64px;
+    height: 64px;
+    margin-bottom: 18px;
   }
 
   img {
@@ -34,41 +22,32 @@
   }
 }
 
-.title,
-.description {
+.title {
   font-family: "Nunito ExtraBold";
-  font-size: 24px;
-  line-height: 1.2;
+  font-size: 32px;
+  line-height: 1;
+  color: #181715;
+
+  @media (max-width: 1200px) {
+    font-size: 24px;
+    line-height: 1.2;
+  }
 
   @media (max-width: 768px) {
-    font-size: 18px;
+    font-size: 21px;
     line-height: 1.4;
   }
-
-  .large & {
-    font-size: 32px;
-    line-height: 1;
-
-    @media (max-width: 768px) {
-      font-size: 24px;
-      line-height: 1.2;
-    }
-  }
-}
-
-.title {
-  color: #181715;
 }
 
 .description {
-  color: #a6a2a2;
-  margin-top: 12px;
+  font-size: 18px;
+  line-height: 24px;
+  color: #847577;
+  margin-top: 16px;
 
-  .large & {
-    margin-top: 16px;
-
-    @media (max-width: 768px) {
-      margin-top: 12px;
-    }
+  @media (max-width: 1200px) {
+    font-size: 16px;
+    line-height: 20px;
+    margin-top: 12px;
   }
 }

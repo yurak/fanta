@@ -27,7 +27,7 @@ const DataList = <DataItem extends object = object>({
   isLoading,
   skeletonRender,
   skeletonItems,
-  emptyState = { title: "No data" },
+  emptyStateComponent = <EmptyState title="No data" />,
 }: {
   dataSource: DataItem[],
   renderItem: (item: DataItem) => React.ReactNode,
@@ -37,10 +37,7 @@ const DataList = <DataItem extends object = object>({
   isLoading?: boolean,
   skeletonRender?: () => React.ReactNode,
   skeletonItems?: number,
-  emptyState?: {
-    title: string,
-    description?: string,
-  },
+  emptyStateComponent?: React.ReactNode,
 }) => {
   return (
     <div className={styles.list}>
@@ -59,9 +56,7 @@ const DataList = <DataItem extends object = object>({
               </div>
             ))
           ) : (
-            <div className={styles.emptyState}>
-              <EmptyState title={emptyState.title} description={emptyState.description} />
-            </div>
+            <div className={styles.emptyState}>{emptyStateComponent}</div>
           )}
         </>
       )}

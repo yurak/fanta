@@ -55,9 +55,7 @@ const Table = <DataItem extends object = object>({
   tableInnerClassName,
   bodyClassName,
   sorting,
-  emptyState = {
-    title: "No data",
-  },
+  emptyStateComponent = <EmptyState title="No data" />,
 }: {
   columns: IColumn<DataItem>[],
   dataSource: DataItem[],
@@ -70,10 +68,7 @@ const Table = <DataItem extends object = object>({
   tableInnerClassName?: string,
   bodyClassName?: string,
   sorting?: ITableSorting,
-  emptyState?: {
-    title: string,
-    description?: string,
-  },
+  emptyStateComponent?: React.ReactNode,
 }) => {
   const getRowKey = (item: DataItem) => {
     if (typeof rowKey === "function") {
@@ -165,9 +160,7 @@ const Table = <DataItem extends object = object>({
                 </div>
               ))
             ) : (
-              <div className={styles.emptyState}>
-                <EmptyState title={emptyState.title} description={emptyState.description} />
-              </div>
+              <div className={styles.emptyState}>{emptyStateComponent}</div>
             )}
           </div>
         )}
