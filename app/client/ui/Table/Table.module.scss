@@ -68,9 +68,13 @@
 }
 
 .emptyState {
-  padding: 24px;
+  padding: 96px 24px;
+
+  @media (max-width: 1200px) {
+    padding: 48px 16px;
+  }
 
   @media (max-width: 768px) {
-    padding: 12px;
+    padding: 24px 12px;
   }
 }

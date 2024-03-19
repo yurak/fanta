@@ -4,6 +4,7 @@ import TournamentsLoader from "@/components/loaders/TournamentsLoader";
 import PlayerPositions from "@/components/PlayerPositions/PlayerPositions";
 import { formatNumber } from "@/helpers/formatNumber";
 import { ITableSorting } from "@/ui/Table/interfaces";
+import EmptyState from "@/ui/EmptyState";
 import PlayersListInfo from "../PlayersListInfo";
 import styles from "./PlayersListDesktop.module.scss";
 
@@ -22,6 +23,12 @@ const PlayersListDesktop = ({
       dataSource={items}
       isLoading={isLoading}
       sorting={sorting}
+      emptyStateComponent={
+        <EmptyState
+          title="Players not found"
+          description="Make sure that the player’s name is spelled correctly or try other filter parameters"
+        />
+      }
       columns={[
         {
           dataKey: "name",

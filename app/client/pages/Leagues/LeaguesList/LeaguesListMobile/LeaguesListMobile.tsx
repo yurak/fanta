@@ -2,6 +2,7 @@ import Skeleton from "react-loading-skeleton";
 import { useTranslation } from "react-i18next";
 import LeagueStatus from "@/components/LeagueStatus";
 import DataList from "@/ui/DataList";
+import EmptyState from "@/ui/EmptyState";
 import LeagueLoader from "@/components/loaders/LeagueLoader";
 import { ILeaguesWithTournament } from "../../interfaces";
 import styles from "./LeaguesListMobile.module.scss";
@@ -78,7 +79,12 @@ const LeaguesListMobile = ({
       itemLink={(item) => item.link}
       skeletonRender={LeagueItemSkeleton}
       isLoading={isLoading}
-      emptyState={{ title: t("league.empty_placeholder") }}
+      emptyStateComponent={
+        <EmptyState
+          title={t("league.empty_placeholder_title")}
+          description={t("league.empty_placeholder_description")}
+        />
+      }
     />
   );
 };
