@@ -304,6 +304,7 @@ ua:
     search_placeholder: "Шукати лігу"
     empty_placeholder_title: "Ліги не знайдено"
     empty_placeholder_description: "Переконайтеся, що назва ліги написана правильно або здійсніть пошук у відповідній лізі"
+    empty_placeholder_button: "Очистити фільтри"
     ongoing: "🚀️ Активна"
     finished: "🏁️ Завершена"
     division: "Дивізіон"

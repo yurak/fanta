@@ -80,6 +80,10 @@ const LeaguesPage = () => {
     [getLeagueCountByTournament]
   );
 
+  const clearFilters = () => {
+    setSearch("");
+  };
+
   useEffect(() => {
     if (leaguesQuery.dataUpdatedAt) {
       const currentTabCount = getLeagueCountByTournament(activeTournament);
@@ -122,6 +126,7 @@ const LeaguesPage = () => {
       <LeaguesList
         dataSource={filteredBySearch}
         isLoading={leaguesQuery.isPending || tournamentsQuery.isPending}
+        clearFilters={clearFilters}
       />
     </PageLayout>
   );

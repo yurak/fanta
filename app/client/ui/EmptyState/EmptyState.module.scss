@@ -51,3 +51,20 @@
     margin-top: 12px;
   }
 }
+
+.actions {
+  margin-top: 40px;
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  flex-wrap: wrap;
+  align-items: center;
+
+  @media (max-width: 1200px) {
+    margin-top: 32px;
+  }
+
+  @media (max-width: 768px) {
+    margin-top: 20px;
+  }
+}
