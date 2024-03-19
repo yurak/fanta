@@ -191,6 +191,7 @@ en:
     search_placeholder: "Search league"
     empty_placeholder_title: "Leagues not found"
     empty_placeholder_description: "Make sure that the league’s name is spelled correctly or searching within a proper league"
+    empty_placeholder_button: "Clear filters"
     ongoing: "🚀️ Ongoing"
     finished: "🏁️ Finished"
     division: "Division"
