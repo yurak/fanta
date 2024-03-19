@@ -46,3 +46,11 @@ Generate swagger docs
 ```
 RAILS_ENV=test rails rswag
 ```
+
+### Telegram Bot
+
+Run in console
+
+```
+Telegram::Bot::UpdatesPoller.start(Telegram.bot, Telegram::WebhookController)
+```
