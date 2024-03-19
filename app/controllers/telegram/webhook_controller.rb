@@ -1,6 +1,5 @@
 module Telegram
   class WebhookController < Telegram::Bot::UpdatesController
-
     include Telegram::Bot::UpdatesController::MessageContext
     include Rails.application.routes.url_helpers
 
@@ -13,12 +12,12 @@ module Telegram
         inline_keyboard: [
           [
             { text: t('telegram_webhooks.start.register', locale: locale), callback_data: 'register' },
-            { text: t('telegram_webhooks.start.learn_more', locale: locale), callback_data: 'learn_more' },
-          ],
+            { text: t('telegram_webhooks.start.learn_more', locale: locale), callback_data: 'learn_more' }
+          ]
         ],
         resize_keyboard: true,
         one_time_keyboard: true,
-        selective: true,
+        selective: true
       }
     end
 
@@ -34,8 +33,8 @@ module Telegram
     def learn_more!(*)
       respond_with :message, text: t('telegram_webhooks.learn_more.text', locale: locale), reply_markup: {
         inline_keyboard: [
-          [{text: t('telegram_webhooks.learn_more.rules', locale: locale), url: rules_url(host: host) }],
-        ],
+          [{ text: t('telegram_webhooks.learn_more.rules', locale: locale), url: rules_url(host: host) }]
+        ]
       }
       reply_with :document, document: File.open('public/rules_short_ua.pdf')
       reply_with :document, document: File.open('public/rules_extended_ua.pdf')
@@ -43,18 +42,15 @@ module Telegram
     end
 
     def callback_query(data)
-      if data == 'register'
-        register!
-      end
-      if data == 'learn_more'
-        learn_more!
-      end
+      register! if data == 'register'
+
+      learn_more! if data == 'learn_more'
     end
 
     def check_email(*words)
       save_message
 
-      email = words[0].html_safe
+      email = words[0]
       user = User.find_by(email: email)
       profile = UserProfile.find_by(tg_chat_id: from['id'])
 
@@ -65,8 +61,8 @@ module Telegram
       else
         respond_with :message, text: t('telegram_webhooks.register.success', locale: locale), reply_markup: {
           inline_keyboard: [
-            [{text: t('telegram_webhooks.register.sign_up', locale: locale), url: new_user_registration_url(email: email, host: host) }],
-          ],
+            [{ text: t('telegram_webhooks.register.sign_up', locale: locale), url: new_user_registration_url(email: email, host: host) }]
+          ]
         }
       end
     end
@@ -75,13 +71,13 @@ module Telegram
       respond_with :message, text: t('telegram_webhooks.contacts.text', locale: locale)
     end
 
-    def action_missing(action, *_args)
-      if action_type == :command
-        save_message
+    def action_missing(_action, *_args)
+      return unless action_type == :command
 
-        respond_with :message,
-                     text: t('telegram_webhooks.action_missing.command', command: action_options[:command], locale: locale)
-      end
+      save_message
+
+      respond_with :message,
+                   text: t('telegram_webhooks.action_missing.command', command: action_options[:command], locale: locale)
     end
 
     private
