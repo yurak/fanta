@@ -1,23 +1,6 @@
 module Players
   module Transfermarkt
     class PositionParser < ApplicationService
-      TM_POSITION_MAP = {
-        'GK' => 'GK',
-        'LB' => 'LB',
-        'RB' => 'RB',
-        'CB' => 'CB',
-        'SW' => 'CB',
-        'RM' => 'WB',
-        'LM' => 'WB',
-        'DM' => 'DM',
-        'CM' => 'CM',
-        'RW' => 'W',
-        'LW' => 'W',
-        'AM' => 'AM',
-        'SS' => 'FW',
-        'CF' => 'ST'
-      }.freeze
-
       attr_reader :player, :year
 
       def initialize(player, year)
@@ -36,7 +19,7 @@ module Players
       def mantra_hash
         mantra_hash = {}
         positions_hash.each do |tm_pos, number|
-          mantra_pos = TM_POSITION_MAP[tm_pos]
+          mantra_pos = Position::TM_POSITION_MAP[tm_pos]
           mantra_hash[mantra_pos] = mantra_hash[mantra_pos].to_i + number
         end
         mantra_hash

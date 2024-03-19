@@ -371,7 +371,7 @@ paths:
                       "$ref": "#/components/schemas/tournament"
 servers:
 - url: http://localhost:3333
-- url: http://staging.mantrafootball.org
+- url: https://staging.mantrafootball.org
 - url: https://mantrafootball.org
 components:
   schemas:
