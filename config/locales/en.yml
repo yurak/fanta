@@ -1010,7 +1010,7 @@ en:
       text: You can read more about our game on our website using the link or in the attached documents
     register:
       chat_exist: Ooops! Your Telegram account is already connected to another email
-      email_exist: Ooops! This email address is already in use
+      email_exist: Ooops! This email address is already in use, please try another one
       sign_up: Sign Up
       success: To get started, you need to register on the website
       text: Please enter the email address you will use for the game

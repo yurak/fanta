@@ -985,7 +985,7 @@
       },
       "register": {
         "chat_exist": "Ooops! Your Telegram account is already connected to another email",
-        "email_exist": "Ooops! This email address is already in use",
+        "email_exist": "Ooops! This email address is already in use, please try another one",
         "sign_up": "Sign Up",
         "success": "To get started, you need to register on the website",
         "text": "Please enter the email address you will use for the game"
@@ -2131,7 +2131,7 @@
       },
       "register": {
         "chat_exist": "Ой! Ваш обліковий запис Telegram уже підключено до іншої електронної пошти",
-        "email_exist": "Ой! Ця адреса електронної пошти вже використовується",
+        "email_exist": "Ой! Ця адреса електронної пошти вже використовується, спробуйте іншу",
         "sign_up": "Зареєструватися",
         "success": "Для початку необхідно зареєструватися на сайті",
         "text": "Будь ласка, введіть адресу електронної пошти, яку ви будете використовувати для гри"

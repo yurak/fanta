@@ -3,8 +3,6 @@ module Telegram
     include Telegram::Bot::UpdatesController::MessageContext
     include Rails.application.routes.url_helpers
 
-    # Telegram::Bot::UpdatesPoller.start(Telegram.bot, Telegram::WebhookController)
-
     def start!(*)
       save_message
       reply_with :photo, photo: File.open('app/assets/images/mantra_logo.jpeg')
@@ -50,12 +48,16 @@ module Telegram
     def check_email(*words)
       save_message
 
-      email = words[0]
+      email = words[0].downcase
       user = User.find_by(email: email)
       profile = UserProfile.find_by(tg_chat_id: from['id'])
 
       if user
-        respond_with :message, text: t('telegram_webhooks.register.email_exist', locale: locale)
+        respond_with :message, text: t('telegram_webhooks.register.email_exist', locale: locale), reply_markup: {
+          inline_keyboard: [
+            [{ text: t('telegram_webhooks.start.register', locale: locale), callback_data: 'register' }]
+          ]
+        }
       elsif profile
         respond_with :message, text: t('telegram_webhooks.register.chat_exist', locale: locale)
       else
