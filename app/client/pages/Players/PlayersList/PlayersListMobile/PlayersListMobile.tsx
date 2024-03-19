@@ -5,7 +5,6 @@ import TournamentsLoader from "@/components/loaders/TournamentsLoader";
 import { formatNumber } from "@/helpers/formatNumber";
 import { IPlayer } from "@/interfaces/Player";
 import DataList from "@/ui/DataList";
-import EmptyState from "@/ui/EmptyState";
 import styles from "./PlayersListMobile.module.scss";
 
 const PlayerItem = ({
@@ -89,7 +88,15 @@ const PlayerItem = ({
   );
 };
 
-const PlayersListMobile = ({ items, isLoading }: { items: IPlayer[], isLoading: boolean }) => {
+const PlayersListMobile = ({
+  items,
+  isLoading,
+  emptyStateComponent,
+}: {
+  items: IPlayer[],
+  isLoading: boolean,
+  emptyStateComponent: React.ReactNode,
+}) => {
   return (
     <DataList
       dataSource={items}
@@ -97,12 +104,7 @@ const PlayersListMobile = ({ items, isLoading }: { items: IPlayer[], isLoading: 
       itemClassName={styles.item}
       itemKey={(item) => item.id}
       isLoading={isLoading}
-      emptyStateComponent={
-        <EmptyState
-          title="Players not found"
-          description="Make sure that the player’s name is spelled correctly or try other filter parameters"
-        />
-      }
+      emptyStateComponent={emptyStateComponent}
     />
   );
 };
