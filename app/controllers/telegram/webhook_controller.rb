@@ -50,22 +50,13 @@ module Telegram
 
       email = words[0].downcase
       user = User.find_by(email: email)
-      profile = UserProfile.find_by(tg_chat_id: from['id'])
 
       if user
-        respond_with :message, text: t('telegram_webhooks.register.email_exist', locale: locale), reply_markup: {
-          inline_keyboard: [
-            [{ text: t('telegram_webhooks.start.register', locale: locale), callback_data: 'register' }]
-          ]
-        }
+        email_exist_response
       elsif profile
         respond_with :message, text: t('telegram_webhooks.register.chat_exist', locale: locale)
       else
-        respond_with :message, text: t('telegram_webhooks.register.success', locale: locale), reply_markup: {
-          inline_keyboard: [
-            [{ text: t('telegram_webhooks.register.sign_up', locale: locale), url: new_user_registration_url(email: email, host: host) }]
-          ]
-        }
+        email_valid_response(email)
       end
     end
 
@@ -98,6 +89,26 @@ module Telegram
         last_name: payload['from']['last_name'],
         date: Time.zone.at(payload['date']).to_datetime
       )
+    end
+
+    def email_exist_response
+      respond_with :message, text: t('telegram_webhooks.register.email_exist', locale: locale), reply_markup: {
+        inline_keyboard: [
+          [{ text: t('telegram_webhooks.start.register', locale: locale), callback_data: 'register' }]
+        ]
+      }
+    end
+
+    def email_valid_response(email)
+      respond_with :message, text: t('telegram_webhooks.register.success', locale: locale), reply_markup: {
+        inline_keyboard: [
+          [{ text: t('telegram_webhooks.register.sign_up', locale: locale), url: new_user_registration_url(email: email, host: host) }]
+        ]
+      }
+    end
+
+    def profile
+      UserProfile.find_by(tg_chat_id: from['id'])
     end
 
     def locale
