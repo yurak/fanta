@@ -12,10 +12,12 @@ import PlayersFilters from "./PlayersFilters";
 import PlayersList from "./PlayersList";
 import styles from "./Players.module.scss";
 
+const defaultSearch = "martinez";
+
 const Players = () => {
   const [selectedSeason, setSelectedSeason] = useState<ISeason | null>(null);
 
-  const [search, setSearch] = useHistorySearch("martinez");
+  const [search, setSearch] = useHistorySearch(defaultSearch);
   const historySort = useHistorySort();
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isPending } = usePlayers({
@@ -35,6 +37,14 @@ const Players = () => {
 
     return data.pages[lastPage]?.meta.size ?? 0;
   }, [data]);
+
+  const clearFilters = () => {
+    setSearch(defaultSearch);
+  };
+
+  const openFiltersSidebar = () => {
+    alert("Not realized yet");
+  };
 
   return (
     <PageLayout>
@@ -71,6 +81,8 @@ const Players = () => {
           isLoading={isPending}
           items={items}
           sorting={historySort}
+          clearFilters={clearFilters}
+          openFiltersSidebar={openFiltersSidebar}
         />
       </div>
     </PageLayout>
