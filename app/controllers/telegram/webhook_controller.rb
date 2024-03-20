@@ -87,7 +87,7 @@ module Telegram
         username: payload['from']['username'],
         first_name: payload['from']['first_name'],
         last_name: payload['from']['last_name'],
-        date: Time.zone.at(payload['date']).to_datetime
+        date: Time.zone.at(payload['date'] || DateTime.now).to_datetime
       )
     end
 
