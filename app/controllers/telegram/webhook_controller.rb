@@ -112,7 +112,9 @@ module Telegram
     end
 
     def locale
-      I18n.available_locales.include?(from['language_code'].to_sym) ? from['language_code'].to_sym : :en
+      return :ua if from['language_code'].to_sym == 'uk'
+
+      :en
     end
 
     def host
