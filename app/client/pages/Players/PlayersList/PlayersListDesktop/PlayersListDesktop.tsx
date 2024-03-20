@@ -4,7 +4,7 @@ import TournamentsLoader from "@/components/loaders/TournamentsLoader";
 import PlayerPositions from "@/components/PlayerPositions/PlayerPositions";
 import { formatNumber } from "@/helpers/formatNumber";
 import { ITableSorting } from "@/ui/Table/interfaces";
-import PlayersListInfo from "../PlayersListInfo";
+import PlayersListInfo, { PlayersListInfoSkeleton } from "../PlayersListInfo";
 import styles from "./PlayersListDesktop.module.scss";
 
 const PlayersListDesktop = ({
@@ -25,6 +25,7 @@ const PlayersListDesktop = ({
       isLoading={isLoading}
       sorting={sorting}
       emptyStateComponent={emptyStateComponent}
+      skeletonItems={25}
       columns={[
         {
           dataKey: "name",
@@ -34,6 +35,7 @@ const PlayersListDesktop = ({
           sorter: true,
           supportAscSorting: true,
           render: (player) => <PlayersListInfo player={player} />,
+          skeleton: <PlayersListInfoSkeleton />,
         },
         {
           dataKey: "tournament",

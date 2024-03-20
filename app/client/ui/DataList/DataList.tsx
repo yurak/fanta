@@ -7,12 +7,14 @@ import styles from "./DataList.module.scss";
 const LoadingSkeleton = ({
   skeletonRender = () => <Skeleton />,
   items = 5,
+  itemClassName,
 }: {
   skeletonRender?: () => React.ReactNode,
   items?: number,
+  itemClassName?: string,
 }) => {
   return Array.from({ length: items }).map((_, index) => (
-    <div key={index} className={styles.item}>
+    <div key={index} className={cn(styles.item, itemClassName)}>
       {skeletonRender()}
     </div>
   ));
@@ -42,7 +44,11 @@ const DataList = <DataItem extends object = object>({
   return (
     <div className={styles.list}>
       {isLoading ? (
-        <LoadingSkeleton skeletonRender={skeletonRender} items={skeletonItems} />
+        <LoadingSkeleton
+          skeletonRender={skeletonRender}
+          items={skeletonItems}
+          itemClassName={itemClassName}
+        />
       ) : (
         <>
           {dataSource.length > 0 ? (
