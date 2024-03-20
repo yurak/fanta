@@ -14,10 +14,10 @@ every '5 9,14 * * *' do
   rake 'tg:send_auction_sales_deadline'
 end
 
-# Save messages from Telegram Bot
-every '20 * * * *' do
-  rake 'tg:save_messages'
-end
+# Save messages from Telegram Bot (works only when webhooks disabled)
+# every '20 * * * *' do
+#   rake 'tg:save_messages'
+# end
 
 # Sell players from teams by deadline for auctions with sales status
 every 15.minutes do
