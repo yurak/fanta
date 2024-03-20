@@ -15,7 +15,7 @@ module Transfers
         create_transfer
         team.update(budget: team.budget + init_transfer.price)
         player_team.destroy
-        TelegramBot::PlayerSoldNotifier.call(player, team)
+        TelegramBot::PlayerSoldNotifier.call(player, team) if status == :left
       end
     end
 
