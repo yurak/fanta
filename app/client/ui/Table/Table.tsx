@@ -17,30 +17,43 @@ const LoadingSkeleton = ({
   items: number,
   rounded?: boolean,
 }) => {
-  return Array.from({ length: items }).map((_, rowIndex) => (
-    <div key={rowIndex} className={cn(styles.row, styles.dataRow)}>
-      {columns.map((column) => {
-        const dataClassName =
-          typeof column.dataClassName === "function"
-            ? column.dataClassName(null, rowIndex)
-            : column.dataClassName;
-
-        return (
-          <TableBodyCell
-            key={column._key}
-            align={column.align}
-            noWrap={column.noWrap}
-            withBorder={!rounded}
-            className={cn(column.className, dataClassName)}
-          >
-            {typeof column.skeleton === "function"
-              ? column.skeleton(rowIndex)
-              : column.skeleton ?? <Skeleton />}
-          </TableBodyCell>
-        );
+  return (
+    <div
+      className={cn(styles.body, {
+        [styles.roundedBody]: rounded,
       })}
+    >
+      {Array.from({ length: items }).map((_, rowIndex) => (
+        <div
+          key={rowIndex}
+          className={cn(styles.row, styles.dataRow, {
+            [styles.roundedRow]: rounded,
+          })}
+        >
+          {columns.map((column) => {
+            const dataClassName =
+              typeof column.dataClassName === "function"
+                ? column.dataClassName(null, rowIndex)
+                : column.dataClassName;
+
+            return (
+              <TableBodyCell
+                key={column._key}
+                align={column.align}
+                noWrap={column.noWrap}
+                withBorder={!rounded}
+                className={cn(column.className, dataClassName)}
+              >
+                {typeof column.skeleton === "function"
+                  ? column.skeleton(rowIndex)
+                  : column.skeleton ?? <Skeleton />}
+              </TableBodyCell>
+            );
+          })}
+        </div>
+      ))}
     </div>
-  ));
+  );
 };
 
 const Table = <DataItem extends object = object>({
@@ -53,7 +66,6 @@ const Table = <DataItem extends object = object>({
   isLoading,
   tableClassName,
   tableInnerClassName,
-  bodyClassName,
   sorting,
   emptyStateComponent = <EmptyState title="No data" />,
 }: {
@@ -66,7 +78,6 @@ const Table = <DataItem extends object = object>({
   skeletonItems?: number,
   tableClassName?: string,
   tableInnerClassName?: string,
-  bodyClassName?: string,
   sorting?: ITableSorting,
   emptyStateComponent?: React.ReactNode,
 }) => {
@@ -122,7 +133,7 @@ const Table = <DataItem extends object = object>({
           <LoadingSkeleton columns={computedColumns} items={skeletonItems} rounded={rounded} />
         ) : (
           <div
-            className={cn(styles.body, bodyClassName, {
+            className={cn(styles.body, {
               [styles.roundedBody]: rounded,
             })}
           >

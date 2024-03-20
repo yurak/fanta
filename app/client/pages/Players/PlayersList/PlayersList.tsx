@@ -7,6 +7,8 @@ import PlayersListDesktop from "./PlayersListDesktop";
 import styles from "./PlayersList.module.scss";
 import EmptyState from "@/ui/EmptyState";
 import Button from "@/ui/Button";
+import { useState } from "react";
+import Switcher from "@/ui/Switcher";
 
 const PlayersList = ({
   items,
@@ -27,6 +29,8 @@ const PlayersList = ({
   openFiltersSidebar: () => void,
   clearFilters: () => void,
 }) => {
+  const [isManualLoading, setIsManualLoading] = useState(false);
+
   const loadMore = () => {
     if (hasNextPage && !isFetchingNextPage) {
       fetchNextPage();
@@ -52,16 +56,17 @@ const PlayersList = ({
 
   return (
     <div>
+      <Switcher checked={isManualLoading} onChange={setIsManualLoading} label="Is loading" />
       {isMobile ? (
         <PlayersListMobile
           items={items}
-          isLoading={isLoading}
+          isLoading={isLoading || isManualLoading}
           emptyStateComponent={emptyStateComponent}
         />
       ) : (
         <PlayersListDesktop
           items={items}
-          isLoading={isLoading}
+          isLoading={isLoading || isManualLoading}
           sorting={sorting}
           emptyStateComponent={emptyStateComponent}
         />
