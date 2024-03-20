@@ -2,6 +2,7 @@ import cn from "classnames";
 import kitMask from "@/assets/images/kit-small-mask.png";
 import avatarMask from "@/assets/images/avatar.png";
 import styles from "./PlayerAvatar.module.scss";
+import Skeleton from "react-loading-skeleton";
 
 const PlayerAvatar = ({
   avatarSrc,
@@ -23,5 +24,11 @@ const PlayerAvatar = ({
     </div>
   );
 };
+
+export const PlayerAvatarSkeleton = ({ className }: { className?: string }) => (
+  <div className={cn(styles.avatar, className)}>
+    <Skeleton className={styles.skeleton} />
+  </div>
+);
 
 export default PlayerAvatar;

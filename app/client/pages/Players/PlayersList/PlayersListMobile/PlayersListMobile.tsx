@@ -1,11 +1,12 @@
 import cn from "classnames";
-import PlayerAvatar from "@/components/PlayerAvatar";
+import PlayerAvatar, { PlayerAvatarSkeleton } from "@/components/PlayerAvatar";
 import PlayerPositions from "@/components/PlayerPositions/PlayerPositions";
 import TournamentsLoader from "@/components/loaders/TournamentsLoader";
 import { formatNumber } from "@/helpers/formatNumber";
 import { IPlayer } from "@/interfaces/Player";
 import DataList from "@/ui/DataList";
 import styles from "./PlayersListMobile.module.scss";
+import Skeleton from "react-loading-skeleton";
 
 const PlayerItem = ({
   avatar_path,
@@ -88,6 +89,27 @@ const PlayerItem = ({
   );
 };
 
+const PlayerItemSkeleton = () => {
+  return (
+    <>
+      <PlayerAvatarSkeleton className={styles.avatar} />
+      <div className={styles.info}>
+        <div className={styles.top}>
+          <div className={styles.name}>
+            <Skeleton width={150} />
+          </div>
+          <div className={styles.score}>
+            <Skeleton width={50} />
+          </div>
+        </div>
+        <div className={styles.bottom}>
+          <Skeleton width={200} />
+        </div>
+      </div>
+    </>
+  );
+};
+
 const PlayersListMobile = ({
   items,
   isLoading,
@@ -105,6 +127,8 @@ const PlayersListMobile = ({
       itemKey={(item) => item.id}
       isLoading={isLoading}
       emptyStateComponent={emptyStateComponent}
+      skeletonItems={15}
+      skeletonRender={() => <PlayerItemSkeleton />}
     />
   );
 };

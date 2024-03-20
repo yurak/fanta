@@ -1,6 +1,8 @@
-import PlayerAvatar from "@/components/PlayerAvatar";
+import cn from "classnames";
+import PlayerAvatar, { PlayerAvatarSkeleton } from "@/components/PlayerAvatar";
 import { IPlayer } from "@/interfaces/Player";
 import styles from "./PlayersListInfo.module.scss";
+import Skeleton from "react-loading-skeleton";
 
 interface IProps {
   player: IPlayer,
@@ -17,5 +19,15 @@ const PlayersListInfo = ({ player: { avatar_path, club, first_name, name } }: IP
     </div>
   );
 };
+
+export const PlayersListInfoSkeleton = () => (
+  <div className={styles.wrapper}>
+    <PlayerAvatarSkeleton className={styles.avatar} />
+    <div className={styles.info}>
+      <Skeleton className={cn(styles.lastName, styles.lastNameSkeleton)} />
+      <Skeleton className={cn(styles.firstName, styles.firstNameSkeleton)} />
+    </div>
+  </div>
+);
 
 export default PlayersListInfo;
