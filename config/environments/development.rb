@@ -48,7 +48,7 @@ Rails.application.configure do
 
   config.action_mailer.perform_caching = false
 
-  config.action_mailer.default_url_options = { host: 'localhost', port: 3333, protocol: 'http', only_path: false }
+  config.action_mailer.default_url_options = { host: 'http://localhost:3333', only_path: false }
 
   config.action_mailer.asset_host = 'http://localhost:3333'
 
@@ -84,12 +84,13 @@ Rails.application.configure do
   # Suppress logger output for asset requests.
   config.assets.quiet = true
 
-  config.telegram_updates_controller.session_store = :memory_store
-
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
 
   # Use an evented file watcher to asynchronously detect changes in source code,
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
+
+  config.telegram_updates_controller.session_store = :memory_store
+  config.telegram_updates_controller.host = 'https://staging.mantrafootball.org'
 end
