@@ -112,7 +112,7 @@ module Telegram
     end
 
     def locale
-      return :ua if from['language_code'].to_sym == 'uk'
+      return :ua if from['language_code'] == 'uk'
 
       :en
     end
