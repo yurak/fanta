@@ -39,7 +39,7 @@ class PlayersController < ApplicationController
   end
 
   def ordered_players
-    Players::Order.call(filtered_players, { field: stats_params[:order] })
+    Players::Order.call(filtered_players, { field: stats_params[:order] || Players::Order::NAME })
   end
 
   def filtered_players
