@@ -5,7 +5,7 @@ module Telegram
 
     def start!(*)
       save_message
-      reply_with :photo, photo: File.open('app/assets/images/mantra_logo.jpeg')
+      # reply_with :photo, photo: File.open('app/assets/images/mantra_logo.jpeg')
       respond_with :message, text: t('telegram_webhooks.start.text', locale: locale), reply_markup: {
         inline_keyboard: [
           [
@@ -31,7 +31,8 @@ module Telegram
     def learn_more!(*)
       respond_with :message, text: t('telegram_webhooks.learn_more.text', locale: locale), reply_markup: {
         inline_keyboard: [
-          [{ text: t('telegram_webhooks.learn_more.rules', locale: locale), url: rules_url(host: host) }]
+          [{ text: t('telegram_webhooks.learn_more.rules', locale: locale), url: rules_url(host: host, locale: locale) }],
+          [{ text: t('telegram_webhooks.learn_more.podcast', locale: locale), url: 'https://youtu.be/P4yh8PXipa4?si=FMme8cul9JJ2bKrC' }]
         ]
       }
       reply_with :document, document: File.open('public/rules_short_ua.pdf')
@@ -102,7 +103,8 @@ module Telegram
     def email_valid_response(email)
       respond_with :message, text: t('telegram_webhooks.register.success', locale: locale), reply_markup: {
         inline_keyboard: [
-          [{ text: t('telegram_webhooks.register.sign_up', locale: locale), url: new_user_registration_url(email: email, host: host) }]
+          [{ text: t('telegram_webhooks.register.sign_up', locale: locale),
+             url: new_user_registration_url(email: email, host: host, locale: locale) }]
         ]
       }
     end

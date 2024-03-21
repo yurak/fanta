@@ -1007,6 +1007,7 @@ en:
         /contacts - contact info
     learn_more:
       rules: Game rules
+      podcast: Video podcast
       text: You can read more about our game on our website using the link or in the attached documents
     register:
       chat_exist: Ooops! Your Telegram account is already connected to another email

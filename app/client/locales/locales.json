@@ -980,6 +980,7 @@
         "content": "Available commands:\n/start - greeting\n/help - list of commands\n/register - register account\n/learn_more - rules links and files\n/contacts - contact info\n"
       },
       "learn_more": {
+        "podcast": "Video podcast",
         "rules": "Game rules",
         "text": "You can read more about our game on our website using the link or in the attached documents"
       },
@@ -2126,6 +2127,7 @@
         "content": "Доступні команди:\n/start - привітання\n/help - список команд\n/register - зареєструватися\n/learn_more - правила гри\n/contacts - контактна інформація\n"
       },
       "learn_more": {
+        "podcast": "Відео подкаст",
         "rules": "Правила гри",
         "text": "Детальніше про нашу гру ви можете прочитати на нашому сайті за посиланням або у прикріплених документах"
       },
