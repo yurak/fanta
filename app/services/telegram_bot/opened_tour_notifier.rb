@@ -17,6 +17,7 @@ module TelegramBot
     private
 
     def message(team)
+      # TODO: move to locales
       "#{league.tournament.icon} Round ##{@tour.number} of #{league.name} League has been opened.\n" \
         "🟢 You can set up lineup for #{team.human_name} - #{Rails.application.routes.url_helpers.tour_url(@tour)} \n" \
         "🔜 Deadline: #{@tour.tournament_round.deadline&.strftime('%^a, %^b %e, %H:%M')} (EET) 🔚"
