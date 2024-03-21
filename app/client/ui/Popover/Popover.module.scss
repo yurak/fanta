@@ -1,0 +1,49 @@
+.popover {
+  --z-index-popover: 9;
+
+  background-color: #ffffff;
+  padding: 16px 24px;
+  border-radius: 4px;
+  box-shadow: 1px 2px 5px 0px #18171533;
+  z-index: var(--z-index-popover);
+  position: absolute;
+  width: 304px;
+  top: 0;
+  left: 0;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.title {
+  font-family: "Nunito ExtraBold";
+  font-size: 16px;
+  line-height: 24px;
+  color: #181715;
+}
+
+.closeButton {
+  background: none;
+  width: 24px;
+  height: 24px;
+  border: 0;
+  padding: 0;
+  line-height: 1;
+  color: #847577;
+
+  &:hover {
+    color: #181715;
+  }
+}
+
+.content {
+  margin-top: 24px;
+}
+
+.footer {
+  margin-top: 24px;
+}
