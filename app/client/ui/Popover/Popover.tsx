@@ -11,10 +11,11 @@ import {
   FloatingPortal,
   autoPlacement,
   ReferenceType,
+  FloatingFocusManager,
 } from "@floating-ui/react";
 import styles from "./Popover.module.scss";
 
-interface IReferenceProps extends Record<string, unknown> {
+export interface IReferenceProps extends Record<string, unknown> {
   isOpen: boolean,
   setRef: (node: ReferenceType | null) => void,
 }
@@ -56,21 +57,23 @@ const Popover = ({
       {renderedReference({ isOpen, setRef: refs.setReference, ...getReferenceProps() })}
       {isOpen && (
         <FloatingPortal>
-          <div
-            className={styles.popover}
-            ref={refs.setFloating}
-            style={floatingStyles}
-            {...getFloatingProps()}
-          >
-            <div className={styles.header}>
-              <div className={styles.title}>{title}</div>
-              <button className={styles.closeButton} onClick={close}>
-                <CloseIcon />
-              </button>
+          <FloatingFocusManager context={context} modal={false} initialFocus={refs.floating}>
+            <div
+              className={styles.popover}
+              ref={refs.setFloating}
+              style={floatingStyles}
+              {...getFloatingProps()}
+            >
+              <div className={styles.header}>
+                <div className={styles.title}>{title}</div>
+                <button className={styles.closeButton} onClick={close}>
+                  <CloseIcon />
+                </button>
+              </div>
+              <div className={styles.content}>{children}</div>
+              {footer && <div className={styles.footer}>{footer}</div>}
             </div>
-            <div className={styles.content}>{children}</div>
-            {footer && <div className={styles.footer}>{footer}</div>}
-          </div>
+          </FloatingFocusManager>
         </FloatingPortal>
       )}
     </>
