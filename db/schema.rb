@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_01_13_091140) do
+ActiveRecord::Schema.define(version: 2024_03_23_171835) do
 
   create_table "article_tags", force: :cascade do |t|
     t.string "name", default: "", null: false
@@ -435,6 +435,7 @@ ActiveRecord::Schema.define(version: 2024_01_13_091140) do
     t.string "icon"
     t.integer "source_id"
     t.string "sofa_number", default: "", null: false
+    t.boolean "open_join", default: true, null: false
     t.index ["code"], name: "index_tournaments_on_code", unique: true
   end
 
