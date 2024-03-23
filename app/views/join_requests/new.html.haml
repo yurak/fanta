@@ -10,7 +10,7 @@
     .login-form
       = form_for :join_request, url: join_requests_path, method: :post do |f|
         .tournament-checkbox
-          - for tournament in active_tournaments
+          - for tournament in open_tournaments
             .tournament-container
               .checkbox-data
                 .checkbox-team-logo= image_tag(tournament.logo_path, alt: 'Tournament Logo')

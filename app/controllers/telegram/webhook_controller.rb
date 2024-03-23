@@ -5,12 +5,11 @@ module Telegram
 
     def start!(*)
       save_message
-      # reply_with :photo, photo: File.open('app/assets/images/mantra_logo.jpeg')
-      respond_with :message, text: t('telegram_webhooks.start.text', locale: locale), reply_markup: {
+      respond_with :message, text: t('telegram.webhooks.start.text', locale: locale), reply_markup: {
         inline_keyboard: [
           [
-            { text: t('telegram_webhooks.start.register', locale: locale), callback_data: 'register' },
-            { text: t('telegram_webhooks.start.learn_more', locale: locale), callback_data: 'learn_more' }
+            { text: t('telegram.webhooks.start.register', locale: locale), callback_data: 'register' },
+            { text: t('telegram.webhooks.start.learn_more', locale: locale), callback_data: 'learn_more' }
           ]
         ],
         resize_keyboard: true,
@@ -20,19 +19,19 @@ module Telegram
     end
 
     def help!(*)
-      respond_with :message, text: t('telegram_webhooks.help.content', locale: locale)
+      respond_with :message, text: t('telegram.webhooks.help.content', locale: locale)
     end
 
     def register!(*)
       save_context :check_email
-      respond_with :message, text: t('telegram_webhooks.register.text', locale: locale)
+      respond_with :message, text: t('telegram.webhooks.register.text', locale: locale)
     end
 
     def learn_more!(*)
-      respond_with :message, text: t('telegram_webhooks.learn_more.text', locale: locale), reply_markup: {
+      respond_with :message, text: t('telegram.webhooks.learn_more.text', locale: locale), reply_markup: {
         inline_keyboard: [
-          [{ text: t('telegram_webhooks.learn_more.rules', locale: locale), url: rules_url(host: host, locale: locale) }],
-          [{ text: t('telegram_webhooks.learn_more.podcast', locale: locale), url: 'https://youtu.be/P4yh8PXipa4?si=FMme8cul9JJ2bKrC' }]
+          [{ text: t('telegram.webhooks.learn_more.rules', locale: locale), url: rules_url(host: host, locale: locale) }],
+          [{ text: t('telegram.webhooks.learn_more.podcast', locale: locale), url: 'https://youtu.be/P4yh8PXipa4?si=FMme8cul9JJ2bKrC' }]
         ]
       }
       reply_with :document, document: File.open('public/rules_short_ua.pdf')
@@ -55,14 +54,14 @@ module Telegram
       if user
         email_exist_response
       elsif profile
-        respond_with :message, text: t('telegram_webhooks.register.chat_exist', locale: locale)
+        respond_with :message, text: t('telegram.webhooks.register.chat_exist', locale: locale)
       else
         email_valid_response(email)
       end
     end
 
     def contacts!(*)
-      respond_with :message, text: t('telegram_webhooks.contacts.text', locale: locale)
+      respond_with :message, text: t('telegram.webhooks.contacts.text', locale: locale)
     end
 
     def action_missing(_action, *_args)
@@ -71,7 +70,7 @@ module Telegram
       save_message
 
       respond_with :message,
-                   text: t('telegram_webhooks.action_missing.command', command: action_options[:command], locale: locale)
+                   text: t('telegram.webhooks.action_missing.command', command: action_options[:command], locale: locale)
     end
 
     private
@@ -93,17 +92,17 @@ module Telegram
     end
 
     def email_exist_response
-      respond_with :message, text: t('telegram_webhooks.register.email_exist', locale: locale), reply_markup: {
+      respond_with :message, text: t('telegram.webhooks.register.email_exist', locale: locale), reply_markup: {
         inline_keyboard: [
-          [{ text: t('telegram_webhooks.start.register', locale: locale), callback_data: 'register' }]
+          [{ text: t('telegram.webhooks.start.register', locale: locale), callback_data: 'register' }]
         ]
       }
     end
 
     def email_valid_response(email)
-      respond_with :message, text: t('telegram_webhooks.register.success', locale: locale), reply_markup: {
+      respond_with :message, text: t('telegram.webhooks.register.success', locale: locale), reply_markup: {
         inline_keyboard: [
-          [{ text: t('telegram_webhooks.register.sign_up', locale: locale),
+          [{ text: t('telegram.webhooks.register.sign_up', locale: locale),
              url: new_user_registration_url(email: email, host: host, locale: locale) }]
         ]
       }

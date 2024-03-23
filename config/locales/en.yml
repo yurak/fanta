@@ -473,7 +473,7 @@ en:
       name: "Manager name"
       next: "Next"
       note: "A manager name will allow other players to address you appropriately. You can change it at any time"
-      tg_name: "Telegram name or phone"
+      tg_name: "Telegram tag (phone number)"
       tg_note: "This data will help us contact you"
     edit_team: "Edit team"
     settings: "Settings"
@@ -992,33 +992,37 @@ en:
       subtitle3: "And it's a great way to have fun with friends and find new ones!"
       subtitle4: "After the start of the game, each match of your player acquires a new meaning."
       title: "Rules"
-  telegram_webhooks:
-    action_missing:
-      command: Can not perform %{command} command
-    contacts:
-      text: Message @mantra_help if you have any questions
-    help:
-      content: |
-        Available commands:
-        /start - greeting
-        /help - list of commands
-        /register - register account
-        /learn_more - rules links and files
-        /contacts - contact info
-    learn_more:
-      rules: Game rules
-      podcast: Video podcast
-      text: You can read more about our game on our website using the link or in the attached documents
-    register:
-      chat_exist: Ooops! Your Telegram account is already connected to another email
-      email_exist: Ooops! This email address is already in use, please try another one
-      sign_up: Sign Up
-      success: To get started, you need to register on the website
-      text: Please enter the email address you will use for the game
-    start:
-      learn_more: Learn more
-      register: Register
-      text: |
-        Welcome to MantraFootball!
-        
-        We invite you to join the trial tournament for 7 rounds. The top 5 European leagues are available for selection. Participation in the trial tournament is free. Register!
+  telegram:
+    notifier:
+      opened_tour:
+        message: "%{icon} Round #%{number} of %{league} League has been opened.\n🟢 You can set up lineup for %{team} - %{url} \n🔜 Deadline: %{date} (EET) 🔚"
+    webhooks:
+      action_missing:
+        command: Can not perform %{command} command
+      contacts:
+        text: Message @mantra_help if you have any questions
+      help:
+        content: |
+          Available commands:
+          /start - greeting
+          /help - list of commands
+          /register - register account
+          /learn_more - rules links and files
+          /contacts - contact info
+      learn_more:
+        rules: Game rules
+        podcast: Video podcast
+        text: You can read more about our game on our website using the link or in the attached documents
+      register:
+        chat_exist: Ooops! Your Telegram account is already connected to another email
+        email_exist: Ooops! This email address is already in use, please try another one
+        sign_up: Sign Up
+        success: Please continue to register on the website
+        text: Please enter the email address you will use for the game
+      start:
+        learn_more: Learn more
+        register: Register
+        text: |
+          Welcome to MantraFootball!
+          
+          We invite you to join the trial tournament for 7 rounds. The top 5 European leagues are available for selection. Participation in the trial tournament is free. Register!
