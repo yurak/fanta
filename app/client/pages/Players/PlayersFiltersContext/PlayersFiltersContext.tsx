@@ -15,8 +15,13 @@ const usePlayersFilters = () => {
 
   const filters = useMemo(() => ({ position }), [position]);
 
+  const clearFilters = () => {
+    setPosition([]);
+  };
+
   return {
     filters,
+    clearFilters,
     position,
     setPosition,
     selectedSeason,

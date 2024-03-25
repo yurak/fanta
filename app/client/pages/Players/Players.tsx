@@ -13,6 +13,7 @@ import styles from "./Players.module.scss";
 const Players = () => {
   const {
     filters,
+    clearFilters,
     search,
     historySort,
     setSearch,
@@ -40,8 +41,9 @@ const Players = () => {
     return data.pages[lastPage]?.meta.size ?? 0;
   }, [data]);
 
-  const clearFilters = () => {
+  const clearFiltersHandler = () => {
     setSearch(defaultSearch);
+    clearFilters();
   };
 
   const openFiltersSidebar = () => {
@@ -83,7 +85,7 @@ const Players = () => {
           isLoading={isPending}
           items={items}
           sorting={historySort}
-          clearFilters={clearFilters}
+          clearFilters={clearFiltersHandler}
           openFiltersSidebar={openFiltersSidebar}
         />
       </div>
