@@ -1,29 +1,31 @@
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import Heading from "@/components/Heading";
 import SeasonsSelect from "@/components/SeasonsSelect";
 import PageLayout from "@/layouts/PageLayout";
-import { ISeason } from "@/interfaces/Season";
 import { formatNumber } from "@/helpers/formatNumber";
 import Search from "@/ui/Search";
 import { usePlayers } from "@/api/query/usePlayers";
-import { useHistorySearch } from "@/hooks/useHistorySearch";
-import { useHistorySort } from "@/hooks/useHistorySort";
+import PlayersFiltersContext, { usePlayersFiltersContext } from "./PlayersFiltersContext";
 import PlayersFilters from "./PlayersFilters";
 import PlayersList from "./PlayersList";
 import styles from "./Players.module.scss";
 
-const defaultSearch = "martinez";
-
 const Players = () => {
-  const [selectedSeason, setSelectedSeason] = useState<ISeason | null>(null);
-
-  const [search, setSearch] = useHistorySearch(defaultSearch);
-  const historySort = useHistorySort();
+  const {
+    filters,
+    search,
+    historySort,
+    setSearch,
+    defaultSearch,
+    selectedSeason,
+    setSelectedSeason,
+  } = usePlayersFiltersContext();
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isPending } = usePlayers({
     search,
     sortBy: historySort.sortBy,
     sortOrder: historySort.sortOrder,
+    filters,
   });
 
   const items = useMemo(() => data?.pages.flatMap((page) => page.data) ?? [], [data]);
@@ -89,4 +91,8 @@ const Players = () => {
   );
 };
 
-export default Players;
+export default () => (
+  <PlayersFiltersContext>
+    <Players />
+  </PlayersFiltersContext>
+);
