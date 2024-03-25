@@ -16,13 +16,13 @@ const Switcher = ({
   };
 
   return (
-    <label className={styles.switcher}>
+    <label
+      className={cn(styles.switcher, {
+        [styles.isChecked]: checked,
+      })}
+    >
       <input type="checkbox" checked={checked} onChange={onChangeHandler} />
-      <span
-        className={cn(styles.switcherToggle, {
-          [styles.isChecked]: checked,
-        })}
-      />
+      <span className={styles.switcherToggle} />
       {label && <span>{label}</span>}
     </label>
   );

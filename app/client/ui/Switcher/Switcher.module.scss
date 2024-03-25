@@ -13,16 +13,37 @@
     opacity: 0;
     position: absolute;
   }
+
+  --icon-color: #181715;
+  --icon-border: #cfd2cd;
+  --icon-background: #fff;
+  --icon-transform: none;
+
+  &:hover {
+    --icon-border: #181715;
+  }
+}
+
+.isChecked {
+  --icon-border: #261fff;
+  --icon-background: #261fff;
+  --icon-color: #fff;
+  --icon-transform: translate(16px);
+
+  &:hover {
+    --icon-border: #040052;
+    --icon-background: #040052;
+  }
 }
 
 .switcherToggle {
   width: 40px;
   height: 24px;
-  border: 1px solid #cfd2cd;
+  border: 1px solid var(--icon-border);
+  background-color: var(--icon-background);
   border-radius: 20px;
   position: relative;
   display: inline-block;
-  background-color: #fff;
   transition: 0.3s background-color, 0.3s border-color;
 
   &::after {
@@ -30,29 +51,11 @@
     width: 16px;
     height: 16px;
     border-radius: 8px;
-    background-color: #181715;
+    background-color: var(--icon-color);
+    transform: var(--icon-transform);
     position: absolute;
     left: 3px;
     top: 3px;
     transition: 0.3s background-color, 0.3s transform;
-  }
-
-  &:hover {
-    border-color: #181715;
-  }
-
-  &.isChecked {
-    border-color: #261fff;
-    background-color: #261fff;
-
-    &::after {
-      background-color: #fff;
-      transform: translate(16px);
-    }
-
-    &:hover {
-      border-color: #040052;
-      background-color: #040052;
-    }
   }
 }
