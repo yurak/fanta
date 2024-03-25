@@ -10,16 +10,21 @@ export const usePlayers = ({
   search,
   sortBy,
   sortOrder,
+  filters,
 }: {
   search: string,
   sortBy?: string | null,
   sortOrder?: SortOrder | null,
+  filters: {
+    position: string[],
+  },
 }) => {
   const filter = useMemo(
     () => ({
       name: search,
+      position: filters.position,
     }),
-    [search]
+    [search, filters]
   );
 
   const order = useMemo(() => {
