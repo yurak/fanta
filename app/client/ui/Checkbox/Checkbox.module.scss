@@ -13,43 +13,52 @@
     opacity: 0;
     position: absolute;
   }
+
+  --icon-color: #fff;
+  --icon-border: #847577;
+  --icon-background: #fff;
+
+  &:hover {
+    --icon-border: #181715;
+  }
+}
+
+.isChecked {
+  --icon-border: #261fff;
+  --icon-background: #261fff;
+
+  &:hover {
+    --icon-border: #040052;
+    --icon-background: #040052;
+  }
+}
+
+.isDisabled {
+  --icon-color: #a6a2a2;
+  --icon-border: #cfd2cd;
+  --icon-background: #f4f4f4;
+
+  &:hover {
+    --icon-border: #cfd2cd;
+    --icon-background: #f4f4f4;
+  }
+}
+
+.block {
+  flex: 1;
+  min-width: 0;
 }
 
 .checkboxToggle {
-  color: #fff;
+  color: var(--icon-color);
   width: 24px;
   height: 24px;
-  border: 1px solid #847577;
+  border: 1px solid var(--icon-border);
   border-radius: 4px;
   position: relative;
   display: inline-block;
-  background-color: #fff;
+  background-color: var(--icon-background);
   transition: 0.3s background-color, 0.3s border-color;
-
-  &:hover {
-    border-color: #181715;
-  }
-
-  &.isChecked {
-    border-color: #261fff;
-    background-color: #261fff;
-
-    &:hover {
-      border-color: #040052;
-      background-color: #040052;
-    }
-  }
-
-  &.isDisabled {
-    color: #a6a2a2;
-    border-color: #cfd2cd;
-    background-color: #f4f4f4;
-
-    &:hover {
-      border-color: #cfd2cd;
-      background-color: #f4f4f4;
-    }
-  }
 }
 
 .icon {
