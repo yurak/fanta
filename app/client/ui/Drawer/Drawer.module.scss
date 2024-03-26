@@ -1,0 +1,94 @@
+.drawerContainer {
+  --transition-speed: 0.3s;
+  --background-color: #fff;
+}
+
+.drawer {
+  background-color: var(--background-color);
+  width: 320px;
+  max-width: 100%;
+  height: 100%;
+  overflow: auto;
+  position: fixed;
+  box-shadow: 1px 2px 5px 0px #18171533, 6px 6px 8px 0px #18171533;
+  transition: transform var(--transition-speed) ease;
+  top: 0;
+  left: 0;
+  transform: translateX(-105%);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+
+  .isOpen.isTransitioning & {
+    transform: translateX(0);
+  }
+}
+
+.backdrop {
+  visibility: hidden;
+  opacity: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  transition: opacity var(--transition-speed) ease, visibility var(--transition-speed) ease;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  position: fixed;
+  pointer-events: none;
+  z-index: 0;
+
+  .isOpen.isTransitioning & {
+    visibility: visible;
+    opacity: 1;
+    pointer-events: auto;
+    z-index: 999;
+  }
+}
+
+.header {
+  padding: 12px 24px;
+  border-bottom: 1px solid #e5e6e4;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  position: sticky;
+  top: 0;
+  background-color: var(--background-color);
+}
+
+.title {
+  flex: 1;
+  min-width: 0;
+  font-size: 24px;
+  line-height: 32px;
+  color: #181715;
+  font-family: "Nunito ExtraBold";
+}
+
+.closeButton {
+  padding: 0;
+  background: none;
+  border: 0;
+  width: 24px;
+  height: 24px;
+  line-height: 1;
+  color: #847577;
+
+  &:hover {
+    color: #181715;
+  }
+}
+
+.content {
+  padding: 24px;
+}
+
+.footer {
+  padding: 16px 24px;
+  border-top: 1px solid #e5e6e4;
+  margin-top: auto;
+  position: sticky;
+  bottom: 0;
+  background-color: var(--background-color);
+}
