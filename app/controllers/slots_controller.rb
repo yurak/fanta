@@ -26,13 +26,13 @@ class SlotsController < ApplicationController
 
   def round_players
     Player.includes(player_positions: :position).by_tournament_round(t_round)
-          .uniq.sort_by { |x| [x.club.name] }.group_by(&:club)
+          .uniq.sort_by { |x| [x.name] }.group_by(&:club).sort_by { |x, _| [x.name] }
   end
 
   def round_players_by_position
     Player.includes(player_positions: :position).by_tournament_round(t_round)
           .by_position(slots_params[:position]&.split('/'))
-          .uniq.sort_by { |x| [x.club.name] }.group_by(&:club)
+          .uniq.sort_by { |x| [x.name] }.group_by(&:club).sort_by { |x, _| [x.name] }
   end
 
   def t_round

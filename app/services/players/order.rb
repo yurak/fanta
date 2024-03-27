@@ -7,6 +7,7 @@ module Players
     APPEARANCES = 'appearances'.freeze
     BASE_SCORE = 'base_score'.freeze
     CLUB = 'club'.freeze
+    NAME = 'name'.freeze
     TOTAL_SCORE = 'total_score'.freeze
     POSITION = 'position'.freeze
 

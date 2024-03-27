@@ -45,4 +45,11 @@ Rails.application.configure do
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
+
+  # Use memory store for bot sessions.
+  config.telegram_updates_controller.session_store = :memory_store
+  config.telegram_updates_controller.host = 'https://staging.mantrafootball.org'
+
+  # Stub clients before processing routes.rb.
+  Telegram::Bot::ClientStub.stub_all!
 end

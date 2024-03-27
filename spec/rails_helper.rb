@@ -24,6 +24,7 @@ require 'shoulda/matchers'
 require 'devise'
 require 'vcr'
 require_relative 'support/auth_helper'
+require 'telegram/bot/rspec/integration/rails'
 
 Shoulda::Matchers.configure do |config|
   config.integrate do |with|
@@ -54,4 +55,6 @@ RSpec.configure do |config|
   config.include Devise::Test::ControllerHelpers, type: :controller
   config.include Devise::Test::IntegrationHelpers, type: :request
   config.extend AuthHelper, type: :request
+
+  config.after { Telegram.bot.reset }
 end
