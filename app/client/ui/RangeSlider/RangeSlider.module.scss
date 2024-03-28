@@ -1,0 +1,64 @@
+.container {
+  position: relative;
+  width: 200px;
+  padding-top: 40px;
+}
+
+.slider {
+  height: 0;
+  padding: 0;
+}
+
+.rail {
+  background-color: #d8d6ff;
+}
+
+.track {
+  background-color: #261fff;
+}
+
+.rail,
+.track,
+.handle {
+  transform: translateY(-50%);
+}
+
+.handle {
+  top: 50%;
+  width: 22px;
+  height: 22px;
+  background-color: #261fff;
+  border-color: #ffffff;
+  margin-top: -11px;
+  opacity: 1;
+
+  &:hover {
+    border-color: #d8d6ff;
+  }
+
+  &:active {
+    box-shadow: none !important;
+    border-color: #261fff !important;
+  }
+}
+
+.valueTooltip {
+  position: absolute;
+  transform: translateX(-50%);
+  background-color: #181715;
+  color: #fff;
+  border-radius: 4px;
+  padding: 8px;
+  font-size: 14px;
+  line-height: 16px;
+  font-family: "Nunito ExtraBold";
+  top: -12px;
+}
+
+.valueTooltipIcon {
+  color: #181715;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: calc(100% - 4px);
+}
