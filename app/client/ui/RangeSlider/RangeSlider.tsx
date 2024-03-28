@@ -39,18 +39,22 @@ const RangeSlider = ({ min, max, value, onChange, step = 1 }: IProps) => {
           setInnerValue(value as number[]);
         }}
       />
-      {innerValue.map((value, index) => (
-        <span
-          key={`${value}-${index}`}
-          className={styles.valueTooltip}
-          style={{
-            left: `${(value / max) * 100}%`,
-          }}
-        >
-          {value}
-          <TooltipArrowIcon className={styles.valueTooltipIcon} />
-        </span>
-      ))}
+      {innerValue.map((value, index) => {
+        const percentage = Math.max(0, Math.min(100, (value / max) * 100));
+
+        return (
+          <span
+            key={`${value}-${index}`}
+            className={styles.valueTooltip}
+            style={{
+              left: `${percentage}%`,
+            }}
+          >
+            {value}
+            <TooltipArrowIcon className={styles.valueTooltipIcon} />
+          </span>
+        );
+      })}
     </div>
   );
 };
