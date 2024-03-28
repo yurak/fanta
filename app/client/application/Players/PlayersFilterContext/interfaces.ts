@@ -1,9 +1,9 @@
-type SliderRangeValueType = number[];
+import { RangeSliderValueType } from "@/ui/RangeSlider";
 
 export interface IFilter {
   position: string[],
-  totalScore: SliderRangeValueType,
-  baseScore: SliderRangeValueType,
-  appearances: SliderRangeValueType,
-  price: SliderRangeValueType,
+  totalScore: RangeSliderValueType,
+  baseScore: RangeSliderValueType,
+  appearances: RangeSliderValueType,
+  price: RangeSliderValueType,
 }
