@@ -640,7 +640,9 @@
     "league": {
       "all": "All",
       "division": "Division",
-      "empty_placeholder": "No leagues were found for this request",
+      "empty_placeholder_button": "Clear filters",
+      "empty_placeholder_description": "Make sure that the league’s name is spelled correctly or searching within a proper league",
+      "empty_placeholder_title": "Leagues not found",
       "finished": "🏁️ Finished",
       "leader": "Leader",
       "name": "Name",
@@ -1859,7 +1861,9 @@
     "league": {
       "all": "Усі",
       "division": "Дивізіон",
-      "empty_placeholder": "Не знайдено ліг за таким запитом",
+      "empty_placeholder_button": "Очистити фільтри",
+      "empty_placeholder_description": "Переконайтеся, що назва ліги написана правильно або здійсніть пошук у відповідній лізі",
+      "empty_placeholder_title": "Ліги не знайдено",
       "finished": "🏁️ Завершена",
       "leader": "Лідер",
       "name": "Ім'я",

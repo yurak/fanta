@@ -5,70 +5,65 @@
   align-items: center;
 }
 
-.image {
-  width: 64px;
-  height: 64px;
-  margin-bottom: 18px;
+.pseudoIcon {
+  width: 2em;
+  height: 2em;
+  font-size: 48px;
+  line-height: 2;
+  background-color: #e5e6e4;
+  border-radius: 50%;
+  padding-top: 0.05em;
+  margin-bottom: 24px;
 
-  @media (max-width: 768px) {
-    width: 48px;
-    height: 48px;
-    margin-bottom: 12px;
-  }
-
-  .large & {
-    width: 96px;
-    height: 96px;
-    margin-bottom: 24px;
-
-    @media (max-width: 768px) {
-      width: 64px;
-      height: 64px;
-      margin-bottom: 18px;
-    }
-  }
-
-  img {
-    width: 100%;
-    height: 100%;
-  }
-}
-
-.title,
-.description {
-  font-family: "Nunito ExtraBold";
-  font-size: 24px;
-  line-height: 1.2;
-
-  @media (max-width: 768px) {
-    font-size: 18px;
-    line-height: 1.4;
-  }
-
-  .large & {
+  @media (max-width: 1200px) {
     font-size: 32px;
-    line-height: 1;
-
-    @media (max-width: 768px) {
-      font-size: 24px;
-      line-height: 1.2;
-    }
+    margin-bottom: 18px;
   }
 }
 
 .title {
+  font-family: "Nunito ExtraBold";
+  font-size: 32px;
+  line-height: 1;
   color: #181715;
+
+  @media (max-width: 1200px) {
+    font-size: 24px;
+    line-height: 1.2;
+  }
+
+  @media (max-width: 768px) {
+    font-size: 21px;
+    line-height: 1.4;
+  }
 }
 
 .description {
-  color: #a6a2a2;
-  margin-top: 12px;
+  font-size: 18px;
+  line-height: 24px;
+  color: #847577;
+  margin-top: 16px;
 
-  .large & {
-    margin-top: 16px;
+  @media (max-width: 1200px) {
+    font-size: 16px;
+    line-height: 20px;
+    margin-top: 12px;
+  }
+}
 
-    @media (max-width: 768px) {
-      margin-top: 12px;
-    }
+.actions {
+  margin-top: 40px;
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  flex-wrap: wrap;
+  align-items: center;
+
+  @media (max-width: 1200px) {
+    margin-top: 32px;
+  }
+
+  @media (max-width: 768px) {
+    margin-top: 20px;
   }
 }

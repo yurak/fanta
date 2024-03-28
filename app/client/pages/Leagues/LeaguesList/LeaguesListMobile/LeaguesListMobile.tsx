@@ -1,9 +1,8 @@
 import Skeleton from "react-loading-skeleton";
-import { useTranslation } from "react-i18next";
 import LeagueStatus from "@/components/LeagueStatus";
 import DataList from "@/ui/DataList";
+import LeagueLoader from "@/components/loaders/LeagueLoader";
 import { ILeaguesWithTournament } from "../../interfaces";
-import LeagueLoader from "../LeagueLoader";
 import styles from "./LeaguesListMobile.module.scss";
 
 const LeagueItem = ({ name, tournament, status, division, id }: ILeaguesWithTournament) => {
@@ -64,12 +63,12 @@ const LeagueItemSkeleton = () => {
 const LeaguesListMobile = ({
   dataSource,
   isLoading,
+  emptyStateComponent,
 }: {
   dataSource: ILeaguesWithTournament[],
   isLoading: boolean,
+  emptyStateComponent: React.ReactNode,
 }) => {
-  const { t } = useTranslation();
-
   return (
     <DataList
       dataSource={dataSource}
@@ -78,7 +77,7 @@ const LeaguesListMobile = ({
       itemLink={(item) => item.link}
       skeletonRender={LeagueItemSkeleton}
       isLoading={isLoading}
-      emptyState={{ title: t("league.empty_placeholder") }}
+      emptyStateComponent={emptyStateComponent}
     />
   );
 };

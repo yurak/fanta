@@ -2,6 +2,8 @@ import React from "react";
 
 export type SortFunctionType<DataItem> = (itemA: DataItem, itemB: DataItem) => number;
 
+export type SortOrder = "asc" | "desc";
+
 export interface IColumn<DataItem extends object = object> {
   title?: React.ReactNode,
   dataKey: string,
@@ -13,10 +15,13 @@ export interface IColumn<DataItem extends object = object> {
   headClassName?: string,
   headEllipsis?: boolean,
   isHidden?: boolean,
-  sorter?: {
-    compare: SortFunctionType<DataItem>,
-    priority?: number,
-  },
+  sorter?:
+    | boolean
+    | {
+        compare: SortFunctionType<DataItem>,
+        priority?: number,
+      },
+  supportAscSorting?: boolean,
   align?: "left" | "center" | "right",
   noWrap?: boolean,
 }
@@ -26,7 +31,11 @@ export interface IComputedColumn<DataItem extends object = object> extends IColu
 }
 
 export type ITableSorting = {
-  defaultSortColumn?: string | null,
-  sortColumn?: string | null,
-  setSortColumn?: (column: string | null) => void,
+  sortBy?: string | null,
+  sortOrder?: SortOrder | null,
+  onSortChange?: (
+    sortBy: string | null,
+    sortOrder: SortOrder | null,
+    supportMultipleSortOrders: boolean
+  ) => void,
 };

@@ -5,8 +5,6 @@
 const { generateWebpackConfig, merge } = require("shakapacker");
 const path = require("path");
 
-console.log("__dirname", __dirname);
-
 const baseClientWebpackConfig = generateWebpackConfig({});
 
 // clear default svg rules

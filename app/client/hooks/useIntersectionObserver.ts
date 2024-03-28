@@ -6,6 +6,7 @@ export const useIntersectionObserver = <T extends Element>({
   rootMargin = "0px",
 }: IntersectionObserverInit = {}): [
   React.RefCallback<T>,
+  boolean,
   IntersectionObserverEntry | undefined
 ] => {
   const [entry, setEntry] = useState<IntersectionObserverEntry>();
@@ -33,5 +34,5 @@ export const useIntersectionObserver = <T extends Element>({
     [threshold, root, rootMargin]
   );
 
-  return [customRef, entry];
+  return [customRef, entry?.isIntersecting ?? false, entry];
 };

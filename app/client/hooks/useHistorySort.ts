@@ -1,22 +1,54 @@
 import { useMemo } from "react";
-import { useSearchParam } from "./useSearchParam";
+import { ITableSorting } from "@/ui/Table/interfaces";
+import { useSearchParams } from "react-router-dom";
 
 export const useHistorySort = (
   {
-    defaultSortColumn,
+    defaultSortBy,
   }: {
-    defaultSortColumn: string | null,
+    defaultSortBy: string | null,
   } = {
-    defaultSortColumn: null,
+    defaultSortBy: null,
   }
-) => {
-  const [sortColumn, setSortColumn] = useSearchParam("order");
+): ITableSorting => {
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const sortBy = searchParams.get("sortBy") as ITableSorting["sortBy"];
+  const sortOrder = searchParams.get("sortOrder") as ITableSorting["sortOrder"];
+
+  const onSortChange: ITableSorting["onSortChange"] = (
+    sortBy,
+    sortOrder,
+    supportMultipleSortOrders
+  ) => {
+    setSearchParams(
+      (prev) => {
+        if (sortBy) {
+          prev.set("sortBy", sortBy.toString());
+        } else {
+          prev.delete("sortBy");
+        }
+
+        if (sortOrder && supportMultipleSortOrders) {
+          prev.set("sortOrder", sortOrder.toString());
+        } else {
+          prev.delete("sortOrder");
+        }
+
+        return prev;
+      },
+      {
+        replace: true,
+      }
+    );
+  };
 
   return useMemo(
     () => ({
-      sortColumn: sortColumn ?? defaultSortColumn,
-      setSortColumn,
+      sortBy: sortBy ?? defaultSortBy,
+      sortOrder,
+      onSortChange,
     }),
-    [defaultSortColumn, sortColumn, setSortColumn]
+    [defaultSortBy, sortBy, onSortChange]
   );
 };
