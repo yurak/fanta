@@ -1,11 +1,11 @@
 .container {
   position: relative;
-  padding-top: 40px;
+  padding-top: 30px;
 }
 
 .slider {
-  height: 0;
-  padding: 0;
+  height: 22px;
+  padding: 9px 0;
 }
 
 .rail {
@@ -16,8 +16,6 @@
   background-color: #261fff;
 }
 
-.rail,
-.track,
 .handle {
   transform: translateY(-50%);
 }

@@ -14,7 +14,7 @@ export interface IProps {
 }
 
 const RangeSlider = ({ min, max, value, onChange, step = 1 }: IProps) => {
-  const [innerValue, setInnerValue] = useState<number[]>([min, max]);
+  const [innerValue, setInnerValue] = useState<number[]>(value);
 
   useEffect(() => {
     if (!isArrayEquals(value, innerValue)) {
