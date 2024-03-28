@@ -1,32 +1,22 @@
 import { useEffect, useState } from "react";
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
+import { isArrayEquals } from "@/helpers/isArrayEquals";
 import TooltipArrowIcon from "@/assets/icons/tooltipArrow.svg";
 import styles from "./RangeSlider.module.scss";
 
-const isArraysEqual = (array1: number[], array2: number[]) => {
-  if (array1.length !== array2.length) {
-    return false;
-  }
-
-  return array1.every((value, index) => array2[index] === value);
-};
-
-const RangeSlider = ({
-  min,
-  max,
-  value,
-  onChange,
-}: {
+export interface IProps {
   min: number,
   max: number,
   value: number[],
   onChange: (value: number[]) => void,
-}) => {
+}
+
+const RangeSlider = ({ min, max, value, onChange }: IProps) => {
   const [innerValue, setInnerValue] = useState<number[]>([min, max]);
 
   useEffect(() => {
-    if (!isArraysEqual(value, innerValue)) {
+    if (!isArrayEquals(value, innerValue)) {
       setInnerValue(value);
     }
   }, [value]);
