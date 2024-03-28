@@ -10,9 +10,10 @@ export interface IProps {
   max: number,
   value: number[],
   onChange: (value: number[]) => void,
+  step?: number,
 }
 
-const RangeSlider = ({ min, max, value, onChange }: IProps) => {
+const RangeSlider = ({ min, max, value, onChange, step = 1 }: IProps) => {
   const [innerValue, setInnerValue] = useState<number[]>([min, max]);
 
   useEffect(() => {
@@ -25,6 +26,7 @@ const RangeSlider = ({ min, max, value, onChange }: IProps) => {
     <div className={styles.container}>
       <Slider
         range
+        step={step}
         min={min}
         max={max}
         className={styles.slider}
