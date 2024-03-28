@@ -67,11 +67,13 @@ const DrawerWrapper = ({
 const Drawer = ({
   title,
   children,
+  footer,
   isOpen,
   onClose,
 }: {
   title: string,
   children: React.ReactNode,
+  footer?: React.ReactNode,
   isOpen: boolean,
   onClose: () => void,
 }) => {
@@ -95,7 +97,7 @@ const Drawer = ({
               </button>
             </div>
             <div>{children}</div>
-            <div className={styles.footer}>footer</div>
+            {footer && <div className={styles.footer}>{footer}</div>}
           </div>
           <div className={styles.backdrop} onClick={onClose} />
         </div>

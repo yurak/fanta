@@ -1,62 +1,58 @@
 import PlayerPositionsCheckboxList from "@/components/PlayerPositionsCheckboxList";
 import PlayersFilterConstants from "@/domain/PlayersFilterConstants";
-import { usePlayersFiltersContext } from "../PlayersFiltersContext";
-import PlayersFiltersDrawer from "./PlayersFiltersDrawer";
 import { RangeSliderPopover } from "@/ui/RangeSlider";
+import PlayersFilterContextProvider, {
+  usePlayersFilterContext,
+} from "@/application/Players/PlayersFilterContext";
 
 const PlayerFilters = () => {
-  const {
-    position,
-    setPosition,
-    totalScore,
-    setTotalScore,
-    baseScore,
-    setBaseScore,
-    appearances,
-    setAppearances,
-    price,
-    setPrice,
-  } = usePlayersFiltersContext();
+  const { filterValues, onChangeValue } = usePlayersFilterContext();
 
   return (
-    <div style={{ display: "flex", gap: 16, alignItems: "center" }}>
-      <PlayersFiltersDrawer />
-      <PlayerPositionsCheckboxList positions={position} setPositions={setPosition} />
+    <>
+      <PlayerPositionsCheckboxList
+        positions={filterValues.position}
+        setPositions={onChangeValue("position")}
+      />
       <RangeSliderPopover
         min={PlayersFilterConstants.TOTAL_SCORE_MIN}
         max={PlayersFilterConstants.TOTAL_SCORE_MAX}
-        value={totalScore}
+        value={filterValues.totalScore}
         step={0.1}
         label="Total score"
         valueLabel="TS"
-        onChange={setTotalScore}
+        onChange={onChangeValue("totalScore")}
       />
       <RangeSliderPopover
         min={PlayersFilterConstants.BASE_SCORE_MIN}
         max={PlayersFilterConstants.BASE_SCORE_MAX}
         step={0.1}
-        value={baseScore}
+        value={filterValues.baseScore}
         label="Base score"
         valueLabel="BS"
-        onChange={setBaseScore}
+        onChange={onChangeValue("baseScore")}
       />
       <RangeSliderPopover
         min={PlayersFilterConstants.APPEARANCES_MIN}
         max={PlayersFilterConstants.APPEARANCES_MAX}
-        value={appearances}
+        value={filterValues.appearances}
         label="Appearances"
         valueLabel="Apps"
-        onChange={setAppearances}
+        onChange={onChangeValue("appearances")}
       />
       <RangeSliderPopover
         min={PlayersFilterConstants.PRICE_MIN}
         max={PlayersFilterConstants.PRICE_MAX}
-        value={price}
+        value={filterValues.price}
         label="Price"
-        onChange={setPrice}
+        onChange={onChangeValue("price")}
       />
-    </div>
+    </>
   );
 };
 
-export default PlayerFilters;
+export default () => (
+  <PlayersFilterContextProvider shouldApplyOnValueChange>
+    <PlayerFilters />
+  </PlayersFilterContextProvider>
+);

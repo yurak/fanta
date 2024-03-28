@@ -1,32 +1,32 @@
 import { useMemo } from "react";
 import Heading from "@/components/Heading";
-import SeasonsSelect from "@/components/SeasonsSelect";
 import PageLayout from "@/layouts/PageLayout";
 import { formatNumber } from "@/helpers/formatNumber";
 import Search from "@/ui/Search";
 import { usePlayers } from "@/api/query/usePlayers";
-import PlayersFiltersContext, { usePlayersFiltersContext } from "./PlayersFiltersContext";
+import PlayersContextProvider, { usePlayersContext } from "@/application/Players/PlayersContext";
 import PlayersFilters from "./PlayersFilters";
 import PlayersList from "./PlayersList";
 import styles from "./Players.module.scss";
+import PlayersFiltersDrawer from "./PlayersFilters/PlayersFiltersDrawer";
 
 const Players = () => {
   const {
-    filters,
-    clearFilters,
+    filter,
+    clearAllFilter,
     search,
-    historySort,
+    sortBy,
+    sortOrder,
+    onSortChange,
     setSearch,
-    defaultSearch,
-    selectedSeason,
-    setSelectedSeason,
-  } = usePlayersFiltersContext();
+    openSidebar,
+  } = usePlayersContext();
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isPending } = usePlayers({
     search,
-    sortBy: historySort.sortBy,
-    sortOrder: historySort.sortOrder,
-    filters,
+    sortBy,
+    sortOrder,
+    filter,
   });
 
   const items = useMemo(() => data?.pages.flatMap((page) => page.data) ?? [], [data]);
@@ -41,15 +41,6 @@ const Players = () => {
     return data.pages[lastPage]?.meta.size ?? 0;
   }, [data]);
 
-  const clearFiltersHandler = () => {
-    setSearch(defaultSearch);
-    clearFilters();
-  };
-
-  const openFiltersSidebar = () => {
-    alert("Not realized yet");
-  };
-
   return (
     <PageLayout>
       <div className={styles.header}>
@@ -57,16 +48,14 @@ const Players = () => {
           <div className={styles.heading}>
             <Heading title="Players" noSpace />
           </div>
-          <div className={styles.yearSelect}>
-            <SeasonsSelect value={selectedSeason} onChange={setSelectedSeason} />
-          </div>
         </div>
         <div className={styles.search}>
           <Search value={search} onChange={setSearch} placeholder="Search player" />
         </div>
       </div>
       <div className={styles.filtersWrapper}>
-        <div>
+        <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+          <PlayersFiltersDrawer />
           <PlayersFilters />
         </div>
         <div className={styles.total}>
@@ -84,9 +73,13 @@ const Players = () => {
           isFetchingNextPage={isFetchingNextPage}
           isLoading={isPending}
           items={items}
-          sorting={historySort}
-          clearFilters={clearFiltersHandler}
-          openFiltersSidebar={openFiltersSidebar}
+          sorting={{
+            onSortChange,
+            sortBy,
+            sortOrder,
+          }}
+          clearFilters={clearAllFilter}
+          openFiltersSidebar={openSidebar}
         />
       </div>
     </PageLayout>
@@ -94,7 +87,7 @@ const Players = () => {
 };
 
 export default () => (
-  <PlayersFiltersContext>
+  <PlayersContextProvider>
     <Players />
-  </PlayersFiltersContext>
+  </PlayersContextProvider>
 );

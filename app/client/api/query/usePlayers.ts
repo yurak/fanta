@@ -5,41 +5,41 @@ import { keepPreviousData, useInfiniteQuery } from "@tanstack/react-query";
 import { IPlayer } from "@/interfaces/Player";
 import { ICollectionResponse } from "@/interfaces/api/Response";
 import { SortOrder } from "@/ui/Table/interfaces";
+import { IFilter } from "@/application/Players/PlayersFilterContext/interfaces";
 
 export const usePlayers = ({
   search,
   sortBy,
   sortOrder,
-  filters,
+  filter,
 }: {
   search: string,
   sortBy?: string | null,
   sortOrder?: SortOrder | null,
-  filters: {
-    position: string[],
-    baseScore: number[],
-    totalScore: number[],
-    appearances: number[],
-  },
+  filter: IFilter,
 }) => {
-  const filter = useMemo(
+  const _filter = useMemo(
     () => ({
       name: search,
-      position: filters.position,
+      position: filter.position,
       base_score: {
-        min: filters.baseScore[0],
-        max: filters.baseScore[1],
+        min: filter.baseScore[0],
+        max: filter.baseScore[1],
       },
       total_score: {
-        min: filters.totalScore[0],
-        max: filters.totalScore[1],
+        min: filter.totalScore[0],
+        max: filter.totalScore[1],
       },
       app: {
-        min: filters.appearances[0],
-        max: filters.appearances[1],
+        min: filter.appearances[0],
+        max: filter.appearances[1],
+      },
+      price: {
+        min: filter.price[0],
+        max: filter.price[1],
       },
     }),
-    [search, filters]
+    [search, filter]
   );
 
   const order = useMemo(() => {
@@ -53,7 +53,7 @@ export const usePlayers = ({
     };
   }, [sortBy, sortOrder]);
 
-  const [debouncedFilter] = useDebounceValue(filter, 500);
+  const [debouncedFilter] = useDebounceValue(_filter, 500);
 
   const query = useInfiniteQuery<ICollectionResponse<IPlayer[]>>({
     staleTime: 1000 * 60 * 10, // 10 minutes
