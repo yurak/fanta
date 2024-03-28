@@ -1,4 +1,3 @@
-import { useState } from "react";
 import PlayerPositionsCheckboxList from "@/components/PlayerPositionsCheckboxList";
 import PlayersFilterConstants from "@/domain/PlayersFilterConstants";
 import { usePlayersFiltersContext } from "../PlayersFiltersContext";
@@ -6,27 +5,18 @@ import PlayersFiltersDrawer from "./PlayersFiltersDrawer";
 import { RangeSliderPopover } from "@/ui/RangeSlider";
 
 const PlayerFilters = () => {
-  const { position, setPosition } = usePlayersFiltersContext();
-
-  const [totalScore, setTotalScore] = useState([
-    PlayersFilterConstants.TOTAL_SCORE_MIN,
-    PlayersFilterConstants.TOTAL_SCORE_MAX,
-  ]);
-
-  const [baseScore, setBaseScore] = useState([
-    PlayersFilterConstants.BASE_SCORE_MIN,
-    PlayersFilterConstants.BASE_SCORE_MAX,
-  ]);
-
-  const [appearances, setAppearances] = useState([
-    PlayersFilterConstants.APPEARANCES_MIN,
-    PlayersFilterConstants.APPEARANCES_MAX,
-  ]);
-
-  const [price, setPrice] = useState([
-    PlayersFilterConstants.PRICE_MIN,
-    PlayersFilterConstants.PRICE_MAX,
-  ]);
+  const {
+    position,
+    setPosition,
+    totalScore,
+    setTotalScore,
+    baseScore,
+    setBaseScore,
+    appearances,
+    setAppearances,
+    price,
+    setPrice,
+  } = usePlayersFiltersContext();
 
   return (
     <div style={{ display: "flex", gap: 16, alignItems: "center" }}>
@@ -36,6 +26,7 @@ const PlayerFilters = () => {
         min={PlayersFilterConstants.TOTAL_SCORE_MIN}
         max={PlayersFilterConstants.TOTAL_SCORE_MAX}
         value={totalScore}
+        step={0.1}
         label="Total score"
         valueLabel="TS"
         onChange={setTotalScore}
@@ -43,6 +34,7 @@ const PlayerFilters = () => {
       <RangeSliderPopover
         min={PlayersFilterConstants.BASE_SCORE_MIN}
         max={PlayersFilterConstants.BASE_SCORE_MAX}
+        step={0.1}
         value={baseScore}
         label="Base score"
         valueLabel="BS"

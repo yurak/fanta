@@ -2,6 +2,7 @@ import { createContext, useContext, useMemo, useState } from "react";
 import { ISeason } from "@/interfaces/Season";
 import { useHistorySearch } from "@/hooks/useHistorySearch";
 import { useHistorySort } from "@/hooks/useHistorySort";
+import PlayersFilterConstants from "@/domain/PlayersFilterConstants";
 
 const defaultSearch = "martinez";
 
@@ -13,10 +14,40 @@ const usePlayersFilters = () => {
 
   const [position, setPosition] = useState<string[]>([]);
 
-  const filters = useMemo(() => ({ position }), [position]);
+  const [totalScore, setTotalScore] = useState([
+    PlayersFilterConstants.TOTAL_SCORE_MIN,
+    PlayersFilterConstants.TOTAL_SCORE_MAX,
+  ]);
+
+  const [baseScore, setBaseScore] = useState([
+    PlayersFilterConstants.BASE_SCORE_MIN,
+    PlayersFilterConstants.BASE_SCORE_MAX,
+  ]);
+
+  const [appearances, setAppearances] = useState([
+    PlayersFilterConstants.APPEARANCES_MIN,
+    PlayersFilterConstants.APPEARANCES_MAX,
+  ]);
+
+  const [price, setPrice] = useState([
+    PlayersFilterConstants.PRICE_MIN,
+    PlayersFilterConstants.PRICE_MAX,
+  ]);
+
+  const filters = useMemo(
+    () => ({ position, totalScore, baseScore, appearances, price }),
+    [position, totalScore, baseScore, appearances, price]
+  );
 
   const clearFilters = () => {
     setPosition([]);
+    setTotalScore([PlayersFilterConstants.TOTAL_SCORE_MIN, PlayersFilterConstants.TOTAL_SCORE_MAX]);
+    setBaseScore([PlayersFilterConstants.BASE_SCORE_MIN, PlayersFilterConstants.BASE_SCORE_MAX]);
+    setAppearances([
+      PlayersFilterConstants.APPEARANCES_MIN,
+      PlayersFilterConstants.APPEARANCES_MAX,
+    ]);
+    setPrice([PlayersFilterConstants.PRICE_MIN, PlayersFilterConstants.PRICE_MAX]);
   };
 
   return {
@@ -30,6 +61,14 @@ const usePlayersFilters = () => {
     setSearch,
     defaultSearch,
     historySort,
+    totalScore,
+    setTotalScore,
+    baseScore,
+    setBaseScore,
+    appearances,
+    setAppearances,
+    price,
+    setPrice,
   };
 };
 

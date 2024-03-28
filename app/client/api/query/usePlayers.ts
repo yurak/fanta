@@ -17,12 +17,27 @@ export const usePlayers = ({
   sortOrder?: SortOrder | null,
   filters: {
     position: string[],
+    baseScore: number[],
+    totalScore: number[],
+    appearances: number[],
   },
 }) => {
   const filter = useMemo(
     () => ({
       name: search,
       position: filters.position,
+      base_score: {
+        min: filters.baseScore[0],
+        max: filters.baseScore[1],
+      },
+      total_score: {
+        min: filters.totalScore[0],
+        max: filters.totalScore[1],
+      },
+      app: {
+        min: filters.appearances[0],
+        max: filters.appearances[1],
+      },
     }),
     [search, filters]
   );

@@ -7,21 +7,21 @@ interface IProps extends IRangeSliderProps {
   valueLabel?: string,
 }
 
-const RangeSliderPopover = ({ max, min, value, onChange, label, valueLabel = label }: IProps) => {
+const RangeSliderPopover = ({ label, valueLabel = label, ...sliderProps }: IProps) => {
   return (
     <PopoverInput
       label={label}
-      value={value}
-      clearValue={() => onChange([min, max])}
+      value={sliderProps.value}
+      clearValue={() => sliderProps.onChange([sliderProps.min, sliderProps.max])}
       formatValue={(value) => {
-        if (isArrayEquals(value, [min, max])) {
+        if (isArrayEquals(value, [sliderProps.min, sliderProps.max])) {
           return null;
         }
 
         return `${valueLabel}: ${value[0]}-${value[1]}`;
       }}
     >
-      <RangeSlider {...{ max, min, value, onChange }} />
+      <RangeSlider {...sliderProps} />
     </PopoverInput>
   );
 };
