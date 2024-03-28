@@ -1,4 +1,4 @@
-import PlayerPositionsCheckboxList from "@/components/PlayerPositionsCheckboxList";
+import { PlayerPositionsCheckboxPopover } from "@/components/filters/PlayerPositionsCheckbox";
 import PlayersFilterConstants from "@/domain/PlayersFilterConstants";
 import { RangeSliderPopover } from "@/ui/RangeSlider";
 import PlayersFilterContextProvider, {
@@ -10,9 +10,9 @@ const PlayerFilters = () => {
 
   return (
     <>
-      <PlayerPositionsCheckboxList
-        positions={filterValues.position}
-        setPositions={onChangeValue("position")}
+      <PlayerPositionsCheckboxPopover
+        value={filterValues.position}
+        onChange={onChangeValue("position")}
       />
       <RangeSliderPopover
         min={PlayersFilterConstants.TOTAL_SCORE_MIN}
