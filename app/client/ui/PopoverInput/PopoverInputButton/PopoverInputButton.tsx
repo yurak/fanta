@@ -6,19 +6,19 @@ import styles from "./PopoverInputButton.module.scss";
 
 interface IProps extends IPopoverRefrenceProps {
   placeholder: string,
-  value: string | null,
+  selectedLabel?: string | null,
   clearValue: () => void,
 }
 
 const PopoverInputButton = ({
   placeholder,
-  value,
+  selectedLabel,
   clearValue,
   isOpen,
   setRef,
   ...props
 }: IProps) => {
-  const isActive = Boolean(value);
+  const isActive = Boolean(selectedLabel);
 
   const onClear: React.MouseEventHandler<HTMLButtonElement> = (event) => {
     event.stopPropagation();
@@ -36,7 +36,7 @@ const PopoverInputButton = ({
         {...props}
       >
         <span className={styles.buttonInner}>
-          {value ?? placeholder}
+          {selectedLabel ?? placeholder}
           {!isActive && (
             <span className={styles.iconWrapper}>
               <ExpandDown />

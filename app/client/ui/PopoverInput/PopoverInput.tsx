@@ -1,18 +1,15 @@
 import Popover from "../Popover";
 import PopoverInputButton from "./PopoverInputButton";
 
-const PopoverInput = <T extends null | string | number | string[] | number[] | boolean>({
+const PopoverInput = ({
   label,
-  value,
+  selectedLabel,
   clearValue,
-  formatValue,
   children,
 }: {
   label: string,
-  value: T,
+  selectedLabel?: string | null,
   clearValue: () => void,
-  formatValue: (value: T) => string | null,
-  isActive?: (value: T) => boolean,
   children: React.ReactNode,
 }) => {
   return (
@@ -22,7 +19,7 @@ const PopoverInput = <T extends null | string | number | string[] | number[] | b
         <PopoverInputButton
           {...props}
           placeholder={label}
-          value={formatValue(value)}
+          selectedLabel={selectedLabel}
           clearValue={clearValue}
         />
       )}
