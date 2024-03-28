@@ -8,6 +8,7 @@ import FilterIcon from "@/assets/icons/filter.svg";
 import RangeSlider from "@/ui/RangeSlider";
 import PlayersFilterConstants from "@/domain/PlayersFilterConstants";
 import Button from "@/ui/Button";
+import PlayerPositionsCheckbox from "@/components/filters/PlayerPositionsCheckbox";
 
 const PlayersFiltersDrawer = () => {
   const { isSidebarOpen, openSidebar, closeSidebar, clearFilter } = usePlayersContext();
@@ -41,7 +42,12 @@ const PlayersFiltersDrawer = () => {
           </div>
         }
       >
-        <Drawer.Section title="Position">Position</Drawer.Section>
+        <Drawer.Section title="Position">
+          <PlayerPositionsCheckbox
+            value={filterValues.position}
+            onChange={onChangeValue("position")}
+          />
+        </Drawer.Section>
         <Drawer.Section title="Total score">
           <RangeSlider
             value={filterValues.totalScore}
