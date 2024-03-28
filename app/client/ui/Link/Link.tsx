@@ -6,11 +6,13 @@ const Link = ({
   children,
   size,
   icon,
+  disabled,
   ...props
 }: {
   children: React.ReactNode,
   size?: "small" | "large",
   icon?: React.ReactNode,
+  disabled?: boolean,
 } & (
   | {
       to: string,
@@ -22,6 +24,7 @@ const Link = ({
     }
 )) => {
   const className = cn(styles.link, {
+    [styles.disabled]: disabled,
     [styles.small]: size === "small",
     [styles.large]: size === "large",
   });
@@ -35,7 +38,7 @@ const Link = ({
 
   if (props.asButton) {
     return (
-      <button className={cn(className, styles.button)} onClick={props.onClick}>
+      <button className={cn(className, styles.button)} onClick={props.onClick} disabled={disabled}>
         {content}
       </button>
     );

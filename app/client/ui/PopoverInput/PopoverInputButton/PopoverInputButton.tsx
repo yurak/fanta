@@ -7,6 +7,7 @@ import styles from "./PopoverInputButton.module.scss";
 interface IProps extends IPopoverRefrenceProps {
   placeholder: string,
   selectedLabel?: string | null,
+  isPristine: boolean,
   clearValue: () => void,
 }
 
@@ -15,11 +16,10 @@ const PopoverInputButton = ({
   selectedLabel,
   clearValue,
   isOpen,
+  isPristine,
   setRef,
   ...props
 }: IProps) => {
-  const isActive = Boolean(selectedLabel);
-
   const onClear: React.MouseEventHandler<HTMLButtonElement> = (event) => {
     event.stopPropagation();
     clearValue();
@@ -31,20 +31,20 @@ const PopoverInputButton = ({
         ref={setRef}
         className={cn(styles.button, {
           [styles.isOpen]: isOpen,
-          [styles.isActive]: isActive,
+          [styles.isActive]: !isPristine,
         })}
         {...props}
       >
         <span className={styles.buttonInner}>
           {selectedLabel ?? placeholder}
-          {!isActive && (
+          {isPristine && (
             <span className={styles.iconWrapper}>
               <ExpandDown />
             </span>
           )}
         </span>
       </button>
-      {isActive && (
+      {!isPristine && (
         <button className={cn(styles.iconWrapper, styles.clearButton)} onClick={onClear}>
           <ClearIcon />
         </button>
