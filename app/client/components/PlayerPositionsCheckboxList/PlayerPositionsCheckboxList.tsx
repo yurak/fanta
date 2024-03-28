@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { CheckboxGroup } from "@/ui/Checkbox";
 import PopoverInput from "@/ui/PopoverInput";
 import { PlayerPosition } from "@/interfaces/Player";
@@ -11,22 +12,23 @@ const PlayerPositionsCheckboxList = ({
   positions: string[],
   setPositions: (value: string[]) => void,
 }) => {
+  const selectedLabel = useMemo(() => {
+    if (positions.length === 0) {
+      return null;
+    }
+
+    if (positions.length === 1) {
+      return positions[0] ?? null;
+    }
+
+    return `${positions[0]} +${positions.length - 1}`;
+  }, [positions]);
+
   return (
     <PopoverInput
       label="Position"
-      value={positions}
+      selectedLabel={selectedLabel}
       clearValue={() => setPositions([])}
-      formatValue={(value) => {
-        if (value.length === 0) {
-          return null;
-        }
-
-        if (value.length === 1) {
-          return value[0] ?? null;
-        }
-
-        return `${value[0]} +${value.length - 1}`;
-      }}
     >
       <CheckboxGroup
         options={Object.values(PlayerPosition).map((option) => ({ id: option }))}

@@ -8,18 +8,15 @@ interface IProps extends IRangeSliderProps {
 }
 
 const RangeSliderPopover = ({ label, valueLabel = label, ...sliderProps }: IProps) => {
+  const selectedLabel = isArrayEquals(sliderProps.value, [sliderProps.min, sliderProps.max])
+    ? null
+    : `${valueLabel}: ${sliderProps.value[0]}-${sliderProps.value[1]}`;
+
   return (
     <PopoverInput
       label={label}
-      value={sliderProps.value}
+      selectedLabel={selectedLabel}
       clearValue={() => sliderProps.onChange([sliderProps.min, sliderProps.max])}
-      formatValue={(value) => {
-        if (isArrayEquals(value, [sliderProps.min, sliderProps.max])) {
-          return null;
-        }
-
-        return `${valueLabel}: ${value[0]}-${value[1]}`;
-      }}
     >
       <RangeSlider {...sliderProps} />
     </PopoverInput>
