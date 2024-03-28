@@ -7,14 +7,6 @@
   gap: var(--gap);
 }
 
-.yearSelect {
-  width: var(--year-select-width);
-
-  @media (max-width: 768px) {
-    order: 1;
-  }
-}
-
 .headerTop {
   width: 100%;
   display: flex;

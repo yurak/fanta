@@ -53,6 +53,7 @@
   align-items: center;
   gap: 16px;
   position: sticky;
+  z-index: 2;
   top: 0;
   background-color: var(--background-color);
 }
@@ -85,6 +86,7 @@
   border-top: 1px solid #e5e6e4;
   margin-top: auto;
   position: sticky;
+  z-index: 2;
   bottom: 0;
   background-color: var(--background-color);
 }
