@@ -22,22 +22,10 @@ export const usePlayers = ({
     () => ({
       name: search,
       position: filter.position,
-      base_score: {
-        min: filter.baseScore[0],
-        max: filter.baseScore[1],
-      },
-      total_score: {
-        min: filter.totalScore[0],
-        max: filter.totalScore[1],
-      },
-      app: {
-        min: filter.appearances[0],
-        max: filter.appearances[1],
-      },
-      price: {
-        min: filter.price[0],
-        max: filter.price[1],
-      },
+      base_score: filter.baseScore,
+      total_score: filter.totalScore,
+      app: filter.appearances,
+      price: filter.price,
     }),
     [search, filter]
   );

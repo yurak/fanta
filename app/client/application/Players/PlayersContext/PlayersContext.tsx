@@ -8,10 +8,22 @@ const defaultSearch = "martinez";
 
 const defaultFilter: IFilter = {
   position: [],
-  totalScore: [PlayersFilterConstants.TOTAL_SCORE_MIN, PlayersFilterConstants.TOTAL_SCORE_MAX],
-  baseScore: [PlayersFilterConstants.BASE_SCORE_MIN, PlayersFilterConstants.BASE_SCORE_MAX],
-  appearances: [PlayersFilterConstants.APPEARANCES_MIN, PlayersFilterConstants.APPEARANCES_MAX],
-  price: [PlayersFilterConstants.PRICE_MIN, PlayersFilterConstants.PRICE_MAX],
+  totalScore: {
+    min: PlayersFilterConstants.TOTAL_SCORE_MIN,
+    max: PlayersFilterConstants.TOTAL_SCORE_MAX,
+  },
+  baseScore: {
+    min: PlayersFilterConstants.BASE_SCORE_MIN,
+    max: PlayersFilterConstants.BASE_SCORE_MAX,
+  },
+  appearances: {
+    min: PlayersFilterConstants.APPEARANCES_MIN,
+    max: PlayersFilterConstants.APPEARANCES_MAX,
+  },
+  price: {
+    min: PlayersFilterConstants.PRICE_MIN,
+    max: PlayersFilterConstants.PRICE_MAX,
+  },
 };
 
 const usePlayers = () => {
