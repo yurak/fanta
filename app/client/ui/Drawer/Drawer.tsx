@@ -3,6 +3,7 @@ import cn from "classnames";
 import FocusTrap from "focus-trap-react";
 import { useMountTransition } from "@/hooks/useMountTransition";
 import { useCreatePortal } from "@/hooks/useCreatePortal";
+import DrawerSection from "./DrawerSection";
 import CloseIcon from "@/assets/icons/closeRound.svg";
 import styles from "./Drawer.module.scss";
 
@@ -93,7 +94,7 @@ const Drawer = ({
                 <CloseIcon />
               </button>
             </div>
-            <div className={styles.content}>{children}</div>
+            <div>{children}</div>
             <div className={styles.footer}>footer</div>
           </div>
           <div className={styles.backdrop} onClick={onClose} />
@@ -102,5 +103,7 @@ const Drawer = ({
     </DrawerWrapper>
   );
 };
+
+Drawer.Section = DrawerSection;
 
 export default Drawer;

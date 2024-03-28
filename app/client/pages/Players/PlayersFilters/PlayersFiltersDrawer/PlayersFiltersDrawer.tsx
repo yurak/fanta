@@ -12,82 +12,11 @@ const PlayersFiltersDrawer = () => {
         All filters
       </Link>
       <Drawer title="Filters" isOpen={isOpen} onClose={() => setIsOpen(false)}>
-        <div>content</div>
-        <div>content</div>
-        <div>content</div>
-        <div>content</div>
-        <div>content</div>
-        <div>content</div>
-        <div>content</div>
-        <div>content</div>
-        <div>content</div>
-        <div>content</div>
-        <div>content</div>
-        <div>content</div>
-        <div>content</div>
-        <div>content</div>
-        <div>content</div>
-        <div>content</div>
-        <div>content</div>
-        <div>content</div>
-        <div>content</div>
-        <div>content</div>
-        <div>content</div>
-        <div>content</div>
-        <div>content</div>
-        <div>content</div>
-        <div>content</div>
-        <div>content</div>
-        <div>content</div>
-        <div>content</div>
-        <div>content</div>
-        <div>content</div>
-        <div>content</div>
-        <div>content</div>
-        <div>content</div>
-        <div>content</div>
-        <div>content</div>
-        <div>content</div>
-        <div>content</div>
-        <div>content</div>
-        <div>content</div>
-        <div>content</div>
-        <div>content</div>
-        <div>content</div>
-        <div>content</div>
-        <div>content</div>
-        <div>content</div>
-        <div>content</div>
-        <div>content</div>
-        <div>content</div>
-        <div>content</div>
-        <div>content</div>
-        <div>content</div>
-        <div>content</div>
-        <div>content</div>
-        <div>content</div>
-        <div>content</div>
-        <div>content</div>
-        <div>content</div>
-        <div>content</div>
-        <div>content</div>
-        <div>content</div>
-        <div>content</div>
-        <div>content</div>
-        <div>content</div>
-        <div>content</div>
-        <div>content</div>
-        <div>content</div>
-        <div>content</div>
-        <div>content</div>
-        <div>content</div>
-        <div>content</div>
-        <div>content</div>
-        <div>content</div>
-        <div>content</div>
-        <div>content</div>
-        <div>content</div>
-        <div>content</div>
+        <Drawer.Section title="Position">Position</Drawer.Section>
+        <Drawer.Section title="Total score">Total score</Drawer.Section>
+        <Drawer.Section title="Base score">Base score</Drawer.Section>
+        <Drawer.Section title="Appearances">Appearances</Drawer.Section>
+        <Drawer.Section title="Price">Price</Drawer.Section>
       </Drawer>
     </>
   );
