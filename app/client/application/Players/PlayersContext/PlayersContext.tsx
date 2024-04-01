@@ -1,11 +1,12 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useMemo, useState } from "react";
+import { useDebounceCallback, useDebounceValue } from "usehooks-ts";
 import { useHistorySearch } from "@/hooks/useHistorySearch";
 import { useHistorySort } from "@/hooks/useHistorySort";
 import PlayersFilterConstants from "@/domain/PlayersFilterConstants";
 import { IFilter } from "../PlayersFilterContext/interfaces";
+import { IPayloadFilter, IPayloadSort } from "@/api/query/usePlayers";
 
 const defaultSearch = "martinez";
-
 const defaultFilter: IFilter = {
   position: [],
   totalScore: {
@@ -26,15 +27,20 @@ const defaultFilter: IFilter = {
   },
 };
 
+const DEBOUNCE_DELAY = 500;
+
 const usePlayers = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [search, setSearch] = useHistorySearch(defaultSearch);
   const { sortBy, sortOrder, onSortChange } = useHistorySort();
 
-  const [filter, setFilter] = useState<IFilter>(defaultFilter);
+  const [search, setSearch] = useHistorySearch(defaultSearch);
+  const [debounceSearch] = useDebounceValue(search, DEBOUNCE_DELAY);
+
+  const [filterValues, setFilterValues] = useState<IFilter>(defaultFilter);
+  const setFilterValuesWithDebounce = useDebounceCallback(setFilterValues, DEBOUNCE_DELAY);
 
   const clearFilter = () => {
-    setFilter(defaultFilter);
+    setFilterValues(defaultFilter);
   };
 
   const clearAllFilter = () => {
@@ -45,9 +51,35 @@ const usePlayers = () => {
   const openSidebar = () => setIsSidebarOpen(true);
   const closeSidebar = () => setIsSidebarOpen(false);
 
+  const requestFilterPayload = useMemo<IPayloadFilter>(
+    () => ({
+      name: debounceSearch,
+      position: filterValues.position,
+      base_score: filterValues.baseScore,
+      total_score: filterValues.totalScore,
+      app: filterValues.appearances,
+      price: filterValues.price,
+    }),
+    [debounceSearch, filterValues]
+  );
+
+  const requestSortPayload = useMemo<IPayloadSort | undefined>(() => {
+    if (sortBy && sortOrder) {
+      return {
+        field: sortBy,
+        direction: sortOrder,
+      };
+    }
+
+    return undefined;
+  }, [sortBy, sortOrder]);
+
   return {
-    filter,
-    setFilter,
+    requestFilterPayload,
+    requestSortPayload,
+    filterValues,
+    setFilterValues,
+    setFilterValuesWithDebounce,
     clearFilter,
     clearAllFilter,
     search,

@@ -3,9 +3,13 @@ import { IFilter } from "./interfaces";
 import { usePlayersContext } from "../PlayersContext";
 
 const usePlayersFilter = ({ shouldApplyOnValueChange }: { shouldApplyOnValueChange?: boolean }) => {
-  const { filter, setFilter } = usePlayersContext();
+  const {
+    filterValues: globalFilterValues,
+    setFilterValues: setGlobalFilterValues,
+    setFilterValuesWithDebounce: setGlobalFilterValuesWithDebounce,
+  } = usePlayersContext();
 
-  const [filterValues, setFilterValues] = useState<IFilter>(filter);
+  const [filterValues, setFilterValues] = useState<IFilter>(globalFilterValues);
 
   const onChangeValue =
     <T extends keyof IFilter>(name: T) =>
@@ -17,19 +21,19 @@ const usePlayersFilter = ({ shouldApplyOnValueChange }: { shouldApplyOnValueChan
     };
 
   useEffect(() => {
-    if (filter !== filterValues) {
-      setFilterValues(filter);
+    if (globalFilterValues !== filterValues) {
+      setFilterValues(globalFilterValues);
     }
-  }, [filter]);
+  }, [globalFilterValues]);
 
   useEffect(() => {
-    if (filter !== filterValues && shouldApplyOnValueChange) {
-      setFilter(filterValues);
+    if (globalFilterValues !== filterValues && shouldApplyOnValueChange) {
+      setGlobalFilterValuesWithDebounce(filterValues);
     }
   }, [filterValues, shouldApplyOnValueChange]);
 
   const applyFilter = () => {
-    setFilter(filterValues);
+    setGlobalFilterValues(filterValues);
   };
 
   return {
