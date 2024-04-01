@@ -12,21 +12,20 @@ import PlayersFiltersDrawer from "./PlayersFilters/PlayersFiltersDrawer";
 
 const Players = () => {
   const {
-    filter,
-    clearAllFilter,
     search,
     sortBy,
     sortOrder,
+    clearAllFilter,
     onSortChange,
     setSearch,
     openSidebar,
+    requestFilterPayload,
+    requestSortPayload,
   } = usePlayersContext();
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isPending } = usePlayers({
-    search,
-    sortBy,
-    sortOrder,
-    filter,
+    filter: requestFilterPayload,
+    sort: requestSortPayload,
   });
 
   const items = useMemo(() => data?.pages.flatMap((page) => page.data) ?? [], [data]);
