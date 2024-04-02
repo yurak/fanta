@@ -6,12 +6,12 @@ import { SortOrder } from "@/ui/Table/interfaces";
 import { RangeSliderValueType } from "@/ui/RangeSlider";
 
 export interface IPayloadFilter {
-  name: string,
-  position: string[],
-  base_score: RangeSliderValueType,
-  total_score: RangeSliderValueType,
-  app: RangeSliderValueType,
-  price: RangeSliderValueType,
+  name?: string,
+  position?: string[],
+  total_score?: Partial<RangeSliderValueType>,
+  base_score?: Partial<RangeSliderValueType>,
+  app?: Partial<RangeSliderValueType>,
+  price?: Partial<RangeSliderValueType>,
 }
 
 export interface IPayloadSort {
