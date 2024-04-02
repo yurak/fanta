@@ -2,30 +2,10 @@ import { createContext, useContext, useMemo, useState } from "react";
 import { useDebounceCallback, useDebounceValue } from "usehooks-ts";
 import { useHistorySearch } from "@/hooks/useHistorySearch";
 import { useHistorySort } from "@/hooks/useHistorySort";
-import PlayersFilterConstants from "@/domain/PlayersFilterConstants";
 import { IFilter } from "../PlayersFilterContext/interfaces";
 import { IPayloadFilter, IPayloadSort } from "@/api/query/usePlayers";
-
-const defaultSearch = "martinez";
-const defaultFilter: IFilter = {
-  position: [],
-  totalScore: {
-    min: PlayersFilterConstants.TOTAL_SCORE_MIN,
-    max: PlayersFilterConstants.TOTAL_SCORE_MAX,
-  },
-  baseScore: {
-    min: PlayersFilterConstants.BASE_SCORE_MIN,
-    max: PlayersFilterConstants.BASE_SCORE_MAX,
-  },
-  appearances: {
-    min: PlayersFilterConstants.APPEARANCES_MIN,
-    max: PlayersFilterConstants.APPEARANCES_MAX,
-  },
-  price: {
-    min: PlayersFilterConstants.PRICE_MIN,
-    max: PlayersFilterConstants.PRICE_MAX,
-  },
-};
+import { defaultFilter, defaultSearch } from "../PlayersFilterContext/constants";
+import { filterToRequestFormat, sortToRequestFormat } from "../PlayersFilterContext/helpers";
 
 const DEBOUNCE_DELAY = 500;
 
@@ -52,27 +32,14 @@ const usePlayers = () => {
   const closeSidebar = () => setIsSidebarOpen(false);
 
   const requestFilterPayload = useMemo<IPayloadFilter>(
-    () => ({
-      name: debounceSearch,
-      position: filterValues.position,
-      base_score: filterValues.baseScore,
-      total_score: filterValues.totalScore,
-      app: filterValues.appearances,
-      price: filterValues.price,
-    }),
-    [debounceSearch, filterValues]
+    () => filterToRequestFormat(filterValues, debounceSearch),
+    [filterValues, debounceSearch]
   );
 
-  const requestSortPayload = useMemo<IPayloadSort | undefined>(() => {
-    if (sortBy && sortOrder) {
-      return {
-        field: sortBy,
-        direction: sortOrder,
-      };
-    }
-
-    return undefined;
-  }, [sortBy, sortOrder]);
+  const requestSortPayload = useMemo<IPayloadSort | undefined>(
+    () => sortToRequestFormat(sortBy, sortOrder),
+    [sortBy, sortOrder]
+  );
 
   return {
     requestFilterPayload,
