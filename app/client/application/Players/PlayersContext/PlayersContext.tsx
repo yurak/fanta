@@ -8,6 +8,7 @@ import { useHistoryFilter } from "@/hooks/useHistoryFilter";
 import { defaultFilter, defaultSearch } from "../PlayersFilterContext/constants";
 import { filterToRequestFormat, sortToRequestFormat } from "../PlayersFilterContext/helpers";
 import { decodeFilter, encodeFilter } from "../PlayersFilterContext/searchParamsHelpers";
+import { getObjectDiffKeys } from "@/helpers/getObjectDiff";
 
 const DEBOUNCE_DELAY = 500;
 
@@ -20,6 +21,8 @@ const usePlayers = () => {
   const [debounceSearch] = useDebounceValue(search, DEBOUNCE_DELAY);
 
   const [filterValues, _setFilterValues] = useState<IFilter>(historyFilter);
+
+  const filterCount = getObjectDiffKeys(defaultFilter, filterValues).length;
 
   const setFilterValues = (filter: IFilter) => {
     _setFilterValues(filter);
@@ -51,6 +54,7 @@ const usePlayers = () => {
   );
 
   return {
+    filterCount,
     requestFilterPayload,
     requestSortPayload,
     filterValues,
