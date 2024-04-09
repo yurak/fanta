@@ -10,6 +10,7 @@ export interface IPayloadFilter {
   position?: string[],
   total_score?: Partial<RangeSliderValueType>,
   base_score?: Partial<RangeSliderValueType>,
+  teams_count?: Partial<RangeSliderValueType>,
   app?: Partial<RangeSliderValueType>,
   price?: Partial<RangeSliderValueType>,
 }

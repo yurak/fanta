@@ -53,7 +53,7 @@ const Players = () => {
         </div>
       </div>
       <div className={styles.filtersWrapper}>
-        <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "8px 16px", flexWrap: "wrap" }}>
           <PlayersFiltersDrawer />
           <PlayersFilters />
         </div>
