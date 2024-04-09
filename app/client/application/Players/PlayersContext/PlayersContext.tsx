@@ -7,7 +7,7 @@ import { IPayloadFilter, IPayloadSort } from "@/api/query/usePlayers";
 import { useHistoryFilter } from "@/hooks/useHistoryFilter";
 import { defaultFilter, defaultSearch } from "../PlayersFilterContext/constants";
 import { filterToRequestFormat, sortToRequestFormat } from "../PlayersFilterContext/helpers";
-import { decodeFilter, encodeFilter } from '../PlayersFilterContext/searchParamsHelpers';
+import { decodeFilter, encodeFilter } from "../PlayersFilterContext/searchParamsHelpers";
 
 const DEBOUNCE_DELAY = 500;
 
