@@ -53,6 +53,7 @@ const PlayersFiltersDrawer = () => {
           <RangeSlider
             value={filterValues.totalScore}
             onChange={onChangeValue("totalScore")}
+            step={0.1}
             min={PlayersFilterConstants.TOTAL_SCORE_MIN}
             max={PlayersFilterConstants.TOTAL_SCORE_MAX}
           />
@@ -61,6 +62,7 @@ const PlayersFiltersDrawer = () => {
           <RangeSlider
             value={filterValues.baseScore}
             onChange={onChangeValue("baseScore")}
+            step={0.1}
             min={PlayersFilterConstants.BASE_SCORE_MIN}
             max={PlayersFilterConstants.BASE_SCORE_MAX}
           />
@@ -71,6 +73,14 @@ const PlayersFiltersDrawer = () => {
             onChange={onChangeValue("appearances")}
             min={PlayersFilterConstants.APPEARANCES_MIN}
             max={PlayersFilterConstants.APPEARANCES_MAX}
+          />
+        </Drawer.Section>
+        <Drawer.Section title="# of teams">
+          <RangeSlider
+            value={filterValues.teamsCount}
+            onChange={onChangeValue("teamsCount")}
+            min={PlayersFilterConstants.TEAMS_COUNT_MIN}
+            max={PlayersFilterConstants.TEAMS_COUNT_MAX}
           />
         </Drawer.Section>
         <Drawer.Section title="Price">

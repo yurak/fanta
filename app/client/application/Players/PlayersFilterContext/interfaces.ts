@@ -6,4 +6,5 @@ export interface IFilter {
   baseScore: RangeSliderValueType,
   appearances: RangeSliderValueType,
   price: RangeSliderValueType,
+  teamsCount: RangeSliderValueType,
 }

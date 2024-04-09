@@ -41,6 +41,13 @@ const PlayerFilters = () => {
         onChange={onChangeValue("appearances")}
       />
       <RangeSliderPopover
+        min={PlayersFilterConstants.TEAMS_COUNT_MIN}
+        max={PlayersFilterConstants.TEAMS_COUNT_MAX}
+        value={filterValues.teamsCount}
+        label="# of teams"
+        onChange={onChangeValue("teamsCount")}
+      />
+      <RangeSliderPopover
         min={PlayersFilterConstants.PRICE_MIN}
         max={PlayersFilterConstants.PRICE_MAX}
         value={filterValues.price}
