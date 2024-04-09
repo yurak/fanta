@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { ITableSorting } from "@/ui/Table/interfaces";
-import { useSearchParams } from "react-router-dom";
+import { useCustomSearchParams } from "./useCustomSearchParams";
 
 export const useHistorySort = (
   {
@@ -11,7 +11,7 @@ export const useHistorySort = (
     defaultSortBy: null,
   }
 ): ITableSorting => {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useCustomSearchParams();
 
   const sortBy = searchParams.get("sortBy") as ITableSorting["sortBy"];
   const sortOrder = searchParams.get("sortOrder") as ITableSorting["sortOrder"];
