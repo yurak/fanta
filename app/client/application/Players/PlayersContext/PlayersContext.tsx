@@ -4,8 +4,11 @@ import { useHistorySearch } from "@/hooks/useHistorySearch";
 import { useHistorySort } from "@/hooks/useHistorySort";
 import { IFilter } from "../PlayersFilterContext/interfaces";
 import { IPayloadFilter, IPayloadSort } from "@/api/query/usePlayers";
+import { clearObject } from "@/helpers/clearObject";
+import { useHistoryFilter } from "@/hooks/useHistoryFilter";
 import { defaultFilter, defaultSearch } from "../PlayersFilterContext/constants";
 import { filterToRequestFormat, sortToRequestFormat } from "../PlayersFilterContext/helpers";
+import { decodeFilter, encodeFilter } from "../PlayersFilterContext/searchParamsHelpers";
 
 const DEBOUNCE_DELAY = 500;
 
@@ -14,14 +17,21 @@ const usePlayers = () => {
   const { sortBy, sortOrder, onSortChange } = useHistorySort();
 
   const [search, setSearch] = useHistorySearch(defaultSearch);
+  const [historyFilter, setHistoryFilter] = useHistoryFilter<IFilter>(decodeFilter, encodeFilter);
   const [debounceSearch] = useDebounceValue(search, DEBOUNCE_DELAY);
 
-  const [filterValues, setFilterValues] = useState<IFilter>(defaultFilter);
-  const setFilterValuesWithDebounce = useDebounceCallback(setFilterValues, DEBOUNCE_DELAY);
+  const [filterValues, _setFilterValues] = useState<IFilter>(historyFilter);
+
+  const setFilterValues = (filter: IFilter) => {
+    _setFilterValues(filter);
+    setHistoryFilter(filter);
+  };
 
   const clearFilter = () => {
     setFilterValues(defaultFilter);
   };
+
+  const setFilterValuesWithDebounce = useDebounceCallback(setFilterValues, DEBOUNCE_DELAY);
 
   const clearAllFilter = () => {
     setSearch(defaultSearch);
@@ -32,7 +42,7 @@ const usePlayers = () => {
   const closeSidebar = () => setIsSidebarOpen(false);
 
   const requestFilterPayload = useMemo<IPayloadFilter>(
-    () => filterToRequestFormat(filterValues, debounceSearch),
+    () => clearObject(filterToRequestFormat(filterValues, debounceSearch)),
     [filterValues, debounceSearch]
   );
 
