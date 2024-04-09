@@ -4,11 +4,10 @@ import { useHistorySearch } from "@/hooks/useHistorySearch";
 import { useHistorySort } from "@/hooks/useHistorySort";
 import { IFilter } from "../PlayersFilterContext/interfaces";
 import { IPayloadFilter, IPayloadSort } from "@/api/query/usePlayers";
-import { clearObject } from "@/helpers/clearObject";
 import { useHistoryFilter } from "@/hooks/useHistoryFilter";
 import { defaultFilter, defaultSearch } from "../PlayersFilterContext/constants";
 import { filterToRequestFormat, sortToRequestFormat } from "../PlayersFilterContext/helpers";
-import { decodeFilter, encodeFilter } from "../PlayersFilterContext/searchParamsHelpers";
+import { decodeFilter, encodeFilter } from '../PlayersFilterContext/searchParamsHelpers';
 
 const DEBOUNCE_DELAY = 500;
 
@@ -42,7 +41,7 @@ const usePlayers = () => {
   const closeSidebar = () => setIsSidebarOpen(false);
 
   const requestFilterPayload = useMemo<IPayloadFilter>(
-    () => clearObject(filterToRequestFormat(filterValues, debounceSearch)),
+    () => filterToRequestFormat(filterValues, debounceSearch),
     [filterValues, debounceSearch]
   );
 
