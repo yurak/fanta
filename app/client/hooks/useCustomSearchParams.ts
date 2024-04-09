@@ -4,13 +4,13 @@ import { NavigateOptions, useLocation, useNavigate } from "react-router-dom";
 type ParamsType = Record<string, string>;
 
 class CustomURLSearchParams {
-  params: ParamsType;
+  private params: ParamsType;
 
   constructor(search: string) {
-    this.params = this.initParams(search);
+    this.params = this.parseParams(search);
   }
 
-  private initParams(search: string) {
+  private parseParams(search: string) {
     if (!search) {
       return {};
     }
@@ -52,6 +52,10 @@ class CustomURLSearchParams {
     }
 
     return decode ? decodeURIComponent(value) : value;
+  }
+
+  getAll() {
+    return this.params;
   }
 
   delete(key: string) {
