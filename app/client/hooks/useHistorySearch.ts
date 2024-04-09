@@ -1,15 +1,15 @@
-import { useSearchParams } from "react-router-dom";
+import { useCustomSearchParams } from "./useCustomSearchParams";
 
 export const useHistorySearch = (defaultSearch = ""): [string, (value: string) => void] => {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useCustomSearchParams();
 
-  const search = searchParams.get("s") ?? defaultSearch;
+  const search = searchParams.get("s", true) ?? defaultSearch;
 
   const setSearch = (search: string) => {
     setSearchParams(
       (prev) => {
         if (search) {
-          prev.set("s", search.toString());
+          prev.set("s", search, true);
         } else {
           prev.delete("s");
         }
