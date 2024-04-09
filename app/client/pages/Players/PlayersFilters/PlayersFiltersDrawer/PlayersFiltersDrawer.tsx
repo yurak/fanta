@@ -11,7 +11,8 @@ import Button from "@/ui/Button";
 import PlayerPositionsCheckbox from "@/components/filters/PlayerPositionsCheckbox";
 
 const PlayersFiltersDrawer = () => {
-  const { isSidebarOpen, openSidebar, closeSidebar, clearFilter } = usePlayersContext();
+  const { isSidebarOpen, filterCount, openSidebar, closeSidebar, clearFilter } =
+    usePlayersContext();
   const { filterValues, onChangeValue, applyFilter } = usePlayersFilterContext();
 
   const applyFilterHandler = () => {
@@ -27,7 +28,7 @@ const PlayersFiltersDrawer = () => {
   return (
     <>
       <Link asButton icon={<FilterIcon />} onClick={openSidebar}>
-        All filters
+        All filters {filterCount > 0 ? `(${filterCount})` : ""}
       </Link>
       <Drawer
         title="Filters"
