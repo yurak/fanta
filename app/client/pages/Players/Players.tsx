@@ -26,10 +26,11 @@ const Players = () => {
     requestSortPayload,
   } = usePlayersContext();
 
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isPending } = usePlayers({
-    filter: requestFilterPayload,
-    sort: requestSortPayload,
-  });
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isFetching, isPending } =
+    usePlayers({
+      filter: requestFilterPayload,
+      sort: requestSortPayload,
+    });
 
   const items = useMemo(() => data?.pages.flatMap((page) => page.data) ?? [], [data]);
 
@@ -78,7 +79,7 @@ const Players = () => {
           fetchNextPage={fetchNextPage}
           hasNextPage={hasNextPage}
           isFetchingNextPage={isFetchingNextPage}
-          isLoading={isPending}
+          isLoading={isPending || (isFetching && !isFetchingNextPage)}
           items={items}
           sorting={{
             onSortChange,
