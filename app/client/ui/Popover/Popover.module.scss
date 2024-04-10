@@ -2,7 +2,6 @@
   --z-index-popover: 9;
 
   background-color: #ffffff;
-  padding: 16px 24px;
   border-radius: 4px;
   box-shadow: 1px 2px 5px 0px #18171533;
   z-index: var(--z-index-popover);
@@ -10,6 +9,8 @@
   width: 304px;
   top: 0;
   left: 0;
+  max-height: 800px;
+  overflow: auto;
 }
 
 .header {
@@ -17,6 +18,7 @@
   justify-content: space-between;
   align-items: center;
   gap: 16px;
+  padding: 16px 24px;
 }
 
 .title {
@@ -41,11 +43,11 @@
 }
 
 .content {
-  margin-top: 24px;
+  padding: 0 24px;
 }
 
 .footer {
   display: flex;
   justify-content: flex-end;
-  margin-top: 24px;
+  padding: 16px 24px;
 }
