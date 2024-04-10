@@ -1,7 +1,7 @@
 import PlayersFilterConstants from "@/domain/PlayersFilterConstants";
 import { IFilter } from "./interfaces";
 
-export const defaultSearch = "martinez";
+export const defaultSearch = "";
 
 export const defaultFilter: IFilter = {
   position: [],
