@@ -5,20 +5,23 @@ import { formatNumber } from "@/helpers/formatNumber";
 import Search from "@/ui/Search";
 import { usePlayers } from "@/api/query/usePlayers";
 import PlayersContextProvider, { usePlayersContext } from "@/application/Players/PlayersContext";
+import Link from "@/ui/Link";
 import PlayersFilters from "./PlayersFilters";
 import PlayersList from "./PlayersList";
-import styles from "./Players.module.scss";
 import PlayersFiltersDrawer from "./PlayersFilters/PlayersFiltersDrawer";
+import styles from "./Players.module.scss";
 
 const Players = () => {
   const {
     search,
     sortBy,
     sortOrder,
+    filterCount,
     clearAllFilter,
     onSortChange,
     setSearch,
     openSidebar,
+    clearFilter,
     requestFilterPayload,
     requestSortPayload,
   } = usePlayersContext();
@@ -53,9 +56,14 @@ const Players = () => {
         </div>
       </div>
       <div className={styles.filtersWrapper}>
-        <div style={{ display: "flex", alignItems: "center", gap: "8px 16px", flexWrap: "wrap" }}>
+        <div className={styles.filters}>
           <PlayersFiltersDrawer />
           <PlayersFilters />
+          {filterCount > 0 && (
+            <Link asButton onClick={clearFilter}>
+              Clear all
+            </Link>
+          )}
         </div>
         <div className={styles.total}>
           Showing

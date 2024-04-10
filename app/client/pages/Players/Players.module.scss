@@ -36,6 +36,12 @@
   margin-top: 16px;
 }
 
+.filters {
+  display: flex;
+  align-self: center;
+  gap: 16px;
+}
+
 .total {
   font-size: 12px;
   line-height: 16px;
