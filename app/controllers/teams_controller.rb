@@ -54,7 +54,7 @@ class TeamsController < ApplicationController
   end
 
   def generate_name
-    "#{input_params[:human_name].delete(" \t\r\n")[0..8]}_#{current_user.id}_#{Team.last&.id.to_i + 1}".downcase
+    "#{input_params[:human_name].delete(" \t\r\n")[0..6]}_#{current_user.id}_#{Team.last&.id.to_i + 1}".downcase
   end
 
   def input_params
