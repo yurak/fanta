@@ -8,10 +8,10 @@ class TournamentSerializer < ActiveModel::Serializer
   attributes :clubs
 
   def clubs
-    if instance_options[:clubs]
-      clubs = object.fanta? ? object.ec_clubs.active : object.clubs.active
-      clubs.map { |club| ClubSerializer.new(club) }
-    end
+    return unless instance_options[:clubs]
+
+    clubs = object.fanta? ? object.ec_clubs.active : object.clubs.active
+    clubs.map { |club| ClubSerializer.new(club) }
   end
 
   def logo
