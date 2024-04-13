@@ -71,6 +71,8 @@ Rails.application.configure do
 
   config.action_mailer.show_previews = true
 
+  config.action_mailer.show_previews = true
+
   config.action_mailer.default_url_options = { host: 'staging.mantrafootball.org', protocol: 'https' }
 
   config.action_mailer.smtp_settings = {
