@@ -48,6 +48,8 @@ Rails.application.configure do
 
   config.action_mailer.perform_caching = false
 
+  config.action_mailer.show_previews = true
+
   config.action_mailer.default_url_options = { host: 'http://localhost:3333', only_path: false }
 
   config.action_mailer.asset_host = 'http://localhost:3333'
