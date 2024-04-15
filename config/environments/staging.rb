@@ -69,6 +69,8 @@ Rails.application.configure do
 
   config.action_mailer.delivery_method = :test
 
+  config.action_mailer.show_previews = true
+
   config.action_mailer.default_url_options = { host: 'staging.mantrafootball.org', protocol: 'https' }
 
   # SMTP settings for gmail

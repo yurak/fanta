@@ -6,6 +6,7 @@ RSpec.describe 'Tournaments' do
       tags 'Tournaments'
       consumes 'application/json'
       produces 'application/json'
+      parameter name: :clubs, in: :query, type: :boolean, required: false, description: 'Show tournament clubs'
 
       let!(:tournament_one) { create(:tournament, :with_clubs) }
       let!(:tournament_two) { create(:tournament, :with_clubs) }

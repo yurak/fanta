@@ -350,7 +350,8 @@ RSpec.configure do |config|
               logo: { type: :string, example: '/assets/path/italy.png', nullable: true },
               mantra_format: { type: :boolean, example: true, description: 'true for Mantra, false for national and eurocup leagues' },
               name: { type: :string, example: 'Italy' },
-              short_name: { type: :string, example: 'Italy', nullable: true }
+              short_name: { type: :string, example: 'Italy', nullable: true },
+              clubs: { type: :array, items: { '$ref' => '#/components/schemas/club' }, nullable: true }
             },
             required: %w[id name]
           }

@@ -357,6 +357,13 @@ paths:
       summary: list tournaments
       tags:
       - Tournaments
+      parameters:
+      - name: clubs
+        in: query
+        required: false
+        description: Show tournament clubs
+        schema:
+          type: boolean
       responses:
         '200':
           description: Success
@@ -1192,6 +1199,11 @@ components:
         short_name:
           type: string
           example: Italy
+          nullable: true
+        clubs:
+          type: array
+          items:
+            "$ref": "#/components/schemas/club"
           nullable: true
       required:
       - id

@@ -1,5 +1,90 @@
-<p>Welcome <%= @email %>!</p>
+<table border="0" cellpadding="0" cellspacing="0" style="background:#eee;" width="100%">
+  <tbody>
+  <tr>
+    <td>
+      <table align="center" border="0" cellpadding="0" cellspacing="0" style="width:100%; max-width:620px; margin-top:32px; text-align:left;background:#fff;border:0;border-left:0px solid #ccc;border-right:0px solid #ccc">
+        <tbody>
+        <tr>
+          <td style="background:#eee">
+            <table border="0" cellpadding="0" cellspacing="0" style="width:100%;">
+              <tbody>
+              <tr>
+                <td style="width:20px;background:#eee"></td>
+                <td style="background-color:#fff;font-family:Helvetica,Arial,sans-serif;font-size:16px;line-height:20px;color:#2A304A;border-radius:8px;" valign="top">
+                  <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                    <tbody>
+                    <tr>
+                      <td style="width:30px; background-color:#FDFDFE; border-bottom:1px solid #F0F0F0; border-top-left-radius:8px;"></td>
+                      <td style="padding:25px 0;line-height:20px; background-color:#FDFDFE; border-bottom:1px solid #F0F0F0;">
+                        <%= image_tag ActionController::Base.helpers.asset_path('mailer_logo2.png'), height: '50px', style: "display:block;", alt: "Logo", skip_pipeline: true %>
+                      </td>
+                      <td style="width:30px; background-color:#FDFDFE; border-bottom:1px solid #F0F0F0; border-top-right-radius:8px;"></td>
+                    </tr>
+                    <tr>
+                      <td style="width:30px"></td>
+                      <td style="padding:48px 0 48px 0;line-height:22px;color:#2A304A">
 
-<p>You can confirm your account email through the link below:</p>
+                        <p>Welcome!</p>
 
-<p><%= link_to 'Confirm my account', confirmation_url(@resource, confirmation_token: @token) %></p>
+                        <p>Confirm your account email address to continue registration</p>
+
+                        <div class="row" style="margin-top: 32px; padding: 12px; display: -webkit-box; display: -webkit-flex; display: -ms-flexbox; display: flex; -webkit-flex-wrap: wrap; -ms-flex-wrap: wrap; flex-wrap: wrap;">
+                          <div class="block center" style="text-align: center; width: 100%;">
+                            <span class="button" style="background-color: #261FFF; font-size: 18px; padding: 14px 30px; font-weight: normal; border: 2px none; border-radius: 4px; font-family: helvetica regular, helvetica neue, helvetica, arial, sans-serif;">
+                              <%= link_to 'Confirm account', confirmation_url(@resource, confirmation_token: @token), style: "color: #FFFFFF; text-decoration: none;" %>
+                            </span>
+                          </div>
+                        </div>
+                      </td>
+                      <td style="width:30px"></td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </td>
+                <td style="width:20px;background:#eee"></td>
+              </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <table bgcolor="#eeeeee" border="0" cellpadding="0" cellspacing="0" style="width:100%;background-color:#eee">
+              <tbody>
+              <tr>
+                <td colspan="4" height="30"></td>
+              </tr>
+              <tr>
+                <td style="width:40px"></td>
+                <td style="font-family:Helvetica,Arial,sans-serif;font-size:12px;line-height:17px;color:#777">
+
+                </td>
+                <td style="vertical-align:top;text-align:center;font-family:Helvetica,Arial,sans-serif;font-size:14px;line-height:1.2;color:#A2A2A2;">
+                  <div style="margin-bottom:12px; font-size:14px">For more information please contact us</div>
+                  <div style="margin-bottom:14px; font-size:1px;">
+                    <%= mail_to 'mantrafootball.info@gmail.com', target: '_blank', style: "display:inline-block; margin: 0 6px;" do %>
+                      <%= image_tag ActionController::Base.helpers.asset_path('social_media/gmail_col.png'), alt: '', size: "24x24", style: 'text-decoration: none;', skip_pipeline: true %>
+                    <% end %>
+                    <%= link_to 'https://t.me/mantra_help', target: '_blank', style: "display:inline-block; margin: 0 6px;" do %>
+                      <%= image_tag ActionController::Base.helpers.asset_path('social_media/tg_col.png'), alt: '', size: "24x24", style: 'text-decoration: none;', skip_pipeline: true %>
+                    <% end %>
+                  </div>
+                  <div style="margin-bottom:46px;">
+                    <%= "© #{Date.current.year} MantraFootball" %>
+                  </div>
+                </td>
+                <td style="width:40px"></td>
+              </tr>
+              <tr>
+                <td colspan="4" height="58"></td>
+              </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </td>
+  </tr>
+  </tbody>
+</table>
