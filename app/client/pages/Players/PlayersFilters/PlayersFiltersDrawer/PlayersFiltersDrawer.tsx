@@ -9,6 +9,7 @@ import RangeSlider from "@/ui/RangeSlider";
 import PlayersFilterConstants from "@/domain/PlayersFilterConstants";
 import Button from "@/ui/Button";
 import PlayerPositionsCheckbox from "@/components/filters/PlayerPositionsCheckbox";
+import ClubCheckbox from "@/components/ClubCheckbox";
 
 const PlayersFiltersDrawer = () => {
   const { isSidebarOpen, filterCount, openSidebar, closeSidebar, clearFilter } =
@@ -43,6 +44,9 @@ const PlayersFiltersDrawer = () => {
           </div>
         }
       >
+        <Drawer.Section title="Clubs">
+          <ClubCheckbox value={filterValues.clubs} onChange={onChangeValue("clubs")} />
+        </Drawer.Section>
         <Drawer.Section title="Position">
           <PlayerPositionsCheckbox
             value={filterValues.position}

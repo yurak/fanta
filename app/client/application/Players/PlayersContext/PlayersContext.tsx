@@ -10,7 +10,7 @@ import { filterToRequestFormat, sortToRequestFormat } from "../PlayersFilterCont
 import { decodeFilter, encodeFilter } from "../PlayersFilterContext/searchParamsHelpers";
 import { getObjectDiffKeys } from "@/helpers/getObjectDiff";
 
-const DEBOUNCE_DELAY = 500;
+const DEBOUNCE_DELAY = 1_000;
 
 const usePlayers = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);

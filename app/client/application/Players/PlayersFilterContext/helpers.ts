@@ -22,6 +22,7 @@ export const filterToRequestFormat = (filter: IFilter, search: string): IPayload
   return {
     name: search,
     position: filter.position,
+    club_id: filter.clubs,
     total_score: justifyRangeSliderValue(filter.totalScore, defaultFilter.totalScore),
     teams_count: justifyRangeSliderValue(filter.teamsCount, defaultFilter.teamsCount),
     base_score: justifyRangeSliderValue(filter.baseScore, defaultFilter.baseScore),

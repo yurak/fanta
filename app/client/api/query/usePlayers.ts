@@ -8,6 +8,7 @@ import { RangeSliderValueType } from "@/ui/RangeSlider";
 export interface IPayloadFilter {
   name?: string,
   position?: string[],
+  club_id?: number[],
   total_score?: Partial<RangeSliderValueType>,
   base_score?: Partial<RangeSliderValueType>,
   teams_count?: Partial<RangeSliderValueType>,
