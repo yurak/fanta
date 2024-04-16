@@ -6,7 +6,7 @@ import styles from "./PopoverInputButton.module.scss";
 
 interface IProps extends IPopoverRefrenceProps {
   placeholder: string,
-  selectedLabel?: string | null,
+  selectedLabel?: React.ReactNode,
   isPristine: boolean,
   clearValue: () => void,
 }

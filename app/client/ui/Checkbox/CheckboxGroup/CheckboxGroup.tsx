@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import Checkbox from "../Checkbox";
 import styles from "./CheckboxGroup.module.scss";
 
-const CheckboxGroup = <Option extends object = object>({
+const CheckboxGroup = <Option extends object, Value extends string | number>({
   options,
   value,
   onChange,
@@ -10,10 +10,10 @@ const CheckboxGroup = <Option extends object = object>({
   getOptionValue,
 }: {
   options: Option[],
-  value: string[],
-  onChange: (value: string[]) => void,
+  value: Value[],
+  onChange: (value: Value[]) => void,
   formatOptionLabel: (option: Option) => React.ReactNode,
-  getOptionValue: (option: Option) => string,
+  getOptionValue: (option: Option) => Value,
 }) => {
   const _options = useMemo(
     () =>
@@ -25,7 +25,7 @@ const CheckboxGroup = <Option extends object = object>({
     [options]
   );
 
-  const onChangeHandler = (optionId: string) => (optionValue: boolean) => {
+  const onChangeHandler = (optionId: Value) => (optionValue: boolean) => {
     if (optionValue) {
       onChange([...new Set([...value, optionId])]);
     } else {

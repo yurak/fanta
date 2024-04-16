@@ -9,7 +9,7 @@ const PopoverInput = ({
   children,
 }: {
   label: string,
-  selectedLabel?: string | null,
+  selectedLabel?: React.ReactNode,
   clearValue: () => void,
   children: React.ReactNode,
 }) => {

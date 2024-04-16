@@ -3,7 +3,7 @@ import { defaultFilter } from "./constants";
 import { IFilter } from "./interfaces";
 
 const rangeValueSeparator = "-";
-const positionSeparator = ",";
+const arraySeparator = ",";
 
 const decodeRangeValue = (defaultRange: RangeSliderValueType, value?: string) => {
   if (!value) {
@@ -45,7 +45,8 @@ export const decodeFilter = (filter?: Record<string, string>): IFilter => {
       price: decodeRangeValue(defaultFilter.price, filter.price),
       totalScore: decodeRangeValue(defaultFilter.totalScore, filter.ts),
       teamsCount: decodeRangeValue(defaultFilter.teamsCount, filter.teams),
-      position: filter.pos?.split(positionSeparator) ?? defaultFilter.position,
+      position: filter.pos?.split(arraySeparator) ?? defaultFilter.position,
+      clubs: filter.clubs?.split(arraySeparator).map((club) => Number(club)) ?? defaultFilter.clubs,
     };
   } catch (e) {
     return defaultFilter;
@@ -59,6 +60,7 @@ export const encodeFilter = (filter: IFilter): Record<string, string | null> => 
     price: encodeRangeValue(defaultFilter.price, filter.price),
     ts: encodeRangeValue(defaultFilter.totalScore, filter.totalScore),
     teams: encodeRangeValue(defaultFilter.teamsCount, filter.teamsCount),
-    pos: filter.position.join(positionSeparator),
+    pos: filter.position.join(arraySeparator),
+    clubs: filter.clubs.join(arraySeparator),
   };
 };

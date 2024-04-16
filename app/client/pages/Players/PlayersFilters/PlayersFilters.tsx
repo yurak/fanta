@@ -5,6 +5,7 @@ import PlayersFilterContextProvider, {
   usePlayersFilterContext,
 } from "@/application/Players/PlayersFilterContext";
 import styles from "./PlayersFilters.module.scss";
+import { ClubCheckboxPopover } from "@/components/ClubCheckbox";
 
 const PlayerFilters = () => {
   const { filterValues, onChangeValue } = usePlayersFilterContext();
@@ -12,6 +13,7 @@ const PlayerFilters = () => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.container}>
+        <ClubCheckboxPopover value={filterValues.clubs} onChange={onChangeValue("clubs")} />
         <PlayerPositionsCheckboxPopover
           value={filterValues.position}
           onChange={onChangeValue("position")}

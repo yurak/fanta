@@ -4,6 +4,7 @@ import { IFilter } from "./interfaces";
 export const defaultSearch = "";
 
 export const defaultFilter: IFilter = {
+  clubs: [],
   position: [],
   totalScore: {
     min: PlayersFilterConstants.TOTAL_SCORE_MIN,

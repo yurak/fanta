@@ -1,0 +1,59 @@
+.tournamentWrapper {
+  border-bottom: 1px solid #e5e6e4;
+
+  &:last-child {
+    border-bottom: 0;
+  }
+}
+
+.tournamentName {
+  flex: 1;
+  font-family: "Nunito ExtraBold";
+}
+
+.tournament {
+  display: flex;
+  width: calc(100% + 16px);
+  text-align: left;
+  gap: 16px;
+  align-items: center;
+  padding: 16px 8px;
+  margin: 0 -8px;
+  justify-content: center;
+  align-items: center;
+  border: 0;
+  background: none;
+}
+
+.icon {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #a6a2a2;
+
+  &.iconActive {
+    color: #181715;
+    transform: rotate(180deg);
+  }
+}
+
+.logo {
+  width: 24px;
+  height: 24px;
+}
+
+.clubs {
+  display: flex;
+  flex-direction: column;
+  padding-left: 24px;
+  gap: 16px;
+  padding-bottom: 16px;
+}
+
+.clubLabel {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

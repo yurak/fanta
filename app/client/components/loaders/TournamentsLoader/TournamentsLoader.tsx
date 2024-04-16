@@ -5,7 +5,7 @@ import QueryLoader, { IQueryLoaderBaseProps } from "../QueryLoader";
 const TournamentsLoader = (props: IQueryLoaderBaseProps<ITournament[]>) => {
   return (
     <QueryLoader
-      useQuery={(isIntersecting: boolean) => useTournaments(isIntersecting)}
+      useQuery={(isIntersecting: boolean) => useTournaments({}, isIntersecting)}
       {...props}
     />
   );
