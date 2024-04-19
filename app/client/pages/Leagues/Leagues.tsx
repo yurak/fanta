@@ -59,8 +59,10 @@ const LeaguesPage = () => {
 
     const searchInLowerCase = search.toLowerCase();
 
-    return filteredByTournament.filter((league) =>
-      league.name.toLowerCase().includes(searchInLowerCase)
+    return filteredByTournament.filter(
+      (league) =>
+        league.name.toLowerCase().includes(searchInLowerCase) ||
+        league.division?.toLocaleLowerCase().includes(searchInLowerCase)
     );
   }, [filteredByTournament, search]);
 
@@ -110,6 +112,7 @@ const LeaguesPage = () => {
             value={search}
             onChange={setSearch}
             placeholder={t("league.search_placeholder")}
+            autofocus
           />
         </div>
       </div>

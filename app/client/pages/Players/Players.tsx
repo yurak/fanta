@@ -53,7 +53,7 @@ const Players = () => {
           </div>
         </div>
         <div className={styles.search}>
-          <Search value={search} onChange={setSearch} placeholder="Search player" />
+          <Search value={search} onChange={setSearch} placeholder="Search player" autofocus />
         </div>
       </div>
       <div className={styles.filtersWrapper}>
