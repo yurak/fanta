@@ -1,4 +1,4 @@
-import { createContext, useContext, useMemo, useState } from "react";
+import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import cn from "classnames";
 import { useTournaments } from "@/api/query/useTournaments";
 import { ITournament } from "@/interfaces/Tournament";
@@ -6,6 +6,7 @@ import PopoverInput from "@/ui/PopoverInput";
 import Checkbox, { CheckboxGroup } from "@/ui/Checkbox";
 import ArrowDown from "@/assets/icons/arrow-down.svg";
 import styles from "./ClubCheckbox.module.scss";
+import Search from "@/ui/Search";
 
 interface IProps {
   value: number[],
@@ -14,6 +15,7 @@ interface IProps {
 
 const useClubCheckbox = ({ value, onChange }: IProps) => {
   const { data } = useTournaments({ clubs: true });
+  const [search, setSearch] = useState("");
 
   const tournaments = useMemo(
     () =>
@@ -59,18 +61,47 @@ const useClubCheckbox = ({ value, onChange }: IProps) => {
 
   const toggleClubs = (tournamentId: number, ids: number[]) => {
     const tournamentClubs = tournamentsClubs.get(tournamentId) ?? [];
-
     onChange([...value.filter((v) => !tournamentClubs.includes(v)), ...ids]);
   };
 
+  const filterTournaments = useMemo(() => {
+    const lowerCaseSearch = search.toLowerCase();
+
+    if (!lowerCaseSearch) {
+      return tournaments;
+    }
+
+    return tournaments
+      .map((tournament) => {
+        const isTournamentMatched = tournament.name.toLowerCase().includes(lowerCaseSearch);
+
+        return {
+          ...tournament,
+          ...(!isTournamentMatched && {
+            clubs: tournament.clubs.filter((club) =>
+              club.name.toLowerCase().includes(lowerCaseSearch)
+            ),
+          }),
+        };
+      })
+      .filter((tournament) => tournament.clubs.length > 0);
+  }, [tournaments, search]);
+
+  const isSearchActive =
+    filterTournaments.length === 1 ||
+    filterTournaments.flatMap((tournament) => tournament.clubs).length < 10;
+
   return {
-    tournaments,
+    filterTournaments,
     toggleTournament,
     isTournamentChecked,
     isTournamentIndeterminate,
     toggleClubs,
     value,
     onChange,
+    search,
+    setSearch,
+    isSearchActive,
   };
 };
 
@@ -98,8 +129,14 @@ const ClubCheckboxContextProvider = ({
 };
 
 const Tournament = ({ tournament }: { tournament: ITournament }) => {
-  const { toggleTournament, isTournamentChecked, isTournamentIndeterminate, toggleClubs, value } =
-    useClubCheckboxContext();
+  const {
+    toggleTournament,
+    isTournamentChecked,
+    isTournamentIndeterminate,
+    toggleClubs,
+    value,
+    isSearchActive,
+  } = useClubCheckboxContext();
 
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -108,6 +145,14 @@ const Tournament = ({ tournament }: { tournament: ITournament }) => {
   const isChecked = isTournamentChecked(tournament.id);
   const isIndeterminate = isTournamentIndeterminate(tournament.id);
   const toggleClubsCheckboxGroup = (ids: number[]) => toggleClubs(tournament.id, ids);
+
+  useEffect(() => {
+    if (isSearchActive) {
+      setIsExpanded(true);
+    } else {
+      setIsExpanded(false);
+    }
+  }, [isSearchActive]);
 
   return (
     <div key={tournament.id} className={styles.tournamentWrapper}>
@@ -148,11 +193,14 @@ const Tournament = ({ tournament }: { tournament: ITournament }) => {
 };
 
 const ClubCheckbox = () => {
-  const { tournaments } = useClubCheckboxContext();
+  const { filterTournaments, search, setSearch } = useClubCheckboxContext();
 
   return (
     <div>
-      {tournaments.map((tournament) => (
+      <div className={styles.search}>
+        <Search value={search} onChange={setSearch} placeholder="Search" autofocus />
+      </div>
+      {filterTournaments.map((tournament) => (
         <Tournament key={tournament.id} tournament={tournament} />
       ))}
     </div>
