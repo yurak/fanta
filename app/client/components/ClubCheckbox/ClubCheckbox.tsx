@@ -5,8 +5,9 @@ import { ITournament } from "@/interfaces/Tournament";
 import PopoverInput from "@/ui/PopoverInput";
 import Checkbox, { CheckboxGroup } from "@/ui/Checkbox";
 import ArrowDown from "@/assets/icons/arrow-down.svg";
+import SearchIcon from "@/assets/icons/searchBold.svg";
+import Input from "@/ui/Input";
 import styles from "./ClubCheckbox.module.scss";
-import Search from "@/ui/Search";
 
 interface IProps {
   value: number[],
@@ -198,7 +199,14 @@ const ClubCheckbox = () => {
   return (
     <div>
       <div className={styles.search}>
-        <Search value={search} onChange={setSearch} placeholder="Search" autofocus />
+        <Input
+          value={search}
+          onChange={setSearch}
+          placeholder="Search"
+          autofocus
+          size="small"
+          icon={<SearchIcon />}
+        />
       </div>
       {filterTournaments.map((tournament) => (
         <Tournament key={tournament.id} tournament={tournament} />

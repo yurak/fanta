@@ -10,7 +10,7 @@ const Input = ({
   autofocus,
   helper,
   icon,
-  clearable,
+  clearable = true,
   size = "large",
 }: {
   value: string,
@@ -45,7 +45,7 @@ const Input = ({
     if (autofocus) {
       inputRef.current?.focus();
     }
-  }, [autofocus]);
+  }, [autofocus, inputRef.current]);
 
   const hasValue = value.length > 0;
   const isActivated = hasValue || isFocused;
@@ -64,6 +64,7 @@ const Input = ({
         })}
       >
         <input
+          ref={inputRef}
           className={styles.input}
           value={value}
           onChange={onChangeHandler}
