@@ -2,15 +2,29 @@
   z-index: 200;
   position: fixed;
   height: 100%;
-  padding: 10px 0;
-  background: #FFFFFF;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+
+  /* Hide scrollbar for Gecko-based browsers */
+  scrollbar-width: none;
+
+  /* Hide scrollbar for WebKit-based browsers */
+  &::-webkit-scrollbar {
+    display: none;
+  }
 
   a {
     text-decoration: none;
   }
 
   .root-logo {
-    margin: 6px 12px;
+    background-color: #fff;
+    padding: 16px 12px 6px;
+    position: sticky;
+    top: 0;
+    left: 0;
 
     img {
       width: 48px;
@@ -30,13 +44,13 @@
   }
 
   .nav-logo:hover {
-    background: #F4F4F4;
+    background: #f4f4f4;
     border-radius: 4px;
   }
 
   .nav-logo-true {
     padding: 6px;
-    border: 2px solid #261FFF;
+    border: 2px solid #261fff;
     border-radius: 4px;
   }
 
@@ -52,14 +66,16 @@
   }
 
   .nav-logo-small:hover {
-    background: #F4F4F4;
+    background: #f4f4f4;
     border-radius: 4px;
   }
 
   .nav-logo-bottom {
-    position: fixed;
-    bottom: 20px;
-    width: 72px;
+    background-color: #fff;
+    margin-top: auto;
+    position: sticky;
+    left: 0;
+    bottom: 0;
   }
 
   .nav-link-icon {
@@ -79,7 +95,7 @@
   }
 
   .sign-out-btn {
-    background: #261FFF;
+    background: #261fff;
     border-radius: 4px;
     padding: 8px 0;
 
@@ -90,7 +106,7 @@
   }
 
   .sign-out-btn:hover {
-    background: #3530CA;
+    background: #3530ca;
     box-shadow: 1px 2px 5px rgba(24, 23, 21, 0.2);
   }
 }
@@ -101,7 +117,7 @@
   height: 100%;
   left: 72px;
   width: 200px;
-  background: #FFEBC2;
+  background: #ffebc2;
   padding: 16px 8px;
 
   a {
@@ -126,7 +142,7 @@
   }
 
   .next-round {
-    background: #FFFFFF;
+    background: #ffffff;
     color: #181715;
     border-radius: 4px;
     padding: 8px;
@@ -208,10 +224,10 @@
       }
 
       .next-round-goals {
-        background: #BA44F1;
+        background: #ba44f1;
         border-radius: 4px;
         text-align: center;
-        color: #FFFFFF;
+        color: #ffffff;
       }
     }
   }
@@ -238,9 +254,9 @@
     height: 20px;
     font-size: 10px;
     line-height: 16px;
-    background: #BA44F1;
+    background: #ba44f1;
     border-radius: 4px;
-    color: #FFFFFF;
+    color: #ffffff;
     display: inline-block;
     white-space: nowrap;
     overflow: hidden !important;
@@ -259,7 +275,7 @@
   }
 
   .auction-block-soon {
-    background: #EAC6FB;
+    background: #eac6fb;
 
     .auction-text {
       font-size: 10px;
@@ -272,7 +288,7 @@
     height: 36px;
 
     .auction-badge {
-      color: #FFFFFF;
+      color: #ffffff;
       background: #181715;
       margin: 0;
       padding: 2px 4px;
@@ -285,7 +301,7 @@
 
   .auction-block-sales {
     .auction-badge {
-      background: #9F6C05;
+      background: #9f6c05;
     }
 
     .auction-line {
@@ -336,13 +352,13 @@
     }
 
     .auction-link-area {
-      margin-left:auto;
-      margin-right:0;
+      margin-left: auto;
+      margin-right: 0;
     }
 
     .auction-link {
       padding: 3px 4px;
-      background: #F4F4F4;
+      background: #f4f4f4;
       border: 1px solid #181715;
       border-radius: 4px;
       font-weight: 700;
@@ -360,7 +376,7 @@
       background: #181715;
       box-shadow: 1px 2px 5px rgba(24, 23, 21, 0.2);
       a {
-        color: #FFFFFF;
+        color: #ffffff;
       }
     }
   }
@@ -389,7 +405,7 @@
   }
 
   .league-link:hover {
-    border: 1px solid #FFB319;
+    border: 1px solid #ffb319;
     border-radius: 8px;
     padding: 9px 15px;
 
@@ -407,7 +423,7 @@
     border-radius: 8px;
 
     .league-link-text {
-      color: #EDF67D;
+      color: #edf67d;
     }
 
     img {
@@ -421,7 +437,7 @@
     padding: 10px 16px;
 
     .league-link-text {
-      color: #EDF67D;
+      color: #edf67d;
     }
 
     img {
@@ -439,12 +455,12 @@
       margin-top: 12px;
       font-size: 18px;
       line-height: 24px;
-      background: #BA44F1;
+      background: #ba44f1;
       border-radius: 4px;
       text-align: center;
 
       a {
-        color: #FFFFFF;
+        color: #ffffff;
       }
     }
   }
@@ -497,16 +513,16 @@
   height: 20px;
   font-size: 10px;
   line-height: 16px;
-  background: #DB0A23;
+  background: #db0a23;
   border-radius: 4px;
-  color: #FFFFFF;
+  color: #ffffff;
   display: inline-block;
 
   .live-dot {
     width: 6px;
     height: 6px;
     border-radius: 3px;
-    background: #FFFFFF;
+    background: #ffffff;
     display: inline-block;
   }
 
@@ -517,7 +533,7 @@
 }
 
 .active-right-nav-false {
-  background: #E5E6E4;
+  background: #e5e6e4;
 
   .league-link:hover {
     border: 1px solid rgba(24, 23, 21, 0.2);
@@ -542,7 +558,7 @@
 
   .help-modal-content {
     z-index: 202;
-    background-color: #FFFFFF;
+    background-color: #ffffff;
     width: 188px;
     border-radius: 4px;
     box-sizing: border-box;
@@ -553,7 +569,7 @@
     padding: 8px 4px;
 
     .help-modal-plus-links {
-      border-top: 1px solid #E5E6E4;
+      border-top: 1px solid #e5e6e4;
       margin: 8px 16px;
       padding-top: 8px;
       position: relative;
@@ -594,7 +610,7 @@
     }
 
     .help-modal-link:hover {
-      background: #F4F4F4;
+      background: #f4f4f4;
       border-radius: 4px;
     }
   }
