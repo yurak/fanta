@@ -21,6 +21,11 @@
   &:hover {
     --icon-border: #181715;
   }
+
+  &:has(input:focus) {
+    outline: -webkit-focus-ring-color auto 1px;
+    outline-offset: 2px;
+  }
 }
 
 .isActive {
