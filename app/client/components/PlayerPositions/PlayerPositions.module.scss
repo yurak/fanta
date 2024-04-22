@@ -3,12 +3,13 @@
 }
 
 .position {
-  padding: 2px 4px;
+  padding: 1px 3px;
   font-family: "Nunito ExtraBold";
   font-size: 12px;
   line-height: 16px;
   letter-spacing: 0.02em;
   color: #fff;
+  border: 1px solid transparent;
 
   &:first-child {
     border-top-left-radius: 4px;
@@ -19,6 +20,10 @@
     border-top-right-radius: 4px;
     border-bottom-right-radius: 4px;
   }
+}
+
+.outlined {
+  border-color: #181715;
 }
 
 .yellow {

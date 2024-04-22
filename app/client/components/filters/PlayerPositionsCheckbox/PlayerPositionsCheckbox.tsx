@@ -1,17 +1,19 @@
 import { useMemo } from "react";
+import { Positions } from "@/domain/Positions";
 import { CheckboxGroup } from "@/ui/Checkbox";
 import PopoverInput from "@/ui/PopoverInput";
-import { PlayerPosition } from "@/interfaces/Player";
+import { Position } from "@/interfaces/Position";
 import PlayerPositions from "@/components/PlayerPositions/PlayerPositions";
+import { useAppContext } from "@/application/AppContext";
 import styles from "./PlayerPositionsCheckbox.module.scss";
 
 interface IProps {
-  value: string[],
-  onChange: (value: string[]) => void,
+  value: Position[],
+  onChange: (value: Position[]) => void,
 }
 
 const PlayerPositionsCheckbox = ({ value, onChange }: IProps) => {
-  const options = Object.values(PlayerPosition).map((option) => ({ id: option }));
+  const options = Object.values(Position).map((option) => ({ id: option }));
 
   return (
     <CheckboxGroup
@@ -21,9 +23,9 @@ const PlayerPositionsCheckbox = ({ value, onChange }: IProps) => {
       getOptionValue={(option) => option.id}
       formatOptionLabel={(option) => (
         <span className={styles.option}>
-          <span>{option.id}</span>
+          <span>{Positions.getFullNameById(option.id)}</span>
           <span>
-            <PlayerPositions positions={[option.id] as PlayerPosition[]} />
+            <PlayerPositions position={option.id} outlined />
           </span>
         </span>
       )}
@@ -34,17 +36,21 @@ const PlayerPositionsCheckbox = ({ value, onChange }: IProps) => {
 export const PlayerPositionsCheckboxPopover = (props: IProps) => {
   const { value, onChange } = props;
 
+  const { italPositionNaming } = useAppContext();
+
   const selectedLabel = useMemo(() => {
     if (value.length === 0) {
       return null;
     }
 
+    const positionLabel = Positions.getLabelById(value[0] as Position, italPositionNaming);
+
     if (value.length === 1) {
-      return value[0] ?? null;
+      return positionLabel;
     }
 
-    return `${value[0]} +${value.length - 1}`;
-  }, [value]);
+    return `${positionLabel} +${value.length - 1}`;
+  }, [value, italPositionNaming]);
 
   return (
     <PopoverInput label="Position" selectedLabel={selectedLabel} clearValue={() => onChange([])}>

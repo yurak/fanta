@@ -1,8 +1,9 @@
+import { Position } from "@/interfaces/Position";
 import { RangeSliderValueType } from "@/ui/RangeSlider";
 
 export interface IFilter {
   clubs: number[],
-  position: string[],
+  position: Position[],
   totalScore: RangeSliderValueType,
   baseScore: RangeSliderValueType,
   appearances: RangeSliderValueType,

@@ -46,7 +46,7 @@ const PlayerItem = ({
         </div>
         <div className={styles.bottom}>
           <span>
-            <PlayerPositions positions={position_classic_arr} />
+            <PlayerPositions position={position_classic_arr} />
           </span>
           {club.tournament_id && (
             <>
