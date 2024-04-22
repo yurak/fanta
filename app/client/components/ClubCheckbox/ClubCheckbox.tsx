@@ -1,12 +1,13 @@
-import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
 import cn from "classnames";
 import { useTournaments } from "@/api/query/useTournaments";
 import { ITournament } from "@/interfaces/Tournament";
 import PopoverInput from "@/ui/PopoverInput";
 import Checkbox, { CheckboxGroup } from "@/ui/Checkbox";
+import Input from "@/ui/Input";
+import { IClub } from "@/interfaces/Club";
 import ArrowDown from "@/assets/icons/arrow-down.svg";
 import SearchIcon from "@/assets/icons/searchBold.svg";
-import Input from "@/ui/Input";
 import styles from "./ClubCheckbox.module.scss";
 
 interface IProps {
@@ -38,6 +39,14 @@ const useClubCheckbox = ({ value, onChange }: IProps) => {
         tournament.clubs.map((club) => club.id)
       );
     }, new Map<number, number[]>());
+  }, [tournaments]);
+
+  const clubs = useMemo(() => {
+    return tournaments
+      .flatMap((tournament) => tournament.clubs)
+      .reduce((map, club) => {
+        return map.set(club.id, club);
+      }, new Map<number, IClub>());
   }, [tournaments]);
 
   const toggleTournament = (id: number, checked: boolean) => {
@@ -88,6 +97,53 @@ const useClubCheckbox = ({ value, onChange }: IProps) => {
       .filter((tournament) => tournament.clubs.length > 0);
   }, [tournaments, search]);
 
+  const getClubLabel = useCallback(
+    (clubsId: number[]) => {
+      if (clubsId.length === 0) {
+        return null;
+      }
+
+      const club = clubs.get(clubsId[0] as number);
+
+      if (!club) {
+        return "..."; // Loading
+      }
+
+      if (clubsId.length === 1) {
+        return club.name;
+      }
+
+      return `${club.name} + ${clubsId.length - 1}`;
+    },
+    [clubs]
+  );
+
+  const selectedLabel = useMemo(() => {
+    if (value.length === 0) {
+      return null;
+    }
+
+    const selectedTournaments = tournaments.filter((tournament) =>
+      tournament.clubs.every((club) => value.includes(club.id))
+    );
+
+    if (selectedTournaments.length > 0) {
+      const matchedValueIds = selectedTournaments.flatMap((tournament) =>
+        tournament.clubs.map((club) => club.id)
+      );
+      const unmatchedValueIds = value.filter((valueId) => !matchedValueIds.includes(valueId));
+
+      return [
+        ...selectedTournaments.map((tournament) => tournament.short_name ?? tournament.name),
+        getClubLabel(unmatchedValueIds),
+      ]
+        .filter(Boolean)
+        .join(" + ");
+    }
+
+    return getClubLabel(value);
+  }, [value, clubs, tournaments, getClubLabel]);
+
   const isSearchActive =
     filterTournaments.length === 1 ||
     filterTournaments.flatMap((tournament) => tournament.clubs).length < 10;
@@ -103,6 +159,7 @@ const useClubCheckbox = ({ value, onChange }: IProps) => {
     search,
     setSearch,
     isSearchActive,
+    selectedLabel,
   };
 };
 
@@ -216,19 +273,7 @@ const ClubCheckbox = () => {
 };
 
 const ClubCheckboxPopoverInner = () => {
-  const { value, onChange } = useClubCheckboxContext();
-
-  const selectedLabel = useMemo(() => {
-    if (value.length === 0) {
-      return null;
-    }
-
-    if (value.length === 1) {
-      return value[0] ?? null;
-    }
-
-    return `${value[0]} +${value.length - 1}`;
-  }, [value]);
+  const { onChange, selectedLabel } = useClubCheckboxContext();
 
   return (
     <PopoverInput label="Clubs" selectedLabel={selectedLabel} clearValue={() => onChange([])}>
