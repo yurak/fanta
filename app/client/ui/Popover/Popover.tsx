@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { flushSync } from "react-dom";
 import CloseIcon from "@/assets/icons/closeRound.svg";
 import {
   useClick,
@@ -12,6 +13,7 @@ import {
   autoPlacement,
   ReferenceType,
   FloatingFocusManager,
+  size,
 } from "@floating-ui/react";
 import styles from "./Popover.module.scss";
 
@@ -33,6 +35,7 @@ const Popover = ({
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const close = () => setIsOpen(false);
+  const [maxHeight, setMaxHeight] = useState<number>();
 
   const { refs, floatingStyles, context } = useFloating({
     open: isOpen,
@@ -42,6 +45,12 @@ const Popover = ({
       shift(),
       autoPlacement({
         allowedPlacements: ["top-start", "top-end", "bottom-start", "bottom-end"],
+      }),
+      size({
+        padding: 16,
+        apply({ availableHeight }) {
+          flushSync(() => setMaxHeight(availableHeight));
+        },
       }),
     ],
     whileElementsMounted: autoUpdate,
@@ -61,7 +70,7 @@ const Popover = ({
             <div
               className={styles.popover}
               ref={refs.setFloating}
-              style={floatingStyles}
+              style={{ ...floatingStyles, maxHeight }}
               {...getFloatingProps()}
             >
               <div className={styles.header}>
