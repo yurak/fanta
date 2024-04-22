@@ -17,16 +17,17 @@
 
 .tournament {
   display: flex;
-  width: calc(100% + 16px);
+  width: 100%;
   text-align: left;
   gap: 16px;
   align-items: center;
-  padding: 16px 8px;
-  margin: 0 -8px;
+  padding: 8px 0;
+  margin: 8px 0;
   justify-content: center;
   align-items: center;
   border: 0;
   background: none;
+  outline-offset: 2px;
 }
 
 .icon {
