@@ -83,9 +83,7 @@ const PlayersListDesktop = ({
           className: styles.positionsCell,
           sorter: true,
           supportAscSorting: true,
-          render: ({ position_classic_arr }) => (
-            <PlayerPositions positions={position_classic_arr} />
-          ),
+          render: ({ position_classic_arr }) => <PlayerPositions position={position_classic_arr} />,
         },
         {
           dataKey: "average_price",

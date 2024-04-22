@@ -1,18 +1,5 @@
 import { IClub } from "./Club";
-
-export enum PlayerPosition {
-  GK = "GK",
-  CB = "CB",
-  LB = "LB",
-  RB = "RB",
-  WB = "WB",
-  CM = "CM",
-  DM = "DM",
-  AM = "AM",
-  W = "W",
-  FW = "FW",
-  ST = "ST",
-}
+import { Position } from "./Position";
 
 export interface IPlayer {
   appearances: number,
@@ -26,6 +13,6 @@ export interface IPlayer {
   league_price: null,
   league_team_logo: null,
   name: string,
-  position_classic_arr: PlayerPosition[],
+  position_classic_arr: Position[],
   teams_count: number,
 }

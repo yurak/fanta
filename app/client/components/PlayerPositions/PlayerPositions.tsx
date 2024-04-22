@@ -1,19 +1,25 @@
-import { IPlayer } from "@/interfaces/Player";
 import cn from "classnames";
-import { positionMappers } from "./constants";
+import { useAppContext } from "@/application/AppContext";
+import { Position } from "@/interfaces/Position";
+import { Positions } from "@/domain/Positions";
 import styles from "./PlayerPositions.module.scss";
 
-const PlayerPositions = ({ positions }: { positions: IPlayer["position_classic_arr"] }) => {
-  // TODO: get from back this value
-  const isFantaFormat = false;
+const PlayerPositions = ({
+  position,
+  outlined,
+}: {
+  position: Position | Position[],
+  outlined?: boolean,
+}) => {
+  const { italPositionNaming } = useAppContext();
+
+  const positions = Array.isArray(position) ? position : [position];
 
   const positionLabels = positions.map((position) => {
-    const { color, label, fantaLabel } = positionMappers[position];
-
     return {
       id: position,
-      color,
-      label: isFantaFormat ? fantaLabel : label,
+      color: Positions.getColorById(position),
+      label: Positions.getLabelById(position, italPositionNaming),
     };
   });
 
@@ -23,11 +29,12 @@ const PlayerPositions = ({ positions }: { positions: IPlayer["position_classic_a
         <span
           key={position.id}
           className={cn(styles.position, {
-            [styles.yellow]: position.color == "yellow",
-            [styles.green]: position.color == "green",
-            [styles.blue]: position.color == "blue",
-            [styles.purple]: position.color == "purple",
-            [styles.red]: position.color == "red",
+            [styles.yellow]: position.color === "yellow",
+            [styles.green]: position.color === "green",
+            [styles.blue]: position.color === "blue",
+            [styles.purple]: position.color === "purple",
+            [styles.red]: position.color === "red",
+            [styles.outlined]: outlined,
           })}
         >
           {position.label}

@@ -1,4 +1,5 @@
 import { RangeSliderValueType } from "@/ui/RangeSlider";
+import { Position } from "@/interfaces/Position";
 import { defaultFilter } from "./constants";
 import { IFilter } from "./interfaces";
 
@@ -45,7 +46,7 @@ export const decodeFilter = (filter?: Record<string, string>): IFilter => {
       price: decodeRangeValue(defaultFilter.price, filter.price),
       totalScore: decodeRangeValue(defaultFilter.totalScore, filter.ts),
       teamsCount: decodeRangeValue(defaultFilter.teamsCount, filter.teams),
-      position: filter.pos?.split(arraySeparator) ?? defaultFilter.position,
+      position: (filter.pos?.split(arraySeparator) ?? defaultFilter.position) as Position[],
       clubs: filter.clubs?.split(arraySeparator).map((club) => Number(club)) ?? defaultFilter.clubs,
     };
   } catch (e) {
