@@ -1,14 +1,36 @@
 .section {
-  padding: 24px;
-
   &:not(:last-child) {
     border-bottom: 1px solid #e5e6e4;
   }
 }
 
 .title {
-  margin-bottom: 24px;
+  padding: 18px 24px;
   font-family: "Nunito ExtraBold";
   font-size: 16px;
   line-height: 24px;
+  border: 0;
+  background: none;
+  width: 100%;
+  text-align: left;
+  display: flex;
+  justify-content: space-between;
+}
+
+.icon {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #a6a2a2;
+
+  &.isActive {
+    color: #181715;
+    transform: rotate(180deg);
+  }
+}
+
+.content {
+  padding: 0 24px;
 }
