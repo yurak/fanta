@@ -30,7 +30,7 @@ class PlayersController < ApplicationController
   def player
     @player ||= Player.find(params[:id])
   end
-  
+
   def tournament
     stats_params[:tournament] ? Tournament.find(stats_params[:tournament]) : Tournament.first
   end
