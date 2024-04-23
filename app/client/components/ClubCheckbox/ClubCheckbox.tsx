@@ -251,24 +251,29 @@ const Tournament = ({ tournament }: { tournament: ITournament }) => {
 };
 
 const ClubCheckbox = () => {
-  const { filterTournaments, search, setSearch } = useClubCheckboxContext();
+  const { filterTournaments } = useClubCheckboxContext();
 
   return (
-    <div>
-      <div className={styles.search}>
-        <Input
-          value={search}
-          onChange={setSearch}
-          placeholder="Search"
-          autofocus
-          size="small"
-          icon={<SearchIcon />}
-        />
-      </div>
+    <>
       {filterTournaments.map((tournament) => (
         <Tournament key={tournament.id} tournament={tournament} />
       ))}
-    </div>
+    </>
+  );
+};
+
+const ClubSearch = () => {
+  const { search, setSearch } = useClubCheckboxContext();
+
+  return (
+    <Input
+      value={search}
+      onChange={setSearch}
+      placeholder="Search"
+      autofocus
+      size="small"
+      icon={<SearchIcon />}
+    />
   );
 };
 
@@ -276,7 +281,12 @@ const ClubCheckboxPopoverInner = () => {
   const { onChange, selectedLabel } = useClubCheckboxContext();
 
   return (
-    <PopoverInput label="Clubs" selectedLabel={selectedLabel} clearValue={() => onChange([])}>
+    <PopoverInput
+      label="Clubs"
+      selectedLabel={selectedLabel}
+      clearValue={() => onChange([])}
+      subHeader={<ClubSearch />}
+    >
       <ClubCheckbox />
     </PopoverInput>
   );
@@ -292,6 +302,9 @@ export const ClubCheckboxPopover = (props: IProps) => {
 
 export default (props: IProps) => (
   <ClubCheckboxContextProvider {...props}>
+    <div className={styles.search}>
+      <ClubCheckbox />
+    </div>
     <ClubCheckbox />
   </ClubCheckboxContextProvider>
 );
