@@ -41,6 +41,10 @@
             .nav-link-icon= '🗝'
             .nav-link-title= t('devise.sessions.new.sign_in')
       .nav-logo-small
+        = link_to players_path do
+          .nav-link-icon= '👟'
+          .nav-link-title= t('header.players')
+      .nav-logo-small
         = link_to leagues_path do
           .nav-link-icon= '🏑'
           .nav-link-title= t('header.leagues')
