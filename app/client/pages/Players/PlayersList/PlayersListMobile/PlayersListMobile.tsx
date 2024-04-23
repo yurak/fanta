@@ -121,6 +121,7 @@ const PlayersListMobile = ({
 }) => {
   return (
     <DataList
+      itemLink={(item) => `/players/${item.id}`}
       dataSource={items}
       renderItem={(item) => <PlayerItem {...item} />}
       itemClassName={styles.item}

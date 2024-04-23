@@ -26,6 +26,7 @@ const PlayersListDesktop = ({
       sorting={sorting}
       emptyStateComponent={emptyStateComponent}
       skeletonItems={25}
+      rowLink={(item) => `/players/${item.id}`}
       columns={[
         {
           dataKey: "name",
