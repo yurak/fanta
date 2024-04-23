@@ -7,11 +7,13 @@ const PopoverInput = ({
   selectedLabel,
   clearValue,
   children,
+  subHeader,
 }: {
   label: string,
   selectedLabel?: React.ReactNode,
   clearValue: () => void,
   children: React.ReactNode,
+  subHeader?: React.ReactNode,
 }) => {
   const isPristine = !selectedLabel;
 
@@ -32,6 +34,7 @@ const PopoverInput = ({
           Clear
         </Link>
       }
+      subHeader={subHeader}
     >
       {children}
     </Popover>

@@ -26,11 +26,13 @@ const Popover = ({
   title,
   children,
   footer,
+  subHeader,
   renderedReference,
 }: {
   title: string,
   children: React.ReactNode,
   footer?: React.ReactNode,
+  subHeader?: React.ReactNode,
   renderedReference: (props: IReferenceProps) => React.ReactNode,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -74,10 +76,13 @@ const Popover = ({
               {...getFloatingProps()}
             >
               <div className={styles.header}>
-                <div className={styles.title}>{title}</div>
-                <button className={styles.closeButton} onClick={close}>
-                  <CloseIcon />
-                </button>
+                <div className={styles.headerTop}>
+                  <div className={styles.title}>{title}</div>
+                  <button className={styles.closeButton} onClick={close}>
+                    <CloseIcon />
+                  </button>
+                </div>
+                {subHeader && <div>{subHeader}</div>}
               </div>
               <div className={styles.content}>{children}</div>
               {footer && <div className={styles.footer}>{footer}</div>}
