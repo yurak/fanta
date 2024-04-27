@@ -1,3 +1,151 @@
+/* TOURNAMENT ROUND SHOW */
+.page-info.round-manage-page {
+  padding: 32px 124px 70px 196px;
+
+  a {
+    text-decoration: none;
+    color: #181715;
+  }
+
+  .round-title-bar {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    line-height: 64px;
+
+    .round-title {
+      font-weight: bold;
+      font-size: 48px;
+      color: #181715;
+    }
+  }
+
+  .round-block {
+    margin-top: 32px;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    column-gap: 48px;
+
+    .round-tours {
+      .round-tour-item {
+        height: 40px;
+        font-size: 16px;
+        line-height: 24px;
+        padding: 7px 8px;
+        border: 1px solid #E5E6E4;
+        box-sizing: border-box;
+        border-radius: 8px;
+        margin: 4px;
+        width: 320px;
+        display: inline-block;
+
+        .round-tour-link {
+          display: grid;
+          grid-template-columns: 36px auto 88px 44px;
+          width: 100%;
+          height: 100%;
+
+          .round-tour-division {
+            font-family: 'Nunito ExtraBold';
+          }
+
+          .round-tour-status {
+            background: #E5E6E4;
+            border-radius: 16px;
+            padding: 4px;
+            font-size: 14px;
+            line-height: 16px;
+            text-align: center;
+          }
+
+          .round-status-set_lineup {
+            background: #D0F0D4;
+          }
+
+          .round-status-locked {
+            background: #FFEBC2;
+          }
+
+          .round-status-postponed {
+            background: #EC9797;
+          }
+
+          .round-status-closed {
+            background: #D8D6FF;
+          }
+
+          .round-tour-number {
+            text-align: right;
+            color: #A6A2A2;
+          }
+        }
+      }
+
+      .subs-missed-true {
+        background: #EC9797;
+        border: 1px solid red;
+
+        .round-tour-link {
+          .round-tour-number {
+            color: #FFFFFF;
+          }
+        }
+      }
+    }
+
+    .round-matches {
+      margin-top: 32px;
+
+      .round-tournament-match {
+        border-bottom: 1px solid rgba(24, 23, 21, 0.2);
+        grid-template-columns: 1fr 64px 1fr;
+        column-gap: 12px;
+
+        .round-tournament-match-team {
+          padding: 11px 0;
+        }
+
+        .round-tournament-match-cell {
+          height: 70px;
+        }
+
+        .round-tournament-team-logo {
+          object, img {
+            margin: 6px;
+            width: 36px;
+            height: 36px;
+          }
+        }
+
+        .round-tournament-match-cell-result {
+          padding: 15px 5px;
+          color: #181715;
+          text-align: center;
+        }
+      }
+    }
+
+    .round-actions {
+      .round-action-link {
+        background: #FFEBC2;
+        height: 40px;
+        font-size: 16px;
+        line-height: 24px;
+        padding: 7px 8px;
+        box-sizing: border-box;
+        border: 1px solid #FFB319;
+        border-radius: 8px;
+        margin: 4px 8px 8px;
+        width: 240px;
+
+        a {
+          width: 100%;
+          height: 100%;
+        }
+      }
+    }
+  }
+}
+
 /* TOURNAMENT ROUND EDIT PLAYERS SCORES */
 
 .reservist-item, .reservists-headers {

@@ -187,6 +187,7 @@ ua:
     edit_scores: "Редагувати оцінки"
     inject_scores: "Затягнути оц.."
     lock_round: "Заблокувати"
+    manage_round: "Керувати р.."
     postpone_round: "Відкласти р.."
     start_round: "Стартувати"
     play_more_title: "Хочеш зіграти ще й інші ліги? Залишай заявку!"
@@ -362,6 +363,13 @@ ua:
     total_owners: "К-сть власників"
     total_score: "Загальна оцінка"
     ts: "ЗО"
+  round:
+    close: "Закрити всі тури"
+    confirm: "Підтвердити автозакриття"
+    inject_scores: "Затягнути оцінки"
+    open: "Відкрити всі тури"
+    postpone: "Відкласти всі тури"
+    title: "Раунд Турніру"
   round_players:
     short_title: "Найкращі Гравці"
     title: "Найкращі Гравці %{tournament} Раунд #%{number}"

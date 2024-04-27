@@ -31,7 +31,8 @@ class ToursController < ApplicationController
       # end
     end
 
-    redirect_to tour_path(tour)
+    path = params['redirect'] == 'round' ? tournament_round_path(tour.tournament_round) : tour_path(tour)
+    redirect_to path
   end
 
   private

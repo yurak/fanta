@@ -3,6 +3,10 @@ class TournamentRoundsController < ApplicationController
 
   helper_method :tournament_round
 
+  def show
+    redirect_to leagues_path unless can? :show, TournamentRound
+  end
+
   def edit
     redirect_to leagues_path unless can? :edit, TournamentRound
 

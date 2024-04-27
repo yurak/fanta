@@ -171,6 +171,7 @@ en:
     edit_scores: "Edit scores"
     inject_scores: "Inject scores"
     lock_round: "Lock round"
+    manage_round: "Manage round"
     postpone_round: "Postpone r..."
     start_round: "Start round"
     play_more_title: "Do you want to play other leagues as well? Create a request!"
@@ -339,6 +340,13 @@ en:
     total_owners: "Total owners"
     total_score: "Total score"
     ts: "TS"
+  round:
+    close: "Close all tours"
+    confirm: "Confirm auto-close"
+    inject_scores: "Inject scores"
+    open: "Open all tours"
+    postpone: "Postpone all tours"
+    title: "Tournament Round"
   round_players:
     short_title: "Best Players"
     title: "%{tournament} Round #%{number} Best Players"
