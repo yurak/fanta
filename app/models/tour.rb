@@ -99,6 +99,6 @@ class Tour < ApplicationRecord
   end
 
   def subs_missed?
-    match_players.main.without_score.select { |m| m.subs_option_exist? }.any?
+    match_players.main.without_score.any?(&:subs_option_exist?)
   end
 end

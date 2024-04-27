@@ -47,7 +47,8 @@
 - if current_user&.can_moderate? && tour.deadlined?
   .create-lineup-row.inject-scores-row
     .create-lineup-text
-    .create-lineup-link= link_to t('header.inject_scores'), inject_scores_tour_path(tour), data: { confirm: t('header.are_you_sure') }
+    .create-lineup-link= link_to t('header.manage_round_mob'), tournament_round_path(tour.tournament_round)
+    .create-lineup-link= link_to t('header.inject_scores_mob'), inject_scores_tour_path(tour), data: { confirm: t('header.are_you_sure') }
 
 .portrait-footer{ class: "portrait-footer-#{tour.league.mantra?}"}
   = render 'layouts/league_links', league: tour.league
