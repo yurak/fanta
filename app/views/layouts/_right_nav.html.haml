@@ -59,11 +59,16 @@
 
       - if params[:controller] == 'tours'
         .admin-actions
-          - if current_user&.can_moderate? && tour.deadlined?
-            = link_to inject_scores_tour_path(tour), data: { confirm: t('header.are_you_sure') } do
+          - if current_user&.can_moderate?
+            - if tour.deadlined?
+              = link_to inject_scores_tour_path(tour), data: { confirm: t('header.are_you_sure') } do
+                .league-link
+                  .league-link-icon= image_tag('icons/round/table.svg')
+                  .league-link-text= t('header.inject_scores')
+            = link_to tournament_round_path(tour.tournament_round) do
               .league-link
-                .league-link-icon= image_tag('icons/round/table.svg')
-                .league-link-text= t('header.inject_scores')
+                .league-link-icon= image_tag('icons/round/statistics.svg')
+                .league-link-text= t('header.manage_round')
             -#.league-link= link_to t('header.edit_scores'), edit_tournament_round_path(tour.tournament_round)
           - if current_user&.admin?
             - if tour.inactive?

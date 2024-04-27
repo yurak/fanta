@@ -23,7 +23,6 @@ Rails.application.routes.draw do
   get 'guide',    to: 'welcome#guide'
   get 'rules',    to: 'welcome#rules'
 
-
   telegram_webhook Telegram::WebhookController
   # telegram_webhook Telegram::WebhookController, :mantra_prod
 
@@ -77,7 +76,7 @@ Rails.application.routes.draw do
     get :inject_scores, on: :member
   end
 
-  resources :tournament_rounds, only: [:edit, :update] do
+  resources :tournament_rounds, only: [:show, :edit, :update] do
     resources :round_players, only: [:index]
   end
 

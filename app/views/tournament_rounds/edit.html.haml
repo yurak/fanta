@@ -35,7 +35,7 @@
             = rp_f.object.result_score
 
           .reservist-param
-            = rp_f.number_field :score, in: 0..11, step: 0.01, class: 'form-control'
+            = rp_f.number_field :score, in: 0..11, step: 0.1, class: 'form-control'
           - if rp_f.object.player.position_names.include?(Position::GOALKEEPER)
             .reservist-param
               = rp_f.number_field :missed_goals, in: 0..9, step: 1, class: 'form-control'

@@ -13,7 +13,7 @@ class MatchPlayer < ApplicationRecord
 
   enum subs_status: { initial: 0, get_out: 1, get_in: 2, not_in_squad: 3 }
 
-  default_scope { includes(round_player: { player: %i[club player_positions positions] }) }
+  default_scope { includes(:lineup, round_player: { player: %i[club player_positions positions] }) }
 
   scope :main, -> { where.not(real_position: nil) }
   scope :with_score, -> { includes(:round_player).joins(:round_player).where('round_players.score > ?', 0) }
@@ -61,6 +61,21 @@ class MatchPlayer < ApplicationRecord
 
   def hide_cleansheet?
     e_not_at_e_or_d? || m_not_at_m_or_dc?
+  end
+
+  def subs_option_exist?
+    return false unless score.zero? && (club_played_match? || another_tournament?) && tour.locked_or_postponed?
+
+    bench_players = lineup.match_players.subs_bench.with_score
+    return false unless bench_players && available_positions
+
+    available_mp = bench_players.collect do |x|
+      next if (x.position_names & available_positions).empty?
+
+      [x, Scores::PositionMalus::Counter.call(real_position, x.position_names).to_s]
+    end
+
+    available_mp.compact.any?
   end
 
   private

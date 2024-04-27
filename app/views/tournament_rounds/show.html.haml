@@ -1,0 +1,35 @@
+.page-block
+  .web-header= render 'layouts/left_nav', league: nil
+  .mob-header= render 'layouts/mob_header', league: nil, title: t('round.title')
+  .page-info.round-manage-page
+    .round-title-bar
+      .round-title
+        = "#{tournament_round.tournament.name} ##{tournament_round.number}"
+    .round-block
+      .round-left
+        .round-tours
+          - tournament_round.tours.each do |tour|
+            .round-tour-item{ class: "subs-missed-#{tour.subs_missed? if tour.tournament_round.finished?}" }
+              = link_to tour_path(tour), class: 'round-tour-link' do
+                .round-tour-division= tour.league.division ? "#{tour.league.division.name} | " : '-'
+                .round-tour-league= tour.league.name
+                .round-tour-status{ class: "round-status-#{tour.status}" }= tour.status
+                .round-tour-number= "##{tour.number}"
+        .round-matches
+          = render 'tournaments/tournament_matches', matches: tournament_round.tournament_matches
+      .round-actions
+        - if tournament_round.tours.locked_postponed.any?
+          .round-action-link
+            = link_to  t('round.inject_scores'), inject_scores_tour_path(tournament_round.tours.first, redirect: 'round'), data: { confirm: t('header.are_you_sure') }
+        -# - if tournament_round.finished? && tournament_round.tours.locked_postponed.any?
+        -#   .round-action-link
+        -#     = link_to  t('round.confirm'), '#', data: { confirm: t('header.are_you_sure') }
+        -# - if tournament_round.tours.inactive.any?
+        -#   .round-action-link
+        -#     = link_to  t('round.open'), '#', data: { confirm: t('header.are_you_sure') }
+        -# - if tournament_round.tours.locked.any?
+        -#   .round-action-link
+        -#     = link_to  t('round.postpone'), '#', data: { confirm: t('header.are_you_sure') }
+        -# - if tournament_round.finished? && tournament_round.tours.locked_postponed.any?
+        -#   .round-action-link
+        -#     = link_to  t('round.close'), '#', data: { confirm: t('header.are_you_sure') }

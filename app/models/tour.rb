@@ -11,9 +11,10 @@ class Tour < ApplicationRecord
   enum status: { inactive: 0, set_lineup: 1, locked: 2, closed: 3, postponed: 4 }
   enum bench_status: { default_bench: 0, expanded: 1 }
 
-  default_scope { includes(:tournament_round) }
+  default_scope { includes(%i[league tournament_round]) }
 
   scope :closed_postponed, -> { closed.or(postponed) }
+  scope :locked_postponed, -> { locked.or(postponed) }
   scope :active, -> { set_lineup.or(locked) }
 
   MIN_PLAYERS_BY_FANTA_MATCHES = [0, 8, 4, 2, 2, 1, 1, 1, 1, 0].freeze
@@ -95,5 +96,9 @@ class Tour < ApplicationRecord
 
   def ordered_lineups
     lineups.sort { |a, b| b.total_score <=> a.total_score }
+  end
+
+  def subs_missed?
+    match_players.main.without_score.any?(&:subs_option_exist?)
   end
 end
