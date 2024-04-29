@@ -13,12 +13,13 @@ export const useCreatePortal = (id: string) => {
   const portalRef = useRef(document.getElementById(id) ?? createPortalRoot(id));
 
   useEffect(() => {
-    bodyRef.current.appendChild(portalRef.current);
-    const portal = portalRef.current;
+    const element = document.getElementById(id);
 
-    return () => {
-      portal.remove();
-    };
+    if (element) {
+      portalRef.current = element;
+    } else {
+      bodyRef.current.appendChild(portalRef.current);
+    }
   }, []);
 
   return (children: ReactNode) => createPortal(children, portalRef.current);
