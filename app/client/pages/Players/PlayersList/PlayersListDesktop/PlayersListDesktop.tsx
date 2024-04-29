@@ -10,11 +10,15 @@ import styles from "./PlayersListDesktop.module.scss";
 const PlayersListDesktop = ({
   items,
   isLoading,
+  isLoadingMore,
+  onLoadMore,
   sorting,
   emptyStateComponent,
 }: {
   items: IPlayer[],
   isLoading: boolean,
+  isLoadingMore: boolean,
+  onLoadMore: () => void,
   sorting: ITableSorting,
   emptyStateComponent: React.ReactNode,
 }) => {
@@ -23,6 +27,8 @@ const PlayersListDesktop = ({
       rounded
       dataSource={items}
       isLoading={isLoading}
+      isLoadingMore={isLoadingMore}
+      onLoadMore={onLoadMore}
       sorting={sorting}
       emptyStateComponent={emptyStateComponent}
       skeletonItems={25}

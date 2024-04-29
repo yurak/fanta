@@ -3,6 +3,7 @@ import cn from "classnames";
 import Skeleton from "react-loading-skeleton";
 import EmptyState from "@/ui/EmptyState";
 import styles from "./DataList.module.scss";
+import InfiniteScrollDetector from "@/components/InfiniteScrollDetector";
 
 const LoadingSkeleton = ({
   skeletonRender = () => <Skeleton />,
@@ -28,6 +29,8 @@ const DataList = <DataItem extends object = object>({
   itemClassName,
   isLoading,
   skeletonRender,
+  isLoadingMore,
+  onLoadMore,
   skeletonItems,
   emptyStateComponent = <EmptyState title="No data" />,
 }: {
@@ -38,6 +41,8 @@ const DataList = <DataItem extends object = object>({
   itemClassName?: string,
   isLoading?: boolean,
   skeletonRender?: () => React.ReactNode,
+  isLoadingMore?: boolean,
+  onLoadMore?: () => void,
   skeletonItems?: number,
   emptyStateComponent?: React.ReactNode,
 }) => {
@@ -63,6 +68,15 @@ const DataList = <DataItem extends object = object>({
             ))
           ) : (
             <div className={styles.emptyState}>{emptyStateComponent}</div>
+          )}
+          {isLoadingMore && (
+            <InfiniteScrollDetector loadMore={() => onLoadMore?.()}>
+              <LoadingSkeleton
+                skeletonRender={skeletonRender}
+                items={skeletonItems}
+                itemClassName={itemClassName}
+              />
+            </InfiniteScrollDetector>
           )}
         </>
       )}

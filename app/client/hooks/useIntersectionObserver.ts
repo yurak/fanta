@@ -1,9 +1,9 @@
 import { useCallback, useRef, useState } from "react";
 
 export const useIntersectionObserver = <T extends Element>({
-  threshold = 1,
+  threshold = 0,
   root = null,
-  rootMargin = "0px",
+  rootMargin = "1000px",
 }: IntersectionObserverInit = {}): [
   React.RefCallback<T>,
   boolean,

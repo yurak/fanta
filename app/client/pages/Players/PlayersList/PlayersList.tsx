@@ -1,10 +1,8 @@
 import { useMediaQuery } from "usehooks-ts";
 import { IPlayer } from "@/interfaces/Player";
-import InfiniteScrollDetector from "@/components/InfiniteScrollDetector/InfiniteScrollDetector";
 import { ITableSorting } from "@/ui/Table/interfaces";
 import PlayersListMobile from "./PlayersListMobile";
 import PlayersListDesktop from "./PlayersListDesktop";
-import styles from "./PlayersList.module.scss";
 import EmptyState from "@/ui/EmptyState";
 import Button from "@/ui/Button";
 
@@ -56,20 +54,19 @@ const PlayersList = ({
         <PlayersListMobile
           items={items}
           isLoading={isLoading}
+          isLoadingMore={hasNextPage}
+          onLoadMore={loadMore}
           emptyStateComponent={emptyStateComponent}
         />
       ) : (
         <PlayersListDesktop
           items={items}
           isLoading={isLoading}
+          isLoadingMore={hasNextPage}
+          onLoadMore={loadMore}
           sorting={sorting}
           emptyStateComponent={emptyStateComponent}
         />
-      )}
-      {hasNextPage && (
-        <InfiniteScrollDetector className={styles.loading} loadMore={loadMore}>
-          Loading...
-        </InfiniteScrollDetector>
       )}
     </div>
   );

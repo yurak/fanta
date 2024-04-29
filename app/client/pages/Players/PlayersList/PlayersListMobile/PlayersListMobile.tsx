@@ -114,10 +114,14 @@ const PlayersListMobile = ({
   items,
   isLoading,
   emptyStateComponent,
+  isLoadingMore,
+  onLoadMore,
 }: {
   items: IPlayer[],
   isLoading: boolean,
   emptyStateComponent: React.ReactNode,
+  isLoadingMore: boolean,
+  onLoadMore: () => void,
 }) => {
   return (
     <DataList
@@ -127,6 +131,8 @@ const PlayersListMobile = ({
       itemClassName={styles.item}
       itemKey={(item) => item.id}
       isLoading={isLoading}
+      isLoadingMore={isLoadingMore}
+      onLoadMore={onLoadMore}
       emptyStateComponent={emptyStateComponent}
       skeletonItems={15}
       skeletonRender={() => <PlayerItemSkeleton />}

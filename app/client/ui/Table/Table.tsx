@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import Skeleton from "react-loading-skeleton";
 import cn from "classnames";
+import InfiniteScrollDetector from "@/components/InfiniteScrollDetector";
 import TableBodyCell from "./TableBodyCell";
 import TableHeaderCell from "./TableHeaderCell";
 import EmptyState from "@/ui/EmptyState";
@@ -64,6 +65,8 @@ const Table = <DataItem extends object = object>({
   rounded,
   skeletonItems = 6,
   isLoading,
+  isLoadingMore,
+  onLoadMore,
   tableClassName,
   tableInnerClassName,
   sorting,
@@ -76,6 +79,8 @@ const Table = <DataItem extends object = object>({
   rounded?: boolean,
   isLoading?: boolean,
   skeletonItems?: number,
+  isLoadingMore?: boolean,
+  onLoadMore?: () => void,
   tableClassName?: string,
   tableInnerClassName?: string,
   sorting?: ITableSorting,
@@ -172,6 +177,15 @@ const Table = <DataItem extends object = object>({
               ))
             ) : (
               <div className={styles.emptyState}>{emptyStateComponent}</div>
+            )}
+            {isLoadingMore && (
+              <InfiniteScrollDetector loadMore={() => onLoadMore?.()}>
+                <LoadingSkeleton
+                  columns={computedColumns}
+                  items={skeletonItems}
+                  rounded={rounded}
+                />
+              </InfiniteScrollDetector>
             )}
           </div>
         )}
