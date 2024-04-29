@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 
-const InfiniteScrollDetector = ({
+const InfinityScrollDetector = ({
   children,
   loadMore,
   className,
@@ -25,4 +25,4 @@ const InfiniteScrollDetector = ({
   );
 };
 
-export default InfiniteScrollDetector;
+export default InfinityScrollDetector;

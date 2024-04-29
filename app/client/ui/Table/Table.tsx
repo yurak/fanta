@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import Skeleton from "react-loading-skeleton";
 import cn from "classnames";
-import InfiniteScrollDetector from "@/components/InfiniteScrollDetector";
+import InfinityScrollDetector from "@/components/InfinityScrollDetector";
 import TableBodyCell from "./TableBodyCell";
 import TableHeaderCell from "./TableHeaderCell";
 import EmptyState from "@/ui/EmptyState";
@@ -179,13 +179,13 @@ const Table = <DataItem extends object = object>({
               <div className={styles.emptyState}>{emptyStateComponent}</div>
             )}
             {isLoadingMore && (
-              <InfiniteScrollDetector loadMore={() => onLoadMore?.()}>
+              <InfinityScrollDetector loadMore={() => onLoadMore?.()}>
                 <LoadingSkeleton
                   columns={computedColumns}
                   items={skeletonItems}
                   rounded={rounded}
                 />
-              </InfiniteScrollDetector>
+              </InfinityScrollDetector>
             )}
           </div>
         )}
