@@ -8,11 +8,9 @@ const InfiniteScrollDetector = ({
 }: {
   children: React.ReactNode,
   loadMore: () => void,
-  className: string,
+  className?: string,
 }) => {
-  const [ref, isIntersecting] = useIntersectionObserver({
-    rootMargin: "1000px",
-  });
+  const [ref, isIntersecting] = useIntersectionObserver();
 
   useEffect(() => {
     if (isIntersecting) {
