@@ -70,18 +70,27 @@ const Drawer = ({
   footer,
   isOpen,
   onClose,
+  placement = "left",
+  noPadding,
 }: {
   title: string,
   children: React.ReactNode,
-  footer?: React.ReactNode,
   isOpen: boolean,
   onClose: () => void,
+  footer?: React.ReactNode,
+  placement?: "left" | "bottom",
+  noPadding?: boolean,
 }) => {
   const isTransitioning = useMountTransition(isOpen, 300);
 
   return (
     <DrawerWrapper isOpen={isOpen} isTransitioning={isTransitioning} onClose={onClose}>
-      <FocusTrap active={isOpen} focusTrapOptions={{ initialFocus: false }}>
+      <FocusTrap
+        active={isOpen}
+        focusTrapOptions={{
+          initialFocus: false,
+        }}
+      >
         <div
           aria-hidden={isOpen ? "false" : "true"}
           className={cn(styles.drawerContainer, {
@@ -89,17 +98,28 @@ const Drawer = ({
             [styles.isTransitioning]: isTransitioning,
           })}
         >
-          <div className={styles.drawer}>
+          <div className={styles.backdrop} onClick={onClose} />
+          <div
+            className={cn(styles.drawer, {
+              [styles.left]: placement === "left",
+              [styles.bottom]: placement === "bottom",
+            })}
+          >
             <div className={styles.header}>
               <span className={styles.title}>{title}</span>
               <button className={styles.closeButton} onClick={onClose}>
                 <CloseIcon />
               </button>
             </div>
-            <div>{children}</div>
+            <div
+              className={cn(styles.content, {
+                [styles.noPadding]: noPadding,
+              })}
+            >
+              {children}
+            </div>
             {footer && <div className={styles.footer}>{footer}</div>}
           </div>
-          <div className={styles.backdrop} onClick={onClose} />
         </div>
       </FocusTrap>
     </DrawerWrapper>
