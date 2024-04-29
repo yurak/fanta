@@ -4,6 +4,7 @@ import FocusTrap from "focus-trap-react";
 import { useMountTransition } from "@/hooks/useMountTransition";
 import { useCreatePortal } from "@/hooks/useCreatePortal";
 import DrawerSection from "./DrawerSection";
+import DrawerButton from "./DrawerButton";
 import CloseIcon from "@/assets/icons/closeRound.svg";
 import styles from "./Drawer.module.scss";
 
@@ -127,5 +128,6 @@ const Drawer = ({
 };
 
 Drawer.Section = DrawerSection;
+Drawer.Button = DrawerButton;
 
 export default Drawer;

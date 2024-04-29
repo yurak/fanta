@@ -1,3 +1,4 @@
+import { useState } from "react";
 import PlayersFilterContextProvider, {
   usePlayersFilterContext,
 } from "@/application/Players/PlayersFilterContext";
@@ -10,11 +11,14 @@ import PlayersFilterConstants from "@/domain/PlayersFilterConstants";
 import Button from "@/ui/Button";
 import PlayerPositionsCheckbox from "@/components/filters/PlayerPositionsCheckbox";
 import ClubCheckbox from "@/components/ClubCheckbox";
+import PlayersSortDrawer from "./PlayersSortDrawer";
 
 const PlayersFiltersDrawer = () => {
   const { isSidebarOpen, filterCount, openSidebar, closeSidebar, clearFilter } =
     usePlayersContext();
   const { filterValues, onChangeValue, applyFilter } = usePlayersFilterContext();
+
+  const [isSortDrawerOpen, setIsSortDrawerOpen] = useState(false);
 
   const applyFilterHandler = () => {
     applyFilter();
@@ -35,6 +39,7 @@ const PlayersFiltersDrawer = () => {
         title="Filters"
         isOpen={isSidebarOpen}
         onClose={closeSidebar}
+        noPadding
         footer={
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
             <Link asButton onClick={clearFilterHandler}>
@@ -44,6 +49,11 @@ const PlayersFiltersDrawer = () => {
           </div>
         }
       >
+        <Drawer.Button
+          title="Sort by"
+          onClick={() => setIsSortDrawerOpen(true)}
+          value="Name (Low to High)"
+        />
         <Drawer.Section title="Clubs">
           <ClubCheckbox value={filterValues.clubs} onChange={onChangeValue("clubs")} />
         </Drawer.Section>
@@ -96,6 +106,7 @@ const PlayersFiltersDrawer = () => {
           />
         </Drawer.Section>
       </Drawer>
+      <PlayersSortDrawer isOpen={isSortDrawerOpen} close={() => setIsSortDrawerOpen(false)} />
     </>
   );
 };
