@@ -5,23 +5,41 @@
 
 .drawer {
   background-color: var(--background-color);
-  width: 320px;
   max-width: 100%;
-  height: 100vh;
-  height: 100dvh;
+  max-height: 100vh;
+  max-height: 100dvh;
   overflow: auto;
   position: fixed;
   box-shadow: 1px 2px 5px 0px #18171533, 6px 6px 8px 0px #18171533;
   transition: transform var(--transition-speed) ease;
-  top: 0;
-  left: 0;
-  transform: translateX(-105%);
-  z-index: 1000;
+  z-index: 50;
   display: flex;
   flex-direction: column;
+}
+
+.left {
+  transform: translateX(-105%);
+  width: 320px;
+  height: 100%;
+  top: 0;
+  left: 0;
 
   .isOpen.isTransitioning & {
     transform: translateX(0);
+  }
+}
+
+.bottom {
+  transform: translateY(105%);
+  width: 100%;
+  left: 0;
+  bottom: 0;
+  min-height: 320px;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+
+  .isOpen.isTransitioning & {
+    transform: translateY(0);
   }
 }
 
@@ -36,18 +54,17 @@
   left: 0;
   position: fixed;
   pointer-events: none;
-  z-index: 0;
+  z-index: 50;
 
   .isOpen.isTransitioning & {
     visibility: visible;
     opacity: 1;
     pointer-events: auto;
-    z-index: 999;
   }
 }
 
 .header {
-  padding: 12px 24px;
+  padding: 16px 24px;
   border-bottom: 1px solid #e5e6e4;
   display: flex;
   justify-content: space-between;
@@ -57,6 +74,11 @@
   z-index: 2;
   top: 0;
   background-color: var(--background-color);
+
+  .bottom & {
+    border-color: transparent;
+    padding-bottom: 8px;
+  }
 }
 
 .title {
@@ -66,6 +88,11 @@
   line-height: 32px;
   color: #181715;
   font-family: "Nunito ExtraBold";
+
+  @media (max-width: 768px) {
+    font-size: 18px;
+    line-height: 24px;
+  }
 }
 
 .closeButton {
@@ -90,4 +117,16 @@
   z-index: 2;
   bottom: 0;
   background-color: var(--background-color);
+
+  .bottom & {
+    border-color: transparent;
+  }
+}
+
+.content {
+  padding: 16px 24px;
+
+  &.noPadding {
+    padding: 0;
+  }
 }
