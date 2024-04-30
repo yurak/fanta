@@ -1,23 +1,14 @@
-import cn from "classnames";
-import styles from "./Checkbox.module.scss";
 import CheckedIcon from "@/assets/icons/checkbox.svg";
 import IndeterminatedIcon from "@/assets/icons/indeterminate.svg";
+import RadioCheckboxAbstract, {
+  IRadioCheckboxAbstractProps,
+} from "../abstract/RadioCheckboxAbstract";
 
-const Checkbox = ({
-  checked,
-  onChange,
-  indeterminate,
-  label,
-  disabled,
-  block,
-}: {
-  checked: boolean,
+interface IProps extends Omit<IRadioCheckboxAbstractProps, "onChange" | "type" | "icon"> {
   onChange: (checked: boolean) => void,
-  indeterminate?: boolean,
-  label?: React.ReactNode,
-  disabled?: boolean,
-  block?: boolean,
-}) => {
+}
+
+const Checkbox = ({ checked, onChange, indeterminate, label, disabled, block }: IProps) => {
   const isIndeterminate = !checked && indeterminate;
 
   const onChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -25,19 +16,21 @@ const Checkbox = ({
   };
 
   return (
-    <label
-      className={cn(styles.checkbox, {
-        [styles.isActive]: checked || isIndeterminate,
-        [styles.isDisabled]: disabled,
-      })}
-    >
-      <input type="checkbox" checked={checked} disabled={disabled} onChange={onChangeHandler} />
-      <span className={styles.checkboxToggle}>
-        {checked && <CheckedIcon className={styles.icon} />}
-        {isIndeterminate && <IndeterminatedIcon className={styles.icon} />}
-      </span>
-      {label && <span className={cn({ [styles.block]: block })}>{label}</span>}
-    </label>
+    <RadioCheckboxAbstract
+      type="checkbox"
+      checked={checked}
+      onChange={onChangeHandler}
+      icon={
+        <>
+          {checked && <CheckedIcon />}
+          {isIndeterminate && <IndeterminatedIcon />}
+        </>
+      }
+      indeterminate={isIndeterminate}
+      label={label}
+      block={block}
+      disabled={disabled}
+    />
   );
 };
 
