@@ -1,4 +1,4 @@
-.checkbox {
+.wrapper {
   position: relative;
   display: flex;
   align-items: center;
@@ -17,6 +17,7 @@
   --icon-color: #fff;
   --icon-border: #847577;
   --icon-background: #fff;
+  --icon-size: 24px;
 
   &:hover {
     --icon-border: #181715;
@@ -54,10 +55,10 @@
   min-width: 0;
 }
 
-.checkboxToggle {
+.iconWrapper {
   color: var(--icon-color);
-  width: 24px;
-  height: 24px;
+  width: var(--icon-size);
+  height: var(--icon-size);
   border: 1px solid var(--icon-border);
   border-radius: 4px;
   position: relative;
@@ -70,6 +71,10 @@
   position: absolute;
   left: -1px;
   top: -1px;
-  width: 24px;
-  height: 24px;
+  width: var(--icon-size);
+  height: var(--icon-size);
+
+  svg {
+    width: 100%;
+  }
 }
