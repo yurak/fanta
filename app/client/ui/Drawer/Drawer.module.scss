@@ -12,7 +12,7 @@
   position: fixed;
   box-shadow: 1px 2px 5px 0px #18171533, 6px 6px 8px 0px #18171533;
   transition: transform var(--transition-speed) ease;
-  z-index: 50;
+  z-index: 1000;
   display: flex;
   flex-direction: column;
 }
@@ -54,7 +54,7 @@
   left: 0;
   position: fixed;
   pointer-events: none;
-  z-index: 50;
+  z-index: 1000;
 
   .isOpen.isTransitioning & {
     visibility: visible;
