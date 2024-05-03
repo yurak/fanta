@@ -17,12 +17,13 @@ namespace :tours do
     end
   end
 
+  # rake 'tours:create_national'
   desc 'Create tours for World Cup'
   task create_national: :environment do
-    tournament = Tournament.find_by(code: 'world_cup')
+    tournament = Tournament.find_by(code: Scores::Injectors::Strategy::EURO)
     league = tournament.leagues.last
     ActiveRecord::Base.transaction do
-      tournament.tournament_rounds.each do |round|
+      tournament.tournament_rounds.by_season(Season.last).each do |round|
         first_match = round.national_matches.first
         deadline = DateTime.parse("#{first_match.date} #{first_match.time}") - 90.minutes
         round.update(deadline: deadline)

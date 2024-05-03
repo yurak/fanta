@@ -231,6 +231,36 @@ ukraine:
   VRS: Veres
   VOR: Vorskla
   ZOR: Zorya
+united_status:
+  ATL: Atlanta United
+  AUS: Austin FC
+  CHA: Charlotte FC
+  CHI: Chicago
+  CIN: Cincinnati
+  CLR: Colorado
+  CLM: Columbus
+  DAL: Dallas
+  DCU: DC United
+  HOU: Houston
+  MIA: Inter Miami CF
+  LAG: LA Galaxy
+  LAF: LAFC
+  MNS: Minnesota
+  MNT: Montreal
+  NAS: Nashville SC
+  NEN: New England
+  NYR: NY Red Bulls
+  NYC: NYCFC
+  ORL: Orlando
+  PHI: Philadelphia
+  POR: Portland
+  SLT: Salt Lake
+  SJS: San Jose
+  SEA: Seattle Sounders
+  SKC: Sporting KC
+  SLC: St. Louis City
+  TRN: Toronto
+  VAN: Vancouver
 europe:
 #  BES: Besiktas
   CEL: Celtic
