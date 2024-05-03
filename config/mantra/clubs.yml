@@ -261,7 +261,7 @@ usa:
   SLC: St. Louis City
   TRN: Toronto
   VAN: Vancouver
-europe:
+#europe:
 #  BES: Besiktas
 #  CEL: Celtic
 #  COP: Copenhagen
