@@ -231,7 +231,7 @@ ukraine:
   VRS: Veres
   VOR: Vorskla
   ZOR: Zorya
-united_status:
+usa:
   ATL: Atlanta United
   AUS: Austin FC
   CHA: Charlotte FC
@@ -263,16 +263,16 @@ united_status:
   VAN: Vancouver
 europe:
 #  BES: Besiktas
-  CEL: Celtic
-  COP: Copenhagen
-  ZVE: Crvena Zvezda
+#  CEL: Celtic
+#  COP: Copenhagen
+#  ZVE: Crvena Zvezda
 #  DZG: Dinamo Zagreb
-  GAL: Galatasaray
+#  GAL: Galatasaray
 #  MHF: Maccabi Haifa
 #  MFF: Malmo
 #  RAN: Rangers
-  RBS: Salzburg
+#  RBS: Salzburg
 #  SHE: Sheriff
 #  VPL: Viktoria Plzen
-  YOU: Young Boys
+#  YOU: Young Boys
 #  ZEN: Zenit
