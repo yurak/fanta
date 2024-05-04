@@ -1,9 +1,38 @@
+# rubocop:disable Metrics/BlockLength:
 namespace :tournament_matches do
   # rake 'tournament_matches:generate_fotmob_matches[1]'
   desc 'Create TournamentMatches from Fotmob'
   task :generate_fotmob_matches, %i[tournament_id] => :environment do |_t, args|
     tournament = Tournament.find(args[:tournament_id])
     TournamentMatches::FotmobGenerator.call(tournament) if tournament
+  end
+
+  # rake 'tournament_matches:generate_matches_url[url]'
+  desc 'Create TournamentMatches from csv file by url'
+  task :generate_matches_url, %i[file_url] => :environment do |_t, args|
+    csv_text = URI.parse(args[:file_url]).open.read
+    next unless csv_text
+
+    csv = CSV.parse(csv_text, headers: true)
+    csv&.each do |match_data|
+      home_club = Club.find_by(name: match_data['home_club']) || Club.find_by(full_name: match_data['home_club'])
+      away_club = Club.find_by(name: match_data['away_club']) || Club.find_by(full_name: match_data['away_club'])
+      tournament = Tournament.find_by(code: 'usa')
+      round = tournament.tournament_rounds.by_season(Season.last.id).find_by(number: match_data['Tournament round'])
+      score = match_data['score']&.split('-')
+
+      TournamentMatch.create(
+        tournament_round: round,
+        host_club: home_club,
+        guest_club: away_club,
+        host_score: score ? score[0] : nil,
+        guest_score: score ? score[1] : nil,
+        source_match_id: match_data['fotmob_id'],
+        round_name: match_data['Tournament round'],
+        time: DateTime.parse(match_data['date']).utc.in_time_zone('EET').strftime('%H:%M'),
+        date: DateTime.parse(match_data['date']).utc.in_time_zone('EET').strftime('%^b %e, %Y')
+      )
+    end
   end
 
   desc 'Create Italy TournamentMatches'
@@ -45,3 +74,4 @@ namespace :tournament_matches do
     end
   end
 end
+# rubocop:enable Metrics/BlockLength

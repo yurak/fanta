@@ -248,7 +248,7 @@ usa:
   MNS: Minnesota
   MNT: Montreal
   NAS: Nashville SC
-  NEN: New England
+  NER: New England
   NYR: NY Red Bulls
   NYC: NYCFC
   ORL: Orlando
@@ -258,7 +258,7 @@ usa:
   SJS: San Jose
   SEA: Seattle Sounders
   SKC: Sporting KC
-  SLC: St. Louis City
+  SLC: St Louis City
   TRN: Toronto
   VAN: Vancouver
 #europe:
