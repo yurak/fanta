@@ -8,6 +8,8 @@ namespace :tm do
     CSV.open('log/club_players.csv', 'ab') do |writer|
       clubs.each do |club|
         puts "--------#{club.name}--------"
+        next unless club.tm_url
+
         response = RestClient::Request.execute(method: :get, url: club.tm_url, headers: { 'User-Agent': 'product/version' },
                                                verify_ssl: false)
         html_page = Nokogiri::HTML(response)
@@ -22,7 +24,7 @@ namespace :tm do
           player = Player.find_by(tm_id: tm_id)
 
           if player
-            puts "#{player_count} - #{player.name} --- #{player.club.name}"
+            puts "#{player_count} - #{player.name} - #{player.tm_id} --- #{player.club.name}"
             player_count += 1
           else
             player_response = RestClient::Request.execute(method: :get, url: player_url, headers: { 'User-Agent': 'product/version' },
