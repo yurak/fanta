@@ -47,6 +47,9 @@ RSpec.describe MatchPlayer do
 
   describe '#not_played?' do
     context 'without score and when club did not play' do
+      let(:round_player) { create(:round_player, :with_tournament_match) }
+      let(:match_player) { create(:match_player, round_player: round_player) }
+
       it 'returns false' do
         expect(match_player.not_played?).to be(false)
       end

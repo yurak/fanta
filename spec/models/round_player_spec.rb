@@ -228,9 +228,9 @@ RSpec.describe RoundPlayer do
   end
 
   describe '#club_played_match?' do
-    context 'without tournament match result' do
+    context 'without tournament match' do
       it 'returns false' do
-        expect(round_player.club_played_match?).to be(false)
+        expect(round_player.club_played_match?).to be(true)
       end
     end
 
