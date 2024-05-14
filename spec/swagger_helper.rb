@@ -160,7 +160,7 @@ RSpec.configure do |config|
             type: :object,
             properties: {
               id: { type: :integer, example: 123 },
-              appearances: { type: :integer, example: 123 },
+              appearances: { type: :integer, example: 36 },
               avatar_path: { type: :string, example: 'https://aws.com/assets/path/kit.png' },
               average_base_score: { type: :float, example: 7.65 },
               average_price: { type: :float, example: 33.3 },
@@ -238,7 +238,8 @@ RSpec.configure do |config|
             type: :object,
             properties: {
               id: { type: :integer, example: 123 },
-              appearances: { type: :integer, example: 123 },
+              appearances: { type: :integer, example: 33 },
+              appearances_max: { type: :integer, example: 38 },
               avatar_path: { type: :string, example: 'https://aws.com/assets/path/kit.png' },
               average_base_score: { type: :float, example: 7.65 },
               average_price: { type: :float, example: 33.3 },
@@ -250,7 +251,8 @@ RSpec.configure do |config|
               name: { type: :string, example: 'Beckham' },
               position_classic_arr: { type: :array, items: { type: :string, example: 'RB' }, example: %w[RB WB] },
               position_ital_arr: { type: :array, items: { type: :string, example: 'Dd' }, example: %w[Dd E] },
-              teams_count: { type: :integer, example: 13 }
+              teams_count: { type: :integer, example: 13 },
+              teams_count_max: { type: :integer, example: 15 }
             },
             required: %w[id name]
           },
