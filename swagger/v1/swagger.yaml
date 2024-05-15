@@ -667,7 +667,7 @@ components:
           example: 123
         appearances:
           type: integer
-          example: 123
+          example: 36
         avatar_path:
           type: string
           example: https://aws.com/assets/path/kit.png
@@ -902,7 +902,10 @@ components:
           example: 123
         appearances:
           type: integer
-          example: 123
+          example: 33
+        appearances_max:
+          type: integer
+          example: 38
         avatar_path:
           type: string
           example: https://aws.com/assets/path/kit.png
@@ -951,6 +954,9 @@ components:
         teams_count:
           type: integer
           example: 13
+        teams_count_max:
+          type: integer
+          example: 15
       required:
       - id
       - name

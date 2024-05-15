@@ -46,7 +46,7 @@
         - if rp.saves.to_i.zero?
           .blank-bonus -
         - else
-          = render 'bonus_item', bonus: rp.saves, img_path: "bonuses/cs.png"
+          = render 'bonus_item', bonus: rp.saves, img_path: "bonuses/saves.svg"
     - else
       .player-table-cell
         - if rp.goals.to_i.zero?
@@ -67,7 +67,7 @@
         - if rp.penalties_won.to_i.zero?
           .blank-bonus -
         - else
-          = render 'bonus_item', bonus: rp.penalties_won, img_path: "bonuses/pen.png"
+          = render 'bonus_item', bonus: rp.penalties_won, img_path: "bonuses/won_pen.png"
     .player-table-cell
       - if rp.assists.to_i.zero?
         .blank-bonus -
@@ -100,7 +100,7 @@
       - if rp.conceded_penalty.to_i.zero?
         .blank-bonus -
       - else
-        = render 'bonus_item', bonus: rp.conceded_penalty, img_path: "bonuses/miss_pen.png"
+        = render 'bonus_item', bonus: rp.conceded_penalty, img_path: "bonuses/conc_pen.png"
     .player-table-cell.center= rp.played_minutes
     .player-table-cell.player-table-score= rp.score
     .player-table-cell.player-table-score.player-table-ts= rp.result_score
@@ -132,7 +132,7 @@
         .blank-bonus -
     .table-total-cell
       - if player.season_bonus_count(matches, 'saves').nonzero?
-        = image_tag("bonuses/cs.png")
+        = image_tag("bonuses/saves.svg")
         = "x #{player.season_bonus_count(matches, 'saves')}"
       - else
         .blank-bonus -
@@ -157,7 +157,7 @@
         .blank-bonus -
     .table-total-cell
       - if player.season_bonus_count(matches, 'penalties_won').nonzero?
-        = image_tag("bonuses/pen.png")
+        = image_tag("bonuses/won_pen.png")
         = "x #{player.season_bonus_count(matches, 'penalties_won')}"
       - else
         .blank-bonus -
@@ -193,7 +193,7 @@
       .blank-bonus -
   .table-total-cell
     - if player.season_bonus_count(matches, 'conceded_penalty').nonzero?
-      = image_tag("bonuses/miss_pen.png")
+      = image_tag("bonuses/conc_pen.png")
       = "x #{player.season_bonus_count(matches, 'conceded_penalty')}"
     - else
       .blank-bonus -
