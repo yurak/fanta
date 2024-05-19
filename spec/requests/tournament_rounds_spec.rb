@@ -139,7 +139,7 @@ RSpec.describe 'Users' do
         put tournament_round_path(tournament_round, params)
       end
 
-      it { expect(response).to redirect_to(leagues_path) }
+      it { expect(response).to redirect_to(tournament_round_path(tournament_round)) }
       it { expect(response).to have_http_status(:found) }
     end
 
@@ -149,7 +149,7 @@ RSpec.describe 'Users' do
         put tournament_round_path(tournament_round, params)
       end
 
-      it { expect(response).to redirect_to(leagues_path) }
+      it { expect(response).to redirect_to(tournament_round_path(tournament_round)) }
       it { expect(response).to have_http_status(:found) }
 
       it 'updates round_player score' do
@@ -167,7 +167,7 @@ RSpec.describe 'Users' do
         put tournament_round_path(tournament_round, params)
       end
 
-      it { expect(response).to redirect_to(leagues_path) }
+      it { expect(response).to redirect_to(tournament_round_path(tournament_round)) }
       it { expect(response).to have_http_status(:found) }
 
       it 'updates round_player score' do
@@ -187,11 +187,80 @@ RSpec.describe 'Users' do
         put tournament_round_path(tournament_round, params)
       end
 
-      it { expect(response).to redirect_to(leagues_path) }
+      it { expect(response).to redirect_to(tournament_round_path(tournament_round)) }
       it { expect(response).to have_http_status(:found) }
 
       it 'does not update round_player score' do
         expect(round_player.reload.score).not_to eq(score)
+      end
+    end
+  end
+
+  describe 'PUT #tours_update' do
+    let(:params) do
+      {
+        status: :set_lineup
+      }
+    end
+
+    before do
+      put tours_update_tournament_round_path(tournament_round, params)
+    end
+
+    context 'when user is logged out' do
+      it { expect(response).to redirect_to('/users/sign_in') }
+      it { expect(response).to have_http_status(:found) }
+    end
+
+    context 'when user is logged in' do
+      login_user
+      before do
+        put tours_update_tournament_round_path(tournament_round, params)
+      end
+
+      it { expect(response).to redirect_to(leagues_path) }
+      it { expect(response).to have_http_status(:found) }
+    end
+
+    context 'when moderator is logged in without tours' do
+      login_moderator
+      before do
+        put tours_update_tournament_round_path(tournament_round, params)
+      end
+
+      it { expect(response).to redirect_to(tournament_round_path(tournament_round)) }
+      it { expect(response).to have_http_status(:found) }
+    end
+
+    context 'when moderator is logged in with tours' do
+      let!(:tours) { create_list(:tour, 3, tournament_round: tournament_round)}
+
+      login_moderator
+      before do
+        put tours_update_tournament_round_path(tournament_round, params)
+      end
+
+      it { expect(response).to redirect_to(tournament_round_path(tournament_round)) }
+      it { expect(response).to have_http_status(:found) }
+
+      it 'updates tours status' do
+        expect(tournament_round.tours.set_lineup.count).to eq(tours.count)
+      end
+    end
+
+    context 'when admin is logged in with tours' do
+      let!(:tours) { create_list(:tour, 3, tournament_round: tournament_round)}
+
+      login_admin
+      before do
+        put tours_update_tournament_round_path(tournament_round, params)
+      end
+
+      it { expect(response).to redirect_to(tournament_round_path(tournament_round)) }
+      it { expect(response).to have_http_status(:found) }
+
+      it 'updates tours status' do
+        expect(tournament_round.tours.set_lineup.count).to eq(tours.count)
       end
     end
   end
