@@ -120,14 +120,15 @@ const PlayersListDesktop = ({
           align: "right",
           noWrap: true,
           className: styles.totalTeamsCell,
-          render: ({ teams_count }) => {
+          render: ({ teams_count, teams_count_max }) => {
             if (teams_count === 0) {
               return 0;
             }
 
             return (
               <>
-                {formatNumber(teams_count)} <span className={styles.totalTeamCount}>(n/a)</span>
+                {formatNumber(teams_count)}{" "}
+                <span className={styles.totalTeamCount}>({formatNumber(teams_count_max)})</span>
               </>
             );
           },
@@ -140,14 +141,15 @@ const PlayersListDesktop = ({
           className: styles.appsCell,
           sorter: true,
           supportAscSorting: true,
-          render: ({ appearances }) => {
+          render: ({ appearances, appearances_max }) => {
             if (appearances === 0) {
               return 0;
             }
 
             return (
               <>
-                {formatNumber(appearances)} <span className={styles.totalApps}>(n/a)</span>
+                {formatNumber(appearances)}{" "}
+                <span className={styles.totalApps}>({formatNumber(appearances_max)})</span>
               </>
             );
           },
