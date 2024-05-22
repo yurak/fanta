@@ -17,7 +17,9 @@ const PlayerItem = ({
   average_total_score,
   position_classic_arr,
   appearances,
+  appearances_max,
   teams_count,
+  teams_count_max,
 }: IPlayer) => {
   return (
     <>
@@ -76,13 +78,21 @@ const PlayerItem = ({
             </div>
           </span>
           <span className={styles.divider} />
-          <span className={styles.apps}>{`${formatNumber(appearances)} ${
-            appearances === 1 ? "App" : "Apps"
-          }`}</span>
+          <span className={styles.apps}>
+            {formatNumber(appearances)}
+            <span className={styles.grey}>
+              {appearances > 0 && `(${formatNumber(appearances_max)})`}
+            </span>{" "}
+            {`${appearances === 1 ? "App" : "Apps"}`}
+          </span>
           <span className={cn(styles.divider, styles.teams)} />
-          <span className={styles.teams}>{`${formatNumber(teams_count)} ${
-            appearances === 1 ? "Team" : "Teams"
-          }`}</span>
+          <span className={styles.teams}>
+            {formatNumber(teams_count)}
+            <span className={styles.grey}>
+              {teams_count > 0 && `(${formatNumber(teams_count_max)})`}
+            </span>{" "}
+            {`${appearances === 1 ? "Team" : "Teams"}`}
+          </span>
         </div>
       </div>
     </>
