@@ -262,7 +262,7 @@ const ClubCheckbox = () => {
   );
 };
 
-const ClubSearch = () => {
+const ClubSearch = ({ autofocus }: { autofocus?: boolean }) => {
   const { search, setSearch } = useClubCheckboxContext();
 
   return (
@@ -270,7 +270,7 @@ const ClubSearch = () => {
       value={search}
       onChange={setSearch}
       placeholder="Search"
-      autofocus
+      autofocus={autofocus}
       size="small"
       icon={<SearchIcon />}
     />
@@ -285,7 +285,7 @@ const ClubCheckboxPopoverInner = () => {
       label="Clubs"
       selectedLabel={selectedLabel}
       clearValue={() => onChange([])}
-      subHeader={<ClubSearch />}
+      subHeader={<ClubSearch autofocus />}
     >
       <ClubCheckbox />
     </PopoverInput>
@@ -302,9 +302,7 @@ export const ClubCheckboxPopover = (props: IProps) => {
 
 export default (props: IProps) => (
   <ClubCheckboxContextProvider {...props}>
-    <div className={styles.search}>
-      <ClubCheckbox />
-    </div>
+    <ClubSearch />
     <ClubCheckbox />
   </ClubCheckboxContextProvider>
 );
