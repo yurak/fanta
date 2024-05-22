@@ -233,7 +233,7 @@ RSpec.describe 'Users' do
     end
 
     context 'when moderator is logged in with tours' do
-      let!(:tours) { create_list(:tour, 3, tournament_round: tournament_round)}
+      let!(:tours) { create_list(:tour, 3, tournament_round: tournament_round) }
 
       login_moderator
       before do
@@ -249,7 +249,7 @@ RSpec.describe 'Users' do
     end
 
     context 'when admin is logged in with tours' do
-      let!(:tours) { create_list(:tour, 3, tournament_round: tournament_round)}
+      let!(:tours) { create_list(:tour, 3, tournament_round: tournament_round) }
 
       login_admin
       before do
