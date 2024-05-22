@@ -558,6 +558,7 @@
       "help": "Help",
       "help_project": "❤️ Help the project",
       "inject_scores": "Inject scores",
+      "inject_scores_mob": "Inject sc...",
       "leagues": "Leagues",
       "links": "Useful Links",
       "links_nav": "🔗 Useful Links",
@@ -566,6 +567,8 @@
       "login": "🗝 Login",
       "logout": "Log Out",
       "make_bid": "Make bid",
+      "manage_round": "Manage round",
+      "manage_round_mob": "Manage",
       "mantra": "Mantra",
       "next": "NEXT",
       "next_round": "ROUND",
@@ -865,6 +868,14 @@
       "ts": "TS",
       "yc": "YC",
       "yellow_card": "Yellow card"
+    },
+    "round": {
+      "close": "Close all tours",
+      "confirm": "Confirm auto-close",
+      "inject_scores": "Inject scores",
+      "open": "Open all tours",
+      "postpone": "Postpone all tours",
+      "title": "Tournament Round"
     },
     "round_players": {
       "short_title": "Best Players",
@@ -1814,6 +1825,7 @@
       "help": "Допомога",
       "help_project": "❤️ Допомогти проекту",
       "inject_scores": "Затягнути оц..",
+      "inject_scores_mob": "Затягнути",
       "leagues": "Ліги",
       "links": "Корисні посилання",
       "links_nav": "🔗 Корисні посилання",
@@ -1822,6 +1834,8 @@
       "login": "🗝 Вхід",
       "logout": "Вихід",
       "make_bid": "Ставка",
+      "manage_round": "Керувати р..",
+      "manage_round_mob": "Керувати",
       "mantra": "Мантра",
       "next": "НАСТУПНИЙ",
       "next_round": "РАУНД",
@@ -2028,6 +2042,14 @@
       "ts": "ЗО",
       "yc": "ЖК",
       "yellow_card": "Жовта картка"
+    },
+    "round": {
+      "close": "Закрити всі тури",
+      "confirm": "Підтвердити автозакриття",
+      "inject_scores": "Затягнути оцінки",
+      "open": "Відкрити всі тури",
+      "postpone": "Відкласти всі тури",
+      "title": "Раунд Турніру"
     },
     "round_players": {
       "short_title": "Найкращі Гравці",

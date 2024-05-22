@@ -3,6 +3,10 @@ class TournamentRoundsController < ApplicationController
 
   helper_method :tournament_round
 
+  def show
+    redirect_to leagues_path unless can? :show, TournamentRound
+  end
+
   def edit
     redirect_to leagues_path unless can? :edit, TournamentRound
 
@@ -23,7 +27,21 @@ class TournamentRoundsController < ApplicationController
       end
     end
 
-    redirect_to leagues_path
+    redirect_to tournament_round_path(tournament_round)
+  end
+
+  def tours_update
+    if can? :update, TournamentRound
+      tournament_round.tours.each do |tour|
+        Tours::Manager.new(tour, params[:status]).call
+      end
+
+      path = tournament_round_path(tournament_round)
+    else
+      path = leagues_path
+    end
+
+    redirect_to path
   end
 
   private

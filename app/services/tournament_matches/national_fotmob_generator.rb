@@ -1,19 +1,22 @@
 module TournamentMatches
   class NationalFotmobGenerator < FotmobGenerator
     def call
-      t_round_index = 0
-      matches_data.each do |round_data|
-        round_data[1].each do |day_data|
-          round = tournament_rounds[t_round_index]
+      t_round_number = 0
+      t_round_data = nil
 
-          day_data[1].each do |match_data|
-            if find_match(match_data['id'])
-              update_match(find_match(match_data['id']), match_data)
-            else
-              create_match(round, match_data)
-            end
-          end
-          t_round_index += 1
+      matches_data.each do |match_data|
+        unless t_round_data == match_data['status']['utcTime'][0...10]
+          t_round_data = match_data['status']['utcTime'][0...10]
+          t_round_number += 1
+        end
+
+        if find_match(match_data['id'])
+          update_match(find_match(match_data['id']), match_data)
+        else
+          round = TournamentRound.find_by(season: season, tournament: tournament, number: t_round_number)
+          next unless round
+
+          create_match(round, match_data)
         end
       end
     end
@@ -51,8 +54,8 @@ module TournamentMatches
         guest_team: national_team(match_data['away']['name']),
         source_match_id: match_data['id'],
         round_name: match_data['roundName'],
-        time: DateTime.parse(match_data['status']['startTimeStr']).utc.in_time_zone('EET').strftime('%H:%M'),
-        date: match_data['status']['startDateStr']
+        time: DateTime.parse(match_data['status']['utcTime']).utc.in_time_zone('EET').strftime('%H:%M'),
+        date: DateTime.parse(match_data['status']['utcTime']).utc.in_time_zone('EET').strftime('%^b %e, %Y')
       )
     end
 

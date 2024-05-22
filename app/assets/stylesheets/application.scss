@@ -1486,6 +1486,10 @@ body, html {
           padding: 8px;
         }
 
+        .modal-player-item-skipped-true {
+          background: #FCC5CB;
+        }
+
         .modal-player-item-sold {
           font-family: 'Nunito Medium';
           display: inline-block;
@@ -1615,6 +1619,11 @@ body, html {
             font-family: 'Nunito SemiBold';
             font-size: 16px;
             padding-top: 1px;
+          }
+
+          .without-opponent {
+            font-size: 12px;
+            padding-top: 2px;
           }
         }
       }

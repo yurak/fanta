@@ -231,18 +231,48 @@ ukraine:
   VRS: Veres
   VOR: Vorskla
   ZOR: Zorya
-europe:
+usa:
+  ATL: Atlanta United
+  AUS: Austin FC
+  CHA: Charlotte FC
+  CHI: Chicago
+  CIN: Cincinnati
+  CLR: Colorado
+  CLM: Columbus
+  DAL: Dallas
+  DCU: DC United
+  HOU: Houston
+  MIA: Inter Miami CF
+  LAG: LA Galaxy
+  LAF: LAFC
+  MNS: Minnesota
+  MNT: Montreal
+  NAS: Nashville SC
+  NER: New England
+  NYR: NY Red Bulls
+  NYC: NYCFC
+  ORL: Orlando
+  PHI: Philadelphia
+  POR: Portland
+  SLT: Salt Lake
+  SJS: San Jose
+  SEA: Seattle Sounders
+  SKC: Sporting KC
+  SLC: St Louis City
+  TRN: Toronto
+  VAN: Vancouver
+#europe:
 #  BES: Besiktas
-  CEL: Celtic
-  COP: Copenhagen
-  ZVE: Crvena Zvezda
+#  CEL: Celtic
+#  COP: Copenhagen
+#  ZVE: Crvena Zvezda
 #  DZG: Dinamo Zagreb
-  GAL: Galatasaray
+#  GAL: Galatasaray
 #  MHF: Maccabi Haifa
 #  MFF: Malmo
 #  RAN: Rangers
-  RBS: Salzburg
+#  RBS: Salzburg
 #  SHE: Sheriff
 #  VPL: Viktoria Plzen
-  YOU: Young Boys
+#  YOU: Young Boys
 #  ZEN: Zenit
