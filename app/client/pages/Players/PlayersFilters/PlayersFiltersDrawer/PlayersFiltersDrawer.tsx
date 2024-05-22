@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useMediaQuery } from "usehooks-ts";
 import PlayersFilterContextProvider, {
   usePlayersFilterContext,
 } from "@/application/Players/PlayersFilterContext";
@@ -14,6 +15,8 @@ import ClubCheckbox from "@/components/ClubCheckbox";
 import PlayersSortDrawer from "./PlayersSortDrawer";
 
 const PlayersFiltersDrawer = () => {
+  const isMobile = useMediaQuery("(max-width: 768px)");
+
   const { isSidebarOpen, filterCount, openSidebar, closeSidebar, clearFilter } =
     usePlayersContext();
   const { filterValues, onChangeValue, applyFilter } = usePlayersFilterContext();
@@ -49,11 +52,13 @@ const PlayersFiltersDrawer = () => {
           </div>
         }
       >
-        <Drawer.Button
-          title="Sort by"
-          onClick={() => setIsSortDrawerOpen(true)}
-          value="Name (Low to High)"
-        />
+        {isMobile && (
+          <Drawer.Button
+            title="Sort by"
+            onClick={() => setIsSortDrawerOpen(true)}
+            value="Name (Low to High)"
+          />
+        )}
         <Drawer.Section title="Clubs">
           <ClubCheckbox value={filterValues.clubs} onChange={onChangeValue("clubs")} />
         </Drawer.Section>
@@ -106,7 +111,9 @@ const PlayersFiltersDrawer = () => {
           />
         </Drawer.Section>
       </Drawer>
-      <PlayersSortDrawer isOpen={isSortDrawerOpen} close={() => setIsSortDrawerOpen(false)} />
+      {isMobile && (
+        <PlayersSortDrawer isOpen={isSortDrawerOpen} close={() => setIsSortDrawerOpen(false)} />
+      )}
     </>
   );
 };
