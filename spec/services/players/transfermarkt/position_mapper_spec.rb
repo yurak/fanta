@@ -8,14 +8,14 @@ RSpec.describe Players::Transfermarkt::PositionMapper do
     context 'without player' do
       let(:player) { nil }
 
-      it 'returns false' do
-        expect(parser.call).to be(false)
+      it 'returns empty array' do
+        expect(parser.call).to eq([])
       end
     end
 
     context 'when player without tm_id' do
-      it 'returns false' do
-        expect(parser.call).to be(false)
+      it 'returns empty array' do
+        expect(parser.call).to eq([])
       end
     end
 
@@ -24,7 +24,7 @@ RSpec.describe Players::Transfermarkt::PositionMapper do
 
       it 'returns position array' do
         VCR.use_cassette 'player_without_position' do
-          expect(parser.call).to be(false)
+          expect(parser.call).to eq([])
         end
       end
     end

@@ -12,6 +12,7 @@ module Stats
       ids = stats.where('final_score >= ?', 8.0).map(&:id)
 
       Position::LIST.each do |position|
+        # TODO: update price by new player position
         ids << stats.by_position(position).order(final_score: :desc).limit(5).map(&:id)
       end
 

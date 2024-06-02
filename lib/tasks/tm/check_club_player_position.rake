@@ -6,15 +6,19 @@ namespace :tm do
     clubs = args[:tournament_id] ? Club.active.where(tournament_id: args[:tournament_id]).order(:name) : Club.active.order(:tournament_id)
     # clubs = Club.archived.order(:tournament_id)
 
+    # i = 0
     year = Season.last.start_year
     CSV.open('log/player_position.csv', 'ab') do |writer|
       writer << ['id', 'name', 'club', 'tm_url', 'actual positions', 'recommended positions']
       clubs.each do |club|
+        # i += 1
+        # next if i < 15
+
         puts "--------#{club.name}--------"
         club.players.each do |pl|
           res = Players::Transfermarkt::PositionMapper.call(pl, year)
           pos = pl.player_positions.map { |pp| Slot::POS_MAPPING[pp.position.name] }
-          if res
+          if res.any?
             unless pos.sort == res.compact.sort
               writer << [pl.id, pl.name, club.name, pl.tm_url, pos.join(','), res.join(','), pl.current_average_price]
             end
@@ -40,15 +44,15 @@ namespace :tm do
           res = Players::Transfermarkt::PositionMapper.call(pl, year - 1)
           res2 = Players::Transfermarkt::PositionMapper.call(pl, year)
           pos = pl.player_positions.map { |pp| Slot::POS_MAPPING[pp.position.name] }
-          if res && res2
+          if res.any? && res2.any?
             unless (res2 & pos) == res2
               writer << [pl.id, pl.name, club.name, pl.tm_url, pos.join(','), res.join(','), res2.join(','), pl.current_average_price]
             end
-          elsif res2
+          elsif res2.any?
             unless (res2 & pos) == res2
               writer << [pl.id, pl.name, club.name, pl.tm_url, pos.join(','), 'NO RESULT', res2.join(','), pl.current_average_price]
             end
-          elsif res
+          elsif res.any?
             unless (res & pos) == res
               writer << [pl.id, pl.name, club.name, player.tm_url, pos.join(','), res.join(','), 'NO RESULT', pl.current_average_price]
             end

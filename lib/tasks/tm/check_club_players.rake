@@ -46,7 +46,7 @@ namespace :tm do
             tm_pos2 = Position::TM_POS[positions[2]&.text]
             tm_pos3 = Position::TM_POS[positions[3]&.text]
 
-            position_arr = Players::Transfermarkt::PositionMapper.call(Player.new(tm_id: tm_id), 2023) || []
+            position_arr = Players::Transfermarkt::PositionMapper.call(Player.new(tm_id: tm_id), 2023)
             pos1 = tm_pos1 == 'GK' ? 'Por' : ''
             pos1 = Position::HUMAN_MAP[position_arr[0]] if position_arr[0]
             pos2 = position_arr[1] ? Position::HUMAN_MAP[position_arr[1]] : nil
