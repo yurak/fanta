@@ -1,6 +1,7 @@
 FactoryBot.define do
   factory :round_player do
     tournament_round { TournamentRound.first || association(:tournament_round) }
+    club { player.club }
     player
 
     trait :with_team do

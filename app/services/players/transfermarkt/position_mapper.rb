@@ -24,10 +24,10 @@ module Players
       end
 
       def call
-        return false unless player&.tm_id
+        return [] unless player&.tm_id
 
         prepare_analyzed_data
-        return false if mantra_arr.first&.second.to_i < MIN_POS_NUMBER
+        return [] if mantra_arr.first&.second.to_i < MIN_POS_NUMBER
 
         @result_arr = [first_pos]
         process_strikers
