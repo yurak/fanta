@@ -17,11 +17,12 @@ namespace :tours do
     end
   end
 
-  # rake 'tours:create_national'
+  # rake 'tours:create_national[178]'
   desc 'Create tours for World Cup'
-  task create_national: :environment do
+  task :create_national, [:league_id] => :environment do |_t, args|
     tournament = Tournament.find_by(code: Scores::Injectors::Strategy::EURO)
-    league = tournament.leagues.last
+    league = tournament.leagues.find_by(id: args[:league_id])
+
     ActiveRecord::Base.transaction do
       tournament.tournament_rounds.by_season(Season.last).each do |round|
         first_match = round.national_matches.first
