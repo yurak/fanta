@@ -10,6 +10,7 @@ namespace :tm do
       ids_range.to_a.each do |id|
         player = Player.find_by(id: id)
         next unless player&.tm_id
+        next if player.club.name == Club::RETIRED
         next if player.club.tournament_id == 16 # skip MLS players
 
         begin
