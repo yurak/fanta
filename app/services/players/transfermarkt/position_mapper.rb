@@ -56,6 +56,8 @@ module Players
         return unless first_pos == STRIKER
 
         previous_pos = previous_stat.sort_by { |_key, value| value }.reverse.first&.first
+        return unless previous_pos
+
         @result_arr = [FORWARD] unless previous_pos == STRIKER
       end
 
