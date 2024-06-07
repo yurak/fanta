@@ -14,7 +14,8 @@ class Tournament < ApplicationRecord
 
   scope :with_clubs, -> { includes(:clubs, :leagues).where.not(clubs: { id: nil }).where.not(clubs: { status: 'archived' }) }
   scope :with_ec_clubs, -> { includes(:ec_clubs, :leagues).where.not(ec_clubs: { id: nil }).where.not(ec_clubs: { status: 'archived' }) }
-  scope :with_national, -> { includes(:national_teams, :leagues).where.not(national_teams: { id: nil }).where.not(national_teams: { status: 'archived' }) }
+  scope :with_national_teams, -> { where.not(national_teams: { id: nil }).where.not(national_teams: { status: 'archived' }) }
+  scope :with_national, -> { includes(:national_teams, :leagues).with_national_teams }
   scope :active, -> { with_clubs.order(:id) + with_ec_clubs + with_national }
   scope :open_join, -> { where(open_join: true) }
 

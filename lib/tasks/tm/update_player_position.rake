@@ -8,6 +8,7 @@ namespace :tm do
       writer << ['id', 'name', 'club', 'tm_url', 'actual positions', 'recommended positions']
 
       ids_range.to_a.each do |id|
+        writer << ["id #{id} processing"] if (id % 50).zero?
         player = Player.find_by(id: id)
         next unless player&.tm_id
         next if player.club.name == Club::RETIRED
