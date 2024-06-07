@@ -3,8 +3,6 @@
   = render 'layouts/right_nav', league: league
   .page-info.rounds-page.league-page
     .round-section
-      .rounds-league-name
-        = league.name
       .rounds-block
         - league.tours.each do |round|
           = link_to tour_path(round) do

@@ -6,7 +6,8 @@
   }
 
   .teams-bar {
-    background-color: #40BBCD;
+    //background-color: #40BBCD;
+    background-color: #01AEF0;
     height: auto;
 
     .teams-bar-section {
@@ -30,7 +31,8 @@
       }
 
       .current-team-true {
-        background-color: #017A8D;
+        //background-color: #017A8D;
+        background-color: #2548DF;
         border: none;
       }
     }
@@ -38,7 +40,7 @@
 
   .team-section {
     .team-data {
-      background-color: #40BBCD;
+      background-color: #01AEF0;
       margin-top: 58px;
       border: none;
       padding: 48px 12px;
@@ -59,17 +61,78 @@
       }
     }
   }
+
+  .team-games {
+    .team-game-item {
+      .team-game-opponent {
+        .flag-icon {
+          height: 30px;
+          width: 40px;
+          vertical-align: middle;
+        }
+      }
+    }
+  }
 }
 
 @media (orientation: portrait) {
   .page-info.team-show.national-team-show {
-    padding: 0 0 20px 72px;
+    padding: 0 0 120px;
+    margin-top: -72px;
 
     .teams-bar {
       height: 202px;
 
       .teams-bar-section {
-        width: 650px;
+        padding: 36px 0;
+
+        .team-bar-item {
+          display: block;
+          width: 120px;
+          height: 120px;
+          padding: 31px 21px;
+          margin: 0 12px;
+          border-radius: 16px;
+          border: 3px solid #E5E6E4;
+        }
+
+        .flag-icon {
+          height: 48px;
+          width: 64px;
+          vertical-align: middle;
+        }
+
+        .current-team-true {
+          background-color: #2548DF;
+          border: 3px solid #2548DF;
+        }
+      }
+    }
+
+    .team-section {
+      .team-data {
+        max-height: 300px;
+      }
+
+      .team-lists {
+        .team-games {
+          .team-games-grid {
+            grid-template-columns: 1fr 5fr 2fr;
+            column-gap: 32px;
+          }
+
+          .team-game-item {
+            .team-game-opponent {
+              column-gap: 32px;
+
+              .flag-icon {
+                height: 48px;
+                width: 64px;
+                vertical-align: middle;
+              }
+            }
+          }
+        }
       }
     }
   }
