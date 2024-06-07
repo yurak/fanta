@@ -67,6 +67,7 @@ module Players
 
       def remove_lower_pos
         return unless @result_arr[1]
+        return if mantra_arr.first&.last == mantra_arr.second&.last
 
         @result_arr.pop(1) if other_line? || LOWER_POS_PAIRS.include?(@result_arr)
       end
