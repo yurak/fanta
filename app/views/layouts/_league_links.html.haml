@@ -7,9 +7,14 @@
   .league-link{class: "link-active-#{ params[:controller] == 'results' }"}
     .league-link-icon= image_tag('icons/round/table.svg')
     .league-link-text= t('header.table')
-- if league.teams.present?
+- if league.teams.present? && !league.tournament.national?
   = link_to team_path(user_team_by_league(current_user, league) || league.teams.first) do
     .league-link{class: "link-active-#{ params[:controller] == 'teams' && params[:action] == 'show' }"}
+      .league-link-icon= image_tag('icons/round/teams.svg')
+      .league-link-text= t('header.teams')
+- if league.tournament.national? && league.tournament.national_teams.active.present?
+  = link_to national_team_path(league.tournament.national_teams.active.first) do
+    .league-link{class: "link-active-#{ params[:controller] == 'national_teams' && params[:action] == 'show' }"}
       .league-link-icon= image_tag('icons/round/teams.svg')
       .league-link-text= t('header.teams')
 - if league.mantra?
