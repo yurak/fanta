@@ -69,7 +69,7 @@
           .match-reserve-title= t('matches.substitutes')
           .match-reserve-players
             - lineup.match_players.subs_bench.each do |match_player|
-              = render 'matches/subs_player', match_player: match_player, national: lineup.tour.national?
+              = render 'matches/subs_player', match_player: match_player
 
       .lineup-module
         .match-team-module
