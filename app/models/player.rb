@@ -72,7 +72,7 @@ class Player < ApplicationRecord
   end
 
   def national_kit_path
-    national_team&.kit_path
+    national_team&.kit_path || NationalTeam.find_by(code: nationality)&.kit_path
   end
 
   def profile_national_kit_path

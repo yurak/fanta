@@ -103,7 +103,7 @@
               .players-list-cell.center
                 - if user_tournament_team(params[:tournament]) && player.team_by_league(league&.id || user_tournament_team(params[:tournament]).league_id)
                   .team-image.inline-block
-                    = image_tag(player.team_by_league(league.id || user_tournament_team(params[:tournament]).league_id).logo_path)
+                    = image_tag(player.team_by_league(league&.id || user_tournament_team(params[:tournament]).league_id).logo_path)
               .players-list-cell.players-list-appearances
                 = player.season_scores_count
               .players-list-cell.players-list-rating
