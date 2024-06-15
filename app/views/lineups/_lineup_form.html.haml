@@ -32,14 +32,14 @@
         .lineup-tabs.default-tabs
           #fixtures.default-tab-item.default-tab-active
             .default-= "#{t('tours.round')} #{tour.tournament_round.number}"
-          #standings.default-tab-item
-            .default-= "#{tour.league.tournament.name} #{t('tours.standings')}"
+          -##standings.default-tab-item
+          -#  .default-= "#{tour.league.tournament.name} #{t('tours.standings')}"
         .fixtures.lineup-round-tab-content.round-matches
           - if tour.national?
-            = render 'tournaments/national_matches', matches: tour.tournament_round.national_matches
+            = render 'tournaments/national_matches_lineup', matches: tour.tournament_round.national_matches
           - else
             = render 'tournaments/tournament_matches', matches: tour.tournament_round.tournament_matches
-        .standings.lineup-round-tab-content
+        -#.standings.lineup-round-tab-content
           -# - if tour.league.tournament.sofa_number.present?
           -#   %iframe{ id: "sofa-standings-embed-#{tour.league.tournament.sofa_number}", src: "https://widgets.sofascore.com/embed/tournament/#{tour.league.tournament.sofa_number.split('-')[0]}/season/#{tour.league.tournament.sofa_number.split('-')[1]}/standings", style: "height:794px!important;width:100%!important;border:none;", frameborder: "0", scrolling: "no", sandbox: "allow-pointer-lock allow-scripts" }
 
@@ -252,6 +252,22 @@
           }
 
           nameContainer.text(malus + data.name);
+
+          if (nationalTour) {
+            const club_players_limit = "#{tour.max_country_players}";
+            $('.round-tournament-team-players').text('')
+            $('.round-tournament-team-players').css("background-color", "");
+
+            $('.team-player-country').each(function() {
+              let tagId = '#national-players-' + this.textContent;
+              let element = $(tagId);
+              element.text(element.text() + "👨");
+              if (element.text().length > (club_players_limit * 2) ) {
+                element.css("background-color", "#DB0A23");
+              }
+            });
+
+          }
         }
       });
 
@@ -276,10 +292,17 @@
         player_countries.filter(Boolean).forEach(function(x) { counts[x] = (counts[x] || 0)+1; });
         const countries_values = Object.keys(counts).map(function(v) { return counts[v]; });
         const max_country_players = Math.max.apply(Math, countries_values);
-        const country_players_limit = "#{tour.max_country_players}"
+        const min_country_players = Math.min.apply(Math, countries_values);
+        const country_players_max_limit = "#{tour.max_country_players}"
+        const country_players_min_limit = "#{tour.min_country_players}"
 
-        if (max_country_players > country_players_limit) {
+        if (max_country_players > country_players_max_limit) {
           alert("#{t('lineups.max_limit', limit: tour.max_country_players)}");
+          return false;
+        }
+
+        if (min_country_players < country_players_min_limit) {
+          alert("#{t('lineups.min_limit', limit: tour.min_country_players)}");
           return false;
         }
       } else {
