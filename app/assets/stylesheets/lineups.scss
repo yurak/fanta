@@ -294,6 +294,25 @@
               color: #181715;
               text-align: center;
             }
+
+            .round-match-national {
+              a {
+                grid-template-columns: 54px auto 48px;
+
+                .round-tournament-team-players {
+                  line-height: 24px;
+                  font-size: 14px;
+                  margin: auto;
+                }
+              }
+            }
+
+            .round-tournament-match-guest.round-match-national {
+              a {
+                grid-template-columns: 48px auto 54px;
+                column-gap: 4px;
+              }
+            }
           }
         }
 
@@ -346,6 +365,12 @@
     .new-lineup-block {
       .module-section .modal-content, .players-section .main-players .player-data .modal-players-list .players-modal-content {
         width: 940px;
+      }
+
+      .module-section {
+        .lineup-round-data {
+          margin: 32px 16px;
+        }
       }
     }
   }
