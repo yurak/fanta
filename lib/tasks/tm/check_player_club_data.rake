@@ -1,3 +1,4 @@
+# rubocop:disable Metrics/BlockLength:
 namespace :tm do
   # rake 'tm:check_player_club_data[start_id,last_id]'
   desc 'Check TM player club data'
@@ -22,16 +23,16 @@ namespace :tm do
           player_data = "Player #{player.id} / #{player.tm_id} #{player.name}"
 
           result = if club_res && club_res == player.club
-            "#{player_data} (#{player.club.name}) in reserve"
-          elsif club && tm_club_name != player.club.tm_name
-            "#{player_data} (#{player.club.name}) changes club to #{tm_club_name}"
-          elsif tm_club_name == 'Without Club'
-            "#{player_data} (#{player.club.name}) currently is FREE" if player.club.name != 'Free agent'
-          elsif player.club.name != 'Retired' && tm_club_name.nil?
-            "#{player_data} retired!"
-          elsif player.club.name != 'Outside' && player.club.name != 'Retired' && club.nil?
-            "#{player_data} (#{player.club.name}) leave Mantra tournaments. New club: #{tm_club_name}"
-          end
+                     "#{player_data} (#{player.club.name}) in reserve"
+                   elsif club && tm_club_name != player.club.tm_name
+                     "#{player_data} (#{player.club.name}) changes club to #{tm_club_name}"
+                   elsif tm_club_name == 'Without Club'
+                     "#{player_data} (#{player.club.name}) currently is FREE" if player.club.name != 'Free agent'
+                   elsif player.club.name != 'Retired' && tm_club_name.nil?
+                     "#{player_data} retired!"
+                   elsif player.club.name != 'Outside' && player.club.name != 'Retired' && club.nil?
+                     "#{player_data} (#{player.club.name}) leave Mantra tournaments. New club: #{tm_club_name}"
+                   end
 
           if result
             puts result
@@ -47,3 +48,4 @@ namespace :tm do
     end
   end
 end
+# rubocop:enable Metrics/BlockLength
