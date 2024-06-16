@@ -876,8 +876,11 @@
       "yellow_card": "Yellow card"
     },
     "round": {
+      "auto_subs": "Exec AutoSubs",
+      "auto_subs_preview": "AutoSubs view",
       "close": "Close all tours",
       "confirm": "Confirm auto-close",
+      "generate_preview": "Gen AutoSubs view",
       "inject_scores": "Inject scores",
       "moderated": "Will be auto-closed after:",
       "open": "Open all tours",
@@ -2065,8 +2068,11 @@
       "yellow_card": "Жовта картка"
     },
     "round": {
+      "auto_subs": "Виконати Автозаміни",
+      "auto_subs_preview": "Переглянути можливі заміни",
       "close": "Закрити всі тури",
       "confirm": "Підтвердити автозакриття",
+      "generate_preview": "Згенерувати превю автозамін",
       "inject_scores": "Затягнути оцінки",
       "moderated": "Буде автоматично закрито після:",
       "open": "Відкрити всі тури",

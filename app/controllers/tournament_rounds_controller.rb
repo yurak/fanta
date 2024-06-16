@@ -50,6 +50,20 @@ class TournamentRoundsController < ApplicationController
     redirect_to tournament_round_path(tournament_round)
   end
 
+  def auto_subs_preview; end
+
+  def auto_subs
+    Substitutes::AutoBot.for_round(tournament_round, preview: false) if can? :auto_subs, TournamentRound
+
+    redirect_to tournament_round_auto_subs_preview_path(tournament_round)
+  end
+
+  def generate_preview
+    Substitutes::AutoBot.for_round(tournament_round) if can? :generate_preview, TournamentRound
+
+    redirect_to tournament_round_auto_subs_preview_path(tournament_round)
+  end
+
   private
 
   def round_players
@@ -63,6 +77,6 @@ class TournamentRoundsController < ApplicationController
   end
 
   def tournament_round
-    @tournament_round ||= TournamentRound.find(params[:id])
+    @tournament_round ||= TournamentRound.find(params[:id] || params[:tournament_round_id])
   end
 end

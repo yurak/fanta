@@ -63,6 +63,10 @@ class Player < ApplicationRecord
     first_name ? "#{name} #{first_name}" : name
   end
 
+  def full_name_with_positions
+    "#{full_name} (#{position_names.join(' ')})"
+  end
+
   def pseudo_name
     pseudonym.empty? ? full_name : pseudonym
   end

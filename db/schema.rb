@@ -10,8 +10,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_08_12_074455) do
 
+ActiveRecord::Schema.define(version: 2024_06_28_212938) do
   create_table "article_tags", force: :cascade do |t|
     t.string "name", default: "", null: false
     t.string "color", default: "", null: false
@@ -159,6 +159,7 @@ ActiveRecord::Schema.define(version: 2024_08_12_074455) do
     t.integer "tour_id"
     t.decimal "final_score", precision: 4, scale: 2, default: "0.0"
     t.integer "final_goals"
+    t.text "substitutes"
   end
 
   create_table "links", force: :cascade do |t|
@@ -392,6 +393,7 @@ ActiveRecord::Schema.define(version: 2024_08_12_074455) do
     t.bigint "out_rp_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "subs_by"
   end
 
   create_table "team_modules", force: :cascade do |t|
