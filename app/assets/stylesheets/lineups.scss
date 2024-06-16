@@ -89,11 +89,99 @@
     }
 
     .page-info.match-page {
-      padding: 0 0 0 72px;
+      padding: 0 16px 128px;
+
+      .match-round-links.lineup-mob-hide {
+        display: none;
+      }
 
       .lineup-squad.match-squads {
+        font-size: 36px;
+        line-height: 36px;
+
+        .match-team-squad {
+          padding-bottom: 240px;
+
+          .match-team-data {
+            font-size: 24px;
+            line-height: 36px;
+          }
+
+          .match-player-item {
+            line-height: 108px;
+            border-bottom: 3px solid #E5E6E4;
+            font-size: 24px;
+            grid-template-columns: 108px auto;
+
+            .match-player-avatar {
+              padding: 2px 3px 0;
+              height: 108px;
+
+              .player-show-face, .player-show-kit {
+                img {
+                  width: 100px;
+                  height: 100px;
+                }
+
+                object {
+                  margin-top: 6px;
+                  width: 100px;
+                  height: 100px;
+                }
+              }
+
+              .module-position-block {
+                top: 86px;
+              }
+            }
+
+            .match-player-data-base {
+              grid-template-columns: auto 132px;
+              line-height: 36px;
+              margin-top: 18px;
+
+              .team-player-scores {
+                grid-template-columns: 24px 42px 56px;
+                column-gap: 4px;
+              }
+
+              .team-player-score-unspecified {
+                font-size: 16px;
+              }
+            }
+
+            .match-player-add-data {
+              .match-player-bonuses {
+                line-height: 32px;
+              }
+            }
+          }
+
+          .match-reserve {
+             .match-player-item .match-player-data-base {
+               grid-template-columns: auto 98px;
+
+               .team-player-scores {
+                 grid-template-columns: 42px 56px;
+               }
+             }
+           }
+
+          .match-player-bonus-item {
+            img {
+              width: 24px;
+              height: 24px;
+            }
+          }
+        }
+
         .lineup-module {
           min-width: 250px;
+
+          .match-team-module {
+            font-size: 24px;
+            line-height: 36px;
+          }
 
           .module-image img {
             width: 250px;

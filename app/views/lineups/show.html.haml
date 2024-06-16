@@ -1,8 +1,10 @@
 .page-block.lineup-show-page
-  = render 'layouts/left_nav', league: lineup.tour.league
-  = render 'layouts/right_nav', league: lineup.tour.league
+  .web-header= render 'layouts/left_nav', league: team.league
+  .web-header= render 'layouts/right_nav', league: team.league
+  .mob-header= render 'layouts/mob_header', league: team.league
+
   .page-info.match-page.lineup-page
-    .match-round-links
+    .match-round-links.lineup-mob-hide
       .match-round-link
         = link_to tour_path(lineup.tour) do
           .match-round-link-arrow
@@ -39,32 +41,37 @@
                       .player-position{class: "player-position-#{position}"}
                         = slot_position_name(position)
                 .match-player-data
-                  .match-player-data
-                    .match-player-data-base
-                      = link_to player_path(match_player.player) do
-                        .team-player-name
-                          = match_player.player.full_name
-                          = image_tag('icons/subs-on.svg') if match_player.get_in?
-                          - if match_player.position_malus?
-                            ⚠️
-                          .team-player-score-unspecified.inline-block
-                            = match_player.player.club.name
-                      - if match_player.score.positive?
-                        .team-player-scores
-                          .team-player-cs-cell
-                          .team-player-score= match_player.score
-                          .team-player-total-score= match_player.total_score
-                      - elsif match_player.club_played_match?
-                        - if match_player.tour.locked_or_postponed? && current_user&.can_moderate?
-                          .team-player-score-not-played
-                            = link_to t('matches.didnt_play'), new_match_player_substitute_path(match_player)
-                        - else
-                          .team-player-score-not-played= t('matches.didnt_play')
+                  .match-player-data-base
+                    = link_to player_path(match_player.player) do
+                      .team-player-name
+                        = match_player.player.full_name
+                        - if match_player.position_malus?
+                          ⚠️
+                        .team-player-score-unspecified.inline-block
+                          = match_player.player.club.name
+                    - if match_player.score.positive?
+                      .team-player-scores
+                        .team-player-substitute-cell
+                          - if match_player.get_in?
+                            .team-player-substitute{title: "Replaced: #{match_player.main_subs.last&.out_rp&.full_name_reverse}"}
+                              - if match_player.tour.locked_or_postponed? && current_user&.can_moderate? && match_player.main_subs.last
+                                = link_to match_player_substitute_path(match_player, match_player.main_subs.last), method: :delete, data: { confirm: t('header.are_you_sure') } do
+                                  = image_tag('icons/subs-on.svg')
+                              - else
+                                = image_tag('icons/subs-on.svg')
+                        .team-player-score= match_player.score
+                        .team-player-total-score= match_player.total_score
+                    - elsif match_player.club_played_match?
+                      - if match_player.tour.locked_or_postponed? && current_user&.can_moderate?
+                        .team-player-score-not-played
+                          = link_to t('matches.didnt_play'), new_match_player_substitute_path(match_player)
                       - else
-                        .team-player-score-unspecified= t('matches.unspecified')
-                    .match-player-add-data
-                      .match-player-bonuses
-                        = render 'matches/mp_bonuses', match_player: match_player
+                        .team-player-score-not-played= t('matches.didnt_play')
+                    - else
+                      .team-player-score-unspecified= t('matches.unspecified')
+                  .match-player-add-data
+                    .match-player-bonuses
+                      = render 'matches/mp_bonuses', match_player: match_player
         .match-reserve
           .match-reserve-title= t('matches.substitutes')
           .match-reserve-players
@@ -77,3 +84,7 @@
           .match-team-data-value= lineup.team_module.name
         .module-image
           = image_tag("#{modules_path}#{lineup.team_module.name}.jpg")
+
+  - if lineup.team.league
+    .portrait-footer{ class: "portrait-footer-#{lineup.team.league.mantra?}"}
+      = render 'layouts/league_links', league: lineup.team.league

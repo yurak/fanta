@@ -1,7 +1,7 @@
 .page-block
   .web-header= render 'layouts/left_nav', league: team.league
   .web-header= render 'layouts/right_nav', league: team.league
-  .mob-header= render 'layouts/mob_header', league: team.league, title: t('players.profile')
+  .mob-header= render 'layouts/mob_header', league: team.league, title: team.human_name
 
   .page-info.team-show
     - if team.league && team.tournament.fanta?
