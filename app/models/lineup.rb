@@ -96,6 +96,10 @@ class Lineup < ApplicationRecord
     end
   end
 
+  def subs_missed?
+    match_players.main.without_score.any?(&:subs_option_exist?)
+  end
+
   private
 
   def first_goal
