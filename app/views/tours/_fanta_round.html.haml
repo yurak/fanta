@@ -51,7 +51,7 @@
                   = position_number(i + 1)
                 .team-row-logo
                   = image_tag(image_path(lineup.team.logo_path))
-                .team-row-name{ class: "lineup-subs-#{current_user&.can_moderate? && lineup.subs_missed?}" }
+                .team-row-name{ class: "lineup-subs-#{current_user&.can_moderate? && tour.tournament_round.finished? && lineup.subs_missed?}" }
                   = lineup.team.human_name
                 .lineup-result
                   = lineup.total_score
