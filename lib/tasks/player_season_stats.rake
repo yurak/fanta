@@ -5,12 +5,12 @@ namespace :player_season_stats do
     Stats::Creator.call
   end
 
-  # rake 'player_season_stats:update_price'
-  desc 'Update player default price after season'
-  task update_price: :environment do
-    # TODO: update price with updated positions
-    Tournament.with_clubs.each do |tournament|
-      Stats::PriceUpdater.call(tournament)
-    end
+  # rake 'player_season_stats:update_price[tournament_id]'
+  desc 'Update player default price after season by tournament id'
+  task :update_price, %i[tournament_id] => :environment do |_t, args|
+    tournament = Tournament.find(args[:tournament_id])
+    next unless tournament
+
+    Stats::PriceUpdater.call(tournament)
   end
 end
