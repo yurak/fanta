@@ -1,6 +1,6 @@
 import { IPayloadFilter, IPayloadSort } from "@/api/query/usePlayers";
-import { SortOrder } from "@/ui/Table/interfaces";
 import { RangeSliderValueType } from "@/ui/RangeSlider";
+import { SortOrder } from "@/hooks/useHistorySort";
 import { IFilter } from "./interfaces";
 import { defaultFilter } from "./constants";
 

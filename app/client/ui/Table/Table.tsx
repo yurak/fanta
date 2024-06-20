@@ -6,7 +6,8 @@ import TableBodyCell from "./TableBodyCell";
 import TableHeaderCell from "./TableHeaderCell";
 import EmptyState from "@/ui/EmptyState";
 import { useSorting } from "./useSorting";
-import { IColumn, IComputedColumn, ITableSorting } from "./interfaces";
+import { IColumn, IComputedColumn } from "./interfaces";
+import { ISorting } from "@/hooks/useHistorySort";
 import styles from "./Table.module.scss";
 
 const LoadingSkeleton = ({
@@ -83,7 +84,7 @@ const Table = <DataItem extends object = object>({
   onLoadMore?: () => void,
   tableClassName?: string,
   tableInnerClassName?: string,
-  sorting?: ITableSorting,
+  sorting?: Partial<ISorting>,
   emptyStateComponent?: React.ReactNode,
 }) => {
   const getRowKey = (item: DataItem) => {

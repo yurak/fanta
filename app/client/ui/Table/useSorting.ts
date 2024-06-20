@@ -1,12 +1,13 @@
 import { useMemo, useState } from "react";
-import { IColumn, IComputedColumn, ITableSorting, SortFunctionType, SortOrder } from "./interfaces";
+import { IColumn, IComputedColumn, SortFunctionType } from "./interfaces";
+import { ISorting, SortOrder } from "@/hooks/useHistorySort";
 
 export const useSorting = <DataItem extends object = object>({
   sorting,
   columns,
   dataSource,
 }: {
-  sorting?: ITableSorting,
+  sorting?: Partial<ISorting>,
   columns: IComputedColumn<DataItem>[],
   dataSource: DataItem[],
 }) => {

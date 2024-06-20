@@ -2,8 +2,8 @@ import axios from "axios";
 import { keepPreviousData, useInfiniteQuery } from "@tanstack/react-query";
 import { IPlayer } from "@/interfaces/Player";
 import { ICollectionResponse } from "@/interfaces/api/Response";
-import { SortOrder } from "@/ui/Table/interfaces";
 import { RangeSliderValueType } from "@/ui/RangeSlider";
+import { SortOrder } from "@/hooks/useHistorySort";
 
 export interface IPayloadFilter {
   name?: string,

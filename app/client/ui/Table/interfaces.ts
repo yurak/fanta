@@ -2,8 +2,6 @@ import React from "react";
 
 export type SortFunctionType<DataItem> = (itemA: DataItem, itemB: DataItem) => number;
 
-export type SortOrder = "asc" | "desc";
-
 export interface IColumn<DataItem extends object = object> {
   title?: React.ReactNode,
   dataKey: string,
@@ -29,13 +27,3 @@ export interface IColumn<DataItem extends object = object> {
 export interface IComputedColumn<DataItem extends object = object> extends IColumn<DataItem> {
   _key: string,
 }
-
-export type ITableSorting = {
-  sortBy?: string | null,
-  sortOrder?: SortOrder | null,
-  onSortChange?: (
-    sortBy: string | null,
-    sortOrder: SortOrder | null,
-    supportMultipleSortOrders: boolean
-  ) => void,
-};

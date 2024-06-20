@@ -1,8 +1,8 @@
 import { useMediaQuery } from "usehooks-ts";
 import { IPlayer } from "@/interfaces/Player";
-import { ITableSorting } from "@/ui/Table/interfaces";
 import PlayersListMobile from "./PlayersListMobile";
 import PlayersListDesktop from "./PlayersListDesktop";
+import { ISorting } from "@/hooks/useHistorySort";
 import EmptyState from "@/ui/EmptyState";
 import Button from "@/ui/Button";
 
@@ -21,7 +21,7 @@ const PlayersList = ({
   hasNextPage: boolean,
   isFetchingNextPage: boolean,
   isLoading: boolean,
-  sorting: ITableSorting,
+  sorting: Partial<ISorting>,
   openFiltersSidebar: () => void,
   clearFilters: () => void,
 }) => {

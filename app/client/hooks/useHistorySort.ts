@@ -1,6 +1,17 @@
 import { useMemo } from "react";
-import { ITableSorting } from "@/ui/Table/interfaces";
 import { useCustomSearchParams } from "./useCustomSearchParams";
+
+export type SortOrder = "asc" | "desc";
+
+export type ISorting = {
+  sortBy: string | null,
+  sortOrder: SortOrder | null,
+  onSortChange: (
+    sortBy: string | null,
+    sortOrder: SortOrder | null,
+    supportMultipleSortOrders?: boolean
+  ) => void,
+};
 
 export const useHistorySort = (
   {
@@ -10,16 +21,16 @@ export const useHistorySort = (
   } = {
     defaultSortBy: null,
   }
-): ITableSorting => {
+): ISorting => {
   const [searchParams, setSearchParams] = useCustomSearchParams();
 
-  const sortBy = searchParams.get("sortBy") as ITableSorting["sortBy"];
-  const sortOrder = searchParams.get("sortOrder") as ITableSorting["sortOrder"];
+  const sortBy = searchParams.get("sortBy") as ISorting["sortBy"];
+  const sortOrder = searchParams.get("sortOrder") as ISorting["sortOrder"];
 
-  const onSortChange: ITableSorting["onSortChange"] = (
+  const onSortChange: ISorting["onSortChange"] = (
     sortBy,
     sortOrder,
-    supportMultipleSortOrders
+    supportMultipleSortOrders = true
   ) => {
     setSearchParams(
       (prev) => {
