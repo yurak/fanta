@@ -1,7 +1,7 @@
-import { useCustomSearchParams } from "./useCustomSearchParams";
+import { useSearchParamsContext } from "@/application/SearchParamsContext";
 
 export const useHistorySearch = (defaultSearch = ""): [string, (value: string) => void] => {
-  const [searchParams, setSearchParams] = useCustomSearchParams();
+  const { searchParams, setSearchParams } = useSearchParamsContext();
 
   const search = searchParams.get("s", true) ?? defaultSearch;
 
