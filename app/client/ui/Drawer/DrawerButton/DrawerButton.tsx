@@ -8,7 +8,7 @@ const DrawerButton = ({
 }: {
   onClick: () => void,
   title: string,
-  value?: string,
+  value?: React.ReactNode,
 }) => {
   return (
     <button onClick={onClick} className={styles.button}>

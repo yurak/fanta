@@ -16,6 +16,7 @@ import Button from "@/ui/Button";
 import PlayerPositionsCheckbox from "@/components/filters/PlayerPositionsCheckbox";
 import ClubCheckbox from "@/components/ClubCheckbox";
 import PlayersSortDrawer from "./PlayersSortDrawer";
+import styles from "./PlayersFiltersDrawer.module.scss";
 
 const PlayersFiltersDrawer = () => {
   const isMobile = useMediaQuery("(max-width: 768px)");
@@ -61,7 +62,9 @@ const PlayersFiltersDrawer = () => {
           <Drawer.Button
             title="Sort by"
             onClick={() => setIsSortDrawerOpen(true)}
-            value={selectedSort?.label}
+            value={
+              selectedSort && <span className={styles.sortButtonLabel}>{selectedSort?.label}</span>
+            }
           />
         )}
         <Drawer.Section title="Clubs">
