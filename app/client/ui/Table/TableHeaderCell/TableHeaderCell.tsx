@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 import cn from "classnames";
 import SortDownIcon from "@/assets/icons/sortDown.svg";
 import TableCell from "../TableCell";
-import { SortOrder } from "../interfaces";
+import { SortOrder } from "@/hooks/useHistorySort";
 import styles from "./TableHeaderCell.module.scss";
 
 const TableHeaderCell = ({

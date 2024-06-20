@@ -3,7 +3,7 @@ import Table from "@/ui/Table";
 import TournamentsLoader from "@/components/loaders/TournamentsLoader";
 import PlayerPositions from "@/components/PlayerPositions/PlayerPositions";
 import { formatNumber } from "@/helpers/formatNumber";
-import { ITableSorting } from "@/ui/Table/interfaces";
+import { ISorting } from "@/hooks/useHistorySort";
 import PlayersListInfo, { PlayersListInfoSkeleton } from "../PlayersListInfo";
 import styles from "./PlayersListDesktop.module.scss";
 
@@ -19,7 +19,7 @@ const PlayersListDesktop = ({
   isLoading: boolean,
   isLoadingMore: boolean,
   onLoadMore: () => void,
-  sorting: ITableSorting,
+  sorting: Partial<ISorting>,
   emptyStateComponent: React.ReactNode,
 }) => {
   return (
