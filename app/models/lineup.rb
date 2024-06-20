@@ -135,6 +135,10 @@ class Lineup < ApplicationRecord
     (subs.sum(&:total_score) / subs.count).round(2)
   end
 
+  def tour_position
+    tour.lineups.order(final_score: :desc).pluck(:id).find_index(id) + 1
+  end
+
   private
 
   def first_goal
