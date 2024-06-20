@@ -41,6 +41,8 @@
 }
 
 .roundedRow {
+  border-radius: 8px;
+
   &::after {
     content: "";
     display: block;
