@@ -3,6 +3,9 @@ import { useMediaQuery } from "usehooks-ts";
 import PlayersFilterContextProvider, {
   usePlayersFilterContext,
 } from "@/application/Players/PlayersFilterContext";
+import PlayersSortContextProvider, {
+  usePlayersSortContext,
+} from "@/application/Players/PlayersSortContext";
 import { usePlayersContext } from "@/application/Players/PlayersContext";
 import Drawer from "@/ui/Drawer";
 import Link from "@/ui/Link";
@@ -20,11 +23,13 @@ const PlayersFiltersDrawer = () => {
   const { isSidebarOpen, filterCount, openSidebar, closeSidebar, clearFilter } =
     usePlayersContext();
   const { filterValues, onChangeValue, applyFilter } = usePlayersFilterContext();
+  const { applySort, selectedSort } = usePlayersSortContext();
 
   const [isSortDrawerOpen, setIsSortDrawerOpen] = useState(false);
 
   const applyFilterHandler = () => {
     applyFilter();
+    applySort();
     closeSidebar();
   };
 
@@ -56,7 +61,7 @@ const PlayersFiltersDrawer = () => {
           <Drawer.Button
             title="Sort by"
             onClick={() => setIsSortDrawerOpen(true)}
-            value="Name (Low to High)"
+            value={selectedSort?.label}
           />
         )}
         <Drawer.Section title="Clubs">
@@ -119,7 +124,9 @@ const PlayersFiltersDrawer = () => {
 };
 
 export default () => (
-  <PlayersFilterContextProvider>
-    <PlayersFiltersDrawer />
-  </PlayersFilterContextProvider>
+  <PlayersSortContextProvider>
+    <PlayersFilterContextProvider>
+      <PlayersFiltersDrawer />
+    </PlayersFilterContextProvider>
+  </PlayersSortContextProvider>
 );
