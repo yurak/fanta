@@ -662,16 +662,20 @@
       "conditions": "🪵 Special conditions",
       "confirm_squad": "Confirm squad",
       "duplicates": "Lineup contains duplicate players",
+      "hidden_text": "The opponent's lineup will remain hidden during the preparation phase and will become visible after the deadline.",
+      "hidden_title": "Lineup is hidden",
       "home": "H",
       "main_squad": "Main squad",
       "max_limit": "You can not select more than %{limit} player(s) from one team",
       "min_limit": "You should select minimum %{limit} player(s) from each team",
       "not_selected": "Not selected",
+      "points": "Points",
       "reserve_squad": "Substitutes",
       "select": "Select module and players",
       "setup_lineup": "Setup lineup",
       "team": "Team",
-      "total": "Lineup should contain %{number} unique players"
+      "total": "Lineup should contain %{number} unique players",
+      "total_score": "🎯️ Total score"
     },
     "links": {
       "subtitle": "",
@@ -1892,16 +1896,20 @@
       "conditions": "🪵 Особливі умови",
       "confirm_squad": "Підтвердити склад",
       "duplicates": "Один гравець не може бути вибраний декілька раз",
+      "hidden_text": "Склад суперника залишатиметься прихованим під час підготовчого етапу та стане видимим після дедлайну.",
+      "hidden_title": "Склад приховано",
       "home": "Д",
       "main_squad": "Основний склад",
       "max_limit": "Ви не можете вибрати більше %{limit}-х гравців з однієї команди",
       "min_limit": "Вам потрібно вибрати мінімум %{limit} гравця з кожної команди",
       "not_selected": "Не вибрано",
+      "points": "Очки",
       "reserve_squad": "Запасні",
       "select": "Оберіть модуль та гравців для команди",
       "setup_lineup": "Вибір складу",
       "team": "Команда",
-      "total": "Вам потрібно вибрати %{number} унікальних гравців"
+      "total": "Вам потрібно вибрати %{number} унікальних гравців",
+      "total_score": "🎯️️ Загальний результат"
     },
     "links": {
       "subtitle": "",
@@ -1944,6 +1952,11 @@
       "share_via": "🎤 Поширити через",
       "tag": "🎮 Тег",
       "tournament": "⚽️ Турнір"
+    },
+    "number": {
+      "nth": {
+        "ordinalized": null
+      }
     },
     "players": {
       "age": "Вік",
