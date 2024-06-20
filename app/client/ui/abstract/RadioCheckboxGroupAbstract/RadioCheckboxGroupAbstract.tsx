@@ -6,20 +6,25 @@ interface IComponentType extends Omit<IRadioCheckboxAbstractProps, "onChange" | 
   onChange: (value: boolean) => void,
 }
 
-export interface IProps<Option extends object, ID extends string | number> {
+export interface IProps<Option extends object, ID extends string | number | object | null> {
   options: Option[],
   onChange: (id: ID, checked: boolean) => void,
   formatOptionLabel: (option: Option) => React.ReactNode,
-  getOptionValue: (option: Option) => ID,
-  isChecked: (id: ID) => boolean,
+  getOptionValue: (option: Option) => NonNullable<ID>,
+  getOptionKey: (option: Option) => string | number,
+  isChecked: (id: NonNullable<ID>) => boolean,
   Component: React.ComponentType<IComponentType>,
 }
 
-const RadioCheckboxGroupAbstract = <Option extends object, ID extends string | number>({
+const RadioCheckboxGroupAbstract = <
+  Option extends object,
+  ID extends string | number | object | null
+>({
   options,
   onChange,
   formatOptionLabel,
   getOptionValue,
+  getOptionKey,
   Component,
   isChecked,
 }: IProps<Option, ID>) => {
@@ -29,6 +34,7 @@ const RadioCheckboxGroupAbstract = <Option extends object, ID extends string | n
         ...option,
         _value: getOptionValue(option),
         _label: formatOptionLabel(option),
+        _key: getOptionKey(option),
       })),
     [options]
   );
@@ -40,7 +46,7 @@ const RadioCheckboxGroupAbstract = <Option extends object, ID extends string | n
   return (
     <div className={styles.group}>
       {_options.map((option) => (
-        <div key={option._value}>
+        <div key={option._key}>
           <Component
             label={option._label}
             checked={isChecked(option._value)}

@@ -21,6 +21,7 @@ const PlayerPositionsCheckbox = ({ value, onChange }: IProps) => {
       value={value}
       onChange={onChange}
       getOptionValue={(option) => option.id}
+      getOptionKey={(option) => option.id}
       formatOptionLabel={(option) => (
         <span className={styles.option}>
           <span>{Positions.getFullNameById(option.id)}</span>

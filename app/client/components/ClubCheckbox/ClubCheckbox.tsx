@@ -237,6 +237,7 @@ const Tournament = ({ tournament }: { tournament: ITournament }) => {
             value={value}
             onChange={toggleClubsCheckboxGroup}
             getOptionValue={(club) => club.id}
+            getOptionKey={(club) => club.id}
             formatOptionLabel={(club) => (
               <span className={styles.clubLabel}>
                 <span>{club.name}</span>
