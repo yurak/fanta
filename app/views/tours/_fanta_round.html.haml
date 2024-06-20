@@ -36,7 +36,12 @@
           - next if team == user_team_by_league(current_user, tour.league)
           .team-row{ class: "team-lineup-#{team.lineups.where(tour: tour).any?}" }
             .team-row-logo= image_tag(image_path(team.logo_path))
-            .team-row-name= team.human_name
+            .team-row-name
+              - if team.lineups.where(tour: tour).any?
+                = link_to team_lineup_path(team, team.lineups.where(tour: tour).first) do
+                  = team.human_name
+              - else
+                = team.human_name
             .team-row-name-lineup
               - if team.lineups.where(tour: tour).any?
                 = t('tours.set_done')

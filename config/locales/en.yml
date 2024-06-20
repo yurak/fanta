@@ -219,6 +219,10 @@ en:
     max_limit: "You can not select more than %{limit} player(s) from one team"
     home: "H"
     away: "A"
+    points: "Points"
+    total_score: "🎯️ Total score"
+    hidden_title: "Lineup is hidden"
+    hidden_text: "The opponent's lineup will remain hidden during the preparation phase and will become visible after the deadline."
   links:
     title: "Useful Links"
     subtitle: ""

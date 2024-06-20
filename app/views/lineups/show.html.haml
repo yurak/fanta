@@ -8,82 +8,98 @@
       .match-round-link
         = link_to tour_path(lineup.tour) do
           .match-round-link-arrow
-            = image_tag('icons/arrow.svg')
+            = image_tag('icons/arrow_left.svg')
           .match-round-link-text
-            = "#{t('tours.round')} ##{lineup.tour.number}"
-    .lineup-squad.match-squads.lineup-links
+            = "#{t('tours.round')} #{lineup.tour.number}"
+    .lineup-team-section
       .lineup-team
-        = "#{t('lineups.team')}: "
-        = link_to team_path(lineup.team) do
-          = "#{lineup.team.human_name}"
-    .lineup-squad.match-squads
-      .match-team-squad
-        .match-team-data
-          .match-team-module
-            .match-team-data-text= t('matches.total_score')
-            .match-team-data-value= lineup.total_score
-          .match-team-def-bonus
-            .match-team-data-text= t('matches.def_bonus')
-            .match-team-data-value= lineup.defence_bonus
-        .match-main-squad
-          - if lineup.tour.fanta?
-            - lineup.match_players.main.each do |match_player|
-              .match-player-item
-                .match-player-avatar
-                  .player-show-face
-                    %object{data: match_player.player.avatar_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                      = image_tag('avatar.png')
-                  .player-show-kit
-                    %object{data: lineup.tour.national? ? match_player.player.national_kit_path : match_player.player.kit_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                      = image_tag('kit_small_default.png')
-                  .module-position-block.player-positions-block
-                    - match_player.real_position_arr.each do |position|
-                      .player-position{class: "player-position-#{position}"}
-                        = slot_position_name(position)
-                .match-player-data
-                  .match-player-data-base
-                    = link_to player_path(match_player.player) do
-                      .team-player-name
-                        = match_player.player.full_name
-                        - if match_player.position_malus?
-                          ⚠️
-                        .team-player-score-unspecified.inline-block
-                          = match_player.player.club.name
-                    - if match_player.score.positive?
-                      .team-player-scores
-                        .team-player-substitute-cell
-                          - if match_player.get_in?
-                            .team-player-substitute{title: "Replaced: #{match_player.main_subs.last&.out_rp&.full_name_reverse}"}
-                              - if match_player.tour.locked_or_postponed? && current_user&.can_moderate? && match_player.main_subs.last
-                                = link_to match_player_substitute_path(match_player, match_player.main_subs.last), method: :delete, data: { confirm: t('header.are_you_sure') } do
+        .lineup-team-logo
+          = image_tag(lineup.team.logo_path)
+        .lineup-team-name
+          = lineup.team.human_name
+          .lineup-team-edit
+            - if lineup.tour.set_lineup? && (current_user == lineup.team.user)
+              .grey-btn
+                = link_to t('matches.edit_lineup'), edit_team_lineup_path(lineup.team, lineup, team_module_id: lineup.team_module_id)
+    - if tour.deadlined? || (current_user == lineup.team.user)
+      .lineup-squad.match-squads
+        .match-team-squad
+          .match-team-data
+            .match-team-module
+              .match-team-data-text= t('matches.module')
+              .match-team-data-value= lineup.team_module.name
+            .match-team-def-bonus
+              .match-team-data-text= t('matches.def_bonus')
+              .match-team-data-value= lineup.defence_bonus
+          .match-main-squad
+            - if lineup.tour.fanta?
+              - lineup.match_players.main.each do |match_player|
+                .match-player-item
+                  .match-player-avatar
+                    .player-show-face
+                      %object{data: match_player.player.avatar_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
+                        = image_tag('avatar.png')
+                    .player-show-kit
+                      %object{data: lineup.tour.national? ? match_player.player.national_kit_path : match_player.player.kit_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
+                        = image_tag('kit_small_default.png')
+                    .module-position-block.player-positions-block
+                      - match_player.real_position_arr.each do |position|
+                        .player-position{class: "player-position-#{position}"}
+                          = slot_position_name(position)
+                  .match-player-data
+                    .match-player-data-base
+                      = link_to player_path(match_player.player) do
+                        .team-player-name
+                          = match_player.player.full_name
+                          - if match_player.position_malus?
+                            ⚠️
+                          .team-player-score-unspecified.inline-block
+                            = match_player.player.club.name
+                      - if match_player.score.positive?
+                        .team-player-scores
+                          .team-player-substitute-cell
+                            - if match_player.get_in?
+                              .team-player-substitute{title: "Replaced: #{match_player.main_subs.last&.out_rp&.full_name_reverse}"}
+                                - if match_player.tour.locked_or_postponed? && current_user&.can_moderate? && match_player.main_subs.last
+                                  = link_to match_player_substitute_path(match_player, match_player.main_subs.last), method: :delete, data: { confirm: t('header.are_you_sure') } do
+                                    = image_tag('icons/subs-on.svg')
+                                - else
                                   = image_tag('icons/subs-on.svg')
-                              - else
-                                = image_tag('icons/subs-on.svg')
-                        .team-player-score= match_player.score
-                        .team-player-total-score= match_player.total_score
-                    - elsif match_player.club_played_match?
-                      - if match_player.tour.locked_or_postponed? && current_user&.can_moderate?
-                        .team-player-score-not-played
-                          = link_to t('matches.didnt_play'), new_match_player_substitute_path(match_player)
+                          .team-player-score= match_player.score
+                          .team-player-total-score= match_player.total_score
+                      - elsif match_player.club_played_match?
+                        - if match_player.tour.locked_or_postponed? && current_user&.can_moderate?
+                          .team-player-score-not-played
+                            = link_to t('matches.didnt_play'), new_match_player_substitute_path(match_player)
+                        - else
+                          .team-player-score-not-played= t('matches.didnt_play')
                       - else
-                        .team-player-score-not-played= t('matches.didnt_play')
-                    - else
-                      .team-player-score-unspecified= t('matches.unspecified')
-                  .match-player-add-data
-                    .match-player-bonuses
-                      = render 'matches/mp_bonuses', match_player: match_player
-        .match-reserve
-          .match-reserve-title= t('matches.substitutes')
-          .match-reserve-players
-            - lineup.match_players.subs_bench.each do |match_player|
-              = render 'matches/subs_player', match_player: match_player
+                        .team-player-score-unspecified= t('matches.unspecified')
+                    .match-player-add-data
+                      .match-player-bonuses
+                        = render 'matches/mp_bonuses', match_player: match_player
+          .match-reserve
+            .match-reserve-title= t('matches.substitutes')
+            .match-reserve-players
+              - lineup.match_players.subs_bench.each do |match_player|
+                = render 'matches/subs_player', match_player: match_player
 
-      .lineup-module
-        .match-team-module
-          .match-team-data-text= t('matches.module')
-          .match-team-data-value= lineup.team_module.name
-        .module-image
-          = image_tag("#{modules_path}#{lineup.team_module.name}.jpg")
+        .lineup-module
+          - if lineup.tour.deadlined?
+            .lineup-result
+              .lineup-result-text= t('lineups.total_score')
+              .lineup-result-value
+                .lineup-result-score= lineup.total_score
+                .lineup-result-position= ordinalize_number(lineup.tour_position)
+              .lineup-result-points
+                = "#{t('lineups.points')}: #{Results::NationalUpdater::POINTS_MAP[lineup.tour_position - 1] || 0}"
+          .module-image
+            = image_tag("#{modules_path}#{lineup.team_module.name}.jpg")
+    - else
+      .lineup-preview
+        .lineup-preview-ninja 🥷
+        .lineup-preview-title= t('lineups.hidden_title')
+        .lineup-preview-desc= t('lineups.hidden_text')
 
   - if lineup.team.league
     .portrait-footer{ class: "portrait-footer-#{lineup.team.league.mantra?}"}
