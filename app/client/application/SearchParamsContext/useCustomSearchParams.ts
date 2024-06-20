@@ -1,7 +1,11 @@
 import { useMemo, useCallback } from "react";
-import { NavigateOptions, useLocation, useNavigate } from "react-router-dom";
+import { useDebounceCallback } from "usehooks-ts";
 
 type ParamsType = Record<string, string>;
+
+type NavigateOptions = {
+  replace?: boolean,
+};
 
 class CustomURLSearchParams {
   private params: ParamsType;
@@ -70,17 +74,23 @@ class CustomURLSearchParams {
   }
 }
 
-export const useCustomSearchParams = (): [
-  CustomURLSearchParams,
-  (
-    callback: (params: CustomURLSearchParams) => CustomURLSearchParams,
-    navigateOptions?: NavigateOptions
-  ) => void
-] => {
-  const location = useLocation();
-  const navigate = useNavigate();
+const navigate = (url: string, { replace = false }: NavigateOptions = {}) => {
+  if (replace) {
+    window.history.replaceState(null, "", url);
+  } else {
+    window.history.pushState(null, "", url);
+  }
 
-  const searchParams = useMemo(() => new CustomURLSearchParams(location.search), [location.search]);
+  window.dispatchEvent(new PopStateEvent("popstate"));
+};
+
+export const useCustomSearchParams = () => {
+  const navigateWithDebouce = useDebounceCallback(navigate, 0);
+
+  const searchParams = useMemo(
+    () => new CustomURLSearchParams(window.location.search),
+    [window.location.search]
+  );
 
   const setSearchParams = useCallback(
     (
@@ -89,10 +99,10 @@ export const useCustomSearchParams = (): [
     ) => {
       const newParams = callback(searchParams).toString();
       const path = newParams.length > 0 ? `?${newParams}` : "";
-      navigate(path, navigateOptions);
+      navigateWithDebouce(path, navigateOptions);
     },
     [navigate, searchParams]
   );
 
-  return [searchParams, setSearchParams];
+  return { searchParams, setSearchParams };
 };

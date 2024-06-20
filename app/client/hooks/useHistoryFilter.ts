@@ -1,11 +1,11 @@
 import { useMemo } from "react";
-import { useCustomSearchParams } from "./useCustomSearchParams";
+import { useSearchParamsContext } from "@/application/SearchParamsContext";
 
 export const useHistoryFilter = <T extends object>(
   decodeFilter: (filter: Record<string, string>) => T,
   encodeFilter: (filter: T) => Record<string, string | null>
 ): [T, (value: T) => void] => {
-  const [searchParams, setSearchParams] = useCustomSearchParams();
+  const { searchParams, setSearchParams } = useSearchParamsContext();
 
   const filter = useMemo(() => {
     const params = searchParams.getAll();

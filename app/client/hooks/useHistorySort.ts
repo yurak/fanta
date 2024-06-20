@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { useCustomSearchParams } from "./useCustomSearchParams";
+import { useSearchParamsContext } from "@/application/SearchParamsContext";
 
 export type SortOrder = "asc" | "desc";
 
@@ -22,7 +22,7 @@ export const useHistorySort = (
     defaultSortBy: null,
   }
 ): ISorting => {
-  const [searchParams, setSearchParams] = useCustomSearchParams();
+  const { searchParams, setSearchParams } = useSearchParamsContext();
 
   const sortBy = searchParams.get("sortBy") as ISorting["sortBy"];
   const sortOrder = searchParams.get("sortOrder") as ISorting["sortOrder"];

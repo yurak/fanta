@@ -7,6 +7,7 @@ import "@/api/axios";
 import { resources } from "@/locales/resources";
 import AppContextProvider from "@/application/AppContext";
 import { useQueryClient } from "./useQueryClient";
+import SearchParamsContextProvider from "@/application/SearchParamsContext";
 
 i18n.use(initReactI18next).init({
   resources,
@@ -26,10 +27,12 @@ export const AppProvider = ({ children }: IProps) => {
 
   return (
     <AppContextProvider>
-      <PersistQueryClientProvider client={queryClient} persistOptions={persistOptions}>
-        {children}
-        <ReactQueryDevtools />
-      </PersistQueryClientProvider>
+      <SearchParamsContextProvider>
+        <PersistQueryClientProvider client={queryClient} persistOptions={persistOptions}>
+          {children}
+          <ReactQueryDevtools />
+        </PersistQueryClientProvider>
+      </SearchParamsContextProvider>
     </AppContextProvider>
   );
 };
