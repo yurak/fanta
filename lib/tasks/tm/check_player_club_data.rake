@@ -43,7 +43,7 @@ namespace :tm do
           puts "error for id #{player.id} / #{player.tm_id} - #{e}"
         end
 
-        sleep(20) if (id % 4).zero?
+        sleep(10) if (id % 4).zero?
       end
     end
   end
