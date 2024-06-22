@@ -80,7 +80,7 @@
     line-height: 14px;
     color: #847577;
     display: grid;
-    grid-template-columns: 80px 220px 16fr 5fr 9fr 5fr 9fr 4fr 50px;
+    grid-template-columns: 80px 220px 16fr 6fr 7fr 6fr 9fr 50px;
     margin-bottom: 12px;
 
     a {
@@ -89,7 +89,7 @@
   }
 
   .national-headers-true {
-    grid-template-columns: 80px 220px 16fr 8fr 8fr 8fr 10fr 8fr 40px;
+    grid-template-columns: 80px 220px 16fr 8fr 8fr 8fr 8fr 8fr 8fr 40px;
   }
 
   .players-list-item {
@@ -109,7 +109,7 @@
       box-sizing: border-box;
       border-radius: 4px;
       display: grid;
-      grid-template-columns: 220px 16fr 5fr 9fr 5fr 9fr 4fr 50px;
+      grid-template-columns: 220px 16fr 6fr 7fr 6fr 9fr 50px;
 
       .team-image {
         img, object {
@@ -132,7 +132,7 @@
     }
 
     .national-row-true {
-      grid-template-columns: 220px 16fr 8fr 8fr 8fr 10fr 8fr 40px;
+      grid-template-columns: 220px 16fr 8fr 8fr 8fr 8fr 8fr 8fr 40px;
     }
 
     .players-list-player {

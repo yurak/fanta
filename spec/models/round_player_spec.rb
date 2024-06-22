@@ -295,4 +295,21 @@ RSpec.describe RoundPlayer do
       end
     end
   end
+
+  describe '#main_appearances' do
+    context 'without match players' do
+      it 'returns zero' do
+        expect(round_player.main_appearances).to eq(0)
+      end
+    end
+
+    context 'with match players' do
+      it 'returns match players count' do
+        create_list(:match_player, 2, round_player: round_player, real_position: 'Dc')
+        create_list(:match_player, 2, round_player: round_player)
+
+        expect(round_player.main_appearances).to eq(2)
+      end
+    end
+  end
 end

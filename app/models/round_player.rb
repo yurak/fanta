@@ -70,6 +70,10 @@ class RoundPlayer < ApplicationRecord
     match_players.count
   end
 
+  def main_appearances
+    match_players.main.count
+  end
+
   private
 
   def bonuses

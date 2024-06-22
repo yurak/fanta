@@ -1,6 +1,7 @@
 .page-block
   - if user_signed_in?
-    = render 'layouts/left_nav', league: nil
+    .web-header= render 'layouts/left_nav', league: nil
+    .mob-header= render 'layouts/mob_header', league: nil, title: t('welcome.fee.title')
   - else
     = render 'layouts/header'
   .rules-page{ class: "rules-user-#{user_signed_in?}"}
@@ -25,7 +26,7 @@
             .type-desc
               .type-number= "#{t('welcome.fee.type')} #1"
               .type-value
-                .type-value-number 400
+                .type-value-number 500
                 .type-value-uah ₴
               .type-per= t('welcome.fee.per_league')
               .type-play.grey-btn= link_to t('welcome.fee.play_now'), new_user_registration_path
@@ -42,16 +43,6 @@
                 .type-league-name= t('welcome.fee.tournament.italy')
                 .type-league-type.right Mantra
                 .type-league-country= t('welcome.fee.country.italy')
-        .fees-item.fees-item-green
-          .fees-type
-            .type-desc
-              .type-number= "#{t('welcome.fee.type')} #2"
-              .type-value
-                .type-value-number 300
-                .type-value-uah ₴
-              .type-per= t('welcome.fee.per_league')
-              .type-play.grey-btn= link_to t('welcome.fee.play_now'), new_user_registration_path
-          .type-list
             .type-league
               .type-league-icon= image_tag('tournaments/germany.png')
               .type-league-data
@@ -64,34 +55,22 @@
                 .type-league-name= t('welcome.fee.tournament.spain')
                 .type-league-type.right Mantra
                 .type-league-country= t('welcome.fee.country.spain')
+        .fees-item.fees-item-green
+          .fees-type
+            .type-desc
+              .type-number= "#{t('welcome.fee.type')} #2"
+              .type-value
+                .type-value-number 400
+                .type-value-uah ₴
+              .type-per= t('welcome.fee.per_league')
+              .type-play.grey-btn= link_to t('welcome.fee.play_now'), new_user_registration_path
+          .type-list
             .type-league
               .type-league-icon= image_tag('tournaments/france.png')
               .type-league-data
                 .type-league-name= t('welcome.fee.tournament.france')
                 .type-league-type.right Mantra
                 .type-league-country= t('welcome.fee.country.france')
-            .type-league
-              .type-league-icon= image_tag('tournaments/europe.png')
-              .type-league-data
-                .type-league-name= t('welcome.fee.tournament.europe')
-                .type-league-type.right Fanta
-                .type-league-country= t('welcome.fee.country.europe')
-            -#.type-league
-            -#  .type-league-icon= image_tag('tournaments/world_cup.png')
-            -#  .type-league-data
-            -#    .type-league-name World Cup 2022
-            -#    .type-league-type.right Fanta
-            -#    .type-league-country= t('welcome.fee.country.qatar')
-        .fees-item.fees-item-violet
-          .fees-type
-            .type-desc
-              .type-number= "#{t('welcome.fee.type')} #3"
-              .type-value
-                .type-value-number 200
-                .type-value-uah ₴
-              .type-per= t('welcome.fee.per_league')
-              .type-play.grey-btn= link_to t('welcome.fee.play_now'), new_user_registration_path
-          .type-list
             .type-league
               .type-league-icon= image_tag('tournaments/britain.png')
               .type-league-data
@@ -116,6 +95,29 @@
                 .type-league-name= t('welcome.fee.tournament.portugal')
                 .type-league-type.right Mantra
                 .type-league-country= t('welcome.fee.country.portugal')
+            -#.type-league
+            -#  .type-league-icon= image_tag('tournaments/europe.png')
+            -#  .type-league-data
+            -#    .type-league-name= t('welcome.fee.tournament.europe')
+            -#    .type-league-type.right Fanta
+            -#    .type-league-country= t('welcome.fee.country.europe')
+            -#.type-league
+            -#  .type-league-icon= image_tag('tournaments/world_cup.png')
+            -#  .type-league-data
+            -#    .type-league-name World Cup 2022
+            -#    .type-league-type.right Fanta
+            -#    .type-league-country= t('welcome.fee.country.qatar')
+        -#.fees-item.fees-item-violet
+        -#  .fees-type
+        -#    .type-desc
+        -#      .type-number= "#{t('welcome.fee.type')} #3"
+        -#      .type-value
+        -#        .type-value-number 200
+        -#        .type-value-uah ₴
+        -#      .type-per= t('welcome.fee.per_league')
+        -#      .type-play.grey-btn= link_to t('welcome.fee.play_now'), new_user_registration_path
+        -#  .type-list
+
       .fees-discounts
         .fees-discounts-title= t('welcome.fee.discounts')
         .slider-row
@@ -128,16 +130,21 @@
             .discount-item-title= t('welcome.fee.discount1_title')
             .discount-item-text= t('welcome.fee.discount1_text')
             .discount-item-note= t('welcome.fee.discount1_note')
-          .discount-item.old-discount
-            .discount-item-icon 🕺
-            .discount-item-title= t('welcome.fee.discount2_title')
-            .discount-item-text= t('welcome.fee.discount2_text')
-            .discount-item-note= t('welcome.fee.discount2_note')
+          -#.discount-item.old-discount
+          -#  .discount-item-icon 🕺
+          -#  .discount-item-title= t('welcome.fee.discount2_title')
+          -#  .discount-item-text= t('welcome.fee.discount2_text')
+          -#  .discount-item-note= t('welcome.fee.discount2_note')
+          -#.discount-item.old-discount
+          -#  .discount-item-icon 💪
+          -#  .discount-item-title= t('welcome.fee.discount3_title')
+          -#  .discount-item-text= t('welcome.fee.discount3_text')
+          -#  .discount-item-note= t('welcome.fee.discount3_note')
           .discount-item.old-discount
             .discount-item-icon 💪
-            .discount-item-title= t('welcome.fee.discount3_title')
-            .discount-item-text= t('welcome.fee.discount3_text')
-            .discount-item-note= t('welcome.fee.discount3_note')
+            .discount-item-title= t('welcome.fee.discount4_title')
+            .discount-item-text= t('welcome.fee.discount4_text')
+            .discount-item-note= t('welcome.fee.discount4_note')
   = render 'layouts/footer'
 
 :javascript
