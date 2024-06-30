@@ -80,12 +80,16 @@
     line-height: 14px;
     color: #847577;
     display: grid;
-    grid-template-columns: 80px 220px 16fr 6fr 7fr 6fr 9fr 50px;
+    grid-template-columns: 80px 220px 16fr 6fr 7fr 6fr 9fr 4fr 50px;
     margin-bottom: 12px;
 
     a {
       color: #847577;
     }
+  }
+
+  .round-players-list-headers {
+    grid-template-columns: 80px 220px 16fr 6fr 7fr 6fr 9fr 50px;
   }
 
   .national-headers-true {
@@ -109,7 +113,7 @@
       box-sizing: border-box;
       border-radius: 4px;
       display: grid;
-      grid-template-columns: 220px 16fr 6fr 7fr 6fr 9fr 50px;
+      grid-template-columns: 220px 16fr 6fr 7fr 6fr 9fr 4fr 50px;
 
       .team-image {
         img, object {
@@ -129,6 +133,10 @@
           vertical-align: middle;
         }
       }
+    }
+
+    .round-players-list-row {
+      grid-template-columns: 220px 16fr 6fr 7fr 6fr 9fr 50px;
     }
 
     .national-row-true {
