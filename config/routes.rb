@@ -77,6 +77,7 @@ Rails.application.routes.draw do
   end
 
   resources :tournament_rounds, only: [:show, :edit, :update] do
+    put :auto_close, on: :member
     put :tours_update, on: :member
 
     resources :round_players, only: [:index]

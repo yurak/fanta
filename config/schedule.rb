@@ -4,6 +4,11 @@ every 5.minutes do
   rake 'tours:lock_deadline'
 end
 
+# Auto-close tours
+every '20 * * * *' do
+  rake 'tours:auto_close'
+end
+
 # Send notifications by Telegram bot before tour deadline
 every :hour do
   rake 'tg:send_tour_deadline'

@@ -33,7 +33,7 @@ class TournamentRoundsController < ApplicationController
   def tours_update
     if can? :update, TournamentRound
       tournament_round.tours.each do |tour|
-        Tours::Manager.new(tour, params[:status]).call
+        Tours::Manager.call(tour, params[:status])
       end
 
       path = tournament_round_path(tournament_round)
@@ -42,6 +42,12 @@ class TournamentRoundsController < ApplicationController
     end
 
     redirect_to path
+  end
+
+  def auto_close
+    TournamentRounds::AutoCloser.call(params[:id])
+
+    redirect_to tournament_round_path(tournament_round)
   end
 
   private

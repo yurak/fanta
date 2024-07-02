@@ -1,3 +1,4 @@
+# rubocop:disable Metrics/BlockLength:
 namespace :tours do
   desc 'Unlock tour by number'
   task :unlock, [:number] => :environment do |_t, args|
@@ -12,8 +13,31 @@ namespace :tours do
       league.tours.set_lineup.each do |tour|
         tour_deadline = tour.tournament_round.deadline.asctime.in_time_zone('EET')
 
-        Tours::Manager.new(tour, 'locked').call if tour_deadline < DateTime.now
+        Tours::Manager.call(tour, Tours::Manager::LOCKED_STATUS) if tour_deadline < DateTime.now
       end
+    end
+  end
+
+  # rake tours:auto_close
+  desc 'Close moderated tours'
+  task auto_close: :environment do
+    TournamentRound.moderated.each do |t_round|
+      hours = ((Time.zone.now - t_round.moderated_at) / 3_600).to_i
+
+      if [6, 12, 17].include?(hours)
+        Scores::Injectors::Fotmob.call(t_round)
+        t_round.tours.each do |tour|
+          Scores::PositionMalus::Updater.call(tour)
+          Lineups::Updater.call(tour)
+        end
+      end
+
+      next if hours < TournamentRound::MODERATED_HOURS
+
+      t_round.tours.locked_postponed.each do |tour|
+        Tours::Manager.call(tour, Tours::Manager::CLOSED_STATUS)
+      end
+      t_round.update(moderated_at: nil)
     end
   end
 
@@ -50,3 +74,4 @@ namespace :tours do
     end
   end
 end
+# rubocop:enable Metrics/BlockLength
