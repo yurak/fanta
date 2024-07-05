@@ -276,6 +276,43 @@ ua:
   players:
     players: "Гравці"
     search_player: "Пошук гравця"
+    results:
+      title: "Знайдено"
+      player: "гравець"
+      player_other: "гравців"
+    filters:
+      filters: "Фільтри"
+      allFilters: "Всі фільтри"
+      clearFilters: "Очистити"
+      clearAll: "Очистити"
+      clear: "Очистити"
+      applyFilters: "Застосувати"
+      clubsLabel: "Клуби"
+      positionLabel: "Позиція"
+      baseScoreLabel: "Базова оцінка"
+      baseScoreShortLabel: "БО"
+      totalScoreLabel: "Загальна оцінка"
+      totalScoreShortLabel: "ЗО"
+      appearancesLabel: "Появи"
+      appearancesShortLabel: "Появи"
+      numberOfTeamsLabel: "К-сть команд"
+      priceLabel: "Вартість"
+      searchPlaceholder: "Пошук"
+    sorter:
+      sortBy: "Сортувати за"
+      apply: "Застосувати"
+      nameDesc: "Ім'я (А - Я)"
+      nameAsc: "Ім'я (Я - А)"
+      positionAsc: "Позиція (GK - ST)"
+      positionDesc: "Позиція (ST - GK)"
+      avaragePriceDesc: "Середня ціна (спадання)"
+      avaragePriceAsc: "Середня ціна (зростання)"
+      appearancesDesc: "Появи (спадання)"
+      appearancesAsc: "Появи (зростання)"
+      baseScoreDesc: "Базова оцінка (спадання)"
+      baseScoreAsc: "Базова оцінка (зростання)"
+      totalScoreDesc: "Загальна оцінка (спадання)"
+      totalScoreAsc: "Загальна оцінка (зростання)"
     filter_tournament: "Фільтр по турніру"
     filter_position: "Фільтр по позиції"
     filter_club: "Фільтр по клубу"
@@ -1058,5 +1095,5 @@ ua:
         register: Реєстрація
         text: |
           Ласкаво просимо до MantraFootball!
-          
+
           Запрошуємо долучитися до пробного турніру на 7 турів. Для вибору доступні топ-5 ліг Європи. Участь в пробному турнірі безкоштовна. Реєструйтесь!

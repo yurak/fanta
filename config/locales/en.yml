@@ -253,6 +253,42 @@ en:
   players:
     players: "Players"
     search_player: "Search player"
+    results:
+      title: "Showing"
+      player: "player"
+      player_other: "players"
+    filters:
+      allFilters: "All filters"
+      filters: "Filters"
+      clearFilters: "Clear filters"
+      clearAll: "Clear all"
+      clear: "Clear"
+      applyFilters: "Apply filters"
+      clubsLabel: "Clubs"
+      positionLabel: "Position"
+      baseScoreLabel: "Base score"
+      baseScoreShortLabel: "BS"
+      totalScoreLabel: "Total score"
+      totalScoreShortLabel: "TS"
+      appearancesLabel: "Appearances"
+      appearancesShortLabel: "Apps"
+      numberOfTeamsLabel: "# of teams"
+      priceLabel: "Price"
+      searchPlaceholder: "Search"
+    sorter:
+      sortBy: "Sort by"
+      nameDesc: "Name (A to Z)"
+      nameAsc: "Name (Z to A)"
+      positionAsc: "Position (GK to ST)"
+      positionDesc: "Position (ST to GK)"
+      avaragePriceDesc: "Average price (High to Low)"
+      avaragePriceAsc: "Average price (Low to High)"
+      appearancesDesc: "Appearances (High to Low)"
+      appearancesAsc: "Appearances (Low to High)"
+      baseScoreDesc: "Base score (High to Low)"
+      baseScoreAsc: "Base score (Low to High)"
+      totalScoreDesc: "Total score (High to Low)"
+      totalScoreAsc: "Total score (Low to High)"
     filter_tournament: "Filter by tournament"
     filter_position: "Filter by position"
     filter_club: "Filter by club"
@@ -1036,5 +1072,5 @@ en:
         register: Register
         text: |
           Welcome to MantraFootball!
-          
+
           We invite you to join the trial tournament for 7 rounds. The top 5 European leagues are available for selection. Participation in the trial tournament is free. Register!

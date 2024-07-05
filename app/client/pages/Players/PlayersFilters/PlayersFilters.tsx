@@ -6,8 +6,10 @@ import PlayersFilterContextProvider, {
 } from "@/application/Players/PlayersFilterContext";
 import styles from "./PlayersFilters.module.scss";
 import { ClubCheckboxPopover } from "@/components/ClubCheckbox";
+import { useTranslation } from "react-i18next";
 
 const PlayerFilters = () => {
+  const { t } = useTranslation();
   const { filterValues, onChangeValue } = usePlayersFilterContext();
 
   return (
@@ -23,8 +25,8 @@ const PlayerFilters = () => {
           max={PlayersFilterConstants.TOTAL_SCORE_MAX}
           value={filterValues.totalScore}
           step={0.1}
-          label="Total score"
-          valueLabel="TS"
+          label={t("players.filters.totalScoreLabel")}
+          valueLabel={t("players.filters.totalScoreShortLabel")}
           onChange={onChangeValue("totalScore")}
         />
         <RangeSliderPopover
@@ -32,30 +34,30 @@ const PlayerFilters = () => {
           max={PlayersFilterConstants.BASE_SCORE_MAX}
           step={0.1}
           value={filterValues.baseScore}
-          label="Base score"
-          valueLabel="BS"
+          label={t("players.filters.baseScoreLabel")}
+          valueLabel={t("players.filters.baseScoreShortLabel")}
           onChange={onChangeValue("baseScore")}
         />
         <RangeSliderPopover
           min={PlayersFilterConstants.APPEARANCES_MIN}
           max={PlayersFilterConstants.APPEARANCES_MAX}
           value={filterValues.appearances}
-          label="Appearances"
-          valueLabel="Apps"
+          label={t("players.filters.appearancesLabel")}
+          valueLabel={t("players.filters.appearancesShortLabel")}
           onChange={onChangeValue("appearances")}
         />
         <RangeSliderPopover
           min={PlayersFilterConstants.TEAMS_COUNT_MIN}
           max={PlayersFilterConstants.TEAMS_COUNT_MAX}
           value={filterValues.teamsCount}
-          label="# of teams"
+          label={t("players.filters.numberOfTeamsLabel")}
           onChange={onChangeValue("teamsCount")}
         />
         <RangeSliderPopover
           min={PlayersFilterConstants.PRICE_MIN}
           max={PlayersFilterConstants.PRICE_MAX}
           value={filterValues.price}
-          label="Price"
+          label={t("players.filters.priceLabel")}
           onChange={onChangeValue("price")}
         />
       </div>

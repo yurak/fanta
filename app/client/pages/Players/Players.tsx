@@ -1,4 +1,5 @@
 import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import Heading from "@/components/Heading";
 import PageLayout from "@/layouts/PageLayout";
 import { formatNumber } from "@/helpers/formatNumber";
@@ -26,6 +27,8 @@ const Players = () => {
     requestSortPayload,
   } = usePlayersContext();
 
+  const { t } = useTranslation();
+
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isFetching, isPending } =
     usePlayers({
       filter: requestFilterPayload,
@@ -49,11 +52,16 @@ const Players = () => {
       <div className={styles.header}>
         <div className={styles.headerTop}>
           <div className={styles.heading}>
-            <Heading title="Players" noSpace />
+            <Heading title={t("players.players")} noSpace />
           </div>
         </div>
         <div className={styles.search}>
-          <Search value={search} onChange={setSearch} placeholder="Search player" autofocus />
+          <Search
+            value={search}
+            onChange={setSearch}
+            placeholder={t("players.search_player")}
+            autofocus
+          />
         </div>
       </div>
       <div className={styles.filtersWrapper}>
@@ -62,15 +70,15 @@ const Players = () => {
           <PlayersFilters />
           {filterCount > 0 && (
             <Link asButton onClick={clearFilter}>
-              Clear all
+              {t("players.filters.clearFilters")}
             </Link>
           )}
         </div>
         <div className={styles.total}>
-          Showing
+          {t("players.results.title")}
           <br />
           <span>
-            {formatNumber(totalItemCount)} {totalItemCount === 1 ? "player" : "players"}
+            {formatNumber(totalItemCount)} {t("players.results.player", { count: totalItemCount })}
           </span>
         </div>
       </div>

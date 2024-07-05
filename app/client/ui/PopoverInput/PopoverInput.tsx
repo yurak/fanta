@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import Link from "../Link";
 import Popover from "../Popover";
 import PopoverInputButton from "./PopoverInputButton";
@@ -15,6 +16,8 @@ const PopoverInput = ({
   children: React.ReactNode,
   subHeader?: React.ReactNode,
 }) => {
+  const { t } = useTranslation();
+
   const isPristine = !selectedLabel;
 
   return (
@@ -31,7 +34,7 @@ const PopoverInput = ({
       )}
       footer={
         <Link asButton disabled={isPristine} onClick={clearValue}>
-          Clear
+          {t("players.filters.clear")}
         </Link>
       }
       subHeader={subHeader}
