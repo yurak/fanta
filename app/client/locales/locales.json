@@ -1016,7 +1016,7 @@
         "start": {
           "learn_more": "Learn more",
           "register": "Register",
-          "text": "Welcome to MantraFootball!\n\nWe invite you to join the trial tournament for 7 rounds. The top 5 European leagues are available for selection. Participation in the trial tournament is free. Register!\n"
+          "text": "Welcome to MantraFootball!\n\nWe invite you to join the most realistic football fantasy. There are 9 European leagues to choose from. Register!\n"
         }
       }
     },
@@ -1395,7 +1395,7 @@
             "ol2": "If the goalkeeper receives a red card, he does not receive the bonus for the clean sheet.",
             "ol3": "Removing a player from the bench after being substituted for the clean sheet has no effect.",
             "ol4": "The size of the clean sheet bonus cannot be higher than that provided for the position in which the player is in the module (for example, if a player with the 'native' positions of RB and WB is in the module in the WB position, his clean sheet bonus will be +0.5). And vice versa: if a player finds himself in a module in a 'non-native' position, he can receive a clean sheet bonus, the size of which does not exceed the bonus of his 'native' position (for example, the size of the clean sheet bonus of a player with a 'native' DM position, who play at the CB position in the module, will be +0.5).",
-            "ol5": "When determining the author of a goal, assist, own goal, penalty kick, etc., the indicator of the FotMob service is taken into account, which should record and display the relevant fact. Indicators of other football portals and services are not taken into account.",
+            "ol5": "When determining the author of a goal, assist, own goal, penalty kick, etc., the indicator of the FotMob service is taken into account, which should record and display the relevant fact (the game takes into account the data that is displayed EXCLUSIVELY in the player's personal statistics on the match page in FotMob). Indicators of other football portals and services are not taken into account.",
             "ol6": "A missed penalty is not necessarily a goalkeeper save, therefore, the goalkeeper does not receive the corresponding bonus for all missed penalties."
           },
           "paragraph1": "In addition to the basic score, players can receive additional bonuses for certain positive actions and maluses for negative ones.",
@@ -2194,7 +2194,7 @@
         "start": {
           "learn_more": "Докладніше",
           "register": "Реєстрація",
-          "text": "Ласкаво просимо до MantraFootball!\n\nЗапрошуємо долучитися до пробного турніру на 7 турів. Для вибору доступні топ-5 ліг Європи. Участь в пробному турнірі безкоштовна. Реєструйтесь!\n"
+          "text": "Ласкаво просимо до MantraFootball!\n\nЗапрошуємо долучитися до найреалістичнішого футбольного фентезі. Для вибору доступні 9 європейських ліг. Реєструйтесь!\n"
         }
       }
     },
@@ -2554,7 +2554,7 @@
             "ol2": "Якщо воротар отримує червону картку, він не отримує бонус за кліншит.",
             "ol3": "Видалення гравця з лави запасних після того як його замінили на кліншит не впливає.",
             "ol4": "Розмір бонусу за кліншит не може бути вищим, ніж передбачено для позиції, на якій гравець опинився в модулі (наприклад, якщо гравець з «рідними» позиціями RB та WB опинився в модулі на позиції WB, його бонус за кліншит становитиме +0.5). І навпаки: якщо гравець опиниться в модулі на «нерідній» позиції, він може отримати бонус за кліншит, розмір якого не перевищує розміру бонусу за його «рідною» позицією (наприклад, розмір бонусу за кліншит гравця з «рідною» позицією DM, який опиниться на позиції CB в модулі, становитиме +0.5).",
-            "ol5": "При визначені автора голу, асиста, автоголу, відбиття пенальті, тощо враховується саме показник сервісу FotMob, який має зафіксувати та відобразити відповідний факт. Показники інших футбольних порталів та сервісів до уваги не враховуються.",
+            "ol5": "При визначені автора голу, асиста, автоголу, відбиття пенальті, тощо враховується саме показник сервісу FotMob, який має зафіксувати та відобразити відповідний факт (у грі враховуються дані, які відображені ВИКЛЮЧНО у персональній статистиці гравця на сторінці матчу в FotMob). Показники інших футбольних порталів та сервісів до уваги не враховуються.",
             "ol6": "Незабитий пенальті не обов’язково є сейвом воротаря, тому воротар отримує відповідний бонус не за всі незабиті пенальті."
           },
           "paragraph1": "Крім базової оцінки, гравці можуть отримати додаткові бонуси за певні позитивні дії і малуси за негативні.",
