@@ -3,9 +3,11 @@ import Button from "@/ui/Button";
 import { RadioboxGroup } from "@/ui/Radiobox";
 import { useState } from "react";
 import { usePlayersSortContext } from "@/application/Players/PlayersSortContext";
+import { useTranslation } from "react-i18next";
 
 const PlayersSortDrawer = ({ isOpen, close }: { isOpen: boolean, close: () => void }) => {
   const { value, setValue, sortOptions } = usePlayersSortContext();
+  const { t } = useTranslation();
 
   const [innerValue, setInnerValue] = useState(value);
 
@@ -16,12 +18,12 @@ const PlayersSortDrawer = ({ isOpen, close }: { isOpen: boolean, close: () => vo
 
   return (
     <Drawer
-      title="Sort by"
+      title={t("players.sorter.sortBy")}
       isOpen={isOpen}
       onClose={close}
       footer={
         <Button block onClick={onApply}>
-          Apply
+          {t("players.sorter.apply")}
         </Button>
       }
       placement="bottom"

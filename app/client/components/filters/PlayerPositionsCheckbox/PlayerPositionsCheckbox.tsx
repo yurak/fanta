@@ -6,6 +6,7 @@ import { Position } from "@/interfaces/Position";
 import PlayerPositions from "@/components/PlayerPositions/PlayerPositions";
 import { useAppContext } from "@/application/AppContext";
 import styles from "./PlayerPositionsCheckbox.module.scss";
+import { useTranslation } from "react-i18next";
 
 interface IProps {
   value: Position[],
@@ -37,6 +38,8 @@ const PlayerPositionsCheckbox = ({ value, onChange }: IProps) => {
 export const PlayerPositionsCheckboxPopover = (props: IProps) => {
   const { value, onChange } = props;
 
+  const { t } = useTranslation();
+
   const { italPositionNaming } = useAppContext();
 
   const selectedLabel = useMemo(() => {
@@ -54,7 +57,11 @@ export const PlayerPositionsCheckboxPopover = (props: IProps) => {
   }, [value, italPositionNaming]);
 
   return (
-    <PopoverInput label="Position" selectedLabel={selectedLabel} clearValue={() => onChange([])}>
+    <PopoverInput
+      label={t("players.filters.positionLabel")}
+      selectedLabel={selectedLabel}
+      clearValue={() => onChange([])}
+    >
       <PlayerPositionsCheckbox {...props} />
     </PopoverInput>
   );

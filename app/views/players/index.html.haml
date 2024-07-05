@@ -2,12 +2,4 @@
   .web-header= render 'layouts/left_nav', league: nil
   .mob-header= render 'layouts/mob_header', league: nil, title: t('players.players')
   = react_component("App")
-
-
--# .page-block
--#  .web-header= render 'layouts/left_nav', league: league
--#  .mob-header= render 'layouts/mob_header', league: league, title: t('players.players')
--#  = react_component("App")
--#  - if league
--#    .portrait-footer{ class: "portrait-footer-#{league.mantra?}"}
--#      = render 'layouts/league_links', league: league
+  

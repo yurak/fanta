@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useMediaQuery } from "usehooks-ts";
 import PlayersFilterContextProvider, {
   usePlayersFilterContext,
@@ -26,6 +27,8 @@ const PlayersFiltersDrawer = () => {
   const { filterValues, onChangeValue, applyFilter } = usePlayersFilterContext();
   const { applySort, selectedSort } = usePlayersSortContext();
 
+  const { t } = useTranslation();
+
   const [isSortDrawerOpen, setIsSortDrawerOpen] = useState(false);
 
   const applyFilterHandler = () => {
@@ -42,41 +45,41 @@ const PlayersFiltersDrawer = () => {
   return (
     <>
       <Link asButton icon={<FilterIcon />} onClick={openSidebar}>
-        All filters {filterCount > 0 ? `(${filterCount})` : ""}
+        {t("players.filters.allFilters")} {filterCount > 0 ? `(${filterCount})` : ""}
       </Link>
       <Drawer
-        title="Filters"
+        title={t("players.filters.filters")}
         isOpen={isSidebarOpen}
         onClose={closeSidebar}
         noPadding
         footer={
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
             <Link asButton onClick={clearFilterHandler}>
-              Clear all
+              {t("players.filters.clearAll")}
             </Link>
-            <Button onClick={applyFilterHandler}>Apply filter</Button>
+            <Button onClick={applyFilterHandler}>{t("players.filters.applyFilters")}</Button>
           </div>
         }
       >
         {isMobile && (
           <Drawer.Button
-            title="Sort by"
+            title={t("players.sorter.sortBy")}
             onClick={() => setIsSortDrawerOpen(true)}
             value={
               selectedSort && <span className={styles.sortButtonLabel}>{selectedSort?.label}</span>
             }
           />
         )}
-        <Drawer.Section title="Clubs">
+        <Drawer.Section title={t("players.filters.clubsLabel")}>
           <ClubCheckbox value={filterValues.clubs} onChange={onChangeValue("clubs")} />
         </Drawer.Section>
-        <Drawer.Section title="Position">
+        <Drawer.Section title={t("players.filters.positionLabel")}>
           <PlayerPositionsCheckbox
             value={filterValues.position}
             onChange={onChangeValue("position")}
           />
         </Drawer.Section>
-        <Drawer.Section title="Total score">
+        <Drawer.Section title={t("players.filters.totalScoreLabel")}>
           <RangeSlider
             value={filterValues.totalScore}
             onChange={onChangeValue("totalScore")}
@@ -85,7 +88,7 @@ const PlayersFiltersDrawer = () => {
             max={PlayersFilterConstants.TOTAL_SCORE_MAX}
           />
         </Drawer.Section>
-        <Drawer.Section title="Base score">
+        <Drawer.Section title={t("players.filters.baseScoreLabel")}>
           <RangeSlider
             value={filterValues.baseScore}
             onChange={onChangeValue("baseScore")}
@@ -94,7 +97,7 @@ const PlayersFiltersDrawer = () => {
             max={PlayersFilterConstants.BASE_SCORE_MAX}
           />
         </Drawer.Section>
-        <Drawer.Section title="Appearances">
+        <Drawer.Section title={t("players.filters.appearancesLabel")}>
           <RangeSlider
             value={filterValues.appearances}
             onChange={onChangeValue("appearances")}
@@ -102,7 +105,7 @@ const PlayersFiltersDrawer = () => {
             max={PlayersFilterConstants.APPEARANCES_MAX}
           />
         </Drawer.Section>
-        <Drawer.Section title="# of teams">
+        <Drawer.Section title={t("players.filters.numberOfTeamsLabel")}>
           <RangeSlider
             value={filterValues.teamsCount}
             onChange={onChangeValue("teamsCount")}
@@ -110,7 +113,7 @@ const PlayersFiltersDrawer = () => {
             max={PlayersFilterConstants.TEAMS_COUNT_MAX}
           />
         </Drawer.Section>
-        <Drawer.Section title="Price">
+        <Drawer.Section title={t("players.filters.priceLabel")}>
           <RangeSlider
             value={filterValues.price}
             onChange={onChangeValue("price")}

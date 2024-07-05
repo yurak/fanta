@@ -1,4 +1,5 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import cn from "classnames";
 import { useTournaments } from "@/api/query/useTournaments";
 import { ITournament } from "@/interfaces/Tournament";
@@ -265,12 +266,13 @@ const ClubCheckbox = () => {
 
 const ClubSearch = ({ autofocus }: { autofocus?: boolean }) => {
   const { search, setSearch } = useClubCheckboxContext();
+  const { t } = useTranslation();
 
   return (
     <Input
       value={search}
       onChange={setSearch}
-      placeholder="Search"
+      placeholder={t("players.filters.searchPlaceholder")}
       autofocus={autofocus}
       size="small"
       icon={<SearchIcon />}
@@ -280,10 +282,11 @@ const ClubSearch = ({ autofocus }: { autofocus?: boolean }) => {
 
 const ClubCheckboxPopoverInner = () => {
   const { onChange, selectedLabel } = useClubCheckboxContext();
+  const { t } = useTranslation();
 
   return (
     <PopoverInput
-      label="Clubs"
+      label={t("players.filters.clubsLabel")}
       selectedLabel={selectedLabel}
       clearValue={() => onChange([])}
       subHeader={<ClubSearch autofocus />}
