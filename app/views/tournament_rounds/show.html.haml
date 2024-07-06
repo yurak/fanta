@@ -5,6 +5,9 @@
     .round-title-bar
       .round-title
         = "#{tournament_round.tournament.name} ##{tournament_round.number}"
+    - if tournament_round.moderated_at
+      .round-moderated-badge
+        = "#{t('round.moderated')} #{(tournament_round.moderated_at.utc.in_time_zone('EET') + TournamentRound::MODERATED_HOURS.hours).strftime("%H:%M %a, %b %e")}"
     .round-block
       .round-left
         .round-tours
@@ -20,17 +23,17 @@
       .round-actions
         - if tournament_round.tours.locked_postponed.any?
           .round-action-link
-            = link_to  t('round.inject_scores'), inject_scores_tour_path(tournament_round.tours.first, redirect: 'round'), data: { confirm: t('header.are_you_sure') }
+            = link_to t('round.inject_scores'), inject_scores_tour_path(tournament_round.tours.first, redirect: 'round'), data: { confirm: t('header.are_you_sure') }
         - if current_user&.admin?
           - if !tournament_round.moderated_at && tournament_round.finished? && tournament_round.tours.locked_postponed.any?
             .round-action-link
-              = link_to  t('round.confirm'), auto_close_tournament_round_path(tournament_round), method: :put, data: { confirm: t('header.are_you_sure') }
+              = link_to t('round.confirm'), auto_close_tournament_round_path(tournament_round), method: :put, data: { confirm: t('header.are_you_sure') }
           - if tournament_round.tours.inactive.any?
             .round-action-link
-              = link_to  t('round.open'), tours_update_tournament_round_path(tournament_round, status: :set_lineup), method: :put, data: { confirm: t('header.are_you_sure') }
-          - if tournament_round.tours.locked.any?
+              = link_to t('round.open'), tours_update_tournament_round_path(tournament_round, status: :set_lineup), method: :put, data: { confirm: t('header.are_you_sure') }
+          - if !tournament_round.finished? && tournament_round.tours.locked.any?
             .round-action-link
-              = link_to  t('round.postpone'), tours_update_tournament_round_path(tournament_round, status: :postponed), method: :put, data: { confirm: t('header.are_you_sure') }
+              = link_to t('round.postpone'), tours_update_tournament_round_path(tournament_round, status: :postponed), method: :put, data: { confirm: t('header.are_you_sure') }
           - if tournament_round.finished? && tournament_round.tours.locked_postponed.any?
             .round-action-link
               = link_to t('round.close'), tours_update_tournament_round_path(tournament_round, status: :closed), method: :put, data: { confirm: t('header.are_you_sure') }

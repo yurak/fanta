@@ -351,6 +351,7 @@ en:
     close: "Close all tours"
     confirm: "Confirm auto-close"
     inject_scores: "Inject scores"
+    moderated: "Will be auto-closed after:"
     open: "Open all tours"
     postpone: "Postpone all tours"
     title: "Tournament Round"

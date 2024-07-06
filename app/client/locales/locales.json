@@ -876,6 +876,7 @@
       "close": "Close all tours",
       "confirm": "Confirm auto-close",
       "inject_scores": "Inject scores",
+      "moderated": "Will be auto-closed after:",
       "open": "Open all tours",
       "postpone": "Postpone all tours",
       "title": "Tournament Round"
@@ -2061,6 +2062,7 @@
       "close": "Закрити всі тури",
       "confirm": "Підтвердити автозакриття",
       "inject_scores": "Затягнути оцінки",
+      "moderated": "Буде автоматично закрито після:",
       "open": "Відкрити всі тури",
       "postpone": "Відкласти всі тури",
       "title": "Раунд Турніру"

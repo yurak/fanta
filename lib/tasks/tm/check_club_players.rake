@@ -21,10 +21,10 @@ namespace :tm do
           href = player_data.children[1].attributes['href'].value
           player_url = "https://www.transfermarkt.com#{href}"
           tm_id = href.split('/').last
-          player = Player.find_by(tm_id: tm_id)
+          pl = Player.find_by(tm_id: tm_id)
 
-          if player
-            puts "#{player_count} - #{player.name} - #{player.tm_id} --- #{player.club.name}"
+          if pl
+            puts "#{player_count} - #{pl.name} - #{pl.tm_id} --- #{pl.club.name}#{' !!!!!!!!!!!!!' unless pl.club.name == club.name}"
             player_count += 1
           else
             player_response = RestClient::Request.execute(method: :get, url: player_url, headers: { 'User-Agent': 'product/version' },

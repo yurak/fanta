@@ -19,6 +19,17 @@
     }
   }
 
+  .round-moderated-badge {
+    color: #FFFFFF;
+    background: #EC9797;
+    border-radius: 12px;
+    padding: 0 16px;
+    width: fit-content;
+    height: 24px;
+    font-size: 14px;
+    line-height: 24px;
+  }
+
   .round-block {
     margin-top: 32px;
     display: grid;
