@@ -9,6 +9,9 @@ class TournamentRound < ApplicationRecord
 
   scope :by_tournament, ->(tournament_id) { where(tournament: tournament_id) }
   scope :by_season, ->(season_id) { where(season: season_id) }
+  scope :moderated, -> { where.not(moderated_at: nil) }
+
+  MODERATED_HOURS = 18
 
   def eurocup_players
     return [] unless tournament.eurocup?

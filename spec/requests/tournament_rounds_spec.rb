@@ -264,4 +264,55 @@ RSpec.describe 'Users' do
       end
     end
   end
+
+  describe 'GET #auto_close' do
+    before do
+      put auto_close_tournament_round_path(tournament_round)
+    end
+
+    context 'when user is logged out' do
+      it { expect(response).to redirect_to('/users/sign_in') }
+      it { expect(response).to have_http_status(:found) }
+    end
+
+    context 'when user is logged in' do
+      login_user
+      before do
+        put auto_close_tournament_round_path(tournament_round)
+      end
+
+      it { expect(response).to redirect_to(tournament_round_path(tournament_round)) }
+      it { expect(response).to have_http_status(:found) }
+    end
+
+    context 'when moderator is logged in' do
+      login_moderator
+      before do
+        put auto_close_tournament_round_path(tournament_round)
+      end
+
+      it { expect(response).to redirect_to(tournament_round_path(tournament_round)) }
+      it { expect(response).to have_http_status(:found) }
+
+      it 'updates tournament_round moderated time' do
+        expect(tournament_round.reload.moderated_at).not_to be_nil
+      end
+    end
+
+    context 'when admin is logged in' do
+      login_admin
+      before do
+        create_list(:tour, 2, tournament_round: tournament_round)
+
+        put auto_close_tournament_round_path(tournament_round)
+      end
+
+      it { expect(response).to redirect_to(tournament_round_path(tournament_round)) }
+      it { expect(response).to have_http_status(:found) }
+
+      it 'updates tournament_round moderated time' do
+        expect(tournament_round.reload.moderated_at).not_to be_nil
+      end
+    end
+  end
 end
