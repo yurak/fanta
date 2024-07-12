@@ -246,6 +246,7 @@
       "transfers": "TRANSFERS"
     },
     "auction_bid": {
+      "all_budget": "You must use the entire budget at the first stage of the auction - %{budget} million",
       "choose": "Choose a player",
       "confirm": "Confirm bid",
       "duplicates": "Bid contains duplicate players in slots: ",
@@ -270,6 +271,8 @@
       },
       "bids": "💶 Bids",
       "budget": "💰 Budget",
+      "decrease_bid": "Decrease bid to match your budget",
+      "exceeded": "Budget exceeded",
       "filters": "Filters",
       "max_bid": "Maximum bid",
       "module_no_fit": "Not applicable (Bid on at least 10 field players)",
@@ -1712,6 +1715,7 @@
       "transfers": "ТРАНСФЕРИ"
     },
     "auction_bid": {
+      "all_budget": "Ви повинні використати увесь бюджет на першому етапі аукціону - %{budget} мільйонів",
       "choose": "Оберіть гравця",
       "confirm": "Підтвердити ставку",
       "duplicates": "Дублюються обрані гравці у слотах: ",
@@ -1736,6 +1740,8 @@
       },
       "bids": "💶 Ставки",
       "budget": "💰 Бюджет",
+      "decrease_bid": "Знизьте ставку відповідно до свого бюджету",
+      "exceeded": "Бюджет перевищено",
       "filters": "Фільтри",
       "max_bid": "Максимальна ставка",
       "module_no_fit": "Не застосовується (зробіть ставки на щонайменше 10 польових гравців)",

@@ -153,7 +153,7 @@
                             .player-position{class: "player-position-#{position.name}"}
                               = position_name(position)
                       .ab-filters-clubs
-                        - league.tournament.clubs.active.each do |club|
+                        - league.tournament.clubs.active.order(:name).each do |club|
                           .search-club-logo{class: "search-club#{player_bid.index}",id: "search-club#{club.id}"}
                             %object{data: club.logo_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
                               = image_tag('default_logo.png')
@@ -236,8 +236,8 @@
             .ar-budget-alert
               .ar-budget-alert-icon ⛔️
               .ar-budget-alert-text
-                .ar-budget-alert-header Budget exceeded
-                .ar-budget-alert-desc Decrease bid to match yor budget
+                .ar-budget-alert-header= t('auction_round.exceeded')
+                .ar-budget-alert-desc= t('auction_round.decrease_bid')
       .round-table
         .round-table-title-header
           .round-table-title
@@ -247,7 +247,7 @@
           .round-table-hide.round-table-hidden
             = image_tag('icons/arrow_down.svg')
         .round-list
-          - league.teams.each_with_index do |team, i|
+          - league.teams.each do |team|
             = link_to team_path(team), class: 'auction-round-table-link' do
               .round-table-item.auction-round-table-item
                 .round-table-item-cell.round-table-item-team
@@ -286,9 +286,9 @@
               = image_tag('icons/arrow_blue.svg')
         - if @transfers.any?
           .round-table-block
-            - @transfers.each_with_index do |transfer, i|
+            - @transfers.each_with_index do |transfer, index|
               .round-table-item.round-player-stats-item
-                .round-player-stats-param.center= i + 1
+                .round-player-stats-param.center= index + 1
                 .round-player-stats-param.round-player-stats-data
                   .round-player-stats-img
                     .round-player-show-face
@@ -715,7 +715,7 @@
         if (emptySlots.length > 0) {
           alert("#{t('auction_bid.empty_slots')}"+emptySlots);
           return false;
-        };
+        }
 
         if (duplicateIds.length > 0) {
           const duplicateSlots = [];
@@ -727,6 +727,11 @@
           });
 
           alert("#{t('auction_bid.duplicates')}"+duplicateSlots);
+          return false;
+        }
+
+        if (basicAuction && (countTotalBid() < teamBudget)) {
+          alert("#{t('auction_bid.all_budget', budget: auction_bid&.team&.budget)}");
           return false;
         }
 
@@ -750,7 +755,7 @@
           clearSlotModal(slotId);
         }
       };
-    };
+    }
 
     // Show/hide stats
     $(".round-table-hide").click(function(){

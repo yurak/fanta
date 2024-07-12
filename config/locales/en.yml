@@ -29,6 +29,7 @@ en:
     live_msg: "Auction date - %{date}. The results of the transfer window here:"
     blind_bids_msg: "You can place transfer bid at the auction until %{date} here:"
   auction_bid:
+    all_budget: "You must use the entire budget at the first stage of the auction - %{budget} million"
     choose: "Choose a player"
     confirm: "Confirm bid"
     duplicates: "Bid contains duplicate players in slots: "
@@ -51,6 +52,8 @@ en:
       ongoing: "Submit bid"
       submitted: "Complete in advance"
     budget: "💰 Budget"
+    decrease_bid: "Decrease bid to match your budget"
+    exceeded: "Budget exceeded"
     filters: "Filters"
     max_bid: "Maximum bid"
     module_no_fit: "Not applicable (Bid on at least 10 field players)"
