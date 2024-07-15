@@ -1,35 +1,35 @@
 const formations = {
     f343: {
-        lineUp: ['Dc', 'Dc', 'Dc', 'E', 'E', 'M/C', 'C', 'W/A', 'W/A', 'A/Pc' ],
-        lineUpWithReserve: ['Dc', 'Dc', 'Dc', 'E', 'E', 'M/C', 'C', 'W/A', 'W/A', 'A/Pc' , 'Dc', 'Dc', 'Dc', 'E', 'E', 'M/C', 'C', 'W/A', 'W/A', 'A/Pc'],
+        lineUp: ['Dc', 'Dc', 'Dc', 'E', 'E', 'M/C', 'C', 'W/A', 'W/A', 'A/Pc'],
+        lineUpWithReserve: ['Dc', 'Dc', 'Dc', 'E', 'E', 'M/C', 'C', 'W/A', 'W/A', 'A/Pc' , 'Dc', 'Dc', 'Dc', 'E', 'E', 'M/C', 'C', 'W/A', 'W/A', 'A/Pc']
     },
     f3412: {
-        lineUp: ['Dc', 'Dc', 'Dc', 'E', 'E', 'M/C', 'C', 'T', 'A/Pc', 'A/Pc' ],
-        lineUpWithReserve: ['Dc', 'Dc', 'Dc', 'E', 'E', 'M/C', 'C', 'T', 'A/Pc', 'A/Pc', 'Dc', 'Dc', 'Dc', 'E', 'E', 'M/C', 'C', 'T', 'A/Pc', 'A/Pc' ],
+        lineUp: ['Dc', 'Dc', 'Dc', 'E', 'E', 'M/C', 'C', 'T', 'A/Pc', 'Pc'],
+        lineUpWithReserve: ['Dc', 'Dc', 'Dc', 'E', 'E', 'M/C', 'C', 'T', 'A/Pc', 'Pc', 'Dc', 'Dc', 'Dc', 'E', 'E', 'M/C', 'C', 'T', 'A/Pc', 'Pc']
     },
     f3421: {
-        lineUp: ['Dc', 'Dc', 'Dc', 'E', 'E/W', 'M/C', 'M', 'T', 'T/A', 'A/Pc' ],
+        lineUp: ['Dc', 'Dc', 'Dc', 'E', 'E/W', 'M/C', 'M', 'T', 'T/A', 'A/Pc'],
         lineUpWithReserve: ['Dc', 'Dc', 'Dc', 'E', 'E/W', 'M/C', 'M', 'T', 'T/A', 'A/Pc' , 'Dc', 'Dc', 'Dc', 'E', 'E/W', 'M/C', 'M', 'T', 'T/A', 'A/Pc']
     },
     f352: {
-        lineUp: ['Dc', 'Dc', 'Dc', 'E', 'M', 'M/C', 'C', 'E/W', 'A/Pc', 'A/Pc' ] ,
-        lineUpWithReserve: ['Dc', 'Dc', 'Dc', 'E', 'M', 'M/C', 'C', 'E/W', 'A/Pc', 'A/Pc' , 'Dc', 'Dc', 'Dc', 'E', 'M', 'M/C', 'C', 'E/W', 'A/Pc', 'A/Pc' ]
+        lineUp: ['Dc', 'Dc', 'Dc', 'E', 'M', 'M/C', 'C', 'E/W', 'A/Pc', 'Pc'] ,
+        lineUpWithReserve: ['Dc', 'Dc', 'Dc', 'E', 'M', 'M/C', 'C', 'E/W', 'A/Pc', 'Pc' , 'Dc', 'Dc', 'Dc', 'E', 'M', 'M/C', 'C', 'E/W', 'A/Pc', 'Pc']
     },
     f3511: {
-        lineUp: ['Dc', 'Dc', 'Dc', 'E/W', 'M', 'M', 'C', 'E/W', 'T/A', 'A/Pc' ],
-        lineUpWithReserve: ['Dc', 'Dc', 'Dc', 'E/W', 'M', 'M', 'C', 'E/W', 'T/A', 'A/Pc', 'Dc', 'Dc', 'Dc', 'E/W', 'M', 'M', 'C', 'E/W', 'T/A', 'A/Pc' ]
+        lineUp: ['Dc', 'Dc', 'Dc', 'E/W', 'M', 'M', 'C', 'E/W', 'T/A', 'A/Pc'],
+        lineUpWithReserve: ['Dc', 'Dc', 'Dc', 'E/W', 'M', 'M', 'C', 'E/W', 'T/A', 'A/Pc', 'Dc', 'Dc', 'Dc', 'E/W', 'M', 'M', 'C', 'E/W', 'T/A', 'A/Pc']
     },
     f433: {
-        lineUp: ['Dc', 'Dc', 'Ds', 'Dd', 'M', 'M/C', 'C', 'W/A', 'W/A', 'A/Pc' ],
-        lineUpWithReserve: ['Dc', 'Dc', 'Ds', 'Dd', 'M', 'M/C', 'C', 'W/A', 'W/A', 'A/Pc', 'Dc', 'Dc', 'Ds', 'Dd', 'M', 'M/C', 'C', 'W/A', 'W/A', 'A/Pc' ]
+        lineUp: ['Dc', 'Dc', 'Ds', 'Dd', 'M', 'M/C', 'C', 'W/A', 'W/A', 'A/Pc'],
+        lineUpWithReserve: ['Dc', 'Dc', 'Ds', 'Dd', 'M', 'M/C', 'C', 'W/A', 'W/A', 'A/Pc', 'Dc', 'Dc', 'Ds', 'Dd', 'M', 'M/C', 'C', 'W/A', 'W/A', 'A/Pc']
     },
     f4312: {
-        lineUp: ['Dc', 'Dc', 'Ds', 'Dd', 'M', 'M/C', 'C', 'T', 'A/Pc', 'A/Pc' ],
-        lineUpWithReserve: ['Dc', 'Dc', 'Ds', 'Dd', 'M', 'M/C', 'C', 'T', 'A/Pc', 'A/Pc', 'Dc', 'Dc', 'Ds', 'Dd', 'M', 'M/C', 'C', 'T', 'A/Pc', 'A/Pc' ]
+        lineUp: ['Dc', 'Dc', 'Ds', 'Dd', 'M', 'M/C', 'C', 'T', 'A/Pc', 'Pc'],
+        lineUpWithReserve: ['Dc', 'Dc', 'Ds', 'Dd', 'M', 'M/C', 'C', 'T', 'A/Pc', 'Pc', 'Dc', 'Dc', 'Ds', 'Dd', 'M', 'M/C', 'C', 'T', 'A/Pc', 'Pc']
     },
     f442: {
-        lineUp: ['Dc', 'Dc', 'Ds', 'Dd', 'E', 'M/C', 'C', 'E/W', 'A/Pc', 'A/Pc'],
-        lineUpWithReserve: ['Dc', 'Dc', 'Ds', 'Dd', 'E', 'M/C', 'C', 'E/W', 'A/Pc', 'A/Pc', 'Dc', 'Dc', 'Ds', 'Dd', 'E', 'M/C', 'C', 'E/W', 'A/Pc', 'A/Pc']
+        lineUp: ['Dc', 'Dc', 'Ds', 'Dd', 'E', 'M/C', 'C', 'E/W', 'A/Pc', 'Pc'],
+        lineUpWithReserve: ['Dc', 'Dc', 'Ds', 'Dd', 'E', 'M/C', 'C', 'E/W', 'A/Pc', 'Pc', 'Dc', 'Dc', 'Ds', 'Dd', 'E', 'M/C', 'C', 'E/W', 'A/Pc', 'Pc']
     },
     f4141: {
         lineUp: ['Dc', 'Dc', 'Ds', 'Dd', 'M', 'E/W', 'C/T', 'T', 'W', 'A/Pc'],
@@ -40,8 +40,12 @@ const formations = {
         lineUpWithReserve: ['Dc', 'Dc', 'Ds', 'Dd', 'M', 'E/W', 'C', 'E/W', 'T/A', 'A/Pc', 'Dc', 'Dc', 'Ds', 'Dd', 'M', 'E/W', 'C', 'E/W', 'T/A', 'A/Pc']
     },
     f4231: {
-        lineUp: ['Dc', 'Dc', 'Ds', 'Dd', 'M', 'M/C', 'W/T', 'T', 'A', 'A/Pc'],
-        lineUpWithReserve: ['Dc', 'Dc', 'Ds', 'Dd', 'M', 'M/C', 'W/T', 'T', 'A', 'A/Pc', 'Dc', 'Dc', 'Ds', 'Dd', 'M', 'M/C', 'W/T', 'T', 'A', 'A/Pc']
+        lineUp: ['Dc', 'Dc', 'Ds', 'Dd', 'M', 'M/C', 'W/T', 'T', 'W/A', 'A/Pc'],
+        lineUpWithReserve: ['Dc', 'Dc', 'Ds', 'Dd', 'M', 'M/C', 'W/T', 'T', 'W/A', 'A/Pc', 'Dc', 'Dc', 'Ds', 'Dd', 'M', 'M/C', 'W/T', 'T', 'W/A', 'A/Pc']
+    },
+    f4321: {
+        lineUp: ['Dc', 'Dc', 'Ds', 'Dd', 'M', 'M/C', 'C', 'T/A', 'T/A', 'A/Pc'],
+        lineUpWithReserve: ['Dc', 'Dc', 'Ds', 'Dd', 'M', 'M/C', 'C', 'T/A', 'T/A', 'A/Pc', 'Dc', 'Dc', 'Ds', 'Dd', 'M', 'M/C', 'C', 'T/A', 'T/A', 'A/Pc']
     },
 };
 
