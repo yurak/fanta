@@ -12,7 +12,7 @@ module TournamentRounds
       return [] unless tournament&.source_id
       return [] unless request.code == 200
 
-      tournament_round&.number ? all_matches_data.select { |r| r['round'] == tournament_round.number } : all_matches_data
+      tournament_round&.number ? all_matches_data.select { |r| r['roundName'] == tournament_round.number } : all_matches_data
     end
 
     private
