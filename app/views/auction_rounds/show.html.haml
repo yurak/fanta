@@ -730,7 +730,7 @@
           return false;
         }
 
-        if (basicAuction && (countTotalBid() < teamBudget)) {
+        if (basicAuction && (bidStatus == "initial" || bidStatus == "ongoing") && (countTotalBid() < teamBudget)) {
           alert("#{t('auction_bid.all_budget', budget: auction_bid&.team&.budget)}");
           return false;
         }
