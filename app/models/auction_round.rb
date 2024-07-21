@@ -17,4 +17,8 @@ class AuctionRound < ApplicationRecord
   def members
     league.teams.select(&:vacancies?)
   end
+
+  def first?
+    number == 1
+  end
 end

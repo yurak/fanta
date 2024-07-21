@@ -10,7 +10,7 @@ RSpec.describe 'Divisions' do
       it { expect(response).to be_successful }
       it { expect(response).to render_template(:index) }
       it { expect(response).to have_http_status(:ok) }
-      it { expect(assigns(:leagues)).to eq([]) }
+      it { expect(assigns(:leagues)).to eq({}) }
     end
 
     context 'when tournament with league without divisions' do
@@ -22,7 +22,7 @@ RSpec.describe 'Divisions' do
       it { expect(response).to be_successful }
       it { expect(response).to render_template(:index) }
       it { expect(response).to have_http_status(:ok) }
-      it { expect(assigns(:leagues)).to eq([]) }
+      it { expect(assigns(:leagues)).to eq({}) }
     end
 
     context 'when tournament with league and divisions' do
@@ -38,7 +38,7 @@ RSpec.describe 'Divisions' do
       it { expect(response).to have_http_status(:ok) }
 
       it 'returns leagues' do
-        expect(assigns(:leagues)).to eq([league])
+        expect(assigns(:leagues)['A']).to eq([league])
       end
     end
   end
