@@ -1,12 +1,13 @@
 import cn from "classnames";
+import Skeleton from "react-loading-skeleton";
 import PlayerAvatar, { PlayerAvatarSkeleton } from "@/components/PlayerAvatar";
 import PlayerPositions from "@/components/PlayerPositions/PlayerPositions";
 import TournamentsLoader from "@/components/loaders/TournamentsLoader";
 import { formatNumber } from "@/helpers/formatNumber";
 import { IPlayer } from "@/interfaces/Player";
 import DataList from "@/ui/DataList";
+import { usePlayersListContext } from "@/application/Players/PlayersListContext";
 import styles from "./PlayersListMobile.module.scss";
-import Skeleton from "react-loading-skeleton";
 
 const PlayerItem = ({
   avatar_path,
@@ -120,19 +121,9 @@ const PlayerItemSkeleton = () => {
   );
 };
 
-const PlayersListMobile = ({
-  items,
-  isLoading,
-  emptyStateComponent,
-  isLoadingMore,
-  onLoadMore,
-}: {
-  items: IPlayer[],
-  isLoading: boolean,
-  emptyStateComponent: React.ReactNode,
-  isLoadingMore: boolean,
-  onLoadMore: () => void,
-}) => {
+const PlayersListMobile = ({ emptyStateComponent }: { emptyStateComponent: React.ReactNode }) => {
+  const { items, isLoading, hasNextPage, loadMore } = usePlayersListContext();
+
   return (
     <DataList
       itemLink={(item) => `/players/${item.id}`}
@@ -141,8 +132,8 @@ const PlayersListMobile = ({
       itemClassName={styles.item}
       itemKey={(item) => item.id}
       isLoading={isLoading}
-      isLoadingMore={isLoadingMore}
-      onLoadMore={onLoadMore}
+      isLoadingMore={hasNextPage}
+      onLoadMore={loadMore}
       emptyStateComponent={emptyStateComponent}
       skeletonItems={15}
       skeletonRender={() => <PlayerItemSkeleton />}
