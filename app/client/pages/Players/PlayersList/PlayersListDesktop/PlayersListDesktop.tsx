@@ -5,26 +5,15 @@ import Table, { IColumn } from "@/ui/Table";
 import TournamentsLoader from "@/components/loaders/TournamentsLoader";
 import PlayerPositions from "@/components/PlayerPositions/PlayerPositions";
 import { formatNumber } from "@/helpers/formatNumber";
-import { ISorting } from "@/hooks/useHistorySort";
+import { usePlayersContext } from "@/application/Players/PlayersContext";
+import { usePlayersListContext } from "@/application/Players/PlayersListContext";
 import PlayersListInfo, { PlayersListInfoSkeleton } from "../PlayersListInfo";
 import styles from "./PlayersListDesktop.module.scss";
 
-const PlayersListDesktop = ({
-  items,
-  isLoading,
-  isLoadingMore,
-  onLoadMore,
-  sorting,
-  emptyStateComponent,
-}: {
-  items: IPlayer[],
-  isLoading: boolean,
-  isLoadingMore: boolean,
-  onLoadMore: () => void,
-  sorting: Partial<ISorting>,
-  emptyStateComponent: React.ReactNode,
-}) => {
+const PlayersListDesktop = ({ emptyStateComponent }: { emptyStateComponent: React.ReactNode }) => {
   const { t } = useTranslation();
+  const { sorting } = usePlayersContext();
+  const { items, isLoading, hasNextPage, loadMore } = usePlayersListContext();
 
   const columns = useMemo<IColumn<IPlayer>[]>(
     () => [
@@ -193,8 +182,8 @@ const PlayersListDesktop = ({
       rounded
       dataSource={items}
       isLoading={isLoading}
-      isLoadingMore={isLoadingMore}
-      onLoadMore={onLoadMore}
+      isLoadingMore={hasNextPage}
+      onLoadMore={loadMore}
       sorting={sorting}
       emptyStateComponent={emptyStateComponent}
       skeletonItems={25}

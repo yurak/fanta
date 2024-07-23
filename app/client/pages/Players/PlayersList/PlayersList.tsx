@@ -1,39 +1,15 @@
-import { useCallback } from "react";
 import { useMediaQuery } from "usehooks-ts";
-import { IPlayer } from "@/interfaces/Player";
-import PlayersListMobile from "./PlayersListMobile";
-import PlayersListDesktop from "./PlayersListDesktop";
-import { ISorting } from "@/hooks/useHistorySort";
+import { useTranslation } from "react-i18next";
 import EmptyState from "@/ui/EmptyState";
 import Button from "@/ui/Button";
-import { useTranslation } from "react-i18next";
+import { usePlayersContext } from "@/application/Players/PlayersContext";
+import PlayersListMobile from "./PlayersListMobile";
+import PlayersListDesktop from "./PlayersListDesktop";
 
-const PlayersList = ({
-  items,
-  fetchNextPage,
-  hasNextPage,
-  isFetchingNextPage,
-  isLoading,
-  sorting,
-  openFiltersSidebar,
-  clearFilters,
-}: {
-  items: IPlayer[],
-  fetchNextPage: () => void,
-  hasNextPage: boolean,
-  isFetchingNextPage: boolean,
-  isLoading: boolean,
-  sorting: Partial<ISorting>,
-  openFiltersSidebar: () => void,
-  clearFilters: () => void,
-}) => {
+const PlayersList = () => {
   const { t } = useTranslation();
 
-  const loadMore = useCallback(() => {
-    if (hasNextPage && !isFetchingNextPage) {
-      fetchNextPage();
-    }
-  }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
+  const { openSidebar, clearAllFilter } = usePlayersContext();
 
   const isMobile = useMediaQuery("(max-width: 768px)");
 
@@ -43,8 +19,8 @@ const PlayersList = ({
       description={t("players.results.playersNotFoundDescription")}
       actions={
         <>
-          <Button onClick={openFiltersSidebar}>{t("players.filters.changeFilters")}</Button>
-          <Button variant="secondary" onClick={clearFilters}>
+          <Button onClick={openSidebar}>{t("players.filters.changeFilters")}</Button>
+          <Button variant="secondary" onClick={clearAllFilter}>
             {t("players.filters.clearFilters")}
           </Button>
         </>
@@ -52,28 +28,9 @@ const PlayersList = ({
     />
   );
 
-  return (
-    <div>
-      {isMobile ? (
-        <PlayersListMobile
-          items={items}
-          isLoading={isLoading}
-          isLoadingMore={hasNextPage}
-          onLoadMore={loadMore}
-          emptyStateComponent={emptyStateComponent}
-        />
-      ) : (
-        <PlayersListDesktop
-          items={items}
-          isLoading={isLoading}
-          isLoadingMore={hasNextPage}
-          onLoadMore={loadMore}
-          sorting={sorting}
-          emptyStateComponent={emptyStateComponent}
-        />
-      )}
-    </div>
-  );
+  const Component = isMobile ? PlayersListMobile : PlayersListDesktop;
+
+  return <Component emptyStateComponent={emptyStateComponent} />;
 };
 
 export default PlayersList;

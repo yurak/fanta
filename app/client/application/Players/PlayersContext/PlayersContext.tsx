@@ -14,7 +14,7 @@ const DEBOUNCE_DELAY = 1_000;
 
 const usePlayers = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const { sortBy, sortOrder, onSortChange } = useHistorySort();
+  const sorting = useHistorySort();
 
   const [search, setSearch] = useHistorySearch(defaultSearch);
   const [historyFilter, setHistoryFilter] = useHistoryFilter<IFilter>(decodeFilter, encodeFilter);
@@ -49,8 +49,8 @@ const usePlayers = () => {
   );
 
   const requestSortPayload = useMemo<IPayloadSort | undefined>(
-    () => sortToRequestFormat(sortBy, sortOrder),
-    [sortBy, sortOrder]
+    () => sortToRequestFormat(sorting.sortBy, sorting.sortOrder),
+    [sorting.sortBy, sorting.sortOrder]
   );
 
   return {
@@ -65,9 +65,7 @@ const usePlayers = () => {
     search,
     setSearch,
     defaultSearch,
-    sortBy,
-    sortOrder,
-    onSortChange,
+    sorting,
     isSidebarOpen,
     openSidebar,
     closeSidebar,
