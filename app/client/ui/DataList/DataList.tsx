@@ -70,16 +70,14 @@ const DataList = <DataItem extends object = object>({
             <div className={styles.emptyState}>{emptyStateComponent}</div>
           )}
           {isLoadingMore && (
-            <InfinityScrollDetector
-              loadMore={() => onLoadMore?.()}
-              className={styles.infinityScroll}
-            >
+            <>
+              <InfinityScrollDetector loadMore={() => onLoadMore?.()} />
               <LoadingSkeleton
                 skeletonRender={skeletonRender}
                 items={skeletonItems}
                 itemClassName={itemClassName}
               />
-            </InfinityScrollDetector>
+            </>
           )}
         </>
       )}
