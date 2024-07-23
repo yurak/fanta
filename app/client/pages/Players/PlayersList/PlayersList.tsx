@@ -5,6 +5,7 @@ import PlayersListDesktop from "./PlayersListDesktop";
 import { ISorting } from "@/hooks/useHistorySort";
 import EmptyState from "@/ui/EmptyState";
 import Button from "@/ui/Button";
+import { useTranslation } from "react-i18next";
 
 const PlayersList = ({
   items,
@@ -25,6 +26,8 @@ const PlayersList = ({
   openFiltersSidebar: () => void,
   clearFilters: () => void,
 }) => {
+  const { t } = useTranslation();
+
   const loadMore = () => {
     if (hasNextPage && !isFetchingNextPage) {
       fetchNextPage();
@@ -35,13 +38,13 @@ const PlayersList = ({
 
   const emptyStateComponent = (
     <EmptyState
-      title="Players not found"
-      description="Make sure that the player’s name is spelled correctly or try other filter parameters"
+      title={t("players.results.playersNotFound")}
+      description={t("players.results.playersNotFoundDescription")}
       actions={
         <>
-          <Button onClick={openFiltersSidebar}>Change filters</Button>
+          <Button onClick={openFiltersSidebar}>{t("players.filters.changeFilters")}</Button>
           <Button variant="secondary" onClick={clearFilters}>
-            Clear filters
+            {t("players.filters.clearFilters")}
           </Button>
         </>
       }

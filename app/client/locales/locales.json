@@ -821,6 +821,7 @@
         "applyFilters": "Apply filters",
         "baseScoreLabel": "Base score",
         "baseScoreShortLabel": "BS",
+        "changeFilters": "Change filters",
         "clear": "Clear",
         "clearAll": "Clear all",
         "clearFilters": "Clear filters",
@@ -874,6 +875,8 @@
       "results": {
         "player": "player",
         "player_other": "players",
+        "playersNotFound": "Players not found",
+        "playersNotFoundDescription": "Make sure that the player’s name is spelled correctly or try other filter parameters",
         "title": "Showing"
       },
       "round": "ROUND",
@@ -2048,6 +2051,7 @@
         "applyFilters": "Застосувати",
         "baseScoreLabel": "Базова оцінка",
         "baseScoreShortLabel": "БО",
+        "changeFilters": "Змінити фільтри",
         "clear": "Очистити",
         "clearAll": "Очистити",
         "clearFilters": "Очистити",
@@ -2101,6 +2105,8 @@
       "results": {
         "player": "гравець",
         "player_other": "гравців",
+        "playersNotFound": "Гравців не знайдено",
+        "playersNotFoundDescription": "Переконайтеся, що ім'я гравця написано вірно або спробуйте застосувати інший фільтр",
         "title": "Знайдено"
       },
       "round": "РАУНД",

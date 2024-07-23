@@ -287,10 +287,13 @@ ua:
       title: "Знайдено"
       player: "гравець"
       player_other: "гравців"
+      playersNotFound: "Гравців не знайдено"
+      playersNotFoundDescription: "Переконайтеся, що ім'я гравця написано вірно або спробуйте застосувати інший фільтр"
     filters:
       filters: "Фільтри"
       allFilters: "Всі фільтри"
       clearFilters: "Очистити"
+      changeFilters: "Змінити фільтри"
       clearAll: "Очистити"
       clear: "Очистити"
       applyFilters: "Застосувати"
@@ -1107,8 +1110,9 @@ ua:
         register: Реєстрація
         text: |
           Ласкаво просимо до MantraFootball!
-          
+
           Запрошуємо долучитися до найреалістичнішого футбольного фентезі. Для вибору доступні 9 європейських ліг. Реєструйтесь!
+
 #        text: |
 #          Ласкаво просимо до MantraFootball!
 #

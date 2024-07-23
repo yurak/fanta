@@ -264,16 +264,19 @@ en:
       title: "Showing"
       player: "player"
       player_other: "players"
+      playersNotFound: "Players not found"
+      playersNotFoundDescription: "Make sure that the player’s name is spelled correctly or try other filter parameters"
     filters:
       allFilters: "All filters"
       filters: "Filters"
       clearFilters: "Clear filters"
+      changeFilters: "Change filters"
       clearAll: "Clear all"
       clear: "Clear"
       applyFilters: "Apply filters"
       nameLabel: "Name"
       tournamentLabel: "TMNT"
-      clubLabel: 'Club'
+      clubLabel: "Club"
       clubsLabel: "Clubs"
       positionLabel: "Position"
       baseScoreLabel: "Base score"
@@ -1081,8 +1084,9 @@ en:
         register: Register
         text: |
           Welcome to MantraFootball!
-          
+
           We invite you to join the most realistic football fantasy. There are 9 European leagues to choose from. Register!
+
 #        text: |
 #          Welcome to MantraFootball!
 #
