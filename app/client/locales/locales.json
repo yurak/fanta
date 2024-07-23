@@ -873,10 +873,14 @@
       "rc": "RC",
       "red_card": "Red card",
       "results": {
+        "app": "App",
+        "apps": "Apps",
         "player": "player",
         "player_other": "players",
         "playersNotFound": "Players not found",
         "playersNotFoundDescription": "Make sure that the player’s name is spelled correctly or try other filter parameters",
+        "team": "Team",
+        "teams": "Teams",
         "title": "Showing"
       },
       "round": "ROUND",
@@ -2103,10 +2107,14 @@
       "rc": "ЧК",
       "red_card": "Червона картка",
       "results": {
+        "app": "Поява",
+        "apps": "Появи",
         "player": "гравець",
         "player_other": "гравців",
         "playersNotFound": "Гравців не знайдено",
         "playersNotFoundDescription": "Переконайтеся, що ім'я гравця написано вірно або спробуйте застосувати інший фільтр",
+        "team": "Команда",
+        "teams": "Команди",
         "title": "Знайдено"
       },
       "round": "РАУНД",

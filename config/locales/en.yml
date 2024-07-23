@@ -264,6 +264,10 @@ en:
       title: "Showing"
       player: "player"
       player_other: "players"
+      team: "Team"
+      teams: "Teams"
+      apps: "Apps"
+      app: "App"
       playersNotFound: "Players not found"
       playersNotFoundDescription: "Make sure that the player’s name is spelled correctly or try other filter parameters"
     filters:

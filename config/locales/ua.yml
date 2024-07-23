@@ -287,6 +287,10 @@ ua:
       title: "Знайдено"
       player: "гравець"
       player_other: "гравців"
+      team: "Команда"
+      teams: "Команди"
+      apps: "Появи"
+      app: "Поява"
       playersNotFound: "Гравців не знайдено"
       playersNotFoundDescription: "Переконайтеся, що ім'я гравця написано вірно або спробуйте застосувати інший фільтр"
     filters:
