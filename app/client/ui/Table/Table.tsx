@@ -180,13 +180,14 @@ const Table = <DataItem extends object = object>({
               <div className={styles.emptyState}>{emptyStateComponent}</div>
             )}
             {isLoadingMore && (
-              <InfinityScrollDetector loadMore={() => onLoadMore?.()}>
+              <>
+                <InfinityScrollDetector loadMore={() => onLoadMore?.()} />
                 <LoadingSkeleton
                   columns={computedColumns}
                   items={skeletonItems}
                   rounded={rounded}
                 />
-              </InfinityScrollDetector>
+              </>
             )}
           </div>
         )}

@@ -1,28 +1,32 @@
-import React, { useEffect } from "react";
-import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
+import { useEffect, useRef } from "react";
+import { useDebounceCallback } from "usehooks-ts";
+import styles from "./InfinityScrollDetector.module.scss";
 
-const InfinityScrollDetector = ({
-  children,
-  loadMore,
-  className,
-}: {
-  children: React.ReactNode,
-  loadMore: () => void,
-  className?: string,
-}) => {
-  const [ref, isIntersecting] = useIntersectionObserver();
+const InfinityScrollDetector = ({ loadMore }: { loadMore: () => void }) => {
+  const ref = useRef<HTMLDivElement>(null);
+
+  const debouncedLoadMore = useDebounceCallback(loadMore, 200);
 
   useEffect(() => {
-    if (isIntersecting) {
-      loadMore();
-    }
-  }, [isIntersecting]);
+    const handleScroll = () => {
+      const { scrollTop, clientHeight } = document.documentElement;
 
-  return (
-    <div ref={ref} className={className}>
-      {children}
-    </div>
-  );
+      const scrollBottom = scrollTop + clientHeight;
+      const elementPosition = ref.current?.offsetTop ?? 0;
+      const offset = clientHeight / 2;
+
+      if (scrollBottom >= elementPosition - offset) {
+        debouncedLoadMore();
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [debouncedLoadMore]);
+
+  return <div ref={ref} className={styles.infinityScrollDetector} />;
 };
 
 export default InfinityScrollDetector;

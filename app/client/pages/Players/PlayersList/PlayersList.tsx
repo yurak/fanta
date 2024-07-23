@@ -1,3 +1,4 @@
+import { useCallback } from "react";
 import { useMediaQuery } from "usehooks-ts";
 import { IPlayer } from "@/interfaces/Player";
 import PlayersListMobile from "./PlayersListMobile";
@@ -28,11 +29,11 @@ const PlayersList = ({
 }) => {
   const { t } = useTranslation();
 
-  const loadMore = () => {
+  const loadMore = useCallback(() => {
     if (hasNextPage && !isFetchingNextPage) {
       fetchNextPage();
     }
-  };
+  }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
 
   const isMobile = useMediaQuery("(max-width: 768px)");
 
