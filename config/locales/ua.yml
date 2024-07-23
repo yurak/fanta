@@ -298,7 +298,7 @@ ua:
       clear: "Очистити"
       applyFilters: "Застосувати"
       nameLabel: "Ім'я"
-      tournamentLabel: "Турн"
+      tournamentLabel: "Турнір"
       clubLabel: "Клуб"
       clubsLabel: "Клуби"
       positionLabel: "Позиція"
