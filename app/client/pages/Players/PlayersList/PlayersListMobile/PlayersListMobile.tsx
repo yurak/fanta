@@ -8,6 +8,7 @@ import { IPlayer } from "@/interfaces/Player";
 import DataList from "@/ui/DataList";
 import { usePlayersListContext } from "@/application/Players/PlayersListContext";
 import styles from "./PlayersListMobile.module.scss";
+import { useTranslation } from "react-i18next";
 
 const PlayerItem = ({
   avatar_path,
@@ -22,6 +23,8 @@ const PlayerItem = ({
   teams_count,
   teams_count_max,
 }: IPlayer) => {
+  const { t } = useTranslation();
+
   return (
     <>
       <PlayerAvatar className={styles.avatar} avatarSrc={avatar_path} clubKitSrc={club.kit_path} />
@@ -84,7 +87,7 @@ const PlayerItem = ({
             <span className={styles.grey}>
               {appearances > 0 && `(${formatNumber(appearances_max)})`}
             </span>{" "}
-            {`${appearances === 1 ? "App" : "Apps"}`}
+            {`${appearances === 1 ? t("players.results.app") : t("players.results.apps")}`}
           </span>
           <span className={cn(styles.divider, styles.teams)} />
           <span className={styles.teams}>
@@ -92,7 +95,7 @@ const PlayerItem = ({
             <span className={styles.grey}>
               {teams_count > 0 && `(${formatNumber(teams_count_max)})`}
             </span>{" "}
-            {`${appearances === 1 ? "Team" : "Teams"}`}
+            {`${appearances === 1 ? t("players.results.team") : t("players.results.teams")}`}
           </span>
         </div>
       </div>
