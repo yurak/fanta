@@ -42,6 +42,7 @@ const PlayersListDesktop = ({
         dataKey: "tournament",
         title: t("players.filters.tournamentLabel"),
         className: styles.tournamentCell,
+        headEllipsis: true,
         render: ({ club }) => {
           if (!club.tournament_id) {
             return "-";
@@ -135,6 +136,7 @@ const PlayersListDesktop = ({
         title: t("players.filters.appearancesShortLabel"),
         align: "right",
         noWrap: true,
+        headEllipsis: true,
         className: styles.appsCell,
         sorter: true,
         supportAscSorting: true,
