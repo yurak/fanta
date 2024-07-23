@@ -1,6 +1,6 @@
 module TournamentRounds
   class AutoCloser < ApplicationService
-    attr_reader :tournament_round
+    attr_reader :tournament_round, :tournament
 
     def initialize(tournament_round_id)
       @tournament_round = TournamentRound.find_by(id: tournament_round_id)
@@ -11,7 +11,7 @@ module TournamentRounds
 
       tournament_round.update(moderated_at: Time.zone.now)
       tournament_round.tours.each do |tour|
-        Notifications::Creator.call(notifiable: tour, kind: :tour_moderated)
+        TelegramBot::ModeratedTourNotifier.call(tour)
       end
     end
   end
