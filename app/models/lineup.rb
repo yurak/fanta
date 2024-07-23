@@ -96,6 +96,14 @@ class Lineup < ApplicationRecord
     end
   end
 
+  def subs_missed?
+    match_players.main.without_score.any?(&:subs_option_exist?)
+  end
+
+  def tour_position
+    tour.lineups.order(final_score: :desc).pluck(:id).find_index(id) + 1
+  end
+
   private
 
   def first_goal

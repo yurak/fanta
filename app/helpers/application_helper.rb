@@ -14,4 +14,13 @@ module ApplicationHelper
 
     index
   end
+
+  def ordinalize_number(number)
+    case I18n.locale
+    when :en
+      number.ordinalize
+    else
+      number
+    end
+  end
 end

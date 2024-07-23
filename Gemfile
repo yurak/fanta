@@ -6,6 +6,7 @@ ruby '3.2.2'
 gem 'rails', '6.1.5'
 gem 'sqlite3'
 
+gem 'audited'
 gem 'active_model_serializers', '~> 0.10.0'
 gem 'bootsnap', '>= 1.1.0', require: false
 gem 'bootstrap', '4.3.1'

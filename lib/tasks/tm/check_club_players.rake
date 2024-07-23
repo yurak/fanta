@@ -21,10 +21,10 @@ namespace :tm do
           href = player_data.children[1].attributes['href'].value
           player_url = "https://www.transfermarkt.com#{href}"
           tm_id = href.split('/').last
-          player = Player.find_by(tm_id: tm_id)
+          pl = Player.find_by(tm_id: tm_id)
 
-          if player
-            puts "#{player_count} - #{player.name} - #{player.tm_id} --- #{player.club.name}"
+          if pl
+            puts "#{player_count} - #{pl.name} - #{pl.tm_id} --- #{pl.club.name}#{' !!!!!!!!!!!!!' unless pl.club.name == club.name}"
             player_count += 1
           else
             player_response = RestClient::Request.execute(method: :get, url: player_url, headers: { 'User-Agent': 'product/version' },
@@ -46,7 +46,7 @@ namespace :tm do
             tm_pos2 = Position::TM_POS[positions[2]&.text]
             tm_pos3 = Position::TM_POS[positions[3]&.text]
 
-            position_arr = Players::Transfermarkt::PositionMapper.call(Player.new(tm_id: tm_id), 2023) || []
+            position_arr = Players::Transfermarkt::PositionMapper.call(Player.new(tm_id: tm_id), 2023)
             pos1 = tm_pos1 == 'GK' ? 'Por' : ''
             pos1 = Position::HUMAN_MAP[position_arr[0]] if position_arr[0]
             pos2 = position_arr[1] ? Position::HUMAN_MAP[position_arr[1]] : nil

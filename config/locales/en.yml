@@ -29,6 +29,7 @@ en:
     live_msg: "Auction date - %{date}. The results of the transfer window here:"
     blind_bids_msg: "You can place transfer bid at the auction until %{date} here:"
   auction_bid:
+    all_budget: "You must use the entire budget at the first stage of the auction - %{budget} million"
     choose: "Choose a player"
     confirm: "Confirm bid"
     duplicates: "Bid contains duplicate players in slots: "
@@ -51,6 +52,8 @@ en:
       ongoing: "Submit bid"
       submitted: "Complete in advance"
     budget: "💰 Budget"
+    decrease_bid: "Decrease bid to match your budget"
+    exceeded: "Budget exceeded"
     filters: "Filters"
     max_bid: "Maximum bid"
     module_no_fit: "Not applicable (Bid on at least 10 field players)"
@@ -221,6 +224,10 @@ en:
     max_limit: "You can not select more than %{limit} player(s) from one team"
     home: "H"
     away: "A"
+    points: "Points"
+    total_score: "🎯️ Total score"
+    hidden_title: "Lineup is hidden"
+    hidden_text: "The opponent's lineup will remain hidden during the preparation phase and will become visible after the deadline."
   links:
     title: "Useful Links"
     subtitle: ""
@@ -305,6 +312,7 @@ en:
     my_league_header: "MY LEAGUE"
     team_header: "TEAMS"
     appearances_header: "APPEARANCES"
+    main_appearances_header: "MAIN SQUAD"
     rating_header: "RATING"
     club_header: "CLUB"
     national_header: "NATIONAL"
@@ -384,6 +392,7 @@ en:
     close: "Close all tours"
     confirm: "Confirm auto-close"
     inject_scores: "Inject scores"
+    moderated: "Will be auto-closed after:"
     open: "Open all tours"
     postpone: "Postpone all tours"
     title: "Tournament Round"
@@ -594,8 +603,11 @@ en:
       discount3_title: "-50 UAH"
       discount3_text: "For each additional selected league"
       discount3_note: "(when choosing 2+ leagues)"
+      discount4_title: "-20%"
+      discount4_text: "For each new league"
+      discount4_note: "(which you did not play last season)"
       new: "I'm a new player"
-      note: "Possible fees in US dollars at the rate of $1 = 36.65₴"
+      note: "Possible fees in US dollars at the rate of $1 = 40₴"
       old: "I've already played"
       paragraph1: "For the game you need to make an organizational fee. These funds cover the cost of the site infrastructure (server use) and the award to the winners."
       paragraph2: "Also, the fee is a guarantee that the player will not leave the game in the middle of the season, because in this case it will harm other league members (departure of a member in the H2H system negatively affects the intrigue in the league)."
@@ -809,7 +821,7 @@ en:
           ol2: "If the goalkeeper receives a red card, he does not receive the bonus for the clean sheet."
           ol3: "Removing a player from the bench after being substituted for the clean sheet has no effect."
           ol4: "The size of the clean sheet bonus cannot be higher than that provided for the position in which the player is in the module (for example, if a player with the 'native' positions of RB and WB is in the module in the WB position, his clean sheet bonus will be +0.5). And vice versa: if a player finds himself in a module in a 'non-native' position, he can receive a clean sheet bonus, the size of which does not exceed the bonus of his 'native' position (for example, the size of the clean sheet bonus of a player with a 'native' DM position, who play at the CB position in the module, will be +0.5)."
-          ol5: "When determining the author of a goal, assist, own goal, penalty kick, etc., the indicator of the FotMob service is taken into account, which should record and display the relevant fact. Indicators of other football portals and services are not taken into account."
+          ol5: "When determining the author of a goal, assist, own goal, penalty kick, etc., the indicator of the FotMob service is taken into account, which should record and display the relevant fact (the game takes into account the data that is displayed EXCLUSIVELY in the player's personal statistics on the match page in FotMob). Indicators of other football portals and services are not taken into account."
           ol6: "A missed penalty is not necessarily a goalkeeper save, therefore, the goalkeeper does not receive the corresponding bonus for all missed penalties."
         paragraph1: "In addition to the basic score, players can receive additional bonuses for certain positive actions and maluses for negative ones."
         paragraph2: "The size of the bonus for a scored goal depends on the 'native' position of the player:"
@@ -942,7 +954,7 @@ en:
       modules:
         paragraph1: "The first stage of forming a team for a certain round is the selection of a module that determines the layout of the players of his team."
         paragraph2: "The system will suggest a default module that you can change."
-        paragraph3: "In total, there are 11 modules in the system:"
+        paragraph3: "In total, there are 12 modules in the system:"
         paragraph4: "Some modules allow a positional alternative, such as WB/W. This means that a player of both one (WB) and another (W) position can be placed in the corresponding place without any malus (penalties)."
         title: "Modules"
       nav_title: "Quick navigation"
@@ -953,7 +965,7 @@ en:
         paragraph2: "A base score is an assessment of a player's performance in a specific match, which is provided by a statistical resource "
         paragraph3: "The starting score of the player from FotMob is 6 points. Depending on the success on the playing field, his score may increase (to a maximum of 10 points) or decrease (to a minimum of 0 points)."
         paragraph4: "MantraFootball uses the final score generated by FotMob at the end of the match as the player's base score."
-        paragraph5: "After the end of the match, FotMob can change the basic scores both downward and upward for a certain time. The final base scores are considered to be those formed at the time of closing the round (approximately 12 hours after the final whistle of the last match of the tour)."
+        paragraph5: "After the end of the match, FotMob can change the basic scores both downward and upward for a certain time. The final base scores are considered to be those formed at the time of closing the round (approximately 18 hours after the final whistle of the last match of the tour)."
         paragraph6: "If the player started the match in the starting lineup, then, with rare exceptions, FotMob will give him a score. However, FotMob's algorithms do not evaluate players who entered the field after 80 minutes of regular time. MantraFootball automatically assigns such players a base score of 6 points."
         paragraph7: "Bonuses and malus are described in detail in "
         paragraph8: "the next section"
@@ -1072,5 +1084,9 @@ en:
         register: Register
         text: |
           Welcome to MantraFootball!
-
-          We invite you to join the trial tournament for 7 rounds. The top 5 European leagues are available for selection. Participation in the trial tournament is free. Register!
+          
+          We invite you to join the most realistic football fantasy. There are 9 European leagues to choose from. Register!
+#        text: |
+#          Welcome to MantraFootball!
+#
+#          We invite you to join the trial tournament for 7 rounds. The top 5 European leagues are available for selection. Participation in the trial tournament is free. Register!

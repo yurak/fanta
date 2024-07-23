@@ -27,7 +27,7 @@ module PlayersHelper
   def tournament_round_players(t_round, real_position)
     if t_round.national_matches.any?
       Player.by_national_tournament_round(t_round).by_position(real_position&.split('/')).uniq
-            .sort_by(&:national_team_id).group_by(&:national_team)
+            .sort_by(&:position_sequence_number).group_by(&:national_team).sort_by { |x, _| [x.name] }
     else
       []
     end

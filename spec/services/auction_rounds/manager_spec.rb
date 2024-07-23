@@ -52,8 +52,25 @@ RSpec.describe AuctionRounds::Manager do
       end
     end
 
-    context 'with active status and when all bids are completed before deadline' do
+    context 'with active status and when all bids are completed before deadline and round is first' do
       let(:auction_round) { create(:auction_round, number: 1, deadline: 4.hours.from_now) }
+      let(:league) { auction_round.league }
+      let(:teams) { create_list(:team, 4, league: league) }
+
+      before do
+        create(:submitted_auction_bid, team: teams[0], auction_round: auction_round)
+        create(:completed_auction_bid, team: teams[1], auction_round: auction_round)
+        create(:submitted_auction_bid, team: teams[2], auction_round: auction_round)
+        create(:completed_auction_bid, team: teams[3], auction_round: auction_round)
+      end
+
+      it 'returns false' do
+        expect(manager.call).to be(false)
+      end
+    end
+
+    context 'with active status and when all bids are completed before deadline and round is not first' do
+      let(:auction_round) { create(:auction_round, number: 2, deadline: 4.hours.from_now) }
       let(:league) { auction_round.league }
       let(:teams) { create_list(:team, 4, league: league) }
 

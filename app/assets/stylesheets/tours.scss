@@ -286,7 +286,7 @@
   margin-top: 40px;
 
   .block-title {
-    font-weight: 700;
+    font-family: 'Nunito ExtraBold';
     font-size: 16px;
     line-height: 24px;
     color: #181715;
@@ -330,6 +330,10 @@
     .team-lineup-true {
       .team-row-name {
         color: #181715;
+
+        a {
+          color: #181715;
+        }
       }
 
       .team-row-name-lineup {
@@ -399,6 +403,10 @@
           line-height: 16px;
           color: #FFFFFF;
           text-align: center;
+        }
+
+        .lineup-subs-true {
+          color: #DB0A23;
         }
       }
 

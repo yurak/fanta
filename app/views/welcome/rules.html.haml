@@ -1,6 +1,7 @@
 .page-block
   - if user_signed_in?
-    = render 'layouts/left_nav', league: nil
+    .web-header= render 'layouts/left_nav', league: nil
+    .mob-header= render 'layouts/mob_header', league: nil, title: t('welcome.rules.title')
   - else
     = render 'layouts/header'
   .rules-page{ class: "rules-user-#{user_signed_in?}"}
@@ -258,7 +259,7 @@
         .rules-paragraph= t('welcome.rules.modules.paragraph1')
         .rules-paragraph.rules-paragraph-next= t('welcome.rules.modules.paragraph2')
         .rules-paragraph.rules-paragraph-next= t('welcome.rules.modules.paragraph3')
-        .rules-full-img= image_tag('rules/modules.png')
+        .rules-full-img= image_tag('rules/modules.jpg')
         .rules-paragraph.rules-paragraph-next= t('welcome.rules.modules.paragraph4')
 
         .rules-chapter#lineup

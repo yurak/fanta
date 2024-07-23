@@ -11,8 +11,10 @@ RSpec.describe 'Lineups' do
         get team_lineup_path(team, lineup)
       end
 
-      it { expect(response).to redirect_to(tour_path(lineup.tour)) }
-      it { expect(response).to have_http_status(:found) }
+      it { expect(response).to be_successful }
+      it { expect(response).to render_template(:show) }
+      it { expect(response).to have_http_status(:ok) }
+      it { expect(assigns(:lineup)).not_to be_nil }
     end
 
     context 'with foreign team when user is logged out and tour is not deadlined' do
@@ -23,8 +25,10 @@ RSpec.describe 'Lineups' do
         get team_lineup_path(team, lineup)
       end
 
-      it { expect(response).to redirect_to(tour_path(lineup.tour)) }
-      it { expect(response).to have_http_status(:found) }
+      it { expect(response).to be_successful }
+      it { expect(response).to render_template(:show) }
+      it { expect(response).to have_http_status(:ok) }
+      it { expect(assigns(:lineup)).not_to be_nil }
     end
 
     context 'with own team when user is logged in' do

@@ -106,6 +106,17 @@ RSpec.describe 'RoundPlayers' do
       it { expect(assigns(:clubs)).not_to be_nil }
     end
 
+    context 'with main_squad order param' do
+      let(:params) { { order: 'main_squad' } }
+
+      it { expect(response).to be_successful }
+      it { expect(response).to render_template(:index) }
+      it { expect(response).to have_http_status(:ok) }
+      it { expect(assigns(:players)).not_to be_nil }
+      it { expect(assigns(:positions)).not_to be_nil }
+      it { expect(assigns(:clubs)).not_to be_nil }
+    end
+
     context 'with name order param' do
       let(:params) { { order: 'name' } }
 

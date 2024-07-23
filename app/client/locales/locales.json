@@ -246,6 +246,7 @@
       "transfers": "TRANSFERS"
     },
     "auction_bid": {
+      "all_budget": "You must use the entire budget at the first stage of the auction - %{budget} million",
       "choose": "Choose a player",
       "confirm": "Confirm bid",
       "duplicates": "Bid contains duplicate players in slots: ",
@@ -270,6 +271,8 @@
       },
       "bids": "💶 Bids",
       "budget": "💰 Budget",
+      "decrease_bid": "Decrease bid to match your budget",
+      "exceeded": "Budget exceeded",
       "filters": "Filters",
       "max_bid": "Maximum bid",
       "module_no_fit": "Not applicable (Bid on at least 10 field players)",
@@ -664,16 +667,20 @@
       "conditions": "🪵 Special conditions",
       "confirm_squad": "Confirm squad",
       "duplicates": "Lineup contains duplicate players",
+      "hidden_text": "The opponent's lineup will remain hidden during the preparation phase and will become visible after the deadline.",
+      "hidden_title": "Lineup is hidden",
       "home": "H",
       "main_squad": "Main squad",
       "max_limit": "You can not select more than %{limit} player(s) from one team",
       "min_limit": "You should select minimum %{limit} player(s) from each team",
       "not_selected": "Not selected",
+      "points": "Points",
       "reserve_squad": "Substitutes",
       "select": "Select module and players",
       "setup_lineup": "Setup lineup",
       "team": "Team",
-      "total": "Lineup should contain %{number} unique players"
+      "total": "Lineup should contain %{number} unique players",
+      "total_score": "🎯️ Total score"
     },
     "links": {
       "subtitle": "",
@@ -812,17 +819,22 @@
       "filter_tournament": "Filter by tournament",
       "filters": {
         "allFilters": "All filters",
-        "appearancesOption": "Appearances",
+        "appearancesLabel": "Appearances",
+        "appearancesShortLabel": "Apps",
         "applyFilters": "Apply filters",
-        "baseScoreOption": "Base score",
-        "clear": "Clear all",
+        "baseScoreLabel": "Base score",
+        "baseScoreShortLabel": "BS",
+        "clear": "Clear",
         "clearAll": "Clear all",
-        "clubsOption": "Clubs",
+        "clearFilters": "Clear filters",
+        "clubsLabel": "Clubs",
         "filters": "Filters",
-        "numberOfTeamsOption": "# of teams",
-        "positionOption": "Position",
-        "priceOption": "Price",
-        "totalScoreOption": "Total score"
+        "numberOfTeamsLabel": "# of teams",
+        "positionLabel": "Position",
+        "priceLabel": "Price",
+        "searchPlaceholder": "Search",
+        "totalScoreLabel": "Total score",
+        "totalScoreShortLabel": "TS"
       },
       "fp": "FP",
       "g": "G",
@@ -832,6 +844,7 @@
       "league": "LEAGUE",
       "league_option": "LEAGUE",
       "left_tournament": "Left tournament",
+      "main_appearances_header": "MAIN SQUAD",
       "mg": "MG",
       "missed_goals": "Missed goals",
       "missed_penalty": "Missed penalty",
@@ -907,6 +920,7 @@
       "close": "Close all tours",
       "confirm": "Confirm auto-close",
       "inject_scores": "Inject scores",
+      "moderated": "Will be auto-closed after:",
       "open": "Open all tours",
       "postpone": "Postpone all tours",
       "title": "Tournament Round"
@@ -1047,7 +1061,7 @@
         "start": {
           "learn_more": "Learn more",
           "register": "Register",
-          "text": "Welcome to MantraFootball!\n\nWe invite you to join the trial tournament for 7 rounds. The top 5 European leagues are available for selection. Participation in the trial tournament is free. Register!\n"
+          "text": "Welcome to MantraFootball!\n\nWe invite you to join the most realistic football fantasy. There are 9 European leagues to choose from. Register!\n"
         }
       }
     },
@@ -1179,9 +1193,12 @@
         "discount3_note": "(when choosing 2+ leagues)",
         "discount3_text": "For each additional selected league",
         "discount3_title": "-50 UAH",
+        "discount4_note": "(which you did not play last season)",
+        "discount4_text": "For each new league",
+        "discount4_title": "-20%",
         "discounts": "🎉 Discounts available!",
         "new": "I'm a new player",
-        "note": "Possible fees in US dollars at the rate of $1 = 36.65₴",
+        "note": "Possible fees in US dollars at the rate of $1 = 40₴",
         "old": "I've already played",
         "paragraph1": "For the game you need to make an organizational fee. These funds cover the cost of the site infrastructure (server use) and the award to the winners.",
         "paragraph2": "Also, the fee is a guarantee that the player will not leave the game in the middle of the season, because in this case it will harm other league members (departure of a member in the H2H system negatively affects the intrigue in the league).",
@@ -1423,7 +1440,7 @@
             "ol2": "If the goalkeeper receives a red card, he does not receive the bonus for the clean sheet.",
             "ol3": "Removing a player from the bench after being substituted for the clean sheet has no effect.",
             "ol4": "The size of the clean sheet bonus cannot be higher than that provided for the position in which the player is in the module (for example, if a player with the 'native' positions of RB and WB is in the module in the WB position, his clean sheet bonus will be +0.5). And vice versa: if a player finds himself in a module in a 'non-native' position, he can receive a clean sheet bonus, the size of which does not exceed the bonus of his 'native' position (for example, the size of the clean sheet bonus of a player with a 'native' DM position, who play at the CB position in the module, will be +0.5).",
-            "ol5": "When determining the author of a goal, assist, own goal, penalty kick, etc., the indicator of the FotMob service is taken into account, which should record and display the relevant fact. Indicators of other football portals and services are not taken into account.",
+            "ol5": "When determining the author of a goal, assist, own goal, penalty kick, etc., the indicator of the FotMob service is taken into account, which should record and display the relevant fact (the game takes into account the data that is displayed EXCLUSIVELY in the player's personal statistics on the match page in FotMob). Indicators of other football portals and services are not taken into account.",
             "ol6": "A missed penalty is not necessarily a goalkeeper save, therefore, the goalkeeper does not receive the corresponding bonus for all missed penalties."
           },
           "paragraph1": "In addition to the basic score, players can receive additional bonuses for certain positive actions and maluses for negative ones.",
@@ -1570,7 +1587,7 @@
         "modules": {
           "paragraph1": "The first stage of forming a team for a certain round is the selection of a module that determines the layout of the players of his team.",
           "paragraph2": "The system will suggest a default module that you can change.",
-          "paragraph3": "In total, there are 11 modules in the system:",
+          "paragraph3": "In total, there are 12 modules in the system:",
           "paragraph4": "Some modules allow a positional alternative, such as WB/W. This means that a player of both one (WB) and another (W) position can be placed in the corresponding place without any malus (penalties).",
           "title": "Modules"
         },
@@ -1582,7 +1599,7 @@
           "paragraph2": "A base score is an assessment of a player's performance in a specific match, which is provided by a statistical resource ",
           "paragraph3": "The starting score of the player from FotMob is 6 points. Depending on the success on the playing field, his score may increase (to a maximum of 10 points) or decrease (to a minimum of 0 points).",
           "paragraph4": "MantraFootball uses the final score generated by FotMob at the end of the match as the player's base score.",
-          "paragraph5": "After the end of the match, FotMob can change the basic scores both downward and upward for a certain time. The final base scores are considered to be those formed at the time of closing the round (approximately 12 hours after the final whistle of the last match of the tour).",
+          "paragraph5": "After the end of the match, FotMob can change the basic scores both downward and upward for a certain time. The final base scores are considered to be those formed at the time of closing the round (approximately 18 hours after the final whistle of the last match of the tour).",
           "paragraph6": "If the player started the match in the starting lineup, then, with rare exceptions, FotMob will give him a score. However, FotMob's algorithms do not evaluate players who entered the field after 80 minutes of regular time. MantraFootball automatically assigns such players a base score of 6 points.",
           "paragraph7": "Bonuses and malus are described in detail in ",
           "paragraph8": "the next section",
@@ -1739,6 +1756,7 @@
       "transfers": "ТРАНСФЕРИ"
     },
     "auction_bid": {
+      "all_budget": "Ви повинні використати увесь бюджет на першому етапі аукціону - %{budget} мільйонів",
       "choose": "Оберіть гравця",
       "confirm": "Підтвердити ставку",
       "duplicates": "Дублюються обрані гравці у слотах: ",
@@ -1763,6 +1781,8 @@
       },
       "bids": "💶 Ставки",
       "budget": "💰 Бюджет",
+      "decrease_bid": "Знизьте ставку відповідно до свого бюджету",
+      "exceeded": "Бюджет перевищено",
       "filters": "Фільтри",
       "max_bid": "Максимальна ставка",
       "module_no_fit": "Не застосовується (зробіть ставки на щонайменше 10 польових гравців)",
@@ -1930,16 +1950,20 @@
       "conditions": "🪵 Особливі умови",
       "confirm_squad": "Підтвердити склад",
       "duplicates": "Один гравець не може бути вибраний декілька раз",
+      "hidden_text": "Склад суперника залишатиметься прихованим під час підготовчого етапу та стане видимим після дедлайну.",
+      "hidden_title": "Склад приховано",
       "home": "Д",
       "main_squad": "Основний склад",
       "max_limit": "Ви не можете вибрати більше %{limit}-х гравців з однієї команди",
       "min_limit": "Вам потрібно вибрати мінімум %{limit} гравця з кожної команди",
       "not_selected": "Не вибрано",
+      "points": "Очки",
       "reserve_squad": "Запасні",
       "select": "Оберіть модуль та гравців для команди",
       "setup_lineup": "Вибір складу",
       "team": "Команда",
-      "total": "Вам потрібно вибрати %{number} унікальних гравців"
+      "total": "Вам потрібно вибрати %{number} унікальних гравців",
+      "total_score": "🎯️️ Загальний результат"
     },
     "links": {
       "subtitle": "",
@@ -1983,6 +2007,11 @@
       "tag": "🎮 Тег",
       "tournament": "⚽️ Турнір"
     },
+    "number": {
+      "nth": {
+        "ordinalized": null
+      }
+    },
     "players": {
       "age": "Вік",
       "appearances_header": "ПОЯВИ",
@@ -2020,17 +2049,22 @@
       "filter_tournament": "Фільтр по турніру",
       "filters": {
         "allFilters": "Всі фільтри",
-        "appearancesOption": "Появи",
+        "appearancesLabel": "Появи",
+        "appearancesShortLabel": "Появи",
         "applyFilters": "Застосувати",
-        "baseScoreOption": "Базова оцінка",
+        "baseScoreLabel": "Базова оцінка",
+        "baseScoreShortLabel": "БО",
         "clear": "Очистити",
-        "clearAll": "Очистити фільтри",
-        "clubsOption": "Клуби",
+        "clearAll": "Очистити",
+        "clearFilters": "Очистити",
+        "clubsLabel": "Клуби",
         "filters": "Фільтри",
-        "numberOfTeamsOption": "К-сть команд",
-        "positionOption": "Позиція",
-        "priceOption": "Вартість",
-        "totalScoreOption": "Загальна оцінка"
+        "numberOfTeamsLabel": "К-сть команд",
+        "positionLabel": "Позиція",
+        "priceLabel": "Вартість",
+        "searchPlaceholder": "Пошук",
+        "totalScoreLabel": "Загальна оцінка",
+        "totalScoreShortLabel": "ЗО"
       },
       "fp": "НП",
       "g": "Г",
@@ -2040,6 +2074,7 @@
       "league": "ЛІГА",
       "league_option": "ЛІГА",
       "left_tournament": "Покинув турнір",
+      "main_appearances_header": "ОСНОВА",
       "mg": "ПГ",
       "missed_goals": "Пропущені голи",
       "missed_penalty": "Пропущене пенальті",
@@ -2116,6 +2151,7 @@
       "close": "Закрити всі тури",
       "confirm": "Підтвердити автозакриття",
       "inject_scores": "Затягнути оцінки",
+      "moderated": "Буде автоматично закрито після:",
       "open": "Відкрити всі тури",
       "postpone": "Відкласти всі тури",
       "title": "Раунд Турніру"
@@ -2249,7 +2285,7 @@
         "start": {
           "learn_more": "Докладніше",
           "register": "Реєстрація",
-          "text": "Ласкаво просимо до MantraFootball!\n\nЗапрошуємо долучитися до пробного турніру на 7 турів. Для вибору доступні топ-5 ліг Європи. Участь в пробному турнірі безкоштовна. Реєструйтесь!\n"
+          "text": "Ласкаво просимо до MantraFootball!\n\nЗапрошуємо долучитися до найреалістичнішого футбольного фентезі. Для вибору доступні 9 європейських ліг. Реєструйтесь!\n"
         }
       }
     },
@@ -2363,11 +2399,14 @@
         "discount3_note": "(при виборі 2+ ліг)",
         "discount3_text": "За кожну додаткову обрану лігу",
         "discount3_title": "-50 гривень",
+        "discount4_note": "(в яку ви не грали минулого сезону)",
+        "discount4_text": "За кожну нову обрану лігу",
+        "discount4_title": "-20%",
         "discounts": "🎉 Доступні знижки!",
         "new": "Я новачок",
-        "note": "Можливі внески в доларах США за курсом $1=36.65₴",
+        "note": "Можливі внески в доларах США за курсом $1=40₴",
         "old": "Я вже грав",
-        "paragraph1": "Для гри необхідно зробити оргазінаційний внесок. Ці кошти покривають вартість інфраструктури сайту (використання серверу) та нагороди переможцям.",
+        "paragraph1": "Для гри необхідно зробити організаційний внесок. Ці кошти покривають вартість інфраструктури сайту (використання серверу) та нагороди переможцям.",
         "paragraph2": "Також внесок є певною гарантією, що гравець не покине гру посеред сезону, адже в такому випадку це нашкодить іншим учасникам ліги (виліт учасника при Н2Н системі негативно впливає на інтригу в лізі).",
         "paragraph3": "Розмір внеску залежить від популярності ліги.",
         "per_league": "/за лігу",
@@ -2606,7 +2645,7 @@
             "ol2": "Якщо воротар отримує червону картку, він не отримує бонус за кліншит.",
             "ol3": "Видалення гравця з лави запасних після того як його замінили на кліншит не впливає.",
             "ol4": "Розмір бонусу за кліншит не може бути вищим, ніж передбачено для позиції, на якій гравець опинився в модулі (наприклад, якщо гравець з «рідними» позиціями RB та WB опинився в модулі на позиції WB, його бонус за кліншит становитиме +0.5). І навпаки: якщо гравець опиниться в модулі на «нерідній» позиції, він може отримати бонус за кліншит, розмір якого не перевищує розміру бонусу за його «рідною» позицією (наприклад, розмір бонусу за кліншит гравця з «рідною» позицією DM, який опиниться на позиції CB в модулі, становитиме +0.5).",
-            "ol5": "При визначені автора голу, асиста, автоголу, відбиття пенальті, тощо враховується саме показник сервісу FotMob, який має зафіксувати та відобразити відповідний факт. Показники інших футбольних порталів та сервісів до уваги не враховуються.",
+            "ol5": "При визначені автора голу, асиста, автоголу, відбиття пенальті, тощо враховується саме показник сервісу FotMob, який має зафіксувати та відобразити відповідний факт (у грі враховуються дані, які відображені ВИКЛЮЧНО у персональній статистиці гравця на сторінці матчу в FotMob). Показники інших футбольних порталів та сервісів до уваги не враховуються.",
             "ol6": "Незабитий пенальті не обов’язково є сейвом воротаря, тому воротар отримує відповідний бонус не за всі незабиті пенальті."
           },
           "paragraph1": "Крім базової оцінки, гравці можуть отримати додаткові бонуси за певні позитивні дії і малуси за негативні.",
@@ -2753,7 +2792,7 @@
         "modules": {
           "paragraph1": "Першим етапом формування складу команди на певний раунд є вибір модуля, що визначає схему розстановки гравців його команди.",
           "paragraph2": "Система запропонує модуль за замовчуванням, який можна змінити.",
-          "paragraph3": "Всього в системі існує 11 модулів:",
+          "paragraph3": "Всього в системі існує 12 модулів:",
           "paragraph4": "Деякі модулі допускають позиційну альтернативу, наприклад, WB/W. Це означає, що на відповідне місце можна виставити гравця як однієї (WB), так і іншої (W) позиції без будь-яких малусів (штрафів).",
           "title": "Модулі"
         },
@@ -2765,7 +2804,7 @@
           "paragraph2": "Базова оцінка – це оцінка виступу гравця в конкретному матчі, яка надається статистичним ресурсом ",
           "paragraph3": "Стартова оцінка гравця від FotMob складає 6 очок. В залежності від успіхів на ігровому полі, його оцінка може зрости (до 10 очок максимум) або знизитись (до 0 очок мінімум).",
           "paragraph4": "У якості базової оцінки гравця MantraFootball використовує остаточну підсумкову оцінку, сформовану FotMob по завершенню матчу.",
-          "paragraph5": "По закінченню матчу FotMob ще певний час може змінювати базові оцінки як в сторону зменшення так і в сторону збільшення. Остаточними базовими оцінками вважаються ті які сформовані на момент закриття раунду (приблизно 12 годин після фінального свистка останнього матчу туру).",
+          "paragraph5": "По закінченню матчу FotMob ще певний час може змінювати базові оцінки як в сторону зменшення так і в сторону збільшення. Остаточними базовими оцінками вважаються ті які сформовані на момент закриття раунду (приблизно 18 годин після фінального свистка останнього матчу туру).",
           "paragraph6": "Якщо гравець почав матч в стартовому складі, то, за рідкісним винятком, FotMob надасть йому оцінку. Проте, алгоритми FotMob не оцінюють гравців, які вийшли на поле після 80 хвилини основного часу. MantraFootball автоматично призначає таким гравцям базову оцінку в 6 очок.",
           "paragraph7": "Бонуси та малуси докладно описані в ",
           "paragraph8": "наступному розділі",

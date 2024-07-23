@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_03_23_171835) do
+ActiveRecord::Schema.define(version: 2024_06_28_212938) do
 
   create_table "article_tags", force: :cascade do |t|
     t.string "name", default: "", null: false
@@ -64,6 +64,28 @@ ActiveRecord::Schema.define(version: 2024_03_23_171835) do
     t.datetime "updated_at", null: false
     t.integer "sales_count", default: 5, null: false
     t.index ["league_id"], name: "index_auctions_on_league_id"
+  end
+
+  create_table "audits", force: :cascade do |t|
+    t.integer "auditable_id"
+    t.string "auditable_type"
+    t.integer "associated_id"
+    t.string "associated_type"
+    t.integer "user_id"
+    t.string "user_type"
+    t.string "username"
+    t.string "action"
+    t.text "audited_changes"
+    t.integer "version", default: 0
+    t.string "comment"
+    t.string "remote_address"
+    t.string "request_uuid"
+    t.datetime "created_at"
+    t.index ["associated_type", "associated_id"], name: "associated_index"
+    t.index ["auditable_type", "auditable_id", "version"], name: "auditable_index"
+    t.index ["created_at"], name: "index_audits_on_created_at"
+    t.index ["request_uuid"], name: "index_audits_on_request_uuid"
+    t.index ["user_id", "user_type"], name: "user_index"
   end
 
   create_table "clubs", force: :cascade do |t|
@@ -202,6 +224,8 @@ ActiveRecord::Schema.define(version: 2024_03_23_171835) do
   create_table "player_positions", force: :cascade do |t|
     t.integer "player_id"
     t.integer "position_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.index ["player_id", "position_id"], name: "player_position"
   end
 
@@ -418,6 +442,7 @@ ActiveRecord::Schema.define(version: 2024_03_23_171835) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "deadline"
+    t.datetime "moderated_at"
     t.index ["season_id"], name: "index_tournament_rounds_on_season_id"
     t.index ["tournament_id"], name: "index_tournament_rounds_on_tournament_id"
   end

@@ -19,7 +19,8 @@ class SubstitutesController < ApplicationController
   def destroy
     call_subs_destroyer if can? :destroy, Substitute
 
-    redirect_to match_path(lineup.match)
+    path = lineup.match ? match_path(lineup.match) : team_lineup_path(lineup.team, lineup)
+    redirect_to path
   end
 
   private
