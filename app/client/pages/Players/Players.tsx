@@ -23,9 +23,7 @@ const Players = () => {
     <PageLayout>
       <div className={styles.header}>
         <div className={styles.headerTop}>
-          <div className={styles.heading}>
-            <Heading title={t("players.players")} noSpace />
-          </div>
+          <Heading title={t("players.players")} noSpace />
         </div>
         <div className={styles.search}>
           <Search
