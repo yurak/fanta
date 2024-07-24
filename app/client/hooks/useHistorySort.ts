@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { useSearchParamsContext } from "@/application/SearchParamsContext";
 
 export type SortOrder = "asc" | "desc";
@@ -16,16 +16,19 @@ export type ISorting = {
 export const useHistorySort = (
   {
     defaultSortBy,
+    defaultSortOrder,
   }: {
-    defaultSortBy: string | null,
+    defaultSortBy?: string | null,
+    defaultSortOrder?: SortOrder | null,
   } = {
     defaultSortBy: null,
+    defaultSortOrder: null,
   }
 ): ISorting => {
   const { searchParams, setSearchParams } = useSearchParamsContext();
 
-  const sortBy = searchParams.get("sortBy") as ISorting["sortBy"];
-  const sortOrder = searchParams.get("sortOrder") as ISorting["sortOrder"];
+  const [sortBy, _setSortBy] = useState(searchParams.get("sortBy") ?? null);
+  const [sortOrder, _setSortOrder] = useState(searchParams.get("sortOrder") as SortOrder | null);
 
   const onSortChange: ISorting["onSortChange"] = (
     sortBy,
@@ -35,15 +38,19 @@ export const useHistorySort = (
     setSearchParams(
       (prev) => {
         if (sortBy) {
-          prev.set("sortBy", sortBy.toString());
+          _setSortBy(sortBy);
+          prev.set("sortBy", sortBy);
         } else {
+          _setSortBy(null);
           prev.delete("sortBy");
         }
 
         if (sortOrder && supportMultipleSortOrders) {
-          prev.set("sortOrder", sortOrder.toString());
+          prev.set("sortOrder", sortOrder);
+          _setSortOrder(sortOrder);
         } else {
           prev.delete("sortOrder");
+          _setSortOrder(null);
         }
 
         return prev;
@@ -56,8 +63,15 @@ export const useHistorySort = (
 
   return useMemo(
     () => ({
-      sortBy: sortBy ?? defaultSortBy,
-      sortOrder,
+      ...(!sortBy && !sortOrder
+        ? {
+            sortBy: defaultSortBy ?? null,
+            sortOrder: defaultSortOrder ?? null,
+          }
+        : {
+            sortBy,
+            sortOrder,
+          }),
       onSortChange,
     }),
     [defaultSortBy, sortBy, onSortChange]
