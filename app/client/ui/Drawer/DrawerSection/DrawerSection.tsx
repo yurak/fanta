@@ -3,7 +3,17 @@ import cn from "classnames";
 import ArrowDown from "@/assets/icons/arrow-down.svg";
 import styles from "./DrawerSection.module.scss";
 
-const DrawerSection = ({ title, children }: { title: string, children: React.ReactNode }) => {
+const DrawerSection = ({
+  title,
+  children,
+  withTopSpace,
+  withBottomSpace,
+}: {
+  title: string,
+  children: React.ReactNode,
+  withBottomSpace?: boolean,
+  withTopSpace?: boolean,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -18,7 +28,16 @@ const DrawerSection = ({ title, children }: { title: string, children: React.Rea
           <ArrowDown />
         </span>
       </button>
-      {isOpen && <div className={styles.content}>{children}</div>}
+      {isOpen && (
+        <div
+          className={cn(styles.content, {
+            [styles.withTopSpace]: withTopSpace,
+            [styles.withBottomSpace]: withBottomSpace,
+          })}
+        >
+          {children}
+        </div>
+      )}
     </div>
   );
 };

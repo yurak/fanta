@@ -33,4 +33,12 @@
 
 .content {
   padding: 0 24px;
+
+  &.withTopSpace {
+    padding-top: 8px;
+  }
+
+  &.withBottomSpace {
+    padding-bottom: 24px;
+  }
 }

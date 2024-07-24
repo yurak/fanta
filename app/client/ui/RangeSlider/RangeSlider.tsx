@@ -27,41 +27,43 @@ const RangeSlider = ({ min, max, value, onChange, step = 1 }: IProps) => {
   }, [value]);
 
   return (
-    <div className={styles.container}>
-      <Slider
-        range
-        step={step}
-        min={min}
-        max={max}
-        className={styles.slider}
-        classNames={{ rail: styles.rail, track: styles.track, handle: styles.handle }}
-        value={innerValue}
-        onChangeComplete={(value) => {
-          onChange({
-            min: value[0],
-            max: value[1],
-          });
-        }}
-        onChange={(value) => {
-          setInnerValue(value as number[]);
-        }}
-      />
-      {innerValue.map((value, index) => {
-        const percentage = Math.max(0, Math.min(100, (value / max) * 100));
+    <div className={styles.containerWrapper}>
+      <div className={styles.container}>
+        <Slider
+          range
+          step={step}
+          min={min}
+          max={max}
+          className={styles.slider}
+          classNames={{ rail: styles.rail, track: styles.track, handle: styles.handle }}
+          value={innerValue}
+          onChangeComplete={(value) => {
+            onChange({
+              min: value[0],
+              max: value[1],
+            });
+          }}
+          onChange={(value) => {
+            setInnerValue(value as number[]);
+          }}
+        />
+        {innerValue.map((value, index) => {
+          const percentage = Math.max(0, Math.min(100, (value / max) * 100));
 
-        return (
-          <span
-            key={`${value}-${index}`}
-            className={styles.valueTooltip}
-            style={{
-              left: `${percentage}%`,
-            }}
-          >
-            {value}
-            <TooltipArrowIcon className={styles.valueTooltipIcon} />
-          </span>
-        );
-      })}
+          return (
+            <span
+              key={`${value}-${index}`}
+              className={styles.valueTooltip}
+              style={{
+                left: `${percentage}%`,
+              }}
+            >
+              {value}
+              <TooltipArrowIcon className={styles.valueTooltipIcon} />
+            </span>
+          );
+        })}
+      </div>
     </div>
   );
 };

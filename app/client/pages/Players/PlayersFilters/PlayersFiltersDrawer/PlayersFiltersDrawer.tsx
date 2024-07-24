@@ -70,10 +70,10 @@ const PlayersFiltersDrawer = () => {
             }
           />
         )}
-        <Drawer.Section title={t("players.filters.clubsLabel")}>
+        <Drawer.Section title={t("players.filters.clubsLabel")} withTopSpace>
           <ClubCheckbox value={filterValues.clubs} onChange={onChangeValue("clubs")} />
         </Drawer.Section>
-        <Drawer.Section title={t("players.filters.positionLabel")}>
+        <Drawer.Section title={t("players.filters.positionLabel")} withBottomSpace withTopSpace>
           <PlayerPositionsCheckbox
             value={filterValues.position}
             onChange={onChangeValue("position")}
