@@ -12,16 +12,6 @@
   display: flex;
   gap: var(--gap);
   justify-content: space-between;
-
-  @media (max-width: 768px) {
-    display: contents;
-  }
-}
-
-.heading {
-  @media (max-width: 768px) {
-    display: none;
-  }
 }
 
 .search {
