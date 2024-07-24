@@ -78,11 +78,12 @@ const PlayersListDesktop = ({ emptyStateComponent }: { emptyStateComponent: Reac
       },
       {
         dataKey: "average_price",
-        title: "Price",
+        title: t("players.filters.priceLabel"),
         align: "right",
         className: styles.priceCell,
         noWrap: true,
         sorter: true,
+        headEllipsis: true,
         supportAscSorting: true,
         render: ({ average_price }) => {
           return formatNumber(average_price, {
