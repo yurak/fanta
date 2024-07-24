@@ -14,7 +14,7 @@ const DEBOUNCE_DELAY = 1_000;
 
 const usePlayers = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const sorting = useHistorySort();
+  const sorting = useHistorySort({ defaultSortBy: "total_score", defaultSortOrder: "desc" });
 
   const [search, setSearch] = useHistorySearch(defaultSearch);
   const [historyFilter, setHistoryFilter] = useHistoryFilter<IFilter>(decodeFilter, encodeFilter);

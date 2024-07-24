@@ -1,4 +1,4 @@
-import { useMemo, useCallback } from "react";
+import { useCallback, useRef } from "react";
 import { useDebounceCallback } from "usehooks-ts";
 
 type ParamsType = Record<string, string>;
@@ -87,22 +87,19 @@ const navigate = (url: string, { replace = false }: NavigateOptions = {}) => {
 export const useCustomSearchParams = () => {
   const navigateWithDebouce = useDebounceCallback(navigate, 0);
 
-  const searchParams = useMemo(
-    () => new CustomURLSearchParams(window.location.search),
-    [window.location.search]
-  );
+  const searchParams = useRef(new CustomURLSearchParams(window.location.search));
 
   const setSearchParams = useCallback(
     (
       callback: (params: CustomURLSearchParams) => CustomURLSearchParams,
       navigateOptions?: NavigateOptions
     ) => {
-      const newParams = callback(searchParams).toString();
+      const newParams = callback(searchParams.current).toString();
       const path = newParams.length > 0 ? `?${newParams}` : "";
       navigateWithDebouce(path, navigateOptions);
     },
     [navigate, searchParams]
   );
 
-  return { searchParams, setSearchParams };
+  return { searchParams: searchParams.current, setSearchParams };
 };
