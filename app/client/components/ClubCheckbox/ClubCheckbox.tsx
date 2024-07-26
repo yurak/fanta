@@ -111,7 +111,7 @@ const ClubCheckboxPopoverInner = () => {
     <PopoverInput
       label={t("players.filters.clubsLabel")}
       selectedLabel={selectedLabel}
-      clearValue={() => onChange([], [])}
+      clearValue={() => onChange([])}
       subHeader={<ClubSearch autofocus />}
     >
       <ClubCheckbox />
