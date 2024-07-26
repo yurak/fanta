@@ -14,8 +14,45 @@
   justify-content: space-between;
 }
 
+.buttonWrapper {
+  flex: 0 0 auto;
+}
+
 .search {
   flex: 1;
+}
+
+.title {
+  flex: 1;
+  min-width: 0;
+
+  .leagueName {
+    @media (max-width: 768px) {
+      display: none;
+    }
+  }
+}
+
+.skeleton {
+  width: 300px;
+  max-width: 100%;
+  display: block;
+}
+
+.desktop {
+  display: inline-block;
+
+  @media (max-width: 768px) {
+    display: none;
+  }
+}
+
+.mobile {
+  display: none;
+
+  @media (max-width: 768px) {
+    display: inline-block;
+  }
 }
 
 .filtersWrapper {
