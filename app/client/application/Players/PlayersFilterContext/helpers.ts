@@ -20,7 +20,7 @@ const justifyRangeSliderValue = (
 
 export const filterToRequestFormat = (filter: IFilter, search: string): IPayloadFilter => {
   return {
-    name: search,
+    name: search.trim().length > 0 ? search.trim() : undefined,
     position: filter.position,
     club_id: filter.clubs,
     total_score: justifyRangeSliderValue(filter.totalScore, defaultFilter.totalScore),
