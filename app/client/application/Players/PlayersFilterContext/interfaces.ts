@@ -9,4 +9,6 @@ export interface IFilter {
   appearances: RangeSliderValueType,
   price: RangeSliderValueType,
   teamsCount: RangeSliderValueType,
+  league: number | null,
+  tournament: number | null,
 }

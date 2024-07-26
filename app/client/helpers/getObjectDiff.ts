@@ -21,7 +21,7 @@ export const getObjectDiffKeys = (obj1: object, obj2: object): string[] => {
       return [...diff, key];
     }
 
-    if (typeof obj1Value === "object" && typeof obj2Value === "object") {
+    if (obj1Value && typeof obj1Value === "object" && obj2Value && typeof obj2Value === "object") {
       const childDiffKeys = getObjectDiffKeys(obj1Value, obj2Value);
 
       if (childDiffKeys.length === 0) {
