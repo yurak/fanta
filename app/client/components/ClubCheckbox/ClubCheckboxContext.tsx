@@ -4,9 +4,8 @@ import { IClub } from "@/interfaces/Club";
 import { ITournament } from "@/interfaces/Tournament";
 
 export interface IProps {
-  clubs: number[],
-  tournaments: number[],
-  onChange: (clubs: number[], tournaments: number[]) => void,
+  value: number[],
+  onChange: (value: number[]) => void,
 }
 
 interface ITournamentWithClubs extends ITournament {
@@ -46,11 +45,7 @@ const getTournamentsAndClubsWithoutTournaments = (
   };
 };
 
-const useClubCheckbox = ({
-  clubs: selectedClubs,
-  tournaments: selectedTournaments,
-  onChange,
-}: IProps) => {
+const useClubCheckbox = ({ value, onChange }: IProps) => {
   const { data } = useTournaments({ clubs: true });
   const [search, setSearch] = useState("");
 
@@ -66,15 +61,6 @@ const useClubCheckbox = ({
         })),
     [data]
   );
-
-  const value = useMemo<number[]>(() => {
-    return [
-      ...selectedClubs,
-      ...allTournaments
-        .filter((tournament) => selectedTournaments.includes(tournament.id))
-        .flatMap((tournament) => tournament.clubs.map((club) => club.id)),
-    ];
-  }, [selectedClubs, selectedTournaments, allTournaments]);
 
   const tournamentsClubs = useMemo(() => {
     return allTournaments.reduce((map, tournament) => {
@@ -93,27 +79,19 @@ const useClubCheckbox = ({
       }, new Map<number, IClub>());
   }, [allTournaments]);
 
-  const onChangeHandler = (clubs: number[]) => {
-    const { tournamentsIds, clubs: clubsIds } = getTournamentsAndClubsWithoutTournaments(
-      clubs,
-      allTournaments
-    );
-
-    onChange(clubsIds, tournamentsIds);
-  };
-
   const toggleTournament = (id: number, checked: boolean) => {
     const tournamentClubs = tournamentsClubs.get(id) ?? [];
 
     if (checked) {
-      onChangeHandler([...new Set([...value, ...tournamentClubs])]);
+      onChange([...new Set([...value, ...tournamentClubs])]);
     } else {
-      onChangeHandler(value.filter((v) => !tournamentClubs.includes(v)));
+      onChange(value.filter((v) => !tournamentClubs.includes(v)));
     }
   };
 
   const isTournamentChecked = (id: number): boolean => {
-    return selectedTournaments.includes(id);
+    const tournamentClubs = tournamentsClubs.get(id) ?? [];
+    return tournamentClubs.every((club) => value.includes(club));
   };
 
   const isTournamentIndeterminate = (id: number): boolean => {
@@ -123,7 +101,7 @@ const useClubCheckbox = ({
 
   const toggleClubs = (tournamentId: number, ids: number[]) => {
     const tournamentClubs = tournamentsClubs.get(tournamentId) ?? [];
-    onChangeHandler([...value.filter((v) => !tournamentClubs.includes(v)), ...ids]);
+    onChange([...value.filter((v) => !tournamentClubs.includes(v)), ...ids]);
   };
 
   const filterTournaments = useMemo(() => {
