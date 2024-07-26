@@ -14,6 +14,8 @@ export interface IPayloadFilter {
   teams_count?: Partial<RangeSliderValueType>,
   app?: Partial<RangeSliderValueType>,
   price?: Partial<RangeSliderValueType>,
+  tournament_id?: number[],
+  league_id?: number,
 }
 
 export interface IPayloadSort {

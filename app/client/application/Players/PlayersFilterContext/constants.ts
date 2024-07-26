@@ -26,4 +26,6 @@ export const defaultFilter: IFilter = {
     min: PlayersFilterConstants.TEAMS_COUNT_MIN,
     max: PlayersFilterConstants.TEAMS_COUNT_MAX,
   },
+  league: null,
+  tournament: null,
 };
