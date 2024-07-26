@@ -1,12 +1,16 @@
-export const getObjectDiffKeys = (obj1: object, obj2: object): string[] => {
+export const getObjectDiffKeys = (obj1: object, obj2: object, excludeKeys: string[]): string[] => {
   const allKeys = [...new Set([...Object.keys(obj1), ...Object.keys(obj2)])];
 
   return allKeys.reduce<string[]>((diff, key) => {
     const obj1Value = obj1[key];
     const obj2Value = obj2[key];
 
-    if (typeof obj1Value !== typeof obj2Value) {
+    if (excludeKeys.includes(key)) {
       return diff;
+    }
+
+    if (typeof obj1Value !== typeof obj2Value) {
+      return [...diff, key];
     }
 
     if (Array.isArray(obj1Value) && Array.isArray(obj2Value)) {
@@ -22,7 +26,7 @@ export const getObjectDiffKeys = (obj1: object, obj2: object): string[] => {
     }
 
     if (obj1Value && typeof obj1Value === "object" && obj2Value && typeof obj2Value === "object") {
-      const childDiffKeys = getObjectDiffKeys(obj1Value, obj2Value);
+      const childDiffKeys = getObjectDiffKeys(obj1Value, obj2Value, []);
 
       if (childDiffKeys.length === 0) {
         return diff;

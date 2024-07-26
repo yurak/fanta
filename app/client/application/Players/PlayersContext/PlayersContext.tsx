@@ -22,7 +22,10 @@ const usePlayers = () => {
 
   const [filterValues, _setFilterValues] = useState<IFilter>(historyFilter);
 
-  const filterCount = getObjectDiffKeys(defaultFilter, filterValues).length;
+  const filterCount = getObjectDiffKeys(defaultFilter, filterValues, [
+    "tournaments",
+    "league",
+  ]).length;
 
   const setFilterValues = (filter: IFilter) => {
     _setFilterValues(filter);
@@ -30,7 +33,11 @@ const usePlayers = () => {
   };
 
   const clearFilter = () => {
-    setFilterValues(defaultFilter);
+    setFilterValues({
+      ...defaultFilter,
+      tournaments: filterValues.tournaments,
+      league: filterValues.league,
+    });
   };
 
   const removeLeagueFilter = () => {
