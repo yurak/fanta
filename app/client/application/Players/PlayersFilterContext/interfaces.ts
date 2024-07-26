@@ -10,5 +10,5 @@ export interface IFilter {
   price: RangeSliderValueType,
   teamsCount: RangeSliderValueType,
   league: number | null,
-  tournament: number | null,
+  tournaments: number[],
 }

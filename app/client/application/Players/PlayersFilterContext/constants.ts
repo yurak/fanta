@@ -5,6 +5,7 @@ export const defaultSearch = "";
 
 export const defaultFilter: IFilter = {
   clubs: [],
+  tournaments: [],
   position: [],
   totalScore: {
     min: PlayersFilterConstants.TOTAL_SCORE_MIN,
@@ -27,5 +28,4 @@ export const defaultFilter: IFilter = {
     max: PlayersFilterConstants.TEAMS_COUNT_MAX,
   },
   league: null,
-  tournament: null,
 };
