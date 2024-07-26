@@ -95,7 +95,7 @@ export const useCustomSearchParams = () => {
       navigateOptions?: NavigateOptions
     ) => {
       const newParams = callback(searchParams.current).toString();
-      const path = newParams.length > 0 ? `?${newParams}` : "";
+      const path = newParams.length > 0 ? `?${newParams}` : window.location.pathname;
       navigateWithDebouce(path, navigateOptions);
     },
     [navigate, searchParams]

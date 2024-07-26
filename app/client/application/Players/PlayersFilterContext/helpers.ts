@@ -23,12 +23,12 @@ export const filterToRequestFormat = (filter: IFilter, search: string): IPayload
     name: search.trim().length > 0 ? search.trim() : undefined,
     position: filter.position,
     club_id: filter.clubs,
+    tournament_id: filter.tournaments,
     total_score: justifyRangeSliderValue(filter.totalScore, defaultFilter.totalScore),
     teams_count: justifyRangeSliderValue(filter.teamsCount, defaultFilter.teamsCount),
     base_score: justifyRangeSliderValue(filter.baseScore, defaultFilter.baseScore),
     app: justifyRangeSliderValue(filter.appearances, defaultFilter.appearances),
     price: justifyRangeSliderValue(filter.price, defaultFilter.price),
-    tournament_id: filter.tournament ? [filter.tournament] : undefined,
     league_id: filter.league ?? undefined,
   };
 };

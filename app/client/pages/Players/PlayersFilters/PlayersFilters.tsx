@@ -15,7 +15,14 @@ const PlayerFilters = () => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.container}>
-        <ClubCheckboxPopover value={filterValues.clubs} onChange={onChangeValue("clubs")} />
+        <ClubCheckboxPopover
+          clubs={filterValues.clubs}
+          tournaments={filterValues.tournaments}
+          onChange={(clubs, tournaments) => {
+            onChangeValue("clubs")(clubs);
+            onChangeValue("tournaments")(tournaments);
+          }}
+        />
         <PlayerPositionsCheckboxPopover
           value={filterValues.position}
           onChange={onChangeValue("position")}
