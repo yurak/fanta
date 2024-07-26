@@ -1,9 +1,12 @@
 import { createContext, useContext, useMemo, useState } from "react";
-import { SortOrder, useHistorySort } from "@/hooks/useHistorySort";
+import { SortOrder } from "@/hooks/useHistorySort";
 import { useTranslation } from "react-i18next";
+import { usePlayersContext } from "../PlayersContext";
 
 const usePlayersSort = () => {
-  const { sortBy, sortOrder, onSortChange } = useHistorySort();
+  const {
+    sorting: { onSortChange, sortBy, sortOrder },
+  } = usePlayersContext();
 
   const [value, setValue] = useState(sortBy && sortOrder ? { sortBy, sortOrder } : null);
 
