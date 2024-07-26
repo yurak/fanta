@@ -894,6 +894,7 @@
       "sorter": {
         "appearancesAsc": "Appearances (Low to High)",
         "appearancesDesc": "Appearances (High to Low)",
+        "apply": "Apply",
         "avaragePriceAsc": "Average price (Low to High)",
         "avaragePriceDesc": "Average price (High to Low)",
         "baseScoreAsc": "Base score (Low to High)",

@@ -295,6 +295,7 @@ en:
       searchPlaceholder: "Search"
     sorter:
       sortBy: "Sort by"
+      apply: "Apply"
       nameDesc: "Name (A to Z)"
       nameAsc: "Name (Z to A)"
       positionAsc: "Position (GK to ST)"
