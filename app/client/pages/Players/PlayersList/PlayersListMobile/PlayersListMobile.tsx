@@ -9,10 +9,12 @@ import DataList from "@/ui/DataList";
 import { usePlayersListContext } from "@/application/Players/PlayersListContext";
 import styles from "./PlayersListMobile.module.scss";
 import { useTranslation } from "react-i18next";
+import { usePlayersPageContext } from "@/application/Players/PlayersPageContext";
 
 const PlayerItem = ({
   avatar_path,
   club,
+  league_team_logo,
   name,
   first_name,
   average_base_score,
@@ -24,6 +26,7 @@ const PlayerItem = ({
   teams_count_max,
 }: IPlayer) => {
   const { t } = useTranslation();
+  const { isLeagueSpecificPlayersPage } = usePlayersPageContext();
 
   return (
     <>
@@ -54,7 +57,7 @@ const PlayerItem = ({
           <span>
             <PlayerPositions position={position_classic_arr} />
           </span>
-          {club.tournament_id && (
+          {!isLeagueSpecificPlayersPage && club.tournament_id && (
             <>
               <span>
                 <TournamentsLoader>
@@ -89,14 +92,25 @@ const PlayerItem = ({
             </span>{" "}
             {`${appearances === 1 ? t("players.results.app") : t("players.results.apps")}`}
           </span>
-          <span className={cn(styles.divider, styles.teams)} />
-          <span className={styles.teams}>
-            {formatNumber(teams_count)}
-            <span className={styles.grey}>
-              {teams_count > 0 && `(${formatNumber(teams_count_max)})`}
-            </span>{" "}
-            {`${appearances === 1 ? t("players.results.team") : t("players.results.teams")}`}
-          </span>
+          {!isLeagueSpecificPlayersPage && (
+            <>
+              <span className={cn(styles.divider, styles.teams)} />
+              <span className={styles.teams}>
+                {formatNumber(teams_count)}
+                <span className={styles.grey}>
+                  {teams_count > 0 && `(${formatNumber(teams_count_max)})`}
+                </span>{" "}
+                {`${appearances === 1 ? t("players.results.team") : t("players.results.teams")}`}
+              </span>
+            </>
+          )}
+          {isLeagueSpecificPlayersPage && league_team_logo && (
+            <span className={styles.end}>
+              <div className={styles.logo}>
+                <img src={league_team_logo} alt="League team" />
+              </div>
+            </span>
+          )}
         </div>
       </div>
     </>

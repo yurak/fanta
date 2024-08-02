@@ -1,12 +1,12 @@
-import { PlayerPositionsCheckboxPopover } from "@/components/filters/PlayerPositionsCheckbox";
-import PlayersFilterConstants from "@/domain/PlayersFilterConstants";
-import { RangeSliderPopover } from "@/ui/RangeSlider";
+import { useTranslation } from "react-i18next";
 import PlayersFilterContextProvider, {
   usePlayersFilterContext,
 } from "@/application/Players/PlayersFilterContext";
-import styles from "./PlayersFilters.module.scss";
+import { PlayerPositionsCheckboxPopover } from "@/components/filters/PlayerPositionsCheckbox";
+import PlayersFilterConstants from "@/domain/PlayersFilterConstants";
+import { RangeSliderPopover } from "@/ui/RangeSlider";
 import { ClubCheckboxPopover } from "@/components/ClubCheckbox";
-import { useTranslation } from "react-i18next";
+import styles from "./PlayersFilters.module.scss";
 
 const PlayerFilters = () => {
   const { t } = useTranslation();
