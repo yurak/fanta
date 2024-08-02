@@ -834,6 +834,7 @@
         "positionLabel": "Position",
         "priceLabel": "Price",
         "searchPlaceholder": "Search",
+        "teamLabel": "Team",
         "totalScoreLabel": "Total score",
         "totalScoreShortLabel": "TS",
         "tournamentLabel": "TMNT"
@@ -2069,6 +2070,7 @@
         "positionLabel": "Позиція",
         "priceLabel": "Вартість",
         "searchPlaceholder": "Пошук",
+        "teamLabel": "Команда",
         "totalScoreLabel": "Загальна оцінка",
         "totalScoreShortLabel": "ЗО",
         "tournamentLabel": "Турнір"

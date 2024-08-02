@@ -6,6 +6,7 @@ import TournamentsLoader from "@/components/loaders/TournamentsLoader";
 import PlayerPositions from "@/components/PlayerPositions/PlayerPositions";
 import { formatNumber } from "@/helpers/formatNumber";
 import { usePlayersContext } from "@/application/Players/PlayersContext";
+import { usePlayersPageContext } from "@/application/Players/PlayersPageContext";
 import { usePlayersListContext } from "@/application/Players/PlayersListContext";
 import PlayersListInfo, { PlayersListInfoSkeleton } from "../PlayersListInfo";
 import styles from "./PlayersListDesktop.module.scss";
@@ -14,6 +15,7 @@ const PlayersListDesktop = ({ emptyStateComponent }: { emptyStateComponent: Reac
   const { t } = useTranslation();
   const { sorting } = usePlayersContext();
   const { items, isLoading, hasNextPage, loadMore } = usePlayersListContext();
+  const { isLeagueSpecificPlayersPage } = usePlayersPageContext();
 
   const columns = useMemo<IColumn<IPlayer>[]>(
     () => [
@@ -32,6 +34,7 @@ const PlayersListDesktop = ({ emptyStateComponent }: { emptyStateComponent: Reac
         title: t("players.filters.tournamentLabel"),
         className: styles.tournamentCell,
         headEllipsis: true,
+        isHidden: isLeagueSpecificPlayersPage,
         render: ({ club }) => {
           if (!club.tournament_id) {
             return "-";
@@ -85,8 +88,28 @@ const PlayersListDesktop = ({ emptyStateComponent }: { emptyStateComponent: Reac
         sorter: true,
         headEllipsis: true,
         supportAscSorting: true,
+        isHidden: isLeagueSpecificPlayersPage,
         render: ({ average_price }) => {
           return formatNumber(average_price, {
+            zeroFallback: "-",
+            minimumFractionDigits: 1,
+            maximumFractionDigits: 1,
+            suffix: "M",
+          });
+        },
+      },
+      {
+        dataKey: "league_price",
+        title: t("players.filters.priceLabel"),
+        align: "right",
+        className: styles.priceCell,
+        noWrap: true,
+        sorter: true,
+        headEllipsis: true,
+        supportAscSorting: true,
+        isHidden: !isLeagueSpecificPlayersPage,
+        render: ({ league_price }) => {
+          return formatNumber(league_price ?? 0, {
             zeroFallback: "-",
             minimumFractionDigits: 1,
             maximumFractionDigits: 1,
@@ -107,6 +130,7 @@ const PlayersListDesktop = ({ emptyStateComponent }: { emptyStateComponent: Reac
         headEllipsis: true,
         align: "right",
         noWrap: true,
+        isHidden: isLeagueSpecificPlayersPage,
         className: styles.totalTeamsCell,
         render: ({ teams_count, teams_count_max }) => {
           if (teams_count === 0) {
@@ -174,8 +198,25 @@ const PlayersListDesktop = ({ emptyStateComponent }: { emptyStateComponent: Reac
           });
         },
       },
+      {
+        dataKey: "team",
+        title: t("players.filters.teamLabel"),
+        className: styles.clubCell,
+        isHidden: !isLeagueSpecificPlayersPage,
+        render: ({ league_team_logo }) => {
+          if (!league_team_logo) {
+            return "-";
+          }
+
+          return (
+            <div className={styles.logo}>
+              <img src={league_team_logo} alt="League team" />
+            </div>
+          );
+        },
+      },
     ],
-    [t]
+    [t, isLeagueSpecificPlayersPage]
   );
 
   return (

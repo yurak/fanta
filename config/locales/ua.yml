@@ -305,6 +305,7 @@ ua:
       tournamentLabel: "Турнір"
       clubLabel: "Клуб"
       clubsLabel: "Клуби"
+      teamLabel: "Команда"
       positionLabel: "Позиція"
       baseScoreLabel: "Базова оцінка"
       baseScoreShortLabel: "БО"

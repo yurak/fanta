@@ -282,6 +282,7 @@ en:
       tournamentLabel: "TMNT"
       clubLabel: "Club"
       clubsLabel: "Clubs"
+      teamLabel: "Team"
       positionLabel: "Position"
       baseScoreLabel: "Base score"
       baseScoreShortLabel: "BS"
