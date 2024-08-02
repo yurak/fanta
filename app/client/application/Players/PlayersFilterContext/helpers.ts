@@ -28,7 +28,6 @@ export const filterToRequestFormat = (filter: IFilter, search: string): IPayload
     teams_count: justifyRangeSliderValue(filter.teamsCount, defaultFilter.teamsCount),
     base_score: justifyRangeSliderValue(filter.baseScore, defaultFilter.baseScore),
     app: justifyRangeSliderValue(filter.appearances, defaultFilter.appearances),
-    price: justifyRangeSliderValue(filter.price, defaultFilter.price),
     league_id: filter.league ?? undefined,
   };
 };

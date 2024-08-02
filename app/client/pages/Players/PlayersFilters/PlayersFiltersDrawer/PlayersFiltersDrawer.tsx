@@ -117,14 +117,6 @@ const PlayersFiltersDrawer = () => {
             />
           </Drawer.Section>
         )}
-        <Drawer.Section title={t("players.filters.priceLabel")}>
-          <RangeSlider
-            value={filterValues.price}
-            onChange={onChangeValue("price")}
-            min={PlayersFilterConstants.PRICE_MIN}
-            max={PlayersFilterConstants.PRICE_MAX}
-          />
-        </Drawer.Section>
       </Drawer>
       {isMobile && (
         <PlayersSortDrawer isOpen={isSortDrawerOpen} close={() => setIsSortDrawerOpen(false)} />

@@ -57,13 +57,6 @@ const PlayerFilters = () => {
             onChange={onChangeValue("teamsCount")}
           />
         )}
-        <RangeSliderPopover
-          min={PlayersFilterConstants.PRICE_MIN}
-          max={PlayersFilterConstants.PRICE_MAX}
-          value={filterValues.price}
-          label={t("players.filters.priceLabel")}
-          onChange={onChangeValue("price")}
-        />
       </div>
     </div>
   );

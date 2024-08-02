@@ -7,7 +7,6 @@ export interface IFilter {
   totalScore: RangeSliderValueType,
   baseScore: RangeSliderValueType,
   appearances: RangeSliderValueType,
-  price: RangeSliderValueType,
   teamsCount: RangeSliderValueType,
   league: number | null,
   tournaments: number[],

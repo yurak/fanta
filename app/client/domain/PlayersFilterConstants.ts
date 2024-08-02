@@ -8,9 +8,6 @@ export default {
   APPEARANCES_MIN: 0,
   APPEARANCES_MAX: 46,
 
-  PRICE_MIN: 0,
-  PRICE_MAX: 100,
-
   TEAMS_COUNT_MIN: 0,
   TEAMS_COUNT_MAX: 100,
 };
