@@ -57,7 +57,6 @@ export const decodeFilter = (filter?: Record<string, string>): IFilter => {
     return {
       appearances: decodeRangeValue(defaultFilter.appearances, filter.apps),
       baseScore: decodeRangeValue(defaultFilter.baseScore, filter.bs),
-      price: decodeRangeValue(defaultFilter.price, filter.price),
       totalScore: decodeRangeValue(defaultFilter.totalScore, filter.ts),
       teamsCount: decodeRangeValue(defaultFilter.teamsCount, filter.teams),
       position: (filter.pos?.split(arraySeparator) ?? defaultFilter.position) as Position[],
@@ -76,7 +75,6 @@ export const encodeFilter = (filter: IFilter): Record<string, string | null> => 
   return {
     apps: encodeRangeValue(defaultFilter.appearances, filter.appearances),
     bs: encodeRangeValue(defaultFilter.baseScore, filter.baseScore),
-    price: encodeRangeValue(defaultFilter.price, filter.price),
     ts: encodeRangeValue(defaultFilter.totalScore, filter.totalScore),
     teams: encodeRangeValue(defaultFilter.teamsCount, filter.teamsCount),
     pos: filter.position.join(arraySeparator),
