@@ -8,6 +8,7 @@ import PlayersSortContextProvider, {
   usePlayersSortContext,
 } from "@/application/Players/PlayersSortContext";
 import { usePlayersContext } from "@/application/Players/PlayersContext";
+import { usePlayersPageContext } from "@/application/Players/PlayersPageContext";
 import Drawer from "@/ui/Drawer";
 import Link from "@/ui/Link";
 import FilterIcon from "@/assets/icons/filter.svg";
@@ -22,6 +23,7 @@ import styles from "./PlayersFiltersDrawer.module.scss";
 const PlayersFiltersDrawer = () => {
   const isMobile = useMediaQuery("(max-width: 768px)");
 
+  const { isLeagueSpecificPlayersPage } = usePlayersPageContext();
   const { isSidebarOpen, filterCount, openSidebar, closeSidebar, clearFilter } =
     usePlayersContext();
   const { filterValues, onChangeValue, applyFilter } = usePlayersFilterContext();
@@ -105,14 +107,16 @@ const PlayersFiltersDrawer = () => {
             max={PlayersFilterConstants.APPEARANCES_MAX}
           />
         </Drawer.Section>
-        <Drawer.Section title={t("players.filters.numberOfTeamsLabel")}>
-          <RangeSlider
-            value={filterValues.teamsCount}
-            onChange={onChangeValue("teamsCount")}
-            min={PlayersFilterConstants.TEAMS_COUNT_MIN}
-            max={PlayersFilterConstants.TEAMS_COUNT_MAX}
-          />
-        </Drawer.Section>
+        {!isLeagueSpecificPlayersPage && (
+          <Drawer.Section title={t("players.filters.numberOfTeamsLabel")}>
+            <RangeSlider
+              value={filterValues.teamsCount}
+              onChange={onChangeValue("teamsCount")}
+              min={PlayersFilterConstants.TEAMS_COUNT_MIN}
+              max={PlayersFilterConstants.TEAMS_COUNT_MAX}
+            />
+          </Drawer.Section>
+        )}
         <Drawer.Section title={t("players.filters.priceLabel")}>
           <RangeSlider
             value={filterValues.price}
