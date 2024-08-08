@@ -16,7 +16,6 @@ gem 'coffee-rails', '~> 4.2'
 gem 'coveralls_reborn', '~> 0.28.0', require: false
 gem 'countries'
 gem 'devise'
-gem 'newrelic_rpm'
 gem 'devise-bootstrap-views', '~> 1.0'
 gem 'dotenv-rails', require: 'dotenv/rails-now'
 gem 'flag-icons-rails'

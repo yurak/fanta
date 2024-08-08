@@ -249,7 +249,6 @@ GEM
       net-protocol
     net-ssh (7.1.0)
     netrc (0.11.0)
-    newrelic_rpm (9.12.0)
     nio4r (2.5.9)
     nokogiri (1.15.3)
       mini_portile2 (~> 2.8.2)
@@ -534,7 +533,6 @@ DEPENDENCIES
   jquery-rails (~> 4.4.0)
   kaminari
   listen
-  newrelic_rpm
   pry-rails
   puma (= 4.3.12)
   query_diet
