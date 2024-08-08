@@ -26,6 +26,8 @@ gem 'jquery-rails', '~> 4.4.0'
 gem 'kaminari'
 gem 'puma', '4.3.12'
 gem 'rails_admin', '~> 2.0'
+
+gem "appsignal"
 # TODO: upgrade rails_admin
 # gem 'rails_admin', '~> 3.0'
 # gem 'sassc-rails'
