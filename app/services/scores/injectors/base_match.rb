@@ -15,10 +15,8 @@ module Scores
 
         match.update(host_score: host_result, guest_score: guest_result)
 
-        # binding.pry
         update_round_players
 
-        # binding.pry
         Audit::CsvWriter.call(match, host_scores_hash, guest_scores_hash)
       end
 
