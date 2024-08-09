@@ -26,10 +26,10 @@ module Audit
 
     def write_club_data(writer)
       host_players.each do |player_record|
-        writer << [t_match.host_club.name, '---', player_record]
+        writer << [t_match.host_club.name, '---', player_record[1]]
       end
       guest_players.each do |player_record|
-        writer << [t_match.guest_club.name, '---', player_record]
+        writer << [t_match.guest_club.name, '---', player_record[1]]
       end
     end
 
