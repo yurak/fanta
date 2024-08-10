@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_06_28_212938) do
+ActiveRecord::Schema.define(version: 2024_08_04_140002) do
 
   create_table "article_tags", force: :cascade do |t|
     t.string "name", default: "", null: false
@@ -298,8 +298,10 @@ ActiveRecord::Schema.define(version: 2024_06_28_212938) do
     t.string "avatar_name"
     t.integer "tm_id"
     t.integer "fotmob_id"
+    t.integer "sofascore_id"
     t.index ["fotmob_id"], name: "index_players_on_fotmob_id", unique: true
     t.index ["national_team_id"], name: "index_players_on_national_team_id"
+    t.index ["sofascore_id"], name: "index_players_on_sofascore_id", unique: true
     t.index ["tm_id"], name: "index_players_on_tm_id", unique: true
   end
 
@@ -461,6 +463,7 @@ ActiveRecord::Schema.define(version: 2024_06_28_212938) do
     t.integer "source_id"
     t.string "sofa_number", default: "", null: false
     t.boolean "open_join", default: true, null: false
+    t.integer "source", default: 0
     t.index ["code"], name: "index_tournaments_on_code", unique: true
   end
 

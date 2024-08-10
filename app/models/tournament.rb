@@ -9,6 +9,8 @@ class Tournament < ApplicationRecord
   has_many :ec_clubs, foreign_key: 'ec_tournament_id', class_name: 'Club',
                       dependent: :destroy, inverse_of: :ec_tournament
 
+  enum source: { fotmob: 0, sofascore: 1 }
+
   validates :name, presence: true
   validates :code, presence: true, uniqueness: true
 

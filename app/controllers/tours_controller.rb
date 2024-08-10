@@ -18,20 +18,21 @@ class ToursController < ApplicationController
     redirect_to tour_path(tour)
   end
 
-  # TODO: move action to RoundPlayersController#update
+  # TODO: move action to TournamentRoundController#inject_scores or RoundPlayersController#update
   def inject_scores
     if can? :inject_scores, Tour
       # TODO: temp removed
       # Tour.transaction do
-      Scores::Injectors::Fotmob.call(tour.tournament_round)
-      tour.tournament_round.tours.each do |tour|
+      injector = "Scores::Injectors::#{tournament_round.tournament.source.capitalize}".constantize
+      injector.call(tournament_round)
+      tournament_round.tours.each do |tour|
         Scores::PositionMalus::Updater.call(tour)
         Lineups::Updater.call(tour)
       end
       # end
     end
 
-    path = params['redirect'] == 'round' ? tournament_round_path(tour.tournament_round) : tour_path(tour)
+    path = params['redirect'] == 'round' ? tournament_round_path(tournament_round) : tour_path(tour)
     redirect_to path
   end
 
@@ -39,6 +40,10 @@ class ToursController < ApplicationController
 
   def tour
     @tour ||= Tour.find(params[:id])
+  end
+
+  def tournament_round
+    @tournament_round ||= tour.tournament_round
   end
 
   def tour_manager
