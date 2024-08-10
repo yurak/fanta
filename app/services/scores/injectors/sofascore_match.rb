@@ -14,12 +14,12 @@ module Scores
       end
 
       def update_round_player(round_player, team_hash, team_missed_goals)
-        player_data = team_hash[round_player.sofascore_id.to_s]
+        player_data = team_hash[round_player.sofascore_id]
         return unless player_data
 
         round_player.update(round_player_params(round_player, player_data, team_missed_goals))
 
-        team_hash.except!(round_player.sofascore_id.to_s)
+        team_hash.except!(round_player.sofascore_id)
       end
 
       def full_player_hash(round_player, data, team_missed_goals)

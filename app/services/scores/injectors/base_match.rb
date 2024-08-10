@@ -17,7 +17,7 @@ module Scores
 
         update_round_players
 
-        Audit::CsvWriter.call(match, host_scores_hash, guest_scores_hash)
+        Audit::CsvWriter.call(match, host_scores_hash.merge(guest_scores_hash))
       end
 
       private
@@ -55,13 +55,13 @@ module Scores
       end
 
       def rating(player_data)
-        return 6 if player_data[:rating].nil? && player_data[:played_minutes].positive?
+        return 6 if (player_data[:rating].nil? || player_data[:rating].zero?) && player_data[:played_minutes]&.positive?
 
         player_data[:rating].to_f.round(1)
       end
 
       def cleansheet?(round_player, team_missed_goals, played_minutes)
-        return false if played_minutes < MIN_PLAYED_MINUTES_FOR_CS
+        return false if played_minutes.to_i < MIN_PLAYED_MINUTES_FOR_CS
         return false if team_missed_goals.positive?
         return false if (round_player.position_names & Position::CLEANSHEET_ZONE).blank?
 
@@ -75,11 +75,11 @@ module Scores
       end
 
       def host_scores_hash
-        raise NoMethodError, 'This source is not supported'
+        {}
       end
 
       def guest_scores_hash
-        raise NoMethodError, 'This source is not supported'
+        {}
       end
 
       def match_finished?
