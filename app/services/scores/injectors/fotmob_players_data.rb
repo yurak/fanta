@@ -16,6 +16,8 @@ module Scores
       end
 
       def call
+        return {} unless players_data
+
         hash = process_players_stats(players_data)
         process_events(hash)
         hash

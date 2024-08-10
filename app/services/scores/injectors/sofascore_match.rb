@@ -35,6 +35,7 @@ module Scores
 
       def players_hash(players)
         players.each_with_object({}) do |player_data, hash|
+          next unless player_data['statistics']
           next if player_data['statistics']['minutesPlayed'].to_i.zero?
 
           hash[player_data['player']['id']] = player_hash(player_data)
