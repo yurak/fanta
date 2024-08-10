@@ -74,6 +74,8 @@ module Scores
 
       def process_cards(hash, events)
         events.each do |event_data|
+          next unless hash[event_data['player']['id']]
+
           hash[event_data['player']['id']][:yellow_card] = 1 if event_data['card'] == YELLOW_CARD
           hash[event_data['player']['id']][:red_card] = 1 if event_data['card'] == RED_CARD
           if event_data['card'] == YEL_RED_CARD
@@ -85,6 +87,8 @@ module Scores
 
       def process_penalties(hash, events)
         events.each do |event_data|
+          next unless hash[event_data['player']['id']]
+
           hash[event_data['player']['id']][:goals] -= 1
           hash[event_data['player']['id']][:scored_penalty] = hash[event_data['player']['id']][:scored_penalty].to_i + 1
         end
