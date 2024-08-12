@@ -112,6 +112,7 @@ ActiveRecord::Schema.define(version: 2024_08_12_074455) do
     t.text "payload"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["provider"], name: "index_configurations_on_provider", unique: true
   end
 
   create_table "divisions", force: :cascade do |t|
