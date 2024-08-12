@@ -67,6 +67,7 @@ group :development do
   gem 'listen'
   gem 'query_diet'
   gem 'web-console', '>= 3.3.0'
+  gem 'factory_bot_rails', '6.2.0'
 end
 
 group :test do
