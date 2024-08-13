@@ -76,11 +76,9 @@ module Scores
       end
 
       def lineups_data
-        begin
-          @lineups_data ||= JSON.parse(lineups_request)
-        rescue
-          @lineups_data = {}
-        end
+        @lineups_data ||= JSON.parse(lineups_request)
+      rescue
+        @lineups_data = {}
       end
 
       def lineups_request
@@ -106,11 +104,9 @@ module Scores
       end
 
       def event_data
-        begin
-          @event_data ||= JSON.parse(event_request)['event']
-        rescue
-          @event_data = {}
-        end
+        @event_data ||= JSON.parse(event_request)['event']
+      rescue
+        @event_data = {}
       end
 
       def event_request
