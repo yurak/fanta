@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_08_04_140002) do
+ActiveRecord::Schema.define(version: 2024_08_12_074455) do
 
   create_table "article_tags", force: :cascade do |t|
     t.string "name", default: "", null: false
@@ -105,6 +105,14 @@ ActiveRecord::Schema.define(version: 2024_08_04_140002) do
     t.index ["ec_tournament_id"], name: "index_clubs_on_ec_tournament_id"
     t.index ["name"], name: "index_clubs_on_name", unique: true
     t.index ["tournament_id"], name: "index_clubs_on_tournament_id"
+  end
+
+  create_table "configurations", force: :cascade do |t|
+    t.string "provider"
+    t.text "payload"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["provider"], name: "index_configurations_on_provider", unique: true
   end
 
   create_table "divisions", force: :cascade do |t|
