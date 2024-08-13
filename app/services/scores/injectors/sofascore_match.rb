@@ -64,15 +64,23 @@ module Scores
       end
 
       def host_scores_hash
+        return unless lineups_data['home']
+
         @host_scores_hash ||= players_hash(lineups_data['home']['players'])
       end
 
       def guest_scores_hash
+        return unless lineups_data['away']
+
         @guest_scores_hash ||= players_hash(lineups_data['away']['players'])
       end
 
       def lineups_data
-        @lineups_data ||= JSON.parse(lineups_request)
+        begin
+          @lineups_data ||= JSON.parse(lineups_request)
+        rescue
+          @lineups_data = {}
+        end
       end
 
       def lineups_request
@@ -92,11 +100,17 @@ module Scores
       end
 
       def event_status
+        return unless event_data['status']
+
         @event_status ||= event_data['status']['type']
       end
 
       def event_data
-        @event_data ||= JSON.parse(event_request)['event']
+        begin
+          @event_data ||= JSON.parse(event_request)['event']
+        rescue
+          @event_data = {}
+        end
       end
 
       def event_request

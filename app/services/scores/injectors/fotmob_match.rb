@@ -55,6 +55,8 @@ module Scores
       end
 
       def status
+        return {} unless match_data['header']
+
         @status ||= match_data['header']['status']
       end
 
