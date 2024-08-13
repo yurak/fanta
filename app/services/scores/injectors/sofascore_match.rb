@@ -35,6 +35,7 @@ module Scores
 
       def players_hash(players)
         players.each_with_object({}) do |player_data, hash|
+          next unless player_data['statistics']
           next if player_data['statistics']['minutesPlayed'].to_i.zero?
 
           hash[player_data['player']['id']] = player_hash(player_data)
@@ -63,15 +64,21 @@ module Scores
       end
 
       def host_scores_hash
+        return unless lineups_data['home']
+
         @host_scores_hash ||= players_hash(lineups_data['home']['players'])
       end
 
       def guest_scores_hash
+        return unless lineups_data['away']
+
         @guest_scores_hash ||= players_hash(lineups_data['away']['players'])
       end
 
       def lineups_data
         @lineups_data ||= JSON.parse(lineups_request)
+      rescue
+        @lineups_data = {}
       end
 
       def lineups_request
@@ -91,11 +98,15 @@ module Scores
       end
 
       def event_status
+        return unless event_data['status']
+
         @event_status ||= event_data['status']['type']
       end
 
       def event_data
         @event_data ||= JSON.parse(event_request)['event']
+      rescue
+        @event_data = {}
       end
 
       def event_request
