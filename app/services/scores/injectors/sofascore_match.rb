@@ -1,7 +1,8 @@
 module Scores
   module Injectors
     class SofascoreMatch < BaseMatch
-      EVENT_URL = 'https://www.sofascore.com/api/v1/event/'.freeze
+      # EVENT_URL = 'https://www.sofascore.com/api/v1/event/'.freeze
+      STATS = '/stats/'.freeze
       LINEUPS = '/lineups'.freeze
 
       private
@@ -76,7 +77,7 @@ module Scores
       end
 
       def lineups_data
-        @lineups_data ||= JSON.parse(lineups_request)
+        @lineups_data ||= JSON.parse(lineups_request)['data']
       rescue
         @lineups_data = {}
       end
@@ -104,7 +105,7 @@ module Scores
       end
 
       def event_data
-        @event_data ||= JSON.parse(event_request)['event']
+        @event_data ||= JSON.parse(event_request)['data']['event']
       rescue
         @event_data = {}
       end
@@ -114,7 +115,11 @@ module Scores
       end
 
       def event_url
-        "#{EVENT_URL}#{match.source_match_id}"
+        @event_url ||= "#{resource_url}#{STATS}#{match.source_match_id}"
+      end
+
+      def resource_url
+        Configuration.sofa_server_url
       end
     end
   end
