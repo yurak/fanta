@@ -65,13 +65,13 @@ module Scores
       end
 
       def host_scores_hash
-        return unless lineups_data['home']
+        return {} unless lineups_data['home']
 
         @host_scores_hash ||= players_hash(lineups_data['home']['players'])
       end
 
       def guest_scores_hash
-        return unless lineups_data['away']
+        return {} unless lineups_data['away']
 
         @guest_scores_hash ||= players_hash(lineups_data['away']['players'])
       end
@@ -95,7 +95,11 @@ module Scores
       end
 
       def match_finished?
-        event_status == 'finished'
+        event_status == 'finished' && player_stats?
+      end
+
+      def player_stats?
+        event_data['hasEventPlayerStatistics']
       end
 
       def event_status
