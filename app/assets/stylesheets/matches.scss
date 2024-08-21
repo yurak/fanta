@@ -445,6 +445,16 @@
           white-space: nowrap;
           overflow: hidden !important;
           text-overflow: ellipsis;
+
+          .malus_icon {
+            display: inline-block;
+
+            img {
+              width: 18px;
+              height: 18px;
+              margin-top: -3px;
+            }
+          }
         }
 
         .team-player-scores {

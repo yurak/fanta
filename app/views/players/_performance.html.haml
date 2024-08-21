@@ -31,17 +31,17 @@
         - if rp.missed_goals.to_i.zero?
           .blank-bonus -
         - else
-          = render 'bonus_item', bonus: rp.missed_goals, img_path: "bonuses/mg.png"
+          = render 'bonus_item', bonus: rp.missed_goals, img_path: "bonuses/goal_missed.svg"
       .player-table-cell
         - if rp.missed_penalty.to_i.zero?
           .blank-bonus -
         - else
-          = render 'bonus_item', bonus: rp.missed_penalty, img_path: "bonuses/miss_pen.png"
+          = render 'bonus_item', bonus: rp.missed_penalty, img_path: "bonuses/penalty_missed.svg"
       .player-table-cell
         - if rp.caught_penalty.to_i.zero?
           .blank-bonus -
         - else
-          = render 'bonus_item', bonus: rp.caught_penalty, img_path: "bonuses/pen.png"
+          = render 'bonus_item', bonus: rp.caught_penalty, img_path: "bonuses/penalty_caught.svg"
       .player-table-cell
         - if rp.saves.to_i.zero?
           .blank-bonus -
@@ -52,55 +52,55 @@
         - if rp.goals.to_i.zero?
           .blank-bonus -
         - else
-          = render 'bonus_item', bonus: rp.goals, img_path: "bonuses/goal.png"
+          = render 'bonus_item', bonus: rp.goals, img_path: "bonuses/goal_scored.svg"
       .player-table-cell
         - if rp.scored_penalty.to_i.zero?
           .blank-bonus -
         - else
-          = render 'bonus_item', bonus: rp.scored_penalty, img_path: "bonuses/pen.png"
+          = render 'bonus_item', bonus: rp.scored_penalty, img_path: "bonuses/penalty_scored.svg"
       .player-table-cell
         - if rp.failed_penalty.to_i.zero?
           .blank-bonus -
         - else
-          = render 'bonus_item', bonus: rp.failed_penalty, img_path: "bonuses/miss_pen.png"
+          = render 'bonus_item', bonus: rp.failed_penalty, img_path: "bonuses/penalty_failed.svg"
       .player-table-cell
         - if rp.penalties_won.to_i.zero?
           .blank-bonus -
         - else
-          = render 'bonus_item', bonus: rp.penalties_won, img_path: "bonuses/won_pen.png"
+          = render 'bonus_item', bonus: rp.penalties_won, img_path: "bonuses/penalty_earned.svg"
     .player-table-cell
       - if rp.assists.to_i.zero?
         .blank-bonus -
       - else
-        = render 'bonus_item', bonus: rp.assists, img_path: "bonuses/assist.png"
+        = render 'bonus_item', bonus: rp.assists, img_path: "bonuses/assist.svg"
     .player-table-cell
       - if rp.yellow_card
         .match-player-bonus-item
-          = image_tag("bonuses/yc.png")
+          = image_tag("bonuses/yellow_card.svg")
       - else
         .blank-bonus -
     .player-table-cell
       - if rp.red_card
         .match-player-bonus-item
-          = image_tag("bonuses/rc.png")
+          = image_tag("bonuses/red_card.svg")
       - else
         .blank-bonus -
     .player-table-cell
       - if rp.cleansheet
         .match-player-bonus-item
-          = image_tag("bonuses/cs.png")
+          = image_tag("bonuses/clean_sheet.svg")
       - else
         .blank-bonus -
     .player-table-cell
       - if rp.own_goals.to_i.zero?
         .blank-bonus -
       - else
-        = render 'bonus_item', bonus: rp.own_goals, img_path: "bonuses/autogol.png"
+        = render 'bonus_item', bonus: rp.own_goals, img_path: "bonuses/own_goal.svg"
     .player-table-cell
       - if rp.conceded_penalty.to_i.zero?
         .blank-bonus -
       - else
-        = render 'bonus_item', bonus: rp.conceded_penalty, img_path: "bonuses/conc_pen.png"
+        = render 'bonus_item', bonus: rp.conceded_penalty, img_path: "bonuses/penalty_foul.svg"
     .player-table-cell.center= rp.played_minutes
     .player-table-cell.player-table-score= rp.score
     .player-table-cell.player-table-score.player-table-ts= rp.result_score
@@ -114,20 +114,20 @@
   - if player.position_names.include?(Position::GOALKEEPER)
     .table-total-cell
       - if player.season_bonus_count(matches, 'missed_goals').nonzero?
-        = image_tag("bonuses/mg.png")
+        = image_tag("bonuses/goal_missed.svg")
         = "x #{player.season_bonus_count(matches, 'missed_goals')}"
       - else
         .blank-bonus -
     .table-total-cell
-      - if player.season_bonus_count(matches, 'caught_penalty').nonzero?
-        = image_tag("bonuses/pen.png")
-        = "x #{player.season_bonus_count(matches, 'caught_penalty')}"
+      - if player.season_bonus_count(matches, 'missed_penalty').nonzero?
+        = image_tag("bonuses/penalty_missed.svg")
+        = "x #{player.season_bonus_count(matches, 'missed_penalty')}"
       - else
         .blank-bonus -
     .table-total-cell
-      - if player.season_bonus_count(matches, 'missed_penalty').nonzero?
-        = image_tag("bonuses/miss_pen.png")
-        = "x #{player.season_bonus_count(matches, 'missed_penalty')}"
+      - if player.season_bonus_count(matches, 'caught_penalty').nonzero?
+        = image_tag("bonuses/penalty_caught.svg")
+        = "x #{player.season_bonus_count(matches, 'caught_penalty')}"
       - else
         .blank-bonus -
     .table-total-cell
@@ -139,61 +139,61 @@
   - else
     .table-total-cell
       - if player.season_bonus_count(matches, 'goals').nonzero?
-        = image_tag("bonuses/goal.png")
+        = image_tag("bonuses/goal_scored.svg")
         = "x #{player.season_bonus_count(matches, 'goals')}"
       - else
         .blank-bonus -
     .table-total-cell
       - if player.season_bonus_count(matches, 'scored_penalty').nonzero?
-        = image_tag("bonuses/pen.png")
+        = image_tag("bonuses/penalty_scored.svg")
         = "x #{player.season_bonus_count(matches, 'scored_penalty')}"
       - else
         .blank-bonus -
     .table-total-cell
       - if player.season_bonus_count(matches, 'failed_penalty').nonzero?
-        = image_tag("bonuses/miss_pen.png")
+        = image_tag("bonuses/penalty_failed.svg")
         = "x #{player.season_bonus_count(matches, 'failed_penalty')}"
       - else
         .blank-bonus -
     .table-total-cell
       - if player.season_bonus_count(matches, 'penalties_won').nonzero?
-        = image_tag("bonuses/won_pen.png")
+        = image_tag("bonuses/penalty_earned.svg")
         = "x #{player.season_bonus_count(matches, 'penalties_won')}"
       - else
         .blank-bonus -
   .table-total-cell
     - if player.season_bonus_count(matches, 'assists').nonzero?
-      = image_tag("bonuses/assist.png")
+      = image_tag("bonuses/assist.svg")
       = "x #{player.season_bonus_count(matches, 'assists')}"
     - else
       .blank-bonus -
   .table-total-cell
     - if player.season_cards_count(matches, 'yellow_card').nonzero?
-      = image_tag("bonuses/yc.png")
+      = image_tag("bonuses/yellow_card.svg")
       = "x #{player.season_cards_count(matches, 'yellow_card')}"
     - else
       .blank-bonus -
   .table-total-cell
     - if player.season_cards_count(matches, 'red_card').nonzero?
-      = image_tag("bonuses/rc.png")
+      = image_tag("bonuses/red_card.svg")
       = "x #{player.season_cards_count(matches, 'red_card')}"
     - else
       .blank-bonus -
   .table-total-cell
     - if player.season_cards_count(matches, 'cleansheet').nonzero?
-      = image_tag("bonuses/cs.png")
+      = image_tag("bonuses/clean_sheet.svg")
       = "x #{player.season_cards_count(matches, 'cleansheet')}"
     - else
       .blank-bonus -
   .table-total-cell
     - if player.season_bonus_count(matches, 'own_goals').nonzero?
-      = image_tag("bonuses/autogol.png")
+      = image_tag("bonuses/own_goal.svg")
       = "x #{player.season_bonus_count(matches, 'own_goals')}"
     - else
       .blank-bonus -
   .table-total-cell
     - if player.season_bonus_count(matches, 'conceded_penalty').nonzero?
-      = image_tag("bonuses/conc_pen.png")
+      = image_tag("bonuses/penalty_foul.svg")
       = "x #{player.season_bonus_count(matches, 'conceded_penalty')}"
     - else
       .blank-bonus -

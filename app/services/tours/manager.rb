@@ -25,7 +25,7 @@ module Tours
     private
 
     def set_lineup
-      return if status != SET_LINEUP_STATUS
+      return unless tour.inactive? && status == SET_LINEUP_STATUS
 
       tour.set_lineup! if RoundPlayers::Creator.call(tour.tournament_round.id)
       TelegramBot::OpenedTourNotifier.call(tour)
