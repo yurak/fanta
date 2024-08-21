@@ -1,7 +1,8 @@
 module Scores
   module Injectors
     class SofascoreMatch < BaseMatch
-      EVENT_URL = 'https://www.sofascore.com/api/v1/event/'.freeze
+      # EVENT_URL = 'https://www.sofascore.com/api/v1/event/'.freeze
+      STATS = '/stats/'.freeze
       LINEUPS = '/lineups'.freeze
 
       private
@@ -64,19 +65,19 @@ module Scores
       end
 
       def host_scores_hash
-        return unless lineups_data['home']
+        return {} unless lineups_data['home']
 
         @host_scores_hash ||= players_hash(lineups_data['home']['players'])
       end
 
       def guest_scores_hash
-        return unless lineups_data['away']
+        return {} unless lineups_data['away']
 
         @guest_scores_hash ||= players_hash(lineups_data['away']['players'])
       end
 
       def lineups_data
-        @lineups_data ||= JSON.parse(lineups_request)
+        @lineups_data ||= JSON.parse(lineups_request)['data']
       rescue
         @lineups_data = {}
       end
@@ -94,7 +95,11 @@ module Scores
       end
 
       def match_finished?
-        event_status == 'finished'
+        event_status == 'finished' && player_stats?
+      end
+
+      def player_stats?
+        event_data['hasEventPlayerStatistics']
       end
 
       def event_status
@@ -104,7 +109,7 @@ module Scores
       end
 
       def event_data
-        @event_data ||= JSON.parse(event_request)['event']
+        @event_data ||= JSON.parse(event_request)['data']['event']
       rescue
         @event_data = {}
       end
@@ -114,7 +119,11 @@ module Scores
       end
 
       def event_url
-        "#{EVENT_URL}#{match.source_match_id}"
+        @event_url ||= "#{resource_url}#{STATS}#{match.source_match_id}"
+      end
+
+      def resource_url
+        Configuration.sofa_server_url
       end
     end
   end
