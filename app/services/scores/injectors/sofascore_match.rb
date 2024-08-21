@@ -24,7 +24,7 @@ module Scores
       end
 
       def full_player_hash(round_player, data, team_missed_goals)
-        # Unsupported params: yellow_card red_card failed_penalty caught_penalty conceded_penalty penalties_won
+        # Unsupported params: yellow_card red_card failed_penalty caught_penalty conceded_penalty penalties_won scored_penalty
         {
           score: rating(data), goals: stat_value(data, :goals), assists: stat_value(data, :assists),
           cleansheet: cleansheet?(round_player, team_missed_goals.to_i, data[:played_minutes]),

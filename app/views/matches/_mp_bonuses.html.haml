@@ -1,24 +1,24 @@
 - if match_player.player.position_names.include?(Position::GOALKEEPER)
-  = render 'players/bonus_item', bonus: match_player.missed_goals, img_path: "bonuses/mg.png"
-  = render 'players/bonus_item', bonus: match_player.missed_penalty, img_path: "bonuses/miss_pen.png"
-  = render 'players/bonus_item', bonus: match_player.caught_penalty, img_path: "bonuses/pen.png"
+  = render 'players/bonus_item', bonus: match_player.missed_goals, img_path: "bonuses/goal_missed.svg"
+  = render 'players/bonus_item', bonus: match_player.missed_penalty, img_path: "bonuses/penalty_missed.svg"
+  = render 'players/bonus_item', bonus: match_player.caught_penalty, img_path: "bonuses/penalty_caught.svg"
   - if match_player.saves >= RoundPlayer::LOWER_SAVES_LIMIT
     .match-player-bonus-item
       = image_tag("bonuses/saves.svg", title: 'Saves')
 - else
-  = render 'players/bonus_item', bonus: match_player.goals, img_path: "bonuses/goal.png"
-  = render 'players/bonus_item', bonus: match_player.scored_penalty, img_path: "bonuses/pen.png"
-  = render 'players/bonus_item', bonus: match_player.failed_penalty, img_path: "bonuses/miss_pen.png"
-  = render 'players/bonus_item', bonus: match_player.penalties_won, img_path: "bonuses/won_pen.png"
-= render 'players/bonus_item', bonus: match_player.assists, img_path: "bonuses/assist.png"
+  = render 'players/bonus_item', bonus: match_player.goals, img_path: "bonuses/goal_scored.svg"
+  = render 'players/bonus_item', bonus: match_player.scored_penalty, img_path: "bonuses/penalty_scored.svg"
+  = render 'players/bonus_item', bonus: match_player.failed_penalty, img_path: "bonuses/penalty_failed.svg"
+  = render 'players/bonus_item', bonus: match_player.penalties_won, img_path: "bonuses/penalty_earned.svg"
+= render 'players/bonus_item', bonus: match_player.assists, img_path: "bonuses/assist.svg"
 - if match_player.yellow_card
   .match-player-bonus-item
-    = image_tag("bonuses/yc.png", title: 'Yellow card')
+    = image_tag("bonuses/yellow_card.svg", title: 'Yellow card')
 - if match_player.red_card
   .match-player-bonus-item
-    = image_tag("bonuses/rc.png", title: 'Red card')
-= render 'players/bonus_item', bonus: match_player.own_goals, img_path: "bonuses/autogol.png"
+    = image_tag("bonuses/red_card.svg", title: 'Red card')
+= render 'players/bonus_item', bonus: match_player.own_goals, img_path: "bonuses/own_goal.svg"
 - if match_player.cleansheet && (match_player.is_a?(MatchPlayer) && !match_player.hide_cleansheet? || match_player.is_a?(RoundPlayer))
   .match-player-bonus-item
-    = image_tag("bonuses/cs.png", title: 'Clean sheet')
-= render 'players/bonus_item', bonus: match_player.conceded_penalty, img_path: "bonuses/conc_pen.png"
+    = image_tag("bonuses/clean_sheet.svg", title: 'Clean sheet')
+= render 'players/bonus_item', bonus: match_player.conceded_penalty, img_path: "bonuses/penalty_foul.svg"

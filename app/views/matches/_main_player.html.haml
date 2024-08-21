@@ -17,7 +17,7 @@
           .team-player-name
             = match_player.player.name
             - if match_player.position_malus?
-              ⚠️
+              .malus_icon= image_tag("bonuses/position_malus.svg")
         - if match_player.score.positive?
           .team-player-scores
             .team-player-substitute-cell
