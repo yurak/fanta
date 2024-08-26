@@ -31,6 +31,10 @@ class League < ApplicationRecord
       .order(Arel.sql('CASE WHEN division_id IS NULL THEN 1 ELSE 0 END, division_id ASC'))
   }
 
+  def division_with_name
+    "#{name} (#{division&.name})"
+  end
+
   def active_tour
     tours&.active&.first || tours.inactive&.first
   end

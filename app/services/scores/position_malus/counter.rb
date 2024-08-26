@@ -7,7 +7,7 @@ module Scores
       end
 
       def call
-        return if native_position?
+        return 0 if native_position?
 
         malus = Position::L_MALUS
         real_positions_arr.each do |real_position|

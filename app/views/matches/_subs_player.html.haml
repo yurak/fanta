@@ -17,6 +17,7 @@
           .team-player-name
             = match_player.player.name
             = image_tag('icons/subs-off.svg') if match_player.get_out?
+            = match_player.reserve_subs&.first&.subs_by
         - if match_player.score.positive?
           .team-player-scores
             .team-player-score= match_player.score
