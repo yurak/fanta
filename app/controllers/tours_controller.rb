@@ -60,9 +60,6 @@ class ToursController < ApplicationController
   end
 
   # TODO: move action to TournamentRoundController#inject_scores or RoundPlayersController#update
-
-  def preview; end
-
   def inject_scores
     if can? :inject_scores, Tour
       injector = "Scores::Injectors::#{tournament_round.tournament.source.capitalize}".constantize

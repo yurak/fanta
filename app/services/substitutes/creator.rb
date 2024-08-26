@@ -1,11 +1,10 @@
 module Substitutes
   class Creator < ApplicationService
-    attr_reader :in_mp_id, :out_mp_id, :subs_by
+    attr_reader :in_mp_id, :out_mp_id
 
-    def initialize(out_mp_id, in_mp_id, subs_by = 'manual')
+    def initialize(out_mp_id, in_mp_id)
       @in_mp_id = in_mp_id
       @out_mp_id = out_mp_id
-      @subs_by = subs_by
     end
 
     def call
@@ -36,8 +35,7 @@ module Substitutes
         main_mp: main_match_player,
         reserve_mp: reserve_match_player,
         out_rp: main_match_player.round_player,
-        in_rp: reserve_match_player.round_player,
-        subs_by: subs_by
+        in_rp: reserve_match_player.round_player
       )
     end
 
