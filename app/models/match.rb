@@ -22,11 +22,6 @@ class Match < ApplicationRecord
     host_lineup&.total_score
   end
 
-  def autobot(preview: true)
-    Substitutes::AutoBot.new(guest_lineup, preview: preview).process if guest_lineup&.subs_missed?
-    Substitutes::AutoBot.new(host_lineup, preview: preview).process if host_lineup&.subs_missed?
-  end
-
   def guest_score
     guest_lineup&.total_score
   end

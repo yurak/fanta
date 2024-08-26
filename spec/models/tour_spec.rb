@@ -468,48 +468,4 @@ RSpec.describe Tour do
       end
     end
   end
-
-  describe '#autobot' do
-    let(:autobot_spy) { instance_double(Substitutes::AutoBot) }
-
-    context 'when not fanta' do
-      let(:match_tour) { create(:match, tour: tour) }
-
-      before do
-        allow(Substitutes::AutoBot).to receive(:new).and_return(autobot_spy)
-        allow(autobot_spy).to receive(:process)
-      end
-
-      it do
-        tour.autobot(preview: true)
-        expect(autobot_spy).not_to have_received(:process)
-      end
-    end
-
-    context 'when fanta?' do
-      before do
-        allow(Substitutes::AutoBot).to receive(:new).and_return(autobot_spy)
-        allow(autobot_spy).to receive(:process)
-        create(:national_match, tournament_round: tour.tournament_round)
-        create(:lineup, tour: tour)
-        create(:lineup, tour: tour)
-      end
-
-      it 'does not process' do
-        tour.autobot(preview: true)
-        expect(autobot_spy).not_to have_received(:process)
-      end
-
-      context 'when lineup has missed subs' do
-        before do
-          allow_any_instance_of(Lineup).to receive(:subs_missed?).and_return(true)
-        end
-
-        it do
-          tour.autobot(preview: true)
-          expect(autobot_spy).to have_received(:process).twice
-        end
-      end
-    end
-  end
 end

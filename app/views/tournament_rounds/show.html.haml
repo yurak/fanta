@@ -24,7 +24,6 @@
         - if tournament_round.tours.locked_postponed.any?
           .round-action-link
             = link_to t('round.inject_scores'), inject_scores_tour_path(tournament_round.tours.first, redirect: 'round'), data: { confirm: t('header.are_you_sure') }
-
         - if current_user&.admin?
           - if !tournament_round.moderated_at && tournament_round.finished? && tournament_round.tours.locked_postponed.any?
             .round-action-link
@@ -38,9 +37,3 @@
           - if tournament_round.finished? && tournament_round.tours.locked_postponed.any?
             .round-action-link
               = link_to t('round.close'), tours_update_tournament_round_path(tournament_round, status: :closed), method: :put, data: { confirm: t('header.are_you_sure') }
-            .round-action-link
-              = link_to  t('round.generate_preview'), tournament_round_generate_preview_path(tournament_round, redirect: 'round'), data: { confirm: t('header.are_you_sure') }
-            .round-action-link
-              = link_to  t('round.auto_subs_preview'), tournament_round_auto_subs_preview_path(tournament_round, redirect: 'round')
-            .round-action-link
-              = link_to  t('round.auto_subs'), tournament_round_auto_subs_path(tournament_round, redirect: 'round'), data: { confirm: t('header.are_you_sure') }

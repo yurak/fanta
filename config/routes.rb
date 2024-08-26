@@ -44,9 +44,7 @@ Rails.application.routes.draw do
 
   resources :links, only: [:index]
 
-  resources :matches, only: [:show] do
-    post :autobot
-  end
+  resources :matches, only: [:show]
 
   resources :national_teams, only: [:show]
 
@@ -76,16 +74,12 @@ Rails.application.routes.draw do
 
   resources :tours, only: [:show, :update] do
     get :inject_scores, on: :member
-    get :preview, on: :member
   end
 
   resources :tournament_rounds, only: [:show, :edit, :update] do
     put :auto_close, on: :member
     put :tours_update, on: :member
 
-    get :auto_subs
-    get :generate_preview
-    get :auto_subs_preview
     resources :round_players, only: [:index]
   end
 

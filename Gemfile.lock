@@ -215,7 +215,7 @@ GEM
       kaminari-core (= 1.2.2)
     kaminari-core (1.2.2)
     language_server-protocol (3.17.0.3)
-    listen (3.9.0)
+    listen (3.8.0)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
     loofah (2.21.3)
@@ -524,7 +524,6 @@ DEPENDENCIES
   database_cleaner
   devise
   devise-bootstrap-views (~> 1.0)
-  dotenv
   dotenv-rails
   factory_bot_rails (= 6.2.0)
   ffaker

@@ -7,14 +7,6 @@ class MatchesController < ApplicationController
 
   def show; end
 
-  def autobot
-    @match ||= Match.find(params[:match_id])
-
-    @match.autobot
-
-    redirect_to match_path(@match)
-  end
-
   private
 
   def match
