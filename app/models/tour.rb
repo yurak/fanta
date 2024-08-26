@@ -28,24 +28,8 @@ class Tour < ApplicationRecord
     locked_or_postponed? || closed?
   end
 
-  def autobot(preview: true)
-    if fanta?
-      lineups.each do |lineup|
-        Substitutes::AutoBot.new(lineup, preview: preview).process if lineup.subs_missed?
-      end
-    else
-      matches.each do |m|
-        m.autobot(preview: preview)
-      end
-    end
-  end
-
   def unlocked?
     inactive? || set_lineup?
-  end
-
-  def subs_preview
-    lineups.map(&:substitutes_preview)
   end
 
   def mantra?
