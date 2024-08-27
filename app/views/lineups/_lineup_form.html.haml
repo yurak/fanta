@@ -132,7 +132,7 @@
                           - if team_module.slots[mp.index]&.position
                             - available_hash = available_by_slot(team, team_module.slots[mp.index])
                             .modal-malus-block
-                              - available_hash['']&.each do |player|
+                              - available_hash['0']&.each do |player|
                                 = render 'lineup_player_item', player: player, tour: tour
                             - if available_hash['1.5']
                               .modal-malus-title 🎭 MALUS -1.5
