@@ -18,7 +18,6 @@ module PlayersHelper
     "Replaced: #{match_player.main_subs.last&.out_rp&.full_name_reverse} by #{match_player.main_subs&.first&.subs_by}"
   end
 
-
   def available_by_slot(team, slot)
     return {} unless slot
 
