@@ -15,7 +15,7 @@ module PlayersHelper
   end
 
   def subs_string(match_player)
-    if current_user.can_moderate?
+    if current_user&.can_moderate?
       "Replaced: #{match_player.main_subs.last&.out_rp&.full_name_reverse} by #{match_player.main_subs&.first&.subs_by}"
     else
       "Replaced: #{match_player.main_subs.last&.out_rp&.full_name_reverse}"
