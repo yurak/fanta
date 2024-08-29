@@ -146,7 +146,7 @@
                                   = render 'lineup_player_item', player: player, tour: tour
                           - elsif mp.index == 11
                             .modal-malus-block
-                              - available_by_slot(team, team_module.slots.first)['']&.each do |player|
+                              - available_by_slot(team, team_module.slots.first)['0']&.each do |player|
                                 = render 'lineup_player_item', player: player, tour: tour
                           - else
                             .modal-malus-block
