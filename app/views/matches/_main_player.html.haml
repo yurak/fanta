@@ -23,14 +23,12 @@
             .team-player-substitute-cell
               - if match_player.get_in?
 
-                .team-player-substitute{title: "Replaced: #{match_player.main_subs.last&.out_rp&.full_name_reverse}"}
+                .team-player-substitute{title: subs_string(match_player)}
                   - if match_player.tour.locked_or_postponed? && current_user&.can_moderate? && match_player.main_subs.last
                     = link_to match_player_substitute_path(match_player, match_player.main_subs.last), method: :delete, data: { confirm: t('header.are_you_sure') } do
                       = image_tag('icons/subs-on.svg')
-                    = match_player.main_subs&.first&.subs_by
                   - else
                     = image_tag('icons/subs-on.svg')
-                    = match_player.main_subs&.first&.subs_by
             .team-player-score= match_player.score
             .team-player-total-score= match_player.total_score
         - elsif match_player.club_played_match? || match_player.another_tournament?
