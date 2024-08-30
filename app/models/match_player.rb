@@ -64,18 +64,18 @@ class MatchPlayer < ApplicationRecord
   end
 
   def subs_option_exist?
-    return false unless score.zero? && (club_played_match? || another_tournament?) && tour.locked_or_postponed?
+    subs_options.any?
+  end
+
+  def subs_options
+    return [] unless score.zero? && (club_played_match? || another_tournament?) && tour.locked_or_postponed?
 
     bench_players = lineup.match_players.subs_bench.with_score
-    return false unless bench_players && available_positions
+    return [] unless bench_players && available_positions
 
-    available_mp = bench_players.collect do |x|
-      next if (x.position_names & available_positions).empty?
-
-      [x, Scores::PositionMalus::Counter.call(real_position, x.position_names).to_s]
+    bench_players.select do |x|
+      (x.position_names & available_positions).present?
     end
-
-    available_mp.compact.any?
   end
 
   private

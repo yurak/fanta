@@ -100,6 +100,12 @@ class Lineup < ApplicationRecord
     match_players.main.without_score.any?(&:subs_option_exist?)
   end
 
+  def substitutes_preview
+    return [] unless substitutes
+
+    JSON.parse(substitutes)
+  end
+
   def tour_position
     tour.lineups.order(final_score: :desc).pluck(:id).find_index(id) + 1
   end

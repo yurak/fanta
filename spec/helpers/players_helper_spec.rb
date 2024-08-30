@@ -109,7 +109,7 @@ RSpec.describe PlayersHelper do
 
     context 'with slot and team with players' do
       it 'returns players without malus' do
-        expect(helper.available_by_slot(team, slot)).to have_key('')
+        expect(helper.available_by_slot(team, slot)).to have_key('0')
       end
 
       it 'returns players with malus 1,5' do

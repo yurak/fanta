@@ -59,7 +59,7 @@
                         .team-player-scores
                           .team-player-substitute-cell
                             - if match_player.get_in?
-                              .team-player-substitute{title: "Replaced: #{match_player.main_subs.last&.out_rp&.full_name_reverse}"}
+                              .team-player-substitute{title: subs_string(match_player)}
                                 - if match_player.tour.locked_or_postponed? && current_user&.can_moderate? && match_player.main_subs.last
                                   = link_to match_player_substitute_path(match_player, match_player.main_subs.last), method: :delete, data: { confirm: t('header.are_you_sure') } do
                                     = image_tag('icons/subs-on.svg')
@@ -83,7 +83,6 @@
             .match-reserve-players
               - lineup.match_players.subs_bench.each do |match_player|
                 = render 'matches/subs_player', match_player: match_player
-
         .lineup-module
           - if lineup.tour.deadlined?
             .lineup-result
@@ -104,3 +103,4 @@
   - if lineup.team.league
     .portrait-footer{ class: "portrait-footer-#{lineup.team.league.mantra?}"}
       = render 'layouts/league_links', league: lineup.team.league
+
