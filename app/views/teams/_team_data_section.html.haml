@@ -66,6 +66,10 @@
       .team-additional-text= t('teams.players_title')
       .team-additional-value
         = team.players.count
+    .team-additional
+      .team-additional-text= t('teams.transfer_slots')
+      .team-additional-value
+        = team.transfer_slots
     - if team.league
       .team-additional.team-league
         .team-additional-text= t('teams.league')

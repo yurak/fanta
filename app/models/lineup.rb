@@ -125,11 +125,11 @@ class Lineup < ApplicationRecord
   end
 
   def min_avg_def_score
-    league.min_avg_def_score || MIN_AVG_DEF_SCORE
+    league&.min_avg_def_score || MIN_AVG_DEF_SCORE
   end
 
   def max_avg_def_score
-    league.max_avg_def_score || MAX_AVG_DEF_SCORE
+    league&.max_avg_def_score || MAX_AVG_DEF_SCORE
   end
 
   def def_count

@@ -21,7 +21,7 @@
                 = team.prepared_sales_count
               .players-sale /
               .players-sale.players-sale-max
-                = team.league.auctions.sales.first.sales_count
+                = team.available_transfers
           .team-data-item
             .team-data-title= t('teams.possible_budget')
             .team-data-value#possible-budget
@@ -85,9 +85,9 @@
       if(this.checked) {
         $("#possible-budget").text(Number(possibleBudget) + Number(playerPrice));
         currentSalePlayers.text(Number(currentSalePlayers.text()) + 1);
-        if(Number(currentSalePlayers.text() > 5)) {
-          currentSalePlayers.css('color', 'red');
-        }
+        // if(Number(currentSalePlayers.text() > 5)) {
+        //   currentSalePlayers.css('color', 'red');
+        // }
       } else {
         $("#possible-budget").text(Number(possibleBudget) - Number(playerPrice));
         currentSalePlayers.text(Number(currentSalePlayers.text()) - 1);
@@ -103,7 +103,7 @@
 
       if(Number(currentSalePlayers) > Number(maxSalePlayers)) {
         e.preventDefault()
-        alert("#{t('teams.transfers_limit', limit: team.league.auctions.sales.first.sales_count)}");
+        alert("#{t('teams.transfers_limit', limit: team.available_transfers)}");
       }
     });
   });

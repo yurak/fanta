@@ -31,7 +31,7 @@ class PlayerTeamsController < ApplicationController
   def valid?
     return false unless auction
 
-    player_teams.to_h.map { |pt, v| pt if v['transfer_status'] == 'transferable' }.compact.count <= auction.sales_count
+    player_teams.to_h.map { |pt, v| pt if v['transfer_status'] == 'transferable' }.compact.count <= team.available_transfers
   end
 
   def team_of_user?

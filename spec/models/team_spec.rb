@@ -30,6 +30,38 @@ RSpec.describe Team do
     it { is_expected.to validate_length_of(:human_name).is_at_least(2).is_at_most(24) }
   end
 
+  describe '#reset' do
+    before do
+      team.reset
+    end
+
+    context 'without players' do
+      it 'updates team budget' do
+        expect(team.budget).to eq(260)
+      end
+
+      it 'updates team budget' do
+        expect(team.transfer_slots).to eq(16)
+      end
+    end
+
+    context 'with players' do
+      subject(:team) { create(:team, :with_players) }
+
+      it 'remove team players' do
+        expect(team.players.count).to eq(0)
+      end
+
+      it 'updates team budget' do
+        expect(team.budget).to eq(260)
+      end
+
+      it 'updates team budget' do
+        expect(team.transfer_slots).to eq(16)
+      end
+    end
+  end
+
   describe '#league_matches' do
     context 'without matches' do
       it 'returns empty array' do
@@ -301,6 +333,70 @@ RSpec.describe Team do
 
       it 'returns true' do
         expect(team.sales_period?).to be(true)
+      end
+    end
+  end
+
+  describe '#available_transfers' do
+    context 'without transfer slots' do
+      it 'returns zero' do
+        expect(team.available_transfers).to eq(0)
+      end
+    end
+
+    context 'without auction' do
+      let(:team) { create(:team, transfer_slots: Team::TRANSFER_SLOTS) }
+
+      it 'returns zero' do
+        expect(team.available_transfers).to eq(0)
+      end
+    end
+
+    context 'without sales auctions' do
+      let(:team) { create(:team, transfer_slots: Team::TRANSFER_SLOTS) }
+
+      before do
+        create(:auction, league: team.league)
+      end
+
+      it 'returns zero' do
+        expect(team.available_transfers).to eq(0)
+      end
+    end
+
+    context 'with sales auctions with number 1' do
+      let(:team) { create(:team, transfer_slots: Team::TRANSFER_SLOTS) }
+
+      before do
+        create(:auction, status: 'sales', league: team.league, number: 1)
+      end
+
+      it 'returns number of available slots' do
+        expect(team.available_transfers).to eq(0)
+      end
+    end
+
+    context 'with sales auctions with number 2' do
+      let(:team) { create(:team, transfer_slots: Team::TRANSFER_SLOTS) }
+
+      before do
+        create(:auction, status: 'sales', league: team.league, number: 2)
+      end
+
+      it 'returns number of available slots' do
+        expect(team.available_transfers).to eq(10)
+      end
+    end
+
+    context 'with sales auctions with number 5' do
+      let(:team) { create(:team, transfer_slots: Team::TRANSFER_SLOTS) }
+
+      before do
+        create(:auction, status: 'sales', league: team.league, number: 5)
+      end
+
+      it 'returns number of available slots' do
+        expect(team.available_transfers).to eq(16)
       end
     end
   end

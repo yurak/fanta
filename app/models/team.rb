@@ -19,6 +19,8 @@ class Team < ApplicationRecord
   MAX_PLAYERS = 26
   MIN_GK = 3
   DEFAULT_BUDGET = 260
+  TRANSFER_SLOTS = 16
+  RESERVE_TRANSFER_SLOTS = [0, 16, 6, 4, 2, 0].freeze
 
   validates :name, presence: true, length: { in: 2..18 }
   validates :code, presence: true, length: { in: 2..3 }
@@ -27,6 +29,11 @@ class Team < ApplicationRecord
   default_scope { includes(%i[league user]) }
 
   scope :by_tournament, ->(tournament_id) { joins(:league).where(leagues: { tournament_id: tournament_id }) }
+
+  def reset
+    players.clear
+    update(budget: DEFAULT_BUDGET, transfer_slots: TRANSFER_SLOTS)
+  end
 
   def league_matches
     @league_matches ||= matches.by_league(league&.id)
@@ -98,6 +105,13 @@ class Team < ApplicationRecord
     league.auctions.sales.any?
   end
 
+  def available_transfers
+    return 0 if transfer_slots.zero?
+    return 0 unless sales_auction
+
+    transfer_slots - RESERVE_TRANSFER_SLOTS[sales_auction.number]
+  end
+
   def prepared_sales_count
     return 0 unless current_auction
 
@@ -122,5 +136,9 @@ class Team < ApplicationRecord
 
   def current_auction
     @current_auction ||= league.auctions.initial_sales.first
+  end
+
+  def sales_auction
+    @current_auction ||= league.auctions.sales.first
   end
 end
