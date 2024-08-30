@@ -57,6 +57,8 @@ group :development, :test do
   gem 'rswag-specs'
   gem 'vcr'
   gem 'webmock'
+  gem 'dotenv'
+  gem 'listen'
 end
 
 group :development do
@@ -66,7 +68,6 @@ group :development do
   gem 'capistrano-passenger', '~> 0.2.0'
   gem 'capistrano-rvm'
   gem 'capistrano-yarn'
-  gem 'listen'
   gem 'query_diet'
   gem 'web-console', '>= 3.3.0'
   gem 'factory_bot_rails', '6.2.0'

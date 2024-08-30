@@ -36,6 +36,8 @@ Layout/MultilineOperationIndentation:
   EnforcedStyle: indented
 Style/RescueStandardError:
   Enabled: false
+RSpec/AnyInstance:
+  Enabled: false
 Style/FrozenStringLiteralComment:
   Enabled: false
 Lint/MissingSuper:

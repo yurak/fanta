@@ -135,6 +135,12 @@ class Lineup < ApplicationRecord
     (subs.sum(&:total_score) / subs.count).round(2)
   end
 
+  def substitutes_preview
+    return [] unless substitutes
+
+    JSON.parse(substitutes)
+  end
+
   def tour_position
     tour.lineups.order(final_score: :desc).pluck(:id).find_index(id) + 1
   end

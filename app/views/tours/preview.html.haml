@@ -1,0 +1,19 @@
+.page-block.round-page
+  = render 'layouts/left_nav', league: tour.league
+  = render 'layouts/right_nav', league: tour.league
+  .page-info.rounds-page
+    .round-section
+      .rounds-block
+        - tour.lineups.each do |lineup|
+          .round
+            .match
+              .preview
+                - if lineup.substitutes_preview.present?
+                  - lineup.substitutes_preview.each do |record|
+                    = record['out']
+                    = image_tag('icons/subs-off.svg')
+                    = record['in']
+                    = image_tag('icons/subs-on.svg')
+
+              = link_to lineup.match.id, match_path(lineup.match)
+
