@@ -40,7 +40,7 @@ RSpec.describe Team do
         expect(team.budget).to eq(260)
       end
 
-      it 'updates team budget' do
+      it 'updates team transfer slots' do
         expect(team.transfer_slots).to eq(16)
       end
     end
@@ -56,7 +56,7 @@ RSpec.describe Team do
         expect(team.budget).to eq(260)
       end
 
-      it 'updates team budget' do
+      it 'updates team transfer slots' do
         expect(team.transfer_slots).to eq(16)
       end
     end

@@ -11,6 +11,7 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema.define(version: 2024_08_21_212451) do
+
   create_table "article_tags", force: :cascade do |t|
     t.string "name", default: "", null: false
     t.string "color", default: "", null: false

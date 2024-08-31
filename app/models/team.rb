@@ -139,6 +139,6 @@ class Team < ApplicationRecord
   end
 
   def sales_auction
-    @current_auction ||= league.auctions.sales.first
+    @sales_auction ||= league.auctions.sales.first
   end
 end

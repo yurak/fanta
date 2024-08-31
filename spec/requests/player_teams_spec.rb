@@ -161,7 +161,9 @@ RSpec.describe 'PlayerTeams' do
 
     context 'with own team without enough transfer slots and league with open transfer_status when user is logged in' do
       let(:logged_user) { create(:user) }
-      let(:team) { create(:team, :with_players, league: create(:auction, status: :sales, number: 2).league, user: logged_user, transfer_slots: 7) }
+      let(:team) do
+        create(:team, :with_players, league: create(:auction, status: :sales, number: 2).league, user: logged_user, transfer_slots: 7)
+      end
 
       let(:params) do
         {
@@ -194,7 +196,9 @@ RSpec.describe 'PlayerTeams' do
 
     context 'with own team with transfer slots and league with open transfer_status when user is logged in' do
       let(:logged_user) { create(:user) }
-      let(:team) { create(:team, :with_players, league: create(:auction, status: :sales, number: 2).league, user: logged_user, transfer_slots: 12) }
+      let(:team) do
+        create(:team, :with_players, league: create(:auction, status: :sales, number: 2).league, user: logged_user, transfer_slots: 12)
+      end
 
       let(:params) do
         {

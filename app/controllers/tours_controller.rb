@@ -18,10 +18,9 @@ class ToursController < ApplicationController
     redirect_to tour_path(tour)
   end
 
-  # TODO: move action to TournamentRoundController#inject_scores or RoundPlayersController#update
-
   def preview; end
 
+  # TODO: move action to TournamentRoundController#inject_scores or RoundPlayersController#update
   def inject_scores
     if can? :inject_scores, Tour
       # TODO: temp removed
