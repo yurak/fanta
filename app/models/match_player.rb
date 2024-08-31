@@ -30,6 +30,10 @@ class MatchPlayer < ApplicationRecord
   CLEANSHEET_BONUS_DIFF_FULL = 1
   CLEANSHEET_BONUS_DIFF = 0.5
 
+  def kit_path
+    round_player.club ? round_player.club.kit_path : player.kit_path
+  end
+
   def not_played?
     (score.zero? && club_played_match?) || another_tournament?
   end
