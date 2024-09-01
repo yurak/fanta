@@ -4,10 +4,15 @@ namespace :tm do
   desc 'Check TM players list from club pages and write to csv'
   task :check_club_players_csv, %i[tournament_id] => :environment do |_t, args|
     clubs = args[:tournament_id] ? Club.active.where(tournament_id: args[:tournament_id]).order(:name) : Club.active.order(:name)
+    # clubs = args[:tournament_id] ? Club.where(ec_tournament_id: args[:tournament_id]).order(:name) : Club.active.order(:name)
 
+    i = 0
     CSV.open('log/club_players.csv', 'ab') do |writer|
       clubs.each do |club|
-        puts "--------#{club.name}--------"
+        i += 1
+        # next if i < 55
+
+        puts "--------#{i}---#{club.name}--------"
         next unless club.tm_url
 
         response = RestClient::Request.execute(method: :get, url: club.tm_url, headers: { 'User-Agent': 'product/version' },

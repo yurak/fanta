@@ -476,7 +476,7 @@ ua:
     sell: "Продати"
     confirm_transfers: "Підтвердити трансферні статуси"
     transfers_limit: "Ви можете продати не більше %{limit} гравців"
-    transfer_slots: "Трансферні слоти"
+    transfer_slots: "Трансфери"
   transfers:
     title: "Трансфери %{league}"
     auction_title: "Аукціон %{league}"
