@@ -40,7 +40,7 @@
                       %object{data: match_player.player.avatar_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
                         = image_tag('avatar.png')
                     .player-show-kit
-                      %object{data: lineup.tour.national? ? match_player.player.national_kit_path : match_player.player.kit_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
+                      %object{data: lineup.tour.national? ? match_player.player.national_kit_path : match_player.kit_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
                         = image_tag('kit_small_default.png')
                     .module-position-block.player-positions-block
                       - match_player.real_position_arr.each do |position|

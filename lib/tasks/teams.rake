@@ -1,22 +1,18 @@
 namespace :teams do
+  # rake 'teams:reset'
   desc 'Reset teams players'
   task reset: :environment do
-    Team.find_each do |team|
-      team.players.clear
-      team.update(budget: Team::DEFAULT_BUDGET)
-    end
+    Team.find_each(&:reset)
     puts 'Done!'
   end
 
+  # rake 'teams:reset_league[1]'
   desc 'Reset teams players by league'
   task :reset_league, [:league_id] => :environment do |_t, args|
     league = League.find_by(id: args[:league_id])
     return unless league
 
-    league.teams.each do |team|
-      team.players.clear
-      team.update(budget: Team::DEFAULT_BUDGET)
-    end
+    league.teams.each(&:reset)
     puts 'Done!'
   end
 
@@ -27,10 +23,7 @@ namespace :teams do
     return unless tournament
 
     tournament.leagues.by_season(Season.last).each do |league|
-      league.teams.each do |team|
-        team.players.clear
-        team.update(budget: Team::DEFAULT_BUDGET)
-      end
+      league.teams.each(&:reset)
     end
     puts 'Done!'
   end

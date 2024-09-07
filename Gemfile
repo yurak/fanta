@@ -50,6 +50,7 @@ gem "react_on_rails", "= 13.4"
 gem "i18n-js"
 
 group :development, :test do
+  gem 'factory_bot_rails', '6.2.0'
   gem 'pry-rails'
   gem 'rspec-rails'
   gem 'rswag-specs'
@@ -68,12 +69,10 @@ group :development do
   gem 'capistrano-yarn'
   gem 'query_diet'
   gem 'web-console', '>= 3.3.0'
-  gem 'factory_bot_rails', '6.2.0'
 end
 
 group :test do
   gem 'database_cleaner'
-  gem 'factory_bot_rails', '6.2.0'
   gem 'ffaker'
   gem 'rails-controller-testing'
   gem 'rake'

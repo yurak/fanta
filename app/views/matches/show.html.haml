@@ -35,7 +35,7 @@
             .round-next-text= t('tours.next')
             .round-next-arrow
               = image_tag('icons/arrow_grey.svg')
-      - if current_user&.admin?
+      - if current_user&.admin? && match.tour.locked_or_postponed?
         .round-action-link
           = link_to 'Autobot', match_autobot_path(match), method: :post, class: 'btn'
     .matches-bar

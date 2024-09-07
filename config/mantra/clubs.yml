@@ -277,7 +277,7 @@ usa:
   SLC: St Louis City
   TRN: Toronto
   VAN: Vancouver
-#europe:
+europe:
 #  BES: Besiktas
 #  CEL: Celtic
 #  COP: Copenhagen
@@ -289,6 +289,9 @@ usa:
 #  RAN: Rangers
 #  RBS: Salzburg
 #  SHE: Sheriff
+  SLO: Slovan
+  SPG: Sparta Prague
+  STG: Sturm
 #  VPL: Viktoria Plzen
 #  YOU: Young Boys
 #  ZEN: Zenit

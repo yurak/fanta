@@ -1,3 +1,4 @@
+# rubocop:disable Metrics/BlockLength:
 namespace :transfers do
   # rake transfers:outgoing_active_league
   desc 'Complete outgoing transfers for active league with auction deadline'
@@ -10,7 +11,11 @@ namespace :transfers do
       puts league.name
       ActiveRecord::Base.transaction do
         league.teams.each do |team|
-          team.player_teams.transferable.each do |pt|
+          players = team.player_teams.transferable
+          next unless players
+
+          team.update(transfer_slots: team.transfer_slots - players.count)
+          players.each do |pt|
             puts "Transfer: #{pt.player.name} (#{pt.player.id}) from #{team.name}"
             Transfers::Seller.call(pt.player, team, :outgoing)
           end
@@ -37,3 +42,4 @@ namespace :transfers do
     end
   end
 end
+# rubocop:enable Metrics/BlockLength

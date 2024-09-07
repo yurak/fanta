@@ -453,6 +453,7 @@ en:
     sell: "Sell"
     confirm_transfers: "Confirm transfer statuses"
     transfers_limit: "You can sell no more than %{limit} players"
+    transfer_slots: "Transfer slots"
   transfers:
     title: "%{league} Transfers"
     auction_title: "%{league} Auction"
