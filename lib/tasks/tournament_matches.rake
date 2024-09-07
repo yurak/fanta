@@ -44,12 +44,16 @@ namespace :tournament_matches do
   desc 'Create Euro TournamentMatches'
   task generate_euro20_matches: :environment do
     tournament = Tournament.find_by(code: Scores::Injectors::Strategy::EURO)
+    return unless tournament
+
     TournamentMatches::NationalFotmobGenerator.call(tournament)
   end
 
   desc 'Create WorldCup2022 TournamentMatches'
   task generate_wc_matches: :environment do
     tournament = Tournament.find_by(code: 'world_cup')
+    return unless tournament
+
     TournamentMatches::NationalFotmobGenerator.call(tournament)
   end
 
@@ -57,6 +61,8 @@ namespace :tournament_matches do
   desc 'Create Champions League TournamentMatches for Group stage'
   task generate_ecl_matches: :environment do
     tournament = Tournament.find_by(code: Scores::Injectors::Strategy::EUROPE_CL)
+    return unless tournament
+
     TournamentMatches::EuroCupFotmobGenerator.call(tournament)
   end
 

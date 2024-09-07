@@ -3,8 +3,13 @@ namespace :tm do
   # rake 'tm:check_club_players_csv[15]'
   desc 'Check TM players list from club pages and write to csv'
   task :check_club_players_csv, %i[tournament_id] => :environment do |_t, args|
-    clubs = args[:tournament_id] ? Club.active.where(tournament_id: args[:tournament_id]).order(:name) : Club.active.order(:name)
-    # clubs = args[:tournament_id] ? Club.where(ec_tournament_id: args[:tournament_id]).order(:name) : Club.active.order(:name)
+    clubs = if args[:tournament_id] == '8'
+              Club.active.where(tournament_id: nil, ec_tournament_id: args[:tournament_id]).order(:name)
+            elsif args[:tournament_id]
+              Club.active.where(tournament_id: args[:tournament_id]).order(:name)
+            else
+              Club.active.order(:name)
+            end
 
     i = 0
     CSV.open('log/club_players.csv', 'ab') do |writer|
