@@ -35,6 +35,10 @@ class MatchPlayer < ApplicationRecord
     round_player.club ? round_player.club.kit_path : player.kit_path
   end
 
+  def kit_path
+    round_player.club ? round_player.club.kit_path : player.kit_path
+  end
+
   def not_played?
     score.zero? && (club_played_match? || another_tournament?)
   end
