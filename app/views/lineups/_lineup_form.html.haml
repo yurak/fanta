@@ -320,21 +320,20 @@
           const clubs = [];
           $('.team-player-club').each(function() { clubs.push(this.textContent); });
           clubs.filter(Boolean).forEach(function(x) { counts[x] = (counts[x] || 0)+1; });
-
-          const unique_clubs = clubs.filter((v, i, a) => a.indexOf(v) === i).filter(Boolean);
           const tour_clubs = "#{tour.tournament_round.tournament_matches.count * 2}";
-
-          if (tour_clubs < 12 && unique_clubs.length < tour_clubs) {
-            alert("#{t('lineups.min_limit', limit: tour.min_country_players)}");
-            return false;
-          }
-
           const clubs_values = Object.keys(counts).map(function(v) { return counts[v]; });
           const max_club_players = Math.max.apply(Math, clubs_values);
-          const club_players_limit = "#{tour.max_country_players}";
+          const min_club_players = Math.min.apply(Math, clubs_values);
+          const club_players_max_limit = "#{tour.max_country_players}";
+          const club_players_min_limit = "#{tour.min_country_players}";
+          const lineup_players = "#{lineup.players_count}";
 
-          if (max_club_players > club_players_limit) {
+          if (max_club_players > club_players_max_limit) {
             alert("#{t('lineups.max_limit', limit: tour.max_country_players)}");
+            return false;
+          }
+          if ((clubs_values.length < tour_clubs && tour_clubs <= lineup_players) || min_club_players < club_players_min_limit) {
+            alert("#{t('lineups.min_limit', limit: tour.min_country_players)}");
             return false;
           }
         }
