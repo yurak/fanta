@@ -1042,7 +1042,7 @@ body, html {
       a {
         font-family: 'Nunito Regular';
         display: grid;
-        grid-template-columns: auto 48px;
+        grid-template-columns: 0 auto 48px;
         text-decoration: none;
       }
 
@@ -1085,7 +1085,7 @@ body, html {
 
     .round-tournament-match-guest {
       a {
-        grid-template-columns: 48px auto;
+        grid-template-columns: 48px auto 0;
         text-decoration: none;
       }
 
@@ -1126,6 +1126,20 @@ body, html {
 
     .round-tournament-match-result-text {
       width: 28px;
+    }
+  }
+}
+
+.round-matches.fanta-matches .round-tournament-match {
+  .round-match-eurocup {
+    a {
+      grid-template-columns: 54px auto 48px;
+
+      .round-tournament-team-players {
+        line-height: 24px;
+        font-size: 14px;
+        margin: auto;
+      }
     }
   }
 }

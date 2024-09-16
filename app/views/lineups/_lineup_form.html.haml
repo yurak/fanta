@@ -34,7 +34,7 @@
             .default-= "#{t('tours.round')} #{tour.tournament_round.number}"
           -##standings.default-tab-item
           -#  .default-= "#{tour.league.tournament.name} #{t('tours.standings')}"
-        .fixtures.lineup-round-tab-content.round-matches
+        .fixtures.lineup-round-tab-content.round-matches.fanta-matches
           - if tour.national?
             = render 'tournaments/national_matches_lineup', matches: tour.tournament_round.national_matches
           - else
@@ -253,11 +253,11 @@
 
           nameContainer.text(malus + data.name);
 
-          if (nationalTour) {
-            const club_players_limit = "#{tour.max_country_players}";
-            $('.round-tournament-team-players').text('')
-            $('.round-tournament-team-players').css("background-color", "");
+          const club_players_limit = "#{tour.max_country_players}";
+          $('.round-tournament-team-players').text('')
+          $('.round-tournament-team-players').css("background-color", "");
 
+          if (nationalTour) {
             $('.team-player-country').each(function() {
               let tagId = '#national-players-' + this.textContent;
               let element = $(tagId);
@@ -266,7 +266,16 @@
                 element.css("background-color", "#DB0A23");
               }
             });
-
+          }
+          if ("#{tour.eurocup?}" === 'true') {
+            $('.team-player-club').each(function() {
+              let tagId = '#club-players-' + this.textContent;
+              let element = $(tagId);
+              element.text(element.text() + "👨");
+              if (element.text().length > (club_players_limit * 2) ) {
+                element.css("background-color", "#DB0A23");
+              }
+            });
           }
         }
       });
@@ -383,8 +392,6 @@
             for (var key in playersHash){
               listHtml += '<div class="modal-malus-title">' + key + '</div> <div class="modal-malus-block">';
               playersHash[key].forEach(function(player) {
-                // console.log(player)
-
                 let positionsItems = '';
                 player.position_arr.forEach((positionName, index) => {
                   let posName = player.position_classic_arr[index];
