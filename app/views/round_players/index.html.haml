@@ -31,7 +31,7 @@
               .select-icon
                 = image_tag('icons/triangle.svg')
     .players-list
-      .players-list-headers.round-players-list-headers{class: "national-headers-#{tournament.national?}"}
+      .players-list-headers.round-players-list-headers{class: "national-headers-#{tournament.national?} fanta-headers-#{tournament.eurocup?}"}
         .players-list-header.center= t('players.number_header')
         .players-list-header
           = link_to t('players.player_header'), tournament_round_round_players_path(tournament_round, order: 'name', position: params[:position], club: params[:club])
@@ -64,7 +64,7 @@
         .players-list-item
           .players-list-number= i + 1
           = link_to player_path(rp.player) do
-            .players-list-row.round-players-list-row{class: "national-row-#{tournament.national?}"}
+            .players-list-row.round-players-list-row{class: "national-row-#{tournament.national?} fanta-row-#{tournament.eurocup?}"}
               .players-list-cell.players-list-player
                 .players-list-avatar
                   .player-show-face

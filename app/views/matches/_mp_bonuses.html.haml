@@ -2,9 +2,12 @@
   = render 'players/bonus_item', bonus: match_player.missed_goals, img_path: "bonuses/goal_missed.svg"
   = render 'players/bonus_item', bonus: match_player.missed_penalty, img_path: "bonuses/penalty_missed.svg"
   = render 'players/bonus_item', bonus: match_player.caught_penalty, img_path: "bonuses/penalty_caught.svg"
-  - if match_player.saves >= RoundPlayer::LOWER_SAVES_LIMIT
+  - if match_player.saves >= RoundPlayer::UPPER_SAVES_LIMIT
     .match-player-bonus-item
-      = image_tag("bonuses/saves.svg", title: 'Saves')
+      = image_tag("bonuses/saves_6.svg", title: 'Saves')
+  - elsif match_player.saves >= RoundPlayer::LOWER_SAVES_LIMIT
+    .match-player-bonus-item
+      = image_tag("bonuses/saves_3.svg", title: 'Saves')
 - else
   = render 'players/bonus_item', bonus: match_player.goals, img_path: "bonuses/goal_scored.svg"
   = render 'players/bonus_item', bonus: match_player.scored_penalty, img_path: "bonuses/penalty_scored.svg"

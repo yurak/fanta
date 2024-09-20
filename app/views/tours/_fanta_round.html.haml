@@ -27,7 +27,7 @@
                       .grey-btn.round-lineup-edit{ title: t('tours.edit') }
                         = image_tag('icons/edit.svg')
                   .round-lineup-set-block
-                    = t('tours.set_done')
+                    = t('tours.set_done_fanta')
                 - else
                   = link_to new_team_lineup_path(user_team_by_league(current_user, tour.league), tour_id: tour.id, team_module_id: user_team_by_league(current_user, tour.league).lineups.first&.team_module_id) do
                     .blue-btn.round-lineup-set-squad{ title: t('tours.create') }
@@ -44,9 +44,9 @@
                 = team.human_name
             .team-row-name-lineup
               - if team.lineups.where(tour: tour).any?
-                = t('tours.set_done')
+                = t('tours.set_done_fanta')
               - else
-                = t('tours.not_set')
+                = t('tours.not_set_fanta')
       - else
         .tour-deadlined{ class: "tour-closed-#{tour.closed?}" }
           - tour.lineups.order(final_score: :desc).each_with_index do |lineup, i|

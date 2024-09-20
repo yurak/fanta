@@ -15,6 +15,7 @@ module Results
       return false unless tour&.closed? && lineups.any?
 
       update_total_scores
+      update_ts_wo_lineups
       update_points
     end
 
@@ -28,6 +29,18 @@ module Results
 
         result.update(
           total_score: result.total_score + lineup.total_score.round(2),
+          draws: result.draws + 1
+        )
+      end
+    end
+
+    def update_ts_wo_lineups
+      team_ids_wo_lineups = tour.teams.pluck(:id) - lineups.pluck(:team_id)
+      worst_score = lineups.last.total_score.round(2)
+      Team.where(id: team_ids_wo_lineups).each do |team|
+        result = team.results.last
+        result.update(
+          total_score: result.total_score + worst_score,
           draws: result.draws + 1
         )
       end
