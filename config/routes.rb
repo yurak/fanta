@@ -76,6 +76,7 @@ Rails.application.routes.draw do
       resources :transfers, only: [:index, :create, :destroy]
     end
 
+    resources :players, only: [:index]
     resources :results, only: [:index]
   end
 
