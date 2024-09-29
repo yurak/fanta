@@ -71,6 +71,7 @@ Rails.application.routes.draw do
   end
 
   resources :tournaments, only: [:show] do
+    resources :clubs, only: [:show]
     resources :divisions, only: [:index]
   end
 

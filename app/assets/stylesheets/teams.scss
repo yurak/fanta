@@ -33,7 +33,17 @@
 
     .team-bar-item-logo {
       text-align: center;
+
       img {
+        width: 40px;
+        height: 40px;
+      }
+    }
+
+    .club-bar-item-logo {
+      height: 40px;
+
+      object, img {
         width: 40px;
         height: 40px;
       }
@@ -579,6 +589,11 @@
       height: 40px;
     }
 
+    .flag-icon {
+      vertical-align: middle;
+      margin: auto;
+    }
+
     object {
       margin-left: 8px;
       position: relative;
@@ -826,6 +841,10 @@
         border: 3px solid #E5E6E4;
       }
 
+      .teams-bar-section.club-bar-section .club-bar-item {
+        padding: 25px;
+      }
+
       .current-team-true {
         border: 3px solid #FFB319;
       }
@@ -837,6 +856,15 @@
           border-radius: 36px;
           width: 72px;
           height: 72px;
+        }
+      }
+
+      .club-bar-item-logo {
+        //height: 72px;
+
+        object, img {
+          width: 64px;
+          height: 64px;
         }
       }
     }
@@ -1105,6 +1133,11 @@
               img, object {
                 width: 56px;
                 height: 56px;
+              }
+
+              .flag-icon {
+                width: 48px;
+                vertical-align: middle;
               }
 
               .team-player-stats-number {

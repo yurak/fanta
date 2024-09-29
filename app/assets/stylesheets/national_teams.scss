@@ -59,6 +59,16 @@
           vertical-align: middle;
         }
       }
+
+      .club-logo {
+        height: 110px;
+        margin-bottom: 24px;
+
+        object, img {
+          width: 110px;
+          height: 110px;
+        }
+      }
     }
   }
 

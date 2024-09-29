@@ -156,6 +156,10 @@ class Player < ApplicationRecord
     @season_ec_matches_with_scores ||= round_players.with_score.by_tournament_round(season_club_eurocup_rounds).order(:tournament_round_id)
   end
 
+  def season_all_matches_with_scores
+    @season_all_matches_with_scores ||= round_players.with_score.by_tournament_round(season_all_tournam_rounds).order(:tournament_round_id)
+  end
+
   def national_matches_with_scores
     @national_matches_with_scores ||= round_players.with_score.by_tournament_round(national_team_rounds).order(:tournament_round_id)
   end
@@ -210,6 +214,10 @@ class Player < ApplicationRecord
 
   def season_club_eurocup_rounds
     TournamentRound.by_tournament(Tournament.with_ec_clubs).by_season(Season.last.id)
+  end
+
+  def season_all_tournam_rounds
+    season_tournament_rounds + season_club_eurocup_rounds
   end
 
   def national_team_rounds
