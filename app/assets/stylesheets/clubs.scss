@@ -1,0 +1,178 @@
+.page-info.club-show {
+  padding: 0 0 0 272px;
+
+  a {
+    text-decoration: none;
+  }
+
+  .teams-bar {
+    display: none;
+  }
+
+  .club-show-content {
+    display: grid;
+    grid-template-columns: auto 288px;
+
+    .team-section {
+      display: block;
+      margin: 0;
+    }
+  }
+
+  .club-section {
+    margin: 24px 16px;
+
+    .club-data {
+      .club-logo {
+        margin: 16px auto;
+        width: fit-content;
+
+        object, img {
+          margin: auto;
+          width: 80px;
+          height: 80px;
+        }
+      }
+
+      .club-name {
+        font-family: 'Nunito ExtraBold';
+        font-size: 24px;
+        line-height: 32px;
+        text-align: center;
+      }
+
+      .club-tournament {
+        font-family: 'Nunito Regular';
+        font-size: 16px;
+        line-height: 24px;
+        color: #847577;
+        text-align: center;
+        margin-bottom: 16px;
+      }
+    }
+
+    .club-list {
+      max-width: 848px;
+      margin: auto;
+    }
+  }
+
+  .clubs-list {
+    width: 288px;
+    height: 100%;
+    position: fixed;
+    right: 0;
+    border-left: 1px solid #E5E6E4;
+    overflow-y:scroll;
+    overflow-x:hidden;
+
+    .club-list-item {
+      height: 72px;
+      line-height: 40px;
+      padding: 16px;
+      border-bottom: 1px solid #E5E6E4;
+
+      a {
+        display: block;
+      }
+
+      .club-list-row {
+        color: #181715;
+        display: grid;
+        grid-template-columns: 40px auto;
+        column-gap: 16px;
+      }
+
+      .club-list-row:hover {
+        color: #261FFF;
+      }
+
+      .club-list-logo {
+        height: 40px;
+
+        object, img {
+          width: 40px;
+          height: 40px;
+        }
+      }
+
+      .club-list-name {
+        font-family: 'Nunito SemiBold';
+        font-size: 16px;
+        line-height: 40px;
+        height: 40px;
+      }
+    }
+
+    .current-club-true {
+      background: #FFEBC2;
+    }
+  }
+}
+
+@media (orientation: landscape) and (max-device-width: 1440px) {
+  .page-info.club-show {
+    .club-show-content {
+      grid-template-columns: auto 256px;
+    }
+
+    .club-section {
+      .club-list {
+        max-width: 724px;
+        margin: auto;
+      }
+    }
+
+    .clubs-list {
+      width: 256px;
+    }
+  }
+}
+
+@media (orientation: portrait) {
+  .page-info.club-show {
+    padding: 0 0 288px;
+
+    .clubs-bar {
+      display: block;
+    }
+
+    .club-show-content {
+      display: block;
+
+      .club-section {
+        .club-data {
+          .club-logo {
+            margin: 32px auto 16px;
+
+            object, img {
+              width: 160px;
+              height: 160px;
+            }
+          }
+
+          .club-name {
+            font-size: 48px;
+            line-height: 64px;
+          }
+
+          .club-tournament {
+            font-size: 32px;
+            line-height: 48px;
+            margin-bottom: 32px;
+          }
+        }
+
+        .club-list {
+          .default-headers {
+            display: none;
+          }
+        }
+      }
+    }
+
+    .clubs-list {
+      display: none;
+    }
+  }
+}

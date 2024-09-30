@@ -3,7 +3,7 @@ class ClubsController < ApplicationController
 
   respond_to :html
 
-  helper_method :club, :clubs, :tournament
+  helper_method :club, :clubs, :league, :tournament
 
   def show; end
 
@@ -15,6 +15,10 @@ class ClubsController < ApplicationController
 
   def tournament
     @tournament ||= Tournament.find(params[:tournament_id])
+  end
+
+  def league
+    @league ||= League.find_by(id: params[:league_id]) || tournament.leagues.last
   end
 
   def clubs
