@@ -62,10 +62,11 @@
   }
 
   .team-section {
-    margin: 16px;
+    margin: 16px auto;
     display: grid;
     grid-template-columns: 368px auto;
     column-gap: 64px;
+    max-width: 1232px;
 
     .team-data {
       margin-top: 56px;
