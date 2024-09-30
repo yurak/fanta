@@ -1,9 +1,7 @@
 - matches.each do |match|
   .round-tournament-match
     .round-tournament-match-cell.round-tournament-match-team.round-match-eurocup
-      -# TODO: add link to CLub page
-      -# = link_to club_path(match.host_club) do
-      = link_to '' do
+      = link_to tournament_club_path(match.tournament_round.tournament, match.host_club), target: :_blank do
         .round-tournament-team-players{ id: "club-players-#{match.host_club.code}" }
         .round-tournament-team-name
           = match.host_club.name
@@ -24,9 +22,7 @@
       - else
         = match.time.presence || 'vs'
     .round-tournament-match-cell.round-tournament-match-team.round-tournament-match-guest.round-match-eurocup
-      -# TODO: add link to CLub page
-      -# = link_to national_team_path(match.guest_club) do
-      = link_to '' do
+      = link_to tournament_club_path(match.tournament_round.tournament, match.guest_club), target: :_blank do
         .round-tournament-team-logo
           %object{data: match.guest_club.logo_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
             = image_tag('default_logo.png')
