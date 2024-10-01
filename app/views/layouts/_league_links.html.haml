@@ -20,7 +20,7 @@
 - if league.tournament.eurocup
   = link_to tournament_club_path(league.tournament, league.tournament.ec_clubs.first) do
     .league-link{class: "link-active-#{ params[:controller] == 'clubs' && params[:action] == 'show' }"}
-      .league-link-icon= image_tag('icons/round/players.svg')
+      .league-link-icon= image_tag('icons/round/clubs.svg')
       .league-link-text= t('header.clubs')
 - if league.mantra?
   = link_to players_path(tournament: league.tournament, league: league) do
