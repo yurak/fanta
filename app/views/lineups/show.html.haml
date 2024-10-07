@@ -91,9 +91,9 @@
               .lineup-result-text= t('lineups.total_score')
               .lineup-result-value
                 .lineup-result-score= lineup.total_score
-                .lineup-result-position= ordinalize_number(lineup.tour_position)
+                .lineup-result-position= ordinalize_number(lineup.position)
               .lineup-result-points
-                = "#{t('lineups.points')}: #{Results::NationalUpdater::POINTS_MAP[lineup.tour_position - 1] || 0}"
+                = "#{t('lineups.points')}: #{lineup.points}"
           .module-image
             = image_tag("#{modules_path}#{lineup.team_module.name}.jpg")
     - else
