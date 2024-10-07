@@ -455,6 +455,18 @@ en:
     confirm_transfers: "Confirm transfer statuses"
     transfers_limit: "You can sell no more than %{limit} players"
     transfer_slots: "Transfer slots"
+    fanta:
+      avg_points: "🏆 Avg. Points"
+      avg_ts: "🎲 Avg. total score"
+      best_lineup: "✊ Best lineup"
+      best_pick: "Best Pick"
+      points: "Points"
+      position: "Position"
+      round: "Round"
+      top_fourty: "🏎️️️ Top 40 finish"
+      top_ten: "🏵️️ Top 10 Finish"
+      top_three: "🏅️ Top 3 finish"
+      total_score: "Total score"
   transfers:
     title: "%{league} Transfers"
     auction_title: "%{league} Auction"

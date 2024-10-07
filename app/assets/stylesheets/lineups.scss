@@ -42,6 +42,10 @@
         text-align: left;
         display: flex;
 
+        .lineup-team-name-link a {
+          color: #181715;
+        }
+
         .lineup-team-edit {
           margin: 16px 0 16px 24px;
           font-size: 16px;

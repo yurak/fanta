@@ -86,6 +86,30 @@ RSpec.describe Team do
     end
   end
 
+  describe '#league_transfers' do
+    context 'without transfers' do
+      it 'returns empty array' do
+        expect(team.league_transfers).to eq([])
+      end
+    end
+
+    context 'without league transfers' do
+      let(:transfer) { create(:transfer, team: team) }
+
+      it 'returns empty array' do
+        expect(team.league_transfers).to eq([])
+      end
+    end
+
+    context 'with league transfers' do
+      let(:transfers) { create_list(:transfer, 3, team: team, league: team.league) }
+
+      it 'returns array with matches' do
+        expect(team.league_transfers).to eq(transfers)
+      end
+    end
+  end
+
   describe '#logo_path' do
     context 'when logo does not exist' do
       it 'returns default path' do
@@ -530,6 +554,128 @@ RSpec.describe Team do
 
       it 'returns spent budget value' do
         expect(team.dumped_player_ids(auction)).to eq([transfer.player_id])
+      end
+    end
+  end
+
+  describe '#avg_ts' do
+    context 'without lineups' do
+      it 'returns zero' do
+        expect(team.avg_ts).to eq(0)
+      end
+    end
+
+    context 'with lineups' do
+      before do
+        create_list(:lineup, 2, team: team, tour: create(:tour, league: team.league))
+      end
+
+      context 'without result' do
+        it 'returns zero' do
+          expect(team.avg_ts).to eq(0)
+        end
+      end
+
+      context 'with result' do
+        before do
+          create(:result, team: team, league: team.league, total_score: 143)
+        end
+
+        it 'returns zero' do
+          expect(team.avg_ts).to eq(71.5)
+        end
+      end
+    end
+  end
+
+  describe '#avg_points' do
+    context 'without lineups' do
+      it 'returns zero' do
+        expect(team.avg_points).to eq(0)
+      end
+    end
+
+    context 'with lineups' do
+      before do
+        create_list(:lineup, 2, team: team, tour: create(:tour, league: team.league))
+      end
+
+      context 'without result' do
+        it 'returns zero' do
+          expect(team.avg_points).to eq(0)
+        end
+      end
+
+      context 'with result' do
+        before do
+          create(:result, team: team, league: team.league, points: 55)
+        end
+
+        it 'returns zero' do
+          expect(team.avg_points).to eq(27.5)
+        end
+      end
+    end
+  end
+
+  describe '#league_lineups_number' do
+    context 'without lineups' do
+      it 'returns zero' do
+        expect(team.league_lineups_number).to eq(0)
+      end
+    end
+
+    context 'with lineups' do
+      before do
+        create_list(:lineup, 2, team: team, tour: create(:tour, league: team.league))
+      end
+
+      it 'returns number of lineups' do
+        expect(team.league_lineups_number).to eq(2)
+      end
+    end
+  end
+
+  describe '#league_lineups' do
+    context 'without lineups' do
+      it 'returns empty array' do
+        expect(team.league_lineups).to eq([])
+      end
+    end
+
+    context 'with lineups' do
+      before do
+        create_list(:lineup, 2, team: team, tour: create(:tour, league: team.league))
+      end
+
+      it 'returns array with lineups' do
+        expect(team.league_lineups.count).to eq(2)
+      end
+    end
+  end
+
+  describe '#league_result' do
+    context 'without results' do
+      it 'returns nil' do
+        expect(team.league_result).to be_nil
+      end
+    end
+
+    context 'with lineup from other league' do
+      before do
+        create(:result, team: team)
+      end
+
+      it 'returns nil' do
+        expect(team.league_result).to be_nil
+      end
+    end
+
+    context 'with result from current league' do
+      let!(:result) { create(:result, team: team, league: team.league) }
+
+      it 'returns array with lineups' do
+        expect(team.league_result).to eq(result)
       end
     end
   end

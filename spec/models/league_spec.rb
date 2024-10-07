@@ -22,6 +22,26 @@ RSpec.describe League do
     it { is_expected.to define_enum_for(:transfer_status).with_values(%i[closed open]) }
   end
 
+  describe '#division_with_name' do
+    context 'when league without division' do
+      it 'returns league name' do
+        expect(league.division_with_name).to eq(league.name)
+      end
+    end
+
+    context 'when league with division' do
+      let(:division) { create(:division) }
+
+      before do
+        league.update(division: division)
+      end
+
+      it 'returns league name with division name' do
+        expect(league.division_with_name).to eq("#{league.name} (#{division.name})")
+      end
+    end
+  end
+
   describe '#active_tour' do
     context 'when tours does not exist' do
       it 'returns nil' do

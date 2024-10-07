@@ -5,40 +5,7 @@
 
   .page-info.team-show
     - if team.league && team.tournament.fanta?
-      -# TODO: update UI of Fanta team page
-      -#.team-section
-      -#  .team-data
-      -#    .team-logo
-      -#      = image_tag(team.logo_path)
-      -#    .team-name
-      -#      = team.human_name
-      -#  .team-lists
-      -#    .team-lists-content
-      -#      .team-list.team-games
-      -#        .team-games-headers
-      -#          .team-games-header-item= t('teams.round')
-      -#          .team-games-header-item= t('teams.score')
-      -#          .team-games-header-item
-      -#        - team.lineups.by_league(team.league.id).each do |lineup|
-      -#          = link_to team_lineup_path(team, lineup) do
-      -#            .team-game-item
-      -#              .team-game-param-item
-      -#                .team-game-number= "##{lineup.tour.number}"
-      -#              .team-game-param-item.team-game-result
-      -#                - if lineup.tour.unlocked?
-      -#                  .game-score-cell
-      -#                    .result-cell-value _._
-      -#                  .game-info-cell
-      -#                    - if lineup.tournament_round.deadline
-      -#                      = lineup.tournament_round.deadline&.strftime("%^a, %^b %e, %H:%M")
-      -#                    - else
-      -#                      = t('teams.unknown')
-      -#                - else
-      -#                  .game-score-cell.game-score-closed{ class: "game-score-W" }
-      -#                    .result-cell-value
-      -#                      = lineup.total_score
-      -#              .team-game-param-item.team-game-link
-      -#                = image_tag('icons/link_arrow.png')
+      = render 'fanta_team', team: team
     - else
       = render 'mantra_team', team: team
 

@@ -16,7 +16,9 @@
         .lineup-team-logo
           = image_tag(lineup.team.logo_path)
         .lineup-team-name
-          = lineup.team.human_name
+          .lineup-team-name-link
+            = link_to team_path(lineup.team) do
+              = lineup.team.human_name
           .lineup-team-edit
             - if lineup.tour.set_lineup? && (current_user == lineup.team.user)
               .grey-btn

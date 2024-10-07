@@ -128,6 +128,32 @@ class Team < ApplicationRecord
     transfers.outgoing.by_auction(auction).pluck(:player_id)
   end
 
+  def avg_ts
+    return 0 if league_lineups_number.zero?
+    return 0 unless league_result
+
+    (results.by_league(league.id).last.total_score / league_lineups_number).round(2)
+  end
+
+  def avg_points
+    return 0 if league_lineups_number.zero?
+    return 0 unless league_result
+
+    (results.by_league(league.id).last.points.to_f / league_lineups_number).round(2)
+  end
+
+  def league_lineups_number
+    @league_lineups_number ||= league_lineups.size
+  end
+
+  def league_lineups
+    @league_lineups ||= lineups.by_league(league.id)
+  end
+
+  def league_result
+    @league_result ||= results.by_league(league.id).last
+  end
+
   private
 
   def matches

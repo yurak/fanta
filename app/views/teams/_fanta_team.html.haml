@@ -1,0 +1,66 @@
+.back-button-row
+  .back-button
+    = link_to :back do
+      .back-button
+        = image_tag('icons/arrow.svg')
+.fanta-team-section
+  .fanta-team-data
+    .fanta-team-data-base
+      .fanta-team-logo
+        = image_tag(team.logo_path)
+      .fanta-team-base
+        .fanta-team-name= team.human_name
+        .fanta-team-results
+          .fanta-team-results-item
+            .fanta-team-results-text= t('teams.fanta.total_score')
+            .fanta-team-results-ts= team.league_result.total_score
+          .fanta-team-results-item
+            .fanta-team-results-text= t('teams.fanta.points')
+            .fanta-team-results-ts.fanta-team-results-points= team.league_result.points
+    .fanta-team-lineups-section
+      .default-headers.fanta-team-lineups-grid
+        .default-header-cell= t('teams.fanta.round').upcase
+        .default-header-cell= t('teams.fanta.best_pick').upcase
+        .default-header-cell= t('teams.fanta.position').upcase
+        .default-header-cell= t('teams.fanta.points').upcase
+        .default-header-cell= t('teams.fanta.total_score').upcase
+      .fanta-team-lineups-items
+        - team.lineups.by_league(team.league.id).each do |lineup|
+          = link_to team_lineup_path(team, lineup) do
+            .fanta-team-lineups-row.fanta-team-lineups-grid
+              .fanta-lineup-number= "#{lineup.tour.number}"
+              .fanta-lineup-player
+                .fanta-lineup-player-avatar
+                  .player-show-face
+                    %object{data: lineup.best_player.avatar_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
+                      = image_tag('avatar.png')
+                  .player-show-kit
+                    %object{data: lineup.best_player.kit_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
+                      = image_tag('kit_small_default.png')
+                .fanta-lineup-player-name= lineup.best_player.name
+              .fanta-lineup-position= lineup.position
+              .fanta-lineup-points= lineup.points
+              .fanta-lineup-ts
+                .fanta-lineup-tscore= lineup.total_score
+                .fanta-lineup-link-arrow= image_tag('icons/arrow_right.svg')
+  .fanta-team-top-stats
+    .fanta-stats-item-top
+      .fanta-stats-item-top-title= t('teams.fanta.top_three')
+      .fanta-stats-item-top-percent= "#{'%.2f' % (team.league_lineups.top_position(3).size.to_f*100/team.league_lineups_number)}%"
+      .fanta-stats-item-top-number= "#{team.league_lineups.top_position(3).size} of #{team.league_lineups_number}"
+    .fanta-stats-item
+      .fanta-stats-item-title= t('teams.fanta.top_ten')
+      .fanta-stats-item-value= team.league_lineups.top_position(10).size
+    .fanta-stats-item
+      .fanta-stats-item-title= t('teams.fanta.top_fourty')
+      .fanta-stats-item-value= team.league_lineups.top_position(40).size
+    .fanta-stats-item
+      .fanta-stats-item-title= t('teams.fanta.avg_ts')
+      .fanta-stats-item-value= team.avg_ts
+    .fanta-stats-item
+      .fanta-stats-item-title= t('teams.fanta.avg_points')
+      .fanta-stats-item-value= team.avg_points
+    .fanta-stats-item
+      .fanta-stats-item-title= t('teams.fanta.best_lineup')
+      .fanta-stats-item-value= team.league_result.best_lineup
+

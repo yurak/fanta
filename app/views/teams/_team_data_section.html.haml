@@ -11,7 +11,7 @@
           .team-data-opponent-text= t('teams.next_round_base')
           .team-data-opponent-logo= image_tag(team.next_opponent.logo_path)
           .team-data-opponent-name= team.next_opponent.human_name
-    - if team.league && team.results.last
+    - if team.league && team.league_result
       .team-league-data
         .team-position
           .team-position-left
@@ -19,30 +19,30 @@
             .team-pos-data
               .team-pos-data-text= t('teams.pos_points')
               .team-pos-data-current
-                = team.results.last.points
+                = team.league_result.points
               .team-pos-data-total
-                = "(#{(team.league.tours.count - team.results.last.matches_played) * 3} #{t('teams.pos_in_play')})"
+                = "(#{(team.league.tours.count - team.league_result.matches_played) * 3} #{t('teams.pos_in_play')})"
             .team-pos-data
               .team-pos-data-text= t('teams.pos_played')
               .team-pos-data-current
-                = team.results.last.matches_played
+                = team.league_result.matches_played
               .team-pos-data-total
-                = "/#{team.league.tours.count} (#{team.league.tours.count - team.results.last.matches_played} #{t('teams.pos_left')})"
+                = "/#{team.league.tours.count} (#{team.league.tours.count - team.league_result.matches_played} #{t('teams.pos_left')})"
           .team-position-right
-            = "##{team.results.last.position}"
+            = "##{team.league_result.position}"
         .team-matches
           .team-matches-item
             .team-matches-title= t('teams.wins')
             .team-matches-value.team-matches-value-green
-              = team.results.last.wins
+              = team.league_result.wins
           .team-matches-item
             .team-matches-title= t('teams.draws')
             .team-matches-value
-              = team.results.last.draws
+              = team.league_result.draws
           .team-matches-item
             .team-matches-title= t('teams.loses')
             .team-matches-value.team-matches-value-red
-              = team.results.last.loses
+              = team.league_result.loses
     - if team.user
       .team-additional.team-manager
         .team-additional-text= t('teams.manager')
@@ -51,11 +51,11 @@
             = image_tag(team.user.avatar_path)
           .team-manager-name
             = team.user.name
-    - if team.league && team.results&.last
+    - if team.league && team.league_result
       .team-additional
         .team-additional-text= t('teams.form')
         .team-additional-value.team-form
-          - team.results.last.form.each do |form|
+          - team.league_result.form.each do |form|
             .team-form-item{ class: "team-form-#{form[0]}" }
               = form[0]
     .team-additional

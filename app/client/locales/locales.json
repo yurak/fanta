@@ -943,6 +943,19 @@
         "title": "Edit team data",
         "update": "Update team"
       },
+      "fanta": {
+        "avg_points": "🏆 Avg. Points",
+        "avg_ts": "🎲 Avg. total score",
+        "best_lineup": "✊ Best lineup",
+        "best_pick": "Best Pick",
+        "points": "Points",
+        "position": "Position",
+        "round": "Round",
+        "top_fourty": "🏎️️️ Top 40 finish",
+        "top_ten": "🏵️️ Top 10 Finish",
+        "top_three": "🏅️ Top 3 finish",
+        "total_score": "Total score"
+      },
       "form": "Form",
       "games": "🗓️ Games",
       "incoming": "✅ In",
@@ -2131,6 +2144,19 @@
       "edit": {
         "title": "Редагувати дані команди",
         "update": "Оновити команду"
+      },
+      "fanta": {
+        "avg_points": "🏆 Сер. очки",
+        "avg_ts": "🎲 Сер. бал",
+        "best_lineup": "✊ Найкр. склад",
+        "best_pick": "Найкращий Гравець",
+        "points": "Очки",
+        "position": "Позиція",
+        "round": "Раунд",
+        "top_fourty": "🏎️️️ Фініш у топ-40",
+        "top_ten": "🏵️️ Фініш у топ-10",
+        "top_three": "🏅️ Фініш у топ-3",
+        "total_score": "Загальний бал"
       },
       "form": "Форма",
       "games": "🗓️ Матчі",

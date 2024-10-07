@@ -509,6 +509,38 @@ RSpec.describe Player do
     end
   end
 
+  describe '#season_all_matches_with_scores' do
+    context 'when player has no matches in season' do
+      it 'returns empty array' do
+        expect(player.season_all_matches_with_scores).to eq([])
+      end
+    end
+
+    context 'when player has matches in one season' do
+      let(:player) { create(:player, :with_scores) }
+
+      it 'returns array with round_players' do
+        expect(player.season_all_matches_with_scores).to eq(player.round_players)
+      end
+    end
+
+    context 'when player has eurocup matches in one season' do
+      let(:player) { create(:player, :with_eurocup_scores) }
+
+      it 'returns array with round_players' do
+        expect(player.season_all_matches_with_scores).to eq(player.round_players)
+      end
+    end
+
+    context 'when player has championship and eurocup matches in one season' do
+      let(:player) { create(:player, :with_champ_and_eurocup_scores) }
+
+      it 'returns array with round_players' do
+        expect(player.season_all_matches_with_scores).to eq(player.round_players)
+      end
+    end
+  end
+
   describe '#national_matches_with_scores' do
     context 'when player has no matches in season' do
       it 'returns empty array' do

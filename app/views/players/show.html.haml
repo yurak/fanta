@@ -4,9 +4,9 @@
   .page-info.player-show-page
     .player-content
       .player-links
-        .player-back
+        .back-button
           = link_to :back do
-            .round-prev-arrow
+            .back-button
               = image_tag('icons/arrow.svg')
         .player-pos-change
           - if user_signed_in?

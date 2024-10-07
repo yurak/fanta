@@ -501,6 +501,203 @@
   }
 }
 
+/* ----- Team Fanta show page ----- */
+
+.page-info.team-show {
+  .fanta-team-section {
+    display: grid;
+    grid-template-columns: 656px 272px;
+    column-gap: 112px;
+    margin: 16px;
+  }
+
+  .fanta-team-data {
+    .fanta-team-data-base {
+      display: grid;
+      grid-template-columns: 96px auto;
+      column-gap: 32px;
+
+      img, object {
+        width: 96px;
+        height: 96px;
+      }
+    }
+
+    .fanta-team-base {
+      padding: 16px 0;
+
+      .fanta-team-name {
+        font-family: 'Nunito ExtraBold';
+        font-size: 24px;
+        line-height: 32px;
+      }
+
+      .fanta-team-results {
+        display: flex;
+        margin-top: 8px;
+      }
+
+      .fanta-team-results-item {
+        display: flex;
+        line-height: 24px;
+        margin-right: 16px;
+      }
+
+      .fanta-team-results-text {
+        font-family: 'Nunito Regular';
+        font-size: 14px;
+        margin-right: 8px;
+      }
+
+      .fanta-team-results-ts {
+        font-family: 'Nunito ExtraBold';
+        padding: 4px 8px;
+        border-radius: 16px;
+        font-size: 12px;
+        line-height: 16px;
+        letter-spacing: 0.02em;
+        background: #D0F0D4;
+      }
+
+      .fanta-team-results-points {
+        background: #D8D6FF;
+      }
+    }
+
+    .fanta-team-lineups-section {
+      margin-top: 32px;
+
+      .fanta-team-lineups-grid {
+        display: grid;
+        grid-template-columns: 4fr 10fr 6fr 6fr 7fr;
+      }
+
+      .fanta-team-lineups-items {
+        margin-top: 8px;
+
+        a {
+          text-decoration: none;
+          color: #181715;
+        }
+
+        .fanta-team-lineups-row {
+          height: 64px;
+          border-bottom: 1px solid #E5E6E4;
+          line-height: 64px;
+          font-size: 16px;
+        }
+
+        .fanta-lineup-number {
+          font-family: 'Nunito ExtraBold';
+          padding-left: 8px;
+        }
+
+        .fanta-lineup-player {
+          padding: 0 8px;
+          display: grid;
+          grid-template-columns: 40px auto;
+          column-gap: 8px;
+        }
+
+        .fanta-lineup-player-avatar {
+          padding: 12px 0;
+
+          .player-show-face, .player-show-kit {
+            line-height: 10px;
+            position: absolute;
+
+            img, object {
+              width: 40px;
+              height: 40px;
+              border-radius: 50%;
+              border: 1px solid #E5E6E4
+            }
+          }
+        }
+
+        .fanta-lineup-position {
+          text-align: right;
+          padding-right: 16px;
+        }
+
+        .fanta-lineup-points {
+          text-align: right;
+          padding-right: 16px;
+        }
+
+        .fanta-lineup-ts {
+          font-family: 'Nunito ExtraBold';
+          display: grid;
+          grid-template-columns: auto 24px;
+          column-gap: 24px;
+          padding-right: 24px;
+          text-align: right;
+
+          .fanta-lineup-link-arrow {
+            img {
+              width: 24px;
+              height: 24px;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .fanta-team-top-stats {
+    .fanta-stats-item-top {
+      background: #FFEBC2;
+      padding: 16px 24px;
+      border-radius: 8px;
+      margin-bottom: 8px;
+
+      .fanta-stats-item-top-title {
+        font-family: 'Nunito ExtraBold';
+        font-size: 18px;
+        line-height: 24px;
+        margin-bottom: 24px;
+      }
+
+      .fanta-stats-item-top-percent {
+        font-family: 'Nunito ExtraBold';
+        font-size: 32px;
+        line-height: 32px;
+        margin-bottom: 4px;
+        text-align: right;
+      }
+
+      .fanta-stats-item-top-number {
+        font-family: 'Nunito Regular';
+        font-size: 14px;
+        line-height: 16px;
+        text-align: right;
+      }
+    }
+
+    .fanta-stats-item {
+      background: #F4F4F4;
+      height: 64px;
+      padding: 16px 24px;
+      line-height: 32px;
+      display: grid;
+      grid-template-columns: auto 80px;
+      border-radius: 8px;
+      margin-bottom: 8px;
+
+      .fanta-stats-item-title {
+        font-family: 'Nunito ExtraBold';
+        font-size: 14px;
+      }
+
+      .fanta-stats-item-value {
+        font-family: 'Nunito SemiBold';
+        font-size: 24px;
+        text-align: right;
+      }
+    }
+  }
+}
+
 /* ------ Team players lists ------ */
 
 .team-players-grid {
@@ -1258,6 +1455,167 @@
         }
       }
     }
+
+    .fanta-team-section {
+      display: block;
+      margin: 16px 48px;
+
+      .fanta-team-data {
+        .fanta-team-data-base {
+          grid-template-columns: 192px auto;
+          column-gap: 48px;
+
+          img, object {
+            width: 192px;
+            height: 192px;
+          }
+        }
+      }
+
+      .fanta-team-base {
+        padding: 32px 0;
+
+        .fanta-team-name {
+          font-size: 48px;
+          line-height: 64px;
+        }
+
+        .fanta-team-results {
+          margin-top: 16px;
+        }
+
+        .fanta-team-results-item {
+          line-height: 48px;
+          margin-right: 32px;
+        }
+
+        .fanta-team-results-text {
+          font-size: 28px;
+          margin-right: 16px;
+        }
+
+        .fanta-team-results-ts {
+          padding: 8px 16px;
+          border-radius: 32px;
+          font-size: 24px;
+          line-height: 32px;
+        }
+      }
+
+      .fanta-team-lineups-section {
+        margin-bottom: 48px;
+
+        .fanta-team-lineups-grid {
+          line-height: 64px;
+
+          .default-header-cell {
+            padding: 0 16px;
+            margin: 18px 0;
+            font-size: 18px;
+            line-height: 28px;
+            height: 28px;
+          }
+        }
+
+        .fanta-team-lineups-items {
+          margin-top: 12px;
+
+          .fanta-team-lineups-row {
+            height: 96px;
+            border-bottom: 3px solid #E5E6E4;
+            line-height: 96px;
+            font-size: 24px;
+          }
+
+          .fanta-lineup-number {
+            padding-left: 16px;
+          }
+
+          .fanta-lineup-player {
+            padding: 0 16px;
+            grid-template-columns: 64px auto;
+            column-gap: 12px;
+          }
+
+          .fanta-lineup-player-avatar {
+            padding: 16px 0;
+
+            .player-show-face, .player-show-kit {
+              line-height: 10px;
+
+              img, object {
+                width: 64px;
+                height: 64px;
+                border: 2px solid #E5E6E4
+              }
+            }
+          }
+
+          .fanta-lineup-position {
+            padding-right: 24px;
+          }
+
+          .fanta-lineup-points {
+            padding-right: 24px;
+          }
+
+          .fanta-lineup-ts {
+            grid-template-columns: auto 36px;
+            column-gap: 24px;
+            padding-right: 24px;
+
+            .fanta-lineup-link-arrow {
+              img {
+                width: 36px;
+                height: 36px;
+              }
+            }
+          }
+        }
+      }
+
+      .fanta-team-top-stats {
+        .fanta-stats-item-top {
+          padding: 24px 32px;
+          border-radius: 16px;
+          margin-bottom: 16px;
+
+          .fanta-stats-item-top-title {
+            font-size: 28px;
+            line-height: 36px;
+            margin-bottom: 36px;
+          }
+
+          .fanta-stats-item-top-percent {
+            font-size: 48px;
+            line-height: 48px;
+            margin-bottom: 8px;
+          }
+
+          .fanta-stats-item-top-number {
+            font-size: 22px;
+            line-height: 24px;
+          }
+        }
+
+        .fanta-stats-item {
+          height: 96px;
+          padding: 24px 32px;
+          line-height: 48px;
+          grid-template-columns: auto 140px;
+          border-radius: 16px;
+          margin-bottom: 16px;
+
+          .fanta-stats-item-title {
+            font-size: 24px;
+          }
+
+          .fanta-stats-item-value {
+            font-size: 32px;
+          }
+        }
+      }
+    }
   }
 
   .team-transfers-page {
@@ -1285,10 +1643,24 @@
   }
 }
 
+@media (orientation: landscape) and (max-device-width: 1440px) {
+  .page-info.team-show {
+    .fanta-team-section {
+      column-gap: 64px;
+    }
+  }
+}
+
+@media (orientation: landscape) and (max-device-width: 1320px) {
+  .page-info.team-show {
+    .fanta-team-section {
+      column-gap: 24px;
+    }
+  }
+}
+
 @media (orientation: landscape) and (max-device-width: 1220px) {
   .page-info.team-show {
-    padding: 100px 0 20px;
-
     .team-section {
       padding: 40px 20px;
       column-gap: 20px;

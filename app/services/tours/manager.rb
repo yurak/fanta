@@ -57,7 +57,7 @@ module Tours
     end
 
     def update_results
-      tour.fanta? ? Results::NationalUpdater.call(tour) : Results::Updater.call(tour)
+      tour.fanta? ? Results::FantaUpdater.call(tour) : Results::Updater.call(tour)
     end
 
     def clone_missed_lineups

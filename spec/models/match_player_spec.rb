@@ -45,6 +45,20 @@ RSpec.describe MatchPlayer do
     it { is_expected.to define_enum_for(:subs_status).with_values(%i[initial get_out get_in not_in_squad]) }
   end
 
+  describe '#kit_path' do
+    context 'when round player with club' do
+      it 'returns club kit path' do
+        expect(match_player.kit_path).to eq(match_player.round_player.club.kit_path)
+      end
+    end
+
+    context 'when round player without club' do
+      it 'returns player kit path' do
+        expect(match_player.kit_path).to eq(match_player.player.kit_path)
+      end
+    end
+  end
+
   describe '#not_played?' do
     context 'without score and when club did not play' do
       let(:round_player) { create(:round_player, :with_tournament_match) }

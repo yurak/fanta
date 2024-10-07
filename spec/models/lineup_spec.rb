@@ -242,4 +242,28 @@ RSpec.describe Lineup do
       it { expect(lineup.players_count).to eq(16) }
     end
   end
+
+  describe '#best_player' do
+    context 'without match players' do
+      it { expect(lineup.best_player).to be_nil }
+    end
+
+    context 'with match players without scores' do
+      it 'returns player' do
+        expect(lineup_team.best_player).not_to be_nil
+      end
+    end
+
+    context 'with match players with scores' do
+      let(:round_player) { lineup_team_score_five.match_players[3].round_player }
+
+      before do
+        round_player.update(final_score: 8)
+      end
+
+      it 'returns player' do
+        expect(lineup_team_score_five.best_player).to eq(round_player.player)
+      end
+    end
+  end
 end
