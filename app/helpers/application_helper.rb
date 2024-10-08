@@ -16,6 +16,8 @@ module ApplicationHelper
   end
 
   def ordinalize_number(number)
+    return '-' unless number
+
     case I18n.locale
     when :en
       number.ordinalize

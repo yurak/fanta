@@ -16,7 +16,9 @@
         .lineup-team-logo
           = image_tag(lineup.team.logo_path)
         .lineup-team-name
-          = lineup.team.human_name
+          .lineup-team-name-link
+            = link_to team_path(lineup.team) do
+              = lineup.team.human_name
           .lineup-team-edit
             - if lineup.tour.set_lineup? && (current_user == lineup.team.user)
               .grey-btn
@@ -89,9 +91,9 @@
               .lineup-result-text= t('lineups.total_score')
               .lineup-result-value
                 .lineup-result-score= lineup.total_score
-                .lineup-result-position= ordinalize_number(lineup.tour_position)
+                .lineup-result-position= ordinalize_number(lineup.position)
               .lineup-result-points
-                = "#{t('lineups.points')}: #{Results::NationalUpdater::POINTS_MAP[lineup.tour_position - 1] || 0}"
+                = "#{t('lineups.points')}: #{lineup.points}"
           .module-image
             = image_tag("#{modules_path}#{lineup.team_module.name}.jpg")
     - else

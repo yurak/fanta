@@ -927,6 +927,55 @@ body, html {
   }
 }
 
+.back-button {
+  width: 32px;
+  height: 32px;
+  border: 1px solid #E5E6E4;
+  border-radius: 4px;
+  text-align: center;
+
+  a {
+    width: 32px;
+    height: 32px;
+    display: block;
+  }
+}
+
+.back-button-row {
+  padding: 16px;
+}
+
+.back-button:hover img {
+  filter: invert(13%) sepia(85%) saturate(4155%) hue-rotate(243deg) brightness(112%) contrast(131%); // #261FFF;
+}
+
+@media (orientation: portrait) {
+  .back-button-row {
+    padding: 16px 48px;
+  }
+
+  .back-button {
+    width: 64px;
+    height: 64px;
+    border: 2px solid #E5E6E4;
+    border-radius: 8px;
+
+    a {
+      width: 64px;
+      height: 64px;
+
+      .back-button-arrow {
+        line-height: 64px;
+      }
+    }
+
+    img {
+      width: 32px;
+      margin-top: 16px;
+    }
+  }
+}
+
 .grey-btn {
   margin: 6px 0;
   padding: 0 16px;

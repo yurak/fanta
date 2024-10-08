@@ -1,4 +1,4 @@
-RSpec.describe Results::NationalUpdater do
+RSpec.describe Results::FantaUpdater do
   describe '#call' do
     subject(:updater) { described_class.new(tour) }
 

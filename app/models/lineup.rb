@@ -18,6 +18,7 @@ class Lineup < ApplicationRecord
   scope :closed, ->(league_id) { where(tour_id: League.find(league_id).tours.closed.ids) }
   scope :by_league, ->(league_id) { where(tour_id: League.find(league_id).tours.ids) }
   scope :by_team, ->(team_id) { where(team_id: team_id) }
+  scope :top_position, ->(position) { where('position > 0 AND position <= ?', position) if position }
 
   MIN_AVG_DEF_SCORE = 6
   MAX_AVG_DEF_SCORE = 7
@@ -106,8 +107,8 @@ class Lineup < ApplicationRecord
     JSON.parse(substitutes)
   end
 
-  def tour_position
-    tour.lineups.order(final_score: :desc).pluck(:id).find_index(id) + 1
+  def best_player
+    match_players.joins(:round_player).main.order('round_players.final_score': :desc).first&.player
   end
 
   private

@@ -32,7 +32,9 @@ class League < ApplicationRecord
   }
 
   def division_with_name
-    "#{name} (#{division&.name})"
+    return name unless division
+
+    "#{name} (#{division.name})"
   end
 
   def active_tour

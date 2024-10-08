@@ -4,9 +4,9 @@
   .page-info.player-show-page
     .player-content
       .player-links
-        .player-back
+        .back-button
           = link_to :back do
-            .round-prev-arrow
+            .back-button
               = image_tag('icons/arrow.svg')
         .player-pos-change
           - if user_signed_in?
@@ -49,7 +49,13 @@
             .player-table-row
               .player-table-row-key= t('players.club')
               .player-table-row-value.player-table-club
-                .player-table-club-name= player.club.name
+                .player-table-club-name
+                  - if player.club&.tournament
+                    = link_to tournament_club_path(player.club.tournament, player.club) do
+                      .player-tm-link
+                        = player.club.name
+                  - else
+                    = player.club.name
                 %object{data: player.club.logo_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
                   = image_tag('default_logo.png')
             - if player.tm_id.present?

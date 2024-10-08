@@ -264,24 +264,6 @@
     grid-template-columns: 1fr 1fr;
     margin: 8px 0;
 
-    .player-back {
-      width: 32px;
-      height: 32px;
-      border: 1px solid #E5E6E4;
-      border-radius: 4px;
-      text-align: center;
-
-      a {
-        width: 32px;
-        height: 32px;
-        display: block;
-      }
-    }
-
-    .player-back:hover img {
-      filter: invert(13%) sepia(85%) saturate(4155%) hue-rotate(243deg) brightness(112%) contrast(131%); // #261FFF;
-    }
-
     .player-pos-change {
       font-family: 'Nunito ExtraBold';
       line-height: 32px;
@@ -793,26 +775,6 @@
 
     .player-links {
       margin: 24px 0;
-
-      .player-back {
-        width: 64px;
-        height: 64px;
-        border: 2px solid #E5E6E4;
-        border-radius: 8px;
-
-        a {
-          width: 64px;
-          height: 64px;
-
-          .round-prev-arrow {
-            line-height: 64px;
-          }
-        }
-
-        img {
-          width: 32px;
-        }
-      }
 
       .player-pos-change {
         line-height: 64px;

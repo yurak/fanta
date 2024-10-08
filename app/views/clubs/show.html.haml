@@ -1,0 +1,86 @@
+.page-block
+  .web-header= render 'layouts/left_nav', league: league
+  .web-header= render 'layouts/right_nav', league: league
+  .mob-header= render 'layouts/mob_header', league: league, title: club.name
+  .page-info.club-show.team-show
+    .teams-bar.clubs-bar
+      .teams-bar-section.club-bar-section
+        - clubs.each do |club_item|
+          = link_to tournament_club_path(tournament, club_item) do
+            .team-bar-item.club-bar-item{ class: "current-team-#{club_item == club}"}
+              .team-bar-item-logo.club-bar-item-logo
+                %object{data: club_item.logo_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
+                  = image_tag('default_logo.png')
+    .club-show-content
+      .club-section.team-section
+        .club-data
+          .club-logo
+            %object{data: club.logo_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
+              = image_tag('default_logo.png')
+          .club-name
+            = club.name
+          .club-tournament
+            = club.tournament&.name
+        .club-list.team-lists
+          .default-headers.team-players-grid
+            .default-header-cell= t('teams.player')
+            .default-header-cell= t('teams.positions')
+            .default-header-cell= t('teams.appearances')
+            .default-header-cell= t('teams.rating')
+            .default-header-cell= t('teams.country')
+          - club.players.sort_by(&:position_sequence_number).each do |player|
+            = link_to player_path(player) do
+              .team-player-item.team-players-grid
+                .team-player-data
+                  .team-player-avatar
+                    .player-show-face
+                      %object{data: player.avatar_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
+                        = image_tag('avatar.png')
+                    .player-show-kit
+                      %object{data: player.kit_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
+                        = image_tag('kit_small_default.png')
+                  .team-player-name
+                    .team-player-last-name
+                      = player.name
+                    .team-player-first-name
+                      = player.first_name
+                .team-player-data-mob
+                  .team-player-name-mob
+                    = "#{player.name} #{player.first_name}"
+                  .team-player-subdata-mob
+                    .team-player-position-mob
+                      .player-positions-block
+                        - player.positions.each do |position|
+                          .player-position{class: "player-position-#{position.name}"}
+                            = position_name(position)
+                    .team-player-line-mob
+                    = flag_icon(player.nationality.to_sym, element: :div)
+                    .team-player-line-mob
+                    .team-player-stats-number
+                      = "#{player.season_scores_count(player.season_all_matches_with_scores)} #{t('teams.apps')}"
+                .team-player-position
+                  .player-positions-block
+                    - player.positions.each do |position|
+                      .player-position{class: "player-position-#{position.name}"}
+                        = position_name(position)
+                .team-player-stats-number.team-player-apps
+                  = player.season_scores_count(player.season_all_matches_with_scores)
+                .team-player-stats-number.team-player-rating
+                  = player.season_average_result_score(player.season_all_matches_with_scores)
+                .team-player-club
+                  = flag_icon(player.nationality.to_sym, element: :div)
+                  .team-player-param-item.team-player-link
+                    = image_tag('icons/arrow_right.svg')
+      .clubs-list
+        - clubs.each do |club_item|
+          .club-list-item{ class: "current-club-#{club_item == club}"}
+            = link_to tournament_club_path(tournament, club_item, league_id: params[:league_id]) do
+              .club-list-row
+                .club-list-logo
+                  %object{data: club_item.logo_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
+                    = image_tag('default_logo.png')
+                .club-list-name= club_item.name
+
+  - if league
+    .portrait-footer{ class: "portrait-footer-#{league.mantra?}"}
+      = render 'layouts/league_links', league: league

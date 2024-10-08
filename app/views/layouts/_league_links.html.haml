@@ -7,7 +7,7 @@
   .league-link{class: "link-active-#{ params[:controller] == 'results' }"}
     .league-link-icon= image_tag('icons/round/table.svg')
     .league-link-text= t('header.table')
-- if league.teams.present? && !league.tournament.national?
+- if league.teams.present? && league.mantra?
   = link_to team_path(user_team_by_league(current_user, league) || league.teams.first) do
     .league-link{class: "link-active-#{ params[:controller] == 'teams' && params[:action] == 'show' }"}
       .league-link-icon= image_tag('icons/round/teams.svg')
@@ -17,6 +17,11 @@
     .league-link{class: "link-active-#{ params[:controller] == 'national_teams' && params[:action] == 'show' }"}
       .league-link-icon= image_tag('icons/round/teams.svg')
       .league-link-text= t('header.teams')
+- if league.tournament.eurocup
+  = link_to tournament_club_path(league.tournament, league.tournament.ec_clubs.first) do
+    .league-link{class: "link-active-#{ params[:controller] == 'clubs' && params[:action] == 'show' }"}
+      .league-link-icon= image_tag('icons/round/clubs.svg')
+      .league-link-text= t('header.clubs')
 - if league.mantra?
   = link_to players_path(tournament: league.tournament, league: league) do
     .league-link{class: "link-active-#{ params[:controller] == 'players' && params[:action] == 'index' }"}

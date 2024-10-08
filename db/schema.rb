@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_08_21_212451) do
+ActiveRecord::Schema.define(version: 2024_10_05_113626) do
 
   create_table "article_tags", force: :cascade do |t|
     t.string "name", default: "", null: false
@@ -160,6 +160,8 @@ ActiveRecord::Schema.define(version: 2024_08_21_212451) do
     t.decimal "final_score", precision: 4, scale: 2, default: "0.0"
     t.integer "final_goals"
     t.text "substitutes"
+    t.integer "points", default: 0, null: false
+    t.integer "position"
   end
 
   create_table "links", force: :cascade do |t|
