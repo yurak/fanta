@@ -141,8 +141,8 @@ class Lineup < ApplicationRecord
     JSON.parse(substitutes)
   end
 
-  def tour_position
-    tour.lineups.order(final_score: :desc).pluck(:id).find_index(id) + 1
+  def best_player
+    match_players.joins(:round_player).main.order('round_players.final_score': :desc).first&.player
   end
 
   private
