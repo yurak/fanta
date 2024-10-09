@@ -1,12 +1,12 @@
 class LeaguesController < ApplicationController
-  skip_before_action :authenticate_user!, only: %i[index show]
+  skip_before_action :authenticate_user!, only: %i[index show players]
 
   respond_to :html
 
   helper_method :league
 
   # Specify the layout for the index action
-  layout 'react_application', only: [:index]
+  layout 'react_application', only: [:index, :players]
 
   def index; end
 
