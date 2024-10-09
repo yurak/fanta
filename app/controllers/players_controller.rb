@@ -1,14 +1,16 @@
 class PlayersController < ApplicationController
-  skip_before_action :authenticate_user!, only: %i[index show]
+  skip_before_action :authenticate_user!, only: %i[index leagues_list show]
 
-  helper_method :player, :tournament
+  helper_method :league, :player, :tournament
 
   respond_to :html
 
   # Specify the layout for the index action
-  layout 'react_application', only: [:index]
+  layout 'react_application', only: [:index, :leagues_list]
 
   def index; end
+
+  def leagues_list; end
 
   def show
     @stats = player.player_season_stats.joins(:season, :club, :tournament).order(season_id: :desc, created_at: :desc)
@@ -29,6 +31,10 @@ class PlayersController < ApplicationController
 
   def player
     @player ||= Player.find(params[:id])
+  end
+
+  def league
+    @league ||= League.find(params[:league_id])
   end
 
   def tournament
