@@ -1183,7 +1183,8 @@
       "filter_position": "Filter by position",
       "filters": {
         "allFilters": "All filters",
-        "appearancesOption": "Appearances",
+        "appearancesLabel": "Appearances",
+        "appearancesShortLabel": "Apps",
         "applyFilters": "Apply filters",
         "baseScoreLabel": "Base score",
         "baseScoreShortLabel": "BS",
@@ -2955,7 +2956,8 @@
       "filter_position": "Фільтр по позиції",
       "filters": {
         "allFilters": "Всі фільтри",
-        "appearancesOption": "Появи",
+        "appearancesLabel": "Появи",
+        "appearancesShortLabel": "Появи",
         "applyFilters": "Застосувати",
         "baseScoreLabel": "Базова оцінка",
         "baseScoreShortLabel": "БО",

@@ -22,7 +22,6 @@ Rails.application.routes.draw do
   get 'fees',     to: 'welcome#fees'
   get 'guide',    to: 'welcome#guide'
   get 'rules',    to: 'welcome#rules'
-  get 'leagues/:id/players', to: 'leagues#players'
 
   resources :joins, only: [:index, :show]
   resources :weekly_teams, only: [:show]
@@ -77,7 +76,7 @@ Rails.application.routes.draw do
       resources :transfers, only: [:index, :create, :destroy]
     end
 
-    resources :players, only: [:index]
+    resources :players, to: 'players#leagues_list', on: :member
     resources :results, only: [:index]
   end
 
