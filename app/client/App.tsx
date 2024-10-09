@@ -17,6 +17,10 @@ const router = createBrowserRouter([
     path: "/players",
     element: <Players />,
   },
+  {
+    path: "/leagues/:leagueId/players",
+    element: <Players />,
+  },
 ]);
 
 export default withBootstrap(() => <RouterProvider router={router} />);
