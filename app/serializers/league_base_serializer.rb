@@ -10,6 +10,7 @@ class LeagueBaseSerializer < ActiveModel::Serializer
   attributes :season_id
   attributes :status
   attributes :tournament_id
+  attributes :results
 
   def division
     object.division&.name
@@ -17,5 +18,11 @@ class LeagueBaseSerializer < ActiveModel::Serializer
 
   def link
     league_link(object)
+  end
+
+  def results
+    return unless instance_options[:results]
+
+    object.results.ordered.map { |result| ResultBaseSerializer.new(result) }
   end
 end

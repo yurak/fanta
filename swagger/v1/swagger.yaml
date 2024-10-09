@@ -624,6 +624,11 @@ components:
         tournament_id:
           type: integer
           example: 321
+        results:
+          type: array
+          items:
+            "$ref": "#/components/schemas/result_base"
+          nullable: true
       required:
       - id
       - name
@@ -1058,6 +1063,26 @@ components:
       - id
       - league_id
       - team
+    result_base:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 123
+        points:
+          type: integer
+          example: 43
+        team_id:
+          type: integer
+          example: 123
+        team_name:
+          type: string
+          example: Rossoneri
+      required:
+      - id
+      - team_id
+      - team_name
+      - points
     round_stats:
       type: object
       properties:

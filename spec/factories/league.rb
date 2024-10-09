@@ -39,7 +39,8 @@ FactoryBot.define do
 
     trait :with_five_teams do
       after(:create) do |league|
-        create_list(:team, 5, league: league)
+        teams = create_list(:team, 5, league: league)
+        teams.each { |team| create(:result, team: team, league: league) }
       end
     end
 
