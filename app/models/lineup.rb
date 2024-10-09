@@ -82,10 +82,14 @@ class Lineup < ApplicationRecord
   end
 
   def opponent
+    return unless match
+
     match.host == team ? match.guest : match.host
   end
 
   def match_result
+    return '' unless match
+
     match.host == team ? "#{match.host_goals}-#{match.guest_goals}" : "#{match.guest_goals}-#{match.host_goals}"
   end
 

@@ -1,7 +1,7 @@
 .page-block.lineup-show-page
-  .web-header= render 'layouts/left_nav', league: team.league
-  .web-header= render 'layouts/right_nav', league: team.league
-  .mob-header= render 'layouts/mob_header', league: team.league
+  .web-header= render 'layouts/left_nav', league: lineup.tour.league
+  .web-header= render 'layouts/right_nav', league: lineup.tour.league
+  .mob-header= render 'layouts/mob_header', league: lineup.tour.league
 
   .page-info.match-page.lineup-page
     .match-round-links.lineup-mob-hide

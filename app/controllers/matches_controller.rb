@@ -5,7 +5,9 @@ class MatchesController < ApplicationController
 
   respond_to :html
 
-  def show; end
+  def show
+    redirect_to leagues_path unless match
+  end
 
   def autobot
     @match ||= Match.find(params[:match_id])
@@ -18,6 +20,6 @@ class MatchesController < ApplicationController
   private
 
   def match
-    @match ||= Match.find(params[:id])
+    @match ||= Match.find_by(id: params[:id])
   end
 end

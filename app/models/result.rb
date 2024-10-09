@@ -30,7 +30,7 @@ class Result < ApplicationRecord
   end
 
   def form
-    @form ||= closed_lineups.limit(5).reverse.map { |l| [l.result, l.match_result, l.opponent.code, l.tour_id] }
+    @form ||= closed_lineups.limit(5).reverse.map { |l| [l.result, l.match_result, l.opponent&.code, l.tour_id] }
   end
 
   def history_arr

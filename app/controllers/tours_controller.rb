@@ -6,10 +6,12 @@ class ToursController < ApplicationController
   helper_method :tour
 
   def show
-    redirect_to leagues_path unless tour
-
-    @tournament_players = tour.round_players.with_score.sort_by(&:result_score).reverse.take(5)
-    @league_players = MatchPlayer.by_tour(tour.id).main_with_score.sort_by(&:total_score).reverse.take(5)
+    if tour
+      @tournament_players = tour.round_players.with_score.sort_by(&:result_score).reverse.take(5)
+      @league_players = MatchPlayer.by_tour(tour.id).main_with_score.sort_by(&:total_score).reverse.take(5)
+    else
+      redirect_to leagues_path
+    end
   end
 
   def update
@@ -41,7 +43,7 @@ class ToursController < ApplicationController
   private
 
   def tour
-    @tour ||= Tour.find(params[:id])
+    @tour ||= Tour.find_by(id: params[:id])
   end
 
   def tournament_round

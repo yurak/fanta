@@ -6,14 +6,18 @@ class AuctionRoundsController < ApplicationController
   helper_method :auction, :auction_bid, :auction_round, :league
 
   def show
-    @transfers = auction.transfers.incoming.sort_by(&:price).reverse.take(5)
-    @modules = TeamModule.all
+    if auction_round
+      @transfers = auction.transfers.incoming.sort_by(&:price).reverse.take(5)
+      @modules = TeamModule.all
+    else
+      redirect_to leagues_path
+    end
   end
 
   private
 
   def auction_round
-    @auction_round ||= AuctionRound.find(params[:id])
+    @auction_round ||= AuctionRound.find_by(id: params[:id])
   end
 
   def auction
