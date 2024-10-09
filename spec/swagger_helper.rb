@@ -138,7 +138,8 @@ RSpec.configure do |config|
               name: { type: :string, example: 'San Siro' },
               season_id: { type: :integer, example: 123 },
               status: { type: :string, example: 'active', description: 'Available values: initial, active, archived' },
-              tournament_id: { type: :integer, example: 321 }
+              tournament_id: { type: :integer, example: 321 },
+              results: { type: :array, items: { '$ref' => '#/components/schemas/result_base' }, nullable: true }
             },
             required: %w[id name]
           },
@@ -293,6 +294,16 @@ RSpec.configure do |config|
               wins: { type: :integer, example: 3 }
             },
             required: %w[id league_id team]
+          },
+          result_base: {
+            type: :object,
+            properties: {
+              id: { type: :integer, example: 123 },
+              points: { type: :integer, example: 43 },
+              team_id: { type: :integer, example: 123 },
+              team_name: { type: :string, example: 'Rossoneri' }
+            },
+            required: %w[id team_id team_name points]
           },
           round_stats: {
             type: :object,
