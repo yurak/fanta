@@ -5,12 +5,14 @@ class ClubsController < ApplicationController
 
   helper_method :club, :clubs, :league, :tournament
 
-  def show; end
+  def show
+    redirect_to leagues_path unless club
+  end
 
   private
 
   def club
-    @club ||= Club.find(params[:id])
+    @club ||= Club.find_by(id: params[:id])
   end
 
   def tournament

@@ -260,7 +260,7 @@
                 .round-table-item-cell.auction-round-team-budget
                   = "#{team.budget}M"
                 .round-table-item-cell.center
-                  - if team.full_squad?
+                  - if team.full_squad? || auction.closed?
                     🏁️
                   - else
                     = t("auction_round.status_icon.#{auction_round.auction_bids.find_by(team: team).status}")

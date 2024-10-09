@@ -312,4 +312,23 @@ RSpec.describe RoundPlayer do
       end
     end
   end
+
+  describe '#related_club' do
+    context 'without round player club' do
+      let!(:round_player) { create(:round_player, club: nil) }
+
+      it 'returns player club' do
+        expect(round_player.related_club).to eq(round_player.player.club)
+      end
+    end
+
+    context 'with round player club' do
+      let!(:club) { create(:club) }
+      let!(:round_player) { create(:round_player, club: club) }
+
+      it 'returns round player club' do
+        expect(round_player.related_club).to eq(club)
+      end
+    end
+  end
 end

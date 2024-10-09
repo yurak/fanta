@@ -74,6 +74,10 @@ class RoundPlayer < ApplicationRecord
     match_players.main.count
   end
 
+  def related_club
+    club || player.club
+  end
+
   private
 
   def bonuses

@@ -30,7 +30,7 @@ class RoundPlayersController < ApplicationController
   def order_players
     case stats_params[:order]
     when 'club'
-      players_with_filter.sort_by(&:club)
+      players_with_filter.sort_by(&:related_club)
     when 'national'
       players_with_filter
     when 'matches'
