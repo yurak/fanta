@@ -1,48 +1,82 @@
 import { useMemo, useState } from "react";
-import { IComputedColumn, ITableSorting, SortFunctionType } from "./interfaces";
+import { IColumn, IComputedColumn, SortFunctionType } from "./interfaces";
+import { ISorting, SortOrder } from "@/hooks/useHistorySort";
 
 export const useSorting = <DataItem extends object = object>({
   sorting,
   columns,
   dataSource,
 }: {
-  sorting?: ITableSorting,
+  sorting?: Partial<ISorting>,
   columns: IComputedColumn<DataItem>[],
   dataSource: DataItem[],
 }) => {
   /* Added state for cases where no need to control sort state outside of table component */
-  const [_sortColumnKey, _setSortColumnKey]: [string | null, (column: string | null) => void] =
-    useState<null | string>(null);
+  const [_sortBy, _setSortBy] = useState<null | string>(null);
+  const [_sortOrder, _setSortOrder] = useState<SortOrder | null>(null);
+  const _onSortChange = (sortBy: string | null, sortOrder: SortOrder | null) => {
+    _setSortBy(sortBy);
+    _setSortOrder(sortOrder);
+  };
 
-  const sortColumnKey = sorting?.sortColumn ?? _sortColumnKey;
-  const setSortColumnKey = sorting?.setSortColumn ?? _setSortColumnKey;
+  const sortBy = sorting?.sortBy ?? _sortBy;
+  const sortOrder = sorting?.sortOrder ?? _sortOrder;
+  const onSortChange = sorting?.onSortChange ?? _onSortChange;
 
-  const onSort = (columnKey: string) => {
-    const newSortColumnKey = sortColumnKey === columnKey ? null : columnKey;
+  const onSort = (column: IComputedColumn<DataItem>) => {
+    const supportAscSorting = column.supportAscSorting ?? false;
+    const sortOrders: ["desc", "asc"] | ["desc"] = supportAscSorting ? ["desc", "asc"] : ["desc"];
+    const supportedSortOrders = [null, ...sortOrders];
 
-    setSortColumnKey(newSortColumnKey);
+    if (sortBy !== column._key) {
+      onSortChange(column._key, sortOrders[0], supportAscSorting);
+
+      return;
+    }
+
+    const currentSortIndex = supportedSortOrders.findIndex((o) => o === sortOrder);
+    const nextSortOrder =
+      supportedSortOrders[currentSortIndex + (1 % supportedSortOrders.length)] ?? null;
+
+    if (!nextSortOrder) {
+      onSortChange(null, null, supportAscSorting);
+    } else {
+      onSortChange(column._key, nextSortOrder, supportAscSorting);
+    }
+  };
+
+  const getSorterObject = (column: IColumn) => {
+    if (typeof column.sorter === "object") {
+      return column.sorter;
+    }
+
+    return null;
   };
 
   const columnSortFunction = useMemo(() => {
-    if (!sortColumnKey) {
+    if (!sortBy) {
       return null;
     }
 
-    const sortedColumn = columns.find((column) => sortColumnKey === column._key);
+    const sortedColumn = columns.find((column) => sortBy === column._key);
 
-    return sortedColumn?.sorter?.compare ?? null;
-  }, [columns, sortColumnKey]);
+    if (!sortedColumn) {
+      return null;
+    }
+
+    return getSorterObject(sortedColumn)?.compare ?? null;
+  }, [columns, sortBy]);
 
   const prioritySortingFunctions = useMemo(() => {
     return columns
-      .filter((column) => column.sorter)
-      .filter((column) => typeof column.sorter?.priority !== "undefined")
-      .sort(
-        (columnA, columnB) =>
-          (columnA.sorter?.priority ?? Number.POSITIVE_INFINITY) -
-          (columnB.sorter?.priority ?? Number.POSITIVE_INFINITY)
-      )
-      .map((column) => column.sorter?.compare) as SortFunctionType<DataItem>[];
+      .filter((column) => getSorterObject(column)?.priority ?? false)
+      .sort((columnA, columnB) => {
+        return (
+          (getSorterObject(columnA)?.priority ?? Number.POSITIVE_INFINITY) -
+          (getSorterObject(columnB)?.priority ?? Number.POSITIVE_INFINITY)
+        );
+      })
+      .map((column) => getSorterObject(column)?.compare) as SortFunctionType<DataItem>[];
   }, [columns]);
 
   const sorterFunctions = useMemo(() => {
@@ -67,17 +101,18 @@ export const useSorting = <DataItem extends object = object>({
 
       do {
         const sorter = sorterFunctions[i] as SortFunctionType<DataItem>;
-        result = sorter(itemA, itemB);
+        result = sortOrder === "asc" ? sorter(itemB, itemA) : sorter(itemA, itemB);
         i++;
       } while (result === 0 && sorterFunctions[i]);
 
       return result;
     });
-  }, [dataSource, sorterFunctions]);
+  }, [dataSource, sorterFunctions, sortOrder]);
 
   return {
-    sortColumnKey,
+    sortBy,
     sortedDataSource,
+    sortOrder,
     onSort,
   };
 };

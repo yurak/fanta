@@ -1,25 +1,20 @@
-import cn from "classnames";
-import EmptyStateIcon from "@/assets/images/empty-state.svg";
 import styles from "./EmptyState.module.scss";
 
 const EmptyState = ({
   title,
   description,
-  size = "normal",
+  actions,
 }: {
   title: string,
   description?: string,
-  size?: "normal" | "large",
+  actions?: React.ReactNode,
 }) => {
   return (
-    <div
-      className={cn(styles.emptyState, {
-        [styles.large]: size === "large",
-      })}
-    >
-      <EmptyStateIcon className={styles.image} />
+    <div className={styles.emptyState}>
+      <div className={styles.pseudoIcon}>🐾</div>
       <div className={styles.title}>{title}</div>
       {description && <div className={styles.description}>{description}</div>}
+      {actions && <div className={styles.actions}>{actions}</div>}
     </div>
   );
 };

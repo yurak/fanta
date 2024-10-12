@@ -1,21 +1,16 @@
 class PlayersController < ApplicationController
-  skip_before_action :authenticate_user!, only: %i[index show]
+  skip_before_action :authenticate_user!, only: %i[index leagues_list show]
 
   helper_method :league, :player, :tournament
 
   respond_to :html
 
-  def index
-    @players = Kaminari.paginate_array(ordered_players).page(params[:page])
-    @tournaments = Tournament.with_clubs
-    @positions = Position.all
-    @clubs = tournament.clubs.active.sort_by(&:name)
+  # Specify the layout for the index action
+  layout 'react_application', only: [:index, :leagues_list]
 
-    respond_to do |format|
-      format.html
-      format.json { render json: ordered_players }
-    end
-  end
+  def index; end
+
+  def leagues_list; end
 
   def show
     @stats = player.player_season_stats.joins(:season, :club, :tournament).order(season_id: :desc, created_at: :desc)
@@ -38,29 +33,11 @@ class PlayersController < ApplicationController
     @player ||= Player.find(params[:id])
   end
 
-  def ordered_players
-    Players::Order.call(filtered_players, { field: stats_params[:order] || Players::Order::NAME })
-  end
-
-  def filtered_players
-    Players::Search.call(
-      club_id: stats_params[:club],
-      league_id: stats_params[:league],
-      name: stats_params[:search],
-      position: Slot::POS_MAPPING[stats_params[:position]],
-      tournament_id: stats_params[:tournament]
-    )
-  end
-
-  def stats_params
-    params.permit(:club, :order, :position, :tournament, :search, :league)
+  def league
+    @league ||= League.find(params[:league_id])
   end
 
   def tournament
     stats_params[:tournament] ? Tournament.find(stats_params[:tournament]) : Tournament.first
-  end
-
-  def league
-    stats_params[:league] ? League.find(stats_params[:league]) : tournament.leagues.active.first
   end
 end

@@ -1,0 +1,80 @@
+.wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  gap: 16px;
+  margin-bottom: 0;
+  font-family: "Nunito Medium";
+  font-size: 14px;
+  line-height: 16px;
+
+  input {
+    opacity: 0;
+    position: absolute;
+  }
+
+  --icon-color: #fff;
+  --icon-border: #847577;
+  --icon-background: #fff;
+  --icon-size: 24px;
+
+  &:hover {
+    --icon-border: #181715;
+  }
+
+  &:has(input:focus) {
+    outline: -webkit-focus-ring-color auto 1px;
+    outline-offset: 2px;
+  }
+}
+
+.isActive {
+  --icon-border: #261fff;
+  --icon-background: #261fff;
+
+  &:hover {
+    --icon-border: #040052;
+    --icon-background: #040052;
+  }
+}
+
+.isDisabled {
+  --icon-color: #a6a2a2;
+  --icon-border: #cfd2cd;
+  --icon-background: #f4f4f4;
+
+  &:hover {
+    --icon-border: #cfd2cd;
+    --icon-background: #f4f4f4;
+  }
+}
+
+.block {
+  flex: 1;
+  min-width: 0;
+}
+
+.iconWrapper {
+  color: var(--icon-color);
+  width: var(--icon-size);
+  height: var(--icon-size);
+  border: 1px solid var(--icon-border);
+  border-radius: 4px;
+  position: relative;
+  display: inline-block;
+  background-color: var(--icon-background);
+  transition: 0.3s background-color, 0.3s border-color;
+}
+
+.icon {
+  position: absolute;
+  left: -1px;
+  top: -1px;
+  width: var(--icon-size);
+  height: var(--icon-size);
+
+  svg {
+    width: 100%;
+  }
+}

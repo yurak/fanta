@@ -1,0 +1,69 @@
+.popover {
+  --z-index-popover: 9;
+
+  background-color: #ffffff;
+  border-radius: 4px;
+  box-shadow: 1px 2px 5px 0px #18171533;
+  z-index: var(--z-index-popover);
+  position: absolute;
+  width: 304px;
+  top: 0;
+  left: 0;
+  max-height: 800px;
+  overflow: auto;
+}
+
+.header {
+  padding: 16px 24px;
+  position: sticky;
+  left: 0;
+  top: 0;
+  background-color: #fff;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.headerTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.title {
+  font-family: "Nunito ExtraBold";
+  font-size: 16px;
+  line-height: 24px;
+  color: #181715;
+}
+
+.closeButton {
+  background: none;
+  width: 24px;
+  height: 24px;
+  border: 0;
+  padding: 0;
+  line-height: 1;
+  color: #847577;
+
+  &:hover {
+    color: #181715;
+  }
+}
+
+.content {
+  padding: 0 24px;
+}
+
+.footer {
+  display: flex;
+  justify-content: flex-end;
+  padding: 16px 24px;
+  position: sticky;
+  left: 0;
+  bottom: 0;
+  background-color: #fff;
+  z-index: 1;
+}

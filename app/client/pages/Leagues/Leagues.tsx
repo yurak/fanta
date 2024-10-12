@@ -29,7 +29,7 @@ const LeaguesPage = () => {
    */
   const allLeagues = useMemo<ILeaguesWithTournament[]>(() => {
     const tournamentMap = new Map(
-      tournamentsQuery.data.map((tournament) => [tournament.id, tournament])
+      (tournamentsQuery.data ?? []).map((tournament) => [tournament.id, tournament])
     );
 
     return leaguesQuery.data.map((league) => ({
@@ -59,8 +59,10 @@ const LeaguesPage = () => {
 
     const searchInLowerCase = search.toLowerCase();
 
-    return filteredByTournament.filter((league) =>
-      league.name.toLowerCase().includes(searchInLowerCase)
+    return filteredByTournament.filter(
+      (league) =>
+        league.name.toLowerCase().includes(searchInLowerCase) ||
+        league.division?.toLocaleLowerCase().includes(searchInLowerCase)
     );
   }, [filteredByTournament, search]);
 
@@ -80,6 +82,10 @@ const LeaguesPage = () => {
     [getLeagueCountByTournament]
   );
 
+  const clearFilters = () => {
+    setSearch("");
+  };
+
   useEffect(() => {
     if (leaguesQuery.dataUpdatedAt) {
       const currentTabCount = getLeagueCountByTournament(activeTournament);
@@ -93,17 +99,20 @@ const LeaguesPage = () => {
   return (
     <PageLayout>
       <div className={styles.header}>
-        <div className={styles.heading}>
-          <Heading title={t("header.leagues")} noSpace />
-        </div>
-        <div className={styles.yearSelect}>
-          <SeasonsSelect value={selectedSeason} onChange={setSelectedSeason} />
+        <div className={styles.headerTop}>
+          <div className={styles.heading}>
+            <Heading title={t("header.leagues")} noSpace />
+          </div>
+          <div className={styles.yearSelect}>
+            <SeasonsSelect value={selectedSeason} onChange={setSelectedSeason} />
+          </div>
         </div>
         <div className={styles.search}>
           <Search
             value={search}
             onChange={setSearch}
             placeholder={t("league.search_placeholder")}
+            autofocus
           />
         </div>
       </div>
@@ -120,6 +129,7 @@ const LeaguesPage = () => {
       <LeaguesList
         dataSource={filteredBySearch}
         isLoading={leaguesQuery.isPending || tournamentsQuery.isPending}
+        clearFilters={clearFilters}
       />
     </PageLayout>
   );

@@ -39,6 +39,7 @@ Rails.application.routes.draw do
       resources :transfers, only: [:index, :create, :destroy]
     end
 
+    resources :players, to: 'players#leagues_list', on: :member
     resources :results, only: [:index]
   end
 

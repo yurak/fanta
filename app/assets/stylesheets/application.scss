@@ -1694,31 +1694,6 @@ body, html {
   }
 }
 
-.players-search {
-  border-radius: 32px;
-  border: 1px solid #E5E6E4;
-  width: 500px;
-  display: grid;
-  grid-template-columns: 24px auto;
-  column-gap: 16px;
-  padding: 0 24px;
-
-  .search-icon {
-    img {
-      width: 24px;
-      height: 24px;
-    }
-  }
-
-  input {
-    border: none transparent;
-    outline: none;
-    height: 56px;
-    width: 400px;
-    font-size: 24px;
-  }
-}
-
 .stats-section {
   background-color: #FFFFFF;
   border-left: 1px solid #E5E6E4;

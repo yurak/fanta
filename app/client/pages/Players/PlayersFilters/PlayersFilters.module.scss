@@ -1,0 +1,20 @@
+.wrapper {
+  flex: 1;
+  overflow: auto;
+  /* Hide scrollbar for Gecko-based browsers */
+  scrollbar-width: none;
+  /* Hide scrollbar for WebKit-based browsers */
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  @media (max-width: 991px) {
+    display: none;
+  }
+}
+
+.container {
+  display: flex;
+  gap: 16px;
+  width: max-content;
+}

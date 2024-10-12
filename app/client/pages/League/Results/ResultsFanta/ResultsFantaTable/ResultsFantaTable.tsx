@@ -15,7 +15,7 @@ const ResultsFantaTable = ({
   leaguesResults: ILeagueFantaResults[],
   isLoading: boolean,
 }) => {
-  const historySort = useHistorySort({ defaultSortColumn: "score" });
+  const historySort = useHistorySort({ defaultSortBy: "score" });
   const { t } = useTranslation();
 
   const data = useMemo(() => {

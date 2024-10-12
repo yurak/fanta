@@ -13,10 +13,13 @@ export interface IColumn<DataItem extends object = object> {
   headClassName?: string,
   headEllipsis?: boolean,
   isHidden?: boolean,
-  sorter?: {
-    compare: SortFunctionType<DataItem>,
-    priority?: number,
-  },
+  sorter?:
+    | boolean
+    | {
+        compare: SortFunctionType<DataItem>,
+        priority?: number,
+      },
+  supportAscSorting?: boolean,
   align?: "left" | "center" | "right",
   noWrap?: boolean,
 }
@@ -24,9 +27,3 @@ export interface IColumn<DataItem extends object = object> {
 export interface IComputedColumn<DataItem extends object = object> extends IColumn<DataItem> {
   _key: string,
 }
-
-export type ITableSorting = {
-  defaultSortColumn?: string | null,
-  sortColumn?: string | null,
-  setSortColumn?: (column: string | null) => void,
-};

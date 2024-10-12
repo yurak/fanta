@@ -72,6 +72,10 @@
   }
 }
 
+.reverseIcon {
+  transform: translateY(-50%) scaleY(-1);
+}
+
 .isSorter {
   color: #181715;
 

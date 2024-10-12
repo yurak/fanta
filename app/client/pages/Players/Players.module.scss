@@ -1,0 +1,85 @@
+.header {
+  --year-select-width: 124px;
+  --gap: 24px;
+
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--gap);
+}
+
+.headerTop {
+  width: 100%;
+  display: flex;
+  gap: var(--gap);
+  justify-content: space-between;
+}
+
+.buttonWrapper {
+  flex: 0 0 auto;
+}
+
+.search {
+  flex: 1;
+}
+
+.title {
+  flex: 1;
+  min-width: 0;
+
+  .leagueName {
+    @media (max-width: 768px) {
+      display: none;
+    }
+  }
+}
+
+.skeleton {
+  width: 300px;
+  max-width: 100%;
+  display: block;
+}
+
+.desktop {
+  display: inline-block;
+
+  @media (max-width: 768px) {
+    display: none;
+  }
+}
+
+.mobile {
+  display: none;
+
+  @media (max-width: 768px) {
+    display: inline-block;
+  }
+}
+
+.filtersWrapper {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+  margin-top: 16px;
+}
+
+.filters {
+  display: flex;
+  align-self: center;
+  min-width: 0;
+  gap: 16px;
+}
+
+.total {
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 0.02em;
+  text-align: right;
+  color: #847577;
+  white-space: nowrap;
+
+  span {
+    color: #181715;
+    font-family: "Nunito ExtraBold";
+  }
+}

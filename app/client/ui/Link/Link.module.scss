@@ -1,5 +1,24 @@
 .link {
-  color: #261fff;
+  --border-style: solid;
+  --border-color: #d8d6ff;
+  --color: #261fff;
+  --color-hover: #261fff;
+
+  color: var(--color);
+  font-family: "Nunito ExtraBold";
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  outline-offset: 2px;
+
+  &:hover {
+    text-decoration: none;
+    --color: var(--color-hover);
+    --border-color: var(--color-hover);
+  }
+}
+
+.name {
   position: relative;
 
   &::after {
@@ -9,25 +28,45 @@
     bottom: 0;
     width: 100%;
     height: 1px;
-    background-color: #d8d6ff;
+    border-bottom: 1px var(--border-style) var(--border-color);
   }
+}
 
-  &:hover {
-    color: #261fff;
-    text-decoration: none;
+.button {
+  --border-style: dashed;
 
-    &::after {
-      background-color: #261fff;
-    }
-  }
+  border: 0;
+  padding: 0;
+  background: none;
 }
 
 .large {
   font-size: 16px;
   line-height: 1.5;
+
+  --icon-size: 24px;
 }
 
 .small {
   font-size: 14px;
   line-height: 16px;
+
+  --icon-size: 16px;
+}
+
+.disabled {
+  --border-color: #cfd2cd;
+  --color: #cfd2cd;
+  --color-hover: #cfd2cd;
+}
+
+.icon {
+  line-height: 1;
+  width: var(--icon-size);
+  height: var(--icon-size);
+
+  svg {
+    width: 100%;
+    height: 100%;
+  }
 }
