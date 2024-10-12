@@ -13,7 +13,7 @@
             = "#{t('tours.round')} ##{match.tour.number}"
       .match-round-link-blank
       .round-prev-next
-        - if match.tour.number > 1 && match.tour.prev_round
+        - if match.tour.number > 1 && match.tour.prev_round && match.tour.prev_round.matches.count.positive?
           .round-prev
             = link_to match_path(match.tour.prev_round.matches.first) do
               .round-prev-arrow
@@ -24,7 +24,7 @@
             .round-prev-arrow
               = image_tag('icons/arrow_grey.svg')
             .round-prev-text= t('tours.prev')
-        - if match.tour.number < match.tour.league.tours.size && match.tour.next_round
+        - if match.tour.number < match.tour.league.tours.size && match.tour.next_round && match.tour.next_round.matches.count.positive?
           .round-next
             = link_to match_path(match.tour.next_round.matches.first) do
               .round-next-text= t('tours.next')
