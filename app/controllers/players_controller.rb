@@ -18,6 +18,8 @@ class PlayersController < ApplicationController
   end
 
   def show
+    redirect_to leagues_path unless player
+
     @stats = player.player_season_stats.joins(:season, :club, :tournament).order(season_id: :desc, created_at: :desc)
 
     respond_to do |format|
@@ -35,7 +37,7 @@ class PlayersController < ApplicationController
   private
 
   def player
-    @player ||= Player.find(params[:id])
+    @player ||= Player.find_by(id: params[:id])
   end
 
   def ordered_players
@@ -57,10 +59,14 @@ class PlayersController < ApplicationController
   end
 
   def tournament
-    stats_params[:tournament] ? Tournament.find(stats_params[:tournament]) : Tournament.first
+    tournament = Tournament.find_by(id: stats_params[:tournament])
+    tournament ||= Tournament.first
+    tournament
   end
 
   def league
-    stats_params[:league] ? League.find(stats_params[:league]) : tournament.leagues.active.first
+    league = League.find_by(id: stats_params[:league])
+    league ||= tournament.leagues.active.first
+    league
   end
 end
