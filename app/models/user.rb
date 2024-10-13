@@ -52,7 +52,7 @@ class User < ApplicationRecord
   end
 
   def avatar_path
-    "avatars/avatar_#{avatar}.png"
+    avatar_url || "avatars/avatar_#{avatar}.png"
   end
 
   def initial_avatar?
