@@ -188,9 +188,9 @@
   }
 
   .match-actions {
-    padding: 0 100px;
+    padding: 0 16px;
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 440px 1fr;
     text-align: center;
     line-height: 40px;
   }
@@ -652,10 +652,6 @@
 
     .match-bar {
       padding: 38px 50px 16px;
-    }
-
-    .match-actions {
-      padding: 0 50px;
     }
 
     .match-squads {
