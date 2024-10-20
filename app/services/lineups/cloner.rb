@@ -10,7 +10,7 @@ module Lineups
     def call
       return false if another_league? || tour_lineup_exists?
 
-      lineup.update(tour: tour, final_score: 0, final_goals: nil)
+      lineup.update(tour: tour, final_score: 0, final_goals: nil, substitutes: nil)
       old_lineup.match_players.limit(Lineup::MAX_PLAYERS).each do |old_mp|
         MatchPlayer.create(lineup: lineup, real_position: old_mp.real_position, round_player: new_round_player(old_mp))
       end
