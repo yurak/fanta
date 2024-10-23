@@ -20,7 +20,7 @@ class Team < ApplicationRecord
   MIN_GK = 3
   DEFAULT_BUDGET = 260
   TRANSFER_SLOTS = 16
-  RESERVE_TRANSFER_SLOTS = [0, 16, 6, 4, 2, 0].freeze
+  RESERVE_TRANSFER_SLOTS = [0, 2, 4, 6, 8, 10].freeze
 
   validates :name, presence: true, length: { in: 2..18 }
   validates :code, presence: true, length: { in: 2..3 }
@@ -109,7 +109,7 @@ class Team < ApplicationRecord
     return 0 if transfer_slots.zero?
     return 0 unless sales_auction
 
-    transfer_slots - RESERVE_TRANSFER_SLOTS[sales_auction.number]
+    transfer_slots - RESERVE_TRANSFER_SLOTS[league.auction_number - sales_auction.number]
   end
 
   def prepared_sales_count

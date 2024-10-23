@@ -51,8 +51,13 @@ module Auctions
       return unless (auction.blind_bids? || auction.live?) && status == CLOSED_STATUS
 
       auction.closed!
+      create_next_auction
 
       TelegramBot::AuctionFinishedNotifier.call(auction)
+    end
+
+    def create_next_auction
+      Auction.create(league: auction.league, number: auction.number + 1, sales_count: 0) if auction.number < auction.league.auction_number
     end
   end
 end
