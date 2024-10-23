@@ -396,7 +396,7 @@ RSpec.describe Team do
       end
 
       it 'returns number of available slots' do
-        expect(team.available_transfers).to eq(0)
+        expect(team.available_transfers).to eq(8)
       end
     end
 
