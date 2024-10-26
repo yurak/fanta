@@ -278,24 +278,24 @@ usa:
   TRN: Toronto
   VAN: Vancouver
 poland:
-  LPZ: Lech
-  RAK: Rakow
   CRA: Cracovia
-  JAG: Jagiellonia
-  POG: Pogon
-  LGW: Legia
-  WID: Widzew
-  PIA: Piast
   GKS: GKS Katowice
   GOR: Gornik
-  MOT: Motor
-  ZAG: Zaglebie
-  RAD: Radomiak
+  JAG: Jagiellonia
   KOR: Korona
-  STA: Stal
-  LGD: Lechia
-  SLA: Slask
+  LPZ: Lech Poznan
+  LGD: Lechia Gdansk
+  LGW: Legia Warszawa
+  MOT: Motor
+  PIA: Piast
+  POG: Pogon
   PUS: Puszcza
+  RAD: Radomiak
+  RAK: Rakow
+  SLA: Slask
+  STA: Stal
+  WID: Widzew
+  ZAG: Zaglebie
 europe:
 #  BES: Besiktas
 #  CEL: Celtic
