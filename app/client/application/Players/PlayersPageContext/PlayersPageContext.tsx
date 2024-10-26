@@ -1,24 +1,12 @@
-import { useLeague } from "@/api/query/useLeague";
 import { createContext, useContext } from "react";
-import { usePlayersContext } from "../PlayersContext";
 
-const usePlayersPage = () => {
-  const {
-    filterValues: { league: leagueId },
-  } = usePlayersContext();
-
-  const isLeagueSpecificPlayersPage = Boolean(leagueId);
-
-  const {
-    data: league,
-    isLoading,
-    isPending,
-  } = useLeague(leagueId as number, isLeagueSpecificPlayersPage);
-
+const usePlayersPage = ({
+  isLeagueSpecificPlayersPage = false,
+}: {
+  isLeagueSpecificPlayersPage?: boolean,
+}) => {
   return {
     isLeagueSpecificPlayersPage,
-    isLeagueFetching: (isLoading || isPending) && isLeagueSpecificPlayersPage,
-    league,
   };
 };
 
@@ -34,9 +22,16 @@ export const usePlayersPageContext = () => {
   return context;
 };
 
-const PlayersPageContextProvider = ({ children }: { children: React.ReactNode }) => {
+const PlayersPageContextProvider = ({
+  children,
+  ...rest
+}: React.PropsWithChildren<{
+  isLeagueSpecificPlayersPage?: boolean,
+}>) => {
   return (
-    <PlayersPageContext.Provider value={usePlayersPage()}>{children}</PlayersPageContext.Provider>
+    <PlayersPageContext.Provider value={usePlayersPage(rest)}>
+      {children}
+    </PlayersPageContext.Provider>
   );
 };
 

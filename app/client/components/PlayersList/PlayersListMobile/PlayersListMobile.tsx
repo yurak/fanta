@@ -1,5 +1,6 @@
 import cn from "classnames";
 import Skeleton from "react-loading-skeleton";
+import { useTranslation } from "react-i18next";
 import PlayerAvatar, { PlayerAvatarSkeleton } from "@/components/PlayerAvatar";
 import PlayerPositions from "@/components/PlayerPositions/PlayerPositions";
 import TournamentsLoader from "@/components/loaders/TournamentsLoader";
@@ -7,9 +8,8 @@ import { formatNumber } from "@/helpers/formatNumber";
 import { IPlayer } from "@/interfaces/Player";
 import DataList from "@/ui/DataList";
 import { usePlayersListContext } from "@/application/Players/PlayersListContext";
-import styles from "./PlayersListMobile.module.scss";
-import { useTranslation } from "react-i18next";
 import { usePlayersPageContext } from "@/application/Players/PlayersPageContext";
+import styles from "./PlayersListMobile.module.scss";
 
 const PlayerItem = ({
   avatar_path,

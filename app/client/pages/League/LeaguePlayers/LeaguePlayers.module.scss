@@ -1,0 +1,21 @@
+.skeleton {
+  width: 300px;
+  max-width: 100%;
+  display: block;
+}
+
+.desktop {
+  display: inline-block;
+
+  @media (max-width: 768px) {
+    display: none;
+  }
+}
+
+.mobile {
+  display: none;
+
+  @media (max-width: 768px) {
+    display: inline-block;
+  }
+}

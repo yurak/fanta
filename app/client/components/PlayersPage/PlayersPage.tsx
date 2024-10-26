@@ -1,5 +1,4 @@
 import { useTranslation } from "react-i18next";
-import Skeleton from "react-loading-skeleton";
 import Heading from "@/components/Heading";
 import { formatNumber } from "@/helpers/formatNumber";
 import Search from "@/ui/Search";
@@ -7,45 +6,24 @@ import PlayersContextProvider, { usePlayersContext } from "@/application/Players
 import PlayersListContextProvider, {
   usePlayersListContext,
 } from "@/application/Players/PlayersListContext";
-import PlayersPageContextProvider, {
-  usePlayersPageContext,
-} from "@/application/Players/PlayersPageContext";
+import PlayersPageContextProvider from "@/application/Players/PlayersPageContext";
 import Link from "@/ui/Link";
 import PlayersFilters from "../PlayersFilters";
 import PlayersList from "../PlayersList";
 import PlayersFiltersDrawer from "../PlayersFilters/PlayersFiltersDrawer";
-import UserCircleIcon from "@/assets/icons/userCircle.svg";
 import styles from "./PlayersPage.module.scss";
 
-const PlayePlayersPagers = () => {
-  const { isLeagueSpecificPlayersPage, isLeagueFetching, league } = usePlayersPageContext();
-  const { search, filterCount, setSearch, clearFilter, removeLeagueFilter } = usePlayersContext();
+interface IProps {
+  title: React.ReactNode,
+  actions?: React.ReactNode,
+  isLeagueSpecificPlayersPage?: boolean,
+}
+
+const PlayersPage = ({ title, actions }: IProps) => {
+  const { search, filterCount, setSearch, clearFilter } = usePlayersContext();
   const { totalItemCount } = usePlayersListContext();
 
   const { t } = useTranslation();
-
-  const title = (
-    <>
-      {isLeagueSpecificPlayersPage ? (
-        <>
-          <span className={styles.desktop}>
-            {isLeagueFetching || !league ? (
-              <Skeleton containerClassName={styles.skeleton} />
-            ) : (
-              `${league.name} players`
-            )}
-          </span>
-          <span className={styles.mobile}>{t("players.players")}</span>
-        </>
-      ) : (
-        t("players.players")
-      )}
-    </>
-  );
-
-  const goToAllPlayers = () => {
-    removeLeagueFilter();
-  };
 
   return (
     <>
@@ -54,14 +32,7 @@ const PlayePlayersPagers = () => {
           <div className={styles.title}>
             <Heading title={title} noSpace />
           </div>
-          {isLeagueSpecificPlayersPage && (
-            <div className={styles.buttonWrapper}>
-              <Link asButton onClick={goToAllPlayers} icon={<UserCircleIcon />}>
-                <span className={styles.mobile}>All Players</span>
-                <span className={styles.desktop}>All Mantra Players</span>
-              </Link>
-            </div>
-          )}
+          {actions && <div className={styles.buttonWrapper}>{actions}</div>}
         </div>
         <div className={styles.search}>
           <Search
@@ -95,11 +66,11 @@ const PlayePlayersPagers = () => {
   );
 };
 
-export default () => (
+export default ({ isLeagueSpecificPlayersPage, ...props }: IProps) => (
   <PlayersContextProvider>
-    <PlayersPageContextProvider>
+    <PlayersPageContextProvider isLeagueSpecificPlayersPage={isLeagueSpecificPlayersPage}>
       <PlayersListContextProvider>
-        <PlayePlayersPagers />
+        <PlayersPage {...props} />
       </PlayersListContextProvider>
     </PlayersPageContextProvider>
   </PlayersContextProvider>

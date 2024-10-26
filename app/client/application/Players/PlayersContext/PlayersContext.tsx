@@ -40,10 +40,6 @@ const usePlayers = () => {
     });
   };
 
-  const removeLeagueFilter = () => {
-    // TODO: Implement
-  };
-
   const setFilterValuesWithDebounce = useDebounceCallback(setFilterValues, DEBOUNCE_DELAY);
 
   const clearAllFilter = () => {
@@ -80,7 +76,6 @@ const usePlayers = () => {
     isSidebarOpen,
     openSidebar,
     closeSidebar,
-    removeLeagueFilter,
   };
 };
 
