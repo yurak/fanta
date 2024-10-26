@@ -8,7 +8,7 @@ import PlayersSortContextProvider, {
   usePlayersSortContext,
 } from "@/application/Players/PlayersSortContext";
 import { usePlayersContext } from "@/application/Players/PlayersContext";
-import { usePlayersPageContext } from "@/application/Players/PlayersPageContext";
+import { usePlayersPageConfigurationContext } from "@/application/Players/PlayersPageConfigurationContext";
 import Drawer from "@/ui/Drawer";
 import Link from "@/ui/Link";
 import FilterIcon from "@/assets/icons/filter.svg";
@@ -23,7 +23,7 @@ import styles from "./PlayersFiltersDrawer.module.scss";
 const PlayersFiltersDrawer = () => {
   const isMobile = useMediaQuery("(max-width: 768px)");
 
-  const { isLeagueSpecificPlayersPage } = usePlayersPageContext();
+  const { isLeagueSpecificPlayersPage } = usePlayersPageConfigurationContext();
   const { isSidebarOpen, filterCount, openSidebar, closeSidebar, clearFilter } =
     usePlayersContext();
   const { filterValues, onChangeValue, applyFilter } = usePlayersFilterContext();

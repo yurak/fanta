@@ -8,7 +8,7 @@ import { formatNumber } from "@/helpers/formatNumber";
 import { IPlayer } from "@/interfaces/Player";
 import DataList from "@/ui/DataList";
 import { usePlayersListContext } from "@/application/Players/PlayersListContext";
-import { usePlayersPageContext } from "@/application/Players/PlayersPageContext";
+import { usePlayersPageConfigurationContext } from "@/application/Players/PlayersPageConfigurationContext";
 import styles from "./PlayersListMobile.module.scss";
 
 const PlayerItem = ({
@@ -26,7 +26,7 @@ const PlayerItem = ({
   teams_count_max,
 }: IPlayer) => {
   const { t } = useTranslation();
-  const { isLeagueSpecificPlayersPage } = usePlayersPageContext();
+  const { isLeagueSpecificPlayersPage } = usePlayersPageConfigurationContext();
 
   return (
     <>

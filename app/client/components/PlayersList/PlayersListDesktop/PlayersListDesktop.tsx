@@ -6,7 +6,7 @@ import TournamentsLoader from "@/components/loaders/TournamentsLoader";
 import PlayerPositions from "@/components/PlayerPositions/PlayerPositions";
 import { formatNumber } from "@/helpers/formatNumber";
 import { usePlayersContext } from "@/application/Players/PlayersContext";
-import { usePlayersPageContext } from "@/application/Players/PlayersPageContext";
+import { usePlayersPageConfigurationContext } from "@/application/Players/PlayersPageConfigurationContext";
 import { usePlayersListContext } from "@/application/Players/PlayersListContext";
 import PlayersListInfo, { PlayersListInfoSkeleton } from "../PlayersListInfo";
 import styles from "./PlayersListDesktop.module.scss";
@@ -15,7 +15,7 @@ const PlayersListDesktop = ({ emptyStateComponent }: { emptyStateComponent: Reac
   const { t } = useTranslation();
   const { sorting } = usePlayersContext();
   const { items, isLoading, hasNextPage, loadMore } = usePlayersListContext();
-  const { isLeagueSpecificPlayersPage } = usePlayersPageContext();
+  const { isLeagueSpecificPlayersPage } = usePlayersPageConfigurationContext();
 
   const columns = useMemo<IColumn<IPlayer>[]>(
     () => [

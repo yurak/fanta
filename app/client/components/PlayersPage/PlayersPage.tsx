@@ -6,7 +6,6 @@ import PlayersContextProvider, { usePlayersContext } from "@/application/Players
 import PlayersListContextProvider, {
   usePlayersListContext,
 } from "@/application/Players/PlayersListContext";
-import PlayersPageContextProvider from "@/application/Players/PlayersPageContext";
 import Link from "@/ui/Link";
 import PlayersFilters from "../PlayersFilters";
 import PlayersList from "../PlayersList";
@@ -16,7 +15,6 @@ import styles from "./PlayersPage.module.scss";
 interface IProps {
   title: React.ReactNode,
   actions?: React.ReactNode,
-  isLeagueSpecificPlayersPage?: boolean,
 }
 
 const PlayersPage = ({ title, actions }: IProps) => {
@@ -66,12 +64,10 @@ const PlayersPage = ({ title, actions }: IProps) => {
   );
 };
 
-export default ({ isLeagueSpecificPlayersPage, ...props }: IProps) => (
+export default (props: IProps) => (
   <PlayersContextProvider>
-    <PlayersPageContextProvider isLeagueSpecificPlayersPage={isLeagueSpecificPlayersPage}>
-      <PlayersListContextProvider>
-        <PlayersPage {...props} />
-      </PlayersListContextProvider>
-    </PlayersPageContextProvider>
+    <PlayersListContextProvider>
+      <PlayersPage {...props} />
+    </PlayersListContextProvider>
   </PlayersContextProvider>
 );

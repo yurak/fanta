@@ -1,6 +1,7 @@
 import Skeleton from "react-loading-skeleton";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
+import PlayersPageContextProvider from "@/application/Players/PlayersPageConfigurationContext";
 import PlayersPage from "@/components/PlayersPage";
 import PageLayout from "@/layouts/PageLayout";
 import Link from "@/ui/Link";
@@ -31,17 +32,19 @@ const LeaguePlayers = () => {
   const leagueId = Number(params.leagueId);
 
   return (
-    <PageLayout withSidebar>
-      <PlayersPage
-        title={<LeaguePlayersTitle leagueId={leagueId} />}
-        actions={
-          <Link to="/players" icon={<UserCircleIcon />}>
-            <span className={styles.mobile}>All Players</span>
-            <span className={styles.desktop}>All Mantra Players</span>
-          </Link>
-        }
-      />
-    </PageLayout>
+    <PlayersPageContextProvider isLeagueSpecificPlayersPage>
+      <PageLayout withSidebar>
+        <PlayersPage
+          title={<LeaguePlayersTitle leagueId={leagueId} />}
+          actions={
+            <Link to="/players" icon={<UserCircleIcon />}>
+              <span className={styles.mobile}>All Players</span>
+              <span className={styles.desktop}>All Mantra Players</span>
+            </Link>
+          }
+        />
+      </PageLayout>
+    </PlayersPageContextProvider>
   );
 };
 

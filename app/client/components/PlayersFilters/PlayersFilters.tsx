@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next";
 import PlayersFilterContextProvider, {
   usePlayersFilterContext,
 } from "@/application/Players/PlayersFilterContext";
-import { usePlayersPageContext } from "@/application/Players/PlayersPageContext";
+import { usePlayersPageConfigurationContext } from "@/application/Players/PlayersPageConfigurationContext";
 import { PlayerPositionsCheckboxPopover } from "@/components/filters/PlayerPositionsCheckbox";
 import PlayersFilterConstants from "@/domain/PlayersFilterConstants";
 import { RangeSliderPopover } from "@/ui/RangeSlider";
@@ -12,7 +12,7 @@ import styles from "./PlayersFilters.module.scss";
 const PlayerFilters = () => {
   const { t } = useTranslation();
   const { filterValues, onChangeValue } = usePlayersFilterContext();
-  const { isLeagueSpecificPlayersPage } = usePlayersPageContext();
+  const { isLeagueSpecificPlayersPage } = usePlayersPageConfigurationContext();
 
   return (
     <div className={styles.wrapper}>
