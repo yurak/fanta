@@ -277,6 +277,25 @@ usa:
   SLC: St Louis City
   TRN: Toronto
   VAN: Vancouver
+poland:
+  LPZ: Lech
+  RAK: Rakow
+  CRA: Cracovia
+  JAG: Jagiellonia
+  POG: Pogon
+  LGW: Legia
+  WID: Widzew
+  PIA: Piast
+  GKS: GKS Katowice
+  GOR: Gornik
+  MOT: Motor
+  ZAG: Zaglebie
+  RAD: Radomiak
+  KOR: Korona
+  STA: Stal
+  LGD: Lechia
+  SLA: Slask
+  PUS: Puszcza
 europe:
 #  BES: Besiktas
 #  CEL: Celtic
