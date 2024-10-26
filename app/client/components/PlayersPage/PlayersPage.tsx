@@ -1,7 +1,6 @@
 import { useTranslation } from "react-i18next";
 import Skeleton from "react-loading-skeleton";
 import Heading from "@/components/Heading";
-import PageLayout from "@/layouts/PageLayout";
 import { formatNumber } from "@/helpers/formatNumber";
 import Search from "@/ui/Search";
 import PlayersContextProvider, { usePlayersContext } from "@/application/Players/PlayersContext";
@@ -49,7 +48,7 @@ const PlayePlayersPagers = () => {
   };
 
   return (
-    <PageLayout>
+    <>
       <div className={styles.header}>
         <div className={styles.headerTop}>
           <div className={styles.title}>
@@ -92,7 +91,7 @@ const PlayePlayersPagers = () => {
         </div>
       </div>
       <PlayersList />
-    </PageLayout>
+    </>
   );
 };
 

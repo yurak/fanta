@@ -1,7 +1,12 @@
 import PlayersPage from "@/components/PlayersPage";
+import PageLayout from "@/layouts/PageLayout";
 
 const LeaguePlayers = () => {
-  return <PlayersPage />;
+  return (
+    <PageLayout withSidebar>
+      <PlayersPage />
+    </PageLayout>
+  );
 };
 
 export default LeaguePlayers;
