@@ -1,7 +1,7 @@
 import Skeleton from "react-loading-skeleton";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
-import PlayersPageContextProvider from "@/application/Players/PlayersPageConfigurationContext";
+import PlayersPageConfigurationContextProvider from "@/application/Players/PlayersPageConfigurationContext";
 import PlayersPage from "@/components/PlayersPage";
 import PageLayout from "@/layouts/PageLayout";
 import Link from "@/ui/Link";
@@ -32,7 +32,7 @@ const LeaguePlayers = () => {
   const leagueId = Number(params.leagueId);
 
   return (
-    <PlayersPageContextProvider isLeagueSpecificPlayersPage>
+    <PlayersPageConfigurationContextProvider isLeagueSpecificPlayersPage>
       <PageLayout withSidebar>
         <PlayersPage
           title={<LeaguePlayersTitle leagueId={leagueId} />}
@@ -44,7 +44,7 @@ const LeaguePlayers = () => {
           }
         />
       </PageLayout>
-    </PlayersPageContextProvider>
+    </PlayersPageConfigurationContextProvider>
   );
 };
 
