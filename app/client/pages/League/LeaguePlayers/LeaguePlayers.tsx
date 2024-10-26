@@ -30,16 +30,12 @@ const LeaguePlayers = () => {
   const params = useParams<{ leagueId: string }>();
   const leagueId = Number(params.leagueId);
 
-  const goToAllPlayers = () => {
-    console.log("goToAllPlayers");
-  };
-
   return (
     <PageLayout withSidebar>
       <PlayersPage
         title={<LeaguePlayersTitle leagueId={leagueId} />}
         actions={
-          <Link asButton onClick={goToAllPlayers} icon={<UserCircleIcon />}>
+          <Link to="/players" icon={<UserCircleIcon />}>
             <span className={styles.mobile}>All Players</span>
             <span className={styles.desktop}>All Mantra Players</span>
           </Link>
