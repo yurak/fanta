@@ -25,7 +25,7 @@ const usePlayers = () => {
 
   const [filterValues, _setFilterValues] = useState<IFilter>(historyFilter);
 
-  const filterCount = getObjectDiffKeys(defaultFilter, filterValues, ["tournaments"]).length;
+  const filterCount = getObjectDiffKeys(defaultFilter, filterValues).length;
 
   const setFilterValues = (filter: IFilter) => {
     _setFilterValues(filter);
@@ -33,10 +33,7 @@ const usePlayers = () => {
   };
 
   const clearFilter = () => {
-    setFilterValues({
-      ...defaultFilter,
-      tournaments: filterValues.tournaments,
-    });
+    setFilterValues(defaultFilter);
   };
 
   const setFilterValuesWithDebounce = useDebounceCallback(setFilterValues, DEBOUNCE_DELAY);
