@@ -8,15 +8,15 @@ import Link from "@/ui/Link";
 import { useLeague } from "@/api/query/useLeague";
 import UserCircleIcon from "@/assets/icons/userCircle.svg";
 import styles from "./LeaguePlayers.module.scss";
+import { ILeague } from "@/interfaces/League";
 
-const LeaguePlayersTitle = ({ leagueId }: { leagueId: number }) => {
+const LeaguePlayersTitle = ({ league, isFetching }: { league?: ILeague, isFetching: boolean }) => {
   const { t } = useTranslation();
-  const { data: league, isLoading, isPending } = useLeague(leagueId);
 
   return (
     <>
       <span className={styles.desktop}>
-        {isLoading || isPending || !league ? (
+        {isFetching || !league ? (
           <Skeleton containerClassName={styles.skeleton} />
         ) : (
           `${league.name} players`
@@ -31,11 +31,13 @@ const LeaguePlayers = () => {
   const params = useParams<{ leagueId: string }>();
   const leagueId = Number(params.leagueId);
 
+  const { data: league, isLoading, isPending } = useLeague(leagueId);
+
   return (
-    <PlayersPageConfigurationContextProvider isLeagueSpecificPlayersPage>
+    <PlayersPageConfigurationContextProvider isLeagueSpecificPlayersPage leagueId={leagueId}>
       <PageLayout withSidebar>
         <PlayersPage
-          title={<LeaguePlayersTitle leagueId={leagueId} />}
+          title={<LeaguePlayersTitle league={league} isFetching={isLoading || isPending} />}
           actions={
             <Link to="/players" icon={<UserCircleIcon />}>
               <span className={styles.mobile}>All Players</span>

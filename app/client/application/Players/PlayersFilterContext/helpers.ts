@@ -18,7 +18,11 @@ const justifyRangeSliderValue = (
   };
 };
 
-export const filterToRequestFormat = (filter: IFilter, search: string): IPayloadFilter => {
+export const filterToRequestFormat = (
+  filter: IFilter,
+  search: string,
+  defaultLeagueId?: number
+): IPayloadFilter => {
   return {
     name: search.trim().length > 0 ? search.trim() : undefined,
     position: filter.position,
@@ -28,7 +32,7 @@ export const filterToRequestFormat = (filter: IFilter, search: string): IPayload
     teams_count: justifyRangeSliderValue(filter.teamsCount, defaultFilter.teamsCount),
     base_score: justifyRangeSliderValue(filter.baseScore, defaultFilter.baseScore),
     app: justifyRangeSliderValue(filter.appearances, defaultFilter.appearances),
-    league_id: filter.league ?? undefined,
+    league_id: defaultLeagueId,
   };
 };
 

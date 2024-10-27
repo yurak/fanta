@@ -23,7 +23,7 @@
       .league-link-icon= image_tag('icons/round/clubs.svg')
       .league-link-text= t('header.clubs')
 - if league.mantra?
-  = link_to league_players_path do
+  = link_to league_players_path(league) do
     .league-link{class: "link-active-#{ params[:controller] == 'players' }"}
       .league-link-icon= image_tag('icons/round/players.svg')
       .league-link-text= t('header.players')

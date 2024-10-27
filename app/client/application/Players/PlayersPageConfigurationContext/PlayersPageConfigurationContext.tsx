@@ -1,12 +1,14 @@
 import { createContext, useContext } from "react";
 
-const usePlayersPageConfiguration = ({
-  isLeagueSpecificPlayersPage = false,
-}: {
+interface IProps {
   isLeagueSpecificPlayersPage?: boolean,
-}) => {
+  leagueId?: number,
+}
+
+const usePlayersPageConfiguration = ({ isLeagueSpecificPlayersPage = false, leagueId }: IProps) => {
   return {
     isLeagueSpecificPlayersPage,
+    leagueId,
   };
 };
 
@@ -29,9 +31,7 @@ export const usePlayersPageConfigurationContext = () => {
 const PlayersPageConfigurationContextProvider = ({
   children,
   ...rest
-}: React.PropsWithChildren<{
-  isLeagueSpecificPlayersPage?: boolean,
-}>) => {
+}: React.PropsWithChildren<IProps>) => {
   return (
     <PlayersPageConfigurationContext.Provider value={usePlayersPageConfiguration(rest)}>
       {children}

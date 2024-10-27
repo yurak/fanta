@@ -9,6 +9,7 @@ import { defaultFilter, defaultSearch } from "../PlayersFilterContext/constants"
 import { filterToRequestFormat, sortToRequestFormat } from "../PlayersFilterContext/helpers";
 import { decodeFilter, encodeFilter } from "../PlayersFilterContext/searchParamsHelpers";
 import { getObjectDiffKeys } from "@/helpers/getObjectDiff";
+import { usePlayersPageConfigurationContext } from "../PlayersPageConfigurationContext";
 
 const DEBOUNCE_DELAY = 1_000;
 
@@ -16,16 +17,15 @@ const usePlayers = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const sorting = useHistorySort();
 
+  const { leagueId: defaultLeagueId } = usePlayersPageConfigurationContext();
+
   const [search, setSearch] = useHistorySearch(defaultSearch);
   const [historyFilter, setHistoryFilter] = useHistoryFilter<IFilter>(decodeFilter, encodeFilter);
   const [debounceSearch] = useDebounceValue(search, DEBOUNCE_DELAY);
 
   const [filterValues, _setFilterValues] = useState<IFilter>(historyFilter);
 
-  const filterCount = getObjectDiffKeys(defaultFilter, filterValues, [
-    "tournaments",
-    "league",
-  ]).length;
+  const filterCount = getObjectDiffKeys(defaultFilter, filterValues, ["tournaments"]).length;
 
   const setFilterValues = (filter: IFilter) => {
     _setFilterValues(filter);
@@ -36,7 +36,6 @@ const usePlayers = () => {
     setFilterValues({
       ...defaultFilter,
       tournaments: filterValues.tournaments,
-      league: filterValues.league,
     });
   };
 
@@ -51,8 +50,8 @@ const usePlayers = () => {
   const closeSidebar = () => setIsSidebarOpen(false);
 
   const requestFilterPayload = useMemo<IPayloadFilter>(
-    () => filterToRequestFormat(filterValues, debounceSearch),
-    [filterValues, debounceSearch]
+    () => filterToRequestFormat(filterValues, debounceSearch, defaultLeagueId),
+    [filterValues, debounceSearch, defaultLeagueId]
   );
 
   const requestSortPayload = useMemo<IPayloadSort | undefined>(

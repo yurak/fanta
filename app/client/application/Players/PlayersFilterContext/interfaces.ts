@@ -8,6 +8,5 @@ export interface IFilter {
   baseScore: RangeSliderValueType,
   appearances: RangeSliderValueType,
   teamsCount: RangeSliderValueType,
-  league: number | null,
   tournaments: number[],
 }

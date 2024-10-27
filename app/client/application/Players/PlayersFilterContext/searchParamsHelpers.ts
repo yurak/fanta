@@ -23,20 +23,6 @@ const decodeRangeValue = (defaultRange: RangeSliderValueType, value?: string) =>
   };
 };
 
-const decodeNumber = (value?: string) => {
-  if (!value) {
-    return null;
-  }
-
-  const numberValue = Number(value);
-
-  if (isNaN(numberValue)) {
-    return null;
-  }
-
-  return numberValue;
-};
-
 const encodeRangeValue = (
   defaultRange: RangeSliderValueType,
   rangeFilter: RangeSliderValueType
@@ -64,7 +50,6 @@ export const decodeFilter = (filter?: Record<string, string>): IFilter => {
       tournaments:
         filter.tournament?.split(arraySeparator).map((tournament) => Number(tournament)) ??
         defaultFilter.tournaments,
-      league: decodeNumber(filter.league) ?? defaultFilter.league,
     };
   } catch (e) {
     return defaultFilter;
@@ -80,6 +65,5 @@ export const encodeFilter = (filter: IFilter): Record<string, string | null> => 
     pos: filter.position.join(arraySeparator),
     clubs: filter.clubs.join(arraySeparator),
     tournament: filter.tournaments.join(arraySeparator),
-    league: filter.league ? String(filter.league) : null,
   };
 };
