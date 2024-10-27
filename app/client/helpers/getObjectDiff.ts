@@ -22,7 +22,7 @@ export const getObjectDiffKeys = (obj1: object, obj2: object): string[] => {
     }
 
     if (obj1Value && typeof obj1Value === "object" && obj2Value && typeof obj2Value === "object") {
-      const childDiffKeys = getObjectDiffKeys(obj1Value, obj2Value, []);
+      const childDiffKeys = getObjectDiffKeys(obj1Value, obj2Value);
 
       if (childDiffKeys.length === 0) {
         return diff;
