@@ -10,7 +10,13 @@ import ArrowDown from "@/assets/icons/arrow-down.svg";
 import SearchIcon from "@/assets/icons/searchBold.svg";
 import styles from "./ClubCheckbox.module.scss";
 
-const Tournament = ({ tournament }: { tournament: ITournament }) => {
+const Tournament = ({
+  tournament,
+  showLeagueSelect,
+}: {
+  tournament: ITournament,
+  showLeagueSelect: boolean,
+}) => {
   const {
     toggleTournament,
     isTournamentChecked,
@@ -36,26 +42,34 @@ const Tournament = ({ tournament }: { tournament: ITournament }) => {
     }
   }, [isSearchActive]);
 
+  const showLeagueTeams = showLeagueSelect ? isExpanded : true;
+
   return (
     <div key={tournament.id} className={styles.tournamentWrapper}>
-      <button className={styles.tournament} onClick={toggleExpanded}>
-        <Checkbox
-          checked={isChecked}
-          indeterminate={isIndeterminate}
-          onChange={toggleTournamentCheckbox}
-        />
-        <span className={styles.tournamentName}>{tournament.name}</span>
-        <img src={tournament.logo} alt={tournament.name} className={styles.logo} />
-        <span
-          className={cn(styles.icon, {
-            [styles.iconActive]: isExpanded,
+      {showLeagueSelect && (
+        <button className={styles.tournament} onClick={toggleExpanded}>
+          <Checkbox
+            checked={isChecked}
+            indeterminate={isIndeterminate}
+            onChange={toggleTournamentCheckbox}
+          />
+          <span className={styles.tournamentName}>{tournament.name}</span>
+          <img src={tournament.logo} alt={tournament.name} className={styles.logo} />
+          <span
+            className={cn(styles.icon, {
+              [styles.iconActive]: isExpanded,
+            })}
+          >
+            <ArrowDown />
+          </span>
+        </button>
+      )}
+      {showLeagueTeams && tournament.clubs && (
+        <div
+          className={cn(styles.clubs, {
+            [styles.clubsOffset]: showLeagueSelect,
           })}
         >
-          <ArrowDown />
-        </span>
-      </button>
-      {tournament.clubs && isExpanded && (
-        <div className={styles.clubs}>
           <CheckboxGroup
             options={tournament.clubs}
             value={value}
@@ -76,12 +90,12 @@ const Tournament = ({ tournament }: { tournament: ITournament }) => {
 };
 
 const ClubCheckbox = () => {
-  const { filterTournaments } = useClubCheckboxContext();
+  const { filterTournaments, leagueId } = useClubCheckboxContext();
 
   return (
     <>
       {filterTournaments.map((tournament) => (
-        <Tournament key={tournament.id} tournament={tournament} />
+        <Tournament key={tournament.id} tournament={tournament} showLeagueSelect={!leagueId} />
       ))}
     </>
   );

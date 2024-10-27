@@ -12,12 +12,16 @@ import styles from "./PlayersFilters.module.scss";
 const PlayerFilters = () => {
   const { t } = useTranslation();
   const { filterValues, onChangeValue } = usePlayersFilterContext();
-  const { isLeagueSpecificPlayersPage } = usePlayersPageConfigurationContext();
+  const { isLeagueSpecificPlayersPage, leagueId } = usePlayersPageConfigurationContext();
 
   return (
     <div className={styles.wrapper}>
       <div className={styles.container}>
-        <ClubCheckboxPopover value={filterValues.clubs} onChange={onChangeValue("clubs")} />
+        <ClubCheckboxPopover
+          value={filterValues.clubs}
+          onChange={onChangeValue("clubs")}
+          leagueId={leagueId}
+        />
         <PlayerPositionsCheckboxPopover
           value={filterValues.position}
           onChange={onChangeValue("position")}

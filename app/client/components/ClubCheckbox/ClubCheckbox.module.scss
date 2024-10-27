@@ -52,9 +52,12 @@
 .clubs {
   display: flex;
   flex-direction: column;
-  padding-left: 24px;
   gap: 16px;
   padding-bottom: 16px;
+}
+
+.clubsOffset {
+  padding-left: 24px;
 }
 
 .clubLabel {

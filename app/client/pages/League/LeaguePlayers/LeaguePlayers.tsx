@@ -34,7 +34,7 @@ const LeaguePlayers = () => {
   const { data: league, isLoading, isPending } = useLeague(leagueId);
 
   return (
-    <PlayersPageConfigurationContextProvider isLeagueSpecificPlayersPage leagueId={leagueId}>
+    <PlayersPageConfigurationContextProvider leagueId={leagueId}>
       <PageLayout withSidebar>
         <PlayersPage
           title={<LeaguePlayersTitle league={league} isFetching={isLoading || isPending} />}

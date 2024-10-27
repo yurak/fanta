@@ -2,10 +2,12 @@ import { createContext, useCallback, useContext, useMemo, useState } from "react
 import { useTournaments } from "@/api/query/useTournaments";
 import { IClub } from "@/interfaces/Club";
 import { ITournament } from "@/interfaces/Tournament";
+import { useLeague } from "@/api/query/useLeague";
 
 export interface IProps {
   value: number[],
   onChange: (value: number[]) => void,
+  leagueId?: number,
 }
 
 interface ITournamentWithClubs extends ITournament {
@@ -45,21 +47,30 @@ const getTournamentsAndClubsWithoutTournaments = (
   };
 };
 
-const useClubCheckbox = ({ value, onChange }: IProps) => {
+const useClubCheckbox = ({ value, onChange, leagueId }: IProps) => {
   const { data } = useTournaments({ clubs: true });
   const [search, setSearch] = useState("");
+
+  const { data: league } = useLeague(Number(leagueId), !!leagueId);
 
   const allTournaments = useMemo<ITournamentWithClubs[]>(
     () =>
       (data ?? [])
         .filter((tournament) => tournament.mantra_format)
+        .filter((tournament) => {
+          if (leagueId) {
+            return tournament.id === league?.tournament_id;
+          }
+
+          return true;
+        })
         .map((tournament) => ({
           ...tournament,
           clubs: (tournament?.clubs ?? []).sort((clubA, clubB) =>
             clubA.name.localeCompare(clubB.name)
           ),
         })),
-    [data]
+    [data, leagueId, league]
   );
 
   const tournamentsClubs = useMemo(() => {
@@ -125,7 +136,7 @@ const useClubCheckbox = ({ value, onChange }: IProps) => {
         };
       })
       .filter((tournament) => tournament.clubs.length > 0);
-  }, [allTournaments, search]);
+  }, [allTournaments, search, leagueId, league]);
 
   const getClubLabel = useCallback(
     (clubsId: number[]) => {
@@ -181,6 +192,7 @@ const useClubCheckbox = ({ value, onChange }: IProps) => {
     setSearch,
     isSearchActive,
     selectedLabel,
+    leagueId,
   };
 };
 
