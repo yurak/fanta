@@ -118,7 +118,7 @@ const ClubSearch = ({ autofocus }: { autofocus?: boolean }) => {
 };
 
 const ClubCheckboxPopoverInner = () => {
-  const { onChange, selectedLabel } = useClubCheckboxContext();
+  const { onChange, selectedLabel, leagueId } = useClubCheckboxContext();
   const { t } = useTranslation();
 
   return (
@@ -126,7 +126,7 @@ const ClubCheckboxPopoverInner = () => {
       label={t("players.filters.clubsLabel")}
       selectedLabel={selectedLabel}
       clearValue={() => onChange([])}
-      subHeader={<ClubSearch autofocus />}
+      subHeader={!leagueId && <ClubSearch autofocus />}
     >
       <ClubCheckbox />
     </PopoverInput>
@@ -143,7 +143,7 @@ export const ClubCheckboxPopover = (props: IProps) => {
 
 export default (props: IProps) => (
   <ClubCheckboxContextProvider {...props}>
-    <ClubSearch />
+    {!props.leagueId && <ClubSearch />}
     <ClubCheckbox />
   </ClubCheckboxContextProvider>
 );

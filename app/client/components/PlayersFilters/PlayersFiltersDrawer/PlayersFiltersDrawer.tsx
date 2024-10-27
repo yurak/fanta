@@ -23,7 +23,7 @@ import styles from "./PlayersFiltersDrawer.module.scss";
 const PlayersFiltersDrawer = () => {
   const isMobile = useMediaQuery("(max-width: 768px)");
 
-  const { isLeagueSpecificPlayersPage } = usePlayersPageConfigurationContext();
+  const { isLeagueSpecificPlayersPage, leagueId } = usePlayersPageConfigurationContext();
   const { isSidebarOpen, filterCount, openSidebar, closeSidebar, clearFilter } =
     usePlayersContext();
   const { filterValues, onChangeValue, applyFilter } = usePlayersFilterContext();
@@ -73,7 +73,11 @@ const PlayersFiltersDrawer = () => {
           />
         )}
         <Drawer.Section title={t("players.filters.clubsLabel")} withTopSpace>
-          <ClubCheckbox value={filterValues.clubs} onChange={onChangeValue("clubs")} />
+          <ClubCheckbox
+            value={filterValues.clubs}
+            onChange={onChangeValue("clubs")}
+            leagueId={leagueId}
+          />
         </Drawer.Section>
         <Drawer.Section title={t("players.filters.positionLabel")} withBottomSpace withTopSpace>
           <PlayerPositionsCheckbox
