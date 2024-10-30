@@ -2,7 +2,8 @@ module Scores
   module Injectors
     class FotmobMatch < BaseMatch
       # FOTMOB_MATCH_URL = 'https://www.fotmob.com/match/'.freeze
-      FOTMOB_MATCH_URL = 'https://www.fotmob.com/api/matchDetails?matchId='.freeze
+      FOTMOB_MATCH_URL = 'https://www.fotmob.com/matches/'.freeze
+      # FOTMOB_MATCH_URL = 'https://www.fotmob.com/api/matchDetails?matchId='.freeze
 
       private
 
@@ -73,26 +74,26 @@ module Scores
       end
 
       ## API version
-      def match_data
-        @match_data ||= JSON.parse(html_page)
-      end
-
-      def html_page
-        @html_page ||= Nokogiri::HTML(request)
-      end
+      # def match_data
+      #   @match_data ||= JSON.parse(html_page)
+      # end
+      #
+      # def html_page
+      #   @html_page ||= Nokogiri::HTML(request)
+      # end
 
       def request
         RestClient.get("#{FOTMOB_MATCH_URL}#{match.source_match_id}")
       end
 
       ## Web parsing version
-      # def match_data
-      #   @match_data ||= JSON.parse(html_page)['props']['pageProps']['content']['matchFacts']['data']
-      # end
-      #
-      # def html_page
-      #   @html_page ||= Nokogiri::HTML(request).css('#__NEXT_DATA__').text
-      # end
+      def match_data
+        @match_data ||= JSON.parse(html_page)['props']['pageProps']
+      end
+
+      def html_page
+        @html_page ||= Nokogiri::HTML(request).css('#__NEXT_DATA__').text
+      end
     end
   end
 end
