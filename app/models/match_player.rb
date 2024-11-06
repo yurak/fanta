@@ -85,7 +85,7 @@ class MatchPlayer < ApplicationRecord
   private
 
   def recount_cleansheet
-    if d_at_w?
+    if d_at_w? || d_at_c?
       CLEANSHEET_BONUS_DIFF_FULL
     elsif d_at_e_or_m? || m_not_at_m_or_dc? || e_not_at_e_or_d?
       CLEANSHEET_BONUS_DIFF
@@ -97,6 +97,11 @@ class MatchPlayer < ApplicationRecord
   def d_at_w?
     (position_names & Position::D_CLEANSHEET_ZONE).any? && (real_position_arr & Position::E_CLEANSHEET_ZONE).empty? &&
       real_position_arr.include?(Position::WINGER)
+  end
+
+  def d_at_c?
+    (position_names & Position::D_CLEANSHEET_ZONE).any? && (real_position_arr & Position::E_CLEANSHEET_ZONE).empty? &&
+      real_position_arr.include?(Position::CENTER_MF)
   end
 
   def d_at_e_or_m?

@@ -36,6 +36,10 @@ FactoryBot.define do
       player factory: %i[player with_pos_dc_ds_e]
     end
 
+    trait :with_pos_ds_e do
+      player factory: %i[player with_pos_ds_e]
+    end
+
     trait :with_pos_e do
       player factory: %i[player with_pos_e]
     end
