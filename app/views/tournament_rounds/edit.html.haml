@@ -1,77 +1,77 @@
 .page-info
   = form_for :tour, url: tournament_round_path(tournament_round), method: :put do
-    .reservists-headers
-      .reservists-header Club
-      .reservists-header.res-name Player
-      .reservists-header{title: 'Total score'} TS
-      .reservists-header{title: 'Base score'} BS
-      .reservists-header{title: 'Goals / Missed goals'} G/MG
-      .reservists-header{title: 'Scored penalty / Caught penalty'} SP/CP
-      .reservists-header{title: 'Failed penalty / Missed penalty'} FP/MP
-      .reservists-header{title: 'Assists'} A
-      .reservists-header{title: 'Saves'} Sav
-      .reservists-header{title: 'Conceded Penalty'} ConP
-      .reservists-header{title: 'Penalties won'} PW
-      .reservists-header{title: 'Yellow card'} YC
-      .reservists-header{title: 'Red card'} RC
-      .reservists-header{title: 'Cleansheet'} CS
-      .reservists-header{title: 'Cleansheet Possibility'} CSP
-      .reservists-header{title: 'Own goals'} OG
-      .reservists-header{title: 'Played minutes'} PM
-      .reservists-header{title: 'Lock data'} Lock
-    - @round_players.each do |reservist|
-      = fields_for "round_players[]", reservist do |rp_f|
-        .reservist-item
-          .reservist-param
-            .club-logo.l-details-club-logo
-              - if tournament_round.tournament.national?
-                = flag_icon(rp_f.object.player.national_team.code.to_sym, element: :div)
-              - else
-                %object{data: rp_f.object.club.logo_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                  = image_tag('default_logo.png')
-          .reservist-param.res-name
-            = rp_f.object.full_name_reverse
-          .reservist-param
-            = rp_f.object.result_score
+    .rp-edit-header-row
+      .rp-edit-headers
+        .rp-edit-header Club
+        .rp-edit-header.res-name Player
+        .rp-edit-header{title: 'Total score'} TS
+        .rp-edit-header{title: 'Base score'} BS
+        .rp-edit-header{title: 'Goals / Missed goals'} G/MG
+        .rp-edit-header{title: 'Scored penalty / Caught penalty'} SP/CP
+        .rp-edit-header{title: 'Failed penalty / Missed penalty'} FP/MP
+        .rp-edit-header{title: 'Assists'} A
+        .rp-edit-header{title: 'Saves'} Sav
+        .rp-edit-header{title: 'Conceded Penalty'} ConP
+        .rp-edit-header{title: 'Penalties won'} PW
+        .rp-edit-header{title: 'Yellow card'} YC
+        .rp-edit-header{title: 'Red card'} RC
+        .rp-edit-header{title: 'Cleansheet'} CS
+        .rp-edit-header{title: 'Own goals'} OG
+        .rp-edit-header{title: 'Played minutes'} PM
+        .rp-edit-header{title: 'Lock data'} Lock
+    .rp-edit-items
+      - @round_players.each do |reservist|
+        = fields_for "round_players[]", reservist do |rp_f|
+          .rp-edit-item
+            .rp-edit-param
+              .club-logo.l-details-club-logo
+                - if tournament_round.tournament.national?
+                  = flag_icon(rp_f.object.player.national_team.code.to_sym, element: :div)
+                - else
+                  %object{data: rp_f.object.club.logo_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
+                    = image_tag('default_logo.png')
+            .rp-edit-param.res-name
+              = rp_f.object.full_name_reverse
+            .rp-edit-param
+              = rp_f.object.result_score
 
-          .reservist-param
-            = rp_f.number_field :score, in: 0..11, step: 0.1, class: 'form-control'
-          - if rp_f.object.player.position_names.include?(Position::GOALKEEPER)
-            .reservist-param
-              = rp_f.number_field :missed_goals, in: 0..9, step: 1, class: 'form-control'
-            .reservist-param
-              = rp_f.number_field :caught_penalty, in: 0..9, step: 1, class: 'form-control'
-            .reservist-param
-              = rp_f.number_field :missed_penalty, in: 0..9, step: 1, class: 'form-control'
-          - else
-            .reservist-param
-              = rp_f.number_field :goals, in: 0..9, step: 1, class: 'form-control'
-            .reservist-param
-              = rp_f.number_field :scored_penalty, in: 0..9, step: 1, class: 'form-control'
-            .reservist-param
-              = rp_f.number_field :failed_penalty, in: 0..9, step: 1, class: 'form-control'
-          .reservist-param
-            = rp_f.number_field :assists, in: 0..9, step: 1, class: 'form-control'
-          .reservist-param
-            = rp_f.number_field :saves, in: 0..99, step: 1, class: 'form-control'
-          .reservist-param
-            = rp_f.number_field :conceded_penalty, in: 0..9, step: 1, class: 'form-control'
-          .reservist-param
-            = rp_f.number_field :penalties_won, in: 0..9, step: 1, class: 'form-control'
-          .reservist-param
-            = rp_f.check_box :yellow_card, {'data-toggle' => 'toggle', 'data-onstyle' => 'warning', 'data-on' => 'Yes', 'data-off' => 'No', 'data-size' => 'small', 'data-height' => '38'}
-          .reservist-param
-            = rp_f.check_box :red_card, {'data-toggle' => 'toggle', 'data-onstyle' => 'danger', 'data-on' => 'Yes', 'data-off' => 'No', 'data-size' => 'small', 'data-height' => '38'}
-          .reservist-param
-            = rp_f.check_box :cleansheet, {'data-toggle' => 'toggle', 'data-onstyle' => 'success', 'data-on' => 'Yes', 'data-off' => 'No', 'data-size' => 'small', 'data-height' => '38'}
-          .reservist-param
-            = '+' if (rp_f.object.position_names & Position::CLEANSHEET_ZONE).any?
-          .reservist-param
-            = rp_f.number_field :own_goals, in: 0..9, step: 1, class: 'form-control'
-          .reservist-param
-            = rp_f.number_field :played_minutes, in: 0..120, step: 1, class: 'form-control'
-          .reservist-param
-            = rp_f.check_box :manual_lock, {'data-toggle' => 'toggle', 'data-onstyle' => 'primary', 'data-on' => 'Yes', 'data-off' => 'No', 'data-size' => 'small', 'data-height' => '38'}
+            .rp-edit-param
+              = rp_f.number_field :score, in: 0..11, step: 0.1, required: true, class: 'form-control'
+            - if rp_f.object.player.position_names.include?(Position::GOALKEEPER)
+              .rp-edit-param
+                = rp_f.number_field :missed_goals, in: 0..9, step: 1, required: true, class: 'form-control'
+              .rp-edit-param
+                = rp_f.number_field :caught_penalty, in: 0..9, step: 1, required: true, class: 'form-control'
+              .rp-edit-param
+                = rp_f.number_field :missed_penalty, in: 0..9, step: 1, required: true, class: 'form-control'
+            - else
+              .rp-edit-param
+                = rp_f.number_field :goals, in: 0..9, step: 1, required: true, class: 'form-control'
+              .rp-edit-param
+                = rp_f.number_field :scored_penalty, in: 0..9, step: 1, required: true, class: 'form-control'
+              .rp-edit-param
+                = rp_f.number_field :failed_penalty, in: 0..9, step: 1, required: true, class: 'form-control'
+            .rp-edit-param
+              = rp_f.number_field :assists, in: 0..9, step: 1, required: true, class: 'form-control'
+            .rp-edit-param
+              = rp_f.number_field :saves, in: 0..99, step: 1, required: true, class: 'form-control'
+            .rp-edit-param
+              = rp_f.number_field :conceded_penalty, in: 0..9, step: 1, required: true, class: 'form-control'
+            .rp-edit-param
+              = rp_f.number_field :penalties_won, in: 0..9, step: 1, required: true, class: 'form-control'
+            .rp-edit-param
+              = rp_f.check_box :yellow_card, {'data-toggle' => 'toggle', 'data-onstyle' => 'warning', 'data-on' => 'Yes', 'data-off' => 'No', 'data-size' => 'small', 'data-height' => '38'}
+            .rp-edit-param
+              = rp_f.check_box :red_card, {'data-toggle' => 'toggle', 'data-onstyle' => 'danger', 'data-on' => 'Yes', 'data-off' => 'No', 'data-size' => 'small', 'data-height' => '38'}
+            .rp-edit-param
+              - if (rp_f.object.position_names & Position::CLEANSHEET_ZONE).any?
+                = rp_f.check_box :cleansheet, {'data-toggle' => 'toggle', 'data-onstyle' => 'success', 'data-on' => 'Yes', 'data-off' => 'No', 'data-size' => 'small', 'data-height' => '38'}
+            .rp-edit-param
+              = rp_f.number_field :own_goals, in: 0..9, step: 1, required: true, class: 'form-control'
+            .rp-edit-param
+              = rp_f.number_field :played_minutes, in: 0..120, step: 1, required: true, class: 'form-control'
+            .rp-edit-param
+              = rp_f.check_box :manual_lock, {'data-toggle' => 'toggle', 'data-onstyle' => 'primary', 'data-on' => 'Yes', 'data-off' => 'No', 'data-size' => 'small', 'data-height' => '38'}
 
     .form-group
       = submit_tag 'Update round players scores', class: 'btn btn-success btn-block'
