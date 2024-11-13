@@ -52,7 +52,7 @@ RSpec.describe AuctionRounds::Manager do
       end
     end
 
-    context 'with active status and when all bids are completed before deadline and round is first' do
+    context 'with active status and when all bids are completed before deadline when round is first and auction is first' do
       let(:auction_round) { create(:auction_round, number: 1, deadline: 4.hours.from_now) }
       let(:league) { auction_round.league }
       let(:teams) { create_list(:team, 4, league: league) }
@@ -69,8 +69,71 @@ RSpec.describe AuctionRounds::Manager do
       end
     end
 
-    context 'with active status and when all bids are completed before deadline and round is not first' do
+    context 'with active status and when all bids are completed before deadline when auction is first and round is not first' do
       let(:auction_round) { create(:auction_round, number: 2, deadline: 4.hours.from_now) }
+      let(:league) { auction_round.league }
+      let(:teams) { create_list(:team, 4, league: league) }
+
+      before do
+        teams.each { |team| create(:completed_auction_bid, :with_player_bids, team: team, auction_round: auction_round) }
+      end
+
+      it 'returns true' do
+        expect(manager.call).to be(true)
+      end
+
+      context 'when service call' do
+        before do
+          manager.call
+        end
+
+        it 'creates transfers' do
+          expect(Transfer.count).to eq(24)
+        end
+
+        it 'updates player_bids status' do
+          expect(teams.last.auction_bids.first.player_bids.last.status).to eq('success')
+        end
+
+        it 'updates auction_round status' do
+          expect(auction_round.status).to eq('closed')
+        end
+
+        it 'updates auction_bids status' do
+          expect(auction_round.auction_bids.pluck(:status).uniq).to eq(['processed'])
+        end
+      end
+
+      context 'with multiple top bids with same price' do
+        let(:player) { teams.last.auction_bids.last.player_bids.last.player }
+        let!(:player_bid) { create(:player_bid, player: player, auction_bid: teams.first.auction_bids.last) }
+
+        before do
+          manager.call
+        end
+
+        it 'fails player_bids' do
+          expect(player_bid.reload.status).to eq('failed')
+        end
+      end
+
+      context 'when player already has team in league' do
+        let(:player_bid) { teams.last.auction_bids.last.player_bids.last }
+        let(:player) { player_bid.player }
+
+        before do
+          create(:player_team, team: teams.first, player: player)
+          manager.call
+        end
+
+        it 'fails player_bids' do
+          expect(player_bid.reload.status).to eq('failed')
+        end
+      end
+    end
+
+    context 'with active status and when all bids are completed before deadline when auction is not first and round is first' do
+      let(:auction_round) { create(:auction_round, auction: create(:auction, number: 2), number: 1, deadline: 4.hours.from_now) }
       let(:league) { auction_round.league }
       let(:teams) { create_list(:team, 4, league: league) }
 

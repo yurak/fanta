@@ -77,7 +77,7 @@ module AuctionRounds
     end
 
     def all_bids_completed?
-      auction_bids.not_completed.empty? && !round.first?
+      auction_bids.not_completed.empty? && !(round.first? && auction.primary?)
     end
 
     def league
