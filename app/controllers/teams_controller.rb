@@ -30,7 +30,7 @@ class TeamsController < ApplicationController
   end
 
   def update
-    if !team_of_user? || team.update(input_params)
+    if !team_of_user? || team.update(update_params)
       redirect_to user_path(current_user)
     else
       render :edit
@@ -57,7 +57,11 @@ class TeamsController < ApplicationController
     "#{input_params[:human_name].delete(" \t\r\n")[0..6]}_#{current_user.id}_#{Team.last&.id.to_i + 1}".downcase
   end
 
+  def update_params
+    input_params.merge(code: input_params[:code]&.upcase)
+  end
+
   def input_params
-    params.require(:team).permit(:human_name, :logo_url)
+    params.require(:team).permit(:code, :human_name, :logo_url)
   end
 end

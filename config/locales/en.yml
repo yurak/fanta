@@ -400,6 +400,8 @@ en:
       update: "Update team"
     new:
       choose: "Choose a logo"
+      code: "Code"
+      code_note: "Team code should contain 2-3 characters, only letters or digits"
       create: "Create a team"
       logo: "Logo"
       name: "Name"

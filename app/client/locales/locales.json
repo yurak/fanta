@@ -966,6 +966,8 @@
       "manager": "Manager",
       "new": {
         "choose": "Choose a logo",
+        "code": "Code",
+        "code_note": "Team code should contain 2-3 characters, only letters or digits",
         "create": "Create a team",
         "logo": "Logo",
         "name": "Name",
@@ -2168,10 +2170,12 @@
       "manager": "Наставник",
       "new": {
         "choose": "Виберіть лого",
+        "code": "Код",
+        "code_note": "Код команди повинен містити від 2 до 3 знаків, лише літери та цифри",
         "create": "Створіть команду",
         "logo": "Лого",
         "name": "Назва",
-        "name_note": "Назва команди повинне містити від 2 до 24 літер",
+        "name_note": "Назва команди повинна містити від 2 до 24 літер",
         "note": "Зробіть свою команду унікальною та приведіть її до перемог!"
       },
       "next_round": "⚽ Наступний Раунд",
