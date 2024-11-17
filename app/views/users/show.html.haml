@@ -1,11 +1,7 @@
 .local-header
   .local-header-close
-    - if current_user.next_tour
-      = link_to tour_path(current_user.active_league.active_tour_or_last) do
-        &times;
-    - else
-      = link_to leagues_path do
-        &times;
+    = link_to leagues_path do
+      &times;
   .local-header-text
     .local-header-title= t('users.settings')
     .local-header-subtitle= t('users.settings_desc')
@@ -42,8 +38,6 @@
               .user-team-league-name= team.league&.name
           .user-team-activate
             = link_to t('users.edit_team'), edit_team_path(team), class: 'change-link'
-            -# - unless current_user.active_team == team
-            -#   = link_to t('users.activate'), user_path(current_user, active_team_id: team.id), method: :put, class: 'change-link'
     .user-config
       .user-title= t('users.positions_naming')
       .user-config-block

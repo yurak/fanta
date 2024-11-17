@@ -59,7 +59,7 @@
           - current_user.teams.each do |team|
             - if team.league&.active_tour_or_last && !team.league.archived?
               .my-league{ class: "my-league-#{ team.league == league }"}
-                = link_to user_path(current_user, active_team_id: team.id), method: :put do
+                = link_to tour_path(team.league.active_tour_or_last) do
                   .my-league-logo= image_tag(team.league.tournament.logo_path)
                   .my-league-name= team.league.name
                   .my-league-type
