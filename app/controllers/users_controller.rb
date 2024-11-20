@@ -9,15 +9,7 @@ class UsersController < ApplicationController
   def update
     user.update(user_params)
 
-    if user_params[:active_team_id]
-      if user.active_league&.active_tour_or_last
-        redirect_to tour_path(user.active_league&.active_tour_or_last)
-      else
-        redirect_to league_path(user.active_league)
-      end
-    else
-      redirect_to user_path(user)
-    end
+    redirect_to user_path(user)
   end
 
   def new_name
@@ -53,7 +45,7 @@ class UsersController < ApplicationController
   end
 
   def user_params
-    params.permit(:active_team_id, :avatar, :name, :notifications, :ital_pos_naming)
+    params.permit(:avatar, :name, :notifications, :ital_pos_naming)
   end
 
   def user_new_params

@@ -23,7 +23,7 @@ class Team < ApplicationRecord
   RESERVE_TRANSFER_SLOTS = [0, 2, 4, 6, 8, 10].freeze
 
   validates :name, presence: true, length: { in: 2..18 }
-  validates :code, presence: true, length: { in: 2..3 }
+  validates :code, presence: true, length: { in: 2..3 }, format: { with: /\A[0-9a-zA-Z]+\z/ }
   validates :human_name, length: { in: 2..24 }
 
   default_scope { includes(%i[league user]) }

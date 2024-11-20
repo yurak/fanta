@@ -10,34 +10,13 @@ RSpec.describe 'Welcome' do
       it { expect(response).to have_http_status(:ok) }
     end
 
-    context 'when user without active league is logged in' do
+    context 'when user is logged in' do
       login_user
       before do
         get root_path
       end
 
-      it { expect(response).to be_successful }
-      it { expect(response).to render_template(:index) }
-      it { expect(response).to have_http_status(:ok) }
-    end
-
-    context 'when user with active league is logged in' do
-      let(:logged_user) { create(:user) }
-      let(:team) { create(:team, user: logged_user) }
-
-      before do
-        create_list(:tour, 3, league: team.league)
-        sign_in logged_user
-
-        get root_path
-      end
-
-      it do
-        tour = logged_user.active_league.active_tour_or_last
-
-        expect(response).to redirect_to(tour_path(tour))
-      end
-
+      it { expect(response).to redirect_to(leagues_path) }
       it { expect(response).to have_http_status(:found) }
     end
   end

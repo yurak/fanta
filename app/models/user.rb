@@ -37,20 +37,6 @@ class User < ApplicationRecord
     team_by_league(tour.league)&.lineups&.find_by(tour: tour)
   end
 
-  def active_team
-    return unless teams
-
-    @active_team ||= teams.find_by(id: active_team_id) || teams.first
-  end
-
-  def active_league
-    active_team&.league
-  end
-
-  def next_tour
-    active_league&.active_tour
-  end
-
   def avatar_path
     avatar_url || "avatars/avatar_#{avatar}.png"
   end
