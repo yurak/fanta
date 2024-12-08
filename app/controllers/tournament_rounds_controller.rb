@@ -44,6 +44,10 @@ class TournamentRoundsController < ApplicationController
     redirect_to path
   end
 
+  def stats
+    redirect_to leagues_path unless can? :show, TournamentRound
+  end
+
   def auto_close
     TournamentRounds::AutoCloser.call(params[:id])
 
