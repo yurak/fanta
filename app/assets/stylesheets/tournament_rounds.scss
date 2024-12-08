@@ -9,7 +9,7 @@
 
   .round-title-bar {
     display: grid;
-    grid-template-columns: 1fr 2fr;
+    grid-template-columns: 2fr 1fr;
     line-height: 64px;
 
     .round-title {
@@ -28,6 +28,11 @@
     height: 24px;
     font-size: 14px;
     line-height: 24px;
+  }
+
+  .round-deadline-badge {
+    color: #181715;
+    background: #D0F0D4;
   }
 
   .round-block {
@@ -153,6 +158,11 @@
           height: 100%;
         }
       }
+
+      .round-action-link-stats {
+        background: #D8D6FF;
+        border: 1px solid #040052;
+      }
     }
   }
 }
@@ -259,6 +269,22 @@
           text-align: center;
         }
       }
+    }
+  }
+}
+
+/* TOURNAMENT ROUND STATS */
+
+.page-info.round-manage-page {
+  .round-stats-row {
+    margin-top: 32px;
+    line-height: 32px;
+    font-size: 24px;
+    display: grid;
+    grid-template-columns: 180px auto;
+
+    .round-stats-data {
+      font-family: 'Nunito Bold';
     }
   }
 }

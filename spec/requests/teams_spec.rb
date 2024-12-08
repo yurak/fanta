@@ -134,11 +134,13 @@ RSpec.describe 'Teams' do
     let(:logged_user) { create(:user) }
     let(:team) { create(:team, user: logged_user) }
     let(:human_name) { 'Forza' }
+    let(:code) { 'FRZ' }
     let(:logo_url) { 'default_logo.png' }
     let(:params) do
       {
         team: {
           human_name: human_name,
+          code: code,
           logo_url: logo_url
         }
       }
@@ -196,6 +198,10 @@ RSpec.describe 'Teams' do
 
       it 'updates team human_name' do
         expect(team.reload.human_name).to eq(human_name)
+      end
+
+      it 'updates team code' do
+        expect(team.reload.code).to eq(code)
       end
 
       it 'updates team logo_url' do

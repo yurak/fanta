@@ -83,7 +83,7 @@ Rails.application.routes.draw do
   resources :tournament_rounds, only: [:show, :edit, :update] do
     put :auto_close, on: :member
     put :tours_update, on: :member
-
+    get :stats
     get :auto_subs
     get :generate_preview
     get :auto_subs_preview

@@ -102,6 +102,49 @@ RSpec.describe 'Users' do
     end
   end
 
+  describe 'GET #stats' do
+    before do
+      get tournament_round_stats_path(tournament_round)
+    end
+
+    context 'when user is logged out' do
+      it { expect(response).to redirect_to('/users/sign_in') }
+      it { expect(response).to have_http_status(:found) }
+    end
+
+    context 'when user is logged in' do
+      login_user
+      before do
+        get tournament_round_stats_path(tournament_round)
+      end
+
+      it { expect(response).to redirect_to(leagues_path) }
+      it { expect(response).to have_http_status(:found) }
+    end
+
+    context 'when moderator is logged in' do
+      login_moderator
+      before do
+        get tournament_round_stats_path(tournament_round)
+      end
+
+      it { expect(response).to be_successful }
+      it { expect(response).to render_template(:stats) }
+      it { expect(response).to have_http_status(:ok) }
+    end
+
+    context 'when admin is logged in' do
+      login_admin
+      before do
+        get tournament_round_stats_path(tournament_round)
+      end
+
+      it { expect(response).to be_successful }
+      it { expect(response).to render_template(:stats) }
+      it { expect(response).to have_http_status(:ok) }
+    end
+  end
+
   describe 'PUT/PATCH #update' do
     let(:round_player) { create(:round_player, tournament_round: tournament_round) }
     let(:score) { 7.0 }

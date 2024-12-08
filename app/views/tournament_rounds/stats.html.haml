@@ -1,0 +1,22 @@
+.page-block
+  .web-header= render 'layouts/left_nav', league: nil
+  .mob-header= render 'layouts/mob_header', league: nil, title: t('round.title')
+  .page-info.round-manage-page
+    .round-title-bar
+      .round-title
+        = "#{tournament_round.tournament.name} ##{tournament_round.number}"
+    - if tournament_round.moderated_at
+      .round-moderated-badge
+        = "#{t('round.moderated')} #{(tournament_round.moderated_at.utc.in_time_zone('EET') + TournamentRound::MODERATED_HOURS.hours).strftime("%H:%M %a, %b %e")}"
+    .round-stats-block
+      .round-stats-row
+        .round-stats-title Best Lineup
+        .round-stats-data
+          - if tournament_round.best_lineup
+            = link_to tour_path(tournament_round.best_lineup.tour) do
+              = "#{tournament_round.best_lineup.total_score} - #{tournament_round.best_lineup.team.human_name} / #{tournament_round.best_lineup.team.league.name}"
+      .round-stats-row
+        .round-stats-title Average result
+        .round-stats-data
+          - if tournament_round.lineups.any?
+            = (tournament_round.lineups.sum(&:total_score) / tournament_round.lineups.count).round(1)

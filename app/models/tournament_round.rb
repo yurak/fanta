@@ -6,6 +6,7 @@ class TournamentRound < ApplicationRecord
   has_many :round_players, dependent: :destroy
   has_many :tournament_matches, dependent: :destroy
   has_many :tours, dependent: :destroy
+  has_many :lineups, through: :tours
 
   scope :by_tournament, ->(tournament_id) { where(tournament: tournament_id) }
   scope :by_season, ->(season_id) { where(season: season_id) }
@@ -32,5 +33,9 @@ class TournamentRound < ApplicationRecord
     return '' unless deadline
 
     TimeDifference.between(deadline.asctime.in_time_zone('EET'), Time.zone.now).in_general
+  end
+
+  def best_lineup
+    lineups.max_by(&:total_score)
   end
 end
