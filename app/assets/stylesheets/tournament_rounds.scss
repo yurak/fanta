@@ -291,47 +291,60 @@
 
 /* TOURNAMENT ROUND EDIT PLAYERS SCORES */
 
-.rp-edit-header-row {
-  font-family: 'Nunito ExtraBold';
-  position: fixed;
-  z-index: 1;
-  width: 100%;
-  background: #FFFFFF;
-  line-height: 24px;
-  border-bottom: 2px solid grey;
-  font-size: 18px;
+.page-info.edit-round {
+  padding-bottom: 32px;
+
+  .rp-edit-header-row {
+    font-family: 'Nunito ExtraBold';
+    position: fixed;
+    z-index: 1;
+    width: 100%;
+    background: #FFFFFF;
+    line-height: 32px;
+    border-bottom: 2px solid grey;
+    font-size: 18px;
+  }
+
+  .rp-edit-items {
+    padding: 36px 0 16px;
+  }
+
+  .rp-edit-item, .rp-edit-headers {
+    display: grid;
+    grid-template-columns: 4% 14% 5% 5% 5% 5% 5% 5% 5% 5% 5% 6% 6% 6% 5% 5% 6%;
+    grid-column-gap: 2px;
+    font-size: 16px;
+    text-align: center;
+  }
+
+  .rp-edit-item {
+    border-bottom: 1px solid gainsboro;
+    line-height: 38px;
+    padding: 4px 0 3px;
+  }
+
+  .res-name {
+    text-align: left;
+    padding-left: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .club-logo.l-details-club-logo {
+    text-align: center;
+
+    img, object {
+      width: 28px;
+      height: 28px;
+      position: relative;
+      top: 5px;
+    }
+  }
 }
 
-.rp-edit-items {
-  padding-top: 28px;
-}
-
-.rp-edit-item, .rp-edit-headers {
-  display: grid;
-  grid-template-columns: 4% 15% 5% 5% 5% 5% 5% 5% 5% 5% 5% 6% 6% 6% 5% 5% 6%;
-  grid-column-gap: 2px;
-  font-size: 16px;
-  text-align: center;
-}
-
-.rp-edit-item {
-  border-bottom: 1px solid gainsboro;
-  line-height: 38px;
-  padding: 4px 0 3px;
-}
-
-.res-name {
-  text-align: left;
-  padding-left: 10px;
-}
-
-.club-logo.l-details-club-logo {
-  text-align: center;
-
-  img, object {
-    width: 28px;
-    height: 28px;
-    position: relative;
-    top: 5px;
+@media (orientation: portrait) {
+  .page-info.edit-round {
+    padding: 0 0 80px;
   }
 }
