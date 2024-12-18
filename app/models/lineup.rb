@@ -145,6 +145,13 @@ class Lineup < ApplicationRecord
     match_players.joins(:round_player).main.order('round_players.final_score': :desc).first&.player
   end
 
+  def average_bench
+    subs = match_players.with_score.subs_bench
+    return 0 if subs.empty?
+
+    (subs.sum(&:total_score) / subs.count).round(2)
+  end
+
   private
 
   def first_goal

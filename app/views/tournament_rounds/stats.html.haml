@@ -28,6 +28,18 @@
               = link_to tour_path(lineup.tour) do
                 = "#{lineup.total_score} - #{lineup.team.human_name} / #{lineup.team.league.division_with_name}"
       .round-stats-row
+        .round-stats-title Worst Lineup
+        .round-stats-data
+          - if tournament_round.worst_lineup
+            = link_to tour_path(tournament_round.worst_lineup.tour) do
+              = "#{tournament_round.worst_lineup.total_score} - #{tournament_round.worst_lineup.team.human_name} / #{tournament_round.worst_lineup.team.league.name}"
+      .round-stats-row
+        .round-stats-title Best average score on bench
+        .round-stats-data
+          - if tournament_round.best_bench
+            = link_to tour_path(tournament_round.best_bench.tour) do
+              = "#{tournament_round.best_bench.average_bench} - #{tournament_round.best_bench.team.human_name} / #{tournament_round.best_bench.team.league.name}"
+      .round-stats-row
         .round-stats-title Average result
         .round-stats-data
           - if tournament_round.lineups.any?
