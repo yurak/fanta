@@ -266,4 +266,22 @@ RSpec.describe Lineup do
       end
     end
   end
+
+  describe '#average_bench' do
+    context 'without match players' do
+      it { expect(lineup.average_bench).to eq(0) }
+    end
+
+    context 'with match players without scores' do
+      it 'returns player' do
+        expect(lineup_team.average_bench).to eq(0)
+      end
+    end
+
+    context 'with match players with scores on subs' do
+      it 'returns player' do
+        expect(lineup_team_score_five.average_bench).to eq(5.0)
+      end
+    end
+  end
 end

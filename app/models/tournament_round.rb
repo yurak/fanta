@@ -38,4 +38,12 @@ class TournamentRound < ApplicationRecord
   def best_lineup
     lineups.max_by(&:total_score)
   end
+
+  def worst_lineup
+    lineups.min_by(&:total_score)
+  end
+
+  def best_bench
+    lineups.max_by(&:average_bench)
+  end
 end
