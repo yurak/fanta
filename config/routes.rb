@@ -110,4 +110,6 @@ Rails.application.routes.draw do
       resources :divisions, only: [:index]
     end
   end
+
+  get '*path' => redirect('/')
 end
