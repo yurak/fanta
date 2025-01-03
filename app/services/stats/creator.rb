@@ -1,13 +1,20 @@
 # rubocop:disable Metrics/MethodLength:
 module Stats
   class Creator < ApplicationService
+    attr_reader :player_ids, :rounds, :season
+
+    def initialize(season_id: Season.last.id, player_ids: (1..Player.last.id).to_a)
+      @season = Season.find_by(id: season_id)
+      @player_ids = player_ids
+    end
+
     def call
-      (1..Player.last.id).to_a.each do |id|
+      player_ids.each do |id|
         player = Player.find_by(id: id)
         next unless player
-        next if player.season_scores_count(player.season_club_matches_w_scores).zero?
+        next if matches_w_scores(player).empty?
 
-        player.season_club_matches_w_scores.group_by(&:club_id).each do |club_data|
+        matches_w_scores(player).group_by(&:club_id).each do |club_data|
           club = Club.find_by(id: club_data[0])
           next unless club
 
@@ -23,6 +30,14 @@ module Stats
 
     def stats(player, club)
       PlayerSeasonStat.find_or_create_by(player: player, season: season, club: club, tournament: club.tournament)
+    end
+
+    def matches_w_scores(player)
+      player.round_players.with_score.by_tournament_round(rounds)
+    end
+
+    def rounds
+      @rounds ||= TournamentRound.by_tournament(Tournament.with_clubs).by_season(season)
     end
 
     def stats_hash(player, matches)
@@ -49,10 +64,6 @@ module Stats
         position2: player.positions[1]&.name,
         position3: player.positions[2]&.name
       }
-    end
-
-    def season
-      @season ||= Season.last
     end
   end
 end
