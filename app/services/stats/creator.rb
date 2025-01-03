@@ -1,7 +1,7 @@
 # rubocop:disable Metrics/MethodLength:
 module Stats
   class Creator < ApplicationService
-    attr_reader :player_ids, :rounds, :season
+    attr_reader :player_ids, :season
 
     def initialize(season_id: Season.last.id, player_ids: (1..Player.last.id).to_a)
       @season = Season.find_by(id: season_id)

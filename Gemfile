@@ -79,5 +79,6 @@ group :test do
   gem 'selenium-webdriver'
   gem 'shoulda-matchers', require: false
   gem 'simplecov', require: false
+  gem 'timecop'
   gem 'webdrivers'
 end
