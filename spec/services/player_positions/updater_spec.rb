@@ -5,7 +5,7 @@ RSpec.describe PlayerPositions::Updater do
     let(:player) { create(:player, tm_id: '576024') }
 
     before do
-      create(:season, start_year: 1.year.ago.year, end_year: Time.zone.now.year)
+      create(:season, start_year: '2023', end_year: '2024')
     end
 
     context 'without player' do
