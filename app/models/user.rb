@@ -7,6 +7,8 @@ class User < ApplicationRecord
   has_many :join_requests, dependent: :destroy
   has_many :teams, dependent: :destroy
   has_many :leagues, through: :teams
+  has_many :results, through: :teams
+  has_many :lineups, through: :teams
   has_many :player_requests, dependent: :destroy
   has_one :user_profile, dependent: :destroy
 
@@ -43,6 +45,48 @@ class User < ApplicationRecord
 
   def initial_avatar?
     avatar == '1'
+  end
+
+  def titles
+    results.finished.title
+  end
+
+  def win_rate
+    return 0 unless results.mantra.any?
+
+    matches = results.mantra.sum { |r| r.wins + r.draws + r.loses }
+    return 0 if matches.zero?
+
+    (results.mantra.sum(:wins).to_f * 100 / matches).round(2)
+  end
+
+  def average_total_score
+    return 0 unless lineups.any?
+
+    (lineups.sum(:final_score) / lineups.count).round(2)
+  end
+
+  def average_position
+    valid_results = results.finished.mantra.with_position
+    return 0 unless valid_results.any?
+
+    (valid_results.sum(:position).to_f / valid_results.count).round(2)
+  end
+
+  def promotions
+    results.finished.select(&:promoted?)
+  end
+
+  def relegations
+    results.finished.select(&:relegated?)
+  end
+
+  def fanta_top
+    results.fanta_top(10)
+  end
+
+  def fanta_top_ts
+    results.fanta_top_ts(10)
   end
 
   protected

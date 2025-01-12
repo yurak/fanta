@@ -216,6 +216,170 @@
   .avatar_16 {background-image: image_url('avatars/avatar_16.png');}
 }
 
+.user-manager {
+  padding: 24px 72px 100px 144px;
+
+  a {
+    text-decoration: none;
+    color: #181715;
+  }
+
+  .user-manager-links {
+    max-width: 1200px;
+    margin: auto;
+  }
+
+  .manager-block {
+    max-width: 1200px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    column-gap: 5%;
+
+    .manager-block-data {
+      margin-top: 16px;
+
+      .manager-user {
+        height: 96px;
+        line-height: 96px;
+        margin-bottom: 40px;
+        display: grid;
+        grid-template-columns: 96px auto;
+        column-gap: 32px;
+      }
+
+      .manager-avatar {
+        img {
+          height: 96px;
+          width: 96px;
+        }
+      }
+
+      .manager-data {
+        text-align: left;
+
+        .manager-stars {
+          height: 24px;
+          line-height: 24px;
+        }
+
+        .manager-name {
+          font-family: 'Nunito ExtraBold';
+          font-size: 24px;
+          line-height: 32px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          margin: 8px 0;
+        }
+
+        .manager-counters {
+          font-size: 14px;
+          line-height: 24px;
+        }
+      }
+
+      .manager-teams {
+        line-height: 36px;
+        margin-bottom: 16px;
+        //display: grid;
+        //grid-template-columns: auto 124px;
+
+        .manager-teams-row {
+          .chip-item {
+            font-family: 'Nunito ExtraBold';
+            display: inline-block;
+            line-height: 24px;
+            font-size: 14px;
+            height: 32px;
+            border: 1px solid #CFD2CD;
+            border-radius: 16px;
+            cursor: pointer;
+          }
+
+          .chip-active {
+            background: #D8D6FF;
+            border: 1px solid #D8D6FF;
+          }
+
+          .chip-item-data {
+            padding: 2px 11px;
+            display: grid;
+            grid-template-columns: 24px auto;
+            column-gap: 4px;
+          }
+
+          .chip-item-logo {
+            img {
+              height: 24px;
+              width: 24px;
+            }
+          }
+
+          .chip-item-name {
+            padding: 1px 0 1px 4px;
+          }
+        }
+      }
+
+      .manager-results {
+        .manager-headers-grid {
+          display: grid;
+          grid-template-columns: 8fr 3fr 4fr 3fr 2fr 2fr;
+        }
+
+        .manager-results-item {
+          height: 56px;
+          line-height: 55px;
+          font-size: 16px;
+          border-bottom: 1px solid #E5E6E4;
+        }
+
+        .manager-results-cell {
+          padding: 0 8px;
+        }
+
+        .manager-results-league {
+          display: grid;
+          grid-template-columns: 32px auto;
+          column-gap: 16px;
+
+          .manager-league-name {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+        }
+
+        .manager-results-type {
+          font-family: 'Nunito ExtraBold';
+          font-size: 12px;
+          line-height: 16px;
+          padding: 4px 8px;
+          margin: 15px 0;
+          width: fit-content;
+          background: #D8D6FF;
+          border-radius: 16px;
+          letter-spacing: 0.02em;
+        }
+
+        .type-badge-fanta {
+          background: #FFEBC2;
+        }
+
+        img {
+          height: 32px;
+          width: 32px;
+        }
+      }
+    }
+
+    .manager-stats {
+      margin-top: 16px;
+    }
+  }
+}
+
 @media (orientation: portrait) {
   .user-show {
     width: 760px;
@@ -344,6 +508,139 @@
 
     input {
       font-size: 28px;
+    }
+  }
+
+  .page-info.user-manager {
+    padding: 0 24px 112px;
+
+    .manager-block {
+      display: block;
+      margin: auto;
+
+      .manager-block-data {
+        .manager-user {
+          height: 192px;
+          line-height: 192px;
+          margin-bottom: 64px;
+          grid-template-columns: 192px auto;
+          column-gap: 64px;
+        }
+
+        .manager-avatar {
+          img {
+            height: 192px;
+            width: 192px;
+          }
+        }
+
+        .manager-data {
+          .manager-stars {
+            height: 48px;
+            line-height: 48px;
+
+            img {
+              height: 48px;
+              width: 48px;
+            }
+          }
+
+          .manager-name {
+            font-size: 48px;
+            line-height: 64px;
+            margin: 16px 0;
+          }
+
+          .manager-counters {
+            font-size: 32px;
+            line-height: 48px;
+          }
+        }
+
+        .manager-teams {
+          line-height: 72px;
+          margin-bottom: 32px;
+
+          .manager-teams-row {
+            .chip-item {
+              line-height: 48px;
+              font-size: 32px;
+              height: 64px;
+              border: 2px solid #CFD2CD;
+              border-radius: 36px;
+            }
+
+            .chip-active {
+              border: 2px solid #D8D6FF;
+            }
+
+            .chip-item-data {
+              padding: 4px 16px;
+              display: grid;
+              grid-template-columns: 48px auto;
+              column-gap: 8px;
+            }
+
+            .chip-item-logo {
+              img {
+                height: 48px;
+                width: 48px;
+              }
+            }
+
+            .chip-item-name {
+              padding: 1px 0 1px 4px;
+            }
+          }
+        }
+
+        .manager-results {
+          .default-headers .default-header-cell {
+            padding: 0 4px;
+            font-size: 20px;
+            line-height: 24px;
+            height: 24px;
+            border-right: 3px solid #E5E6E4;
+          }
+
+          .manager-headers-grid {
+            grid-template-columns: 6fr 2fr 4fr 2fr 2fr 2fr;
+          }
+
+          .manager-results-item {
+            height: 112px;
+            line-height: 110px;
+            font-size: 28px;
+            border-bottom: 2px solid #E5E6E4;
+          }
+
+          .manager-results-cell {
+            padding: 0 8px;
+          }
+
+          .manager-results-league {
+            grid-template-columns: 64px auto;
+            column-gap: 16px;
+          }
+
+          .manager-results-type {
+            font-size: 22px;
+            line-height: 32px;
+            padding: 4px 12px;
+            margin: 35px 0;
+            border-radius: 32px;
+          }
+
+          img {
+            height: 64px;
+            width: 64px;
+          }
+        }
+      }
+
+      .manager-stats {
+        margin-top: 64px;
+      }
     }
   }
 }

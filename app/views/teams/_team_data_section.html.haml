@@ -46,11 +46,12 @@
     - if team.user
       .team-additional.team-manager
         .team-additional-text= t('teams.manager')
-        .team-additional-value.team-manager-data
-          .team-manager-avatar
-            = image_tag(team.user.avatar_path)
-          .team-manager-name
-            = team.user.name
+        = link_to manager_path(team.user) do
+          .team-additional-value.team-manager-data
+            .team-manager-avatar
+              = image_tag(team.user.avatar_path)
+            .team-manager-name
+              = team.user.name
     - if team.league && team.league_result
       .team-additional
         .team-additional-text= t('teams.form')

@@ -8,6 +8,8 @@ class TournamentRound < ApplicationRecord
   has_many :tours, dependent: :destroy
   has_many :lineups, through: :tours
 
+  delegate :fanta?, :mantra?, to: :tournament
+
   scope :by_tournament, ->(tournament_id) { where(tournament: tournament_id) }
   scope :by_season, ->(season_id) { where(season: season_id) }
   scope :moderated, -> { where.not(moderated_at: nil) }

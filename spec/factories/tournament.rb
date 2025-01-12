@@ -3,6 +3,10 @@ FactoryBot.define do
     sequence(:name) { FFaker::Company.name }
     sequence(:code) { FFaker::Internet.slug }
 
+    factory :fanta_tournament do
+      mode { 1 }
+    end
+
     trait :with_38_rounds do
       after(:create) do |tournament|
         (1..38).each do |number|

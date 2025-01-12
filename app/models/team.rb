@@ -150,8 +150,8 @@ class Team < ApplicationRecord
     @league_lineups ||= lineups.by_league(league.id)
   end
 
-  def league_result
-    @league_result ||= results.by_league(league.id).last
+  def league_result(league_id: league.id)
+    @league_result ||= results.by_league(league_id).last
   end
 
   private

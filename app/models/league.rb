@@ -1,5 +1,7 @@
 class League < ApplicationRecord
   COLORS = %w[#007bff #fd7e14 #28a745 #6c757d #ffc107 #dc3545 #6f42c1 #20c997 #e83e8c #17a2b8 #6610f2].freeze
+  FANTA = 'fanta'.freeze
+  MANTRA = 'mantra'.freeze
 
   belongs_to :division, optional: true
   belongs_to :season
@@ -11,6 +13,8 @@ class League < ApplicationRecord
   has_many :transfers, dependent: :destroy
   has_many :tours, dependent: :destroy
   has_many :results, dependent: :destroy
+
+  delegate :fanta?, :mantra?, to: :tournament
 
   enum auction_type: { blind_bids: 0, live: 1 }
   enum cloning_status: { unclonable: 0, cloneable: 1 }
@@ -46,12 +50,12 @@ class League < ApplicationRecord
   end
 
   def leader
-    result = results.find { |r| r.position == 1 }
+    result = results.find { |r| r.live_position == 1 }
     result&.team
   end
 
-  def mantra?
-    tours.first&.mantra?
+  def type
+    fanta? ? FANTA : MANTRA
   end
 
   def chart_data

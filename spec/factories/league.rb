@@ -9,6 +9,10 @@ FactoryBot.define do
       status { :active }
     end
 
+    factory :archived_league do
+      status { :archived }
+    end
+
     factory :cloneable_league do
       cloning_status { :cloneable }
     end
@@ -47,6 +51,13 @@ FactoryBot.define do
     trait :with_ten_teams do
       after(:create) do |league|
         create_list(:team, 10, league: league)
+      end
+    end
+
+    trait :fanta_league do
+      tournament { Tournament.find_by(code: 'euro') }
+      after(:create) do |league|
+        league.tournament.fanta!
       end
     end
   end

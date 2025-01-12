@@ -935,9 +935,71 @@ body, html {
   text-align: center;
 
   a {
-    width: 32px;
-    height: 32px;
+    width: 30px;
+    height: 30px;
     display: block;
+  }
+
+  .back-button-arrow {
+    width: 30px;
+    height: 30px;
+
+    img {
+      margin-top: 2px;
+    }
+  }
+}
+
+.top-stats-section {
+  .stats-item-top {
+    background: #FFEBC2;
+    padding: 16px 24px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+
+    .stats-item-top-title {
+      font-family: 'Nunito ExtraBold';
+      font-size: 18px;
+      line-height: 24px;
+      margin-bottom: 24px;
+    }
+
+    .stats-item-top-percent {
+      font-family: 'Nunito ExtraBold';
+      font-size: 32px;
+      line-height: 32px;
+      margin-bottom: 4px;
+      text-align: right;
+    }
+
+    .stats-item-top-number {
+      font-family: 'Nunito Regular';
+      font-size: 14px;
+      line-height: 16px;
+      text-align: right;
+    }
+  }
+
+  .common-stats-item {
+    background: #F4F4F4;
+    height: 64px;
+    padding: 16px 24px;
+    line-height: 32px;
+    display: grid;
+    grid-template-columns: auto 80px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+
+    .common-stats-item-title {
+      font-family: 'Nunito ExtraBold';
+      font-size: 14px;
+    }
+
+    .common-stats-item-value {
+      font-family: 'Nunito SemiBold';
+      font-size: 24px;
+      text-align: right;
+    }
   }
 }
 
@@ -972,6 +1034,55 @@ body, html {
     img {
       width: 32px;
       margin-top: 16px;
+    }
+
+    .back-button-arrow {
+      width: 60px;
+      height: 60px;
+    }
+  }
+
+  .top-stats-section {
+    margin-top: 48px;
+
+    .stats-item-top {
+      padding: 24px 32px;
+      border-radius: 16px;
+      margin-bottom: 16px;
+
+      .stats-item-top-title {
+        font-size: 28px;
+        line-height: 36px;
+        margin-bottom: 36px;
+      }
+
+      .stats-item-top-percent {
+        font-size: 48px;
+        line-height: 48px;
+        margin-bottom: 8px;
+      }
+
+      .stats-item-top-number {
+        font-size: 22px;
+        line-height: 24px;
+      }
+    }
+
+    .common-stats-item {
+      height: 96px;
+      padding: 24px 32px;
+      line-height: 48px;
+      grid-template-columns: auto 140px;
+      border-radius: 16px;
+      margin-bottom: 16px;
+
+      .common-stats-item-title {
+        font-size: 24px;
+      }
+
+      .common-stats-item-value {
+        font-size: 32px;
+      }
     }
   }
 }

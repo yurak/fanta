@@ -1,7 +1,7 @@
 .back-button-row
   .back-button
     = link_to :back do
-      .back-button
+      .back-button-arrow
         = image_tag('icons/arrow.svg')
 .fanta-team-section
   .fanta-team-data
@@ -44,24 +44,24 @@
                 .fanta-lineup-ts
                   .fanta-lineup-tscore= lineup.total_score
                   .fanta-lineup-link-arrow= image_tag('icons/arrow_right.svg')
-  .fanta-team-top-stats
-    .fanta-stats-item-top
-      .fanta-stats-item-top-title= t('teams.fanta.top_three')
-      .fanta-stats-item-top-percent= "#{'%.2f' % (team.league_lineups.any? ? team.league_lineups.top_position(3).size.to_f*100/team.league_lineups_number : 0)}%"
-      .fanta-stats-item-top-number= "#{team.league_lineups.top_position(3).size} of #{team.league_lineups_number}"
-    .fanta-stats-item
-      .fanta-stats-item-title= t('teams.fanta.top_ten')
-      .fanta-stats-item-value= team.league_lineups.top_position(10).size
-    .fanta-stats-item
-      .fanta-stats-item-title= t('teams.fanta.top_fourty')
-      .fanta-stats-item-value= team.league_lineups.top_position(40).size
-    .fanta-stats-item
-      .fanta-stats-item-title= t('teams.fanta.avg_ts')
-      .fanta-stats-item-value= team.avg_ts
-    .fanta-stats-item
-      .fanta-stats-item-title= t('teams.fanta.avg_points')
-      .fanta-stats-item-value= team.avg_points
-    .fanta-stats-item
-      .fanta-stats-item-title= t('teams.fanta.best_lineup')
-      .fanta-stats-item-value= team.league_result&.best_lineup
+  .top-stats-section
+    .stats-item-top
+      .stats-item-top-title= t('teams.fanta.top_three')
+      .stats-item-top-percent= "#{'%.2f' % (team.league_lineups.any? ? team.league_lineups.top_position(3).size.to_f*100/team.league_lineups_number : 0)}%"
+      .stats-item-top-number= "#{team.league_lineups.top_position(3).size} of #{team.league_lineups_number}"
+    .common-stats-item
+      .common-stats-item-title= t('teams.fanta.top_ten')
+      .common-stats-item-value= team.league_lineups.top_position(10).size
+    .common-stats-item
+      .common-stats-item-title= t('teams.fanta.top_fourty')
+      .common-stats-item-value= team.league_lineups.top_position(40).size
+    .common-stats-item
+      .common-stats-item-title= t('teams.fanta.avg_ts')
+      .common-stats-item-value= team.avg_ts
+    .common-stats-item
+      .common-stats-item-title= t('teams.fanta.avg_points')
+      .common-stats-item-value= team.avg_points
+    .common-stats-item
+      .common-stats-item-title= t('teams.fanta.best_lineup')
+      .common-stats-item-value= team.league_result&.best_lineup
 

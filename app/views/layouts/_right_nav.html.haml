@@ -6,7 +6,7 @@
       - else
         = league.name
     .league-season
-      = "#{t('header.season')} #{league.season.start_year.to_s[2..3]}-#{league.season.end_year.to_s[2..3]} • #{league.mantra? ? t('header.mantra') : t('header.fanta')}"
+      = "#{t('header.season')} #{league.season.start_year.to_s[2..3]}-#{league.season.end_year.to_s[2..3]} • #{league.type.capitalize}"
 
     - if user_team_by_league(current_user, league) || current_user&.admin?
       = render 'layouts/auction_badge', league: league, initial_auction: league.auctions.initial.first, active_auction: league.auctions.active.first

@@ -7,6 +7,7 @@ class Tour < ApplicationRecord
   has_many :round_players, through: :tournament_round
 
   delegate :teams, to: :league
+  delegate :fanta?, :mantra?, to: :tournament_round
 
   enum status: { inactive: 0, set_lineup: 1, locked: 2, closed: 3, postponed: 4 }
   enum bench_status: { default_bench: 0, expanded: 1 }
@@ -32,20 +33,12 @@ class Tour < ApplicationRecord
     inactive? || set_lineup?
   end
 
-  def mantra?
-    tournament_round.tournament_matches.any? && !tournament_round.tournament.eurocup
-  end
-
   def national?
     tournament_round.national_matches.any?
   end
 
   def eurocup?
     tournament_round.tournament.eurocup
-  end
-
-  def fanta?
-    national? || eurocup?
   end
 
   def national_teams_count

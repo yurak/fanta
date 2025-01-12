@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_10_21_195200) do
+ActiveRecord::Schema.define(version: 2025_01_05_191442) do
 
   create_table "article_tags", force: :cascade do |t|
     t.string "name", default: "", null: false
@@ -339,6 +339,9 @@ ActiveRecord::Schema.define(version: 2024_10_21_195200) do
     t.decimal "total_score", default: "0.0", null: false
     t.text "history", default: "[]"
     t.decimal "best_lineup", default: "0.0", null: false
+    t.boolean "title", default: false, null: false
+    t.integer "position"
+    t.integer "secondary_position"
     t.index ["league_id"], name: "index_results_on_league_id"
     t.index ["team_id"], name: "index_results_on_team_id"
   end
@@ -478,6 +481,7 @@ ActiveRecord::Schema.define(version: 2024_10_21_195200) do
     t.string "sofa_number", default: "", null: false
     t.boolean "open_join", default: true, null: false
     t.integer "source", default: 0
+    t.integer "mode", default: 0, null: false
     t.index ["code"], name: "index_tournaments_on_code", unique: true
   end
 

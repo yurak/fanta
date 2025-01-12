@@ -42,7 +42,7 @@ class LeagueSerializer < ActiveModel::Serializer
   end
 
   def mantra_format
-    !object.tournament.fanta?
+    object.mantra?
   end
 
   def round

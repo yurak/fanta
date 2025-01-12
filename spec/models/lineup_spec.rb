@@ -235,9 +235,9 @@ RSpec.describe Lineup do
     end
 
     context 'when national tour' do
-      before do
-        create(:national_match, tournament_round: lineup.tour.tournament_round)
-      end
+      let(:league) { create(:league, :fanta_league) }
+      let(:tour) { create(:closed_tour, league: league, tournament_round: create(:tournament_round, tournament: league.tournament)) }
+      let!(:lineup) { create(:lineup, tour: tour) }
 
       it { expect(lineup.players_count).to eq(16) }
     end
