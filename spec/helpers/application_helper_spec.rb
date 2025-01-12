@@ -45,8 +45,10 @@ RSpec.describe ApplicationHelper do
     end
 
     context 'with number and ua locale' do
-      before do
-        I18n.with_locale(:ua)
+      around do |example|
+        I18n.with_locale(:ua) do
+          example.run
+        end
       end
 
       it 'returns ordinalize number' do
