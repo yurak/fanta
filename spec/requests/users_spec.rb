@@ -442,4 +442,16 @@ RSpec.describe 'Users' do
       end
     end
   end
+
+  describe 'GET #manager' do
+    let(:user) { create(:user) }
+
+    before do
+      get manager_path(user)
+    end
+
+    it { expect(response).to be_successful }
+    it { expect(response).to render_template(:show_manager) }
+    it { expect(response).to have_http_status(:ok) }
+  end
 end

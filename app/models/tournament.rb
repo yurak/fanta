@@ -10,6 +10,7 @@ class Tournament < ApplicationRecord
                       dependent: :destroy, inverse_of: :ec_tournament
 
   enum source: { fotmob: 0, sofascore: 1 }
+  enum mode: { mantra: 0, fanta: 1 }
 
   validates :name, presence: true
   validates :code, presence: true, uniqueness: true
@@ -31,9 +32,5 @@ class Tournament < ApplicationRecord
 
   def national?
     national_teams.any?
-  end
-
-  def fanta?
-    national? || eurocup?
   end
 end

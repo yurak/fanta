@@ -17,13 +17,14 @@ module Results
       update_total_scores
       update_ts_wo_lineups
       update_points
+      update_history
     end
 
     private
 
     def update_total_scores
       lineups.each do |lineup|
-        result = lineup.team.league_result
+        result = lineup.team.league_result(league_id: league.id)
 
         result.update(best_lineup: lineup.total_score.round(2)) if lineup.total_score > result.best_lineup
 
@@ -38,7 +39,7 @@ module Results
       team_ids_wo_lineups = tour.teams.pluck(:id) - lineups.pluck(:team_id)
       worst_score = lineups.last.total_score.round(2)
       Team.where(id: team_ids_wo_lineups).each do |team|
-        result = team.league_result
+        result = team.league_result(league_id: league.id)
         result.update(
           total_score: result.total_score + worst_score,
           draws: result.draws + 1
@@ -60,8 +61,22 @@ module Results
       end
     end
 
+    def update_history
+      league.results.each do |result|
+        history_arr = result.history_arr
+        # pos: fanta_position:, p: points, total_score: total_score, sec_pos: secondary_position
+        history_arr[tour.number] = { pos: result.fanta_position, sec_pos: result.live_position,
+                                     p: result.points, ts: result.total_score.round(2) }
+        result.update(history: history_arr.to_json, position: result.fanta_position, secondary_position: result.live_position)
+      end
+    end
+
     def lineups
       @lineups ||= tour.ordered_lineups
+    end
+
+    def league
+      @league ||= tour.league
     end
   end
 end

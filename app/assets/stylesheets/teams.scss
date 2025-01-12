@@ -643,59 +643,6 @@
       }
     }
   }
-
-  .fanta-team-top-stats {
-    .fanta-stats-item-top {
-      background: #FFEBC2;
-      padding: 16px 24px;
-      border-radius: 8px;
-      margin-bottom: 8px;
-
-      .fanta-stats-item-top-title {
-        font-family: 'Nunito ExtraBold';
-        font-size: 18px;
-        line-height: 24px;
-        margin-bottom: 24px;
-      }
-
-      .fanta-stats-item-top-percent {
-        font-family: 'Nunito ExtraBold';
-        font-size: 32px;
-        line-height: 32px;
-        margin-bottom: 4px;
-        text-align: right;
-      }
-
-      .fanta-stats-item-top-number {
-        font-family: 'Nunito Regular';
-        font-size: 14px;
-        line-height: 16px;
-        text-align: right;
-      }
-    }
-
-    .fanta-stats-item {
-      background: #F4F4F4;
-      height: 64px;
-      padding: 16px 24px;
-      line-height: 32px;
-      display: grid;
-      grid-template-columns: auto 80px;
-      border-radius: 8px;
-      margin-bottom: 8px;
-
-      .fanta-stats-item-title {
-        font-family: 'Nunito ExtraBold';
-        font-size: 14px;
-      }
-
-      .fanta-stats-item-value {
-        font-family: 'Nunito SemiBold';
-        font-size: 24px;
-        text-align: right;
-      }
-    }
-  }
 }
 
 /* ------ Team players lists ------ */
@@ -1570,50 +1517,6 @@
                 height: 36px;
               }
             }
-          }
-        }
-      }
-
-      .fanta-team-top-stats {
-        margin-top: 48px;
-
-        .fanta-stats-item-top {
-          padding: 24px 32px;
-          border-radius: 16px;
-          margin-bottom: 16px;
-
-          .fanta-stats-item-top-title {
-            font-size: 28px;
-            line-height: 36px;
-            margin-bottom: 36px;
-          }
-
-          .fanta-stats-item-top-percent {
-            font-size: 48px;
-            line-height: 48px;
-            margin-bottom: 8px;
-          }
-
-          .fanta-stats-item-top-number {
-            font-size: 22px;
-            line-height: 24px;
-          }
-        }
-
-        .fanta-stats-item {
-          height: 96px;
-          padding: 24px 32px;
-          line-height: 48px;
-          grid-template-columns: auto 140px;
-          border-radius: 16px;
-          margin-bottom: 16px;
-
-          .fanta-stats-item-title {
-            font-size: 24px;
-          }
-
-          .fanta-stats-item-value {
-            font-size: 32px;
           }
         }
       }

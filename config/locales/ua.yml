@@ -528,6 +528,25 @@ ua:
     edit:
       change_username: "Змінити ім'я користувача"
       change_username_desc: "Ім'я повинне містити від 2 до 20 літер"
+    manager:
+      all_teams: "Всі команди"
+      avg_position: "📊 Сер. позиція"
+      avg_total_score: "🎲 Сер. заг. бал"
+      division: "Дивізіон"
+      fanta_top: "🏵️ Фанта Топ10"
+      fanta_top_ts: "🎯️️ Фанта Топ10 ЗБ"
+      league: "Ліга"
+      leagues: "ліги"
+      place: "Місце"
+      promotions: "👆 Підвищення"
+      relegations: "👇 Пониження"
+      season: "Сезон"
+      team: "Команда"
+      teams: "команди"
+      title: "Профіль"
+      titles_won: "🏆 Виграно титулів"
+      type: "Тип"
+      win_rate: "🏅️ Коеф. перемог"
     new_avatar:
       select: "Виберіть аватар"
     new_name:

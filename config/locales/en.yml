@@ -505,6 +505,25 @@ en:
     edit:
       change_username: "Change user name"
       change_username_desc: "Name should contain 2-20 characters"
+    manager:
+      all_teams: "All Teams"
+      avg_position: "📊 Avg. position"
+      avg_total_score: "🎲 Avg. total score"
+      division: "Division"
+      fanta_top: "🏵️ Fanta Top10"
+      fanta_top_ts: "🎯️️ Fanta Top10 TS"
+      league: "League"
+      leagues: "leagues"
+      place: "Place"
+      promotions: "👆 Promotion"
+      relegations: "👇 Relegation"
+      season: "Season"
+      team: "Team"
+      teams: "teams"
+      title: "Profile"
+      titles_won: "🏆 Titles won"
+      type: "Type"
+      win_rate: "🏅️ Games Win Rate"
     new_avatar:
       select: "Select avatar"
     new_name:

@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
-  before_action :check_user
+  skip_before_action :authenticate_user!, only: %i[show_manager]
+  before_action :check_user, except: %i[show_manager]
   skip_before_action :verify_authenticity_token, only: :update
 
   respond_to :html, :json
@@ -28,6 +29,10 @@ class UsersController < ApplicationController
     else
       redirect_to new_name_user_path(user)
     end
+  end
+
+  def show_manager
+    @user = User.find(params[:id])
   end
 
   private

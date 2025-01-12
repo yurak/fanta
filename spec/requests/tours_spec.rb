@@ -2,15 +2,29 @@ RSpec.describe 'Tours' do
   let(:tour) { create(:tour) }
 
   describe 'GET #show' do
-    before do
-      get tour_path(tour)
+    context 'with valid tour' do
+      before do
+        get tour_path(tour)
+      end
+
+      it { expect(response).to be_successful }
+      it { expect(response).to render_template(:show) }
+      it { expect(response).to have_http_status(:ok) }
+      it { expect(assigns(:tournament_players)).not_to be_nil }
+      it { expect(assigns(:league_players)).not_to be_nil }
     end
 
-    it { expect(response).to be_successful }
-    it { expect(response).to render_template(:show) }
-    it { expect(response).to have_http_status(:ok) }
-    it { expect(assigns(:tournament_players)).not_to be_nil }
-    it { expect(assigns(:league_players)).not_to be_nil }
+    context 'with invalid tour id' do
+      before do
+        get tour_path('tour_random_id')
+      end
+
+      it { expect(response).not_to be_successful }
+      it { expect(response).to redirect_to(leagues_path) }
+      it { expect(response).to have_http_status(:found) }
+      it { expect(assigns(:tournament_players)).to be_nil }
+      it { expect(assigns(:league_players)).to be_nil }
+    end
   end
 
   describe 'PUT/PATCH #update' do

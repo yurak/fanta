@@ -96,6 +96,9 @@ Rails.application.routes.draw do
     get :new_name, on: :member
     put :new_update, on: :member
   end
+  resources :users, only: [], path: :managers, as: :managers do
+    get :show, on: :member, to: 'users#show_manager'
+  end
 
   namespace :api do
     resources :leagues, only: [:index, :show] do

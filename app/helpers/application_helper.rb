@@ -15,6 +15,14 @@ module ApplicationHelper
     index
   end
 
+  def position_manager_number(index)
+    return '🥇 #1' if index == 1
+    return '🥈 #2' if index == 2
+    return '🥉 #3' if index == 3
+
+    "##{index}"
+  end
+
   def ordinalize_number(number)
     return '-' unless number
 

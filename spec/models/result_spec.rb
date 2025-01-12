@@ -55,10 +55,10 @@ RSpec.describe Result do
     end
   end
 
-  describe '#position' do
+  describe '#live_position' do
     context 'without opponents in league' do
       it 'returns one' do
-        expect(result.position).to eq(1)
+        expect(result.live_position).to eq(1)
       end
     end
 
@@ -66,23 +66,163 @@ RSpec.describe Result do
       let(:result) { create(:result, :with_opponents, points: 22) }
 
       it 'returns team position' do
-        expect(result.position).to eq(3)
+        expect(result.live_position).to eq(3)
       end
     end
 
     context 'when results with same points' do
-      let(:result) { create(:result, :with_opponents, points: 27, scored_goals: 34, missed_goals: 23) }
+      let(:result) { create(:result, :with_opponents, points: 27, scored_goals: 33) }
 
       it 'returns team position' do
-        expect(result.position).to eq(2)
+        expect(result.live_position).to eq(3)
       end
     end
 
-    context 'when results with same points and goal difference' do
-      let(:result) { create(:result, :with_opponents, points: 34, scored_goals: 55, missed_goals: 23) }
+    context 'when results with same points and scored goals' do
+      let(:result) { create(:result, :with_opponents, points: 27, scored_goals: 34, wins: 8) }
 
       it 'returns team position' do
-        expect(result.position).to eq(1)
+        expect(result.live_position).to eq(2)
+      end
+    end
+
+    context 'when results with same points, scored goals and wins' do
+      let(:result) { create(:result, :with_opponents, points: 27, scored_goals: 34, wins: 7, total_score: 1100) }
+
+      it 'returns team position' do
+        expect(result.live_position).to eq(3)
+      end
+    end
+
+    context 'when results with same points, scored goals, wins and total score' do
+      let(:result) { create(:result, :with_opponents, points: 27, scored_goals: 34, wins: 7, total_score: 1200, missed_goals: 23) }
+
+      it 'returns team position' do
+        expect(result.live_position).to eq(2)
+      end
+    end
+
+    context 'when results with same points, scored goals, wins, total score and goal difference' do
+      let(:result) { create(:result, :with_opponents, points: 27, scored_goals: 34, wins: 7, total_score: 1200, missed_goals: 26) }
+
+      it 'returns team position' do
+        expect(result.live_position).to eq(2)
+      end
+    end
+  end
+
+  describe '#fanta_position' do
+    context 'without opponents in league' do
+      it 'returns one' do
+        expect(result.fanta_position).to eq(1)
+      end
+    end
+
+    context 'with opponents in league' do
+      let(:result) { create(:result, :with_opponents, total_score: 1100) }
+
+      it 'returns team position' do
+        expect(result.fanta_position).to eq(3)
+      end
+    end
+
+    context 'when results with same total_score' do
+      let(:result) { create(:result, :with_opponents, total_score: 1200, points: 28) }
+
+      it 'returns team position' do
+        expect(result.fanta_position).to eq(2)
+      end
+    end
+
+    context 'when results with same total_score and points' do
+      let(:result) { create(:result, :with_opponents, total_score: 1500, points: 15, best_lineup: 99) }
+
+      it 'returns team position' do
+        expect(result.fanta_position).to eq(1)
+      end
+    end
+  end
+
+  describe '#promoted?' do
+    context 'when league fanta' do
+      let(:result) { create(:result, league: create(:league, :fanta_league)) }
+
+      it 'returns false' do
+        expect(result).not_to be_promoted
+      end
+    end
+
+    context 'when league is mantra but not archived' do
+      it 'returns false' do
+        expect(result).not_to be_promoted
+      end
+    end
+
+    context 'when league is mantra and archived' do
+      let(:result) { create(:result, league: create(:archived_league)) }
+
+      context 'without promotion teams number' do
+        it 'returns false' do
+          expect(result).not_to be_promoted
+        end
+      end
+
+      context 'with promotion teams number and team outside promotion zone' do
+        let(:result) { create(:result, position: 4, league: create(:archived_league, promotion: 3)) }
+
+        it 'returns false' do
+          expect(result).not_to be_promoted
+        end
+      end
+
+      context 'with promotion teams number and team inside promotion zone' do
+        let(:result) { create(:result, position: 2, league: create(:archived_league, promotion: 3)) }
+
+        it 'returns true' do
+          expect(result).to be_promoted
+        end
+      end
+    end
+  end
+
+  describe '#relegated?' do
+    context 'when league fanta' do
+      let(:result) { create(:result, league: create(:league, :fanta_league)) }
+
+      it 'returns false' do
+        expect(result).not_to be_relegated
+      end
+    end
+
+    context 'when league is mantra but not archived' do
+      it 'returns false' do
+        expect(result).not_to be_relegated
+      end
+    end
+
+    context 'when league relegation parameter is not positive' do
+      let(:result) { create(:result, league: create(:archived_league)) }
+
+      it 'returns false' do
+        expect(result).not_to be_relegated
+      end
+    end
+
+    context 'when league is mantra, archived and relegation parameter is positive' do
+      context 'with promotion teams number and team outside relegation zone' do
+        let(:result) { create(:result, position: 4, league: create(:archived_league, :with_five_teams, relegation: 2)) }
+
+        it 'returns false' do
+          expect(result).not_to be_relegated
+        end
+      end
+
+      context 'with promotion teams number and team inside promotion zone' do
+        let(:result) { create(:result, position: 5, league: create(:archived_league, :with_five_teams, relegation: 2)) }
+
+        it 'returns false' do
+          expect(result).to be_relegated
+        end
       end
     end
   end

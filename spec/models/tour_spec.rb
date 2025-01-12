@@ -105,28 +105,6 @@ RSpec.describe Tour do
     end
   end
 
-  describe '#mantra?' do
-    context 'without tournament_round matches' do
-      it { expect(tour.mantra?).to be(false) }
-    end
-
-    context 'with national_match' do
-      before do
-        create(:national_match, tournament_round: tour.tournament_round)
-      end
-
-      it { expect(tour.mantra?).to be(false) }
-    end
-
-    context 'with tournament_match' do
-      before do
-        create(:tournament_match, tournament_round: tour.tournament_round)
-      end
-
-      it { expect(tour.mantra?).to be(true) }
-    end
-  end
-
   describe '#national?' do
     context 'without tournament_round matches' do
       it { expect(tour.national?).to be(false) }
@@ -146,27 +124,6 @@ RSpec.describe Tour do
       end
 
       it { expect(tour.national?).to be(true) }
-    end
-  end
-
-  describe '#fanta?' do
-    context 'with not eurocup tournament and without tournament_round matches' do
-      it { expect(tour.fanta?).to be(false) }
-    end
-
-    context 'with eurocup tournament' do
-      let(:tournament_round) { create(:tournament_round, tournament: Tournament.find_by(eurocup: true)) }
-      let(:tour) { create(:tour, tournament_round: tournament_round) }
-
-      it { expect(tour.fanta?).to be(true) }
-    end
-
-    context 'with national_match' do
-      before do
-        create(:national_match, tournament_round: tour.tournament_round)
-      end
-
-      it { expect(tour.fanta?).to be(true) }
     end
   end
 
@@ -487,10 +444,12 @@ RSpec.describe Tour do
     end
 
     context 'when fanta?' do
+      let(:league) { create(:league, :fanta_league) }
+      let(:tour) { create(:closed_tour, league: league, tournament_round: create(:tournament_round, tournament: league.tournament)) }
+
       before do
         allow(Substitutes::AutoBot).to receive(:new).and_return(autobot_spy)
         allow(autobot_spy).to receive(:process)
-        create(:national_match, tournament_round: tour.tournament_round)
         create(:lineup, tour: tour)
         create(:lineup, tour: tour)
       end

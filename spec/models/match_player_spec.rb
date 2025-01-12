@@ -401,4 +401,14 @@ RSpec.describe MatchPlayer do
       end
     end
   end
+
+  describe '#subs_option_exist?' do
+    context 'without subs options' do
+      let(:match_player) { create(:match_player, real_position: 'E', round_player: create(:round_player, :with_pos_e)) }
+
+      it 'returns false' do
+        expect(match_player.subs_option_exist?).to be(false)
+      end
+    end
+  end
 end

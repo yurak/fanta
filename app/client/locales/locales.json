@@ -1101,6 +1101,26 @@
       "edit_team": "Edit team",
       "email": "Email",
       "league": "League:",
+      "manager": {
+        "all_teams": "All Teams",
+        "avg_position": "📊 Avg. position",
+        "avg_total_score": "🎲 Avg. total score",
+        "division": "Division",
+        "fanta_top": "🏵️ Fanta Top10",
+        "fanta_top_ts": "🎯️️ Fanta Top10 TS",
+        "league": "League",
+        "leagues": "leagues",
+        "place": "Place",
+        "promotions": "👆 Promotion",
+        "relegations": "👇 Relegation",
+        "season": "Season",
+        "team": "Team",
+        "teams": "teams",
+        "title": "Profile",
+        "titles_won": "🏆 Titles won",
+        "type": "Type",
+        "win_rate": "🏅️ Games Win Rate"
+      },
       "name": "Name",
       "new_avatar": {
         "select": "Select avatar"
@@ -2296,6 +2316,26 @@
       "edit_team": "Редагувати",
       "email": "Пошта",
       "league": "Ліга:",
+      "manager": {
+        "all_teams": "Всі команди",
+        "avg_position": "📊 Сер. позиція",
+        "avg_total_score": "🎲 Сер. заг. бал",
+        "division": "Дивізіон",
+        "fanta_top": "🏵️ Фанта Топ10",
+        "fanta_top_ts": "🎯️️ Фанта Топ10 ЗБ",
+        "league": "Ліга",
+        "leagues": "ліги",
+        "place": "Місце",
+        "promotions": "👆 Підвищення",
+        "relegations": "👇 Пониження",
+        "season": "Сезон",
+        "team": "Команда",
+        "teams": "команди",
+        "title": "Профіль",
+        "titles_won": "🏆 Виграно титулів",
+        "type": "Тип",
+        "win_rate": "🏅️ Коеф. перемог"
+      },
       "name": "Ім'я",
       "new_avatar": {
         "select": "Виберіть аватар"
