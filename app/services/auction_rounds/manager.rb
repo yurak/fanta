@@ -73,6 +73,8 @@ module AuctionRounds
     end
 
     def bids_not_ready?
+      return false unless auction.primary?
+
       auction_bids.any? { |ab| %w[submitted completed].exclude? ab.status }
     end
 
