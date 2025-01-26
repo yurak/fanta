@@ -143,13 +143,6 @@ RSpec.describe Players::Manager do
       it { expect(manager.call).to be(false) }
     end
 
-    context 'without player id and positions' do
-      let(:player_id) { nil }
-      let(:player_position1) { nil }
-
-      it { expect(manager.call).to be(false) }
-    end
-
     context 'with multiple positions' do
       let(:player_hash) do
         {

@@ -13,9 +13,9 @@ module Players
         return false unless tm_id
 
         {
-          first_name: first_name, last_name: last_name, country: country_code, club_id: club&.id, club_name: club&.name,
-          pos1: pos1, pos2: pos2, pos3: pos3, player_url: player_url, tm_pos1: tm_pos1, tm_pos2: tm_pos2, tm_pos3: tm_pos3,
-          price: price, number: number, birth_date: birth_date, height: height
+          first_name: first_name, name: last_name, nationality: country_code, club_id: club&.id, club_name: club&.name,
+          position1: position1, position2: position2, position3: position3, tm_url: tm_url, tm_pos1: tm_pos1,
+          tm_pos2: tm_pos2, tm_pos3: tm_pos3, tm_price: price, number: number, birth_date: birth_date, height: height
         }
       end
 
@@ -66,15 +66,15 @@ module Players
         Players::Transfermarkt::PositionMapper.call(Player.new(tm_id: tm_id), 2023)
       end
 
-      def pos1
+      def position1
         Position::HUMAN_MAP[position_arr[0]] if position_arr[0]
       end
 
-      def pos2
+      def position2
         position_arr[1] ? Position::HUMAN_MAP[position_arr[1]] : nil
       end
 
-      def pos3
+      def position3
         position_arr[2] ? Position::HUMAN_MAP[position_arr[2]] : nil
       end
 
@@ -111,11 +111,11 @@ module Players
 
       def request
         @request ||= RestClient::Request.execute(
-          method: :get, url: player_url, headers: { 'User-Agent': 'product/version' }, verify_ssl: false
+          method: :get, url: tm_url, headers: { 'User-Agent': 'product/version' }, verify_ssl: false
         )
       end
 
-      def player_url
+      def tm_url
         "#{Player::TM_PATH}#{tm_id}"
       end
     end

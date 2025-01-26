@@ -21,13 +21,13 @@ RSpec.describe Players::Transfermarkt::Parser do
 
       it 'returns player last name' do
         VCR.use_cassette 'player_tm_parser_fofana' do
-          expect(parser.call[:last_name]).to eq('Fofana')
+          expect(parser.call[:name]).to eq('Fofana')
         end
       end
 
       it 'returns player country code' do
         VCR.use_cassette 'player_tm_parser_fofana' do
-          expect(parser.call[:country]).to eq('fr')
+          expect(parser.call[:nationality]).to eq('fr')
         end
       end
 
@@ -45,25 +45,25 @@ RSpec.describe Players::Transfermarkt::Parser do
 
       it 'returns player main position' do
         VCR.use_cassette 'player_tm_parser_fofana' do
-          expect(parser.call[:pos1]).to eq('M')
+          expect(parser.call[:position1]).to eq('M')
         end
       end
 
       it 'returns player second position' do
         VCR.use_cassette 'player_tm_parser_fofana' do
-          expect(parser.call[:pos2]).to eq('C')
+          expect(parser.call[:position2]).to eq('C')
         end
       end
 
       it 'returns player third position' do
         VCR.use_cassette 'player_tm_parser_fofana' do
-          expect(parser.call[:pos3]).to be_nil
+          expect(parser.call[:position3]).to be_nil
         end
       end
 
       it 'returns player price in millions' do
         VCR.use_cassette 'player_tm_parser_fofana' do
-          expect(parser.call[:price]).to eq(30_000_000)
+          expect(parser.call[:tm_price]).to eq(30_000_000)
         end
       end
 
@@ -91,7 +91,7 @@ RSpec.describe Players::Transfermarkt::Parser do
 
       it 'returns player price in thousands' do
         VCR.use_cassette 'player_tm_parser_torriani' do
-          expect(parser.call[:price]).to eq(500_000)
+          expect(parser.call[:tm_price]).to eq(500_000)
         end
       end
     end
