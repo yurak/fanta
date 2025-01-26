@@ -16,7 +16,7 @@ namespace :tm do
       player = Players::Manager.call(result.stringify_keys)
       if player
         writer << ['', result[:first_name], result[:name], result[:nationality], result[:club_name],
-                   result[:pos1], result[:pos2], result[:pos3], result[:tm_url], '',
+                   result[:position1], result[:position2], result[:position3], result[:tm_url], '',
                    result[:tm_pos1], result[:tm_pos2], result[:tm_pos3]]
         puts "Player #{tm_id} created!"
       else
