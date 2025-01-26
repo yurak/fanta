@@ -11,7 +11,6 @@ module Players
 
       def call
         return false unless tm_id
-        return false if Player.find_by(tm_id: tm_id)
 
         {
           first_name: first_name, last_name: last_name, country: country_code, club_id: club&.id, club_name: club&.name,
