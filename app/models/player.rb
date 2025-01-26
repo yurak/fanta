@@ -15,6 +15,7 @@ class Player < ApplicationRecord
   has_many :transfers, dependent: :destroy
 
   BUCKET_URL = 'https://mantrafootball.s3-eu-west-1.amazonaws.com'.freeze
+  TM_PATH = 'https://www.transfermarkt.com/player-path/profil/spieler/'.freeze
 
   validates :name, presence: true
   validates :tm_id, uniqueness: true, allow_nil: true
@@ -86,7 +87,7 @@ class Player < ApplicationRecord
   def tm_path
     return '' unless tm_id
 
-    "https://www.transfermarkt.com/player-path/profil/spieler/#{tm_id}"
+    "#{TM_PATH}#{tm_id}"
   end
 
   def tm_position_path(season_start_year)

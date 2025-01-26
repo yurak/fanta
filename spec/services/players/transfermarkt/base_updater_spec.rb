@@ -1,4 +1,4 @@
-RSpec.describe Players::Transfermarkt::Parser do
+RSpec.describe Players::Transfermarkt::BaseUpdater do
   describe '#call' do
     subject(:parser) { described_class.new(player) }
 

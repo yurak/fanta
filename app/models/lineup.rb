@@ -16,6 +16,9 @@ class Lineup < ApplicationRecord
   default_scope { includes(%i[team tour]) }
 
   scope :closed, ->(league_id) { where(tour_id: League.find(league_id).tours.closed.ids) }
+  scope :finished, -> { joins(:tour).where(tours: { status: :closed }) }
+  scope :mantra, -> { joins(tour: { tournament_round: :tournament }).where(tournaments: { mode: :mantra }) }
+  scope :fanta, -> { joins(tour: { tournament_round: :tournament }).where(tournaments: { mode: :fanta }) }
   scope :by_league, ->(league_id) { where(tour_id: League.find(league_id).tours.ids) }
   scope :by_team, ->(team_id) { where(team_id: team_id) }
   scope :top_position, ->(position) { where('position > 0 AND position <= ?', position) if position }
