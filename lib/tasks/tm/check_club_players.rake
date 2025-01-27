@@ -39,9 +39,9 @@ namespace :tm do
               result = Players::Transfermarkt::Parser.call(tm_id)
               next unless result
 
-              writer << ['', result[:first_name], result[:last_name], result[:country], club.name,
-                         result[:pos1], result[:pos2], result[:pos3], result[:player_url], '',
-                         result[:tm_pos1], result[:tm_pos2], result[:tm_pos3], result[:price]]
+              writer << ['', result[:first_name], result[:name], result[:nationality], club.name,
+                         result[:position1], result[:position2], result[:position3], result[:tm_url], '',
+                         result[:tm_pos1], result[:tm_pos2], result[:tm_pos3], result[:tm_price]]
             rescue RestClient::Exception => e
               puts "error for id #{tm_id} - #{e}"
             end
