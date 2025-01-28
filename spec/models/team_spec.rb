@@ -565,7 +565,7 @@ RSpec.describe Team do
       end
     end
 
-    context 'with lineups' do
+    context 'without finished lineups' do
       before do
         create_list(:lineup, 2, team: team, tour: create(:tour, league: team.league))
       end
@@ -582,6 +582,28 @@ RSpec.describe Team do
         end
 
         it 'returns zero' do
+          expect(team.avg_ts).to eq(0)
+        end
+      end
+    end
+
+    context 'with finished lineups' do
+      before do
+        create_list(:lineup, 2, team: team, tour: create(:closed_tour, league: team.league))
+      end
+
+      context 'without result' do
+        it 'returns zero' do
+          expect(team.avg_ts).to eq(0)
+        end
+      end
+
+      context 'with result' do
+        before do
+          create(:result, team: team, league: team.league, total_score: 143)
+        end
+
+        it 'returns average ts' do
           expect(team.avg_ts).to eq(71.5)
         end
       end
@@ -595,9 +617,31 @@ RSpec.describe Team do
       end
     end
 
-    context 'with lineups' do
+    context 'without finished lineups' do
       before do
         create_list(:lineup, 2, team: team, tour: create(:tour, league: team.league))
+      end
+
+      context 'without result' do
+        it 'returns zero' do
+          expect(team.avg_points).to eq(0)
+        end
+      end
+
+      context 'with result' do
+        before do
+          create(:result, team: team, league: team.league, points: 55)
+        end
+
+        it 'returns zero' do
+          expect(team.avg_points).to eq(0)
+        end
+      end
+    end
+
+    context 'with finished lineups' do
+      before do
+        create_list(:lineup, 2, team: team, tour: create(:closed_tour, league: team.league))
       end
 
       context 'without result' do
@@ -625,9 +669,19 @@ RSpec.describe Team do
       end
     end
 
-    context 'with lineups' do
+    context 'without finished lineups' do
       before do
         create_list(:lineup, 2, team: team, tour: create(:tour, league: team.league))
+      end
+
+      it 'returns zero' do
+        expect(team.league_lineups_number).to eq(0)
+      end
+    end
+
+    context 'with finished lineups' do
+      before do
+        create_list(:lineup, 2, team: team, tour: create(:closed_tour, league: team.league))
       end
 
       it 'returns number of lineups' do
@@ -643,9 +697,19 @@ RSpec.describe Team do
       end
     end
 
-    context 'with lineups' do
+    context 'without finished lineups' do
       before do
         create_list(:lineup, 2, team: team, tour: create(:tour, league: team.league))
+      end
+
+      it 'returns empty array' do
+        expect(team.league_lineups).to eq([])
+      end
+    end
+
+    context 'with finished lineups' do
+      before do
+        create_list(:lineup, 2, team: team, tour: create(:closed_tour, league: team.league))
       end
 
       it 'returns array with lineups' do
