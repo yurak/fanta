@@ -2,7 +2,11 @@
   .next-round.auction-block-active{ class: "auction-block-#{active_auction.status}"}
     .auction-block-header
       - if active_auction.sales?
-        .auction-badge.auction-badge-sales= t('header.sales_period')
+        .auction-sales-line
+          .auction-badge.auction-badge-sales= t('header.sales_period')
+          .auction-sales-slots
+            - if user_team_by_league(current_user, league)
+              = "#{user_team_by_league(current_user, league).prepared_sales_count}/#{user_team_by_league(current_user, league).available_transfers}"
       - else
         .live-badge
           .live-dot

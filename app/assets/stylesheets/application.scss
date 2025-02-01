@@ -701,6 +701,22 @@ body, html {
       }
     }
 
+    .auction-block-sales {
+      .auction-block-header {
+        .auction-line {
+          order: 1;
+
+          .auction-link {
+            width: 100%;
+          }
+        }
+
+        .auction-sales-line {
+          order: 2;
+        }
+      }
+    }
+
     .auction-block-finished {
       background: #E5E6E4;
       display: grid;
