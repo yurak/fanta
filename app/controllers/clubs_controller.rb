@@ -1,6 +1,4 @@
 class ClubsController < ApplicationController
-  skip_before_action :authenticate_user!, only: %i[show]
-
   respond_to :html
 
   helper_method :club, :clubs, :league, :tournament

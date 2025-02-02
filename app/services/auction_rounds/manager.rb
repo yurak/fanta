@@ -13,6 +13,8 @@ module AuctionRounds
       AuctionRound.transaction do
         round.processing!
 
+        fail_invalid_bids
+
         manage_bids
 
         auction_bids.map(&:processed!)
@@ -24,6 +26,14 @@ module AuctionRounds
     end
 
     private
+
+    def fail_invalid_bids
+      auction_bids.each do |auction_bid|
+        next if auction_bid.player_bids.sum(&:price) <= auction_bid.team.budget
+
+        auction_bid.player_bids.initial.map(&:failed!)
+      end
+    end
 
     def manage_bids
       round.player_bids.initial.group_by(&:player_id).each do |player_group|
@@ -46,7 +56,7 @@ module AuctionRounds
     end
 
     def process_bid(bid)
-      unless bid.player.team_by_league(league.id)
+      if bid.player.present? && bid.player.team_by_league(league.id).nil?
         params = {
           auction_id: auction.id,
           player_id: bid.player.id,

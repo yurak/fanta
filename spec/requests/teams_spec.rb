@@ -4,13 +4,25 @@ RSpec.describe 'Teams' do
   describe 'GET #show' do
     let(:team) { create(:team, :with_league_matches) }
 
-    before do
-      get team_path(team)
+    context 'when user is logged out' do
+      before do
+        get team_path(team)
+      end
+
+      it { expect(response).to redirect_to('/users/sign_in') }
+      it { expect(response).to have_http_status(:found) }
     end
 
-    it { expect(response).to be_successful }
-    it { expect(response).to render_template(:show) }
-    it { expect(response).to have_http_status(:ok) }
+    context 'when user is logged in' do
+      login_user
+      before do
+        get team_path(team)
+      end
+
+      it { expect(response).to be_successful }
+      it { expect(response).to render_template(:show) }
+      it { expect(response).to have_http_status(:ok) }
+    end
   end
 
   describe 'GET #new' do

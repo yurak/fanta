@@ -2,14 +2,26 @@ RSpec.describe 'Transfers' do
   let(:auction) { create(:auction) }
 
   describe 'GET #index' do
-    before do
-      get league_auction_transfers_path(auction.league, auction)
+    context 'when user is logged out' do
+      before do
+        get league_auction_transfers_path(auction.league, auction)
+      end
+
+      it { expect(response).to redirect_to('/users/sign_in') }
+      it { expect(response).to have_http_status(:found) }
     end
 
-    it { expect(response).to be_successful }
-    it { expect(response).to render_template(:index) }
-    it { expect(response).to have_http_status(:ok) }
-    it { expect(assigns(:transfers)).not_to be_nil }
+    context 'when user is logged in' do
+      login_user
+      before do
+        get league_auction_transfers_path(auction.league, auction)
+      end
+
+      it { expect(response).to be_successful }
+      it { expect(response).to render_template(:index) }
+      it { expect(response).to have_http_status(:ok) }
+      it { expect(assigns(:transfers)).not_to be_nil }
+    end
   end
 
   describe 'POST #create' do

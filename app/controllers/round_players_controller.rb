@@ -1,6 +1,4 @@
 class RoundPlayersController < ApplicationController
-  skip_before_action :authenticate_user!, only: %i[index]
-
   respond_to :html, :json
 
   helper_method :tournament_round, :tournament

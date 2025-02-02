@@ -1,6 +1,4 @@
 class AuctionRoundsController < ApplicationController
-  skip_before_action :authenticate_user!, only: %i[show]
-
   respond_to :html
 
   helper_method :auction, :auction_bid, :auction_round, :league

@@ -1,6 +1,4 @@
 class PlayersController < ApplicationController
-  skip_before_action :authenticate_user!, only: %i[index show]
-
   helper_method :league, :player, :tournament
 
   respond_to :html

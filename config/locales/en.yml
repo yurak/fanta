@@ -52,7 +52,7 @@ en:
       ongoing: "Submit bid"
       submitted: "Complete in advance"
     budget: "💰 Budget"
-    decrease_bid: "Decrease bid to match your budget"
+    decrease_bid: "Decrease bid to match your budget. The bid won't be calculated if its amount exceeds the team's budget."
     exceeded: "Budget exceeded"
     filters: "Filters"
     max_bid: "Maximum bid"
