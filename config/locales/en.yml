@@ -758,7 +758,7 @@ en:
         ul31: "During the transfer window (after its announcement and before the deadline), the manager can select several players from his team to sell."
         ul32: "The amount that was previously paid by the manager for this player is returned to his budget, and the player himself becomes a free agent. Such a player will be available for purchase by any other league manager other than the one who sold him. The manager who sold the player will not be able to buy him until the next transfer window."
         ul33: "During the season, the transfer window opens 4 times. The exact schedule can be found in the 'Auctions' menu of the league after it is created. The approximate schedule is as follows: I – the first half of September, II – the second half of November, III – the first half of February, IV – the second half of March."
-        ul34: "The number of players that can be sold in the top 5 tournaments (EPL, Serie A, Bundesliga, Ligue 1, LaLiga): 3 players for each window in divisions A and B, for division C - 4 players, for divisions D and below - 5 players. For other tournaments, the number of slots in each auction is 5."
+        ul34: "Each team receives a certain number of transfer slots per season (16 in the 2024/25 season), which can be distributed to auctions throughout the season, but there must be at least 2 slots remaining for each auction."
         ul35: "A player who left the championship (due to transfer, early termination of the contract, etc.) leaves the team on his own and the amount paid for him is returned to the manager's budget."
         ul36: "A player who has changed clubs within one tournament does not leave the Mantra team."
         ul37: "Additional auctions are always conducted in a blind format."
