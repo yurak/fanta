@@ -1,4 +1,5 @@
 namespace :calendar do
+  # rake 'calendar:generate[303,34]'
   desc 'Create Tours, Matches and Results for League'
   task :generate, %i[league_id tours_count] => :environment do |_t, args|
     ActiveRecord::Base.transaction do

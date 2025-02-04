@@ -3,42 +3,34 @@ module Players
     class Parser < ApplicationService
       THOUSAND = 1000
 
-      attr_reader :player
+      attr_reader :tm_id
 
-      def initialize(player)
-        @player = player
+      def initialize(tm_id)
+        @tm_id = tm_id
       end
 
       def call
-        return false unless player&.tm_id
+        return false unless tm_id
 
-        player.update(update_params)
+        {
+          first_name: first_name, name: last_name, nationality: country_code, club_id: club&.id, club_name: club&.name,
+          position1: position1, position2: position2, position3: position3, tm_url: tm_url, tm_pos1: tm_pos1,
+          tm_pos2: tm_pos2, tm_pos3: tm_pos3, tm_price: price, number: number, birth_date: birth_date, height: height
+        }
       end
 
       private
 
-      def update_params
-        update_params = {
-          birth_date: birth_date,
-          height: height,
-          number: number,
-          tm_price: tm_price
-        }
-        update_params[:nationality] = country_code if country_code
-        update_params
+      def name_data
+        html_page.css('.data-header__headline-wrapper').children
       end
 
-      def number
-        html_page.css('.data-header__shirt-number').text.strip.tr('#', '')
+      def first_name
+        name_data[1]&.text&.strip&.tr('#', '').to_i.positive? ? name_data[2]&.text&.strip : name_data[0]&.text&.strip
       end
 
-      def birth_date
-        html_page.css('.data-header__info-box .data-header__details').children[1].children[1].children[1].children.text.strip[0..11]
-      end
-
-      def height
-        html_page.css('.data-header__info-box .data-header__details')
-                 .children[3].children[1].children[1].children.text.strip[0..3].tr(',', '')
+      def last_name
+        name_data[1]&.text&.strip&.tr('#', '').to_i.positive? ? name_data[3]&.text&.strip : name_data[1]&.text&.strip
       end
 
       def country_code
@@ -46,7 +38,60 @@ module Players
         ISO3166::Country.find_country_by_iso_short_name(country_name)&.alpha2&.downcase
       end
 
-      def tm_price
+      def club
+        @club ||= Club.find_by(tm_name: tm_club_name) || Club.where('reserve_clubs LIKE ?', "%#{tm_club_name}%").first
+      end
+
+      def tm_club_name
+        html_page.css('.data-header__club').children[1]&.text || html_page.css('.data-header__club').children[0]&.text&.strip
+      end
+
+      def positions
+        html_page.css('.detail-position__position')
+      end
+
+      def tm_pos1
+        Position::TM_POS[positions[0]&.text]
+      end
+
+      def tm_pos2
+        Position::TM_POS[positions[2]&.text]
+      end
+
+      def tm_pos3
+        Position::TM_POS[positions[3]&.text]
+      end
+
+      def position_arr
+        Players::Transfermarkt::PositionMapper.call(Player.new(tm_id: tm_id), 2023)
+      end
+
+      def position1
+        Position::HUMAN_MAP[position_arr[0]] if position_arr[0]
+      end
+
+      def position2
+        position_arr[1] ? Position::HUMAN_MAP[position_arr[1]] : nil
+      end
+
+      def position3
+        position_arr[2] ? Position::HUMAN_MAP[position_arr[2]] : nil
+      end
+
+      def birth_date
+        html_page.css('.data-header__info-box .data-header__details').children[1].children[1].children[1].children.text.strip[0..11]
+      end
+
+      def number
+        html_page.css('.data-header__shirt-number').text.strip.tr('#', '')
+      end
+
+      def height
+        html_page.css('.data-header__info-box .data-header__details')
+                 .children[3].children[1].children[1].children.text.strip[0..3].tr(',', '')
+      end
+
+      def price
         return 0 if html_page.css('.data-header__market-value-wrapper').blank?
 
         multiplier = case html_page.css('.data-header__market-value-wrapper').children[2].text
@@ -66,8 +111,12 @@ module Players
 
       def request
         @request ||= RestClient::Request.execute(
-          method: :get, url: player.tm_path, headers: { 'User-Agent': 'product/version' }, verify_ssl: false
+          method: :get, url: tm_url, headers: { 'User-Agent': 'product/version' }, verify_ssl: false
         )
+      end
+
+      def tm_url
+        "#{Player::TM_PATH}#{tm_id}"
       end
     end
   end

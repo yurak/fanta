@@ -60,9 +60,6 @@
           .stats-item-top-percent= "#{user.win_rate}%"
           .stats-item-top-number
         .common-stats-item
-          .common-stats-item-title= t('users.manager.avg_total_score')
-          .common-stats-item-value= user.average_total_score
-        .common-stats-item
           .common-stats-item-title= t('users.manager.titles_won')
           .common-stats-item-value= user.titles.count
         .common-stats-item
@@ -74,12 +71,33 @@
         .common-stats-item
           .common-stats-item-title= t('users.manager.avg_position')
           .common-stats-item-value= user.average_position
+        -#.common-stats-item
+        -#  .common-stats-item-title= t('users.manager.top_transfer')
+        -#  .common-stats-item-value= user.top_transfer
+        .common-stats-item
+          .common-stats-item-title= t('users.manager.mantra_matches')
+          .common-stats-item-value= user.finished_mantra_lineups.count
+        .common-stats-item
+          .common-stats-item-title= t('users.manager.average_mantra_ts')
+          .common-stats-item-value= user.average_mantra_ts
+        .common-stats-item
+          .common-stats-item-title= t('users.manager.mantra_best_ts')
+          .common-stats-item-value= user.mantra_best_ts
         .common-stats-item
           .common-stats-item-title= t('users.manager.fanta_top')
           .common-stats-item-value= user.fanta_top.count
         .common-stats-item
           .common-stats-item-title= t('users.manager.fanta_top_ts')
           .common-stats-item-value= user.fanta_top_ts.count
+        .common-stats-item
+          .common-stats-item-title= t('users.manager.fanta_matches')
+          .common-stats-item-value= user.finished_fanta_lineups.count
+        .common-stats-item
+          .common-stats-item-title= t('users.manager.average_fanta_ts')
+          .common-stats-item-value= user.average_fanta_ts
+        .common-stats-item
+          .common-stats-item-title= t('users.manager.fanta_best_ts')
+          .common-stats-item-value= user.fanta_best_ts
 
 :javascript
   $(document).ready(function() {

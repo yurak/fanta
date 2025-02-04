@@ -286,6 +286,18 @@
   .auction-block-sales {
     .auction-badge {
       background: #9F6C05;
+      width: fit-content;
+    }
+
+    .auction-sales-line {
+      display: grid;
+      grid-template-columns: auto 48px;
+      column-gap: 4px;
+
+      .auction-sales-slots {
+        font-family: 'Nunito SemiBold';
+        text-align: right;
+      }
     }
 
     .auction-line {

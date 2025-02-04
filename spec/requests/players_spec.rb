@@ -3,11 +3,21 @@ RSpec.describe 'Players' do
     let(:players) { create_list(:player, 20) }
     let(:params) { nil }
 
-    before do
-      get players_path(params)
+    context 'when user is logged out' do
+      before do
+        get players_path(params)
+      end
+
+      it { expect(response).to redirect_to('/users/sign_in') }
+      it { expect(response).to have_http_status(:found) }
     end
 
     context 'without params' do
+      login_user
+      before do
+        get players_path(params)
+      end
+
       it { expect(response).to be_successful }
       it { expect(response).to render_template(:index) }
       it { expect(response).to render_template(:_paginator) }
@@ -20,6 +30,11 @@ RSpec.describe 'Players' do
 
     context 'with club order param' do
       let(:params) { { order: 'club' } }
+
+      login_user
+      before do
+        get players_path(params)
+      end
 
       it { expect(response).to be_successful }
       it { expect(response).to render_template(:index) }
@@ -34,6 +49,11 @@ RSpec.describe 'Players' do
     context 'with appearances order param' do
       let(:params) { { order: 'appearances' } }
 
+      login_user
+      before do
+        get players_path(params)
+      end
+
       it { expect(response).to be_successful }
       it { expect(response).to render_template(:index) }
       it { expect(response).to render_template(:_paginator) }
@@ -46,6 +66,11 @@ RSpec.describe 'Players' do
 
     context 'with rating order param' do
       let(:params) { { order: 'rating' } }
+
+      login_user
+      before do
+        get players_path(params)
+      end
 
       it { expect(response).to be_successful }
       it { expect(response).to render_template(:index) }
@@ -62,7 +87,17 @@ RSpec.describe 'Players' do
     let(:club) { create(:club, name: 'Outside') }
     let(:player) { create(:player, club: club) }
 
+    context 'when user is logged out' do
+      before do
+        get player_path(player)
+      end
+
+      it { expect(response).to redirect_to('/users/sign_in') }
+      it { expect(response).to have_http_status(:found) }
+    end
+
     context 'with html format' do
+      login_user
       before do
         get player_path(player)
       end
@@ -74,6 +109,7 @@ RSpec.describe 'Players' do
     end
 
     context 'with json format' do
+      login_user
       before do
         params = { format: 'json' }
         get player_path(player, params)

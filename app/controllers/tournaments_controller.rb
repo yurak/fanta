@@ -1,6 +1,4 @@
 class TournamentsController < ApplicationController
-  skip_before_action :authenticate_user!, only: %i[show]
-
   helper_method :fixtures, :national_fixtures, :tournament
 
   respond_to :html

@@ -172,10 +172,10 @@ RSpec.describe User do
     end
   end
 
-  describe '#average_total_score' do
+  describe '#average_mantra_ts' do
     context 'without lineups' do
       it 'returns zero' do
-        expect(user.average_total_score).to eq(0)
+        expect(user.average_mantra_ts).to eq(0)
       end
     end
 
@@ -183,12 +183,81 @@ RSpec.describe User do
       let(:team) { create(:team, user: user) }
 
       before do
-        create(:lineup, team: team, final_score: 100)
-        create(:lineup, team: team, final_score: 70)
+        create(:lineup, team: team, final_score: 100, tour: create(:closed_tour))
+        create(:lineup, team: team, final_score: 70, tour: create(:closed_tour))
       end
 
       it 'returns average total score' do
-        expect(user.average_total_score).to eq(85)
+        expect(user.average_mantra_ts).to eq(85)
+      end
+    end
+  end
+
+  describe '#average_fanta_ts' do
+    context 'without lineups' do
+      it 'returns zero' do
+        expect(user.average_fanta_ts).to eq(0)
+      end
+    end
+
+    context 'with lineups' do
+      let(:team) { create(:team, user: user) }
+
+      before do
+        tournament = create(:fanta_tournament)
+        create(:lineup, team: team, final_score: 115,
+                        tour: create(:closed_tour, tournament_round: create(:tournament_round, tournament: tournament)))
+        create(:lineup, team: team, final_score: 85,
+                        tour: create(:closed_tour, tournament_round: create(:tournament_round, tournament: tournament)))
+      end
+
+      it 'returns average total score' do
+        expect(user.average_fanta_ts).to eq(100)
+      end
+    end
+  end
+
+  describe '#mantra_best_ts' do
+    context 'without lineups' do
+      it 'returns zero' do
+        expect(user.mantra_best_ts).to eq(0)
+      end
+    end
+
+    context 'with lineups' do
+      let(:team) { create(:team, user: user) }
+
+      before do
+        create(:lineup, team: team, final_score: 100, tour: create(:closed_tour))
+        create(:lineup, team: team, final_score: 70, tour: create(:closed_tour))
+      end
+
+      it 'returns average total score' do
+        expect(user.mantra_best_ts).to eq(100)
+      end
+    end
+  end
+
+  describe '#fanta_best_ts' do
+    context 'without lineups' do
+      it 'returns zero' do
+        expect(user.fanta_best_ts).to eq(0)
+      end
+    end
+
+    context 'with lineups' do
+      let(:team) { create(:team, user: user) }
+
+      before do
+        tournament = create(:fanta_tournament)
+        create(:lineup, team: team, final_score: 115,
+                        tour: create(:closed_tour, tournament_round: create(:tournament_round, tournament: tournament)))
+        create(:lineup, team: team, final_score: 85,
+                        tour: create(:closed_tour, tournament_round: create(:tournament_round, tournament: tournament)))
+      end
+
+      it 'returns average total score' do
+        expect(user.fanta_best_ts).to eq(115)
       end
     end
   end

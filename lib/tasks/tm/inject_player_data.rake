@@ -7,7 +7,7 @@ namespace :tm do
       next unless player
 
       p "Inject player data: #{player.name} (id: #{player.id})"
-      Players::Transfermarkt::Parser.call(player)
+      Players::Transfermarkt::BaseUpdater.call(player)
 
       sleep(15) if (id % 4).zero?
     end

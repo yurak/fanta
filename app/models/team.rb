@@ -147,7 +147,7 @@ class Team < ApplicationRecord
   end
 
   def league_lineups
-    @league_lineups ||= lineups.by_league(league.id)
+    @league_lineups ||= lineups.finished.by_league(league.id)
   end
 
   def league_result(league_id: league.id)

@@ -1,5 +1,4 @@
 class LineupsController < ApplicationController
-  skip_before_action :authenticate_user!, only: %i[show]
   before_action :modules, only: %i[new edit]
 
   respond_to :html

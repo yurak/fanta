@@ -1,6 +1,4 @@
 class NationalTeamsController < ApplicationController
-  skip_before_action :authenticate_user!, only: %i[show]
-
   respond_to :html
 
   helper_method :national_team, :national_teams

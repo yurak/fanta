@@ -2,7 +2,17 @@ RSpec.describe 'Tours' do
   let(:tour) { create(:tour) }
 
   describe 'GET #show' do
+    context 'when user is logged out' do
+      before do
+        get tour_path(tour)
+      end
+
+      it { expect(response).to redirect_to('/users/sign_in') }
+      it { expect(response).to have_http_status(:found) }
+    end
+
     context 'with valid tour' do
+      login_user
       before do
         get tour_path(tour)
       end
@@ -15,6 +25,7 @@ RSpec.describe 'Tours' do
     end
 
     context 'with invalid tour id' do
+      login_user
       before do
         get tour_path('tour_random_id')
       end

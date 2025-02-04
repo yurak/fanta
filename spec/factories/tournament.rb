@@ -4,7 +4,7 @@ FactoryBot.define do
     sequence(:code) { FFaker::Internet.slug }
 
     factory :fanta_tournament do
-      mode { 1 }
+      mode { :fanta }
     end
 
     trait :with_38_rounds do

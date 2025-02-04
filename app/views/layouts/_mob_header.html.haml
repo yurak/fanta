@@ -57,9 +57,9 @@
         .my-leagues-title My leagues
         .my-leagues-links
           - current_user.teams.each do |team|
-            - if team.league&.active_tour_or_last && !team.league.archived?
+            - if team.league && !team.league.archived?
               .my-league{ class: "my-league-#{ team.league == league }"}
-                = link_to tour_path(team.league.active_tour_or_last) do
+                = link_to league_link(team.league) do
                   .my-league-logo= image_tag(team.league.tournament.logo_path)
                   .my-league-name= team.league.name
                   .my-league-type

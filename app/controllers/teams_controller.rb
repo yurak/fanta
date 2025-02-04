@@ -1,6 +1,4 @@
 class TeamsController < ApplicationController
-  skip_before_action :authenticate_user!, only: %i[show]
-
   respond_to :html, :json
 
   helper_method :team

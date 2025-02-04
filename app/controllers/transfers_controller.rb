@@ -1,6 +1,4 @@
 class TransfersController < ApplicationController
-  skip_before_action :authenticate_user!, only: %i[index]
-
   respond_to :html
 
   helper_method :auction, :league

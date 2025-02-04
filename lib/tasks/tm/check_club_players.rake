@@ -1,6 +1,6 @@
 # rubocop:disable Metrics/BlockLength:
 namespace :tm do
-  # rake 'tm:check_club_players_csv[15]'
+  # rake 'tm:check_club_players_csv[1]'
   desc 'Check TM players list from club pages and write to csv'
   task :check_club_players_csv, %i[tournament_id] => :environment do |_t, args|
     clubs = if args[:tournament_id] == '8'
@@ -27,9 +27,7 @@ namespace :tm do
         player_count = 1
 
         players.each do |player_data|
-          # player_name = player_data.children.first.attributes['title'].value
           href = player_data.children[1].attributes['href'].value
-          player_url = "https://www.transfermarkt.com#{href}"
           tm_id = href.split('/').last
           pl = Player.find_by(tm_id: tm_id)
 
@@ -37,34 +35,16 @@ namespace :tm do
             puts "#{player_count} - #{pl.name} - #{pl.tm_id} --- #{pl.club.name}#{' !!!!!!!!!!!!!' unless pl.club.name == club.name}"
             player_count += 1
           else
-            player_response = RestClient::Request.execute(method: :get, url: player_url, headers: { 'User-Agent': 'product/version' },
-                                                          verify_ssl: false)
-            player_page = Nokogiri::HTML(player_response)
+            begin
+              result = Players::Transfermarkt::Parser.call(tm_id)
+              next unless result
 
-            name_data = player_page.css('.data-header__headline-wrapper').children
-            if name_data[1]&.text&.strip&.tr('#', '').to_i.positive?
-              first_name = name_data[2]&.text&.strip
-              last_name = name_data[3]&.text&.strip
-            else
-              first_name = name_data[0]&.text&.strip
-              last_name = name_data[1]&.text&.strip
+              writer << ['', result[:first_name], result[:name], result[:nationality], club.name,
+                         result[:position1], result[:position2], result[:position3], result[:tm_url], '',
+                         result[:tm_pos1], result[:tm_pos2], result[:tm_pos3], result[:tm_price]]
+            rescue RestClient::Exception => e
+              puts "error for id #{tm_id} - #{e}"
             end
-            country_name = player_page.css('.data-header__items .data-header__content .flaggenrahmen')[0].attributes['title'].value
-            country = ISO3166::Country.find_country_by_iso_short_name(country_name)&.alpha2&.downcase
-            positions = player_page.css('.detail-position__position')
-            tm_pos1 = Position::TM_POS[positions[0]&.text]
-            tm_pos2 = Position::TM_POS[positions[2]&.text]
-            tm_pos3 = Position::TM_POS[positions[3]&.text]
-
-            position_arr = Players::Transfermarkt::PositionMapper.call(Player.new(tm_id: tm_id), 2023)
-            pos1 = tm_pos1 == 'GK' ? 'Por' : ''
-            pos1 = Position::HUMAN_MAP[position_arr[0]] if position_arr[0]
-            pos2 = position_arr[1] ? Position::HUMAN_MAP[position_arr[1]] : nil
-            pos3 = position_arr[2] ? Position::HUMAN_MAP[position_arr[2]] : nil
-            price_data = player_page.css('.data-header__market-value-wrapper').children
-            price = price_data[1]&.text.to_s + price_data[2]&.text.to_s
-
-            writer << ['', first_name, last_name, country, club.name, pos1, pos2, pos3, player_url, '', tm_pos1, tm_pos2, tm_pos3, price]
 
             sleep(5)
           end

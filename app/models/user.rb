@@ -9,6 +9,7 @@ class User < ApplicationRecord
   has_many :leagues, through: :teams
   has_many :results, through: :teams
   has_many :lineups, through: :teams
+  has_many :transfers, through: :teams
   has_many :player_requests, dependent: :destroy
   has_one :user_profile, dependent: :destroy
 
@@ -60,10 +61,36 @@ class User < ApplicationRecord
     (results.mantra.sum(:wins).to_f * 100 / matches).round(2)
   end
 
-  def average_total_score
-    return 0 unless lineups.any?
+  def finished_mantra_lineups
+    @finished_mantra_lineups ||= lineups.finished.mantra
+  end
 
-    (lineups.sum(:final_score) / lineups.count).round(2)
+  def finished_fanta_lineups
+    @finished_fanta_lineups ||= lineups.finished.fanta
+  end
+
+  def average_mantra_ts
+    return 0 unless finished_mantra_lineups.any?
+
+    (finished_mantra_lineups.sum(:final_score) / finished_mantra_lineups.count).round(2)
+  end
+
+  def average_fanta_ts
+    return 0 unless finished_fanta_lineups.any?
+
+    (finished_fanta_lineups.sum(:final_score) / finished_fanta_lineups.count).round(2)
+  end
+
+  def mantra_best_ts
+    return 0 unless finished_mantra_lineups.any?
+
+    finished_mantra_lineups.map(&:final_score).max
+  end
+
+  def fanta_best_ts
+    return 0 unless finished_fanta_lineups.any?
+
+    finished_fanta_lineups.map(&:final_score).max
   end
 
   def average_position
