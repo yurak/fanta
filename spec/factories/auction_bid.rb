@@ -28,6 +28,12 @@ FactoryBot.define do
       end
     end
 
+    trait :with_empty_player_bids do
+      after(:create) do |auction_bid|
+        create_list(:player_bid, 6, auction_bid: auction_bid, player_id: nil)
+      end
+    end
+
     trait :with_full_player_bids do
       after(:create) do |auction_bid|
         create_list(:player_bid, Team::MAX_PLAYERS, auction_bid: auction_bid)
