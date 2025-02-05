@@ -25,14 +25,15 @@ namespace :tm do
         html_page = Nokogiri::HTML(response)
         players = html_page.css('.inline-table .hauptlink')
         player_count = 1
-
+        actual_ids = []
         players.each do |player_data|
           href = player_data.children[1].attributes['href'].value
           tm_id = href.split('/').last
+          actual_ids << tm_id.to_i
           pl = Player.find_by(tm_id: tm_id)
 
           if pl
-            puts "#{player_count} - #{pl.name} - #{pl.tm_id} --- #{pl.club.name}#{' !!!!!!!!!!!!!' unless pl.club.name == club.name}"
+            puts "#{player_count} - #{pl.name} - #{pl.id} / #{pl.tm_id} --- #{pl.club.name}#{" >>>> #{club.name}" unless pl.club.name == club.name}"
             player_count += 1
           else
             begin
@@ -49,6 +50,15 @@ namespace :tm do
             sleep(5)
           end
         end
+        puts '------------------'
+        missed_ids = club.players.pluck(:tm_id).uniq - actual_ids
+        missed_ids.each do |pl_tm_id|
+          player = club.players.find_by(tm_id: pl_tm_id)
+          result = Players::Transfermarkt::Parser.call(pl_tm_id)
+          puts "#{player.name} - #{player.id} / #{player.tm_id} --- #{player.club.name} >>>> #{result[:club_name]}"
+          sleep(5)
+        end
+        puts '/////////////////////////////////////'
 
         sleep(5)
       end
