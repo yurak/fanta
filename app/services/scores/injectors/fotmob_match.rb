@@ -1,8 +1,7 @@
 module Scores
   module Injectors
     class FotmobMatch < BaseMatch
-      # FOTMOB_MATCH_URL = 'https://www.fotmob.com/match/'.freeze
-      FOTMOB_MATCH_URL = 'https://www.fotmob.com/matches/'.freeze
+      FOTMOB_MATCH_URL = 'https://www.fotmob.com/'.freeze
       # FOTMOB_MATCH_URL = 'https://www.fotmob.com/api/matchDetails?matchId='.freeze
 
       private
@@ -83,7 +82,7 @@ module Scores
       # end
 
       def request
-        RestClient.get("#{FOTMOB_MATCH_URL}#{match.source_match_id}")
+        RestClient.get("#{FOTMOB_MATCH_URL}#{match.page_url}")
       end
 
       ## Web parsing version

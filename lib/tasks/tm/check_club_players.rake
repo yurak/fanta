@@ -15,7 +15,7 @@ namespace :tm do
     CSV.open('log/club_players.csv', 'ab') do |writer|
       clubs.each do |club|
         i += 1
-        # next if i < 55
+        # next if i < 8
 
         puts "--------#{i}---#{club.name}--------"
         next unless club.tm_url
@@ -33,7 +33,8 @@ namespace :tm do
           pl = Player.find_by(tm_id: tm_id)
 
           if pl
-            puts "#{player_count} - #{pl.name} - #{pl.id} / #{pl.tm_id} --- #{pl.club.name}#{" >>>> #{club.name}" unless pl.club.name == club.name}"
+            change = pl.club.name == club.name ? '' : " >>>> #{club.name}"
+            puts "#{player_count} - #{pl.name} - #{pl.id} / #{pl.tm_id} --- #{pl.club.name}#{change}"
             player_count += 1
           else
             begin
@@ -47,7 +48,7 @@ namespace :tm do
               puts "error for id #{tm_id} - #{e}"
             end
 
-            sleep(5)
+            sleep(2)
           end
         end
         puts '------------------'
@@ -56,7 +57,7 @@ namespace :tm do
           player = club.players.find_by(tm_id: pl_tm_id)
           result = Players::Transfermarkt::Parser.call(pl_tm_id)
           puts "#{player.name} - #{player.id} / #{player.tm_id} --- #{player.club.name} >>>> #{result[:club_name]}"
-          sleep(5)
+          sleep(2)
         end
         puts '/////////////////////////////////////'
 

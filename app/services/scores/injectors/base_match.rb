@@ -10,7 +10,7 @@ module Scores
       end
 
       def call
-        return unless match.source_match_id
+        return unless match.page_url
         return unless match_finished?
 
         match.update(host_score: host_result, guest_score: guest_result)

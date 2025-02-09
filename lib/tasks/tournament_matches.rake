@@ -18,7 +18,7 @@ namespace :tournament_matches do
       home_club = Club.find_by(name: match_data['home_club']) || Club.find_by(full_name: match_data['home_club'])
       away_club = Club.find_by(name: match_data['away_club']) || Club.find_by(full_name: match_data['away_club'])
       tournament = Tournament.find_by(code: 'usa')
-      round = tournament.tournament_rounds.by_season(Season.last.id).find_by(number: match_data['Tournament round'])
+      round = tournament.tournament_rounds.by_season(Season.last.id).find_by(number: match_data['round_number'])
       score = match_data['score']&.split('-')
 
       TournamentMatch.create(
@@ -28,7 +28,8 @@ namespace :tournament_matches do
         host_score: score ? score[0] : nil,
         guest_score: score ? score[1] : nil,
         source_match_id: match_data['fotmob_id'],
-        round_name: match_data['Tournament round'],
+        page_url: match_data['page_url'],
+        round_name: match_data['round_number'],
         time: DateTime.parse(match_data['date']).utc.in_time_zone('EET').strftime('%H:%M'),
         date: DateTime.parse(match_data['date']).utc.in_time_zone('EET').strftime('%^b %e, %Y')
       )
@@ -76,6 +77,22 @@ namespace :tournament_matches do
       writer << %w[fotmob_id home_club away_club date score]
       response.each do |match|
         writer << [match['id'], match['home']['name'], match['away']['name'], match['status']['utcTime'], match['status']['scoreStr']]
+      end
+    end
+  end
+
+  # rake 'tournament_matches:generate_matches_list_json'
+  desc 'Create csv file with tournament matches from json file'
+  task generate_matches_list_json: :environment do
+    file = File.open('log/mls_matches.json')
+
+    response = JSON.parse(file)
+    data = response['matches']['allMatches']
+    CSV.open('log/matches_list.csv', 'ab') do |writer|
+      writer << %w[fotmob_id home_club away_club date score page_url round_number]
+      data.each do |match|
+        writer << [match['id'], match['home']['name'], match['away']['name'], match['status']['utcTime'], match['status']['scoreStr'],
+                   match['pageUrl'], match['roundName']]
       end
     end
   end

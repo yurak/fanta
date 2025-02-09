@@ -9,7 +9,7 @@ module Scores
 
       def call
         matches.each do |tm|
-          next if tm.source_match_id.empty?
+          next if tm.page_url.empty?
 
           inject_match_scores(tm)
         end
