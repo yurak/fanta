@@ -1,7 +1,7 @@
 module Scores
   module Injectors
     class FotmobMatch < BaseMatch
-      FOTMOB_MATCH_URL = 'https://www.fotmob.com/'.freeze
+      FOTMOB_MATCH_URL = 'https://www.fotmob.com'.freeze
       # FOTMOB_MATCH_URL = 'https://www.fotmob.com/api/matchDetails?matchId='.freeze
 
       private
