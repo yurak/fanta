@@ -36,6 +36,21 @@ namespace :tournament_matches do
     end
   end
 
+  # rake 'tournament_matches:update_matches_by_url[url]'
+  desc 'Update TournamentMatches from csv file by url'
+  task :update_matches_by_url, %i[file_url] => :environment do |_t, args|
+    csv_text = URI.parse(args[:file_url]).open.read
+    next unless csv_text
+
+    csv = CSV.parse(csv_text, headers: true)
+    csv&.each do |match_data|
+      match = TournamentMatch.find_by(source_match_id: match_data['fotmob_id'])
+      next unless match
+
+      match.update(page_url: match_data['page_url'])
+    end
+  end
+
   desc 'Create Italy TournamentMatches'
   task generate_italy_matches: :environment do
     # TournamentMatches::SerieaGenerator.call
@@ -84,8 +99,9 @@ namespace :tournament_matches do
   # rake 'tournament_matches:generate_matches_list_json'
   desc 'Create csv file with tournament matches from json file'
   task generate_matches_list_json: :environment do
-    file = File.open('log/mls_matches.json')
+    file = File.open('log/matches.json')
 
+    # response = JSON.load(file)
     response = JSON.parse(file)
     data = response['matches']['allMatches']
     CSV.open('log/matches_list.csv', 'ab') do |writer|
