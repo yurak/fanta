@@ -447,6 +447,7 @@ ua:
     form: "Форма"
     budget: "Бюджет"
     players_title: "Гравці"
+    tm_price_title: "Ціна на ТМ"
     league: "Ліга"
     overview: "🔮️ Огляд"
     players: "🏃 Гравці"

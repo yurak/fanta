@@ -110,6 +110,24 @@ RSpec.describe Team do
     end
   end
 
+  describe '#tm_price' do
+    context 'without players' do
+      it 'returns zero' do
+        expect(team.tm_price).to eq(0)
+      end
+    end
+
+    context 'with players' do
+      before do
+        create_list(:player_team, 5, team: team, player: create(:player, tm_price: 10_000_000))
+      end
+
+      it 'returns sum of players TM price' do
+        expect(team.tm_price).to eq(50_000_000)
+      end
+    end
+  end
+
   describe '#logo_path' do
     context 'when logo does not exist' do
       it 'returns default path' do

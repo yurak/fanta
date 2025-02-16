@@ -43,6 +43,10 @@ class Team < ApplicationRecord
     @league_transfers ||= transfers.by_league(league&.id)
   end
 
+  def tm_price
+    players.sum(&:tm_price)
+  end
+
   def logo_path
     logo_url.presence || ActionController::Base.helpers.asset_path('default_logo.png')
   end
