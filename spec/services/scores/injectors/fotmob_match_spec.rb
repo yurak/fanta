@@ -5,7 +5,7 @@ RSpec.describe Scores::Injectors::FotmobMatch do
     let(:match) { create(:tournament_match) }
 
     context 'with not finished match' do
-      let(:match) { create(:tournament_match, page_url: 'matches/inter-vs-arsenal/2tgrh0#4621502') }
+      let(:match) { create(:tournament_match, page_url: '/matches/inter-vs-arsenal/2tgrh0#4621502') }
 
       it 'returns nil' do
         VCR.use_cassette 'fotmob_match_initial' do
@@ -16,7 +16,7 @@ RSpec.describe Scores::Injectors::FotmobMatch do
 
     # TODO: add test cases
     context 'with finished match' do
-      let(:match) { create(:tournament_match, page_url: 'matches/milan-vs-real-madrid/2g1pac#4621544') }
+      let(:match) { create(:tournament_match, page_url: '/matches/milan-vs-real-madrid/2g1pac#4621544') }
 
       it 'updates players and returns missed players data' do
         VCR.use_cassette 'fotmob_match_finished' do
