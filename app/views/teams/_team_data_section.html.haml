@@ -73,6 +73,10 @@
       .team-additional-value
         = "#{team.tm_price / 1_000_000.0} M"
     .team-additional
+      .team-additional-text= t('teams.tm_price_title')
+      .team-additional-value
+        = "#{team.tm_price / 1_000_000.0} M"
+    .team-additional
       .team-additional-text= t('teams.transfer_slots')
       .team-additional-value
         = team.transfer_slots
