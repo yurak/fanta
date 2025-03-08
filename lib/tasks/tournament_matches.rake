@@ -9,15 +9,17 @@ namespace :tournament_matches do
 
   # rake 'tournament_matches:generate_matches_url[url]'
   desc 'Create TournamentMatches from csv file by url'
-  task :generate_matches_url, %i[file_url] => :environment do |_t, args|
+  task :generate_matches_url, %i[file_url code] => :environment do |_t, args|
     csv_text = URI.parse(args[:file_url]).open.read
     next unless csv_text
+
+    tournament = Tournament.find_by(code: args[:code])
+    next unless tournament
 
     csv = CSV.parse(csv_text, headers: true)
     csv&.each do |match_data|
       home_club = Club.find_by(name: match_data['home_club']) || Club.find_by(full_name: match_data['home_club'])
       away_club = Club.find_by(name: match_data['away_club']) || Club.find_by(full_name: match_data['away_club'])
-      tournament = Tournament.find_by(code: 'usa')
       round = tournament.tournament_rounds.by_season(Season.last.id).find_by(number: match_data['round_number'])
       score = match_data['score']&.split('-')
 

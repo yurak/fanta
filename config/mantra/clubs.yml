@@ -297,6 +297,27 @@ poland:
   STA: Stal
   WID: Widzew
   ZAG: Zaglebie
+brazil:
+  AMG: Atletico Mineiro
+  BAH: Bahia
+  BOT: Botafogo
+  CEA: Ceara
+  COR: Corinthians
+  CRU: Cruzeiro
+  FLA: Flamengo
+  FLU: Fluminense
+  FOR: Fortaleza
+  GRE: Gremio
+  JVD: Juventude
+  INL: Internacional
+  MIR: Mirassol
+  PAL: Palmeiras
+  RBB: RB Bragantino
+  REC: Sport Recife
+  SAN: Santos
+  SAO: São Paulo
+  VDG: Vasco da Gama
+  ECV: Vitoria
 europe:
 #  BES: Besiktas
 #  CEL: Celtic
@@ -309,9 +330,9 @@ europe:
 #  RAN: Rangers
 #  RBS: Salzburg
 #  SHE: Sheriff
-  SLO: Slovan
-  SPG: Sparta Prague
-  STG: Sturm
+#  SLO: Slovan
+#  SPG: Sparta Prague
+#  STG: Sturm
 #  VPL: Viktoria Plzen
 #  YOU: Young Boys
 #  ZEN: Zenit
