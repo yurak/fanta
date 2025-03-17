@@ -1,5 +1,4 @@
 .user-profile {
-  background-color: #F4F4F4;
   min-height: 100%;
   padding: 20px;
 }
@@ -7,51 +6,139 @@
 .user-show {
   width: 560px;
   background-color: #FFFFFF;
-  margin: 0 auto;
+  margin: 0 0 0 188px;
   padding: 32px;
 
-  .user-data {
-    padding-bottom: 24px;
-    border-bottom: 1px solid #E5E6E4;
+  .user-header {
+    margin-bottom: 32px;
 
-    .user-data-block {
-      display: grid;
-      grid-template-columns: auto 136px;
+    .user-header-profile {
+      font-family: 'Nunito ExtraBold';
+      font-size: 32px;
+      line-height: 32px;
+      margin-bottom: 8px;
     }
 
-    .user-params {
-      .user-subtitle {
-        margin-top: 28px;
-        font-weight: 500;
-        font-size: 12px;
-        line-height: 16px;
-        color: #847577;
-      }
-
-      .user-subtitle:first-child {
-        margin-top: 0;
-      }
-
-      .user-param-value {
-        font-size: 16px;
-        line-height: 24px;
-      }
-    }
-
-    .user-avatar {
-      padding: 0 24px;
-      text-align: center;
-
-      img {
-        width: 88px;
-        height: 88px;
-      }
+    .user-header-desc {
+      font-family: 'Nunito Regular';
+      font-size: 16px;
+      line-height: 24px;
     }
   }
 
-  .user-teams {
-    padding: 24px 0;
-    border-bottom: 1px solid #E5E6E4;
+  .user-section-title {
+    font-family: 'Nunito ExtraBold';
+    font-size: 24px;
+    line-height: 32px;
+    padding-bottom: 8px;
+  }
+
+  .user-section-subtitle {
+    font-family: 'Nunito Regular';
+    font-size: 16px;
+    line-height: 24px;
+    padding-bottom: 16px;
+  }
+
+  .change-link {
+    font-family: 'Nunito ExtraBold';
+    font-size: 14px;
+    line-height: 16px;
+    color: #261FFF;
+    text-decoration: none;
+    border-bottom: 1px solid #D8D6FF;
+  }
+
+  .change-link:hover {
+    border-bottom: 1px solid #261FFF;
+  }
+
+  .change-link-block {
+    margin: auto 0;
+  }
+
+  .user-section {
+    padding-bottom: 36px;
+
+    .user-avatar {
+      display: grid;
+      grid-template-columns: 80px auto;
+      column-gap: 16px;
+      padding: 16px 0 24px;
+
+      img {
+        width: 80px;
+        height: 80px;
+      }
+    }
+
+    .user-params-row {
+      display: grid;
+      grid-template-columns: 104px auto 104px;
+      column-gap: 24px;
+      margin-bottom: 24px;
+      font-size: 16px;
+      line-height: 24px;
+
+      .user-param-subtitle {
+        font-family: 'Nunito ExtraBold';
+        color: #847577;
+      }
+
+      .user-param-value {
+        font-family: 'Nunito Regular';
+      }
+
+      .change-link-block {
+        text-align: right;
+      }
+    }
+
+    .user-checkbox-row {
+      display: grid;
+      grid-template-columns: auto 40px;
+      column-gap: 16px;
+    }
+
+    .user-radio-item-row a {
+      display: grid;
+      grid-template-columns: 24px 1fr 1fr;
+      column-gap: 16px;
+      font-size: 14px;
+      line-height: 24px;
+      margin-bottom: 16px;
+      color: #181715;
+      text-decoration: none;
+
+      .user-radio-item {
+        border-radius: 12px;
+        border: 1px solid #847577;
+      }
+
+      .user-radio-active-true {
+        border: 6px solid #261FFF;
+      }
+
+      .user-radio-text {
+        font-family: 'Nunito SemiBold';
+      }
+
+      .user-radio-example {
+        font-family: 'Nunito Regular';
+        color: #847577;
+        text-align: right;
+      }
+    }
+
+    .user-radio-item-row:hover a {
+      .user-radio-item {
+        border: 1px solid #181715;
+      }
+
+      .user-radio-active-true {
+        border: 6px solid #040052;
+      }
+    }
 
     .user-team {
       height: 64px;
@@ -60,7 +147,7 @@
       box-sizing: border-box;
       border-radius: 4px;
       display: grid;
-      grid-template-columns: 40px auto 64px;
+      grid-template-columns: 40px auto 88px;
       column-gap: 16px;
       margin: 4px 0;
       font-size: 16px;
@@ -88,60 +175,13 @@
 
     .user-team-activate {
       padding-top: 5px;
-    }
-  }
-
-  .user-config {
-    padding: 24px 0 16px;
-
-    .user-config-block {
-      display: grid;
-      grid-template-columns: auto 48px;
+      text-align: right;
     }
 
-    .user-config-subtitle {
-      font-size: 10px;
-      line-height: 14px;
-      color: #A6A2A2;
-    }
-  }
-
-  .user-title {
-    font-weight: bold;
-    font-size: 16px;
-    line-height: 24px;
-    padding-bottom: 16px;
-  }
-
-  .checkbox-block {
-    width: 40px;
-    height: 24px;
-    background: #A6A2A2;
-    border-radius: 12px;
-    margin: 7px 4px;
-    padding: 3px;
-
-    .checkbox-item {
-      background-color: #FFFFFF;
-      height: 18px;
-      width: 18px;
-      border-radius: 9px;
-    }
-  }
-
-  .change-link {
-    font-size: 12px;
-    line-height: 16px;
-    font-weight: 500;
-    color: #261FFF;
-    text-decoration: none;
-  }
-
-  .checkbox-on-true {
-    background: #261FFF;
-
-    .checkbox-item {
-      float: right;
+    .user-btn-row {
+      .grey-btn {
+        width: fit-content;
+      }
     }
   }
 }
@@ -382,50 +422,114 @@
 
 @media (orientation: portrait) {
   .user-show {
-    width: 760px;
-    padding: 48px;
+    width: 800px;
+    margin: 0 auto;
+    padding: 0;
 
-    .user-data {
-      padding-bottom: 32px;
-      border-bottom: 2px solid #E5E6E4;
+    .user-header {
+      margin-bottom: 64px;
 
-      .user-data-block {
-        grid-template-columns: auto 204px;
+      .user-header-profile {
+        font-size: 48px;
+        line-height: 48px;
+        margin-bottom: 24px;
       }
 
-      .user-params {
-        .user-subtitle {
-          margin-top: 28px;
-          font-size: 20px;
-          line-height: 26px;
-        }
-
-        .user-param-value {
-          font-size: 28px;
-          line-height: 36px;
-        }
-      }
-
-      .user-avatar {
-        padding: 0 36px;
-
-        img {
-          width: 132px;
-          height: 132px;
-        }
+      .user-header-desc {
+        font-size: 24px;
+        line-height: 32px;
       }
     }
 
-    .user-teams {
-      padding: 32px 0;
-      border-bottom: 2px solid #E5E6E4;
+    .user-section-title {
+      font-size: 32px;
+      line-height: 48px;
+      padding-bottom: 24px;
+    }
+
+    .user-section-subtitle {
+      font-size: 24px;
+      line-height: 32px;
+      padding-bottom: 32px;
+    }
+
+    .change-link {
+      font-size: 24px;
+      line-height: 32px;
+      border-bottom: 3px solid #D8D6FF;
+    }
+
+    .change-link:hover {
+      border-bottom: 3px solid #261FFF;
+    }
+
+    .user-section {
+      padding-bottom: 72px;
+
+      .user-avatar {
+        grid-template-columns: 144px auto;
+        column-gap: 24px;
+        padding: 16px 0 24px;
+
+        img {
+          width: 144px;
+          height: 144px;
+        }
+      }
+
+      .user-params-row {
+        grid-template-columns: 164px auto 164px;
+        column-gap: 32px;
+        margin-bottom: 32px;
+        font-size: 24px;
+        line-height: 32px;
+     }
+
+      .user-checkbox-row {
+        line-height: 36px;
+        font-size: 24px;
+        grid-template-columns: auto 60px;
+        column-gap: 24px;
+      }
+
+      .user-radio-item-row a {
+        grid-template-columns: 32px 1fr 1fr;
+        column-gap: 24px;
+        line-height: 32px;
+        font-size: 24px;
+        margin-bottom: 24px;
+
+        .user-radio-item {
+          border-radius: 16px;
+          border: 2px solid #847577;
+        }
+
+        .user-radio-active-true {
+          border: 8px solid #261FFF;
+        }
+
+        .user-radio-example {
+          color: #847577;
+          text-align: right;
+        }
+      }
+
+      .user-radio-item-row:hover a {
+        .user-radio-item {
+          border: 2px solid #181715;
+        }
+
+        .user-radio-active-true {
+          border: 8px solid #040052;
+        }
+      }
 
       .user-team {
         height: 96px;
         padding: 18px;
         border: 2px solid #E5E6E4;
         border-radius: 6px;
-        grid-template-columns: 60px auto 96px;
+        grid-template-columns: 60px auto 160px;
         column-gap: 18px;
         margin: 6px 0;
         font-size: 28px;
@@ -443,47 +547,9 @@
       }
     }
 
-    .user-config {
-      padding: 32px 0 24px;
-
-      .user-config-block {
-        display: grid;
-        grid-template-columns: auto 60px;
-      }
-
-      .user-config-title {
-        font-size: 24px;
-        line-height: 32px;
-      }
-
-      .user-config-subtitle {
-        font-size: 16px;
-        line-height: 24px;
-      }
-    }
-
-    .user-title {
-      font-size: 28px;
-      line-height: 36px;
-      padding-bottom: 20px;
-    }
-
-    .change-link {
-      font-size: 20px;
-      line-height: 26px;
-    }
-
-    .checkbox-block {
-      position: relative;
-      width: 60px;
-      height: 36px;
-      border-radius: 18px;
-      padding: 4px;
-
-      .checkbox-item {
-        height: 28px;
-        width: 28px;
-        border-radius: 14px;
+    .user-btn-row {
+      .grey-btn {
+        width: fit-content;
       }
     }
 

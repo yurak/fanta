@@ -11,7 +11,7 @@
   .user-show
     = form_for user, url: user_path(user), method: :put do |f|
       .form-group
-        = label_tag t('users.name')
-        = text_field_tag :name, nil, class: 'form-control'
+        = label_tag t('users.profile.name')
+        = text_field_tag :name, user.name, class: 'form-control'
       .form-item.form-btn
         = f.submit t('users.update'), class: 'btn btn-primary welcome-btn-form'
