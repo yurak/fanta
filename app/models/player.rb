@@ -25,6 +25,25 @@ class Player < ApplicationRecord
 
   default_scope { includes(%i[club national_team player_positions player_teams positions teams]) }
 
+  COUNTRY = {
+    bo: 'Bolivia',
+    cd: 'DR Congo',
+    'gb-eng': 'England',
+    'gb-wls': 'Wales',
+    'gb-sct': 'Scotland',
+    'gb-nir': 'Northern Ireland',
+    ir: 'Iran',
+    kr: 'Korea',
+    md: 'Moldova',
+    ps: 'Palestine',
+    ru: 'terrorist state',
+    sy: 'Syria',
+    tz: 'Tanzania',
+    us: 'USA',
+    ve: 'Venezuela',
+    xk: 'Kosovo'
+  }.freeze
+
   scope :by_club, ->(club_id) { where(club_id: club_id) if club_id.present? }
   scope :search_by_name, ->(search_str) { where('lower(name) LIKE :search OR lower(first_name) LIKE :search', search: "%#{search_str}%") }
   scope :by_position, ->(position) { joins(:positions).where(positions: { name: position }) if position.present? }
@@ -47,13 +66,9 @@ class Player < ApplicationRecord
   end
 
   def country
-    case nationality
-    when 'gb-eng' then 'England'
-    when 'gb-wls' then 'Wales'
-    when 'gb-sct' then 'Scotland'
-    when 'gb-nir' then 'Northern Ireland'
-    else ISO3166::Country.new(nationality)&.iso_short_name
-    end
+    return '' unless nationality
+
+    COUNTRY[nationality.to_sym] || ISO3166::Country.new(nationality)&.iso_short_name
   end
 
   def full_name

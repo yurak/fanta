@@ -1090,7 +1090,6 @@
     },
     "users": {
       "activate": "Activate",
-      "change": "Change",
       "change_avatar": "Change avatar",
       "change_avatar_desc": "Choose one image",
       "change_password": "Change password",
@@ -1099,9 +1098,6 @@
         "change_username": "Change user name",
         "change_username_desc": "Name should contain 2-20 characters"
       },
-      "edit_team": "Edit team",
-      "email": "Email",
-      "league": "League:",
       "manager": {
         "all_teams": "All Teams",
         "average_fanta_ts": "🎲 Avg. Fanta TS",
@@ -1128,7 +1124,6 @@
         "type": "Type",
         "win_rate": "🏅️ Games Win Rate"
       },
-      "name": "Name",
       "new_avatar": {
         "select": "Select avatar"
       },
@@ -1141,17 +1136,30 @@
         "tg_name": "Telegram tag (phone number)",
         "tg_note": "This data will help us contact you"
       },
-      "notifications": "Notifications",
-      "notifications_subtitle": "All information will be sent to",
-      "notifications_title": "Receive news and other useful information",
-      "password": "Password",
-      "pos_naming_subtitle": "OFF - classic (GK, CB, RB, ...), ON - italian (Por, Dc, Dd, ...)",
-      "pos_naming_title": "Choose positions that will be displayed",
-      "positions_naming": "Positions Naming",
-      "profile_info": "Profile information",
-      "settings": "Settings",
-      "settings_desc": "Manage your account",
-      "teams": "Teams",
+      "profile": {
+        "advanced_set_title": "🛰 Advanced settings",
+        "change": "Change",
+        "edit_team": "Edit team",
+        "email": "Email",
+        "header": "Profile",
+        "header_desc": "Manage your information, privacy and security to make Mantra work better for you",
+        "info_title": "🤓 Profile information",
+        "language_en": "🇬🇧 English",
+        "language_subtitle": "Choose the interface language",
+        "language_title": "🇪🇺 Language",
+        "language_ua": "🇺🇦 Ukrainian",
+        "league": "League:",
+        "name": "Name",
+        "notif_subtitle": "Use the feature to receive notifications about events in game and reminders about tours and auctions",
+        "notif_title": "💌 Notifications",
+        "password": "Password",
+        "pos_naming_classic": "Classic",
+        "pos_naming_ital": "Italian",
+        "pos_naming_subtitle": "Choose positions that will be displayed",
+        "positions_naming": "🎯 Positions naming",
+        "teams": "⚽️ Teams",
+        "via_tg": "Via Telegram bot"
+      },
       "update": "Update"
     },
     "views": {
@@ -2312,7 +2320,6 @@
     },
     "users": {
       "activate": "Активувати",
-      "change": "Змінити",
       "change_avatar": "Змінити аватар",
       "change_avatar_desc": "Вибери одне із зображень",
       "change_password": "Змінити пароль",
@@ -2321,9 +2328,6 @@
         "change_username": "Змінити ім'я користувача",
         "change_username_desc": "Ім'я повинне містити від 2 до 20 літер"
       },
-      "edit_team": "Редагувати",
-      "email": "Пошта",
-      "league": "Ліга:",
       "manager": {
         "all_teams": "Всі команди",
         "average_fanta_ts": "🎲 Сер. бал Фанта",
@@ -2350,7 +2354,6 @@
         "type": "Тип",
         "win_rate": "🏅️ Коеф. перемог"
       },
-      "name": "Ім'я",
       "new_avatar": {
         "select": "Виберіть аватар"
       },
@@ -2363,17 +2366,30 @@
         "tg_name": "Ім'я в Telegram або телефон",
         "tg_note": "Ці дані допоможуть нам зв’язатися з вами"
       },
-      "notifications": "Сповіщення",
-      "notifications_subtitle": "Вся інформація буде надіслана на",
-      "notifications_title": "Отримувати новини та іншу корисну інформацію",
-      "password": "Пароль",
-      "pos_naming_subtitle": "Вимкнено - класичні (GK, CB, RB, ...), увімкнено - італійські (Por, Dc, Dd, ...)",
-      "pos_naming_title": "Оберіть, які позиції будуть показуватись",
-      "positions_naming": "Найменування позицій",
-      "profile_info": "Профіль",
-      "settings": "Налаштуваня",
-      "settings_desc": "Керуй своїм акаунтом",
-      "teams": "Команди",
+      "profile": {
+        "advanced_set_title": "🛰 Розширені налаштування",
+        "change": "Змінити",
+        "edit_team": "Редагувати",
+        "email": "Пошта",
+        "header": "Профіль",
+        "header_desc": "Керуйте своєю інформацією, конфіденційністю та безпекою, щоб Мантра працювала краще для вас",
+        "info_title": "🤓 Дані профілю",
+        "language_en": "🇬🇧 Англійська",
+        "language_subtitle": "Виберіть мову інтерфейсу",
+        "language_title": "🇪🇺 Мова",
+        "language_ua": "🇺🇦 Українська",
+        "league": "Ліга:",
+        "name": "Ім'я",
+        "notif_subtitle": "Використовуйте цю функцію, щоб отримувати сповіщення про події в грі та нагадування про тури та аукціони",
+        "notif_title": "💌 Сповіщення",
+        "password": "Пароль",
+        "pos_naming_classic": "Класичні",
+        "pos_naming_ital": "Італійські",
+        "pos_naming_subtitle": "Оберіть, які позиції будуть показуватись",
+        "positions_naming": "🎯 Найменування позицій",
+        "teams": "⚽️ Команди",
+        "via_tg": "Через Телеграм бот"
+      },
       "update": "Оновити"
     },
     "welcome": {

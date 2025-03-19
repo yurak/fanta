@@ -1104,6 +1104,8 @@ body, html {
 }
 
 .grey-btn {
+  font-family: 'Nunito ExtraBold';
+  font-size: 16px;
   margin: 6px 0;
   padding: 0 16px;
   border: 1px solid #D8D6FF;
@@ -1136,6 +1138,17 @@ body, html {
 
   img {
     filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(104deg) brightness(103%) contrast(102%); // #FFFFFF;
+  }
+}
+
+@media (orientation: portrait) {
+  .grey-btn {
+    font-size: 24px;
+    margin: 12px 0;
+    padding: 0 24px;
+    border: 2px solid #D8D6FF;
+    border-radius: 6px;
+    line-height: 60px;
   }
 }
 
@@ -1194,6 +1207,57 @@ body, html {
     border: 1px solid #D8D6FF;
     border-radius: 4px;
     color: #261FFF;
+  }
+}
+
+.checkbox-block {
+  width: 40px;
+  height: 24px;
+  background: #FFFFFF;
+  border-radius: 12px;
+  padding: 3px;
+  border: 1px solid #CFD2CD;
+
+  .checkbox-item {
+    background-color: #000000;
+    height: 16px;
+    width: 16px;
+    border-radius: 9px;
+  }
+}
+
+.checkbox-block:hover {
+  border: 1px solid #181715;
+}
+
+.checkbox-on-true {
+  background: #261FFF;
+  border: 1px solid #261FFF;
+
+  .checkbox-item {
+    background-color: #FFFFFF;
+    float: right;
+  }
+}
+
+.checkbox-on-true:hover {
+  background: #040052;
+  border: 1px solid #040052;
+}
+
+@media (orientation: portrait) {
+  .checkbox-block {
+    position: relative;
+    width: 60px;
+    height: 36px;
+    border-radius: 18px;
+    padding: 4px;
+
+    .checkbox-item {
+      height: 28px;
+      width: 28px;
+      border-radius: 14px;
+    }
   }
 }
 

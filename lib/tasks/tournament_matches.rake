@@ -7,7 +7,7 @@ namespace :tournament_matches do
     TournamentMatches::FotmobGenerator.call(tournament) if tournament
   end
 
-  # rake 'tournament_matches:generate_matches_url[url]'
+  # rake 'tournament_matches:generate_matches_url[url,code]'
   desc 'Create TournamentMatches from csv file by url'
   task :generate_matches_url, %i[file_url code] => :environment do |_t, args|
     csv_text = URI.parse(args[:file_url]).open.read

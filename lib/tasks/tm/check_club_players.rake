@@ -15,7 +15,8 @@ namespace :tm do
     CSV.open('log/club_players.csv', 'ab') do |writer|
       clubs.each do |club|
         i += 1
-        # next if i < 8
+        # next if i < 15
+        # next if i > 15
 
         puts "--------#{i}---#{club.name}--------"
         next unless club.tm_url

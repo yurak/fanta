@@ -1,60 +1,86 @@
-.local-header
-  .local-header-close
-    = link_to leagues_path do
-      &times;
-  .local-header-text
-    .local-header-title= t('users.settings')
-    .local-header-subtitle= t('users.settings_desc')
-  .local-header-link
-    = link_to destroy_user_session_path, method: :delete do
-      ⛩ #{t('header.logout')}
+.page-block
+  .web-header= render 'layouts/left_nav', league: nil
+  .mob-header= render 'layouts/mob_header', league: nil, title: t('users.profile.header')
 
-.page-info.user-profile
-  .user-show
-    .user-data
-      .user-title= t('users.profile_info')
-      .user-data-block
-        .user-params
-          .user-subtitle= t('users.name')
-          .user-param-value= current_user.name.presence || 'Username'
-          = link_to t('users.change'), edit_user_path, class: 'change-link'
-          .user-subtitle= t('users.email')
-          .user-param-value= current_user.email
-          .user-subtitle= t('users.password')
-          .user-param-value **********
-          = link_to t('users.change'), edit_user_registration_path, class: 'change-link'
-        .user-avatar
-          = image_tag(current_user.avatar_path)
-          = link_to t('users.change'), edit_avatar_user_path(current_user), class: 'change-link'
-    .user-teams
-      .user-title= t('users.teams')
-      - current_user.teams.each do |team|
-        .user-team
-          .user-team-logo= image_tag(team.logo_path)
-          .user-team-data
-            .user-team-name= team.human_name
-            .user-team-league
-              .user-team-league-title= t('users.league')
-              .user-team-league-name= team.league&.name
-          .user-team-activate
-            = link_to t('users.edit_team'), edit_team_path(team), class: 'change-link'
-    .user-config
-      .user-title= t('users.positions_naming')
-      .user-config-block
-        .user-config-text
-          .user-config-title= t('users.pos_naming_title')
-          .user-config-subtitle= t('users.pos_naming_subtitle')
-        .user-config-checkbox
-          = link_to user_path(current_user, ital_pos_naming: !current_user.ital_pos_naming), method: :put do
-            .checkbox-block{ class: "checkbox-on-#{ current_user.ital_pos_naming }" }
-              .checkbox-item
-    -#.user-config
-    -#  .user-title= t('users.notifications')
-    -#  .user-config-block
-    -#    .user-config-text
-    -#      .user-config-title= t('users.notifications_title')
-    -#      .user-config-subtitle= "#{t('users.notifications_subtitle')} #{ current_user.email }"
-    -#    .user-config-checkbox
-    -#      = link_to user_path(current_user, notifications: !current_user.notifications), method: :put do
-    -#        .checkbox-block{ class: "checkbox-on-#{ current_user.notifications }" }
-    -#          .checkbox-item
+  .page-info.user-profile
+    .user-show
+      .user-header
+        .user-header-profile= t('users.profile.header')
+        .user-header-desc= t('users.profile.header_desc')
+
+      .user-section
+        .user-section-title= t('users.profile.info_title')
+        .user-data-block
+          .user-avatar
+            = image_tag(current_user.avatar_path)
+            .change-link-block
+              = link_to t('users.profile.change'), edit_avatar_user_path(current_user), class: 'change-link'
+          .user-params-row
+            .user-param-subtitle= t('users.profile.name')
+            .user-param-value= current_user.name.presence || 'Username'
+            .change-link-block= link_to t('users.profile.change'), edit_user_path, class: 'change-link'
+          .user-params-row
+            .user-param-subtitle= t('users.profile.email')
+            .user-param-value= current_user.email
+          .user-params-row
+            .user-param-subtitle= t('users.profile.password')
+            .user-param-value **********
+            .change-link-block= link_to t('users.profile.change'), edit_user_registration_path, class: 'change-link'
+
+      - if current_user.user_profile && current_user.user_profile.tg_chat_id.present?
+        .user-section
+          .user-section-title= t('users.profile.notif_title')
+          .user-section-subtitle= t('users.profile.notif_subtitle')
+          .user-checkbox-row
+            .user-checkbox-text= t('users.profile.via_tg')
+            .user-config-checkbox
+              = link_to user_path(current_user, bot_enabled: !current_user.user_profile.bot_enabled), method: :put do
+                .checkbox-block{ class: "checkbox-on-#{ current_user.user_profile.bot_enabled }" }
+                  .checkbox-item
+
+      .user-section
+        .user-section-title= t('users.profile.language_title')
+        .user-section-subtitle= t('users.profile.language_subtitle')
+        .user-radio-item-row
+          = link_to user_path(current_user, locale: 'ua'), method: :put do
+            .user-radio-item{class: "user-radio-active-#{ current_user.locale == 'ua' }"}
+            .user-radio-text= t('users.profile.language_ua')
+        .user-radio-item-row
+          = link_to user_path(current_user, locale: 'en'), method: :put do
+            .user-radio-item{class: "user-radio-active-#{ current_user.locale == 'en' }"}
+            .user-radio-text= t('users.profile.language_en')
+
+      .user-section
+        .user-section-title= t('users.profile.positions_naming')
+        .user-section-subtitle= t('users.profile.pos_naming_subtitle')
+        .user-radio-item-row
+          = link_to user_path(current_user, ital_pos_naming: false), method: :put do
+            .user-radio-item{class: "user-radio-active-#{ current_user.ital_pos_naming == false }"}
+            .user-radio-text= t('users.profile.pos_naming_classic')
+            .user-radio-example= '(GK, RB, CB...)'
+        .user-radio-item-row
+          = link_to user_path(current_user, ital_pos_naming: true), method: :put do
+            .user-radio-item{class: "user-radio-active-#{ current_user.ital_pos_naming == true }"}
+            .user-radio-text= t('users.profile.pos_naming_ital')
+            .user-radio-example= '(Por, Dd, Dc...)'
+
+      .user-section
+        .user-section-title= t('users.profile.teams')
+        - current_user.teams.each do |team|
+          .user-team
+            .user-team-logo= image_tag(team.logo_path)
+            .user-team-data
+              .user-team-name= team.human_name
+              .user-team-league
+                - if team.league
+                  .user-team-league-title= t('users.profile.league')
+                  .user-team-league-name= "#{team.league.division_with_name} #{team.league.season.start_year.to_s[2..3]}/#{team.league.season.end_year.to_s[2..3]}"
+            .user-team-activate
+              = link_to t('users.profile.edit_team'), edit_team_path(team), class: 'change-link'
+
+      .user-section
+        .user-section-title= t('users.profile.advanced_set_title')
+        .user-btn-row
+          .grey-btn
+            = link_to destroy_user_session_path, method: :delete do
+              🚪 #{t('header.logout')}

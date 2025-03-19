@@ -22,6 +22,7 @@ class User < ApplicationRecord
 
   enum role: ROLES
   enum status: { initial: 0, named: 1, with_avatar: 2, with_team: 3, configured: 4 }
+  enum locale: { en: 0, ua: 1 }
 
   validates :email, presence: true, format: { with: EMAIL_FORMAT_REGEX }, uniqueness: true
   validates :email, length: { in: EMAIL_LENGTH }

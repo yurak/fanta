@@ -9,6 +9,7 @@ class UsersController < ApplicationController
 
   def update
     user.update(user_params)
+    update_user_profile
 
     redirect_to user_path(user)
   end
@@ -50,7 +51,7 @@ class UsersController < ApplicationController
   end
 
   def user_params
-    params.permit(:avatar, :name, :notifications, :ital_pos_naming)
+    params.permit(:avatar, :name, :notifications, :ital_pos_naming, :locale)
   end
 
   def user_new_params
@@ -58,6 +59,6 @@ class UsersController < ApplicationController
   end
 
   def user_profile_params
-    params.permit(:tg_name)
+    params.permit(:tg_name, :bot_enabled)
   end
 end

@@ -54,8 +54,8 @@ RSpec.describe Player do
 
   describe '#country' do
     context 'without nationality' do
-      it 'returns nil' do
-        expect(player.country).to be_nil
+      it 'returns empty string' do
+        expect(player.country).to eq('')
       end
     end
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2025_02_09_114952) do
+ActiveRecord::Schema.define(version: 2025_03_14_204226) do
 
   create_table "article_tags", force: :cascade do |t|
     t.string "name", default: "", null: false
@@ -548,6 +548,7 @@ ActiveRecord::Schema.define(version: 2025_02_09_114952) do
     t.datetime "confirmation_sent_at"
     t.string "unconfirmed_email"
     t.string "avatar_url"
+    t.integer "locale", default: 0
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
