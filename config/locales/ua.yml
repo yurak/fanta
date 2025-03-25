@@ -142,6 +142,7 @@ ua:
   header:
     about: "Про нас"
     admin: "Адмін"
+    articles: "Статті"
     auction: "Аукціон"
     auctions: "Аукціони"
     bid_made: "✅ Готово"
@@ -199,11 +200,14 @@ ua:
     play_more_title: "Хочеш зіграти ще й інші ліги? Залишай заявку!"
   join_request:
     index:
-      contact: "Ви також можете звязатися з нами "
-      link: "за посиланням"
+      link: "via the link"
+      link_ua: "за цим посиланням"
       subtitle: "Реєстрація завершена"
-      text: "Щодо умов участі в лізі звертайтесь до адміністратора"
+      text: "Please contact with administrator regarding the terms of participation in the league"
+      text_ua: "Через обмеження приватності ми не завжди можемо знайти ваш аккаунт в Телеграм. Тому, щоб ми швидше опрацювали вашу заявку та пояснили подальші кроки, напишіть адміністратору (достатньо просто «Привіт»)"
+      text_ua_two: "Чекаємо на вас у Mantra-спільноті!"
       title: "Готово!"
+      title_ua: "Дякуємо за реєстрацію!"
     new:
       confirm: "Підтвердити"
       subtitle: "в яких ви хочете позмагатися"

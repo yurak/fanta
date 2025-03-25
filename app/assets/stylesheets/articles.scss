@@ -125,10 +125,10 @@
 
 @media (orientation: portrait) {
   .news-page.page-info {
-    padding: 20px 30px 50px 102px;
+    padding: 64px 0;
 
     .news-block-head {
-      grid-template-columns: 1fr 1fr 1fr;
+      display: none;
     }
 
     .articles-block-portrait {
@@ -357,7 +357,7 @@
 
 @media (orientation: portrait) {
   .page-info.article-page {
-    padding: 20px 0 50px 72px;
+    padding: 0 64px;
 
     .article-section {
       padding: 0 20px;

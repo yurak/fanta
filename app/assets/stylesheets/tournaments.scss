@@ -45,8 +45,14 @@
 
 @media (orientation: portrait) {
   .page-info.tournament-page {
+    padding: 0 64px 120px;
+
+    .tournament-head {
+      margin: 0 24px 48px;
+    }
+
     .tournaments-fixture {
-      margin: 12px 50px 48px;
+      margin: 0 24px 48px;
     }
   }
 }

@@ -1,12 +1,7 @@
--# TODO: set correct properties for FB share
--#%meta{ property: 'og:url', content: "http://mantrafootball.org/articles/21" }
--#%meta{ property: 'og:type', content: "article" }
--#%meta{ property: 'og:title', content: article.title }
--#%meta{ property: 'og:description', content: article.summary }
--#%meta{ property: 'og:image', content: article.image }
-
 .page-block
-  = render 'layouts/left_nav', league: nil
+  .web-header= render 'layouts/left_nav', league: nil
+  .mob-header= render 'layouts/mob_header', league: nil, title: t('header.articles')
+
   .page-info.article-page
     .article-section
       .article-actions
