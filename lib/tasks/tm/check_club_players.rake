@@ -38,6 +38,7 @@ namespace :tm do
             puts "#{player_count} - #{pl.name} - #{pl.id} / #{pl.tm_id} --- #{pl.club.name}#{change}"
             player_count += 1
           else
+            puts "NEW ....#{tm_id}"
             begin
               result = Players::Transfermarkt::Parser.call(tm_id)
               next unless result
