@@ -1,11 +1,18 @@
 .page-block
-  = render 'layouts/left_nav', league: nil
+  .web-header= render 'layouts/left_nav', league: nil
+  .mob-header= render 'layouts/mob_header', league: nil, title: nil
+
   .join-requests-page
     .requests-img= image_tag('icons/requests-ready.svg')
     .title-text= t('join_request.index.title')
     .subtitle-text= t('join_request.index.subtitle')
     .requests-text= t('join_request.index.text')
     .contact-row
-      -#.contact-text= t('join_request.index.contact')
       .contact-link= link_to t('join_request.index.link'), 'https://t.me/mantra_help', target: '_blank'
+
+    .title-text.title-text-ua= t('join_request.index.title_ua')
+    .requests-text= t('join_request.index.text_ua')
+    .contact-row
+      .contact-link= link_to t('join_request.index.link_ua'), 'https://t.me/mantra_help', target: '_blank'
+    .requests-text= t('join_request.index.text_ua_two')
 

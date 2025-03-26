@@ -25,7 +25,7 @@ end
 # end
 
 # Sell players from teams by deadline for auctions with sales status
-every 15.minutes do
+every '1,6,11,31,36,41 * * * *' do
   rake 'transfers:outgoing_active_league'
 end
 

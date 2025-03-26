@@ -1,18 +1,16 @@
 .page-block
-  = render 'layouts/left_nav', league: league
-  = render 'layouts/right_nav', league: league
-  .page-info.rounds-page.league-page
-    .round-section
-      .rounds-block
-        - league.tours.each do |round|
-          = link_to tour_path(round) do
-            .round-link-block{ class: "round-#{round.status}" }
-              = round.number
-      .league-teams
-        - league.teams.each do |team|
-          .league-team-item
-            = link_to team_path(team) do
-              .team-logo
-                = image_tag(team.logo_path)
-              .team-name
-                = team.human_name
+  .web-header= render 'layouts/left_nav', league: league
+  .web-header= render 'layouts/right_nav', league: league
+  .mob-header= render 'layouts/mob_header', league: league
+
+  .page-info.league-page
+    .league-teams
+      - league.teams.each do |team|
+        .league-team-item
+          = link_to team_path(team) do
+            .team-logo
+              = image_tag(team.logo_path)
+            .team-name
+              = team.human_name
+  .portrait-footer{ class: "portrait-footer-#{league.mantra?}"}
+    = render 'layouts/league_links', league: league

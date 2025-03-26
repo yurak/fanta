@@ -77,7 +77,6 @@ Rails.application.routes.draw do
 
   resources :tours, only: [:show, :update] do
     get :inject_scores, on: :member
-    get :preview, on: :member
   end
 
   resources :tournament_rounds, only: [:show, :edit, :update] do
