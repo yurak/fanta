@@ -2,6 +2,10 @@ RSpec.describe Players::Transfermarkt::Parser do
   describe '#call' do
     subject(:parser) { described_class.new(tm_id) }
 
+    before do
+      create(:season, start_year: 2023, end_year: 2024)
+    end
+
     let(:tm_id) { '569598' }
 
     context 'without tm_id' do
