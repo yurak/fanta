@@ -34,7 +34,10 @@ module Players
       end
 
       def country_code
-        country_name = html_page.css('.data-header__items .data-header__content .flaggenrahmen')[0].attributes['title'].value
+        country_text = html_page.css('.data-header__items .data-header__content .flaggenrahmen')[0]
+        return unless country_text
+
+        country_name = country_text.attributes['title'].value
         ISO3166::Country.find_country_by_iso_short_name(country_name)&.alpha2&.downcase
       end
 
@@ -63,7 +66,7 @@ module Players
       end
 
       def position_arr
-        Players::Transfermarkt::PositionMapper.call(Player.new(tm_id: tm_id), 2023)
+        @position_arr ||= Players::Transfermarkt::PositionMapper.call(Player.new(tm_id: tm_id), Season.last.start_year)
       end
 
       def position1

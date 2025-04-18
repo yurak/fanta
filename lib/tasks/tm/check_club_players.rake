@@ -38,7 +38,7 @@ namespace :tm do
             puts "#{player_count} - #{pl.name} - #{pl.id} / #{pl.tm_id} --- #{pl.club.name}#{change}"
             player_count += 1
           else
-            puts "NEW ....#{tm_id}"
+            puts "NEW .... #{tm_id}"
             begin
               result = Players::Transfermarkt::Parser.call(tm_id)
               next unless result
@@ -48,6 +48,7 @@ namespace :tm do
                          result[:tm_pos1], result[:tm_pos2], result[:tm_pos3], result[:tm_price]]
             rescue RestClient::Exception => e
               puts "error for id #{tm_id} - #{e}"
+              writer << [tm_id]
             end
 
             sleep(2)
@@ -57,9 +58,13 @@ namespace :tm do
         missed_ids = club.players.pluck(:tm_id).uniq - actual_ids
         missed_ids.each do |pl_tm_id|
           player = club.players.find_by(tm_id: pl_tm_id)
-          result = Players::Transfermarkt::Parser.call(pl_tm_id)
-          puts "#{player.name} - #{player.id} / #{player.tm_id} --- #{player.club.name} >>>> #{result[:club_name]}"
-          sleep(2)
+          begin
+            result = Players::Transfermarkt::Parser.call(pl_tm_id)
+            puts "#{player.name} - #{player.id} / #{player.tm_id} --- #{player.club.name} >>>> #{result[:club_name]}"
+            sleep(2)
+          rescue RestClient::Exception => e
+            puts "CHANGE .... #{player.name} - #{player.id} / #{player.tm_id} - error: #{e}"
+          end
         end
         puts '/////////////////////////////////////'
 
