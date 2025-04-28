@@ -14,7 +14,7 @@ module AuctionRounds
 
       create_auction_bids
 
-      TelegramBot::AuctionStartBidsNotifier.call(auction)
+      TelegramBot::Auction::StartBidsNotifier.call(auction)
     end
 
     private

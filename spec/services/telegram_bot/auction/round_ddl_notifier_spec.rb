@@ -1,4 +1,4 @@
-RSpec.describe TelegramBot::AuctionSalesDdlNotifier do
+RSpec.describe TelegramBot::Auction::RoundDdlNotifier do
   describe '#call' do
     subject(:notifier) { described_class.new(auction) }
 
@@ -10,15 +10,15 @@ RSpec.describe TelegramBot::AuctionSalesDdlNotifier do
       it { expect(notifier.call).to be(false) }
     end
 
-    context 'when auction league without teams' do
+    context 'when auction without active auction_round' do
       it { expect(notifier.call).to be(false) }
     end
 
-    context 'when auction league with teams' do
-      let(:auction) { create(:auction, league: create(:league, :with_five_teams)) }
+    context 'when auction with initial bids' do
+      let(:auction) { create(:auction) }
 
       before do
-        auction.league.teams.each { |team| create(:player_team, team: team) }
+        create(:auction_bid, :with_empty_player_bids, auction_round: create(:auction_round, auction: auction))
       end
 
       it 'calls Sender service' do

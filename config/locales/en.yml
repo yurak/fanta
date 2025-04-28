@@ -1075,8 +1075,20 @@ en:
       title: "Rules"
   telegram:
     notifier:
-      opened_tour:
-        message: "%{icon} Round #%{number} of %{league} League has been opened.\n🟢 You can set up lineup for %{team} - %{url} \n🔜 Deadline: %{date} (EET) 🔚"
+      auction:
+        default: "%{icon} Auction message to %{team_name} team\n\n#auction #%{code}"
+        finished: "%{icon} Auction #%{number} in %{league_name} league has been closed.\n\n🏁️️ You can view all transfers of the auction at the link - %{url}\n\n#auction #%{code}"
+        round_ddl: "%{icon} Auction round deadline in %{league_name} League is today at %{deadline} (EET) ⚠️\n\n‼️️ You must bid on %{vacancies} players for %{team_name} - %{url}\n\n#auction #%{code}"
+        sales_ddl: "%{icon} Transfer window deadline in %{league_name} League is coming soon.\n⚠️ Deadline today at %{deadline} (EET) ⚠️\n\n‼️️ You can select up to %{available_transfers} players to sell from %{team_name} - %{url}\n\n#auction #%{code}"
+        sales_open: "%{icon} Transfer window in %{league_name} League is open.\n🔜 Deadline: %{deadline} (EET) 🔚\n\n‼️️ You can select up to %{available_transfers} players to sell from %{team_name} - %{url}\n\n#auction #%{code}"
+        start_bids: "%{icon} Auction round #%{number} has started in %{league_name} League.\n🔜 Deadline: %{deadline} (EET) 🔚\n\n‼️️ You must bid on %{vacancies} players for %{team_name} - %{url}\n\n#auction #%{code}"
+      player:
+        left: "%{icon} %{player_name} from %{team_name} left %{tournament_name} tournament.\n💵 You will be able to replace him at the next auction.\n\n#player #%{code}"
+      tour:
+        closed: "%{icon} Round #%{number} of %{league_name} League has been closed.\n🔴 You can check the final results here - %{url}\n\n#tour #%{code}"
+        ddl: "%{icon} The deadline of tour #%{number} is today at %{deadline} (EET)\n\n🟡 Create your lineup - %{url}\n\n#tour #%{code}"
+        moderated: "%{icon} Round #%{number} of %{league_name} League has been moderated.\n🔵 All scores and bonuses have been calculated, substitutions have been made.\n✍️ If you have remarks about bonuses - write to @mantra_help.\n\n☑️ You can check the preliminary results here - %{url}\n\n#tour #%{code}"
+        opened: "%{icon} Round #%{number} of %{league_name} League has been opened.\n🟢 You can set up lineup for %{team_name} - %{url}\n🔜 Deadline: %{deadline} (EET) 🔚\n\n#tour #%{code}"
     webhooks:
       action_missing:
         command: Can not perform %{command} command

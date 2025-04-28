@@ -1,4 +1,4 @@
-RSpec.describe TelegramBot::AuctionSalesOpenNotifier do
+RSpec.describe TelegramBot::Auction::FinishedNotifier do
   describe '#call' do
     subject(:notifier) { described_class.new(auction) }
 
@@ -16,10 +16,6 @@ RSpec.describe TelegramBot::AuctionSalesOpenNotifier do
 
     context 'when auction league with teams' do
       let(:auction) { create(:auction, league: create(:league, :with_five_teams)) }
-
-      before do
-        auction.league.teams.each { |team| create(:player_team, team: team) }
-      end
 
       it 'calls Sender service' do
         allow(TelegramBot::Sender).to receive(:call).and_return(true)

@@ -19,6 +19,11 @@ every '25 13 * * *' do
   rake 'tg:send_auction_sales_deadline'
 end
 
+# Send notifications by Telegram bot before auction round deadline
+every '5,35 * * * *' do
+  rake 'tg:send_auction_round_deadline'
+end
+
 # Save messages from Telegram Bot (works only when webhooks disabled)
 # every '20 * * * *' do
 #   rake 'tg:save_messages'
