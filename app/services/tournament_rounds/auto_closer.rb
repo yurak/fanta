@@ -11,7 +11,7 @@ module TournamentRounds
 
       tournament_round.update(moderated_at: Time.zone.now)
       tournament_round.tours.each do |tour|
-        TelegramBot::ModeratedTourNotifier.call(tour)
+        TelegramBot::Tour::ModeratedNotifier.call(tour)
       end
     end
   end

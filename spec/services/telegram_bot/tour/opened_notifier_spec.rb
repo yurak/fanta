@@ -1,4 +1,4 @@
-RSpec.describe TelegramBot::ClosedTourNotifier do
+RSpec.describe TelegramBot::Tour::OpenedNotifier do
   describe '#call' do
     subject(:notifier) { described_class.new(tour) }
 
