@@ -10,6 +10,8 @@ class AuctionBid < ApplicationRecord
 
   scope :initial_ongoing, -> { initial.or(ongoing) }
 
+  scope :initial_ongoing, -> { initial.or(ongoing) }
+
   accepts_nested_attributes_for :player_bids
 
   def editable?
