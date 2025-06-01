@@ -9,7 +9,7 @@ class AuctionRound < ApplicationRecord
   delegate :league, to: :auction
 
   FULL_SIZE_ROUND = 4
-  BUDGET_LIMIT = [0, 180, 200, 220, 260].freeze
+  BUDGET_LIMIT = [0, 170, 200, 230, 260].freeze
   GK_MIN_LIMIT = [0, 0, 1, 2, 3].freeze
   GK_BASE_MIN_LIMIT = 3
 

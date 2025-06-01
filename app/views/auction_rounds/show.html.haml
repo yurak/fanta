@@ -339,6 +339,7 @@
     if ("#{auction_bid.present?}" === 'true') {
       const basicAuctionRound = "#{auction_bid&.auction_round&.basic}" === 'true'
       const primaryAuction = "#{auction.primary?}" === 'true'
+      const auctionRoundNumber = "#{auction_round&.number}";
 
       // Show modal
       $('.auction-bid-slot-modal').click(function(e) {
@@ -393,7 +394,7 @@
 
               const priceInput = $('.price-input-' + slotId);
               let playerPrice = 1;
-              if (basicAuctionRound) {
+              if (primaryAuction && auctionRoundNumber < 4) {
                 playerPrice = data.stats_price;
               }
               priceInput.val(playerPrice);
@@ -533,7 +534,7 @@
         const playerPath = "#{player_path(1).tr('1', '')}" + data.id;
 
         let minPrice = " ";
-        if (basicAuctionRound) { minPrice = data.stats_price }
+        if (primaryAuction && auctionRoundNumber < 4) { minPrice = data.stats_price }
 
         let positionsContainer = '<div class="player-positions-block">';
         data.position_ital_arr.forEach((positionName, index) => {
@@ -664,7 +665,7 @@
               location.reload();
             } else {
               totalPrice.text(totalBid + "M");
-              availableBudget.text(teamBudget - totalBid + "M");
+              availableBudget.text(teamRoundBudget - totalBid + "M");
 
               if (barWidth > 100) {
                 barWidth = 100;
@@ -754,7 +755,7 @@
         const goaleeCount = parseInt("#{auction_bid&.team&.players&.by_position('Por')&.count}") + $('.player-position-Por.selected-player-Por').size();
         const gkMinLimit = parseInt("#{auction_round.gk_min_limit}");
         if (goaleeCount < gkMinLimit) {
-          alert("#{t('auction_bid.goalee_count')}");
+          alert("#{t('auction_bid.goalee_count', gk_count: auction_round.gk_min_limit)}");
           return false;
         }
         if (goaleeCount > 5) {

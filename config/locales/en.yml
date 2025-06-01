@@ -53,7 +53,7 @@ en:
     confirm: "Confirm bid"
     duplicates: "Bid contains duplicate players in slots: "
     empty_slots: "You must fill slots: "
-    goalee_count: "The team must have at least 3 goalkeepers"
+    goalee_count: "The team must have at least %{gk_count} goalkeepers on this stage"
     goalee_max_count: "The team can`t have more than 5 goalkeepers"
     min_price: "The bid must be at least 1"
     overprice: "Your bid exceeds the team budget"
