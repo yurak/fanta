@@ -111,11 +111,11 @@ class Team < ApplicationRecord
   end
 
   def round_budget(auction_round)
-    budget + AuctionRound::BUDGET_LIMIT[auction_round.number] - DEFAULT_BUDGET
+    budget + auction_round.budget_limit - DEFAULT_BUDGET
   end
 
   def reserved_budget(auction_round)
-    DEFAULT_BUDGET - AuctionRound::BUDGET_LIMIT[auction_round.number]
+    DEFAULT_BUDGET - auction_round.budget_limit
   end
 
   def sales_period?
