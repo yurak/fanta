@@ -44,7 +44,7 @@ class AuctionRound < ApplicationRecord
   end
 
   def budget_limit
-    auction.primary? && number < FULL_SIZE_ROUND ? BUDGET_LIMIT[auction_round.number] : Team::DEFAULT_BUDGET
+    auction.primary? && number < FULL_SIZE_ROUND ? BUDGET_LIMIT[number] : Team::DEFAULT_BUDGET
   end
 
   def gk_min_limit
