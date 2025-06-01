@@ -954,13 +954,17 @@
       .auction-round-add-header {
         border: 3px solid #FFEBC2;
         border-radius: 0 0 16px 16px;
-        padding: 24px 32px;
-        font-size: 30px;
-        line-height: 36px;
+        font-size: 32px;
         height: fit-content;
-        gap: 8px;
-        display: grid;
-        grid-template-columns: auto auto;
+
+        .auction-round-add-row {
+          line-height: 36px;
+          height: fit-content;
+          padding: 24px 32px;
+          gap: 8px;
+          display: grid;
+          grid-template-columns: auto auto;
+        }
 
         .auction-round-add-item-badge {
           border-radius: 16px;
