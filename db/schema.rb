@@ -149,6 +149,7 @@ ActiveRecord::Schema.define(version: 2025_06_07_205207) do
     t.integer "promotion", default: 0, null: false
     t.integer "relegation", default: 0, null: false
     t.integer "auction_number", default: 5
+    t.integer "auction_step", default: 6, null: false
     t.index ["name"], name: "index_leagues_on_name", unique: true
     t.index ["season_id"], name: "index_leagues_on_season_id"
   end

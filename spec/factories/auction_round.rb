@@ -1,6 +1,7 @@
 FactoryBot.define do
   factory :auction_round do
     auction
+    number { FFaker::Number.number }
 
     factory :processing_auction_round do
       status { :processing }
