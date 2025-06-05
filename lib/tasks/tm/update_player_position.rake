@@ -1,3 +1,4 @@
+# rubocop:disable Metrics/BlockLength:
 namespace :tm do
   # rake 'tm:update_player_position[1,15000]'
   desc 'Update player positions by TM data'
@@ -12,8 +13,11 @@ namespace :tm do
         player = Player.find_by(id: id)
         next unless player&.tm_id
         next if player.club.name == Club::RETIRED
-        # next if player.club.tournament_id == 16 # skip MLS players
-        next unless player.club.tournament_id == 16 # only MLS players
+        next if player.club.tournament_id == 16 # skip MLS players
+        next if player.club.tournament_id == 19 # skip Brazil players
+
+        # next unless player.club.tournament_id == 16 # only MLS players
+        # next unless player.club.tournament_id == 19 # only Brazil players
 
         begin
           pos = player.player_positions.map { |pp| Slot::POS_MAPPING[pp.position.name] }
@@ -28,4 +32,21 @@ namespace :tm do
       end
     end
   end
+
+  # rake 'tm:update_player_position_url[url]'
+  desc 'Update player positions by TM data from csv url'
+  task :update_player_position_url, %i[url] => :environment do |_t, args|
+    csv = CSV.parse(URI.parse(args[:url]).open.read, headers: true)
+
+    csv.each do |player_data|
+      player = Player.find_by(id: player_data['id'])
+      next unless player
+
+      positions = player_data['recommended positions'].split(',')
+      puts "#{player.id} - #{player_data['recommended positions']}"
+
+      PlayerPositions::Updater.call(player, positions)
+    end
+  end
 end
+# rubocop:enable Metrics/BlockLength

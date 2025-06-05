@@ -10,7 +10,7 @@ namespace :tm do
         player = Player.find_by(id: id)
         next unless player&.tm_id
 
-        p id if (id % 4).zero?
+        p id if (id % 2).zero?
         begin
           response = RestClient::Request.execute(method: :get, url: player.tm_path, headers: { 'User-Agent': 'product/version' },
                                                  verify_ssl: false)
@@ -41,9 +41,11 @@ namespace :tm do
           writer << [id] if (id % 100).zero?
         rescue RestClient::Exception => e
           puts "error for id #{player.id} / #{player.tm_id} - #{e}"
+          writer << ["error for id #{player.id} / #{player.tm_id} / #{player.club.name}- #{player.tm_path}"]
+          sleep(30)
         end
 
-        sleep(10) if (id % 4).zero?
+        sleep(30)
       end
     end
   end
