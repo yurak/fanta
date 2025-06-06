@@ -29,6 +29,7 @@ class MatchPlayer < ApplicationRecord
 
   CLEANSHEET_BONUS_DIFF_FULL = 1
   CLEANSHEET_BONUS_DIFF = 0.5
+  MIN_PLAYED_MINUTES_FOR_CS = 60
 
   def kit_path
     round_player.club ? round_player.club.kit_path : player.kit_path

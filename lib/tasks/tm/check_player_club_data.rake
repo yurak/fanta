@@ -10,8 +10,11 @@ namespace :tm do
         player = Player.find_by(id: id)
         next unless player&.tm_id
 
+        max_attempts = 3
+        attempt = 0
         p id if (id % 2).zero?
         begin
+          attempt += 1
           response = RestClient::Request.execute(method: :get, url: player.tm_path, headers: { 'User-Agent': 'product/version' },
                                                  verify_ssl: false)
 
@@ -40,12 +43,17 @@ namespace :tm do
           end
           writer << [id] if (id % 100).zero?
         rescue RestClient::Exception => e
-          puts "error for id #{player.id} / #{player.tm_id} - #{e}"
-          writer << ["error for id #{player.id} / #{player.tm_id} / #{player.club.name}- #{player.tm_path}"]
-          sleep(30)
+          if attempt < max_attempts
+            sleep(60)
+            puts "Retry ##{attempt} for #{id}"
+            retry
+          else
+            puts "error for id #{player.id} / #{player.tm_id} - #{e}"
+            writer << ["error for id #{player.id} / #{player.tm_id} / #{player.club.name}- #{player.tm_path}"]
+          end
         end
 
-        sleep(30)
+        sleep(20)
       end
     end
   end

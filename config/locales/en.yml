@@ -331,6 +331,7 @@ en:
     og: "OG"
     played_minutes: "Played minutes"
     pm: "PM"
+    sixties: "Matches with 60+ minutes"
     change_arguments: "Arguments for changing player's positions"
     change_positions: "Positions that player should have"
     change_request: "🌪 Propose positions change"

@@ -28,6 +28,8 @@ namespace :tm do
         old_player_count = 0
         new_player_count = 0
         actual_ids = []
+
+        sleep(10)
         players.each do |player_data|
           href = player_data.children[1].attributes['href'].value
           tm_id = href.split('/').last
@@ -40,10 +42,13 @@ namespace :tm do
             puts "#{old_player_count} - #{pl.name} - #{pl.id} / #{pl.tm_id} --- #{pl.club.name}#{change}"
           else
             new_player_count += 1
+            max_attempts = 3
+            attempt = 0
             # next if i < 14 && new_player_count < 24
 
             puts "NEW #{new_player_count} .... #{tm_id}"
             begin
+              attempt += 1
               result = Players::Transfermarkt::Parser.call(tm_id)
               next unless result
 
@@ -51,12 +56,17 @@ namespace :tm do
                          result[:position1], result[:position2], result[:position3], result[:tm_url], '',
                          result[:tm_pos1], result[:tm_pos2], result[:tm_pos3], result[:tm_price]]
             rescue RestClient::Exception => e
-              puts "error for id #{tm_id} - #{e}"
-              writer << [tm_id]
-              sleep(300)
+              if attempt < max_attempts
+                sleep(60)
+                puts "Retry ##{attempt} for TM id - #{tm_id}"
+                retry
+              else
+                puts "error for id #{tm_id} - #{e}"
+                writer << [tm_id]
+              end
             end
 
-            sleep(60)
+            sleep(20)
           end
         end
         puts '------------------'
@@ -73,8 +83,6 @@ namespace :tm do
           # end
         end
         puts '/////////////////////////////////////'
-
-        sleep(20)
       end
     end
   end

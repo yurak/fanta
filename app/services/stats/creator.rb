@@ -60,6 +60,7 @@ module Stats
         conceded_penalty: player.season_bonus_count(matches, 'conceded_penalty'),
         penalties_won: player.season_bonus_count(matches, 'penalties_won'),
         played_minutes: player.season_bonus_count(matches, 'played_minutes'),
+        sixties: player.sixty_minutes_plus(matches),
         position1: player.positions[0]&.name,
         position2: player.positions[1]&.name,
         position3: player.positions[2]&.name

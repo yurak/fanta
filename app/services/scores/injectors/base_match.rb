@@ -1,8 +1,6 @@
 module Scores
   module Injectors
     class BaseMatch < ApplicationService
-      MIN_PLAYED_MINUTES_FOR_CS = 60
-
       attr_reader :match
 
       def initialize(match)
@@ -61,7 +59,7 @@ module Scores
       end
 
       def cleansheet?(round_player, team_missed_goals, played_minutes)
-        return false if played_minutes.to_i < MIN_PLAYED_MINUTES_FOR_CS
+        return false if played_minutes.to_i < MatchPlayer::MIN_PLAYED_MINUTES_FOR_CS
         return false if team_missed_goals.positive?
         return false if (round_player.position_names & Position::CLEANSHEET_ZONE).blank?
 
