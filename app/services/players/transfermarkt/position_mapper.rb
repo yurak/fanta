@@ -117,10 +117,12 @@ module Players
       end
 
       def current_stat
+        sleep(10) unless @current_stat
         @current_stat ||= Players::Transfermarkt::PositionParser.call(player, current_year)
       end
 
       def previous_stat
+        sleep(10) unless @current_stat
         @previous_stat ||= Players::Transfermarkt::PositionParser.call(player, current_year - 1)
       end
 
