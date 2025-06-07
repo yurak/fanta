@@ -214,6 +214,10 @@ class Player < ApplicationRecord
     matches.map(&:played_minutes).sum
   end
 
+  def sixty_minutes_plus(matches = season_matches_with_scores)
+    matches.where('played_minutes >= ?', MatchPlayer::MIN_PLAYED_MINUTES_FOR_CS).count
+  end
+
   private
 
   # all TournamentRound in current tournament for this season

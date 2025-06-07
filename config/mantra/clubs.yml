@@ -318,7 +318,7 @@ brazil:
   SAO: São Paulo
   VDG: Vasco da Gama
   ECV: Vitoria
-europe:
+#europe:
 #  BES: Besiktas
 #  CEL: Celtic
 #  COP: Copenhagen
@@ -336,3 +336,17 @@ europe:
 #  VPL: Viktoria Plzen
 #  YOU: Young Boys
 #  ZEN: Zenit
+cwc:
+  AHL: Al Ahly
+  HIL: Al Hilal
+  AIN: Al-Ain
+  AUC: Auckland City
+  BCJ: Boca Juniors
+  ESC: Esperance
+  MAM: Mamelodi Sundowns
+  MTR: Monterrey
+  PAC: Pachuca
+  RVP: River Plate
+  ULS: Ulsan HD
+  URW: Urawa Red Diamonds
+  WYD: Wydad

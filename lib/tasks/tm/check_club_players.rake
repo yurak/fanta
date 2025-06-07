@@ -3,7 +3,7 @@ namespace :tm do
   # rake 'tm:check_club_players_csv[1]'
   desc 'Check TM players list from club pages and write to csv'
   task :check_club_players_csv, %i[tournament_id] => :environment do |_t, args|
-    clubs = if args[:tournament_id] == '8'
+    clubs = if args[:tournament_id] == '8' || args[:tournament_id] == '20'
               Club.active.where(tournament_id: nil, ec_tournament_id: args[:tournament_id]).order(:name)
             elsif args[:tournament_id]
               Club.active.where(tournament_id: args[:tournament_id]).order(:name)
@@ -15,7 +15,7 @@ namespace :tm do
     CSV.open('log/club_players.csv', 'ab') do |writer|
       clubs.each do |club|
         i += 1
-        # next if i < 15
+        # next if i < 13
         # next if i > 15
 
         puts "--------#{i}---#{club.name}--------"
@@ -25,8 +25,11 @@ namespace :tm do
                                                verify_ssl: false)
         html_page = Nokogiri::HTML(response)
         players = html_page.css('.inline-table .hauptlink')
-        player_count = 1
+        old_player_count = 0
+        new_player_count = 0
         actual_ids = []
+
+        sleep(10)
         players.each do |player_data|
           href = player_data.children[1].attributes['href'].value
           tm_id = href.split('/').last
@@ -34,12 +37,18 @@ namespace :tm do
           pl = Player.find_by(tm_id: tm_id)
 
           if pl
+            old_player_count += 1
             change = pl.club.name == club.name ? '' : " >>>> #{club.name}"
-            puts "#{player_count} - #{pl.name} - #{pl.id} / #{pl.tm_id} --- #{pl.club.name}#{change}"
-            player_count += 1
+            puts "#{old_player_count} - #{pl.name} - #{pl.id} / #{pl.tm_id} --- #{pl.club.name}#{change}"
           else
-            puts "NEW .... #{tm_id}"
+            new_player_count += 1
+            max_attempts = 3
+            attempt = 0
+            # next if i < 14 && new_player_count < 24
+
+            puts "NEW #{new_player_count} .... #{tm_id}"
             begin
+              attempt += 1
               result = Players::Transfermarkt::Parser.call(tm_id)
               next unless result
 
@@ -47,28 +56,33 @@ namespace :tm do
                          result[:position1], result[:position2], result[:position3], result[:tm_url], '',
                          result[:tm_pos1], result[:tm_pos2], result[:tm_pos3], result[:tm_price]]
             rescue RestClient::Exception => e
-              puts "error for id #{tm_id} - #{e}"
-              writer << [tm_id]
+              if attempt < max_attempts
+                sleep(60)
+                puts "Retry ##{attempt} for TM id - #{tm_id}"
+                retry
+              else
+                puts "error for id #{tm_id} - #{e}"
+                writer << [tm_id]
+              end
             end
 
-            sleep(2)
+            sleep(20)
           end
         end
         puts '------------------'
         missed_ids = club.players.pluck(:tm_id).uniq - actual_ids
         missed_ids.each do |pl_tm_id|
           player = club.players.find_by(tm_id: pl_tm_id)
-          begin
-            result = Players::Transfermarkt::Parser.call(pl_tm_id)
-            puts "#{player.name} - #{player.id} / #{player.tm_id} --- #{player.club.name} >>>> #{result[:club_name]}"
-            sleep(2)
-          rescue RestClient::Exception => e
-            puts "CHANGE .... #{player.name} - #{player.id} / #{player.tm_id} - error: #{e}"
-          end
+          puts "CHANGE .... #{player.name} - #{player.id} / #{player.tm_id}"
+          # begin
+          #   result = Players::Transfermarkt::Parser.call(pl_tm_id)
+          #   puts "#{player.name} - #{player.id} / #{player.tm_id} --- #{player.club.name} >>>> #{result[:club_name]}"
+          #   sleep(5)
+          # rescue RestClient::Exception => e
+          #   puts "CHANGE .... #{player.name} - #{player.id} / #{player.tm_id} - error: #{e}"
+          # end
         end
         puts '/////////////////////////////////////'
-
-        sleep(5)
       end
     end
   end

@@ -30,6 +30,53 @@ namespace :tm do
     end
   end
 
+  # rake 'tm:check_player_position_id[1,14999]'
+  desc 'Check TM players position and write to csv if diff'
+  task :check_player_position_id, %i[start_id last_id] => :environment do |_t, args|
+    ids_range = args[:start_id].to_i..args[:last_id].to_i
+
+    year = Season.last.start_year
+    CSV.open('log/player_position_id.csv', 'ab') do |writer|
+      writer << ['id', 'name', 'club', 'tm_url', 'actual positions', 'recommended positions']
+      ids_range.each do |id|
+        pl = Player.find_by(id: id)
+        next unless pl
+        next if pl.club.name == Club::RETIRED
+        next if pl.club.tournament_id == 16 # skip MLS players
+        next if pl.club.tournament_id == 19 # skip Brazil players
+
+        max_attempts = 3
+        attempt = 0
+
+        puts id
+        begin
+          attempt += 1
+          res = Players::Transfermarkt::PositionMapper.call(pl, year)
+        rescue StandardError => e
+          if attempt < max_attempts
+            sleep(60)
+            puts "Retry ##{attempt} for #{id}"
+            retry
+          else
+            writer << [pl.id, pl.name, club.name, pl.tm_url, 'ERROR', e.message, pl.current_average_price]
+          end
+        end
+
+        pos = pl.player_positions.map { |pp| Slot::POS_MAPPING[pp.position.name] }
+
+        if res.any?
+          unless pos.sort == res.compact.sort
+            writer << [pl.id, pl.name, pl.club.name, pl.tm_url, pos.join(','), res.join(','), pl.current_average_price]
+          end
+        else
+          writer << [pl.id, pl.name, pl.club.name, pl.tm_url, pos.join(','), 'NO RESULT', pl.current_average_price]
+        end
+
+        sleep(20)
+      end
+    end
+  end
+
   # rake 'tm:check_player_position_two_season[2]'
   desc 'Check TM players position for 2 seasons and write to csv if diff'
   task :check_player_position_two_season, %i[tournament_id] => :environment do |_t, args|

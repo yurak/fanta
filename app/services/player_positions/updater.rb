@@ -1,9 +1,10 @@
 module PlayerPositions
   class Updater < ApplicationService
-    attr_reader :player
+    attr_reader :player, :tm_new_positions
 
-    def initialize(player)
+    def initialize(player, tm_new_positions = nil)
       @player = player
+      @tm_new_positions = tm_new_positions
     end
 
     def call
@@ -31,7 +32,7 @@ module PlayerPositions
     private
 
     def tm_positions
-      @tm_positions ||= Players::Transfermarkt::PositionMapper.call(player, year)
+      @tm_positions ||= tm_new_positions || Players::Transfermarkt::PositionMapper.call(player, year)
     end
 
     def position(pos_name)
