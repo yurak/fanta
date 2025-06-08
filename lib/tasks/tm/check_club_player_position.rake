@@ -42,6 +42,7 @@ namespace :tm do
         pl = Player.find_by(id: id)
         next unless pl
         next if pl.club.name == Club::RETIRED
+        next if pl.positions.first.name == Position::GOALKEEPER
         next if pl.club.tournament_id == 16 # skip MLS players
         next if pl.club.tournament_id == 19 # skip Brazil players
 
@@ -53,12 +54,12 @@ namespace :tm do
           attempt += 1
           res = Players::Transfermarkt::PositionMapper.call(pl, year)
         rescue StandardError => e
-          if attempt < max_attempts
-            sleep(60)
+          if attempt <= max_attempts
             puts "Retry ##{attempt} for #{id}"
+            sleep(60)
             retry
           else
-            writer << [pl.id, pl.name, club.name, pl.tm_url, 'ERROR', e.message, pl.current_average_price]
+            writer << [pl.id, pl.name, pl.club.name, pl.tm_url, 'ERROR', e.message, pl.current_average_price]
           end
         end
 

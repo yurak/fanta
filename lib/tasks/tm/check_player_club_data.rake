@@ -43,7 +43,7 @@ namespace :tm do
           end
           writer << [id] if (id % 100).zero?
         rescue RestClient::Exception => e
-          if attempt < max_attempts
+          if attempt <= max_attempts
             sleep(60)
             puts "Retry ##{attempt} for #{id}"
             retry
