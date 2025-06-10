@@ -42,8 +42,8 @@ namespace :tm do
       player = Player.find_by(id: player_data['id'])
       next unless player
 
-      positions = player_data['recommended positions'].split(',')
-      puts "#{player.id} - #{player_data['recommended positions']}"
+      positions = player_data['new positions'].split(',')
+      puts "#{player.id} - #{player_data['new positions']}"
 
       PlayerPositions::Updater.call(player, positions)
     end
