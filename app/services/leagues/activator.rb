@@ -32,7 +32,7 @@ module Leagues
     end
 
     def create_auctions
-      auctions_number.times { |i| league.auctions.create(number: i + 1, base_date: auctions_dates[i], sales_count: 0) }
+      auctions_number.times { |i| league.auctions.create(number: i + 1, base_date: norm_date(auctions_dates[i]), sales_count: 0) }
     end
 
     def create_results
@@ -45,6 +45,15 @@ module Leagues
 
     def auctions_number
       @auctions_number ||= league.auction_number
+    end
+
+    def norm_date(month_name)
+      month_number = Date::MONTHNAMES.index(month_name.capitalize)
+      return unless month_number
+
+      candidate_date = Date.new(Time.zone.today.year, month_number, 1)
+      year = candidate_date > Time.zone.today ? candidate_date.year : candidate_date.next_year.year
+      "#{month_name.capitalize}, #{year}"
     end
 
     def auctions_dates

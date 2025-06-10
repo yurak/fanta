@@ -38,3 +38,8 @@ end
 every 10.minutes do
   rake 'auction_rounds:process'
 end
+
+# Open auction dropping phase
+every '15 * * * *' do
+  rake 'auctions:start_sales'
+end
