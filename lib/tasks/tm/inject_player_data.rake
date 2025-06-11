@@ -9,7 +9,7 @@ namespace :tm do
       p "Inject player data: #{player.name} (id: #{player.id})"
       Players::Transfermarkt::BaseUpdater.call(player)
 
-      sleep(15)
+      sleep(30)
     end
   end
 end
