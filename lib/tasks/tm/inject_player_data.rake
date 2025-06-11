@@ -10,6 +10,7 @@ namespace :tm do
       Players::Transfermarkt::BaseUpdater.call(player)
 
       sleep(30)
+      sleep(60) if (id % 4).zero?
     end
   end
 end
