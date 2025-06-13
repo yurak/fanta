@@ -1027,6 +1027,30 @@ body, html {
   filter: invert(13%) sepia(85%) saturate(4155%) hue-rotate(243deg) brightness(112%) contrast(131%); // #261FFF;
 }
 
+
+
+.back-links {
+  padding: 24px 36px 16px 16px;
+  display: grid;
+  grid-template-columns: 280px auto 200px;
+
+  .back-link a {
+    font-family: 'Nunito Bold';
+    display: grid;
+    grid-template-columns: 40px auto;
+    column-gap: 8px;
+    text-decoration: none;
+    color: #181715;
+    font-size: 32px;
+    line-height: 32px;
+
+    .back-link-arrow {
+      text-align: center;
+      margin-bottom: 4px;
+    }
+  }
+}
+
 @media (orientation: portrait) {
   .back-button-row {
     padding: 16px 48px;

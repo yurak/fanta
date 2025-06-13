@@ -216,34 +216,55 @@
       "toggle_navigation": "Toggle navigation"
     },
     "auction": {
-      "auction": "Auction",
-      "bid": "Bid",
-      "blind_bids_msg": "You can place transfer bid at the auction until %{date} here:",
-      "budget": "Budget",
-      "close": "Close",
-      "club": "Club",
-      "date": "Date",
-      "deadline": "DEADLINE",
-      "enter_name": "Enter name",
-      "event_time": "EVENT TIME",
-      "last_purchases": "💰 Last purchases",
-      "live_msg": "Auction date - %{date}. The results of the transfer window here:",
-      "max_bid": "Max bid",
-      "player_search": "Player search",
-      "players": "Players",
-      "positions": "Positions",
-      "price": "Price",
-      "sales_msg": "The transfer window is open until %{date}.You can sell your players here:",
-      "seconds": "seconds",
-      "select_club": "Select club",
-      "sold": "SOLD",
-      "status": "STATUS",
-      "teams": "⚽️ Teams",
-      "time_left": "Time left",
-      "time_out": "TIME OUT",
-      "time_spend": "Time spend",
-      "title": "%{league} Auctions",
-      "transfers": "TRANSFERS"
+      "index": {
+        "auctions": "Auctions",
+        "dropping_title": "Dropping Phase",
+        "icon": {
+          "dropping": "🦶",
+          "initial_false": "⚖️",
+          "initial_true": "🔒"
+        },
+        "initial_title": "Initial Auction",
+        "intermediate_title": "Intermediate Auction #%{number}",
+        "show_upcoming": "Show upcoming",
+        "status": {
+          "coming_soon": "Coming soon",
+          "completed": "Completed",
+          "ongoing": "Ongoing",
+          "to_be_decided": "To be decided"
+        }
+      },
+      "live": {
+        "accept_bid": "Accept bid",
+        "auction": "Auction",
+        "bid": "Bid",
+        "cancel": "Cancel",
+        "close": "Close",
+        "club": "Club",
+        "date": "Date",
+        "enter_name": "Enter name",
+        "last_purchases": "💰 Last purchases",
+        "max_bid": "Max bid",
+        "player_search": "Player search",
+        "players": "Players",
+        "positions": "Positions",
+        "price": "Price",
+        "select_club": "Select club",
+        "teams": "⚽️ Teams",
+        "time_left": "Time left",
+        "time_out": "TIME OUT",
+        "time_spend": "Time spend"
+      },
+      "show": {
+        "deadline": {
+          "text": "Here we go! 🎊 Auction will start on %{date}",
+          "title": "Coming soon"
+        },
+        "wo_deadline": {
+          "text": "Estimated date is %{date}. You’ll be notified few days before start",
+          "title": "Start day to be decided"
+        }
+      }
     },
     "auction_bid": {
       "all_budget": "You must use the entire budget at the first stage of the auction - %{budget} million",
@@ -1762,34 +1783,55 @@
       }
     },
     "auction": {
-      "auction": "Аукціон",
-      "bid": "Ставка",
-      "blind_bids_msg": "Ви можете зробити трансферну ставку на аукціоні до %{date} тут:",
-      "budget": "Бюджет",
-      "close": "Закрити",
-      "club": "Клуб",
-      "date": "Дата",
-      "deadline": "ДЕДЛАЙН",
-      "enter_name": "Введіть ім'я",
-      "event_time": "ЧАС ПОДІЇ",
-      "last_purchases": "💰 Останні покупки",
-      "live_msg": "Дата аукціону %{date}. Результати трансферного вікна тут:",
-      "max_bid": "Cтавка",
-      "player_search": "Пошук гравця",
-      "players": "Гравці",
-      "positions": "Позиції",
-      "price": "Вартість",
-      "sales_msg": "Трансферне вікно відкрито до %{date}. Ви можете продати гравців тут:",
-      "seconds": "секунд",
-      "select_club": "Виберіть клуб",
-      "sold": "ПРОДАНО",
-      "status": "СТАТУС",
-      "teams": "⚽️ Команди",
-      "time_left": "Залишилося",
-      "time_out": "ЧАС ВИЙШОВ",
-      "time_spend": "Пройшло часу",
-      "title": "Аукціони %{league}",
-      "transfers": "ТРАНСФЕРИ"
+      "index": {
+        "auctions": "Аукціони",
+        "dropping_title": "Фаза скидання",
+        "icon": {
+          "dropping": "🦶",
+          "initial_false": "⚖️",
+          "initial_true": "🔒"
+        },
+        "initial_title": "Початковий Аукціон",
+        "intermediate_title": "Проміжний Аукціон #%{number}",
+        "show_upcoming": "Показати майбутні",
+        "status": {
+          "coming_soon": "Незабаром",
+          "completed": "Завершено",
+          "ongoing": "Триває",
+          "to_be_decided": "Буде вирішено"
+        }
+      },
+      "live": {
+        "accept_bid": "Прийняти ставку",
+        "auction": "Аукціон",
+        "bid": "Ставка",
+        "cancel": "Скасувати",
+        "close": "Закрити",
+        "club": "Клуб",
+        "date": "Дата",
+        "enter_name": "Введіть ім'я",
+        "last_purchases": "💰 Останні покупки",
+        "max_bid": "Cтавка",
+        "player_search": "Пошук гравця",
+        "players": "Гравці",
+        "positions": "Позиції",
+        "price": "Вартість",
+        "select_club": "Виберіть клуб",
+        "teams": "⚽️ Команди",
+        "time_left": "Залишилося",
+        "time_out": "ЧАС ВИЙШОВ",
+        "time_spend": "Пройшло часу"
+      },
+      "show": {
+        "deadline": {
+          "text": "Погнали! 🎊 Аукціон розпочнеться %{date}",
+          "title": "Незабаром"
+        },
+        "wo_deadline": {
+          "text": "Орієнтовна дата – %{date}. Вас повідомлять за кілька днів до початку.",
+          "title": "День початку буде визначено пізніше"
+        }
+      }
     },
     "auction_bid": {
       "all_budget": "Ви повинні використати увесь бюджет на першому етапі аукціону - %{budget} мільйонів",

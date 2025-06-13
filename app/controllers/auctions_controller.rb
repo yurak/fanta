@@ -8,7 +8,11 @@ class AuctionsController < ApplicationController
   end
 
   def show
-    redirect_to league_auction_transfers_path(league, auction) unless can? :show, Auction
+    # @player_bids = [] if auction.closed?
+  end
+
+  def live
+    redirect_to league_auction_transfers_path(league, auction) unless can? :live, Auction
   end
 
   def update

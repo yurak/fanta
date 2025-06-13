@@ -1,15 +1,22 @@
 module AuctionsHelper
   def auction_link(auction)
     case auction.status
-    when 'initial'
-      '#'
+    when 'blind_bids', 'live'
+      auction.auction_rounds.active.any? ? auction_round_path(auction.auction_rounds.active.first) : league_auction_transfers_path(auction.league, auction, type: 'in')
+    else
+      league_auction_path(auction.league, auction)
+    end
+  end
+
+  def dropping_link(auction)
+    case auction.status
+    when 'initial', 'live'
+      league_auction_path(auction.league, auction)
     when 'sales'
       team = current_user&.team_by_league(auction.league)
-      team ? edit_team_player_team_path(team, team.player_teams.first) : '#'
-    when 'blind_bids'
-      auction.auction_rounds.active.any? ? auction_round_path(auction.auction_rounds.active.first) : '#'
+      team ? edit_team_player_team_path(team, team.player_teams.first) : league_auction_path(auction.league, auction)
     else
-      league_auction_transfers_path(auction.league, auction)
+      league_auction_transfers_path(auction.league, auction, type: 'out')
     end
   end
 
@@ -27,11 +34,11 @@ module AuctionsHelper
 
   def auction_dates(auction)
     if auction.initial? || auction.sales?
-      auction.deadline ? "Started on #{auction.deadline.strftime('%^b %e, %Y')}" : auction.base_date
+      auction.deadline ? "Started on #{auction.deadline.strftime('%b %e, %Y')}" : auction.base_date
     elsif auction.blind_bids?
-      auction.deadline.strftime('%^a, %^b %e, %H:%M').to_s
+      auction.deadline.strftime('%a, %b %e, %H:%M').to_s
     elsif auction.closed?
-      "#{auction.auction_rounds.first&.created_at&.strftime('%^b %e')} - #{auction.auction_rounds.last&.updated_at&.strftime('%^b %e, %Y')}"
+      "#{auction.auction_rounds.first&.created_at&.strftime('%b %e')} - #{auction.auction_rounds.last&.updated_at&.strftime('%b %e, %Y')}"
     else
       '--:--'
     end

@@ -38,6 +38,8 @@ Rails.application.routes.draw do
     put :activate, on: :member
 
     resources :auctions, only: [:index, :show, :update] do
+      get :live, on: :member
+
       resources :transfers, only: [:index, :create, :destroy]
     end
 

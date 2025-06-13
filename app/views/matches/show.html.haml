@@ -4,12 +4,12 @@
   .mob-header= render 'layouts/mob_header', league: match.tour.league
 
   .page-info.match-page
-    .match-round-links
-      .match-round-link
+    .back-links
+      .back-link
         = link_to tour_path(match.tour) do
-          .match-round-link-arrow
-            = image_tag('icons/arrow.svg')
-          .match-round-link-text
+          .back-link-arrow
+            = image_tag('icons/arrow_left.svg')
+          .back-link-text
             = "#{t('tours.round')} ##{match.tour.number}"
       .match-round-link-blank
       .round-prev-next

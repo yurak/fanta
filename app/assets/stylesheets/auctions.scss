@@ -1,94 +1,182 @@
 /* AUCTION INDEX page */
 
 .page-info.auctions-page {
-  height: 100%;
-  padding: 10px 20px 50px 292px;
+  padding: 2px 16px 2px 288px;
 
   .auctions-head {
-    display: grid;
-    grid-template-columns: 64px auto;
-    margin: 36px 0 18px;
-
-    .tournament-logo {
-      text-align: center;
-
-      img {
-        width: 64px;
-        height: 64px;
-      }
-    }
+    display: flex;
+    margin: 24px 0 32px;
 
     .auctions-title {
-      padding-left: 32px;
-      font-weight: bold;
-      font-size: 42px;
-      line-height: 64px;
-      a {
-        color: #181715;
-        text-decoration: none;
-      }
+      font-family: 'Nunito ExtraBold';
+      font-size: 32px;
+      line-height: 32px;
+      margin-right: 24px;
+    }
+
+    .auctions-switcher {
+      margin-right: 16px;
+      padding: 4px 0;
+    }
+
+    .auctions-switcher-text {
+      font-family: 'Nunito SemiBold';
+      font-size: 14px;
+      line-height: 32px;
     }
   }
 
   .auctions-block {
-    margin-bottom: 100px;
+    height: fit-content;
+    margin-bottom: 64px;
 
     a {
       text-decoration: none;
     }
-  }
 
-  .auctions-headers-grid {
-    display: grid;
-    //grid-template-columns: 1fr 2fr 4fr 4fr 3fr;
-    grid-template-columns: 1fr 2fr 4fr 3fr;
-  }
+    .auction-row {
+      display: grid;
+      grid-template-columns: 40px auto;
+      column-gap: 24px;
+      line-height: 64px;
+      color: #181715;
+      margin-top: 32px;
+    }
 
-  .auctions-headers {
-    padding: 32px 0 12px;
-  }
+    .hide-auction-true {
+      display: none;
+    }
 
-  .auction-item {
-    border: 1px solid #E5E6E4;
-    box-sizing: border-box;
-    border-radius: 8px;
-    margin-bottom: 8px;
-    height: 72px;
-    line-height: 72px;
-    color: #181715;
-
-    .auction-status-badge {
-      background-color: #006EF5;
-      color: #FFFFFF;
-      margin: 15px 8px;
+    .auction-icon-wrapper {
+      padding: 12px 0;
       line-height: 40px;
-      width: 100px;
-      border-radius: 8px;
+    }
+
+    .auction-icon {
+      background-color: #F4F4F4;
+      border-radius: 24px;
+      font-size: 18px;
       text-align: center;
     }
 
-    .auction-param-item {
-      padding-left: 8px;
+    .auction-icon-wrapper-true {
+      .auction-icon {
+        background-color: #FFEBC2;
+      }
+    }
+
+    .auction-item {
+      font-family: 'Nunito ExtraBold';
+      border: 1px solid #E5E6E4;
+      border-radius: 8px;
+      padding: 19px 16px;
+      line-height: 24px;
+      display: grid;
+      grid-template-columns: 20fr 4fr 7fr 12fr 24px;
+      column-gap: 36px;
+      font-size: 18px;
+    }
+
+    .auction-item-closed {
+      .auction-item-title {
+        color: #847577;
+      }
+    }
+
+    .dropping-title-completed {
+      color: #847577;
+    }
+
+    .auction-item-transfers-ongoing {
+      color: #BA44F1;
+    }
+
+    .auction-item-status-cell {
+      .auction-item-status {
+        width: fit-content;
+        font-size: 12px;
+        line-height: 16px;
+        display: grid;
+        grid-template-columns: 16px auto;
+        column-gap: 4px;
+        background: #FCC5CB;
+        border-radius: 12px;
+        padding: 3px 8px;
+      }
+
+      .auction-item-status-completed {
+        background: #D0F0D4;
+      }
+
+      .auction-item-status-ongoing {
+        background: #FFEBC2;
+      }
+
+      .auction-item-status-coming_soon {
+        background: #D8D6FF;
+      }
+    }
+
+    .auction-item-date {
+      font-family: 'Nunito Regular';
+      font-size: 18px;
+      line-height: 24px;
+      text-align: right;
+      color: #847577;
     }
   }
 
-  .auction-initial .auction-status-badge {
-    background-color: #FEE101;
-    color: #181715;
-  }
+  //.auctions-headers-grid {
+  //  display: grid;
+  //  //grid-template-columns: 1fr 2fr 4fr 4fr 3fr;
+  //  grid-template-columns: 1fr 2fr 4fr 3fr;
+  //}
+  //
+  //.auctions-headers {
+  //  padding: 32px 0 12px;
+  //}
 
-  .auction-sales .auction-status-badge {
-    background-color: #DB0A23;
-  }
+  //.auction-item {
+  //  border: 1px solid #E5E6E4;
+  //  box-sizing: border-box;
+  //  border-radius: 8px;
+  //  margin-bottom: 8px;
+  //  height: 72px;
+  //  line-height: 72px;
+  //  color: #181715;
+  //
+  //  .auction-status-badge {
+  //    background-color: #006EF5;
+  //    color: #FFFFFF;
+  //    margin: 15px 8px;
+  //    line-height: 40px;
+  //    width: 100px;
+  //    border-radius: 8px;
+  //    text-align: center;
+  //  }
+  //
+  //  .auction-param-item {
+  //    padding-left: 8px;
+  //  }
+  //}
 
-  .auction-live .auction-status-badge,.auction-blind_bids .auction-status-badge {
-    background-color: #4EAD57;
-  }
+  //.auction-initial .auction-status-badge {
+  //  background-color: #FEE101;
+  //  color: #181715;
+  //}
+  //
+  //.auction-sales .auction-status-badge {
+  //  background-color: #DB0A23;
+  //}
+  //
+  //.auction-live .auction-status-badge,.auction-blind_bids .auction-status-badge {
+  //  background-color: #4EAD57;
+  //}
 
-  .actions-buttons {
-    padding-bottom: 8px;
-    margin-top: 32px;
-  }
+  //.actions-buttons {
+  //  padding-bottom: 8px;
+  //  margin-top: 32px;
+  //}
 }
 
 @media (orientation: portrait) {
@@ -137,6 +225,61 @@
 }
 
 /* AUCTION SHOW page */
+
+.page-info.auction-show-page {
+  padding: 2px 16px 2px 288px;
+
+  .back-links {
+    grid-template-columns: 480px auto 200px;
+  }
+
+  .auction-message-block {
+    margin-top: 220px;
+    text-align: center;
+
+    .auction-message-section {
+      width: 620px;
+      margin: auto;
+    }
+
+    .auction-message-icon-wrapper {
+      margin-bottom: 24px;
+
+      .auction-message-icon {
+        font-family: 'Nunito ExtraBold';
+        font-size: 48px;
+        line-height: 96px;
+        border-radius: 60px;
+        background: #E5E6E4;
+        width: 96px;
+        height: 96px;
+        margin: auto;
+      }
+    }
+
+    .auction-message-title {
+      font-family: 'Nunito ExtraBold';
+      font-size: 32px;
+      line-height: 32px;
+      margin-bottom: 16px;
+    }
+
+    .auction-message-text {
+      font-family: 'Nunito SemiBold';
+      font-size: 18px;
+      line-height: 24px;
+    }
+  }
+}
+
+@media (orientation: portrait) {
+  .page-info.auction-show-page {
+    padding: 0 24px 288px;
+    margin: 0;
+  }
+}
+
+/* AUCTION LIVE page */
 
 .auction-page {
   z-index: 200;

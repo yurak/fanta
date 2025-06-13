@@ -5,27 +5,8 @@
   padding: 20px 0 50px 272px;
   margin: 0 40px;
 
-  .transfers-head {
-    display: grid;
-    grid-template-columns: 64px auto;
-    margin: 18px 0;
-
-    .tournament-logo {
-      text-align: center;
-
-      img {
-        width: 64px;
-        height: 64px;
-      }
-    }
-
-    .transfers-title {
-      padding-left: 32px;
-      font-weight: bold;
-      font-size: 42px;
-      line-height: 64px;
-      color: #181715;
-    }
+  .back-links {
+    grid-template-columns: 480px auto 200px;
   }
 }
 
