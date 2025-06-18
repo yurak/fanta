@@ -1,1 +1,8 @@
-TRANSFER LOGS #TODO
+- @player_bid_groups.each do |number, player_bids|
+  .player-bid-number= "Stage ##{number}"
+  .player-bid-items
+    - player_bids.each do |player_bid|
+      .player-bid-row
+        = player_bid.player.name
+        = player_bid.price
+

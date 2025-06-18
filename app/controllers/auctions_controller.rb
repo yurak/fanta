@@ -8,7 +8,17 @@ class AuctionsController < ApplicationController
   end
 
   def show
-    # @player_bids = [] if auction.closed?
+    if auction.closed?
+      @player_bid_groups = PlayerBid.joins("INNER JOIN auction_bids ON player_bids.auction_bid_id = auction_bids.id")
+                              .joins("INNER JOIN auction_rounds ON auction_bids.auction_round_id = auction_rounds.id")
+                              .joins("INNER JOIN auctions ON auction_rounds.auction_id = auctions.id")
+                              .joins("INNER JOIN players ON player_bids.player_id = players.id")
+                              .where('player_bids.status = 1')
+                              .where('auctions.id = ?', auction.id)
+                              .order('player_bids.price DESC')
+                              .group_by { |bid| bid.auction_bid.auction_round.number }
+                              .sort_by { |round_number, _| round_number }.reverse.to_h
+    end
   end
 
   def live
