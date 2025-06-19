@@ -394,7 +394,7 @@
 
               const priceInput = $('.price-input-' + slotId);
               let playerPrice = 1;
-              if (primaryAuction && auctionRoundNumber < 4) {
+              if (primaryAuction && auctionRoundNumber < 3) {
                 playerPrice = data.stats_price;
               }
               priceInput.val(playerPrice);
