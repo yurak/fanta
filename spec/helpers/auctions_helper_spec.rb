@@ -4,34 +4,15 @@ RSpec.describe AuctionsHelper do
   describe '#auction_link(auction)' do
     context 'with initial auction' do
       it 'returns path' do
-        expect(helper.auction_link(auction)).to eq('#')
+        expect(helper.auction_link(auction)).to eq(league_auction_path(auction.league, auction))
       end
     end
 
-    context 'with sales auction without current_user' do
+    context 'with sales auction' do
       let(:auction) { create(:auction, status: :sales) }
 
-      before do
-        allow(helper).to receive(:current_user).and_return(nil)
-      end
-
       it 'returns path' do
-        expect(helper.auction_link(auction)).to eq('#')
-      end
-    end
-
-    context 'with sales auction and logged user' do
-      let(:auction) { create(:auction, status: :sales) }
-      let(:user) { create(:user) }
-      let!(:team) { create(:team, league: auction.league, user: user) }
-      let!(:player_team) { create(:player_team, team: team) }
-
-      before do
-        allow(helper).to receive(:current_user).and_return(user)
-      end
-
-      it 'returns path' do
-        expect(helper.auction_link(auction)).to eq(edit_team_player_team_path(team, player_team))
+        expect(helper.auction_link(auction)).to eq(league_auction_path(auction.league, auction))
       end
     end
 
@@ -39,16 +20,28 @@ RSpec.describe AuctionsHelper do
       let(:auction) { create(:auction, status: :blind_bids) }
 
       it 'returns # path' do
-        expect(helper.auction_link(auction)).to eq('#')
+        expect(helper.auction_link(auction)).to eq(league_auction_transfers_path(auction.league, auction))
       end
     end
 
-    context 'with blind_bids auction with auction rounds' do
+    context 'with blind_bids auction with active auction rounds' do
       let(:auction) { create(:auction, status: :blind_bids) }
       let!(:auction_round) { create(:auction_round, auction: auction) }
 
       it 'returns # path' do
         expect(helper.auction_link(auction)).to eq(auction_round_path(auction_round))
+      end
+    end
+
+    context 'with blind_bids auction with closed auction rounds' do
+      let(:auction) { create(:auction, status: :blind_bids) }
+
+      before do
+        create(:closed_auction_round, auction: auction)
+      end
+
+      it 'returns # path' do
+        expect(helper.auction_link(auction)).to eq(league_auction_transfers_path(auction.league, auction))
       end
     end
 
@@ -64,7 +57,66 @@ RSpec.describe AuctionsHelper do
       let(:auction) { create(:auction, status: :closed) }
 
       it 'returns path' do
-        expect(helper.auction_link(auction)).to eq(league_auction_transfers_path(auction.league, auction))
+        expect(helper.auction_link(auction)).to eq(league_auction_path(auction.league, auction))
+      end
+    end
+  end
+
+  describe '#dropping_link(auction)' do
+    context 'with initial auction' do
+      it 'returns path' do
+        expect(helper.dropping_link(auction)).to eq(league_auction_path(auction.league, auction))
+      end
+    end
+
+    context 'with sales auction without current_user' do
+      let(:auction) { create(:auction, status: :sales) }
+
+      before do
+        allow(helper).to receive(:current_user).and_return(nil)
+      end
+
+      it 'returns path' do
+        expect(helper.dropping_link(auction)).to eq(league_auction_path(auction.league, auction))
+      end
+    end
+
+    context 'with sales auction and logged user' do
+      let(:auction) { create(:auction, status: :sales) }
+      let(:user) { create(:user) }
+      let!(:team) { create(:team, league: auction.league, user: user) }
+      let!(:player_team) { create(:player_team, team: team) }
+
+      before do
+        allow(helper).to receive(:current_user).and_return(user)
+      end
+
+      it 'returns path' do
+        expect(helper.dropping_link(auction)).to eq(edit_team_player_team_path(team, player_team))
+      end
+    end
+
+    context 'with blind_bids auction' do
+      let(:auction) { create(:auction, status: :blind_bids) }
+
+      it 'returns # path' do
+        expect(helper.dropping_link(auction)).to eq(league_auction_transfers_path(auction.league, auction, type: 'out'))
+      end
+    end
+
+    context 'with live auction' do
+      let(:auction) { create(:auction, status: :live) }
+
+      it 'returns path' do
+        expect(helper.dropping_link(auction)).to eq(league_auction_path(auction.league, auction))
+      end
+    end
+
+    context 'with closed auction' do
+      let(:auction) { create(:auction, status: :closed) }
+
+      it 'returns path' do
+        expect(helper.dropping_link(auction)).to eq(league_auction_transfers_path(auction.league, auction, type: 'out'))
       end
     end
   end

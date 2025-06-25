@@ -4,11 +4,11 @@ class TransfersController < ApplicationController
   helper_method :auction, :league
 
   def index
-    if params[:type] == 'out'
-      @transfers = Kaminari.paginate_array(auction.transfers.all_out.order(:price).reverse).page(params[:page])
-    else
-      @transfers = Kaminari.paginate_array(auction.transfers.order(:price).reverse).page(params[:page])
-    end
+    @transfers = if params[:type] == 'out'
+                   Kaminari.paginate_array(auction.transfers.all_out.order(:price).reverse).page(params[:page])
+                 else
+                   Kaminari.paginate_array(auction.transfers.incoming.order(:price).reverse).page(params[:page])
+                 end
   end
 
   def create

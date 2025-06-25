@@ -240,6 +240,10 @@
     .auction-message-section {
       width: 620px;
       margin: auto;
+
+      .actions-buttons {
+        margin-top: 24px;
+      }
     }
 
     .auction-message-icon-wrapper {
@@ -270,12 +274,431 @@
       line-height: 24px;
     }
   }
+
+  .auction-logs-block {
+    margin: 24px 112px 64px;
+    max-width: 944px;
+
+    .players-search-block {
+      .players-search {
+        width: 100%;
+        margin-bottom: 16px;
+
+        input {
+          width: 100%;
+        }
+      }
+
+      .auction-filters {
+        display: flex;
+        margin-bottom: 16px;
+
+        .search-position {
+          margin-right: 12px;
+          height: 24px;
+
+          .player-position {
+
+            height: 24px;
+            padding: 6px;
+          }
+        }
+      }
+
+      .search-items {
+        display: flex;
+
+        .search-item {
+          font-family: 'Nunito ExtraBold';
+          border-radius: 40px;
+          border: 1px solid #CFD2CD;
+          font-size: 12px;
+          line-height: 16px;
+          padding: 3px 7px;
+          margin-right: 8px;
+
+          a {
+            text-decoration: none;
+            color: #181715;
+          }
+        }
+      }
+    }
+
+    .players-bids-block {
+      display: grid;
+      grid-template-columns: auto 272px;
+      column-gap: 80px;
+
+      .players-bids-list {
+        .player-stage-number {
+          font-family: 'Nunito ExtraBold';
+          font-size: 16px;
+          line-height: 24px;
+          margin: 16px 0 12px;
+        }
+
+        .player-bid-items {
+          .player-bid-row {
+            font-size: 14px;
+            line-height: 40px;
+            padding: 7px 12px;
+            border-radius: 8px;
+            border: 1px solid #E5E6E4;
+            margin-bottom: 4px;
+            display: grid;
+            grid-template-columns: 40px auto 96px 48px 24px 24px;
+            column-gap: 16px;
+            cursor: pointer;
+
+            .player-bid-avatar {
+              .player-show-face, .player-show-kit {
+                line-height: 10px;
+                position: absolute;
+
+                img, object {
+                  width: 40px;
+                  height: 40px;
+                  border-radius: 50%;
+                }
+              }
+            }
+
+            .player-bid-name {
+              white-space: nowrap;
+              overflow: hidden !important;
+              text-overflow: ellipsis;
+            }
+
+            .player-bid-positions {
+              .player-positions-block {
+                display: flex;
+                align-items: center;
+                margin: 10px 0;
+              }
+            }
+
+            .player-bid-price {
+              font-family: 'Nunito ExtraBold';
+              text-align: right;
+            }
+
+            .player-bid-arrow {
+              text-align: center;
+            }
+
+            .player-bid-club {
+              padding: 5px 0;
+
+              .player-bid-club-obj {
+                line-height: 24px;
+                height: 24px;
+
+                img, object {
+                  top: 2px;
+                  position: relative;
+                  width: 24px;
+                  height: 24px;
+                }
+              }
+            }
+          }
+        }
+      }
+
+      .players-bid-active {
+        margin-top: 52px;
+        padding: 32px 24px 8px;
+        background-color: #FFEBC2;
+        border-radius: 8px;
+        text-align: center;
+        height: fit-content;
+
+        .bid-active-player-avatar {
+          width: 100px;
+          height: 100px;
+          margin: 0 auto;
+          position: relative;
+
+          .player-show-face, .player-show-kit {
+            position: absolute;
+          }
+
+          img, object {
+            width: 100px;
+            height: 100px;
+          }
+        }
+
+        .bid-active-player-name {
+          font-family: 'Nunito ExtraBold';
+          font-size: 16px;
+          line-height: 24px;
+          text-decoration: underline;
+          margin: 8px 0;
+
+          a {
+            color: #181715;
+            text-decoration: none;
+          }
+        }
+
+        .bid-active-player-pos .player-positions-block {
+          margin: auto;
+        }
+
+        .bid-active-logs {
+          margin-top: 24px;
+        }
+
+        .bid-active-stage {
+          font-family: 'Nunito ExtraBold';
+          font-size: 12px;
+          line-height: 14px;
+          text-transform: uppercase;
+          margin-bottom: 8px;
+        }
+
+        .bid-active-block {
+          margin-bottom: 24px;
+          line-height: 30px;
+
+          .bid-active-row {
+            display: grid;
+            grid-template-columns: 24px auto 48px;
+            column-gap: 16px;
+            margin-bottom: 8px;
+          }
+
+          .bid-active-logo {
+            height: 24px;
+
+            img, object {
+              width: 24px;
+              height: 24px;
+            }
+          }
+
+          .bid-active-team {
+            text-align: left;
+            font-size: 14px;
+            white-space: nowrap;
+            overflow: hidden !important;
+            text-overflow: ellipsis;
+          }
+
+          .bid-active-price {
+            text-align: right;
+            float: right;
+            padding-right: 8px;
+          }
+
+          .bid-active-success {
+            font-family: 'Nunito ExtraBold';
+
+            .bid-active-price {
+              background: #261FFF;
+              border-radius: 30px;
+              color: #FFFFFF;
+              padding: 0 8px;
+              width: fit-content;
+            }
+          }
+
+          .bid-active-failed {
+            .bid-active-price {
+              color: #847577;
+            }
+          }
+        }
+      }
+    }
+  }
 }
 
 @media (orientation: portrait) {
   .page-info.auction-show-page {
-    padding: 0 24px 288px;
+    padding: 0 0 288px;
     margin: 0;
+
+    .auction-logs-block {
+      margin: 24px 24px 64px;
+
+      .players-search-block {
+        .players-search {
+          margin-bottom: 36px;
+          grid-template-columns: 48px auto;
+          border-radius: 48px;
+
+          .search-icon img {
+            width: 48px;
+            height: 48px;
+          }
+
+          input {
+            width: 100%;
+            height: 96px;
+            font-size: 32px;
+          }
+        }
+
+        .auction-filters {
+          .search-position {
+            margin-right: 16px;
+            height: 48px;
+            border-radius: 12px;
+
+            .player-position {
+              font-size: 24px;
+              line-height: 24px;
+              height: 48px;
+              padding: 12px;
+            }
+          }
+        }
+
+        .search-items {
+          display: block;
+          margin-bottom: 24px;
+
+          .search-item {
+            width: fit-content;
+            display: inline-block;
+            border-radius: 48px;
+            border: 2px solid #CFD2CD;
+            font-size: 24px;
+            line-height: 32px;
+            padding: 6px 14px;
+            margin-right: 16px;
+          }
+        }
+      }
+
+      .players-bids-block {
+        grid-template-columns: auto 272px;
+        column-gap: 32px;
+
+        .players-bids-list {
+          .player-stage-number {
+            font-size: 24px;
+            line-height: 32px;
+            margin: 24px 0 16px;
+          }
+
+          .player-bid-items {
+            .player-bid-row {
+              font-size: 24px;
+              line-height: 64px;
+              padding: 14px 16px;
+              border-radius: 16px;
+              border: 2px solid #E5E6E4;
+              margin-bottom: 8px;
+              grid-template-columns: 64px auto 120px 64px 36px 36px;
+              column-gap: 16px;
+
+              .player-bid-avatar {
+                .player-show-face, .player-show-kit {
+                  line-height: 10px;
+
+                  img, object {
+                    width: 64px;
+                    height: 64px;
+                  }
+                }
+              }
+
+              .player-bid-positions {
+                .player-positions-block {
+                  height: 32px;
+                  border-radius: 8px;
+                  margin: 16px 0;
+
+                  .player-position {
+                    font-size: 18px;
+                    line-height: 24px;
+                    height: 32px;
+                    padding: 6px;
+                  }
+                }
+              }
+
+              .player-bid-club {
+                padding: 12px 0;
+
+                .player-bid-club-obj {
+                  line-height: 36px;
+                  height: 36px;
+
+                  img, object {
+                    width: 36px;
+                    height: 36px;
+                  }
+                }
+              }
+            }
+          }
+        }
+
+        .players-bid-active {
+          margin-top: 72px;
+          border-radius: 16px;
+
+          .bid-active-player-name {
+            font-size: 24px;
+            line-height: 32px;
+            margin: 12px 0;
+          }
+
+          .bid-active-player-pos {
+            .player-positions-block {
+              height: 32px;
+              border-radius: 8px;
+
+              .player-position {
+                font-size: 18px;
+                line-height: 24px;
+                height: 32px;
+                padding: 6px;
+              }
+            }
+          }
+
+          .bid-active-logs {
+            margin-top: 24px;
+          }
+
+          .bid-active-stage {
+            font-size: 16px;
+            line-height: 24px;
+            margin-bottom: 16px;
+          }
+
+          .bid-active-block {
+            margin-bottom: 24px;
+            line-height: 36px;
+
+            .bid-active-row {
+              grid-template-columns: 36px auto 48px;
+              column-gap: 8px;
+              margin-bottom: 12px;
+            }
+
+            .bid-active-logo {
+              height: 36px;
+
+              img, object {
+                width: 36px;
+                height: 36px;
+              }
+            }
+
+            .bid-active-team {
+              font-size: 16px;
+            }
+          }
+        }
+      }
+    }
   }
 }
 

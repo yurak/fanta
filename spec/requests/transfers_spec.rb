@@ -54,7 +54,7 @@ RSpec.describe 'Transfers' do
         post league_auction_transfers_path(auction.league, auction, params)
       end
 
-      it { expect(response).to redirect_to(league_auction_path(auction.league, auction, player: player)) }
+      it { expect(response).to redirect_to(live_league_auction_path(auction.league, auction, player: player)) }
       it { expect(response).to have_http_status(:found) }
     end
 
@@ -64,7 +64,7 @@ RSpec.describe 'Transfers' do
         post league_auction_transfers_path(auction.league, auction, params)
       end
 
-      it { expect(response).to redirect_to(league_auction_path(auction.league, auction)) }
+      it { expect(response).to redirect_to(live_league_auction_path(auction.league, auction)) }
       it { expect(response).to have_http_status(:found) }
 
       it 'creates transfer' do
@@ -86,7 +86,7 @@ RSpec.describe 'Transfers' do
         post league_auction_transfers_path(auction.league, auction, params)
       end
 
-      it { expect(response).to redirect_to(league_auction_path(auction.league, auction)) }
+      it { expect(response).to redirect_to(live_league_auction_path(auction.league, auction)) }
       it { expect(response).to have_http_status(:found) }
 
       it 'creates transfer' do
@@ -118,7 +118,7 @@ RSpec.describe 'Transfers' do
         post league_auction_transfers_path(auction.league, auction, params)
       end
 
-      it { expect(response).to redirect_to(league_auction_path(auction.league, auction, player: player)) }
+      it { expect(response).to redirect_to(live_league_auction_path(auction.league, auction, player: player)) }
       it { expect(response).to have_http_status(:found) }
 
       it 'does not create transfer' do
@@ -146,7 +146,7 @@ RSpec.describe 'Transfers' do
         post league_auction_transfers_path(auction.league, auction, params)
       end
 
-      it { expect(response).to redirect_to(league_auction_path(auction.league, auction)) }
+      it { expect(response).to redirect_to(live_league_auction_path(auction.league, auction)) }
       it { expect(response).to have_http_status(:found) }
 
       it 'does not create transfer' do
@@ -166,7 +166,7 @@ RSpec.describe 'Transfers' do
         post league_auction_transfers_path(team.league, auction, params)
       end
 
-      it { expect(response).to redirect_to(league_auction_path(team.league, auction, player: player)) }
+      it { expect(response).to redirect_to(live_league_auction_path(team.league, auction, player: player)) }
       it { expect(response).to have_http_status(:found) }
 
       it 'does not create transfer' do
@@ -186,7 +186,7 @@ RSpec.describe 'Transfers' do
         post league_auction_transfers_path(auction.league, auction, params)
       end
 
-      it { expect(response).to redirect_to(league_auction_path(auction.league, auction, player: player)) }
+      it { expect(response).to redirect_to(live_league_auction_path(auction.league, auction, player: player)) }
       it { expect(response).to have_http_status(:found) }
 
       it 'does not create transfer' do
@@ -206,7 +206,7 @@ RSpec.describe 'Transfers' do
         post league_auction_transfers_path(auction.league, auction, params)
       end
 
-      it { expect(response).to redirect_to(league_auction_path(auction.league, auction, player: player)) }
+      it { expect(response).to redirect_to(live_league_auction_path(auction.league, auction, player: player)) }
       it { expect(response).to have_http_status(:found) }
 
       it 'does not create transfer' do
@@ -226,7 +226,7 @@ RSpec.describe 'Transfers' do
         post league_auction_transfers_path(auction.league, auction, params)
       end
 
-      it { expect(response).to redirect_to(league_auction_path(auction.league, auction, player: player)) }
+      it { expect(response).to redirect_to(live_league_auction_path(auction.league, auction, player: player)) }
       it { expect(response).to have_http_status(:found) }
 
       it 'does not create transfer' do
@@ -246,7 +246,7 @@ RSpec.describe 'Transfers' do
         post league_auction_transfers_path(auction.league, auction, params)
       end
 
-      it { expect(response).to redirect_to(league_auction_path(auction.league, auction, player: player)) }
+      it { expect(response).to redirect_to(live_league_auction_path(auction.league, auction, player: player)) }
       it { expect(response).to have_http_status(:found) }
 
       it 'does not create transfer' do
@@ -265,7 +265,7 @@ RSpec.describe 'Transfers' do
         post league_auction_transfers_path(auction.league, auction, params)
       end
 
-      it { expect(response).to redirect_to(league_auction_path(auction.league, auction)) }
+      it { expect(response).to redirect_to(live_league_auction_path(auction.league, auction)) }
       it { expect(response).to have_http_status(:found) }
 
       it 'does not create transfer' do
@@ -310,7 +310,7 @@ RSpec.describe 'Transfers' do
         delete league_auction_transfer_path(transfer.league, transfer.auction, transfer)
       end
 
-      it { expect(response).to redirect_to(league_auction_path(transfer.league)) }
+      it { expect(response).to redirect_to(live_league_auction_path(transfer.league)) }
       it { expect(response).to have_http_status(:found) }
 
       it 'does not update team budget' do
@@ -332,7 +332,7 @@ RSpec.describe 'Transfers' do
         delete league_auction_transfer_path(transfer.league, transfer.auction, transfer)
       end
 
-      it { expect(response).to redirect_to(league_auction_path(transfer.league)) }
+      it { expect(response).to redirect_to(live_league_auction_path(transfer.league)) }
       it { expect(response).to have_http_status(:found) }
 
       it 'updates team budget' do
@@ -354,7 +354,7 @@ RSpec.describe 'Transfers' do
         delete league_auction_transfer_path(transfer.league, transfer.auction, transfer)
       end
 
-      it { expect(response).to redirect_to(league_auction_path(transfer.league)) }
+      it { expect(response).to redirect_to(live_league_auction_path(transfer.league)) }
       it { expect(response).to have_http_status(:found) }
 
       it 'updates team budget' do
@@ -376,7 +376,7 @@ RSpec.describe 'Transfers' do
         delete league_auction_transfer_path(transfer.league, transfer.auction, 'invalid_id')
       end
 
-      it { expect(response).to redirect_to(league_auction_path(transfer.league, transfer.auction)) }
+      it { expect(response).to redirect_to(live_league_auction_path(transfer.league, transfer.auction)) }
       it { expect(response).to have_http_status(:found) }
 
       it 'does not update team budget' do

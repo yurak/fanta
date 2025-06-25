@@ -107,6 +107,7 @@ Rails.application.routes.draw do
     resources :leagues, only: [:index, :show] do
       resources :results, only: [:index]
     end
+    resources :player_bids, only: [:show]
     resources :players, only: [:index, :show] do
       get :stats, on: :member
     end

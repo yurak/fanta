@@ -260,6 +260,11 @@
           "text": "Here we go! 🎊 Auction will start on %{date}",
           "title": "Coming soon"
         },
+        "logs": {
+          "all_bids": "All bids",
+          "my_bids": "My success bids",
+          "stage": "Stage #%{number}"
+        },
         "wo_deadline": {
           "text": "Estimated date is %{date}. You’ll be notified few days before start",
           "title": "Start day to be decided"
@@ -1236,6 +1241,7 @@
           "germany": "Germany",
           "italy": "Italy",
           "netherlands": "Netherlands",
+          "poland": "Poland",
           "portugal": "Portugal",
           "qatar": "Qatar",
           "spain": "Spain",
@@ -1274,6 +1280,7 @@
           "germany": "Germany League",
           "italy": "Italy League",
           "netherlands": "Netherlands League",
+          "poland": "Poland League",
           "portugal": "Portugal League",
           "qatar": "Qatar",
           "spain": "Spain League",
@@ -1826,6 +1833,11 @@
         "deadline": {
           "text": "Погнали! 🎊 Аукціон розпочнеться %{date}",
           "title": "Незабаром"
+        },
+        "logs": {
+          "all_bids": "Всі ставки",
+          "my_bids": "Мої успішні ставки",
+          "stage": "Eтап #%{number}"
         },
         "wo_deadline": {
           "text": "Орієнтовна дата – %{date}. Вас повідомлять за кілька днів до початку.",
@@ -2498,6 +2510,7 @@
           "germany": "Німеччина",
           "italy": "Італія",
           "netherlands": "Нідерланди",
+          "poland": "Польща",
           "portugal": "Португалія",
           "qatar": "Катар",
           "spain": "Іспанія",
@@ -2536,6 +2549,7 @@
           "germany": "Чемпіонат Німеччини",
           "italy": "Чемпіонат Італії",
           "netherlands": "Чемпіонат Нідерландів",
+          "poland": "Чемпіонат Польщі",
           "portugal": "Чемпіонат Португалії",
           "spain": "Чемпіонат Іспанії",
           "ukraine": "Чемпіонат України"

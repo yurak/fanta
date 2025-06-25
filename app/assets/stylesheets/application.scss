@@ -1919,6 +1919,8 @@ body, html {
   padding: 0 24px;
 
   .search-icon {
+    margin: auto;
+
     img {
       width: 24px;
       height: 24px;
@@ -1930,7 +1932,7 @@ body, html {
     outline: none;
     height: 56px;
     width: 400px;
-    font-size: 24px;
+    font-size: 16px;
   }
 }
 

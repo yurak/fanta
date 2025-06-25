@@ -39,6 +39,10 @@ en:
       deadline:
         title: "Coming soon"
         text: "Here we go! 🎊 Auction will start on %{date}"
+      logs:
+        all_bids: "All bids"
+        my_bids: "My success bids"
+        stage: "Stage #%{number}"
       wo_deadline:
         title: "Start day to be decided"
         text: "Estimated date is %{date}. You’ll be notified few days before start"
@@ -613,6 +617,7 @@ en:
         italy: "Italy"
         netherlands: "Netherlands"
         qatar: "Qatar"
+        poland: "Poland"
         portugal: "Portugal"
         spain: "Spain"
         ukraine: "Ukraine"
@@ -626,6 +631,7 @@ en:
         italy: "Italy League"
         netherlands: "Netherlands League"
         qatar: "Qatar"
+        poland: "Poland League"
         portugal: "Portugal League"
         spain: "Spain League"
         ukraine: "Ukraine League"

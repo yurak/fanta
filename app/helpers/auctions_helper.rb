@@ -2,7 +2,11 @@ module AuctionsHelper
   def auction_link(auction)
     case auction.status
     when 'blind_bids', 'live'
-      auction.auction_rounds.active.any? ? auction_round_path(auction.auction_rounds.active.first) : league_auction_transfers_path(auction.league, auction, type: 'in')
+      if auction.auction_rounds.active.any?
+        auction_round_path(auction.auction_rounds.active.first)
+      else
+        league_auction_transfers_path(auction.league, auction)
+      end
     else
       league_auction_path(auction.league, auction)
     end

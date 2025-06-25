@@ -13,7 +13,7 @@
             = auction.primary? ? t("auction.index.initial_title") : t("auction.index.intermediate_title", number: auction.number - 1)
 
     - if auction.closed?
-      = render 'logs', auction: auction
+      = render 'logs', auction: auction, league: league
     - else
       .auction-message-block
         .auction-message-section
@@ -29,15 +29,11 @@
             .auction-message-text= t("auction.show.deadline.text", date: auction.deadline.strftime('%b %e, %Y'))
             .auction-message-deadline
 
-        -# - if current_user&.admin?
-        -#   - if auction.initial?
-        -#     .actions-buttons
-        -#       = link_to 'Sales', league_auction_path(league, auction, status: :sales), method: :put, data: { confirm: t('header.are_you_sure') }
-        -#       = link_to 'Blind Bids', league_auction_path(league, auction, status: :blind_bids), method: :put, data: { confirm: t('header.are_you_sure') }
-        -#       = link_to 'Live ', league_auction_path(league, auction, status: :live), method: :put, data: { confirm: t('header.are_you_sure') }
-        -#   - if auction.blind_bids? || auction.live?
-        -#     .actions-buttons
-        -#       = link_to 'Close', league_auction_path(league, auction, status: :closed), method: :put, data: { confirm: t('header.are_you_sure') }
+            - if current_user&.admin? && auction.initial?
+              .actions-buttons
+                = link_to 'Sales', league_auction_path(league, auction, status: :sales), method: :put, data: { confirm: t('header.are_you_sure') }
+                = link_to 'Blind Bids', league_auction_path(league, auction, status: :blind_bids), method: :put, data: { confirm: t('header.are_you_sure') }
+                = link_to 'Live', league_auction_path(league, auction, status: :live), method: :put, data: { confirm: t('header.are_you_sure') }
 
   .portrait-footer{ class: "portrait-footer-#{league.mantra?}"}
     = render 'layouts/league_links', league: league
