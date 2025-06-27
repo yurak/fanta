@@ -23,7 +23,7 @@ namespace :tm do
         end
       end
 
-      if (id % 2).zero? ? sleep(90) : sleep(30)
+      (id % 2).zero? ? sleep(90) : sleep(30)
     end
   end
 end
