@@ -58,7 +58,8 @@ ua:
       logs:
         all_bids: "Всі ставки"
         my_bids: "Мої успішні ставки"
-        stage: "Eтап #%{number}"
+        stage: "Eтап #"
+        stage_number: "Eтап #%{number}"
       wo_deadline:
         title: "День початку буде визначено пізніше"
         text: "Орієнтовна дата – %{date}. Вас повідомлять за кілька днів до початку."

@@ -28,7 +28,7 @@
   .players-bids-block
     .players-bids-list
       - @player_bid_groups.each do |number, player_bids|
-        .player-stage-number= t('auction.show.logs.stage', number: number)
+        .player-stage-number= t('auction.show.logs.stage_number', number: number)
         .player-bid-items
           - player_bids.each do |player_bid|
             .player-bid-row{id: "player-bid-#{player_bid.id}"}
@@ -73,7 +73,7 @@
                   = position_name(position)
         .bid-active-logs#bid-active-logs
           - @active_bid_logs.each do |number, player_bids|
-            .bid-active-stage= "#{@active_bid_logs.first.first == number ?  '✅' : '❌'} #{t('auction.show.logs.stage', number: number)}"
+            .bid-active-stage= "#{@active_bid_logs.first.first == number ?  '✅' : '❌'} #{t('auction.show.logs.stage_number', number: number)}"
             .bid-active-block
               - player_bids.each do |bid|
                 .bid-active-row{class: "bid-active-#{bid.status}"}

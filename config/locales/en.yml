@@ -42,7 +42,8 @@ en:
       logs:
         all_bids: "All bids"
         my_bids: "My success bids"
-        stage: "Stage #%{number}"
+        stage: "Stage #"
+        stage_number: "Stage #%{number}"
       wo_deadline:
         title: "Start day to be decided"
         text: "Estimated date is %{date}. You’ll be notified few days before start"
