@@ -31,7 +31,7 @@
         .player-stage-number= t('auction.show.logs.stage_number', number: number)
         .player-bid-items
           - player_bids.each do |player_bid|
-            .player-bid-row{id: "player-bid-#{player_bid.id}"}
+            .player-bid-row{id: "player-bid-#{player_bid.id}", class: "active-bid-row-#{@active_bid&.id == player_bid.id}"}
               .player-bid-avatar
                 .player-show-face
                   %object{data: player_bid.player.avatar_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
@@ -54,7 +54,7 @@
                     = image_tag('default_logo.png')
 
     - if @active_bid
-      .players-bid-active
+      .players-bid-active#players-bid-active
         .bid-active-player
           .bid-active-player-avatar#bid-active-player-avatar
             .player-show-face
@@ -96,6 +96,9 @@
       const defaultTeamLogo = "#{ActionController::Base.helpers.asset_path('default_logo.png')}"
       const avatarImgSrc = "#{ActionController::Base.helpers.asset_path('avatar.png')}"
       const kitImgSrc = "#{ActionController::Base.helpers.asset_path('kit_small_default.png')}"
+
+      $('.active-bid-row-true').removeClass('active-bid-row-true');
+      $(this).addClass('active-bid-row-true');
 
       $.ajax({
         type: "GET",
@@ -173,6 +176,11 @@
           })
 
           bidsContainer.append(bidsHtml);
+
+          const target = $('#players-bid-active');
+          if (target.length) {
+            $('html, body').animate({scrollTop: target.offset().top - 50}, 500);
+          }
         }
       });
     });

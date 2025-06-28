@@ -521,6 +521,23 @@
         width: 96px;
         height: 96px;
       }
+
+      .fanta-team-logo {
+        position: relative;
+      }
+
+      .fanta-team-user {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        border-radius: 32px;
+        border: 2px solid #FFFFFF;
+
+        img, object {
+          width: 32px;
+          height: 32px;
+        }
+      }
     }
 
     .fanta-team-base {
