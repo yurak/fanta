@@ -561,7 +561,7 @@
             .player-bid-row {
               font-size: 24px;
               line-height: 64px;
-              padding: 14px 16px;
+              padding: 13px 16px;
               border-radius: 16px;
               border: 2px solid #E5E6E4;
               margin-bottom: 8px;
@@ -607,6 +607,10 @@
                   }
                 }
               }
+            }
+
+            .active-bid-row-true {
+              border: 2px solid #181715;
             }
           }
         }
