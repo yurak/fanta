@@ -5,9 +5,9 @@ italy:
 #  BRE: Brescia
   CAG: Cagliari
   COM: Como
-#  CRE: Cremonese
+  CRE: Cremonese
 #  CRO: Crotone
-  EMP: Empoli
+#  EMP: Empoli
   FIO: Fiorentina
 #  FRO: Frosinone
   GEN: Genoa
@@ -16,18 +16,19 @@ italy:
   LAZ: Lazio
   LEC: Lecce
   MIL: Milan
-  MNZ: Monza
+#  MNZ: Monza
   NAP: Napoli
   PAR: Parma
+  PIS: Pisa
   ROM: Roma
 #  SAL: Salernitana
 #  SAM: Sampdoria
-#  SAS: Sassuolo
+  SAS: Sassuolo
 #  SPA: SPAL
 #  SPE: Spezia
   TOR: Torino
   UDI: Udinese
-  VEN: Venezia
+#  VEN: Venezia
   VER: Verona
 england:
   ARS: Arsenal
@@ -35,18 +36,18 @@ england:
   BOU: Bournemouth
   BRF: Brentford
   BRI: Brighton
+  BUR: Burnley
   CHE: Chelsea
   CRY: Crystal Palace
   EVE: Everton
   FUL: Fulham
-  IPS: Ipswich
-  LEI: Leicester
+  LEE: Leeds
   LIV: Liverpool
   MCI: Manchester City
   MUT: Manchester United
   NEW: Newcastle
   NFO: Nottingham Forest
-  SOU: Southampton
+  SUN: Sunderland
   TOT: Tottenham
   WES: West Ham
   WOL: Wolverhampton
@@ -55,18 +56,19 @@ germany:
   AUG: Augsburg
   LEV: Bayer Leverkusen
   MUN: Bayern Munchen
-  BOC: Bochum
+#  BOC: Bochum
   BVB: Borussia Dortmund
   BMG: Borussia Mbach
 #  DAR: Darmstadt
   EIN: Eintracht
   FRE: Freiburg
 #  GRF: Greuther Furth
+  HSV: Hamburger
   HEI: Heidenheim
 #  HER: Hertha
   HOF: Hoffenheim
-  HOL: Holstein Kiel
-#  KOL: Koln
+#  HOL: Holstein Kiel
+  KOL: Koln
   MAI: Mainz 05
   RBL: RB Leipzig
 #  S04: Schalke 04
@@ -85,18 +87,19 @@ france:
   HAV: Havre
   LEN: Lens
   LIL: Lille
-#  LOR: Lorient
+  LOR: Lorient
   LYO: Lyon
   MAR: Marseille
-#  MET: Metz
+  MET: Metz
   MON: Monaco
-  MPL: Montpellier
+#  MPL: Montpellier
   NAN: Nantes
   NIC: Nice
+  PFC: Paris FC
   PSG: PSG
-  REI: Reims
+#  REI: Reims
   REN: Rennes
-  SEN: Saint-Etienne
+#  SEN: Saint-Etienne
   STR: Strasbourg
   TOU: Toulouse
 #  TRO: Troyes
@@ -109,36 +112,37 @@ spain:
 #  CAD: Cadiz
   CVG: Celta Vigo
   ALA: Deportivo Alaves
-#  ELC: Elche
+  ELC: Elche
   ESP: Espanyol
   GET: Getafe
   GIR: Girona
 #  GRA: Granada
-  LPA: Las Palmas
-  LEG: Leganes
-#  LUD: Levante
+#  LPA: Las Palmas
+#  LEG: Leganes
+  LUD: Levante
   MAL: Mallorca
   OSA: Osasuna
   RVA: Rayo Vallecano
   RMA: Real Madrid
   SOC: Real Sociedad
-  VLD: Real Valladolid
+#  VLD: Real Valladolid
   SEV: Sevilla
   VAL: Valencia
   VIL: Villarreal
 britain:
-#  BIR: Birmingham City
+  BIR: Birmingham City
   BLB: Blackburn Rovers
 #  BLP: Blackpool
   BRC: Bristol City
-  BUR: Burnley
-  CAR: Cardiff City
+#  CAR: Cardiff City
+  CHT: Charlton
   COV: Coventry City
   DER: Derby
 #  HUD: Huddersfield Town
   HUL: Hull City
-  LEE: Leeds
-  LUT: Luton Town
+  IPS: Ipswich
+  LEI: Leicester
+#  LUT: Luton Town
   MID: Middlesbrough
   MLW: Millwall
   NOR: Norwich
@@ -151,19 +155,20 @@ britain:
 #  ROT: Rotherham United
   SHW: Sheffield Wednesday
   SHU: Sheffield United
+  SOU: Southampton
   STO: Stoke City
-  SUN: Sunderland
   SWA: Swansea City
   WAT: Watford
   WBA: West Bromwich
 #  WIG: Wigan Athletic
+  WRX: Wrexham
 netherlands:
   AJA: Ajax
-  ALC: Almere City
+#  ALC: Almere City
   AZA: AZ Alkmaar
 #  CMB: Cambuur
 #  EMN: Emmen
-#  EXL: Excelsior
+  EXL: Excelsior
   FND: Feyenoord
   FRS: Fortuna Sittard
   GAE: Go Ahead Eagles
@@ -173,17 +178,18 @@ netherlands:
   NAC: NAC Breda
   NEC: NEC
   PSV: PSV
-  RKC: RKC Waalwijk
+#  RKC: RKC Waalwijk
   SPR: Sparta
+  TEL: Telstar
   TWT: Twente
   UTR: Utrecht
 #  VTS: Vitesse
-#  VLN: Volendam
-  WIL: Willem II
+  VLN: Volendam
+#  WIL: Willem II
   ZWO: Zwolle
 belgium:
   AND: Anderlecht
-  BEE: Beerschot
+#  BEE: Beerschot
   BRU: Brugge
   CBG: Cercle Brugge
   CHR: Charleroi
@@ -191,7 +197,8 @@ belgium:
 #  EPN: Eupen
   GNK: Genk
   GNT: Gent
-  KRT: Kortrijk
+#  KRT: Kortrijk
+  LAL: La Louviere
   LVN: Leuven
   MLN: Mechelen
 #  MOL: Molenbeek
@@ -202,19 +209,20 @@ belgium:
   STD: Standard Liege
   USG: Union SG
   WST: Westerlo
-#  ZWR: Zulte Waregem
+  ZWR: Zulte Waregem
 portugal:
+  ALV: Alverca
   ARC: Arouca
   AVS: AVS
   BNF: Benfica
-  BVS: Boavista
+#  BVS: Boavista
   BRG: Braga
   CSP: Casa Pia
 #  CHV: Chaves
   EST: Estoril
   ESA: Estrela
   FML: Famalicao
-  FAR: Farense
+#  FAR: Farense
   GLV: Gil Vicente
 #  MRT: Maritimo
   MOR: Moreirense
@@ -225,27 +233,31 @@ portugal:
   RAV: Rio Ave
 #  SCL: Santa Clara
   SCP: Sporting
+  TON: Tondela
   VTG: Vitoria Guimaraes
 #  VZL: Vizela
 ukraine:
-  CHO: Chornomorets
+#  CHO: Chornomorets
   DYN: Dynamo Kyiv
-  INH: Inhulets
+  EPI: Epicentr
+#  INH: Inhulets
   KAR: Karpaty
   KLS: Kolos
   KRY: Kryvbas
-  LVB: Livyi Bereh
+  KUD: Kudrivka
+#  LVB: Livyi Bereh
   LNZ: LNZ Cherkasy
-#  MTL: Metalist 1925
+  MTL: Metalist 1925
 #  MIN: Minaj
   OBO: Obolon
   OLE: Oleksandriya
   POL: Polissya
+  PLT: Poltava
   RUH: Rukh
   SHD: Shakhtar Donetsk
 #  DN1: SK Dnipro-1
   VRS: Veres
-  VOR: Vorskla
+#  VOR: Vorskla
   ZOR: Zorya
 usa:
   ATL: Atlanta United
@@ -279,6 +291,7 @@ usa:
   TRN: Toronto
   VAN: Vancouver
 poland:
+  ARK: Arka
   CRA: Cracovia
   GKS: GKS Katowice
   GOR: Gornik
@@ -290,12 +303,14 @@ poland:
   MOT: Motor
   PIA: Piast
   POG: Pogon
-  PUS: Puszcza
+#  PUS: Puszcza
   RAD: Radomiak
   RAK: Rakow
-  SLA: Slask
-  STA: Stal
+#  SLA: Slask
+#  STA: Stal
+  TER: Termalica
   WID: Widzew
+  WIP: Wisla Plock
   ZAG: Zaglebie
 brazil:
   AMG: Atletico Mineiro

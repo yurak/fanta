@@ -52,9 +52,14 @@
         = link_to links_path do
           .nav-link-icon= '🔗️'
           .nav-link-title= t('header.links')
+      - if current_user&.admin?
+        .nav-logo-small
+          = link_to rails_admin_path do
+            .nav-link-icon= '⛔️'
+            .nav-link-title= t('header.admin')
     - if user_signed_in?
       .my-leagues
-        .my-leagues-title My leagues
+        .my-leagues-title= t('header.my_leagues')
         .my-leagues-links
           - current_user.teams.each do |team|
             - if team.league && !team.league.archived?

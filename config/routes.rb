@@ -35,7 +35,11 @@ Rails.application.routes.draw do
   resources :join_requests, only: [:new, :create, :index]
 
   resources :leagues, only: [:index, :show] do
+    put :activate, on: :member
+
     resources :auctions, only: [:index, :show, :update] do
+      get :live, on: :member
+
       resources :transfers, only: [:index, :create, :destroy]
     end
 
@@ -103,6 +107,7 @@ Rails.application.routes.draw do
     resources :leagues, only: [:index, :show] do
       resources :results, only: [:index]
     end
+    resources :player_bids, only: [:show]
     resources :players, only: [:index, :show] do
       get :stats, on: :member
     end

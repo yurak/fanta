@@ -4,6 +4,25 @@
   .mob-header= render 'layouts/mob_header', league: league
 
   .page-info.league-page
+    - if current_user&.admin? && league.initial?
+      .league-admin
+        .league-admin-section
+          .league-admin-params
+            .league-admin-param
+              .league-admin-text= t('league.teams')
+              .league-admin-value
+                .league-admin-val-item= league.teams.count
+            .league-admin-param
+              .league-admin-text= t('league.auctions')
+              .league-admin-value
+                .league-admin-val-item= league.auction_number
+            .league-admin-param
+              .league-admin-text= t('league.tours')
+              .league-admin-value
+                .league-admin-val-item= league.tournament.tournament_rounds.by_season(league.season_id).count - league.tour_difference
+          .league-admin-link
+            = link_to activate_league_path(league), method: :put do
+              .blue-btn.login-btn= t('league.activate')
     .league-teams
       - league.teams.each do |team|
         .league-team-item

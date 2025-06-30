@@ -8,6 +8,10 @@
     .fanta-team-data-base
       .fanta-team-logo
         = image_tag(team.logo_path)
+        - if team.user
+          .fanta-team-user
+            = link_to manager_path(team.user) do
+              = image_tag(team.user.avatar_path)
       .fanta-team-base
         .fanta-team-name= team.human_name
         .fanta-team-results

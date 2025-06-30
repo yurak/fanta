@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2025_06_06_112515) do
+ActiveRecord::Schema.define(version: 2025_06_07_205207) do
 
   create_table "article_tags", force: :cascade do |t|
     t.string "name", default: "", null: false
@@ -63,6 +63,7 @@ ActiveRecord::Schema.define(version: 2025_06_06_112515) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "sales_count", default: 5, null: false
+    t.string "base_date"
     t.index ["league_id"], name: "index_auctions_on_league_id"
   end
 

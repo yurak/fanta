@@ -12,6 +12,7 @@ namespace :tm do
             end
 
     i = 0
+    max_attempts = 3
     CSV.open('log/club_players.csv', 'ab') do |writer|
       clubs.each do |club|
         i += 1
@@ -21,8 +22,20 @@ namespace :tm do
         puts "--------#{i}---#{club.name}--------"
         next unless club.tm_url
 
-        response = RestClient::Request.execute(method: :get, url: club.tm_url, headers: { 'User-Agent': 'product/version' },
-                                               verify_ssl: false)
+        club_attempt = 0
+        begin
+          club_attempt += 1
+          response = RestClient::Request.execute(method: :get, url: club.tm_url, headers: { 'User-Agent': 'product/version' },
+                                                 verify_ssl: false)
+        rescue RestClient::Exception => e
+          if club_attempt <= max_attempts
+            sleep(60)
+            puts "%%%%%%%______ Retry ##{club_attempt} for club #{club.name} _______%%%%%%%%"
+            retry
+          else
+            puts "#{club.name} skipped =============="
+          end
+        end
         html_page = Nokogiri::HTML(response)
         players = html_page.css('.inline-table .hauptlink')
         old_player_count = 0
@@ -38,15 +51,15 @@ namespace :tm do
 
           if pl
             old_player_count += 1
-            change = pl.club.name == club.name ? '' : " >>>> #{club.name}"
+            change = pl.club.name == club.name ? '' : " >>>> #{club.name} !!!!!!"
             puts "#{old_player_count} - #{pl.name} - #{pl.id} / #{pl.tm_id} --- #{pl.club.name}#{change}"
           else
             new_player_count += 1
-            max_attempts = 3
             attempt = 0
             # next if i < 14 && new_player_count < 24
 
             puts "NEW #{new_player_count} .... #{tm_id}"
+            sleep(30)
             begin
               attempt += 1
               result = Players::Transfermarkt::Parser.call(tm_id)
@@ -56,33 +69,42 @@ namespace :tm do
                          result[:position1], result[:position2], result[:position3], result[:tm_url], '',
                          result[:tm_pos1], result[:tm_pos2], result[:tm_pos3], result[:tm_price]]
             rescue RestClient::Exception => e
-              if attempt < max_attempts
-                sleep(60)
+              if attempt <= max_attempts
                 puts "Retry ##{attempt} for TM id - #{tm_id}"
+                sleep(60)
                 retry
               else
                 puts "error for id #{tm_id} - #{e}"
                 writer << [tm_id]
               end
             end
-
-            sleep(20)
           end
         end
         puts '------------------'
         missed_ids = club.players.pluck(:tm_id).uniq - actual_ids
         missed_ids.each do |pl_tm_id|
           player = club.players.find_by(tm_id: pl_tm_id)
-          puts "CHANGE .... #{player.name} - #{player.id} / #{player.tm_id}"
-          # begin
-          #   result = Players::Transfermarkt::Parser.call(pl_tm_id)
-          #   puts "#{player.name} - #{player.id} / #{player.tm_id} --- #{player.club.name} >>>> #{result[:club_name]}"
-          #   sleep(5)
-          # rescue RestClient::Exception => e
-          #   puts "CHANGE .... #{player.name} - #{player.id} / #{player.tm_id} - error: #{e}"
-          # end
+          attempt = 0
+          # puts "MISSED .... #{player.name} - #{player.id} / #{player.tm_id}"
+          begin
+            attempt += 1
+            result = Players::Transfermarkt::Parser.call(pl_tm_id)
+            change = player.club.name == result[:club_name] ? 'RESERVE' : "#{player.club.name} >>>> #{result[:club_name]}"
+            puts "MISSED .... #{player.name} - #{player.id} / #{player.tm_id} --- #{change}"
+            sleep(30)
+          rescue RestClient::Exception => e
+            if attempt <= max_attempts
+              puts "Retry ##{attempt} - #{player.tm_id}"
+              sleep(60)
+              retry
+            else
+              puts "MISSED .... #{player.name} - #{player.id} / #{player.tm_id} - error: #{e}"
+            end
+          end
         end
         puts '/////////////////////////////////////'
+
+        sleep(5)
       end
     end
   end

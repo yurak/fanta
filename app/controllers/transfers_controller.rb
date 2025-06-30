@@ -4,20 +4,24 @@ class TransfersController < ApplicationController
   helper_method :auction, :league
 
   def index
-    @transfers = Kaminari.paginate_array(auction.transfers.order(:price).reverse).page(params[:page])
+    @transfers = if params[:type] == 'out'
+                   Kaminari.paginate_array(auction.transfers.all_out.order(:price).reverse).page(params[:page])
+                 else
+                   Kaminari.paginate_array(auction.transfers.incoming.order(:price).reverse).page(params[:page])
+                 end
   end
 
   def create
     creator = Transfers::Creator.call(league, create_params) if can? :create, Transfer
     player_id = player.id if !creator && player && !player.team_by_league(league.id)
 
-    redirect_to league_auction_path(league, auction, player: player_id)
+    redirect_to live_league_auction_path(league, auction, player: player_id)
   end
 
   def destroy
     Transfers::Destroyer.call(params[:id]) if can? :destroy, Transfer
 
-    redirect_to league_auction_path(league, auction)
+    redirect_to live_league_auction_path(league, auction)
   end
 
   private

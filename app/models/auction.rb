@@ -14,6 +14,8 @@ class Auction < ApplicationRecord
   scope :initial_sales, -> { initial.or(sales) }
   scope :active, -> { sales.or(blind_bids).or(live) }
 
+  HOURS_FOR_SALES = 124
+
   def primary?
     number == 1
   end
