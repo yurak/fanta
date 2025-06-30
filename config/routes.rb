@@ -71,6 +71,8 @@ Rails.application.routes.draw do
   resources :join_requests, only: [:new, :create]
 
   resources :leagues, only: [:index, :show] do
+    put :activate, on: :member
+
     resources :auctions, only: [:index, :show, :update] do
       get :live, on: :member
 
