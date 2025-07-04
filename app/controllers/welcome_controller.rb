@@ -6,4 +6,9 @@ class WelcomeController < ApplicationController
   def index
     redirect_to leagues_path if current_user
   end
+
+  # TODO: temp redirect
+  def fees
+    redirect_to rules_path
+  end
 end
