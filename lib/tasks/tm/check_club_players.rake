@@ -82,23 +82,26 @@ namespace :tm do
         end
         puts '------------------'
         missed_ids = club.players.pluck(:tm_id).uniq - actual_ids
-        missed_ids.each do |pl_tm_id|
-          player = club.players.find_by(tm_id: pl_tm_id)
-          attempt = 0
-          # puts "MISSED .... #{player.name} - #{player.id} / #{player.tm_id}"
-          begin
-            attempt += 1
-            result = Players::Transfermarkt::Parser.call(pl_tm_id)
-            change = player.club.name == result[:club_name] ? 'RESERVE' : "#{player.club.name} >>>> #{result[:club_name]}"
-            puts "MISSED .... #{player.name} - #{player.id} / #{player.tm_id} --- #{change}"
-            sleep(30)
-          rescue RestClient::Exception => e
-            if attempt <= max_attempts
-              puts "Retry ##{attempt} - #{player.tm_id}"
-              sleep(60)
-              retry
-            else
-              puts "MISSED .... #{player.name} - #{player.id} / #{player.tm_id} - error: #{e}"
+        if missed_ids.any?
+          puts "Missed list: #{missed_ids.join(' ')}"
+          missed_ids.each do |pl_tm_id|
+            player = club.players.find_by(tm_id: pl_tm_id)
+            attempt = 0
+            begin
+              attempt += 1
+              result = Players::Transfermarkt::Parser.call(pl_tm_id)
+              change = 'RESERVE' if player.club.name == result[:club_name]
+              change = "#{player.club.name} >>>> #{result[:club_name] || 'XXX ' + result[:tm_club_name]}" unless change
+              puts "MISSED .... #{player.name} - #{player.id} / #{player.tm_id} --- #{change}"
+              sleep(30)
+            rescue RestClient::Exception => e
+              if attempt <= max_attempts
+                puts "Retry ##{attempt} - #{player.tm_id}"
+                sleep(60)
+                retry
+              else
+                puts "MISSED .... #{player.name} - #{player.id} / #{player.tm_id} - error: #{e}"
+              end
             end
           end
         end

@@ -15,7 +15,8 @@ module Players
         {
           first_name: first_name, name: last_name, nationality: country_code, club_id: club&.id, club_name: club&.name,
           position1: position1, position2: position2, position3: position3, tm_url: tm_url, tm_pos1: tm_pos1,
-          tm_pos2: tm_pos2, tm_pos3: tm_pos3, tm_price: price, number: number, birth_date: birth_date, height: height
+          tm_pos2: tm_pos2, tm_pos3: tm_pos3, tm_price: price, number: number, birth_date: birth_date, height: height,
+          tm_club_name: tm_club_name
         }
       end
 
