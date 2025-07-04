@@ -91,7 +91,7 @@ namespace :tm do
               attempt += 1
               result = Players::Transfermarkt::Parser.call(pl_tm_id)
               change = 'RESERVE' if player.club.name == result[:club_name]
-              change = "#{player.club.name} >>>> #{result[:club_name] || 'XXX ' + result[:tm_club_name]}" unless change
+              change ||= "#{player.club.name} >>>> #{result[:club_name] || "XXX #{result[:tm_club_name]}"}"
               puts "MISSED .... #{player.name} - #{player.id} / #{player.tm_id} --- #{change}"
               sleep(30)
             rescue RestClient::Exception => e
