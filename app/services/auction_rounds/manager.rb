@@ -21,7 +21,7 @@ module AuctionRounds
 
         round.closed!
 
-        true if vacancies? && AuctionRounds::Creator.call(auction)
+        process_auction
       end
     end
 
@@ -43,6 +43,14 @@ module AuctionRounds
       end
 
       round.player_bids.initial.map(&:failed!)
+    end
+
+    def process_auction
+      if vacancies?
+        AuctionRounds::Creator.call(auction)
+      else
+        Auctions::Manager.call(auction, Auctions::Manager::CLOSED_STATUS)
+      end
     end
 
     def process_player_bids(player_bids)

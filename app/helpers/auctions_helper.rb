@@ -40,7 +40,7 @@ module AuctionsHelper
     if auction.initial? || auction.sales?
       auction.deadline ? "Started on #{auction.deadline.strftime('%b %e, %Y')}" : auction.base_date
     elsif auction.blind_bids?
-      auction.deadline.strftime('%a, %b %e, %H:%M').to_s
+      auction.deadline&.strftime('%a, %b %e, %H:%M')&.to_s
     elsif auction.closed?
       "#{auction.auction_rounds.first&.created_at&.strftime('%b %e')} - #{auction.auction_rounds.last&.updated_at&.strftime('%b %e, %Y')}"
     else

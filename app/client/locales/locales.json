@@ -224,8 +224,8 @@
           "initial_false": "⚖️",
           "initial_true": "🔒"
         },
-        "initial_title": "Initial Auction",
-        "intermediate_title": "Intermediate Auction #%{number}",
+        "initial_title": "Auction #1 Initial",
+        "intermediate_title": "Auction #%{number} Intermediate",
         "show_upcoming": "Show upcoming",
         "status": {
           "coming_soon": "Coming soon",
@@ -1800,8 +1800,8 @@
           "initial_false": "⚖️",
           "initial_true": "🔒"
         },
-        "initial_title": "Початковий Аукціон",
-        "intermediate_title": "Проміжний Аукціон #%{number}",
+        "initial_title": "Аукціон #1 Початковий",
+        "intermediate_title": "Аукціон #%{number} Проміжний",
         "show_upcoming": "Показати майбутні",
         "status": {
           "coming_soon": "Незабаром",

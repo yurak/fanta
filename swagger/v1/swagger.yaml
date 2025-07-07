@@ -99,6 +99,34 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/error_not_found"
+  "/api/player_bids/{id}":
+    parameters:
+    - name: id
+      in: path
+      description: Player bid id
+      required: true
+      schema:
+        type: string
+    get:
+      summary: show player bid
+      tags:
+      - Player Bids
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    "$ref": "#/components/schemas/player_bid"
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/error_not_found"
   "/api/players":
     get:
       summary: list players
@@ -776,6 +804,48 @@ components:
       required:
       - id
       - name
+    player_bid:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 123
+        status:
+          type: string
+          example: success
+        price:
+          type: integer
+          example: 123
+        player:
+          "$ref": "#/components/schemas/player_base"
+        auction_bids:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              "$ref": "#/components/schemas/player_bid_slim"
+      required:
+      - id
+      - status
+      - price
+    player_bid_slim:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 123
+        status:
+          type: string
+          example: success
+        price:
+          type: integer
+          example: 123
+        team:
+          "$ref": "#/components/schemas/team_slim"
+      required:
+      - id
+      - status
+      - price
     player_season_stat:
       type: object
       properties:
@@ -1204,6 +1274,20 @@ components:
           type: integer
           example: 123
           nullable: true
+      required:
+      - id
+    team_slim:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 123
+        human_name:
+          type: string
+          example: Rossoneri
+        logo_path:
+          type: string
+          example: https://aws.com/assets/path/team.png
       required:
       - id
     tournament:

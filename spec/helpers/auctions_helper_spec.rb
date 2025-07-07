@@ -121,6 +121,174 @@ RSpec.describe AuctionsHelper do
     end
   end
 
+  describe '#auction_status(auction)' do
+    context 'with initial auction without deadline' do
+      it 'returns status' do
+        expect(helper.auction_status(auction)).to eq('to_be_decided')
+      end
+    end
+
+    context 'with initial auction with deadline' do
+      let(:auction) { create(:auction, deadline: FFaker::Time.date) }
+
+      it 'returns status' do
+        expect(helper.auction_status(auction)).to eq('coming_soon')
+      end
+    end
+
+    context 'with sales auction' do
+      let(:auction) { create(:auction, status: :sales) }
+
+      it 'returns status' do
+        expect(helper.auction_status(auction)).to eq('coming_soon')
+      end
+    end
+
+    context 'with blind_bids auction' do
+      let(:auction) { create(:auction, status: :blind_bids) }
+
+      it 'returns status' do
+        expect(helper.auction_status(auction)).to eq('ongoing')
+      end
+    end
+
+    context 'with live auction' do
+      let(:auction) { create(:auction, status: :live) }
+
+      it 'returns status' do
+        expect(helper.auction_status(auction)).to eq('ongoing')
+      end
+    end
+
+    context 'with closed auction' do
+      let(:auction) { create(:auction, status: :closed) }
+
+      it 'returns status' do
+        expect(helper.auction_status(auction)).to eq('completed')
+      end
+    end
+  end
+
+  describe '#auction_dates(auction)' do
+    context 'with initial auction without deadline and base date' do
+      it 'returns nil' do
+        expect(helper.auction_dates(auction)).to be_nil
+      end
+    end
+
+    context 'with initial auction without deadline and with base date' do
+      let(:auction) { create(:auction, base_date: 'August 2025') }
+
+      it 'returns base date' do
+        expect(helper.auction_dates(auction)).to eq(auction.base_date)
+      end
+    end
+
+    context 'with initial auction with deadline' do
+      let(:auction) { create(:auction, deadline: FFaker::Time.date) }
+
+      it 'returns string with deadline' do
+        expect(helper.auction_dates(auction)).to eq("Started on #{auction.deadline.strftime('%b %e, %Y')}")
+      end
+    end
+
+    context 'with sales auction without deadline and base date' do
+      let(:auction) { create(:auction, status: :sales) }
+
+      it 'returns nil' do
+        expect(helper.auction_dates(auction)).to be_nil
+      end
+    end
+
+    context 'with sales auction without deadline and with base date' do
+      let(:auction) { create(:auction, status: :sales, base_date: 'August 2025') }
+
+      it 'returns base date' do
+        expect(helper.auction_dates(auction)).to eq(auction.base_date)
+      end
+    end
+
+    context 'with sales auction with deadline' do
+      let(:auction) { create(:auction, status: :sales, deadline: FFaker::Time.date) }
+
+      it 'returns string with deadline' do
+        expect(helper.auction_dates(auction)).to eq("Started on #{auction.deadline.strftime('%b %e, %Y')}")
+      end
+    end
+
+    context 'with blind_bids auction without deadline' do
+      let(:auction) { create(:auction, status: :blind_bids) }
+
+      it 'returns nil' do
+        expect(helper.auction_dates(auction)).to be_nil
+      end
+    end
+
+    context 'with blind_bids auction with deadline' do
+      let(:auction) { create(:auction, status: :blind_bids, deadline: FFaker::Time.date) }
+
+      it 'returns string with deadline' do
+        expect(helper.auction_dates(auction)).to eq(auction.deadline.strftime('%a, %b %e, %H:%M').to_s)
+      end
+    end
+
+    context 'with live auction' do
+      let(:auction) { create(:auction, status: :live) }
+
+      it 'returns string' do
+        expect(helper.auction_dates(auction)).to eq('--:--')
+      end
+    end
+
+    context 'with closed auction' do
+      let(:auction) { create(:auction, status: :closed) }
+
+      it 'returns string with round dates' do
+        expect(helper.auction_dates(auction)).to eq(' - ')
+      end
+    end
+  end
+
+  describe '#auction_dropping_status(auction)' do
+    context 'with initial auction' do
+      it 'returns status' do
+        expect(helper.auction_dropping_status(auction)).to eq('coming_soon')
+      end
+    end
+
+    context 'with sales auction' do
+      let(:auction) { create(:auction, status: :sales) }
+
+      it 'returns status' do
+        expect(helper.auction_dropping_status(auction)).to eq('ongoing')
+      end
+    end
+
+    context 'with blind_bids auction' do
+      let(:auction) { create(:auction, status: :blind_bids) }
+
+      it 'returns status' do
+        expect(helper.auction_dropping_status(auction)).to eq('completed')
+      end
+    end
+
+    context 'with live auction' do
+      let(:auction) { create(:auction, status: :live) }
+
+      it 'returns status' do
+        expect(helper.auction_dropping_status(auction)).to eq('completed')
+      end
+    end
+
+    context 'with closed auction' do
+      let(:auction) { create(:auction, status: :closed) }
+
+      it 'returns status' do
+        expect(helper.auction_dropping_status(auction)).to eq('completed')
+      end
+    end
+  end
+
   describe '#user_auction_bid(auction_round, league)' do
     context 'without current_user' do
       let(:auction) { create(:auction) }
