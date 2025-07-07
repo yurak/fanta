@@ -7,8 +7,8 @@ en:
         dropping: "🦶"
         initial_false: "⚖️"
         initial_true: "🔒"
-      initial_title: "Initial Auction"
-      intermediate_title: "Intermediate Auction #%{number}"
+      initial_title: "Auction #1 Initial"
+      intermediate_title: "Auction #%{number} Intermediate"
       show_upcoming: "Show upcoming"
       status:
         coming_soon: "Coming soon"

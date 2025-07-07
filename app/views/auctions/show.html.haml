@@ -10,7 +10,7 @@
           .back-link-arrow
             = image_tag('icons/arrow_left.svg')
           .back-link-text
-            = auction.primary? ? t("auction.index.initial_title") : t("auction.index.intermediate_title", number: auction.number - 1)
+            = auction.primary? ? t("auction.index.initial_title") : t("auction.index.intermediate_title", number: auction.number)
 
     - if auction.closed?
       = render 'logs', auction: auction, league: league

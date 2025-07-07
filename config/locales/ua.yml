@@ -23,8 +23,8 @@ ua:
         dropping: "🦶"
         initial_false: "⚖️"
         initial_true: "🔒"
-      initial_title: "Початковий Аукціон"
-      intermediate_title: "Проміжний Аукціон #%{number}"
+      initial_title: "Аукціон #1 Початковий"
+      intermediate_title: "Аукціон #%{number} Проміжний"
       show_upcoming: "Показати майбутні"
       status:
         coming_soon: "Незабаром"

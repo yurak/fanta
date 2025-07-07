@@ -18,7 +18,7 @@
             .auction-icon-wrapper{ class: "auction-icon-wrapper-#{auction.live? || auction.blind_bids?}" }
               .auction-icon= t("auction.index.icon.initial_#{auction.initial?}")
             .auction-item{ class: "auction-item-#{auction.status}"}
-              .auction-item-title= auction.primary? ? t("auction.index.initial_title") : t("auction.index.intermediate_title", number: auction.number - 1)
+              .auction-item-title= auction.primary? ? t("auction.index.initial_title") : t("auction.index.intermediate_title", number: auction.number)
               .auction-item-transfers{ class: "auction-item-transfers-#{auction_status(auction)}" }
                 = (auction.initial? || auction.sales?) ? '-' : "🔄 #{auction.transfers.incoming.count}"
               .auction-item-status-cell
