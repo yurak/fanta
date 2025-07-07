@@ -11,7 +11,6 @@ class AuctionRound < ApplicationRecord
   FULL_SIZE_ROUND = 2
   BUDGET_LIMIT = [0, 200, 260].freeze
   GK_MIN_LIMIT = [0, 1, 3].freeze
-  GK_BASE_MIN_LIMIT = 3
 
   enum status: { active: 0, processing: 1, closed: 2 }
 

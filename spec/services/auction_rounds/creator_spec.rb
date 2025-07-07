@@ -18,9 +18,42 @@ RSpec.describe AuctionRounds::Creator do
       end
     end
 
-    context 'when league teams have empty squad' do
+    context 'when league teams have empty squad on first round of auction' do
       let!(:team_one) { create(:team, league: auction.league) }
       let!(:team_two) { create(:team, league: auction.league) }
+
+      it 'creates one auction_bid with player_bids for team_one' do
+        creator
+
+        expect(team_one.auction_bids.count).to eq(1)
+      end
+
+      it 'creates 11 player_bids for team_one' do
+        creator
+
+        expect(team_one.auction_bids.last.player_bids.count).to eq(team_one.league.auction_step)
+      end
+
+      it 'creates one auction_bid with player_bids for team_two' do
+        creator
+
+        expect(team_two.auction_bids.count).to eq(1)
+      end
+
+      it 'creates 11 player_bids for team_two' do
+        creator
+
+        expect(team_two.auction_bids.last.player_bids.count).to eq(team_one.league.auction_step)
+      end
+    end
+
+    context 'when league teams have empty squad on second round of auction' do
+      let!(:team_one) { create(:team, league: auction.league) }
+      let!(:team_two) { create(:team, league: auction.league) }
+
+      before do
+        create(:auction_round, auction: auction, number: 1)
+      end
 
       it 'creates one auction_bid with player_bids for team_one' do
         creator
@@ -47,7 +80,8 @@ RSpec.describe AuctionRounds::Creator do
       end
     end
 
-    context 'when league teams have few vacancies' do
+    context 'when league teams have few vacancies on intermediate auction' do
+      let(:auction) { create(:auction, number: 2) }
       let!(:team_one) { create(:team, :with_15_players, league: auction.league) }
       let!(:team_two) { create(:team, :with_20_players, league: auction.league) }
 
@@ -76,7 +110,8 @@ RSpec.describe AuctionRounds::Creator do
       end
     end
 
-    context 'when league team has full squad' do
+    context 'when league team has full squad on intermediate auction' do
+      let(:auction) { create(:auction, number: 2) }
       let!(:team_one) { create(:team, :with_15_players, league: auction.league) }
       let!(:team_two) { create(:team, :with_full_squad, league: auction.league) }
 
