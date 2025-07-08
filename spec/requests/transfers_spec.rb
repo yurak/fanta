@@ -22,6 +22,18 @@ RSpec.describe 'Transfers' do
       it { expect(response).to have_http_status(:ok) }
       it { expect(assigns(:transfers)).not_to be_nil }
     end
+
+    context 'when user is logged in and type params' do
+      login_user
+      before do
+        get league_auction_transfers_path(auction.league, auction, type: 'out')
+      end
+
+      it { expect(response).to be_successful }
+      it { expect(response).to render_template(:index) }
+      it { expect(response).to have_http_status(:ok) }
+      it { expect(assigns(:transfers)).not_to be_nil }
+    end
   end
 
   describe 'POST #create' do
