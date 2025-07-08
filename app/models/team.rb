@@ -104,6 +104,20 @@ class Team < ApplicationRecord
     budget - vacancies + 1
   end
 
+  def max_rate_by(auction_bid)
+    return 0 if vacancies <= 0
+
+    round_budget(auction_bid.auction_round) - auction_bid.player_bids.count + 1
+  end
+
+  def round_budget(auction_round)
+    budget + auction_round.budget_limit - DEFAULT_BUDGET
+  end
+
+  def reserved_budget(auction_round)
+    DEFAULT_BUDGET - auction_round.budget_limit
+  end
+
   def sales_period?
     return false unless league
 

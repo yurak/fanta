@@ -8,7 +8,7 @@ module AuctionRounds
 
     def call
       return false unless auction
-      return false if auction.league.teams.empty?
+      return false if league.teams.empty?
 
       @auction_round = create_auction_round
 
@@ -28,16 +28,20 @@ module AuctionRounds
     end
 
     def basic?
-      auction.league.auctions.count == 1 && auction.auction_rounds.count.zero?
+      auction.primary? && auction.auction_rounds.count.zero?
+    end
+
+    def league
+      @league ||= auction.league
     end
 
     def create_auction_bids
-      auction.league.teams.each do |team|
+      league.teams.each do |team|
         next if team.full_squad?
 
         auction_bid = @auction_round.auction_bids.create(team: team)
 
-        team.vacancies.times { |_| auction_bid.player_bids.create }
+        @auction_round.slots_number_by(team).times { |_| auction_bid.player_bids.create }
       end
     end
   end

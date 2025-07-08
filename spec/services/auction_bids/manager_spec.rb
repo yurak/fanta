@@ -420,6 +420,10 @@ RSpec.describe AuctionBids::Manager do
       context 'with completed new status' do
         let(:params) { { status: 'completed' } }
 
+        before do
+          auction_bid.auction.update(number: 2)
+        end
+
         context 'when player_bids_attributes less than vacancies' do
           it 'does not change status' do
             manager.call

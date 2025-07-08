@@ -51,13 +51,23 @@
                     = round.number
       - if !auction_round.closed? && current_user&.team_by_league(league)&.vacancies&.positive?
         .auction-round-add-header
-          .auction-round-add-text= t('auction_round.subheader.text1')
-          .auction-round-add-item-badge= t('auction_round.subheader.players', players: current_user&.team_by_league(league).vacancies)
-          - if current_user&.team_by_league(league).players.by_position('Por').count < Team::MIN_GK
-            .auction-round-add-text= t('auction_round.subheader.text2')
-            .auction-round-add-item-badge.auction-round-add-item-badge-gk= t('auction_round.subheader.goalkeeper', gk_count: Team::MIN_GK - current_user&.team_by_league(league).players.by_position('Por').count )
-          .auction-round-add-text= t('auction_round.subheader.text3')
-          .auction-round-add-item-badge.auction-round-add-item-badge-budget= "#{current_user&.team_by_league(league).budget}M"
+          - if auction.primary?
+            .auction-round-add-row.auction-round-add-row-prime
+              .auction-round-add-text= t('auction_round.subheader.text1')
+              .auction-round-add-item-badge= t('auction_round.subheader.players', players: auction_round.slots_number_by(current_user.team_by_league(league)))
+              - if current_user.team_by_league(league).players.by_position('Por').count < auction_round.gk_min_limit
+                .auction-round-add-text= t('auction_round.subheader.text2')
+                .auction-round-add-item-badge.auction-round-add-item-badge-gk= t('auction_round.subheader.goalkeeper', gk_count: auction_round.gk_min_limit - current_user&.team_by_league(league).players.by_position('Por').count )
+              .auction-round-add-text= t('auction_round.subheader.text3')
+              .auction-round-add-item-badge.auction-round-add-item-badge-budget= "#{current_user.team_by_league(league).round_budget(auction_round)}M"
+          .auction-round-add-row
+            .auction-round-add-text= t('auction_round.subheader.text4')
+            .auction-round-add-item-badge= t('auction_round.subheader.players', players: current_user.team_by_league(league).vacancies)
+            - if current_user.team_by_league(league).players.by_position('Por').count < Team::MIN_GK
+              .auction-round-add-text= t('auction_round.subheader.text5')
+              .auction-round-add-item-badge.auction-round-add-item-badge-gk= t('auction_round.subheader.goalkeeper', gk_count: Team::MIN_GK - current_user&.team_by_league(league).players.by_position('Por').count )
+            .auction-round-add-text= t('auction_round.subheader.text6')
+            .auction-round-add-item-badge.auction-round-add-item-badge-budget= "#{current_user&.team_by_league(league).budget}M"
       - if auction_bid
         .auction-bid-block
           .auction-bid-suitable-modules
@@ -209,9 +219,13 @@
                 .auction-round-budget-text= t('auction_round.balance')
                 .auction-round-budget-value#budget-value-balance= "#{current_user&.team_by_league(league).budget}M"
               .auction-round-budget-row
+                .auction-round-budget-dot.budget-dot-reserved
+                .auction-round-budget-text= t('auction_round.balance_reserved')
+                .auction-round-budget-value#budget-value-reserved= "#{current_user&.team_by_league(league).reserved_budget(auction_round)}M"
+              .auction-round-budget-row
                 .auction-round-budget-dot.budget-dot-available
                 .auction-round-budget-text= t('auction_round.available_budget')
-                .auction-round-budget-value#budget-value-available= "#{current_user&.team_by_league(league).budget - (auction_bid ? auction_bid.player_bids.sum(&:price) : 0)}M"
+                .auction-round-budget-value#budget-value-available= "#{current_user&.team_by_league(league).round_budget(auction_round) - (auction_bid ? auction_bid.player_bids.sum(&:price) : 0)}M"
               .auction-round-budget-row
                 .auction-round-budget-dot.budget-dot-spent-auc
                 .auction-round-budget-text= t('auction_round.spent_auction')
@@ -230,7 +244,7 @@
                 .auction-round-budget-summary-value= "#{Team::DEFAULT_BUDGET}M"
               .auction-round-budget-summary-row
                 .auction-round-budget-summary-text= t('auction_round.max_bid')
-                .auction-round-budget-summary-value= "#{current_user&.team_by_league(league).max_rate}M"
+                .auction-round-budget-summary-value= "#{current_user&.team_by_league(league).max_rate_by(auction_bid)}M"
             .ar-budget-bar
               .ar-budget-bar-spent
             .ar-budget-alert
@@ -323,7 +337,10 @@
     });
 
     if ("#{auction_bid.present?}" === 'true') {
-      const basicAuction = "#{auction_bid&.auction_round&.basic}" === 'true'
+      const basicAuctionRound = "#{auction_bid&.auction_round&.basic}" === 'true'
+      const primaryAuction = "#{auction.primary?}" === 'true'
+      const auctionRoundNumber = "#{auction_round&.number}";
+      const minPriceDisabledNumber = "#{AuctionRound::MIN_PRICE_DISABLED_ROUND}";
 
       // Show modal
       $('.auction-bid-slot-modal').click(function(e) {
@@ -378,7 +395,7 @@
 
               const priceInput = $('.price-input-' + slotId);
               let playerPrice = 1;
-              if (basicAuction) {
+              if (primaryAuction && auctionRoundNumber < minPriceDisabledNumber) {
                 playerPrice = data.stats_price;
               }
               priceInput.val(playerPrice);
@@ -518,7 +535,7 @@
         const playerPath = "#{player_path(1).tr('1', '')}" + data.id;
 
         let minPrice = " ";
-        if (basicAuction) { minPrice = data.stats_price }
+        if (primaryAuction && auctionRoundNumber < minPriceDisabledNumber) { minPrice = data.stats_price }
 
         let positionsContainer = '<div class="player-positions-block">';
         data.position_ital_arr.forEach((positionName, index) => {
@@ -607,15 +624,16 @@
       const totalPrice = $("#budget-value-spent-auc");
       const availableBudget = $("#budget-value-available");
       const teamBudget = parseInt("#{auction_bid&.team&.budget}");
+      const teamRoundBudget = parseInt("#{auction_bid&.team&.round_budget(auction_round)}");
 
       if ("#{auction_bid&.processed?}" === "true") {
-        availableBudget.text(teamBudget + "M");
+        availableBudget.text(teamRoundBudget + "M");
       } else {
         const initialBid = countTotalBid();
 
         totalPrice.text(initialBid + "M");
-        availableBudget.text(teamBudget - initialBid + "M");
-        spentBar.css("width", (initialBid * 100 / teamBudget) + "%");
+        availableBudget.text(teamRoundBudget - initialBid + "M");
+        spentBar.css("width", (initialBid * 100 / teamRoundBudget) + "%");
       }
 
       priceInputs.change(function() {
@@ -648,7 +666,7 @@
               location.reload();
             } else {
               totalPrice.text(totalBid + "M");
-              availableBudget.text(teamBudget - totalBid + "M");
+              availableBudget.text(teamRoundBudget - totalBid + "M");
 
               if (barWidth > 100) {
                 barWidth = 100;
@@ -730,14 +748,15 @@
           return false;
         }
 
-        if (basicAuction && (bidStatus == "initial" || bidStatus == "ongoing") && (countTotalBid() < teamBudget)) {
+        if (!primaryAuction && basicAuctionRound && (bidStatus == "initial" || bidStatus == "ongoing") && (countTotalBid() < teamBudget)) {
           alert("#{t('auction_bid.all_budget', budget: auction_bid&.team&.budget)}");
           return false;
         }
 
         const goaleeCount = parseInt("#{auction_bid&.team&.players&.by_position('Por')&.count}") + $('.player-position-Por.selected-player-Por').size();
-        if (goaleeCount < 3) {
-          alert("#{t('auction_bid.goalee_count')}");
+        const gkMinLimit = parseInt("#{auction_round.gk_min_limit}");
+        if (goaleeCount < gkMinLimit) {
+          alert("#{t('auction_bid.goalee_count', gk_count: auction_round.gk_min_limit)}");
           return false;
         }
         if (goaleeCount > 5) {

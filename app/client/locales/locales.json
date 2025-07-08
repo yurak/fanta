@@ -278,7 +278,7 @@
       "confirm": "Confirm bid",
       "duplicates": "Bid contains duplicate players in slots: ",
       "empty_slots": "You must fill slots: ",
-      "goalee_count": "The team must have at least 3 goalkeepers",
+      "goalee_count": "The team must have at least %{gk_count} goalkeepers on this stage",
       "goalee_max_count": "The team can`t have more than 5 goalkeepers",
       "min_price": "The bid must be at least 1",
       "overprice": "Your bid exceeds the team budget",
@@ -289,6 +289,7 @@
       "auction": "Auction",
       "available_budget": "Available budget",
       "balance": "Budget balance",
+      "balance_reserved": "Reserved funds",
       "bets_placed": "🎯 Bids overview",
       "bid_action": {
         "completed": "Return to Ongoing",
@@ -324,11 +325,14 @@
         "submitted": "✅︎︎"
       },
       "subheader": {
-        "goalkeeper": "%{gk_count} goalkeepers",
+        "goalkeeper": "%{gk_count} GK",
         "players": "%{players} players",
-        "text1": "For this phase you need to buy",
+        "text1": "You need to bid on",
         "text2": "of which at least",
-        "text3": "Your budget is"
+        "text3": "Your budget for this stage is",
+        "text4": "For this auction you need to buy",
+        "text5": "of which at least",
+        "text6": "Your total budget is"
       },
       "submit_bid": "Submit bid",
       "suitable_modules": "🧩 Suitable modules",
@@ -1854,7 +1858,7 @@
       "confirm": "Підтвердити ставку",
       "duplicates": "Дублюються обрані гравці у слотах: ",
       "empty_slots": "Необхідно заповнити слоти: ",
-      "goalee_count": "У команді повинні бути мінімум 3 воротарі",
+      "goalee_count": "У команді повинні бути мінімум %{gk_count} воротарі на даному етапі",
       "goalee_max_count": "У команді не може бути більше 5 воротарів",
       "min_price": "Ставка повинна бути не менше 1",
       "overprice": "Ваша ставка перевищує бюджет команди",
@@ -1865,6 +1869,7 @@
       "auction": "Аукціон",
       "available_budget": "Доступний бюджет",
       "balance": "Баланс бюджету",
+      "balance_reserved": "Зарезервовані кошти",
       "bets_placed": "🎯 Огляд ставок",
       "bid_action": {
         "completed": "Редагування ставки",
@@ -1900,11 +1905,14 @@
         "submitted": "✅︎︎"
       },
       "subheader": {
-        "goalkeeper": "%{gk_count} воротарі",
+        "goalkeeper": "%{gk_count} ГК",
         "players": "%{players} гравців",
-        "text1": "Для цього етапу потрібно купити",
+        "text1": "Потрібно зробити ставку на",
         "text2": "з яких принаймні",
-        "text3": "Ваш бюджет становить"
+        "text3": "Ваш бюджет на цей етап становить",
+        "text4": "На цьому аукціоні потрібно купити",
+        "text5": "з яких принаймні",
+        "text6": "Ваш загальний бюджет становить"
       },
       "submit_bid": "Підтвердити ставку",
       "suitable_modules": "🧩 Доступні модулі",

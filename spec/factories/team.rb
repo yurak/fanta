@@ -28,6 +28,12 @@ FactoryBot.define do
       end
     end
 
+    trait :with_5_players do
+      after(:create) do |team|
+        create_list(:player_team, 5, team: team)
+      end
+    end
+
     trait :with_15_players do
       after(:create) do |team|
         create_list(:player_team, 15, team: team)

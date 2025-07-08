@@ -48,10 +48,10 @@ module AuctionBids
     end
 
     def valid_bid?
-      return false if players_ids.count < team.vacancies
+      return false if players_ids.count < auction_round.slots_number_by(team)
       return false if duplicate_players&.any?
-      return false if total_price > team.budget
-      return false if gk_count < Team::MIN_GK
+      return false if total_price > team.round_budget(auction_round)
+      return false if gk_count < auction_round.gk_min_limit
       return false if contains_dumped?
 
       true

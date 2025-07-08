@@ -351,6 +351,98 @@ RSpec.describe Team do
     end
   end
 
+  describe '#max_rate_by(auction_bid)' do
+    let(:auction_bid) { create(:auction_bid, team: team) }
+
+    context 'with max number of players and positive budget' do
+      let(:team) { create(:team, :with_players, budget: 13) }
+
+      it 'returns zero' do
+        expect(team.max_rate_by(auction_bid)).to eq(0)
+      end
+    end
+
+    context 'when first round of primary auction' do
+      let(:auction_round) { create(:auction_round, number: 1) }
+      let(:auction_bid) { create(:auction_bid, :with_eleven_empty_player_bids, team: team, auction_round: auction_round) }
+
+      context 'with full budget' do
+        it 'returns max_rate value for auction_bid' do
+          expect(team.max_rate_by(auction_bid)).to eq(210)
+        end
+      end
+    end
+
+    context 'when second round' do
+      let(:auction_round) { create(:auction_round, number: 2) }
+
+      context 'with full budget' do
+        let(:auction_bid) { create(:auction_bid, :with_full_player_bids, team: team, auction_round: auction_round) }
+
+        it 'returns max_rate value for auction_bid' do
+          expect(team.max_rate_by(auction_bid)).to eq(235)
+        end
+      end
+
+      context 'with few players' do
+        let(:team) { create(:team, :with_5_players, budget: 99) }
+        let(:auction_bid) { create(:auction_bid, :with_21_empty_player_bids, team: team, auction_round: auction_round) }
+
+        it 'returns max_rate value for auction_bid' do
+          expect(team.max_rate_by(auction_bid)).to eq(79)
+        end
+      end
+    end
+  end
+
+  describe '#round_budget(auction_round)' do
+    context 'when first round of primary auction' do
+      let(:auction_round) { create(:auction_round, number: 1) }
+
+      context 'with full budget' do
+        it 'returns round budget' do
+          expect(team.round_budget(auction_round)).to eq(220)
+        end
+      end
+    end
+
+    context 'when second round' do
+      let(:auction_round) { create(:auction_round, number: 2) }
+
+      context 'with full budget' do
+        it 'returns round budget' do
+          expect(team.round_budget(auction_round)).to eq(260)
+        end
+      end
+
+      context 'with few players' do
+        let(:team) { create(:team, :with_5_players, budget: 140) }
+
+        it 'returns round budget' do
+          expect(team.round_budget(auction_round)).to eq(140)
+        end
+      end
+    end
+  end
+
+  describe '#reserved_budget(auction_round)' do
+    context 'when first round of primary auction' do
+      let(:auction_round) { create(:auction_round, number: 1) }
+
+      it 'returns reserved budget' do
+        expect(team.reserved_budget(auction_round)).to eq(40)
+      end
+    end
+
+    context 'when second round' do
+      let(:auction_round) { create(:auction_round, number: 2) }
+
+      it 'returns reserved budget' do
+        expect(team.reserved_budget(auction_round)).to eq(0)
+      end
+    end
+  end
+
   describe '#sales_period?' do
     context 'without auctions' do
       it 'returns false' do

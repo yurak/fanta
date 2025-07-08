@@ -157,12 +157,21 @@
       border: 1px solid #FFEBC2;
       border-radius: 0 0 8px 8px;
       border-top: none;
-      padding: 12px 16px;
       font-size: 14px;
       line-height: 24px;
-      height: 48px;
-      display: flex;
-      gap: 4px;
+      height: content-box;
+
+      .auction-round-add-row {
+        padding: 12px 16px;
+        line-height: 24px;
+        height: 48px;
+        display: flex;
+        gap: 4px;
+      }
+
+      .auction-round-add-row-prime {
+        border-bottom: 1px solid #FFEBC2;
+      }
 
       .auction-round-add-item-badge {
         font-family: 'Nunito ExtraBold';
@@ -717,6 +726,10 @@
             margin: 4px 0;
           }
 
+          .budget-dot-reserved {
+            background: #DB0A23;
+          }
+
           .budget-dot-available {
             background: #4EAD57;
           }
@@ -736,6 +749,10 @@
 
           #budget-value-balance {
             color: #181715;
+          }
+
+          #budget-value-reserved {
+            color: #DB0A23;
           }
 
           #budget-value-available {
@@ -937,13 +954,17 @@
       .auction-round-add-header {
         border: 3px solid #FFEBC2;
         border-radius: 0 0 16px 16px;
-        padding: 24px 32px;
-        font-size: 30px;
-        line-height: 36px;
+        font-size: 32px;
         height: fit-content;
-        gap: 8px;
-        display: grid;
-        grid-template-columns: auto auto;
+
+        .auction-round-add-row {
+          line-height: 36px;
+          height: fit-content;
+          padding: 24px 32px;
+          gap: 8px;
+          display: grid;
+          grid-template-columns: auto auto;
+        }
 
         .auction-round-add-item-badge {
           border-radius: 16px;
