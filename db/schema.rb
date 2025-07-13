@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2025_07_09_212819) do
+ActiveRecord::Schema.define(version: 2025_07_12_123447) do
 
   create_table "article_tags", force: :cascade do |t|
     t.string "name", default: "", null: false
@@ -346,6 +346,7 @@ ActiveRecord::Schema.define(version: 2025_07_09_212819) do
     t.boolean "title", default: false, null: false
     t.integer "position"
     t.integer "secondary_position"
+    t.integer "penalty_points", default: 0, null: false
     t.index ["league_id"], name: "index_results_on_league_id"
     t.index ["team_id"], name: "index_results_on_team_id"
   end
