@@ -62,6 +62,8 @@ module AuctionBids
     end
 
     def total_price
+      return 0 unless params[:player_bids_attributes]
+
       params[:player_bids_attributes].values.each_with_object([]) { |el, prices| prices << el[:price] }.sum(&:to_i)
     end
 
