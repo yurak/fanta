@@ -10,6 +10,7 @@ namespace :tm do
             else
               Club.active.order(:name)
             end
+    # clubs = Club.archived.order(:name)
 
     i = 0
     max_attempts = 3

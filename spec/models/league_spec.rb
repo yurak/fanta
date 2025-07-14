@@ -14,7 +14,7 @@ RSpec.describe League do
 
   describe 'Validations' do
     it { is_expected.to validate_presence_of :name }
-    it { is_expected.to validate_uniqueness_of :name }
+    it { is_expected.to validate_uniqueness_of(:name).scoped_to(:season_id) }
 
     it { is_expected.to define_enum_for(:auction_type).with_values(%i[blind_bids live]) }
     it { is_expected.to define_enum_for(:cloning_status).with_values(%i[unclonable cloneable]) }

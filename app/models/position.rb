@@ -46,10 +46,10 @@ class Position < ApplicationRecord
     WING_BACK => [WING_BACK, DEFENCE_MF, CENTER_MF, RIGHT_BACK, LEFT_BACK, WINGER],
     DEFENCE_MF => [DEFENCE_MF, CENTER_MF, WING_BACK, CENTER_BACK],
     CENTER_MF => [CENTER_MF, DEFENCE_MF, WING_BACK, ATTACKING_MF],
-    WINGER => [WINGER, WING_BACK, ATTACKING_MF, FORWARD],
-    ATTACKING_MF => [ATTACKING_MF, CENTER_MF, WINGER, FORWARD],
+    WINGER => [WINGER, WING_BACK, ATTACKING_MF, FORWARD, STRIKER],
+    ATTACKING_MF => [ATTACKING_MF, CENTER_MF, WINGER, FORWARD, STRIKER],
     FORWARD => [FORWARD, STRIKER, ATTACKING_MF, WINGER],
-    STRIKER => [STRIKER, FORWARD]
+    STRIKER => [STRIKER, FORWARD, ATTACKING_MF, WINGER]
   }.freeze
 
   # Position in lineup => Native Position => Malus size
@@ -76,14 +76,18 @@ class Position < ApplicationRecord
                    ATTACKING_MF => M_MALUS },
     WINGER => { ATTACKING_MF => S_MALUS,
                 WING_BACK => M_MALUS,
-                FORWARD => M_MALUS },
+                FORWARD => M_MALUS,
+                STRIKER => M_MALUS },
     ATTACKING_MF => { WINGER => S_MALUS,
                       CENTER_MF => M_MALUS,
-                      FORWARD => M_MALUS },
+                      FORWARD => M_MALUS,
+                      STRIKER => M_MALUS },
     FORWARD => { STRIKER => S_MALUS,
                  WINGER => M_MALUS,
                  ATTACKING_MF => M_MALUS },
-    STRIKER => { FORWARD => S_MALUS }
+    STRIKER => { FORWARD => S_MALUS,
+                 WINGER => M_MALUS,
+                 ATTACKING_MF => M_MALUS }
   }.freeze
 
   # Position in Transfermarkt

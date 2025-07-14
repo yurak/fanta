@@ -165,6 +165,19 @@
       }
     }
   }
+
+  /* TOURNAMENT ROUND STATS */
+  .round-stats-row {
+    margin-top: 32px;
+    line-height: 32px;
+    font-size: 24px;
+    display: grid;
+    grid-template-columns: 380px auto;
+
+    .round-stats-data {
+      font-family: 'Nunito Bold';
+    }
+  }
 }
 
 @media (orientation: portrait) {
@@ -269,22 +282,6 @@
           text-align: center;
         }
       }
-    }
-  }
-}
-
-/* TOURNAMENT ROUND STATS */
-
-.page-info.round-manage-page {
-  .round-stats-row {
-    margin-top: 32px;
-    line-height: 32px;
-    font-size: 24px;
-    display: grid;
-    grid-template-columns: 380px auto;
-
-    .round-stats-data {
-      font-family: 'Nunito Bold';
     }
   }
 }

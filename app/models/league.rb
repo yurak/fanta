@@ -21,7 +21,7 @@ class League < ApplicationRecord
   enum status: { initial: 0, active: 1, archived: 2 }
   enum transfer_status: { closed: 0, open: 1 }
 
-  validates :name, presence: true, uniqueness: true
+  validates :name, presence: true, uniqueness: { scope: :season_id }
 
   default_scope { includes(%i[division season tournament]) }
 
