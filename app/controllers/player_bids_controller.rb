@@ -6,7 +6,7 @@ class PlayerBidsController < ApplicationController
       auction_bid.ongoing! if auction_bid.submitted?
 
       bid = player_bid_params
-      bid = bid.merge(price: player.stats_price) if auction_round.basic? && bid[:price].to_i < player.stats_price
+      bid = bid.merge(price: player.stats_price) if auction_round.min_price_active? && bid[:price].to_i < player.stats_price
 
       player_bid.update(bid)
     end
