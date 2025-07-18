@@ -29,6 +29,10 @@ class AuctionRound < ApplicationRecord
     number == 1
   end
 
+  def min_price_active?
+    auction.primary? && number < MIN_PRICE_DISABLED_ROUND
+  end
+
   def slots_number
     number >= FULL_SIZE_ROUND ? Team::MAX_PLAYERS : number * league.auction_step
   end

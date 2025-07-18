@@ -82,8 +82,6 @@ module AuctionsHelper
   end
 
   def min_bid(auction_round, player)
-    return 1 unless auction_round&.basic? && player
-
-    player.stats_price
+    player && auction_round&.min_price_active? ? player.stats_price : 1
   end
 end

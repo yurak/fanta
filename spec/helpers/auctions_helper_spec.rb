@@ -440,14 +440,32 @@ RSpec.describe AuctionsHelper do
       end
     end
 
-    context 'with not basic auction_round' do
+    context 'with not primary auction' do
+      let(:auction_round) { create(:auction_round, number: 1, auction: create(:auction, number: 2)) }
+
       it 'returns 1' do
         expect(helper.min_bid(auction_round, player)).to eq(1)
       end
     end
 
-    context 'with player stats' do
-      let(:auction_round) { create(:auction_round, basic: true) }
+    context 'with third auction_round number' do
+      let(:auction_round) { create(:auction_round, number: 3, auction: create(:auction, number: 1)) }
+
+      it 'returns 1' do
+        expect(helper.min_bid(auction_round, player)).to eq(1)
+      end
+    end
+
+    context 'with first auction_round number' do
+      let(:auction_round) { create(:auction_round, number: 1, auction: create(:auction, number: 1)) }
+
+      it 'returns player price' do
+        expect(helper.min_bid(auction_round, player)).to eq(15)
+      end
+    end
+
+    context 'with second auction_round number' do
+      let(:auction_round) { create(:auction_round, number: 2, auction: create(:auction, number: 1)) }
 
       it 'returns player price' do
         expect(helper.min_bid(auction_round, player)).to eq(15)
