@@ -30,9 +30,17 @@ class League < ApplicationRecord
   scope :with_division, -> { where.not(division: { id: nil }) }
   scope :viewable, -> { active.or(archived) }
   scope :serial, lambda {
-    includes(:division, :results, :season, :teams, :tournament, :tours)
-      .order('season_id DESC, tournament_id ASC')
-      .order(Arel.sql('CASE WHEN division_id IS NULL THEN 1 ELSE 0 END, division_id ASC'))
+    left_joins(:division)
+      .includes(:results, :season, :teams, :tournament, :tours)
+      .order(
+        Arel.sql(<<~SQL.squish)
+          season_id DESC,
+          tournament_id ASC,
+          CASE WHEN division_id IS NULL THEN 1 ELSE 0 END,
+          divisions.level ASC,
+          divisions.number ASC
+        SQL
+      )
   }
 
   def division_with_name
