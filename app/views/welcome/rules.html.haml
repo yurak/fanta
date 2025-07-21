@@ -76,6 +76,10 @@
           %li= t('welcome.rules.auction.ul19')
           %li= t('welcome.rules.auction.ul20')
           %li= t('welcome.rules.auction.ul21')
+          %li= t('welcome.rules.auction.ul22')
+          %li= t('welcome.rules.auction.ul23')
+          %li= t('welcome.rules.auction.ul24')
+          %li= t('welcome.rules.auction.ul25')
 
         .rules-header= t('welcome.rules.auction.header4')
         .rules-paragraph= t('welcome.rules.auction.paragraph6')
@@ -164,6 +168,7 @@
             = link_to 'FotMob', 'https://www.fotmob.com'
             = t('welcome.rules.round.ul05_2')
           %li= t('welcome.rules.round.ul06')
+          %li= t('welcome.rules.round.ul07')
         .rules-note
           .rules-note-title= t('welcome.rules.note')
           .rules-paragraph= t('welcome.rules.round.note.ol1')
@@ -252,6 +257,25 @@
             %li= t('welcome.rules.positions.note.ol2')
             %li= t('welcome.rules.positions.note.ol3')
             %li= t('welcome.rules.positions.note.ol4')
+
+        .rules-header= t('welcome.rules.positions.header1')
+        %ol.basic-list
+          %li= t('welcome.rules.positions.ol1')
+          %li= t('welcome.rules.positions.ol2')
+          %li= t('welcome.rules.positions.ol3')
+          %li= t('welcome.rules.positions.ol4')
+          %li= t('welcome.rules.positions.ol5')
+          %li= t('welcome.rules.positions.ol6')
+          %li= t('welcome.rules.positions.ol7')
+          %li= t('welcome.rules.positions.ol8')
+          %li= t('welcome.rules.positions.ol9')
+          %li= t('welcome.rules.positions.ol10')
+          %li= t('welcome.rules.positions.ol11')
+          %li= t('welcome.rules.positions.ol12')
+          %li= t('welcome.rules.positions.ol13')
+          %li= t('welcome.rules.positions.ol14')
+          %li= t('welcome.rules.positions.ol15')
+          %li= t('welcome.rules.positions.ol16')
 
         .rules-chapter.rules-chapter-red#modules
           .rules-chapter-text= t('welcome.rules.modules.title')
@@ -587,11 +611,13 @@
           .rules-chapter-img= image_tag('rules/chapter.svg')
         .rules-paragraph= t('welcome.rules.divisions.paragraph1')
         .rules-paragraph.rules-paragraph-next= t('welcome.rules.divisions.paragraph2')
+        .rules-paragraph.rules-paragraph-next= t('welcome.rules.divisions.paragraph3')
         .rules-note.rules-paragraph-next
           .rules-note-title= t('welcome.rules.note')
           %ol
             %li= t('welcome.rules.divisions.note.ol1')
             %li= t('welcome.rules.divisions.note.ol2')
+            %li= t('welcome.rules.divisions.note.ol3')
         .screen-block
           .screen-dots-line
             .screen-dot
@@ -605,17 +631,17 @@
             .screen-desc-title= t('welcome.rules.divisions.screen1.title')
             .screen-desc-desc= t('welcome.rules.divisions.screen1.text')
 
-        .rules-paragraph.rules-paragraph-next= t('welcome.rules.divisions.paragraph3')
         .rules-paragraph.rules-paragraph-next= t('welcome.rules.divisions.paragraph4')
+        .rules-paragraph.rules-paragraph-next= t('welcome.rules.divisions.paragraph5')
         %ul
           %li= t('welcome.rules.divisions.ul01')
           %li= t('welcome.rules.divisions.ul02')
           %li= t('welcome.rules.divisions.ul03')
           %li= t('welcome.rules.divisions.ul04')
           %li= t('welcome.rules.divisions.ul05')
-        .rules-note.rules-paragraph-next
-          .rules-note-title= t('welcome.rules.note')
-          .rules-paragraph= t('welcome.rules.divisions.paragraph5')
+        -#.rules-note.rules-paragraph-next
+        -#  .rules-note-title= t('welcome.rules.note')
+        -#  .rules-paragraph= t('welcome.rules.divisions.paragraph6')
 
         .rules-chapter.rules-chapter-green#fanta
           .rules-chapter-text= t('welcome.rules.fanta.title')

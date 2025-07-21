@@ -2,6 +2,14 @@ module Stats
   class PriceUpdater < ApplicationService
     attr_reader :tournament
 
+    PRICE_5 = 5
+    PRICE_10 = 10
+    PRICE_15 = 15
+    PRICE_20 = 20
+    SCORE_8_0 = 8.0
+    SCORE_8_5 = 8.5
+    SCORE_9_0 = 9.0
+
     def initialize(tournament)
       @tournament = tournament
     end
@@ -27,14 +35,14 @@ module Stats
     private
 
     def price(final_score)
-      if final_score >= 9.0
-        20
-      elsif final_score >= 8.5
-        15
-      elsif final_score >= 8.0
-        10
+      if final_score >= SCORE_9_0
+        PRICE_20
+      elsif final_score >= SCORE_8_5
+        PRICE_15
+      elsif final_score >= SCORE_8_0
+        PRICE_10
       else
-        5
+        PRICE_5
       end
     end
 
