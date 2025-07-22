@@ -98,7 +98,7 @@
                 = player_bid.hidden_field(:player_id, value: player_bid.object.player&.id, class: 'round-player-input', id: "player-bid-#{player_bid.index}")
                 .auction-bid-slot.auction-bid-slot-modal{id: "modal-player-data#{player_bid.index}"}
                   .player-bid-index.right= player_bid.index + 1
-                  .player-bid-avatar
+                  .player-bid-avatar{id: "item-player-#{player_bid.object.player&.id}"}
                     .player-bid-face
                       %object{data: player_bid.object.player&.avatar_path || '', type: ApplicationRecord::CONTENT_TYPE_PNG, id: "avatar-#{player_bid.index}"}
                         = image_tag('avatar.png')
@@ -347,7 +347,11 @@
         if ($(e.target).is("input")) return;
 
         const bidStatus = "#{auction_bid&.status}";
-        if (bidStatus == "processed" || bidStatus == "completed") return;
+        if (bidStatus == "processed" || bidStatus == "completed") {
+          const playerId = $(this)[0].children[1].id.replace('item-player-','');
+          if (playerId) window.open('/players/'+playerId, '_blank');
+          return;
+        }
 
         const btn = $(this);
         const playersList = btn.children(".modal-auction-players-list")

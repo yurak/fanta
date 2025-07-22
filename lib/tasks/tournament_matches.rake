@@ -53,11 +53,6 @@ namespace :tournament_matches do
     end
   end
 
-  desc 'Create Italy TournamentMatches'
-  task generate_italy_matches: :environment do
-    # TournamentMatches::SerieaGenerator.call
-  end
-
   # rake 'tournament_matches:generate_euro20_matches'
   desc 'Create Euro TournamentMatches'
   task generate_euro20_matches: :environment do
