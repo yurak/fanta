@@ -678,6 +678,14 @@
   }
 }
 
+@media (orientation: landscape) and (max-device-width: 1380px) {
+  .page-info.auction-show-page {
+    .auction-logs-block {
+      margin: 24px 24px 64px;
+    }
+  }
+}
+
 /* AUCTION LIVE page */
 
 .auction-page {
