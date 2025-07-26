@@ -51,7 +51,7 @@
                     = round.number
       - if !auction_round.closed? && current_user&.team_by_league(league)&.vacancies&.positive?
         .auction-round-add-header
-          - if auction.primary?
+          - if auction.primary? && auction_round.first?
             .auction-round-add-row.auction-round-add-row-prime
               .auction-round-add-text= t('auction_round.subheader.text1')
               .auction-round-add-item-badge= t('auction_round.subheader.players', players: auction_round.slots_number_by(current_user.team_by_league(league)))
@@ -276,7 +276,7 @@
                 .round-table-item-cell.center
                   - if team.full_squad? || auction.closed?
                     🏁️
-                  - else
+                  - elsif current_user&.team_by_league(league) == team || auction_round.ddl_expired? || current_user&.admin?
                     = t("auction_round.status_icon.#{auction_round.auction_bids.find_by(team: team).status}")
       .round-table
         .round-table-title-header

@@ -20,7 +20,7 @@ module TelegramBot
           icon: league.tournament.icon,
           league_name: league.name,
           deadline: auction_round.deadline&.strftime('%H:%M'),
-          vacancies: team.vacancies,
+          vacancies: auction_round.slots_number_by(team),
           team_name: team.human_name,
           url: Rails.application.routes.url_helpers.auction_round_url(auction_round),
           code: league.tournament.code
