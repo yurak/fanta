@@ -1085,7 +1085,7 @@
         },
         "register": {
           "chat_exist": "Ooops! Your Telegram account is already connected to another email",
-          "email_exist": "Ooops! This email address is already in use, please try another one",
+          "email_exist": "Ooops! This email address is already in use, please login to https://mantrafootball.org/ or try another one",
           "sign_up": "Sign Up",
           "success": "Please continue to register on the website",
           "text": "Please enter the email address you will use for the game"
@@ -2404,7 +2404,7 @@
         },
         "register": {
           "chat_exist": "Ой! Ваш обліковий запис Telegram уже підключено до іншої електронної пошти",
-          "email_exist": "Ой! Ця адреса електронної пошти вже використовується, спробуйте іншу",
+          "email_exist": "Ой! Ця адреса електронної пошти вже використовується, спробуйте залогуватися на сайті https://mantrafootball.org/ або спробуйте іншу пошту",
           "sign_up": "Зареєструватися",
           "success": "Просимо продовжити реєстрацію на сайті",
           "text": "Будь ласка, введіть адресу електронної пошти, яку ви будете використовувати для гри"
