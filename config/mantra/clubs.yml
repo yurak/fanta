@@ -334,18 +334,41 @@ brazil:
   SAO: São Paulo
   VDG: Vasco da Gama
   ECV: Vitoria
-#europe:
-#  BES: Besiktas
+turkey:
+  ALN: Alanyaspor
+  ANT: Antalyaspor
+  BAS: Basaksehir
+  BES: Besiktas
+  EYU: Eyupspor
+  FAT: Fatih Karagumruk
+  FEN: Fenerbahce
+  GAL: Galatasaray
+  GAZ: Gaziantep
+  GNC: Genclerbirligi
+  GOZ: Goztepe
+  KAS: Kasimpasa
+  KAY: Kayserispor
+  KOC: Kocaelispor
+  KON: Konyaspor
+  RIZ: Rizespor
+  SMS: Samsunspor
+  TRA: Trabzonspor
+europe:
+  BOD: Bodo-Glimt
 #  CEL: Celtic
 #  COP: Copenhagen
 #  ZVE: Crvena Zvezda
 #  DZG: Dinamo Zagreb
-#  GAL: Galatasaray
+  KAI: Kairat
 #  MHF: Maccabi Haifa
 #  MFF: Malmo
+  OLY: Olympiacos
+  PAF: Pafos
+  QAR: Qarabag
 #  RAN: Rangers
 #  RBS: Salzburg
 #  SHE: Sheriff
+  SLP: Slavia Praha
 #  SLO: Slovan
 #  SPG: Sparta Prague
 #  STG: Sturm
