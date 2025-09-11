@@ -75,6 +75,10 @@
     border-radius: 4px;
   }
 
+  .nav-logo-bottom {
+    width: 72px;
+  }
+
   .nav-link-icon {
     font-size: 18px;
     line-height: 24px;
@@ -89,6 +93,9 @@
     line-height: 14px;
     color: #847577;
     margin-top: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .sign-out-btn {
