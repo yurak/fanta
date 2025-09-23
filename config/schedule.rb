@@ -9,6 +9,11 @@ every '20 * * * *' do
   rake 'tours:auto_close'
 end
 
+# Auto-inject scores for moderated tours
+every '55 * * * *' do
+  rake 'tours:auto_inject'
+end
+
 # Send notifications by Telegram bot before tour deadline
 every :hour do
   rake 'tg:send_tour_deadline'

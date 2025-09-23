@@ -12,7 +12,7 @@ namespace :tm do
 
         max_attempts = 3
         attempt = 0
-        p id if (id % 2).zero?
+        p id
         begin
           attempt += 1
           response = RestClient::Request.execute(method: :get, url: player.tm_path, headers: { 'User-Agent': 'product/version' },

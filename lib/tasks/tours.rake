@@ -18,9 +18,24 @@ namespace :tours do
     end
   end
 
-  # rake tours:auto_close
+  # rake 'tours:auto_close'
   desc 'Close moderated tours'
   task auto_close: :environment do
+    TournamentRound.moderated.each do |t_round|
+      hours = ((Time.zone.now - t_round.moderated_at) / 3_600).to_i\
+
+      next if hours < TournamentRound::MODERATED_HOURS
+
+      t_round.tours.locked_postponed.each do |tour|
+        Tours::Manager.call(tour, Tours::Manager::CLOSED_STATUS)
+      end
+      t_round.update(moderated_at: nil)
+    end
+  end
+
+  # rake 'tours:auto_inject'
+  desc 'Inject scores for moderated tours'
+  task auto_inject: :environment do
     TournamentRound.moderated.each do |t_round|
       hours = ((Time.zone.now - t_round.moderated_at) / 3_600).to_i
 
@@ -31,13 +46,6 @@ namespace :tours do
           Lineups::Updater.call(tour)
         end
       end
-
-      next if hours < TournamentRound::MODERATED_HOURS
-
-      t_round.tours.locked_postponed.each do |tour|
-        Tours::Manager.call(tour, Tours::Manager::CLOSED_STATUS)
-      end
-      t_round.update(moderated_at: nil)
     end
   end
 
