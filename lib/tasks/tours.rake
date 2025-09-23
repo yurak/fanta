@@ -22,7 +22,7 @@ namespace :tours do
   desc 'Close moderated tours'
   task auto_close: :environment do
     TournamentRound.moderated.each do |t_round|
-      hours = ((Time.zone.now - t_round.moderated_at) / 3_600).to_i\
+      hours = ((Time.zone.now - t_round.moderated_at) / 3_600).to_i
 
       next if hours < TournamentRound::MODERATED_HOURS
 
@@ -38,13 +38,12 @@ namespace :tours do
   task auto_inject: :environment do
     TournamentRound.moderated.each do |t_round|
       hours = ((Time.zone.now - t_round.moderated_at) / 3_600).to_i
+      next if [6, 12, 17].exclude?(hours)
 
-      if [6, 12, 17].include?(hours)
-        Scores::Injectors::Fotmob.call(t_round)
-        t_round.tours.each do |tour|
-          Scores::PositionMalus::Updater.call(tour)
-          Lineups::Updater.call(tour)
-        end
+      Scores::Injectors::Fotmob.call(t_round)
+      t_round.tours.each do |tour|
+        Scores::PositionMalus::Updater.call(tour)
+        Lineups::Updater.call(tour)
       end
     end
   end
