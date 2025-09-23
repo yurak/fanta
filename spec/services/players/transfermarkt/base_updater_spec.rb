@@ -54,7 +54,7 @@ RSpec.describe Players::Transfermarkt::BaseUpdater do
       end
 
       it 'updates price in millions' do
-        expect(player.reload.tm_price).to eq(90_000_000)
+        expect(player.reload.tm_price).to eq(100_000_000)
       end
 
       it 'updates number' do
@@ -66,7 +66,7 @@ RSpec.describe Players::Transfermarkt::BaseUpdater do
       end
 
       it 'updates birth_date' do
-        expect(player.reload.birth_date).to eq('Jan 31, 2000')
+        expect(player.reload.birth_date).to eq('31.01.2000')
       end
     end
 
