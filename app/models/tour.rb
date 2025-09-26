@@ -76,15 +76,11 @@ class Tour < ApplicationRecord
   end
 
   def next_round
-    return if number >= league.tours.size
-
-    league.tours.find_by(number: number + 1)
+    @next_round ||= league.tours.find { |t| t.number == number + 1 } if number < league.tours.size
   end
 
   def prev_round
-    return if number <= 1
-
-    league.tours.find_by(number: number - 1)
+    @prev_round ||= league.tours.find { |t| t.number == number - 1 } if number > 1
   end
 
   def ordered_lineups

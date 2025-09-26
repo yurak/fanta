@@ -3,13 +3,19 @@ class TournamentMatchesController < ApplicationController
 
   helper_method :tournament_match
 
-  def edit; end
+  def edit
+    redirect_to leagues_path unless can? :edit, TournamentMatch
+  end
 
   def update
-    if (can? :update, TournamentMatch) && tournament_match.update(tournament_match_params)
-      redirect_to tournament_round_path(tournament_match.tournament_round)
+    if can? :update, TournamentMatch
+      if tournament_match.update(tournament_match_params)
+        redirect_to tournament_round_path(tournament_match.tournament_round)
+      else
+        render :edit
+      end
     else
-      render :edit
+      redirect_to leagues_path
     end
   end
 

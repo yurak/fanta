@@ -11,11 +11,11 @@ class Match < ApplicationRecord
   scope :by_league, ->(league_id) { includes(:tour).where(tours: { league_id: league_id }) }
 
   def host_lineup
-    @host_lineup ||= Lineup.where(tour: tour, team: host).last
+    @host_lineup ||= Lineup.find_by(tour: tour, team: host)
   end
 
   def guest_lineup
-    @guest_lineup ||= Lineup.where(tour: tour, team: guest).last
+    @guest_lineup ||= Lineup.find_by(tour: tour, team: guest)
   end
 
   def host_score

@@ -3,7 +3,7 @@ module Scores
     class Sofascore < BaseSource
       def call
         matches.each do |tm|
-          next if tm.base_data.empty? && tm.lineups_data.empty?
+          next if tm.base_data.blank? || tm.lineups_data.blank?
 
           inject_match_scores(tm)
         end
