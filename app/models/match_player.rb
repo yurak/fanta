@@ -69,21 +69,28 @@ class MatchPlayer < ApplicationRecord
   end
 
   def subs_option_exist?
-    subs_options.any?
+    subs_options.exists?
   end
 
   def subs_options
-    return [] unless score.zero? && (club_played_match? || another_tournament?) && tour.locked_or_postponed?
+    return MatchPlayer.none unless eligible_for_subs?
 
-    bench_players = lineup.match_players.subs_bench.with_score
-    return [] unless bench_players && available_positions
-
-    bench_players.select do |x|
-      (x.position_names & available_positions).present?
-    end
+    lineup.match_players
+          .subs_bench
+          .with_score
+          .joins(round_player: { player: :positions })
+          .where(positions: { name: available_positions })
+          .distinct
   end
 
   private
+
+  def eligible_for_subs?
+    score.zero? &&
+      (club_played_match? || another_tournament?) &&
+      lineup.tour.locked_or_postponed? &&
+      available_positions.present?
+  end
 
   def recount_cleansheet
     if d_at_w? || d_at_c?

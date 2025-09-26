@@ -274,6 +274,8 @@ ua:
   links:
     title: "Корисні Посилання"
     subtitle: ""
+  match:
+    title: "Матч"
   matches:
     game_center: "Матч центр"
     start_soon: "Матч невдовзі розпочнеться"
@@ -408,6 +410,7 @@ ua:
     auto_subs_preview: "Переглянути можливі заміни"
     close: "Закрити всі тури"
     confirm: "Підтвердити автозакриття"
+    edit_match: "Редагувати"
     generate_preview: "Згенерувати превю АЗ"
     inject_scores: "Затягнути оцінки"
     moderated: "Буде автоматично закрито після:"

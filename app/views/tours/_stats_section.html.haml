@@ -11,23 +11,7 @@
           = image_tag('icons/arrow_up.svg')
         .round-table-hide.round-table-hidden
           = image_tag('icons/arrow_down.svg')
-      .round-list.round-table-block
-        - @tournament_players.each_with_index do |r_player, i|
-          .round-table-item.round-player-stats-item
-            .center= position_number(i + 1)
-            .round-player-stats-data
-              .round-player-stats-img
-                .round-player-show-face
-                  %object{data: r_player.player.avatar_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                    = image_tag('avatar.png')
-                .round-player-show-kit
-                  %object{data: tour.national? ? r_player.player.national_kit_path : r_player.player.kit_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                    = image_tag('kit_small_default.png')
-              .round-player-stats-name= r_player.player.name
-            .round-player-stats-team
-              - if r_player.teams.where(league: tour.league).first
-                = image_tag(r_player.teams.where(league: tour.league).first.logo_path)
-            .round-player-stats-score= r_player.result_score
+      #tournament_players ...
   - if tour.mantra?
     - if tour.deadlined?
       .round-table
@@ -42,23 +26,7 @@
             = image_tag('icons/arrow_up.svg')
           .round-table-hide.round-table-hidden
             = image_tag('icons/arrow_down.svg')
-        .round-list.round-table-block
-          - @league_players.each_with_index do |r_player, i|
-            .round-table-item.round-player-stats-item
-              .center= position_number(i + 1)
-              .round-player-stats-data
-                .round-player-stats-img
-                  .round-player-show-face
-                    %object{data: r_player.player.avatar_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                      = image_tag('avatar.png')
-                  .round-player-show-kit
-                    %object{data: tour.national? ? r_player.player.national_kit_path : r_player.player.kit_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                      = image_tag('kit_small_default.png')
-                .round-player-stats-name= r_player.player.name
-              .round-player-stats-team
-                - if r_player.teams.where(league: tour.league).first
-                  = image_tag(r_player.teams.where(league: tour.league).first.logo_path)
-              .round-player-stats-score= r_player.result_score
+        #league_players ...
     .round-table
       .round-table-title-header
         .round-table-title
@@ -71,7 +39,7 @@
         .round-table-hide.round-table-hidden
           = image_tag('icons/arrow_down.svg')
       .round-list.round-table-block
-        - tour.league.results.ordered.each_with_index do |result, i|
+        - @results_ordered.each_with_index do |result, i|
           .round-table-item
             .round-table-index= i + 1
             = link_to team_path(result.team) do
@@ -90,7 +58,7 @@
         .round-table-hide.round-table-hidden
           = image_tag('icons/arrow_down.svg')
       .round-list.round-tournament-block
-        - tour.tournament_round.tournament_matches.each do |t_match|
+        - @matches.each do |t_match|
           .round-tournament-match
             .round-tournament-match-cell.round-tournament-match-club
               .round-tournament-club-name
@@ -147,7 +115,7 @@
         .round-table-hide.round-table-hidden
           = image_tag('icons/arrow_down.svg')
       .round-list.round-table-block
-        - tour.league.results.ordered_by_score.limit(5).each_with_index do |result, i|
+        - @results_by_score.each_with_index do |result, i|
           .round-table-item
             .round-table-index= i + 1
             .round-table-item-team
@@ -166,7 +134,7 @@
         .round-table-hide.round-table-hidden
           = image_tag('icons/arrow_down.svg')
       .round-list.round-table-block
-        - tour.league.results.ordered.limit(5).each_with_index do |result, i|
+        - @results_ordered.limit(5).each_with_index do |result, i|
           .round-table-item
             .round-table-index= i + 1
             .round-table-item-team
@@ -193,3 +161,23 @@
       }
     });
   });
+  document.addEventListener("DOMContentLoaded", () => {
+    const tourId = #{ tour.id };
+
+    fetch(`/tours/${tourId}/tournament_players`, {
+      headers: { 'Accept': 'text/html' }
+    })
+      .then(response => response.text())
+      .then(html => {
+        document.getElementById("tournament_players").innerHTML = html;
+      });
+
+    fetch(`/tours/${tourId}/tournament_players`, {
+      headers: { 'Accept': 'text/html' }
+    })
+      .then(response => response.text())
+      .then(html => {
+        document.getElementById("league_players").innerHTML = html;
+      });
+  });
+

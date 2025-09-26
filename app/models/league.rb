@@ -50,11 +50,30 @@ class League < ApplicationRecord
   end
 
   def active_tour
-    tours&.active&.first || tours.inactive&.first
+    @active_tour ||= tours
+                     .order(Arel.sql("CASE
+                         WHEN status IN (#{Tour.statuses[:set_lineup]}, #{Tour.statuses[:locked]}) THEN 0
+                         WHEN status = #{Tour.statuses[:inactive]} THEN 1
+                         ELSE 2
+                       END"))
+                     .first
   end
 
   def active_tour_or_last
-    active_tour || tours.last
+    @active_tour_or_last ||= tours
+                             .order(Arel.sql(<<~SQL.squish))
+                               CASE
+                                 WHEN status IN (#{Tour.statuses[:set_lineup]}, #{Tour.statuses[:locked]}) THEN 0
+                                 WHEN status = #{Tour.statuses[:inactive]} THEN 1
+                                 WHEN status = #{Tour.statuses[:closed]} THEN 2
+                                 ELSE 3
+                               END,
+                               CASE
+                                 WHEN status = #{Tour.statuses[:closed]} THEN -id
+                                 ELSE id
+                               END
+                             SQL
+                             .first
   end
 
   def leader

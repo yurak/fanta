@@ -108,6 +108,21 @@ class Tour < ApplicationRecord
   end
 
   def subs_missed?
-    match_players.main.without_score.any?(&:subs_option_exist?)
+    match_players_with_preloads.any?(&:subs_option_exist?)
+  end
+
+  private
+
+  def match_players_with_preloads
+    @match_players_with_preloads ||= match_players
+                                     .main
+                                     .without_score
+                                     .includes(
+                                       lineup: :tour,
+                                       round_player: [
+                                         :tournament_round,
+                                         { player: :positions }
+                                       ]
+                                     )
   end
 end

@@ -258,6 +258,8 @@ en:
   links:
     title: "Useful Links"
     subtitle: ""
+  match:
+    title: "Match"
   matches:
     game_center: "Game center"
     start_soon: "Match will start soon"
@@ -385,6 +387,7 @@ en:
     auto_subs_preview: "AutoSubs view"
     close: "Close all tours"
     confirm: "Confirm auto-close"
+    edit_match: "Edit match"
     generate_preview: "Gen AutoSubs view"
     inject_scores: "Inject scores"
     moderated: "Will be auto-closed after:"

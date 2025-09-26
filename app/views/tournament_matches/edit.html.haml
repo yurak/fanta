@@ -1,0 +1,71 @@
+.page-block
+  .web-header= render 'layouts/left_nav', league: nil
+  .mob-header= render 'layouts/mob_header', league: nil, title: t('match.title')
+  .page-info.round-manage-page
+    .round-title-bar.back-links
+      .back-link
+        = link_to tournament_round_path(tournament_match.tournament_round) do
+          .back-link-arrow
+            = image_tag('icons/arrow_left.svg')
+          .back-link-text
+            = "#{tournament_match.tournament_round.tournament.name} ##{tournament_match.tournament_round.number}"
+
+    .edit-round-form
+      = form_for tournament_match, url: tournament_match_path(tournament_match), method: :put do |f|
+        .edit-round-item
+          .edit-round-label
+            = tournament_match.host_club.name
+          .edit-round-field.edit-round-field-short
+            = f.number_field :host_score, class: "form-control"
+
+        .edit-round-item
+          .edit-round-label
+            = tournament_match.guest_club.name
+          .edit-round-field.edit-round-field-short
+            = f.number_field :guest_score, class: "form-control"
+
+        .edit-round-item
+          .edit-round-label
+            = f.label :source_match_id, "Source Match ID"
+          .edit-round-field.edit-round-field-short
+            = f.text_field :source_match_id, class: "form-control"
+
+        .edit-round-item
+          .edit-round-label
+            = f.label :time, "Time"
+          .edit-round-field.edit-round-field-short
+            = f.text_field :time, placeholder: "HH:MM", class: "form-control"
+
+        .edit-round-item
+          .edit-round-label
+            = f.label :date, "Date"
+          .edit-round-field.edit-round-field-short
+            = f.text_field :date, placeholder: "MON DD, YYYY", class: "form-control"
+
+        .edit-round-item
+          .edit-round-label
+            = f.label :round_name, "Round Name"
+          .edit-round-field.edit-round-field-short
+            = f.text_field :round_name, class: "form-control"
+
+        .edit-round-item
+          .edit-round-label
+            = f.label :page_url, "Page URL"
+          .edit-round-field
+            = f.text_field :page_url, class: "form-control"
+
+        .edit-round-item
+          .edit-round-label
+            = f.label :base_data, "Base Data"
+          .edit-round-field.edit-round-area-field
+            = f.text_area :base_data, rows: 3, class: "form-control"
+
+        .edit-round-item
+          .edit-round-label
+            = f.label :lineups_data, "Lineups Data"
+          .edit-round-field.edit-round-area-field
+            = f.text_area :lineups_data, rows: 3, class: "form-control"
+
+        .edit-round-actions
+          = f.submit "Update Match", class: 'btn btn-primary'
+

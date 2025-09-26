@@ -5,6 +5,8 @@ class TournamentRoundsController < ApplicationController
 
   def show
     redirect_to leagues_path unless can? :show, TournamentRound
+
+    @finished = tournament_round.finished?
   end
 
   def edit

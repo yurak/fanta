@@ -721,6 +721,9 @@
       "subtitle": "",
       "title": "Useful Links"
     },
+    "match": {
+      "title": "Match"
+    },
     "matches": {
       "def_bonus": "🛡️️ Defense Bonus:",
       "didnt_play": "❌ Didn't play",
@@ -918,6 +921,7 @@
       "auto_subs_preview": "AutoSubs view",
       "close": "Close all tours",
       "confirm": "Confirm auto-close",
+      "edit_match": "Edit match",
       "generate_preview": "Gen AutoSubs view",
       "inject_scores": "Inject scores",
       "moderated": "Will be auto-closed after:",
@@ -2102,6 +2106,9 @@
       "subtitle": "",
       "title": "Корисні Посилання"
     },
+    "match": {
+      "title": "Матч"
+    },
     "matches": {
       "def_bonus": "🛡️️ Бонус захисту:",
       "didnt_play": "❌ Не грав",
@@ -2246,6 +2253,7 @@
       "auto_subs_preview": "Переглянути можливі заміни",
       "close": "Закрити всі тури",
       "confirm": "Підтвердити автозакриття",
+      "edit_match": "Редагувати",
       "generate_preview": "Згенерувати превю АЗ",
       "inject_scores": "Затягнути оцінки",
       "moderated": "Буде автоматично закрито після:",
