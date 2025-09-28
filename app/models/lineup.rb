@@ -54,7 +54,7 @@ class Lineup < ApplicationRecord
   def def_average_score
     @def_average_score ||= begin
       scores = match_players.defenders.distinct.joins(:round_player).pluck('round_players.score')
-      scores.size.zero? ? 0 : scores.sum / scores.size.to_f
+      scores.empty? ? 0 : scores.sum / scores.size.to_f
     end
   end
 
