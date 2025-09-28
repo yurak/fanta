@@ -172,7 +172,7 @@
         document.getElementById("tournament_players").innerHTML = html;
       });
 
-    fetch(`/tours/${tourId}/tournament_players`, {
+    fetch(`/tours/${tourId}/league_players`, {
       headers: { 'Accept': 'text/html' }
     })
       .then(response => response.text())
