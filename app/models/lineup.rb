@@ -52,7 +52,10 @@ class Lineup < ApplicationRecord
   end
 
   def def_average_score
-    @def_average_score ||= match_players.defenders.joins(:round_player).average('round_players.score').to_f
+    @def_average_score ||= begin
+      scores = match_players.defenders.distinct.joins(:round_player).pluck('round_players.score')
+      scores.sum / scores.size.to_f
+    end
   end
 
   def goals
