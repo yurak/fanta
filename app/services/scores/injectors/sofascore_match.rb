@@ -1,9 +1,21 @@
 module Scores
   module Injectors
     class SofascoreMatch < BaseMatch
-      # EVENT_URL = 'https://www.sofascore.com/api/v1/event/'.freeze
-      STATS = '/stats/'.freeze
-      LINEUPS = '/lineups'.freeze
+      FINISHED_STATUS = 'finished'.freeze
+
+      def call
+        return if match.base_data.blank?
+        return if match.lineups_data.blank?
+        return unless match_finished?
+
+        TournamentMatch.transaction do
+          match.update(host_score: host_result, guest_score: guest_result)
+
+          update_round_players
+
+          Audit::CsvWriter.call(match, host_scores_hash.merge(guest_scores_hash))
+        end
+      end
 
       private
 
@@ -77,13 +89,9 @@ module Scores
       end
 
       def lineups_data
-        @lineups_data ||= JSON.parse(lineups_request)['data']
+        @lineups_data ||= JSON.parse(match.lineups_data)
       rescue
         @lineups_data = {}
-      end
-
-      def lineups_request
-        RestClient.get(event_url + LINEUPS)
       end
 
       def host_result
@@ -95,7 +103,7 @@ module Scores
       end
 
       def match_finished?
-        event_status == 'finished' && player_stats?
+        event_status == FINISHED_STATUS && player_stats?
       end
 
       def player_stats?
@@ -109,21 +117,9 @@ module Scores
       end
 
       def event_data
-        @event_data ||= JSON.parse(event_request)['data']['event']
+        @event_data ||= JSON.parse(match.base_data)['event']
       rescue
         @event_data = {}
-      end
-
-      def event_request
-        RestClient.get(event_url)
-      end
-
-      def event_url
-        @event_url ||= "#{resource_url}#{STATS}#{match.source_match_id}"
-      end
-
-      def resource_url
-        Configuration.sofa_server_url
       end
     end
   end

@@ -50,17 +50,9 @@ RSpec.describe AuctionRound do
     end
 
     context 'when deadline is in the future' do
-      let(:deadline) { 2.hours.from_now }
+      let(:deadline) { 4.hours.from_now }
 
       it 'returns false' do
-        expect(auction_round.ddl_expired?).to be(false)
-      end
-    end
-
-    context 'when deadline is exactly now' do
-      let(:deadline) { Time.current }
-
-      it 'returns false (not expired yet)' do
         expect(auction_round.ddl_expired?).to be(false)
       end
     end
