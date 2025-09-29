@@ -3,6 +3,8 @@ module Scores
     class BaseMatch < ApplicationService
       attr_reader :match
 
+      DEFAULT_SCORE = 6
+
       def initialize(match)
         @match = match
       end
@@ -53,7 +55,7 @@ module Scores
       end
 
       def rating(player_data)
-        return 6 if (player_data[:rating].nil? || player_data[:rating].zero?) && player_data[:played_minutes]&.positive?
+        return DEFAULT_SCORE if (player_data[:rating].nil? || player_data[:rating].zero?) && player_data[:played_minutes]&.positive?
 
         player_data[:rating].to_f.round(1)
       end

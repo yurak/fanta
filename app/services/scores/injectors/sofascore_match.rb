@@ -1,6 +1,7 @@
 module Scores
   module Injectors
     class SofascoreMatch < BaseMatch
+      DEFAULT_SCORE = 6.5
       FINISHED_STATUS = 'finished'.freeze
 
       def call
