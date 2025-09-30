@@ -161,25 +161,43 @@
       }
     });
   });
+
   document.addEventListener("DOMContentLoaded", () => {
+    if (window.playersLoaded) return;
+    window.playersLoaded = true;
+
     const tourId = #{ tour.id };
 
-    fetch(`/tours/${tourId}/tournament_players`, {
-      headers: { 'Accept': 'text/html' },
-      cache: 'no-store'
-    })
-      .then(response => response.text())
-      .then(html => {
-        document.getElementById("tournament_players").innerHTML = html;
-      });
-
-    fetch(`/tours/${tourId}/league_players`, {
-      headers: { 'Accept': 'text/html' },
-      cache: 'no-store'
-    })
-      .then(response => response.text())
-      .then(html => {
-        document.getElementById("league_players").innerHTML = html;
-      });
+    loadTournamentPlayers(tourId);
+    loadLeaguePlayers(tourId);
   });
-
+  function loadTournamentPlayers(tourId) {
+    fetch(`/tours/${tourId}/tournament_players`, {
+      headers: { "Accept": "text/html" },
+      cache: "no-store"
+    })
+      .then(r => r.text())
+      .then(html => {
+        const el = document.getElementById("tournament_players");
+        if (el) {
+          el.innerHTML = html;
+        } else {
+          console.warn("#tournament_players not found");
+        }
+      });
+  }
+  function loadLeaguePlayers(tourId) {
+    fetch(`/tours/${tourId}/league_players`, {
+      headers: { "Accept": "text/html" },
+      cache: "no-store"
+    })
+      .then(r => r.text())
+      .then(html => {
+        const el = document.getElementById("league_players");
+        if (el) {
+          el.innerHTML = html;
+        } else {
+          console.warn("#league_players not found");
+        }
+      });
+  }
