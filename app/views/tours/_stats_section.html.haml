@@ -12,7 +12,7 @@
         .round-table-hide.round-table-hidden
           = image_tag('icons/arrow_down.svg')
       .round-list#tournament_players
-        .loader Loading...
+        .loader ...
   - if tour.mantra?
     - if tour.deadlined?
       .round-table
@@ -28,7 +28,7 @@
           .round-table-hide.round-table-hidden
             = image_tag('icons/arrow_down.svg')
         .round-list#league_players
-          .loader Loading...
+          .loader ...
     .round-table
       .round-table-title-header
         .round-table-title
@@ -151,20 +151,23 @@
 
     const tourId = #{tour.id};
     const tourDeadlined = #{tour.deadlined?};
-
     if (!tourDeadlined) return;
 
     function loadPlayers(elementId, url) {
       const el = document.getElementById(elementId);
       if (!el) return;
 
-      fetch(url, { headers: { "Accept": "text/html" }, cache: "no-store" })
-        .then(resp => resp.text())
-        .then(html => {
-          el.innerHTML = html;
-          el.style.display = "block";
-        })
-        .catch(err => console.error("Fetch error for " + url, err));
+      el.innerHTML = '<div class="loader">Loading...</div>';
+
+      setTimeout(() => {
+        fetch(url, { headers: { "Accept": "text/html" }, cache: "no-store" })
+          .then(resp => resp.text())
+          .then(html => { el.innerHTML = html; })
+          .catch(err => {
+            el.innerHTML = '<div class="loader">Помилка завантаження</div>';
+            console.error(err);
+          });
+      }, 50);
     }
 
     loadPlayers("tournament_players", "/tours/" + tourId + "/tournament_players");
@@ -185,13 +188,7 @@
       }
     });
 
-    document.querySelectorAll(".round-list").forEach(el => {
-      el.style.display = "block";
-    });
-    document.querySelectorAll(".round-table-hide.round-table-visible").forEach(el => {
-      el.style.display = "block";
-    });
-    document.querySelectorAll(".round-table-hide.round-table-hidden").forEach(el => {
-      el.style.display = "none";
-    });
+    document.querySelectorAll(".round-list").forEach(el => el.style.display = "block");
+    document.querySelectorAll(".round-table-hide.round-table-visible").forEach(el => el.style.display = "block");
+    document.querySelectorAll(".round-table-hide.round-table-hidden").forEach(el => el.style.display = "none");
   });
