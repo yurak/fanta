@@ -160,16 +160,26 @@
         const el = document.getElementById(table.id);
         if (el) {
           clearInterval(interval);
-          el.style.display = "block";
-          el.innerHTML = '<div class="loader">... ...</div>';
 
-          fetch(table.url, { headers: { "Accept": "text/html" }, cache: "no-store" })
-            .then(resp => resp.text())
-            .then(html => { el.innerHTML = html; })
-            .catch(err => { el.innerHTML = '<div class="loader">Error</div>'; console.error(err); });
+          el.textContent = "";
+          el.style.display = "block";
+
+          setTimeout(() => {
+            el.innerHTML = '<div class="loader">... ...</div>';
+            fetch(table.url, { headers: { "Accept": "text/html" }, cache: "no-store" })
+              .then(r => r.text())
+              .then(html => {
+                el.textContent = "";
+                el.innerHTML = html;
+              })
+              .catch(err => {
+                el.innerHTML = '<div class="loader">Error</div>';
+                console.error(err);
+              });
+          }, 0);
         } else if (++attempts >= maxAttempts) {
           clearInterval(interval);
-          console.warn("Container not found: " + table.id);
+          console.warn('Container not found: ' + table.id);
         }
       }, 50);
     });
