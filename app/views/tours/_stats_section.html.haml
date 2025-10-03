@@ -162,49 +162,53 @@
     });
   });
 
-  document.addEventListener("DOMContentLoaded", () => {
-    if (window.playersLoaded) return;
+  document.addEventListener("DOMContentLoaded", function () {
+    if (window.playersLoaded) {
+      console.log("Players loader: already executed, skipping.");
+      return;
+    }
     window.playersLoaded = true;
 
     const tourId = #{tour.id};
     const tourDeadlined = #{tour.deadlined?};
 
-    console.log("tourId =", tourId);
-    console.log("tour.deadlined? =", tourDeadlined);
+    console.log("tourId = " + tourId);
+    console.log("tour.deadlined? = " + tourDeadlined);
 
-    if (tourDeadlined) {
-      loadPlayers(`/tours/${tourId}/tournament_players`, "tournament_players");
-      loadPlayers(`/tours/${tourId}/league_players`, "league_players");
+    if (!tourDeadlined) {
+      console.log("⏭ Skipping fetches because tour.deadlined? = false");
+      return;
     }
-  });
 
-  function loadPlayers(url, elementId) {
-    console.log(`▶ Fetching ${url}`);
-
-    fetch(url, {
-      headers: { "Accept": "text/html" },
-      cache: "no-store"
-    })
-      .then(response => {
-        console.log(`◀ Response for ${url}:`, response.status);
-        return response.text();
+    function loadSection(url, elementId) {
+      console.log("▶ Fetching " + url);
+      fetch(url, {
+        headers: { "Accept": "text/html" },
+        cache: "no-store"
       })
-      .then(html => {
-        console.log(`📄 HTML length for ${url}:`, html.length);
-        const el = document.getElementById(elementId);
-
-        if (el) {
-          console.log(`✅ Found #${elementId}, inserting HTML`);
-          try {
-            el.innerHTML = html;
-          } catch (e) {
-            console.error(`❌ Error inserting HTML into #${elementId}:`, e);
+        .then(function (response) {
+          console.log("◀ Response for " + url + " → " + response.status);
+          return response.text();
+        })
+        .then(function (html) {
+          console.log("📄 HTML length for " + url + " → " + (html ? html.length : 0));
+          var el = document.getElementById(elementId);
+          if (el) {
+            console.log("✅ Found #" + elementId + ", inserting HTML");
+            try {
+              el.innerHTML = html;
+            } catch (e) {
+              console.error("❌ Error inserting HTML into #" + elementId + ": ", e);
+            }
+          } else {
+            console.warn("⚠️ Element #" + elementId + " not found in DOM");
           }
-        } else {
-          console.warn(`⚠️ Element #${elementId} not found in DOM`);
-        }
-      })
-      .catch(err => {
-        console.error(`❌ Fetch failed for ${url}:`, err);
-      });
-  }
+        })
+        .catch(function (err) {
+          console.error("🚨 Fetch error for " + url + ": ", err);
+        });
+    }
+
+    loadSection("/tours/" + tourId + "/tournament_players", "tournament_players");
+    loadSection("/tours/" + tourId + "/league_players", "league_players");
+  });
