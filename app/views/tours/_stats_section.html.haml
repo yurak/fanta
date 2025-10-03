@@ -11,7 +11,8 @@
           = image_tag('icons/arrow_up.svg')
         .round-table-hide.round-table-hidden
           = image_tag('icons/arrow_down.svg')
-      .round-list#tournament_players ...
+      .round-list#tournament_players
+        / initial content
   - if tour.mantra?
     - if tour.deadlined?
       .round-table
@@ -26,7 +27,8 @@
             = image_tag('icons/arrow_up.svg')
           .round-table-hide.round-table-hidden
             = image_tag('icons/arrow_down.svg')
-        .round-list#league_players ...
+        .round-list#league_players
+          / initial content
     .round-table
       .round-table-title-header
         .round-table-title
@@ -160,6 +162,7 @@
         .then(resp => resp.text())
         .then(html => {
           el.innerHTML = html;
+          el.style.display = "block";
         })
         .catch(err => console.error("Fetch error for " + url, err));
     }
@@ -168,8 +171,7 @@
     loadPlayers("league_players", "/tours/" + tourId + "/league_players");
 
     $(".round-table-hide").click(function () {
-      const header = this.parentNode;
-      const table = header.parentNode;
+      const table = this.closest(".round-table");
       const list = table.querySelector(".round-list");
 
       if (this.classList.contains("round-table-visible")) {
