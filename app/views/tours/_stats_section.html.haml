@@ -11,8 +11,7 @@
           = image_tag('icons/arrow_up.svg')
         .round-table-hide.round-table-hidden
           = image_tag('icons/arrow_down.svg')
-      .round-list#tournament_players
-        .loader ...
+      #tournament_players{ data: { remote_url: tournament_players_tour_path(tour) } } ...
   - if tour.mantra?
     - if tour.deadlined?
       .round-table
@@ -27,8 +26,7 @@
             = image_tag('icons/arrow_up.svg')
           .round-table-hide.round-table-hidden
             = image_tag('icons/arrow_down.svg')
-        .round-list#league_players
-          .loader ...
+        #league_players{ data: { remote_url: league_players_tour_path(tour) } } ...
     .round-table
       .round-table-title-header
         .round-table-title
@@ -145,34 +143,31 @@
             .round-table-item-points= result.points
 
 :javascript
-  function lazyLoadPlayers(tourId, isDeadlined) {
-    if (!isDeadlined) return;
-
-    const tables = [
-      { id: "tournament_players", url: `/tours/${tourId}/tournament_players` },
-      { id: "league_players", url: `/tours/${tourId}/league_players` }
-    ];
-
-    tables.forEach(table => {
-      const el = document.getElementById(table.id);
-      if (!el) return;
-      if (el.dataset.loaded) return;
+  function initTournamentPlayers() {
+    document.querySelectorAll("[data-remote-url]").forEach(el => {
+      if (el.dataset.loaded || !el.dataset.remoteUrl) return;
       el.dataset.loaded = true;
 
-      console.log('p1');
+      const url = el.dataset.remoteUrl;
       el.textContent = "";
       el.style.display = "block";
-      el.offsetHeight;
+
       el.innerHTML = '<div class="loader">... ...</div>';
 
-      console.log('p2');
-      requestAnimationFrame(() => {
-        console.log('p3');
-        fetch(table.url, { headers: { "Accept": "text/html" }, cache: "no-store" })
+      if (typeof Rails !== "undefined" && Rails.ajax) {
+        Rails.ajax({
+          url: url,
+          type: "GET",
+          dataType: "html",
+          success: (html) => { el.innerHTML = html; },
+          error: () => { el.innerHTML = '<div class="loader">Error loading</div>'; }
+        });
+      } else {
+        fetch(url, { headers: { "Accept": "text/html" }, cache: "no-store" })
           .then(r => r.text())
-          .then(html => { console.log('p4'); el.innerHTML = html; })
-          .catch(err => { el.innerHTML = '<div class="loader">Error</div>'; console.error(err); });
-      });
+          .then(html => { el.innerHTML = html; })
+          .catch(() => { el.innerHTML = '<div class="loader">Error loading</div>'; });
+      }
     });
 
     $(".round-table-hide").click(function () {
@@ -195,4 +190,5 @@
     document.querySelectorAll(".round-table-hide.round-table-hidden").forEach(el => el.style.display = "none");
   }
 
-  lazyLoadPlayers(#{tour.id}, #{tour.deadlined?});
+  document.addEventListener("DOMContentLoaded", initTournamentPlayers);
+  document.addEventListener("turbolinks:load", initTournamentPlayers);
