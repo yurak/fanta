@@ -166,38 +166,45 @@
     if (window.playersLoaded) return;
     window.playersLoaded = true;
 
-    const tourId = #{ tour.id };
+    const tourId = #{tour.id};
+    const tourDeadlined = #{tour.deadlined?};
 
-    loadTournamentPlayers(tourId);
-    loadLeaguePlayers(tourId);
+    console.log("tourId =", tourId);
+    console.log("tour.deadlined? =", tourDeadlined);
+
+    if (tourDeadlined) {
+      loadPlayers(`/tours/${tourId}/tournament_players`, "tournament_players");
+      loadPlayers(`/tours/${tourId}/league_players`, "league_players");
+    }
   });
-  function loadTournamentPlayers(tourId) {
-    fetch(`/tours/${tourId}/tournament_players`, {
+
+  function loadPlayers(url, elementId) {
+    console.log(`▶ Fetching ${url}`);
+
+    fetch(url, {
       headers: { "Accept": "text/html" },
       cache: "no-store"
     })
-      .then(r => r.text())
+      .then(response => {
+        console.log(`◀ Response for ${url}:`, response.status);
+        return response.text();
+      })
       .then(html => {
-        const el = document.getElementById("tournament_players");
+        console.log(`📄 HTML length for ${url}:`, html.length);
+        const el = document.getElementById(elementId);
+
         if (el) {
-          el.innerHTML = html;
+          console.log(`✅ Found #${elementId}, inserting HTML`);
+          try {
+            el.innerHTML = html;
+          } catch (e) {
+            console.error(`❌ Error inserting HTML into #${elementId}:`, e);
+          }
         } else {
-          console.warn("#tournament_players not found");
+          console.warn(`⚠️ Element #${elementId} not found in DOM`);
         }
-      });
-  }
-  function loadLeaguePlayers(tourId) {
-    fetch(`/tours/${tourId}/league_players`, {
-      headers: { "Accept": "text/html" },
-      cache: "no-store"
-    })
-      .then(r => r.text())
-      .then(html => {
-        const el = document.getElementById("league_players");
-        if (el) {
-          el.innerHTML = html;
-        } else {
-          console.warn("#league_players not found");
-        }
+      })
+      .catch(err => {
+        console.error(`❌ Fetch failed for ${url}:`, err);
       });
   }

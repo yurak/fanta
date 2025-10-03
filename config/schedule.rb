@@ -45,6 +45,6 @@ every 10.minutes do
 end
 
 # Open auction dropping phase
-every '15 * * * *' do
+every '15,45 * * * *' do
   rake 'auctions:start_sales'
 end
