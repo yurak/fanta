@@ -154,23 +154,24 @@
     ];
 
     tables.forEach(table => {
-      const el = document.getElementById(table.id);
-      if (!el) return;
-      el.innerHTML = '<div class="loader">... ...</div>';
+      let attempts = 0;
+      const maxAttempts = 50;
+      const interval = setInterval(() => {
+        const el = document.getElementById(table.id);
+        if (el) {
+          clearInterval(interval);
+          el.style.display = "block";
+          el.innerHTML = '<div class="loader">... ...</div>';
 
-      const observer = new IntersectionObserver((entries, obs) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            fetch(table.url, { headers: { "Accept": "text/html" }, cache: "no-store" })
-              .then(resp => resp.text())
-              .then(html => { el.innerHTML = html; })
-              .catch(err => { el.innerHTML = '<div class="loader">Error</div>'; console.error(err); });
-            obs.disconnect();
-          }
-        });
-      }, { threshold: 0 });
-
-      observer.observe(el);
+          fetch(table.url, { headers: { "Accept": "text/html" }, cache: "no-store" })
+            .then(resp => resp.text())
+            .then(html => { el.innerHTML = html; })
+            .catch(err => { el.innerHTML = '<div class="loader">Error</div>'; console.error(err); });
+        } else if (++attempts >= maxAttempts) {
+          clearInterval(interval);
+          console.warn("Container not found: " + table.id);
+        }
+      }, 50);
     });
 
     $(".round-table-hide").click(function () {
