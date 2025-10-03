@@ -155,27 +155,23 @@
 
     tables.forEach(table => {
       const el = document.getElementById(table.id);
-      if (el) {
-        insertHTML(el, table.url);
-      } else {
-        const observer = new MutationObserver((mutations, obs) => {
-          const target = document.getElementById(table.id);
-          if (target) {
-            insertHTML(target, table.url);
+      if (!el) return;
+      el.innerHTML = '<div class="loader">... ...</div>';
+
+      const observer = new IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            fetch(table.url, { headers: { "Accept": "text/html" }, cache: "no-store" })
+              .then(resp => resp.text())
+              .then(html => { el.innerHTML = html; })
+              .catch(err => { el.innerHTML = '<div class="loader">Error</div>'; console.error(err); });
             obs.disconnect();
           }
         });
-        observer.observe(document.body, { childList: true, subtree: true });
-      }
-    });
+      }, { threshold: 0 });
 
-    function insertHTML(el, url) {
-      el.innerHTML = '<div class="loader">... ...</div>';
-      fetch(url, { headers: { "Accept": "text/html" }, cache: "no-store" })
-        .then(resp => resp.text())
-        .then(html => { el.innerHTML = html; })
-        .catch(err => { el.innerHTML = '<div class="loader">Error</div>'; console.error(err); });
-    }
+      observer.observe(el);
+    });
 
     $(".round-table-hide").click(function () {
       const table = this.closest(".round-table");
