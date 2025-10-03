@@ -145,34 +145,26 @@
             .round-table-item-points= result.points
 
 :javascript
-  document.addEventListener("DOMContentLoaded", function () {
-    if (window.playersLoaded) return;
-    window.playersLoaded = true;
-
+  function initPlayersLoader() {
     const tourId = #{tour.id};
     const tourDeadlined = #{tour.deadlined?};
     if (!tourDeadlined) return;
 
-    const loadedTables = {};
+    const tables = ["tournament_players", "league_players"];
+    tables.forEach(id => {
+      const el = document.getElementById(id);
+      if (!el) return;
 
-    function loadPlayers(elementId, url) {
-      const el = document.getElementById(elementId);
-      if (!el || loadedTables[elementId]) return;
-
-      loadedTables[elementId] = true;
-
+      el.style.display = "block";
       el.innerHTML = '<div class="loader">... ...</div>';
 
-      requestAnimationFrame(() => {
-        fetch(url, { headers: { "Accept": "text/html" }, cache: "no-store" })
+      setTimeout(() => {
+        fetch(`/tours/${tourId}/${id}`, { headers: { "Accept": "text/html" }, cache: "no-store" })
           .then(resp => resp.text())
           .then(html => { el.innerHTML = html; })
-          .catch(err => { el.innerHTML = '<div class="loader">Loading error</div>'; console.error(err); });
-      });
-    }
-
-    loadPlayers("tournament_players", "/tours/" + tourId + "/tournament_players");
-    loadPlayers("league_players", "/tours/" + tourId + "/league_players");
+          .catch(err => { el.innerHTML = '<div class="loader">Error</div>'; console.error(err); });
+      }, 50);
+    });
 
     $(".round-table-hide").click(function () {
       const table = this.closest(".round-table");
@@ -188,8 +180,10 @@
         table.querySelector(".round-table-visible").style.display = "block";
       }
     });
+  }
 
-    document.querySelectorAll(".round-list").forEach(el => el.style.display = "block");
-    document.querySelectorAll(".round-table-hide.round-table-visible").forEach(el => el.style.display = "block");
-    document.querySelectorAll(".round-table-hide.round-table-hidden").forEach(el => el.style.display = "none");
-  });
+  if (document.documentElement.hasAttribute("data-turbolinks")) {
+    document.addEventListener("turbolinks:load", initPlayersLoader);
+  } else {
+    document.addEventListener("DOMContentLoaded", initPlayersLoader);
+  }
