@@ -153,21 +153,22 @@
     const tourDeadlined = #{tour.deadlined?};
     if (!tourDeadlined) return;
 
+    const loadedTables = {};
+
     function loadPlayers(elementId, url) {
       const el = document.getElementById(elementId);
-      if (!el) return;
+      if (!el || loadedTables[elementId]) return;
 
-      el.innerHTML = '<div class="loader">Loading...</div>';
+      loadedTables[elementId] = true;
 
-      setTimeout(() => {
+      el.innerHTML = '<div class="loader">... ...</div>';
+
+      requestAnimationFrame(() => {
         fetch(url, { headers: { "Accept": "text/html" }, cache: "no-store" })
           .then(resp => resp.text())
           .then(html => { el.innerHTML = html; })
-          .catch(err => {
-            el.innerHTML = '<div class="loader">Помилка завантаження</div>';
-            console.error(err);
-          });
-      }, 50);
+          .catch(err => { el.innerHTML = '<div class="loader">Loading error</div>'; console.error(err); });
+      });
     }
 
     loadPlayers("tournament_players", "/tours/" + tourId + "/tournament_players");
