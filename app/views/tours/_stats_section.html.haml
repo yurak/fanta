@@ -154,34 +154,25 @@
     ];
 
     tables.forEach(table => {
-      let attempts = 0;
-      const maxAttempts = 50;
-      const interval = setInterval(() => {
-        const el = document.getElementById(table.id);
-        if (el) {
-          clearInterval(interval);
+      const el = document.getElementById(table.id);
+      if (!el) return;
+      if (el.dataset.loaded) return;
+      el.dataset.loaded = true;
 
-          el.textContent = "";
-          el.style.display = "block";
+      console.log('p1');
+      el.textContent = "";
+      el.style.display = "block";
+      el.offsetHeight;
+      el.innerHTML = '<div class="loader">... ...</div>';
 
-          setTimeout(() => {
-            el.innerHTML = '<div class="loader">... ...</div>';
-            fetch(table.url, { headers: { "Accept": "text/html" }, cache: "no-store" })
-              .then(r => r.text())
-              .then(html => {
-                el.textContent = "";
-                el.innerHTML = html;
-              })
-              .catch(err => {
-                el.innerHTML = '<div class="loader">Error</div>';
-                console.error(err);
-              });
-          }, 0);
-        } else if (++attempts >= maxAttempts) {
-          clearInterval(interval);
-          console.warn('Container not found: ' + table.id);
-        }
-      }, 50);
+      console.log('p2');
+      requestAnimationFrame(() => {
+        console.log('p3');
+        fetch(table.url, { headers: { "Accept": "text/html" }, cache: "no-store" })
+          .then(r => r.text())
+          .then(html => { console.log('p4'); el.innerHTML = html; })
+          .catch(err => { el.innerHTML = '<div class="loader">Error</div>'; console.error(err); });
+      });
     });
 
     $(".round-table-hide").click(function () {
