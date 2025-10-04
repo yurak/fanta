@@ -50,7 +50,7 @@ class MatchPlayer < ApplicationRecord
 
     total = result_score
 
-    total -= recount_cleansheet if cleansheet
+    total -= recount_cleansheet if cleansheet && real_position
     total -= position_malus if position_malus
 
     total
