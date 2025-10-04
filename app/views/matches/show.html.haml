@@ -13,28 +13,24 @@
             = "#{t('tours.round')} ##{match.tour.number}"
       .match-round-link-blank
       .round-prev-next
-        - if match.tour.number > 1 && match.tour.prev_round && match.tour.prev_round.matches.count.positive?
+        - if @prev_tour_match
           .round-prev
-            = link_to match_path(match.tour.prev_round.matches.first) do
-              .round-prev-arrow
-                = image_tag('icons/arrow_blue.svg')
+            = link_to match_path(@prev_tour_match) do
+              .round-prev-arrow= image_tag('icons/arrow_blue.svg')
               .round-prev-text= t('tours.prev')
         - else
           .round-prev.round-prev-next-disabled
-            .round-prev-arrow
-              = image_tag('icons/arrow_grey.svg')
+            .round-prev-arrow= image_tag('icons/arrow_grey.svg')
             .round-prev-text= t('tours.prev')
-        - if match.tour.number < match.tour.league.tours.size && match.tour.next_round && match.tour.next_round.matches.count.positive?
+        - if @next_tour_match
           .round-next
-            = link_to match_path(match.tour.next_round.matches.first) do
+            = link_to match_path(@next_tour_match) do
               .round-next-text= t('tours.next')
-              .round-next-arrow
-                = image_tag('icons/arrow_blue.svg')
+              .round-next-arrow= image_tag('icons/arrow_blue.svg')
         - else
           .round-next.round-prev-next-disabled
             .round-next-text= t('tours.next')
-            .round-next-arrow
-              = image_tag('icons/arrow_grey.svg')
+            .round-next-arrow= image_tag('icons/arrow_grey.svg')
       -# - if current_user&.admin? && match.tour.locked_or_postponed?
       -#   .round-action-link
       -#     = link_to 'Autobot', match_autobot_path(match), method: :post, class: 'btn'
