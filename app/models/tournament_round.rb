@@ -79,4 +79,10 @@ class TournamentRound < ApplicationRecord
   def best_bench
     lineups.max_by(&:average_bench)
   end
+
+  private
+
+  def matches_finished?(matches)
+    matches.exists? && !matches.exists?(host_score: nil)
+  end
 end
