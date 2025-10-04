@@ -50,16 +50,12 @@ class RoundPlayer < ApplicationRecord
 
   def result_score
     return 0 unless score.positive?
-    return final_score unless final_score.zero?
 
-    bonuses - maluses
+    final_score.positive? ? final_score : bonuses - maluses
   end
 
   def club_played_match?
-    TournamentMatch.by_club_and_t_round(club_id || player.club.id, tournament_round.id).first&.host_score.present? ||
-      NationalMatch.by_team(national_team&.id).by_t_round(tournament_round.id).first&.host_score.present? ||
-      (TournamentMatch.by_club_and_t_round(club_id || player.club.id, tournament_round.id).empty? &&
-        tournament_round.tournament_matches.any?)
+    tournament_played? || national_played? || tournament_matches_empty_but_exist?
   end
 
   def another_tournament?
@@ -79,6 +75,35 @@ class RoundPlayer < ApplicationRecord
   end
 
   private
+
+  def tournament_played?
+    tournament_matches_for_club.any? { |m| m.host_score.present? }
+  end
+
+  def national_played?
+    return false unless national_team
+
+    NationalMatch.by_team(national_team.id)
+                 .by_t_round(t_round_id)
+                 .where.not(host_score: nil)
+                 .exists?
+  end
+
+  def tournament_matches_empty_but_exist?
+    tournament_matches_for_club.empty? && tournament_round.tournament_matches.exists?
+  end
+
+  def tournament_matches_for_club
+    @tournament_matches_for_club ||= TournamentMatch.by_club_and_t_round(club_id_to_check, t_round_id).to_a
+  end
+
+  def club_id_to_check
+    club_id || player.club.id
+  end
+
+  def t_round_id
+    tournament_round.id
+  end
 
   def bonuses
     total = score

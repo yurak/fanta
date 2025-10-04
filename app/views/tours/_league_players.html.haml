@@ -1,0 +1,17 @@
+.round-list.round-table-block
+  - @league_players.each_with_index do |r_player, i|
+    .round-table-item.round-player-stats-item
+      .center= i + 1
+      .round-player-stats-data
+        .round-player-stats-img
+          .round-player-show-face
+            %object{data: r_player.player.avatar_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
+              = image_tag('avatar.png')
+          .round-player-show-kit
+            %object{data: tour.national? ? r_player.player.national_kit_path : r_player.player.kit_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
+              = image_tag('kit_small_default.png')
+        .round-player-stats-name= r_player.player.name
+      .round-player-stats-team
+        - if (team = @teams_by_player[r_player.id])
+          = image_tag(team.logo_path)
+      .round-player-stats-score= r_player.total_score

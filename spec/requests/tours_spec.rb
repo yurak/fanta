@@ -20,8 +20,9 @@ RSpec.describe 'Tours' do
       it { expect(response).to be_successful }
       it { expect(response).to render_template(:show) }
       it { expect(response).to have_http_status(:ok) }
-      it { expect(assigns(:tournament_players)).not_to be_nil }
-      it { expect(assigns(:league_players)).not_to be_nil }
+      it { expect(assigns(:results_ordered)).not_to be_nil }
+      it { expect(assigns(:results_by_score)).not_to be_nil }
+      it { expect(assigns(:matches)).not_to be_nil }
     end
 
     context 'with invalid tour id' do
@@ -33,8 +34,83 @@ RSpec.describe 'Tours' do
       it { expect(response).not_to be_successful }
       it { expect(response).to redirect_to(leagues_path) }
       it { expect(response).to have_http_status(:found) }
+      it { expect(assigns(:results_ordered)).to be_nil }
+      it { expect(assigns(:results_by_score)).to be_nil }
+      it { expect(assigns(:matches)).to be_nil }
+    end
+  end
+
+  describe 'GET #tournament_players' do
+    context 'when user is logged out' do
+      before do
+        get tournament_players_tour_path(tour)
+      end
+
+      it { expect(response).to redirect_to('/users/sign_in') }
+      it { expect(response).to have_http_status(:found) }
+    end
+
+    context 'with valid tour' do
+      login_user
+      before do
+        get tournament_players_tour_path(tour)
+      end
+
+      it { expect(response).to be_successful }
+      it { expect(response).to render_template('tours/_tournament_players') }
+      it { expect(response).to have_http_status(:ok) }
+      it { expect(assigns(:tournament_players)).not_to be_nil }
+      it { expect(assigns(:teams_by_player)).not_to be_nil }
+    end
+
+    context 'with invalid tour id' do
+      login_user
+      before do
+        get tournament_players_tour_path('tour_random_id')
+      end
+
+      it { expect(response).not_to be_successful }
+      it { expect(response).to redirect_to(leagues_path) }
+      it { expect(response).to have_http_status(:found) }
       it { expect(assigns(:tournament_players)).to be_nil }
+      it { expect(assigns(:teams_by_player)).to be_nil }
+    end
+  end
+
+  describe 'GET #league_players' do
+    context 'when user is logged out' do
+      before do
+        get league_players_tour_path(tour)
+      end
+
+      it { expect(response).to redirect_to('/users/sign_in') }
+      it { expect(response).to have_http_status(:found) }
+    end
+
+    context 'with valid tour' do
+      login_user
+      before do
+        get league_players_tour_path(tour)
+      end
+
+      it { expect(response).to be_successful }
+      it { expect(response).to render_template('tours/_league_players') }
+      it { expect(response).to have_http_status(:ok) }
+      it { expect(assigns(:league_players)).not_to be_nil }
+      it { expect(assigns(:teams_by_player)).not_to be_nil }
+    end
+
+    context 'with invalid tour id' do
+      login_user
+      before do
+        get league_players_tour_path('tour_random_id')
+      end
+
+      it { expect(response).not_to be_successful }
+      it { expect(response).to redirect_to(leagues_path) }
+      it { expect(response).to have_http_status(:found) }
       it { expect(assigns(:league_players)).to be_nil }
+      it { expect(assigns(:teams_by_player)).to be_nil }
     end
   end
 

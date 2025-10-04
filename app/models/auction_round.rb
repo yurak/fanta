@@ -21,6 +21,10 @@ class AuctionRound < ApplicationRecord
     auction_bids.find_by(team_id: team.id).present?
   end
 
+  def ddl_expired?
+    deadline.asctime.in_time_zone('EET') < Time.current.in_time_zone('EET')
+  end
+
   def members
     league.teams.select(&:vacancies?)
   end

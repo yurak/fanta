@@ -17,4 +17,8 @@ class AuctionBid < ApplicationRecord
   def editable?
     initial? || ongoing? || submitted?
   end
+
+  def lock_player_bids!
+    update!(player_bids_locked: true)
+  end
 end

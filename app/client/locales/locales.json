@@ -303,7 +303,7 @@
       "exceeded": "Budget exceeded",
       "filters": "Filters",
       "max_bid": "Maximum bid",
-      "module_no_fit": "Not applicable (Bid on at least 10 field players)",
+      "module_no_fit": "Not applicable (Bid on at least 11 field players)",
       "module_no_match": "❌ No match! Try to select players with different positions",
       "modules": "Modules",
       "select": "Select player",
@@ -340,7 +340,7 @@
       "tooltip": {
         "base_data_one": "⌛ Ongoing. Default stage where you have to make your bids.",
         "base_data_three": "🔒 Completed in advance. Just like the previous stage, only if all other players also complete in advance, the stage will automatically be 🏁️ Finished (even if there is time before the ☠️ deadline)",
-        "base_data_two": "✅︎︎ Submitted. By confirming stage, you let others know that you have placed your bets. The stage will be 🏁️ Finished in ☠️ deadline",
+        "base_data_two": "✅︎︎ Submitted. By confirming stage, you let others know that you have placed your bids. The stage will be 🏁️ Finished in ☠️ deadline",
         "base_header": "There are 3 states of the active stage:",
         "description": {
           "completed": "You need to manually set the value ⌛ Ongoing to update your bid and not complete the stage before the deadline",
@@ -721,6 +721,9 @@
       "subtitle": "",
       "title": "Useful Links"
     },
+    "match": {
+      "title": "Match"
+    },
     "matches": {
       "def_bonus": "🛡️️ Defense Bonus:",
       "didnt_play": "❌ Didn't play",
@@ -918,11 +921,13 @@
       "auto_subs_preview": "AutoSubs view",
       "close": "Close all tours",
       "confirm": "Confirm auto-close",
+      "edit_match": "Edit match",
       "generate_preview": "Gen AutoSubs view",
       "inject_scores": "Inject scores",
       "moderated": "Will be auto-closed after:",
       "open": "Open all tours",
       "postpone": "Postpone all tours",
+      "stats": "Statistics",
       "title": "Tournament Round"
     },
     "round_players": {
@@ -1084,7 +1089,7 @@
         },
         "register": {
           "chat_exist": "Ooops! Your Telegram account is already connected to another email",
-          "email_exist": "Ooops! This email address is already in use, please try another one",
+          "email_exist": "Ooops! This email address is already in use, please login to https://mantrafootball.org/ or try another one",
           "sign_up": "Sign Up",
           "success": "Please continue to register on the website",
           "text": "Please enter the email address you will use for the game"
@@ -1392,11 +1397,11 @@
             "ol3": "During one transfer window, the manager cannot re-acquire a player he sold."
           },
           "paragraph1": "A live auction is a meeting of all league managers (more often online, less often offline) who bid for players in real time and with an open bid. On average, a live auction lasts 4 hours (such an auction takes place only at the request of all league managers and the administrator's consent).",
-          "paragraph2": "Each manager in turn names a football player for whom he is ready to pay at least 1 million from his budget. After that, the other managers can (but are not required to) make their bid. Each subsequent bet must be greater than the previous one by at least one step. The rate step is determined by the current rate. If the current rate is in the range from 1 to 19 - the minimum step is 1 million, in the range of 20-29 - 2 million, in the range of 30-39 - 3 million and so on. If no one has exceeded the current bet within 10 seconds, the player is considered sold.",
+          "paragraph2": "Each manager in turn names a football player for whom he is ready to pay at least 1 million from his budget. After that, the other managers can (but are not required to) make their bid. Each subsequent bid must be greater than the previous one by at least one step. The rate step is determined by the current rate. If the current rate is in the range from 1 to 19 - the minimum step is 1 million, in the range of 20-29 - 2 million, in the range of 30-39 - 3 million and so on. If no one has exceeded the current bid within 10 seconds, the player is considered sold.",
           "paragraph3": "The blind auction is the primary format used for team building because it does not require all managers to be online or offline at a pre-arranged time.",
-          "paragraph4": "Additional auctions are provided to make changes to the composition of the teams, exclude injured players or those who lost their place in the team during the season.",
-          "paragraph5": "Additional auctions, unlike the starting one, are held according to the following principle:",
-          "paragraph6": "At the first stage of the starting auction, some football players (about 50) have their minimum bet. These minimum bids apply ONLY at the first stage of the auction and are aimed at making the team composition more balanced.",
+          "paragraph4": "Intermediate auctions are provided to make changes to the composition of the teams, exclude injured players or those who lost their place in the team during the season.",
+          "paragraph5": "Intermediate auctions, unlike the initial one, are held according to the following principle:",
+          "paragraph6": "In the first two stages of the initial auction, some football players (about 50) have their minimum bid. These minimum bids apply ONLY on the first two stages of the initial auction and are aimed at making the team composition more balanced.",
           "paragraph7": "Players will have a minimum price if they played 13+ matches last season in this league and were ranked in the top 5 players of the league in their position or had an average total score of 8.0+ last season.",
           "screen1": {
             "text": "Here you can see the course of the auction for Eden Hazard",
@@ -1423,24 +1428,31 @@
           "ul08": "Incoming transfers outside the transfer windows are not provided.",
           "ul09": "There are two types of auction: blind (default) and live.",
           "ul11": "The blind auction takes place online directly on the MantraFootball website in several stages.",
-          "ul12": "At the first stage, all managers have access to a list of all the players of the respective football championship.",
-          "ul13": "Each manager needs to select 26 players (minimum 3 of which are goalkeepers) and divide their starting budget (260 million) between them.",
-          "ul14": "The minimum bid is 1 million per selected player (except for the exceptions described below). The maximum bid is limited only by the total budget.",
+          "ul12": "In the initial auction, managers have access to a list of all players in the respective football championship, from which they must purchase 26 players (at least 3 of which are goalkeepers), using their starting budget (260 million).",
+          "ul13": "In the first stage of the auction, managers need to bid on 11 players (at least 1 of whom is a goalkeeper), allocating up to 220 million from the team's budget (another 40 million are reserved and will be available from the second stage).",
+          "ul14": "In the second and subsequent stages of the auction, managers will need to bid on X players, where X is 26 minus the number of players purchased previously.",
           "ul15": "The bid is an integer multiple of 1 (where 1 means 1 million).",
-          "ul16": "Each stage of the auction ends when all managers in the league have confirmed their bids, or at a predetermined deadline, after which the system automatically compares the bids made by all managers.",
-          "ul17": "The manager who placed the highest bid on a certain player takes him to his team, automatically reducing his budget by the amount of the bid placed on this player.",
-          "ul18": "If the manager failed to purchase the player, the amount of the bid on him is returned to the budget.",
-          "ul19": "If several managers have placed an equal bid on a certain player, and no one has exceeded this bid, such a player is considered unsold and remains available for purchase by any manager in the following stages of the auction (and the bids placed on him are returned).",
-          "ul20": "The stages of the auction are repeated until all managers have fully formed their teams of 26 players.",
-          "ul21": "Until the end of the next round of the auction, managers should not know which players other managers have selected and what bids they have placed.",
+          "ul16": "The minimum bid for a player in the first two stages of the starting auction depends on the player's performance in this championship last season - from 1 to 20 million. From the third stage of the starting auction and in the intermediate auctions, the minimum bid is 1 million for all players.",
+          "ul17": "The maximum bid per player is limited only by the team's total budget.",
+          "ul18": "The first stage of the initial auction closes on a pre-determined deadline, provided that all league managers have confirmed their bids. Subsequent stages of the starting auction are settled within 10 minutes after all managers have finally closed their bids, or after the deadline, provided that all bids have been submitted.",
+          "ul19": "The stages of the intermediate auctions are calculated in advance if there are finally closed bids from all league managers, or by the stage deadline - taking into account only confirmed bids at the time of the deadline.",
+          "ul20": "After the auction stage is complete, the system automatically compares the bids made by all managers.",
+          "ul21": "The manager who placed the highest bid on a certain player takes him to his team, automatically reducing his budget by the amount of the bid placed on this player.",
+          "ul22": "If the manager failed to purchase the player, the amount of the bid on him is returned to the budget.",
+          "ul23": "If several managers have placed an equal bid on a certain player, and no one has exceeded this bid, such a player is considered unsold and remains available for purchase by any manager in the following stages of the auction (and the bids placed on him are returned).",
+          "ul24": "The stages of the auction are repeated until all managers have fully formed their teams of 26 players.",
+          "ul25": "Until the end of the next round of the auction, managers should not know which players other managers have selected and what bids they have placed.",
+          "ul26": "After the auction ends, you can view your bid history on the relevant auction page.",
+          "ul27": "If a manager does not submit a bid by the deadline of the first stage of the initial auction, his team receives a -1 penalty point in the standings. For each subsequent 12 hours of delay in submitting a bid at the auction, the team is awarded an additional -1 penalty point. If there is no bid for more than 2 days from the deadline, the team manager may be replaced.",
           "ul31": "During the transfer window (after its announcement and before the deadline), the manager can select several players from his team to sell.",
           "ul32": "The amount that was previously paid by the manager for this player is returned to his budget, and the player himself becomes a free agent. Such a player will be available for purchase by any other league manager other than the one who sold him. The manager who sold the player will not be able to buy him until the next transfer window.",
-          "ul33": "During the season, the transfer window opens 4 times. The exact schedule can be found in the 'Auctions' menu of the league after it is created. The approximate schedule is as follows: I – the first half of September, II – the second half of November, III – the first half of February, IV – the second half of March.",
-          "ul34": "Each team receives a certain number of transfer slots per season (16 in the 2024/25 season), which can be distributed to auctions throughout the season, but there must be at least 2 slots remaining for each auction.",
-          "ul35": "A player who left the championship (due to transfer, early termination of the contract, etc.) leaves the team on his own and the amount paid for him is returned to the manager's budget.",
-          "ul36": "A player who has changed clubs within one tournament does not leave the Mantra team.",
-          "ul37": "Additional auctions are always conducted in a blind format.",
-          "ul38": "It is not possible to buy and sell players outside the transfer windows, except for one exception: if the team has only 1 goalkeeper left as a result of the transfer. In this case, another goalkeeper of the same club, whose goalkeeper remained in the squad, joins the team. After the opening of the transfer window, the manager will be able to sell this player according to the sales rules."
+          "ul33": "During the season, the transfer window opens 4 times (except for some championships where this number may be higher). The exact schedule can be found in the 'Auctions' menu of the league after it is created. The approximate schedule is as follows: I – the first half of September, II – the second half of November, III – the first half of February, IV – the second half of March.",
+          "ul34": "Each team receives a certain number of transfer slots per season (20 in the 2025/26 season), which can be distributed to auctions throughout the season, but there must be at least 2 slots remaining for each auction.",
+          "ul35": "If there are more than 4 intermediate auctions in a particular championship, or the league starts later, the number of slots will be calculated as 5 slots for each intermediate auction.",
+          "ul36": "A player who left the championship (due to transfer, early termination of the contract, etc.) leaves the team on his own and the amount paid for him is returned to the manager's budget.",
+          "ul37": "A player who has changed clubs within one tournament does not leave the Mantra team.",
+          "ul38": "Intermediate auctions are always conducted in a blind format.",
+          "ul39": "It is not possible to buy and sell players outside the transfer windows, except for one exception: if the team has only 1 goalkeeper left as a result of the transfer. In this case, another goalkeeper of the same club, whose goalkeeper remained in the squad, joins the team. After the opening of the transfer window, the manager will be able to sell this player according to the sales rules."
         },
         "basic": {
           "header1": "Why play?",
@@ -1591,22 +1603,24 @@
         "divisions": {
           "note": {
             "ol1": "If a team plays in the lowest division of the championship, it is not relegated from it even after taking a place in the relegation zone.",
-            "ol2": "The number of teams relegated to a lower division may vary if not all leagues are recruited in the lower division."
+            "ol2": "The number of teams relegated to a lower division may vary if not all leagues are recruited in the lower division.",
+            "ol3": "Teams from lower divisions may receive additional promotion spots a team from a higher division withdraws from the competition. The criteria for selecting a team to be promoted from a lower division are the following: 1) position in the standings; 2) average points scored per round; 3) average goals scored per round."
           },
-          "paragraph1": "According to the results of the competition, the champion of each league that has played a full season receives a championship trophy.",
-          "paragraph2": "At the end of the season, the teams at the top of the table (marked in green on the Division Map) are promoted to the higher divisions, and the teams at the bottom of the table (marked in red) are relegated to the lower divisions.",
-          "paragraph3": "In order to ensure fair play, the manager may be deprived of the opportunity to lead his team.",
-          "paragraph4": "The procedure for dismissing the manager from the team:",
-          "paragraph5": "Members of the league can leave an application for verification of a separate league outside the period of 7 rounds.",
+          "paragraph1": "According to the results of the competition, the champion of each league, whose participants made organizational contributions, receives a championship trophy.",
+          "paragraph2": "To win the championship title, the team manager must personally set his team's lineup for 50%+1 round in the league.",
+          "paragraph3": "At the end of the season, the teams at the top of the table (positions marked in green in the league standings) are promoted to the higher divisions, and the teams at the bottom of the table (positions marked in red) are relegated to the lower divisions.",
+          "paragraph4": "In order to ensure fair play, the manager may be deprived of the opportunity to lead his team.",
+          "paragraph5": "The procedure for dismissing the manager from the team:",
+          "paragraph6": "Members of the league can leave an application for verification of a separate league outside the period of 7 rounds.",
           "screen1": {
             "text": "Green places - promotion to a higher division, red - relegation to a lower one",
             "title": "Divisions map"
           },
           "title": "Divisions",
-          "ul01": "Every 7 rounds, the administrators check all MantraFootball leagues for teams whose managers have not fielded a line-up for 4 or more rounds.",
-          "ul02": "If such teams are found, administrators contact such a manager.",
+          "ul01": "MantraFootball users have the ability to report to game administrators managers who do not set a lineup for 4 or more rounds.",
+          "ul02": "In case of confirmation of manager inactivity, administrators contact such manager.",
           "ul03": "If the manager declares that he wants to play further, then he is given a trial period - 3 rounds.",
-          "ul04": "If this manager does not field a lineup in the future, the other managers of the league conduct a closed vote to replace the manager for that team.",
+          "ul04": "If this manager continues to fail to set a lineup, the other league managers have the right to hold a closed vote to replace the manager for this team.",
           "ul05": "If the majority vote for a replacement, the administrators look for a new manager for that team."
         },
         "fanta": {
@@ -1666,11 +1680,11 @@
         "player_score": {
           "header1": "Fotmob mobile app",
           "paragraph1": "Player score consists of several elements:",
-          "paragraph2": "A base score is an assessment of a player's performance in a specific match, which is provided by a statistical resource ",
-          "paragraph3": "The starting score of the player from FotMob is 6 points. Depending on the success on the playing field, his score may increase (to a maximum of 10 points) or decrease (to a minimum of 0 points).",
-          "paragraph4": "MantraFootball uses the final score generated by FotMob at the end of the match as the player's base score.",
-          "paragraph5": "After the end of the match, FotMob can change the basic scores both downward and upward for a certain time. The final base scores are considered to be those formed at the time of closing the round (approximately 18 hours after the final whistle of the last match of the tour).",
-          "paragraph6": "If the player started the match in the starting lineup, then, with rare exceptions, FotMob will give him a score. However, FotMob's algorithms do not evaluate players who entered the field after 80 minutes of regular time. MantraFootball automatically assigns such players a base score of 6 points.",
+          "paragraph2": "A base score is an assessment of a player's performance in a specific match, which is provided by a statistical resource, for example ",
+          "paragraph3": "The starting score of the player from FotMob is 6 points, from SofaScore is 6.5 points. Depending on the success on the playing field, his score may increase (to a maximum of 10 points) or decrease (to a minimum of 0 points).",
+          "paragraph4": "MantraFootball uses the final score generated by the score source at the end of the match as the player's base score.",
+          "paragraph5": "After the end of the match, the score source can change the basic scores both downward and upward for a certain time. The final base scores are considered to be those formed at the time of closing the round (approximately 18 hours after the final whistle of the last match of the tour).",
+          "paragraph6": "If a player has played at least 1 minute in a match but has not received a rating for that match, then MantraFootball automatically assigns such players a base score of 6 points if the rating source for that league is FotMob, or 6.5 for leagues with scores from SofaScore.",
           "paragraph7": "Bonuses and malus are described in detail in ",
           "paragraph8": "the next section",
           "paragraph9": "A player's total score in MantraFootball is based on the base score, taking into account all applicable bonuses and maluses.",
@@ -1679,6 +1693,7 @@
           "ul01": "Bonuses and malus"
         },
         "positions": {
+          "header1": "Position determination algorithm",
           "list": {
             "am": "– central attacking midfielder",
             "cb": "– central defender",
@@ -1698,6 +1713,22 @@
             "ol3": "The source for determining the 'native' positions is the historical data of the Transfermarkt resource and the subjective methodology of the MantraFootball administration.",
             "ol4": "We strongly encourage managers to submit requests for (in their opinion) discrepancies between Mantra positions and actual player positions. Such requests are considered during the break between seasons."
           },
+          "ol1": "The player's position is assessed based on the last season (provided that the player has played 15 or more matches). If their number is less, the total number for the last 2 seasons are taken into account (hereafter - the Analyzed period).",
+          "ol10": "If a player's only position is LB or RB (or both of these positions), then the additional WB position is automatically provided.",
+          "ol11": "If, in addition to the main position LB or RB, there is also an additional position CB, then clause 10 is not fulfilled.",
+          "ol12": "The main position WB can be further expanded with an additional position (outside the analyzed period) if in the last 2 seasons the player has played more than 10 matches in the CB, RB or LB positions.",
+          "ol13": "Combining the ST position with another is not allowed.",
+          "ol14": "For players whose main position during the analyzed period is ST, the last 2 seasons are additionally checked (provided that the player played more than 15 matches in both seasons). If the main position was ST in both seasons, then this position is assigned, otherwise - FW.",
+          "ol15": "A player's primary position is considered FW if, during the analyzed period, he played most of the matches in the LW/RW/AM positions, but more than 30% of the matches in total were played in the CF and SS positions.",
+          "ol16": "A player will receive an additional FW position if, during the analyzed period, he played the majority of matches in the LW/RW/AM positions, but more than 10% of matches in total (3 or more) were played in the CF and SS positions.",
+          "ol2": "Data source – statistical information from the Transfermarkt resource (hereafter - the Source).",
+          "ol3": "The correspondence of the source positions to the Mantra positions is as follows: GK – GK, RB – RB, CB – CB, LB – LB, RM|LM – WB, DM – DM, CM – CM, AM – AM, LW|RW – W, SS – FW, CF – ST.",
+          "ol4": "When a player transfers to another club, the formation of his new team does not affect the determination of his position.",
+          "ol5": "The player's main position is considered to be the one where he played the most matches in the analyzed period (p.1). Note that according to p.3, the number of matches in the positions indicated by “|“ is summed up.",
+          "ol6": "If a player has fewer than 5 matches in the main position during the Analyzed Period, then the position is assigned to this player by the Mantra administration using additional data from the Source.",
+          "ol7": "To receive an additional position, a player must play at least 30% of matches in it during the analyzed period.",
+          "ol8": "If the additional position is “lower” than the main one, then even when performing p.7, such a position is not added (relevant for pairs “WB-W”, “CM-AM”, “CV-DM”, “DM-CM”, “W-FW”, “AM-FW”, where the “lower” position is indicated first). Example: 30 matches, of which 14 CM and 16 AM -> AM; 28 matches: 15 DM, 13 CM -> DM+CM",
+          "ol9": "An additional player position can be granted only if clause 8 is fulfilled and the additional position is placed in the same or adjacent line (order of lines: Green-Blue-Purple-Red).",
           "paragraph1": "The main characteristic of each player is one or more 'native' game positions in which he can play. There are a total of 11 game positions in the Mantra fantasy football system:",
           "remark": "* - position name according to the italian naming",
           "title": "Players positions",
@@ -1732,9 +1763,10 @@
           "ul04_4": "bonuses and malus",
           "ul04_5": "and is calculated by ",
           "ul04_6": "a simple formula.",
-          "ul05_1": "To determine the basic score of a player's performance in a specific match, ",
-          "ul05_2": " statistical resource is used",
-          "ul06": "The game round completely coincides with the calendar round of the tournament and ends only after all the matches of the corresponding round of the real football championship have been played. If one or more matches have not been played in a certain round (for example, a match has been postponed to another date), the game round is not completed until such matches are played."
+          "ul05_1": "To determine the basic score of a player's performance in a specific match for most championships, ",
+          "ul05_2": " statistical resource is used.",
+          "ul06": "For the Ukrainian Championship, the source of ratings is the SofaScore statistical resource.",
+          "ul07": "The game round completely coincides with the calendar round of the tournament and ends only after all the matches of the corresponding round of the real football championship have been played. If one or more matches have not been played in a certain round (for example, a match has been postponed to another date), the game round is not completed until such matches are played."
         },
         "substitution": {
           "paragraph1": "In addition to the 11 players of the main team, the manager chooses 9 substitutes, among whom there must be at least 1 goalkeeper.",
@@ -1883,7 +1915,7 @@
       "exceeded": "Бюджет перевищено",
       "filters": "Фільтри",
       "max_bid": "Максимальна ставка",
-      "module_no_fit": "Не застосовується (зробіть ставки на щонайменше 10 польових гравців)",
+      "module_no_fit": "Не застосовується (зробіть ставки на щонайменше 11 польових гравців)",
       "module_no_match": "❌ Нема збігів! Спробуйте вибрати гравців з іншими позиціями",
       "modules": "Модулі",
       "select": "Вибрати гравця",
@@ -1909,10 +1941,10 @@
         "players": "%{players} гравців",
         "text1": "Потрібно зробити ставку на",
         "text2": "з яких принаймні",
-        "text3": "Ваш бюджет на цей етап становить",
+        "text3": "Ваш бюджет на цей етап",
         "text4": "На цьому аукціоні потрібно купити",
         "text5": "з яких принаймні",
-        "text6": "Ваш загальний бюджет становить"
+        "text6": "Ваш загальний бюджет"
       },
       "submit_bid": "Підтвердити ставку",
       "suitable_modules": "🧩 Доступні модулі",
@@ -2074,6 +2106,9 @@
       "subtitle": "",
       "title": "Корисні Посилання"
     },
+    "match": {
+      "title": "Матч"
+    },
     "matches": {
       "def_bonus": "🛡️️ Бонус захисту:",
       "didnt_play": "❌ Не грав",
@@ -2218,11 +2253,13 @@
       "auto_subs_preview": "Переглянути можливі заміни",
       "close": "Закрити всі тури",
       "confirm": "Підтвердити автозакриття",
-      "generate_preview": "Згенерувати превю автозамін",
+      "edit_match": "Редагувати",
+      "generate_preview": "Згенерувати превю АЗ",
       "inject_scores": "Затягнути оцінки",
       "moderated": "Буде автоматично закрито після:",
       "open": "Відкрити всі тури",
       "postpone": "Відкласти всі тури",
+      "stats": "Статистика",
       "title": "Раунд Турніру"
     },
     "round_players": {
@@ -2377,7 +2414,7 @@
         },
         "register": {
           "chat_exist": "Ой! Ваш обліковий запис Telegram уже підключено до іншої електронної пошти",
-          "email_exist": "Ой! Ця адреса електронної пошти вже використовується, спробуйте іншу",
+          "email_exist": "Ой! Ця адреса електронної пошти вже використовується, спробуйте залогуватися на сайті https://mantrafootball.org/ або спробуйте іншу пошту",
           "sign_up": "Зареєструватися",
           "success": "Просимо продовжити реєстрацію на сайті",
           "text": "Будь ласка, введіть адресу електронної пошти, яку ви будете використовувати для гри"
@@ -2668,9 +2705,9 @@
           "paragraph1": "Живий аукціон – це зустріч усіх менеджерів ліги (частіше онлайн, рідше – офлайн), які торгуються за гравців в режимі реального часу і з відкритою ставкою. В середньому живий аукціон триває 4 години (такий аукціон відбувається виключно при бажанні всіх менеджерів ліги та згоди адміністратора).",
           "paragraph2": "Кожен менеджер по черзі називає футболіста, за якого він готовий віддати мінімум 1 мільйон зі свого бюджету. Після цього інші менеджери можуть (але не зобов’язані) зробити свою ставку. Кожна наступна ставка повинна бути більшою за попередню мінімум на один крок. Крок ставки визначається поточною ставкою. Якщо поточна ставка знаходиться в межах від 1 до 19 - мінімальний крок 1 мільйон, в діапазоні 20-29 - 2 мільйони, в діапазоні 30-39 - 3 мільйони і так далі. Якщо протягом 10 секунд ніхто не перевищив поточну ставку, гравець вважається проданим.",
           "paragraph3": "Сліпий аукціон є основним форматом, який застосовується для формування команд, оскільки не вимагає одночасної присутності усіх менеджерів онлайн чи офлайн у заздалегідь узгоджений час.",
-          "paragraph4": "Для внесення змін до складу команд, виключення травмованих гравців або тих, які втратили місце в складі протягом сезону, передбачені додаткові аукціони.",
-          "paragraph5": "Додаткові аукціони, на відміну від стартового, проводяться за таким принципом:",
-          "paragraph6": "На першому етапі стартового аукціону частина футболістів (близько 50) має свій мінімальний розмір ставки. Дані мінімальні ставки діють ЛИШЕ на першому етапі аукціону і направлені на те, щоб склади команд були більш збалансовані.",
+          "paragraph4": "Для внесення змін до складу команд, виключення травмованих гравців або тих, які втратили місце в складі протягом сезону, передбачені проміжні аукціони.",
+          "paragraph5": "Проміжні аукціони, на відміну від стартового, проводяться за таким принципом:",
+          "paragraph6": "На перших двох етапах стартового аукціону частина футболістів (близько 50) має свій мінімальний розмір ставки. Дані мінімальні ставки діють ЛИШЕ на перших двох етапах стартового аукціону і направлені на те, щоб склади команд були більш збалансовані.",
           "paragraph7": "Гравці матимуть мінімальну ціну, якщо зіграли 13+ матчів минулого сезону в цьому чемпіонаті і при цьому потрапили у топ 5 гравців чемпіонату на своїй позиції або мали середню загальну оцінку 8.0+ за результатами минулого сезону.",
           "screen1": {
             "text": "Тут ви можете переглянути хід аукціону за Едена Азара",
@@ -2697,24 +2734,31 @@
           "ul08": "Вхідні трансфери поза трансферними вікнами не передбачені.",
           "ul09": "Існує два види аукціону: сліпий (за замовчуванням) і живий.",
           "ul11": "Сліпий аукціон проходить онлайн безпосередньо на сайті MantraFootball у декілька етапів.",
-          "ul12": "На першому етапі усім менеджерам доступний список з усіх гравців відповідного футбольного чемпіонату.",
-          "ul13": "Кожному менеджеру необхідно обрати 26 гравців (мінімум 3 з яких воротарі) та розділити між ними свій стартовий бюджет (260 мільйонів).",
-          "ul14": "Мінімальна ставка – 1 мільйон за кожного обраного гравця (крім винятків описаних нижче). Максимальна ставка обмежується лише загальним бюджетом.",
+          "ul12": "На початковому аукціоні менеджерам доступний список з усіх гравців відповідного футбольного чемпіонату, з яких необхідно придбати 26 гравців (мінімум 3 з яких воротарі), використавши свій стартовий бюджет (260 мільйонів).",
+          "ul13": "На першому етапі аукціону менеджерам необхідно зробити ставку на 11 гравців (мінімум 1 з яких воротар), розподіливши до 220 мільйонів із бюджету команди (ще 40 мільйонів зарезервовані та будуть доступні з другого етапу).",
+          "ul14": "На другому та подальших етапах аукціону менеджерам необхідно буде зробити ставку на X гравців, де X - це 26 мінус кількість гравців придбаних до цього.",
           "ul15": "Ставка є цілим числом кратним 1 (де 1 означає 1 мільйон).",
-          "ul16": "Кожний етап аукціону завершується, коли усі менеджери ліги підтвердять свої ставки, або у заздалегідь визначений дедлайн, з настанням якого система автоматично порівнює ставки, зроблені усіма менеджерами.",
-          "ul17": "Менеджер, який зробив найвищу ставку на певного гравця забирає його до своєї команди, автоматично зменшуючи свій бюджет на суму зробленої на цього гравця ставки.",
-          "ul18": "Якщо менеджеру не вдалось придбати гравця, сума ставки на нього повертається до бюджету.",
-          "ul19": "Якщо декілька менеджерів зробили рівну ставку на певного гравця, і цю ставку ніхто не перевищив, такий гравець вважається непроданим і залишається доступним для придбання будь-яким менеджером на наступних етапах аукціону (а зроблені на нього ставки повертаються).",
-          "ul20": "Етапи аукціону повторюються поки всі менеджери повністю не сформують свої команди з 26 гравців.",
-          "ul21": "До закінчення чергового етапу аукціону менеджери не повинні знати, яких гравців обрали інші менеджери та які ставки вони зробили.",
+          "ul16": "Мінімальна ставка на гравця на перших двох етапах стартового аукціону залежить від виступів гравця у цьому чемпіонаті минулого сезону - від 1 до 20 мільйонів. З третього етапу стартового аукціону та на проміжних аукціонах мінімальна ставка становить 1 мільйон для всіх гравців.",
+          "ul17": "Максимальна ставка на гравця обмежується лише загальним бюджетом команди.",
+          "ul18": "Перший етап стартового аукціону завершується у заздалегідь визначений дедлайн, за умови що усі менеджери ліги підтвердять свої ставки. Подальші етапи стартового аукціону розраховуються протягом 10 хвилин після того, як усі менеджери остаточно закриють ставки, або після дедлайну за умови, що всі ставки підтверджені.",
+          "ul19": "Етапи проміжних аукціонів розраховуються завчасно при наявності остаточно закритих ставок в усіх менеджерів ліги, або по дедлайну етапу - з врахуванням лише підтверджених ставок на момент дедлайну.",
+          "ul20": "Після завершення етапу аукціону система автоматично порівнює ставки, зроблені усіма менеджерами.",
+          "ul21": "Менеджер, який зробив найвищу ставку на певного гравця забирає його до своєї команди, автоматично зменшуючи свій бюджет на суму зробленої на цього гравця ставки.",
+          "ul22": "Якщо менеджеру не вдалось придбати гравця, сума ставки на нього повертається до бюджету.",
+          "ul23": "Якщо декілька менеджерів зробили рівну ставку на певного гравця, і цю ставку ніхто не перевищив, такий гравець вважається непроданим і залишається доступним для придбання будь-яким менеджером на наступних етапах аукціону (а зроблені на нього ставки повертаються).",
+          "ul24": "Етапи аукціону повторюються поки всі менеджери повністю не сформують свої команди з 26 гравців.",
+          "ul25": "До закінчення чергового етапу аукціону менеджери не повинні знати, яких гравців обрали інші менеджери та які ставки вони зробили.",
+          "ul26": "Після завершення аукціону історію ставок можна переглянути на відповідній сторінці аукціону.",
+          "ul27": "Якщо менеджер не робить ставку до дедлайну першого етапу стартового аукціону, то його команда отримує -1 очко штрафу у турнірній таблиці. За кожні наступні 12 годин протермінування ставки на аукціоні команді нараховується додатково по -1 очку штрафу. При відсутності ставки понад 2 доби від дедлайну, менеджер команди може бути замінений.",
           "ul31": "Під час трансферного вікна (після його оголошення і до встановленого дедлайну) менеджер може вибрати декількох гравців своєї команди для продажу.",
           "ul32": "Сума, яка була раніше сплачена менеджером за цього гравця, повертається в його бюджет, а сам гравець стає вільним агентом. Такий гравець буде доступний для придбання будь-яким іншим менеджером ліги, крім того, що його продав. Менеджер, який продав гравця, зможе придбати його не раніше наступного трансферного вікна.",
-          "ul33": "Протягом сезону трансферне вікно відкривається 4 рази. Точний графік можна знайти в меню «Аукціони» ліги після її створення. Приблизний же графік наступний: І – перша половина вересня, ІІ – друга половина листопада, ІІІ – перша половина лютого, ІV – друга половина березня.",
-          "ul34": "На сезон кожна команда отримує певну кількість трансферних слотів (16 у сезоні 2024/25), які можна розподіляти на аукціони протягом сезону, однак має залишатися мінімум 2 слоти на кожен аукціон.",
-          "ul35": "Гравець, який покинув чемпіонат (через трансфер, дострокове розірвання контракту тощо), покидає команду самостійно і сума сплачена за нього повертається до бюджету менеджера.",
-          "ul36": "Гравець, який змінив клуб в межах одного турніру, Mantra-команду не покидає.",
-          "ul37": "Додаткові аукціони завжди проводяться в сліпому форматі.",
-          "ul38": "Неможливо купувати та продавати гравців поза межами трансферних вікон крім єдиного виключення: якщо внаслідок трансферу у команди залишається тільки 1 воротар. У такому випадку, до команди долучається інший воротар тієї ж команди, воротар якої залишився в заявці. Після відкриття трансферного вікна менеджер зможе продати цього гравця згідно правил продажу."
+          "ul33": "Протягом сезону трансферне вікно відкривається 4 рази (за винятком деяких чемпіонатів, в яких цей показник може бути вищим). Точний графік можна знайти в меню «Аукціони» ліги після її створення. Приблизний же графік наступний: І – перша половина вересня, ІІ – друга половина листопада, ІІІ – перша половина лютого, ІV – друга половина березня.",
+          "ul34": "На сезон кожна команда отримує певну кількість трансферних слотів (20 у сезоні 2025/26), які можна розподіляти на аукціони протягом сезону, однак має залишатися мінімум 2 слоти на кожен аукціон.",
+          "ul35": "Якщо в певному чемпіонаті буде понад 4 проміжні аукціони, або ліга стартуватиме пізніше, то кількість слотів буде розраховуватися як 5 слотів на кожен проміжний аукціон.",
+          "ul36": "Гравець, який покинув чемпіонат (через трансфер, дострокове розірвання контракту тощо), покидає команду самостійно і сума сплачена за нього повертається до бюджету менеджера.",
+          "ul37": "Гравець, який змінив клуб в межах одного турніру, Mantra-команду не покидає.",
+          "ul38": "Проміжні аукціони завжди проводяться в сліпому форматі.",
+          "ul39": "Неможливо купувати та продавати гравців поза межами трансферних вікон крім єдиного виключення: якщо внаслідок трансферу у команди залишається тільки 1 воротар. У такому випадку, до команди долучається інший воротар тієї ж команди, воротар якої залишився в заявці. Після відкриття трансферного вікна менеджер зможе продати цього гравця згідно правил продажу."
         },
         "basic": {
           "header1": "Навіщо грати?",
@@ -2749,7 +2793,7 @@
           "bonus_header3": "👟  Асист (+1)",
           "bonus_header4": "🚨  Зароблене пенальті (+1)",
           "bonus_header5": "🥅  Відбитий пенальті (+3)",
-          "bonus_header6": "🩹  Відбиті удари воротаря (+0.5 або +1)",
+          "bonus_header6": "🩹  Відбиті удари воротарем (+0.5 або +1)",
           "bonus_header7": "🖐  Сухі ворота / кліншит (+0.5, +1 або +1.5)",
           "bonus_header8": "🌕  Жовта картка (-0.5)",
           "bonus_header9": "🔴  Червона картка (-2, -3 або -2.5, -3.5)",
@@ -2865,22 +2909,24 @@
         "divisions": {
           "note": {
             "ol1": "Якщо команда грає у найнижчому дивізіоні чемпіонату, то вона не вилітає з нього навіть зайнявши місце у зоні вильоту",
-            "ol2": "Кількість команд, які вилітають у нижчий дивізіон може відрізнятися, якщо у нижчому дивізіоні набрані не всі ліги."
+            "ol2": "Кількість команд, які вилітають у нижчий дивізіон може відрізнятися, якщо у нижчому дивізіоні набрані не всі ліги.",
+            "ol3": "Команди із нижчих дивізіонів можуть отримувати додаткові місця для підвищення, якщо команда з вищого дивізіону знімається зі змагань. Критеріями для вибору команди, яка буде підвищена із нижчого дивізіону, є дані за минулий сезон у цьому чемпіонаті: 1) позиція у турнірній таблиці; 2) середній показник набраних очок за тур; 3) середній показник забитих голів за тур."
           },
-          "paragraph1": "За підсумками змагань, чемпіон кожної ліги, яка відіграла повний сезон, отримує чемпіонський трофей.",
-          "paragraph2": "По завершенню сезони, команди, які зайняли місця у верхній частині турнірної таблиці (відмічені зеленим на Мапі дивізіонів) підвищуються у вищі дивізіони, а команди внизу таблиці (відмічені червоним) – вилітають до нижчих дивізіонів.",
-          "paragraph3": "З метою забезпечення спортивного принципу, менеджера може бути позбавлено можливості керувати своєю командою.",
-          "paragraph4": "Процедура звільнення менеджера з команди:",
-          "paragraph5": "Учасники ліги можуть залишати заявку на перевірку окремої ліги поза терміном в 7 турів.",
+          "paragraph1": "За підсумками змагань, чемпіон кожної ліги, учасники якої робили організаційні внески, отримує чемпіонський трофей.",
+          "paragraph2": "Для отримання титулу чемпіона, менеджер команди повинен самостійно виставити склад своєї команди на 50%+1 тур в лізі.",
+          "paragraph3": "Після завершення сезону, команди, які зайняли місця у верхній частині турнірної таблиці (позиції відмічені зеленим у турнірній таблиці ліги) підвищуються у вищі дивізіони, а команди внизу таблиці (відмічені червоним) – вилітають до нижчих дивізіонів.",
+          "paragraph4": "З метою забезпечення спортивного принципу, менеджера може бути позбавлено можливості керувати своєю командою.",
+          "paragraph5": "Процедура звільнення менеджера з команди:",
+          "paragraph6": "Учасники ліги можуть залишати заявку на перевірку окремої ліги поза терміном в 7 турів.",
           "screen1": {
             "text": "Зелені місця - вихід у вищий дивізіон, червоні - виліт у нижчий",
             "title": "Мапа дивізіонів"
           },
           "title": "Дивізіони",
-          "ul01": "Кожні 7 турів адміністратори перевіряють усі ліги MantraFootball на предмет команд, менеджери яких не виставляють склад протягом 4 або більше турів.",
-          "ul02": "У випадку знаходження таких команд - адміністратори контактують з таким менеджером.",
+          "ul01": "Користувачі MantraFootball має можливість повідомити адміністраторам гри про менеджерів, які не виставляють склад протягом 4 або більше турів.",
+          "ul02": "У випадку підтвердження неактивності менеджера - адміністратори контактують з таким менеджером.",
           "ul03": "Якщо менеджер заявляє, що хоче грати далі, то йому надається пробний період - 3 тури.",
-          "ul04": "Якщо цей менеджер надалі не виставляє склад – інші менеджери ліги проводять закрите голосування за заміну менеджера для цієї команди.",
+          "ul04": "Якщо цей менеджер надалі не виставляє склад – інші менеджери ліги мають право провести закрите голосування щодо заміни менеджера для цієї команди.",
           "ul05": "Якщо за підсумками голосування більшість проголосувала за заміну, адміністратори шукають нового менеджера для цієї команди."
         },
         "fanta": {
@@ -2940,11 +2986,11 @@
         "player_score": {
           "header1": "Мобільний застосунок Fotmob",
           "paragraph1": "Оцінка гравців складається з декількох елементів:",
-          "paragraph2": "Базова оцінка – це оцінка виступу гравця в конкретному матчі, яка надається статистичним ресурсом ",
-          "paragraph3": "Стартова оцінка гравця від FotMob складає 6 очок. В залежності від успіхів на ігровому полі, його оцінка може зрости (до 10 очок максимум) або знизитись (до 0 очок мінімум).",
-          "paragraph4": "У якості базової оцінки гравця MantraFootball використовує остаточну підсумкову оцінку, сформовану FotMob по завершенню матчу.",
-          "paragraph5": "По закінченню матчу FotMob ще певний час може змінювати базові оцінки як в сторону зменшення так і в сторону збільшення. Остаточними базовими оцінками вважаються ті які сформовані на момент закриття раунду (приблизно 18 годин після фінального свистка останнього матчу туру).",
-          "paragraph6": "Якщо гравець почав матч в стартовому складі, то, за рідкісним винятком, FotMob надасть йому оцінку. Проте, алгоритми FotMob не оцінюють гравців, які вийшли на поле після 80 хвилини основного часу. MantraFootball автоматично призначає таким гравцям базову оцінку в 6 очок.",
+          "paragraph2": "Базова оцінка – це оцінка виступу гравця в конкретному матчі, яка надається статистичним ресурсом, наприклад ",
+          "paragraph3": "Стартова оцінка гравця від FotMob складає 6 очок, від SofaScore - 6.5. В залежності від успіхів на ігровому полі, його оцінка може зрости (до 10 очок максимум) або знизитись (до 0 очок мінімум).",
+          "paragraph4": "У якості базової оцінки гравця MantraFootball використовує остаточну підсумкову оцінку, сформовану джерелом оцінки по завершенню матчу.",
+          "paragraph5": "По закінченню матчу джерело оцінки ще певний час може змінювати базові оцінки як в сторону зменшення так і в сторону збільшення. Остаточними базовими оцінками вважаються ті які сформовані на момент закриття раунду (приблизно 18 годин після фінального свистка останнього матчу туру).",
+          "paragraph6": "Якщо гравець зіграв хоча б 1 хвилину у матчі, але не отримав за цей матч оцінку, тоді MantraFootball автоматично призначає таким гравцям базову оцінку в 6 очок, якщо джерелом оцінок для цієї ліги є FotMob, або 6.5 - для ліг з оцінками від SofaScore.",
           "paragraph7": "Бонуси та малуси докладно описані в ",
           "paragraph8": "наступному розділі",
           "paragraph9": "Загальна оцінка гравця в MantraFootball формується на основі базової оцінки, з урахуванням усіх бонусів та малусів, що підлягають застосуванню.",
@@ -2953,6 +2999,7 @@
           "ul01": "Бонуси та малуси"
         },
         "positions": {
+          "header1": "Алгоритм визначення позицій",
           "list": {
             "am": "– центральний атакуючий півзахисник",
             "cb": "– центральний захисник",
@@ -2972,6 +3019,22 @@
             "ol3": "Джерелом для визначення «рідних» позицій гравців є історичні дані ресурсу Transfermarkt та суб’єктивна методологія адміністрації MantraFootball.",
             "ol4": "Ми всіляко заохочуємо менеджерів залишати заявки щодо (на їх думку) невідповідностей між Mantra-позиціями та реальними позиціями гравця. Такі заявки розглядаються в перерві між сезонами."
           },
+          "ol1": "Оцінка позиції футболіста здійснюється за останнім сезоном (за умови, що гравець зіграв 15 і більше матчів). У випадку, якщо їх кількість менша – враховуються сумарні показники за 2 останні сезони (тут і далі – Аналізований період).",
+          "ol10": "Якщо єдина позиція гравця LB або RB (або обидві ці позиції), то додаткова позиція WB надається автоматично.",
+          "ol11": "Якщо крім основної позиції LB або RB, присутня також додаткова позиція CB, то п.10 не виконується.",
+          "ol12": "Основна позиція WB може бути додатково розширена додатковою позицією (поза аналізованим періодом), якщо в останніх 2 сезонах гравець зіграв на позиціях CB, RB або LB більше 10 матчів.",
+          "ol13": "Поєднання позиції ST з іншою не допускається.",
+          "ol14": "Для гравців, у яких за аналізований період основною позицією є ST, додатково перевіряються останні 2 сезони (за умови, що в обох сезонах гравець зіграв понад 15 матчів). Якщо в обидвох сезонах основною позицією була ST то призначається ця позиція, в іншому випадку - FW.",
+          "ol15": "Основною позицією гравця вважається FW, якщо за аналізований період він зіграв більшість матчів на позиціях LW/RW/AM, але при цьому понад 30% матчів сумарно було зіграно на позиціях CF та SS.",
+          "ol16": "Гравець отримуватиме додаткову позицію FW, якщо за аналізований період він зіграв більшість матчів на позиціях LW/RW/AM, але при цьому понад 10% матчів сумарно (3 і більше) було зіграно на позиціях CF та SS.",
+          "ol2": "Джерело даних – статистична інформація ресурсу Transfermarkt (тут і далі – Джерело).",
+          "ol3": "Відповідність Мантра позицій позиціям джерела така: GK – GK, RB – RB, CB – CB, LB – LB, RM|LM – WB, DM – DM, CM – CM, AM – AM, LW|RW – W, SS – FW, CF – ST.",
+          "ol4": "При трансфері гравця в інший клуб, формація його нової команди не впливає на визначення його позиції.",
+          "ol5": "Основною позицією гравця вважається та, де він в аналізованому періоді (п.1) зіграв більшість матчів. Зверніть увагу, що згідно п.3, кількість матчів на позиціях, вказаних через «|», сумується.",
+          "ol6": "Якщо у гравця менше 5 матчів на основній позиції за Аналізований період, то цьому гравцю позиція призначається адміністрацією Мантри за допомогою додаткових даних із Джерела.",
+          "ol7": "Для отримання додаткової позиції, футболіст має зіграти на ній не менше 30% матчів в аналізованому періоді.",
+          "ol8": "Якщо додаткова позиція є «нижчою» за основну, то навіть при виконанні п.7 така позиція не додається (актуально для пар «WB-W», «СМ-АМ», «СВ-DM», «DM-CM», «W-FW», «AM-FW», де першими вказана «нижча» позиція). Приклад: 30 матчів, з яких 14 СМ і 16 АМ -> AM; 28 матчів: 15 DM, 13 CM -> DM+CM",
+          "ol9": "Додаткова позиція гравця може надаватись лише за умови виконання п.8 і розміщення додаткової позиції у тій же або сусідній лінії (порядок ліній: Зелена-Синя-Фіолетова-Червона).",
           "paragraph1": "Головною характеристикою кожного гравця є одна чи декілька «рідних» ігрових позицій, на якій він може «зіграти». Всього в системі фентезі-футболу Mantra існує 11 окремих ігрових позицій:",
           "remark": "* – назва позиції згідно італійського найменування",
           "title": "Позиції гравців",
@@ -3007,8 +3070,9 @@
           "ul04_5": "та розраховується за ",
           "ul04_6": "простою формулою.",
           "ul05_1": "Для визначення базової оцінки виступу гравця у конкретному матчі використовується статистичний ресурс",
-          "ul05_2": "",
-          "ul06": "Ігровий раунд повністю збігається із календарним туром турніру і завершується лише після того, як були зіграні усі матчі відповідного туру реального футбольного чемпіонату. Якщо у певному турі не було зіграно один чи декілька матчів (наприклад, матч було перенесено на іншу дату) – ігровий раунд не завершується допоки такі матчі не будуть зіграні."
+          "ul05_2": " ",
+          "ul06": "Для чемпіонату України джерелом оцінок є статистичний ресурс SofaScore.",
+          "ul07": "Ігровий раунд повністю збігається із календарним туром турніру і завершується лише після того, як були зіграні усі матчі відповідного туру реального футбольного чемпіонату. Якщо у певному турі не було зіграно один чи декілька матчів (наприклад, матч було перенесено на іншу дату) – ігровий раунд не завершується допоки такі матчі не будуть зіграні."
         },
         "substitution": {
           "paragraph1": "Крім 11 гравців основного складу, менеджер обирає 9 запасних, серед яких обов’язково має бути хоча б 1 воротар.",

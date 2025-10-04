@@ -18,19 +18,11 @@ namespace :tours do
     end
   end
 
-  # rake tours:auto_close
+  # rake 'tours:auto_close'
   desc 'Close moderated tours'
   task auto_close: :environment do
     TournamentRound.moderated.each do |t_round|
       hours = ((Time.zone.now - t_round.moderated_at) / 3_600).to_i
-
-      if [6, 12, 17].include?(hours)
-        Scores::Injectors::Fotmob.call(t_round)
-        t_round.tours.each do |tour|
-          Scores::PositionMalus::Updater.call(tour)
-          Lineups::Updater.call(tour)
-        end
-      end
 
       next if hours < TournamentRound::MODERATED_HOURS
 
@@ -38,6 +30,23 @@ namespace :tours do
         Tours::Manager.call(tour, Tours::Manager::CLOSED_STATUS)
       end
       t_round.update(moderated_at: nil)
+    end
+  end
+
+  # rake 'tours:auto_inject'
+  desc 'Inject scores for moderated tours'
+  task auto_inject: :environment do
+    TournamentRound.moderated.each do |t_round|
+      hours = ((Time.zone.now - t_round.moderated_at) / 3_600).to_i
+      next if [6, 12, 18].exclude?(hours)
+
+      injector = "Scores::Injectors::#{t_round.tournament.source.capitalize}".constantize
+      injector.call(t_round)
+
+      t_round.tours.each do |tour|
+        Scores::PositionMalus::Updater.call(tour)
+        Lineups::Updater.call(tour)
+      end
     end
   end
 

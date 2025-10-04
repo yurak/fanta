@@ -2,9 +2,13 @@
   .web-header= render 'layouts/left_nav', league: nil
   .mob-header= render 'layouts/mob_header', league: nil, title: t('round.title')
   .page-info.round-manage-page
-    .round-title-bar
-      .round-title
-        = "#{tournament_round.tournament.name} ##{tournament_round.number}"
+    .round-title-bar.back-links
+      .back-link
+        = link_to tournament_round_path(tournament_round) do
+          .back-link-arrow
+            = image_tag('icons/arrow_left.svg')
+          .back-link-text
+            = "#{tournament_round.tournament.name} ##{tournament_round.number}"
     - if tournament_round.moderated_at
       .round-moderated-badge
         = "#{t('round.moderated')} #{(tournament_round.moderated_at.utc.in_time_zone('EET') + TournamentRound::MODERATED_HOURS.hours).strftime("%H:%M %a, %b %e")}"

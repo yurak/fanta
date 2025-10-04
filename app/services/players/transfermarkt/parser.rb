@@ -83,7 +83,7 @@ module Players
       end
 
       def birth_date
-        html_page.css('.data-header__info-box .data-header__details').children[1].children[1].children[1].children.text.strip[0..11]
+        html_page.css('.data-header__info-box .data-header__details').children[1].children[1].children[1].children.text.strip[0..9]
       end
 
       def number

@@ -27,8 +27,9 @@ class TournamentRound < ApplicationRecord
   end
 
   def finished?
-    (tournament_matches.any? && tournament_matches.where(host_score: nil).empty?) ||
-      (national_matches.any? && national_matches.where(host_score: nil).empty?)
+    return @finished unless @finished.nil?
+
+    @finished = [tournament_matches, national_matches].any? { |matches| matches_finished?(matches) }
   end
 
   def time_to_deadline
@@ -47,5 +48,11 @@ class TournamentRound < ApplicationRecord
 
   def best_bench
     lineups.max_by(&:average_bench)
+  end
+
+  private
+
+  def matches_finished?(matches)
+    matches.exists? && !matches.exists?(host_score: nil)
   end
 end

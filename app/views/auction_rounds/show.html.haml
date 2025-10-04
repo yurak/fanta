@@ -51,7 +51,7 @@
                     = round.number
       - if !auction_round.closed? && current_user&.team_by_league(league)&.vacancies&.positive?
         .auction-round-add-header
-          - if auction.primary?
+          - if auction.primary? && auction_round.first?
             .auction-round-add-row.auction-round-add-row-prime
               .auction-round-add-text= t('auction_round.subheader.text1')
               .auction-round-add-item-badge= t('auction_round.subheader.players', players: auction_round.slots_number_by(current_user.team_by_league(league)))
@@ -98,7 +98,7 @@
                 = player_bid.hidden_field(:player_id, value: player_bid.object.player&.id, class: 'round-player-input', id: "player-bid-#{player_bid.index}")
                 .auction-bid-slot.auction-bid-slot-modal{id: "modal-player-data#{player_bid.index}"}
                   .player-bid-index.right= player_bid.index + 1
-                  .player-bid-avatar
+                  .player-bid-avatar{id: "item-player-#{player_bid.object.player&.id}"}
                     .player-bid-face
                       %object{data: player_bid.object.player&.avatar_path || '', type: ApplicationRecord::CONTENT_TYPE_PNG, id: "avatar-#{player_bid.index}"}
                         = image_tag('avatar.png')
@@ -276,7 +276,7 @@
                 .round-table-item-cell.center
                   - if team.full_squad? || auction.closed?
                     🏁️
-                  - else
+                  - elsif current_user&.team_by_league(league) == team || auction_round.ddl_expired? || current_user&.admin?
                     = t("auction_round.status_icon.#{auction_round.auction_bids.find_by(team: team).status}")
       .round-table
         .round-table-title-header
@@ -347,7 +347,11 @@
         if ($(e.target).is("input")) return;
 
         const bidStatus = "#{auction_bid&.status}";
-        if (bidStatus == "processed" || bidStatus == "completed") return;
+        if (bidStatus == "processed" || bidStatus == "completed") {
+          const playerId = $(this)[0].children[1].id.replace('item-player-','');
+          if (playerId) window.open('/players/'+playerId, '_blank');
+          return;
+        }
 
         const btn = $(this);
         const playersList = btn.children(".modal-auction-players-list")
@@ -834,7 +838,7 @@
           }
         }
       }
-      if (positionsArray.length > 9) {
+      if (positionsArray.length > 10) {
         if (modulesElements.length > 0) {
           modulesElements.forEach((element) => {
             element.appendTo('.auction-bid-modules-block');

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2025_07_12_123447) do
+ActiveRecord::Schema.define(version: 2025_09_25_141323) do
 
   create_table "article_tags", force: :cascade do |t|
     t.string "name", default: "", null: false
@@ -39,6 +39,7 @@ ActiveRecord::Schema.define(version: 2025_07_12_123447) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "status", default: 0
+    t.boolean "player_bids_locked", default: false, null: false
     t.index ["auction_round_id"], name: "index_auction_bids_on_auction_round_id"
     t.index ["team_id"], name: "index_auction_bids_on_team_id"
   end
@@ -456,6 +457,8 @@ ActiveRecord::Schema.define(version: 2025_07_12_123447) do
     t.string "date", default: "", null: false
     t.string "round_name", default: "", null: false
     t.string "page_url", default: "", null: false
+    t.text "base_data"
+    t.text "lineups_data"
     t.index ["tournament_round_id"], name: "index_tournament_matches_on_tournament_round_id"
   end
 

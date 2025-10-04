@@ -81,7 +81,11 @@ Rails.application.routes.draw do
 
   resources :tours, only: [:show, :update] do
     get :inject_scores, on: :member
+    get :tournament_players, on: :member
+    get :league_players, on: :member
   end
+
+  resources :tournament_matches, only: [:edit, :update]
 
   resources :tournament_rounds, only: [:show, :edit, :update] do
     put :auto_close, on: :member

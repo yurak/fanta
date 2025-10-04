@@ -38,6 +38,26 @@ RSpec.describe AuctionRound do
     end
   end
 
+  describe '#ddl_expired?' do
+    let(:auction_round) { described_class.new(deadline: deadline) }
+
+    context 'when deadline is in the past' do
+      let(:deadline) { 2.hours.ago }
+
+      it 'returns true' do
+        expect(auction_round.ddl_expired?).to be(true)
+      end
+    end
+
+    context 'when deadline is in the future' do
+      let(:deadline) { 4.hours.from_now }
+
+      it 'returns false' do
+        expect(auction_round.ddl_expired?).to be(false)
+      end
+    end
+  end
+
   describe '#members' do
     context 'without teams in league' do
       it 'returns empty array' do

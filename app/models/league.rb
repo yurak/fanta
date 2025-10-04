@@ -30,9 +30,17 @@ class League < ApplicationRecord
   scope :with_division, -> { where.not(division: { id: nil }) }
   scope :viewable, -> { active.or(archived) }
   scope :serial, lambda {
-    includes(:division, :results, :season, :teams, :tournament, :tours)
-      .order('season_id DESC, tournament_id ASC')
-      .order(Arel.sql('CASE WHEN division_id IS NULL THEN 1 ELSE 0 END, division_id ASC'))
+    left_joins(:division)
+      .includes(:results, :season, :teams, :tournament, :tours)
+      .order(
+        Arel.sql(<<~SQL.squish)
+          season_id DESC,
+          tournament_id ASC,
+          CASE WHEN division_id IS NULL THEN 1 ELSE 0 END,
+          divisions.level ASC,
+          divisions.number ASC
+        SQL
+      )
   }
 
   def division_with_name
@@ -42,11 +50,30 @@ class League < ApplicationRecord
   end
 
   def active_tour
-    tours&.active&.first || tours.inactive&.first
+    @active_tour ||= tours
+                     .order(Arel.sql("CASE
+                         WHEN status IN (#{Tour.statuses[:set_lineup]}, #{Tour.statuses[:locked]}) THEN 0
+                         WHEN status = #{Tour.statuses[:inactive]} THEN 1
+                         ELSE 2
+                       END"))
+                     .first
   end
 
   def active_tour_or_last
-    active_tour || tours.last
+    @active_tour_or_last ||= tours
+                             .order(Arel.sql(<<~SQL.squish))
+                               CASE
+                                 WHEN status IN (#{Tour.statuses[:set_lineup]}, #{Tour.statuses[:locked]}) THEN 0
+                                 WHEN status = #{Tour.statuses[:inactive]} THEN 1
+                                 WHEN status = #{Tour.statuses[:closed]} THEN 2
+                                 ELSE 3
+                               END,
+                               CASE
+                                 WHEN status = #{Tour.statuses[:closed]} THEN -id
+                                 ELSE id
+                               END
+                             SQL
+                             .first
   end
 
   def leader

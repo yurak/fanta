@@ -5,17 +5,9 @@ module Telegram
 
     def start!(*)
       save_message
-      respond_with :message, text: t('telegram.webhooks.start.text', locale: locale), reply_markup: {
-        inline_keyboard: [
-          [
-            { text: t('telegram.webhooks.start.register', locale: locale), callback_data: 'register' },
-            { text: t('telegram.webhooks.start.learn_more', locale: locale), callback_data: 'learn_more' }
-          ]
-        ],
-        resize_keyboard: true,
-        one_time_keyboard: true,
-        selective: true
-      }
+      send_start_message
+    rescue Telegram::Bot::Forbidden => e
+      Rails.logger.warn("Telegram error for chat #{payload['chat']['id']}: #{e.message}")
     end
 
     def help!(*)
@@ -74,6 +66,20 @@ module Telegram
     end
 
     private
+
+    def send_start_message
+      respond_with :message, text: t('telegram.webhooks.start.text', locale: locale), reply_markup: {
+        inline_keyboard: [
+          [
+            { text: t('telegram.webhooks.start.register', locale: locale), callback_data: 'register' },
+            { text: t('telegram.webhooks.start.learn_more', locale: locale), callback_data: 'learn_more' }
+          ]
+        ],
+        resize_keyboard: true,
+        one_time_keyboard: true,
+        selective: true
+      }
+    end
 
     def save_message
       return unless update && payload

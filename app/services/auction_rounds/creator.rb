@@ -42,6 +42,8 @@ module AuctionRounds
         auction_bid = @auction_round.auction_bids.create(team: team)
 
         @auction_round.slots_number_by(team).times { |_| auction_bid.player_bids.create }
+
+        auction_bid.lock_player_bids!
       end
     end
   end

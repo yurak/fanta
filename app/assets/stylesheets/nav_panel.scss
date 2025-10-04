@@ -1,12 +1,31 @@
 .left-nav {
   z-index: 200;
   position: fixed;
-  height: 100%;
   padding: 10px 0;
   background: #FFFFFF;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
 
   a {
     text-decoration: none;
+  }
+
+  .root-logo, .nav-logo-bottom {
+    flex: 0 0 auto;
+  }
+
+  .nav-logo-teams {
+    flex: 1 1 auto;
+    overflow-y: auto;
+    min-height: 0;
+
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .nav-logo-teams::-webkit-scrollbar {
+    display: none;
   }
 
   .root-logo {
@@ -57,8 +76,6 @@
   }
 
   .nav-logo-bottom {
-    position: fixed;
-    bottom: 20px;
     width: 72px;
   }
 
@@ -76,6 +93,9 @@
     line-height: 14px;
     color: #847577;
     margin-top: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .sign-out-btn {

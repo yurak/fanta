@@ -33,21 +33,31 @@ class Lineup < ApplicationRecord
   MAX_PLAYERS = 20
 
   def total_score
-    return final_score unless final_score.zero?
-    return final_score if tour.fanta?
+    return final_score if final_score.nonzero? || tour.fanta?
 
     current_score
   end
 
   def current_score
-    @current_score ||= match_players.main.map(&:total_score).compact.sum + defence_bonus
+    @current_score ||= match_players.main.sum(&:total_score) + defence_bonus
   end
 
   def defence_bonus
-    return 0 if def_average_score < min_avg_def_score
-    return 5 if def_average_score >= max_avg_def_score
+    avg = def_average_score
 
-    (((def_average_score - min_avg_def_score) / DEF_BONUS_STEP) + 1).floor
+    return 0 if avg < min_avg_def_score
+    return 5 if avg >= max_avg_def_score
+
+    (((avg - min_avg_def_score) / DEF_BONUS_STEP) + 1).floor
+  end
+
+  def def_average_score
+    @def_average_score ||= begin
+      scores = match_players.defenders.joins(:round_player)
+                            .pluck('match_players.id', 'round_players.score')
+                            .uniq { |id, _| id }.map { |_, score| score }
+      scores.empty? ? 0 : scores.sum / scores.size.to_f
+    end
   end
 
   def goals
@@ -147,20 +157,6 @@ class Lineup < ApplicationRecord
 
   def max_avg_def_score
     league&.max_avg_def_score || MAX_AVG_DEF_SCORE
-  end
-
-  def def_count
-    @def_count ||= match_players.defenders.count
-  end
-
-  def def_scores_sum
-    match_players.defenders.map(&:score).compact.sum
-  end
-
-  def def_average_score
-    return 0 if match_players.defenders.empty?
-
-    def_scores_sum / def_count
   end
 
   def draw?
