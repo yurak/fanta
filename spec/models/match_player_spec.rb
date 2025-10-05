@@ -249,7 +249,7 @@ RSpec.describe MatchPlayer do
       end
     end
 
-    context 'with score and cleansheet on M position but with C player position' do
+    context 'with score and cleansheet on M/C position but with C player position' do
       let(:match_player) do
         create(:match_player, real_position: 'M/C', round_player: create(:round_player, :with_pos_c, :with_score_six, cleansheet: true))
       end
@@ -259,12 +259,22 @@ RSpec.describe MatchPlayer do
       end
     end
 
-    context 'with score and cleansheet on M position but with E and C player position' do
+    context 'with score and cleansheet on M/C position but with E and C player position' do
       let(:match_player) do
         create(:match_player, real_position: 'M/C', round_player: create(:round_player, :with_pos_e_c, :with_score_six, cleansheet: true))
       end
 
       it 'returns total score value with E cs bonus' do
+        expect(match_player.total_score).to eq(6.5)
+      end
+    end
+
+    context 'with score and cleansheet on M/C position but with Dc and M player position' do
+      let(:match_player) do
+        create(:match_player, real_position: 'M/C', round_player: create(:round_player, :with_pos_dc_m, :with_score_six, cleansheet: true))
+      end
+
+      it 'returns total score value with M cs bonus' do
         expect(match_player.total_score).to eq(6.5)
       end
     end

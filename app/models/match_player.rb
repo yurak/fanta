@@ -108,7 +108,7 @@ class MatchPlayer < ApplicationRecord
   end
 
   def d_at_c?
-    (position_names & Position::D_CLEANSHEET_ZONE).any? && (real_position_arr & Position::E_CLEANSHEET_ZONE).empty? &&
+    (position_names & Position::D_CLEANSHEET_ZONE).any? && (real_position_arr & Position::CLEANSHEET_ZONE).empty? &&
       real_position_arr.include?(Position::CENTER_MF)
   end
 
