@@ -21,7 +21,7 @@
   .match-player-bonus-item
     = image_tag("bonuses/red_card.svg", title: 'Red card')
 = render 'players/bonus_item', bonus: match_player.own_goals, img_path: "bonuses/own_goal.svg"
-- if match_player.cleansheet && (match_player.is_a?(MatchPlayer) && !match_player.hide_cleansheet? || match_player.is_a?(RoundPlayer))
+- if match_player.cleansheet
   .match-player-bonus-item
     = image_tag("bonuses/clean_sheet.svg", title: 'Clean sheet')
 = render 'players/bonus_item', bonus: match_player.conceded_penalty, img_path: "bonuses/penalty_foul.svg"

@@ -34,15 +34,15 @@ class Tour < ApplicationRecord
   end
 
   def national?
-    tournament_round.national_matches.any?
+    @national ||= tournament_round.national_matches.exists?
   end
 
   def eurocup?
-    tournament_round.tournament.eurocup
+    @eurocup ||= tournament_round.tournament.eurocup?
   end
 
   def national_teams_count
-    return 0 unless tournament_round.national_matches
+    return 0 unless national?
 
     tournament_round.national_matches.count * 2
   end
@@ -76,11 +76,11 @@ class Tour < ApplicationRecord
   end
 
   def next_round
-    @next_round ||= league.tours.find { |t| t.number == number + 1 } if number < league.tours.size
+    @next_round ||= league.tours.find_by(number: number + 1) if number < league.tours.count
   end
 
   def prev_round
-    @prev_round ||= league.tours.find { |t| t.number == number - 1 } if number > 1
+    @prev_round ||= league.tours.find_by(number: number - 1) if number > 1
   end
 
   def ordered_lineups

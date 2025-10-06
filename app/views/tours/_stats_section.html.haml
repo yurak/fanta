@@ -160,13 +160,13 @@
           type: "GET",
           dataType: "html",
           success: (html) => { el.innerHTML = html; },
-          error: () => { el.innerHTML = '<div class="loader">Error loading</div>'; }
+          error: () => { el.innerHTML = '<div class="loader">...</div>'; }
         });
       } else {
         fetch(url, { headers: { "Accept": "text/html" }, cache: "no-store" })
           .then(r => r.text())
           .then(html => { el.innerHTML = html; })
-          .catch(() => { el.innerHTML = '<div class="loader">Error loading</div>'; });
+          .catch(() => { el.innerHTML = '<div class="loader">...</div>'; });
       }
     });
 

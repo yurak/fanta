@@ -39,11 +39,11 @@ class TournamentRound < ApplicationRecord
   end
 
   def best_lineup
-    lineups.max_by(&:total_score)
+    @best_lineup ||= lineups.order(final_score: :desc).first
   end
 
   def worst_lineup
-    lineups.min_by(&:total_score)
+    @worst_lineup ||= lineups.order(final_score: :asc).first
   end
 
   def best_bench

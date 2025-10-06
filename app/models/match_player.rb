@@ -50,7 +50,7 @@ class MatchPlayer < ApplicationRecord
 
     total = result_score
 
-    total -= recount_cleansheet if cleansheet
+    total -= recount_cleansheet if cleansheet && real_position
     total -= position_malus if position_malus
 
     total
@@ -65,7 +65,7 @@ class MatchPlayer < ApplicationRecord
   end
 
   def hide_cleansheet?
-    e_not_at_e_or_d? || m_not_at_m_or_dc?
+    e_not_at_valid_pos? || m_not_at_valid_pos?
   end
 
   def subs_option_exist?
@@ -95,7 +95,7 @@ class MatchPlayer < ApplicationRecord
   def recount_cleansheet
     if d_at_w? || d_at_c?
       CLEANSHEET_BONUS_DIFF_FULL
-    elsif d_at_e_or_m? || m_not_at_m_or_dc? || e_not_at_e_or_d?
+    elsif d_at_e_or_m? || m_not_at_valid_pos? || e_not_at_valid_pos?
       CLEANSHEET_BONUS_DIFF
     else
       0
@@ -108,7 +108,7 @@ class MatchPlayer < ApplicationRecord
   end
 
   def d_at_c?
-    (position_names & Position::D_CLEANSHEET_ZONE).any? && (real_position_arr & Position::E_CLEANSHEET_ZONE).empty? &&
+    (position_names & Position::D_CLEANSHEET_ZONE).any? && (real_position_arr & Position::CLEANSHEET_ZONE).empty? &&
       real_position_arr.include?(Position::CENTER_MF)
   end
 
@@ -117,12 +117,11 @@ class MatchPlayer < ApplicationRecord
       (real_position_arr.include?(Position::WING_BACK) || real_position_arr.include?(Position::DEFENCE_MF))
   end
 
-  def m_not_at_m_or_dc?
+  def m_not_at_valid_pos?
     position_names.include?(Position::DEFENCE_MF) && (real_position_arr & Position::CLEANSHEET_ZONE).empty?
   end
 
-  def e_not_at_e_or_d?
-    position_names.include?(Position::WING_BACK) && (real_position_arr & Position::D_CLEANSHEET_ZONE).empty? &&
-      (real_position_arr & Position::E_CLEANSHEET_ZONE).empty?
+  def e_not_at_valid_pos?
+    position_names.include?(Position::WING_BACK) && (real_position_arr & Position::CLEANSHEET_ZONE).empty?
   end
 end
