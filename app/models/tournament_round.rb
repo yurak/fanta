@@ -39,21 +39,21 @@ class TournamentRound < ApplicationRecord
   end
 
   def best_lineups
-    return @best_lineup if defined?(@best_lineup)
+    return @best_lineups if defined?(@best_lineups)
 
     max_score = lineups.maximum(:final_score)
-    return @best_lineup = [] if max_score.to_f <= 0
+    return @best_lineups = [] if max_score.to_f <= 0
 
-    @best_lineup = lineups.where(final_score: max_score).to_a
+    @best_lineups = lineups.where(final_score: max_score).to_a
   end
 
   def worst_lineups
-    return @worst_lineup if defined?(@worst_lineup)
+    return @worst_lineups if defined?(@worst_lineups)
 
-    min_score = lineups.where("final_score > 0").minimum(:final_score)
-    return @worst_lineup = [] unless min_score
+    min_score = lineups.where('final_score > 0').minimum(:final_score)
+    return @worst_lineups = [] unless min_score
 
-    @worst_lineup = lineups.where(final_score: min_score).to_a
+    @worst_lineups = lineups.where(final_score: min_score).to_a
   end
 
   def best_bench
