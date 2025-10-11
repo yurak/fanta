@@ -849,7 +849,7 @@
 
   .fees-types-section {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 2fr;
     column-gap: 32px;
     margin: 80px 0;
 
@@ -922,6 +922,12 @@
       .type-league:last-child {
         border: none;
       }
+    }
+
+    .type-list-double {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      column-gap: 32px;
     }
 
     .fees-item-green {

@@ -633,6 +633,7 @@ en:
         ukraine: "Ukraine"
       tournament:
         belgium: "Belgium League"
+        brazil: "Brazil League"
         england: "England League"
         england_2: "England Second Division"
         europe: "Europe League"
@@ -644,7 +645,9 @@ en:
         poland: "Poland League"
         portugal: "Portugal League"
         spain: "Spain League"
+        turkey: "Turkey League"
         ukraine: "Ukraine League"
+        usa: "US League"
       discounts: "🎉 Discounts available!"
       discount1_title: "-50% for mantra tournaments"
       discount1_text: "For each new player"

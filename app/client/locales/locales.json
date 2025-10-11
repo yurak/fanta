@@ -1284,6 +1284,7 @@
         "title": "Organizational fees",
         "tournament": {
           "belgium": "Belgium League",
+          "brazil": "Brazil League",
           "england": "England League",
           "england_2": "England Second Division",
           "europe": "Europe League",
@@ -1295,7 +1296,9 @@
           "portugal": "Portugal League",
           "qatar": "Qatar",
           "spain": "Spain League",
-          "ukraine": "Ukraine League"
+          "turkey": "Turkey League",
+          "ukraine": "Ukraine League",
+          "usa": "US League"
         },
         "type": "Type"
       },
@@ -2591,6 +2594,7 @@
         "title": "Організаційні внески",
         "tournament": {
           "belgium": "Чемпіонат Бельгії",
+          "brazil": "Чемпіонат Бразилії",
           "england": "Чемпіонат Англії",
           "england_2": "Другий Дивізіон Англії",
           "europe": "Чемпіонат Європи",
@@ -2601,7 +2605,9 @@
           "poland": "Чемпіонат Польщі",
           "portugal": "Чемпіонат Португалії",
           "spain": "Чемпіонат Іспанії",
-          "ukraine": "Чемпіонат України"
+          "turkey": "Чемпіонат Туреччини",
+          "ukraine": "Чемпіонат України",
+          "usa": "Чемпіонат США"
         },
         "type": "Тип"
       },
