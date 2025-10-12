@@ -29,6 +29,12 @@ class User < ApplicationRecord
   validates :name, length: { in: NAME_LENGTH }, allow_blank: false, if: :name_changed?
   validates :role, presence: true
 
+  before_create :generate_unsubscribe_token
+
+  def generate_unsubscribe_token
+    self.unsubscribe_token ||= SecureRandom.hex(16)
+  end
+
   def can_moderate?
     admin? || moderator?
   end

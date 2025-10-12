@@ -536,6 +536,11 @@ en:
     table: "🏅 Table"
     tournament_players: "✊ Overall best"
     want_edit: "Want to edit squad?"
+  unsubscribe:
+    button: "Yes, unsubscribe me"
+    invalid: "Invalid or expired link."
+    text: "Are you sure you want to stop receiving our emails?"
+    title: "Unsubscribe from emails"
   users:
     edit:
       change_username: "Change user name"

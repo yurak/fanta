@@ -1,5 +1,5 @@
 RSpec.describe 'Welcome' do
-  describe 'GET #index(root)' do
+  describe 'GET #index (root)' do
     before do
       get root_path
     end
@@ -61,13 +61,13 @@ RSpec.describe 'Welcome' do
     it { expect(response).to have_http_status(:ok) }
   end
 
-  # describe 'GET #fees' do
-  #   before do
-  #     get fees_path
-  #   end
-  #
-  #   it { expect(response).to be_successful }
-  #   it { expect(response).to render_template(:fees) }
-  #   it { expect(response).to have_http_status(:ok) }
-  # end
+  describe 'GET #fees' do
+    before do
+      get fees_path
+    end
+
+    it { expect(response).to be_successful }
+    it { expect(response).to render_template(:fees) }
+    it { expect(response).to have_http_status(:ok) }
+  end
 end

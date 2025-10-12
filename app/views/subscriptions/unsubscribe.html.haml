@@ -1,0 +1,15 @@
+.login-page
+  .login-icon
+    .mantra-logo
+      = link_to root_path do
+        = image_tag('logo.svg')
+  .login-block
+    .login-title-block
+      .title-text= t('unsubscribe.title')
+    - if user
+      .subtitle-text
+        = t('unsubscribe.text')
+      .blue-btn.login-btn= link_to t('unsubscribe.button'), unsubscribe_path(token: params[:token]), method: :post
+    - else
+      .subtitle-text
+        = t('unsubscribe.invalid')

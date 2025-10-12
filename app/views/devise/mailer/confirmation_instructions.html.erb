@@ -69,6 +69,11 @@
                       <%= image_tag ActionController::Base.helpers.asset_path('social_media/tg_col.png'), alt: '', size: "24x24", style: 'text-decoration: none;', skip_pipeline: true %>
                     <% end %>
                   </div>
+                  <div style="margin-bottom:12px; font-size:14px">
+                    <p>If you no longer wish to receive these emails, you can
+                      <%= link_to 'unsubscribe here', unsubscribe_url(token: @resource.unsubscribe_token) %>.
+                    </p>
+                  </div>
                   <div style="margin-bottom:46px;">
                     <%= "© #{Date.current.year} MantraFootball" %>
                   </div>

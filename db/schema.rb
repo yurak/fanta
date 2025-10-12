@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2025_09_25_141323) do
+ActiveRecord::Schema.define(version: 2025_10_11_110629) do
 
   create_table "article_tags", force: :cascade do |t|
     t.string "name", default: "", null: false
@@ -557,9 +557,13 @@ ActiveRecord::Schema.define(version: 2025_09_25_141323) do
     t.string "unconfirmed_email"
     t.string "avatar_url"
     t.integer "locale", default: 0
+    t.string "time_zone", default: "UTC", null: false
+    t.string "unsubscribe_token"
+    t.boolean "subscribed", default: true, null: false
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index ["unsubscribe_token"], name: "index_users_on_unsubscribe_token", unique: true
   end
 
   add_foreign_key "auction_bids", "auction_rounds"

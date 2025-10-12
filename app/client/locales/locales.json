@@ -1145,6 +1145,12 @@
       "auction_title": "%{league} Auction",
       "title": "%{league} Transfers"
     },
+    "unsubscribe": {
+      "button": "Yes, unsubscribe me",
+      "invalid": "Invalid or expired link.",
+      "text": "Are you sure you want to stop receiving our emails?",
+      "title": "Unsubscribe from emails"
+    },
     "users": {
       "activate": "Activate",
       "change_avatar": "Change avatar",
@@ -2463,6 +2469,12 @@
       "auction": "Аукціон",
       "auction_title": "Аукціон %{league}",
       "title": "Трансфери %{league}"
+    },
+    "unsubscribe": {
+      "button": "Так, скасувати підписку",
+      "invalid": "Недійсне або прострочене посилання.",
+      "text": "Ви впевнені, що хочете більше не отримувати наші електронні листи?",
+      "title": "Відписатися від листів"
     },
     "users": {
       "activate": "Активувати",
