@@ -54,7 +54,8 @@
                           .player-position{class: "player-position-#{position.name}"}
                             = position_name(position)
                     .team-player-line-mob
-                    = flag_icon(player.nationality.to_sym, element: :div)
+                    - if player.nationality
+                      = flag_icon(player.nationality.to_sym, element: :div)
                     .team-player-line-mob
                     .team-player-stats-number
                       = "#{player.season_scores_count(player.season_all_matches_with_scores)} #{t('teams.apps')}"
@@ -68,7 +69,8 @@
                 .team-player-stats-number.team-player-rating
                   = player.season_average_result_score(player.season_all_matches_with_scores)
                 .team-player-club
-                  = flag_icon(player.nationality.to_sym, element: :div)
+                  - if player.nationality
+                    = flag_icon(player.nationality.to_sym, element: :div)
                   .team-player-param-item.team-player-link
                     = image_tag('icons/arrow_right.svg')
       .clubs-list
