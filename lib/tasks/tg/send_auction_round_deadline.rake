@@ -5,8 +5,8 @@ namespace :tg do
     AuctionRound.active.each do |round|
       next unless round.auction.league.active?
       next if round.deadline.nil?
-      next if DateTime.now < (round.deadline.asctime.in_time_zone('EET') - 3.hours)
-      next if DateTime.now > (round.deadline.asctime.in_time_zone('EET') - 2.5.hours)
+      next if DateTime.now < (round.deadline - 3.hours)
+      next if DateTime.now > (round.deadline - 2.5.hours)
 
       TelegramBot::Auction::RoundDdlNotifier.call(round.auction)
     end

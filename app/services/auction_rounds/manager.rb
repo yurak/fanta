@@ -8,7 +8,7 @@ module AuctionRounds
 
     def call
       return false if round_not_ready?
-      return false unless deadline_passed? || all_bids_completed?
+      return false unless round.ddl_expired? || all_bids_completed?
 
       AuctionRound.transaction do
         round.processing!
@@ -84,10 +84,6 @@ module AuctionRounds
 
     def vacancies?
       league.players.count < league.teams.count * Team::MAX_PLAYERS
-    end
-
-    def deadline_passed?
-      DateTime.now > round.deadline.asctime.in_time_zone('EET')
     end
 
     def bids_not_ready?

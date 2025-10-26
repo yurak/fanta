@@ -38,6 +38,10 @@ module TelegramBot
 
         team.user.locale.to_sym
       end
+
+      def time_zone(team)
+        team.user&.time_zone || User::DEFAULT_TIME_ZONE
+      end
     end
   end
 end

@@ -19,6 +19,7 @@ class User < ApplicationRecord
   EMAIL_FORMAT_REGEX = /\A[\w+\-.]+@[a-z\d-]+(\.a[a-z]+)*\.[a-z]+\z/i.freeze
   NAME_LENGTH = (2..20).freeze
   ROLES = %w[customer admin moderator].freeze
+  DEFAULT_TIME_ZONE = 'Kyiv'.freeze
 
   enum role: ROLES
   enum status: { initial: 0, named: 1, with_avatar: 2, with_team: 3, configured: 4 }
@@ -28,11 +29,24 @@ class User < ApplicationRecord
   validates :email, length: { in: EMAIL_LENGTH }
   validates :name, length: { in: NAME_LENGTH }, allow_blank: false, if: :name_changed?
   validates :role, presence: true
+  validates :time_zone, inclusion: { in: ActiveSupport::TimeZone.all.map(&:name) }, allow_blank: true
 
+  before_validation :set_default_time_zone, on: :create
   before_create :generate_unsubscribe_token
 
   def generate_unsubscribe_token
     self.unsubscribe_token ||= SecureRandom.hex(16)
+  end
+
+  def set_default_time_zone
+    self.time_zone ||= DEFAULT_TIME_ZONE
+  end
+
+  def local_time(time, format = '%a, %b %e at %H:%M')
+    return unless time
+
+    user_zone = time_zone || DEFAULT_TIME_ZONE
+    time.in_time_zone(user_zone).strftime(format)
   end
 
   def can_moderate?

@@ -35,7 +35,7 @@ class TournamentRound < ApplicationRecord
   def time_to_deadline
     return '' unless deadline
 
-    TimeDifference.between(deadline.asctime.in_time_zone('EET'), Time.zone.now).in_general
+    TimeDifference.between(deadline, Time.zone.now).in_general
   end
 
   def best_lineups

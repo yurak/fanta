@@ -22,7 +22,7 @@ class AuctionRound < ApplicationRecord
   end
 
   def ddl_expired?
-    deadline.asctime.in_time_zone('EET') < Time.current.in_time_zone('EET')
+    DateTime.now > deadline
   end
 
   def members

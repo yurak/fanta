@@ -33,4 +33,10 @@ module ApplicationHelper
       number
     end
   end
+
+  def local_time(time, format = '%a, %b %e at %H:%M')
+    return unless time
+
+    current_user&.local_time(time, format) || time.in_time_zone(User::DEFAULT_TIME_ZONE).strftime(format)
+  end
 end

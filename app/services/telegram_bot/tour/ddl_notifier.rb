@@ -20,10 +20,15 @@ module TelegramBot
           locale: locale(team),
           icon: league.tournament.icon,
           number: tour.number,
-          deadline: tour.tournament_round.deadline&.strftime('%H:%M'),
+          deadline: deadline(team),
+          time_zone: time_zone(team),
           url: Rails.application.routes.url_helpers.tour_url(tour),
           code: league.tournament.code
         )
+      end
+
+      def deadline(team)
+        team.user&.local_time(tour.tournament_round.deadline, '%H:%M')
       end
     end
   end

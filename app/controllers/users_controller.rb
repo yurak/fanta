@@ -51,7 +51,7 @@ class UsersController < ApplicationController
   end
 
   def user_params
-    params.permit(:avatar, :name, :notifications, :ital_pos_naming, :locale)
+    params.permit(:avatar, :ital_pos_naming, :locale, :name, :notifications, :time_zone)
   end
 
   def user_new_params

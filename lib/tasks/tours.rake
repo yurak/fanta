@@ -11,9 +11,7 @@ namespace :tours do
   task lock_deadline: :environment do
     League.active.each do |league|
       league.tours.set_lineup.each do |tour|
-        tour_deadline = tour.tournament_round.deadline.asctime.in_time_zone('EET')
-
-        Tours::Manager.call(tour, Tours::Manager::LOCKED_STATUS) if tour_deadline < DateTime.now
+        Tours::Manager.call(tour, Tours::Manager::LOCKED_STATUS) if tour.tournament_round.deadline < DateTime.now
       end
     end
   end
