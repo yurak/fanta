@@ -54,8 +54,8 @@ module TournamentMatches
         guest_team: national_team(match_data['away']['name']),
         source_match_id: match_data['id'],
         round_name: match_data['roundName'],
-        time: DateTime.parse(match_data['status']['utcTime']).utc.in_time_zone('EET').strftime('%H:%M'),
-        date: DateTime.parse(match_data['status']['utcTime']).utc.in_time_zone('EET').strftime('%^b %e, %Y')
+        time: DateTime.parse(match_data['status']['utcTime']).utc.strftime('%H:%M'),
+        date: DateTime.parse(match_data['status']['utcTime']).utc.strftime('%^b %e, %Y')
       )
     end
 

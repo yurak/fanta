@@ -38,6 +38,12 @@ class TournamentRound < ApplicationRecord
     TimeDifference.between(deadline, Time.zone.now).in_general
   end
 
+  def closing_time
+    return unless moderated_at
+
+    moderated_at + MODERATED_HOURS.hours
+  end
+
   def best_lineups
     return @best_lineups if defined?(@best_lineups)
 

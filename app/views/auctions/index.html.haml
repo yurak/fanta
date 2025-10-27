@@ -25,7 +25,7 @@
                 .auction-item-status{ class: "auction-item-status-#{auction_status(auction)}" }
                   .auction-item-status-icon= image_tag("icons/auctions/#{auction_status(auction)}.svg")
                   .auction-item-status-text= t("auction.index.status.#{auction_status(auction)}")
-              .auction-item-date= auction_dates(auction)
+              .auction-item-date= auction_dates(auction, current_user)
               .auction-item-arrow= image_tag("icons/arrow_right_link.svg")
         - if !auction.primary? && auction.deadline
           = link_to dropping_link(auction) do
@@ -40,7 +40,7 @@
                     .auction-item-status-icon= image_tag("icons/auctions/#{auction_dropping_status(auction)}.svg")
                     .auction-item-status-text= t("auction.index.status.#{auction_dropping_status(auction)}")
                 .auction-item-date
-                  = auction.sales? ? "#{auction.deadline&.strftime('%^a, %b %e, %H:%M')}" : "#{(auction.deadline - 5.days)&.strftime('%b %e')} - #{auction.deadline&.strftime('%b %e, %Y')}"
+                  = auction.sales? ? "#{local_time(auction.deadline, '%^a, %b %e, %H:%M')}" : "#{(auction.deadline - 5.days)&.strftime('%b %e')} - #{auction.deadline&.strftime('%b %e, %Y')}"
                 .auction-item-arrow= image_tag("icons/arrow_right_link.svg")
 
   .portrait-footer{ class: "portrait-footer-#{league.mantra?}"}

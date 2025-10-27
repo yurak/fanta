@@ -232,6 +232,15 @@ RSpec.describe AuctionsHelper do
       end
     end
 
+    context 'with blind_bids auction with deadline and user' do
+      let(:auction) { create(:auction, status: :blind_bids, deadline: 'October 26, 2025 21:00') }
+      let(:user) { create(:user, time_zone: 'Kyiv') }
+
+      it 'returns string with deadline' do
+        expect(helper.auction_dates(auction, user)).to eq(auction.deadline.in_time_zone(user.time_zone).strftime('%a, %b %e, %H:%M').to_s)
+      end
+    end
+
     context 'with live auction' do
       let(:auction) { create(:auction, status: :live) }
 

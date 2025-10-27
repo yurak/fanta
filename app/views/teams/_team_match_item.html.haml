@@ -14,7 +14,7 @@
           .result-cell-value vs
         .game-info-cell
           - if match.tournament_round.deadline
-            = match.tournament_round.deadline&.strftime("%^a, %^b %e")
+            = local_time(match.tournament_round.deadline, '%^a, %^b %e')
           - else
             = t('teams.unknown')
         .game-result-cell

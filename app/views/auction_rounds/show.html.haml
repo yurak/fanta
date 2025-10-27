@@ -24,7 +24,7 @@
             .round-deadline
               .round-deadline-text= t('tours.deadline')
               .round-deadline-value
-                = auction_round.deadline&.strftime("%a, %b %e at %H:%M")
+                = local_time(auction_round.deadline, '%a, %b %e at %H:%M')
             .round-action-btn.auction-round-web
               - if auction_bid && !auction_bid.processed?
                 = submit_tag t("auction_round.bid_action.#{auction_bid.status}"), form: 'auction_bid_form', class: "submit-btn submit-btn-#{auction_bid.status}", id: 'submit-bid-btn'

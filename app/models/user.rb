@@ -42,7 +42,7 @@ class User < ApplicationRecord
     self.time_zone ||= DEFAULT_TIME_ZONE
   end
 
-  def local_time(time, format = '%a, %b %e at %H:%M')
+  def local_time(time, format = '%^a, %^b %e, %H:%M')
     return unless time
 
     user_zone = time_zone || DEFAULT_TIME_ZONE

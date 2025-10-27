@@ -86,4 +86,20 @@ RSpec.describe TournamentRound do
       end
     end
   end
+
+  describe '#closing_time' do
+    context 'without moderated_at' do
+      it 'returns тшд' do
+        expect(tournament_round.closing_time).to be_nil
+      end
+    end
+
+    context 'with moderated_at' do
+      let(:tournament_round) { create(:tournament_round, moderated_at: 'October 26, 2025 22:00') }
+
+      it 'returns closing time' do
+        expect(tournament_round.closing_time).to eq('October 27, 2025 16:00')
+      end
+    end
+  end
 end
