@@ -51,6 +51,15 @@
             .user-radio-text= t('users.profile.language_en')
 
       .user-section
+        .user-section-title= t('users.profile.time_zone_title')
+        .user-section-subtitle= t('users.profile.time_zone_subtitle')
+        .user-select-row
+          = form_with url: user_path(current_user), method: :put, local: true do |f|
+            = f.select :time_zone, ActiveSupport::TimeZone.all.map { |tz| [tz.to_s, tz.name] },
+                { selected: current_user.time_zone, include_blank: false },
+                { class: 'user-select', onchange: 'this.form.submit();' }
+
+      .user-section
         .user-section-title= t('users.profile.positions_naming')
         .user-section-subtitle= t('users.profile.pos_naming_subtitle')
         .user-radio-item-row

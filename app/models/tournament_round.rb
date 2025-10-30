@@ -35,15 +35,31 @@ class TournamentRound < ApplicationRecord
   def time_to_deadline
     return '' unless deadline
 
-    TimeDifference.between(deadline.asctime.in_time_zone('EET'), Time.zone.now).in_general
+    TimeDifference.between(deadline, Time.zone.now).in_general
   end
 
-  def best_lineup
-    @best_lineup ||= lineups.order(final_score: :desc).first
+  def closing_time
+    return unless moderated_at
+
+    moderated_at + MODERATED_HOURS.hours
   end
 
-  def worst_lineup
-    @worst_lineup ||= lineups.order(final_score: :asc).first
+  def best_lineups
+    return @best_lineups if defined?(@best_lineups)
+
+    max_score = lineups.maximum(:final_score)
+    return @best_lineups = [] if max_score.to_f <= 0
+
+    @best_lineups = lineups.where(final_score: max_score).to_a
+  end
+
+  def worst_lineups
+    return @worst_lineups if defined?(@worst_lineups)
+
+    min_score = lineups.where('final_score > 0').minimum(:final_score)
+    return @worst_lineups = [] unless min_score
+
+    @worst_lineups = lineups.where(final_score: min_score).to_a
   end
 
   def best_bench

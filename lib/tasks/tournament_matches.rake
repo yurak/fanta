@@ -32,8 +32,8 @@ namespace :tournament_matches do
         source_match_id: match_data['fotmob_id'],
         page_url: match_data['page_url'],
         round_name: match_data['round_number'],
-        time: DateTime.parse(match_data['date']).utc.in_time_zone('EET').strftime('%H:%M'),
-        date: DateTime.parse(match_data['date']).utc.in_time_zone('EET').strftime('%^b %e, %Y')
+        time: DateTime.parse(match_data['date']).utc.strftime('%H:%M'),
+        date: DateTime.parse(match_data['date']).utc.strftime('%^b %e, %Y')
       )
     end
   end

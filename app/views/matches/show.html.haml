@@ -58,7 +58,7 @@
         - if match.tour.unlocked?
           .match-result-soon= t('matches.start_soon')
           .match-result-deadline
-            = match.tournament_round.deadline&.strftime('%a, %b %e at %H:%M')
+            = local_time(match.tournament_round.deadline, '%a, %b %e at %H:%M')
         - else
           .match-result-row
             .match-result-row-cell.round-match-scores-host-count

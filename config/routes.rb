@@ -23,6 +23,9 @@ Rails.application.routes.draw do
   get 'guide',    to: 'welcome#guide'
   get 'rules',    to: 'welcome#rules'
 
+  get  'unsubscribe', to: 'subscriptions#unsubscribe', as: :unsubscribe
+  post 'unsubscribe', to: 'subscriptions#confirm_unsubscribe'
+
   telegram_webhook Telegram::WebhookController
   # telegram_webhook Telegram::WebhookController, :mantra_prod
 

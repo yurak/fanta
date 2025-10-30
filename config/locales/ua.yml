@@ -559,6 +559,11 @@ ua:
     table: "🏅 Таблиця"
     tournament_players: "✊ Загалом найкращі"
     want_edit: "Змінити склад?"
+  unsubscribe:
+    button: "Так, скасувати підписку"
+    invalid: "Недійсне або прострочене посилання."
+    text: "Ви впевнені, що хочете більше не отримувати наші електронні листи?"
+    title: "Відписатися від листів"
   users:
     edit:
       change_username: "Змінити ім'я користувача"
@@ -620,6 +625,8 @@ ua:
       pos_naming_ital: "Італійські"
       pos_naming_subtitle: "Оберіть, які позиції будуть показуватись"
       teams: "⚽️ Команди"
+      time_zone_subtitle: "Виберіть зону, згідно з якою буде відображатися час в грі"
+      time_zone_title: "🕰 Часова зона"
       via_tg: "Через Телеграм бот"
     update: "Оновити"
     activate: "Активувати"
@@ -656,6 +663,7 @@ ua:
         ukraine: "Україна"
       tournament:
         belgium: "Чемпіонат Бельгії"
+        brazil: "Чемпіонат Бразилії"
         england: "Чемпіонат Англії"
         england_2: "Другий Дивізіон Англії"
         europe: "Чемпіонат Європи"
@@ -666,7 +674,9 @@ ua:
         poland: "Чемпіонат Польщі"
         portugal: "Чемпіонат Португалії"
         spain: "Чемпіонат Іспанії"
+        turkey: "Чемпіонат Туреччини"
         ukraine: "Чемпіонат України"
+        usa: "Чемпіонат США"
       discounts: "🎉 Доступні знижки!"
       discount1_title: "-50% для мантра турнірів"
       discount1_text: "Для кожного новачка"
@@ -1161,17 +1171,17 @@ ua:
       auction:
         default: "%{icon} Повідомлення про аукціон для команди %{team_name}\n\n#auction #%{code}"
         finished: "%{icon} Аукціон #%{number} у лізі %{league_name} завершено.\n\n🏁️️ Ви можете переглянути всі трансфери цього аукціону за посиланням - %{url}\n\n#auction #%{code}"
-        round_ddl: "%{icon} Дедлайн аукціону в лізі %{league_name} сьогодні в %{deadline} (EET) ⚠️\n\n‼️️ Вам необхідно зробити ставку на %{vacancies} гравців для команди %{team_name} - %{url}\n\n#auction #%{code}"
-        sales_ddl: "%{icon} Наближається дедлайн трансферного вікна у лізі %{league_name}.\n⚠️ Дедлайн сьогодні в %{deadline} (EET) ⚠️\n\n‼️️ Ви можете обрати до %{available_transfers} гравців для продажу з команди %{team_name} - %{url}\n\n#auction #%{code}"
-        sales_open: "%{icon} Трансферне вікно у лізі %{league_name} відкрито.\n🔜 Дедлайн: %{deadline} (EET) 🔚\n\n‼️️ Ви можете обрати до %{available_transfers} гравців для продажу з команди %{team_name} - %{url}\n\n#auction #%{code}"
-        start_bids: "%{icon} Етап аукціону #%{number} розпочався в лізі %{league_name}.\n🔜 Дедлайн: %{deadline} (EET) 🔚\n\n‼️️ Вам необхідно зробити ставку на %{vacancies} гравців для команди %{team_name} - %{url}\n\n#auction #%{code}"
+        round_ddl: "%{icon} Дедлайн аукціону в лізі %{league_name} сьогодні в %{deadline} (%{time_zone}) ⚠️\n\n‼️️ Вам необхідно зробити ставку на %{vacancies} гравців для команди %{team_name} - %{url}\n\n#auction #%{code}"
+        sales_ddl: "%{icon} Наближається дедлайн трансферного вікна у лізі %{league_name}.\n⚠️ Дедлайн сьогодні в %{deadline} (%{time_zone}) ⚠️\n\n‼️️ Ви можете обрати до %{available_transfers} гравців для продажу з команди %{team_name} - %{url}\n\n#auction #%{code}"
+        sales_open: "%{icon} Трансферне вікно у лізі %{league_name} відкрито.\n🔜 Дедлайн: %{deadline} (%{time_zone}) 🔚\n\n‼️️ Ви можете обрати до %{available_transfers} гравців для продажу з команди %{team_name} - %{url}\n\n#auction #%{code}"
+        start_bids: "%{icon} Етап #%{number} аукціону розпочався в лізі %{league_name}.\n🔜 Дедлайн: %{deadline} (%{time_zone}) 🔚\n\n‼️️ Вам необхідно зробити ставку на %{vacancies} гравців для команди %{team_name} - %{url}\n\n#auction #%{code}"
       player:
         left: "%{icon} %{player_name} з команди %{team_name} покинув чемпіонат %{tournament_name}.\n💵 Ви зможете замінити його на наступному аукціоні.\n\n#player #%{code}"
       tour:
         closed: "%{icon} Раунд #%{number} ліги %{league_name} закрито.\n🔴 Ви можете перевірити остаточні результати тут - %{url}\n\n#tour #%{code}"
-        ddl: "%{icon} Дедлайн туру #%{number} сьогодні в %{deadline} (EET)\n\n🟡 Виставте ваш склад - %{url}\n\n#tour #%{code}"
+        ddl: "%{icon} Дедлайн туру #%{number} сьогодні в %{deadline} (%{time_zone})\n\n🟡 Виставте ваш склад - %{url}\n\n#tour #%{code}"
         moderated: "%{icon} Раунд #%{number} ліги %{league_name} промодеровано.\n🔵 Усі бали та бонуси підраховано, заміни зроблено.\n✍️ Якщо є зауваження щодо бонусів - пишіть до @mantra_help.\n\n☑️ Попередні результати можна переглянути тут- %{url}\n\n#tour #%{code}"
-        opened: "%{icon} Раунд #%{number} ліги %{league_name} відкрито.\n🟢 Ви можете виставити склад для %{team_name} - %{url}\n🔜 Дедлайн: %{deadline} (EET) 🔚\n\n#tour #%{code}"
+        opened: "%{icon} Раунд #%{number} ліги %{league_name} відкрито.\n🟢 Ви можете виставити склад для %{team_name} - %{url}\n🔜 Дедлайн: %{deadline} (%{time_zone}) 🔚\n\n#tour #%{code}"
     webhooks:
       action_missing:
         command: Неможливо виконати команду %{command}

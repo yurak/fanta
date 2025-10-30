@@ -36,16 +36,20 @@ module AuctionsHelper
     end
   end
 
-  def auction_dates(auction)
+  def auction_dates(auction, user = nil)
     if auction.initial? || auction.sales?
       auction.deadline ? "Started on #{auction.deadline.strftime('%b %e, %Y')}" : auction.base_date
     elsif auction.blind_bids?
-      auction.deadline&.strftime('%a, %b %e, %H:%M')&.to_s
+      auction_local_time(auction.deadline, user)
     elsif auction.closed?
       "#{auction.auction_rounds.first&.created_at&.strftime('%b %e')} - #{auction.auction_rounds.last&.updated_at&.strftime('%b %e, %Y')}"
     else
       '--:--'
     end
+  end
+
+  def auction_local_time(time, user)
+    user&.local_time(time, '%a, %b %e, %H:%M') || time&.strftime('%a, %b %e, %H:%M')&.to_s
   end
 
   def auction_dropping_status(auction)

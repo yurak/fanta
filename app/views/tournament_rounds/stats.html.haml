@@ -11,20 +11,22 @@
             = "#{tournament_round.tournament.name} ##{tournament_round.number}"
     - if tournament_round.moderated_at
       .round-moderated-badge
-        = "#{t('round.moderated')} #{(tournament_round.moderated_at.utc.in_time_zone('EET') + TournamentRound::MODERATED_HOURS.hours).strftime("%H:%M %a, %b %e")}"
+        = "#{t('round.moderated')} #{local_time(tournament_round.closing_time, '%H:%M %a, %b %e')}"
     .round-stats-block
       .round-stats-row
         .round-stats-title Best Lineup
         .round-stats-data
-          - if tournament_round.best_lineup
-            = link_to tour_path(tournament_round.best_lineup.tour) do
-              = "#{tournament_round.best_lineup.total_score} - #{tournament_round.best_lineup.team.human_name} / #{tournament_round.best_lineup.team.league.division_with_name}"
+          - tournament_round.best_lineups.each do |lineup|
+            .round-stats-data-link
+              = link_to tour_path(lineup.tour) do
+                = "#{lineup.total_score} - #{lineup.team.human_name} / #{lineup.team.league.division_with_name}"
       .round-stats-row
         .round-stats-title Worst Lineup
         .round-stats-data
-          - if tournament_round.worst_lineup
-            = link_to tour_path(tournament_round.worst_lineup.tour) do
-              = "#{tournament_round.worst_lineup.total_score} - #{tournament_round.worst_lineup.team.human_name} / #{tournament_round.worst_lineup.team.league.division_with_name}"
+          - tournament_round.worst_lineups.each do |lineup|
+            .round-stats-data-link
+              = link_to tour_path(lineup.tour) do
+                = "#{lineup.total_score} - #{lineup.team.human_name} / #{lineup.team.league.division_with_name}"
       .round-stats-row
         .round-stats-title Average result
         .round-stats-data

@@ -13,9 +13,9 @@
         .fees-subtitle
           .fees-subtitle-p= t('welcome.fee.subtitle1')
           .fees-subtitle-p= t('welcome.fee.subtitle2')
-          .fees-note
-            .fees-note-icon ⚠️
-            .fees-note-text= t('welcome.fee.note')
+          -#.fees-note
+          -#  .fees-note-icon ⚠️
+          -#  .fees-note-text= t('welcome.fee.note')
         .fees-desc
           .fees-desc-p= t('welcome.fee.paragraph1')
           .fees-desc-p= t('welcome.fee.paragraph2')
@@ -64,7 +64,7 @@
                 .type-value-uah ₴
               .type-per= t('welcome.fee.per_league')
               .type-play.grey-btn= link_to t('welcome.fee.play_now'), new_user_registration_path
-          .type-list
+          .type-list.type-list-double
             .type-league
               .type-league-icon= image_tag('tournaments/france.png')
               .type-league-data
@@ -96,11 +96,26 @@
                 .type-league-type.right Mantra
                 -#.type-league-country= t('welcome.fee.country.portugal')
             .type-league
+              .type-league-icon= image_tag('tournaments/usa.png')
+              .type-league-data
+                .type-league-name= t('welcome.fee.tournament.usa')
+                .type-league-type.right Mantra
+            .type-league
               .type-league-icon= image_tag('tournaments/poland.png')
               .type-league-data
                 .type-league-name= t('welcome.fee.tournament.poland')
                 .type-league-type.right Mantra
                 -#.type-league-country= t('welcome.fee.country.poland')
+            .type-league
+              .type-league-icon= image_tag('tournaments/brazil.png')
+              .type-league-data
+                .type-league-name= t('welcome.fee.tournament.brazil')
+                .type-league-type.right Mantra
+            .type-league
+              .type-league-icon= image_tag('tournaments/turkey.png')
+              .type-league-data
+                .type-league-name= t('welcome.fee.tournament.turkey')
+                .type-league-type.right Mantra
             -#.type-league
             -#  .type-league-icon= image_tag('tournaments/europe.png')
             -#  .type-league-data

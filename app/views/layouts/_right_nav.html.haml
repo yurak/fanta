@@ -36,8 +36,8 @@
               .next-round-text= t('header.next')
               .next-round-number= "#{t('header.next_round')} ##{league.active_tour.number}"
             .next-round-datetime
-              .next-round-date= league.active_tour.tournament_round.deadline&.strftime("%^a, %^b %e")
-              .next-round-time= league.active_tour.tournament_round.deadline&.strftime("%H:%M")
+              .next-round-date= local_time(league.active_tour.tournament_round.deadline, '%^a, %^b %e')
+              .next-round-time= local_time(league.active_tour.tournament_round.deadline, '%H:%M')
             .next-round-opponent
               .next-round-vs vs
               .next-round-opponent-logo= image_tag(user_team_by_league(current_user, league).next_opponent.logo_path)

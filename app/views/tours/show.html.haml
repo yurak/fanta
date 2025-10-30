@@ -50,13 +50,13 @@
             .round-deadline
               .round-deadline-text= t('tours.deadline')
               .round-deadline-value
-                = tour.tournament_round.deadline&.strftime("%a, %b %e at %H:%M")
+                = local_time(tour.tournament_round.deadline, '%a, %b %e at %H:%M')
               .round-deadline-countdown
                 = time_to_deadline(tour.tournament_round.time_to_deadline)
           - elsif tour.closed?
             .round-finished
               .round-finished-title= t('tours.finished')
-              .round-finished-date= tour.updated_at.strftime("%b %e, %Y")
+              .round-finished-date= local_time(tour.updated_at, "%b %e, %Y")
         - if tour.mantra?
           .round-matches
             = render 'round_matches'

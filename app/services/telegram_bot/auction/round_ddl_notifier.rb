@@ -19,7 +19,8 @@ module TelegramBot
           locale: locale(team),
           icon: league.tournament.icon,
           league_name: league.name,
-          deadline: auction_round.deadline&.strftime('%H:%M'),
+          deadline: deadline(team),
+          time_zone: time_zone(team),
           vacancies: auction_round.slots_number_by(team),
           team_name: team.human_name,
           url: Rails.application.routes.url_helpers.auction_round_url(auction_round),
@@ -29,6 +30,10 @@ module TelegramBot
 
       def auction_round
         @auction_round ||= auction.auction_rounds.active.first
+      end
+
+      def deadline(team)
+        team.user&.local_time(auction_round.deadline, '%H:%M')
       end
     end
   end

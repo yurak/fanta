@@ -5,9 +5,7 @@ namespace :tg do
     League.active.each do |league|
       league.tours.set_lineup.each do |tour|
         next unless tour.tournament_round.deadline
-
-        tour_deadline = tour.tournament_round.deadline.asctime.in_time_zone('EET')
-        next if DateTime.now < (tour_deadline - 3.hours)
+        next if DateTime.now < (tour.tournament_round.deadline - 3.hours)
 
         TelegramBot::Tour::DdlNotifier.call(tour)
       end

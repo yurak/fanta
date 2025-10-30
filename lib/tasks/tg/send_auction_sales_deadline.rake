@@ -7,7 +7,7 @@ namespace :tg do
 
       next unless auction
       next if auction.deadline.nil?
-      next if DateTime.now < (auction.deadline.asctime.in_time_zone('EET') - 16.hours)
+      next if DateTime.now < (auction.deadline - 18.hours)
 
       TelegramBot::Auction::SalesDdlNotifier.call(auction)
     end

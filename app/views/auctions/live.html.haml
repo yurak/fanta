@@ -20,7 +20,7 @@
           .auction-league-name= league.name
         .auction-date
           .auction-date-title= t('auction.live.date')
-          .auction-date-value= Time.zone.today.strftime("%b %e, %Y")
+          .auction-date-value= local_time(Time.zone.today, '%b %e, %Y')
     .auction-teams
       .auction-teams-title
         .auction-teams-title-text= t('auction.live.teams')
@@ -169,7 +169,7 @@
               .purchases-player-name
                 = transfer.player.name
               .purchases-player-time
-                = transfer.created_at.strftime("%H:%M")
+                = local_time(transfer.created_at, '%H:%M')
             .purchases-player-data-bottom
               .purchases-player-position
                 - transfer.player.positions.each do |position|
