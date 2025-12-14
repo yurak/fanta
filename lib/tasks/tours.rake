@@ -36,7 +36,7 @@ namespace :tours do
   task auto_inject: :environment do
     TournamentRound.moderated.each do |t_round|
       hours = ((Time.zone.now - t_round.moderated_at) / 3_600).to_i
-      next if [6, 12, 18].exclude?(hours)
+      next if [6, 12, 17].exclude?(hours)
 
       injector = "Scores::Injectors::#{t_round.tournament.source.capitalize}".constantize
       injector.call(t_round)

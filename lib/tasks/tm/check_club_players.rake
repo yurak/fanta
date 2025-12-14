@@ -15,6 +15,7 @@ namespace :tm do
     i = 0
     max_attempts = 3
     CSV.open('log/club_players.csv', 'ab') do |writer|
+      writer << ["--------#{DateTime.now.strftime('%b %e, %H:%M')}--------"]
       clubs.each do |club|
         i += 1
         # next if i < 13
