@@ -267,7 +267,7 @@
               }
             });
           }
-          if ("#{tour.eurocup?}" === 'true') {
+          if ("#{tour.eurocup?}" === 'true' && "#{tour.national?}" === 'false') {
             $('.team-player-club').each(function() {
               let tagId = '#club-players-' + this.textContent;
               let element = $(tagId);
@@ -373,7 +373,7 @@
 
       playersList.css("display", "block");
 
-      if ("#{tour.eurocup?}" === 'true') {
+      if ("#{tour.eurocup?}" === 'true' && "#{tour.national?}" === 'false') {
         const slotPositionName = $('#modal-position' + slotId).attr('class').replace('modal-players-title-position modal-position-','');
         const avatarImgSrc = $('#avatar-'+slotId).children()[0].src;
         const italPosNaming = ($('#position-naming')[0].getAttribute('value') === 'true');
