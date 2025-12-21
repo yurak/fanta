@@ -2,7 +2,6 @@
 
 require 'json'
 require 'fileutils'
-require 'playwright'
 
 module Players
   module Transfermarkt
@@ -10,6 +9,8 @@ module Players
       STORAGE_PATH = Rails.root.join('tmp/tm_storage_state.json').to_s
 
       def fetch_html(url, headless: true, cache_key: nil, force: false, ttl: 86_400)
+        require 'playwright'
+
         ensure_storage_state!
 
         path = cache_path(cache_key)
