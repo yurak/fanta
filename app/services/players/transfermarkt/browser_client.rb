@@ -7,14 +7,16 @@ require 'playwright'
 module Players
   module Transfermarkt
     class BrowserClient
-      STORAGE_PATH = Rails.root.join('tmp', 'tm_storage_state.json').to_s
+      STORAGE_PATH = Rails.root.join('tmp/tm_storage_state.json').to_s
 
       def fetch_html(url, headless: true, cache_key: nil, force: false, ttl: 86_400)
         ensure_storage_state!
 
         path = cache_path(cache_key)
 
-        unless force
+        if force
+          log_cache("cache FORCED refresh key=#{cache_key}")
+        else
           cached = read_cache(path, ttl)
           if cached
             log_cache("cache HIT key=#{cache_key}")
@@ -22,8 +24,6 @@ module Players
           else
             log_cache("cache MISS key=#{cache_key}")
           end
-        else
-          log_cache("cache FORCED refresh key=#{cache_key}")
         end
 
         state = JSON.parse(File.read(STORAGE_PATH))
@@ -43,7 +43,7 @@ module Players
 
             if html.include?('Human Verification') || html.include?('captcha')
               raise Players::Transfermarkt::CaptchaRequired,
-                    "Captcha required again. Re-run: bundle exec ruby public/script/tm_login.rb"
+                    'Captcha required again. Re-run: bundle exec ruby public/script/tm_login.rb'
             end
 
             write_cache(path, html)
@@ -78,7 +78,7 @@ module Players
 
       def read_cache(path, ttl)
         return nil unless path&.exist?
-        return nil if (Time.now - path.mtime) > ttl
+        return nil if (Time.zone.now - path.mtime) > ttl
 
         path.read
       end
@@ -94,17 +94,14 @@ module Players
         last_error = nil
 
         tries.times do |i|
-          begin
-            page.wait_for_timeout(800 + i * 250)
-            html = page.content
-            return html if html && !html.empty?
-          rescue Playwright::Error => e
-            last_error = e
-            if e.message.include?('page is navigating') || e.message.include?('Execution context was destroyed')
-              next
-            end
-            raise
-          end
+          page.wait_for_timeout(800 + (i * 250))
+          html = page.content
+          return html if html.present?
+        rescue Playwright::Error => e
+          last_error = e
+          next if e.message.include?('page is navigating') || e.message.include?('Execution context was destroyed')
+
+          raise
         end
 
         raise last_error || Playwright::Error.new('Unable to get stable page content')
