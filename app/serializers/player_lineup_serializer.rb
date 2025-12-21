@@ -10,7 +10,7 @@ class PlayerLineupSerializer < ActiveModel::Serializer
   attributes :leagues
   attributes :name
   attributes :national_kit_path
-  attributes :national_team_name
+  attributes :national_team_code
   attributes :position_arr
   attributes :position_classic_arr
   attributes :stats_price
@@ -35,8 +35,8 @@ class PlayerLineupSerializer < ActiveModel::Serializer
     object.teams.pluck(:league_id)
   end
 
-  def national_team_name
-    object.national_team&.name
+  def national_team_code
+    object.national_team&.code
   end
 
   def position_arr
