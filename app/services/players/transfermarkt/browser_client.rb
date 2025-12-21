@@ -38,8 +38,14 @@ module Players
 
             page = context.new_page
             page.goto(url)
+            page.wait_for_load_state(state: 'domcontentloaded')
+            page.wait_for_load_state(state: 'load')
+            accept_sourcepoint_consent!(page)
 
             html = safe_page_content(page)
+            unless html.include?('data-header')
+              dump_debug(page, cache_key: cache_key)
+            end
 
             if html.include?('Human Verification') || html.include?('captcha')
               raise Players::Transfermarkt::CaptchaRequired,
@@ -90,17 +96,57 @@ module Players
         path.write(html)
       end
 
-      def safe_page_content(page, tries: 8)
+      def accept_sourcepoint_consent!(page, timeout: 8_000)
+        html = page.content
+        return unless html.include?('privacy-mgmt.com') || html.include?('sourcepoint') || html.include?('_sp_')
+
+        page.wait_for_timeout(800)
+
+        start = Process.clock_gettime(Process::CLOCK_MONOTONIC)
+        frame = nil
+
+        while (Process.clock_gettime(Process::CLOCK_MONOTONIC) - start) * 1000 < timeout
+          frame = page.frames.find do |f|
+            u = f.url.to_s
+            u.include?('privacy-mgmt.com') || u.include?('sp-prod.net') || u.include?('ccpa.sp-prod.net')
+          end
+          break if frame
+          page.wait_for_timeout(200)
+        end
+
+        targets = [frame, page].compact
+
+        targets.each do |ctx|
+          [
+            'button:has-text("Accept")',
+            'button:has-text("Accept all")',
+            'button:has-text("I agree")',
+            'button:has-text("Agree")',
+            'button:has-text("Continue")',
+            'button:has-text("OK")'
+          ].each do |sel|
+            loc = ctx.locator(sel)
+            if loc.count.positive?
+              loc.first.click(timeout: 1_000) rescue nil
+              page.wait_for_timeout(600)
+              return
+            end
+          end
+        end
+      end
+
+      def safe_page_content(page, tries: 12)
         last_error = nil
 
         tries.times do |i|
           page.wait_for_timeout(800 + (i * 250))
           html = page.content
-          return html if html.present?
+
+          return html if html.include?('data-header') || html.include?('profil/spieler')
+          return html if html.length > 80_000
         rescue Playwright::Error => e
           last_error = e
           next if e.message.include?('page is navigating') || e.message.include?('Execution context was destroyed')
-
           raise
         end
 
@@ -109,6 +155,16 @@ module Players
 
       def log_cache(message)
         Rails.logger.info("[TM][BrowserClient] #{message}")
+      end
+
+      def dump_debug(page, cache_key: nil)
+        key  = cache_key.presence || Time.now.to_i
+        base = Rails.root.join('tmp', "tm_debug_#{key}")
+
+        File.write("#{base}.html", page.content)
+        page.screenshot(path: "#{base}.png")
+
+        Rails.logger.warn("[TM][BrowserClient] debug dump: #{base}.html / #{base}.png")
       end
     end
   end

@@ -23,7 +23,7 @@ module Players
       private
 
       def name_data
-        html_page.css('.data-header__headline-wrapper').children
+        @name_data ||= html_page.css('.data-header__headline-wrapper').children
       end
 
       def first_name
@@ -47,7 +47,7 @@ module Players
       end
 
       def tm_club_name
-        html_page.css('.data-header__club').children[1]&.text || html_page.css('.data-header__club').children[0]&.text&.strip
+        @tm_club_name ||= html_page.css('.data-header__club').children[1]&.text || html_page.css('.data-header__club').children[0]&.text&.strip
       end
 
       def positions
@@ -83,6 +83,8 @@ module Players
       end
 
       def birth_date
+        return if html_page.css('.data-header__info-box .data-header__details').blank?
+
         html_page.css('.data-header__info-box .data-header__details').children[1].children[1].children[1].children.text.strip[0..9]
       end
 
@@ -91,6 +93,8 @@ module Players
       end
 
       def height
+        return if html_page.css('.data-header__info-box .data-header__details').blank?
+
         html_page.css('.data-header__info-box .data-header__details')
                  .children[3].children[1].children[1].children.text.strip[0..3].tr(',', '')
       end
@@ -114,7 +118,7 @@ module Players
       end
 
       def html
-        @html ||= Players::Transfermarkt::BrowserClient.new.fetch_html(
+        Players::Transfermarkt::BrowserClient.new.fetch_html(
           tm_url,
           headless: tm_headless?,
           cache_key: "player_#{tm_id}",
