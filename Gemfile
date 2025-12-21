@@ -45,9 +45,9 @@ gem 'telegram-bot'
 gem 'time_difference'
 gem 'uglifier', '>= 1.3.0'
 gem 'whenever', require: false
-gem "shakapacker", "= 7.1"
-gem "react_on_rails", "= 13.4"
-gem "i18n-js"
+gem 'shakapacker', "= 7.1"
+gem 'react_on_rails', "= 13.4"
+gem 'i18n-js'
 
 group :development, :test do
   gem 'factory_bot_rails', '6.2.0'
@@ -67,6 +67,7 @@ group :development do
   gem 'capistrano-passenger', '~> 0.2.0'
   gem 'capistrano-rvm'
   gem 'capistrano-yarn'
+  gem 'playwright-ruby-client'
   gem 'query_diet'
   gem 'web-console', '>= 3.3.0'
 end

@@ -110,13 +110,20 @@ module Players
       end
 
       def html_page
-        @html_page ||= Nokogiri::HTML(request)
+        @html_page ||= Nokogiri::HTML(html)
       end
 
-      def request
-        @request ||= RestClient::Request.execute(
-          method: :get, url: tm_url, headers: { 'User-Agent': 'product/version' }, verify_ssl: false
+      def html
+        @html ||= Players::Transfermarkt::BrowserClient.new.fetch_html(
+          tm_url,
+          headless: tm_headless?,
+          cache_key: "player_#{tm_id}",
+          ttl: 7 * 86_400
         )
+      end
+
+      def tm_headless?
+        ENV.fetch('TM_HEADLESS', 'true') == 'true'
       end
 
       def tm_url
