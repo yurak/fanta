@@ -85,7 +85,7 @@ RSpec.describe Players::Transfermarkt::Parser do
 
       it 'returns player birth date' do
         VCR.use_cassette 'player_tm_parser_fofana' do
-          expect(parser.call[:birth_date]).to eq('10.01.1999')
+          expect(parser.call[:birth_date]).to eq('10/01/1999')
         end
       end
     end

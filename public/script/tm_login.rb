@@ -13,8 +13,14 @@ cli_path = 'npx playwright' if cli_path.empty?
 Playwright.create(playwright_cli_executable_path: cli_path) do |pw|
   browser = pw.chromium.launch(headless: false)
   context = browser.new_context
-  page = context.new_page
+  context.set_extra_http_headers(
+    'User-Agent' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:146.0) Gecko/20100101 Firefox/146.0',
+    'Accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
+    'Accept-Language' => 'en-US,en;q=0.5',
+    'Upgrade-Insecure-Requests' => '1'
+  )
 
+  page = context.new_page
   page.goto('https://www.transfermarkt.com/')
   page.wait_for_timeout(1500)
 

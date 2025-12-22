@@ -8,7 +8,7 @@ module Players
     class BrowserClient
       STORAGE_PATH = Rails.root.join('tmp/tm_storage_state.json').to_s
 
-      def fetch_html(url, headless: true, cache_key: nil, force: false, ttl: 86_400)
+      def fetch_html(url, headless: false, cache_key: nil, force: false, ttl: 86_400)
         require 'playwright'
 
         ensure_storage_state!
@@ -35,12 +35,16 @@ module Players
           browser = pw.chromium.launch(headless: headless)
           begin
             context = browser.new_context
+            context.set_extra_http_headers(
+              'User-Agent' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:146.0) Gecko/20100101 Firefox/146.0',
+              'Accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
+              'Accept-Language' => 'en-US,en;q=0.5',
+              'Upgrade-Insecure-Requests' => '1'
+            )
             context.add_cookies(cookies) if cookies.any?
 
             page = context.new_page
             page.goto(url)
-            page.wait_for_load_state(state: 'domcontentloaded')
-            page.wait_for_load_state(state: 'load')
             accept_sourcepoint_consent!(page)
 
             html = safe_page_content(page)
@@ -87,7 +91,9 @@ module Players
         return nil unless path&.exist?
         return nil if (Time.zone.now - path.mtime) > ttl
 
-        path.read
+        content = path.read
+        return nil if content.include?('Human Verification') || content.include?('captcha')
+        content
       end
 
       def write_cache(path, html)
