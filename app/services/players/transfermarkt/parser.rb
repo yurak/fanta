@@ -48,7 +48,11 @@ module Players
       end
 
       def tm_club_name
-        @tm_club_name ||= html_page.css('.data-header__club').children[1]&.text || html_page.css('.data-header__club').children[0]&.text&.strip
+        @tm_club_name ||= tm_club_text[1]&.text || tm_club_text[0]&.text&.strip
+      end
+
+      def tm_club_text
+        html_page.css('.data-header__club').children
       end
 
       def positions

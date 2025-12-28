@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# rubocop:disable Metrics/MethodLength:
 require 'json'
 require 'fileutils'
 
@@ -48,9 +49,7 @@ module Players
             accept_sourcepoint_consent!(page)
 
             html = safe_page_content(page)
-            unless html.include?('data-header')
-              dump_debug(page, cache_key: cache_key)
-            end
+            dump_debug(page, cache_key: cache_key) unless html.include?('data-header')
 
             if html.include?('Human Verification') || html.include?('captcha')
               raise Players::Transfermarkt::CaptchaRequired,
@@ -93,6 +92,7 @@ module Players
 
         content = path.read
         return nil if content.include?('Human Verification') || content.include?('captcha')
+
         content
       end
 
@@ -118,6 +118,7 @@ module Players
             u.include?('privacy-mgmt.com') || u.include?('sp-prod.net') || u.include?('ccpa.sp-prod.net')
           end
           break if frame
+
           page.wait_for_timeout(200)
         end
 
@@ -133,11 +134,14 @@ module Players
             'button:has-text("OK")'
           ].each do |sel|
             loc = ctx.locator(sel)
-            if loc.count.positive?
-              loc.first.click(timeout: 1_000) rescue nil
-              page.wait_for_timeout(600)
-              return
+            next unless loc.count.positive?
+
+            begin
+              loc.first.click(timeout: 1_000)
+            rescue
+              nil
             end
+            page.wait_for_timeout(600)
           end
         end
       end
@@ -154,6 +158,7 @@ module Players
         rescue Playwright::Error => e
           last_error = e
           next if e.message.include?('page is navigating') || e.message.include?('Execution context was destroyed')
+
           raise
         end
 
@@ -176,3 +181,4 @@ module Players
     end
   end
 end
+# rubocop:enable Metrics/MethodLength

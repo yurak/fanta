@@ -15,7 +15,9 @@ class SlotsController < ApplicationController
   def eurocup_players
     return {} unless tour&.eurocup?
 
-    fanta_round_players.each_with_object({}) { |cp, hash| hash[cp[0].name] = cp[1].map { |item| PlayerLineupSerializer.new(item).serializable_hash } }
+    fanta_round_players.each_with_object({}) do |cp, hash|
+      hash[cp[0].name] = cp[1].map { |item| PlayerLineupSerializer.new(item).serializable_hash }
+    end
   end
 
   def fanta_round_players
@@ -25,8 +27,6 @@ class SlotsController < ApplicationController
       round_players(Player.includes(player_positions: :position).by_tournament_round(t_round), :club)
     end
   end
-
-  private
 
   def round_players(base_scope, group_association)
     scope = base_scope
