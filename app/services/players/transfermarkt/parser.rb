@@ -3,10 +3,11 @@ module Players
     class Parser < ApplicationService
       THOUSAND = 1000
 
-      attr_reader :tm_id
+      attr_reader :position_skip, :tm_id
 
-      def initialize(tm_id)
+      def initialize(tm_id, position_skip: false)
         @tm_id = tm_id
+        @position_skip = position_skip
       end
 
       def call
@@ -39,7 +40,7 @@ module Players
         return unless country_text
 
         country_name = country_text.attributes['title'].value
-        ISO3166::Country.find_country_by_iso_short_name(country_name)&.alpha2&.downcase
+        Player::COUNTRY.key(country_name).to_s.presence || ISO3166::Country.find_country_by_iso_short_name(country_name)&.alpha2&.downcase
       end
 
       def club
@@ -67,6 +68,8 @@ module Players
       end
 
       def position_arr
+        return [] if position_skip
+
         @position_arr ||= Players::Transfermarkt::PositionMapper.call(Player.new(tm_id: tm_id), Season.last.start_year)
       end
 

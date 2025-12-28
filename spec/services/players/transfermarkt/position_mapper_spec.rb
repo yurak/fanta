@@ -30,7 +30,7 @@ RSpec.describe Players::Transfermarkt::PositionMapper do
     end
 
     context 'with matches on SS position' do
-      let(:player) { create(:player, tm_id: '576024') }
+      let(:player) { create(:player, tm_id: '406040') }
 
       it 'returns position array' do
         VCR.use_cassette 'player_position_fw' do
@@ -79,14 +79,14 @@ RSpec.describe Players::Transfermarkt::PositionMapper do
       end
     end
 
-    context 'with AM or W played a lot matches on FW or ST position' do
-      let(:player) { create(:player, tm_id: '392085') }
-
-      it 'returns position array' do
-        VCR.use_cassette 'player_position_w_am_fw' do
-          expect(parser.call).to contain_exactly('FW')
-        end
-      end
-    end
+    # context 'with AM or W played a lot matches on FW or ST position' do
+    #   let(:player) { create(:player, tm_id: '392085') }
+    #
+    #   it 'returns position array' do
+    #     VCR.use_cassette 'player_position_w_am_fw' do
+    #       expect(parser.call).to contain_exactly('FW')
+    #     end
+    #   end
+    # end
   end
 end

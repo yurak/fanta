@@ -20,6 +20,28 @@ namespace :tm do
     end
   end
 
+  # rake 'tm:parse_players_range[1,19999]'
+  desc 'Parse players data from TM'
+  task :parse_players_range, %i[start_id last_id] => :environment do |_t, args|
+    ids_range = args[:start_id].to_i..args[:last_id].to_i
+
+    CSV.open('log/player_data_updates.csv', 'ab') do |writer|
+      writer << %w[id first_name name nationality tm_price number birth_date height tm_club club tm_url]
+      ids_range.each do |id|
+        player = Player.find_by(id: id)
+        next unless player&.tm_id
+
+        puts id
+        result = Players::Transfermarkt::Parser.call(player.tm_id, position_skip: true)
+
+        writer << [id, result[:first_name], result[:name], result[:nationality],
+                   result[:tm_price], result[:number], result[:birth_date], result[:height],
+                   result[:tm_club_name], player.club.tm_name, result[:tm_url]]
+        sleep(5)
+      end
+    end
+  end
+
   # rake 'tm:parse_player_by_id_list'
   desc 'Parse player data from TM by ids from csv'
   task parse_player_by_id_list: :environment do

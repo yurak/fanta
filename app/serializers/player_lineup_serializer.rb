@@ -11,6 +11,8 @@ class PlayerLineupSerializer < ActiveModel::Serializer
   attributes :name
   attributes :national_kit_path
   attributes :national_team_code
+  attributes :national_team_color
+  attributes :national_team_name
   attributes :position_arr
   attributes :position_classic_arr
   attributes :stats_price
@@ -37,6 +39,14 @@ class PlayerLineupSerializer < ActiveModel::Serializer
 
   def national_team_code
     object.national_team&.code
+  end
+
+  def national_team_color
+    object.national_team&.color
+  end
+
+  def national_team_name
+    object.national_team&.name&.upcase
   end
 
   def position_arr
