@@ -1,6 +1,6 @@
 # rubocop:disable Metrics/BlockLength:
 namespace :tm do
-  # rake 'tm:parse_player[1458907]'
+  # rake 'tm:parse_player[123456]'
   desc 'Parse player data from TM'
   task :parse_player, %i[player_tm_id] => :environment do |_t, args|
     tm_id = args[:player_tm_id]
