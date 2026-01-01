@@ -27,19 +27,26 @@ class Player < ApplicationRecord
 
   COUNTRY = {
     bo: 'Bolivia',
+    bq: 'Bonaire',
+    ba: 'Bosnia-Herzegovina',
     cd: 'DR Congo',
+    cv: 'Cape Verde',
+    cz: 'Czech Republic',
     'gb-eng': 'England',
     'gb-wls': 'Wales',
     'gb-sct': 'Scotland',
     'gb-nir': 'Northern Ireland',
+    gm: 'The Gambia',
     ir: 'Iran',
-    kr: 'Korea',
+    kr: 'Korea, South',
+    kn: 'St. Kitts & Nevis',
+    lc: 'St. Lucia',
     md: 'Moldova',
     ps: 'Palestine',
     ru: 'terrorist state',
     sy: 'Syria',
     tz: 'Tanzania',
-    us: 'USA',
+    us: 'United States',
     ve: 'Venezuela',
     xk: 'Kosovo'
   }.freeze

@@ -92,7 +92,12 @@ module Players
       def birth_date
         return if html_page.css('.data-header__info-box .data-header__details').blank?
 
-        html_page.css('.data-header__info-box .data-header__details').children[1].children[1].children[1].children.text.strip[0..9]
+        value = html_page.css('.data-header__info-box .data-header__details').children[1].children[1].children[1].children.text.strip[0..9]
+
+        Date.strptime(value, '%d/%m/%Y')
+        value
+      rescue ArgumentError
+        nil
       end
 
       def number
@@ -102,8 +107,12 @@ module Players
       def height
         return if html_page.css('.data-header__info-box .data-header__details').blank?
 
-        html_page.css('.data-header__info-box .data-header__details')
-                 .children[3].children[1].children[1].children.text.strip[0..3].tr(',', '')
+        value = html_page.css('.data-header__info-box .data-header__details')
+                         .children[3].children[1].children[1].children.text.strip[0..3].tr(',', '')
+        Integer(value)
+        value.to_i
+      rescue ArgumentError, TypeError
+        nil
       end
 
       def price

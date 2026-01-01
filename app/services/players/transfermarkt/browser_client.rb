@@ -15,50 +15,27 @@ module Players
         ensure_storage_state!
 
         path = cache_path(cache_key)
+        cached = fetch_from_cache(path, cache_key: cache_key, force: force, ttl: ttl)
+        return cached if cached
 
-        if force
-          log_cache("cache FORCED refresh key=#{cache_key}")
-        else
-          cached = read_cache(path, ttl)
-          if cached
-            log_cache("cache HIT key=#{cache_key}")
-            return cached
-          else
-            log_cache("cache MISS key=#{cache_key}")
-          end
-        end
-
-        state = JSON.parse(File.read(STORAGE_PATH))
-        cookies = state.fetch('cookies', [])
+        cookies = load_cookies
         log_cache("browser OPEN key=#{cache_key} headless=#{headless}")
 
         Playwright.create(playwright_cli_executable_path: playwright_cli_path) do |pw|
           browser = pw.chromium.launch(headless: headless)
           begin
-            context = browser.new_context
-            context.set_extra_http_headers(
-              'User-Agent' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:146.0) Gecko/20100101 Firefox/146.0',
-              'Accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
-              'Accept-Language' => 'en-US,en;q=0.5',
-              'Upgrade-Insecure-Requests' => '1'
-            )
-            context.add_cookies(cookies) if cookies.any?
+            context = build_context(browser, cookies)
+            page    = context.new_page
 
-            page = context.new_page
-            page.goto(url)
-            accept_sourcepoint_consent!(page)
+            prepare_page(page, url)
 
-            html = safe_page_content(page)
-            dump_debug(page, cache_key: cache_key) unless html.include?('data-header')
+            html = obtain_html(page, cache_key: cache_key)
 
-            if html.include?('Human Verification') || html.include?('captcha')
-              raise Players::Transfermarkt::CaptchaRequired,
-                    'Captcha required again. Re-run: bundle exec ruby public/script/tm_login.rb'
-            end
-
-            write_cache(path, html)
-            log_cache("cache WRITE key=#{cache_key}")
+            write_cache_and_log(path, html, cache_key: cache_key)
             html
+          rescue
+            debug_page(page, cache_key: cache_key)
+            raise
           ensure
             browser.close
           end
@@ -148,13 +125,14 @@ module Players
 
       def safe_page_content(page, tries: 12)
         last_error = nil
+        last_html  = nil
 
         tries.times do |i|
           page.wait_for_timeout(800 + (i * 250))
           html = page.content
+          last_html = html
 
-          return html if html.include?('data-header') || html.include?('profil/spieler')
-          return html if html.length > 80_000
+          return html if html.present? && !html.strip.empty?
         rescue Playwright::Error => e
           last_error = e
           next if e.message.include?('page is navigating') || e.message.include?('Execution context was destroyed')
@@ -162,7 +140,12 @@ module Players
           raise
         end
 
-        raise last_error || Playwright::Error.new('Unable to get stable page content')
+        if last_html&.include?('Human Verification') || last_html&.include?('captcha')
+          raise Players::Transfermarkt::CaptchaRequired,
+                'Captcha required again. Re-run: bundle exec ruby public/script/tm_login.rb'
+        end
+
+        raise last_error || StandardError.new('Unable to get stable page content')
       end
 
       def log_cache(message)
@@ -177,6 +160,69 @@ module Players
         page.screenshot(path: "#{base}.png")
 
         Rails.logger.warn("[TM][BrowserClient] debug dump: #{base}.html / #{base}.png")
+      end
+
+      def fetch_from_cache(path, cache_key:, force:, ttl:)
+        if force
+          log_cache("cache FORCED refresh key=#{cache_key}")
+          return nil
+        end
+
+        cached = read_cache(path, ttl)
+        if cached
+          log_cache("cache HIT key=#{cache_key}")
+          cached
+        else
+          log_cache("cache MISS key=#{cache_key}")
+          nil
+        end
+      end
+
+      def load_cookies
+        state = JSON.parse(File.read(STORAGE_PATH))
+        state.fetch('cookies', [])
+      end
+
+      def build_context(browser, cookies)
+        context = browser.new_context
+        context.set_extra_http_headers(
+          'User-Agent' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:146.0) Gecko/20100101 Firefox/146.0',
+          'Accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
+          'Accept-Language' => 'en-US,en;q=0.5',
+          'Upgrade-Insecure-Requests' => '1'
+        )
+        context.add_cookies(cookies) if cookies.any?
+        context
+      end
+
+      def prepare_page(page, url)
+        page.goto(url)
+        accept_sourcepoint_consent!(page)
+      end
+
+      def obtain_html(page, cache_key:)
+        html = safe_page_content(page)
+
+        dump_debug(page, cache_key: cache_key) unless html.include?('data-header')
+
+        if html.include?('Human Verification') || html.include?('captcha')
+          dump_debug(page, cache_key: cache_key)
+          raise Players::Transfermarkt::CaptchaRequired,
+                'Captcha required again. Re-run: bundle exec ruby public/script/tm_login.rb'
+        end
+
+        html
+      end
+
+      def write_cache_and_log(path, html, cache_key:)
+        write_cache(path, html)
+        log_cache("cache WRITE key=#{cache_key}") if path
+      end
+
+      def debug_page(page, cache_key:)
+        dump_debug(page, cache_key: cache_key) if page
+      rescue
+        nil
       end
     end
   end
