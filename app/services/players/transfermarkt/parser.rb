@@ -101,7 +101,7 @@ module Players
       end
 
       def number
-        html_page.css('.data-header__shirt-number').text.strip.tr('#', '')
+        html_page.css('.data-header__shirt-number').text.strip.tr('#', '')&.to_i
       end
 
       def height
@@ -122,7 +122,7 @@ module Players
                      when 'm' then THOUSAND * THOUSAND
                      else THOUSAND
                      end
-        multiplier * price_value.to_f
+        multiplier * price_value.to_i
       end
 
       def price_value
