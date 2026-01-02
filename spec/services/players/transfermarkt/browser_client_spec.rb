@@ -1,12 +1,55 @@
+# spec/services/players/transfermarkt/browser_client_spec.rb
 require 'rails_helper'
 require 'json'
 require 'fileutils'
 require 'playwright'
 
+class ChromiumDouble
+  def launch(*); end
+end
+
+class BrowserDouble
+  def new_context(*); end
+  def close(*); end
+end
+
+class BrowserContextDouble
+  def set_extra_http_headers(*); end
+  def add_cookies(*); end
+  def new_page(*); end
+end
+
+class PlaywrightPageDouble
+  def goto(*); end
+  def wait_for_timeout(*); end
+  def content(*); end
+  def frames(*); end
+  def locator(*); end
+  def screenshot(*); end
+end
+
+class LocatorDouble
+  def count(*); end
+  def first(*); end
+end
+
+class NodeDouble
+  def click(*); end
+end
+
+class PlaywrightFrameDouble
+  def url(*); end
+  def locator(*); end
+end
+
+class PlaywrightApiDouble
+  def chromium; end
+end
+
 RSpec.describe Players::Transfermarkt::BrowserClient do
   subject(:client) { described_class.new }
 
-  let(:tmp_dir) { Rails.root.join('tmp', 'tm_spec') }
+  let(:tmp_dir) { Rails.root.join('tmp/tm_spec') }
 
   before do
     FileUtils.mkdir_p(tmp_dir)
@@ -14,6 +57,48 @@ RSpec.describe Players::Transfermarkt::BrowserClient do
 
   after do
     FileUtils.rm_rf(tmp_dir)
+  end
+
+  def build_storage_state(path:, cookies: [])
+    FileUtils.mkdir_p(File.dirname(path))
+    File.write(path, { cookies: cookies }.to_json)
+  end
+
+  def stub_playwright_pipeline(html:)
+    chromium = build_chromium_double
+    browser, context, page = build_browser_stack(chromium)
+    stub_page_content(page, html)
+
+    [browser, context, page]
+  end
+
+  def build_chromium_double
+    chromium = instance_double(ChromiumDouble)
+    pw       = instance_double(PlaywrightApiDouble, chromium: chromium)
+
+    allow(Playwright).to receive(:create).and_yield(pw)
+    chromium
+  end
+
+  def build_browser_stack(chromium)
+    browser = instance_double(BrowserDouble)
+    context = instance_double(BrowserContextDouble)
+    page    = instance_double(PlaywrightPageDouble)
+
+    allow(chromium).to receive(:launch).and_return(browser)
+    allow(browser).to receive(:new_context).and_return(context)
+    allow(browser).to receive(:close)
+    allow(context).to receive(:set_extra_http_headers)
+    allow(context).to receive(:add_cookies)
+    allow(context).to receive(:new_page).and_return(page)
+
+    [browser, context, page]
+  end
+
+  def stub_page_content(page, html)
+    allow(page).to receive(:goto)
+    allow(page).to receive(:wait_for_timeout)
+    allow(page).to receive(:content).and_return(html)
   end
 
   describe '#fetch_html (storage state)' do
@@ -41,9 +126,7 @@ RSpec.describe Players::Transfermarkt::BrowserClient do
 
     before do
       stub_const("#{described_class}::STORAGE_PATH", storage_fn)
-
-      FileUtils.mkdir_p(File.dirname(storage_fn))
-      File.write(storage_fn, { cookies: [] }.to_json)
+      build_storage_state(path: storage_fn)
     end
 
     context 'when cached html is fresh' do
@@ -52,49 +135,40 @@ RSpec.describe Players::Transfermarkt::BrowserClient do
       before do
         FileUtils.mkdir_p(cache_path.dirname)
         File.write(cache_path, cached_html)
-      end
-
-      it 'does not call Playwright.create' do
-        expect(Playwright).not_to receive(:create)
-
-        client.fetch_html(url, cache_key: cache_key, ttl: 86_400)
+        allow(Playwright).to receive(:create)
       end
 
       it 'returns cached html content' do
-        html = client.fetch_html(url, cache_key: cache_key, ttl: 86_400)
+        result = client.fetch_html(url, cache_key: cache_key, ttl: 86_400)
 
-        expect(html).to eq(cached_html)
+        expect(result).to eq(cached_html)
+      end
+
+      it 'does not open Playwright' do
+        client.fetch_html(url, cache_key: cache_key, ttl: 86_400)
+
+        expect(Playwright).not_to have_received(:create)
       end
     end
 
     context 'when cached html contains Human Verification' do
       let(:cached_html) { '<html>Human Verification</html>' }
+      let(:html_after)  { '<html><div class="data-header">OK</div></html>' }
 
       before do
         FileUtils.mkdir_p(cache_path.dirname)
         File.write(cache_path, cached_html)
+        stub_playwright_pipeline(html: html_after)
+        allow(Rails.logger).to receive(:info)
       end
 
-      it 'ignores cache and calls Playwright.create' do
-        chromium = instance_double('Chromium')
-        browser  = instance_double('Browser')
-        context  = instance_double('BrowserContext')
-        page     = instance_double('Page')
+      it 'ignores cache' do
+        result = client.fetch_html(url, cache_key: cache_key, ttl: 86_400)
 
-        allow(Playwright).to receive(:create)
-                               .and_yield(double('PW', chromium: chromium))
+        expect(result).to eq(html_after)
+      end
 
-        allow(chromium).to receive(:launch).and_return(browser)
-        allow(browser).to receive(:new_context).and_return(context)
-        allow(context).to receive(:set_extra_http_headers)
-        allow(context).to receive(:add_cookies)
-        allow(context).to receive(:new_page).and_return(page)
-        allow(page).to receive(:goto)
-        allow(client).to receive(:accept_sourcepoint_consent!).with(page)
-        allow(client).to receive(:safe_page_content).with(page).and_return('<html>OK data-header</html>')
-        allow(client).to receive(:dump_debug)
-        allow(browser).to receive(:close)
-
+      it 'calls Playwright.create' do
         client.fetch_html(url, cache_key: cache_key, ttl: 86_400)
 
         expect(Playwright).to have_received(:create)
@@ -121,7 +195,7 @@ RSpec.describe Players::Transfermarkt::BrowserClient do
 
     it 'returns nil when cache file is too old' do
       File.write(path, '<html>old</html>')
-      old_time = 3.days.ago.to_time # ← важливо
+      old_time = (Time.now.utc - (3 * 24 * 3600))
 
       File.utime(old_time, old_time, path)
 
@@ -140,7 +214,7 @@ RSpec.describe Players::Transfermarkt::BrowserClient do
   end
 
   describe '#dump_debug' do
-    let(:page) { instance_double('PlaywrightPage', content: '<html>debug</html>') }
+    let(:page) { instance_double(PlaywrightPageDouble, content: '<html>debug</html>') }
     let(:key)  { 'spec_key' }
     let(:base) { Rails.root.join('tmp', "tm_debug_#{key}") }
 
@@ -160,13 +234,12 @@ RSpec.describe Players::Transfermarkt::BrowserClient do
     end
 
     it 'logs warning with file paths' do
-      expect(Rails.logger).to have_received(:warn)
-                                .with("[TM][BrowserClient] debug dump: #{base}.html / #{base}.png")
+      expect(Rails.logger).to have_received(:warn).with("[TM][BrowserClient] debug dump: #{base}.html / #{base}.png")
     end
   end
 
   describe '#safe_page_content' do
-    let(:page) { instance_double('PlaywrightPage') }
+    let(:page) { instance_double(PlaywrightPageDouble) }
 
     before do
       allow(page).to receive(:wait_for_timeout)
@@ -208,15 +281,28 @@ RSpec.describe Players::Transfermarkt::BrowserClient do
   end
 
   describe '#accept_sourcepoint_consent!' do
-    let(:page) { instance_double('PlaywrightPage') }
+    let(:page) { instance_double(PlaywrightPageDouble) }
 
     before do
       allow(page).to receive(:wait_for_timeout)
     end
 
+    context 'when page has no sourcepoint elements' do
+      before do
+        allow(page).to receive(:content).and_return('<html>No consent here</html>')
+      end
+
+      it 'does nothing and does not raise' do
+        expect do
+          client.send(:accept_sourcepoint_consent!, page)
+        end.not_to raise_error
+      end
+    end
+
     context 'when consent dialog exists on main page' do
-      let(:empty_locator) { instance_double('Locator', count: 0) }
-      let(:accept_locator) { instance_double('Locator') }
+      let(:empty_locator)  { instance_double(LocatorDouble, count: 0) }
+      let(:accept_locator) { instance_double(LocatorDouble) }
+      let(:first_node)     { instance_double(NodeDouble) }
 
       before do
         allow(page).to receive(:content).and_return('<html>privacy-mgmt.com script here</html>')
@@ -224,12 +310,11 @@ RSpec.describe Players::Transfermarkt::BrowserClient do
         allow(page).to receive(:locator).and_return(empty_locator)
         allow(page).to receive(:locator).with('button:has-text("Accept")').and_return(accept_locator)
         allow(accept_locator).to receive(:count).and_return(1)
-        first_double = instance_double('FirstNode')
-        allow(accept_locator).to receive(:first).and_return(first_double)
-        allow(first_double).to receive(:click)
+        allow(accept_locator).to receive(:first).and_return(first_node)
+        allow(first_node).to receive(:click)
       end
 
-      it 'clicks accept button on the page' do
+      it 'tries to click accept button on the page' do
         client.send(:accept_sourcepoint_consent!, page)
 
         expect(page).to have_received(:locator).with('button:has-text("Accept")')
@@ -237,9 +322,10 @@ RSpec.describe Players::Transfermarkt::BrowserClient do
     end
 
     context 'when consent dialog exists inside iframe' do
-      let(:frame)          { instance_double('PlaywrightFrame') }
-      let(:empty_locator)  { instance_double('Locator', count: 0) }
-      let(:accept_locator) { instance_double('Locator') }
+      let(:frame)          { instance_double(PlaywrightFrameDouble) }
+      let(:empty_locator)  { instance_double(LocatorDouble, count: 0) }
+      let(:accept_locator) { instance_double(LocatorDouble) }
+      let(:first_node)     { instance_double(NodeDouble) }
 
       before do
         allow(page).to receive(:content).and_return('<html>iframe privacy-mgmt.com</html>')
@@ -249,12 +335,11 @@ RSpec.describe Players::Transfermarkt::BrowserClient do
         allow(frame).to receive(:locator).and_return(empty_locator)
         allow(frame).to receive(:locator).with('button:has-text("Accept all")').and_return(accept_locator)
         allow(accept_locator).to receive(:count).and_return(1)
-        first_double = instance_double('FirstNode')
-        allow(accept_locator).to receive(:first).and_return(first_double)
-        allow(first_double).to receive(:click)
+        allow(accept_locator).to receive(:first).and_return(first_node)
+        allow(first_node).to receive(:click)
       end
 
-      it 'clicks accept button inside iframe' do
+      it 'tries to click accept button inside iframe' do
         client.send(:accept_sourcepoint_consent!, page)
 
         expect(frame).to have_received(:locator).with('button:has-text("Accept all")')
