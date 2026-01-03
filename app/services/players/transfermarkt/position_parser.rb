@@ -43,13 +43,24 @@ module Players
       end
 
       def html_page
-        @html_page ||= Nokogiri::HTML(request)
+        @html_page ||= Nokogiri::HTML(html)
       end
 
-      def request
-        @request ||= RestClient::Request.execute(
-          method: :get, url: player.tm_position_path(year), headers: { 'User-Agent': 'product/version' }, verify_ssl: false
+      def html
+        @html ||= Players::Transfermarkt::BrowserClient.new.fetch_html(
+          player.tm_position_path(year),
+          headless: tm_headless?,
+          cache_key: cache_key,
+          ttl: 7 * 86_400
         )
+      end
+
+      def cache_key
+        "positions_#{player.tm_id}_#{year}"
+      end
+
+      def tm_headless?
+        ENV.fetch('TM_HEADLESS', 'true') == 'true'
       end
     end
   end

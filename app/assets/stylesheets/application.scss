@@ -1732,9 +1732,11 @@ body, html {
 
         .slot-position {
           height: 26px;
-          width: 40px;
+          min-width: 40px;
+          width: fit-content;
           line-height: 26px;
           font-size: 14px;
+          padding: 0 4px;
         }
       }
 

@@ -1,4 +1,6 @@
 class PlayerSeasonStat < ApplicationRecord
+  audited associated_with: :player
+
   belongs_to :club
   belongs_to :player
   belongs_to :season

@@ -2,7 +2,7 @@
   .round-tournament-match
     .round-tournament-match-cell.round-tournament-match-team.round-match-national
       = link_to national_team_path(match.host_team) do
-        .round-tournament-team-players{ id: "national-players-#{match.host_team.name}" }
+        .round-tournament-team-players{ id: "national-players-#{match.host_team.code}" }
         .round-tournament-team-name
           = match.host_team.name
         .round-tournament-team-logo
@@ -26,4 +26,4 @@
           = flag_icon(match.guest_team.code.to_sym, element: :div)
         .round-tournament-team-name
           = match.guest_team.name
-        .round-tournament-team-players{ id: "national-players-#{match.guest_team.name}" }
+        .round-tournament-team-players{ id: "national-players-#{match.guest_team.code}" }

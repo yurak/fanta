@@ -45,9 +45,10 @@ gem 'telegram-bot'
 gem 'time_difference'
 gem 'uglifier', '>= 1.3.0'
 gem 'whenever', require: false
-gem "shakapacker", "= 7.1"
-gem "react_on_rails", "= 13.4"
-gem "i18n-js"
+gem 'shakapacker', "= 7.1"
+gem 'react_on_rails', "= 13.4"
+gem 'i18n-js'
+gem 'playwright-ruby-client'
 
 group :development, :test do
   gem 'factory_bot_rails', '6.2.0'

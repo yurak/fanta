@@ -258,6 +258,9 @@ GEM
     parser (3.2.2.4)
       ast (~> 2.4.1)
       racc
+    playwright-ruby-client (1.57.0)
+      concurrent-ruby (>= 1.1.6)
+      mime-types (>= 3.0)
     popper_js (1.16.1)
     pry (0.14.2)
       coderay (~> 1.1)
@@ -536,6 +539,7 @@ DEPENDENCIES
   jquery-rails (~> 4.4.0)
   kaminari
   listen
+  playwright-ruby-client
   pry-rails
   puma (= 4.3.12)
   query_diet

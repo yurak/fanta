@@ -3,10 +3,11 @@ module Players
     class Parser < ApplicationService
       THOUSAND = 1000
 
-      attr_reader :tm_id
+      attr_reader :position_skip, :tm_id
 
-      def initialize(tm_id)
+      def initialize(tm_id, position_skip: false)
         @tm_id = tm_id
+        @position_skip = position_skip
       end
 
       def call
@@ -23,7 +24,7 @@ module Players
       private
 
       def name_data
-        html_page.css('.data-header__headline-wrapper').children
+        @name_data ||= html_page.css('.data-header__headline-wrapper').children
       end
 
       def first_name
@@ -39,7 +40,7 @@ module Players
         return unless country_text
 
         country_name = country_text.attributes['title'].value
-        ISO3166::Country.find_country_by_iso_short_name(country_name)&.alpha2&.downcase
+        Player::COUNTRY.key(country_name).to_s.presence || ISO3166::Country.find_country_by_iso_short_name(country_name)&.alpha2&.downcase
       end
 
       def club
@@ -47,7 +48,11 @@ module Players
       end
 
       def tm_club_name
-        html_page.css('.data-header__club').children[1]&.text || html_page.css('.data-header__club').children[0]&.text&.strip
+        @tm_club_name ||= tm_club_text[1]&.text || tm_club_text[0]&.text&.strip
+      end
+
+      def tm_club_text
+        html_page.css('.data-header__club').children
       end
 
       def positions
@@ -67,6 +72,8 @@ module Players
       end
 
       def position_arr
+        return [] if position_skip
+
         @position_arr ||= Players::Transfermarkt::PositionMapper.call(Player.new(tm_id: tm_id), Season.last.start_year)
       end
 
@@ -83,16 +90,29 @@ module Players
       end
 
       def birth_date
-        html_page.css('.data-header__info-box .data-header__details').children[1].children[1].children[1].children.text.strip[0..9]
+        return if html_page.css('.data-header__info-box .data-header__details').blank?
+
+        value = html_page.css('.data-header__info-box .data-header__details').children[1].children[1].children[1].children.text.strip[0..9]
+
+        Date.strptime(value, '%d/%m/%Y')
+        value
+      rescue ArgumentError
+        nil
       end
 
       def number
-        html_page.css('.data-header__shirt-number').text.strip.tr('#', '')
+        html_page.css('.data-header__shirt-number').text.strip.tr('#', '')&.to_i
       end
 
       def height
-        html_page.css('.data-header__info-box .data-header__details')
-                 .children[3].children[1].children[1].children.text.strip[0..3].tr(',', '')
+        return if html_page.css('.data-header__info-box .data-header__details').blank?
+
+        value = html_page.css('.data-header__info-box .data-header__details')
+                         .children[3].children[1].children[1].children.text.strip[0..3].tr(',', '')
+        Integer(value)
+        value.to_i
+      rescue ArgumentError, TypeError
+        nil
       end
 
       def price
@@ -102,7 +122,7 @@ module Players
                      when 'm' then THOUSAND * THOUSAND
                      else THOUSAND
                      end
-        multiplier * price_value.to_f
+        multiplier * price_value.to_i
       end
 
       def price_value
@@ -110,13 +130,20 @@ module Players
       end
 
       def html_page
-        @html_page ||= Nokogiri::HTML(request)
+        @html_page ||= Nokogiri::HTML(html)
       end
 
-      def request
-        @request ||= RestClient::Request.execute(
-          method: :get, url: tm_url, headers: { 'User-Agent': 'product/version' }, verify_ssl: false
+      def html
+        Players::Transfermarkt::BrowserClient.new.fetch_html(
+          tm_url,
+          headless: tm_headless?,
+          cache_key: "player_#{tm_id}",
+          ttl: 7 * 86_400
         )
+      end
+
+      def tm_headless?
+        ENV.fetch('TM_HEADLESS', 'true') == 'true'
       end
 
       def tm_url

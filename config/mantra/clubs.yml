@@ -314,22 +314,26 @@ poland:
   WIP: Wisla Plock
   ZAG: Zaglebie
 brazil:
+  ATP: Athletico Paranaense
   AMG: Atletico Mineiro
   BAH: Bahia
   BOT: Botafogo
-  CEA: Ceara
+  CHP: Chapecoense
+#  CEA: Ceara
   COR: Corinthians
+  CRT: Coritiba
   CRU: Cruzeiro
   FLA: Flamengo
   FLU: Fluminense
-  FOR: Fortaleza
+#  FOR: Fortaleza
   GRE: Gremio
-  JVD: Juventude
+#  JVD: Juventude
   INL: Internacional
   MIR: Mirassol
   PAL: Palmeiras
   RBB: RB Bragantino
-  REC: Sport Recife
+#  REC: Sport Recife
+  REM: Remo
   SAN: Santos
   SAO: São Paulo
   VDG: Vasco da Gama
