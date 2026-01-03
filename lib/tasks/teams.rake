@@ -19,8 +19,8 @@ namespace :teams do
   # rake 'teams:reset_tournament[16,6]'
   desc 'Reset teams players by tournament and season'
   task :reset_tournament, %i[tournament_id season_id] => :environment do |_t, args|
-    tournament = Tournament.find_by(args[:tournament_id])
-    season = Season.find_by(args[:season_id])
+    tournament = Tournament.find_by(id: args[:tournament_id])
+    season = Season.find_by(id: args[:season_id])
     next unless tournament || season
 
     tournament.leagues.by_season(season).each do |league|
