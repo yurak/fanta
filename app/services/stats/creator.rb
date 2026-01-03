@@ -12,14 +12,21 @@ module Stats
       player_ids.each do |id|
         player = Player.find_by(id: id)
         next unless player
-        next if matches_w_scores(player).empty?
 
-        matches_w_scores(player).group_by(&:club_id).each do |club_data|
-          club = Club.find_by(id: club_data[0])
+        player_matches = matches_w_scores(player)
+        next if player_matches.empty?
+
+        player_matches.group_by(&:club_id).each do |club_id, matches_for_club|
+          club = Club.find_by(id: club_id)
           next unless club
 
-          matches = RoundPlayer.where(id: club_data[1].pluck(:id))
-          stats(player, club).update(stats_hash(player, matches))
+          matches = RoundPlayer.where(id: matches_for_club.pluck(:id))
+          stats_record = stats(player, club)
+
+          attrs = stats_hash(player, matches, include_positions: stats_record.new_record?)
+          attrs[:tournament] = club.tournament if stats_record.new_record?
+
+          stats_record.update!(attrs)
         end
       end
 
@@ -29,7 +36,7 @@ module Stats
     private
 
     def stats(player, club)
-      PlayerSeasonStat.find_or_create_by(player: player, season: season, club: club, tournament: club.tournament)
+      PlayerSeasonStat.find_or_initialize_by(player: player, season: season, club: club)
     end
 
     def matches_w_scores(player)
@@ -40,8 +47,8 @@ module Stats
       @rounds ||= TournamentRound.by_tournament(Tournament.with_clubs).by_season(season)
     end
 
-    def stats_hash(player, matches)
-      {
+    def stats_hash(player, matches, include_positions: true)
+      hash = {
         played_matches: player.season_scores_count(matches),
         score: player.season_average_score(matches),
         final_score: player.season_average_result_score(matches),
@@ -60,11 +67,18 @@ module Stats
         conceded_penalty: player.season_bonus_count(matches, 'conceded_penalty'),
         penalties_won: player.season_bonus_count(matches, 'penalties_won'),
         played_minutes: player.season_bonus_count(matches, 'played_minutes'),
-        sixties: player.sixty_minutes_plus(matches),
-        position1: player.positions[0]&.name,
-        position2: player.positions[1]&.name,
-        position3: player.positions[2]&.name
+        sixties: player.sixty_minutes_plus(matches)
       }
+
+      if include_positions
+        hash.merge!(
+          position1: player.positions[0]&.name,
+          position2: player.positions[1]&.name,
+          position3: player.positions[2]&.name
+        )
+      end
+
+      hash
     end
   end
 end

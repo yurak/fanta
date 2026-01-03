@@ -27,11 +27,14 @@ namespace :tm do
         club_attempt = 0
         begin
           club_attempt += 1
-          response = RestClient::Request.execute(method: :get, url: club.tm_url, headers: { 'User-Agent': 'product/version' },
-                                                 verify_ssl: false)
+          response = Players::Transfermarkt::BrowserClient.new.fetch_html(
+            club.tm_url,
+            headless: true,
+            cache_key: "club_#{club.id}",
+            ttl: 7 * 86_400
+          )
         rescue RestClient::Exception => e
           if club_attempt <= max_attempts
-            sleep(60)
             puts "%%%%%%%______ Retry ##{club_attempt} for club #{club.name} _______%%%%%%%%"
             retry
           else
@@ -44,7 +47,6 @@ namespace :tm do
         new_player_count = 0
         actual_ids = []
 
-        sleep(10)
         players.each do |player_data|
           href = player_data.children[1].attributes['href'].value
           tm_id = href.split('/').last
@@ -61,7 +63,6 @@ namespace :tm do
             # next if i < 14 && new_player_count < 24
 
             puts "NEW #{new_player_count} .... #{tm_id}"
-            sleep(30)
             begin
               attempt += 1
               result = Players::Transfermarkt::Parser.call(tm_id)
@@ -73,7 +74,6 @@ namespace :tm do
             rescue RestClient::Exception => e
               if attempt <= max_attempts
                 puts "Retry ##{attempt} for TM id - #{tm_id}"
-                sleep(60)
                 retry
               else
                 puts "error for id #{tm_id} - #{e}"
@@ -95,11 +95,9 @@ namespace :tm do
               change = 'RESERVE' if player.club.name == result[:club_name]
               change ||= "#{player.club.name} >>>> #{result[:club_name] || "XXX #{result[:tm_club_name]}"}"
               puts "MISSED .... #{player.name} - #{player.id} / #{player.tm_id} --- #{change}"
-              sleep(30)
             rescue RestClient::Exception => e
               if attempt <= max_attempts
                 puts "Retry ##{attempt} - #{player.tm_id}"
-                sleep(60)
                 retry
               else
                 puts "MISSED .... #{player.name} - #{player.id} / #{player.tm_id} - error: #{e}"

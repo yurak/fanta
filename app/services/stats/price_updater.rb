@@ -1,6 +1,6 @@
 module Stats
   class PriceUpdater < ApplicationService
-    attr_reader :tournament
+    attr_reader :season, :tournament
 
     PRICE_5 = 5
     PRICE_10 = 10
@@ -10,12 +10,14 @@ module Stats
     SCORE_8_5 = 8.5
     SCORE_9_0 = 9.0
 
-    def initialize(tournament)
+    def initialize(tournament, season_id: Season.last.id)
       @tournament = tournament
+      @season = Season.find_by(id: season_id)
     end
 
     def call
       return false unless tournament
+      return false unless season
 
       ids = stats.where('final_score >= ?', 8.0).map(&:id)
 
@@ -48,10 +50,6 @@ module Stats
 
     def stats
       @stats ||= tournament.player_season_stats.by_season(season).played_minimum
-    end
-
-    def season
-      @season ||= Season.last
     end
   end
 end

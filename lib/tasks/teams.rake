@@ -16,13 +16,14 @@ namespace :teams do
     puts 'Done!'
   end
 
-  # rake 'teams:reset_tournament[15]'
-  desc 'Reset teams players by tournament'
-  task :reset_tournament, [:tournament_id] => :environment do |_t, args|
-    tournament = Tournament.find_by(id: args[:tournament_id])
-    return unless tournament
+  # rake 'teams:reset_tournament[16,6]'
+  desc 'Reset teams players by tournament and season'
+  task :reset_tournament, %i[tournament_id season_id] => :environment do |_t, args|
+    tournament = Tournament.find_by(args[:tournament_id])
+    season = Season.find_by(args[:season_id])
+    next unless tournament || season
 
-    tournament.leagues.by_season(Season.last).each do |league|
+    tournament.leagues.by_season(season).each do |league|
       league.teams.each(&:reset)
     end
     puts 'Done!'
