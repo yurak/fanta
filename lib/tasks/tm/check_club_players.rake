@@ -70,7 +70,8 @@ namespace :tm do
 
               writer << ['', result[:first_name], result[:name], result[:nationality], club.name,
                          result[:position1], result[:position2], result[:position3], result[:tm_url], '',
-                         result[:tm_pos1], result[:tm_pos2], result[:tm_pos3], result[:tm_price]]
+                         result[:tm_pos1], result[:tm_pos2], result[:tm_pos3], '', '',
+                         result[:tm_price], result[:number], result[:birth_date], result[:height]]
             rescue RestClient::Exception => e
               if attempt <= max_attempts
                 puts "Retry ##{attempt} for TM id - #{tm_id}"

@@ -55,12 +55,13 @@ namespace :tm do
 
       CSV.open('log/players_new_by_tm_id.csv', 'ab') do |writer|
         result = Players::Transfermarkt::Parser.call(tm_id)
-        puts row['national_team']
+        # puts row['national_team']
         puts result.stringify_keys
 
         writer << ['', result[:first_name], result[:name], result[:nationality], result[:club_name],
                    result[:position1], result[:position2], result[:position3], result[:tm_url], row['national_team'],
-                   result[:tm_pos1], result[:tm_pos2], result[:tm_pos3]]
+                   result[:tm_pos1], result[:tm_pos2], result[:tm_pos3], '', '',
+                   result[:tm_price], result[:number], result[:birth_date], result[:height]]
       end
       sleep(20)
     end
