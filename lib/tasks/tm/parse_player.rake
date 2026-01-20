@@ -63,7 +63,7 @@ namespace :tm do
                    result[:tm_pos1], result[:tm_pos2], result[:tm_pos3], '', '',
                    result[:tm_price], result[:number], result[:birth_date], result[:height]]
       end
-      sleep(20)
+      sleep(5)
     end
   end
 end

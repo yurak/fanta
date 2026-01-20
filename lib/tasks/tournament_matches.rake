@@ -100,7 +100,7 @@ namespace :tournament_matches do
 
     # response = JSON.load(file)
     response = JSON.parse(file)
-    data = response['matches']['allMatches']
+    data = response['fixtures']['allMatches']
     CSV.open('log/matches_list.csv', 'ab') do |writer|
       writer << %w[fotmob_id home_club away_club date score page_url round_number]
       data.each do |match|

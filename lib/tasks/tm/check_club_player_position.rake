@@ -30,7 +30,7 @@ namespace :tm do
     end
   end
 
-  # rake 'tm:check_player_position_id[1,14999]'
+  # rake 'tm:check_player_position_id[1,19999]'
   desc 'Check TM players position and write to csv if diff'
   task :check_player_position_id, %i[start_id last_id] => :environment do |_t, args|
     ids_range = args[:start_id].to_i..args[:last_id].to_i
@@ -43,37 +43,28 @@ namespace :tm do
         next unless pl
         next if pl.club.name == Club::RETIRED
         next if pl.positions.first.name == Position::GOALKEEPER
+
         next if pl.club.tournament_id == 16 # skip MLS players
         next if pl.club.tournament_id == 19 # skip Brazil players
-
-        max_attempts = 3
-        attempt = 0
+        # next if [1, 2, 3, 4, 5, 11, 12, 13, 14, 15, 18, 21].include?(pl.club.tournament_id) # skip european national tournaments
+        # next unless pl.club.tournament_id == 19 # only Brazil players
 
         puts id
         begin
-          attempt += 1
           res = Players::Transfermarkt::PositionMapper.call(pl, year)
         rescue StandardError => e
-          if attempt <= max_attempts
-            puts "Retry ##{attempt} for #{id}"
-            sleep(60)
-            retry
-          else
-            writer << [pl.id, pl.name, pl.club.name, pl.tm_url, 'ERROR', e.message, pl.current_average_price]
-          end
+          writer << [pl.id, pl.name, pl.club.name, pl.tm_url, 'ERROR', e.message, pl.tm_price, pl.current_average_price]
         end
 
         pos = pl.player_positions.map { |pp| Slot::POS_MAPPING[pp.position.name] }
 
-        if res.any?
+        if res&.any?
           unless pos.sort == res.compact.sort
-            writer << [pl.id, pl.name, pl.club.name, pl.tm_url, pos.join(','), res.join(','), pl.current_average_price]
+            writer << [pl.id, pl.name, pl.club.name, pl.tm_url, pos.join(','), res.join(','), pl.tm_price, pl.current_average_price]
           end
         else
-          writer << [pl.id, pl.name, pl.club.name, pl.tm_url, pos.join(','), 'NO RESULT', pl.current_average_price]
+          # writer << [pl.id, pl.name, pl.club.name, pl.tm_url, pos.join(','), 'NO RESULT', pl.tm_price, pl.current_average_price]
         end
-
-        sleep(20)
       end
     end
   end
