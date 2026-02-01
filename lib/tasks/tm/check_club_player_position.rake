@@ -46,6 +46,7 @@ namespace :tm do
 
         next if pl.club.tournament_id == 16 # skip MLS players
         next if pl.club.tournament_id == 19 # skip Brazil players
+
         # next if [1, 2, 3, 4, 5, 11, 12, 13, 14, 15, 18, 21].include?(pl.club.tournament_id) # skip european national tournaments
         # next unless pl.club.tournament_id == 19 # only Brazil players
 
@@ -58,12 +59,8 @@ namespace :tm do
 
         pos = pl.player_positions.map { |pp| Slot::POS_MAPPING[pp.position.name] }
 
-        if res&.any?
-          unless pos.sort == res.compact.sort
-            writer << [pl.id, pl.name, pl.club.name, pl.tm_url, pos.join(','), res.join(','), pl.tm_price, pl.current_average_price]
-          end
-        else
-          # writer << [pl.id, pl.name, pl.club.name, pl.tm_url, pos.join(','), 'NO RESULT', pl.tm_price, pl.current_average_price]
+        if res&.any? && pos.sort != res.compact.sort
+          writer << [pl.id, pl.name, pl.club.name, pl.tm_url, pos.join(','), res.join(','), pl.tm_price, pl.current_average_price]
         end
       end
     end

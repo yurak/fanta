@@ -92,7 +92,7 @@ namespace :tm do
             attempt = 0
             begin
               attempt += 1
-              result = Players::Transfermarkt::Parser.call(pl_tm_id)
+              result = Players::Transfermarkt::Parser.call(pl_tm_id, position_skip: true)
               change = 'RESERVE' if player.club.name == result[:club_name]
               change ||= "#{player.club.name} >>>> #{result[:club_name] || "XXX #{result[:tm_club_name]}"}"
               puts "MISSED .... #{player.name} - #{player.id} / #{player.tm_id} --- #{change}"
