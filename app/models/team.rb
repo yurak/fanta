@@ -21,7 +21,7 @@ class Team < ApplicationRecord
   DEFAULT_BUDGET = 260
   SLOTS_BY_AUCTION = 4
   TRANSFER_SLOTS = 16
-  RESERVE_TRANSFER_SLOTS = [0, 2, 4, 6, 8, 10].freeze
+  RESERVE_TRANSFER_SLOTS = [0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20].freeze
 
   validates :name, presence: true, length: { in: 2..18 }
   validates :code, presence: true, length: { in: 2..3 }, format: { with: /\A[0-9a-zA-Z]+\z/ }
