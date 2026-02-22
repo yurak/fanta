@@ -15,6 +15,11 @@ every '55 * * * *' do
   rake 'tours:auto_inject'
 end
 
+# Send pending notifications by Telegram bot
+every :minute do
+  rake 'notifications:send_pending'
+end
+
 # Send notifications by Telegram bot before tour deadline
 every :hour do
   rake 'tg:send_tour_deadline'

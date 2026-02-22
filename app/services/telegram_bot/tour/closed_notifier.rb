@@ -3,10 +3,10 @@ module TelegramBot
     class ClosedNotifier < OpenedNotifier
       private
 
-      def message(team)
+      def message
         I18n.t(
           'telegram.notifier.tour.closed',
-          locale: locale(team),
+          locale: locale,
           icon: league.tournament.icon,
           number: tour.number,
           league_name: league.name,

@@ -3,10 +3,10 @@ module TelegramBot
     class ModeratedNotifier < OpenedNotifier
       private
 
-      def message(team)
+      def message
         I18n.t(
           'telegram.notifier.tour.moderated',
-          locale: locale(team),
+          locale: locale,
           icon: league.tournament.icon,
           number: tour.number,
           league_name: league.name,

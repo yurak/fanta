@@ -18,7 +18,7 @@ namespace :tm do
       writer << ["--------#{DateTime.now.strftime('%b %e, %H:%M')}--------"]
       clubs.each do |club|
         i += 1
-        # next if i < 13
+        # next if i < 1
         # next if i > 15
 
         puts "--------#{i}---#{club.name}--------"
@@ -107,8 +107,6 @@ namespace :tm do
           end
         end
         puts '/////////////////////////////////////'
-
-        sleep(5)
       end
     end
   end

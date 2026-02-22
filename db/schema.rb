@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2025_12_19_102235) do
+ActiveRecord::Schema.define(version: 2026_02_07_123657) do
 
   create_table "article_tags", force: :cascade do |t|
     t.string "name", default: "", null: false
@@ -225,6 +225,24 @@ ActiveRecord::Schema.define(version: 2025_12_19_102235) do
     t.index ["code"], name: "index_national_teams_on_code", unique: true
     t.index ["name"], name: "index_national_teams_on_name", unique: true
     t.index ["tournament_id"], name: "index_national_teams_on_tournament_id"
+  end
+
+  create_table "notifications", force: :cascade do |t|
+    t.integer "team_id", null: false
+    t.string "notifiable_type", null: false
+    t.integer "notifiable_id", null: false
+    t.integer "kind", default: 0, null: false
+    t.integer "status", default: 0, null: false
+    t.integer "priority", default: 1, null: false
+    t.datetime "sent_at"
+    t.string "error_message"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["notifiable_type", "notifiable_id", "status"], name: "index_notifications_on_notifiable_and_status"
+    t.index ["notifiable_type", "notifiable_id"], name: "index_notifications_on_notifiable"
+    t.index ["status", "priority", "id"], name: "index_notifications_on_status_and_priority"
+    t.index ["status"], name: "index_notifications_on_status"
+    t.index ["team_id"], name: "index_notifications_on_team_id"
   end
 
   create_table "player_bids", force: :cascade do |t|
@@ -578,6 +596,7 @@ ActiveRecord::Schema.define(version: 2025_12_19_102235) do
   add_foreign_key "match_players", "round_players"
   add_foreign_key "national_matches", "tournament_rounds"
   add_foreign_key "national_teams", "tournaments"
+  add_foreign_key "notifications", "teams"
   add_foreign_key "player_bids", "auction_bids"
   add_foreign_key "player_bids", "players"
   add_foreign_key "player_requests", "players"
