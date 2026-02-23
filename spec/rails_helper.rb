@@ -52,6 +52,7 @@ RSpec.configure do |config|
 
   config.filter_rails_from_backtrace!
 
+  config.include ActiveSupport::Testing::TimeHelpers
   config.include Devise::Test::ControllerHelpers, type: :controller
   config.include Devise::Test::IntegrationHelpers, type: :request
   config.extend AuthHelper, type: :request

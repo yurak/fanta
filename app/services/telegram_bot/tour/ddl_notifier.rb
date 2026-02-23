@@ -1,10 +1,17 @@
 module TelegramBot
   module Tour
-    class DdlNotifier < OpenedNotifier
+    class DdlNotifier < ApplicationService
+      attr_reader :tour
+
+      def initialize(tour)
+        @tour = tour
+      end
+
       def call
         return false unless tour
 
         tour.teams.each do |team|
+          next unless team.user
           next if team.lineups&.find_by(tour: tour)
 
           TelegramBot::Sender.call(team.user, message(team))
@@ -13,6 +20,10 @@ module TelegramBot
       end
 
       private
+
+      def league
+        @league ||= tour&.league
+      end
 
       def message(team)
         I18n.t(
@@ -28,7 +39,15 @@ module TelegramBot
       end
 
       def deadline(team)
-        team.user&.local_time(tour.tournament_round.deadline, '%H:%M')
+        team.user.local_time(tour.tournament_round.deadline, '%H:%M')
+      end
+
+      def locale(team)
+        team.user.locale&.to_sym || :en
+      end
+
+      def time_zone(team)
+        team.user.time_zone || User::DEFAULT_TIME_ZONE
       end
     end
   end

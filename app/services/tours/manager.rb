@@ -28,7 +28,8 @@ module Tours
       return unless tour.inactive? && status == SET_LINEUP_STATUS
 
       tour.set_lineup! if RoundPlayers::Creator.call(tour.tournament_round.id)
-      TelegramBot::Tour::OpenedNotifier.call(tour)
+
+      Notifications::Creator.call(notifiable: tour, kind: :tour_opened, priority: :normal)
     end
 
     def lock
@@ -52,7 +53,7 @@ module Tours
         update_results
         Lineups::Updater.call(tour)
         RoundPlayers::Updater.call(tour.tournament_round)
-        TelegramBot::Tour::ClosedNotifier.call(tour)
+        Notifications::Creator.call(notifiable: tour, kind: :tour_closed, priority: :normal)
       end
     end
 

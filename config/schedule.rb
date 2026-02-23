@@ -1,6 +1,7 @@
 # whenever --set 'environment=development' --update-crontab
+
 # Lock tours by deadline
-every 5.minutes do
+every 15.minutes do
   rake 'tours:lock_deadline'
 end
 
@@ -12,6 +13,11 @@ end
 # Auto-inject scores for moderated tours
 every '55 * * * *' do
   rake 'tours:auto_inject'
+end
+
+# Send pending notifications by Telegram bot
+every :minute do
+  rake 'notifications:send_pending'
 end
 
 # Send notifications by Telegram bot before tour deadline

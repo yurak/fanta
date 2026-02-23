@@ -18,7 +18,7 @@ namespace :tm do
       writer << ["--------#{DateTime.now.strftime('%b %e, %H:%M')}--------"]
       clubs.each do |club|
         i += 1
-        # next if i < 13
+        # next if i < 1
         # next if i > 15
 
         puts "--------#{i}---#{club.name}--------"
@@ -70,7 +70,8 @@ namespace :tm do
 
               writer << ['', result[:first_name], result[:name], result[:nationality], club.name,
                          result[:position1], result[:position2], result[:position3], result[:tm_url], '',
-                         result[:tm_pos1], result[:tm_pos2], result[:tm_pos3], result[:tm_price]]
+                         result[:tm_pos1], result[:tm_pos2], result[:tm_pos3], '', '',
+                         result[:tm_price], result[:number], result[:birth_date], result[:height]]
             rescue RestClient::Exception => e
               if attempt <= max_attempts
                 puts "Retry ##{attempt} for TM id - #{tm_id}"
@@ -91,7 +92,7 @@ namespace :tm do
             attempt = 0
             begin
               attempt += 1
-              result = Players::Transfermarkt::Parser.call(pl_tm_id)
+              result = Players::Transfermarkt::Parser.call(pl_tm_id, position_skip: true)
               change = 'RESERVE' if player.club.name == result[:club_name]
               change ||= "#{player.club.name} >>>> #{result[:club_name] || "XXX #{result[:tm_club_name]}"}"
               puts "MISSED .... #{player.name} - #{player.id} / #{player.tm_id} --- #{change}"
@@ -106,8 +107,6 @@ namespace :tm do
           end
         end
         puts '/////////////////////////////////////'
-
-        sleep(5)
       end
     end
   end

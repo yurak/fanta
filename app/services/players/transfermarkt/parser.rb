@@ -122,7 +122,7 @@ module Players
                      when 'm' then THOUSAND * THOUSAND
                      else THOUSAND
                      end
-        multiplier * price_value.to_i
+        multiplier * price_value.to_f
       end
 
       def price_value

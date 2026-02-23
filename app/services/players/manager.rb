@@ -27,7 +27,7 @@ module Players
     private
 
     def base_data
-      @player_hash.slice('first_name', 'name', 'nationality', 'tm_url', 'birth_date', 'height', 'tm_price')
+      @player_hash.slice('first_name', 'name', 'nationality', 'tm_url', 'birth_date', 'height', 'tm_price', 'number')
     end
 
     def player_data
