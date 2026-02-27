@@ -1,10 +1,8 @@
 module Substitutes
-  class AutoBot
+  class AutoBot < ApplicationService
     attr_reader :match_lineup, :preview
 
     def initialize(match_lineup, preview: false)
-      @lineup_substitutes = []
-      @substitutions = { out: [], in: [] }
       @match_lineup = match_lineup
       @preview = preview
     end
@@ -15,109 +13,57 @@ module Substitutes
       end
     end
 
-    def process
-      substitute_malus_zero
-      substitute if malus_substitute?
+    def call
+      return [] if main_players.empty? || bench_players.empty?
 
-      if preview
-        match_lineup.substitutes = @lineup_substitutes.to_json
-        match_lineup.save
-      end
-      @lineup_substitutes
-    end
+      assignments, = TieredMatcher.call(build_grid)
 
-    def substitute_malus_zero
-      team_with_zero_maluses.each do |key, value|
-        queue = value.sort.to_h
-        queue.each do |_malus, benched_ids|
-          in_id = benched_ids.detect { |benched_id| @substitutions[:in].exclude?(benched_id) }
+      lineup_substitutes = apply(assignments)
 
-          next unless in_id && key && @substitutions[:out].exclude?(key)
+      match_lineup.update(substitutes: lineup_substitutes.to_json) if preview
 
-          Substitutes::Creator.call(key, in_id, 'autobot') unless preview
-          @substitutions[:in] << in_id
-          @substitutions[:out] << key
-          @lineup_substitutes << { out: ui_string(key), in: ui_string(in_id) }
-        end
-      end
-    end
-
-    def substitute
-      team.each do |key, value|
-        queue = value.sort.to_h
-        queue.each do |_malus, benched_ids|
-          in_id = benched_ids.detect { |benched_id| @substitutions[:in].exclude?(benched_id) }
-
-          next unless in_id && key && @substitutions[:out].exclude?(key)
-
-          Substitutes::Creator.call(key, in_id, 'autobot') unless preview
-          @substitutions[:in] << in_id
-          @substitutions[:out] << key
-          @lineup_substitutes << { out: ui_string(key), in: ui_string(in_id) }
-        end
-      end
-    end
-
-    def team
-      team = {}
-      main_lineup_players.each do |mp|
-        mp.subs_options.each_with_object({}) do |so, memo|
-          malus = Scores::PositionMalus::Counter.call(mp.real_position, so.position_names)
-          if memo[malus]
-            memo[malus] << so.id
-          else
-            memo[malus] = [so.id]
-          end
-          team[mp.id] = memo
-        end
-      end
-
-      team
-    end
-
-    def team_with_zero_maluses
-      team = {}
-      main_lineup_players.each do |mp|
-        mp.subs_options.each_with_object({}) do |so, memo|
-          malus = Scores::PositionMalus::Counter.call(mp.real_position, so.position_names)
-          next unless malus.zero?
-
-          if memo[malus]
-            memo[malus] << so.id
-          else
-            memo[malus] = [so.id]
-          end
-          team[mp.id] = memo
-        end
-      end
-
-      team
+      lineup_substitutes
     end
 
     private
 
-    def malus_substitute?
-      team.keys.size == 1 || one_malus_preview?
-    end
+    def apply(assignments)
+      MatchPlayer.transaction do
+        assignments.map do |row, col, _|
+          out_mp = main_players[row]
+          in_mp  = bench_players[col]
 
-    def one_malus_preview?
-      preview && one_non_zero_team?
-    end
+          Substitutes::Creator.call(out_mp.id, in_mp.id, 'autobot') unless preview
 
-    def one_non_zero_team?
-      non_zero_hashes = team.values.count do |hash|
-        hash.all? { |key, _| key != 0 }
+          { out: ui_string(out_mp), in: ui_string(in_mp) }
+        end
       end
-
-      non_zero_hashes == 1
     end
 
-    def ui_string(id)
-      MatchPlayer.find(id).player.full_name_with_positions
+    def build_grid
+      main_players.map do |mp|
+        bench_players.map do |bp|
+          next 'X' unless (mp.available_positions & bp.position_names).any?
+
+          Scores::PositionMalus::Counter.call(mp.real_position, bp.position_names)
+        end
+      end
     end
 
-    def main_lineup_players
-      match_lineup.match_players.main.select(&:not_played?)
+    def all_match_players
+      @all_match_players ||= match_lineup.match_players.to_a
+    end
+
+    def main_players
+      @main_players ||= all_match_players.select { |mp| mp.real_position.present? && mp.not_played? }
+    end
+
+    def bench_players
+      @bench_players ||= all_match_players.select { |mp| mp.real_position.nil? && !mp.not_in_squad? && mp.score.positive? }
+    end
+
+    def ui_string(match_player)
+      match_player.player.full_name_with_positions
     end
   end
 end

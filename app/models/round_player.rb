@@ -83,10 +83,7 @@ class RoundPlayer < ApplicationRecord
   def national_played?
     return false unless national_team
 
-    NationalMatch.by_team(national_team.id)
-                 .by_t_round(t_round_id)
-                 .where.not(host_score: nil)
-                 .exists?
+    NationalMatch.by_team(national_team.id).by_t_round(t_round_id).where.not(host_score: nil).exists?
   end
 
   def tournament_matches_empty_but_exist?

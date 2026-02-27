@@ -48,6 +48,13 @@ RSpec.describe Substitutes::Creator do
       it { expect(Substitute.last.reserve_mp).to eq(reserve_player) }
       it { expect(Substitute.last.out_rp).to eq(main_player.round_player) }
       it { expect(Substitute.last.in_rp).to eq(reserve_player.round_player) }
+      it { expect(Substitute.last.subs_by).to eq('manual') }
+    end
+
+    context 'with subs_by: autobot' do
+      subject(:creator) { described_class.new(main_player_id, reserve_player_id, 'autobot') }
+
+      it { expect { creator.call }.to change { Substitute.last&.subs_by }.to('autobot') }
     end
   end
 end

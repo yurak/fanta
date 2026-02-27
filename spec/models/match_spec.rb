@@ -221,4 +221,33 @@ RSpec.describe Match do
       end
     end
   end
+
+  describe '#autobot' do
+    before { allow(Substitutes::AutoBot).to receive(:call) }
+
+    context 'without lineups' do
+      it 'does not call AutoBot' do
+        match.autobot(preview: true)
+        expect(Substitutes::AutoBot).not_to have_received(:call)
+      end
+    end
+
+    context 'with lineups but no subs missed' do
+      before { allow_any_instance_of(Lineup).to receive(:subs_missed?).and_return(false) }
+
+      it 'does not call AutoBot' do
+        match_with_lineups.autobot(preview: true)
+        expect(Substitutes::AutoBot).not_to have_received(:call)
+      end
+    end
+
+    context 'when both lineups have missed subs' do
+      before { allow_any_instance_of(Lineup).to receive(:subs_missed?).and_return(true) }
+
+      it 'calls AutoBot for each lineup' do
+        match_with_lineups.autobot(preview: true)
+        expect(Substitutes::AutoBot).to have_received(:call).twice
+      end
+    end
+  end
 end

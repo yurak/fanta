@@ -12,9 +12,6 @@ RSpec.describe Substitutes::Destroyer do
     end
 
     context 'with valid params' do
-      let(:in_rp) { substitute.in_rp }
-      let(:reserve_rp) { substitute.out_rp }
-
       before do
         destroyer.call
       end
@@ -27,12 +24,20 @@ RSpec.describe Substitutes::Destroyer do
         expect(substitute.main_mp.reload.subs_status).to eq('initial')
       end
 
+      it 'resets position_malus of main match_player' do
+        expect(substitute.main_mp.reload.position_malus).to eq(0)
+      end
+
       it 'updates round_player of reserve match_player' do
         expect(substitute.reserve_mp.reload.round_player).to eq(substitute.in_rp)
       end
 
       it 'updates subs_status of reserve match_player' do
         expect(substitute.reserve_mp.reload.subs_status).to eq('initial')
+      end
+
+      it 'resets position_malus of reserve match_player' do
+        expect(substitute.reserve_mp.reload.position_malus).to eq(0)
       end
 
       it 'returns substitute' do

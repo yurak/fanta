@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :league do
-    name { FFaker::Company.name }
+    sequence(:name) { |i| "#{FFaker::Company.name} #{i}" }
 
     tournament { Tournament.first || association(:tournament) }
     season { Season.first || association(:season) }

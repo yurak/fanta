@@ -90,7 +90,7 @@ class Tour < ApplicationRecord
   def autobot(preview: true)
     if fanta?
       lineups.each do |lineup|
-        Substitutes::AutoBot.new(lineup, preview: preview).process if lineup.subs_missed?
+        Substitutes::AutoBot.call(lineup, preview: preview) if lineup.subs_missed?
       end
     else
       matches.each do |m|

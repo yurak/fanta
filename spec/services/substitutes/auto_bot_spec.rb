@@ -44,28 +44,67 @@ RSpec.describe Substitutes::AutoBot do
     )
   end
 
-  describe '#team_with_zero_maluses' do
+  describe '#call' do
     context 'with preview: true' do
-      it 'returns proper team' do
-        expect(auto_bot.team_with_zero_maluses).to eq({ pc_one.id => { 0 => [pc_sub.id] } })
+      before { auto_bot.call }
+
+      it 'saves substitutes preview on the lineup' do
+        expected = [{ 'in' => pc_sub.player.full_name_with_positions,
+                      'out' => pc_one.player.full_name_with_positions }]
+        expect(match_lineup.substitutes_preview).to eq(expected)
+      end
+
+      it 'does not create Substitute records' do
+        expect(Substitute.count).to eq(0)
       end
     end
-  end
 
-  describe '#process' do
-    context 'with preview: true' do
-      before do
-        auto_bot.process
+    context 'with preview: false' do
+      let(:preview) { false }
+
+      it 'creates a Substitute record' do
+        expect { auto_bot.call }.to change(Substitute, :count).by(1)
       end
 
-      let(:expected) do
-        [
-          { 'in' => pc_sub.player.full_name_with_positions, 'out' => pc_one.player.full_name_with_positions }
-        ]
+      it 'marks the out player as get_in' do
+        auto_bot.call
+        expect(pc_one.reload.subs_status).to eq('get_in')
       end
 
-      it 'updates lineups substitutes' do
-        expect(match_lineup.substitutes_preview).to eq(expected)
+      it 'marks the bench player as get_out' do
+        auto_bot.call
+        expect(pc_sub.reload.subs_status).to eq('get_out')
+      end
+
+      it 'does not update the lineup substitutes preview' do
+        auto_bot.call
+        expect(match_lineup.reload.substitutes).to be_nil
+      end
+    end
+
+    context 'when no main player needs substitution' do
+      before { pc_one.round_player.update(score: 7.0) }
+
+      it 'returns an empty array' do
+        expect(described_class.call(match_lineup, preview: preview)).to eq([])
+      end
+
+      it 'does not create Substitute records' do
+        auto_bot.call
+        expect(Substitute.count).to eq(0)
+      end
+    end
+
+    context 'when no bench player has a score' do
+      before { pc_sub.round_player.update(score: 0) }
+
+      it 'returns an empty array' do
+        expect(described_class.call(match_lineup, preview: preview)).to eq([])
+      end
+
+      it 'does not create Substitute records' do
+        auto_bot.call
+        expect(Substitute.count).to eq(0)
       end
     end
   end
