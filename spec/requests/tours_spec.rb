@@ -175,7 +175,7 @@ RSpec.describe 'Tours' do
 
         put tour_path(tour, params)
 
-        expect(response).to redirect_to(tour_path(tour))
+        expect(manager).to have_received(:call)
       end
     end
 
@@ -197,7 +197,7 @@ RSpec.describe 'Tours' do
 
         put tour_path(tour, params)
 
-        expect(response).to redirect_to(tour_path(tour))
+        expect(manager).to have_received(:call)
       end
 
       it 'does not update tour with specified status' do
@@ -252,12 +252,26 @@ RSpec.describe 'Tours' do
         expect(response).to redirect_to(tour_path(tour))
       end
 
-      it 'calls Updater service' do
+      it 'calls PositionMalus::Updater service' do
         allow(Scores::PositionMalus::Updater).to receive(:call)
 
         get inject_scores_tour_path(tour)
 
-        expect(response).to redirect_to(tour_path(tour))
+        expect(Scores::PositionMalus::Updater).to have_received(:call)
+      end
+
+      it 'calls Lineups::Updater service' do
+        allow(Lineups::Updater).to receive(:call)
+
+        get inject_scores_tour_path(tour)
+
+        expect(Lineups::Updater).to have_received(:call)
+      end
+
+      it 'redirects to tournament_round when redirect=round param is given' do
+        get inject_scores_tour_path(tour, redirect: 'round')
+
+        expect(response).to redirect_to(tournament_round_path(tour.tournament_round))
       end
     end
 
@@ -283,12 +297,20 @@ RSpec.describe 'Tours' do
         expect(response).to redirect_to(tour_path(tour))
       end
 
-      it 'calls Updater service' do
+      it 'calls PositionMalus::Updater service' do
         allow(Scores::PositionMalus::Updater).to receive(:call)
 
         get inject_scores_tour_path(tour)
 
-        expect(response).to redirect_to(tour_path(tour))
+        expect(Scores::PositionMalus::Updater).to have_received(:call)
+      end
+
+      it 'calls Lineups::Updater service' do
+        allow(Lineups::Updater).to receive(:call)
+
+        get inject_scores_tour_path(tour)
+
+        expect(Lineups::Updater).to have_received(:call)
       end
     end
   end

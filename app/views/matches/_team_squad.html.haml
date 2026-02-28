@@ -8,18 +8,19 @@
         .match-team-def-bonus
           .match-team-data-text= t('matches.def_bonus')
           .match-team-data-value= lineup.defence_bonus
+      - all_players = lineup.match_players.to_a
       .match-main-squad
-        - lineup.match_players.main.each do |match_player|
+        - all_players.select { |mp| mp.real_position.present? }.each do |match_player|
           = render 'main_player', match_player: match_player
       .match-reserve
         .match-reserve-title= t('matches.substitutes')
         .match-reserve-players
-          - lineup.match_players.subs_bench.each do |match_player|
+          - all_players.select { |mp| mp.real_position.nil? && !mp.not_in_squad? }.each do |match_player|
             = render 'subs_player', match_player: match_player
       .match-reserve
         .match-reserve-title= t('matches.not_lineup')
         .match-reserve-players
-          - lineup.match_players.not_in_lineup.each do |match_player|
+          - all_players.select { |mp| mp.real_position.nil? && mp.not_in_squad? }.each do |match_player|
             = render 'subs_player', match_player: match_player
     - else
       .match-no-lineup-icon ✅

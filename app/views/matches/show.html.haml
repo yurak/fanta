@@ -109,7 +109,7 @@
               .match-module-lineup.match-module-home
                 - if match.host_lineup
                   - if current_user == match.host_lineup.team.user || match.host_lineup.tour.deadlined?
-                    - match.host_lineup.match_players.main.each_with_index do |mp, index|
+                    - match.host_lineup.match_players.select { |mp| mp.real_position.present? }.each_with_index do |mp, index|
                       .match-module-item{class: "slot-#{match.host_lineup.team_module.slots[index]&.location}"}
                         .match-module-item-pos
                           .module-position-block.player-positions-block
@@ -122,7 +122,7 @@
               .match-module-lineup.match-module-away
                 - if match.guest_lineup
                   - if current_user == match.guest_lineup.team.user || match.guest_lineup.tour.deadlined?
-                    - match.guest_lineup.match_players.main.each_with_index do |mp, index|
+                    - match.guest_lineup.match_players.select { |mp| mp.real_position.present? }.each_with_index do |mp, index|
                       .match-module-item{class: "slot-#{match.guest_lineup.team_module.slots[index]&.location}"}
                         .match-module-item-pos
                           .module-position-block.player-positions-block
