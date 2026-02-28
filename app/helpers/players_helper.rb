@@ -20,7 +20,7 @@ module PlayersHelper
     scope = team.players.includes(:positions).where(positions: { name: slot.positions_with_malus }).sort_by(&:position_sequence_number)
 
     scope.group_by do |x|
-      Scores::PositionMalus::Counter.call(slot.position, x.reload.position_names).to_s
+      Scores::PositionMalus::Counter.call(slot.position, x.position_names).to_s
     end
   end
 

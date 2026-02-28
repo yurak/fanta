@@ -1,6 +1,6 @@
 module TournamentRounds
   class AutoCloser < ApplicationService
-    attr_reader :tournament_round, :tournament
+    attr_reader :tournament_round
 
     def initialize(tournament_round_id)
       @tournament_round = TournamentRound.find_by(id: tournament_round_id)
