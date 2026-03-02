@@ -28,6 +28,8 @@ module Substitutes
         lock_assigned_columns unless idx == TIERS.size - 1
       end
 
+      maximize_matching
+
       report
     end
 
@@ -55,6 +57,30 @@ module Substitutes
         visited[c] = true
 
         next unless @match_col[c] == -1 || augment(@match_col[c], @all_edges, visited)
+
+        @match_col[c] = idx
+        @match_row[idx] = c
+        return true
+      end
+
+      false
+    end
+
+    def maximize_matching
+      @eligible_rows.each_with_index do |_r, i|
+        next if @match_row[i] != -1
+
+        augment_free(i, Array.new(@n, false))
+      end
+    end
+
+    def augment_free(idx, visited)
+      @all_edges[idx].each do |c|
+        next if visited[c]
+
+        visited[c] = true
+
+        next unless @match_col[c] == -1 || augment_free(@match_col[c], visited)
 
         @match_col[c] = idx
         @match_row[idx] = c

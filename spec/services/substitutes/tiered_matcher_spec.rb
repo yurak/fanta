@@ -111,6 +111,40 @@ RSpec.describe Substitutes::TieredMatcher do
     end
   end
 
+  context 'when a tier-0 matched column can be freed by escaping to another tier-0 column' do
+    # Module 4-4-1-1 real case:
+    #              col0(Dc/Dd)  col1(Dc)  col2(W/A)
+    # row0(Dc):         0          0         X      — two native options
+    # row1(E):         3.0         X        3.0     — no native option, all M_MALUS
+    # row2(E/W):       3.0         X         0      — W is native
+    #
+    # Tier-0 matches row0→col0, row2→col2 and locks them.
+    # row1(E) is left unmatched because both its options (col0, col2) are locked.
+    # row0(Dc) can escape to col1 (also 0 malus), freeing col0 for row1(E).
+    let(:grid) do
+      [
+        [0, 0, 'X'],
+        [3.0, 'X', 3.0],
+        [3.0, 'X', 0]
+      ]
+    end
+
+    it 'matches all three rows' do
+      assignments, = result
+      expect(assignments.size).to eq(3)
+    end
+
+    it 'assigns the E row via freed column' do
+      assignments, = result
+      expect(assignments).to include([1, 0, 3.0])
+    end
+
+    it 'returns total malus of 3.0' do
+      _, total = result
+      expect(total).to eq(3.0)
+    end
+  end
+
   context 'when two rows share the only tier-0 column and one can escape to tier 1.5' do
     # Module 4-4-1-1 real case:
     #            Timber(C)  Enciso(T,A)  Gboho(W)
