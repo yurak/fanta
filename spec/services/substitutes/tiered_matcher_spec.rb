@@ -173,6 +173,39 @@ RSpec.describe Substitutes::TieredMatcher do
     end
   end
 
+  context 'when E/W, T/A, A/Pc compete for A, C, W/A bench players' do
+    # Module 4-4-1-1 real case:
+    #              col0(A)  col1(C)  col2(W/A)
+    # row0(E/W):    3.0      1.5       0       — W is native (col2), C has S_MALUS
+    # row1(T/A):     0       3.0       0       — A and W/A are native
+    # row2(A/Pc):    0        X        0       — A and W/A are native, C incompatible
+    #
+    # Tier-0 greedy takes E/W→col2, T/A→col0. A/Pc displaces T/A to col1 (M_MALUS).
+    # 2-opt improvement swaps E/W↔T/A: E/W→col1 (S_MALUS), T/A→col2 (native). Total = 1.5.
+    let(:grid) do
+      [
+        [3.0, 1.5, 0],
+        [0, 3.0, 0],
+        [0, 'X', 0]
+      ]
+    end
+
+    it 'matches all three rows' do
+      assignments, = result
+      expect(assignments.size).to eq(3)
+    end
+
+    it 'assigns E/W to the C bench player after 2-opt improvement' do
+      assignments, = result
+      expect(assignments).to include([0, 1, 1.5])
+    end
+
+    it 'returns minimum total malus of 1.5' do
+      _, total = result
+      expect(total).to eq(1.5)
+    end
+  end
+
   context 'with mixed tiers across different rows' do
     let(:grid) { [[0, 'X'], ['X', 3.0]] }
 

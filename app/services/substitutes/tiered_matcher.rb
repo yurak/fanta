@@ -1,7 +1,5 @@
 module Substitutes
   class TieredMatcher < ApplicationService
-    TIERS = [0, Position::S_MALUS, Position::M_MALUS].freeze
-
     def initialize(grid)
       @grid = grid
       @m = grid.size
@@ -14,22 +12,11 @@ module Substitutes
       prepare
       return [[], 0.0] if @eligible_rows.empty?
 
-      @all_edges = build_all_edges
-
-      TIERS.each_with_index do |tier, idx|
-        tier_edges = build_edges_for(tier)
-
-        @eligible_rows.each_with_index do |_r, i|
-          next if @match_row[i] != -1
-
-          augment(i, tier_edges, Array.new(@n, false))
-        end
-
-        lock_assigned_columns unless idx == TIERS.size - 1
+      @eligible_rows.each_with_index do |_r, i|
+        augment(i, Array.new(@n, false))
       end
 
-      maximize_matching
-
+      improve
       report
     end
 
@@ -37,50 +24,21 @@ module Substitutes
 
     def prepare
       @eligible_rows = (0...@m).select { |r| @grid[r].any? { |v| v != 'X' } }
+      @edges = @eligible_rows.map do |r|
+        (0...@n).reject { |c| @grid[r][c] == 'X' }
+                .sort_by { |c| @grid[r][c] }
+      end
       @match_col = Array.new(@n, -1)
       @match_row = Array.new(@eligible_rows.size, -1)
-      @locked_cols = Array.new(@n, false)
     end
 
-    def build_edges_for(tier)
-      @eligible_rows.map { |r| (0...@n).select { |c| @grid[r][c] == tier } }
-    end
-
-    def build_all_edges
-      @eligible_rows.map { |r| (0...@n).reject { |c| @grid[r][c] == 'X' } }
-    end
-
-    def augment(idx, tier_edges, visited)
-      tier_edges[idx].each do |c|
-        next if @locked_cols[c] || visited[c]
-
-        visited[c] = true
-
-        next unless @match_col[c] == -1 || augment(@match_col[c], @all_edges, visited)
-
-        @match_col[c] = idx
-        @match_row[idx] = c
-        return true
-      end
-
-      false
-    end
-
-    def maximize_matching
-      @eligible_rows.each_with_index do |_r, i|
-        next if @match_row[i] != -1
-
-        augment_free(i, Array.new(@n, false))
-      end
-    end
-
-    def augment_free(idx, visited)
-      @all_edges[idx].each do |c|
+    def augment(idx, visited)
+      @edges[idx].each do |c|
         next if visited[c]
 
         visited[c] = true
 
-        next unless @match_col[c] == -1 || augment_free(@match_col[c], visited)
+        next unless @match_col[c] == -1 || augment(@match_col[c], visited)
 
         @match_col[c] = idx
         @match_row[idx] = c
@@ -90,8 +48,31 @@ module Substitutes
       false
     end
 
-    def lock_assigned_columns
-      (0...@n).each { |c| @locked_cols[c] = true if @match_col[c] != -1 }
+    def improve
+      loop { break unless improve_pass }
+    end
+
+    def improve_pass
+      @eligible_rows.each_with_index do |r, i|
+        next if @match_row[i] == -1
+
+        @eligible_rows.each_with_index do |r2, j|
+          next if j <= i || @match_row[j] == -1
+
+          ci = @match_row[i]
+          cj = @match_row[j]
+          next if @grid[r][cj] == 'X' || @grid[r2][ci] == 'X'
+          next unless @grid[r][cj].to_f + @grid[r2][ci].to_f < @grid[r][ci].to_f + @grid[r2][cj].to_f
+
+          @match_row[i] = cj
+          @match_row[j] = ci
+          @match_col[ci] = j
+          @match_col[cj] = i
+          return true
+        end
+      end
+
+      false
     end
 
     def report
