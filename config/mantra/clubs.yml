@@ -363,16 +363,19 @@ europe:
 #  COP: Copenhagen
 #  ZVE: Crvena Zvezda
 #  DZG: Dinamo Zagreb
-  KAI: Kairat
+  FER: Ferencvaros
+#  KAI: Kairat
 #  MHF: Maccabi Haifa
 #  MFF: Malmo
-  OLY: Olympiacos
-  PAF: Pafos
-  QAR: Qarabag
+  MDT: Midtjylland
+#  OLY: Olympiacos
+#  PAF: Pafos
+  PAN: Panathinaikos
+#  QAR: Qarabag
 #  RAN: Rangers
 #  RBS: Salzburg
 #  SHE: Sheriff
-  SLP: Slavia Praha
+#  SLP: Slavia Praha
 #  SLO: Slovan
 #  SPG: Sparta Prague
 #  STG: Sturm

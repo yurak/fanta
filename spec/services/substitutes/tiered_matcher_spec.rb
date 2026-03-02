@@ -111,6 +111,34 @@ RSpec.describe Substitutes::TieredMatcher do
     end
   end
 
+  context 'when two rows share the only tier-0 column and one can escape to tier 1.5' do
+    # Module 4-4-1-1 real case:
+    #            Timber(C)  Enciso(T,A)  Gboho(W)
+    # Bouaddi(C):    0         3.0          X     — Timber is native
+    # Gouiri(T/A):  3.0         0          1.5    — Enciso is native (T∩[T,A]), Gboho has S_MALUS
+    # Ramos(A/Pc):   X          0          3.0    — Enciso is native (A∩[T,A])
+    #
+    # Greedy tier-0 assigns Gouiri→Enciso, leaving Ramos with Gboho (3.0). Total = 3.0.
+    # Correct: Gouiri escapes to Gboho (1.5), freeing Enciso for Ramos (0). Total = 1.5.
+    let(:grid) do
+      [
+        [0, 3.0, 'X'],
+        [3.0, 0, 1.5],
+        ['X', 0, 3.0]
+      ]
+    end
+
+    it 'assigns the third row to the shared tier-0 column' do
+      assignments, = result
+      expect(assignments).to include([2, 1, 0.0])
+    end
+
+    it 'returns minimum total malus of 1.5' do
+      _, total = result
+      expect(total).to eq(1.5)
+    end
+  end
+
   context 'with mixed tiers across different rows' do
     let(:grid) { [[0, 'X'], ['X', 3.0]] }
 

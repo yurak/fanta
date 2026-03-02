@@ -14,6 +14,8 @@ module Substitutes
       prepare
       return [[], 0.0] if @eligible_rows.empty?
 
+      @all_edges = build_all_edges
+
       TIERS.each_with_index do |tier, idx|
         tier_edges = build_edges_for(tier)
 
@@ -42,13 +44,17 @@ module Substitutes
       @eligible_rows.map { |r| (0...@n).select { |c| @grid[r][c] == tier } }
     end
 
+    def build_all_edges
+      @eligible_rows.map { |r| (0...@n).reject { |c| @grid[r][c] == 'X' } }
+    end
+
     def augment(idx, tier_edges, visited)
       tier_edges[idx].each do |c|
         next if @locked_cols[c] || visited[c]
 
         visited[c] = true
 
-        next unless @match_col[c] == -1 || augment(@match_col[c], tier_edges, visited)
+        next unless @match_col[c] == -1 || augment(@match_col[c], @all_edges, visited)
 
         @match_col[c] = idx
         @match_row[idx] = c
