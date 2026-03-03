@@ -219,4 +219,93 @@ RSpec.describe Substitutes::TieredMatcher do
       expect(total).to eq(3.0)
     end
   end
+
+  context 'when a non-native row steals the only slot from a native row' do
+    # Dd (row0) can sub Dc(bench) only with 1.5 malus, M(bench) is incompatible
+    # Dc (row1) can sub Dc(bench) natively (0 malus)
+    # Current greedy: Dd→Dc(bench)(1.5), Dc unmatched  ← WRONG
+    # Expected: Dc→Dc(bench)(0), Dd unmatched            ← 1 zero-malus sub wins
+    let(:grid) do
+      [
+        [1.5, 'X'],  # Dd: Dc(bench)=1.5, M(bench)=X
+        [0,   'X']   # Dc: Dc(bench)=0,   M(bench)=X
+      ]
+    end
+
+    it 'performs exactly one zero-malus substitution' do
+      assignments, = result
+      expect(assignments).to eq([[1, 0, 0.0]])
+    end
+
+    it 'returns zero total malus' do
+      _, total = result
+      expect(total).to eq(0.0)
+    end
+  end
+
+  context 'when a non-native row steals a slot but another slot is available for it' do
+    # Dd (row0): Dc(bench)=1.5, M(bench)=3.0
+    # Dc (row1): Dc(bench)=0,   M(bench)=X
+    # Expected: Dc→Dc(bench)(0) [zero-malus first], Dd→M(bench)(3.0) [remaining slot]
+    let(:grid) do
+      [
+        [1.5, 3.0],  # Dd: both bench players substitutable with malus
+        [0,   'X']   # Dc: only Dc(bench) natively
+      ]
+    end
+
+    it 'performs both substitutions' do
+      assignments, = result
+      expect(assignments.size).to eq(2)
+    end
+
+    it 'assigns Dc to the zero-malus slot' do
+      assignments, = result
+      expect(assignments).to include([1, 0, 0.0])
+    end
+
+    it 'assigns Dd to the remaining slot with malus' do
+      assignments, = result
+      expect(assignments).to include([0, 1, 3.0])
+    end
+
+    it 'returns total malus of 3.0' do
+      _, total = result
+      expect(total).to eq(3.0)
+    end
+  end
+
+  context 'when M and C did not play, bench has T and M/C' do
+    # M  (row0): T(bench)=X (T cannot cover M), M/C(bench)=0 (native)
+    # C  (row1): T(bench)=3.0 (M_MALUS),        M/C(bench)=0 (native)
+    # Both compete for the single zero-malus slot (M/C bench).
+    # M has no alternative: if M/C goes to C, M is unmatched → only 1 sub total.
+    # Correct: M→M/C(0) [native, frees T for C], C→T(3.0) → 2 subs, 1 zero-malus.
+    let(:grid) do
+      [
+        ['X', 0],  # M: T(bench)=X, M/C(bench)=0
+        [3.0, 0]   # C: T(bench)=3.0, M/C(bench)=0
+      ]
+    end
+
+    it 'matches both players' do
+      assignments, = result
+      expect(assignments.size).to eq(2)
+    end
+
+    it 'assigns M natively to M/C bench (zero-malus)' do
+      assignments, = result
+      expect(assignments).to include([0, 1, 0.0])
+    end
+
+    it 'assigns C to T bench with 3.0 malus' do
+      assignments, = result
+      expect(assignments).to include([1, 0, 3.0])
+    end
+
+    it 'returns total malus of 3.0' do
+      _, total = result
+      expect(total).to eq(3.0)
+    end
+  end
 end
