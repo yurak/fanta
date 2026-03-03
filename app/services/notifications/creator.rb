@@ -20,8 +20,6 @@ module Notifications
 
       Notification.insert_all!(prepare_rows(teams, Time.current))
       true
-    rescue KeyError => e
-      raise ArgumentError, "Invalid kind/priority enum value: #{e.message}"
     end
 
     private
