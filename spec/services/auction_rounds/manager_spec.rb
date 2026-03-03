@@ -365,6 +365,53 @@ RSpec.describe AuctionRounds::Manager do
       end
     end
 
+    context 'when a team exceeds its budget' do
+      let(:auction_round) { create(:auction_round, deadline: 1.hour.ago, auction: create(:auction, number: 2)) }
+      let(:league) { auction_round.league }
+      let!(:over_budget_team) { create(:team, league: league) }
+      let!(:normal_team) { create(:team, league: league) }
+      let!(:over_budget_bid) do
+        create(:submitted_auction_bid, :with_player_bids, team: over_budget_team, auction_round: auction_round)
+      end
+
+      before do
+        over_budget_team.update(budget: 0)
+        create(:submitted_auction_bid, :with_player_bids, team: normal_team, auction_round: auction_round)
+        manager.call
+      end
+
+      it 'fails all initial player_bids for the over-budget team' do
+        expect(over_budget_bid.player_bids.map { |pb| pb.reload.status }.uniq).to eq(['failed'])
+      end
+
+      it 'does not fail player_bids for the team within budget' do
+        normal_bid = normal_team.auction_bids.first
+        expect(normal_bid.player_bids.any? { |pb| pb.reload.status == 'success' }).to be(true)
+      end
+    end
+
+    context 'when no vacancies remain after processing' do
+      let(:auction_round) { create(:auction_round, number: 2, deadline: 1.hour.ago, auction: create(:auction, number: 2)) }
+      let(:league) { auction_round.league }
+      let!(:teams) { create_list(:team, 2, :with_full_squad, league: league) }
+
+      before do
+        teams.each { |team| create(:submitted_auction_bid, :with_player_bids, team: team, auction_round: auction_round) }
+        allow(Auctions::Manager).to receive(:call)
+        allow(AuctionRounds::Creator).to receive(:call)
+      end
+
+      it 'calls Auctions::Manager to close the auction' do
+        manager.call
+        expect(Auctions::Manager).to have_received(:call).with(auction_round.auction, Auctions::Manager::CLOSED_STATUS)
+      end
+
+      it 'does not create a new auction round' do
+        manager.call
+        expect(AuctionRounds::Creator).not_to have_received(:call)
+      end
+    end
+
     context 'with processing status' do
       let(:auction_round) { create(:processing_auction_round) }
 

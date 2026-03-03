@@ -5,9 +5,10 @@ class ToursController < ApplicationController
 
   def show
     if tour
-      @results_ordered = tour.league.results.includes(:team).ordered
-      @results_by_score = tour.league.results.includes(:team).ordered_by_score.limit(5)
-      @matches = tour.tournament_round.tournament_matches.includes(:host_club, :guest_club)
+      preload_tour_matches(tour)
+      @results_ordered = tour.league.results.ordered.to_a
+      @results_by_score = tour.league.results.ordered_by_score.limit(5)
+      @matches = tour.tournament_round.tournament_matches
     else
       redirect_to leagues_path
     end
@@ -61,15 +62,12 @@ class ToursController < ApplicationController
   # TODO: move action to TournamentRoundController#inject_scores or RoundPlayersController#update
   def inject_scores
     if can? :inject_scores, Tour
-      # TODO: temp removed
-      # Tour.transaction do
       injector = "Scores::Injectors::#{tournament_round.tournament.source.capitalize}".constantize
       injector.call(tournament_round)
       tournament_round.tours.each do |tour|
         Scores::PositionMalus::Updater.call(tour)
         Lineups::Updater.call(tour)
       end
-      # end
     end
 
     path = params['redirect'] == 'round' ? tournament_round_path(tournament_round) : tour_path(tour)
@@ -79,10 +77,20 @@ class ToursController < ApplicationController
   private
 
   def tour
-    @tour ||= Tour.includes(
-      league: { results: :team },
-      tournament_round: { tournament_matches: %i[host_club guest_club] }
-    ).find_by(id: params[:id])
+    @tour ||= Tour.includes(tournament_round: [:tournament, { tournament_matches: %i[host_club guest_club] }])
+                  .find_by(id: params[:id])
+  end
+
+  def preload_tour_matches(tour)
+    ActiveRecord::Associations::Preloader.new.preload(tour, matches: %i[host guest])
+
+    all_team_ids = tour.matches.flat_map { |m| [m.host_id, m.guest_id] }.uniq
+    lineups = Lineup.where(tour_id: tour.id, team_id: all_team_ids).index_by(&:team_id)
+
+    tour.matches.each do |m|
+      m.define_singleton_method(:host_lineup) { lineups[host_id] }
+      m.define_singleton_method(:guest_lineup) { lineups[guest_id] }
+    end
   end
 
   def tournament_round

@@ -69,5 +69,56 @@ RSpec.describe Notifications::Creator do
       described_class.call(notifiable: tour, kind: :tour_opened)
       expect(Notification).to have_received(:insert_all!).once
     end
+
+    it 'returns true on success' do
+      tour = build_tour_with_teams(user_teams_count: 1)
+      expect(described_class.call(notifiable: tour, kind: :tour_opened)).to be(true)
+    end
+
+    context 'with persisted notification' do
+      let(:tour) { build_tour_with_teams(user_teams_count: 1) }
+      let(:team) { tour.league.teams.first }
+
+      before { described_class.call(notifiable: tour, kind: :tour_opened) }
+
+      it 'associates with the correct team and notifiable' do
+        expect(Notification.last).to have_attributes(team: team, notifiable: tour)
+      end
+
+      it 'stores kind, status and default priority' do
+        expect(Notification.last).to have_attributes(kind: 'tour_opened', status: 'pending', priority: 'normal')
+      end
+    end
+
+    it 'stores the specified priority' do
+      tour = build_tour_with_teams(user_teams_count: 1)
+      described_class.call(notifiable: tour, kind: :tour_opened, priority: :high)
+      expect(Notification.last.priority).to eq('high')
+    end
+
+    %i[tour_moderated tour_closed].each do |kind|
+      it "creates notifications for :#{kind}" do
+        tour = build_tour_with_teams(user_teams_count: 2)
+        described_class.call(notifiable: tour, kind: kind)
+        expect(notifications_scope(tour: tour, kind: kind).count).to eq(2)
+      end
+    end
+
+    it 'does not block notification for a different kind' do
+      tour = build_tour_with_teams(user_teams_count: 1)
+      team = tour.league.teams.first
+      create_notification(team: team, tour: tour, kind: :tour_opened)
+
+      described_class.call(notifiable: tour, kind: :tour_moderated)
+
+      expect(notifications_scope(tour: tour, kind: :tour_moderated).count).to eq(1)
+    end
+
+    it 'returns false when all teams are already notified' do
+      tour = build_tour_with_teams(user_teams_count: 2)
+      tour.league.teams.each { |team| create_notification(team: team, tour: tour, kind: :tour_opened) }
+
+      expect(described_class.call(notifiable: tour, kind: :tour_opened)).to be(false)
+    end
   end
 end

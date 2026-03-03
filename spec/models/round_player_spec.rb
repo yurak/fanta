@@ -251,6 +251,51 @@ RSpec.describe RoundPlayer do
     end
   end
 
+  describe '#national_played?' do
+    context 'without national team' do
+      it 'returns false' do
+        expect(round_player.send(:national_played?)).to be(false)
+      end
+    end
+
+    context 'with national team but without national match' do
+      let(:player) { create(:player, :with_national_team) }
+      let(:round_player) { create(:round_player, player: player) }
+
+      it 'returns false' do
+        expect(round_player.send(:national_played?)).to be(false)
+      end
+    end
+
+    context 'with national team and national match not yet played' do
+      let(:player) { create(:player, :with_national_team) }
+      let(:round_player) { create(:round_player, player: player) }
+
+      before do
+        create(:national_match, tournament_round: round_player.tournament_round,
+                                host_team: player.national_team)
+      end
+
+      it 'returns false' do
+        expect(round_player.send(:national_played?)).to be(false)
+      end
+    end
+
+    context 'with national team and played national match' do
+      let(:player) { create(:player, :with_national_team) }
+      let(:round_player) { create(:round_player, player: player) }
+
+      before do
+        create(:national_match, tournament_round: round_player.tournament_round,
+                                host_team: player.national_team, host_score: 1)
+      end
+
+      it 'returns true' do
+        expect(round_player.send(:national_played?)).to be(true)
+      end
+    end
+  end
+
   describe '#another_tournament?' do
     context 'with active club' do
       it 'returns true' do

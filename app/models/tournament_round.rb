@@ -63,7 +63,7 @@ class TournamentRound < ApplicationRecord
   end
 
   def best_bench
-    lineups.max_by(&:average_bench)
+    @best_bench ||= lineups.includes(match_players: :round_player).max_by(&:average_bench)
   end
 
   private

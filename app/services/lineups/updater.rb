@@ -10,8 +10,8 @@ module Lineups
       return false if tour&.lineups.blank?
 
       tour.lineups.each do |lineup|
-        lineup.update(final_score: lineup.current_score)
-        lineup.reload.update(final_goals: lineup.live_goals)
+        lineup.final_score = lineup.current_score
+        lineup.update(final_score: lineup.final_score, final_goals: lineup.live_goals)
       end
 
       update_points if tour.fanta?

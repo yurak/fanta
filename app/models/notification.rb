@@ -7,7 +7,8 @@ class Notification < ApplicationRecord
   enum status: {
     pending: 0,
     sent: 1,
-    failed: 2
+    failed: 2,
+    processing: 3
   }
 
   enum kind: {
