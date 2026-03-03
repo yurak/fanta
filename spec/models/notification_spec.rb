@@ -27,7 +27,7 @@ RSpec.describe Notification do
     end
 
     it 'defines status enum mapping' do
-      expect(described_class.statuses).to eq('pending' => 0, 'sent' => 1, 'failed' => 2)
+      expect(described_class.statuses).to eq('pending' => 0, 'sent' => 1, 'failed' => 2, 'processing' => 3)
     end
 
     it 'defines kind enum mapping' do
