@@ -63,6 +63,31 @@ RSpec.describe Scores::Injectors::FotmobMatch do
         expect(match.reload.host_score).to be_nil
       end
     end
+
+    context 'when tournament has skip_round_check enabled' do
+      let(:wrong_round_data) do
+        {
+          'general' => { 'leagueRoundName' => 'Regular Season' },
+          'header' => { 'status' => finished_status },
+          'content' => {}
+        }
+      end
+
+      before do
+        match.tournament_round.tournament.update!(skip_round_check: true)
+        allow(injector).to receive(:match_data).and_return(wrong_round_data)
+      end
+
+      it 'updates host score' do
+        injector.call
+        expect(match.reload.host_score).to eq(2)
+      end
+
+      it 'updates guest score' do
+        injector.call
+        expect(match.reload.guest_score).to eq(1)
+      end
+    end
   end
 
   describe '#correct_round?' do
@@ -88,6 +113,12 @@ RSpec.describe Scores::Injectors::FotmobMatch do
       let(:match_data) { { 'header' => { 'status' => finished_status }, 'content' => {} } }
 
       it { is_expected.to be false }
+    end
+
+    context 'when tournament has skip_round_check enabled' do
+      before { match.tournament_round.tournament.update!(skip_round_check: true) }
+
+      it { is_expected.to be true }
     end
   end
 

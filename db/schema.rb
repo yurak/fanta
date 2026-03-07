@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2026_02_07_123657) do
+ActiveRecord::Schema.define(version: 2026_03_07_215642) do
 
   create_table "article_tags", force: :cascade do |t|
     t.string "name", default: "", null: false
@@ -510,6 +510,7 @@ ActiveRecord::Schema.define(version: 2026_02_07_123657) do
     t.boolean "open_join", default: true, null: false
     t.integer "source", default: 0
     t.integer "mode", default: 0, null: false
+    t.boolean "skip_round_check", default: false, null: false
     t.index ["code"], name: "index_tournaments_on_code", unique: true
   end
 

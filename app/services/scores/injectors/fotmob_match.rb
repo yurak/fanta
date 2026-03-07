@@ -53,6 +53,8 @@ module Scores
       end
 
       def correct_round?
+        return true if match.tournament_round.tournament.skip_round_check?
+
         fetched_round_number == match.tournament_round.number
       end
 

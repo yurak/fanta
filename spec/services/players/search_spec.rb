@@ -197,6 +197,51 @@ RSpec.describe Players::Search do
         end
       end
 
+      context 'with team_id and without_team and league_id' do
+        let(:league) { create(:league, tournament: Tournament.last) }
+        let(:club) { create(:club, tournament: league.tournament) }
+        let!(:player_in_team) { create(:player, club: club) }
+        let!(:player_without_team) { create(:player, club: club) }
+        let(:team) { create(:team, league: league) }
+        let(:params) { { league_id: league.id, team_id: [team.id.to_s], without_team: true } }
+
+        before do
+          create(:player_team, player: player_in_team, team: team)
+        end
+
+        it 'returns both team players and players without a team' do
+          expect(service.call).to contain_exactly(player_in_team, player_without_team)
+        end
+      end
+
+      context 'with without_team as string false' do
+        let(:league) { create(:league, tournament: Tournament.last) }
+        let(:params) { { league_id: league.id, without_team: 'false' } }
+
+        before do
+          create(:player, club: create(:club, tournament: league.tournament))
+          other_player = create(:player, club: create(:club, tournament: league.tournament))
+          team = create(:team, league: league)
+          create(:player_team, player: other_player, team: team)
+        end
+
+        it 'does not filter by team and returns all tournament players' do
+          expect(service.call.count).to eq(2)
+        end
+      end
+
+      context 'with club_id and league_id' do
+        let(:league) { create(:league, tournament: Tournament.last) }
+        let!(:player_in_club) { create(:player, club: create(:club, tournament: league.tournament)) }
+        let(:params) { { league_id: league.id, club_id: [player_in_club.club_id] } }
+
+        before { create(:player, club: create(:club, tournament: league.tournament)) }
+
+        it 'filters by club_id and ignores league tournament scope' do
+          expect(service.call).to contain_exactly(player_in_club)
+        end
+      end
+
       context 'with empty app' do
         let(:league) { create(:league, tournament: Tournament.last) }
         let!(:player) { create(:player, :with_scores, club: create(:club, tournament: league.tournament)) }

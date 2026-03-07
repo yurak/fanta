@@ -5,7 +5,6 @@ module Players
 
     MAX_SEARCH = 100
     MIN_SEARCH = -100
-    ZERO_SEARCH = 0
 
     def initialize(params)
       @club_id = params[:club_id]
@@ -37,16 +36,16 @@ module Players
     def search_by_name(players)
       return players unless name
 
-      Player.where(id: players.pluck(:id).uniq).search_by_name(name)
+      Player.where(id: players.distinct.pluck(:id)).search_by_name(name)
     end
 
     def search_by_appearances(players)
       return players unless min_app || max_app
 
       max = max_app ? max_app.to_i : MAX_SEARCH
-      min = min_app ? min_app.to_i : ZERO_SEARCH
+      min = min_app ? min_app.to_i : 0
 
-      Player.where(id: players.select { |pl| pl.season_scores_count >= min && pl.season_scores_count <= max })
+      Player.where(id: players.select { |pl| pl.season_scores_count.between?(min, max) })
     end
 
     def search_by_base_score(players)
@@ -55,7 +54,7 @@ module Players
       max = max_base_score ? max_base_score.to_f : MAX_SEARCH
       min = min_base_score ? min_base_score.to_f : MIN_SEARCH
 
-      Player.where(id: players.select { |pl| pl.season_average_score >= min && pl.season_average_score <= max })
+      Player.where(id: players.select { |pl| pl.season_average_score.between?(min, max) })
     end
 
     def search_by_total_score(players)
@@ -64,7 +63,7 @@ module Players
       max = max_total_score ? max_total_score.to_f : MAX_SEARCH
       min = min_total_score ? min_total_score.to_f : MIN_SEARCH
 
-      Player.where(id: players.select { |pl| pl.season_average_result_score >= min && pl.season_average_result_score <= max })
+      Player.where(id: players.select { |pl| pl.season_average_result_score.between?(min, max) })
     end
 
     def search_by_team(players)
@@ -98,7 +97,7 @@ module Players
     end
 
     def tournament
-      Tournament.find_by(id: league.tournament_id) if league
+      @tournament ||= Tournament.find_by(id: league.tournament_id) if league
     end
 
     def league
