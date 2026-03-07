@@ -34,6 +34,18 @@ RSpec.describe Scores::Injectors::BaseSource do
       end
     end
 
+    context 'when match has a nil page_url' do
+      before do
+        nil_match = instance_double(TournamentMatch, page_url: nil)
+        allow(tournament_round).to receive(:tournament_matches).and_return([nil_match])
+        injector.call
+      end
+
+      it 'skips the match' do
+        expect(injector.injected_matches).to be_empty
+      end
+    end
+
     context 'when all matches have empty page_url' do
       before do
         create(:tournament_match, tournament_round: tournament_round, page_url: '')

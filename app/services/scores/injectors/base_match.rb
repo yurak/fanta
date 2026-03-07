@@ -61,11 +61,9 @@ module Scores
       end
 
       def cleansheet?(round_player, team_missed_goals, played_minutes)
-        return false if played_minutes.to_i < MatchPlayer::MIN_PLAYED_MINUTES_FOR_CS
-        return false if team_missed_goals.positive?
-        return false if (round_player.position_names & Position::CLEANSHEET_ZONE).blank?
-
-        true
+        played_minutes.to_i >= MatchPlayer::MIN_PLAYED_MINUTES_FOR_CS &&
+          team_missed_goals.zero? &&
+          (round_player.position_names & Position::CLEANSHEET_ZONE).present?
       end
 
       def missed_goals(round_player, team_missed_goals)

@@ -15,6 +15,18 @@ RSpec.describe Scores::Injectors::Fotmob do
       end
     end
 
+    context 'when match has a nil page_url' do
+      before do
+        nil_match = instance_double(TournamentMatch, page_url: nil)
+        allow(tournament_round).to receive(:tournament_matches).and_return([nil_match])
+      end
+
+      it 'does not call FotmobMatch' do
+        injector.call
+        expect(Scores::Injectors::FotmobMatch).not_to have_received(:call)
+      end
+    end
+
     context 'when match has an empty page_url' do
       before { create(:tournament_match, tournament_round: tournament_round, page_url: '') }
 

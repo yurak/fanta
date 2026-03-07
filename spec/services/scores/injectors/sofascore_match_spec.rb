@@ -230,6 +230,14 @@ RSpec.describe Scores::Injectors::SofascoreMatch do
         expect(injector.send(:host_scores_hash)).to eq({})
       end
     end
+
+    context 'when lineups_data has no away key' do
+      let(:lineups_json) { { 'home' => { 'players' => [] } }.to_json }
+
+      it 'returns empty hash for guest' do
+        expect(injector.send(:guest_scores_hash)).to eq({})
+      end
+    end
   end
 
   describe '#update_round_player' do
