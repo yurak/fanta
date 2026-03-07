@@ -207,8 +207,6 @@ RSpec.describe 'Tours' do
   end
 
   describe 'GET #inject_scores' do
-    let(:parser) { instance_double(TournamentRounds::SerieaEventsParser) }
-
     before do
       get inject_scores_tour_path(tour)
     end
@@ -231,9 +229,6 @@ RSpec.describe 'Tours' do
     context 'when moderator is logged in' do
       login_moderator
       before do
-        allow(TournamentRounds::SerieaEventsParser).to receive(:new).with(tour.tournament_round).and_return(parser)
-        allow(parser).to receive(:call).and_return([])
-
         get inject_scores_tour_path(tour)
       end
 
@@ -266,9 +261,6 @@ RSpec.describe 'Tours' do
     context 'when admin is logged in' do
       login_admin
       before do
-        allow(TournamentRounds::SerieaEventsParser).to receive(:new).with(tour.tournament_round).and_return(parser)
-        allow(parser).to receive(:call).and_return([])
-
         get inject_scores_tour_path(tour)
       end
 
