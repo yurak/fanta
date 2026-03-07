@@ -207,9 +207,7 @@ RSpec.describe 'Tours' do
   end
 
   describe 'GET #inject_scores' do
-    let(:strategy) { instance_double(Scores::Injectors::Strategy) }
     let(:parser) { instance_double(TournamentRounds::SerieaEventsParser) }
-    let(:klass) { class_double(Scores::Injectors::Calcio) }
 
     before do
       get inject_scores_tour_path(tour)
@@ -241,16 +239,6 @@ RSpec.describe 'Tours' do
 
       it { expect(response).to redirect_to(tour_path(tour)) }
       it { expect(response).to have_http_status(:found) }
-
-      it 'calls Strategy service' do
-        allow(Scores::Injectors::Strategy).to receive(:new).with(tour).and_return(strategy)
-        allow(strategy).to receive(:call).and_return(klass)
-        allow(klass).to receive(:call).and_return('data')
-
-        get inject_scores_tour_path(tour)
-
-        expect(response).to redirect_to(tour_path(tour))
-      end
 
       it 'calls PositionMalus::Updater service' do
         allow(Scores::PositionMalus::Updater).to receive(:call)
@@ -286,16 +274,6 @@ RSpec.describe 'Tours' do
 
       it { expect(response).to redirect_to(tour_path(tour)) }
       it { expect(response).to have_http_status(:found) }
-
-      it 'calls Strategy service' do
-        allow(Scores::Injectors::Strategy).to receive(:new).with(tour).and_return(strategy)
-        allow(strategy).to receive(:call).and_return(klass)
-        allow(klass).to receive(:call).and_return('data')
-
-        get inject_scores_tour_path(tour)
-
-        expect(response).to redirect_to(tour_path(tour))
-      end
 
       it 'calls PositionMalus::Updater service' do
         allow(Scores::PositionMalus::Updater).to receive(:call)

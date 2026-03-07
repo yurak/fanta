@@ -27,7 +27,7 @@ FactoryBot.define do
     end
 
     trait :with_eurocup_scores do
-      club { association :club, ec_tournament: Tournament.find_by(code: Scores::Injectors::Strategy::EUROPE_CL) }
+      club { association :club, ec_tournament: Tournament.find_by(code: Tournament::EUROPE_CL) }
 
       after(:create) do |player|
         create(:round_player, player: player, tournament_round: create(:tournament_round, tournament: player.club.ec_tournament), score: 6)
@@ -37,7 +37,7 @@ FactoryBot.define do
     end
 
     trait :with_champ_and_eurocup_scores do
-      club { association :club, ec_tournament: Tournament.find_by(code: Scores::Injectors::Strategy::EUROPE_CL) }
+      club { association :club, ec_tournament: Tournament.find_by(code: Tournament::EUROPE_CL) }
 
       after(:create) do |player|
         create(:round_player, player: player, tournament_round: create(:tournament_round, tournament: player.club.tournament), score: 6)
