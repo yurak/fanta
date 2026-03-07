@@ -51,7 +51,15 @@ module Scores
       end
 
       def match_finished?
-        (status['started'] || status['awarded']) && status['finished']
+        correct_round? && (status['started'] || status['awarded']) && status['finished']
+      end
+
+      def correct_round?
+        fetched_round_number == match.tournament_round.number
+      end
+
+      def fetched_round_number
+        match_data.dig('general', 'leagueRoundName').to_i
       end
 
       def status

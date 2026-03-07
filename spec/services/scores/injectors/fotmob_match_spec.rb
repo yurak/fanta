@@ -5,7 +5,11 @@ RSpec.describe Scores::Injectors::FotmobMatch do
     { 'started' => true, 'finished' => true, 'awarded' => false, 'scoreStr' => '2 - 1' }
   end
   let(:match_data) do
-    { 'header' => { 'status' => finished_status }, 'content' => {} }
+    {
+      'general' => { 'leagueRoundName' => match.tournament_round.number.to_s },
+      'header' => { 'status' => finished_status },
+      'content' => {}
+    }
   end
 
   before do
@@ -41,6 +45,49 @@ RSpec.describe Scores::Injectors::FotmobMatch do
         injector.call
         expect(match.reload.host_score).to be_nil
       end
+    end
+
+    context 'when fetched data belongs to a different round (e.g. Cup instead of league)' do
+      let(:match_data) do
+        {
+          'general' => { 'leagueRoundName' => (match.tournament_round.number + 1).to_s },
+          'header' => { 'status' => finished_status },
+          'content' => {}
+        }
+      end
+
+      it { expect(injector.call).to be_nil }
+
+      it 'does not update scores' do
+        injector.call
+        expect(match.reload.host_score).to be_nil
+      end
+    end
+  end
+
+  describe '#correct_round?' do
+    subject { injector.send(:correct_round?) }
+
+    context 'when fetched round matches tournament round number' do
+      it { is_expected.to be true }
+    end
+
+    context 'when fetched round does not match' do
+      let(:match_data) do
+        {
+          'general' => { 'leagueRoundName' => (match.tournament_round.number + 5).to_s },
+          'header' => { 'status' => finished_status },
+          'content' => {}
+        }
+      end
+
+      it { is_expected.to be false }
+    end
+
+    context 'when leagueRoundName is missing from match_data' do
+      let(:match_data) { { 'header' => { 'status' => finished_status }, 'content' => {} } }
+
+      it { is_expected.to be false }
     end
   end
 
