@@ -28,11 +28,15 @@ module Players
       end
 
       def first_name
-        name_data[1]&.text&.strip&.tr('#', '').to_i.positive? ? name_data[2]&.text&.strip : name_data[0]&.text&.strip
+        jersey_number? ? name_data[2]&.text&.strip : name_data[0]&.text&.strip
       end
 
       def last_name
-        name_data[1]&.text&.strip&.tr('#', '').to_i.positive? ? name_data[3]&.text&.strip : name_data[1]&.text&.strip
+        jersey_number? ? name_data[3]&.text&.strip : name_data[1]&.text&.strip
+      end
+
+      def jersey_number?
+        name_data[1]&.text&.strip&.tr('#', '').to_i.positive?
       end
 
       def country_code
@@ -56,7 +60,7 @@ module Players
       end
 
       def positions
-        html_page.css('.detail-position__position')
+        @positions ||= html_page.css('.detail-position__position')
       end
 
       def tm_pos1
@@ -90,10 +94,9 @@ module Players
       end
 
       def birth_date
-        return if html_page.css('.data-header__info-box .data-header__details').blank?
+        return if info_box_details.blank?
 
-        value = html_page.css('.data-header__info-box .data-header__details').children[1].children[1].children[1].children.text.strip[0..9]
-
+        value = info_box_details.children[1].children[1].children[1].children.text.strip[0..9]
         Date.strptime(value, '%d/%m/%Y')
         value
       rescue ArgumentError
@@ -101,14 +104,13 @@ module Players
       end
 
       def number
-        html_page.css('.data-header__shirt-number').text.strip.tr('#', '')&.to_i
+        html_page.css('.data-header__shirt-number').text.strip.tr('#', '').to_i
       end
 
       def height
-        return if html_page.css('.data-header__info-box .data-header__details').blank?
+        return if info_box_details.blank?
 
-        value = html_page.css('.data-header__info-box .data-header__details')
-                         .children[3].children[1].children[1].children.text.strip[0..3].tr(',', '')
+        value = info_box_details.children[3].children[1].children[1].children.text.strip[0..3].tr(',', '')
         Integer(value)
         value.to_i
       rescue ArgumentError, TypeError
@@ -116,9 +118,9 @@ module Players
       end
 
       def price
-        return 0 if html_page.css('.data-header__market-value-wrapper').blank?
+        return 0 if market_value_wrapper.blank?
 
-        multiplier = case html_page.css('.data-header__market-value-wrapper').children[2].text
+        multiplier = case market_value_wrapper.children[2].text
                      when 'm' then THOUSAND * THOUSAND
                      else THOUSAND
                      end
@@ -126,7 +128,15 @@ module Players
       end
 
       def price_value
-        html_page.css('.data-header__market-value-wrapper').children[1].text
+        market_value_wrapper.children[1].text
+      end
+
+      def info_box_details
+        @info_box_details ||= html_page.css('.data-header__info-box .data-header__details')
+      end
+
+      def market_value_wrapper
+        @market_value_wrapper ||= html_page.css('.data-header__market-value-wrapper')
       end
 
       def html_page
