@@ -135,11 +135,11 @@
                 .default-tab-name= t('players.international')
             .player-tabs-content
               .domestic.player-tab-content
-                = render('performance', player: player, matches: player.season_club_matches_w_scores)
+                = render('performance', player: player, matches: player.season_club_in_squad)
               .eurocups.player-tab-content
-                = render('performance', player: player, matches: player.season_ec_matches_with_scores)
+                = render('performance', player: player, matches: player.season_ec_in_squad)
               .international.player-tab-content
-                = render('performance', player: player, matches: player.national_matches_with_scores)
+                = render('performance', player: player, matches: player.national_in_squad)
 
       - if @stats.any?
         = render('season_stats', player: player)

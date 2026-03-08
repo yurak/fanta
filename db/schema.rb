@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2026_03_07_215642) do
+ActiveRecord::Schema.define(version: 2026_03_08_123433) do
 
   create_table "article_tags", force: :cascade do |t|
     t.string "name", default: "", null: false
@@ -395,6 +395,7 @@ ActiveRecord::Schema.define(version: 2026_03_07_215642) do
     t.integer "conceded_penalty", default: 0, null: false
     t.integer "penalties_won", default: 0, null: false
     t.integer "club_id"
+    t.boolean "in_squad", default: false, null: false
     t.index ["player_id"], name: "index_round_players_on_player_id"
     t.index ["tournament_round_id"], name: "index_round_players_on_tournament_round_id"
   end

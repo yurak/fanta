@@ -36,7 +36,8 @@ module Scores
           failed_penalty: stat_value(data, :failed_penalty), missed_goals: stat_value(data, :missed_goals),
           own_goals: stat_value(data, :own_goals), saves: stat_value(data, :saves),
           played_minutes: stat_value(data, :played_minutes), yellow_card: data[:yellow_card], red_card: data[:red_card],
-          conceded_penalty: conceded_penalty(data), penalties_won: stat_value(data, :penalties_won)
+          conceded_penalty: conceded_penalty(data), penalties_won: stat_value(data, :penalties_won),
+          in_squad: true
         }
       end
 

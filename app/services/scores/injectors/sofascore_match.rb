@@ -29,11 +29,13 @@ module Scores
 
       def update_round_player(round_player, team_hash, team_missed_goals)
         player_data = team_hash[round_player.sofascore_id]
-        return unless player_data
 
-        round_player.update(round_player_params(round_player, player_data, team_missed_goals))
-
-        team_hash.except!(round_player.sofascore_id)
+        if player_data
+          round_player.update(round_player_params(round_player, player_data, team_missed_goals))
+          team_hash.except!(round_player.sofascore_id)
+        elsif squad_sofascore_ids.include?(round_player.sofascore_id)
+          round_player.update(in_squad: true)
+        end
       end
 
       def full_player_hash(round_player, data, team_missed_goals)
@@ -43,7 +45,7 @@ module Scores
           cleansheet: cleansheet?(round_player, team_missed_goals.to_i, data[:played_minutes]),
           own_goals: stat_value(data, :own_goals), saves: stat_value(data, :saves),
           missed_goals: missed_goals(round_player, team_missed_goals.to_i),
-          played_minutes: stat_value(data, :played_minutes)
+          played_minutes: stat_value(data, :played_minutes), in_squad: true
         }
       end
 
@@ -83,6 +85,14 @@ module Scores
           own_goals: stats['ownGoals'],
           saves: stats['saves']
         }
+      end
+
+      def squad_sofascore_ids
+        @squad_sofascore_ids ||= begin
+          home_ids = lineups_data['home']&.dig('players')&.map { |p| p['player']['id'] } || []
+          away_ids = lineups_data['away']&.dig('players')&.map { |p| p['player']['id'] } || []
+          (home_ids + away_ids).to_set
+        end
       end
 
       def host_scores_hash

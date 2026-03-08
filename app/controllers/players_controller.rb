@@ -35,7 +35,7 @@ class PlayersController < ApplicationController
   private
 
   def player
-    @player ||= Player.find_by(id: params[:id])
+    @player ||= Player.includes(transfers: :auction).find_by(id: params[:id])
   end
 
   def ordered_players

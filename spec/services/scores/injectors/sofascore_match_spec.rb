@@ -252,19 +252,75 @@ RSpec.describe Scores::Injectors::SofascoreMatch do
         end.to(change { round_player.reload.updated_at })
       end
 
+      it 'marks player as in_squad' do
+        injector.send(:update_round_player, round_player, team_hash, 0)
+        expect(round_player.reload.in_squad).to be true
+      end
+
       it 'removes player from hash' do
         injector.send(:update_round_player, round_player, team_hash, 0)
         expect(team_hash).not_to have_key(100)
       end
     end
 
-    context 'when player is not in the hash' do
+    context 'when player is not in the hash but is in the squad (0 minutes played)' do
       let(:team_hash) { {} }
+      let(:lineups_json) do
+        { 'home' => { 'players' => [{ 'player' => { 'id' => 100, 'name' => 'Buffon' },
+                                      'statistics' => { 'minutesPlayed' => 0, 'rating' => nil,
+                                                        'goals' => 0, 'goalAssist' => 0, 'ownGoals' => 0, 'saves' => 0 } }] },
+          'away' => { 'players' => [] } }.to_json
+      end
+
+      it 'marks player as in_squad' do
+        injector.send(:update_round_player, round_player, team_hash, 0)
+        expect(round_player.reload.in_squad).to be true
+      end
+
+      it 'does not update score' do
+        expect do
+          injector.send(:update_round_player, round_player, team_hash, 0)
+        end.not_to(change { round_player.reload.score })
+      end
+    end
+
+    context 'when player is not in the hash and not in the squad' do
+      let(:team_hash) { {} }
+      let(:lineups_json) { { 'home' => { 'players' => [] }, 'away' => { 'players' => [] } }.to_json }
 
       it 'does nothing' do
         expect do
           injector.send(:update_round_player, round_player, team_hash, 0)
         end.not_to(change { round_player.reload.score })
+      end
+
+      it 'does not mark as in_squad' do
+        injector.send(:update_round_player, round_player, team_hash, 0)
+        expect(round_player.reload.in_squad).to be false
+      end
+    end
+  end
+
+  describe '#squad_sofascore_ids' do
+    subject(:ids) { injector.send(:squad_sofascore_ids) }
+
+    it 'includes home and away player ids from lineups_data' do
+      expect(ids).to include(100, 200)
+    end
+
+    context 'when lineups_data has no home key' do
+      let(:lineups_json) { { 'away' => { 'players' => [{ 'player' => { 'id' => 200 } }] } }.to_json }
+
+      it 'includes only away player ids' do
+        expect(ids).to contain_exactly(200)
+      end
+    end
+
+    context 'when lineups_data is invalid JSON' do
+      let(:match) { create(:tournament_match, base_data: finished_event_data, lineups_data: 'bad-json') }
+
+      it 'returns empty set' do
+        expect(ids).to be_empty
       end
     end
   end
@@ -277,6 +333,10 @@ RSpec.describe Scores::Injectors::SofascoreMatch do
 
     it 'includes score, goals, assists, saves and played_minutes' do
       expect(hash).to include(score: 7.0, goals: 0, assists: 1, saves: 4, played_minutes: 90)
+    end
+
+    it 'marks player as in_squad' do
+      expect(hash[:in_squad]).to be true
     end
 
     it 'includes cleansheet for goalkeeper with no goals conceded' do

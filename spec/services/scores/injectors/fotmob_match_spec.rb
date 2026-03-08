@@ -230,6 +230,10 @@ RSpec.describe Scores::Injectors::FotmobMatch do
     it 'includes conceded_penalty key' do
       expect(hash).to have_key(:conceded_penalty)
     end
+
+    it 'marks player as in_squad' do
+      expect(hash[:in_squad]).to be true
+    end
   end
 
   describe '#update_round_player' do
@@ -242,6 +246,11 @@ RSpec.describe Scores::Injectors::FotmobMatch do
         expect do
           injector.send(:update_round_player, round_player, team_hash, 0)
         end.to(change { round_player.reload.updated_at })
+      end
+
+      it 'marks player as in_squad' do
+        injector.send(:update_round_player, round_player, team_hash, 0)
+        expect(round_player.reload.in_squad).to be true
       end
 
       it 'removes player from hash to prevent duplicate processing' do

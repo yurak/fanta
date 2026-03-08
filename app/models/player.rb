@@ -129,7 +129,7 @@ class Player < ApplicationRecord
   end
 
   def transfer_by(team)
-    transfers.incoming.where(team: team).last
+    transfers.select { |t| t.incoming? && t.team_id == team.id }.last
   end
 
   def current_average_price
@@ -163,7 +163,6 @@ class Player < ApplicationRecord
       .sort_by { |round_number, _| round_number }.reverse.to_h
   end
 
-  # TODO: move to stats service
   # Current season statistic
 
   def chart_info(matches)
@@ -188,8 +187,16 @@ class Player < ApplicationRecord
     @season_club_matches_w_scores ||= round_players.with_score.by_tournament_round(season_tournament_rounds)
   end
 
+  def season_club_in_squad
+    @season_club_in_squad ||= round_players.in_squad.by_tournament_round(season_tournament_rounds)
+  end
+
   def season_ec_matches_with_scores
     @season_ec_matches_with_scores ||= round_players.with_score.by_tournament_round(season_club_eurocup_rounds).order(:tournament_round_id)
+  end
+
+  def season_ec_in_squad
+    @season_ec_in_squad ||= round_players.in_squad.by_tournament_round(season_club_eurocup_rounds).order(:tournament_round_id)
   end
 
   def season_all_matches_with_scores
@@ -198,6 +205,10 @@ class Player < ApplicationRecord
 
   def national_matches_with_scores
     @national_matches_with_scores ||= round_players.with_score.by_tournament_round(national_team_rounds).order(:tournament_round_id)
+  end
+
+  def national_in_squad
+    @national_in_squad ||= round_players.in_squad.by_tournament_round(national_team_rounds).order(:tournament_round_id)
   end
 
   def season_scores_count(matches = season_matches_with_scores)
@@ -240,20 +251,25 @@ class Player < ApplicationRecord
 
   private
 
+  def current_season
+    @current_season ||= Season.last
+  end
+
   # all TournamentRound in current tournament for this season
   def club_tournament_season_rounds
-    return [] unless club.tournament
-
-    TournamentRound.by_tournament(club.tournament.id).by_season(Season.last.id)
+    @club_tournament_season_rounds ||=
+      club.tournament ? TournamentRound.by_tournament(club.tournament.id).by_season(current_season.id) : []
   end
 
   # all TournamentRound for this season
   def season_tournament_rounds
-    TournamentRound.by_tournament(Tournament.with_clubs).by_season(Season.last.id).order(deadline: :desc)
+    @season_tournament_rounds ||=
+      TournamentRound.by_tournament(Tournament.with_clubs).by_season(current_season.id).order(deadline: :desc)
   end
 
   def season_club_eurocup_rounds
-    TournamentRound.by_tournament(Tournament.with_ec_clubs).by_season(Season.last.id)
+    @season_club_eurocup_rounds ||=
+      TournamentRound.by_tournament(Tournament.with_ec_clubs).by_season(current_season.id)
   end
 
   def season_all_tournam_rounds
@@ -261,9 +277,7 @@ class Player < ApplicationRecord
   end
 
   def national_team_rounds
-    return [] unless national_team
-    return [] unless national_team.tournament
-
-    national_team.tournament.tournament_rounds.by_season(Season.last.id)
+    @national_team_rounds ||=
+      national_team&.tournament&.tournament_rounds&.by_season(current_season.id) || []
   end
 end
