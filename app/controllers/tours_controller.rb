@@ -77,12 +77,15 @@ class ToursController < ApplicationController
   private
 
   def tour
-    @tour ||= Tour.includes(tournament_round: [:tournament, { tournament_matches: %i[host_club guest_club] }])
-                  .find_by(id: params[:id])
+    @tour ||= Tour.includes(
+      tournament_round: [:tournament, { tournament_matches: %i[host_club guest_club] }],
+      league: :tours
+    ).find_by(id: params[:id])
   end
 
   def preload_tour_matches(tour)
     ActiveRecord::Associations::Preloader.new.preload(tour, matches: %i[host guest])
+    ActiveRecord::Associations::Preloader.new.preload(tour, lineups: :team)
 
     all_team_ids = tour.matches.flat_map { |m| [m.host_id, m.guest_id] }.uniq
     lineups = Lineup.where(tour_id: tour.id, team_id: all_team_ids).index_by(&:team_id)

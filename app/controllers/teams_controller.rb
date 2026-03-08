@@ -38,7 +38,11 @@ class TeamsController < ApplicationController
   private
 
   def team
-    @team ||= Team.find(params[:id])
+    @team ||= Team.includes(
+      players: %i[positions club],
+      transfers: { player: %i[positions club] },
+      league: %i[teams tours]
+    ).find(params[:id])
   end
 
   def team_of_user?

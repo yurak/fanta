@@ -27,6 +27,22 @@ RSpec.describe RoundPlayer do
     it { is_expected.to delegate_method(:pseudo_name).to(:player).allow_nil }
   end
 
+  describe 'Scopes' do
+    describe '.in_squad' do
+      let!(:in_squad_rp) { create(:round_player, in_squad: true) }
+
+      before { create(:round_player, in_squad: false) }
+
+      it 'returns round_players where in_squad is true' do
+        expect(described_class.in_squad).to include(in_squad_rp)
+      end
+
+      it 'excludes round_players where in_squad is false' do
+        expect(described_class.in_squad.count).to eq(1)
+      end
+    end
+  end
+
   describe '#result_score' do
     context 'with initial_score' do
       it 'returns zero' do

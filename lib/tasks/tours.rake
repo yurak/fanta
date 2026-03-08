@@ -51,7 +51,7 @@ namespace :tours do
   # rake 'tours:create_national[178]'
   desc 'Create tours for World Cup'
   task :create_national, [:league_id] => :environment do |_t, args|
-    tournament = Tournament.find_by(code: Scores::Injectors::Strategy::EURO)
+    tournament = Tournament.find_by(code: Tournament::EURO)
     league = tournament.leagues.find_by(id: args[:league_id])
 
     ActiveRecord::Base.transaction do
@@ -68,7 +68,7 @@ namespace :tours do
   # rake tours:create_ecl
   desc 'Create tours for Champions League'
   task create_ecl: :environment do
-    tournament = Tournament.find_by(code: Scores::Injectors::Strategy::EUROPE_CL)
+    tournament = Tournament.find_by(code: Tournament::EUROPE_CL)
     league = tournament.leagues.last
     tournament.tournament_rounds.where(season: Season.last).find_each do |round|
       first_match = round.tournament_matches.first

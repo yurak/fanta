@@ -17,22 +17,13 @@ RSpec.describe Players::Transfermarkt::Parser do
     end
 
     context 'with player full data' do
-      let!(:club) { create(:club, name: 'Milan', tm_name: 'AC Milan') }
+      let(:club) { create(:club, name: 'Milan', tm_name: 'AC Milan') }
       let(:fofana_html) { Rails.root.join('spec/fixtures/tm/player_569598.html') }
-      let(:positions_html) { Rails.root.join('spec/fixtures/tm/positions_569598_2023.html') }
 
       before do
-        allow_any_instance_of(Players::Transfermarkt::BrowserClient).to receive(:fetch_html) do |_client, url, **_opts|
-          url = url.to_s
-
-          if url.include?('/profil/spieler/')
-            fofana_html
-          elsif url.include?('/leistungsdaten/') || url.include?('performance')
-            positions_html
-          else
-            raise "Unexpected URL in test: #{url}"
-          end
-        end
+        club
+        allow_any_instance_of(Players::Transfermarkt::BrowserClient).to receive(:fetch_html).and_return(fofana_html)
+        allow(Players::Transfermarkt::PositionMapper).to receive(:call).and_return(%w[DM CM])
       end
 
       it 'returns player first name' do
@@ -84,6 +75,66 @@ RSpec.describe Players::Transfermarkt::Parser do
       end
     end
 
+    context 'with position_skip: true' do
+      subject(:parser) { described_class.new(tm_id, position_skip: true) }
+
+      let(:fofana_html) { Rails.root.join('spec/fixtures/tm/player_569598.html') }
+
+      before do
+        create(:club, name: 'Milan', tm_name: 'AC Milan')
+        allow_any_instance_of(Players::Transfermarkt::BrowserClient).to receive(:fetch_html).and_return(fofana_html)
+        allow(Players::Transfermarkt::PositionMapper).to receive(:call)
+      end
+
+      it 'skips PositionMapper' do
+        parser.call
+        expect(Players::Transfermarkt::PositionMapper).not_to have_received(:call)
+      end
+
+      it 'returns nil for position1' do
+        expect(parser.call[:position1]).to be_nil
+      end
+
+      it 'returns nil for position2' do
+        expect(parser.call[:position2]).to be_nil
+      end
+
+      it 'returns nil for position3' do
+        expect(parser.call[:position3]).to be_nil
+      end
+    end
+
+    context 'when club is not found' do
+      let(:fofana_html) { Rails.root.join('spec/fixtures/tm/player_569598.html') }
+
+      before do
+        allow_any_instance_of(Players::Transfermarkt::BrowserClient).to receive(:fetch_html).and_return(fofana_html)
+        allow(Players::Transfermarkt::PositionMapper).to receive(:call).and_return([])
+      end
+
+      it 'returns nil club_id' do
+        expect(parser.call[:club_id]).to be_nil
+      end
+
+      it 'returns nil club_name' do
+        expect(parser.call[:club_name]).to be_nil
+      end
+    end
+
+    context 'when PositionMapper returns three positions' do
+      let(:fofana_html) { Rails.root.join('spec/fixtures/tm/player_569598.html') }
+
+      before do
+        create(:club, name: 'Milan', tm_name: 'AC Milan')
+        allow_any_instance_of(Players::Transfermarkt::BrowserClient).to receive(:fetch_html).and_return(fofana_html)
+        allow(Players::Transfermarkt::PositionMapper).to receive(:call).and_return(%w[DM CM WB])
+      end
+
+      it 'returns third position' do
+        expect(parser.call[:position3]).to eq(Position::WING_BACK)
+      end
+    end
+
     context 'with chip player full data' do
       let(:tm_id) { '939745' }
 
@@ -93,6 +144,7 @@ RSpec.describe Players::Transfermarkt::Parser do
 
       before do
         allow_any_instance_of(Players::Transfermarkt::BrowserClient).to receive(:fetch_html).and_return(torriani_html)
+        allow(Players::Transfermarkt::PositionMapper).to receive(:call).and_return([])
       end
 
       it 'returns player price in thousands' do

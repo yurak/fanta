@@ -6,11 +6,11 @@ FactoryBot.define do
     season { Season.last || association(:season) }
 
     trait :with_eurocup_tournament do
-      tournament { Tournament.find_by(code: Scores::Injectors::Strategy::EUROPE_CL) }
+      tournament { Tournament.find_by(code: Tournament::EUROPE_CL) }
     end
 
     trait :with_italy_tournament do
-      tournament { Tournament.find_by(code: Scores::Injectors::Strategy::ITALY) }
+      tournament { Tournament.find_by(code: Tournament::ITALY) }
     end
 
     trait :with_initial_matches do

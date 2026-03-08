@@ -12,7 +12,6 @@ module Players
       ATTACK_POS = [FORWARD, STRIKER].freeze
       DEFENCE_POS = %w[CB RB LB].freeze
       FULLBACK_POS = %w[RB LB].freeze
-      # LOWER_POS_PAIRS = [%w[W WB], %w[W CM], %w[W DM], %w[DM CB], %w[CM DM], %w[AM WB], %w[AM DM], %w[AM CM], %w[FW AM], %w[FW W]].freeze
       LOWER_POS_PAIRS = [%w[CM DM]].freeze
       VIOLET_LINE_POS = %w[W AM].freeze
 
@@ -55,7 +54,7 @@ module Players
       def process_strikers
         return unless first_pos == STRIKER
 
-        previous_pos = previous_stat.sort_by { |_key, value| value }.reverse.first&.first
+        previous_pos = previous_stat.max_by { |_key, value| value }&.first
         return unless previous_pos
 
         @result_arr = [FORWARD] unless previous_pos == STRIKER
@@ -100,7 +99,7 @@ module Players
       end
 
       def mantra_arr
-        @mantra_arr ||= @analyzed_data.sort_by { |_key, value| value }.reverse
+        @mantra_arr ||= @analyzed_data.sort_by { |_key, value| -value }
       end
 
       def first_pos
@@ -108,12 +107,10 @@ module Players
       end
 
       def current_stat
-        sleep(10) unless @current_stat
         @current_stat ||= Players::Transfermarkt::PositionParser.call(player, current_year)
       end
 
       def previous_stat
-        sleep(10) unless @current_stat
         @previous_stat ||= Players::Transfermarkt::PositionParser.call(player, current_year - 1)
       end
 

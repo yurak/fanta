@@ -56,7 +56,7 @@ namespace :tournament_matches do
   # rake 'tournament_matches:generate_euro20_matches'
   desc 'Create Euro TournamentMatches'
   task generate_euro20_matches: :environment do
-    tournament = Tournament.find_by(code: Scores::Injectors::Strategy::EURO)
+    tournament = Tournament.find_by(code: Tournament::EURO)
     return unless tournament
 
     TournamentMatches::NationalFotmobGenerator.call(tournament)
@@ -73,7 +73,7 @@ namespace :tournament_matches do
   # rake 'tournament_matches:generate_ecl_matches'
   desc 'Create Champions League TournamentMatches for Group stage'
   task generate_ecl_matches: :environment do
-    tournament = Tournament.find_by(code: Scores::Injectors::Strategy::EUROPE_CL)
+    tournament = Tournament.find_by(code: Tournament::EUROPE_CL)
     return unless tournament
 
     TournamentMatches::EuroCupFotmobGenerator.call(tournament)

@@ -42,7 +42,7 @@ module Scores
       end
 
       def top_stats_hash(player_data)
-        top_stats = player_data.second['stats'].select { |hash| hash['key'] == 'top_stats' }.first['stats']
+        top_stats = player_data.second['stats'].find { |h| h['key'] == 'top_stats' }['stats']
 
         {
           rating: player_stats(top_stats, 'FotMob rating').round(1),
@@ -66,36 +66,38 @@ module Scores
 
       def process_events(hash)
         cards_events = events_data.select { |event| event['type'] == CARD_TYPE }
-        process_cards(hash, cards_events) if cards_events.any?
+        process_cards(hash, cards_events)
 
         penalty_events = events_data.select { |event| event['type'] == GOAL_TYPE && event['goalDescriptionKey'] == PENALTY_KEY }
-        process_penalties(hash, penalty_events) if penalty_events.any?
+        process_penalties(hash, penalty_events)
       end
 
       def process_cards(hash, events)
         events.each do |event_data|
-          next unless hash[event_data['player']['id']]
+          player_id = event_data['player']['id']
+          next unless hash[player_id]
 
-          hash[event_data['player']['id']][:yellow_card] = 1 if event_data['card'] == YELLOW_CARD
-          hash[event_data['player']['id']][:red_card] = 1 if event_data['card'] == RED_CARD
+          hash[player_id][:yellow_card] = 1 if event_data['card'] == YELLOW_CARD
+          hash[player_id][:red_card] = 1 if event_data['card'] == RED_CARD
           if event_data['card'] == YEL_RED_CARD
-            hash[event_data['player']['id']][:red_card] = 1
-            hash[event_data['player']['id']][:yellow_card] = 0
+            hash[player_id][:red_card] = 1
+            hash[player_id][:yellow_card] = 0
           end
         end
       end
 
       def process_penalties(hash, events)
         events.each do |event_data|
-          next unless hash[event_data['player']['id']]
+          player_id = event_data['player']['id']
+          next unless hash[player_id]
 
-          hash[event_data['player']['id']][:goals] -= 1
-          hash[event_data['player']['id']][:scored_penalty] = hash[event_data['player']['id']][:scored_penalty].to_i + 1
+          hash[player_id][:goals] -= 1
+          hash[player_id][:scored_penalty] = hash[player_id][:scored_penalty].to_i + 1
         end
       end
 
       def player_name(player_data)
-        player_data.second['name'].lstrip.unicode_normalize(:nfd).gsub(/[^\x00-\x7F]/n, '').downcase.to_s
+        player_data.second['name'].lstrip.unicode_normalize(:nfd).gsub(/[^\x00-\x7F]/n, '').downcase
       end
     end
   end

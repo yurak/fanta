@@ -24,6 +24,17 @@ RSpec.describe 'Tournaments' do
           expect(body['data'].pluck('id')).to contain_exactly(tournament_one.id, tournament_two.id)
         end
       end
+
+      response 200, 'Success with clubs', document: false do
+        let(:clubs) { true }
+
+        run_test! do |response|
+          body = JSON.parse(response.body)
+
+          expect(body['data'].size).to eq 2
+          expect(body['data'].first['clubs']).to be_present
+        end
+      end
     end
   end
 end

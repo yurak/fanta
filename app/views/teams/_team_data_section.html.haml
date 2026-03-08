@@ -12,6 +12,7 @@
           .team-data-opponent-logo= image_tag(team.next_opponent.logo_path)
           .team-data-opponent-name= team.next_opponent.human_name
     - if team.league && team.league_result
+      - tours_count = team.league.tours.size
       .team-league-data
         .team-position
           .team-position-left
@@ -21,13 +22,13 @@
               .team-pos-data-current
                 = team.league_result.points
               .team-pos-data-total
-                = "(#{(team.league.tours.count - team.league_result.matches_played) * 3} #{t('teams.pos_in_play')})"
+                = "(#{(tours_count - team.league_result.matches_played) * 3} #{t('teams.pos_in_play')})"
             .team-pos-data
               .team-pos-data-text= t('teams.pos_played')
               .team-pos-data-current
                 = team.league_result.matches_played
               .team-pos-data-total
-                = "/#{team.league.tours.count} (#{team.league.tours.count - team.league_result.matches_played} #{t('teams.pos_left')})"
+                = "/#{tours_count} (#{tours_count - team.league_result.matches_played} #{t('teams.pos_left')})"
           .team-position-right
             = "##{team.league_result.position}"
         .team-matches
@@ -66,7 +67,7 @@
     .team-additional
       .team-additional-text= t('teams.players_title')
       .team-additional-value
-        = team.players.count
+        = team.players.size
     .team-additional
       .team-additional-text= t('teams.tm_price_title')
       .team-additional-value

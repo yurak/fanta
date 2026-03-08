@@ -6,7 +6,7 @@ RSpec.describe 'Leagues' do
       tags 'Leagues'
       consumes 'application/json'
       produces 'application/json'
-      parameter name: :filter, in: :query, type: :object, required: false, schema: {
+      parameter name: :filter, in: :query, style: 'deepObject', type: :object, required: false, schema: {
         type: :object,
         properties: {
           season_id: { type: :integer, example: 123 },
@@ -14,9 +14,9 @@ RSpec.describe 'Leagues' do
         }
       }
 
-      let!(:league_one) { create(:active_league) }
+      let!(:league_one) { create(:active_league, tournament: create(:tournament), season: create(:season)) }
       let(:league_two) { create(:league) }
-      let!(:league_three) { create(:active_league) }
+      let!(:league_three) { create(:active_league, tournament: create(:tournament), season: create(:season)) }
 
       response 200, 'Success' do
         schema type: :object,
@@ -29,6 +29,26 @@ RSpec.describe 'Leagues' do
 
           expect(body['data'].size).to eq 2
           expect(body['data'].pluck('id')).to contain_exactly(league_one.id, league_three.id)
+        end
+      end
+
+      response 200, 'Filtered by tournament_id', document: false do
+        let(:filter) { { tournament_id: league_one.tournament_id } }
+
+        run_test! do |response|
+          body = JSON.parse(response.body)
+
+          expect(body['data'].pluck('id')).to contain_exactly(league_one.id)
+        end
+      end
+
+      response 200, 'Filtered by season_id', document: false do
+        let(:filter) { { season_id: league_one.season_id } }
+
+        run_test! do |response|
+          body = JSON.parse(response.body)
+
+          expect(body['data'].pluck('id')).to contain_exactly(league_one.id)
         end
       end
     end

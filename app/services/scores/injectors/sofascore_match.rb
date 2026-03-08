@@ -29,11 +29,13 @@ module Scores
 
       def update_round_player(round_player, team_hash, team_missed_goals)
         player_data = team_hash[round_player.sofascore_id]
-        return unless player_data
 
-        round_player.update(round_player_params(round_player, player_data, team_missed_goals))
-
-        team_hash.except!(round_player.sofascore_id)
+        if player_data
+          round_player.update(round_player_params(round_player, player_data, team_missed_goals))
+          team_hash.except!(round_player.sofascore_id)
+        elsif squad_sofascore_ids.include?(round_player.sofascore_id)
+          round_player.update(in_squad: true)
+        end
       end
 
       def full_player_hash(round_player, data, team_missed_goals)
@@ -43,7 +45,7 @@ module Scores
           cleansheet: cleansheet?(round_player, team_missed_goals.to_i, data[:played_minutes]),
           own_goals: stat_value(data, :own_goals), saves: stat_value(data, :saves),
           missed_goals: missed_goals(round_player, team_missed_goals.to_i),
-          played_minutes: stat_value(data, :played_minutes)
+          played_minutes: stat_value(data, :played_minutes), in_squad: true
         }
       end
 
@@ -53,16 +55,17 @@ module Scores
         player_data[:rating].to_f.round(1)
       end
 
-      def players_hash(players)
+      def build_players_hash(players)
         players.each_with_object({}) do |player_data, hash|
-          next unless player_data['statistics']
-          next if player_data['statistics']['minutesPlayed'].to_i.zero?
+          stats = player_data['statistics']
+          next unless stats
+          next if stats['minutesPlayed'].to_i.zero?
 
-          hash[player_data['player']['id']] = player_hash(player_data)
+          hash[player_data['player']['id']] = build_player_hash(player_data)
         end
       end
 
-      def player_hash(player_data)
+      def build_player_hash(player_data)
         # TODO: add stats
         # missed_goals: player_stats(player_data, 'Goals conceded'),
         # caught_penalty: player_stats(player_data, 'Saved penalties'),
@@ -71,33 +74,38 @@ module Scores
         # penalties_won: player_stats(player_data, 'Penalties won')
         # yellow_card: card?(player_data['events']['yc']),
         # red_card: card?(player_data['events']['ycrc']) || card?(player_data['events']['rc'])
+        stats = player_data['statistics']
         {
           sofascore_id: player_data['player']['id'],
           source_name: player_data['player']['name'],
-          rating: player_data['statistics']['rating'],
-          played_minutes: player_data['statistics']['minutesPlayed'],
-          goals: player_data['statistics']['goals'],
-          assists: player_data['statistics']['goalAssist'],
-          own_goals: player_data['statistics']['ownGoals'],
-          saves: player_data['statistics']['saves']
+          rating: stats['rating'],
+          played_minutes: stats['minutesPlayed'],
+          goals: stats['goals'],
+          assists: stats['goalAssist'],
+          own_goals: stats['ownGoals'],
+          saves: stats['saves']
         }
       end
 
-      def host_scores_hash
-        return {} unless lineups_data['home']
+      def squad_sofascore_ids
+        @squad_sofascore_ids ||= begin
+          home_ids = lineups_data['home']&.dig('players')&.map { |p| p['player']['id'] } || []
+          away_ids = lineups_data['away']&.dig('players')&.map { |p| p['player']['id'] } || []
+          (home_ids + away_ids).to_set
+        end
+      end
 
-        @host_scores_hash ||= players_hash(lineups_data['home']['players'])
+      def host_scores_hash
+        @host_scores_hash ||= lineups_data['home'] ? build_players_hash(lineups_data['home']['players']) : {}
       end
 
       def guest_scores_hash
-        return {} unless lineups_data['away']
-
-        @guest_scores_hash ||= players_hash(lineups_data['away']['players'])
+        @guest_scores_hash ||= lineups_data['away'] ? build_players_hash(lineups_data['away']['players']) : {}
       end
 
       def lineups_data
         @lineups_data ||= JSON.parse(match.lineups_data)
-      rescue
+      rescue JSON::ParserError
         @lineups_data = {}
       end
 
@@ -118,14 +126,12 @@ module Scores
       end
 
       def event_status
-        return unless event_data['status']
-
-        @event_status ||= event_data['status']['type']
+        @event_status ||= event_data.dig('status', 'type')
       end
 
       def event_data
         @event_data ||= JSON.parse(match.base_data)['event']
-      rescue
+      rescue JSON::ParserError
         @event_data = {}
       end
     end
