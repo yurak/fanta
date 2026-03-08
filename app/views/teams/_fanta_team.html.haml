@@ -49,10 +49,11 @@
                   .fanta-lineup-tscore= lineup.total_score
                   .fanta-lineup-link-arrow= image_tag('icons/arrow_right.svg')
   .top-stats-section
+    - top3_count = team.league_lineups.top_position(3).size
     .stats-item-top
       .stats-item-top-title= t('teams.fanta.top_three')
-      .stats-item-top-percent= "#{'%.2f' % (team.league_lineups.any? ? team.league_lineups.top_position(3).size.to_f*100/team.league_lineups_number : 0)}%"
-      .stats-item-top-number= "#{team.league_lineups.top_position(3).size} of #{team.league_lineups_number}"
+      .stats-item-top-percent= "#{'%.2f' % (team.league_lineups.any? ? top3_count.to_f*100/team.league_lineups_number : 0)}%"
+      .stats-item-top-number= "#{top3_count} of #{team.league_lineups_number}"
     .common-stats-item
       .common-stats-item-title= t('teams.fanta.top_ten')
       .common-stats-item-value= team.league_lineups.top_position(10).size
