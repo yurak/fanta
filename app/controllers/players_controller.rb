@@ -39,12 +39,9 @@ class PlayersController < ApplicationController
   end
 
   def ordered_players
-    Players::Order.call(filtered_players, { field: stats_params[:order] || Players::Order::NAME })
-  end
-
-  def filtered_players
-    Players::Search.call(
+    Players::Query.call(
       club_id: stats_params[:club],
+      field: stats_params[:order] || 'name',
       league_id: stats_params[:league],
       name: stats_params[:search],
       position: Slot::POS_MAPPING[stats_params[:position]],

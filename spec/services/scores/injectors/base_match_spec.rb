@@ -87,28 +87,6 @@ RSpec.describe Scores::Injectors::BaseMatch do
         injector.call
         expect(Audit::CsvWriter).to have_received(:call).with(match, {})
       end
-
-      context 'with a national tournament' do
-        let(:host_national_team) { create(:national_team) }
-        let(:guest_national_team) { create(:national_team) }
-        let(:tournament_round) { create(:tournament_round, tournament: host_national_team.tournament) }
-        let(:match) do
-          create(:national_match, page_url: '/some/url',
-                                  tournament_round: tournament_round,
-                                  host_team: host_national_team,
-                                  guest_team: guest_national_team)
-        end
-
-        it 'updates host score' do
-          injector.call
-          expect(match.reload.host_score).to eq(2)
-        end
-
-        it 'updates guest score' do
-          injector.call
-          expect(match.reload.guest_score).to eq(1)
-        end
-      end
     end
   end
 

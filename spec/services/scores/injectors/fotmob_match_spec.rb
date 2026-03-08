@@ -30,9 +30,11 @@ RSpec.describe Scores::Injectors::FotmobMatch do
         expect(match.reload.guest_score).to eq(1)
       end
 
-      it 'calls Audit::CsvWriter' do
+      it 'calls Audit::CsvWriter with players_hash' do
+        players = { 123 => { rating: 7.5 } }
+        allow(Scores::Injectors::FotmobPlayersData).to receive(:call).and_return(players)
         injector.call
-        expect(Audit::CsvWriter).to have_received(:call)
+        expect(Audit::CsvWriter).to have_received(:call).with(match, players)
       end
     end
 
@@ -151,6 +153,14 @@ RSpec.describe Scores::Injectors::FotmobMatch do
       let(:match_data) { {} }
 
       it { is_expected.to be_falsy }
+    end
+  end
+
+  describe '#players_hash' do
+    it 'returns the result of FotmobPlayersData' do
+      players = { 99 => { rating: 8.0 } }
+      allow(Scores::Injectors::FotmobPlayersData).to receive(:call).and_return(players)
+      expect(injector.send(:players_hash)).to eq(players)
     end
   end
 

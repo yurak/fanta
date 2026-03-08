@@ -154,8 +154,8 @@ RSpec.describe Scores::Injectors::SofascoreMatch do
     end
   end
 
-  describe '#players_hash' do
-    subject(:hash) { injector.send(:players_hash, players) }
+  describe '#build_players_hash' do
+    subject(:hash) { injector.send(:build_players_hash, players) }
 
     context 'with valid players' do
       let(:players) do

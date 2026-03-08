@@ -6,7 +6,7 @@ RSpec.describe 'Players' do
       tags 'Players'
       consumes 'application/json'
       produces 'application/json'
-      parameter name: :filter, in: :query, type: :object, required: false, schema: {
+      parameter name: :filter, in: :query, style: 'deepObject', type: :object, required: false, schema: {
         type: :object,
         properties: {
           app: {
@@ -55,8 +55,9 @@ RSpec.describe 'Players' do
         }
       }
 
-      let!(:player_one) { create(:player, name: 'Xavi') }
-      let!(:player_two) { create(:player, name: 'Anelka') }
+      let!(:league) { create(:active_league, tournament: create(:tournament)) }
+      let!(:player_one) { create(:player, name: 'Xavi', club: create(:club, tournament: league.tournament)) }
+      let!(:player_two) { create(:player, name: 'Anelka', club: create(:club, tournament: create(:tournament))) }
 
       response 200, 'Success' do
         schema type: :object,
@@ -93,6 +94,17 @@ RSpec.describe 'Players' do
           expect(body['meta']['page']['per_page']).to eq 30
           expect(body['meta']['page']['total_pages']).to eq 1
           expect(body['meta']['page']['current_page']).to eq 1
+        end
+      end
+
+      response 200, 'Filtered by league_id', document: false do
+        let(:filter) { { league_id: league.id } }
+
+        run_test! do |response|
+          body = JSON.parse(response.body)
+
+          expect(body['data'].size).to eq 1
+          expect(body['data'].first['id']).to eq player_one.id
         end
       end
     end

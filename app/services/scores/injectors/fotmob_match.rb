@@ -67,15 +67,15 @@ module Scores
       end
 
       def result
-        status['scoreStr'].split(' - ')
+        @result ||= status['scoreStr'].split(' - ')
       end
 
       def host_result
-        @host_result ||= result[0]
+        result[0]
       end
 
       def guest_result
-        @guest_result ||= result[1]
+        result[1]
       end
 
       def request

@@ -9,7 +9,9 @@ module Audit
 
     def call
       CSV.open('log/missed_players.csv', 'ab') do |writer|
-        writer << ["===== #{DateTime.now.strftime('%^a, %^b %e, %H:%M')} ==== #{tournament.name} ==== ##{t_match.tournament_round.id} "]
+        header = "==== #{DateTime.now.strftime('%^a, %^b %e, %H:%M')} ==== #{tournament.name} " \
+                 "==== ##{t_match.tournament_round.id} ==== #{match_teams}"
+        writer << [header]
 
         players.each do |player_record|
           writer << [player_record[1]]
@@ -21,6 +23,14 @@ module Audit
 
     def tournament
       @tournament ||= t_match.tournament_round.tournament
+    end
+
+    def match_teams
+      if t_match.respond_to?(:host_club)
+        "#{t_match.host_club.name} vs #{t_match.guest_club.name}"
+      else
+        "#{t_match.host_team.name} vs #{t_match.guest_team.name}"
+      end
     end
   end
 end

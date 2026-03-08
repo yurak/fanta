@@ -53,17 +53,17 @@ module Scores
         player_data[:rating].to_f.round(1)
       end
 
-      def players_hash(players)
+      def build_players_hash(players)
         players.each_with_object({}) do |player_data, hash|
           stats = player_data['statistics']
           next unless stats
           next if stats['minutesPlayed'].to_i.zero?
 
-          hash[player_data['player']['id']] = player_hash(player_data)
+          hash[player_data['player']['id']] = build_player_hash(player_data)
         end
       end
 
-      def player_hash(player_data)
+      def build_player_hash(player_data)
         # TODO: add stats
         # missed_goals: player_stats(player_data, 'Goals conceded'),
         # caught_penalty: player_stats(player_data, 'Saved penalties'),
@@ -86,11 +86,11 @@ module Scores
       end
 
       def host_scores_hash
-        @host_scores_hash ||= lineups_data['home'] ? players_hash(lineups_data['home']['players']) : {}
+        @host_scores_hash ||= lineups_data['home'] ? build_players_hash(lineups_data['home']['players']) : {}
       end
 
       def guest_scores_hash
-        @guest_scores_hash ||= lineups_data['away'] ? players_hash(lineups_data['away']['players']) : {}
+        @guest_scores_hash ||= lineups_data['away'] ? build_players_hash(lineups_data['away']['players']) : {}
       end
 
       def lineups_data

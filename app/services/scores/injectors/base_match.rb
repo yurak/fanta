@@ -17,20 +17,12 @@ module Scores
 
         update_round_players
 
-        Audit::CsvWriter.call(match, host_scores_hash.merge(guest_scores_hash))
+        Audit::CsvWriter.call(match, players_hash)
       end
 
       private
 
-      def update_round_players
-        if match.tournament_round.tournament.national?
-          round_players.by_national_team(match.host_team_id).each { |rp| update_round_player(rp, host_scores_hash, guest_result) }
-          round_players.by_national_team(match.guest_team_id).each { |rp| update_round_player(rp, guest_scores_hash, host_result) }
-        else
-          round_players.by_club(match.host_club_id).each { |rp| update_round_player(rp, host_scores_hash, guest_result) }
-          round_players.by_club(match.guest_club_id).each { |rp| update_round_player(rp, guest_scores_hash, host_result) }
-        end
-      end
+      def update_round_players; end
 
       def round_players
         @round_players ||= match.tournament_round.round_players
@@ -55,7 +47,7 @@ module Scores
       end
 
       def rating(player_data)
-        return DEFAULT_SCORE if (player_data[:rating].nil? || player_data[:rating].zero?) && player_data[:played_minutes]&.positive?
+        return DEFAULT_SCORE if player_data[:rating].to_f.zero? && player_data[:played_minutes]&.positive?
 
         player_data[:rating].to_f.round(1)
       end
@@ -72,11 +64,7 @@ module Scores
         team_missed_goals
       end
 
-      def host_scores_hash
-        {}
-      end
-
-      def guest_scores_hash
+      def players_hash
         {}
       end
 
