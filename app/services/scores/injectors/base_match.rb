@@ -33,7 +33,7 @@ module Scores
       end
 
       def round_player_params(round_player, player_data, team_missed_goals)
-        return { score: rating(player_data) } if round_player.manual_lock
+        return { score: rating(player_data), in_squad: true } if round_player.manual_lock
 
         full_player_hash(round_player, player_data, team_missed_goals)
       end

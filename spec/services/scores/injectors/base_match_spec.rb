@@ -239,7 +239,7 @@ RSpec.describe Scores::Injectors::BaseMatch do
     context 'when round_player has manual_lock' do
       before { round_player.update(manual_lock: true) }
 
-      it { is_expected.to eq({ score: 7.0 }) }
+      it { is_expected.to eq({ score: 7.0, in_squad: true }) }
     end
 
     context 'when round_player does not have manual_lock' do
