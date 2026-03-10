@@ -340,6 +340,18 @@ RSpec.describe RoundPlayer do
         expect(round_player.another_tournament?).to be(true)
       end
     end
+
+    context 'when player belongs to eurocup club in the same eurocup tournament' do
+      let(:eurocup_tournament) { Tournament.find_by(eurocup: true) }
+      let(:ec_club) { create(:club, tournament: nil, ec_tournament: eurocup_tournament) }
+      let(:player) { create(:player, club: ec_club) }
+      let(:tournament_round) { create(:tournament_round, tournament: eurocup_tournament) }
+      let(:round_player) { create(:round_player, player: player, tournament_round: tournament_round) }
+
+      it 'returns false' do
+        expect(round_player.another_tournament?).to be(false)
+      end
+    end
   end
 
   describe '#appearances' do
