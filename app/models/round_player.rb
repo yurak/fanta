@@ -62,7 +62,8 @@ class RoundPlayer < ApplicationRecord
   def another_tournament?
     player.club.archived? ||
       (player.club.tournament != tournament_round.tournament &&
-       player.club.ec_tournament != tournament_round.tournament)
+       player.club.ec_tournament != tournament_round.tournament &&
+       player.national_team&.tournament != tournament_round.tournament)
   end
 
   def appearances
