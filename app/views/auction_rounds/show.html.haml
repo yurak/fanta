@@ -3,6 +3,7 @@
   .web-header= render 'layouts/right_nav', league: league
   .mob-header= render 'layouts/mob_header', league: league
 
+  - user_team = current_user&.team_by_league(league)
   .page-info.auction-rounds-page
     .round-section
       .auction-round-back
@@ -49,25 +50,25 @@
                 = link_to auction_round_path(round) do
                   .round-link-block{ class: "round-#{round.status}" }
                     = round.number
-      - if !auction_round.closed? && current_user&.team_by_league(league)&.vacancies&.positive?
+      - if !auction_round.closed? && user_team&.vacancies&.positive?
         .auction-round-add-header
           - if auction.primary? && auction_round.first?
             .auction-round-add-row.auction-round-add-row-prime
               .auction-round-add-text= t('auction_round.subheader.text1')
-              .auction-round-add-item-badge= t('auction_round.subheader.players', players: auction_round.slots_number_by(current_user.team_by_league(league)))
-              - if current_user.team_by_league(league).players.by_position('Por').count < auction_round.gk_min_limit
+              .auction-round-add-item-badge= t('auction_round.subheader.players', players: auction_round.slots_number_by(user_team))
+              - if user_team.players.by_position('Por').count < auction_round.gk_min_limit
                 .auction-round-add-text= t('auction_round.subheader.text2')
-                .auction-round-add-item-badge.auction-round-add-item-badge-gk= t('auction_round.subheader.goalkeeper', gk_count: auction_round.gk_min_limit - current_user&.team_by_league(league).players.by_position('Por').count )
+                .auction-round-add-item-badge.auction-round-add-item-badge-gk= t('auction_round.subheader.goalkeeper', gk_count: auction_round.gk_min_limit - user_team.players.by_position('Por').count )
               .auction-round-add-text= t('auction_round.subheader.text3')
-              .auction-round-add-item-badge.auction-round-add-item-badge-budget= "#{current_user.team_by_league(league).round_budget(auction_round)}M"
+              .auction-round-add-item-badge.auction-round-add-item-badge-budget= "#{user_team.round_budget(auction_round)}M"
           .auction-round-add-row
             .auction-round-add-text= t('auction_round.subheader.text4')
-            .auction-round-add-item-badge= t('auction_round.subheader.players', players: current_user.team_by_league(league).vacancies)
-            - if current_user.team_by_league(league).players.by_position('Por').count < Team::MIN_GK
+            .auction-round-add-item-badge= t('auction_round.subheader.players', players: user_team.vacancies)
+            - if user_team.players.by_position('Por').count < Team::MIN_GK
               .auction-round-add-text= t('auction_round.subheader.text5')
-              .auction-round-add-item-badge.auction-round-add-item-badge-gk= t('auction_round.subheader.goalkeeper', gk_count: Team::MIN_GK - current_user&.team_by_league(league).players.by_position('Por').count )
+              .auction-round-add-item-badge.auction-round-add-item-badge-gk= t('auction_round.subheader.goalkeeper', gk_count: Team::MIN_GK - user_team.players.by_position('Por').count )
             .auction-round-add-text= t('auction_round.subheader.text6')
-            .auction-round-add-item-badge.auction-round-add-item-badge-budget= "#{current_user&.team_by_league(league).budget}M"
+            .auction-round-add-item-badge.auction-round-add-item-badge-budget= "#{user_team.budget}M"
       - if auction_bid
         .auction-bid-block
           .auction-bid-suitable-modules
@@ -90,52 +91,52 @@
           .player-bids-block
             = form_with model: [auction_round, auction_bid], id: 'auction_bid_form', local: true do |f|
               = f.hidden_field(:status, value: next_bid_status(auction_bid))
-              #tournament{ type: "hidden", value: "#{league.tournament.id}"}
-              #league{ type: "hidden", value: "#{league.id}"}
-              #position-naming{ type: "hidden", value: "#{current_user.ital_pos_naming}"}
-              #dumped{ type: "hidden", value: "#{current_user&.team_by_league(league).dumped_player_ids(auction).join(',')}"}
+              = hidden_field_tag :tournament, league.tournament.id
+              = hidden_field_tag :league, league.id
+              = hidden_field_tag :'position-naming', current_user.ital_pos_naming
+              = hidden_field_tag :dumped, user_team.dumped_player_ids(auction).join(',')
               = f.fields_for :player_bids do |player_bid|
-                = player_bid.hidden_field(:player_id, value: player_bid.object.player&.id, class: 'round-player-input', id: "player-bid-#{player_bid.index}")
+                - player = player_bid.object.player
+                = player_bid.hidden_field(:player_id, value: player&.id, class: 'round-player-input', id: "player-bid-#{player_bid.index}")
                 .auction-bid-slot.auction-bid-slot-modal{id: "modal-player-data#{player_bid.index}"}
                   .player-bid-index.right= player_bid.index + 1
-                  .player-bid-avatar{id: "item-player-#{player_bid.object.player&.id}"}
+                  .player-bid-avatar{id: "item-player-#{player&.id}"}
                     .player-bid-face
-                      %object{data: player_bid.object.player&.avatar_path || '', type: ApplicationRecord::CONTENT_TYPE_PNG, id: "avatar-#{player_bid.index}"}
+                      %object{data: player&.avatar_path || '', type: ApplicationRecord::CONTENT_TYPE_PNG, id: "avatar-#{player_bid.index}"}
                         = image_tag('avatar.png')
                     .player-bid-kit
-                      %object{data: player_bid.object.player&.kit_path || '', type: ApplicationRecord::CONTENT_TYPE_PNG, id: "kit-#{player_bid.index}"}
+                      %object{data: player&.kit_path || '', type: ApplicationRecord::CONTENT_TYPE_PNG, id: "kit-#{player_bid.index}"}
                         = image_tag('kit_small_default.png')
                   .player-bid-name
                     .player-bid-last-name{id: "last-name-#{player_bid.index}"}
-                      = player_bid.object.player&.name || ' '
+                      = player&.name || ' '
                     .player-bid-first-name{id: "first-name-#{player_bid.index}"}
-                      = player_bid.object.player ? player_bid.object.player.first_name : t('auction_round.unselected')
+                      = player ? player.first_name : t('auction_round.unselected')
                   .player-bid-positions
                     .player-positions-block{id: "positions-#{player_bid.index}"}
-                      - if player_bid.object.player
-                        .algo-position{class: "algo-position-#{player_bid.object.player.position_names.join('/')}"}
-                        - player_bid.object.player.positions.each do |position|
+                      - if player
+                        .algo-position{class: "algo-position-#{player.position_names.join('/')}"}
+                        - player.positions.each do |position|
                           .player-position{class: "player-position-#{position.name} selected-player-#{position.name}"}
                             = position_name(position)
                   .player-bid-club
-                    %object{data: player_bid.object.player&.club&.logo_path || '', type: ApplicationRecord::CONTENT_TYPE_PNG, id: "club-#{player_bid.index}"}
+                    %object{data: player&.club&.logo_path || '', type: ApplicationRecord::CONTENT_TYPE_PNG, id: "club-#{player_bid.index}"}
                   .player-bid-actions.right{id: "actions-#{player_bid.index}"}
-                    .player-manage-block{class: "player-manage-#{player_bid.object.player.present?}"}
+                    .player-manage-block{class: "player-manage-#{player.present?}"}
                       - if auction_bid.editable?
                         .price-input-block
-                          = player_bid.number_field :price, min: min_bid(auction_round, player_bid.object.player), step: 1, max: max_bid(league), class: "form-control price-input price-input-#{player_bid.index}", id: "price-#{player_bid.object.id}"
+                          = player_bid.number_field :price, min: min_bid(auction_round, player), step: 1, max: max_bid(league), class: "form-control price-input price-input-#{player_bid.index}", id: "price-#{player_bid.object.id}"
                         .change-player
                           = image_tag('icons/refresh.svg')
-                      - if auction_bid.completed?
+                      - if auction_bid.completed? || player_bid.object.failed? || player_bid.object.success?
                         .player-transfer-price= player_bid.object.price
-                        .player-transfer-check 🔒
-                      - if player_bid.object.failed?
-                        .player-transfer-price= player_bid.object.price
-                        .player-transfer-check ❌
-                      - if player_bid.object.success?
-                        .player-transfer-price= player_bid.object.price
-                        .player-transfer-check ✅
-                    .player-bid-action-select{class: "player-select-#{player_bid.object.player.nil?}"}
+                        - if auction_bid.completed?
+                          .player-transfer-check 🔒
+                        - elsif player_bid.object.failed?
+                          .player-transfer-check ❌
+                        - elsif player_bid.object.success?
+                          .player-transfer-check ✅
+                    .player-bid-action-select{class: "player-select-#{player.nil?}"}
                       = t('auction_round.select')
 
                   -#.main-players
@@ -171,10 +172,10 @@
 
             .auction-bid-title= t('auction_round.team')
             - i = 0
-            - current_user&.team_by_league(league).players.sort_by(&:position_sequence_number).each do |player|
+            - user_team.players.sort_by(&:position_sequence_number).each do |player|
               - next if auction_bid.player_bids.success.where(player: player).any?
 
-              - i = i + 1
+              - i += 1
               = link_to player_path(player), target: '_blank' do
                 .auction-bid-slot
                   .player-bid-index.right= i + auction_bid&.player_bids&.count
@@ -203,7 +204,7 @@
                       .player-transfer-check ✅
 
     .stats-section
-      - if current_user&.team_by_league(league) && auction_bid
+      - if user_team && auction_bid
         .round-table
           .round-table-title-header
             .round-table-title
@@ -217,15 +218,15 @@
               .auction-round-budget-row
                 .auction-round-budget-dot.budget-dot-balance
                 .auction-round-budget-text= t('auction_round.balance')
-                .auction-round-budget-value#budget-value-balance= "#{current_user&.team_by_league(league).budget}M"
+                .auction-round-budget-value#budget-value-balance= "#{user_team.budget}M"
               .auction-round-budget-row
                 .auction-round-budget-dot.budget-dot-reserved
                 .auction-round-budget-text= t('auction_round.balance_reserved')
-                .auction-round-budget-value#budget-value-reserved= "#{current_user&.team_by_league(league).reserved_budget(auction_round)}M"
+                .auction-round-budget-value#budget-value-reserved= "#{user_team.reserved_budget(auction_round)}M"
               .auction-round-budget-row
                 .auction-round-budget-dot.budget-dot-available
                 .auction-round-budget-text= t('auction_round.available_budget')
-                .auction-round-budget-value#budget-value-available= "#{current_user&.team_by_league(league).round_budget(auction_round) - (auction_bid ? auction_bid.player_bids.sum(&:price) : 0)}M"
+                .auction-round-budget-value#budget-value-available= "#{user_team.round_budget(auction_round) - (auction_bid ? auction_bid.player_bids.sum(&:price) : 0)}M"
               .auction-round-budget-row
                 .auction-round-budget-dot.budget-dot-spent-auc
                 .auction-round-budget-text= t('auction_round.spent_auction')
@@ -237,14 +238,14 @@
               .auction-round-budget-row
                 .auction-round-budget-dot.budget-dot-spent-total
                 .auction-round-budget-text= t('auction_round.spent_total')
-                .auction-round-budget-value.budget-value-spent-total= "#{Team::DEFAULT_BUDGET - current_user&.team_by_league(league).budget}M"
+                .auction-round-budget-value.budget-value-spent-total= "#{Team::DEFAULT_BUDGET - user_team.budget}M"
             .auction-round-budget-summary
               .auction-round-budget-summary-row
                 .auction-round-budget-summary-text= t('auction_round.total_budget')
                 .auction-round-budget-summary-value= "#{Team::DEFAULT_BUDGET}M"
               .auction-round-budget-summary-row
                 .auction-round-budget-summary-text= t('auction_round.max_bid')
-                .auction-round-budget-summary-value= "#{current_user&.team_by_league(league).max_rate_by(auction_bid)}M"
+                .auction-round-budget-summary-value= "#{user_team.max_rate_by(auction_bid)}M"
             .ar-budget-bar
               .ar-budget-bar-spent
             .ar-budget-alert
@@ -276,7 +277,7 @@
                 .round-table-item-cell.center
                   - if team.full_squad? || auction.closed?
                     🏁️
-                  - elsif current_user&.team_by_league(league) == team || auction_round.ddl_expired? || current_user&.admin?
+                  - elsif user_team == team || auction_round.ddl_expired? || current_user&.admin?
                     = t("auction_round.status_icon.#{auction_round.auction_bids.find_by(team: team).status}")
       .round-table
         .round-table-title-header
@@ -428,7 +429,6 @@
 
         clearSlotModal(slotId);
         $('#modal-players-list' + slotId).css("display", "none");
-        checkModules();
         checkModules();
       });
 

@@ -263,6 +263,25 @@ RSpec.describe Scores::Injectors::SofascoreMatch do
       end
     end
 
+    context 'when player is in the hash and has manual_lock' do
+      before { round_player.update(manual_lock: true) }
+
+      it 'marks player as in_squad' do
+        injector.send(:update_round_player, round_player, team_hash, 0)
+        expect(round_player.reload.in_squad).to be true
+      end
+
+      it 'updates score' do
+        injector.send(:update_round_player, round_player, team_hash, 0)
+        expect(round_player.reload.score).to eq(7.5)
+      end
+
+      it 'does not update other stats' do
+        injector.send(:update_round_player, round_player, team_hash, 0)
+        expect(round_player.reload.goals).to eq(0)
+      end
+    end
+
     context 'when player is not in the hash but is in the squad (0 minutes played)' do
       let(:team_hash) { {} }
       let(:lineups_json) do
