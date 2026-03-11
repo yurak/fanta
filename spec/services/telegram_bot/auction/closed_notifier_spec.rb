@@ -29,10 +29,10 @@ RSpec.describe TelegramBot::Auction::ClosedNotifier do
         expect(TelegramBot::Sender).to have_received(:call).with(user, 'message')
       end
 
-      it 'uses finished translation key' do
+      it 'uses closed translation key' do
         service_call
 
-        expect(I18n).to have_received(:t).with('telegram.notifier.auction.finished', hash_including(locale: :ua))
+        expect(I18n).to have_received(:t).with('telegram.notifier.auction.closed', hash_including(locale: :ua))
       end
     end
   end
