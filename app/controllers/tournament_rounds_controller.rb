@@ -23,9 +23,14 @@ class TournamentRoundsController < ApplicationController
 
   def update
     if can? :update, TournamentRound
+      rps = RoundPlayer.where(id: round_players.keys).index_by { |rp| rp.id.to_s }
       round_players.each_pair do |id, params|
-        rp = RoundPlayer.find(id.to_i)
-        rp.update(params.to_hash)
+        rp = rps[id]
+        next unless rp
+
+        hash = params.to_hash
+        hash['in_squad'] = true if hash['score'].to_f.positive? || hash['played_minutes'].to_i.positive?
+        rp.update(hash)
       end
     end
 

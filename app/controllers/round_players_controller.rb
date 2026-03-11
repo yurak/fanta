@@ -1,15 +1,19 @@
 class RoundPlayersController < ApplicationController
   respond_to :html, :json
 
-  helper_method :tournament_round, :tournament
+  helper_method :tournament_round, :tournament, :deadlined?
 
   def index
     @players = order_players
     @positions = Position.all
-    @clubs = tournament.national? ? tournament.national_teams.active.sort_by(&:name) : tournament.clubs.active.sort_by(&:name)
+    @clubs = tournament.national? ? tournament.national_teams.active.order(:name) : tournament.clubs.active.order(:name)
   end
 
   private
+
+  def deadlined?
+    @deadlined ||= tournament_round.tours.last&.deadlined?
+  end
 
   def tournament_round
     @tournament_round ||= TournamentRound.find(params[:tournament_round_id])
@@ -26,22 +30,22 @@ class RoundPlayersController < ApplicationController
   end
 
   def order_players
+    players = players_with_filter
+    players = players.includes(:match_players) if tournament.fanta? && deadlined?
+
     case stats_params[:order]
-    when 'club'
-      players_with_filter.sort_by(&:related_club)
-    when 'national'
-      players_with_filter
-    when 'matches'
-      tournament_round.tours.last&.deadlined? ? players_with_filter.sort_by(&:appearances).reverse : players_with_filter
-    when 'main_squad'
-      tournament_round.tours.last&.deadlined? ? players_with_filter.sort_by(&:main_appearances).reverse : players_with_filter
-    when 'name'
-      players_with_filter.sort_by(&:name)
-    when 'base_score'
-      players_with_filter.sort_by(&:score).reverse
-    else
-      players_with_filter.sort_by(&:result_score).reverse
+    when 'club'       then players.sort_by { |rp| rp.related_club.name }
+    when 'national'   then players.to_a
+    when 'matches'    then sort_by_appearances(players) { |rp| rp.match_players.size }
+    when 'main_squad' then sort_by_appearances(players) { |rp| rp.match_players.select(&:real_position).size }
+    when 'name'       then players.sort_by(&:name)
+    when 'base_score' then players.sort_by(&:score).reverse
+    else                   players.sort_by(&:result_score).reverse
     end
+  end
+
+  def sort_by_appearances(players, &key)
+    deadlined? ? players.sort_by(&key).reverse : players.to_a
   end
 
   def round_players_by_position

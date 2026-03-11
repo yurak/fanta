@@ -30,7 +30,7 @@ module Auctions
 
       auction.sales!
 
-      TelegramBot::Auction::SalesOpenNotifier.call(auction)
+      Notifications::Creator.call(notifiable: auction, kind: :auction_sales_open)
     end
 
     def blind_bids
@@ -52,7 +52,7 @@ module Auctions
 
       auction.closed!
 
-      TelegramBot::Auction::FinishedNotifier.call(auction)
+      Notifications::Creator.call(notifiable: auction, kind: :auction_closed)
     end
   end
 end

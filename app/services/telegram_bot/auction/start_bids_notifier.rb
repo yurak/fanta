@@ -1,41 +1,26 @@
 module TelegramBot
   module Auction
     class StartBidsNotifier < AuctionNotifier
-      def call
-        return false unless auction
-        return false unless auction_round
-        return false if league.teams.empty?
-
-        league.teams.each do |team|
-          TelegramBot::Sender.call(team.user, message(team)) if team.vacancies?
-        end
-        true
-      end
-
       private
 
-      def message(team)
+      def message
         I18n.t(
           'telegram.notifier.auction.start_bids',
-          locale: locale(team),
+          locale: locale,
           icon: league.tournament.icon,
-          number: auction_round.number,
+          number: notifiable.number,
           league_name: league.name,
-          deadline: deadline(team),
-          time_zone: time_zone(team),
-          vacancies: auction_round.slots_number_by(team),
+          deadline: deadline,
+          time_zone: time_zone,
+          vacancies: notifiable.slots_number_by(team),
           team_name: team.human_name,
-          url: Rails.application.routes.url_helpers.auction_round_url(auction_round),
+          url: Rails.application.routes.url_helpers.auction_round_url(notifiable),
           code: league.tournament.code
         )
       end
 
-      def deadline(team)
-        team.user&.local_time(auction_round.deadline, '%^a, %^b %e, %H:%M')
-      end
-
-      def auction_round
-        @auction_round ||= auction.auction_rounds.active.first
+      def deadline
+        user.local_time(notifiable.deadline, '%^a, %^b %e, %H:%M')
       end
     end
   end

@@ -1,0 +1,14 @@
+- if rp_f.object.position_names.include?(Position::GOALKEEPER)
+  .rp-edit-param
+    = rp_f.number_field :missed_goals, in: 0..9, step: 1, required: true, class: 'form-control'
+  .rp-edit-param
+    = rp_f.number_field :caught_penalty, in: 0..9, step: 1, required: true, class: 'form-control'
+  .rp-edit-param
+    = rp_f.number_field :missed_penalty, in: 0..9, step: 1, required: true, class: 'form-control'
+- else
+  .rp-edit-param
+    = rp_f.number_field :goals, in: 0..9, step: 1, required: true, class: 'form-control'
+  .rp-edit-param
+    = rp_f.number_field :scored_penalty, in: 0..9, step: 1, required: true, class: 'form-control'
+  .rp-edit-param
+    = rp_f.number_field :failed_penalty, in: 0..9, step: 1, required: true, class: 'form-control'

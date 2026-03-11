@@ -2,9 +2,12 @@ RSpec.describe Auctions::Manager do
   describe '#call' do
     subject(:manager) { described_class.new(auction, status) }
 
-    let(:auction) { create(:auction, status: current_status) }
+    let(:league) { create(:league) }
+    let(:auction) { create(:auction, status: current_status, league: league) }
     let(:current_status) { 'initial' }
     let(:status) { 'status' }
+
+    before { create(:team, league: league, user: create(:user)) }
 
     context 'with initial auction' do
       before do
@@ -22,6 +25,10 @@ RSpec.describe Auctions::Manager do
 
         it 'updates status' do
           expect(auction.reload.status).to eq(status)
+        end
+
+        it 'creates auction_sales_open notification' do
+          expect(Notification.where(notifiable: auction, kind: :auction_sales_open).count).to eq(1)
         end
       end
 
@@ -139,6 +146,10 @@ RSpec.describe Auctions::Manager do
         it 'updates status' do
           expect(auction.reload.status).to eq(status)
         end
+
+        it 'creates auction_closed notification' do
+          expect(Notification.where(notifiable: auction, kind: :auction_closed).count).to eq(1)
+        end
       end
     end
 
@@ -184,6 +195,10 @@ RSpec.describe Auctions::Manager do
 
         it 'updates status' do
           expect(auction.reload.status).to eq(status)
+        end
+
+        it 'creates auction_closed notification' do
+          expect(Notification.where(notifiable: auction, kind: :auction_closed).count).to eq(1)
         end
       end
     end

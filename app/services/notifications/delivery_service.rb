@@ -1,5 +1,17 @@
 module Notifications
   class DeliveryService < ApplicationService
+    NOTIFIER_MAP = {
+      tour_opened: TelegramBot::Tour::OpenedNotifier,
+      tour_moderated: TelegramBot::Tour::ModeratedNotifier,
+      tour_closed: TelegramBot::Tour::ClosedNotifier,
+      auction_sales_open: TelegramBot::Auction::SalesOpenNotifier,
+      auction_closed: TelegramBot::Auction::ClosedNotifier,
+      auction_sales_ddl: TelegramBot::Auction::SalesDdlNotifier,
+      auction_start_bids: TelegramBot::Auction::StartBidsNotifier,
+      auction_round_ddl: TelegramBot::Auction::RoundDdlNotifier,
+      auction_squad_complete: TelegramBot::Auction::SquadCompleteNotifier
+    }.freeze
+
     attr_reader :notification
 
     def initialize(notification)
@@ -7,30 +19,10 @@ module Notifications
     end
 
     def call
-      case notification.kind.to_sym
-      when :tour_opened
-        deliver_tour_opened
-      when :tour_moderated
-        deliver_tour_moderated
-      when :tour_closed
-        deliver_tour_closed
-      else
-        raise "Unknown notification kind: #{notification.kind}"
-      end
-    end
+      notifier = NOTIFIER_MAP[notification.kind.to_sym]
+      raise "Unknown notification kind: #{notification.kind}" unless notifier
 
-    private
-
-    def deliver_tour_opened
-      TelegramBot::Tour::OpenedNotifier.call(notification)
-    end
-
-    def deliver_tour_moderated
-      TelegramBot::Tour::ModeratedNotifier.call(notification)
-    end
-
-    def deliver_tour_closed
-      TelegramBot::Tour::ClosedNotifier.call(notification)
+      notifier.call(notification)
     end
   end
 end

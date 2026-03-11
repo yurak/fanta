@@ -1144,11 +1144,12 @@ en:
   telegram:
     notifier:
       auction:
+        closed: "%{icon} Auction #%{number} in %{league_name} league has been closed.\n\n🏁️️ You can view all transfers of the auction at the link - %{url}\n\n#auction #%{code}"
         default: "%{icon} Auction message to %{team_name} team\n\n#auction #%{code}"
-        finished: "%{icon} Auction #%{number} in %{league_name} league has been closed.\n\n🏁️️ You can view all transfers of the auction at the link - %{url}\n\n#auction #%{code}"
         round_ddl: "%{icon} Auction round deadline in %{league_name} League is today at %{deadline} (%{time_zone}) ⚠️\n\n‼️️ You must bid on %{vacancies} players for %{team_name} - %{url}\n\n#auction #%{code}"
         sales_ddl: "%{icon} Transfer window deadline in %{league_name} League is coming soon.\n⚠️ Deadline today at %{deadline} (%{time_zone}) ⚠️\n\n‼️️ You can select up to %{available_transfers} players to sell from %{team_name} - %{url}\n\n#auction #%{code}"
         sales_open: "%{icon} Transfer window in %{league_name} League is open.\n🔜 Deadline: %{deadline} (%{time_zone}) 🔚\n\n‼️️ You can select up to %{available_transfers} players to sell from %{team_name} - %{url}\n\n#auction #%{code}"
+        squad_complete: "%{icon} The squad for %{team_name} in the %{league_name} league has been formed.\n\n⌛️ Wait for the auction to end to view its details.\n\n#auction #%{code}"
         start_bids: "%{icon} Auction round #%{number} has started in %{league_name} League.\n🔜 Deadline: %{deadline} (%{time_zone}) 🔚\n\n‼️️ You must bid on %{vacancies} players for %{team_name} - %{url}\n\n#auction #%{code}"
       player:
         left: "%{icon} %{player_name} from %{team_name} left %{tournament_name} tournament.\n💵 You will be able to replace him at the next auction.\n\n#player #%{code}"

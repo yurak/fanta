@@ -1,46 +1,55 @@
 module TelegramBot
   module Auction
     class AuctionNotifier < ApplicationService
-      attr_reader :auction
+      attr_reader :notification
 
-      def initialize(auction)
-        @auction = auction
+      def initialize(notification)
+        @notification = notification
       end
 
       def call
-        return false unless auction
-        return false if league.teams.empty?
+        return false unless notifiable
+        return false unless team
+        return false unless user
 
-        league.teams.each do |team|
-          TelegramBot::Sender.call(team.user, message(team))
-        end
+        TelegramBot::Sender.call(user, message)
         true
       end
 
       private
 
-      def message(team)
+      def notifiable
+        @notifiable ||= notification.notifiable
+      end
+
+      def team
+        @team ||= notification.team
+      end
+
+      def user
+        @user ||= team.user
+      end
+
+      def league
+        @league ||= notifiable&.league
+      end
+
+      def message
         I18n.t(
           'telegram.notifier.auction.default',
-          locale: locale(team),
+          locale: locale,
           icon: league.tournament.icon,
           team_name: team.human_name,
           code: league.tournament.code
         )
       end
 
-      def league
-        @league ||= auction&.league
+      def locale
+        user.locale&.to_sym || :en
       end
 
-      def locale(team)
-        return :en unless team.user
-
-        team.user.locale.to_sym
-      end
-
-      def time_zone(team)
-        team.user&.time_zone || User::DEFAULT_TIME_ZONE
+      def time_zone
+        user.time_zone || User::DEFAULT_TIME_ZONE
       end
     end
   end

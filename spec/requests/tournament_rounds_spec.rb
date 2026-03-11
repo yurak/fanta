@@ -202,6 +202,10 @@ RSpec.describe 'Users' do
       it 'updates round_player assists' do
         expect(round_player.reload.assists).to eq(assists_count)
       end
+
+      it 'sets in_squad when score > 0' do
+        expect(round_player.reload.in_squad).to be true
+      end
     end
 
     context 'with valid params when admin is logged in' do
@@ -219,6 +223,50 @@ RSpec.describe 'Users' do
 
       it 'updates round_player assists' do
         expect(round_player.reload.assists).to eq(assists_count)
+      end
+
+      it 'sets in_squad when score > 0' do
+        expect(round_player.reload.in_squad).to be true
+      end
+    end
+
+    context 'when admin sets played_minutes > 0 with zero score' do
+      login_admin
+
+      let(:params) do
+        {
+          round_players: {
+            "#{round_player.id}": { score: 0, played_minutes: 45, goals: 0, assists: 0,
+                                    scored_penalty: 0, failed_penalty: 0, yellow_card: 0,
+                                    red_card: 0, own_goals: 0 }
+          }
+        }
+      end
+
+      before { put tournament_round_path(tournament_round, params) }
+
+      it 'sets in_squad' do
+        expect(round_player.reload.in_squad).to be true
+      end
+    end
+
+    context 'when admin submits zero score and zero played_minutes' do
+      login_admin
+
+      let(:params) do
+        {
+          round_players: {
+            "#{round_player.id}": { score: 0, played_minutes: 0, goals: 0, assists: 0,
+                                    scored_penalty: 0, failed_penalty: 0, yellow_card: 0,
+                                    red_card: 0, own_goals: 0 }
+          }
+        }
+      end
+
+      before { put tournament_round_path(tournament_round, params) }
+
+      it 'does not set in_squad' do
+        expect(round_player.reload.in_squad).to be false
       end
     end
 

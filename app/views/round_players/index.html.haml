@@ -38,12 +38,12 @@
         .players-list-header.players-pos-padding= t('players.positions_header')
         - if tournament.fanta?
           .players-list-header.right
-            - if tournament_round.tours.last&.deadlined?
+            - if deadlined?
               = link_to t('players.appearances_header'), tournament_round_round_players_path(tournament_round, order: 'matches', position: params[:position], club: params[:club])
             - else
               = t('players.appearances_header')
           .players-list-header.right
-            - if tournament_round.tours.last&.deadlined?
+            - if deadlined?
               = link_to t('players.main_appearances_header'), tournament_round_round_players_path(tournament_round, order: 'main_squad', position: params[:position], club: params[:club])
             - else
               = t('players.main_appearances_header')
@@ -82,9 +82,9 @@
                     = position_name(position)
               - if tournament.fanta?
                 .players-list-cell.players-list-appearances
-                  = rp.match_players.count if tournament_round.tours.last.deadlined?
+                  = rp.match_players.size if deadlined?
                 .players-list-cell.players-list-appearances
-                  = rp.match_players.main.count if tournament_round.tours.last.deadlined?
+                  = rp.match_players.select(&:real_position).size if deadlined?
               - else
                 .players-list-cell.center
                   - if user_tournament_team(tournament.id) && rp.player.team_by_league(user_tournament_team(tournament.id).league_id)

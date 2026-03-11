@@ -1,14 +1,13 @@
-RSpec.describe TelegramBot::Auction::StartBidsNotifier do
+RSpec.describe TelegramBot::Auction::ClosedNotifier do
   describe '#call' do
     subject(:service_call) { described_class.new(notification).call }
 
     let(:tournament) { create(:tournament, code: 'epl', icon: '🏆') }
     let(:league) { create(:league, tournament: tournament) }
     let(:auction) { create(:auction, league: league) }
-    let(:auction_round) { create(:auction_round, auction: auction) }
-    let(:user) { create(:user, locale: :ua, time_zone: 'Kyiv') }
+    let(:user) { create(:user, locale: :ua) }
     let(:team) { create(:team, league: league, user: user, human_name: 'UA Team') }
-    let(:notification) { create(:notification, notifiable: auction_round, team: team, kind: :auction_start_bids) }
+    let(:notification) { create(:notification, notifiable: auction, team: team, kind: :auction_closed) }
 
     context 'when team has no user' do
       let(:team) { create(:team, league: league, user: nil) }
@@ -30,10 +29,10 @@ RSpec.describe TelegramBot::Auction::StartBidsNotifier do
         expect(TelegramBot::Sender).to have_received(:call).with(user, 'message')
       end
 
-      it 'uses start_bids translation key' do
+      it 'uses closed translation key' do
         service_call
 
-        expect(I18n).to have_received(:t).with('telegram.notifier.auction.start_bids', hash_including(locale: :ua))
+        expect(I18n).to have_received(:t).with('telegram.notifier.auction.closed', hash_including(locale: :ua))
       end
     end
   end

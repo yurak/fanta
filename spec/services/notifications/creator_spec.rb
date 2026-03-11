@@ -96,6 +96,42 @@ RSpec.describe Notifications::Creator do
       expect(Notification.last.priority).to eq('high')
     end
 
+    context 'with auction_squad_complete kind' do
+      let(:auction) { create(:auction) }
+      let(:league) { auction.league }
+      let(:alpha_team) { create(:team, :with_full_squad, league: league, user: create(:user)) }
+      let(:beta_team) { create(:team, :with_full_squad, league: league, user: create(:user)) }
+      let(:first_round) { create(:auction_round, auction: auction) }
+      let(:second_round) { create(:auction_round, auction: auction) }
+
+      before do
+        create(:auction_bid, team: alpha_team, auction_round: first_round)
+        create(:auction_bid, team: beta_team, auction_round: first_round)
+        create(:auction_bid, team: alpha_team, auction_round: second_round)
+        create(:auction_bid, team: beta_team, auction_round: second_round)
+      end
+
+      it 'creates notifications after first round' do
+        described_class.call(notifiable: first_round, kind: :auction_squad_complete)
+
+        expect(Notification.where(notifiable: first_round, kind: :auction_squad_complete).count).to eq(2)
+      end
+
+      it 'does not notify teams again after second round if already notified in first round' do
+        described_class.call(notifiable: first_round, kind: :auction_squad_complete)
+        described_class.call(notifiable: second_round, kind: :auction_squad_complete)
+
+        expect(Notification.where(kind: :auction_squad_complete).count).to eq(2)
+      end
+
+      it 'does not create second round notifications for teams notified in first round' do
+        described_class.call(notifiable: first_round, kind: :auction_squad_complete)
+        described_class.call(notifiable: second_round, kind: :auction_squad_complete)
+
+        expect(Notification.where(notifiable: second_round, kind: :auction_squad_complete).count).to eq(0)
+      end
+    end
+
     %i[tour_moderated tour_closed].each do |kind|
       it "creates notifications for :#{kind}" do
         tour = build_tour_with_teams(user_teams_count: 2)
