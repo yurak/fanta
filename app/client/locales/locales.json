@@ -1055,11 +1055,12 @@
     "telegram": {
       "notifier": {
         "auction": {
+          "closed": "%{icon} Auction #%{number} in %{league_name} league has been closed.\n\n🏁️️ You can view all transfers of the auction at the link - %{url}\n\n#auction #%{code}",
           "default": "%{icon} Auction message to %{team_name} team\n\n#auction #%{code}",
-          "finished": "%{icon} Auction #%{number} in %{league_name} league has been closed.\n\n🏁️️ You can view all transfers of the auction at the link - %{url}\n\n#auction #%{code}",
           "round_ddl": "%{icon} Auction round deadline in %{league_name} League is today at %{deadline} (%{time_zone}) ⚠️\n\n‼️️ You must bid on %{vacancies} players for %{team_name} - %{url}\n\n#auction #%{code}",
           "sales_ddl": "%{icon} Transfer window deadline in %{league_name} League is coming soon.\n⚠️ Deadline today at %{deadline} (%{time_zone}) ⚠️\n\n‼️️ You can select up to %{available_transfers} players to sell from %{team_name} - %{url}\n\n#auction #%{code}",
           "sales_open": "%{icon} Transfer window in %{league_name} League is open.\n🔜 Deadline: %{deadline} (%{time_zone}) 🔚\n\n‼️️ You can select up to %{available_transfers} players to sell from %{team_name} - %{url}\n\n#auction #%{code}",
+          "squad_complete": "%{icon} The squad for %{team_name} in the %{league_name} league has been formed.\n\n⌛️ Wait for the auction to end to view its details.\n\n#auction #%{code}",
           "start_bids": "%{icon} Auction round #%{number} has started in %{league_name} League.\n🔜 Deadline: %{deadline} (%{time_zone}) 🔚\n\n‼️️ You must bid on %{vacancies} players for %{team_name} - %{url}\n\n#auction #%{code}"
         },
         "player": {
@@ -2391,11 +2392,12 @@
     "telegram": {
       "notifier": {
         "auction": {
+          "closed": "%{icon} Аукціон #%{number} у лізі %{league_name} завершено.\n\n🏁️️ Ви можете переглянути всі трансфери цього аукціону за посиланням - %{url}\n\n#auction #%{code}",
           "default": "%{icon} Повідомлення про аукціон для команди %{team_name}\n\n#auction #%{code}",
-          "finished": "%{icon} Аукціон #%{number} у лізі %{league_name} завершено.\n\n🏁️️ Ви можете переглянути всі трансфери цього аукціону за посиланням - %{url}\n\n#auction #%{code}",
           "round_ddl": "%{icon} Дедлайн аукціону в лізі %{league_name} сьогодні в %{deadline} (%{time_zone}) ⚠️\n\n‼️️ Вам необхідно зробити ставку на %{vacancies} гравців для команди %{team_name} - %{url}\n\n#auction #%{code}",
           "sales_ddl": "%{icon} Наближається дедлайн трансферного вікна у лізі %{league_name}.\n⚠️ Дедлайн сьогодні в %{deadline} (%{time_zone}) ⚠️\n\n‼️️ Ви можете обрати до %{available_transfers} гравців для продажу з команди %{team_name} - %{url}\n\n#auction #%{code}",
           "sales_open": "%{icon} Трансферне вікно у лізі %{league_name} відкрито.\n🔜 Дедлайн: %{deadline} (%{time_zone}) 🔚\n\n‼️️ Ви можете обрати до %{available_transfers} гравців для продажу з команди %{team_name} - %{url}\n\n#auction #%{code}",
+          "squad_complete": "%{icon} Склад команди %{team_name} у лізі %{league_name} сформовано.\n\n⌛️ Очікуйте на завершення аукціону, щоб переглянути його деталі.\n\n#auction #%{code}",
           "start_bids": "%{icon} Етап #%{number} аукціону розпочався в лізі %{league_name}.\n🔜 Дедлайн: %{deadline} (%{time_zone}) 🔚\n\n‼️️ Вам необхідно зробити ставку на %{vacancies} гравців для команди %{team_name} - %{url}\n\n#auction #%{code}"
         },
         "player": {

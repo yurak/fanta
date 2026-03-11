@@ -47,10 +47,15 @@ module AuctionRounds
 
     def process_auction
       if vacancies?
+        notify_squad_complete
         AuctionRounds::Creator.call(auction)
       else
         Auctions::Manager.call(auction, Auctions::Manager::CLOSED_STATUS)
       end
+    end
+
+    def notify_squad_complete
+      Notifications::Creator.call(notifiable: round, kind: :auction_squad_complete)
     end
 
     def process_player_bids(player_bids)

@@ -15,7 +15,13 @@ class Notification < ApplicationRecord
     tour_opened: 0,
     tour_ddl: 1,
     tour_moderated: 2,
-    tour_closed: 3
+    tour_closed: 3,
+    auction_sales_open: 4,
+    auction_closed: 5,
+    auction_sales_ddl: 6,
+    auction_start_bids: 7,
+    auction_round_ddl: 8,
+    auction_squad_complete: 9
   }
 
   enum priority: {

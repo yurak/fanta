@@ -412,6 +412,39 @@ RSpec.describe AuctionRounds::Manager do
       end
     end
 
+    context 'when no vacancies remain after processing (last round)' do
+      let(:auction_round) { create(:auction_round, number: 2, deadline: 1.hour.ago, auction: create(:auction, number: 2)) }
+      let(:league) { auction_round.league }
+      let!(:home_team) { create(:team, :with_full_squad, league: league, user: create(:user)) }
+      let!(:away_team) { create(:team, :with_full_squad, league: league, user: create(:user)) }
+
+      before do
+        [home_team, away_team].each { |team| create(:submitted_auction_bid, :with_player_bids, team: team, auction_round: auction_round) }
+        allow(Auctions::Manager).to receive(:call)
+        manager.call
+      end
+
+      it 'does not create auction_squad_complete notifications' do
+        expect(Notification.where(notifiable: auction_round, kind: :auction_squad_complete).count).to eq(0)
+      end
+    end
+
+    context 'when vacancies remain after processing (not the last round)' do
+      let(:auction_round) { create(:auction_round, number: 1, deadline: 1.hour.ago) }
+      let(:league) { auction_round.league }
+      let!(:teams) { create_list(:team, 2, league: league, user: create(:user)) }
+
+      before do
+        teams.each { |team| create(:submitted_auction_bid, :with_player_bids, team: team, auction_round: auction_round) }
+        allow(AuctionRounds::Creator).to receive(:call)
+        manager.call
+      end
+
+      it 'creates auction_squad_complete notifications' do
+        expect(Notification.where(notifiable: auction_round, kind: :auction_squad_complete).count).to eq(2)
+      end
+    end
+
     context 'with processing status' do
       let(:auction_round) { create(:processing_auction_round) }
 
