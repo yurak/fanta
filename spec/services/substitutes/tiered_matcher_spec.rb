@@ -275,6 +275,86 @@ RSpec.describe Substitutes::TieredMatcher do
     end
   end
 
+  context 'when Dd, Dc, Dc did not play, bench has Por, Pc, T, M, Dc, Dc' do
+    # Main players absent: Dd (row0), Dc (row1), Dc (row2)
+    # Bench players:        Por(col0), Pc(col1), T(col2), M(col3), Dc(col4), Dc(col5)
+    #
+    #             Por  Pc   T   M    Dc   Dc
+    # Dd (row0):   X    X   X   X   1.5  1.5
+    # Dc (row1):   X    X   X  3.0   0    0
+    # Dc (row2):   X    X   X  3.0   0    0
+    #
+    # Dd can only sub with Dc bench (1.5 malus each), no zero-malus option.
+    # Both Dc players have two native zero-malus slots (Dc bench).
+    # If Dd steals a Dc slot (1.5), one Dc is forced to M bench (3.0) — 1 zero-malus sub.
+    # Correct: both Dc players take native Dc slots (0 each), Dd unmatched — 2 zero-malus subs.
+    let(:grid) do
+      [
+        ['X', 'X', 'X', 'X',  1.5, 1.5], # Dd
+        ['X', 'X', 'X', 3.0,  0,   0],  # Dc
+        ['X', 'X', 'X', 3.0,  0,   0]   # Dc
+      ]
+    end
+
+    it 'matches both Dc players, leaves Dd unmatched' do
+      assignments, = result
+      expect(assignments.size).to eq(2)
+    end
+
+    it 'assigns both Dc players to native Dc bench slots (zero-malus)' do
+      assignments, = result
+      expect(assignments.map { |_, _, v| v }).to all(eq(0.0))
+    end
+
+    it 'returns zero total malus' do
+      _, total = result
+      expect(total).to eq(0.0)
+    end
+  end
+
+  context 'when Dd, C, E/W did not play, bench has Dc, Dc, Ds/Dd/E, Ds/Dd/E, M, E, W/A' do
+    # Main players absent: Dd (row0), C (row1), E/W (row2)
+    # Bench players: Dc(col0), Dc(col1), Ds/Dd/E(col2), Ds/Dd/E(col3), M(col4), E(col5), W/A(col6)
+    #
+    #              Dc   Dc  Ds/Dd/E Ds/Dd/E   M    E   W/A
+    # Dd  (row0): 1.5  1.5    0       0       X   3.0   X
+    # C   (row1):  X    X    1.5     1.5     1.5  1.5   X
+    # E/W (row2):  X    X     0       0      1.5   0    0
+    #
+    # Dd and E/W both have zero-malus options on Ds/Dd/E bench players (col2, col3).
+    # C has no zero-malus option — all available bench players cost S_MALUS (1.5).
+    # Optimal: Dd and E/W take the two native Ds/Dd/E slots (0 each),
+    #          C takes any remaining compatible slot (M, E — all 1.5). Total: 1.5.
+    let(:grid) do
+      [
+        [1.5, 1.5, 0,   0, 'X', 3.0, 'X'], # Dd
+        ['X', 'X', 1.5, 1.5, 1.5, 1.5, 'X'], # C
+        ['X', 'X',   0, 0, 1.5,   0, 0] # E/W
+      ]
+    end
+
+    it 'matches all three players' do
+      assignments, = result
+      expect(assignments.size).to eq(3)
+    end
+
+    it 'assigns Dd and E/W to zero-malus slots' do
+      assignments, = result
+      zero_malus = assignments.select { |_, _, v| v.zero? }
+      expect(zero_malus.size).to eq(2)
+    end
+
+    it 'assigns C with 1.5 malus' do
+      assignments, = result
+      expect(assignments).to include([1, be_a(Integer), 1.5])
+    end
+
+    it 'returns total malus of 1.5' do
+      _, total = result
+      expect(total).to eq(1.5)
+    end
+  end
+
   context 'when M and C did not play, bench has T and M/C' do
     # M  (row0): T(bench)=X (T cannot cover M), M/C(bench)=0 (native)
     # C  (row1): T(bench)=3.0 (M_MALUS),        M/C(bench)=0 (native)

@@ -12,21 +12,8 @@ module Substitutes
       prepare
       return [[], 0.0] if @eligible_rows.empty?
 
-      # Phase 1: maximise zero-malus matches first (highest priority)
-      @eligible_rows.each_with_index do |_r, i|
-        augment_zero(i, Array.new(@n, false))
-      end
-
-      # Phase 2: maximise total matches without reducing zero-malus count.
-      # Loops must stay separate — phase 1 must complete before phase 2 starts.
-      # rubocop:disable Style/CombinableLoops
-      @eligible_rows.each_with_index do |_r, i|
-        next if @match_row[i] != -1
-
-        augment_full(i, Array.new(@n, false), zero_only: false)
-      end
-      # rubocop:enable Style/CombinableLoops
-
+      phase1
+      phase2
       improve
       report
     end
@@ -44,6 +31,53 @@ module Substitutes
       end
       @match_col = Array.new(@n, -1)
       @match_row = Array.new(@eligible_rows.size, -1)
+    end
+
+    # Phase 1: maximise zero-malus matches first (highest priority)
+    def phase1
+      @eligible_rows.each_with_index do |_r, i|
+        augment_zero(i, Array.new(@n, false))
+      end
+    end
+
+    # Phase 2: maximise total matches without reducing zero-malus count.
+    # 2a and 2b must stay separate — 2a must complete before 2b starts.
+    def phase2
+      phase2a
+      phase2b
+    end
+
+    # 2a: direct match to a free column — never touches zero-malus slots
+    def phase2a
+      @eligible_rows.each_with_index do |_r, i|
+        next if @match_row[i] != -1
+
+        @all_edges[i].each do |c|
+          next unless @match_col[c] == -1
+
+          @match_col[c] = i
+          @match_row[i] = c
+          break
+        end
+      end
+    end
+
+    # 2b: augmenting path for rows still unmatched; roll back if zero-malus count drops
+    def phase2b
+      @eligible_rows.each_with_index do |_r, i|
+        next if @match_row[i] != -1
+
+        zero_before     = count_zero_assignments
+        saved_match_col = @match_col.dup
+        saved_match_row = @match_row.dup
+
+        augment_full(i, Array.new(@n, false), zero_only: false)
+
+        if count_zero_assignments < zero_before
+          @match_col = saved_match_col
+          @match_row = saved_match_row
+        end
+      end
     end
 
     # Phase 1: augment using zero-malus edges only
@@ -127,6 +161,10 @@ module Substitutes
       gained = (@grid[row][col_j].zero? ? 1 : 0) + (@grid[row2][col_i].zero? ? 1 : 0)
       lost   = (@grid[row][col_i].zero? ? 1 : 0) + (@grid[row2][col_j].zero? ? 1 : 0)
       (gained - lost).negative?
+    end
+
+    def count_zero_assignments
+      @eligible_rows.each_with_index.count { |r, i| (c = @match_row[i]) != -1 && (@grid[r][c]).zero? }
     end
 
     def report
