@@ -135,6 +135,24 @@ RSpec.describe Players::Transfermarkt::Parser do
       end
     end
 
+    context 'when PositionMapper returns empty due to insufficient stats' do
+      let(:fofana_html) { Rails.root.join('spec/fixtures/tm/player_569598.html').read }
+
+      before do
+        create(:club, name: 'Milan', tm_name: 'AC Milan')
+        allow_any_instance_of(Players::Transfermarkt::BrowserClient).to receive(:fetch_html).and_return(fofana_html)
+        allow(Players::Transfermarkt::PositionParser).to receive(:call).and_return({})
+      end
+
+      it 'falls back to primary TM base position for position1' do
+        expect(parser.call[:position1]).to eq('M')
+      end
+
+      it 'returns nil for position2 when primary is not a fullback' do
+        expect(parser.call[:position2]).to be_nil
+      end
+    end
+
     context 'with chip player full data' do
       let(:tm_id) { '939745' }
 

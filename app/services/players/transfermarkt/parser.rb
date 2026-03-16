@@ -78,7 +78,11 @@ module Players
       def position_arr
         return [] if position_skip
 
-        @position_arr ||= Players::Transfermarkt::PositionMapper.call(Player.new(tm_id: tm_id), Season.last.start_year)
+        @position_arr ||= Players::Transfermarkt::PositionMapper.call(
+          Player.new(tm_id: tm_id),
+          Season.last.start_year,
+          base_positions: [tm_pos1, tm_pos2, tm_pos3]
+        )
       end
 
       def position1

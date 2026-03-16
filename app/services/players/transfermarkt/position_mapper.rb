@@ -17,16 +17,17 @@ module Players
 
       attr_reader :player, :current_year
 
-      def initialize(player, year)
+      def initialize(player, year, base_positions: nil)
         @player = player
         @current_year = year
+        @base_positions = base_positions
       end
 
       def call
         return [] unless player&.tm_id
 
         prepare_analyzed_data
-        return [] if mantra_arr.first&.second.to_i < MIN_POS_NUMBER
+        return base_position_fallback if mantra_arr.first&.second.to_i < MIN_POS_NUMBER
 
         @result_arr = [first_pos]
         process_strikers
@@ -42,6 +43,15 @@ module Players
       end
 
       private
+
+      def base_position_fallback
+        primary = @base_positions&.compact&.first
+        return [] unless primary
+
+        result = [primary]
+        result << WING_BACK if FULLBACK_POS.include?(primary)
+        result
+      end
 
       def prepare_analyzed_data
         @analyzed_data = if current_stat.values.sum < MIN_SEASON_NUMBER
