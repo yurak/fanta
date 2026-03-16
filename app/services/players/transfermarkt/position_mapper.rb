@@ -45,7 +45,7 @@ module Players
       private
 
       def base_position_fallback
-        primary = @base_positions&.compact&.first
+        primary = @base_positions&.filter_map { |p| Position::TM_POSITION_MAP[p] }&.first
         return [] unless primary
 
         result = [primary]

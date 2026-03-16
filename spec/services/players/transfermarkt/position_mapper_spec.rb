@@ -273,7 +273,7 @@ RSpec.describe Players::Transfermarkt::PositionMapper do
       end
 
       context 'when primary base position is a non-fullback (CB)' do
-        let(:base_positions) { ['CB', 'DM', nil] }
+        let(:base_positions) { %w[CB DM] }
 
         it 'returns only the primary position' do
           expect(result).to eq(['CB'])
@@ -281,7 +281,7 @@ RSpec.describe Players::Transfermarkt::PositionMapper do
       end
 
       context 'when primary base position is RB' do
-        let(:base_positions) { ['RB', nil, nil] }
+        let(:base_positions) { ['RB'] }
 
         it 'returns RB and WB' do
           expect(result).to contain_exactly('RB', 'WB')
@@ -289,10 +289,26 @@ RSpec.describe Players::Transfermarkt::PositionMapper do
       end
 
       context 'when primary base position is LB' do
-        let(:base_positions) { ['LB', nil, nil] }
+        let(:base_positions) { ['LB'] }
 
         it 'returns LB and WB' do
           expect(result).to contain_exactly('LB', 'WB')
+        end
+      end
+
+      context 'when primary base position is RW (maps to W via TM_POSITION_MAP)' do
+        let(:base_positions) { %w[RW SS LW] }
+
+        it 'maps RW to W and returns only W' do
+          expect(result).to eq(['W'])
+        end
+      end
+
+      context 'when primary base position is SS (maps to FW)' do
+        let(:base_positions) { ['SS'] }
+
+        it 'maps SS to FW' do
+          expect(result).to eq(['FW'])
         end
       end
 
