@@ -34,7 +34,7 @@ module Scores
       def player_hash(player_data)
         hash = {
           fotmob_id: player_data.first.to_i,
-          fotmob_name: player_name(player_data)
+          source_name: player_name(player_data)
         }
         return hash if player_data.second['stats'].empty?
 

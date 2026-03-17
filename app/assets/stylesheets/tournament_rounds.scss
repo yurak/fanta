@@ -108,6 +108,29 @@
       }
     }
 
+    .round-missed-players {
+      padding-top: 16px;
+
+      .round-missed-players-title {
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 12px;
+      }
+
+      .round-missed-players-match {
+        margin-bottom: 24px;
+
+        .round-missed-players-match-title {
+          font-weight: bold;
+          margin-bottom: 6px;
+        }
+
+        .round-missed-players-table {
+          width: auto;
+        }
+      }
+    }
+
     .round-matches {
       margin-top: 32px;
 
