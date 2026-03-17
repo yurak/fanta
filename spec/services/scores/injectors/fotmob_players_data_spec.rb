@@ -64,8 +64,8 @@ RSpec.describe Scores::Injectors::FotmobPlayersData do
         expect(result[12_345][:fotmob_id]).to eq(12_345)
       end
 
-      it 'stores normalized fotmob_name' do
-        expect(result[12_345][:fotmob_name]).to eq('messi')
+      it 'stores normalized source_name' do
+        expect(result[12_345][:source_name]).to eq('messi')
       end
     end
 
@@ -101,8 +101,8 @@ RSpec.describe Scores::Injectors::FotmobPlayersData do
         { '42' => { 'name' => 'Reserve', 'stats' => [] } }
       end
 
-      it 'returns only fotmob_id and fotmob_name' do
-        expect(result[42]).to eq({ fotmob_id: 42, fotmob_name: 'reserve' })
+      it 'returns only fotmob_id and source_name' do
+        expect(result[42]).to eq({ fotmob_id: 42, source_name: 'reserve' })
       end
     end
 

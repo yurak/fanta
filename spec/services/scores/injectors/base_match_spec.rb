@@ -87,6 +87,44 @@ RSpec.describe Scores::Injectors::BaseMatch do
         injector.call
         expect(Audit::CsvWriter).to have_received(:call).with(match, {})
       end
+
+      it 'saves empty missed_players_data when players_hash is empty' do
+        injector.call
+        expect(match.reload.missed_players_data).to eq({})
+      end
+
+      context 'when players_hash is non-empty' do
+        let(:concrete_class) do
+          Class.new(described_class) do
+            def match_finished?
+              true
+            end
+
+            def host_result
+              2
+            end
+
+            def guest_result
+              1
+            end
+
+            def update_round_player(*); end
+
+            def full_player_hash(*)
+              {}
+            end
+
+            def players_hash
+              { 42 => { name: 'Ronaldo' } }
+            end
+          end
+        end
+
+        it 'saves players_hash to missed_players_data' do
+          injector.call
+          expect(match.reload.missed_players_data).to eq({ '42' => { 'name' => 'Ronaldo' } })
+        end
+      end
     end
   end
 

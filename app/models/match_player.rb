@@ -36,7 +36,7 @@ class MatchPlayer < ApplicationRecord
   end
 
   def not_played?
-    (score.zero? && club_played_match?) || another_tournament?
+    score.zero? && (club_played_match? || another_tournament?)
   end
 
   def position_malus?

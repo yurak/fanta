@@ -29,11 +29,14 @@
             = link_to t('round.inject_scores'), inject_scores_tour_path(tournament_round.tours.first, redirect: 'round'), data: { confirm: t('header.are_you_sure') }
         .round-action-link.round-action-link-stats
           = link_to t('round.stats'), tournament_round_stats_path(tournament_round)
+        .round-action-link.round-action-link-stats
+          = link_to t('round.missed_players'), tournament_round_missed_players_path(tournament_round)
 
         - if current_user&.can_moderate?
           - if !tournament_round.moderated_at && @finished && tournament_round.tours.locked_postponed.any?
             .round-action-link
               = link_to t('round.confirm'), auto_close_tournament_round_path(tournament_round), method: :put, data: { confirm: t('header.are_you_sure') }
+
         - if current_user&.admin?
           - if tournament_round.tours.inactive.any?
             .round-action-link
@@ -42,11 +45,12 @@
             .round-action-link
               = link_to t('round.postpone'), tours_update_tournament_round_path(tournament_round, status: :postponed), method: :put, data: { confirm: t('header.are_you_sure') }
           - if @finished && tournament_round.tours.locked_postponed.any?
-            .round-action-link
+            .round-action-link.round-action-close
               = link_to t('round.close'), tours_update_tournament_round_path(tournament_round, status: :closed), method: :put, data: { confirm: t('header.are_you_sure') }
-            .round-action-link
-              = link_to  t('round.generate_preview'), tournament_round_generate_preview_path(tournament_round, redirect: 'round'), data: { confirm: t('header.are_you_sure') }
-            .round-action-link
-              = link_to  t('round.auto_subs_preview'), tournament_round_auto_subs_preview_path(tournament_round, redirect: 'round')
-            .round-action-link
-              = link_to  t('round.auto_subs'), tournament_round_auto_subs_path(tournament_round, redirect: 'round'), data: { confirm: t('header.are_you_sure') }
+            .round-action-subs-links
+              .round-action-link
+                = link_to  t('round.generate_preview'), tournament_round_generate_preview_path(tournament_round, redirect: 'round'), data: { confirm: t('header.are_you_sure') }
+              .round-action-link
+                = link_to  t('round.auto_subs_preview'), tournament_round_auto_subs_preview_path(tournament_round, redirect: 'round')
+              .round-action-link
+                = link_to  t('round.auto_subs'), tournament_round_auto_subs_path(tournament_round, redirect: 'round'), data: { confirm: t('header.are_you_sure') }

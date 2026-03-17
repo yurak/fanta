@@ -91,11 +91,19 @@ RSpec.describe MatchPlayer do
       end
     end
 
-    context 'when player moved to another tournament' do
+    context 'when player moved to another tournament (no score)' do
       it 'returns true' do
         allow(match_player.round_player).to receive(:another_tournament?).and_return(true)
 
         expect(match_player.not_played?).to be(true)
+      end
+    end
+
+    context 'when player moved to another tournament but has a score' do
+      it 'returns false' do
+        allow(match_player_with_score.round_player).to receive(:another_tournament?).and_return(true)
+
+        expect(match_player_with_score.not_played?).to be(false)
       end
     end
   end

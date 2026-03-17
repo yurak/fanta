@@ -393,6 +393,7 @@ en:
     moderated: "Will be auto-closed after:"
     open: "Open all tours"
     postpone: "Postpone all tours"
+    missed_players: "Missed players"
     stats: "Statistics"
     title: "Tournament Round"
   round_players:

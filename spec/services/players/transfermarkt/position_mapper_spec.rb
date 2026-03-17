@@ -246,6 +246,86 @@ RSpec.describe Players::Transfermarkt::PositionMapper do
       end
     end
 
+    context 'with base_positions fallback (insufficient stats)' do
+      subject(:result) { described_class.new(player, year, base_positions: base_positions).call }
+
+      let(:player) { create(:player, tm_id: '20001') }
+
+      before do
+        allow(Players::Transfermarkt::PositionParser).to receive(:call).with(player, year).and_return({})
+        allow(Players::Transfermarkt::PositionParser).to receive(:call).with(player, year - 1).and_return({})
+      end
+
+      context 'when base_positions is nil' do
+        let(:base_positions) { nil }
+
+        it 'returns empty array' do
+          expect(result).to eq([])
+        end
+      end
+
+      context 'when base_positions are all nil' do
+        let(:base_positions) { [nil, nil, nil] }
+
+        it 'returns empty array' do
+          expect(result).to eq([])
+        end
+      end
+
+      context 'when primary base position is a non-fullback (CB)' do
+        let(:base_positions) { %w[CB DM] }
+
+        it 'returns only the primary position' do
+          expect(result).to eq(['CB'])
+        end
+      end
+
+      context 'when primary base position is RB' do
+        let(:base_positions) { ['RB'] }
+
+        it 'returns RB and WB' do
+          expect(result).to contain_exactly('RB', 'WB')
+        end
+      end
+
+      context 'when primary base position is LB' do
+        let(:base_positions) { ['LB'] }
+
+        it 'returns LB and WB' do
+          expect(result).to contain_exactly('LB', 'WB')
+        end
+      end
+
+      context 'when primary base position is RW (maps to W via TM_POSITION_MAP)' do
+        let(:base_positions) { %w[RW SS LW] }
+
+        it 'maps RW to W and returns only W' do
+          expect(result).to eq(['W'])
+        end
+      end
+
+      context 'when primary base position is SS (maps to FW)' do
+        let(:base_positions) { ['SS'] }
+
+        it 'maps SS to FW' do
+          expect(result).to eq(['FW'])
+        end
+      end
+
+      context 'when sufficient stats exist, base_positions is ignored' do
+        let(:base_positions) { ['CB', nil, nil] }
+
+        before do
+          allow(Players::Transfermarkt::PositionParser).to receive(:call).with(player, year)
+                                                                         .and_return({ 'DM' => 20 })
+        end
+
+        it 'uses stats, not base_positions' do
+          expect(result).to contain_exactly('DM')
+        end
+      end
+    end
+
     context 'with equal match counts on two positions (skips removal)' do
       let(:player) { create(:player, tm_id: '12011') }
 

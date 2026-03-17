@@ -275,6 +275,126 @@ RSpec.describe Substitutes::TieredMatcher do
     end
   end
 
+  context 'when Dd, Dc, Dc did not play, bench has Por, Pc, T, M, Dc, Dc' do
+    # Main players absent: Dd (row0), Dc (row1), Dc (row2)
+    # Bench players:        Por(col0), Pc(col1), T(col2), M(col3), Dc(col4), Dc(col5)
+    #
+    #             Por  Pc   T   M    Dc   Dc
+    # Dd (row0):   X    X   X   X   1.5  1.5
+    # Dc (row1):   X    X   X  3.0   0    0
+    # Dc (row2):   X    X   X  3.0   0    0
+    #
+    # Dd can only sub with Dc bench (1.5 malus each), no zero-malus option.
+    # Both Dc players have two native zero-malus slots (Dc bench).
+    # If Dd steals a Dc slot (1.5), one Dc is forced to M bench (3.0) — 1 zero-malus sub.
+    # Correct: both Dc players take native Dc slots (0 each), Dd unmatched — 2 zero-malus subs.
+    let(:grid) do
+      [
+        ['X', 'X', 'X', 'X',  1.5, 1.5], # Dd
+        ['X', 'X', 'X', 3.0,  0,   0],  # Dc
+        ['X', 'X', 'X', 3.0,  0,   0]   # Dc
+      ]
+    end
+
+    it 'matches both Dc players, leaves Dd unmatched' do
+      assignments, = result
+      expect(assignments.size).to eq(2)
+    end
+
+    it 'assigns both Dc players to native Dc bench slots (zero-malus)' do
+      assignments, = result
+      expect(assignments.map { |_, _, v| v }).to all(eq(0.0))
+    end
+
+    it 'returns zero total malus' do
+      _, total = result
+      expect(total).to eq(0.0)
+    end
+  end
+
+  context 'when Dd, C, E/W did not play, bench has Dc, Dc, Ds/Dd/E, Ds/Dd/E, M, E, W/A' do
+    # Main players absent: Dd (row0), C (row1), E/W (row2)
+    # Bench players: Dc(col0), Dc(col1), Ds/Dd/E(col2), Ds/Dd/E(col3), M(col4), E(col5), W/A(col6)
+    #
+    #              Dc   Dc  Ds/Dd/E Ds/Dd/E   M    E   W/A
+    # Dd  (row0): 1.5  1.5    0       0       X   3.0   X
+    # C   (row1):  X    X    1.5     1.5     1.5  1.5   X
+    # E/W (row2):  X    X     0       0      1.5   0    0
+    #
+    # Dd and E/W both have zero-malus options on Ds/Dd/E bench players (col2, col3).
+    # C has no zero-malus option — all available bench players cost S_MALUS (1.5).
+    # Optimal: Dd and E/W take the two native Ds/Dd/E slots (0 each),
+    #          C takes any remaining compatible slot (M, E — all 1.5). Total: 1.5.
+    let(:grid) do
+      [
+        [1.5, 1.5, 0,   0, 'X', 3.0, 'X'], # Dd
+        ['X', 'X', 1.5, 1.5, 1.5, 1.5, 'X'], # C
+        ['X', 'X', 0, 0, 1.5,   0, 0] # E/W
+      ]
+    end
+
+    it 'matches all three players' do
+      assignments, = result
+      expect(assignments.size).to eq(3)
+    end
+
+    it 'assigns Dd and E/W to zero-malus slots' do
+      assignments, = result
+      zero_malus = assignments.select { |_, _, v| v.zero? }
+      expect(zero_malus.size).to eq(2)
+    end
+
+    it 'assigns C with 1.5 malus' do
+      assignments, = result
+      expect(assignments).to include([1, be_a(Integer), 1.5])
+    end
+
+    it 'returns total malus of 1.5' do
+      _, total = result
+      expect(total).to eq(1.5)
+    end
+  end
+
+  context 'when Dc and E did not play, bench has W/A, Dc/E, W/A, C, Dd/E, Ds/E, Dc/Ds' do
+    # Main players absent: Dc (row0), E (row1)
+    # Bench players: W/A(col0), Dc/E(col1), W/A(col2), C(col3), Dd/E(col4), Ds/E(col5), Dc/Ds(col6)
+    #
+    #              W/A  Dc/E  W/A   C   Dd/E  Ds/E  Dc/Ds
+    # Dc  (row0):   X    0    X     X   1.5   1.5    0
+    # E   (row1):  1.5   0   1.5   1.5   0     0    3.0
+    #
+    # Both Dc and E have a zero-malus option on col1 (Dc/E).
+    # Dc also has col6 (Dc/Ds) at zero; E also has col4 (Dd/E) and col5 (Ds/E) at zero.
+    # Greedy assigns Dc→col1 (earliest zero for Dc), then E→col4 (earliest remaining zero for E).
+    # Both substitutions are zero-malus, total = 0.
+    let(:grid) do
+      [
+        ['X', 0, 'X', 'X', 1.5, 1.5, 0], # Dc
+        [1.5, 0, 1.5, 1.5, 0, 0, 3.0] # E
+      ]
+    end
+
+    it 'matches both players' do
+      assignments, = result
+      expect(assignments.size).to eq(2)
+    end
+
+    it 'assigns Dc to Dc/E bench (col1, zero-malus)' do
+      assignments, = result
+      expect(assignments).to include([0, 1, 0.0])
+    end
+
+    it 'assigns E to Dd/E bench (col4, zero-malus)' do
+      assignments, = result
+      expect(assignments).to include([1, 4, 0.0])
+    end
+
+    it 'returns zero total malus' do
+      _, total = result
+      expect(total).to eq(0.0)
+    end
+  end
+
   context 'when M and C did not play, bench has T and M/C' do
     # M  (row0): T(bench)=X (T cannot cover M), M/C(bench)=0 (native)
     # C  (row1): T(bench)=3.0 (M_MALUS),        M/C(bench)=0 (native)
@@ -301,6 +421,168 @@ RSpec.describe Substitutes::TieredMatcher do
     it 'assigns C to T bench with 3.0 malus' do
       assignments, = result
       expect(assignments).to include([1, 0, 3.0])
+    end
+
+    it 'returns total malus of 3.0' do
+      _, total = result
+      expect(total).to eq(3.0)
+    end
+  end
+
+  context 'when E/W and A/Pc did not play, bench has W/A, T/A, W, M, C, W' do
+    # Main players absent: E/W (row0), A/Pc (row1)
+    # Bench players: W/A(col0), T/A(col1), W(col2), M(col3), C(col4), W(col5)
+    #
+    #              W/A   T/A    W    M    C    W
+    # E/W  (row0):  0    1.5    0   1.5  1.5   0   — W native; T→W=1.5, E→M/C=1.5
+    # A/Pc (row1):  0     0    3.0   X    X   3.0  — A native in W/A and T/A; M,C incompatible
+    #
+    # Phase 1: E/W→col0(0), A/Pc displaces E/W via augment → E/W→col2, A/Pc→col0.
+    # Squeeze: reassigns both to lowest-indexed bench slots → E/W→col0(W/A), A/Pc→col1(T/A).
+    # Both substitutions are zero-malus. Total: 0.
+    let(:grid) do
+      [
+        [0,   1.5, 0,   1.5, 1.5, 0],
+        [0,   0,   3.0, 'X', 'X', 3.0]
+      ]
+    end
+
+    it 'matches both players' do
+      assignments, = result
+      expect(assignments.size).to eq(2)
+    end
+
+    it 'assigns E/W to W/A bench (col0, zero-malus) after squeeze' do
+      assignments, = result
+      expect(assignments).to include([0, 0, 0.0])
+    end
+
+    it 'assigns A/Pc to T/A bench (col1, zero-malus) after squeeze' do
+      assignments, = result
+      expect(assignments).to include([1, 1, 0.0])
+    end
+
+    it 'returns zero total malus' do
+      _, total = result
+      expect(total).to eq(0.0)
+    end
+  end
+
+  # Dd can only reach col0(3.0) and col1(1.5), but both are taken by Dc and E
+  # with zero-malus matches that have no alternative zero-malus escape.
+  # The algorithm must leave Dd unmatched rather than sacrifice zero-malus count.
+  context 'when Dd, Dc, E did not play, bench has E, Dc/E, T, T/W' do
+    # col0=E, col1=Dc/E, col2=T, col3=T/W
+    let(:grid) do
+      [
+        [3.0, 1.5, 'X', 'X'], # Dd: can only use E(3.0) or Dc/E(1.5)
+        ['X', 0,   'X', 'X'], # Dc: only Dc/E(0)
+        [0,   0,   'X', 3.0]  # E:  E(0), Dc/E(0), or T/W(3.0)
+      ]
+    end
+
+    it 'matches Dc to Dc/E bench with zero malus' do
+      assignments, = result
+      expect(assignments).to include([1, 1, 0.0])
+    end
+
+    it 'matches E to E bench with zero malus' do
+      assignments, = result
+      expect(assignments).to include([2, 0, 0.0])
+    end
+
+    it 'leaves Dd unmatched' do
+      assignments, = result
+      expect(assignments.map(&:first)).not_to include(0)
+    end
+
+    it 'returns total malus of 0.0' do
+      _, total = result
+      expect(total).to eq(0.0)
+    end
+  end
+
+  context 'when squeeze reassigns tier-1.5 rows to earlier bench positions' do
+    # Two identical rows can use bench1 or bench3 (both 1.5).
+    # A zero-tier row holds bench1 in phase 1 but escapes to bench2 via phase 2b,
+    # which lets row1 grab bench1 through augmentation — leaving row0 at bench3.
+    # Squeeze then restores priority: row0 (lower idx) gets bench1, row1 gets bench3.
+    #
+    #              bench0  bench1  bench2  bench3
+    # row0 (Dd):    X      1.5      X      1.5
+    # row1 (Dd):    X      1.5      X      1.5
+    # row2 (Dc):    X       0       0       X
+    let(:grid) do
+      [
+        ['X', 1.5, 'X', 1.5],
+        ['X', 1.5, 'X', 1.5],
+        ['X', 0,   0,   'X']
+      ]
+    end
+
+    it 'matches all three rows' do
+      assignments, = result
+      expect(assignments.size).to eq(3)
+    end
+
+    it 'assigns row0 to the earlier bench position (bench1) after squeeze' do
+      assignments, = result
+      expect(assignments).to include([0, 1, 1.5])
+    end
+
+    it 'assigns row1 to the later bench position (bench3) after squeeze' do
+      assignments, = result
+      expect(assignments).to include([1, 3, 1.5])
+    end
+
+    it 'preserves the zero-malus assignment for the zero-tier row' do
+      assignments, = result
+      expect(assignments).to include([2, 2, 0.0])
+    end
+
+    it 'returns total malus of 3.0' do
+      _, total = result
+      expect(total).to eq(3.0)
+    end
+  end
+
+  context 'when one tier-1.5 row has only one bench option and squeeze preserves it' do
+    # row0 can use bench1 or bench3 (both 1.5); row1 can only use bench1.
+    # A zero-tier row holds bench1 in phase 1, escapes to bench2 in phase 2b,
+    # letting row1 claim bench1 — leaving row0 at bench3.
+    # Squeeze tries to move row0 to bench1 (greedy, lower idx) but augment_tier
+    # displaces row0 back to bench3 because row1 has no other option.
+    #
+    #              bench0  bench1  bench2  bench3
+    # row0 (Dd):    X      1.5      X      1.5
+    # row1 (Dc):    X      1.5      X       X
+    # row2 (Dc):    X       0       0       X
+    let(:grid) do
+      [
+        ['X', 1.5, 'X', 1.5],
+        ['X', 1.5, 'X', 'X'],
+        ['X', 0,   0,   'X']
+      ]
+    end
+
+    it 'matches all three rows' do
+      assignments, = result
+      expect(assignments.size).to eq(3)
+    end
+
+    it 'keeps row1 at its only bench option (bench1)' do
+      assignments, = result
+      expect(assignments).to include([1, 1, 1.5])
+    end
+
+    it 'assigns row0 to the remaining bench option (bench3)' do
+      assignments, = result
+      expect(assignments).to include([0, 3, 1.5])
+    end
+
+    it 'preserves the zero-malus assignment for the zero-tier row' do
+      assignments, = result
+      expect(assignments).to include([2, 2, 0.0])
     end
 
     it 'returns total malus of 3.0' do

@@ -85,6 +85,37 @@ RSpec.describe Scores::Injectors::SofascoreMatch do
         injector.call
         expect(Audit::CsvWriter).to have_received(:call)
       end
+
+      it 'saves missed_players_data with all unmatched players' do
+        injector.call
+        expect(match.reload.missed_players_data.keys).to contain_exactly('100', '200')
+      end
+
+      it 'persists host player stats in missed_players_data' do
+        injector.call
+        expect(match.reload.missed_players_data['100']).to include('source_name' => 'Buffon', 'rating' => 7.5)
+      end
+
+      it 'persists guest player stats in missed_players_data' do
+        injector.call
+        expect(match.reload.missed_players_data['200']).to include('source_name' => 'Messi', 'rating' => 8.5)
+      end
+
+      context 'when a round_player is matched and removed from hash' do
+        let(:player) { create(:player, sofascore_id: 100, club: match.host_club) }
+
+        before { create(:round_player, player: player, tournament_round: match.tournament_round) }
+
+        it 'excludes matched player from missed_players_data' do
+          injector.call
+          expect(match.reload.missed_players_data.keys).not_to include('100')
+        end
+
+        it 'keeps unmatched player in missed_players_data' do
+          injector.call
+          expect(match.reload.missed_players_data.keys).to include('200')
+        end
+      end
     end
   end
 

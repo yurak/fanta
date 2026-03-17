@@ -17,7 +17,7 @@ module Scores
 
         update_round_players
 
-        Audit::CsvWriter.call(match, players_hash)
+        audit_missed_players(players_hash)
       end
 
       private
@@ -62,6 +62,11 @@ module Scores
         return 0 if round_player.position_names.exclude?(Position::GOALKEEPER)
 
         team_missed_goals
+      end
+
+      def audit_missed_players(players)
+        match.update(missed_players_data: players)
+        Audit::CsvWriter.call(match, players)
       end
 
       def players_hash

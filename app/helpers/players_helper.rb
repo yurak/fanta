@@ -58,6 +58,14 @@ module PlayersHelper
     end
   end
 
+  def player_by_source_data(player_data)
+    if player_data['sofascore_id']
+      Player.find_by(sofascore_id: player_data['sofascore_id'])
+    elsif player_data['fotmob_id']
+      Player.find_by(fotmob_id: player_data['fotmob_id'])
+    end
+  end
+
   def user_tournament_team(tournament_id)
     return false unless current_user
 

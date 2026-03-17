@@ -12,22 +12,10 @@ module Substitutes
       prepare
       return [[], 0.0] if @eligible_rows.empty?
 
-      # Phase 1: maximise zero-malus matches first (highest priority)
-      @eligible_rows.each_with_index do |_r, i|
-        augment_zero(i, Array.new(@n, false))
-      end
-
-      # Phase 2: maximise total matches without reducing zero-malus count.
-      # Loops must stay separate — phase 1 must complete before phase 2 starts.
-      # rubocop:disable Style/CombinableLoops
-      @eligible_rows.each_with_index do |_r, i|
-        next if @match_row[i] != -1
-
-        augment_full(i, Array.new(@n, false), zero_only: false)
-      end
-      # rubocop:enable Style/CombinableLoops
-
+      phase1
+      phase2
       improve
+      squeeze
       report
     end
 
@@ -44,6 +32,53 @@ module Substitutes
       end
       @match_col = Array.new(@n, -1)
       @match_row = Array.new(@eligible_rows.size, -1)
+    end
+
+    # Phase 1: maximise zero-malus matches first (highest priority)
+    def phase1
+      @eligible_rows.each_with_index do |_r, i|
+        augment_zero(i, Array.new(@n, false))
+      end
+    end
+
+    # Phase 2: maximise total matches without reducing zero-malus count.
+    # 2a and 2b must stay separate — 2a must complete before 2b starts.
+    def phase2
+      phase2a
+      phase2b
+    end
+
+    # 2a: direct match to a free column — never touches zero-malus slots
+    def phase2a
+      @eligible_rows.each_with_index do |_r, i|
+        next if @match_row[i] != -1
+
+        @all_edges[i].each do |c|
+          next unless @match_col[c] == -1
+
+          @match_col[c] = i
+          @match_row[i] = c
+          break
+        end
+      end
+    end
+
+    # 2b: augmenting path for rows still unmatched; roll back if zero-malus count drops
+    def phase2b
+      @eligible_rows.each_with_index do |_r, i|
+        next if @match_row[i] != -1
+
+        zero_before     = count_zero_assignments
+        saved_match_col = @match_col.dup
+        saved_match_row = @match_row.dup
+
+        augment_full(i, Array.new(@n, false), zero_only: false)
+
+        if count_zero_assignments < zero_before
+          @match_col = saved_match_col
+          @match_row = saved_match_row
+        end
+      end
     end
 
     # Phase 1: augment using zero-malus edges only
@@ -93,6 +128,88 @@ module Substitutes
       loop { break unless improve_pass }
     end
 
+    # After malus is optimised, reassign each tier's rows to the earliest possible bench
+    # positions (lowest column indices) without reducing the number of matched rows.
+    def squeeze
+      tiers = (0...@eligible_rows.size).filter_map do |i|
+        c = @match_row[i]
+        next if c == -1
+
+        @grid[@eligible_rows[i]][c]
+      end.uniq.sort
+
+      tiers.each { |v| squeeze_tier(v) }
+    end
+
+    # Greedy-reassign rows matched at +malus_val+ to their lowest available column.
+    # Rolls back if any row in the tier loses its match (cross-tier column conflicts).
+    def squeeze_tier(malus_val)
+      tier_idxs = (0...@eligible_rows.size).select do |i|
+        c = @match_row[i]
+        c != -1 && @grid[@eligible_rows[i]][c] == malus_val
+      end
+      return if tier_idxs.empty?
+
+      tier_edges = build_tier_edges(tier_idxs, malus_val)
+      saved_col  = @match_col.dup
+      saved_row  = @match_row.dup
+
+      unmatch_tier(tier_idxs)
+      greedy_assign_tier(tier_idxs, tier_edges).each do |i|
+        augment_tier(i, tier_edges, Array.new(@n, false))
+      end
+
+      return unless tier_idxs.any? { |i| @match_row[i] == -1 }
+
+      @match_col = saved_col
+      @match_row = saved_row
+    end
+
+    def build_tier_edges(tier_idxs, malus_val)
+      tier_idxs.to_h do |i|
+        r = @eligible_rows[i]
+        [i, (0...@n).select { |c| @grid[r][c] == malus_val }]
+      end
+    end
+
+    def unmatch_tier(tier_idxs)
+      tier_idxs.each do |i|
+        @match_col[@match_row[i]] = -1
+        @match_row[i] = -1
+      end
+    end
+
+    # Returns indices of rows that could not be assigned greedily.
+    def greedy_assign_tier(tier_idxs, tier_edges)
+      tier_idxs.reject do |i|
+        tier_edges[i].any? do |c|
+          next false if @match_col[c] != -1
+
+          @match_col[c] = i
+          @match_row[i] = c
+          true
+        end
+      end
+    end
+
+    # Augmenting path within a single malus tier (only displaces rows in tier_edges).
+    def augment_tier(idx, tier_edges, visited)
+      tier_edges[idx].each do |c|
+        next if visited[c]
+
+        visited[c] = true
+        j = @match_col[c]
+
+        next unless j == -1 || (tier_edges.key?(j) && augment_tier(j, tier_edges, visited))
+
+        @match_col[c] = idx
+        @match_row[idx] = c
+        return true
+      end
+
+      false
+    end
+
     def improve_pass
       @eligible_rows.each_with_index do |r, i|
         next if @match_row[i] == -1
@@ -127,6 +244,10 @@ module Substitutes
       gained = (@grid[row][col_j].zero? ? 1 : 0) + (@grid[row2][col_i].zero? ? 1 : 0)
       lost   = (@grid[row][col_i].zero? ? 1 : 0) + (@grid[row2][col_j].zero? ? 1 : 0)
       (gained - lost).negative?
+    end
+
+    def count_zero_assignments
+      @eligible_rows.each_with_index.count { |r, i| (c = @match_row[i]) != -1 && (@grid[r][c]).zero? }
     end
 
     def report
