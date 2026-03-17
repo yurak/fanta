@@ -23,6 +23,7 @@
                 .round-tour-number= "##{tour.number}"
         .round-matches
           = render 'tournaments/tournament_matches', matches: tournament_round.tournament_matches
+        = render 'matches_missed_players', matches: tournament_round.tournament_matches
       .round-actions
         - if tournament_round.tours.locked_postponed.any?
           .round-action-link

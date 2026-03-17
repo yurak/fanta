@@ -1,0 +1,21 @@
+.round-missed-players
+  %h4.round-missed-players-title Missed players
+  - matches.each do |match|
+    - next if match.missed_players_data.blank?
+    .round-missed-players-match
+      .round-missed-players-match-title
+        = "#{match.host_club.name} vs #{match.guest_club.name}"
+      %table.round-missed-players-table
+        %thead
+          %tr
+            %th ID
+            %th Name
+            %th Rating
+            %th Min
+        %tbody
+          - match.missed_players_data.each_value do |player|
+            %tr
+              %td= player['sofascore_id'] || player['fotmob_id']
+              %td= player['source_name']
+              %td= player['rating']
+              %td= player['played_minutes']

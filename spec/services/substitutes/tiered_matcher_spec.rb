@@ -429,6 +429,45 @@ RSpec.describe Substitutes::TieredMatcher do
     end
   end
 
+  context 'when E/W and A/Pc did not play, bench has W/A, T/A, W, M, C, W' do
+    # Main players absent: E/W (row0), A/Pc (row1)
+    # Bench players: W/A(col0), T/A(col1), W(col2), M(col3), C(col4), W(col5)
+    #
+    #              W/A   T/A    W    M    C    W
+    # E/W  (row0):  0    1.5    0   1.5  1.5   0   — W native; T→W=1.5, E→M/C=1.5
+    # A/Pc (row1):  0     0    3.0   X    X   3.0  — A native in W/A and T/A; M,C incompatible
+    #
+    # Phase 1: E/W→col0(0), A/Pc displaces E/W via augment → E/W→col2, A/Pc→col0.
+    # Squeeze: reassigns both to lowest-indexed bench slots → E/W→col0(W/A), A/Pc→col1(T/A).
+    # Both substitutions are zero-malus. Total: 0.
+    let(:grid) do
+      [
+        [0,   1.5, 0,   1.5, 1.5, 0],
+        [0,   0,   3.0, 'X', 'X', 3.0]
+      ]
+    end
+
+    it 'matches both players' do
+      assignments, = result
+      expect(assignments.size).to eq(2)
+    end
+
+    it 'assigns E/W to W/A bench (col0, zero-malus) after squeeze' do
+      assignments, = result
+      expect(assignments).to include([0, 0, 0.0])
+    end
+
+    it 'assigns A/Pc to T/A bench (col1, zero-malus) after squeeze' do
+      assignments, = result
+      expect(assignments).to include([1, 1, 0.0])
+    end
+
+    it 'returns zero total malus' do
+      _, total = result
+      expect(total).to eq(0.0)
+    end
+  end
+
   context 'when squeeze reassigns tier-1.5 rows to earlier bench positions' do
     # Two identical rows can use bench1 or bench3 (both 1.5).
     # A zero-tier row holds bench1 in phase 1 but escapes to bench2 via phase 2b,

@@ -14,7 +14,7 @@ module Scores
 
           update_round_players
 
-          Audit::CsvWriter.call(match, host_scores_hash.merge(guest_scores_hash))
+          audit_missed_players(host_scores_hash.merge(guest_scores_hash))
         end
       end
 
