@@ -94,6 +94,7 @@ Rails.application.routes.draw do
     put :auto_close, on: :member
     put :tours_update, on: :member
     get :stats
+    get :missed_players
     get :auto_subs
     get :generate_preview
     get :auto_subs_preview

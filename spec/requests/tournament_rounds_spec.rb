@@ -356,6 +356,188 @@ RSpec.describe 'Users' do
     end
   end
 
+  describe 'GET #missed_players' do
+    before do
+      get tournament_round_missed_players_path(tournament_round)
+    end
+
+    context 'when user is logged out' do
+      it { expect(response).to redirect_to('/users/sign_in') }
+      it { expect(response).to have_http_status(:found) }
+    end
+
+    context 'when user is logged in' do
+      login_user
+      before do
+        get tournament_round_missed_players_path(tournament_round)
+      end
+
+      it { expect(response).to redirect_to(leagues_path) }
+      it { expect(response).to have_http_status(:found) }
+    end
+
+    context 'when moderator is logged in' do
+      login_moderator
+      before do
+        get tournament_round_missed_players_path(tournament_round)
+      end
+
+      it { expect(response).to be_successful }
+      it { expect(response).to render_template(:missed_players) }
+      it { expect(response).to have_http_status(:ok) }
+    end
+
+    context 'when admin is logged in' do
+      login_admin
+      before do
+        get tournament_round_missed_players_path(tournament_round)
+      end
+
+      it { expect(response).to be_successful }
+      it { expect(response).to render_template(:missed_players) }
+      it { expect(response).to have_http_status(:ok) }
+    end
+  end
+
+  describe 'GET #auto_subs_preview' do
+    before do
+      get tournament_round_auto_subs_preview_path(tournament_round)
+    end
+
+    context 'when user is logged out' do
+      it { expect(response).to redirect_to('/users/sign_in') }
+      it { expect(response).to have_http_status(:found) }
+    end
+
+    context 'when user is logged in' do
+      login_user
+      before do
+        get tournament_round_auto_subs_preview_path(tournament_round)
+      end
+
+      it { expect(response).to be_successful }
+      it { expect(response).to render_template(:auto_subs_preview) }
+      it { expect(response).to have_http_status(:ok) }
+    end
+
+    context 'when moderator is logged in' do
+      login_moderator
+      before do
+        get tournament_round_auto_subs_preview_path(tournament_round)
+      end
+
+      it { expect(response).to be_successful }
+      it { expect(response).to render_template(:auto_subs_preview) }
+      it { expect(response).to have_http_status(:ok) }
+    end
+  end
+
+  describe 'GET #auto_subs' do
+    before do
+      allow(Substitutes::AutoBot).to receive(:for_round)
+      get tournament_round_auto_subs_path(tournament_round)
+    end
+
+    context 'when user is logged out' do
+      it { expect(response).to redirect_to('/users/sign_in') }
+      it { expect(response).to have_http_status(:found) }
+    end
+
+    context 'when user is logged in' do
+      login_user
+      before do
+        get tournament_round_auto_subs_path(tournament_round)
+      end
+
+      it { expect(response).to redirect_to(tournament_round_auto_subs_preview_path(tournament_round)) }
+      it { expect(response).to have_http_status(:found) }
+
+      it 'does not call AutoBot' do
+        expect(Substitutes::AutoBot).not_to have_received(:for_round)
+      end
+    end
+
+    context 'when moderator is logged in' do
+      login_moderator
+      before do
+        get tournament_round_auto_subs_path(tournament_round)
+      end
+
+      it { expect(response).to redirect_to(tournament_round_auto_subs_preview_path(tournament_round)) }
+      it { expect(response).to have_http_status(:found) }
+
+      it 'calls AutoBot' do
+        expect(Substitutes::AutoBot).to have_received(:for_round).with(tournament_round, preview: false)
+      end
+    end
+
+    context 'when admin is logged in' do
+      login_admin
+      before do
+        get tournament_round_auto_subs_path(tournament_round)
+      end
+
+      it { expect(response).to redirect_to(tournament_round_auto_subs_preview_path(tournament_round)) }
+
+      it 'calls AutoBot' do
+        expect(Substitutes::AutoBot).to have_received(:for_round).with(tournament_round, preview: false)
+      end
+    end
+  end
+
+  describe 'GET #generate_preview' do
+    before do
+      allow(Substitutes::AutoBot).to receive(:for_round)
+      get tournament_round_generate_preview_path(tournament_round)
+    end
+
+    context 'when user is logged out' do
+      it { expect(response).to redirect_to('/users/sign_in') }
+      it { expect(response).to have_http_status(:found) }
+    end
+
+    context 'when user is logged in' do
+      login_user
+      before do
+        get tournament_round_generate_preview_path(tournament_round)
+      end
+
+      it { expect(response).to redirect_to(tournament_round_auto_subs_preview_path(tournament_round)) }
+      it { expect(response).to have_http_status(:found) }
+
+      it 'does not call AutoBot' do
+        expect(Substitutes::AutoBot).not_to have_received(:for_round)
+      end
+    end
+
+    context 'when moderator is logged in' do
+      login_moderator
+      before do
+        get tournament_round_generate_preview_path(tournament_round)
+      end
+
+      it { expect(response).to redirect_to(tournament_round_auto_subs_preview_path(tournament_round)) }
+      it { expect(response).to have_http_status(:found) }
+
+      it 'calls AutoBot in preview mode' do
+        expect(Substitutes::AutoBot).to have_received(:for_round).with(tournament_round)
+      end
+    end
+
+    context 'when admin is logged in' do
+      login_admin
+      before do
+        get tournament_round_generate_preview_path(tournament_round)
+      end
+
+      it { expect(response).to redirect_to(tournament_round_auto_subs_preview_path(tournament_round)) }
+
+      it 'calls AutoBot in preview mode' do
+        expect(Substitutes::AutoBot).to have_received(:for_round).with(tournament_round)
+      end
+    end
+  end
+
   describe 'GET #auto_close' do
     before do
       put auto_close_tournament_round_path(tournament_round)

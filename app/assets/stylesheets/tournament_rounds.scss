@@ -109,11 +109,11 @@
     }
 
     .round-missed-players {
-      padding-top: 16px;
+      padding-top: 32px;
 
       .round-missed-players-title {
+        font-family: 'Nunito Bold';
         font-size: 18px;
-        font-weight: bold;
         margin-bottom: 12px;
       }
 
@@ -121,12 +121,8 @@
         margin-bottom: 24px;
 
         .round-missed-players-match-title {
-          font-weight: bold;
-          margin-bottom: 6px;
-        }
-
-        .round-missed-players-table {
-          width: auto;
+          font-family: 'Nunito Bold';
+          margin: 24px 0 12px;
         }
       }
     }
@@ -198,6 +194,18 @@
       .round-action-link-stats {
         background: #D8D6FF;
         border: 1px solid #040052;
+      }
+
+      .round-action-close {
+        background: #EC9797;
+        border: 1px solid red;
+      }
+
+      .round-action-subs-links {
+        margin-top: 16px;
+        padding-top: 8px;
+        width: fit-content;
+        border-top: 1px solid #E5E6E4;
       }
     }
   }
