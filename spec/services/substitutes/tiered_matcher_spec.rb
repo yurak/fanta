@@ -468,6 +468,40 @@ RSpec.describe Substitutes::TieredMatcher do
     end
   end
 
+  # Dd can only reach col0(3.0) and col1(1.5), but both are taken by Dc and E
+  # with zero-malus matches that have no alternative zero-malus escape.
+  # The algorithm must leave Dd unmatched rather than sacrifice zero-malus count.
+  context 'when Dd, Dc, E did not play, bench has E, Dc/E, T, T/W' do
+    # col0=E, col1=Dc/E, col2=T, col3=T/W
+    let(:grid) do
+      [
+        [3.0, 1.5, 'X', 'X'], # Dd: can only use E(3.0) or Dc/E(1.5)
+        ['X', 0,   'X', 'X'], # Dc: only Dc/E(0)
+        [0,   0,   'X', 3.0]  # E:  E(0), Dc/E(0), or T/W(3.0)
+      ]
+    end
+
+    it 'matches Dc to Dc/E bench with zero malus' do
+      assignments, = result
+      expect(assignments).to include([1, 1, 0.0])
+    end
+
+    it 'matches E to E bench with zero malus' do
+      assignments, = result
+      expect(assignments).to include([2, 0, 0.0])
+    end
+
+    it 'leaves Dd unmatched' do
+      assignments, = result
+      expect(assignments.map(&:first)).not_to include(0)
+    end
+
+    it 'returns total malus of 0.0' do
+      _, total = result
+      expect(total).to eq(0.0)
+    end
+  end
+
   context 'when squeeze reassigns tier-1.5 rows to earlier bench positions' do
     # Two identical rows can use bench1 or bench3 (both 1.5).
     # A zero-tier row holds bench1 in phase 1 but escapes to bench2 via phase 2b,

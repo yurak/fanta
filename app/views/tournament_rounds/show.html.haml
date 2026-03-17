@@ -29,7 +29,7 @@
             = link_to t('round.inject_scores'), inject_scores_tour_path(tournament_round.tours.first, redirect: 'round'), data: { confirm: t('header.are_you_sure') }
         .round-action-link.round-action-link-stats
           = link_to t('round.stats'), tournament_round_stats_path(tournament_round)
-        .round-action-link
+        .round-action-link.round-action-link-stats
           = link_to t('round.missed_players'), tournament_round_missed_players_path(tournament_round)
 
         - if current_user&.can_moderate?
