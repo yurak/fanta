@@ -15,6 +15,7 @@ module Substitutes
       phase1
       phase2
       improve
+      squeeze
       report
     end
 
@@ -125,6 +126,88 @@ module Substitutes
 
     def improve
       loop { break unless improve_pass }
+    end
+
+    # After malus is optimised, reassign each tier's rows to the earliest possible bench
+    # positions (lowest column indices) without reducing the number of matched rows.
+    def squeeze
+      tiers = (0...@eligible_rows.size).filter_map do |i|
+        c = @match_row[i]
+        next if c == -1
+
+        @grid[@eligible_rows[i]][c]
+      end.uniq.sort
+
+      tiers.each { |v| squeeze_tier(v) }
+    end
+
+    # Greedy-reassign rows matched at +malus_val+ to their lowest available column.
+    # Rolls back if any row in the tier loses its match (cross-tier column conflicts).
+    def squeeze_tier(malus_val)
+      tier_idxs = (0...@eligible_rows.size).select do |i|
+        c = @match_row[i]
+        c != -1 && @grid[@eligible_rows[i]][c] == malus_val
+      end
+      return if tier_idxs.empty?
+
+      tier_edges = build_tier_edges(tier_idxs, malus_val)
+      saved_col  = @match_col.dup
+      saved_row  = @match_row.dup
+
+      unmatch_tier(tier_idxs)
+      greedy_assign_tier(tier_idxs, tier_edges).each do |i|
+        augment_tier(i, tier_edges, Array.new(@n, false))
+      end
+
+      return unless tier_idxs.any? { |i| @match_row[i] == -1 }
+
+      @match_col = saved_col
+      @match_row = saved_row
+    end
+
+    def build_tier_edges(tier_idxs, malus_val)
+      tier_idxs.to_h do |i|
+        r = @eligible_rows[i]
+        [i, (0...@n).select { |c| @grid[r][c] == malus_val }]
+      end
+    end
+
+    def unmatch_tier(tier_idxs)
+      tier_idxs.each do |i|
+        @match_col[@match_row[i]] = -1
+        @match_row[i] = -1
+      end
+    end
+
+    # Returns indices of rows that could not be assigned greedily.
+    def greedy_assign_tier(tier_idxs, tier_edges)
+      tier_idxs.reject do |i|
+        tier_edges[i].any? do |c|
+          next false if @match_col[c] != -1
+
+          @match_col[c] = i
+          @match_row[i] = c
+          true
+        end
+      end
+    end
+
+    # Augmenting path within a single malus tier (only displaces rows in tier_edges).
+    def augment_tier(idx, tier_edges, visited)
+      tier_edges[idx].each do |c|
+        next if visited[c]
+
+        visited[c] = true
+        j = @match_col[c]
+
+        next unless j == -1 || (tier_edges.key?(j) && augment_tier(j, tier_edges, visited))
+
+        @match_col[c] = idx
+        @match_row[idx] = c
+        return true
+      end
+
+      false
     end
 
     def improve_pass
