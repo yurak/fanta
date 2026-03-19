@@ -2,6 +2,7 @@ class Team < ApplicationRecord
   belongs_to :league, optional: true
   belongs_to :user, optional: true
 
+  has_one :join, dependent: :destroy
   has_many :auction_bids, dependent: :destroy
   has_many :player_teams, dependent: :destroy
   has_many :players, through: :player_teams
@@ -18,8 +19,12 @@ class Team < ApplicationRecord
 
   MAX_PLAYERS = 26
   MIN_GK = 3
+  MIN_GK_INIT = 3
   DEFAULT_BUDGET = 260
+  RESERVED_BUDGET = 40
+  INITIAL_BUDGET = 220
   SLOTS_BY_AUCTION = 5
+  JOIN_SLOTS = 11
   TRANSFER_SLOTS = 16
   RESERVE_TRANSFER_SLOTS = [0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20].freeze
 

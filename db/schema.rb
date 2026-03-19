@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2026_03_17_094346) do
+ActiveRecord::Schema.define(version: 2026_03_18_125534) do
 
   create_table "article_tags", force: :cascade do |t|
     t.string "name", default: "", null: false
@@ -131,6 +131,19 @@ ActiveRecord::Schema.define(version: 2026_03_17_094346) do
     t.datetime "updated_at", null: false
     t.integer "user_id"
     t.index ["user_id"], name: "index_join_requests_on_user_id"
+  end
+
+  create_table "joins", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "tournament_id", null: false
+    t.integer "team_id", null: false
+    t.integer "status", default: 0, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["team_id"], name: "index_joins_on_team_id"
+    t.index ["tournament_id"], name: "index_joins_on_tournament_id"
+    t.index ["user_id", "tournament_id"], name: "index_joins_on_user_id_and_tournament_id", unique: true
+    t.index ["user_id"], name: "index_joins_on_user_id"
   end
 
   create_table "leagues", force: :cascade do |t|
@@ -594,6 +607,9 @@ ActiveRecord::Schema.define(version: 2026_03_17_094346) do
   add_foreign_key "auctions", "leagues"
   add_foreign_key "clubs", "tournaments"
   add_foreign_key "join_requests", "users"
+  add_foreign_key "joins", "teams"
+  add_foreign_key "joins", "tournaments"
+  add_foreign_key "joins", "users"
   add_foreign_key "leagues", "seasons"
   add_foreign_key "links", "tournaments"
   add_foreign_key "match_players", "round_players"

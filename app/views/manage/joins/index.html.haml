@@ -1,0 +1,39 @@
+.page-block
+  .web-header= render 'layouts/left_nav', league: nil
+  .mob-header= render 'layouts/mob_header', league: nil, title: t('admin.joins.title')
+  .page-info.admin-joins-page
+    %h2= t('admin.joins.title')
+
+    - if flash[:notice]
+      .alert.alert-success= flash[:notice]
+
+    - if @joins.any?
+      %table.table.table-hover
+        %thead.thead-light
+          %tr
+            %th= t('admin.joins.user')
+            %th= t('admin.joins.team')
+            %th= t('admin.joins.tournament')
+            %th= t('admin.joins.submitted_at')
+            %th= t('admin.joins.actions')
+        %tbody
+          - @joins.each do |join|
+            %tr
+              %td= join.user.name
+              %td
+                = image_tag(join.team.logo_path, width: 24, height: 24)
+                = join.team.human_name
+              %td= join.tournament.name
+              %td= join.created_at.strftime('%d %b %Y')
+              %td
+                = form_tag(approve_manage_join_path(join), method: :post, style: 'display:inline') do
+                  .approve-form-fields
+                    = select_tag :league_id,
+                                 options_from_collection_for_select(join.tournament.leagues.active, :id, :name),
+                                 class: 'form-control form-control-sm d-inline-block w-auto mr-1',
+                                 prompt: t('admin.joins.select_league')
+                    = submit_tag t('admin.joins.approve'), class: 'btn btn-sm btn-success mr-1'
+                = form_tag(reject_manage_join_path(join), method: :post, style: 'display:inline') do
+                  = submit_tag t('admin.joins.reject'), class: 'btn btn-sm btn-danger'
+    - else
+      %p.text-muted= t('admin.joins.empty')

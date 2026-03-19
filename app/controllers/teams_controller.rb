@@ -15,15 +15,15 @@ class TeamsController < ApplicationController
   end
 
   def create
-    redirect_to root_path if current_user.teams.any?
-
     team = Team.new(create_params)
 
     if team.save
-      team.user.with_team!
-      redirect_to new_join_request_path
+      bid = create_join_records(team)
+      return redirect_to join_path, alert: flash[:alert] if bid.nil?
+
+      redirect_to auction_bid_path(bid)
     else
-      render :new
+      redirect_to join_path, alert: team.errors.full_messages.join(', ')
     end
   end
 
@@ -51,8 +51,20 @@ class TeamsController < ApplicationController
     team.user == current_user
   end
 
+  def create_join_records(team)
+    tournament = Tournament.find(join_tournament_id)
+    Join.create!(user: current_user, tournament: tournament, team: team, status: :initial)
+    bid = AuctionBid.create!(team: team, status: :initial)
+    Team::JOIN_SLOTS.times { bid.player_bids.create! }
+    bid
+  rescue ActiveRecord::RecordInvalid => e
+    team.destroy
+    flash[:alert] = e.message
+    nil
+  end
+
   def create_params
-    input_params.merge(code: input_params[:human_name].delete(" \t\r\n")[0..2].upcase, name: generate_name, user_id: current_user.id)
+    input_params.except(:tournament_id).merge(code: input_params[:code]&.upcase, name: generate_name, user_id: current_user.id)
   end
 
   def generate_name
@@ -63,7 +75,11 @@ class TeamsController < ApplicationController
     input_params.merge(code: input_params[:code]&.upcase)
   end
 
+  def join_tournament_id
+    input_params[:tournament_id]
+  end
+
   def input_params
-    params.require(:team).permit(:code, :human_name, :logo_url)
+    params.require(:team).permit(:code, :human_name, :logo_url, :tournament_id)
   end
 end

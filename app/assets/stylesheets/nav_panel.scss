@@ -19,13 +19,32 @@
     flex: 1 1 auto;
     overflow-y: auto;
     min-height: 0;
-
     scrollbar-width: none;
     -ms-overflow-style: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
 
-  .nav-logo-teams::-webkit-scrollbar {
-    display: none;
+  .nav-logo-join {
+    position: sticky;
+    bottom: 0;
+    background: #fff;
+    margin: 6px 12px;
+    text-align: center;
+    padding: 6px;
+    cursor: pointer;
+    border-radius: 4px;
+
+    img {
+      width: 32px;
+      height: 32px;
+    }
+
+    &:hover {
+      background: #F4F4F4;
+    }
   }
 
   .root-logo {
@@ -88,7 +107,7 @@
     margin: auto;
   }
 
-  .nav-link-title {
+.nav-link-title {
     font-size: 10px;
     line-height: 14px;
     color: #847577;

@@ -23,9 +23,7 @@ class ApplicationController < ActionController::Base
       redirect_to_new_name
     elsif current_user.named?
       redirect_to_new_avatar
-    elsif current_user.with_avatar?
-      redirect_to_new_team
-    elsif current_user.with_team?
+    else
       redirect_to_join_request
     end
   end
@@ -40,9 +38,5 @@ class ApplicationController < ActionController::Base
 
   def redirect_to_join_request
     redirect_to new_join_request_path if params[:controller] != 'join_requests'
-  end
-
-  def redirect_to_new_team
-    redirect_to new_team_path if params[:controller] != 'teams'
   end
 end

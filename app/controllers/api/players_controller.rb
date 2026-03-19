@@ -1,5 +1,5 @@
 module Api
-  class PlayersController < ApplicationController
+  class PlayersController < Api::ApplicationController
     skip_before_action :authenticate_user!, only: %i[index show stats]
 
     respond_to :json

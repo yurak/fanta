@@ -1,3 +1,4 @@
+- nav_tournament = local_assigns.fetch(:tournament, league&.tournament)
 .right-nav{ class: "active-right-nav-#{ user_team_by_league(current_user, league).present? }"}
   - if league
     .league-name
@@ -99,3 +100,13 @@
           .league-team-name= user_team_by_league(current_user, league).human_name
       - else
         .league-team-empty= t('header.not_participant')
+  - elsif nav_tournament
+    - nav_season = Season.last
+    .league-name= nav_tournament.name
+    - if nav_season
+      .league-season= "#{t('header.season')} #{nav_season.start_year.to_s[2..3]}-#{nav_season.end_year.to_s[2..3]} • Mantra"
+    .league-links
+      = link_to players_path(tournament: nav_tournament) do
+        .league-link{class: "link-active-#{ params[:controller] == 'players' && params[:action] == 'index' }"}
+          .league-link-icon= image_tag('icons/round/players.svg')
+          .league-link-text= t('header.players')

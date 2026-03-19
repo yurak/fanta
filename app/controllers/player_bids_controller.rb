@@ -6,7 +6,7 @@ class PlayerBidsController < ApplicationController
       auction_bid.ongoing! if auction_bid.submitted?
 
       bid = player_bid_params
-      bid = bid.merge(price: player.stats_price) if auction_round.min_price_active? && bid[:price].to_i < player.stats_price
+      bid = bid.merge(price: player.stats_price) if auction_round&.min_price_active? && bid[:price].to_i < player.stats_price
 
       player_bid.update(bid)
     end
@@ -17,13 +17,13 @@ class PlayerBidsController < ApplicationController
   private
 
   def valid_update?
-    player_bid && player && auction_round.active? && player_available? && auction_bid.editable?
+    player_bid && player && (auction_round.nil? || auction_round.active?) && player_available? && auction_bid.editable?
   end
 
   def player_available?
     return false unless team && team == auction_bid.team
-    return false if team.dumped_player_ids(auction).include?(player.id)
-    return false if player.teams.map(&:league_id).include?(league.id)
+    return false if auction && team.dumped_player_ids(auction).include?(player.id)
+    return false if league && player.teams.map(&:league_id).include?(league.id)
 
     true
   end
@@ -41,11 +41,11 @@ class PlayerBidsController < ApplicationController
   end
 
   def team
-    @team ||= current_user&.team_by_league(league)
+    @team ||= league ? current_user&.team_by_league(league) : auction_bid.team
   end
 
   def auction
-    @auction ||= auction_round.auction
+    @auction ||= auction_round&.auction
   end
 
   def auction_bid
@@ -57,6 +57,6 @@ class PlayerBidsController < ApplicationController
   end
 
   def league
-    @league ||= auction.league
+    @league ||= auction&.league
   end
 end

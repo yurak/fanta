@@ -10,9 +10,11 @@ class PlayerBaseSerializer < ActiveModel::Serializer
   attributes :first_name
   attributes :league_price
   attributes :league_team_logo
+  attributes :leagues
   attributes :name
   attributes :position_classic_arr
   attributes :position_ital_arr
+  attributes :stats_price
   attributes :teams_count
   attributes :teams_count_max
 
@@ -63,6 +65,12 @@ class PlayerBaseSerializer < ActiveModel::Serializer
   def teams_count_max
     object.club&.tournament&.leagues&.active&.size || 0
   end
+
+  def leagues
+    teams.pluck(:league_id)
+  end
+
+  delegate :stats_price, to: :object
 
   private
 

@@ -23,6 +23,17 @@ Rails.application.routes.draw do
   get 'guide',    to: 'welcome#guide'
   get 'rules',    to: 'welcome#rules'
 
+  get '/join', to: 'join#index', as: :join
+
+  namespace :manage do
+    resources :joins, only: [:index] do
+      member do
+        post :approve
+        post :reject
+      end
+    end
+  end
+
   get  'unsubscribe', to: 'subscriptions#unsubscribe', as: :unsubscribe
   post 'unsubscribe', to: 'subscriptions#confirm_unsubscribe'
 
@@ -33,6 +44,10 @@ Rails.application.routes.draw do
 
   resources :auction_rounds, only: [:show] do
     resources :auction_bids, only: [:update]
+  end
+
+  resources :auction_bids, only: [:show, :update] do
+    member { post :submit }
   end
 
   resources :join_requests, only: [:new, :create, :index]
@@ -69,7 +84,7 @@ Rails.application.routes.draw do
 
   resources :slots, only: [:index]
 
-  resources :teams, only: [:show, :edit, :update, :new, :create] do
+  resources :teams, only: [:show, :edit, :update, :create] do
     resources :lineups, only: [:show, :new, :create, :edit, :update] do
       collection { get :clone }
     end

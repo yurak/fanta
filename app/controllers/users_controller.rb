@@ -26,7 +26,7 @@ class UsersController < ApplicationController
     if !user.initial? && user.save
       update_user_profile
 
-      redirect_to user.named? ? new_avatar_user_path(user) : new_team_path
+      redirect_to user.named? ? new_avatar_user_path(user) : new_join_request_path
     else
       redirect_to new_name_user_path(user)
     end

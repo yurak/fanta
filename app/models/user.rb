@@ -5,6 +5,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :trackable, :validatable
 
   has_many :join_requests, dependent: :destroy
+  has_many :joins, dependent: :destroy
   has_many :teams, dependent: :destroy
   has_many :leagues, through: :teams
   has_many :results, through: :teams

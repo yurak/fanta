@@ -6,6 +6,7 @@ class Tournament < ApplicationRecord
   has_many :national_teams, dependent: :destroy
   has_many :player_season_stats, dependent: :destroy
   has_many :tournament_rounds, dependent: :destroy
+  has_many :joins, dependent: :destroy
   has_many :ec_clubs, foreign_key: 'ec_tournament_id', class_name: 'Club',
                       dependent: :destroy, inverse_of: :ec_tournament
 

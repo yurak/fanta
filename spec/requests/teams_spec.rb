@@ -68,37 +68,95 @@ RSpec.describe 'Teams' do
       it { expect(response).to have_http_status(:found) }
     end
 
-    context 'when user is logged in' do
+    context 'when user is logged in without tournament_id' do
       let(:logged_user) { create(:user, status: 'with_avatar') }
+      let(:human_name) { '' }
 
       before do
         sign_in logged_user
         post teams_path(params)
       end
 
-      context 'with valid params' do
-        it { expect(response).to redirect_to(new_join_request_path) }
-        it { expect(response).to have_http_status(:found) }
-
-        it 'creates team with specified human_name' do
-          expect(Team.last.human_name).to eq(human_name)
-        end
-
-        it 'creates team with specified logo_url' do
-          expect(Team.last.logo_url).to eq(logo_url)
-        end
-
-        it 'updates team user status' do
-          expect(logged_user.reload.status).to eq('with_team')
-        end
-      end
-
       context 'with invalid params' do
-        let(:human_name) { '' }
-
         it { expect(response).to be_successful }
         it { expect(response).to render_template(:new) }
         it { expect(response).to have_http_status(:ok) }
+      end
+    end
+
+    context 'when user joins via the new flow (tournament_id present)' do
+      let(:tournament) { create(:tournament) }
+      let(:logged_user) { create(:user, status: :with_avatar) }
+      let(:join_params) do
+        {
+          team: {
+            human_name: 'Forza',
+            logo_url: 'forza.png',
+            code: 'FRZ',
+            tournament_id: tournament.id
+          }
+        }
+      end
+
+      before do
+        sign_in logged_user
+        post teams_path(join_params)
+      end
+
+      it 'creates the team' do
+        expect(Team.last.human_name).to eq('Forza')
+      end
+
+      it 'uses the user-provided code' do
+        expect(Team.last.code).to eq('FRZ')
+      end
+
+      it 'creates an initial Join record' do
+        expect(Join.last).to have_attributes(
+          user: logged_user,
+          tournament: tournament,
+          status: 'initial'
+        )
+      end
+
+      it 'creates a draft AuctionBid without auction_round' do
+        expect(AuctionBid.last).to have_attributes(
+          team: Team.last,
+          auction_round: nil
+        )
+      end
+
+      it 'redirects to the auction bid page' do
+        expect(response).to redirect_to(auction_bid_path(AuctionBid.last))
+      end
+    end
+
+    context 'when user tries to join a tournament they already applied to' do
+      let(:tournament) { create(:tournament) }
+      let(:logged_user) { create(:user, status: :with_avatar) }
+      let(:join_params) do
+        {
+          team: {
+            human_name: 'Forza',
+            logo_url: 'forza.png',
+            code: 'FRZ',
+            tournament_id: tournament.id
+          }
+        }
+      end
+
+      before do
+        create(:join, user: logged_user, tournament: tournament, team: create(:team), status: :pending)
+        sign_in logged_user
+        post teams_path(join_params)
+      end
+
+      it 'does not create a second Join record' do
+        expect(Join.where(user: logged_user, tournament: tournament).count).to eq(1)
+      end
+
+      it 'redirects to join path with alert' do
+        expect(response).to redirect_to(join_path)
       end
     end
   end

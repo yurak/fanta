@@ -205,3 +205,87 @@
     }
   }
 }
+
+.auction-bid-pending-page {
+  padding: 48px 0 100px 172px;
+  max-width: 480px;
+
+  .auction-bid-pending-team {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+
+  .auction-bid-pending-logo {
+    width: 56px;
+    height: 56px;
+    object-fit: contain;
+  }
+
+  .auction-bid-pending-team-name {
+    font-family: 'Nunito Bold';
+    margin: 0;
+  }
+
+  .auction-bid-pending-status {
+    margin-bottom: 20px;
+  }
+
+  .auction-bid-pending-status-badge {
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-family: 'Nunito Bold';
+
+    &.status-pending {
+      background: #fff3cd;
+      color: #856404;
+    }
+
+    &.status-approved {
+      background: #d4edda;
+      color: #155724;
+    }
+
+    &.status-rejected {
+      background: #f8d7da;
+      color: #721c24;
+    }
+  }
+
+  .auction-bid-pending-tournament {
+    font-size: 15px;
+    color: #847577;
+    margin-bottom: 12px;
+  }
+
+  .auction-bid-pending-desc {
+    font-size: 15px;
+    color: #555;
+    line-height: 1.6;
+  }
+}
+
+
+.ab-players-loader {
+  display: none;
+  text-align: center;
+  padding: 24px 0;
+
+  &::after {
+    content: '';
+    display: inline-block;
+    width: 28px;
+    height: 28px;
+    border: 3px solid #e0e0e0;
+    border-top-color: #555;
+    border-radius: 50%;
+    animation: ab-spin 0.7s linear infinite;
+  }
+}
+
+@keyframes ab-spin {
+  to { transform: rotate(360deg); }
+}

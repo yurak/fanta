@@ -9,6 +9,9 @@
           .nav-logo{ class: "nav-logo-#{ team.league == league }"}
             = link_to league_link(team.league) do
               = image_tag(team.league.tournament.logo_path)
+      .nav-logo-join
+        = link_to join_path do
+          = image_tag('icons/plus_sign.svg')
   .nav-logo-bottom
     .nav-logo-small
       = link_to leagues_path do
@@ -38,6 +41,10 @@
         = link_to rails_admin_path do
           .nav-link-icon= '⛔️'
           .nav-link-title= t('header.admin')
+      .nav-logo-small
+        = link_to manage_joins_path do
+          .nav-link-icon= '📋'
+          .nav-link-title= t('admin.joins.title')
     - if user_signed_in?
       .nav-logo-small
         = link_to user_path(current_user) do

@@ -258,7 +258,7 @@ RSpec.describe 'Users' do
         get new_name_user_path(user)
       end
 
-      it { expect(response).to redirect_to(new_team_path) }
+      it { expect(response).to redirect_to(new_join_request_path) }
       it { expect(response).to have_http_status(:found) }
     end
 
@@ -411,7 +411,7 @@ RSpec.describe 'Users' do
         put new_update_user_path(logged_user, params)
       end
 
-      it { expect(response).to redirect_to(new_team_path) }
+      it { expect(response).to redirect_to(new_join_request_path) }
       it { expect(response).to have_http_status(:found) }
 
       it 'updates user avatar' do

@@ -1,0 +1,88 @@
+#join-team-modal.join-modal
+  .join-modal-content
+    .join-modal-header
+      %h4= t('join.create_team')
+      %button.join-modal-close{ type: 'button' } ×
+
+    = form_for :team, url: teams_path, method: :post do |f|
+      = f.hidden_field :tournament_id, id: 'join-tournament-id'
+      = f.hidden_field :logo_url, value: nil, id: 'join-logo-url'
+
+      .join-modal-logo
+        .join-modal-logo-label= t('teams.new.logo')
+        #join-logo-btn.join-modal-logo-preview
+          = image_tag('icons/team_logo_folder.svg', id: 'join-logo-preview-img')
+        %button.join-modal-logo-remove{ type: 'button', id: 'join-logo-remove' }= t('join.remove_logo')
+        #join-logo-grid.join-modal-logo-grid
+          - (1..141).each do |i|
+            .join-modal-logo-item= image_tag("https://mantrafootball.s3.eu-west-1.amazonaws.com/teams/default_icons/default#{i}.png")
+
+      .join-modal-input-field
+        %label.join-modal-input-label{ for: 'team_human_name' }= t('teams.new.name')
+        = f.text_field :human_name, class: 'join-modal-input', placeholder: t('teams.new.name'),
+                       minlength: 2, maxlength: 24, required: true
+      .join-modal-input-field
+        %label.join-modal-input-label{ for: 'team_code' }= t('join.code')
+        = f.text_field :code, class: 'join-modal-input join-code-input', placeholder: t('join.code_placeholder'),
+                       minlength: 2, maxlength: 3, required: true,
+                       data: { pattern: '^[a-zA-Z0-9]+$' }
+      %small.join-modal-input-hint= t('join.code_hint')
+
+      .join-modal-footer
+        %button.grey-btn{ type: 'button', id: 'join-modal-cancel' }= t('join.cancel')
+        = f.submit t('join.continue'), class: 'blue-btn'
+
+:javascript
+  (function() {
+    var modal      = document.getElementById('join-team-modal');
+    var closeBtn   = modal.querySelector('.join-modal-close');
+    var cancelBtn  = document.getElementById('join-modal-cancel');
+    var logoBtn    = document.getElementById('join-logo-btn');
+    var logoRemove = document.getElementById('join-logo-remove');
+    var logoGrid   = document.getElementById('join-logo-grid');
+    var logoUrlField = document.getElementById('join-logo-url');
+    var previewImg = document.getElementById('join-logo-preview-img');
+    var tournamentField = document.getElementById('join-tournament-id');
+    var codeInput  = modal.querySelector('.join-code-input');
+    var defaultLogoSrc = previewImg.src;
+
+    function openModal() { modal.style.display = 'flex'; }
+    function closeModal() { modal.style.display = 'none'; }
+
+    document.querySelectorAll('.join-apply-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        tournamentField.value = this.dataset.tournamentId;
+        openModal();
+      });
+    });
+
+    closeBtn.addEventListener('click', closeModal);
+    cancelBtn.addEventListener('click', closeModal);
+
+    modal.addEventListener('click', function(e) {
+      if (e.target === modal) closeModal();
+    });
+
+    logoBtn.addEventListener('click', function() {
+      logoGrid.style.display = logoGrid.style.display === 'grid' ? 'none' : 'grid';
+    });
+
+    logoRemove.addEventListener('click', function() {
+      previewImg.src = defaultLogoSrc;
+      logoUrlField.value = '';
+      logoGrid.style.display = 'none';
+    });
+
+    modal.querySelectorAll('.join-modal-logo-item').forEach(function(item) {
+      item.addEventListener('click', function() {
+        var src = this.querySelector('img').src;
+        previewImg.src = src;
+        logoUrlField.value = src;
+        logoGrid.style.display = 'none';
+      });
+    });
+
+    codeInput.addEventListener('input', function() {
+      this.value = this.value.replace(/[^a-zA-Z0-9]/g, '');
+    });
+  })();

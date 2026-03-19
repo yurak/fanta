@@ -25,6 +25,7 @@
 @import "divisions";
 @import "footer";
 @import "header";
+@import "join";
 @import "join_requests";
 @import "leagues";
 @import "lineups";
@@ -1205,6 +1206,7 @@ body, html {
   font-size: 16px;
   line-height: 38px;
   text-align: center;
+  color: #ffffff;
 
   img {
     filter: invert(97%) sepia(7%) saturate(747%) hue-rotate(219deg) brightness(117%) contrast(91%); //#F4F4F4;

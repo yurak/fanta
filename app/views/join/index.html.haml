@@ -1,0 +1,38 @@
+.page-block
+  .web-header= render 'layouts/left_nav', league: nil
+  .mob-header= render 'layouts/mob_header', league: nil, title: t('join.title')
+  .page-info.join-page
+    .join-card
+      .join-card-header
+        %h2.join-card-title= t('join.title')
+      - if @tournaments.any?
+        .join-tournaments-list
+          - @tournaments.each do |tournament|
+            .join-tournament-item
+              .join-tournament-logo
+                = image_tag(tournament.logo_path)
+              .join-tournament-info
+                .join-tournament-name= tournament.name
+                .join-tournament-meta= "#{tournament.mode&.capitalize} · #{tournament.active_teams_count} #{t('join.teams')} · #{tournament.joins_count} #{t('join.applications')}"
+              .join-tournament-action
+                %button.join-apply-btn{ data: { tournament_id: tournament.id } }
+                  = t('join.apply')
+                  %span.join-apply-arrow ›
+      - else
+        .join-empty= t('join.no_leagues')
+      - if @user_joins.any?
+        .join-card-header.join-card-header-applications
+          %h2.join-card-title= t('join.my_applications')
+        .join-tournaments-list
+          - @user_joins.each do |join|
+            - bid = join.team.auction_bids.find { |b| b.auction_round_id.nil? }
+            = link_to auction_bid_path(bid), class: 'join-tournament-item' do
+              .join-tournament-logo
+                = image_tag(join.tournament.logo_path)
+              .join-tournament-info
+                .join-tournament-name= join.tournament.name
+                .join-tournament-meta= join.team.human_name
+              .join-tournament-action
+                .join-status-badge{ class: "join-status-#{join.status}" }= t("join.status.#{join.status}")
+
+= render 'join/team_modal'
