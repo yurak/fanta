@@ -8,7 +8,7 @@ namespace :tg do
       next if DateTime.now < (round.deadline - 3.hours)
       next if DateTime.now > (round.deadline - 2.5.hours)
 
-      TelegramBot::Auction::RoundDdlNotifier.call(round.auction)
+      Notifications::Creator.call(notifiable: round, kind: :auction_round_ddl)
     end
   end
 end
