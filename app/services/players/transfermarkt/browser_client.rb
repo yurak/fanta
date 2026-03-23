@@ -203,7 +203,10 @@ module Players
       def obtain_html(page, cache_key:)
         html = safe_page_content(page)
 
-        dump_debug(page, cache_key: cache_key) unless html.include?('data-header')
+        unless html.include?('data-header')
+          dump_debug(page, cache_key: cache_key)
+          raise RestClient::Exception, "Invalid TM page (no data-header) for key=#{cache_key}"
+        end
 
         if html.include?('Human Verification') || html.include?('captcha')
           dump_debug(page, cache_key: cache_key)

@@ -48,6 +48,8 @@ module Players
       end
 
       def club
+        return nil if tm_club_name.blank?
+
         @club ||= Club.find_by(tm_name: tm_club_name) || Club.where('reserve_clubs LIKE ?', "%#{tm_club_name}%").first
       end
 

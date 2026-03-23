@@ -19,7 +19,7 @@ class Team < ApplicationRecord
   MAX_PLAYERS = 26
   MIN_GK = 3
   DEFAULT_BUDGET = 260
-  SLOTS_BY_AUCTION = 4
+  SLOTS_BY_AUCTION = 5
   TRANSFER_SLOTS = 16
   RESERVE_TRANSFER_SLOTS = [0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20].freeze
 

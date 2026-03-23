@@ -21,8 +21,8 @@ namespace :tm do
           html_page = Nokogiri::HTML(response)
           tm_club_name = html_page.css('.data-header__club').children[1]&.text
           tm_club_name = html_page.css('.data-header__club').children[0]&.text&.strip if tm_club_name.nil?
-          club = Club.find_by(tm_name: tm_club_name)
-          club_res = Club.where('reserve_clubs LIKE ?', "%#{tm_club_name}%").first unless club
+          club = tm_club_name.present? ? Club.find_by(tm_name: tm_club_name) : nil
+          club_res = Club.where('reserve_clubs LIKE ?', "%#{tm_club_name}%").first unless club || tm_club_name.blank?
           player_data = "Player #{player.id} / #{player.tm_id} #{player.name}"
 
           result = if club_res && club_res == player.club
