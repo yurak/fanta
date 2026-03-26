@@ -1,4 +1,3 @@
-# rubocop:disable Metrics/BlockLength:
 namespace :transfers do
   # rake transfers:outgoing_active_league
   desc 'Complete outgoing transfers for active league with auction deadline'
@@ -24,4 +23,3 @@ namespace :transfers do
     end
   end
 end
-# rubocop:enable Metrics/BlockLength
