@@ -7,6 +7,14 @@ FactoryBot.define do
       mode { :fanta }
     end
 
+    trait :with_36_rounds do
+      after(:create) do |tournament|
+        (1..36).each do |number|
+          create(:tournament_round, number: number, tournament: tournament)
+        end
+      end
+    end
+
     trait :with_38_rounds do
       after(:create) do |tournament|
         (1..38).each do |number|
