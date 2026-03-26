@@ -1064,6 +1064,12 @@
           "squad_complete": "%{icon} The squad for %{team_name} in the %{league_name} league has been formed.\n\n⌛️ Wait for the auction to end to view its details.\n\n#auction #%{code}",
           "start_bids": "%{icon} Auction round #%{number} has started in %{league_name} League.\n🔜 Deadline: %{deadline} (%{time_zone}) 🔚\n\n‼️️ You must bid on %{vacancies} players for %{team_name} - %{url}\n\n#auction #%{code}"
         },
+        "daily_schedule": {
+          "auction_round_item": "%{time} - %{icon} %{league_name} - Auction round #%{number} 🛒",
+          "auction_sales_item": "%{time} - %{icon} %{league_name} - Sales period 💸",
+          "header": "📅 Today's deadline schedule (%{time_zone}):",
+          "tour_item": "%{time} - %{icon} %{league_name} - Round #%{number} ⚽️"
+        },
         "player": {
           "left": "%{icon} %{player_name} from %{team_name} left %{tournament_name} tournament.\n💵 You will be able to replace him at the next auction.\n\n#player #%{code}"
         },
@@ -2401,6 +2407,12 @@
           "sales_open": "%{icon} Трансферне вікно у лізі %{league_name} відкрито.\n🔜 Дедлайн: %{deadline} (%{time_zone}) 🔚\n\n‼️️ Ви можете обрати до %{available_transfers} гравців для продажу з команди %{team_name} - %{url}\n\n#auction #%{code}",
           "squad_complete": "%{icon} Склад команди %{team_name} у лізі %{league_name} сформовано.\n\n⌛️ Очікуйте на завершення аукціону, щоб переглянути його деталі.\n\n#auction #%{code}",
           "start_bids": "%{icon} Етап #%{number} аукціону розпочався в лізі %{league_name}.\n🔜 Дедлайн: %{deadline} (%{time_zone}) 🔚\n\n‼️️ Вам необхідно зробити ставку на %{vacancies} гравців для команди %{team_name} - %{url}\n\n#auction #%{code}"
+        },
+        "daily_schedule": {
+          "auction_round_item": "%{time} - %{icon} %{league_name} - Етап #%{number} аукціону 🛒",
+          "auction_sales_item": "%{time} - %{icon} %{league_name} - Період продажів 💸",
+          "header": "📅 Розклад дедлайнів на сьогодні (%{time_zone}):",
+          "tour_item": "%{time} - %{icon} %{league_name} - Раунд #%{number} ⚽️"
         },
         "player": {
           "left": "%{icon} %{player_name} з команди %{team_name} покинув чемпіонат %{tournament_name}.\n💵 Ви зможете замінити його на наступному аукціоні.\n\n#player #%{code}"

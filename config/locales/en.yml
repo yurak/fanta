@@ -1154,6 +1154,11 @@ en:
         start_bids: "%{icon} Auction round #%{number} has started in %{league_name} League.\n🔜 Deadline: %{deadline} (%{time_zone}) 🔚\n\n‼️️ You must bid on %{vacancies} players for %{team_name} - %{url}\n\n#auction #%{code}"
       player:
         left: "%{icon} %{player_name} from %{team_name} left %{tournament_name} tournament.\n💵 You will be able to replace him at the next auction.\n\n#player #%{code}"
+      daily_schedule:
+        header: "📅 Today's deadline schedule (%{time_zone}):"
+        tour_item: "%{time} - %{icon} %{league_name} - Round #%{number} ⚽️"
+        auction_round_item: "%{time} - %{icon} %{league_name} - Auction round #%{number} 🛒"
+        auction_sales_item: "%{time} - %{icon} %{league_name} - Sales period 💸"
       tour:
         closed: "%{icon} Round #%{number} of %{league_name} League has been closed.\n🔴 You can check the final results here - %{url}\n\n#tour #%{code}"
         ddl: "%{icon} The deadline of round #%{number} is today at %{deadline} (%{time_zone})\n\n🟡 Create your lineup - %{url}\n\n#tour #%{code}"

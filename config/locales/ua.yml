@@ -1179,6 +1179,11 @@ ua:
         start_bids: "%{icon} Етап #%{number} аукціону розпочався в лізі %{league_name}.\n🔜 Дедлайн: %{deadline} (%{time_zone}) 🔚\n\n‼️️ Вам необхідно зробити ставку на %{vacancies} гравців для команди %{team_name} - %{url}\n\n#auction #%{code}"
       player:
         left: "%{icon} %{player_name} з команди %{team_name} покинув чемпіонат %{tournament_name}.\n💵 Ви зможете замінити його на наступному аукціоні.\n\n#player #%{code}"
+      daily_schedule:
+        header: "📅 Розклад дедлайнів на сьогодні (%{time_zone}):"
+        tour_item: "%{time} - %{icon} %{league_name} - Раунд #%{number} ⚽️"
+        auction_round_item: "%{time} - %{icon} %{league_name} - Етап #%{number} аукціону 🛒"
+        auction_sales_item: "%{time} - %{icon} %{league_name} - Період продажів 💸"
       tour:
         closed: "%{icon} Раунд #%{number} ліги %{league_name} закрито.\n🔴 Ви можете перевірити остаточні результати тут - %{url}\n\n#tour #%{code}"
         ddl: "%{icon} Дедлайн туру #%{number} сьогодні в %{deadline} (%{time_zone})\n\n🟡 Виставте ваш склад - %{url}\n\n#tour #%{code}"
