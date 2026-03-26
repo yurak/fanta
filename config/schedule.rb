@@ -35,6 +35,11 @@ every '5,35 * * * *' do
   rake 'tg:send_auction_round_deadline'
 end
 
+# Send daily deadline schedule to users for whom it is 9:45 AM in their timezone
+every '45 * * * *' do
+  rake 'tg:send_daily_schedule'
+end
+
 # Save messages from Telegram Bot (works only when webhooks disabled)
 # every '20 * * * *' do
 #   rake 'tg:save_messages'

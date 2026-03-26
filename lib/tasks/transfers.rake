@@ -1,28 +1,9 @@
-# rubocop:disable Metrics/BlockLength:
 namespace :transfers do
   # rake transfers:outgoing_active_league
   desc 'Complete outgoing transfers for active league with auction deadline'
   task outgoing_active_league: :environment do
     League.active.each do |league|
-      auction = league.auctions.sales.last
-      next unless auction
-      next if auction.deadline.nil? || auction.deadline > DateTime.now
-
-      puts league.name
-      ActiveRecord::Base.transaction do
-        league.teams.each do |team|
-          players = team.player_teams.transferable
-          next unless players
-
-          team.update(transfer_slots: team.transfer_slots - players.count)
-          players.each do |pt|
-            puts "Transfer: #{pt.player.name} (#{pt.player.id}) from #{team.name}"
-            Transfers::Seller.call(pt.player, team, :outgoing)
-          end
-        end
-      end
-
-      Auctions::Manager.call(auction, league.auction_type)
+      Transfers::OutgoingProcessor.call(league)
     end
   end
 
@@ -42,4 +23,3 @@ namespace :transfers do
     end
   end
 end
-# rubocop:enable Metrics/BlockLength

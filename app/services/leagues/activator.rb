@@ -27,7 +27,7 @@ module Leagues
     def config_teams
       league.teams.each do |team|
         team.players.clear
-        team.update(budget: Team::DEFAULT_BUDGET, transfer_slots: Team::SLOTS_BY_AUCTION * auctions_number)
+        team.update(budget: Team::DEFAULT_BUDGET, transfer_slots: Team::SLOTS_BY_AUCTION * (auctions_number - 1))
       end
     end
 

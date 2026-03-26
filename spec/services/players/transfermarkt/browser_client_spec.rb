@@ -151,6 +151,85 @@ RSpec.describe Players::Transfermarkt::BrowserClient do
       end
     end
 
+    context 'when cache is expired' do
+      let(:fresh_html) { '<html><div class="data-header">fresh</div></html>' }
+
+      before do
+        FileUtils.mkdir_p(cache_path.dirname)
+        File.write(cache_path, '<html>old</html>')
+        old_time = Time.now.utc - (10 * 24 * 3600)
+        File.utime(old_time, old_time, cache_path)
+        stub_playwright_pipeline(html: fresh_html)
+        allow(Rails.logger).to receive(:info)
+      end
+
+      it 'fetches fresh html via browser' do
+        result = client.fetch_html(url, cache_key: cache_key, ttl: 86_400)
+
+        expect(result).to eq(fresh_html)
+      end
+    end
+
+    context 'when force: true is passed with fresh cache' do
+      let(:cached_html) { '<html><div class="data-header">cached</div></html>' }
+      let(:fresh_html)  { '<html><div class="data-header">fresh</div></html>' }
+
+      before do
+        FileUtils.mkdir_p(cache_path.dirname)
+        File.write(cache_path, cached_html)
+        stub_playwright_pipeline(html: fresh_html)
+        allow(Rails.logger).to receive(:info)
+      end
+
+      it 'bypasses cache and fetches from browser' do
+        result = client.fetch_html(url, cache_key: cache_key, ttl: 86_400, force: true)
+
+        expect(result).to eq(fresh_html)
+      end
+    end
+
+    context 'when page has no data-header (e.g. 502)' do
+      let(:bad_html) { '<html><head><title>502 Bad Gateway</title></head><body></body></html>' }
+
+      before do
+        FileUtils.rm_f(cache_path)
+        _browser, _context, page = stub_playwright_pipeline(html: bad_html)
+        allow(page).to receive(:screenshot)
+        allow(Rails.logger).to receive(:info)
+        allow(Rails.logger).to receive(:warn)
+      end
+
+      it 'raises RestClient::Exception' do
+        expect do
+          client.fetch_html(url, cache_key: cache_key, ttl: 86_400)
+        end.to raise_error(RestClient::Exception)
+      end
+
+      it 'does not write invalid html to cache' do
+        client.fetch_html(url, cache_key: cache_key, ttl: 86_400)
+      rescue RestClient::Exception
+        expect(File.exist?(cache_path)).to be(false)
+      end
+    end
+
+    context 'when live page contains captcha' do
+      let(:captcha_html) { '<html><div class="data-header">Human Verification</div></html>' }
+
+      before do
+        FileUtils.rm_f(cache_path)
+        _browser, _context, page = stub_playwright_pipeline(html: captcha_html)
+        allow(page).to receive(:screenshot)
+        allow(Rails.logger).to receive(:info)
+        allow(Rails.logger).to receive(:warn)
+      end
+
+      it 'raises CaptchaRequired' do
+        expect do
+          client.fetch_html(url, cache_key: cache_key, ttl: 86_400)
+        end.to raise_error(Players::Transfermarkt::CaptchaRequired)
+      end
+    end
+
     context 'when cached html contains Human Verification' do
       let(:cached_html) { '<html>Human Verification</html>' }
       let(:html_after)  { '<html><div class="data-header">OK</div></html>' }
@@ -254,6 +333,30 @@ RSpec.describe Players::Transfermarkt::BrowserClient do
         html = client.send(:safe_page_content, page, tries: 3)
 
         expect(html).to include('data-header')
+      end
+    end
+
+    context 'when all tries are exhausted with empty content' do
+      before do
+        allow(page).to receive(:content).and_return('')
+      end
+
+      it 'raises StandardError' do
+        expect do
+          client.send(:safe_page_content, page, tries: 2)
+        end.to raise_error(StandardError)
+      end
+    end
+
+    context 'when page returns captcha html' do
+      before do
+        allow(page).to receive(:content).and_return('<html>Human Verification</html>')
+      end
+
+      it 'returns the html (captcha check is done by obtain_html)' do
+        result = client.send(:safe_page_content, page, tries: 2)
+
+        expect(result).to include('Human Verification')
       end
     end
 

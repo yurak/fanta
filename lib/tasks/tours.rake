@@ -11,7 +11,7 @@ namespace :tours do
   task lock_deadline: :environment do
     League.active.each do |league|
       league.tours.set_lineup.each do |tour|
-        Tours::Manager.call(tour, Tours::Manager::LOCKED_STATUS) if tour.tournament_round.deadline < DateTime.now
+        Tours::DeadlineLocker.call(tour)
       end
     end
   end
@@ -20,14 +20,7 @@ namespace :tours do
   desc 'Close moderated tours'
   task auto_close: :environment do
     TournamentRound.moderated.each do |t_round|
-      hours = ((Time.zone.now - t_round.moderated_at) / 3_600).to_i
-
-      next if hours < TournamentRound::MODERATED_HOURS
-
-      t_round.tours.locked_postponed.each do |tour|
-        Tours::Manager.call(tour, Tours::Manager::CLOSED_STATUS)
-      end
-      t_round.update(moderated_at: nil)
+      Tours::AutoCloser.call(t_round)
     end
   end
 
@@ -35,16 +28,7 @@ namespace :tours do
   desc 'Inject scores for moderated tours'
   task auto_inject: :environment do
     TournamentRound.moderated.each do |t_round|
-      hours = ((Time.zone.now - t_round.moderated_at) / 3_600).to_i
-      next if [6, 12, 17].exclude?(hours)
-
-      injector = "Scores::Injectors::#{t_round.tournament.source.capitalize}".constantize
-      injector.call(t_round)
-
-      t_round.tours.each do |tour|
-        Scores::PositionMalus::Updater.call(tour)
-        Lineups::Updater.call(tour)
-      end
+      Tours::AutoInjector.call(t_round)
     end
   end
 
