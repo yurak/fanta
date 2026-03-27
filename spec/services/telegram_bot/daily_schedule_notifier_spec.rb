@@ -79,7 +79,7 @@ RSpec.describe TelegramBot::DailyScheduleNotifier do
     let(:auction)       { create(:auction, league: league) }
     let(:auction_round) { create(:auction_round, auction: auction, deadline: 3.hours.from_now) }
 
-    before { auction_round }
+    before { create(:auction_bid, auction_round: auction_round, team: user.teams.find_by(league: league)) }
 
     it { expect(notifier.call).to be_truthy }
 
@@ -94,10 +94,21 @@ RSpec.describe TelegramBot::DailyScheduleNotifier do
     end
   end
 
+  context 'with an active auction round but no bid for the user team' do
+    before do
+      auction = create(:auction, league: league)
+      create(:auction_round, auction: auction, deadline: 3.hours.from_now)
+    end
+
+    it { expect(notifier.call).to be(false) }
+  end
+
   context 'with a closed auction round deadline within 24 hours' do
     before do
       auction = create(:auction, league: league)
-      create(:closed_auction_round, auction: auction, deadline: 3.hours.from_now)
+      team = create(:team, user: user, league: league)
+      round = create(:closed_auction_round, auction: auction, deadline: 3.hours.from_now)
+      create(:auction_bid, auction_round: round, team: team)
     end
 
     it { expect(notifier.call).to be(false) }
@@ -130,6 +141,8 @@ RSpec.describe TelegramBot::DailyScheduleNotifier do
   end
 
   context 'with multiple deadlines at different times' do
+    let(:early_time) { user.local_time(2.hours.from_now, '%H:%M') }
+    let(:late_time)  { user.local_time(8.hours.from_now, '%H:%M') }
     let(:tour_early) do
       tr = create(:tournament_round, tournament: league.tournament, deadline: 2.hours.from_now)
       create(:set_lineup_tour, league: league, tournament_round: tr)
@@ -147,10 +160,10 @@ RSpec.describe TelegramBot::DailyScheduleNotifier do
     end
 
     it 'message lists earlier deadline before later deadline' do
-      captured = nil
-      allow(TelegramBot::Sender).to receive(:call) { |_, msg| captured = msg }
+      captured_msg = nil
+      allow(TelegramBot::Sender).to receive(:call) { |_, msg| captured_msg = msg }
       notifier.call
-      expect(captured.index(tour_early.number.to_s)).to be < captured.index(tour_late.number.to_s)
+      expect(captured_msg.index(early_time)).to be < captured_msg.index(late_time)
     end
   end
 

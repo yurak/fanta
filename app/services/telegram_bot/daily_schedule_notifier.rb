@@ -49,8 +49,8 @@ module TelegramBot
 
     def auction_round_deadlines
       ::AuctionRound.active
-                    .joins(auction: { league: :teams })
-                    .where(teams: { id: user_team_ids })
+                    .joins(:auction_bids)
+                    .where(auction_bids: { team_id: user_team_ids })
                     .where(deadline: today_range)
                     .includes(auction: { league: :tournament })
     end
