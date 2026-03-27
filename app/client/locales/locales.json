@@ -282,6 +282,11 @@
       "goalee_max_count": "The team can`t have more than 5 goalkeepers",
       "min_price": "The bid must be at least 1",
       "overprice": "Your bid exceeds the team budget",
+      "status": {
+        "approved": "Approved",
+        "pending": "Pending review",
+        "rejected": "Rejected"
+      },
       "team": "⚽ Your team",
       "text": "You need to buy %{players} players. The team budget - %{budget}. The team must have at least 3 goalkeepers."
     },
@@ -300,6 +305,7 @@
       "bids": "💶 Bids",
       "budget": "💰 Budget",
       "decrease_bid": "Decrease bid to match your budget. The bid won't be calculated if its amount exceeds the team's budget.",
+      "dropping_title": "💸 Dropping phase",
       "exceeded": "Budget exceeded",
       "filters": "Filters",
       "max_bid": "Maximum bid",
@@ -1913,6 +1919,11 @@
       "goalee_max_count": "У команді не може бути більше 5 воротарів",
       "min_price": "Ставка повинна бути не менше 1",
       "overprice": "Ваша ставка перевищує бюджет команди",
+      "status": {
+        "approved": "Підтверджено",
+        "pending": "На розгляді",
+        "rejected": "Відхилено"
+      },
       "team": "⚽ Ваша команда",
       "text": "Вам необхідно купити %{players} гравців. Бюджет команди - %{budget}. У команді повинні бути мінімум 3 воротарі."
     },
@@ -1931,6 +1942,7 @@
       "bids": "💶 Ставки",
       "budget": "💰 Бюджет",
       "decrease_bid": "Знизьте ставку відповідно до свого бюджету. Ставка не буде розрахована, якщо її сума перевищуватиме бюджет команди",
+      "dropping_title": "💸 Фаза скидання",
       "exceeded": "Бюджет перевищено",
       "filters": "Фільтри",
       "max_bid": "Максимальна ставка",

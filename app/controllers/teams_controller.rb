@@ -19,11 +19,11 @@ class TeamsController < ApplicationController
 
     if team.save
       bid = create_join_records(team)
-      return redirect_to join_path, alert: flash[:alert] if bid.nil?
+      return redirect_to joins_path, alert: flash[:alert] if bid.nil?
 
       redirect_to auction_bid_path(bid)
     else
-      redirect_to join_path, alert: team.errors.full_messages.join(', ')
+      redirect_to joins_path, alert: team.errors.full_messages.join(', ')
     end
   end
 

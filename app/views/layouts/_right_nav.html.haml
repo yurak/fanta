@@ -110,3 +110,7 @@
         .league-link{class: "link-active-#{ params[:controller] == 'players' && params[:action] == 'index' }"}
           .league-link-icon= image_tag('icons/round/players.svg')
           .league-link-text= t('header.players')
+      = link_to joins_path do
+        .league-link{class: "link-active-#{ params[:controller] == 'auction_bids' }"}
+          .league-link-icon= image_tag('icons/round/auctions.svg')
+          .league-link-text= t('header.auctions')

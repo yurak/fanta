@@ -6,7 +6,7 @@ class JoinRequestsController < ApplicationController
 
     if join_request.save
       join_request.user.configured!
-      redirect_to join_requests_path
+      redirect_to joins_path
     else
       render :new
     end

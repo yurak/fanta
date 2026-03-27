@@ -14,6 +14,7 @@ class AuctionBidsController < ApplicationController
     @tournament = @league.tournament
     @auction = @auction_round.auction
     @transfers = @auction.transfers.incoming.sort_by(&:price).reverse.take(5)
+    @drop_outs = @auction.transfers.all_out.sort_by(&:price).reverse.take(5)
   end
 
   def submit
@@ -30,7 +31,12 @@ class AuctionBidsController < ApplicationController
       redirect_to auction_round_path(auction_round)
     else
       AuctionBids::Manager.call(auction_bid, auction_bid_params) if bid_owner?
-      redirect_to auction_bid_path(auction_bid)
+      join = auction_bid.team.join
+      if join && auction_bid.reload.submitted?
+        redirect_to join_path(join)
+      else
+        redirect_to auction_bid_path(auction_bid)
+      end
     end
   end
 

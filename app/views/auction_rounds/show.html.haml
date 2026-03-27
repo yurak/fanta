@@ -71,7 +71,7 @@
             .auction-round-add-item-badge.auction-round-add-item-badge-budget= "#{user_team.budget}M"
       = render 'auction_bids/bid_block', auction_bid: auction_bid, auction_round: auction_round, league: league, user_team: user_team, auction: auction
 
-    = render 'auction_bids/stats_section', auction_bid: auction_bid, auction_round: auction_round, auction: auction, league: league, user_team: user_team, modules: @modules, transfers: @transfers
+    = render 'auction_bids/stats_section', auction_bid: auction_bid, auction_round: auction_round, auction: auction, league: league, user_team: user_team, modules: @modules, transfers: @transfers, drop_outs: @drop_outs
 
   .portrait-footer{ class: "portrait-footer-#{league.mantra?}"}
     = render 'layouts/league_links', league: league

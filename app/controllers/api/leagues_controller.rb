@@ -1,5 +1,5 @@
 module Api
-  class LeaguesController < ApplicationController
+  class LeaguesController < Api::ApplicationController
     skip_before_action :authenticate_user!, only: %i[index show]
 
     respond_to :json

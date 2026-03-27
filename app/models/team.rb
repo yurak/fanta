@@ -19,7 +19,7 @@ class Team < ApplicationRecord
 
   MAX_PLAYERS = 26
   MIN_GK = 3
-  MIN_GK_INIT = 3
+  MIN_GK_INIT = 1
   DEFAULT_BUDGET = 260
   RESERVED_BUDGET = 40
   INITIAL_BUDGET = 220

@@ -112,6 +112,29 @@
             .round-player-stats-param.round-player-stats-score= transfer.price
             .round-player-stats-param.round-player-stats-team
               = image_tag(transfer.team.logo_path)
+  - if drop_outs&.any? && league && auction
+    .round-table
+      .round-table-title
+        = link_to league_auction_transfers_path(league, auction, type: 'out') do
+          .round-table-title-text= t('auction_round.dropping_title')
+          .round-table-title-icon
+            = image_tag('icons/arrow_blue.svg')
+      .round-table-block
+        - drop_outs.each_with_index do |transfer, index|
+          .round-table-item.round-player-stats-item
+            .round-player-stats-param.center= index + 1
+            .round-player-stats-param.round-player-stats-data
+              .round-player-stats-img
+                .round-player-show-face
+                  %object{data: transfer.player.avatar_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
+                    = image_tag('avatar.png')
+                .round-player-show-kit
+                  %object{data: transfer.player.kit_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
+                    = image_tag('kit_small_default.png')
+              .round-player-stats-name= transfer.player.name
+            .round-player-stats-param.round-player-stats-score= transfer.price
+            .round-player-stats-param.round-player-stats-team
+              = image_tag(transfer.team.logo_path)
 
 :javascript
   $(document).ready(function() {

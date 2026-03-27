@@ -1,5 +1,5 @@
 module Api
-  class PlayerBidsController < ApplicationController
+  class PlayerBidsController < Api::ApplicationController
     skip_before_action :authenticate_user!, only: %i[show]
 
     respond_to :json

@@ -1,23 +1,22 @@
 .page-block
   .web-header= render 'layouts/left_nav', league: @league
   .web-header= render 'layouts/right_nav', league: @league, tournament: @tournament
-  .mob-header= render 'layouts/mob_header', league: @league, title: t('auction_bid.pending_title')
+  .mob-header= render 'layouts/mob_header', league: @league, title: @tournament&.name
   .page-info.auction-rounds-page
     .round-section
       - unless @auction_round
         - join = @auction_bid.team.join
-        - tournament = join&.tournament
         .round-action-btn.auction-round-mob
           - unless @auction_bid.processed?
             = submit_tag t("auction_round.bid_action.#{@auction_bid.status}"), form: 'auction_bid_form', class: "submit-btn submit-btn-#{@auction_bid.status}", id: 'submit-bid-btn-mob'
         .auction-round-back
           .auction-link-arrow
             = image_tag('icons/arrow_grey.svg')
-          = link_to join_path do
+          = link_to joins_path do
             .auction-link-text= t('join.title')
         .auction-round-header{ class: "auction-round-base-#{@auction_bid.status}" }
           .auction-round-base
-            .auction-round-title= tournament&.name&.upcase
+            .auction-round-title= "#{t('auction_round.stage').upcase} ##{@auction_round ? @auction_round.number : 1}"
             .auction-round-status
               .auction-round-status-badge= t("auction_bid.status.#{join&.status || 'initial'}")
             .blank-cell
@@ -44,4 +43,4 @@
             .auction-round-add-text= t('auction_round.subheader.text3')
             .auction-round-add-item-badge.auction-round-add-item-badge-budget= "#{Team::INITIAL_BUDGET}M"
       = render 'auction_bids/bid_block', auction_bid: @auction_bid, auction_round: @auction_round, league: @league, user_team: @user_team, auction: @auction
-    = render 'auction_bids/stats_section', auction_bid: @auction_bid, auction_round: @auction_round, auction: @auction, league: @league, user_team: @user_team, modules: @modules, transfers: @transfers
+    = render 'auction_bids/stats_section', auction_bid: @auction_bid, auction_round: @auction_round, auction: @auction, league: @league, user_team: @user_team, modules: @modules, transfers: @transfers, drop_outs: @drop_outs

@@ -57,6 +57,10 @@ en:
     goalee_max_count: "The team can`t have more than 5 goalkeepers"
     min_price: "The bid must be at least 1"
     overprice: "Your bid exceeds the team budget"
+    status:
+      pending: "Pending review"
+      approved: "Approved"
+      rejected: "Rejected"
     team: "⚽ Your team"
     text: "You need to buy %{players} players. The team budget - %{budget}. The team must have at least 3 goalkeepers."
   auction_round:
@@ -73,6 +77,7 @@ en:
       submitted: "Complete in advance"
     budget: "💰 Budget"
     decrease_bid: "Decrease bid to match your budget. The bid won't be calculated if its amount exceeds the team's budget."
+    dropping_title: "💸 Dropping phase"
     exceeded: "Budget exceeded"
     filters: "Filters"
     max_bid: "Maximum bid"

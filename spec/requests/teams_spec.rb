@@ -25,28 +25,6 @@ RSpec.describe 'Teams' do
     end
   end
 
-  describe 'GET #new' do
-    context 'when user is logged out' do
-      before do
-        get new_team_path
-      end
-
-      it { expect(response).to redirect_to('/users/sign_in') }
-      it { expect(response).to have_http_status(:found) }
-    end
-
-    context 'when user is logged in' do
-      login_user
-      before do
-        get new_team_path
-      end
-
-      it { expect(response).to be_successful }
-      it { expect(response).to render_template(:new) }
-      it { expect(response).to have_http_status(:ok) }
-    end
-  end
-
   describe 'POST #create' do
     let(:human_name) { 'Forza' }
     let(:logo_url) { 'forza.png' }
@@ -69,7 +47,7 @@ RSpec.describe 'Teams' do
     end
 
     context 'when user is logged in without tournament_id' do
-      let(:logged_user) { create(:user, status: 'with_avatar') }
+      let(:logged_user) { create(:user, status: 'configured') }
       let(:human_name) { '' }
 
       before do
@@ -78,15 +56,14 @@ RSpec.describe 'Teams' do
       end
 
       context 'with invalid params' do
-        it { expect(response).to be_successful }
-        it { expect(response).to render_template(:new) }
-        it { expect(response).to have_http_status(:ok) }
+        it { expect(response).to redirect_to(joins_path) }
+        it { expect(response).to have_http_status(:found) }
       end
     end
 
     context 'when user joins via the new flow (tournament_id present)' do
       let(:tournament) { create(:tournament) }
-      let(:logged_user) { create(:user, status: :with_avatar) }
+      let(:logged_user) { create(:user, status: :configured) }
       let(:join_params) do
         {
           team: {
@@ -133,7 +110,7 @@ RSpec.describe 'Teams' do
 
     context 'when user tries to join a tournament they already applied to' do
       let(:tournament) { create(:tournament) }
-      let(:logged_user) { create(:user, status: :with_avatar) }
+      let(:logged_user) { create(:user, status: :configured) }
       let(:join_params) do
         {
           team: {
@@ -156,7 +133,7 @@ RSpec.describe 'Teams' do
       end
 
       it 'redirects to join path with alert' do
-        expect(response).to redirect_to(join_path)
+        expect(response).to redirect_to(joins_path)
       end
     end
   end

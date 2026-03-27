@@ -47,7 +47,7 @@ RSpec.describe 'JoinRequests' do
       end
 
       context 'with valid params' do
-        it { expect(response).to redirect_to(join_requests_path) }
+        it { expect(response).to redirect_to(joins_path) }
         it { expect(response).to have_http_status(:found) }
 
         it 'creates join_request with specified leagues' do

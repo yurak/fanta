@@ -1,0 +1,41 @@
+.page-block
+  .web-header= render 'layouts/left_nav', league: nil
+  .mob-header= render 'layouts/mob_header', league: nil, title: t('join.submitted_page.title')
+
+  .join-submitted-page
+    .join-submitted-topbar
+      = link_to t('join.submitted_page.skip'), joins_path, class: 'join-submitted-skip'
+
+    .join-submitted-body
+      .join-submitted-left
+        %h1.join-submitted-title= t('join.submitted_page.title')
+        %p.join-submitted-subtitle= t('join.submitted_page.subtitle')
+
+        .join-submitted-price-row
+          .join-submitted-price-label
+            .join-submitted-price-label-main= t('join.submitted_page.price_label')
+            .join-submitted-price-label-note= t('join.submitted_page.price_note')
+          .join-submitted-price-value= "💰 #{t('join.submitted_page.price')}"
+
+        %h3.join-submitted-steps-title= t('join.submitted_page.steps_title')
+        %ol.join-submitted-steps
+          - t('join.submitted_page.steps').each do |step|
+            %li.join-submitted-step= step
+
+        = link_to 'https://t.me/mantra_help', class: 'blue-btn', target: '_blank' do
+          = t('join.submitted_page.contact_btn')
+          = image_tag('icons/telegram.svg', class: 'join-submitted-tg-icon')
+
+      .join-submitted-right
+        .join-submitted-card
+          .join-submitted-card-blob.blob-orange
+          .join-submitted-card-blob.blob-pink
+          .join-submitted-card-content
+            %h3.join-submitted-card-title= t('join.submitted_page.card_title')
+            - features = [['icons/round/round.svg', 'join.submitted_page.features.duels'], ['icons/round/auctions.svg', 'join.submitted_page.features.auctions'], ['icons/round/table.svg', 'join.submitted_page.features.gameplay'], ['icons/round/teams.svg', 'join.submitted_page.features.leagues'], ['icons/round/statistics.svg', 'join.submitted_page.features.modes'], ['icons/round/clubs.svg', 'join.submitted_page.features.divisions'], ['icons/round/players.svg', 'join.submitted_page.features.community'], ['icons/round/round.svg', 'join.submitted_page.features.more']]
+            %ul.join-submitted-features
+              - features.each do |icon, key|
+                %li.join-submitted-feature
+                  .join-submitted-feature-icon
+                    = image_tag(icon, class: 'join-submitted-feature-img')
+                  .join-submitted-feature-text= t(key)

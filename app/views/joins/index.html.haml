@@ -1,0 +1,59 @@
+.page-block
+  .web-header= render 'layouts/left_nav', league: nil
+  .mob-header= render 'layouts/mob_header', league: nil, title: t('join.title')
+  .page-info.join-page
+    - unless @has_active_leagues || @user_joins.any?
+      .join-no-leagues-banner
+        .join-no-leagues-icon 🏖️
+        %h2.join-no-leagues-title= t('join.no_active_leagues_title')
+        %p.join-no-leagues-subtitle= t('join.no_active_leagues_subtitle')
+    .join-info-cards
+      .join-info-card
+        .join-info-card-title
+          %span ⚖️
+          = t('join.rules_title')
+        = link_to t('join.rules_link'), rules_path, class: 'join-info-card-link'
+      .join-info-card
+        .join-info-card-title
+          %span 🧩
+          = t('join.contact_title')
+        = link_to 'https://t.me/mantra_help', class: 'join-info-card-link', target: '_blank' do
+          = image_tag 'icons/telegram.svg', class: 'join-info-card-icon'
+          = t('join.contact_link')
+    .join-card
+      .join-content-grid
+        .join-col
+          .join-card-header
+            %h2.join-card-title= t('join.title')
+          - if @tournaments.any?
+            .join-tournaments-list
+              - @tournaments.each do |tournament|
+                .join-tournament-item.join-apply-btn{ data: { tournament_id: tournament.id } }
+                  .join-tournament-logo
+                    = image_tag(tournament.logo_path)
+                  .join-tournament-info
+                    .join-tournament-name= tournament.name
+                    .join-tournament-meta= "#{tournament.mode&.capitalize} · #{tournament.active_teams_count} #{t('join.teams')} · #{tournament.joins_count} #{t('join.applications')}"
+                  .join-tournament-action
+                    %span.join-apply-text
+                      = t('join.apply')
+                      %span.join-apply-arrow ›
+          - else
+            .join-empty= t('join.no_leagues')
+        .join-col
+          - if @user_joins.any?
+            .join-card-header
+              %h2.join-card-title= t('join.my_applications')
+            .join-tournaments-list
+              - @user_joins.each do |join|
+                - bid = join.team.auction_bids.find { |b| b.auction_round_id.nil? }
+                = link_to auction_bid_path(bid), class: 'join-tournament-item' do
+                  .join-tournament-logo
+                    = image_tag(join.tournament.logo_path)
+                  .join-tournament-info
+                    .join-tournament-name= join.tournament.name
+                    .join-tournament-meta= join.team.human_name
+                  .join-tournament-action
+                    .join-status-badge{ class: "join-status-#{join.status}" }= t("join.status.#{join.status}")
+
+= render 'joins/team_modal'

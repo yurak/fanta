@@ -48,11 +48,11 @@ module AuctionBids
     end
 
     def valid_bid?
-      return false if players_ids.count < auction_round.slots_number_by(team)
-      return false if duplicate_players&.any?
-      return false if total_price > team.round_budget(auction_round)
-      return false if gk_count < auction_round.gk_min_limit
-      return false if contains_dumped?
+      return false if duplicate_players.any?
+      return false if players_ids.count < slots_limit
+      return false if total_price > budget_limit
+      return false if gk_count < gk_limit
+      return false if auction_round && contains_dumped?
 
       true
     end
@@ -79,6 +79,18 @@ module AuctionBids
 
     def gk_count
       @gk_count ||= Player.by_position('Por').where(id: players_ids + team.players.map(&:id)).count
+    end
+
+    def slots_limit
+      auction_round ? auction_round.slots_number_by(team) : Team::JOIN_SLOTS
+    end
+
+    def budget_limit
+      auction_round ? team.round_budget(auction_round) : Team::INITIAL_BUDGET
+    end
+
+    def gk_limit
+      auction_round ? auction_round.gk_min_limit : Team::MIN_GK_INIT
     end
 
     def contains_dumped?

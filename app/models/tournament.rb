@@ -26,6 +26,17 @@ class Tournament < ApplicationRecord
   scope :with_national, -> { includes(:national_teams, :leagues).with_national_teams }
   scope :active, -> { with_clubs.order(:id) + with_ec_clubs + with_national }
   scope :open_join, -> { where(open_join: true) }
+  scope :with_join_stats, lambda {
+    select(
+      'tournaments.*',
+      "COUNT(DISTINCT CASE WHEN leagues.status = #{League.statuses[:active]} THEN teams.id END) AS active_teams_count",
+      'COUNT(DISTINCT joins.id) AS joins_count'
+    )
+      .joins('LEFT JOIN leagues ON leagues.tournament_id = tournaments.id')
+      .joins('LEFT JOIN teams ON teams.league_id = leagues.id')
+      .joins('LEFT JOIN joins ON joins.tournament_id = tournaments.id')
+      .group('tournaments.id')
+  }
 
   def logo_path
     if File.exist?("app/assets/images/tournaments/#{code}.png")

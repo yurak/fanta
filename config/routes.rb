@@ -23,7 +23,7 @@ Rails.application.routes.draw do
   get 'guide',    to: 'welcome#guide'
   get 'rules',    to: 'welcome#rules'
 
-  get '/join', to: 'join#index', as: :join
+  resources :joins, only: [:index, :show]
 
   namespace :manage do
     resources :joins, only: [:index] do

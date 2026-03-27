@@ -36,6 +36,7 @@
             .player-bid-avatar{id: "item-player-#{player&.id}"}
               .player-bid-face
                 %object{data: player&.avatar_path || asset_path('avatar.png'), type: ApplicationRecord::CONTENT_TYPE_PNG, id: "avatar-#{player_bid.index}"}
+                  = image_tag('avatar.png')
               .player-bid-kit
                 %object{data: player&.kit_path || asset_path('kit_small_default.png'), type: ApplicationRecord::CONTENT_TYPE_PNG, id: "kit-#{player_bid.index}"}
             .player-bid-name
@@ -133,10 +134,10 @@
                   .player-transfer-price= player.transfers.incoming.by_league(league&.id).last&.price
                   .player-transfer-check ✅
 
-%script{type: "text/javascript", src: "/javascripts/lib/GetFilledFormations.js"}
+%script{type: "text/javascript", src: "/javascripts/lib/GetFilledFormations.js?v=2"}
 :javascript
-  const formations = #{formations_js_data.html_safe};
   $(document).ready(function() {
+    const formations = #{formations_js_data.html_safe};
     // Prevent form sending after Enter key press
     $("form").bind("keypress", function (e) {
       if (e.keyCode == 13) {
@@ -536,7 +537,7 @@
       $("#submit-bid-btn, #submit-bid-btn-mob").click(function(){
         const bidStatus = "#{auction_bid&.status}";
 
-        if (countTotalBid() > teamBudget) {
+        if (countTotalBid() > teamRoundBudget) {
           alert("#{t('auction_bid.overprice')}");
           return false;
         }
@@ -583,9 +584,9 @@
         }
 
         const goaleeCount = parseInt("#{auction_bid&.team&.players&.by_position('Por')&.count}") + $('.player-position-Por.selected-player-Por').size();
-        const gkMinLimit = parseInt("#{auction_round&.gk_min_limit || 0}");
+        const gkMinLimit = parseInt("#{auction_round ? auction_round.gk_min_limit : Team::MIN_GK_INIT}");
         if (goaleeCount < gkMinLimit) {
-          alert("#{t('auction_bid.goalee_count', gk_count: auction_round&.gk_min_limit || 0)}");
+          alert("#{t('auction_bid.goalee_count', gk_count: auction_round ? auction_round.gk_min_limit : Team::MIN_GK_INIT)}");
           return false;
         }
         if (goaleeCount > 5) {
