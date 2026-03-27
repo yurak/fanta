@@ -88,4 +88,15 @@ module AuctionsHelper
   def min_bid(auction_round, player)
     player && auction_round&.min_price_active? ? player.stats_price : 1
   end
+
+  def formations_js_data
+    TeamModule.includes(:slots).each_with_object({}) do |tm, hash|
+      key = "f#{tm.name.delete('-')}"
+      line_up = tm.slots
+                  .reject { |s| s.position == Position::GOALKEEPER }
+                  .sort_by(&:number)
+                  .map(&:position)
+      hash[key] = { lineUp: line_up, lineUpWithReserve: line_up * 2 }
+    end.to_json
+  end
 end

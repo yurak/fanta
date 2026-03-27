@@ -1,106 +1,46 @@
-const formations = {
-    f343: {
-        lineUp: ['Dc', 'Dc', 'Dc', 'E', 'E', 'M/C', 'C', 'W/A', 'W/A', 'A/Pc'],
-        lineUpWithReserve: ['Dc', 'Dc', 'Dc', 'E', 'E', 'M/C', 'C', 'W/A', 'W/A', 'A/Pc' , 'Dc', 'Dc', 'Dc', 'E', 'E', 'M/C', 'C', 'W/A', 'W/A', 'A/Pc']
-    },
-    f3412: {
-        lineUp: ['Dc', 'Dc', 'Dc', 'E', 'E', 'M/C', 'C', 'T', 'A/Pc', 'Pc'],
-        lineUpWithReserve: ['Dc', 'Dc', 'Dc', 'E', 'E', 'M/C', 'C', 'T', 'A/Pc', 'Pc', 'Dc', 'Dc', 'Dc', 'E', 'E', 'M/C', 'C', 'T', 'A/Pc', 'Pc']
-    },
-    f3421: {
-        lineUp: ['Dc', 'Dc', 'Dc', 'E', 'E/W', 'M/C', 'M', 'T', 'T/A', 'A/Pc'],
-        lineUpWithReserve: ['Dc', 'Dc', 'Dc', 'E', 'E/W', 'M/C', 'M', 'T', 'T/A', 'A/Pc' , 'Dc', 'Dc', 'Dc', 'E', 'E/W', 'M/C', 'M', 'T', 'T/A', 'A/Pc']
-    },
-    f352: {
-        lineUp: ['Dc', 'Dc', 'Dc', 'E', 'M', 'M/C', 'C', 'E/W', 'A/Pc', 'Pc'] ,
-        lineUpWithReserve: ['Dc', 'Dc', 'Dc', 'E', 'M', 'M/C', 'C', 'E/W', 'A/Pc', 'Pc' , 'Dc', 'Dc', 'Dc', 'E', 'M', 'M/C', 'C', 'E/W', 'A/Pc', 'Pc']
-    },
-    f3511: {
-        lineUp: ['Dc', 'Dc', 'Dc', 'E/W', 'M', 'M', 'C', 'E/W', 'T/A', 'A/Pc'],
-        lineUpWithReserve: ['Dc', 'Dc', 'Dc', 'E/W', 'M', 'M', 'C', 'E/W', 'T/A', 'A/Pc', 'Dc', 'Dc', 'Dc', 'E/W', 'M', 'M', 'C', 'E/W', 'T/A', 'A/Pc']
-    },
-    f433: {
-        lineUp: ['Dc', 'Dc', 'Ds', 'Dd', 'M', 'M/C', 'C', 'W/A', 'W/A', 'A/Pc'],
-        lineUpWithReserve: ['Dc', 'Dc', 'Ds', 'Dd', 'M', 'M/C', 'C', 'W/A', 'W/A', 'A/Pc', 'Dc', 'Dc', 'Ds', 'Dd', 'M', 'M/C', 'C', 'W/A', 'W/A', 'A/Pc']
-    },
-    f4312: {
-        lineUp: ['Dc', 'Dc', 'Ds', 'Dd', 'M', 'M/C', 'C', 'T', 'A/Pc', 'Pc'],
-        lineUpWithReserve: ['Dc', 'Dc', 'Ds', 'Dd', 'M', 'M/C', 'C', 'T', 'A/Pc', 'Pc', 'Dc', 'Dc', 'Ds', 'Dd', 'M', 'M/C', 'C', 'T', 'A/Pc', 'Pc']
-    },
-    f442: {
-        lineUp: ['Dc', 'Dc', 'Ds', 'Dd', 'E', 'M/C', 'C', 'E/W', 'A/Pc', 'Pc'],
-        lineUpWithReserve: ['Dc', 'Dc', 'Ds', 'Dd', 'E', 'M/C', 'C', 'E/W', 'A/Pc', 'Pc', 'Dc', 'Dc', 'Ds', 'Dd', 'E', 'M/C', 'C', 'E/W', 'A/Pc', 'Pc']
-    },
-    f4141: {
-        lineUp: ['Dc', 'Dc', 'Ds', 'Dd', 'M', 'E/W', 'C/T', 'T', 'W', 'A/Pc'],
-        lineUpWithReserve: ['Dc', 'Dc', 'Ds', 'Dd', 'M', 'E/W', 'C/T', 'T', 'W', 'A/Pc', 'Dc', 'Dc', 'Ds', 'Dd', 'M', 'E/W', 'C/T', 'T', 'W', 'A/Pc']
-    },
-    f4411: {
-        lineUp: ['Dc', 'Dc', 'Ds', 'Dd', 'M', 'E/W', 'C', 'E/W', 'T/A', 'A/Pc'],
-        lineUpWithReserve: ['Dc', 'Dc', 'Ds', 'Dd', 'M', 'E/W', 'C', 'E/W', 'T/A', 'A/Pc', 'Dc', 'Dc', 'Ds', 'Dd', 'M', 'E/W', 'C', 'E/W', 'T/A', 'A/Pc']
-    },
-    f4231: {
-        lineUp: ['Dc', 'Dc', 'Ds', 'Dd', 'M', 'M/C', 'W/T', 'T', 'W/A', 'A/Pc'],
-        lineUpWithReserve: ['Dc', 'Dc', 'Ds', 'Dd', 'M', 'M/C', 'W/T', 'T', 'W/A', 'A/Pc', 'Dc', 'Dc', 'Ds', 'Dd', 'M', 'M/C', 'W/T', 'T', 'W/A', 'A/Pc']
-    },
-    f4321: {
-        lineUp: ['Dc', 'Dc', 'Ds', 'Dd', 'M', 'M/C', 'C', 'T/A', 'T/A', 'A/Pc'],
-        lineUpWithReserve: ['Dc', 'Dc', 'Ds', 'Dd', 'M', 'M/C', 'C', 'T/A', 'T/A', 'A/Pc', 'Dc', 'Dc', 'Ds', 'Dd', 'M', 'M/C', 'C', 'T/A', 'T/A', 'A/Pc']
-    },
-};
-
-function isLineUpFilled(lineUp, players) {
-    let allPositionsFilled = true;
-
-    for (let position of lineUp) {
-        const possiblePositions = position.split('/');
-        let found = false;
-
-        for (let i = 0; i < possiblePositions.length; i++) {
-            const playerPositions = players.filter(playerPosition => {
-                const positionRegex = new RegExp(`\\b${possiblePositions[i]}\\b`);
-                return positionRegex.test(playerPosition);
-            });
-
-            if (playerPositions.length > 0) {
-                players.splice(players.indexOf(playerPositions[0]), 1);
-                found = true;
-                break;
-            }
-        }
-
-        if (!found) {
-            allPositionsFilled = false;
-            for (let i = 0; i < possiblePositions.length; i++) {
-                const player = players.filter(playerPosition => {
-                    const positionRegex = new RegExp(`\\b${possiblePositions[i]}\\b`);
-                    return positionRegex.test(playerPosition);
-                });
-
-                if (!player) {
-                    allPositionsFilled = false;
-                    break;
-                }
-            }
-        }
+function canPlayerFillSlot(playerPos, slotPos) {
+    for (const option of slotPos.split('/')) {
+        if (new RegExp(`\\b${option}\\b`).test(playerPos)) return true;
     }
-
-    return allPositionsFilled;
+    return false;
 }
 
-function getFilledFormations(teamComposition) {
-    const sortTeamComposition = teamComposition.sort((a, b) => {
-        const aHasExt = a.indexOf("/") > -1;
-        const bHasExt = b.indexOf("/") > -1;
-        return aHasExt - bHasExt;
-    });
+function isLineUpFilled(lineUp, players) {
+    // Build adjacency list: for each slot, list of player indices that can fill it
+    const adj = lineUp.map(slot =>
+        players.reduce((acc, p, pi) => { if (canPlayerFillSlot(p, slot)) acc.push(pi); return acc; }, [])
+    );
 
+    // Augmenting path bipartite matching
+    const matchPlayer = new Array(players.length).fill(-1);
+
+    function augment(slotIdx, visited) {
+        for (const pi of adj[slotIdx]) {
+            if (visited[pi]) continue;
+            visited[pi] = true;
+            if (matchPlayer[pi] === -1 || augment(matchPlayer[pi], visited)) {
+                matchPlayer[pi] = slotIdx;
+                return true;
+            }
+        }
+        return false;
+    }
+
+    let matched = 0;
+    for (let i = 0; i < lineUp.length; i++) {
+        if (augment(i, new Array(players.length).fill(false))) matched++;
+    }
+
+    return matched === lineUp.length;
+}
+
+function getFilledFormations(formations, teamComposition) {
     const filledFormations = {};
 
     for (let formation in formations) {
         filledFormations[formation] = {
-            lineUp: isLineUpFilled(formations[formation].lineUp, [...sortTeamComposition]),
-            lineUpWithReserve: isLineUpFilled(formations[formation].lineUpWithReserve, [...sortTeamComposition])
+            lineUp: isLineUpFilled(formations[formation].lineUp, teamComposition),
+            lineUpWithReserve: isLineUpFilled(formations[formation].lineUpWithReserve, teamComposition)
         };
     }
 

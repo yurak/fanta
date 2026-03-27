@@ -46,7 +46,8 @@
             .player-bid-positions
               .player-positions-block{id: "positions-#{player_bid.index}"}
                 - if player
-                  .algo-position{class: "algo-position-#{player.position_names.join('/')}"}
+                  - unless player_bid.object.failed?
+                    .algo-position{class: "algo-position-#{player.position_names.join('/')}"}
                   - player.positions.each do |position|
                     .player-position{class: "player-position-#{position.name} selected-player-#{position.name}"}
                       = position_name(position)
@@ -134,6 +135,7 @@
 
 %script{type: "text/javascript", src: "/javascripts/lib/GetFilledFormations.js"}
 :javascript
+  const formations = #{formations_js_data.html_safe};
   $(document).ready(function() {
     // Prevent form sending after Enter key press
     $("form").bind("keypress", function (e) {
@@ -230,7 +232,6 @@
 
         clearSlotModal(slotId);
         $('#modal-players-list' + slotId).css("display", "none");
-        checkModules();
       });
 
       // Search player by name
@@ -619,7 +620,7 @@
         }
       });
 
-      let modulesHash = getFilledFormations(positionsArray);
+      let modulesHash = getFilledFormations(formations, positionsArray);
       let modulesElements = [];
       for (var key in modulesHash){
         if (modulesHash[key]['lineUp'] === true) {
