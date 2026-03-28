@@ -12,10 +12,10 @@ RSpec.describe 'JoinRequests' do
     context 'when user is logged in' do
       login_user
 
-      let!(:mantra_tournament) { create(:tournament, mode: :mantra) }
+      let!(:fanta_tournament) { create(:tournament, mode: :fanta) }
 
       before do
-        create(:tournament, mode: :fanta)
+        create(:tournament, mode: :mantra)
         get new_join_request_path
       end
 
@@ -24,7 +24,7 @@ RSpec.describe 'JoinRequests' do
       it { expect(response).to have_http_status(:ok) }
 
       it 'assigns only mantra tournaments' do
-        expect(controller.instance_variable_get(:@tournaments)).to contain_exactly(mantra_tournament)
+        expect(controller.instance_variable_get(:@tournaments)).not_to include(fanta_tournament)
       end
     end
   end

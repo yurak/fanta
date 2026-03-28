@@ -24,9 +24,14 @@ module AuctionRounds
     def create_auction_round
       auction.auction_rounds.create(
         number: auction.auction_rounds.count + 1,
-        deadline: (auction.auction_rounds.last&.deadline || auction.deadline.presence || Time.zone.now) + 1.day,
+        deadline: next_deadline,
         basic: basic?
       )
+    end
+
+    def next_deadline
+      base = auction.auction_rounds.last&.deadline || auction.deadline.presence || Time.zone.now
+      base > 1.day.from_now ? base : base + 1.day
     end
 
     def basic?

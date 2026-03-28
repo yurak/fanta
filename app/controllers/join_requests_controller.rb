@@ -12,6 +12,7 @@ class JoinRequestsController < ApplicationController
       join_request.user.configured!
       redirect_to joins_path
     else
+      @tournaments = Tournament.mantra
       render :new
     end
   end
