@@ -106,6 +106,9 @@
 
     .round-action-btn {
       #submit-bid-btn, #submit-bid-btn-mob {
+        display: flex;
+        align-items: center;
+        justify-content: center;
         border: 1px solid #261FFF;
         height: 40px;
         background: #261FFF;
@@ -113,6 +116,8 @@
         width: 100%;
         color: #FFFFFF;
         font-size: 16px;
+        text-decoration: none;
+        box-sizing: border-box;
       }
 
       .submit-btn-completed#submit-bid-btn, .submit-btn-completed#submit-bid-btn-mob {

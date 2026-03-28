@@ -1,3 +1,5 @@
+- content_for :head do
+  %meta{name: "viewport", content: "width=device-width, initial-scale=1"}/
 .page-block
   .web-header= render 'layouts/left_nav', league: nil
   .mob-header= render 'layouts/mob_header', league: nil, title: t('join.title')
@@ -23,6 +25,21 @@
     .join-card
       .join-content-grid
         .join-col
+          - if @user_joins.any?
+            .join-card-header
+              %h2.join-card-title= t('join.my_applications')
+            .join-tournaments-list
+              - @user_joins.each do |join|
+                - bid = join.team.auction_bids.find { |b| b.auction_round_id.nil? }
+                = link_to auction_bid_path(bid), class: 'join-tournament-item' do
+                  .join-tournament-logo
+                    = image_tag(join.tournament.logo_path)
+                  .join-tournament-info
+                    .join-tournament-name= join.tournament.name
+                    .join-tournament-meta= join.team.human_name
+                  .join-tournament-action
+                    .join-status-badge{ class: "join-status-#{join.status}" }= t("join.status.#{join.status}")
+        .join-col
           .join-card-header
             %h2.join-card-title= t('join.title')
           - if @tournaments.any?
@@ -40,20 +57,5 @@
                       %span.join-apply-arrow ›
           - else
             .join-empty= t('join.no_leagues')
-        .join-col
-          - if @user_joins.any?
-            .join-card-header
-              %h2.join-card-title= t('join.my_applications')
-            .join-tournaments-list
-              - @user_joins.each do |join|
-                - bid = join.team.auction_bids.find { |b| b.auction_round_id.nil? }
-                = link_to auction_bid_path(bid), class: 'join-tournament-item' do
-                  .join-tournament-logo
-                    = image_tag(join.tournament.logo_path)
-                  .join-tournament-info
-                    .join-tournament-name= join.tournament.name
-                    .join-tournament-meta= join.team.human_name
-                  .join-tournament-action
-                    .join-status-badge{ class: "join-status-#{join.status}" }= t("join.status.#{join.status}")
 
 = render 'joins/team_modal'

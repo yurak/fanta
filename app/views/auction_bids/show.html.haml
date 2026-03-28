@@ -7,7 +7,9 @@
       - unless @auction_round
         - join = @auction_bid.team.join
         .round-action-btn.auction-round-mob
-          - unless @auction_bid.processed?
+          - if @auction_bid.submitted?
+            = link_to t('join.continue'), join_path(join), class: "submit-btn submit-btn-#{@auction_bid.status}", id: 'submit-bid-btn-mob'
+          - elsif !@auction_bid.processed?
             = submit_tag t("auction_round.bid_action.#{@auction_bid.status}"), form: 'auction_bid_form', class: "submit-btn submit-btn-#{@auction_bid.status}", id: 'submit-bid-btn-mob'
         .auction-round-back
           .auction-link-arrow
@@ -21,7 +23,9 @@
               .auction-round-status-badge= t("auction_bid.status.#{join&.status || 'initial'}")
             .blank-cell
             .round-action-btn.auction-round-web
-              - unless @auction_bid.processed?
+              - if @auction_bid.submitted?
+                = link_to t('join.continue'), join_path(join), class: "submit-btn submit-btn-#{@auction_bid.status}", id: 'submit-bid-btn'
+              - elsif !@auction_bid.processed?
                 = submit_tag t("auction_round.bid_action.#{@auction_bid.status}"), form: 'auction_bid_form', class: "submit-btn submit-btn-#{@auction_bid.status}", id: 'submit-bid-btn'
             .tooltip-info
               .wrapper

@@ -16,12 +16,12 @@ module Manage
         bid.update!(auction_round: auction_round) if auction_round
       end
 
-      redirect_to manage_joins_path, notice: t('admin.joins.approved')
+      redirect_to manage_joins_path, notice: t('manage.joins.approved')
     end
 
     def reject
       join.update!(status: :rejected)
-      redirect_to manage_joins_path, notice: t('admin.joins.rejected')
+      redirect_to manage_joins_path, notice: t('manage.joins.rejected')
     end
 
     private

@@ -7,6 +7,10 @@ ua:
         password_confirmation: "Підтвердження паролю"
     errors:
       models:
+        join:
+          attributes:
+            user_id:
+              already_applied: "вже подано заявку на цей турнір"
         join_request:
           attributes:
             username:
@@ -155,13 +159,6 @@ ua:
     total_budget: "Загальний бюджет"
     transfers: "💰️ Трансфери аукціону"
     unselected: "Не вибрано"
-  #    bid: "СТАВКА"
-  #    edit_bid: "Редагувати ставку"
-  #    price: "ЦІНА"
-  #    positions: "ПОЗИЦІЇ"
-  #    place_bid: "Зробити ставку"
-  #    vacancies: "ВАКАНСІЇ"
-  #    your_bid: "Ваші ставки на аукціоні:"
   divisions:
     title: "Дивізіони"
   footer:
@@ -410,6 +407,57 @@ ua:
     total_owners: "К-сть власників"
     total_score: "Загальна оцінка"
     ts: "ЗО"
+  join:
+    applications: "заявок"
+    contact_link: "Написати адміністрації"
+    contact_title: "Хочеш грати з друзями в одній лізі?"
+    rules_link: "Читати правила"
+    rules_title: "Спочатку правила — потім перемоги"
+    apply: "Подати заявку"
+    cancel: "Скасувати"
+    code: "Код"
+    code_hint: "2–3 латинські символи або цифри"
+    code_placeholder: "напр. MAN"
+    continue: "Продовжити"
+    create_team: "Створити команду"
+    my_applications: "Мої заявки"
+    no_active_leagues_subtitle: "Обери одну з доступних ліг та грай"
+    no_active_leagues_title: "У тебе наразі немає активних ліг"
+    no_leagues: "Наразі немає доступних ліг"
+    remove_logo: "Видалити"
+    status:
+      approved: "Схвалено"
+      initial: "Чернетка"
+      pending: "На розгляді"
+    submitted: "Заявку подано"
+    submitted_page:
+      card_title: "Попереду ще багато!"
+      contact_btn: "Зв'язатися з адміністратором у Telegram"
+      features:
+        auctions: "Додаткові аукціони"
+        community: "Спільнота Mantra"
+        divisions: "Система дивізіонів"
+        duels: "Дуелі з суперниками по лізі"
+        gameplay: "Багато місяців безперервного геймплею"
+        leagues: "Інші ліги для участі"
+        modes: "Більше режимів Mantra"
+        more: "І ще дуже багато іншого..."
+      price: "грн"
+      price_label: "Орієнтовна вартість"
+      price_note: "Примітка: можуть застосовуватись знижки"
+      skip: "Пропустити"
+      steps:
+        - "Зв'яжіться з адміністраторами щодо деталей оплати та знижок."
+        - "Здійсніть оплату та очікуйте підтвердження"
+        - "Очікуйте поки ваша ліга буде сформована"
+        - "Доукомплектуйте команду (опрацьовуючи наступні фази Аукціону)"
+        - "Очікуйте першого ігрового тижня"
+        - "Вперед! Борись за першу перемогу!"
+      steps_title: "Що чекає далі"
+      subtitle: "Продовжіть свою подорож, здійснивши оплату. Дякуємо за підтримку!"
+      title: "Як враження?"
+    teams: "команд"
+    title: "Долучитись до ліги"
   round:
     auto_subs: "Виконати Автозаміни"
     auto_subs_preview: "Переглянути можливі заміни"

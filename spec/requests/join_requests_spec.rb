@@ -64,26 +64,4 @@ RSpec.describe 'JoinRequests' do
       end
     end
   end
-
-  describe 'GET #index' do
-    context 'when user is logged out' do
-      before do
-        get join_requests_path
-      end
-
-      it { expect(response).to redirect_to('/users/sign_in') }
-      it { expect(response).to have_http_status(:found) }
-    end
-
-    context 'when configured user is logged in' do
-      login_user
-      before do
-        get join_requests_path
-      end
-
-      it { expect(response).to be_successful }
-      it { expect(response).to render_template(:index) }
-      it { expect(response).to have_http_status(:ok) }
-    end
-  end
 end

@@ -50,7 +50,7 @@ Rails.application.routes.draw do
     member { post :submit }
   end
 
-  resources :join_requests, only: [:new, :create, :index]
+  resources :join_requests, only: [:new, :create]
 
   resources :leagues, only: [:index, :show] do
     put :activate, on: :member

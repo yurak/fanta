@@ -1,4 +1,11 @@
 en:
+  activerecord:
+    errors:
+      models:
+        join:
+          attributes:
+            user_id:
+              already_applied: "already applied to this tournament"
   auction:
     index:
       auctions: "Auctions"
@@ -139,13 +146,6 @@ en:
     total_budget: "Total budget"
     transfers: "💰️ Auction transfers"
     unselected: "Unselected"
-  #    bid: "BID"
-  #    edit_bid: "Edit bid"
-  #    price: "PRICE"
-  #    positions: "POSITIONS"
-  #    place_bid: "Place bid"
-  #    vacancies: "VACANCIES"
-  #    your_bid: "Your bids at the auction:"
   divisions:
     title: "Divisions"
   footer:
@@ -387,6 +387,57 @@ en:
     total_owners: "Total owners"
     total_score: "Total score"
     ts: "TS"
+  join:
+    applications: "applications"
+    contact_link: "Contact administration"
+    contact_title: "Want to play with friends in same league?"
+    rules_link: "Read rules"
+    rules_title: "Foundation first, success follows"
+    apply: "Apply"
+    cancel: "Cancel"
+    code: "Code"
+    code_hint: "2–3 Latin characters or digits"
+    code_placeholder: "e.g. MAN"
+    continue: "Continue"
+    create_team: "Create team"
+    my_applications: "My applications"
+    no_active_leagues_subtitle: "Select one of available Leagues and play"
+    no_active_leagues_title: "You currently have no active Leagues"
+    no_leagues: "No available leagues at the moment"
+    remove_logo: "Remove"
+    status:
+      approved: "Approved"
+      initial: "Draft"
+      pending: "Pending"
+    submitted: "Application submitted"
+    submitted_page:
+      card_title: "Still much to experience!"
+      contact_btn: "Contact Administrator via Telegram"
+      features:
+        auctions: "Additional auctions"
+        community: "Mantra community"
+        divisions: "Division system"
+        duels: "Duels vs opponents of your league"
+        gameplay: "Many months of continuous gameplay"
+        leagues: "Other leagues to join"
+        modes: "More Mantra modes"
+        more: "And many many more..."
+      price: "uah"
+      price_label: "Approximate price"
+      price_note: "Note: Discounts may be applied"
+      skip: "Skip for now"
+      steps:
+        - "Contact our admins for payment and discount details."
+        - "Complete payment and wait for validation"
+        - "Wait while your league is being formed"
+        - "Complete your team (by processing with next phases of the Auction)"
+        - "Wait till first gameweek"
+        - "Voila! Fight for your first victory!"
+      steps_title: "Here is what waits you next"
+      subtitle: "Continue your journey by completing your payment. We appreciate your support!"
+      title: "Enjoying it so far?"
+    teams: "teams"
+    title: "Join a league"
   round:
     auto_subs: "Exec AutoSubs"
     auto_subs_preview: "AutoSubs view"
