@@ -1,0 +1,12 @@
+.right-nav.active-right-nav-true.manage-nav
+  .league-name= t('manage.nav.title')
+  .league-links
+    = link_to manage_leagues_path do
+      .league-link{ class: "link-active-#{ params[:controller] == 'manage/leagues' }" }
+        .league-link-icon= image_tag('icons/round/teams.svg')
+        .league-link-text= t('manage.nav.leagues')
+  .league-links
+    = link_to manage_joins_path do
+      .league-link{ class: "link-active-#{ params[:controller] == 'manage/joins' }" }
+        .league-link-icon= image_tag('icons/round/auctions.svg')
+        .league-link-text= t('manage.nav.joins')

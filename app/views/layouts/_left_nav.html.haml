@@ -2,16 +2,17 @@
   .root-logo
     = link_to root_path do
       = image_tag('logo.svg')
-  .nav-logo-teams
-    - if user_signed_in?
-      - current_user.teams.each do |team|
-        - if team.league && !team.league.archived?
-          .nav-logo{ class: "nav-logo-#{ team.league == league }"}
-            = link_to league_link(team.league) do
-              = image_tag(team.league.tournament.logo_path)
-      .nav-logo-join
-        = link_to joins_path do
-          = image_tag('icons/plus_sign.svg')
+  .nav-teams-section
+    .nav-logo-teams
+      - if user_signed_in?
+        - current_user.teams.each do |team|
+          - if team.league && !team.league.archived?
+            .nav-logo{ class: "nav-logo-#{ team.league == league }"}
+              = link_to league_link(team.league) do
+                = image_tag(team.league.tournament.logo_path)
+    .nav-logo-join
+      = link_to joins_path do
+        = image_tag('icons/plus_sign.svg')
   .nav-logo-bottom
     .nav-logo-small
       = link_to leagues_path do
@@ -44,7 +45,7 @@
       .nav-logo-small
         = link_to manage_joins_path do
           .nav-link-icon= '📋'
-          .nav-link-title= t('manage.joins.title')
+          .nav-link-title= t('header.manage')
     - if user_signed_in?
       .nav-logo-small
         = link_to user_path(current_user) do

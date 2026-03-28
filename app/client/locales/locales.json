@@ -35,6 +35,15 @@
             "has_many": "Cannot delete record because dependent %{record} exist",
             "has_one": "Cannot delete record because a dependent %{record} exists"
           }
+        },
+        "models": {
+          "join": {
+            "attributes": {
+              "user_id": {
+                "already_applied": "already applied to this tournament"
+              }
+            }
+          }
         }
       },
       "models": {
@@ -609,6 +618,7 @@
       "login": "🗝 Login",
       "logout": "Log Out",
       "make_bid": "Make bid",
+      "manage": "Manage",
       "manage_round": "Manage round",
       "manage_round_mob": "Manage",
       "mantra": "Mantra",
@@ -712,11 +722,10 @@
         "skip": "Skip for now",
         "steps": [
           "Contact our admins for payment and discount details.",
-          "Complete payment and wait for validation",
           "Wait while your league is being formed",
           "Complete your team (by processing with next phases of the Auction)",
           "Wait till first gameweek",
-          "Voila! Fight for your first victory!"
+          "Fight for your first victory!"
         ],
         "steps_title": "Here is what waits you next",
         "subtitle": "Continue your journey by completing your payment. We appreciate your support!",
@@ -788,7 +797,12 @@
         "actions": "Actions",
         "approve": "Approve",
         "approved": "Application approved",
+        "approved_title": "Approved",
         "empty": "No pending applications",
+        "initial_title": "In Progress (not submitted)",
+        "league": "League",
+        "new_league": "New league",
+        "pending_title": "Pending Review",
         "reject": "Reject",
         "rejected": "Application rejected",
         "select_league": "Select league...",
@@ -797,6 +811,46 @@
         "title": "Join Applications",
         "tournament": "Tournament",
         "user": "User"
+      },
+      "leagues": {
+        "activate": "Activate",
+        "activated": "League activated",
+        "auction_number": "Auctions count",
+        "auction_step": "Auction step",
+        "auction_type": "Auction type",
+        "auction_type_blind_bids": "Blind bids",
+        "auction_type_live": "Live",
+        "auctions": "Auctions",
+        "cancel": "Cancel",
+        "confirm": "Set the deadline and activate the league?",
+        "created": "League created",
+        "deadline": "Round 1 Deadline",
+        "division": "Division",
+        "edit": "Edit",
+        "edit_title": "Edit League",
+        "empty": "No leagues",
+        "name": "League",
+        "new_title": "New League",
+        "no_division": "— No division —",
+        "save": "Save",
+        "season": "Season",
+        "select_season": "Select season...",
+        "select_tournament": "Select tournament...",
+        "status": "Status",
+        "status_active": "Active",
+        "status_archived": "Archived",
+        "status_initial": "Initial",
+        "teams": "Teams",
+        "title": "Leagues",
+        "tour_difference": "Tour difference",
+        "tournament": "Tournament",
+        "tours": "Tours",
+        "updated": "League updated"
+      },
+      "nav": {
+        "joins": "Join Apps",
+        "leagues": "Leagues",
+        "title": "Admin panel"
       }
     },
     "match": {
@@ -2133,6 +2187,7 @@
       "login": "🗝 Вхід",
       "logout": "Вихід",
       "make_bid": "Ставка",
+      "manage": "Керувати",
       "manage_round": "Керувати р..",
       "manage_round_mob": "Керувати",
       "mantra": "Мантра",
@@ -2201,11 +2256,10 @@
         "skip": "Пропустити",
         "steps": [
           "Зв'яжіться з адміністраторами щодо деталей оплати та знижок.",
-          "Здійсніть оплату та очікуйте підтвердження",
           "Очікуйте поки ваша ліга буде сформована",
-          "Доукомплектуйте команду (опрацьовуючи наступні фази Аукціону)",
+          "Доукомплектуйте команду (опрацьовуючи наступні етапи Аукціону)",
           "Очікуйте першого ігрового тижня",
-          "Вперед! Борись за першу перемогу!"
+          "Змагайтесь за першу перемогу!"
         ],
         "steps_title": "Що чекає далі",
         "subtitle": "Продовжіть свою подорож, здійснивши оплату. Дякуємо за підтримку!",
@@ -2227,7 +2281,7 @@
       },
       "new": {
         "confirm": "Підтвердити",
-        "subtitle": "в яких ви хочете позмагатися",
+        "subtitle": "в яких вам цікаво позмагатися",
         "title": "Виберіть турніри"
       }
     },
@@ -2277,7 +2331,12 @@
         "actions": "Дії",
         "approve": "Підтвердити",
         "approved": "Заявку підтверджено",
+        "approved_title": "Прийняті",
         "empty": "Немає заявок на розгляді",
+        "initial_title": "В процесі (не відправлені)",
+        "league": "Ліга",
+        "new_league": "Нова ліга",
+        "pending_title": "Очікують розгляду",
         "reject": "Відхилити",
         "rejected": "Заявку відхилено",
         "select_league": "Оберіть лігу...",
@@ -2286,6 +2345,46 @@
         "title": "Заявки на вступ",
         "tournament": "Турнір",
         "user": "Користувач"
+      },
+      "leagues": {
+        "activate": "Активувати",
+        "activated": "Лігу активовано",
+        "auction_number": "Кількість аукціонів",
+        "auction_step": "Крок аукціону",
+        "auction_type": "Тип аукціону",
+        "auction_type_blind_bids": "Закриті ставки",
+        "auction_type_live": "Живий",
+        "auctions": "Аукціони",
+        "cancel": "Скасувати",
+        "confirm": "Встановити дедлайн і активувати лігу?",
+        "created": "Лігу створено",
+        "deadline": "Дедлайн 1-го раунду",
+        "division": "Дивізіон",
+        "edit": "Редагувати",
+        "edit_title": "Редагування ліги",
+        "empty": "Немає ліг",
+        "name": "Ліга",
+        "new_title": "Нова ліга",
+        "no_division": "— Без дивізіону —",
+        "save": "Зберегти",
+        "season": "Сезон",
+        "select_season": "Оберіть сезон...",
+        "select_tournament": "Оберіть турнір...",
+        "status": "Статус",
+        "status_active": "Активні",
+        "status_archived": "Архівні",
+        "status_initial": "Початкові",
+        "teams": "Команди",
+        "title": "Ліги",
+        "tour_difference": "Різниця турів",
+        "tournament": "Турнір",
+        "tours": "Тури",
+        "updated": "Лігу оновлено"
+      },
+      "nav": {
+        "joins": "Заявки",
+        "leagues": "Ліги",
+        "title": "Адмін панель"
       }
     },
     "match": {

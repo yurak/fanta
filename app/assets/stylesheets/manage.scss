@@ -1,0 +1,65 @@
+.right-nav.manage-nav {
+  background: #FFE8E8;
+
+  .league-name {
+    margin-bottom: 16px;
+  }
+
+  .league-link:hover {
+    border-color: #f5696a;
+  }
+
+  .link-active-true {
+    .league-link-text {
+      color: #f5696a;
+    }
+
+    img {
+      filter: invert(59%) sepia(83%) saturate(490%) hue-rotate(314deg) brightness(104%) contrast(97%); // #f5696a
+    }
+  }
+
+  .link-active-true:hover {
+    .league-link-text {
+      color: #f5696a;
+    }
+
+    img {
+      filter: invert(59%) sepia(83%) saturate(490%) hue-rotate(314deg) brightness(104%) contrast(97%); // #f5696a
+    }
+  }
+}
+
+.admin-joins-page {
+  padding: 32px 24px 32px 296px;
+
+  h2 {
+    font-family: 'Nunito Bold';
+    margin-bottom: 24px;
+  }
+
+  .approve-form-fields {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+}
+
+.admin-leagues-page {
+  padding: 32px 24px 32px 296px;
+
+  h2 {
+    font-family: 'Nunito Bold';
+    margin-bottom: 24px;
+  }
+
+  .manage-leagues-tabs {
+    margin-bottom: 24px;
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+  }
+}

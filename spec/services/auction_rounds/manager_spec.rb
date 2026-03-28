@@ -446,6 +446,57 @@ RSpec.describe AuctionRounds::Manager do
       end
     end
 
+    context 'when a bid does not contain the required number of goalkeepers' do
+      let(:auction_round) { create(:auction_round, deadline: 1.hour.ago, auction: create(:auction, number: 2)) }
+      let(:league) { auction_round.league }
+      let!(:insufficient_gk_team) { create(:team, league: league) }
+      let!(:normal_team) { create(:team, league: league) }
+      let!(:insufficient_gk_bid) do
+        bid = create(:submitted_auction_bid, team: insufficient_gk_team, auction_round: auction_round)
+        2.times { create(:player_bid, auction_bid: bid, player: create(:player, :with_pos_por)) }
+        create_list(:player_bid, 4, auction_bid: bid)
+        bid
+      end
+
+      before do
+        create(:submitted_auction_bid, :with_player_bids, team: normal_team, auction_round: auction_round)
+        manager.call
+      end
+
+      it 'fails all initial player_bids for the team with insufficient goalkeepers' do
+        expect(insufficient_gk_bid.player_bids.map { |pb| pb.reload.status }.uniq).to eq(['failed'])
+      end
+
+      it 'does not fail player_bids for the team with sufficient goalkeepers' do
+        normal_bid = normal_team.auction_bids.first
+        expect(normal_bid.player_bids.any? { |pb| pb.reload.status == 'success' }).to be(true)
+      end
+    end
+
+    context 'when existing squad goalkeepers contribute to the minimum' do
+      let(:auction_round) { create(:auction_round, deadline: 1.hour.ago, auction: create(:auction, number: 2)) }
+      let(:league) { auction_round.league }
+      let!(:team) { create(:team, league: league) }
+      let!(:other_team) { create(:team, league: league) }
+
+      before do
+        gk_player = create(:player, :with_pos_por)
+        create(:player_team, player: gk_player, team: team)
+
+        bid = create(:submitted_auction_bid, team: team, auction_round: auction_round)
+        2.times { create(:player_bid, auction_bid: bid, player: create(:player, :with_pos_por)) }
+        create_list(:player_bid, 4, auction_bid: bid)
+
+        create(:submitted_auction_bid, :with_player_bids, team: other_team, auction_round: auction_round)
+        manager.call
+      end
+
+      it 'does not fail player_bids when existing squad goalkeepers fill the remaining minimum' do
+        bid = team.auction_bids.first
+        expect(bid.player_bids.any? { |pb| pb.reload.status == 'success' }).to be(true)
+      end
+    end
+
     context 'with processing status' do
       let(:auction_round) { create(:processing_auction_round) }
 

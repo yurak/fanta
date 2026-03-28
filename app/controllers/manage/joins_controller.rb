@@ -1,7 +1,12 @@
 module Manage
   class JoinsController < Manage::BaseController
     def index
-      @joins = Join.pending.includes(:user, :tournament, team: :join).order(created_at: :asc)
+      @pending_joins = Join.pending.includes(:user, :tournament, team: :join).order(created_at: :asc)
+      @initial_joins = Join.initial.includes(:user, :tournament, team: :join).order(created_at: :asc)
+      @approved_joins = Join.approved
+                            .includes(:user, :tournament, team: %i[join league])
+                            .order('tournaments.name, leagues.name')
+                            .references(:tournaments, :leagues)
     end
 
     def approve

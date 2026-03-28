@@ -10,12 +10,6 @@ class LeaguesController < ApplicationController
 
   def show; end
 
-  def activate
-    Leagues::Activator.call(league.id) if can? :activate, League
-
-    redirect_to league_path(league)
-  end
-
   private
 
   def league

@@ -33,6 +33,7 @@ class AuctionBidsController < ApplicationController
       AuctionBids::Manager.call(auction_bid, auction_bid_params) if bid_owner?
       join = auction_bid.team.join
       if join && auction_bid.reload.submitted?
+        join.pending!
         redirect_to join_path(join)
       else
         redirect_to auction_bid_path(auction_bid)

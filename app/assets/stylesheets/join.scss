@@ -399,22 +399,6 @@
   }
 }
 
-.admin-joins-page {
-  padding: 32px 24px;
-
-  h2 {
-    font-family: 'Nunito Bold';
-    margin-bottom: 24px;
-  }
-
-  .approve-form-fields {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    flex-wrap: wrap;
-  }
-}
-
 @media (max-width: 600px) {
   .join-page {
     padding: 16px 16px 80px;

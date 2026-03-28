@@ -15,6 +15,13 @@
     flex: 0 0 auto;
   }
 
+  .nav-teams-section {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
+
   .nav-logo-teams {
     flex: 1 1 auto;
     overflow-y: auto;
@@ -28,8 +35,7 @@
   }
 
   .nav-logo-join {
-    position: sticky;
-    bottom: 0;
+    flex: 0 0 auto;
     background: #fff;
     margin: 6px 12px;
     text-align: center;

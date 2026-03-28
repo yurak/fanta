@@ -1,6 +1,10 @@
 class JoinRequestsController < ApplicationController
   respond_to :html
 
+  def new
+    @tournaments = Tournament.mantra
+  end
+
   def create
     join_request = JoinRequest.new(join_request_params.merge(user: current_user))
 

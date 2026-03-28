@@ -26,6 +26,12 @@ Rails.application.routes.draw do
   resources :joins, only: [:index, :show]
 
   namespace :manage do
+    resources :leagues, only: [:index, :new, :create, :edit, :update] do
+      member do
+        post :activate
+      end
+    end
+
     resources :joins, only: [:index] do
       member do
         post :approve
@@ -53,8 +59,6 @@ Rails.application.routes.draw do
   resources :join_requests, only: [:new, :create]
 
   resources :leagues, only: [:index, :show] do
-    put :activate, on: :member
-
     resources :auctions, only: [:index, :show, :update] do
       get :live, on: :member
 

@@ -1,39 +1,86 @@
 .page-block
   .web-header= render 'layouts/left_nav', league: nil
-  .mob-header= render 'layouts/mob_header', league: nil, title: t('admin.joins.title')
+  .web-header= render 'layouts/manage_nav'
+  .mob-header= render 'layouts/mob_header', league: nil, title: t('manage.joins.title')
   .page-info.admin-joins-page
-    %h2= t('admin.joins.title')
+    %h2= t('manage.joins.title')
 
     - if flash[:notice]
       .alert.alert-success= flash[:notice]
 
-    - if @joins.any?
+    %h3= t('manage.joins.pending_title')
+    - if @pending_joins.any?
       %table.table.table-hover
         %thead.thead-light
           %tr
-            %th= t('admin.joins.user')
-            %th= t('admin.joins.team')
-            %th= t('admin.joins.tournament')
-            %th= t('admin.joins.submitted_at')
-            %th= t('admin.joins.actions')
+            %th= t('manage.joins.user')
+            %th= t('manage.joins.team')
+            %th= t('manage.joins.tournament')
+            %th= t('manage.joins.submitted_at')
+            %th= t('manage.joins.actions')
         %tbody
-          - @joins.each do |join|
+          - @pending_joins.each do |join|
             %tr
-              %td= join.user.name
+              %td= link_to join.user.name, manager_path(join.user)
               %td
                 = image_tag(join.team.logo_path, width: 24, height: 24)
-                = join.team.human_name
+                = link_to join.team.human_name, team_path(join.team)
               %td= join.tournament.name
               %td= join.created_at.strftime('%d %b %Y')
               %td
+                = link_to t('manage.joins.new_league'), rails_admin.new_path(model_name: 'league'), class: 'btn btn-sm btn-outline-secondary', target: '_blank'
                 = form_tag(approve_manage_join_path(join), method: :post, style: 'display:inline') do
                   .approve-form-fields
                     = select_tag :league_id,
-                                 options_from_collection_for_select(join.tournament.leagues.active, :id, :name),
+                                 options_from_collection_for_select(join.tournament.leagues.initial, :id, :name),
                                  class: 'form-control form-control-sm d-inline-block w-auto mr-1',
-                                 prompt: t('admin.joins.select_league')
-                    = submit_tag t('admin.joins.approve'), class: 'btn btn-sm btn-success mr-1'
+                                 prompt: t('manage.joins.select_league')
+                    = submit_tag t('manage.joins.approve'), class: 'btn btn-sm btn-success mr-1'
                 = form_tag(reject_manage_join_path(join), method: :post, style: 'display:inline') do
-                  = submit_tag t('admin.joins.reject'), class: 'btn btn-sm btn-danger'
+                  = submit_tag t('manage.joins.reject'), class: 'btn btn-sm btn-danger'
     - else
-      %p.text-muted= t('admin.joins.empty')
+      %p.text-muted= t('manage.joins.empty')
+
+    %h3= t('manage.joins.initial_title')
+    - if @initial_joins.any?
+      %table.table.table-hover
+        %thead.thead-light
+          %tr
+            %th= t('manage.joins.user')
+            %th= t('manage.joins.team')
+            %th= t('manage.joins.tournament')
+            %th= t('manage.joins.submitted_at')
+        %tbody
+          - @initial_joins.each do |join|
+            %tr
+              %td= link_to join.user.name, manager_path(join.user)
+              %td
+                = image_tag(join.team.logo_path, width: 24, height: 24)
+                = link_to join.team.human_name, team_path(join.team)
+              %td= join.tournament.name
+              %td= join.created_at.strftime('%d %b %Y')
+    - else
+      %p.text-muted= t('manage.joins.empty')
+
+    %h3= t('manage.joins.approved_title')
+    - if @approved_joins.any?
+      %table.table.table-hover
+        %thead.thead-light
+          %tr
+            %th= t('manage.joins.user')
+            %th= t('manage.joins.team')
+            %th= t('manage.joins.tournament')
+            %th= t('manage.joins.league')
+            %th= t('manage.joins.submitted_at')
+        %tbody
+          - @approved_joins.each do |join|
+            %tr
+              %td= link_to join.user.name, manager_path(join.user)
+              %td
+                = image_tag(join.team.logo_path, width: 24, height: 24)
+                = link_to join.team.human_name, team_path(join.team)
+              %td= join.tournament.name
+              %td= join.team.league ? link_to(join.team.league.name, league_path(join.team.league)) : ''
+              %td= join.created_at.strftime('%d %b %Y')
+    - else
+      %p.text-muted= t('manage.joins.empty')

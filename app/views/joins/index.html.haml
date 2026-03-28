@@ -24,8 +24,8 @@
           = t('join.contact_link')
     .join-card
       .join-content-grid
-        .join-col
-          - if @user_joins.any?
+        - if @user_joins.any?
+          .join-col
             .join-card-header
               %h2.join-card-title= t('join.my_applications')
             .join-tournaments-list

@@ -59,6 +59,10 @@
           .nav-link-title= t('join.title')
       - if current_user&.admin?
         .nav-logo-small
+          = link_to manage_joins_path do
+            .nav-link-icon= '📋'
+            .nav-link-title= t('header.manage')
+        .nav-logo-small
           = link_to rails_admin_path do
             .nav-link-icon= '⛔️'
             .nav-link-title= t('header.admin')
