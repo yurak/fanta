@@ -71,12 +71,11 @@ Rails.application.configure do
 
   config.action_mailer.default_url_options = { host: 'mantrafootball.org', protocol: 'https' }
 
-  # SMTP settings for gmail
   config.action_mailer.smtp_settings = {
-    :address              => 'smtp.gmail.com',
+    :address              => 'smtp.eu.mailgun.org',
     :port                 => 587,
-    :user_name            => ENV['GMAIL_USERNAME'],
-    :password             => ENV['GMAIL_PASSWORD'],
+    :user_name            => ENV['MAILGUN_SMTP_LOGIN'],
+    :password             => ENV['MAILGUN_SMTP_PASSWORD'],
     :authentication       => 'plain',
     :enable_starttls_auto => true
   }

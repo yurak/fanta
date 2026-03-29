@@ -1,4 +1,4 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: "Mantra Football <#{ENV.fetch('GMAIL_USERNAME', 'from@example.com')}>"
+  default from: "Mantra Football <#{ENV.fetch('MAILER_FROM', 'noreply@mantrafootball.org')}>"
   layout 'mailer'
 end
