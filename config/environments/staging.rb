@@ -74,7 +74,7 @@ Rails.application.configure do
   config.action_mailer.default_url_options = { host: 'staging.mantrafootball.org', protocol: 'https' }
 
   config.action_mailer.smtp_settings = {
-    :address              => 'smtp.mailgun.org',
+    :address              => 'smtp.eu.mailgun.org',
     :port                 => 587,
     :user_name            => ENV['MAILGUN_SMTP_LOGIN'],
     :password             => ENV['MAILGUN_SMTP_PASSWORD'],
