@@ -18,9 +18,15 @@
         .login-password-note= t('users.edit.change_username_desc')
         .login-input.login-input-second
           .login-label= t('users.new_name.tg_name')
-          .login-input-icon= image_tag('icons/login/user.svg')
+          .login-input-icon= image_tag('icons/login/telegram.svg')
           .login-input-text
             = text_field_tag :tg_name, nil, class: 'form-control', placeholder: t('users.new_name.tg_name')
         .login-password-note= t('users.new_name.tg_note')
+        .login-input.login-input-second
+          .login-label= t('users.new_name.time_zone')
+          .login-input-icon= image_tag('icons/login/clock.svg')
+          .login-input-text
+            = select_tag :time_zone, options_for_select(ActiveSupport::TimeZone.all.map { |tz| [tz.to_s, tz.name] }, User::DEFAULT_TIME_ZONE), class: 'form-control'
+        .login-password-note= t('users.new_name.time_zone_note')
         .login-btn-form
           = f.submit t('users.new_name.next'), class: 'login-btn blue-btn'

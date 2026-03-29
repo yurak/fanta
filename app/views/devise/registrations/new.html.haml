@@ -13,9 +13,23 @@
           .login-label= t('.email')
           .login-input-icon= image_tag('icons/login/mail.svg')
           .login-input-text
-            = f.email_field :email, value: params[:email], autofocus: true, autocomplete: 'email', class: 'form-control', placeholder: t('.email')
-        .signup-note.login-password-note
-          .inline-block= t('.note')
-          .signup-note-link= link_to t('.note_link'), fees_path
+            = f.email_field :email, value: params.dig(:user, :email), autofocus: true, autocomplete: 'email', class: 'form-control', placeholder: t('.email'), id: 'user_email'
+        #email-error
+          - if @email_taken
+            = t('.email_taken')
+            = link_to t('.sign_in'), new_user_session_path
+        -# .signup-note.login-password-note
+        -#   .inline-block= t('.note')
+        -#   .signup-note-link= link_to t('.note_link'), fees_path
         .login-btn-form
           = f.submit t('.continue'), class: 'login-btn blue-btn'
+
+:javascript
+  (function() {
+    const field = document.getElementById('user_email');
+    const errorDiv = document.getElementById('email-error');
+    if (!field || !errorDiv) return;
+    field.addEventListener('input', function() {
+      errorDiv.innerHTML = '';
+    });
+  })();

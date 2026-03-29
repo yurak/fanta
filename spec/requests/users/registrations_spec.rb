@@ -33,16 +33,19 @@ RSpec.describe 'Users::Registrations' do
     end
 
     context 'with invalid params (email already taken)' do
-      let!(:existing_user) { create(:user, email: email) }
+      before do
+        create(:user, email: email)
+        post user_registration_path, params: params
+      end
 
-      before { post user_registration_path, params: params }
+      it { expect(response).to have_http_status(:ok) }
 
       it 'does not create a duplicate user' do
         expect(User.where(email: email).count).to eq(1)
       end
 
-      it 'does not redirect to the confirmations page' do
-        expect(response).not_to redirect_to(users_confirmations_path(user: existing_user))
+      it 'renders the new template' do
+        expect(response).to render_template(:new)
       end
     end
   end

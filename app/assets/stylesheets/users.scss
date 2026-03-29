@@ -178,6 +178,35 @@
       text-align: right;
     }
 
+    .user-select-row {
+      select.user-select {
+        appearance: none;
+        width: 100%;
+        padding: 10px 36px 10px 12px;
+        font-family: 'Nunito Regular';
+        font-size: 14px;
+        line-height: 20px;
+        color: #181715;
+        background-color: #FFFFFF;
+        background-image: url("data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M4 6L8 10L12 6' stroke='%23847577' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 10px center;
+        border: 1px solid #847577;
+        border-radius: 4px;
+        cursor: pointer;
+        box-sizing: border-box;
+
+        &:hover {
+          border-color: #181715;
+        }
+
+        &:focus {
+          outline: none;
+          border-color: #261FFF;
+        }
+      }
+    }
+
     .user-btn-row {
       .grey-btn {
         width: fit-content;

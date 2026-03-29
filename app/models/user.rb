@@ -32,15 +32,10 @@ class User < ApplicationRecord
   validates :role, presence: true
   validates :time_zone, inclusion: { in: ActiveSupport::TimeZone.all.map(&:name) }, allow_blank: true
 
-  before_validation :set_default_time_zone, on: :create
   before_create :generate_unsubscribe_token
 
   def generate_unsubscribe_token
     self.unsubscribe_token ||= SecureRandom.hex(16)
-  end
-
-  def set_default_time_zone
-    self.time_zone ||= DEFAULT_TIME_ZONE
   end
 
   def local_time(time, format = '%^a, %^b %e, %H:%M')

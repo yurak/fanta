@@ -1331,13 +1331,15 @@
         "select": "Select avatar"
       },
       "new_name": {
-        "add_name": "Add manager name",
+        "add_name": "Add manager data",
         "create_alter_ego": "Almost there! Now let’s create your alter ego!",
         "name": "Manager name",
         "next": "Next",
         "note": "A manager name will allow other players to address you appropriately. You can change it at any time",
         "tg_name": "Telegram tag (phone number)",
-        "tg_note": "This data will help us contact you"
+        "tg_note": "This data will help us contact you",
+        "time_zone": "Time zone",
+        "time_zone_note": "Used to display deadlines in your local time"
       },
       "profile": {
         "advanced_set_title": "🛰 Advanced settings",
@@ -2796,13 +2798,15 @@
         "select": "Виберіть аватар"
       },
       "new_name": {
-        "add_name": "Додати ім'я менеджера",
+        "add_name": "Додати дані про менеджера",
         "create_alter_ego": "Майже готово! А тепер створимо ваше альтер-его!",
         "name": "Ім'я менеджера",
         "next": "Далі",
         "note": "Ім'я менеджера дозволить іншим гравцям звертатися до вас належним чином. Ви можете змінити його будь-коли",
         "tg_name": "Ім'я в Telegram або телефон",
-        "tg_note": "Ці дані допоможуть нам зв’язатися з вами"
+        "tg_note": "Ці дані допоможуть нам зв’язатися з вами",
+        "time_zone": "Часовий пояс",
+        "time_zone_note": "Використовується для відображення дедлайнів у вашому локальному часі"
       },
       "profile": {
         "advanced_set_title": "🛰 Розширені налаштування",
