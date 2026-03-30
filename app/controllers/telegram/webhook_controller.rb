@@ -3,7 +3,18 @@ module Telegram
     include Telegram::Bot::UpdatesController::MessageContext
     include Rails.application.routes.url_helpers
 
-    def start!(*)
+    def start!(*args)
+      token = args[0]
+
+      if token.present?
+        if link_by_token(token)
+          respond_with :message, text: t('telegram.webhooks.start.connected', locale: locale)
+        else
+          respond_with :message, text: t('telegram.webhooks.start.connect_failed', locale: locale)
+        end
+        return
+      end
+
       save_message
       send_start_message
     rescue Telegram::Bot::Forbidden => e
@@ -26,19 +37,22 @@ module Telegram
           [{ text: t('telegram.webhooks.learn_more.podcast', locale: locale), url: 'https://youtu.be/P4yh8PXipa4?si=FMme8cul9JJ2bKrC' }]
         ]
       }
-      reply_with :document, document: File.open('public/rules_short_ua.pdf')
-      reply_with :document, document: File.open('public/rules_extended_ua.pdf')
-      reply_with :document, document: File.open('public/rules_en.pdf')
+      %w[rules_short_ua.pdf rules_extended_ua.pdf rules_en.pdf].each do |filename|
+        File.open("public/#{filename}") { |f| reply_with :document, document: f }
+      end
     end
 
     def callback_query(data)
-      register! if data == 'register'
-
-      learn_more! if data == 'learn_more'
+      case data
+      when 'register'   then register!
+      when 'learn_more' then learn_more!
+      end
     end
 
     def check_email(*words)
       save_message
+
+      return if words[0].blank?
 
       email = words[0].downcase
       user = User.find_by(email: email)
@@ -93,7 +107,7 @@ module Telegram
         username: payload['from']['username'],
         first_name: payload['from']['first_name'],
         last_name: payload['from']['last_name'],
-        date: Time.zone.at(payload['date'] || DateTime.now).to_datetime
+        date: Time.zone.at(payload['date'] || Time.current.to_i).to_datetime
       )
     end
 
@@ -106,12 +120,24 @@ module Telegram
     end
 
     def email_valid_response(email)
+      token = SecureRandom.hex(16)
+      Rails.cache.write("tg_connect:#{token}", from['id'], expires_in: 1.hour)
+
       respond_with :message, text: t('telegram.webhooks.register.success', locale: locale), reply_markup: {
         inline_keyboard: [
           [{ text: t('telegram.webhooks.register.sign_up', locale: locale),
-             url: new_user_registration_url(email: email, host: host, locale: locale) }]
+             url: new_user_registration_url(email: email, tg_token: token, host: host, locale: locale) }]
         ]
       }
+    end
+
+    def link_by_token(token)
+      profile = UserProfile.find_by(tg_connect_token: token)
+      return false unless profile
+      return false if profile.tg_connect_expires_at.nil? || profile.tg_connect_expires_at < Time.current
+
+      profile.update(tg_chat_id: from['id'], bot_enabled: true, tg_connect_token: nil, tg_connect_expires_at: nil)
+      true
     end
 
     def profile

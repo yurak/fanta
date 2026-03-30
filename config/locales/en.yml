@@ -707,6 +707,10 @@ en:
       info_title: "🤓 Profile information"
       language_subtitle: "Choose the interface language"
       language_title: "🇪🇺 Language"
+      telegram_connect: "Connect Telegram"
+      telegram_connected: "✅ Telegram connected"
+      telegram_subtitle: "Get notifications about deadlines and game events"
+      telegram_title: "✈️ Telegram Bot"
       language_en: "🇬🇧 English"
       language_ua: "🇺🇦 Ukrainian"
       league: "League:"
@@ -1304,9 +1308,11 @@ en:
         success: Please continue to register on the website
         text: Please enter the email address you will use for the game
       start:
+        connect_failed: "⚠️ This link has expired or is invalid. Please go to your profile and generate a new one."
+        connected: "✅ Telegram successfully connected to your account!"
         learn_more: Learn more
         register: Register
         text: |
           Welcome to MantraFootball!
-          
-          We invite you to join the most realistic football fantasy. There are 9 European leagues to choose from. Register!
+
+          We invite you to join the most realistic football fantasy. There are 14 national leagues to choose from. Register!

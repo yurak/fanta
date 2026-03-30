@@ -28,7 +28,7 @@
               %td= join.tournament.name
               %td= join.created_at.strftime('%d %b %Y')
               %td
-                = link_to t('manage.joins.new_league'), rails_admin.new_path(model_name: 'league'), class: 'btn btn-sm btn-outline-secondary', target: '_blank'
+                = link_to t('manage.joins.new_league'), new_manage_league_path, class: 'btn btn-sm btn-outline-secondary', target: '_blank'
                 = form_tag(approve_manage_join_path(join), method: :post, style: 'display:inline') do
                   .approve-form-fields
                     = select_tag :league_id,

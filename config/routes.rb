@@ -121,10 +121,11 @@ Rails.application.routes.draw do
   end
 
   resources :users, only: [:show, :edit, :update] do
-    get :edit_avatar, on: :member
-    get :new_avatar, on: :member
-    get :new_name, on: :member
-    put :new_update, on: :member
+    get  :edit_avatar,      on: :member
+    get  :new_avatar,       on: :member
+    get  :new_name,         on: :member
+    put  :new_update,       on: :member
+    post :telegram_connect, on: :member
   end
   resources :users, only: [], path: :managers, as: :managers do
     get :show, on: :member, to: 'users#show_manager'

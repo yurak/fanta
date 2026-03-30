@@ -32,6 +32,30 @@ RSpec.describe 'Users::Registrations' do
       end
     end
 
+    context 'with valid params and tg_token (Flow 1: bot → registration)' do
+      let(:chat_id) { 99_999 }
+      let(:token) { 'test_tg_token' }
+
+      before do
+        Rails.cache.write("tg_connect:#{token}", chat_id, expires_in: 1.hour)
+        post user_registration_path, params: params.merge(tg_token: token)
+      end
+
+      it 'links tg_chat_id to the user profile' do
+        user = User.find_by!(email: email)
+        expect(user.user_profile.tg_chat_id).to eq(chat_id)
+      end
+
+      it 'enables bot for the user' do
+        user = User.find_by!(email: email)
+        expect(user.user_profile.bot_enabled).to be(true)
+      end
+
+      it 'removes the token from cache' do
+        expect(Rails.cache.read("tg_connect:#{token}")).to be_nil
+      end
+    end
+
     context 'with invalid params (email already taken)' do
       before do
         create(:user, email: email)

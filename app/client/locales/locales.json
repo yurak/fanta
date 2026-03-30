@@ -1235,9 +1235,11 @@
           "text": "Please enter the email address you will use for the game"
         },
         "start": {
+          "connect_failed": "⚠️ This link has expired or is invalid. Please go to your profile and generate a new one.",
+          "connected": "✅ Telegram successfully connected to your account!",
           "learn_more": "Learn more",
           "register": "Register",
-          "text": "Welcome to MantraFootball!\n\nWe invite you to join the most realistic football fantasy. There are 9 European leagues to choose from. Register!\n"
+          "text": "Welcome to MantraFootball!\n\nWe invite you to join the most realistic football fantasy. There are 14 national leagues to choose from. Register!\n"
         }
       }
     },
@@ -1363,6 +1365,10 @@
         "pos_naming_subtitle": "Choose positions that will be displayed",
         "positions_naming": "🎯 Positions naming",
         "teams": "⚽️ Teams",
+        "telegram_connect": "Connect Telegram",
+        "telegram_connected": "✅ Telegram connected",
+        "telegram_subtitle": "Get notifications about deadlines and game events",
+        "telegram_title": "✈️ Telegram Bot",
         "time_zone_subtitle": "Choose the one according to which the time will be displayed in the game",
         "time_zone_title": "🕰 Time zone",
         "via_tg": "Via Telegram bot"
@@ -2711,9 +2717,11 @@
           "text": "Будь ласка, введіть адресу електронної пошти, яку ви будете використовувати для гри"
         },
         "start": {
+          "connect_failed": "⚠️ Посилання застаріло або недійсне. Перейдіть у профіль і згенеруйте нове.",
+          "connected": "✅ Telegram успішно підключено до вашого акаунту!",
           "learn_more": "Докладніше",
           "register": "Реєстрація",
-          "text": "Ласкаво просимо до MantraFootball!\n\nЗапрошуємо долучитися до найреалістичнішого футбольного фентезі. Для вибору доступні 9 європейських ліг. Реєструйтесь!\n"
+          "text": "Ласкаво просимо до MantraFootball!\n\nЗапрошуємо долучитися до найреалістичнішого футбольного фентезі. Для вибору доступні 14 національних ліг. Реєструйтесь!\n"
         }
       }
     },
@@ -2830,6 +2838,10 @@
         "pos_naming_subtitle": "Оберіть, які позиції будуть показуватись",
         "positions_naming": "🎯 Найменування позицій",
         "teams": "⚽️ Команди",
+        "telegram_connect": "Підключити Telegram",
+        "telegram_connected": "✅ Telegram підключено",
+        "telegram_subtitle": "Отримуйте сповіщення про дедлайни та ігрові події",
+        "telegram_title": "✈️ Telegram Бот",
         "time_zone_subtitle": "Виберіть зону, згідно з якою буде відображатися час в грі",
         "time_zone_title": "🕰 Часова зона",
         "via_tg": "Через Телеграм бот"

@@ -32,6 +32,14 @@ class UsersController < ApplicationController
     end
   end
 
+  def telegram_connect
+    profile = user.user_profile || user.create_user_profile
+    token = SecureRandom.hex(16)
+    profile.update(tg_connect_token: token, tg_connect_expires_at: 1.hour.from_now)
+    bot_username = Rails.application.config.telegram_updates_controller.bot_username
+    render json: { url: "https://t.me/#{bot_username}?start=#{token}" }
+  end
+
   def show_manager
     @user = User.find(params[:id])
   end

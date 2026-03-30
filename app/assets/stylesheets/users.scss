@@ -207,6 +207,34 @@
       }
     }
 
+    .user-tg-connect {
+      .tg-connect-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 0 24px;
+        text-decoration: none;
+        color: #ffffff;
+
+        &:hover {
+          text-decoration: none;
+          color: #ffffff;
+        }
+
+        img.tg-connect-icon {
+          width: 20px;
+          height: 20px;
+          filter: none;
+        }
+      }
+
+      #tg-connect-link {
+        margin-top: 12px;
+        font-size: 14px;
+        word-break: break-all;
+      }
+    }
+
     .user-btn-row {
       .grey-btn {
         width: fit-content;

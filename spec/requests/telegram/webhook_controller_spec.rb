@@ -11,6 +11,55 @@ RSpec.describe Telegram::WebhookController, telegram_bot: :rails do
         dispatch(message: { from: from, chat: chat, text: '/start' }, update_id: 1)
       end.to change(TgMessage, :count).by(1)
     end
+
+    context 'with a valid connect token (Flow 2: site → bot)' do
+      let!(:profile) { create(:user_profile, tg_connect_token: 'valid_token', tg_connect_expires_at: 1.hour.from_now) }
+
+      it 'responds with connected message' do
+        expect(-> { dispatch_command :start, 'valid_token' })
+          .to respond_with_message(/successfully connected/)
+      end
+
+      it 'sets tg_chat_id on the user profile' do
+        dispatch_command :start, 'valid_token'
+        expect(profile.reload.tg_chat_id).to eq(from_id)
+      end
+
+      it 'enables bot on the user profile' do
+        dispatch_command :start, 'valid_token'
+        expect(profile.reload.bot_enabled).to be(true)
+      end
+
+      it 'clears the connect token' do
+        dispatch_command :start, 'valid_token'
+        expect(profile.reload.tg_connect_token).to be_nil
+      end
+    end
+
+    context 'with a token but nil tg_connect_expires_at' do
+      before { create(:user_profile, tg_connect_token: 'nil_expires_token', tg_connect_expires_at: nil) }
+
+      it 'responds with connect_failed message' do
+        expect(-> { dispatch_command :start, 'nil_expires_token' })
+          .to respond_with_message(/expired or is invalid/)
+      end
+    end
+
+    context 'with an expired connect token' do
+      before { create(:user_profile, tg_connect_token: 'expired_token', tg_connect_expires_at: 1.hour.ago) }
+
+      it 'responds with connect_failed message' do
+        expect(-> { dispatch_command :start, 'expired_token' })
+          .to respond_with_message(/expired or is invalid/)
+      end
+    end
+
+    context 'with an unknown connect token' do
+      it 'responds with connect_failed message' do
+        expect(-> { dispatch_command :start, 'unknown_token' })
+          .to respond_with_message(/expired or is invalid/)
+      end
+    end
   end
 
   describe '#help!' do

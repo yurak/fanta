@@ -111,4 +111,5 @@ Rails.application.configure do
 
   config.telegram_updates_controller.session_store = :file_store, Rails.root.join('tmp', 'session_store')
   config.telegram_updates_controller.host = 'https://staging.mantrafootball.org'
+  config.telegram_updates_controller.bot_username = 'mantra_prod_bot'
 end

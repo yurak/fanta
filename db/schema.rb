@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2026_03_18_125534) do
+ActiveRecord::Schema.define(version: 2026_03_30_075417) do
 
   create_table "article_tags", force: :cascade do |t|
     t.string "name", default: "", null: false
@@ -564,6 +564,9 @@ ActiveRecord::Schema.define(version: 2026_03_18_125534) do
     t.boolean "bot_enabled", default: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "tg_connect_token"
+    t.datetime "tg_connect_expires_at"
+    t.index ["tg_connect_token"], name: "index_user_profiles_on_tg_connect_token", unique: true
   end
 
   create_table "users", force: :cascade do |t|

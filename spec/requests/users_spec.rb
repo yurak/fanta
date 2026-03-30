@@ -443,6 +443,67 @@ RSpec.describe 'Users' do
     end
   end
 
+  describe 'POST #telegram_connect' do
+    context 'when user is logged out' do
+      before { post telegram_connect_user_path(other_user) }
+
+      it { expect(response).to redirect_to('/users/sign_in') }
+      it { expect(response).to have_http_status(:found) }
+    end
+
+    context 'when user is logged in and connects own account' do
+      let(:logged_user) { create(:user, :with_profile) }
+
+      before do
+        sign_in logged_user
+        post telegram_connect_user_path(logged_user)
+      end
+
+      it { expect(response).to have_http_status(:ok) }
+
+      it 'returns a Telegram deep link URL' do
+        expect(response.parsed_body['url']).to match(%r{t\.me/mantra_prod_bot\?start=\w+})
+      end
+
+      it 'sets tg_connect_token on the user profile' do
+        expect(logged_user.user_profile.reload.tg_connect_token).to be_present
+      end
+
+      it 'sets tg_connect_expires_at on the user profile' do
+        expect(logged_user.user_profile.reload.tg_connect_expires_at).to be > Time.current
+      end
+    end
+
+    context 'when user is logged in without a profile' do
+      let(:logged_user) { create(:user) }
+
+      before do
+        sign_in logged_user
+        post telegram_connect_user_path(logged_user)
+      end
+
+      it 'creates a user profile' do
+        expect(logged_user.reload.user_profile).to be_present
+      end
+
+      it 'returns a Telegram deep link URL' do
+        expect(response.parsed_body['url']).to match(%r{t\.me/mantra_prod_bot\?start=\w+})
+      end
+    end
+
+    context 'when user is logged in and tries to connect another user' do
+      let(:logged_user) { create(:user) }
+
+      before do
+        sign_in logged_user
+        post telegram_connect_user_path(other_user)
+      end
+
+      it { expect(response).to redirect_to(user_path(logged_user)) }
+      it { expect(response).to have_http_status(:found) }
+    end
+  end
+
   describe 'GET #manager' do
     let(:user) { create(:user) }
 
