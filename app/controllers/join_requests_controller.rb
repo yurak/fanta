@@ -20,6 +20,6 @@ class JoinRequestsController < ApplicationController
   private
 
   def join_request_params
-    params.require(:join_request).permit(leagues: [])
+    params.fetch(:join_request, {}).permit(leagues: [])
   end
 end

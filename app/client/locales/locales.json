@@ -684,6 +684,7 @@
       "apply": "Apply",
       "cancel": "Cancel",
       "code": "Code",
+      "code_error": "Code must be 2–3 characters",
       "code_hint": "2–3 Latin characters or digits",
       "code_placeholder": "e.g. MAN",
       "contact_link": "Contact administration",
@@ -691,8 +692,8 @@
       "continue": "Continue",
       "create_team": "Create team",
       "my_applications": "My applications",
-      "no_active_leagues_subtitle": "Select one of available Leagues and play",
-      "no_active_leagues_title": "You currently have no active Leagues",
+      "no_active_leagues_subtitle": "Select one of available leagues and play",
+      "no_active_leagues_title": "You currently have no active leagues",
       "no_leagues": "No available leagues at the moment",
       "remove_logo": "Remove",
       "rules_link": "Read rules",
@@ -732,6 +733,8 @@
         "title": "Enjoying it so far?"
       },
       "teams": "teams",
+      "telegram_link": "Connect Telegram Bot",
+      "telegram_title": "Get deadline reminders",
       "title": "Join a league"
     },
     "join_request": {
@@ -2226,6 +2229,7 @@
       "apply": "Подати заявку",
       "cancel": "Скасувати",
       "code": "Код",
+      "code_error": "Код має бути 2–3 символи",
       "code_hint": "2–3 латинські символи або цифри",
       "code_placeholder": "напр. MAN",
       "contact_link": "Написати адміністрації",
@@ -2274,6 +2278,8 @@
         "title": "Як враження?"
       },
       "teams": "команд",
+      "telegram_link": "Підключити Telegram бот",
+      "telegram_title": "Отримуй нагадування про дедлайни",
       "title": "Долучитись до ліги"
     },
     "join_request": {

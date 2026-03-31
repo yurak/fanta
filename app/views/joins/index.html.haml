@@ -9,12 +9,20 @@
         .join-no-leagues-icon 🏖️
         %h2.join-no-leagues-title= t('join.no_active_leagues_title')
         %p.join-no-leagues-subtitle= t('join.no_active_leagues_subtitle')
-    .join-info-cards
+    .join-info-cards{ class: current_user.user_profile&.bot_enabled ? nil : 'join-info-cards-3' }
       .join-info-card
         .join-info-card-title
           %span ⚖️
           = t('join.rules_title')
         = link_to t('join.rules_link'), rules_path, class: 'join-info-card-link'
+      - unless current_user.user_profile&.bot_enabled
+        .join-info-card
+          .join-info-card-title
+            %span ✈️
+            = t('join.telegram_title')
+          = link_to '#', data: { connect_url: telegram_connect_user_path(current_user) }, class: 'join-tg-connect-btn join-info-card-link' do
+            = image_tag 'icons/telegram.svg', class: 'join-info-card-icon'
+            = t('join.telegram_link')
       .join-info-card
         .join-info-card-title
           %span 🧩
@@ -50,7 +58,11 @@
                     = image_tag(tournament.logo_path)
                   .join-tournament-info
                     .join-tournament-name= tournament.name
-                    .join-tournament-meta= "#{tournament.mode&.capitalize} · #{tournament.active_teams_count} #{t('join.teams')} · #{tournament.joins_count} #{t('join.applications')}"
+                    .join-tournament-meta
+                      %span= "#{tournament.mode&.capitalize} · #{tournament.active_teams_count} #{t('join.teams')}"
+                      %span.join-tournament-meta-apps
+                        %span.join-tournament-meta-sep ·&nbsp;
+                        = "#{tournament.joins_count} #{t('join.applications')}"
                   .join-tournament-action
                     %span.join-apply-text
                       = t('join.apply')
@@ -59,3 +71,22 @@
             .join-empty= t('join.no_leagues')
 
 = render 'joins/team_modal'
+
+- unless current_user.user_profile&.bot_enabled
+  :javascript
+    (function() {
+      const btn = document.querySelector('.join-tg-connect-btn');
+      if (!btn) return;
+
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        fetch(btn.dataset.connectUrl, {
+          method: 'POST',
+          headers: { 'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content }
+        })
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+          window.open(data.url, '_blank');
+        });
+      });
+    })();

@@ -27,10 +27,11 @@
                        minlength: 2, maxlength: 3, required: true,
                        data: { pattern: '^[a-zA-Z0-9]+$' }
       %small.join-modal-input-hint= t('join.code_hint')
+      %small.join-modal-code-error{ style: 'display:none' }= t('join.code_error')
 
       .join-modal-footer
         %button.grey-btn{ type: 'button', id: 'join-modal-cancel' }= t('join.cancel')
-        = f.submit t('join.continue'), class: 'blue-btn'
+        %button.blue-btn{ type: 'button', id: 'join-modal-submit' }= t('join.continue')
 
 :javascript
   (function() {
@@ -44,6 +45,7 @@
     var previewImg = document.getElementById('join-logo-preview-img');
     var tournamentField = document.getElementById('join-tournament-id');
     var codeInput  = modal.querySelector('.join-code-input');
+    var codeError  = modal.querySelector('.join-modal-code-error');
     var defaultLogoSrc = previewImg.src;
 
     function openModal() { modal.style.display = 'flex'; }
@@ -83,6 +85,16 @@
     });
 
     codeInput.addEventListener('input', function() {
-      this.value = this.value.replace(/[^a-zA-Z0-9]/g, '');
+      this.value = this.value.replace(/[^a-zA-Z0-9]/g, '').toUpperCase();
+      codeError.style.display = 'none';
+    });
+
+    document.getElementById('join-modal-submit').addEventListener('click', function() {
+      if (codeInput.value.length < 2) {
+        codeError.style.display = 'block';
+        codeInput.focus();
+        return;
+      }
+      modal.querySelector('form').submit();
     });
   })();
