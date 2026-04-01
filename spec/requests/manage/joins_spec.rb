@@ -34,15 +34,18 @@ RSpec.describe 'Manage::Joins' do
       it { expect(response).to render_template(:index) }
 
       it 'assigns pending joins' do
-        expect(controller.instance_variable_get(:@pending_joins)).to include(join)
+        get manage_joins_path(tab: 'pending')
+        expect(response.body).to include(join.user.name)
       end
 
       it 'assigns initial joins' do
-        expect(controller.instance_variable_get(:@initial_joins)).to include(initial_join)
+        get manage_joins_path(tab: 'initial')
+        expect(response.body).to include(initial_join.user.name)
       end
 
       it 'assigns approved joins' do
-        expect(controller.instance_variable_get(:@approved_joins)).to include(approved_join)
+        get manage_joins_path(tab: 'approved')
+        expect(response.body).to include(approved_join.user.name)
       end
     end
   end

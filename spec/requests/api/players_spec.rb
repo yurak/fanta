@@ -71,7 +71,7 @@ RSpec.describe 'Players' do
           expect(body['data'].size).to eq 2
           expect(body['data'].pluck('id')).to contain_exactly(player_one.id, player_two.id)
           expect(body['meta']['size']).to eq 2
-          expect(body['meta']['page']['per_page']).to eq 30
+          expect(body['meta']['page']['per_page']).to eq 2
           expect(body['meta']['page']['total_pages']).to eq 1
           expect(body['meta']['page']['current_page']).to eq 1
         end
@@ -91,7 +91,7 @@ RSpec.describe 'Players' do
           expect(body['data'].size).to eq 2
           expect(body['data'].pluck('id')).to contain_exactly(player_one.id, player_two.id)
           expect(body['meta']['size']).to eq 2
-          expect(body['meta']['page']['per_page']).to eq 30
+          expect(body['meta']['page']['per_page']).to eq 2
           expect(body['meta']['page']['total_pages']).to eq 1
           expect(body['meta']['page']['current_page']).to eq 1
         end
