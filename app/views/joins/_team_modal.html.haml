@@ -19,8 +19,9 @@
 
       .join-modal-input-field
         %label.join-modal-input-label{ for: 'team_human_name' }= t('teams.new.name')
-        = f.text_field :human_name, class: 'join-modal-input', placeholder: t('teams.new.name'),
+        = f.text_field :human_name, class: 'join-modal-input join-name-input', placeholder: t('teams.new.name'),
                        minlength: 2, maxlength: 24, required: true
+      %small.join-modal-name-error{ style: 'display:none' }= t('join.name_error')
       .join-modal-input-field
         %label.join-modal-input-label{ for: 'team_code' }= t('join.code')
         = f.text_field :code, class: 'join-modal-input join-code-input', placeholder: t('join.code_placeholder'),
@@ -44,6 +45,8 @@
     var logoUrlField = document.getElementById('join-logo-url');
     var previewImg = document.getElementById('join-logo-preview-img');
     var tournamentField = document.getElementById('join-tournament-id');
+    var nameInput  = modal.querySelector('.join-name-input');
+    var nameError  = modal.querySelector('.join-modal-name-error');
     var codeInput  = modal.querySelector('.join-code-input');
     var codeError  = modal.querySelector('.join-modal-code-error');
     var defaultLogoSrc = previewImg.src;
@@ -84,12 +87,21 @@
       });
     });
 
+    nameInput.addEventListener('input', function() {
+      nameError.style.display = 'none';
+    });
+
     codeInput.addEventListener('input', function() {
       this.value = this.value.replace(/[^a-zA-Z0-9]/g, '').toUpperCase();
       codeError.style.display = 'none';
     });
 
     document.getElementById('join-modal-submit').addEventListener('click', function() {
+      if (nameInput.value.length < 2) {
+        nameError.style.display = 'block';
+        nameInput.focus();
+        return;
+      }
       if (codeInput.value.length < 2) {
         codeError.style.display = 'block';
         codeInput.focus();

@@ -258,7 +258,7 @@ RSpec.describe 'Users' do
         get new_name_user_path(user)
       end
 
-      it { expect(response).to redirect_to(new_join_request_path) }
+      it { expect(response).to redirect_to(site_config_user_path(user)) }
       it { expect(response).to have_http_status(:found) }
     end
 
@@ -270,7 +270,40 @@ RSpec.describe 'Users' do
         get new_name_user_path(user)
       end
 
-      it { expect(response).to redirect_to(new_join_request_path) }
+      it { expect(response).to redirect_to(site_config_user_path(user)) }
+      it { expect(response).to have_http_status(:found) }
+    end
+  end
+
+  describe 'GET #site_config' do
+    before do
+      get site_config_user_path(other_user)
+    end
+
+    context 'when user is logged out' do
+      it { expect(response).to redirect_to('/users/sign_in') }
+      it { expect(response).to have_http_status(:found) }
+    end
+
+    context 'when with_avatar user views own site_config page' do
+      before do
+        logged_user = create(:user, status: :with_avatar)
+        sign_in logged_user
+        get site_config_user_path(logged_user)
+      end
+
+      it { expect(response).to be_successful }
+      it { expect(response).to render_template(:site_config) }
+      it { expect(response).to have_http_status(:ok) }
+    end
+
+    context 'when user is logged in and views other user site_config page' do
+      login_user
+      before do
+        get site_config_user_path(other_user)
+      end
+
+      it { expect(response).to redirect_to(user_path(User.last)) }
       it { expect(response).to have_http_status(:found) }
     end
   end
@@ -411,7 +444,7 @@ RSpec.describe 'Users' do
         put new_update_user_path(logged_user, params)
       end
 
-      it { expect(response).to redirect_to(new_join_request_path) }
+      it { expect(response).to redirect_to(site_config_user_path(logged_user)) }
       it { expect(response).to have_http_status(:found) }
 
       it 'updates user avatar' do
@@ -420,6 +453,31 @@ RSpec.describe 'Users' do
 
       it 'updates user status' do
         expect(logged_user.reload.status).to eq('with_avatar')
+      end
+    end
+
+    context 'when with_avatar user is logged in and submits site_config' do
+      let(:logged_user) { create(:user, status: :with_avatar) }
+      let(:params) { { locale: 'ua', time_zone: 'Kyiv' } }
+
+      before do
+        sign_in logged_user
+        put new_update_user_path(logged_user, params)
+      end
+
+      it { expect(response).to redirect_to(joins_path) }
+      it { expect(response).to have_http_status(:found) }
+
+      it 'updates user locale' do
+        expect(logged_user.reload.locale).to eq('ua')
+      end
+
+      it 'updates user time_zone' do
+        expect(logged_user.reload.time_zone).to eq('Kyiv')
+      end
+
+      it 'sets status to configured' do
+        expect(logged_user.reload.status).to eq('configured')
       end
     end
 

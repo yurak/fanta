@@ -124,6 +124,7 @@ Rails.application.routes.draw do
     get  :edit_avatar,      on: :member
     get  :new_avatar,       on: :member
     get  :new_name,         on: :member
+    get  :site_config,      on: :member
     put  :new_update,       on: :member
     post :telegram_connect, on: :member
   end

@@ -14,7 +14,8 @@
           .login-label= t('users.new_name.name')
           .login-input-icon= image_tag('icons/login/user.svg')
           .login-input-text
-            = text_field_tag :name, nil, class: 'form-control', placeholder: t('users.new_name.name')
+            = text_field_tag :name, nil, class: 'form-control new-name-input', placeholder: t('users.new_name.name')
+        %small.new-name-error{ style: 'display:none' }= t('users.new_name.name_error')
         .login-password-note= t('users.edit.change_username_desc')
         .login-input.login-input-second
           .login-label= t('users.new_name.tg_name')
@@ -22,11 +23,24 @@
           .login-input-text
             = text_field_tag :tg_name, nil, class: 'form-control', placeholder: t('users.new_name.tg_name')
         .login-password-note= t('users.new_name.tg_note')
-        .login-input.login-input-second
-          .login-label= t('users.new_name.time_zone')
-          .login-input-icon= image_tag('icons/login/clock.svg')
-          .login-input-text
-            = select_tag :time_zone, options_for_select(ActiveSupport::TimeZone.all.map { |tz| [tz.to_s, tz.name] }, User::DEFAULT_TIME_ZONE), class: 'form-control'
-        .login-password-note= t('users.new_name.time_zone_note')
         .login-btn-form
-          = f.submit t('users.new_name.next'), class: 'login-btn blue-btn'
+          = f.submit t('users.new_name.next'), class: 'login-btn blue-btn new-name-submit'
+
+:javascript
+  (function() {
+    var nameInput  = document.querySelector('.new-name-input');
+    var nameError  = document.querySelector('.new-name-error');
+    var submitBtn  = document.querySelector('.new-name-submit');
+
+    nameInput.addEventListener('input', function() {
+      nameError.style.display = 'none';
+    });
+
+    submitBtn.addEventListener('click', function(e) {
+      if (nameInput.value.length < 2) {
+        e.preventDefault();
+        nameError.style.display = 'block';
+        nameInput.focus();
+      }
+    });
+  })();

@@ -18,15 +18,18 @@ class UsersController < ApplicationController
     user.create_user_profile unless user.user_profile
   end
 
+  def site_config; end
+
   def new_update
     user_add_params = user_new_params
     user_add_params = user_add_params.merge(status: :with_avatar) if user.named? && user_params[:avatar].present?
+    user_add_params = user_add_params.merge(status: :configured) if user.with_avatar?
     user.assign_attributes(user_add_params)
 
     if !user.initial? && user.save
       update_user_profile
 
-      redirect_to user.named? ? new_avatar_user_path(user) : new_join_request_path
+      redirect_to new_update_redirect_path
     else
       redirect_to new_name_user_path(user)
     end
@@ -64,6 +67,16 @@ class UsersController < ApplicationController
 
   def user_new_params
     user.initial? && user_params[:name].present? ? user_params.merge(status: :named) : user_params
+  end
+
+  def new_update_redirect_path
+    if user.named?
+      new_avatar_user_path(user)
+    elsif user.configured?
+      joins_path
+    else
+      site_config_user_path(user)
+    end
   end
 
   def user_profile_params

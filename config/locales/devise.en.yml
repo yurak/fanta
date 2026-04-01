@@ -67,6 +67,7 @@ en:
         continue: "Continue with email"
         email: "Email"
         email_taken: "This email is already registered."
+        email_invalid: "Please enter a valid email address"
         note: "⚠️ To participate in the game, you will need to "
         note_link: "make a fee"
         sign_in: "Log in"

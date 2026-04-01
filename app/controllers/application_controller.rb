@@ -24,7 +24,7 @@ class ApplicationController < ActionController::Base
     elsif current_user.named?
       redirect_to_new_avatar
     else
-      redirect_to_join_request
+      redirect_to_site_config
     end
   end
 
@@ -36,7 +36,7 @@ class ApplicationController < ActionController::Base
     redirect_to new_avatar_user_path(current_user) unless params[:action] == 'new_avatar' || params[:action] == 'new_update'
   end
 
-  def redirect_to_join_request
-    redirect_to new_join_request_path if params[:controller] != 'join_requests'
+  def redirect_to_site_config
+    redirect_to site_config_user_path(current_user) unless params[:action] == 'site_config' || params[:action] == 'new_update'
   end
 end

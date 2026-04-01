@@ -692,6 +692,7 @@
       "continue": "Continue",
       "create_team": "Create team",
       "my_applications": "My applications",
+      "name_error": "Name must be at least 2 characters",
       "no_active_leagues_subtitle": "Select one of available leagues and play",
       "no_active_leagues_title": "You currently have no active leagues",
       "no_leagues": "No available leagues at the moment",
@@ -810,6 +811,9 @@
         "rejected": "Application rejected",
         "select_league": "Select league...",
         "submitted_at": "Submitted",
+        "tab_approved": "Approved",
+        "tab_initial": "In Progress",
+        "tab_pending": "Pending",
         "team": "Team",
         "title": "Join Applications",
         "tournament": "Tournament",
@@ -1339,12 +1343,11 @@
         "add_name": "Add manager data",
         "create_alter_ego": "Almost there! Now let’s create your alter ego!",
         "name": "Manager name",
+        "name_error": "Name must be at least 2 characters",
         "next": "Next",
         "note": "A manager name will allow other players to address you appropriately. You can change it at any time",
         "tg_name": "Telegram tag (phone number)",
-        "tg_note": "This data will help us contact you",
-        "time_zone": "Time zone",
-        "time_zone_note": "Used to display deadlines in your local time"
+        "tg_note": "This data will help us contact you"
       },
       "profile": {
         "advanced_set_title": "🛰 Advanced settings",
@@ -1375,6 +1378,15 @@
         "time_zone_subtitle": "Choose the one according to which the time will be displayed in the game",
         "time_zone_title": "🕰 Time zone",
         "via_tg": "Via Telegram bot"
+      },
+      "site_config": {
+        "language": "Language",
+        "language_note": "The language used across the entire site",
+        "next": "Start playing",
+        "subtitle": "You can change these at any time in your profile",
+        "time_zone": "Time zone",
+        "time_zone_note": "Used to display deadlines in your local time",
+        "title": "Almost done! Let's set up your preferences"
       },
       "update": "Update"
     },
@@ -2237,6 +2249,7 @@
       "continue": "Продовжити",
       "create_team": "Створити команду",
       "my_applications": "Мої заявки",
+      "name_error": "Назва має бути щонайменше 2 символи",
       "no_active_leagues_subtitle": "Обери одну з доступних ліг та грай",
       "no_active_leagues_title": "У тебе наразі немає активних ліг",
       "no_leagues": "Наразі немає доступних ліг",
@@ -2355,6 +2368,9 @@
         "rejected": "Заявку відхилено",
         "select_league": "Оберіть лігу...",
         "submitted_at": "Надіслано",
+        "tab_approved": "Прийняті",
+        "tab_initial": "В процесі",
+        "tab_pending": "Очікують",
         "team": "Команда",
         "title": "Заявки на вступ",
         "tournament": "Турнір",
@@ -2815,12 +2831,11 @@
         "add_name": "Додати дані про менеджера",
         "create_alter_ego": "Майже готово! А тепер створимо ваше альтер-его!",
         "name": "Ім'я менеджера",
+        "name_error": "Ім’я має бути щонайменше 2 символи",
         "next": "Далі",
         "note": "Ім'я менеджера дозволить іншим гравцям звертатися до вас належним чином. Ви можете змінити його будь-коли",
         "tg_name": "Ім'я в Telegram або телефон",
-        "tg_note": "Ці дані допоможуть нам зв’язатися з вами",
-        "time_zone": "Часовий пояс",
-        "time_zone_note": "Використовується для відображення дедлайнів у вашому локальному часі"
+        "tg_note": "Ці дані допоможуть нам зв’язатися з вами"
       },
       "profile": {
         "advanced_set_title": "🛰 Розширені налаштування",
@@ -2851,6 +2866,15 @@
         "time_zone_subtitle": "Виберіть зону, згідно з якою буде відображатися час в грі",
         "time_zone_title": "🕰 Часова зона",
         "via_tg": "Через Телеграм бот"
+      },
+      "site_config": {
+        "language": "Мова",
+        "language_note": "Мова, яка використовується на всьому сайті",
+        "next": "Почати гру",
+        "subtitle": "Ви можете змінити їх будь-коли у профілі",
+        "time_zone": "Часовий пояс",
+        "time_zone_note": "Використовується для відображення дедлайнів у вашому місцевому часі",
+        "title": "Майже готово! Налаштуємо ваші вподобання"
       },
       "update": "Оновити"
     },

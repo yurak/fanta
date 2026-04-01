@@ -1,12 +1,22 @@
 module Manage
   class JoinsController < Manage::BaseController
+    TABS = %w[pending initial approved].freeze
+
     def index
-      @pending_joins = Join.pending.includes(:user, :tournament, team: :join).order(created_at: :asc)
-      @initial_joins = Join.initial.includes(:user, :tournament, team: :join).order(created_at: :asc)
-      @approved_joins = Join.approved
-                            .includes(:user, :tournament, team: %i[join league])
-                            .order('tournaments.name, leagues.name')
-                            .references(:tournaments, :leagues)
+      @tab = TABS.include?(params[:tab]) ? params[:tab] : TABS.first
+      @joins = case @tab
+               when 'pending'
+                 Join.pending.includes(:user, :tournament, team: :join)
+                     .order('tournaments.id, joins.created_at ASC')
+                     .references(:tournaments)
+               when 'initial'
+                 Join.initial.includes(:user, :tournament, team: :join).order(created_at: :asc)
+               when 'approved'
+                 Join.approved
+                     .includes(:user, :tournament, team: %i[join league])
+                     .order('tournaments.name, leagues.name')
+                     .references(:tournaments, :leagues)
+               end
     end
 
     def approve

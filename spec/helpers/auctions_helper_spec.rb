@@ -444,6 +444,15 @@ RSpec.describe AuctionsHelper do
     context 'without auction_round' do
       let(:auction_round) { nil }
 
+      it 'returns player stats_price' do
+        expect(helper.min_bid(auction_round, player)).to eq(15)
+      end
+    end
+
+    context 'without auction_round and without player' do
+      let(:auction_round) { nil }
+      let(:player) { nil }
+
       it 'returns 1' do
         expect(helper.min_bid(auction_round, player)).to eq(1)
       end

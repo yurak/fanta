@@ -204,7 +204,7 @@
 
               const priceInput = $('.price-input-' + slotId);
               let playerPrice = 1;
-              if (primaryAuction && auctionRoundNumber < minPriceDisabledNumber) {
+              if (auctionRoundNumber === "" || (primaryAuction && auctionRoundNumber < minPriceDisabledNumber)) {
                 playerPrice = data.stats_price;
               }
               priceInput.val(playerPrice);
@@ -357,7 +357,7 @@
         const playerPath = "#{player_path(1).tr('1', '')}" + data.id;
 
         let minPrice = " ";
-        if (primaryAuction && auctionRoundNumber < minPriceDisabledNumber) { minPrice = data.stats_price }
+        if (auctionRoundNumber === "" || (primaryAuction && auctionRoundNumber < minPriceDisabledNumber)) { minPrice = data.stats_price }
 
         let positionsContainer = '<div class="player-positions-block">';
         data.position_ital_arr.forEach((positionName, index) => {

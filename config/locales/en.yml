@@ -225,6 +225,7 @@ en:
     code: "Code"
     code_hint: "2–3 Latin characters or digits"
     code_error: "Code must be 2–3 characters"
+    name_error: "Name must be at least 2 characters"
     code_placeholder: "e.g. MAN"
     continue: "Continue"
     create_team: "Create team"
@@ -371,6 +372,9 @@ en:
       approved_title: "Approved"
       pending_title: "Pending Review"
       initial_title: "In Progress (not submitted)"
+      tab_pending: "Pending"
+      tab_initial: "In Progress"
+      tab_approved: "Approved"
       league: "League"
       tournament: "Tournament"
       team: "Team"
@@ -690,6 +694,14 @@ en:
       win_rate: "🏅️ Games Win Rate"
     new_avatar:
       select: "Select avatar"
+    site_config:
+      title: "Almost done! Let's set up your preferences"
+      subtitle: "You can change these at any time in your profile"
+      next: "Start playing"
+      language: "Language"
+      language_note: "The language used across the entire site"
+      time_zone: "Time zone"
+      time_zone_note: "Used to display deadlines in your local time"
     new_name:
       add_name: "Add manager data"
       create_alter_ego: "Almost there! Now let’s create your alter ego!"
@@ -698,8 +710,7 @@ en:
       note: "A manager name will allow other players to address you appropriately. You can change it at any time"
       tg_name: "Telegram tag (phone number)"
       tg_note: "This data will help us contact you"
-      time_zone: "Time zone"
-      time_zone_note: "Used to display deadlines in your local time"
+      name_error: "Name must be at least 2 characters"
     profile:
       advanced_set_title: "🛰 Advanced settings"
       change: "Change"
