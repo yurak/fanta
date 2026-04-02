@@ -38,6 +38,8 @@ Rails.application.routes.draw do
         post :reject
       end
     end
+
+    resources :players, only: [:index, :create]
   end
 
   get  'unsubscribe', to: 'subscriptions#unsubscribe', as: :unsubscribe

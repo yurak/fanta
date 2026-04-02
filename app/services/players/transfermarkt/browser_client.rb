@@ -18,13 +18,15 @@ module Players
         cached = fetch_from_cache(path, cache_key: cache_key, force: force, ttl: ttl)
         return cached if cached
 
-        cookies = load_cookies
         log_cache("browser OPEN key=#{cache_key} headless=#{headless}")
 
         Playwright.create(playwright_cli_executable_path: playwright_cli_path) do |pw|
-          browser = pw.chromium.launch(headless: headless)
+          browser = pw.chromium.launch(
+            headless: headless,
+            args: ['--disable-blink-features=AutomationControlled']
+          )
           begin
-            context = build_context(browser, cookies)
+            context = build_context(browser)
             page    = context.new_page
 
             prepare_page(page, url)
@@ -178,20 +180,17 @@ module Players
         end
       end
 
-      def load_cookies
-        state = JSON.parse(File.read(STORAGE_PATH))
-        state.fetch('cookies', [])
-      end
-
-      def build_context(browser, cookies)
-        context = browser.new_context
+      def build_context(browser)
+        context = browser.new_context(
+          userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:146.0) Gecko/20100101 Firefox/146.0',
+          storageState: STORAGE_PATH
+        )
+        context.add_init_script(script: "Object.defineProperty(navigator, 'webdriver', { get: () => undefined })")
         context.set_extra_http_headers(
-          'User-Agent' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:146.0) Gecko/20100101 Firefox/146.0',
           'Accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
           'Accept-Language' => 'en-US,en;q=0.5',
           'Upgrade-Insecure-Requests' => '1'
         )
-        context.add_cookies(cookies) if cookies.any?
         context
       end
 
@@ -203,9 +202,9 @@ module Players
       def obtain_html(page, cache_key:)
         html = safe_page_content(page)
 
-        unless html.include?('data-header')
-          dump_debug(page, cache_key: cache_key)
-          raise RestClient::Exception, "Invalid TM page (no data-header) for key=#{cache_key}"
+        if html.include?('Human Verification')
+          log_cache('WAF challenge detected, waiting for auto-resolve...')
+          html = wait_for_waf_resolution(page) || html
         end
 
         if html.include?('Human Verification') || html.include?('captcha')
@@ -214,7 +213,25 @@ module Players
                 'Captcha required again. Re-run: bundle exec ruby public/script/tm_login.rb'
         end
 
+        unless html.include?('data-header')
+          dump_debug(page, cache_key: cache_key)
+          raise RestClient::Exception, "Invalid TM page (no data-header) for key=#{cache_key}"
+        end
+
         html
+      end
+
+      def wait_for_waf_resolution(page, max_wait_ms: 20_000)
+        step_ms = 1_500
+        elapsed = 0
+        while elapsed < max_wait_ms
+          page.wait_for_timeout(step_ms)
+          elapsed += step_ms
+          html = page.content
+          log_cache("WAF waiting... #{elapsed / 1000}s")
+          return html unless html.include?('Human Verification')
+        end
+        nil
       end
 
       def write_cache_and_log(path, html, cache_key:)

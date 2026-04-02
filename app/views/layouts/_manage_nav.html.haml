@@ -10,3 +10,8 @@
       .league-link{ class: "link-active-#{ params[:controller] == 'manage/joins' }" }
         .league-link-icon= image_tag('icons/round/auctions.svg')
         .league-link-text= t('manage.nav.joins')
+  .league-links
+    = link_to manage_players_path do
+      .league-link{ class: "link-active-#{ params[:controller] == 'manage/players' }" }
+        .league-link-icon= image_tag('icons/round/players.svg')
+        .league-link-text= t('manage.nav.players')

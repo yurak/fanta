@@ -38,6 +38,8 @@ en:
         change_password: "Set password"
         confirm_new_password: "Confirm password"
         new_password: "Password"
+        password_blank: "Password can't be blank"
+        password_mismatch: "Passwords don't match"
       new:
         email: "Email"
         subtitle: "Don't worry. We will email you instructions on how to change your password."

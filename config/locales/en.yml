@@ -323,6 +323,7 @@ en:
     nav:
       joins: "Join Apps"
       leagues: "Leagues"
+      players: "Players"
       title: "Admin panel"
     leagues:
       activate: "Activate"
@@ -379,6 +380,16 @@ en:
       tournament: "Tournament"
       team: "Team"
       user: "User"
+    players:
+      title: "Players"
+      add_player: "Add player"
+      hash_label: "Player hash"
+      hash_placeholder: "{\"first_name\"=>\"Julian\", \"name\"=>\"Alvarez\", ...}"
+      cancel: "Cancel"
+      create: "Create"
+      created: "Player created successfully"
+      failed: "Failed to create player"
+      invalid_hash: "Invalid hash format"
   match:
     title: "Match"
   matches:

@@ -336,6 +336,7 @@ ua:
     nav:
       joins: "Заявки"
       leagues: "Ліги"
+      players: "Гравці"
       title: "Адмін панель"
     leagues:
       activate: "Активувати"
@@ -392,6 +393,16 @@ ua:
       tournament: "Турнір"
       team: "Команда"
       user: "Користувач"
+    players:
+      title: "Гравці"
+      add_player: "Додати гравця"
+      hash_label: "Хеш гравця"
+      hash_placeholder: "{\"first_name\"=>\"Julian\", \"name\"=>\"Bazan\", ...}"
+      cancel: "Скасувати"
+      create: "Створити"
+      created: "Гравця успішно створено"
+      failed: "Не вдалося створити гравця"
+      invalid_hash: "Невірний формат хешу"
   match:
     title: "Матч"
   matches:

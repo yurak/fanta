@@ -20,6 +20,8 @@ ua:
         change_password: "Встановити пароль"
         confirm_new_password: "Підтвердити пароль"
         new_password: "Пароль"
+        password_blank: "Пароль не може бути порожнім"
+        password_mismatch: "Паролі не збігаються"
       new:
         email: "Пошта"
         subtitle: "Не хвилюйся. Ми надішлемо вам електронною поштою інструкції щодо зміни пароля."

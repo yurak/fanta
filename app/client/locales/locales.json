@@ -857,7 +857,19 @@
       "nav": {
         "joins": "Join Apps",
         "leagues": "Leagues",
+        "players": "Players",
         "title": "Admin panel"
+      },
+      "players": {
+        "add_player": "Add player",
+        "cancel": "Cancel",
+        "create": "Create",
+        "created": "Player created successfully",
+        "failed": "Failed to create player",
+        "hash_label": "Player hash",
+        "hash_placeholder": "{\"first_name\"=>\"Julian\", \"name\"=>\"Alvarez\", ...}",
+        "invalid_hash": "Invalid hash format",
+        "title": "Players"
       }
     },
     "match": {
@@ -2414,7 +2426,19 @@
       "nav": {
         "joins": "Заявки",
         "leagues": "Ліги",
+        "players": "Гравці",
         "title": "Адмін панель"
+      },
+      "players": {
+        "add_player": "Додати гравця",
+        "cancel": "Скасувати",
+        "create": "Створити",
+        "created": "Гравця успішно створено",
+        "failed": "Не вдалося створити гравця",
+        "hash_label": "Хеш гравця",
+        "hash_placeholder": "{\"first_name\"=>\"Julian\", \"name\"=>\"Bazan\", ...}",
+        "invalid_hash": "Невірний формат хешу",
+        "title": "Гравці"
       }
     },
     "match": {
