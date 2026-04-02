@@ -153,6 +153,37 @@ RSpec.describe Players::Transfermarkt::Parser do
       end
     end
 
+    context 'when BrowserClient raises CaptchaRequired' do
+      before do
+        allow_any_instance_of(Players::Transfermarkt::BrowserClient)
+          .to receive(:fetch_html)
+          .and_raise(Players::Transfermarkt::CaptchaRequired)
+      end
+
+      it 'propagates the error' do
+        expect { parser.call }.to raise_error(Players::Transfermarkt::CaptchaRequired)
+      end
+    end
+
+    context 'when info_box_details is blank (no info-box in HTML)' do
+      let(:minimal_html) do
+        '<html><body><div class="data-header__headline-wrapper"><span>John</span><span>Doe</span></div></body></html>'
+      end
+
+      before do
+        allow_any_instance_of(Players::Transfermarkt::BrowserClient).to receive(:fetch_html).and_return(minimal_html)
+        allow(Players::Transfermarkt::PositionMapper).to receive(:call).and_return([])
+      end
+
+      it 'returns nil for birth_date' do
+        expect(parser.call[:birth_date]).to be_nil
+      end
+
+      it 'returns nil for height' do
+        expect(parser.call[:height]).to be_nil
+      end
+    end
+
     context 'with chip player full data' do
       let(:tm_id) { '939745' }
 

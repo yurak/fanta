@@ -259,6 +259,42 @@ RSpec.describe Players::Transfermarkt::ClubPlayersScraper do
     end
   end
 
+  describe 'empty player list in HTML' do
+    before do
+      stub_browser(club_page_html)
+      allow(Players::Transfermarkt::Parser).to receive(:call)
+    end
+
+    it 'does not call Parser' do
+      scraper.call
+      expect(Players::Transfermarkt::Parser).not_to have_received(:call)
+    end
+
+    it 'does not write to writer' do
+      scraper.call
+      expect(writer).to be_empty
+    end
+
+    it 'does not raise' do
+      expect { scraper.call }.not_to raise_error
+    end
+  end
+
+  describe 'no missed players' do
+    context 'when all club players are still in the roster' do
+      before do
+        create(:player, tm_id: 888, club: club)
+        stub_browser(club_page_html(888))
+        allow(Players::Transfermarkt::Parser).to receive(:call)
+      end
+
+      it 'does not call Parser for missed players' do
+        scraper.call
+        expect(Players::Transfermarkt::Parser).not_to have_received(:call)
+      end
+    end
+  end
+
   describe 'multiple clubs' do
     let(:club2) { create(:club, name: 'Inter', tm_url: 'https://www.transfermarkt.com/inter') }
     let(:clubs) { [club, club2] }

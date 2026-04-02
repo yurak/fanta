@@ -83,5 +83,15 @@ RSpec.describe Players::Transfermarkt::BaseUpdater do
         expect(player.reload.tm_price).to eq(150_000)
       end
     end
+
+    context 'when RestClient raises an exception' do
+      before do
+        allow(RestClient::Request).to receive(:execute).and_raise(RestClient::Exception)
+      end
+
+      it 'propagates the error' do
+        expect { parser.call }.to raise_error(RestClient::Exception)
+      end
+    end
   end
 end
