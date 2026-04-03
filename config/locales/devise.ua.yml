@@ -2,6 +2,8 @@
 
 ua:
   devise:
+    confirmations:
+      already_confirmed: "Ваша пошта вже підтверджена. Будь ласка, увійдіть."
     failure:
       already_authenticated: "Ви вже ввійшли."
       inactive: "Ваш обліковий запис ще не активовано."
