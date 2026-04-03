@@ -16,7 +16,11 @@ module Users
         return
       end
 
-      super
+      if resource.errors.empty?
+        redirect_to after_confirmation_path_for(resource_name, resource)
+      else
+        render :new
+      end
     end
 
     protected
