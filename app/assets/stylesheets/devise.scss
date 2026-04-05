@@ -135,7 +135,9 @@
 }
 
 #email-error,
-#email-invalid-error {
+#email-invalid-error,
+#password-blank-error,
+#password-mismatch-error {
   font-family: 'Nunito SemiBold';
   min-height: 24px;
   font-size: 12px;

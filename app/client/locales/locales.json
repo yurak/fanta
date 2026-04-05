@@ -288,7 +288,7 @@
       "duplicates": "Bid contains duplicate players in slots: ",
       "empty_slots": "You must fill slots: ",
       "goalee_count": "The team must have at least %{gk_count} goalkeepers on this stage",
-      "goalee_max_count": "The team can`t have more than 5 goalkeepers",
+      "goalee_max_count": "The team can't have more than 5 goalkeepers",
       "min_price": "The bid must be at least 1",
       "overprice": "Your bid exceeds the team budget",
       "status": {
@@ -306,7 +306,7 @@
       "balance_reserved": "Reserved funds",
       "bets_placed": "🎯 Bids overview",
       "bid_action": {
-        "completed": "Return to Ongoing",
+        "completed": "Edit bid",
         "initial": "Submit bid",
         "ongoing": "Submit bid",
         "submitted": "Complete in advance"
@@ -318,7 +318,7 @@
       "exceeded": "Budget exceeded",
       "filters": "Filters",
       "max_bid": "Maximum bid",
-      "module_no_fit": "Not applicable (Bid on at least 11 field players)",
+      "module_no_fit": "Not applicable (Bid on at least 11 outfield players)",
       "module_no_match": "❌ No match! Try to select players with different positions",
       "modules": "Modules",
       "select": "Select player",
@@ -377,7 +377,7 @@
         "base_data_three": "❌ No modules available. The player combinations you have selected are not suitable for any of the existing modules. Therefore, it will be impossible to win matches.",
         "base_data_two": "🟡︎︎ Yellow module icon. The combinations of players you have chosen correspond to the module shown, but you may encounter problems due to the lack of available substitutions. It might work, but it's risky.",
         "base_header": "There are 3 possible scenarios",
-        "description": "This wizard helps you to select a proper combinations of players for existing Modules in MantraFootball",
+        "description": "This wizard helps you select proper player combinations for existing Modules in MantraFootball",
         "header": "Welcome to Modules Wizard!"
       },
       "total_budget": "Total budget",
@@ -724,10 +724,10 @@
         "skip": "Skip for now",
         "steps": [
           "Contact our admins for payment and discount details.",
-          "Wait while your league is being formed",
-          "Complete your team (by processing with next phases of the Auction)",
-          "Wait till first gameweek",
-          "Fight for your first victory!"
+          "Wait while your league is being formed.",
+          "If you want to play with a friend — invite them right away.",
+          "Check who you managed to acquire in the first auction phase and move on to the next ones.",
+          "Wait for the first gameweek and compete for victory!"
         ],
         "steps_title": "Here is what waits you next",
         "subtitle": "Continue your journey by completing your payment. We appreciate your support!",
@@ -781,15 +781,15 @@
       "hidden_title": "Lineup is hidden",
       "home": "H",
       "main_squad": "Main squad",
-      "max_limit": "You can not select more than %{limit} player(s) from one team",
-      "min_limit": "You should select minimum %{limit} player(s) from each team",
+      "max_limit": "You cannot select more than %{limit} player(s) from one team",
+      "min_limit": "You must select at least %{limit} player(s) from each team",
       "not_selected": "Not selected",
       "points": "Points",
       "reserve_squad": "Substitutes",
       "select": "Select module and players",
       "setup_lineup": "Setup lineup",
       "team": "Team",
-      "total": "Lineup should contain %{number} unique players",
+      "total": "Lineup must contain %{number} unique players",
       "total_score": "🎯️ Total score"
     },
     "links": {
@@ -891,7 +891,7 @@
       "waiting": "Waiting for lineup",
       "waiting_deadline": "Waiting for tour start",
       "with_squad": "Squad is ready for the match",
-      "without_squad": "Team is still without squad"
+      "without_squad": "Team has not set a squad"
     },
     "news": {
       "add_article": "Add article",
@@ -2292,11 +2292,11 @@
         "price_note": "Примітка: можуть застосовуватись знижки",
         "skip": "Пропустити",
         "steps": [
-          "Зв'яжіться з адміністраторами щодо деталей оплати та знижок.",
-          "Очікуйте поки ваша ліга буде сформована",
-          "Доукомплектуйте команду (опрацьовуючи наступні етапи Аукціону)",
-          "Очікуйте першого ігрового тижня",
-          "Змагайтесь за першу перемогу!"
+          "Зв'яжіться з адміністраторами щодо деталей оплати та можливих знижок.",
+          "Дочекайтеся, поки ваша ліга буде сформована.",
+          "Якщо хочете грати разом з другом - мерщій кличте його.",
+          "Перевіряйте, кого вам вдалося придбати на першому етапі аукціону, і переходьте до наступних.",
+          "Очікуйте першого ігрового тижня та змагайтеся за перемогу!"
         ],
         "steps_title": "Що чекає далі",
         "subtitle": "Продовжіть свою подорож, здійснивши оплату. Дякуємо за підтримку!",
