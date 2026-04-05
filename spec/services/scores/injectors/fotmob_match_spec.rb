@@ -20,6 +20,12 @@ RSpec.describe Scores::Injectors::FotmobMatch do
 
   describe '#call' do
     context 'when match is finished' do
+      before do
+        allow(Scores::Injectors::FotmobPlayersData).to receive(:call).and_return(
+          123 => { rating: 7.5, played_minutes: 90 }
+        )
+      end
+
       it 'updates host score' do
         injector.call
         expect(match.reload.host_score).to eq(2)
@@ -31,10 +37,30 @@ RSpec.describe Scores::Injectors::FotmobMatch do
       end
 
       it 'calls Audit::CsvWriter with players_hash' do
-        players = { 123 => { rating: 7.5 } }
+        players = { 123 => { rating: 7.5, played_minutes: 90 } }
         allow(Scores::Injectors::FotmobPlayersData).to receive(:call).and_return(players)
         injector.call
         expect(Audit::CsvWriter).to have_received(:call).with(match, players)
+      end
+    end
+
+    context 'when match is finished but players data is not ready (all played_minutes are zero)' do
+      before do
+        players = {
+          101 => { rating: 7.5, played_minutes: 0 },
+          102 => { rating: 6.0, played_minutes: 0 }
+        }
+        allow(Scores::Injectors::FotmobPlayersData).to receive(:call).and_return(players)
+      end
+
+      it 'does not update scores' do
+        injector.call
+        expect(match.reload.host_score).to be_nil
+      end
+
+      it 'does not call Audit::CsvWriter' do
+        injector.call
+        expect(Audit::CsvWriter).not_to have_received(:call)
       end
     end
 
@@ -78,6 +104,9 @@ RSpec.describe Scores::Injectors::FotmobMatch do
       before do
         match.tournament_round.tournament.update!(skip_round_check: true)
         allow(injector).to receive(:match_data).and_return(wrong_round_data)
+        allow(Scores::Injectors::FotmobPlayersData).to receive(:call).and_return(
+          123 => { rating: 7.5, played_minutes: 90 }
+        )
       end
 
       it 'updates host score' do
@@ -153,6 +182,40 @@ RSpec.describe Scores::Injectors::FotmobMatch do
       let(:match_data) { {} }
 
       it { is_expected.to be_falsy }
+    end
+  end
+
+  describe '#players_data_ready?' do
+    subject { injector.send(:players_data_ready?) }
+
+    context 'when at least one player has played_minutes > 0' do
+      before do
+        allow(Scores::Injectors::FotmobPlayersData).to receive(:call).and_return(
+          101 => { rating: 7.5, played_minutes: 90 },
+          102 => { rating: 6.0, played_minutes: 0 }
+        )
+      end
+
+      it { is_expected.to be true }
+    end
+
+    context 'when all players have played_minutes = 0' do
+      before do
+        allow(Scores::Injectors::FotmobPlayersData).to receive(:call).and_return(
+          101 => { rating: 7.5, played_minutes: 0 },
+          102 => { rating: 6.0, played_minutes: 0 }
+        )
+      end
+
+      it { is_expected.to be false }
+    end
+
+    context 'when players_hash is empty' do
+      before do
+        allow(Scores::Injectors::FotmobPlayersData).to receive(:call).and_return({})
+      end
+
+      it { is_expected.to be false }
     end
   end
 

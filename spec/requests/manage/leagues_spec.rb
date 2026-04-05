@@ -86,6 +86,144 @@ RSpec.describe 'Manage::Leagues' do
     end
   end
 
+  describe 'GET #new' do
+    context 'when user is logged out' do
+      before { get new_manage_league_path }
+
+      it { expect(response).to redirect_to('/users/sign_in') }
+    end
+
+    context 'when regular user is logged in' do
+      login_user
+
+      before { get new_manage_league_path }
+
+      it { expect(response).to redirect_to(leagues_path) }
+    end
+
+    context 'when admin is logged in' do
+      login_admin
+
+      before { get new_manage_league_path }
+
+      it { expect(response).to be_successful }
+      it { expect(response).to render_template(:new) }
+      it { expect(controller.instance_variable_get(:@league)).to be_a_new(League) }
+    end
+  end
+
+  describe 'POST #create' do
+    let(:tournament) { Tournament.first }
+    let(:season) { Season.last }
+    let(:valid_params) do
+      { league: { name: 'Test League', tournament_id: tournament.id, season_id: season.id } }
+    end
+    let(:invalid_params) do
+      { league: { name: '', tournament_id: tournament.id, season_id: season.id } }
+    end
+
+    context 'when user is logged out' do
+      before { post manage_leagues_path, params: valid_params }
+
+      it { expect(response).to redirect_to('/users/sign_in') }
+    end
+
+    context 'when regular user is logged in' do
+      login_user
+
+      before { post manage_leagues_path, params: valid_params }
+
+      it { expect(response).to redirect_to(leagues_path) }
+    end
+
+    context 'when admin creates a league with valid params' do
+      login_admin
+
+      before { post manage_leagues_path, params: valid_params }
+
+      it { expect(response).to redirect_to(manage_leagues_path) }
+
+      it 'creates a new league' do
+        expect(League.find_by(name: 'Test League')).to be_present
+      end
+    end
+
+    context 'when admin creates a league with invalid params' do
+      login_admin
+
+      before { post manage_leagues_path, params: invalid_params }
+
+      it { expect(response).to have_http_status(:ok) }
+      it { expect(response).to render_template(:new) }
+    end
+  end
+
+  describe 'GET #edit' do
+    let!(:league) { create(:league) }
+
+    context 'when user is logged out' do
+      before { get edit_manage_league_path(league) }
+
+      it { expect(response).to redirect_to('/users/sign_in') }
+    end
+
+    context 'when regular user is logged in' do
+      login_user
+
+      before { get edit_manage_league_path(league) }
+
+      it { expect(response).to redirect_to(leagues_path) }
+    end
+
+    context 'when admin is logged in' do
+      login_admin
+
+      before { get edit_manage_league_path(league) }
+
+      it { expect(response).to be_successful }
+      it { expect(response).to render_template(:edit) }
+    end
+  end
+
+  describe 'PATCH #update' do
+    let!(:league) { create(:league) }
+
+    context 'when user is logged out' do
+      before { patch manage_league_path(league), params: { league: { name: 'Updated' } } }
+
+      it { expect(response).to redirect_to('/users/sign_in') }
+    end
+
+    context 'when regular user is logged in' do
+      login_user
+
+      before { patch manage_league_path(league), params: { league: { name: 'Updated' } } }
+
+      it { expect(response).to redirect_to(leagues_path) }
+    end
+
+    context 'when admin updates with valid params' do
+      login_admin
+
+      before { patch manage_league_path(league), params: { league: { name: 'Updated Name' } } }
+
+      it { expect(response).to redirect_to(manage_leagues_path) }
+
+      it 'updates the league' do
+        expect(league.reload.name).to eq('Updated Name')
+      end
+    end
+
+    context 'when admin updates with invalid params' do
+      login_admin
+
+      before { patch manage_league_path(league), params: { league: { name: '' } } }
+
+      it { expect(response).to have_http_status(:ok) }
+      it { expect(response).to render_template(:edit) }
+    end
+  end
+
   describe 'POST #activate' do
     let!(:league) { create(:league, :with_five_teams) }
     let(:deadline) { 1.week.from_now.strftime('%Y-%m-%dT%H:%M') }

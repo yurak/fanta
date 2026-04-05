@@ -11,7 +11,9 @@ module Manage
       @league = League.new
     end
 
-    def edit; end
+    def edit
+      league
+    end
 
     def create
       @league = League.new(league_params)
