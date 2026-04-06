@@ -51,6 +51,18 @@ RSpec.describe 'Joins' do
         it 'excludes that tournament from available list' do
           expect(controller.instance_variable_get(:@tournaments).map(&:id)).not_to include(tournament.id)
         end
+
+        it 'sets @has_active_leagues to true' do
+          expect(assigns(:has_active_leagues)).to be(true)
+        end
+      end
+
+      context 'when user has no active leagues' do
+        before { get joins_path }
+
+        it 'sets @has_active_leagues to false' do
+          expect(assigns(:has_active_leagues)).to be(false)
+        end
       end
 
       context 'when user has a rejected join for a tournament' do
@@ -132,6 +144,10 @@ RSpec.describe 'Joins' do
 
         it { expect(response).to be_successful }
         it { expect(response).to render_template(:show) }
+
+        it 'assigns the join' do
+          expect(assigns(:join)).to eq(join)
+        end
       end
 
       context 'when join belongs to another user' do

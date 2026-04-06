@@ -67,7 +67,6 @@ module Scores
 
       def build_player_hash(player_data)
         # TODO: add stats
-        # missed_goals: player_stats(player_data, 'Goals conceded'),
         # caught_penalty: player_stats(player_data, 'Saved penalties'),
         # failed_penalty: player_stats(player_data, 'Missed penalty'),
         # conceded_penalty: player_stats(player_data, 'Conceded penalty'),

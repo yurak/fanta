@@ -1,3 +1,5 @@
+# TODO: This controller is no longer used (all links in _right_nav are commented out).
+# Remove controller, view, model, routes and specs when confirmed safe to delete.
 class JoinRequestsController < ApplicationController
   respond_to :html
 
