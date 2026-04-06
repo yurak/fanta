@@ -607,7 +607,7 @@ RSpec.describe Substitutes::TieredMatcher do
     let(:grid) do
       [
         [3.0, 1.5, 1.5, 1.5, 1.5], # C/T
-        [3.0, 0,   1.5, 0,   0  ], # E/W
+        [3.0, 0,   1.5, 0,   0], # E/W
         [3.0, 1.5, 'X', 'X', 'X']  # T
       ]
     end
@@ -619,7 +619,7 @@ RSpec.describe Substitutes::TieredMatcher do
 
     it 'assigns E/W to a zero-malus bench slot after escape' do
       assignments, = result
-      zero_assignments = assignments.select { |r, _, v| r == 1 && v == 0.0 }
+      zero_assignments = assignments.select { |r, _, v| r == 1 && v.zero? }
       expect(zero_assignments.size).to eq(1)
     end
 
