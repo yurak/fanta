@@ -590,4 +590,52 @@ RSpec.describe Substitutes::TieredMatcher do
       expect(total).to eq(3.0)
     end
   end
+
+  context 'when C/T, E/W, T did not play, bench has Pc, W/A, M, Dd/E, Ds/E' do
+    # Main players absent: C/T (row0), E/W (row1), T (row2)
+    # Bench players: Pc(col0), W/A(col1), M(col2), Dd/E(col3), Ds/E(col4)
+    #
+    #              Pc   W/A   M   Dd/E  Ds/E
+    # C/T (row0): 3.0   1.5  1.5  1.5   1.5  — no native; T→W=1.5, C→M/E=1.5
+    # E/W (row1): 3.0    0   1.5   0     0   — W native (W/A), E native (Dd/E, Ds/E)
+    # T   (row2): 3.0   1.5   X    X     X   — no native; T→W=1.5; M/Dd/Ds incompatible
+    #
+    # Phase 1: E/W→W/A (col1, zero-malus). C/T and T have no zero-malus options.
+    # Phase 2a: C/T→M (col2, 1.5). T→Pc (col0, 3.0).
+    # Improve (try_escape_swap): E/W escapes col1→col3 (still 0), freeing col1 for T (1.5).
+    # Result: C/T→M (1.5), E/W→Dd/E (0), T→W/A (1.5). Total: 3.0.
+    let(:grid) do
+      [
+        [3.0, 1.5, 1.5, 1.5, 1.5], # C/T
+        [3.0, 0,   1.5, 0,   0  ], # E/W
+        [3.0, 1.5, 'X', 'X', 'X']  # T
+      ]
+    end
+
+    it 'matches all three players' do
+      assignments, = result
+      expect(assignments.size).to eq(3)
+    end
+
+    it 'assigns E/W to a zero-malus bench slot after escape' do
+      assignments, = result
+      zero_assignments = assignments.select { |r, _, v| r == 1 && v == 0.0 }
+      expect(zero_assignments.size).to eq(1)
+    end
+
+    it 'assigns T to W/A bench (col1, 1.5 malus) after E/W escapes' do
+      assignments, = result
+      expect(assignments).to include([2, 1, 1.5])
+    end
+
+    it 'assigns C/T with 1.5 malus' do
+      assignments, = result
+      expect(assignments).to include([0, be_a(Integer), 1.5])
+    end
+
+    it 'returns total malus of 3.0' do
+      _, total = result
+      expect(total).to eq(3.0)
+    end
+  end
 end

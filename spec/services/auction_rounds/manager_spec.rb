@@ -497,6 +497,36 @@ RSpec.describe AuctionRounds::Manager do
       end
     end
 
+    context 'when a partial bid (1 of 4 slots filled) exceeds budget due to default price on empty slots' do
+      # Team budget = 10. One player_bid has price=10, three empty slots have default price=1 each.
+      # Total = 10+1+1+1 = 13 > 10 → fail_over_budget_bids fails all player_bids.
+      let(:auction_round) { create(:auction_round, deadline: 1.hour.ago, auction: create(:auction, number: 2)) }
+      let(:league) { auction_round.league }
+      let!(:partial_team) { create(:team, league: league) }
+      let!(:normal_team) { create(:team, league: league) }
+      let!(:partial_bid) do
+        bid = create(:auction_bid, team: partial_team, auction_round: auction_round)
+        create(:player_bid, auction_bid: bid, player: create(:player), price: 10)
+        create_list(:player_bid, 3, auction_bid: bid, player_id: nil)
+        bid
+      end
+
+      before do
+        partial_team.update(budget: 10)
+        create(:submitted_auction_bid, :with_player_bids, team: normal_team, auction_round: auction_round)
+        manager.call
+      end
+
+      it 'fails all player_bids for the partial team due to budget overrun' do
+        expect(partial_bid.player_bids.map { |pb| pb.reload.status }.uniq).to eq(['failed'])
+      end
+
+      it 'does not fail player_bids for the team within budget' do
+        normal_bid = normal_team.auction_bids.first
+        expect(normal_bid.player_bids.any? { |pb| pb.reload.status == 'success' }).to be(true)
+      end
+    end
+
     context 'with processing status' do
       let(:auction_round) { create(:processing_auction_round) }
 

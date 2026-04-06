@@ -218,6 +218,8 @@ module Substitutes
           next if j <= i || @match_row[j] == -1
 
           return true if try_swap(i, j, r, r2)
+          return true if try_escape_swap(i, j, r, r2)
+          return true if try_escape_swap(j, i, r2, r)
         end
       end
 
@@ -236,6 +238,28 @@ module Substitutes
       @match_row[jdx] = col_i
       @match_col[col_i] = jdx
       @match_col[col_j] = idx
+      true
+    end
+
+    # If row idx holds a zero-malus column that row jdx would benefit from,
+    # try to escape row idx to another free zero-malus column.
+    # Preserves zero-malus count: idx stays at zero, jdx improves.
+    def try_escape_swap(idx, jdx, row, row2)
+      col_i = @match_row[idx]
+      col_j = @match_row[jdx]
+
+      return false unless (@grid[row][col_i]).zero?
+      return false if @grid[row2][col_i] == 'X'
+      return false unless @grid[row2][col_i].to_f < @grid[row2][col_j].to_f
+
+      escape_col = @zero_edges[idx].find { |c| c != col_i && @match_col[c] == -1 }
+      return false unless escape_col
+
+      @match_col[col_i] = jdx
+      @match_row[jdx] = col_i
+      @match_col[col_j] = -1
+      @match_col[escape_col] = idx
+      @match_row[idx] = escape_col
       true
     end
 
