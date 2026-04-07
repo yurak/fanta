@@ -38,8 +38,8 @@
               %h2.join-card-title= t('join.my_applications')
             .join-tournaments-list
               - @user_joins.each do |join|
-                - bid = join.team.auction_bids.find { |b| b.auction_round_id.nil? }
-                = link_to auction_bid_path(bid), class: 'join-tournament-item' do
+                - bid = join.auction_bid
+                = link_to bid ? auction_bid_path(bid) : '#', class: 'join-tournament-item' do
                   .join-tournament-logo
                     = image_tag(join.tournament.logo_path)
                   .join-tournament-info

@@ -103,6 +103,20 @@ RSpec.describe 'Joins' do
         end
       end
 
+      context 'when join team bid is attached to an auction round (after league activation)' do
+        let(:tournament) { create(:tournament) }
+        let(:team) { create(:team) }
+
+        before do
+          create(:join, :pending, user: user, tournament: tournament, team: team)
+          create(:auction_bid, team: team)
+          get joins_path
+        end
+
+        it { expect(response).to be_successful }
+        it { expect(response).to render_template(:index) }
+      end
+
       context 'with rejected joins' do
         let(:team) { create(:team) }
         let!(:rejected_join) do
