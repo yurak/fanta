@@ -26,11 +26,9 @@ RSpec.describe 'Joins' do
 
       context 'when user has a non-rejected join for a tournament' do
         let!(:tournament) { create(:tournament) }
-        let(:team) { create(:team) }
 
         before do
-          create(:auction_bid, team: team, auction_round: nil)
-          create(:join, :pending, user: user, tournament: tournament, team: team)
+          create(:join, :pending, user: user, tournament: tournament)
           get joins_path
         end
 
@@ -69,7 +67,7 @@ RSpec.describe 'Joins' do
         let!(:tournament) { create(:tournament) }
 
         before do
-          create(:join, :rejected, user: user, tournament: tournament, team: create(:team))
+          create(:join, :rejected, user: user, tournament: tournament)
           get joins_path
         end
 
@@ -90,26 +88,21 @@ RSpec.describe 'Joins' do
 
       context 'with existing non-rejected joins' do
         let(:tournament) { create(:tournament) }
-        let(:team) { create(:team) }
-        let!(:join) { create(:join, :pending, user: user, tournament: tournament, team: team) }
+        let!(:join) { create(:join, :pending, user: user, tournament: tournament) }
 
-        before do
-          create(:auction_bid, team: team, auction_round: nil)
-          get joins_path
-        end
+        before { get joins_path }
 
         it 'exposes user joins' do
           expect(controller.instance_variable_get(:@user_joins)).to include(join)
         end
       end
 
-      context 'when join team bid is attached to an auction round (after league activation)' do
-        let(:tournament) { create(:tournament) }
+      context 'when join bid is attached to an auction round (after league activation)' do
         let(:team) { create(:team) }
+        let(:bid) { create(:auction_bid, team: team) }
 
         before do
-          create(:join, :pending, user: user, tournament: tournament, team: team)
-          create(:auction_bid, team: team)
+          create(:join, :pending, user: user, auction_bid: bid, team: team)
           get joins_path
         end
 
@@ -118,15 +111,9 @@ RSpec.describe 'Joins' do
       end
 
       context 'with rejected joins' do
-        let(:team) { create(:team) }
-        let!(:rejected_join) do
-          create(:join, :rejected, user: user, tournament: create(:tournament), team: team)
-        end
+        let!(:rejected_join) { create(:join, :rejected, user: user) }
 
-        before do
-          create(:auction_bid, team: team, auction_round: nil)
-          get joins_path
-        end
+        before { get joins_path }
 
         it 'excludes rejected joins from user joins list' do
           expect(controller.instance_variable_get(:@user_joins)).not_to include(rejected_join)

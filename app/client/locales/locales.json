@@ -350,7 +350,7 @@
         "text6": "Your total budget is"
       },
       "submit_bid": "Submit bid",
-      "suitable_modules": "🧩 Suitable modules",
+      "suitable_modules": "⚙️ Suitable modules",
       "team": "⚽ Team",
       "tooltip": {
         "base_data_one": "⌛ Ongoing. Default stage where you have to make your bids.",
@@ -615,7 +615,7 @@
       "links_nav": "🔗 Useful Links",
       "live": "LIVE",
       "lock_round": "Lock round",
-      "login": "🗝 Login",
+      "login": "🔑 Login",
       "logout": "Log Out",
       "make_bid": "Make bid",
       "manage": "Manage",
@@ -774,7 +774,7 @@
     "lineups": {
       "away": "A",
       "change_module": "Change module",
-      "conditions": "🪵 Special conditions",
+      "conditions": "📋 Special conditions",
       "confirm_squad": "Confirm squad",
       "duplicates": "Lineup contains duplicate players",
       "hidden_text": "The opponent's lineup will remain hidden during the preparation phase and will become visible after the deadline.",
@@ -881,7 +881,7 @@
       "edit_lineup": "Edit lineup",
       "edit_module": "Edit module",
       "game_center": "Game center",
-      "module": "♞️ Module:",
+      "module": "♟️ Module:",
       "not_lineup": "Not in squad",
       "set_squad": "Set squad",
       "start_soon": "Match will start soon",
@@ -898,7 +898,7 @@
       "back": "Back",
       "keep_reading": "Keep reading",
       "news": "News",
-      "publish_date": "🗓 Publish date",
+      "publish_date": "📅 Publish date",
       "share_via": "🎤 Share via",
       "tag": "🎮 Tag",
       "tournament": "⚽️ Tournament"
@@ -986,7 +986,7 @@
       "caught_penalty": "Caught penalty",
       "change_arguments": "Arguments for changing player's positions",
       "change_positions": "Positions that player should have",
-      "change_request": "🌪 Propose positions change",
+      "change_request": "🔄 Propose positions change",
       "change_request_send": "Send change request",
       "chart": "📈️ Chart",
       "cleansheet": "Cleansheet",
@@ -1151,7 +1151,7 @@
         "total_score": "Total score"
       },
       "form": "Form",
-      "games": "🗓️ Games",
+      "games": "📅 Games",
       "incoming": "✅ In",
       "keep": "Keep",
       "league": "League",
@@ -1388,7 +1388,7 @@
         "telegram_subtitle": "Get notifications about deadlines and game events",
         "telegram_title": "✈️ Telegram Bot",
         "time_zone_subtitle": "Choose the one according to which the time will be displayed in the game",
-        "time_zone_title": "🕰 Time zone",
+        "time_zone_title": "⏰ Time zone",
         "via_tg": "Via Telegram bot"
       },
       "site_config": {
@@ -2168,7 +2168,7 @@
         "text6": "Ваш загальний бюджет"
       },
       "submit_bid": "Підтвердити ставку",
-      "suitable_modules": "🧩 Доступні модулі",
+      "suitable_modules": "⚙️ Доступні модулі",
       "team": "⚽ Команда",
       "tooltip": {
         "base_data_one": "⌛ В процесі. Стадія за замовчуванням, на якій ви повинні зробити свої ставки.",
@@ -2241,7 +2241,7 @@
       "links_nav": "🔗 Корисні посилання",
       "live": "НАЖИВО",
       "lock_round": "Заблокувати",
-      "login": "🗝 Вхід",
+      "login": "🔑 Вхід",
       "logout": "Вихід",
       "make_bid": "Ставка",
       "manage": "Керувати",
@@ -2365,7 +2365,7 @@
     "lineups": {
       "away": "В",
       "change_module": "Зміна модуля",
-      "conditions": "🪵 Особливі умови",
+      "conditions": "📋 Особливі умови",
       "confirm_squad": "Підтвердити склад",
       "duplicates": "Один гравець не може бути вибраний декілька раз",
       "hidden_text": "Склад суперника залишатиметься прихованим під час підготовчого етапу та стане видимим після дедлайну.",
@@ -2472,7 +2472,7 @@
       "edit_lineup": "Змінити склад",
       "edit_module": "Змінити модуль",
       "game_center": "Матч центр",
-      "module": "♞️ Модуль:",
+      "module": "♟️ Модуль:",
       "not_lineup": "Поза складом",
       "set_squad": "Вибрати склад",
       "start_soon": "Матч невдовзі розпочнеться",
@@ -2499,7 +2499,7 @@
       "back": "Назад",
       "keep_reading": "Продовжуйте читати",
       "news": "Новини",
-      "publish_date": "🗓 Дата публікації",
+      "publish_date": "📅 Дата публікації",
       "share_via": "🎤 Поширити через",
       "tag": "🎮 Тег",
       "tournament": "⚽️ Турнір"
@@ -2524,7 +2524,7 @@
       "caught_penalty": "Відбите пенальті",
       "change_arguments": "Аргументи для зміни позицій гравця",
       "change_positions": "Позиції, які повинен мати гравець",
-      "change_request": "🌪 Запропонувати зміну позицій",
+      "change_request": "🔄 Запропонувати зміну позицій",
       "change_request_send": "Надіслати запит",
       "chart": "📈️ Діаграма",
       "cleansheet": "Сухі ворота",
@@ -2682,7 +2682,7 @@
         "total_score": "Загальний бал"
       },
       "form": "Форма",
-      "games": "🗓️ Матчі",
+      "games": "📅 Матчі",
       "incoming": "✅ Куплено",
       "keep": "Залишити",
       "league": "Ліга",
@@ -2910,7 +2910,7 @@
         "telegram_subtitle": "Отримуйте сповіщення про дедлайни та ігрові події",
         "telegram_title": "✈️ Telegram Бот",
         "time_zone_subtitle": "Виберіть зону, згідно з якою буде відображатися час в грі",
-        "time_zone_title": "🕰 Часова зона",
+        "time_zone_title": "⏰ Часова зона",
         "via_tg": "Через Телеграм бот"
       },
       "site_config": {

@@ -25,8 +25,8 @@ module Manage
       join.update!(status: :approved)
       join.team.update!(league: league)
 
-      bid = join.team.auction_bids.find_by(auction_round: nil)
-      if bid
+      bid = join.auction_bid
+      if bid.auction_round_id.nil?
         auction_round = league.auctions.active.first&.auction_rounds&.last
         bid.update!(auction_round: auction_round) if auction_round
       end

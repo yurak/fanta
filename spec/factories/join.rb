@@ -4,6 +4,14 @@ FactoryBot.define do
     tournament
     team
 
+    after(:build) do |join|
+      join.auction_bid ||= build(:auction_bid, team: join.team, auction_round: nil)
+    end
+
+    before(:create) do |join|
+      join.auction_bid = create(:auction_bid, team: join.team, auction_round: nil) unless join.auction_bid&.persisted?
+    end
+
     trait :pending do
       status { :pending }
     end

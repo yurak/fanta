@@ -85,7 +85,6 @@ RSpec.describe 'Manage::Joins' do
       login_admin
 
       let(:auction_round) { create(:auction_round) }
-      let!(:bid) { create(:auction_bid, team: team, auction_round: nil) }
 
       before do
         create(:auction, league: league, status: :blind_bids, auction_rounds: [auction_round])
@@ -93,19 +92,17 @@ RSpec.describe 'Manage::Joins' do
       end
 
       it 'links the bid to the last auction round' do
-        expect(bid.reload.auction_round).to eq(auction_round)
+        expect(join.auction_bid.reload.auction_round).to eq(auction_round)
       end
     end
 
     context 'when approving a join that has a draft bid but no active auction' do
       login_admin
 
-      let!(:bid) { create(:auction_bid, team: team, auction_round: nil) }
-
       before { post approve_manage_join_path(join, league_id: league.id) }
 
       it 'leaves the bid without an auction round' do
-        expect(bid.reload.auction_round).to be_nil
+        expect(join.auction_bid.reload.auction_round).to be_nil
       end
     end
   end

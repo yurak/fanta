@@ -27,14 +27,16 @@ class Tournament < ApplicationRecord
   scope :active, -> { with_clubs.order(:id) + with_ec_clubs + with_national }
   scope :open_join, -> { where(open_join: true) }
   scope :with_join_stats, lambda {
+    submitted_statuses = [AuctionBid.statuses[:submitted], AuctionBid.statuses[:completed], AuctionBid.statuses[:processed]]
     select(
       'tournaments.*',
       "COUNT(DISTINCT CASE WHEN leagues.status = #{League.statuses[:active]} THEN teams.id END) AS active_teams_count",
-      'COUNT(DISTINCT joins.id) AS joins_count'
+      "COUNT(DISTINCT CASE WHEN auction_bids.status IN (#{submitted_statuses.join(', ')}) THEN joins.id END) AS joins_count"
     )
       .joins('LEFT JOIN leagues ON leagues.tournament_id = tournaments.id')
       .joins('LEFT JOIN teams ON teams.league_id = leagues.id')
       .joins('LEFT JOIN joins ON joins.tournament_id = tournaments.id')
+      .joins('LEFT JOIN auction_bids ON auction_bids.id = joins.auction_bid_id')
       .group('tournaments.id')
   }
 

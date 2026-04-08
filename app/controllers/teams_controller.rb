@@ -53,9 +53,9 @@ class TeamsController < ApplicationController
 
   def create_join_records(team)
     tournament = Tournament.find(join_tournament_id)
-    Join.create!(user: current_user, tournament: tournament, team: team, status: :initial)
     bid = AuctionBid.create!(team: team, status: :initial)
     Team::JOIN_SLOTS.times { bid.player_bids.create! }
+    Join.create!(user: current_user, tournament: tournament, team: team, auction_bid: bid, status: :initial)
     bid
   rescue ActiveRecord::RecordInvalid => e
     team.destroy
