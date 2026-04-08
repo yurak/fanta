@@ -31,7 +31,8 @@ class Tournament < ApplicationRecord
     select(
       'tournaments.*',
       "COUNT(DISTINCT CASE WHEN leagues.status = #{League.statuses[:active]} THEN teams.id END) AS active_teams_count",
-      "COUNT(DISTINCT CASE WHEN auction_bids.status IN (#{submitted_statuses.join(', ')}) THEN joins.id END) AS joins_count"
+      "COUNT(DISTINCT CASE WHEN joins.status = #{Join.statuses[:pending]} " \
+      "AND auction_bids.status IN (#{submitted_statuses.join(', ')}) THEN joins.id END) AS joins_count"
     )
       .joins('LEFT JOIN leagues ON leagues.tournament_id = tournaments.id')
       .joins('LEFT JOIN teams ON teams.league_id = leagues.id')
