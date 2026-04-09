@@ -11,7 +11,7 @@ module Api
       players = if page.present?
                   Kaminari.paginate_array(result).page(page[:number]).per(page[:size])
                 else
-                  Kaminari.paginate_array(result).page(1).per(result.size)
+                  Kaminari.paginate_array(result).page(1).per([result.size, 1].max)
                 end
       ActiveRecord::Associations::Preloader.new.preload(players.to_a, [:transfers, { club: :tournament }, { player_positions: :position }])
       players_ser = players.map { |l| PlayerBaseSerializer.new(l, league_id: filter_params[:league_id]) }

@@ -107,6 +107,69 @@ RSpec.describe 'Players' do
           expect(body['data'].first['id']).to eq player_one.id
         end
       end
+
+      response 200, 'Returns empty result when no players match filter', document: false do
+        let(:filter) { { name: 'zzznomatch' } }
+
+        run_test! do |response|
+          body = JSON.parse(response.body)
+
+          expect(body['data']).to be_empty
+          expect(body['meta']['size']).to eq 0
+        end
+      end
+
+      response 200, 'Filtered by name', document: false do
+        let(:filter) { { name: 'xav' } }
+
+        run_test! do |response|
+          body = JSON.parse(response.body)
+
+          expect(body['data'].size).to eq 1
+          expect(body['data'].first['id']).to eq player_one.id
+        end
+      end
+
+      response 200, 'Filtered by tournament_id', document: false do
+        let(:filter) { { tournament_id: [league.tournament.id] } }
+
+        run_test! do |response|
+          body = JSON.parse(response.body)
+
+          expect(body['data'].size).to eq 1
+          expect(body['data'].first['id']).to eq player_one.id
+        end
+      end
+
+      response 200, 'Filtered by without_team (requires league_id)', document: false do
+        let!(:player_with_team) { create(:player, club: create(:club, tournament: league.tournament)) }
+        let!(:team) { create(:team, league: league) }
+
+        before { create(:player_team, player: player_with_team, team: team) }
+
+        let(:filter) { { league_id: league.id, without_team: true } }
+
+        run_test! do |response|
+          body = JSON.parse(response.body)
+
+          ids = body['data'].pluck('id')
+          expect(ids).to include(player_one.id)
+          expect(ids).not_to include(player_with_team.id)
+        end
+      end
+
+      response 200, 'With page param returns paginated result', document: false do
+        let(:page) { { page: { number: 1, size: 1 } } }
+
+        run_test! do |response|
+          body = JSON.parse(response.body)
+
+          expect(body['data'].size).to eq 1
+          expect(body['meta']['page']['per_page']).to eq 1
+          expect(body['meta']['page']['total_pages']).to eq 2
+          expect(body['meta']['page']['current_page']).to eq 1
+        end
+      end
     end
   end
 
