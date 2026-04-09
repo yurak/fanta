@@ -24,8 +24,11 @@ RSpec.describe 'Users::Registrations' do
     context 'when tg_token param is present' do
       before { get new_user_registration_path, params: { email: email, tg_token: 'abc123' } }
 
-      it 'renders a hidden tg_token field' do
+      it 'renders a hidden field with the token name' do
         expect(response.body).to include('name="tg_token"')
+      end
+
+      it 'renders a hidden field with the token value' do
         expect(response.body).to include('value="abc123"')
       end
     end
