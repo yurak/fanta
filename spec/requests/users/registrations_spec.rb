@@ -12,6 +12,33 @@ RSpec.describe 'Users::Registrations' do
     }
   end
 
+  describe 'GET /users/sign_up' do
+    context 'when email param is passed (coming from bot link)' do
+      before { get new_user_registration_path, params: { email: email } }
+
+      it 'pre-fills the email field' do
+        expect(response.body).to include(email)
+      end
+    end
+
+    context 'when tg_token param is present' do
+      before { get new_user_registration_path, params: { email: email, tg_token: 'abc123' } }
+
+      it 'renders a hidden tg_token field' do
+        expect(response.body).to include('name="tg_token"')
+        expect(response.body).to include('value="abc123"')
+      end
+    end
+
+    context 'when tg_token param is absent' do
+      before { get new_user_registration_path }
+
+      it 'does not render a hidden tg_token field' do
+        expect(response.body).not_to include('name="tg_token"')
+      end
+    end
+  end
+
   describe 'POST /users' do
     context 'with valid params' do
       before { post user_registration_path, params: params }

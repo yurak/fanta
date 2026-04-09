@@ -9,11 +9,12 @@
       .title-subtext= t('.compete')
     .login-form
       = form_for(resource, as: resource_name, url: registration_path(resource_name), html: { novalidate: true }) do |f|
+        = hidden_field_tag :tg_token, params[:tg_token] if params[:tg_token].present?
         .login-input
           .login-label= t('.email')
           .login-input-icon= image_tag('icons/login/mail.svg')
           .login-input-text
-            = f.email_field :email, value: params.dig(:user, :email), autofocus: true, autocomplete: 'email',
+            = f.email_field :email, value: params[:email] || params.dig(:user, :email), autofocus: true, autocomplete: 'email',
                             class: 'form-control', placeholder: t('.email'), id: 'user_email',
                             minlength: 6, maxlength: 50,
                             pattern: User::EMAIL_FORMAT_REGEX.source.sub('\\A', '').sub('\\z', '')
