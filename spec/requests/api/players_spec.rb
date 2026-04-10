@@ -1,6 +1,6 @@
 require 'swagger_helper'
 
-RSpec.describe 'Players' do
+RSpec.describe 'Players' do # rubocop:disable RSpec/MultipleMemoizedHelpers
   path '/api/players' do
     get('list players') do
       tags 'Players'
@@ -143,9 +143,10 @@ RSpec.describe 'Players' do
 
       response 200, 'Filtered by without_team (requires league_id)', document: false do
         let!(:player_with_team) { create(:player, club: create(:club, tournament: league.tournament)) }
-        let!(:team) { create(:team, league: league) }
-
-        before { create(:player_team, player: player_with_team, team: team) }
+        before do # rubocop:disable RSpec/ScatteredSetup
+          team = create(:team, league: league)
+          create(:player_team, player: player_with_team, team: team)
+        end
 
         let(:filter) { { league_id: league.id, without_team: true } }
 
@@ -225,7 +226,7 @@ RSpec.describe 'Players' do
                  data: { '$ref' => '#/components/schemas/player_stats' }
                }
 
-        before do
+        before do # rubocop:disable RSpec/ScatteredSetup
           create(:player_season_stat, player: player, tournament: player.club.tournament)
           create(:season)
           create(:round_player, player: player, tournament_round: create(:tournament_round, tournament: player.club.tournament), score: 6)
