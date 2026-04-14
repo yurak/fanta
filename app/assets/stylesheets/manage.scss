@@ -31,13 +31,6 @@
 }
 
 .admin-joins-page {
-  padding: 32px 24px 32px 296px;
-
-  h2 {
-    font-family: 'Nunito Bold';
-    margin-bottom: 24px;
-  }
-
   .approve-form-fields {
     display: inline-flex;
     align-items: center;
@@ -47,13 +40,6 @@
 }
 
 .admin-leagues-page {
-  padding: 32px 24px 32px 296px;
-
-  h2 {
-    font-family: 'Nunito Bold';
-    margin-bottom: 24px;
-  }
-
   .manage-leagues-tabs {
     margin-bottom: 24px;
 
@@ -64,7 +50,7 @@
   }
 }
 
-.admin-players-page {
+.admin-manage-page {
   padding: 32px 24px 32px 296px;
 
   h2 {

@@ -252,7 +252,7 @@ module Substitutes
       return false if @grid[row2][col_i] == 'X'
       return false unless @grid[row2][col_i].to_f < @grid[row2][col_j].to_f
 
-      escape_col = @zero_edges[idx].find { |c| c != col_i && @match_col[c] == -1 }
+      escape_col = find_escape_col(idx, row, col_i, col_j, @grid[row2][col_j].to_f)
       return false unless escape_col
 
       @match_col[col_i] = jdx
@@ -261,6 +261,18 @@ module Substitutes
       @match_col[escape_col] = idx
       @match_row[idx] = escape_col
       true
+    end
+
+    # Returns a free column for idx to escape to, freeing col_i for jdx.
+    # Prefers a zero-malus column; falls back to a non-zero column that does not
+    # increase total malus (val <= val_j) and uses an earlier bench position
+    # (c < col_j) to guarantee convergence of the improve loop.
+    def find_escape_col(idx, row, col_i, col_j, val_j)
+      @zero_edges[idx].find { |c| c != col_i && @match_col[c] == -1 } ||
+        @all_edges[idx].find do |c|
+          c != col_i && @match_col[c] == -1 &&
+            !(@grid[row][c]).zero? && @grid[row][c].to_f <= val_j && c < col_j
+        end
     end
 
     # Returns true if swapping would reduce the zero-malus match count.

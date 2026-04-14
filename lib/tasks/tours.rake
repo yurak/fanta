@@ -1,4 +1,3 @@
-# rubocop:disable Metrics/BlockLength:
 namespace :tours do
   desc 'Unlock tour by number'
   task :unlock, [:number] => :environment do |_t, args|
@@ -65,4 +64,3 @@ namespace :tours do
     end
   end
 end
-# rubocop:enable Metrics/BlockLength

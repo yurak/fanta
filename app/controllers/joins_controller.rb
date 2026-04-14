@@ -3,6 +3,7 @@ class JoinsController < ApplicationController
     @has_active_leagues = current_user.teams.joins(:league).exists?(leagues: { status: :active })
     @user_joins = current_user.joins.where.not(status: :rejected).includes(:tournament, :auction_bid).order(created_at: :desc)
     @tournaments = Tournament.mantra.open_join.where.not(id: joined_tournament_ids).with_join_stats
+    @existing_teams = current_user.teams.where(tournament_id: @tournaments.map(&:id)).index_by(&:tournament_id)
   end
 
   def show

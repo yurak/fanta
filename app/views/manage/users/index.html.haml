@@ -1,0 +1,41 @@
+.page-block
+  .web-header= render 'layouts/left_nav', league: nil
+  .web-header= render 'layouts/manage_nav'
+  .mob-header= render 'layouts/mob_header', league: nil, title: t('manage.users.title')
+  .page-info.admin-manage-page
+    %h2= t('manage.users.title')
+
+    = form_tag manage_users_path, method: :get, class: 'd-flex gap-2 mb-3' do
+      = text_field_tag :id, params[:id], class: 'form-control form-control-sm w-auto', placeholder: t('manage.users.filter_id')
+      = text_field_tag :email, params[:email], class: 'form-control form-control-sm w-auto', placeholder: t('manage.users.filter_email')
+      = submit_tag t('manage.users.search'), class: 'btn btn-sm btn-primary'
+      - if params[:id].present? || params[:email].present?
+        = link_to t('manage.users.reset'), manage_users_path, class: 'btn btn-sm btn-outline-secondary'
+
+    - if @users.any?
+      %table.table.table-hover.table-sm
+        %thead.thead-light
+          %tr
+            %th ID
+            %th= t('manage.users.email')
+            %th= t('manage.users.section_account').split.first
+            %th= t('manage.users.tg_bot')
+            %th= t('manage.users.created_at')
+            %th= t('manage.users.last_sign_in')
+        %tbody
+          - @users.each do |user|
+            %tr
+              %td= user.id
+              %td= link_to user.email, manage_user_path(user)
+              %td= user.name.presence || '—'
+              %td
+                - if user.user_profile&.bot_enabled
+                  %span.text-success= t('manage.users.yes')
+                - else
+                  %span.text-muted= t('manage.users.no')
+              %td= local_time(user.created_at, '%d %b %Y')
+              %td= user.last_sign_in_at ? local_time(user.last_sign_in_at, '%d %b %Y') : '—'
+
+      = paginate @users
+    - else
+      %p.text-muted= t('manage.users.empty')

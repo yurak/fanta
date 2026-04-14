@@ -4,6 +4,7 @@ RSpec.describe Team do
   describe 'Associations' do
     it { is_expected.to belong_to(:league).optional }
     it { is_expected.to belong_to(:user).optional }
+    it { is_expected.to belong_to(:tournament).optional }
     it { is_expected.to have_many(:auction_bids).dependent(:destroy) }
     it { is_expected.to have_many(:player_teams).dependent(:destroy) }
     it { is_expected.to have_many(:players).through(:player_teams) }
@@ -28,6 +29,45 @@ RSpec.describe Team do
     it { is_expected.to validate_presence_of :code }
     it { is_expected.to validate_length_of(:code).is_at_least(2).is_at_most(3) }
     it { is_expected.to validate_length_of(:human_name).is_at_least(2).is_at_most(24) }
+  end
+
+  describe '#tournament' do
+    context 'when tournament_id is set directly' do
+      let(:tournament) { create(:tournament) }
+      let(:team) { create(:team, tournament: tournament, league: nil) }
+
+      it 'returns the direct tournament' do
+        expect(team.tournament).to eq(tournament)
+      end
+    end
+
+    context 'when tournament_id is nil but team has a league' do
+      it 'returns the league tournament' do
+        expect(team.tournament).to eq(team.league.tournament)
+      end
+    end
+
+    context 'when neither tournament_id nor league is set' do
+      let(:team) { create(:team, tournament: nil, league: nil) }
+
+      it 'returns nil' do
+        expect(team.tournament).to be_nil
+      end
+    end
+  end
+
+  describe '.by_tournament' do
+    let(:tournament) { create(:tournament) }
+    let!(:matching_team) { create(:team, tournament: tournament, league: nil) }
+    let!(:other_team) { create(:team) }
+
+    it 'includes teams with matching tournament_id' do
+      expect(described_class.by_tournament(tournament.id)).to include(matching_team)
+    end
+
+    it 'excludes teams with different tournament_id' do
+      expect(described_class.by_tournament(tournament.id)).not_to include(other_team)
+    end
   end
 
   describe '#reset' do

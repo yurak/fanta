@@ -1,0 +1,30 @@
+.page-block
+  .web-header= render 'layouts/left_nav', league: nil
+  .web-header= render 'layouts/manage_nav'
+  .mob-header= render 'layouts/mob_header', league: nil, title: t('manage.clubs.title')
+  .page-info.admin-manage-page
+    %h2= t('manage.clubs.title')
+
+    = form_tag manage_clubs_path, method: :get, class: 'd-flex gap-2 mb-3' do
+      = text_field_tag :name, params[:name], class: 'form-control form-control-sm w-auto', placeholder: t('manage.clubs.filter_name')
+      = submit_tag t('manage.clubs.search'), class: 'btn btn-sm btn-primary'
+      - if params[:name].present?
+        = link_to t('manage.clubs.reset'), manage_clubs_path, class: 'btn btn-sm btn-outline-secondary'
+
+    - if @clubs.any?
+      %table.table.table-hover.table-sm
+        %thead.thead-light
+          %tr
+            %th ID
+            %th= t('manage.clubs.name')
+            %th= t('manage.clubs.tournament')
+        %tbody
+          - @clubs.each do |club|
+            %tr
+              %td= club.id
+              %td= club.name
+              %td= club.tournament&.name || '—'
+
+      = paginate @clubs
+    - else
+      %p.text-muted= t('manage.clubs.empty')

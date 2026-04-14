@@ -1,6 +1,7 @@
 class Team < ApplicationRecord
   belongs_to :league, optional: true
   belongs_to :user, optional: true
+  belongs_to :tournament, optional: true
 
   has_one :join, dependent: :destroy
   has_many :auction_bids, dependent: :destroy
@@ -15,7 +16,9 @@ class Team < ApplicationRecord
   has_many :results, dependent: :destroy
   has_many :transfers, dependent: :destroy
 
-  delegate :tournament, to: :league
+  def tournament
+    super || league&.tournament
+  end
 
   MAX_PLAYERS = 26
   MIN_GK = 3
@@ -34,7 +37,7 @@ class Team < ApplicationRecord
 
   default_scope { includes(%i[league user]) }
 
-  scope :by_tournament, ->(tournament_id) { joins(:league).where(leagues: { tournament_id: tournament_id }) }
+  scope :by_tournament, ->(tournament_id) { where(tournament_id: tournament_id) }
 
   def reset
     players.clear

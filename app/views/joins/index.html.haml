@@ -53,7 +53,12 @@
           - if @tournaments.any?
             .join-tournaments-list
               - @tournaments.each do |tournament|
-                .join-tournament-item.join-apply-btn{ data: { tournament_id: tournament.id } }
+                - existing_team = @existing_teams[tournament.id]
+                .join-tournament-item.join-apply-btn{ data: { tournament_id: tournament.id,
+                                                               existing_team_id: existing_team&.id,
+                                                               existing_team_name: existing_team&.human_name,
+                                                               existing_team_code: existing_team&.code,
+                                                               existing_team_logo: existing_team&.logo_path } }
                   .join-tournament-logo
                     = image_tag(tournament.logo_path)
                   .join-tournament-info

@@ -6,6 +6,10 @@ FactoryBot.define do
 
     league
 
+    after(:build) do |team|
+      team.tournament_id ||= team.league&.tournament&.id
+    end
+
     trait :with_user do
       user
     end

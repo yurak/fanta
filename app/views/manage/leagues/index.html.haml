@@ -2,7 +2,7 @@
   .web-header= render 'layouts/left_nav', league: nil
   .web-header= render 'layouts/manage_nav'
   .mob-header= render 'layouts/mob_header', league: nil, title: t('manage.leagues.title')
-  .page-info.admin-leagues-page
+  .page-info.admin-leagues-page.admin-manage-page
     .d-flex.align-items-center.justify-content-between.mb-3
       %h2.mb-0= t('manage.leagues.title')
       = link_to t('manage.leagues.new_title'), new_manage_league_path, class: 'btn btn-primary'

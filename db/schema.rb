@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2026_04_08_120909) do
+ActiveRecord::Schema.define(version: 2026_04_10_150712) do
 
   create_table "article_tags", force: :cascade do |t|
     t.string "name", default: "", null: false
@@ -461,7 +461,9 @@ ActiveRecord::Schema.define(version: 2026_04_08_120909) do
     t.string "logo_url", default: "", null: false
     t.integer "budget", default: 260
     t.integer "transfer_slots", default: 0
+    t.integer "tournament_id"
     t.index ["league_id"], name: "index_teams_on_league_id"
+    t.index ["tournament_id"], name: "index_teams_on_tournament_id"
     t.index ["user_id"], name: "index_teams_on_user_id"
   end
 
@@ -633,6 +635,7 @@ ActiveRecord::Schema.define(version: 2026_04_08_120909) do
   add_foreign_key "round_players", "players"
   add_foreign_key "round_players", "tournament_rounds"
   add_foreign_key "teams", "leagues"
+  add_foreign_key "teams", "tournaments"
   add_foreign_key "teams", "users"
   add_foreign_key "tournament_matches", "tournament_rounds"
   add_foreign_key "tournament_rounds", "seasons"

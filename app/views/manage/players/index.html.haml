@@ -2,7 +2,7 @@
   .web-header= render 'layouts/left_nav', league: nil
   .web-header= render 'layouts/manage_nav'
   .mob-header= render 'layouts/mob_header', league: nil, title: t('manage.players.title')
-  .page-info.admin-players-page
+  .page-info.admin-manage-page
     %h2= t('manage.players.title')
 
     - if flash[:notice]

@@ -15,15 +15,10 @@ class TeamsController < ApplicationController
   end
 
   def create
-    team = Team.new(create_params)
-
-    if team.save
-      bid = create_join_records(team)
-      return redirect_to joins_path, alert: flash[:alert] if bid.nil?
-
-      redirect_to auction_bid_path(bid)
+    if existing_team_id.present?
+      join_with_existing_team
     else
-      redirect_to joins_path, alert: team.errors.full_messages.join(', ')
+      join_with_new_team
     end
   end
 
@@ -51,6 +46,30 @@ class TeamsController < ApplicationController
     team.user == current_user
   end
 
+  def join_with_new_team
+    team = Team.new(create_params)
+    if team.save
+      bid = create_join_records(team)
+      if bid.nil?
+        team.destroy
+        return redirect_to joins_path, alert: flash[:alert]
+      end
+      redirect_to auction_bid_path(bid)
+    else
+      redirect_to joins_path, alert: team.errors.full_messages.join(', ')
+    end
+  end
+
+  def join_with_existing_team
+    team = current_user.teams.find_by(id: existing_team_id)
+    return redirect_to joins_path, alert: t('join.team_not_found') unless team
+
+    bid = create_join_records(team)
+    return redirect_to joins_path, alert: flash[:alert] if bid.nil?
+
+    redirect_to auction_bid_path(bid)
+  end
+
   def create_join_records(team)
     tournament = Tournament.find(join_tournament_id)
     bid = AuctionBid.create!(team: team, status: :initial)
@@ -58,13 +77,16 @@ class TeamsController < ApplicationController
     Join.create!(user: current_user, tournament: tournament, team: team, auction_bid: bid, status: :initial)
     bid
   rescue ActiveRecord::RecordInvalid => e
-    team.destroy
     flash[:alert] = e.message
     nil
   end
 
   def create_params
-    input_params.except(:tournament_id).merge(code: input_params[:code]&.upcase, name: generate_name, user_id: current_user.id)
+    input_params.merge(
+      code: input_params[:code]&.upcase,
+      name: generate_name,
+      user_id: current_user.id
+    )
   end
 
   def generate_name
@@ -79,7 +101,11 @@ class TeamsController < ApplicationController
     input_params[:tournament_id]
   end
 
+  def existing_team_id
+    input_params[:team_id]
+  end
+
   def input_params
-    params.require(:team).permit(:code, :human_name, :logo_url, :tournament_id)
+    params.require(:team).permit(:code, :human_name, :logo_url, :tournament_id, :team_id)
   end
 end

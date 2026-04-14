@@ -687,6 +687,7 @@
       "code_error": "Code must be 2–3 characters",
       "code_hint": "2–3 Latin characters or digits",
       "code_placeholder": "e.g. MAN",
+      "confirm_team": "Confirm team",
       "contact_link": "Contact administration",
       "contact_title": "Want to play with friends in same league?",
       "continue": "Continue",
@@ -733,6 +734,7 @@
         "subtitle": "Continue your journey by completing your payment. We appreciate your support!",
         "title": "Enjoying it so far?"
       },
+      "team_not_found": "Team not found",
       "teams": "teams",
       "telegram_link": "Connect Telegram Bot",
       "telegram_title": "Get deadline reminders",
@@ -797,6 +799,15 @@
       "title": "Useful Links"
     },
     "manage": {
+      "clubs": {
+        "empty": "No clubs found",
+        "filter_name": "Name",
+        "name": "Name",
+        "reset": "Reset",
+        "search": "Search",
+        "title": "Clubs",
+        "tournament": "Tournament"
+      },
       "joins": {
         "actions": "Actions",
         "approve": "Approve",
@@ -855,10 +866,13 @@
         "updated": "League updated"
       },
       "nav": {
+        "clubs": "Clubs",
         "joins": "Join Apps",
         "leagues": "Leagues",
         "players": "Players",
-        "title": "Admin panel"
+        "teams": "Teams",
+        "title": "Admin panel",
+        "users": "Users"
       },
       "players": {
         "add_player": "Add player",
@@ -870,6 +884,49 @@
         "hash_placeholder": "{\"first_name\"=>\"Julian\", \"name\"=>\"Alvarez\", ...}",
         "invalid_hash": "Invalid hash format",
         "title": "Players"
+      },
+      "teams": {
+        "empty": "No teams found",
+        "filter_name": "Name",
+        "league": "League",
+        "name": "Team",
+        "reset": "Reset",
+        "search": "Search",
+        "title": "Teams",
+        "tournament": "Tournament",
+        "user": "Manager"
+      },
+      "users": {
+        "back": "← Users",
+        "confirmed": "Confirmed",
+        "created_at": "Created",
+        "email": "Email",
+        "empty": "No users found",
+        "false": "No",
+        "filter_email": "Email",
+        "filter_id": "ID",
+        "last_sign_in": "Last sign in",
+        "locale": "Language",
+        "no_profile": "Profile not filled",
+        "no_teams": "No teams",
+        "not_confirmed": "Not confirmed",
+        "notifications": "Notifications",
+        "reset": "Reset",
+        "role": "Role",
+        "search": "Search",
+        "section_account": "Account",
+        "section_teams": "Teams",
+        "section_telegram": "Telegram",
+        "sign_in_count": "Sign in count",
+        "status": "Status",
+        "team_league": "League",
+        "team_name": "Team",
+        "team_tournament": "Tournament",
+        "tg_bot": "Bot connected",
+        "tg_chat_id": "TG chat ID",
+        "tg_name": "TG name",
+        "title": "Users",
+        "true": "Yes"
       }
     },
     "match": {
@@ -2278,6 +2335,7 @@
       "code_error": "Код має бути 2–3 символи",
       "code_hint": "2–3 латинські символи або цифри",
       "code_placeholder": "напр. MAN",
+      "confirm_team": "Підтвердити команду",
       "contact_link": "Написати адміністрації",
       "contact_title": "Хочеш грати з друзями в одній лізі?",
       "continue": "Продовжити",
@@ -2324,6 +2382,7 @@
         "subtitle": "Продовжіть свою подорож, здійснивши оплату. Дякуємо за підтримку!",
         "title": "Як враження?"
       },
+      "team_not_found": "Команду не знайдено",
       "teams": "команд",
       "telegram_link": "Підключити Telegram бот",
       "telegram_title": "Отримуй нагадування про дедлайни",
@@ -2388,6 +2447,15 @@
       "title": "Корисні Посилання"
     },
     "manage": {
+      "clubs": {
+        "empty": "Клубів не знайдено",
+        "filter_name": "Назва",
+        "name": "Назва",
+        "reset": "Скинути",
+        "search": "Шукати",
+        "title": "Клуби",
+        "tournament": "Турнір"
+      },
       "joins": {
         "actions": "Дії",
         "approve": "Підтвердити",
@@ -2446,10 +2514,13 @@
         "updated": "Лігу оновлено"
       },
       "nav": {
+        "clubs": "Клуби",
         "joins": "Заявки",
         "leagues": "Ліги",
         "players": "Гравці",
-        "title": "Адмін панель"
+        "teams": "Команди",
+        "title": "Адмін панель",
+        "users": "Менеджери"
       },
       "players": {
         "add_player": "Додати гравця",
@@ -2461,6 +2532,49 @@
         "hash_placeholder": "{\"first_name\"=>\"Julian\", \"name\"=>\"Bazan\", ...}",
         "invalid_hash": "Невірний формат хешу",
         "title": "Гравці"
+      },
+      "teams": {
+        "empty": "Команд не знайдено",
+        "filter_name": "Назва",
+        "league": "Ліга",
+        "name": "Команда",
+        "reset": "Скинути",
+        "search": "Шукати",
+        "title": "Команди",
+        "tournament": "Турнір",
+        "user": "Менеджер"
+      },
+      "users": {
+        "back": "← Менеджери",
+        "confirmed": "Підтверджено",
+        "created_at": "Створено",
+        "email": "Email",
+        "empty": "Менеджерів не знайдено",
+        "false": "Ні",
+        "filter_email": "Email",
+        "filter_id": "ID",
+        "last_sign_in": "Останній вхід",
+        "locale": "Мова",
+        "no_profile": "Профіль не заповнено",
+        "no_teams": "Немає команд",
+        "not_confirmed": "Не підтверджено",
+        "notifications": "Сповіщення",
+        "reset": "Скинути",
+        "role": "Роль",
+        "search": "Знайти",
+        "section_account": "Акаунт",
+        "section_teams": "Команди",
+        "section_telegram": "Telegram",
+        "sign_in_count": "Кількість входів",
+        "status": "Статус",
+        "team_league": "Ліга",
+        "team_name": "Команда",
+        "team_tournament": "Турнір",
+        "tg_bot": "Бот підключено",
+        "tg_chat_id": "TG chat ID",
+        "tg_name": "TG нейм",
+        "title": "Менеджери",
+        "true": "Так"
       }
     },
     "match": {

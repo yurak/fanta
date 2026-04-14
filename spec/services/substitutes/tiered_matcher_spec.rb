@@ -591,6 +591,47 @@ RSpec.describe Substitutes::TieredMatcher do
     end
   end
 
+  context 'when Dd and Dc did not play, bench has E/W, Dc/Dd, M' do
+    # Main players absent: Dd (row0), Dc (row1)
+    # Bench players: E/W(col0), Dc/Dd(col1), M(col2)
+    #
+    #             E/W  Dc/Dd   M
+    # Dd (row0): 3.0    0      X   — Dc/Dd native; E/W with M_MALUS; M incompatible
+    # Dc (row1):  X     0     3.0  — Dc/Dd native; E/W incompatible; M with M_MALUS
+    #
+    # Phase 1: Dd→col1(0), Dc unmatched. Phase 2a: Dc→col2(3.0).
+    # Improve: Dd holds col1(0); Dc would benefit (0 < 3.0). Dd has no zero-malus escape,
+    # but can escape to E/W(col0, 3.0) — escape_val(3.0) == val_j(3.0), col0 < col_j(col2).
+    # Neutral malus swap that uses an earlier bench position.
+    # Result: Dc→Dc/Dd(col1, 0), Dd→E/W(col0, 3.0). Total: 3.0.
+    let(:grid) do
+      [
+        [3.0, 0,   'X'], # Dd: E/W=M_MALUS, Dc/Dd=native, M=incompatible
+        ['X', 0,   3.0]  # Dc: E/W=incompatible, Dc/Dd=native, M=M_MALUS
+      ]
+    end
+
+    it 'matches both players' do
+      assignments, = result
+      expect(assignments.size).to eq(2)
+    end
+
+    it 'assigns Dc to the Dc/Dd bench slot (zero-malus)' do
+      assignments, = result
+      expect(assignments).to include([1, 1, 0.0])
+    end
+
+    it 'assigns Dd to the E/W bench slot (3.0 malus)' do
+      assignments, = result
+      expect(assignments).to include([0, 0, 3.0])
+    end
+
+    it 'returns total malus of 3.0' do
+      _, total = result
+      expect(total).to eq(3.0)
+    end
+  end
+
   context 'when C/T, E/W, T did not play, bench has Pc, W/A, M, Dd/E, Ds/E' do
     # Main players absent: C/T (row0), E/W (row1), T (row2)
     # Bench players: Pc(col0), W/A(col1), M(col2), Dd/E(col3), Ds/E(col4)

@@ -2,7 +2,7 @@
   .web-header= render 'layouts/left_nav', league: nil
   .web-header= render 'layouts/manage_nav'
   .mob-header= render 'layouts/mob_header', league: nil, title: t('manage.joins.title')
-  .page-info.admin-joins-page
+  .page-info.admin-joins-page.admin-manage-page
     %h2= t('manage.joins.title')
 
     - if flash[:notice]
@@ -28,7 +28,7 @@
         %tbody
           - @joins.each do |join|
             %tr
-              %td= link_to join.user.name, manager_path(join.user)
+              %td= link_to join.user.name, manage_user_path(join.user)
               %td
                 = image_tag(join.team.logo_path, width: 24, height: 24)
                 = link_to join.team.human_name, team_path(join.team)
