@@ -38,6 +38,29 @@ RSpec.describe 'Manage::Joins' do
         expect(response.body).to include(join.user.name)
       end
 
+      context 'with telegram badge' do
+        context 'when user has bot connected' do
+          let(:applicant) { create(:user) }
+
+          before do
+            create(:user_profile, user: applicant, bot_enabled: true)
+            get manage_joins_path(tab: 'pending')
+          end
+
+          it 'shows connected badge' do
+            expect(response.body).to include('badge-tg-connected')
+          end
+        end
+
+        context 'when user has bot disconnected' do
+          before { get manage_joins_path(tab: 'pending') }
+
+          it 'shows disconnected badge' do
+            expect(response.body).to include('badge-tg-disconnected')
+          end
+        end
+      end
+
       it 'assigns initial joins' do
         get manage_joins_path(tab: 'initial')
         expect(response.body).to include(initial_join.user.name)
@@ -46,6 +69,63 @@ RSpec.describe 'Manage::Joins' do
       it 'assigns approved joins' do
         get manage_joins_path(tab: 'approved')
         expect(response.body).to include(approved_join.user.name)
+      end
+    end
+  end
+
+  context 'with pending tab sub-tabs' do
+    login_admin
+
+    let(:tournament2) { create(:tournament) }
+    let!(:join2) { create(:join, :pending, user: create(:user), tournament: tournament2, team: create(:team)) }
+
+    before { get manage_joins_path(tab: 'pending') }
+
+    it 'groups pending_by_tournament for both tournaments' do
+      expect(assigns(:pending_by_tournament).keys).to contain_exactly(tournament, tournament2)
+    end
+
+    it 'shows a sub-tab for each tournament' do
+      expect(response.body).to include(tournament.name).and include(tournament2.name)
+    end
+
+    it 'shows count for tournament in sub-tab' do
+      expect(response.body).to include("#{tournament.name} (1)")
+    end
+
+    it 'shows count for tournament2 in sub-tab' do
+      expect(response.body).to include("#{tournament2.name} (1)")
+    end
+
+    it 'shows all-tournaments tab with total count' do
+      expect(response.body).to include('(2)')
+    end
+
+    it 'sets tournament_id to nil when no filter' do
+      expect(assigns(:tournament_id)).to be_nil
+    end
+
+    it 'shows joins from all tournaments' do
+      expect(response.body).to include(join.user.name).and include(join2.user.name)
+    end
+
+    context 'when filtering by tournament_id' do
+      before { get manage_joins_path(tab: 'pending', tournament_id: tournament.id) }
+
+      it 'assigns tournament_id' do
+        expect(assigns(:tournament_id)).to eq(tournament.id)
+      end
+
+      it 'shows only joins for the selected tournament' do
+        expect(response.body).to include(join.user.name)
+      end
+
+      it 'excludes joins from other tournaments' do
+        expect(response.body).not_to include(join2.user.name)
+      end
+
+      it 'still renders all tournament sub-tabs' do
+        expect(response.body).to include(tournament.name).and include(tournament2.name)
       end
     end
   end

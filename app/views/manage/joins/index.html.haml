@@ -13,6 +13,15 @@
         = link_to manage_joins_path(tab: tab), class: "default-tab-item #{'default-tab-active' if @tab == tab}" do
           .default-tab-name= t("manage.joins.tab_#{tab}")
 
+    - if @tab == 'pending' && @pending_by_tournament.any?
+      .default-tabs.manage-joins-tabs.manage-joins-subtabs
+        - all_count = @pending_by_tournament.values.sum(&:count)
+        = link_to manage_joins_path(tab: 'pending'), class: "default-tab-item #{'default-tab-active' if @tournament_id.nil?}" do
+          .default-tab-name= "#{t('manage.joins.all_tournaments')} (#{all_count})"
+        - @pending_by_tournament.each do |tournament, joins|
+          = link_to manage_joins_path(tab: 'pending', tournament_id: tournament.id), class: "default-tab-item #{'default-tab-active' if @tournament_id == tournament.id}" do
+            .default-tab-name= "#{tournament.name} (#{joins.count})"
+
     - if @joins.any?
       %table.table.table-hover
         %thead.thead-light
@@ -28,7 +37,12 @@
         %tbody
           - @joins.each do |join|
             %tr
-              %td= link_to join.user.name, manage_user_path(join.user)
+              %td
+                = link_to join.user.name, manage_user_path(join.user)
+                - if join.user.user_profile&.bot_enabled
+                  %span.badge-tg-connected{ title: t('manage.joins.tg_connected') } ✈️
+                - else
+                  %span.badge-tg-disconnected{ title: t('manage.joins.tg_disconnected') } —
               %td
                 = image_tag(join.team.logo_path, width: 24, height: 24)
                 = link_to join.team.human_name, team_path(join.team)

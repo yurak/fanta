@@ -810,6 +810,7 @@
       },
       "joins": {
         "actions": "Actions",
+        "all_tournaments": "All tournaments",
         "approve": "Approve",
         "approved": "Application approved",
         "approved_title": "Approved",
@@ -826,6 +827,8 @@
         "tab_initial": "In Progress",
         "tab_pending": "Pending",
         "team": "Team",
+        "tg_connected": "Telegram connected",
+        "tg_disconnected": "Telegram not connected",
         "title": "Join Applications",
         "tournament": "Tournament",
         "user": "User"
@@ -2458,6 +2461,7 @@
       },
       "joins": {
         "actions": "Дії",
+        "all_tournaments": "Всі турніри",
         "approve": "Підтвердити",
         "approved": "Заявку підтверджено",
         "approved_title": "Прийняті",
@@ -2474,6 +2478,8 @@
         "tab_initial": "В процесі",
         "tab_pending": "Очікують",
         "team": "Команда",
+        "tg_connected": "Telegram підключено",
+        "tg_disconnected": "Telegram не підключено",
         "title": "Заявки на вступ",
         "tournament": "Турнір",
         "user": "Користувач"

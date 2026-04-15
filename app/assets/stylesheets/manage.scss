@@ -31,11 +31,31 @@
 }
 
 .admin-joins-page {
+  .manage-joins-tabs {
+    margin-bottom: 0;
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+  }
+
   .approve-form-fields {
     display: inline-flex;
     align-items: center;
     gap: 6px;
     flex-wrap: wrap;
+  }
+
+  .manage-joins-subtabs {
+    font-size: 13px;
+    background: #F7F7F7;
+    margin-bottom: 24px;
+
+    .default-tab-item {
+      padding: 10px 14px 8px;
+      min-width: unset;
+    }
   }
 }
 

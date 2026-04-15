@@ -4,19 +4,7 @@ module Manage
 
     def index
       @tab = TABS.include?(params[:tab]) ? params[:tab] : TABS.first
-      @joins = case @tab
-               when 'pending'
-                 Join.pending.includes(:user, :tournament, team: :join)
-                     .order('tournaments.id, joins.created_at ASC')
-                     .references(:tournaments)
-               when 'initial'
-                 Join.initial.includes(:user, :tournament, team: :join).order(created_at: :asc)
-               when 'approved'
-                 Join.approved
-                     .includes(:user, :tournament, team: %i[join league])
-                     .order('tournaments.name, leagues.name')
-                     .references(:tournaments, :leagues)
-               end
+      @joins = joins_for_tab
     end
 
     def approve
@@ -40,6 +28,30 @@ module Manage
     end
 
     private
+
+    def joins_for_tab
+      case @tab
+      when 'pending'  then pending_joins
+      when 'initial'  then Join.initial.includes(:user, :tournament, team: :join).order(created_at: :asc)
+      when 'approved' then approved_joins
+      end
+    end
+
+    def pending_joins
+      pending = Join.pending.includes(:tournament, team: :join, user: :user_profile)
+                    .order('tournaments.id, joins.created_at ASC')
+                    .references(:tournaments)
+      @pending_by_tournament = pending.group_by(&:tournament)
+      @tournament_id = params[:tournament_id].presence&.to_i
+      @tournament_id ? pending.select { |j| j.tournament_id == @tournament_id } : pending
+    end
+
+    def approved_joins
+      Join.approved
+          .includes(:user, :tournament, team: %i[join league])
+          .order('tournaments.name, leagues.name')
+          .references(:tournaments, :leagues)
+    end
 
     def join
       @join ||= Join.find(params[:id])
