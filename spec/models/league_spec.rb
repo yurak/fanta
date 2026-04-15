@@ -22,6 +22,27 @@ RSpec.describe League do
     it { is_expected.to define_enum_for(:transfer_status).with_values(%i[closed open]) }
   end
 
+  describe '.without_demo_from_old_seasons' do
+    let!(:old_season) { create(:season) }
+    let!(:current_season) { create(:season) }
+
+    let!(:demo_in_current) { create(:active_league, season: current_season, demo: true) }
+    let!(:demo_in_old) { create(:active_league, season: old_season, demo: true) }
+    let!(:regular_in_old) { create(:active_league, season: old_season) }
+
+    it 'includes demo leagues from current season' do
+      expect(described_class.without_demo_from_old_seasons).to include(demo_in_current)
+    end
+
+    it 'excludes demo leagues from old seasons' do
+      expect(described_class.without_demo_from_old_seasons).not_to include(demo_in_old)
+    end
+
+    it 'includes non-demo leagues from old seasons' do
+      expect(described_class.without_demo_from_old_seasons).to include(regular_in_old)
+    end
+  end
+
   describe '#division_with_name' do
     context 'when league without division' do
       it 'returns league name' do

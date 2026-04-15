@@ -115,7 +115,7 @@ const LeaguesListDesktop = ({
         dataKey: "status",
         align: "right",
         className: styles.statusCell,
-        render: (item) => <LeagueStatus status={item.status} />,
+        render: (item) => <LeagueStatus status={item.status} demo={item.demo} />,
       },
     ],
     [t]

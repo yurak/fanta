@@ -3,6 +3,7 @@ class LeagueBaseSerializer < ActiveModel::Serializer
   include LeaguesHelper
 
   attributes :id
+  attributes :demo
   attributes :division
   attributes :division_id
   attributes :link

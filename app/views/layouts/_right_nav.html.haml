@@ -6,6 +6,8 @@
         = "#{league.division.name} | #{league.name}"
       - else
         = league.name
+      - if league.demo?
+        %span.badge-demo= t('league.demo_badge_short')
     .league-season
       = "#{t('header.season')} #{league.season.start_year.to_s[2..3]}-#{league.season.end_year.to_s[2..3]} • #{league.type.capitalize}"
 

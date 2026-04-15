@@ -1,10 +1,19 @@
 module Manage
   class LeaguesController < Manage::BaseController
     STATUSES = %w[initial active archived].freeze
+    PER_PAGE = 25
 
     def index
       @status = STATUSES.include?(params[:status]) ? params[:status] : 'initial'
-      @leagues = League.public_send(@status).includes(:tournament, :season).order(created_at: :desc)
+      @tournaments = Tournament.order(:name)
+      @seasons = Season.order(start_year: :desc)
+      @leagues = League.public_send(@status)
+                       .includes(:tournament, :season)
+                       .order(season_id: :desc, created_at: :desc)
+      @leagues = @leagues.where('leagues.name LIKE ?', "%#{params[:query]}%") if params[:query].present?
+      @leagues = @leagues.where(tournament_id: params[:tournament_id]) if params[:tournament_id].present?
+      @leagues = @leagues.where(season_id: params[:season_id]) if params[:season_id].present?
+      @leagues = @leagues.page(params[:page]).per(PER_PAGE)
     end
 
     def new
@@ -47,7 +56,7 @@ module Manage
     def league_params
       params.require(:league).permit(
         :name, :tournament_id, :season_id, :division_id,
-        :auction_type, :auction_number, :auction_step, :tour_difference
+        :auction_type, :auction_number, :auction_step, :tour_difference, :demo
       )
     end
   end

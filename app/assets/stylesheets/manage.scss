@@ -70,6 +70,20 @@
   }
 }
 
+.badge-demo {
+  display: inline-block;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 11px;
+  line-height: 1;
+  font-weight: 600;
+  vertical-align: 3px;
+  background: #EAC6FB;
+  color: #3d1a5c;
+  margin-left: 6px;
+  white-space: nowrap;
+}
+
 .admin-manage-page {
   padding: 32px 24px 32px 296px;
 

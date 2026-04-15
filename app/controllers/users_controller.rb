@@ -44,7 +44,10 @@ class UsersController < ApplicationController
   end
 
   def show_manager
-    @user = User.find(params[:id])
+    @user = User.includes(
+      teams: {},
+      results: { league: %i[tournament division season], team: {} }
+    ).find(params[:id])
   end
 
   private

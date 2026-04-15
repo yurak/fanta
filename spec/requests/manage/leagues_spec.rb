@@ -84,6 +84,74 @@ RSpec.describe 'Manage::Leagues' do
         expect(controller.instance_variable_get(:@status)).to eq('initial')
       end
     end
+
+    context 'when filtering by name query' do
+      login_admin
+
+      let!(:matching_league) { create(:league, name: 'Alpha League') }
+      let!(:other_league) { create(:league, name: 'Beta League') }
+
+      before { get manage_leagues_path(query: 'Alpha') }
+
+      it 'includes matching league' do
+        expect(controller.instance_variable_get(:@leagues)).to include(matching_league)
+      end
+
+      it 'excludes non-matching league' do
+        expect(controller.instance_variable_get(:@leagues)).not_to include(other_league)
+      end
+    end
+
+    context 'when filtering by tournament' do
+      login_admin
+
+      let(:tournament_a) { create(:tournament) }
+      let(:tournament_b) { create(:tournament) }
+      let!(:league_a) { create(:league, tournament: tournament_a) }
+      let!(:league_b) { create(:league, tournament: tournament_b) }
+
+      before { get manage_leagues_path(tournament_id: tournament_a.id) }
+
+      it 'includes league from selected tournament' do
+        expect(controller.instance_variable_get(:@leagues)).to include(league_a)
+      end
+
+      it 'excludes league from other tournament' do
+        expect(controller.instance_variable_get(:@leagues)).not_to include(league_b)
+      end
+    end
+
+    context 'when filtering by season' do
+      login_admin
+
+      let!(:season_a) { create(:season) }
+      let!(:season_b) { create(:season) }
+      let!(:league_a) { create(:league, season: season_a) }
+      let!(:league_b) { create(:league, season: season_b) }
+
+      before { get manage_leagues_path(season_id: season_a.id) }
+
+      it 'includes league from selected season' do
+        expect(controller.instance_variable_get(:@leagues)).to include(league_a)
+      end
+
+      it 'excludes league from other season' do
+        expect(controller.instance_variable_get(:@leagues)).not_to include(league_b)
+      end
+    end
+
+    context 'with pagination' do
+      login_admin
+
+      before do
+        create_list(:league, Manage::LeaguesController::PER_PAGE + 1)
+        get manage_leagues_path
+      end
+
+      it 'paginates results' do
+        expect(controller.instance_variable_get(:@leagues).count).to eq(Manage::LeaguesController::PER_PAGE)
+      end
+    end
   end
 
   describe 'GET #new' do
@@ -211,6 +279,16 @@ RSpec.describe 'Manage::Leagues' do
 
       it 'updates the league' do
         expect(league.reload.name).to eq('Updated Name')
+      end
+    end
+
+    context 'when admin sets demo flag' do
+      login_admin
+
+      before { patch manage_league_path(league), params: { league: { demo: true } } }
+
+      it 'saves the demo flag' do
+        expect(league.reload.demo).to be(true)
       end
     end
 

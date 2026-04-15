@@ -9,12 +9,13 @@ const Label = ({
 }: {
   children: React.ReactNode,
   icon?: React.ReactNode,
-  type?: "default" | "alert" | "error" | "success" | "new",
+  type?: "default" | "alert" | "demo" | "error" | "success" | "new",
 }) => {
   return (
     <span
       className={cn(styles.label, {
         [styles.alert]: type === "alert",
+        [styles.demo]: type === "demo",
         [styles.error]: type === "error",
         [styles.success]: type === "success",
         [styles.new]: type === "new",
