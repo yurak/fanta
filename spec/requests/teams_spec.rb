@@ -108,6 +108,35 @@ RSpec.describe 'Teams' do
       end
     end
 
+    context 'when user joins with blank team_id (new team, submitted from form)' do
+      let(:tournament) { create(:tournament) }
+      let(:logged_user) { create(:user, status: :configured) }
+      let(:join_params) do
+        {
+          team: {
+            human_name: 'Forza',
+            logo_url: 'forza.png',
+            code: 'FRZ',
+            tournament_id: tournament.id,
+            team_id: ''
+          }
+        }
+      end
+
+      before do
+        sign_in logged_user
+        post teams_path(join_params)
+      end
+
+      it 'creates the team without raising UnknownAttributeError' do
+        expect(Team.last.human_name).to eq('Forza')
+      end
+
+      it 'redirects to the auction bid page' do
+        expect(response).to redirect_to(auction_bid_path(AuctionBid.last))
+      end
+    end
+
     context 'when user tries to join a tournament they already applied to' do
       let(:tournament) { create(:tournament) }
       let(:logged_user) { create(:user, status: :configured) }

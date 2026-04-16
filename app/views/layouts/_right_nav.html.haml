@@ -2,10 +2,11 @@
 .right-nav{ class: "active-right-nav-#{ user_team_by_league(current_user, league).present? }"}
   - if league
     .league-name
-      - if league.division
-        = "#{league.division.name} | #{league.name}"
-      - else
-        = league.name
+      %span.league-name-text
+        - if league.division
+          = "#{league.division.name} | #{league.name}"
+        - else
+          = league.name
       - if league.demo?
         %span.badge-demo= t('league.demo_badge_short')
     .league-season

@@ -157,9 +157,21 @@
     font-weight: 700;
     font-size: 18px;
     line-height: 24px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    min-width: 0;
+
+    .league-name-text {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      min-width: 0;
+    }
+
+    .badge-demo {
+      flex-shrink: 0;
+    }
   }
 
   .league-season {

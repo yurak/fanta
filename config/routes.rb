@@ -26,7 +26,7 @@ Rails.application.routes.draw do
   resources :joins, only: [:index, :show]
 
   namespace :manage do
-    resources :leagues, only: [:index, :new, :create, :edit, :update] do
+    resources :leagues, only: [:index, :new, :create, :edit, :update, :show] do
       member do
         post :activate
       end

@@ -82,7 +82,7 @@ class TeamsController < ApplicationController
   end
 
   def create_params
-    input_params.merge(
+    input_params.except(:team_id).merge(
       code: input_params[:code]&.upcase,
       name: generate_name,
       user_id: current_user.id

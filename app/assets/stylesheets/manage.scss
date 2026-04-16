@@ -68,6 +68,10 @@
       color: inherit;
     }
   }
+
+  .manage-leagues-search {
+    gap: 8px;
+  }
 }
 
 .badge-demo {
@@ -90,5 +94,11 @@
   h2 {
     font-family: 'Nunito Bold';
     margin-bottom: 24px;
+  }
+
+  .league-actions {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 16px;
   }
 }

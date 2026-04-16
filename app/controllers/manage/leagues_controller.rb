@@ -16,6 +16,10 @@ module Manage
       @leagues = @leagues.page(params[:page]).per(PER_PAGE)
     end
 
+    def show
+      @teams = league.teams.includes(:user).order(:human_name)
+    end
+
     def new
       @league = League.new
     end
