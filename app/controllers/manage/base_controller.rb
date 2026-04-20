@@ -1,5 +1,7 @@
 module Manage
   class BaseController < ApplicationController
+    PER_PAGE = 20
+
     before_action :require_admin!
 
     private

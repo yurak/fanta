@@ -1,15 +1,25 @@
 .right-nav.active-right-nav-true.manage-nav
   .league-name= t('manage.nav.title')
   .league-links
+    = link_to manage_joins_path do
+      .league-link{ class: "link-active-#{ params[:controller] == 'manage/joins' }" }
+        .league-link-icon= image_tag('icons/round/auctions.svg')
+        .league-link-text= t('manage.nav.joins')
+  .league-links
     = link_to manage_leagues_path do
       .league-link{ class: "link-active-#{ params[:controller] == 'manage/leagues' }" }
         .league-link-icon= image_tag('icons/round/teams.svg')
         .league-link-text= t('manage.nav.leagues')
   .league-links
-    = link_to manage_joins_path do
-      .league-link{ class: "link-active-#{ params[:controller] == 'manage/joins' }" }
-        .league-link-icon= image_tag('icons/round/auctions.svg')
-        .league-link-text= t('manage.nav.joins')
+    = link_to manage_users_path do
+      .league-link{ class: "link-active-#{ params[:controller] == 'manage/users' }" }
+        .league-link-icon= image_tag('icons/round/statistics.svg')
+        .league-link-text= t('manage.nav.users')
+  .league-links
+    = link_to manage_teams_path do
+      .league-link{ class: "link-active-#{ params[:controller] == 'manage/teams' }" }
+        .league-link-icon= image_tag('icons/round/teams.svg')
+        .league-link-text= t('manage.nav.teams')
   .league-links
     = link_to manage_players_path do
       .league-link{ class: "link-active-#{ params[:controller] == 'manage/players' }" }
@@ -20,13 +30,3 @@
       .league-link{ class: "link-active-#{ params[:controller] == 'manage/clubs' }" }
         .league-link-icon= image_tag('icons/round/clubs.svg')
         .league-link-text= t('manage.nav.clubs')
-  .league-links
-    = link_to manage_teams_path do
-      .league-link{ class: "link-active-#{ params[:controller] == 'manage/teams' }" }
-        .league-link-icon= image_tag('icons/round/teams.svg')
-        .league-link-text= t('manage.nav.teams')
-  .league-links
-    = link_to manage_users_path do
-      .league-link{ class: "link-active-#{ params[:controller] == 'manage/users' }" }
-        .league-link-icon= image_tag('icons/round/statistics.svg')
-        .league-link-text= t('manage.nav.users')

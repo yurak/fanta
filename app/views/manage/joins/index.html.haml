@@ -38,11 +38,11 @@
           - @joins.each do |join|
             %tr
               %td
-                = link_to join.user.name, manage_user_path(join.user)
                 - if join.user.user_profile&.bot_enabled
-                  %span.badge-tg-connected{ title: t('manage.joins.tg_connected') } ✈️
+                  %span.badge-tg-connected{ title: t('manage.joins.tg_connected') } 🟢
                 - else
-                  %span.badge-tg-disconnected{ title: t('manage.joins.tg_disconnected') } —
+                  %span.badge-tg-disconnected{ title: t('manage.joins.tg_disconnected') } 🔴
+                = link_to join.user.name, manage_user_path(join.user)
               %td
                 = image_tag(join.team.logo_path, width: 24, height: 24)
                 = link_to join.team.human_name, team_path(join.team)

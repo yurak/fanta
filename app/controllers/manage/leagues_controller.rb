@@ -1,7 +1,6 @@
 module Manage
   class LeaguesController < Manage::BaseController
     STATUSES = %w[initial active archived].freeze
-    PER_PAGE = 25
 
     def index
       @status = STATUSES.include?(params[:status]) ? params[:status] : 'initial'
@@ -17,7 +16,8 @@ module Manage
     end
 
     def show
-      @teams = league.teams.includes(:user).order(:human_name)
+      @teams = league.teams.includes(user: :user_profile).order(:human_name)
+      @auctions = league.auctions.includes(:auction_rounds).order(:number)
     end
 
     def new

@@ -60,6 +60,7 @@
             %th= t('manage.leagues.team_name')
             %th= t('manage.leagues.manager')
             %th= t('manage.leagues.budget')
+            %th= t('manage.leagues.transfer_slots')
         %tbody
           - @teams.each do |team|
             %tr
@@ -68,10 +69,40 @@
                 = link_to team.human_name, team_path(team)
               %td
                 - if team.user
+                  - if team.user.user_profile&.bot_enabled
+                    %span.badge-tg-connected{ title: t('manage.joins.tg_connected') } 🟢
+                  - else
+                    %span.badge-tg-disconnected{ title: t('manage.joins.tg_disconnected') } 🔴
                   = link_to team.user.name.presence || team.user.email, manage_user_path(team.user), class: 'me-1'
                   = link_to '(profile)', manager_path(team.user), target: '_blank'
                 - else
                   %span.text-muted= '—'
               %td= team.budget
+              %td= team.transfer_slots
     - else
       %p.text-muted= t('manage.leagues.no_teams')
+
+    %h5.mt-4= t('manage.leagues.section_auctions')
+    - if @auctions.any?
+      %table.table.table-hover.table-sm
+        %thead.thead-light
+          %tr
+            %th ID
+            %th= t('manage.leagues.auction_number')
+            %th= t('manage.leagues.status')
+            %th= t('manage.leagues.deadline')
+            %th= t('manage.leagues.base_date')
+            %th= t('manage.leagues.auction_rounds')
+        %tbody
+          - @auctions.each do |auction|
+            %tr
+              %td= auction.id
+              %td= link_to "##{auction.number}", league_auction_path(@league, auction)
+              %td= auction.status
+              %td= auction.deadline ? local_time(auction.deadline, '%d %b %Y, %H:%M') : '—'
+              %td= auction.base_date.presence || '—'
+              %td
+                - auction.auction_rounds.order(:number).each do |round|
+                  = link_to "##{round.number}", auction_round_path(round), class: 'me-2'
+    - else
+      %p.text-muted= t('manage.leagues.no_auctions')

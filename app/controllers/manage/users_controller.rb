@@ -1,7 +1,5 @@
 module Manage
   class UsersController < BaseController
-    PER_PAGE = 30
-
     def index
       @users = User.order(id: :desc)
       @users = @users.where(id: params[:id]) if params[:id].present?
