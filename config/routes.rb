@@ -43,6 +43,7 @@ Rails.application.routes.draw do
     resources :clubs, only: [:index]
     resources :teams, only: [:index]
     resources :users, only: [:index, :show]
+    resources :team_of_weeks, only: [:index]
   end
 
   get  'unsubscribe', to: 'subscriptions#unsubscribe', as: :unsubscribe

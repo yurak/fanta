@@ -252,7 +252,8 @@ module Substitutes
       return false if @grid[row2][col_i] == 'X'
       return false unless @grid[row2][col_i].to_f < @grid[row2][col_j].to_f
 
-      escape_col = find_escape_col(idx, row, col_i, col_j, @grid[row2][col_j].to_f)
+      max_escape_val = @grid[row2][col_j].to_f - @grid[row2][col_i].to_f
+      escape_col = find_escape_col(idx, row, col_i, col_j, max_escape_val)
       return false unless escape_col
 
       @match_col[col_i] = jdx
@@ -264,14 +265,14 @@ module Substitutes
     end
 
     # Returns a free column for idx to escape to, freeing col_i for jdx.
-    # Prefers a zero-malus column; falls back to a non-zero column that does not
-    # increase total malus (val <= val_j) and uses an earlier bench position
-    # (c < col_j) to guarantee convergence of the improve loop.
-    def find_escape_col(idx, row, col_i, col_j, val_j)
+    # Prefers a zero-malus column; falls back to a non-zero column whose malus
+    # does not exceed max_escape_val (jdx savings minus idx cost must be >= 0)
+    # and uses an earlier bench position (c < col_j) to guarantee convergence.
+    def find_escape_col(idx, row, col_i, col_j, max_escape_val)
       @zero_edges[idx].find { |c| c != col_i && @match_col[c] == -1 } ||
         @all_edges[idx].find do |c|
           c != col_i && @match_col[c] == -1 &&
-            !(@grid[row][c]).zero? && @grid[row][c].to_f <= val_j && c < col_j
+            !(@grid[row][c]).zero? && @grid[row][c].to_f <= max_escape_val && c < col_j
         end
     end
 

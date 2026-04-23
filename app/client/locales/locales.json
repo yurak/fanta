@@ -898,6 +898,7 @@
         "joins": "Join Apps",
         "leagues": "Leagues",
         "players": "Players",
+        "team_of_week": "Team of Week",
         "teams": "Teams",
         "title": "Admin panel",
         "users": "Users"
@@ -912,6 +913,18 @@
         "hash_placeholder": "{\"first_name\"=>\"Julian\", \"name\"=>\"Alvarez\", ...}",
         "invalid_hash": "Invalid hash format",
         "title": "Players"
+      },
+      "team_of_week": {
+        "build": "Build",
+        "col_player": "Player",
+        "col_position": "Pos",
+        "col_score": "Score",
+        "mode_flop": "Flop",
+        "mode_top": "Top",
+        "results": "Results",
+        "round": "Round",
+        "title": "Team of the Week",
+        "total": "Total"
       },
       "teams": {
         "empty": "No teams found",
@@ -2574,6 +2587,7 @@
         "joins": "Заявки",
         "leagues": "Ліги",
         "players": "Гравці",
+        "team_of_week": "Збірна тижня",
         "teams": "Команди",
         "title": "Адмін панель",
         "users": "Менеджери"
@@ -2588,6 +2602,18 @@
         "hash_placeholder": "{\"first_name\"=>\"Julian\", \"name\"=>\"Bazan\", ...}",
         "invalid_hash": "Невірний формат хешу",
         "title": "Гравці"
+      },
+      "team_of_week": {
+        "build": "Сформувати",
+        "col_player": "Гравець",
+        "col_position": "Поз",
+        "col_score": "Очки",
+        "mode_flop": "Флоп",
+        "mode_top": "Топ",
+        "results": "Результати",
+        "round": "Тур",
+        "title": "Збірна тижня",
+        "total": "Разом"
       },
       "teams": {
         "empty": "Команд не знайдено",

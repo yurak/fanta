@@ -36,6 +36,7 @@
           %tr
             %th= t('manage.leagues.name')
             %th= t('manage.leagues.tournament')
+            %th= t('manage.leagues.division')
             %th= t('manage.leagues.season')
             %th= t('manage.leagues.teams')
             %th= t('manage.leagues.auctions')
@@ -51,6 +52,7 @@
                 - if league.demo?
                   %span.badge-demo= t('manage.leagues.demo_badge')
               %td= league.tournament.name
+              %td= league.division&.name || '—'
               %td= "#{league.season.start_year}-#{league.season.end_year}"
               %td= league.teams.count
               %td= league.auction_number

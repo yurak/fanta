@@ -173,39 +173,6 @@ RSpec.describe Substitutes::TieredMatcher do
     end
   end
 
-  context 'when E/W, T/A, A/Pc compete for A, C, W/A bench players' do
-    # Module 4-4-1-1 real case:
-    #              col0(A)  col1(C)  col2(W/A)
-    # row0(E/W):    3.0      1.5       0       — W is native (col2), C has S_MALUS
-    # row1(T/A):     0       3.0       0       — A and W/A are native
-    # row2(A/Pc):    0        X        0       — A and W/A are native, C incompatible
-    #
-    # Tier-0 greedy takes E/W→col2, T/A→col0. A/Pc displaces T/A to col1 (M_MALUS).
-    # 2-opt improvement swaps E/W↔T/A: E/W→col1 (S_MALUS), T/A→col2 (native). Total = 1.5.
-    let(:grid) do
-      [
-        [3.0, 1.5, 0],
-        [0, 3.0, 0],
-        [0, 'X', 0]
-      ]
-    end
-
-    it 'matches all three rows' do
-      assignments, = result
-      expect(assignments.size).to eq(3)
-    end
-
-    it 'assigns E/W to the C bench player after 2-opt improvement' do
-      assignments, = result
-      expect(assignments).to include([0, 1, 1.5])
-    end
-
-    it 'returns minimum total malus of 1.5' do
-      _, total = result
-      expect(total).to eq(1.5)
-    end
-  end
-
   context 'with mixed tiers across different rows' do
     let(:grid) { [[0, 'X'], ['X', 3.0]] }
 
@@ -272,6 +239,128 @@ RSpec.describe Substitutes::TieredMatcher do
     it 'returns total malus of 3.0' do
       _, total = result
       expect(total).to eq(3.0)
+    end
+  end
+
+  context 'when squeeze reassigns tier-1.5 rows to earlier bench positions' do
+    # Two identical rows can use bench1 or bench3 (both 1.5).
+    # A zero-tier row holds bench1 in phase 1 but escapes to bench2 via phase 2b,
+    # which lets row1 grab bench1 through augmentation — leaving row0 at bench3.
+    # Squeeze then restores priority: row0 (lower idx) gets bench1, row1 gets bench3.
+    #
+    #              bench0  bench1  bench2  bench3
+    # row0 (Dd):    X      1.5      X      1.5
+    # row1 (Dd):    X      1.5      X      1.5
+    # row2 (Dc):    X       0       0       X
+    let(:grid) do
+      [
+        ['X', 1.5, 'X', 1.5],
+        ['X', 1.5, 'X', 1.5],
+        ['X', 0,   0,   'X']
+      ]
+    end
+
+    it 'matches all three rows' do
+      assignments, = result
+      expect(assignments.size).to eq(3)
+    end
+
+    it 'assigns row0 to the earlier bench position (bench1) after squeeze' do
+      assignments, = result
+      expect(assignments).to include([0, 1, 1.5])
+    end
+
+    it 'assigns row1 to the later bench position (bench3) after squeeze' do
+      assignments, = result
+      expect(assignments).to include([1, 3, 1.5])
+    end
+
+    it 'preserves the zero-malus assignment for the zero-tier row' do
+      assignments, = result
+      expect(assignments).to include([2, 2, 0.0])
+    end
+
+    it 'returns total malus of 3.0' do
+      _, total = result
+      expect(total).to eq(3.0)
+    end
+  end
+
+  context 'when one tier-1.5 row has only one bench option and squeeze preserves it' do
+    # row0 can use bench1 or bench3 (both 1.5); row1 can only use bench1.
+    # A zero-tier row holds bench1 in phase 1, escapes to bench2 in phase 2b,
+    # letting row1 claim bench1 — leaving row0 at bench3.
+    # Squeeze tries to move row0 to bench1 (greedy, lower idx) but augment_tier
+    # displaces row0 back to bench3 because row1 has no other option.
+    #
+    #              bench0  bench1  bench2  bench3
+    # row0 (Dd):    X      1.5      X      1.5
+    # row1 (Dc):    X      1.5      X       X
+    # row2 (Dc):    X       0       0       X
+    let(:grid) do
+      [
+        ['X', 1.5, 'X', 1.5],
+        ['X', 1.5, 'X', 'X'],
+        ['X', 0,   0,   'X']
+      ]
+    end
+
+    it 'matches all three rows' do
+      assignments, = result
+      expect(assignments.size).to eq(3)
+    end
+
+    it 'keeps row1 at its only bench option (bench1)' do
+      assignments, = result
+      expect(assignments).to include([1, 1, 1.5])
+    end
+
+    it 'assigns row0 to the remaining bench option (bench3)' do
+      assignments, = result
+      expect(assignments).to include([0, 3, 1.5])
+    end
+
+    it 'preserves the zero-malus assignment for the zero-tier row' do
+      assignments, = result
+      expect(assignments).to include([2, 2, 0.0])
+    end
+
+    it 'returns total malus of 3.0' do
+      _, total = result
+      expect(total).to eq(3.0)
+    end
+  end
+
+  context 'when E/W, T/A, A/Pc compete for A, C, W/A bench players' do
+    # Module 4-4-1-1 real case:
+    #              col0(A)  col1(C)  col2(W/A)
+    # row0(E/W):    3.0      1.5       0       — W is native (col2), C has S_MALUS
+    # row1(T/A):     0       3.0       0       — A and W/A are native
+    # row2(A/Pc):    0        X        0       — A and W/A are native, C incompatible
+    #
+    # Tier-0 greedy takes E/W→col2, T/A→col0. A/Pc displaces T/A to col1 (M_MALUS).
+    # 2-opt improvement swaps E/W↔T/A: E/W→col1 (S_MALUS), T/A→col2 (native). Total = 1.5.
+    let(:grid) do
+      [
+        [3.0, 1.5, 0],
+        [0, 3.0, 0],
+        [0, 'X', 0]
+      ]
+    end
+
+    it 'matches all three rows' do
+      assignments, = result
+      expect(assignments.size).to eq(3)
+    end
+
+    it 'assigns E/W to the C bench player after 2-opt improvement' do
+      assignments, = result
+      expect(assignments).to include([0, 1, 1.5])
+    end
+
+    it 'returns minimum total malus of 1.5' do
+      _, total = result
+      expect(total).to eq(1.5)
     end
   end
 
@@ -468,10 +557,10 @@ RSpec.describe Substitutes::TieredMatcher do
     end
   end
 
-  # Dd can only reach col0(3.0) and col1(1.5), but both are taken by Dc and E
-  # with zero-malus matches that have no alternative zero-malus escape.
-  # The algorithm must leave Dd unmatched rather than sacrifice zero-malus count.
   context 'when Dd, Dc, E did not play, bench has E, Dc/E, T, T/W' do
+    # Dd can only reach col0(3.0) and col1(1.5), but both are taken by Dc and E
+    # with zero-malus matches that have no alternative zero-malus escape.
+    # The algorithm must leave Dd unmatched rather than sacrifice zero-malus count.
     # col0=E, col1=Dc/E, col2=T, col3=T/W
     let(:grid) do
       [
@@ -499,95 +588,6 @@ RSpec.describe Substitutes::TieredMatcher do
     it 'returns total malus of 0.0' do
       _, total = result
       expect(total).to eq(0.0)
-    end
-  end
-
-  context 'when squeeze reassigns tier-1.5 rows to earlier bench positions' do
-    # Two identical rows can use bench1 or bench3 (both 1.5).
-    # A zero-tier row holds bench1 in phase 1 but escapes to bench2 via phase 2b,
-    # which lets row1 grab bench1 through augmentation — leaving row0 at bench3.
-    # Squeeze then restores priority: row0 (lower idx) gets bench1, row1 gets bench3.
-    #
-    #              bench0  bench1  bench2  bench3
-    # row0 (Dd):    X      1.5      X      1.5
-    # row1 (Dd):    X      1.5      X      1.5
-    # row2 (Dc):    X       0       0       X
-    let(:grid) do
-      [
-        ['X', 1.5, 'X', 1.5],
-        ['X', 1.5, 'X', 1.5],
-        ['X', 0,   0,   'X']
-      ]
-    end
-
-    it 'matches all three rows' do
-      assignments, = result
-      expect(assignments.size).to eq(3)
-    end
-
-    it 'assigns row0 to the earlier bench position (bench1) after squeeze' do
-      assignments, = result
-      expect(assignments).to include([0, 1, 1.5])
-    end
-
-    it 'assigns row1 to the later bench position (bench3) after squeeze' do
-      assignments, = result
-      expect(assignments).to include([1, 3, 1.5])
-    end
-
-    it 'preserves the zero-malus assignment for the zero-tier row' do
-      assignments, = result
-      expect(assignments).to include([2, 2, 0.0])
-    end
-
-    it 'returns total malus of 3.0' do
-      _, total = result
-      expect(total).to eq(3.0)
-    end
-  end
-
-  context 'when one tier-1.5 row has only one bench option and squeeze preserves it' do
-    # row0 can use bench1 or bench3 (both 1.5); row1 can only use bench1.
-    # A zero-tier row holds bench1 in phase 1, escapes to bench2 in phase 2b,
-    # letting row1 claim bench1 — leaving row0 at bench3.
-    # Squeeze tries to move row0 to bench1 (greedy, lower idx) but augment_tier
-    # displaces row0 back to bench3 because row1 has no other option.
-    #
-    #              bench0  bench1  bench2  bench3
-    # row0 (Dd):    X      1.5      X      1.5
-    # row1 (Dc):    X      1.5      X       X
-    # row2 (Dc):    X       0       0       X
-    let(:grid) do
-      [
-        ['X', 1.5, 'X', 1.5],
-        ['X', 1.5, 'X', 'X'],
-        ['X', 0,   0,   'X']
-      ]
-    end
-
-    it 'matches all three rows' do
-      assignments, = result
-      expect(assignments.size).to eq(3)
-    end
-
-    it 'keeps row1 at its only bench option (bench1)' do
-      assignments, = result
-      expect(assignments).to include([1, 1, 1.5])
-    end
-
-    it 'assigns row0 to the remaining bench option (bench3)' do
-      assignments, = result
-      expect(assignments).to include([0, 3, 1.5])
-    end
-
-    it 'preserves the zero-malus assignment for the zero-tier row' do
-      assignments, = result
-      expect(assignments).to include([2, 2, 0.0])
-    end
-
-    it 'returns total malus of 3.0' do
-      _, total = result
-      expect(total).to eq(3.0)
     end
   end
 
@@ -649,7 +649,7 @@ RSpec.describe Substitutes::TieredMatcher do
       [
         [3.0, 1.5, 1.5, 1.5, 1.5], # C/T
         [3.0, 0,   1.5, 0,   0], # E/W
-        [3.0, 1.5, 'X', 'X', 'X']  # T
+        [3.0, 1.5, 'X', 'X', 'X'] # T
       ]
     end
 
@@ -672,6 +672,49 @@ RSpec.describe Substitutes::TieredMatcher do
     it 'assigns C/T with 1.5 malus' do
       assignments, = result
       expect(assignments).to include([0, be_a(Integer), 1.5])
+    end
+
+    it 'returns total malus of 3.0' do
+      _, total = result
+      expect(total).to eq(3.0)
+    end
+  end
+
+  context 'when Dc, Dc, E did not play, bench has Dd/E, T/W, M, T/W, C, Pc' do
+    # Main players absent: Dc (row0), Dc (row1), E (row2)
+    # Bench players: Dd/E(col0), T/W(col1), M(col2), T/W(col3), C(col4), Pc(col5)
+    #
+    #              Dd/E  T/W   M   T/W   C   Pc
+    # Dc  (row0):  1.5    X   3.0   X    X    X
+    # Dc  (row1):  1.5    X   3.0   X    X    X
+    # E   (row2):   0    3.0  1.5  3.0  1.5   X
+    #
+    # E has a zero-malus match on Dd/E (E part native). Both Dc players can reach
+    # Dd/E (1.5) and M (3.0). Only one Dc can use M (col2); the other is unmatched.
+    # try_escape_swap must NOT move E from Dd/E to T/W (0→3.0) just to give Dc a
+    # cheaper Dd/E slot (3.0→1.5): net malus change = +3.0 - 1.5 = +1.5 (worse).
+    # Correct: E→Dd/E(0), Dc→M(3.0), second Dc unmatched. Total: 3.0.
+    let(:grid) do
+      [
+        [1.5, 'X', 3.0, 'X', 'X', 'X'], # Dc
+        [1.5, 'X', 3.0, 'X', 'X', 'X'], # Dc
+        [0,   3.0, 1.5, 3.0, 1.5, 'X']  # E
+      ]
+    end
+
+    it 'matches E and one Dc, leaves second Dc unmatched' do
+      assignments, = result
+      expect(assignments.size).to eq(2)
+    end
+
+    it 'assigns E to Dd/E bench (zero-malus)' do
+      assignments, = result
+      expect(assignments).to include([2, 0, 0.0])
+    end
+
+    it 'assigns one Dc to M bench (3.0 malus)' do
+      assignments, = result
+      expect(assignments).to include([be_in([0, 1]), 2, 3.0])
     end
 
     it 'returns total malus of 3.0' do
