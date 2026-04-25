@@ -1,4 +1,3 @@
-# rubocop:disable Metrics/BlockLength
 namespace :calendar do
   # rake 'calendar:generate[303,34]'
   desc 'Create Tours, Matches and Results for League'
@@ -34,4 +33,3 @@ namespace :calendar do
     end
   end
 end
-# rubocop:enable Metrics/BlockLength
