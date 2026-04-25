@@ -5,6 +5,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :trackable, :validatable
 
   has_many :join_requests, dependent: :destroy
+  has_many :joins, dependent: :destroy
   has_many :teams, dependent: :destroy
   has_many :leagues, through: :teams
   has_many :results, through: :teams
@@ -16,7 +17,7 @@ class User < ApplicationRecord
   accepts_nested_attributes_for :user_profile
 
   EMAIL_LENGTH = (6..50).freeze
-  EMAIL_FORMAT_REGEX = /\A[\w+\-.]+@[a-z\d-]+(\.a[a-z]+)*\.[a-z]+\z/i.freeze
+  EMAIL_FORMAT_REGEX = /\A[\w+\-.]+@[a-z\d-]+(\.[a-z\d-]+)*\.[a-z]+\z/i.freeze
   NAME_LENGTH = (2..20).freeze
   ROLES = %w[customer admin moderator].freeze
   DEFAULT_TIME_ZONE = 'Kyiv'.freeze
@@ -31,15 +32,10 @@ class User < ApplicationRecord
   validates :role, presence: true
   validates :time_zone, inclusion: { in: ActiveSupport::TimeZone.all.map(&:name) }, allow_blank: true
 
-  before_validation :set_default_time_zone, on: :create
   before_create :generate_unsubscribe_token
 
   def generate_unsubscribe_token
     self.unsubscribe_token ||= SecureRandom.hex(16)
-  end
-
-  def set_default_time_zone
-    self.time_zone ||= DEFAULT_TIME_ZONE
   end
 
   def local_time(time, format = '%^a, %^b %e, %H:%M')

@@ -658,5 +658,127 @@ RSpec.describe AuctionBids::Manager do
         expect(manager.call).to be(false)
       end
     end
+
+    context 'with a join-flow bid (no auction_round)' do
+      let(:auction_bid) { create(:auction_bid, :with_eleven_empty_player_bids, auction_round: nil, team: team) }
+      let(:players_gk) { create_list(:player, 1, :with_pos_por) }
+      let(:other_players) { create_list(:player, 10) }
+
+      let(:valid_params) do
+        all_players = players_gk + other_players
+        {
+          status: 'submitted',
+          player_bids_attributes: all_players.each_with_index.to_h do |player, i|
+            [i.to_s.to_sym, { player_id: player.id, price: '10', id: auction_bid.player_bids[i].id }]
+          end
+        }
+      end
+
+      context 'with valid params' do
+        let(:params) { valid_params }
+
+        it 'updates status to submitted' do
+          manager.call
+
+          expect(auction_bid.reload.status).to eq('submitted')
+        end
+
+        it 'updates player_bid price' do
+          manager.call
+
+          expect(auction_bid.player_bids[0].reload.price).to eq(10)
+        end
+      end
+
+      context 'when fewer than JOIN_SLOTS players provided' do
+        let(:params) do
+          {
+            status: 'submitted',
+            player_bids_attributes: {
+              '0': { player_id: players_gk[0].id, price: '10', id: auction_bid.player_bids[0].id }
+            }
+          }
+        end
+
+        it 'does not change status' do
+          manager.call
+
+          expect(auction_bid.reload.status).to eq('initial')
+        end
+      end
+
+      context 'when total price exceeds INITIAL_BUDGET' do
+        let(:params) do
+          all_players = players_gk + other_players
+          {
+            status: 'submitted',
+            player_bids_attributes: all_players.each_with_index.to_h do |player, i|
+              [i.to_s.to_sym, { player_id: player.id, price: '25', id: auction_bid.player_bids[i].id }]
+            end
+          }
+        end
+
+        it 'does not change status' do
+          manager.call
+
+          expect(auction_bid.reload.status).to eq('initial')
+        end
+      end
+
+      context 'when GK count is below MIN_GK_INIT' do
+        let(:params) do
+          players = create_list(:player, 11)
+          {
+            status: 'submitted',
+            player_bids_attributes: players.each_with_index.to_h do |player, i|
+              [i.to_s.to_sym, { player_id: player.id, price: '10', id: auction_bid.player_bids[i].id }]
+            end
+          }
+        end
+
+        it 'does not change status' do
+          manager.call
+
+          expect(auction_bid.reload.status).to eq('initial')
+        end
+      end
+
+      context 'when duplicate players' do
+        let(:params) do
+          {
+            status: 'submitted',
+            player_bids_attributes: {
+              '0': { player_id: players_gk[0].id, price: '10', id: auction_bid.player_bids[0].id },
+              '1': { player_id: players_gk[0].id, price: '10', id: auction_bid.player_bids[1].id }
+            }
+          }
+        end
+
+        it 'does not change status' do
+          manager.call
+
+          expect(auction_bid.reload.status).to eq('initial')
+        end
+      end
+
+      context 'when a player would be dumped in a regular auction' do
+        let(:dumped_player) { create(:player, :with_pos_por) }
+        let(:params) do
+          all_players = [dumped_player] + other_players
+          {
+            status: 'submitted',
+            player_bids_attributes: all_players.each_with_index.to_h do |player, i|
+              [i.to_s.to_sym, { player_id: player.id, price: '10', id: auction_bid.player_bids[i].id }]
+            end
+          }
+        end
+
+        it 'updates status (dumped check skipped without auction_round)' do
+          manager.call
+
+          expect(auction_bid.reload.status).to eq('submitted')
+        end
+      end
+    end
   end
 end

@@ -49,6 +49,10 @@ module Scores
         @players_hash ||= Scores::Injectors::FotmobPlayersData.call(match_data['content'])
       end
 
+      def players_data_ready?
+        players_hash.values.any? { |data| data[:played_minutes].to_i.positive? }
+      end
+
       def match_finished?
         correct_round? && (status['started'] || status['awarded']) && status['finished']
       end

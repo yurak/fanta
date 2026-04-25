@@ -1,5 +1,5 @@
 module Api
-  class LeaguesController < ApplicationController
+  class LeaguesController < Api::ApplicationController
     skip_before_action :authenticate_user!, only: %i[index show]
 
     respond_to :json
@@ -27,7 +27,10 @@ module Api
     end
 
     def filtered_leagues
-      League.serial.viewable.by_season(filter[:season_id]).by_tournament(filter[:tournament_id])
+      League.serial.viewable
+            .by_season(filter[:season_id])
+            .by_tournament(filter[:tournament_id])
+            .without_demo_from_old_seasons
     end
 
     def filter

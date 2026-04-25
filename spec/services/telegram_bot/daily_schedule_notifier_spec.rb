@@ -184,10 +184,10 @@ RSpec.describe TelegramBot::DailyScheduleNotifier do
     end
   end
 
-  context 'when user has no locale and no timezone' do
+  context 'when user has no locale and default timezone' do
     subject(:notifier) { described_class.new(user_no_locale) }
 
-    let(:user_no_locale) { create(:user, :with_profile, time_zone: nil, locale: nil) }
+    let(:user_no_locale) { create(:user, :with_profile, time_zone: 'UTC', locale: nil) }
 
     before do
       create(:team, user: user_no_locale, league: league)
@@ -195,10 +195,10 @@ RSpec.describe TelegramBot::DailyScheduleNotifier do
       create(:set_lineup_tour, league: league, tournament_round: tr)
     end
 
-    it 'uses default timezone in header' do
+    it 'uses UTC timezone in header' do
       notifier.call
       expect(TelegramBot::Sender).to have_received(:call).with(
-        user_no_locale, a_string_including(User::DEFAULT_TIME_ZONE)
+        user_no_locale, a_string_including('UTC')
       )
     end
   end

@@ -1,0 +1,66 @@
+.page-block
+  .web-header= render 'layouts/left_nav', league: nil
+  .web-header= render 'layouts/manage_nav'
+  .mob-header= render 'layouts/mob_header', league: nil, title: t('manage.joins.title')
+  .page-info.admin-joins-page.admin-manage-page
+    %h2= t('manage.joins.title')
+
+    - if flash[:notice]
+      .alert.alert-success= flash[:notice]
+
+    .default-tabs.manage-joins-tabs
+      - Manage::JoinsController::TABS.each do |tab|
+        = link_to manage_joins_path(tab: tab), class: "default-tab-item #{'default-tab-active' if @tab == tab}" do
+          .default-tab-name= t("manage.joins.tab_#{tab}")
+
+    - if @tab == 'pending' && @pending_by_tournament.any?
+      .default-tabs.manage-joins-tabs.manage-joins-subtabs
+        - all_count = @pending_by_tournament.values.sum(&:count)
+        = link_to manage_joins_path(tab: 'pending'), class: "default-tab-item #{'default-tab-active' if @tournament_id.nil?}" do
+          .default-tab-name= "#{t('manage.joins.all_tournaments')} (#{all_count})"
+        - @pending_by_tournament.each do |tournament, joins|
+          = link_to manage_joins_path(tab: 'pending', tournament_id: tournament.id), class: "default-tab-item #{'default-tab-active' if @tournament_id == tournament.id}" do
+            .default-tab-name= "#{tournament.name} (#{joins.count})"
+
+    - if @joins.any?
+      %table.table.table-hover
+        %thead.thead-light
+          %tr
+            %th= t('manage.joins.user')
+            %th= t('manage.joins.team')
+            %th= t('manage.joins.tournament')
+            - if @tab == 'approved'
+              %th= t('manage.joins.league')
+            %th= t('manage.joins.submitted_at')
+            - if @tab == 'pending'
+              %th= t('manage.joins.actions')
+        %tbody
+          - @joins.each do |join|
+            %tr
+              %td
+                - if join.user.user_profile&.bot_enabled
+                  %span.badge-tg-connected{ title: t('manage.joins.tg_connected') } 🟢
+                - else
+                  %span.badge-tg-disconnected{ title: t('manage.joins.tg_disconnected') } 🔴
+                = link_to join.user.name, manage_user_path(join.user)
+              %td
+                = image_tag(join.team.logo_path, width: 24, height: 24)
+                = link_to join.team.human_name, team_path(join.team)
+              %td= join.tournament.name
+              - if @tab == 'approved'
+                %td= join.team.league ? link_to(join.team.league.name, league_path(join.team.league)) : ''
+              %td= local_time(join.created_at, '%d %b %Y, %H:%M')
+              - if @tab == 'pending'
+                %td
+                  = link_to t('manage.joins.new_league'), new_manage_league_path, class: 'btn btn-sm btn-outline-secondary', target: '_blank'
+                  = form_tag(approve_manage_join_path(join), method: :post, style: 'display:inline') do
+                    .approve-form-fields
+                      = select_tag :league_id,
+                                   options_from_collection_for_select(join.tournament.leagues.initial, :id, :name),
+                                   class: 'form-control form-control-sm d-inline-block w-auto mr-1',
+                                   prompt: t('manage.joins.select_league')
+                      = submit_tag t('manage.joins.approve'), class: 'btn btn-sm btn-success mr-1'
+                  = form_tag(reject_manage_join_path(join), method: :post, style: 'display:inline') do
+                    = submit_tag t('manage.joins.reject'), class: 'btn btn-sm btn-danger'
+    - else
+      %p.text-muted= t('manage.joins.empty')

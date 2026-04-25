@@ -2,6 +2,8 @@
 
 ua:
   devise:
+    confirmations:
+      already_confirmed: "Ваша пошта вже підтверджена. Будь ласка, увійдіть."
     failure:
       already_authenticated: "Ви вже ввійшли."
       inactive: "Ваш обліковий запис ще не активовано."
@@ -20,6 +22,8 @@ ua:
         change_password: "Встановити пароль"
         confirm_new_password: "Підтвердити пароль"
         new_password: "Пароль"
+        password_blank: "Пароль не може бути порожнім"
+        password_mismatch: "Паролі не збігаються"
       new:
         email: "Пошта"
         subtitle: "Не хвилюйся. Ми надішлемо вам електронною поштою інструкції щодо зміни пароля."
@@ -38,8 +42,11 @@ ua:
         compete: "Щоб змагатися з іншими"
         continue: "Продовжити"
         email: "Пошта"
+        email_taken: "Ця пошта вже зареєстрована."
+        email_invalid: "Введіть коректну адресу електронної пошти"
         note: "⚠️ Для участі в грі необхідно буде зробити "
         note_link: "організаційний внесок"
+        sign_in: "Увійти"
         sign_up: "Реєстрація"
     sessions:
       new:

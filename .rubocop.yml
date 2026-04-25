@@ -27,6 +27,8 @@ Metrics/BlockLength:
     - state_machine
     - factory
     - define # FactoryBot.define
+    - namespace
+    - task
 Style/Documentation:
   Enabled: false
 Layout/MultilineOperationIndentation:

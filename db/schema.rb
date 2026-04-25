@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2026_03_17_094346) do
+ActiveRecord::Schema.define(version: 2026_04_24_200758) do
 
   create_table "article_tags", force: :cascade do |t|
     t.string "name", default: "", null: false
@@ -133,6 +133,21 @@ ActiveRecord::Schema.define(version: 2026_03_17_094346) do
     t.index ["user_id"], name: "index_join_requests_on_user_id"
   end
 
+  create_table "joins", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "tournament_id", null: false
+    t.integer "team_id", null: false
+    t.integer "status", default: 0, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.integer "auction_bid_id", null: false
+    t.index ["auction_bid_id"], name: "index_joins_on_auction_bid_id"
+    t.index ["team_id"], name: "index_joins_on_team_id"
+    t.index ["tournament_id"], name: "index_joins_on_tournament_id"
+    t.index ["user_id", "tournament_id"], name: "index_joins_on_user_id_and_tournament_id", unique: true
+    t.index ["user_id"], name: "index_joins_on_user_id"
+  end
+
   create_table "leagues", force: :cascade do |t|
     t.string "name"
     t.integer "tournament_id", null: false
@@ -151,6 +166,7 @@ ActiveRecord::Schema.define(version: 2026_03_17_094346) do
     t.integer "relegation", default: 0, null: false
     t.integer "auction_number", default: 5
     t.integer "auction_step", default: 11, null: false
+    t.boolean "demo", default: false, null: false
     t.index ["name", "season_id"], name: "index_leagues_on_name_and_season_id", unique: true
     t.index ["season_id"], name: "index_leagues_on_season_id"
   end
@@ -446,7 +462,9 @@ ActiveRecord::Schema.define(version: 2026_03_17_094346) do
     t.string "logo_url", default: "", null: false
     t.integer "budget", default: 260
     t.integer "transfer_slots", default: 0
+    t.integer "tournament_id"
     t.index ["league_id"], name: "index_teams_on_league_id"
+    t.index ["tournament_id"], name: "index_teams_on_tournament_id"
     t.index ["user_id"], name: "index_teams_on_user_id"
   end
 
@@ -551,6 +569,9 @@ ActiveRecord::Schema.define(version: 2026_03_17_094346) do
     t.boolean "bot_enabled", default: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "tg_connect_token"
+    t.datetime "tg_connect_expires_at"
+    t.index ["tg_connect_token"], name: "index_user_profiles_on_tg_connect_token", unique: true
   end
 
   create_table "users", force: :cascade do |t|
@@ -588,12 +609,41 @@ ActiveRecord::Schema.define(version: 2026_03_17_094346) do
     t.index ["unsubscribe_token"], name: "index_users_on_unsubscribe_token", unique: true
   end
 
+  create_table "weekly_team_players", force: :cascade do |t|
+    t.integer "weekly_team_id", null: false
+    t.integer "slot_id", null: false
+    t.integer "round_player_id", null: false
+    t.decimal "total"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["round_player_id"], name: "index_weekly_team_players_on_round_player_id"
+    t.index ["slot_id"], name: "index_weekly_team_players_on_slot_id"
+    t.index ["weekly_team_id", "slot_id"], name: "index_weekly_team_players_on_weekly_team_id_and_slot_id", unique: true
+    t.index ["weekly_team_id"], name: "index_weekly_team_players_on_weekly_team_id"
+  end
+
+  create_table "weekly_teams", force: :cascade do |t|
+    t.integer "number"
+    t.string "mode"
+    t.text "round_ids"
+    t.integer "team_module_id", null: false
+    t.integer "season_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["season_id"], name: "index_weekly_teams_on_season_id"
+    t.index ["team_module_id"], name: "index_weekly_teams_on_team_module_id"
+  end
+
   add_foreign_key "auction_bids", "auction_rounds"
   add_foreign_key "auction_bids", "teams"
   add_foreign_key "auction_rounds", "auctions"
   add_foreign_key "auctions", "leagues"
   add_foreign_key "clubs", "tournaments"
   add_foreign_key "join_requests", "users"
+  add_foreign_key "joins", "auction_bids"
+  add_foreign_key "joins", "teams"
+  add_foreign_key "joins", "tournaments"
+  add_foreign_key "joins", "users"
   add_foreign_key "leagues", "seasons"
   add_foreign_key "links", "tournaments"
   add_foreign_key "match_players", "round_players"
@@ -611,6 +661,7 @@ ActiveRecord::Schema.define(version: 2026_03_17_094346) do
   add_foreign_key "round_players", "players"
   add_foreign_key "round_players", "tournament_rounds"
   add_foreign_key "teams", "leagues"
+  add_foreign_key "teams", "tournaments"
   add_foreign_key "teams", "users"
   add_foreign_key "tournament_matches", "tournament_rounds"
   add_foreign_key "tournament_rounds", "seasons"
@@ -621,4 +672,9 @@ ActiveRecord::Schema.define(version: 2026_03_17_094346) do
   add_foreign_key "transfers", "leagues"
   add_foreign_key "transfers", "players"
   add_foreign_key "transfers", "teams"
+  add_foreign_key "weekly_team_players", "round_players"
+  add_foreign_key "weekly_team_players", "slots"
+  add_foreign_key "weekly_team_players", "weekly_teams"
+  add_foreign_key "weekly_teams", "seasons"
+  add_foreign_key "weekly_teams", "team_modules"
 end

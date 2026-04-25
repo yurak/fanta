@@ -1,0 +1,25 @@
+.login-page
+  .login-icon
+    .mantra-logo
+      = link_to root_path do
+        = image_tag('logo.svg')
+  .login-block
+    .login-title-block
+      .title-text= t('users.site_config.title')
+      .title-subtext= t('users.site_config.subtitle')
+    .login-form
+      = form_for user, url: new_update_user_path(user), method: :put do |f|
+        .login-input
+          .login-label= t('users.site_config.language')
+          .login-input-icon= image_tag('icons/login/user.svg')
+          .login-input-text
+            = select_tag :locale, options_for_select([[t('users.profile.language_ua'), 'ua'], [t('users.profile.language_en'), 'en']], user.locale), class: 'form-control'
+        .login-password-note= t('users.site_config.language_note')
+        .login-input.login-input-second
+          .login-label= t('users.site_config.time_zone')
+          .login-input-icon= image_tag('icons/login/clock.svg')
+          .login-input-text
+            = select_tag :time_zone, options_for_select(ActiveSupport::TimeZone.all.map { |tz| [tz.to_s, tz.name] }, User::DEFAULT_TIME_ZONE), class: 'form-control'
+        .login-password-note= t('users.site_config.time_zone_note')
+        .login-btn-form
+          = f.submit t('users.site_config.next'), class: 'login-btn blue-btn'

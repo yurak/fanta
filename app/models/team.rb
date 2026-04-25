@@ -1,7 +1,9 @@
 class Team < ApplicationRecord
   belongs_to :league, optional: true
   belongs_to :user, optional: true
+  belongs_to :tournament, optional: true
 
+  has_one :join, dependent: :destroy
   has_many :auction_bids, dependent: :destroy
   has_many :player_teams, dependent: :destroy
   has_many :players, through: :player_teams
@@ -14,12 +16,18 @@ class Team < ApplicationRecord
   has_many :results, dependent: :destroy
   has_many :transfers, dependent: :destroy
 
-  delegate :tournament, to: :league
+  def tournament
+    super || league&.tournament
+  end
 
   MAX_PLAYERS = 26
   MIN_GK = 3
+  MIN_GK_INIT = 1
   DEFAULT_BUDGET = 260
+  RESERVED_BUDGET = 40
+  INITIAL_BUDGET = 220
   SLOTS_BY_AUCTION = 5
+  JOIN_SLOTS = 11
   TRANSFER_SLOTS = 16
   RESERVE_TRANSFER_SLOTS = [0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20].freeze
 
@@ -29,7 +37,7 @@ class Team < ApplicationRecord
 
   default_scope { includes(%i[league user]) }
 
-  scope :by_tournament, ->(tournament_id) { joins(:league).where(leagues: { tournament_id: tournament_id }) }
+  scope :by_tournament, ->(tournament_id) { where(tournament_id: tournament_id) }
 
   def reset
     players.clear

@@ -1,0 +1,47 @@
+= form_with model: [:manage, league], local: true do |f|
+  - if league.errors.any?
+    .alert.alert-danger
+      %ul.mb-0
+        - league.errors.full_messages.each do |msg|
+          %li= msg
+
+  .form-group
+    = f.label :name, t('manage.leagues.name')
+    = f.text_field :name, class: 'form-control'
+
+  .form-group
+    = f.label :tournament_id, t('manage.leagues.tournament')
+    = f.collection_select :tournament_id, Tournament.order(:name), :id, :name, { prompt: t('manage.leagues.select_tournament') }, class: 'form-control'
+
+  .form-group
+    = f.label :season_id, t('manage.leagues.season')
+    = f.collection_select :season_id, Season.order(start_year: :desc), :id, :start_year, { prompt: t('manage.leagues.select_season') }, class: 'form-control'
+
+  .form-group
+    = f.label :division_id, t('manage.leagues.division')
+    = f.collection_select :division_id, Division.order(:level, :number), :id, :name, { include_blank: t('manage.leagues.no_division') }, class: 'form-control'
+
+  .form-group
+    = f.label :auction_type, t('manage.leagues.auction_type')
+    = f.select :auction_type, League.auction_types.keys.map { |k| [t("manage.leagues.auction_type_#{k}"), k] }, {}, class: 'form-control'
+
+  .form-row
+    .col
+      .form-group
+        = f.label :auction_number, t('manage.leagues.auction_number')
+        = f.number_field :auction_number, class: 'form-control', min: 1
+    .col
+      .form-group
+        = f.label :auction_step, t('manage.leagues.auction_step')
+        = f.number_field :auction_step, class: 'form-control', min: 1
+    .col
+      .form-group
+        = f.label :tour_difference, t('manage.leagues.tour_difference')
+        = f.number_field :tour_difference, class: 'form-control', min: 0
+
+  .form-group.form-check
+    = f.check_box :demo, class: 'form-check-input'
+    = f.label :demo, t('manage.leagues.demo'), class: 'form-check-label'
+
+  = f.submit t('manage.leagues.save'), class: 'btn btn-primary'
+  = link_to t('manage.leagues.cancel'), manage_leagues_path, class: 'btn btn-secondary ml-2'

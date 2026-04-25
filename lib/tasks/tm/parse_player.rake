@@ -1,4 +1,3 @@
-# rubocop:disable Metrics/BlockLength:
 namespace :tm do
   # rake 'tm:parse_player[123456]'
   desc 'Parse player data from TM'
@@ -68,4 +67,3 @@ namespace :tm do
     end
   end
 end
-# rubocop:enable Metrics/BlockLength

@@ -12,6 +12,7 @@ module Scores
       def call
         return unless match.page_url
         return unless match_finished?
+        return unless players_data_ready?
 
         match.update(host_score: host_result, guest_score: guest_result)
 
@@ -75,6 +76,10 @@ module Scores
 
       def match_finished?
         raise NoMethodError, 'This source is not supported'
+      end
+
+      def players_data_ready?
+        true
       end
 
       def host_result

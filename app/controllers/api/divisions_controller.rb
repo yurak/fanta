@@ -1,5 +1,5 @@
 module Api
-  class DivisionsController < ApplicationController
+  class DivisionsController < Api::ApplicationController
     skip_before_action :authenticate_user!, only: %i[index]
 
     respond_to :json

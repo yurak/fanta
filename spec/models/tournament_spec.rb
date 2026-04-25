@@ -42,6 +42,56 @@ RSpec.describe Tournament do
     end
   end
 
+  describe '.with_join_stats' do
+    subject(:result) { described_class.with_join_stats.find(tournament.id) }
+
+    context 'when there are no joins' do
+      it 'returns joins_count of 0' do
+        expect(result.joins_count).to eq(0)
+      end
+    end
+
+    context 'when join is pending with submitted bid' do
+      before { create(:join, :pending, tournament: tournament, auction_bid: create(:submitted_auction_bid)) }
+
+      it 'counts it' do
+        expect(result.joins_count).to eq(1)
+      end
+    end
+
+    context 'when join is pending but bid is not submitted (initial)' do
+      before { create(:join, :pending, tournament: tournament) }
+
+      it 'does not count it' do
+        expect(result.joins_count).to eq(0)
+      end
+    end
+
+    context 'when join is initial with submitted bid' do
+      before { create(:join, tournament: tournament, auction_bid: create(:submitted_auction_bid)) }
+
+      it 'does not count it' do
+        expect(result.joins_count).to eq(0)
+      end
+    end
+
+    context 'when join is rejected with submitted bid' do
+      before { create(:join, :rejected, tournament: tournament, auction_bid: create(:submitted_auction_bid)) }
+
+      it 'does not count it' do
+        expect(result.joins_count).to eq(0)
+      end
+    end
+
+    context 'when join is approved with submitted bid' do
+      before { create(:join, :approved, tournament: tournament, auction_bid: create(:submitted_auction_bid)) }
+
+      it 'does not count it' do
+        expect(result.joins_count).to eq(0)
+      end
+    end
+  end
+
   describe '#national?' do
     context 'without national teams' do
       it 'returns false' do

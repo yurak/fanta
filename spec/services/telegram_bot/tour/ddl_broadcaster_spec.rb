@@ -52,17 +52,43 @@ RSpec.describe TelegramBot::Tour::DdlBroadcaster do
       broadcaster.call
       expect(TelegramBot::Tour::DdlNotifier).to have_received(:call).with(tour)
     end
+  end
 
-    context 'when deadline has already passed' do
-      let(:tour) do
-        tr = create(:tournament_round, tournament: league.tournament, deadline: 1.hour.ago)
-        create(:set_lineup_tour, league: league, tournament_round: tr)
-      end
+  context 'when deadline has already passed' do
+    before do
+      tr = create(:tournament_round, tournament: league.tournament, deadline: 1.hour.ago)
+      create(:set_lineup_tour, league: league, tournament_round: tr)
+    end
 
-      it 'calls DdlNotifier (still within window)' do
-        broadcaster.call
-        expect(TelegramBot::Tour::DdlNotifier).to have_received(:call).with(tour)
-      end
+    it 'does not call DdlNotifier (past upper bound)' do
+      broadcaster.call
+      expect(TelegramBot::Tour::DdlNotifier).not_to have_received(:call)
+    end
+  end
+
+  context 'when deadline is within 5 minutes' do
+    before do
+      tr = create(:tournament_round, tournament: league.tournament, deadline: 3.minutes.from_now)
+      create(:set_lineup_tour, league: league, tournament_round: tr)
+    end
+
+    it 'does not call DdlNotifier' do
+      broadcaster.call
+      expect(TelegramBot::Tour::DdlNotifier).not_to have_received(:call)
+    end
+  end
+
+  context 'when deadline is exactly 6 minutes away (just inside window)' do
+    let(:tour) do
+      tr = create(:tournament_round, tournament: league.tournament, deadline: 6.minutes.from_now)
+      create(:set_lineup_tour, league: league, tournament_round: tr)
+    end
+
+    before { tour }
+
+    it 'calls DdlNotifier' do
+      broadcaster.call
+      expect(TelegramBot::Tour::DdlNotifier).to have_received(:call).with(tour)
     end
   end
 

@@ -1,4 +1,3 @@
-# rubocop:disable Metrics/BlockLength:
 namespace :tm do
   # rake 'tm:check_club_player_position[2]'
   desc 'Check TM players position and write to csv if diff'
@@ -100,4 +99,3 @@ namespace :tm do
     end
   end
 end
-# rubocop:enable Metrics/BlockLength

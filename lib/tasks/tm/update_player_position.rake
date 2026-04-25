@@ -1,4 +1,3 @@
-# rubocop:disable Metrics/BlockLength:
 namespace :tm do
   # rake 'tm:update_player_position[1,15000]'
   desc 'Update player positions by TM data'
@@ -49,4 +48,3 @@ namespace :tm do
     end
   end
 end
-# rubocop:enable Metrics/BlockLength

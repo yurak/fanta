@@ -35,6 +35,15 @@
             "has_many": "Cannot delete record because dependent %{record} exist",
             "has_one": "Cannot delete record because a dependent %{record} exists"
           }
+        },
+        "models": {
+          "join": {
+            "attributes": {
+              "user_id": {
+                "already_applied": "already applied to this tournament"
+              }
+            }
+          }
         }
       },
       "models": {
@@ -279,9 +288,14 @@
       "duplicates": "Bid contains duplicate players in slots: ",
       "empty_slots": "You must fill slots: ",
       "goalee_count": "The team must have at least %{gk_count} goalkeepers on this stage",
-      "goalee_max_count": "The team can`t have more than 5 goalkeepers",
+      "goalee_max_count": "The team can't have more than 5 goalkeepers",
       "min_price": "The bid must be at least 1",
       "overprice": "Your bid exceeds the team budget",
+      "status": {
+        "approved": "Approved",
+        "pending": "Pending review",
+        "rejected": "Rejected"
+      },
       "team": "⚽ Your team",
       "text": "You need to buy %{players} players. The team budget - %{budget}. The team must have at least 3 goalkeepers."
     },
@@ -292,7 +306,7 @@
       "balance_reserved": "Reserved funds",
       "bets_placed": "🎯 Bids overview",
       "bid_action": {
-        "completed": "Return to Ongoing",
+        "completed": "Edit bid",
         "initial": "Submit bid",
         "ongoing": "Submit bid",
         "submitted": "Complete in advance"
@@ -300,10 +314,11 @@
       "bids": "💶 Bids",
       "budget": "💰 Budget",
       "decrease_bid": "Decrease bid to match your budget. The bid won't be calculated if its amount exceeds the team's budget.",
+      "dropping_title": "💸 Dropping phase",
       "exceeded": "Budget exceeded",
       "filters": "Filters",
       "max_bid": "Maximum bid",
-      "module_no_fit": "Not applicable (Bid on at least 11 field players)",
+      "module_no_fit": "Not applicable (Bid on at least 11 outfield players)",
       "module_no_match": "❌ No match! Try to select players with different positions",
       "modules": "Modules",
       "select": "Select player",
@@ -335,7 +350,7 @@
         "text6": "Your total budget is"
       },
       "submit_bid": "Submit bid",
-      "suitable_modules": "🧩 Suitable modules",
+      "suitable_modules": "⚙️ Suitable modules",
       "team": "⚽ Team",
       "tooltip": {
         "base_data_one": "⌛ Ongoing. Default stage where you have to make your bids.",
@@ -362,7 +377,7 @@
         "base_data_three": "❌ No modules available. The player combinations you have selected are not suitable for any of the existing modules. Therefore, it will be impossible to win matches.",
         "base_data_two": "🟡︎︎ Yellow module icon. The combinations of players you have chosen correspond to the module shown, but you may encounter problems due to the lack of available substitutions. It might work, but it's risky.",
         "base_header": "There are 3 possible scenarios",
-        "description": "This wizard helps you to select a proper combinations of players for existing Modules in MantraFootball",
+        "description": "This wizard helps you select proper player combinations for existing Modules in MantraFootball",
         "header": "Welcome to Modules Wizard!"
       },
       "total_budget": "Total budget",
@@ -600,9 +615,10 @@
       "links_nav": "🔗 Useful Links",
       "live": "LIVE",
       "lock_round": "Lock round",
-      "login": "🗝 Login",
+      "login": "🔑 Login",
       "logout": "Log Out",
       "make_bid": "Make bid",
+      "manage": "Manage",
       "manage_round": "Manage round",
       "manage_round_mob": "Manage",
       "mantra": "Mantra",
@@ -663,6 +679,67 @@
         ]
       }
     },
+    "join": {
+      "applications": "applications",
+      "apply": "Apply",
+      "cancel": "Cancel",
+      "code": "Code",
+      "code_error": "Code must be 2–3 characters",
+      "code_hint": "2–3 Latin characters or digits",
+      "code_placeholder": "e.g. MAN",
+      "confirm_team": "Confirm team",
+      "contact_link": "Contact administration",
+      "contact_title": "Want to play with friends in same league?",
+      "continue": "Continue",
+      "create_team": "Create team",
+      "my_applications": "My applications",
+      "name_error": "Name must be at least 2 characters",
+      "no_active_leagues_subtitle": "Select one of available leagues and play",
+      "no_active_leagues_title": "You currently have no active leagues",
+      "no_leagues": "No available leagues at the moment",
+      "remove_logo": "Remove",
+      "rules_link": "Read rules",
+      "rules_title": "Foundation first, success follows",
+      "status": {
+        "approved": "Approved",
+        "initial": "Draft",
+        "pending": "Pending"
+      },
+      "submitted": "Application submitted",
+      "submitted_page": {
+        "card_title": "Still much to experience!",
+        "contact_btn": "Contact Administrator via Telegram",
+        "features": {
+          "auctions": "Additional auctions",
+          "community": "Mantra community",
+          "divisions": "Division system",
+          "duels": "Duels vs opponents of your league",
+          "gameplay": "Many months of continuous gameplay",
+          "leagues": "Other leagues to join",
+          "modes": "More Mantra modes",
+          "more": "And many many more..."
+        },
+        "price": "uah",
+        "price_label": "Approximate price",
+        "price_note": "Note: Discounts may be applied",
+        "skip": "Skip for now",
+        "steps": [
+          "Contact our admins for payment and discount details.",
+          "Wait while your league is being formed.",
+          "If you want to play with a friend — invite them right away.",
+          "Check who you managed to acquire in the first auction phase and move on to the next ones.",
+          "Wait for the first gameweek and compete for victory!"
+        ],
+        "steps_title": "Here is what waits you next",
+        "subtitle": "Continue your journey by completing your payment. We appreciate your support!",
+        "title": "Enjoying it so far?"
+      },
+      "team_not_found": "Team not found",
+      "teams": "teams",
+      "telegram_link": "Connect Telegram Bot",
+      "telegram_title": "Get deadline reminders",
+      "title": "Join a league"
+    },
     "join_request": {
       "index": {
         "link": "via the link",
@@ -682,6 +759,8 @@
     },
     "league": {
       "all": "All",
+      "demo_badge": "🧪 Demo",
+      "demo_badge_short": "Demo",
       "division": "Division",
       "empty_placeholder": "No leagues were found for this request",
       "finished": "🏁️ Finished",
@@ -699,27 +778,207 @@
     "lineups": {
       "away": "A",
       "change_module": "Change module",
-      "conditions": "🪵 Special conditions",
+      "conditions": "📋 Special conditions",
       "confirm_squad": "Confirm squad",
       "duplicates": "Lineup contains duplicate players",
       "hidden_text": "The opponent's lineup will remain hidden during the preparation phase and will become visible after the deadline.",
       "hidden_title": "Lineup is hidden",
       "home": "H",
       "main_squad": "Main squad",
-      "max_limit": "You can not select more than %{limit} player(s) from one team",
-      "min_limit": "You should select minimum %{limit} player(s) from each team",
+      "max_limit": "You cannot select more than %{limit} player(s) from one team",
+      "min_limit": "You must select at least %{limit} player(s) from each team",
       "not_selected": "Not selected",
       "points": "Points",
       "reserve_squad": "Substitutes",
       "select": "Select module and players",
       "setup_lineup": "Setup lineup",
       "team": "Team",
-      "total": "Lineup should contain %{number} unique players",
+      "total": "Lineup must contain %{number} unique players",
       "total_score": "🎯️ Total score"
     },
     "links": {
       "subtitle": "",
       "title": "Useful Links"
+    },
+    "manage": {
+      "clubs": {
+        "empty": "No clubs found",
+        "filter_name": "Name",
+        "name": "Name",
+        "reset": "Reset",
+        "search": "Search",
+        "title": "Clubs",
+        "tournament": "Tournament"
+      },
+      "joins": {
+        "actions": "Actions",
+        "all_tournaments": "All tournaments",
+        "approve": "Approve",
+        "approved": "Application approved",
+        "approved_title": "Approved",
+        "empty": "No pending applications",
+        "initial_title": "In Progress (not submitted)",
+        "league": "League",
+        "new_league": "New league",
+        "pending_title": "Pending Review",
+        "reject": "Reject",
+        "rejected": "Application rejected",
+        "select_league": "Select league...",
+        "submitted_at": "Submitted",
+        "tab_approved": "Approved",
+        "tab_initial": "In Progress",
+        "tab_pending": "Pending",
+        "team": "Team",
+        "tg_connected": "Telegram connected",
+        "tg_disconnected": "Telegram not connected",
+        "title": "Join Applications",
+        "tournament": "Tournament",
+        "user": "User"
+      },
+      "leagues": {
+        "activate": "Activate",
+        "activated": "League activated",
+        "auction_number": "Auctions count",
+        "auction_rounds": "Rounds",
+        "auction_step": "Auction step",
+        "auction_type": "Auction type",
+        "auction_type_blind_bids": "Blind bids",
+        "auction_type_live": "Live",
+        "auctions": "Auctions",
+        "back": "← Leagues",
+        "base_date": "Base date",
+        "budget": "Budget",
+        "cancel": "Cancel",
+        "confirm": "Set the deadline and activate the league?",
+        "created": "League created",
+        "deadline": "Round 1 Deadline",
+        "demo": "Demo league",
+        "demo_badge": "Demo",
+        "division": "Division",
+        "edit": "Edit",
+        "edit_title": "Edit League",
+        "empty": "No leagues",
+        "filter_name": "Search by name...",
+        "filter_season": "All seasons",
+        "filter_tournament": "All tournaments",
+        "manager": "Manager",
+        "name": "League",
+        "new_title": "New League",
+        "no_auctions": "No auctions",
+        "no_division": "— No division —",
+        "no_teams": "No teams",
+        "reset": "Reset",
+        "save": "Save",
+        "search": "Search",
+        "season": "Season",
+        "section_auctions": "Auctions",
+        "section_info": "League Info",
+        "section_teams": "Teams",
+        "select_season": "Select season...",
+        "select_tournament": "Select tournament...",
+        "show": "View",
+        "status": "Status",
+        "status_active": "Active",
+        "status_archived": "Archived",
+        "status_initial": "Initial",
+        "team_name": "Team",
+        "teams": "Teams",
+        "title": "Leagues",
+        "tour_difference": "Tour difference",
+        "tournament": "Tournament",
+        "tours": "Tours",
+        "transfer_slots": "Transfer slots",
+        "type": "Type",
+        "updated": "League updated",
+        "view_league": "View League",
+        "view_manager": "Open manager page"
+      },
+      "nav": {
+        "clubs": "Clubs",
+        "joins": "Join Apps",
+        "leagues": "Leagues",
+        "players": "Players",
+        "teams": "Teams",
+        "title": "Admin panel",
+        "users": "Users",
+        "weekly_team": "Team of Week"
+      },
+      "players": {
+        "add_player": "Add player",
+        "cancel": "Cancel",
+        "create": "Create",
+        "created": "Player created successfully",
+        "failed": "Failed to create player",
+        "hash_label": "Player hash",
+        "hash_placeholder": "{\"first_name\"=>\"Julian\", \"name\"=>\"Alvarez\", ...}",
+        "invalid_hash": "Invalid hash format",
+        "title": "Players"
+      },
+      "teams": {
+        "empty": "No teams found",
+        "filter_name": "Name",
+        "league": "League",
+        "name": "Team",
+        "reset": "Reset",
+        "search": "Search",
+        "title": "Teams",
+        "tournament": "Tournament",
+        "user": "Manager"
+      },
+      "users": {
+        "back": "← Users",
+        "confirmed": "Confirmed",
+        "created_at": "Created",
+        "email": "Email",
+        "empty": "No users found",
+        "false": "No",
+        "filter_email": "Email",
+        "filter_id": "ID",
+        "last_sign_in": "Last sign in",
+        "locale": "Language",
+        "no_profile": "Profile not filled",
+        "no_teams": "No teams",
+        "not_confirmed": "Not confirmed",
+        "notifications": "Notifications",
+        "reset": "Reset",
+        "role": "Role",
+        "search": "Search",
+        "section_account": "Account",
+        "section_teams": "Teams",
+        "section_telegram": "Telegram",
+        "sign_in_count": "Sign in count",
+        "status": "Status",
+        "team_league": "League",
+        "team_name": "Team",
+        "team_tournament": "Tournament",
+        "tg_bot": "Bot connected",
+        "tg_chat_id": "TG chat ID",
+        "tg_name": "TG name",
+        "title": "Users",
+        "true": "Yes"
+      },
+      "weekly_team": {
+        "build": "Build",
+        "col_created": "Date",
+        "col_mode": "Mode",
+        "col_module": "Module",
+        "col_player": "Player",
+        "col_position": "Pos",
+        "col_score": "Score",
+        "col_season": "Season",
+        "empty": "No teams saved yet",
+        "mode_flop": "Flop",
+        "mode_top": "Top",
+        "new": "New team",
+        "number": "Team number",
+        "results": "Results",
+        "round": "Round",
+        "save": "Save",
+        "save_failed": "Failed to save team of the week",
+        "saved": "Team of the week saved",
+        "title": "Team of the Week",
+        "total": "Total"
+      }
     },
     "match": {
       "title": "Match"
@@ -730,7 +989,7 @@
       "edit_lineup": "Edit lineup",
       "edit_module": "Edit module",
       "game_center": "Game center",
-      "module": "♞️ Module:",
+      "module": "♟️ Module:",
       "not_lineup": "Not in squad",
       "set_squad": "Set squad",
       "start_soon": "Match will start soon",
@@ -740,14 +999,14 @@
       "waiting": "Waiting for lineup",
       "waiting_deadline": "Waiting for tour start",
       "with_squad": "Squad is ready for the match",
-      "without_squad": "Team is still without squad"
+      "without_squad": "Team has not set a squad"
     },
     "news": {
       "add_article": "Add article",
       "back": "Back",
       "keep_reading": "Keep reading",
       "news": "News",
-      "publish_date": "🗓 Publish date",
+      "publish_date": "📅 Publish date",
       "share_via": "🎤 Share via",
       "tag": "🎮 Tag",
       "tournament": "⚽️ Tournament"
@@ -835,7 +1094,7 @@
       "caught_penalty": "Caught penalty",
       "change_arguments": "Arguments for changing player's positions",
       "change_positions": "Positions that player should have",
-      "change_request": "🌪 Propose positions change",
+      "change_request": "🔄 Propose positions change",
       "change_request_send": "Send change request",
       "chart": "📈️ Chart",
       "cleansheet": "Cleansheet",
@@ -1000,7 +1259,7 @@
         "total_score": "Total score"
       },
       "form": "Form",
-      "games": "🗓️ Games",
+      "games": "📅 Games",
       "incoming": "✅ In",
       "keep": "Keep",
       "league": "League",
@@ -1103,9 +1362,11 @@
           "text": "Please enter the email address you will use for the game"
         },
         "start": {
+          "connect_failed": "⚠️ This link has expired or is invalid. Please go to your profile and generate a new one.",
+          "connected": "✅ Telegram successfully connected to your account!",
           "learn_more": "Learn more",
           "register": "Register",
-          "text": "Welcome to MantraFootball!\n\nWe invite you to join the most realistic football fantasy. There are 9 European leagues to choose from. Register!\n"
+          "text": "Welcome to MantraFootball!\n\nWe invite you to join the most realistic football fantasy. There are 14 national leagues to choose from. Register!\n"
         }
       }
     },
@@ -1199,9 +1460,10 @@
         "select": "Select avatar"
       },
       "new_name": {
-        "add_name": "Add manager name",
+        "add_name": "Add manager data",
         "create_alter_ego": "Almost there! Now let’s create your alter ego!",
         "name": "Manager name",
+        "name_error": "Name must be at least 2 characters",
         "next": "Next",
         "note": "A manager name will allow other players to address you appropriately. You can change it at any time",
         "tg_name": "Telegram tag (phone number)",
@@ -1229,9 +1491,22 @@
         "pos_naming_subtitle": "Choose positions that will be displayed",
         "positions_naming": "🎯 Positions naming",
         "teams": "⚽️ Teams",
+        "telegram_connect": "Connect Telegram",
+        "telegram_connected": "✅ Telegram connected",
+        "telegram_subtitle": "Get notifications about deadlines and game events",
+        "telegram_title": "✈️ Telegram Bot",
         "time_zone_subtitle": "Choose the one according to which the time will be displayed in the game",
-        "time_zone_title": "🕰 Time zone",
+        "time_zone_title": "⏰ Time zone",
         "via_tg": "Via Telegram bot"
+      },
+      "site_config": {
+        "language": "Language",
+        "language_note": "The language used across the entire site",
+        "next": "Start playing",
+        "subtitle": "You can change these at any time in your profile",
+        "time_zone": "Time zone",
+        "time_zone_note": "Used to display deadlines in your local time",
+        "title": "Almost done! Let's set up your preferences"
       },
       "update": "Update"
     },
@@ -1243,6 +1518,16 @@
         "previous": "&lsaquo; Prev",
         "truncate": "&hellip;"
       }
+    },
+    "weekly_team": {
+      "mode_flop": "Flop",
+      "mode_top": "Top",
+      "title": "Team of the Week",
+      "title_flop": "🏆 MantraFootball Flop XI",
+      "title_flop_short": "🏆 Flop XI",
+      "title_top": "🏆 MantraFootball Top XI",
+      "title_top_short": "🏆 Top XI",
+      "total_score": "🎯 Total score"
     },
     "welcome": {
       "about": {
@@ -1428,6 +1713,8 @@
           },
           "table": {
             "bonus1": "Less than 8.00",
+            "bonus2": "8.00 - 8.49",
+            "bonus3": "8.50 - 8.99",
             "bonus4": "9.00 or more",
             "header1": "Average total score range",
             "header2": "Minimum price",
@@ -1471,7 +1758,8 @@
           "ul36": "A player who left the championship (due to transfer, early termination of the contract, etc.) leaves the team on his own and the amount paid for him is returned to the manager's budget.",
           "ul37": "A player who has changed clubs within one tournament does not leave the Mantra team.",
           "ul38": "Intermediate auctions are always conducted in a blind format.",
-          "ul39": "It is not possible to buy and sell players outside the transfer windows, except for one exception: if the team has only 1 goalkeeper left as a result of the transfer. In this case, another goalkeeper of the same club, whose goalkeeper remained in the squad, joins the team. After the opening of the transfer window, the manager will be able to sell this player according to the sales rules."
+          "ul39": "It is not possible to buy and sell players outside the transfer windows, except for one exception: if the team has only 1 goalkeeper left as a result of the transfer. In this case, another goalkeeper of the same club, whose goalkeeper remained in the squad, joins the team. After the opening of the transfer window, the manager will be able to sell this player according to the sales rules.",
+          "ul40": "If a manager misses 3 or more auctions in a row and does not place any bids — the administrator has the right to place a bid on their behalf."
         },
         "basic": {
           "header1": "Why play?",
@@ -1495,43 +1783,49 @@
           "ul5": "Great community of participants with whom you can discuss all the events in the world of football or to argue about which championship stronger?"
         },
         "bonuses": {
-          "bonus_header1": "⚽  Goal (+2, +2.5 or +3)",
-          "bonus_header10": "⛔️  Own goal (-2)",
-          "bonus_header11": "🥅  Missed goal / penalty (-1)",
-          "bonus_header12": "🤦‍  Conceded penalty (-1)",
-          "bonus_header13": "❌  Failed penalty (-2)",
-          "bonus_header14": "⚠️  Position malus",
-          "bonus_header15": "🛡️️  Defence bonus",
-          "bonus_header2": "🎱  Scored penalty (+2)",
-          "bonus_header3": "👟  Assist (+1)",
-          "bonus_header4": "🚨  Earned penalty (+1)",
-          "bonus_header5": "🥅  Caught penalty (+3)",
-          "bonus_header6": "🩹  Saves for GK (+0.5 or +1)",
-          "bonus_header7": "🖐  Clean sheet (+0.5, +1 or +1.5)",
-          "bonus_header8": "🌕  Yellow card (-0.5)",
-          "bonus_header9": "🔴  Red card (-2, -3 or -2.5, -3.5)",
+          "bonus_header1": "Goal (+2, +2.5 or +3)",
+          "bonus_header10": "Own goal (-2)",
+          "bonus_header11": "Missed goal / penalty (-1)",
+          "bonus_header12": "Conceded penalty (-1)",
+          "bonus_header13": "Failed penalty (-2)",
+          "bonus_header14": "Position malus",
+          "bonus_header15": "Defence bonus",
+          "bonus_header2": "Scored penalty (+2)",
+          "bonus_header3": "Assist (+1)",
+          "bonus_header4": "Earned penalty (+1)",
+          "bonus_header5": "Caught penalty (+3)",
+          "bonus_header6": "Saves for GK (+0.5 or +1)",
+          "bonus_header7": "Clean sheet (+0.5, +1 or +1.5)",
+          "bonus_header8": "Yellow card (-0.5)",
+          "bonus_header9": "Red card (-2, -3 or -2.5, -3.5)",
+          "defence_note": {
+            "ol1": "If a defender did not play (score 0) — their score is still included in the calculation. The defence bonus depends on the number of defensive positions in the module: for example, in a 4-3-3 module the sum of 4 defenders' scores is divided by 4, even if one of them received a 0.",
+            "ol2": "If a player with a non-native position plays on a defensive slot in the module (e.g., DM in place of CB) — only their base score is used for the defence bonus calculation. The position malus does not affect the defence bonus."
+          },
           "example": {
             "header": "Example",
             "paragraph1": "Bonuses for the scored goal:",
             "paragraph2": "Bonuses for the clean sheet:",
             "paragraph3": "Maluses for some players:",
-            "paragraph4": "The average value of 7.425 is converted into a defence bonus of 2 points.",
-            "paragraph5": "The goalkeeper's score is not taken into account when calculating the defense bonus.",
-            "remark1": "If Gundogan (with his native position CM) had played in the module in place of McGinn, he would not have claimed clean sheet.",
-            "remark2": "Silva (with his native position W) cannot count on a clean sheet.",
-            "remark3": "-1 x 3 (per missed goal) and -0.5 (for yellow card)",
+            "paragraph4": "The average value of 7.375 is converted into a defence bonus of 2 points.",
+            "paragraph5": "Only the base scores of defenders are used in the calculation (before bonuses and maluses are applied). The goalkeeper's score is not taken into account.",
+            "paragraph_formula": "(6.4 + 8.1 + 7.8 + 7.2)/4 = 29.5/4 = 7.375",
+            "remark3": "-2 (for 2 goals conceded) and +0.5 (for 3 goalkeeper saves)",
             "remark4": "-0.5 (for yellow card)",
+            "remark5": "+3 (for goal), -0.5 (for yellow card), -1 (for penalty conceded)",
+            "remark6": "-2 (for failed penalty)",
             "ul01": "Kane – 2 points",
             "ul02": "Gray – 2.5 points",
             "ul03": "McNeil – 2.5 points",
             "ul04": "Odegaard – 3 points",
-            "ul11": "Ederson – 1.5",
-            "ul12": "James/Saiss/Chilwell – 1",
-            "ul13": "Rodri – 0.5",
-            "ul14": "McGinn – 0.5",
-            "ul15": "Walker – 0.5",
-            "ul21": "Schmeichel – -3.5 points",
-            "ul22": "Bednarek, Rice – -0.5 points"
+            "ul11": "Skorupski – 1.5",
+            "ul12": "Mancini, Ostigard – 1",
+            "ul13": "Britschgi – 0.5",
+            "ul14": "Sucic – 0.5",
+            "ul21": "Maignan – -1.5 points",
+            "ul22": "Bremer – -0.5 points",
+            "ul23": "Pavlovic – +1.5 points",
+            "ul24": "Locatelli – -2 points"
           },
           "header1": "Bonuses",
           "header2": "Maluses",
@@ -1553,10 +1847,7 @@
           "paragraph15": "In MantraFootball, the following matrix of malus by positions is used:",
           "paragraph16": "To increase the value of defenders, MantraFootball has an additional defense bonus. Its size is calculated based on the average value of the defenders' basic scores (before taking into account bonuses and maluses).",
           "paragraph17": "The result is converted into additional points for the team:",
-          "paragraph18": "Since ",
-          "paragraph19": "a different source",
           "paragraph2": "The size of the bonus for a scored goal depends on the 'native' position of the player:",
-          "paragraph20": " is used for UPL due to the lack of scores on Fotmob, the principle of 6.00+0.25 is used when calculating UPL results (6.00-6.24 - +1 point, etc.).",
           "paragraph3": "The size of the bonus for a player's goal depends precisely on his 'native' positions, and not on the position in which the player 'played' in the MantraFootball module.",
           "paragraph4": "The size of the bonus for a scored penalty does not depend on the position of the player.",
           "paragraph5": "Only the goalkeeper can get this bonus. The size of the bonus depends on the number of saves:",
@@ -1570,6 +1861,10 @@
           },
           "table": {
             "bonus1": "Less than 7.00",
+            "bonus2": "7.00 - 7.24",
+            "bonus3": "7.25 - 7.49",
+            "bonus4": "7.50 - 7.74",
+            "bonus5": "7.75 - 7.99",
             "bonus6": "8.00 or above",
             "header1": "Range of average score",
             "header2": "Defence bonus",
@@ -1598,9 +1893,6 @@
           "header1": "League Table",
           "paragraph1": "The sum of points scored by the 11 main players of the team is converted into team goals as follows:",
           "paragraph2": "And so on, every extra 7 points of the team is a +1 goal to the total score.",
-          "paragraph3": "Since ",
-          "paragraph4": "a different source",
-          "paragraph5": " is used for UPL due to the lack of scores on Fotmob, the 60+6 principle is used when calculating UPL results (60 points - 1 goal, +6 points - each subsequent one). In this case, the protection bonus starts at 6.00",
           "paragraph6": "The team that scores more goals in a league match wins.",
           "paragraph7": "The standings are formed on the basis of team points",
           "paragraph8": "In case of equality of team points, the team with the most goals scored is placed higher. In the case of equality of this indicator, the team with more victories also has an advantage. In the event of a tie, the next indicators for comparison are the total score and the total score in head-to-head matches.",
@@ -1630,7 +1922,6 @@
           "paragraph3": "At the end of the season, the teams at the top of the table (positions marked in green in the league standings) are promoted to the higher divisions, and the teams at the bottom of the table (positions marked in red) are relegated to the lower divisions.",
           "paragraph4": "In order to ensure fair play, the manager may be deprived of the opportunity to lead his team.",
           "paragraph5": "The procedure for dismissing the manager from the team:",
-          "paragraph6": "Members of the league can leave an application for verification of a separate league outside the period of 7 rounds.",
           "screen1": {
             "text": "Green places - promotion to a higher division, red - relegation to a lower one",
             "title": "Divisions map"
@@ -1659,9 +1950,13 @@
             "title": "Fanta table"
           },
           "title": "Fanta",
-          "ul1": "No auction: coaches each game day select 11 players from a list of teams playing that day under any module of their choice.",
-          "ul2": "Players in different managers' teams may be repeated, but there are no substitutes.",
-          "ul3": "There are limits on the number of players from one team on a particular game day (depends on the number of real teams playing that day)."
+          "ul1": "No auction: each game day managers select their squad from players of clubs playing that day.",
+          "ul2": "Each day you must select 11 main players and 5 substitutes. You can use any ",
+          "ul2_link": "module available in the game",
+          "ul3": "Players in different managers' teams may be repeated.",
+          "ul4": "There is a limit on the number of players from one club per game day — depends on the number of matches that day.",
+          "ul5": "If a main squad player did not play — substitutions with malus are possible. Rules are described in the ",
+          "ul5_link": "Substitutions"
         },
         "lineup": {
           "paragraph1": "When selecting a lineup for a round, the manager selects a module to play (drop-down list near 3-4-3 in the image) and players for each position and substitution. To assign a player to a position, click on the corresponding slot in the list displayed in the right half of the screen.",
@@ -1698,7 +1993,13 @@
         "note": "Note!",
         "player_score": {
           "header1": "Fotmob mobile app",
+          "header2": "UPL scores",
           "paragraph1": "Player score consists of several elements:",
+          "paragraph10": "The source of base scores for UPL players is SofaScore.",
+          "paragraph11": "If a player played at least 1 minute but did not receive a score from SofaScore, the default base score is 6.5.",
+          "paragraph12": "The source of statistical actions (goals, assists, cards) is SofaScore, with the following exceptions:",
+          "paragraph13": "The maximum waiting period for SofaScore ratings is the start of the first match of UPL round 30. If scores are unavailable by that date:",
+          "paragraph14": "In the event of a technical defeat where no minutes were played or no match scores were assigned:",
           "paragraph2": "A base score is an assessment of a player's performance in a specific match, which is provided by a statistical resource, for example ",
           "paragraph3": "The starting score of the player from FotMob is 6 points, from SofaScore is 6.5 points. Depending on the success on the playing field, his score may increase (to a maximum of 10 points) or decrease (to a minimum of 0 points).",
           "paragraph4": "MantraFootball uses the final score generated by the score source at the end of the match as the player's base score.",
@@ -1709,7 +2010,14 @@
           "paragraph9": "A player's total score in MantraFootball is based on the base score, taking into account all applicable bonuses and maluses.",
           "title": "Player Score",
           "ul00": "Base score",
-          "ul01": "Bonuses and malus"
+          "ul01": "Bonuses and malus",
+          "ul10": "a) If an assist is missing or incorrectly recorded in SofaScore, Fotmob is additionally checked. No other sources are considered.",
+          "ul11": "b) In case of discrepancies regarding yellow or red cards, the official UPL website is the final source.",
+          "ul12": "c) In case of discrepancies regarding goal authorship between SofaScore and the UPL website, the UPL website takes priority. The player's base score from SofaScore remains unchanged.",
+          "ul13": "a player who played more than 10 matches receives their average base score for the 25/26 season;",
+          "ul14": "a player who played fewer than 10 matches receives a score of 6.5.",
+          "ul15": "if a squad list was declared — players in the squad receive a base score without bonuses or maluses;",
+          "ul16": "if no squad list was declared — all players from both clubs receive the default base score of 6.5."
         },
         "positions": {
           "header1": "Position determination algorithm",
@@ -1814,7 +2122,6 @@
         "subtitle1": "Fantasy football is a game in which users form a virtual team of real football players and, depending on their performances, score points.",
         "subtitle2": "Mantra is our reinterpretation of fantasy, a kind of advance level where we changed everything that pissed us off in the classic one.",
         "subtitle3": "And it's a great way to have fun with friends and find new ones!",
-        "subtitle4": "After the start of the game, each match of your player acquires a new meaning.",
         "title": "Rules"
       }
     }
@@ -1830,6 +2137,13 @@
       },
       "errors": {
         "models": {
+          "join": {
+            "attributes": {
+              "user_id": {
+                "already_applied": "вже подано заявку на цей турнір"
+              }
+            }
+          },
           "join_request": {
             "attributes": {
               "contact": {
@@ -1913,6 +2227,11 @@
       "goalee_max_count": "У команді не може бути більше 5 воротарів",
       "min_price": "Ставка повинна бути не менше 1",
       "overprice": "Ваша ставка перевищує бюджет команди",
+      "status": {
+        "approved": "Підтверджено",
+        "pending": "На розгляді",
+        "rejected": "Відхилено"
+      },
       "team": "⚽ Ваша команда",
       "text": "Вам необхідно купити %{players} гравців. Бюджет команди - %{budget}. У команді повинні бути мінімум 3 воротарі."
     },
@@ -1931,6 +2250,7 @@
       "bids": "💶 Ставки",
       "budget": "💰 Бюджет",
       "decrease_bid": "Знизьте ставку відповідно до свого бюджету. Ставка не буде розрахована, якщо її сума перевищуватиме бюджет команди",
+      "dropping_title": "💸 Фаза скидання",
       "exceeded": "Бюджет перевищено",
       "filters": "Фільтри",
       "max_bid": "Максимальна ставка",
@@ -1966,7 +2286,7 @@
         "text6": "Ваш загальний бюджет"
       },
       "submit_bid": "Підтвердити ставку",
-      "suitable_modules": "🧩 Доступні модулі",
+      "suitable_modules": "⚙️ Доступні модулі",
       "team": "⚽ Команда",
       "tooltip": {
         "base_data_one": "⌛ В процесі. Стадія за замовчуванням, на якій ви повинні зробити свої ставки.",
@@ -2039,9 +2359,10 @@
       "links_nav": "🔗 Корисні посилання",
       "live": "НАЖИВО",
       "lock_round": "Заблокувати",
-      "login": "🗝 Вхід",
+      "login": "🔑 Вхід",
       "logout": "Вихід",
       "make_bid": "Ставка",
+      "manage": "Керувати",
       "manage_round": "Керувати р..",
       "manage_round_mob": "Керувати",
       "mantra": "Мантра",
@@ -2067,6 +2388,67 @@
       "teams": "Команди",
       "tips": "🤔 Поради новачкам"
     },
+    "join": {
+      "applications": "заявок",
+      "apply": "Подати заявку",
+      "cancel": "Скасувати",
+      "code": "Код",
+      "code_error": "Код має бути 2–3 символи",
+      "code_hint": "2–3 латинські символи або цифри",
+      "code_placeholder": "напр. MAN",
+      "confirm_team": "Підтвердити команду",
+      "contact_link": "Написати адміністрації",
+      "contact_title": "Хочеш грати з друзями в одній лізі?",
+      "continue": "Продовжити",
+      "create_team": "Створити команду",
+      "my_applications": "Мої заявки",
+      "name_error": "Назва має бути щонайменше 2 символи",
+      "no_active_leagues_subtitle": "Обери одну з доступних ліг та грай",
+      "no_active_leagues_title": "У тебе наразі немає активних ліг",
+      "no_leagues": "Наразі немає доступних ліг",
+      "remove_logo": "Видалити",
+      "rules_link": "Читати правила",
+      "rules_title": "Спочатку правила — потім перемоги",
+      "status": {
+        "approved": "Схвалено",
+        "initial": "Чернетка",
+        "pending": "На розгляді"
+      },
+      "submitted": "Заявку подано",
+      "submitted_page": {
+        "card_title": "Попереду ще багато!",
+        "contact_btn": "Зв'язатися з адміністратором у Telegram",
+        "features": {
+          "auctions": "Додаткові аукціони",
+          "community": "Спільнота Mantra",
+          "divisions": "Система дивізіонів",
+          "duels": "Дуелі з суперниками по лізі",
+          "gameplay": "Багато місяців безперервного геймплею",
+          "leagues": "Інші ліги для участі",
+          "modes": "Більше режимів Mantra",
+          "more": "І ще дуже багато іншого..."
+        },
+        "price": "грн",
+        "price_label": "Орієнтовна вартість",
+        "price_note": "Примітка: можуть застосовуватись знижки",
+        "skip": "Пропустити",
+        "steps": [
+          "Зв'яжіться з адміністраторами щодо деталей оплати та можливих знижок.",
+          "Дочекайтеся, поки ваша ліга буде сформована.",
+          "Якщо хочете грати разом з другом - мерщій кличте його.",
+          "Перевіряйте, кого вам вдалося придбати на першому етапі аукціону, і переходьте до наступних.",
+          "Очікуйте першого ігрового тижня та змагайтеся за перемогу!"
+        ],
+        "steps_title": "Що чекає далі",
+        "subtitle": "Продовжіть свою подорож, здійснивши оплату. Дякуємо за підтримку!",
+        "title": "Як враження?"
+      },
+      "team_not_found": "Команду не знайдено",
+      "teams": "команд",
+      "telegram_link": "Підключити Telegram бот",
+      "telegram_title": "Отримуй нагадування про дедлайни",
+      "title": "Долучитись до ліги"
+    },
     "join_request": {
       "index": {
         "link": "via the link",
@@ -2080,12 +2462,14 @@
       },
       "new": {
         "confirm": "Підтвердити",
-        "subtitle": "в яких ви хочете позмагатися",
+        "subtitle": "в яких вам цікаво позмагатися",
         "title": "Виберіть турніри"
       }
     },
     "league": {
       "all": "Усі",
+      "demo_badge": "🧪 Демо",
+      "demo_badge_short": "Демо",
       "division": "Дивізіон",
       "empty_placeholder": "Не знайдено ліг за таким запитом",
       "finished": "🏁️ Завершена",
@@ -2103,7 +2487,7 @@
     "lineups": {
       "away": "В",
       "change_module": "Зміна модуля",
-      "conditions": "🪵 Особливі умови",
+      "conditions": "📋 Особливі умови",
       "confirm_squad": "Підтвердити склад",
       "duplicates": "Один гравець не може бути вибраний декілька раз",
       "hidden_text": "Склад суперника залишатиметься прихованим під час підготовчого етапу та стане видимим після дедлайну.",
@@ -2125,6 +2509,186 @@
       "subtitle": "",
       "title": "Корисні Посилання"
     },
+    "manage": {
+      "clubs": {
+        "empty": "Клубів не знайдено",
+        "filter_name": "Назва",
+        "name": "Назва",
+        "reset": "Скинути",
+        "search": "Шукати",
+        "title": "Клуби",
+        "tournament": "Турнір"
+      },
+      "joins": {
+        "actions": "Дії",
+        "all_tournaments": "Всі турніри",
+        "approve": "Підтвердити",
+        "approved": "Заявку підтверджено",
+        "approved_title": "Прийняті",
+        "empty": "Немає заявок на розгляді",
+        "initial_title": "В процесі (не відправлені)",
+        "league": "Ліга",
+        "new_league": "Нова ліга",
+        "pending_title": "Очікують розгляду",
+        "reject": "Відхилити",
+        "rejected": "Заявку відхилено",
+        "select_league": "Оберіть лігу...",
+        "submitted_at": "Надіслано",
+        "tab_approved": "Прийняті",
+        "tab_initial": "В процесі",
+        "tab_pending": "Очікують",
+        "team": "Команда",
+        "tg_connected": "Telegram підключено",
+        "tg_disconnected": "Telegram не підключено",
+        "title": "Заявки на вступ",
+        "tournament": "Турнір",
+        "user": "Користувач"
+      },
+      "leagues": {
+        "activate": "Активувати",
+        "activated": "Лігу активовано",
+        "auction_number": "Кількість аукціонів",
+        "auction_rounds": "Раунди",
+        "auction_step": "Крок аукціону",
+        "auction_type": "Тип аукціону",
+        "auction_type_blind_bids": "Закриті ставки",
+        "auction_type_live": "Живий",
+        "auctions": "Аукціони",
+        "back": "← Ліги",
+        "base_date": "Базова дата",
+        "budget": "Бюджет",
+        "cancel": "Скасувати",
+        "confirm": "Встановити дедлайн і активувати лігу?",
+        "created": "Лігу створено",
+        "deadline": "Дедлайн 1-го раунду",
+        "demo": "Демо-ліга",
+        "demo_badge": "Демо",
+        "division": "Дивізіон",
+        "edit": "Редагувати",
+        "edit_title": "Редагування ліги",
+        "empty": "Немає ліг",
+        "filter_name": "Пошук за назвою...",
+        "filter_season": "Всі сезони",
+        "filter_tournament": "Всі турніри",
+        "manager": "Менеджер",
+        "name": "Ліга",
+        "new_title": "Нова ліга",
+        "no_auctions": "Немає аукціонів",
+        "no_division": "— Без дивізіону —",
+        "no_teams": "Немає команд",
+        "reset": "Скинути",
+        "save": "Зберегти",
+        "search": "Пошук",
+        "season": "Сезон",
+        "section_auctions": "Аукціони",
+        "section_info": "Інформація про лігу",
+        "section_teams": "Команди",
+        "select_season": "Оберіть сезон...",
+        "select_tournament": "Оберіть турнір...",
+        "show": "Переглянути",
+        "status": "Статус",
+        "status_active": "Активні",
+        "status_archived": "Архівні",
+        "status_initial": "Початкові",
+        "team_name": "Команда",
+        "teams": "Команди",
+        "title": "Ліги",
+        "tour_difference": "Різниця турів",
+        "tournament": "Турнір",
+        "tours": "Тури",
+        "transfer_slots": "Трансферні слоти",
+        "type": "Тип",
+        "updated": "Лігу оновлено",
+        "view_league": "Відкрити лігу",
+        "view_manager": "Відкрити сторінку менеджера"
+      },
+      "nav": {
+        "clubs": "Клуби",
+        "joins": "Заявки",
+        "leagues": "Ліги",
+        "players": "Гравці",
+        "teams": "Команди",
+        "title": "Адмін панель",
+        "users": "Менеджери",
+        "weekly_team": "Збірна тижня"
+      },
+      "players": {
+        "add_player": "Додати гравця",
+        "cancel": "Скасувати",
+        "create": "Створити",
+        "created": "Гравця успішно створено",
+        "failed": "Не вдалося створити гравця",
+        "hash_label": "Хеш гравця",
+        "hash_placeholder": "{\"first_name\"=>\"Julian\", \"name\"=>\"Bazan\", ...}",
+        "invalid_hash": "Невірний формат хешу",
+        "title": "Гравці"
+      },
+      "teams": {
+        "empty": "Команд не знайдено",
+        "filter_name": "Назва",
+        "league": "Ліга",
+        "name": "Команда",
+        "reset": "Скинути",
+        "search": "Шукати",
+        "title": "Команди",
+        "tournament": "Турнір",
+        "user": "Менеджер"
+      },
+      "users": {
+        "back": "← Менеджери",
+        "confirmed": "Підтверджено",
+        "created_at": "Створено",
+        "email": "Email",
+        "empty": "Менеджерів не знайдено",
+        "false": "Ні",
+        "filter_email": "Email",
+        "filter_id": "ID",
+        "last_sign_in": "Останній вхід",
+        "locale": "Мова",
+        "no_profile": "Профіль не заповнено",
+        "no_teams": "Немає команд",
+        "not_confirmed": "Не підтверджено",
+        "notifications": "Сповіщення",
+        "reset": "Скинути",
+        "role": "Роль",
+        "search": "Знайти",
+        "section_account": "Акаунт",
+        "section_teams": "Команди",
+        "section_telegram": "Telegram",
+        "sign_in_count": "Кількість входів",
+        "status": "Статус",
+        "team_league": "Ліга",
+        "team_name": "Команда",
+        "team_tournament": "Турнір",
+        "tg_bot": "Бот підключено",
+        "tg_chat_id": "TG chat ID",
+        "tg_name": "TG нейм",
+        "title": "Менеджери",
+        "true": "Так"
+      },
+      "weekly_team": {
+        "build": "Сформувати",
+        "col_created": "Дата",
+        "col_mode": "Режим",
+        "col_module": "Модуль",
+        "col_player": "Гравець",
+        "col_position": "Поз",
+        "col_score": "Очки",
+        "col_season": "Сезон",
+        "empty": "Збірних ще немає",
+        "mode_flop": "Флоп",
+        "mode_top": "Топ",
+        "new": "Нова збірна",
+        "number": "Номер збірної",
+        "results": "Результати",
+        "round": "Тур",
+        "save": "Зберегти",
+        "save_failed": "Не вдалося зберегти збірну",
+        "saved": "Збірну збережено",
+        "title": "Збірна тижня",
+        "total": "Разом"
+      }
+    },
     "match": {
       "title": "Матч"
     },
@@ -2134,7 +2698,7 @@
       "edit_lineup": "Змінити склад",
       "edit_module": "Змінити модуль",
       "game_center": "Матч центр",
-      "module": "♞️ Модуль:",
+      "module": "♟️ Модуль:",
       "not_lineup": "Поза складом",
       "set_squad": "Вибрати склад",
       "start_soon": "Матч невдовзі розпочнеться",
@@ -2161,7 +2725,7 @@
       "back": "Назад",
       "keep_reading": "Продовжуйте читати",
       "news": "Новини",
-      "publish_date": "🗓 Дата публікації",
+      "publish_date": "📅 Дата публікації",
       "share_via": "🎤 Поширити через",
       "tag": "🎮 Тег",
       "tournament": "⚽️ Турнір"
@@ -2186,7 +2750,7 @@
       "caught_penalty": "Відбите пенальті",
       "change_arguments": "Аргументи для зміни позицій гравця",
       "change_positions": "Позиції, які повинен мати гравець",
-      "change_request": "🌪 Запропонувати зміну позицій",
+      "change_request": "🔄 Запропонувати зміну позицій",
       "change_request_send": "Надіслати запит",
       "chart": "📈️ Діаграма",
       "cleansheet": "Сухі ворота",
@@ -2344,7 +2908,7 @@
         "total_score": "Загальний бал"
       },
       "form": "Форма",
-      "games": "🗓️ Матчі",
+      "games": "📅 Матчі",
       "incoming": "✅ Куплено",
       "keep": "Залишити",
       "league": "Ліга",
@@ -2447,9 +3011,11 @@
           "text": "Будь ласка, введіть адресу електронної пошти, яку ви будете використовувати для гри"
         },
         "start": {
+          "connect_failed": "⚠️ Посилання застаріло або недійсне. Перейдіть у профіль і згенеруйте нове.",
+          "connected": "✅ Telegram успішно підключено до вашого акаунту!",
           "learn_more": "Докладніше",
           "register": "Реєстрація",
-          "text": "Ласкаво просимо до MantraFootball!\n\nЗапрошуємо долучитися до найреалістичнішого футбольного фентезі. Для вибору доступні 9 європейських ліг. Реєструйтесь!\n"
+          "text": "Ласкаво просимо до MantraFootball!\n\nЗапрошуємо долучитися до найреалістичнішого футбольного фентезі. Для вибору доступні 14 національних ліг. Реєструйтесь!\n"
         }
       }
     },
@@ -2534,9 +3100,10 @@
         "select": "Виберіть аватар"
       },
       "new_name": {
-        "add_name": "Додати ім'я менеджера",
+        "add_name": "Додати дані про менеджера",
         "create_alter_ego": "Майже готово! А тепер створимо ваше альтер-его!",
         "name": "Ім'я менеджера",
+        "name_error": "Ім’я має бути щонайменше 2 символи",
         "next": "Далі",
         "note": "Ім'я менеджера дозволить іншим гравцям звертатися до вас належним чином. Ви можете змінити його будь-коли",
         "tg_name": "Ім'я в Telegram або телефон",
@@ -2564,11 +3131,34 @@
         "pos_naming_subtitle": "Оберіть, які позиції будуть показуватись",
         "positions_naming": "🎯 Найменування позицій",
         "teams": "⚽️ Команди",
+        "telegram_connect": "Підключити Telegram",
+        "telegram_connected": "✅ Telegram підключено",
+        "telegram_subtitle": "Отримуйте сповіщення про дедлайни та ігрові події",
+        "telegram_title": "✈️ Telegram Бот",
         "time_zone_subtitle": "Виберіть зону, згідно з якою буде відображатися час в грі",
-        "time_zone_title": "🕰 Часова зона",
+        "time_zone_title": "⏰ Часова зона",
         "via_tg": "Через Телеграм бот"
       },
+      "site_config": {
+        "language": "Мова",
+        "language_note": "Мова, яка використовується на всьому сайті",
+        "next": "Почати гру",
+        "subtitle": "Ви можете змінити їх будь-коли у профілі",
+        "time_zone": "Часовий пояс",
+        "time_zone_note": "Використовується для відображення дедлайнів у вашому місцевому часі",
+        "title": "Майже готово! Налаштуємо ваші вподобання"
+      },
       "update": "Оновити"
+    },
+    "weekly_team": {
+      "mode_flop": "Флоп",
+      "mode_top": "Топ",
+      "title": "Збірна тижня",
+      "title_flop": "🏆 Збірна флопів MantraFootball",
+      "title_flop_short": "🏆 Збірна флопів",
+      "title_top": "🏆 Збірна топів MantraFootball",
+      "title_top_short": "🏆 Збірна топів",
+      "total_score": "🎯 Загальна оцінка"
     },
     "welcome": {
       "about": {
@@ -2753,6 +3343,8 @@
           },
           "table": {
             "bonus1": "Менше ніж 8.00",
+            "bonus2": "8.00 - 8.49",
+            "bonus3": "8.50 - 8.99",
             "bonus4": "9.00 або більше",
             "header1": "Діапазон середньої загальної оцінки",
             "header2": "Мінімальна ціна",
@@ -2796,7 +3388,8 @@
           "ul36": "Гравець, який покинув чемпіонат (через трансфер, дострокове розірвання контракту тощо), покидає команду самостійно і сума сплачена за нього повертається до бюджету менеджера.",
           "ul37": "Гравець, який змінив клуб в межах одного турніру, Mantra-команду не покидає.",
           "ul38": "Проміжні аукціони завжди проводяться в сліпому форматі.",
-          "ul39": "Неможливо купувати та продавати гравців поза межами трансферних вікон крім єдиного виключення: якщо внаслідок трансферу у команди залишається тільки 1 воротар. У такому випадку, до команди долучається інший воротар тієї ж команди, воротар якої залишився в заявці. Після відкриття трансферного вікна менеджер зможе продати цього гравця згідно правил продажу."
+          "ul39": "Неможливо купувати та продавати гравців поза межами трансферних вікон крім єдиного виключення: якщо внаслідок трансферу у команди залишається тільки 1 воротар. У такому випадку, до команди долучається інший воротар тієї ж команди, воротар якої залишився в заявці. Після відкриття трансферного вікна менеджер зможе продати цього гравця згідно правил продажу.",
+          "ul40": "Якщо менеджер пропускає 3 або більше аукціонів підряд і не виставляє ставки — адміністратор має право зробити ставку замість нього."
         },
         "basic": {
           "header1": "Навіщо грати?",
@@ -2820,43 +3413,49 @@
           "ul5": "Чудова спільнота учасників, з якими можна обговорити всі події у світі футболу чи посперечатися про те, який чемпіонат сильніший?"
         },
         "bonuses": {
-          "bonus_header1": "⚽  Гол (+2, +2.5 або +3)",
-          "bonus_header10": "⛔️  Автогол (-2)",
-          "bonus_header11": "🥅  Пропущений гол / пенальті (-1)",
-          "bonus_header12": "🤦‍  «Привезений» пенальті (-1)",
-          "bonus_header13": "❌  Незабитий пенальті (-2)",
-          "bonus_header14": "⚠️  Малус позиції",
-          "bonus_header15": "🛡️️  Бонус захисту",
-          "bonus_header2": "🎱  Забитий пенальті (+2)",
-          "bonus_header3": "👟  Асист (+1)",
-          "bonus_header4": "🚨  Зароблене пенальті (+1)",
-          "bonus_header5": "🥅  Відбитий пенальті (+3)",
-          "bonus_header6": "🩹  Відбиті удари воротарем (+0.5 або +1)",
-          "bonus_header7": "🖐  Сухі ворота / кліншит (+0.5, +1 або +1.5)",
-          "bonus_header8": "🌕  Жовта картка (-0.5)",
-          "bonus_header9": "🔴  Червона картка (-2, -3 або -2.5, -3.5)",
+          "bonus_header1": "Гол (+2, +2.5 або +3)",
+          "bonus_header10": "Автогол (-2)",
+          "bonus_header11": "Пропущений гол / пенальті (-1)",
+          "bonus_header12": "«Привезений» пенальті (-1)",
+          "bonus_header13": "Незабитий пенальті (-2)",
+          "bonus_header14": "Малус позиції",
+          "bonus_header15": "Бонус захисту",
+          "bonus_header2": "Забитий пенальті (+2)",
+          "bonus_header3": "Асист (+1)",
+          "bonus_header4": "Зароблене пенальті (+1)",
+          "bonus_header5": "Відбитий пенальті (+3)",
+          "bonus_header6": "Відбиті удари воротарем (+0.5 або +1)",
+          "bonus_header7": "Сухі ворота / кліншит (+0.5, +1 або +1.5)",
+          "bonus_header8": "Жовта картка (-0.5)",
+          "bonus_header9": "Червона картка (-2, -3 або -2.5, -3.5)",
+          "defence_note": {
+            "ol1": "Якщо захисник не зіграв (оцінка 0) — його оцінка все одно враховується у розрахунку. Бонус захисту залежить від кількості захисних позицій у модулі: наприклад, у модулі 4-3-3 сума оцінок 4 захисників ділиться на 4, навіть якщо хтось із них отримав 0.",
+            "ol2": "Якщо на захисну позицію в модулі виходить гравець з нехарактерною позицією (наприклад, DM на місці CB) — для бонусу захисту враховується лише базова оцінка гравця. Малус за позицію на розрахунок бонусу захисту не впливає."
+          },
           "example": {
             "header": "Приклад",
             "paragraph1": "Бонуси за забитий гол:",
             "paragraph2": "Бонуси за сухі ворота:",
             "paragraph3": "Малуси для деяких гравців:",
-            "paragraph4": "Середнє значення 7,425 конвертується в бонус захисту 2 бали.",
-            "paragraph5": "Оцінка воротаря не враховується при розрахунку бонусу захисту.",
-            "remark1": "Якби Гюндоган (з рідною позицією CM) зіграв в модулі на місці Макгінна, він би не претендував на кліншит.",
-            "remark2": "Сільва (з його рідною позицією W) не може розраховувати на кліншит.",
-            "remark3": "-1 x 3 (за кожен пропущений гол) та -0,5 (за жовту картку)",
+            "paragraph4": "Середнє значення 7,375 конвертується в бонус захисту 2 бали.",
+            "paragraph5": "У розрахунку враховуються лише базові оцінки захисників (до нарахування бонусів та малусів). Оцінка воротаря при цьому не враховується.",
+            "paragraph_formula": "(6.4 + 8.1 + 7.8 + 7.2)/4 = 29,5/4 = 7.375",
+            "remark3": "-2 (за 2 пропущені голи) та +0,5 (за 3 сейви воротаря)",
             "remark4": "-0,5 (за жовту картку)",
+            "remark5": "+3 (за гол), -0,5 (за жовту картку), -1 (за привезений пенальті)",
+            "remark6": "-2 (за незабитий пенальті)",
             "ul01": "Kane – 2 очки",
             "ul02": "Gray – 2,5 очки",
             "ul03": "McNeil – 2,5 очки",
             "ul04": "Odegaard – 3 очки",
-            "ul11": "Ederson – 1,5",
-            "ul12": "James/Saiss/Chilwell – 1",
-            "ul13": "Rodri – 0,5",
-            "ul14": "McGinn – 0,5",
-            "ul15": "Walker – 0,5",
-            "ul21": "Schmeichel – -3.5 очок",
-            "ul22": "Bednarek, Rice – -0.5 очка"
+            "ul11": "Skorupski – 1,5",
+            "ul12": "Mancini, Ostigard – 1",
+            "ul13": "Britschgi – 0,5",
+            "ul14": "Sucic – 0,5",
+            "ul21": "Maignan – -1,5 очка",
+            "ul22": "Bremer – -0,5 очка",
+            "ul23": "Pavlovic – +1,5 очка",
+            "ul24": "Locatelli – -2 очки"
           },
           "header1": "Бонуси",
           "header2": "Малуси",
@@ -2872,16 +3471,13 @@
           "paragraph1": "Крім базової оцінки, гравці можуть отримати додаткові бонуси за певні позитивні дії і малуси за негативні.",
           "paragraph10": "Малуси за пропущені голи, в тому числі пенальті, отримує лише воротар.",
           "paragraph11": "Якщо певні гравці основного складу не зіграли в своєму матчі, а серед запасних немає гравця з відповідною «рідною» позицією, то його заміняє гравець іншої позиції з найнижчим малусом (спочатку обирається запасний гравець з малусом -1.5, а за відсутності такого – з малусом -3).",
-          "paragraph12": "Алгоритм проведення замін детально розписано у відповідному розділі",
+          "paragraph12": "Алгоритм проведення замін детально розписано у ",
           "paragraph13": "відповідному розділі",
           "paragraph14": "Менеджер також може свідомо призначити гравця на «нерідну» позицію в основному складі.",
           "paragraph15": "В MantraFootball застосовується така матриця малусів за позиціями:",
           "paragraph16": "Для підвищення цінності захисників, у MantraFootball присутній додатковий бонус захисту. Його розмір розраховується на основі середнього значення базових оцінок захисників (до врахування бонусів та малусів).",
           "paragraph17": "Результат конвертується в додаткові очки для команди:",
-          "paragraph18": "Так як для УПЛ, через відсутність оцінок на Fotmob, використовується ",
-          "paragraph19": "інше джерело",
           "paragraph2": "Розмір бонусу за забитий гол залежить від «рідної» позиції гравця:",
-          "paragraph20": " то при розрахунку результатів УПЛ застосовується принцип 6.00+0.25 (6.00-6.24 - +1 бал і тд).",
           "paragraph3": "Розмір бонусу за гол гравця залежить саме від його «рідних» позицій, а не від позиції, на якій гравець «зіграв» в модулі MantraFootball.",
           "paragraph4": "Розмір бонусу за забитий пенальті не залежить від позиції гравця.",
           "paragraph5": "Цей бонус може отримати лише воротар. Розмір бонусу залежить від кількості відбитих ударів:",
@@ -2895,6 +3491,10 @@
           },
           "table": {
             "bonus1": "Менше ніж 7.00",
+            "bonus2": "7.00 - 7.24",
+            "bonus3": "7.25 - 7.49",
+            "bonus4": "7.50 - 7.74",
+            "bonus5": "7.75 - 7.99",
             "bonus6": "8.00 або більше",
             "header1": "Діапазон середньої оцінки",
             "header2": "Бонус захисту",
@@ -2923,9 +3523,6 @@
           "header1": "Таблиця Ліги",
           "paragraph1": "Сума очок, набраних 11 основними гравцями команди, перетворюється на командні голи таким чином:",
           "paragraph2": "І так далі, кожні додаткові 7 очок команди це +1 гол до загального рахунку.",
-          "paragraph3": "Так як для УПЛ, через відсутність оцінок на Fotmob, використовується ",
-          "paragraph4": "інше джерело",
-          "paragraph5": ", то при розрахунку результатів УПЛ застосовується принцип 60+6 (60 очок - 1 гол, +6 очок – кожен наступний). Бонус захисту в такому випадку стартує від 6.00",
           "paragraph6": "Перемагає команда, яка заб'є більше голів у матчі ліги.",
           "paragraph7": "Турнірна таблиця формується на основі командних очок.",
           "paragraph8": "У випадку рівності командних очок, вище розміщується команда з більшою кількістю забитих голів. У випадку рівності цього показника теж – перевага у команди з більшою кількістю перемог. У випадку рівності, наступні показники для порівняння – загальна сума набраних очок (Total Score) і загальна сума набраних очок (TS) у очних поєдинках.",
@@ -2955,7 +3552,6 @@
           "paragraph3": "Після завершення сезону, команди, які зайняли місця у верхній частині турнірної таблиці (позиції відмічені зеленим у турнірній таблиці ліги) підвищуються у вищі дивізіони, а команди внизу таблиці (відмічені червоним) – вилітають до нижчих дивізіонів.",
           "paragraph4": "З метою забезпечення спортивного принципу, менеджера може бути позбавлено можливості керувати своєю командою.",
           "paragraph5": "Процедура звільнення менеджера з команди:",
-          "paragraph6": "Учасники ліги можуть залишати заявку на перевірку окремої ліги поза терміном в 7 турів.",
           "screen1": {
             "text": "Зелені місця - вихід у вищий дивізіон, червоні - виліт у нижчий",
             "title": "Мапа дивізіонів"
@@ -2984,9 +3580,13 @@
             "title": "Турнірна таблиця Фанти"
           },
           "title": "Фанта",
-          "ul1": "Без аукціону: кожен ігровий день тренери вибирають 11 гравців зі списку команд, які гратимуть цього дня за будь-яким модулем на свій вибір.",
-          "ul2": "Гравці в командах різних менеджерів можуть повторюватися, проте запасні гравці відсутні.",
-          "ul3": "Є обмеження на кількість гравців з однієї команди в певний ігровий день (залежать від кількості реальних команд, які грають в цей день)."
+          "ul1": "Без аукціону: кожен ігровий день менеджери вибирають склад із гравців клубів, які грають в цей день.",
+          "ul2": "Щодня потрібно обрати 11 гравців основного складу та 5 запасних. Можна використовувати будь-який ",
+          "ul2_link": "модуль із наявних у грі",
+          "ul3": "Гравці в командах різних менеджерів можуть повторюватися.",
+          "ul4": "Є обмеження на кількість гравців з одного клубу в ігровий день — залежить від кількості матчів цього дня.",
+          "ul5": "Якщо гравець основного складу не зіграв — можливі заміни з малусом. Правила описані у розділі ",
+          "ul5_link": "Заміни"
         },
         "lineup": {
           "paragraph1": "Обираючи склад для раунду, менеджер вибирає модуль для гри (спадний список біля 3-4-3 на зображенні) і гравців для кожної позиції та заміни. Для призначення гравця на позицію необхідно натиснути на відповідний слот у списку, що відображається в правій половині екрану.",
@@ -3023,7 +3623,13 @@
         "note": "Примітка!",
         "player_score": {
           "header1": "Мобільний застосунок Fotmob",
+          "header2": "Оцінки УПЛ",
           "paragraph1": "Оцінка гравців складається з декількох елементів:",
+          "paragraph10": "Джерелом базових оцінок гравців для УПЛ є SofaScore.",
+          "paragraph11": "Якщо гравець зіграв хоча б 1 хвилину, але не отримав оцінку від SofaScore, дефолтна базова оцінка становить 6,5.",
+          "paragraph12": "Джерелом інформації про результативні дії є SofaScore, з такими особливостями:",
+          "paragraph13": "Максимальний термін очікування оцінок від SofaScore — початок першого матчу 30 туру УПЛ. Якщо оцінки відсутні на цю дату:",
+          "paragraph14": "У разі технічної поразки, коли жодної хвилини не зіграно або оцінки за матч не були виставлені:",
           "paragraph2": "Базова оцінка – це оцінка виступу гравця в конкретному матчі, яка надається статистичним ресурсом, наприклад ",
           "paragraph3": "Стартова оцінка гравця від FotMob складає 6 очок, від SofaScore - 6.5. В залежності від успіхів на ігровому полі, його оцінка може зрости (до 10 очок максимум) або знизитись (до 0 очок мінімум).",
           "paragraph4": "У якості базової оцінки гравця MantraFootball використовує остаточну підсумкову оцінку, сформовану джерелом оцінки по завершенню матчу.",
@@ -3034,7 +3640,14 @@
           "paragraph9": "Загальна оцінка гравця в MantraFootball формується на основі базової оцінки, з урахуванням усіх бонусів та малусів, що підлягають застосуванню.",
           "title": "Оцінка Гравців",
           "ul00": "Базова оцінка",
-          "ul01": "Бонуси та малуси"
+          "ul01": "Бонуси та малуси",
+          "ul10": "а) Якщо асист відсутній або вказаний помилково у SofaScore, додатково перевіряється Fotmob. Інші джерела до уваги не беруться.",
+          "ul11": "б) У разі розбіжностей щодо жовтої або червоної картки, пріоритет надається офіційному сайту УПЛ.",
+          "ul12": "в) У разі розбіжностей щодо авторства голу між SofaScore та сайтом УПЛ, пріоритет надається сайту УПЛ. Базова оцінка від SofaScore при цьому залишається незмінною.",
+          "ul13": "гравець, який зіграв понад 10 матчів, отримує середню базову оцінку за сезон 25/26;",
+          "ul14": "гравець, який зіграв менше 10 матчів, отримує оцінку 6,5.",
+          "ul15": "якщо заявку оголошено — гравці з заявки отримують базову оцінку без бонусів та малусів;",
+          "ul16": "якщо заявку не оголошено — усім гравцям обох клубів нараховується базова дефолтна оцінка 6,5."
         },
         "positions": {
           "header1": "Алгоритм визначення позицій",
@@ -3139,7 +3752,6 @@
         "subtitle1": "Фентезі-футбол – це гра, в якій учасники формують віртуальну команду з реальних футболістів і залежно від їхньої гри набирають очки.",
         "subtitle2": "Mantra — це наша реінтерпретація фентезі, свого роду просунутий рівень, де ми змінили все, що нас дратувало в класичному.",
         "subtitle3": "Це класний спосіб весело провести час з друзями та знайти нових!",
-        "subtitle4": "Після початку гри кожен матч вашого гравця набуває нового значення.",
         "title": "Правила"
       }
     }

@@ -3,7 +3,13 @@ class ApplicationController < ActionController::Base
   before_action :setup_user
   around_action :switch_locale
 
+  rescue_from ActiveRecord::RecordNotFound, with: :not_found
+
   private
+
+  def not_found
+    render file: Rails.public_path.join('404.html'), status: :not_found, layout: false
+  end
 
   def switch_locale(&action)
     locale = current_user&.locale&.to_sym || params[:locale] || session[:locale] || I18n.default_locale
@@ -23,10 +29,8 @@ class ApplicationController < ActionController::Base
       redirect_to_new_name
     elsif current_user.named?
       redirect_to_new_avatar
-    elsif current_user.with_avatar?
-      redirect_to_new_team
-    elsif current_user.with_team?
-      redirect_to_join_request
+    else
+      redirect_to_site_config
     end
   end
 
@@ -38,11 +42,7 @@ class ApplicationController < ActionController::Base
     redirect_to new_avatar_user_path(current_user) unless params[:action] == 'new_avatar' || params[:action] == 'new_update'
   end
 
-  def redirect_to_join_request
-    redirect_to new_join_request_path if params[:controller] != 'join_requests'
-  end
-
-  def redirect_to_new_team
-    redirect_to new_team_path if params[:controller] != 'teams'
+  def redirect_to_site_config
+    redirect_to site_config_user_path(current_user) unless params[:action] == 'site_config' || params[:action] == 'new_update'
   end
 end

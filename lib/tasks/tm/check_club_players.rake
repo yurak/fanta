@@ -1,4 +1,3 @@
-# rubocop:disable Metrics/BlockLength:
 namespace :tm do
   # rake 'tm:check_club_players_csv[1]'
   desc 'Check TM players list from club pages and write to csv'
@@ -40,4 +39,3 @@ namespace :tm do
     end
   end
 end
-# rubocop:enable Metrics/BlockLength

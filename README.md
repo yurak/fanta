@@ -17,6 +17,13 @@ This is fantasy football application.
 
 [MantraFootball application](http://mantrafootball.org/)
 
+### Requirements
+
+- Ruby 3.2.2
+- Rails 6.1.5
+- Node.js 21+
+- Yarn 1.22
+
 ### Getting started
 
 ```
@@ -24,6 +31,30 @@ gem install bundler
 bundle install
 brew install overmind
 yarn install
+```
+
+Copy the config file and fill in the required values:
+
+```
+cp config/application.example.yml config/application.yml
+```
+
+Required variables in `config/application.yml`:
+
+| Variable | Description |
+| --- | --- |
+| `GMAIL_USERNAME` | Gmail address for dev mailer |
+| `GMAIL_PASSWORD` | Gmail app password |
+| `MAILER_FROM` | From address for outgoing emails |
+| `MAILGUN_SMTP_LOGIN` | Mailgun SMTP login (production/staging) |
+| `MAILGUN_SMTP_PASSWORD` | Mailgun SMTP password (production/staging) |
+| `TELEGRAM_DEV_BOT_TOKEN` | Telegram bot token for dev/staging |
+| `TELEGRAM_PROD_BOT_TOKEN` | Telegram bot token for production |
+| `DEV_HOST` | Local machine IP for Action Cable in development |
+
+Then set up the database:
+
+```
 rails db:setup
 ```
 
@@ -33,15 +64,21 @@ rails db:setup
 ./bin/dev
 ```
 
-### API
+### Tests
 
-Run API specs
+Run all specs:
+
+```
+bundle exec rspec
+```
+
+Run API specs:
 
 ```
 rspec --tag rswag
 ```
 
-Generate swagger docs
+Generate swagger docs:
 
 ```
 RAILS_ENV=test rails rswag
@@ -49,7 +86,7 @@ RAILS_ENV=test rails rswag
 
 ### Telegram Bot
 
-Run in console
+Set `TELEGRAM_DEV_BOT_TOKEN` in `config/application.yml`, then run in console:
 
 ```
 Telegram::Bot::UpdatesPoller.start(Telegram.bot, Telegram::WebhookController)

@@ -85,7 +85,7 @@ module Players
       end
 
       def process_missed_players(club, actual_ids)
-        missed_ids = club.players.pluck(:tm_id).uniq - actual_ids
+        missed_ids = club.players.where.not(tm_id: nil).pluck(:tm_id).uniq - actual_ids
         return unless missed_ids.any?
 
         puts "Missed list: #{missed_ids.join(' ')}"

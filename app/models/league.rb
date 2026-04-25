@@ -29,6 +29,7 @@ class League < ApplicationRecord
   scope :by_season, ->(season_id) { where(season_id: season_id) if season_id.present? }
   scope :with_division, -> { where.not(division: { id: nil }) }
   scope :viewable, -> { active.or(archived) }
+  scope :without_demo_from_old_seasons, -> { where('leagues.demo = ? OR leagues.season_id = ?', false, Season.last.id) }
   scope :serial, lambda {
     left_joins(:division)
       .includes(:results, :season, :teams, :tournament, :tours)

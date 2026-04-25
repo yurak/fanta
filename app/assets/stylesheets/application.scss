@@ -25,10 +25,12 @@
 @import "divisions";
 @import "footer";
 @import "header";
+@import "join";
 @import "join_requests";
 @import "leagues";
 @import "lineups";
 @import "links";
+@import "manage";
 @import "matches";
 @import "national_teams";
 @import "nav_panel";
@@ -130,12 +132,12 @@ body, html {
     }
 
     .league-data {
-      padding-top: 42px;
       text-align: center;
-
-      @include reactApplication {
-        padding-top: responsivePixels(42px);
-      }
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      align-self: center;
 
       .league-name {
         font-family: 'Nunito ExtraBold';
@@ -238,12 +240,11 @@ body, html {
     }
 
     .league-data {
-      padding-top: 24px;
       margin: 0 auto;
-
-      @include reactApplication {
-        padding-top: responsivePixels(24px);
-      }
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      align-self: center;
 
       .league-name {
         line-height: 132px;
@@ -823,6 +824,18 @@ body, html {
   body:not(.react-application) {
     .mob-header {
       display: block;
+
+      .portrait-header .base-header .league-data {
+        padding-top: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+
+    body.react-application .mob-header #burger-menu-block .base-header .league-data,
+    body .mob-header #burger-menu-block .base-header .league-data {
+      padding-top: 0;
     }
 
     .web-header {
@@ -851,6 +864,161 @@ body, html {
   }
 }
 
+@media (max-width: 600px) {
+  .mob-header {
+    .portrait-header {
+      .base-header {
+        grid-template-columns: 80px 1fr 80px;
+
+        .root-logo img {
+          margin: 16px;
+          width: 48px;
+        }
+
+        .league-data {
+          .league-name {
+            font-size: 18px;
+            line-height: 22px;
+            margin-bottom: 0;
+          }
+
+          .league-season {
+            font-size: 12px;
+            line-height: 16px;
+          }
+
+          .header-title {
+            padding-top: 0;
+            font-size: 18px;
+            line-height: 22px;
+          }
+        }
+
+        .burger-menu {
+          display: flex;
+          align-items: center;
+          justify-content: flex-end;
+          padding-right: 16px;
+
+          > img {
+            margin: 0;
+            width: 48px;
+          }
+        }
+      }
+    }
+
+    #burger-menu-block {
+      .base-header {
+        height: 80px;
+        grid-template-columns: 80px 1fr 80px;
+
+        .root-logo img {
+          margin: 16px;
+          width: 48px;
+        }
+
+        .league-data {
+          padding-top: 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          .user-data {
+            font-size: 15px;
+            line-height: 24px;
+            padding: 8px 12px;
+            border-width: 1px;
+            border-radius: 24px;
+            grid-template-columns: 32px auto;
+            column-gap: 10px;
+            align-items: center;
+            margin-top: 0;
+
+            img {
+              width: 32px;
+              height: 32px;
+              border-radius: 16px;
+            }
+          }
+        }
+
+        .burger-menu {
+          display: flex;
+          align-items: center;
+          justify-content: flex-end;
+          padding-right: 16px;
+
+          > img {
+            margin: 0;
+            width: 48px;
+          }
+        }
+      }
+
+      .menu-content {
+        top: 80px;
+      }
+    }
+  }
+
+  body.react-application #burger-menu-block .base-header .league-data,
+  body #burger-menu-block .base-header .league-data {
+    padding-top: 0;
+  }
+
+  .mob-header .badges-block {
+    padding-top: 80px;
+    padding-bottom: 0;
+  }
+
+  .mob-header #burger-menu-block .menu-content {
+    .nav-links .nav-logo-small {
+      margin-top: 22px;
+      padding: 10px 30px;
+      font-size: 20px;
+      line-height: 28px;
+
+      a {
+        grid-template-columns: 32px auto;
+        column-gap: 20px;
+      }
+    }
+
+    .my-leagues {
+      margin: 24px 0 60px;
+      padding: 0 20px;
+
+      .my-leagues-title {
+        font-size: 13px;
+        line-height: 20px;
+        margin-bottom: 12px;
+      }
+
+      .my-league {
+        font-size: 15px;
+        line-height: 56px;
+
+        a {
+          grid-template-columns: 56px auto 100px 40px;
+          column-gap: 12px;
+        }
+
+        img {
+          width: 44px;
+          height: 44px;
+        }
+
+        .my-league-type {
+          font-size: 13px;
+          height: 32px;
+          line-height: 32px;
+        }
+      }
+    }
+  }
+}
+
 /* ----- -------------------- ----- */
 
 .tooltip-info {
@@ -874,7 +1042,7 @@ body, html {
     -webkit-transform: translateZ(0); /* webkit flicker fix */
     -webkit-font-smoothing: antialiased; /* webkit text rendering fix */
     display: flex;
-    z-index: 11;
+    z-index: 9;
   }
 
   .wrapper .tooltip {
@@ -1205,6 +1373,7 @@ body, html {
   font-size: 16px;
   line-height: 38px;
   text-align: center;
+  color: #ffffff;
 
   img {
     filter: invert(97%) sepia(7%) saturate(747%) hue-rotate(219deg) brightness(117%) contrast(91%); //#F4F4F4;

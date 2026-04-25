@@ -49,6 +49,7 @@ Rails.application.configure do
   # Use memory store for bot sessions.
   config.telegram_updates_controller.session_store = :memory_store
   config.telegram_updates_controller.host = 'https://staging.mantrafootball.org'
+  config.telegram_updates_controller.bot_username = 'mantra_prod_bot'
 
   # Stub clients before processing routes.rb.
   Telegram::Bot::ClientStub.stub_all!

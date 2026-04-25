@@ -1,4 +1,3 @@
-# rubocop:disable Metrics/BlockLength:
 namespace :tournament_matches do
   # rake 'tournament_matches:generate_fotmob_matches[1]'
   desc 'Create TournamentMatches from Fotmob'
@@ -110,4 +109,3 @@ namespace :tournament_matches do
     end
   end
 end
-# rubocop:enable Metrics/BlockLength

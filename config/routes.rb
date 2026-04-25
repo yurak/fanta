@@ -23,6 +23,30 @@ Rails.application.routes.draw do
   get 'guide',    to: 'welcome#guide'
   get 'rules',    to: 'welcome#rules'
 
+  resources :joins, only: [:index, :show]
+  resources :weekly_teams, only: [:show]
+
+  namespace :manage do
+    resources :leagues, only: [:index, :new, :create, :edit, :update, :show] do
+      member do
+        post :activate
+      end
+    end
+
+    resources :joins, only: [:index] do
+      member do
+        post :approve
+        post :reject
+      end
+    end
+
+    resources :players, only: [:index, :create]
+    resources :clubs, only: [:index]
+    resources :teams, only: [:index]
+    resources :users, only: [:index, :show]
+    resources :weekly_teams, only: [:index, :new, :create]
+  end
+
   get  'unsubscribe', to: 'subscriptions#unsubscribe', as: :unsubscribe
   post 'unsubscribe', to: 'subscriptions#confirm_unsubscribe'
 
@@ -35,11 +59,13 @@ Rails.application.routes.draw do
     resources :auction_bids, only: [:update]
   end
 
-  resources :join_requests, only: [:new, :create, :index]
+  resources :auction_bids, only: [:show, :update] do
+    member { post :submit }
+  end
+
+  resources :join_requests, only: [:new, :create]
 
   resources :leagues, only: [:index, :show] do
-    put :activate, on: :member
-
     resources :auctions, only: [:index, :show, :update] do
       get :live, on: :member
 
@@ -69,7 +95,7 @@ Rails.application.routes.draw do
 
   resources :slots, only: [:index]
 
-  resources :teams, only: [:show, :edit, :update, :new, :create] do
+  resources :teams, only: [:show, :edit, :update, :create] do
     resources :lineups, only: [:show, :new, :create, :edit, :update] do
       collection { get :clone }
     end
@@ -102,10 +128,12 @@ Rails.application.routes.draw do
   end
 
   resources :users, only: [:show, :edit, :update] do
-    get :edit_avatar, on: :member
-    get :new_avatar, on: :member
-    get :new_name, on: :member
-    put :new_update, on: :member
+    get  :edit_avatar,      on: :member
+    get  :new_avatar,       on: :member
+    get  :new_name,         on: :member
+    get  :site_config,      on: :member
+    put  :new_update,       on: :member
+    post :telegram_connect, on: :member
   end
   resources :users, only: [], path: :managers, as: :managers do
     get :show, on: :member, to: 'users#show_manager'

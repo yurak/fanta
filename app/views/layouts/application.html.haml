@@ -9,6 +9,7 @@
     = javascript_include_tag 'application'
     = favicon_link_tag asset_path('mantra.ico')
     = render 'layouts/favicon'
+    = yield :head
     -#%script{type: "text/javascript", src: "/javascripts/lib/hotjar.js"}
   %body
     = query_diet_widget if Rails.env.development?

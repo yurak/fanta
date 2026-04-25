@@ -4,6 +4,7 @@ en:
   devise:
     confirmations:
       confirmed: "Your email address has been successfully confirmed."
+      already_confirmed: "Your email has already been confirmed. Please sign in."
       send_instructions: "You will receive an email with instructions for how to confirm your email address in a few minutes."
       send_paranoid_instructions: "If your email address exists in our database, you will receive an email with instructions for how to confirm your email address in a few minutes."
     failure:
@@ -38,6 +39,8 @@ en:
         change_password: "Set password"
         confirm_new_password: "Confirm password"
         new_password: "Password"
+        password_blank: "Password can't be blank"
+        password_mismatch: "Passwords don't match"
       new:
         email: "Email"
         subtitle: "Don't worry. We will email you instructions on how to change your password."
@@ -66,8 +69,11 @@ en:
         compete: "To compete with others"
         continue: "Continue with email"
         email: "Email"
+        email_taken: "This email is already registered."
+        email_invalid: "Please enter a valid email address"
         note: "⚠️ To participate in the game, you will need to "
         note_link: "make a fee"
+        sign_in: "Log in"
         sign_up: "Sign up"
     sessions:
       new:

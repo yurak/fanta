@@ -258,7 +258,7 @@ RSpec.describe 'Users' do
         get new_name_user_path(user)
       end
 
-      it { expect(response).to redirect_to(new_team_path) }
+      it { expect(response).to redirect_to(site_config_user_path(user)) }
       it { expect(response).to have_http_status(:found) }
     end
 
@@ -270,7 +270,40 @@ RSpec.describe 'Users' do
         get new_name_user_path(user)
       end
 
-      it { expect(response).to redirect_to(new_join_request_path) }
+      it { expect(response).to redirect_to(site_config_user_path(user)) }
+      it { expect(response).to have_http_status(:found) }
+    end
+  end
+
+  describe 'GET #site_config' do
+    before do
+      get site_config_user_path(other_user)
+    end
+
+    context 'when user is logged out' do
+      it { expect(response).to redirect_to('/users/sign_in') }
+      it { expect(response).to have_http_status(:found) }
+    end
+
+    context 'when with_avatar user views own site_config page' do
+      before do
+        logged_user = create(:user, status: :with_avatar)
+        sign_in logged_user
+        get site_config_user_path(logged_user)
+      end
+
+      it { expect(response).to be_successful }
+      it { expect(response).to render_template(:site_config) }
+      it { expect(response).to have_http_status(:ok) }
+    end
+
+    context 'when user is logged in and views other user site_config page' do
+      login_user
+      before do
+        get site_config_user_path(other_user)
+      end
+
+      it { expect(response).to redirect_to(user_path(User.last)) }
       it { expect(response).to have_http_status(:found) }
     end
   end
@@ -411,7 +444,7 @@ RSpec.describe 'Users' do
         put new_update_user_path(logged_user, params)
       end
 
-      it { expect(response).to redirect_to(new_team_path) }
+      it { expect(response).to redirect_to(site_config_user_path(logged_user)) }
       it { expect(response).to have_http_status(:found) }
 
       it 'updates user avatar' do
@@ -420,6 +453,31 @@ RSpec.describe 'Users' do
 
       it 'updates user status' do
         expect(logged_user.reload.status).to eq('with_avatar')
+      end
+    end
+
+    context 'when with_avatar user is logged in and submits site_config' do
+      let(:logged_user) { create(:user, status: :with_avatar) }
+      let(:params) { { locale: 'ua', time_zone: 'Kyiv' } }
+
+      before do
+        sign_in logged_user
+        put new_update_user_path(logged_user, params)
+      end
+
+      it { expect(response).to redirect_to(joins_path) }
+      it { expect(response).to have_http_status(:found) }
+
+      it 'updates user locale' do
+        expect(logged_user.reload.locale).to eq('ua')
+      end
+
+      it 'updates user time_zone' do
+        expect(logged_user.reload.time_zone).to eq('Kyiv')
+      end
+
+      it 'sets status to configured' do
+        expect(logged_user.reload.status).to eq('configured')
       end
     end
 
@@ -440,6 +498,67 @@ RSpec.describe 'Users' do
       it 'does not update other user name' do
         expect(other_user.reload.name).not_to eq(name)
       end
+    end
+  end
+
+  describe 'POST #telegram_connect' do
+    context 'when user is logged out' do
+      before { post telegram_connect_user_path(other_user) }
+
+      it { expect(response).to redirect_to('/users/sign_in') }
+      it { expect(response).to have_http_status(:found) }
+    end
+
+    context 'when user is logged in and connects own account' do
+      let(:logged_user) { create(:user, :with_profile) }
+
+      before do
+        sign_in logged_user
+        post telegram_connect_user_path(logged_user)
+      end
+
+      it { expect(response).to have_http_status(:ok) }
+
+      it 'returns a Telegram deep link URL' do
+        expect(response.parsed_body['url']).to match(%r{t\.me/mantra_prod_bot\?start=\w+})
+      end
+
+      it 'sets tg_connect_token on the user profile' do
+        expect(logged_user.user_profile.reload.tg_connect_token).to be_present
+      end
+
+      it 'sets tg_connect_expires_at on the user profile' do
+        expect(logged_user.user_profile.reload.tg_connect_expires_at).to be > Time.current
+      end
+    end
+
+    context 'when user is logged in without a profile' do
+      let(:logged_user) { create(:user) }
+
+      before do
+        sign_in logged_user
+        post telegram_connect_user_path(logged_user)
+      end
+
+      it 'creates a user profile' do
+        expect(logged_user.reload.user_profile).to be_present
+      end
+
+      it 'returns a Telegram deep link URL' do
+        expect(response.parsed_body['url']).to match(%r{t\.me/mantra_prod_bot\?start=\w+})
+      end
+    end
+
+    context 'when user is logged in and tries to connect another user' do
+      let(:logged_user) { create(:user) }
+
+      before do
+        sign_in logged_user
+        post telegram_connect_user_path(other_user)
+      end
+
+      it { expect(response).to redirect_to(user_path(logged_user)) }
+      it { expect(response).to have_http_status(:found) }
     end
   end
 

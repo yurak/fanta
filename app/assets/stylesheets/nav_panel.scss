@@ -15,17 +15,42 @@
     flex: 0 0 auto;
   }
 
-  .nav-logo-teams {
+  .nav-teams-section {
     flex: 1 1 auto;
-    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
     min-height: 0;
-
-    scrollbar-width: none;
-    -ms-overflow-style: none;
   }
 
-  .nav-logo-teams::-webkit-scrollbar {
-    display: none;
+  .nav-logo-teams {
+    flex: 0 1 auto;
+    overflow-y: auto;
+    min-height: 0;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  .nav-logo-join {
+    flex: 0 0 auto;
+    background: #fff;
+    margin: 6px 12px;
+    text-align: center;
+    padding: 6px;
+    cursor: pointer;
+    border-radius: 4px;
+
+    img {
+      width: 32px;
+      height: 32px;
+    }
+
+    &:hover {
+      background: #F4F4F4;
+    }
   }
 
   .root-logo {
@@ -88,7 +113,7 @@
     margin: auto;
   }
 
-  .nav-link-title {
+.nav-link-title {
     font-size: 10px;
     line-height: 14px;
     color: #847577;
@@ -132,9 +157,21 @@
     font-weight: 700;
     font-size: 18px;
     line-height: 24px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    min-width: 0;
+
+    .league-name-text {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      min-width: 0;
+    }
+
+    .badge-demo {
+      flex-shrink: 0;
+    }
   }
 
   .league-season {

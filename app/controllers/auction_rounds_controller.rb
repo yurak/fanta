@@ -6,6 +6,7 @@ class AuctionRoundsController < ApplicationController
   def show
     if auction_round
       @transfers = auction.transfers.incoming.sort_by(&:price).reverse.take(5)
+      @drop_outs = auction.transfers.all_out.sort_by(&:price).reverse.take(5)
       @modules = TeamModule.all
     else
       redirect_to leagues_path

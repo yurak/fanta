@@ -1,0 +1,135 @@
+.right-nav.manage-nav {
+  background: #FFE8E8;
+
+  .league-name {
+    margin-bottom: 16px;
+  }
+
+  .league-link:hover {
+    border-color: #f5696a;
+  }
+
+  .link-active-true {
+    .league-link-text {
+      color: #f5696a;
+    }
+
+    img {
+      filter: invert(59%) sepia(83%) saturate(490%) hue-rotate(314deg) brightness(104%) contrast(97%); // #f5696a
+    }
+  }
+
+  .link-active-true:hover {
+    .league-link-text {
+      color: #f5696a;
+    }
+
+    img {
+      filter: invert(59%) sepia(83%) saturate(490%) hue-rotate(314deg) brightness(104%) contrast(97%); // #f5696a
+    }
+  }
+}
+
+.admin-joins-page {
+  .manage-joins-tabs {
+    margin-bottom: 0;
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+  }
+
+  .approve-form-fields {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .manage-joins-subtabs {
+    font-size: 13px;
+    background: #F7F7F7;
+    margin-bottom: 24px;
+
+    .default-tab-item {
+      padding: 10px 14px 8px;
+      min-width: unset;
+    }
+  }
+}
+
+.admin-leagues-page {
+  .manage-leagues-tabs {
+    margin-bottom: 24px;
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+  }
+
+  .manage-leagues-search {
+    gap: 8px;
+  }
+}
+
+.badge-demo {
+  display: inline-block;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 11px;
+  line-height: 1;
+  font-weight: 600;
+  vertical-align: 3px;
+  background: #EAC6FB;
+  color: #3d1a5c;
+  margin-left: 6px;
+  white-space: nowrap;
+}
+
+.round-toggle-input {
+  position: absolute;
+  clip: rect(0, 0, 0, 0);
+  pointer-events: none;
+}
+
+.round-toggle-label {
+  display: inline-block;
+  padding: 3px 10px;
+  border: 1px solid #6c757d;
+  border-radius: 4px;
+  cursor: pointer;
+  color: #6c757d;
+  font-size: 0.875rem;
+  user-select: none;
+
+  small {
+    opacity: 0.75;
+  }
+}
+
+.round-toggle-input:checked + .round-toggle-label {
+  background-color: #343a40;
+  border-color: #343a40;
+  color: #fff;
+
+  small {
+    opacity: 0.85;
+  }
+}
+
+.admin-manage-page {
+  padding: 32px 24px 32px 296px;
+
+  h2 {
+    font-family: 'Nunito Bold';
+    margin-bottom: 24px;
+  }
+
+  .league-actions {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+}

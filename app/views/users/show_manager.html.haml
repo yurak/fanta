@@ -46,8 +46,13 @@
                   .manager-results-item.manager-headers-grid.result-item-0{class: "result-item-#{result.team.id}"}
                     .manager-results-cell.manager-results-league
                       .manager-league-logo= image_tag(result.league.tournament.logo_path)
-                      .manager-league-name= result.league.name
-                    .manager-results-cell= result.league.division&.name || '-'
+                      .manager-league-name
+                        = result.league.name
+                    .manager-results-cell
+                      - if result.league.demo?
+                        %span.badge-demo= t('league.demo_badge_short')
+                      - else
+                        = result.league.division&.name || '-'
                     .manager-results-cell= "#{result.league.season.start_year}-#{result.league.season.end_year}"
                     .manager-results-cell
                       .manager-results-type{class: "type-badge-#{result.league.type}"}= result.league.type.capitalize
@@ -102,7 +107,7 @@
 :javascript
   $(document).ready(function() {
     $(".chip-item").click(function(){
-      var chipId = this.id;
+      const chipId = this.id;
 
       $(".chip-item").removeClass("chip-active");
       $(".result-item-0").hide();

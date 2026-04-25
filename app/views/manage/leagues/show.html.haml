@@ -1,0 +1,108 @@
+.page-block
+  .web-header= render 'layouts/left_nav', league: nil
+  .web-header= render 'layouts/manage_nav'
+  .mob-header= render 'layouts/mob_header', league: nil, title: @league.name
+  .page-info.admin-manage-page
+    = link_to t('manage.leagues.back'), manage_leagues_path, class: 'btn btn-sm btn-outline-secondary mb-3'
+
+    .d-flex.align-items-center.gap-2.mb-1
+      %h2.mb-0= @league.name
+      - if @league.demo?
+        %span.badge-demo= t('manage.leagues.demo_badge')
+    .league-actions
+      = link_to t('manage.leagues.view_league'), league_path(@league), class: 'btn btn-sm btn-outline-primary', target: '_blank'
+      = link_to t('manage.leagues.edit'), edit_manage_league_path(@league), class: 'btn btn-sm btn-warning'
+
+    .row
+      .col-md-6
+        %h5= t('manage.leagues.section_info')
+        %table.table.table-sm
+          %tbody
+            %tr
+              %th= t('manage.leagues.tournament')
+              %td= @league.tournament.name
+            %tr
+              %th= t('manage.leagues.season')
+              %td= "#{@league.season.start_year}-#{@league.season.end_year}"
+            %tr
+              %th= t('manage.leagues.division')
+              %td= @league.division&.name || '—'
+            %tr
+              %th= t('manage.leagues.type')
+              %td= @league.type.capitalize
+            %tr
+              %th= t('manage.leagues.status')
+              %td= t("manage.leagues.status_#{@league.status}")
+            %tr
+              %th= t('manage.leagues.demo')
+              %td= @league.demo? ? t('manage.users.yes') : t('manage.users.no')
+            %tr
+              %th= t('manage.leagues.tour_difference')
+              %td= @league.tour_difference
+            %tr
+              %th= t('manage.leagues.teams')
+              %td= @league.teams.count
+            %tr
+              %th= t('manage.leagues.auction_type')
+              %td= t("manage.leagues.auction_type_#{@league.auction_type}")
+            %tr
+              %th= t('manage.leagues.auction_number')
+              %td= @league.auction_number
+            %tr
+              %th= t('manage.leagues.auction_step')
+              %td= @league.auction_step
+
+    %h5.mt-4= t('manage.leagues.section_teams')
+    - if @teams.any?
+      %table.table.table-hover.table-sm
+        %thead.thead-light
+          %tr
+            %th= t('manage.leagues.team_name')
+            %th= t('manage.leagues.manager')
+            %th= t('manage.leagues.budget')
+            %th= t('manage.leagues.transfer_slots')
+        %tbody
+          - @teams.each do |team|
+            %tr
+              %td
+                = image_tag(team.logo_path, width: 20, height: 20)
+                = link_to team.human_name, team_path(team)
+              %td
+                - if team.user
+                  - if team.user.user_profile&.bot_enabled
+                    %span.badge-tg-connected{ title: t('manage.joins.tg_connected') } 🟢
+                  - else
+                    %span.badge-tg-disconnected{ title: t('manage.joins.tg_disconnected') } 🔴
+                  = link_to team.user.name.presence || team.user.email, manage_user_path(team.user), class: 'me-1'
+                  = link_to '(profile)', manager_path(team.user), target: '_blank'
+                - else
+                  %span.text-muted= '—'
+              %td= team.budget
+              %td= team.transfer_slots
+    - else
+      %p.text-muted= t('manage.leagues.no_teams')
+
+    %h5.mt-4= t('manage.leagues.section_auctions')
+    - if @auctions.any?
+      %table.table.table-hover.table-sm
+        %thead.thead-light
+          %tr
+            %th ID
+            %th= t('manage.leagues.auction_number')
+            %th= t('manage.leagues.status')
+            %th= t('manage.leagues.deadline')
+            %th= t('manage.leagues.base_date')
+            %th= t('manage.leagues.auction_rounds')
+        %tbody
+          - @auctions.each do |auction|
+            %tr
+              %td= auction.id
+              %td= link_to "##{auction.number}", league_auction_path(@league, auction)
+              %td= auction.status
+              %td= auction.deadline ? local_time(auction.deadline, '%d %b %Y, %H:%M') : '—'
+              %td= auction.base_date.presence || '—'
+              %td
+                - auction.auction_rounds.order(:number).each do |round|
+                  = link_to "##{round.number}", auction_round_path(round), class: 'me-2'
+    - else
+      %p.text-muted= t('manage.leagues.no_auctions')

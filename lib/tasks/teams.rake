@@ -1,4 +1,11 @@
 namespace :teams do
+  # rake 'teams:cleanup_orphans'
+  # rake 'teams:cleanup_orphans[false]'  # destructive mode
+  desc 'Delete teams with no meaningful dependencies (dry-run by default)'
+  task :cleanup_orphans, [:dry_run] => :environment do |_t, args|
+    Teams::Tasks.cleanup_orphans(dry_run: args[:dry_run] != 'false')
+  end
+
   # rake 'teams:reset'
   desc 'Reset teams players'
   task reset: :environment do
@@ -10,7 +17,7 @@ namespace :teams do
   desc 'Reset teams players by league'
   task :reset_league, [:league_id] => :environment do |_t, args|
     league = League.find_by(id: args[:league_id])
-    return unless league
+    next unless league
 
     league.teams.each(&:reset)
     puts 'Done!'
@@ -27,5 +34,34 @@ namespace :teams do
       league.teams.each(&:reset)
     end
     puts 'Done!'
+  end
+end
+
+module Teams
+  module Tasks
+    def self.cleanup_orphans(dry_run:)
+      orphans = orphan_teams
+      puts "Found #{orphans.count} orphan team(s):"
+      orphans.each { |t| puts "  id=#{t.id} name=#{t.human_name} user_id=#{t.user_id}" }
+
+      if dry_run
+        puts "\nDry-run mode. Run with [false] to delete."
+      else
+        orphans.destroy_all
+        puts "\nDeleted."
+      end
+    end
+
+    def self.orphan_teams
+      Team
+        .where(league_id: nil)
+        .where.missing(:join)
+        .where.missing(:auction_bids)
+        .where.missing(:lineups)
+        .where.missing(:results)
+        .where.missing(:transfers)
+        .where.missing(:player_teams)
+        .where('teams.id NOT IN (SELECT host_id FROM matches UNION SELECT guest_id FROM matches)')
+    end
   end
 end

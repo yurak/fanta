@@ -1,7 +1,8 @@
 module Leagues
   class Activator < ApplicationService
-    def initialize(league_id)
+    def initialize(league_id, deadline)
       @league_id = league_id
+      @deadline = deadline
     end
 
     def call
@@ -13,6 +14,7 @@ module Leagues
         create_auctions
         create_results
         create_tours
+        activate_first_auction
 
         league.active!
       end
@@ -33,6 +35,39 @@ module Leagues
 
     def create_auctions
       auctions_number.times { |i| league.auctions.create(number: i + 1, base_date: norm_date(auctions_dates[i]), sales_count: 0) }
+    end
+
+    def activate_first_auction
+      first_auction = league.auctions.find_by(number: 1)
+      return unless first_auction
+
+      auction_round = first_auction.auction_rounds.create!(number: 1, deadline: @deadline, basic: true)
+      first_auction.blind_bids!
+
+      attach_bids(auction_round)
+
+      Notifications::Creator.call(notifiable: auction_round, kind: :auction_start_bids)
+    end
+
+    def attach_bids(auction_round)
+      league.teams.each do |team|
+        existing_bid = team.auction_bids.find_by(auction_round: nil)
+
+        bid = if existing_bid
+                existing_bid.update!(auction_round: auction_round)
+                existing_bid
+              else
+                auction_round.auction_bids.create!(team: team)
+              end
+
+        fill_player_bids(bid, auction_round)
+      end
+    end
+
+    def fill_player_bids(bid, auction_round)
+      slots = auction_round.slots_number_by(bid.team) - bid.player_bids.count
+      slots.times { bid.player_bids.create } if slots.positive?
+      bid.lock_player_bids!
     end
 
     def create_results

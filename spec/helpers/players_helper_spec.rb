@@ -249,6 +249,47 @@ RSpec.describe PlayersHelper do
     end
   end
 
+  describe '#player_by_source_data(player_data)' do
+    context 'when sofascore_id is present' do
+      let!(:player) { create(:player, sofascore_id: 12_345) }
+
+      it 'returns player by sofascore_id' do
+        expect(helper.player_by_source_data('sofascore_id' => 12_345)).to eq(player)
+      end
+
+      it 'ignores fotmob_id when sofascore_id is present' do
+        create(:player, fotmob_id: 99_999)
+        expect(helper.player_by_source_data('sofascore_id' => 12_345, 'fotmob_id' => 99_999)).to eq(player)
+      end
+    end
+
+    context 'when only fotmob_id is present' do
+      let!(:player) { create(:player, fotmob_id: 67_890) }
+
+      it 'returns player by fotmob_id' do
+        expect(helper.player_by_source_data('fotmob_id' => 67_890)).to eq(player)
+      end
+    end
+
+    context 'when sofascore_id does not match any player' do
+      it 'returns nil' do
+        expect(helper.player_by_source_data('sofascore_id' => 99_999)).to be_nil
+      end
+    end
+
+    context 'when fotmob_id does not match any player' do
+      it 'returns nil' do
+        expect(helper.player_by_source_data('fotmob_id' => 99_999)).to be_nil
+      end
+    end
+
+    context 'when neither sofascore_id nor fotmob_id is present' do
+      it 'returns nil' do
+        expect(helper.player_by_source_data({})).to be_nil
+      end
+    end
+  end
+
   describe '#user_tournament_team(tournament_id)' do
     let(:tournament) { Tournament.last }
 

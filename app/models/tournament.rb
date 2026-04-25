@@ -6,6 +6,7 @@ class Tournament < ApplicationRecord
   has_many :national_teams, dependent: :destroy
   has_many :player_season_stats, dependent: :destroy
   has_many :tournament_rounds, dependent: :destroy
+  has_many :joins, dependent: :destroy
   has_many :ec_clubs, foreign_key: 'ec_tournament_id', class_name: 'Club',
                       dependent: :destroy, inverse_of: :ec_tournament
 
@@ -25,6 +26,20 @@ class Tournament < ApplicationRecord
   scope :with_national, -> { includes(:national_teams, :leagues).with_national_teams }
   scope :active, -> { with_clubs.order(:id) + with_ec_clubs + with_national }
   scope :open_join, -> { where(open_join: true) }
+  scope :with_join_stats, lambda {
+    submitted_statuses = [AuctionBid.statuses[:submitted], AuctionBid.statuses[:completed], AuctionBid.statuses[:processed]]
+    select(
+      'tournaments.*',
+      "COUNT(DISTINCT CASE WHEN leagues.status = #{League.statuses[:active]} THEN teams.id END) AS active_teams_count",
+      "COUNT(DISTINCT CASE WHEN joins.status = #{Join.statuses[:pending]} " \
+      "AND auction_bids.status IN (#{submitted_statuses.join(', ')}) THEN joins.id END) AS joins_count"
+    )
+      .joins('LEFT JOIN leagues ON leagues.tournament_id = tournaments.id')
+      .joins('LEFT JOIN teams ON teams.league_id = leagues.id')
+      .joins('LEFT JOIN joins ON joins.tournament_id = tournaments.id')
+      .joins('LEFT JOIN auction_bids ON auction_bids.id = joins.auction_bid_id')
+      .group('tournaments.id')
+  }
 
   def logo_path
     if File.exist?("app/assets/images/tournaments/#{code}.png")

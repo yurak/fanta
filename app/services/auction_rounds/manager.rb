@@ -13,7 +13,8 @@ module AuctionRounds
       AuctionRound.transaction do
         round.processing!
 
-        fail_invalid_bids
+        fail_over_budget_bids
+        fail_bids_missing_gk
 
         manage_bids
 
@@ -27,9 +28,25 @@ module AuctionRounds
 
     private
 
-    def fail_invalid_bids
+    def fail_over_budget_bids
       auction_bids.each do |auction_bid|
         next if auction_bid.player_bids.sum(&:price) <= auction_bid.team.budget
+
+        auction_bid.player_bids.initial.map(&:failed!)
+      end
+    end
+
+    def fail_bids_missing_gk
+      min_gk = round.gk_min_limit
+      return if min_gk.zero?
+
+      auction_bids.each do |auction_bid|
+        existing_gk = auction_bid.team.players.by_position(Position::GOALKEEPER).count
+        bid_gk = auction_bid.player_bids.initial
+                            .joins(player: :positions)
+                            .where(positions: { name: Position::GOALKEEPER })
+                            .count
+        next if existing_gk + bid_gk >= min_gk
 
         auction_bid.player_bids.initial.map(&:failed!)
       end

@@ -16,6 +16,7 @@ end
 class BrowserContextDouble
   def set_extra_http_headers(*); end
   def add_cookies(*); end
+  def add_init_script(*); end
   def new_page(*); end
 end
 
@@ -89,6 +90,7 @@ RSpec.describe Players::Transfermarkt::BrowserClient do
     allow(browser).to receive(:new_context).and_return(context)
     allow(browser).to receive(:close)
     allow(context).to receive(:set_extra_http_headers)
+    allow(context).to receive(:add_init_script)
     allow(context).to receive(:add_cookies)
     allow(context).to receive(:new_page).and_return(page)
 
