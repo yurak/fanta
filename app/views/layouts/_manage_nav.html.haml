@@ -31,7 +31,7 @@
         .league-link-icon= image_tag('icons/round/clubs.svg')
         .league-link-text= t('manage.nav.clubs')
   .league-links
-    = link_to manage_team_of_weeks_path do
-      .league-link{ class: "link-active-#{ params[:controller] == 'manage/team_of_weeks' }" }
+    = link_to manage_weekly_teams_path do
+      .league-link{ class: "link-active-#{ params[:controller] == 'manage/weekly_teams' }" }
         .league-link-icon= image_tag('icons/round/statistics.svg')
-        .league-link-text= t('manage.nav.team_of_week')
+        .league-link-text= t('manage.nav.weekly_team')

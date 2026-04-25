@@ -24,6 +24,7 @@ Rails.application.routes.draw do
   get 'rules',    to: 'welcome#rules'
 
   resources :joins, only: [:index, :show]
+  resources :weekly_teams, only: [:show]
 
   namespace :manage do
     resources :leagues, only: [:index, :new, :create, :edit, :update, :show] do
@@ -43,7 +44,7 @@ Rails.application.routes.draw do
     resources :clubs, only: [:index]
     resources :teams, only: [:index]
     resources :users, only: [:index, :show]
-    resources :team_of_weeks, only: [:index]
+    resources :weekly_teams, only: [:index, :new, :create]
   end
 
   get  'unsubscribe', to: 'subscriptions#unsubscribe', as: :unsubscribe

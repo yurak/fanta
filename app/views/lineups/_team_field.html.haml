@@ -1,0 +1,16 @@
+.match-lineups
+  .match-lineups-field
+    = image_tag('field_skeleton.svg', class: 'field_skeleton')
+    .match-modules
+      .match-module-lineup.match-module-home
+        - slot_name_pairs.each do |slot, player_name|
+          .match-module-item{class: "slot-#{slot.location}"}
+            .match-module-item-pos
+              .module-position-block.player-positions-block
+                - slot.positions.each do |position|
+                  .player-position{class: "player-position-#{position}"}
+                    = slot_position_name(position)
+            .match-module-item-player-wrapper
+              .match-module-item-player
+                - if player_name
+                  = player_name.length > 13 ? "#{player_name[0..10]}..." : player_name

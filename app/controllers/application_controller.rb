@@ -3,7 +3,13 @@ class ApplicationController < ActionController::Base
   before_action :setup_user
   around_action :switch_locale
 
+  rescue_from ActiveRecord::RecordNotFound, with: :not_found
+
   private
+
+  def not_found
+    render file: Rails.public_path.join('404.html'), status: :not_found, layout: false
+  end
 
   def switch_locale(&action)
     locale = current_user&.locale&.to_sym || params[:locale] || session[:locale] || I18n.default_locale

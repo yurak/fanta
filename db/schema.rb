@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2026_04_15_120000) do
+ActiveRecord::Schema.define(version: 2026_04_24_200758) do
 
   create_table "article_tags", force: :cascade do |t|
     t.string "name", default: "", null: false
@@ -609,6 +609,31 @@ ActiveRecord::Schema.define(version: 2026_04_15_120000) do
     t.index ["unsubscribe_token"], name: "index_users_on_unsubscribe_token", unique: true
   end
 
+  create_table "weekly_team_players", force: :cascade do |t|
+    t.integer "weekly_team_id", null: false
+    t.integer "slot_id", null: false
+    t.integer "round_player_id", null: false
+    t.decimal "total"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["round_player_id"], name: "index_weekly_team_players_on_round_player_id"
+    t.index ["slot_id"], name: "index_weekly_team_players_on_slot_id"
+    t.index ["weekly_team_id", "slot_id"], name: "index_weekly_team_players_on_weekly_team_id_and_slot_id", unique: true
+    t.index ["weekly_team_id"], name: "index_weekly_team_players_on_weekly_team_id"
+  end
+
+  create_table "weekly_teams", force: :cascade do |t|
+    t.integer "number"
+    t.string "mode"
+    t.text "round_ids"
+    t.integer "team_module_id", null: false
+    t.integer "season_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["season_id"], name: "index_weekly_teams_on_season_id"
+    t.index ["team_module_id"], name: "index_weekly_teams_on_team_module_id"
+  end
+
   add_foreign_key "auction_bids", "auction_rounds"
   add_foreign_key "auction_bids", "teams"
   add_foreign_key "auction_rounds", "auctions"
@@ -647,4 +672,9 @@ ActiveRecord::Schema.define(version: 2026_04_15_120000) do
   add_foreign_key "transfers", "leagues"
   add_foreign_key "transfers", "players"
   add_foreign_key "transfers", "teams"
+  add_foreign_key "weekly_team_players", "round_players"
+  add_foreign_key "weekly_team_players", "slots"
+  add_foreign_key "weekly_team_players", "weekly_teams"
+  add_foreign_key "weekly_teams", "seasons"
+  add_foreign_key "weekly_teams", "team_modules"
 end

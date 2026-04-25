@@ -66,6 +66,10 @@
     margin: auto;
     width: fit-content;
 
+    .match-player-add-data .match-player-bonuses {
+      margin: 4px 0;
+    }
+
     .lineup-module {
       min-width: 368px;
 
@@ -358,6 +362,47 @@
           font-size: 32px;
           line-height: 44px;
         }
+      }
+    }
+  }
+}
+
+/* SHOW WEEKLY TEAM page*/
+
+.match-page.lineup-page.weekly-team-page {
+  padding: 0 0 0 72px;
+}
+
+.weekly-team-content {
+  margin: auto;
+  width: fit-content;
+}
+
+.weekly-team-title {
+  font-family: 'Nunito ExtraBold';
+  font-size: 24px;
+  padding: 24px 16px 0;
+}
+
+.page-info.match-page.lineup-page,
+.page-info.match-page.weekly-team-page {
+  .lineup-squad.match-squads .lineup-module .lineup-result {
+    margin-bottom: 24px;
+  }
+
+  .match-squads .match-lineups .match-lineups-field {
+    border-radius: 8px;
+    overflow: hidden;
+
+    .match-modules {
+      .match-module-lineup {
+        height: 95%;
+        grid-template-columns: repeat(7, 45px);
+        padding: 14px;
+      }
+
+      .match-module-item .match-module-item-pos {
+        padding-top: 24px;
       }
     }
   }

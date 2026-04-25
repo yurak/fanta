@@ -1,4 +1,4 @@
-module TeamOfWeek
+module WeeklyTeams
   class Builder < ApplicationService
     MODES = %i[top flop].freeze
 
@@ -25,17 +25,23 @@ module TeamOfWeek
         .each_with_object({}) do |rp, hash|
           next if exclude?(rp)
 
-          s = rp.result_score
-          if flop?
-            entry = (hash[rp.player_id] ||= { player: rp.player, total: Float::INFINITY })
-            entry[:total] = [entry[:total], s].min
-          else
-            next unless s.positive?
-
-            entry = (hash[rp.player_id] ||= { player: rp.player, total: 0.0 })
-            entry[:total] = [entry[:total], s].max
-          end
+          update_entry(hash, rp, rp.result_score)
         end
+    end
+
+    def update_entry(hash, round_player, score)
+      if flop?
+        entry = (hash[round_player.player_id] ||= { player: round_player.player, round_player: round_player, total: Float::INFINITY })
+        return unless score < entry[:total]
+      else
+        return unless score.positive?
+
+        entry = (hash[round_player.player_id] ||= { player: round_player.player, round_player: round_player, total: 0.0 })
+        return unless score > entry[:total]
+      end
+
+      entry[:total] = score
+      entry[:round_player] = round_player
     end
 
     def assign(mod, scores)
@@ -57,10 +63,11 @@ module TeamOfWeek
       result  = {}
 
       until pending.empty?
-        slot = pending.min_by { |s| eligible(s, ranked, used).size }
+        candidates = pending.map { |s| [s, eligible(s, ranked, used)] }
+        slot, picks = candidates.min_by { |_, e| e.size }
         pending.delete(slot)
 
-        pick = eligible(slot, ranked, used).first
+        pick = picks.first
         next unless pick
 
         used << pick[:player].id

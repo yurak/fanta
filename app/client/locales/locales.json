@@ -898,10 +898,10 @@
         "joins": "Join Apps",
         "leagues": "Leagues",
         "players": "Players",
-        "team_of_week": "Team of Week",
         "teams": "Teams",
         "title": "Admin panel",
-        "users": "Users"
+        "users": "Users",
+        "weekly_team": "Team of Week"
       },
       "players": {
         "add_player": "Add player",
@@ -913,18 +913,6 @@
         "hash_placeholder": "{\"first_name\"=>\"Julian\", \"name\"=>\"Alvarez\", ...}",
         "invalid_hash": "Invalid hash format",
         "title": "Players"
-      },
-      "team_of_week": {
-        "build": "Build",
-        "col_player": "Player",
-        "col_position": "Pos",
-        "col_score": "Score",
-        "mode_flop": "Flop",
-        "mode_top": "Top",
-        "results": "Results",
-        "round": "Round",
-        "title": "Team of the Week",
-        "total": "Total"
       },
       "teams": {
         "empty": "No teams found",
@@ -968,6 +956,28 @@
         "tg_name": "TG name",
         "title": "Users",
         "true": "Yes"
+      },
+      "weekly_team": {
+        "build": "Build",
+        "col_created": "Date",
+        "col_mode": "Mode",
+        "col_module": "Module",
+        "col_player": "Player",
+        "col_position": "Pos",
+        "col_score": "Score",
+        "col_season": "Season",
+        "empty": "No teams saved yet",
+        "mode_flop": "Flop",
+        "mode_top": "Top",
+        "new": "New team",
+        "number": "Team number",
+        "results": "Results",
+        "round": "Round",
+        "save": "Save",
+        "save_failed": "Failed to save team of the week",
+        "saved": "Team of the week saved",
+        "title": "Team of the Week",
+        "total": "Total"
       }
     },
     "match": {
@@ -1508,6 +1518,16 @@
         "previous": "&lsaquo; Prev",
         "truncate": "&hellip;"
       }
+    },
+    "weekly_team": {
+      "mode_flop": "Flop",
+      "mode_top": "Top",
+      "title": "Team of the Week",
+      "title_flop": "🏆 MantraFootball Flop XI",
+      "title_flop_short": "🏆 Flop XI",
+      "title_top": "🏆 MantraFootball Top XI",
+      "title_top_short": "🏆 Top XI",
+      "total_score": "🎯 Total score"
     },
     "welcome": {
       "about": {
@@ -2587,10 +2607,10 @@
         "joins": "Заявки",
         "leagues": "Ліги",
         "players": "Гравці",
-        "team_of_week": "Збірна тижня",
         "teams": "Команди",
         "title": "Адмін панель",
-        "users": "Менеджери"
+        "users": "Менеджери",
+        "weekly_team": "Збірна тижня"
       },
       "players": {
         "add_player": "Додати гравця",
@@ -2602,18 +2622,6 @@
         "hash_placeholder": "{\"first_name\"=>\"Julian\", \"name\"=>\"Bazan\", ...}",
         "invalid_hash": "Невірний формат хешу",
         "title": "Гравці"
-      },
-      "team_of_week": {
-        "build": "Сформувати",
-        "col_player": "Гравець",
-        "col_position": "Поз",
-        "col_score": "Очки",
-        "mode_flop": "Флоп",
-        "mode_top": "Топ",
-        "results": "Результати",
-        "round": "Тур",
-        "title": "Збірна тижня",
-        "total": "Разом"
       },
       "teams": {
         "empty": "Команд не знайдено",
@@ -2657,6 +2665,28 @@
         "tg_name": "TG нейм",
         "title": "Менеджери",
         "true": "Так"
+      },
+      "weekly_team": {
+        "build": "Сформувати",
+        "col_created": "Дата",
+        "col_mode": "Режим",
+        "col_module": "Модуль",
+        "col_player": "Гравець",
+        "col_position": "Поз",
+        "col_score": "Очки",
+        "col_season": "Сезон",
+        "empty": "Збірних ще немає",
+        "mode_flop": "Флоп",
+        "mode_top": "Топ",
+        "new": "Нова збірна",
+        "number": "Номер збірної",
+        "results": "Результати",
+        "round": "Тур",
+        "save": "Зберегти",
+        "save_failed": "Не вдалося зберегти збірну",
+        "saved": "Збірну збережено",
+        "title": "Збірна тижня",
+        "total": "Разом"
       }
     },
     "match": {
@@ -3119,6 +3149,16 @@
         "title": "Майже готово! Налаштуємо ваші вподобання"
       },
       "update": "Оновити"
+    },
+    "weekly_team": {
+      "mode_flop": "Флоп",
+      "mode_top": "Топ",
+      "title": "Збірна тижня",
+      "title_flop": "🏆 Збірна флопів MantraFootball",
+      "title_flop_short": "🏆 Збірна флопів",
+      "title_top": "🏆 Збірна топів MantraFootball",
+      "title_top_short": "🏆 Збірна топів",
+      "total_score": "🎯 Загальна оцінка"
     },
     "welcome": {
       "about": {

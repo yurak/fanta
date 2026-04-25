@@ -1,4 +1,4 @@
-RSpec.describe TeamOfWeek::Builder do
+RSpec.describe WeeklyTeams::Builder do
   subject(:result) { described_class.call(round_ids) }
 
   let(:round) { create(:tournament_round) }
@@ -60,6 +60,12 @@ RSpec.describe TeamOfWeek::Builder do
       por_row = team.find { |row| row[:slot].position == 'Por' }
       expect(por_row[:entry][:total]).to eq(por_high.result_score)
     end
+
+    it 'includes the correct round_player' do
+      _mod, team = result.first
+      por_row = team.find { |row| row[:slot].position == 'Por' }
+      expect(por_row[:entry][:round_player]).to eq(por_high)
+    end
   end
 
   context 'when a player appears in multiple selected rounds' do
@@ -88,6 +94,12 @@ RSpec.describe TeamOfWeek::Builder do
       _mod, team = result.first
       por_row = team.find { |row| row[:slot].position == 'Por' }
       expect(por_row[:entry][:player]).to eq(por_single)
+    end
+
+    it 'tracks the round_player with the max score' do
+      _mod, team = result.first
+      por_row = team.find { |row| row[:slot].position == 'Por' }
+      expect(por_row[:entry][:round_player].player).to eq(por_single)
     end
   end
 
@@ -154,6 +166,12 @@ RSpec.describe TeamOfWeek::Builder do
         por_row = team.find { |row| row[:slot].position == 'Por' }
         expect(por_row[:entry][:player]).to eq(por_bad.player)
       end
+
+      it 'includes the correct round_player' do
+        _mod, team = result.first
+        por_row = team.find { |row| row[:slot].position == 'Por' }
+        expect(por_row[:entry][:round_player]).to eq(por_bad)
+      end
     end
 
     context 'when a player has zero score' do
@@ -201,6 +219,12 @@ RSpec.describe TeamOfWeek::Builder do
         _mod, team = result.first
         por_row = team.find { |row| row[:slot].position == 'Por' }
         expect(por_row[:entry][:player]).to eq(por_multi)
+      end
+
+      it 'tracks the round_player with the min score' do
+        _mod, team = result.first
+        por_row = team.find { |row| row[:slot].position == 'Por' }
+        expect(por_row[:entry][:round_player].score).to eq(3)
       end
     end
   end
