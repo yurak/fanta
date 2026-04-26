@@ -4,7 +4,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '3.2.2'
 
 gem 'rails', '6.1.5'
-gem 'sqlite3'
+gem 'pg'
 
 gem 'audited'
 gem 'active_model_serializers', '~> 0.10.0'

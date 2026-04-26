@@ -12,6 +12,9 @@
 
 ActiveRecord::Schema.define(version: 2026_05_22_185712) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "article_tags", force: :cascade do |t|
     t.string "name", default: "", null: false
     t.string "color", default: "", null: false
@@ -181,7 +184,7 @@ ActiveRecord::Schema.define(version: 2026_05_22_185712) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "tour_id"
-    t.decimal "final_score", precision: 4, scale: 2, default: "0.0"
+    t.decimal "final_score", precision: 6, scale: 2, default: "0.0"
     t.integer "final_goals"
     t.text "substitutes"
     t.integer "points", default: 0, null: false
@@ -418,7 +421,7 @@ ActiveRecord::Schema.define(version: 2026_05_22_185712) do
     t.boolean "cleansheet", default: false
     t.boolean "manual_lock", default: false
     t.integer "played_minutes", default: 0, null: false
-    t.decimal "final_score", precision: 4, scale: 2, default: "0.0"
+    t.decimal "final_score", precision: 6, scale: 2, default: "0.0"
     t.integer "saves", default: 0, null: false
     t.integer "conceded_penalty", default: 0, null: false
     t.integer "penalties_won", default: 0, null: false

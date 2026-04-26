@@ -259,6 +259,7 @@ GEM
     parser (3.3.11.1)
       ast (~> 2.4.1)
       racc
+    pg (1.6.3)
     playwright-ruby-client (1.57.0)
       concurrent-ruby (>= 1.1.6)
       mime-types (>= 3.0)
@@ -450,8 +451,6 @@ GEM
       actionpack (>= 5.2)
       activesupport (>= 5.2)
       sprockets (>= 3.0.0)
-    sqlite3 (1.6.3)
-      mini_portile2 (~> 2.8.0)
     sshkit (1.21.5)
       net-scp (>= 1.1.2)
       net-ssh (>= 2.8.0)
@@ -541,6 +540,7 @@ DEPENDENCIES
   jquery-rails (~> 4.4.0)
   kaminari
   listen
+  pg
   playwright-ruby-client
   pry-rails
   puma (= 4.3.12)
@@ -567,7 +567,6 @@ DEPENDENCIES
   shakapacker (= 7.1)
   shoulda-matchers
   simplecov
-  sqlite3
   telegram-bot
   time_difference
   timecop

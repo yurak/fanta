@@ -77,7 +77,7 @@ class Player < ApplicationRecord
 
   scope :by_club, ->(club_id) { where(club_id: club_id) if club_id.present? }
   scope :search_by_name, lambda { |search_str|
-    where('lower(players.name) LIKE :search OR lower(players.first_name) LIKE :search', search: "%#{search_str}%")
+    where('lower(players.name) LIKE :search OR lower(players.first_name) LIKE :search', search: "%#{search_str.downcase}%")
   }
   scope :by_position, ->(position) { joins(:positions).where(positions: { name: position }) if position.present? }
   scope :by_classic_position, ->(position) { joins(:positions).where(positions: { human_name: position }) if position.present? }
