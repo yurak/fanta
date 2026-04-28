@@ -45,6 +45,7 @@ Rails.application.routes.draw do
     resources :teams, only: [:index]
     resources :users, only: [:index, :show]
     resources :weekly_teams, only: [:index, :new, :create]
+    resources :auctions, only: [:index]
   end
 
   get  'unsubscribe', to: 'subscriptions#unsubscribe', as: :unsubscribe

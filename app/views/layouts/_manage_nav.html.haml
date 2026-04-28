@@ -11,6 +11,11 @@
         .league-link-icon= image_tag('icons/round/teams.svg')
         .league-link-text= t('manage.nav.leagues')
   .league-links
+    = link_to manage_auctions_path do
+      .league-link{ class: "link-active-#{ params[:controller] == 'manage/auctions' }" }
+        .league-link-icon= image_tag('icons/round/auctions.svg')
+        .league-link-text= t('manage.nav.auctions')
+  .league-links
     = link_to manage_users_path do
       .league-link{ class: "link-active-#{ params[:controller] == 'manage/users' }" }
         .league-link-icon= image_tag('icons/round/statistics.svg')

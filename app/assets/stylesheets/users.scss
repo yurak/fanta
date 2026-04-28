@@ -464,6 +464,19 @@
           background: #FFEBC2;
         }
 
+        .badge-demo {
+          font-family: 'Nunito Bold';
+          font-size: 12px;
+          line-height: 16px;
+          padding: 4px 8px;
+          margin: 15px 0;
+          width: fit-content;
+          background: #EAC6FB;
+          color: #3d1a5c;
+          border-radius: 16px;
+          letter-spacing: 0.02em;
+        }
+
         img {
           height: 32px;
           width: 32px;
@@ -746,7 +759,8 @@
             column-gap: 16px;
           }
 
-          .manager-results-type {
+          .manager-results-type,
+          .badge-demo {
             font-size: 22px;
             line-height: 32px;
             padding: 4px 12px;

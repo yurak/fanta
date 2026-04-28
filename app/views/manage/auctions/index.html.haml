@@ -1,0 +1,66 @@
+.page-block
+  .web-header= render 'layouts/left_nav', league: nil
+  .web-header= render 'layouts/manage_nav'
+  .mob-header= render 'layouts/mob_header', league: nil, title: t('manage.auctions.title')
+  .page-info.admin-auctions-page.admin-manage-page
+    %h2.mb-3= t('manage.auctions.title')
+
+    - if flash[:notice]
+      .alert.alert-success= flash[:notice]
+
+    .default-tabs.manage-auctions-tabs
+      - Manage::AuctionsController::STATUSES.each do |status|
+        = link_to manage_auctions_path(status: status), class: "default-tab-item #{'default-tab-active' if @status == status}" do
+          .default-tab-name= t("manage.auctions.status_#{status}")
+
+    = form_tag manage_auctions_path, method: :get, class: 'manage-auctions-search d-flex mb-3 flex-wrap' do
+      = hidden_field_tag :status, @status
+      = text_field_tag :query, params[:query], class: 'form-control form-control-sm w-auto', placeholder: t('manage.auctions.filter_league')
+      = select_tag :tournament_id,
+                   options_from_collection_for_select(@tournaments, :id, :name, params[:tournament_id]),
+                   class: 'form-control form-control-sm w-auto',
+                   include_blank: t('manage.auctions.filter_tournament')
+      = select_tag :season_id,
+                   options_from_collection_for_select(@seasons, :id, ->(s) { "#{s.start_year}-#{s.end_year}" }, params[:season_id]),
+                   class: 'form-control form-control-sm w-auto',
+                   include_blank: t('manage.auctions.filter_season')
+      = submit_tag t('manage.auctions.search'), class: 'btn btn-sm btn-primary'
+      - if params[:query].present? || params[:tournament_id].present? || params[:season_id].present?
+        = link_to t('manage.auctions.reset'), manage_auctions_path(status: @status), class: 'btn btn-sm btn-outline-secondary'
+
+    - if @auctions.any?
+      %table.table.table-hover.table-sm
+        %thead.thead-light
+          %tr
+            %th= t('manage.auctions.id')
+            %th= t('manage.auctions.league')
+            %th= t('manage.auctions.tournament')
+            %th= t('manage.auctions.season')
+            %th= t('manage.auctions.number')
+            %th= t('manage.auctions.status')
+            %th= t('manage.auctions.base_date')
+            %th= t('manage.auctions.deadline')
+            %th= t('manage.auctions.transfers')
+            %th= t('manage.auctions.rounds')
+            %th
+        %tbody
+          - @auctions.each do |auction|
+            %tr
+              %td= auction.id
+              %td= link_to auction.league.name, manage_league_path(auction.league)
+              %td= auction.league.tournament.name
+              %td= "#{auction.league.season.start_year}-#{auction.league.season.end_year}"
+              %td= auction.number
+              %td
+                %span{class: "badge badge-#{auction_status_badge(auction.status)}"}= t("manage.auctions.status_#{auction.status}")
+              %td= auction.base_date || '—'
+              %td= auction.deadline&.strftime('%d.%m.%Y %H:%M') || '—'
+              %td= auction.transfers.count
+              %td.auction-rounds-cell
+                - auction.auction_rounds.order(:number).each do |round|
+                  = link_to "##{round.number}", auction_round_path(round), target: '_blank'
+              %td= link_to t('manage.auctions.view'), league_auction_path(auction.league, auction), class: 'btn btn-sm btn-outline-secondary', target: '_blank'
+
+      = paginate @auctions
+    - else
+      %p.text-muted= t('manage.auctions.empty')
