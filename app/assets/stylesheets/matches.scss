@@ -280,6 +280,12 @@
               font-family: 'Nunito SemiBold';
               background-color: #000000;
               color: #FFFFFF;
+
+              &.player-label-light {
+                background-color: #FFFFFF;
+                color: #000000;
+              }
+
               text-align: center;
               font-size: 10px;
               line-height: 14px;
@@ -413,7 +419,7 @@
 
       .match-player-data-base {
         display: grid;
-        grid-template-columns: auto 108px;
+        grid-template-columns: minmax(0, 1fr) 108px;
         line-height: 24px;
         margin-top: 14px;
         font-family: 'Nunito SemiBold';
@@ -539,7 +545,7 @@
       color: #181715;
 
       .match-player-item .match-player-data-base {
-        grid-template-columns: auto 80px;
+        grid-template-columns: minmax(0, 1fr) 80px;
 
         .team-player-scores {
           display: grid;

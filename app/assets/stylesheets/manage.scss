@@ -74,6 +74,21 @@
   }
 }
 
+.admin-auctions-page {
+  .manage-auctions-tabs {
+    margin-bottom: 24px;
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+  }
+
+  .manage-auctions-search {
+    gap: 8px;
+  }
+}
+
 .badge-demo {
   display: inline-block;
   padding: 2px 6px;

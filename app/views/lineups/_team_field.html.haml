@@ -11,6 +11,6 @@
                   .player-position{class: "player-position-#{position}"}
                     = slot_position_name(position)
             .match-module-item-player-wrapper
-              .match-module-item-player
+              .match-module-item-player.player-label-light
                 - if player_name
                   = player_name.length > 13 ? "#{player_name[0..10]}..." : player_name

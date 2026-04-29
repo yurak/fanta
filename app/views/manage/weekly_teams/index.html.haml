@@ -12,17 +12,17 @@
         %thead
           %tr
             %th= '#'
-            %th= t('manage.weekly_team.col_season')
-            %th= t('manage.weekly_team.col_module')
             %th= t('manage.weekly_team.col_mode')
+            %th= t('manage.weekly_team.col_module')
+            %th= t('manage.weekly_team.col_season')
             %th= t('manage.weekly_team.col_created')
         %tbody
           - @weekly_teams.each do |wt|
             %tr
               %td= link_to "##{wt.number}", weekly_team_path(wt)
-              %td= "#{wt.season.start_year}/#{wt.season.end_year}"
-              %td= wt.team_module.name
               %td= t("weekly_team.mode_#{wt.mode}")
+              %td= wt.team_module.name
+              %td= "#{wt.season.start_year}/#{wt.season.end_year}"
               %td= wt.created_at.strftime('%d.%m.%Y')
     - else
       %p.text-muted= t('manage.weekly_team.empty')

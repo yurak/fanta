@@ -1,4 +1,4 @@
-module AuctionsHelper
+module AuctionsHelper # rubocop:disable Metrics/ModuleLength
   def auction_link(auction)
     case auction.status
     when 'blind_bids', 'live'
@@ -92,6 +92,16 @@ module AuctionsHelper
       player.stats_price
     else
       1
+    end
+  end
+
+  def auction_status_badge(status)
+    case status.to_s
+    when 'live'       then 'success'
+    when 'sales'      then 'info'
+    when 'blind_bids' then 'warning'
+    when 'closed'     then 'secondary'
+    else                   'light'
     end
   end
 

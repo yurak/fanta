@@ -1,5 +1,5 @@
 module Substitutes
-  class TieredMatcher < ApplicationService
+  class TieredMatcher < ApplicationService # rubocop:disable Metrics/ClassLength
     def initialize(grid)
       @grid = grid
       @m = grid.size
@@ -16,13 +16,14 @@ module Substitutes
       phase2
       improve
       squeeze
+      cross_tier_squeeze
       report
     end
 
     private
 
     def prepare
-      @eligible_rows = (0...@m).select { |r| @grid[r].any? { |v| v != 'X' } }
+      @eligible_rows = (0...@m).select { |r| @grid[r].any? { |cell| cell != 'X' } }
       @all_edges = @eligible_rows.map do |r|
         (0...@n).reject { |c| @grid[r][c] == 'X' }
                 .sort_by { |c| @grid[r][c] }
@@ -110,11 +111,14 @@ module Substitutes
 
         visited[c] = true
 
-        val = @grid[@eligible_rows[idx]][c]
-        # Non-zero edge taking a slot: displaced row must use zero-only escape
-        next_zero_only = val != 0
+        malus_val = @grid[@eligible_rows[idx]][c]
+        # Displaced row must escape via zero-only edges only when a non-zero edge
+        # displaces a row that currently holds a zero-malus slot (to prevent Z-loss).
+        occupant     = @match_col[c]
+        occupant_val = occupant == -1 ? nil : @grid[@eligible_rows[occupant]][c]
+        next_zero_only = malus_val != 0 && occupant_val&.zero?
 
-        next unless @match_col[c] == -1 || augment_full(@match_col[c], visited, zero_only: next_zero_only)
+        next unless occupant == -1 || augment_full(occupant, visited, zero_only: next_zero_only)
 
         @match_col[c] = idx
         @match_row[idx] = c
@@ -138,31 +142,121 @@ module Substitutes
         @grid[@eligible_rows[i]][c]
       end.uniq.sort
 
-      tiers.each { |v| squeeze_tier(v) }
+      tiers.each { |malus_val| squeeze_tier(malus_val) }
     end
 
-    # Greedy-reassign rows matched at +malus_val+ to their lowest available column.
-    # Rolls back if any row in the tier loses its match (cross-tier column conflicts).
-    def squeeze_tier(malus_val)
-      tier_idxs = (0...@eligible_rows.size).select do |i|
+    # Move non-zero rows to earlier columns by displacing zero-malus occupants
+    # that have another free zero-malus escape. Does not change totals or Z-count.
+    def cross_tier_squeeze
+      loop { break unless cross_tier_pass }
+    end
+
+    def cross_tier_pass
+      @eligible_rows.each_with_index do |r, i|
+        c = @match_row[i]
+        next if c == -1 || (@grid[r][c]).zero?
+        return true if shift_nonzero_left(i, r, c)
+      end
+      false
+    end
+
+    def shift_nonzero_left(idx, row, current_col)
+      malus_val = @grid[row][current_col]
+      (0...current_col).each do |target_col|
+        next unless @grid[row][target_col] == malus_val
+        return true if try_displace_zero(idx, current_col, target_col)
+      end
+      false
+    end
+
+    def try_displace_zero(idx, current_col, target_col)
+      occupant = @match_col[target_col]
+      return false if occupant == -1
+      return false unless (@grid[@eligible_rows[occupant]][target_col]).zero?
+
+      escape = @zero_edges[occupant].find { |e| e != target_col && @match_col[e] == -1 }
+      return false unless escape
+
+      reassign(occupant, target_col, escape)
+      reassign(idx, current_col, target_col)
+      true
+    end
+
+    def tier_idxs(malus_val)
+      (0...@eligible_rows.size).select do |i|
         c = @match_row[i]
         c != -1 && @grid[@eligible_rows[i]][c] == malus_val
       end
-      return if tier_idxs.empty?
+    end
 
-      tier_edges = build_tier_edges(tier_idxs, malus_val)
+    # Greedy-reassign rows matched at +malus_val+ to their lowest available column,
+    # then minimize the sum of assigned column indices within the tier.
+    # Rolls back if any row in the tier loses its match (cross-tier column conflicts).
+    def squeeze_tier(malus_val)
+      idxs = tier_idxs(malus_val)
+      return if idxs.empty?
+
+      tier_edges = build_tier_edges(idxs, malus_val)
       saved_col  = @match_col.dup
       saved_row  = @match_row.dup
 
-      unmatch_tier(tier_idxs)
-      greedy_assign_tier(tier_idxs, tier_edges).each do |i|
+      unmatch_tier(idxs)
+      greedy_assign_tier(idxs, tier_edges).each do |i|
         augment_tier(i, tier_edges, Array.new(@n, false))
       end
+      minimize_tier_columns(idxs, tier_edges)
 
-      return unless tier_idxs.any? { |i| @match_row[i] == -1 }
+      return unless idxs.any? { |i| @match_row[i] == -1 }
 
       @match_col = saved_col
       @match_row = saved_row
+    end
+
+    # Iteratively reduce the sum of assigned column indices within a tier.
+    def minimize_tier_columns(tier_rows, tier_edges)
+      improved = true
+      while improved
+        improved = false
+        tier_rows.each { |i| improved = true if shift_row_left(i, tier_edges) }
+      end
+    end
+
+    # Try to move row i to a lower column. Returns true if a move was made.
+    # 1. target_col is free — move directly.
+    # 2. target_col is occupied by a tier row — find a free escape col for it strictly
+    #    between target_col and current_col so the net column-index sum decreases.
+    def shift_row_left(row_idx, tier_edges)
+      current_col = @match_row[row_idx]
+      return false if current_col == -1
+
+      tier_edges[row_idx].each do |target_col|
+        break if target_col >= current_col
+
+        return true if try_move_to_col(row_idx, current_col, target_col, tier_edges)
+      end
+      false
+    end
+
+    def try_move_to_col(row_idx, current_col, target_col, tier_edges)
+      occupant = @match_col[target_col]
+      if occupant == -1
+        reassign(row_idx, current_col, target_col)
+      elsif tier_edges.key?(occupant)
+        escape = tier_edges[occupant].find { |c| c > target_col && c < current_col && @match_col[c] == -1 }
+        return false unless escape
+
+        reassign(occupant, target_col, escape)
+        reassign(row_idx, current_col, target_col)
+      else
+        return false
+      end
+      true
+    end
+
+    def reassign(row_idx, old_col, new_col)
+      @match_col[old_col]    = -1
+      @match_col[new_col]    = row_idx
+      @match_row[row_idx]    = new_col
     end
 
     def build_tier_edges(tier_idxs, malus_val)
@@ -242,8 +336,9 @@ module Substitutes
     end
 
     # If row idx holds a zero-malus column that row jdx would benefit from,
-    # try to escape row idx to another free zero-malus column.
-    # Preserves zero-malus count: idx stays at zero, jdx improves.
+    # try to escape row idx to a free column, freeing col_i for jdx.
+    # Prefers a zero-malus escape (Z-neutral). Falls back to a non-zero escape
+    # only if the net zero-malus count is preserved (jdx gains zero at col_i).
     def try_escape_swap(idx, jdx, row, row2)
       col_i = @match_row[idx]
       col_j = @match_row[jdx]
@@ -255,6 +350,10 @@ module Substitutes
       max_escape_val = @grid[row2][col_j].to_f - @grid[row2][col_i].to_f
       escape_col = find_escape_col(idx, row, col_i, col_j, max_escape_val)
       return false unless escape_col
+
+      # Reject if Z-loss: escape is non-zero (idx leaves zero) AND row2 does not
+      # gain zero at col_i (the freed slot). If row2 gains zero there, net Z is neutral.
+      return false if !(@grid[row][escape_col]).zero? && !(@grid[row2][col_i]).zero?
 
       @match_col[col_i] = jdx
       @match_row[jdx] = col_i
@@ -295,9 +394,9 @@ module Substitutes
         c = @match_row[i]
         next if c == -1
 
-        v = @grid[r][c]
-        assignments << [r, c, v.to_f]
-        total += v.to_f
+        malus_val = @grid[r][c]
+        assignments << [r, c, malus_val.to_f]
+        total += malus_val.to_f
       end
 
       [assignments, total]

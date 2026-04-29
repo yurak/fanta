@@ -50,7 +50,8 @@ module Players
       def club
         return nil if tm_club_name.blank?
 
-        @club ||= Club.find_by(tm_name: tm_club_name) || Club.where('reserve_clubs LIKE ?', "%#{tm_club_name}%").first
+        @club ||= Club.find_by(tm_name: tm_club_name) ||
+          Club.all.find { |c| c.reserve_clubs.include?(tm_club_name) }
       end
 
       def tm_club_name
