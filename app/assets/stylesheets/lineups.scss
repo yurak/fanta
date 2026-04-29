@@ -18,9 +18,14 @@
     }
   }
 
+  .lineup-content {
+    width: fit-content;
+    margin: 0 auto;
+  }
+
   .lineup-team-section {
     height: 104px;
-    margin: 0 16px;
+    margin: 0 0 0 0;
     border: 1px solid #E5E6E4;
     border-radius: 16px;
     padding: 15px;
@@ -212,7 +217,7 @@
 
       .lineup-team-section {
         height: 150px;
-        margin: 0 24px;
+        margin: 0;
         border: 3px solid #E5E6E4;
         border-radius: 32px;
         padding: 21px;
@@ -286,7 +291,7 @@
             }
 
             .match-player-data-base {
-              grid-template-columns: auto 132px;
+              grid-template-columns: minmax(0, 1fr) 132px;
               line-height: 36px;
               margin-top: 18px;
 
@@ -309,7 +314,7 @@
 
           .match-reserve {
              .match-player-item .match-player-data-base {
-               grid-template-columns: auto 98px;
+               grid-template-columns: minmax(0, 1fr) 98px;
 
                .team-player-scores {
                  grid-template-columns: 42px 56px;
@@ -403,6 +408,25 @@
 
       .match-module-item .match-module-item-pos {
         padding-top: 24px;
+      }
+    }
+  }
+}
+
+@media (orientation: portrait) {
+  .page-info.match-page.lineup-page,
+  .page-info.match-page.weekly-team-page {
+    .lineup-squad.match-squads .lineup-module .lineup-result {
+      margin-bottom: 16px;
+    }
+
+    .match-squads .match-lineups .match-lineups-field {
+      border-radius: 12px;
+
+      .match-modules {
+        .match-module-lineup {
+          grid-template-columns: repeat(7, 28px);
+        }
       }
     }
   }
