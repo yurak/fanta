@@ -1,3 +1,7 @@
+require 'yaml'
+app_yml = File.join(__dir__, 'config', 'application.yml')
+YAML.load(File.read(app_yml)).each { |k, v| ENV[k.to_s] ||= v.to_s } if File.exist?(app_yml)
+
 require 'capistrano/setup'
 # Include default deployment tasks
 require 'capistrano/deploy'

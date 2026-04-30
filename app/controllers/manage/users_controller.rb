@@ -8,7 +8,7 @@ module Manage
     end
 
     def show
-      @user = User.includes(:user_profile, teams: %i[league tournament]).find(params[:id])
+      @user = User.includes(:user_profile, :user_titles, teams: %i[league tournament]).find(params[:id])
     end
   end
 end

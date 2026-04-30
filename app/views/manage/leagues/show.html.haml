@@ -61,8 +61,10 @@
             %th= t('manage.leagues.manager')
             %th= t('manage.leagues.budget')
             %th= t('manage.leagues.transfer_slots')
+            %th
         %tbody
           - @teams.each do |team|
+            - result = @results_by_team[team.id]
             %tr
               %td
                 = image_tag(team.logo_path, width: 20, height: 20)
@@ -79,6 +81,12 @@
                   %span.text-muted= '—'
               %td= team.budget
               %td= team.transfer_slots
+              %td
+                - if result
+                  - if result.crowned?
+                    %span.btn.btn-sm.btn-warning.disabled{ title: t('manage.leagues.already_crowned') } 🏆
+                  - elsif result.crownable?
+                    = button_to '🏆', crown_manage_league_path(@league), params: { result_id: result.id }, class: 'btn btn-sm btn-outline-warning', title: t('manage.leagues.crown')
     - else
       %p.text-muted= t('manage.leagues.no_teams')
 

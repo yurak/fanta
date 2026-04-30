@@ -114,5 +114,36 @@ RSpec.describe 'Manage::Users' do
         expect(response.body).to include('Charlies FC')
       end
     end
+
+    context 'when user has titles' do
+      login_admin
+
+      before do
+        create(:user_title, user: user, championship_number: 1, season: '2023/24')
+        get manage_user_path(user)
+      end
+
+      it 'shows the championships section' do
+        expect(response.body).to include(I18n.t('manage.users.section_titles'))
+      end
+
+      it 'shows the championship number' do
+        expect(response.body).to include('#1')
+      end
+
+      it 'shows the season' do
+        expect(response.body).to include('2023/24')
+      end
+    end
+
+    context 'when user has no titles' do
+      login_admin
+
+      before { get manage_user_path(user) }
+
+      it 'shows no titles message' do
+        expect(response.body).to include(I18n.t('manage.users.no_titles'))
+      end
+    end
   end
 end

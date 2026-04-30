@@ -828,6 +828,13 @@
         "transfers": "Transfers",
         "view": "View"
       },
+      "champions": {
+        "empty": "No champions added yet",
+        "number": "#",
+        "title": "Champions",
+        "titles": "Titles",
+        "user": "Manager"
+      },
       "clubs": {
         "empty": "No clubs found",
         "filter_name": "Name",
@@ -865,6 +872,7 @@
       "leagues": {
         "activate": "Activate",
         "activated": "League activated",
+        "already_crowned": "Champion already set",
         "auction_number": "Auctions number",
         "auction_rounds": "Rounds",
         "auction_step": "Auction step",
@@ -878,6 +886,8 @@
         "cancel": "Cancel",
         "confirm": "Set the deadline and activate the league?",
         "created": "League created",
+        "crown": "Set as champion",
+        "crowned": "Champion assigned",
         "deadline": "Sales Deadline",
         "demo": "Demo league",
         "demo_badge": "Demo",
@@ -889,6 +899,8 @@
         "filter_season": "All seasons",
         "filter_tournament": "All tournaments",
         "manager": "Manager",
+        "max_avg_def_score": "Max avg def score",
+        "min_avg_def_score": "Min avg def score",
         "name": "League",
         "new_title": "New League",
         "no_auctions": "No auctions",
@@ -922,6 +934,7 @@
       },
       "nav": {
         "auctions": "Auctions",
+        "champions": "Champions",
         "clubs": "Clubs",
         "joins": "Join Apps",
         "leagues": "Leagues",
@@ -966,6 +979,7 @@
         "locale": "Language",
         "no_profile": "Profile not filled",
         "no_teams": "No teams",
+        "no_titles": "No championships",
         "not_confirmed": "Not confirmed",
         "notifications": "Notifications",
         "reset": "Reset",
@@ -974,6 +988,7 @@
         "section_account": "Account",
         "section_teams": "Teams",
         "section_telegram": "Telegram",
+        "section_titles": "Trophies",
         "sign_in_count": "Sign in count",
         "status": "Status",
         "team_league": "League",
@@ -983,6 +998,10 @@
         "tg_chat_id": "TG chat ID",
         "tg_name": "TG name",
         "title": "Users",
+        "title_league": "League",
+        "title_number": "#",
+        "title_season": "Season",
+        "title_tournament": "Tournament",
         "true": "Yes"
       },
       "weekly_team": {
@@ -2565,6 +2584,13 @@
         "transfers": "Трансфери",
         "view": "Переглянути"
       },
+      "champions": {
+        "empty": "Чемпіонів ще не додано",
+        "number": "#",
+        "title": "Чемпіони",
+        "titles": "Титули",
+        "user": "Менеджер"
+      },
       "clubs": {
         "empty": "Клубів не знайдено",
         "filter_name": "Назва",
@@ -2602,6 +2628,7 @@
       "leagues": {
         "activate": "Активувати",
         "activated": "Лігу активовано",
+        "already_crowned": "Чемпіона вже призначено",
         "auction_number": "Номер аукціону",
         "auction_rounds": "Раунди",
         "auction_step": "Крок аукціону",
@@ -2615,6 +2642,8 @@
         "cancel": "Скасувати",
         "confirm": "Встановити дедлайн і активувати лігу?",
         "created": "Лігу створено",
+        "crown": "Призначити чемпіона",
+        "crowned": "Чемпіона призначено",
         "deadline": "Дедлайн продажу",
         "demo": "Демо-ліга",
         "demo_badge": "Демо",
@@ -2626,6 +2655,8 @@
         "filter_season": "Всі сезони",
         "filter_tournament": "Всі турніри",
         "manager": "Менеджер",
+        "max_avg_def_score": "Макс сер захист",
+        "min_avg_def_score": "Мін сер захист",
         "name": "Ліга",
         "new_title": "Нова ліга",
         "no_auctions": "Немає аукціонів",
@@ -2659,6 +2690,7 @@
       },
       "nav": {
         "auctions": "Аукціони",
+        "champions": "Чемпіони",
         "clubs": "Клуби",
         "joins": "Заявки",
         "leagues": "Ліги",
@@ -2703,6 +2735,7 @@
         "locale": "Мова",
         "no_profile": "Профіль не заповнено",
         "no_teams": "Немає команд",
+        "no_titles": "Чемпіонств немає",
         "not_confirmed": "Не підтверджено",
         "notifications": "Сповіщення",
         "reset": "Скинути",
@@ -2711,6 +2744,7 @@
         "section_account": "Акаунт",
         "section_teams": "Команди",
         "section_telegram": "Telegram",
+        "section_titles": "Титули",
         "sign_in_count": "Кількість входів",
         "status": "Статус",
         "team_league": "Ліга",
@@ -2720,6 +2754,10 @@
         "tg_chat_id": "TG chat ID",
         "tg_name": "TG нейм",
         "title": "Менеджери",
+        "title_league": "Ліга",
+        "title_number": "#",
+        "title_season": "Сезон",
+        "title_tournament": "Турнір",
         "true": "Так"
       },
       "weekly_team": {

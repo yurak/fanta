@@ -1,6 +1,7 @@
 class Result < ApplicationRecord
   belongs_to :team
   belongs_to :league
+  has_one :user_title, dependent: :destroy
 
   delegate :lineups, to: :team
 
@@ -28,6 +29,33 @@ class Result < ApplicationRecord
   scope :fanta, -> { joins(league: :tournament).where(leagues: { tournaments: { mode: 1 } }) }
   scope :fanta_top, ->(position) { fanta.where('position > 0 AND position <= ?', position) if position }
   scope :fanta_top_ts, ->(position) { fanta.where('secondary_position > 0 AND secondary_position <= ?', position) if position }
+
+  def to_s
+    "#{team&.human_name} — #{league&.name}"
+  end
+
+  def crowned?
+    title? && user_title.present?
+  end
+
+  def crownable?
+    return true if title? && user_title.nil?
+
+    return false if title?
+
+    league_results = league.results.ordered
+    return false unless league_results.first&.id == id
+
+    return true if league.archived?
+
+    remaining = league.tours.where.not(
+      status: [Tour.statuses[:closed], Tour.statuses[:postponed]]
+    ).count
+    second = league_results.second
+    return true if second.nil?
+
+    points - second.points > remaining * 3
+  end
 
   def matches_played
     @matches_played ||= wins + draws + loses

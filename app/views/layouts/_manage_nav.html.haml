@@ -40,3 +40,8 @@
       .league-link{ class: "link-active-#{ params[:controller] == 'manage/weekly_teams' }" }
         .league-link-icon= image_tag('icons/round/statistics.svg')
         .league-link-text= t('manage.nav.weekly_team')
+  .league-links
+    = link_to manage_champions_path do
+      .league-link{ class: "link-active-#{ params[:controller] == 'manage/champions' }" }
+        .league-link-icon= image_tag('icons/round/auctions.svg')
+        .league-link-text= t('manage.nav.champions')

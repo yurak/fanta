@@ -235,6 +235,94 @@ RSpec.describe Result do
     end
   end
 
+  describe '#crowned?' do
+    context 'when title is false' do
+      it 'returns false' do
+        expect(result).not_to be_crowned
+      end
+    end
+
+    context 'when title is true but no user_title' do
+      let(:result) { create(:result, title: true) }
+
+      it 'returns false' do
+        expect(result).not_to be_crowned
+      end
+    end
+
+    context 'when title is true and user_title exists' do
+      let(:result) { create(:result, title: true) }
+
+      before { create(:user_title, result: result, user: create(:user)) }
+
+      it 'returns true' do
+        expect(result.reload).to be_crowned
+      end
+    end
+  end
+
+  describe '#crownable?' do
+    context 'when title is true but no user_title (legacy)' do
+      let(:result) { create(:result, title: true) }
+
+      it 'returns true' do
+        expect(result).to be_crownable
+      end
+    end
+
+    context 'when title is true and user_title exists' do
+      let(:result) { create(:result, title: true) }
+
+      before { create(:user_title, result: result, user: create(:user)) }
+
+      it 'returns false' do
+        expect(result.reload).not_to be_crownable
+      end
+    end
+
+    context 'when result is not in first place' do
+      let(:result) { create(:result, :with_opponents, points: 22) }
+
+      it 'returns false' do
+        expect(result).not_to be_crownable
+      end
+    end
+
+    context 'when result is first place in an archived league' do
+      let(:league) { create(:archived_league) }
+      let(:result) { create(:result, league: league, points: 50) }
+
+      before { create(:result, league: league, points: 20) }
+
+      it 'returns true' do
+        expect(result).to be_crownable
+      end
+    end
+
+    context 'when result is first place in an active league' do
+      let(:league) { create(:active_league) }
+      let(:result) { create(:result, league: league, points: 30) }
+
+      before { create(:result, league: league, points: 20) }
+
+      context 'with enough points gap (gap > remaining_tours * 3)' do
+        before { create_list(:tour, 3, league: league) }
+
+        it 'returns true' do
+          expect(result).to be_crownable
+        end
+      end
+
+      context 'without enough points gap (gap <= remaining_tours * 3)' do
+        before { create_list(:tour, 4, league: league) }
+
+        it 'returns false' do
+          expect(result).not_to be_crownable
+        end
+      end
+    end
+  end
+
   describe '#league_best_lineup' do
     context 'without closed lineups' do
       it 'returns 0' do

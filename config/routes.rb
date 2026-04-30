@@ -30,6 +30,7 @@ Rails.application.routes.draw do
     resources :leagues, only: [:index, :new, :create, :edit, :update, :show] do
       member do
         post :activate
+        post :crown
       end
     end
 
@@ -46,6 +47,7 @@ Rails.application.routes.draw do
     resources :users, only: [:index, :show]
     resources :weekly_teams, only: [:index, :new, :create]
     resources :auctions, only: [:index]
+    resources :champions, only: [:index]
   end
 
   get  'unsubscribe', to: 'subscriptions#unsubscribe', as: :unsubscribe
