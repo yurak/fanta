@@ -403,12 +403,12 @@ RSpec.describe 'Manage::Leagues' do
         end
       end
 
-      context 'when user already has previous titles' do
-        before { create(:user_title, user: champion_user, championship_number: 1) }
+      context 'when other titles already exist globally' do
+        before { create(:user_title, championship_number: 3) }
 
-        it 'assigns next sequential championship_number' do
+        it 'assigns next global championship_number' do
           post crown_manage_league_path(league, result_id: result.id)
-          expect(UserTitle.find_by(result: result).championship_number).to eq(2)
+          expect(UserTitle.find_by(result: result).championship_number).to eq(4)
         end
       end
 

@@ -72,7 +72,7 @@ module Manage
         tournament: league.tournament,
         result: result,
         season: "#{league.season.start_year}/#{league.season.end_year}",
-        championship_number: user.user_titles.count + 1
+        championship_number: UserTitle.maximum(:championship_number).to_i + 1
       )
       return if user.champion_number.present?
 
