@@ -18,16 +18,21 @@ RSpec.describe 'Manage::Champions' do
       login_admin
 
       let!(:first_champion) { create(:user, name: 'Alice', champion_number: 1) }
-      let!(:second_champion) { create(:user, name: 'Bob', champion_number: 2) }
-      let!(:non_champion) { create(:user, name: 'Carol', champion_number: nil) }
 
-      before { get manage_champions_path }
+      before do
+        create(:user, name: 'Bob', champion_number: 2)
+        create(:user, name: 'Carol', champion_number: nil)
+        get manage_champions_path
+      end
 
       it { expect(response).to be_successful }
       it { expect(response).to render_template(:index) }
 
-      it 'shows champions' do
+      it 'shows first champion' do
         expect(response.body).to include('Alice')
+      end
+
+      it 'shows second champion' do
         expect(response.body).to include('Bob')
       end
 
