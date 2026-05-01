@@ -23,10 +23,10 @@
                   - if title.result&.league
                     = link_to(league_results_path(title.result.league), class: 'champion-title-badge', title: tooltip) do
                       = image_tag(title.tournament&.logo_path || 'tournaments/uefa.png')
-                      %small.text-muted= "##{title.championship_number}"
+                      %small.text-muted= "##{title.championship_number} (#{title.season&.last(4)})"
                   - else
                     .champion-title-badge{ title: tooltip }
                       = image_tag(title.tournament&.logo_path || 'tournaments/uefa.png')
-                      %small.text-muted= "##{title.championship_number}"
+                      %small.text-muted= "##{title.championship_number} (#{title.season&.last(4)})"
     - else
       %p.text-muted= t('manage.champions.empty')
