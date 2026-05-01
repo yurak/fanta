@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2026_04_30_173412) do
+ActiveRecord::Schema.define(version: 2026_05_01_211008) do
 
   create_table "article_tags", force: :cascade do |t|
     t.string "name", default: "", null: false
@@ -582,6 +582,7 @@ ActiveRecord::Schema.define(version: 2026_04_30_173412) do
     t.string "season"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "team_name"
     t.index ["result_id"], name: "index_user_titles_on_result_id"
     t.index ["tournament_id"], name: "index_user_titles_on_tournament_id"
     t.index ["user_id"], name: "index_user_titles_on_user_id"

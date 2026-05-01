@@ -476,6 +476,7 @@ ua:
       section_results: "Результати"
       section_auctions: "Аукціони"
       result_position: "#"
+      lineup_pct: "Склади %"
       no_results: "Результатів ще немає"
       points: "Очки"
       total_score: "Загальний рахунок"

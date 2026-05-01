@@ -19,6 +19,9 @@ module Manage
       @teams = league.teams.includes(user: :user_profile).order(:human_name)
       @auctions = league.auctions.includes(:auction_rounds).order(:number)
       @results = league.results.ordered.includes(:user_title, team: { user: :user_profile })
+      @total_tours = league.tours.where(status: %i[locked closed postponed]).count
+      @manual_lineup_counts = Lineup.where(tour: league.tours, creation_type: %i[manual copied])
+                                    .group(:team_id).count
     end
 
     def new
@@ -71,6 +74,7 @@ module Manage
         user: user,
         tournament: league.tournament,
         result: result,
+        team_name: result.team.human_name,
         season: "#{league.season.start_year}/#{league.season.end_year}",
         championship_number: UserTitle.maximum(:championship_number).to_i + 1
       )

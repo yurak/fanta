@@ -463,6 +463,7 @@ en:
       section_results: "Results"
       section_auctions: "Auctions"
       result_position: "#"
+      lineup_pct: "Lineups %"
       no_results: "No results yet"
       points: "Points"
       total_score: "Total score"

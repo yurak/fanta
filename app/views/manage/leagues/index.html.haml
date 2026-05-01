@@ -34,6 +34,7 @@
       %table.table.table-hover
         %thead.thead-light
           %tr
+            %th ID
             %th= t('manage.leagues.name')
             %th= t('manage.leagues.tournament')
             %th= t('manage.leagues.division')
@@ -47,6 +48,7 @@
         %tbody
           - @leagues.each do |league|
             %tr
+              %td= league.id
               %td
                 = link_to league.name, manage_league_path(league)
                 - if league.demo?

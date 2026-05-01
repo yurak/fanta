@@ -90,9 +90,10 @@
             %th= t('manage.leagues.result_position')
             %th= t('manage.leagues.team_name')
             %th= t('manage.leagues.manager')
-            %th= t('manage.leagues.points')
+            %th= t('manage.leagues.lineup_pct')
             %th= t('manage.leagues.total_score')
             %th= t('manage.leagues.scored_goals')
+            %th= t('manage.leagues.points')
             %th
         %tbody
           - @results.each_with_index do |result, i|
@@ -110,9 +111,12 @@
                   = link_to result.team.user.name.presence || result.team.user.email, manage_user_path(result.team.user)
                 - else
                   %span.text-muted= '—'
-              %td= result.points
+              - manual_count = @manual_lineup_counts[result.team_id].to_i
+              - pct = @total_tours > 0 ? (manual_count.to_f / @total_tours * 100).round : 0
+              %td= "#{pct}%"
               %td= result.total_score
               %td= result.scored_goals
+              %td= result.points
               %td
                 - if result.crowned?
                   %span.btn.btn-sm.btn-warning.disabled{ title: t('manage.leagues.already_crowned') } 🏆

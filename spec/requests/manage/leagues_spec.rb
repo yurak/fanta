@@ -389,6 +389,10 @@ RSpec.describe 'Manage::Leagues' do
           expect(UserTitle.find_by(result: result).championship_number).to eq(1)
         end
 
+        it 'saves team_name on UserTitle' do
+          expect(UserTitle.find_by(result: result).team_name).to eq(team.human_name)
+        end
+
         it 'assigns champion_number to user' do
           expect(champion_user.reload.champion_number).to be_present
         end
