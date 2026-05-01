@@ -30,6 +30,10 @@ class Result < ApplicationRecord
   scope :fanta_top, ->(position) { fanta.where('position > 0 AND position <= ?', position) if position }
   scope :fanta_top_ts, ->(position) { fanta.where('secondary_position > 0 AND secondary_position <= ?', position) if position }
 
+  rails_admin do
+    object_label_method { :to_s }
+  end
+
   def to_s
     "#{team&.human_name} — #{league&.name}"
   end

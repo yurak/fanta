@@ -1,10 +1,11 @@
 # cap staging deploy BRANCH=staging
 
-role :app, %w{ubuntu@3.252.122.206}
-role :web, %w{ubuntu@3.252.122.206}
-role :db, %w{ubuntu@3.252.122.206}
+server = "#{ENV.fetch('DEPLOY_SSH_USER')}@#{ENV.fetch('STAGING_SERVER')}"
+role :app, [server]
+role :web, [server]
+role :db,  [server]
 set :ssh_options, {
-  keys: %w(~/.ssh/mantrakey.pem),
+  keys: [ENV.fetch('DEPLOY_SSH_KEY')],
   forward_agent: false,
   auth_methods: %w(publickey password)
 }
