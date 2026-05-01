@@ -48,3 +48,6 @@ coverage/
 /yarn-error.log
 yarn-debug.log*
 .yarn-integrity
+
+# Mantra Football login (mantra-team-pick-ua skill)
+/credentials
