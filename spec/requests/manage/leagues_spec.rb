@@ -330,14 +330,14 @@ RSpec.describe 'Manage::Leagues' do
       it { expect(response).to be_successful }
       it { expect(response).to render_template(:show) }
 
-      it 'loads results indexed by team_id' do
-        results_by_team = controller.instance_variable_get(:@results_by_team)
-        expect(results_by_team[team.id]).to eq(result)
+      it 'loads results for the league' do
+        expect(controller.instance_variable_get(:@results)).to include(result)
       end
 
-      it 'does not include results for other teams' do
-        results_by_team = controller.instance_variable_get(:@results_by_team)
-        expect(results_by_team.keys).to contain_exactly(team.id)
+      it 'does not include results from other leagues' do
+        other_result = create(:result)
+        get manage_league_path(league)
+        expect(controller.instance_variable_get(:@results)).not_to include(other_result)
       end
     end
   end

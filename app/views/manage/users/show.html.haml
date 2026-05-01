@@ -6,6 +6,7 @@
     = link_to t('manage.users.back'), manage_users_path, class: 'btn btn-sm btn-outline-secondary mb-3'
 
     %h2= @user.name.presence || @user.email
+    = link_to t('manage.users.view_manager'), manager_path(@user), class: 'btn btn-sm btn-outline-primary mb-3', target: '_blank'
 
     .row
       .col-md-6
@@ -36,6 +37,9 @@
             %tr
               %th= t('manage.users.confirmed')
               %td= @user.confirmed_at ? local_time(@user.confirmed_at, '%d %b %Y') : tag.span(t('manage.users.not_confirmed'), class: 'text-danger')
+            %tr
+              %th= t('manage.users.champion_number')
+              %td= @user.champion_number.present? ? "##{@user.champion_number}" : '—'
 
       .col-md-6
         %h5= t('manage.users.section_telegram')
@@ -75,7 +79,12 @@
               %td
                 = image_tag(team.logo_path, width: 20, height: 20)
                 = link_to team.human_name, team_path(team)
-              %td= team.tournament&.name || '—'
+              %td
+                - if team.tournament
+                  = image_tag(team.tournament.logo_path, width: 20, height: 20)
+                  = team.tournament.name
+                - else
+                  %span.text-muted= '—'
               %td= team.league ? link_to(team.league.name, league_path(team.league)) : '—'
     - else
       %p.text-muted= t('manage.users.no_teams')
@@ -85,14 +94,20 @@
       %table.table.table-sm
         %thead.thead-light
           %tr
-            %th= t('manage.users.title_number')
+            %th #
+            %th= t('manage.users.title_league')
             %th= t('manage.users.title_tournament')
             %th= t('manage.users.title_season')
-            %th= t('manage.users.title_league')
+            %th= t('manage.users.title_number')
         %tbody
-          - @user.user_titles.order(:championship_number).each do |title|
+          - @user.user_titles.order(:championship_number).each_with_index do |title, i|
             %tr
-              %td= "##{title.championship_number}"
+              %td= i + 1
+              %td
+                - if title.result&.league
+                  = link_to title.result.league.name, manage_league_path(title.result.league)
+                - else
+                  %span.text-muted= '—'
               %td
                 - if title.tournament
                   = image_tag(title.tournament.logo_path, width: 20, height: 20)
@@ -100,10 +115,36 @@
                 - else
                   %span.text-muted= '—'
               %td= title.season.presence || '—'
-              %td
-                - if title.result&.league
-                  = link_to title.result.league.name, manage_league_path(title.result.league)
-                - else
-                  %span.text-muted= '—'
+              %td= "##{title.championship_number}"
     - else
       %p.text-muted= t('manage.users.no_titles')
+
+    %h5.mt-4= t('manage.users.section_results')
+    - if @results.any?
+      %table.table.table-hover.table-sm
+        %thead.thead-light
+          %tr
+            %th= t('manage.users.result_team')
+            %th= t('manage.users.result_league')
+            %th= t('manage.users.result_tournament')
+            %th= t('manage.users.result_season')
+            %th= t('manage.users.result_points')
+            %th= t('manage.users.result_total_score')
+            %th= t('manage.users.result_position')
+        %tbody
+          - @results.each do |result|
+            %tr
+              %td= link_to result.team.human_name, team_path(result.team)
+              %td= result.league ? link_to(result.league.name, manage_league_path(result.league)) : '—'
+              %td
+                - if result.team.tournament
+                  = image_tag(result.team.tournament.logo_path, width: 20, height: 20)
+                  = result.team.tournament.name
+                - else
+                  %span.text-muted= '—'
+              %td= result.league&.season&.then { |s| "#{s.start_year}/#{s.end_year}" } || '—'
+              %td= result.points
+              %td= result.total_score
+              %td= result.position.present? ? result.position : '—'
+    - else
+      %p.text-muted= t('manage.users.no_results')

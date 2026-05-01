@@ -18,7 +18,7 @@ module Manage
     def show
       @teams = league.teams.includes(user: :user_profile).order(:human_name)
       @auctions = league.auctions.includes(:auction_rounds).order(:number)
-      @results_by_team = league.results.ordered.includes(:user_title).index_by(&:team_id)
+      @results = league.results.ordered.includes(:user_title, team: { user: :user_profile })
     end
 
     def new
