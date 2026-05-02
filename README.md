@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/yurak/fanta.svg?branch=master)](https://travis-ci.com/yurak/fanta)
+[![CI](https://github.com/yurak/fanta/actions/workflows/ci.yml/badge.svg)](https://github.com/yurak/fanta/actions/workflows/ci.yml)
 [![Coverage Status](https://coveralls.io/repos/github/yurak/fanta/badge.svg?branch=master)](https://coveralls.io/github/yurak/fanta?branch=master)
 [![CodeFactor](https://www.codefactor.io/repository/github/yurak/fanta/badge)](https://www.codefactor.io/repository/github/yurak/fanta)
 
