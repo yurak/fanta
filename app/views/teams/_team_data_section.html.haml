@@ -85,3 +85,8 @@
               = image_tag(team.league.tournament.logo_path)
             .team-league-name
               = team.league.name
+      - if team.league_result
+        .team-additional
+          .team-additional-text= t('teams.lineup_pct')
+          .team-additional-value
+            = "#{team.league_result.lineup_pct}%"

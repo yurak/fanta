@@ -235,6 +235,53 @@ RSpec.describe Result do
     end
   end
 
+  describe '#lineup_pct' do
+    let(:league) { create(:active_league) }
+    let(:team) { create(:team, league: league) }
+    let(:result) { create(:result, league: league, team: team) }
+
+    context 'when no eligible tours exist' do
+      it 'returns 0' do
+        expect(result.lineup_pct).to eq(0)
+      end
+    end
+
+    context 'when all lineups are manual' do
+      before do
+        tour = create(:closed_tour, league: league)
+        create(:lineup, team: team, tour: tour, creation_type: :manual)
+      end
+
+      it 'returns 100' do
+        expect(result.lineup_pct).to eq(100)
+      end
+    end
+
+    context 'when half of lineups are manual' do
+      before do
+        tour1 = create(:closed_tour, league: league)
+        tour2 = create(:closed_tour, league: league)
+        create(:lineup, team: team, tour: tour1, creation_type: :manual)
+        create(:lineup, team: team, tour: tour2, creation_type: :auto_cloned)
+      end
+
+      it 'returns 50' do
+        expect(result.lineup_pct).to eq(50)
+      end
+    end
+
+    context 'when lineups are copied' do
+      before do
+        tour = create(:closed_tour, league: league)
+        create(:lineup, team: team, tour: tour, creation_type: :copied)
+      end
+
+      it 'counts copied as manual' do
+        expect(result.lineup_pct).to eq(100)
+      end
+    end
+  end
+
   describe '#crowned?' do
     context 'when title is false' do
       it 'returns false' do

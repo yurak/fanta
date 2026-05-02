@@ -111,8 +111,7 @@
                   = link_to result.team.user.name.presence || result.team.user.email, manage_user_path(result.team.user)
                 - else
                   %span.text-muted= '—'
-              - manual_count = @manual_lineup_counts[result.team_id].to_i
-              - pct = @total_tours > 0 ? (manual_count.to_f / @total_tours * 100).round : 0
+              - pct = result.lineup_pct
               %td= "#{pct}%"
               %td= result.total_score
               %td= result.scored_goals
@@ -121,7 +120,10 @@
                 - if result.crowned?
                   %span.btn.btn-sm.btn-warning.disabled{ title: t('manage.leagues.already_crowned') } 🏆
                 - elsif result.crownable?
-                  = button_to '🏆', crown_manage_league_path(@league), params: { result_id: result.id }, class: 'btn btn-sm btn-outline-warning', title: t('manage.leagues.crown')
+                  - if pct <= 50
+                    %span.btn.btn-sm.btn-danger.disabled{ title: t('manage.leagues.crown_low_pct') } 🏆
+                  - else
+                    = button_to '🏆', crown_manage_league_path(@league), params: { result_id: result.id }, class: 'btn btn-sm btn-outline-warning', title: t('manage.leagues.crown')
     - else
       %p.text-muted= t('manage.leagues.no_results')
 

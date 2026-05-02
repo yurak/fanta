@@ -38,6 +38,14 @@ class Result < ApplicationRecord
     "#{team&.human_name} — #{league&.name}"
   end
 
+  def lineup_pct
+    total = league.tours.where(status: %i[locked closed postponed]).count
+    return 0 if total.zero?
+
+    manual = team.lineups.where(tour: league.tours, creation_type: %i[manual copied]).count
+    (manual.to_f / total * 100).round
+  end
+
   def crowned?
     title? && user_title.present?
   end
