@@ -28,7 +28,7 @@ RSpec.describe Lineup do
 
     context 'when scores are sufficient for defense bonus' do
       it 'returns sum of players scores defense bonus' do
-        expect(lineup_team_score_seven.total_score).to eq(82)
+        expect(lineup_team_score_eight.total_score).to eq(93)
       end
     end
   end
@@ -42,7 +42,7 @@ RSpec.describe Lineup do
 
     context 'when scores are sufficient for defense bonus' do
       it 'returns sum of players scores defense bonus' do
-        expect(lineup_team_score_seven.current_score).to eq(82)
+        expect(lineup_team_score_eight.current_score).to eq(93)
       end
     end
   end
@@ -56,15 +56,15 @@ RSpec.describe Lineup do
 
     context 'when league with default bonus range and middle scores' do
       it 'returns minimal bonus' do
-        lineup_team_score_six = create(:lineup, :with_team_and_score_six)
+        lineup_team_score_seven_default = create(:lineup, :with_team_and_score_seven)
 
-        expect(lineup_team_score_six.defence_bonus).to eq(1)
+        expect(lineup_team_score_seven_default.defence_bonus).to eq(1)
       end
     end
 
     context 'when league with default bonus range and large scores' do
       it 'returns maximum bonus' do
-        expect(lineup_team_score_seven.defence_bonus).to eq(5)
+        expect(lineup_team_score_eight.defence_bonus).to eq(5)
       end
     end
 
@@ -102,7 +102,7 @@ RSpec.describe Lineup do
 
     context 'when total_score more than minimum' do
       it 'returns goals number' do
-        expect(lineup_team_score_seven.goals).to eq(2)
+        expect(lineup_team_score_seven.goals).to eq(1)
       end
     end
 
@@ -124,7 +124,7 @@ RSpec.describe Lineup do
 
     context 'when total_score more than minimum' do
       it 'returns goals number' do
-        expect(lineup_team_score_seven.live_goals).to eq(2)
+        expect(lineup_team_score_seven.live_goals).to eq(1)
       end
     end
 
@@ -215,7 +215,7 @@ RSpec.describe Lineup do
         match = create(:match, host: lineup_team_score_seven.team, tour: lineup_team_score_seven.tour)
         create(:lineup, :with_team_and_score_seven, tour: lineup_team_score_eight.tour, team: match.guest)
 
-        expect(lineup_team_score_seven.match_result).to eq('2-0')
+        expect(lineup_team_score_seven.match_result).to eq('1-0')
       end
     end
 
@@ -224,7 +224,7 @@ RSpec.describe Lineup do
         match = create(:match, guest: lineup_team_score_seven.team, tour: lineup_team_score_seven.tour)
         create(:lineup, :with_team_and_score_eight, tour: lineup_team_score_seven.tour, team: match.host)
 
-        expect(lineup_team_score_seven.match_result).to eq('2-4')
+        expect(lineup_team_score_seven.match_result).to eq('1-4')
       end
     end
   end

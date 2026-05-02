@@ -18,6 +18,7 @@ module Manage
     def show
       @teams = league.teams.includes(user: :user_profile).order(:human_name)
       @auctions = league.auctions.includes(:auction_rounds).order(:number)
+      @results = league.results.ordered.includes(:user_title, team: { user: :user_profile })
     end
 
     def new
@@ -51,16 +52,39 @@ module Manage
       redirect_to manage_leagues_path, notice: t('manage.leagues.activated')
     end
 
+    def crown
+      result = league.results.find(params[:result_id])
+      ActiveRecord::Base.transaction { assign_title(result) }
+      redirect_to manage_league_path(league), notice: t('manage.leagues.crowned')
+    end
+
     private
 
     def league
       @league ||= League.find(params[:id])
     end
 
+    def assign_title(result)
+      user = result.team.user
+      result.update!(title: true)
+      UserTitle.create!(
+        user: user,
+        tournament: league.tournament,
+        result: result,
+        team_name: result.team.human_name,
+        season: "#{league.season.start_year}/#{league.season.end_year}",
+        championship_number: UserTitle.maximum(:championship_number).to_i + 1
+      )
+      return if user.champion_number.present?
+
+      user.update!(champion_number: User.maximum(:champion_number).to_i + 1)
+    end
+
     def league_params
       params.require(:league).permit(
         :name, :tournament_id, :season_id, :division_id,
-        :auction_type, :auction_number, :auction_step, :tour_difference, :demo
+        :auction_type, :auction_number, :auction_step, :tour_difference, :demo,
+        :min_avg_def_score, :max_avg_def_score
       )
     end
   end

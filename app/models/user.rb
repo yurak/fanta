@@ -12,6 +12,7 @@ class User < ApplicationRecord
   has_many :lineups, through: :teams
   has_many :transfers, through: :teams
   has_many :player_requests, dependent: :destroy
+  has_many :user_titles, dependent: :destroy
   has_one :user_profile, dependent: :destroy
 
   accepts_nested_attributes_for :user_profile
@@ -25,6 +26,8 @@ class User < ApplicationRecord
   enum role: ROLES
   enum status: { initial: 0, named: 1, with_avatar: 2, with_team: 3, configured: 4 }
   enum locale: { en: 0, ua: 1 }
+
+  scope :champions, -> { where.not(champion_number: nil).order(:champion_number) }
 
   validates :email, presence: true, format: { with: EMAIL_FORMAT_REGEX }, uniqueness: true
   validates :email, length: { in: EMAIL_LENGTH }
@@ -131,6 +134,15 @@ class User < ApplicationRecord
 
   def fanta_top_ts
     results.fanta_top_ts(10)
+  end
+
+  rails_admin do
+    configure :transfers do
+      visible false
+    end
+    configure :lineups do
+      visible false
+    end
   end
 
   protected

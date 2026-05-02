@@ -235,6 +235,141 @@ RSpec.describe Result do
     end
   end
 
+  describe '#lineup_pct' do
+    let(:league) { create(:active_league) }
+    let(:team) { create(:team, league: league) }
+    let(:result) { create(:result, league: league, team: team) }
+
+    context 'when no eligible tours exist' do
+      it 'returns 0' do
+        expect(result.lineup_pct).to eq(0)
+      end
+    end
+
+    context 'when all lineups are manual' do
+      before do
+        tour = create(:closed_tour, league: league)
+        create(:lineup, team: team, tour: tour, creation_type: :manual)
+      end
+
+      it 'returns 100' do
+        expect(result.lineup_pct).to eq(100)
+      end
+    end
+
+    context 'when half of lineups are manual' do
+      before do
+        tour1 = create(:closed_tour, league: league)
+        tour2 = create(:closed_tour, league: league)
+        create(:lineup, team: team, tour: tour1, creation_type: :manual)
+        create(:lineup, team: team, tour: tour2, creation_type: :auto_cloned)
+      end
+
+      it 'returns 50' do
+        expect(result.lineup_pct).to eq(50)
+      end
+    end
+
+    context 'when lineups are copied' do
+      before do
+        tour = create(:closed_tour, league: league)
+        create(:lineup, team: team, tour: tour, creation_type: :copied)
+      end
+
+      it 'counts copied as manual' do
+        expect(result.lineup_pct).to eq(100)
+      end
+    end
+  end
+
+  describe '#crowned?' do
+    context 'when title is false' do
+      it 'returns false' do
+        expect(result).not_to be_crowned
+      end
+    end
+
+    context 'when title is true but no user_title' do
+      let(:result) { create(:result, title: true) }
+
+      it 'returns false' do
+        expect(result).not_to be_crowned
+      end
+    end
+
+    context 'when title is true and user_title exists' do
+      let(:result) { create(:result, title: true) }
+
+      before { create(:user_title, result: result, user: create(:user)) }
+
+      it 'returns true' do
+        expect(result.reload).to be_crowned
+      end
+    end
+  end
+
+  describe '#crownable?' do
+    context 'when title is true but no user_title (legacy)' do
+      let(:result) { create(:result, title: true) }
+
+      it 'returns true' do
+        expect(result).to be_crownable
+      end
+    end
+
+    context 'when title is true and user_title exists' do
+      let(:result) { create(:result, title: true) }
+
+      before { create(:user_title, result: result, user: create(:user)) }
+
+      it 'returns false' do
+        expect(result.reload).not_to be_crownable
+      end
+    end
+
+    context 'when result is not in first place' do
+      let(:result) { create(:result, :with_opponents, points: 22) }
+
+      it 'returns false' do
+        expect(result).not_to be_crownable
+      end
+    end
+
+    context 'when result is first place in an archived league' do
+      let(:league) { create(:archived_league) }
+      let(:result) { create(:result, league: league, points: 50) }
+
+      before { create(:result, league: league, points: 20) }
+
+      it 'returns true' do
+        expect(result).to be_crownable
+      end
+    end
+
+    context 'when result is first place in an active league' do
+      let(:league) { create(:active_league) }
+      let(:result) { create(:result, league: league, points: 30) }
+
+      before { create(:result, league: league, points: 20) }
+
+      context 'with enough points gap (gap > remaining_tours * 3)' do
+        before { create_list(:tour, 3, league: league) }
+
+        it 'returns true' do
+          expect(result).to be_crownable
+        end
+      end
+
+      context 'without enough points gap (gap <= remaining_tours * 3)' do
+        before { create_list(:tour, 4, league: league) }
+
+        it 'returns false' do
+          expect(result).not_to be_crownable
+        end
+      end
+    end
+  end
+
   describe '#league_best_lineup' do
     context 'without closed lineups' do
       it 'returns 0' do

@@ -39,6 +39,16 @@
         = f.label :tour_difference, t('manage.leagues.tour_difference')
         = f.number_field :tour_difference, class: 'form-control', min: 0
 
+  .form-row
+    .col
+      .form-group
+        = f.label :min_avg_def_score, t('manage.leagues.min_avg_def_score')
+        = f.number_field :min_avg_def_score, class: 'form-control', step: 0.5, min: 0
+    .col
+      .form-group
+        = f.label :max_avg_def_score, t('manage.leagues.max_avg_def_score')
+        = f.number_field :max_avg_def_score, class: 'form-control', step: 0.5, min: 0
+
   .form-group.form-check
     = f.check_box :demo, class: 'form-check-input'
     = f.label :demo, t('manage.leagues.demo'), class: 'form-check-label'

@@ -35,19 +35,19 @@ RSpec.describe Results::FantaUpdater do
         updater.call
       end
 
-      it { expect(team_one.results.last.total_score).to eq(67) }
+      it { expect(team_one.results.last.total_score).to eq(66) }
       it { expect(team_one.results.last.points).to eq(54) }
-      it { expect(team_one.results.last.best_lineup).to eq(67) }
+      it { expect(team_one.results.last.best_lineup).to eq(66) }
       it { expect(team_one.results.last.draws).to eq(1) }
       it { expect(team_one.results.last.position).to eq(3) }
       it { expect(team_one.results.last.secondary_position).to eq(3) }
       it { expect(team_one.results.last.history_arr.last['p']).to eq(54) }
       it { expect(team_one.results.last.history_arr.last['pos']).to eq(3) }
       it { expect(team_one.results.last.history_arr.last['sec_pos']).to eq(3) }
-      it { expect(team_one.results.last.history_arr.last['ts']).to eq('67.0') }
-      it { expect(team_two.results.last.total_score).to eq(82) }
+      it { expect(team_one.results.last.history_arr.last['ts']).to eq('66.0') }
+      it { expect(team_two.results.last.total_score).to eq(78) }
       it { expect(team_two.results.last.points).to eq(60) }
-      it { expect(team_two.results.last.best_lineup).to eq(82) }
+      it { expect(team_two.results.last.best_lineup).to eq(78) }
       it { expect(team_two.results.last.draws).to eq(1) }
       it { expect(team_two.results.last.position).to eq(2) }
       it { expect(team_two.results.last.secondary_position).to eq(2) }

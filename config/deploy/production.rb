@@ -1,8 +1,12 @@
-# role :app, %w{ubuntu@ip}
-# role :web, %w{ubuntu@ip}
-# role :db,  %w{ubuntu@ip}
-# set :ssh_options, {
-#    keys: %w(path),
-#    forward_agent: false,
-#    auth_methods: %w(publickey password)
-# }
+# cap production deploy BRANCH=staging
+# cap production deploy BRANCH=manage_champions
+
+server = "#{ENV.fetch('DEPLOY_SSH_USER')}@#{ENV.fetch('PRODUCTION_SERVER')}"
+role :app, [server]
+role :web, [server]
+role :db,  [server]
+set :ssh_options, {
+  keys: [ENV.fetch('DEPLOY_SSH_KEY')],
+  forward_agent: false,
+  auth_methods: %w(publickey password)
+}

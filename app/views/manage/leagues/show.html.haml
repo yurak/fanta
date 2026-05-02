@@ -82,6 +82,51 @@
     - else
       %p.text-muted= t('manage.leagues.no_teams')
 
+    %h5.mt-4= t('manage.leagues.section_results')
+    - if @results.any?
+      %table.table.table-hover.table-sm
+        %thead.thead-light
+          %tr
+            %th= t('manage.leagues.result_position')
+            %th= t('manage.leagues.team_name')
+            %th= t('manage.leagues.manager')
+            %th= t('manage.leagues.lineup_pct')
+            %th= t('manage.leagues.total_score')
+            %th= t('manage.leagues.scored_goals')
+            %th= t('manage.leagues.points')
+            %th
+        %tbody
+          - @results.each_with_index do |result, i|
+            %tr
+              %td= i + 1
+              %td
+                = image_tag(result.team.logo_path, width: 20, height: 20)
+                = link_to result.team.human_name, team_path(result.team)
+              %td
+                - if result.team.user
+                  - if result.team.user.user_profile&.bot_enabled
+                    %span.badge-tg-connected{ title: t('manage.joins.tg_connected') } 🟢
+                  - else
+                    %span.badge-tg-disconnected{ title: t('manage.joins.tg_disconnected') } 🔴
+                  = link_to result.team.user.name.presence || result.team.user.email, manage_user_path(result.team.user)
+                - else
+                  %span.text-muted= '—'
+              - pct = result.lineup_pct
+              %td= "#{pct}%"
+              %td= result.total_score
+              %td= result.scored_goals
+              %td= result.points
+              %td
+                - if result.crowned?
+                  %span.btn.btn-sm.btn-warning.disabled{ title: t('manage.leagues.already_crowned') } 🏆
+                - elsif result.crownable?
+                  - if pct <= 50
+                    %span.btn.btn-sm.btn-danger.disabled{ title: t('manage.leagues.crown_low_pct') } 🏆
+                  - else
+                    = button_to '🏆', crown_manage_league_path(@league), params: { result_id: result.id }, class: 'btn btn-sm btn-outline-warning', title: t('manage.leagues.crown')
+    - else
+      %p.text-muted= t('manage.leagues.no_results')
+
     %h5.mt-4= t('manage.leagues.section_auctions')
     - if @auctions.any?
       %table.table.table-hover.table-sm

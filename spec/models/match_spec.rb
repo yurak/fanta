@@ -85,7 +85,7 @@ RSpec.describe Match do
 
     context 'when host lineup exist' do
       it 'returns host lineup goals' do
-        expect(match_with_lineups.host_goals).to eq(2)
+        expect(match_with_lineups.host_goals).to eq(1)
       end
     end
   end
@@ -113,7 +113,7 @@ RSpec.describe Match do
 
     context 'when lineup exist and team is host' do
       it 'returns match host goals' do
-        expect(match_with_lineups.scored_goals(match_with_lineups.host)).to eq(2)
+        expect(match_with_lineups.scored_goals(match_with_lineups.host)).to eq(1)
       end
     end
 
@@ -139,7 +139,7 @@ RSpec.describe Match do
 
     context 'when lineup exist and team is guest' do
       it 'returns match host goals' do
-        expect(match_with_lineups.missed_goals(match_with_lineups.guest)).to eq(2)
+        expect(match_with_lineups.missed_goals(match_with_lineups.guest)).to eq(1)
       end
     end
   end

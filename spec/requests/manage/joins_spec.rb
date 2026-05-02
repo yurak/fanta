@@ -86,15 +86,15 @@ RSpec.describe 'Manage::Joins' do
     end
 
     it 'shows a sub-tab for each tournament' do
-      expect(response.body).to include(tournament.name).and include(tournament2.name)
+      expect(response.body).to include(CGI.escapeHTML(tournament.name)).and include(CGI.escapeHTML(tournament2.name))
     end
 
     it 'shows count for tournament in sub-tab' do
-      expect(response.body).to include("#{tournament.name} (1)")
+      expect(response.body).to include(CGI.escapeHTML("#{tournament.name} (1)"))
     end
 
     it 'shows count for tournament2 in sub-tab' do
-      expect(response.body).to include("#{tournament2.name} (1)")
+      expect(response.body).to include(CGI.escapeHTML("#{tournament2.name} (1)"))
     end
 
     it 'shows all-tournaments tab with total count' do

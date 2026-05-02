@@ -134,6 +134,21 @@
   }
 }
 
+.champion-title-badge {
+  display: inline-flex;
+  align-items: center;
+  margin-right: 12px;
+
+  img {
+    width: 24px;
+    height: 24px;
+  }
+
+  small {
+    margin-left: 4px;
+  }
+}
+
 .admin-manage-page {
   padding: 32px 24px 32px 296px;
 

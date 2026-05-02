@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2026_04_24_200758) do
+ActiveRecord::Schema.define(version: 2026_05_01_211008) do
 
   create_table "article_tags", force: :cascade do |t|
     t.string "name", default: "", null: false
@@ -156,8 +156,8 @@ ActiveRecord::Schema.define(version: 2026_04_24_200758) do
     t.datetime "updated_at", null: false
     t.integer "tour_difference", default: 0, null: false
     t.integer "season_id"
-    t.decimal "min_avg_def_score", default: "6.0", null: false
-    t.decimal "max_avg_def_score", default: "7.0", null: false
+    t.decimal "min_avg_def_score", default: "7.0", null: false
+    t.decimal "max_avg_def_score", default: "8.0", null: false
     t.integer "transfer_status", default: 0
     t.integer "cloning_status", default: 0, null: false
     t.integer "auction_type", default: 0, null: false
@@ -574,6 +574,20 @@ ActiveRecord::Schema.define(version: 2026_04_24_200758) do
     t.index ["tg_connect_token"], name: "index_user_profiles_on_tg_connect_token", unique: true
   end
 
+  create_table "user_titles", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "tournament_id"
+    t.integer "result_id"
+    t.integer "championship_number", null: false
+    t.string "season"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "team_name"
+    t.index ["result_id"], name: "index_user_titles_on_result_id"
+    t.index ["tournament_id"], name: "index_user_titles_on_tournament_id"
+    t.index ["user_id"], name: "index_user_titles_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -603,6 +617,7 @@ ActiveRecord::Schema.define(version: 2026_04_24_200758) do
     t.string "time_zone", default: "UTC", null: false
     t.string "unsubscribe_token"
     t.boolean "subscribed", default: true, null: false
+    t.integer "champion_number"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
@@ -672,6 +687,9 @@ ActiveRecord::Schema.define(version: 2026_04_24_200758) do
   add_foreign_key "transfers", "leagues"
   add_foreign_key "transfers", "players"
   add_foreign_key "transfers", "teams"
+  add_foreign_key "user_titles", "results"
+  add_foreign_key "user_titles", "tournaments"
+  add_foreign_key "user_titles", "users"
   add_foreign_key "weekly_team_players", "round_players"
   add_foreign_key "weekly_team_players", "slots"
   add_foreign_key "weekly_team_players", "weekly_teams"

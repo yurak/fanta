@@ -302,6 +302,131 @@ RSpec.describe 'Manage::Leagues' do
     end
   end
 
+  describe 'GET #show' do
+    let!(:league) { create(:active_league) }
+
+    context 'when user is logged out' do
+      before { get manage_league_path(league) }
+
+      it { expect(response).to redirect_to('/users/sign_in') }
+    end
+
+    context 'when regular user is logged in' do
+      login_user
+
+      before { get manage_league_path(league) }
+
+      it { expect(response).to redirect_to(leagues_path) }
+    end
+
+    context 'when admin is logged in' do
+      login_admin
+
+      let(:team) { create(:team, league: league) }
+      let!(:result) { create(:result, league: league, team: team) }
+
+      before { get manage_league_path(league) }
+
+      it { expect(response).to be_successful }
+      it { expect(response).to render_template(:show) }
+
+      it 'loads results for the league' do
+        expect(controller.instance_variable_get(:@results)).to include(result)
+      end
+
+      it 'does not include results from other leagues' do
+        other_result = create(:result)
+        get manage_league_path(league)
+        expect(controller.instance_variable_get(:@results)).not_to include(other_result)
+      end
+    end
+  end
+
+  describe 'POST #crown' do
+    let(:champion_user) { create(:user) }
+    let(:league) { create(:archived_league) }
+    let(:team) { create(:team, league: league, user: champion_user) }
+    let!(:result) { create(:result, league: league, team: team, points: 50) }
+
+    before { create(:result, league: league, points: 20) }
+
+    context 'when user is logged out' do
+      before { post crown_manage_league_path(league, result_id: result.id) }
+
+      it { expect(response).to redirect_to('/users/sign_in') }
+    end
+
+    context 'when regular user is logged in' do
+      login_user
+
+      before { post crown_manage_league_path(league, result_id: result.id) }
+
+      it { expect(response).to redirect_to(leagues_path) }
+    end
+
+    context 'when admin is logged in' do
+      login_admin
+
+      context 'with a valid result' do
+        before { post crown_manage_league_path(league, result_id: result.id) }
+
+        it { expect(response).to redirect_to(manage_league_path(league)) }
+
+        it 'sets result title to true' do
+          expect(result.reload.title).to be(true)
+        end
+
+        it 'creates a UserTitle for the result' do
+          expect(UserTitle.find_by(result: result)).to be_present
+        end
+
+        it 'sets the correct season on UserTitle' do
+          title = UserTitle.find_by(result: result)
+          expect(title.season).to eq("#{league.season.start_year}/#{league.season.end_year}")
+        end
+
+        it 'sets championship_number to 1 for first title' do
+          expect(UserTitle.find_by(result: result).championship_number).to eq(1)
+        end
+
+        it 'saves team_name on UserTitle' do
+          expect(UserTitle.find_by(result: result).team_name).to eq(team.human_name)
+        end
+
+        it 'assigns champion_number to user' do
+          expect(champion_user.reload.champion_number).to be_present
+        end
+      end
+
+      context 'when user already has a champion_number' do
+        before { champion_user.update!(champion_number: 5) }
+
+        it 'does not overwrite existing champion_number' do
+          post crown_manage_league_path(league, result_id: result.id)
+          expect(champion_user.reload.champion_number).to eq(5)
+        end
+      end
+
+      context 'when other titles already exist globally' do
+        before { create(:user_title, championship_number: 3) }
+
+        it 'assigns next global championship_number' do
+          post crown_manage_league_path(league, result_id: result.id)
+          expect(UserTitle.find_by(result: result).championship_number).to eq(4)
+        end
+      end
+
+      context 'when another user already has champion_number' do
+        before { create(:user, champion_number: 3) }
+
+        it 'assigns the next available champion_number' do
+          post crown_manage_league_path(league, result_id: result.id)
+          expect(champion_user.reload.champion_number).to eq(4)
+        end
+      end
+    end
+  end
+
   describe 'POST #activate' do
     let!(:league) { create(:league, :with_five_teams) }
     let(:deadline) { 1.week.from_now.strftime('%Y-%m-%dT%H:%M') }
