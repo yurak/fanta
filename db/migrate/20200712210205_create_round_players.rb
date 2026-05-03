@@ -44,11 +44,7 @@ class CreateRoundPlayers < ActiveRecord::Migration[5.2]
       mp.update(round_player: round_player)
     end
 
-    connection.execute('PRAGMA defer_foreign_keys = ON')
-    connection.execute('PRAGMA foreign_keys = OFF')
     remove_column :match_players, :player_id
-    connection.execute('PRAGMA foreign_keys = ON')
-    connection.execute('PRAGMA defer_foreign_keys = OFF')
     remove_column :match_players, :score
     remove_column :match_players, :goals
     remove_column :match_players, :missed_goals
