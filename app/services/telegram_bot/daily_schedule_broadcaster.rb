@@ -3,7 +3,7 @@
 module TelegramBot
   class DailyScheduleBroadcaster < ApplicationService
     def call
-      User.joins(:user_profile).where(user_profiles: { bot_enabled: true }).each do |user|
+      User.joins(:user_profile).where(user_profiles: { bot_enabled: true }).find_each do |user|
         tz = user.time_zone.presence || User::DEFAULT_TIME_ZONE
         next unless Time.current.in_time_zone(tz).hour == 9
 

@@ -2,7 +2,7 @@ namespace :tm do
   # rake 'tm:check_club_players_csv[1]'
   desc 'Check TM players list from club pages and write to csv'
   task :check_club_players_csv, %i[tournament_id] => :environment do |_t, args|
-    clubs = if args[:tournament_id] == '8' || args[:tournament_id] == '20'
+    clubs = if %w[8 20].include?(args[:tournament_id])
               Club.active.where(tournament_id: nil, ec_tournament_id: args[:tournament_id]).order(:name)
             elsif args[:tournament_id]
               Club.active.where(tournament_id: args[:tournament_id]).order(:name)

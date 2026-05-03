@@ -30,18 +30,44 @@ class RoundPlayersController < ApplicationController
   end
 
   def order_players
-    players = players_with_filter
-    players = players.includes(:match_players) if tournament.fanta? && deadlined?
+    apply_order(preloaded_players)
+  end
 
+  def preloaded_players
+    players = players_with_filter
+    return players.includes(:match_players) if tournament.fanta? && deadlined?
+
+    players
+  end
+
+  def apply_order(players)
     case stats_params[:order]
-    when 'club'       then players.sort_by { |rp| rp.related_club.name }
+    when 'club'       then sort_by_club(players)
     when 'national'   then players.to_a
-    when 'matches'    then sort_by_appearances(players) { |rp| rp.match_players.size }
-    when 'main_squad' then sort_by_appearances(players) { |rp| rp.match_players.select(&:real_position).size }
+    when 'matches'    then sort_by_matches(players)
+    when 'main_squad' then sort_by_main_squad(players)
+    else                   sort_by_score(players)
+    end
+  end
+
+  def sort_by_score(players)
+    case stats_params[:order]
     when 'name'       then players.sort_by(&:name)
     when 'base_score' then players.sort_by(&:score).reverse
     else                   players.sort_by(&:result_score).reverse
     end
+  end
+
+  def sort_by_club(players)
+    players.sort_by { |rp| rp.related_club.name }
+  end
+
+  def sort_by_matches(players)
+    sort_by_appearances(players) { |rp| rp.match_players.size }
+  end
+
+  def sort_by_main_squad(players)
+    sort_by_appearances(players) { |rp| rp.match_players.select(&:real_position).size }
   end
 
   def sort_by_appearances(players, &key)

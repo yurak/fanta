@@ -38,14 +38,24 @@ module AuctionsHelper # rubocop:disable Metrics/ModuleLength
 
   def auction_dates(auction, user = nil)
     if auction.initial? || auction.sales?
-      auction.deadline ? "Started on #{auction.deadline.strftime('%b %e, %Y')}" : auction.base_date
+      initial_auction_date(auction)
     elsif auction.blind_bids?
       auction_local_time(auction.deadline, user)
     elsif auction.closed?
-      "#{auction.auction_rounds.first&.created_at&.strftime('%b %e')} - #{auction.auction_rounds.last&.updated_at&.strftime('%b %e, %Y')}"
+      closed_auction_date_range(auction)
     else
       '--:--'
     end
+  end
+
+  def initial_auction_date(auction)
+    auction.deadline ? "Started on #{auction.deadline.strftime('%b %e, %Y')}" : auction.base_date
+  end
+
+  def closed_auction_date_range(auction)
+    start_date = auction.auction_rounds.first&.created_at&.strftime('%b %e')
+    end_date   = auction.auction_rounds.last&.updated_at&.strftime('%b %e, %Y')
+    "#{start_date} - #{end_date}"
   end
 
   def auction_local_time(time, user)

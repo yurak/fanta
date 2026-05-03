@@ -22,10 +22,14 @@ class PlayerBidsController < ApplicationController
 
   def player_available?
     return false unless team && team == auction_bid.team
-    return false if auction && team.dumped_player_ids(auction).include?(player.id)
-    return false if league && player.teams.map(&:league_id).include?(league.id)
+    return false if player_already_taken?
 
     true
+  end
+
+  def player_already_taken?
+    (auction && team.dumped_player_ids(auction).include?(player.id)) ||
+      (league && player.teams.map(&:league_id).include?(league.id))
   end
 
   def player_bid_params

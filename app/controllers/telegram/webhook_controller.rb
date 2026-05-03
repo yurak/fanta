@@ -7,11 +7,7 @@ module Telegram
       token = args[0]
 
       if token.present?
-        if link_by_token(token)
-          respond_with :message, text: t('telegram.webhooks.start.connected', locale: locale)
-        else
-          respond_with :message, text: t('telegram.webhooks.start.connect_failed', locale: locale)
-        end
+        connect_by_token(token)
         return
       end
 
@@ -131,13 +127,18 @@ module Telegram
       }
     end
 
-    def link_by_token(token)
+    def connect_by_token(token)
       profile = UserProfile.find_by(tg_connect_token: token)
-      return false unless profile
-      return false if profile.tg_connect_expires_at.nil? || profile.tg_connect_expires_at < Time.current
+      if linkable?(profile)
+        profile.update(tg_chat_id: from['id'], bot_enabled: true, tg_connect_token: nil, tg_connect_expires_at: nil)
+        respond_with :message, text: t('telegram.webhooks.start.connected', locale: locale)
+      else
+        respond_with :message, text: t('telegram.webhooks.start.connect_failed', locale: locale)
+      end
+    end
 
-      profile.update(tg_chat_id: from['id'], bot_enabled: true, tg_connect_token: nil, tg_connect_expires_at: nil)
-      true
+    def linkable?(profile)
+      profile.present? && profile.tg_connect_expires_at.present? && profile.tg_connect_expires_at >= Time.current
     end
 
     def profile

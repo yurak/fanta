@@ -63,7 +63,7 @@ class PlayerBaseSerializer < ActiveModel::Serializer
   end
 
   def teams_count_max
-    object.club&.tournament&.leagues&.active&.size || 0
+    active_leagues&.size || 0
   end
 
   def leagues
@@ -73,6 +73,11 @@ class PlayerBaseSerializer < ActiveModel::Serializer
   delegate :stats_price, to: :object
 
   private
+
+  def active_leagues
+    tournament = object.club&.tournament
+    tournament&.leagues&.active
+  end
 
   def league_team
     @league_team ||= object.team_by_league(instance_options[:league_id]) if instance_options[:league_id]

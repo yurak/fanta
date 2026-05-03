@@ -63,6 +63,27 @@ RSpec.describe League do
     end
   end
 
+  describe '#all_tours_closed?' do
+    context 'when league has no tours' do
+      it { expect(league.all_tours_closed?).to be(false) }
+    end
+
+    context 'when all tours are closed' do
+      before { create_list(:closed_tour, 3, league: league) }
+
+      it { expect(league.all_tours_closed?).to be(true) }
+    end
+
+    context 'when some tours are not closed' do
+      before do
+        create(:closed_tour, league: league)
+        create(:tour, league: league)
+      end
+
+      it { expect(league.all_tours_closed?).to be(false) }
+    end
+  end
+
   describe '#active_tour' do
     context 'when tours does not exist' do
       it 'returns nil' do

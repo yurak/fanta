@@ -23,8 +23,7 @@ RSpec.describe TournamentRound do
 
       it 'returns round players which played at this round' do
         create(:tournament_match, tournament_round: tournament_round, host_club: club)
-        round_players = []
-        club.players.each { |player| round_players << create(:round_player, :with_score_six, player: player) }
+        round_players = club.players.map { |player| create(:round_player, :with_score_six, player: player) }
 
         expect(tournament_round.eurocup_players).to eq(round_players)
       end

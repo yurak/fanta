@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# rubocop:disable Metrics/MethodLength:
+# rubocop:disable Metrics/MethodLength
 require 'json'
 require 'fileutils'
 
@@ -83,41 +83,46 @@ module Players
       end
 
       def accept_sourcepoint_consent!(page, timeout: 8_000)
-        html = page.content
-        return unless html.include?('privacy-mgmt.com') || html.include?('sourcepoint') || html.include?('_sp_')
+        return unless sourcepoint_page?(page)
 
         page.wait_for_timeout(800)
+        frame = find_consent_frame(page, timeout)
+        click_consent_buttons(page, [frame, page].compact)
+      end
 
+      def sourcepoint_page?(page)
+        html = page.content
+        html.include?('privacy-mgmt.com') || html.include?('sourcepoint') || html.include?('_sp_')
+      end
+
+      def find_consent_frame(page, timeout)
         start = Process.clock_gettime(Process::CLOCK_MONOTONIC)
         frame = nil
 
         while (Process.clock_gettime(Process::CLOCK_MONOTONIC) - start) * 1000 < timeout
-          frame = page.frames.find do |f|
-            u = f.url.to_s
-            u.include?('privacy-mgmt.com') || u.include?('sp-prod.net') || u.include?('ccpa.sp-prod.net')
-          end
+          frame = page.frames.find { |f| consent_frame?(f) }
           break if frame
 
           page.wait_for_timeout(200)
         end
 
-        targets = [frame, page].compact
+        frame
+      end
 
-        targets.each do |ctx|
-          [
-            'button:has-text("Accept")',
-            'button:has-text("Accept all")',
-            'button:has-text("I agree")',
-            'button:has-text("Agree")',
-            'button:has-text("Continue")',
-            'button:has-text("OK")'
-          ].each do |sel|
+      def consent_frame?(frame)
+        url = frame.url.to_s
+        url.include?('privacy-mgmt.com') || url.include?('sp-prod.net') || url.include?('ccpa.sp-prod.net')
+      end
+
+      def click_consent_buttons(page, targets)
+        consent_button_selectors.each do |sel|
+          targets.each do |ctx|
             loc = ctx.locator(sel)
             next unless loc.count.positive?
 
             begin
               loc.first.click(timeout: 1_000)
-            rescue
+            rescue StandardError
               nil
             end
             page.wait_for_timeout(600)
@@ -125,23 +130,46 @@ module Players
         end
       end
 
+      def consent_button_selectors
+        [
+          'button:has-text("Accept")',
+          'button:has-text("Accept all")',
+          'button:has-text("I agree")',
+          'button:has-text("Agree")',
+          'button:has-text("Continue")',
+          'button:has-text("OK")'
+        ]
+      end
+
       def safe_page_content(page, tries: 12)
         last_error = nil
         last_html  = nil
 
-        tries.times do |i|
-          page.wait_for_timeout(800 + (i * 250))
-          html = page.content
-          last_html = html
-
-          return html if html.present? && !html.strip.empty?
+        tries.times do |idx|
+          last_html, result = attempt_page_content(page, idx)
+          return result if result
         rescue Playwright::Error => e
           last_error = e
-          next if e.message.include?('page is navigating') || e.message.include?('Execution context was destroyed')
+          next if navigating_error?(e)
 
           raise
         end
 
+        raise_content_error(last_html, last_error)
+      end
+
+      def attempt_page_content(page, idx)
+        page.wait_for_timeout(800 + (idx * 250))
+        html = page.content
+        result = html.present? && !html.strip.empty? ? html : nil
+        [html, result]
+      end
+
+      def navigating_error?(error)
+        error.message.include?('page is navigating') || error.message.include?('Execution context was destroyed')
+      end
+
+      def raise_content_error(last_html, last_error)
         if last_html&.include?('Human Verification') || last_html&.include?('captcha')
           raise Players::Transfermarkt::CaptchaRequired,
                 'Captcha required again. Re-run: bundle exec ruby public/script/tm_login.rb'

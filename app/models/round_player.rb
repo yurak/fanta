@@ -114,8 +114,7 @@ class RoundPlayer < ApplicationRecord
     total += scored_penalty * SCORED_PENALTY_BONUS if scored_penalty
     total += assists * ASSIST_BONUS if assists
     total += penalties_won * PENALTY_WON_BONUS if penalties_won
-    total += cleansheet_bonus if cleansheet
-    total += saves_bonus if saves
+    total += goalkeeping_bonuses
 
     total
   end
@@ -128,9 +127,22 @@ class RoundPlayer < ApplicationRecord
     total += failed_penalty * FAILED_PENALTY_MALUS if failed_penalty
     total += conceded_penalty * CONCEDED_PENALTY_MALUS if conceded_penalty
     total += own_goals * OWN_GOAL_MALUS if own_goals
+    total += card_maluses
+
+    total
+  end
+
+  def goalkeeping_bonuses
+    total = 0
+    total += cleansheet_bonus if cleansheet
+    total += saves_bonus if saves
+    total
+  end
+
+  def card_maluses
+    total = 0
     total += YELLOW_CARD_MALUS if yellow_card
     total += red_card_malus if red_card
-
     total
   end
 

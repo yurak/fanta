@@ -11,11 +11,13 @@ RSpec.describe PlayerCurrentSeasonStatSerializer do
 
   def stubbed_player
     player = create(:player)
-    allow(player).to receive(:season_bonus_count).and_return(0)
-    allow(player).to receive(:season_average_score).and_return(0)
-    allow(player).to receive(:season_cards_count).and_return(0)
-    allow(player).to receive(:season_scores_count).and_return(0)
-    allow(player).to receive(:season_average_result_score).and_return(0)
+    allow(player).to receive_messages(
+      season_bonus_count: 0,
+      season_average_score: 0,
+      season_cards_count: 0,
+      season_scores_count: 0,
+      season_average_result_score: 0
+    )
     player
   end
 

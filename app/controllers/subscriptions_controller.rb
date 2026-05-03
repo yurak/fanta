@@ -14,6 +14,8 @@ class SubscriptionsController < ApplicationController
   private
 
   def user
-    @user ||= User.find_by(unsubscribe_token: params[:token])
+    return @user if defined?(@user)
+
+    @user = User.find_by(unsubscribe_token: params[:token])
   end
 end

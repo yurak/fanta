@@ -24,15 +24,18 @@ module Substitutes
 
     def prepare
       @eligible_rows = (0...@m).select { |r| @grid[r].any? { |cell| cell != 'X' } }
-      @all_edges = @eligible_rows.map do |r|
-        (0...@n).reject { |c| @grid[r][c] == 'X' }
-                .sort_by { |c| @grid[r][c] }
-      end
-      @zero_edges = @eligible_rows.map do |r|
-        (0...@n).select { |c| @grid[r][c] == 0 } # rubocop:disable Style/NumericPredicate
-      end
+      @all_edges  = @eligible_rows.map { |r| all_edges_for(r) }
+      @zero_edges = @eligible_rows.map { |r| zero_edges_for(r) }
       @match_col = Array.new(@n, -1)
       @match_row = Array.new(@eligible_rows.size, -1)
+    end
+
+    def all_edges_for(row)
+      (0...@n).reject { |c| @grid[row][c] == 'X' }.sort_by { |c| @grid[row][c] }
+    end
+
+    def zero_edges_for(row)
+      (0...@n).select { |c| @grid[row][c] == 0 } # rubocop:disable Style/NumericPredicate
     end
 
     # Phase 1: maximise zero-malus matches first (highest priority)
@@ -93,10 +96,10 @@ module Substitutes
 
         @match_col[c] = idx
         @match_row[idx] = c
-        return true
+        return c
       end
 
-      false
+      nil
     end
 
     # Phase 2: augment using all edges, preserving zero-malus count.
@@ -104,32 +107,44 @@ module Substitutes
     # non-zero edge — it may only escape via its own zero-malus edges (to avoid
     # reducing the total number of zero-malus matches).
     def augment_full(idx, visited, zero_only:)
-      edges = zero_only ? @zero_edges[idx] : @all_edges[idx]
-
-      edges.each do |c|
+      edges_for(idx, zero_only).each do |c|
         next if visited[c]
 
         visited[c] = true
-
-        malus_val = @grid[@eligible_rows[idx]][c]
-        # Displaced row must escape via zero-only edges only when a non-zero edge
-        # displaces a row that currently holds a zero-malus slot (to prevent Z-loss).
-        occupant     = @match_col[c]
-        occupant_val = occupant == -1 ? nil : @grid[@eligible_rows[occupant]][c]
-        next_zero_only = malus_val != 0 && occupant_val&.zero?
-
-        next unless occupant == -1 || augment_full(occupant, visited, zero_only: next_zero_only)
+        next unless can_displace?(idx, c, visited)
 
         @match_col[c] = idx
         @match_row[idx] = c
-        return true
+        return c
       end
 
-      false
+      nil
+    end
+
+    def edges_for(idx, zero_only)
+      zero_only ? @zero_edges[idx] : @all_edges[idx]
+    end
+
+    def occupant_val(occupant, col)
+      return nil if occupant == -1
+
+      @grid[@eligible_rows[occupant]][col]
+    end
+
+    # Displaced row must escape via zero-only edges only when a non-zero edge
+    # displaces a row that currently holds a zero-malus slot (to prevent Z-loss).
+    def next_zero_only?(malus_val, occupant, col)
+      malus_val != 0 && occupant_val(occupant, col)&.zero?
+    end
+
+    def can_displace?(idx, col, visited)
+      occupant = @match_col[col]
+      malus_val = @grid[@eligible_rows[idx]][col]
+      occupant == -1 || augment_full(occupant, visited, zero_only: next_zero_only?(malus_val, occupant, col))
     end
 
     def improve
-      loop { break unless improve_pass }
+      nil while improve_pass
     end
 
     # After malus is optimised, reassign each tier's rows to the earliest possible bench
@@ -148,38 +163,37 @@ module Substitutes
     # Move non-zero rows to earlier columns by displacing zero-malus occupants
     # that have another free zero-malus escape. Does not change totals or Z-count.
     def cross_tier_squeeze
-      loop { break unless cross_tier_pass }
+      nil while cross_tier_pass
     end
 
     def cross_tier_pass
       @eligible_rows.each_with_index do |r, i|
         c = @match_row[i]
-        next if c == -1 || (@grid[r][c]).zero?
-        return true if shift_nonzero_left(i, r, c)
+        next if c == -1 || @grid[r][c].zero?
+        return i if shift_nonzero_left(i, r, c)
       end
-      false
+      nil
     end
 
     def shift_nonzero_left(idx, row, current_col)
       malus_val = @grid[row][current_col]
       (0...current_col).each do |target_col|
         next unless @grid[row][target_col] == malus_val
-        return true if try_displace_zero(idx, current_col, target_col)
+        return target_col if try_displace_zero(idx, current_col, target_col)
       end
-      false
+      nil
     end
 
     def try_displace_zero(idx, current_col, target_col)
       occupant = @match_col[target_col]
-      return false if occupant == -1
-      return false unless (@grid[@eligible_rows[occupant]][target_col]).zero?
+      return unless occupant != -1 && @grid[@eligible_rows[occupant]][target_col].zero?
 
       escape = @zero_edges[occupant].find { |e| e != target_col && @match_col[e] == -1 }
-      return false unless escape
+      return unless escape
 
       reassign(occupant, target_col, escape)
       reassign(idx, current_col, target_col)
-      true
+      escape
     end
 
     def tier_idxs(malus_val)
@@ -221,20 +235,20 @@ module Substitutes
       end
     end
 
-    # Try to move row i to a lower column. Returns true if a move was made.
+    # Try to move row i to a lower column. Returns target_col if a move was made, nil otherwise.
     # 1. target_col is free — move directly.
     # 2. target_col is occupied by a tier row — find a free escape col for it strictly
     #    between target_col and current_col so the net column-index sum decreases.
     def shift_row_left(row_idx, tier_edges)
       current_col = @match_row[row_idx]
-      return false if current_col == -1
+      return unless current_col != -1
 
       tier_edges[row_idx].each do |target_col|
         break if target_col >= current_col
 
-        return true if try_move_to_col(row_idx, current_col, target_col, tier_edges)
+        return target_col if try_move_to_col(row_idx, current_col, target_col, tier_edges)
       end
-      false
+      nil
     end
 
     def try_move_to_col(row_idx, current_col, target_col, tier_edges)
@@ -243,14 +257,14 @@ module Substitutes
         reassign(row_idx, current_col, target_col)
       elsif tier_edges.key?(occupant)
         escape = tier_edges[occupant].find { |c| c > target_col && c < current_col && @match_col[c] == -1 }
-        return false unless escape
+        return unless escape
 
         reassign(occupant, target_col, escape)
         reassign(row_idx, current_col, target_col)
       else
-        return false
+        return
       end
-      true
+      target_col
     end
 
     def reassign(row_idx, old_col, new_col)
@@ -298,41 +312,47 @@ module Substitutes
 
         @match_col[c] = idx
         @match_row[idx] = c
-        return true
+        return c
       end
 
-      false
+      nil
     end
 
     def improve_pass
       @eligible_rows.each_with_index do |r, i|
         next if @match_row[i] == -1
 
-        @eligible_rows.each_with_index do |r2, j|
-          next if j <= i || @match_row[j] == -1
-
-          return true if try_swap(i, j, r, r2)
-          return true if try_escape_swap(i, j, r, r2)
-          return true if try_escape_swap(j, i, r2, r)
-        end
+        return i if improve_row(i, r)
       end
 
-      false
+      nil
+    end
+
+    def improve_row(idx, row)
+      @eligible_rows.each_with_index do |row2, jdx|
+        next if jdx <= idx || @match_row[jdx] == -1
+
+        return jdx if try_swap(idx, jdx, row, row2)
+        return jdx if try_escape_swap(idx, jdx, row, row2)
+        return jdx if try_escape_swap(jdx, idx, row2, row)
+      end
+
+      nil
     end
 
     def try_swap(idx, jdx, row, row2)
       col_i = @match_row[idx]
       col_j = @match_row[jdx]
-      return false if @grid[row][col_j] == 'X' || @grid[row2][col_i] == 'X'
-      return false if z_loss?(row, row2, col_i, col_j)
-      return false unless @grid[row][col_j].to_f + @grid[row2][col_i].to_f <
+      return if @grid[row][col_j] == 'X' || @grid[row2][col_i] == 'X'
+      return if z_loss?(row, row2, col_i, col_j)
+      return unless @grid[row][col_j].to_f + @grid[row2][col_i].to_f <
         @grid[row][col_i].to_f + @grid[row2][col_j].to_f
 
       @match_row[idx] = col_j
       @match_row[jdx] = col_i
       @match_col[col_i] = jdx
       @match_col[col_j] = idx
-      true
+      col_j
     end
 
     # If row idx holds a zero-malus column that row jdx would benefit from,
@@ -343,24 +363,24 @@ module Substitutes
       col_i = @match_row[idx]
       col_j = @match_row[jdx]
 
-      return false unless (@grid[row][col_i]).zero?
-      return false if @grid[row2][col_i] == 'X'
-      return false unless @grid[row2][col_i].to_f < @grid[row2][col_j].to_f
+      return unless @grid[row][col_i].zero?
+      return if @grid[row2][col_i] == 'X'
+      return unless @grid[row2][col_i].to_f < @grid[row2][col_j].to_f
 
       max_escape_val = @grid[row2][col_j].to_f - @grid[row2][col_i].to_f
       escape_col = find_escape_col(idx, row, col_i, col_j, max_escape_val)
-      return false unless escape_col
+      return unless escape_col
 
       # Reject if Z-loss: escape is non-zero (idx leaves zero) AND row2 does not
       # gain zero at col_i (the freed slot). If row2 gains zero there, net Z is neutral.
-      return false if !(@grid[row][escape_col]).zero? && !(@grid[row2][col_i]).zero?
+      return if !@grid[row][escape_col].zero? && !@grid[row2][col_i].zero?
 
       @match_col[col_i] = jdx
       @match_row[jdx] = col_i
       @match_col[col_j] = -1
       @match_col[escape_col] = idx
       @match_row[idx] = escape_col
-      true
+      escape_col
     end
 
     # Returns a free column for idx to escape to, freeing col_i for jdx.
@@ -368,11 +388,18 @@ module Substitutes
     # does not exceed max_escape_val (jdx savings minus idx cost must be >= 0)
     # and uses an earlier bench position (c < col_j) to guarantee convergence.
     def find_escape_col(idx, row, col_i, col_j, max_escape_val)
-      @zero_edges[idx].find { |c| c != col_i && @match_col[c] == -1 } ||
-        @all_edges[idx].find do |c|
-          c != col_i && @match_col[c] == -1 &&
-            !(@grid[row][c]).zero? && @grid[row][c].to_f <= max_escape_val && c < col_j
-        end
+      free_zero_escape(idx, col_i) || free_nonzero_escape(idx, row, col_i, col_j, max_escape_val)
+    end
+
+    def free_zero_escape(idx, col_i)
+      @zero_edges[idx].find { |c| c != col_i && @match_col[c] == -1 }
+    end
+
+    def free_nonzero_escape(idx, row, col_i, col_j, max_escape_val)
+      @all_edges[idx].find do |c|
+        c != col_i && @match_col[c] == -1 &&
+          !@grid[row][c].zero? && @grid[row][c].to_f <= max_escape_val && c < col_j
+      end
     end
 
     # Returns true if swapping would reduce the zero-malus match count.
@@ -383,7 +410,7 @@ module Substitutes
     end
 
     def count_zero_assignments
-      @eligible_rows.each_with_index.count { |r, i| (c = @match_row[i]) != -1 && (@grid[r][c]).zero? }
+      @eligible_rows.each_with_index.count { |r, i| (c = @match_row[i]) != -1 && @grid[r][c].zero? }
     end
 
     def report

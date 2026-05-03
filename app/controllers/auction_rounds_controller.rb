@@ -16,7 +16,9 @@ class AuctionRoundsController < ApplicationController
   private
 
   def auction_round
-    @auction_round ||= AuctionRound.find_by(id: params[:id])
+    return @auction_round if defined?(@auction_round)
+
+    @auction_round = AuctionRound.find_by(id: params[:id])
   end
 
   def auction
@@ -25,8 +27,9 @@ class AuctionRoundsController < ApplicationController
 
   def auction_bid
     return unless current_user
+    return @auction_bid if defined?(@auction_bid)
 
-    @auction_bid ||= auction_round.auction_bids.find_by(team: current_user&.team_by_league(league))
+    @auction_bid = auction_round.auction_bids.find_by(team: current_user&.team_by_league(league))
   end
 
   def league

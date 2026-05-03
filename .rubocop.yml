@@ -1,8 +1,9 @@
 inherit_from: .rubocop_todo.yml
 require:
   - rubocop-rails
-  - rubocop-rspec
   - rubocop-factory_bot
+plugins:
+  - rubocop-rspec
 
 AllCops:
   TargetRubyVersion: 2.5
@@ -46,3 +47,8 @@ RSpec/NestedGroups:
   Max: 5
 RSpec/MultipleMemoizedHelpers:
   Max: 7
+FactoryBot/ExcessiveCreateList:
+  MaxAmount: 25
+RSpec/EmptyExampleGroup:
+  Exclude:
+    - 'spec/requests/api/**/*'

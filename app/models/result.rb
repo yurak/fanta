@@ -51,22 +51,22 @@ class Result < ApplicationRecord
   end
 
   def crownable?
-    return true if title? && user_title.nil?
-
-    return false if title?
+    return title_crownable? if title?
 
     league_results = league.results.ordered
     return false unless league_results.first&.id == id
 
     return true if league.archived?
 
-    remaining = league.tours.where.not(
-      status: [Tour.statuses[:closed], Tour.statuses[:postponed]]
-    ).count
+    remaining = league.tours.where.not(status: [Tour.statuses[:closed], Tour.statuses[:postponed]]).count
     second = league_results.second
     return true if second.nil?
 
     points - second.points > remaining * 3
+  end
+
+  def title_crownable?
+    user_title.nil?
   end
 
   def matches_played

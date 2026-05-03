@@ -873,6 +873,9 @@
         "activate": "Activate",
         "activated": "League activated",
         "already_crowned": "Champion already set",
+        "archive": "Archive",
+        "archive_confirm": "Archive this league?",
+        "archived": "League archived",
         "auction_number": "Auctions number",
         "auction_rounds": "Rounds",
         "auction_step": "Auction step",
@@ -1131,8 +1134,7 @@
           }
         }
       },
-      "nth": {
-      },
+      "nth": {},
       "percentage": {
         "format": {
           "delimiter": "",
@@ -2649,6 +2651,9 @@
         "activate": "Активувати",
         "activated": "Лігу активовано",
         "already_crowned": "Чемпіона вже призначено",
+        "archive": "Архівувати",
+        "archive_confirm": "Архівувати цю лігу?",
+        "archived": "Лігу архівовано",
         "auction_number": "Номер аукціону",
         "auction_rounds": "Раунди",
         "auction_step": "Крок аукціону",

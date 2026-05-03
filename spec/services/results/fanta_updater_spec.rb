@@ -29,7 +29,8 @@ RSpec.describe Results::FantaUpdater do
       before do
         create(:lineup, :with_team_and_score_six, team: team_one, tour: tour)
         create(:lineup, :with_team_and_score_seven, team: team_two, tour: tour)
-        create_list(:lineup, 37, team: create(:team, :with_result, league: tour.league), tour: tour, final_score: 62)
+        middle_team = create(:team, :with_result, league: tour.league)
+        37.times { |_| create(:lineup, team: middle_team, tour: tour, final_score: 62) }
         create(:lineup, :with_team_and_score_five, team: team_forty, tour: tour)
 
         updater.call

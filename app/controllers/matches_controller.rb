@@ -20,8 +20,10 @@ class MatchesController < ApplicationController
   private
 
   def match
-    @match ||= Match.includes(:host, :guest, tour: [:tournament_round, :league, { matches: %i[host guest] }])
-                    .find_by(id: params[:id] || params[:match_id])
+    return @match if defined?(@match)
+
+    @match = Match.includes(:host, :guest, tour: [:tournament_round, :league, { matches: %i[host guest] }])
+                  .find_by(id: params[:id] || params[:match_id])
   end
 
   def preload_lineups(match)

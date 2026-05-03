@@ -80,15 +80,15 @@ namespace :tm do
           res2 = Players::Transfermarkt::PositionMapper.call(pl, year)
           pos = pl.player_positions.map { |pp| Slot::POS_MAPPING[pp.position.name] }
           if res.any? && res2.any?
-            unless (res2 & pos) == res2
+            if (res2 - pos).any?
               writer << [pl.id, pl.name, club.name, pl.tm_url, pos.join(','), res.join(','), res2.join(','), pl.current_average_price]
             end
           elsif res2.any?
-            unless (res2 & pos) == res2
+            if (res2 - pos).any?
               writer << [pl.id, pl.name, club.name, pl.tm_url, pos.join(','), 'NO RESULT', res2.join(','), pl.current_average_price]
             end
           elsif res.any?
-            unless (res & pos) == res
+            if (res - pos).any?
               writer << [pl.id, pl.name, club.name, player.tm_url, pos.join(','), res.join(','), 'NO RESULT', pl.current_average_price]
             end
           else

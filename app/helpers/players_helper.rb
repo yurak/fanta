@@ -43,11 +43,18 @@ module PlayersHelper
   end
 
   def subs_string(match_player)
-    if current_user&.can_moderate?
-      "Replaced: #{match_player.main_subs.last&.out_rp&.full_name_reverse} by #{match_player.main_subs&.first&.subs_by}"
-    else
-      "Replaced: #{match_player.main_subs.last&.out_rp&.full_name_reverse}"
-    end
+    base = "Replaced: #{out_player_name(match_player)}"
+    return "#{base} by #{subs_by_name(match_player)}" if current_user&.can_moderate?
+
+    base
+  end
+
+  def out_player_name(match_player)
+    match_player.main_subs.last&.out_rp&.full_name_reverse
+  end
+
+  def subs_by_name(match_player)
+    match_player.main_subs&.first&.subs_by
   end
 
   def module_link(lineup, team_module)

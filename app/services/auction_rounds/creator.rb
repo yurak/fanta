@@ -35,7 +35,7 @@ module AuctionRounds
     end
 
     def basic?
-      auction.primary? && auction.auction_rounds.count.zero?
+      auction.primary? && auction.auction_rounds.none?
     end
 
     def league
