@@ -427,6 +427,36 @@ RSpec.describe 'Manage::Leagues' do
     end
   end
 
+  describe 'POST #archive' do
+    let!(:league) { create(:active_league) }
+
+    context 'when user is logged out' do
+      before { post archive_manage_league_path(league) }
+
+      it { expect(response).to redirect_to('/users/sign_in') }
+    end
+
+    context 'when regular user is logged in' do
+      login_user
+
+      before { post archive_manage_league_path(league) }
+
+      it { expect(response).to redirect_to(leagues_path) }
+    end
+
+    context 'when admin is logged in' do
+      login_admin
+
+      before { post archive_manage_league_path(league) }
+
+      it { expect(response).to redirect_to(manage_league_path(league)) }
+
+      it 'sets the league status to archived' do
+        expect(league.reload).to be_archived
+      end
+    end
+  end
+
   describe 'POST #activate' do
     let!(:league) { create(:league, :with_five_teams) }
     let(:deadline) { 1.week.from_now.strftime('%Y-%m-%dT%H:%M') }

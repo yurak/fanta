@@ -52,6 +52,11 @@ module Manage
       redirect_to manage_leagues_path, notice: t('manage.leagues.activated')
     end
 
+    def archive
+      league.archived!
+      redirect_to manage_league_path(league), notice: t('manage.leagues.archived')
+    end
+
     def crown
       result = league.results.find(params[:result_id])
       ActiveRecord::Base.transaction { assign_title(result) }

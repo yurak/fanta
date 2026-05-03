@@ -30,6 +30,7 @@ Rails.application.routes.draw do
     resources :leagues, only: [:index, :new, :create, :edit, :update, :show] do
       member do
         post :activate
+        post :archive
         post :crown
       end
     end
