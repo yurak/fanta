@@ -604,8 +604,17 @@
     }
 
     .bonus-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
       margin-bottom: 16px;
       font-family: 'Nunito ExtraBold';
+
+      img {
+        width: 24px;
+        height: 24px;
+        flex-shrink: 0;
+      }
     }
 
     .rules-paragraph-next {
@@ -697,6 +706,12 @@
 
       .rules-example-img {
         width: 100%;
+        overflow: hidden;
+
+        img {
+          max-width: 100%;
+          height: auto;
+        }
       }
 
       .rules-example-text {
@@ -849,7 +864,7 @@
 
   .fees-types-section {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 2fr;
     column-gap: 32px;
     margin: 80px 0;
 
@@ -906,6 +921,7 @@
 
         .type-league-data {
           display: grid;
+          line-height: 32px;
           grid-template-columns: auto 48px;
         }
 
@@ -921,6 +937,12 @@
       .type-league:last-child {
         border: none;
       }
+    }
+
+    .type-list-double {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      column-gap: 32px;
     }
 
     .fees-item-green {
@@ -1091,12 +1113,22 @@
     }
   }
 
-  .rules-page .rules-nav {
-    display: none;
+  .about-page, .contact-page, .guide-page {
+    height: calc(100% - 630px);
+  }
+
+  .rules-page {
+    .rules-nav {
+      display: none;
+    }
+
+    .rules-text {
+      width: fit-content;
+    }
   }
 
   .rules-user-true {
-    padding: 48px 40px 48px 112px;
+    padding: 48px 40px;
   }
 }
 

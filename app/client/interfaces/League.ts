@@ -1,5 +1,6 @@
 export interface ILeague {
   id: number,
+  demo: boolean,
   division: string | null,
   division_id: number | null,
   link: string,

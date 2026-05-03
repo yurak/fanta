@@ -83,92 +83,6 @@ RSpec.describe User do
     end
   end
 
-  describe '#active_team' do
-    context 'without team' do
-      it { expect(user.active_team).to be_nil }
-    end
-
-    context 'with one team' do
-      it 'returns team' do
-        team = create(:team, user: user)
-
-        expect(user.active_team).to eq(team)
-      end
-    end
-
-    context 'with multiple teams and without active_team_id' do
-      it 'returns first team' do
-        create_list(:team, 3, user: user)
-
-        expect(user.active_team).to eq(user.teams.first)
-      end
-    end
-
-    context 'with multiple teams and active_team_id' do
-      it 'returns active team' do
-        teams = create_list(:team, 3, user: user)
-        user.active_team_id = teams.last.id
-
-        expect(user.active_team).to eq(teams.last)
-      end
-    end
-  end
-
-  describe '#active_league' do
-    context 'without team' do
-      it { expect(user.active_league).to be_nil }
-    end
-
-    context 'with one team' do
-      it 'returns team league' do
-        team = create(:team, user: user)
-
-        expect(user.active_league).to eq(team.league)
-      end
-    end
-
-    context 'with multiple teams and without active_team_id' do
-      it 'returns first team league' do
-        create_list(:team, 3, user: user)
-
-        expect(user.active_league).to eq(user.teams.first.league)
-      end
-    end
-
-    context 'with multiple teams and active_team_id' do
-      it 'returns active team league' do
-        create_list(:team, 3, user: user)
-        team = create(:team, user: user)
-        user.active_team_id = team.id
-
-        expect(user.active_league).to eq(team.league)
-      end
-    end
-  end
-
-  describe '#next_tour' do
-    context 'without team' do
-      it { expect(user.next_tour).to be_nil }
-    end
-
-    context 'with team and league without rounds' do
-      it 'returns nil' do
-        create(:team, user: user)
-
-        expect(user.next_tour).to be_nil
-      end
-    end
-
-    context 'with team and league with inactive tours' do
-      it 'returns nil' do
-        team = create(:team, user: user)
-        rounds = create_list(:tour, 5, league: team.league)
-
-        expect(user.next_tour).to eq(rounds.first)
-      end
-    end
-  end
-
   describe '#avatar_path' do
     context 'with default avatar' do
       it { expect(user.avatar_path).to eq('avatars/avatar_1.png') }
@@ -193,6 +107,217 @@ RSpec.describe User do
 
       it 'returns avatar path' do
         expect(user.initial_avatar?).to be(false)
+      end
+    end
+  end
+
+  describe '#titles' do
+    context 'without titles' do
+      it 'returns empty array' do
+        expect(user.titles).to eq([])
+      end
+    end
+
+    context 'with titles' do
+      let(:result) { create(:result, title: true) }
+
+      it 'returns results with titles' do
+        expect(user.titles).to eq([])
+      end
+    end
+  end
+
+  describe '#win_rate' do
+    context 'without results' do
+      it 'returns zero' do
+        expect(user.win_rate).to eq(0)
+      end
+    end
+
+    context 'without mantra results' do
+      let(:league) { create(:league, :fanta_league) }
+      let(:team) { create(:team, user: user, league: league) }
+
+      before do
+        create(:result, team: team, league: league)
+      end
+
+      it 'returns zero' do
+        expect(user.win_rate).to eq(0)
+      end
+    end
+
+    context 'with mantra results' do
+      let(:team) { create(:team, user: user) }
+
+      context 'without played matches' do
+        before do
+          create(:result, team: team, league: team.league)
+        end
+
+        it 'returns zero' do
+          expect(user.win_rate).to eq(0)
+        end
+      end
+
+      context 'with played matches' do
+        before do
+          create(:result, team: team, league: team.league, wins: 5, draws: 2, loses: 1)
+        end
+
+        it 'returns win rate' do
+          expect(user.win_rate).to eq(62.5)
+        end
+      end
+    end
+  end
+
+  describe '#average_mantra_ts' do
+    context 'without lineups' do
+      it 'returns zero' do
+        expect(user.average_mantra_ts).to eq(0)
+      end
+    end
+
+    context 'with lineups' do
+      let(:team) { create(:team, user: user) }
+
+      before do
+        create(:lineup, team: team, final_score: 100, tour: create(:closed_tour))
+        create(:lineup, team: team, final_score: 70, tour: create(:closed_tour))
+      end
+
+      it 'returns average total score' do
+        expect(user.average_mantra_ts).to eq(85)
+      end
+    end
+  end
+
+  describe '#average_fanta_ts' do
+    context 'without lineups' do
+      it 'returns zero' do
+        expect(user.average_fanta_ts).to eq(0)
+      end
+    end
+
+    context 'with lineups' do
+      let(:team) { create(:team, user: user) }
+
+      before do
+        tournament = create(:fanta_tournament)
+        create(:lineup, team: team, final_score: 115,
+                        tour: create(:closed_tour, tournament_round: create(:tournament_round, tournament: tournament)))
+        create(:lineup, team: team, final_score: 85,
+                        tour: create(:closed_tour, tournament_round: create(:tournament_round, tournament: tournament)))
+      end
+
+      it 'returns average total score' do
+        expect(user.average_fanta_ts).to eq(100)
+      end
+    end
+  end
+
+  describe '#mantra_best_ts' do
+    context 'without lineups' do
+      it 'returns zero' do
+        expect(user.mantra_best_ts).to eq(0)
+      end
+    end
+
+    context 'with lineups' do
+      let(:team) { create(:team, user: user) }
+
+      before do
+        create(:lineup, team: team, final_score: 100, tour: create(:closed_tour))
+        create(:lineup, team: team, final_score: 70, tour: create(:closed_tour))
+      end
+
+      it 'returns average total score' do
+        expect(user.mantra_best_ts).to eq(100)
+      end
+    end
+  end
+
+  describe '#fanta_best_ts' do
+    context 'without lineups' do
+      it 'returns zero' do
+        expect(user.fanta_best_ts).to eq(0)
+      end
+    end
+
+    context 'with lineups' do
+      let(:team) { create(:team, user: user) }
+
+      before do
+        tournament = create(:fanta_tournament)
+        create(:lineup, team: team, final_score: 115,
+                        tour: create(:closed_tour, tournament_round: create(:tournament_round, tournament: tournament)))
+        create(:lineup, team: team, final_score: 85,
+                        tour: create(:closed_tour, tournament_round: create(:tournament_round, tournament: tournament)))
+      end
+
+      it 'returns average total score' do
+        expect(user.fanta_best_ts).to eq(115)
+      end
+    end
+  end
+
+  describe '#average_position' do
+    context 'without results' do
+      it 'returns zero' do
+        expect(user.average_position).to eq(0)
+      end
+    end
+
+    context 'without finished results' do
+      let(:team) { create(:team, user: user) }
+
+      before do
+        create(:result, team: team, league: team.league)
+      end
+
+      it 'returns zero' do
+        expect(user.average_position).to eq(0)
+      end
+    end
+
+    context 'without finished mantra results' do
+      let(:league) { create(:league, :fanta_league) }
+      let(:team) { create(:team, user: user, league: league) }
+
+      before do
+        create(:result, team: team, league: league, position: 3)
+      end
+
+      it 'returns zero' do
+        expect(user.average_position).to eq(0)
+      end
+    end
+
+    context 'with finished mantra results without position' do
+      let(:league) { create(:archived_league) }
+      let(:team) { create(:team, user: user, league: league) }
+
+      before do
+        create(:result, team: team, league: league)
+      end
+
+      it 'returns zero' do
+        expect(user.average_position).to eq(0)
+      end
+    end
+
+    context 'with finished mantra results with position' do
+      let(:team) { create(:team, user: user, league: create(:archived_league)) }
+      let(:team_two) { create(:team, user: user, league: create(:archived_league)) }
+
+      before do
+        create(:result, team: team, league: team.league, position: 3)
+        create(:result, team: team_two, league: team_two.league, position: 2)
+      end
+
+      it 'returns win rate' do
+        expect(user.average_position).to eq(2.5)
       end
     end
   end

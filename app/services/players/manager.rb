@@ -13,10 +13,10 @@ module Players
 
         player.update(player_data)
       else
-        return false if positions_arr.blank? || tm_url.blank?
+        return false if tm_url.blank?
 
         player = Player.new(player_data)
-        player.positions << Position.where(name: positions_arr)
+        player.positions << Position.where(name: positions_arr) unless positions_arr.empty?
 
         return false unless player.valid?
 
@@ -27,7 +27,7 @@ module Players
     private
 
     def base_data
-      @player_hash.slice('first_name', 'name', 'nationality', 'tm_url')
+      @player_hash.slice('first_name', 'name', 'nationality', 'tm_url', 'birth_date', 'height', 'tm_price', 'number')
     end
 
     def player_data

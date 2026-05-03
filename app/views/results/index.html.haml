@@ -1,7 +1,7 @@
 .page-block.table-results
   .web-header= render 'layouts/left_nav', league: league
   .web-header= render 'layouts/right_nav', league: league
-  .mob-header= render 'layouts/mob_header', league: league, title: t('players.profile')
+  .mob-header= render 'layouts/mob_header', league: league
   = react_component("App")
   .portrait-footer{ class: "portrait-footer-#{league.mantra?}"}
     = render 'layouts/league_links', league: league

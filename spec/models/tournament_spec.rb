@@ -42,6 +42,56 @@ RSpec.describe Tournament do
     end
   end
 
+  describe '.with_join_stats' do
+    subject(:result) { described_class.with_join_stats.find(tournament.id) }
+
+    context 'when there are no joins' do
+      it 'returns joins_count of 0' do
+        expect(result.joins_count).to eq(0)
+      end
+    end
+
+    context 'when join is pending with submitted bid' do
+      before { create(:join, :pending, tournament: tournament, auction_bid: create(:submitted_auction_bid)) }
+
+      it 'counts it' do
+        expect(result.joins_count).to eq(1)
+      end
+    end
+
+    context 'when join is pending but bid is not submitted (initial)' do
+      before { create(:join, :pending, tournament: tournament) }
+
+      it 'does not count it' do
+        expect(result.joins_count).to eq(0)
+      end
+    end
+
+    context 'when join is initial with submitted bid' do
+      before { create(:join, tournament: tournament, auction_bid: create(:submitted_auction_bid)) }
+
+      it 'does not count it' do
+        expect(result.joins_count).to eq(0)
+      end
+    end
+
+    context 'when join is rejected with submitted bid' do
+      before { create(:join, :rejected, tournament: tournament, auction_bid: create(:submitted_auction_bid)) }
+
+      it 'does not count it' do
+        expect(result.joins_count).to eq(0)
+      end
+    end
+
+    context 'when join is approved with submitted bid' do
+      before { create(:join, :approved, tournament: tournament, auction_bid: create(:submitted_auction_bid)) }
+
+      it 'does not count it' do
+        expect(result.joins_count).to eq(0)
+      end
+    end
+  end
+
   describe '#national?' do
     context 'without national teams' do
       it 'returns false' do
@@ -54,40 +104,6 @@ RSpec.describe Tournament do
         create_list(:national_team, 2, tournament: tournament)
 
         expect(tournament.national?).to be(true)
-      end
-    end
-  end
-
-  describe '#fanta?' do
-    context 'without national teams and not eurocup' do
-      it 'returns false' do
-        expect(tournament.fanta?).to be(false)
-      end
-    end
-
-    context 'with national teams and not eurocup' do
-      it 'returns true' do
-        create_list(:national_team, 2, tournament: tournament)
-
-        expect(tournament.fanta?).to be(true)
-      end
-    end
-
-    context 'without national teams and when eurocup' do
-      let(:tournament) { described_class.find_by(code: Scores::Injectors::Strategy::EUROPE_CL) }
-
-      it 'returns true' do
-        expect(tournament.fanta?).to be(true)
-      end
-    end
-
-    context 'with national teams and when eurocup' do
-      let(:tournament) { described_class.find_by(code: Scores::Injectors::Strategy::EUROPE_CL) }
-
-      it 'returns true' do
-        create_list(:national_team, 2, tournament: tournament)
-
-        expect(tournament.fanta?).to be(true)
       end
     end
   end

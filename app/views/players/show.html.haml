@@ -4,9 +4,9 @@
   .page-info.player-show-page
     .player-content
       .player-links
-        .player-back
+        .back-button
           = link_to :back do
-            .round-prev-arrow
+            .back-button-arrow
               = image_tag('icons/arrow.svg')
         .player-pos-change
           - if user_signed_in?
@@ -27,7 +27,7 @@
                   = position_name(position)
             .player-show-score
               .player-show-score-value
-                = player.season_average_result_score
+                = player.season_average_result_score(player.season_club_matches_w_scores)
         .player-show-avatar
           .player-show-face
             %object{data: player.profile_avatar_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
@@ -49,7 +49,13 @@
             .player-table-row
               .player-table-row-key= t('players.club')
               .player-table-row-value.player-table-club
-                .player-table-club-name= player.club.name
+                .player-table-club-name
+                  - if player.club&.tournament
+                    = link_to tournament_club_path(player.club.tournament, player.club) do
+                      .player-tm-link
+                        = player.club.name
+                  - else
+                    = player.club.name
                 %object{data: player.club.logo_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
                   = image_tag('default_logo.png')
             - if player.tm_id.present?
@@ -129,11 +135,11 @@
                 .default-tab-name= t('players.international')
             .player-tabs-content
               .domestic.player-tab-content
-                = render('performance', player: player, matches: player.season_matches_with_scores)
+                = render('performance', player: player, matches: player.season_club_in_squad)
               .eurocups.player-tab-content
-                = render('performance', player: player, matches: player.season_ec_matches_with_scores)
+                = render('performance', player: player, matches: player.season_ec_in_squad)
               .international.player-tab-content
-                = render('performance', player: player, matches: player.national_matches_with_scores)
+                = render('performance', player: player, matches: player.national_in_squad)
 
       - if @stats.any?
         = render('season_stats', player: player)

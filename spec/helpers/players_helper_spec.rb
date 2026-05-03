@@ -109,7 +109,7 @@ RSpec.describe PlayersHelper do
 
     context 'with slot and team with players' do
       it 'returns players without malus' do
-        expect(helper.available_by_slot(team, slot)).to have_key('')
+        expect(helper.available_by_slot(team, slot)).to have_key('0')
       end
 
       it 'returns players with malus 1,5' do
@@ -172,8 +172,122 @@ RSpec.describe PlayersHelper do
     end
   end
 
+  describe '#subs_string(match_player)' do
+    let(:out_rp) { create(:round_player) }
+    let(:match_player) { create(:match_player) }
+
+    before do
+      create(:substitute, main_mp: match_player, out_rp: out_rp, subs_by: :manual)
+    end
+
+    context 'without current_user' do
+      before { allow(helper).to receive(:current_user).and_return(nil) }
+
+      it 'returns replaced string without subs_by' do
+        expect(helper.subs_string(match_player)).to eq("Replaced: #{out_rp.full_name_reverse}")
+      end
+    end
+
+    context 'with regular user' do
+      before { allow(helper).to receive(:current_user).and_return(create(:user)) }
+
+      it 'returns replaced string without subs_by' do
+        expect(helper.subs_string(match_player)).to eq("Replaced: #{out_rp.full_name_reverse}")
+      end
+    end
+
+    context 'with moderator' do
+      before { allow(helper).to receive(:current_user).and_return(create(:moderator)) }
+
+      it 'returns replaced string with subs_by' do
+        expect(helper.subs_string(match_player)).to eq("Replaced: #{out_rp.full_name_reverse} by manual")
+      end
+    end
+
+    context 'with admin' do
+      before { allow(helper).to receive(:current_user).and_return(create(:admin)) }
+
+      it 'returns replaced string with subs_by' do
+        expect(helper.subs_string(match_player)).to eq("Replaced: #{out_rp.full_name_reverse} by manual")
+      end
+    end
+
+    context 'when match_player has no substitutions' do
+      let(:empty_match_player) { create(:match_player) }
+
+      before { allow(helper).to receive(:current_user).and_return(nil) }
+
+      it 'returns replaced string with nil player name' do
+        expect(helper.subs_string(empty_match_player)).to eq('Replaced: ')
+      end
+    end
+  end
+
   describe '#module_link(lineup, team_module)' do
-    it 'is a pending example for module_link'
+    let(:team_module) { TeamModule.first }
+
+    context 'when lineup exists' do
+      let(:lineup) { create(:lineup) }
+
+      it 'returns edit path with team_module_id' do
+        expect(helper.module_link(lineup, team_module)).to eq(
+          edit_team_lineup_path(lineup.team, lineup, team_module_id: team_module.id)
+        )
+      end
+    end
+
+    context 'when lineup is new' do
+      let(:tour) { create(:tour) }
+      let(:team) { create(:team) }
+      let(:lineup) { Lineup.new(team: team, tour: tour) }
+
+      it 'returns new path with team_module_id and tour_id' do
+        expect(helper.module_link(lineup, team_module)).to eq(
+          new_team_lineup_path(team, team_module_id: team_module.id, tour_id: tour.id)
+        )
+      end
+    end
+  end
+
+  describe '#player_by_source_data(player_data)' do
+    context 'when sofascore_id is present' do
+      let!(:player) { create(:player, sofascore_id: 12_345) }
+
+      it 'returns player by sofascore_id' do
+        expect(helper.player_by_source_data('sofascore_id' => 12_345)).to eq(player)
+      end
+
+      it 'ignores fotmob_id when sofascore_id is present' do
+        create(:player, fotmob_id: 99_999)
+        expect(helper.player_by_source_data('sofascore_id' => 12_345, 'fotmob_id' => 99_999)).to eq(player)
+      end
+    end
+
+    context 'when only fotmob_id is present' do
+      let!(:player) { create(:player, fotmob_id: 67_890) }
+
+      it 'returns player by fotmob_id' do
+        expect(helper.player_by_source_data('fotmob_id' => 67_890)).to eq(player)
+      end
+    end
+
+    context 'when sofascore_id does not match any player' do
+      it 'returns nil' do
+        expect(helper.player_by_source_data('sofascore_id' => 99_999)).to be_nil
+      end
+    end
+
+    context 'when fotmob_id does not match any player' do
+      it 'returns nil' do
+        expect(helper.player_by_source_data('fotmob_id' => 99_999)).to be_nil
+      end
+    end
+
+    context 'when neither sofascore_id nor fotmob_id is present' do
+      it 'returns nil' do
+        expect(helper.player_by_source_data({})).to be_nil
+      end
+    end
   end
 
   describe '#user_tournament_team(tournament_id)' do

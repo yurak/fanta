@@ -1,0 +1,28 @@
+.page-block
+  .web-header= render 'layouts/left_nav', league: nil
+  .web-header= render 'layouts/manage_nav'
+  .mob-header= render 'layouts/mob_header', league: nil, title: t('manage.weekly_team.title')
+  .page-info.admin-manage-page
+    .d-flex.align-items-center.justify-content-between.mb-3
+      %h2.mb-0= t('manage.weekly_team.title')
+      = link_to t('manage.weekly_team.new'), new_manage_weekly_team_path, class: 'btn btn-primary'
+
+    - if @weekly_teams.any?
+      %table.table.table-hover
+        %thead
+          %tr
+            %th= '#'
+            %th= t('manage.weekly_team.col_mode')
+            %th= t('manage.weekly_team.col_module')
+            %th= t('manage.weekly_team.col_season')
+            %th= t('manage.weekly_team.col_created')
+        %tbody
+          - @weekly_teams.each do |wt|
+            %tr
+              %td= link_to "##{wt.number}", weekly_team_path(wt)
+              %td= t("weekly_team.mode_#{wt.mode}")
+              %td= wt.team_module.name
+              %td= "#{wt.season.start_year}/#{wt.season.end_year}"
+              %td= wt.created_at.strftime('%d.%m.%Y')
+    - else
+      %p.text-muted= t('manage.weekly_team.empty')

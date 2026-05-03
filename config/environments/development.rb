@@ -12,6 +12,8 @@ Rails.application.configure do
 
   # Settings specified here will take precedence over those in config/application.rb.
 
+  config.log_level = :info
+
   # In the development environment your application's code is reloaded on
   # every request. This slows down response time but is perfect for development
   # since you don't have to restart the web server when you make code changes.
@@ -38,7 +40,7 @@ Rails.application.configure do
     config.cache_store = :null_store
   end
 
-  config.action_controller.asset_host = 'http://localhost:3333'
+  config.action_controller.asset_host = ENV.fetch('ASSET_HOST', 'http://localhost:3333')
 
   # Store uploaded files on the local file system (see config/storage.yml for options)
   config.active_storage.service = :local
@@ -48,7 +50,9 @@ Rails.application.configure do
 
   config.action_mailer.perform_caching = false
 
-  config.action_mailer.default_url_options = { host: 'localhost', port: 3333, protocol: 'http', only_path: false }
+  config.action_mailer.show_previews = true
+
+  config.action_mailer.default_url_options = { host: 'http://localhost:3333', only_path: false }
 
   config.action_mailer.asset_host = 'http://localhost:3333'
 
@@ -84,12 +88,14 @@ Rails.application.configure do
   # Suppress logger output for asset requests.
   config.assets.quiet = true
 
-  config.telegram_updates_controller.session_store = :memory_store
-
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
 
   # Use an evented file watcher to asynchronously detect changes in source code,
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
+
+  config.telegram_updates_controller.session_store = :memory_store
+  config.telegram_updates_controller.host = 'https://staging.mantrafootball.org'
+  config.telegram_updates_controller.bot_username = 'mantra_prod_bot'
 end

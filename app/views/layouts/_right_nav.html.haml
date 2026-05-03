@@ -1,12 +1,16 @@
+- nav_tournament = local_assigns.fetch(:tournament, league&.tournament)
 .right-nav{ class: "active-right-nav-#{ user_team_by_league(current_user, league).present? }"}
   - if league
     .league-name
-      - if league.division
-        = "#{league.division.name} | #{league.name}"
-      - else
-        = league.name
+      %span.league-name-text
+        - if league.division
+          = "#{league.division.name} | #{league.name}"
+        - else
+          = league.name
+      - if league.demo?
+        %span.badge-demo= t('league.demo_badge_short')
     .league-season
-      = "#{t('header.season')} #{league.season.start_year.to_s[2..3]}-#{league.season.end_year.to_s[2..3]} • #{league.mantra? ? t('header.mantra') : t('header.fanta')}"
+      = "#{t('header.season')} #{league.season.start_year.to_s[2..3]}-#{league.season.end_year.to_s[2..3]} • #{league.type.capitalize}"
 
     - if user_team_by_league(current_user, league) || current_user&.admin?
       = render 'layouts/auction_badge', league: league, initial_auction: league.auctions.initial.first, active_auction: league.auctions.active.first
@@ -36,8 +40,8 @@
               .next-round-text= t('header.next')
               .next-round-number= "#{t('header.next_round')} ##{league.active_tour.number}"
             .next-round-datetime
-              .next-round-date= league.active_tour.tournament_round.deadline&.strftime("%^a, %^b %e")
-              .next-round-time= league.active_tour.tournament_round.deadline&.strftime("%H:%M")
+              .next-round-date= local_time(league.active_tour.tournament_round.deadline, '%^a, %^b %e')
+              .next-round-time= local_time(league.active_tour.tournament_round.deadline, '%H:%M')
             .next-round-opponent
               .next-round-vs vs
               .next-round-opponent-logo= image_tag(user_team_by_league(current_user, league).next_opponent.logo_path)
@@ -59,11 +63,16 @@
 
       - if params[:controller] == 'tours'
         .admin-actions
-          - if current_user&.can_moderate? && tour.deadlined?
-            = link_to inject_scores_tour_path(tour), data: { confirm: t('header.are_you_sure') } do
+          - if current_user&.can_moderate?
+            - if tour.deadlined?
+              = link_to inject_scores_tour_path(tour), data: { confirm: t('header.are_you_sure') } do
+                .league-link
+                  .league-link-icon= image_tag('icons/round/table.svg')
+                  .league-link-text= t('header.inject_scores')
+            = link_to tournament_round_path(tour.tournament_round) do
               .league-link
-                .league-link-icon= image_tag('icons/round/table.svg')
-                .league-link-text= t('header.inject_scores')
+                .league-link-icon= image_tag('icons/round/statistics.svg')
+                .league-link-text= t('header.manage_round')
             -#.league-link= link_to t('header.edit_scores'), edit_tournament_round_path(tour.tournament_round)
           - if current_user&.admin?
             - if tour.inactive?
@@ -94,3 +103,17 @@
           .league-team-name= user_team_by_league(current_user, league).human_name
       - else
         .league-team-empty= t('header.not_participant')
+  - elsif nav_tournament
+    - nav_season = Season.last
+    .league-name= nav_tournament.name
+    - if nav_season
+      .league-season= "#{t('header.season')} #{nav_season.start_year.to_s[2..3]}-#{nav_season.end_year.to_s[2..3]} • Mantra"
+    .league-links
+      = link_to players_path(tournament: nav_tournament) do
+        .league-link{class: "link-active-#{ params[:controller] == 'players' && params[:action] == 'index' }"}
+          .league-link-icon= image_tag('icons/round/players.svg')
+          .league-link-text= t('header.players')
+      = link_to joins_path do
+        .league-link{class: "link-active-#{ params[:controller] == 'auction_bids' }"}
+          .league-link-icon= image_tag('icons/round/auctions.svg')
+          .league-link-text= t('header.auctions')

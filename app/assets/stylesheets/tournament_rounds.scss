@@ -1,37 +1,391 @@
+/* TOURNAMENT ROUND SHOW */
+.page-info.round-manage-page {
+  padding: 32px 124px 70px 196px;
+
+  a {
+    text-decoration: none;
+    color: #181715;
+  }
+
+  .round-title-bar {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    line-height: 64px;
+
+    .round-title {
+      font-weight: bold;
+      font-size: 48px;
+      color: #181715;
+    }
+  }
+
+  .round-moderated-badge {
+    color: #FFFFFF;
+    background: #EC9797;
+    border-radius: 12px;
+    padding: 0 16px;
+    width: fit-content;
+    height: 24px;
+    font-size: 14px;
+    line-height: 24px;
+  }
+
+  .round-deadline-badge {
+    color: #181715;
+    background: #D0F0D4;
+  }
+
+  .round-block {
+    margin-top: 32px;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    column-gap: 48px;
+
+    .round-tours {
+      .round-tour-item {
+        height: 40px;
+        font-size: 16px;
+        line-height: 24px;
+        padding: 7px 8px;
+        border: 1px solid #E5E6E4;
+        box-sizing: border-box;
+        border-radius: 8px;
+        margin: 4px;
+        width: 320px;
+        display: inline-block;
+
+        .round-tour-link {
+          display: grid;
+          grid-template-columns: 36px auto 88px 44px;
+          width: 100%;
+          height: 100%;
+
+          .round-tour-division {
+            font-family: 'Nunito ExtraBold';
+          }
+
+          .round-tour-status {
+            background: #E5E6E4;
+            border-radius: 16px;
+            padding: 4px;
+            font-size: 14px;
+            line-height: 16px;
+            text-align: center;
+          }
+
+          .round-status-set_lineup {
+            background: #D0F0D4;
+          }
+
+          .round-status-locked {
+            background: #FFEBC2;
+          }
+
+          .round-status-postponed {
+            background: #EC9797;
+          }
+
+          .round-status-closed {
+            background: #D8D6FF;
+          }
+
+          .round-tour-number {
+            text-align: right;
+            color: #A6A2A2;
+          }
+        }
+      }
+
+      .subs-missed-true {
+        background: #EC9797;
+        border: 1px solid red;
+
+        .round-tour-link {
+          .round-tour-number {
+            color: #FFFFFF;
+          }
+        }
+      }
+    }
+
+    .round-missed-players {
+      padding-top: 32px;
+
+      .round-missed-players-title {
+        font-family: 'Nunito Bold';
+        font-size: 18px;
+        margin-bottom: 12px;
+      }
+
+      .round-missed-players-match {
+        margin-bottom: 24px;
+
+        .round-missed-players-match-title {
+          font-family: 'Nunito Bold';
+          margin: 24px 0 12px;
+        }
+      }
+    }
+
+    .round-matches {
+      margin-top: 32px;
+
+      .round-tournament-match {
+        border-bottom: 1px solid rgba(24, 23, 21, 0.2);
+        grid-template-columns: 1fr 64px 1fr 104px;
+        column-gap: 12px;
+
+        .round-tournament-match-team {
+          padding: 11px 0;
+        }
+
+        .round-tournament-match-cell {
+          height: 70px;
+        }
+
+        .round-tournament-team-logo {
+          object, img {
+            margin: 6px;
+            width: 36px;
+            height: 36px;
+          }
+        }
+
+        .round-tournament-match-cell-result {
+          padding: 15px 5px;
+          color: #181715;
+          text-align: center;
+        }
+
+        .edit-match-link {
+          font-family: 'Nunito SemiBold';
+          font-size: 16px;
+          line-height: 24px;
+          border: 1px solid #D8D6FF;
+          border-radius: 4px;
+          padding: 8px;
+          margin: 16px 0;
+          display: inline-block;
+
+          a { color: #261FFF; }
+        }
+      }
+    }
+
+    .round-actions {
+      .round-action-link {
+        background: #FFEBC2;
+        height: 40px;
+        font-size: 16px;
+        line-height: 24px;
+        padding: 7px 8px;
+        box-sizing: border-box;
+        border: 1px solid #FFB319;
+        border-radius: 8px;
+        margin: 4px 8px 8px;
+        width: 240px;
+
+        a {
+          width: 100%;
+          height: 100%;
+        }
+      }
+
+      .round-action-link-stats {
+        background: #D8D6FF;
+        border: 1px solid #040052;
+      }
+
+      .round-action-close {
+        background: #EC9797;
+        border: 1px solid red;
+      }
+
+      .round-action-subs-links {
+        margin-top: 16px;
+        padding-top: 8px;
+        width: fit-content;
+        border-top: 1px solid #E5E6E4;
+      }
+    }
+  }
+
+  /* TOURNAMENT ROUND STATS */
+  .round-stats-row {
+    margin-top: 32px;
+    line-height: 32px;
+    font-size: 24px;
+    display: grid;
+    grid-template-columns: 380px auto;
+
+    .round-stats-data {
+      font-family: 'Nunito Bold';
+    }
+  }
+}
+
+@media (orientation: portrait) {
+  .page-info.round-manage-page {
+    padding: 0 32px 70px;
+
+    .round-block {
+      display: flex;
+      flex-direction: column-reverse;
+
+      .round-tours {
+        .round-tour-item {
+          height: 48px;
+          font-size: 24px;
+          line-height: 32px;
+          padding: 6px 12px;
+          border: 2px solid #E5E6E4;
+          border-radius: 16px;
+          margin: 8px 4px;
+          width: 432px;
+
+          .round-tour-link {
+            grid-template-columns: 48px auto 100px 48px;
+            column-gap: 2px;
+
+            .round-tour-status {
+              border-radius: 16px;
+              padding: 4px;
+              font-size: 18px;
+              line-height: 24px;
+            }
+          }
+        }
+
+        .subs-missed-true {
+          background: #EC9797;
+          border: 1px solid red;
+
+          .round-tour-link {
+            .round-tour-number {
+              color: #FFFFFF;
+            }
+          }
+        }
+      }
+
+      .round-matches {
+        margin-top: 48px;
+
+        .round-tournament-match {
+          font-size: 28px;
+          border-bottom: 2px solid rgba(24, 23, 21, 0.2);
+          grid-template-columns: 1fr 64px 1fr;
+          column-gap: 24px;
+
+          .round-tournament-match-team {
+            padding: 11px 0;
+          }
+
+          .round-tournament-match-cell {
+            height: 70px;
+          }
+
+          .round-tournament-team-logo {
+            object, img {
+              margin: 0;
+              width: 48px;
+              height: 48px;
+            }
+          }
+
+          .round-tournament-match-cell-result {
+            padding: 11px 5px;
+            color: #181715;
+            text-align: center;
+
+            .round-tournament-match-result {
+              font-size: 24px;
+              line-height: 32px;
+              width: 64px;
+            }
+
+            .round-tournament-match-result-text {
+              width: 44px;
+            }
+          }
+        }
+      }
+
+      .round-actions {
+        margin: 0 0 48px;
+
+        .round-action-link {
+          width: 100%;
+          font-size: 28px;
+          line-height: 38px;
+          padding: 6px 8px;
+          border: 2px solid #FFB319;
+          height: 54px;
+          border-radius: 16px;
+          margin: 12px 0 32px;
+          text-align: center;
+        }
+      }
+    }
+  }
+}
+
 /* TOURNAMENT ROUND EDIT PLAYERS SCORES */
 
-.reservist-item, .reservists-headers {
-  display: grid;
-  grid-template-columns: 4% 12% 5% 5% 5% 5% 5% 5% 5% 5% 5% 6% 6% 6% 3% 5% 5% 6%;
-  grid-column-gap: 2px;
-  font-size: 16px;
-  text-align: center;
+.page-info.edit-round {
+  padding-bottom: 32px;
+
+  .rp-edit-header-row {
+    font-family: 'Nunito ExtraBold';
+    position: fixed;
+    z-index: 1;
+    width: 100%;
+    background: #FFFFFF;
+    line-height: 32px;
+    border-bottom: 2px solid grey;
+    font-size: 18px;
+  }
+
+  .rp-edit-items {
+    padding: 36px 0 16px;
+  }
+
+  .rp-edit-item, .rp-edit-headers {
+    display: grid;
+    grid-template-columns: 4% 14% 5% 5% 5% 5% 5% 5% 5% 5% 5% 6% 6% 6% 5% 5% 6%;
+    grid-column-gap: 2px;
+    font-size: 16px;
+    text-align: center;
+  }
+
+  .rp-edit-item {
+    border-bottom: 1px solid gainsboro;
+    line-height: 38px;
+    padding: 4px 0 3px;
+  }
+
+  .res-name {
+    text-align: left;
+    padding-left: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .club-logo.l-details-club-logo {
+    text-align: center;
+
+    img, object {
+      width: 28px;
+      height: 28px;
+      position: relative;
+      top: 5px;
+    }
+  }
 }
 
-.reservists-headers {
-  border-bottom: 2px solid grey;
-  font-size: 18px;
-  font-weight: bolder;
-}
-
-.reservist-item {
-  border-bottom: 1px solid gainsboro;
-  line-height: 38px;
-  padding: 4px 0 3px;
-}
-
-.res-name {
-  text-align: left;
-  padding-left: 10px;
-}
-
-.club-logo.l-details-club-logo {
-  text-align: center;
-
-  img, object {
-    width: 28px;
-    height: 28px;
-    position: relative;
-    top: 5px;
+@media (orientation: portrait) {
+  .page-info.edit-round {
+    padding: 0 0 80px;
   }
 }

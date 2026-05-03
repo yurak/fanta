@@ -1,16 +1,17 @@
 module Lineups
   class Cloner < ApplicationService
-    attr_reader :team, :tour
+    attr_reader :auto_cloned, :team, :tour
 
-    def initialize(team, tour)
+    def initialize(team, tour, options = {})
       @team = team
       @tour = tour
+      @auto_cloned = options.fetch(:auto_cloned, false)
     end
 
     def call
       return false if another_league? || tour_lineup_exists?
 
-      lineup.update(tour: tour, final_score: 0, final_goals: nil)
+      lineup.update(tour: tour, final_score: 0, final_goals: nil, substitutes: nil, creation_type: creation_type)
       old_lineup.match_players.limit(Lineup::MAX_PLAYERS).each do |old_mp|
         MatchPlayer.create(lineup: lineup, real_position: old_mp.real_position, round_player: new_round_player(old_mp))
       end
@@ -36,6 +37,10 @@ module Lineups
 
     def tournament_round
       tour.tournament_round
+    end
+
+    def creation_type
+      auto_cloned ? :auto_cloned : :copied
     end
 
     def new_round_player(match_player)

@@ -1,6 +1,4 @@
 class TournamentsController < ApplicationController
-  skip_before_action :authenticate_user!, only: %i[show]
-
   helper_method :fixtures, :national_fixtures, :tournament
 
   respond_to :html
@@ -14,7 +12,7 @@ class TournamentsController < ApplicationController
   end
 
   def national_fixtures
-    NationalMatch.where(tournament_round_id: tournament.tournament_rounds).group_by(&:tournament_round)
+    NationalMatch.where(tournament_round_id: tournament_rounds).group_by(&:tournament_round)
   end
 
   def fixtures

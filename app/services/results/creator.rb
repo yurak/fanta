@@ -8,7 +8,7 @@ module Results
       return false if league&.teams.blank?
 
       league.teams.each do |team|
-        Result.create(team: team, league: league)
+        Result.find_or_create_by(team: team, league: league)
       end
     end
 

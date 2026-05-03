@@ -1,4 +1,6 @@
-.modal-player-item{id: "player#{player.id}"}
+- opponent = tour ? player.club.opponent_by_round(tour.tournament_round) : nil
+
+.modal-player-item{id: "player#{player.id}", class: "modal-player-item-skipped-#{tour && opponent.nil?}"}
   .modal-player-images{style: "background-color: ##{ player.club.color };"}
     .player-show-face
       %object{data: player.avatar_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
@@ -16,7 +18,7 @@
   .modal-player-name
     = player.name
   .modal-player-match
-    - if tour
+    - if tour && opponent
       .player-match-team.player-match-place
         - if player.club.match_host?(tour.tournament_round)
           = t('lineups.home')
@@ -25,5 +27,7 @@
       .player-match-team
         vs
       .player-match-team
-        %object{data: player.club.opponent_by_round(tour.tournament_round)&.logo_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
+        %object{data: opponent.logo_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
           = image_tag('default_logo.png')
+    - else
+      .without-opponent= '❌'

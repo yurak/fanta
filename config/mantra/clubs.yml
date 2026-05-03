@@ -4,22 +4,24 @@ italy:
   BOL: Bologna
 #  BRE: Brescia
   CAG: Cagliari
-#  CRE: Cremonese
+  COM: Como
+  CRE: Cremonese
 #  CRO: Crotone
-  EMP: Empoli
+#  EMP: Empoli
   FIO: Fiorentina
-  FRO: Frosinone
+#  FRO: Frosinone
   GEN: Genoa
   INT: Inter
   JUV: Juventus
   LAZ: Lazio
   LEC: Lecce
   MIL: Milan
-  MNZ: Monza
+#  MNZ: Monza
   NAP: Napoli
-#  PAR: Parma
+  PAR: Parma
+  PIS: Pisa
   ROM: Roma
-  SAL: Salernitana
+#  SAL: Salernitana
 #  SAM: Sampdoria
   SAS: Sassuolo
 #  SPA: SPAL
@@ -39,13 +41,13 @@ england:
   CRY: Crystal Palace
   EVE: Everton
   FUL: Fulham
+  LEE: Leeds
   LIV: Liverpool
-  LUT: Luton Town
   MCI: Manchester City
   MUT: Manchester United
   NEW: Newcastle
   NFO: Nottingham Forest
-  SHU: Sheffield United
+  SUN: Sunderland
   TOT: Tottenham
   WES: West Ham
   WOL: Wolverhampton
@@ -54,56 +56,34 @@ germany:
   AUG: Augsburg
   LEV: Bayer Leverkusen
   MUN: Bayern Munchen
-  BOC: Bochum
+#  BOC: Bochum
   BVB: Borussia Dortmund
   BMG: Borussia Mbach
-  DAR: Darmstadt
+#  DAR: Darmstadt
   EIN: Eintracht
   FRE: Freiburg
 #  GRF: Greuther Furth
+  HSV: Hamburger
   HEI: Heidenheim
 #  HER: Hertha
   HOF: Hoffenheim
+#  HOL: Holstein Kiel
   KOL: Koln
   MAI: Mainz 05
   RBL: RB Leipzig
 #  S04: Schalke 04
+  STP: St Pauli
   STU: Stuttgart
   UNI: Union Berlin
   WER: Werder Bremen
   WLF: Wolfsburg
-spain:
-  ALM: Almeria
-  ATB: Athletic Bilbao
-  ATM: Atletico Madrid
-  BAR: Barcelona
-  BET: Real Betis
-  CAD: Cadiz
-  CVG: Celta Vigo
-  ALA: Deportivo Alaves
-#  ELC: Elche
-#  ESP: Espanyol
-  GET: Getafe
-  GIR: Girona
-  GRA: Granada
-#  LUD: Levante
-  LPA: Las Palmas
-  MAL: Mallorca
-  OSA: Osasuna
-  RVA: Rayo Vallecano
-  RMA: Real Madrid
-  SOC: Real Sociedad
-#  VLD: Real Valladolid
-  SEV: Sevilla
-  VAL: Valencia
-  VIL: Villarreal
 france:
 #  AJC: Ajaccio
-#  ANG: Angers
-#  AUX: Auxerre
+  ANG: Angers
+  AUX: Auxerre
 #  BOR: Bordeaux
   BRS: Brest
-  CLE: Clermont Foot
+#  CLE: Clermont Foot
   HAV: Havre
   LEN: Lens
   LIL: Lille
@@ -112,89 +92,80 @@ france:
   MAR: Marseille
   MET: Metz
   MON: Monaco
-  MPL: Montpellier
+#  MPL: Montpellier
   NAN: Nantes
   NIC: Nice
+  PFC: Paris FC
   PSG: PSG
-  REI: Reims
+#  REI: Reims
   REN: Rennes
 #  SEN: Saint-Etienne
   STR: Strasbourg
   TOU: Toulouse
 #  TRO: Troyes
+spain:
+#  ALM: Almeria
+  ATB: Athletic Bilbao
+  ATM: Atletico Madrid
+  BAR: Barcelona
+  BET: Real Betis
+#  CAD: Cadiz
+  CVG: Celta Vigo
+  ALA: Deportivo Alaves
+  ELC: Elche
+  ESP: Espanyol
+  GET: Getafe
+  GIR: Girona
+#  GRA: Granada
+#  LPA: Las Palmas
+#  LEG: Leganes
+  LUD: Levante
+  MAL: Mallorca
+  OSA: Osasuna
+  RVA: Rayo Vallecano
+  RMA: Real Madrid
+  ROV: Real Oviedo
+  SOC: Real Sociedad
+#  VLD: Real Valladolid
+  SEV: Sevilla
+  VAL: Valencia
+  VIL: Villarreal
 britain:
   BIR: Birmingham City
   BLB: Blackburn Rovers
 #  BLP: Blackpool
   BRC: Bristol City
-  CAR: Cardiff City
+#  CAR: Cardiff City
+  CHT: Charlton
   COV: Coventry City
-  HUD: Huddersfield Town
+  DER: Derby
+#  HUD: Huddersfield Town
   HUL: Hull City
   IPS: Ipswich
   LEI: Leicester
-  LEE: Leeds
+#  LUT: Luton Town
   MID: Middlesbrough
   MLW: Millwall
   NOR: Norwich
+  OXF: Oxford United
   PLY: Plymouth
+  PRS: Portsmouth
   PRE: Preston North End
   QPR: Queens Park Rangers
 #  REA: Reading
-  ROT: Rotherham United
+#  ROT: Rotherham United
   SHW: Sheffield Wednesday
+  SHU: Sheffield United
   SOU: Southampton
   STO: Stoke City
-  SUN: Sunderland
   SWA: Swansea City
   WAT: Watford
   WBA: West Bromwich
 #  WIG: Wigan Athletic
-belgium:
-  AND: Anderlecht
-  BRU: Brugge
-  CBG: Cercle Brugge
-  CHR: Charleroi
-  EPN: Eupen
-  GNK: Genk
-  GNT: Gent
-  KRT: Kortrijk
-  LVN: Leuven
-  MLN: Mechelen
-  MOL: Molenbeek
-#  OST: Oostende
-  ROY: Royal Antwerp
-#  SRN: Seraing
-  STT: Sint-Truiden
-  STD: Standard Liege
-  USG: Union SG
-  WST: Westerlo
-#  ZWR: Zulte Waregem
-portugal:
-  ARC: Arouca
-  BNF: Benfica
-  BVS: Boavista
-  BRG: Braga
-  CSP: Casa Pia
-  CHV: Chaves
-  EST: Estoril
-  ESA: Estrela
-  FML: Famalicao
-  FAR: Farense
-  GLV: Gil Vicente
-#  MRT: Maritimo
-  MOR: Moreirense
-#  PCF: Paсos Ferreira
-  PRT: Portimonense
-  FCP: Porto
-  RAV: Rio Ave
-#  SCL: Santa Clara
-  SCP: Sporting
-  VTG: Vitoria Guimaraes
-  VZL: Vizela
+  WRX: Wrexham
 netherlands:
   AJA: Ajax
-  ALC: Almere City
+#  ALC: Almere City
   AZA: AZ Alkmaar
 #  CMB: Cambuur
 #  EMN: Emmen
@@ -202,47 +173,226 @@ netherlands:
   FND: Feyenoord
   FRS: Fortuna Sittard
   GAE: Go Ahead Eagles
-#  GRN: Groningen
-  HRC: Heracles
+  GRN: Groningen
   HRN: Heerenveen
+  HRC: Heracles
+  NAC: NAC Breda
   NEC: NEC
   PSV: PSV
-  RKC: RKC Waalwijk
+#  RKC: RKC Waalwijk
   SPR: Sparta
+  TEL: Telstar
   TWT: Twente
   UTR: Utrecht
-  VTS: Vitesse
+#  VTS: Vitesse
   VLN: Volendam
+#  WIL: Willem II
   ZWO: Zwolle
+belgium:
+  AND: Anderlecht
+#  BEE: Beerschot
+  BRU: Brugge
+  CBG: Cercle Brugge
+  CHR: Charleroi
+  DEN: Dender
+#  EPN: Eupen
+  GNK: Genk
+  GNT: Gent
+#  KRT: Kortrijk
+  LAL: La Louviere
+  LVN: Leuven
+  MLN: Mechelen
+#  MOL: Molenbeek
+#  OST: Oostende
+  ROY: Royal Antwerp
+#  SRN: Seraing
+  STT: Sint-Truiden
+  STD: Standard Liege
+  USG: Union SG
+  WST: Westerlo
+  ZWR: Zulte Waregem
+portugal:
+  ALV: Alverca
+  ARC: Arouca
+  AVS: AVS
+  BNF: Benfica
+#  BVS: Boavista
+  BRG: Braga
+  CSP: Casa Pia
+#  CHV: Chaves
+  EST: Estoril
+  ESA: Estrela
+  FML: Famalicao
+#  FAR: Farense
+  GLV: Gil Vicente
+#  MRT: Maritimo
+  MOR: Moreirense
+  NAL: Nacional
+#  PCF: Paсos Ferreira
+#  PRT: Portimonense
+  FCP: Porto
+  RAV: Rio Ave
+#  SCL: Santa Clara
+  SCP: Sporting
+  TON: Tondela
+  VTG: Vitoria Guimaraes
+#  VZL: Vizela
 ukraine:
-  CHO: Chornomorets
-  DN1: SK Dnipro-1
+#  CHO: Chornomorets
   DYN: Dynamo Kyiv
+  EPI: Epicentr
+#  INH: Inhulets
+  KAR: Karpaty
   KLS: Kolos
   KRY: Kryvbas
+  KUD: Kudrivka
+#  LVB: Livyi Bereh
   LNZ: LNZ Cherkasy
   MTL: Metalist 1925
-  MIN: Minaj
+#  MIN: Minaj
   OBO: Obolon
   OLE: Oleksandriya
   POL: Polissya
+  PLT: Poltava
   RUH: Rukh
   SHD: Shakhtar Donetsk
+#  DN1: SK Dnipro-1
   VRS: Veres
-  VOR: Vorskla
+#  VOR: Vorskla
   ZOR: Zorya
-europe:
-#  BES: Besiktas
-  CEL: Celtic
-  COP: Copenhagen
-  ZVE: Crvena Zvezda
-#  DZG: Dinamo Zagreb
+usa:
+  ATL: Atlanta United
+  AUS: Austin FC
+  CHA: Charlotte FC
+  CHI: Chicago
+  CIN: Cincinnati
+  CLR: Colorado
+  CLM: Columbus
+  DAL: Dallas
+  DCU: DC United
+  HOU: Houston
+  MIA: Inter Miami CF
+  LAG: LA Galaxy
+  LAF: LAFC
+  MNS: Minnesota
+  MNT: Montreal
+  NAS: Nashville SC
+  NER: New England
+  NYR: NY Red Bulls
+  NYC: NYCFC
+  ORL: Orlando
+  PHI: Philadelphia
+  POR: Portland
+  SLT: Salt Lake
+  SJS: San Jose
+  SDG: San Diego
+  SEA: Seattle Sounders
+  SKC: Sporting KC
+  SLC: St Louis City
+  TRN: Toronto
+  VAN: Vancouver
+poland:
+  ARK: Arka
+  CRA: Cracovia
+  GKS: GKS Katowice
+  GOR: Gornik
+  JAG: Jagiellonia
+  KOR: Korona
+  LPZ: Lech Poznan
+  LGD: Lechia Gdansk
+  LGW: Legia Warszawa
+  MOT: Motor
+  PIA: Piast
+  POG: Pogon
+#  PUS: Puszcza
+  RAD: Radomiak
+  RAK: Rakow
+#  SLA: Slask
+#  STA: Stal
+  TER: Termalica
+  WID: Widzew
+  WIP: Wisla Plock
+  ZAG: Zaglebie
+brazil:
+  ATP: Athletico Paranaense
+  AMG: Atletico Mineiro
+  BAH: Bahia
+  BOT: Botafogo
+  CHP: Chapecoense
+#  CEA: Ceara
+  COR: Corinthians
+  CRT: Coritiba
+  CRU: Cruzeiro
+  FLA: Flamengo
+  FLU: Fluminense
+#  FOR: Fortaleza
+  GRE: Gremio
+#  JVD: Juventude
+  INL: Internacional
+  MIR: Mirassol
+  PAL: Palmeiras
+  RBB: RB Bragantino
+#  REC: Sport Recife
+  REM: Remo
+  SAN: Santos
+  SAO: São Paulo
+  VDG: Vasco da Gama
+  ECV: Vitoria
+turkey:
+  ALN: Alanyaspor
+  ANT: Antalyaspor
+  BAS: Basaksehir
+  BES: Besiktas
+  EYU: Eyupspor
+  FAT: Fatih Karagumruk
+  FEN: Fenerbahce
   GAL: Galatasaray
+  GAZ: Gaziantep
+  GNC: Genclerbirligi
+  GOZ: Goztepe
+  KAS: Kasimpasa
+  KAY: Kayserispor
+  KOC: Kocaelispor
+  KON: Konyaspor
+  RIZ: Rizespor
+  SMS: Samsunspor
+  TRA: Trabzonspor
+europe:
+  BOD: Bodo-Glimt
+#  CEL: Celtic
+#  COP: Copenhagen
+#  ZVE: Crvena Zvezda
+#  DZG: Dinamo Zagreb
+  FER: Ferencvaros
+#  KAI: Kairat
 #  MHF: Maccabi Haifa
 #  MFF: Malmo
+  MDT: Midtjylland
+#  OLY: Olympiacos
+#  PAF: Pafos
+  PAN: Panathinaikos
+#  QAR: Qarabag
 #  RAN: Rangers
-  RBS: Salzburg
+#  RBS: Salzburg
 #  SHE: Sheriff
+#  SLP: Slavia Praha
+#  SLO: Slovan
+#  SPG: Sparta Prague
+#  STG: Sturm
 #  VPL: Viktoria Plzen
-  YOU: Young Boys
+#  YOU: Young Boys
 #  ZEN: Zenit
+cwc:
+  AHL: Al Ahly
+  HIL: Al Hilal
+  AIN: Al-Ain
+  AUC: Auckland City
+  BCJ: Boca Juniors
+  ESC: Esperance
+  MAM: Mamelodi Sundowns
+  MTR: Monterrey
+  PAC: Pachuca
+  RVP: River Plate
+  ULS: Ulsan HD
+  URW: Urawa Red Diamonds
+  WYD: Wydad

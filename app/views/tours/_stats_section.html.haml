@@ -11,23 +11,7 @@
           = image_tag('icons/arrow_up.svg')
         .round-table-hide.round-table-hidden
           = image_tag('icons/arrow_down.svg')
-      .round-list.round-table-block
-        - @tournament_players.each_with_index do |r_player, i|
-          .round-table-item.round-player-stats-item
-            .center= position_number(i + 1)
-            .round-player-stats-data
-              .round-player-stats-img
-                .round-player-show-face
-                  %object{data: r_player.player.avatar_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                    = image_tag('avatar.png')
-                .round-player-show-kit
-                  %object{data: tour.national? ? r_player.player.national_kit_path : r_player.player.kit_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                    = image_tag('kit_small_default.png')
-              .round-player-stats-name= r_player.player.name
-            .round-player-stats-team
-              - if r_player.teams.where(league: tour.league).first
-                = image_tag(r_player.teams.where(league: tour.league).first.logo_path)
-            .round-player-stats-score= r_player.result_score
+      #tournament_players{ data: { remote_url: tournament_players_tour_path(tour) } } ...
   - if tour.mantra?
     - if tour.deadlined?
       .round-table
@@ -42,23 +26,7 @@
             = image_tag('icons/arrow_up.svg')
           .round-table-hide.round-table-hidden
             = image_tag('icons/arrow_down.svg')
-        .round-list.round-table-block
-          - @league_players.each_with_index do |r_player, i|
-            .round-table-item.round-player-stats-item
-              .center= position_number(i + 1)
-              .round-player-stats-data
-                .round-player-stats-img
-                  .round-player-show-face
-                    %object{data: r_player.player.avatar_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                      = image_tag('avatar.png')
-                  .round-player-show-kit
-                    %object{data: tour.national? ? r_player.player.national_kit_path : r_player.player.kit_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                      = image_tag('kit_small_default.png')
-                .round-player-stats-name= r_player.player.name
-              .round-player-stats-team
-                - if r_player.teams.where(league: tour.league).first
-                  = image_tag(r_player.teams.where(league: tour.league).first.logo_path)
-              .round-player-stats-score= r_player.result_score
+        #league_players{ data: { remote_url: league_players_tour_path(tour) } } ...
     .round-table
       .round-table-title-header
         .round-table-title
@@ -71,12 +39,13 @@
         .round-table-hide.round-table-hidden
           = image_tag('icons/arrow_down.svg')
       .round-list.round-table-block
-        - tour.league.results.ordered.each_with_index do |result, i|
+        - @results_ordered.each_with_index do |result, i|
           .round-table-item
             .round-table-index= i + 1
-            .round-table-item-team
-              .results-team-logo= image_tag(image_path(result.team.logo_path))
-              .results-team-name= result.team.human_name
+            = link_to team_path(result.team) do
+              .round-table-item-team
+                .results-team-logo= image_tag(image_path(result.team.logo_path))
+                .results-team-name= result.team.human_name
             .round-table-item-points= result.points
     .round-table.tournament-table.hidden-stats
       .round-tournament-header
@@ -89,7 +58,7 @@
         .round-table-hide.round-table-hidden
           = image_tag('icons/arrow_down.svg')
       .round-list.round-tournament-block
-        - tour.tournament_round.tournament_matches.each do |t_match|
+        - @matches.each do |t_match|
           .round-tournament-match
             .round-tournament-match-cell.round-tournament-match-club
               .round-tournament-club-name
@@ -146,7 +115,7 @@
         .round-table-hide.round-table-hidden
           = image_tag('icons/arrow_down.svg')
       .round-list.round-table-block
-        - tour.league.results.ordered_by_score.limit(5).each_with_index do |result, i|
+        - @results_by_score.each_with_index do |result, i|
           .round-table-item
             .round-table-index= i + 1
             .round-table-item-team
@@ -165,7 +134,7 @@
         .round-table-hide.round-table-hidden
           = image_tag('icons/arrow_down.svg')
       .round-list.round-table-block
-        - tour.league.results.ordered.limit(5).each_with_index do |result, i|
+        - @results_ordered.first(5).each_with_index do |result, i|
           .round-table-item
             .round-table-index= i + 1
             .round-table-item-team
@@ -174,21 +143,52 @@
             .round-table-item-points= result.points
 
 :javascript
-  $(document).ready(function() {
-    $(".round-table-hide").click(function(){
-      var statsTable = this.parentNode.parentNode;
-      var list = statsTable.querySelector(".round-list");
+  function initTournamentPlayers() {
+    document.querySelectorAll("[data-remote-url]").forEach(el => {
+      if (el.dataset.loaded || !el.dataset.remoteUrl) return;
+      el.dataset.loaded = true;
 
-      if (this.classList.contains("round-table-visible")) {
-          list.style.display = "none";
-          this.style.display = "none";
-          statsTable.querySelector(".round-table-hidden").style.display = "block";
-      }
+      const url = el.dataset.remoteUrl;
+      el.textContent = "";
+      el.style.display = "block";
 
-      if (this.classList.contains("round-table-hidden")) {
-          list.style.display = "block";
-          this.style.display = "none";
-          statsTable.querySelector(".round-table-visible").style.display = "block";
+      el.innerHTML = '<div class="loader">... ...</div>';
+
+      if (typeof Rails !== "undefined" && Rails.ajax) {
+        Rails.ajax({
+          url: url,
+          type: "GET",
+          dataType: "html",
+          success: (html) => { el.innerHTML = html; },
+          error: () => { el.innerHTML = '<div class="loader">...</div>'; }
+        });
+      } else {
+        fetch(url, { headers: { "Accept": "text/html" }, cache: "no-store" })
+          .then(r => r.text())
+          .then(html => { el.innerHTML = html; })
+          .catch(() => { el.innerHTML = '<div class="loader">...</div>'; });
       }
     });
-  });
+
+    $(".round-table-hide").click(function () {
+      const table = this.closest(".round-table");
+      const list = table.querySelector(".round-list");
+
+      if (this.classList.contains("round-table-visible")) {
+        list.style.display = "none";
+        this.style.display = "none";
+        table.querySelector(".round-table-hidden").style.display = "block";
+      } else if (this.classList.contains("round-table-hidden")) {
+        list.style.display = "block";
+        this.style.display = "none";
+        table.querySelector(".round-table-visible").style.display = "block";
+      }
+    });
+
+    document.querySelectorAll(".round-list").forEach(el => el.style.display = "block");
+    document.querySelectorAll(".round-table-hide.round-table-visible").forEach(el => el.style.display = "block");
+    document.querySelectorAll(".round-table-hide.round-table-hidden").forEach(el => el.style.display = "none");
+  }
+
+  document.addEventListener("DOMContentLoaded", initTournamentPlayers);
+  document.addEventListener("turbolinks:load", initTournamentPlayers);

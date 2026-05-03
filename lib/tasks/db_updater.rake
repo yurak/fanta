@@ -3,7 +3,7 @@ namespace :db_updater do
   task add_league_and_tournaments: :environment do
     # create tournaments
     Tournaments::Creator.call
-    tournament = Tournament.find_by(code: Scores::Injectors::Strategy::ITALY)
+    tournament = Tournament.find_by(code: Tournament::ITALY)
 
     # add created tournament to existed clubs
     Club.find_each { |c| c.update(tournament: tournament) }

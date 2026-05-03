@@ -1,6 +1,4 @@
 class PlayersController < ApplicationController
-  skip_before_action :authenticate_user!, only: %i[index show]
-
   helper_method :league, :player, :tournament
 
   respond_to :html
@@ -10,14 +8,11 @@ class PlayersController < ApplicationController
     @tournaments = Tournament.with_clubs
     @positions = Position.all
     @clubs = tournament.clubs.active.sort_by(&:name)
-
-    respond_to do |format|
-      format.html
-      format.json { render json: ordered_players }
-    end
   end
 
   def show
+    redirect_to leagues_path unless player
+
     @stats = player.player_season_stats.joins(:season, :club, :tournament).order(season_id: :desc, created_at: :desc)
 
     respond_to do |format|
@@ -35,16 +30,15 @@ class PlayersController < ApplicationController
   private
 
   def player
-    @player ||= Player.find(params[:id])
+    return @player if defined?(@player)
+
+    @player = Player.includes(transfers: :auction).find_by(id: params[:id])
   end
 
   def ordered_players
-    Players::Order.call(filtered_players, { field: stats_params[:order] })
-  end
-
-  def filtered_players
-    Players::Search.call(
+    Players::Query.call(
       club_id: stats_params[:club],
+      field: stats_params[:order] || 'name',
       league_id: stats_params[:league],
       name: stats_params[:search],
       position: Slot::POS_MAPPING[stats_params[:position]],
@@ -57,10 +51,14 @@ class PlayersController < ApplicationController
   end
 
   def tournament
-    stats_params[:tournament] ? Tournament.find(stats_params[:tournament]) : Tournament.first
+    tournament = Tournament.find_by(id: stats_params[:tournament])
+    tournament ||= Tournament.first
+    tournament
   end
 
   def league
-    stats_params[:league] ? League.find(stats_params[:league]) : tournament.leagues.active.first
+    league = League.find_by(id: stats_params[:league])
+    league ||= tournament.leagues.active.first
+    league
   end
 end

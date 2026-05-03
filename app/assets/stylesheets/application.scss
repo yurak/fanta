@@ -25,10 +25,12 @@
 @import "divisions";
 @import "footer";
 @import "header";
+@import "join";
 @import "join_requests";
 @import "leagues";
 @import "lineups";
 @import "links";
+@import "manage";
 @import "matches";
 @import "national_teams";
 @import "nav_panel";
@@ -38,6 +40,7 @@
 @import "teams";
 @import "transfers";
 @import "tournaments";
+@import "tournament_matches";
 @import "tournament_rounds";
 @import "tours";
 @import "users";
@@ -129,12 +132,12 @@ body, html {
     }
 
     .league-data {
-      padding-top: 42px;
       text-align: center;
-
-      @include reactApplication {
-        padding-top: responsivePixels(42px);
-      }
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      align-self: center;
 
       .league-name {
         font-family: 'Nunito ExtraBold';
@@ -237,12 +240,11 @@ body, html {
     }
 
     .league-data {
-      padding-top: 24px;
       margin: 0 auto;
-
-      @include reactApplication {
-        padding-top: responsivePixels(24px);
-      }
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      align-self: center;
 
       .league-name {
         line-height: 132px;
@@ -701,6 +703,22 @@ body, html {
       }
     }
 
+    .auction-block-sales {
+      .auction-block-header {
+        .auction-line {
+          order: 1;
+
+          .auction-link {
+            width: 100%;
+          }
+        }
+
+        .auction-sales-line {
+          order: 2;
+        }
+      }
+    }
+
     .auction-block-finished {
       background: #E5E6E4;
       display: grid;
@@ -806,6 +824,18 @@ body, html {
   body:not(.react-application) {
     .mob-header {
       display: block;
+
+      .portrait-header .base-header .league-data {
+        padding-top: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+
+    body.react-application .mob-header #burger-menu-block .base-header .league-data,
+    body .mob-header #burger-menu-block .base-header .league-data {
+      padding-top: 0;
     }
 
     .web-header {
@@ -834,6 +864,161 @@ body, html {
   }
 }
 
+@media (max-width: 600px) {
+  .mob-header {
+    .portrait-header {
+      .base-header {
+        grid-template-columns: 80px 1fr 80px;
+
+        .root-logo img {
+          margin: 16px;
+          width: 48px;
+        }
+
+        .league-data {
+          .league-name {
+            font-size: 18px;
+            line-height: 22px;
+            margin-bottom: 0;
+          }
+
+          .league-season {
+            font-size: 12px;
+            line-height: 16px;
+          }
+
+          .header-title {
+            padding-top: 0;
+            font-size: 18px;
+            line-height: 22px;
+          }
+        }
+
+        .burger-menu {
+          display: flex;
+          align-items: center;
+          justify-content: flex-end;
+          padding-right: 16px;
+
+          > img {
+            margin: 0;
+            width: 48px;
+          }
+        }
+      }
+    }
+
+    #burger-menu-block {
+      .base-header {
+        height: 80px;
+        grid-template-columns: 80px 1fr 80px;
+
+        .root-logo img {
+          margin: 16px;
+          width: 48px;
+        }
+
+        .league-data {
+          padding-top: 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          .user-data {
+            font-size: 15px;
+            line-height: 24px;
+            padding: 8px 12px;
+            border-width: 1px;
+            border-radius: 24px;
+            grid-template-columns: 32px auto;
+            column-gap: 10px;
+            align-items: center;
+            margin-top: 0;
+
+            img {
+              width: 32px;
+              height: 32px;
+              border-radius: 16px;
+            }
+          }
+        }
+
+        .burger-menu {
+          display: flex;
+          align-items: center;
+          justify-content: flex-end;
+          padding-right: 16px;
+
+          > img {
+            margin: 0;
+            width: 48px;
+          }
+        }
+      }
+
+      .menu-content {
+        top: 80px;
+      }
+    }
+  }
+
+  body.react-application #burger-menu-block .base-header .league-data,
+  body #burger-menu-block .base-header .league-data {
+    padding-top: 0;
+  }
+
+  .mob-header .badges-block {
+    padding-top: 80px;
+    padding-bottom: 0;
+  }
+
+  .mob-header #burger-menu-block .menu-content {
+    .nav-links .nav-logo-small {
+      margin-top: 22px;
+      padding: 10px 30px;
+      font-size: 20px;
+      line-height: 28px;
+
+      a {
+        grid-template-columns: 32px auto;
+        column-gap: 20px;
+      }
+    }
+
+    .my-leagues {
+      margin: 24px 0 60px;
+      padding: 0 20px;
+
+      .my-leagues-title {
+        font-size: 13px;
+        line-height: 20px;
+        margin-bottom: 12px;
+      }
+
+      .my-league {
+        font-size: 15px;
+        line-height: 56px;
+
+        a {
+          grid-template-columns: 56px auto 100px 40px;
+          column-gap: 12px;
+        }
+
+        img {
+          width: 44px;
+          height: 44px;
+        }
+
+        .my-league-type {
+          font-size: 13px;
+          height: 32px;
+          line-height: 32px;
+        }
+      }
+    }
+  }
+}
+
 /* ----- -------------------- ----- */
 
 .tooltip-info {
@@ -857,7 +1042,7 @@ body, html {
     -webkit-transform: translateZ(0); /* webkit flicker fix */
     -webkit-font-smoothing: antialiased; /* webkit text rendering fix */
     display: flex;
-    z-index: 11;
+    z-index: 9;
   }
 
   .wrapper .tooltip {
@@ -927,7 +1112,193 @@ body, html {
   }
 }
 
+.back-button {
+  width: 32px;
+  height: 32px;
+  border: 1px solid #E5E6E4;
+  border-radius: 4px;
+  text-align: center;
+
+  a {
+    width: 30px;
+    height: 30px;
+    display: block;
+  }
+
+  .back-button-arrow {
+    width: 30px;
+    height: 30px;
+
+    img {
+      margin-top: 2px;
+    }
+  }
+}
+
+.top-stats-section {
+  .stats-item-top {
+    background: #FFEBC2;
+    padding: 16px 24px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+
+    .stats-item-top-title {
+      font-family: 'Nunito ExtraBold';
+      font-size: 18px;
+      line-height: 24px;
+      margin-bottom: 24px;
+    }
+
+    .stats-item-top-percent {
+      font-family: 'Nunito ExtraBold';
+      font-size: 32px;
+      line-height: 32px;
+      margin-bottom: 4px;
+      text-align: right;
+    }
+
+    .stats-item-top-number {
+      font-family: 'Nunito Regular';
+      font-size: 14px;
+      line-height: 16px;
+      text-align: right;
+    }
+  }
+
+  .common-stats-item {
+    background: #F4F4F4;
+    height: 64px;
+    padding: 16px 24px;
+    line-height: 32px;
+    display: grid;
+    grid-template-columns: auto 80px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+
+    .common-stats-item-title {
+      font-family: 'Nunito ExtraBold';
+      font-size: 14px;
+    }
+
+    .common-stats-item-value {
+      font-family: 'Nunito SemiBold';
+      font-size: 24px;
+      text-align: right;
+    }
+  }
+}
+
+.back-button-row {
+  padding: 16px;
+}
+
+.back-button:hover img {
+  filter: invert(13%) sepia(85%) saturate(4155%) hue-rotate(243deg) brightness(112%) contrast(131%); // #261FFF;
+}
+
+
+
+.back-links {
+  padding: 24px 36px 16px 16px;
+  display: grid;
+  grid-template-columns: 280px auto 200px;
+
+  .back-link a {
+    font-family: 'Nunito Bold';
+    display: grid;
+    grid-template-columns: 40px auto;
+    column-gap: 8px;
+    text-decoration: none;
+    color: #181715;
+    font-size: 32px;
+    line-height: 32px;
+
+    .back-link-arrow {
+      text-align: center;
+      margin-bottom: 4px;
+    }
+  }
+}
+
+@media (orientation: portrait) {
+  .back-button-row {
+    padding: 16px 48px;
+  }
+
+  .back-button {
+    width: 64px;
+    height: 64px;
+    border: 2px solid #E5E6E4;
+    border-radius: 8px;
+
+    a {
+      width: 64px;
+      height: 64px;
+
+      .back-button-arrow {
+        line-height: 64px;
+      }
+    }
+
+    img {
+      width: 32px;
+      margin-top: 16px;
+    }
+
+    .back-button-arrow {
+      width: 60px;
+      height: 60px;
+    }
+  }
+
+  .top-stats-section {
+    margin-top: 48px;
+
+    .stats-item-top {
+      padding: 24px 32px;
+      border-radius: 16px;
+      margin-bottom: 16px;
+
+      .stats-item-top-title {
+        font-size: 28px;
+        line-height: 36px;
+        margin-bottom: 36px;
+      }
+
+      .stats-item-top-percent {
+        font-size: 48px;
+        line-height: 48px;
+        margin-bottom: 8px;
+      }
+
+      .stats-item-top-number {
+        font-size: 22px;
+        line-height: 24px;
+      }
+    }
+
+    .common-stats-item {
+      height: 96px;
+      padding: 24px 32px;
+      line-height: 48px;
+      grid-template-columns: auto 140px;
+      border-radius: 16px;
+      margin-bottom: 16px;
+
+      .common-stats-item-title {
+        font-size: 24px;
+      }
+
+      .common-stats-item-value {
+        font-size: 32px;
+      }
+    }
+  }
+}
+
 .grey-btn {
+  font-family: 'Nunito ExtraBold';
+  font-size: 16px;
   margin: 6px 0;
   padding: 0 16px;
   border: 1px solid #D8D6FF;
@@ -963,6 +1334,17 @@ body, html {
   }
 }
 
+@media (orientation: portrait) {
+  .grey-btn {
+    font-size: 24px;
+    margin: 12px 0;
+    padding: 0 24px;
+    border: 2px solid #D8D6FF;
+    border-radius: 6px;
+    line-height: 60px;
+  }
+}
+
 .donate-btn {
   display: inline-block;
   background: #FCC5CB;
@@ -991,6 +1373,7 @@ body, html {
   font-size: 16px;
   line-height: 38px;
   text-align: center;
+  color: #ffffff;
 
   img {
     filter: invert(97%) sepia(7%) saturate(747%) hue-rotate(219deg) brightness(117%) contrast(91%); //#F4F4F4;
@@ -1021,6 +1404,57 @@ body, html {
   }
 }
 
+.checkbox-block {
+  width: 40px;
+  height: 24px;
+  background: #FFFFFF;
+  border-radius: 12px;
+  padding: 3px;
+  border: 1px solid #CFD2CD;
+
+  .checkbox-item {
+    background-color: #000000;
+    height: 16px;
+    width: 16px;
+    border-radius: 9px;
+  }
+}
+
+.checkbox-block:hover {
+  border: 1px solid #181715;
+}
+
+.checkbox-on-true {
+  background: #261FFF;
+  border: 1px solid #261FFF;
+
+  .checkbox-item {
+    background-color: #FFFFFF;
+    float: right;
+  }
+}
+
+.checkbox-on-true:hover {
+  background: #040052;
+  border: 1px solid #040052;
+}
+
+@media (orientation: portrait) {
+  .checkbox-block {
+    position: relative;
+    width: 60px;
+    height: 36px;
+    border-radius: 18px;
+    padding: 4px;
+
+    .checkbox-item {
+      height: 28px;
+      width: 28px;
+      border-radius: 14px;
+    }
+  }
+}
+
 .pagination-row {
   margin-top: 25px;
 }
@@ -1042,7 +1476,7 @@ body, html {
       a {
         font-family: 'Nunito Regular';
         display: grid;
-        grid-template-columns: auto 48px;
+        grid-template-columns: 0 auto 48px;
         text-decoration: none;
       }
 
@@ -1085,7 +1519,7 @@ body, html {
 
     .round-tournament-match-guest {
       a {
-        grid-template-columns: 48px auto;
+        grid-template-columns: 48px auto 0;
         text-decoration: none;
       }
 
@@ -1126,6 +1560,20 @@ body, html {
 
     .round-tournament-match-result-text {
       width: 28px;
+    }
+  }
+}
+
+.round-matches.fanta-matches .round-tournament-match {
+  .round-match-eurocup {
+    a {
+      grid-template-columns: 54px auto 48px;
+
+      .round-tournament-team-players {
+        line-height: 24px;
+        font-size: 14px;
+        margin: auto;
+      }
     }
   }
 }
@@ -1453,9 +1901,11 @@ body, html {
 
         .slot-position {
           height: 26px;
-          width: 40px;
+          min-width: 40px;
+          width: fit-content;
           line-height: 26px;
           font-size: 14px;
+          padding: 0 4px;
         }
       }
 
@@ -1484,6 +1934,10 @@ body, html {
           border-radius: 4px;
           border: 1px solid #FFFFFF;
           padding: 8px;
+        }
+
+        .modal-player-item-skipped-true {
+          background: #FCC5CB;
         }
 
         .modal-player-item-sold {
@@ -1616,6 +2070,11 @@ body, html {
             font-size: 16px;
             padding-top: 1px;
           }
+
+          .without-opponent {
+            font-size: 12px;
+            padding-top: 2px;
+          }
         }
       }
     }
@@ -1632,6 +2091,8 @@ body, html {
   padding: 0 24px;
 
   .search-icon {
+    margin: auto;
+
     img {
       width: 24px;
       height: 24px;
@@ -1643,7 +2104,7 @@ body, html {
     outline: none;
     height: 56px;
     width: 400px;
-    font-size: 24px;
+    font-size: 16px;
   }
 }
 
@@ -1720,6 +2181,7 @@ body, html {
       .round-table-item-team {
         display: grid;
         grid-template-columns: 40px auto;
+        color: #181715;
 
         .results-team-logo {
           padding: 4px 8px;

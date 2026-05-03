@@ -4,13 +4,16 @@
   .mob-header= render 'layouts/mob_header', league: league
 
   .page-info.transfers-page
-    .transfers-head
-      .tournament-logo= image_tag(league.tournament.logo_path)
-      .transfers-title
-        = t('transfers.title', league: league.name)
+    .back-links.lineup-mob-hide
+      .back-link
+        = link_to league_auctions_path(league) do
+          .back-link-arrow
+            = image_tag('icons/arrow_left.svg')
+          .back-link-text
+            = auction.primary? ? t("auction.index.initial_title") : t("auction.index.intermediate_title", number: auction.number)
     -  if current_user&.can_moderate? && auction.live?
       .actions-buttons
-        = link_to t('transfers.auction'), league_auction_path(league, auction)
+        = link_to t('transfers.auction'), live_league_auction_path(league, auction)
     .transfers-block
       .transfer-headers
         .transfer-header-item= t('teams.player')

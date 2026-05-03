@@ -5,7 +5,26 @@ FactoryBot.define do
 
     trait :with_player_bids do
       after(:create) do |auction_bid|
-        create_list(:player_bid, 6, auction_bid: auction_bid)
+        3.times { create(:player_bid, auction_bid: auction_bid, player: create(:player, :with_pos_por)) }
+        create_list(:player_bid, 3, auction_bid: auction_bid)
+      end
+    end
+
+    trait :with_empty_player_bids do
+      after(:create) do |auction_bid|
+        create_list(:player_bid, 6, auction_bid: auction_bid, player_id: nil)
+      end
+    end
+
+    trait :with_eleven_empty_player_bids do
+      after(:create) do |auction_bid|
+        create_list(:player_bid, 11, auction_bid: auction_bid, player_id: nil)
+      end
+    end
+
+    trait :with_21_empty_player_bids do
+      after(:create) do |auction_bid|
+        create_list(:player_bid, 21, auction_bid: auction_bid, player_id: nil)
       end
     end
 

@@ -10,6 +10,7 @@ class ResultSerializer < ActiveModel::Serializer
   attributes :matches_played
   attributes :missed_goals
   attributes :next_opponent_id
+  attributes :penalty_points
   attributes :points
   attributes :scored_goals
   attributes :team

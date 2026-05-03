@@ -126,9 +126,79 @@ RSpec.describe 'PlayerTeams' do
       it { expect(response).to have_http_status(:found) }
     end
 
-    context 'with own team and league with open transfer_status when user is logged in' do
+    context 'with own team without transfer slots and league with open transfer_status when user is logged in' do
       let(:logged_user) { create(:user) }
       let(:team) { create(:team, :with_players, league: create(:auction, status: :sales).league, user: logged_user) }
+
+      let(:params) do
+        {
+          player_teams: {
+            "#{team.player_teams[0].id}": { transfer_status: 'untouchable' },
+            "#{team.player_teams[1].id}": { transfer_status: 'untouchable' },
+            "#{team.player_teams[2].id}": { transfer_status: 'transferable' },
+            "#{team.player_teams[3].id}": { transfer_status: 'untouchable' },
+            "#{team.player_teams[4].id}": { transfer_status: 'untouchable' }
+          }
+        }
+      end
+
+      before do
+        sign_in logged_user
+        put team_player_team_path(team, player_team, params)
+      end
+
+      it { expect(response).to redirect_to(team_path(team)) }
+      it { expect(response).to have_http_status(:found) }
+
+      it 'not updates player_team transfer_status when untouchable' do
+        expect(team.player_teams[0].reload.transfer_status).to eq('untouchable')
+      end
+
+      it 'not updates player_team transfer_status when transferable status sent' do
+        expect(team.player_teams[2].reload.transfer_status).to eq('untouchable')
+      end
+    end
+
+    context 'with own team without enough transfer slots and league with open transfer_status when user is logged in' do
+      let(:logged_user) { create(:user) }
+      let(:team) do
+        create(:team, :with_players, league: create(:auction, status: :sales, number: 2).league, user: logged_user, transfer_slots: 7)
+      end
+
+      let(:params) do
+        {
+          player_teams: {
+            "#{team.player_teams[0].id}": { transfer_status: 'untouchable' },
+            "#{team.player_teams[1].id}": { transfer_status: 'untouchable' },
+            "#{team.player_teams[2].id}": { transfer_status: 'transferable' },
+            "#{team.player_teams[3].id}": { transfer_status: 'transferable' },
+            "#{team.player_teams[4].id}": { transfer_status: 'transferable' }
+          }
+        }
+      end
+
+      before do
+        sign_in logged_user
+        put team_player_team_path(team, player_team, params)
+      end
+
+      it { expect(response).to redirect_to(team_path(team)) }
+      it { expect(response).to have_http_status(:found) }
+
+      it 'not updates player_team transfer_status when untouchable' do
+        expect(team.player_teams[0].reload.transfer_status).to eq('untouchable')
+      end
+
+      it 'not updates player_team transfer_status when transferable status sent' do
+        expect(team.player_teams[2].reload.transfer_status).to eq('untouchable')
+      end
+    end
+
+    context 'with own team with transfer slots and league with open transfer_status when user is logged in' do
+      let(:logged_user) { create(:user) }
+      let(:team) do
+        create(:team, :with_players, league: create(:auction, status: :sales, number: 2).league, user: logged_user, transfer_slots: 12)
+      end
 
       let(:params) do
         {

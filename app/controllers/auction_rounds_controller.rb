@@ -1,19 +1,24 @@
 class AuctionRoundsController < ApplicationController
-  skip_before_action :authenticate_user!, only: %i[show]
-
   respond_to :html
 
   helper_method :auction, :auction_bid, :auction_round, :league
 
   def show
-    @transfers = auction.transfers.incoming.sort_by(&:price).reverse.take(5)
-    @modules = TeamModule.all
+    if auction_round
+      @transfers = auction.transfers.incoming.sort_by(&:price).reverse.take(5)
+      @drop_outs = auction.transfers.all_out.sort_by(&:price).reverse.take(5)
+      @modules = TeamModule.all
+    else
+      redirect_to leagues_path
+    end
   end
 
   private
 
   def auction_round
-    @auction_round ||= AuctionRound.find(params[:id])
+    return @auction_round if defined?(@auction_round)
+
+    @auction_round = AuctionRound.find_by(id: params[:id])
   end
 
   def auction
@@ -22,8 +27,9 @@ class AuctionRoundsController < ApplicationController
 
   def auction_bid
     return unless current_user
+    return @auction_bid if defined?(@auction_bid)
 
-    @auction_bid ||= auction_round.auction_bids.find_by(team: current_user&.team_by_league(league))
+    @auction_bid = auction_round.auction_bids.find_by(team: current_user&.team_by_league(league))
   end
 
   def league

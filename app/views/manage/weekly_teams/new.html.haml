@@ -1,0 +1,80 @@
+.page-block
+  .web-header= render 'layouts/left_nav', league: nil
+  .web-header= render 'layouts/manage_nav'
+  .mob-header= render 'layouts/mob_header', league: nil, title: t('manage.weekly_team.title')
+  .page-info.admin-manage-page
+    %h2.mb-3= t('manage.weekly_team.title')
+
+    = form_tag new_manage_weekly_team_path, method: :get do
+      .d-flex.align-items-center.mb-4
+        = radio_button_tag :mode, 'top', @mode != :flop, id: 'mode_top', class: 'round-toggle-input'
+        = label_tag 'mode_top', t('manage.weekly_team.mode_top'), class: 'round-toggle-label'
+        .vr.mx-2
+        = radio_button_tag :mode, 'flop', @mode == :flop, id: 'mode_flop', class: 'round-toggle-input'
+        = label_tag 'mode_flop', t('manage.weekly_team.mode_flop'), class: 'round-toggle-label'
+      - @rounds.group_by(&:tournament).each do |tournament, t_rounds|
+        %h5.mb-2= "#{tournament.icon} #{tournament.name}"
+        .d-flex.flex-wrap.align-items-center.pb-2.mb-2.border-bottom
+          - t_rounds.each_with_index do |round, i|
+            - if i > 0
+              .vr.mx-2
+            = check_box_tag 'round_ids[]', round.id, @selected_ids.include?(round.id), id: "round_#{round.id}", class: 'round-toggle-input'
+            = label_tag "round_#{round.id}", class: 'round-toggle-label' do
+              = "#{t('manage.weekly_team.round')} #{round.number}"
+              - if round.deadline
+                %small.ms-1= round.deadline.strftime('%d.%m')
+      .mt-3
+        = submit_tag t('manage.weekly_team.build'), class: 'btn btn-primary'
+
+    - if @teams
+      %h4.mb-3= t('manage.weekly_team.results')
+      - totals = @teams.map { |(_, team)| team.sum { |row| row[:entry]&.dig(:total) || 0 } }
+      - best_total = @mode == :flop ? totals.min : totals.max
+      .row.g-3
+        - @teams.each do |(mod, team)|
+          - mod_total = team.sum { |row| row[:entry]&.dig(:total) || 0 }
+          - best = mod_total == best_total && (@mode == :flop ? mod_total.positive? : best_total.positive?)
+          .col-md-6.col-xl-4
+            .card.h-100{ class: best ? 'border-success border-2' : nil }
+              .card-header.d-flex.align-items-center.justify-content-between{ class: best ? 'bg-success text-white' : nil }
+                %strong= mod.name
+                = form_tag manage_weekly_teams_path, method: :post do
+                  = hidden_field_tag :team_module_id, mod.id
+                  = hidden_field_tag :mode, @mode
+                  - @selected_ids.each do |rid|
+                    = hidden_field_tag 'round_ids[]', rid
+                  - team.each do |row|
+                    - next unless row[:entry]
+                    = hidden_field_tag 'players[][slot_id]', row[:slot].id
+                    = hidden_field_tag 'players[][round_player_id]', row[:entry][:round_player].id
+                    = hidden_field_tag 'players[][total]', row[:entry][:total]
+                  = number_field_tag :number, nil, class: 'form-control form-control-sm d-inline-block w-auto me-1', placeholder: '#', style: 'max-width: 60px', min: 1, required: true
+                  = submit_tag t('manage.weekly_team.save'), class: "btn btn-sm #{ best ? 'btn-light' : 'btn-success' }"
+              .card-body.p-0
+                %table.table.table-sm.mb-0
+                  %thead
+                    %tr
+                      %th= t('manage.weekly_team.col_position')
+                      %th= t('manage.weekly_team.col_player')
+                      %th.text-end= t('manage.weekly_team.col_score')
+                  %tbody
+                    - team.each do |row|
+                      %tr
+                        %td
+                          %code= slot_position_name(row[:slot].position)
+                        - if row[:entry]
+                          - club = row[:entry][:player].club
+                          %td
+                            = link_to row[:entry][:player].full_name, player_path(row[:entry][:player]), target: '_blank'
+                            - if club
+                              %small.text-muted.ms-1= "#{club.tournament&.icon} #{club.name}"
+                          %td.text-end= '%.2f' % row[:entry][:total]
+                        - else
+                          %td.text-muted —
+                          %td —
+                  %tfoot
+                    %tr.table-light
+                      %td{colspan: 2}
+                        %strong= t('manage.weekly_team.total')
+                      %td.text-end
+                        %strong= '%.2f' % team.sum { |row| row[:entry]&.dig(:total) || 0 }

@@ -14,7 +14,7 @@
         .default-header-cell{title: t('players.caught_penalty')}= t('players.cp')
         .default-header-cell{title: t('players.saves')}= t('players.s')
       - else
-        .default-header-cell= t('players.goals')
+        .default-header-cell{title: t('players.goals')}= t('players.g')
         .default-header-cell{title: t('players.scored_penalty')}= t('players.sp')
         .default-header-cell{title: t('players.failed_penalty')}= t('players.fp')
         .default-header-cell{title: t('players.earned_penalty')}= t('players.ep')
@@ -25,6 +25,7 @@
       .default-header-cell{title: t('players.own_goals')}= t('players.og')
       .default-header-cell{title: t('players.penalty_foul')}= t('players.pf')
       .default-header-cell{title: t('players.played_minutes')}= t('players.pm')
+      .default-header-cell{title: t('players.sixties')}= "60'+"
       .default-header-cell{title: t('players.base_score')}= t('players.bs')
       .default-header-cell{title: t('players.total_score')}= t('players.ts')
     - @stats.each do |stat|
@@ -61,5 +62,6 @@
         .stats-cell= stat.own_goals
         .stats-cell= stat.conceded_penalty
         .stats-cell= stat.played_minutes
+        .stats-cell= stat.sixties
         .stats-cell.player-table-ts= stat.score
         .stats-cell.player-table-ts= stat.final_score

@@ -37,7 +37,7 @@ RSpec.describe Slots::Creator do
       end
 
       it 'creates team module' do
-        expect(TeamModule.count).to eq(12)
+        expect(TeamModule.count).to eq(13)
       end
 
       it 'creates slots' do
@@ -52,7 +52,7 @@ RSpec.describe Slots::Creator do
         creator.call
       end
 
-      it { expect(TeamModule.count).to eq(12) }
+      it { expect(TeamModule.count).to eq(13) }
     end
   end
 end

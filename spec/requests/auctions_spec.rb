@@ -3,14 +3,26 @@ RSpec.describe 'Auctions' do
   let(:auction) { create(:auction, league: league) }
 
   describe 'GET #index' do
-    before do
-      get league_auctions_path(league)
+    context 'when user is logged out' do
+      before do
+        get league_auctions_path(league)
+      end
+
+      it { expect(response).to redirect_to('/users/sign_in') }
+      it { expect(response).to have_http_status(:found) }
     end
 
-    it { expect(response).to be_successful }
-    it { expect(response).to render_template(:index) }
-    it { expect(response).to have_http_status(:ok) }
-    it { expect(assigns(:auctions)).not_to be_nil }
+    context 'when user is logged in' do
+      login_user
+      before do
+        get league_auctions_path(league)
+      end
+
+      it { expect(response).to be_successful }
+      it { expect(response).to render_template(:index) }
+      it { expect(response).to have_http_status(:ok) }
+      it { expect(assigns(:auctions)).not_to be_nil }
+    end
   end
 
   describe 'GET #show' do
@@ -23,10 +35,61 @@ RSpec.describe 'Auctions' do
       it { expect(response).to have_http_status(:found) }
     end
 
-    context 'when user is logged in' do
+    context 'when user is logged in and auction is not closed' do
       login_user
       before do
         get league_auction_path(league, auction)
+      end
+
+      it { expect(response).to be_successful }
+      it { expect(response).to render_template(:show) }
+      it { expect(response).to have_http_status(:ok) }
+      it { expect(assigns(:player_bid_groups)).to be_nil }
+    end
+
+    context 'when user is logged in and auction is closed' do
+      let(:auction) { create(:auction, status: :closed, league: league) }
+
+      login_user
+      before do
+        get league_auction_path(league, auction)
+      end
+
+      it { expect(response).to be_successful }
+      it { expect(response).to render_template(:show) }
+      it { expect(response).to have_http_status(:ok) }
+      it { expect(assigns(:player_bid_groups)).not_to be_nil }
+    end
+
+    context 'when admin is logged in and auction is closed' do
+      let(:auction) { create(:auction, status: :closed, league: league) }
+
+      login_admin
+      before do
+        get league_auction_path(league, auction)
+      end
+
+      it { expect(response).to be_successful }
+      it { expect(response).to render_template(:show) }
+      it { expect(response).to have_http_status(:ok) }
+      it { expect(assigns(:player_bid_groups)).not_to be_nil }
+    end
+  end
+
+  describe 'GET #live' do
+    before do
+      get live_league_auction_path(league, auction)
+    end
+
+    context 'when user is logged out' do
+      it { expect(response).to redirect_to('/users/sign_in') }
+      it { expect(response).to have_http_status(:found) }
+    end
+
+    context 'when user is logged in' do
+      login_user
+      before do
+        get live_league_auction_path(league, auction)
       end
 
       it { expect(response).to redirect_to(league_auction_transfers_path(league, auction)) }
@@ -36,22 +99,22 @@ RSpec.describe 'Auctions' do
     context 'when moderator is logged in' do
       login_moderator
       before do
-        get league_auction_path(league, auction)
+        get live_league_auction_path(league, auction)
       end
 
       it { expect(response).to be_successful }
-      it { expect(response).to render_template(:show) }
+      it { expect(response).to render_template(:live) }
       it { expect(response).to have_http_status(:ok) }
     end
 
     context 'when admin is logged in' do
       login_admin
       before do
-        get league_auction_path(league, auction)
+        get live_league_auction_path(league, auction)
       end
 
       it { expect(response).to be_successful }
-      it { expect(response).to render_template(:show) }
+      it { expect(response).to render_template(:live) }
       it { expect(response).to have_http_status(:ok) }
     end
 
@@ -65,11 +128,11 @@ RSpec.describe 'Auctions' do
 
       login_admin
       before do
-        get league_auction_path(league, auction, params)
+        get live_league_auction_path(league, auction, params)
       end
 
       it { expect(response).to be_successful }
-      it { expect(response).to render_template(:show) }
+      it { expect(response).to render_template(:live) }
       it { expect(response).to have_http_status(:ok) }
       it { expect(assigns(:player)).not_to be_nil }
     end
@@ -84,11 +147,11 @@ RSpec.describe 'Auctions' do
 
       login_admin
       before do
-        get league_auction_path(league, auction, params)
+        get live_league_auction_path(league, auction, params)
       end
 
       it { expect(response).to be_successful }
-      it { expect(response).to render_template(:show) }
+      it { expect(response).to render_template(:live) }
       it { expect(response).to have_http_status(:ok) }
       it { expect(assigns(:players)).not_to be_nil }
     end

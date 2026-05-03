@@ -15,6 +15,7 @@ class Player < ApplicationRecord
   has_many :transfers, dependent: :destroy
 
   BUCKET_URL = 'https://mantrafootball.s3-eu-west-1.amazonaws.com'.freeze
+  TM_PATH = 'https://www.transfermarkt.com/player-path/profil/spieler/'.freeze
 
   validates :name, presence: true
   validates :tm_id, uniqueness: true, allow_nil: true
@@ -24,8 +25,36 @@ class Player < ApplicationRecord
 
   default_scope { includes(%i[club national_team player_positions player_teams positions teams]) }
 
+  COUNTRY = {
+    bo: 'Bolivia',
+    bq: 'Bonaire',
+    ba: 'Bosnia-Herzegovina',
+    cd: 'DR Congo',
+    cv: 'Cape Verde',
+    cz: 'Czech Republic',
+    'gb-eng': 'England',
+    'gb-wls': 'Wales',
+    'gb-sct': 'Scotland',
+    'gb-nir': 'Northern Ireland',
+    gm: 'The Gambia',
+    ir: 'Iran',
+    kr: 'Korea, South',
+    kn: 'St. Kitts & Nevis',
+    lc: 'St. Lucia',
+    md: 'Moldova',
+    ps: 'Palestine',
+    ru: 'terrorist state',
+    sy: 'Syria',
+    tz: 'Tanzania',
+    us: 'United States',
+    ve: 'Venezuela',
+    xk: 'Kosovo'
+  }.freeze
+
   scope :by_club, ->(club_id) { where(club_id: club_id) if club_id.present? }
-  scope :search_by_name, ->(search_str) { where('lower(name) LIKE :search OR lower(first_name) LIKE :search', search: "%#{search_str}%") }
+  scope :search_by_name, lambda { |search_str|
+    where('lower(players.name) LIKE :search OR lower(players.first_name) LIKE :search', search: "%#{search_str}%")
+  }
   scope :by_position, ->(position) { joins(:positions).where(positions: { name: position }) if position.present? }
   scope :by_classic_position, ->(position) { joins(:positions).where(positions: { human_name: position }) if position.present? }
   scope :by_tournament, ->(tournament) { where(club: tournament.clubs.active) if tournament.present? }
@@ -46,13 +75,9 @@ class Player < ApplicationRecord
   end
 
   def country
-    case nationality
-    when 'gb-eng' then 'England'
-    when 'gb-wls' then 'Wales'
-    when 'gb-sct' then 'Scotland'
-    when 'gb-nir' then 'Northern Ireland'
-    else ISO3166::Country.new(nationality)&.iso_short_name
-    end
+    return '' unless nationality
+
+    COUNTRY[nationality.to_sym] || ISO3166::Country.new(nationality)&.iso_short_name
   end
 
   def full_name
@@ -61,6 +86,10 @@ class Player < ApplicationRecord
 
   def full_name_reverse
     first_name ? "#{name} #{first_name}" : name
+  end
+
+  def full_name_with_positions
+    "#{full_name} (#{position_names.join(' ')})"
   end
 
   def pseudo_name
@@ -72,7 +101,7 @@ class Player < ApplicationRecord
   end
 
   def national_kit_path
-    national_team&.kit_path
+    national_team&.kit_path || NationalTeam.find_by(code: nationality)&.kit_path
   end
 
   def profile_national_kit_path
@@ -82,7 +111,7 @@ class Player < ApplicationRecord
   def tm_path
     return '' unless tm_id
 
-    "https://www.transfermarkt.com/player-path/profil/spieler/#{tm_id}"
+    "#{TM_PATH}#{tm_id}"
   end
 
   def tm_position_path(season_start_year)
@@ -100,7 +129,7 @@ class Player < ApplicationRecord
   end
 
   def transfer_by(team)
-    transfers.incoming.where(team: team).last
+    transfers.select { |t| t.incoming? && t.team_id == team.id }.last
   end
 
   def current_average_price
@@ -123,7 +152,17 @@ class Player < ApplicationRecord
     @stats_price ||= player_season_stats.where(season: Season.second_to_last, tournament: club.tournament).last&.position_price || 1
   end
 
-  # TODO: move to stats service
+  def player_bids_by(auction_id)
+    player_bids
+      .joins('INNER JOIN auction_bids ON player_bids.auction_bid_id = auction_bids.id')
+      .joins('INNER JOIN auction_rounds ON auction_bids.auction_round_id = auction_rounds.id')
+      .joins('INNER JOIN auctions ON auction_rounds.auction_id = auctions.id')
+      .where(auctions: { id: auction_id })
+      .order('player_bids.price DESC')
+      .group_by { |bid| bid.auction_bid.auction_round.number }
+      .sort_by { |round_number, _| round_number }.reverse.to_h
+  end
+
   # Current season statistic
 
   def chart_info(matches)
@@ -137,15 +176,39 @@ class Player < ApplicationRecord
   end
 
   def season_matches_with_scores
-    @season_matches_with_scores ||= round_players.with_score.by_tournament_round(season_club_tournament_rounds).order(:tournament_round_id)
+    @season_matches_with_scores ||= round_players.with_score.by_tournament_round(club_tournament_season_rounds)
+  end
+
+  def season_matches
+    @season_matches ||= round_players.by_tournament_round(club_tournament_season_rounds)
+  end
+
+  def season_club_matches_w_scores
+    @season_club_matches_w_scores ||= round_players.with_score.by_tournament_round(season_tournament_rounds)
+  end
+
+  def season_club_in_squad
+    @season_club_in_squad ||= round_players.in_squad.by_tournament_round(season_tournament_rounds)
   end
 
   def season_ec_matches_with_scores
     @season_ec_matches_with_scores ||= round_players.with_score.by_tournament_round(season_club_eurocup_rounds).order(:tournament_round_id)
   end
 
+  def season_ec_in_squad
+    @season_ec_in_squad ||= round_players.in_squad.by_tournament_round(season_club_eurocup_rounds).order(:tournament_round_id)
+  end
+
+  def season_all_matches_with_scores
+    @season_all_matches_with_scores ||= round_players.with_score.by_tournament_round(season_all_tournam_rounds).order(:tournament_round_id)
+  end
+
   def national_matches_with_scores
     @national_matches_with_scores ||= round_players.with_score.by_tournament_round(national_team_rounds).order(:tournament_round_id)
+  end
+
+  def national_in_squad
+    @national_in_squad ||= round_players.in_squad.by_tournament_round(national_team_rounds).order(:tournament_round_id)
   end
 
   def season_scores_count(matches = season_matches_with_scores)
@@ -182,23 +245,40 @@ class Player < ApplicationRecord
     matches.map(&:played_minutes).sum
   end
 
+  def sixty_minutes_plus(matches = season_matches_with_scores)
+    matches.where('played_minutes >= ?', MatchPlayer::MIN_PLAYED_MINUTES_FOR_CS).count
+  end
+
   private
 
-  def season_club_tournament_rounds
-    return [] unless club.tournament
+  def current_season
+    @current_season ||= Season.last
+  end
 
-    TournamentRound.by_tournament(club.tournament.id).by_season(Season.last.id)
+  # all TournamentRound in current tournament for this season
+  def club_tournament_season_rounds
+    @club_tournament_season_rounds ||=
+      club.tournament ? TournamentRound.by_tournament(club.tournament.id).by_season(current_season.id) : []
+  end
+
+  # all TournamentRound for this season
+  def season_tournament_rounds
+    @season_tournament_rounds ||=
+      TournamentRound.by_tournament(Tournament.with_clubs).by_season(current_season.id).order(deadline: :desc)
   end
 
   def season_club_eurocup_rounds
-    return [] unless club.ec_tournament
+    @season_club_eurocup_rounds ||=
+      TournamentRound.by_tournament(Tournament.with_ec_clubs).by_season(current_season.id)
+  end
 
-    TournamentRound.by_tournament(club.ec_tournament.id).by_season(Season.last.id)
+  def season_all_tournam_rounds
+    season_tournament_rounds + season_club_eurocup_rounds
   end
 
   def national_team_rounds
-    return [] unless national_team
+    return [] unless national_team&.tournament
 
-    national_team.tournament&.tournament_rounds
+    @national_team_rounds ||= national_team.tournament.tournament_rounds.by_season(current_season.id)
   end
 end

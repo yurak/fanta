@@ -1,0 +1,166 @@
+.stats-section
+  - if user_team && auction_bid
+    - effective_budget = auction_round ? user_team.round_budget(auction_round) : Team::INITIAL_BUDGET
+    - reserved = auction_round ? user_team.reserved_budget(auction_round) : Team::RESERVED_BUDGET
+    - spent = auction_bid.processed? ? auction_bid.player_bids.success.sum(&:price) : auction_bid.player_bids.sum(&:price)
+    - max_bid_value = auction_round ? user_team.max_rate_by(auction_bid) : Team::INITIAL_BUDGET - auction_bid.player_bids.count + 1
+    .round-table
+      .round-table-title-header
+        .round-table-title
+          .round-table-title-text= t('auction_round.budget')
+        .round-table-hide.round-table-visible
+          = image_tag('icons/arrow_up.svg')
+        .round-table-hide.round-table-hidden
+          = image_tag('icons/arrow_down.svg')
+      .round-list.auction-round-budget
+        .auction-round-budget-list
+          .auction-round-budget-row
+            .auction-round-budget-dot.budget-dot-balance
+            .auction-round-budget-text= t('auction_round.balance')
+            .auction-round-budget-value#budget-value-balance= "#{user_team.budget}M"
+          .auction-round-budget-row
+            .auction-round-budget-dot.budget-dot-reserved
+            .auction-round-budget-text= t('auction_round.balance_reserved')
+            .auction-round-budget-value#budget-value-reserved= "#{reserved}M"
+          .auction-round-budget-row
+            .auction-round-budget-dot.budget-dot-available
+            .auction-round-budget-text= t('auction_round.available_budget')
+            .auction-round-budget-value#budget-value-available= "#{effective_budget - spent}M"
+          .auction-round-budget-row
+            .auction-round-budget-dot.budget-dot-spent-auc
+            .auction-round-budget-text= t('auction_round.spent_auction')
+            .auction-round-budget-value#budget-value-spent-auc= "#{spent}M"
+          .auction-round-budget-row
+            .auction-round-budget-dot.budget-dot-spent-total
+            .auction-round-budget-text= t('auction_round.spent_total')
+            .auction-round-budget-value.budget-value-spent-total= "#{Team::DEFAULT_BUDGET - user_team.budget}M"
+        .auction-round-budget-summary
+          .auction-round-budget-summary-row
+            .auction-round-budget-summary-text= t('auction_round.total_budget')
+            .auction-round-budget-summary-value= "#{Team::DEFAULT_BUDGET}M"
+          .auction-round-budget-summary-row
+            .auction-round-budget-summary-text= t('auction_round.max_bid')
+            .auction-round-budget-summary-value= "#{max_bid_value}M"
+        .ar-budget-bar
+          .ar-budget-bar-spent
+        .ar-budget-alert
+          .ar-budget-alert-icon ⛔️
+          .ar-budget-alert-text
+            .ar-budget-alert-header= t('auction_round.exceeded')
+            .ar-budget-alert-desc= t('auction_round.decrease_bid')
+  - if auction_round && league
+    .round-table
+      .round-table-title-header
+        .round-table-title
+          .round-table-title-text= t('auction_round.bets_placed')
+        .round-table-hide.round-table-visible
+          = image_tag('icons/arrow_up.svg')
+        .round-table-hide.round-table-hidden
+          = image_tag('icons/arrow_down.svg')
+      .round-list
+        - league.teams.each do |team|
+          = link_to team_path(team), class: 'auction-round-table-link' do
+            .round-table-item.auction-round-table-item
+              .round-table-item-cell.round-table-item-team
+                .results-team-logo
+                  = image_tag(image_path(team.logo_path))
+                .results-team-name
+                  = team.human_name[0..15]
+              .round-table-item-cell.center
+                = team.vacancies
+              .round-table-item-cell.auction-round-team-budget
+                = "#{team.budget}M"
+              .round-table-item-cell.center
+                - if team.full_squad? || auction.closed?
+                  🏁️
+                - elsif user_team == team || auction_round.ddl_expired? || current_user&.admin?
+                  = t("auction_round.status_icon.#{auction_round.auction_bids.find_by(team: team).status}")
+  - if modules&.any?
+    .round-table
+      .round-table-title-header
+        .round-table-title
+          .round-table-title-text= t('auction_round.modules')
+        .round-table-hide.round-table-visible
+          = image_tag('icons/arrow_up.svg')
+        .round-table-hide.round-table-hidden
+          = image_tag('icons/arrow_down.svg')
+      .round-list
+        - modules.each do |team_module|
+          .module-btn= team_module.name
+        - modules.each do |team_module|
+          .module-img{id: "module-img-#{team_module.name}"}= image_tag("#{modules_path}#{team_module.name}.jpg")
+  - if transfers&.any? && league && auction
+    .round-table
+      .round-table-title
+        = link_to league_auction_transfers_path(league, auction) do
+          .round-table-title-text= t('auction_round.transfers')
+          .round-table-title-icon
+            = image_tag('icons/arrow_blue.svg')
+      .round-table-block
+        - transfers.each_with_index do |transfer, index|
+          .round-table-item.round-player-stats-item
+            .round-player-stats-param.center= index + 1
+            .round-player-stats-param.round-player-stats-data
+              .round-player-stats-img
+                .round-player-show-face
+                  %object{data: transfer.player.avatar_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
+                    = image_tag('avatar.png')
+                .round-player-show-kit
+                  %object{data: transfer.player.kit_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
+                    = image_tag('kit_small_default.png')
+              .round-player-stats-name= transfer.player.name
+            .round-player-stats-param.round-player-stats-score= transfer.price
+            .round-player-stats-param.round-player-stats-team
+              = image_tag(transfer.team.logo_path)
+  - if drop_outs&.any? && league && auction
+    .round-table
+      .round-table-title
+        = link_to league_auction_transfers_path(league, auction, type: 'out') do
+          .round-table-title-text= t('auction_round.dropping_title')
+          .round-table-title-icon
+            = image_tag('icons/arrow_blue.svg')
+      .round-table-block
+        - drop_outs.each_with_index do |transfer, index|
+          .round-table-item.round-player-stats-item
+            .round-player-stats-param.center= index + 1
+            .round-player-stats-param.round-player-stats-data
+              .round-player-stats-img
+                .round-player-show-face
+                  %object{data: transfer.player.avatar_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
+                    = image_tag('avatar.png')
+                .round-player-show-kit
+                  %object{data: transfer.player.kit_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
+                    = image_tag('kit_small_default.png')
+              .round-player-stats-name= transfer.player.name
+            .round-player-stats-param.round-player-stats-score= transfer.price
+            .round-player-stats-param.round-player-stats-team
+              = image_tag(transfer.team.logo_path)
+
+:javascript
+  $(document).ready(function() {
+    // Show/hide stats
+    $(".round-table-hide").click(function(){
+      var statsTable = this.parentNode.parentNode;
+      var list = statsTable.querySelector(".round-list");
+
+      if (this.classList.contains("round-table-visible")) {
+        list.style.display = "none";
+        this.style.display = "none";
+        statsTable.querySelector(".round-table-hidden").style.display = "block";
+      }
+
+      if (this.classList.contains("round-table-hidden")) {
+        list.style.display = "block";
+        this.style.display = "none";
+        statsTable.querySelector(".round-table-visible").style.display = "block";
+      }
+    });
+
+    // Show module images
+    $(".module-btn").click(function(){
+      $(".module-btn").removeClass("module-btn-active");
+      $(".module-img").hide();
+      $(this).addClass("module-btn-active");
+      $("#module-img-"+this.textContent).show();
+    });
+  });

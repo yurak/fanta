@@ -6,7 +6,7 @@ import { ILeaguesWithTournament } from "../../interfaces";
 import LeagueLoader from "../LeagueLoader";
 import styles from "./LeaguesListMobile.module.scss";
 
-const LeagueItem = ({ name, tournament, status, division, id }: ILeaguesWithTournament) => {
+const LeagueItem = ({ name, tournament, status, division, id, demo }: ILeaguesWithTournament) => {
   return (
     <div className={styles.item}>
       {tournament && (
@@ -18,7 +18,7 @@ const LeagueItem = ({ name, tournament, status, division, id }: ILeaguesWithTour
         <div className={styles.contentTop}>
           <div className={styles.name}>{name}</div>
           <div className={styles.status}>
-            <LeagueStatus status={status} />
+            <LeagueStatus status={status} demo={demo} />
           </div>
         </div>
         <div className={styles.contentBottom}>

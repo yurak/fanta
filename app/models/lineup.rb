@@ -15,9 +15,15 @@ class Lineup < ApplicationRecord
 
   default_scope { includes(%i[team tour]) }
 
+  enum creation_type: { manual: 0, copied: 1, auto_cloned: 2 }
+
   scope :closed, ->(league_id) { where(tour_id: League.find(league_id).tours.closed.ids) }
+  scope :finished, -> { joins(:tour).where(tours: { status: :closed }) }
+  scope :mantra, -> { joins(tour: { tournament_round: :tournament }).where(tournaments: { mode: :mantra }) }
+  scope :fanta, -> { joins(tour: { tournament_round: :tournament }).where(tournaments: { mode: :fanta }) }
   scope :by_league, ->(league_id) { where(tour_id: League.find(league_id).tours.ids) }
   scope :by_team, ->(team_id) { where(team_id: team_id) }
+  scope :top_position, ->(position) { where('position > 0 AND position <= ?', position) if position }
 
   MIN_AVG_DEF_SCORE = 6
   MAX_AVG_DEF_SCORE = 7
@@ -27,21 +33,31 @@ class Lineup < ApplicationRecord
   MAX_PLAYERS = 20
 
   def total_score
-    return final_score unless final_score.zero?
-    return final_score if tour.fanta?
+    return final_score if final_score.nonzero? || tour.fanta?
 
     current_score
   end
 
   def current_score
-    @current_score ||= match_players.main.map(&:total_score).compact.sum + defence_bonus
+    @current_score ||= match_players.main.sum(&:total_score) + defence_bonus
   end
 
   def defence_bonus
-    return 0 if def_average_score < min_avg_def_score
-    return 5 if def_average_score >= max_avg_def_score
+    avg = def_average_score
 
-    (((def_average_score - min_avg_def_score) / DEF_BONUS_STEP) + 1).floor
+    return 0 if avg < min_avg_def_score
+    return 5 if avg >= max_avg_def_score
+
+    (((avg - min_avg_def_score) / DEF_BONUS_STEP) + 1).floor
+  end
+
+  def def_average_score
+    @def_average_score ||= begin
+      scores = match_players.defenders.joins(:round_player)
+                            .pluck('match_players.id', 'round_players.score')
+                            .uniq { |id, _| id }.map { |_, score| score }
+      scores.empty? ? 0 : scores.sum / scores.size.to_f
+    end
   end
 
   def goals
@@ -81,10 +97,14 @@ class Lineup < ApplicationRecord
   end
 
   def opponent
+    return unless match
+
     match.host == team ? match.guest : match.host
   end
 
   def match_result
+    return '' unless match
+
     match.host == team ? "#{match.host_goals}-#{match.guest_goals}" : "#{match.guest_goals}-#{match.host_goals}"
   end
 
@@ -94,6 +114,27 @@ class Lineup < ApplicationRecord
     else
       tour.expanded? ? team&.players&.count : MAX_PLAYERS
     end
+  end
+
+  def subs_missed?
+    match_players.main.without_score.any?(&:subs_option_exist?)
+  end
+
+  def substitutes_preview
+    return [] unless substitutes
+
+    JSON.parse(substitutes)
+  end
+
+  def best_player
+    match_players.joins(:round_player).main.order('round_players.final_score': :desc).first&.player
+  end
+
+  def average_bench
+    subs = match_players.with_score.subs_bench
+    return 0 if subs.empty?
+
+    (subs.sum(&:total_score) / subs.count).round(2)
   end
 
   private
@@ -111,25 +152,11 @@ class Lineup < ApplicationRecord
   end
 
   def min_avg_def_score
-    league.min_avg_def_score || MIN_AVG_DEF_SCORE
+    league&.min_avg_def_score || MIN_AVG_DEF_SCORE
   end
 
   def max_avg_def_score
-    league.max_avg_def_score || MAX_AVG_DEF_SCORE
-  end
-
-  def def_count
-    @def_count ||= match_players.defenders.count
-  end
-
-  def def_scores_sum
-    match_players.defenders.map(&:score).compact.sum
-  end
-
-  def def_average_score
-    return 0 if match_players.defenders.empty?
-
-    def_scores_sum / def_count
+    league&.max_avg_def_score || MAX_AVG_DEF_SCORE
   end
 
   def draw?

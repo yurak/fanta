@@ -1,0 +1,187 @@
+.auction-logs-block
+  .players-search-block
+    .players-search
+      .search-icon
+        = image_tag('icons/search.svg')
+      = form_tag(league_auction_path(league, auction), method: :get, autocomplete: 'off') do
+        .search-input
+          = search_field_tag :search, params[:search], placeholder: t('players.search_player')
+    .auction-filters
+      - Position.all.each do |position|
+        = link_to league_auction_path(league, auction, position: position.human_name) do
+          .search-position.player-positions-block
+            .player-position{class: "player-position-#{position.name}"}
+              = position_name(position)
+    .search-items
+      - auction.auction_rounds.each do |round|
+        .search-item
+          = link_to league_auction_path(league, auction, round: round.number) do
+            = "##{round.number}"
+      - if current_user&.team_by_league(league)
+        .search-item
+          = link_to league_auction_path(league, auction, team_id: current_user&.team_by_league(league).id) do
+            = t('auction.show.logs.my_bids')
+      .search-item
+        = link_to league_auction_path(league, auction) do
+          = t('auction.show.logs.all_bids')
+
+  .players-bids-block
+    .players-bids-list
+      - @player_bid_groups.each do |number, player_bids|
+        .player-stage-number= t('auction.show.logs.stage_number', number: number)
+        .player-bid-items
+          - player_bids.each do |player_bid|
+            .player-bid-row{id: "player-bid-#{player_bid.id}", class: "active-bid-row-#{@active_bid&.id == player_bid.id}"}
+              .player-bid-avatar
+                .player-show-face
+                  %object{data: player_bid.player.avatar_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
+                    = image_tag('avatar.png')
+                .player-show-kit
+                  %object{data: player_bid.player.kit_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
+                    = image_tag('kit_small_default.png')
+              .player-bid-name
+                = "#{player_bid.player.name}#{' ⭐️' if current_user&.team_by_league(league) && current_user&.team_by_league(league)&.id == player_bid.team.id}"
+              .player-bid-positions
+                .player-positions-block
+                  - player_bid.player.positions.each do |position|
+                    .player-position{class: "player-position-#{position.name}"}
+                      = position_name(position)
+              .player-bid-price= "#{player_bid.price}M"
+              .player-bid-arrow ➡️
+              .player-bid-club
+                .player-bid-club-obj
+                  %object{data: player_bid.team.logo_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
+                    = image_tag('default_logo.png')
+
+    - if @active_bid
+      .players-bid-active#players-bid-active
+        .bid-active-player
+          .bid-active-player-avatar#bid-active-player-avatar
+            .player-show-face
+              %object{data: @active_bid.player.avatar_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
+                = image_tag('avatar.png')
+            .player-show-kit
+              %object{data: @active_bid.player.kit_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
+                = image_tag('kit_small_default.png')
+          .bid-active-player-name#bid-active-player-name
+            = link_to player_path(@active_bid.player), target: '_blank' do
+              = @active_bid.player.full_name
+          .bid-active-player-pos
+            .player-positions-block#bid-active-positions-block
+              - @active_bid.player.positions.each do |position|
+                .player-position{class: "player-position-#{position.name}"}
+                  = position_name(position)
+        .bid-active-logs#bid-active-logs
+          - @active_bid_logs.each do |number, player_bids|
+            .bid-active-stage= "#{@active_bid_logs.first.first == number ?  '✅' : '❌'} #{t('auction.show.logs.stage_number', number: number)}"
+            .bid-active-block
+              - player_bids.each do |bid|
+                .bid-active-row{class: "bid-active-#{bid.status}"}
+                  .bid-active-logo
+                    %object{data: bid.team.logo_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
+                      = image_tag('default_logo.png')
+                  .bid-active-team= bid.team.human_name
+                  .bid-active-price-wrapper
+                    .bid-active-price= "#{bid.price}M"
+
+:javascript
+  $(document).ready(function() {
+    $('.player-bid-row').click(function() {
+      const playerBidId = $(this)[0].id.replace('player-bid-','');
+      const italPosNaming = "#{current_user&.ital_pos_naming}" === 'true';
+      const positionsContainer = $('#bid-active-positions-block');
+      const bidsContainer = $('#bid-active-logs');
+      const nameContainer = $('#bid-active-player-name');
+      const avatarContainer = $('#bid-active-player-avatar');
+      const defaultTeamLogo = "#{ActionController::Base.helpers.asset_path('default_logo.png')}"
+      const avatarImgSrc = "#{ActionController::Base.helpers.asset_path('avatar.png')}"
+      const kitImgSrc = "#{ActionController::Base.helpers.asset_path('kit_small_default.png')}"
+
+      $('.active-bid-row-true').removeClass('active-bid-row-true');
+      $(this).addClass('active-bid-row-true');
+
+      $.ajax({
+        type: "GET",
+        dataType: 'json',
+        url: "/api/player_bids/"+playerBidId,
+        data: { _method: 'GET' },
+        success: function(data){
+          let player = data.data.player;
+          let bidGroups = data.data.auction_bids;
+          let firstName = player.first_name;
+          let name = player.name;
+          const playerPath = "#{player_path(1).tr('1', '')}" + player.id;
+
+          if (firstName) {
+            name = firstName + ' ' + player.name;
+          }
+          nameContainer.children().remove();
+          nameContainer.append('<a href=' + playerPath + ' class="ab-player-link-a" target="_blank">' + name + '</a>');
+
+          avatarContainer.children().remove();
+          avatarContainer.append(
+            '<div class="player-show-face">' +
+              '<object data=' + player.avatar_path + ' type="image/png">' +
+                '<img src=' + avatarImgSrc + '>' +
+              '</object>' +
+            '</div>' +
+            '<div class="player-show-kit">' +
+              '<object data=' + player.club.kit_path + ' type="image/png">' +
+                '<img src=' + kitImgSrc + '>' +
+              '</object>' +
+            '</div>'
+          );
+
+          positionsContainer.children(".player-position").remove();
+          player.position_ital_arr.forEach((positionName, index) => {
+            let posName = player.position_classic_arr[index];
+            if (italPosNaming) { posName = positionName; }
+
+            $('<div/>',{
+              text: posName,
+              class: "player-position player-position-" + positionName
+            }).appendTo(positionsContainer);
+            positionsContainer.append(' ');
+          })
+
+          bidsContainer.children().remove();
+          let bidsHtml = '';
+          Object.entries(bidGroups).reverse().forEach(([roundNumber, bids]) => {
+            let stageIcon = '❌'
+            if (bids[0].status == 'success') { stageIcon = '✅' }
+            bidsHtml +=
+              '<div class="bid-active-stage">' +
+                stageIcon + ' ' + "#{t('auction.show.logs.stage')}" + roundNumber +
+              '</div>'
+            let stageBidsHtml = '';
+            bids.forEach(bid => {
+              stageBidsHtml +=
+                '<div class="bid-active-row bid-active-' + bid.status + '">' +
+                  '<div class="bid-active-logo">' +
+                    '<object data=' + bid.team.logo_path + ' type="image/png">' +
+                      '<img src=' + defaultTeamLogo + '>' +
+                    '</object>' +
+                  '</div>' +
+                  '<div class="bid-active-team">' +
+                    bid.team.human_name +
+                  '</div>' +
+                  '<div class="bid-active-price-wrapper">' +
+                    '<div class="bid-active-price">' +
+                      bid.price + 'M' +
+                    '</div>' +
+                  '</div>' +
+                '</div>'
+            });
+            bidsHtml += '<div class="bid-active-block">' + stageBidsHtml + '</div>'
+          })
+
+          bidsContainer.append(bidsHtml);
+
+          const target = $('#players-bid-active');
+          if (target.length) {
+            $('html, body').animate({scrollTop: target.offset().top - 50}, 500);
+          }
+        }
+      });
+    });
+  });

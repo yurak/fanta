@@ -4,37 +4,36 @@
   .mob-header= render 'layouts/mob_header', league: match.tour.league
 
   .page-info.match-page
-    .match-round-links
-      .match-round-link
+    .back-links
+      .back-link
         = link_to tour_path(match.tour) do
-          .match-round-link-arrow
-            = image_tag('icons/arrow.svg')
-          .match-round-link-text
+          .back-link-arrow
+            = image_tag('icons/arrow_left.svg')
+          .back-link-text
             = "#{t('tours.round')} ##{match.tour.number}"
       .match-round-link-blank
       .round-prev-next
-        - if match.tour.number > 1 && match.tour.prev_round
+        - if @prev_tour_match
           .round-prev
-            = link_to match_path(match.tour.prev_round.matches.first) do
-              .round-prev-arrow
-                = image_tag('icons/arrow_blue.svg')
+            = link_to match_path(@prev_tour_match) do
+              .round-prev-arrow= image_tag('icons/arrow_blue.svg')
               .round-prev-text= t('tours.prev')
         - else
           .round-prev.round-prev-next-disabled
-            .round-prev-arrow
-              = image_tag('icons/arrow_grey.svg')
+            .round-prev-arrow= image_tag('icons/arrow_grey.svg')
             .round-prev-text= t('tours.prev')
-        - if match.tour.number < match.tour.league.tours.size && match.tour.next_round
+        - if @next_tour_match
           .round-next
-            = link_to match_path(match.tour.next_round.matches.first) do
+            = link_to match_path(@next_tour_match) do
               .round-next-text= t('tours.next')
-              .round-next-arrow
-                = image_tag('icons/arrow_blue.svg')
+              .round-next-arrow= image_tag('icons/arrow_blue.svg')
         - else
           .round-next.round-prev-next-disabled
             .round-next-text= t('tours.next')
-            .round-next-arrow
-              = image_tag('icons/arrow_grey.svg')
+            .round-next-arrow= image_tag('icons/arrow_grey.svg')
+      -# - if current_user&.admin? && match.tour.locked_or_postponed?
+      -#   .round-action-link
+      -#     = link_to 'Autobot', match_autobot_path(match), method: :post, class: 'btn'
     .matches-bar
       .matches-bar-items
         - match.tour.matches.each do |round_match|
@@ -59,7 +58,7 @@
         - if match.tour.unlocked?
           .match-result-soon= t('matches.start_soon')
           .match-result-deadline
-            = match.tournament_round.deadline&.strftime('%a, %b %e at %H:%M')
+            = local_time(match.tournament_round.deadline, '%a, %b %e at %H:%M')
         - else
           .match-result-row
             .match-result-row-cell.round-match-scores-host-count
@@ -110,7 +109,7 @@
               .match-module-lineup.match-module-home
                 - if match.host_lineup
                   - if current_user == match.host_lineup.team.user || match.host_lineup.tour.deadlined?
-                    - match.host_lineup.match_players.main.each_with_index do |mp, index|
+                    - match.host_lineup.match_players.select { |mp| mp.real_position.present? }.each_with_index do |mp, index|
                       .match-module-item{class: "slot-#{match.host_lineup.team_module.slots[index]&.location}"}
                         .match-module-item-pos
                           .module-position-block.player-positions-block
@@ -123,7 +122,7 @@
               .match-module-lineup.match-module-away
                 - if match.guest_lineup
                   - if current_user == match.guest_lineup.team.user || match.guest_lineup.tour.deadlined?
-                    - match.guest_lineup.match_players.main.each_with_index do |mp, index|
+                    - match.guest_lineup.match_players.select { |mp| mp.real_position.present? }.each_with_index do |mp, index|
                       .match-module-item{class: "slot-#{match.guest_lineup.team_module.slots[index]&.location}"}
                         .match-module-item-pos
                           .module-position-block.player-positions-block

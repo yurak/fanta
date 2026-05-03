@@ -71,9 +71,9 @@ module Results
       results.each do |result|
         history_arr = result.history_arr
         # position:, points:, scored_goals:, missed_goals:, wins:, draws:, loses:, total_score:
-        history_arr[tour.number] = { pos: result.position, p: result.points, sg: result.scored_goals, mg: result.missed_goals,
+        history_arr[tour.number] = { pos: result.live_position, p: result.points, sg: result.scored_goals, mg: result.missed_goals,
                                      w: result.wins, d: result.draws, l: result.loses, ts: result.total_score.round(2) }
-        result.update(history: history_arr.to_json)
+        result.update(history: history_arr.to_json, position: result.live_position)
       end
     end
 

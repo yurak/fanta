@@ -3,6 +3,6 @@ FactoryBot.define do
     sequence(:code) { |i| "nt#{i}" }
     sequence(:name) { |i| "#{FFaker::Address.country}#{i}" }
 
-    tournament
+    tournament { Tournament.first || association(:tournament) }
   end
 end

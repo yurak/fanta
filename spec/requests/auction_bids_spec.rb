@@ -1,4 +1,86 @@
 RSpec.describe 'AuctionBids' do
+  describe 'GET #show' do
+    let(:auction_bid) { create(:auction_bid) }
+
+    context 'when user is logged out' do
+      before { get auction_bid_path(auction_bid) }
+
+      it { expect(response).to redirect_to('/users/sign_in') }
+    end
+
+    context 'when user is not the bid owner' do
+      login_user
+
+      before { get auction_bid_path(auction_bid) }
+
+      it { expect(response).to redirect_to(leagues_path) }
+    end
+
+    context 'when user is the bid owner without auction_round' do
+      let(:logged_user) { create(:user) }
+      let(:team) { create(:team, user: logged_user) }
+      let(:auction_bid) { create(:auction_bid, team: team, auction_round: nil) }
+
+      before do
+        sign_in logged_user
+        get auction_bid_path(auction_bid)
+      end
+
+      it { expect(response).to be_successful }
+      it { expect(response).to render_template(:show) }
+      it { expect(controller.instance_variable_get(:@user_team)).to eq(team) }
+      it { expect(controller.instance_variable_get(:@modules)).to eq(TeamModule.all) }
+    end
+
+    context 'when user is the bid owner with auction_round' do
+      let(:logged_user) { create(:user) }
+      let(:auction_round) { create(:auction_round) }
+      let(:team) { create(:team, user: logged_user, league: auction_round.league) }
+      let(:auction_bid) { create(:auction_bid, team: team, auction_round: auction_round) }
+
+      before do
+        sign_in logged_user
+        get auction_bid_path(auction_bid)
+      end
+
+      it { expect(response).to be_successful }
+      it { expect(response).to render_template(:show) }
+      it { expect(controller.instance_variable_get(:@auction_round)).to eq(auction_round) }
+      it { expect(controller.instance_variable_get(:@league)).to eq(auction_round.league) }
+    end
+  end
+
+  describe 'POST #submit' do
+    let(:logged_user) { create(:user) }
+    let(:team) { create(:team, user: logged_user) }
+    let!(:join) { create(:join, user: logged_user, team: team, tournament: team.tournament) }
+    let(:auction_bid) { create(:auction_bid, team: team, auction_round: nil) }
+
+    context 'when user is logged out' do
+      before { post submit_auction_bid_path(auction_bid) }
+
+      it { expect(response).to redirect_to('/users/sign_in') }
+    end
+
+    context 'when user is not the bid owner' do
+      login_user
+
+      before { post submit_auction_bid_path(auction_bid) }
+
+      it { expect(response).to redirect_to(leagues_path) }
+    end
+
+    context 'when user is the bid owner' do
+      before do
+        sign_in logged_user
+        post submit_auction_bid_path(auction_bid)
+      end
+
+      it { expect(response).to redirect_to(auction_bid_path(auction_bid)) }
+      it { expect(join.reload.status).to eq('pending') }
+    end
+  end
+
   describe 'PUT/PATCH #update' do
     let(:auction_bid) { create(:auction_bid) }
     let(:player_bids_attributes) { nil }
@@ -119,6 +201,45 @@ RSpec.describe 'AuctionBids' do
 
       it { expect(response).to redirect_to(auction_round_path(auction_bid.auction_round)) }
       it { expect(response).to have_http_status(:found) }
+    end
+  end
+
+  describe 'PUT/PATCH #update without auction_round (join flow)' do
+    let(:logged_user) { create(:user) }
+    let(:team) { create(:team, user: logged_user) }
+    let(:join) { create(:join, user: logged_user, team: team, tournament: team.tournament) }
+    let(:auction_bid) { create(:auction_bid, team: team, auction_round: nil) }
+    let(:params) { { auction_bid: { status: 'submitted' } } }
+
+    before { join }
+
+    context 'when user is logged out' do
+      before { put auction_bid_path(auction_bid, params) }
+
+      it { expect(response).to redirect_to('/users/sign_in') }
+    end
+
+    context 'when bid becomes submitted' do
+      before do
+        sign_in logged_user
+        allow(AuctionBids::Manager).to receive(:call)
+        auction_bid.update!(status: :submitted)
+        put auction_bid_path(auction_bid, params)
+      end
+
+      it { expect(response).to redirect_to(join_path(join)) }
+      it { expect(join.reload.status).to eq('pending') }
+    end
+
+    context 'when bid is not submitted' do
+      before do
+        sign_in logged_user
+        allow(AuctionBids::Manager).to receive(:call)
+        put auction_bid_path(auction_bid, params.merge(auction_bid: { status: 'ongoing' }))
+      end
+
+      it { expect(response).to redirect_to(auction_bid_path(auction_bid)) }
+      it { expect(join.reload.status).to eq('initial') }
     end
   end
 end

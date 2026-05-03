@@ -23,16 +23,56 @@ Rails.application.routes.draw do
   get 'guide',    to: 'welcome#guide'
   get 'rules',    to: 'welcome#rules'
 
+  resources :joins, only: [:index, :show]
+  resources :weekly_teams, only: [:show]
+
+  namespace :manage do
+    resources :leagues, only: [:index, :new, :create, :edit, :update, :show] do
+      member do
+        post :activate
+        post :archive
+        post :crown
+      end
+    end
+
+    resources :joins, only: [:index] do
+      member do
+        post :approve
+        post :reject
+      end
+    end
+
+    resources :players, only: [:index, :create]
+    resources :clubs, only: [:index]
+    resources :teams, only: [:index]
+    resources :users, only: [:index, :show]
+    resources :weekly_teams, only: [:index, :new, :create]
+    resources :auctions, only: [:index]
+    resources :champions, only: [:index]
+  end
+
+  get  'unsubscribe', to: 'subscriptions#unsubscribe', as: :unsubscribe
+  post 'unsubscribe', to: 'subscriptions#confirm_unsubscribe'
+
+  telegram_webhook Telegram::WebhookController
+  # telegram_webhook Telegram::WebhookController, :mantra_prod
+
   resources :articles
 
   resources :auction_rounds, only: [:show] do
     resources :auction_bids, only: [:update]
   end
 
-  resources :join_requests, only: [:new, :create, :index]
+  resources :auction_bids, only: [:show, :update] do
+    member { post :submit }
+  end
+
+  resources :join_requests, only: [:new, :create]
 
   resources :leagues, only: [:index, :show] do
     resources :auctions, only: [:index, :show, :update] do
+      get :live, on: :member
+
       resources :transfers, only: [:index, :create, :destroy]
     end
 
@@ -41,7 +81,9 @@ Rails.application.routes.draw do
 
   resources :links, only: [:index]
 
-  resources :matches, only: [:show]
+  resources :matches, only: [:show] do
+    post :autobot
+  end
 
   resources :national_teams, only: [:show]
 
@@ -57,7 +99,7 @@ Rails.application.routes.draw do
 
   resources :slots, only: [:index]
 
-  resources :teams, only: [:show, :edit, :update, :new, :create] do
+  resources :teams, only: [:show, :edit, :update, :create] do
     resources :lineups, only: [:show, :new, :create, :edit, :update] do
       collection { get :clone }
     end
@@ -66,28 +108,46 @@ Rails.application.routes.draw do
   end
 
   resources :tournaments, only: [:show] do
+    resources :clubs, only: [:show]
     resources :divisions, only: [:index]
   end
 
   resources :tours, only: [:show, :update] do
     get :inject_scores, on: :member
+    get :tournament_players, on: :member
+    get :league_players, on: :member
   end
 
-  resources :tournament_rounds, only: [:edit, :update] do
+  resources :tournament_matches, only: [:edit, :update]
+
+  resources :tournament_rounds, only: [:show, :edit, :update] do
+    put :auto_close, on: :member
+    put :tours_update, on: :member
+    get :stats
+    get :missed_players
+    get :auto_subs
+    get :generate_preview
+    get :auto_subs_preview
     resources :round_players, only: [:index]
   end
 
   resources :users, only: [:show, :edit, :update] do
-    get :edit_avatar, on: :member
-    get :new_avatar, on: :member
-    get :new_name, on: :member
-    put :new_update, on: :member
+    get  :edit_avatar,      on: :member
+    get  :new_avatar,       on: :member
+    get  :new_name,         on: :member
+    get  :site_config,      on: :member
+    put  :new_update,       on: :member
+    post :telegram_connect, on: :member
+  end
+  resources :users, only: [], path: :managers, as: :managers do
+    get :show, on: :member, to: 'users#show_manager'
   end
 
   namespace :api do
     resources :leagues, only: [:index, :show] do
       resources :results, only: [:index]
     end
+    resources :player_bids, only: [:show]
     resources :players, only: [:index, :show] do
       get :stats, on: :member
     end
@@ -97,4 +157,6 @@ Rails.application.routes.draw do
       resources :divisions, only: [:index]
     end
   end
+
+  get '*path' => redirect('/')
 end

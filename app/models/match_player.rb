@@ -13,7 +13,7 @@ class MatchPlayer < ApplicationRecord
 
   enum subs_status: { initial: 0, get_out: 1, get_in: 2, not_in_squad: 3 }
 
-  default_scope { includes(round_player: { player: %i[club player_positions positions] }) }
+  default_scope { includes(:lineup, round_player: { player: %i[club player_positions positions] }) }
 
   scope :main, -> { where.not(real_position: nil) }
   scope :with_score, -> { includes(:round_player).joins(:round_player).where('round_players.score > ?', 0) }
@@ -29,9 +29,14 @@ class MatchPlayer < ApplicationRecord
 
   CLEANSHEET_BONUS_DIFF_FULL = 1
   CLEANSHEET_BONUS_DIFF = 0.5
+  MIN_PLAYED_MINUTES_FOR_CS = 60
+
+  def kit_path
+    round_player.club ? round_player.club.kit_path : player.kit_path
+  end
 
   def not_played?
-    (score.zero? && club_played_match?) || another_tournament?
+    score.zero? && (club_played_match? || another_tournament?)
   end
 
   def position_malus?
@@ -45,7 +50,7 @@ class MatchPlayer < ApplicationRecord
 
     total = result_score
 
-    total -= recount_cleansheet if cleansheet
+    total -= recount_cleansheet if cleansheet && real_position
     total -= position_malus if position_malus
 
     total
@@ -60,15 +65,37 @@ class MatchPlayer < ApplicationRecord
   end
 
   def hide_cleansheet?
-    e_not_at_e_or_d? || m_not_at_m_or_dc?
+    e_not_at_valid_pos? || m_not_at_valid_pos?
+  end
+
+  def subs_option_exist?
+    subs_options.exists?
+  end
+
+  def subs_options
+    return MatchPlayer.none unless eligible_for_subs?
+
+    lineup.match_players
+          .subs_bench
+          .with_score
+          .joins(round_player: { player: :positions })
+          .where(positions: { name: available_positions })
+          .distinct
   end
 
   private
 
+  def eligible_for_subs?
+    score.zero? &&
+      (club_played_match? || another_tournament?) &&
+      lineup.tour.locked_or_postponed? &&
+      available_positions.present?
+  end
+
   def recount_cleansheet
-    if d_at_w?
+    if d_at_w? || d_at_c?
       CLEANSHEET_BONUS_DIFF_FULL
-    elsif d_at_e_or_m? || m_not_at_m_or_dc? || e_not_at_e_or_d?
+    elsif d_at_e_or_m? || m_not_at_valid_pos? || e_not_at_valid_pos?
       CLEANSHEET_BONUS_DIFF
     else
       0
@@ -80,17 +107,21 @@ class MatchPlayer < ApplicationRecord
       real_position_arr.include?(Position::WINGER)
   end
 
+  def d_at_c?
+    (position_names & Position::D_CLEANSHEET_ZONE).any? && (real_position_arr & Position::CLEANSHEET_ZONE).empty? &&
+      real_position_arr.include?(Position::CENTER_MF)
+  end
+
   def d_at_e_or_m?
     (position_names & Position::D_CLEANSHEET_ZONE).any? &&
       (real_position_arr.include?(Position::WING_BACK) || real_position_arr.include?(Position::DEFENCE_MF))
   end
 
-  def m_not_at_m_or_dc?
+  def m_not_at_valid_pos?
     position_names.include?(Position::DEFENCE_MF) && (real_position_arr & Position::CLEANSHEET_ZONE).empty?
   end
 
-  def e_not_at_e_or_d?
-    position_names.include?(Position::WING_BACK) && (real_position_arr & Position::D_CLEANSHEET_ZONE).empty? &&
-      (real_position_arr & Position::E_CLEANSHEET_ZONE).empty?
+  def e_not_at_valid_pos?
+    position_names.include?(Position::WING_BACK) && (real_position_arr & Position::CLEANSHEET_ZONE).empty?
   end
 end

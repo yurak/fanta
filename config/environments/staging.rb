@@ -34,7 +34,7 @@ Rails.application.configure do
   # `config.assets.precompile` and `config.assets.version` have moved to config/initializers/assets.rb
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
-  config.action_controller.asset_host = 'http://staging.mantrafootball.org'
+  config.action_controller.asset_host = 'https://staging.mantrafootball.org'
 
   # Specifies the header that your server uses for sending files.
   # config.action_dispatch.x_sendfile_header = 'X-Sendfile' # for Apache
@@ -67,20 +67,20 @@ Rails.application.configure do
 
   config.action_mailer.perform_caching = false
 
-  config.action_mailer.delivery_method = :test
+  config.action_mailer.delivery_method = :smtp
 
-  config.action_mailer.default_url_options = { host: 'localhost', port: 3333, protocol: 'http', only_path: false }
-  # config.action_mailer.default_url_options = { host: 'mantrafootball.org', protocol: 'https' }
+  config.action_mailer.show_previews = true
 
-  # SMTP settings for gmail
-  # config.action_mailer.smtp_settings = {
-  #   :address              => 'smtp.gmail.com',
-  #   :port                 => 587,
-  #   :user_name            => ENV['GMAIL_USERNAME'],
-  #   :password             => ENV['GMAIL_PASSWORD'],
-  #   :authentication       => 'plain',
-  #   :enable_starttls_auto => true
-  # }
+  config.action_mailer.default_url_options = { host: 'staging.mantrafootball.org', protocol: 'https' }
+
+  config.action_mailer.smtp_settings = {
+    :address              => 'smtp.eu.mailgun.org',
+    :port                 => 587,
+    :user_name            => ENV['MAILGUN_SMTP_LOGIN'],
+    :password             => ENV['MAILGUN_SMTP_PASSWORD'],
+    :authentication       => 'plain',
+    :enable_starttls_auto => true
+  }
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
@@ -108,4 +108,8 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+
+  config.telegram_updates_controller.session_store = :file_store, Rails.root.join('tmp', 'session_store')
+  config.telegram_updates_controller.host = 'https://staging.mantrafootball.org'
+  config.telegram_updates_controller.bot_username = 'mantra_prod_bot'
 end

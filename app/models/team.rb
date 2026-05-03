@@ -1,7 +1,9 @@
 class Team < ApplicationRecord
   belongs_to :league, optional: true
   belongs_to :user, optional: true
+  belongs_to :tournament, optional: true
 
+  has_one :join, dependent: :destroy
   has_many :auction_bids, dependent: :destroy
   has_many :player_teams, dependent: :destroy
   has_many :players, through: :player_teams
@@ -14,19 +16,33 @@ class Team < ApplicationRecord
   has_many :results, dependent: :destroy
   has_many :transfers, dependent: :destroy
 
-  delegate :tournament, to: :league
+  def tournament
+    super || league&.tournament
+  end
 
   MAX_PLAYERS = 26
   MIN_GK = 3
+  MIN_GK_INIT = 1
   DEFAULT_BUDGET = 260
+  RESERVED_BUDGET = 40
+  INITIAL_BUDGET = 220
+  SLOTS_BY_AUCTION = 5
+  JOIN_SLOTS = 11
+  TRANSFER_SLOTS = 16
+  RESERVE_TRANSFER_SLOTS = [0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20].freeze
 
   validates :name, presence: true, length: { in: 2..18 }
-  validates :code, presence: true, length: { in: 2..3 }
+  validates :code, presence: true, length: { in: 2..3 }, format: { with: /\A[0-9a-zA-Z]+\z/ }
   validates :human_name, length: { in: 2..24 }
 
   default_scope { includes(%i[league user]) }
 
-  scope :by_tournament, ->(tournament_id) { joins(:league).where(leagues: { tournament_id: tournament_id }) }
+  scope :by_tournament, ->(tournament_id) { where(tournament_id: tournament_id) }
+
+  def reset
+    players.clear
+    update(budget: DEFAULT_BUDGET, transfer_slots: TRANSFER_SLOTS)
+  end
 
   def league_matches
     @league_matches ||= matches.by_league(league&.id)
@@ -34,6 +50,10 @@ class Team < ApplicationRecord
 
   def league_transfers
     @league_transfers ||= transfers.by_league(league&.id)
+  end
+
+  def tm_price
+    players.sum(&:tm_price)
   end
 
   def logo_path
@@ -92,10 +112,31 @@ class Team < ApplicationRecord
     budget - vacancies + 1
   end
 
+  def max_rate_by(auction_bid)
+    return 0 if vacancies <= 0
+
+    round_budget(auction_bid.auction_round) - auction_bid.player_bids.count + 1
+  end
+
+  def round_budget(auction_round)
+    budget + auction_round.budget_limit - DEFAULT_BUDGET
+  end
+
+  def reserved_budget(auction_round)
+    DEFAULT_BUDGET - auction_round.budget_limit
+  end
+
   def sales_period?
     return false unless league
 
     league.auctions.sales.any?
+  end
+
+  def available_transfers
+    return 0 if transfer_slots.zero?
+    return 0 unless sales_auction
+
+    transfer_slots - RESERVE_TRANSFER_SLOTS[league.auction_number - sales_auction.number]
   end
 
   def prepared_sales_count
@@ -114,6 +155,32 @@ class Team < ApplicationRecord
     transfers.outgoing.by_auction(auction).pluck(:player_id)
   end
 
+  def avg_ts
+    return 0 if league_lineups_number.zero?
+    return 0 unless league_result
+
+    (results.by_league(league.id).last.total_score / league_lineups_number).round(2)
+  end
+
+  def avg_points
+    return 0 if league_lineups_number.zero?
+    return 0 unless league_result
+
+    (results.by_league(league.id).last.points.to_f / league_lineups_number).round(2)
+  end
+
+  def league_lineups_number
+    @league_lineups_number ||= league_lineups.size
+  end
+
+  def league_lineups
+    @league_lineups ||= lineups.finished.by_league(league.id)
+  end
+
+  def league_result(league_id: league.id)
+    @league_result ||= results.by_league(league_id).last
+  end
+
   private
 
   def matches
@@ -122,5 +189,9 @@ class Team < ApplicationRecord
 
   def current_auction
     @current_auction ||= league.auctions.initial_sales.first
+  end
+
+  def sales_auction
+    @sales_auction ||= league.auctions.sales.first
   end
 end

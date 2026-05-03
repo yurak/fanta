@@ -7,13 +7,15 @@ class Tour < ApplicationRecord
   has_many :round_players, through: :tournament_round
 
   delegate :teams, to: :league
+  delegate :fanta?, :mantra?, to: :tournament_round
 
   enum status: { inactive: 0, set_lineup: 1, locked: 2, closed: 3, postponed: 4 }
   enum bench_status: { default_bench: 0, expanded: 1 }
 
-  default_scope { includes(:tournament_round) }
+  default_scope { includes(%i[league tournament_round]) }
 
   scope :closed_postponed, -> { closed.or(postponed) }
+  scope :locked_postponed, -> { locked.or(postponed) }
   scope :active, -> { set_lineup.or(locked) }
 
   MIN_PLAYERS_BY_FANTA_MATCHES = [0, 8, 4, 2, 2, 1, 1, 1, 1, 0].freeze
@@ -31,24 +33,16 @@ class Tour < ApplicationRecord
     inactive? || set_lineup?
   end
 
-  def mantra?
-    tournament_round.tournament_matches.any? && !tournament_round.tournament.eurocup
-  end
-
   def national?
-    tournament_round.national_matches.any?
+    @national ||= tournament_round.national_matches.exists?
   end
 
   def eurocup?
-    tournament_round.tournament.eurocup
-  end
-
-  def fanta?
-    national? || eurocup?
+    @eurocup ||= tournament_round.tournament.eurocup?
   end
 
   def national_teams_count
-    return 0 unless tournament_round.national_matches
+    return 0 unless national?
 
     tournament_round.national_matches.count * 2
   end
@@ -82,18 +76,49 @@ class Tour < ApplicationRecord
   end
 
   def next_round
-    return if number >= league.tours.size
-
-    league.tours.find_by(number: number + 1)
+    @next_round ||= league.tours.detect { |t| t.number == number + 1 }
   end
 
   def prev_round
-    return if number <= 1
-
-    league.tours.find_by(number: number - 1)
+    @prev_round ||= league.tours.detect { |t| t.number == number - 1 }
   end
 
   def ordered_lineups
     lineups.sort { |a, b| b.total_score <=> a.total_score }
+  end
+
+  def autobot(preview: true)
+    if fanta?
+      lineups.each do |lineup|
+        Substitutes::AutoBot.call(lineup, preview: preview) if lineup.subs_missed?
+      end
+    else
+      matches.each do |m|
+        m.autobot(preview: preview)
+      end
+    end
+  end
+
+  def subs_preview
+    lineups.map(&:substitutes_preview)
+  end
+
+  def subs_missed?
+    match_players_with_preloads.any?(&:subs_option_exist?)
+  end
+
+  private
+
+  def match_players_with_preloads
+    @match_players_with_preloads ||= match_players
+                                     .main
+                                     .without_score
+                                     .includes(
+                                       lineup: :tour,
+                                       round_player: [
+                                         :tournament_round,
+                                         { player: :positions }
+                                       ]
+                                     )
   end
 end

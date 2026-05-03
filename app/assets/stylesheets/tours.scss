@@ -286,7 +286,7 @@
   margin-top: 40px;
 
   .block-title {
-    font-weight: 700;
+    font-family: 'Nunito ExtraBold';
     font-size: 16px;
     line-height: 24px;
     color: #181715;
@@ -330,6 +330,10 @@
     .team-lineup-true {
       .team-row-name {
         color: #181715;
+
+        a {
+          color: #181715;
+        }
       }
 
       .team-row-name-lineup {
@@ -399,6 +403,10 @@
           line-height: 16px;
           color: #FFFFFF;
           text-align: center;
+        }
+
+        .lineup-subs-true {
+          color: #DB0A23;
         }
       }
 
@@ -976,37 +984,40 @@
     }
   }
 
-  .create-lineup-row {
-    font-family: 'Nunito SemiBold';
-    background: #181715;
-    margin: 0 2%;
-    padding: 36px;
-    font-size: 42px;
-    line-height: 48px;
-    color: #CFD2CD;
-    width: 96%;
-    height: 120px;
-    border-radius: 12px;
-    box-shadow: 3px 6px 15px rgba(24, 23, 21, 0.2);
-    position: fixed;
+  .create-lineup-row-block {
     bottom: 264px;
-    display: grid;
-    grid-template-columns: 5fr 3fr 3fr;
+    position: fixed;
+    width: 100%;
 
-    .create-lineup-link {
-      font-family: 'Nunito Bold';
-      text-align: right;
+    .create-lineup-row {
+      font-family: 'Nunito SemiBold';
+      background: #181715;
+      margin: 12px 2% 0;
+      padding: 36px;
+      font-size: 42px;
+      line-height: 48px;
+      color: #CFD2CD;
+      height: 120px;
+      border-radius: 12px;
+      box-shadow: 3px 6px 15px rgba(24, 23, 21, 0.2);
+      display: grid;
+      grid-template-columns: 5fr 3fr 3fr;
 
-      a {
-        color: #EDF67D;
-        text-decoration: underline;
+      .create-lineup-link {
+        font-family: 'Nunito Bold';
+        text-align: right;
+
+        a {
+          color: #EDF67D;
+          text-decoration: underline;
+        }
       }
     }
-  }
 
-  .inject-scores-row {
-    display: grid;
-    grid-template-columns: 5fr 6fr;
+    .inject-scores-row {
+      display: grid;
+      grid-template-columns: 5fr 3fr 3fr;
+    }
   }
 }
 

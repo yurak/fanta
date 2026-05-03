@@ -1,5 +1,5 @@
 module Api
-  class PlayersController < ApplicationController
+  class PlayersController < Api::ApplicationController
     skip_before_action :authenticate_user!, only: %i[index show stats]
 
     respond_to :json
@@ -7,8 +7,13 @@ module Api
     helper_method :player
 
     def index
-      players = Kaminari.paginate_array(ordered_players).page(page[:number]).per(page[:size])
-
+      result = Players::Query.call(query_params)
+      players = if page.present?
+                  Kaminari.paginate_array(result).page(page[:number]).per(page[:size])
+                else
+                  Kaminari.paginate_array(result).page(1).per([result.size, 1].max)
+                end
+      ActiveRecord::Associations::Preloader.new.preload(players.to_a, [:transfers, { club: :tournament }, { player_positions: :position }])
       players_ser = players.map { |l| PlayerBaseSerializer.new(l, league_id: filter_params[:league_id]) }
       render json: { data: players_ser, meta: response_options(players) }
     end
@@ -35,12 +40,8 @@ module Api
       @player ||= Player.find_by(id: params[:id])
     end
 
-    def filtered_players
-      Players::Search.call(filter_params)
-    end
-
-    def ordered_players
-      Players::Order.call(filtered_players, order_params)
+    def query_params
+      filter_params.merge(order_params)
     end
 
     def filter_params

@@ -1,0 +1,82 @@
+module Results
+  class FantaUpdater < ApplicationService
+    POINTS_MAP = [60, 54, 48, 43, 40, 38, 36, 34, 32, 31,
+                  30, 29, 28, 27, 26, 25, 24, 23, 22, 21,
+                  20, 19, 18, 17, 16, 15, 14, 13, 12, 11,
+                  10,  9,  8,  7,  6,  5,  4,  3,  2,  1].freeze
+
+    attr_reader :tour
+
+    def initialize(tour)
+      @tour = tour
+    end
+
+    def call
+      return false unless tour&.closed? && lineups.any?
+
+      update_total_scores
+      update_ts_wo_lineups
+      update_points
+      update_history
+    end
+
+    private
+
+    def update_total_scores
+      lineups.each do |lineup|
+        result = lineup.team.league_result(league_id: league.id)
+
+        result.update(best_lineup: lineup.total_score.round(2)) if lineup.total_score > result.best_lineup
+
+        result.update(
+          total_score: result.total_score + lineup.total_score.round(2),
+          draws: result.draws + 1
+        )
+      end
+    end
+
+    def update_ts_wo_lineups
+      team_ids_wo_lineups = tour.teams.pluck(:id) - lineups.pluck(:team_id)
+      worst_score = lineups.last.total_score.round(2)
+      Team.where(id: team_ids_wo_lineups).find_each do |team|
+        result = team.league_result(league_id: league.id)
+        result.update(
+          total_score: result.total_score + worst_score,
+          draws: result.draws + 1
+        )
+      end
+    end
+
+    def update_points
+      i = 0
+      lineups.group_by(&:total_score).each_value do |lineups|
+        next if i >= POINTS_MAP.length
+
+        lineups.each do |lineup|
+          result = lineup.team.league_result
+
+          result.update(points: result.points + POINTS_MAP[i])
+        end
+        i += lineups.count
+      end
+    end
+
+    def update_history
+      league.results.each do |result|
+        history_arr = result.history_arr
+        # pos: fanta_position:, p: points, total_score: total_score, sec_pos: secondary_position
+        history_arr[tour.number] = { pos: result.fanta_position, sec_pos: result.live_position,
+                                     p: result.points, ts: result.total_score.round(2) }
+        result.update(history: history_arr.to_json, position: result.fanta_position, secondary_position: result.live_position)
+      end
+    end
+
+    def lineups
+      @lineups ||= tour.ordered_lineups
+    end
+
+    def league
+      @league ||= tour.league
+    end
+  end
+end

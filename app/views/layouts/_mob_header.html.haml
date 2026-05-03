@@ -8,13 +8,14 @@
         .league-name
           = league&.name
         .league-season
-          = "#{t('header.season')} #{league.season.start_year.to_s[2..3]}-#{league.season.end_year.to_s[2..3]} • #{league.mantra? ? t('header.mantra') : t('header.fanta')}"
+          = "#{t('header.season')} #{league.season.start_year.to_s[2..3]}-#{league.season.end_year.to_s[2..3]} • #{league.type.capitalize}"
       - elsif title
         .league-name.header-title
           = title
     .burger-menu#burger-menu
       = image_tag('icons/burger_menu.svg')
-      - if league && user_team_by_league(current_user, league)
+      - user_team = league && user_team_by_league(current_user, league)
+      - if user_team
         .league-icon
           = image_tag(league.tournament.logo_path)
 
@@ -52,47 +53,63 @@
         = link_to links_path do
           .nav-link-icon= '🔗️'
           .nav-link-title= t('header.links')
-    - if user_signed_in?
+      .nav-logo-small
+        = link_to joins_path do
+          .nav-link-icon= '➕'
+          .nav-link-title= t('join.title')
+      - if current_user&.admin?
+        .nav-logo-small
+          = link_to manage_joins_path do
+            .nav-link-icon= '📋'
+            .nav-link-title= t('header.manage')
+        .nav-logo-small
+          = link_to rails_admin_path do
+            .nav-link-icon= '⛔️'
+            .nav-link-title= t('header.admin')
+    - active_teams = user_signed_in? && current_user.teams.select { |t| t.league && !t.league.archived? }
+    - if active_teams.present?
       .my-leagues
-        .my-leagues-title My leagues
+        .my-leagues-title= t('header.my_leagues')
         .my-leagues-links
-          - current_user.teams.each do |team|
-            - if team.league&.active_tour_or_last && !team.league.archived?
-              .my-league{ class: "my-league-#{ team.league == league }"}
-                = link_to user_path(current_user, active_team_id: team.id), method: :put do
-                  .my-league-logo= image_tag(team.league.tournament.logo_path)
-                  .my-league-name= team.league.name
-                  .my-league-type
-                    - if team.league.mantra?
-                      .my-league-type-item.my-league-mantra= t('header.mantra')
-                    - else
-                      .my-league-type-item.my-league-fanta= t('header.fanta')
-                  - if team.league == league
-                    .my-league-check ✅
+          - active_teams.each do |team|
+            .my-league{ class: "my-league-#{ team.league == league }"}
+              = link_to league_link(team.league) do
+                .my-league-logo= image_tag(team.league.tournament.logo_path)
+                .my-league-name= team.league.name
+                .my-league-type
+                  - if team.league.mantra?
+                    .my-league-type-item.my-league-mantra= t('header.mantra')
+                  - else
+                    .my-league-type-item.my-league-fanta= t('header.fanta')
+                - if team.league == league
+                  .my-league-check ✅
 
 .badges-block
   - if league
-    - if user_team_by_league(current_user, league)&.next_match
-      = link_to match_path(user_team_by_league(current_user, league).next_match) do
-        - if league.active_tour&.mantra? && league.active_tour.locked?
+    - active_tour = league.active_tour
+    - next_match = user_team&.next_match
+    - if next_match
+      = link_to match_path(next_match) do
+        - if active_tour&.mantra? && active_tour.locked?
           .next-round
-            .next-round-param= image_tag(user_team_by_league(current_user, league).next_match.host.logo_path)
-            .next-round-name= user_team_by_league(current_user, league).next_match.host.code
-            .next-round-param= user_team_by_league(current_user, league).next_match.host_lineup&.total_score || 0.0
-            .next-round-goals= user_team_by_league(current_user, league).next_match.host_lineup&.goals || 0
-            .next-round-goals= user_team_by_league(current_user, league).next_match.guest_lineup&.goals || 0
-            .next-round-param= user_team_by_league(current_user, league).next_match.guest_lineup&.total_score || 0.0
-            .next-round-name= user_team_by_league(current_user, league).next_match.guest.code
-            .next-round-param= image_tag(user_team_by_league(current_user, league).next_match.guest.logo_path)
-        - elsif league.active_tour&.unlocked?
+            .next-round-param= image_tag(next_match.host.logo_path)
+            .next-round-name= next_match.host.code
+            .next-round-param= next_match.host_lineup&.total_score || 0.0
+            .next-round-goals= next_match.host_lineup&.goals || 0
+            .next-round-goals= next_match.guest_lineup&.goals || 0
+            .next-round-param= next_match.guest_lineup&.total_score || 0.0
+            .next-round-name= next_match.guest.code
+            .next-round-param= image_tag(next_match.guest.logo_path)
+        - elsif active_tour&.unlocked?
           .next-round.next-round-opponent-row
             .next-round-opponent
               .next-round-vs vs
-              .next-round-opponent-logo= image_tag(user_team_by_league(current_user, league.active_tour).next_opponent.logo_path)
-              .next-round-opponent-name= user_team_by_league(current_user, league.active_tour).next_opponent.human_name
+              .next-round-opponent-logo= image_tag(user_team.next_opponent.logo_path)
+              .next-round-opponent-name= user_team.next_opponent.human_name
+            - deadline = active_tour.tournament_round.deadline
             .next-round-datetime
-              .next-round-date= league.active_tour.tournament_round.deadline&.strftime("%^a, %^b %e")
-              .next-round-time= league.active_tour.tournament_round.deadline&.strftime("%H:%M")
+              .next-round-date= local_time(deadline, '%^a, %^b %e')
+              .next-round-time= local_time(deadline, '%H:%M')
 
     = render 'layouts/auction_badge', league: league, initial_auction: league.auctions.initial.first, active_auction: league.auctions.active.first
 

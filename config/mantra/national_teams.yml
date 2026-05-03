@@ -1,28 +1,33 @@
 euro:
-  it: Italy
-  ch: Switzerland
-  tr: Turkey
-  gb-wls: Wales
-  be: Belgium
-  dk: Denmark
-  fi: Finland
-  ru: Russia
+  al: Albania
   at: Austria
-  nl: Netherlands
-  mk: North Macedonia
-  ua: Ukraine
-  hr: Croatia
-  cz: Czech Republic
+  be: Belgium
+  ch: Switzerland
+  cz: Czechia
+  de: Germany
+  dk: Denmark
+  es: Spain
+  fi: Finland
+  fr: France
   gb-eng: England
   gb-sct: Scotland
-  pl: Poland
-  sk: Slovakia
-  es: Spain
-  se: Sweden
-  fr: France
-  de: Germany
+  gb-wls: Wales
+  ge: Georgia
+  hr: Croatia
   hu: Hungary
+  it: Italy
+  mk: North Macedonia
+  nl: Netherlands
+  pl: Poland
   pt: Portugal
+  ro: Romania
+  rs: Serbia
+  ru: Russia
+  se: Sweden
+  si: Slovenia
+  sk: Slovakia
+  tr: Turkiye
+  ua: Ukraine
   xx: Undefined
 world_cup:
   ec: Ecuador
@@ -41,7 +46,6 @@ world_cup:
   ma: Morocco
   br: Brazil
   cm: Cameroon
-  rs: Serbia
   gh: Ghana
   kr: South Korea
   uy: Uruguay

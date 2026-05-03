@@ -1,6 +1,7 @@
 class PlayerBaseSerializer < ActiveModel::Serializer
   attributes :id
   attributes :appearances
+  attributes :appearances_max
   attributes :avatar_path
   attributes :average_base_score
   attributes :average_price
@@ -9,10 +10,21 @@ class PlayerBaseSerializer < ActiveModel::Serializer
   attributes :first_name
   attributes :league_price
   attributes :league_team_logo
+  attributes :leagues
   attributes :name
   attributes :position_classic_arr
   attributes :position_ital_arr
+  attributes :stats_price
   attributes :teams_count
+  attributes :teams_count_max
+
+  def appearances
+    object.season_scores_count
+  end
+
+  def appearances_max
+    object.season_matches.size
+  end
 
   def average_base_score
     object.season_average_score
@@ -24,10 +36,6 @@ class PlayerBaseSerializer < ActiveModel::Serializer
 
   def average_total_score
     object.season_average_result_score
-  end
-
-  def appearances
-    object.season_scores_count
   end
 
   def club
@@ -54,7 +62,22 @@ class PlayerBaseSerializer < ActiveModel::Serializer
     teams&.count
   end
 
+  def teams_count_max
+    active_leagues&.size || 0
+  end
+
+  def leagues
+    teams.pluck(:league_id)
+  end
+
+  delegate :stats_price, to: :object
+
   private
+
+  def active_leagues
+    tournament = object.club&.tournament
+    tournament&.leagues&.active
+  end
 
   def league_team
     @league_team ||= object.team_by_league(instance_options[:league_id]) if instance_options[:league_id]

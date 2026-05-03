@@ -54,8 +54,8 @@ RSpec.describe Player do
 
   describe '#country' do
     context 'without nationality' do
-      it 'returns nil' do
-        expect(player.country).to be_nil
+      it 'returns empty string' do
+        expect(player.country).to eq('')
       end
     end
 
@@ -509,6 +509,38 @@ RSpec.describe Player do
     end
   end
 
+  describe '#season_all_matches_with_scores' do
+    context 'when player has no matches in season' do
+      it 'returns empty array' do
+        expect(player.season_all_matches_with_scores).to eq([])
+      end
+    end
+
+    context 'when player has matches in one season' do
+      let(:player) { create(:player, :with_scores) }
+
+      it 'returns array with round_players' do
+        expect(player.season_all_matches_with_scores).to eq(player.round_players)
+      end
+    end
+
+    context 'when player has eurocup matches in one season' do
+      let(:player) { create(:player, :with_eurocup_scores) }
+
+      it 'returns array with round_players' do
+        expect(player.season_all_matches_with_scores).to eq(player.round_players)
+      end
+    end
+
+    context 'when player has championship and eurocup matches in one season' do
+      let(:player) { create(:player, :with_champ_and_eurocup_scores) }
+
+      it 'returns array with round_players' do
+        expect(player.season_all_matches_with_scores).to eq(player.round_players)
+      end
+    end
+  end
+
   describe '#national_matches_with_scores' do
     context 'when player has no matches in season' do
       it 'returns empty array' do
@@ -524,6 +556,102 @@ RSpec.describe Player do
         round_players = create_list(:round_player, 3, player: player, tournament_round: tr, score: 6)
 
         expect(player.national_matches_with_scores).to eq(round_players)
+      end
+    end
+  end
+
+  describe '#season_club_in_squad' do
+    context 'when player has no in_squad round_players' do
+      it 'returns empty collection' do
+        expect(player.season_club_in_squad).to be_empty
+      end
+    end
+
+    context 'when player has round_players with in_squad: true' do
+      let!(:rp_bench) do
+        create(:round_player, player: player, in_squad: true, score: 0,
+                              tournament_round: create(:tournament_round, tournament: player.club.tournament))
+      end
+      let!(:rp_played) do
+        create(:round_player, player: player, in_squad: true, score: 7,
+                              tournament_round: create(:tournament_round, tournament: player.club.tournament))
+      end
+
+      it 'returns in_squad round_players including those with 0 score' do
+        expect(player.season_club_in_squad).to contain_exactly(rp_bench, rp_played)
+      end
+    end
+
+    context 'when player has both in_squad and not in_squad round_players' do
+      let!(:rp_in_squad) do
+        create(:round_player, player: player, in_squad: true,
+                              tournament_round: create(:tournament_round, tournament: player.club.tournament))
+      end
+
+      before do
+        create(:round_player, player: player, in_squad: false,
+                              tournament_round: create(:tournament_round, tournament: player.club.tournament))
+      end
+
+      it 'returns only in_squad round_players' do
+        expect(player.season_club_in_squad).to contain_exactly(rp_in_squad)
+      end
+    end
+  end
+
+  describe '#season_ec_in_squad' do
+    context 'when player has no eurocup in_squad round_players' do
+      it 'returns empty collection' do
+        expect(player.season_ec_in_squad).to be_empty
+      end
+    end
+
+    context 'when player has eurocup round_players with in_squad: true' do
+      let(:player) { create(:player, :with_eurocup_scores) }
+      let!(:rp_bench) do
+        create(:round_player, player: player, in_squad: true, score: 0,
+                              tournament_round: create(:tournament_round, tournament: player.club.ec_tournament))
+      end
+
+      it 'returns eurocup in_squad round_players' do
+        expect(player.season_ec_in_squad).to include(rp_bench)
+      end
+
+      it 'does not return domestic round_players' do
+        expect(player.season_ec_in_squad.map(&:tournament_round).map(&:tournament_id).uniq)
+          .to all(eq(player.club.ec_tournament.id))
+      end
+    end
+  end
+
+  describe '#national_in_squad' do
+    context 'when player has no national team' do
+      it 'returns empty collection' do
+        expect(player.national_in_squad).to be_empty
+      end
+    end
+
+    context 'when player has a national team with in_squad round_players' do
+      let(:player) { create(:player, :with_national_team) }
+      let(:tr) { create(:tournament_round, tournament: player.national_team.tournament) }
+      let!(:rp_bench) { create(:round_player, player: player, tournament_round: tr, in_squad: true, score: 0) }
+      let!(:rp_played) { create(:round_player, player: player, tournament_round: tr, in_squad: true, score: 6) }
+
+      it 'returns all in_squad round_players at national team' do
+        expect(player.national_in_squad).to contain_exactly(rp_bench, rp_played)
+      end
+    end
+
+    context 'when player has a national team without in_squad round_players' do
+      let(:player) { create(:player, :with_national_team) }
+
+      before do
+        tr = create(:tournament_round, tournament: player.national_team.tournament)
+        create(:round_player, player: player, tournament_round: tr, in_squad: false, score: 6)
+      end
+
+      it 'returns empty collection' do
+        expect(player.national_in_squad).to be_empty
       end
     end
   end

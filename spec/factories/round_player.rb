@@ -1,6 +1,7 @@
 FactoryBot.define do
   factory :round_player do
     tournament_round { TournamentRound.first || association(:tournament_round) }
+    club { player.club }
     player
 
     trait :with_team do
@@ -35,12 +36,24 @@ FactoryBot.define do
       player factory: %i[player with_pos_dc_ds_e]
     end
 
+    trait :with_pos_ds_e do
+      player factory: %i[player with_pos_ds_e]
+    end
+
     trait :with_pos_e do
       player factory: %i[player with_pos_e]
     end
 
     trait :with_pos_m do
       player factory: %i[player with_pos_m]
+    end
+
+    trait :with_pos_e_m do
+      player factory: %i[player with_pos_e_m]
+    end
+
+    trait :with_pos_dc_m do
+      player factory: %i[player with_pos_dc_m]
     end
 
     trait :with_pos_c do

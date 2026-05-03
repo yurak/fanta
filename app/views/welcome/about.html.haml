@@ -1,9 +1,10 @@
 .page-block
   - if user_signed_in?
-    = render 'layouts/left_nav', league: nil
+    .web-header= render 'layouts/left_nav', league: nil
+    .mob-header= render 'layouts/mob_header', league: nil, title: t('welcome.about.title')
   - else
     = render 'layouts/header'
-  .rules-page{ class: "rules-user-#{user_signed_in?}"}
+  .rules-page.about-page{ class: "rules-user-#{user_signed_in?}"}
     .rules-title
       .rules-title-icon 📜
       .rules-title-text= t('welcome.about.title')

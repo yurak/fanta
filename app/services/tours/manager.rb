@@ -25,10 +25,11 @@ module Tours
     private
 
     def set_lineup
-      return if status != SET_LINEUP_STATUS
+      return unless tour.inactive? && status == SET_LINEUP_STATUS
 
       tour.set_lineup! if RoundPlayers::Creator.call(tour.tournament_round.id)
-      TelegramBot::OpenedTourNotifier.call(tour)
+
+      Notifications::Creator.call(notifiable: tour, kind: :tour_opened, priority: :normal)
     end
 
     def lock
@@ -52,19 +53,19 @@ module Tours
         update_results
         Lineups::Updater.call(tour)
         RoundPlayers::Updater.call(tour.tournament_round)
-        TelegramBot::ClosedTourNotifier.call(tour)
+        Notifications::Creator.call(notifiable: tour, kind: :tour_closed, priority: :normal)
       end
     end
 
     def update_results
-      tour.fanta? ? Results::NationalUpdater.call(tour) : Results::Updater.call(tour)
+      tour.fanta? ? Results::FantaUpdater.call(tour) : Results::Updater.call(tour)
     end
 
     def clone_missed_lineups
       tour.teams.each do |team|
         next if tour.lineups.by_team(team.id).any?
 
-        Lineups::Cloner.call(team, tour)
+        Lineups::Cloner.call(team, tour, auto_cloned: true)
       end
     end
 

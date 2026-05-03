@@ -11,15 +11,24 @@ class Match < ApplicationRecord
   scope :by_league, ->(league_id) { includes(:tour).where(tours: { league_id: league_id }) }
 
   def host_lineup
-    @host_lineup ||= Lineup.where(tour: tour, team: host).last
+    return @host_lineup if defined?(@host_lineup)
+
+    @host_lineup = Lineup.find_by(tour: tour, team: host)
   end
 
   def guest_lineup
-    @guest_lineup ||= Lineup.where(tour: tour, team: guest).last
+    return @guest_lineup if defined?(@guest_lineup)
+
+    @guest_lineup = Lineup.find_by(tour: tour, team: guest)
   end
 
   def host_score
     host_lineup&.total_score
+  end
+
+  def autobot(preview: true)
+    Substitutes::AutoBot.call(guest_lineup, preview: preview) if guest_lineup&.subs_missed?
+    Substitutes::AutoBot.call(host_lineup, preview: preview) if host_lineup&.subs_missed?
   end
 
   def guest_score

@@ -3,6 +3,8 @@ class TournamentMatch < ApplicationRecord
   belongs_to :host_club, class_name: 'Club'
   belongs_to :guest_club, class_name: 'Club'
 
+  serialize :missed_players_data, JSON
+
   default_scope { includes(%i[host_club guest_club tournament_round]) }
 
   scope :by_club, ->(club_id) { where('host_club_id = ? OR guest_club_id = ?', club_id, club_id) }

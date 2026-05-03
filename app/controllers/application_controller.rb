@@ -3,18 +3,23 @@ class ApplicationController < ActionController::Base
   before_action :setup_user
   around_action :switch_locale
 
+  rescue_from ActiveRecord::RecordNotFound, with: :not_found
+
   private
 
+  def not_found
+    render file: Rails.public_path.join('404.html'), status: :not_found, layout: false
+  end
+
   def switch_locale(&action)
-    locale = params[:locale] || session[:locale] || I18n.default_locale
+    locale = current_user&.locale&.to_sym || params[:locale] || session[:locale] || I18n.default_locale
+    locale = I18n.default_locale if I18n.available_locales.exclude?(locale.to_sym)
     session[:locale] = locale
     I18n.with_locale(locale, &action)
   end
 
   def after_sign_in_path_for(resource)
-    return tour_path(resource.active_league.active_tour_or_last) if resource.active_league&.active_tour_or_last
-
-    stored_location_for(resource) || articles_path
+    stored_location_for(resource) || leagues_path
   end
 
   def setup_user
@@ -24,26 +29,20 @@ class ApplicationController < ActionController::Base
       redirect_to_new_name
     elsif current_user.named?
       redirect_to_new_avatar
-    elsif current_user.with_avatar?
-      redirect_to_new_team
-    elsif current_user.with_team?
-      redirect_to_join_request
+    else
+      redirect_to_site_config
     end
   end
 
   def redirect_to_new_name
-    redirect_to new_name_user_path(current_user) unless params[:action] == 'new_name' || params[:action] == 'new_update'
+    redirect_to new_name_user_path(current_user) unless %w[new_name new_update].include?(params[:action])
   end
 
   def redirect_to_new_avatar
-    redirect_to new_avatar_user_path(current_user) unless params[:action] == 'new_avatar' || params[:action] == 'new_update'
+    redirect_to new_avatar_user_path(current_user) unless %w[new_avatar new_update].include?(params[:action])
   end
 
-  def redirect_to_join_request
-    redirect_to new_join_request_path if params[:controller] != 'join_requests'
-  end
-
-  def redirect_to_new_team
-    redirect_to new_team_path if params[:controller] != 'teams'
+  def redirect_to_site_config
+    redirect_to site_config_user_path(current_user) unless %w[site_config new_update].include?(params[:action])
   end
 end

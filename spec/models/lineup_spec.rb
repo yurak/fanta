@@ -28,7 +28,7 @@ RSpec.describe Lineup do
 
     context 'when scores are sufficient for defense bonus' do
       it 'returns sum of players scores defense bonus' do
-        expect(lineup_team_score_seven.total_score).to eq(82)
+        expect(lineup_team_score_eight.total_score).to eq(93)
       end
     end
   end
@@ -42,7 +42,7 @@ RSpec.describe Lineup do
 
     context 'when scores are sufficient for defense bonus' do
       it 'returns sum of players scores defense bonus' do
-        expect(lineup_team_score_seven.current_score).to eq(82)
+        expect(lineup_team_score_eight.current_score).to eq(93)
       end
     end
   end
@@ -56,15 +56,15 @@ RSpec.describe Lineup do
 
     context 'when league with default bonus range and middle scores' do
       it 'returns minimal bonus' do
-        lineup_team_score_six = create(:lineup, :with_team_and_score_six)
+        lineup_team_score_seven_default = create(:lineup, :with_team_and_score_seven)
 
-        expect(lineup_team_score_six.defence_bonus).to eq(1)
+        expect(lineup_team_score_seven_default.defence_bonus).to eq(1)
       end
     end
 
     context 'when league with default bonus range and large scores' do
       it 'returns maximum bonus' do
-        expect(lineup_team_score_seven.defence_bonus).to eq(5)
+        expect(lineup_team_score_eight.defence_bonus).to eq(5)
       end
     end
 
@@ -102,7 +102,7 @@ RSpec.describe Lineup do
 
     context 'when total_score more than minimum' do
       it 'returns goals number' do
-        expect(lineup_team_score_seven.goals).to eq(2)
+        expect(lineup_team_score_seven.goals).to eq(1)
       end
     end
 
@@ -124,7 +124,7 @@ RSpec.describe Lineup do
 
     context 'when total_score more than minimum' do
       it 'returns goals number' do
-        expect(lineup_team_score_seven.live_goals).to eq(2)
+        expect(lineup_team_score_seven.live_goals).to eq(1)
       end
     end
 
@@ -215,7 +215,7 @@ RSpec.describe Lineup do
         match = create(:match, host: lineup_team_score_seven.team, tour: lineup_team_score_seven.tour)
         create(:lineup, :with_team_and_score_seven, tour: lineup_team_score_eight.tour, team: match.guest)
 
-        expect(lineup_team_score_seven.match_result).to eq('2-0')
+        expect(lineup_team_score_seven.match_result).to eq('1-0')
       end
     end
 
@@ -224,7 +224,7 @@ RSpec.describe Lineup do
         match = create(:match, guest: lineup_team_score_seven.team, tour: lineup_team_score_seven.tour)
         create(:lineup, :with_team_and_score_eight, tour: lineup_team_score_seven.tour, team: match.host)
 
-        expect(lineup_team_score_seven.match_result).to eq('2-4')
+        expect(lineup_team_score_seven.match_result).to eq('1-4')
       end
     end
   end
@@ -235,11 +235,53 @@ RSpec.describe Lineup do
     end
 
     context 'when national tour' do
-      before do
-        create(:national_match, tournament_round: lineup.tour.tournament_round)
-      end
+      let(:league) { create(:league, :fanta_league) }
+      let(:tour) { create(:closed_tour, league: league, tournament_round: create(:tournament_round, tournament: league.tournament)) }
+      let!(:lineup) { create(:lineup, tour: tour) }
 
       it { expect(lineup.players_count).to eq(16) }
+    end
+  end
+
+  describe '#best_player' do
+    context 'without match players' do
+      it { expect(lineup.best_player).to be_nil }
+    end
+
+    context 'with match players without scores' do
+      it 'returns player' do
+        expect(lineup_team.best_player).not_to be_nil
+      end
+    end
+
+    context 'with match players with scores' do
+      let(:round_player) { lineup_team_score_five.match_players[3].round_player }
+
+      before do
+        round_player.update(final_score: 8)
+      end
+
+      it 'returns player' do
+        expect(lineup_team_score_five.best_player).to eq(round_player.player)
+      end
+    end
+  end
+
+  describe '#average_bench' do
+    context 'without match players' do
+      it { expect(lineup.average_bench).to eq(0) }
+    end
+
+    context 'with match players without scores' do
+      it 'returns player' do
+        expect(lineup_team.average_bench).to eq(0)
+      end
+    end
+
+    context 'with match players with scores on subs' do
+      it 'returns player' do
+        expect(lineup_team_score_five.average_bench).to eq(5.0)
+      end
     end
   end
 end

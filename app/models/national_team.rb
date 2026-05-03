@@ -26,7 +26,7 @@ class NationalTeam < ApplicationRecord
   end
 
   def matches
-    @matches ||= NationalMatch.by_team(id).by_t_round(tournament.tournament_rounds)
+    @matches ||= NationalMatch.by_team(id).by_t_round(tournament.tournament_rounds.by_season(Season.last))
   end
 
   def kit_path

@@ -1,0 +1,33 @@
+.page-info.round-manage-page {
+  .edit-round-form {
+    padding: 24px;
+
+    .edit-round-item {
+      line-height: 48px;
+      display: grid;
+      grid-template-columns: 144px auto;
+      column-gap: 16px;
+
+      .edit-round-label {
+        font-family: 'Nunito Bold';
+      }
+
+      .edit-round-field {
+        margin: auto 0;
+      }
+
+      .edit-round-field-short {
+        margin: auto 0;
+        max-width: 240px;
+      }
+
+      .edit-round-area-field {
+        margin: 8px 0;
+      }
+    }
+
+    .edit-round-actions {
+      margin: 16px 0 0 160px;
+    }
+  }
+}

@@ -1,0 +1,73 @@
+.page-block
+  .web-header= render 'layouts/left_nav', league: nil
+  .web-header= render 'layouts/manage_nav'
+  .mob-header= render 'layouts/mob_header', league: nil, title: t('manage.leagues.title')
+  .page-info.admin-leagues-page.admin-manage-page
+    .d-flex.align-items-center.justify-content-between.mb-3
+      %h2.mb-0= t('manage.leagues.title')
+      = link_to t('manage.leagues.new_title'), new_manage_league_path, class: 'btn btn-primary'
+
+    - if flash[:notice]
+      .alert.alert-success= flash[:notice]
+
+    .default-tabs.manage-leagues-tabs
+      - Manage::LeaguesController::STATUSES.each do |status|
+        = link_to manage_leagues_path(status: status), class: "default-tab-item #{'default-tab-active' if @status == status}" do
+          .default-tab-name= t("manage.leagues.status_#{status}")
+
+    = form_tag manage_leagues_path, method: :get, class: 'manage-leagues-search d-flex mb-3 flex-wrap' do
+      = hidden_field_tag :status, @status
+      = text_field_tag :query, params[:query], class: 'form-control form-control-sm w-auto', placeholder: t('manage.leagues.filter_name')
+      = select_tag :tournament_id,
+                   options_from_collection_for_select(@tournaments, :id, :name, params[:tournament_id]),
+                   class: 'form-control form-control-sm w-auto',
+                   include_blank: t('manage.leagues.filter_tournament')
+      = select_tag :season_id,
+                   options_from_collection_for_select(@seasons, :id, ->(s) { "#{s.start_year}-#{s.end_year}" }, params[:season_id]),
+                   class: 'form-control form-control-sm w-auto',
+                   include_blank: t('manage.leagues.filter_season')
+      = submit_tag t('manage.leagues.search'), class: 'btn btn-sm btn-primary'
+      - if params[:query].present? || params[:tournament_id].present? || params[:season_id].present?
+        = link_to t('manage.leagues.reset'), manage_leagues_path(status: @status), class: 'btn btn-sm btn-outline-secondary'
+
+    - if @leagues.any?
+      %table.table.table-hover
+        %thead.thead-light
+          %tr
+            %th ID
+            %th= t('manage.leagues.name')
+            %th= t('manage.leagues.tournament')
+            %th= t('manage.leagues.division')
+            %th= t('manage.leagues.season')
+            %th= t('manage.leagues.teams')
+            %th= t('manage.leagues.auctions')
+            %th= t('manage.leagues.tours')
+            %th
+            %th
+            %th
+        %tbody
+          - @leagues.each do |league|
+            %tr
+              %td= league.id
+              %td
+                = link_to league.name, manage_league_path(league)
+                - if league.demo?
+                  %span.badge-demo= t('manage.leagues.demo_badge')
+              %td= league.tournament.name
+              %td= league.division&.name || '—'
+              %td= "#{league.season.start_year}-#{league.season.end_year}"
+              %td= league.teams.count
+              %td= league.auction_number
+              %td= league.tournament.tournament_rounds.by_season(league.season_id).count - league.tour_difference
+              %td= link_to t('manage.leagues.view_league'), league_path(league), class: 'btn btn-sm btn-outline-secondary', target: '_blank'
+              %td= link_to t('manage.leagues.edit'), edit_manage_league_path(league), class: 'btn btn-sm btn-warning'
+              %td
+                - if league.initial?
+                  = form_tag(activate_manage_league_path(league), method: :post) do
+                    .d-flex.align-items-center.gap-2
+                      = datetime_local_field_tag :deadline, (Time.zone.now + 1.day).strftime('%Y-%m-%dT%H:%M'), class: 'form-control form-control-sm d-inline-block w-auto mr-1', required: true, step: 60
+                      = submit_tag t('manage.leagues.activate'), class: 'btn btn-sm btn-success', data: { confirm: t('manage.leagues.confirm') }
+
+      = paginate @leagues
+    - else
+      %p.text-muted= t('manage.leagues.empty')

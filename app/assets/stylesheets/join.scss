@@ -1,0 +1,736 @@
+.join-page {
+  padding: 48px 0 100px 72px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .join-empty {
+    color: #847577;
+    font-size: 15px;
+  }
+}
+
+.join-no-leagues-banner {
+  text-align: center;
+  padding: 40px 24px 32px;
+  width: 100%;
+
+  .join-no-leagues-icon {
+    font-size: 40px;
+    width: 88px;
+    height: 88px;
+    background: #FFF0D9;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+  }
+
+  .join-no-leagues-title {
+    font-family: 'Nunito Bold';
+    font-size: 22px;
+    color: #181715;
+    margin: 0 0 8px;
+  }
+
+  .join-no-leagues-subtitle {
+    font-size: 15px;
+    color: #847577;
+    margin: 0;
+  }
+}
+
+.join-card {
+  width: 100%;
+  max-width: 960px;
+
+  .join-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+  }
+
+  .join-card-title {
+    font-family: 'Nunito Bold';
+    font-size: 24px;
+    margin: 0;
+  }
+}
+
+.join-tournaments-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.join-tournament-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 24px;
+  text-decoration: none;
+
+  border: 1px solid #E5E6E4;
+  border-radius: 40px;
+  background: #fff;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+
+  &:hover {
+    text-decoration: none;
+    background: #D8D6FF;
+    border-color: #261FFF;
+
+    .join-tournament-name,
+    .join-tournament-meta {
+      color: #181715;
+    }
+
+    .join-apply-btn {
+      color: #261FFF;
+    }
+  }
+
+  .join-tournament-logo {
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    img {
+      width: 40px;
+      height: 40px;
+      object-fit: contain;
+    }
+  }
+
+  .join-tournament-info {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .join-tournament-name {
+    font-family: 'Nunito Bold';
+    font-size: 16px;
+    color: #181715;
+  }
+
+  .join-tournament-meta {
+    font-size: 13px;
+    color: #847577;
+    margin-top: 2px;
+  }
+
+  .join-tournament-action {
+    flex-shrink: 0;
+  }
+
+  .join-apply-text {
+    color: #261FFF;
+    font-family: 'Nunito Bold';
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+
+    .join-apply-arrow {
+      font-size: 20px;
+      line-height: 1;
+    }
+  }
+}
+
+.join-card-header-applications {
+  margin-top: 32px;
+}
+
+.join-info-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  width: 100%;
+  max-width: 960px;
+  margin-bottom: 40px;
+
+  &.join-info-cards-3 {
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 32px;
+  }
+}
+
+.join-info-card {
+  border: 1px solid #E5E6E4;
+  border-radius: 16px;
+  padding: 20px 24px;
+  background: #fff;
+
+  .join-info-card-title {
+    font-family: 'Nunito Bold';
+    font-size: 15px;
+    color: #181715;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .join-info-card-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: #261FFF;
+    font-family: 'Nunito Bold';
+    font-size: 14px;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .join-info-card-icon {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+.join-content-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: start;
+}
+
+
+.join-status-badge {
+  font-family: 'Nunito Bold';
+  font-size: 13px;
+  padding: 4px 12px;
+  border-radius: 20px;
+
+  &.join-status-initial {
+    background: #f0f0f0;
+    color: #847577;
+  }
+
+  &.join-status-pending {
+    background: #fff3cd;
+    color: #856404;
+  }
+
+  &.join-status-approved {
+    background: #d4edda;
+    color: #155724;
+  }
+}
+
+.join-modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+
+  .join-modal-content {
+    background: #fff;
+    border-radius: 12px;
+    padding: 24px;
+    width: 100%;
+    max-width: 480px;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+
+  .join-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+
+    h4 {
+      font-family: 'Nunito Bold';
+      margin: 0;
+    }
+
+    .join-modal-close {
+      background: none;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: #847577;
+      line-height: 1;
+      padding: 0;
+
+      &:hover {
+        color: #333;
+      }
+    }
+  }
+
+  .join-modal-logo {
+    text-align: center;
+    margin-bottom: 24px;
+
+    .join-modal-logo-label {
+      font-size: 13px;
+      color: #847577;
+      margin-bottom: 12px;
+    }
+
+    .join-modal-logo-preview {
+      width: 88px;
+      height: 88px;
+      cursor: pointer;
+      border: none;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      margin: 0 auto 12px;
+
+      img {
+        width: 64px;
+        height: 64px;
+        object-fit: contain;
+      }
+
+      &:hover {
+        opacity: 0.85;
+      }
+    }
+  }
+
+  .join-modal-logo-remove {
+    background: none;
+    border: none;
+    color: #261FFF;
+    font-family: 'Nunito Bold';
+    font-size: 14px;
+    cursor: pointer;
+    padding: 0;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .join-modal-logo-grid {
+    display: none;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 6px;
+    margin-top: 12px;
+    max-height: 240px;
+    overflow-y: auto;
+    text-align: left;
+
+    .join-modal-logo-item {
+      cursor: pointer;
+      border-radius: 4px;
+      padding: 2px;
+
+      img {
+        width: 100%;
+        aspect-ratio: 1;
+        object-fit: contain;
+      }
+
+      &:hover {
+        background: #f4f4f4;
+      }
+    }
+  }
+
+  .join-modal-input-field {
+    background: #f5f5f5;
+    border-bottom: 2px solid #261FFF;
+    border-radius: 4px 4px 0 0;
+    padding: 8px 12px 6px;
+    margin: 16px 0 4px;
+
+    .join-modal-input-label {
+      display: block;
+      font-size: 12px;
+      color: #261FFF;
+      margin-bottom: 2px;
+    }
+
+    .join-modal-input {
+      display: block;
+      width: 100%;
+      border: none;
+      background: transparent;
+      outline: none;
+      font-size: 16px;
+      color: #181715;
+      padding: 0;
+      font-family: inherit;
+    }
+
+  }
+
+  .join-modal-input-hint {
+    display: block;
+    font-size: 12px;
+    color: #847577;
+    margin: 4px 0 16px;
+  }
+
+  .join-modal-code-error,
+  .join-modal-name-error {
+    display: block;
+    font-size: 12px;
+    color: #d32f2f;
+    margin: -12px 0 16px;
+  }
+
+  .join-modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 24px;
+
+    .grey-btn,
+    .blue-btn {
+      margin: 0;
+      min-width: 100px;
+    }
+  }
+}
+
+@media (orientation: portrait) {
+  .page-info.join-page {
+    padding: 16px 24px 80px;
+  }
+
+  .join-modal-footer .grey-btn {
+    font-size: 16px;
+    margin: 0;
+    padding: 0 24px;
+  }
+
+  .join-info-cards.join-info-cards-3 {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .join-page {
+    padding: 16px 24px 80px;
+  }
+
+  .join-no-leagues-banner {
+    padding: 24px 0 16px;
+  }
+
+  .join-info-cards,
+  .join-info-cards.join-info-cards-3 {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  .join-content-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .join-card-title {
+    font-size: 20px;
+  }
+
+  .join-tournament-item {
+    border-radius: 16px;
+    padding: 12px;
+    gap: 12px;
+  }
+
+  .join-tournament-name {
+    font-size: 15px;
+  }
+
+  .join-tournament-meta {
+    font-size: 12px;
+  }
+
+  .join-tournament-meta-apps {
+    display: block;
+    margin-left: 0;
+  }
+
+  .join-tournament-meta-sep {
+    display: none;
+  }
+
+  .join-status-badge {
+    font-size: 12px;
+    padding: 4px 10px;
+  }
+
+  .join-modal {
+    padding: 8px;
+
+    .join-modal-content {
+      padding: 16px;
+    }
+
+    .join-modal-logo-grid {
+      grid-template-columns: repeat(6, 1fr);
+    }
+  }
+}
+
+// Join submitted page
+
+.join-submitted-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 0 0 0 72px;
+  background: #fff;
+}
+
+.join-submitted-topbar {
+  display: flex;
+  justify-content: flex-end;
+  padding: 20px 48px;
+
+  .join-submitted-skip {
+    font-family: 'Nunito Bold';
+    font-size: 15px;
+    color: #261FFF;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.join-submitted-body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: start;
+  padding: 24px 48px 80px;
+  flex: 1;
+}
+
+.join-submitted-title {
+  font-family: 'Nunito Bold';
+  font-size: 32px;
+  color: #181715;
+  margin: 0 0 8px;
+}
+
+.join-submitted-subtitle {
+  font-size: 18px;
+  color: #847577;
+  margin: 0 0 32px;
+  max-width: 440px;
+}
+
+.join-submitted-price-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid #E5E6E4;
+  border-bottom: 1px solid #E5E6E4;
+  padding: 16px 0;
+  margin-bottom: 32px;
+
+  .join-submitted-price-label-main {
+    font-family: 'Nunito Bold';
+    font-size: 15px;
+    color: #181715;
+  }
+
+  .join-submitted-price-label-note {
+    font-size: 13px;
+    color: #847577;
+    margin-top: 2px;
+  }
+
+  .join-submitted-price-value {
+    font-family: 'Nunito Bold';
+    font-size: 28px;
+    color: #261FFF;
+  }
+}
+
+.join-submitted-steps-title {
+  font-family: 'Nunito Bold';
+  font-size: 15px;
+  color: #181715;
+  margin: 0 0 16px;
+}
+
+.join-submitted-steps {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  counter-reset: steps;
+}
+
+.join-submitted-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 15px;
+  color: #181715;
+  counter-increment: steps;
+
+  &::before {
+    content: counter(steps);
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #f0f0f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Nunito Bold';
+    font-size: 13px;
+    color: #181715;
+  }
+}
+
+.join-submitted-left {
+  .blue-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 24px;
+    text-decoration: none;
+    color: #ffffff;
+
+    &:hover {
+      text-decoration: none;
+      color: #ffffff;
+    }
+
+    img.join-submitted-tg-icon {
+      width: 20px;
+      height: 20px;
+      filter: none;
+    }
+  }
+}
+
+.join-submitted-right {
+  position: sticky;
+  top: 32px;
+}
+
+.join-submitted-card {
+  position: relative;
+  background: #FFF0D9;
+  border-radius: 24px;
+  overflow: hidden;
+  padding: 40px 32px;
+
+  .join-submitted-card-blob {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+
+    &.blob-orange {
+      width: 200px;
+      height: 200px;
+      background: #FFB347;
+      opacity: 0.5;
+      top: -40px;
+      right: -40px;
+    }
+
+    &.blob-pink {
+      width: 180px;
+      height: 180px;
+      background: #E8A0C8;
+      opacity: 0.5;
+      bottom: -40px;
+      right: 40px;
+    }
+  }
+
+  .join-submitted-card-content {
+    position: relative;
+    z-index: 1;
+  }
+
+  .join-submitted-card-title {
+    font-family: 'Nunito Bold';
+    font-size: 20px;
+    color: #181715;
+    margin: 0 0 24px;
+  }
+}
+
+.join-submitted-features {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.join-submitted-feature {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 15px;
+  color: #181715;
+
+  .join-submitted-feature-icon {
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    background: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .join-submitted-feature-img {
+      width: 20px;
+      height: 20px;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .join-submitted-page {
+    padding: 0;
+  }
+
+  .join-submitted-topbar {
+    padding: 16px 24px;
+  }
+
+  .join-submitted-body {
+    grid-template-columns: 1fr;
+    gap: 40px;
+    padding: 24px 24px 60px;
+  }
+
+  .join-submitted-right {
+    position: static;
+  }
+}

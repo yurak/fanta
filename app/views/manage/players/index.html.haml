@@ -1,0 +1,42 @@
+.page-block
+  .web-header= render 'layouts/left_nav', league: nil
+  .web-header= render 'layouts/manage_nav'
+  .mob-header= render 'layouts/mob_header', league: nil, title: t('manage.players.title')
+  .page-info.admin-manage-page
+    %h2= t('manage.players.title')
+
+    - if flash[:notice]
+      .alert.alert-success= flash[:notice]
+    - if flash[:alert]
+      .alert.alert-danger= flash[:alert]
+
+    %button.btn.btn-primary#add-player-btn= t('manage.players.add_player')
+
+#add-player-modal.join-modal{ style: 'display:none' }
+  .join-modal-content
+    .join-modal-header
+      %h4= t('manage.players.add_player')
+      %button.join-modal-close{ type: 'button' } ×
+    = form_tag manage_players_path, method: :post do
+      .join-modal-input-field
+        %label.join-modal-input-label{ for: 'player_hash' }= t('manage.players.hash_label')
+        %textarea#player-hash-input.join-modal-input{ name: 'player_hash', rows: 8, placeholder: t('manage.players.hash_placeholder'), required: true }
+      .join-modal-footer
+        %button.grey-btn{ type: 'button', id: 'add-player-cancel' }= t('manage.players.cancel')
+        %button.blue-btn{ type: 'submit' }= t('manage.players.create')
+
+:javascript
+  (function() {
+    var modal     = document.getElementById('add-player-modal');
+    var openBtn   = document.getElementById('add-player-btn');
+    var closeBtn  = modal.querySelector('.join-modal-close');
+    var cancelBtn = document.getElementById('add-player-cancel');
+
+    openBtn.onclick  = function() { modal.style.display = 'flex'; };
+    closeBtn.onclick = function() { modal.style.display = 'none'; };
+    cancelBtn.onclick = function() { modal.style.display = 'none'; };
+
+    modal.addEventListener('click', function(e) {
+      if (e.target === modal) modal.style.display = 'none';
+    });
+  })();

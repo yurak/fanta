@@ -105,28 +105,6 @@ RSpec.describe Tour do
     end
   end
 
-  describe '#mantra?' do
-    context 'without tournament_round matches' do
-      it { expect(tour.mantra?).to be(false) }
-    end
-
-    context 'with national_match' do
-      before do
-        create(:national_match, tournament_round: tour.tournament_round)
-      end
-
-      it { expect(tour.mantra?).to be(false) }
-    end
-
-    context 'with tournament_match' do
-      before do
-        create(:tournament_match, tournament_round: tour.tournament_round)
-      end
-
-      it { expect(tour.mantra?).to be(true) }
-    end
-  end
-
   describe '#national?' do
     context 'without tournament_round matches' do
       it { expect(tour.national?).to be(false) }
@@ -146,27 +124,6 @@ RSpec.describe Tour do
       end
 
       it { expect(tour.national?).to be(true) }
-    end
-  end
-
-  describe '#fanta?' do
-    context 'with not eurocup tournament and without tournament_round matches' do
-      it { expect(tour.fanta?).to be(false) }
-    end
-
-    context 'with eurocup tournament' do
-      let(:tournament_round) { create(:tournament_round, tournament: Tournament.find_by(eurocup: true)) }
-      let(:tour) { create(:tour, tournament_round: tournament_round) }
-
-      it { expect(tour.fanta?).to be(true) }
-    end
-
-    context 'with national_match' do
-      before do
-        create(:national_match, tournament_round: tour.tournament_round)
-      end
-
-      it { expect(tour.fanta?).to be(true) }
     end
   end
 
@@ -465,6 +422,120 @@ RSpec.describe Tour do
         lineup_three = create(:lineup, :with_team_and_score_five, tour: tour)
 
         expect(tour.ordered_lineups).to eq([lineup_two, lineup_one, lineup_three])
+      end
+    end
+  end
+
+  describe '#autobot' do
+    context 'when not fanta' do
+      before { allow(Substitutes::AutoBot).to receive(:call) }
+
+      it 'does not call AutoBot' do
+        tour.autobot(preview: true)
+        expect(Substitutes::AutoBot).not_to have_received(:call)
+      end
+
+      context 'with matches' do
+        before do
+          create(:match, tour: tour)
+          create(:match, tour: tour)
+        end
+
+        it 'calls autobot on each match' do
+          call_count = 0
+          allow_any_instance_of(Match).to receive(:autobot) { call_count += 1 }
+          tour.autobot(preview: true)
+          expect(call_count).to eq(2)
+        end
+      end
+    end
+
+    context 'when fanta?' do
+      let(:league) { create(:league, :fanta_league) }
+      let(:tour) { create(:closed_tour, league: league, tournament_round: create(:tournament_round, tournament: league.tournament)) }
+
+      before do
+        allow(Substitutes::AutoBot).to receive(:call)
+        create(:lineup, tour: tour)
+        create(:lineup, tour: tour)
+      end
+
+      it 'does not call AutoBot when no subs missed' do
+        tour.autobot(preview: true)
+        expect(Substitutes::AutoBot).not_to have_received(:call)
+      end
+
+      context 'when lineup has missed subs' do
+        before do
+          allow_any_instance_of(Lineup).to receive(:subs_missed?).and_return(true)
+          allow(Substitutes::AutoBot).to receive(:call)
+        end
+
+        it 'calls AutoBot for each lineup' do
+          tour.autobot(preview: true)
+          expect(Substitutes::AutoBot).to have_received(:call).twice
+        end
+      end
+    end
+  end
+
+  describe '#subs_preview' do
+    context 'without lineups' do
+      it 'returns empty array' do
+        expect(tour.subs_preview).to eq([])
+      end
+    end
+
+    context 'with lineups without substitutes' do
+      before do
+        create(:lineup, tour: tour)
+        create(:lineup, tour: tour)
+      end
+
+      it 'returns array of empty arrays' do
+        expect(tour.subs_preview).to eq([[], []])
+      end
+    end
+
+    context 'with lineup that has substitutes' do
+      let(:substitutes_data) { [{ 'out' => 'Player A', 'in' => 'Player B' }] }
+
+      before { create(:lineup, tour: tour, substitutes: substitutes_data.to_json) }
+
+      it 'returns parsed substitutes' do
+        expect(tour.subs_preview).to eq([substitutes_data])
+      end
+    end
+  end
+
+  describe '#subs_missed?' do
+    context 'without match_players' do
+      it 'returns false' do
+        expect(tour.subs_missed?).to be(false)
+      end
+    end
+
+    context 'with main match_players without score but no subs option' do
+      before do
+        lineup = create(:lineup, tour: tour)
+        create(:match_player, :with_real_position, lineup: lineup)
+        allow_any_instance_of(MatchPlayer).to receive(:subs_option_exist?).and_return(false)
+      end
+
+      it 'returns false' do
+        expect(tour.subs_missed?).to be(false)
+      end
+    end
+
+    context 'with main match_player without score that has a subs option' do
+      before do
+        lineup = create(:lineup, tour: tour)
+        create(:match_player, :with_real_position, lineup: lineup)
+        allow_any_instance_of(MatchPlayer).to receive(:subs_option_exist?).and_return(true)
+      end
+
+      it 'returns true' do
+        expect(tour.subs_missed?).to be(true)
       end
     end
   end

@@ -20,14 +20,14 @@ module PlayersHelper
     scope = team.players.includes(:positions).where(positions: { name: slot.positions_with_malus }).sort_by(&:position_sequence_number)
 
     scope.group_by do |x|
-      Scores::PositionMalus::Counter.call(slot.position, x.reload.position_names).to_s
+      Scores::PositionMalus::Counter.call(slot.position, x.position_names).to_s
     end
   end
 
   def tournament_round_players(t_round, real_position)
     if t_round.national_matches.any?
       Player.by_national_tournament_round(t_round).by_position(real_position&.split('/')).uniq
-            .sort_by(&:national_team_id).group_by(&:national_team)
+            .sort_by(&:position_sequence_number).group_by(&:national_team).sort_by { |x, _| [x.name] }
     else
       []
     end
@@ -42,11 +42,34 @@ module PlayersHelper
     match_player.object.player
   end
 
+  def subs_string(match_player)
+    base = "Replaced: #{out_player_name(match_player)}"
+    return "#{base} by #{subs_by_name(match_player)}" if current_user&.can_moderate?
+
+    base
+  end
+
+  def out_player_name(match_player)
+    match_player.main_subs.last&.out_rp&.full_name_reverse
+  end
+
+  def subs_by_name(match_player)
+    match_player.main_subs&.first&.subs_by
+  end
+
   def module_link(lineup, team_module)
     if lineup.id
       edit_team_lineup_path(lineup.team, lineup, team_module_id: team_module.id)
     else
       new_team_lineup_path(lineup.team, team_module_id: team_module.id, tour_id: lineup.tour.id)
+    end
+  end
+
+  def player_by_source_data(player_data)
+    if player_data['sofascore_id']
+      Player.find_by(sofascore_id: player_data['sofascore_id'])
+    elsif player_data['fotmob_id']
+      Player.find_by(fotmob_id: player_data['fotmob_id'])
     end
   end
 

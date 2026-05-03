@@ -4,6 +4,6 @@ class WelcomeController < ApplicationController
   respond_to :html
 
   def index
-    redirect_to tour_path(current_user.active_league.active_tour_or_last) if current_user&.active_league&.active_tour_or_last
+    redirect_to leagues_path if current_user
   end
 end

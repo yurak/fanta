@@ -1,0 +1,40 @@
+.page-block
+  .web-header= render 'layouts/left_nav', league: nil
+  .mob-header= render 'layouts/mob_header', league: nil, title: t('round.title')
+  .page-info.round-manage-page
+    .round-title-bar.back-links
+      .back-link
+        = link_to tournament_round_path(tournament_round) do
+          .back-link-arrow
+            = image_tag('icons/arrow_left.svg')
+          .back-link-text
+            = "#{tournament_round.tournament.name} ##{tournament_round.number}"
+    - if tournament_round.moderated_at
+      .round-moderated-badge
+        = "#{t('round.moderated')} #{local_time(tournament_round.closing_time, '%H:%M %a, %b %e')}"
+    .round-stats-block
+      .round-stats-row
+        .round-stats-title Best Lineup
+        .round-stats-data
+          - tournament_round.best_lineups.each do |lineup|
+            .round-stats-data-link
+              = link_to tour_path(lineup.tour) do
+                = "#{lineup.total_score} - #{lineup.team.human_name} / #{lineup.team.league.division_with_name}"
+      .round-stats-row
+        .round-stats-title Worst Lineup
+        .round-stats-data
+          - tournament_round.worst_lineups.each do |lineup|
+            .round-stats-data-link
+              = link_to tour_path(lineup.tour) do
+                = "#{lineup.total_score} - #{lineup.team.human_name} / #{lineup.team.league.division_with_name}"
+      .round-stats-row
+        .round-stats-title Average result
+        .round-stats-data
+          - if tournament_round.lineups.any?
+            = (tournament_round.lineups.sum(&:total_score) / tournament_round.lineups.count).round(1)
+      -#.round-stats-row
+      -#  .round-stats-title Best average score on bench
+      -#  .round-stats-data
+      -#    - if tournament_round.best_bench
+      -#      = link_to tour_path(tournament_round.best_bench.tour) do
+      -#        = "#{tournament_round.best_bench.average_bench} - #{tournament_round.best_bench.team.human_name} / #{tournament_round.best_bench.team.league.division_with_name}"

@@ -3,6 +3,12 @@ class TournamentRoundsController < ApplicationController
 
   helper_method :tournament_round
 
+  def show
+    redirect_to leagues_path unless can? :show, TournamentRound
+
+    @finished = tournament_round.finished?
+  end
+
   def edit
     redirect_to leagues_path unless can? :edit, TournamentRound
 
@@ -17,13 +23,60 @@ class TournamentRoundsController < ApplicationController
 
   def update
     if can? :update, TournamentRound
+      rps = RoundPlayer.where(id: round_players.keys).index_by { |rp| rp.id.to_s }
       round_players.each_pair do |id, params|
-        rp = RoundPlayer.find(id.to_i)
-        rp.update(params.to_hash)
+        rp = rps[id]
+        next unless rp
+
+        hash = params.to_hash
+        hash['in_squad'] = true if hash['score'].to_f.positive? || hash['played_minutes'].to_i.positive?
+        rp.update(hash)
       end
     end
 
-    redirect_to leagues_path
+    redirect_to tournament_round_path(tournament_round)
+  end
+
+  def tours_update
+    if can? :update, TournamentRound
+      tournament_round.tours.each do |tour|
+        Tours::Manager.call(tour, params[:status])
+      end
+
+      path = tournament_round_path(tournament_round)
+    else
+      path = leagues_path
+    end
+
+    redirect_to path
+  end
+
+  def stats
+    redirect_to leagues_path unless can? :show, TournamentRound
+  end
+
+  def missed_players
+    redirect_to leagues_path unless can? :show, TournamentRound
+  end
+
+  def auto_close
+    TournamentRounds::AutoCloser.call(params[:id])
+
+    redirect_to tournament_round_path(tournament_round)
+  end
+
+  def auto_subs_preview; end
+
+  def auto_subs
+    Substitutes::AutoBot.for_round(tournament_round, preview: false) if can? :auto_subs, TournamentRound
+
+    redirect_to tournament_round_auto_subs_preview_path(tournament_round)
+  end
+
+  def generate_preview
+    Substitutes::AutoBot.for_round(tournament_round) if can? :generate_preview, TournamentRound
+
+    redirect_to tournament_round_auto_subs_preview_path(tournament_round)
   end
 
   private
@@ -39,6 +92,6 @@ class TournamentRoundsController < ApplicationController
   end
 
   def tournament_round
-    @tournament_round ||= TournamentRound.find(params[:id])
+    @tournament_round ||= TournamentRound.find(params[:id] || params[:tournament_round_id])
   end
 end

@@ -11,10 +11,11 @@ class Ability
       can :read, :dashboard           # allow access to dashboard
       can :manage, :all               # allow admins to do anything
     elsif user&.moderator?
-      can %i[show], Auction
+      can %i[live], Auction
       can %i[update], MatchPlayer
       can %i[inject_scores], Tour
-      can %i[edit update], TournamentRound
+      can %i[edit update], TournamentMatch
+      can %i[edit update show auto_subs generate_preview], TournamentRound
       can %i[create destroy], Transfer
       can %i[new create destroy], Substitute
     end

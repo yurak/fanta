@@ -1,67 +1,87 @@
-# rubocop:disable Metrics/MethodLength:
+# rubocop:disable Metrics/MethodLength
 module Stats
   class Creator < ApplicationService
-    attr_reader :tournament
+    attr_reader :player_ids, :season
 
-    def initialize(tournament)
-      @tournament = tournament
+    def initialize(season_id: Season.last.id, player_ids: (1..Player.last.id).to_a)
+      @season = Season.find_by(id: season_id)
+      @player_ids = player_ids
     end
 
     def call
-      return false unless tournament
-
-      tournament.clubs.active.sort_by(&:name).each do |club|
-        club.players.each do |player|
-          next if player.season_scores_count.zero?
-
-          stats(player).update(stats_hash(player))
-        end
-      end
-
+      player_ids.each { |id| process_player(id) }
       true
     end
 
     private
 
-    def matches(player)
-      @matches ||= Hash.new do |h, key|
-        h[key] = key.season_matches_with_scores
+    def process_player(id)
+      player = Player.find_by(id: id)
+      return unless player
+
+      player_matches = matches_w_scores(player)
+      return if player_matches.empty?
+
+      player_matches.group_by(&:club_id).each do |club_id, matches_for_club|
+        update_stats(player, club_id, matches_for_club)
       end
-      @matches[player]
     end
 
-    def stats(player)
-      PlayerSeasonStat.find_or_create_by(player: player, season: season, club: player.club, tournament: tournament)
+    def update_stats(player, club_id, matches_for_club)
+      club = Club.find_by(id: club_id)
+      return unless club
+
+      matches = RoundPlayer.where(id: matches_for_club.pluck(:id))
+      stats_record = stats(player, club)
+      attrs = stats_hash(player, matches, include_positions: stats_record.new_record?)
+      attrs[:tournament] = club.tournament if stats_record.new_record?
+      stats_record.update!(attrs)
     end
 
-    def stats_hash(player)
-      {
-        played_matches: player.season_scores_count,
-        score: player.season_average_score,
-        final_score: player.season_average_result_score,
-        goals: player.season_bonus_count(matches(player), 'goals'),
-        assists: player.season_bonus_count(matches(player), 'assists'),
-        scored_penalty: player.season_bonus_count(matches(player), 'scored_penalty'),
-        failed_penalty: player.season_bonus_count(matches(player), 'failed_penalty'),
-        cleansheet: player.season_cards_count(matches(player), 'cleansheet'),
-        missed_goals: player.season_bonus_count(matches(player), 'missed_goals'),
-        missed_penalty: player.season_bonus_count(matches(player), 'missed_penalty'),
-        caught_penalty: player.season_bonus_count(matches(player), 'caught_penalty'),
-        saves: player.season_bonus_count(matches(player), 'saves'),
-        yellow_card: player.season_cards_count(matches(player), 'yellow_card'),
-        red_card: player.season_cards_count(matches(player), 'red_card'),
-        own_goals: player.season_bonus_count(matches(player), 'own_goals'),
-        conceded_penalty: player.season_bonus_count(matches(player), 'conceded_penalty'),
-        penalties_won: player.season_bonus_count(matches(player), 'penalties_won'),
-        played_minutes: player.season_bonus_count(matches(player), 'played_minutes'),
-        position1: player.positions[0]&.name,
-        position2: player.positions[1]&.name,
-        position3: player.positions[2]&.name
+    def stats(player, club)
+      PlayerSeasonStat.find_or_initialize_by(player: player, season: season, club: club)
+    end
+
+    def matches_w_scores(player)
+      player.round_players.with_score.by_tournament_round(rounds)
+    end
+
+    def rounds
+      @rounds ||= TournamentRound.by_tournament(Tournament.with_clubs).by_season(season)
+    end
+
+    def stats_hash(player, matches, include_positions: true)
+      hash = {
+        played_matches: player.season_scores_count(matches),
+        score: player.season_average_score(matches),
+        final_score: player.season_average_result_score(matches),
+        goals: player.season_bonus_count(matches, 'goals'),
+        assists: player.season_bonus_count(matches, 'assists'),
+        scored_penalty: player.season_bonus_count(matches, 'scored_penalty'),
+        failed_penalty: player.season_bonus_count(matches, 'failed_penalty'),
+        cleansheet: player.season_cards_count(matches, 'cleansheet'),
+        missed_goals: player.season_bonus_count(matches, 'missed_goals'),
+        missed_penalty: player.season_bonus_count(matches, 'missed_penalty'),
+        caught_penalty: player.season_bonus_count(matches, 'caught_penalty'),
+        saves: player.season_bonus_count(matches, 'saves'),
+        yellow_card: player.season_cards_count(matches, 'yellow_card'),
+        red_card: player.season_cards_count(matches, 'red_card'),
+        own_goals: player.season_bonus_count(matches, 'own_goals'),
+        conceded_penalty: player.season_bonus_count(matches, 'conceded_penalty'),
+        penalties_won: player.season_bonus_count(matches, 'penalties_won'),
+        played_minutes: player.season_bonus_count(matches, 'played_minutes'),
+        sixties: player.sixty_minutes_plus(matches)
       }
-    end
 
-    def season
-      @season ||= Season.last
+      if include_positions
+        hash.merge!(
+          position1: player.positions[0]&.name,
+          position2: player.positions[1]&.name,
+          position3: player.positions[2]&.name
+        )
+      end
+
+      hash
     end
   end
 end

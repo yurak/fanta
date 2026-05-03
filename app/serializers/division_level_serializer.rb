@@ -8,6 +8,6 @@ class DivisionLevelSerializer < ActiveModel::Serializer
           .by_season(instance_options[:season_id])
           .by_tournament(instance_options[:tournament_id])
           .where(divisions: { level: object.level })
-          .map { |l| LeagueBaseSerializer.new(l) }
+          .map { |l| LeagueBaseSerializer.new(l, results: true) }
   end
 end

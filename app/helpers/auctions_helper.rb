@@ -1,15 +1,74 @@
-module AuctionsHelper
+module AuctionsHelper # rubocop:disable Metrics/ModuleLength
   def auction_link(auction)
     case auction.status
-    when 'initial'
-      '#'
+    when 'blind_bids', 'live'
+      if auction.auction_rounds.active.any?
+        auction_round_path(auction.auction_rounds.active.first)
+      else
+        league_auction_transfers_path(auction.league, auction)
+      end
+    else
+      league_auction_path(auction.league, auction)
+    end
+  end
+
+  def dropping_link(auction)
+    case auction.status
+    when 'initial', 'live'
+      league_auction_path(auction.league, auction)
     when 'sales'
       team = current_user&.team_by_league(auction.league)
-      team ? edit_team_player_team_path(team, team.player_teams.first) : '#'
-    when 'blind_bids'
-      auction.auction_rounds.active.any? ? auction_round_path(auction.auction_rounds.active.first) : '#'
+      team ? edit_team_player_team_path(team, team.player_teams.first) : league_auction_path(auction.league, auction)
     else
-      league_auction_transfers_path(auction.league, auction)
+      league_auction_transfers_path(auction.league, auction, type: 'out')
+    end
+  end
+
+  def auction_status(auction)
+    if auction.closed?
+      'completed'
+    elsif auction.sales? || (auction.initial? && auction.deadline)
+      'coming_soon'
+    elsif auction.live? || auction.blind_bids?
+      'ongoing'
+    else
+      'to_be_decided'
+    end
+  end
+
+  def auction_dates(auction, user = nil)
+    if auction.initial? || auction.sales?
+      initial_auction_date(auction)
+    elsif auction.blind_bids?
+      auction_local_time(auction.deadline, user)
+    elsif auction.closed?
+      closed_auction_date_range(auction)
+    else
+      '--:--'
+    end
+  end
+
+  def initial_auction_date(auction)
+    auction.deadline ? "Started on #{auction.deadline.strftime('%b %e, %Y')}" : auction.base_date
+  end
+
+  def closed_auction_date_range(auction)
+    start_date = auction.auction_rounds.first&.created_at&.strftime('%b %e')
+    end_date   = auction.auction_rounds.last&.updated_at&.strftime('%b %e, %Y')
+    "#{start_date} - #{end_date}"
+  end
+
+  def auction_local_time(time, user)
+    user&.local_time(time, '%a, %b %e, %H:%M') || time&.strftime('%a, %b %e, %H:%M')&.to_s
+  end
+
+  def auction_dropping_status(auction)
+    if auction.closed? || auction.live? || auction.blind_bids?
+      'completed'
+    elsif auction.sales?
+      'ongoing'
+    elsif auction.initial?
+      'coming_soon'
     end
   end
 
@@ -37,8 +96,33 @@ module AuctionsHelper
   end
 
   def min_bid(auction_round, player)
-    return 1 unless auction_round&.basic? && player
+    return 1 unless player
 
-    player.stats_price
+    if auction_round.nil? || auction_round.min_price_active?
+      player.stats_price
+    else
+      1
+    end
+  end
+
+  def auction_status_badge(status)
+    case status.to_s
+    when 'live'       then 'success'
+    when 'sales'      then 'info'
+    when 'blind_bids' then 'warning'
+    when 'closed'     then 'secondary'
+    else                   'light'
+    end
+  end
+
+  def formations_js_data
+    TeamModule.includes(:slots).each_with_object({}) do |tm, hash|
+      key = "f#{tm.name.delete('-')}"
+      line_up = tm.slots
+                  .reject { |s| s.position == Position::GOALKEEPER }
+                  .sort_by(&:number)
+                  .map(&:position)
+      hash[key] = { lineUp: line_up, lineUpWithReserve: line_up * 2 }
+    end.to_json
   end
 end

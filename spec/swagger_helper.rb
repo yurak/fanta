@@ -27,7 +27,7 @@ RSpec.configure do |config|
           url: 'http://localhost:3333'
         },
         {
-          url: 'http://staging.mantrafootball.org'
+          url: 'https://staging.mantrafootball.org'
         },
         {
           url: 'https://mantrafootball.org'
@@ -138,7 +138,8 @@ RSpec.configure do |config|
               name: { type: :string, example: 'San Siro' },
               season_id: { type: :integer, example: 123 },
               status: { type: :string, example: 'active', description: 'Available values: initial, active, archived' },
-              tournament_id: { type: :integer, example: 321 }
+              tournament_id: { type: :integer, example: 321 },
+              results: { type: :array, items: { '$ref' => '#/components/schemas/result_base' }, nullable: true }
             },
             required: %w[id name]
           },
@@ -160,7 +161,7 @@ RSpec.configure do |config|
             type: :object,
             properties: {
               id: { type: :integer, example: 123 },
-              appearances: { type: :integer, example: 123 },
+              appearances: { type: :integer, example: 36 },
               avatar_path: { type: :string, example: 'https://aws.com/assets/path/kit.png' },
               average_base_score: { type: :float, example: 7.65 },
               average_price: { type: :float, example: 33.3 },
@@ -187,6 +188,33 @@ RSpec.configure do |config|
               tm_url: { type: :string, example: 'https://www.transfermarkt.com/profil/spieler/123', nullable: true }
             },
             required: %w[id name]
+          },
+          player_bid: {
+            type: :object,
+            properties: {
+              id: { type: :integer, example: 123 },
+              status: { type: :string, example: 'success' },
+              price: { type: :integer, example: 123 },
+              player: { '$ref' => '#/components/schemas/player_base' },
+              auction_bids: {
+                type: :object,
+                additionalProperties: {
+                  type: :array,
+                  items: { '$ref' => '#/components/schemas/player_bid_slim' }
+                }
+              }
+            },
+            required: %w[id status price]
+          },
+          player_bid_slim: {
+            type: :object,
+            properties: {
+              id: { type: :integer, example: 123 },
+              status: { type: :string, example: 'success' },
+              price: { type: :integer, example: 123 },
+              team: { '$ref' => '#/components/schemas/team_slim' }
+            },
+            required: %w[id status price]
           },
           player_season_stat: {
             type: :object,
@@ -238,7 +266,8 @@ RSpec.configure do |config|
             type: :object,
             properties: {
               id: { type: :integer, example: 123 },
-              appearances: { type: :integer, example: 123 },
+              appearances: { type: :integer, example: 33 },
+              appearances_max: { type: :integer, example: 38 },
               avatar_path: { type: :string, example: 'https://aws.com/assets/path/kit.png' },
               average_base_score: { type: :float, example: 7.65 },
               average_price: { type: :float, example: 33.3 },
@@ -250,7 +279,8 @@ RSpec.configure do |config|
               name: { type: :string, example: 'Beckham' },
               position_classic_arr: { type: :array, items: { type: :string, example: 'RB' }, example: %w[RB WB] },
               position_ital_arr: { type: :array, items: { type: :string, example: 'Dd' }, example: %w[Dd E] },
-              teams_count: { type: :integer, example: 13 }
+              teams_count: { type: :integer, example: 13 },
+              teams_count_max: { type: :integer, example: 15 }
             },
             required: %w[id name]
           },
@@ -291,6 +321,16 @@ RSpec.configure do |config|
               wins: { type: :integer, example: 3 }
             },
             required: %w[id league_id team]
+          },
+          result_base: {
+            type: :object,
+            properties: {
+              id: { type: :integer, example: 123 },
+              points: { type: :integer, example: 43 },
+              team_id: { type: :integer, example: 123 },
+              team_name: { type: :string, example: 'Rossoneri' }
+            },
+            required: %w[id team_id team_name points]
           },
           round_stats: {
             type: :object,
@@ -342,6 +382,15 @@ RSpec.configure do |config|
             },
             required: %w[id]
           },
+          team_slim: {
+            type: :object,
+            properties: {
+              id: { type: :integer, example: 123 },
+              human_name: { type: :string, example: 'Rossoneri' },
+              logo_path: { type: :string, example: 'https://aws.com/assets/path/team.png' }
+            },
+            required: %w[id]
+          },
           tournament: {
             type: :object,
             properties: {
@@ -350,7 +399,8 @@ RSpec.configure do |config|
               logo: { type: :string, example: '/assets/path/italy.png', nullable: true },
               mantra_format: { type: :boolean, example: true, description: 'true for Mantra, false for national and eurocup leagues' },
               name: { type: :string, example: 'Italy' },
-              short_name: { type: :string, example: 'Italy', nullable: true }
+              short_name: { type: :string, example: 'Italy', nullable: true },
+              clubs: { type: :array, items: { '$ref' => '#/components/schemas/club' }, nullable: true }
             },
             required: %w[id name]
           }

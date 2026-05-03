@@ -10,7 +10,7 @@ class RoundPlayer < ApplicationRecord
   has_many :out_subs, foreign_key: 'out_rp_id', class_name: 'Substitute', dependent: :destroy, inverse_of: :out_rp
 
   delegate :first_name, :fotmob_id, :full_name, :full_name_reverse, :national_team, :name, :position_names,
-           :positions, :pseudo_name, :teams, to: :player, allow_nil: true
+           :positions, :pseudo_name, :sofascore_id, :teams, to: :player, allow_nil: true
 
   default_scope { includes([:club, :tournament_round, { player: %i[club player_positions positions] }]) }
 
@@ -19,6 +19,7 @@ class RoundPlayer < ApplicationRecord
   scope :by_national_team, ->(team_id) { joins(:player).where(players: { national_team_id: team_id }) }
   scope :by_name_and_club, ->(name, club_id) { by_club(club_id).where('LOWER(players.name) = ?', name.downcase) }
   scope :with_score, -> { where('score > ?', 0) }
+  scope :in_squad, -> { where(in_squad: true) }
   scope :without_final_score, -> { where(final_score: 0) }
   scope :ordered_by_club, -> { joins(player: :club).order('clubs.name') }
   scope :ordered_by_national, -> { joins(player: :national_team).order('national_teams.id').order('players.name') }
@@ -50,25 +51,60 @@ class RoundPlayer < ApplicationRecord
 
   def result_score
     return 0 unless score.positive?
-    return final_score unless final_score.zero?
 
-    bonuses - maluses
+    final_score.positive? ? final_score : bonuses - maluses
   end
 
   def club_played_match?
-    TournamentMatch.by_club_and_t_round(club_id || player.club.id, tournament_round.id).first&.host_score.present? ||
-      NationalMatch.by_team(national_team&.id).by_t_round(tournament_round.id).first&.host_score.present?
+    tournament_played? || national_played? || tournament_matches_empty_but_exist?
   end
 
   def another_tournament?
-    player.club.archived? || (player.club.tournament != tournament_round.tournament)
+    player.club.archived? ||
+      (player.club.tournament != tournament_round.tournament &&
+       player.club.ec_tournament != tournament_round.tournament &&
+       player.national_team&.tournament != tournament_round.tournament)
   end
 
   def appearances
     match_players.count
   end
 
+  def main_appearances
+    match_players.main.count
+  end
+
+  def related_club
+    club || player.club
+  end
+
   private
+
+  def tournament_played?
+    tournament_matches_for_club.any? { |m| m.host_score.present? }
+  end
+
+  def national_played?
+    return false unless national_team
+
+    NationalMatch.by_team(national_team.id).by_t_round(t_round_id).where.not(host_score: nil).exists?
+  end
+
+  def tournament_matches_empty_but_exist?
+    tournament_matches_for_club.empty? && tournament_round.tournament_matches.exists?
+  end
+
+  def tournament_matches_for_club
+    @tournament_matches_for_club ||= TournamentMatch.by_club_and_t_round(club_id_to_check, t_round_id).to_a
+  end
+
+  def club_id_to_check
+    club_id || player.club.id
+  end
+
+  def t_round_id
+    tournament_round.id
+  end
 
   def bonuses
     total = score
@@ -78,8 +114,7 @@ class RoundPlayer < ApplicationRecord
     total += scored_penalty * SCORED_PENALTY_BONUS if scored_penalty
     total += assists * ASSIST_BONUS if assists
     total += penalties_won * PENALTY_WON_BONUS if penalties_won
-    total += cleansheet_bonus if cleansheet
-    total += saves_bonus if saves
+    total += goalkeeping_bonuses
 
     total
   end
@@ -92,9 +127,22 @@ class RoundPlayer < ApplicationRecord
     total += failed_penalty * FAILED_PENALTY_MALUS if failed_penalty
     total += conceded_penalty * CONCEDED_PENALTY_MALUS if conceded_penalty
     total += own_goals * OWN_GOAL_MALUS if own_goals
+    total += card_maluses
+
+    total
+  end
+
+  def goalkeeping_bonuses
+    total = 0
+    total += cleansheet_bonus if cleansheet
+    total += saves_bonus if saves
+    total
+  end
+
+  def card_maluses
+    total = 0
     total += YELLOW_CARD_MALUS if yellow_card
     total += red_card_malus if red_card
-
     total
   end
 

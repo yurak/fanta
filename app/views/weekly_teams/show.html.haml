@@ -1,0 +1,59 @@
+- players_by_slot = @weekly_team.weekly_team_players.index_by(&:slot_id)
+
+.page-block.lineup-show-page
+  .web-header= render 'layouts/left_nav', league: nil
+  .mob-header= render 'layouts/mob_header', league: nil, title: "#{t("weekly_team.title_#{@weekly_team.mode}_short")} ##{@weekly_team.number}"
+
+  .page-info.match-page.lineup-page.weekly-team-page
+    .weekly-team-content
+      .weekly-team-title
+        = "#{t("weekly_team.title_#{@weekly_team.mode}")} ##{@weekly_team.number}"
+
+      .lineup-squad.match-squads
+        .match-team-squad
+          .match-team-data
+            .match-team-module
+              .match-team-data-text= t('matches.module')
+              .match-team-data-value= @weekly_team.team_module.name
+          .match-main-squad
+            - @weekly_team.team_module.slots.sort_by(&:number).each do |slot|
+              - wtp = players_by_slot[slot.id]
+              .match-player-item
+                .match-player-avatar
+                  - if wtp
+                    .player-show-face
+                      %object{data: wtp.round_player.player.avatar_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
+                        = image_tag('avatar.png')
+                    .player-show-kit
+                      %object{data: wtp.round_player.club&.kit_path || wtp.round_player.player.club&.kit_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
+                        = image_tag('kit_small_default.png')
+                  .module-position-block.player-positions-block
+                    - slot.positions.each do |position|
+                      .player-position{class: "player-position-#{position}"}
+                        = slot_position_name(position)
+                .match-player-data
+                  .match-player-data-base
+                    - if wtp
+                      = link_to player_path(wtp.round_player.player) do
+                        .team-player-name
+                          = wtp.round_player.player.full_name
+                          .team-player-score-unspecified.inline-block
+                            = "#{wtp.round_player.club&.tournament&.icon} #{wtp.round_player.club&.name}"
+                      .team-player-scores
+                        .team-player-blank
+                        .team-player-score= '%.1f' % wtp.round_player.score
+                        .team-player-total-score= '%.1f' % wtp.total
+                    - else
+                      .team-player-score-unspecified —
+                  .match-player-add-data
+                    - if wtp
+                      .match-player-bonuses
+                        = render 'weekly_teams/rp_bonuses', round_player: wtp.round_player
+
+        .lineup-module
+          .lineup-result
+            .lineup-result-text= t('weekly_team.total_score')
+            .lineup-result-value
+              .lineup-result-score= '%.2f' % @weekly_team.weekly_team_players.sum(&:total)
+          - wt_slot_name_pairs = @weekly_team.team_module.slots.sort_by(&:number).map { |s| [s, players_by_slot[s.id]&.round_player&.player&.name] }
+          = render 'lineups/team_field', slot_name_pairs: wt_slot_name_pairs

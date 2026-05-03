@@ -85,7 +85,7 @@ RSpec.describe Match do
 
     context 'when host lineup exist' do
       it 'returns host lineup goals' do
-        expect(match_with_lineups.host_goals).to eq(2)
+        expect(match_with_lineups.host_goals).to eq(1)
       end
     end
   end
@@ -113,7 +113,7 @@ RSpec.describe Match do
 
     context 'when lineup exist and team is host' do
       it 'returns match host goals' do
-        expect(match_with_lineups.scored_goals(match_with_lineups.host)).to eq(2)
+        expect(match_with_lineups.scored_goals(match_with_lineups.host)).to eq(1)
       end
     end
 
@@ -139,7 +139,7 @@ RSpec.describe Match do
 
     context 'when lineup exist and team is guest' do
       it 'returns match host goals' do
-        expect(match_with_lineups.missed_goals(match_with_lineups.guest)).to eq(2)
+        expect(match_with_lineups.missed_goals(match_with_lineups.guest)).to eq(1)
       end
     end
   end
@@ -218,6 +218,35 @@ RSpec.describe Match do
     context 'when lineups exist and draw' do
       it 'returns true' do
         expect(match_with_lineups_draw.draw?).to be(true)
+      end
+    end
+  end
+
+  describe '#autobot' do
+    before { allow(Substitutes::AutoBot).to receive(:call) }
+
+    context 'without lineups' do
+      it 'does not call AutoBot' do
+        match.autobot(preview: true)
+        expect(Substitutes::AutoBot).not_to have_received(:call)
+      end
+    end
+
+    context 'with lineups but no subs missed' do
+      before { allow_any_instance_of(Lineup).to receive(:subs_missed?).and_return(false) }
+
+      it 'does not call AutoBot' do
+        match_with_lineups.autobot(preview: true)
+        expect(Substitutes::AutoBot).not_to have_received(:call)
+      end
+    end
+
+    context 'when both lineups have missed subs' do
+      before { allow_any_instance_of(Lineup).to receive(:subs_missed?).and_return(true) }
+
+      it 'calls AutoBot for each lineup' do
+        match_with_lineups.autobot(preview: true)
+        expect(Substitutes::AutoBot).to have_received(:call).twice
       end
     end
   end

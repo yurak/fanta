@@ -1,8 +1,9 @@
 inherit_from: .rubocop_todo.yml
 require:
   - rubocop-rails
-  - rubocop-rspec
   - rubocop-factory_bot
+plugins:
+  - rubocop-rspec
 
 AllCops:
   TargetRubyVersion: 2.5
@@ -27,11 +28,15 @@ Metrics/BlockLength:
     - state_machine
     - factory
     - define # FactoryBot.define
+    - namespace
+    - task
 Style/Documentation:
   Enabled: false
 Layout/MultilineOperationIndentation:
   EnforcedStyle: indented
 Style/RescueStandardError:
+  Enabled: false
+RSpec/AnyInstance:
   Enabled: false
 Style/FrozenStringLiteralComment:
   Enabled: false
@@ -40,3 +45,10 @@ Lint/MissingSuper:
     - 'app/services/**/*'
 RSpec/NestedGroups:
   Max: 5
+RSpec/MultipleMemoizedHelpers:
+  Max: 7
+FactoryBot/ExcessiveCreateList:
+  MaxAmount: 25
+RSpec/EmptyExampleGroup:
+  Exclude:
+    - 'spec/requests/api/**/*'

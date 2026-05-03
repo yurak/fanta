@@ -1,7 +1,53 @@
 // League#show page //
 
-.page-info.rounds-page.league-page {
+.page-info.league-page {
   padding-left: 272px;
+
+  a {
+    text-decoration: none;
+  }
+
+  .league-admin {
+    padding: 24px 48px;
+
+    .league-admin-section {
+      padding: 12px 24px;
+      border: 1px solid #E5E6E4;
+      border-radius: 8px;
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      column-gap: 16px;
+    }
+
+    .league-admin-params {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      column-gap: 16px;
+      line-height: 52px;
+    }
+
+    .league-admin-param {
+      display: grid;
+      grid-template-columns: 72px 48px;
+      column-gap: 16px;
+    }
+
+    .league-admin-value {
+      text-align: center;
+
+      .league-admin-val-item {
+        margin: 8px 0;
+        padding: 0 8px;
+        background-color: #FFEBC2;
+        border-radius: 8px;
+        line-height: 36px;
+      }
+    }
+
+    .league-admin-link a {
+      color: #FFFFFF;
+    }
+  }
 
   .league-teams {
     padding: 32px 0;
@@ -11,7 +57,7 @@
     row-gap: 16px;
 
     a {
-      text-decoration: none;
+      color: #181715;
     }
 
     .league-team-item {
@@ -28,6 +74,43 @@
       .team-name {
         line-height: 32px;
         font-size: 18px;
+      }
+    }
+  }
+}
+
+@media (orientation: portrait) {
+  .page-info.league-page {
+    padding: 0 64px 120px;
+    display: block;
+
+    .league-teams {
+      padding: 0;
+      display: block;
+      margin: 0 auto;
+
+      .league-team-item {
+        text-align: left;
+        margin-bottom: 32px;
+
+        a {
+          display: grid;
+          grid-template-columns: 128px auto;
+          column-gap: 32px;
+        }
+
+        .team-logo {
+          margin: auto;
+          img {
+            width: 128px;
+            height: 128px;
+          }
+        }
+
+        .team-name {
+          line-height: 128px;
+          font-size: 48px;
+        }
       }
     }
   }

@@ -6,6 +6,7 @@ ruby '3.2.2'
 gem 'rails', '6.1.5'
 gem 'sqlite3'
 
+gem 'audited'
 gem 'active_model_serializers', '~> 0.10.0'
 gem 'bootsnap', '>= 1.1.0', require: false
 gem 'bootstrap', '4.3.1'
@@ -24,6 +25,9 @@ gem 'jquery-rails', '~> 4.4.0'
 gem 'kaminari'
 gem 'puma', '4.3.12'
 gem 'rails_admin', '~> 2.0'
+gem 'rollbar'
+
+gem "appsignal"
 # TODO: upgrade rails_admin
 # gem 'rails_admin', '~> 3.0'
 # gem 'sassc-rails'
@@ -32,8 +36,8 @@ gem 'rb-readline'
 gem 'rest-client'
 gem 'rswag-api'
 gem 'rswag-ui'
-gem 'rubocop', '~> 1.57.0', require: false
-gem 'rubocop-factory_bot'
+gem 'rubocop', '~> 1.75.0', require: false
+gem 'rubocop-factory_bot', '= 2.25.0', require: false
 gem 'rubocop-rails', require: false
 gem 'rubocop-rspec', require: false
 gem 'sass-rails', '~> 5.0'
@@ -41,16 +45,20 @@ gem 'telegram-bot'
 gem 'time_difference'
 gem 'uglifier', '>= 1.3.0'
 gem 'whenever', require: false
-gem "shakapacker", "= 7.1"
-gem "react_on_rails", "= 13.4"
-gem "i18n-js"
+gem 'shakapacker', "= 7.1"
+gem 'react_on_rails', "= 13.4"
+gem 'i18n-js'
+gem 'playwright-ruby-client'
 
 group :development, :test do
+  gem 'factory_bot_rails', '6.2.0'
   gem 'pry-rails'
   gem 'rspec-rails'
   gem 'rswag-specs'
   gem 'vcr'
   gem 'webmock'
+  gem 'dotenv'
+  gem 'listen'
 end
 
 group :development do
@@ -60,19 +68,18 @@ group :development do
   gem 'capistrano-passenger', '~> 0.2.0'
   gem 'capistrano-rvm'
   gem 'capistrano-yarn'
-  gem 'listen'
   gem 'query_diet'
   gem 'web-console', '>= 3.3.0'
 end
 
 group :test do
   gem 'database_cleaner'
-  gem 'factory_bot_rails', '6.2.0'
   gem 'ffaker'
   gem 'rails-controller-testing'
   gem 'rake'
   gem 'selenium-webdriver'
   gem 'shoulda-matchers', require: false
   gem 'simplecov', require: false
+  gem 'timecop'
   gem 'webdrivers'
 end

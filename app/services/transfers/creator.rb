@@ -11,9 +11,9 @@ module Transfers
       return false unless valid_transfer?
 
       ActiveRecord::Base.transaction do
-        league.transfers.create(params)
-        PlayerTeam.create(team: team, player: player)
-        team.update(budget: team.budget - price)
+        league.transfers.create!(params)
+        PlayerTeam.create!(team: team, player: player)
+        team.update!(budget: team.reload.budget - price)
       end
     end
 
@@ -36,7 +36,7 @@ module Transfers
       return false unless team
       return false if team.full_squad?
       return false if price > team.max_rate || price < 1
-      return false if player&.team_by_league(league.id)
+      return false if player.team_by_league(league.id)
 
       true
     end

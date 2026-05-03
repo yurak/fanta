@@ -13,7 +13,7 @@ RSpec.describe 'Divisions' do
       response 200, 'Success' do
         let!(:tournament) { create(:tournament) }
         let!(:division) { create(:division, level: 'A') }
-        let!(:league) { create(:league, tournament: tournament, division: division) }
+        let!(:league) { create(:league, :with_five_teams, tournament: tournament, division: division) }
         let(:tournament_id) { tournament.id }
 
         schema type: :object,

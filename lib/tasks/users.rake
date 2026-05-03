@@ -10,4 +10,15 @@ namespace :users do
     user = User.find_by(email: args[:email])
     user&.moderator!
   end
+
+  desc 'Search users by TG messages'
+  task tg_messages_search: :environment do
+    TgMessage.find_each do |message|
+      next if UserProfile.find_by(tg_chat_id: message.chat_id)
+      next if message.text == '/start'
+
+      user = User.find_by(email: message.text)
+      puts "#{message.text} - id: #{user.id}" if user
+    end
+  end
 end

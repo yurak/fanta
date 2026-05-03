@@ -29,11 +29,13 @@ FactoryBot.define do
         player_por = create(:round_player, :with_pos_por, tournament_round: lineup.tournament_round)
         create(:match_player, lineup: lineup, round_player: player_por,
                               real_position: player_por.positions.first.name)
+        create(:tournament_match, host_club: player_por.player.club, tournament_round: lineup.tournament_round)
 
         4.times do
           player_dc = create(:round_player, :with_pos_dc, tournament_round: lineup.tournament_round)
           create(:match_player, lineup: lineup, round_player: player_dc,
                                 real_position: player_dc.positions.first.name)
+          create(:tournament_match, host_club: player_dc.player.club, tournament_round: lineup.tournament_round)
         end
 
         3.times do
@@ -43,6 +45,8 @@ FactoryBot.define do
           player_a = create(:round_player, :with_pos_a, tournament_round: lineup.tournament_round)
           create(:match_player, lineup: lineup, round_player: player_a,
                                 real_position: player_a.positions.first.name)
+          create(:tournament_match, host_club: player_a.player.club, guest_club: player_c.player.club,
+                                    tournament_round: lineup.tournament_round)
         end
 
         7.times do

@@ -8,14 +8,47 @@
       .title-text= t('.create_account')
       .title-subtext= t('.compete')
     .login-form
-      = form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
+      = form_for(resource, as: resource_name, url: registration_path(resource_name), html: { novalidate: true }) do |f|
+        = hidden_field_tag :tg_token, params[:tg_token] if params[:tg_token].present?
         .login-input
           .login-label= t('.email')
           .login-input-icon= image_tag('icons/login/mail.svg')
           .login-input-text
-            = f.email_field :email, autofocus: true, autocomplete: 'email', class: 'form-control', placeholder: t('.email')
-        .signup-note.login-password-note
-          .inline-block= t('.note')
-          .signup-note-link= link_to t('.note_link'), fees_path
+            = f.email_field :email, value: params[:email] || params.dig(:user, :email), autofocus: true, autocomplete: 'email',
+                            class: 'form-control', placeholder: t('.email'), id: 'user_email',
+                            minlength: 6, maxlength: 50,
+                            pattern: User::EMAIL_FORMAT_REGEX.source.sub('\\A', '').sub('\\z', '')
+        %small#email-invalid-error{ style: 'display:none' }= t('.email_invalid')
+        #email-error
+          - if @email_taken
+            = t('.email_taken')
+            = link_to t('.sign_in'), new_user_session_path
+        -# .signup-note.login-password-note
+        -#   .inline-block= t('.note')
+        -#   .signup-note-link= link_to t('.note_link'), fees_path
         .login-btn-form
           = f.submit t('.continue'), class: 'login-btn blue-btn'
+
+:javascript
+  (function() {
+    var field       = document.getElementById('user_email');
+    var errorDiv    = document.getElementById('email-error');
+    var invalidMsg  = document.getElementById('email-invalid-error');
+    if (!field) return;
+
+    field.addEventListener('input', function() {
+      if (errorDiv)   errorDiv.innerHTML = '';
+      if (invalidMsg) invalidMsg.style.display = 'none';
+    });
+
+    var emailRegex = /#{User::EMAIL_FORMAT_REGEX.source.sub('\\A', '^').sub('\\z', '$')}/i;
+
+    field.closest('form').querySelector('[type="submit"]').addEventListener('click', function(e) {
+      var val = field.value;
+      if (val.length < #{User::EMAIL_LENGTH.min} || val.length > #{User::EMAIL_LENGTH.max} || !emailRegex.test(val)) {
+        e.preventDefault();
+        invalidMsg.style.display = 'block';
+        field.focus();
+      }
+    });
+  })();

@@ -4,6 +4,7 @@ RSpec.describe Team do
   describe 'Associations' do
     it { is_expected.to belong_to(:league).optional }
     it { is_expected.to belong_to(:user).optional }
+    it { is_expected.to belong_to(:tournament).optional }
     it { is_expected.to have_many(:auction_bids).dependent(:destroy) }
     it { is_expected.to have_many(:player_teams).dependent(:destroy) }
     it { is_expected.to have_many(:players).through(:player_teams) }
@@ -30,6 +31,77 @@ RSpec.describe Team do
     it { is_expected.to validate_length_of(:human_name).is_at_least(2).is_at_most(24) }
   end
 
+  describe '#tournament' do
+    context 'when tournament_id is set directly' do
+      let(:tournament) { create(:tournament) }
+      let(:team) { create(:team, tournament: tournament, league: nil) }
+
+      it 'returns the direct tournament' do
+        expect(team.tournament).to eq(tournament)
+      end
+    end
+
+    context 'when tournament_id is nil but team has a league' do
+      it 'returns the league tournament' do
+        expect(team.tournament).to eq(team.league.tournament)
+      end
+    end
+
+    context 'when neither tournament_id nor league is set' do
+      let(:team) { create(:team, tournament: nil, league: nil) }
+
+      it 'returns nil' do
+        expect(team.tournament).to be_nil
+      end
+    end
+  end
+
+  describe '.by_tournament' do
+    let(:tournament) { create(:tournament) }
+    let!(:matching_team) { create(:team, tournament: tournament, league: nil) }
+    let!(:other_team) { create(:team) }
+
+    it 'includes teams with matching tournament_id' do
+      expect(described_class.by_tournament(tournament.id)).to include(matching_team)
+    end
+
+    it 'excludes teams with different tournament_id' do
+      expect(described_class.by_tournament(tournament.id)).not_to include(other_team)
+    end
+  end
+
+  describe '#reset' do
+    before do
+      team.reset
+    end
+
+    context 'without players' do
+      it 'updates team budget' do
+        expect(team.budget).to eq(260)
+      end
+
+      it 'updates team transfer slots' do
+        expect(team.transfer_slots).to eq(16)
+      end
+    end
+
+    context 'with players' do
+      subject(:team) { create(:team, :with_players) }
+
+      it 'remove team players' do
+        expect(team.players.count).to eq(0)
+      end
+
+      it 'updates team budget' do
+        expect(team.budget).to eq(260)
+      end
+
+      it 'updates team transfer slots' do
+        expect(team.transfer_slots).to eq(16)
+      end
+    end
+  end
+
   describe '#league_matches' do
     context 'without matches' do
       it 'returns empty array' do
@@ -50,6 +122,48 @@ RSpec.describe Team do
 
       it 'returns array with matches' do
         expect(team.league_matches).to eq(matches)
+      end
+    end
+  end
+
+  describe '#league_transfers' do
+    context 'without transfers' do
+      it 'returns empty array' do
+        expect(team.league_transfers).to eq([])
+      end
+    end
+
+    context 'without league transfers' do
+      let(:transfer) { create(:transfer, team: team) }
+
+      it 'returns empty array' do
+        expect(team.league_transfers).to eq([])
+      end
+    end
+
+    context 'with league transfers' do
+      let(:transfers) { create_list(:transfer, 3, team: team, league: team.league) }
+
+      it 'returns array with matches' do
+        expect(team.league_transfers).to eq(transfers)
+      end
+    end
+  end
+
+  describe '#tm_price' do
+    context 'without players' do
+      it 'returns zero' do
+        expect(team.tm_price).to eq(0)
+      end
+    end
+
+    context 'with players' do
+      before do
+        create_list(:player_team, 5, team: team, player: create(:player, tm_price: 10_000_000))
+      end
+
+      it 'returns sum of players TM price' do
+        expect(team.tm_price).to eq(50_000_000)
       end
     end
   end
@@ -277,6 +391,98 @@ RSpec.describe Team do
     end
   end
 
+  describe '#max_rate_by(auction_bid)' do
+    let(:auction_bid) { create(:auction_bid, team: team) }
+
+    context 'with max number of players and positive budget' do
+      let(:team) { create(:team, :with_players, budget: 13) }
+
+      it 'returns zero' do
+        expect(team.max_rate_by(auction_bid)).to eq(0)
+      end
+    end
+
+    context 'when first round of primary auction' do
+      let(:auction_round) { create(:auction_round, number: 1) }
+      let(:auction_bid) { create(:auction_bid, :with_eleven_empty_player_bids, team: team, auction_round: auction_round) }
+
+      context 'with full budget' do
+        it 'returns max_rate value for auction_bid' do
+          expect(team.max_rate_by(auction_bid)).to eq(210)
+        end
+      end
+    end
+
+    context 'when second round' do
+      let(:auction_round) { create(:auction_round, number: 2) }
+
+      context 'with full budget' do
+        let(:auction_bid) { create(:auction_bid, :with_full_player_bids, team: team, auction_round: auction_round) }
+
+        it 'returns max_rate value for auction_bid' do
+          expect(team.max_rate_by(auction_bid)).to eq(235)
+        end
+      end
+
+      context 'with few players' do
+        let(:team) { create(:team, :with_5_players, budget: 99) }
+        let(:auction_bid) { create(:auction_bid, :with_21_empty_player_bids, team: team, auction_round: auction_round) }
+
+        it 'returns max_rate value for auction_bid' do
+          expect(team.max_rate_by(auction_bid)).to eq(79)
+        end
+      end
+    end
+  end
+
+  describe '#round_budget(auction_round)' do
+    context 'when first round of primary auction' do
+      let(:auction_round) { create(:auction_round, number: 1) }
+
+      context 'with full budget' do
+        it 'returns round budget' do
+          expect(team.round_budget(auction_round)).to eq(220)
+        end
+      end
+    end
+
+    context 'when second round' do
+      let(:auction_round) { create(:auction_round, number: 2) }
+
+      context 'with full budget' do
+        it 'returns round budget' do
+          expect(team.round_budget(auction_round)).to eq(260)
+        end
+      end
+
+      context 'with few players' do
+        let(:team) { create(:team, :with_5_players, budget: 140) }
+
+        it 'returns round budget' do
+          expect(team.round_budget(auction_round)).to eq(140)
+        end
+      end
+    end
+  end
+
+  describe '#reserved_budget(auction_round)' do
+    context 'when first round of primary auction' do
+      let(:auction_round) { create(:auction_round, number: 1) }
+
+      it 'returns reserved budget' do
+        expect(team.reserved_budget(auction_round)).to eq(40)
+      end
+    end
+
+    context 'when second round' do
+      let(:auction_round) { create(:auction_round, number: 2) }
+
+      it 'returns reserved budget' do
+        expect(team.reserved_budget(auction_round)).to eq(0)
+      end
+    end
+  end
+
   describe '#sales_period?' do
     context 'without auctions' do
       it 'returns false' do
@@ -301,6 +507,70 @@ RSpec.describe Team do
 
       it 'returns true' do
         expect(team.sales_period?).to be(true)
+      end
+    end
+  end
+
+  describe '#available_transfers' do
+    context 'without transfer slots' do
+      it 'returns zero' do
+        expect(team.available_transfers).to eq(0)
+      end
+    end
+
+    context 'without auction' do
+      let(:team) { create(:team, transfer_slots: Team::TRANSFER_SLOTS) }
+
+      it 'returns zero' do
+        expect(team.available_transfers).to eq(0)
+      end
+    end
+
+    context 'without sales auctions' do
+      let(:team) { create(:team, transfer_slots: Team::TRANSFER_SLOTS) }
+
+      before do
+        create(:auction, league: team.league)
+      end
+
+      it 'returns zero' do
+        expect(team.available_transfers).to eq(0)
+      end
+    end
+
+    context 'with sales auctions with number 1' do
+      let(:team) { create(:team, transfer_slots: Team::TRANSFER_SLOTS) }
+
+      before do
+        create(:auction, status: 'sales', league: team.league, number: 1)
+      end
+
+      it 'returns number of available slots' do
+        expect(team.available_transfers).to eq(8)
+      end
+    end
+
+    context 'with sales auctions with number 2' do
+      let(:team) { create(:team, transfer_slots: Team::TRANSFER_SLOTS) }
+
+      before do
+        create(:auction, status: 'sales', league: team.league, number: 2)
+      end
+
+      it 'returns number of available slots' do
+        expect(team.available_transfers).to eq(10)
+      end
+    end
+
+    context 'with sales auctions with number 5' do
+      let(:team) { create(:team, transfer_slots: Team::TRANSFER_SLOTS) }
+
+      before do
+        create(:auction, status: 'sales', league: team.league, number: 5)
+      end
+
+      it 'returns number of available slots' do
+        expect(team.available_transfers).to eq(16)
       end
     end
   end
@@ -434,6 +704,192 @@ RSpec.describe Team do
 
       it 'returns spent budget value' do
         expect(team.dumped_player_ids(auction)).to eq([transfer.player_id])
+      end
+    end
+  end
+
+  describe '#avg_ts' do
+    context 'without lineups' do
+      it 'returns zero' do
+        expect(team.avg_ts).to eq(0)
+      end
+    end
+
+    context 'without finished lineups' do
+      before do
+        create_list(:lineup, 2, team: team, tour: create(:tour, league: team.league))
+      end
+
+      context 'without result' do
+        it 'returns zero' do
+          expect(team.avg_ts).to eq(0)
+        end
+      end
+
+      context 'with result' do
+        before do
+          create(:result, team: team, league: team.league, total_score: 143)
+        end
+
+        it 'returns zero' do
+          expect(team.avg_ts).to eq(0)
+        end
+      end
+    end
+
+    context 'with finished lineups' do
+      before do
+        create_list(:lineup, 2, team: team, tour: create(:closed_tour, league: team.league))
+      end
+
+      context 'without result' do
+        it 'returns zero' do
+          expect(team.avg_ts).to eq(0)
+        end
+      end
+
+      context 'with result' do
+        before do
+          create(:result, team: team, league: team.league, total_score: 143)
+        end
+
+        it 'returns average ts' do
+          expect(team.avg_ts).to eq(71.5)
+        end
+      end
+    end
+  end
+
+  describe '#avg_points' do
+    context 'without lineups' do
+      it 'returns zero' do
+        expect(team.avg_points).to eq(0)
+      end
+    end
+
+    context 'without finished lineups' do
+      before do
+        create_list(:lineup, 2, team: team, tour: create(:tour, league: team.league))
+      end
+
+      context 'without result' do
+        it 'returns zero' do
+          expect(team.avg_points).to eq(0)
+        end
+      end
+
+      context 'with result' do
+        before do
+          create(:result, team: team, league: team.league, points: 55)
+        end
+
+        it 'returns zero' do
+          expect(team.avg_points).to eq(0)
+        end
+      end
+    end
+
+    context 'with finished lineups' do
+      before do
+        create_list(:lineup, 2, team: team, tour: create(:closed_tour, league: team.league))
+      end
+
+      context 'without result' do
+        it 'returns zero' do
+          expect(team.avg_points).to eq(0)
+        end
+      end
+
+      context 'with result' do
+        before do
+          create(:result, team: team, league: team.league, points: 55)
+        end
+
+        it 'returns zero' do
+          expect(team.avg_points).to eq(27.5)
+        end
+      end
+    end
+  end
+
+  describe '#league_lineups_number' do
+    context 'without lineups' do
+      it 'returns zero' do
+        expect(team.league_lineups_number).to eq(0)
+      end
+    end
+
+    context 'without finished lineups' do
+      before do
+        create_list(:lineup, 2, team: team, tour: create(:tour, league: team.league))
+      end
+
+      it 'returns zero' do
+        expect(team.league_lineups_number).to eq(0)
+      end
+    end
+
+    context 'with finished lineups' do
+      before do
+        create_list(:lineup, 2, team: team, tour: create(:closed_tour, league: team.league))
+      end
+
+      it 'returns number of lineups' do
+        expect(team.league_lineups_number).to eq(2)
+      end
+    end
+  end
+
+  describe '#league_lineups' do
+    context 'without lineups' do
+      it 'returns empty array' do
+        expect(team.league_lineups).to eq([])
+      end
+    end
+
+    context 'without finished lineups' do
+      before do
+        create_list(:lineup, 2, team: team, tour: create(:tour, league: team.league))
+      end
+
+      it 'returns empty array' do
+        expect(team.league_lineups).to eq([])
+      end
+    end
+
+    context 'with finished lineups' do
+      before do
+        create_list(:lineup, 2, team: team, tour: create(:closed_tour, league: team.league))
+      end
+
+      it 'returns array with lineups' do
+        expect(team.league_lineups.count).to eq(2)
+      end
+    end
+  end
+
+  describe '#league_result' do
+    context 'without results' do
+      it 'returns nil' do
+        expect(team.league_result).to be_nil
+      end
+    end
+
+    context 'with lineup from other league' do
+      before do
+        create(:result, team: team)
+      end
+
+      it 'returns nil' do
+        expect(team.league_result).to be_nil
+      end
+    end
+
+    context 'with result from current league' do
+      let!(:result) { create(:result, team: team, league: team.league) }
+
+      it 'returns array with lineups' do
+        expect(team.league_result).to eq(result)
       end
     end
   end

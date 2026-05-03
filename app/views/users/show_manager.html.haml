@@ -1,0 +1,118 @@
+.page-block
+  .web-header= render 'layouts/left_nav', league: nil
+  .mob-header= render 'layouts/mob_header', league: nil, title: t('users.manager.title')
+  .page-info.user-manager
+    .user-manager-links
+      .back-button
+        = link_to :back do
+          .back-button-arrow
+            = image_tag('icons/arrow.svg')
+    .manager-block
+      .manager-block-data
+        .manager-user
+          .manager-avatar
+            = image_tag(user.avatar_path)
+          .manager-data
+            .manager-stars
+              - user.titles.count.times do
+                = image_tag('icons/yellow_star.svg')
+            .manager-name= user.name.presence || 'Username'
+            .manager-counters= "#{user.teams.count} #{t('users.manager.teams')} • #{user.results.count} #{t('users.manager.leagues')}"
+        - if user.teams.any?
+          .manager-teams
+            .manager-teams-row
+              .chip-item.chip-active#result-item-0
+                .chip-item-data
+                  .chip-item-logo= image_tag('icons/dashboard.svg')
+                  .chip-item-name= t('users.manager.all_teams')
+              - user.teams.each do |team|
+                .chip-item{id: "result-item-#{team.id}"}
+                  .chip-item-data
+                    .chip-item-logo= image_tag(team.logo_path)
+                    .chip-item-name= team.human_name
+            .manager-teams-switcher
+        - if user.results.any?
+          .manager-results
+            .default-headers.manager-headers-grid
+              .default-header-cell= t('users.manager.league').upcase
+              .default-header-cell= t('users.manager.division').upcase
+              .default-header-cell= t('users.manager.season').upcase
+              .default-header-cell= t('users.manager.type').upcase
+              .default-header-cell= t('users.manager.team').upcase
+              .default-header-cell= t('users.manager.place').upcase
+            .manager-results-items
+              - user.results.order(created_at: :desc).each do |result|
+                = link_to league_results_path(result.league) do
+                  .manager-results-item.manager-headers-grid.result-item-0{class: "result-item-#{result.team.id}"}
+                    .manager-results-cell.manager-results-league
+                      .manager-league-logo= image_tag(result.league.tournament.logo_path)
+                      .manager-league-name
+                        = result.league.name
+                    .manager-results-cell
+                      - if result.league.demo?
+                        %span.badge-demo= t('league.demo_badge_short')
+                      - else
+                        = result.league.division&.name || '-'
+                    .manager-results-cell= "#{result.league.season.start_year}-#{result.league.season.end_year}"
+                    .manager-results-cell
+                      .manager-results-type{class: "type-badge-#{result.league.type}"}= result.league.type.capitalize
+                    .manager-results-cell.center= image_tag(result.team.logo_path)
+                    .manager-results-cell.right= position_manager_number(result.position || result.live_position)
+
+      .manager-stats.top-stats-section
+        .stats-item-top
+          .stats-item-top-title= t('users.manager.win_rate')
+          .stats-item-top-percent= "#{user.win_rate}%"
+          .stats-item-top-number
+        .common-stats-item
+          .common-stats-item-title= t('users.manager.titles_won')
+          .common-stats-item-value= user.titles.count
+        .common-stats-item
+          .common-stats-item-title= t('users.manager.promotions')
+          .common-stats-item-value= user.promotions.count
+        .common-stats-item
+          .common-stats-item-title= t('users.manager.relegations')
+          .common-stats-item-value= user.relegations.count
+        .common-stats-item
+          .common-stats-item-title= t('users.manager.avg_position')
+          .common-stats-item-value= user.average_position
+        -#.common-stats-item
+        -#  .common-stats-item-title= t('users.manager.top_transfer')
+        -#  .common-stats-item-value= user.top_transfer
+        .common-stats-item
+          .common-stats-item-title= t('users.manager.mantra_matches')
+          .common-stats-item-value= user.finished_mantra_lineups.count
+        .common-stats-item
+          .common-stats-item-title= t('users.manager.average_mantra_ts')
+          .common-stats-item-value= user.average_mantra_ts
+        .common-stats-item
+          .common-stats-item-title= t('users.manager.mantra_best_ts')
+          .common-stats-item-value= user.mantra_best_ts
+        .common-stats-item
+          .common-stats-item-title= t('users.manager.fanta_top')
+          .common-stats-item-value= user.fanta_top.count
+        .common-stats-item
+          .common-stats-item-title= t('users.manager.fanta_top_ts')
+          .common-stats-item-value= user.fanta_top_ts.count
+        .common-stats-item
+          .common-stats-item-title= t('users.manager.fanta_matches')
+          .common-stats-item-value= user.finished_fanta_lineups.count
+        .common-stats-item
+          .common-stats-item-title= t('users.manager.average_fanta_ts')
+          .common-stats-item-value= user.average_fanta_ts
+        .common-stats-item
+          .common-stats-item-title= t('users.manager.fanta_best_ts')
+          .common-stats-item-value= user.fanta_best_ts
+
+:javascript
+  $(document).ready(function() {
+    $(".chip-item").click(function(){
+      const chipId = this.id;
+
+      $(".chip-item").removeClass("chip-active");
+      $(".result-item-0").hide();
+
+      $("#" + chipId).addClass("chip-active");
+      $("." + chipId).show();
+    });
+  });

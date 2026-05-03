@@ -10,10 +10,11 @@
     .new-lineup-confirm
       = submit_tag t('lineups.confirm_squad'), form: 'new_lineup', class: 'submit', id: 'submit-lineup-btn'
   .new-lineup-block
+    - module_name = team_module&.name || lineup.team_module.name
     .module-section
       #modules-modal-btn
         .module-name
-          = team_module&.name || lineup.team_module.name
+          = module_name
           = image_tag('icons/dropdown.svg')
         #modules-modal.modal
           .modal-content
@@ -27,19 +28,19 @@
                     = team_module.name
                     = image_tag("#{modules_path}#{team_module.name}.jpg")
       .module-image
-        = image_tag("#{modules_path}#{team_module&.name || lineup.team_module.name}.jpg")
+        = image_tag("#{modules_path}#{module_name}.jpg")
       .lineup-round-data
         .lineup-tabs.default-tabs
           #fixtures.default-tab-item.default-tab-active
             .default-= "#{t('tours.round')} #{tour.tournament_round.number}"
-          #standings.default-tab-item
-            .default-= "#{tour.league.tournament.name} #{t('tours.standings')}"
-        .fixtures.lineup-round-tab-content.round-matches
+          -##standings.default-tab-item
+          -#  .default-= "#{tour.league.tournament.name} #{t('tours.standings')}"
+        .fixtures.lineup-round-tab-content.round-matches.fanta-matches
           - if tour.national?
-            = render 'tournaments/national_matches', matches: tour.tournament_round.national_matches
+            = render 'tournaments/national_matches_lineup', matches: tour.tournament_round.national_matches
           - else
             = render 'tournaments/tournament_matches', matches: tour.tournament_round.tournament_matches
-        .standings.lineup-round-tab-content
+        -#.standings.lineup-round-tab-content
           -# - if tour.league.tournament.sofa_number.present?
           -#   %iframe{ id: "sofa-standings-embed-#{tour.league.tournament.sofa_number}", src: "https://widgets.sofascore.com/embed/tournament/#{tour.league.tournament.sofa_number.split('-')[0]}/season/#{tour.league.tournament.sofa_number.split('-')[1]}/standings", style: "height:794px!important;width:100%!important;border:none;", frameborder: "0", scrolling: "no", sandbox: "allow-pointer-lock allow-scripts" }
 
@@ -60,33 +61,34 @@
         = form_with model: [team, lineup], id: 'new_lineup', local: true do |f|
           = f.hidden_field :team_module_id, value: team_module&.id || lineup.team_module.id
           = f.hidden_field :tour_id, value: tour.id
-          #position-naming{ type: "hidden", value: "#{current_user.ital_pos_naming}"}
           #national-tour{ type: "hidden", value: "#{tour.national?}"}
           = f.fields_for :match_players do |mp|
+            - slot = team_module.slots[mp.index]
+            - player = player_by_mp(mp, team_module)
             - if mp.index == 11
               .reserve-players-title
                 = t('lineups.reserve_squad')
             .lineup-slot
-              = mp.hidden_field(:real_position, value: team_module.slots[mp.index]&.position, id: "real-position-#{mp.index}") if team_module.slots[mp.index]&.position
-              = mp.hidden_field(:round_player_id, value: player_by_mp(mp, team_module)&.id, class: 'round-player-input', id: "round-player-#{mp.index}")
+              = mp.hidden_field(:real_position, value: slot&.position, id: "real-position-#{mp.index}") if slot&.position
+              = mp.hidden_field(:round_player_id, value: player&.id, class: 'round-player-input', id: "round-player-#{mp.index}")
               .input-group
                 .player-data{id: "modal-player-data#{mp.index}"}
                   .team-player-data{id: "team-player-data#{mp.index}"}
                     .team-player-avatar
                       .player-show-face
-                        %object{data: player_by_mp(mp, team_module)&.avatar_path || '', type: ApplicationRecord::CONTENT_TYPE_PNG, id: "avatar-#{mp.index}"}
+                        %object{data: player&.avatar_path || '', type: ApplicationRecord::CONTENT_TYPE_PNG, id: "avatar-#{mp.index}"}
                           = image_tag('avatar.png')
                       .player-show-kit
                         - if tour.national?
-                          %object{data: player_by_mp(mp, team_module)&.national_kit_path || '', type: ApplicationRecord::CONTENT_TYPE_PNG, id: "kit-#{mp.index}"}
+                          %object{data: player&.national_kit_path || '', type: ApplicationRecord::CONTENT_TYPE_PNG, id: "kit-#{mp.index}"}
                             = image_tag('kit_small_default.png')
                         - else
-                          %object{data: player_by_mp(mp, team_module)&.kit_path || '', type: ApplicationRecord::CONTENT_TYPE_PNG, id: "kit-#{mp.index}"}
+                          %object{data: player&.kit_path || '', type: ApplicationRecord::CONTENT_TYPE_PNG, id: "kit-#{mp.index}"}
                             = image_tag('kit_small_default.png')
                       .squad-position
-                        .module-position.slot-position{class: "slot-position-#{team_module.slots[mp.index]&.position&.tr('/', '')}"}
-                          - if team_module.slots[mp.index]&.position
-                            = slot_position_name(team_module.slots[mp.index]&.position)
+                        .module-position.slot-position{class: "slot-position-#{slot&.position&.tr('/', '')}"}
+                          - if slot&.position
+                            = slot_position_name(slot&.position)
                           - elsif mp.index == 11 && tour.mantra?
                             = slot_position_name('Por')
                           - else
@@ -94,24 +96,24 @@
                     .team-player-name-pos
                       .team-player-name
                         .team-player-last-name{ id: "name-#{mp.index}" }
-                          = player_by_mp(mp, team_module)&.name || t('lineups.not_selected')
+                          = player&.name || t('lineups.not_selected')
                         .team-player-first-name{ id: "first-name-#{mp.index}" }
-                          = player_by_mp(mp, team_module)&.first_name || ''
+                          = player&.first_name || ''
                         - if tour.eurocup?
-                          .team-player-club{ id: "club-#{mp.index}", style: "display: none;" }= player_by_mp(mp, team_module)&.club&.code
+                          .team-player-club{ id: "club-#{mp.index}", style: "display: none;" }= player&.club&.code
                         - if tour.national?
-                          .team-player-country{ id: "country-#{mp.index}", style: "display: none;" }= player_by_mp(mp, team_module)&.national_team&.name
+                          .team-player-country{ id: "country-#{mp.index}", style: "display: none;" }= player&.national_team&.code
                       .team-player-positions{ id: "positions-#{mp.index}" }<
-                        - if player_by_mp(mp, team_module)
-                          - if player_by_mp(mp, team_module).position_names[0]
-                            .team-player-position.slot-position{class: "slot-position-#{player_by_mp(mp, team_module).position_names[0]}"}<
-                              = slot_position_name(player_by_mp(mp, team_module).position_names[0])
-                          - if player_by_mp(mp, team_module).position_names[1]
-                            .team-player-position.slot-position{class: "slot-position-#{player_by_mp(mp, team_module).position_names[1]}"}<
-                              = slot_position_name(player_by_mp(mp, team_module).position_names[1])
-                          - if player_by_mp(mp, team_module).position_names[2]
-                            .team-player-position.slot-position{class: "slot-position-#{player_by_mp(mp, team_module).position_names[2]}"}<
-                              = slot_position_name(player_by_mp(mp, team_module).position_names[2])
+                        - if player
+                          - if player.position_names[0]
+                            .team-player-position.slot-position{class: "slot-position-#{player.position_names[0]}"}<
+                              = slot_position_name(player.position_names[0])
+                          - if player.position_names[1]
+                            .team-player-position.slot-position{class: "slot-position-#{player.position_names[1]}"}<
+                              = slot_position_name(player.position_names[1])
+                          - if player.position_names[2]
+                            .team-player-position.slot-position{class: "slot-position-#{player.position_names[2]}"}<
+                              = slot_position_name(player.position_names[2])
                     .team-player-dropdown
                       = image_tag('icons/dropdown.svg')
                   .modal-players-list{id: "modal-players-list#{mp.index}"}
@@ -119,20 +121,20 @@
                       %span.close
                       .modal-players-title
                         .modal-players-title-text Select player
-                        .modal-players-title-position{class: "modal-position-#{team_module.slots[mp.index]&.position}", id: "modal-position#{mp.index}"}
-                          .slot-position{class: "slot-position-#{team_module.slots[mp.index]&.position&.tr('/', '')}"}
-                            - if team_module.slots[mp.index]&.position
-                              = slot_position_name(team_module.slots[mp.index]&.position)
+                        .modal-players-title-position{class: "modal-position-#{slot&.position}", id: "modal-position#{mp.index}"}
+                          .slot-position{class: "slot-position-#{slot&.position&.tr('/', '')}"}
+                            - if slot&.position
+                              = slot_position_name(slot&.position)
                             - elsif mp.index == 11 && tour.mantra?
                               = slot_position_name('Por')
                             - else
                               = 'Res'
                       .modal-modules-block{id: "modal-modules-block#{mp.index}"}
                         - if tour.mantra?
-                          - if team_module.slots[mp.index]&.position
-                            - available_hash = available_by_slot(team, team_module.slots[mp.index])
+                          - if slot&.position
+                            - available_hash = available_by_slot(team, slot)
                             .modal-malus-block
-                              - available_hash['']&.each do |player|
+                              - available_hash['0']&.each do |player|
                                 = render 'lineup_player_item', player: player, tour: tour
                             - if available_hash['1.5']
                               .modal-malus-title 🎭 MALUS -1.5
@@ -146,40 +148,12 @@
                                   = render 'lineup_player_item', player: player, tour: tour
                           - elsif mp.index == 11
                             .modal-malus-block
-                              - available_by_slot(team, team_module.slots.first)['']&.each do |player|
+                              - available_by_slot(team, team_module.slots.first)['0']&.each do |player|
                                 = render 'lineup_player_item', player: player, tour: tour
                           - else
                             .modal-malus-block
                               - available_for_select(team).each do |player|
                                 = render 'lineup_player_item', player: player, tour: tour
-                        - if tour.national?
-                          - tournament_round_players(tour.tournament_round, team_module.slots[mp.index]&.position).each do |national_team, players|
-                            .modal-malus-title
-                              = national_team.name.upcase
-                            .modal-malus-block
-                              - players.each do |player|
-                                .modal-player-item{id: "player#{player.id}"}
-                                  .modal-player-images{style: "background-color: ##{ player.national_team.color };"}
-                                    .player-show-face
-                                      %object{data: player.avatar_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                                        = image_tag('avatar.png')
-                                    .player-show-kit
-                                      %object{data: player.national_kit_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                                        = image_tag('kit_small_default.png')
-                                  .modal-player-data
-                                    .player-positions
-                                      - player.player_positions.includes(:position).each do |player_position|
-                                        .position-item{class: "position-item-#{player_position.position.name}"}
-                                          = position_name(player_position.position)
-                                  .modal-player-name
-                                    = player.name
-                                  .modal-player-match
-                                    .player-match-team
-                                      = flag_icon(player.national_team.code.to_sym, element: :div)
-                                    .player-match-team
-                                      vs
-                                    .player-match-team
-                                      = flag_icon(player.national_team.opponent_by_round(tour.tournament_round)&.code.to_sym, element: :div)
 
 :javascript
   $(document).ready(function() {
@@ -214,7 +188,7 @@
         success: function(data){
           avatarContainer.attr("data", data.avatar_path);
           clubContainer.text(data.club_code);
-          countryContainer.text(data.national_team_name);
+          countryContainer.text(data.national_team_code);
           roundPlayerContainer.attr("value", playerId);
           playerBidContainer.attr("value", playerId);
 
@@ -252,6 +226,31 @@
           }
 
           nameContainer.text(malus + data.name);
+
+          const club_players_limit = "#{tour.max_country_players}";
+          $('.round-tournament-team-players').text('')
+          $('.round-tournament-team-players').css("background-color", "");
+
+          if (nationalTour) {
+            $('.team-player-country').each(function() {
+              let tagId = '#national-players-' + this.textContent;
+              let element = $(tagId);
+              element.text(element.text() + "👨");
+              if (element.text().length > (club_players_limit * 2) ) {
+                element.css("background-color", "#DB0A23");
+              }
+            });
+          }
+          if ("#{tour.eurocup?}" === 'true' && "#{tour.national?}" === 'false') {
+            $('.team-player-club').each(function() {
+              let tagId = '#club-players-' + this.textContent;
+              let element = $(tagId);
+              element.text(element.text() + "👨");
+              if (element.text().length > (club_players_limit * 2) ) {
+                element.css("background-color", "#DB0A23");
+              }
+            });
+          }
         }
       });
 
@@ -276,10 +275,17 @@
         player_countries.filter(Boolean).forEach(function(x) { counts[x] = (counts[x] || 0)+1; });
         const countries_values = Object.keys(counts).map(function(v) { return counts[v]; });
         const max_country_players = Math.max.apply(Math, countries_values);
-        const country_players_limit = "#{tour.max_country_players}"
+        const min_country_players = Math.min.apply(Math, countries_values);
+        const country_players_max_limit = "#{tour.max_country_players}"
+        const country_players_min_limit = "#{tour.min_country_players}"
 
-        if (max_country_players > country_players_limit) {
-          alert("#{t('lineups.limit', limit: tour.max_country_players)}");
+        if (max_country_players > country_players_max_limit) {
+          alert("#{t('lineups.max_limit', limit: tour.max_country_players)}");
+          return false;
+        }
+
+        if (min_country_players < country_players_min_limit) {
+          alert("#{t('lineups.min_limit', limit: tour.min_country_players)}");
           return false;
         }
       } else {
@@ -297,21 +303,20 @@
           const clubs = [];
           $('.team-player-club').each(function() { clubs.push(this.textContent); });
           clubs.filter(Boolean).forEach(function(x) { counts[x] = (counts[x] || 0)+1; });
-
-          const unique_clubs = clubs.filter((v, i, a) => a.indexOf(v) === i).filter(Boolean);
           const tour_clubs = "#{tour.tournament_round.tournament_matches.count * 2}";
-
-          if (tour_clubs < 12 && unique_clubs.length < tour_clubs) {
-            alert("#{t('lineups.min_limit', limit: tour.min_country_players)}");
-            return false;
-          }
-
           const clubs_values = Object.keys(counts).map(function(v) { return counts[v]; });
           const max_club_players = Math.max.apply(Math, clubs_values);
-          const club_players_limit = "#{tour.max_country_players}";
+          const min_club_players = Math.min.apply(Math, clubs_values);
+          const club_players_max_limit = "#{tour.max_country_players}";
+          const club_players_min_limit = "#{tour.min_country_players}";
+          const lineup_players = "#{lineup.players_count}";
 
-          if (max_club_players > club_players_limit) {
-            alert("#{t('lineups.limit', limit: tour.max_country_players)}");
+          if (max_club_players > club_players_max_limit) {
+            alert("#{t('lineups.max_limit', limit: tour.max_country_players)}");
+            return false;
+          }
+          if ((clubs_values.length < tour_clubs && tour_clubs <= lineup_players) || min_club_players < club_players_min_limit) {
+            alert("#{t('lineups.min_limit', limit: tour.min_country_players)}");
             return false;
           }
         }
@@ -361,8 +366,6 @@
             for (var key in playersHash){
               listHtml += '<div class="modal-malus-title">' + key + '</div> <div class="modal-malus-block">';
               playersHash[key].forEach(function(player) {
-                // console.log(player)
-
                 let positionsItems = '';
                 player.position_arr.forEach((positionName, index) => {
                   let posName = player.position_classic_arr[index];
@@ -376,16 +379,23 @@
                   firstName = player.first_name;
                 }
 
+                let color = player.club_color;
+                let kit_path = player.kit_path;
+                if ("#{tour.national?}" === 'true') {
+                  color = player.national_team_color;
+                  kit_path = player.national_kit_path;
+                }
+
                 listHtml +=
                   '<div class="modal-player-item" id="' + player.id + '">' +
-                    '<div class="modal-player-images" style="background-color: #' + player.club_color + '">' +
+                    '<div class="modal-player-images" style="background-color: #' + color + '">' +
                       '<div class="player-show-face">' +
                         '<object data=' + player.avatar_path + ' type="image/png">' +
                           '<img src=' + avatarImgSrc + '>' +
                         '</object>' +
                       '</div>' +
                       '<div class="player-show-kit">' +
-                        '<object data=' + player.kit_path + ' type="image/png">' +
+                        '<object data=' + kit_path + ' type="image/png">' +
                         '</object>' +
                       '</div>' +
                     '</div>' +

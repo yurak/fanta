@@ -1,91 +1,342 @@
+require 'rails_helper'
+
 RSpec.describe Players::Transfermarkt::PositionMapper do
   describe '#call' do
-    subject(:parser) { described_class.new(player, year) }
+    subject(:result) { described_class.new(player, year).call }
 
+    let(:year)   { 2023 }
     let(:player) { create(:player, tm_id: nil) }
-    let(:year) { 2023 }
 
     context 'without player' do
       let(:player) { nil }
 
-      it 'returns false' do
-        expect(parser.call).to be(false)
+      it 'returns empty array' do
+        expect(result).to eq([])
       end
     end
 
     context 'when player without tm_id' do
-      it 'returns false' do
-        expect(parser.call).to be(false)
+      it 'returns empty array' do
+        expect(result).to eq([])
       end
     end
 
     context 'with tm_id and without matches' do
       let(:player) { create(:player, tm_id: '14555') }
 
-      it 'returns position array' do
-        VCR.use_cassette 'player_without_position' do
-          expect(parser.call).to be(false)
-        end
+      before do
+        allow(Players::Transfermarkt::PositionParser).to receive(:call).with(player, year).and_return({})
+        allow(Players::Transfermarkt::PositionParser).to receive(:call).with(player, year - 1).and_return({})
+      end
+
+      it 'returns empty array' do
+        expect(result).to eq([])
       end
     end
 
     context 'with matches on SS position' do
-      let(:player) { create(:player, tm_id: '576024') }
+      let(:player) { create(:player, tm_id: '406040') }
+
+      before do
+        allow(Players::Transfermarkt::PositionParser).to receive(:call).with(player, year).and_return({ 'ST' => 20 })
+        allow(Players::Transfermarkt::PositionParser).to receive(:call).with(player, year - 1).and_return({ 'FW' => 15 })
+      end
 
       it 'returns position array' do
-        VCR.use_cassette 'player_position_fw' do
-          expect(parser.call).to contain_exactly('FW')
-        end
+        expect(result).to contain_exactly('FW')
       end
     end
 
     context 'with RM played also on defence position' do
       let(:player) { create(:player, tm_id: '167491') }
 
+      before do
+        allow(Players::Transfermarkt::PositionParser).to receive(:call).with(player, year)
+                                                                       .and_return({ 'WB' => 20, 'RB' => 12 })
+        allow(Players::Transfermarkt::PositionParser).to receive(:call).with(player, year - 1).and_return({})
+      end
+
       it 'returns position array' do
-        VCR.use_cassette 'player_position_wb_def' do
-          expect(parser.call).to contain_exactly('WB', 'RB')
-        end
+        expect(result).to contain_exactly('WB', 'RB')
       end
     end
 
     context 'with lower second position' do
       let(:player) { create(:player, tm_id: '88755') }
 
+      before do
+        allow(Players::Transfermarkt::PositionParser).to receive(:call).with(player, year)
+                                                                       .and_return({ 'AM' => 20, 'CM' => 10 })
+        allow(Players::Transfermarkt::PositionParser).to receive(:call).with(player, year - 1).and_return({})
+      end
+
       it 'returns position array' do
-        VCR.use_cassette 'player_position_am_cm' do
-          expect(parser.call).to contain_exactly('AM')
-        end
+        expect(result).to contain_exactly('AM')
       end
     end
 
     context 'with ST played on FW position in previous season' do
       let(:player) { create(:player, tm_id: '91845') }
 
+      before do
+        allow(Players::Transfermarkt::PositionParser).to receive(:call).with(player, year).and_return({ 'ST' => 20 })
+        allow(Players::Transfermarkt::PositionParser).to receive(:call).with(player, year - 1).and_return({ 'FW' => 15 })
+      end
+
       it 'returns position array' do
-        VCR.use_cassette 'player_position_st_fw' do
-          expect(parser.call).to contain_exactly('FW')
-        end
+        expect(result).to contain_exactly('FW')
       end
     end
 
     context 'with AM or W played few matches on FW or ST position' do
       let(:player) { create(:player, tm_id: '144028') }
 
+      before do
+        allow(Players::Transfermarkt::PositionParser).to receive(:call).with(player, year)
+                                                                       .and_return({ 'W' => 20, 'FW' => 4 })
+        allow(Players::Transfermarkt::PositionParser).to receive(:call).with(player, year - 1).and_return({})
+      end
+
       it 'returns position array' do
-        VCR.use_cassette 'player_position_am_fw' do
-          expect(parser.call).to contain_exactly('W', 'FW')
-        end
+        expect(result).to contain_exactly('W', 'FW')
       end
     end
 
     context 'with AM or W played a lot matches on FW or ST position' do
       let(:player) { create(:player, tm_id: '392085') }
 
+      before do
+        allow(Players::Transfermarkt::PositionParser).to receive(:call).with(player, year)
+                                                                       .and_return({ 'W' => 25, 'FW' => 20 })
+        allow(Players::Transfermarkt::PositionParser).to receive(:call).with(player, year - 1).and_return({})
+      end
+
       it 'returns position array' do
-        VCR.use_cassette 'player_position_w_am_fw' do
-          expect(parser.call).to contain_exactly('FW')
+        expect(result).to contain_exactly('FW')
+      end
+    end
+
+    context 'with ST and no previous season data' do
+      let(:player) { create(:player, tm_id: '11001') }
+
+      before do
+        allow(Players::Transfermarkt::PositionParser).to receive(:call).with(player, year).and_return({ 'ST' => 20 })
+        allow(Players::Transfermarkt::PositionParser).to receive(:call).with(player, year - 1).and_return({})
+      end
+
+      it 'returns ST' do
+        expect(result).to contain_exactly('ST')
+      end
+    end
+
+    context 'with ST in both current and previous season' do
+      let(:player) { create(:player, tm_id: '11002') }
+
+      before do
+        allow(Players::Transfermarkt::PositionParser).to receive(:call).with(player, year).and_return({ 'ST' => 20 })
+        allow(Players::Transfermarkt::PositionParser).to receive(:call).with(player, year - 1).and_return({ 'ST' => 15 })
+      end
+
+      it 'returns ST' do
+        expect(result).to contain_exactly('ST')
+      end
+    end
+
+    context 'with FW as primary position' do
+      let(:player) { create(:player, tm_id: '11003') }
+
+      before do
+        allow(Players::Transfermarkt::PositionParser).to receive(:call).with(player, year).and_return({ 'FW' => 20 })
+        allow(Players::Transfermarkt::PositionParser).to receive(:call).with(player, year - 1).and_return({})
+      end
+
+      it 'returns FW without processing second positions' do
+        expect(result).to contain_exactly('FW')
+      end
+    end
+
+    context 'with single RB position' do
+      let(:player) { create(:player, tm_id: '11004') }
+
+      before do
+        allow(Players::Transfermarkt::PositionParser).to receive(:call).with(player, year).and_return({ 'RB' => 20 })
+        allow(Players::Transfermarkt::PositionParser).to receive(:call).with(player, year - 1).and_return({})
+      end
+
+      it 'adds WB' do
+        expect(result).to contain_exactly('RB', 'WB')
+      end
+    end
+
+    context 'with WB without defence in two seasons' do
+      let(:player) { create(:player, tm_id: '11005') }
+
+      before do
+        allow(Players::Transfermarkt::PositionParser).to receive(:call).with(player, year).and_return({ 'WB' => 20 })
+        allow(Players::Transfermarkt::PositionParser).to receive(:call).with(player, year - 1).and_return({})
+      end
+
+      it 'returns only WB' do
+        expect(result).to contain_exactly('WB')
+      end
+    end
+
+    context 'with WB and CB played enough in two seasons' do
+      let(:player) { create(:player, tm_id: '11006') }
+
+      before do
+        allow(Players::Transfermarkt::PositionParser).to receive(:call).with(player, year).and_return({ 'WB' => 16 })
+        allow(Players::Transfermarkt::PositionParser).to receive(:call).with(player, year - 1).and_return({ 'CB' => 12 })
+      end
+
+      it 'adds CB' do
+        expect(result).to contain_exactly('WB', 'CB')
+      end
+    end
+
+    context 'with low current season matches, uses two seasons data' do
+      let(:player) { create(:player, tm_id: '11007') }
+
+      before do
+        allow(Players::Transfermarkt::PositionParser).to receive(:call).with(player, year).and_return({ 'W' => 8 })
+        allow(Players::Transfermarkt::PositionParser).to receive(:call).with(player, year - 1).and_return({ 'W' => 12 })
+      end
+
+      it 'merges both seasons' do
+        expect(result).to contain_exactly('W')
+      end
+    end
+
+    context 'when second position is on a lower line (other_line?)' do
+      let(:player) { create(:player, tm_id: '12001') }
+
+      shared_examples 'removes second position' do |first_pos, second_pos|
+        context "with #{first_pos} + #{second_pos}" do
+          before do
+            allow(Players::Transfermarkt::PositionParser).to receive(:call).with(player, year)
+                                                                           .and_return({ first_pos => 20, second_pos => 10 })
+            allow(Players::Transfermarkt::PositionParser).to receive(:call).with(player, year - 1).and_return({})
+          end
+
+          it "returns only #{first_pos}" do
+            expect(result).to contain_exactly(first_pos)
+          end
         end
+      end
+
+      it_behaves_like 'removes second position', 'W', 'WB'
+      it_behaves_like 'removes second position', 'W', 'CM'
+      it_behaves_like 'removes second position', 'W', 'DM'
+      it_behaves_like 'removes second position', 'DM', 'CB'
+      it_behaves_like 'removes second position', 'AM', 'WB'
+      it_behaves_like 'removes second position', 'AM', 'DM'
+    end
+
+    context 'with CM + DM (LOWER_POS_PAIRS match, same line)' do
+      let(:player) { create(:player, tm_id: '12010') }
+
+      before do
+        allow(Players::Transfermarkt::PositionParser).to receive(:call).with(player, year)
+                                                                       .and_return({ 'CM' => 20, 'DM' => 10 })
+        allow(Players::Transfermarkt::PositionParser).to receive(:call).with(player, year - 1).and_return({})
+      end
+
+      it 'removes DM' do
+        expect(result).to contain_exactly('CM')
+      end
+    end
+
+    context 'with base_positions fallback (insufficient stats)' do
+      subject(:result) { described_class.new(player, year, base_positions: base_positions).call }
+
+      let(:player) { create(:player, tm_id: '20001') }
+
+      before do
+        allow(Players::Transfermarkt::PositionParser).to receive(:call).with(player, year).and_return({})
+        allow(Players::Transfermarkt::PositionParser).to receive(:call).with(player, year - 1).and_return({})
+      end
+
+      context 'when base_positions is nil' do
+        let(:base_positions) { nil }
+
+        it 'returns empty array' do
+          expect(result).to eq([])
+        end
+      end
+
+      context 'when base_positions are all nil' do
+        let(:base_positions) { [nil, nil, nil] }
+
+        it 'returns empty array' do
+          expect(result).to eq([])
+        end
+      end
+
+      context 'when primary base position is a non-fullback (CB)' do
+        let(:base_positions) { %w[CB DM] }
+
+        it 'returns only the primary position' do
+          expect(result).to eq(['CB'])
+        end
+      end
+
+      context 'when primary base position is RB' do
+        let(:base_positions) { ['RB'] }
+
+        it 'returns RB and WB' do
+          expect(result).to contain_exactly('RB', 'WB')
+        end
+      end
+
+      context 'when primary base position is LB' do
+        let(:base_positions) { ['LB'] }
+
+        it 'returns LB and WB' do
+          expect(result).to contain_exactly('LB', 'WB')
+        end
+      end
+
+      context 'when primary base position is RW (maps to W via TM_POSITION_MAP)' do
+        let(:base_positions) { %w[RW SS LW] }
+
+        it 'maps RW to W and returns only W' do
+          expect(result).to eq(['W'])
+        end
+      end
+
+      context 'when primary base position is SS (maps to FW)' do
+        let(:base_positions) { ['SS'] }
+
+        it 'maps SS to FW' do
+          expect(result).to eq(['FW'])
+        end
+      end
+
+      context 'when sufficient stats exist, base_positions is ignored' do
+        let(:base_positions) { ['CB', nil, nil] }
+
+        before do
+          allow(Players::Transfermarkt::PositionParser).to receive(:call).with(player, year)
+                                                                         .and_return({ 'DM' => 20 })
+        end
+
+        it 'uses stats, not base_positions' do
+          expect(result).to contain_exactly('DM')
+        end
+      end
+    end
+
+    context 'with equal match counts on two positions (skips removal)' do
+      let(:player) { create(:player, tm_id: '12011') }
+
+      before do
+        allow(Players::Transfermarkt::PositionParser).to receive(:call).with(player, year)
+                                                                       .and_return({ 'W' => 15, 'WB' => 15 })
+        allow(Players::Transfermarkt::PositionParser).to receive(:call).with(player, year - 1).and_return({})
+      end
+
+      it 'keeps both positions despite different lines' do
+        expect(result).to contain_exactly('W', 'WB')
       end
     end
   end

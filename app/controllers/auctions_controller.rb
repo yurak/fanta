@@ -1,6 +1,4 @@
 class AuctionsController < ApplicationController
-  skip_before_action :authenticate_user!, only: %i[index]
-
   respond_to :html
 
   helper_method :auction, :league, :player, :players
@@ -10,7 +8,15 @@ class AuctionsController < ApplicationController
   end
 
   def show
-    redirect_to league_auction_transfers_path(league, auction) unless can? :show, Auction
+    return unless auction.closed?
+
+    @player_bid_groups = PlayerBids::Search.call(search_params.merge(auction_id: auction.id))
+    @active_bid = @player_bid_groups.first&.last&.first
+    @active_bid_logs = @active_bid&.player&.player_bids_by(auction.id)
+  end
+
+  def live
+    redirect_to league_auction_transfers_path(league, auction) unless can? :live, Auction
   end
 
   def update
@@ -39,5 +45,9 @@ class AuctionsController < ApplicationController
 
   def auction_manager
     @auction_manager ||= Auctions::Manager.call(auction, params[:status])
+  end
+
+  def search_params
+    params.permit(:id, :league_id, :position, :round, :search, :team_id).to_unsafe_h
   end
 end

@@ -21,7 +21,7 @@
     .round-deadline
       .round-deadline-text= t('tours.deadline')
       .round-deadline-value
-        = tour.tournament_round.deadline&.strftime("%a, %b %e at %H:%M")
+        = local_time(tour.tournament_round.deadline, '%a, %b %e at %H:%M')
       .round-deadline-countdown
         = time_to_deadline(tour.tournament_round.time_to_deadline)
   - if tour.mantra?
@@ -32,22 +32,28 @@
 
 = render 'stats_section', tour: tour
 
-- if tour.set_lineup? && user_signed_in? && user_team_by_league(current_user, tour.league) && current_user&.lineup_by_tour(tour).blank?
-  .create-lineup-row
-    .create-lineup-text= t('tours.setup')
-    .create-lineup-link
-      - if tour.league.cloneable?
-        = link_to t('tours.clone_mob'), clone_team_lineups_path(user_team_by_league(current_user, tour.league), tour_id: tour.id)
-    .create-lineup-link= link_to t('tours.create_mob'), new_team_lineup_path(user_team_by_league(current_user, tour.league), tour_id: tour.id, team_module_id: user_team_by_league(current_user, tour.league).lineups.first&.team_module_id)
-- if tour.set_lineup? && tour.fanta? && user_signed_in? && user_team_by_league(current_user, tour.league) && current_user&.lineup_by_tour(tour).present?
-  .create-lineup-row
-    .create-lineup-text= t('tours.want_edit')
-    .create-lineup-link
-    .create-lineup-link= link_to t('tours.edit_mob'), edit_team_lineup_path(user_team_by_league(current_user, tour.league), current_user.lineup_by_tour(tour), team_module_id: current_user.lineup_by_tour(tour).team_module.id, tour_id: tour.id)
-- if current_user&.can_moderate? && tour.deadlined?
-  .create-lineup-row.inject-scores-row
-    .create-lineup-text
-    .create-lineup-link= link_to t('header.inject_scores'), inject_scores_tour_path(tour), data: { confirm: t('header.are_you_sure') }
+.create-lineup-row-block
+  - if current_user&.can_moderate?
+    .create-lineup-row.inject-scores-row
+      .create-lineup-text= t('tours.moderation')
+      .create-lineup-link
+        - if tour.locked_or_postponed?
+          = link_to t('header.inject_scores_mob'), inject_scores_tour_path(tour), data: { confirm: t('header.are_you_sure') }
+      .create-lineup-link= link_to t('header.manage_round_mob'), tournament_round_path(tour.tournament_round)
+  - user_team = user_team_by_league(current_user, tour.league)
+  - current_lineup = current_user&.lineup_by_tour(tour)
+  - if tour.set_lineup? && user_signed_in? && user_team && current_lineup.blank?
+    .create-lineup-row
+      .create-lineup-text= t('tours.setup')
+      .create-lineup-link
+        - if tour.league.cloneable?
+          = link_to t('tours.clone_mob'), clone_team_lineups_path(user_team, tour_id: tour.id)
+      .create-lineup-link= link_to t('tours.create_mob'), new_team_lineup_path(user_team, tour_id: tour.id, team_module_id: user_team.lineups.first&.team_module_id)
+  - if tour.set_lineup? && tour.fanta? && user_signed_in? && user_team && current_lineup.present?
+    .create-lineup-row
+      .create-lineup-text= t('tours.want_edit')
+      .create-lineup-link
+      .create-lineup-link= link_to t('tours.edit_mob'), edit_team_lineup_path(user_team, current_lineup, team_module_id: current_lineup.team_module.id, tour_id: tour.id)
 
 .portrait-footer{ class: "portrait-footer-#{tour.league.mantra?}"}
   = render 'layouts/league_links', league: tour.league

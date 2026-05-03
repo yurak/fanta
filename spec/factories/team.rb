@@ -2,9 +2,13 @@ FactoryBot.define do
   factory :team do
     sequence(:name) { |i| "#{FFaker::Internet.slug[0...10]}#{i}" }
     human_name { name }
-    sequence(:code) { |i| "#{FFaker::Internet.slug[0...2]}#{i.to_s[0]}" }
+    sequence(:code) { |i| "#{FFaker::Internet.slug[0]}#{i.to_s[0...2]}" }
 
     league
+
+    after(:build) do |team|
+      team.tournament_id ||= team.league&.tournament&.id
+    end
 
     trait :with_user do
       user
@@ -25,6 +29,12 @@ FactoryBot.define do
         create_list(:player_team, 3, team: team, player: create(:player, :with_pos_c))
         create_list(:player_team, 3, team: team, player: create(:player, :with_pos_w_a))
         create_list(:player_team, 4, team: team, player: create(:player, :with_pos_pc))
+      end
+    end
+
+    trait :with_5_players do
+      after(:create) do |team|
+        create_list(:player_team, 5, team: team)
       end
     end
 

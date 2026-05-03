@@ -45,8 +45,25 @@ RSpec.describe MatchPlayer do
     it { is_expected.to define_enum_for(:subs_status).with_values(%i[initial get_out get_in not_in_squad]) }
   end
 
+  describe '#kit_path' do
+    context 'when round player with club' do
+      it 'returns club kit path' do
+        expect(match_player.kit_path).to eq(match_player.round_player.club.kit_path)
+      end
+    end
+
+    context 'when round player without club' do
+      it 'returns player kit path' do
+        expect(match_player.kit_path).to eq(match_player.player.kit_path)
+      end
+    end
+  end
+
   describe '#not_played?' do
     context 'without score and when club did not play' do
+      let(:round_player) { create(:round_player, :with_tournament_match) }
+      let(:match_player) { create(:match_player, round_player: round_player) }
+
       it 'returns false' do
         expect(match_player.not_played?).to be(false)
       end
@@ -74,11 +91,19 @@ RSpec.describe MatchPlayer do
       end
     end
 
-    context 'when player moved to another tournament' do
+    context 'when player moved to another tournament (no score)' do
       it 'returns true' do
         allow(match_player.round_player).to receive(:another_tournament?).and_return(true)
 
         expect(match_player.not_played?).to be(true)
+      end
+    end
+
+    context 'when player moved to another tournament but has a score' do
+      it 'returns false' do
+        allow(match_player_with_score.round_player).to receive(:another_tournament?).and_return(true)
+
+        expect(match_player_with_score.not_played?).to be(false)
       end
     end
   end
@@ -224,7 +249,15 @@ RSpec.describe MatchPlayer do
       end
     end
 
-    context 'with score and cleansheet on M position but with C player position' do
+    context 'with score and cleansheet on M position with E and M player position' do
+      let(:match_player) { create(:m_match_player, round_player: create(:round_player, :with_pos_e_m, :with_score_six, cleansheet: true)) }
+
+      it 'returns total score value with M cs bonus' do
+        expect(match_player.total_score).to eq(6.5)
+      end
+    end
+
+    context 'with score and cleansheet on M/C position but with C player position' do
       let(:match_player) do
         create(:match_player, real_position: 'M/C', round_player: create(:round_player, :with_pos_c, :with_score_six, cleansheet: true))
       end
@@ -234,13 +267,23 @@ RSpec.describe MatchPlayer do
       end
     end
 
-    context 'with score and cleansheet on M position but with E and C player position' do
+    context 'with score and cleansheet on M/C position but with E and C player position' do
       let(:match_player) do
         create(:match_player, real_position: 'M/C', round_player: create(:round_player, :with_pos_e_c, :with_score_six, cleansheet: true))
       end
 
-      it 'returns total score value without cs bonus' do
-        expect(match_player.total_score).to eq(6)
+      it 'returns total score value with E cs bonus' do
+        expect(match_player.total_score).to eq(6.5)
+      end
+    end
+
+    context 'with score and cleansheet on M/C position but with Dc and M player position' do
+      let(:match_player) do
+        create(:match_player, real_position: 'M/C', round_player: create(:round_player, :with_pos_dc_m, :with_score_six, cleansheet: true))
+      end
+
+      it 'returns total score value with M cs bonus' do
+        expect(match_player.total_score).to eq(6.5)
       end
     end
 
@@ -251,6 +294,16 @@ RSpec.describe MatchPlayer do
 
       it 'returns total score value without cs bonus' do
         expect(match_player.total_score).to eq(6)
+      end
+    end
+
+    context 'with score and cleansheet on C position but with Ds and E player position' do
+      let(:match_player) do
+        create(:match_player, real_position: 'C', round_player: create(:round_player, :with_pos_ds_e, :with_score_seven, cleansheet: true))
+      end
+
+      it 'returns total score value without cs bonus' do
+        expect(match_player.total_score).to eq(7)
       end
     end
 
@@ -371,6 +424,94 @@ RSpec.describe MatchPlayer do
 
       it 'returns true' do
         expect(match_player.hide_cleansheet?).to be(true)
+      end
+    end
+  end
+
+  describe '#subs_options' do
+    let(:tour) { create(:locked_tour) }
+    let(:lineup) { create(:lineup, tour: tour) }
+    let(:match_player) do
+      create(:match_player, real_position: 'Dc', lineup: lineup,
+                            round_player: create(:round_player, :with_pos_dc))
+    end
+
+    before { allow(match_player.round_player).to receive(:club_played_match?).and_return(true) }
+
+    context 'when not eligible for subs' do
+      let(:match_player) { create(:match_player) }
+
+      it 'returns none' do
+        expect(match_player.subs_options).to eq(described_class.none)
+      end
+    end
+
+    context 'when eligible but without bench players' do
+      it 'returns empty relation' do
+        expect(match_player.subs_options).to be_empty
+      end
+    end
+
+    context 'when eligible with compatible bench player' do
+      let!(:bench_player) { create(:match_player, lineup: lineup, round_player: create(:round_player, :with_pos_dc, :with_score_six)) }
+
+      it 'returns the bench player' do
+        expect(match_player.subs_options).to include(bench_player)
+      end
+    end
+
+    context 'when bench player has no score' do
+      before { create(:match_player, lineup: lineup, round_player: create(:round_player, :with_pos_dc)) }
+
+      it 'returns empty relation' do
+        expect(match_player.subs_options).to be_empty
+      end
+    end
+
+    context 'when bench player is not_in_squad' do
+      before do
+        create(:match_player, lineup: lineup, subs_status: :not_in_squad,
+                              round_player: create(:round_player, :with_pos_dc, :with_score_six))
+      end
+
+      it 'returns empty relation' do
+        expect(match_player.subs_options).to be_empty
+      end
+    end
+
+    context 'when bench player position does not match' do
+      before { create(:match_player, lineup: lineup, round_player: create(:round_player, :with_pos_a, :with_score_six)) }
+
+      it 'returns empty relation' do
+        expect(match_player.subs_options).to be_empty
+      end
+    end
+  end
+
+  describe '#subs_option_exist?' do
+    context 'without subs options' do
+      let(:match_player) { create(:match_player, real_position: 'E', round_player: create(:round_player, :with_pos_e)) }
+
+      it 'returns false' do
+        expect(match_player.subs_option_exist?).to be(false)
+      end
+    end
+
+    context 'with subs options' do
+      let(:tour) { create(:locked_tour) }
+      let(:lineup) { create(:lineup, tour: tour) }
+      let(:match_player) do
+        create(:match_player, real_position: 'Dc', lineup: lineup,
+                              round_player: create(:round_player, :with_pos_dc))
+      end
+
+      before do
+        allow(match_player.round_player).to receive(:club_played_match?).and_return(true)
+        create(:match_player, lineup: lineup, round_player: create(:round_player, :with_pos_dc, :with_score_six))
+      end
+
+      it 'returns true' do
+        expect(match_player.subs_option_exist?).to be(true)
       end
     end
   end

@@ -27,6 +27,22 @@ RSpec.describe RoundPlayer do
     it { is_expected.to delegate_method(:pseudo_name).to(:player).allow_nil }
   end
 
+  describe 'Scopes' do
+    describe '.in_squad' do
+      let!(:in_squad_rp) { create(:round_player, in_squad: true) }
+
+      before { create(:round_player, in_squad: false) }
+
+      it 'returns round_players where in_squad is true' do
+        expect(described_class.in_squad).to include(in_squad_rp)
+      end
+
+      it 'excludes round_players where in_squad is false' do
+        expect(described_class.in_squad.count).to eq(1)
+      end
+    end
+  end
+
   describe '#result_score' do
     context 'with initial_score' do
       it 'returns zero' do
@@ -228,7 +244,7 @@ RSpec.describe RoundPlayer do
   end
 
   describe '#club_played_match?' do
-    context 'without tournament match result' do
+    context 'without tournament match' do
       it 'returns false' do
         expect(round_player.club_played_match?).to be(false)
       end
@@ -247,6 +263,51 @@ RSpec.describe RoundPlayer do
 
       it 'returns true' do
         expect(round_player.club_played_match?).to be(true)
+      end
+    end
+  end
+
+  describe '#national_played?' do
+    context 'without national team' do
+      it 'returns false' do
+        expect(round_player.send(:national_played?)).to be(false)
+      end
+    end
+
+    context 'with national team but without national match' do
+      let(:player) { create(:player, :with_national_team) }
+      let(:round_player) { create(:round_player, player: player) }
+
+      it 'returns false' do
+        expect(round_player.send(:national_played?)).to be(false)
+      end
+    end
+
+    context 'with national team and national match not yet played' do
+      let(:player) { create(:player, :with_national_team) }
+      let(:round_player) { create(:round_player, player: player) }
+
+      before do
+        create(:national_match, tournament_round: round_player.tournament_round,
+                                host_team: player.national_team)
+      end
+
+      it 'returns false' do
+        expect(round_player.send(:national_played?)).to be(false)
+      end
+    end
+
+    context 'with national team and played national match' do
+      let(:player) { create(:player, :with_national_team) }
+      let(:round_player) { create(:round_player, player: player) }
+
+      before do
+        create(:national_match, tournament_round: round_player.tournament_round,
+                                host_team: player.national_team, host_score: 1)
+      end
+
+      it 'returns true' do
+        expect(round_player.send(:national_played?)).to be(true)
       end
     end
   end
@@ -279,6 +340,30 @@ RSpec.describe RoundPlayer do
         expect(round_player.another_tournament?).to be(true)
       end
     end
+
+    context 'when player belongs to eurocup club in the same eurocup tournament' do
+      let(:eurocup_tournament) { Tournament.find_by(eurocup: true) }
+      let(:ec_club) { create(:club, tournament: nil, ec_tournament: eurocup_tournament) }
+      let(:player) { create(:player, club: ec_club) }
+      let(:tournament_round) { create(:tournament_round, tournament: eurocup_tournament) }
+      let(:round_player) { create(:round_player, player: player, tournament_round: tournament_round) }
+
+      it 'returns false' do
+        expect(round_player.another_tournament?).to be(false)
+      end
+    end
+
+    context 'when player belongs to a national team in the same national tournament' do
+      let(:national_tournament) { create(:tournament) }
+      let(:national_team) { create(:national_team, tournament: national_tournament) }
+      let(:player) { create(:player, national_team: national_team) }
+      let(:tournament_round) { create(:tournament_round, tournament: national_tournament) }
+      let(:round_player) { create(:round_player, player: player, tournament_round: tournament_round) }
+
+      it 'returns false' do
+        expect(round_player.another_tournament?).to be(false)
+      end
+    end
   end
 
   describe '#appearances' do
@@ -292,6 +377,42 @@ RSpec.describe RoundPlayer do
       it 'returns match players count' do
         create_list(:match_player, 3, round_player: round_player)
         expect(round_player.appearances).to eq(3)
+      end
+    end
+  end
+
+  describe '#main_appearances' do
+    context 'without match players' do
+      it 'returns zero' do
+        expect(round_player.main_appearances).to eq(0)
+      end
+    end
+
+    context 'with match players' do
+      it 'returns match players count' do
+        create_list(:match_player, 2, round_player: round_player, real_position: 'Dc')
+        create_list(:match_player, 2, round_player: round_player)
+
+        expect(round_player.main_appearances).to eq(2)
+      end
+    end
+  end
+
+  describe '#related_club' do
+    context 'without round player club' do
+      let!(:round_player) { create(:round_player, club: nil) }
+
+      it 'returns player club' do
+        expect(round_player.related_club).to eq(round_player.player.club)
+      end
+    end
+
+    context 'with round player club' do
+      let!(:club) { create(:club) }
+      let!(:round_player) { create(:round_player, club: club) }
+
+      it 'returns round player club' do
+        expect(round_player.related_club).to eq(club)
       end
     end
   end

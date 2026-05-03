@@ -8,10 +8,13 @@ module AuctionRounds
 
     def call
       return false if round_not_ready?
-      return false unless deadline_passed? || all_bids_completed?
+      return false unless round.ddl_expired? || all_bids_completed?
 
       AuctionRound.transaction do
         round.processing!
+
+        fail_over_budget_bids
+        fail_bids_missing_gk
 
         manage_bids
 
@@ -19,11 +22,35 @@ module AuctionRounds
 
         round.closed!
 
-        true if vacancies? && AuctionRounds::Creator.call(auction)
+        process_auction
       end
     end
 
     private
+
+    def fail_over_budget_bids
+      auction_bids.each do |auction_bid|
+        next if auction_bid.player_bids.sum(&:price) <= auction_bid.team.budget
+
+        auction_bid.player_bids.initial.map(&:failed!)
+      end
+    end
+
+    def fail_bids_missing_gk
+      min_gk = round.gk_min_limit
+      return if min_gk.zero?
+
+      auction_bids.each do |auction_bid|
+        existing_gk = auction_bid.team.players.by_position(Position::GOALKEEPER).count
+        bid_gk = auction_bid.player_bids.initial
+                            .joins(player: :positions)
+                            .where(positions: { name: Position::GOALKEEPER })
+                            .count
+        next if existing_gk + bid_gk >= min_gk
+
+        auction_bid.player_bids.initial.map(&:failed!)
+      end
+    end
 
     def manage_bids
       round.player_bids.initial.group_by(&:player_id).each do |player_group|
@@ -33,6 +60,19 @@ module AuctionRounds
       end
 
       round.player_bids.initial.map(&:failed!)
+    end
+
+    def process_auction
+      if vacancies?
+        notify_squad_complete
+        AuctionRounds::Creator.call(auction)
+      else
+        Auctions::Manager.call(auction, Auctions::Manager::CLOSED_STATUS)
+      end
+    end
+
+    def notify_squad_complete
+      Notifications::Creator.call(notifiable: round, kind: :auction_squad_complete)
     end
 
     def process_player_bids(player_bids)
@@ -46,7 +86,7 @@ module AuctionRounds
     end
 
     def process_bid(bid)
-      unless bid.player.team_by_league(league.id)
+      if bid.player.present? && bid.player.team_by_league(league.id).nil?
         params = {
           auction_id: auction.id,
           player_id: bid.player.id,
@@ -68,16 +108,14 @@ module AuctionRounds
       league.players.count < league.teams.count * Team::MAX_PLAYERS
     end
 
-    def deadline_passed?
-      DateTime.now > round.deadline.asctime.in_time_zone('EET')
-    end
-
     def bids_not_ready?
+      return false unless auction.primary?
+
       auction_bids.any? { |ab| %w[submitted completed].exclude? ab.status }
     end
 
     def all_bids_completed?
-      auction_bids.not_completed.empty?
+      auction_bids.not_completed.empty? && !(round.first? && auction.primary?)
     end
 
     def league

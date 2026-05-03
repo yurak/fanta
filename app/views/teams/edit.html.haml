@@ -25,6 +25,12 @@
         .login-input-text
           = f.text_field :human_name, class: 'form-control', placeholder: t('teams.new.name')
       .login-password-note= t('teams.new.name_note')
+      .login-input.login-input-second
+        .login-label= t('teams.new.code')
+        .login-input-icon= image_tag('icons/login/user.svg')
+        .login-input-text
+          = f.text_field :code, class: 'form-control', placeholder: t('teams.new.code')
+      .login-password-note= t('teams.new.code_note')
       .login-btn-form
         = f.submit t('teams.edit.update'), class: 'login-btn blue-btn'
 

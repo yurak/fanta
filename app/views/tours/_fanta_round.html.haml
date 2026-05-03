@@ -7,42 +7,52 @@
       - if tour.eurocup?
         = render 'tournaments/tournament_matches', matches: tour.tournament_round.tournament_matches
   - unless tour.inactive?
+    - lineups_by_team = tour.lineups.index_by(&:team_id)
+    - user_team = user_team_by_league(current_user, tour.league)
+    - current_lineup = current_user&.lineup_by_tour(tour)
     .lineups-block
       .block-title= t('tours.lineups')
       - if tour.set_lineup?
-        - if user_team_by_league(current_user, tour.league)
-          .self-team.team-row{ class: "team-lineup-#{current_user.lineup_by_tour(tour).present?}" }
-            .team-row-logo= image_tag(image_path(user_team_by_league(current_user, tour.league).logo_path))
+        - if user_team
+          .self-team.team-row{ class: "team-lineup-#{current_lineup.present?}" }
+            .team-row-logo= image_tag(image_path(user_team.logo_path))
             .team-row-name
-              - if current_user.lineup_by_tour(tour)
-                = link_to team_lineup_path(current_user.team_by_league(tour.league), current_user.lineup_by_tour(tour)) do
-                  = user_team_by_league(current_user, tour.league).human_name
+              - if current_lineup
+                = link_to team_lineup_path(current_user.team_by_league(tour.league), current_lineup) do
+                  = user_team.human_name
               - else
-                = user_team_by_league(current_user, tour.league).human_name
+                = user_team.human_name
             .team-row-name-lineup
               .round-lineup-actions
-                - if current_user.lineup_by_tour(tour)
+                - if current_lineup
                   .round-lineup-edit-block
-                    = link_to edit_team_lineup_path(user_team_by_league(current_user, tour.league), current_user.lineup_by_tour(tour), team_module_id: current_user.lineup_by_tour(tour).team_module.id) do
+                    = link_to edit_team_lineup_path(user_team, current_lineup, team_module_id: current_lineup.team_module.id) do
                       .grey-btn.round-lineup-edit{ title: t('tours.edit') }
                         = image_tag('icons/edit.svg')
                   .round-lineup-set-block
-                    = t('tours.set_done')
+                    = t('tours.set_done_fanta')
                 - else
-                  = link_to new_team_lineup_path(user_team_by_league(current_user, tour.league), tour_id: tour.id, team_module_id: user_team_by_league(current_user, tour.league).lineups.first&.team_module_id) do
+                  = link_to new_team_lineup_path(user_team, tour_id: tour.id, team_module_id: user_team.lineups.first&.team_module_id) do
                     .blue-btn.round-lineup-set-squad{ title: t('tours.create') }
                       = image_tag('icons/plus.svg')
         - tour.league.teams.each do |team|
-          - next if team == user_team_by_league(current_user, tour.league)
-          .team-row{ class: "team-lineup-#{team.lineups.where(tour: tour).any?}" }
+          - next if team == user_team
+          - team_lineup = lineups_by_team[team.id]
+          .team-row{ class: "team-lineup-#{team_lineup.present?}" }
             .team-row-logo= image_tag(image_path(team.logo_path))
-            .team-row-name= team.human_name
-            .team-row-name-lineup
-              - if team.lineups.where(tour: tour).any?
-                = t('tours.set_done')
+            .team-row-name
+              - if team_lineup
+                = link_to team_lineup_path(team, team_lineup) do
+                  = team.human_name
               - else
-                = t('tours.not_set')
+                = team.human_name
+            .team-row-name-lineup
+              - if team_lineup
+                = t('tours.set_done_fanta')
+              - else
+                = t('tours.not_set_fanta')
       - else
+        -# TODO: move to partial with lazy loading
         .tour-deadlined{ class: "tour-closed-#{tour.closed?}" }
           - tour.lineups.order(final_score: :desc).each_with_index do |lineup, i|
             = link_to team_lineup_path(lineup.team, lineup) do
@@ -51,7 +61,7 @@
                   = position_number(i + 1)
                 .team-row-logo
                   = image_tag(image_path(lineup.team.logo_path))
-                .team-row-name
+                .team-row-name{ class: "lineup-subs-#{current_user&.can_moderate? && tour.tournament_round.finished? && lineup.subs_missed?}" }
                   = lineup.team.human_name
                 .lineup-result
                   = lineup.total_score

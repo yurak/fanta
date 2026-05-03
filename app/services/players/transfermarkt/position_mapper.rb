@@ -12,36 +12,46 @@ module Players
       ATTACK_POS = [FORWARD, STRIKER].freeze
       DEFENCE_POS = %w[CB RB LB].freeze
       FULLBACK_POS = %w[RB LB].freeze
-      LOWER_POS_PAIRS = [%w[W WB], %w[W CM], %w[W DM], %w[DM CB], %w[CM DM], %w[AM WB], %w[AM DM], %w[AM CM], %w[FW AM], %w[FW W]].freeze
+      LOWER_POS_PAIRS = [%w[CM DM]].freeze
       VIOLET_LINE_POS = %w[W AM].freeze
 
       attr_reader :player, :current_year
 
-      def initialize(player, year)
+      def initialize(player, year, base_positions: nil)
         @player = player
         @current_year = year
+        @base_positions = base_positions
       end
 
       def call
-        return false unless player&.tm_id
+        return [] unless player&.tm_id
 
         prepare_analyzed_data
-        return false if mantra_arr.first&.second.to_i < MIN_POS_NUMBER
+        return base_position_fallback if mantra_arr.first&.second.to_i < MIN_POS_NUMBER
 
         @result_arr = [first_pos]
         process_strikers
         return @result_arr if ATTACK_POS.include?(@result_arr.first)
 
         add_second_pos
+        remove_lower_pos
         add_wb_to_fullback
         add_def_to_wingback
-        remove_lower_pos
         process_am_w
 
         @result_arr
       end
 
       private
+
+      def base_position_fallback
+        primary = @base_positions&.filter_map { |p| Position::TM_POSITION_MAP[p] }&.first
+        return [] unless primary
+
+        result = [primary]
+        result << WING_BACK if FULLBACK_POS.include?(primary)
+        result
+      end
 
       def prepare_analyzed_data
         @analyzed_data = if current_stat.values.sum < MIN_SEASON_NUMBER
@@ -54,12 +64,21 @@ module Players
       def process_strikers
         return unless first_pos == STRIKER
 
-        previous_pos = previous_stat.sort_by { |_key, value| value }.reverse.first&.first
+        previous_pos = previous_stat.max_by { |_key, value| value }&.first
+        return unless previous_pos
+
         @result_arr = [FORWARD] unless previous_pos == STRIKER
       end
 
       def add_second_pos
         @result_arr << mantra_arr.second&.first if mantra_arr.second&.second.to_i > (SECOND_COEFFICIENT * sum)
+      end
+
+      def remove_lower_pos
+        return unless @result_arr[1]
+        return if mantra_arr.first&.last == mantra_arr.second&.last
+
+        @result_arr.pop(1) if other_line? || LOWER_POS_PAIRS.include?(@result_arr)
       end
 
       def add_wb_to_fullback
@@ -72,10 +91,6 @@ module Players
         DEFENCE_POS.each do |pos|
           @result_arr << pos if two_seasons_stat[pos].to_i > MIN_DEF_NUMBER
         end
-      end
-
-      def remove_lower_pos
-        @result_arr.pop(1) if LOWER_POS_PAIRS.include?(@result_arr)
       end
 
       def process_am_w
@@ -94,7 +109,7 @@ module Players
       end
 
       def mantra_arr
-        @mantra_arr ||= @analyzed_data.sort_by { |_key, value| value }.reverse
+        @mantra_arr ||= @analyzed_data.sort_by { |_key, value| -value }
       end
 
       def first_pos
@@ -111,6 +126,14 @@ module Players
 
       def two_seasons_stat
         @two_seasons_stat ||= current_stat.merge(previous_stat) { |_, cur, prev| cur + prev }
+      end
+
+      def other_line?
+        (line(@result_arr[0]) > line(@result_arr[1])) || (line(@result_arr[1]) - line(@result_arr[0]) == 2)
+      end
+
+      def line(position)
+        Position::LINE_VALUE[Position::HUMAN_MAP[position]]
       end
     end
   end
