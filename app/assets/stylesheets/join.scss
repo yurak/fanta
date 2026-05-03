@@ -72,9 +72,6 @@
   padding: 14px 24px;
   text-decoration: none;
 
-  &:hover {
-    text-decoration: none;
-  }
   border: 1px solid #E5E6E4;
   border-radius: 40px;
   background: #fff;
@@ -82,6 +79,7 @@
   transition: background 0.15s, border-color 0.15s;
 
   &:hover {
+    text-decoration: none;
     background: #D8D6FF;
     border-color: #261FFF;
 
@@ -455,7 +453,7 @@
 
   .join-tournament-item {
     border-radius: 16px;
-    padding: 12px 12px;
+    padding: 12px;
     gap: 12px;
   }
 

@@ -277,7 +277,8 @@ class Player < ApplicationRecord
   end
 
   def national_team_rounds
-    @national_team_rounds ||=
-      national_team&.tournament&.tournament_rounds&.by_season(current_season.id) || []
+    return [] unless national_team&.tournament
+
+    @national_team_rounds ||= national_team.tournament.tournament_rounds.by_season(current_season.id)
   end
 end

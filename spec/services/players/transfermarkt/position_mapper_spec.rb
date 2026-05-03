@@ -224,12 +224,12 @@ RSpec.describe Players::Transfermarkt::PositionMapper do
         end
       end
 
-      include_examples 'removes second position', 'W', 'WB'
-      include_examples 'removes second position', 'W', 'CM'
-      include_examples 'removes second position', 'W', 'DM'
-      include_examples 'removes second position', 'DM', 'CB'
-      include_examples 'removes second position', 'AM', 'WB'
-      include_examples 'removes second position', 'AM', 'DM'
+      it_behaves_like 'removes second position', 'W', 'WB'
+      it_behaves_like 'removes second position', 'W', 'CM'
+      it_behaves_like 'removes second position', 'W', 'DM'
+      it_behaves_like 'removes second position', 'DM', 'CB'
+      it_behaves_like 'removes second position', 'AM', 'WB'
+      it_behaves_like 'removes second position', 'AM', 'DM'
     end
 
     context 'with CM + DM (LOWER_POS_PAIRS match, same line)' do

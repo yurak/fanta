@@ -727,7 +727,7 @@ RSpec.describe AuctionBids::Manager do
 
       context 'when GK count is below MIN_GK_INIT' do
         let(:params) do
-          players = create_list(:player, 11)
+          players = other_players + create_list(:player, 1)
           {
             status: 'submitted',
             player_bids_attributes: players.each_with_index.to_h do |player, i|

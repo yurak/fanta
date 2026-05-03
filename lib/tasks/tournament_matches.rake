@@ -95,10 +95,7 @@ namespace :tournament_matches do
   # rake 'tournament_matches:generate_matches_list_json'
   desc 'Create csv file with tournament matches from json file'
   task generate_matches_list_json: :environment do
-    file = File.open('log/matches.json')
-
-    # response = JSON.load(file)
-    response = JSON.parse(file)
+    response = File.open('log/matches.json') { |file| JSON.parse(file.read) }
     data = response['fixtures']['allMatches']
     CSV.open('log/matches_list.csv', 'ab') do |writer|
       writer << %w[fotmob_id home_club away_club date score page_url round_number]

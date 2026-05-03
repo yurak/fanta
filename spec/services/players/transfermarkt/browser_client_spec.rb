@@ -4,47 +4,49 @@ require 'json'
 require 'fileutils'
 require 'playwright'
 
-class ChromiumDouble
-  def launch(*); end
-end
+module BrowserClientDoubles
+  class ChromiumDouble
+    def launch(*); end
+  end
 
-class BrowserDouble
-  def new_context(*); end
-  def close(*); end
-end
+  class BrowserDouble
+    def new_context(*); end
+    def close(*); end
+  end
 
-class BrowserContextDouble
-  def set_extra_http_headers(*); end
-  def add_cookies(*); end
-  def add_init_script(*); end
-  def new_page(*); end
-end
+  class BrowserContextDouble
+    def set_extra_http_headers(*); end
+    def add_cookies(*); end
+    def add_init_script(*); end
+    def new_page(*); end
+  end
 
-class PlaywrightPageDouble
-  def goto(*); end
-  def wait_for_timeout(*); end
-  def content(*); end
-  def frames(*); end
-  def locator(*); end
-  def screenshot(*); end
-end
+  class PlaywrightPageDouble
+    def goto(*); end
+    def wait_for_timeout(*); end
+    def content(*); end
+    def frames(*); end
+    def locator(*); end
+    def screenshot(*); end
+  end
 
-class LocatorDouble
-  def count(*); end
-  def first(*); end
-end
+  class LocatorDouble
+    def count(*); end
+    def first(*); end
+  end
 
-class NodeDouble
-  def click(*); end
-end
+  class NodeDouble
+    def click(*); end
+  end
 
-class PlaywrightFrameDouble
-  def url(*); end
-  def locator(*); end
-end
+  class PlaywrightFrameDouble
+    def url(*); end
+    def locator(*); end
+  end
 
-class PlaywrightApiDouble
-  def chromium; end
+  class PlaywrightApiDouble
+    def chromium; end
+  end
 end
 
 RSpec.describe Players::Transfermarkt::BrowserClient do
@@ -74,17 +76,17 @@ RSpec.describe Players::Transfermarkt::BrowserClient do
   end
 
   def build_chromium_double
-    chromium = instance_double(ChromiumDouble)
-    pw       = instance_double(PlaywrightApiDouble, chromium: chromium)
+    chromium = instance_double(BrowserClientDoubles::ChromiumDouble)
+    pw       = instance_double(BrowserClientDoubles::PlaywrightApiDouble, chromium: chromium)
 
     allow(Playwright).to receive(:create).and_yield(pw)
     chromium
   end
 
   def build_browser_stack(chromium)
-    browser = instance_double(BrowserDouble)
-    context = instance_double(BrowserContextDouble)
-    page    = instance_double(PlaywrightPageDouble)
+    browser = instance_double(BrowserClientDoubles::BrowserDouble)
+    context = instance_double(BrowserClientDoubles::BrowserContextDouble)
+    page    = instance_double(BrowserClientDoubles::PlaywrightPageDouble)
 
     allow(chromium).to receive(:launch).and_return(browser)
     allow(browser).to receive(:new_context).and_return(context)
@@ -295,7 +297,7 @@ RSpec.describe Players::Transfermarkt::BrowserClient do
   end
 
   describe '#dump_debug' do
-    let(:page) { instance_double(PlaywrightPageDouble, content: '<html>debug</html>') }
+    let(:page) { instance_double(BrowserClientDoubles::PlaywrightPageDouble, content: '<html>debug</html>') }
     let(:key)  { 'spec_key' }
     let(:base) { Rails.root.join('tmp', "tm_debug_#{key}") }
 
@@ -320,7 +322,7 @@ RSpec.describe Players::Transfermarkt::BrowserClient do
   end
 
   describe '#safe_page_content' do
-    let(:page) { instance_double(PlaywrightPageDouble) }
+    let(:page) { instance_double(BrowserClientDoubles::PlaywrightPageDouble) }
 
     before do
       allow(page).to receive(:wait_for_timeout)
@@ -386,7 +388,7 @@ RSpec.describe Players::Transfermarkt::BrowserClient do
   end
 
   describe '#accept_sourcepoint_consent!' do
-    let(:page) { instance_double(PlaywrightPageDouble) }
+    let(:page) { instance_double(BrowserClientDoubles::PlaywrightPageDouble) }
 
     before do
       allow(page).to receive(:wait_for_timeout)
@@ -405,17 +407,15 @@ RSpec.describe Players::Transfermarkt::BrowserClient do
     end
 
     context 'when consent dialog exists on main page' do
-      let(:empty_locator)  { instance_double(LocatorDouble, count: 0) }
-      let(:accept_locator) { instance_double(LocatorDouble) }
-      let(:first_node)     { instance_double(NodeDouble) }
+      let(:empty_locator)  { instance_double(BrowserClientDoubles::LocatorDouble, count: 0) }
+      let(:accept_locator) { instance_double(BrowserClientDoubles::LocatorDouble) }
+      let(:first_node)     { instance_double(BrowserClientDoubles::NodeDouble) }
 
       before do
-        allow(page).to receive(:content).and_return('<html>privacy-mgmt.com script here</html>')
-        allow(page).to receive(:frames).and_return([])
+        allow(page).to receive_messages(content: '<html>privacy-mgmt.com script here</html>', frames: [])
         allow(page).to receive(:locator).and_return(empty_locator)
         allow(page).to receive(:locator).with('button:has-text("Accept")').and_return(accept_locator)
-        allow(accept_locator).to receive(:count).and_return(1)
-        allow(accept_locator).to receive(:first).and_return(first_node)
+        allow(accept_locator).to receive_messages(count: 1, first: first_node)
         allow(first_node).to receive(:click)
       end
 
@@ -427,20 +427,18 @@ RSpec.describe Players::Transfermarkt::BrowserClient do
     end
 
     context 'when consent dialog exists inside iframe' do
-      let(:frame)          { instance_double(PlaywrightFrameDouble) }
-      let(:empty_locator)  { instance_double(LocatorDouble, count: 0) }
-      let(:accept_locator) { instance_double(LocatorDouble) }
-      let(:first_node)     { instance_double(NodeDouble) }
+      let(:frame)          { instance_double(BrowserClientDoubles::PlaywrightFrameDouble) }
+      let(:empty_locator)  { instance_double(BrowserClientDoubles::LocatorDouble, count: 0) }
+      let(:accept_locator) { instance_double(BrowserClientDoubles::LocatorDouble) }
+      let(:first_node)     { instance_double(BrowserClientDoubles::NodeDouble) }
 
       before do
-        allow(page).to receive(:content).and_return('<html>iframe privacy-mgmt.com</html>')
-        allow(page).to receive(:frames).and_return([frame])
-        allow(frame).to receive(:url).and_return('https://privacy-mgmt.com/someframe')
+        allow(page).to receive_messages(content: '<html>iframe privacy-mgmt.com</html>', frames: [frame])
         allow(page).to receive(:locator).and_return(empty_locator)
+        allow(frame).to receive_messages(url: 'https://privacy-mgmt.com/someframe')
         allow(frame).to receive(:locator).and_return(empty_locator)
         allow(frame).to receive(:locator).with('button:has-text("Accept all")').and_return(accept_locator)
-        allow(accept_locator).to receive(:count).and_return(1)
-        allow(accept_locator).to receive(:first).and_return(first_node)
+        allow(accept_locator).to receive_messages(count: 1, first: first_node)
         allow(first_node).to receive(:click)
       end
 

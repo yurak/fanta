@@ -35,14 +35,14 @@ class ApplicationController < ActionController::Base
   end
 
   def redirect_to_new_name
-    redirect_to new_name_user_path(current_user) unless params[:action] == 'new_name' || params[:action] == 'new_update'
+    redirect_to new_name_user_path(current_user) unless %w[new_name new_update].include?(params[:action])
   end
 
   def redirect_to_new_avatar
-    redirect_to new_avatar_user_path(current_user) unless params[:action] == 'new_avatar' || params[:action] == 'new_update'
+    redirect_to new_avatar_user_path(current_user) unless %w[new_avatar new_update].include?(params[:action])
   end
 
   def redirect_to_site_config
-    redirect_to site_config_user_path(current_user) unless params[:action] == 'site_config' || params[:action] == 'new_update'
+    redirect_to site_config_user_path(current_user) unless %w[site_config new_update].include?(params[:action])
   end
 end

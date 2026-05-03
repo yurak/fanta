@@ -38,7 +38,7 @@ module Results
     def update_ts_wo_lineups
       team_ids_wo_lineups = tour.teams.pluck(:id) - lineups.pluck(:team_id)
       worst_score = lineups.last.total_score.round(2)
-      Team.where(id: team_ids_wo_lineups).each do |team|
+      Team.where(id: team_ids_wo_lineups).find_each do |team|
         result = team.league_result(league_id: league.id)
         result.update(
           total_score: result.total_score + worst_score,

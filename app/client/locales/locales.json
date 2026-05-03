@@ -1131,8 +1131,7 @@
           }
         }
       },
-      "nth": {
-      },
+      "nth": {},
       "percentage": {
         "format": {
           "delimiter": "",

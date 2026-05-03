@@ -1,4 +1,4 @@
-# rubocop:disable Metrics/MethodLength:
+# rubocop:disable Metrics/MethodLength
 module Stats
   class Creator < ApplicationService
     attr_reader :player_ids, :season
@@ -9,31 +9,34 @@ module Stats
     end
 
     def call
-      player_ids.each do |id|
-        player = Player.find_by(id: id)
-        next unless player
-
-        player_matches = matches_w_scores(player)
-        next if player_matches.empty?
-
-        player_matches.group_by(&:club_id).each do |club_id, matches_for_club|
-          club = Club.find_by(id: club_id)
-          next unless club
-
-          matches = RoundPlayer.where(id: matches_for_club.pluck(:id))
-          stats_record = stats(player, club)
-
-          attrs = stats_hash(player, matches, include_positions: stats_record.new_record?)
-          attrs[:tournament] = club.tournament if stats_record.new_record?
-
-          stats_record.update!(attrs)
-        end
-      end
-
+      player_ids.each { |id| process_player(id) }
       true
     end
 
     private
+
+    def process_player(id)
+      player = Player.find_by(id: id)
+      return unless player
+
+      player_matches = matches_w_scores(player)
+      return if player_matches.empty?
+
+      player_matches.group_by(&:club_id).each do |club_id, matches_for_club|
+        update_stats(player, club_id, matches_for_club)
+      end
+    end
+
+    def update_stats(player, club_id, matches_for_club)
+      club = Club.find_by(id: club_id)
+      return unless club
+
+      matches = RoundPlayer.where(id: matches_for_club.pluck(:id))
+      stats_record = stats(player, club)
+      attrs = stats_hash(player, matches, include_positions: stats_record.new_record?)
+      attrs[:tournament] = club.tournament if stats_record.new_record?
+      stats_record.update!(attrs)
+    end
 
     def stats(player, club)
       PlayerSeasonStat.find_or_initialize_by(player: player, season: season, club: club)

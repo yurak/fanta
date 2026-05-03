@@ -77,7 +77,9 @@ class ToursController < ApplicationController
   private
 
   def tour
-    @tour ||= Tour.includes(
+    return @tour if defined?(@tour)
+
+    @tour = Tour.includes(
       tournament_round: [:tournament, { tournament_matches: %i[host_club guest_club] }],
       league: :tours
     ).find_by(id: params[:id])

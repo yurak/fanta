@@ -3,6 +3,11 @@ module Notifications
   class Creator < ApplicationService
     attr_reader :notifiable, :kind, :priority, :kind_value, :status_value, :priority_value
 
+    LEAGUE_TEAM_KINDS = %i[
+      tour_opened tour_moderated tour_closed
+      auction_sales_open auction_closed auction_sales_ddl
+    ].freeze
+
     def initialize(notifiable:, kind:, priority: :normal)
       @notifiable = notifiable
       @kind = kind.to_sym
@@ -45,11 +50,6 @@ module Notifications
       teams_for.reject { |t| already_notified_team_ids.include?(t.id) }
     end
 
-    LEAGUE_TEAM_KINDS = %i[
-      tour_opened tour_moderated tour_closed
-      auction_sales_open auction_closed auction_sales_ddl
-    ].freeze
-
     def teams_for
       if LEAGUE_TEAM_KINDS.include?(kind)
         league_teams
@@ -65,7 +65,7 @@ module Notifications
     end
 
     def league_teams
-      with_user(notifiable&.league&.teams.to_a || [])
+      with_user(notifiable&.league&.teams.to_a)
     end
 
     def auction_bid_teams
@@ -73,11 +73,13 @@ module Notifications
     end
 
     def auction_round_ddl_teams
-      with_user(notifiable&.auction_bids&.initial_ongoing&.map(&:team) || [])
+      bids = notifiable&.auction_bids
+      with_user(bids&.initial_ongoing&.map(&:team) || [])
     end
 
     def auction_squad_complete_teams
-      with_user(notifiable&.auction_bids&.map(&:team)&.select(&:full_squad?) || [])
+      teams = notifiable&.auction_bids&.map(&:team)
+      with_user(teams&.select(&:full_squad?) || [])
     end
 
     def with_user(teams)

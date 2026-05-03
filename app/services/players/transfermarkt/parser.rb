@@ -36,7 +36,8 @@ module Players
       end
 
       def jersey_number?
-        name_data[1]&.text&.strip&.tr('#', '').to_i.positive?
+        text = name_data[1]&.text&.strip
+        text&.tr('#', '').to_i.positive?
       end
 
       def country_code

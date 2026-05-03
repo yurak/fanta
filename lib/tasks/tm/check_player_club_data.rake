@@ -1,4 +1,4 @@
-# rubocop:disable Metrics/BlockLength:
+# rubocop:disable Metrics/BlockLength
 namespace :tm do
   # rake 'tm:check_player_club_data[start_id,last_id]'
   desc 'Check TM player club data'

@@ -13,7 +13,7 @@ namespace :users do
 
   desc 'Search users by TG messages'
   task tg_messages_search: :environment do
-    TgMessage.all.each do |message|
+    TgMessage.find_each do |message|
       next if UserProfile.find_by(tg_chat_id: message.chat_id)
       next if message.text == '/start'
 

@@ -87,11 +87,11 @@ module Scores
       end
 
       def squad_sofascore_ids
-        @squad_sofascore_ids ||= begin
-          home_ids = lineups_data['home']&.dig('players')&.map { |p| p['player']['id'] } || []
-          away_ids = lineups_data['away']&.dig('players')&.map { |p| p['player']['id'] } || []
-          (home_ids + away_ids).to_set
-        end
+        @squad_sofascore_ids ||= (team_player_ids('home') + team_player_ids('away')).to_set
+      end
+
+      def team_player_ids(team)
+        lineups_data[team]&.dig('players')&.map { |p| p['player']['id'] } || []
       end
 
       def host_scores_hash

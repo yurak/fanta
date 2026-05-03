@@ -1,4 +1,4 @@
-# rubocop:disable Metrics/BlockLength:
+# rubocop:disable Metrics/BlockLength
 namespace :tm do
   # rake 'tm:update_player_data_url[url]'
   desc 'Update player params by TM data from csv url'
