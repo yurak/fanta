@@ -725,7 +725,7 @@ RSpec.describe Team do
 
     context 'without finished lineups' do
       before do
-        create_list(:lineup, 2, team: team, tour: create(:tour, league: team.league))
+        2.times { create(:lineup, team: team, tour: create(:tour, league: team.league)) }
       end
 
       context 'without result' do
@@ -747,7 +747,7 @@ RSpec.describe Team do
 
     context 'with finished lineups' do
       before do
-        create_list(:lineup, 2, team: team, tour: create(:closed_tour, league: team.league))
+        2.times { create(:lineup, team: team, tour: create(:closed_tour, league: team.league)) }
       end
 
       context 'without result' do
@@ -785,7 +785,7 @@ RSpec.describe Team do
 
     context 'without finished lineups' do
       before do
-        create_list(:lineup, 2, team: team, tour: create(:tour, league: team.league))
+        2.times { create(:lineup, team: team, tour: create(:tour, league: team.league)) }
       end
 
       context 'without result' do
@@ -807,7 +807,7 @@ RSpec.describe Team do
 
     context 'with finished lineups' do
       before do
-        create_list(:lineup, 2, team: team, tour: create(:closed_tour, league: team.league))
+        2.times { create(:lineup, team: team, tour: create(:closed_tour, league: team.league)) }
       end
 
       context 'without result' do
@@ -845,7 +845,7 @@ RSpec.describe Team do
 
     context 'without finished lineups' do
       before do
-        create_list(:lineup, 2, team: team, tour: create(:tour, league: team.league))
+        2.times { create(:lineup, team: team, tour: create(:tour, league: team.league)) }
       end
 
       it 'returns zero' do
@@ -855,7 +855,7 @@ RSpec.describe Team do
 
     context 'with finished lineups' do
       before do
-        create_list(:lineup, 2, team: team, tour: create(:closed_tour, league: team.league))
+        2.times { create(:lineup, team: team, tour: create(:closed_tour, league: team.league)) }
       end
 
       it 'returns number of lineups' do
@@ -881,7 +881,7 @@ RSpec.describe Team do
 
     context 'without finished lineups' do
       before do
-        create_list(:lineup, 2, team: team, tour: create(:tour, league: team.league))
+        2.times { create(:lineup, team: team, tour: create(:tour, league: team.league)) }
       end
 
       it 'returns empty array' do
@@ -891,7 +891,7 @@ RSpec.describe Team do
 
     context 'with finished lineups' do
       before do
-        create_list(:lineup, 2, team: team, tour: create(:closed_tour, league: team.league))
+        2.times { create(:lineup, team: team, tour: create(:closed_tour, league: team.league)) }
       end
 
       it 'returns array with lineups' do

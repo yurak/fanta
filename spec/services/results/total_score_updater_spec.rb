@@ -23,7 +23,7 @@ RSpec.describe Results::TotalScoreUpdater do
 
     before do
       create(:lineup, team: team, tour: tour, final_score: 45.5)
-      create(:lineup, team: team, tour: tour, final_score: 30.0)
+      create(:lineup, team: team, tour: create(:tour, league: league), final_score: 30.0)
     end
 
     it 'updates total_score with the sum of lineup scores' do
