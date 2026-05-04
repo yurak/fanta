@@ -40,7 +40,7 @@ namespace :teams do
   desc 'Reset teams players by tournament'
   task :reset_tournament, [:tournament_id] => :environment do |_t, args|
     tournament = Tournament.find_by(id: args[:tournament_id])
-    return unless tournament
+    next unless tournament
 
     tournament.leagues.by_season(Season.last).each do |league|
       league.teams.each do |team|

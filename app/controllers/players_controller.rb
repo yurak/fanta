@@ -1,12 +1,12 @@
 class PlayersController < ApplicationController
-  skip_before_action :authenticate_user!, only: %i[index leagues_list show]
+  skip_before_action :authenticate_user!, only: %i[index leagues_list]
 
   helper_method :league, :player, :tournament
 
   respond_to :html
 
   # Specify the layout for the index action
-  layout 'react_application', only: [:index, :leagues_list]
+  layout 'react_application', only: %i[index leagues_list]
 
   def index; end
 
@@ -47,7 +47,7 @@ class PlayersController < ApplicationController
     @league = if params[:league_id]
                 League.find_by(id: params[:league_id])
               else
-                League.find_by(id: stats_params[:league]) || tournament&.leagues&.active&.first
+                League.find_by(id: stats_params[:league]) || (tournament && tournament.leagues.active.first)
               end
   end
 
