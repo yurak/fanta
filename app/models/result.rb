@@ -5,8 +5,6 @@ class Result < ApplicationRecord
 
   delegate :lineups, to: :team
 
-  default_scope { includes(%i[league team]) }
-
   scope :ordered, lambda {
                     order(points: :desc)
                       .order(scored_goals: :desc)
@@ -112,6 +110,6 @@ class Result < ApplicationRecord
   end
 
   def closed_lineups
-    lineups.closed(league.id)
+    lineups.closed(league.id).includes(:tour)
   end
 end

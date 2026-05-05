@@ -6,8 +6,8 @@ class ToursController < ApplicationController
   def show
     if tour
       preload_tour_matches(tour)
-      @results_ordered = tour.league.results.ordered.to_a
-      @results_by_score = tour.league.results.ordered_by_score.limit(5)
+      @results_ordered = tour.league.results.includes(:team).ordered.to_a
+      @results_by_score = tour.league.results.includes(:team).ordered_by_score.limit(5)
       @matches = tour.tournament_round.tournament_matches
     else
       redirect_to leagues_path
@@ -16,7 +16,7 @@ class ToursController < ApplicationController
 
   def tournament_players
     if tour
-      @tournament_players = tour.round_players.with_score.includes(player: %i[positions teams])
+      @tournament_players = tour.round_players.with_score.includes(player: %i[positions teams club])
                                 .sort_by { |rp| -rp.result_score }.take(5)
 
       @teams_by_player = {}
@@ -36,7 +36,7 @@ class ToursController < ApplicationController
   def league_players
     if tour
       @league_players = MatchPlayer.by_tour(tour.id).main_with_score
-                                   .includes(round_player: { player: %i[positions teams] }, lineup: :team)
+                                   .includes(round_player: { player: %i[positions teams club] }, lineup: :team)
                                    .sort_by { |mp| -mp.total_score }.take(5)
 
       @teams_by_player = {}
@@ -90,7 +90,7 @@ class ToursController < ApplicationController
     ActiveRecord::Associations::Preloader.new.preload(tour, lineups: :team)
 
     all_team_ids = tour.matches.flat_map { |m| [m.host_id, m.guest_id] }.uniq
-    lineups = Lineup.where(tour_id: tour.id, team_id: all_team_ids).index_by(&:team_id)
+    lineups = Lineup.includes(:tour).where(tour_id: tour.id, team_id: all_team_ids).index_by(&:team_id)
 
     tour.matches.each do |m|
       m.define_singleton_method(:host_lineup) { lineups[host_id] }

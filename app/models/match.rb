@@ -5,8 +5,6 @@ class Match < ApplicationRecord
 
   delegate :tournament_round, to: :tour
 
-  default_scope { includes(%i[host guest]) }
-
   scope :by_team_and_tour, ->(team_id, tour_id) { where(tour_id: tour_id).where('host_id = ? OR guest_id = ?', team_id, team_id) }
   scope :by_league, ->(league_id) { includes(:tour).where(tours: { league_id: league_id }) }
 

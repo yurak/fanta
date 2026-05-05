@@ -16,8 +16,6 @@ class Club < ApplicationRecord
   validates :name, presence: true, uniqueness: true
   validates :code, presence: true, uniqueness: true
 
-  default_scope { includes(:tournament) }
-
   scope :order_by_players_count, -> { includes(:players).left_joins(:players).group(:id).order(Arel.sql('COUNT(players.id) DESC')) }
   scope :by_tournament, ->(tournament_id) { where(tournament_id: tournament_id) if tournament_id.present? }
 

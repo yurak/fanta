@@ -11,10 +11,13 @@ module Players
     LEAGUE_PRICE = 'league_price'.freeze
     BASE_SCORE = 'base_score'.freeze
     CLUB = 'club'.freeze
+    NAME = 'name'.freeze
     TOTAL_SCORE = 'total_score'.freeze
     POSITION = 'position'.freeze
     MAX_SEARCH = 100
     MIN_SEARCH = -100
+    PLAYER_PRELOADS = %i[transfers teams player_season_stats club positions].freeze
+    POSITION_ORDER_SQL = '(SELECT MIN(position_id) FROM player_positions WHERE player_id = players.id)'.freeze
 
     SQL_SORT_COLUMNS = {
       APPEARANCES => 'COALESCE(pss.played_matches, 0)',
@@ -54,7 +57,7 @@ module Players
       players = filter_by_teams_count(players)
 
       if needs_in_memory_filter?
-        players = players.includes(:transfers, :teams, :player_season_stats, :club).to_a
+        players = players.includes(*PLAYER_PRELOADS).to_a
         players = filter_by_team(players)
         players = filter_by_league_price(players)
         order_players_in_memory(players)
@@ -66,10 +69,9 @@ module Players
     private
 
     def join_season_stats(players)
-      season_id = Season.last.id
       players.joins(
         "LEFT JOIN player_season_stats pss ON pss.player_id = players.id
-         AND pss.season_id = #{season_id}
+         AND pss.season_id = #{current_season_id}
          AND pss.club_id = players.club_id"
       )
     end
@@ -144,31 +146,54 @@ module Players
 
     def order_players_sql(players)
       return order_in_memory_from_sql(players) if in_memory_sort_from_sql?
+      return order_by_sql_stat(players, SQL_SORT_COLUMNS[field]) if SQL_SORT_COLUMNS[field]
 
-      sql_dir = direction == ASC_DIRECTION ? 'ASC' : 'DESC'
-      alpha_dir = direction == ASC_DIRECTION ? 'DESC' : 'ASC'
-
-      if (sql_col = SQL_SORT_COLUMNS[field])
-        players.order(Arel.sql("#{sql_col} #{sql_dir}"))
-      elsif field == 'name'
-        players.order(Arel.sql("players.name #{alpha_dir}"))
-      elsif field == CLUB
-        players.joins(:club).order(Arel.sql("clubs.name #{alpha_dir}"))
-      else
-        players.order(Arel.sql('COALESCE(pss.final_score, 0) DESC'))
+      case field
+      when NAME then order_by_name(players)
+      when CLUB then order_by_club(players)
+      when POSITION then order_by_position(players)
+      else order_by_default_score(players)
       end
+    end
+
+    def order_by_sql_stat(players, sql_col)
+      players.order(Arel.sql("#{sql_col} #{sql_direction}"))
+    end
+
+    def order_by_name(players)
+      players.order(Arel.sql("players.name #{inverted_sql_direction}"))
+    end
+
+    def order_by_club(players)
+      players.joins(:club).order(Arel.sql("clubs.name #{inverted_sql_direction}"))
+    end
+
+    def order_by_position(players)
+      players.order(Arel.sql("#{POSITION_ORDER_SQL} #{position_direction}"))
+    end
+
+    def order_by_default_score(players)
+      players.order(Arel.sql('COALESCE(pss.final_score, 0) DESC'))
+    end
+
+    def sql_direction
+      direction == ASC_DIRECTION ? 'ASC' : 'DESC'
+    end
+
+    def inverted_sql_direction
+      direction == ASC_DIRECTION ? 'DESC' : 'ASC'
+    end
+
+    def position_direction
+      direction == ASC_DIRECTION ? 'DESC' : 'ASC'
     end
 
     def in_memory_sort_from_sql?
-      field == POSITION || (field == LEAGUE_PRICE && league)
+      field == LEAGUE_PRICE && league
     end
 
     def order_in_memory_from_sql(players)
-      if field == POSITION
-        order_players_in_memory(players.includes(:positions).to_a)
-      else
-        order_players_in_memory(players.includes(:transfers, :teams, :player_season_stats, :club).to_a)
-      end
+      order_players_in_memory(players.includes(*PLAYER_PRELOADS).to_a)
     end
 
     # --- In-memory ordering ---
@@ -217,7 +242,7 @@ module Players
     end
 
     def current_season_id
-      @current_season_id ||= Season.last&.id
+      @current_season_id ||= Season.last.id
     end
 
     # --- Helpers ---

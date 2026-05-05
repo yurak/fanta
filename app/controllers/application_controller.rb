@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::Base
   before_action :authenticate_user!
   before_action :setup_user
+  before_action :preload_nav_teams
   around_action :switch_locale
 
   rescue_from ActiveRecord::RecordNotFound, with: :not_found
@@ -20,6 +21,15 @@ class ApplicationController < ActionController::Base
 
   def after_sign_in_path_for(resource)
     stored_location_for(resource) || leagues_path
+  end
+
+  def preload_nav_teams
+    return unless current_user && request.format.html?
+
+    ActiveRecord::Associations::Preloader.new.preload(
+      [current_user],
+      { teams: { league: :tournament } }
+    )
   end
 
   def setup_user

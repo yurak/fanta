@@ -6,8 +6,6 @@ class PlayerBid < ApplicationRecord
 
   enum status: { initial: 0, success: 1, failed: 2 }
 
-  default_scope { includes(:player) }
-
   validate :auction_bid_allows_creation, on: :create
 
   private

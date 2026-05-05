@@ -21,7 +21,7 @@
                     .league-name= league.name
                     .league-arrow= image_tag('icons/arrow_grey.svg')
                 .league-results
-                  - league.results.ordered.each_with_index do |result, i|
+                  - league.results.includes(:team).ordered.each_with_index do |result, i|
                     = link_to team_path(result.team) do
                       .league-result
                         .league-result-position{class: "promotion-#{ i < league.promotion} relegation-#{ i >= (league.results.count - league.relegation)}"}= i + 1

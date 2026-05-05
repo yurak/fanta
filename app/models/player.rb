@@ -157,6 +157,7 @@ class Player < ApplicationRecord
       .joins('INNER JOIN auction_bids ON player_bids.auction_bid_id = auction_bids.id')
       .joins('INNER JOIN auction_rounds ON auction_bids.auction_round_id = auction_rounds.id')
       .joins('INNER JOIN auctions ON auction_rounds.auction_id = auctions.id')
+      .includes(auction_bid: %i[auction_round team])
       .where(auctions: { id: auction_id })
       .order('player_bids.price DESC')
       .group_by { |bid| bid.auction_bid.auction_round.number }

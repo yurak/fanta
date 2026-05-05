@@ -15,10 +15,12 @@ class PlayersController < ApplicationController
   def show
     redirect_to leagues_path unless player
 
-    @stats = player.player_season_stats.joins(:season, :club, :tournament).order(season_id: :desc, created_at: :desc)
-
     respond_to do |format|
-      format.html
+      format.html do
+        @stats = player.player_season_stats.joins(:tournament).includes(:season, :club)
+                       .order(season_id: :desc, created_at: :desc)
+        preload_player_show_associations
+      end
       format.json { render json: player, serializer: PlayerLineupSerializer }
     end
   end
@@ -34,7 +36,23 @@ class PlayersController < ApplicationController
   def player
     return @player if defined?(@player)
 
-    @player = Player.includes(transfers: :auction).find_by(id: params[:id])
+    @player = Player.includes(
+      :positions,
+      transfers: :auction,
+      teams: { league: :division },
+      club: :tournament
+    ).find_by(id: params[:id])
+  end
+
+  def preload_player_show_associations
+    preloader = ActiveRecord::Associations::Preloader.new
+    [
+      player.season_club_in_squad.to_a,
+      player.season_ec_in_squad.to_a,
+      player.national_in_squad.to_a
+    ].each do |rps|
+      preloader.preload(rps, %i[tournament_round club])
+    end
   end
 
   def stats_params
