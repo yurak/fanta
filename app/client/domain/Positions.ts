@@ -55,13 +55,13 @@ const positionMappers: Record<
     color: "purple",
     label: "AM",
     fantaLabel: "T",
-    fullName: "Winger",
+    fullName: "Attacking midfielder",
   },
   [Position.W]: {
     color: "purple",
     label: "W",
     fantaLabel: "W",
-    fullName: "Attacking midfielder",
+    fullName: "Winger",
   },
   [Position.FW]: {
     color: "red",
