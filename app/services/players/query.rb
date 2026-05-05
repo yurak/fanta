@@ -163,7 +163,7 @@ module Players
     # --- In-memory ordering ---
 
     def order_players_in_memory(players)
-      return players unless field
+      return players.sort_by { |p| -player_stat(p)&.final_score.to_f } unless field
 
       ordered = sort_in_memory(players)
       if alpha_field?

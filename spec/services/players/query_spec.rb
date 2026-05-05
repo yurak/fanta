@@ -170,7 +170,8 @@ RSpec.describe Players::Query do
 
       context 'with league_id and without_team' do
         let(:league) { create(:league, tournament: Tournament.last) }
-        let!(:player) { create(:player, club: create(:club, tournament: league.tournament)) }
+        let(:club) { create(:club, tournament: league.tournament) }
+        let!(:player) { create(:player, club: club) }
         let(:params) { { league_id: league.id, without_team: true } }
 
         before do
@@ -181,6 +182,12 @@ RSpec.describe Players::Query do
 
         it 'returns only players without a team' do
           expect(result).to contain_exactly(player)
+        end
+
+        it 'sorts by total score descending by default' do
+          player_high = create(:player, :with_scores, club: club)
+
+          expect(result.first).to eq(player_high)
         end
       end
 
