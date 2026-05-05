@@ -195,7 +195,11 @@ module Players
     end
 
     def player_stat(player)
-      player.player_season_stats.find { |s| s.club_id == player.club_id }
+      player.player_season_stats.find { |s| s.club_id == player.club_id && s.season_id == current_season_id }
+    end
+
+    def current_season_id
+      @current_season_id ||= Season.last&.id
     end
 
     # --- Helpers ---
