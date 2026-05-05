@@ -2,11 +2,13 @@ import { createContext, useContext, useMemo, useState } from "react";
 import { SortOrder } from "@/hooks/useHistorySort";
 import { useTranslation } from "react-i18next";
 import { usePlayersContext } from "../PlayersContext";
+import { usePlayersPageConfigurationContext } from "../PlayersPageConfigurationContext";
 
 const usePlayersSort = () => {
   const {
     sorting: { onSortChange, sortBy, sortOrder },
   } = usePlayersContext();
+  const { isLeagueSpecificPlayersPage } = usePlayersPageConfigurationContext();
 
   const [value, setValue] = useState(sortBy && sortOrder ? { sortBy, sortOrder } : null);
 
@@ -34,16 +36,18 @@ const usePlayersSort = () => {
         sortBy: "position",
         label: t("players.sorter.positionAsc"),
       },
-      {
-        sortOrder: "desc",
-        sortBy: "average_price",
-        label: t("players.sorter.avaragePriceDesc"),
-      },
-      {
-        sortOrder: "asc",
-        sortBy: "average_price",
-        label: t("players.sorter.avaragePriceAsc"),
-      },
+      ...(isLeagueSpecificPlayersPage ? [
+        {
+          sortOrder: "desc" as SortOrder,
+          sortBy: "league_price",
+          label: t("players.sorter.leaguePriceDesc"),
+        },
+        {
+          sortOrder: "asc" as SortOrder,
+          sortBy: "league_price",
+          label: t("players.sorter.leaguePriceAsc"),
+        },
+      ] : []),
       {
         sortOrder: "desc",
         sortBy: "appearances",

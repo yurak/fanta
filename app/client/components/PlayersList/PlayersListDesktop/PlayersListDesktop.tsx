@@ -80,9 +80,7 @@ const PlayersListDesktop = ({ emptyStateComponent }: { emptyStateComponent: Reac
       align: "right",
       className: styles.priceCell,
       noWrap: true,
-      sorter: true,
       headEllipsis: true,
-      supportAscSorting: true,
       render: ({ average_price }) =>
         formatNumber(average_price, {
           zeroFallback: "-",

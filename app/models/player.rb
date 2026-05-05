@@ -23,8 +23,6 @@ class Player < ApplicationRecord
 
   delegate :kit_path, :profile_kit_path, to: :club
 
-  default_scope { includes(%i[club national_team player_positions player_teams positions teams]) }
-
   COUNTRY = {
     bo: 'Bolivia',
     bq: 'Bonaire',

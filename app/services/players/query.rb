@@ -8,6 +8,7 @@ module Players
     ASC_DIRECTION = 'asc'.freeze
     DESC_DIRECTION = 'desc'.freeze
     APPEARANCES = 'appearances'.freeze
+    LEAGUE_PRICE = 'league_price'.freeze
     BASE_SCORE = 'base_score'.freeze
     CLUB = 'club'.freeze
     TOTAL_SCORE = 'total_score'.freeze
@@ -53,7 +54,7 @@ module Players
       players = filter_by_teams_count(players)
 
       if needs_in_memory_filter?
-        players = players.includes(:transfers, :teams).to_a
+        players = players.includes(:transfers, :teams, :player_season_stats, :club).to_a
         players = filter_by_team(players)
         players = filter_by_league_price(players)
         order_players_in_memory(players)
@@ -142,21 +143,31 @@ module Players
     # --- SQL ordering ---
 
     def order_players_sql(players)
-      sql_col = SQL_SORT_COLUMNS[field]
-      sql_dir = direction == ASC_DIRECTION ? 'ASC' : 'DESC'
+      return order_in_memory_from_sql(players) if in_memory_sort_from_sql?
 
+      sql_dir = direction == ASC_DIRECTION ? 'ASC' : 'DESC'
       alpha_dir = direction == ASC_DIRECTION ? 'DESC' : 'ASC'
 
-      if sql_col
+      if (sql_col = SQL_SORT_COLUMNS[field])
         players.order(Arel.sql("#{sql_col} #{sql_dir}"))
       elsif field == 'name'
         players.order(Arel.sql("players.name #{alpha_dir}"))
       elsif field == CLUB
         players.joins(:club).order(Arel.sql("clubs.name #{alpha_dir}"))
-      elsif field == POSITION
-        order_players_in_memory(players.to_a)
       else
         players.order(Arel.sql('COALESCE(pss.final_score, 0) DESC'))
+      end
+    end
+
+    def in_memory_sort_from_sql?
+      field == POSITION || (field == LEAGUE_PRICE && league)
+    end
+
+    def order_in_memory_from_sql(players)
+      if field == POSITION
+        order_players_in_memory(players.includes(:positions).to_a)
+      else
+        order_players_in_memory(players.includes(:transfers, :teams, :player_season_stats, :club).to_a)
       end
     end
 
@@ -174,7 +185,7 @@ module Players
     end
 
     def alpha_field?
-      field == CLUB || (field != POSITION && !SQL_SORT_COLUMNS.key?(field))
+      field == CLUB || (field != POSITION && field != LEAGUE_PRICE && !SQL_SORT_COLUMNS.key?(field))
     end
 
     def sort_in_memory(players)
@@ -184,9 +195,16 @@ module Players
     end
 
     def sort_key_for(player)
+      case field
+      when CLUB then player.club&.name.to_s
+      when LEAGUE_PRICE then player_league_price(player)
+      else stat_sort_key_for(player)
+      end
+    end
+
+    def stat_sort_key_for(player)
       stat = player_stat(player)
       case field
-      when CLUB        then player.club&.name.to_s
       when APPEARANCES then stat&.played_matches.to_i
       when BASE_SCORE  then stat&.score.to_f
       when TOTAL_SCORE then stat&.final_score.to_f

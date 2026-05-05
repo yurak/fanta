@@ -70,6 +70,7 @@ module Api
       preloader.preload(records, :player_season_stats, PlayerSeasonStat.where(season_id: season_id))
       preloader.preload(records, { club: :tournament })
       preloader.preload(records, { player_positions: :position })
+      preloader.preload(records, :teams)
     end
   end
 end

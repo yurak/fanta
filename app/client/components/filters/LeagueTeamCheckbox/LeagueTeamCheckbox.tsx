@@ -24,9 +24,10 @@ const LeagueTeamCheckbox = ({ leagueId, value, onChange, withoutTeam, onWithoutT
         <Checkbox
           checked={!!withoutTeam}
           onChange={onWithoutTeamChange}
+          block
           label={(
             <span className={styles.option}>
-              <NoTeamIcon className={styles.logo} />
+              <NoTeamIcon className={styles.logo} width={20} height={20} />
               <span>{t("players.filters.withoutTeamLabel")}</span>
             </span>
           )}
