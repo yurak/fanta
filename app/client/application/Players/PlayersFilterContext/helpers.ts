@@ -28,10 +28,13 @@ export const filterToRequestFormat = (
     position: filter.position,
     club_id: filter.clubs,
     tournament_id: filter.tournaments,
+    team_id: filter.teams,
+    without_team: filter.withoutTeam || undefined,
     total_score: justifyRangeSliderValue(filter.totalScore, defaultFilter.totalScore),
     teams_count: justifyRangeSliderValue(filter.teamsCount, defaultFilter.teamsCount),
     base_score: justifyRangeSliderValue(filter.baseScore, defaultFilter.baseScore),
     app: justifyRangeSliderValue(filter.appearances, defaultFilter.appearances),
+    price: justifyRangeSliderValue(filter.price, defaultFilter.price),
     league_id: defaultLeagueId,
   };
 };

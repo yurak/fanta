@@ -44,12 +44,16 @@ export const decodeFilter = (filter?: Record<string, string>): IFilter => {
       appearances: decodeRangeValue(defaultFilter.appearances, filter.apps),
       baseScore: decodeRangeValue(defaultFilter.baseScore, filter.bs),
       totalScore: decodeRangeValue(defaultFilter.totalScore, filter.ts),
-      teamsCount: decodeRangeValue(defaultFilter.teamsCount, filter.teams),
+      teamsCount: decodeRangeValue(defaultFilter.teamsCount, filter.tc),
+      price: decodeRangeValue(defaultFilter.price, filter.price),
       position: (filter.pos?.split(arraySeparator) ?? defaultFilter.position) as Position[],
       clubs: filter.clubs?.split(arraySeparator).map((club) => Number(club)) ?? defaultFilter.clubs,
       tournaments:
         filter.tournament?.split(arraySeparator).map((tournament) => Number(tournament)) ??
         defaultFilter.tournaments,
+      teams:
+        filter.leagueTeams?.split(arraySeparator).map((t) => Number(t)) ?? defaultFilter.teams,
+      withoutTeam: filter.withoutTeam === "true",
     };
   } catch (e) {
     return defaultFilter;
@@ -61,9 +65,12 @@ export const encodeFilter = (filter: IFilter): Record<string, string | null> => 
     apps: encodeRangeValue(defaultFilter.appearances, filter.appearances),
     bs: encodeRangeValue(defaultFilter.baseScore, filter.baseScore),
     ts: encodeRangeValue(defaultFilter.totalScore, filter.totalScore),
-    teams: encodeRangeValue(defaultFilter.teamsCount, filter.teamsCount),
+    tc: encodeRangeValue(defaultFilter.teamsCount, filter.teamsCount),
+    price: encodeRangeValue(defaultFilter.price, filter.price),
     pos: filter.position.join(arraySeparator),
     clubs: filter.clubs.join(arraySeparator),
     tournament: filter.tournaments.join(arraySeparator),
+    leagueTeams: filter.teams.join(arraySeparator),
+    withoutTeam: filter.withoutTeam ? "true" : null,
   };
 };

@@ -21,9 +21,7 @@ const PlayerItem = ({
   average_total_score,
   position_classic_arr,
   appearances,
-  appearances_max,
   teams_count,
-  teams_count_max,
 }: IPlayer) => {
   const { t } = useTranslation();
   const { isLeagueSpecificPlayersPage } = usePlayersPageConfigurationContext();
@@ -86,20 +84,14 @@ const PlayerItem = ({
           </span>
           <span className={styles.divider} />
           <span className={styles.apps}>
-            {formatNumber(appearances)}
-            <span className={styles.grey}>
-              {appearances > 0 && `(${formatNumber(appearances_max)})`}
-            </span>{" "}
+            {formatNumber(appearances)}{" "}
             {`${appearances === 1 ? t("players.results.app") : t("players.results.apps")}`}
           </span>
           {!isLeagueSpecificPlayersPage && (
             <>
               <span className={cn(styles.divider, styles.teams)} />
               <span className={styles.teams}>
-                {formatNumber(teams_count)}
-                <span className={styles.grey}>
-                  {teams_count > 0 && `(${formatNumber(teams_count_max)})`}
-                </span>{" "}
+                {formatNumber(teams_count)}{" "}
                 {`${appearances === 1 ? t("players.results.team") : t("players.results.teams")}`}
               </span>
             </>

@@ -9,6 +9,8 @@ export interface IPayloadFilter {
   name?: string,
   position?: string[],
   club_id?: number[],
+  team_id?: number[],
+  without_team?: boolean,
   total_score?: Partial<RangeSliderValueType>,
   base_score?: Partial<RangeSliderValueType>,
   teams_count?: Partial<RangeSliderValueType>,

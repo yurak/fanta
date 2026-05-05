@@ -154,6 +154,7 @@ en:
   header:
     about: "About"
     admin: "Admin"
+    admin_nav: "⛔️ Admin"
     articles: "Articles"
     auction: "Auction"
     auctions: "Auctions"
@@ -181,6 +182,7 @@ en:
     logout: "Log Out"
     make_bid: "Make bid"
     manage: "Manage"
+    manage_nav: "📋 Manage"
     mantra: "Mantra"
     my_leagues: "My leagues"
     next: "NEXT"
@@ -626,6 +628,7 @@ en:
       clubLabel: "Club"
       clubsLabel: "Clubs"
       teamLabel: "Team"
+      withoutTeamLabel: "Without team"
       positionLabel: "Position"
       baseScoreLabel: "Base score"
       baseScoreShortLabel: "BS"

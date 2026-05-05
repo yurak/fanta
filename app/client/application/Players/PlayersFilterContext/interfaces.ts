@@ -9,4 +9,7 @@ export interface IFilter {
   appearances: RangeSliderValueType,
   teamsCount: RangeSliderValueType,
   tournaments: number[],
+  teams: number[],
+  withoutTeam: boolean,
+  price: RangeSliderValueType,
 }

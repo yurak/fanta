@@ -44,8 +44,8 @@ class PlayersController < ApplicationController
   def league
     return @league if defined?(@league)
 
-    @league = if params[:league_id]
-                League.find_by(id: params[:league_id])
+    @league = if params[:league_id] || params[:id]
+                League.find_by(id: params[:league_id] || params[:id])
               else
                 League.find_by(id: stats_params[:league]) || (tournament && tournament.leagues.active.first)
               end

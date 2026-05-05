@@ -1,10 +1,15 @@
 module Api
   class TeamsController < ApplicationController
-    skip_before_action :authenticate_user!, only: %i[show]
+    skip_before_action :authenticate_user!, only: %i[index show]
 
     respond_to :json
 
     helper_method :team
+
+    def index
+      teams = League.find_by(id: params[:league_id])&.teams&.order(:human_name) || []
+      render json: { data: teams.map { |t| TeamSlimSerializer.new(t) } }
+    end
 
     def show
       if team

@@ -586,6 +586,7 @@
     "header": {
       "about": "About",
       "admin": "Admin",
+      "admin_nav": "⛔️ Admin",
       "are_you_sure": "Are you sure?",
       "articles": "Articles",
       "auction": "Auction",
@@ -619,6 +620,7 @@
       "logout": "Log Out",
       "make_bid": "Make bid",
       "manage": "Manage",
+      "manage_nav": "📋 Manage",
       "manage_round": "Manage round",
       "manage_round_mob": "Manage",
       "mantra": "Mantra",
@@ -1204,7 +1206,8 @@
         "teamLabel": "Team",
         "totalScoreLabel": "Total score",
         "totalScoreShortLabel": "TS",
-        "tournamentLabel": "TMNT"
+        "tournamentLabel": "TMNT",
+        "withoutTeamLabel": "Without team"
       },
       "fp": "FP",
       "g": "G",
@@ -2446,6 +2449,7 @@
     "header": {
       "about": "Про нас",
       "admin": "Адмін",
+      "admin_nav": "⛔️ Адмін",
       "are_you_sure": "Ви впевнені?",
       "articles": "Статті",
       "auction": "Аукціон",
@@ -2479,6 +2483,7 @@
       "logout": "Вихід",
       "make_bid": "Ставка",
       "manage": "Керувати",
+      "manage_nav": "📋 Керувати",
       "manage_round": "Керувати р..",
       "manage_round_mob": "Керувати",
       "mantra": "Мантра",
@@ -2977,7 +2982,8 @@
         "teamLabel": "Команда",
         "totalScoreLabel": "Загальна оцінка",
         "totalScoreShortLabel": "ЗО",
-        "tournamentLabel": "Турнір"
+        "tournamentLabel": "Турнір",
+        "withoutTeamLabel": "Без команди"
       },
       "fp": "НП",
       "g": "Г",

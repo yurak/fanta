@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2026_05_01_211008) do
+ActiveRecord::Schema.define(version: 2026_05_04_181745) do
 
   create_table "article_tags", force: :cascade do |t|
     t.string "name", default: "", null: false
@@ -321,6 +321,7 @@ ActiveRecord::Schema.define(version: 2026_05_01_211008) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "sixties", default: 0, null: false
+    t.index ["player_id", "season_id", "club_id"], name: "index_player_season_stats_on_player_season_club", unique: true
   end
 
   create_table "player_teams", force: :cascade do |t|

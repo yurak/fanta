@@ -17,6 +17,12 @@ RSpec.describe Players::Query do
         it 'returns all players' do
           expect(result.count).to eq(3)
         end
+
+        it 'sorts by total score descending by default' do
+          player_high = create(:player, :with_scores)
+
+          expect(result.first).to eq(player_high)
+        end
       end
 
       # --- Filtering ---
@@ -59,6 +65,10 @@ RSpec.describe Players::Query do
 
         it 'returns matching player' do
           expect(result).to contain_exactly(player)
+        end
+
+        it 'does not raise when default sort is applied' do
+          expect { result.to_a }.not_to raise_error
         end
       end
 
@@ -110,7 +120,7 @@ RSpec.describe Players::Query do
       end
 
       context 'with min total_score' do
-        let!(:player) { create(:player, :with_scores_n_bonuses) }
+        let!(:player) { create(:player, :with_scores) }
         let(:params) { { total_score: { min: 6 } } }
 
         it 'returns only players above the threshold' do
@@ -119,8 +129,26 @@ RSpec.describe Players::Query do
       end
 
       context 'with max total_score' do
-        let!(:player) { create(:player, :with_scores_n_bonuses) }
+        let!(:player) { create(:player, :with_scores) }
         let(:params) { { total_score: { max: 2 } } }
+
+        it 'excludes players above the threshold' do
+          expect(result).not_to include(player)
+        end
+      end
+
+      context 'with min teams_count' do
+        let!(:player) { create(:player, :with_team) }
+        let(:params) { { teams_count: { min: 1 } } }
+
+        it 'returns only players with enough teams' do
+          expect(result).to contain_exactly(player)
+        end
+      end
+
+      context 'with max teams_count' do
+        let!(:player) { create(:player, :with_team) }
+        let(:params) { { teams_count: { max: 0 } } }
 
         it 'excludes players above the threshold' do
           expect(result).not_to include(player)
@@ -168,6 +196,45 @@ RSpec.describe Players::Query do
 
         it 'returns both team players and players without a team' do
           expect(result).to contain_exactly(player_in_team, player_without_team)
+        end
+      end
+
+      context 'with league_id and price range' do
+        let(:league) { create(:league, tournament: Tournament.last) }
+        let(:club) { create(:club, tournament: league.tournament) }
+        let!(:cheap_player) { create(:player, club: club) }
+        let!(:expensive_player) { create(:player, club: club) }
+        let(:team) { create(:team, league: league) }
+
+        before do
+          create(:player_team, player: cheap_player, team: team)
+          create(:transfer, player: cheap_player, team: team, price: 10, status: :incoming)
+          create(:player_team, player: expensive_player, team: team)
+          create(:transfer, player: expensive_player, team: team, price: 50, status: :incoming)
+        end
+
+        context 'with min price' do
+          let(:params) { { league_id: league.id, price: { min: 20 } } }
+
+          it 'excludes players below the minimum price' do
+            expect(result).to contain_exactly(expensive_player)
+          end
+        end
+
+        context 'with max price' do
+          let(:params) { { league_id: league.id, price: { max: 20 } } }
+
+          it 'excludes players above the maximum price' do
+            expect(result).to contain_exactly(cheap_player)
+          end
+        end
+
+        context 'without league_id' do
+          let(:params) { { price: { min: 20 } } }
+
+          it 'ignores the price filter' do
+            expect(result).to include(cheap_player, expensive_player)
+          end
         end
       end
 
@@ -228,7 +295,7 @@ RSpec.describe Players::Query do
           let(:params) { { field: 'appearances', direction: 'asc' } }
 
           it 'puts highest appearances last' do
-            expect(result.last).to eq(player_high)
+            expect(result.to_a.last).to eq(player_high)
           end
         end
       end
@@ -250,7 +317,7 @@ RSpec.describe Players::Query do
           let(:params) { { field: 'base_score', direction: 'asc' } }
 
           it 'puts highest score last' do
-            expect(result.last).to eq(player_high)
+            expect(result.to_a.last).to eq(player_high)
           end
         end
       end

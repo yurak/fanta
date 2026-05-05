@@ -58,6 +58,24 @@ RSpec.describe 'Players' do
   #   end
   # end
 
+  describe 'GET #leagues_list' do
+    let(:league) { create(:league) }
+
+    context 'when user is logged out' do
+      before { get players_league_path(league) }
+
+      it { expect(response).to be_successful }
+    end
+
+    context 'when user is logged in' do
+      login_user
+      before { get players_league_path(league) }
+
+      it { expect(response).to be_successful }
+      it { expect(response).to have_http_status(:ok) }
+    end
+  end
+
   describe 'GET #show' do
     let(:club) { create(:club, name: 'Outside') }
     let(:player) { create(:player, club: club) }

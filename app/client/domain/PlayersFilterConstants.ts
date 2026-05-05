@@ -10,4 +10,7 @@ export default {
 
   TEAMS_COUNT_MIN: 0,
   TEAMS_COUNT_MAX: 100,
+
+  PRICE_MIN: 0,
+  PRICE_MAX: 200,
 };

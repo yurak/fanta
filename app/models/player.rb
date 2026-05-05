@@ -145,6 +145,8 @@ class Player < ApplicationRecord
   end
 
   def team_by_league(league_id)
+    return teams.find { |t| t.league_id == league_id.to_i } if teams.loaded?
+
     teams.find_by(league_id: league_id)
   end
 

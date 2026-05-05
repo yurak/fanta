@@ -7,6 +7,8 @@ export const defaultFilter: IFilter = {
   clubs: [],
   tournaments: [],
   position: [],
+  teams: [],
+  withoutTeam: false,
   totalScore: {
     min: PlayersFilterConstants.TOTAL_SCORE_MIN,
     max: PlayersFilterConstants.TOTAL_SCORE_MAX,
@@ -22,5 +24,9 @@ export const defaultFilter: IFilter = {
   teamsCount: {
     min: PlayersFilterConstants.TEAMS_COUNT_MIN,
     max: PlayersFilterConstants.TEAMS_COUNT_MAX,
+  },
+  price: {
+    min: PlayersFilterConstants.PRICE_MIN,
+    max: PlayersFilterConstants.PRICE_MAX,
   },
 };

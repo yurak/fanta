@@ -17,6 +17,7 @@ import PlayersFilterConstants from "@/domain/PlayersFilterConstants";
 import Button from "@/ui/Button";
 import PlayerPositionsCheckbox from "@/components/filters/PlayerPositionsCheckbox";
 import ClubCheckbox from "@/components/ClubCheckbox";
+import LeagueTeamCheckbox from "@/components/filters/LeagueTeamCheckbox";
 import PlayersSortDrawer from "./PlayersSortDrawer";
 import styles from "./PlayersFiltersDrawer.module.scss";
 
@@ -111,6 +112,27 @@ const PlayersFiltersDrawer = () => {
             max={PlayersFilterConstants.APPEARANCES_MAX}
           />
         </Drawer.Section>
+        {isLeagueSpecificPlayersPage && leagueId && (
+          <Drawer.Section title={t("players.filters.teamLabel")} withTopSpace>
+            <LeagueTeamCheckbox
+              leagueId={leagueId}
+              value={filterValues.teams}
+              onChange={onChangeValue("teams")}
+              withoutTeam={filterValues.withoutTeam}
+              onWithoutTeamChange={onChangeValue("withoutTeam")}
+            />
+          </Drawer.Section>
+        )}
+        {isLeagueSpecificPlayersPage && (
+          <Drawer.Section title={t("players.filters.priceLabel")}>
+            <RangeSlider
+              value={filterValues.price}
+              onChange={onChangeValue("price")}
+              min={PlayersFilterConstants.PRICE_MIN}
+              max={PlayersFilterConstants.PRICE_MAX}
+            />
+          </Drawer.Section>
+        )}
         {!isLeagueSpecificPlayersPage && (
           <Drawer.Section title={t("players.filters.numberOfTeamsLabel")}>
             <RangeSlider

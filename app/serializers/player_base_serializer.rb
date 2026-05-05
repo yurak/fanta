@@ -19,7 +19,7 @@ class PlayerBaseSerializer < ActiveModel::Serializer
   attributes :teams_count_max
 
   def appearances
-    object.season_scores_count
+    current_stat&.played_matches || object.season_scores_count
   end
 
   def appearances_max
@@ -27,7 +27,7 @@ class PlayerBaseSerializer < ActiveModel::Serializer
   end
 
   def average_base_score
-    object.season_average_score
+    current_stat&.score || object.season_average_score
   end
 
   def average_price
@@ -35,7 +35,7 @@ class PlayerBaseSerializer < ActiveModel::Serializer
   end
 
   def average_total_score
-    object.season_average_result_score
+    current_stat&.final_score || object.season_average_result_score
   end
 
   def club
@@ -81,6 +81,16 @@ class PlayerBaseSerializer < ActiveModel::Serializer
 
   def league_team
     @league_team ||= object.team_by_league(instance_options[:league_id]) if instance_options[:league_id]
+  end
+
+  def current_stat
+    @current_stat ||= object.player_season_stats.find do |s|
+      s.club_id == object.club_id && s.season_id == current_season_id
+    end
+  end
+
+  def current_season_id
+    @current_season_id ||= Season.last&.id
   end
 
   def player_positions

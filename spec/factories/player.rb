@@ -23,6 +23,9 @@ FactoryBot.define do
         create(:round_player, player: player, tournament_round: create(:tournament_round, tournament: player.club.tournament), score: 6)
         create(:round_player, player: player, tournament_round: create(:tournament_round, tournament: player.club.tournament), score: 6)
         create(:round_player, player: player, tournament_round: create(:tournament_round, tournament: player.club.tournament), score: 8)
+        create(:player_season_stat, player: player, club: player.club,
+                                    season: Season.last, tournament: player.club.tournament,
+                                    played_matches: 3, score: 6.67, final_score: 6.67)
       end
     end
 
