@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import Checkbox, { CheckboxGroup } from "@/ui/Checkbox";
 import PopoverInput from "@/ui/PopoverInput";
 import { useLeagueTeams, ILeagueTeam } from "@/api/query/useLeagueTeams";
+import NoTeamIcon from "@/assets/icons/noTeam.svg";
 import styles from "./LeagueTeamCheckbox.module.scss";
 
 interface IProps {
@@ -23,7 +24,12 @@ const LeagueTeamCheckbox = ({ leagueId, value, onChange, withoutTeam, onWithoutT
         <Checkbox
           checked={!!withoutTeam}
           onChange={onWithoutTeamChange}
-          label={t("players.filters.withoutTeamLabel")}
+          label={(
+            <span className={styles.option}>
+              <NoTeamIcon className={styles.logo} />
+              <span>{t("players.filters.withoutTeamLabel")}</span>
+            </span>
+          )}
         />
       )}
       <CheckboxGroup

@@ -190,16 +190,19 @@ RSpec.describe Players::Query do
           expect(result.first).to eq(player_high)
         end
 
-        it 'sorts by current season score, ignoring old season stats' do
-          old_season = Season.last
-          player_old_high = create(:player, club: club)
-          create(:player_season_stat, player: player_old_high, club: club,
-                                      season: old_season, tournament: league.tournament,
-                                      final_score: 9.0)
-          create(:season)
-          player_current = create(:player, :with_scores, club: club)
+        context 'when a player has only old season stats' do
+          before do
+            create(:player_season_stat, player: player, club: club,
+                                        season: Season.last, tournament: league.tournament,
+                                        final_score: 9.0)
+            create(:season)
+          end
 
-          expect(result.first).to eq(player_current)
+          it 'sorts by current season score' do
+            player_current = create(:player, :with_scores, club: club)
+
+            expect(result.first).to eq(player_current)
+          end
         end
       end
 
