@@ -48,7 +48,7 @@ module Players
     end
 
     def call
-      players = Player.by_tournament(tournament).by_club(club_ids).by_classic_position(position)
+      players = Player.by_tournament(tournament).by_club(club_ids).by_classic_position(position).distinct
       players = join_season_stats(players)
       players = filter_by_name(players)
       players = filter_by_appearances(players)

@@ -83,6 +83,15 @@ RSpec.describe Players::Query do
         end
       end
 
+      context 'with multiple positions matching the same player' do
+        let!(:player) { create(:player, :with_pos_w_a) }
+        let(:params) { { position: %w[W FW] } }
+
+        it 'returns the player only once' do
+          expect(result.to_a).to eq([player])
+        end
+      end
+
       context 'with min app' do
         let!(:player) { create(:player, :with_scores) }
         let(:params) { { app: { min: 2 } } }
