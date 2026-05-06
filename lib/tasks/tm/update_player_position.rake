@@ -13,6 +13,10 @@ namespace :tm do
         next unless player&.tm_id
         next if player.club.name == Club::RETIRED
         next if player.club.tournament_id == 16 # skip MLS players
+        next if player.club.tournament_id == 19 # skip Brazil players
+
+        # next unless player.club.tournament_id == 16 # only MLS players
+        # next unless player.club.tournament_id == 19 # only Brazil players
 
         begin
           pos = player.player_positions.map { |pp| Slot::POS_MAPPING[pp.position.name] }
@@ -25,6 +29,22 @@ namespace :tm do
           writer << ["#{Time.zone.now} // error for id #{player.id} / #{player.tm_id} - #{e}"]
         end
       end
+    end
+  end
+
+  # rake 'tm:update_player_position_url[url]'
+  desc 'Update player positions by TM data from csv url'
+  task :update_player_position_url, %i[url] => :environment do |_t, args|
+    csv = CSV.parse(URI.parse(args[:url]).open.read, headers: true)
+
+    csv.each do |player_data|
+      player = Player.find_by(id: player_data['id'])
+      next unless player
+
+      positions = player_data['new positions'].split(',')
+      puts "#{player.id} - #{player_data['new positions']}"
+
+      PlayerPositions::Updater.call(player, positions)
     end
   end
 end
