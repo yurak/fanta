@@ -89,6 +89,8 @@ class Team < ApplicationRecord
   end
 
   def best_lineup
+    return unless league
+
     lineups.by_league(league.id).max_by(&:total_score)
   end
 
@@ -172,10 +174,14 @@ class Team < ApplicationRecord
   end
 
   def league_lineups
+    return Lineup.none unless league
+
     @league_lineups ||= lineups.finished.by_league(league.id)
   end
 
-  def league_result(league_id: league.id)
+  def league_result(league_id: league&.id)
+    return unless league_id
+
     @league_result ||= results.by_league(league_id).last
   end
 

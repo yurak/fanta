@@ -709,6 +709,14 @@ RSpec.describe Team do
   end
 
   describe '#avg_ts' do
+    context 'without league' do
+      let(:team) { create(:team, league: nil) }
+
+      it 'returns zero' do
+        expect(team.avg_ts).to eq(0)
+      end
+    end
+
     context 'without lineups' do
       it 'returns zero' do
         expect(team.avg_ts).to eq(0)
@@ -761,6 +769,14 @@ RSpec.describe Team do
   end
 
   describe '#avg_points' do
+    context 'without league' do
+      let(:team) { create(:team, league: nil) }
+
+      it 'returns zero' do
+        expect(team.avg_points).to eq(0)
+      end
+    end
+
     context 'without lineups' do
       it 'returns zero' do
         expect(team.avg_points).to eq(0)
@@ -813,6 +829,14 @@ RSpec.describe Team do
   end
 
   describe '#league_lineups_number' do
+    context 'without league' do
+      let(:team) { create(:team, league: nil) }
+
+      it 'returns zero' do
+        expect(team.league_lineups_number).to eq(0)
+      end
+    end
+
     context 'without lineups' do
       it 'returns zero' do
         expect(team.league_lineups_number).to eq(0)
@@ -841,6 +865,14 @@ RSpec.describe Team do
   end
 
   describe '#league_lineups' do
+    context 'without league' do
+      let(:team) { create(:team, league: nil) }
+
+      it 'returns empty relation' do
+        expect(team.league_lineups).to be_empty
+      end
+    end
+
     context 'without lineups' do
       it 'returns empty array' do
         expect(team.league_lineups).to eq([])
@@ -869,6 +901,14 @@ RSpec.describe Team do
   end
 
   describe '#league_result' do
+    context 'without league' do
+      let(:team) { create(:team, league: nil) }
+
+      it 'returns nil' do
+        expect(team.league_result).to be_nil
+      end
+    end
+
     context 'without results' do
       it 'returns nil' do
         expect(team.league_result).to be_nil

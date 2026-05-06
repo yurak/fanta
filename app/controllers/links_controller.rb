@@ -4,6 +4,6 @@ class LinksController < ApplicationController
   respond_to :html
 
   def index
-    @links = Link.all
+    @tournaments = Tournament.joins(:links).includes(:links).distinct.order(:id)
   end
 end
