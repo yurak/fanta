@@ -56,7 +56,7 @@ class Result < ApplicationRecord
 
     return true if league.archived?
 
-    remaining = league.tours.where.not(status: [Tour.statuses[:closed], Tour.statuses[:postponed]]).count
+    remaining = league.tours.where.not(status: Tour.statuses[:closed]).count
     second = league_results.second
     return true if second.nil?
 
