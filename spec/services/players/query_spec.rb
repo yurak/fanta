@@ -193,10 +193,35 @@ RSpec.describe Players::Query do
           expect(result).to contain_exactly(player)
         end
 
+        it 'keeps the result as a relation for pagination' do
+          expect(result).to be_a(ActiveRecord::Relation)
+        end
+
         it 'sorts by total score descending by default' do
           player_high = create(:player, :with_scores, club: club)
 
           expect(result.first).to eq(player_high)
+        end
+
+        context 'with Ds and Dd positions' do
+          let!(:left_back_without_team) { create(:player, club: club) }
+          let!(:right_back_without_team) { create(:player, club: club) }
+          let(:params) { { league_id: league.id, position: %w[LB RB], without_team: true } }
+
+          before do
+            left_back_in_team = create(:player, club: club)
+            team = create(:team, league: league)
+
+            create(:player, :with_pos_dc, club: club)
+            create(:player_position, player: left_back_without_team, position: Position.find_by(name: Position::LEFT_BACK))
+            create(:player_position, player: right_back_without_team, position: Position.find_by(name: Position::RIGHT_BACK))
+            create(:player_position, player: left_back_in_team, position: Position.find_by(name: Position::LEFT_BACK))
+            create(:player_team, player: left_back_in_team, team: team)
+          end
+
+          it 'returns only Ds and Dd players without a team' do
+            expect(result).to contain_exactly(left_back_without_team, right_back_without_team)
+          end
         end
 
         context 'when a player has only old season stats' do

@@ -55,10 +55,10 @@ module Players
       players = filter_by_base_score(players)
       players = filter_by_total_score(players)
       players = filter_by_teams_count(players)
+      players = filter_by_team(players)
 
       if needs_in_memory_filter?
         players = players.includes(*PLAYER_PRELOADS).to_a
-        players = filter_by_team(players)
         players = filter_by_league_price(players)
         order_players_in_memory(players)
       else
@@ -109,24 +109,22 @@ module Players
       players
     end
 
-    # --- In-memory filtering (league-specific, small dataset) ---
+    # --- League-specific filtering ---
 
     def needs_in_memory_filter?
-      league && (team_id.present? || without_team || min_price || max_price)
+      league && (min_price || max_price)
     end
 
     def filter_by_team(players)
       return players unless league && (team_id.present? || without_team)
 
-      players.select { |pl| player_in_team?(pl) || player_without_team?(pl) }
-    end
-
-    def player_in_team?(player)
-      team_id.present? && team_id.include?(player.team_by_league(league_id)&.id&.to_s)
-    end
-
-    def player_without_team?(player)
-      without_team && player.team_by_league(league_id).nil?
+      if team_id.present? && without_team
+        players.where(id: player_ids_in_selected_teams).or(players.where.not(id: player_ids_in_league_teams))
+      elsif team_id.present?
+        players.where(id: player_ids_in_selected_teams)
+      else
+        players.where.not(id: player_ids_in_league_teams)
+      end
     end
 
     def filter_by_league_price(players)
@@ -140,6 +138,14 @@ module Players
     def player_league_price(player)
       team = player.team_by_league(league_id)
       team ? (player.transfer_by(team)&.price || 0) : 0
+    end
+
+    def player_ids_in_selected_teams
+      PlayerTeam.joins(:team).where(team_id: team_id, teams: { league_id: league_id }).select(:player_id)
+    end
+
+    def player_ids_in_league_teams
+      PlayerTeam.joins(:team).where(teams: { league_id: league_id }).select(:player_id)
     end
 
     # --- SQL ordering ---
