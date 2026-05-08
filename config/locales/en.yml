@@ -636,6 +636,8 @@ en:
       totalScoreShortLabel: "TS"
       appearancesLabel: "Appearances"
       appearancesShortLabel: "Apps"
+      minutesLabel: "Minutes played"
+      minutesShortLabel: "Min"
       numberOfTeamsLabel: "# of teams"
       numberOfTeamsShortLabel: "Teams"
       priceLabel: "Price"

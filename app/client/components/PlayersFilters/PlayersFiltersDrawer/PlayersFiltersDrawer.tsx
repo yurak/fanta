@@ -89,15 +89,6 @@ const PlayersFiltersDrawer = () => {
             onChange={onChangeValue("position")}
           />
         </Drawer.Section>
-        <Drawer.Section title={t("players.filters.totalScoreLabel")} defaultOpen={isRangeActive(filterValues.totalScore, PlayersFilterConstants.TOTAL_SCORE_MIN, PlayersFilterConstants.TOTAL_SCORE_MAX)}>
-          <RangeSlider
-            value={filterValues.totalScore}
-            onChange={onChangeValue("totalScore")}
-            step={0.1}
-            min={PlayersFilterConstants.TOTAL_SCORE_MIN}
-            max={PlayersFilterConstants.TOTAL_SCORE_MAX}
-          />
-        </Drawer.Section>
         <Drawer.Section title={t("players.filters.baseScoreLabel")} defaultOpen={isRangeActive(filterValues.baseScore, PlayersFilterConstants.BASE_SCORE_MIN, PlayersFilterConstants.BASE_SCORE_MAX)}>
           <RangeSlider
             value={filterValues.baseScore}
@@ -107,12 +98,29 @@ const PlayersFiltersDrawer = () => {
             max={PlayersFilterConstants.BASE_SCORE_MAX}
           />
         </Drawer.Section>
+        <Drawer.Section title={t("players.filters.totalScoreLabel")} defaultOpen={isRangeActive(filterValues.totalScore, PlayersFilterConstants.TOTAL_SCORE_MIN, PlayersFilterConstants.TOTAL_SCORE_MAX)}>
+          <RangeSlider
+            value={filterValues.totalScore}
+            onChange={onChangeValue("totalScore")}
+            step={0.1}
+            min={PlayersFilterConstants.TOTAL_SCORE_MIN}
+            max={PlayersFilterConstants.TOTAL_SCORE_MAX}
+          />
+        </Drawer.Section>
         <Drawer.Section title={t("players.filters.appearancesLabel")} defaultOpen={isRangeActive(filterValues.appearances, PlayersFilterConstants.APPEARANCES_MIN, PlayersFilterConstants.APPEARANCES_MAX)}>
           <RangeSlider
             value={filterValues.appearances}
             onChange={onChangeValue("appearances")}
             min={PlayersFilterConstants.APPEARANCES_MIN}
             max={PlayersFilterConstants.APPEARANCES_MAX}
+          />
+        </Drawer.Section>
+        <Drawer.Section title={t("players.filters.minutesLabel")} defaultOpen={isRangeActive(filterValues.minutes, PlayersFilterConstants.MINUTES_MIN, PlayersFilterConstants.MINUTES_MAX)}>
+          <RangeSlider
+            value={filterValues.minutes}
+            onChange={onChangeValue("minutes")}
+            min={PlayersFilterConstants.MINUTES_MIN}
+            max={PlayersFilterConstants.MINUTES_MAX}
           />
         </Drawer.Section>
         {isLeagueSpecificPlayersPage && leagueId && (

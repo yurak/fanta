@@ -43,7 +43,7 @@ module Api
     def filter_params
       params.fetch(:filter, {})
             .permit(:league_id, :name, :without_team,
-                    app: {}, base_score: {}, price: {}, teams_count: {}, total_score: {},
+                    app: {}, base_score: {}, minutes: {}, price: {}, teams_count: {}, total_score: {},
                     club_id: [], position: [], team_id: [], tournament_id: [])
     end
 

@@ -21,6 +21,10 @@ export const defaultFilter: IFilter = {
     min: PlayersFilterConstants.APPEARANCES_MIN,
     max: PlayersFilterConstants.APPEARANCES_MAX,
   },
+  minutes: {
+    min: PlayersFilterConstants.MINUTES_MIN,
+    max: PlayersFilterConstants.MINUTES_MAX,
+  },
   teamsCount: {
     min: PlayersFilterConstants.TEAMS_COUNT_MIN,
     max: PlayersFilterConstants.TEAMS_COUNT_MAX,
