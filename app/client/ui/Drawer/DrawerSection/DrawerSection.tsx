@@ -8,13 +8,15 @@ const DrawerSection = ({
   children,
   withTopSpace,
   withBottomSpace,
+  defaultOpen,
 }: {
   title: string,
   children: React.ReactNode,
   withBottomSpace?: boolean,
   withTopSpace?: boolean,
+  defaultOpen?: boolean,
 }) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(defaultOpen ?? false);
 
   return (
     <div className={styles.section}>
