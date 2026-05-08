@@ -9,9 +9,11 @@ module RoundPlayers
     def call
       return false unless round_players.present? && tournament_round.finished?
 
-      round_players.with_score.without_final_score.each do |round_player|
-        round_player.update(final_score: round_player.result_score)
-      end
+      players_to_update = round_players.with_score.without_final_score.to_a
+      return false if players_to_update.empty?
+
+      players_to_update.each { |rp| rp.update(final_score: rp.result_score) }
+      Stats::Creator.call(player_ids: round_players.pluck(:player_id).uniq)
     end
 
     private

@@ -3,9 +3,14 @@ RSpec.describe User do
 
   describe 'Associations' do
     it { is_expected.to have_many(:join_requests).dependent(:destroy) }
+    it { is_expected.to have_many(:joins).dependent(:destroy) }
     it { is_expected.to have_many(:teams).dependent(:destroy) }
     it { is_expected.to have_many(:leagues).through(:teams) }
+    it { is_expected.to have_many(:results).through(:teams) }
+    it { is_expected.to have_many(:lineups).through(:teams) }
+    it { is_expected.to have_many(:transfers).through(:teams) }
     it { is_expected.to have_many(:player_requests).dependent(:destroy) }
+    it { is_expected.to have_many(:user_titles).dependent(:destroy) }
     it { is_expected.to have_one(:user_profile).dependent(:destroy) }
   end
 
@@ -20,6 +25,59 @@ RSpec.describe User do
     it { is_expected.to validate_presence_of :role }
 
     it { is_expected.to define_enum_for(:role).with_values(%i[customer admin moderator]) }
+    it { is_expected.to define_enum_for(:status).with_values(%i[initial named with_avatar with_team configured]) }
+    it { is_expected.to define_enum_for(:locale).with_values(%i[en ua]) }
+  end
+
+  describe 'Callbacks' do
+    it 'generates unsubscribe token on create' do
+      expect(user.unsubscribe_token).to be_present
+    end
+
+    it 'does not override existing unsubscribe token' do
+      user = create(:user, unsubscribe_token: 'existing-token')
+
+      expect(user.unsubscribe_token).to eq('existing-token')
+    end
+  end
+
+  describe '.champions' do
+    let!(:second_champion) { create(:user, champion_number: 2) }
+    let!(:first_champion) { create(:user, champion_number: 1) }
+
+    before do
+      create(:user, champion_number: nil)
+    end
+
+    it 'returns champions ordered by champion number' do
+      expect(described_class.champions).to eq([first_champion, second_champion])
+    end
+  end
+
+  describe '#local_time(time, format)' do
+    let(:time) { Time.utc(2025, 1, 2, 12, 30) }
+
+    context 'without time' do
+      it 'returns nil' do
+        expect(user.local_time(nil)).to be_nil
+      end
+    end
+
+    context 'with user time zone' do
+      let(:user) { build(:user, time_zone: 'UTC') }
+
+      it 'returns formatted time in user time zone' do
+        expect(user.local_time(time, '%H:%M')).to eq('12:30')
+      end
+    end
+
+    context 'without user time zone' do
+      let(:user) { build(:user, time_zone: nil) }
+
+      it 'returns formatted time in default time zone' do
+        expect(user.local_time(time, '%H:%M')).to eq('14:30')
+      end
+    end
   end
 
   describe '#can_moderate?' do
@@ -48,6 +106,10 @@ RSpec.describe User do
 
   describe '#team_by_league(league)' do
     let(:league) { create(:league) }
+
+    context 'without league' do
+      it { expect(user.team_by_league(nil)).to be_nil }
+    end
 
     context 'without team in league' do
       it { expect(user.team_by_league(league)).to be_nil }
@@ -84,6 +146,14 @@ RSpec.describe User do
   end
 
   describe '#avatar_path' do
+    context 'with avatar url' do
+      let(:user) { create(:user, avatar_url: 'https://example.com/avatar.png') }
+
+      it 'returns avatar url' do
+        expect(user.avatar_path).to eq('https://example.com/avatar.png')
+      end
+    end
+
     context 'with default avatar' do
       it { expect(user.avatar_path).to eq('avatars/avatar_1.png') }
     end
@@ -123,6 +193,16 @@ RSpec.describe User do
 
       it 'returns results with titles' do
         expect(user.titles).to eq([])
+      end
+    end
+
+    context 'with finished title result' do
+      let(:league) { create(:archived_league) }
+      let(:team) { create(:team, user: user, league: league) }
+      let!(:result) { create(:result, team: team, league: league, title: true) }
+
+      it 'returns title results' do
+        expect(user.titles).to eq([result])
       end
     end
   end
@@ -319,6 +399,62 @@ RSpec.describe User do
       it 'returns win rate' do
         expect(user.average_position).to eq(2.5)
       end
+    end
+  end
+
+  describe '#promotions' do
+    let(:league) { create(:archived_league, promotion: 1) }
+    let(:team) { create(:team, user: user, league: league) }
+    let!(:promoted_result) { create(:result, team: team, league: league, position: 1) }
+
+    before do
+      create(:result, league: league, position: 2)
+    end
+
+    it 'returns promoted finished results' do
+      expect(user.promotions).to eq([promoted_result])
+    end
+  end
+
+  describe '#relegations' do
+    let(:league) { create(:archived_league, relegation: 1) }
+    let(:team) { create(:team, user: user, league: league) }
+    let!(:relegated_result) { create(:result, team: team, league: league, position: 2) }
+
+    before do
+      create(:result, league: league, position: 1)
+    end
+
+    it 'returns relegated finished results' do
+      expect(user.relegations).to eq([relegated_result])
+    end
+  end
+
+  describe '#fanta_top' do
+    let(:league) { create(:league, :fanta_league) }
+    let(:team) { create(:team, user: user, league: league) }
+    let!(:top_result) { create(:result, team: team, league: league, position: 10) }
+
+    before do
+      create(:result, league: league, position: 11)
+    end
+
+    it 'returns top ten fanta results' do
+      expect(user.fanta_top).to eq([top_result])
+    end
+  end
+
+  describe '#fanta_top_ts' do
+    let(:league) { create(:league, :fanta_league) }
+    let(:team) { create(:team, user: user, league: league) }
+    let!(:top_result) { create(:result, team: team, league: league, secondary_position: 10) }
+
+    before do
+      create(:result, league: league, secondary_position: 11)
+    end
+
+    it 'returns top ten fanta total score results' do
+      expect(user.fanta_top_ts).to eq([top_result])
     end
   end
 end

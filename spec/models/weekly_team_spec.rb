@@ -17,4 +17,12 @@ RSpec.describe WeeklyTeam do
   describe 'enums' do
     it { is_expected.to define_enum_for(:mode).with_values(top: 'top', flop: 'flop').backed_by_column_of_type(:string) }
   end
+
+  describe '#round_ids' do
+    it 'serializes round ids as array' do
+      weekly_team = create(:weekly_team, round_ids: [1, 2, 3])
+
+      expect(weekly_team.reload.round_ids).to eq([1, 2, 3])
+    end
+  end
 end

@@ -13,11 +13,11 @@ class TournamentRoundsController < ApplicationController
     redirect_to leagues_path unless can? :edit, TournamentRound
 
     @round_players = if tournament_round.tournament.national?
-                       tournament_round.round_players.ordered_by_national
+                       edit_round_players.ordered_by_national
                      elsif params[:club_id]
-                       tournament_round.round_players.by_club(params[:club_id]).sort_by { |x| [x.club.id, x.name] }
+                       edit_round_players.by_club(params[:club_id]).sort_by { |x| [x.club.id, x.name] }
                      else
-                       tournament_round.round_players.ordered_by_club
+                       edit_round_players.ordered_by_club
                      end
   end
 
@@ -91,7 +91,14 @@ class TournamentRoundsController < ApplicationController
                                     played_minutes penalties_won manual_lock])
   end
 
+  def edit_round_players
+    tournament_round.round_players.includes(:club, player: %i[club national_team positions])
+  end
+
   def tournament_round
-    @tournament_round ||= TournamentRound.find(params[:id] || params[:tournament_round_id])
+    @tournament_round ||= TournamentRound.includes(
+      tours: { league: :division },
+      tournament_matches: %i[host_club guest_club]
+    ).find(params[:id] || params[:tournament_round_id])
   end
 end

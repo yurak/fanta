@@ -12,7 +12,7 @@ class ClubsController < ApplicationController
   def club
     return @club if defined?(@club)
 
-    @club = Club.find_by(id: params[:id])
+    @club = Club.includes(:tournament, players: :positions).find_by(id: params[:id])
   end
 
   def tournament

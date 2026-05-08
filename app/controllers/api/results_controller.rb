@@ -20,7 +20,7 @@ module Api
     end
 
     def league_results
-      @league_results ||= league.results.ordered
+      @league_results ||= league.results.includes(:league, team: :league).ordered
     end
   end
 end

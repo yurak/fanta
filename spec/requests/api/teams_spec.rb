@@ -1,6 +1,44 @@
 require 'swagger_helper'
 
 RSpec.describe 'Teams' do
+  path '/api/leagues/{league_id}/teams' do
+    parameter name: 'league_id', in: :path, type: :string, description: 'League id'
+
+    get('list league teams') do
+      tags 'Teams'
+      consumes 'application/json'
+      produces 'application/json'
+
+      response 200, 'Success' do
+        let!(:league) { create(:league) }
+        let!(:team_a) { create(:team, league: league, human_name: 'Alpha') }
+        let!(:team_b) { create(:team, league: league, human_name: 'Beta') }
+        let(:league_id) { league.id }
+
+        schema type: :object,
+               properties: {
+                 data: { type: :array, items: { '$ref' => '#/components/schemas/team_slim' } }
+               }
+
+        run_test! do |response|
+          body = JSON.parse(response.body)
+
+          expect(body['data'].pluck('id')).to contain_exactly(team_a.id, team_b.id)
+        end
+      end
+
+      response 200, 'League not found returns empty array' do
+        let(:league_id) { 'invalid' }
+
+        run_test! do |response|
+          body = JSON.parse(response.body)
+
+          expect(body['data']).to eq([])
+        end
+      end
+    end
+  end
+
   path '/api/teams/{id}' do
     parameter name: 'id', in: :path, type: :string, description: 'Team id'
 

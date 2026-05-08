@@ -1,0 +1,46 @@
+.buttonWrapper {
+  display: inline-block;
+  position: relative;
+}
+
+.button {
+  --icon-color: #a6a2a2;
+
+  padding: 7px;
+  border: 1px solid #cfd2cd;
+  background-color: #f4f4f4;
+  border-radius: 40px;
+  font-family: "Nunito ExtraBold";
+  font-size: 14px;
+  line-height: 16px;
+}
+
+.isOpen {
+  border-color: #181715;
+}
+
+.isActive {
+  background-color: #d8d6ff;
+  border-color: #d8d6ff;
+  color: #261fff;
+}
+
+.buttonInner {
+  padding-right: 28px;
+}
+
+.iconWrapper {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--icon-color);
+}
+
+.clearButton {
+  color: #261fff;
+  border: 0;
+  padding: 0;
+  border-radius: 50%;
+  background-color: transparent;
+}

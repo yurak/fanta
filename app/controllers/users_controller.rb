@@ -7,6 +7,11 @@ class UsersController < ApplicationController
 
   helper_method :user
 
+  def show
+    leagues = current_user.teams.map(&:league).compact
+    ActiveRecord::Associations::Preloader.new.preload(leagues, %i[division season])
+  end
+
   def update
     user.update(user_params)
     update_user_profile

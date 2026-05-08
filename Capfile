@@ -18,3 +18,15 @@ set :rvm_type, :user
 set :rvm_ruby_version, 'ruby-3.2.2'
 
 require 'appsignal/capistrano'
+
+namespace :rake do
+  task :invoke do
+    on roles(:app) do
+      within current_path do
+        with rails_env: fetch(:rails_env, 'staging') do
+          execute :rake, ENV.fetch('TASK', nil)
+        end
+      end
+    end
+  end
+end

@@ -3,16 +3,18 @@ import Skeleton from "react-loading-skeleton";
 import { useTranslation } from "react-i18next";
 import Table, { IColumn } from "@/ui/Table";
 import LeagueStatus from "@/components/LeagueStatus";
+import LeagueLoader from "@/components/loaders/LeagueLoader";
 import { ILeaguesWithTournament } from "../../interfaces";
-import LeagueLoader from "../LeagueLoader";
 import styles from "./LeaguesListDesktop.module.scss";
 
 const LeaguesListDesktop = ({
   dataSource,
   isLoading,
+  emptyStateComponent,
 }: {
   dataSource: ILeaguesWithTournament[],
   isLoading: boolean,
+  emptyStateComponent: React.ReactNode,
 }) => {
   const { t } = useTranslation();
 
@@ -128,7 +130,7 @@ const LeaguesListDesktop = ({
       rowLink={(item) => item.link}
       isLoading={isLoading}
       skeletonItems={10}
-      emptyState={{ title: t("league.empty_placeholder") }}
+      emptyStateComponent={emptyStateComponent}
     />
   );
 };

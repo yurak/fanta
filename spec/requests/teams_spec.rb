@@ -23,6 +23,18 @@ RSpec.describe 'Teams' do
       it { expect(response).to render_template(:show) }
       it { expect(response).to have_http_status(:ok) }
     end
+
+    context 'when team has no league' do
+      login_user
+      let(:team) { create(:team, league: nil) }
+
+      before do
+        get team_path(team)
+      end
+
+      it { expect(response).to be_successful }
+      it { expect(response).to render_template(:show) }
+    end
   end
 
   describe 'POST #create' do

@@ -47,6 +47,9 @@ RSpec.describe Join do
   end
 
   describe 'associations' do
+    it { is_expected.to belong_to(:user) }
+    it { is_expected.to belong_to(:tournament) }
+    it { is_expected.to belong_to(:team) }
     it { is_expected.to belong_to(:auction_bid) }
   end
 end

@@ -83,6 +83,18 @@
       }
     }
   }
+
+  .team-games {
+    .team-game-item {
+      .team-game-opponent {
+        .flag-icon {
+          height: 30px;
+          width: 40px;
+          vertical-align: middle;
+        }
+      }
+    }
+  }
 }
 
 @media (orientation: portrait) {

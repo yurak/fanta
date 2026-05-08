@@ -13,4 +13,14 @@ RSpec.describe Season do
     it { is_expected.to validate_uniqueness_of :end_year }
     it { is_expected.to validate_numericality_of(:end_year).is_greater_than_or_equal_to(Season::MIN_END_YEAR) }
   end
+
+  describe 'constants' do
+    it 'defines minimum start year' do
+      expect(described_class::MIN_START_YEAR).to eq(2019)
+    end
+
+    it 'defines minimum end year' do
+      expect(described_class::MIN_END_YEAR).to eq(2020)
+    end
+  end
 end

@@ -23,7 +23,7 @@ module Api
     private
 
     def league
-      @league ||= League.find_by(id: params[:id])
+      @league ||= League.includes(:division, :season, :tournament, :tours, results: :team).find_by(id: params[:id])
     end
 
     def filtered_leagues

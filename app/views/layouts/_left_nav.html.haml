@@ -15,6 +15,10 @@
         = image_tag('icons/plus_sign.svg')
   .nav-logo-bottom
     .nav-logo-small
+      = link_to players_path do
+        .nav-link-icon= '👟'
+        .nav-link-title= t('header.players')
+    .nav-logo-small
       = link_to leagues_path do
         .nav-link-icon= '🏑'
         .nav-link-title= t('header.leagues')
@@ -37,15 +41,6 @@
     -#  = link_to '' do
     -#    .nav-link-icon= '❤️'
     -#    .nav-link-title= t('header.donate')
-    - if current_user&.admin?
-      .nav-logo-small
-        = link_to rails_admin_path do
-          .nav-link-icon= '⛔️'
-          .nav-link-title= t('header.admin')
-      .nav-logo-small
-        = link_to manage_joins_path do
-          .nav-link-icon= '📋'
-          .nav-link-title= t('header.manage')
     - if user_signed_in?
       .nav-logo-small
         = link_to user_path(current_user) do
@@ -64,6 +59,9 @@
         -#.help-modal-link= link_to t('header.dictionary'), ''
         .help-modal-link= link_to t('header.links_nav'), links_path
         -#.help-modal-link= link_to t('header.tips'), ''
+        - if current_user&.admin?
+          .help-modal-link= link_to t('header.manage_nav'), manage_joins_path
+          .help-modal-link= link_to t('header.admin_nav'), rails_admin_path
         .help-modal-plus-links
           .help-modal-link
             = link_to about_path do

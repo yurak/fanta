@@ -13,8 +13,6 @@ class Lineup < ApplicationRecord
   delegate :tournament_round, to: :tour
   delegate :league, to: :team
 
-  default_scope { includes(%i[team tour]) }
-
   enum creation_type: { manual: 0, copied: 1, auto_cloned: 2 }
 
   scope :closed, ->(league_id) { where(tour_id: League.find(league_id).tours.closed.ids) }
@@ -117,7 +115,7 @@ class Lineup < ApplicationRecord
   end
 
   def subs_missed?
-    match_players.main.without_score.any?(&:subs_option_exist?)
+    match_players.main.without_score.includes(round_player: :tournament_round).any?(&:subs_option_exist?)
   end
 
   def substitutes_preview

@@ -12,8 +12,6 @@ class RoundPlayer < ApplicationRecord
   delegate :first_name, :fotmob_id, :full_name, :full_name_reverse, :national_team, :name, :position_names,
            :positions, :pseudo_name, :sofascore_id, :teams, to: :player, allow_nil: true
 
-  default_scope { includes([:club, :tournament_round, { player: %i[club player_positions positions] }]) }
-
   scope :by_tournament_round, ->(tournament_round_id) { where(tournament_round: tournament_round_id) }
   scope :by_club, ->(club_id) { joins(:player).where(players: { club_id: club_id }) }
   scope :by_national_team, ->(team_id) { joins(:player).where(players: { national_team_id: team_id }) }
