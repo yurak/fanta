@@ -22,10 +22,6 @@
 }
 
 .handle {
-  transform: translateY(-50%);
-}
-
-.handle {
   top: 50%;
   width: 22px;
   height: 22px;
@@ -33,6 +29,7 @@
   border-color: #ffffff;
   margin-top: -11px;
   opacity: 1;
+  transform: translateY(-50%);
 
   &:hover {
     border-color: #d8d6ff;

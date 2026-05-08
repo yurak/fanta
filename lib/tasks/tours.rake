@@ -15,6 +15,22 @@ namespace :tours do
     end
   end
 
+  # rake 'tours:generate_lineups'
+  desc 'Clone missed lineups and generate not-in-squad players for locked tours'
+  task generate_lineups: :environment do
+    lock_file = Rails.root.join('tmp/generate_lineups.lock')
+    File.open(lock_file, File::RDWR | File::CREAT, 0o644) do |f|
+      unless f.flock(File::LOCK_EX | File::LOCK_NB)
+        puts 'tours:generate_lineups already running, skipping'
+        next
+      end
+
+      Tour.locked.each do |tour|
+        Tours::LineupGenerator.call(tour)
+      end
+    end
+  end
+
   # rake 'tours:auto_close'
   desc 'Close moderated tours'
   task auto_close: :environment do

@@ -89,21 +89,20 @@ class LineupsController < ApplicationController
   end
 
   def lineup
-    @lineup ||= Lineup.includes(
+    return @lineup if defined?(@lineup)
+
+    @lineup = Lineup.includes(*lineup_includes).find_by(id: params[:id])
+  end
+
+  def lineup_includes
+    player = [:national_team, :positions, { club: :tournament }]
+    round_player = [:club, :tournament_round, { player: player }]
+    [
       :tour,
-      team: [:user, { league: :tournament }],
-      team_module: :slots,
-      match_players: [
-        :main_subs,
-        {
-          round_player: [
-            :club,
-            :tournament_round,
-            { player: [:national_team, :positions, { club: :tournament }] }
-          ]
-        }
-      ]
-    ).find_by(id: params[:id])
+      { team: [:user, { league: :tournament }] },
+      { team_module: :slots },
+      { match_players: [:main_subs, { round_player: round_player }] }
+    ]
   end
 
   def team
