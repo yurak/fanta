@@ -15,6 +15,7 @@ export interface IPayloadFilter {
   base_score?: Partial<RangeSliderValueType>,
   teams_count?: Partial<RangeSliderValueType>,
   app?: Partial<RangeSliderValueType>,
+  minutes?: Partial<RangeSliderValueType>,
   price?: Partial<RangeSliderValueType>,
   tournament_id?: number[],
   league_id?: number,

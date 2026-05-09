@@ -110,6 +110,36 @@ RSpec.describe Players::Query do
         end
       end
 
+      context 'with min minutes' do
+        let!(:player) { create(:player) }
+        let(:params) { { minutes: { min: 100 } } }
+
+        before do
+          create(:player_season_stat, player: player, club: player.club,
+                                      season: Season.last, tournament: player.club.tournament,
+                                      played_minutes: 270)
+        end
+
+        it 'returns only players with enough minutes played' do
+          expect(result).to contain_exactly(player)
+        end
+      end
+
+      context 'with max minutes' do
+        let!(:player) { create(:player) }
+        let(:params) { { minutes: { max: 100 } } }
+
+        before do
+          create(:player_season_stat, player: player, club: player.club,
+                                      season: Season.last, tournament: player.club.tournament,
+                                      played_minutes: 270)
+        end
+
+        it 'excludes players with too many minutes played' do
+          expect(result).not_to include(player)
+        end
+      end
+
       context 'with min base_score' do
         let!(:player) { create(:player, :with_scores) }
         let(:params) { { base_score: { min: 6 } } }

@@ -19,17 +19,23 @@ const PlayerFilters = () => {
     return (
       <div className={styles.wrapper}>
         <div className={styles.container}>
+          <ClubCheckboxPopover
+            value={filterValues.clubs}
+            onChange={onChangeValue("clubs")}
+            leagueId={leagueId}
+          />
           <PlayerPositionsCheckboxPopover
             value={filterValues.position}
             onChange={onChangeValue("position")}
           />
           <RangeSliderPopover
-            min={PlayersFilterConstants.APPEARANCES_MIN}
-            max={PlayersFilterConstants.APPEARANCES_MAX}
-            value={filterValues.appearances}
-            label={t("players.filters.appearancesLabel")}
-            valueLabel={t("players.filters.appearancesShortLabel")}
-            onChange={onChangeValue("appearances")}
+            min={PlayersFilterConstants.BASE_SCORE_MIN}
+            max={PlayersFilterConstants.BASE_SCORE_MAX}
+            step={0.1}
+            value={filterValues.baseScore}
+            label={t("players.filters.baseScoreLabel")}
+            valueLabel={t("players.filters.baseScoreShortLabel")}
+            onChange={onChangeValue("baseScore")}
           />
           <RangeSliderPopover
             min={PlayersFilterConstants.TOTAL_SCORE_MIN}
@@ -41,18 +47,20 @@ const PlayerFilters = () => {
             onChange={onChangeValue("totalScore")}
           />
           <RangeSliderPopover
-            min={PlayersFilterConstants.BASE_SCORE_MIN}
-            max={PlayersFilterConstants.BASE_SCORE_MAX}
-            step={0.1}
-            value={filterValues.baseScore}
-            label={t("players.filters.baseScoreLabel")}
-            valueLabel={t("players.filters.baseScoreShortLabel")}
-            onChange={onChangeValue("baseScore")}
+            min={PlayersFilterConstants.APPEARANCES_MIN}
+            max={PlayersFilterConstants.APPEARANCES_MAX}
+            value={filterValues.appearances}
+            label={t("players.filters.appearancesLabel")}
+            valueLabel={t("players.filters.appearancesShortLabel")}
+            onChange={onChangeValue("appearances")}
           />
-          <ClubCheckboxPopover
-            value={filterValues.clubs}
-            onChange={onChangeValue("clubs")}
-            leagueId={leagueId}
+          <RangeSliderPopover
+            min={PlayersFilterConstants.MINUTES_MIN}
+            max={PlayersFilterConstants.MINUTES_MAX}
+            value={filterValues.minutes}
+            label={t("players.filters.minutesLabel")}
+            valueLabel={t("players.filters.minutesShortLabel")}
+            onChange={onChangeValue("minutes")}
           />
           {leagueId && (
             <LeagueTeamCheckboxPopover
@@ -90,15 +98,6 @@ const PlayerFilters = () => {
           onChange={onChangeValue("position")}
         />
         <RangeSliderPopover
-          min={PlayersFilterConstants.TOTAL_SCORE_MIN}
-          max={PlayersFilterConstants.TOTAL_SCORE_MAX}
-          value={filterValues.totalScore}
-          step={0.1}
-          label={t("players.filters.totalScoreLabel")}
-          valueLabel={t("players.filters.totalScoreShortLabel")}
-          onChange={onChangeValue("totalScore")}
-        />
-        <RangeSliderPopover
           min={PlayersFilterConstants.BASE_SCORE_MIN}
           max={PlayersFilterConstants.BASE_SCORE_MAX}
           step={0.1}
@@ -108,12 +107,29 @@ const PlayerFilters = () => {
           onChange={onChangeValue("baseScore")}
         />
         <RangeSliderPopover
+          min={PlayersFilterConstants.TOTAL_SCORE_MIN}
+          max={PlayersFilterConstants.TOTAL_SCORE_MAX}
+          value={filterValues.totalScore}
+          step={0.1}
+          label={t("players.filters.totalScoreLabel")}
+          valueLabel={t("players.filters.totalScoreShortLabel")}
+          onChange={onChangeValue("totalScore")}
+        />
+        <RangeSliderPopover
           min={PlayersFilterConstants.APPEARANCES_MIN}
           max={PlayersFilterConstants.APPEARANCES_MAX}
           value={filterValues.appearances}
           label={t("players.filters.appearancesLabel")}
           valueLabel={t("players.filters.appearancesShortLabel")}
           onChange={onChangeValue("appearances")}
+        />
+        <RangeSliderPopover
+          min={PlayersFilterConstants.MINUTES_MIN}
+          max={PlayersFilterConstants.MINUTES_MAX}
+          value={filterValues.minutes}
+          label={t("players.filters.minutesLabel")}
+          valueLabel={t("players.filters.minutesShortLabel")}
+          onChange={onChangeValue("minutes")}
         />
         <RangeSliderPopover
           min={PlayersFilterConstants.TEAMS_COUNT_MIN}

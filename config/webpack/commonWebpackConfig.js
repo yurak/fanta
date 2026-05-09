@@ -16,7 +16,7 @@ baseClientWebpackConfig.module.rules.forEach((rule) => {
   const uses = Array.isArray(rule.use) ? rule.use : (rule.oneOf || []).flatMap((r) => r.use || []);
   uses.forEach((use) => {
     if (use && use.loader && use.loader.includes("sass-loader")) {
-      use.options = { ...(use.options || {}), api: "modern" };
+      use.options = { ...use.options, api: "modern" };
     }
   });
 });

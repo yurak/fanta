@@ -74,7 +74,7 @@ const Chart = <
       data: data as unknown as ChartData<keyof ChartTypeRegistry, TData, TLabel>,
       options: {
         plugins: {
-          ...(plugins ?? {}),
+          ...plugins,
           legend: {
             display: false,
           },

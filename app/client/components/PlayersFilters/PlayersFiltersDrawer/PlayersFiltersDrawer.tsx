@@ -34,6 +34,9 @@ const PlayersFiltersDrawer = () => {
 
   const [isSortDrawerOpen, setIsSortDrawerOpen] = useState(false);
 
+  const isRangeActive = (value: { min: number; max: number }, min: number, max: number) =>
+    value.min !== min || value.max !== max;
+
   const applyFilterHandler = () => {
     applyFilter();
     applySort();
@@ -73,29 +76,20 @@ const PlayersFiltersDrawer = () => {
             }
           />
         )}
-        <Drawer.Section title={t("players.filters.clubsLabel")} withTopSpace>
+        <Drawer.Section title={t("players.filters.clubsLabel")} withTopSpace defaultOpen={filterValues.clubs.length > 0}>
           <ClubCheckbox
             value={filterValues.clubs}
             onChange={onChangeValue("clubs")}
             leagueId={leagueId}
           />
         </Drawer.Section>
-        <Drawer.Section title={t("players.filters.positionLabel")} withBottomSpace withTopSpace>
+        <Drawer.Section title={t("players.filters.positionLabel")} withBottomSpace withTopSpace defaultOpen={filterValues.position.length > 0}>
           <PlayerPositionsCheckbox
             value={filterValues.position}
             onChange={onChangeValue("position")}
           />
         </Drawer.Section>
-        <Drawer.Section title={t("players.filters.totalScoreLabel")}>
-          <RangeSlider
-            value={filterValues.totalScore}
-            onChange={onChangeValue("totalScore")}
-            step={0.1}
-            min={PlayersFilterConstants.TOTAL_SCORE_MIN}
-            max={PlayersFilterConstants.TOTAL_SCORE_MAX}
-          />
-        </Drawer.Section>
-        <Drawer.Section title={t("players.filters.baseScoreLabel")}>
+        <Drawer.Section title={t("players.filters.baseScoreLabel")} defaultOpen={isRangeActive(filterValues.baseScore, PlayersFilterConstants.BASE_SCORE_MIN, PlayersFilterConstants.BASE_SCORE_MAX)}>
           <RangeSlider
             value={filterValues.baseScore}
             onChange={onChangeValue("baseScore")}
@@ -104,7 +98,16 @@ const PlayersFiltersDrawer = () => {
             max={PlayersFilterConstants.BASE_SCORE_MAX}
           />
         </Drawer.Section>
-        <Drawer.Section title={t("players.filters.appearancesLabel")}>
+        <Drawer.Section title={t("players.filters.totalScoreLabel")} defaultOpen={isRangeActive(filterValues.totalScore, PlayersFilterConstants.TOTAL_SCORE_MIN, PlayersFilterConstants.TOTAL_SCORE_MAX)}>
+          <RangeSlider
+            value={filterValues.totalScore}
+            onChange={onChangeValue("totalScore")}
+            step={0.1}
+            min={PlayersFilterConstants.TOTAL_SCORE_MIN}
+            max={PlayersFilterConstants.TOTAL_SCORE_MAX}
+          />
+        </Drawer.Section>
+        <Drawer.Section title={t("players.filters.appearancesLabel")} defaultOpen={isRangeActive(filterValues.appearances, PlayersFilterConstants.APPEARANCES_MIN, PlayersFilterConstants.APPEARANCES_MAX)}>
           <RangeSlider
             value={filterValues.appearances}
             onChange={onChangeValue("appearances")}
@@ -112,8 +115,16 @@ const PlayersFiltersDrawer = () => {
             max={PlayersFilterConstants.APPEARANCES_MAX}
           />
         </Drawer.Section>
+        <Drawer.Section title={t("players.filters.minutesLabel")} defaultOpen={isRangeActive(filterValues.minutes, PlayersFilterConstants.MINUTES_MIN, PlayersFilterConstants.MINUTES_MAX)}>
+          <RangeSlider
+            value={filterValues.minutes}
+            onChange={onChangeValue("minutes")}
+            min={PlayersFilterConstants.MINUTES_MIN}
+            max={PlayersFilterConstants.MINUTES_MAX}
+          />
+        </Drawer.Section>
         {isLeagueSpecificPlayersPage && leagueId && (
-          <Drawer.Section title={t("players.filters.teamLabel")} withTopSpace>
+          <Drawer.Section title={t("players.filters.teamLabel")} withTopSpace defaultOpen={filterValues.teams.length > 0 || filterValues.withoutTeam}>
             <LeagueTeamCheckbox
               leagueId={leagueId}
               value={filterValues.teams}
@@ -124,7 +135,7 @@ const PlayersFiltersDrawer = () => {
           </Drawer.Section>
         )}
         {isLeagueSpecificPlayersPage && (
-          <Drawer.Section title={t("players.filters.priceLabel")}>
+          <Drawer.Section title={t("players.filters.priceLabel")} defaultOpen={isRangeActive(filterValues.price, PlayersFilterConstants.PRICE_MIN, PlayersFilterConstants.PRICE_MAX)}>
             <RangeSlider
               value={filterValues.price}
               onChange={onChangeValue("price")}
@@ -134,7 +145,7 @@ const PlayersFiltersDrawer = () => {
           </Drawer.Section>
         )}
         {!isLeagueSpecificPlayersPage && (
-          <Drawer.Section title={t("players.filters.numberOfTeamsLabel")}>
+          <Drawer.Section title={t("players.filters.numberOfTeamsLabel")} defaultOpen={isRangeActive(filterValues.teamsCount, PlayersFilterConstants.TEAMS_COUNT_MIN, PlayersFilterConstants.TEAMS_COUNT_MAX)}>
             <RangeSlider
               value={filterValues.teamsCount}
               onChange={onChangeValue("teamsCount")}

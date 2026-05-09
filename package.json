@@ -58,6 +58,10 @@
     "webpack-merge": "5"
   },
   "version": "0.1.0",
+  "resolutions": {
+    "cross-spawn": "^7.0.5",
+    "braces": "^3.0.3"
+  },
   "babel": {
     "presets": [
       "./node_modules/shakapacker/package/babel/preset.js"

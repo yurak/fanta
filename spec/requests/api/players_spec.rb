@@ -16,6 +16,13 @@ RSpec.describe 'Players' do # rubocop:disable RSpec/MultipleMemoizedHelpers
               min: { type: :integer, example: 3 }
             }
           },
+          minutes: {
+            type: :object,
+            properties: {
+              max: { type: :integer, example: 270 },
+              min: { type: :integer, example: 90 }
+            }
+          },
           base_score: {
             type: :object,
             properties: {
@@ -36,7 +43,21 @@ RSpec.describe 'Players' do # rubocop:disable RSpec/MultipleMemoizedHelpers
             }
           },
           tournament_id: { type: :array, items: { type: :integer, example: 44 }, example: [44, 55] },
-          without_team: { type: :boolean, example: true }
+          without_team: { type: :boolean, example: true },
+          teams_count: {
+            type: :object,
+            properties: {
+              max: { type: :integer, example: 5 },
+              min: { type: :integer, example: 1 }
+            }
+          },
+          price: {
+            type: :object,
+            properties: {
+              max: { type: :float, example: 50.0 },
+              min: { type: :float, example: 10.0 }
+            }
+          }
         }
       }
       parameter name: :page, in: :query, type: :object, required: false, schema: {
@@ -156,6 +177,156 @@ RSpec.describe 'Players' do # rubocop:disable RSpec/MultipleMemoizedHelpers
           ids = body['data'].pluck('id')
           expect(ids).to include(player_one.id)
           expect(ids).not_to include(player_with_team.id)
+        end
+      end
+
+      response 200, 'Filtered by minutes', document: false do
+        let!(:player_with_minutes) { create(:player, club: create(:club, tournament: league.tournament)) }
+
+        before do # rubocop:disable RSpec/ScatteredSetup
+          create(:player_season_stat, player: player_with_minutes, club: player_with_minutes.club,
+                                      season: Season.last, tournament: league.tournament,
+                                      played_minutes: 270)
+        end
+
+        let(:filter) { { league_id: league.id, minutes: { min: 100 } } }
+
+        run_test! do |response|
+          body = JSON.parse(response.body)
+
+          expect(body['data'].size).to eq 1
+          expect(body['data'].first['id']).to eq player_with_minutes.id
+        end
+      end
+
+      response 200, 'Filtered by club_id', document: false do
+        let(:filter) { { club_id: [player_one.club_id] } }
+
+        run_test! do |response|
+          body = JSON.parse(response.body)
+
+          expect(body['data'].size).to eq 1
+          expect(body['data'].first['id']).to eq player_one.id
+        end
+      end
+
+      response 200, 'Filtered by position', document: false do
+        let!(:player_with_pos) { create(:player, :with_pos_dc, club: create(:club, tournament: league.tournament)) }
+        let(:filter) { { position: ['CB'] } }
+
+        run_test! do |response|
+          body = JSON.parse(response.body)
+
+          expect(body['data'].size).to eq 1
+          expect(body['data'].first['id']).to eq player_with_pos.id
+        end
+      end
+
+      response 200, 'Filtered by team_id (requires league_id)', document: false do
+        let!(:player_in_team) { create(:player, club: create(:club, tournament: league.tournament)) }
+        let(:team) { create(:team, league: league) }
+
+        before { create(:player_team, player: player_in_team, team: team) } # rubocop:disable RSpec/ScatteredSetup
+
+        let(:filter) { { league_id: league.id, team_id: [team.id] } }
+
+        run_test! do |response|
+          body = JSON.parse(response.body)
+
+          expect(body['data'].size).to eq 1
+          expect(body['data'].first['id']).to eq player_in_team.id
+        end
+      end
+
+      response 200, 'Filtered by min app', document: false do
+        let!(:player_with_apps) { create(:player, club: create(:club, tournament: league.tournament)) }
+
+        before do # rubocop:disable RSpec/ScatteredSetup
+          create(:player_season_stat, player: player_with_apps, club: player_with_apps.club,
+                                      season: Season.last, tournament: league.tournament,
+                                      played_matches: 10)
+        end
+
+        let(:filter) { { app: { min: 5 } } }
+
+        run_test! do |response|
+          body = JSON.parse(response.body)
+
+          expect(body['data'].size).to eq 1
+          expect(body['data'].first['id']).to eq player_with_apps.id
+        end
+      end
+
+      response 200, 'Filtered by min base_score', document: false do
+        let!(:player_with_score) { create(:player, club: create(:club, tournament: league.tournament)) }
+
+        before do # rubocop:disable RSpec/ScatteredSetup
+          create(:player_season_stat, player: player_with_score, club: player_with_score.club,
+                                      season: Season.last, tournament: league.tournament,
+                                      score: 7.5)
+        end
+
+        let(:filter) { { base_score: { min: 7.0 } } }
+
+        run_test! do |response|
+          body = JSON.parse(response.body)
+
+          expect(body['data'].size).to eq 1
+          expect(body['data'].first['id']).to eq player_with_score.id
+        end
+      end
+
+      response 200, 'Filtered by min total_score', document: false do
+        let!(:player_with_score) { create(:player, club: create(:club, tournament: league.tournament)) }
+
+        before do # rubocop:disable RSpec/ScatteredSetup
+          create(:player_season_stat, player: player_with_score, club: player_with_score.club,
+                                      season: Season.last, tournament: league.tournament,
+                                      final_score: 8.0)
+        end
+
+        let(:filter) { { total_score: { min: 7.0 } } }
+
+        run_test! do |response|
+          body = JSON.parse(response.body)
+
+          expect(body['data'].size).to eq 1
+          expect(body['data'].first['id']).to eq player_with_score.id
+        end
+      end
+
+      response 200, 'Filtered by min price (requires league_id)', document: false do
+        let!(:cheap_player) { create(:player, club: create(:club, tournament: league.tournament)) }
+        let!(:expensive_player) { create(:player, club: create(:club, tournament: league.tournament)) }
+        let(:team) { create(:team, league: league) }
+
+        before do # rubocop:disable RSpec/ScatteredSetup
+          create(:player_team, player: cheap_player, team: team)
+          create(:transfer, player: cheap_player, team: team, price: 10, status: :incoming)
+          create(:player_team, player: expensive_player, team: team)
+          create(:transfer, player: expensive_player, team: team, price: 50, status: :incoming)
+        end
+
+        let(:filter) { { league_id: league.id, price: { min: 30 } } }
+
+        run_test! do |response|
+          body = JSON.parse(response.body)
+
+          ids = body['data'].pluck('id')
+          expect(ids).to include(expensive_player.id)
+          expect(ids).not_to include(cheap_player.id)
+        end
+      end
+
+      response 200, 'Filtered by min teams_count', document: false do
+        let!(:player_with_team) { create(:player, :with_team, club: create(:club, tournament: league.tournament)) }
+        let(:filter) { { teams_count: { min: 1 } } }
+
+        run_test! do |response|
+          body = JSON.parse(response.body)
+
+          expect(body['data'].size).to eq 1
+          expect(body['data'].first['id']).to eq player_with_team.id
         end
       end
 

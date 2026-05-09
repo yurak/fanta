@@ -42,6 +42,7 @@ export const decodeFilter = (filter?: Record<string, string>): IFilter => {
 
     return {
       appearances: decodeRangeValue(defaultFilter.appearances, filter.apps),
+      minutes: decodeRangeValue(defaultFilter.minutes, filter.mins),
       baseScore: decodeRangeValue(defaultFilter.baseScore, filter.bs),
       totalScore: decodeRangeValue(defaultFilter.totalScore, filter.ts),
       teamsCount: decodeRangeValue(defaultFilter.teamsCount, filter.tc),
@@ -63,6 +64,7 @@ export const decodeFilter = (filter?: Record<string, string>): IFilter => {
 export const encodeFilter = (filter: IFilter): Record<string, string | null> => {
   return {
     apps: encodeRangeValue(defaultFilter.appearances, filter.appearances),
+    mins: encodeRangeValue(defaultFilter.minutes, filter.minutes),
     bs: encodeRangeValue(defaultFilter.baseScore, filter.baseScore),
     ts: encodeRangeValue(defaultFilter.totalScore, filter.totalScore),
     tc: encodeRangeValue(defaultFilter.teamsCount, filter.teamsCount),

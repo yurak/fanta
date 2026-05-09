@@ -656,6 +656,8 @@ ua:
       totalScoreShortLabel: "ЗО"
       appearancesLabel: "Появи"
       appearancesShortLabel: "Появи"
+      minutesLabel: "Зіграні хвилини"
+      minutesShortLabel: "Хв"
       numberOfTeamsLabel: "К-сть команд"
       numberOfTeamsShortLabel: "Команди"
       priceLabel: "Вартість"

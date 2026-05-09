@@ -34,6 +34,7 @@ export const filterToRequestFormat = (
     teams_count: justifyRangeSliderValue(filter.teamsCount, defaultFilter.teamsCount),
     base_score: justifyRangeSliderValue(filter.baseScore, defaultFilter.baseScore),
     app: justifyRangeSliderValue(filter.appearances, defaultFilter.appearances),
+    minutes: justifyRangeSliderValue(filter.minutes, defaultFilter.minutes),
     price: justifyRangeSliderValue(filter.price, defaultFilter.price),
     league_id: defaultLeagueId,
   };

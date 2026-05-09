@@ -1,8 +1,8 @@
 module Players
   class Query < ApplicationService
     attr_reader :club_id, :direction, :field, :league_id, :max_app, :max_base_score,
-                :max_price, :max_total_score, :max_teams_count, :min_app, :min_base_score,
-                :min_price, :min_total_score, :min_teams_count, :name, :position,
+                :max_minutes, :max_price, :max_total_score, :max_teams_count, :min_app, :min_base_score,
+                :min_minutes, :min_price, :min_total_score, :min_teams_count, :name, :position,
                 :team_id, :tournament_id, :without_team
 
     ASC_DIRECTION = 'asc'.freeze
@@ -35,6 +35,8 @@ module Players
       @max_price       = params.dig(:price, :max)
       @max_total_score = params.dig(:total_score, :max)
       @min_app         = params.dig(:app, :min)
+      @min_minutes     = params.dig(:minutes, :min)
+      @max_minutes     = params.dig(:minutes, :max)
       @min_base_score  = params.dig(:base_score, :min)
       @min_price       = params.dig(:price, :min)
       @min_total_score  = params.dig(:total_score, :min)
@@ -52,11 +54,18 @@ module Players
       players = join_season_stats(players)
       players = filter_by_name(players)
       players = filter_by_appearances(players)
+      players = filter_by_minutes(players)
       players = filter_by_base_score(players)
       players = filter_by_total_score(players)
       players = filter_by_teams_count(players)
       players = filter_by_team(players)
 
+      apply_ordering(players)
+    end
+
+    private
+
+    def apply_ordering(players)
       if needs_in_memory_filter?
         players = players.includes(*PLAYER_PRELOADS).to_a
         players = filter_by_league_price(players)
@@ -65,8 +74,6 @@ module Players
         order_players_sql(players)
       end
     end
-
-    private
 
     def join_season_stats(players)
       players.joins(
@@ -87,6 +94,12 @@ module Players
     def filter_by_appearances(players)
       players = players.where('COALESCE(pss.played_matches, 0) >= ?', min_app.to_f) if min_app
       players = players.where('COALESCE(pss.played_matches, 0) <= ?', max_app.to_f) if max_app
+      players
+    end
+
+    def filter_by_minutes(players)
+      players = players.where('COALESCE(pss.played_minutes, 0) >= ?', min_minutes.to_i) if min_minutes
+      players = players.where('COALESCE(pss.played_minutes, 0) <= ?', max_minutes.to_i) if max_minutes
       players
     end
 
