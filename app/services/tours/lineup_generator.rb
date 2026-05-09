@@ -9,6 +9,7 @@ module Tours
 
       clone_missed_lineups
       generate_not_in_squad_players
+      tour.update!(lineups_generated: true)
     end
 
     private

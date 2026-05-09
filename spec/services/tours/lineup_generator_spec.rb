@@ -24,6 +24,10 @@ RSpec.describe Tours::LineupGenerator do
     let(:tournament_round) { create(:tournament_round) }
     let(:tour) { create(:locked_tour, tournament_round: tournament_round) }
 
+    it 'marks tour as lineups_generated' do
+      expect { generator }.to change { tour.reload.lineups_generated }.from(false).to(true)
+    end
+
     context 'when team has no lineup' do
       let(:team) { create(:team, league: tour.league) }
 
