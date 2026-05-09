@@ -25,7 +25,7 @@ namespace :tours do
         next
       end
 
-      Tour.locked.each do |tour|
+      Tour.locked.where(lineups_generated: false).each do |tour|
         Tours::LineupGenerator.call(tour)
       end
     end
