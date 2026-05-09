@@ -24,7 +24,7 @@
 
     .club-data {
       .club-logo {
-        margin: 16px auto;
+        margin: 48px auto 16px;
         width: fit-content;
 
         object, img {
@@ -63,8 +63,13 @@
     position: fixed;
     right: 0;
     border-left: 1px solid #E5E6E4;
-    overflow-y:scroll;
-    overflow-x:hidden;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
 
     .club-list-item {
       height: 72px;
@@ -113,7 +118,7 @@
   }
 }
 
-@media (orientation: landscape) and (max-device-width: 1440px) {
+@media (min-width: 769px) and (max-width: 1440px) {
   .page-info.club-show {
     .club-show-content {
       grid-template-columns: auto 256px;
@@ -132,12 +137,60 @@
   }
 }
 
-@media (orientation: portrait) {
-  .page-info.club-show {
-    padding: 0 0 288px;
+@media (max-width: 768px) {
+  .page-info.club-show.team-show {
+    padding: 0 0 120px;
 
-    .clubs-bar {
-      display: block;
+    .teams-bar.clubs-bar {
+      display: flex;
+      align-items: center;
+      height: 80px;
+      margin-bottom: 0;
+      overflow-x: auto;
+      overflow-y: hidden;
+      scrollbar-width: none;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+
+      .teams-bar-section.club-bar-section {
+        padding: 0 5px;
+        display: flex;
+        align-items: center;
+        margin: 0 auto;
+
+        .club-bar-item {
+          width: 48px;
+          height: 48px;
+          padding: 9px !important;
+          margin: 0 4px;
+          border-radius: 24px;
+          border: 1px solid #E5E6E4;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .club-bar-item-logo {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          object, img {
+            width: 27px;
+            height: 27px;
+          }
+        }
+
+        .current-team-true {
+          border: 1px solid #FFB319;
+        }
+      }
+    }
+
+    .team-section {
+      margin: 0;
     }
 
     .club-show-content {
@@ -146,29 +199,121 @@
       .club-section {
         .club-data {
           .club-logo {
-            margin: 32px auto 16px;
+            margin: 16px auto 8px;
 
             object, img {
-              width: 160px;
-              height: 160px;
+              width: 68px;
+              height: 68px;
             }
           }
 
           .club-name {
-            font-size: 48px;
-            line-height: 64px;
+            font-size: 20px;
+            line-height: 28px;
           }
 
           .club-tournament {
-            font-size: 32px;
-            line-height: 48px;
-            margin-bottom: 32px;
+            font-size: 14px;
+            line-height: 20px;
+            margin-bottom: 14px;
           }
         }
 
         .club-list {
+          padding: 0 16px;
+
           .default-headers {
             display: none;
+          }
+
+          .team-lists-tabs {
+            height: 38px;
+            line-height: 30px;
+            font-size: 15px;
+
+            .team-lists-tab-item {
+              border-bottom: 1px solid #E5E6E4;
+            }
+
+            .team-lists-tab-active {
+              border-bottom: 3px solid #261FFF;
+            }
+          }
+
+          .team-players-grid {
+            grid-template-columns: 9fr 22fr 7fr;
+          }
+
+          .team-player-item {
+            height: 72px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #E5E6E4;
+
+            .team-player-data {
+              .team-player-avatar {
+                padding: 4px 10px 0;
+
+                .player-show-face, .player-show-kit {
+                  img, object {
+                    width: 65px;
+                    height: 65px;
+                  }
+                }
+              }
+            }
+
+            .team-player-data-mob {
+              padding: 8px 0;
+
+              .team-player-name-mob {
+                font-size: 18px;
+                line-height: 27px;
+                margin-bottom: 3px;
+              }
+
+              .team-player-subdata-mob {
+                line-height: 23px;
+                gap: 7px;
+
+                .player-positions-block {
+                  height: 23px;
+                  border-radius: 5px;
+                }
+
+                .player-position {
+                  padding: 5px 8px;
+                  height: 23px;
+                  font-size: 13px;
+                  line-height: 15px;
+                }
+
+                .team-player-line-mob {
+                  width: 1px;
+                  height: 12px;
+                }
+
+                img, object {
+                  width: 23px;
+                  height: 23px;
+                }
+
+                .flag-icon {
+                  width: 20px;
+                }
+
+                .team-player-stats-number {
+                  font-size: 13px;
+                  line-height: 23px;
+                }
+              }
+            }
+
+            .team-player-rating {
+              font-size: 20px;
+              line-height: 68px;
+              padding-right: 13px;
+            }
           }
         }
       }
@@ -177,5 +322,35 @@
     .clubs-list {
       display: none;
     }
+  }
+}
+
+@media (max-width: 768px) {
+  .page-block .portrait-footer {
+    height: 90px;
+    padding: 10px 15px;
+
+    img {
+      width: 30px;
+      height: 30px;
+    }
+
+    .league-link {
+      padding: 11px 0;
+
+      .league-link-text {
+        font-size: 13px;
+        line-height: 18px;
+      }
+    }
+
+    .link-active-true {
+      border-radius: 10px;
+    }
+  }
+
+  .page-block .portrait-footer-false {
+    padding: 10px 80px;
+    column-gap: 15px;
   }
 }
