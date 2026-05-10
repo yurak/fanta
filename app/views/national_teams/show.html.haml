@@ -81,3 +81,20 @@
                 .club-list-logo
                   = flag_icon(team.code.to_sym, element: :div)
                 .club-list-name= team.name
+
+:javascript
+  document.addEventListener('DOMContentLoaded', function() {
+    var sidebar = document.querySelector('.clubs-list');
+    var active = sidebar && sidebar.querySelector('.current-club-true');
+    if (active) {
+      sidebar.scrollTop = active.offsetTop - sidebar.clientHeight / 2 + active.clientHeight / 2;
+    }
+
+    var bar = document.querySelector('.teams-bar.clubs-bar');
+    var activeBar = bar && bar.querySelector('.current-team-true');
+    if (activeBar) {
+      var barRect = bar.getBoundingClientRect();
+      var activeRect = activeBar.getBoundingClientRect();
+      bar.scrollLeft += activeRect.left - barRect.left - barRect.width / 2 + activeRect.width / 2;
+    }
+  });

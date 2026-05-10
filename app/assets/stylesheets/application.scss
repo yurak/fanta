@@ -879,11 +879,11 @@ body, html {
           .league-name {
             font-size: 18px;
             line-height: 22px;
-            margin-bottom: 0;
+            margin-bottom: 4px;
           }
 
           .league-season {
-            font-size: 12px;
+            font-size: 14px;
             line-height: 16px;
           }
 
@@ -903,6 +903,22 @@ body, html {
           > img {
             margin: 0;
             width: 48px;
+          }
+
+          .league-icon {
+            width: 32px;
+            height: 32px;
+            border-width: 1px;
+            border-radius: 16px;
+            right: 10px;
+            top: 36px;
+
+            img {
+              width: 24px;
+              height: 24px;
+              border-radius: 6px;
+              margin: 3px;
+            }
           }
         }
       }
@@ -970,6 +986,52 @@ body, html {
   .mob-header .badges-block {
     padding-top: 72px;
     padding-bottom: 0;
+
+    .next-round {
+      height: 60px;
+      padding: 14px;
+      column-gap: 10px;
+      font-size: 15px;
+      line-height: 30px;
+      grid-template-columns: 30px auto 42px 30px 30px 42px auto 30px;
+      box-shadow: 1px 2px 6px rgba(24, 23, 21, 0.2);
+
+      img {
+        width: 30px;
+        height: 30px;
+      }
+
+      .next-round-goals {
+        border-radius: 4px;
+      }
+    }
+
+    .next-round-opponent-row {
+      grid-template-columns: 176px auto;
+
+      .next-round-opponent {
+        grid-template-columns: 20px 30px auto;
+        column-gap: 10px;
+      }
+    }
+
+    .next-round-datetime {
+      font-size: 18px;
+      grid-template-columns: auto 58px;
+    }
+
+    .auction-badge {
+      font-size: 13px;
+      line-height: 20px;
+      border-radius: 6px;
+      padding: 3px 6px;
+      margin: 3px 0;
+    }
+
+    .auction-text {
+      font-size: 13px;
+      line-height: 30px;
+    }
   }
 
   .mob-header #burger-menu-block .menu-content {
