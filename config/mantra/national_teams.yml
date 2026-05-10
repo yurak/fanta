@@ -1,51 +1,83 @@
 euro:
   al: Albania
-  at: Austria
-  be: Belgium
-  ch: Switzerland
-  cz: Czechia
-  de: Germany
   dk: Denmark
-  es: Spain
   fi: Finland
-  fr: France
-  gb-eng: England
-  gb-sct: Scotland
   gb-wls: Wales
   ge: Georgia
-  hr: Croatia
   hu: Hungary
   it: Italy
   mk: North Macedonia
-  nl: Netherlands
   pl: Poland
-  pt: Portugal
   ro: Romania
   rs: Serbia
   ru: Russia
-  se: Sweden
   si: Slovenia
   sk: Slovakia
-  tr: Turkiye
   ua: Ukraine
   xx: Undefined
-world_cup:
-  ec: Ecuador
-  qa: Qatar
-  sn: Senegal
-  ir: Iran
-  us: USA
-  ar: Argentina
-  mx: Mexico
-  sa: Saudi Arabia
-  au: Australia
-  tn: Tunisia
-  cr: Costa Rica
-  jp: Japan
-  ca: Canada
-  ma: Morocco
-  br: Brazil
+afcon:
+  ao: Angola
+  bf: Burkina Faso
+  bj: Benin
+  bw: Botswana
   cm: Cameroon
+  ga: Gabon
+  gq: Equatorial Guinea
+  km: Comoros
+  ml: Mali
+  mz: Mozambique
+  ng: Nigeria
+  sd: Sudan
+  tz: Tanzania
+  ug: Uganda
+  zm: Zambia
+  zw: Zimbabwe
+world_cup:
+  ar: Argentina
+  at: Austria
+  au: Australia
+  ba: Bosnia and Herzegovina
+  be: Belgium
+  br: Brazil
+  ca: Canada
+  cd: DR Congo
+  ch: Switzerland
+  ci: Ivory Coast
+  co: Colombia
+  cv: Cabo Verde
+  cw: Curacao
+  cz: Czechia
+  de: Germany
+  dz: Algeria
+  ec: Ecuador
+  eg: Egypt
+  es: Spain
+  fr: France
+  gb-eng: England
+  gb-sct: Scotland
   gh: Ghana
+  hr: Croatia
+  ht: Haiti
+  iq: Iraq
+  ir: Iran
+  jo: Jordan
+  jp: Japan
   kr: South Korea
+  ma: Morocco
+  mx: Mexico
+  nl: Netherlands
+  no: Norway
+  nz: New Zealand
+  pa: Panama
+  pt: Portugal
+  py: Paraguay
+  qa: Qatar
+  sa: Saudi Arabia
+  se: Sweden
+  sn: Senegal
+  tn: Tunisia
+  tr: Turkiye
+  us: USA
   uy: Uruguay
+  uz: Uzbekistan
+  za: South Africa

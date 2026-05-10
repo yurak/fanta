@@ -25,7 +25,7 @@ namespace :tours do
         next
       end
 
-      Tour.locked.where(lineups_generated: false).each do |tour|
+      Tour.locked.where(lineups_generated: false).find_each do |tour|
         Tours::LineupGenerator.call(tour)
       end
     end
@@ -50,7 +50,7 @@ namespace :tours do
   # rake 'tours:create_national[178]'
   desc 'Create tours for World Cup'
   task :create_national, [:league_id] => :environment do |_t, args|
-    tournament = Tournament.find_by(code: Tournament::EURO)
+    tournament = Tournament.find_by(code: 'world_cup')
     league = tournament.leagues.find_by(id: args[:league_id])
 
     ActiveRecord::Base.transaction do
