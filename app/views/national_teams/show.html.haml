@@ -1,8 +1,9 @@
 - content_for :head do
   %meta{name: 'viewport', content: 'width=device-width, initial-scale=1'}
 .page-block
-  .web-header= render 'layouts/left_nav', league: nil
-  .mob-header= render 'layouts/mob_header', league: nil, title: national_team.tournament.name
+  .web-header= render 'layouts/left_nav', league: league
+  .web-header= render 'layouts/right_nav', league: league
+  .mob-header= render 'layouts/mob_header', league: league, title: national_team.tournament.name
   .page-info.national-team-show.club-show.team-show
     .teams-bar.clubs-bar
       .teams-bar-section.club-bar-section

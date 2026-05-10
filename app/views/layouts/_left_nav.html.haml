@@ -15,13 +15,13 @@
         = image_tag('icons/plus_sign.svg')
   .nav-logo-bottom
     .nav-logo-small
-      = link_to players_path do
-        .nav-link-icon= '👟'
-        .nav-link-title= t('header.players')
-    .nav-logo-small
       = link_to leagues_path do
         .nav-link-icon= '🏑'
         .nav-link-title= t('header.leagues')
+    .nav-logo-small
+      = link_to players_path do
+        .nav-link-icon= '👟'
+        .nav-link-title= t('header.players')
     -# TODO: add link to fixtures page
     -#.nav-logo-small
     -#  = link_to '' do

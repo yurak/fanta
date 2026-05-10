@@ -20,7 +20,9 @@ class ClubsController < ApplicationController
   end
 
   def league
-    @league ||= League.find_by(id: params[:league_id]) || tournament.leagues.last
+    @league ||= League.find_by(id: params[:league_id]) ||
+      current_user&.league_by_tournament(tournament.id) ||
+      tournament.leagues.last
   end
 
   def clubs

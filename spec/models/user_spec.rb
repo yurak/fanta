@@ -104,6 +104,27 @@ RSpec.describe User do
     end
   end
 
+  describe '#league_by_tournament(tournament_id)' do
+    let(:tournament) { create(:tournament) }
+    let(:league) { create(:league, tournament: tournament) }
+
+    context 'without team in any league' do
+      it { expect(user.league_by_tournament(tournament.id)).to be_nil }
+    end
+
+    context 'with team in a different tournament' do
+      before { create(:team, user: user, league: create(:league)) }
+
+      it { expect(user.league_by_tournament(tournament.id)).to be_nil }
+    end
+
+    context 'with team in the tournament' do
+      before { create(:team, user: user, league: league) }
+
+      it { expect(user.league_by_tournament(tournament.id)).to eq(league) }
+    end
+  end
+
   describe '#team_by_league(league)' do
     let(:league) { create(:league) }
 
