@@ -28,7 +28,7 @@ class ApplicationController < ActionController::Base
 
     ActiveRecord::Associations::Preloader.new.preload(
       [current_user],
-      { teams: { league: :tournament } }
+      { teams: { league: %i[tournament division season results teams] } }
     )
   end
 

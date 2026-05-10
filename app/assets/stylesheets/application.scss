@@ -925,7 +925,7 @@ body, html {
           justify-content: center;
 
           .user-data {
-            font-size: 15px;
+            font-size: 18px;
             line-height: 24px;
             padding: 8px 12px;
             border-width: 1px;
@@ -968,7 +968,7 @@ body, html {
   }
 
   .mob-header .badges-block {
-    padding-top: 80px;
+    padding-top: 72px;
     padding-bottom: 0;
   }
 
@@ -987,32 +987,41 @@ body, html {
 
     .my-leagues {
       margin: 24px 0 60px;
-      padding: 0 20px;
+      padding: 0 16px;
 
       .my-leagues-title {
-        font-size: 13px;
-        line-height: 20px;
+        font-size: 16px;
+        line-height: 22px;
         margin-bottom: 12px;
       }
 
       .my-league {
-        font-size: 15px;
-        line-height: 56px;
+        font-size: 18px;
+        line-height: 70px;
+        border-width: 1px;
+        border-radius: 6px;
+        padding: 0 12px;
+        margin-bottom: 6px;
 
         a {
-          grid-template-columns: 56px auto 100px 40px;
-          column-gap: 12px;
+          grid-template-columns: 64px auto 72px 36px;
+          column-gap: 16px;
         }
 
         img {
-          width: 44px;
-          height: 44px;
+          width: 52px;
+          height: 52px;
         }
 
         .my-league-type {
-          font-size: 13px;
-          height: 32px;
-          line-height: 32px;
+          font-size: 14px;
+          height: 36px;
+          line-height: 36px;
+
+          .my-league-type-item {
+            padding: 0 10px;
+            border-radius: 16px;
+          }
         }
       }
     }

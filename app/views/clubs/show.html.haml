@@ -1,3 +1,5 @@
+- content_for :head do
+  %meta{name: 'viewport', content: 'width=device-width, initial-scale=1'}
 .page-block
   .web-header= render 'layouts/left_nav', league: league
   .web-header= render 'layouts/right_nav', league: league
