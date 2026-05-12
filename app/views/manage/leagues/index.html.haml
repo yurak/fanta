@@ -59,7 +59,7 @@
               %td= "#{league.season.start_year}-#{league.season.end_year}"
               %td
                 - if league.results.any?(&:title?)
-                  %span.d-inline-flex.align-items-center.justify-content-center.rounded-circle.bg-success.text-white{ style: 'width:22px;height:22px;font-size:12px' } ✓
+                  %span.crowned-badge ✓
                 - else
                   —
               %td= league.teams.count

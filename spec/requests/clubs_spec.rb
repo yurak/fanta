@@ -46,7 +46,7 @@ RSpec.describe 'Clubs' do
       end
 
       it { expect(response).to be_successful }
-      it { expect(response.body).to include(league.name) }
+      it { expect(response.body).to include(CGI.escapeHTML(league.name)) }
     end
 
     context 'when user has no team in the tournament and no league_id param' do
