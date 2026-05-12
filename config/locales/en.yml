@@ -453,6 +453,7 @@ en:
       crown_low_pct: "Cannot crown: less than 50% lineups submitted manually"
       already_crowned: "Champion already set"
       crowned: "Champion assigned"
+      crowned_col: "Champion"
       confirm: "Set the deadline and activate the league?"
       deadline: "Sales Deadline"
       min_avg_def_score: "Min avg def score"
