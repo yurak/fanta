@@ -188,7 +188,7 @@ module Substitutes
       occupant = @match_col[target_col]
       return unless occupant != -1 && @grid[@eligible_rows[occupant]][target_col].zero?
 
-      escape = @zero_edges[occupant].find { |e| e != target_col && @match_col[e] == -1 }
+      escape = @zero_edges[occupant].find { |e| e != target_col && e < current_col && @match_col[e] == -1 }
       return unless escape
 
       reassign(occupant, target_col, escape)

@@ -114,7 +114,9 @@ class LineupsController < ApplicationController
   end
 
   def tour
-    @tour ||= lineup&.tour || Tour.find(params[:tour_id] || lineup_params[:tour_id])
+    @tour ||= lineup&.tour ||
+      Tour.includes(tournament_round: { national_matches: %i[host_team guest_team] }).find(params[:tour_id] ||
+      lineup_params[:tour_id])
   end
 
   def modules

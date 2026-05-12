@@ -15,8 +15,6 @@ class PlayerLineupSerializer < ActiveModel::Serializer
   attributes :national_team_name
   attributes :position_arr
   attributes :position_classic_arr
-  attributes :stats_price
-
   def club_code
     club&.code
   end
