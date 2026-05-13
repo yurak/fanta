@@ -188,7 +188,7 @@ class Team < ApplicationRecord
   private
 
   def matches
-    @matches ||= Match.where('host_id = ? OR guest_id = ?', id, id)
+    @matches ||= Match.where('host_id = ? OR guest_id = ?', id, id).order(tour_id: :asc)
   end
 
   def current_auction
