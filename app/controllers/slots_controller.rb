@@ -35,7 +35,7 @@ class SlotsController < ApplicationController
       scope = scope.by_position(position.split('/'))
     end
 
-    scope = scope.includes(group_association, :club).distinct
+    scope = scope.includes(group_association, { club: :tournament }).distinct
 
     scope.sort_by(&:name)
          .group_by { |player| player.public_send(group_association) }

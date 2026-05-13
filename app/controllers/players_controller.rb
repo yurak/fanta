@@ -21,7 +21,7 @@ class PlayersController < ApplicationController
                        .order(season_id: :desc, created_at: :desc)
         preload_player_show_associations
       end
-      format.json { render json: player, serializer: PlayerBaseSerializer }
+      format.json { render json: player, serializer: PlayerLineupSerializer }
     end
   end
 
