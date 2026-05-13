@@ -3,7 +3,7 @@ class Lineup < ApplicationRecord
   belongs_to :team
   belongs_to :tour
 
-  has_many :match_players, dependent: :destroy
+  has_many :match_players, dependent: :destroy, inverse_of: :lineup
   has_many :round_players, through: :match_players
 
   accepts_nested_attributes_for :match_players

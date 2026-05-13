@@ -7,6 +7,7 @@ class MatchesController < ApplicationController
     return redirect_to leagues_path unless match
 
     preload_lineups(match)
+    preload_round_matches
     @prev_tour_match = first_round_match(match.tour.prev_round)
     @next_tour_match = first_round_match(match.tour.next_round)
   end
@@ -45,6 +46,22 @@ class MatchesController < ApplicationController
       m.define_singleton_method(:host_lineup) { lineups[host_id] }
       m.define_singleton_method(:guest_lineup) { lineups[guest_id] }
     end
+  end
+
+  def preload_round_matches
+    t_rounds = match.tour.matches.flat_map do |m|
+      [m.host_lineup, m.guest_lineup].compact.flat_map do |lineup|
+        lineup.match_players.filter_map { |mp| mp.round_player&.tournament_round }
+      end
+    end
+    t_rounds << match.tour.tournament_round
+    t_rounds = t_rounds.compact.uniq(&:id)
+    return if t_rounds.empty?
+
+    ActiveRecord::Associations::Preloader.new.preload(
+      t_rounds,
+      [{ tournament_matches: %i[host_club guest_club] }, :national_matches]
+    )
   end
 
   def first_round_match(round)

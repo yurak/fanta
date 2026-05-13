@@ -98,7 +98,8 @@
                   .lineup-result-position= ordinalize_number(lineup.position)
                 .lineup-result-points
                   = "#{t('lineups.points')}: #{lineup.points}"
-            - lineup_slot_name_pairs = lineup.team_module.slots.sort_by(&:number).each_with_index.map { |slot, i| [slot, lineup.match_players.main.to_a[i]&.player&.name] }
+            - main_players = lineup.match_players.main.to_a
+            - lineup_slot_name_pairs = lineup.team_module.slots.sort_by(&:number).each_with_index.map { |slot, i| [slot, main_players[i]&.player&.name] }
             = render 'team_field', slot_name_pairs: lineup_slot_name_pairs
       - else
         .lineup-preview

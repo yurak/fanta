@@ -85,15 +85,19 @@ class RoundPlayer < ApplicationRecord
   def national_played?
     return false unless national_team
 
-    NationalMatch.by_team(national_team.id).by_t_round(t_round_id).where.not(host_score: nil).exists?
+    tournament_round.national_matches.to_a.any? do |m|
+      (m.host_team_id == national_team.id || m.guest_team_id == national_team.id) && m.host_score.present?
+    end
   end
 
   def tournament_matches_empty_but_exist?
-    tournament_matches_for_club.empty? && tournament_round.tournament_matches.exists?
+    tournament_matches_for_club.empty? && tournament_round.tournament_matches.to_a.any?
   end
 
   def tournament_matches_for_club
-    @tournament_matches_for_club ||= TournamentMatch.by_club_and_t_round(club_id_to_check, t_round_id).to_a
+    @tournament_matches_for_club ||= tournament_round.tournament_matches.to_a.select do |m|
+      m.host_club_id == club_id_to_check || m.guest_club_id == club_id_to_check
+    end
   end
 
   def club_id_to_check
