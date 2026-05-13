@@ -1,37 +1,61 @@
 import { useMemo } from "react";
 import Skeleton from "react-loading-skeleton";
 import cn from "classnames";
+import InfinityScrollDetector from "@/components/InfinityScrollDetector";
 import TableBodyCell from "./TableBodyCell";
 import TableHeaderCell from "./TableHeaderCell";
 import EmptyState from "@/ui/EmptyState";
 import { useSorting } from "./useSorting";
-import { IColumn, IComputedColumn, ITableSorting } from "./interfaces";
+import { IColumn, IComputedColumn } from "./interfaces";
+import { ISorting } from "@/hooks/useHistorySort";
 import styles from "./Table.module.scss";
 
-const LoadingSkeleton = ({ columns, items }: { columns: IComputedColumn[], items: number }) => {
-  return Array.from({ length: items }).map((_, rowIndex) => (
-    <div key={rowIndex} className={cn(styles.row, styles.dataRow)}>
-      {columns.map((column) => {
-        const dataClassName =
-          typeof column.dataClassName === "function"
-            ? column.dataClassName(null, rowIndex)
-            : column.dataClassName;
-
-        return (
-          <TableBodyCell
-            key={column._key}
-            align={column.align}
-            noWrap={column.noWrap}
-            className={cn(column.className, dataClassName)}
-          >
-            {typeof column.skeleton === "function"
-              ? column.skeleton(rowIndex)
-              : column.skeleton ?? <Skeleton />}
-          </TableBodyCell>
-        );
+const LoadingSkeleton = ({
+  columns,
+  items,
+  rounded,
+}: {
+  columns: IComputedColumn[],
+  items: number,
+  rounded?: boolean,
+}) => {
+  return (
+    <div
+      className={cn(styles.body, {
+        [styles.roundedBody]: rounded,
       })}
+    >
+      {Array.from({ length: items }).map((_, rowIndex) => (
+        <div
+          key={rowIndex}
+          className={cn(styles.row, styles.dataRow, {
+            [styles.roundedRow]: rounded,
+          })}
+        >
+          {columns.map((column) => {
+            const dataClassName =
+              typeof column.dataClassName === "function"
+                ? column.dataClassName(null, rowIndex)
+                : column.dataClassName;
+
+            return (
+              <TableBodyCell
+                key={column._key}
+                align={column.align}
+                noWrap={column.noWrap}
+                withBorder={!rounded}
+                className={cn(column.className, dataClassName)}
+              >
+                {typeof column.skeleton === "function"
+                  ? column.skeleton(rowIndex)
+                  : column.skeleton ?? <Skeleton />}
+              </TableBodyCell>
+            );
+          })}
+        </div>
+      ))}
     </div>
-  ));
+  );
 };
 
 const Table = <DataItem extends object = object>({
@@ -39,30 +63,29 @@ const Table = <DataItem extends object = object>({
   dataSource,
   rowKey,
   rowLink,
+  rounded,
   skeletonItems = 6,
   isLoading,
+  isLoadingMore,
+  onLoadMore,
   tableClassName,
   tableInnerClassName,
-  bodyClassName,
   sorting,
-  emptyState = {
-    title: "No data",
-  },
+  emptyStateComponent = <EmptyState title="No data" />,
 }: {
   columns: IColumn<DataItem>[],
   dataSource: DataItem[],
   rowKey?: string | ((item: DataItem) => string | number),
   rowLink?: (item: DataItem) => string,
+  rounded?: boolean,
   isLoading?: boolean,
   skeletonItems?: number,
+  isLoadingMore?: boolean,
+  onLoadMore?: () => void,
   tableClassName?: string,
   tableInnerClassName?: string,
-  bodyClassName?: string,
-  sorting?: ITableSorting,
-  emptyState?: {
-    title: string,
-    description?: string,
-  },
+  sorting?: Partial<ISorting>,
+  emptyStateComponent?: React.ReactNode,
 }) => {
   const getRowKey = (item: DataItem) => {
     if (typeof rowKey === "function") {
@@ -89,7 +112,7 @@ const Table = <DataItem extends object = object>({
     [columns]
   );
 
-  const { onSort, sortColumnKey, sortedDataSource } = useSorting({
+  const { onSort, sortOrder, sortBy, sortedDataSource } = useSorting({
     sorting,
     columns: computedColumns,
     dataSource,
@@ -106,21 +129,30 @@ const Table = <DataItem extends object = object>({
               ellipsis={column.headEllipsis}
               title={column.title}
               withSort={!!column.sorter}
-              isSorter={column._key === sortColumnKey}
-              onSort={() => onSort(column._key)}
+              isSorter={column._key === sortBy}
+              sortOrder={column._key === sortBy ? sortOrder : null}
+              onSort={() => onSort(column)}
             />
           ))}
         </div>
         {isLoading ? (
-          <LoadingSkeleton columns={computedColumns} items={skeletonItems} />
+          <LoadingSkeleton columns={computedColumns} items={skeletonItems} rounded={rounded} />
         ) : (
-          <div className={bodyClassName}>
+          <div
+            className={cn(styles.body, {
+              [styles.roundedBody]: rounded,
+            })}
+          >
             {sortedDataSource.length > 0 ? (
               sortedDataSource.map((dataItem, rowIndex) => (
                 <div
                   key={getRowKey(dataItem)}
                   className={cn(styles.row, styles.dataRow, {
-                    [styles.hoverableRow]: Boolean(rowLink),
+                    ...(Boolean(rowLink) && {
+                      [styles.hoverableRow]: true,
+                      [styles.defaultHoverableRow]: !rounded,
+                    }),
+                    [styles.roundedRow]: rounded,
                   })}
                 >
                   {computedColumns.map((column) => {
@@ -134,6 +166,7 @@ const Table = <DataItem extends object = object>({
                         key={column._key}
                         align={column.align}
                         noWrap={column.noWrap}
+                        withBorder={!rounded}
                         className={cn(column.className, dataClassName)}
                       >
                         {renderCellData(dataItem, column, rowIndex)}
@@ -144,9 +177,17 @@ const Table = <DataItem extends object = object>({
                 </div>
               ))
             ) : (
-              <div className={styles.emptyState}>
-                <EmptyState title={emptyState.title} description={emptyState.description} />
-              </div>
+              <div className={styles.emptyState}>{emptyStateComponent}</div>
+            )}
+            {isLoadingMore && (
+              <>
+                <InfinityScrollDetector loadMore={() => onLoadMore?.()} />
+                <LoadingSkeleton
+                  columns={computedColumns}
+                  items={skeletonItems}
+                  rounded={rounded}
+                />
+              </>
             )}
           </div>
         )}

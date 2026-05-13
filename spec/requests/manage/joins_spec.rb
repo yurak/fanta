@@ -35,7 +35,7 @@ RSpec.describe 'Manage::Joins' do
 
       it 'assigns pending joins' do
         get manage_joins_path(tab: 'pending')
-        expect(response.body).to include(join.user.name)
+        expect(response.body).to include(CGI.escapeHTML(join.user.name))
       end
 
       context 'with telegram badge' do
@@ -63,12 +63,12 @@ RSpec.describe 'Manage::Joins' do
 
       it 'assigns initial joins' do
         get manage_joins_path(tab: 'initial')
-        expect(response.body).to include(initial_join.user.name)
+        expect(response.body).to include(CGI.escapeHTML(initial_join.user.name))
       end
 
       it 'assigns approved joins' do
         get manage_joins_path(tab: 'approved')
-        expect(response.body).to include(approved_join.user.name)
+        expect(response.body).to include(CGI.escapeHTML(approved_join.user.name))
       end
     end
   end
@@ -106,7 +106,7 @@ RSpec.describe 'Manage::Joins' do
     end
 
     it 'shows joins from all tournaments' do
-      expect(response.body).to include(join.user.name).and include(join2.user.name)
+      expect(response.body).to include(CGI.escapeHTML(join.user.name)).and include(CGI.escapeHTML(join2.user.name))
     end
 
     context 'when filtering by tournament_id' do
@@ -117,15 +117,15 @@ RSpec.describe 'Manage::Joins' do
       end
 
       it 'shows only joins for the selected tournament' do
-        expect(response.body).to include(join.user.name)
+        expect(response.body).to include(CGI.escapeHTML(join.user.name))
       end
 
       it 'excludes joins from other tournaments' do
-        expect(response.body).not_to include(join2.user.name)
+        expect(response.body).not_to include(CGI.escapeHTML(join2.user.name))
       end
 
       it 'still renders all tournament sub-tabs' do
-        expect(response.body).to include(tournament.name).and include(tournament2.name)
+        expect(response.body).to include(CGI.escapeHTML(tournament.name)).and include(CGI.escapeHTML(tournament2.name))
       end
     end
   end

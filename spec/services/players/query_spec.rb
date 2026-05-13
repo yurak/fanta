@@ -17,6 +17,12 @@ RSpec.describe Players::Query do
         it 'returns all players' do
           expect(result.count).to eq(3)
         end
+
+        it 'sorts by total score descending by default' do
+          player_high = create(:player, :with_scores)
+
+          expect(result.first).to eq(player_high)
+        end
       end
 
       # --- Filtering ---
@@ -60,6 +66,10 @@ RSpec.describe Players::Query do
         it 'returns matching player' do
           expect(result).to contain_exactly(player)
         end
+
+        it 'does not raise when default sort is applied' do
+          expect { result.to_a }.not_to raise_error
+        end
       end
 
       context 'with position' do
@@ -70,6 +80,15 @@ RSpec.describe Players::Query do
 
         it 'returns players with that position' do
           expect(result).to contain_exactly(player_dc)
+        end
+      end
+
+      context 'with multiple positions matching the same player' do
+        let!(:player) { create(:player, :with_pos_w_a) }
+        let(:params) { { position: %w[W FW] } }
+
+        it 'returns the player only once' do
+          expect(result.to_a).to eq([player])
         end
       end
 
@@ -87,6 +106,36 @@ RSpec.describe Players::Query do
         let(:params) { { app: { max: 2 } } }
 
         it 'excludes players with too many appearances' do
+          expect(result).not_to include(player)
+        end
+      end
+
+      context 'with min minutes' do
+        let!(:player) { create(:player) }
+        let(:params) { { minutes: { min: 100 } } }
+
+        before do
+          create(:player_season_stat, player: player, club: player.club,
+                                      season: Season.last, tournament: player.club.tournament,
+                                      played_minutes: 270)
+        end
+
+        it 'returns only players with enough minutes played' do
+          expect(result).to contain_exactly(player)
+        end
+      end
+
+      context 'with max minutes' do
+        let!(:player) { create(:player) }
+        let(:params) { { minutes: { max: 100 } } }
+
+        before do
+          create(:player_season_stat, player: player, club: player.club,
+                                      season: Season.last, tournament: player.club.tournament,
+                                      played_minutes: 270)
+        end
+
+        it 'excludes players with too many minutes played' do
           expect(result).not_to include(player)
         end
       end
@@ -110,7 +159,7 @@ RSpec.describe Players::Query do
       end
 
       context 'with min total_score' do
-        let!(:player) { create(:player, :with_scores_n_bonuses) }
+        let!(:player) { create(:player, :with_scores) }
         let(:params) { { total_score: { min: 6 } } }
 
         it 'returns only players above the threshold' do
@@ -119,8 +168,26 @@ RSpec.describe Players::Query do
       end
 
       context 'with max total_score' do
-        let!(:player) { create(:player, :with_scores_n_bonuses) }
+        let!(:player) { create(:player, :with_scores) }
         let(:params) { { total_score: { max: 2 } } }
+
+        it 'excludes players above the threshold' do
+          expect(result).not_to include(player)
+        end
+      end
+
+      context 'with min teams_count' do
+        let!(:player) { create(:player, :with_team) }
+        let(:params) { { teams_count: { min: 1 } } }
+
+        it 'returns only players with enough teams' do
+          expect(result).to contain_exactly(player)
+        end
+      end
+
+      context 'with max teams_count' do
+        let!(:player) { create(:player, :with_team) }
+        let(:params) { { teams_count: { max: 0 } } }
 
         it 'excludes players above the threshold' do
           expect(result).not_to include(player)
@@ -142,7 +209,8 @@ RSpec.describe Players::Query do
 
       context 'with league_id and without_team' do
         let(:league) { create(:league, tournament: Tournament.last) }
-        let!(:player) { create(:player, club: create(:club, tournament: league.tournament)) }
+        let(:club) { create(:club, tournament: league.tournament) }
+        let!(:player) { create(:player, club: club) }
         let(:params) { { league_id: league.id, without_team: true } }
 
         before do
@@ -153,6 +221,52 @@ RSpec.describe Players::Query do
 
         it 'returns only players without a team' do
           expect(result).to contain_exactly(player)
+        end
+
+        it 'keeps the result as a relation for pagination' do
+          expect(result).to be_a(ActiveRecord::Relation)
+        end
+
+        it 'sorts by total score descending by default' do
+          player_high = create(:player, :with_scores, club: club)
+
+          expect(result.first).to eq(player_high)
+        end
+
+        context 'with Ds and Dd positions' do
+          let!(:left_back_without_team) { create(:player, club: club) }
+          let!(:right_back_without_team) { create(:player, club: club) }
+          let(:params) { { league_id: league.id, position: %w[LB RB], without_team: true } }
+
+          before do
+            left_back_in_team = create(:player, club: club)
+            team = create(:team, league: league)
+
+            create(:player, :with_pos_dc, club: club)
+            create(:player_position, player: left_back_without_team, position: Position.find_by(name: Position::LEFT_BACK))
+            create(:player_position, player: right_back_without_team, position: Position.find_by(name: Position::RIGHT_BACK))
+            create(:player_position, player: left_back_in_team, position: Position.find_by(name: Position::LEFT_BACK))
+            create(:player_team, player: left_back_in_team, team: team)
+          end
+
+          it 'returns only Ds and Dd players without a team' do
+            expect(result).to contain_exactly(left_back_without_team, right_back_without_team)
+          end
+        end
+
+        context 'when a player has only old season stats' do
+          before do
+            create(:player_season_stat, player: player, club: club,
+                                        season: Season.last, tournament: league.tournament,
+                                        final_score: 9.0)
+            create(:season)
+          end
+
+          it 'sorts by current season score' do
+            player_current = create(:player, :with_scores, club: club)
+
+            expect(result.first).to eq(player_current)
+          end
         end
       end
 
@@ -168,6 +282,45 @@ RSpec.describe Players::Query do
 
         it 'returns both team players and players without a team' do
           expect(result).to contain_exactly(player_in_team, player_without_team)
+        end
+      end
+
+      context 'with league_id and price range' do
+        let(:league) { create(:league, tournament: Tournament.last) }
+        let(:club) { create(:club, tournament: league.tournament) }
+        let!(:cheap_player) { create(:player, club: club) }
+        let!(:expensive_player) { create(:player, club: club) }
+        let(:team) { create(:team, league: league) }
+
+        before do
+          create(:player_team, player: cheap_player, team: team)
+          create(:transfer, player: cheap_player, team: team, price: 10, status: :incoming)
+          create(:player_team, player: expensive_player, team: team)
+          create(:transfer, player: expensive_player, team: team, price: 50, status: :incoming)
+        end
+
+        context 'with min price' do
+          let(:params) { { league_id: league.id, price: { min: 20 } } }
+
+          it 'excludes players below the minimum price' do
+            expect(result).to contain_exactly(expensive_player)
+          end
+        end
+
+        context 'with max price' do
+          let(:params) { { league_id: league.id, price: { max: 20 } } }
+
+          it 'excludes players above the maximum price' do
+            expect(result).to contain_exactly(cheap_player)
+          end
+        end
+
+        context 'without league_id' do
+          let(:params) { { price: { min: 20 } } }
+
+          it 'ignores the price filter' do
+            expect(result).to include(cheap_player, expensive_player)
+          end
         end
       end
 
@@ -228,7 +381,7 @@ RSpec.describe Players::Query do
           let(:params) { { field: 'appearances', direction: 'asc' } }
 
           it 'puts highest appearances last' do
-            expect(result.last).to eq(player_high)
+            expect(result.to_a.last).to eq(player_high)
           end
         end
       end
@@ -250,7 +403,7 @@ RSpec.describe Players::Query do
           let(:params) { { field: 'base_score', direction: 'asc' } }
 
           it 'puts highest score last' do
-            expect(result.last).to eq(player_high)
+            expect(result.to_a.last).to eq(player_high)
           end
         end
       end

@@ -4,6 +4,7 @@ class TeamsController < ApplicationController
   helper_method :team
 
   def show
+    preload_team_show_associations
     respond_to do |format|
       format.html
       format.json { render json: team.players.to_json }
@@ -34,10 +35,22 @@ class TeamsController < ApplicationController
 
   def team
     @team ||= Team.includes(
-      players: %i[positions club],
+      players: [:positions, { club: :tournament }],
       transfers: { player: %i[positions club] },
       league: %i[teams tours]
     ).find(params[:id])
+  end
+
+  def preload_team_show_associations
+    preloader = ActiveRecord::Associations::Preloader.new
+
+    matches = team.league_matches.to_a
+    preloader.preload(matches, %i[host guest])
+    preloader.preload(matches.map(&:tour).compact.uniq, :tournament_round)
+
+    preloader.preload([team.next_match].compact, %i[host guest])
+
+    preloader.preload(team.league_lineups.to_a, :tour)
   end
 
   def team_of_user?

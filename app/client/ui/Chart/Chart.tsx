@@ -71,10 +71,10 @@ const Chart = <
 
     chart.current = new ChartJS<keyof ChartTypeRegistry, TData, TLabel>(canvasRef.current, {
       type,
-      data,
+      data: data as unknown as ChartData<keyof ChartTypeRegistry, TData, TLabel>,
       options: {
         plugins: {
-          ...(plugins ?? {}),
+          ...plugins,
           legend: {
             display: false,
           },

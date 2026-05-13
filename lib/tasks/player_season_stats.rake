@@ -1,6 +1,6 @@
 namespace :player_season_stats do
   # rake 'player_season_stats:generate'
-  desc 'Generate player total stats after season'
+  desc 'Generate/recalculate player season stats for all players (run once to populate existing data)'
   task generate: :environment do
     Stats::Creator.call
   end

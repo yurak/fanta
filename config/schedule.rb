@@ -1,8 +1,13 @@
 # whenever --set 'environment=development' --update-crontab
 
 # Lock tours by deadline
-every 15.minutes do
+every 5.minutes do
   rake 'tours:lock_deadline'
+end
+
+# Clone missed lineups and generate not-in-squad players for locked tours
+every '1,6,11,16,21,26,31,36,41,46,51,56 * * * *' do
+  rake 'tours:generate_lineups'
 end
 
 # Auto-close tours

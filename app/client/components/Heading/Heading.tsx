@@ -9,7 +9,7 @@ const Heading = ({
   description,
   noSpace,
 }: {
-  title: string,
+  title: React.ReactNode,
   titleIcon?: React.ReactNode,
   tag?: "h3" | "h4",
   description?: string,

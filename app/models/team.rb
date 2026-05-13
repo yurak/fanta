@@ -35,8 +35,6 @@ class Team < ApplicationRecord
   validates :code, presence: true, length: { in: 2..3 }, format: { with: /\A[0-9a-zA-Z]+\z/ }
   validates :human_name, length: { in: 2..24 }
 
-  default_scope { includes(%i[league user]) }
-
   scope :by_tournament, ->(tournament_id) { where(tournament_id: tournament_id) }
 
   def reset
@@ -91,6 +89,8 @@ class Team < ApplicationRecord
   end
 
   def best_lineup
+    return unless league
+
     lineups.by_league(league.id).max_by(&:total_score)
   end
 
@@ -174,10 +174,14 @@ class Team < ApplicationRecord
   end
 
   def league_lineups
+    return Lineup.none unless league
+
     @league_lineups ||= lineups.finished.by_league(league.id)
   end
 
-  def league_result(league_id: league.id)
+  def league_result(league_id: league&.id)
+    return unless league_id
+
     @league_result ||= results.by_league(league_id).last
   end
 

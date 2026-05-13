@@ -930,4 +930,136 @@ RSpec.describe Substitutes::TieredMatcher do
       expect(total).to eq(4.5)
     end
   end
+
+  context 'when Dd, Dc, C/T did not play, bench has T/A, C, M/C, Dc, Dc/M, Dc' do
+    # Main players absent: Dd (row0), Dc (row1), C/T (row2)
+    # Bench players: T/A(col0), C(col1), M/C(col2), Dc(col3), Dc/M(col4), Dc(col5)
+    #
+    #              T/A   C   M/C   Dc  Dc/M  Dc
+    # Dd  (row0):   X    X    X   1.5  1.5  1.5  — no native; only Dc-adjacent bench
+    # Dc  (row1):   X    X   3.0   0    0    0   — native: Dc, Dc/M, Dc bench
+    # C/T (row2):   0    0    0    X   1.5   X   — native: T/A(T∩CT), C, M/C(C∩CT)
+    #
+    # Dc and C/T have zero-malus options in non-overlapping bench slots.
+    # Dd's only options (Dc-adjacent, 1.5) overlap with Dc's native slots —
+    # but there are 3 native Dc slots and only 1 Dc player, so both Dc and Dd can match.
+    # Correct: Dc→one of {col3,col4,col5}(0), C/T→one of {col0,col1,col2}(0),
+    #          Dd→one of the remaining {col3,col4,col5}(1.5). Total: 1.5.
+    let(:grid) do
+      [
+        ['X', 'X', 'X', 1.5, 1.5, 1.5], # Dd
+        ['X', 'X', 3.0, 0,   0,   0], # Dc
+        [0,   0,   0,   'X', 1.5, 'X'] # C/T
+      ]
+    end
+
+    it 'matches all three players' do
+      assignments, = result
+      expect(assignments.size).to eq(3)
+    end
+
+    it 'assigns C/T to the earliest native bench slot (col0, zero-malus)' do
+      assignments, = result
+      expect(assignments).to include([2, 0, 0.0])
+    end
+
+    it 'assigns Dc to col3 or col4 (zero-malus)' do
+      assignments, = result
+      dc = assignments.find { |r, _c, _v| r == 1 }
+      expect(dc[1]).to be_in([3, 4])
+    end
+
+    it 'assigns Dc with zero malus' do
+      assignments, = result
+      dc = assignments.find { |r, _c, _v| r == 1 }
+      expect(dc[2]).to eq(0.0)
+    end
+
+    it 'assigns Dd to col3 or col4' do
+      assignments, = result
+      dd = assignments.find { |r, _c, _v| r == 0 }
+      expect(dd[1]).to be_in([3, 4])
+    end
+
+    it 'assigns Dd and Dc to different columns' do
+      assignments, = result
+      dc_col = assignments.find { |r, _c, _v| r == 1 }[1]
+      dd_col = assignments.find { |r, _c, _v| r == 0 }[1]
+      expect(dd_col).not_to eq(dc_col)
+    end
+
+    it 'assigns Dd with 1.5 malus' do
+      assignments, = result
+      dd = assignments.find { |r, _c, _v| r == 0 }
+      expect(dd[2]).to eq(1.5)
+    end
+
+    it 'does not use col5' do
+      assignments, = result
+      expect(assignments.map { |_r, c, _v| c }).not_to include(5)
+    end
+
+    it 'returns total malus of 1.5' do
+      _, total = result
+      expect(total).to eq(1.5)
+    end
+  end
+
+  context 'when Dc, Dc, M, T, W, A/Pc did not play, bench has Dc, M, A, A, Pc, W, Dc' do
+    # Main players absent: Dc (row0), Dc (row1), M (row2), T (row3), W (row4), A/Pc (row5)
+    # Bench players: Dc(col0), M(col1), A(col2), A(col3), Pc(col4), W(col5), Dc(col6)
+    #
+    #              Dc   M    A    A    Pc   W    Dc
+    # Dc  (row0):   0  3.0   X    X    X    X    0
+    # Dc  (row1):   0  3.0   X    X    X    X    0
+    # M   (row2):  3.0  0    X    X    X    X   3.0
+    # T   (row3):   X   X   1.5  1.5  3.0  1.5   X
+    # W   (row4):   X   X   3.0  3.0  3.0   0    X
+    # A/Pc(row5):   X   X    0    0    0   3.0   X
+    #
+    # Phase 1: Dc→col0(0), Dc→col6(0), M→col1(0), W→col5(0), A/Pc→col2(0). T unmatched.
+    # Phase 2a: T tries col2(taken by A/Pc), col3(free) → T→col3(1.5).
+    # A/Pc takes the earliest native slot (col2), forcing T to col3 (second A bench).
+    # col4 (Pc bench) is not needed — all 6 players match. Total: 1.5.
+    let(:grid) do
+      [
+        [0,   3.0, 'X', 'X', 'X', 'X', 0], # Dc
+        [0,   3.0, 'X', 'X', 'X', 'X', 0], # Dc
+        [3.0, 0,   'X', 'X', 'X', 'X', 3.0], # M
+        ['X', 'X', 1.5, 1.5, 3.0, 1.5, 'X'], # T
+        ['X', 'X', 3.0, 3.0, 3.0, 0,   'X'], # W
+        ['X', 'X', 0,   0,   0,   3.0, 'X']  # A/Pc
+      ]
+    end
+
+    it 'matches all six players' do
+      assignments, = result
+      expect(assignments.size).to eq(6)
+    end
+
+    it 'assigns five substitutions at zero malus' do
+      assignments, = result
+      expect(assignments.count { |_r, _c, v| v.zero? }).to eq(5)
+    end
+
+    it 'assigns A/Pc to the earliest native slot (col2, zero-malus)' do
+      assignments, = result
+      expect(assignments).to include([5, 2, 0.0])
+    end
+
+    it 'assigns T to col3 (1.5 malus) as col2 is occupied by A/Pc' do
+      assignments, = result
+      expect(assignments).to include([3, 3, 1.5])
+    end
+
+    it 'does not use col4 (Pc bench)' do
+      assignments, = result
+      expect(assignments.map { |_r, c, _v| c }).not_to include(4)
+    end
+
+    it 'returns total malus of 1.5' do
+      _, total = result
+      expect(total).to eq(1.5)
+    end
+  end
 end

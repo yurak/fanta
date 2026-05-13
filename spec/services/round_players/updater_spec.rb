@@ -23,12 +23,16 @@ RSpec.describe RoundPlayers::Updater do
     context 'when tournament_round with round_players without scores' do
       let!(:round_player) { create(:round_player, tournament_round: tournament_round) }
 
-      before do
-        updater.call
-      end
+      before { allow(Stats::Creator).to receive(:call) }
 
       it 'does not update round_player final_score' do
+        updater.call
         expect(round_player.reload.final_score).to eq(0)
+      end
+
+      it 'does not call Stats::Creator' do
+        updater.call
+        expect(Stats::Creator).not_to have_received(:call)
       end
     end
 
@@ -36,11 +40,16 @@ RSpec.describe RoundPlayers::Updater do
       let!(:round_player) { create(:round_player, :with_score_seven, assists: 1, tournament_round: tournament_round) }
 
       before do
+        allow(Stats::Creator).to receive(:call)
         updater.call
       end
 
       it 'updates round_player final_score' do
         expect(round_player.reload.final_score).to eq(8)
+      end
+
+      it 'calls Stats::Creator with player ids' do
+        expect(Stats::Creator).to have_received(:call).with(player_ids: [round_player.player_id])
       end
     end
   end

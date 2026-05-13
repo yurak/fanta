@@ -1,6 +1,6 @@
 class MatchPlayer < ApplicationRecord
   belongs_to :round_player
-  belongs_to :lineup
+  belongs_to :lineup, inverse_of: :match_players
 
   has_many :main_subs, foreign_key: 'main_mp_id', class_name: 'Substitute', dependent: :destroy, inverse_of: :main_mp
   has_many :reserve_subs, foreign_key: 'reserve_mp_id', class_name: 'Substitute', dependent: :destroy, inverse_of: :reserve_mp

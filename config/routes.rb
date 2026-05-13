@@ -76,6 +76,7 @@ Rails.application.routes.draw do
       resources :transfers, only: [:index, :create, :destroy]
     end
 
+    get :players, to: 'players#leagues_list', on: :member
     resources :results, only: [:index]
   end
 
@@ -146,6 +147,7 @@ Rails.application.routes.draw do
   namespace :api do
     resources :leagues, only: [:index, :show] do
       resources :results, only: [:index]
+      resources :teams, only: [:index]
     end
     resources :player_bids, only: [:show]
     resources :players, only: [:index, :show] do

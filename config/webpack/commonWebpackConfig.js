@@ -5,13 +5,21 @@
 const { generateWebpackConfig, merge } = require("shakapacker");
 const path = require("path");
 
-console.log("__dirname", __dirname);
-
 const baseClientWebpackConfig = generateWebpackConfig({});
 
 // clear default svg rules
 const svgRule = baseClientWebpackConfig.module.rules.find((rule) => rule.test.test(".svg"));
 svgRule.test = new RegExp(svgRule.test.source.replace("|svg", ""));
+
+// use modern Sass API to suppress legacy JS API deprecation warnings
+baseClientWebpackConfig.module.rules.forEach((rule) => {
+  const uses = Array.isArray(rule.use) ? rule.use : (rule.oneOf || []).flatMap((r) => r.use || []);
+  uses.forEach((use) => {
+    if (use && use.loader && use.loader.includes("sass-loader")) {
+      use.options = { ...use.options, api: "modern" };
+    }
+  });
+});
 
 const commonOptions = {
   resolve: {

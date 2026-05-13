@@ -20,11 +20,26 @@ module Stats
       return unless player
 
       player_matches = matches_w_scores(player)
-      return if player_matches.empty?
 
-      player_matches.group_by(&:club_id).each do |club_id, matches_for_club|
-        update_stats(player, club_id, matches_for_club)
+      if player_matches.empty?
+        ensure_empty_stats(player)
+      else
+        player_matches.group_by(&:club_id).each do |club_id, matches_for_club|
+          update_stats(player, club_id, matches_for_club)
+        end
       end
+    end
+
+    def ensure_empty_stats(player)
+      club = player.club
+      return unless club&.tournament
+
+      stats_record = stats(player, club)
+      return unless stats_record.new_record?
+
+      attrs = stats_hash(player, RoundPlayer.none, include_positions: true)
+      attrs[:tournament] = club.tournament
+      stats_record.update!(attrs)
     end
 
     def update_stats(player, club_id, matches_for_club)

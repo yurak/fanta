@@ -8,8 +8,6 @@ class Article < ApplicationRecord
   validates :image_url, format: { with: ApplicationRecord::URL_REGEXP,
                                   allow_blank: true }
 
-  default_scope { includes(:article_tag) }
-
   def image
     image_url.presence || 'article1.png'
   end

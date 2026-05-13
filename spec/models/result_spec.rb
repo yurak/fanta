@@ -367,6 +367,19 @@ RSpec.describe Result do
           expect(result).not_to be_crownable
         end
       end
+
+      context 'with a postponed tour still remaining' do
+        before do
+          create_list(:tour, 3, league: league)
+          create(:postponed_tour, league: league)
+        end
+
+        it 'counts postponed tours as still playable' do
+          result.update!(points: 31)
+
+          expect(result).not_to be_crownable
+        end
+      end
     end
   end
 

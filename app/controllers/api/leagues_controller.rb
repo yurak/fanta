@@ -23,7 +23,9 @@ module Api
     private
 
     def league
-      @league ||= League.find_by(id: params[:id])
+      return @league if defined?(@league)
+
+      @league = League.includes(:division, :season, :tournament, :tours, results: :team).find_by(id: params[:id])
     end
 
     def filtered_leagues

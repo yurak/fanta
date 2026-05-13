@@ -144,30 +144,27 @@
 
 :javascript
   function initTournamentPlayers() {
+    const groups = {};
     document.querySelectorAll("[data-remote-url]").forEach(el => {
-      if (el.dataset.loaded || !el.dataset.remoteUrl) return;
-      el.dataset.loaded = true;
-
+      if (!el.dataset.remoteUrl) return;
       const url = el.dataset.remoteUrl;
-      el.textContent = "";
-      el.style.display = "block";
+      if (!groups[url]) groups[url] = [];
+      groups[url].push(el);
+    });
 
-      el.innerHTML = '<div class="loader">... ...</div>';
+    Object.entries(groups).forEach(([url, elements]) => {
+      const pending = elements.filter(el => !el.dataset.loaded);
+      if (!pending.length) return;
+      pending.forEach(el => {
+        el.dataset.loaded = true;
+        el.style.display = "block";
+        el.innerHTML = '<div class="loader">... ...</div>';
+      });
 
-      if (typeof Rails !== "undefined" && Rails.ajax) {
-        Rails.ajax({
-          url: url,
-          type: "GET",
-          dataType: "html",
-          success: (html) => { el.innerHTML = html; },
-          error: () => { el.innerHTML = '<div class="loader">...</div>'; }
-        });
-      } else {
-        fetch(url, { headers: { "Accept": "text/html" }, cache: "no-store" })
-          .then(r => r.text())
-          .then(html => { el.innerHTML = html; })
-          .catch(() => { el.innerHTML = '<div class="loader">...</div>'; });
-      }
+      fetch(url, { headers: { "Accept": "text/html" }, cache: "no-store" })
+        .then(r => r.text())
+        .then(html => pending.forEach(el => { el.innerHTML = html; }))
+        .catch(() => pending.forEach(el => { el.innerHTML = '<div class="loader">...</div>'; }));
     });
 
     $(".round-table-hide").click(function () {

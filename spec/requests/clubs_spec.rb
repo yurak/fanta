@@ -13,6 +13,7 @@ RSpec.describe 'Clubs' do
 
     context 'when user is logged in' do
       login_user
+
       before do
         get tournament_club_path(club.tournament, club)
       end
@@ -20,6 +21,43 @@ RSpec.describe 'Clubs' do
       it { expect(response).to be_successful }
       it { expect(response).to render_template(:show) }
       it { expect(response).to have_http_status(:ok) }
+    end
+
+    context 'when league_id param is provided' do
+      let(:logged_user) { create(:user) }
+      let(:league) { create(:league, tournament: club.tournament) }
+
+      before do
+        sign_in logged_user
+        get tournament_club_path(club.tournament, club, league_id: league.id)
+      end
+
+      it { expect(response).to be_successful }
+    end
+
+    context 'when user has a team in the tournament and no league_id param' do
+      let(:logged_user) { create(:user) }
+      let(:league) { create(:league, tournament: club.tournament) }
+
+      before do
+        create(:team, user: logged_user, league: league)
+        sign_in logged_user
+        get tournament_club_path(club.tournament, club)
+      end
+
+      it { expect(response).to be_successful }
+      it { expect(response.body).to include(CGI.escapeHTML(league.name)) }
+    end
+
+    context 'when user has no team in the tournament and no league_id param' do
+      let(:logged_user) { create(:user) }
+
+      before do
+        sign_in logged_user
+        get tournament_club_path(club.tournament, club)
+      end
+
+      it { expect(response).to be_successful }
     end
   end
 end

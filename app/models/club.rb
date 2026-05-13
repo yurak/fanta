@@ -16,8 +16,6 @@ class Club < ApplicationRecord
   validates :name, presence: true, uniqueness: true
   validates :code, presence: true, uniqueness: true
 
-  default_scope { includes(:tournament) }
-
   scope :order_by_players_count, -> { includes(:players).left_joins(:players).group(:id).order(Arel.sql('COUNT(players.id) DESC')) }
   scope :by_tournament, ->(tournament_id) { where(tournament_id: tournament_id) if tournament_id.present? }
 
@@ -40,23 +38,15 @@ class Club < ApplicationRecord
   end
 
   def opponent_by_round(tournament_round)
-    match = host_tournament_matches.find_by(tournament_round: tournament_round)
+    matches = tournament_round.tournament_matches.to_a
+    host_match = matches.find { |m| m.host_club_id == id }
+    return host_match.guest_club if host_match
 
-    if match
-      opponent = match&.guest_club
-    else
-      match = guest_tournament_matches.find_by(tournament_round: tournament_round)
-      opponent = match&.host_club
-    end
-
-    opponent
+    guest_match = matches.find { |m| m.guest_club_id == id }
+    guest_match&.host_club
   end
 
   def match_host?(tournament_round)
-    match = host_tournament_matches.find_by(tournament_round: tournament_round)
-
-    return true if match
-
-    false
+    tournament_round.tournament_matches.to_a.any? { |m| m.host_club_id == id }
   end
 end

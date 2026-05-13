@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2026_05_01_211008) do
+ActiveRecord::Schema.define(version: 2026_05_13_140000) do
 
   create_table "article_tags", force: :cascade do |t|
     t.string "name", default: "", null: false
@@ -183,6 +183,8 @@ ActiveRecord::Schema.define(version: 2026_05_01_211008) do
     t.integer "points", default: 0, null: false
     t.integer "position"
     t.integer "creation_type", default: 0, null: false
+    t.index ["team_id"], name: "index_lineups_on_team_id"
+    t.index ["tour_id"], name: "index_lineups_on_tour_id"
   end
 
   create_table "links", force: :cascade do |t|
@@ -203,6 +205,7 @@ ActiveRecord::Schema.define(version: 2026_05_01_211008) do
     t.decimal "position_malus", default: "0.0"
     t.integer "subs_status", default: 0, null: false
     t.integer "round_player_id"
+    t.index ["lineup_id"], name: "index_match_players_on_lineup_id"
     t.index ["round_player_id"], name: "index_match_players_on_round_player_id"
   end
 
@@ -212,6 +215,9 @@ ActiveRecord::Schema.define(version: 2026_05_01_211008) do
     t.bigint "guest_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["guest_id"], name: "index_matches_on_guest_id"
+    t.index ["host_id"], name: "index_matches_on_host_id"
+    t.index ["tour_id"], name: "index_matches_on_tour_id"
   end
 
   create_table "national_matches", force: :cascade do |t|
@@ -321,6 +327,7 @@ ActiveRecord::Schema.define(version: 2026_05_01_211008) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "sixties", default: 0, null: false
+    t.index ["player_id", "season_id", "club_id"], name: "index_player_season_stats_on_player_season_club", unique: true
   end
 
   create_table "player_teams", force: :cascade do |t|
@@ -351,6 +358,7 @@ ActiveRecord::Schema.define(version: 2026_05_01_211008) do
     t.integer "tm_id"
     t.integer "fotmob_id"
     t.integer "sofascore_id"
+    t.index ["club_id"], name: "index_players_on_club_id"
     t.index ["fotmob_id"], name: "index_players_on_fotmob_id", unique: true
     t.index ["national_team_id"], name: "index_players_on_national_team_id"
     t.index ["sofascore_id"], name: "index_players_on_sofascore_id", unique: true
@@ -412,6 +420,7 @@ ActiveRecord::Schema.define(version: 2026_05_01_211008) do
     t.integer "penalties_won", default: 0, null: false
     t.integer "club_id"
     t.boolean "in_squad", default: false, null: false
+    t.index ["club_id"], name: "index_round_players_on_club_id"
     t.index ["player_id"], name: "index_round_players_on_player_id"
     t.index ["tournament_round_id"], name: "index_round_players_on_tournament_round_id"
   end
@@ -432,6 +441,7 @@ ActiveRecord::Schema.define(version: 2026_05_01_211008) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "location", default: "", null: false
+    t.index ["team_module_id"], name: "index_slots_on_team_module_id"
   end
 
   create_table "substitutes", force: :cascade do |t|
@@ -442,6 +452,10 @@ ActiveRecord::Schema.define(version: 2026_05_01_211008) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "subs_by"
+    t.index ["in_rp_id"], name: "index_substitutes_on_in_rp_id"
+    t.index ["main_mp_id"], name: "index_substitutes_on_main_mp_id"
+    t.index ["out_rp_id"], name: "index_substitutes_on_out_rp_id"
+    t.index ["reserve_mp_id"], name: "index_substitutes_on_reserve_mp_id"
   end
 
   create_table "team_modules", force: :cascade do |t|
@@ -498,6 +512,8 @@ ActiveRecord::Schema.define(version: 2026_05_01_211008) do
     t.text "base_data"
     t.text "lineups_data"
     t.text "missed_players_data"
+    t.index ["guest_club_id"], name: "index_tournament_matches_on_guest_club_id"
+    t.index ["host_club_id"], name: "index_tournament_matches_on_host_club_id"
     t.index ["tournament_round_id"], name: "index_tournament_matches_on_tournament_round_id"
   end
 
@@ -543,6 +559,7 @@ ActiveRecord::Schema.define(version: 2026_05_01_211008) do
     t.integer "league_id"
     t.integer "tournament_round_id"
     t.integer "bench_status", default: 0, null: false
+    t.boolean "lineups_generated", default: false, null: false
     t.index ["league_id"], name: "index_tours_on_league_id"
     t.index ["tournament_round_id"], name: "index_tours_on_tournament_round_id"
   end
@@ -572,6 +589,7 @@ ActiveRecord::Schema.define(version: 2026_05_01_211008) do
     t.string "tg_connect_token"
     t.datetime "tg_connect_expires_at"
     t.index ["tg_connect_token"], name: "index_user_profiles_on_tg_connect_token", unique: true
+    t.index ["user_id"], name: "index_user_profiles_on_user_id"
   end
 
   create_table "user_titles", force: :cascade do |t|

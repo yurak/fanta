@@ -256,6 +256,19 @@ RSpec.describe AuctionsHelper do
         expect(helper.auction_dates(auction)).to eq(' - ')
       end
     end
+
+    context 'with closed auction and auction rounds' do
+      let(:auction) { create(:auction, status: :closed) }
+
+      before do
+        create(:closed_auction_round, auction: auction, created_at: Time.zone.local(2025, 1, 2), updated_at: Time.zone.local(2025, 1, 3))
+        create(:closed_auction_round, auction: auction, created_at: Time.zone.local(2025, 1, 4), updated_at: Time.zone.local(2025, 1, 6))
+      end
+
+      it 'returns formatted auction rounds date range' do
+        expect(helper.auction_dates(auction)).to eq('Jan  2 - Jan  6, 2025')
+      end
+    end
   end
 
   describe '#auction_dropping_status(auction)' do
@@ -488,6 +501,39 @@ RSpec.describe AuctionsHelper do
       it 'returns player price' do
         expect(helper.min_bid(auction_round, player)).to eq(15)
       end
+    end
+  end
+
+  describe '#auction_status_badge(status)' do
+    {
+      live: 'success',
+      sales: 'info',
+      blind_bids: 'warning',
+      closed: 'secondary',
+      initial: 'light'
+    }.each do |status, badge|
+      context "with #{status} status" do
+        it 'returns badge type' do
+          expect(helper.auction_status_badge(status)).to eq(badge)
+        end
+      end
+    end
+  end
+
+  describe '#formations_js_data' do
+    before do
+      create(:slot, team_module: team_module, number: 2, position: Position::CENTER_BACK)
+      create(:slot, team_module: team_module, number: 1, position: Position::GOALKEEPER)
+      create(:slot, team_module: team_module, number: 3, position: Position::WINGER)
+    end
+
+    let(:team_module) { create(:team_module, name: 'spec-4-4-2') }
+
+    it 'returns non-goalkeeper lineups by module key' do
+      expect(JSON.parse(helper.formations_js_data)['fspec442']).to eq(
+        'lineUp' => [Position::CENTER_BACK, Position::WINGER],
+        'lineUpWithReserve' => [Position::CENTER_BACK, Position::WINGER, Position::CENTER_BACK, Position::WINGER]
+      )
     end
   end
 end

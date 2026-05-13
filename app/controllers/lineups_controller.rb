@@ -5,7 +5,9 @@ class LineupsController < ApplicationController
 
   helper_method :lineup, :match_player, :modules, :team, :team_module, :tour
 
-  def show; end
+  def show
+    preload_round_matches
+  end
 
   def new
     redirect_to tour_path(tour) unless valid_conditions?
@@ -89,7 +91,35 @@ class LineupsController < ApplicationController
   end
 
   def lineup
-    @lineup ||= Lineup.find_by(id: params[:id])
+    return @lineup if defined?(@lineup)
+
+    @lineup = Lineup.includes(*lineup_includes).find_by(id: params[:id])
+  end
+
+  def lineup_includes
+    player = [:national_team, :positions, { club: :tournament }]
+    round_player = [:club, :tournament_round, { player: player }]
+    [
+      { tour: :tournament_round },
+      { team: [:user, { league: :tournament }] },
+      { team_module: :slots },
+      { match_players: [:main_subs, { round_player: round_player }] }
+    ]
+  end
+
+  def preload_round_matches
+    return unless lineup
+
+    t_rounds = (
+      lineup.match_players.filter_map { |mp| mp.round_player&.tournament_round } +
+      [lineup.tour&.tournament_round]
+    ).compact.uniq(&:id)
+    return if t_rounds.empty?
+
+    ActiveRecord::Associations::Preloader.new.preload(
+      t_rounds,
+      [{ tournament_matches: %i[host_club guest_club] }, :national_matches]
+    )
   end
 
   def team
@@ -101,7 +131,9 @@ class LineupsController < ApplicationController
   end
 
   def tour
-    @tour ||= lineup&.tour || Tour.find(params[:tour_id] || lineup_params[:tour_id])
+    @tour ||= lineup&.tour ||
+      Tour.includes(tournament_round: { national_matches: %i[host_team guest_team] }).find(params[:tour_id] ||
+      lineup_params[:tour_id])
   end
 
   def modules

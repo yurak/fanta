@@ -23,8 +23,8 @@
       .league-link-icon= image_tag('icons/round/clubs.svg')
       .league-link-text= t('header.clubs')
 - if league.mantra?
-  = link_to players_path(tournament: league.tournament, league: league) do
-    .league-link{class: "link-active-#{ params[:controller] == 'players' && params[:action] == 'index' }"}
+  = link_to players_league_path(league) do
+    .league-link{class: "link-active-#{ params[:controller] == 'players' }"}
       .league-link-icon= image_tag('icons/round/players.svg')
       .league-link-text= t('header.players')
   = link_to league_auctions_path(league) do

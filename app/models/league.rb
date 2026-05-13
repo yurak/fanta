@@ -23,8 +23,6 @@ class League < ApplicationRecord
 
   validates :name, presence: true, uniqueness: { scope: :season_id }
 
-  default_scope { includes(%i[division season tournament]) }
-
   scope :by_tournament, ->(tournament_id) { where(tournament_id: tournament_id) if tournament_id.present? }
   scope :by_season, ->(season_id) { where(season_id: season_id) if season_id.present? }
   scope :with_division, -> { where.not(division: { id: nil }) }
@@ -32,7 +30,7 @@ class League < ApplicationRecord
   scope :without_demo_from_old_seasons, -> { where('leagues.demo = ? OR leagues.season_id = ?', false, Season.last.id) }
   scope :serial, lambda {
     left_joins(:division)
-      .includes(:results, :season, :teams, :tournament, :tours)
+      .includes(:division, :results, :season, :teams, :tournament, :tours)
       .order(
         Arel.sql(<<~SQL.squish)
           season_id DESC,

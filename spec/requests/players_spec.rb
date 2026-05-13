@@ -1,85 +1,45 @@
 RSpec.describe 'Players' do
   describe 'GET #index' do
-    let(:players) { create_list(:player, 20) }
-    let(:params) { nil }
+    context 'when user is logged out' do
+      before { get players_path }
+
+      it { expect(response).to be_successful }
+      it { expect(response).to render_template(:index) }
+      it { expect(response).to render_template(layout: :react_application) }
+      it { expect(response).to have_http_status(:ok) }
+    end
+
+    context 'when user is logged in' do
+      login_user
+      before { get players_path }
+
+      it { expect(response).to be_successful }
+      it { expect(response).to render_template(:index) }
+      it { expect(response).to render_template(layout: :react_application) }
+      it { expect(response).to have_http_status(:ok) }
+    end
+  end
+
+  describe 'GET #leagues_list' do
+    let(:league) { create(:league) }
 
     context 'when user is logged out' do
-      before do
-        get players_path(params)
-      end
-
-      it { expect(response).to redirect_to('/users/sign_in') }
-      it { expect(response).to have_http_status(:found) }
-    end
-
-    context 'without params' do
-      login_user
-      before do
-        get players_path(params)
-      end
+      before { get players_league_path(league) }
 
       it { expect(response).to be_successful }
-      it { expect(response).to render_template(:index) }
-      it { expect(response).to render_template(:_paginator) }
+      it { expect(response).to render_template(:leagues_list) }
+      it { expect(response).to render_template(layout: :react_application) }
       it { expect(response).to have_http_status(:ok) }
-      it { expect(assigns(:players)).not_to be_nil }
-      it { expect(assigns(:tournaments)).not_to be_nil }
-      it { expect(assigns(:positions)).not_to be_nil }
-      it { expect(assigns(:clubs)).not_to be_nil }
     end
 
-    context 'with club order param' do
-      let(:params) { { order: 'club' } }
-
+    context 'when user is logged in' do
       login_user
-      before do
-        get players_path(params)
-      end
+      before { get players_league_path(league) }
 
       it { expect(response).to be_successful }
-      it { expect(response).to render_template(:index) }
-      it { expect(response).to render_template(:_paginator) }
+      it { expect(response).to render_template(:leagues_list) }
+      it { expect(response).to render_template(layout: :react_application) }
       it { expect(response).to have_http_status(:ok) }
-      it { expect(assigns(:players)).not_to be_nil }
-      it { expect(assigns(:tournaments)).not_to be_nil }
-      it { expect(assigns(:positions)).not_to be_nil }
-      it { expect(assigns(:clubs)).not_to be_nil }
-    end
-
-    context 'with appearances order param' do
-      let(:params) { { order: 'appearances' } }
-
-      login_user
-      before do
-        get players_path(params)
-      end
-
-      it { expect(response).to be_successful }
-      it { expect(response).to render_template(:index) }
-      it { expect(response).to render_template(:_paginator) }
-      it { expect(response).to have_http_status(:ok) }
-      it { expect(assigns(:players)).not_to be_nil }
-      it { expect(assigns(:tournaments)).not_to be_nil }
-      it { expect(assigns(:positions)).not_to be_nil }
-      it { expect(assigns(:clubs)).not_to be_nil }
-    end
-
-    context 'with rating order param' do
-      let(:params) { { order: 'rating' } }
-
-      login_user
-      before do
-        get players_path(params)
-      end
-
-      it { expect(response).to be_successful }
-      it { expect(response).to render_template(:index) }
-      it { expect(response).to render_template(:_paginator) }
-      it { expect(response).to have_http_status(:ok) }
-      it { expect(assigns(:players)).not_to be_nil }
-      it { expect(assigns(:tournaments)).not_to be_nil }
-      it { expect(assigns(:positions)).not_to be_nil }
-      it { expect(assigns(:clubs)).not_to be_nil }
     end
   end
 
@@ -248,15 +208,18 @@ RSpec.describe 'Players' do
       it 'creates left transfer' do
         expect(Transfer.left.count).to eq(1)
       end
+    end
 
-      it 'calls Transfers::Seller service' do
-        seller = instance_double(Transfers::Seller)
-        allow(Transfers::Seller).to receive(:new).and_return(seller)
-        allow(seller).to receive(:call)
+    context 'when admin is logged in' do
+      login_admin
+
+      it 'calls Transfers::Seller service for the player team' do
+        create(:auction, league: team.league, status: :initial)
+        allow(Transfers::Seller).to receive(:call).and_call_original
 
         put player_path(player)
 
-        expect(response).to redirect_to(player_path(player))
+        expect(Transfers::Seller).to have_received(:call).with(player, team, :left)
       end
     end
 
@@ -284,16 +247,6 @@ RSpec.describe 'Players' do
       it 'does not create left transfer' do
         expect(Transfer.left.count).to eq(0)
       end
-
-      it 'calls Transfers::Seller service' do
-        seller = instance_double(Transfers::Seller)
-        allow(Transfers::Seller).to receive(:new).and_return(seller)
-        allow(seller).to receive(:call)
-
-        put player_path(player)
-
-        expect(response).to redirect_to(player_path(player))
-      end
     end
 
     context 'without initial transfer when admin is logged in' do
@@ -317,16 +270,6 @@ RSpec.describe 'Players' do
 
       it 'does not create left transfer' do
         expect(Transfer.left.count).to eq(0)
-      end
-
-      it 'calls Transfers::Seller service' do
-        seller = instance_double(Transfers::Seller)
-        allow(Transfers::Seller).to receive(:new).and_return(seller)
-        allow(seller).to receive(:call)
-
-        put player_path(player)
-
-        expect(response).to redirect_to(player_path(player))
       end
     end
   end

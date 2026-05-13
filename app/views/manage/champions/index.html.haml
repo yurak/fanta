@@ -18,7 +18,7 @@
               %td= user.champion_number
               %td= link_to(user.name.presence || user.email, manage_user_path(user))
               %td
-                - user.user_titles.order(:championship_number).each do |title|
+                - user.user_titles.sort_by(&:championship_number).each do |title|
                   - tooltip = "#{title.tournament&.name} #{title.season}".strip
                   - if title.result&.league
                     = link_to(league_results_path(title.result.league), class: 'champion-title-badge', title: tooltip) do

@@ -7,7 +7,7 @@ module Manage
       @tournaments = Tournament.order(:name)
       @seasons = Season.order(start_year: :desc)
       @leagues = League.public_send(@status)
-                       .includes(:tournament, :season)
+                       .includes(:division, :tournament, :season, :results)
                        .order(season_id: :desc, created_at: :desc)
       @leagues = @leagues.where('leagues.name LIKE ?', "%#{params[:query]}%") if params[:query].present?
       @leagues = @leagues.where(tournament_id: params[:tournament_id]) if params[:tournament_id].present?

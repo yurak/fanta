@@ -56,6 +56,10 @@ class User < ApplicationRecord
     teams.find_by(league_id: league&.id)
   end
 
+  def league_by_tournament(tournament_id)
+    teams.find { |t| t.league&.tournament_id == tournament_id }&.league
+  end
+
   def lineup_by_tour(tour)
     team_by_league(tour.league)&.lineups&.find_by(tour: tour)
   end

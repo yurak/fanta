@@ -3,7 +3,7 @@ class Lineup < ApplicationRecord
   belongs_to :team
   belongs_to :tour
 
-  has_many :match_players, dependent: :destroy
+  has_many :match_players, dependent: :destroy, inverse_of: :lineup
   has_many :round_players, through: :match_players
 
   accepts_nested_attributes_for :match_players
@@ -12,8 +12,6 @@ class Lineup < ApplicationRecord
   delegate :slots, to: :team_module
   delegate :tournament_round, to: :tour
   delegate :league, to: :team
-
-  default_scope { includes(%i[team tour]) }
 
   enum creation_type: { manual: 0, copied: 1, auto_cloned: 2 }
 
@@ -117,7 +115,7 @@ class Lineup < ApplicationRecord
   end
 
   def subs_missed?
-    match_players.main.without_score.any?(&:subs_option_exist?)
+    match_players.main.without_score.includes(round_player: :tournament_round).any?(&:subs_option_exist?)
   end
 
   def substitutes_preview

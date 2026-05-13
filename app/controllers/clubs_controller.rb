@@ -12,7 +12,7 @@ class ClubsController < ApplicationController
   def club
     return @club if defined?(@club)
 
-    @club = Club.find_by(id: params[:id])
+    @club = Club.includes(:tournament, players: :positions).find_by(id: params[:id])
   end
 
   def tournament
@@ -20,7 +20,9 @@ class ClubsController < ApplicationController
   end
 
   def league
-    @league ||= League.find_by(id: params[:league_id]) || tournament.leagues.last
+    @league ||= League.find_by(id: params[:league_id]) ||
+      current_user&.league_by_tournament(tournament.id) ||
+      tournament.leagues.last
   end
 
   def clubs

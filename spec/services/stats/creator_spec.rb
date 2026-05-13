@@ -9,8 +9,38 @@ RSpec.describe Stats::Creator do
     context 'without played matches' do
       it { expect(creator.call).to be(true) }
 
-      it 'does not create player stats record' do
-        expect(player.player_season_stats.count).to eq(0)
+      it 'creates a zeroed player stats record' do
+        creator.call
+
+        expect(player.player_season_stats.find_by(club: player.club)).not_to be_nil
+      end
+
+      it 'sets played_matches to 0' do
+        creator.call
+
+        expect(player.player_season_stats.find_by(club: player.club).played_matches).to eq(0)
+      end
+
+      it 'does not overwrite an existing stats record' do
+        creator.call
+        creator.call
+
+        expect(player.player_season_stats.count).to eq(1)
+      end
+
+      context 'when club has no tournament' do
+        let(:club_no_tournament) { create(:club, tournament: nil) }
+        let!(:orphan_player) { create(:player, club: club_no_tournament) }
+
+        it 'does not raise' do
+          expect { creator.call }.not_to raise_error
+        end
+
+        it 'skips the player without creating a stats record' do
+          creator.call
+
+          expect(orphan_player.player_season_stats.count).to eq(0)
+        end
       end
     end
 

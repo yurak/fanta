@@ -15,6 +15,22 @@ namespace :tours do
     end
   end
 
+  # rake 'tours:generate_lineups'
+  desc 'Clone missed lineups and generate not-in-squad players for locked tours'
+  task generate_lineups: :environment do
+    lock_file = Rails.root.join('tmp/generate_lineups.lock')
+    File.open(lock_file, File::RDWR | File::CREAT, 0o644) do |f|
+      unless f.flock(File::LOCK_EX | File::LOCK_NB)
+        puts 'tours:generate_lineups already running, skipping'
+        next
+      end
+
+      Tour.locked.where(lineups_generated: false).find_each do |tour|
+        Tours::LineupGenerator.call(tour)
+      end
+    end
+  end
+
   # rake 'tours:auto_close'
   desc 'Close moderated tours'
   task auto_close: :environment do
@@ -34,7 +50,7 @@ namespace :tours do
   # rake 'tours:create_national[178]'
   desc 'Create tours for World Cup'
   task :create_national, [:league_id] => :environment do |_t, args|
-    tournament = Tournament.find_by(code: Tournament::EURO)
+    tournament = Tournament.find_by(code: 'world_cup')
     league = tournament.leagues.find_by(id: args[:league_id])
 
     ActiveRecord::Base.transaction do

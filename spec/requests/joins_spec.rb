@@ -20,7 +20,7 @@ RSpec.describe 'Joins' do
         it { expect(response).to render_template(:index) }
 
         it 'shows available tournaments' do
-          expect(response.body).to include(tournament.name)
+          expect(response.body).to include(CGI.escapeHTML(tournament.name))
         end
       end
 

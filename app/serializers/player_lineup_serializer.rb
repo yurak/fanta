@@ -17,6 +17,8 @@ class PlayerLineupSerializer < ActiveModel::Serializer
   attributes :position_classic_arr
   attributes :stats_price
 
+  delegate :stats_price, to: :object
+
   def club_code
     club&.code
   end

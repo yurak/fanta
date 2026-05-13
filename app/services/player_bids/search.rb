@@ -29,7 +29,10 @@ module PlayerBids
 
     def base_query
       PlayerBid.joins(auction_bid: { auction_round: :auction }, player: { player_positions: :position })
-               .includes(auction_bid: :auction_round)
+               .includes(
+                 player: %i[positions club],
+                 auction_bid: %i[auction_round team]
+               )
                .distinct
                .success
                .where(auctions: { id: auction_id })

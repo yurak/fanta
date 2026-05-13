@@ -32,7 +32,7 @@ module Manage
     def joins_for_tab
       case @tab
       when 'pending'  then pending_joins
-      when 'initial'  then Join.initial.includes(:user, :tournament, team: :join).order(created_at: :asc)
+      when 'initial'  then Join.initial.includes(:tournament, team: :join, user: :user_profile).order(created_at: :asc)
       when 'approved' then approved_joins
       end
     end
@@ -48,7 +48,7 @@ module Manage
 
     def approved_joins
       Join.approved
-          .includes(:user, :tournament, team: %i[join league])
+          .includes(:tournament, team: %i[join league], user: :user_profile)
           .order('tournaments.name, leagues.name')
           .references(:tournaments, :leagues)
     end

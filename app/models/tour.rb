@@ -12,8 +12,6 @@ class Tour < ApplicationRecord
   enum status: { inactive: 0, set_lineup: 1, locked: 2, closed: 3, postponed: 4 }
   enum bench_status: { default_bench: 0, expanded: 1 }
 
-  default_scope { includes(%i[league tournament_round]) }
-
   scope :closed_postponed, -> { closed.or(postponed) }
   scope :locked_postponed, -> { locked.or(postponed) }
   scope :active, -> { set_lineup.or(locked) }
@@ -84,7 +82,7 @@ class Tour < ApplicationRecord
   end
 
   def ordered_lineups
-    lineups.sort { |a, b| b.total_score <=> a.total_score }
+    lineups.includes(:team).sort { |a, b| b.total_score <=> a.total_score }
   end
 
   def autobot(preview: true)
