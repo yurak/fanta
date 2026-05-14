@@ -19,7 +19,7 @@ module Api
     def player_bid
       return @player_bid if defined?(@player_bid)
 
-      @player_bid = PlayerBid.find_by(id: params[:id])
+      @player_bid = PlayerBid.includes(player: [{ player_positions: :position }, :club]).find_by(id: params[:id])
     end
 
     def auction

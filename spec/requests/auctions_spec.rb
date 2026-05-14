@@ -74,6 +74,100 @@ RSpec.describe 'Auctions' do
       it { expect(response).to have_http_status(:ok) }
       it { expect(assigns(:player_bid_groups)).not_to be_nil }
     end
+
+    context 'when closed auction has no player bids (live auction type)' do
+      let(:auction) { create(:auction, status: :closed, league: league) }
+      let(:player) { create(:player) }
+      let(:team) { create(:team, league: league) }
+
+      login_user
+
+      before do
+        create(:transfer, auction: auction, league: league, player: player, team: team, status: :incoming)
+        get league_auction_path(league, auction)
+      end
+
+      it { expect(response).to be_successful }
+
+      it 'populates player_bid_groups with transfers as round 1' do
+        groups = assigns(:player_bid_groups)
+        expect(groups).to eq({ 1 => [Transfer.last] })
+      end
+
+      it 'sets active_bid to the first transfer' do
+        expect(assigns(:active_bid)).to eq(Transfer.last)
+      end
+
+      it 'sets is_transfer_auction flag' do
+        expect(assigns(:is_transfer_auction)).to be(true)
+      end
+
+      it 'sets active_bid_logs to empty hash' do
+        expect(assigns(:active_bid_logs)).to eq({})
+      end
+    end
+
+    context 'when closed live auction is filtered by player name' do
+      let(:auction) { create(:auction, status: :closed, league: league) }
+      let(:player) { create(:player, name: 'Messi') }
+      let(:other_player) { create(:player, name: 'Ronaldo') }
+      let(:team) { create(:team, league: league) }
+
+      login_user
+
+      before do
+        create(:transfer, auction: auction, league: league, player: player, team: team, status: :incoming)
+        create(:transfer, auction: auction, league: league, player: other_player, team: team, status: :incoming)
+        get league_auction_path(league, auction, search: 'mess')
+      end
+
+      it 'returns only matching transfers' do
+        groups = assigns(:player_bid_groups)
+        expect(groups[1].map(&:player)).to eq([player])
+      end
+    end
+
+    context 'when closed live auction is filtered by position' do
+      let(:auction) { create(:auction, status: :closed, league: league) }
+      let(:gk_player) { create(:player, :with_pos_por) }
+      let(:fw_player) { create(:player) }
+      let(:team) { create(:team, league: league) }
+      let(:gk_position) { Position.find_by(name: Position::GOALKEEPER) }
+
+      login_user
+
+      before do
+        create(:transfer, auction: auction, league: league, player: gk_player, team: team, status: :incoming)
+        create(:transfer, auction: auction, league: league, player: fw_player, team: team, status: :incoming)
+        get league_auction_path(league, auction, position: gk_position.human_name)
+      end
+
+      it 'returns only transfers matching the position' do
+        groups = assigns(:player_bid_groups)
+        expect(groups[1].map(&:player)).to eq([gk_player])
+      end
+    end
+
+    context 'when closed live auction is filtered by team' do
+      let(:auction) { create(:auction, status: :closed, league: league) }
+      let(:player) { create(:player) }
+      let(:other_player) { create(:player) }
+      let(:team) { create(:team, league: league) }
+      let(:other_team) { create(:team, league: league) }
+
+      login_user
+
+      before do
+        create(:transfer, auction: auction, league: league, player: player, team: team, status: :incoming)
+        create(:transfer, auction: auction, league: league, player: other_player, team: other_team, status: :incoming)
+        get league_auction_path(league, auction, team_id: team.id)
+      end
+
+      it 'returns only transfers for the given team' do
+        groups = assigns(:player_bid_groups)
+        expect(groups[1].map(&:player)).to eq([player])
+      end
+    end
   end
 
   describe 'GET #live' do
