@@ -37,10 +37,11 @@ class Result < ApplicationRecord
   end
 
   def lineup_pct
-    total = league.tours.where(status: %i[locked closed postponed]).count
+    finished_tours = league.tours.where(status: %i[locked closed postponed])
+    total = finished_tours.count
     return 0 if total.zero?
 
-    manual = team.lineups.where(tour: league.tours, creation_type: %i[manual copied]).count
+    manual = team.lineups.where(tour: finished_tours, creation_type: %i[manual copied]).count
     (manual.to_f / total * 100).round
   end
 
