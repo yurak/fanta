@@ -393,6 +393,18 @@ RSpec.describe Result do
           expect(result).not_to be_crownable
         end
       end
+
+      context 'when all tours are closed and scores are tied' do
+        before do
+          result.update!(scored_goals: 1)
+          create_list(:closed_tour, 2, league: league)
+          create(:result, league: league, points: 30, scored_goals: 0)
+        end
+
+        it 'returns true for the first place result' do
+          expect(result).to be_crownable
+        end
+      end
     end
   end
 
