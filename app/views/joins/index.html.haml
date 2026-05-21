@@ -55,6 +55,7 @@
               - @tournaments.each do |tournament|
                 - existing_team = @existing_teams[tournament.id]
                 .join-tournament-item.join-apply-btn{ data: { tournament_id: tournament.id,
+                                                               tournament_mode: tournament.mode,
                                                                existing_team_id: existing_team&.id,
                                                                existing_team_name: existing_team&.human_name,
                                                                existing_team_code: existing_team&.code,
@@ -65,9 +66,10 @@
                     .join-tournament-name= tournament.name
                     .join-tournament-meta
                       %span= "#{tournament.mode&.capitalize} · #{tournament.active_teams_count} #{t('join.teams')}"
-                      %span.join-tournament-meta-apps
-                        %span.join-tournament-meta-sep ·&nbsp;
-                        = "#{tournament.joins_count} #{t('join.applications')}"
+                      - unless tournament.fanta?
+                        %span.join-tournament-meta-apps
+                          %span.join-tournament-meta-sep ·&nbsp;
+                          = "#{tournament.joins_count} #{t('join.applications')}"
                   .join-tournament-action
                     %span.join-apply-text
                       = t('join.apply')

@@ -53,6 +53,14 @@
             %tr
               %th= t('manage.leagues.auction_step')
               %td= @league.auction_step
+            %tr
+              %th= t('manage.leagues.open_for_join')
+              %td= @league.open_for_join? ? t('manage.users.yes') : t('manage.users.no')
+            - if @league.join_code.present?
+              %tr
+                %th= t('manage.leagues.join_code')
+                %td
+                  %strong.text-monospace= @league.join_code
 
     %h5.mt-4= t('manage.leagues.section_teams')
     - if @teams.any?

@@ -7,7 +7,7 @@ module Manage
       @tournaments = Tournament.order(:name)
       @seasons = Season.order(start_year: :desc)
       @leagues = League.public_send(@status)
-                       .includes(:division, :tournament, :season, :results)
+                       .includes(:division, :tournament, :season, :results, :tours)
                        .order(season_id: :desc, created_at: :desc)
       @leagues = @leagues.where('leagues.name LIKE ?', "%#{params[:query]}%") if params[:query].present?
       @leagues = @leagues.where(tournament_id: params[:tournament_id]) if params[:tournament_id].present?
@@ -47,8 +47,11 @@ module Manage
     end
 
     def activate
-      deadline = Time.zone.parse(params[:deadline])
-      Leagues::Activator.call(league.id, deadline)
+      if league.fanta?
+        Leagues::FantaActivator.call(league.id)
+      else
+        Leagues::Activator.call(league.id, Time.zone.parse(params[:deadline]))
+      end
       redirect_to manage_leagues_path, notice: t('manage.leagues.activated')
     end
 
@@ -89,7 +92,7 @@ module Manage
       params.require(:league).permit(
         :name, :tournament_id, :season_id, :division_id,
         :auction_type, :auction_number, :auction_step, :tour_difference, :demo,
-        :min_avg_def_score, :max_avg_def_score
+        :min_avg_def_score, :max_avg_def_score, :open_for_join, :join_code, :default_for_join
       )
     end
   end

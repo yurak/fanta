@@ -167,6 +167,10 @@ ActiveRecord::Schema.define(version: 2026_05_22_185712) do
     t.integer "auction_number", default: 5
     t.integer "auction_step", default: 11, null: false
     t.boolean "demo", default: false, null: false
+    t.string "join_code"
+    t.boolean "open_for_join", default: false, null: false
+    t.boolean "default_for_join", default: false, null: false
+    t.index ["join_code"], name: "index_leagues_on_join_code", unique: true
     t.index ["name", "season_id"], name: "index_leagues_on_name_and_season_id", unique: true
     t.index ["season_id"], name: "index_leagues_on_season_id"
   end

@@ -24,6 +24,7 @@ Rails.application.routes.draw do
   get 'rules',    to: 'welcome#rules'
 
   resources :joins, only: [:index, :show]
+  resources :fanta_joins, only: [:create]
   resources :weekly_teams, only: [:show]
 
   namespace :manage do

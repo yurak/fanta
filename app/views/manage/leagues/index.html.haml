@@ -71,7 +71,8 @@
                 - if league.initial?
                   = form_tag(activate_manage_league_path(league), method: :post) do
                     .d-flex.align-items-center.gap-2
-                      = datetime_local_field_tag :deadline, (Time.zone.now + 1.day).strftime('%Y-%m-%dT%H:%M'), class: 'form-control form-control-sm d-inline-block w-auto mr-1', required: true, step: 60
+                      - unless league.fanta?
+                        = datetime_local_field_tag :deadline, (Time.zone.now + 1.day).strftime('%Y-%m-%dT%H:%M'), class: 'form-control form-control-sm d-inline-block w-auto mr-1', required: true, step: 60
                       = submit_tag t('manage.leagues.activate'), class: 'btn btn-sm btn-success', data: { confirm: t('manage.leagues.confirm') }
                 - if !league.archived? && league.all_tours_closed?
                   = button_to t('manage.leagues.archive'), archive_manage_league_path(league), class: 'btn btn-sm btn-secondary', data: { confirm: t('manage.leagues.archive_confirm') }

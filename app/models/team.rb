@@ -16,10 +16,6 @@ class Team < ApplicationRecord
   has_many :results, dependent: :destroy
   has_many :transfers, dependent: :destroy
 
-  def tournament
-    super || league&.tournament
-  end
-
   MAX_PLAYERS = 26
   MIN_GK = 3
   MIN_GK_INIT = 1
@@ -31,7 +27,7 @@ class Team < ApplicationRecord
   TRANSFER_SLOTS = 16
   RESERVE_TRANSFER_SLOTS = [0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20].freeze
 
-  validates :name, presence: true, length: { in: 2..18 }
+  validates :name, presence: true, length: { in: 2..24 }
   validates :code, presence: true, length: { in: 2..3 }, format: { with: /\A[0-9a-zA-Z]+\z/ }
   validates :human_name, length: { in: 2..24 }
 
@@ -40,6 +36,10 @@ class Team < ApplicationRecord
   def reset
     players.clear
     update(budget: DEFAULT_BUDGET, transfer_slots: TRANSFER_SLOTS)
+  end
+
+  def tournament
+    super || league&.tournament
   end
 
   def league_matches

@@ -4,8 +4,15 @@
       %h4#join-modal-title= t('join.create_team')
       %button.join-modal-close{ type: 'button' } ×
 
-    = form_for :team, url: teams_path, method: :post do |f|
+    = form_for :team, url: teams_path, method: :post, html: { id: 'join-team-form' } do |f|
       = f.hidden_field :tournament_id, id: 'join-tournament-id'
+
+      #join-fanta-code-field{ style: 'display:none' }
+        .join-modal-input-field
+          %label.join-modal-input-label{ for: 'fanta_join_code' }= t('join.invite_code_label')
+          %input.join-modal-input{ type: 'text', name: 'join_code', id: 'fanta-join-code-input',
+                                   placeholder: t('join.invite_code_placeholder'),
+                                   autocomplete: 'off', style: 'text-transform:uppercase' }
 
       #join-existing-team{ style: 'display:none' }
         = f.hidden_field :team_id, id: 'join-existing-team-id'
@@ -68,11 +75,24 @@
     var existingLogo  = document.getElementById('join-existing-team-logo');
     var defaultLogoSrc = previewImg.src;
 
-    var createTeamTitle = modalTitle.textContent;
-    var confirmTeamTitle = '<%= t("join.confirm_team") %>';
+    var form             = document.getElementById('join-team-form');
+    var fantaCodeSection = document.getElementById('join-fanta-code-field');
+    var fantaCodeInput   = document.getElementById('fanta-join-code-input');
+    var mantraFormUrl    = '#{teams_path}';
+    var fantaFormUrl     = '#{fanta_joins_path}';
+    var currentIsFanta   = false;
 
-    function openModal(tournamentId, existingTeam) {
+    var createTeamTitle = modalTitle.textContent;
+    var confirmTeamTitle = '#{t("join.confirm_team")}';
+
+    function openModal(tournamentId, mode, existingTeam) {
       tournamentField.value = tournamentId;
+
+      var isFanta = mode === 'fanta';
+      currentIsFanta = isFanta;
+      form.action = isFanta ? fantaFormUrl : mantraFormUrl;
+      fantaCodeSection.style.display = isFanta ? '' : 'none';
+      fantaCodeInput.required = isFanta;
 
       if (existingTeam.id) {
         existingIdField.value = existingTeam.id;
@@ -104,7 +124,7 @@
 
     document.querySelectorAll('.join-apply-btn').forEach(function(btn) {
       btn.addEventListener('click', function() {
-        openModal(this.dataset.tournamentId, {
+        openModal(this.dataset.tournamentId, this.dataset.tournamentMode, {
           id:   this.dataset.existingTeamId,
           name: this.dataset.existingTeamName,
           code: this.dataset.existingTeamCode,
