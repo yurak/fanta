@@ -1,0 +1,16 @@
+- if bonuses.player.position_names.include?(Position::GOALKEEPER)
+  = render 'players/bonus_item', bonus: bonuses.missed_goals, img_path: "bonuses/goal_missed.svg"
+  = render 'players/bonus_item', bonus: bonuses.missed_penalty, img_path: "bonuses/penalty_missed.svg"
+  = render 'players/bonus_item', bonus: bonuses.caught_penalty, img_path: "bonuses/penalty_caught.svg"
+  = render 'players/bonus_item', bonus: bonuses.saves, img_path: "bonuses/saves.svg"
+- else
+  = render 'players/bonus_item', bonus: bonuses.goals, img_path: "bonuses/goal_scored.svg"
+  = render 'players/bonus_item', bonus: bonuses.scored_penalty, img_path: "bonuses/penalty_scored.svg"
+  = render 'players/bonus_item', bonus: bonuses.failed_penalty, img_path: "bonuses/penalty_failed.svg"
+  = render 'players/bonus_item', bonus: bonuses.penalties_won, img_path: "bonuses/penalty_earned.svg"
+= render 'players/bonus_item', bonus: bonuses.assists, img_path: "bonuses/assist.svg"
+= render 'players/bonus_item', bonus: bonuses.yellow_card, img_path: "bonuses/yellow_card.svg"
+= render 'players/bonus_item', bonus: bonuses.red_card, img_path: "bonuses/red_card.svg"
+= render 'players/bonus_item', bonus: bonuses.own_goals, img_path: "bonuses/own_goal.svg"
+= render 'players/bonus_item', bonus: bonuses.cleansheet, img_path: "bonuses/clean_sheet.svg"
+= render 'players/bonus_item', bonus: bonuses.conceded_penalty, img_path: "bonuses/penalty_foul.svg"
