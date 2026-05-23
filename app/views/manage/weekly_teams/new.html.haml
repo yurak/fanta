@@ -6,23 +6,45 @@
     %h2.mb-3= t('manage.weekly_team.title')
 
     = form_tag new_manage_weekly_team_path, method: :get do
-      .d-flex.align-items-center.mb-4
-        = radio_button_tag :mode, 'top', @mode != :flop, id: 'mode_top', class: 'round-toggle-input'
-        = label_tag 'mode_top', t('manage.weekly_team.mode_top'), class: 'round-toggle-label'
+      .d-flex.align-items-center.mb-3
+        = radio_button_tag :source, 'round', @source == 'round', id: 'source_round', class: 'round-toggle-input', onchange: 'this.form.submit()'
+        = label_tag 'source_round', t('manage.weekly_team.source_round'), class: 'round-toggle-label'
         .vr.mx-2
-        = radio_button_tag :mode, 'flop', @mode == :flop, id: 'mode_flop', class: 'round-toggle-input'
-        = label_tag 'mode_flop', t('manage.weekly_team.mode_flop'), class: 'round-toggle-label'
-      - @rounds.group_by(&:tournament).each do |tournament, t_rounds|
-        %h5.mb-2= "#{tournament.icon} #{tournament.name}"
-        .d-flex.flex-wrap.align-items-center.pb-2.mb-2.border-bottom
-          - t_rounds.each_with_index do |round, i|
-            - if i > 0
-              .vr.mx-2
-            = check_box_tag 'round_ids[]', round.id, @selected_ids.include?(round.id), id: "round_#{round.id}", class: 'round-toggle-input'
-            = label_tag "round_#{round.id}", class: 'round-toggle-label' do
-              = "#{t('manage.weekly_team.round')} #{round.number}"
-              - if round.deadline
-                %small.ms-1= round.deadline.strftime('%d.%m')
+        = radio_button_tag :source, 'season', @source == 'season', id: 'source_season', class: 'round-toggle-input', onchange: 'this.form.submit()'
+        = label_tag 'source_season', t('manage.weekly_team.source_season'), class: 'round-toggle-label'
+        .vr.mx-2
+        = radio_button_tag :source, 'avg', @source == 'avg', id: 'source_avg', class: 'round-toggle-input', onchange: 'this.form.submit()'
+        = label_tag 'source_avg', t('manage.weekly_team.source_avg'), class: 'round-toggle-label'
+
+      - unless @source == 'avg'
+        .d-flex.align-items-center.mb-4
+          = radio_button_tag :mode, 'top', @mode != :flop, id: 'mode_top', class: 'round-toggle-input'
+          = label_tag 'mode_top', t('manage.weekly_team.mode_top'), class: 'round-toggle-label'
+          .vr.mx-2
+          = radio_button_tag :mode, 'flop', @mode == :flop, id: 'mode_flop', class: 'round-toggle-input'
+          = label_tag 'mode_flop', t('manage.weekly_team.mode_flop'), class: 'round-toggle-label'
+
+      - if @source == 'round'
+        - @rounds.group_by(&:tournament).each do |tournament, t_rounds|
+          %h5.mb-2= "#{tournament.icon} #{tournament.name}"
+          .d-flex.flex-wrap.align-items-center.pb-2.mb-2.border-bottom
+            - t_rounds.each_with_index do |round, i|
+              - if i > 0
+                .vr.mx-2
+              = check_box_tag 'round_ids[]', round.id, @selected_ids.include?(round.id), id: "round_#{round.id}", class: 'round-toggle-input'
+              = label_tag "round_#{round.id}", class: 'round-toggle-label' do
+                = "#{t('manage.weekly_team.round')} #{round.number}"
+                - if round.deadline
+                  %small.ms-1= round.deadline.strftime('%d.%m')
+
+      - if @source == 'season' || @source == 'avg'
+        .mb-3
+          = select_tag :tournament_id,
+                       options_for_select(@tournaments.map { |t| ["#{t.icon} #{t.name}", t.id] }, @tournament_id),
+                       include_blank: t('manage.weekly_team.select_tournament'),
+                       class: 'form-select w-auto',
+                       onchange: 'this.form.submit()'
+
       .mt-3
         = submit_tag t('manage.weekly_team.build'), class: 'btn btn-primary'
 
@@ -41,6 +63,9 @@
                 = form_tag manage_weekly_teams_path, method: :post do
                   = hidden_field_tag :team_module_id, mod.id
                   = hidden_field_tag :mode, @mode
+                  = hidden_field_tag :source, @source
+                  - if @tournament_id.present?
+                    = hidden_field_tag :tournament_id, @tournament_id
                   - @selected_ids.each do |rid|
                     = hidden_field_tag 'round_ids[]', rid
                   - team.each do |row|
@@ -56,7 +81,7 @@
                     %tr
                       %th= t('manage.weekly_team.col_position')
                       %th= t('manage.weekly_team.col_player')
-                      %th.text-end= t('manage.weekly_team.col_score')
+                      %th.text-end= @source == 'avg' ? t('manage.weekly_team.col_avg_score') : t('manage.weekly_team.col_score')
                   %tbody
                     - team.each do |row|
                       %tr
@@ -68,7 +93,10 @@
                             = link_to row[:entry][:player].full_name, player_path(row[:entry][:player]), target: '_blank'
                             - if club
                               %small.text-muted.ms-1= "#{club.tournament&.icon} #{club.name}"
-                          %td.text-end= '%.2f' % row[:entry][:total]
+                          %td.text-end
+                            = '%.2f' % row[:entry][:total]
+                            - if @source == 'avg' && row[:entry][:appearances]
+                              %small.text-muted.ms-1= "(#{row[:entry][:appearances]} #{t('manage.weekly_team.appearances')})"
                         - else
                           %td.text-muted —
                           %td —

@@ -107,6 +107,80 @@ RSpec.describe 'Manage::WeeklyTeams' do
           expect(controller.instance_variable_get(:@teams)).to be_nil
         end
       end
+
+      context 'with source=season and tournament_id' do
+        let(:tournament) { Tournament.first }
+        let(:season)     { Season.order(:start_year).last }
+
+        before do
+          round = create(:tournament_round, tournament: tournament, season: season)
+          create(:round_player, :with_pos_por, score: 7, tournament_round: round)
+          get new_manage_weekly_team_path(source: 'season', tournament_id: tournament.id)
+        end
+
+        it { expect(response).to be_successful }
+
+        it 'sets source to season' do
+          expect(controller.instance_variable_get(:@source)).to eq('season')
+        end
+
+        it 'builds teams' do
+          expect(controller.instance_variable_get(:@teams)).not_to be_nil
+        end
+
+        it 'assigns tournaments' do
+          expect(controller.instance_variable_get(:@tournaments)).not_to be_nil
+        end
+      end
+
+      context 'with source=season but no tournament_id' do
+        before { get new_manage_weekly_team_path(source: 'season') }
+
+        it { expect(response).to be_successful }
+
+        it 'does not build teams' do
+          expect(controller.instance_variable_get(:@teams)).to be_nil
+        end
+      end
+
+      context 'with source=avg and tournament_id' do
+        let(:tournament) { Tournament.first }
+        let(:season)     { Season.order(:start_year).last }
+
+        before do
+          round = create(:tournament_round, tournament: tournament, season: season)
+          create(:round_player, :with_pos_por, score: 7, tournament_round: round)
+          get new_manage_weekly_team_path(source: 'avg', tournament_id: tournament.id)
+        end
+
+        it { expect(response).to be_successful }
+
+        it 'sets source to avg' do
+          expect(controller.instance_variable_get(:@source)).to eq('avg')
+        end
+
+        it 'builds teams' do
+          expect(controller.instance_variable_get(:@teams)).not_to be_nil
+        end
+      end
+
+      context 'with source=avg but no tournament_id' do
+        before { get new_manage_weekly_team_path(source: 'avg') }
+
+        it { expect(response).to be_successful }
+
+        it 'does not build teams' do
+          expect(controller.instance_variable_get(:@teams)).to be_nil
+        end
+      end
+
+      context 'with invalid source param' do
+        before { get new_manage_weekly_team_path(source: 'invalid') }
+
+        it 'falls back to round source' do
+          expect(controller.instance_variable_get(:@source)).to eq('round')
+        end
+      end
     end
   end
 
@@ -193,6 +267,54 @@ RSpec.describe 'Manage::WeeklyTeams' do
 
         it 'redirects to new page' do
           expect(response).to redirect_to(new_manage_weekly_team_path)
+        end
+      end
+
+      context 'with source=season and tournament_id' do
+        let(:tournament) { Tournament.first }
+
+        before do
+          post manage_weekly_teams_path, params: {
+            round_ids: [round.id],
+            team_module_id: team_module.id,
+            mode: 'top',
+            number: 4,
+            players: players,
+            source: 'season',
+            tournament_id: tournament.id
+          }
+        end
+
+        it 'creates a WeeklyTeam with season source' do
+          expect(WeeklyTeam.last.source).to eq('season')
+        end
+
+        it 'stores tournament_id' do
+          expect(WeeklyTeam.last.tournament_id).to eq(tournament.id)
+        end
+      end
+
+      context 'with source=avg and tournament_id' do
+        let(:tournament) { Tournament.first }
+
+        before do
+          post manage_weekly_teams_path, params: {
+            round_ids: [round.id],
+            team_module_id: team_module.id,
+            mode: 'top',
+            number: 5,
+            players: players,
+            source: 'avg',
+            tournament_id: tournament.id
+          }
+        end
+
+        it 'creates a WeeklyTeam with avg source' do
+          expect(WeeklyTeam.last.source).to eq('avg')
+        end
+
+        it 'stores tournament_id' do
+          expect(WeeklyTeam.last.tournament_id).to eq(tournament.id)
         end
       end
     end
