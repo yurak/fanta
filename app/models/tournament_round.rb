@@ -68,10 +68,6 @@ class TournamentRound < ApplicationRecord
 
   private
 
-  def worst_lineup
-    lineups.min_by(&:total_score)
-  end
-
   def matches_finished?(matches)
     matches.exists? && !matches.exists?(host_score: nil)
   end
