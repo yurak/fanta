@@ -15,6 +15,23 @@ RSpec.describe Players::Transfermarkt::PositionParser do
       }
     end
 
+    def stub_cache_miss
+      allow_any_instance_of(Pathname).to receive(:exist?).and_return(false)
+      allow_any_instance_of(Pathname).to receive(:write)
+      allow(FileUtils).to receive(:mkdir_p)
+    end
+
+    def stub_cache_hit(data)
+      allow_any_instance_of(Pathname).to receive(:exist?).and_return(true)
+      allow_any_instance_of(Pathname).to receive(:mtime).and_return(Time.zone.now)
+      allow_any_instance_of(Pathname).to receive(:read).and_return(data.to_json)
+    end
+
+    def stub_api(body)
+      rest_response = instance_double(RestClient::Response, body: body.to_json)
+      allow(RestClient::Request).to receive(:execute).and_return(rest_response)
+    end
+
     context 'when player is nil' do
       let(:player) { nil }
 
@@ -32,9 +49,9 @@ RSpec.describe Players::Transfermarkt::PositionParser do
     end
 
     context 'when API returns performance data' do
-      let(:api_response) do
-        {
-          'success' => true,
+      before do
+        stub_cache_miss
+        stub_api(
           'data' => {
             'performance' => [
               build_game(season_id: 2023, position_id: 13), # SS → FW x3
@@ -48,14 +65,7 @@ RSpec.describe Players::Transfermarkt::PositionParser do
               build_game(season_id: 2022, position_id: 13)  # different season — ignored
             ]
           }
-        }.to_json
-      end
-      let(:rest_response) { instance_double(RestClient::Response, body: api_response) }
-
-      before do
-        allow(RestClient::Request).to receive(:execute).and_return(rest_response)
-        allow(parser).to receive(:read_cache).and_return(nil)
-        allow(parser).to receive(:write_cache)
+        )
       end
 
       it 'returns a Hash' do
@@ -95,22 +105,16 @@ RSpec.describe Players::Transfermarkt::PositionParser do
     end
 
     context 'when game has nil positionId' do
-      let(:api_response) do
-        {
+      before do
+        stub_cache_miss
+        stub_api(
           'data' => {
             'performance' => [
               { 'gameInformation' => { 'seasonId' => 2023 }, 'statistics' => { 'generalStatistics' => {} } },
               build_game(season_id: 2023, position_id: 5)
             ]
           }
-        }.to_json
-      end
-      let(:rest_response) { instance_double(RestClient::Response, body: api_response) }
-
-      before do
-        allow(RestClient::Request).to receive(:execute).and_return(rest_response)
-        allow(parser).to receive(:read_cache).and_return(nil)
-        allow(parser).to receive(:write_cache)
+        )
       end
 
       it 'skips games with no positionId' do
@@ -119,22 +123,16 @@ RSpec.describe Players::Transfermarkt::PositionParser do
     end
 
     context 'when game has unknown positionId' do
-      let(:api_response) do
-        {
+      before do
+        stub_cache_miss
+        stub_api(
           'data' => {
             'performance' => [
               build_game(season_id: 2023, position_id: 99),
               build_game(season_id: 2023, position_id: 5)
             ]
           }
-        }.to_json
-      end
-      let(:rest_response) { instance_double(RestClient::Response, body: api_response) }
-
-      before do
-        allow(RestClient::Request).to receive(:execute).and_return(rest_response)
-        allow(parser).to receive(:read_cache).and_return(nil)
-        allow(parser).to receive(:write_cache)
+        )
       end
 
       it 'skips unknown position IDs' do
@@ -143,17 +141,14 @@ RSpec.describe Players::Transfermarkt::PositionParser do
     end
 
     context 'when cache is valid' do
-      let(:cached_data) do
-        [build_game(season_id: 2023, position_id: 5)]
-      end
-
       before do
-        allow(parser).to receive(:read_cache).and_return(cached_data)
+        stub_cache_hit([build_game(season_id: 2023, position_id: 5)])
+        allow(RestClient::Request).to receive(:execute)
       end
 
       it 'does not call the API' do
-        expect(RestClient::Request).not_to receive(:execute)
         parser.call
+        expect(RestClient::Request).not_to have_received(:execute)
       end
 
       it 'uses cached data' do
@@ -162,12 +157,9 @@ RSpec.describe Players::Transfermarkt::PositionParser do
     end
 
     context 'when API returns no performance data' do
-      let(:rest_response) { instance_double(RestClient::Response, body: { 'data' => {} }.to_json) }
-
       before do
-        allow(RestClient::Request).to receive(:execute).and_return(rest_response)
-        allow(parser).to receive(:read_cache).and_return(nil)
-        allow(parser).to receive(:write_cache)
+        stub_cache_miss
+        stub_api('data' => {})
       end
 
       it 'returns empty hash' do

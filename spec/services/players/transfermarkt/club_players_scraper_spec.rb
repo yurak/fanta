@@ -245,7 +245,7 @@ RSpec.describe Players::Transfermarkt::ClubPlayersScraper do
       before do
         stub_browser(club_page_html(55_555))
         allow(Players::Transfermarkt::ApiParser).to receive(:call).with('55555')
-                                                               .and_raise(playwright_timeout)
+                                                                  .and_raise(playwright_timeout)
       end
 
       it 'does not raise and skips writing' do
