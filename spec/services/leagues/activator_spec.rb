@@ -173,38 +173,6 @@ RSpec.describe Leagues::Activator do
       end
     end
 
-    context 'when league has teams with players before activation' do
-      let!(:league) { create(:league) }
-      let!(:team) { create(:team, :with_5_players, league: league) }
-
-      before do
-        create(:result, team: team, league: league)
-        create(:tournament_round, number: 1, tournament: league.tournament, season: league.season)
-        activator.call
-      end
-
-      it 'clears players from teams' do
-        expect(team.reload.players).to be_empty
-      end
-    end
-
-    context 'when league is initial, with teams and only 1 auction' do
-      let!(:league) { create(:league, :with_five_teams, auction_number: 1) }
-
-      before do
-        create(:tournament_round, number: 1, tournament: league.tournament, season: league.season)
-        activator.call
-      end
-
-      it 'sets transfer_slots to 0 (no intermediate auctions)' do
-        expect(league.teams.reload.first.transfer_slots).to eq(0)
-      end
-
-      it 'creates 1 auction' do
-        expect(league.auctions.count).to eq(1)
-      end
-    end
-
     context 'when league is initial, with teams and custom configs' do
       let!(:league) { create(:league, :with_five_teams, tour_difference: 1, auction_number: 3) }
 

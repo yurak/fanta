@@ -49,32 +49,6 @@ class Player < ApplicationRecord
     xk: 'Kosovo'
   }.freeze
 
-  COUNTRY = {
-    bo: 'Bolivia',
-    bq: 'Bonaire',
-    ba: 'Bosnia-Herzegovina',
-    cd: 'DR Congo',
-    cv: 'Cape Verde',
-    cz: 'Czech Republic',
-    'gb-eng': 'England',
-    'gb-wls': 'Wales',
-    'gb-sct': 'Scotland',
-    'gb-nir': 'Northern Ireland',
-    gm: 'The Gambia',
-    ir: 'Iran',
-    kr: 'Korea, South',
-    kn: 'St. Kitts & Nevis',
-    lc: 'St. Lucia',
-    md: 'Moldova',
-    ps: 'Palestine',
-    ru: 'terrorist state',
-    sy: 'Syria',
-    tz: 'Tanzania',
-    us: 'United States',
-    ve: 'Venezuela',
-    xk: 'Kosovo'
-  }.freeze
-
   scope :by_club, ->(club_id) { where(club_id: club_id) if club_id.present? }
   scope :search_by_name, lambda { |search_str|
     where('lower(players.name) LIKE :search OR lower(players.first_name) LIKE :search', search: "%#{search_str.downcase}%")

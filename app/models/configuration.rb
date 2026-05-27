@@ -8,8 +8,4 @@ class Configuration < ApplicationRecord
   def self.sofa_server_url
     find_by(provider: 'sofascore')&.payload
   end
-
-  def self.sofa_server_url
-    find_by(provider: 'sofascore')&.payload
-  end
 end

@@ -40,7 +40,7 @@ namespace :teams do
   desc 'Reset teams players by tournament'
   task :reset_tournament, [:tournament_id] => :environment do |_t, args|
     tournament = Tournament.find_by(id: args[:tournament_id])
-    return unless tournament
+    next unless tournament
 
     tournament.leagues.by_season(Season.last).each do |league|
       league.teams.each do |team|
@@ -49,35 +49,6 @@ namespace :teams do
       end
     end
     puts 'Done!'
-  end
-end
-
-module Teams
-  module Tasks
-    def self.cleanup_orphans(dry_run:)
-      orphans = orphan_teams
-      puts "Found #{orphans.count} orphan team(s):"
-      orphans.each { |t| puts "  id=#{t.id} name=#{t.human_name} user_id=#{t.user_id}" }
-
-      if dry_run
-        puts "\nDry-run mode. Run with [false] to delete."
-      else
-        orphans.destroy_all
-        puts "\nDeleted."
-      end
-    end
-
-    def self.orphan_teams
-      Team
-        .where(league_id: nil)
-        .where.missing(:join)
-        .where.missing(:auction_bids)
-        .where.missing(:lineups)
-        .where.missing(:results)
-        .where.missing(:transfers)
-        .where.missing(:player_teams)
-        .where('teams.id NOT IN (SELECT host_id FROM matches UNION SELECT guest_id FROM matches)')
-    end
   end
 end
 

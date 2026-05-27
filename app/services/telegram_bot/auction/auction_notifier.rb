@@ -51,10 +51,6 @@ module TelegramBot
       def time_zone
         user.time_zone || User::DEFAULT_TIME_ZONE
       end
-
-      def time_zone(team)
-        team.user&.time_zone || User::DEFAULT_TIME_ZONE
-      end
     end
   end
 end

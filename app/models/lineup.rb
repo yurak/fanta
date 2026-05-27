@@ -15,8 +15,6 @@ class Lineup < ApplicationRecord
 
   enum creation_type: { manual: 0, copied: 1, auto_cloned: 2 }
 
-  enum creation_type: { manual: 0, copied: 1, auto_cloned: 2 }
-
   scope :closed, ->(league_id) { where(tour_id: League.find(league_id).tours.closed.ids) }
   scope :finished, -> { joins(:tour).where(tours: { status: :closed }) }
   scope :mantra, -> { joins(tour: { tournament_round: :tournament }).where(tournaments: { mode: :mantra }) }
@@ -118,23 +116,6 @@ class Lineup < ApplicationRecord
 
   def subs_missed?
     match_players.main.without_score.includes(round_player: :tournament_round).any?(&:subs_option_exist?)
-  end
-
-  def substitutes_preview
-    return [] unless substitutes
-
-    JSON.parse(substitutes)
-  end
-
-  def best_player
-    match_players.joins(:round_player).main.order('round_players.final_score': :desc).first&.player
-  end
-
-  def average_bench
-    subs = match_players.with_score.subs_bench
-    return 0 if subs.empty?
-
-    (subs.sum(&:total_score) / subs.count).round(2)
   end
 
   def substitutes_preview

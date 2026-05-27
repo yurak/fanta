@@ -35,10 +35,6 @@ class MatchPlayer < ApplicationRecord
     round_player.club ? round_player.club.kit_path : player.kit_path
   end
 
-  def kit_path
-    round_player.club ? round_player.club.kit_path : player.kit_path
-  end
-
   def not_played?
     score.zero? && (club_played_match? || another_tournament?)
   end
@@ -70,21 +66,6 @@ class MatchPlayer < ApplicationRecord
 
   def hide_cleansheet?
     e_not_at_valid_pos? || m_not_at_valid_pos?
-  end
-
-  def subs_option_exist?
-    subs_options.exists?
-  end
-
-  def subs_options
-    return MatchPlayer.none unless eligible_for_subs?
-
-    lineup.match_players
-          .subs_bench
-          .with_score
-          .joins(round_player: { player: :positions })
-          .where(positions: { name: available_positions })
-          .distinct
   end
 
   def subs_option_exist?
