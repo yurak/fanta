@@ -35,25 +35,21 @@ namespace :tm do
     ids_range = args[:start_id].to_i..args[:last_id].to_i
 
     year = Season.last.start_year
+    players = Player.where(id: ids_range)
+                    .includes(:club, :positions, player_positions: :position)
+                    .reject { |pl| pl.club.name == Club::RETIRED }
+                    .reject { |pl| pl.positions.first&.name == Position::GOALKEEPER }
+                    .reject { |pl| [16, 19].include?(pl.club.tournament_id) }
+
     CSV.open('log/player_position_id.csv', 'ab') do |writer|
-      writer << ['id', 'name', 'club', 'tm_url', 'actual positions', 'recommended positions']
-      ids_range.each do |id|
-        pl = Player.find_by(id: id)
-        next unless pl
-        next if pl.club.name == Club::RETIRED
-        next if pl.positions.first.name == Position::GOALKEEPER
-
-        next if pl.club.tournament_id == 16 # skip MLS players
-        next if pl.club.tournament_id == 19 # skip Brazil players
-
-        # next if [1, 2, 3, 4, 5, 11, 12, 13, 14, 15, 18, 21].include?(pl.club.tournament_id) # skip european national tournaments
-        # next unless pl.club.tournament_id == 19 # only Brazil players
-
-        puts id
+      writer << ['id', 'name', 'club', 'tm_url', 'actual positions', 'recommended positions', 'tm_price', 'avg_price']
+      players.each do |pl|
+        puts pl.id
         begin
           res = Players::Transfermarkt::PositionMapper.call(pl, year)
         rescue StandardError => e
           writer << [pl.id, pl.name, pl.club.name, pl.tm_url, 'ERROR', e.message, pl.tm_price, pl.current_average_price]
+          next
         end
 
         pos = pl.player_positions.map { |pp| Slot::POS_MAPPING[pp.position.name] }

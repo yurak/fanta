@@ -29,11 +29,11 @@ RSpec.describe Players::Transfermarkt::ClubPlayersScraper do
   end
 
   def stub_parser(tm_id, result)
-    allow(Players::Transfermarkt::Parser).to receive(:call).with(tm_id).and_return(result)
+    allow(Players::Transfermarkt::ApiParser).to receive(:call).with(tm_id).and_return(result)
   end
 
   def stub_parser_position_skip(tm_id, result)
-    allow(Players::Transfermarkt::Parser).to receive(:call).with(tm_id, position_skip: true).and_return(result)
+    allow(Players::Transfermarkt::ApiParser).to receive(:call).with(tm_id, position_skip: true).and_return(result)
   end
 
   def parser_result(overrides = {})
@@ -83,9 +83,9 @@ RSpec.describe Players::Transfermarkt::ClubPlayersScraper do
     end
 
     it 'does not call Parser for existing players' do
-      allow(Players::Transfermarkt::Parser).to receive(:call)
+      allow(Players::Transfermarkt::ApiParser).to receive(:call)
       scraper.call
-      expect(Players::Transfermarkt::Parser).not_to have_received(:call)
+      expect(Players::Transfermarkt::ApiParser).not_to have_received(:call)
     end
 
     it 'does not write anything to writer' do
@@ -102,7 +102,7 @@ RSpec.describe Players::Transfermarkt::ClubPlayersScraper do
 
     it 'calls Parser for unknown tm_id' do
       scraper.call
-      expect(Players::Transfermarkt::Parser).to have_received(:call).with('12345')
+      expect(Players::Transfermarkt::ApiParser).to have_received(:call).with('12345')
     end
 
     it 'writes a row to the writer' do
@@ -139,7 +139,7 @@ RSpec.describe Players::Transfermarkt::ClubPlayersScraper do
 
     it 'calls Parser with position_skip for missed player' do
       scraper.call
-      expect(Players::Transfermarkt::Parser).to have_received(:call).with(777, position_skip: true)
+      expect(Players::Transfermarkt::ApiParser).to have_received(:call).with(777, position_skip: true)
     end
 
     context 'when player stayed in same club' do
@@ -227,7 +227,7 @@ RSpec.describe Players::Transfermarkt::ClubPlayersScraper do
 
       before do
         stub_browser(club_page_html(55_555))
-        allow(Players::Transfermarkt::Parser).to receive(:call).with('55555') do
+        allow(Players::Transfermarkt::ApiParser).to receive(:call).with('55555') do
           call_count[:n] += 1
           raise RestClient::Exception if call_count[:n] < 2
 
@@ -244,7 +244,7 @@ RSpec.describe Players::Transfermarkt::ClubPlayersScraper do
     context 'when Parser raises Playwright::TimeoutError exhaustively' do
       before do
         stub_browser(club_page_html(55_555))
-        allow(Players::Transfermarkt::Parser).to receive(:call).with('55555')
+        allow(Players::Transfermarkt::ApiParser).to receive(:call).with('55555')
                                                                .and_raise(playwright_timeout)
       end
 
@@ -262,12 +262,12 @@ RSpec.describe Players::Transfermarkt::ClubPlayersScraper do
   describe 'empty player list in HTML' do
     before do
       stub_browser(club_page_html)
-      allow(Players::Transfermarkt::Parser).to receive(:call)
+      allow(Players::Transfermarkt::ApiParser).to receive(:call)
     end
 
     it 'does not call Parser' do
       scraper.call
-      expect(Players::Transfermarkt::Parser).not_to have_received(:call)
+      expect(Players::Transfermarkt::ApiParser).not_to have_received(:call)
     end
 
     it 'does not write to writer' do
@@ -285,12 +285,12 @@ RSpec.describe Players::Transfermarkt::ClubPlayersScraper do
       before do
         create(:player, tm_id: 888, club: club)
         stub_browser(club_page_html(888))
-        allow(Players::Transfermarkt::Parser).to receive(:call)
+        allow(Players::Transfermarkt::ApiParser).to receive(:call)
       end
 
       it 'does not call Parser for missed players' do
         scraper.call
-        expect(Players::Transfermarkt::Parser).not_to have_received(:call)
+        expect(Players::Transfermarkt::ApiParser).not_to have_received(:call)
       end
     end
   end

@@ -15,7 +15,7 @@ class TournamentRoundsController < ApplicationController
     @round_players = if tournament_round.tournament.national?
                        edit_round_players.ordered_by_national
                      elsif params[:club_id]
-                       edit_round_players.by_club(params[:club_id]).sort_by { |x| [x.club.id, x.name] }
+                       edit_round_players.by_club(params[:club_id]).sort_by { |x| [x.club&.id.to_i, x.name] }
                      else
                        edit_round_players.ordered_by_club
                      end
