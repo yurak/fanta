@@ -8,6 +8,30 @@ RSpec.describe Players::Transfermarkt::PositionParser do
     let(:year)   { 2023 }
     let(:player) { create(:player, tm_id: '406040') }
 
+    def build_game(season_id:, position_id:)
+      {
+        'gameInformation' => { 'seasonId' => season_id },
+        'statistics' => { 'generalStatistics' => { 'positionId' => position_id } }
+      }
+    end
+
+    def stub_cache_miss
+      allow_any_instance_of(Pathname).to receive(:exist?).and_return(false)
+      allow_any_instance_of(Pathname).to receive(:write)
+      allow(FileUtils).to receive(:mkdir_p)
+    end
+
+    def stub_cache_hit(data)
+      allow_any_instance_of(Pathname).to receive(:exist?).and_return(true)
+      allow_any_instance_of(Pathname).to receive(:mtime).and_return(Time.zone.now)
+      allow_any_instance_of(Pathname).to receive(:read).and_return(data.to_json)
+    end
+
+    def stub_api(body)
+      rest_response = instance_double(RestClient::Response, body: body.to_json)
+      allow(RestClient::Request).to receive(:execute).and_return(rest_response)
+    end
+
     context 'when player is nil' do
       let(:player) { nil }
 
@@ -24,105 +48,122 @@ RSpec.describe Players::Transfermarkt::PositionParser do
       end
     end
 
-    context 'when positions page exists' do
-      let(:positions_html) do
-        Rails.root.join('spec/fixtures/tm/positions_406040_2023.html').read
-      end
-
+    context 'when API returns performance data' do
       before do
-        allow_any_instance_of(Players::Transfermarkt::BrowserClient).to receive(:fetch_html).and_return(positions_html)
+        stub_cache_miss
+        stub_api(
+          'data' => {
+            'performance' => [
+              build_game(season_id: 2023, position_id: 13), # SS → FW x3
+              build_game(season_id: 2023, position_id: 13),
+              build_game(season_id: 2023, position_id: 13),
+              build_game(season_id: 2023, position_id: 14), # CF → ST x2
+              build_game(season_id: 2023, position_id: 14),
+              build_game(season_id: 2023, position_id: 12), # RW → W
+              build_game(season_id: 2023, position_id: 6),  # DM → DM (not WB)
+              build_game(season_id: 2023, position_id: 8),  # LM → WB
+              build_game(season_id: 2022, position_id: 13)  # different season — ignored
+            ]
+          }
+        )
       end
 
-      it 'returns a hash' do
-        result = parser.call
-        expect(result).to be_a(Hash)
+      it 'returns a Hash' do
+        expect(parser.call).to be_a(Hash)
       end
 
-      it 'returns non-empty stats' do
-        result = parser.call
-        expect(result.values.sum).to be > 0
+      it 'counts SS as FW' do
+        expect(parser.call['FW']).to eq(3)
       end
 
-      it 'parses FW matches count' do
-        result = parser.call
-        expect(result['FW']).to eq(21)
+      it 'counts CF as ST' do
+        expect(parser.call['ST']).to eq(2)
       end
 
-      it 'parses ST matches count' do
-        result = parser.call
-        expect(result['ST']).to eq(16)
+      it 'counts RW as W' do
+        expect(parser.call['W']).to eq(1)
       end
 
-      it 'parses W matches count' do
-        result = parser.call
-        expect(result['W']).to eq(6)
+      it 'counts DM (id=6) as DM, not WB' do
+        expect(parser.call['DM']).to eq(1)
       end
 
-      it 'parses AM matches count' do
-        result = parser.call
-        expect(result['AM']).to eq(1)
-      end
-    end
-
-    context 'when BrowserClient raises CaptchaRequired' do
-      before do
-        allow_any_instance_of(Players::Transfermarkt::BrowserClient)
-          .to receive(:fetch_html)
-          .and_raise(Players::Transfermarkt::CaptchaRequired)
+      it 'counts LM (id=8) as WB' do
+        expect(parser.call['WB']).to eq(1)
       end
 
-      it 'propagates the error' do
-        expect { parser.call }.to raise_error(Players::Transfermarkt::CaptchaRequired)
+      it 'ignores games from other seasons' do
+        expect(parser.call.values.sum).to eq(8)
       end
-    end
 
-    describe 'cache_key' do
-      let(:received_args) { {} }
-
-      before do
-        allow_any_instance_of(Players::Transfermarkt::BrowserClient).to receive(:fetch_html) do |_i, _url, **kwargs|
-          received_args.merge!(kwargs)
-          '<html></html>'
-        end
+      it 'calls the correct API URL' do
         parser.call
-      end
-
-      it 'uses tm_id and year in cache key' do
-        expect(received_args[:cache_key]).to eq("positions_#{player.tm_id}_#{year}")
+        expect(RestClient::Request).to have_received(:execute).with(
+          hash_including(url: "https://www.transfermarkt.com/ceapi/performance-game/#{player.tm_id}")
+        )
       end
     end
 
-    describe 'TM_HEADLESS env' do
-      let(:positions_html) { Rails.root.join('spec/fixtures/tm/positions_406040_2023.html').read }
-      let(:received_args) { {} }
-
+    context 'when game has nil positionId' do
       before do
-        allow_any_instance_of(Players::Transfermarkt::BrowserClient).to receive(:fetch_html) do |_i, _url, **kwargs|
-          received_args.merge!(kwargs)
-          positions_html
-        end
+        stub_cache_miss
+        stub_api(
+          'data' => {
+            'performance' => [
+              { 'gameInformation' => { 'seasonId' => 2023 }, 'statistics' => { 'generalStatistics' => {} } },
+              build_game(season_id: 2023, position_id: 5)
+            ]
+          }
+        )
       end
 
-      context 'when TM_HEADLESS is false' do
-        before do
-          allow(ENV).to receive(:fetch).with('TM_HEADLESS', 'true').and_return('false')
-          parser.call
-        end
+      it 'skips games with no positionId' do
+        expect(parser.call).to eq('RB' => 1)
+      end
+    end
 
-        it 'passes headless: false to BrowserClient' do
-          expect(received_args[:headless]).to be(false)
-        end
+    context 'when game has unknown positionId' do
+      before do
+        stub_cache_miss
+        stub_api(
+          'data' => {
+            'performance' => [
+              build_game(season_id: 2023, position_id: 99),
+              build_game(season_id: 2023, position_id: 5)
+            ]
+          }
+        )
       end
 
-      context 'when TM_HEADLESS is true (default)' do
-        before do
-          allow(ENV).to receive(:fetch).with('TM_HEADLESS', 'true').and_return('true')
-          parser.call
-        end
+      it 'skips unknown position IDs' do
+        expect(parser.call).to eq('RB' => 1)
+      end
+    end
 
-        it 'passes headless: true to BrowserClient' do
-          expect(received_args[:headless]).to be(true)
-        end
+    context 'when cache is valid' do
+      before do
+        stub_cache_hit([build_game(season_id: 2023, position_id: 5)])
+        allow(RestClient::Request).to receive(:execute)
+      end
+
+      it 'does not call the API' do
+        parser.call
+        expect(RestClient::Request).not_to have_received(:execute)
+      end
+
+      it 'uses cached data' do
+        expect(parser.call).to eq('RB' => 1)
+      end
+    end
+
+    context 'when API returns no performance data' do
+      before do
+        stub_cache_miss
+        stub_api('data' => {})
+      end
+
+      it 'returns empty hash' do
+        expect(parser.call).to eq({})
       end
     end
   end

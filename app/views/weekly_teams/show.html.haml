@@ -41,14 +41,18 @@
                             = "#{wtp.round_player.club&.tournament&.icon} #{wtp.round_player.club&.name}"
                       .team-player-scores
                         .team-player-blank
-                        .team-player-score= '%.1f' % wtp.round_player.score
+                        - unless @weekly_team.source_avg?
+                          .team-player-score= '%.1f' % wtp.round_player.score
                         .team-player-total-score= '%.1f' % wtp.total
                     - else
                       .team-player-score-unspecified —
                   .match-player-add-data
                     - if wtp
                       .match-player-bonuses
-                        = render 'weekly_teams/rp_bonuses', round_player: wtp.round_player
+                        - if @weekly_team.source_avg? && @season_bonuses
+                          = render 'weekly_teams/season_bonuses', bonuses: @season_bonuses[wtp.round_player.player_id]
+                        - else
+                          = render 'weekly_teams/rp_bonuses', round_player: wtp.round_player
 
         .lineup-module
           .lineup-result

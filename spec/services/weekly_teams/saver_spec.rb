@@ -114,4 +114,89 @@ RSpec.describe WeeklyTeams::Saver do
       expect { result }.to change(WeeklyTeam, :count).by(1)
     end
   end
+
+  context 'when source is not provided' do
+    it 'defaults source to round' do
+      expect(result.source).to eq('round')
+    end
+
+    it 'leaves tournament_id nil' do
+      expect(result.tournament_id).to be_nil
+    end
+  end
+
+  context 'when source is season' do
+    subject(:result) do
+      described_class.call(
+        team_module_id: team_module.id,
+        round_ids: [round.id],
+        mode: 'top',
+        number: 3,
+        players: players,
+        source: 'season',
+        tournament_id: tournament.id
+      )
+    end
+
+    let(:tournament) { Tournament.first }
+
+    it 'sets source to season' do
+      expect(result.source).to eq('season')
+    end
+
+    it 'stores tournament_id' do
+      expect(result.tournament_id).to eq(tournament.id)
+    end
+
+    it 'persists the WeeklyTeam' do
+      expect { result }.to change(WeeklyTeam, :count).by(1)
+    end
+  end
+
+  context 'when source is avg' do
+    subject(:result) do
+      described_class.call(
+        team_module_id: team_module.id,
+        round_ids: [round.id],
+        mode: 'top',
+        number: 4,
+        players: players,
+        source: 'avg',
+        tournament_id: tournament.id
+      )
+    end
+
+    let(:tournament) { Tournament.first }
+
+    it 'sets source to avg' do
+      expect(result.source).to eq('avg')
+    end
+
+    it 'stores tournament_id' do
+      expect(result.tournament_id).to eq(tournament.id)
+    end
+
+    it 'persists the WeeklyTeam' do
+      expect { result }.to change(WeeklyTeam, :count).by(1)
+    end
+  end
+
+  context 'when source is season but tournament_id is missing' do
+    subject(:result) do
+      described_class.call(
+        team_module_id: team_module.id,
+        round_ids: [round.id],
+        mode: 'top',
+        number: 5,
+        players: players,
+        source: 'season'
+      )
+    end
+
+    it { is_expected.to be_nil }
+
+    it 'does not create a WeeklyTeam' do
+      expect { result }.not_to change(WeeklyTeam, :count)
+    end
+  end
 end

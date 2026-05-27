@@ -1032,7 +1032,9 @@
         "view_manager": "Open manager page"
       },
       "weekly_team": {
+        "appearances": "matches",
         "build": "Build",
+        "col_avg_score": "Average",
         "col_created": "Date",
         "col_mode": "Mode",
         "col_module": "Module",
@@ -1040,6 +1042,8 @@
         "col_position": "Pos",
         "col_score": "Score",
         "col_season": "Season",
+        "col_source": "Type",
+        "col_tournament": "Championship",
         "empty": "No teams saved yet",
         "mode_flop": "Flop",
         "mode_top": "Top",
@@ -1050,6 +1054,10 @@
         "save": "Save",
         "save_failed": "Failed to save team of the week",
         "saved": "Team of the week saved",
+        "select_tournament": "Select championship",
+        "source_avg": "Season average",
+        "source_round": "By rounds",
+        "source_season": "Season best",
         "title": "Team of the Week",
         "total": "Total"
       }
@@ -2865,7 +2873,9 @@
         "view_manager": "Відкрити сторінку менеджера"
       },
       "weekly_team": {
+        "appearances": "матчів",
         "build": "Сформувати",
+        "col_avg_score": "Середня",
         "col_created": "Дата",
         "col_mode": "Режим",
         "col_module": "Модуль",
@@ -2873,6 +2883,8 @@
         "col_position": "Поз",
         "col_score": "Очки",
         "col_season": "Сезон",
+        "col_source": "Тип",
+        "col_tournament": "Чемпіонат",
         "empty": "Збірних ще немає",
         "mode_flop": "Флоп",
         "mode_top": "Топ",
@@ -2883,6 +2895,10 @@
         "save": "Зберегти",
         "save_failed": "Не вдалося зберегти збірну",
         "saved": "Збірну збережено",
+        "select_tournament": "Оберіть чемпіонат",
+        "source_avg": "Середня сезону",
+        "source_round": "По турах",
+        "source_season": "Найкращі сезону",
         "title": "Збірна тижня",
         "total": "Разом"
       }

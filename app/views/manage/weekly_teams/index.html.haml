@@ -12,7 +12,9 @@
         %thead
           %tr
             %th= '#'
+            %th= t('manage.weekly_team.col_source')
             %th= t('manage.weekly_team.col_mode')
+            %th= t('manage.weekly_team.col_tournament')
             %th= t('manage.weekly_team.col_module')
             %th= t('manage.weekly_team.col_season')
             %th= t('manage.weekly_team.col_created')
@@ -20,7 +22,9 @@
           - @weekly_teams.each do |wt|
             %tr
               %td= link_to "##{wt.number}", weekly_team_path(wt)
-              %td= t("weekly_team.mode_#{wt.mode}")
+              %td= t("manage.weekly_team.source_#{wt.source}")
+              %td= wt.source_avg? ? '—' : t("weekly_team.mode_#{wt.mode}")
+              %td= wt.tournament ? "#{wt.tournament.icon} #{wt.tournament.name}" : '—'
               %td= wt.team_module.name
               %td= "#{wt.season.start_year}/#{wt.season.end_year}"
               %td= wt.created_at.strftime('%d.%m.%Y')

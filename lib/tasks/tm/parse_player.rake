@@ -10,7 +10,7 @@ namespace :tm do
     next if player
 
     CSV.open('log/players_new_by_tm_id.csv', 'ab') do |writer|
-      result = Players::Transfermarkt::Parser.call(tm_id)
+      result = Players::Transfermarkt::ApiParser.call(tm_id)
       puts result.stringify_keys
 
       writer << ['', result[:first_name], result[:name], result[:nationality], result[:club_name],
@@ -32,7 +32,7 @@ namespace :tm do
         next unless player&.tm_id
 
         puts id
-        result = Players::Transfermarkt::Parser.call(player.tm_id, position_skip: true)
+        result = Players::Transfermarkt::ApiParser.call(player.tm_id, position_skip: true)
 
         writer << [id, result[:first_name], result[:name], result[:nationality],
                    result[:tm_price], result[:number], result[:birth_date], result[:height],
@@ -54,7 +54,7 @@ namespace :tm do
       next if player
 
       CSV.open('log/players_new_by_tm_id.csv', 'ab') do |writer|
-        result = Players::Transfermarkt::Parser.call(tm_id)
+        result = Players::Transfermarkt::ApiParser.call(tm_id)
         output = result.stringify_keys
         output['national_team'] = row['national_team'] if row['national_team'].present?
         puts output
