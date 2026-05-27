@@ -184,4 +184,106 @@ RSpec.describe League do
       end
     end
   end
+
+  describe '#join_code generation' do
+    context 'when open_for_join is true' do
+      let(:league) { create(:league, open_for_join: true) }
+
+      it 'auto-generates a join_code' do
+        expect(league.join_code).to match(/\A[A-Z]{6}\z/)
+      end
+
+      it 'generates a unique join_code' do
+        other = create(:league, open_for_join: true)
+        expect(league.join_code).not_to eq(other.join_code)
+      end
+    end
+
+    context 'when open_for_join is false' do
+      let(:league) { create(:league, open_for_join: false) }
+
+      it 'does not generate a join_code' do
+        expect(league.join_code).to be_nil
+      end
+    end
+
+    context 'when join_code is set manually' do
+      let(:league) { create(:league, open_for_join: true, join_code: 'KALITKA') }
+
+      it 'keeps the manually set code' do
+        expect(league.join_code).to eq('KALITKA')
+      end
+    end
+
+    context 'when join_code is set in lowercase' do
+      let(:league) { create(:league, open_for_join: true, join_code: 'kalitka') }
+
+      it 'upcases the join_code' do
+        expect(league.join_code).to eq('KALITKA')
+      end
+    end
+
+    context 'when join_code is set to empty string' do
+      let(:league) { create(:league, open_for_join: false, join_code: '') }
+
+      it 'normalizes to nil' do
+        expect(league.join_code).to be_nil
+      end
+    end
+  end
+
+  describe '#auction_number for fanta' do
+    context 'when tournament is fanta' do
+      let(:tournament) { create(:fanta_tournament) }
+
+      it 'automatically sets auction_number to 0' do
+        league = create(:league, tournament: tournament, auction_number: 5)
+        expect(league.auction_number).to eq(0)
+      end
+    end
+
+    context 'when tournament is mantra' do
+      it 'keeps the given auction_number' do
+        league = create(:league, auction_number: 5)
+        expect(league.auction_number).to eq(5)
+      end
+    end
+  end
+
+  describe '#only_one_default_per_tournament' do
+    let(:tournament) { create(:fanta_tournament) }
+
+    context 'when no other default league exists' do
+      it 'is valid' do
+        league = build(:league, tournament: tournament, open_for_join: true, default_for_join: true)
+        expect(league).to be_valid
+      end
+    end
+
+    context 'when another default league exists in the same tournament' do
+      before { create(:league, tournament: tournament, open_for_join: true, default_for_join: true) }
+
+      it 'is invalid' do
+        league = build(:league, tournament: tournament, open_for_join: true, default_for_join: true)
+        expect(league).not_to be_valid
+      end
+
+      it 'adds error on default_for_join' do
+        league = build(:league, tournament: tournament, open_for_join: true, default_for_join: true)
+        league.valid?
+        expect(league.errors[:default_for_join]).to be_present
+      end
+    end
+
+    context 'when another default league exists in a different tournament' do
+      let(:other_tournament) { create(:fanta_tournament) }
+
+      before { create(:league, tournament: other_tournament, open_for_join: true, default_for_join: true) }
+
+      it 'is valid' do
+        league = build(:league, tournament: tournament, open_for_join: true, default_for_join: true)
+        expect(league).to be_valid
+      end
+    end
+  end
 end
