@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2026_05_22_185712) do
+ActiveRecord::Schema.define(version: 2026_05_27_100001) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -490,9 +490,9 @@ ActiveRecord::Schema.define(version: 2026_05_22_185712) do
   end
 
   create_table "tg_messages", force: :cascade do |t|
-    t.integer "update_id", null: false
-    t.integer "message_id"
-    t.integer "chat_id"
+    t.bigint "update_id", null: false
+    t.bigint "message_id"
+    t.bigint "chat_id"
     t.string "text"
     t.string "username"
     t.string "first_name"
@@ -588,7 +588,7 @@ ActiveRecord::Schema.define(version: 2026_05_22_185712) do
 
   create_table "user_profiles", force: :cascade do |t|
     t.integer "user_id"
-    t.integer "tg_chat_id"
+    t.bigint "tg_chat_id"
     t.string "tg_name"
     t.boolean "bot_enabled", default: false
     t.datetime "created_at", precision: 6, null: false
