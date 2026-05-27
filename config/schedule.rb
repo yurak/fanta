@@ -1,7 +1,7 @@
 # whenever --set 'environment=development' --update-crontab
 
 # Lock tours by deadline
-every 15.minutes do
+every 5.minutes do
   rake 'tours:lock_deadline'
 end
 

@@ -100,10 +100,6 @@
     grid-template-columns: 80px 220px 16fr 8fr 8fr 8fr 8fr 8fr 8fr 40px;
   }
 
-  .fanta-headers-true {
-    grid-template-columns: 80px 220px 16fr 8fr 8fr 8fr 8fr 8fr 40px;
-  }
-
   .players-list-item {
     display: grid;
     grid-template-columns: 80px auto;
@@ -153,10 +149,6 @@
 
     .national-row-true {
       grid-template-columns: 220px 16fr 8fr 8fr 8fr 8fr 8fr 8fr 40px;
-    }
-
-    .fanta-row-true {
-      grid-template-columns: 220px 16fr 8fr 8fr 8fr 8fr 8fr 40px;
     }
 
     .players-list-player {

@@ -146,9 +146,6 @@ Rails.application.routes.draw do
   resources :users, only: [], path: :managers, as: :managers do
     get :show, on: :member, to: 'users#show_manager'
   end
-  resources :users, only: [], path: :managers, as: :managers do
-    get :show, on: :member, to: 'users#show_manager'
-  end
 
   namespace :api do
     resources :leagues, only: [:index, :show] do
