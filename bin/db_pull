@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+set -e
+
+TUNNEL_PORT=5433
+EC2_IP="${PRODUCTION_SERVER:-$(grep 'PRODUCTION_SERVER' config/application.yml | awk '{print $2}' | tr -d '"')}"
+EC2_USER="ubuntu"
+SSH_KEY="$HOME/.ssh/mantrakey.pem"
+RDS_DB="mantra_production"
+LOCAL_DB="mantra_development"
+
+PGPASSWORD=$(bundle exec rails runner "puts Rails.application.credentials.dig(:db_prod, :password)" 2>/dev/null)
+RDS_HOST=$(bundle exec rails runner "puts Rails.application.credentials.dig(:db_prod, :host)" 2>/dev/null)
+RDS_USER=$(bundle exec rails runner "puts Rails.application.credentials.dig(:db_prod, :username)" 2>/dev/null)
+export PGPASSWORD
+
+echo "Opening SSH tunnel..."
+ssh -L ${TUNNEL_PORT}:${RDS_HOST}:5432 -i "${SSH_KEY}" "${EC2_USER}@${EC2_IP}" -N -f
+
+cleanup() {
+  echo "Closing tunnel..."
+  pkill -f "ssh -L ${TUNNEL_PORT}:${RDS_HOST}" || true
+}
+trap cleanup EXIT
+
+sleep 2
+
+echo "Dumping production database..."
+/opt/homebrew/opt/postgresql@18/bin/pg_dump -h localhost -p ${TUNNEL_PORT} -U ${RDS_USER} \
+  --no-owner --no-acl ${RDS_DB} > /tmp/prod_dump.sql
+
+echo "Restoring to local database..."
+DISABLE_DATABASE_ENVIRONMENT_CHECK=1 bundle exec rails db:drop db:create
+psql ${LOCAL_DB} < /tmp/prod_dump.sql > /dev/null
+
+rm /tmp/prod_dump.sql
+
+echo "Done! Local database synced with production."
