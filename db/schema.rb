@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2026_05_27_100001) do
+ActiveRecord::Schema.define(version: 2026_05_29_120000) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -125,15 +125,6 @@ ActiveRecord::Schema.define(version: 2026_05_27_100001) do
     t.integer "number"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "join_requests", force: :cascade do |t|
-    t.string "leagues"
-    t.integer "status", default: 0, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.bigint "user_id"
-    t.index ["user_id"], name: "index_join_requests_on_user_id"
   end
 
   create_table "joins", force: :cascade do |t|
@@ -682,7 +673,6 @@ ActiveRecord::Schema.define(version: 2026_05_27_100001) do
   add_foreign_key "auction_rounds", "auctions"
   add_foreign_key "auctions", "leagues"
   add_foreign_key "clubs", "tournaments"
-  add_foreign_key "join_requests", "users"
   add_foreign_key "joins", "auction_bids"
   add_foreign_key "joins", "teams"
   add_foreign_key "joins", "tournaments"

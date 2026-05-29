@@ -11,14 +11,6 @@ ua:
           attributes:
             user_id:
               already_applied: "вже подано заявку на цей турнір"
-        join_request:
-          attributes:
-            username:
-              blank: " не може бути пустим"
-            contact:
-              blank: " не можуть бути пустими"
-            email:
-              blank: " не може бути пустою"
   auction:
     index:
       auctions: "Аукціони"
@@ -249,6 +241,10 @@ ua:
     create_team: "Створити команду"
     team_not_found: "Команду не знайдено"
     my_applications: "Мої заявки"
+    new:
+      confirm: "Підтвердити"
+      subtitle: "в якому хочеш змагатися"
+      title: "Обери турніри"
     no_active_leagues_subtitle: "Обери одну з доступних ліг та грай"
     no_active_leagues_title: "У тебе наразі немає активних ліг"
     no_leagues: "Наразі немає доступних ліг"
@@ -286,20 +282,6 @@ ua:
       title: "Як враження?"
     teams: "команд"
     title: "Долучитись до ліги"
-  join_request:
-    index:
-      link: "via the link"
-      link_ua: "за цим посиланням"
-      subtitle: "Реєстрація завершена"
-      text: "Please contact with administrator regarding the terms of participation in the league"
-      text_ua: "Через обмеження приватності ми не завжди можемо знайти ваш аккаунт в Телеграм. Тому, щоб ми швидше опрацювали вашу заявку та пояснили подальші кроки, напишіть адміністратору (достатньо просто «Привіт»)"
-      text_ua_two: "Чекаємо на вас у Mantra-спільноті!"
-      title: "Готово!"
-      title_ua: "Дякуємо за реєстрацію!"
-    new:
-      confirm: "Підтвердити"
-      subtitle: "в яких вам цікаво позмагатися"
-      title: "Виберіть турніри"
   league:
     all: "Усі"
     demo_badge: "🧪 Демо"
@@ -622,13 +604,6 @@ ua:
     waiting_deadline: "Очікуємо на старт туру"
     didnt_play: "❌ Не грав"
     unspecified: "Невизначено"
-  models:
-    join_request:
-      attributes:
-        name: "Ім'я"
-        сontact: "Контакти"
-        email: "Пошта"
-        leagues: "Турніри"
   news:
     add_article: "Додати новину"
     back: "Назад"
