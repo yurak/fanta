@@ -129,6 +129,6 @@ class League < ApplicationRecord
   end
 
   def normalize_join_code
-    self.join_code = join_code.blank? ? nil : join_code.upcase
+    self.join_code = join_code.presence&.upcase
   end
 end

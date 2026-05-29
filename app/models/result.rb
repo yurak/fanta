@@ -11,6 +11,7 @@ class Result < ApplicationRecord
                       .order(wins: :desc)
                       .order(total_score: :desc)
                       .order(Arel.sql('scored_goals - missed_goals desc'))
+                      .order(id: :asc)
                   }
   scope :fanta_ordered, lambda {
                           order(total_score: :desc)

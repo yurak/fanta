@@ -84,6 +84,16 @@ Generate swagger docs:
 RAILS_ENV=test rails rswag
 ```
 
+### Sync local database from production
+
+Requires SSH access to the production server and Rails credentials with `db_prod` configured.
+
+```
+bin/db_pull
+```
+
+This opens an SSH tunnel to the production EC2, dumps the production PostgreSQL database, and restores it locally.
+
 ### Telegram Bot
 
 Set `TELEGRAM_DEV_BOT_TOKEN` in `config/application.yml`, then run in console:

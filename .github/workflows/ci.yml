@@ -8,6 +8,25 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_DB: mantra_test
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      RAILS_ENV: test
+      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/mantra_test
+
     steps:
       - uses: actions/checkout@v5
 
@@ -26,7 +45,7 @@ jobs:
         run: yarn install
 
       - name: Set up database
-        run: bundle exec rails db:migrate RAILS_ENV=test
+        run: bundle exec rails db:create db:migrate
 
       - name: Run RSpec
         run: bundle exec rspec
