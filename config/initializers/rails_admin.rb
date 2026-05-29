@@ -23,14 +23,14 @@ RailsAdmin.config do |config|
   # config.show_gravatar = true
 
   config.model 'Lineup' do
-    edit do
-      exclude_fields :round_players
+    configure :round_players do
+      visible false
     end
   end
 
   config.model 'WeeklyTeam' do
-    edit do
-      exclude_fields :round_players
+    configure :round_players do
+      visible false
     end
   end
 
