@@ -62,7 +62,7 @@
           = f.hidden_field :team_module_id, value: team_module&.id || lineup.team_module.id
           = f.hidden_field :tour_id, value: tour.id
           #national-tour{ type: "hidden", value: "#{tour.national?}"}
-          = f.fields_for :match_players, lineup.match_players.for_form do |mp|
+          = f.fields_for :match_players, lineup.match_players.sort_by { |mp| [mp.real_position.nil? ? 1 : 0, mp.id || 0] } do |mp|
             - slot = team_module.slots[mp.index]
             - player = player_by_mp(mp, team_module)
             - if mp.index == 11
