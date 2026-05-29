@@ -17,7 +17,7 @@ class MatchPlayer < ApplicationRecord
 
   FOR_FORM_ORDER = Arel.sql('CASE WHEN real_position IS NULL THEN 1 ELSE 0 END, match_players.id ASC').freeze
 
-  scope :main, -> { where.not(real_position: nil) }
+  scope :main, -> { where.not(real_position: nil).order(:id) }
   scope :for_form, -> { order(FOR_FORM_ORDER) }
   scope :with_score, -> { includes(:round_player).joins(:round_player).where('round_players.score > ?', 0) }
   scope :main_with_score, -> { main.with_score }
