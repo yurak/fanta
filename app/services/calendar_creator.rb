@@ -62,7 +62,7 @@ class CalendarCreator < ApplicationService
   end
 
   def rounds
-    @rounds ||= additional_tours ? (full_rounds + 1) : full_rounds
+    @rounds ||= additional_tours? ? (full_rounds + 1) : full_rounds
   end
 
   def full_rounds
@@ -73,7 +73,7 @@ class CalendarCreator < ApplicationService
     teams_array.count - 1
   end
 
-  def additional_tours
+  def additional_tours?
     (@max_tours.to_i % round_tours).positive?
   end
 
@@ -82,7 +82,9 @@ class CalendarCreator < ApplicationService
   end
 
   def league
-    @league ||= League.find_by(id: @league_id)
+    return @league if defined?(@league)
+
+    @league = League.find_by(id: @league_id)
   end
 
   def tournament

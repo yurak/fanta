@@ -29,6 +29,7 @@ Metrics/BlockLength:
     - factory
     - define # FactoryBot.define
     - namespace
+    - config # RailsAdmin.config
     - task
 Style/Documentation:
   Enabled: false

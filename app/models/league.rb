@@ -7,11 +7,11 @@ class League < ApplicationRecord
   belongs_to :season
   belongs_to :tournament
 
-  has_many :auctions, dependent: :destroy
-  has_many :teams, dependent: :destroy
+  has_many :auctions, -> { order(:id) }, dependent: :destroy, inverse_of: :league
+  has_many :teams, -> { order(:id) }, dependent: :destroy, inverse_of: :league
   has_many :players, through: :teams
   has_many :transfers, dependent: :destroy
-  has_many :tours, dependent: :destroy
+  has_many :tours, -> { order(:number) }, dependent: :destroy, inverse_of: :league
   has_many :results, dependent: :destroy
 
   delegate :fanta?, :mantra?, to: :tournament
@@ -62,7 +62,7 @@ class League < ApplicationRecord
 
   def active_tour
     @active_tour ||= tours
-                     .order(Arel.sql("CASE
+                     .reorder(Arel.sql("CASE
                          WHEN status IN (#{Tour.statuses[:set_lineup]}, #{Tour.statuses[:locked]}) THEN 0
                          WHEN status = #{Tour.statuses[:inactive]} THEN 1
                          ELSE 2
@@ -72,7 +72,7 @@ class League < ApplicationRecord
 
   def active_tour_or_last
     @active_tour_or_last ||= tours
-                             .order(Arel.sql(<<~SQL.squish))
+                             .reorder(Arel.sql(<<~SQL.squish))
                                CASE
                                  WHEN status IN (#{Tour.statuses[:set_lineup]}, #{Tour.statuses[:locked]}) THEN 0
                                  WHEN status = #{Tour.statuses[:inactive]} THEN 1
