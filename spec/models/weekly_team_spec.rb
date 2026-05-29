@@ -6,7 +6,6 @@ RSpec.describe WeeklyTeam do
     it { is_expected.to belong_to(:season) }
     it { is_expected.to belong_to(:tournament).optional }
     it { is_expected.to have_many(:weekly_team_players).dependent(:destroy) }
-    it { is_expected.to have_many(:round_players).through(:weekly_team_players) }
   end
 
   describe 'validations' do

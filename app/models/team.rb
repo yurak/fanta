@@ -83,7 +83,7 @@ class Team < ApplicationRecord
   def players_not_in(lineup)
     return unless lineup
 
-    lineup_players_ids = lineup.round_players.map { |rp| rp.player.id }
+    lineup_players_ids = lineup.match_players.map { |mp| mp.round_player.player_id }
     not_played_ids = players.where.not(id: lineup_players_ids).ids
     RoundPlayer.by_tournament_round(lineup.tournament_round.id).where(player_id: not_played_ids)
   end

@@ -4,7 +4,6 @@ class WeeklyTeam < ApplicationRecord
   belongs_to :tournament, optional: true
 
   has_many :weekly_team_players, dependent: :destroy
-  has_many :round_players, through: :weekly_team_players
 
   serialize :round_ids, Array
 

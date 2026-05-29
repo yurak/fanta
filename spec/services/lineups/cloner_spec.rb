@@ -141,7 +141,7 @@ RSpec.describe Lineups::Cloner do
         end
 
         it 'creates round players only for target tournament round' do
-          tournament_round_ids = cloned_lineup.round_players.pluck(:tournament_round_id).uniq
+          tournament_round_ids = cloned_lineup.match_players.joins(:round_player).pluck('round_players.tournament_round_id').uniq
 
           expect(tournament_round_ids).to eq([target_tournament_round.id])
         end

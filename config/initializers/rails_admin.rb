@@ -22,18 +22,6 @@ RailsAdmin.config do |config|
   ## To disable Gravatar integration in Navigation Bar set to false
   # config.show_gravatar = true
 
-  config.model 'Lineup' do
-    configure :round_players do
-      visible false
-    end
-  end
-
-  config.model 'WeeklyTeam' do
-    configure :round_players do
-      visible false
-    end
-  end
-
   config.actions do
     dashboard                     # mandatory
     index                         # mandatory

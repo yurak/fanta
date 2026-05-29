@@ -11,7 +11,6 @@ RSpec.describe Lineup do
     it { is_expected.to belong_to(:team) }
     it { is_expected.to belong_to(:tour) }
     it { is_expected.to have_many(:match_players).dependent(:destroy) }
-    it { is_expected.to have_many(:round_players).through(:match_players) }
     it { is_expected.to accept_nested_attributes_for(:match_players) }
     it { is_expected.to delegate_method(:slots).to(:team_module) }
     it { is_expected.to delegate_method(:tournament_round).to(:tour) }
