@@ -113,7 +113,7 @@
                       .match-module-item{class: "slot-#{match.host_lineup.team_module.slots[index]&.location}"}
                         .match-module-item-pos
                           .module-position-block.player-positions-block
-                            - match.host_lineup.team_module.slots[index].positions.each do |position|
+                            - match.host_lineup.team_module.slots[index]&.positions&.each do |position|
                               .player-position{class: "player-position-#{position}"}
                                 = slot_position_name(position)
                         .match-module-item-player-wrapper
@@ -126,7 +126,7 @@
                       .match-module-item{class: "slot-#{match.guest_lineup.team_module.slots[index]&.location}"}
                         .match-module-item-pos
                           .module-position-block.player-positions-block
-                            - match.guest_lineup.team_module.slots[index].positions.each do |position|
+                            - match.guest_lineup.team_module.slots[index]&.positions&.each do |position|
                               .player-position{class: "player-position-#{position}"}
                                 = slot_position_name(position)
                         .match-module-item-player-wrapper
