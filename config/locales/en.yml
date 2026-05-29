@@ -273,16 +273,6 @@ en:
       title: "Enjoying it so far?"
     teams: "teams"
     title: "Join a league"
-  join_request:
-    index:
-      link: "via the link"
-      link_ua: "за цим посиланням"
-      subtitle: "Registration is complete"
-      text: "Please contact with administrator regarding the terms of participation in the league"
-      text_ua: "Через обмеження приватності ми не завжди можемо знайти ваш аккаунт в Телеграм. Тому, щоб ми швидше опрацювали вашу заявку та пояснили подальші кроки, напишіть адміністратору (достатньо просто «Привіт»)"
-      text_ua_two: "Чекаємо на вас у Mantra-спільноті!"
-      title: "All done!"
-      title_ua: "Дякуємо за реєстрацію!"
     new:
       confirm: "Confirm"
       subtitle: "in which you want to compete"

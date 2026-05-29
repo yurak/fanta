@@ -68,8 +68,6 @@ Rails.application.routes.draw do
     member { post :submit }
   end
 
-  resources :join_requests, only: [:new, :create]
-
   resources :leagues, only: [:index, :show] do
     resources :auctions, only: [:index, :show, :update] do
       get :live, on: :member

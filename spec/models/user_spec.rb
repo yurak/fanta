@@ -2,7 +2,6 @@ RSpec.describe User do
   subject(:user) { create(:user) }
 
   describe 'Associations' do
-    it { is_expected.to have_many(:join_requests).dependent(:destroy) }
     it { is_expected.to have_many(:joins).dependent(:destroy) }
     it { is_expected.to have_many(:teams).dependent(:destroy) }
     it { is_expected.to have_many(:leagues).through(:teams) }
