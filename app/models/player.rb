@@ -123,7 +123,7 @@ class Player < ApplicationRecord
   end
 
   def position_sequence_number
-    positions.first&.id
+    positions.first&.id || Float::INFINITY
   end
 
   def transfer_by(team)

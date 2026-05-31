@@ -35,7 +35,7 @@ class MatchPlayer < ApplicationRecord
   MIN_PLAYED_MINUTES_FOR_CS = 60
 
   def kit_path
-    round_player.club ? round_player.club.kit_path : player.kit_path
+    round_player.related_club&.kit_path || player.kit_path
   end
 
   def not_played?

@@ -274,6 +274,12 @@ RSpec.describe Player do
         expect(player.position_sequence_number).to eq(Position.find_by(name: 'W').id)
       end
     end
+
+    context 'when player has no positions' do
+      it 'returns Float::INFINITY' do
+        expect(player.position_sequence_number).to eq(Float::INFINITY)
+      end
+    end
   end
 
   describe '#transfer_by(team)' do
