@@ -248,11 +248,30 @@
 
     .players-search-block {
       .players-search {
+        display: grid;
+        grid-template-columns: 24px auto;
+        column-gap: 16px;
+        padding: 0 24px;
+        border-radius: 32px;
+        border: 1px solid #E5E6E4;
         width: 100%;
         margin-bottom: 16px;
 
+        .search-icon {
+          margin: auto;
+
+          img {
+            width: 24px;
+            height: 24px;
+          }
+        }
+
         input {
+          border: none transparent;
+          outline: none;
+          height: 56px;
           width: 100%;
+          font-size: 16px;
         }
       }
 
@@ -379,6 +398,8 @@
       }
 
       .players-bid-active {
+        position: sticky;
+        top: 20px;
         margin-top: 52px;
         padding: 32px 24px 8px;
         background-color: #FFEBC2;
@@ -616,6 +637,8 @@
         }
 
         .players-bid-active {
+          position: sticky;
+          top: 220px;
           margin-top: 72px;
           border-radius: 16px;
 

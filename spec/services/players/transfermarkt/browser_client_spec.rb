@@ -24,6 +24,7 @@ module BrowserClientDoubles
   class PlaywrightPageDouble
     def goto(*); end
     def wait_for_timeout(*); end
+    def wait_for_function(*); end
     def content(*); end
     def frames(*); end
     def locator(*); end
@@ -102,6 +103,7 @@ RSpec.describe Players::Transfermarkt::BrowserClient do
   def stub_page_content(page, html)
     allow(page).to receive(:goto)
     allow(page).to receive(:wait_for_timeout)
+    allow(page).to receive(:wait_for_function)
     allow(page).to receive(:content).and_return(html)
   end
 

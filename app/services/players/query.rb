@@ -50,7 +50,8 @@ module Players
     end
 
     def call
-      players = Player.by_tournament(tournament).by_club(club_ids).by_classic_position(position).distinct
+      players = Player.by_tournament(tournament).by_club(club_ids)
+      players = filter_by_position(players)
       players = join_season_stats(players)
       players = filter_by_name(players)
       players = filter_by_appearances(players)
@@ -84,6 +85,13 @@ module Players
     end
 
     # --- SQL filtering ---
+
+    def filter_by_position(players)
+      return players if position.blank?
+
+      matching_ids = Player.joins(:positions).where(positions: { human_name: position }).select(:id)
+      players.where(id: matching_ids)
+    end
 
     def filter_by_name(players)
       return players unless name

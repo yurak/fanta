@@ -1,6 +1,26 @@
 module Players
   module Transfermarkt
     class PositionParser < ApplicationService
+      TM_POSITION_ID_MAP = {
+        1 => 'GK',
+        2 => 'CB',
+        3 => 'SW',
+        4 => 'LB',
+        5 => 'RB',
+        6 => 'DM',
+        7 => 'CM',
+        8 => 'LM',
+        9 => 'RM',
+        10 => 'AM',
+        11 => 'LW',
+        12 => 'RW',
+        13 => 'SS',
+        14 => 'CF'
+      }.freeze
+
+      CACHE_TTL = 7 * 86_400
+      API_URL = 'https://www.transfermarkt.com/ceapi/performance-game'.freeze
+
       attr_reader :player, :year
 
       def initialize(player, year)
@@ -17,50 +37,76 @@ module Players
       private
 
       def mantra_hash
-        mantra_hash = {}
+        hash = {}
         positions_hash.each do |tm_pos, number|
           mantra_pos = Position::TM_POSITION_MAP[tm_pos]
-          mantra_hash[mantra_pos] = mantra_hash[mantra_pos].to_i + number
+          hash[mantra_pos] = hash[mantra_pos].to_i + number
         end
-        mantra_hash
+        hash
       end
 
       def positions_hash
-        positions_hash = {}
+        hash = {}
+        performance_data.each do |game|
+          next unless game.dig('gameInformation', 'seasonId') == year
 
-        position_items.each do |item|
-          data = item.children[1].children[1].children[1].children
-          number = data[0].text.strip.to_i
-          pos_name = data[1].children[0].text
-          positions_hash[pos_name] = number
+          pos_id = game.dig('statistics', 'generalStatistics', 'positionId')
+          next unless pos_id
+
+          pos_name = TM_POSITION_ID_MAP[pos_id]
+          next unless pos_name
+
+          hash[pos_name] = hash[pos_name].to_i + 1
         end
-
-        positions_hash
+        hash
       end
 
-      def position_items
-        html_page.css('.zahl-anzeige')
+      def performance_data
+        @performance_data ||= fetch_performance_data
       end
 
-      def html_page
-        @html_page ||= Nokogiri::HTML(html)
+      def fetch_performance_data
+        cached = read_cache
+        return cached if cached
+
+        fetch_from_api
+      rescue RestClient::Exception => e
+        Rails.logger.warn("PositionParser: HTTP error for tm_id #{player.tm_id}: #{e}")
+        []
       end
 
-      def html
-        @html ||= Players::Transfermarkt::BrowserClient.new.fetch_html(
-          player.tm_position_path(year),
-          headless: tm_headless?,
-          cache_key: cache_key,
-          ttl: 7 * 86_400
+      def fetch_from_api
+        response = RestClient::Request.execute(
+          method: :get,
+          url: "#{API_URL}/#{player.tm_id}",
+          headers: {
+            'User-Agent' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:146.0) Gecko/20100101 Firefox/146.0',
+            'Accept' => 'application/json',
+            'X-Requested-With' => 'XMLHttpRequest'
+          },
+          verify_ssl: false
         )
+        data = JSON.parse(response.body).dig('data', 'performance') || []
+        write_cache(data)
+        data
       end
 
-      def cache_key
-        "positions_#{player.tm_id}_#{year}"
+      def cache_path
+        Rails.root.join('tmp', 'transfermarkt_cache', "positions_#{player.tm_id}.json")
       end
 
-      def tm_headless?
-        ENV.fetch('TM_HEADLESS', 'true') == 'true'
+      def read_cache
+        return nil unless cache_path.exist?
+        return nil if (Time.zone.now.to_i - cache_path.mtime.to_i) > CACHE_TTL
+
+        JSON.parse(cache_path.read)
+      rescue JSON::ParserError
+        nil
+      end
+
+      def write_cache(data)
+        FileUtils.mkdir_p(cache_path.dirname)
+        cache_path.write(JSON.generate(data))
       end
     end
   end

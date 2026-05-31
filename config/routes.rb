@@ -24,6 +24,7 @@ Rails.application.routes.draw do
   get 'rules',    to: 'welcome#rules'
 
   resources :joins, only: [:index, :show]
+  resources :fanta_joins, only: [:create]
   resources :weekly_teams, only: [:show]
 
   namespace :manage do
@@ -66,8 +67,6 @@ Rails.application.routes.draw do
   resources :auction_bids, only: [:show, :update] do
     member { post :submit }
   end
-
-  resources :join_requests, only: [:new, :create]
 
   resources :leagues, only: [:index, :show] do
     resources :auctions, only: [:index, :show, :update] do

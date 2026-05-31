@@ -8,7 +8,7 @@ RSpec.describe Team do
     it { is_expected.to have_many(:auction_bids).dependent(:destroy) }
     it { is_expected.to have_many(:player_teams).dependent(:destroy) }
     it { is_expected.to have_many(:players).through(:player_teams) }
-    it { is_expected.to have_many(:lineups).order('tour_id desc').dependent(:destroy).inverse_of(:team) }
+    it { is_expected.to have_many(:lineups).order(tour_id: :desc).dependent(:destroy).inverse_of(:team) }
     it { is_expected.to have_many(:results).dependent(:destroy) }
     it { is_expected.to have_many(:transfers).dependent(:destroy) }
 
@@ -25,7 +25,7 @@ RSpec.describe Team do
 
   describe 'Validations' do
     it { is_expected.to validate_presence_of :name }
-    it { is_expected.to validate_length_of(:name).is_at_least(2).is_at_most(18) }
+    it { is_expected.to validate_length_of(:name).is_at_least(2).is_at_most(24) }
     it { is_expected.to validate_presence_of :code }
     it { is_expected.to validate_length_of(:code).is_at_least(2).is_at_most(3) }
     it { is_expected.to validate_length_of(:human_name).is_at_least(2).is_at_most(24) }
@@ -725,7 +725,7 @@ RSpec.describe Team do
 
     context 'without finished lineups' do
       before do
-        create_list(:lineup, 2, team: team, tour: create(:tour, league: team.league))
+        2.times { create(:lineup, team: team, tour: create(:tour, league: team.league)) }
       end
 
       context 'without result' do
@@ -747,7 +747,7 @@ RSpec.describe Team do
 
     context 'with finished lineups' do
       before do
-        create_list(:lineup, 2, team: team, tour: create(:closed_tour, league: team.league))
+        2.times { create(:lineup, team: team, tour: create(:closed_tour, league: team.league)) }
       end
 
       context 'without result' do
@@ -785,7 +785,7 @@ RSpec.describe Team do
 
     context 'without finished lineups' do
       before do
-        create_list(:lineup, 2, team: team, tour: create(:tour, league: team.league))
+        2.times { create(:lineup, team: team, tour: create(:tour, league: team.league)) }
       end
 
       context 'without result' do
@@ -807,7 +807,7 @@ RSpec.describe Team do
 
     context 'with finished lineups' do
       before do
-        create_list(:lineup, 2, team: team, tour: create(:closed_tour, league: team.league))
+        2.times { create(:lineup, team: team, tour: create(:closed_tour, league: team.league)) }
       end
 
       context 'without result' do
@@ -845,7 +845,7 @@ RSpec.describe Team do
 
     context 'without finished lineups' do
       before do
-        create_list(:lineup, 2, team: team, tour: create(:tour, league: team.league))
+        2.times { create(:lineup, team: team, tour: create(:tour, league: team.league)) }
       end
 
       it 'returns zero' do
@@ -855,7 +855,7 @@ RSpec.describe Team do
 
     context 'with finished lineups' do
       before do
-        create_list(:lineup, 2, team: team, tour: create(:closed_tour, league: team.league))
+        2.times { create(:lineup, team: team, tour: create(:closed_tour, league: team.league)) }
       end
 
       it 'returns number of lineups' do
@@ -881,7 +881,7 @@ RSpec.describe Team do
 
     context 'without finished lineups' do
       before do
-        create_list(:lineup, 2, team: team, tour: create(:tour, league: team.league))
+        2.times { create(:lineup, team: team, tour: create(:tour, league: team.league)) }
       end
 
       it 'returns empty array' do
@@ -891,7 +891,7 @@ RSpec.describe Team do
 
     context 'with finished lineups' do
       before do
-        create_list(:lineup, 2, team: team, tour: create(:closed_tour, league: team.league))
+        2.times { create(:lineup, team: team, tour: create(:closed_tour, league: team.league)) }
       end
 
       it 'returns array with lineups' do

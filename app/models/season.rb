@@ -8,4 +8,8 @@ class Season < ApplicationRecord
 
   validates :start_year, presence: true, uniqueness: true, numericality: { greater_than_or_equal_to: MIN_START_YEAR }
   validates :end_year, presence: true, uniqueness: true, numericality: { greater_than_or_equal_to: MIN_END_YEAR }
+
+  def display_name
+    "#{start_year}/#{end_year}"
+  end
 end

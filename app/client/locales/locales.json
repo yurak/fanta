@@ -694,8 +694,15 @@
       "contact_title": "Want to play with friends in same league?",
       "continue": "Continue",
       "create_team": "Create team",
+      "invite_code_label": "Invite code",
+      "invite_code_placeholder": "Enter invite code (e.g. MANTRA)",
       "my_applications": "My applications",
       "name_error": "Name must be at least 2 characters",
+      "new": {
+        "confirm": "Confirm",
+        "subtitle": "in which you want to compete",
+        "title": "Select the tournaments"
+      },
       "no_active_leagues_subtitle": "Select one of available leagues and play",
       "no_active_leagues_title": "You currently have no active leagues",
       "no_leagues": "No available leagues at the moment",
@@ -741,23 +748,6 @@
       "telegram_link": "Connect Telegram Bot",
       "telegram_title": "Get deadline reminders",
       "title": "Join a league"
-    },
-    "join_request": {
-      "index": {
-        "link": "via the link",
-        "link_ua": "за цим посиланням",
-        "subtitle": "Registration is complete",
-        "text": "Please contact with administrator regarding the terms of participation in the league",
-        "text_ua": "Через обмеження приватності ми не завжди можемо знайти ваш аккаунт в Телеграм. Тому, щоб ми швидше опрацювали вашу заявку та пояснили подальші кроки, напишіть адміністратору (достатньо просто «Привіт»)",
-        "text_ua_two": "Чекаємо на вас у Mantra-спільноті!",
-        "title": "All done!",
-        "title_ua": "Дякуємо за реєстрацію!"
-      },
-      "new": {
-        "confirm": "Confirm",
-        "subtitle": "in which you want to compete",
-        "title": "Select the tournaments"
-      }
     },
     "league": {
       "all": "All",
@@ -898,6 +888,7 @@
         "crowned": "Champion assigned",
         "crowned_col": "Champion",
         "deadline": "Sales Deadline",
+        "default_for_join": "Default league (join without code)",
         "demo": "Demo league",
         "demo_badge": "Demo",
         "division": "Division",
@@ -907,6 +898,9 @@
         "filter_name": "Search by name...",
         "filter_season": "All seasons",
         "filter_tournament": "All tournaments",
+        "join_code": "Join code",
+        "join_code_hint": "Uppercase letters A-Z and digits only. Leave blank to auto-generate when open for join is enabled.",
+        "join_code_placeholder": "Leave blank to auto-generate",
         "lineup_pct": "Lineups %",
         "manager": "Manager",
         "max_avg_def_score": "Max avg def score",
@@ -917,6 +911,7 @@
         "no_division": "— No division —",
         "no_results": "No results yet",
         "no_teams": "No teams",
+        "open_for_join": "Open for join",
         "points": "Points",
         "reset": "Reset",
         "result_position": "#",
@@ -1032,7 +1027,9 @@
         "view_manager": "Open manager page"
       },
       "weekly_team": {
+        "appearances": "matches",
         "build": "Build",
+        "col_avg_score": "Average",
         "col_created": "Date",
         "col_mode": "Mode",
         "col_module": "Module",
@@ -1040,6 +1037,8 @@
         "col_position": "Pos",
         "col_score": "Score",
         "col_season": "Season",
+        "col_source": "Type",
+        "col_tournament": "Championship",
         "empty": "No teams saved yet",
         "mode_flop": "Flop",
         "mode_top": "Top",
@@ -1050,6 +1049,10 @@
         "save": "Save",
         "save_failed": "Failed to save team of the week",
         "saved": "Team of the week saved",
+        "select_tournament": "Select championship",
+        "source_avg": "Season average",
+        "source_round": "By rounds",
+        "source_season": "Season best",
         "title": "Team of the Week",
         "total": "Total"
       }
@@ -2267,19 +2270,6 @@
                 "already_applied": "вже подано заявку на цей турнір"
               }
             }
-          },
-          "join_request": {
-            "attributes": {
-              "contact": {
-                "blank": " не можуть бути пустими"
-              },
-              "email": {
-                "blank": " не може бути пустою"
-              },
-              "username": {
-                "blank": " не може бути пустим"
-              }
-            }
           }
         }
       }
@@ -2527,8 +2517,15 @@
       "contact_title": "Хочеш грати з друзями в одній лізі?",
       "continue": "Продовжити",
       "create_team": "Створити команду",
+      "invite_code_label": "Код запрошення",
+      "invite_code_placeholder": "Введіть код запрошення (напр. MANTRA)",
       "my_applications": "Мої заявки",
       "name_error": "Назва має бути щонайменше 2 символи",
+      "new": {
+        "confirm": "Підтвердити",
+        "subtitle": "в якому хочеш змагатися",
+        "title": "Обери турніри"
+      },
       "no_active_leagues_subtitle": "Обери одну з доступних ліг та грай",
       "no_active_leagues_title": "У тебе наразі немає активних ліг",
       "no_leagues": "Наразі немає доступних ліг",
@@ -2574,23 +2571,6 @@
       "telegram_link": "Підключити Telegram бот",
       "telegram_title": "Отримуй нагадування про дедлайни",
       "title": "Долучитись до ліги"
-    },
-    "join_request": {
-      "index": {
-        "link": "via the link",
-        "link_ua": "за цим посиланням",
-        "subtitle": "Реєстрація завершена",
-        "text": "Please contact with administrator regarding the terms of participation in the league",
-        "text_ua": "Через обмеження приватності ми не завжди можемо знайти ваш аккаунт в Телеграм. Тому, щоб ми швидше опрацювали вашу заявку та пояснили подальші кроки, напишіть адміністратору (достатньо просто «Привіт»)",
-        "text_ua_two": "Чекаємо на вас у Mantra-спільноті!",
-        "title": "Готово!",
-        "title_ua": "Дякуємо за реєстрацію!"
-      },
-      "new": {
-        "confirm": "Підтвердити",
-        "subtitle": "в яких вам цікаво позмагатися",
-        "title": "Виберіть турніри"
-      }
     },
     "league": {
       "all": "Усі",
@@ -2731,6 +2711,7 @@
         "crowned": "Чемпіона призначено",
         "crowned_col": "Чемпіон",
         "deadline": "Дедлайн продажу",
+        "default_for_join": "Дефолтна ліга (приєднання без коду)",
         "demo": "Демо-ліга",
         "demo_badge": "Демо",
         "division": "Дивізіон",
@@ -2740,6 +2721,9 @@
         "filter_name": "Пошук за назвою...",
         "filter_season": "Всі сезони",
         "filter_tournament": "Всі турніри",
+        "join_code": "Код джойну",
+        "join_code_hint": "Лише великі літери A-Z та цифри. Залишити пустим — код згенерується автоматично якщо увімкнено відкритий джойн.",
+        "join_code_placeholder": "Залишити пустим для авто-генерації",
         "lineup_pct": "Склади %",
         "manager": "Менеджер",
         "max_avg_def_score": "Макс сер захист",
@@ -2750,6 +2734,7 @@
         "no_division": "— Без дивізіону —",
         "no_results": "Результатів ще немає",
         "no_teams": "Немає команд",
+        "open_for_join": "Відкрита для джойну",
         "points": "Очки",
         "reset": "Скинути",
         "result_position": "#",
@@ -2865,7 +2850,9 @@
         "view_manager": "Відкрити сторінку менеджера"
       },
       "weekly_team": {
+        "appearances": "матчів",
         "build": "Сформувати",
+        "col_avg_score": "Середня",
         "col_created": "Дата",
         "col_mode": "Режим",
         "col_module": "Модуль",
@@ -2873,6 +2860,8 @@
         "col_position": "Поз",
         "col_score": "Очки",
         "col_season": "Сезон",
+        "col_source": "Тип",
+        "col_tournament": "Чемпіонат",
         "empty": "Збірних ще немає",
         "mode_flop": "Флоп",
         "mode_top": "Топ",
@@ -2883,6 +2872,10 @@
         "save": "Зберегти",
         "save_failed": "Не вдалося зберегти збірну",
         "saved": "Збірну збережено",
+        "select_tournament": "Оберіть чемпіонат",
+        "source_avg": "Середня сезону",
+        "source_round": "По турах",
+        "source_season": "Найкращі сезону",
         "title": "Збірна тижня",
         "total": "Разом"
       }
@@ -2907,16 +2900,6 @@
       "waiting_deadline": "Очікуємо на старт туру",
       "with_squad": "Команда готова до матчу",
       "without_squad": "Команда досі не виставила склад"
-    },
-    "models": {
-      "join_request": {
-        "attributes": {
-          "email": "Пошта",
-          "leagues": "Турніри",
-          "name": "Ім'я",
-          "сontact": "Контакти"
-        }
-      }
     },
     "news": {
       "add_article": "Додати новину",

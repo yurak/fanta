@@ -42,9 +42,6 @@
               = link_to 'Facebook', "https://www.facebook.com/sharer/sharer.php?u=#{article_url(article)}", target: '_blank'
             .article-data-value.article-data-link
               = link_to 'Telegram', "https://telegram.me/share/url?url=#{article_url(article)}&text=#{article.title}", target: '_blank'
-            -# TODO: add Copy link
-            -#.article-data-value.article-data-link
-            -#  = link_to 'Copy link', '', target: '_blank'
             .article-data-value.article-data-link
               = link_to 'Email', "mailto:?subject=#{article.title}&amp;body=Check out article #{article_url(article)}", target: '_blank'
         .article-description

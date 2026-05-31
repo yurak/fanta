@@ -76,7 +76,7 @@ module AuctionRounds
     end
 
     def process_player_bids(player_bids)
-      if player_bids.count == 1
+      if player_bids.one?
         process_bid(player_bids.first)
       else
         top_bids = player_bids.group_by(&:price).first[1]

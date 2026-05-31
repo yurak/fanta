@@ -10,7 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2026_05_13_140000) do
+ActiveRecord::Schema.define(version: 2026_05_29_120000) do
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
 
   create_table "article_tags", force: :cascade do |t|
     t.string "name", default: "", null: false
@@ -34,8 +37,8 @@ ActiveRecord::Schema.define(version: 2026_05_13_140000) do
   end
 
   create_table "auction_bids", force: :cascade do |t|
-    t.integer "auction_round_id"
-    t.integer "team_id"
+    t.bigint "auction_round_id"
+    t.bigint "team_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "status", default: 0
@@ -45,7 +48,7 @@ ActiveRecord::Schema.define(version: 2026_05_13_140000) do
   end
 
   create_table "auction_rounds", force: :cascade do |t|
-    t.integer "auction_id"
+    t.bigint "auction_id"
     t.integer "number"
     t.datetime "deadline"
     t.datetime "created_at", null: false
@@ -56,7 +59,7 @@ ActiveRecord::Schema.define(version: 2026_05_13_140000) do
   end
 
   create_table "auctions", force: :cascade do |t|
-    t.integer "league_id"
+    t.bigint "league_id"
     t.integer "status", default: 0, null: false
     t.integer "number"
     t.datetime "deadline"
@@ -95,7 +98,7 @@ ActiveRecord::Schema.define(version: 2026_05_13_140000) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "tournament_id"
+    t.bigint "tournament_id"
     t.integer "status", default: 0, null: false
     t.string "full_name", default: "", null: false
     t.string "color", default: "181715", null: false
@@ -124,23 +127,14 @@ ActiveRecord::Schema.define(version: 2026_05_13_140000) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "join_requests", force: :cascade do |t|
-    t.string "leagues"
-    t.integer "status", default: 0, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "user_id"
-    t.index ["user_id"], name: "index_join_requests_on_user_id"
-  end
-
   create_table "joins", force: :cascade do |t|
-    t.integer "user_id", null: false
-    t.integer "tournament_id", null: false
-    t.integer "team_id", null: false
+    t.bigint "user_id", null: false
+    t.bigint "tournament_id", null: false
+    t.bigint "team_id", null: false
     t.integer "status", default: 0, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "auction_bid_id", null: false
+    t.bigint "auction_bid_id", null: false
     t.index ["auction_bid_id"], name: "index_joins_on_auction_bid_id"
     t.index ["team_id"], name: "index_joins_on_team_id"
     t.index ["tournament_id"], name: "index_joins_on_tournament_id"
@@ -150,12 +144,12 @@ ActiveRecord::Schema.define(version: 2026_05_13_140000) do
 
   create_table "leagues", force: :cascade do |t|
     t.string "name"
-    t.integer "tournament_id", null: false
+    t.bigint "tournament_id", null: false
     t.integer "status", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "tour_difference", default: 0, null: false
-    t.integer "season_id"
+    t.bigint "season_id"
     t.decimal "min_avg_def_score", default: "7.0", null: false
     t.decimal "max_avg_def_score", default: "8.0", null: false
     t.integer "transfer_status", default: 0
@@ -167,6 +161,10 @@ ActiveRecord::Schema.define(version: 2026_05_13_140000) do
     t.integer "auction_number", default: 5
     t.integer "auction_step", default: 11, null: false
     t.boolean "demo", default: false, null: false
+    t.string "join_code"
+    t.boolean "open_for_join", default: false, null: false
+    t.boolean "default_for_join", default: false, null: false
+    t.index ["join_code"], name: "index_leagues_on_join_code", unique: true
     t.index ["name", "season_id"], name: "index_leagues_on_name_and_season_id", unique: true
     t.index ["season_id"], name: "index_leagues_on_season_id"
   end
@@ -177,7 +175,7 @@ ActiveRecord::Schema.define(version: 2026_05_13_140000) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "tour_id"
-    t.decimal "final_score", precision: 4, scale: 2, default: "0.0"
+    t.decimal "final_score", precision: 6, scale: 2, default: "0.0"
     t.integer "final_goals"
     t.text "substitutes"
     t.integer "points", default: 0, null: false
@@ -193,7 +191,7 @@ ActiveRecord::Schema.define(version: 2026_05_13_140000) do
     t.string "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "tournament_id"
+    t.bigint "tournament_id"
     t.index ["tournament_id"], name: "index_links_on_tournament_id"
   end
 
@@ -204,7 +202,7 @@ ActiveRecord::Schema.define(version: 2026_05_13_140000) do
     t.string "real_position"
     t.decimal "position_malus", default: "0.0"
     t.integer "subs_status", default: 0, null: false
-    t.integer "round_player_id"
+    t.bigint "round_player_id"
     t.index ["lineup_id"], name: "index_match_players_on_lineup_id"
     t.index ["round_player_id"], name: "index_match_players_on_round_player_id"
   end
@@ -221,7 +219,7 @@ ActiveRecord::Schema.define(version: 2026_05_13_140000) do
   end
 
   create_table "national_matches", force: :cascade do |t|
-    t.integer "tournament_round_id"
+    t.bigint "tournament_round_id"
     t.bigint "host_team_id", null: false
     t.bigint "guest_team_id", null: false
     t.integer "host_score"
@@ -241,7 +239,7 @@ ActiveRecord::Schema.define(version: 2026_05_13_140000) do
     t.string "code", default: "", null: false
     t.string "color", default: "DB0A23", null: false
     t.integer "status", default: 0, null: false
-    t.integer "tournament_id"
+    t.bigint "tournament_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["code"], name: "index_national_teams_on_code", unique: true
@@ -250,9 +248,9 @@ ActiveRecord::Schema.define(version: 2026_05_13_140000) do
   end
 
   create_table "notifications", force: :cascade do |t|
-    t.integer "team_id", null: false
+    t.bigint "team_id", null: false
     t.string "notifiable_type", null: false
-    t.integer "notifiable_id", null: false
+    t.bigint "notifiable_id", null: false
     t.integer "kind", default: 0, null: false
     t.integer "status", default: 0, null: false
     t.integer "priority", default: 1, null: false
@@ -268,8 +266,8 @@ ActiveRecord::Schema.define(version: 2026_05_13_140000) do
   end
 
   create_table "player_bids", force: :cascade do |t|
-    t.integer "auction_bid_id"
-    t.integer "player_id"
+    t.bigint "auction_bid_id"
+    t.bigint "player_id"
     t.integer "price", default: 1, null: false
     t.integer "status", default: 0, null: false
     t.datetime "created_at", null: false
@@ -287,8 +285,8 @@ ActiveRecord::Schema.define(version: 2026_05_13_140000) do
   end
 
   create_table "player_requests", force: :cascade do |t|
-    t.integer "player_id"
-    t.integer "user_id"
+    t.bigint "player_id"
+    t.bigint "user_id"
     t.string "positions"
     t.string "comment"
     t.datetime "created_at", precision: 6, null: false
@@ -331,8 +329,8 @@ ActiveRecord::Schema.define(version: 2026_05_13_140000) do
   end
 
   create_table "player_teams", force: :cascade do |t|
-    t.integer "player_id"
-    t.integer "team_id"
+    t.bigint "player_id"
+    t.bigint "team_id"
     t.integer "transfer_status", default: 0
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -353,7 +351,7 @@ ActiveRecord::Schema.define(version: 2026_05_13_140000) do
     t.integer "height"
     t.integer "number"
     t.integer "tm_price"
-    t.integer "national_team_id"
+    t.bigint "national_team_id"
     t.string "avatar_name"
     t.integer "tm_id"
     t.integer "fotmob_id"
@@ -374,7 +372,7 @@ ActiveRecord::Schema.define(version: 2026_05_13_140000) do
   end
 
   create_table "results", force: :cascade do |t|
-    t.integer "team_id"
+    t.bigint "team_id"
     t.integer "points", default: 0, null: false
     t.integer "scored_goals", default: 0, null: false
     t.integer "missed_goals", default: 0, null: false
@@ -383,7 +381,7 @@ ActiveRecord::Schema.define(version: 2026_05_13_140000) do
     t.integer "loses", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "league_id"
+    t.bigint "league_id"
     t.decimal "total_score", default: "0.0", null: false
     t.text "history", default: "[]"
     t.decimal "best_lineup", default: "0.0", null: false
@@ -396,8 +394,8 @@ ActiveRecord::Schema.define(version: 2026_05_13_140000) do
   end
 
   create_table "round_players", force: :cascade do |t|
-    t.integer "tournament_round_id"
-    t.integer "player_id"
+    t.bigint "tournament_round_id"
+    t.bigint "player_id"
     t.decimal "score", precision: 4, scale: 2, default: "0.0"
     t.decimal "goals", default: "0.0"
     t.decimal "missed_goals", default: "0.0"
@@ -414,7 +412,7 @@ ActiveRecord::Schema.define(version: 2026_05_13_140000) do
     t.boolean "cleansheet", default: false
     t.boolean "manual_lock", default: false
     t.integer "played_minutes", default: 0, null: false
-    t.decimal "final_score", precision: 4, scale: 2, default: "0.0"
+    t.decimal "final_score", precision: 6, scale: 2, default: "0.0"
     t.integer "saves", default: 0, null: false
     t.integer "conceded_penalty", default: 0, null: false
     t.integer "penalties_won", default: 0, null: false
@@ -469,23 +467,23 @@ ActiveRecord::Schema.define(version: 2026_05_13_140000) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "user_id"
-    t.integer "league_id"
+    t.bigint "user_id"
+    t.bigint "league_id"
     t.string "code", default: "", null: false
     t.string "human_name", default: "", null: false
     t.string "logo_url", default: "", null: false
     t.integer "budget", default: 260
     t.integer "transfer_slots", default: 0
-    t.integer "tournament_id"
+    t.bigint "tournament_id"
     t.index ["league_id"], name: "index_teams_on_league_id"
     t.index ["tournament_id"], name: "index_teams_on_tournament_id"
     t.index ["user_id"], name: "index_teams_on_user_id"
   end
 
   create_table "tg_messages", force: :cascade do |t|
-    t.integer "update_id", null: false
-    t.integer "message_id"
-    t.integer "chat_id"
+    t.bigint "update_id", null: false
+    t.bigint "message_id"
+    t.bigint "chat_id"
     t.string "text"
     t.string "username"
     t.string "first_name"
@@ -497,7 +495,7 @@ ActiveRecord::Schema.define(version: 2026_05_13_140000) do
   end
 
   create_table "tournament_matches", force: :cascade do |t|
-    t.integer "tournament_round_id"
+    t.bigint "tournament_round_id"
     t.bigint "host_club_id", null: false
     t.bigint "guest_club_id", null: false
     t.integer "host_score"
@@ -518,8 +516,8 @@ ActiveRecord::Schema.define(version: 2026_05_13_140000) do
   end
 
   create_table "tournament_rounds", force: :cascade do |t|
-    t.integer "tournament_id"
-    t.integer "season_id"
+    t.bigint "tournament_id"
+    t.bigint "season_id"
     t.integer "number"
     t.integer "status", default: 0
     t.datetime "created_at", null: false
@@ -556,8 +554,8 @@ ActiveRecord::Schema.define(version: 2026_05_13_140000) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "deadline"
-    t.integer "league_id"
-    t.integer "tournament_round_id"
+    t.bigint "league_id"
+    t.bigint "tournament_round_id"
     t.integer "bench_status", default: 0, null: false
     t.boolean "lineups_generated", default: false, null: false
     t.index ["league_id"], name: "index_tours_on_league_id"
@@ -565,14 +563,14 @@ ActiveRecord::Schema.define(version: 2026_05_13_140000) do
   end
 
   create_table "transfers", force: :cascade do |t|
-    t.integer "player_id"
-    t.integer "team_id"
-    t.integer "league_id"
+    t.bigint "player_id"
+    t.bigint "team_id"
+    t.bigint "league_id"
     t.integer "price", default: 1, null: false
     t.integer "status", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "auction_id"
+    t.bigint "auction_id"
     t.index ["auction_id"], name: "index_transfers_on_auction_id"
     t.index ["league_id"], name: "index_transfers_on_league_id"
     t.index ["player_id"], name: "index_transfers_on_player_id"
@@ -581,7 +579,7 @@ ActiveRecord::Schema.define(version: 2026_05_13_140000) do
 
   create_table "user_profiles", force: :cascade do |t|
     t.integer "user_id"
-    t.integer "tg_chat_id"
+    t.bigint "tg_chat_id"
     t.string "tg_name"
     t.boolean "bot_enabled", default: false
     t.datetime "created_at", precision: 6, null: false
@@ -593,9 +591,9 @@ ActiveRecord::Schema.define(version: 2026_05_13_140000) do
   end
 
   create_table "user_titles", force: :cascade do |t|
-    t.integer "user_id", null: false
-    t.integer "tournament_id"
-    t.integer "result_id"
+    t.bigint "user_id", null: false
+    t.bigint "tournament_id"
+    t.bigint "result_id"
     t.integer "championship_number", null: false
     t.string "season"
     t.datetime "created_at", precision: 6, null: false
@@ -643,9 +641,9 @@ ActiveRecord::Schema.define(version: 2026_05_13_140000) do
   end
 
   create_table "weekly_team_players", force: :cascade do |t|
-    t.integer "weekly_team_id", null: false
-    t.integer "slot_id", null: false
-    t.integer "round_player_id", null: false
+    t.bigint "weekly_team_id", null: false
+    t.bigint "slot_id", null: false
+    t.bigint "round_player_id", null: false
     t.decimal "total"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -659,12 +657,15 @@ ActiveRecord::Schema.define(version: 2026_05_13_140000) do
     t.integer "number"
     t.string "mode"
     t.text "round_ids"
-    t.integer "team_module_id", null: false
-    t.integer "season_id", null: false
+    t.bigint "team_module_id", null: false
+    t.bigint "season_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "source", default: "round", null: false
+    t.integer "tournament_id"
     t.index ["season_id"], name: "index_weekly_teams_on_season_id"
     t.index ["team_module_id"], name: "index_weekly_teams_on_team_module_id"
+    t.index ["tournament_id"], name: "index_weekly_teams_on_tournament_id"
   end
 
   add_foreign_key "auction_bids", "auction_rounds"
@@ -672,7 +673,6 @@ ActiveRecord::Schema.define(version: 2026_05_13_140000) do
   add_foreign_key "auction_rounds", "auctions"
   add_foreign_key "auctions", "leagues"
   add_foreign_key "clubs", "tournaments"
-  add_foreign_key "join_requests", "users"
   add_foreign_key "joins", "auction_bids"
   add_foreign_key "joins", "teams"
   add_foreign_key "joins", "tournaments"
@@ -713,4 +713,5 @@ ActiveRecord::Schema.define(version: 2026_05_13_140000) do
   add_foreign_key "weekly_team_players", "weekly_teams"
   add_foreign_key "weekly_teams", "seasons"
   add_foreign_key "weekly_teams", "team_modules"
+  add_foreign_key "weekly_teams", "tournaments"
 end

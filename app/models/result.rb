@@ -11,6 +11,7 @@ class Result < ApplicationRecord
                       .order(wins: :desc)
                       .order(total_score: :desc)
                       .order(Arel.sql('scored_goals - missed_goals desc'))
+                      .order(id: :asc)
                   }
   scope :fanta_ordered, lambda {
                           order(total_score: :desc)
@@ -37,10 +38,11 @@ class Result < ApplicationRecord
   end
 
   def lineup_pct
-    total = league.tours.where(status: %i[locked closed postponed]).count
+    finished_tours = league.tours.where(status: %i[locked closed postponed])
+    total = finished_tours.count
     return 0 if total.zero?
 
-    manual = team.lineups.where(tour: league.tours, creation_type: %i[manual copied]).count
+    manual = team.lineups.where(tour: finished_tours, creation_type: %i[manual copied]).count
     (manual.to_f / total * 100).round
   end
 
@@ -57,6 +59,8 @@ class Result < ApplicationRecord
     return true if league.archived?
 
     remaining = league.tours.where.not(status: Tour.statuses[:closed]).count
+    return true if remaining.zero?
+
     second = league_results.second
     return true if second.nil?
 

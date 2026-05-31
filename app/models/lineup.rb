@@ -4,10 +4,8 @@ class Lineup < ApplicationRecord
   belongs_to :tour
 
   has_many :match_players, dependent: :destroy, inverse_of: :lineup
-  has_many :round_players, through: :match_players
 
   accepts_nested_attributes_for :match_players
-  accepts_nested_attributes_for :round_players
 
   delegate :slots, to: :team_module
   delegate :tournament_round, to: :tour
@@ -15,11 +13,11 @@ class Lineup < ApplicationRecord
 
   enum creation_type: { manual: 0, copied: 1, auto_cloned: 2 }
 
-  scope :closed, ->(league_id) { where(tour_id: League.find(league_id).tours.closed.ids) }
+  scope :closed, ->(league_id) { where(tour_id: League.find(league_id).tours.closed.select(:id)) }
   scope :finished, -> { joins(:tour).where(tours: { status: :closed }) }
   scope :mantra, -> { joins(tour: { tournament_round: :tournament }).where(tournaments: { mode: :mantra }) }
   scope :fanta, -> { joins(tour: { tournament_round: :tournament }).where(tournaments: { mode: :fanta }) }
-  scope :by_league, ->(league_id) { where(tour_id: League.find(league_id).tours.ids) }
+  scope :by_league, ->(league_id) { where(tour_id: League.find(league_id).tours.select(:id)) }
   scope :by_team, ->(team_id) { where(team_id: team_id) }
   scope :top_position, ->(position) { where('position > 0 AND position <= ?', position) if position }
 
@@ -125,7 +123,7 @@ class Lineup < ApplicationRecord
   end
 
   def best_player
-    match_players.joins(:round_player).main.order('round_players.final_score': :desc).first&.player
+    match_players.joins(:round_player).main.reorder('round_players.final_score': :desc).first&.player
   end
 
   def average_bench

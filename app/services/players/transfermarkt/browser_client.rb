@@ -225,6 +225,17 @@ module Players
       def prepare_page(page, url)
         page.goto(url)
         accept_sourcepoint_consent!(page)
+        wait_for_dynamic_content(page)
+      end
+
+      def wait_for_dynamic_content(page)
+        page.wait_for_timeout(1_500)
+        page.wait_for_function(
+          "() => document.querySelectorAll('.loading-indicator').length === 0",
+          timeout: 30_000
+        )
+      rescue Playwright::Error
+        nil
       end
 
       def obtain_html(page, cache_key:)

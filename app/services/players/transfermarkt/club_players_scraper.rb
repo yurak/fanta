@@ -74,7 +74,7 @@ module Players
 
       def fetch_and_write_new_player(tm_id, club)
         result = with_retry(label: "TM id #{tm_id}") do
-          Players::Transfermarkt::Parser.call(tm_id)
+          Players::Transfermarkt::ApiParser.call(tm_id)
         end
         return unless result
 
@@ -95,7 +95,7 @@ module Players
       def check_missed_player(club, pl_tm_id)
         player = club.players.find_by(tm_id: pl_tm_id)
         result = with_retry(label: player.tm_id.to_s) do
-          Players::Transfermarkt::Parser.call(pl_tm_id, position_skip: true)
+          Players::Transfermarkt::ApiParser.call(pl_tm_id, position_skip: true)
         end
         return unless result
 

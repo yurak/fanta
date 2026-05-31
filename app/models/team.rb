@@ -8,17 +8,13 @@ class Team < ApplicationRecord
   has_many :player_teams, dependent: :destroy
   has_many :players, through: :player_teams
 
-  has_many :lineups, -> { order('tour_id desc') }, dependent: :destroy, inverse_of: :team
+  has_many :lineups, -> { order(tour_id: :desc) }, dependent: :destroy, inverse_of: :team
 
   has_many :host_matches, foreign_key: 'host_id', class_name: 'Match', dependent: :destroy, inverse_of: :host
   has_many :guest_matches, foreign_key: 'guest_id', class_name: 'Match', dependent: :destroy, inverse_of: :guest
 
   has_many :results, dependent: :destroy
   has_many :transfers, dependent: :destroy
-
-  def tournament
-    super || league&.tournament
-  end
 
   MAX_PLAYERS = 26
   MIN_GK = 3
@@ -31,7 +27,7 @@ class Team < ApplicationRecord
   TRANSFER_SLOTS = 16
   RESERVE_TRANSFER_SLOTS = [0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20].freeze
 
-  validates :name, presence: true, length: { in: 2..18 }
+  validates :name, presence: true, length: { in: 2..24 }
   validates :code, presence: true, length: { in: 2..3 }, format: { with: /\A[0-9a-zA-Z]+\z/ }
   validates :human_name, length: { in: 2..24 }
 
@@ -40,6 +36,10 @@ class Team < ApplicationRecord
   def reset
     players.clear
     update(budget: DEFAULT_BUDGET, transfer_slots: TRANSFER_SLOTS)
+  end
+
+  def tournament
+    super || league&.tournament
   end
 
   def league_matches
@@ -83,7 +83,7 @@ class Team < ApplicationRecord
   def players_not_in(lineup)
     return unless lineup
 
-    lineup_players_ids = lineup.round_players.map { |rp| rp.player.id }
+    lineup_players_ids = lineup.match_players.map { |mp| mp.round_player.player_id }
     not_played_ids = players.where.not(id: lineup_players_ids).ids
     RoundPlayer.by_tournament_round(lineup.tournament_round.id).where(player_id: not_played_ids)
   end
@@ -188,7 +188,7 @@ class Team < ApplicationRecord
   private
 
   def matches
-    @matches ||= Match.where('host_id = ? OR guest_id = ?', id, id)
+    @matches ||= Match.where('host_id = ? OR guest_id = ?', id, id).order(tour_id: :asc)
   end
 
   def current_auction

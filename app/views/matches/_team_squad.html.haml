@@ -8,7 +8,7 @@
         .match-team-def-bonus
           .match-team-data-text= t('matches.def_bonus')
           .match-team-data-value= lineup.defence_bonus
-      - all_players = lineup.match_players.to_a
+      - all_players = lineup.match_players.for_form.to_a
       .match-main-squad
         - all_players.select { |mp| mp.real_position.present? }.each do |match_player|
           = render 'main_player', match_player: match_player

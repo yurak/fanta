@@ -15,11 +15,14 @@ class MatchPlayer < ApplicationRecord
 
   default_scope { includes(:lineup, round_player: { player: %i[club player_positions positions] }) }
 
-  scope :main, -> { where.not(real_position: nil) }
+  FOR_FORM_ORDER = Arel.sql('CASE WHEN real_position IS NULL THEN 1 ELSE 0 END, match_players.id ASC').freeze
+
+  scope :main, -> { where.not(real_position: nil).order(:id) }
+  scope :for_form, -> { order(FOR_FORM_ORDER) }
   scope :with_score, -> { includes(:round_player).joins(:round_player).where('round_players.score > ?', 0) }
   scope :main_with_score, -> { main.with_score }
   scope :subs, -> { where(real_position: nil) }
-  scope :subs_bench, -> { subs.where.not(subs_status: :not_in_squad) }
+  scope :subs_bench, -> { subs.where.not(subs_status: :not_in_squad).order(:id) }
   scope :not_in_lineup, -> { subs.where(subs_status: :not_in_squad) }
   scope :without_score, -> { joins(:round_player).where('round_players.score': 0) }
   scope :by_tour, ->(tour_id) { joins(:lineup).where(lineups: { tour_id: tour_id }) }

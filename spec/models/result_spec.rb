@@ -280,6 +280,19 @@ RSpec.describe Result do
         expect(result.lineup_pct).to eq(100)
       end
     end
+
+    context 'when team has a lineup for an open (set_lineup) tour' do
+      before do
+        closed_tour = create(:closed_tour, league: league)
+        open_tour = create(:tour, league: league, status: :set_lineup)
+        create(:lineup, team: team, tour: closed_tour, creation_type: :manual)
+        create(:lineup, team: team, tour: open_tour, creation_type: :manual)
+      end
+
+      it 'does not exceed 100%' do
+        expect(result.lineup_pct).to eq(100)
+      end
+    end
   end
 
   describe '#crowned?' do
@@ -378,6 +391,18 @@ RSpec.describe Result do
           result.update!(points: 31)
 
           expect(result).not_to be_crownable
+        end
+      end
+
+      context 'when all tours are closed and scores are tied' do
+        before do
+          result.update!(scored_goals: 1)
+          create_list(:closed_tour, 2, league: league)
+          create(:result, league: league, points: 30, scored_goals: 0)
+        end
+
+        it 'returns true for the first place result' do
+          expect(result).to be_crownable
         end
       end
     end

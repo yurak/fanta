@@ -117,9 +117,10 @@ RSpec.describe 'Lineups' do
   describe 'POST #create' do
     let(:team) { create(:team, :with_user) }
     let(:tour) { create(:set_lineup_tour) }
+    let!(:team_module) { TeamModule.first || create(:team_module) }
     let(:params) do
       {
-        lineup: { team_module_id: 1, tour_id: tour.id }
+        lineup: { team_module_id: team_module.id, tour_id: tour.id }
       }
     end
 
@@ -201,9 +202,9 @@ RSpec.describe 'Lineups' do
         round_player1 = create(:round_player, player: create(:player, :with_national_team))
         params = {
           lineup: {
-            team_module_id: 1, tour_id: tour.id, match_players_attributes: {
-              '0' => { round_player_id: round_player1.id },
-              '1' => { round_player_id: round_player1.id }
+            team_module_id: team_module.id, tour_id: tour.id, match_players_attributes: {
+              '0' => { round_player_id: round_player1.player_id },
+              '1' => { round_player_id: round_player1.player_id }
             }
           }
         }
@@ -227,8 +228,8 @@ RSpec.describe 'Lineups' do
         round_player1 = create(:round_player, player: create(:player, :with_national_team))
         params = {
           lineup: {
-            team_module_id: 1, tour_id: tour.id, match_players_attributes: {
-              '0' => { round_player_id: round_player1.id }
+            team_module_id: team_module.id, tour_id: tour.id, match_players_attributes: {
+              '0' => { round_player_id: round_player1.player_id }
             }
           }
         }
@@ -252,18 +253,18 @@ RSpec.describe 'Lineups' do
         rp = create(:round_player, player: create(:player, :with_national_team))
         params = {
           lineup: {
-            team_module_id: 1, tour_id: tour.id, match_players_attributes: {
-              '0' => { round_player_id: create(:round_player, player: create(:player, :with_national_team)).id },
-              '1' => { round_player_id: rp.id },
-              '2' => { round_player_id: create(:round_player, player: create(:player, national_team: rp.player.national_team)).id },
-              '3' => { round_player_id: create(:round_player, player: create(:player, national_team: rp.player.national_team)).id },
-              '4' => { round_player_id: create(:round_player, player: create(:player, national_team: rp.player.national_team)).id },
-              '5' => { round_player_id: create(:round_player, player: create(:player, national_team: rp.player.national_team)).id },
-              '6' => { round_player_id: create(:round_player, player: create(:player, national_team: rp.player.national_team)).id },
-              '7' => { round_player_id: create(:round_player, player: create(:player, national_team: rp.player.national_team)).id },
-              '8' => { round_player_id: create(:round_player, player: create(:player, national_team: rp.player.national_team)).id },
-              '9' => { round_player_id: create(:round_player, player: create(:player, national_team: rp.player.national_team)).id },
-              '10' => { round_player_id: create(:round_player, player: create(:player, national_team: rp.player.national_team)).id }
+            team_module_id: team_module.id, tour_id: tour.id, match_players_attributes: {
+              '0' => { round_player_id: create(:round_player, player: create(:player, :with_national_team)).player_id },
+              '1' => { round_player_id: rp.player_id },
+              '2' => { round_player_id: create(:round_player, player: create(:player, national_team: rp.player.national_team)).player_id },
+              '3' => { round_player_id: create(:round_player, player: create(:player, national_team: rp.player.national_team)).player_id },
+              '4' => { round_player_id: create(:round_player, player: create(:player, national_team: rp.player.national_team)).player_id },
+              '5' => { round_player_id: create(:round_player, player: create(:player, national_team: rp.player.national_team)).player_id },
+              '6' => { round_player_id: create(:round_player, player: create(:player, national_team: rp.player.national_team)).player_id },
+              '7' => { round_player_id: create(:round_player, player: create(:player, national_team: rp.player.national_team)).player_id },
+              '8' => { round_player_id: create(:round_player, player: create(:player, national_team: rp.player.national_team)).player_id },
+              '9' => { round_player_id: create(:round_player, player: create(:player, national_team: rp.player.national_team)).player_id },
+              '10' => { round_player_id: create(:round_player, player: create(:player, national_team: rp.player.national_team)).player_id }
             }
           }
         }
@@ -288,9 +289,9 @@ RSpec.describe 'Lineups' do
         round_player2 = create(:round_player, player: create(:player, :with_national_team))
         params = {
           lineup: {
-            team_module_id: 1, tour_id: tour.id, match_players_attributes: {
-              '0' => { round_player_id: round_player1.id },
-              '1' => { round_player_id: round_player2.id }
+            team_module_id: team_module.id, tour_id: tour.id, match_players_attributes: {
+              '0' => { round_player_id: round_player1.player_id },
+              '1' => { round_player_id: round_player2.player_id }
             }
           }
         }

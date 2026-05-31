@@ -10,7 +10,7 @@ namespace :tm do
     next if player
 
     CSV.open('log/players_new_by_tm_id.csv', 'ab') do |writer|
-      result = Players::Transfermarkt::Parser.call(tm_id)
+      result = Players::Transfermarkt::ApiParser.call(tm_id)
       next unless result
 
       player = Players::Manager.call(result.stringify_keys)

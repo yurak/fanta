@@ -11,14 +11,6 @@ ua:
           attributes:
             user_id:
               already_applied: "вже подано заявку на цей турнір"
-        join_request:
-          attributes:
-            username:
-              blank: " не може бути пустим"
-            contact:
-              blank: " не можуть бути пустими"
-            email:
-              blank: " не може бути пустою"
   auction:
     index:
       auctions: "Аукціони"
@@ -229,6 +221,8 @@ ua:
     play_more_title: "Хочеш зіграти ще й інші ліги? Залишай заявку!"
   join:
     applications: "заявок"
+    invite_code_label: "Код запрошення"
+    invite_code_placeholder: "Введіть код запрошення (напр. MANTRA)"
     contact_link: "Написати адміністрації"
     contact_title: "Хочеш грати з друзями в одній лізі?"
     telegram_title: "Отримуй нагадування про дедлайни"
@@ -247,6 +241,10 @@ ua:
     create_team: "Створити команду"
     team_not_found: "Команду не знайдено"
     my_applications: "Мої заявки"
+    new:
+      confirm: "Підтвердити"
+      subtitle: "в якому хочеш змагатися"
+      title: "Обери турніри"
     no_active_leagues_subtitle: "Обери одну з доступних ліг та грай"
     no_active_leagues_title: "У тебе наразі немає активних ліг"
     no_leagues: "Наразі немає доступних ліг"
@@ -284,20 +282,6 @@ ua:
       title: "Як враження?"
     teams: "команд"
     title: "Долучитись до ліги"
-  join_request:
-    index:
-      link: "via the link"
-      link_ua: "за цим посиланням"
-      subtitle: "Реєстрація завершена"
-      text: "Please contact with administrator regarding the terms of participation in the league"
-      text_ua: "Через обмеження приватності ми не завжди можемо знайти ваш аккаунт в Телеграм. Тому, щоб ми швидше опрацювали вашу заявку та пояснили подальші кроки, напишіть адміністратору (достатньо просто «Привіт»)"
-      text_ua_two: "Чекаємо на вас у Mantra-спільноті!"
-      title: "Готово!"
-      title_ua: "Дякуємо за реєстрацію!"
-    new:
-      confirm: "Підтвердити"
-      subtitle: "в яких вам цікаво позмагатися"
-      title: "Виберіть турніри"
   league:
     all: "Усі"
     demo_badge: "🧪 Демо"
@@ -473,6 +457,11 @@ ua:
       max_avg_def_score: "Макс сер захист"
       demo: "Демо-ліга"
       demo_badge: "Демо"
+      open_for_join: "Відкрита для джойну"
+      default_for_join: "Дефолтна ліга (приєднання без коду)"
+      join_code: "Код джойну"
+      join_code_placeholder: "Залишити пустим для авто-генерації"
+      join_code_hint: "Лише великі літери A-Z та цифри. Залишити пустим — код згенерується автоматично якщо увімкнено відкритий джойн."
       filter_name: "Пошук за назвою..."
       filter_season: "Всі сезони"
       filter_tournament: "Всі турніри"
@@ -565,9 +554,15 @@ ua:
       col_position: "Поз"
       col_player: "Гравець"
       col_score: "Очки"
+      col_avg_score: "Середня"
       total: "Разом"
       mode_top: "Топ"
       mode_flop: "Флоп"
+      source_round: "По турах"
+      source_season: "Найкращі сезону"
+      source_avg: "Середня сезону"
+      select_tournament: "Оберіть чемпіонат"
+      appearances: "матчів"
       new: "Нова збірна"
       save: "Зберегти"
       saved: "Збірну збережено"
@@ -577,6 +572,8 @@ ua:
       col_season: "Сезон"
       col_module: "Модуль"
       col_mode: "Режим"
+      col_source: "Тип"
+      col_tournament: "Чемпіонат"
       col_created: "Дата"
     players:
       title: "Гравці"
@@ -607,13 +604,6 @@ ua:
     waiting_deadline: "Очікуємо на старт туру"
     didnt_play: "❌ Не грав"
     unspecified: "Невизначено"
-  models:
-    join_request:
-      attributes:
-        name: "Ім'я"
-        сontact: "Контакти"
-        email: "Пошта"
-        leagues: "Турніри"
   news:
     add_article: "Додати новину"
     back: "Назад"

@@ -335,7 +335,7 @@ RSpec.describe Tour do
       it 'returns match players' do
         lineup = create(:lineup, :with_match_players, tour: tour)
 
-        expect(tour.match_players).to eq(lineup.match_players)
+        expect(tour.match_players).to match_array(lineup.match_players)
       end
     end
   end
