@@ -9,7 +9,7 @@ class MatchPlayer < ApplicationRecord
   delegate :another_tournament?, :assists, :caught_penalty, :cleansheet, :club_played_match?, :conceded_penalty,
            :failed_penalty, :goals, :missed_goals, :missed_penalty, :own_goals, :penalties_won, :player, :red_card, :result_score,
            :saves, :score, :scored_penalty, :yellow_card, to: :round_player
-  delegate :club, :first_name, :name, :position_names, :teams, to: :player
+  delegate :club, :first_name, :name, :teams, to: :player
 
   enum subs_status: { initial: 0, get_out: 1, get_in: 2, not_in_squad: 3 }
 
@@ -59,6 +59,12 @@ class MatchPlayer < ApplicationRecord
     total
   end
 
+  def position_names
+    return player_positions.split('/') if player_positions.present?
+
+    player.position_names
+  end
+
   def available_positions
     real_position_arr.map { |p| Position::DEPENDENCY[p] }.flatten.uniq
   end
@@ -106,25 +112,31 @@ class MatchPlayer < ApplicationRecord
   end
 
   def d_at_w?
-    (position_names & Position::D_CLEANSHEET_ZONE).any? && (real_position_arr & Position::E_CLEANSHEET_ZONE).empty? &&
+    d_player? && (real_position_arr & Position::E_CLEANSHEET_ZONE).empty? &&
       real_position_arr.include?(Position::WINGER)
   end
 
   def d_at_c?
-    (position_names & Position::D_CLEANSHEET_ZONE).any? && (real_position_arr & Position::CLEANSHEET_ZONE).empty? &&
-      real_position_arr.include?(Position::CENTER_MF)
+    d_player? && out_of_cleansheet_zone? && real_position_arr.include?(Position::CENTER_MF)
   end
 
   def d_at_e_or_m?
-    (position_names & Position::D_CLEANSHEET_ZONE).any? &&
-      (real_position_arr.include?(Position::WING_BACK) || real_position_arr.include?(Position::DEFENCE_MF))
+    d_player? && (real_position_arr & [Position::WING_BACK, Position::DEFENCE_MF]).any?
   end
 
   def m_not_at_valid_pos?
-    position_names.include?(Position::DEFENCE_MF) && (real_position_arr & Position::CLEANSHEET_ZONE).empty?
+    position_names.include?(Position::DEFENCE_MF) && out_of_cleansheet_zone?
   end
 
   def e_not_at_valid_pos?
-    position_names.include?(Position::WING_BACK) && (real_position_arr & Position::CLEANSHEET_ZONE).empty?
+    position_names.include?(Position::WING_BACK) && out_of_cleansheet_zone?
+  end
+
+  def d_player?
+    (position_names & Position::D_CLEANSHEET_ZONE).any?
+  end
+
+  def out_of_cleansheet_zone?
+    (real_position_arr & Position::CLEANSHEET_ZONE).empty?
   end
 end

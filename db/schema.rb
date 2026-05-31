@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2026_05_29_120000) do
+ActiveRecord::Schema.define(version: 2026_06_01_100000) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -203,6 +203,7 @@ ActiveRecord::Schema.define(version: 2026_05_29_120000) do
     t.decimal "position_malus", default: "0.0"
     t.integer "subs_status", default: 0, null: false
     t.bigint "round_player_id"
+    t.string "player_positions"
     t.index ["lineup_id"], name: "index_match_players_on_lineup_id"
     t.index ["round_player_id"], name: "index_match_players_on_round_player_id"
   end
