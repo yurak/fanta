@@ -389,6 +389,13 @@
   padding: 24px 16px 0;
 }
 
+.page-info.match-page.weekly-team-page {
+  .lineup-squad.match-squads {
+    grid-template-columns: 512px 368px;
+    column-gap: 64px;
+  }
+}
+
 .page-info.match-page.lineup-page,
 .page-info.match-page.weekly-team-page {
   .lineup-squad.match-squads .lineup-module .lineup-result {

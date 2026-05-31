@@ -5,7 +5,7 @@ namespace :player_season_stats do
     Stats::Creator.call
   end
 
-  # rake 'player_season_stats:update_price[19,6]'
+  # rake 'player_season_stats:update_price[19,7]'
   desc 'Update player default price after season by tournament id'
   task :update_price, %i[tournament_id season_id] => :environment do |_t, args|
     tournament = Tournament.find_by(id: args[:tournament_id])
