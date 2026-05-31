@@ -51,7 +51,7 @@ class RoundPlayer < ApplicationRecord
   LOWER_SAVES_LIMIT = 3
 
   def result_score
-    return 0 unless score.positive?
+    return 0 unless score&.positive?
 
     final_score.positive? ? final_score : bonuses - maluses
   end
@@ -190,6 +190,8 @@ class RoundPlayer < ApplicationRecord
       D_CLEANSHEET_BONUS
     elsif (position_names & Position::E_M_CLEANSHEET_ZONE).any?
       E_M_CLEANSHEET_BONUS
+    else
+      0
     end
   end
 

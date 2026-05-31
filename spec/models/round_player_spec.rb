@@ -241,6 +241,47 @@ RSpec.describe RoundPlayer do
         expect(round_player.result_score).to eq(6)
       end
     end
+
+    context 'with score, cleansheet and Ds position' do
+      let(:round_player) { create(:round_player, :with_score_six, :with_pos_ds, cleansheet: true) }
+
+      it 'returns score with cleansheet bonus' do
+        expect(round_player.result_score).to eq(7)
+      end
+    end
+
+    context 'with score, cleansheet and Dd position' do
+      let(:round_player) { create(:round_player, :with_score_six, :with_pos_dd, cleansheet: true) }
+
+      it 'returns score with cleansheet bonus' do
+        expect(round_player.result_score).to eq(7)
+      end
+    end
+
+    context 'with score and positive final_score' do
+      let(:round_player) { create(:round_player, :with_score_six, goals: 3, final_score: 8.5) }
+
+      it 'returns final_score directly' do
+        expect(round_player.result_score).to eq(8.5)
+      end
+    end
+
+    context 'with goals and v2 deadline' do
+      let(:tournament_round) { create(:tournament_round, :with_v2_deadline) }
+      let(:round_player) { create(:round_player, :with_pos_a, :with_score_six, goals: 2, tournament_round: tournament_round) }
+
+      it 'returns score with v2 goal bonus' do
+        expect(round_player.result_score).to eq(10)
+      end
+    end
+
+    context 'with saves and non-GK position' do
+      let(:round_player) { create(:round_player, :with_score_six, :with_pos_c, saves: 6) }
+
+      it 'returns score without saves bonus' do
+        expect(round_player.result_score).to eq(6)
+      end
+    end
   end
 
   describe '#club_played_match?' do

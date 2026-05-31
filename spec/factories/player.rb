@@ -88,6 +88,12 @@ FactoryBot.define do
       end
     end
 
+    trait :with_pos_ds do
+      after(:create) do |player|
+        create(:player_position, player: player, position: Position.find_by(name: Position::LEFT_BACK))
+      end
+    end
+
     trait :with_pos_dd do
       after(:create) do |player|
         create(:player_position, player: player, position: Position.find_by(name: Position::RIGHT_BACK))
