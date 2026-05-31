@@ -424,6 +424,51 @@ RSpec.describe Tour do
         expect(tour.ordered_lineups).to eq([lineup_two, lineup_one, lineup_three])
       end
     end
+
+    context 'with lineups with equal total score' do
+      let(:league) { create(:league, :fanta_league) }
+      let(:fanta_tour) do
+        create(:closed_tour, league: league, tournament_round: create(:tournament_round, tournament: league.tournament))
+      end
+
+      it 'orders by best main score as tiebreaker' do
+        lineup_one = create(:lineup, :with_fanta_score_five, tour: fanta_tour, final_score: 55)
+        lineup_two = create(:lineup, :with_fanta_score_five, tour: fanta_tour, final_score: 55)
+        lineup_two.match_players.main.last.round_player.update(score: 9.0)
+
+        expect(fanta_tour.ordered_lineups).to eq([lineup_two, lineup_one])
+      end
+
+      it 'orders by best bench score when main scores are equal' do
+        lineup_one = create(:lineup, :with_fanta_score_five, tour: fanta_tour, final_score: 55)
+        lineup_two = create(:lineup, :with_fanta_score_five, tour: fanta_tour, final_score: 55)
+        lineup_two.match_players.subs_bench.last.round_player.update(score: 9.0)
+
+        expect(fanta_tour.ordered_lineups).to eq([lineup_two, lineup_one])
+      end
+
+      context 'when bench total score differs' do
+        let(:lineup_one) { create(:lineup, :with_fanta_score_five, tour: fanta_tour, final_score: 55) }
+        let(:lineup_two) { create(:lineup, :with_fanta_score_five, tour: fanta_tour, final_score: 55) }
+
+        before do
+          lineup_one.match_players.subs_bench.first.round_player.update(score: 9.0)
+          lineup_two.match_players.subs_bench.first.round_player.update(score: 9.0)
+          lineup_two.match_players.subs_bench.second.round_player.update(score: 9.0)
+        end
+
+        it 'orders by bench total score' do
+          expect(fanta_tour.ordered_lineups).to eq([lineup_two, lineup_one])
+        end
+      end
+
+      it 'orders by created_at when all scores are equal' do
+        lineup_one = create(:lineup, :with_fanta_score_five, tour: fanta_tour, final_score: 55, created_at: 1.hour.ago)
+        lineup_two = create(:lineup, :with_fanta_score_five, tour: fanta_tour, final_score: 55, created_at: 2.hours.ago)
+
+        expect(fanta_tour.ordered_lineups).to eq([lineup_two, lineup_one])
+      end
+    end
   end
 
   describe '#autobot' do

@@ -282,4 +282,58 @@ RSpec.describe Lineup do
       end
     end
   end
+
+  describe '#best_main_score' do
+    context 'without match players' do
+      it { expect(lineup.best_main_score).to eq(0) }
+    end
+
+    context 'with main match players at equal scores' do
+      it 'returns the score' do
+        expect(lineup_team_score_five.best_main_score).to eq(5.0)
+      end
+    end
+
+    context 'with main match players at varying scores' do
+      before { lineup_team_score_five.match_players.main.last.round_player.update(score: 9.0) }
+
+      it 'returns max score among main players' do
+        expect(lineup_team_score_five.best_main_score).to eq(9.0)
+      end
+    end
+  end
+
+  describe '#best_bench_score' do
+    context 'without match players' do
+      it { expect(lineup.best_bench_score).to eq(0) }
+    end
+
+    context 'with bench match players at equal scores' do
+      it 'returns the score' do
+        expect(lineup_team_score_five.best_bench_score).to eq(5.0)
+      end
+    end
+
+    context 'with bench match players at varying scores' do
+      before { lineup_team_score_five.match_players.subs_bench.last.round_player.update(score: 9.0) }
+
+      it 'returns max score among bench players' do
+        expect(lineup_team_score_five.best_bench_score).to eq(9.0)
+      end
+    end
+  end
+
+  describe '#bench_total_score' do
+    context 'without match players' do
+      it { expect(lineup.bench_total_score).to eq(0) }
+    end
+
+    context 'with bench match players' do
+      let(:fanta_lineup) { create(:lineup, :with_fanta_score_five) }
+
+      it 'returns sum of bench player scores' do
+        expect(fanta_lineup.bench_total_score).to eq(25.0)
+      end
+    end
+  end
 end

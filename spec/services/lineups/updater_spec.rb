@@ -54,8 +54,8 @@ RSpec.describe Lineups::Updater do
     context 'when fanta tour with lineups with scores' do
       let(:league) { create(:league, :fanta_league) }
       let(:tour) { create(:closed_tour, league: league, tournament_round: create(:tournament_round, tournament: league.tournament)) }
-      let!(:lineup_one) { create(:lineup, :with_team_and_score_five, tour: tour) }
-      let!(:lineup_two) { create(:lineup, :with_team_and_score_eight, tour: tour) }
+      let!(:lineup_one) { create(:lineup, :with_fanta_score_five, tour: tour) }
+      let!(:lineup_two) { create(:lineup, :with_fanta_score_eight, tour: tour) }
 
       before do
         updater.call
@@ -91,6 +91,78 @@ RSpec.describe Lineups::Updater do
 
       it 'updates last lineup position' do
         expect(lineup_two.reload.position).to eq(1)
+      end
+    end
+
+    context 'when fanta tour with lineups with equal total score' do
+      let(:league) { create(:league, :fanta_league) }
+      let(:tour) { create(:closed_tour, league: league, tournament_round: create(:tournament_round, tournament: league.tournament)) }
+      let!(:lineup_one) { create(:lineup, :with_fanta_score_five, tour: tour) }
+      let!(:lineup_two) { create(:lineup, :with_fanta_score_five, tour: tour) }
+
+      context 'when tiebreak by best main score' do
+        before do
+          non_defenders = lineup_two.match_players.main
+                                    .reject { |mp| Position::DEFENCE.include?(mp.real_position) }
+          non_defenders.last.round_player.update(score: 9.0)
+          non_defenders.first.round_player.update(score: 1.0)
+          updater.call
+        end
+
+        it 'assigns position 1 to lineup with higher best main score' do
+          expect(lineup_two.reload.position).to eq(1)
+        end
+
+        it 'assigns position 2 to lineup with lower best main score' do
+          expect(lineup_one.reload.position).to eq(2)
+        end
+      end
+
+      context 'when tiebreak by best bench score' do
+        before do
+          lineup_two.match_players.subs_bench.last.round_player.update(score: 9.0)
+          updater.call
+        end
+
+        it 'assigns position 1 to lineup with higher best bench score' do
+          expect(lineup_two.reload.position).to eq(1)
+        end
+
+        it 'assigns position 2 to lineup with lower best bench score' do
+          expect(lineup_one.reload.position).to eq(2)
+        end
+      end
+
+      context 'when tiebreak by bench total score' do
+        before do
+          lineup_one.match_players.subs_bench.first.round_player.update(score: 9.0)
+          lineup_two.match_players.subs_bench.first.round_player.update(score: 9.0)
+          lineup_two.match_players.subs_bench.second.round_player.update(score: 9.0)
+          updater.call
+        end
+
+        it 'assigns position 1 to lineup with higher bench total score' do
+          expect(lineup_two.reload.position).to eq(1)
+        end
+
+        it 'assigns position 2 to lineup with lower bench total score' do
+          expect(lineup_one.reload.position).to eq(2)
+        end
+      end
+
+      context 'when tiebreak by created_at' do
+        let!(:lineup_one) { create(:lineup, :with_fanta_score_five, tour: tour, created_at: 1.hour.ago) }
+        let!(:lineup_two) { create(:lineup, :with_fanta_score_five, tour: tour, created_at: 2.hours.ago) }
+
+        before { updater.call }
+
+        it 'assigns position 1 to lineup submitted earlier' do
+          expect(lineup_two.reload.position).to eq(1)
+        end
+
+        it 'assigns position 2 to lineup submitted later' do
+          expect(lineup_one.reload.position).to eq(2)
+        end
       end
     end
   end

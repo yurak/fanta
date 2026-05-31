@@ -126,6 +126,18 @@ class Lineup < ApplicationRecord
     match_players.joins(:round_player).main.reorder('round_players.final_score': :desc).first&.player
   end
 
+  def best_main_score
+    match_players.main.map(&:total_score).max || 0
+  end
+
+  def best_bench_score
+    match_players.subs_bench.map(&:total_score).max || 0
+  end
+
+  def bench_total_score
+    match_players.subs_bench.sum(&:total_score)
+  end
+
   def average_bench
     subs = match_players.with_score.subs_bench
     return 0 if subs.empty?

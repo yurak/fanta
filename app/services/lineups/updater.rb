@@ -20,14 +20,9 @@ module Lineups
     private
 
     def update_points
-      i = 0
-      tour.ordered_lineups.group_by(&:total_score).each_value do |lineups|
+      tour.ordered_lineups.each_with_index do |lineup, i|
         points = i < Results::FantaUpdater::POINTS_MAP.length ? Results::FantaUpdater::POINTS_MAP[i] : 0
-
-        lineups.each do |lineup|
-          lineup.update(points: points, position: i + 1)
-        end
-        i += lineups.count
+        lineup.update(points: points, position: i + 1)
       end
     end
   end
