@@ -149,6 +149,12 @@ FactoryBot.define do
       end
     end
 
+    trait :with_pos_t do
+      after(:create) do |player|
+        create(:player_position, player: player, position: Position.find_by(name: Position::ATTACKING_MF))
+      end
+    end
+
     trait :with_pos_w do
       after(:create) do |player|
         create(:player_position, player: player, position: Position.find_by(name: Position::WINGER))

@@ -398,6 +398,84 @@ RSpec.describe RoundPlayer do
     end
   end
 
+  describe '#bonus_v2?' do
+    context 'when tournament_round has no deadline' do
+      let(:round_player) { create(:round_player, tournament_round: create(:tournament_round, deadline: nil)) }
+
+      it { expect(round_player.bonus_v2?).to be(true) }
+    end
+
+    context 'when deadline is before BONUS_V2_DATE' do
+      let(:round_player) { create(:round_player, tournament_round: create(:tournament_round, deadline: Date.new(2026, 5, 31))) }
+
+      it { expect(round_player.bonus_v2?).to be(false) }
+    end
+
+    context 'when deadline equals BONUS_V2_DATE' do
+      let(:round_player) { create(:round_player, tournament_round: create(:tournament_round, :with_v2_deadline)) }
+
+      it { expect(round_player.bonus_v2?).to be(true) }
+    end
+  end
+
+  describe '#goal_bonus_v1' do
+    context 'with Pc position' do
+      let(:round_player) { create(:round_player, :with_pos_pc) }
+
+      it { expect(round_player.goal_bonus_v1).to eq(RoundPlayer::STRIKER_GOAL_BONUS) }
+    end
+
+    context 'with A position' do
+      let(:round_player) { create(:round_player, :with_pos_a) }
+
+      it { expect(round_player.goal_bonus_v1).to eq(RoundPlayer::FORWARD_GOAL_BONUS) }
+    end
+
+    context 'with T position' do
+      let(:round_player) { create(:round_player, :with_pos_t) }
+
+      it { expect(round_player.goal_bonus_v1).to eq(RoundPlayer::GOAL_BONUS) }
+    end
+
+    context 'with W position' do
+      let(:round_player) { create(:round_player, :with_pos_w) }
+
+      it { expect(round_player.goal_bonus_v1).to eq(RoundPlayer::GOAL_BONUS) }
+    end
+  end
+
+  describe '#goal_bonus_v2' do
+    context 'with Pc position' do
+      let(:round_player) { create(:round_player, :with_pos_pc) }
+
+      it { expect(round_player.goal_bonus_v2).to eq(RoundPlayer::STRIKER_GOAL_BONUS) }
+    end
+
+    context 'with A position' do
+      let(:round_player) { create(:round_player, :with_pos_a) }
+
+      it { expect(round_player.goal_bonus_v2).to eq(RoundPlayer::STRIKER_GOAL_BONUS) }
+    end
+
+    context 'with T position' do
+      let(:round_player) { create(:round_player, :with_pos_t) }
+
+      it { expect(round_player.goal_bonus_v2).to eq(RoundPlayer::AM_W_GOAL_BONUS) }
+    end
+
+    context 'with W position' do
+      let(:round_player) { create(:round_player, :with_pos_w) }
+
+      it { expect(round_player.goal_bonus_v2).to eq(RoundPlayer::AM_W_GOAL_BONUS) }
+    end
+
+    context 'with C position' do
+      let(:round_player) { create(:round_player, :with_pos_c) }
+
+      it { expect(round_player.goal_bonus_v2).to eq(RoundPlayer::GOAL_BONUS) }
+    end
+  end
+
   describe '#related_club' do
     context 'without round player club' do
       let!(:round_player) { create(:round_player, club: nil) }
