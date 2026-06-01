@@ -590,10 +590,117 @@
 
       .module-image {
         width: 100%;
-        text-align: center;
 
-        img {
+        .match-lineups {
+          width: 368px;
+          margin: 16px auto;
+        }
+
+        .match-lineups-field {
+          position: relative;
+          background-color: #4EAD57;
           border-radius: 8px;
+          overflow: hidden;
+
+          .field_skeleton {
+            width: 100%;
+            padding: 10px;
+          }
+
+          .match-modules {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            height: 100%;
+
+            .match-module-lineup {
+              width: 100%;
+              height: 95%;
+              padding: 14px;
+              display: grid;
+              grid-template-columns: repeat(7, 45px);
+              column-gap: 4px;
+              grid-row-gap: 10px;
+
+              .slot-d1 { grid-area: d1; }
+              .slot-a2 { grid-area: a2; }
+              .slot-b2 { grid-area: b2; }
+              .slot-c2 { grid-area: c2; }
+              .slot-d2 { grid-area: d2; }
+              .slot-e2 { grid-area: e2; }
+              .slot-f2 { grid-area: f2; }
+              .slot-g2 { grid-area: g2; }
+              .slot-a3 { grid-area: a3; }
+              .slot-b3 { grid-area: b3; }
+              .slot-c3 { grid-area: c3; }
+              .slot-d3 { grid-area: d3; }
+              .slot-e3 { grid-area: e3; }
+              .slot-f3 { grid-area: f3; }
+              .slot-g3 { grid-area: g3; }
+              .slot-a4 { grid-area: a4; }
+              .slot-b4 { grid-area: b4; }
+              .slot-c4 { grid-area: c4; }
+              .slot-d4 { grid-area: d4; }
+              .slot-e4 { grid-area: e4; }
+              .slot-f4 { grid-area: f4; }
+              .slot-g4 { grid-area: g4; }
+              .slot-c5 { grid-area: c5; }
+              .slot-d5 { grid-area: d5; }
+              .slot-e5 { grid-area: e5; }
+            }
+
+            .match-module-item {
+              width: 100%;
+              height: 100%;
+
+              .match-module-item-pos {
+                color: #FFFFFF;
+                text-align: center;
+                font-size: 8px;
+                width: 160%;
+                margin: 0 -30%;
+                padding-top: 24px;
+
+                .module-position-block {
+                  margin: auto;
+                  height: 18px;
+
+                  .player-position {
+                    padding: 1px 4px 0;
+                    font-size: 10px;
+                  }
+                }
+              }
+
+              .match-module-item-player-wrapper {
+                width: 160%;
+                margin: 0 -30%;
+              }
+
+              .match-module-item-player {
+                font-family: 'Nunito SemiBold';
+                background-color: transparent;
+                color: #000000;
+                text-align: center;
+                font-size: 10px;
+                line-height: 14px;
+                min-height: 16px;
+                width: fit-content;
+                margin: 4px auto 0;
+                padding: 1px 4px;
+                white-space: nowrap;
+              }
+            }
+
+            .match-module-home {
+              grid-template-areas:
+                "a1 b1 c1 d1 e1 f1 g1"
+                "a2 b2 c2 d2 e2 f2 g2"
+                "a3 b3 c3 d3 e3 f3 g3"
+                "a4 b4 c4 d4 e4 f4 g4"
+                "a5 b5 c5 d5 e5 f5 g5";
+            }
+          }
         }
       }
 

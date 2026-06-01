@@ -18,6 +18,7 @@ class LineupsController < ApplicationController
 
   def edit
     team_module
+    preload_round_matches
 
     redirect_to tour_path(tour) unless editable?
   end
@@ -118,7 +119,7 @@ class LineupsController < ApplicationController
 
     ActiveRecord::Associations::Preloader.new.preload(
       t_rounds,
-      [{ tournament_matches: %i[host_club guest_club] }, :national_matches]
+      [{ tournament_matches: %i[host_club guest_club] }, { national_matches: %i[host_team guest_team] }]
     )
   end
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2026_06_01_100000) do
+ActiveRecord::Schema.define(version: 2026_06_01_110000) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -106,6 +106,7 @@ ActiveRecord::Schema.define(version: 2026_06_01_100000) do
     t.string "tm_name"
     t.string "tm_url"
     t.text "reserve_clubs", default: "--- []\n"
+    t.text "reserve_club_ids", default: "--- []"
     t.index ["code"], name: "index_clubs_on_code", unique: true
     t.index ["ec_tournament_id"], name: "index_clubs_on_ec_tournament_id"
     t.index ["name"], name: "index_clubs_on_name", unique: true

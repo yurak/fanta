@@ -45,7 +45,7 @@ module Players
 
         {
           first_name: first_name, name: last_name, nationality: nationality,
-          club_id: club&.id, club_name: club&.name, tm_club_name: tm_club_name,
+          club_id: club&.id, club_name: club&.name, tm_club_name: tm_club_name, tm_club_id: tm_club_id,
           position1: position1, position2: position2, position3: position3,
           tm_url: tm_url, tm_pos1: tm_pos1, tm_pos2: tm_pos2, tm_pos3: tm_pos3,
           tm_price: price, number: number, birth_date: birth_date, height: height
@@ -99,7 +99,8 @@ module Players
       def club
         return nil if tm_club_id.blank?
 
-        @club ||= Club.all.find { |c| c.tm_url.to_s.split('/').last == tm_club_id }
+        @club ||= Club.all.find { |c| c.tm_url.to_s.split('/').last == tm_club_id } ||
+          Club.all.find { |c| c.reserve_club_ids.include?(tm_club_id) }
       end
 
       def tm_club_id
