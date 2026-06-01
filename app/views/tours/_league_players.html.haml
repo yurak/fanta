@@ -8,7 +8,7 @@
             %object{data: r_player.player.avatar_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
               = image_tag('avatar.png')
           .round-player-show-kit
-            %object{data: tour.national? ? r_player.player.national_kit_path : (r_player.related_club&.kit_path || r_player.player.kit_path), type: ApplicationRecord::CONTENT_TYPE_PNG}
+            %object{data: tour.national? ? r_player.player.national_kit_path : r_player.kit_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
               = image_tag('kit_small_default.png')
         .round-player-stats-name= r_player.player.name
       .round-player-stats-team

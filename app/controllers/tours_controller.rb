@@ -16,7 +16,7 @@ class ToursController < ApplicationController
 
   def tournament_players
     if tour
-      @tournament_players = tour.round_players.with_score.includes(player: %i[positions teams club])
+      @tournament_players = tour.round_players.with_score.includes(:club, player: %i[positions teams club])
                                 .sort_by { |rp| -rp.result_score }.take(5)
 
       @teams_by_player = {}
