@@ -40,6 +40,35 @@ RSpec.describe 'Tours' do
     end
   end
 
+  describe 'GET #show fanta tour with national matches' do
+    let(:fanta_league) { create(:league, :fanta_league) }
+    let(:fanta_round) { create(:tournament_round, tournament: fanta_league.tournament) }
+    let(:fanta_tour) { create(:tour, league: fanta_league, tournament_round: fanta_round) }
+
+    login_user
+
+    context 'when national match has time and date' do
+      before do
+        create(:national_match, tournament_round: fanta_round, time: '20:00', date: 'JUN 15, 2026')
+        get tour_path(fanta_tour)
+      end
+
+      it { expect(response).to be_successful }
+      it { expect(response).to have_http_status(:ok) }
+      it { expect(response).to render_template(:show) }
+    end
+
+    context 'when national match has no time' do
+      before do
+        create(:national_match, tournament_round: fanta_round, time: '', date: '')
+        get tour_path(fanta_tour)
+      end
+
+      it { expect(response).to be_successful }
+      it { expect(response).to have_http_status(:ok) }
+    end
+  end
+
   describe 'GET #tournament_players' do
     context 'when user is logged out' do
       before do
