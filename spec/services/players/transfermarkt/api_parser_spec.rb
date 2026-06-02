@@ -176,6 +176,99 @@ RSpec.describe Players::Transfermarkt::ApiParser do
       end
     end
 
+    describe 'retry on connection errors' do
+      subject(:result) { described_class.call(tm_id, position_skip: true) }
+
+      let(:success_response) do
+        instance_double(RestClient::Response, body: JSON.generate({ 'data' => api_response }))
+      end
+
+      before { allow_any_instance_of(described_class).to receive(:sleep) }
+
+      shared_examples 'retries once and succeeds' do |error_class|
+        before do
+          call_count = 0
+          allow(RestClient::Request).to receive(:execute) do
+            call_count += 1
+            raise error_class if call_count == 1
+
+            success_response
+          end
+        end
+
+        it 'returns result' do
+          expect(result).to be_a(Hash)
+        end
+
+        it 'calls the API twice' do
+          result
+          expect(RestClient::Request).to have_received(:execute).twice
+        end
+      end
+
+      context 'when Errno::ECONNRESET occurs once' do
+        include_examples 'retries once and succeeds', Errno::ECONNRESET
+      end
+
+      context 'when OpenSSL::SSL::SSLError occurs once' do
+        include_examples 'retries once and succeeds', OpenSSL::SSL::SSLError
+      end
+
+      context 'when RestClient::ServerBrokeConnection occurs once' do
+        include_examples 'retries once and succeeds', RestClient::ServerBrokeConnection
+      end
+
+      context 'when error occurs on all 3 retries' do
+        before do
+          allow(RestClient::Request).to receive(:execute).and_raise(Errno::ECONNRESET)
+        end
+
+        it 'raises after exhausting retries' do
+          expect { result }.to raise_error(Errno::ECONNRESET)
+        end
+
+        it 'attempts 4 times total (1 original + 3 retries)' do
+          expect { result }.to raise_error(Errno::ECONNRESET)
+          expect(RestClient::Request).to have_received(:execute).exactly(4).times
+        end
+      end
+
+      context 'when error occurs exactly 3 times then succeeds' do
+        before do
+          call_count = 0
+          allow(RestClient::Request).to receive(:execute) do
+            call_count += 1
+            raise Errno::ECONNRESET if call_count <= 3
+
+            success_response
+          end
+        end
+
+        it 'succeeds on the 4th attempt' do
+          expect(result).to be_a(Hash)
+        end
+      end
+
+      context 'backoff timing' do
+        it 'sleeps 10s on first retry and 20s on second retry' do
+          sleep_args = []
+          allow_any_instance_of(described_class).to receive(:sleep) { |_, n| sleep_args << n }
+
+          call_count = 0
+          allow(RestClient::Request).to receive(:execute) do
+            call_count += 1
+            raise Errno::ECONNRESET if call_count <= 2
+
+            success_response
+          end
+
+          result
+
+          expect(sleep_args).to eq([10, 20])
+        end
+      end
+    end
+
     describe 'caching' do
       let(:cache_path) { Rails.root.join('tmp', 'transfermarkt_cache', "player_api_#{tm_id}.json") }
 

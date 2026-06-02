@@ -157,15 +157,27 @@ module Players
         cached = read_cache
         return cached if cached
 
-        response = RestClient::Request.execute(
-          method: :get,
-          url: "#{API_URL}/#{tm_id}",
-          headers: {
-            'User-Agent' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:146.0) Gecko/20100101 Firefox/146.0',
-            'Accept' => 'application/json'
-          },
-          verify_ssl: false
-        )
+        retries = 0
+        begin
+          response = RestClient::Request.execute(
+            method: :get,
+            url: "#{API_URL}/#{tm_id}",
+            headers: {
+              'User-Agent' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:146.0) Gecko/20100101 Firefox/146.0',
+              'Accept' => 'application/json'
+            },
+            verify_ssl: false
+          )
+        rescue Errno::ECONNRESET, OpenSSL::SSL::SSLError, RestClient::ServerBrokeConnection => e
+          retries += 1
+          raise if retries > 3
+
+          wait = retries * 10
+          puts "#{e.class} for tm_id=#{tm_id}, retry #{retries}/3 in #{wait}s..."
+          sleep(wait)
+          retry
+        end
+
         result = JSON.parse(response.body)['data']
         write_cache(result)
         result
