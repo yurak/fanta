@@ -83,8 +83,8 @@ class Tour < ApplicationRecord
 
   def ordered_lineups
     lineups.includes(:team, match_players: :round_player).sort do |a, b|
-      [b.total_score, b.best_main_score, b.best_bench_score, b.bench_total_score, a.created_at] <=>
-        [a.total_score, a.best_main_score, a.best_bench_score, a.bench_total_score, b.created_at]
+      [b.total_score, b.best_main_score, b.best_bench_score, b.bench_total_score, a.last_edited_at] <=>
+        [a.total_score, a.best_main_score, a.best_bench_score, a.bench_total_score, b.last_edited_at]
     end
   end
 

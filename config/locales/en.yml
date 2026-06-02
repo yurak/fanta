@@ -1385,7 +1385,7 @@ en:
         tiebreak1: "Highest score among starting lineup players (after substitutions)"
         tiebreak2: "Highest score among reserve players after substitutions"
         tiebreak3: "Total sum of reserve players' scores"
-        tiebreak4: "Squad submission time (earlier submission gets priority)"
+        tiebreak4: "Squad last edit time (earlier save gets priority)"
         ol1: "Total score - the sum of points scored by the manager during the season."
         #        ol2: "Scoring according to the Formula 1 system - points are awarded to the top 10 teams of each game round. The manager who scored the most points on the game day gets 25 points, the second result - 18 points, and so on: 15, 12, 10, 8, 6, 4, 2, 1 respectively."
         ol2: "Scoring according to the biathlon system - points are awarded to the 40 best teams of each game round. The manager who scored the most points on the game day gets 60 points, the second result - 54 points, and so on: 48, 43, 40, 38, 36, 34, 32, 31... 2, 1 respectively."

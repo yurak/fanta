@@ -462,9 +462,9 @@ RSpec.describe Tour do
         end
       end
 
-      it 'orders by created_at when all scores are equal' do
-        lineup_one = create(:lineup, :with_fanta_score_five, tour: fanta_tour, final_score: 55, created_at: 1.hour.ago)
-        lineup_two = create(:lineup, :with_fanta_score_five, tour: fanta_tour, final_score: 55, created_at: 2.hours.ago)
+      it 'orders by last_edited_at when all scores are equal' do
+        lineup_one = create(:lineup, :with_fanta_score_five, tour: fanta_tour, final_score: 55, last_edited_at: 1.hour.ago)
+        lineup_two = create(:lineup, :with_fanta_score_five, tour: fanta_tour, final_score: 55, last_edited_at: 2.hours.ago)
 
         expect(fanta_tour.ordered_lineups).to eq([lineup_two, lineup_one])
       end

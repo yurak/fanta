@@ -157,30 +157,36 @@ module Players
         cached = read_cache
         return cached if cached
 
+        result = JSON.parse(execute_with_retry.body)['data']
+        write_cache(result)
+        result
+      end
+
+      def execute_with_retry
         retries = 0
         begin
-          response = RestClient::Request.execute(
-            method: :get,
-            url: "#{API_URL}/#{tm_id}",
-            headers: {
-              'User-Agent' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:146.0) Gecko/20100101 Firefox/146.0',
-              'Accept' => 'application/json'
-            },
-            verify_ssl: false
-          )
+          api_request
         rescue Errno::ECONNRESET, OpenSSL::SSL::SSLError, RestClient::ServerBrokeConnection => e
           retries += 1
           raise if retries > 3
 
           wait = retries * 10
-          puts "#{e.class} for tm_id=#{tm_id}, retry #{retries}/3 in #{wait}s..."
+          Rails.logger.info "#{e.class} for tm_id=#{tm_id}, retry #{retries}/3 in #{wait}s..."
           sleep(wait)
           retry
         end
+      end
 
-        result = JSON.parse(response.body)['data']
-        write_cache(result)
-        result
+      def api_request
+        RestClient::Request.execute(
+          method: :get,
+          url: "#{API_URL}/#{tm_id}",
+          headers: {
+            'User-Agent' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:146.0) Gecko/20100101 Firefox/146.0',
+            'Accept' => 'application/json'
+          },
+          verify_ssl: false
+        )
       end
 
       def cache_path

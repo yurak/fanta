@@ -46,7 +46,7 @@ class LineupsController < ApplicationController
     else
       if editable?
         recount_round_players_params
-        lineup.update(update_lineup_params)
+        lineup.update(update_lineup_params.merge(last_edited_at: Time.current))
       end
 
       redirect_to tour_path(tour)

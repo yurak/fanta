@@ -13,6 +13,8 @@ class Lineup < ApplicationRecord
 
   enum creation_type: { manual: 0, copied: 1, auto_cloned: 2 }
 
+  before_create { self.last_edited_at ||= Time.current }
+
   scope :closed, ->(league_id) { where(tour_id: League.find(league_id).tours.closed.select(:id)) }
   scope :finished, -> { joins(:tour).where(tours: { status: :closed }) }
   scope :mantra, -> { joins(tour: { tournament_round: :tournament }).where(tournaments: { mode: :mantra }) }

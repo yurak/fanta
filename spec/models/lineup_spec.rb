@@ -323,6 +323,21 @@ RSpec.describe Lineup do
     end
   end
 
+  describe '#last_edited_at' do
+    context 'when lineup is created' do
+      it 'sets last_edited_at automatically' do
+        lineup = create(:lineup)
+        expect(lineup.last_edited_at).to be_present
+      end
+
+      it 'does not override explicitly provided last_edited_at' do
+        time = 2.hours.ago
+        lineup = create(:lineup, last_edited_at: time)
+        expect(lineup.last_edited_at).to be_within(1.second).of(time)
+      end
+    end
+  end
+
   describe '#bench_total_score' do
     context 'without match players' do
       it { expect(lineup.bench_total_score).to eq(0) }

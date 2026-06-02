@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2026_06_01_110000) do
+ActiveRecord::Schema.define(version: 2026_06_02_133042) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -182,6 +182,7 @@ ActiveRecord::Schema.define(version: 2026_06_01_110000) do
     t.integer "points", default: 0, null: false
     t.integer "position"
     t.integer "creation_type", default: 0, null: false
+    t.datetime "last_edited_at"
     t.index ["team_id"], name: "index_lineups_on_team_id"
     t.index ["tour_id"], name: "index_lineups_on_tour_id"
   end
