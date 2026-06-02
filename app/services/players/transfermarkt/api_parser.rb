@@ -100,7 +100,7 @@ module Players
         return nil if tm_club_id.blank?
 
         @club ||= Club.all.find { |c| c.tm_url.to_s.split('/').last == tm_club_id } ||
-          Club.all.find { |c| c.reserve_club_ids.include?(tm_club_id) }
+          Club.all.find { |c| c.reserve_club_ids&.include?(tm_club_id) }
       end
 
       def tm_club_id

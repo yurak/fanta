@@ -42,7 +42,7 @@ namespace :tm do
                     .reject { |pl| [16, 19].include?(pl.club.tournament_id) }
 
     CSV.open('log/player_position_id.csv', 'ab') do |writer|
-      writer << ['id', 'name', 'club', 'tm_url', 'actual positions', 'recommended positions', 'tm_price', 'avg_price']
+      writer << ['id', 'name', 'club', 'tm_url', 'old positions', 'new positions', 'tm_price', 'avg_price']
       players.each do |pl|
         puts pl.id
         begin
