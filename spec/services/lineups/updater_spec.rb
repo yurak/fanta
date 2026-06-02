@@ -150,17 +150,17 @@ RSpec.describe Lineups::Updater do
         end
       end
 
-      context 'when tiebreak by created_at' do
-        let!(:lineup_one) { create(:lineup, :with_fanta_score_five, tour: tour, created_at: 1.hour.ago) }
-        let!(:lineup_two) { create(:lineup, :with_fanta_score_five, tour: tour, created_at: 2.hours.ago) }
+      context 'when tiebreak by last_edited_at' do
+        let!(:lineup_one) { create(:lineup, :with_fanta_score_five, tour: tour, last_edited_at: 1.hour.ago) }
+        let!(:lineup_two) { create(:lineup, :with_fanta_score_five, tour: tour, last_edited_at: 2.hours.ago) }
 
         before { updater.call }
 
-        it 'assigns position 1 to lineup submitted earlier' do
+        it 'assigns position 1 to lineup saved earlier' do
           expect(lineup_two.reload.position).to eq(1)
         end
 
-        it 'assigns position 2 to lineup submitted later' do
+        it 'assigns position 2 to lineup saved later' do
           expect(lineup_one.reload.position).to eq(2)
         end
       end
