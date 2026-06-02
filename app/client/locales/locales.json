@@ -628,6 +628,7 @@
       "next": "NEXT",
       "next_round": "ROUND",
       "not_participant": "You aren't member of the league",
+      "oferta": "Public Offer",
       "play_more_title": "Do you want to play other leagues as well? Create a request!",
       "players": "Players",
       "postpone_round": "Postpone r...",
@@ -644,6 +645,7 @@
       "statistics": "Statistics",
       "table": "Table",
       "teams": "Teams",
+      "terms": "Terms",
       "tips": "🤔 For beginners"
     },
     "helpers": {
@@ -2522,6 +2524,7 @@
       "next": "НАСТУПНИЙ",
       "next_round": "РАУНД",
       "not_participant": "Ви не є учасником ліги",
+      "oferta": "Публічна оферта",
       "play_more_title": "Хочеш зіграти ще й інші ліги? Залишай заявку!",
       "players": "Гравці",
       "postpone_round": "Відкласти р..",
@@ -2538,6 +2541,7 @@
       "statistics": "Статистика",
       "table": "Таблиця",
       "teams": "Команди",
+      "terms": "Умови участі",
       "tips": "🤔 Поради новачкам"
     },
     "join": {
