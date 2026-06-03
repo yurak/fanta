@@ -33,7 +33,9 @@ module Api
     private
 
     def player
-      @player ||= Player.find_by(id: params[:id])
+      return @player if defined?(@player)
+
+      @player = Player.find_by(id: params[:id])
     end
 
     def query_params

@@ -47,6 +47,8 @@ class SlotsController < ApplicationController
   end
 
   def tour
-    @tour ||= Tour.find_by(id: slots_params[:tour_id])
+    return @tour if defined?(@tour)
+
+    @tour = Tour.find_by(id: slots_params[:tour_id])
   end
 end

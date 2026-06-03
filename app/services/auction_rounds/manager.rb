@@ -81,7 +81,7 @@ module AuctionRounds
       else
         top_bids = player_bids.group_by(&:price).first[1]
 
-        process_bid(top_bids.first) if top_bids.count == 1
+        process_bid(top_bids.first) if top_bids.one?
       end
     end
 
@@ -101,7 +101,7 @@ module AuctionRounds
     end
 
     def round_not_ready?
-      !round.active? || round.deadline.nil? || league.teams.count.zero? || bids_not_ready?
+      !round.active? || round.deadline.nil? || league.teams.none? || bids_not_ready?
     end
 
     def vacancies?

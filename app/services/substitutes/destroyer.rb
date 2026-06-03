@@ -27,7 +27,9 @@ module Substitutes
     end
 
     def substitute
-      @substitute ||= Substitute.find_by(id: subs_id)
+      return @substitute if defined?(@substitute)
+
+      @substitute = Substitute.find_by(id: subs_id)
     end
   end
 end

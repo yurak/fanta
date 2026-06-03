@@ -30,7 +30,9 @@ module Transfers
     end
 
     def player_team
-      @player_team ||= player.player_teams.find_by(team: team)
+      return @player_team if defined?(@player_team)
+
+      @player_team = player.player_teams.find_by(team: team)
     end
 
     def auction

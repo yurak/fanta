@@ -35,7 +35,7 @@ module Tours
 
     def snapshot_player_positions
       tour.lineups.each do |lineup|
-        lineup.match_players.includes(round_player: { player: :positions }).each do |mp|
+        lineup.match_players.includes(round_player: { player: :positions }).find_each do |mp|
           mp.update_column(:player_positions, mp.round_player.position_names.join('/')) # rubocop:disable Rails/SkipsModelValidations
         end
       end

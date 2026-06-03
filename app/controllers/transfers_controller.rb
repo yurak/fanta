@@ -36,7 +36,9 @@ class TransfersController < ApplicationController
   end
 
   def player
-    @player ||= Player.find_by(id: create_params[:player_id])
+    return @player if defined?(@player)
+
+    @player = Player.find_by(id: create_params[:player_id])
   end
 
   def create_params

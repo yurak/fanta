@@ -12,6 +12,8 @@
     .league-actions
       = link_to t('manage.leagues.view_league'), league_path(@league), class: 'btn btn-sm btn-outline-primary', target: '_blank'
       = link_to t('manage.leagues.edit'), edit_manage_league_path(@league), class: 'btn btn-sm btn-warning'
+      - if @league.active?
+        = button_to t('manage.leagues.refresh'), refresh_manage_league_path(@league), class: 'btn btn-sm btn-outline-info'
       - if !@league.archived? && @league.all_tours_closed?
         = button_to t('manage.leagues.archive'), archive_manage_league_path(@league), class: 'btn btn-sm btn-secondary', data: { confirm: t('manage.leagues.archive_confirm') }
 
