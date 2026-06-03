@@ -4,6 +4,11 @@ FactoryBot.define do
 
     tournament { Tournament.first || association(:tournament) }
     season { Season.last || association(:season) }
+    deadline { Date.new(2026, 1, 1) }
+
+    trait :with_v2_deadline do
+      deadline { Date.new(2026, 6, 1) }
+    end
 
     trait :with_eurocup_tournament do
       tournament { Tournament.find_by(code: Tournament::EUROPE_CL) }

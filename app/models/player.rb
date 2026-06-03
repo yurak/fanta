@@ -2,7 +2,7 @@ class Player < ApplicationRecord
   belongs_to :club
   belongs_to :national_team, optional: true
 
-  has_many :player_positions, dependent: :destroy
+  has_many :player_positions, -> { order(:position_id) }, dependent: :destroy, inverse_of: :player
   has_many :positions, -> { order(:id) }, through: :player_positions
 
   has_many :player_teams, dependent: :destroy
@@ -123,7 +123,7 @@ class Player < ApplicationRecord
   end
 
   def position_sequence_number
-    positions.first&.id
+    positions.first&.id || Float::INFINITY
   end
 
   def transfer_by(team)

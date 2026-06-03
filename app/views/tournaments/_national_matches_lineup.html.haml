@@ -19,7 +19,7 @@
             .round-tournament-match-result-text
               = "#{match.host_score}:#{match.guest_score}"
       - else
-        = match.time.presence || 'vs'
+        = match.utc_datetime ? local_time(match.utc_datetime, '%H:%M') : (match.time.presence || 'vs')
     .round-tournament-match-cell.round-tournament-match-team.round-tournament-match-guest.round-match-national
       = link_to national_team_path(match.guest_team) do
         .round-tournament-team-logo

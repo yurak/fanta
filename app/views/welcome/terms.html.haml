@@ -1,0 +1,127 @@
+.page-block
+  - if user_signed_in?
+    .web-header= render 'layouts/left_nav', league: nil
+    .mob-header= render 'layouts/mob_header', league: nil, title: 'Умови участі'
+  - else
+    = render 'layouts/header'
+  .rules-page{ class: "rules-user-#{user_signed_in?}" }
+    .rules-title
+      .rules-title-icon 📋
+      .rules-title-text Умови участі
+    .rules-content
+      .rules-text.legal-text
+
+        .rules-chapter#s1
+          .rules-chapter-text 1. Загальні положення
+          .rules-chapter-img= image_tag('rules/chapter.svg')
+        .rules-paragraph 1.1. MantraFootball є інформаційно-розважальним сервісом та онлайн-платформою, у межах якої користувачі беруть участь у fantasy football турнірах та змагальних онлайн-форматах на основі власних аналітичних, тактичних та управлінських рішень.
+        .rules-paragraph.rules-paragraph-next 1.2. Сервіс створений для:
+        %ul
+          %li агрегування, обробки та розміщення статистичної інформації на веб-платформі;
+          %li проведення fantasy football турнірів та змагальних онлайн-форматів;
+          %li менеджерської взаємодії користувачів;
+          %li формування рейтингових та турнірних досягнень.
+        .rules-paragraph.rules-paragraph-next 1.3. Участь у сервісі є добровільною та здійснюється відповідно до цих Умов.
+        .rules-paragraph.rules-paragraph-next 1.4. Метою гри є долучення до футбольного комюніті у інтерактивній формі, а не прогнозування результатів футбольних подій.
+
+        .rules-chapter.rules-chapter-green#s2
+          .rules-chapter-text 2. Характер сервісу
+          .rules-chapter-img= image_tag('rules/chapter.svg')
+        .rules-paragraph 2.1. MantraFootball є skill-based fantasy football платформою, у якій результати користувачів формуються переважно на основі:
+        %ul
+          %li спортивної аналітики;
+          %li якості управління складом;
+          %li тактичних рішень;
+          %li довгострокової стратегії користувача.
+        .rules-paragraph.rules-paragraph-next 2.2. Домінуючим фактором визначення результатів є навички, аналітичні здібності, тактичні та управлінські рішення користувача.
+        .rules-paragraph.rules-paragraph-next 2.3. Сервіс не є:
+        %ul
+          %li азартною грою;
+          %li букмекерською діяльністю;
+          %li казино;
+          %li організатором парі;
+          %li системою ставок на спортивні події.
+        .rules-paragraph.rules-paragraph-next 2.4. Участь у сервісі не передбачає:
+        %ul
+          %li здійснення ставок;
+          %li ризикування коштами з метою отримання виграшу;
+          %li виграшів у вигляді грошових коштів або майнових прав;
+          %li отримання прибутку;
+          %li виведення коштів або інших активів.
+
+        .rules-chapter.rules-chapter-brown#s3
+          .rules-chapter-text 3. Формат участі
+          .rules-chapter-img= image_tag('rules/chapter.svg')
+        .rules-paragraph 3.1. Користувачі отримують доступ до окремого функціоналу порталу:
+        %ul
+          %li безкоштовно;
+          %li шляхом оформлення підписки.
+        .rules-paragraph.rules-paragraph-next 3.2. Будь-яка оплата у сервісі є оплатою:
+        %ul
+          %li доступу до функціоналу платформи;
+          %li участі у fantasy football турнірах;
+          %li інформаційних послуг сервісу.
+        .rules-paragraph.rules-paragraph-next 3.3. Оплата не є:
+        %ul
+          %li ставкою;
+          %li парі;
+          %li ризиковою операцією;
+          %li оплатою за можливість отримання грошового виграшу.
+
+        .rules-chapter.rules-chapter-blue#s4
+          .rules-chapter-text 4. Формування результатів
+          .rules-chapter-img= image_tag('rules/chapter.svg')
+        .rules-paragraph 4.1. Результати користувачів визначаються відповідно до:
+        %ul
+          %li статистичних даних зовнішніх інформаційних провайдерів, що агрегуються на платформі;
+          %li системи нарахування балів.
+        .rules-paragraph.rules-paragraph-next 4.2. Користувачі самостійно:
+        %ul
+          %li формують склади;
+          %li здійснюють трансфери;
+          %li обирають тактику;
+          %li приймають управлінські рішення.
+        .rules-paragraph.rules-paragraph-next 4.3. Підсумкові результати залежать від сукупності рішень користувача протягом сезону або турніру.
+
+        .rules-chapter#s5
+          .rules-chapter-text 5. Відзнаки та рейтинги
+          .rules-chapter-img= image_tag('rules/chapter.svg')
+        .rules-paragraph 5.1. За результатами сезонів або турнірів окремі користувачі на розсуд адміністрації ресурсу можуть бути відзначені:
+        %ul
+          %li пам'ятними символічними відзнаками у негрошовій формі;
+          %li спеціальними умовами доступу до окремого функціоналу сервісу.
+        .rules-paragraph.rules-paragraph-next 5.2. Такі відзнаки:
+        %ul
+          %li не є грошовими виграшами;
+          %li не передбачають отримання користувачем грошових коштів або майнової вигоди;
+          %li не можуть бути обміняні на кошти чи інші активи.
+
+        .rules-chapter.rules-chapter-red#s6
+          .rules-chapter-text 6. Принципи fair play
+          .rules-chapter-img= image_tag('rules/chapter.svg')
+        .rules-paragraph 6.1. Учасники зобов'язуються дотримуватись принципів чесної гри та спортивної поведінки.
+        .rules-paragraph.rules-paragraph-next 6.2. Забороняється:
+        %ul
+          %li маніпулювання результатами;
+          %li технічне втручання у роботу сервісу;
+          %li використання сервісу всупереч законодавству України.
+
+        .rules-chapter.rules-chapter-green#s7
+          .rules-chapter-text 7. Заключні положення
+          .rules-chapter-img= image_tag('rules/chapter.svg')
+        .rules-paragraph 7.1. Адміністрація сервісу має право оновлювати правила та механіки сервісу з метою розвитку платформи та забезпечення чесної конкуренції.
+        .rules-paragraph.rules-paragraph-next 7.2. Актуальна редакція Умов участі публікується у сервісі MantraFootball.
+
+      .rules-nav
+        .rules-nav-anchor ⚓️
+        .rules-nav-list
+          .rules-nav-header Розділи
+          .rules-nav-link= link_to '1. Загальні положення', '#s1'
+          .rules-nav-link= link_to '2. Характер сервісу', '#s2'
+          .rules-nav-link= link_to '3. Формат участі', '#s3'
+          .rules-nav-link= link_to '4. Формування результатів', '#s4'
+          .rules-nav-link= link_to '5. Відзнаки та рейтинги', '#s5'
+          .rules-nav-link= link_to '6. Принципи fair play', '#s6'
+          .rules-nav-link= link_to '7. Заключні положення', '#s7'
+
+  = render 'layouts/footer'

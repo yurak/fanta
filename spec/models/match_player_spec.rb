@@ -34,7 +34,6 @@ RSpec.describe MatchPlayer do
     it { is_expected.to delegate_method(:yellow_card).to(:round_player) }
     it { is_expected.to delegate_method(:red_card).to(:round_player) }
     it { is_expected.to delegate_method(:club_played_match?).to(:round_player) }
-    it { is_expected.to delegate_method(:position_names).to(:player) }
     it { is_expected.to delegate_method(:name).to(:player) }
     it { is_expected.to delegate_method(:first_name).to(:player) }
     it { is_expected.to delegate_method(:club).to(:player) }
@@ -55,6 +54,26 @@ RSpec.describe MatchPlayer do
     context 'when round player without club' do
       it 'returns player kit path' do
         expect(match_player.kit_path).to eq(match_player.player.kit_path)
+      end
+    end
+  end
+
+  describe '#position_names' do
+    context 'without player_positions snapshot' do
+      it 'returns player position_names' do
+        expect(match_player.position_names).to eq(match_player.player.position_names)
+      end
+    end
+
+    context 'with player_positions snapshot' do
+      let(:match_player) { create(:match_player, player_positions: 'Dc/Ds') }
+
+      it 'returns positions from snapshot' do
+        expect(match_player.position_names).to eq(%w[Dc Ds])
+      end
+
+      it 'does not use player positions' do
+        expect(match_player.position_names).not_to eq(match_player.player.position_names)
       end
     end
   end

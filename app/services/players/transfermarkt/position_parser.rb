@@ -49,6 +49,7 @@ module Players
         hash = {}
         performance_data.each do |game|
           next unless game.dig('gameInformation', 'seasonId') == year
+          next if game.dig('gameInformation', 'isNationalGame')
 
           pos_id = game.dig('statistics', 'generalStatistics', 'positionId')
           next unless pos_id

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2026_05_29_120000) do
+ActiveRecord::Schema.define(version: 2026_06_02_133042) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -106,6 +106,7 @@ ActiveRecord::Schema.define(version: 2026_05_29_120000) do
     t.string "tm_name"
     t.string "tm_url"
     t.text "reserve_clubs", default: "--- []\n"
+    t.text "reserve_club_ids", default: "--- []"
     t.index ["code"], name: "index_clubs_on_code", unique: true
     t.index ["ec_tournament_id"], name: "index_clubs_on_ec_tournament_id"
     t.index ["name"], name: "index_clubs_on_name", unique: true
@@ -181,6 +182,7 @@ ActiveRecord::Schema.define(version: 2026_05_29_120000) do
     t.integer "points", default: 0, null: false
     t.integer "position"
     t.integer "creation_type", default: 0, null: false
+    t.datetime "last_edited_at"
     t.index ["team_id"], name: "index_lineups_on_team_id"
     t.index ["tour_id"], name: "index_lineups_on_tour_id"
   end
@@ -203,6 +205,7 @@ ActiveRecord::Schema.define(version: 2026_05_29_120000) do
     t.decimal "position_malus", default: "0.0"
     t.integer "subs_status", default: 0, null: false
     t.bigint "round_player_id"
+    t.string "player_positions"
     t.index ["lineup_id"], name: "index_match_players_on_lineup_id"
     t.index ["round_player_id"], name: "index_match_players_on_round_player_id"
   end

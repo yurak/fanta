@@ -13,6 +13,8 @@ class Lineup < ApplicationRecord
 
   enum creation_type: { manual: 0, copied: 1, auto_cloned: 2 }
 
+  before_create { self.last_edited_at ||= Time.current }
+
   scope :closed, ->(league_id) { where(tour_id: League.find(league_id).tours.closed.select(:id)) }
   scope :finished, -> { joins(:tour).where(tours: { status: :closed }) }
   scope :mantra, -> { joins(tour: { tournament_round: :tournament }).where(tournaments: { mode: :mantra }) }
@@ -124,6 +126,18 @@ class Lineup < ApplicationRecord
 
   def best_player
     match_players.joins(:round_player).main.reorder('round_players.final_score': :desc).first&.player
+  end
+
+  def best_main_score
+    match_players.main.map(&:total_score).max || 0
+  end
+
+  def best_bench_score
+    match_players.subs_bench.map(&:total_score).max || 0
+  end
+
+  def bench_total_score
+    match_players.subs_bench.sum(&:total_score)
   end
 
   def average_bench

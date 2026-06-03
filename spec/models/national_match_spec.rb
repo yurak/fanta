@@ -21,6 +21,28 @@ RSpec.describe NationalMatch do
     end
   end
 
+  describe '#utc_datetime' do
+    context 'when date and time are present' do
+      subject(:match) { create(:national_match, date: 'JUN 15, 2026', time: '19:00') }
+
+      it 'returns a DateTime in UTC' do
+        expect(match.utc_datetime).to eq(DateTime.parse('2026-06-15 19:00:00 UTC'))
+      end
+    end
+
+    context 'when date is blank' do
+      subject(:match) { create(:national_match, date: '', time: '19:00') }
+
+      it { expect(match.utc_datetime).to be_nil }
+    end
+
+    context 'when time is blank' do
+      subject(:match) { create(:national_match, date: 'JUN 15, 2026', time: '') }
+
+      it { expect(match.utc_datetime).to be_nil }
+    end
+  end
+
   describe '.by_t_round' do
     let(:tournament_round) { create(:tournament_round) }
     let!(:matched_match) { create(:national_match, tournament_round: tournament_round) }

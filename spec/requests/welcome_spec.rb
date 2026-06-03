@@ -70,4 +70,24 @@ RSpec.describe 'Welcome' do
     it { expect(response).to render_template(:fees) }
     it { expect(response).to have_http_status(:ok) }
   end
+
+  describe 'GET #terms' do
+    before do
+      get terms_path
+    end
+
+    it { expect(response).to be_successful }
+    it { expect(response).to render_template(:terms) }
+    it { expect(response).to have_http_status(:ok) }
+  end
+
+  describe 'GET #oferta' do
+    before do
+      get oferta_path
+    end
+
+    it { expect(response).to be_successful }
+    it { expect(response).to render_template(:oferta) }
+    it { expect(response).to have_http_status(:ok) }
+  end
 end

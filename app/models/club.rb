@@ -10,6 +10,7 @@ class Club < ApplicationRecord
                                       dependent: :destroy, inverse_of: :guest_club
 
   serialize :reserve_clubs, Array
+  serialize :reserve_club_ids, Array
 
   enum status: { active: 0, archived: 1 }
 
