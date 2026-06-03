@@ -22,7 +22,9 @@ module Api
     private
 
     def team
-      @team ||= Team.find_by(id: params[:id])
+      return @team if defined?(@team)
+
+      @team = Team.find_by(id: params[:id])
     end
   end
 end

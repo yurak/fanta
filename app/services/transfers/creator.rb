@@ -20,7 +20,9 @@ module Transfers
     private
 
     def team
-      @team ||= Team.find_by(id: params[:team_id])
+      return @team if defined?(@team)
+
+      @team = Team.find_by(id: params[:team_id])
     end
 
     def price
@@ -28,7 +30,9 @@ module Transfers
     end
 
     def player
-      @player ||= Player.find_by(id: params[:player_id])
+      return @player if defined?(@player)
+
+      @player = Player.find_by(id: params[:player_id])
     end
 
     def valid_transfer?

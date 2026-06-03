@@ -35,6 +35,7 @@ Rails.application.routes.draw do
         post :activate
         post :archive
         post :crown
+        post :refresh
       end
     end
 

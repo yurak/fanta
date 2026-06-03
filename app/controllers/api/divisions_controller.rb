@@ -22,7 +22,9 @@ module Api
     end
 
     def tournament
-      @tournament ||= Tournament.find_by(id: params[:tournament_id])
+      return @tournament if defined?(@tournament)
+
+      @tournament = Tournament.find_by(id: params[:tournament_id])
     end
 
     def season

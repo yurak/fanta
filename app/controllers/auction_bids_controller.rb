@@ -58,7 +58,9 @@ class AuctionBidsController < ApplicationController
   end
 
   def auction_bid
-    @auction_bid ||= AuctionBid.find_by(id: params[:id])
+    return @auction_bid if defined?(@auction_bid)
+
+    @auction_bid = AuctionBid.find_by(id: params[:id])
   end
 
   def auction_round

@@ -16,7 +16,9 @@ module Api
     private
 
     def league
-      @league ||= League.find_by(id: params[:league_id])
+      return @league if defined?(@league)
+
+      @league = League.find_by(id: params[:league_id])
     end
 
     def league_results

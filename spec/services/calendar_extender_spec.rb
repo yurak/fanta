@@ -25,6 +25,17 @@ RSpec.describe CalendarExtender do
       it { expect(extender.call).to be(false) }
     end
 
+    context 'when extra_tours is 0' do
+      let(:league) { create(:league, :with_ten_teams, tournament: create(:tournament, :with_38_rounds)) }
+      let(:extra_tours) { 0 }
+
+      before { CalendarCreator.call(league.id, 30) }
+
+      it 'does not add any tours' do
+        expect { extender.call }.not_to(change { league.reload.tours.count })
+      end
+    end
+
     context 'with valid params and even teams count' do
       let(:league) { create(:league, :with_ten_teams, tournament: create(:tournament, :with_36_rounds)) }
 
@@ -34,10 +45,10 @@ RSpec.describe CalendarExtender do
         expect { extender.call }.to change { league.reload.tours.count }.from(30).to(36)
       end
 
-      it 'creates matches for the new tours' do
+      it 'creates correct number of matches for every new tour' do
         extender.call
         new_tours = league.reload.tours.where(number: 31..36)
-        expect(new_tours.all? { |t| t.matches.count == 5 }).to be(true)
+        expect(new_tours.map { |t| t.matches.count }).to all(eq(5))
       end
 
       it 'does not duplicate existing tours' do
