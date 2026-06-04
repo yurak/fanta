@@ -108,6 +108,7 @@
         "index": {
           "breadcrumb": "%{model_label_plural}",
           "menu": "List",
+          "no_records": "No records found",
           "title": "List of %{model_label_plural}"
         },
         "new": {
@@ -164,6 +165,7 @@
         "char_length_of": "length of",
         "char_length_up_to": "length up to",
         "confirmation": "Yes, I'm sure",
+        "delete_file": "Delete '%{field_label}' #%{number}",
         "new_model": "%{name} (new)",
         "one_char": "character",
         "optional": "Optional",
@@ -177,10 +179,12 @@
       },
       "js": {
         "between_and_": "Between ... and ...",
+        "clear": "Clear",
         "contains": "Contains",
         "date": "Date ...",
+        "does_not_contain": "Does not contain",
         "ends_with": "Ends with",
-        "false": false,
+        "false": "False",
         "is_blank": "Is blank",
         "is_exactly": "Is exactly",
         "is_present": "Is present",
@@ -189,9 +193,10 @@
         "number": "Number ...",
         "starts_with": "Starts with",
         "this_week": "This week",
+        "time": "Time ...",
         "today": "Today",
         "too_many_objects": "Too many objects, use search box above",
-        "true": true,
+        "true": "True",
         "yesterday": "Yesterday"
       },
       "loading": "Loading...",
@@ -457,19 +462,19 @@
     "datetime": {
       "distance_in_words": {
         "about_x_hours": {
-          "one": "about 1 hour",
+          "one": "about %{count} hour",
           "other": "about %{count} hours"
         },
         "about_x_months": {
-          "one": "about 1 month",
+          "one": "about %{count} month",
           "other": "about %{count} months"
         },
         "about_x_years": {
-          "one": "about 1 year",
+          "one": "about %{count} year",
           "other": "about %{count} years"
         },
         "almost_x_years": {
-          "one": "almost 1 year",
+          "one": "almost %{count} year",
           "other": "almost %{count} years"
         },
         "half_a_minute": "half a minute",
@@ -478,31 +483,31 @@
           "other": "less than %{count} minutes"
         },
         "less_than_x_seconds": {
-          "one": "less than 1 second",
+          "one": "less than %{count} second",
           "other": "less than %{count} seconds"
         },
         "over_x_years": {
-          "one": "over 1 year",
+          "one": "over %{count} year",
           "other": "over %{count} years"
         },
         "x_days": {
-          "one": "1 day",
+          "one": "%{count} day",
           "other": "%{count} days"
         },
         "x_minutes": {
-          "one": "1 minute",
+          "one": "%{count} minute",
           "other": "%{count} minutes"
         },
         "x_months": {
-          "one": "1 month",
+          "one": "%{count} month",
           "other": "%{count} months"
         },
         "x_seconds": {
-          "one": "1 second",
+          "one": "%{count} second",
           "other": "%{count} seconds"
         },
         "x_years": {
-          "one": "1 year",
+          "one": "%{count} year",
           "other": "%{count} years"
         }
       },
@@ -534,6 +539,7 @@
         "expired": "has expired, please request a new one",
         "greater_than": "must be greater than %{count}",
         "greater_than_or_equal_to": "must be greater than or equal to %{count}",
+        "in": "must be in %{count}",
         "inclusion": "is not included in the list",
         "invalid": "is invalid",
         "less_than": "must be less than %{count}",
@@ -553,22 +559,22 @@
         "required": "must exist",
         "taken": "has already been taken",
         "too_long": {
-          "one": "is too long (maximum is 1 character)",
+          "one": "is too long (maximum is %{count} character)",
           "other": "is too long (maximum is %{count} characters)"
         },
         "too_short": {
-          "one": "is too short (minimum is 1 character)",
+          "one": "is too short (minimum is %{count} character)",
           "other": "is too short (minimum is %{count} characters)"
         },
         "wrong_length": {
-          "one": "is the wrong length (should be 1 character)",
+          "one": "is the wrong length (should be %{count} character)",
           "other": "is the wrong length (should be %{count} characters)"
         }
       },
       "template": {
         "body": "There were problems with the following fields:",
         "header": {
-          "one": "1 error prohibited this %{model} from being saved",
+          "one": "%{count} error prohibited this %{model} from being saved",
           "other": "%{count} errors prohibited this %{model} from being saved"
         }
       },

@@ -64,6 +64,7 @@ class Player < ApplicationRecord
   scope :by_tournament_round, ->(tr) { by_club(tr.tournament_matches.pluck(:host_club_id, :guest_club_id).reduce([], :+)) }
   scope :stats_query, -> { includes(:club, :positions).order(:name) }
   scope :with_team, -> { includes(:teams).where.not(teams: { id: nil }) }
+  scope :with_admin_includes, -> { includes(:positions, :teams) }
 
   def avatar_path
     "#{BUCKET_URL}/player_avatars/#{path_name}.png"
