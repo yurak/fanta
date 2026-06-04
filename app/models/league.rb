@@ -45,7 +45,8 @@ class League < ApplicationRecord
           tournament_id ASC,
           CASE WHEN division_id IS NULL THEN 1 ELSE 0 END,
           divisions.level ASC,
-          divisions.number ASC
+          divisions.number ASC,
+          leagues.id ASC
         SQL
       )
   }

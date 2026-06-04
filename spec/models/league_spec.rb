@@ -286,4 +286,36 @@ RSpec.describe League do
       end
     end
   end
+
+  describe '.serial' do
+    let!(:league_first) { create(:league) }
+
+    context 'when leagues have no division' do
+      it 'orders leagues without division by id ascending' do
+        create(:league)
+        create(:league)
+        ids = described_class.serial.where(division: nil).map(&:id)
+        expect(ids).to eq(ids.sort)
+      end
+
+      it 'places leagues without division after leagues with division' do
+        division = create(:division)
+        league_with_div = create(:league, division: division)
+        serial_ids = described_class.serial.map(&:id)
+        expect(serial_ids.index(league_with_div.id)).to be < serial_ids.index(league_first.id)
+      end
+    end
+
+    context 'when leagues have divisions' do
+      let(:lower_division) { create(:division, level: 'A', number: 1) }
+      let(:higher_division) { create(:division, level: 'A', number: 2) }
+      let!(:league_lower_div) { create(:league, division: lower_division) }
+      let!(:league_higher_div) { create(:league, division: higher_division) }
+
+      it 'orders leagues with division by division level and number' do
+        ids = described_class.serial.where.not(division: nil).map(&:id)
+        expect(ids.index(league_lower_div.id)).to be < ids.index(league_higher_div.id)
+      end
+    end
+  end
 end

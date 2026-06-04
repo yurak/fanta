@@ -31,6 +31,25 @@ RSpec.describe 'FantaJoins' do
         end
       end
 
+      context 'with a logo_url' do
+        let(:logo_url) { 'https://mantrafootball.s3.eu-west-1.amazonaws.com/teams/default_icons/default5.png' }
+        let(:params_with_logo) { valid_params.merge(team: valid_params[:team].merge(logo_url: logo_url)) }
+
+        before { post fanta_joins_path, params: params_with_logo }
+
+        it 'saves the logo_url on the created team' do
+          expect(Team.last.logo_url).to eq(logo_url)
+        end
+      end
+
+      context 'without a logo_url' do
+        before { post fanta_joins_path, params: valid_params }
+
+        it 'creates a team without logo_url' do
+          expect(Team.last.logo_url).to be_blank
+        end
+      end
+
       context 'without a join code' do
         let!(:default_league) do
           create(:active_league, tournament: tournament, open_for_join: true, default_for_join: true)
