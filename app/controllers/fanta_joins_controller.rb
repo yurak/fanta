@@ -36,6 +36,7 @@ class FantaJoinsController < ApplicationController
       name: generate_name,
       human_name: params.dig(:team, :human_name),
       code: params.dig(:team, :code),
+      logo_url: params.dig(:team, :logo_url),
       budget: Team::DEFAULT_BUDGET
     )
   end
