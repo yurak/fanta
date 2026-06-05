@@ -85,7 +85,9 @@ class Team < ApplicationRecord
 
     lineup_players_ids = lineup.match_players.map { |mp| mp.round_player.player_id }
     not_played_ids = players.where.not(id: lineup_players_ids).ids
-    RoundPlayer.by_tournament_round(lineup.tournament_round.id).where(player_id: not_played_ids)
+    RoundPlayer.by_tournament_round(lineup.tournament_round.id)
+               .where(player_id: not_played_ids)
+               .includes(:player, :club, :tournament_round)
   end
 
   def best_lineup

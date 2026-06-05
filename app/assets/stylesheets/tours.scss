@@ -167,8 +167,16 @@
         column-gap: 8px;
 
         .round-lineup-clone {
-          border-radius: 20px;
+          border-radius: 4px;
           padding: 0 7px;
+
+          img {
+            filter: brightness(0) saturate(100%) invert(27%) sepia(100%) saturate(2000%) hue-rotate(210deg) brightness(100%);
+          }
+
+          &:hover img {
+            filter: brightness(0) invert(1);
+          }
         }
       }
 

@@ -40,6 +40,52 @@ RSpec.describe 'Tours' do
     end
   end
 
+  describe 'GET #show clone button visibility' do
+    let(:league) { create(:league) }
+    let(:set_lineup_tour) { create(:set_lineup_tour, league: league) }
+
+    login_user
+
+    context 'when user has a previous lineup in the same league' do
+      before do
+        team = create(:team, user: User.last, league: league)
+        old_tour = create(:tour, league: league)
+        create(:lineup, team: team, tour: old_tour)
+        get tour_path(set_lineup_tour)
+      end
+
+      it 'shows the clone button' do
+        expect(response.body).to include(clone_team_lineups_path(Team.last, tour_id: set_lineup_tour.id))
+      end
+    end
+
+    context 'when it is the first tour with no previous lineup' do
+      before do
+        create(:team, user: User.last, league: league)
+        get tour_path(set_lineup_tour)
+      end
+
+      it 'does not show the clone button' do
+        expect(response.body).not_to include('clone_team_lineups')
+      end
+    end
+
+    context 'when user has lineups only in another league' do
+      before do
+        create(:team, user: User.last, league: league)
+        other_league = create(:league)
+        create(:team, user: User.last, league: other_league).tap do |other_team|
+          create(:lineup, team: other_team, tour: create(:tour, league: other_league))
+        end
+        get tour_path(set_lineup_tour)
+      end
+
+      it 'does not show the clone button' do
+        expect(response.body).not_to include(clone_team_lineups_path(Team.first, tour_id: set_lineup_tour.id))
+      end
+    end
+  end
+
   describe 'GET #show fanta tour with national matches' do
     let(:fanta_league) { create(:league, :fanta_league) }
     let(:fanta_round) { create(:tournament_round, tournament: fanta_league.tournament) }

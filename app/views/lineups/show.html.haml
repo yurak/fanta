@@ -24,6 +24,8 @@
               - if lineup.tour.set_lineup? && (current_user == lineup.team.user)
                 .grey-btn
                   = link_to t('matches.edit_lineup'), edit_team_lineup_path(lineup.team, lineup, team_module_id: lineup.team_module_id)
+                - if lineup.fanta_copyable?
+                  = button_to t('lineups.fanta_copy'), fanta_copy_team_lineup_path(lineup.team, lineup), class: 'grey-btn', data: { confirm: t('lineups.fanta_copy_confirm') }
       - if tour.deadlined? || (current_user == lineup.team.user)
         .lineup-squad.match-squads
           .match-team-squad

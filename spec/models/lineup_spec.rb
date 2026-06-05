@@ -338,6 +338,52 @@ RSpec.describe Lineup do
     end
   end
 
+  # rubocop:disable RSpec/MultipleMemoizedHelpers
+  describe '#fanta_copyable?' do
+    let(:user) { create(:user) }
+    let(:tournament) { create(:fanta_tournament) }
+    let(:tournament_round) { create(:tournament_round, tournament: tournament) }
+    let(:source_league) { create(:active_league, tournament: tournament) }
+    let(:target_league) { create(:active_league, tournament: tournament) }
+    let(:source_team) { create(:team, user: user, league: source_league) }
+    let(:target_team) { create(:team, user: user, league: target_league) }
+    let(:source_tour) { create(:set_lineup_tour, league: source_league, tournament_round: tournament_round) }
+    let(:target_tour) { create(:set_lineup_tour, league: target_league, tournament_round: tournament_round) }
+    let(:fanta_lineup) { create(:lineup, team: source_team, tour: source_tour) }
+
+    before { target_team && target_tour }
+
+    context 'when tour is fanta and other league has open tour without lineup' do
+      it { expect(fanta_lineup.fanta_copyable?).to be(true) }
+    end
+
+    context 'when tour is not fanta' do
+      let(:fanta_lineup) { create(:lineup) }
+
+      it { expect(fanta_lineup.fanta_copyable?).to be(false) }
+    end
+
+    context 'when other league already has a lineup for this round' do
+      before { create(:lineup, team: target_team, tour: target_tour) }
+
+      it { expect(fanta_lineup.fanta_copyable?).to be(false) }
+    end
+
+    context 'when other league tour is not open' do
+      let(:target_tour) { create(:closed_tour, league: target_league, tournament_round: tournament_round) }
+
+      it { expect(fanta_lineup.fanta_copyable?).to be(false) }
+    end
+
+    context 'when user has no other teams in the same tournament' do
+      let(:target_team) { nil }
+      let(:target_tour) { nil }
+
+      it { expect(fanta_lineup.fanta_copyable?).to be(false) }
+    end
+  end
+  # rubocop:enable RSpec/MultipleMemoizedHelpers
+
   describe '#bench_total_score' do
     context 'without match players' do
       it { expect(lineup.bench_total_score).to eq(0) }

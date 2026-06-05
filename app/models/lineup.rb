@@ -147,7 +147,29 @@ class Lineup < ApplicationRecord
     (subs.sum(&:total_score) / subs.count).round(2)
   end
 
+  def fanta_copyable?
+    tour.fanta? && fanta_copy_targets.any?
+  end
+
+  def fanta_copy_targets
+    return [] unless tour.fanta?
+
+    fanta_sibling_teams.filter_map do |sibling_team|
+      target_tour = sibling_team.league.tours.set_lineup.find_by(tournament_round: tour.tournament_round)
+      next unless target_tour && !sibling_team.lineups.exists?(tour: target_tour)
+
+      { team: sibling_team, tour: target_tour }
+    end
+  end
+
   private
+
+  def fanta_sibling_teams
+    team.user.teams
+        .joins(:league)
+        .where(leagues: { tournament_id: tour.tournament_round.tournament_id })
+        .where.not(id: team.id)
+  end
 
   def first_goal
     return 72 unless team.league

@@ -325,6 +325,8 @@ en:
     away: "A"
     points: "Points"
     total_score: "🎯️ Total score"
+    fanta_copy: "Copy to other leagues"
+    fanta_copy_confirm: "Copy this lineup to all other leagues in this tournament?"
     hidden_title: "Lineup is hidden"
     hidden_text: "The opponent's lineup will remain hidden during the preparation phase and will become visible after the deadline."
   links:
