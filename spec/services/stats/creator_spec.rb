@@ -101,37 +101,37 @@ RSpec.describe Stats::Creator do
       it 'saves player score for first club' do
         creator.call
 
-        expect(player.player_season_stats.first.score).to eq(6.9)
+        expect(player.player_season_stats.find_by(club: club_previous).score).to eq(6.9)
       end
 
       it 'saves player score for last club' do
         creator.call
 
-        expect(player.player_season_stats.last.score).to eq(7.73)
+        expect(player.player_season_stats.find_by(club: player.club).score).to eq(7.73)
       end
 
       it 'saves player goals for first club' do
         creator.call
 
-        expect(player.player_season_stats.first.goals).to eq(2)
+        expect(player.player_season_stats.find_by(club: club_previous).goals).to eq(2)
       end
 
       it 'saves player goals for last club' do
         creator.call
 
-        expect(player.player_season_stats.last.goals).to eq(3)
+        expect(player.player_season_stats.find_by(club: player.club).goals).to eq(3)
       end
 
       it 'saves player cards for first club' do
         creator.call
 
-        expect(player.player_season_stats.first.yellow_card).to eq(1)
+        expect(player.player_season_stats.find_by(club: club_previous).yellow_card).to eq(1)
       end
 
       it 'saves player cards for last club' do
         creator.call
 
-        expect(player.player_season_stats.last.yellow_card).to eq(2)
+        expect(player.player_season_stats.find_by(club: player.club).yellow_card).to eq(2)
       end
     end
   end
