@@ -26,6 +26,7 @@ class MatchPlayer < ApplicationRecord
   scope :not_in_lineup, -> { subs.where(subs_status: :not_in_squad) }
   scope :without_score, -> { joins(:round_player).where('round_players.score': 0) }
   scope :by_tour, ->(tour_id) { joins(:lineup).where(lineups: { tour_id: tour_id }) }
+  scope :by_league, ->(league_id) { joins(lineup: :tour).where(tours: { league_id: league_id }) }
   scope :reservists_by_tour, ->(tour_id) { subs.by_tour(tour_id) }
   scope :defenders, -> { where(real_position: Position::DEFENCE) }
   scope :by_real_position, ->(position) { where('real_position LIKE ?', "%#{position}%") }

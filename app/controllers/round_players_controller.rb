@@ -7,6 +7,7 @@ class RoundPlayersController < ApplicationController
     @players = order_players
     @positions = Position.all
     @clubs = tournament.national? ? tournament.national_teams.active.order(:name) : tournament.clubs.active.order(:name)
+    @leagues = tournament.leagues.where(season_id: tournament_round.season_id).viewable.includes(:division).order(:id)
   end
 
   private
@@ -35,9 +36,24 @@ class RoundPlayersController < ApplicationController
 
   def preloaded_players
     players = players_with_filter
-    return players.includes(:match_players) if tournament.fanta? && deadlined?
+    return players unless tournament.fanta? && deadlined?
 
+    preload_match_players(players)
+  end
+
+  def preload_match_players(players)
+    players = players.includes(:club, player: %i[national_team club player_positions positions])
+    return players.includes(:match_players) unless selected_league
+
+    players = players.to_a
+    ActiveRecord::Associations::Preloader.new.preload(players, :match_players, MatchPlayer.by_league(selected_league.id))
     players
+  end
+
+  def selected_league
+    return @selected_league if defined?(@selected_league)
+
+    @selected_league = stats_params[:league].present? ? tournament.leagues.find_by(id: stats_params[:league]) : nil
   end
 
   def apply_order(players)
@@ -77,21 +93,7 @@ class RoundPlayersController < ApplicationController
   def round_players_by_position
     return unless stats_params[:position]
 
-    if tournament.eurocup?
-      tour_players.where(player_id: player_ids_by_position)
-    else
-      tournament_round.round_players.where(player_id: player_ids_by_position)
-    end
-  end
-
-  def player_ids_by_position
-    if tournament.national?
-      Player.by_position(stats_params[:position]).by_national_tournament(tournament.id).ids
-    elsif tournament.eurocup?
-      Player.by_position(stats_params[:position]).by_ec_tournament(tournament).ids
-    else
-      Player.by_position(stats_params[:position]).by_tournament(tournament).ids
-    end
+    tour_players.where(player_id: Player.by_position(stats_params[:position]))
   end
 
   def round_players_by_club
@@ -103,7 +105,7 @@ class RoundPlayersController < ApplicationController
   end
 
   def stats_params
-    params.permit(:order, :position, :club, :tournament_round_id)
+    params.permit(:order, :position, :club, :league, :tournament_round_id)
   end
 
   def tournament

@@ -1190,6 +1190,7 @@
       "eurocups": "Eurocups",
       "failed_penalty": "Failed penalty",
       "filter_club": "Filter by club",
+      "filter_league": "Filter by league",
       "filter_position": "Filter by position",
       "filters": {
         "allFilters": "All filters",
@@ -1225,6 +1226,7 @@
       "height": "Height",
       "international": "International",
       "league": "LEAGUE",
+      "league_option": "ALL LEAGUES",
       "left_tournament": "Left tournament",
       "main_appearances_header": "MAIN SQUAD",
       "mg": "MG",
@@ -2991,6 +2993,7 @@
       "eurocups": "Єврокубки",
       "failed_penalty": "Незабите пенальті",
       "filter_club": "Фільтр по клубу",
+      "filter_league": "Фільтр по лізі",
       "filter_position": "Фільтр по позиції",
       "filters": {
         "allFilters": "Всі фільтри",
@@ -3026,6 +3029,7 @@
       "height": "Ріст",
       "international": "Міжнародні",
       "league": "ЛІГА",
+      "league_option": "ВСІ ЛІГИ",
       "left_tournament": "Покинув турнір",
       "main_appearances_header": "ОСНОВА",
       "mg": "ПГ",

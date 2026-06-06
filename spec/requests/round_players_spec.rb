@@ -74,6 +74,27 @@ RSpec.describe 'RoundPlayers' do
       it { expect(assigns(:clubs)).not_to be_nil }
     end
 
+    context 'with position param filtering by the player position' do
+      let!(:goalkeeper) { create(:round_player, :with_pos_por, :with_score_six, tournament_round: tournament_round) }
+      let!(:forward)    { create(:round_player, :with_pos_a, :with_score_six, tournament_round: tournament_round) }
+      let(:params)      { { position: 'Por' } }
+
+      login_user
+      before do
+        get tournament_round_round_players_path(tournament_round, params)
+      end
+
+      it { expect(response).to be_successful }
+
+      it 'includes players that play the filtered position' do
+        expect(assigns(:players)).to include(goalkeeper)
+      end
+
+      it 'excludes players that do not play the filtered position' do
+        expect(assigns(:players)).not_to include(forward)
+      end
+    end
+
     context 'with national tournament and position param' do
       let(:tournament_round) { create(:tournament_round, tournament: create(:tournament, :with_national_teams)) }
       let(:params) { { position: 'T' } }
@@ -359,6 +380,53 @@ RSpec.describe 'RoundPlayers' do
       it { expect(response).to be_successful }
 
       it { expect(assigns(:players)).not_to be_nil }
+    end
+
+    context 'with fanta tournament, deadlined tour, and players appearing in two leagues' do
+      let(:fanta_tournament) { create(:fanta_tournament) }
+      let(:tournament_round) { create(:tournament_round, tournament: fanta_tournament) }
+      let(:league_a)         { create(:active_league, tournament: fanta_tournament, season: tournament_round.season) }
+      let(:league_b)         { create(:active_league, tournament: fanta_tournament, season: tournament_round.season) }
+      let!(:round_player)    { create(:round_player, :with_score_six, tournament_round: tournament_round) }
+
+      login_user
+      before do
+        tour_a   = create(:locked_tour, tournament_round: tournament_round, league: league_a)
+        tour_b   = create(:locked_tour, tournament_round: tournament_round, league: league_b)
+        lineup_a = create(:lineup, tour: tour_a, team: create(:team, league: league_a))
+        lineup_b = create(:lineup, tour: tour_b, team: create(:team, league: league_b))
+        create(:match_player, round_player: round_player, lineup: lineup_a)
+        create(:match_player, round_player: round_player, lineup: lineup_a)
+        create(:match_player, round_player: round_player, lineup: lineup_b)
+        get tournament_round_round_players_path(tournament_round, params)
+      end
+
+      context 'without a league filter' do
+        let(:params) { nil }
+
+        it { expect(response).to be_successful }
+
+        it 'exposes the tournament leagues for the filter dropdown' do
+          expect(assigns(:leagues)).to include(league_a, league_b)
+        end
+
+        it 'aggregates appearances across all leagues' do
+          player = assigns(:players).find { |p| p.id == round_player.id }
+          expect(player.match_players.size).to eq(3)
+        end
+      end
+
+      context 'with a specific league filter' do
+        let(:params) { { league: league_a.id } }
+
+        it { expect(response).to be_successful }
+        it { expect(response).to render_template(:index) }
+
+        it 'counts only appearances within the selected league' do
+          player = assigns(:players).find { |p| p.id == round_player.id }
+          expect(player.match_players.size).to eq(2)
+        end
+      end
     end
 
     context 'with national tournament, clubs sorted by name' do
