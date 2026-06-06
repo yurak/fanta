@@ -37,12 +37,11 @@ echo "Uploading dump to staging server..."
 scp -i "${SSH_KEY}" "${DUMP_FILE}" "${EC2_USER}@${STAGING_IP}:${DUMP_FILE}"
 
 echo "Restoring database on staging..."
-ssh -i "${SSH_KEY}" "${EC2_USER}@${STAGING_IP}" bash <<EOF
-  export PGPASSWORD="${STAGING_DB_PASS}"
-  psql -h "${STAGING_DB_HOST}" -U "${STAGING_DB_USER}" -c "DROP DATABASE IF EXISTS mantra_staging;"
-  psql -h "${STAGING_DB_HOST}" -U "${STAGING_DB_USER}" -c "CREATE DATABASE mantra_staging;"
-  psql -h "${STAGING_DB_HOST}" -U "${STAGING_DB_USER}" mantra_staging < "${DUMP_FILE}"
-  rm -f "${DUMP_FILE}"
-EOF
+ssh -i "${SSH_KEY}" "${EC2_USER}@${STAGING_IP}" \
+  "export PGPASSWORD='${STAGING_DB_PASS}' && \
+   psql -h '${STAGING_DB_HOST}' -U '${STAGING_DB_USER}' -d postgres -c 'DROP DATABASE IF EXISTS mantra_staging;' && \
+   psql -h '${STAGING_DB_HOST}' -U '${STAGING_DB_USER}' -d postgres -c 'CREATE DATABASE mantra_staging;' && \
+   psql -h '${STAGING_DB_HOST}' -U '${STAGING_DB_USER}' -d mantra_staging -f '${DUMP_FILE}' && \
+   rm -f '${DUMP_FILE}'"
 
 echo "Done! Staging database synced with production."
