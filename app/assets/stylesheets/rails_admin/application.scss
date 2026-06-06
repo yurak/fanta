@@ -1,0 +1,3 @@
+// rails_admin CSS is handled via webpack (see app/client/entry/rails_admin.js)
+// This file overrides the gem's application.scss.erb to prevent Sprockets
+// from importing webpack-only SCSS files.
