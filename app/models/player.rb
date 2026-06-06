@@ -177,7 +177,7 @@ class Player < ApplicationRecord
   end
 
   def season_matches_with_scores
-    @season_matches_with_scores ||= round_players.with_score.by_tournament_round(club_tournament_season_rounds)
+    @season_matches_with_scores ||= round_players.with_score.includes(:tournament_round).by_tournament_round(club_tournament_season_rounds)
   end
 
   def season_matches
