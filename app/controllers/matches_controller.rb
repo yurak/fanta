@@ -58,10 +58,10 @@ class MatchesController < ApplicationController
     t_rounds = t_rounds.compact.uniq(&:id)
     return if t_rounds.empty?
 
-    ActiveRecord::Associations::Preloader.new.preload(
-      t_rounds,
-      [{ tournament_matches: %i[host_club guest_club] }, :national_matches]
-    )
+    ActiveRecord::Associations::Preloader.new(
+      records: t_rounds,
+      associations: [{ tournament_matches: %i[host_club guest_club] }, :national_matches]
+    ).call
   end
 
   def first_round_match(round)

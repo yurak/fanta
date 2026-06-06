@@ -91,8 +91,8 @@ class ToursController < ApplicationController
   end
 
   def preload_tour_matches(tour)
-    ActiveRecord::Associations::Preloader.new.preload(tour, matches: { host: :user, guest: :user })
-    ActiveRecord::Associations::Preloader.new.preload(tour, lineups: :team)
+    ActiveRecord::Associations::Preloader.new(records: [tour], associations: { matches: { host: :user, guest: :user } }).call
+    ActiveRecord::Associations::Preloader.new(records: [tour], associations: { lineups: :team }).call
 
     all_team_ids = tour.matches.flat_map { |m| [m.host_id, m.guest_id] }.uniq
     lineups = Lineup.includes(:tour).where(tour_id: tour.id, team_id: all_team_ids).index_by(&:team_id)

@@ -16,6 +16,7 @@ RSpec.configure do |config|
     DatabaseCleaner.clean_with(:truncation)
 
     Rails.application.load_seed
+    Rails.application.routes.default_url_options[:host] = 'localhost'
   end
 
   config.around do |example|

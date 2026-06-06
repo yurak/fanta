@@ -26,10 +26,10 @@ class ApplicationController < ActionController::Base
   def preload_nav_teams
     return unless current_user && request.format.html?
 
-    ActiveRecord::Associations::Preloader.new.preload(
-      [current_user],
-      { teams: { league: %i[tournament division season results teams] } }
-    )
+    ActiveRecord::Associations::Preloader.new(
+      records: [current_user],
+      associations: { teams: { league: %i[tournament division season results teams] } }
+    ).call
   end
 
   def setup_user

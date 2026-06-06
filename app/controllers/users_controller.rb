@@ -9,7 +9,7 @@ class UsersController < ApplicationController
 
   def show
     leagues = current_user.teams.map(&:league).compact
-    ActiveRecord::Associations::Preloader.new.preload(leagues, %i[division season])
+    ActiveRecord::Associations::Preloader.new(records: leagues, associations: %i[division season]).call
   end
 
   def update
