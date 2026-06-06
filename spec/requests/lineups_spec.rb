@@ -481,6 +481,54 @@ RSpec.describe 'Lineups' do
     end
   end
 
+  # rubocop:disable RSpec/MultipleMemoizedHelpers
+  describe 'POST #fanta_copy' do
+    let(:user) { create(:user) }
+    let(:tournament) { create(:fanta_tournament) }
+    let(:tournament_round) { create(:tournament_round, tournament: tournament) }
+    let(:source_league) { create(:active_league, tournament: tournament) }
+    let(:target_league) { create(:active_league, tournament: tournament) }
+    let(:source_team) { create(:team, user: user, league: source_league) }
+    let(:target_team) { create(:team, user: user, league: target_league) }
+    let(:source_tour) { create(:set_lineup_tour, league: source_league, tournament_round: tournament_round) }
+    let(:target_tour) { create(:set_lineup_tour, league: target_league, tournament_round: tournament_round) }
+    let(:fanta_lineup) { create(:lineup, :with_fanta_score_five, team: source_team, tour: source_tour) }
+
+    before { fanta_lineup && target_team && target_tour }
+
+    context 'when user is logged out' do
+      before { post fanta_copy_team_lineup_path(source_team, fanta_lineup) }
+
+      it { expect(response).to redirect_to('/users/sign_in') }
+    end
+
+    context 'when user is logged in as team owner' do
+      before do
+        sign_in user
+        post fanta_copy_team_lineup_path(source_team, fanta_lineup)
+      end
+
+      it { expect(response).to redirect_to(team_lineup_path(source_team, fanta_lineup)) }
+      it { expect(response).to have_http_status(:found) }
+
+      it 'copies lineup to other fanta leagues' do
+        expect(target_tour.lineups.count).to eq(1)
+      end
+    end
+
+    context 'when user is logged in as foreign user' do
+      before do
+        sign_in create(:user)
+        post fanta_copy_team_lineup_path(source_team, fanta_lineup)
+      end
+
+      it 'does not copy lineup' do
+        expect(target_tour.lineups.count).to eq(0)
+      end
+    end
+  end
+  # rubocop:enable RSpec/MultipleMemoizedHelpers
+
   describe 'GET #clone' do
     let(:lineup) { create(:lineup, :with_match_players) }
     let(:tour) { create(:tour, league: lineup.tour.league) }
@@ -536,24 +584,10 @@ RSpec.describe 'Lineups' do
       it { expect(tour.lineups).to eq([lineup]) }
     end
 
-    context 'with self team in unclonable league without existed lineup for tour when user is logged in' do
+    context 'with self team without existed lineup for tour when user is logged in' do
       let(:logged_user) { create(:user, team_ids: lineup.team.id) }
 
       before do
-        sign_in logged_user
-        get clone_team_lineups_path(lineup.team, tour_id: tour.id)
-      end
-
-      it { expect(response).to redirect_to(tour_path(tour)) }
-      it { expect(response).to have_http_status(:found) }
-      it { expect(tour.lineups).to eq([]) }
-    end
-
-    context 'with self team in cloneable league without existed lineup for tour when user is logged in' do
-      let(:logged_user) { create(:user, team_ids: lineup.team.id) }
-
-      before do
-        lineup.team.league.cloneable!
         sign_in logged_user
         get clone_team_lineups_path(lineup.team, tour_id: tour.id)
       end

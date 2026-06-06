@@ -37,7 +37,6 @@ namespace :tm do
         writer << [id, result[:first_name], result[:name], result[:nationality],
                    result[:tm_price], result[:number], result[:birth_date], result[:height],
                    result[:tm_club_name], player.club.tm_name, result[:tm_url]]
-        sleep(5)
       end
     end
   end

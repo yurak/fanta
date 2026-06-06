@@ -105,6 +105,7 @@ Rails.application.routes.draw do
   resources :teams, only: [:show, :edit, :update, :create] do
     resources :lineups, only: [:show, :new, :create, :edit, :update] do
       collection { get :clone }
+      member { post :fanta_copy }
     end
 
     resources :player_teams, only: [:edit, :update]

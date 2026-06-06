@@ -11,7 +11,7 @@
                 .blue-btn.round-lineup-set-squad{ title: t('tours.create') }
                   = image_tag('icons/plus.svg')
               .round-lineup-clone-block
-                - if tour.league.cloneable?
+                - if match.host.lineups.where(tour: tour.league.tours).where.not(tour: tour).any?
                   = link_to clone_team_lineups_path(match.host, tour_id: tour.id) do
                     .grey-btn.round-lineup-clone{ title: t('tours.clone') }
                       = image_tag('icons/clone.svg')
@@ -41,7 +41,7 @@
           - elsif current_user == match.guest.user && tour.set_lineup?
             .round-lineup-actions.round-lineup-actions-guest
               .round-lineup-clone-block
-                - if tour.league.cloneable?
+                - if match.guest.lineups.where(tour: tour.league.tours).where.not(tour: tour).any?
                   = link_to clone_team_lineups_path(match.guest, tour_id: tour.id) do
                     .grey-btn.round-lineup-clone{ title: t('tours.clone') }
                       = image_tag('icons/clone.svg')

@@ -32,8 +32,7 @@ class LineupsController < ApplicationController
       else
         recount_round_players_params
         @lineup = Lineup.new(lineup_params.merge(team: team))
-
-        path = new_team_lineup_path(team, team_module_id: @lineup.team_module_id, tour_id: @lineup.tour_id) unless @lineup.save
+        path = saved_lineup_path
       end
     end
 
@@ -49,17 +48,29 @@ class LineupsController < ApplicationController
         lineup.update(update_lineup_params.merge(last_edited_at: Time.current))
       end
 
-      redirect_to tour_path(tour)
+      redirect_to tour.fanta? ? team_lineup_path(team, lineup) : tour_path(tour)
     end
   end
 
   def clone
-    team_lineups_cloner.call if team_of_user? && team.league.cloneable?
+    team_lineups_cloner.call if team_of_user?
 
     redirect_to tour_path(tour)
   end
 
+  def fanta_copy
+    Lineups::FantaCopier.call(lineup) if team_of_user?
+
+    redirect_to team_lineup_path(team, lineup)
+  end
+
   private
+
+  def saved_lineup_path
+    return new_team_lineup_path(team, team_module_id: @lineup.team_module_id, tour_id: @lineup.tour_id) unless @lineup.save
+
+    tour.fanta? ? team_lineup_path(team, @lineup) : tour_path(tour)
+  end
 
   def team_lineups_cloner
     @team_lineups_cloner ||= Lineups::Cloner.new(team, tour)
