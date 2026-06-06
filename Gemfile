@@ -39,7 +39,7 @@ gem 'rubocop-factory_bot', '= 2.25.0', require: false
 gem 'rubocop-rails', require: false
 gem 'rubocop-rspec', require: false
 gem 'sassc-rails'
-gem 'sprockets', '~> 3.7'
+gem 'sprockets', '3.7.2'
 gem 'telegram-bot'
 gem 'time_difference'
 gem 'whenever', require: false
