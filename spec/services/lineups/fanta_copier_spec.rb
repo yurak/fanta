@@ -61,6 +61,21 @@ RSpec.describe Lineups::FantaCopier do
         target_rp_ids = target_tour.lineups.first.match_players.map(&:round_player_id).sort
         expect(target_rp_ids).to eq(source_rp_ids)
       end
+
+      it 'preserves main player order (slot assignment)' do
+        service_call
+        source_main_rp_ids = lineup.match_players.main.map(&:round_player_id)
+        target_main_rp_ids = target_tour.lineups.first.match_players.main.map(&:round_player_id)
+        expect(target_main_rp_ids).to eq(source_main_rp_ids)
+      end
+
+      it 'copies main players before bench players' do
+        service_call
+        target_lineup = target_tour.lineups.first
+        main_max_id = target_lineup.match_players.main.maximum(:id)
+        bench_min_id = target_lineup.match_players.subs_bench.minimum(:id)
+        expect(main_max_id).to be < bench_min_id
+      end
     end
 
     context 'when target tour already has a lineup' do
