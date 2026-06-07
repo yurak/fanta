@@ -1,0 +1,16 @@
+.wrapper {
+  flex: 1;
+  overflow: auto;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: max-content;
+}

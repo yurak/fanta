@@ -23,5 +23,17 @@ module Api
     def page
       params[:page].present? ? params.require(:page).permit(:size, :number, :limit, :offset) : {}
     end
+
+    def paginate(result)
+      if result.is_a?(Array)
+        size = page.present? ? page[:size] : [result.size, 1].max
+        num  = page.present? ? page[:number] : 1
+        Kaminari.paginate_array(result).page(num).per(size)
+      else
+        num  = page.present? ? page[:number] : 1
+        size = page.present? ? page[:size] : [result.count, 1].max
+        result.page(num).per(size)
+      end
+    end
   end
 end
