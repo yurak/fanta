@@ -774,6 +774,32 @@ en:
   round_players:
     short_title: "Best Players"
     title: "%{tournament} Round #%{number} Best Players"
+  round_players_page:
+    title: "%{tournament} Round #%{number} Best Players"
+    search_player: "Search player"
+    clear_filters: "Clear filters"
+    results_title: "Showing"
+    player: "player"
+    player_other: "players"
+    not_found: "Players not found"
+    not_found_description: "Make sure that the player’s name is spelled correctly or try other filter parameters"
+    search_placeholder: "Search"
+    apps: "apps"
+    main: "main"
+    filters:
+      clubs: "Clubs"
+      teams: "Teams"
+      league: "League"
+      all_leagues: "All leagues"
+    columns:
+      player: "PLAYER"
+      positions: "POSITIONS"
+      appearances: "APPEARANCES"
+      main_squad: "MAIN SQUAD"
+      base_score: "BS"
+      total_score: "TS"
+      club: "CLUB"
+      national: "NATIONAL"
   table:
     title: "Table"
     division: "Division"

@@ -1326,6 +1326,35 @@
       "short_title": "Best Players",
       "title": "%{tournament} Round #%{number} Best Players"
     },
+    "round_players_page": {
+      "apps": "apps",
+      "clear_filters": "Clear filters",
+      "columns": {
+        "appearances": "APPEARANCES",
+        "base_score": "BS",
+        "club": "CLUB",
+        "main_squad": "MAIN SQUAD",
+        "national": "NATIONAL",
+        "player": "PLAYER",
+        "positions": "POSITIONS",
+        "total_score": "TS"
+      },
+      "filters": {
+        "all_leagues": "All leagues",
+        "clubs": "Clubs",
+        "league": "League",
+        "teams": "Teams"
+      },
+      "main": "main",
+      "not_found": "Players not found",
+      "not_found_description": "Make sure that the player’s name is spelled correctly or try other filter parameters",
+      "player": "player",
+      "player_other": "players",
+      "results_title": "Showing",
+      "search_placeholder": "Search",
+      "search_player": "Search player",
+      "title": "%{tournament} Round #%{number} Best Players"
+    },
     "support": {
       "array": {
         "last_word_connector": ", and ",
@@ -3127,6 +3156,35 @@
     },
     "round_players": {
       "short_title": "Найкращі Гравці",
+      "title": "Найкращі Гравці %{tournament} Раунд #%{number}"
+    },
+    "round_players_page": {
+      "apps": "появ",
+      "clear_filters": "Очистити",
+      "columns": {
+        "appearances": "ПОЯВИ",
+        "base_score": "БО",
+        "club": "КЛУБ",
+        "main_squad": "ОСНОВА",
+        "national": "ЗБІРНА",
+        "player": "ГРАВЕЦЬ",
+        "positions": "ПОЗИЦІЇ",
+        "total_score": "ЗО"
+      },
+      "filters": {
+        "all_leagues": "Всі ліги",
+        "clubs": "Клуби",
+        "league": "Ліга",
+        "teams": "Збірні"
+      },
+      "main": "осн",
+      "not_found": "Гравців не знайдено",
+      "not_found_description": "Переконайтеся, що ім'я гравця написано вірно або спробуйте застосувати інший фільтр",
+      "player": "гравець",
+      "player_other": "гравців",
+      "results_title": "Знайдено",
+      "search_placeholder": "Пошук",
+      "search_player": "Пошук гравця",
       "title": "Найкращі Гравці %{tournament} Раунд #%{number}"
     },
     "table": {

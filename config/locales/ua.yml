@@ -779,6 +779,32 @@ ua:
   round_players:
     short_title: "Найкращі Гравці"
     title: "Найкращі Гравці %{tournament} Раунд #%{number}"
+  round_players_page:
+    title: "Найкращі Гравці %{tournament} Раунд #%{number}"
+    search_player: "Пошук гравця"
+    clear_filters: "Очистити"
+    results_title: "Знайдено"
+    player: "гравець"
+    player_other: "гравців"
+    not_found: "Гравців не знайдено"
+    not_found_description: "Переконайтеся, що ім'я гравця написано вірно або спробуйте застосувати інший фільтр"
+    search_placeholder: "Пошук"
+    apps: "появ"
+    main: "осн"
+    filters:
+      clubs: "Клуби"
+      teams: "Збірні"
+      league: "Ліга"
+      all_leagues: "Всі ліги"
+    columns:
+      player: "ГРАВЕЦЬ"
+      positions: "ПОЗИЦІЇ"
+      appearances: "ПОЯВИ"
+      main_squad: "ОСНОВА"
+      base_score: "БО"
+      total_score: "ЗО"
+      club: "КЛУБ"
+      national: "ЗБІРНА"
   table:
     title: "Таблиця"
     division: "Дивізіон"

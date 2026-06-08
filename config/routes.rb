@@ -161,6 +161,11 @@ Rails.application.routes.draw do
     resources :tournaments, only: [:index] do
       resources :divisions, only: [:index]
     end
+    resources :tournament_rounds, only: [] do
+      resources :round_players, only: [:index] do
+        get :meta, on: :collection
+      end
+    end
   end
 
   get '*path' => redirect('/')
