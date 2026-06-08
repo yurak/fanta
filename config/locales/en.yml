@@ -776,6 +776,7 @@ en:
     title: "%{tournament} Round #%{number} Best Players"
   round_players_page:
     title: "%{tournament} Round #%{number} Best Players"
+    title_short: "%{tournament} Round #%{number}"
     search_player: "Search player"
     clear_filters: "Clear filters"
     results_title: "Showing"

@@ -47,11 +47,13 @@ const RoundPlayersTitle = ({
     return <Skeleton containerClassName={styles.skeleton} />;
   }
 
+  const fillTitle = (key: string) =>
+    t(key).replace("%{tournament}", meta.tournament_name).replace("%{number}", String(meta.number));
+
   return (
     <>
-      {t("round_players_page.title")
-        .replace("%{tournament}", meta.tournament_name)
-        .replace("%{number}", String(meta.number))}
+      <span className={styles.desktop}>{fillTitle("round_players_page.title")}</span>
+      <span className={styles.mobile}>{fillTitle("round_players_page.title_short")}</span>
     </>
   );
 };

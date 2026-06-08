@@ -99,7 +99,7 @@ module RoundPlayers
     # --- In-memory ordering ---
 
     def sort_players(players)
-      case field
+      case sort_field
       when NAME             then sort_alpha(players, &:name)
       when CLUB             then sort_alpha(players) { |rp| rp.related_club.name.to_s }
       when BASE_SCORE       then sort_numeric(players) { |rp| rp.score.to_f }
@@ -107,6 +107,20 @@ module RoundPlayers
       when MAIN_APPEARANCES then sort_numeric(players) { |rp| rp.match_players.count(&:real_position) }
       else                       sort_numeric(players, &:result_score)
       end
+    end
+
+    # Appearance-based sorting is only meaningful once the round is deadlined;
+    # before that it falls back to the default ordering.
+    def sort_field
+      return nil if [APPEARANCES, MAIN_APPEARANCES].include?(field) && !deadlined?
+
+      field
+    end
+
+    def deadlined?
+      return @deadlined if defined?(@deadlined)
+
+      @deadlined = tournament_round.tours.last&.deadlined? || false
     end
 
     def sort_numeric(players, &key)

@@ -97,6 +97,20 @@ RSpec.describe 'Api::RoundPlayers' do
       end
     end
 
+    context 'when ordering by appearances before the deadline' do
+      let!(:rp_high) { create(:round_player, :with_score_seven, tournament_round: tournament_round) }
+      let!(:rp_low)  { create(:round_player, :with_score_five,  tournament_round: tournament_round) }
+
+      before { get_index(order: { field: 'appearances', direction: 'desc' }) }
+
+      it { expect(response).to have_http_status(:ok) }
+
+      it 'falls back to result_score ordering' do
+        ids = response.parsed_body['data'].pluck('id')
+        expect(ids.index(rp_high.id)).to be < ids.index(rp_low.id)
+      end
+    end
+
     context 'when ordering by result_score descending' do
       let!(:rp_high) { create(:round_player, :with_score_seven, tournament_round: tournament_round) }
       let!(:rp_low)  { create(:round_player, :with_score_five,  tournament_round: tournament_round) }
@@ -123,7 +137,7 @@ RSpec.describe 'Api::RoundPlayers' do
     it { expect(response).to have_http_status(:ok) }
 
     it 'returns round meta' do
-      expect(response.parsed_body['data']).to include('tournament_name', 'number', 'national', 'fanta')
+      expect(response.parsed_body['data']).to include('tournament_name', 'number', 'national', 'fanta', 'deadlined')
     end
 
     it 'returns the round leagues for the filter dropdown' do

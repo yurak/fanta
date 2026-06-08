@@ -781,6 +781,7 @@ ua:
     title: "Найкращі Гравці %{tournament} Раунд #%{number}"
   round_players_page:
     title: "Найкращі Гравці %{tournament} Раунд #%{number}"
+    title_short: "%{tournament} Раунд #%{number}"
     search_player: "Пошук гравця"
     clear_filters: "Очистити"
     results_title: "Знайдено"

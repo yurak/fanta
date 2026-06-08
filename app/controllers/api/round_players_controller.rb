@@ -17,6 +17,7 @@ module Api
         number: tournament_round.number,
         national: tournament.national?,
         fanta: tournament.fanta?,
+        deadlined: deadlined?,
         leagues: leagues_payload,
         clubs: clubs_payload
       } }

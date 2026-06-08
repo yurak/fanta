@@ -11,6 +11,7 @@ const useRoundPlayersPageConfiguration = ({ roundId, meta }: IProps) => {
     roundId,
     national: meta?.national ?? false,
     fanta: meta?.fanta ?? false,
+    deadlined: meta?.deadlined ?? false,
     leagues: (meta?.leagues ?? []) as IRoundLeague[],
     clubs: (meta?.clubs ?? []) as IRoundClub[],
   };

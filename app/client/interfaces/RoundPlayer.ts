@@ -35,6 +35,7 @@ export interface IRoundPlayersMeta {
   number: number,
   national: boolean,
   fanta: boolean,
+  deadlined: boolean,
   leagues: IRoundLeague[],
   clubs: IRoundClub[],
 }

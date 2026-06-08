@@ -20,7 +20,7 @@ const RoundPlayersListDesktop = ({
   const { t } = useTranslation();
   const { sorting } = useRoundPlayersContext();
   const { items, isLoading, hasNextPage, loadMore } = useRoundPlayersListContext();
-  const { national, fanta } = useRoundPlayersPageConfigurationContext();
+  const { national, fanta, deadlined } = useRoundPlayersPageConfigurationContext();
 
   const columns = useMemo<IColumn<IRoundPlayer>[]>(() => {
     const cols: IColumn<IRoundPlayer>[] = [
@@ -51,8 +51,8 @@ const RoundPlayersListDesktop = ({
           noWrap: true,
           headEllipsis: true,
           className: styles.appsCell,
-          sorter: true,
-          supportAscSorting: true,
+          sorter: deadlined,
+          supportAscSorting: deadlined,
           render: ({ appearances }) => (appearances === null ? "-" : formatNumber(appearances)),
         },
         {
@@ -62,8 +62,8 @@ const RoundPlayersListDesktop = ({
           noWrap: true,
           headEllipsis: true,
           className: styles.appsCell,
-          sorter: true,
-          supportAscSorting: true,
+          sorter: deadlined,
+          supportAscSorting: deadlined,
           render: ({ main_appearances }) =>
             main_appearances === null ? "-" : formatNumber(main_appearances),
         }
@@ -116,7 +116,7 @@ const RoundPlayersListDesktop = ({
     }
 
     return cols;
-  }, [t, fanta, national]);
+  }, [t, fanta, national, deadlined]);
 
   return (
     <Table

@@ -1353,7 +1353,8 @@
       "results_title": "Showing",
       "search_placeholder": "Search",
       "search_player": "Search player",
-      "title": "%{tournament} Round #%{number} Best Players"
+      "title": "%{tournament} Round #%{number} Best Players",
+      "title_short": "%{tournament} Round #%{number}"
     },
     "support": {
       "array": {
@@ -3185,7 +3186,8 @@
       "results_title": "Знайдено",
       "search_placeholder": "Пошук",
       "search_player": "Пошук гравця",
-      "title": "Найкращі Гравці %{tournament} Раунд #%{number}"
+      "title": "Найкращі Гравці %{tournament} Раунд #%{number}",
+      "title_short": "%{tournament} Раунд #%{number}"
     },
     "table": {
       "best_lineup": "Найкращий склад",
