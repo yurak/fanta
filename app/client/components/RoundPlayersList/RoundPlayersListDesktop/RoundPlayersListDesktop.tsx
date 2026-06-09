@@ -9,6 +9,7 @@ import { useRoundPlayersListContext } from "@/application/RoundPlayers/RoundPlay
 import { useRoundPlayersPageConfigurationContext } from "@/application/RoundPlayers/RoundPlayersPageConfigurationContext";
 import RoundPlayersListInfo, { RoundPlayersListInfoSkeleton } from "../RoundPlayersListInfo";
 import styles from "@/components/PlayersList/PlayersListDesktop/PlayersListDesktop.module.scss";
+import roundStyles from "./RoundPlayersListDesktop.module.scss";
 
 const scoreFormat = { minimumFractionDigits: 2, maximumFractionDigits: 2 };
 
@@ -111,7 +112,11 @@ const RoundPlayersListDesktop = ({
         className: styles.clubCell,
         headEllipsis: true,
         render: ({ nationality }) =>
-          nationality ? <span className={`flag-icon flag-icon-${nationality.toLowerCase()}`} /> : "-",
+          nationality ? (
+            <span className={`flag-icon flag-icon-${nationality.toLowerCase()} ${roundStyles.flag}`} />
+          ) : (
+            "-"
+          ),
       });
     }
 

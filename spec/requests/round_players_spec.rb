@@ -23,5 +23,20 @@ RSpec.describe 'RoundPlayers' do
       it { expect(response).to render_template(:index) }
       it { expect(response).to have_http_status(:ok) }
     end
+
+    context 'with a selected league' do
+      let(:league) { create(:active_league) }
+
+      login_user
+      before do
+        get tournament_round_round_players_path(tournament_round, league: league.id)
+      end
+
+      it { expect(response).to be_successful }
+
+      it 'renders the league footer' do
+        expect(response.body).to include('portrait-footer')
+      end
+    end
   end
 end

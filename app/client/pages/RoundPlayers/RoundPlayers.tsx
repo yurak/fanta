@@ -64,11 +64,16 @@ const RoundPlayers = () => {
   const params = useParams<{ roundId: string }>();
   const roundId = Number(params.roundId);
 
+  const { searchParams } = useSearchParamsContext();
+  // The server renders the league side panel (right_nav) when a league is in the
+  // URL; reserve space for it so it doesn't cover the list.
+  const [withSidebar] = useState(() => !!searchParams.get("league"));
+
   const { data: meta, isLoading, isPending } = useRoundPlayersMeta(roundId);
 
   return (
     <RoundPlayersPageConfigurationContextProvider roundId={roundId} meta={meta}>
-      <PageLayout>
+      <PageLayout withSidebar={withSidebar}>
         <RoundPlayersPage
           title={<RoundPlayersTitle meta={meta} isFetching={isLoading || isPending} />}
         />

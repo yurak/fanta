@@ -7,14 +7,19 @@ import SearchIcon from "@/assets/icons/searchBold.svg";
 import { IRoundClub } from "@/interfaces/RoundPlayer";
 import styles from "./RoundClubCheckbox.module.scss";
 
-interface IProps {
+interface IListProps {
   clubs: IRoundClub[],
   value: number[],
   onChange: (value: number[]) => void,
+}
+
+interface IProps extends IListProps {
   label: string,
 }
 
-const RoundClubCheckbox = ({ clubs, value, onChange, label }: IProps) => {
+// Search + multi-select list of clubs/national teams, shared by the desktop
+// popover and the mobile filters drawer.
+export const RoundClubCheckboxList = ({ clubs, value, onChange }: IListProps) => {
   const { t } = useTranslation();
   const [search, setSearch] = useState("");
 
@@ -28,20 +33,6 @@ const RoundClubCheckbox = ({ clubs, value, onChange, label }: IProps) => {
     return clubs.filter((club) => club.name.toLowerCase().includes(lowerCaseSearch));
   }, [clubs, search]);
 
-  const selectedLabel = useMemo(() => {
-    if (value.length === 0) {
-      return null;
-    }
-
-    const first = clubs.find((club) => club.id === value[0]);
-
-    if (!first) {
-      return "...";
-    }
-
-    return value.length === 1 ? first.name : `${first.name} + ${value.length - 1}`;
-  }, [value, clubs]);
-
   // CheckboxGroup reports the checked ids among the currently visible (filtered)
   // options, so selections outside the search term are merged back in here.
   const handleChange = (checkedIds: number[]) => {
@@ -50,21 +41,14 @@ const RoundClubCheckbox = ({ clubs, value, onChange, label }: IProps) => {
   };
 
   return (
-    <PopoverInput
-      label={label}
-      selectedLabel={selectedLabel}
-      clearValue={() => onChange([])}
-      subHeader={
-        <Input
-          value={search}
-          onChange={setSearch}
-          placeholder={t("round_players_page.search_placeholder")}
-          autofocus
-          size="small"
-          icon={<SearchIcon />}
-        />
-      }
-    >
+    <>
+      <Input
+        value={search}
+        onChange={setSearch}
+        placeholder={t("round_players_page.search_placeholder")}
+        size="small"
+        icon={<SearchIcon />}
+      />
       <div className={styles.clubs}>
         <CheckboxGroup
           options={filteredClubs}
@@ -86,6 +70,28 @@ const RoundClubCheckbox = ({ clubs, value, onChange, label }: IProps) => {
           )}
         />
       </div>
+    </>
+  );
+};
+
+const RoundClubCheckbox = ({ clubs, value, onChange, label }: IProps) => {
+  const selectedLabel = useMemo(() => {
+    if (value.length === 0) {
+      return null;
+    }
+
+    const first = clubs.find((club) => club.id === value[0]);
+
+    if (!first) {
+      return "...";
+    }
+
+    return value.length === 1 ? first.name : `${first.name} + ${value.length - 1}`;
+  }, [value, clubs]);
+
+  return (
+    <PopoverInput label={label} selectedLabel={selectedLabel} clearValue={() => onChange([])}>
+      <RoundClubCheckboxList clubs={clubs} value={value} onChange={onChange} />
     </PopoverInput>
   );
 };
