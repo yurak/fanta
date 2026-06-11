@@ -3,7 +3,7 @@
     .round-table
       .round-table-title-header
         .round-table-title
-          = link_to tournament_round_round_players_path(tour.tournament_round) do
+          = link_to tournament_round_round_players_path(tour.tournament_round, league: tour.league_id) do
             .round-table-title-text= t('tours.tournament_players')
             .round-table-title-icon
               = image_tag('icons/arrow_blue.svg')

@@ -10,6 +10,7 @@ import RoundPlayersListContextProvider, {
   useRoundPlayersListContext,
 } from "@/application/RoundPlayers/RoundPlayersListContext";
 import RoundPlayersFilters from "../RoundPlayersFilters";
+import RoundPlayersFiltersDrawer from "../RoundPlayersFilters/RoundPlayersFiltersDrawer";
 import RoundPlayersList from "../RoundPlayersList";
 import styles from "./RoundPlayersPage.module.scss";
 
@@ -43,6 +44,7 @@ const RoundPlayersPage = ({ title }: IProps) => {
       <div className={styles.filtersWrapper}>
         <div className={styles.filters}>
           <RoundPlayersFilters />
+          <RoundPlayersFiltersDrawer />
           {filterCount > 0 && (
             <Link asButton onClick={clearFilter}>
               {t("round_players_page.clear_filters")}

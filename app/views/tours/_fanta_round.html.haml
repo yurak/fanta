@@ -4,7 +4,7 @@
     .round-matches
       - if tour.national?
         = render 'tournaments/national_matches', matches: tour.tournament_round.national_matches
-      - if tour.eurocup?
+      - else
         = render 'tournaments/tournament_matches', matches: tour.tournament_round.tournament_matches
   - unless tour.inactive?
     - lineups_by_team = tour.lineups.index_by(&:team_id)

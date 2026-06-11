@@ -19,13 +19,30 @@ interface IProps {
   onChange: (value: number | null) => void,
 }
 
-const LeagueFilter = ({ leagues, value, onChange }: IProps) => {
+// Inline single-select league list, shared by the desktop popover and the
+// mobile filters drawer.
+export const LeagueRadioGroup = ({ leagues, value, onChange }: IProps) => {
   const { t } = useTranslation();
 
   const options = useMemo<ILeagueOption[]>(
     () => [{ id: ALL_LEAGUES, name: t("round_players_page.filters.all_leagues") }, ...leagues],
     [leagues, t]
   );
+
+  return (
+    <RadioboxGroup<ILeagueOption, number>
+      options={options}
+      value={value ?? ALL_LEAGUES}
+      onChange={(id) => onChange(id === ALL_LEAGUES ? null : id)}
+      getOptionValue={(option) => option.id}
+      getOptionKey={(option) => option.id}
+      formatOptionLabel={(option) => option.name}
+    />
+  );
+};
+
+const LeagueFilter = ({ leagues, value, onChange }: IProps) => {
+  const { t } = useTranslation();
 
   const selectedLabel = value ? leagues.find((league) => league.id === value)?.name ?? "..." : null;
 
@@ -35,14 +52,7 @@ const LeagueFilter = ({ leagues, value, onChange }: IProps) => {
       selectedLabel={selectedLabel}
       clearValue={() => onChange(null)}
     >
-      <RadioboxGroup<ILeagueOption, number>
-        options={options}
-        value={value ?? ALL_LEAGUES}
-        onChange={(id) => onChange(id === ALL_LEAGUES ? null : id)}
-        getOptionValue={(option) => option.id}
-        getOptionKey={(option) => option.id}
-        formatOptionLabel={(option) => option.name}
-      />
+      <LeagueRadioGroup leagues={leagues} value={value} onChange={onChange} />
     </PopoverInput>
   );
 };

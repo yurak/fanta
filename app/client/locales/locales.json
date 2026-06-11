@@ -1327,7 +1327,10 @@
       "title": "%{tournament} Round #%{number} Best Players"
     },
     "round_players_page": {
+      "all_filters": "Filters",
+      "apply": "Apply",
       "apps": "apps",
+      "clear_all": "Clear all",
       "clear_filters": "Clear filters",
       "columns": {
         "appearances": "APPEARANCES",
@@ -1343,6 +1346,7 @@
         "all_leagues": "All leagues",
         "clubs": "Clubs",
         "league": "League",
+        "position": "Position",
         "teams": "Teams"
       },
       "main": "main",
@@ -1353,6 +1357,22 @@
       "results_title": "Showing",
       "search_placeholder": "Search",
       "search_player": "Search player",
+      "sorter": {
+        "appearances_asc": "Appearances (Low to High)",
+        "appearances_desc": "Appearances (High to Low)",
+        "apply": "Apply",
+        "base_score_asc": "Base score (Low to High)",
+        "base_score_desc": "Base score (High to Low)",
+        "club_asc": "Club (A to Z)",
+        "club_desc": "Club (Z to A)",
+        "main_squad_asc": "Main squad (Low to High)",
+        "main_squad_desc": "Main squad (High to Low)",
+        "name_asc": "Name (A to Z)",
+        "name_desc": "Name (Z to A)",
+        "result_score_asc": "Rating (Low to High)",
+        "result_score_desc": "Rating (High to Low)",
+        "sort_by": "Sort by"
+      },
       "title": "%{tournament} Round #%{number} Best Players",
       "title_short": "%{tournament} Round #%{number}"
     },
@@ -3160,7 +3180,10 @@
       "title": "Найкращі Гравці %{tournament} Раунд #%{number}"
     },
     "round_players_page": {
+      "all_filters": "Фільтри",
+      "apply": "Застосувати",
       "apps": "появ",
+      "clear_all": "Очистити все",
       "clear_filters": "Очистити",
       "columns": {
         "appearances": "ПОЯВИ",
@@ -3176,6 +3199,7 @@
         "all_leagues": "Всі ліги",
         "clubs": "Клуби",
         "league": "Ліга",
+        "position": "Позиція",
         "teams": "Збірні"
       },
       "main": "осн",
@@ -3186,6 +3210,22 @@
       "results_title": "Знайдено",
       "search_placeholder": "Пошук",
       "search_player": "Пошук гравця",
+      "sorter": {
+        "appearances_asc": "Появи (зростання)",
+        "appearances_desc": "Появи (спадання)",
+        "apply": "Застосувати",
+        "base_score_asc": "Базова оцінка (зростання)",
+        "base_score_desc": "Базова оцінка (спадання)",
+        "club_asc": "Клуб (А-Я)",
+        "club_desc": "Клуб (Я-А)",
+        "main_squad_asc": "Основа (зростання)",
+        "main_squad_desc": "Основа (спадання)",
+        "name_asc": "Ім'я (А-Я)",
+        "name_desc": "Ім'я (Я-А)",
+        "result_score_asc": "Рейтинг (зростання)",
+        "result_score_desc": "Рейтинг (спадання)",
+        "sort_by": "Сортувати за"
+      },
       "title": "Найкращі Гравці %{tournament} Раунд #%{number}",
       "title_short": "%{tournament} Раунд #%{number}"
     },

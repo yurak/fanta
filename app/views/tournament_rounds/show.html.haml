@@ -22,7 +22,10 @@
                 .round-tour-status{ class: "round-status-#{tour.status}" }= tour.status
                 .round-tour-number= "##{tour.number}"
         .round-matches
-          = render 'tournaments/tournament_matches', matches: tournament_round.tournament_matches
+          - if tournament_round.tournament.national?
+            = render 'tournaments/national_matches', matches: tournament_round.national_matches
+          - else
+            = render 'tournaments/tournament_matches', matches: tournament_round.tournament_matches
       .round-actions
         - if tournament_round.tours.locked_postponed.any?
           .round-action-link

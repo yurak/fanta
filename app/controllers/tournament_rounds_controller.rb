@@ -98,7 +98,8 @@ class TournamentRoundsController < ApplicationController
   def tournament_round
     @tournament_round ||= TournamentRound.includes(
       tours: { league: :division },
-      tournament_matches: %i[host_club guest_club]
+      tournament_matches: %i[host_club guest_club],
+      national_matches: %i[host_team guest_team]
     ).find(params[:id] || params[:tournament_round_id])
   end
 end

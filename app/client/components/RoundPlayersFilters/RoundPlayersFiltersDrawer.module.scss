@@ -1,0 +1,19 @@
+.trigger {
+  display: none;
+
+  @media (max-width: 768px) {
+    display: inline-flex;
+  }
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sortLabel {
+  display: inline-block;
+  max-width: 170px;
+  font-size: 12px;
+}
