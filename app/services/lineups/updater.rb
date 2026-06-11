@@ -7,9 +7,11 @@ module Lineups
     end
 
     def call
-      return false if tour&.lineups.blank?
+      lineups = tour&.lineups&.includes(:team_module, { team: %i[league tournament] },
+                                        match_players: { round_player: :tournament_round })
+      return false if lineups.blank?
 
-      tour.lineups.each do |lineup|
+      lineups.each do |lineup|
         lineup.final_score = lineup.current_score
         lineup.update(final_score: lineup.final_score, final_goals: lineup.live_goals)
       end
