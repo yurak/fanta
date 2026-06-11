@@ -1,6 +1,19 @@
 module Manage
   class PlayersController < BaseController
-    def index; end
+    def index
+      @players = filter_players.order(id: :desc).page(params[:page]).per(PER_PAGE)
+      @clubs = Club.active.order(:name)
+    end
+
+    def show
+      @player = Player.includes(:club, :positions, :national_team,
+                                club_transfers: %i[old_club new_club]).find(params[:id])
+      @club_transfers = @player.club_transfers.recent
+      @active_clubs = Club.active.order(:name)
+      @teams = @player.teams.includes(league: :tournament)
+      @team_transfers = @player.transfers.incoming.index_by(&:team_id)
+      @season_stats = player_season_stats
+    end
 
     def create
       result = parse_player_hash(params[:player_hash])
@@ -18,6 +31,26 @@ module Manage
     end
 
     private
+
+    def player_season_stats
+      PlayerSeasonStat.includes(:club, :season)
+                      .where(player: @player)
+                      .order('seasons.start_year DESC')
+                      .references(:season)
+    end
+
+    def filter_players
+      players = Player.includes(:club, :positions)
+      if params[:name].present?
+        players = players.where('players.name ILIKE ? OR players.first_name ILIKE ?',
+                                "%#{params[:name]}%", "%#{params[:name]}%")
+      end
+      players = players.where(id: params[:id]) if params[:id].present?
+      players = players.where(tm_id: params[:tm_id]) if params[:tm_id].present?
+      players = players.where(fotmob_id: params[:fotmob_id]) if params[:fotmob_id].present?
+      players = players.joins(:club).where(clubs: { id: params[:club_id] }) if params[:club_id].present?
+      players
+    end
 
     def parse_player_hash(raw)
       return nil if raw.blank?

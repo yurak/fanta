@@ -46,8 +46,12 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :players, only: [:index, :create]
-    resources :clubs, only: [:index]
+    resources :players, only: [:index, :create, :show] do
+      resources :club_transfers, only: [:create]
+    end
+    resources :club_transfers, only: [:index]
+    resources :clubs, only: [:index, :show]
+    resources :national_teams, only: [:index, :show]
     resources :teams, only: [:index]
     resources :users, only: [:index, :show]
     resources :weekly_teams, only: [:index, :new, :create]

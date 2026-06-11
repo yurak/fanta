@@ -1,0 +1,66 @@
+.page-block
+  .web-header= render 'layouts/left_nav', league: nil
+  .web-header= render 'layouts/manage_nav'
+  .mob-header= render 'layouts/mob_header', league: nil, title: @club.name
+  .page-info.admin-manage-page
+    = link_to t('manage.clubs.back'), manage_clubs_path, class: 'btn btn-sm btn-outline-secondary mb-3'
+
+    %h2= @club.name
+
+    %h5.mt-4= t('manage.clubs.section_info')
+    .d-flex.gap-4.align-items-start
+      %table.table.table-sm.w-auto.mb-0
+        %tbody
+          %tr
+            %th ID
+            %td= @club.id
+          %tr
+            %th= t('manage.clubs.name')
+            %td= @club.name
+          %tr
+            %th= t('manage.clubs.col_code')
+            %td= @club.code
+          %tr
+            %th= t('manage.clubs.col_players_count')
+            %td= @players_count
+          %tr
+            %th= t('manage.clubs.tournament')
+            %td= @club.tournament&.name || '—'
+          %tr
+            %th= t('manage.clubs.col_ec_tournament')
+            %td= @club.ec_tournament&.name || '—'
+          %tr
+            %th= t('manage.clubs.col_status')
+            %td= @club.status
+          %tr
+            %th= t('manage.clubs.col_tm_name')
+            %td= @club.tm_name
+      - club_color = @club.color.presence || '181715'
+      .club-show-visual{style: "display: flex; align-items: center; gap: 24px; flex-shrink: 0; background-color: ##{club_color}; border-radius: 8px; padding: 12px; margin-left: 24px;"}
+        = image_tag(@club.logo_path, width: 150, height: 150, onerror: "this.style.visibility='hidden'")
+        .club-show-kit{style: 'position: relative; width: 150px; height: 150px; flex-shrink: 0;'}
+          = image_tag('avatar.png', width: 150, height: 150, style: 'position: absolute; top: 0; left: 0;')
+          %object{data: @club.profile_kit_path, type: ApplicationRecord::CONTENT_TYPE_PNG, width: 150, height: 150, style: 'position: absolute; top: 0; left: 0;'}
+
+    - if @club.tm_url.present?
+      %h5.mt-4= t('manage.clubs.section_links')
+      = link_to 'Transfermarkt', @club.tm_url, target: '_blank', rel: 'noopener', class: 'btn btn-sm', style: 'background-color: #003478; color: #fff; border-color: #003478;'
+
+    %h5.mt-4= t('manage.clubs.section_players')
+    - if @players.any?
+      %table.table.table-hover.table-sm
+        %thead.thead-light
+          %tr
+            %th ID
+            %th= t('manage.players.col_name')
+            %th= t('manage.players.col_first_name')
+            %th
+        %tbody
+          - @players.each do |player|
+            %tr
+              %td= player.id
+              %td= player.name
+              %td= player.first_name
+              %td= link_to t('manage.players.view'), manage_player_path(player), class: 'btn btn-sm btn-outline-primary'
+    - else
+      %p.text-muted= t('manage.clubs.no_players')

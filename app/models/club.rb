@@ -38,6 +38,10 @@ class Club < ApplicationRecord
     name.downcase.tr(' ', '_')
   end
 
+  def tm_id
+    tm_url&.split('/')&.last
+  end
+
   def opponent_by_round(tournament_round)
     matches = tournament_round.tournament_matches.to_a
     host_match = matches.find { |m| m.host_club_id == id }

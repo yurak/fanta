@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe Players::Transfermarkt::ApiParser do
   let(:tm_id) { '123456' }
 
+  # rubocop:disable Metrics/MethodLength
   def api_response(overrides = {})
     {
       'name' => 'John Doe',
@@ -10,16 +11,18 @@ RSpec.describe Players::Transfermarkt::ApiParser do
       'lifeDates' => { 'dateOfBirth' => '1995-01-01' },
       'attributes' => {
         'height' => 1.80,
+        'contractUntil' => '2026-06-30',
         'position' => { 'shortName' => 'CB' },
         'firstSidePosition' => { 'shortName' => 'LB' },
         'secondSidePosition' => { 'shortName' => nil }
       },
       'marketValueDetails' => { 'current' => { 'value' => 5_000_000 } },
       'clubAssignments' => [
-        { 'type' => 'current', 'clubId' => '506', 'shirtNumber' => 5 }
+        { 'type' => 'current', 'clubId' => '506', 'shirtNumber' => 5, 'start' => '2019-07-01' }
       ]
     }.merge(overrides)
   end
+  # rubocop:enable Metrics/MethodLength
 
   def stub_api(data)
     response = instance_double(RestClient::Response, body: JSON.generate({ 'data' => data }))
@@ -96,6 +99,22 @@ RSpec.describe Players::Transfermarkt::ApiParser do
       it 'returns date of birth in DD/MM/YYYY format' do
         expect(result[:birth_date]).to eq('01/01/1995')
       end
+
+      context 'when date is invalid' do
+        before { stub_api(api_response('lifeDates' => { 'dateOfBirth' => 'not-a-date' })) }
+
+        it 'returns nil' do
+          expect(result[:birth_date]).to be_nil
+        end
+      end
+
+      context 'when dateOfBirth is missing' do
+        before { stub_api(api_response('lifeDates' => {})) }
+
+        it 'returns nil' do
+          expect(result[:birth_date]).to be_nil
+        end
+      end
     end
 
     describe 'height' do
@@ -115,6 +134,14 @@ RSpec.describe Players::Transfermarkt::ApiParser do
     describe 'price' do
       it 'returns market value as integer' do
         expect(result[:tm_price]).to eq(5_000_000)
+      end
+
+      context 'when marketValueDetails is missing' do
+        before { stub_api(api_response('marketValueDetails' => nil)) }
+
+        it 'returns 0' do
+          expect(result[:tm_price]).to eq(0)
+        end
       end
     end
 
@@ -150,6 +177,97 @@ RSpec.describe Players::Transfermarkt::ApiParser do
       end
     end
 
+    describe 'club_joined_on' do
+      it 'returns ISO8601 string' do
+        expect(result[:club_joined_on]).to eq('2019-07-01')
+      end
+
+      it 'is a String, not a Date' do
+        expect(result[:club_joined_on]).to be_a(String)
+      end
+
+      context 'when start date is missing' do
+        before do
+          stub_api(api_response('clubAssignments' => [
+                                  { 'type' => 'current', 'clubId' => '506', 'shirtNumber' => 5 }
+                                ]))
+        end
+
+        it 'returns nil' do
+          expect(result[:club_joined_on]).to be_nil
+        end
+      end
+
+      context 'when start date is invalid' do
+        before do
+          stub_api(api_response('clubAssignments' => [
+                                  { 'type' => 'current', 'clubId' => '506', 'shirtNumber' => 5, 'start' => 'not-a-date' }
+                                ]))
+        end
+
+        it 'returns nil' do
+          expect(result[:club_joined_on]).to be_nil
+        end
+      end
+    end
+
+    describe 'contract_until' do
+      it 'returns ISO8601 string' do
+        expect(result[:contract_until]).to eq('2026-06-30')
+      end
+
+      it 'is a String, not a Date' do
+        expect(result[:contract_until]).to be_a(String)
+      end
+
+      context 'when contractUntil is missing' do
+        before do
+          stub_api(api_response('attributes' => api_response['attributes'].except('contractUntil')))
+        end
+
+        it 'returns nil' do
+          expect(result[:contract_until]).to be_nil
+        end
+      end
+
+      context 'when contractUntil is invalid' do
+        before do
+          stub_api(api_response('attributes' => api_response['attributes'].merge('contractUntil' => 'not-a-date')))
+        end
+
+        it 'returns nil' do
+          expect(result[:contract_until]).to be_nil
+        end
+      end
+    end
+
+    describe 'loan' do
+      it 'returns false when onLoan is not set' do
+        expect(result[:loan]).to be(false)
+      end
+
+      context 'when player is on loan' do
+        before do
+          stub_api(api_response('clubAssignments' => [
+                                  { 'type' => 'current', 'clubId' => '506', 'shirtNumber' => 5,
+                                    'start' => '2019-07-01', 'onLoan' => true }
+                                ]))
+        end
+
+        it 'returns true' do
+          expect(result[:loan]).to be(true)
+        end
+      end
+
+      context 'when there is no current assignment' do
+        before { stub_api(api_response('clubAssignments' => [])) }
+
+        it 'returns false' do
+          expect(result[:loan]).to be(false)
+        end
+      end
+    end
+
     describe 'tm_url' do
       it 'builds url from tm_id' do
         expect(result[:tm_url]).to include(tm_id)
@@ -167,8 +285,49 @@ RSpec.describe Players::Transfermarkt::ApiParser do
         expect(result[:club_name]).to eq(club.name)
       end
 
-      context 'when no club matches' do
+      it 'sets tm_club_id from current assignment' do
+        expect(result[:tm_club_id]).to eq('506')
+      end
+
+      it 'sets tm_club_name from matched club tm_name' do
+        expect(result[:tm_club_name]).to eq(club.tm_name)
+      end
+
+      context 'when no club matches by tm_url' do
         before { stub_api(api_response('clubAssignments' => [{ 'type' => 'current', 'clubId' => '99999', 'shirtNumber' => 1 }])) }
+
+        it 'returns nil club_id' do
+          expect(result[:club_id]).to be_nil
+        end
+
+        it 'returns nil tm_club_name' do
+          expect(result[:tm_club_name]).to be_nil
+        end
+      end
+
+      context 'when club is matched via reserve_club_ids' do
+        let!(:reserve_club) do
+          create(:club, tm_url: 'https://www.transfermarkt.com/other/startseite/verein/1',
+                        reserve_club_ids: ['77777'])
+        end
+
+        before do
+          stub_api(api_response('clubAssignments' => [
+                                  { 'type' => 'current', 'clubId' => '77777', 'shirtNumber' => 7, 'start' => '2020-01-01' }
+                                ]))
+        end
+
+        it 'matches club via reserve_club_ids' do
+          expect(result[:club_id]).to eq(reserve_club.id)
+        end
+      end
+
+      context 'when there is no current assignment' do
+        before { stub_api(api_response('clubAssignments' => [])) }
+
+        it 'returns nil tm_club_id' do
+          expect(result[:tm_club_id]).to be_nil
+        end
 
         it 'returns nil club_id' do
           expect(result[:club_id]).to be_nil

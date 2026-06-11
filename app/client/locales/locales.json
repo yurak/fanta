@@ -37,6 +37,16 @@
           }
         },
         "models": {
+          "club_transfer": {
+            "attributes": {
+              "contract_expires_on": {
+                "before_start_date": "must be after start date"
+              },
+              "new_club": {
+                "same_as_old": "must differ from old club"
+              }
+            }
+          },
           "join": {
             "attributes": {
               "user_id": {
@@ -833,14 +843,35 @@
         "titles": "Titles",
         "user": "Manager"
       },
+      "club_transfers": {
+        "created": "Club updated successfully",
+        "empty": "No club transfers found",
+        "failed": "Failed to update club",
+        "filter_club": "Club name",
+        "filter_player": "Player name",
+        "reset": "Reset",
+        "search": "Search",
+        "title": "Club Transfers"
+      },
       "clubs": {
+        "back": "← Clubs",
+        "col_code": "Code",
+        "col_ec_tournament": "Eurocup",
+        "col_players_count": "Players",
+        "col_status": "Status",
+        "col_tm_name": "TM name",
         "empty": "No clubs found",
         "filter_name": "Name",
         "name": "Name",
+        "no_players": "No players",
         "reset": "Reset",
         "search": "Search",
+        "section_info": "Club Info",
+        "section_links": "Links",
+        "section_players": "Players",
         "title": "Clubs",
-        "tournament": "Tournament"
+        "tournament": "Tournament",
+        "view": "View"
       },
       "joins": {
         "actions": "Actions",
@@ -949,12 +980,32 @@
         "view_league": "View League",
         "view_manager": "Open manager page"
       },
+      "national_teams": {
+        "back": "← National Teams",
+        "col_code": "Code",
+        "col_players_count": "Players",
+        "col_status": "Status",
+        "col_tournament": "Tournament",
+        "empty": "No national teams found",
+        "filter_name": "Name",
+        "filter_status": "All statuses",
+        "filter_tournament": "All tournaments",
+        "no_players": "No players",
+        "reset": "Reset",
+        "search": "Search",
+        "section_info": "Info",
+        "section_players": "Players",
+        "title": "National Teams",
+        "view": "View"
+      },
       "nav": {
         "auctions": "Auctions",
         "champions": "Champions",
+        "club_transfers": "Club Transfers",
         "clubs": "Clubs",
         "joins": "Join Apps",
         "leagues": "Leagues",
+        "national_teams": "National Teams",
         "players": "Players",
         "teams": "Teams",
         "title": "Admin panel",
@@ -963,14 +1014,59 @@
       },
       "players": {
         "add_player": "Add player",
+        "back": "← Players",
         "cancel": "Cancel",
+        "change_club": "Change Club",
+        "col_assists": "Assists",
+        "col_avg_base_score": "Base score",
+        "col_avg_total_score": "Total score",
+        "col_birth_date": "Birth date",
+        "col_buy_price": "Buy price",
+        "col_club": "Club",
+        "col_contract_expires": "Contract until",
+        "col_first_name": "First name",
+        "col_goals": "Goals",
+        "col_height": "Height",
+        "col_league": "League",
+        "col_loan": "Loan",
+        "col_matches": "Matches",
+        "col_minutes": "Minutes",
+        "col_name": "Last name",
+        "col_national_team": "National team",
+        "col_nationality": "Nationality",
+        "col_new_club": "To",
+        "col_number": "Number",
+        "col_old_club": "From",
+        "col_positions": "Positions",
+        "col_price": "TM price",
+        "col_red_cards": "Red cards",
+        "col_season": "Season",
+        "col_start_date": "Start date",
+        "col_team": "Team",
+        "col_tournament": "Tournament",
+        "col_yellow_cards": "Yellow cards",
         "create": "Create",
         "created": "Player created successfully",
+        "empty": "No players found",
         "failed": "Failed to create player",
+        "filter_name": "Name",
         "hash_label": "Player hash",
         "hash_placeholder": "{\"first_name\"=>\"Julian\", \"name\"=>\"Alvarez\", ...}",
         "invalid_hash": "Invalid hash format",
-        "title": "Players"
+        "no_stats": "No stats yet",
+        "no_teams": "No teams",
+        "no_transfers": "No transfer history",
+        "reset": "Reset",
+        "save": "Save",
+        "search": "Search",
+        "section_basic": "Basic Info",
+        "section_club_transfers": "Club Transfer History",
+        "section_links": "External Links",
+        "section_season_stats": "Season Stats",
+        "section_teams": "Teams",
+        "select_club": "Select club...",
+        "title": "Players",
+        "view": "View"
       },
       "teams": {
         "empty": "No teams found",
@@ -2356,6 +2452,16 @@
       },
       "errors": {
         "models": {
+          "club_transfer": {
+            "attributes": {
+              "contract_expires_on": {
+                "before_start_date": "має бути після дати початку"
+              },
+              "new_club": {
+                "same_as_old": "має відрізнятись від старого клубу"
+              }
+            }
+          },
           "join": {
             "attributes": {
               "user_id": {
@@ -2748,14 +2854,35 @@
         "titles": "Титули",
         "user": "Менеджер"
       },
+      "club_transfers": {
+        "created": "Клуб успішно оновлено",
+        "empty": "Переходів не знайдено",
+        "failed": "Не вдалося оновити клуб",
+        "filter_club": "Назва клубу",
+        "filter_player": "Ім'я гравця",
+        "reset": "Скинути",
+        "search": "Шукати",
+        "title": "Переходи між клубами"
+      },
       "clubs": {
+        "back": "← Клуби",
+        "col_code": "Код",
+        "col_ec_tournament": "Єврокубок",
+        "col_players_count": "Гравці",
+        "col_status": "Статус",
+        "col_tm_name": "TM назва",
         "empty": "Клубів не знайдено",
         "filter_name": "Назва",
         "name": "Назва",
+        "no_players": "Немає гравців",
         "reset": "Скинути",
         "search": "Шукати",
+        "section_info": "Інформація",
+        "section_links": "Посилання",
+        "section_players": "Гравці",
         "title": "Клуби",
-        "tournament": "Турнір"
+        "tournament": "Турнір",
+        "view": "Переглянути"
       },
       "joins": {
         "actions": "Дії",
@@ -2864,9 +2991,28 @@
         "view_league": "Відкрити лігу",
         "view_manager": "Відкрити сторінку менеджера"
       },
+      "national_teams": {
+        "back": "← Нац. команди",
+        "col_code": "Код",
+        "col_players_count": "Гравці",
+        "col_status": "Статус",
+        "col_tournament": "Турнір",
+        "empty": "Команд не знайдено",
+        "filter_name": "Назва",
+        "filter_status": "Всі статуси",
+        "filter_tournament": "Всі турніри",
+        "no_players": "Немає гравців",
+        "reset": "Скинути",
+        "search": "Шукати",
+        "section_info": "Інформація",
+        "section_players": "Гравці",
+        "title": "Нац. команди",
+        "view": "Переглянути"
+      },
       "nav": {
         "auctions": "Аукціони",
         "champions": "Чемпіони",
+        "club_transfers": "Переходи",
         "clubs": "Клуби",
         "joins": "Заявки",
         "leagues": "Ліги",
@@ -2878,14 +3024,58 @@
       },
       "players": {
         "add_player": "Додати гравця",
+        "back": "← Гравці",
         "cancel": "Скасувати",
+        "change_club": "Змінити клуб",
+        "col_assists": "Асисти",
+        "col_avg_base_score": "Base score",
+        "col_avg_total_score": "Total score",
+        "col_birth_date": "Дата народження",
+        "col_club": "Клуб",
+        "col_contract_expires": "Контракт до",
+        "col_first_name": "Ім'я",
+        "col_goals": "Голи",
+        "col_height": "Зріст",
+        "col_league": "Ліга",
+        "col_loan": "Оренда",
+        "col_matches": "Матчі",
+        "col_minutes": "Хвилини",
+        "col_name": "Прізвище",
+        "col_national_team": "Національна команда",
+        "col_nationality": "Національність",
+        "col_new_club": "До",
+        "col_number": "Номер",
+        "col_old_club": "З",
+        "col_positions": "Позиції",
+        "col_price": "Ціна TM",
+        "col_red_cards": "Червоні карт.",
+        "col_season": "Сезон",
+        "col_start_date": "Дата початку",
+        "col_team": "Команда",
+        "col_tournament": "Турнір",
+        "col_yellow_cards": "Жовті карт.",
         "create": "Створити",
         "created": "Гравця успішно створено",
+        "empty": "Гравців не знайдено",
         "failed": "Не вдалося створити гравця",
+        "filter_name": "Ім'я",
         "hash_label": "Хеш гравця",
         "hash_placeholder": "{\"first_name\"=>\"Julian\", \"name\"=>\"Bazan\", ...}",
         "invalid_hash": "Невірний формат хешу",
-        "title": "Гравці"
+        "no_stats": "Статистики ще немає",
+        "no_teams": "Немає команд",
+        "no_transfers": "Історії переходів немає",
+        "reset": "Скинути",
+        "save": "Зберегти",
+        "search": "Знайти",
+        "section_basic": "Основна інформація",
+        "section_club_transfers": "Історія переходів",
+        "section_links": "Зовнішні посилання",
+        "section_season_stats": "Статистика по сезонах",
+        "section_teams": "Команди",
+        "select_club": "Оберіть клуб...",
+        "title": "Гравці",
+        "view": "Переглянути"
       },
       "teams": {
         "empty": "Команд не знайдено",

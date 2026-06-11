@@ -33,6 +33,7 @@ gem "appsignal"
 # gem 'sassc-rails'
 gem 'rails-i18n', '~> 6.0'
 gem 'rb-readline'
+gem 'aws-sdk-s3', require: false
 gem 'rest-client'
 gem 'rswag-api'
 gem 'rswag-ui'
