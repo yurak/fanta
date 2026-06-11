@@ -34,8 +34,8 @@ const useRoundPlayersSort = () => {
         ? ([
             { sortBy: "appearances", sortOrder: "desc", label: tr("appearances_desc") },
             { sortBy: "appearances", sortOrder: "asc", label: tr("appearances_asc") },
-            { sortBy: "main_squad", sortOrder: "desc", label: tr("main_squad_desc") },
-            { sortBy: "main_squad", sortOrder: "asc", label: tr("main_squad_asc") },
+            { sortBy: "main_appearances", sortOrder: "desc", label: tr("main_squad_desc") },
+            { sortBy: "main_appearances", sortOrder: "asc", label: tr("main_squad_asc") },
           ] as ISortOption[])
         : []),
       { sortBy: "name", sortOrder: "asc", label: tr("name_asc") },
