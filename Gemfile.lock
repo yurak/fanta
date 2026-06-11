@@ -100,7 +100,7 @@ GEM
       aws-sigv4 (~> 1.5)
     aws-sigv4 (1.12.1)
       aws-eventstream (~> 1, >= 1.0.2)
-    base64 (0.3.0)
+    base64 (0.1.1)
     bcrypt (3.1.19)
     bigdecimal (4.1.2)
     bindex (0.8.1)
@@ -537,6 +537,7 @@ DEPENDENCIES
   appsignal
   audited
   aws-sdk-s3
+  base64 (= 0.1.1)
   bootsnap (>= 1.1.0)
   bootstrap (= 4.3.1)
   bullet
