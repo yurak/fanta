@@ -64,5 +64,21 @@ RSpec.describe Results::FantaUpdater do
       it { expect(team_forty_one.results.last.position).to eq(41) }
       it { expect(team_forty_one.results.last.secondary_position).to eq(41) }
     end
+
+    context 'when team has no result record' do
+      let(:tour) { create(:closed_tour) }
+      let(:team_without_result) { create(:team, league: tour.league) }
+
+      before do
+        create(:lineup, :with_team_and_score_six, team: team_without_result, tour: tour)
+      end
+
+      it 'creates result and updates it' do
+        updater.call
+
+        result = team_without_result.results.last
+        expect(result.total_score).to eq(66)
+      end
+    end
   end
 end
