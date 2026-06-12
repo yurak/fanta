@@ -352,7 +352,6 @@
 
     .self-team {
       border-bottom: 1px solid #181715;
-      background: #FFEBC2;
 
       .team-row-name {
         color: #181715;
@@ -370,7 +369,7 @@
 
       .round-lineup-actions {
         margin-left: auto;
-        margin-right: 0;
+        margin-right: 8px;
       }
     }
 
@@ -729,7 +728,19 @@
           border-bottom: 3px solid #181715;
 
           .team-row-name-lineup .round-lineup-actions {
-            display: none;
+            display: block;
+            width: auto;
+            margin: 0;
+            white-space: nowrap;
+
+            .round-lineup-edit-block,
+            .round-lineup-set-squad {
+              display: none;
+            }
+
+            .round-lineup-set-block {
+              width: auto;
+            }
           }
         }
 
