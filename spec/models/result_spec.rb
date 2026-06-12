@@ -7,6 +7,28 @@ RSpec.describe Result do
     it { is_expected.to delegate_method(:lineups).to(:team) }
   end
 
+  describe '#reset_stats' do
+    let(:result) do
+      create(:result, points: 10, scored_goals: 5, missed_goals: 3, wins: 3, draws: 1, loses: 2,
+                      total_score: 120.5, best_lineup: 70.5, history: '[{"p":10}]',
+                      position: 2, secondary_position: 3)
+    end
+
+    before { result.reset_stats }
+
+    it { expect(result.points).to eq(0) }
+    it { expect(result.scored_goals).to eq(0) }
+    it { expect(result.missed_goals).to eq(0) }
+    it { expect(result.wins).to eq(0) }
+    it { expect(result.draws).to eq(0) }
+    it { expect(result.loses).to eq(0) }
+    it { expect(result.total_score).to eq(0) }
+    it { expect(result.best_lineup).to eq(0) }
+    it { expect(result.history).to eq('[]') }
+    it { expect(result.position).to be_nil }
+    it { expect(result.secondary_position).to be_nil }
+  end
+
   describe '#matches_played' do
     context 'without wins, draws and loses' do
       it 'returns zero' do

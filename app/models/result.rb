@@ -71,6 +71,13 @@ class Result < ApplicationRecord
     user_title.nil?
   end
 
+  def reset_stats
+    update(
+      points: 0, scored_goals: 0, missed_goals: 0, wins: 0, draws: 0, loses: 0,
+      total_score: 0, best_lineup: 0, history: '[]', position: nil, secondary_position: nil
+    )
+  end
+
   def matches_played
     @matches_played ||= wins + draws + loses
   end

@@ -427,6 +427,56 @@ RSpec.describe 'Manage::Leagues' do
     end
   end
 
+  describe 'POST #refresh' do
+    let!(:league) { create(:league, :fanta_league) }
+    let(:tour) { create(:closed_tour, league: league, tournament_round: create(:tournament_round, tournament: league.tournament)) }
+    let(:team) { create(:team, :with_result, league: league) }
+
+    context 'when user is logged out' do
+      before { post refresh_manage_league_path(league) }
+
+      it { expect(response).to redirect_to('/users/sign_in') }
+    end
+
+    context 'when regular user is logged in' do
+      login_user
+
+      before { post refresh_manage_league_path(league) }
+
+      it { expect(response).to redirect_to(leagues_path) }
+    end
+
+    context 'when admin is logged in' do
+      login_admin
+
+      before do
+        create(:lineup, team: team, tour: tour, final_score: 93)
+        Results::FantaUpdater.call(tour)
+        post refresh_manage_league_path(league)
+      end
+
+      it { expect(response).to redirect_to(manage_league_path(league)) }
+
+      it 'recalculates results without doubling totals' do
+        expect(team.results.last.total_score).to eq(93)
+      end
+
+      it 'recalculates points without doubling' do
+        expect(team.results.last.points).to eq(60)
+      end
+
+      it 'recalculates draws without doubling' do
+        expect(team.results.last.draws).to eq(1)
+      end
+
+      it 'stays idempotent on repeated refresh' do
+        post refresh_manage_league_path(league)
+
+        expect(team.results.last.total_score).to eq(93)
+      end
+    end
+  end
+
   describe 'POST #archive' do
     let!(:league) { create(:active_league) }
 

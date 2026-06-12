@@ -62,6 +62,7 @@ module Manage
 
     def refresh
       Results::Creator.call(league.id)
+      league.results.each(&:reset_stats)
       updater = league.fanta? ? Results::FantaUpdater : Results::Updater
       league.tours.closed.each { |tour| updater.call(tour) }
       redirect_to manage_league_path(league), notice: t('manage.leagues.refreshed')

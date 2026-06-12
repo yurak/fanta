@@ -65,6 +65,28 @@ RSpec.describe Results::FantaUpdater do
       it { expect(team_forty_one.results.last.secondary_position).to eq(41) }
     end
 
+    context 'when lineups have equal total score' do
+      let(:league) { create(:league, :fanta_league) }
+      let(:tour) { create(:closed_tour, league: league, tournament_round: create(:tournament_round, tournament: league.tournament)) }
+      let(:team_one) { create(:team, :with_result, league: league) }
+      let(:team_two) { create(:team, :with_result, league: league) }
+
+      before do
+        create(:lineup, :with_fanta_score_five, team: team_one, tour: tour)
+        lineup_two = create(:lineup, :with_fanta_score_five, team: team_two, tour: tour)
+        lineup_two.match_players.subs_bench.last.round_player.update(score: 9.0)
+        updater.call
+      end
+
+      it 'gives top points to the lineup winning by tiebreak' do
+        expect(team_two.results.last.points).to eq(60)
+      end
+
+      it 'gives second points to the lineup losing by tiebreak' do
+        expect(team_one.results.last.points).to eq(54)
+      end
+    end
+
     context 'when team has no result record' do
       let(:tour) { create(:closed_tour) }
       let(:team_without_result) { create(:team, league: tour.league) }

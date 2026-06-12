@@ -48,16 +48,12 @@ module Results
     end
 
     def update_points
-      i = 0
-      lineups.group_by(&:total_score).each_value do |lineups|
-        next if i >= POINTS_MAP.length
+      lineups.each_with_index do |lineup, i|
+        break if i >= POINTS_MAP.length
 
-        lineups.each do |lineup|
-          result = result_for(lineup.team)
+        result = result_for(lineup.team)
 
-          result.update(points: result.points + POINTS_MAP[i])
-        end
-        i += lineups.count
+        result.update(points: result.points + POINTS_MAP[i])
       end
     end
 
