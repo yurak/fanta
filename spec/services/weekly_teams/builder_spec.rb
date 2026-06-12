@@ -147,6 +147,124 @@ RSpec.describe WeeklyTeams::Builder do
     end
   end
 
+  context 'when national round limits players per national team' do
+    let(:round_ids) { [round.id] }
+    let(:national_team) { create(:national_team) }
+
+    before do
+      create_list(:national_match, 2, tournament_round: round)
+
+      2.times { create(:round_player, :with_pos_dc, score: 9, tournament_round: round).player.update(national_team: national_team) }
+      2.times { create(:round_player, :with_pos_c, score: 9, tournament_round: round).player.update(national_team: national_team) }
+      2.times { create(:round_player, :with_pos_a, score: 9, tournament_round: round).player.update(national_team: national_team) }
+    end
+
+    it 'picks at most 4 players of one national team in every module' do
+      result.each do |(_mod, team)|
+        picked = team.filter_map { |row| row[:entry] }
+        same_team = picked.count { |e| e[:player].national_team_id == national_team.id }
+        expect(same_team).to be <= 4
+      end
+    end
+
+    it 'fills the allowed number of players from the capped team' do
+      _mod, team = result.find { |(mod, _)| mod.name == '4-3-3' }
+      picked = team.filter_map { |row| row[:entry] }
+      same_team = picked.count { |e| e[:player].national_team_id == national_team.id }
+      expect(same_team).to eq(4)
+    end
+
+    context 'with players from another national team' do
+      let(:other_team) { create(:national_team) }
+
+      before do
+        create(:round_player, :with_pos_por, score: 8, tournament_round: round).player.update(national_team: other_team)
+      end
+
+      it 'still assigns players from other teams' do
+        _mod, team = result.first
+        por_row = team.find { |row| row[:slot].position == 'Por' }
+        expect(por_row[:entry][:player].national_team_id).to eq(other_team.id)
+      end
+    end
+  end
+
+  context 'when a stronger capped player can displace a weaker pick' do
+    let(:round_ids) { [round.id] }
+    let(:team) { result.find { |(mod, _)| mod.name == '4-3-3' }.last }
+    let(:picked) { team.filter_map { |row| row[:entry] } }
+    let(:national_team) { create(:national_team) }
+    let(:star) { create(:round_player, :with_pos_a, score: 9.5, tournament_round: round) }
+
+    before do
+      create_list(:national_match, 2, tournament_round: round)
+
+      # 4 top scorers of one national team occupy the cap
+      2.times { create(:round_player, :with_pos_dc, score: 10, tournament_round: round).player.update(national_team: national_team) }
+      2.times { create(:round_player, :with_pos_c, score: 10, tournament_round: round).player.update(national_team: national_team) }
+      # the star of the same team is blocked by the cap
+      star.player.update(national_team: national_team)
+      # weak attacker of another team and a near-top defender alternative
+      create(:round_player, :with_pos_a, score: 5, tournament_round: round)
+      create(:round_player, :with_pos_dc, score: 9.8, tournament_round: round)
+    end
+
+    it 'includes the blocked star by freeing a teammate spot' do
+      expect(picked.pluck(:player)).to include(star.player)
+    end
+
+    it 'keeps the team within the cap' do
+      same_team = picked.count { |e| e[:player].national_team_id == national_team.id }
+      expect(same_team).to eq(4)
+    end
+
+    it 'uses the alternative defender instead of the displaced teammate' do
+      scores = picked.pluck(:total)
+      expect(scores).to include(9.8)
+    end
+  end
+
+  context 'when eurocup round limits players per club' do
+    let(:tournament) { create(:tournament, eurocup: true) }
+    let(:round) { create(:tournament_round, tournament: tournament) }
+    let(:round_ids) { [round.id] }
+    let(:club) { create(:club, tournament: tournament) }
+
+    before do
+      create_list(:tournament_match, 2, tournament_round: round)
+
+      create_list(:round_player, 2, :with_pos_dc, score: 9, tournament_round: round, club: club)
+      create_list(:round_player, 2, :with_pos_c, score: 9, tournament_round: round, club: club)
+      create_list(:round_player, 2, :with_pos_a, score: 9, tournament_round: round, club: club)
+    end
+
+    it 'picks at most 4 players of one club in every module' do
+      result.each do |(_mod, team)|
+        picked = team.filter_map { |row| row[:entry] }
+        same_club = picked.count { |e| e[:round_player].club_id == club.id }
+        expect(same_club).to be <= 4
+      end
+    end
+  end
+
+  context 'when regular round has no per-team limit' do
+    let(:round_ids) { [round.id] }
+    let(:club) { create(:club) }
+
+    before do
+      create_list(:round_player, 2, :with_pos_dc, score: 9, tournament_round: round, club: club)
+      create_list(:round_player, 3, :with_pos_c, score: 9, tournament_round: round, club: club)
+      create_list(:round_player, 2, :with_pos_a, score: 9, tournament_round: round, club: club)
+    end
+
+    it 'allows more than 4 players of one club' do
+      _mod, team = result.find { |(mod, _)| mod.name == '4-3-3' }
+      picked = team.filter_map { |row| row[:entry] }
+      same_club = picked.count { |e| e[:round_player].club_id == club.id }
+      expect(same_club).to be > 4
+    end
+  end
+
   context 'when mode is flop' do
     subject(:result) { described_class.call(round_ids, mode: :flop) }
 

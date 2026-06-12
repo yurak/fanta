@@ -59,5 +59,34 @@ module WeeklyTeams
     def flop?
       @mode == :flop
     end
+
+    def team_cap
+      return @team_cap if defined?(@team_cap)
+
+      @team_cap = build_team_cap
+    end
+
+    def build_team_cap
+      return nil unless @round_ids.size == 1
+
+      round = TournamentRound.find_by(id: @round_ids.first)
+      return nil unless round
+
+      cap = if round.national_matches.exists?
+              @national_cap = true
+              Tour::MAX_PLAYERS_BY_FANTA_MATCHES[round.national_matches.count]
+            elsif round.tournament.eurocup?
+              Tour::MAX_PLAYERS_BY_FANTA_MATCHES[round.tournament_matches.count]
+            end
+      cap&.positive? ? cap : nil
+    end
+
+    def team_key(entry)
+      if @national_cap
+        entry[:player].national_team_id
+      else
+        entry[:round_player].club_id || entry[:player].club_id
+      end
+    end
   end
 end
