@@ -352,6 +352,7 @@
 
     .self-team {
       border-bottom: 1px solid #181715;
+      background: #FFEBC2;
 
       .team-row-name {
         color: #181715;
@@ -404,6 +405,7 @@
 
         .lineup-result {
           padding: 8px 0;
+          margin-right: 8px;
           background: #BA44F1;
           border-radius: 4px;
           font-weight: 700;
@@ -416,6 +418,11 @@
         .lineup-subs-true {
           color: #DB0A23;
         }
+      }
+
+      .team-row.self-team-row {
+        background: #FFEBC2;
+        border-radius: 4px;
       }
 
       .team-row:hover {

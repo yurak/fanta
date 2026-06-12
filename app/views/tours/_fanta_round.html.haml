@@ -56,7 +56,7 @@
         .tour-deadlined{ class: "tour-closed-#{tour.closed?}" }
           - tour.lineups.order(final_score: :desc).each_with_index do |lineup, i|
             = link_to team_lineup_path(lineup.team, lineup) do
-              .team-row
+              .team-row{ class: ('self-team-row' if lineup.team == user_team) }
                 .lineup-team-position
                   = position_number(i + 1)
                 .team-row-logo

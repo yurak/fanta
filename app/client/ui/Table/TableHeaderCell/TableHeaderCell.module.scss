@@ -54,6 +54,10 @@
 }
 
 .withSortInner {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
   @media (min-width: 1201px) {
     padding-right: 32px;
   }
