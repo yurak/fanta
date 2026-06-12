@@ -93,6 +93,24 @@ ActiveRecord::Schema.define(version: 2026_06_11_211140) do
     t.index ["user_id", "user_type"], name: "user_index"
   end
 
+  create_table "club_transfers", force: :cascade do |t|
+    t.bigint "player_id", null: false
+    t.bigint "old_club_id"
+    t.bigint "new_club_id"
+    t.string "old_club_name"
+    t.string "new_club_name"
+    t.date "start_date", null: false
+    t.boolean "loan", default: false, null: false
+    t.date "contract_expires_on"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["new_club_id"], name: "index_club_transfers_on_new_club_id"
+    t.index ["old_club_id"], name: "index_club_transfers_on_old_club_id"
+    t.index ["player_id", "new_club_id", "start_date"], name: "idx_club_transfers_unique_with_club", unique: true, where: "(new_club_id IS NOT NULL)"
+    t.index ["player_id", "new_club_name", "start_date"], name: "idx_club_transfers_unique_without_club", unique: true, where: "(new_club_id IS NULL)"
+    t.index ["player_id"], name: "index_club_transfers_on_player_id"
+  end
+
   create_table "clubs", force: :cascade do |t|
     t.string "code"
     t.string "name"
@@ -676,6 +694,9 @@ ActiveRecord::Schema.define(version: 2026_06_11_211140) do
   add_foreign_key "auction_bids", "teams"
   add_foreign_key "auction_rounds", "auctions"
   add_foreign_key "auctions", "leagues"
+  add_foreign_key "club_transfers", "clubs", column: "new_club_id"
+  add_foreign_key "club_transfers", "clubs", column: "old_club_id"
+  add_foreign_key "club_transfers", "players"
   add_foreign_key "clubs", "tournaments"
   add_foreign_key "joins", "auction_bids"
   add_foreign_key "joins", "teams"

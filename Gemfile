@@ -8,6 +8,7 @@ gem 'pg'
 
 gem 'audited'
 gem 'active_model_serializers', '~> 0.10.0'
+gem 'base64', '= 0.1.1'
 gem 'bootsnap', '>= 1.1.0', require: false
 gem 'bootstrap', '4.3.1'
 gem 'cancancan'
@@ -33,6 +34,7 @@ gem "appsignal"
 # gem 'sassc-rails'
 gem 'rails-i18n', '~> 6.0'
 gem 'rb-readline'
+gem 'aws-sdk-s3', require: false
 gem 'rest-client'
 gem 'rswag-api'
 gem 'rswag-ui'

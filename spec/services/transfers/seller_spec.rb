@@ -29,7 +29,24 @@ RSpec.describe Transfers::Seller do
       end
     end
 
-    context 'when initial sales auction is missing' do
+    context 'when initial sales auction is missing and no auctions exist' do
+      before do
+        create(:transfer, :incoming, player: player, team: team, league: league, price: 25)
+        create(:player_team, player: player, team: team)
+      end
+
+      it 'does not create outgoing transfer' do
+        expect { service_call }.not_to change(Transfer, :count)
+      end
+
+      it 'does not remove player from team' do
+        expect { service_call }.not_to change(PlayerTeam, :count)
+      end
+    end
+
+    context 'when all auctions are closed' do
+      let(:status) { :left }
+
       before do
         create(:transfer, :incoming, player: player, team: team, league: league, price: 25)
         create(:player_team, player: player, team: team)
@@ -38,6 +55,22 @@ RSpec.describe Transfers::Seller do
 
       it 'does not create outgoing transfer' do
         expect { service_call }.not_to change(Transfer, :count)
+      end
+
+      it 'removes player from team' do
+        expect { service_call }.to change(PlayerTeam, :count).by(-1)
+      end
+
+      it 'does not return budget to team' do
+        expect { service_call }.not_to(change { team.reload.budget })
+      end
+
+      it 'notifies telegram bot' do
+        allow(TelegramBot::PlayerSoldNotifier).to receive(:call)
+
+        service_call
+
+        expect(TelegramBot::PlayerSoldNotifier).to have_received(:call).with(player, team)
       end
     end
 

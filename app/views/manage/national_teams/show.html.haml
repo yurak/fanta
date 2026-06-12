@@ -1,0 +1,51 @@
+.page-block
+  .web-header= render 'layouts/left_nav', league: nil
+  .web-header= render 'layouts/manage_nav'
+  .mob-header= render 'layouts/mob_header', league: nil, title: @national_team.name
+  .page-info.admin-manage-page
+    = link_to t('manage.national_teams.back'), manage_national_teams_path, class: 'btn btn-sm btn-outline-secondary mb-3'
+
+    %h2= @national_team.name
+
+    %h5.mt-4= t('manage.national_teams.section_info')
+    %table.table.table-sm.w-auto
+      %tbody
+        %tr
+          %th ID
+          %td= @national_team.id
+        %tr
+          %th= t('manage.national_teams.filter_name')
+          %td= @national_team.name
+        %tr
+          %th= t('manage.national_teams.col_code')
+          %td= @national_team.code
+        %tr
+          %th= t('manage.national_teams.col_tournament')
+          %td= @national_team.tournament&.name || '—'
+        %tr
+          %th= t('manage.national_teams.col_status')
+          %td= @national_team.status
+        %tr
+          %th= t('manage.national_teams.col_players_count')
+          %td= @players_count
+
+    %h5.mt-4= t('manage.national_teams.section_players')
+    - if @players.any?
+      %table.table.table-hover.table-sm
+        %thead.thead-light
+          %tr
+            %th ID
+            %th= t('manage.players.col_name')
+            %th= t('manage.players.col_first_name')
+            %th= t('manage.players.col_club')
+            %th
+        %tbody
+          - @players.each do |player|
+            %tr
+              %td= player.id
+              %td= player.name
+              %td= player.first_name
+              %td= player.club&.name
+              %td= link_to t('manage.players.view'), manage_player_path(player), class: 'btn btn-sm btn-outline-primary'
+    - else
+      %p.text-muted= t('manage.national_teams.no_players')

@@ -1,0 +1,53 @@
+.page-block
+  .web-header= render 'layouts/left_nav', league: nil
+  .web-header= render 'layouts/manage_nav'
+  .mob-header= render 'layouts/mob_header', league: nil, title: t('manage.national_teams.title')
+  .page-info.admin-manage-page
+    %h2= t('manage.national_teams.title')
+
+    - if flash[:notice]
+      .alert.alert-success= flash[:notice]
+    - if flash[:alert]
+      .alert.alert-danger= flash[:alert]
+
+    = form_tag manage_national_teams_path, method: :get, class: 'd-flex gap-2 mb-3 flex-wrap' do
+      = text_field_tag :name, params[:name], class: 'form-control form-control-sm w-auto', placeholder: t('manage.national_teams.filter_name')
+      = select_tag :tournament_id,
+                   options_for_select(@tournaments.map { |t| [t.name, t.id] }, params[:tournament_id]),
+                   include_blank: t('manage.national_teams.filter_tournament'),
+                   class: 'form-control form-control-sm w-auto'
+      = select_tag :status,
+                   options_for_select(NationalTeam.statuses.keys.map { |s| [s.capitalize, s] }, params[:status]),
+                   include_blank: t('manage.national_teams.filter_status'),
+                   class: 'form-control form-control-sm w-auto'
+      = submit_tag t('manage.national_teams.search'), class: 'btn btn-sm btn-primary'
+      - if params[:name].present? || params[:tournament_id].present? || params[:status].present?
+        = link_to t('manage.national_teams.reset'), manage_national_teams_path, class: 'btn btn-sm btn-outline-secondary'
+
+    - if @national_teams.any?
+      %table.table.table-hover.table-sm
+        %thead.thead-light
+          %tr
+            %th ID
+            %th
+            %th= t('manage.national_teams.filter_name')
+            %th= t('manage.national_teams.col_code')
+            %th= t('manage.national_teams.col_tournament')
+            %th= t('manage.national_teams.col_status')
+            %th= t('manage.national_teams.col_players_count')
+            %th
+        %tbody
+          - @national_teams.each do |nt|
+            %tr
+              %td= nt.id
+              %td= flag_icon(nt.code.to_sym, element: :div)
+              %td= link_to nt.name, manage_national_team_path(nt)
+              %td= nt.code
+              %td= nt.tournament&.name || '—'
+              %td= nt.status
+              %td= nt.players_count
+              %td= link_to t('manage.national_teams.view'), manage_national_team_path(nt), class: 'btn btn-sm btn-outline-primary'
+
+      = paginate @national_teams
+    - else
+      %p.text-muted= t('manage.national_teams.empty')

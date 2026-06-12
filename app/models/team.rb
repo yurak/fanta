@@ -15,6 +15,7 @@ class Team < ApplicationRecord
 
   has_many :results, dependent: :destroy
   has_many :transfers, dependent: :destroy
+  has_many :notifications, dependent: :destroy
 
   MAX_PLAYERS = 26
   MIN_GK = 3

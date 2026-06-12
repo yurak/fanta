@@ -1,0 +1,184 @@
+.page-block
+  .web-header= render 'layouts/left_nav', league: nil
+  .web-header= render 'layouts/manage_nav'
+  .mob-header= render 'layouts/mob_header', league: nil, title: @player.name
+  .page-info.admin-manage-page
+    = link_to t('manage.players.back'), manage_players_path, class: 'btn btn-sm btn-outline-secondary mb-3'
+
+    - if flash[:notice]
+      .alert.alert-success= flash[:notice]
+    - if flash[:alert]
+      .alert.alert-danger= flash[:alert]
+
+    %h2= "#{@player.first_name} #{@player.name}"
+    %button.btn.btn-warning.mt-1.mb-3#change-club-btn= t('manage.players.change_club')
+
+    %h5.mt-2= t('manage.players.section_basic')
+    .d-flex.gap-4.align-items-start
+      %table.table.table-sm.w-auto.mb-0
+        %tbody
+          %tr
+            %th ID
+            %td= @player.id
+            %td.px-4
+            %th= t('manage.players.col_birth_date')
+            %td= @player.birth_date
+          %tr
+            %th= t('manage.players.col_name')
+            %td= @player.name
+            %td.px-4
+            %th= t('manage.players.col_height')
+            %td= @player.height
+          %tr
+            %th= t('manage.players.col_first_name')
+            %td= @player.first_name
+            %td.px-4
+            %th= t('manage.players.col_price')
+            %td= @player.tm_price
+          %tr
+            %th= t('manage.players.col_club')
+            %td= @player.club ? link_to(@player.club.name, manage_club_path(@player.club)) : '—'
+            %td.px-4
+            %th= t('manage.players.col_number')
+            %td= @player.number
+          %tr
+            %th= t('manage.players.col_positions')
+            %td= @player.positions.map(&:name).join(', ')
+            %td.px-4
+            %th TM ID
+            %td= @player.tm_id
+          %tr
+            %th= t('manage.players.col_nationality')
+            %td= @player.nationality
+            %td.px-4
+            %th Fotmob ID
+            %td= @player.fotmob_id
+          - if @player.national_team
+            %tr
+              %th= t('manage.players.col_national_team')
+              %td= link_to @player.national_team.name, manage_national_team_path(@player.national_team)
+              %td.px-4
+              %th
+              %td
+      - club_color = @player.club&.color.presence || '181715'
+      .player-show-avatar{style: "position: relative; width: 200px; height: 200px; flex-shrink: 0; background-color: ##{club_color}; border-radius: 8px; margin-left: 16px;"}
+        .player-show-face{style: 'position: absolute; top: 0; left: 0;'}
+          %object{data: @player.profile_avatar_path, type: ApplicationRecord::CONTENT_TYPE_PNG, width: 200, height: 200}
+            = image_tag('avatar.png', width: 200, height: 200)
+        .player-show-kit{style: 'position: absolute; top: 0; left: 0;'}
+          %object{data: @player.profile_kit_path, type: ApplicationRecord::CONTENT_TYPE_PNG, width: 200, height: 200}
+            = image_tag('kit_default.png', width: 200, height: 200)
+
+    %h5.mt-4= t('manage.players.section_links')
+    - if @player.tm_id.present?
+      = link_to 'Transfermarkt', @player.tm_path, target: '_blank', rel: 'noopener', class: 'btn btn-sm me-2', style: 'background-color: #003478; color: #fff; border-color: #003478;'
+    - if @player.fotmob_id.present?
+      = link_to 'Fotmob', "https://www.fotmob.com/players/#{@player.fotmob_id}", target: '_blank', rel: 'noopener', class: 'btn btn-sm', style: 'background-color: #00985F; color: #fff; border-color: #00985F;'
+
+    %h5.mt-4= t('manage.players.section_season_stats')
+    - if @season_stats.any?
+      %table.table.table-hover.table-sm
+        %thead.thead-light
+          %tr
+            %th= t('manage.players.col_season')
+            %th= t('manage.players.col_club')
+            %th= t('manage.players.col_positions')
+            %th= t('manage.players.col_matches')
+            %th= t('manage.players.col_minutes')
+            %th= t('manage.players.col_avg_base_score')
+            %th= t('manage.players.col_avg_total_score')
+        %tbody
+          - @season_stats.each do |stat|
+            %tr
+              %td= stat.season.start_year
+              %td= link_to stat.club.name, manage_club_path(stat.club)
+              %td= stat.position_ital_arr.join(', ')
+              %td= stat.played_matches
+              %td= stat.played_minutes
+              %td= stat.score
+              %td= stat.final_score
+    - else
+      %p.text-muted= t('manage.players.no_stats')
+
+    %h5.mt-4= t('manage.players.section_club_transfers')
+    - if @club_transfers.any?
+      %table.table.table-hover.table-sm
+        %thead.thead-light
+          %tr
+            %th= t('manage.players.col_start_date')
+            %th= t('manage.players.col_old_club')
+            %th
+            %th= t('manage.players.col_new_club')
+            %th= t('manage.players.col_contract_expires')
+            %th= t('manage.players.col_loan')
+        %tbody
+          - @club_transfers.each do |ct|
+            %tr
+              %td= ct.start_date
+              %td= ct.old_club&.name || ct.old_club_name
+              %td →
+              %td= ct.new_club&.name || ct.new_club_name
+              %td= ct.contract_expires_on
+              %td= ct.loan? ? '✓' : '—'
+    - else
+      %p.text-muted= t('manage.players.no_transfers')
+
+    %h5.mt-4= t('manage.players.section_teams')
+    - if @teams.any?
+      %table.table.table-hover.table-sm
+        %thead.thead-light
+          %tr
+            %th= t('manage.players.col_tournament')
+            %th= t('manage.players.col_league')
+            %th= t('manage.players.col_team')
+            %th= t('manage.players.col_buy_price')
+        %tbody
+          - @teams.each do |team|
+            %tr
+              %td= team.league.tournament&.name
+              %td= team.league.name
+              %td= link_to team.name, team_path(team)
+              %td= @team_transfers[team.id]&.price || '—'
+    - else
+      %p.text-muted= t('manage.players.no_teams')
+
+#change-club-modal.join-modal{ style: 'display:none' }
+  .join-modal-content
+    .join-modal-header
+      %h4= t('manage.players.change_club')
+      %button.join-modal-close{ type: 'button' } ×
+    = form_tag manage_player_club_transfers_path(@player), method: :post do
+      .join-modal-input-field
+        %label.join-modal-input-label{ for: 'new_club_id' }= t('manage.players.col_new_club')
+        = select_tag :new_club_id,
+                     options_for_select(@active_clubs.map { |c| [c.name, c.id] }),
+                     include_blank: t('manage.players.select_club'),
+                     class: 'join-modal-input', required: true
+      .join-modal-input-field
+        %label.join-modal-input-label{ for: 'start_date' }= t('manage.players.col_start_date')
+        = date_field_tag :start_date, Time.zone.today, class: 'join-modal-input', required: true
+      .join-modal-input-field
+        %label.join-modal-input-label{ for: 'contract_expires_on' }= t('manage.players.col_contract_expires')
+        = date_field_tag :contract_expires_on, nil, class: 'join-modal-input'
+      .join-modal-input-field
+        = check_box_tag :loan, '1', false
+        %label{ for: 'loan' }= t('manage.players.col_loan')
+      .join-modal-footer
+        %button.grey-btn{ type: 'button', id: 'change-club-cancel' }= t('manage.players.cancel')
+        %button.blue-btn{ type: 'submit' }= t('manage.players.save')
+
+:javascript
+  (function() {
+    var modal     = document.getElementById('change-club-modal');
+    var openBtn   = document.getElementById('change-club-btn');
+    var closeBtn  = modal.querySelector('.join-modal-close');
+    var cancelBtn = document.getElementById('change-club-cancel');
+
+    openBtn.onclick  = function() { modal.style.display = 'flex'; };
+    closeBtn.onclick = function() { modal.style.display = 'none'; };
+    cancelBtn.onclick = function() { modal.style.display = 'none'; };
+
+    modal.addEventListener('click', function(e) {
+      if (e.target === modal) modal.style.display = 'none';
+    });
+  })();

@@ -13,6 +13,7 @@ class Player < ApplicationRecord
   has_many :player_season_stats, dependent: :destroy
   has_many :round_players, dependent: :destroy
   has_many :transfers, dependent: :destroy
+  has_many :club_transfers, dependent: :destroy
 
   BUCKET_URL = 'https://mantrafootball.s3-eu-west-1.amazonaws.com'.freeze
   TM_PATH = 'https://www.transfermarkt.com/player-path/profil/spieler/'.freeze

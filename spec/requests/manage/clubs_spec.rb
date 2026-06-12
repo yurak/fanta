@@ -50,4 +50,40 @@ RSpec.describe 'Manage::Clubs' do
       end
     end
   end
+
+  describe 'GET #show' do
+    context 'when user is logged out' do
+      let(:club) { create(:club) }
+
+      before { get manage_club_path(club) }
+
+      it { expect(response).to redirect_to('/users/sign_in') }
+    end
+
+    context 'when admin is logged in' do
+      login_admin
+
+      let(:club) { create(:club, name: 'Test Club') }
+
+      before do
+        create(:player, club: club, name: 'Shevchenko')
+        get manage_club_path(club)
+      end
+
+      it { expect(response).to be_successful }
+      it { expect(response).to render_template(:show) }
+
+      it 'displays club name' do
+        expect(response.body).to include('Test Club')
+      end
+
+      it 'displays players list' do
+        expect(response.body).to include('Shevchenko')
+      end
+
+      it 'displays players count' do
+        expect(response.body).to include('1')
+      end
+    end
+  end
 end
