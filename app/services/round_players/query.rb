@@ -84,16 +84,15 @@ module RoundPlayers
     # --- Preloading ---
 
     def preload(players)
-      preloader = ActiveRecord::Associations::Preloader.new
-      preloader.preload(players, PLAYER_PRELOADS)
-      preloader.preload(players, :club)
+      ActiveRecord::Associations::Preloader.new(records: players, associations: PLAYER_PRELOADS).call
+      ActiveRecord::Associations::Preloader.new(records: players, associations: :club).call
       preload_match_players(players)
       players
     end
 
     def preload_match_players(players)
       scope = league_id.present? ? MatchPlayer.by_league(league_id) : nil
-      ActiveRecord::Associations::Preloader.new.preload(players, :match_players, scope)
+      ActiveRecord::Associations::Preloader.new(records: players, associations: :match_players, scope: scope).call
     end
 
     # --- In-memory ordering ---
