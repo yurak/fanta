@@ -14,7 +14,9 @@ class DivisionsController < ApplicationController
   end
 
   def tournament
-    @tournament ||= Tournament.find_by(id: divisions_params[:tournament_id])
+    return @tournament if defined?(@tournament)
+
+    @tournament = Tournament.find_by(id: divisions_params[:tournament_id])
   end
 
   def season

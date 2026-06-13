@@ -18,12 +18,14 @@
             %th ID
             %th= t('manage.clubs.name')
             %th= t('manage.clubs.tournament')
+            %th
         %tbody
           - @clubs.each do |club|
             %tr
               %td= club.id
-              %td= club.name
+              %td= link_to club.name, manage_club_path(club)
               %td= club.tournament&.name || '—'
+              %td= link_to t('manage.clubs.view'), manage_club_path(club), class: 'btn btn-sm btn-outline-primary'
 
       = paginate @clubs
     - else

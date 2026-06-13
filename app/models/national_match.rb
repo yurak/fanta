@@ -5,4 +5,12 @@ class NationalMatch < ApplicationRecord
 
   scope :by_team, ->(team_id) { where('host_team_id = ? OR guest_team_id = ?', team_id, team_id) }
   scope :by_t_round, ->(t_round_id) { where(tournament_round_id: t_round_id) }
+
+  def utc_datetime
+    return nil if date.blank? || time.blank?
+
+    DateTime.parse("#{date} #{time} UTC")
+  rescue ArgumentError
+    nil
+  end
 end

@@ -15,7 +15,9 @@ module Results
     private
 
     def league
-      @league ||= League.find_by(id: @league_id)
+      return @league if defined?(@league)
+
+      @league = League.find_by(id: @league_id)
     end
   end
 end

@@ -7,9 +7,11 @@ module Lineups
     end
 
     def call
-      return false if tour&.lineups.blank?
+      lineups = tour&.lineups&.includes(:team_module, { team: %i[league tournament] },
+                                        match_players: { round_player: :tournament_round })
+      return false if lineups.blank?
 
-      tour.lineups.each do |lineup|
+      lineups.each do |lineup|
         lineup.final_score = lineup.current_score
         lineup.update(final_score: lineup.final_score, final_goals: lineup.live_goals)
       end
@@ -20,14 +22,9 @@ module Lineups
     private
 
     def update_points
-      i = 0
-      tour.ordered_lineups.group_by(&:total_score).each_value do |lineups|
+      tour.ordered_lineups.each_with_index do |lineup, i|
         points = i < Results::FantaUpdater::POINTS_MAP.length ? Results::FantaUpdater::POINTS_MAP[i] : 0
-
-        lineups.each do |lineup|
-          lineup.update(points: points, position: i + 1)
-        end
-        i += lineups.count
+        lineup.update(points: points, position: i + 1)
       end
     end
   end

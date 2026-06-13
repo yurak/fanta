@@ -20,7 +20,9 @@ module RoundPlayers
     private
 
     def tournament_round
-      @tournament_round ||= TournamentRound.find_by(id: tournament_round_id)
+      return @tournament_round if defined?(@tournament_round)
+
+      @tournament_round = TournamentRound.find_by(id: tournament_round_id)
     end
 
     def tournament_players

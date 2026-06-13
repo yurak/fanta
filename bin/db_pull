@@ -8,9 +8,15 @@ SSH_KEY="$HOME/.ssh/mantrakey.pem"
 RDS_DB="mantra_production"
 LOCAL_DB="mantra_development"
 
-PGPASSWORD=$(bundle exec rails runner "puts Rails.application.credentials.dig(:db_prod, :password)" 2>/dev/null)
-RDS_HOST=$(bundle exec rails runner "puts Rails.application.credentials.dig(:db_prod, :host)" 2>/dev/null)
-RDS_USER=$(bundle exec rails runner "puts Rails.application.credentials.dig(:db_prod, :username)" 2>/dev/null)
+read -r PGPASSWORD RDS_HOST RDS_USER < <(bundle exec rails runner '
+  c = Rails.application.credentials.dig(:db_prod) || {}
+  puts [c[:password], c[:host], c[:username]].join(" ")
+')
+
+if [ -z "${PGPASSWORD}" ] || [ -z "${RDS_HOST}" ] || [ -z "${RDS_USER}" ]; then
+  echo "ERROR: could not read db_prod credentials via Rails. Check the Ruby/bundle setup and credentials.yml.enc." >&2
+  exit 1
+fi
 export PGPASSWORD
 
 echo "Opening SSH tunnel..."

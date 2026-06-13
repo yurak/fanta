@@ -22,6 +22,8 @@ Rails.application.routes.draw do
   get 'fees',     to: 'welcome#fees'
   get 'guide',    to: 'welcome#guide'
   get 'rules',    to: 'welcome#rules'
+  get 'terms',    to: 'welcome#terms'
+  get 'oferta',   to: 'welcome#oferta'
 
   resources :joins, only: [:index, :show]
   resources :fanta_joins, only: [:create]
@@ -33,6 +35,7 @@ Rails.application.routes.draw do
         post :activate
         post :archive
         post :crown
+        post :refresh
       end
     end
 
@@ -43,8 +46,12 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :players, only: [:index, :create]
-    resources :clubs, only: [:index]
+    resources :players, only: [:index, :create, :show] do
+      resources :club_transfers, only: [:create]
+    end
+    resources :club_transfers, only: [:index]
+    resources :clubs, only: [:index, :show]
+    resources :national_teams, only: [:index, :show]
     resources :teams, only: [:index]
     resources :users, only: [:index, :show]
     resources :weekly_teams, only: [:index, :new, :create]
@@ -102,6 +109,7 @@ Rails.application.routes.draw do
   resources :teams, only: [:show, :edit, :update, :create] do
     resources :lineups, only: [:show, :new, :create, :edit, :update] do
       collection { get :clone }
+      member { post :fanta_copy }
     end
 
     resources :player_teams, only: [:edit, :update]
@@ -156,6 +164,11 @@ Rails.application.routes.draw do
     resources :teams, only: [:show]
     resources :tournaments, only: [:index] do
       resources :divisions, only: [:index]
+    end
+    resources :tournament_rounds, only: [] do
+      resources :round_players, only: [:index] do
+        get :meta, on: :collection
+      end
     end
   end
 

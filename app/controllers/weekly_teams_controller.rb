@@ -7,7 +7,7 @@ class WeeklyTeamsController < ApplicationController
       :season,
       weekly_team_players: [
         :slot,
-        { round_player: [{ player: :positions }, { club: :tournament }] }
+        { round_player: [{ tournament_round: :tournament }, { player: %i[positions national_team] }, { club: :tournament }] }
       ]
     ).find(params[:id])
 

@@ -22,9 +22,12 @@ class RoundPlayer < ApplicationRecord
   scope :ordered_by_club, -> { joins(player: :club).order('clubs.name') }
   scope :ordered_by_national, -> { joins(player: :national_team).order('national_teams.id').order('players.name') }
 
+  BONUS_V2_DATE = Date.new(2026, 6, 1)
+
   STRIKER_GOAL_BONUS = 2
   FORWARD_GOAL_BONUS = 2.5
   GOAL_BONUS = 3
+  AM_W_GOAL_BONUS = 2.5
   CAUGHT_PENALTY_BONUS = 3
   SCORED_PENALTY_BONUS = 2
   ASSIST_BONUS = 1
@@ -48,7 +51,7 @@ class RoundPlayer < ApplicationRecord
   LOWER_SAVES_LIMIT = 3
 
   def result_score
-    return 0 unless score.positive?
+    return 0 unless score&.positive?
 
     final_score.positive? ? final_score : bonuses - maluses
   end
@@ -74,6 +77,32 @@ class RoundPlayer < ApplicationRecord
 
   def related_club
     club || player.club
+  end
+
+  def bonus_v2?
+    return true unless tournament_round.deadline
+
+    tournament_round.deadline.to_date >= BONUS_V2_DATE
+  end
+
+  def goal_bonus_v1
+    if position_names.include?(Position::STRIKER)
+      STRIKER_GOAL_BONUS
+    elsif position_names.include?(Position::FORWARD)
+      FORWARD_GOAL_BONUS
+    else
+      GOAL_BONUS
+    end
+  end
+
+  def goal_bonus_v2
+    if position_names.include?(Position::STRIKER) || position_names.include?(Position::FORWARD)
+      STRIKER_GOAL_BONUS
+    elsif position_names.include?(Position::WINGER) || position_names.include?(Position::ATTACKING_MF)
+      AM_W_GOAL_BONUS
+    else
+      GOAL_BONUS
+    end
   end
 
   private
@@ -149,13 +178,7 @@ class RoundPlayer < ApplicationRecord
   end
 
   def goal_bonus
-    if position_names.include?(Position::STRIKER)
-      STRIKER_GOAL_BONUS
-    elsif position_names.include?(Position::FORWARD)
-      FORWARD_GOAL_BONUS
-    else
-      GOAL_BONUS
-    end
+    bonus_v2? ? goal_bonus_v2 : goal_bonus_v1
   end
 
   def cleansheet_bonus
@@ -167,6 +190,8 @@ class RoundPlayer < ApplicationRecord
       D_CLEANSHEET_BONUS
     elsif (position_names & Position::E_M_CLEANSHEET_ZONE).any?
       E_M_CLEANSHEET_BONUS
+    else
+      0
     end
   end
 

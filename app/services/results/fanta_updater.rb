@@ -24,7 +24,7 @@ module Results
 
     def update_total_scores
       lineups.each do |lineup|
-        result = lineup.team.league_result(league_id: league.id)
+        result = result_for(lineup.team)
 
         result.update(best_lineup: lineup.total_score.round(2)) if lineup.total_score > result.best_lineup
 
@@ -39,7 +39,7 @@ module Results
       team_ids_wo_lineups = tour.teams.pluck(:id) - lineups.pluck(:team_id)
       worst_score = lineups.last.total_score.round(2)
       Team.where(id: team_ids_wo_lineups).find_each do |team|
-        result = team.league_result(league_id: league.id)
+        result = result_for(team)
         result.update(
           total_score: result.total_score + worst_score,
           draws: result.draws + 1
@@ -48,16 +48,12 @@ module Results
     end
 
     def update_points
-      i = 0
-      lineups.group_by(&:total_score).each_value do |lineups|
-        next if i >= POINTS_MAP.length
+      lineups.each_with_index do |lineup, i|
+        break if i >= POINTS_MAP.length
 
-        lineups.each do |lineup|
-          result = lineup.team.league_result
+        result = result_for(lineup.team)
 
-          result.update(points: result.points + POINTS_MAP[i])
-        end
-        i += lineups.count
+        result.update(points: result.points + POINTS_MAP[i])
       end
     end
 
@@ -69,6 +65,11 @@ module Results
                                      p: result.points, ts: result.total_score.round(2) }
         result.update(history: history_arr.to_json, position: result.fanta_position, secondary_position: result.live_position)
       end
+    end
+
+    def result_for(team)
+      @results_by_team_id ||= {}
+      @results_by_team_id[team.id] ||= Result.find_or_create_by(team: team, league: league)
     end
 
     def lineups

@@ -57,5 +57,17 @@ RSpec.describe Tours::LineupGenerator do
         expect { described_class.call(tour) }.not_to change(MatchPlayer, :count)
       end
     end
+
+    context 'when team has lineup with match players' do
+      let(:team) { create(:team, league: tour.league) }
+      let!(:lineup) { create(:lineup, :with_match_players, tour: tour, team: team) }
+
+      it 'snapshots player positions on all match players' do
+        generator
+        lineup.match_players.reload.each do |mp|
+          expect(mp.player_positions).to eq(mp.round_player.position_names.join('/'))
+        end
+      end
+    end
   end
 end

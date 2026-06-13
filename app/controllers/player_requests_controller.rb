@@ -19,7 +19,9 @@ class PlayerRequestsController < ApplicationController
   private
 
   def player
-    @player ||= Player.find_by(id: params[:player_id])
+    return @player if defined?(@player)
+
+    @player = Player.find_by(id: params[:player_id])
   end
 
   def player_request_params

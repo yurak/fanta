@@ -1,4 +1,5 @@
 - players_by_slot = @weekly_team.weekly_team_players.index_by(&:slot_id)
+- national = players_by_slot.values.first&.round_player&.tournament_round&.tournament&.national? || false
 
 .page-block.lineup-show-page
   .web-header= render 'layouts/left_nav', league: nil
@@ -25,8 +26,12 @@
                       %object{data: wtp.round_player.player.avatar_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
                         = image_tag('avatar.png')
                     .player-show-kit
-                      %object{data: wtp.round_player.club&.kit_path || wtp.round_player.player.club&.kit_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                        = image_tag('kit_small_default.png')
+                      - if national
+                        %object{data: wtp.round_player.player.national_kit_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
+                          = image_tag('kit_small_default.png')
+                      - else
+                        %object{data: wtp.round_player.club&.kit_path || wtp.round_player.player.club&.kit_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
+                          = image_tag('kit_small_default.png')
                   .module-position-block.player-positions-block
                     - slot.positions.each do |position|
                       .player-position{class: "player-position-#{position}"}
@@ -38,7 +43,10 @@
                         .team-player-name
                           = wtp.round_player.player.full_name
                           .team-player-score-unspecified.inline-block
-                            = "#{wtp.round_player.club&.tournament&.icon} #{wtp.round_player.club&.name}"
+                            - if national
+                              = wtp.round_player.player.national_team&.name
+                            - else
+                              = "#{wtp.round_player.club&.tournament&.icon} #{wtp.round_player.club&.name}"
                       .team-player-scores
                         .team-player-blank
                         - unless @weekly_team.source_avg?

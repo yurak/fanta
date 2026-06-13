@@ -19,7 +19,9 @@ module Transfers
     private
 
     def transfer
-      @transfer ||= Transfer.find_by(id: transfer_id)
+      return @transfer if defined?(@transfer)
+
+      @transfer = Transfer.find_by(id: transfer_id)
     end
   end
 end

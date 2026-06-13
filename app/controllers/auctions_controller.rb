@@ -36,7 +36,9 @@ class AuctionsController < ApplicationController
   end
 
   def player
-    @player ||= Player.find_by(id: params[:player])
+    return @player if defined?(@player)
+
+    @player = Player.find_by(id: params[:player])
   end
 
   def players

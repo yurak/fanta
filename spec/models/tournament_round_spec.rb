@@ -72,6 +72,8 @@ RSpec.describe TournamentRound do
 
   describe '#time_to_deadline' do
     context 'without deadline' do
+      let(:tournament_round) { create(:tournament_round, deadline: nil) }
+
       it 'returns empty string' do
         expect(tournament_round.time_to_deadline).to eq('')
       end

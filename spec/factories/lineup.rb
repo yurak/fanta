@@ -58,6 +58,58 @@ FactoryBot.define do
       end
     end
 
+    trait :with_fanta_players do
+      after(:create) do |lineup|
+        player_por = create(:round_player, :with_pos_por, tournament_round: lineup.tournament_round)
+        create(:match_player, lineup: lineup, round_player: player_por,
+                              real_position: player_por.positions.first.name)
+        create(:tournament_match, host_club: player_por.player.club, tournament_round: lineup.tournament_round)
+
+        4.times do
+          player_dc = create(:round_player, :with_pos_dc, tournament_round: lineup.tournament_round)
+          create(:match_player, lineup: lineup, round_player: player_dc,
+                                real_position: player_dc.positions.first.name)
+          create(:tournament_match, host_club: player_dc.player.club, tournament_round: lineup.tournament_round)
+        end
+
+        3.times do
+          player_c = create(:round_player, :with_pos_c, tournament_round: lineup.tournament_round)
+          create(:match_player, lineup: lineup, round_player: player_c,
+                                real_position: player_c.positions.first.name)
+          player_a = create(:round_player, :with_pos_a, tournament_round: lineup.tournament_round)
+          create(:match_player, lineup: lineup, round_player: player_a,
+                                real_position: player_a.positions.first.name)
+          create(:tournament_match, host_club: player_a.player.club, guest_club: player_c.player.club,
+                                    tournament_round: lineup.tournament_round)
+        end
+
+        5.times do
+          player_res = create(:round_player, tournament_round: lineup.tournament_round)
+          create(:match_player, lineup: lineup, round_player: player_res)
+        end
+
+        lineup.reload
+      end
+    end
+
+    trait :with_fanta_score_five do
+      with_fanta_players
+      after(:create) do |lineup|
+        lineup.match_players.each do |mp|
+          mp.round_player.update(score: 5.0)
+        end
+      end
+    end
+
+    trait :with_fanta_score_eight do
+      with_fanta_players
+      after(:create) do |lineup|
+        lineup.match_players.each do |mp|
+          mp.round_player.update(score: 8.0)
+        end
+      end
+    end
+
     trait :with_team_and_score_five do
       with_match_players
       after(:create) do |lineup|

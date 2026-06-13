@@ -16,7 +16,8 @@ class ToursController < ApplicationController
 
   def tournament_players
     if tour
-      @tournament_players = tour.round_players.with_score.includes(player: %i[positions teams club])
+      @tournament_players = tour.round_players.with_score
+                                .includes(:club, :tournament_round, player: %i[positions teams club national_team])
                                 .sort_by { |rp| -rp.result_score }.take(5)
 
       @teams_by_player = {}
@@ -90,7 +91,7 @@ class ToursController < ApplicationController
   end
 
   def preload_tour_matches(tour)
-    ActiveRecord::Associations::Preloader.new.preload(tour, matches: %i[host guest])
+    ActiveRecord::Associations::Preloader.new.preload(tour, matches: { host: :user, guest: :user })
     ActiveRecord::Associations::Preloader.new.preload(tour, lineups: :team)
 
     all_team_ids = tour.matches.flat_map { |m| [m.host_id, m.guest_id] }.uniq

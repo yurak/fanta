@@ -167,8 +167,16 @@
         column-gap: 8px;
 
         .round-lineup-clone {
-          border-radius: 20px;
+          border-radius: 4px;
           padding: 0 7px;
+
+          img {
+            filter: brightness(0) saturate(100%) invert(27%) sepia(100%) saturate(2000%) hue-rotate(210deg) brightness(100%);
+          }
+
+          &:hover img {
+            filter: brightness(0) invert(1);
+          }
         }
       }
 
@@ -361,7 +369,7 @@
 
       .round-lineup-actions {
         margin-left: auto;
-        margin-right: 0;
+        margin-right: 8px;
       }
     }
 
@@ -396,6 +404,7 @@
 
         .lineup-result {
           padding: 8px 0;
+          margin-right: 8px;
           background: #BA44F1;
           border-radius: 4px;
           font-weight: 700;
@@ -408,6 +417,11 @@
         .lineup-subs-true {
           color: #DB0A23;
         }
+      }
+
+      .team-row.self-team-row {
+        background: #FFEBC2;
+        border-radius: 4px;
       }
 
       .team-row:hover {
@@ -714,7 +728,19 @@
           border-bottom: 3px solid #181715;
 
           .team-row-name-lineup .round-lineup-actions {
-            display: none;
+            display: block;
+            width: auto;
+            margin: 0;
+            white-space: nowrap;
+
+            .round-lineup-edit-block,
+            .round-lineup-set-squad {
+              display: none;
+            }
+
+            .round-lineup-set-block {
+              width: auto;
+            }
           }
         }
 

@@ -1,112 +1,17 @@
 class RoundPlayersController < ApplicationController
-  respond_to :html, :json
+  layout 'react_application', only: %i[index]
 
-  helper_method :tournament_round, :tournament, :deadlined?
+  helper_method :league
 
-  def index
-    @players = order_players
-    @positions = Position.all
-    @clubs = tournament.national? ? tournament.national_teams.active.order(:name) : tournament.clubs.active.order(:name)
-  end
+  # The round players stats page is rendered by the React app (see
+  # app/client/pages/RoundPlayers). Data is served by Api::RoundPlayersController.
+  def index; end
 
   private
 
-  def deadlined?
-    @deadlined ||= tournament_round.tours.last&.deadlined?
-  end
+  def league
+    return @league if defined?(@league)
 
-  def tournament_round
-    @tournament_round ||= TournamentRound.find(params[:tournament_round_id])
-  end
-
-  def tour_players
-    if tournament.national?
-      tournament_round.round_players
-    elsif tournament.eurocup?
-      tournament_round.eurocup_players
-    else
-      tournament_round.round_players.with_score
-    end
-  end
-
-  def order_players
-    apply_order(preloaded_players)
-  end
-
-  def preloaded_players
-    players = players_with_filter
-    return players.includes(:match_players) if tournament.fanta? && deadlined?
-
-    players
-  end
-
-  def apply_order(players)
-    case stats_params[:order]
-    when 'club'       then sort_by_club(players)
-    when 'national'   then players.to_a
-    when 'matches'    then sort_by_matches(players)
-    when 'main_squad' then sort_by_main_squad(players)
-    else                   sort_by_score(players)
-    end
-  end
-
-  def sort_by_score(players)
-    case stats_params[:order]
-    when 'name'       then players.sort_by(&:name)
-    when 'base_score' then players.sort_by(&:score).reverse
-    else                   players.sort_by(&:result_score).reverse
-    end
-  end
-
-  def sort_by_club(players)
-    players.sort_by { |rp| rp.related_club.name }
-  end
-
-  def sort_by_matches(players)
-    sort_by_appearances(players) { |rp| rp.match_players.size }
-  end
-
-  def sort_by_main_squad(players)
-    sort_by_appearances(players) { |rp| rp.match_players.select(&:real_position).size }
-  end
-
-  def sort_by_appearances(players, &key)
-    deadlined? ? players.sort_by(&key).reverse : players.to_a
-  end
-
-  def round_players_by_position
-    return unless stats_params[:position]
-
-    if tournament.eurocup?
-      tour_players.where(player_id: player_ids_by_position)
-    else
-      tournament_round.round_players.where(player_id: player_ids_by_position)
-    end
-  end
-
-  def player_ids_by_position
-    if tournament.national?
-      Player.by_position(stats_params[:position]).by_national_tournament(tournament.id).ids
-    elsif tournament.eurocup?
-      Player.by_position(stats_params[:position]).by_ec_tournament(tournament).ids
-    else
-      Player.by_position(stats_params[:position]).by_tournament(tournament).ids
-    end
-  end
-
-  def round_players_by_club
-    RoundPlayer.by_club(stats_params[:club]).where(tournament_round: tournament_round) if stats_params[:club]
-  end
-
-  def players_with_filter
-    round_players_by_position || round_players_by_club || tour_players
-  end
-
-  def stats_params
-    params.permit(:order, :position, :club, :tournament_round_id)
-  end
-
-  def tournament
-    @tournament ||= tournament_round.tournament
+    @league = League.find_by(id: params[:league])
   end
 end

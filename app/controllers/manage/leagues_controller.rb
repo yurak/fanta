@@ -60,6 +60,14 @@ module Manage
       redirect_to manage_league_path(league), notice: t('manage.leagues.archived')
     end
 
+    def refresh
+      Results::Creator.call(league.id)
+      league.results.each(&:reset_stats)
+      updater = league.fanta? ? Results::FantaUpdater : Results::Updater
+      league.tours.closed.each { |tour| updater.call(tour) }
+      redirect_to manage_league_path(league), notice: t('manage.leagues.refreshed')
+    end
+
     def crown
       result = league.results.find(params[:result_id])
       ActiveRecord::Base.transaction { assign_title(result) }

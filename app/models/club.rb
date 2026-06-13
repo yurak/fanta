@@ -10,6 +10,7 @@ class Club < ApplicationRecord
                                       dependent: :destroy, inverse_of: :guest_club
 
   serialize :reserve_clubs, Array
+  serialize :reserve_club_ids, Array
 
   enum status: { active: 0, archived: 1 }
 
@@ -35,6 +36,10 @@ class Club < ApplicationRecord
 
   def path_name
     name.downcase.tr(' ', '_')
+  end
+
+  def tm_id
+    tm_url&.split('/')&.last
   end
 
   def opponent_by_round(tournament_round)

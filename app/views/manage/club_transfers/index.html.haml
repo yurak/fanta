@@ -1,0 +1,40 @@
+.page-block
+  .web-header= render 'layouts/left_nav', league: nil
+  .web-header= render 'layouts/manage_nav'
+  .mob-header= render 'layouts/mob_header', league: nil, title: t('manage.club_transfers.title')
+  .page-info.admin-manage-page
+    %h2= t('manage.club_transfers.title')
+
+    = form_tag manage_club_transfers_path, method: :get, class: 'd-flex gap-2 mb-3' do
+      = text_field_tag :player_name, params[:player_name], class: 'form-control form-control-sm w-auto', placeholder: t('manage.club_transfers.filter_player')
+      = text_field_tag :club_name, params[:club_name], class: 'form-control form-control-sm w-auto', placeholder: t('manage.club_transfers.filter_club')
+      = submit_tag t('manage.club_transfers.search'), class: 'btn btn-sm btn-primary'
+      - if params[:player_name].present? || params[:club_name].present?
+        = link_to t('manage.club_transfers.reset'), manage_club_transfers_path, class: 'btn btn-sm btn-outline-secondary'
+
+    - if @club_transfers.any?
+      %table.table.table-hover.table-sm
+        %thead.thead-light
+          %tr
+            %th= t('manage.players.col_start_date')
+            %th= t('manage.players.col_name')
+            %th= t('manage.players.col_old_club')
+            %th
+            %th= t('manage.players.col_new_club')
+            %th= t('manage.players.col_contract_expires')
+            %th= t('manage.players.col_loan')
+        %tbody
+          - @club_transfers.each do |ct|
+            %tr
+              %td= ct.start_date
+              %td= link_to ct.player.name, manage_player_path(ct.player)
+              %td= ct.old_club ? link_to(ct.old_club_name, manage_club_path(ct.old_club)) : (ct.old_club_name || '—')
+              %td →
+              %td= ct.new_club ? link_to(ct.new_club_name, manage_club_path(ct.new_club)) : ct.new_club_name
+
+              %td= ct.contract_expires_on || '—'
+              %td= ct.loan? ? '✓' : '—'
+
+      = paginate @club_transfers
+    - else
+      %p.text-muted= t('manage.club_transfers.empty')

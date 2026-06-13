@@ -1,0 +1,190 @@
+.page-block
+  - if user_signed_in?
+    .web-header= render 'layouts/left_nav', league: nil
+    .mob-header= render 'layouts/mob_header', league: nil, title: 'Публічна оферта'
+  - else
+    = render 'layouts/header'
+  .rules-page{ class: "rules-user-#{user_signed_in?}" }
+    .rules-title
+      .rules-title-icon 📄
+      .rules-title-text Публічна оферта
+    .rules-content
+      .rules-text.legal-text
+
+        .rules-chapter.rules-chapter-blue#s1
+          .rules-chapter-text 1. Загальні положення
+          .rules-chapter-img= image_tag('rules/chapter.svg')
+        .rules-paragraph 1.1. Ця Публічна оферта (далі — «Оферта») визначає порядок та умови надання доступу до веб-ресурсу MantraFootball (далі — «Сервіс»).
+        .rules-paragraph.rules-paragraph-next 1.2. MantraFootball є інформаційно-розважальною онлайн-платформою у сфері fantasy football, у межах якої користувачі беруть участь у fantasy football турнірах та змагальних онлайн-форматах на основі власних аналітичних, тактичних та управлінських рішень.
+        .rules-paragraph.rules-paragraph-next 1.3. Сервіс створений для:
+        %ul
+          %li агрегування, обробки та розміщення статистичної інформації на веб-платформі;
+          %li проведення fantasy football турнірів та змагальних онлайн-форматів;
+          %li менеджерської взаємодії користувачів;
+          %li формування рейтингових та турнірних досягнень.
+        .rules-paragraph.rules-paragraph-next 1.4. Ця Оферта є публічною пропозицією відповідно до положень Цивільного кодексу України.
+        .rules-paragraph.rules-paragraph-next 1.5. Прийняття умов цієї Оферти здійснюється шляхом:
+        %ul
+          %li реєстрації у Сервісі;
+          %li оформлення підписки;
+          %li оплати доступу до функціоналу сервісу;
+          %li фактичного користування Сервісом.
+        .rules-paragraph.rules-paragraph-next 1.6. Особа, яка приймає цю Оферту, підтверджує:
+        %ul
+          %li ознайомлення з її умовами;
+          %li повне та безумовне прийняття умов;
+          %li згоду з правилами Сервісу.
+
+        .rules-chapter#s2
+          .rules-chapter-text 2. Терміни та визначення
+          .rules-chapter-img= image_tag('rules/chapter.svg')
+        .rules-paragraph 2.1. Сервіс — онлайн fantasy football платформа MantraFootball.
+        .rules-paragraph.rules-paragraph-next 2.2. Користувач — фізична особа, яка використовує Сервіс.
+        .rules-paragraph.rules-paragraph-next 2.3. Сезон — визначений період проведення fantasy football турніру або ліги.
+        .rules-paragraph.rules-paragraph-next 2.4. Турнір — окремий формат змагання у межах Сервісу.
+        .rules-paragraph.rules-paragraph-next 2.5. Підписка — право користування окремими функціями та можливостями Сервісу протягом визначеного періоду.
+
+        .rules-chapter.rules-chapter-green#s3
+          .rules-chapter-text 3. Предмет Оферти
+          .rules-chapter-img= image_tag('rules/chapter.svg')
+        .rules-paragraph 3.1. Адміністрація Сервісу надає Користувачу доступ до функціоналу MantraFootball на умовах цієї Оферти.
+        .rules-paragraph.rules-paragraph-next 3.2. Сервіс надає користувачам можливість:
+        %ul
+          %li формувати fantasy-команди;
+          %li брати участь у fantasy football турнірах;
+          %li використовувати статистичний та аналітичний функціонал;
+          %li здійснювати управлінські та тактичні рішення у межах механік Сервісу.
+        .rules-paragraph.rules-paragraph-next 3.3. Сервіс є skill-based fantasy football платформою, у якій результати користувачів формуються переважно на основі:
+        %ul
+          %li аналітичних здібностей;
+          %li тактичних рішень;
+          %li управління складом;
+          %li довгострокової стратегії користувача.
+        .rules-paragraph.rules-paragraph-next 3.4. Домінуючим фактором визначення результатів є навички, аналітичні здібності, тактичні та управлінські рішення користувача.
+        .rules-paragraph.rules-paragraph-next 3.5. Сервіс не є:
+        %ul
+          %li азартною грою;
+          %li букмекерською діяльністю;
+          %li казино;
+          %li організатором парі;
+          %li системою ставок на спортивні події.
+        .rules-paragraph.rules-paragraph-next 3.6. Користування Сервісом не передбачає:
+        %ul
+          %li здійснення ставок;
+          %li ризикування коштами з метою отримання виграшу;
+          %li отримання грошових виграшів або майнових прав;
+          %li отримання прибутку;
+          %li виведення коштів або інших активів.
+
+        .rules-chapter.rules-chapter-brown#s4
+          .rules-chapter-text 4. Порядок надання доступу
+          .rules-chapter-img= image_tag('rules/chapter.svg')
+        .rules-paragraph 4.1. Доступ до окремих функцій Сервісу може надаватися:
+        %ul
+          %li безкоштовно;
+          %li на умовах підписки.
+        .rules-paragraph.rules-paragraph-next 4.2. Оплата у Сервісі є оплатою:
+        %ul
+          %li доступу до функціоналу Сервісу;
+          %li участі у fantasy football турнірах;
+          %li інформаційно-розважальних та інформаційних послуг Сервісу.
+        .rules-paragraph.rules-paragraph-next 4.3. Оплата не є:
+        %ul
+          %li ставкою;
+          %li парі;
+          %li ризиковою операцією;
+          %li оплатою за можливість отримання виграшу.
+        .rules-paragraph.rules-paragraph-next 4.4. Вартість доступу визначається Адміністрацією Сервісу та публікується у відповідному розділі платформи.
+
+        .rules-chapter.rules-chapter-blue#s5
+          .rules-chapter-text 5. Правила участі
+          .rules-chapter-img= image_tag('rules/chapter.svg')
+        .rules-paragraph 5.1. Користувач самостійно:
+        %ul
+          %li формує склад команди;
+          %li здійснює трансфери;
+          %li обирає тактику;
+          %li приймає управлінські рішення.
+        .rules-paragraph.rules-paragraph-next 5.2. Результати формуються відповідно до:
+        %ul
+          %li правил конкретного турніру;
+          %li системи нарахування балів;
+          %li статистичних даних зовнішніх інформаційних провайдерів, що агрегуються на платформі.
+        .rules-paragraph.rules-paragraph-next 5.3. Адміністрація має право:
+        %ul
+          %li змінювати правила турнірів;
+          %li оновлювати систему нарахування балів;
+          %li коригувати результати у разі технічних помилок або змін офіційної статистики.
+
+        .rules-chapter#s6
+          .rules-chapter-text 6. Відзнаки та рейтинги
+          .rules-chapter-img= image_tag('rules/chapter.svg')
+        .rules-paragraph 6.1. За результатами сезонів або турнірів окремі користувачі на розсуд адміністрації можуть бути відзначені:
+        %ul
+          %li пам'ятними або символічними відзнаками;
+          %li спеціальними умовами доступу до окремого функціоналу Сервісу.
+        .rules-paragraph.rules-paragraph-next 6.2. Такі відзнаки:
+        %ul
+          %li не є грошовими виграшами;
+          %li не передбачають отримання користувачем грошових коштів або майнової вигоди;
+          %li не підлягають обміну на кошти чи інші активи.
+
+        .rules-chapter.rules-chapter-red#s7
+          .rules-chapter-text 7. Права та обов'язки сторін
+          .rules-chapter-img= image_tag('rules/chapter.svg')
+        .rules-paragraph 7.1. Користувач зобов'язується:
+        %ul
+          %li дотримуватись правил Сервісу;
+          %li не використовувати автоматизовані засоби;
+          %li не втручатися у роботу платформи;
+          %li не здійснювати шахрайські дії.
+        .rules-paragraph.rules-paragraph-next 7.2. Адміністрація має право:
+        %ul
+          %li обмежити доступ у разі порушення правил;
+          %li змінювати функціонал Сервісу;
+          %li проводити технічні роботи;
+          %li оновлювати правила та умови.
+
+        .rules-chapter.rules-chapter-green#s8
+          .rules-chapter-text 8. Обмеження відповідальності
+          .rules-chapter-img= image_tag('rules/chapter.svg')
+        .rules-paragraph 8.1. Сервіс надається за принципом «as is».
+        .rules-paragraph.rules-paragraph-next 8.2. Адміністрація не гарантує:
+        %ul
+          %li безперебійну роботу Сервісу;
+          %li відсутність технічних помилок;
+          %li постійну доступність усіх функцій.
+        .rules-paragraph.rules-paragraph-next 8.3. Адміністрація не несе відповідальності за:
+        %ul
+          %li дії третіх осіб;
+          %li технічні збої;
+          %li помилки зовнішніх статистичних джерел.
+
+        .rules-chapter.rules-chapter-brown#s9
+          .rules-chapter-text 9. Строк дії та зміни Оферти
+          .rules-chapter-img= image_tag('rules/chapter.svg')
+        .rules-paragraph 9.1. Оферта набирає чинності з моменту її публікації у Сервісі.
+        .rules-paragraph.rules-paragraph-next 9.2. Адміністрація має право змінювати умови Оферти без окремого погодження з Користувачем.
+        .rules-paragraph.rules-paragraph-next 9.3. Актуальна редакція Оферти завжди доступна у Сервісі.
+
+        .rules-chapter.rules-chapter-blue#s10
+          .rules-chapter-text 10. Контактна інформація
+          .rules-chapter-img= image_tag('rules/chapter.svg')
+        .rules-paragraph Щодо питань роботи Сервісу Користувач може звертатися через офіційні канали MantraFootball.
+
+      .rules-nav
+        .rules-nav-anchor ⚓️
+        .rules-nav-list
+          .rules-nav-header Розділи
+          .rules-nav-link= link_to '1. Загальні положення', '#s1'
+          .rules-nav-link= link_to '2. Терміни та визначення', '#s2'
+          .rules-nav-link= link_to '3. Предмет Оферти', '#s3'
+          .rules-nav-link= link_to '4. Порядок надання доступу', '#s4'
+          .rules-nav-link= link_to '5. Правила участі', '#s5'
+          .rules-nav-link= link_to '6. Відзнаки та рейтинги', '#s6'
+          .rules-nav-link= link_to '7. Права та обов\'язки сторін', '#s7'
+          .rules-nav-link= link_to '8. Обмеження відповідальності', '#s8'
+          .rules-nav-link= link_to '9. Строк дії та зміни Оферти', '#s9'
+          .rules-nav-link= link_to '10. Контактна інформація', '#s10'
+
+  = render 'layouts/footer'

@@ -13,6 +13,8 @@ class Lineup < ApplicationRecord
 
   enum creation_type: { manual: 0, copied: 1, auto_cloned: 2 }
 
+  before_create { self.last_edited_at ||= Time.current }
+
   scope :closed, ->(league_id) { where(tour_id: League.find(league_id).tours.closed.select(:id)) }
   scope :finished, -> { joins(:tour).where(tours: { status: :closed }) }
   scope :mantra, -> { joins(tour: { tournament_round: :tournament }).where(tournaments: { mode: :mantra }) }
@@ -126,6 +128,18 @@ class Lineup < ApplicationRecord
     match_players.joins(:round_player).main.reorder('round_players.final_score': :desc).first&.player
   end
 
+  def best_main_score
+    match_players.main.map(&:total_score).max || 0
+  end
+
+  def best_bench_score
+    match_players.subs_bench.map(&:total_score).max || 0
+  end
+
+  def bench_total_score
+    match_players.subs_bench.sum(&:total_score)
+  end
+
   def average_bench
     subs = match_players.with_score.subs_bench
     return 0 if subs.empty?
@@ -133,7 +147,29 @@ class Lineup < ApplicationRecord
     (subs.sum(&:total_score) / subs.count).round(2)
   end
 
+  def fanta_copyable?
+    tour.fanta? && fanta_copy_targets.any?
+  end
+
+  def fanta_copy_targets
+    return [] unless tour.fanta?
+
+    fanta_sibling_teams.filter_map do |sibling_team|
+      target_tour = sibling_team.league.tours.set_lineup.find_by(tournament_round: tour.tournament_round)
+      next unless target_tour && !sibling_team.lineups.exists?(tour: target_tour)
+
+      { team: sibling_team, tour: target_tour }
+    end
+  end
+
   private
+
+  def fanta_sibling_teams
+    team.user.teams
+        .joins(:league)
+        .where(leagues: { tournament_id: tour.tournament_round.tournament_id })
+        .where.not(id: team.id)
+  end
 
   def first_goal
     return 72 unless team.league

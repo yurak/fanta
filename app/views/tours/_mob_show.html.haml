@@ -46,7 +46,7 @@
     .create-lineup-row
       .create-lineup-text= t('tours.setup')
       .create-lineup-link
-        - if tour.league.cloneable?
+        - if tour.mantra? && user_team.lineups.where(tour: tour.league.tours).where.not(tour: tour).any?
           = link_to t('tours.clone_mob'), clone_team_lineups_path(user_team, tour_id: tour.id)
       .create-lineup-link= link_to t('tours.create_mob'), new_team_lineup_path(user_team, tour_id: tour.id, team_module_id: user_team.lineups.first&.team_module_id)
   - if tour.set_lineup? && tour.fanta? && user_signed_in? && user_team && current_lineup.present?

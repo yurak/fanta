@@ -10,7 +10,44 @@
     - if flash[:alert]
       .alert.alert-danger= flash[:alert]
 
-    %button.btn.btn-primary#add-player-btn= t('manage.players.add_player')
+    = form_tag manage_players_path, method: :get, class: 'd-flex flex-wrap gap-2 mb-3' do
+      = text_field_tag :name, params[:name], class: 'form-control form-control-sm w-auto', placeholder: t('manage.players.filter_name')
+      = text_field_tag :id, params[:id], class: 'form-control form-control-sm w-auto', placeholder: 'ID'
+      = text_field_tag :tm_id, params[:tm_id], class: 'form-control form-control-sm w-auto', placeholder: 'TM ID'
+      = text_field_tag :fotmob_id, params[:fotmob_id], class: 'form-control form-control-sm w-auto', placeholder: 'Fotmob ID'
+      = select_tag :club_id, options_for_select([['— All clubs —', '']] + @clubs.map { |c| [c.name, c.id] }, params[:club_id]),
+                   class: 'form-control form-control-sm w-auto'
+      = submit_tag t('manage.players.search'), class: 'btn btn-sm btn-primary'
+      - if params.slice(:name, :id, :tm_id, :fotmob_id, :club_id).values.any?(&:present?)
+        = link_to t('manage.players.reset'), manage_players_path, class: 'btn btn-sm btn-outline-secondary'
+
+    - if @players.any?
+      %table.table.table-hover.table-sm
+        %thead.thead-light
+          %tr
+            %th ID
+            %th= t('manage.players.col_name')
+            %th= t('manage.players.col_first_name')
+            %th= t('manage.players.col_club')
+            %th TM ID
+            %th Fotmob ID
+            %th
+        %tbody
+          - @players.each do |player|
+            %tr
+              %td= player.id
+              %td= link_to player.name, manage_player_path(player)
+              %td= player.first_name
+              %td= player.club ? link_to(player.club.name, manage_club_path(player.club)) : '—'
+              %td= player.tm_id
+              %td= player.fotmob_id
+              %td= link_to t('manage.players.view'), manage_player_path(player), class: 'btn btn-sm btn-outline-primary'
+
+      = paginate @players
+    - else
+      %p.text-muted= t('manage.players.empty')
+
+    %button.btn.btn-primary.mt-3#add-player-btn= t('manage.players.add_player')
 
 #add-player-modal.join-modal{ style: 'display:none' }
   .join-modal-content

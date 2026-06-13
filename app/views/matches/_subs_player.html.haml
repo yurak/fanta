@@ -15,8 +15,13 @@
       .match-player-data-base
         = link_to player_path(match_player.player) do
           .team-player-name
-            = match_player.player.name
+            = match_player.player.full_name
             = image_tag('icons/subs-off.svg') if match_player.get_out?
+            .team-player-score-unspecified.inline-block
+              - if match_player.lineup.tour.national?
+                = match_player.player.national_team&.name
+              - else
+                = match_player.player.club&.name
         - if match_player.score.positive?
           .team-player-scores
             .team-player-score= match_player.score
@@ -29,8 +34,10 @@
         - if match_player.club_played_match?
           .match-player-bonuses
             = render 'matches/mp_bonuses', match_player: match_player
-        - else
+        - elsif !match_player.lineup.tour.national?
           = render 'matches/real-match', match_player: match_player, t_round: match_player.tour.tournament_round
+        - else
+          %div
         .match-player-positions
           .player-positions-block
             - match_player.player.positions.each do |position|

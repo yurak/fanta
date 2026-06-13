@@ -45,10 +45,11 @@ module Players
 
         {
           first_name: first_name, name: last_name, nationality: nationality,
-          club_id: club&.id, club_name: club&.name, tm_club_name: tm_club_name,
+          club_id: club&.id, club_name: club&.name, tm_club_name: tm_club_name, tm_club_id: tm_club_id,
           position1: position1, position2: position2, position3: position3,
           tm_url: tm_url, tm_pos1: tm_pos1, tm_pos2: tm_pos2, tm_pos3: tm_pos3,
-          tm_price: price, number: number, birth_date: birth_date, height: height
+          tm_price: price, number: number, birth_date: birth_date, height: height,
+          club_joined_on: club_joined_on, contract_until: contract_until, loan: loan
         }
       end
 
@@ -99,7 +100,9 @@ module Players
       def club
         return nil if tm_club_id.blank?
 
-        @club ||= Club.all.find { |c| c.tm_url.to_s.split('/').last == tm_club_id }
+        @club ||= Club.where('tm_url LIKE ?', "%/#{tm_club_id}").first ||
+          Club.where.not(reserve_club_ids: ['--- []', nil])
+              .find { |c| c.reserve_club_ids.include?(tm_club_id) }
       end
 
       def tm_club_id
@@ -108,6 +111,24 @@ module Players
 
       def current_assignment
         @current_assignment ||= Array(data['clubAssignments']).find { |a| a['type'] == 'current' }
+      end
+
+      def loan
+        current_assignment&.dig('onLoan') == true
+      end
+
+      def club_joined_on
+        raw = current_assignment&.dig('start')
+        Date.parse(raw).iso8601 if raw
+      rescue Date::Error
+        nil
+      end
+
+      def contract_until
+        raw = data.dig('attributes', 'contractUntil')
+        Date.parse(raw).iso8601 if raw
+      rescue Date::Error
+        nil
       end
 
       def tm_pos1
@@ -156,7 +177,28 @@ module Players
         cached = read_cache
         return cached if cached
 
-        response = RestClient::Request.execute(
+        result = JSON.parse(execute_with_retry.body)['data']
+        write_cache(result)
+        result
+      end
+
+      def execute_with_retry
+        retries = 0
+        begin
+          api_request
+        rescue Errno::ECONNRESET, OpenSSL::SSL::SSLError, RestClient::ServerBrokeConnection => e
+          retries += 1
+          raise if retries > 3
+
+          wait = retries * 10
+          Rails.logger.info "#{e.class} for tm_id=#{tm_id}, retry #{retries}/3 in #{wait}s..."
+          sleep(wait)
+          retry
+        end
+      end
+
+      def api_request
+        RestClient::Request.execute(
           method: :get,
           url: "#{API_URL}/#{tm_id}",
           headers: {
@@ -165,9 +207,6 @@ module Players
           },
           verify_ssl: false
         )
-        result = JSON.parse(response.body)['data']
-        write_cache(result)
-        result
       end
 
       def cache_path

@@ -33,7 +33,9 @@ module Api
     private
 
     def player
-      @player ||= Player.find_by(id: params[:id])
+      return @player if defined?(@player)
+
+      @player = Player.find_by(id: params[:id])
     end
 
     def query_params
@@ -49,18 +51,6 @@ module Api
 
     def order_params
       params.fetch(:order, {}).permit(:direction, :field)
-    end
-
-    def paginate(result)
-      if result.is_a?(Array)
-        size = page.present? ? page[:size] : [result.size, 1].max
-        num  = page.present? ? page[:number] : 1
-        Kaminari.paginate_array(result).page(num).per(size)
-      else
-        num  = page.present? ? page[:number] : 1
-        size = page.present? ? page[:size] : [result.count, 1].max
-        result.page(num).per(size)
-      end
     end
 
     def preload_associations(records)

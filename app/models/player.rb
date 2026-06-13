@@ -2,7 +2,7 @@ class Player < ApplicationRecord
   belongs_to :club
   belongs_to :national_team, optional: true
 
-  has_many :player_positions, dependent: :destroy
+  has_many :player_positions, -> { order(:position_id) }, dependent: :destroy, inverse_of: :player
   has_many :positions, -> { order(:id) }, through: :player_positions
 
   has_many :player_teams, dependent: :destroy
@@ -13,6 +13,7 @@ class Player < ApplicationRecord
   has_many :player_season_stats, dependent: :destroy
   has_many :round_players, dependent: :destroy
   has_many :transfers, dependent: :destroy
+  has_many :club_transfers, dependent: :destroy
 
   BUCKET_URL = 'https://mantrafootball.s3-eu-west-1.amazonaws.com'.freeze
   TM_PATH = 'https://www.transfermarkt.com/player-path/profil/spieler/'.freeze
@@ -123,7 +124,7 @@ class Player < ApplicationRecord
   end
 
   def position_sequence_number
-    positions.first&.id
+    positions.first&.id || Float::INFINITY
   end
 
   def transfer_by(team)
@@ -177,7 +178,7 @@ class Player < ApplicationRecord
   end
 
   def season_matches_with_scores
-    @season_matches_with_scores ||= round_players.with_score.by_tournament_round(club_tournament_season_rounds)
+    @season_matches_with_scores ||= round_players.with_score.includes(:tournament_round).by_tournament_round(club_tournament_season_rounds)
   end
 
   def season_matches

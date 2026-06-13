@@ -9,14 +9,18 @@ module Transfers
     end
 
     def call
-      return unless init_transfer && player_team && auction
+      return unless init_transfer && player_team
+      return unless auction || all_auctions_closed?
 
       ActiveRecord::Base.transaction do
-        create_transfer
-        team.update(budget: team.budget + init_transfer.price)
+        if auction
+          create_transfer
+          team.update(budget: team.budget + init_transfer.price)
+        end
         player_team.destroy
-        TelegramBot::PlayerSoldNotifier.call(player, team) if status == :left
       end
+
+      TelegramBot::PlayerSoldNotifier.call(player, team) if status == :left
     end
 
     private
@@ -30,11 +34,17 @@ module Transfers
     end
 
     def player_team
-      @player_team ||= player.player_teams.find_by(team: team)
+      return @player_team if defined?(@player_team)
+
+      @player_team = player.player_teams.find_by(team: team)
     end
 
     def auction
       @auction ||= team.league.auctions.initial_sales.first
+    end
+
+    def all_auctions_closed?
+      team.league.auctions.any? && team.league.auctions.none? { |a| !a.closed? }
     end
   end
 end

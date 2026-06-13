@@ -20,7 +20,7 @@
             .round-tournament-match-result-text
               = "#{match.host_score}:#{match.guest_score}"
       - else
-        = match.time.presence || 'vs'
+        = match.utc_datetime ? local_time(match.utc_datetime, '%H:%M') : (match.time.presence || 'vs')
     .round-tournament-match-cell.round-tournament-match-team.round-tournament-match-guest.round-match-eurocup
       = link_to tournament_club_path(match.tournament_round.tournament, match.guest_club), target: :_blank do
         .round-tournament-team-logo

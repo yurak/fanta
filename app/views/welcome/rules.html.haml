@@ -439,6 +439,7 @@
           %li= t('welcome.rules.bonuses.ul01')
           %li= t('welcome.rules.bonuses.ul02')
           %li= t('welcome.rules.bonuses.ul03')
+          %li.rules-note-text= t('welcome.rules.bonuses.ul01_old')
 
         .rules-note.rules-paragraph-next
           .rules-note-title= t('welcome.rules.note')
@@ -449,10 +450,13 @@
             .bonus-header= t('welcome.rules.bonuses.example.header')
             .rules-paragraph= t('welcome.rules.bonuses.example.paragraph1')
             %ul
-              %li= t('welcome.rules.bonuses.example.ul04')
-              %li= t('welcome.rules.bonuses.example.ul03')
-              %li= t('welcome.rules.bonuses.example.ul02')
               %li= t('welcome.rules.bonuses.example.ul01')
+              %li= t('welcome.rules.bonuses.example.ul02')
+              %li= t('welcome.rules.bonuses.example.ul03')
+              %li= t('welcome.rules.bonuses.example.ul04')
+              %li= t('welcome.rules.bonuses.example.ul05')
+              %li= t('welcome.rules.bonuses.example.ul06')
+              %li= t('welcome.rules.bonuses.example.ul07')
         .bonus-header
           = image_tag('bonuses/penalty_scored.svg')
           = t('welcome.rules.bonuses.bonus_header2')
@@ -692,6 +696,18 @@
             = link_to t('welcome.rules.fanta.ul2_link'), '#modules'
           %li= t('welcome.rules.fanta.ul3')
           %li= t('welcome.rules.fanta.ul4')
+        .rules-table-block.rules-table-block-3col
+          .rules-table-headers
+            .rules-table-header1= t('welcome.rules.fanta.club_limits.header1')
+            .rules-table-header2.right= t('welcome.rules.fanta.club_limits.header2')
+            .rules-table-header2.right= t('welcome.rules.fanta.club_limits.header3')
+          - 7.times do |i|
+            - n = i + 1
+            .rules-table-row
+              .rules-table-bonus= t("welcome.rules.fanta.club_limits.row#{n}")
+              .rules-table-value.right= t("welcome.rules.fanta.club_limits.min#{n}")
+              .rules-table-value.right= t("welcome.rules.fanta.club_limits.max#{n}")
+        %ul
           %li
             = t('welcome.rules.fanta.ul5')
             = link_to t('welcome.rules.fanta.ul5_link'), '#substitution'
@@ -725,6 +741,13 @@
           .screen-desc-header
             .screen-desc-title= t('welcome.rules.fanta.screen2.title')
             .screen-desc-desc= t('welcome.rules.fanta.screen2.text')
+        .rules-header= t('welcome.rules.fanta.header3')
+        .rules-paragraph= t('welcome.rules.fanta.tiebreak_intro')
+        %ol.rules-paragraph-next
+          %li= t('welcome.rules.fanta.tiebreak1')
+          %li= t('welcome.rules.fanta.tiebreak2')
+          %li= t('welcome.rules.fanta.tiebreak3')
+          %li= t('welcome.rules.fanta.tiebreak4')
       .rules-nav
         .rules-nav-anchor ⚓️
         .rules-nav-list

@@ -26,7 +26,7 @@ module Scores
       def update_round_players; end
 
       def round_players
-        @round_players ||= match.tournament_round.round_players
+        @round_players ||= match.tournament_round.round_players.includes(player: :positions)
       end
 
       def update_round_player(_round_player, _team_hash, _team_missed_goals)

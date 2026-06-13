@@ -282,4 +282,119 @@ RSpec.describe Lineup do
       end
     end
   end
+
+  describe '#best_main_score' do
+    context 'without match players' do
+      it { expect(lineup.best_main_score).to eq(0) }
+    end
+
+    context 'with main match players at equal scores' do
+      it 'returns the score' do
+        expect(lineup_team_score_five.best_main_score).to eq(5.0)
+      end
+    end
+
+    context 'with main match players at varying scores' do
+      before { lineup_team_score_five.match_players.main.last.round_player.update(score: 9.0) }
+
+      it 'returns max score among main players' do
+        expect(lineup_team_score_five.best_main_score).to eq(9.0)
+      end
+    end
+  end
+
+  describe '#best_bench_score' do
+    context 'without match players' do
+      it { expect(lineup.best_bench_score).to eq(0) }
+    end
+
+    context 'with bench match players at equal scores' do
+      it 'returns the score' do
+        expect(lineup_team_score_five.best_bench_score).to eq(5.0)
+      end
+    end
+
+    context 'with bench match players at varying scores' do
+      before { lineup_team_score_five.match_players.subs_bench.last.round_player.update(score: 9.0) }
+
+      it 'returns max score among bench players' do
+        expect(lineup_team_score_five.best_bench_score).to eq(9.0)
+      end
+    end
+  end
+
+  describe '#last_edited_at' do
+    context 'when lineup is created' do
+      it 'sets last_edited_at automatically' do
+        lineup = create(:lineup)
+        expect(lineup.last_edited_at).to be_present
+      end
+
+      it 'does not override explicitly provided last_edited_at' do
+        time = 2.hours.ago
+        lineup = create(:lineup, last_edited_at: time)
+        expect(lineup.last_edited_at).to be_within(1.second).of(time)
+      end
+    end
+  end
+
+  # rubocop:disable RSpec/MultipleMemoizedHelpers
+  describe '#fanta_copyable?' do
+    let(:user) { create(:user) }
+    let(:tournament) { create(:fanta_tournament) }
+    let(:tournament_round) { create(:tournament_round, tournament: tournament) }
+    let(:source_league) { create(:active_league, tournament: tournament) }
+    let(:target_league) { create(:active_league, tournament: tournament) }
+    let(:source_team) { create(:team, user: user, league: source_league) }
+    let(:target_team) { create(:team, user: user, league: target_league) }
+    let(:source_tour) { create(:set_lineup_tour, league: source_league, tournament_round: tournament_round) }
+    let(:target_tour) { create(:set_lineup_tour, league: target_league, tournament_round: tournament_round) }
+    let(:fanta_lineup) { create(:lineup, team: source_team, tour: source_tour) }
+
+    before { target_team && target_tour }
+
+    context 'when tour is fanta and other league has open tour without lineup' do
+      it { expect(fanta_lineup.fanta_copyable?).to be(true) }
+    end
+
+    context 'when tour is not fanta' do
+      let(:fanta_lineup) { create(:lineup) }
+
+      it { expect(fanta_lineup.fanta_copyable?).to be(false) }
+    end
+
+    context 'when other league already has a lineup for this round' do
+      before { create(:lineup, team: target_team, tour: target_tour) }
+
+      it { expect(fanta_lineup.fanta_copyable?).to be(false) }
+    end
+
+    context 'when other league tour is not open' do
+      let(:target_tour) { create(:closed_tour, league: target_league, tournament_round: tournament_round) }
+
+      it { expect(fanta_lineup.fanta_copyable?).to be(false) }
+    end
+
+    context 'when user has no other teams in the same tournament' do
+      let(:target_team) { nil }
+      let(:target_tour) { nil }
+
+      it { expect(fanta_lineup.fanta_copyable?).to be(false) }
+    end
+  end
+  # rubocop:enable RSpec/MultipleMemoizedHelpers
+
+  describe '#bench_total_score' do
+    context 'without match players' do
+      it { expect(lineup.bench_total_score).to eq(0) }
+    end
+
+    context 'with bench match players' do
+      let(:fanta_lineup) { create(:lineup, :with_fanta_score_five) }
+
+      it 'returns sum of bench player scores' do
+        expect(fanta_lineup.bench_total_score).to eq(25.0)
+      end
+    end
+  end
 end

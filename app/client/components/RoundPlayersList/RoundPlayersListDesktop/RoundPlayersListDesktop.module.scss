@@ -1,0 +1,5 @@
+// flag-icon scales with font-size; bump it so country flags in the national
+// column are larger than the default inline size.
+.flag {
+  font-size: 20px;
+}

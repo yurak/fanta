@@ -8,9 +8,9 @@ RSpec.describe Players::Transfermarkt::PositionParser do
     let(:year)   { 2023 }
     let(:player) { create(:player, tm_id: '406040') }
 
-    def build_game(season_id:, position_id:)
+    def build_game(season_id:, position_id:, is_national_game: false)
       {
-        'gameInformation' => { 'seasonId' => season_id },
+        'gameInformation' => { 'seasonId' => season_id, 'isNationalGame' => is_national_game },
         'statistics' => { 'generalStatistics' => { 'positionId' => position_id } }
       }
     end
@@ -153,6 +153,29 @@ RSpec.describe Players::Transfermarkt::PositionParser do
 
       it 'uses cached data' do
         expect(parser.call).to eq('RB' => 1)
+      end
+    end
+
+    context 'when games include national team matches' do
+      before do
+        stub_cache_miss
+        stub_api(
+          'data' => {
+            'performance' => [
+              build_game(season_id: 2023, position_id: 8),                                    # LM → WB (club)
+              build_game(season_id: 2023, position_id: 5, is_national_game: true),            # RB national — ignored
+              build_game(season_id: 2023, position_id: 5, is_national_game: true)             # RB national — ignored
+            ]
+          }
+        )
+      end
+
+      it 'excludes national team games from position counts' do
+        expect(parser.call).to eq('WB' => 1)
+      end
+
+      it 'does not count national team RB as RB' do
+        expect(parser.call['RB']).to be_nil
       end
     end
 

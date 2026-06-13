@@ -4,6 +4,7 @@ import { withBootstrap } from "./bootstrap/withBootstrap";
 import Results from "./pages/League/Results";
 import Players from "./pages/Players";
 import LeaguePlayers from "./pages/League/LeaguePlayers";
+import RoundPlayers from "./pages/RoundPlayers";
 
 const router = createBrowserRouter([
   {
@@ -21,6 +22,10 @@ const router = createBrowserRouter([
   {
     path: "/leagues/:leagueId/players",
     element: <LeaguePlayers />,
+  },
+  {
+    path: "/tournament_rounds/:roundId/round_players",
+    element: <RoundPlayers />,
   },
 ]);
 
