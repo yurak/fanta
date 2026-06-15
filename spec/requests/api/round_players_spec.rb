@@ -14,6 +14,10 @@ RSpec.describe 'Api::RoundPlayers' do
 
       it { expect(response).to have_http_status(:ok) }
 
+      it 'opts out of browser HTTP caching' do
+        expect(response.headers['Cache-Control']).to eq('no-store')
+      end
+
       it 'returns pagination meta' do
         expect(response.parsed_body['meta']['page']).to include('current_page' => 1)
       end
