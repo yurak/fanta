@@ -9,8 +9,8 @@ class Club < ApplicationRecord
   has_many :guest_tournament_matches, foreign_key: 'guest_club_id', class_name: 'TournamentMatch',
                                       dependent: :destroy, inverse_of: :guest_club
 
-  serialize :reserve_clubs, Array
-  serialize :reserve_club_ids, Array
+  serialize :reserve_clubs, type: Array, coder: YAML
+  serialize :reserve_club_ids, type: Array, coder: YAML
 
   enum status: { active: 0, archived: 1 }
 

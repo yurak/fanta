@@ -29,9 +29,7 @@
   .input-group.mb-3
     .input-group-prepend
       %span.input-group-text Tag
-    = f.select :article_tag_id, class: 'form-control' do
-      - article_tags.each do |tag|
-        = content_tag(:option, tag.name, value: tag.id)
+    = f.select :article_tag_id, options_from_collection_for_select(article_tags, :id, :name, article.article_tag_id), {}, class: 'form-control'
 
   .input-group.mb-3
     .input-group-prepend

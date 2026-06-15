@@ -5,7 +5,7 @@ class WeeklyTeam < ApplicationRecord
 
   has_many :weekly_team_players, dependent: :destroy
 
-  serialize :round_ids, Array
+  serialize :round_ids, type: Array, coder: YAML
 
   enum mode: { top: 'top', flop: 'flop' }
   enum source: { round: 'round', season: 'season', avg: 'avg' }, _prefix: :source

@@ -3,8 +3,11 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '3.2.2'
 
-gem 'rails', '~> 7.0.0'
+gem 'rails', '~> 7.1.0'
 gem 'pg'
+
+# Pinned to 2.x: connection_pool 3.x changed ConnectionPool.new signature, incompatible with react_on_rails 13.4.0
+gem 'connection_pool', '~> 2.4'
 
 gem 'audited', '~> 5.8'
 gem 'active_model_serializers', '~> 0.10.0'
