@@ -15,15 +15,15 @@ test:
 production:
   <<: *default
   database: mantra_production
-  username: <%= Rails.application.credentials.dig(:db_prod, :username) %>
-  password: <%= Rails.application.credentials.dig(:db_prod, :password) %>
-  host: <%= Rails.application.credentials.dig(:db_prod, :host) %>
+  username: <%= Rails.application.credentials.dig(:production, :db, :username) %>
+  password: <%= Rails.application.credentials.dig(:production, :db, :password) %>
+  host: <%= Rails.application.credentials.dig(:production, :db, :host) %>
   port: 5432
 
 staging:
   <<: *default
   database: mantra_staging
-  username: <%= Rails.application.credentials.dig(:db_staging, :username) %>
-  password: <%= Rails.application.credentials.dig(:db_staging, :password) %>
-  host: <%= Rails.application.credentials.dig(:db_staging, :host) %>
+  username: <%= Rails.application.credentials.dig(:staging, :db, :username) %>
+  password: <%= Rails.application.credentials.dig(:staging, :db, :password) %>
+  host: <%= Rails.application.credentials.dig(:staging, :db, :host) %>
   port: 5432

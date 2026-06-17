@@ -3,7 +3,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '3.2.2'
 
-gem 'rails', '~> 7.1.0'
+gem 'rails', '~> 7.2.0'
 gem 'pg'
 
 # Pinned to 2.x: connection_pool 3.x changed ConnectionPool.new signature, incompatible with react_on_rails 13.4.0
@@ -18,7 +18,7 @@ gem 'cancancan'
 gem 'chartkick', '3.4.0'
 gem 'coveralls_reborn', '~> 0.28.0', require: false
 gem 'countries'
-gem 'devise'
+gem 'devise', '~> 4.9'
 gem 'devise-bootstrap-views', '~> 1.0'
 gem 'dotenv-rails', require: 'dotenv/rails-now'
 gem 'flag-icons-rails'
