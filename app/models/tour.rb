@@ -117,8 +117,9 @@ class Tour < ApplicationRecord
                                      .includes(
                                        lineup: :tour,
                                        round_player: [
-                                         :tournament_round,
-                                         { player: :positions }
+                                         { tournament_round: :tournament },
+                                         { player: [:positions, { national_team: :tournament },
+                                                    { club: %i[tournament ec_tournament] }] }
                                        ]
                                      )
   end
