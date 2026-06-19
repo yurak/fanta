@@ -11,11 +11,16 @@
             = "#{tournament_round.tournament.name} ##{tournament_round.number}"
     .round-missed-players
       %h4.round-missed-players-title Missed players
-      - tournament_round.tournament_matches.each do |match|
+      - national = tournament_round.tournament.national?
+      - matches = national ? tournament_round.national_matches : tournament_round.tournament_matches
+      - matches.each do |match|
         - next if match.missed_players_data.blank?
         .round-missed-players-match
           .round-missed-players-match-title
-            = "#{match.host_club.name} vs #{match.guest_club.name}"
+            - if national
+              = "#{match.host_team.name} vs #{match.guest_team.name}"
+            - else
+              = "#{match.host_club.name} vs #{match.guest_club.name}"
           %table.table.table-sm.table-hover.round-missed-players-table
             %thead.thead-light
               %tr

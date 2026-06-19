@@ -115,7 +115,10 @@ class Lineup < ApplicationRecord
   end
 
   def subs_missed?
-    match_players.main.without_score.includes(round_player: :tournament_round).any?(&:subs_option_exist?)
+    match_players.main.without_score
+                 .includes(round_player: [{ tournament_round: :tournament },
+                                          { player: [{ national_team: :tournament }, { club: %i[tournament ec_tournament] }] }])
+                 .any?(&:subs_option_exist?)
   end
 
   def substitutes_preview

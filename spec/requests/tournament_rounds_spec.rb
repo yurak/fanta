@@ -397,6 +397,25 @@ RSpec.describe 'Users' do
       it { expect(response).to render_template(:missed_players) }
       it { expect(response).to have_http_status(:ok) }
     end
+
+    context 'when the tournament is national and has missed players' do
+      let(:national_tournament) { create(:tournament, :with_national_teams) }
+      let(:national_round)      { create(:tournament_round, tournament: national_tournament) }
+      let(:host)                { national_tournament.national_teams.first }
+      let(:guest)               { national_tournament.national_teams.second }
+
+      login_admin
+      before do
+        create(:national_match, tournament_round: national_round, host_team: host, guest_team: guest,
+                                missed_players_data: { '123' => { 'fotmob_id' => 123, 'source_name' => 'Missed Guy',
+                                                                  'rating' => '7.5', 'played_minutes' => 90 } })
+        get tournament_round_missed_players_path(national_round)
+      end
+
+      it { expect(response).to be_successful }
+      it { expect(response.body).to include("#{host.name} vs #{guest.name}") }
+      it { expect(response.body).to include('Missed Guy') }
+    end
   end
 
   describe 'GET #auto_subs_preview' do

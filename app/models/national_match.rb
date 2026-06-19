@@ -3,6 +3,8 @@ class NationalMatch < ApplicationRecord
   belongs_to :host_team, class_name: 'NationalTeam'
   belongs_to :guest_team, class_name: 'NationalTeam'
 
+  serialize :missed_players_data, coder: JSON
+
   scope :by_team, ->(team_id) { where('host_team_id = ? OR guest_team_id = ?', team_id, team_id) }
   scope :by_t_round, ->(t_round_id) { where(tournament_round_id: t_round_id) }
 
