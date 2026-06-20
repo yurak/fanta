@@ -480,4 +480,28 @@ RSpec.describe 'Tours' do
       end
     end
   end
+
+  describe 'GET #show fanta tour lineups ordering with equal scores' do
+    let(:fanta_league) { create(:league, :fanta_league) }
+    let(:fanta_tour) do
+      create(:closed_tour, league: fanta_league,
+                           tournament_round: create(:tournament_round, tournament: fanta_league.tournament))
+    end
+    let!(:lineup_one) { create(:lineup, :with_fanta_score_five, tour: fanta_tour, final_score: 55) }
+    let!(:lineup_two) { create(:lineup, :with_fanta_score_five, tour: fanta_tour, final_score: 55) }
+
+    login_user
+
+    # Equal final_score: lineup_two wins on the best-main-score tiebreaker, so it
+    # must appear above lineup_one — matching the saved lineup.position (ordered_lineups).
+    before do
+      lineup_two.match_players.main.last.round_player.update(score: 9.0)
+      get tour_path(fanta_tour)
+    end
+
+    it 'orders teams by tiebreaker, not by score alone' do
+      expect(response.body.index(lineup_two.team.human_name))
+        .to be < response.body.index(lineup_one.team.human_name)
+    end
+  end
 end

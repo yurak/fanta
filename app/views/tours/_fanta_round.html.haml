@@ -54,7 +54,7 @@
       - else
         -# TODO: move to partial with lazy loading
         .tour-deadlined{ class: "tour-closed-#{tour.closed?}" }
-          - tour.lineups.order(final_score: :desc).each_with_index do |lineup, i|
+          - tour.ordered_lineups.each_with_index do |lineup, i|
             = link_to team_lineup_path(lineup.team, lineup) do
               .team-row{ class: ('self-team-row' if lineup.team == user_team) }
                 .lineup-team-position
