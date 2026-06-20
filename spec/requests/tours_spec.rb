@@ -496,8 +496,8 @@ RSpec.describe 'Tours' do
     before { get tour_path(fanta_tour) }
 
     it 'lists the higher-position team first' do
-      expect(response.body.index(lineup_two.team.human_name))
-        .to be < response.body.index(lineup_one.team.human_name)
+      expect(response.body.index(CGI.escapeHTML(lineup_two.team.human_name)))
+        .to be < response.body.index(CGI.escapeHTML(lineup_one.team.human_name))
     end
   end
 end

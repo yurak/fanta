@@ -413,7 +413,7 @@ RSpec.describe 'Users' do
       end
 
       it { expect(response).to be_successful }
-      it { expect(response.body).to include("#{host.name} vs #{guest.name}") }
+      it { expect(response.body).to include(CGI.escapeHTML("#{host.name} vs #{guest.name}")) }
       it { expect(response.body).to include('Missed Guy') }
     end
   end
