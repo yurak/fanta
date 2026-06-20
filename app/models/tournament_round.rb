@@ -66,7 +66,19 @@ class TournamentRound < ApplicationRecord
     @best_bench ||= lineups.includes(match_players: :round_player).max_by(&:average_bench)
   end
 
+  def ordered_national_matches
+    matches_by_kickoff(national_matches)
+  end
+
+  def ordered_tournament_matches
+    matches_by_kickoff(tournament_matches)
+  end
+
   private
+
+  def matches_by_kickoff(matches)
+    matches.sort_by { |match| [match.utc_datetime ? 0 : 1, match.utc_datetime&.to_i || match.id] }
+  end
 
   def matches_finished?(matches)
     matches.exists? && !matches.exists?(host_score: nil)

@@ -3,9 +3,9 @@
     .block-title= t('tours.fixtures')
     .round-matches
       - if tour.national?
-        = render 'tournaments/national_matches', matches: tour.tournament_round.national_matches
+        = render 'tournaments/national_matches', matches: tour.tournament_round.ordered_national_matches
       - else
-        = render 'tournaments/tournament_matches', matches: tour.tournament_round.tournament_matches
+        = render 'tournaments/tournament_matches', matches: tour.tournament_round.ordered_tournament_matches
   - unless tour.inactive?
     - lineups_by_team = tour.lineups.index_by(&:team_id)
     - user_team = user_team_by_league(current_user, tour.league)
