@@ -88,11 +88,11 @@ RSpec.describe 'Manage::Players' do
         end
 
         it 'shows old club name' do
-          expect(response.body).to include(old_club.name)
+          expect(response.body).to include(CGI.escapeHTML(old_club.name))
         end
 
         it 'shows new club name' do
-          expect(response.body).to include(new_club.name)
+          expect(response.body).to include(CGI.escapeHTML(new_club.name))
         end
       end
     end
