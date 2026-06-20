@@ -22,6 +22,7 @@ class Lineup < ApplicationRecord
   scope :by_league, ->(league_id) { where(tour_id: League.find(league_id).tours.select(:id)) }
   scope :by_team, ->(team_id) { where(team_id: team_id) }
   scope :top_position, ->(position) { where('position > 0 AND position <= ?', position) if position }
+  scope :ranked, -> { order(Arel.sql('lineups.position ASC NULLS LAST, lineups.final_score DESC')) }
 
   MIN_AVG_DEF_SCORE = 6
   MAX_AVG_DEF_SCORE = 7
