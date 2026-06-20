@@ -17,11 +17,11 @@ RSpec.describe 'Manage::Champions' do
     context 'when admin is logged in' do
       login_admin
 
-      let!(:first_champion) { create(:user, name: 'Alice', champion_number: 1) }
+      let!(:first_champion) { create(:user, name: 'AliceChampionQA', champion_number: 1) }
 
       before do
-        create(:user, name: 'Bob', champion_number: 2)
-        create(:user, name: 'Carol', champion_number: nil)
+        create(:user, name: 'BobChampionQA', champion_number: 2)
+        create(:user, name: 'CarolChampionQA', champion_number: nil)
         get manage_champions_path
       end
 
@@ -29,20 +29,20 @@ RSpec.describe 'Manage::Champions' do
       it { expect(response).to render_template(:index) }
 
       it 'shows first champion' do
-        expect(response.body).to include('Alice')
+        expect(response.body).to include('AliceChampionQA')
       end
 
       it 'shows second champion' do
-        expect(response.body).to include('Bob')
+        expect(response.body).to include('BobChampionQA')
       end
 
       it 'excludes users without champion_number' do
-        expect(response.body).not_to include('Carol')
+        expect(response.body).not_to include('CarolChampionQA')
       end
 
       it 'orders champions by champion_number' do
-        alice_pos = response.body.index('Alice')
-        bob_pos = response.body.index('Bob')
+        alice_pos = response.body.index('AliceChampionQA')
+        bob_pos = response.body.index('BobChampionQA')
         expect(alice_pos).to be < bob_pos
       end
 
