@@ -7,7 +7,7 @@ class NationalTeam < ApplicationRecord
   has_many :guest_national_matches, foreign_key: 'guest_team_id', class_name: 'NationalMatch',
                                     dependent: :destroy, inverse_of: :guest_team
 
-  enum status: { active: 0, archived: 1 }
+  enum :status, { active: 0, archived: 1 }
 
   validates :code, presence: true, uniqueness: true
   validates :name, presence: true, uniqueness: true

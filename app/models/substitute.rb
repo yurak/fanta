@@ -4,5 +4,5 @@ class Substitute < ApplicationRecord
   belongs_to :in_rp, class_name: 'RoundPlayer'
   belongs_to :out_rp, class_name: 'RoundPlayer'
 
-  enum subs_by: { manual: 0, autobot: 1 }
+  enum :subs_by, { manual: 0, autobot: 1 }
 end

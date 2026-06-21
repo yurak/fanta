@@ -4,14 +4,14 @@ class Notification < ApplicationRecord
 
   PENDING = 'pending'.freeze
 
-  enum status: {
+  enum :status, {
     pending: 0,
     sent: 1,
     failed: 2,
     processing: 3
   }
 
-  enum kind: {
+  enum :kind, {
     tour_opened: 0,
     tour_ddl: 1,
     tour_moderated: 2,
@@ -24,7 +24,7 @@ class Notification < ApplicationRecord
     auction_squad_complete: 9
   }
 
-  enum priority: {
+  enum :priority, {
     low: 0,
     normal: 1,
     high: 2,

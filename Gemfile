@@ -3,7 +3,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '3.2.2'
 
-gem 'rails', '~> 7.2.0'
+gem 'rails', '~> 8.0.0'
 gem 'pg'
 
 # Pinned to 2.x: connection_pool 3.x changed ConnectionPool.new signature, incompatible with react_on_rails 13.4.0
@@ -24,15 +24,14 @@ gem 'dotenv-rails', require: 'dotenv/rails-now'
 gem 'flag-icons-rails'
 gem 'haml', '~> 7.2'
 gem 'haml-rails', '~> 2.0'
-gem 'jbuilder', '~> 2.5'
 gem 'jquery-rails', '~> 4.4.0'
 gem 'kaminari'
 gem 'puma', '~> 6.0'
-gem 'rails_admin', '~> 3.0'
+gem 'rails_admin', '~> 3.3'
 gem 'rollbar'
 
 gem "appsignal"
-gem 'rails-i18n', '~> 7.0'
+gem 'rails-i18n', '~> 8.0'
 gem 'rb-readline'
 gem 'aws-sdk-s3', require: false
 gem 'rest-client'

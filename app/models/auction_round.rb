@@ -13,7 +13,7 @@ class AuctionRound < ApplicationRecord
   BUDGET_LIMIT = [0, 220, 260].freeze
   GK_MIN_LIMIT = [0, 1, 3].freeze
 
-  enum status: { active: 0, processing: 1, closed: 2 }
+  enum :status, { active: 0, processing: 1, closed: 2 }
 
   def bid_exist?(team)
     return false unless team

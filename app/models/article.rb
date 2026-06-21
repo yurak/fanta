@@ -1,7 +1,7 @@
 class Article < ApplicationRecord
   belongs_to :article_tag, optional: true
 
-  enum status: { initial: 0, published: 1, archived: 2 }
+  enum :status, { initial: 0, published: 1, archived: 2 }
 
   validates :title, presence: true
   validates :description, presence: true

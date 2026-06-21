@@ -7,8 +7,8 @@ class WeeklyTeam < ApplicationRecord
 
   serialize :round_ids, type: Array, coder: YAML
 
-  enum mode: { top: 'top', flop: 'flop' }
-  enum source: { round: 'round', season: 'season', avg: 'avg' }, _prefix: :source
+  enum :mode, { top: 'top', flop: 'flop' }
+  enum :source, { round: 'round', season: 'season', avg: 'avg' }, prefix: :source
 
   validates :number, presence: true, numericality: { only_integer: true, greater_than: 0 }
   validates :mode, presence: true

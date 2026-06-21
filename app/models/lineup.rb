@@ -11,7 +11,7 @@ class Lineup < ApplicationRecord
   delegate :tournament_round, to: :tour
   delegate :league, to: :team
 
-  enum creation_type: { manual: 0, copied: 1, auto_cloned: 2 }
+  enum :creation_type, { manual: 0, copied: 1, auto_cloned: 2 }
 
   before_create { self.last_edited_at ||= Time.current }
 
