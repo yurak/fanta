@@ -14,8 +14,8 @@ class Tournament < ApplicationRecord
   EURO = 'euro'.freeze
   ITALY = 'italy'.freeze
 
-  enum source: { fotmob: 0, sofascore: 1 }
-  enum mode: { mantra: 0, fanta: 1 }
+  enum :source, { fotmob: 0, sofascore: 1 }
+  enum :mode, { mantra: 0, fanta: 1 }
 
   validates :name, presence: true
   validates :code, presence: true, uniqueness: true

@@ -43,7 +43,7 @@ RSpec.describe 'Manage::Players' do
 
         it 'returns players from the selected club' do
           get manage_players_path, params: { club_id: club.id }
-          expect(response.body).to include(player.name)
+          expect(response.body).to include(CGI.escapeHTML(player.name))
         end
       end
     end
@@ -75,7 +75,7 @@ RSpec.describe 'Manage::Players' do
       it { expect(response).to render_template(:show) }
 
       it 'displays player name' do
-        expect(response.body).to include(player.name)
+        expect(response.body).to include(CGI.escapeHTML(player.name))
       end
 
       context 'with club transfer history' do
@@ -88,11 +88,11 @@ RSpec.describe 'Manage::Players' do
         end
 
         it 'shows old club name' do
-          expect(response.body).to include(old_club.name)
+          expect(response.body).to include(CGI.escapeHTML(old_club.name))
         end
 
         it 'shows new club name' do
-          expect(response.body).to include(new_club.name)
+          expect(response.body).to include(CGI.escapeHTML(new_club.name))
         end
       end
     end

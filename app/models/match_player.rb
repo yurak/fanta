@@ -11,7 +11,7 @@ class MatchPlayer < ApplicationRecord
            :saves, :score, :scored_penalty, :yellow_card, to: :round_player
   delegate :club, :first_name, :name, :teams, to: :player
 
-  enum subs_status: { initial: 0, get_out: 1, get_in: 2, not_in_squad: 3 }
+  enum :subs_status, { initial: 0, get_out: 1, get_in: 2, not_in_squad: 3 }
 
   default_scope { includes(:lineup, round_player: { player: %i[club player_positions positions] }) }
 

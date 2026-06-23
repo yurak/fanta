@@ -100,8 +100,8 @@ module Players
     end
 
     def filter_by_appearances(players)
-      players = players.where('COALESCE(pss.played_matches, 0) >= ?', min_app.to_f) if min_app
-      players = players.where('COALESCE(pss.played_matches, 0) <= ?', max_app.to_f) if max_app
+      players = players.where('COALESCE(pss.played_matches, 0) >= ?', min_app.to_i) if min_app
+      players = players.where('COALESCE(pss.played_matches, 0) <= ?', max_app.to_i) if max_app
       players
     end
 

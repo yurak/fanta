@@ -480,4 +480,24 @@ RSpec.describe 'Tours' do
       end
     end
   end
+
+  describe 'GET #show fanta tour orders lineups by saved position' do
+    let(:fanta_league) { create(:league, :fanta_league) }
+    let(:fanta_tour) do
+      create(:closed_tour, league: fanta_league,
+                           tournament_round: create(:tournament_round, tournament: fanta_league.tournament))
+    end
+    # Equal final_score, but position is the saved rank (tiebreakers already baked in by
+    # Lineups::Updater). The tour page must follow position, not score alone.
+    let!(:lineup_one) { create(:lineup, tour: fanta_tour, final_score: 55, position: 2) }
+    let!(:lineup_two) { create(:lineup, tour: fanta_tour, final_score: 55, position: 1) }
+
+    login_user
+    before { get tour_path(fanta_tour) }
+
+    it 'lists the higher-position team first' do
+      expect(response.body.index(CGI.escapeHTML(lineup_two.team.human_name)))
+        .to be < response.body.index(CGI.escapeHTML(lineup_one.team.human_name))
+    end
+  end
 end

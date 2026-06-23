@@ -16,10 +16,10 @@ class League < ApplicationRecord
 
   delegate :fanta?, :mantra?, to: :tournament
 
-  enum auction_type: { blind_bids: 0, live: 1 }
-  enum cloning_status: { unclonable: 0, cloneable: 1 }
-  enum status: { initial: 0, active: 1, archived: 2 }
-  enum transfer_status: { closed: 0, open: 1 }
+  enum :auction_type, { blind_bids: 0, live: 1 }
+  enum :cloning_status, { unclonable: 0, cloneable: 1 }
+  enum :status, { initial: 0, active: 1, archived: 2 }
+  enum :transfer_status, { closed: 0, open: 1 }
 
   validates :name, presence: true, uniqueness: { scope: :season_id }
   validates :join_code, uniqueness: true, allow_blank: true,

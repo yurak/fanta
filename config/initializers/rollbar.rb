@@ -4,7 +4,7 @@ Rollbar.configure do |config|
   begin
     config.access_token = Configuration.rollbar_token if ActiveRecord::Base.connection.table_exists?('configurations')
   rescue ActiveRecord::NoDatabaseError, ActiveRecord::StatementInvalid, PG::ConnectionBad,
-         ActiveRecord::ConnectionNotEstablished
+         ActiveRecord::ConnectionNotEstablished, NameError
     # Database not yet created or not reachable
   end
 

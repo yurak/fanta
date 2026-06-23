@@ -397,4 +397,24 @@ RSpec.describe Lineup do
       end
     end
   end
+
+  describe '.ranked' do
+    let(:tour) { create(:tour) }
+
+    it 'orders by saved position ascending' do
+      third  = create(:lineup, tour: tour, position: 3)
+      first  = create(:lineup, tour: tour, position: 1)
+      second = create(:lineup, tour: tour, position: 2)
+
+      expect(tour.lineups.ranked).to eq([first, second, third])
+    end
+
+    it 'puts lineups without a position last, ordered by final_score desc' do
+      ranked   = create(:lineup, tour: tour, position: 1, final_score: 10)
+      unscored = create(:lineup, tour: tour, position: nil, final_score: 5)
+      higher   = create(:lineup, tour: tour, position: nil, final_score: 40)
+
+      expect(tour.lineups.ranked).to eq([ranked, higher, unscored])
+    end
+  end
 end

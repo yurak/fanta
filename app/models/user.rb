@@ -22,9 +22,9 @@ class User < ApplicationRecord
   ROLES = %w[customer admin moderator].freeze
   DEFAULT_TIME_ZONE = 'Kyiv'.freeze
 
-  enum role: ROLES
-  enum status: { initial: 0, named: 1, with_avatar: 2, with_team: 3, configured: 4 }
-  enum locale: { en: 0, ua: 1 }
+  enum :role, ROLES
+  enum :status, { initial: 0, named: 1, with_avatar: 2, with_team: 3, configured: 4 }
+  enum :locale, { en: 0, ua: 1 }
 
   scope :champions, -> { where.not(champion_number: nil).order(:champion_number) }
 

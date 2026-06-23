@@ -128,10 +128,10 @@ class LineupsController < ApplicationController
     ).compact.uniq(&:id)
     return if t_rounds.empty?
 
-    ActiveRecord::Associations::Preloader.new.preload(
-      t_rounds,
-      [{ tournament_matches: %i[host_club guest_club] }, { national_matches: %i[host_team guest_team] }]
-    )
+    ActiveRecord::Associations::Preloader.new(
+      records: t_rounds,
+      associations: [{ tournament_matches: %i[host_club guest_club] }, { national_matches: %i[host_team guest_team] }]
+    ).call
   end
 
   def team

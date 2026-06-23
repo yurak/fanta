@@ -6,7 +6,7 @@ class AuctionBid < ApplicationRecord
 
   delegate :auction, to: :auction_round, allow_nil: true
 
-  enum status: { initial: 0, ongoing: 1, submitted: 2, completed: 3, processed: 4 }
+  enum :status, { initial: 0, ongoing: 1, submitted: 2, completed: 3, processed: 4 }
 
   scope :initial_ongoing, -> { initial.or(ongoing) }
 

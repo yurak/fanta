@@ -170,8 +170,6 @@ namespace :club_transfers do
                             ClubTransfersTasks.fetch_tm_club_name(tm_club_id)
                           end
 
-          next if CLUB_TRANSFERS_NON_CLUB_NAMES.include?(new_club_name)
-
           csv << [
             player.id,
             player.name,
