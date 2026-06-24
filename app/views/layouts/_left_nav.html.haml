@@ -43,7 +43,7 @@
     -#    .nav-link-title= t('header.donate')
     - if user_signed_in?
       .nav-logo-small
-        = link_to user_path(current_user) do
+        = link_to manager_path(current_user) do
           .nav-link-img= image_tag(current_user.avatar_path)
           .nav-link-title= current_user.name
     - else

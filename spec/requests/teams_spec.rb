@@ -216,6 +216,26 @@ RSpec.describe 'Teams' do
       it { expect(response).to have_http_status(:ok) }
       it { expect(assigns(:team)).not_to be_nil }
     end
+
+    context 'with own logos in the picker modal' do
+      let(:logged_user) { create(:user) }
+      let(:team) { create(:team, user: logged_user) }
+      let!(:approved_logo) { create(:user_logo, user: logged_user, status: :approved) }
+      let!(:pending_logo) { create(:user_logo, user: logged_user, status: :pending) }
+
+      before do
+        sign_in logged_user
+        get edit_team_path(team)
+      end
+
+      it 'renders the approved logo as selectable' do
+        expect(response.body).to match(/logo-selectable[^>]*>\s*<img[^>]*#{Regexp.escape(approved_logo.url)}/)
+      end
+
+      it 'renders the pending logo as disabled' do
+        expect(response.body).to match(/logo-modal-icon-disabled[^>]*>\s*<img[^>]*#{Regexp.escape(pending_logo.url)}/)
+      end
+    end
   end
 
   describe 'PUT/PATCH #update' do

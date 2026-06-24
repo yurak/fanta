@@ -1,0 +1,4 @@
+- if user.user_profile&.bot_enabled
+  %span.badge-tg-connected{ title: t('manage.joins.tg_connected') } 🟢
+- else
+  %span.badge-tg-disconnected{ title: t('manage.joins.tg_disconnected') } 🔴

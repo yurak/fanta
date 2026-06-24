@@ -1,4 +1,8 @@
 module ApplicationHelper
+  def aws_bucket_url
+    S3Storage.bucket_url
+  end
+
   def active_tournaments
     Tournament.with_clubs.order(:id) + Tournament.with_ec_clubs
   end

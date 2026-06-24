@@ -81,10 +81,7 @@
                 = link_to team.human_name, team_path(team)
               %td
                 - if team.user
-                  - if team.user.user_profile&.bot_enabled
-                    %span.badge-tg-connected{ title: t('manage.joins.tg_connected') } 🟢
-                  - else
-                    %span.badge-tg-disconnected{ title: t('manage.joins.tg_disconnected') } 🔴
+                  = render 'manage/tg_status', user: team.user
                   = link_to team.user.name.presence || team.user.email, manage_user_path(team.user), class: 'me-1'
                   = link_to '(profile)', manager_path(team.user), target: '_blank'
                 - else
@@ -116,10 +113,7 @@
                 = link_to result.team.human_name, team_path(result.team)
               %td
                 - if result.team.user
-                  - if result.team.user.user_profile&.bot_enabled
-                    %span.badge-tg-connected{ title: t('manage.joins.tg_connected') } 🟢
-                  - else
-                    %span.badge-tg-disconnected{ title: t('manage.joins.tg_disconnected') } 🔴
+                  = render 'manage/tg_status', user: result.team.user
                   = link_to result.team.user.name.presence || result.team.user.email, manage_user_path(result.team.user)
                 - else
                   %span.text-muted= '—'

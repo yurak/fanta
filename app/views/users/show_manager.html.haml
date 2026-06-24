@@ -7,6 +7,8 @@
         = link_to :back do
           .back-button-arrow
             = image_tag('icons/arrow.svg')
+      - if current_user == user
+        = link_to t('users.manager.settings'), user_path(user), class: 'manager-settings-btn'
     .manager-block
       .manager-block-data
         .manager-user

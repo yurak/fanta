@@ -353,6 +353,7 @@ ua:
       weekly_team: "Збірна тижня"
       teams: "Команди"
       title: "Адмін панель"
+      user_logos: "Лого"
       users: "Менеджери"
     champions:
       title: "Чемпіони"
@@ -389,6 +390,21 @@ ua:
       league: "Ліга"
       user: "Менеджер"
       empty: "Команд не знайдено"
+    user_logos:
+      title: "Лого користувачів"
+      tab_pending: "На модерації"
+      tab_approved: "Схвалені"
+      tab_rejected: "Відхилені"
+      tab_archived: "Архівовані"
+      user: "Користувач"
+      submitted_at: "Завантажено"
+      actions: "Дії"
+      approve: "Схвалити"
+      reject: "Відхилити"
+      approved: "Лого схвалено"
+      rejected: "Лого відхилено"
+      already_moderated: "Це лого вже промодеровано"
+      empty: "Немає лого"
     users:
       title: "Менеджери"
       back: "← Менеджери"
@@ -944,6 +960,19 @@ ua:
     edit:
       title: "Редагувати дані команди"
       update: "Оновити команду"
+    logos:
+      title: "Мої лого"
+      subtitle: "Завантажте власне лого (PNG або JPG, до 5 МБ). Воно стане доступним після модерації."
+      upload: "Завантажити"
+      delete: "Видалити"
+      empty: "Ви ще не завантажили жодного лого"
+      tab_default: "Стандартні"
+      tab_own: "Власна колекція"
+      section_empty: "Немає"
+      status:
+        pending: "На модерації"
+        approved: "Схвалено"
+        rejected: "Відхилено"
     new:
       choose: "Виберіть лого"
       code: "Код"
@@ -1021,6 +1050,11 @@ ua:
     title: "Трансфери %{league}"
     auction_title: "Аукціон %{league}"
     auction: "Аукціон"
+  user_logos:
+    no_file: "Оберіть зображення для завантаження"
+    uploaded: "Лого завантажено та відправлено на модерацію"
+    deleted: "Лого видалено з вашої колекції"
+    in_use: "Це лого використовується однією з ваших команд і не може бути видалене"
   tours:
     clone: "Копіювати попередній склад"
     clone_mob: "Копіювати"
@@ -1077,6 +1111,7 @@ ua:
       promotions: "👆 Підвищення"
       relegations: "👇 Пониження"
       season: "Сезон"
+      settings: "Налаштування"
       team: "Команда"
       teams: "команди"
       title: "Профіль"
@@ -1738,6 +1773,9 @@ ua:
         start_offers: "%{icon} Етап #%{number} аукціону розпочався в лізі %{league_name}.\n🔜 Дедлайн: %{deadline} (%{time_zone}) 🔚\n\n‼️️ Вам необхідно зробити пропозицію на %{vacancies} гравців для команди %{team_name} - %{url}\n\n#auction #%{code}"
       player:
         left: "%{icon} %{player_name} з команди %{team_name} покинув чемпіонат %{tournament_name}.\n💵 Ви зможете замінити його на наступному аукціоні.\n\n#player #%{code}"
+      logo:
+        approved: "✅ Ваше завантажене лого схвалено і тепер доступне при редагуванні команд.\n\n#logo"
+        rejected: "❌ Ваше завантажене лого відхилено модератором. Спробуйте завантажити інше зображення.\n\n#logo"
       daily_schedule:
         header: "📅 Розклад дедлайнів на сьогодні (%{time_zone}):"
         tour_item: "%{time} - %{icon} %{league_name} - Раунд #%{number} ⚽️"

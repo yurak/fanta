@@ -349,6 +349,7 @@ en:
       national_teams: "National Teams"
       teams: "Teams"
       title: "Admin panel"
+      user_logos: "Logos"
       users: "Users"
     champions:
       title: "Champions"
@@ -385,6 +386,21 @@ en:
       league: "League"
       user: "Manager"
       empty: "No teams found"
+    user_logos:
+      title: "User Logos"
+      tab_pending: "Pending"
+      tab_approved: "Approved"
+      tab_rejected: "Rejected"
+      tab_archived: "Archived"
+      user: "User"
+      submitted_at: "Submitted"
+      actions: "Actions"
+      approve: "Approve"
+      reject: "Reject"
+      approved: "Logo approved"
+      rejected: "Logo rejected"
+      already_moderated: "This logo has already been moderated"
+      empty: "No logos here"
     users:
       title: "Users"
       back: "← Users"
@@ -941,6 +957,19 @@ en:
     edit:
       title: "Edit team data"
       update: "Update team"
+    logos:
+      title: "My logos"
+      subtitle: "Upload your own logo (PNG or JPG, up to 5 MB). It will become available after moderation."
+      upload: "Upload"
+      delete: "Delete"
+      empty: "You have not uploaded any logos yet"
+      tab_default: "Default"
+      tab_own: "Own collection"
+      section_empty: "None"
+      status:
+        pending: "On moderation"
+        approved: "Approved"
+        rejected: "Rejected"
     new:
       choose: "Choose a logo"
       code: "Code"
@@ -1018,6 +1047,11 @@ en:
     title: "%{league} Transfers"
     auction_title: "%{league} Auction"
     auction: "Auction"
+  user_logos:
+    no_file: "Please choose an image to upload"
+    uploaded: "Logo uploaded and sent for moderation"
+    deleted: "Logo removed from your collection"
+    in_use: "This logo is used by one of your teams and cannot be removed"
   tours:
     clone: "Clone previous lineup"
     clone_mob: "Copy"
@@ -1074,6 +1108,7 @@ en:
       promotions: "👆 Promotion"
       relegations: "👇 Relegation"
       season: "Season"
+      settings: "Settings"
       team: "Team"
       teams: "teams"
       title: "Profile"
@@ -1733,6 +1768,9 @@ en:
         start_offers: "%{icon} Auction round #%{number} has started in %{league_name} League.\n🔜 Deadline: %{deadline} (%{time_zone}) 🔚\n\n‼️️ You must make offer on %{vacancies} players for %{team_name} - %{url}\n\n#auction #%{code}"
       player:
         left: "%{icon} %{player_name} from %{team_name} left %{tournament_name} tournament.\n💵 You will be able to replace him at the next auction.\n\n#player #%{code}"
+      logo:
+        approved: "✅ Your uploaded logo has been approved and is now available when editing your teams.\n\n#logo"
+        rejected: "❌ Your uploaded logo was rejected by a moderator. Try uploading a different image.\n\n#logo"
       daily_schedule:
         header: "📅 Today's deadline schedule (%{time_zone}):"
         tour_item: "%{time} - %{icon} %{league_name} - Round #%{number} ⚽️"

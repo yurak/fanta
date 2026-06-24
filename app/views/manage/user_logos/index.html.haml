@@ -1,0 +1,43 @@
+.page-block
+  .web-header= render 'layouts/left_nav', league: nil
+  .web-header= render 'layouts/manage_nav'
+  .mob-header= render 'layouts/mob_header', league: nil, title: t('manage.user_logos.title')
+  .page-info.admin-user-logos-page.admin-manage-page
+    %h2= t('manage.user_logos.title')
+
+    - if flash[:notice]
+      .alert.alert-success= flash[:notice]
+    - if flash[:alert]
+      .alert.alert-danger= flash[:alert]
+
+    .default-tabs.manage-user-logos-tabs
+      - Manage::UserLogosController::TABS.each do |tab|
+        = link_to manage_user_logos_path(tab: tab), class: "default-tab-item #{'default-tab-active' if @tab == tab}" do
+          .default-tab-name= t("manage.user_logos.tab_#{tab}")
+
+    - if @user_logos.any?
+      %table.table.table-hover
+        %thead.thead-light
+          %tr
+            %th= t('manage.user_logos.title')
+            %th= t('manage.user_logos.user')
+            %th= t('manage.user_logos.submitted_at')
+            - if @tab == 'pending'
+              %th= t('manage.user_logos.actions')
+        %tbody
+          - @user_logos.each do |logo|
+            %tr
+              %td= image_tag(logo.url, width: 48, height: 48)
+              %td
+                = render 'manage/tg_status', user: logo.user
+                = link_to logo.user.name, manage_user_path(logo.user)
+              %td= local_time(logo.created_at, '%d %b %Y, %H:%M')
+              - if @tab == 'pending'
+                %td
+                  = form_tag(approve_manage_user_logo_path(logo), method: :post, style: 'display:inline') do
+                    = submit_tag t('manage.user_logos.approve'), class: 'btn btn-sm btn-success mr-1'
+                  = form_tag(reject_manage_user_logo_path(logo), method: :post, style: 'display:inline') do
+                    = submit_tag t('manage.user_logos.reject'), class: 'btn btn-sm btn-danger'
+      = paginate @user_logos
+    - else
+      %p.text-muted= t('manage.user_logos.empty')

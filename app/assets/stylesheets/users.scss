@@ -324,6 +324,24 @@
   .user-manager-links {
     max-width: 1200px;
     margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .manager-settings-btn {
+      font-family: 'Nunito Bold';
+      font-size: 14px;
+      color: #261FFF;
+      text-decoration: none;
+      padding: 8px 16px;
+      border: 1px solid #261FFF;
+      border-radius: 8px;
+
+      &:hover {
+        background: #261FFF;
+        color: #FFFFFF;
+      }
+    }
   }
 
   .manager-block {

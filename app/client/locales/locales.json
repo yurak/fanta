@@ -1014,6 +1014,7 @@
         "players": "Players",
         "teams": "Teams",
         "title": "Admin panel",
+        "user_logos": "Logos",
         "users": "Users",
         "weekly_team": "Team of Week"
       },
@@ -1083,6 +1084,22 @@
         "title": "Teams",
         "tournament": "Tournament",
         "user": "Manager"
+      },
+      "user_logos": {
+        "actions": "Actions",
+        "already_moderated": "This logo has already been moderated",
+        "approve": "Approve",
+        "approved": "Logo approved",
+        "empty": "No logos here",
+        "reject": "Reject",
+        "rejected": "Logo rejected",
+        "submitted_at": "Submitted",
+        "tab_approved": "Approved",
+        "tab_archived": "Archived",
+        "tab_pending": "Pending",
+        "tab_rejected": "Rejected",
+        "title": "User Logos",
+        "user": "User"
       },
       "users": {
         "back": "← Users",
@@ -1550,6 +1567,21 @@
       "league": "League",
       "left": "🟠 Left",
       "lineup_pct": "Lineups %",
+      "logos": {
+        "delete": "Delete",
+        "empty": "You have not uploaded any logos yet",
+        "section_empty": "None",
+        "status": {
+          "approved": "Approved",
+          "pending": "On moderation",
+          "rejected": "Rejected"
+        },
+        "subtitle": "Upload your own logo (PNG or JPG, up to 5 MB). It will become available after moderation.",
+        "tab_default": "Default",
+        "tab_own": "Own collection",
+        "title": "My logos",
+        "upload": "Upload"
+      },
       "loses": "☠️️ Loses",
       "manager": "Manager",
       "new": {
@@ -1614,6 +1646,10 @@
           "auction_sales_item": "%{time} - %{icon} %{league_name} - Sales period 💸",
           "header": "📅 Today's deadline schedule (%{time_zone}):",
           "tour_item": "%{time} - %{icon} %{league_name} - Round #%{number} ⚽️"
+        },
+        "logo": {
+          "approved": "✅ Your uploaded logo has been approved and is now available when editing your teams.\n\n#logo",
+          "rejected": "❌ Your uploaded logo was rejected by a moderator. Try uploading a different image.\n\n#logo"
         },
         "player": {
           "left": "%{icon} %{player_name} from %{team_name} left %{tournament_name} tournament.\n💵 You will be able to replace him at the next auction.\n\n#player #%{code}"
@@ -1706,6 +1742,12 @@
       "text": "Are you sure you want to stop receiving our emails?",
       "title": "Unsubscribe from emails"
     },
+    "user_logos": {
+      "deleted": "Logo removed from your collection",
+      "in_use": "This logo is used by one of your teams and cannot be removed",
+      "no_file": "Please choose an image to upload",
+      "uploaded": "Logo uploaded and sent for moderation"
+    },
     "users": {
       "activate": "Activate",
       "change_avatar": "Change avatar",
@@ -1734,6 +1776,7 @@
         "promotions": "👆 Promotion",
         "relegations": "👇 Relegation",
         "season": "Season",
+        "settings": "Settings",
         "team": "Team",
         "teams": "teams",
         "title": "Profile",
@@ -3024,6 +3067,7 @@
         "players": "Гравці",
         "teams": "Команди",
         "title": "Адмін панель",
+        "user_logos": "Лого",
         "users": "Менеджери",
         "weekly_team": "Збірна тижня"
       },
@@ -3092,6 +3136,22 @@
         "title": "Команди",
         "tournament": "Турнір",
         "user": "Менеджер"
+      },
+      "user_logos": {
+        "actions": "Дії",
+        "already_moderated": "Це лого вже промодеровано",
+        "approve": "Схвалити",
+        "approved": "Лого схвалено",
+        "empty": "Немає лого",
+        "reject": "Відхилити",
+        "rejected": "Лого відхилено",
+        "submitted_at": "Завантажено",
+        "tab_approved": "Схвалені",
+        "tab_archived": "Архівовані",
+        "tab_pending": "На модерації",
+        "tab_rejected": "Відхилені",
+        "title": "Лого користувачів",
+        "user": "Користувач"
       },
       "users": {
         "back": "← Менеджери",
@@ -3488,6 +3548,21 @@
       "league": "Ліга",
       "left": "🟠 Покинув",
       "lineup_pct": "Склади %",
+      "logos": {
+        "delete": "Видалити",
+        "empty": "Ви ще не завантажили жодного лого",
+        "section_empty": "Немає",
+        "status": {
+          "approved": "Схвалено",
+          "pending": "На модерації",
+          "rejected": "Відхилено"
+        },
+        "subtitle": "Завантажте власне лого (PNG або JPG, до 5 МБ). Воно стане доступним після модерації.",
+        "tab_default": "Стандартні",
+        "tab_own": "Власна колекція",
+        "title": "Мої лого",
+        "upload": "Завантажити"
+      },
       "loses": "☠️️ Поразки",
       "manager": "Наставник",
       "new": {
@@ -3552,6 +3627,10 @@
           "auction_sales_item": "%{time} - %{icon} %{league_name} - Період продажів 💸",
           "header": "📅 Розклад дедлайнів на сьогодні (%{time_zone}):",
           "tour_item": "%{time} - %{icon} %{league_name} - Раунд #%{number} ⚽️"
+        },
+        "logo": {
+          "approved": "✅ Ваше завантажене лого схвалено і тепер доступне при редагуванні команд.\n\n#logo",
+          "rejected": "❌ Ваше завантажене лого відхилено модератором. Спробуйте завантажити інше зображення.\n\n#logo"
         },
         "player": {
           "left": "%{icon} %{player_name} з команди %{team_name} покинув чемпіонат %{tournament_name}.\n💵 Ви зможете замінити його на наступному аукціоні.\n\n#player #%{code}"
@@ -3635,6 +3714,12 @@
       "text": "Ви впевнені, що хочете більше не отримувати наші електронні листи?",
       "title": "Відписатися від листів"
     },
+    "user_logos": {
+      "deleted": "Лого видалено з вашої колекції",
+      "in_use": "Це лого використовується однією з ваших команд і не може бути видалене",
+      "no_file": "Оберіть зображення для завантаження",
+      "uploaded": "Лого завантажено та відправлено на модерацію"
+    },
     "users": {
       "activate": "Активувати",
       "change_avatar": "Змінити аватар",
@@ -3663,6 +3748,7 @@
         "promotions": "👆 Підвищення",
         "relegations": "👇 Пониження",
         "season": "Сезон",
+        "settings": "Налаштування",
         "team": "Команда",
         "teams": "команди",
         "title": "Профіль",

@@ -15,7 +15,7 @@ class Player < ApplicationRecord
   has_many :transfers, dependent: :destroy
   has_many :club_transfers, dependent: :destroy
 
-  BUCKET_URL = 'https://mantrafootball.s3-eu-west-1.amazonaws.com'.freeze
+  BUCKET_URL = Rails.application.credentials.aws[:bucket_url].freeze
   TM_PATH = 'https://www.transfermarkt.com/player-path/profil/spieler/'.freeze
 
   validates :name, presence: true

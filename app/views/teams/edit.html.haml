@@ -14,11 +14,6 @@
         .logo-input-label= t('teams.new.logo')
         #logo-input-icon= image_tag(team.logo_path)
         = f.hidden_field :logo_url, value: team.logo_path, id: 'logo-url'
-        #logo-modal.modal
-          .logo-modal-title= t('teams.new.choose')
-          .logo-modal-icons
-            - (1..141).each do |i|
-              .logo-modal-icon= image_tag("https://mantrafootball.s3.eu-west-1.amazonaws.com/teams/default_icons/default#{i}.png")
       .login-input
         .login-label= t('teams.new.name')
         .login-input-icon= image_tag('icons/login/user.svg')
@@ -34,22 +29,83 @@
       .login-btn-form
         = f.submit t('teams.edit.update'), class: 'login-btn blue-btn'
 
+  #logo-modal.logo-modal
+    .logo-modal-content
+      .logo-modal-header
+        %h4= t('teams.new.choose')
+        %button.logo-modal-close{ type: 'button' } &times;
+
+      .logo-modal-tabs
+        %button.logo-modal-tab.logo-modal-tab-active{ type: 'button', data: { pane: 'default' } }= t('teams.logos.tab_default')
+        %button.logo-modal-tab{ type: 'button', data: { pane: 'own' } }= t('teams.logos.tab_own')
+
+      #logo-pane-default.logo-modal-pane
+        .logo-modal-icons
+          - (1..141).each do |i|
+            .logo-modal-icon.logo-selectable= image_tag("#{aws_bucket_url}/teams/default_icons/default#{i}.png")
+
+      #logo-pane-own.logo-modal-pane{ style: 'display:none' }
+        .logo-modal-upload
+          .logo-modal-subtitle= t('teams.logos.subtitle')
+          = form_with url: user_logos_path, method: :post, multipart: true do |f|
+            = f.file_field :logo, accept: 'image/png,image/jpeg', class: 'logo-modal-file', required: true
+            = f.submit t('teams.logos.upload'), class: 'login-btn blue-btn'
+
+        - own_logos = current_user.user_logos.kept.recent.group_by(&:status)
+        - %w[approved pending rejected].each do |status|
+          .logo-modal-section{ class: status }
+            .logo-modal-section-title= t("teams.logos.status.#{status}")
+            - logos = own_logos[status] || []
+            - if logos.any?
+              .logo-modal-icons
+                - logos.each do |logo|
+                  .logo-modal-own-item
+                    - if status == 'approved'
+                      .logo-modal-icon.logo-selectable= image_tag(logo.url)
+                    - else
+                      .logo-modal-icon.logo-modal-icon-disabled= image_tag(logo.url)
+                    - unless logo.in_use?
+                      = button_to '×', user_logo_path(logo), method: :delete, class: 'logo-modal-delete', form_class: 'logo-modal-delete-form'
+            - else
+              .logo-modal-empty= t('teams.logos.section_empty')
+
 :javascript
   $(document).ready(function() {
     const modal = document.getElementById("logo-modal");
     const modal_btn = document.getElementById("logo-input-icon");
+    const closeBtn = modal.querySelector(".logo-modal-close");
+
+    function closeModal() { modal.style.display = "none"; }
 
     if (modal_btn) {
-      modal_btn.onclick = function() { modal.style.display = "block"; };
+      modal_btn.onclick = function() { modal.style.display = "flex"; };
+    }
+    if (closeBtn) {
+      closeBtn.addEventListener("click", closeModal);
     }
 
-    $('.logo-modal-icon').click(function() {
-      modal.style.display = "none";
-      modal_btn.children[0].src = this.children[0].src;
-      document.getElementById("logo-url").value = this.children[0].src;
+    document.querySelectorAll(".logo-modal-tab").forEach(function(tab) {
+      tab.addEventListener("click", function() {
+        document.querySelectorAll(".logo-modal-tab").forEach(function(t) {
+          t.classList.remove("logo-modal-tab-active");
+        });
+        this.classList.add("logo-modal-tab-active");
+        const pane = this.dataset.pane;
+        document.getElementById("logo-pane-default").style.display = pane === "default" ? "" : "none";
+        document.getElementById("logo-pane-own").style.display = pane === "own" ? "" : "none";
+      });
     });
 
-    window.onclick = function(event) {
-      if (event.target == modal) { modal.style.display = "none"; }
-    }
+    document.querySelectorAll(".logo-selectable").forEach(function(item) {
+      item.addEventListener("click", function() {
+        const src = this.querySelector("img").src;
+        modal_btn.children[0].src = src;
+        document.getElementById("logo-url").value = src;
+        closeModal();
+      });
+    });
+
+    window.addEventListener("click", function(event) {
+      if (event.target == modal) { closeModal(); }
+    });
   });

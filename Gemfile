@@ -34,6 +34,7 @@ gem "appsignal"
 gem 'rails-i18n', '~> 8.0'
 gem 'rb-readline'
 gem 'aws-sdk-s3', require: false
+gem 'mini_magick'
 gem 'rest-client'
 gem 'rswag-api'
 gem 'rswag-ui'
