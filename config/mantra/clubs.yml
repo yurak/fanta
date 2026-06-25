@@ -5,21 +5,21 @@ italy:
 #  BRE: Brescia
   CAG: Cagliari
   COM: Como
-  CRE: Cremonese
+#  CRE: Cremonese
 #  CRO: Crotone
 #  EMP: Empoli
   FIO: Fiorentina
-#  FRO: Frosinone
+  FRO: Frosinone
   GEN: Genoa
   INT: Inter
   JUV: Juventus
   LAZ: Lazio
   LEC: Lecce
   MIL: Milan
-#  MNZ: Monza
+  MNZ: Monza
   NAP: Napoli
   PAR: Parma
-  PIS: Pisa
+#  PIS: Pisa
   ROM: Roma
 #  SAL: Salernitana
 #  SAM: Sampdoria
@@ -28,19 +28,21 @@ italy:
 #  SPE: Spezia
   TOR: Torino
   UDI: Udinese
-#  VEN: Venezia
-  VER: Verona
+  VEN: Venezia
+#  VER: Verona
 england:
   ARS: Arsenal
   ASV: Aston Villa
   BOU: Bournemouth
   BRF: Brentford
   BRI: Brighton
-  BUR: Burnley
   CHE: Chelsea
+  COV: Coventry City
   CRY: Crystal Palace
   EVE: Everton
   FUL: Fulham
+  HUL: Hull City
+  IPS: Ipswich
   LEE: Leeds
   LIV: Liverpool
   MCI: Manchester City
@@ -49,8 +51,6 @@ england:
   NFO: Nottingham Forest
   SUN: Sunderland
   TOT: Tottenham
-  WES: West Ham
-  WOL: Wolverhampton
 germany:
 #  ARM: Arminia
   AUG: Augsburg
@@ -61,22 +61,24 @@ germany:
   BMG: Borussia Mbach
 #  DAR: Darmstadt
   EIN: Eintracht
+  ELV: Elversberg
   FRE: Freiburg
 #  GRF: Greuther Furth
   HSV: Hamburger
-  HEI: Heidenheim
+#  HEI: Heidenheim
 #  HER: Hertha
   HOF: Hoffenheim
 #  HOL: Holstein Kiel
   KOL: Koln
   MAI: Mainz 05
+  PAD: Paderborn
   RBL: RB Leipzig
-#  S04: Schalke 04
-  STP: St Pauli
+  S04: Schalke 04
+#  STP: St Pauli
   STU: Stuttgart
   UNI: Union Berlin
   WER: Werder Bremen
-  WLF: Wolfsburg
+#  WLF: Wolfsburg
 france:
 #  AJC: Ajaccio
   ANG: Angers
@@ -85,15 +87,16 @@ france:
   BRS: Brest
 #  CLE: Clermont Foot
   HAV: Havre
+  LEM: Le Mans
   LEN: Lens
   LIL: Lille
   LOR: Lorient
   LYO: Lyon
   MAR: Marseille
-  MET: Metz
+#  MET: Metz
   MON: Monaco
 #  MPL: Montpellier
-  NAN: Nantes
+#  NAN: Nantes
   NIC: Nice
   PFC: Paris FC
   PSG: PSG
@@ -102,7 +105,7 @@ france:
 #  SEN: Saint-Etienne
   STR: Strasbourg
   TOU: Toulouse
-#  TRO: Troyes
+  TRO: Troyes
 spain:
 #  ALM: Almeria
   ATB: Athletic Bilbao
@@ -111,63 +114,69 @@ spain:
   BET: Real Betis
 #  CAD: Cadiz
   CVG: Celta Vigo
+  DPC: Deportivo A Coruna
   ALA: Deportivo Alaves
   ELC: Elche
   ESP: Espanyol
   GET: Getafe
-  GIR: Girona
+#  GIR: Girona
 #  GRA: Granada
 #  LPA: Las Palmas
 #  LEG: Leganes
   LUD: Levante
-  MAL: Mallorca
+  MLG: Malaga
+#  MAL: Mallorca
   OSA: Osasuna
+  RAC: Racing
   RVA: Rayo Vallecano
   RMA: Real Madrid
-  ROV: Real Oviedo
+#  ROV: Real Oviedo
   SOC: Real Sociedad
 #  VLD: Real Valladolid
   SEV: Sevilla
   VAL: Valencia
   VIL: Villarreal
 britain:
-  BIR: Birmingham City
+#  BIR: Birmingham City
   BLB: Blackburn Rovers
 #  BLP: Blackpool
+  BLT: Bolton
   BRC: Bristol City
+  BUR: Burnley
 #  CAR: Cardiff City
   CHT: Charlton
-  COV: Coventry City
   DER: Derby
 #  HUD: Huddersfield Town
-  HUL: Hull City
-  IPS: Ipswich
-  LEI: Leicester
+#  LEI: Leicester
+  LIN: Lincoln
 #  LUT: Luton Town
   MID: Middlesbrough
   MLW: Millwall
   NOR: Norwich
-  OXF: Oxford United
-  PLY: Plymouth
+#  OXF: Oxford United
+#  PLY: Plymouth
   PRS: Portsmouth
   PRE: Preston North End
   QPR: Queens Park Rangers
 #  REA: Reading
 #  ROT: Rotherham United
-  SHW: Sheffield Wednesday
+#  SHW: Sheffield Wednesday
   SHU: Sheffield United
   SOU: Southampton
   STO: Stoke City
   SWA: Swansea City
   WAT: Watford
   WBA: West Bromwich
+  WES: West Ham
 #  WIG: Wigan Athletic
+  WOL: Wolverhampton
   WRX: Wrexham
 netherlands:
+  ADO: ADO Den Haag
   AJA: Ajax
 #  ALC: Almere City
   AZA: AZ Alkmaar
-#  CMB: Cambuur
+  CMB: Cambuur
 #  EMN: Emmen
   EXL: Excelsior
   FND: Feyenoord
@@ -175,8 +184,8 @@ netherlands:
   GAE: Go Ahead Eagles
   GRN: Groningen
   HRN: Heerenveen
-  HRC: Heracles
-  NAC: NAC Breda
+#  HRC: Heracles
+#  NAC: NAC Breda
   NEC: NEC
   PSV: PSV
 #  RKC: RKC Waalwijk
@@ -185,22 +194,24 @@ netherlands:
   TWT: Twente
   UTR: Utrecht
 #  VTS: Vitesse
-  VLN: Volendam
-#  WIL: Willem II
+#  VLN: Volendam
+  WIL: Willem II
   ZWO: Zwolle
 belgium:
   AND: Anderlecht
 #  BEE: Beerschot
+  BEV: Beveren
   BRU: Brugge
   CBG: Cercle Brugge
   CHR: Charleroi
-  DEN: Dender
+#  DEN: Dender
 #  EPN: Eupen
   GNK: Genk
   GNT: Gent
-#  KRT: Kortrijk
+  KRT: Kortrijk
   LAL: La Louviere
   LVN: Leuven
+  LOM: Lommel
   MLN: Mechelen
 #  MOL: Molenbeek
 #  OST: Oostende
@@ -212,9 +223,10 @@ belgium:
   WST: Westerlo
   ZWR: Zulte Waregem
 portugal:
+  ACA: Academico Viseu
   ALV: Alverca
   ARC: Arouca
-  AVS: AVS
+#  AVS: AVS
   BNF: Benfica
 #  BVS: Boavista
   BRG: Braga
@@ -225,7 +237,7 @@ portugal:
   FML: Famalicao
 #  FAR: Farense
   GLV: Gil Vicente
-#  MRT: Maritimo
+  MRT: Maritimo
   MOR: Moreirense
   NAL: Nacional
 #  PCF: Paсos Ferreira
@@ -234,11 +246,12 @@ portugal:
   RAV: Rio Ave
 #  SCL: Santa Clara
   SCP: Sporting
-  TON: Tondela
+#  TON: Tondela
   VTG: Vitoria Guimaraes
 #  VZL: Vizela
 ukraine:
-#  CHO: Chornomorets
+  BUK: Bukovyna
+  CHO: Chornomorets
   DYN: Dynamo Kyiv
   EPI: Epicentr
 #  INH: Inhulets
@@ -246,15 +259,15 @@ ukraine:
   KLS: Kolos
   KRY: Kryvbas
   KUD: Kudrivka
-#  LVB: Livyi Bereh
+  LVB: Livyi Bereh
   LNZ: LNZ Cherkasy
-  MTL: Metalist 1925
+  KHA: Kharkiv
 #  MIN: Minaj
   OBO: Obolon
-  OLE: Oleksandriya
+#  OLE: Oleksandriya
   POL: Polissya
-  PLT: Poltava
-  RUH: Rukh
+#  PLT: Poltava
+#  RUH: Rukh
   SHD: Shakhtar Donetsk
 #  DN1: SK Dnipro-1
   VRS: Veres
@@ -292,14 +305,14 @@ usa:
   TRN: Toronto
   VAN: Vancouver
 poland:
-  ARK: Arka
+#  ARK: Arka
   CRA: Cracovia
   GKS: GKS Katowice
   GOR: Gornik
   JAG: Jagiellonia
   KOR: Korona
   LPZ: Lech Poznan
-  LGD: Lechia Gdansk
+#  LGD: Lechia Gdansk
   LGW: Legia Warszawa
   MOT: Motor
   PIA: Piast
@@ -307,10 +320,12 @@ poland:
 #  PUS: Puszcza
   RAD: Radomiak
   RAK: Rakow
-#  SLA: Slask
+  SLA: Slask
 #  STA: Stal
-  TER: Termalica
+#  TER: Termalica
   WID: Widzew
+  WIE: Wieczysta
+  WIK: Wisla Krakow
   WIP: Wisla Plock
   ZAG: Zaglebie
 brazil:
@@ -340,9 +355,12 @@ brazil:
   ECV: Vitoria
 turkey:
   ALN: Alanyaspor
+  AME: Amed
   ANT: Antalyaspor
   BAS: Basaksehir
   BES: Besiktas
+  CRM: Corum
+  ERZ: Erzurumspor
   EYU: Eyupspor
   FAT: Fatih Karagumruk
   FEN: Fenerbahce
