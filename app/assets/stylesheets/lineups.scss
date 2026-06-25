@@ -771,6 +771,16 @@
       padding: 48px;
       background-color: #FFFFFF;
 
+      .lineup-flash-alert {
+        background-color: #FDE7E9;
+        color: #DB0A23;
+        font-family: 'Nunito Bold';
+        font-size: 14px;
+        border-radius: 8px;
+        padding: 12px 16px;
+        margin-bottom: 24px;
+      }
+
       .main-players-title, .reserve-players-title {
         font-family: 'Nunito ExtraBold';
         font-size: 24px;
