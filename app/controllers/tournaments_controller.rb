@@ -8,7 +8,7 @@ class TournamentsController < ApplicationController
   private
 
   def tournament
-    @tournament ||= Tournament.find(params[:id])
+    @tournament ||= Tournament.find(params.expect(:id))
   end
 
   def national_fixtures

@@ -22,20 +22,22 @@ class TournamentMatchesController < ApplicationController
   private
 
   def tournament_match_params
-    params.require(:tournament_match).permit(
-      :host_score,
-      :guest_score,
-      :source_match_id,
-      :time,
-      :date,
-      :round_name,
-      :page_url,
-      :base_data,
-      :lineups_data
+    params.expect(
+      tournament_match: %i[
+        host_score
+        guest_score
+        source_match_id
+        time
+        date
+        round_name
+        page_url
+        base_data
+        lineups_data
+      ]
     )
   end
 
   def tournament_match
-    @tournament_match ||= TournamentMatch.find(params[:id])
+    @tournament_match ||= TournamentMatch.find(params.expect(:id))
   end
 end

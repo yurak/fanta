@@ -29,7 +29,7 @@ class LineupsController < ApplicationController
     if valid_conditions?
       if invalid_players?(Lineup.new(team_module: team_module, tour: tour, team: team).players_count)
         flash[:alert] = t('lineups.invalid_squad')
-        path = new_team_lineup_path(team, team_module_id: params[:lineup][:team_module_id], tour_id: tour.id)
+        path = new_team_lineup_path(team, team_module_id: params.dig(:lineup, :team_module_id), tour_id: tour.id)
       else
         recount_round_players_params
         @lineup = Lineup.new(lineup_params.merge(team: team))
@@ -82,11 +82,11 @@ class LineupsController < ApplicationController
   end
 
   def lineup_params
-    params.fetch(:lineup, {}).permit(:team_module_id, :tour_id, match_players_attributes: {})
+    params.expect(lineup: [:team_module_id, :tour_id, { match_players_attributes: {} }])
   end
 
   def update_lineup_params
-    params.fetch(:lineup, {}).permit(:team_module_id, match_players_attributes: {})
+    params.expect(lineup: [:team_module_id, { match_players_attributes: {} }])
   end
 
   def build_match_players
@@ -94,16 +94,17 @@ class LineupsController < ApplicationController
   end
 
   def recount_round_players_params
-    return if params[:lineup][:match_players_attributes].blank?
+    match_players = params.dig(:lineup, :match_players_attributes)
+    return if match_players.blank?
 
-    params[:lineup][:match_players_attributes].each_key do |k|
-      next if params[:lineup][:match_players_attributes][k][:round_player_id].blank?
+    match_players.each_value do |attrs|
+      next if attrs[:round_player_id].blank?
 
-      player = Player.find(params[:lineup][:match_players_attributes][k][:round_player_id])
+      player = Player.find(attrs[:round_player_id])
 
       round_player = RoundPlayer.find_or_create_by(tournament_round: tour.tournament_round, player: player)
       round_player.update(club: player.club) if round_player.club_id != player.club_id
-      params[:lineup][:match_players_attributes][k][:round_player_id] = round_player.id
+      attrs[:round_player_id] = round_player.id
     end
   end
 
@@ -140,7 +141,7 @@ class LineupsController < ApplicationController
   end
 
   def team
-    @team ||= Team.find(params[:team_id])
+    @team ||= Team.find(params.expect(:team_id))
   end
 
   def team_module
@@ -168,9 +169,10 @@ class LineupsController < ApplicationController
   end
 
   def players_ids
-    return if params[:lineup][:match_players_attributes].blank?
+    match_players = params.dig(:lineup, :match_players_attributes)
+    return if match_players.blank?
 
-    params[:lineup][:match_players_attributes].values.each_with_object([]) { |el, p_ids| p_ids << el[:round_player_id] }
+    match_players.values.each_with_object([]) { |el, p_ids| p_ids << el[:round_player_id] }
   end
 
   def invalid_players?(required_count)

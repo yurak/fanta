@@ -28,7 +28,7 @@ class AuctionsController < ApplicationController
   private
 
   def auction
-    @auction ||= Auction.find(params[:id])
+    @auction ||= Auction.find(params.expect(:id))
   end
 
   def league

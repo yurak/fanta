@@ -54,7 +54,7 @@ module Manage
     end
 
     def join
-      @join ||= Join.find(params[:id])
+      @join ||= Join.find(params.expect(:id))
     end
   end
 end

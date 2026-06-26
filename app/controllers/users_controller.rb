@@ -52,7 +52,7 @@ class UsersController < ApplicationController
     @user = User.includes(
       teams: {},
       results: { league: %i[tournament division season], team: {} }
-    ).find(params[:id])
+    ).find(params.expect(:id))
   end
 
   private
