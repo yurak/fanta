@@ -90,7 +90,7 @@
         %tbody
           - @season_stats.each do |stat|
             %tr
-              %td= stat.season.start_year
+              %td= stat.season.display_name
               %td= link_to stat.club.name, manage_club_path(stat.club)
               %td= stat.position_ital_arr.join(', ')
               %td= stat.played_matches
@@ -115,9 +115,9 @@
           - @club_transfers.each do |ct|
             %tr
               %td= ct.start_date
-              %td= ct.old_club&.name || ct.old_club_name
+              %td= ct.old_club ? link_to(ct.old_club.name, manage_club_path(ct.old_club)) : ct.old_club_name
               %td →
-              %td= ct.new_club&.name || ct.new_club_name
+              %td= ct.new_club ? link_to(ct.new_club.name, manage_club_path(ct.new_club)) : ct.new_club_name
               %td= ct.contract_expires_on
               %td= ct.loan? ? '✓' : '—'
     - else
