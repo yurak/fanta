@@ -4,7 +4,7 @@ class Join < ApplicationRecord
   belongs_to :team
   belongs_to :auction_bid
 
-  enum status: { initial: 0, pending: 1, approved: 2, rejected: 3 }
+  enum :status, { initial: 0, pending: 1, approved: 2, rejected: 3 }
 
   validates :user_id, uniqueness: {
     scope: :tournament_id,

@@ -28,11 +28,11 @@ class AuctionsController < ApplicationController
   private
 
   def auction
-    @auction ||= Auction.find(params[:id])
+    @auction ||= Auction.find(params.expect(:id))
   end
 
   def league
-    @league ||= League.find(params[:league_id])
+    @league ||= League.find(params.expect(:league_id))
   end
 
   def player
@@ -62,7 +62,7 @@ class AuctionsController < ApplicationController
     if params[:search].present?
       transfers = transfers.joins(:player)
                            .where('lower(players.name) LIKE :q OR lower(players.first_name) LIKE :q',
-                                  q: "%#{params[:search].downcase}%")
+                                  q: "%#{params.expect(:search).downcase}%")
     end
     if params[:position].present?
       transfers = transfers.joins(player: { player_positions: :position })

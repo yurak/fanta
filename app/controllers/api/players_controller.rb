@@ -54,13 +54,11 @@ module Api
     end
 
     def preload_associations(records)
-      season_id = Season.last&.id
-      preloader = ActiveRecord::Associations::Preloader.new
-      preloader.preload(records, :transfers)
-      preloader.preload(records, :player_season_stats, PlayerSeasonStat.where(season_id: season_id))
-      preloader.preload(records, { club: :tournament })
-      preloader.preload(records, { player_positions: :position })
-      preloader.preload(records, :teams)
+      ActiveRecord::Associations::Preloader.new(records: records, associations: :transfers).call
+      ActiveRecord::Associations::Preloader.new(records: records, associations: :player_season_stats).call
+      ActiveRecord::Associations::Preloader.new(records: records, associations: { club: :tournament }).call
+      ActiveRecord::Associations::Preloader.new(records: records, associations: { player_positions: :position }).call
+      ActiveRecord::Associations::Preloader.new(records: records, associations: :teams).call
     end
   end
 end

@@ -3,7 +3,7 @@ class ArticleTag < ApplicationRecord
 
   has_many :articles, dependent: :destroy
 
-  enum status: { published: 0, hidden: 1 }
+  enum :status, { published: 0, hidden: 1 }
 
   validates :name, presence: true
   validates :color, presence: true, length: { is: 6 }

@@ -7,7 +7,7 @@ module Manage
     end
 
     def show
-      @club = Club.includes(:tournament, :ec_tournament).find(params[:id])
+      @club = Club.includes(:tournament, :ec_tournament).find(params.expect(:id))
       @players_count = @club.players.count
       @players = @club.players.order(id: :desc).limit(50)
     end

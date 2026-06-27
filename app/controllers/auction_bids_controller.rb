@@ -64,7 +64,7 @@ class AuctionBidsController < ApplicationController
   end
 
   def auction_round
-    @auction_round ||= AuctionRound.find(params[:auction_round_id])
+    @auction_round ||= AuctionRound.find(params.expect(:auction_round_id))
   end
 
   def team

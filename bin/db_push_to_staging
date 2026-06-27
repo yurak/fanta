@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+set -e
+
+TUNNEL_PORT=5433
+EC2_IP="${PRODUCTION_SERVER:-$(grep 'PRODUCTION_SERVER' config/application.yml | awk '{print $2}' | tr -d '"')}"
+STAGING_IP="${STAGING_SERVER:-$(grep 'STAGING_SERVER' config/application.yml | awk '{print $2}' | tr -d '"')}"
+EC2_USER="ubuntu"
+SSH_KEY="$HOME/.ssh/mantrakey.pem"
+DUMP_FILE="/tmp/prod_for_staging.sql"
+
+PROD_PGPASSWORD=$(bundle exec rails runner "puts Rails.application.credentials.dig(:db_prod, :password)" 2>/dev/null)
+PROD_RDS_HOST=$(bundle exec rails runner "puts Rails.application.credentials.dig(:db_prod, :host)" 2>/dev/null)
+PROD_RDS_USER=$(bundle exec rails runner "puts Rails.application.credentials.dig(:db_prod, :username)" 2>/dev/null)
+
+STAGING_DB_PASS=$(bundle exec rails runner "puts Rails.application.credentials.dig(:db_staging, :password)" 2>/dev/null)
+STAGING_DB_USER=$(bundle exec rails runner "puts Rails.application.credentials.dig(:db_staging, :username)" 2>/dev/null)
+STAGING_DB_HOST=$(bundle exec rails runner "puts Rails.application.credentials.dig(:db_staging, :host)" 2>/dev/null)
+
+cleanup() {
+  echo "Closing SSH tunnel..."
+  pkill -f "ssh -L ${TUNNEL_PORT}:${PROD_RDS_HOST}" || true
+  rm -f "${DUMP_FILE}"
+}
+trap cleanup EXIT
+
+echo "Opening SSH tunnel to production RDS..."
+ssh -L ${TUNNEL_PORT}:${PROD_RDS_HOST}:5432 -i "${SSH_KEY}" "${EC2_USER}@${EC2_IP}" -N -f
+
+sleep 2
+
+echo "Dumping production database..."
+PGPASSWORD="${PROD_PGPASSWORD}" /opt/homebrew/opt/postgresql@18/bin/pg_dump \
+  -h localhost -p ${TUNNEL_PORT} -U ${PROD_RDS_USER} \
+  --no-owner --no-acl mantra_production > "${DUMP_FILE}"
+
+echo "Uploading dump to staging server..."
+scp -i "${SSH_KEY}" "${DUMP_FILE}" "${EC2_USER}@${STAGING_IP}:${DUMP_FILE}"
+
+echo "Restoring database on staging..."
+ssh -i "${SSH_KEY}" "${EC2_USER}@${STAGING_IP}" \
+  "export PGPASSWORD='${STAGING_DB_PASS}' && \
+   psql -h '${STAGING_DB_HOST}' -U '${STAGING_DB_USER}' -d postgres -c 'DROP DATABASE IF EXISTS mantra_staging;' && \
+   psql -h '${STAGING_DB_HOST}' -U '${STAGING_DB_USER}' -d postgres -c 'CREATE DATABASE mantra_staging;' && \
+   psql -h '${STAGING_DB_HOST}' -U '${STAGING_DB_USER}' -d mantra_staging -f '${DUMP_FILE}' && \
+   rm -f '${DUMP_FILE}'"
+
+echo "Done! Staging database synced with production."

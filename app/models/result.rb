@@ -28,6 +28,7 @@ class Result < ApplicationRecord
   scope :fanta, -> { joins(league: :tournament).where(leagues: { tournaments: { mode: 1 } }) }
   scope :fanta_top, ->(position) { fanta.where('position > 0 AND position <= ?', position) if position }
   scope :fanta_top_ts, ->(position) { fanta.where('secondary_position > 0 AND secondary_position <= ?', position) if position }
+  scope :with_admin_includes, -> { includes(:user_title) }
 
   rails_admin do
     object_label_method { :to_s }

@@ -87,7 +87,7 @@ module Api
     end
 
     def tournament_round
-      @tournament_round ||= TournamentRound.find(params[:tournament_round_id])
+      @tournament_round ||= TournamentRound.find(params.expect(:tournament_round_id))
     end
 
     def tournament

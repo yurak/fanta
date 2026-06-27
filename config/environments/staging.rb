@@ -22,8 +22,8 @@ Rails.application.configure do
   # Apache or NGINX already handles this.
   config.public_file_server.enabled = ENV['RAILS_SERVE_STATIC_FILES'].present?
 
-  # Compress JavaScripts and CSS.
-  config.assets.js_compressor = :uglifier
+  # JS compression disabled for Stage 1 (terser needs Sprockets 4 + flag-icons-rails fix)
+  # config.assets.js_compressor = :terser
   # config.assets.css_compressor = :sass
 
   # Do not fallback to assets pipeline if a precompiled asset is missed.
@@ -72,6 +72,8 @@ Rails.application.configure do
   config.action_mailer.show_previews = true
 
   config.action_mailer.default_url_options = { host: 'staging.mantrafootball.org', protocol: 'https' }
+
+  Rails.application.routes.default_url_options = { host: 'staging.mantrafootball.org', protocol: 'https' }
 
   config.action_mailer.smtp_settings = {
     :address              => 'smtp.eu.mailgun.org',

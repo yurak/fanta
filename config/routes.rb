@@ -16,7 +16,7 @@ Rails.application.routes.draw do
     get "users/passwords"    , to: "users/passwords#index"
   end
 
-  resource :welcome, only: [:index]
+  get 'welcome',  to: 'welcome#index'
   get 'about',    to: 'welcome#about'
   get 'contact',  to: 'welcome#contact'
   get 'fees',     to: 'welcome#fees'

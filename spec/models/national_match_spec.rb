@@ -7,6 +7,15 @@ RSpec.describe NationalMatch do
     it { is_expected.to belong_to(:guest_team).class_name('NationalTeam') }
   end
 
+  describe '#missed_players_data' do
+    it 'serializes a hash as JSON and reads it back' do
+      data = { '123' => { 'fotmob_id' => 123, 'source_name' => 'Player', 'rating' => '7.5', 'played_minutes' => 90 } }
+      national_match.update!(missed_players_data: data)
+
+      expect(national_match.reload.missed_players_data).to eq(data)
+    end
+  end
+
   describe '.by_team' do
     let(:team) { create(:national_team) }
     let!(:host_match) { create(:national_match, host_team: team) }

@@ -38,19 +38,15 @@ class TeamsController < ApplicationController
       players: [:positions, { club: :tournament }],
       transfers: { player: %i[positions club] },
       league: %i[teams tours]
-    ).find(params[:id])
+    ).find(params.expect(:id))
   end
 
   def preload_team_show_associations
-    preloader = ActiveRecord::Associations::Preloader.new
-
     matches = team.league_matches.to_a
-    preloader.preload(matches, %i[host guest])
-    preloader.preload(matches.map(&:tour).compact.uniq, :tournament_round)
-
-    preloader.preload([team.next_match].compact, %i[host guest])
-
-    preloader.preload(team.league_lineups.to_a, :tour)
+    ActiveRecord::Associations::Preloader.new(records: matches, associations: %i[host guest]).call
+    ActiveRecord::Associations::Preloader.new(records: matches.map(&:tour).compact.uniq, associations: :tournament_round).call
+    ActiveRecord::Associations::Preloader.new(records: [team.next_match].compact, associations: %i[host guest]).call
+    ActiveRecord::Associations::Preloader.new(records: team.league_lineups.to_a, associations: :tour).call
   end
 
   def team_of_user?
@@ -119,6 +115,6 @@ class TeamsController < ApplicationController
   end
 
   def input_params
-    params.require(:team).permit(:code, :human_name, :logo_url, :tournament_id, :team_id)
+    params.expect(team: %i[code human_name logo_url tournament_id team_id])
   end
 end

@@ -45,13 +45,12 @@ class PlayersController < ApplicationController
   end
 
   def preload_player_show_associations
-    preloader = ActiveRecord::Associations::Preloader.new
     [
       player.season_club_in_squad.to_a,
       player.season_ec_in_squad.to_a,
       player.national_in_squad.to_a
     ].each do |rps|
-      preloader.preload(rps, %i[tournament_round club])
+      ActiveRecord::Associations::Preloader.new(records: rps, associations: %i[tournament_round club]).call
     end
   end
 

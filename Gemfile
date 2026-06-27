@@ -3,36 +3,35 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '3.2.2'
 
-gem 'rails', '6.1.5'
+gem 'rails', '~> 8.0.0'
 gem 'pg'
 
-gem 'audited'
+# Pinned to 2.x: connection_pool 3.x changed ConnectionPool.new signature, incompatible with react_on_rails 13.4.0
+gem 'connection_pool', '~> 2.4'
+
+gem 'audited', '~> 5.8'
 gem 'active_model_serializers', '~> 0.10.0'
 gem 'base64', '= 0.1.1'
 gem 'bootsnap', '>= 1.1.0', require: false
 gem 'bootstrap', '4.3.1'
 gem 'cancancan'
 gem 'chartkick', '3.4.0'
-gem 'coffee-rails', '~> 4.2'
 gem 'coveralls_reborn', '~> 0.28.0', require: false
 gem 'countries'
-gem 'devise'
+gem 'devise', '~> 4.9'
 gem 'devise-bootstrap-views', '~> 1.0'
 gem 'dotenv-rails', require: 'dotenv/rails-now'
 gem 'flag-icons-rails'
+gem 'haml', '~> 7.2'
 gem 'haml-rails', '~> 2.0'
-gem 'jbuilder', '~> 2.5'
 gem 'jquery-rails', '~> 4.4.0'
 gem 'kaminari'
-gem 'puma', '4.3.12'
-gem 'rails_admin', '~> 2.0'
+gem 'puma', '~> 6.0'
+gem 'rails_admin', '~> 3.3'
 gem 'rollbar'
 
 gem "appsignal"
-# TODO: upgrade rails_admin
-# gem 'rails_admin', '~> 3.0'
-# gem 'sassc-rails'
-gem 'rails-i18n', '~> 6.0'
+gem 'rails-i18n', '~> 8.0'
 gem 'rb-readline'
 gem 'aws-sdk-s3', require: false
 gem 'rest-client'
@@ -42,10 +41,10 @@ gem 'rubocop', '~> 1.75.0', require: false
 gem 'rubocop-factory_bot', '= 2.25.0', require: false
 gem 'rubocop-rails', require: false
 gem 'rubocop-rspec', require: false
-gem 'sass-rails', '~> 5.0'
+gem 'sassc-rails'
+gem 'sprockets', '3.7.2'
 gem 'telegram-bot'
 gem 'time_difference'
-gem 'uglifier', '>= 1.3.0'
 gem 'whenever', require: false
 gem 'shakapacker', "= 7.1"
 gem 'react_on_rails', "= 13.4"

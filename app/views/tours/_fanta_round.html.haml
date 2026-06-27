@@ -3,9 +3,9 @@
     .block-title= t('tours.fixtures')
     .round-matches
       - if tour.national?
-        = render 'tournaments/national_matches', matches: tour.tournament_round.national_matches
+        = render 'tournaments/national_matches', matches: tour.tournament_round.ordered_national_matches
       - else
-        = render 'tournaments/tournament_matches', matches: tour.tournament_round.tournament_matches
+        = render 'tournaments/tournament_matches', matches: tour.tournament_round.ordered_tournament_matches
   - unless tour.inactive?
     - lineups_by_team = tour.lineups.index_by(&:team_id)
     - user_team = user_team_by_league(current_user, tour.league)
@@ -54,7 +54,8 @@
       - else
         -# TODO: move to partial with lazy loading
         .tour-deadlined{ class: "tour-closed-#{tour.closed?}" }
-          - tour.lineups.order(final_score: :desc).each_with_index do |lineup, i|
+          - ranked_lineups = tour.lineups.ranked.includes(:team).to_a
+          - ranked_lineups.each_with_index do |lineup, i|
             = link_to team_lineup_path(lineup.team, lineup) do
               .team-row{ class: ('self-team-row' if lineup.team == user_team) }
                 .lineup-team-position
@@ -65,3 +66,14 @@
                   = lineup.team.human_name
                 .lineup-result
                   = lineup.total_score
+          - lineup_team_ids = ranked_lineups.map(&:team_id)
+          - tour.league.teams.reject { |team| lineup_team_ids.include?(team.id) }.each_with_index do |team, i|
+            .team-row{ class: ('self-team-row' if team == user_team) }
+              .lineup-team-position
+                = ranked_lineups.size + i + 1
+              .team-row-logo
+                = image_tag(image_path(team.logo_path))
+              .team-row-name
+                = team.human_name
+              .lineup-result
+                X

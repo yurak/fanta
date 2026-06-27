@@ -25,6 +25,6 @@ class PlayerRequestsController < ApplicationController
   end
 
   def player_request_params
-    params.require(:player_request).permit(:comment, :player_id, :user_id, { positions: [] })
+    params.expect(player_request: [:comment, :player_id, :user_id, { positions: [] }])
   end
 end

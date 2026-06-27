@@ -54,6 +54,8 @@ Rails.application.configure do
 
   config.action_mailer.default_url_options = { host: 'http://localhost:3333', only_path: false }
 
+  Rails.application.routes.default_url_options = { host: 'localhost', port: 3333 }
+
   config.action_mailer.asset_host = 'http://localhost:3333'
 
   # To test if the mail really gets sent in development, use :smtp

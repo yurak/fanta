@@ -27,8 +27,9 @@ class LineupsController < ApplicationController
     path = tour_path(tour)
 
     if valid_conditions?
-      if duplicate_players&.any? || invalid_players_count?
-        path = new_team_lineup_path(team, team_module_id: params[:lineup][:team_module_id], tour_id: tour.id)
+      if invalid_players?(Lineup.new(team_module: team_module, tour: tour, team: team).players_count)
+        flash[:alert] = t('lineups.invalid_squad')
+        path = new_team_lineup_path(team, team_module_id: params.dig(:lineup, :team_module_id), tour_id: tour.id)
       else
         recount_round_players_params
         @lineup = Lineup.new(lineup_params.merge(team: team))
@@ -40,15 +41,15 @@ class LineupsController < ApplicationController
   end
 
   def update
-    if duplicate_players&.any? || invalid_players_count?
+    return redirect_to(saved_or_tour_path) unless editable?
+
+    if invalid_players?(lineup.players_count)
+      flash[:alert] = t('lineups.invalid_squad')
       redirect_to edit_team_lineup_path(team, lineup)
     else
-      if editable?
-        recount_round_players_params
-        lineup.update(update_lineup_params.merge(last_edited_at: Time.current))
-      end
-
-      redirect_to tour.fanta? ? team_lineup_path(team, lineup) : tour_path(tour)
+      recount_round_players_params
+      lineup.update(update_lineup_params.merge(last_edited_at: Time.current))
+      redirect_to saved_or_tour_path
     end
   end
 
@@ -72,16 +73,20 @@ class LineupsController < ApplicationController
     tour.fanta? ? team_lineup_path(team, @lineup) : tour_path(tour)
   end
 
+  def saved_or_tour_path
+    tour.fanta? ? team_lineup_path(team, lineup) : tour_path(tour)
+  end
+
   def team_lineups_cloner
     @team_lineups_cloner ||= Lineups::Cloner.new(team, tour)
   end
 
   def lineup_params
-    params.fetch(:lineup, {}).permit(:team_module_id, :tour_id, match_players_attributes: {})
+    params.expect(lineup: [:team_module_id, :tour_id, { match_players_attributes: {} }])
   end
 
   def update_lineup_params
-    params.fetch(:lineup, {}).permit(:team_module_id, match_players_attributes: {})
+    params.expect(lineup: [:team_module_id, { match_players_attributes: {} }])
   end
 
   def build_match_players
@@ -89,16 +94,17 @@ class LineupsController < ApplicationController
   end
 
   def recount_round_players_params
-    return if params[:lineup][:match_players_attributes].blank?
+    match_players = params.dig(:lineup, :match_players_attributes)
+    return if match_players.blank?
 
-    params[:lineup][:match_players_attributes].each_key do |k|
-      next unless params[:lineup][:match_players_attributes][k][:round_player_id]
+    match_players.each_value do |attrs|
+      next if attrs[:round_player_id].blank?
 
-      player = Player.find(params[:lineup][:match_players_attributes][k][:round_player_id])
+      player = Player.find(attrs[:round_player_id])
 
       round_player = RoundPlayer.find_or_create_by(tournament_round: tour.tournament_round, player: player)
       round_player.update(club: player.club) if round_player.club_id != player.club_id
-      params[:lineup][:match_players_attributes][k][:round_player_id] = round_player.id
+      attrs[:round_player_id] = round_player.id
     end
   end
 
@@ -128,14 +134,14 @@ class LineupsController < ApplicationController
     ).compact.uniq(&:id)
     return if t_rounds.empty?
 
-    ActiveRecord::Associations::Preloader.new.preload(
-      t_rounds,
-      [{ tournament_matches: %i[host_club guest_club] }, { national_matches: %i[host_team guest_team] }]
-    )
+    ActiveRecord::Associations::Preloader.new(
+      records: t_rounds,
+      associations: [{ tournament_matches: %i[host_club guest_club] }, { national_matches: %i[host_team guest_team] }]
+    ).call
   end
 
   def team
-    @team ||= Team.find(params[:team_id])
+    @team ||= Team.find(params.expect(:team_id))
   end
 
   def team_module
@@ -163,9 +169,36 @@ class LineupsController < ApplicationController
   end
 
   def players_ids
-    return if params[:lineup][:match_players_attributes].blank?
+    match_players = params.dig(:lineup, :match_players_attributes)
+    return if match_players.blank?
 
-    params[:lineup][:match_players_attributes].values.each_with_object([]) { |el, p_ids| p_ids << el[:round_player_id] }
+    match_players.values.each_with_object([]) { |el, p_ids| p_ids << el[:round_player_id] }
+  end
+
+  def invalid_players?(required_count)
+    return true if duplicate_players&.any? || players_incomplete?(required_count) || players_outside_pool?
+
+    invalid_players_count?
+  end
+
+  def players_incomplete?(required_count)
+    ids = players_ids
+    return true if ids.blank? || ids.size != required_count || ids.any?(&:blank?)
+
+    Player.where(id: ids).distinct.count != ids.uniq.size
+  end
+
+  def players_outside_pool?
+    ids = players_ids.map(&:to_i).uniq
+
+    pool_scope.where(id: ids).distinct.count != ids.size
+  end
+
+  def pool_scope
+    return team.players unless tour.fanta?
+
+    round = tour.tournament_round
+    round.national_matches.exists? ? Player.by_national_tournament_round(round) : Player.by_tournament_round(round)
   end
 
   def invalid_players_count?

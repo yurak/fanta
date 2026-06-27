@@ -9,7 +9,7 @@ class UsersController < ApplicationController
 
   def show
     leagues = current_user.teams.map(&:league).compact
-    ActiveRecord::Associations::Preloader.new.preload(leagues, %i[division season])
+    ActiveRecord::Associations::Preloader.new(records: leagues, associations: %i[division season]).call
   end
 
   def update
@@ -52,7 +52,7 @@ class UsersController < ApplicationController
     @user = User.includes(
       teams: {},
       results: { league: %i[tournament division season], team: {} }
-    ).find(params[:id])
+    ).find(params.expect(:id))
   end
 
   private

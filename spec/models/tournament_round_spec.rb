@@ -211,4 +211,23 @@ RSpec.describe TournamentRound do
       end
     end
   end
+
+  describe '#ordered_tournament_matches' do
+    let!(:late)    { create(:tournament_match, tournament_round: tournament_round, date: 'JUN 15, 2026', time: '20:00') }
+    let!(:early)   { create(:tournament_match, tournament_round: tournament_round, date: 'JUN 15, 2026', time: '15:00') }
+    let!(:no_time) { create(:tournament_match, tournament_round: tournament_round, date: '', time: '') }
+
+    it 'orders by kickoff time, with timeless matches last by id' do
+      expect(tournament_round.ordered_tournament_matches).to eq([early, late, no_time])
+    end
+  end
+
+  describe '#ordered_national_matches' do
+    let!(:late)  { create(:national_match, tournament_round: tournament_round, date: 'JUN 15, 2026', time: '20:00') }
+    let!(:early) { create(:national_match, tournament_round: tournament_round, date: 'JUN 15, 2026', time: '15:00') }
+
+    it 'orders by kickoff time' do
+      expect(tournament_round.ordered_national_matches).to eq([early, late])
+    end
+  end
 end

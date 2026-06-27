@@ -94,6 +94,16 @@ bin/db_pull
 
 This opens an SSH tunnel to the production EC2, dumps the production PostgreSQL database, and restores it locally.
 
+### Sync staging database from production
+
+Requires SSH access to both production and staging servers, and Rails credentials with `db_prod` and `db_staging` configured.
+
+```
+bin/db_push_to_staging
+```
+
+This opens an SSH tunnel to the production RDS, dumps `mantra_production`, uploads it to the staging server via SCP, and restores it as `mantra_staging`.
+
 ### Telegram Bot
 
 Set `TELEGRAM_DEV_BOT_TOKEN` in `config/application.yml`, then run in console:

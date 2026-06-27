@@ -11,7 +11,7 @@ class Lineup < ApplicationRecord
   delegate :tournament_round, to: :tour
   delegate :league, to: :team
 
-  enum creation_type: { manual: 0, copied: 1, auto_cloned: 2 }
+  enum :creation_type, { manual: 0, copied: 1, auto_cloned: 2 }
 
   before_create { self.last_edited_at ||= Time.current }
 
@@ -22,6 +22,7 @@ class Lineup < ApplicationRecord
   scope :by_league, ->(league_id) { where(tour_id: League.find(league_id).tours.select(:id)) }
   scope :by_team, ->(team_id) { where(team_id: team_id) }
   scope :top_position, ->(position) { where('position > 0 AND position <= ?', position) if position }
+  scope :ranked, -> { order(Arel.sql('lineups.position ASC NULLS LAST, lineups.final_score DESC')) }
 
   MIN_AVG_DEF_SCORE = 6
   MAX_AVG_DEF_SCORE = 7
@@ -115,7 +116,10 @@ class Lineup < ApplicationRecord
   end
 
   def subs_missed?
-    match_players.main.without_score.includes(round_player: :tournament_round).any?(&:subs_option_exist?)
+    match_players.main.without_score
+                 .includes(round_player: [{ tournament_round: :tournament },
+                                          { player: [{ national_team: :tournament }, { club: %i[tournament ec_tournament] }] }])
+                 .any?(&:subs_option_exist?)
   end
 
   def substitutes_preview

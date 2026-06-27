@@ -326,6 +326,7 @@ en:
     min_limit: "You must select at least %{limit} player(s) from each team"
     total: "Lineup must contain %{number} unique players"
     duplicates: "Lineup contains duplicate players"
+    invalid_squad: "Please select a full valid squad without duplicates"
     max_limit: "You cannot select more than %{limit} player(s) from one team"
     home: "H"
     away: "A"
