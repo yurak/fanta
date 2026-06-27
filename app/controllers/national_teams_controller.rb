@@ -8,7 +8,7 @@ class NationalTeamsController < ApplicationController
   private
 
   def national_team
-    @national_team ||= NationalTeam.includes(:tournament, players: %i[club positions]).find(params[:id])
+    @national_team ||= NationalTeam.includes(:tournament, players: %i[club positions]).find(params.expect(:id))
   end
 
   def national_teams

@@ -8,7 +8,7 @@ module Manage
     end
 
     def show
-      @user = User.includes(:user_profile, :user_titles, teams: %i[league tournament results]).find(params[:id])
+      @user = User.includes(:user_profile, :user_titles, teams: %i[league tournament results]).find(params.expect(:id))
       @results = Result.joins(:team).where(teams: { user_id: @user.id }).includes(league: :season, team: :tournament).order(id: :desc)
     end
   end

@@ -115,6 +115,31 @@ RSpec.describe 'Tours' do
     end
   end
 
+  describe 'GET #show lineup ranking with teams missing a lineup' do
+    login_user
+
+    let(:fanta_league) { create(:league, :fanta_league) }
+    let(:fanta_round) { create(:tournament_round, tournament: fanta_league.tournament) }
+    let(:closed_tour) { create(:tour, league: fanta_league, tournament_round: fanta_round, status: :closed) }
+    let!(:team_with_lineup) { create(:team, league: fanta_league) }
+    let!(:team_without_lineup) { create(:team, league: fanta_league) }
+
+    before do
+      create(:lineup, tour: closed_tour, team: team_with_lineup)
+      get tour_path(closed_tour)
+    end
+
+    it { expect(response).to be_successful }
+
+    it 'lists teams that did not set a lineup' do
+      expect(response.body).to include(team_without_lineup.human_name)
+    end
+
+    it 'shows X instead of a score for a team without a lineup' do
+      expect(response.body).to match(/#{Regexp.escape(team_without_lineup.human_name)}.*?lineup-result.*?X/m)
+    end
+  end
+
   describe 'GET #tournament_players' do
     context 'when user is logged out' do
       before do

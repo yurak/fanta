@@ -77,7 +77,7 @@ module Manage
     private
 
     def league
-      @league ||= League.find(params[:id])
+      @league ||= League.find(params.expect(:id))
     end
 
     def assign_title(result)
@@ -97,10 +97,12 @@ module Manage
     end
 
     def league_params
-      params.require(:league).permit(
-        :name, :tournament_id, :season_id, :division_id,
-        :auction_type, :auction_number, :auction_step, :tour_difference, :demo,
-        :min_avg_def_score, :max_avg_def_score, :open_for_join, :join_code, :default_for_join
+      params.expect(
+        league: %i[
+          name tournament_id season_id division_id
+          auction_type auction_number auction_step tour_difference demo
+          min_avg_def_score max_avg_def_score open_for_join join_code default_for_join
+        ]
       )
     end
   end

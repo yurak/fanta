@@ -26,7 +26,7 @@ module Api
     end
 
     def page
-      params[:page].present? ? params.require(:page).permit(:size, :number, :limit, :offset) : {}
+      params[:page].present? ? params.expect(page: %i[size number limit offset]) : {}
     end
 
     def paginate(result)

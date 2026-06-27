@@ -44,6 +44,6 @@ class TransfersController < ApplicationController
   def create_params
     return nil unless params[:transfer]
 
-    params.require(:transfer).permit(:auction_id, :player_id, :team_id, :price)
+    params.expect(transfer: %i[auction_id player_id team_id price])
   end
 end

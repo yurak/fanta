@@ -21,7 +21,7 @@ class PlayerTeamsController < ApplicationController
   private
 
   def team
-    @team ||= Team.find(params[:team_id])
+    @team ||= Team.find(params.expect(:team_id))
   end
 
   def editable?

@@ -9,7 +9,7 @@ class WeeklyTeamsController < ApplicationController
         :slot,
         { round_player: [{ tournament_round: :tournament }, { player: %i[positions national_team] }, { club: :tournament }] }
       ]
-    ).find(params[:id])
+    ).find(params.expect(:id))
 
     @season_bonuses = build_season_bonuses if @weekly_team.source_avg?
   end

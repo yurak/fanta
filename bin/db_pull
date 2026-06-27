@@ -36,7 +36,7 @@ echo "Dumping production database..."
 
 echo "Restoring to local database..."
 DISABLE_DATABASE_ENVIRONMENT_CHECK=1 bundle exec rails db:drop db:create
-psql ${LOCAL_DB} < /tmp/prod_dump.sql > /dev/null
+/opt/homebrew/opt/postgresql@18/bin/psql -h localhost -p 5432 ${LOCAL_DB} < /tmp/prod_dump.sql > /dev/null
 
 rm /tmp/prod_dump.sql
 

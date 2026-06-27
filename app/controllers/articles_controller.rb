@@ -46,7 +46,7 @@ class ArticlesController < ApplicationController
   private
 
   def article
-    @article ||= Article.find(params[:id])
+    @article ||= Article.find(params.expect(:id))
   end
 
   def article_tags
@@ -54,7 +54,7 @@ class ArticlesController < ApplicationController
   end
 
   def article_params
-    params.require(:article).permit(:title, :summary, :image_url, :description, :internal_image_url, :article_tag_id)
+    params.expect(article: %i[title summary image_url description internal_image_url article_tag_id])
   end
 
   def check_access

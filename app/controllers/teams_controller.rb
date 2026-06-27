@@ -38,7 +38,7 @@ class TeamsController < ApplicationController
       players: [:positions, { club: :tournament }],
       transfers: { player: %i[positions club] },
       league: %i[teams tours]
-    ).find(params[:id])
+    ).find(params.expect(:id))
   end
 
   def preload_team_show_associations
@@ -115,6 +115,6 @@ class TeamsController < ApplicationController
   end
 
   def input_params
-    params.require(:team).permit(:code, :human_name, :logo_url, :tournament_id, :team_id)
+    params.expect(team: %i[code human_name logo_url tournament_id team_id])
   end
 end
