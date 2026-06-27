@@ -8,7 +8,7 @@ module Manage
     end
 
     def approve
-      league = League.find(params[:league_id])
+      league = League.find(params.expect(:league_id))
 
       join.update!(status: :approved)
       join.team.update!(league: league)

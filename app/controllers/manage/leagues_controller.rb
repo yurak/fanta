@@ -69,7 +69,7 @@ module Manage
     end
 
     def crown
-      result = league.results.find(params[:result_id])
+      result = league.results.find(params.expect(:result_id))
       ActiveRecord::Base.transaction { assign_title(result) }
       redirect_to manage_league_path(league), notice: t('manage.leagues.crowned')
     end
