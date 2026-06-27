@@ -16,7 +16,7 @@ class ClubsController < ApplicationController
   end
 
   def tournament
-    @tournament ||= Tournament.find(params[:tournament_id])
+    @tournament ||= Tournament.find(params.expect(:tournament_id))
   end
 
   def league

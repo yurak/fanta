@@ -16,7 +16,7 @@ module Manage
     end
 
     def create
-      player = Player.find(params[:player_id])
+      player = Player.find(params.expect(:player_id))
       result = Players::ClubChanger.call(
         player: player,
         new_club_id: club_transfer_params[:new_club_id],

@@ -28,11 +28,11 @@ class TransfersController < ApplicationController
   private
 
   def auction
-    @auction ||= Auction.find(params[:auction_id])
+    @auction ||= Auction.find(params.expect(:auction_id))
   end
 
   def league
-    @league ||= League.find(params[:league_id])
+    @league ||= League.find(params.expect(:league_id))
   end
 
   def player

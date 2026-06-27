@@ -1,7 +1,7 @@
 module Users
   class ConfirmationsController < Devise::ConfirmationsController
     def index
-      @email = User.find(params[:user])&.email
+      @email = User.find(params.expect(:user))&.email
     end
 
     def show
