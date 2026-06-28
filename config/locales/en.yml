@@ -1209,7 +1209,7 @@ en:
       rules: "You can read the detailed rules of the game on "
       rules_link: "Rules page"
       ul01: "We form a league of 8 managers (if you want to be together with a friend - let us know and we will take it into account)."
-      ul02: "We hold an auction where managers form their teams of 26 players. Each football player can be in the team of only one manager of the league - the one who paid the most for him. You can sell and buy new players to the team only in transfer windows."
+      ul02: "We hold an auction where managers form their teams of 26 players. Each football player can be in the team of only one manager of the league - the one who acquired him at the auction. You can sell and buy new players to the team only in transfer windows."
       ul03: "All football players are divided into 11 unique positions in which they can perform (some players can play in several positions)."
       ul04: "Every round, the manager chooses the scheme for the game, the lineup of 11 main players and the bench (all schemes are balanced and usually include, in addition to the goalkeeper, 5 defensive and 5 attacking positions)."
       ul05: "The game takes place in the Head to Head system, that is, in each round you face one of the opposing managers."
@@ -1218,7 +1218,7 @@ en:
       ul08: "If the player did not play in the real Tour, he can be replaced by someone from the bench who can play in this position."
       ul09: "The basic scores of the main players, as well as maluses and bonuses, are added up and converted into game goals according to the principle: 72 points - 1 goal, each subsequent goal - for an additional 7 points."
       ul10: "The team that scored more goals in the match wins it. 3 points are awarded for a win, 1 for a draw. The tournament table is formed on the basis of these points."
-      ul11: "The team with the most points at the end of the tournament wins the league and the trophy."
+      ul11: "The team with the most points at the end of the tournament wins the league and earns the champion title."
     index:
       better:
         classic: "Classic fantasy"
@@ -1360,7 +1360,7 @@ en:
         ol4: "After real matches, players are awarded a score and bonuses / maluses for their actions in matches."
         ol5: "The sum of all players' points is converted into team goals."
         ol6: "A team earns tournament points if it scores no less than the opponent's team."
-        ol7: "The team with the most points in the league wins the cup."
+        ol7: "The team with the most points in the league becomes the champion."
         paragraph1: "Leagues are formed on the basis of submitted applications, where you indicate in which tournaments you want to play. Managers' wishes are taken into account - you can create a league with your friends or join other members."
         paragraph2: "The composition of the league does not change during the season."
         paragraph3: "Each tournament can have several leagues in which you can participate."

@@ -1894,7 +1894,7 @@
         "rules": "You can read the detailed rules of the game on ",
         "rules_link": "Rules page",
         "ul01": "We form a league of 8 managers (if you want to be together with a friend - let us know and we will take it into account).",
-        "ul02": "We hold an auction where managers form their teams of 26 players. Each football player can be in the team of only one manager of the league - the one who paid the most for him. You can sell and buy new players to the team only in transfer windows.",
+        "ul02": "We hold an auction where managers form their teams of 26 players. Each football player can be in the team of only one manager of the league - the one who acquired him at the auction. You can sell and buy new players to the team only in transfer windows.",
         "ul03": "All football players are divided into 11 unique positions in which they can perform (some players can play in several positions).",
         "ul04": "Every round, the manager chooses the scheme for the game, the lineup of 11 main players and the bench (all schemes are balanced and usually include, in addition to the goalkeeper, 5 defensive and 5 attacking positions).",
         "ul05": "The game takes place in the Head to Head system, that is, in each round you face one of the opposing managers.",
@@ -1903,7 +1903,7 @@
         "ul08": "If the player did not play in the real Tour, he can be replaced by someone from the bench who can play in this position.",
         "ul09": "The basic scores of the main players, as well as maluses and bonuses, are added up and converted into game goals according to the principle: 72 points - 1 goal, each subsequent goal - for an additional 7 points.",
         "ul10": "The team that scored more goals in the match wins it. 3 points are awarded for a win, 1 for a draw. The tournament table is formed on the basis of these points.",
-        "ul11": "The team with the most points at the end of the tournament wins the league and the trophy."
+        "ul11": "The team with the most points at the end of the tournament wins the league and earns the champion title."
       },
       "index": {
         "better": {
@@ -2056,7 +2056,7 @@
           "ol4": "After real matches, players are awarded a score and bonuses / maluses for their actions in matches.",
           "ol5": "The sum of all players' points is converted into team goals.",
           "ol6": "A team earns tournament points if it scores no less than the opponent's team.",
-          "ol7": "The team with the most points in the league wins the cup.",
+          "ol7": "The team with the most points in the league becomes the champion.",
           "paragraph1": "Leagues are formed on the basis of submitted applications, where you indicate in which tournaments you want to play. Managers' wishes are taken into account - you can create a league with your friends or join other members.",
           "paragraph2": "The composition of the league does not change during the season.",
           "paragraph3": "Each tournament can have several leagues in which you can participate.",
@@ -3813,7 +3813,7 @@
         "rules": "Детальні правила гри ви можете прочитати на ",
         "rules_link": "сторінці Правил",
         "ul01": "Формуємо лігу із 8 менеджерів (якщо хочеш бути разом з другом – повідом нас і ми це врахуємо).",
-        "ul02": "Проводимо аукціон, де менеджери формують свої команди з 26 гравців. Кожен футболіст може бути в команді лише в одного менеджера ліги – того хто заплатив за нього найбільше. Продавати та купувати нових гравців в  команду можна лише в трансферні вікна.",
+        "ul02": "Проводимо аукціон, де менеджери формують свої команди з 26 гравців. Кожен футболіст може бути в команді лише в одного менеджера ліги – того хто придбав його на аукціоні. Продавати та купувати нових гравців в  команду можна лише в трансферні вікна.",
         "ul03": "Всі футболісти поділені на 11 унікальних позицій, на яких вони можуть виступати (деякі гравці можуть грати на кількох позиціях).",
         "ul04": "Щотуру менеджер обирає схему на гру, склад із 11 основних гравців та лаву запасних (всі схеми - збалансовані і зазвичай включають, крім воротаря, 5 захисних та 5 атакуючих позицій).",
         "ul05": "Гра відбувається за системую Head to Head, тобто в кожному раунді тобі протистоїть один з менеджерів-опонентів.",
@@ -3822,7 +3822,7 @@
         "ul08": "Якщо гравець не зіграв у реальному Турі - його може замінити хтось з лави запасних, хто може зіграти на цій позиції.",
         "ul09": "Базові оцінки основних гравців, бонуси і малуси сумуються та конвертуються в ігрові голи за принципом: 72 бали – 1 гол, кожен наступний гол – за додаткові 7 балів.",
         "ul10": "Команда, яка забила більше голів у матчі - виграє його. За перемогу нараховується 3 очки, за нічию – 1. Турнірна таблиця формується на основі цих очків.",
-        "ul11": "Команда, яка набрала найбільше очок за підсумками турніру, перемагає в лізі та здобуває трофей. "
+        "ul11": "Команда, яка набрала найбільше очок за підсумками турніру, перемагає в лізі та здобуває звання чемпіона. "
       },
       "index": {
         "better": {
@@ -3975,7 +3975,7 @@
           "ol4": "Після реальних матчів, гравцям нараховують оцінку і бонуси/малуси за їх дії в матчах.",
           "ol5": "Сума балів усіх гравців перетворюється у голи команди.",
           "ol6": "Команда заробляє турнірні очки, якщо забиває не менше голів ніж команда суперника.",
-          "ol7": "Команда, яка набрала найбільшу кількість очок в лізі, виграє кубок.",
+          "ol7": "Команда, яка набрала найбільшу кількість очок в лізі, стає чемпіоном.",
           "paragraph1": "Ліги формуються на основі поданих заявок, де ви вказуєте, в яких турнірах ви хочете грати. Враховуються побажання менеджерів - ви можете створити лігу зі своїми друзями або приєднатися до інших учасників.",
           "paragraph2": "Протягом сезону склад ліги не змінюється.",
           "paragraph3": "У кожному турнірі може бути декілька ліг, у яких можна взяти участь.",
