@@ -23,7 +23,7 @@
           - elsif active_auction.blind_bids? && active_auction.auction_rounds.active.any? && user_team_by_league(current_user, league).vacancies?
             .auction-link-area
               .auction-link
-                = link_to t('header.make_bid'), auction_round_path(active_auction.auction_rounds.active.first)
+                = link_to t('header.make_offer'), auction_round_path(active_auction.auction_rounds.active.first)
     .next-round-datetime
       - if active_auction.sales?
         .next-round-date= local_time(active_auction.deadline, '%^a, %^b %e')

@@ -33,7 +33,7 @@ RSpec.describe TelegramBot::Auction::StartBidsNotifier do
       it 'uses start_bids translation key' do
         service_call
 
-        expect(I18n).to have_received(:t).with('telegram.notifier.auction.start_bids', hash_including(locale: :ua))
+        expect(I18n).to have_received(:t).with('telegram.notifier.auction.start_offers', hash_including(locale: :ua))
       end
     end
   end

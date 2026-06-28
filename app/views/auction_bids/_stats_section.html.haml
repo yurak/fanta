@@ -39,7 +39,7 @@
             .auction-round-budget-summary-text= t('auction_round.total_budget')
             .auction-round-budget-summary-value= "#{Team::DEFAULT_BUDGET}M"
           .auction-round-budget-summary-row
-            .auction-round-budget-summary-text= t('auction_round.max_bid')
+            .auction-round-budget-summary-text= t('auction_round.max_offer')
             .auction-round-budget-summary-value= "#{max_bid_value}M"
         .ar-budget-bar
           .ar-budget-bar-spent
@@ -47,12 +47,12 @@
           .ar-budget-alert-icon ⛔️
           .ar-budget-alert-text
             .ar-budget-alert-header= t('auction_round.exceeded')
-            .ar-budget-alert-desc= t('auction_round.decrease_bid')
+            .ar-budget-alert-desc= t('auction_round.decrease_offer')
   - if auction_round && league
     .round-table
       .round-table-title-header
         .round-table-title
-          .round-table-title-text= t('auction_round.bets_placed')
+          .round-table-title-text= t('auction_round.offers_placed')
         .round-table-hide.round-table-visible
           = image_tag('icons/arrow_up.svg')
         .round-table-hide.round-table-hidden

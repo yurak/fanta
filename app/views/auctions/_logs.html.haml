@@ -21,10 +21,10 @@
       - if my_team
         .search-item
           = link_to league_auction_path(league, auction, team_id: my_team.id) do
-            = t('auction.show.logs.my_bids')
+            = t('auction.show.logs.my_transfers')
       .search-item
         = link_to league_auction_path(league, auction) do
-          = t('auction.show.logs.all_bids')
+          = t('auction.show.logs.all_players')
 
   .players-bids-block
     .players-bids-list
