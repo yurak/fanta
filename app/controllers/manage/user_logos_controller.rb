@@ -31,7 +31,7 @@ module Manage
     end
 
     def user_logo
-      @user_logo ||= UserLogo.find(params[:id])
+      @user_logo ||= UserLogo.find(params.expect(:id))
     end
   end
 end

@@ -9,7 +9,7 @@ class UserLogosController < ApplicationController
   end
 
   def destroy
-    logo = current_user.user_logos.kept.find(params[:id])
+    logo = current_user.user_logos.kept.find(params.expect(:id))
 
     if logo.in_use?
       redirect_back_with(alert: t('user_logos.in_use'))
@@ -22,6 +22,6 @@ class UserLogosController < ApplicationController
   private
 
   def redirect_back_with(**flash_options)
-    redirect_back(fallback_location: user_path(current_user), **flash_options)
+    redirect_back_or_to(user_path(current_user), **flash_options)
   end
 end
