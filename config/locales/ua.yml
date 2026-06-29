@@ -1040,6 +1040,7 @@ ua:
       avg_ts: "🎲 Сер. бал"
       best_lineup: "✊ Найкр. склад"
       best_pick: "Найкращий Гравець"
+      module: "Модуль"
       points: "Очки"
       position: "Позиція"
       round: "Раунд"

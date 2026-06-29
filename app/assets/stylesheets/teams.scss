@@ -583,7 +583,7 @@
 
       .fanta-team-lineups-grid {
         display: grid;
-        grid-template-columns: 4fr 10fr 6fr 6fr 7fr;
+        grid-template-columns: 3fr 10fr 5fr 5fr 5fr 7fr;
       }
 
       .fanta-team-lineups-items {
@@ -603,6 +603,10 @@
 
         .fanta-lineup-number {
           font-family: 'Nunito ExtraBold';
+          padding-left: 8px;
+        }
+
+        .fanta-lineup-module {
           padding-left: 8px;
         }
 

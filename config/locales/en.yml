@@ -1037,6 +1037,7 @@ en:
       avg_ts: "🎲 Avg. total score"
       best_lineup: "✊ Best lineup"
       best_pick: "Best Pick"
+      module: "Module"
       points: "Points"
       position: "Position"
       round: "Round"
