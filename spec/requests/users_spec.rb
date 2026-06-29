@@ -73,6 +73,18 @@ RSpec.describe 'Users' do
       end
     end
 
+    context 'with multiple teams' do
+      before do
+        create(:team, user: other_user, human_name: 'Zmarknewteam', created_at: 1.day.ago)
+        create(:team, user: other_user, human_name: 'Zmarkoldteam', created_at: 3.days.ago)
+        get manager_path(other_user)
+      end
+
+      it 'lists team chips oldest first' do
+        expect(response.body.index('Zmarkoldteam')).to be < response.body.index('Zmarknewteam')
+      end
+    end
+
     def manager_settings_marker(user)
       "href=\"#{user_path(user)}\""
     end

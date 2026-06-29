@@ -878,7 +878,7 @@
 
     .logo-modal-subtitle {
       color: #6F7572;
-      font-size: 13px;
+      font-size: 14px;
       margin-bottom: 12px;
     }
 
@@ -887,6 +887,11 @@
       align-items: center;
       gap: 12px;
       flex-wrap: wrap;
+
+      .login-btn {
+        margin-left: auto;
+        padding: 0 32px;
+      }
     }
   }
 
@@ -905,7 +910,7 @@
 
     .logo-modal-empty {
       color: #6F7572;
-      font-size: 13px;
+      font-size: 14px;
     }
   }
 

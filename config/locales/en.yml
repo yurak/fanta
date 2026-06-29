@@ -959,7 +959,8 @@ en:
       update: "Update team"
     logos:
       title: "My logos"
-      subtitle: "Upload your own logo (PNG or JPG, up to 5 MB). It will become available after moderation."
+      subtitle1: "Upload your own logo (PNG or JPG, up to 5 MB)."
+      subtitle2: "It will become available after moderation."
       upload: "Upload"
       delete: "Delete"
       empty: "You have not uploaded any logos yet"

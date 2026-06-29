@@ -27,7 +27,7 @@
                 .chip-item-data
                   .chip-item-logo= image_tag('icons/dashboard.svg')
                   .chip-item-name= t('users.manager.all_teams')
-              - user.teams.each do |team|
+              - user.teams.sort_by { |team| [team.created_at, team.id] }.each do |team|
                 .chip-item{id: "result-item-#{team.id}"}
                   .chip-item-data
                     .chip-item-logo= image_tag(team.logo_path)

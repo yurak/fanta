@@ -1576,7 +1576,8 @@
           "pending": "On moderation",
           "rejected": "Rejected"
         },
-        "subtitle": "Upload your own logo (PNG or JPG, up to 5 MB). It will become available after moderation.",
+        "subtitle1": "Upload your own logo (PNG or JPG, up to 5 MB).",
+        "subtitle2": "It will become available after moderation.",
         "tab_default": "Default",
         "tab_own": "Own collection",
         "title": "My logos",
@@ -3557,7 +3558,8 @@
           "pending": "На модерації",
           "rejected": "Відхилено"
         },
-        "subtitle": "Завантажте власне лого (PNG або JPG, до 5 МБ). Воно стане доступним після модерації.",
+        "subtitle1": "Завантажте власне лого (PNG або JPG, до 5 МБ).",
+        "subtitle2": "Воно стане доступним після модерації.",
         "tab_default": "Стандартні",
         "tab_own": "Власна колекція",
         "title": "Мої лого",

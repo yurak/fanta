@@ -46,7 +46,8 @@
 
       #logo-pane-own.logo-modal-pane{ style: 'display:none' }
         .logo-modal-upload
-          .logo-modal-subtitle= t('teams.logos.subtitle')
+          .logo-modal-subtitle= t('teams.logos.subtitle1')
+          .logo-modal-subtitle= t('teams.logos.subtitle2')
           = form_with url: user_logos_path, method: :post, multipart: true do |f|
             = f.file_field :logo, accept: 'image/png,image/jpeg', class: 'logo-modal-file', required: true
             = f.submit t('teams.logos.upload'), class: 'login-btn blue-btn'

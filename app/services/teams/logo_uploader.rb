@@ -38,7 +38,8 @@ module Teams
         c.strip
       end
       image
-    rescue MiniMagick::Error, MiniMagick::Invalid
+    rescue MiniMagick::Error, MiniMagick::Invalid => e
+      Rails.logger.error("[Teams::LogoUploader] image processing failed: #{e.class}: #{e.message}")
       raise InvalidFile, 'File is not a valid image'
     end
 
