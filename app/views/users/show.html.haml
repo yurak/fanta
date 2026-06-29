@@ -81,7 +81,7 @@
 
       .user-section
         .user-section-title= t('users.profile.teams')
-        - current_user.teams.each do |team|
+        - current_user.teams.sort_by { |team| [team.created_at, team.id] }.each do |team|
           .user-team
             .user-team-logo= image_tag(team.logo_path)
             .user-team-data
