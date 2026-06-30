@@ -32,6 +32,8 @@
                   .chip-item-data
                     .chip-item-logo= image_tag(team.logo_path)
                     .chip-item-name= team.human_name
+                    - if team.tournament
+                      .chip-item-tournament= image_tag(team.tournament.logo_path)
             .manager-teams-switcher
         - if user.results.any?
           .manager-results
