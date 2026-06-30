@@ -892,6 +892,23 @@
       gap: 12px;
       flex-wrap: wrap;
 
+      .logo-modal-file {
+        flex: 1;
+        min-width: 0;
+        font-size: 14px;
+
+        &::file-selector-button {
+          font-family: 'Nunito Bold';
+          padding: 8px 16px;
+          margin-right: 12px;
+          border: 1px solid #261FFF;
+          border-radius: 8px;
+          background: #FFFFFF;
+          color: #261FFF;
+          cursor: pointer;
+        }
+      }
+
       .login-btn {
         margin-left: auto;
         padding: 0 32px;
@@ -1093,6 +1110,84 @@
 }
 
 @media (orientation: portrait) {
+  #logo-modal {
+    padding: 32px;
+
+    .logo-modal-content {
+      max-width: 92vw;
+      max-height: 92vh;
+      padding: 40px;
+      border-radius: 24px;
+    }
+
+    .logo-modal-header {
+      margin-bottom: 32px;
+
+      h4 { font-size: 34px; }
+
+      .logo-modal-close { font-size: 48px; }
+    }
+
+    .logo-modal-tabs {
+      gap: 16px;
+      margin-bottom: 28px;
+
+      .logo-modal-tab {
+        padding: 20px;
+        font-size: 24px;
+        border-radius: 12px;
+      }
+    }
+
+    .logo-modal-icons {
+      gap: 12px;
+    }
+
+    .logo-modal-upload {
+      margin-bottom: 32px;
+
+      .logo-modal-subtitle {
+        font-size: 22px;
+        margin-bottom: 16px;
+      }
+
+      form {
+        gap: 20px;
+
+        .logo-modal-file {
+          font-size: 22px;
+
+          &::file-selector-button {
+            font-size: 22px;
+            padding: 14px 28px;
+            margin-right: 16px;
+            border-radius: 12px;
+          }
+        }
+
+        .login-btn {
+          font-size: 24px;
+          padding: 12px 40px;
+          border-radius: 12px;
+          border: 3px;
+        }
+      }
+    }
+
+    .logo-modal-section {
+      margin-top: 28px;
+
+      .logo-modal-section-title {
+        font-size: 24px;
+        margin-bottom: 12px;
+      }
+
+      .logo-modal-empty {
+        font-size: 20px;
+      }
+    }
+  }
+
   .page-info.team-show {
     padding: 0 0 288px;
 
