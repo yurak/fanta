@@ -894,6 +894,37 @@
 
       .manager-stats {
         margin-top: 64px;
+
+        .stats-item-top {
+          .stats-item-top-title {
+            font-size: 36px;
+            line-height: 44px;
+          }
+
+          .stats-item-top-percent {
+            font-size: 64px;
+            line-height: 64px;
+          }
+
+          .stats-item-top-number {
+            font-size: 30px;
+            line-height: 36px;
+          }
+        }
+
+        .common-stats-item {
+          height: 120px;
+          line-height: 56px;
+          grid-template-columns: auto 180px;
+
+          .common-stats-item-title {
+            font-size: 32px;
+          }
+
+          .common-stats-item-value {
+            font-size: 44px;
+          }
+        }
       }
     }
   }

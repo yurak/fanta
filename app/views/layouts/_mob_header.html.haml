@@ -40,7 +40,7 @@
         .nav-logo-small
           = link_to new_user_session_path do
             .nav-link-icon= '🗝'
-            .nav-link-title= t('devise.sessions.new.sign_in')
+            .nav-link-title= t('header.sign_in')
       .nav-logo-small
         = link_to leagues_path do
           .nav-link-icon= '🏑'
@@ -60,7 +60,12 @@
       .nav-logo-small
         = link_to joins_path do
           .nav-link-icon= '➕'
-          .nav-link-title= t('join.title')
+          .nav-link-title= t('header.join')
+      - if current_user
+        .nav-logo-small
+          = link_to user_path(current_user) do
+            .nav-link-icon= '⚙️'
+            .nav-link-title= t('header.settings')
       - if current_user&.admin?
         .nav-logo-small
           = link_to manage_joins_path do
