@@ -43,3 +43,17 @@ append :linked_files, 'config/master.key', 'config/application.yml'
 set :linked_dirs, fetch(:linked_dirs, []).push('log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', 'public/system', 'public/uploads', 'node_modules')
 set :rvm_ruby_version, 'ruby-3.2.2'
 set :passenger_restart_with_touch, true
+
+namespace :imagemagick do
+  desc 'Ensure ImageMagick (convert) is installed on the server (required for logo uploads)'
+  task :check do
+    on roles(:app) do
+      unless test('command -v convert')
+        raise 'ImageMagick is not installed on the server (convert not found). ' \
+              'Install it before deploying: sudo apt-get update && sudo apt-get install -y imagemagick'
+      end
+    end
+  end
+end
+
+before 'deploy:starting', 'imagemagick:check'

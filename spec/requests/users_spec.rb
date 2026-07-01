@@ -36,6 +36,60 @@ RSpec.describe 'Users' do
     end
   end
 
+  describe 'GET #show_manager' do
+    context 'when logged out' do
+      before { get manager_path(other_user) }
+
+      it { expect(response).to be_successful }
+      it { expect(response).to render_template(:show_manager) }
+
+      it 'does not show the settings button' do
+        expect(response.body).not_to include(manager_settings_marker(other_user))
+      end
+    end
+
+    context 'when viewing own manager page' do
+      let(:logged_user) { create(:user) }
+
+      before do
+        sign_in logged_user
+        get manager_path(logged_user)
+      end
+
+      it { expect(response).to be_successful }
+
+      it 'shows the settings button linking to user settings' do
+        expect(response.body).to include(manager_settings_marker(logged_user))
+      end
+    end
+
+    context 'when viewing another manager page' do
+      login_user
+
+      before { get manager_path(other_user) }
+
+      it 'does not show the settings button' do
+        expect(response.body).not_to include(manager_settings_marker(other_user))
+      end
+    end
+
+    context 'with multiple teams' do
+      before do
+        create(:team, user: other_user, human_name: 'Zmarknewteam', created_at: 1.day.ago)
+        create(:team, user: other_user, human_name: 'Zmarkoldteam', created_at: 3.days.ago)
+        get manager_path(other_user)
+      end
+
+      it 'lists team chips oldest first' do
+        expect(response.body.index('Zmarkoldteam')).to be < response.body.index('Zmarknewteam')
+      end
+    end
+
+    def manager_settings_marker(user)
+      "href=\"#{user_path(user)}\""
+    end
+  end
+
   describe 'GET #edit' do
     before do
       get edit_user_path(other_user)

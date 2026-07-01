@@ -32,7 +32,7 @@ RSpec.describe Players::CsvParser do
     end
 
     context 'with file_url' do
-      let(:file_url) { 'https://mantrafootball.s3.eu-west-1.amazonaws.com/players_lists/test.csv' }
+      let(:file_url) { 'https://test-bucket.example.com/players_lists/test.csv' }
 
       it 'call' do
         VCR.use_cassette 'csv_parser_aws' do

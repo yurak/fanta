@@ -6,6 +6,21 @@
         .league-link-icon= image_tag('icons/round/auctions.svg')
         .league-link-text= t('manage.nav.joins')
   .league-links
+    = link_to manage_users_path do
+      .league-link{ class: "link-active-#{ params[:controller] == 'manage/users' }" }
+        .league-link-icon= image_tag('icons/round/statistics.svg')
+        .league-link-text= t('manage.nav.users')
+  .league-links
+    = link_to manage_user_logos_path do
+      .league-link{ class: "link-active-#{ params[:controller] == 'manage/user_logos' }" }
+        .league-link-icon= image_tag('icons/round/teams.svg')
+        .league-link-text= t('manage.nav.user_logos')
+  .league-links
+    = link_to manage_teams_path do
+      .league-link{ class: "link-active-#{ params[:controller] == 'manage/teams' }" }
+        .league-link-icon= image_tag('icons/round/teams.svg')
+        .league-link-text= t('manage.nav.teams')
+  .league-links
     = link_to manage_leagues_path do
       .league-link{ class: "link-active-#{ params[:controller] == 'manage/leagues' }" }
         .league-link-icon= image_tag('icons/round/teams.svg')
@@ -15,16 +30,6 @@
       .league-link{ class: "link-active-#{ params[:controller] == 'manage/auctions' }" }
         .league-link-icon= image_tag('icons/round/auctions.svg')
         .league-link-text= t('manage.nav.auctions')
-  .league-links
-    = link_to manage_users_path do
-      .league-link{ class: "link-active-#{ params[:controller] == 'manage/users' }" }
-        .league-link-icon= image_tag('icons/round/statistics.svg')
-        .league-link-text= t('manage.nav.users')
-  .league-links
-    = link_to manage_teams_path do
-      .league-link{ class: "link-active-#{ params[:controller] == 'manage/teams' }" }
-        .league-link-icon= image_tag('icons/round/teams.svg')
-        .league-link-text= t('manage.nav.teams')
   .league-links
     = link_to manage_players_path do
       .league-link{ class: "link-active-#{ params[:controller] == 'manage/players' }" }

@@ -32,7 +32,7 @@
           %button.join-modal-logo-remove{ type: 'button', id: 'join-logo-remove' }= t('join.remove_logo')
           #join-logo-grid.join-modal-logo-grid
             - (1..141).each do |i|
-              .join-modal-logo-item= image_tag("https://mantrafootball.s3.eu-west-1.amazonaws.com/teams/default_icons/default#{i}.png")
+              .join-modal-logo-item= image_tag("#{aws_bucket_url}/teams/default_icons/default#{i}.png")
 
         .join-modal-input-field
           %label.join-modal-input-label{ for: 'team_human_name' }= t('teams.new.name')

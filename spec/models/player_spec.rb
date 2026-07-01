@@ -186,7 +186,7 @@ RSpec.describe Player do
     it 'returns kit path' do
       allow(player.club).to receive(:path_name).and_return('ac_milan')
 
-      expect(player.kit_path).to eq('https://mantrafootball.s3-eu-west-1.amazonaws.com/kits/club_small/ac_milan.png')
+      expect(player.kit_path).to eq("#{Player::BUCKET_URL}/kits/club_small/ac_milan.png")
     end
   end
 
@@ -194,7 +194,7 @@ RSpec.describe Player do
     it 'returns kit path' do
       allow(player.club).to receive(:path_name).and_return('ac_milan')
 
-      expect(player.profile_kit_path).to eq('https://mantrafootball.s3-eu-west-1.amazonaws.com/kits/club/ac_milan.png')
+      expect(player.profile_kit_path).to eq("#{Player::BUCKET_URL}/kits/club/ac_milan.png")
     end
   end
 
@@ -211,7 +211,7 @@ RSpec.describe Player do
       it 'returns kit path' do
         allow(player.national_team).to receive(:code).and_return('ac_milan')
 
-        expect(player.national_kit_path).to eq('https://mantrafootball.s3-eu-west-1.amazonaws.com/kits/national_small/ac_milan.png')
+        expect(player.national_kit_path).to eq("#{Player::BUCKET_URL}/kits/national_small/ac_milan.png")
       end
     end
   end
@@ -229,7 +229,7 @@ RSpec.describe Player do
       it 'returns kit path' do
         allow(player.national_team).to receive(:code).and_return('ac_milan')
 
-        expect(player.profile_national_kit_path).to eq('https://mantrafootball.s3-eu-west-1.amazonaws.com/kits/national/ac_milan.png')
+        expect(player.profile_national_kit_path).to eq("#{Player::BUCKET_URL}/kits/national/ac_milan.png")
       end
     end
   end

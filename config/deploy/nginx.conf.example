@@ -1,0 +1,54 @@
+# =============================================================================
+# nginx site config for MantraFootball (Passenger + Rails)
+# Reference template, mirrors the live staging config
+# (/etc/nginx/sites-enabled/fanta.conf). NOT auto-deployed — apply manually:
+#
+#   sudo nano /etc/nginx/sites-enabled/fanta.conf
+#   sudo nginx -t && sudo systemctl reload nginx
+#
+# For PRODUCTION the block is the same except:
+#   - server_name        -> the prod domain (e.g. mantrafootball.org)
+#   - passenger_app_env   -> production
+#   - ssl_certificate*    -> the prod domain's Let's Encrypt paths
+# =============================================================================
+
+server {
+    server_name staging.mantrafootball.org;
+
+    root /var/www/fanta/current/public;
+
+    # --- Uploads -------------------------------------------------------------
+    # THE FIX for the 413 "Request Entity Too Large" on logo upload.
+    # nginx defaults to 1 MB; the app (Teams::LogoUploader::MAX_SIZE) allows
+    # 5 MB. Set a bit higher so files in the 5–10 MB range reach Rails and get
+    # a friendly "File is too large" message instead of a raw nginx 413.
+    client_max_body_size 10M;
+
+    passenger_enabled on;
+    passenger_app_env staging;          # production: use `production`
+#    passenger_ruby /usr/local/rvm/gems/ruby-3.2.2/wrappers/ruby;
+#    passenger_root /usr/local/rvm/gems/ruby-3.2.2/gems/passenger-6.0.18;
+
+    location ^~ /assets/ {
+      alias /var/www/fanta/current/public/assets/;
+      gzip_static on;
+      expires max;
+      add_header Cache-Control public;
+    }
+
+    listen 443 ssl; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/staging.mantrafootball.org/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/staging.mantrafootball.org/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+}
+
+server {
+    if ($host = staging.mantrafootball.org) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+    listen 80;
+    server_name staging.mantrafootball.org;
+    return 404; # managed by Certbot
+}

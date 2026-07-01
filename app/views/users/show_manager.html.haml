@@ -7,6 +7,8 @@
         = link_to :back do
           .back-button-arrow
             = image_tag('icons/arrow.svg')
+      - if current_user == user
+        = link_to t('users.manager.settings'), user_path(user), class: 'manager-settings-btn'
     .manager-block
       .manager-block-data
         .manager-user
@@ -25,11 +27,13 @@
                 .chip-item-data
                   .chip-item-logo= image_tag('icons/dashboard.svg')
                   .chip-item-name= t('users.manager.all_teams')
-              - user.teams.each do |team|
+              - user.teams.sort_by { |team| [team.created_at, team.id] }.each do |team|
                 .chip-item{id: "result-item-#{team.id}"}
                   .chip-item-data
                     .chip-item-logo= image_tag(team.logo_path)
                     .chip-item-name= team.human_name
+                    - if team.tournament
+                      .chip-item-tournament= image_tag(team.tournament.logo_path)
             .manager-teams-switcher
         - if user.results.any?
           .manager-results

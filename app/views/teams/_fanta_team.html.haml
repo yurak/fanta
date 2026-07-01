@@ -26,6 +26,7 @@
         .default-headers.fanta-team-lineups-grid
           .default-header-cell= t('teams.fanta.round').upcase
           .default-header-cell= t('teams.fanta.best_pick').upcase
+          .default-header-cell= t('teams.fanta.module').upcase
           .default-header-cell= t('teams.fanta.position').upcase
           .default-header-cell= t('teams.fanta.points').upcase
           .default-header-cell= t('teams.fanta.total_score').upcase
@@ -43,6 +44,7 @@
                       %object{data: lineup.best_player.kit_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
                         = image_tag('kit_small_default.png')
                   .fanta-lineup-player-name= lineup.best_player.name
+                .fanta-lineup-module= lineup.team_module&.name
                 .fanta-lineup-position= lineup.position
                 .fanta-lineup-points= lineup.points
                 .fanta-lineup-ts

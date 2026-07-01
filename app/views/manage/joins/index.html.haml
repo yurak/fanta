@@ -38,10 +38,7 @@
           - @joins.each do |join|
             %tr
               %td
-                - if join.user.user_profile&.bot_enabled
-                  %span.badge-tg-connected{ title: t('manage.joins.tg_connected') } 🟢
-                - else
-                  %span.badge-tg-disconnected{ title: t('manage.joins.tg_disconnected') } 🔴
+                = render 'manage/tg_status', user: join.user
                 = link_to join.user.name, manage_user_path(join.user)
               %td
                 = image_tag(join.team.logo_path, width: 24, height: 24)

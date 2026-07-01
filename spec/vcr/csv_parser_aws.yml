@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://mantrafootball.s3.eu-west-1.amazonaws.com/players_lists/test.csv
+    uri: https://test-bucket.example.com/players_lists/test.csv
     body:
       encoding: US-ASCII
       string: ''
@@ -47,7 +47,7 @@ http_interactions:
   recorded_at: Fri, 24 Sep 2021 19:43:43 GMT
 - request:
     method: get
-    uri: https://mantrafootball.s3.eu-west-1.amazonaws.com/players_lists/test.csv
+    uri: https://test-bucket.example.com/players_lists/test.csv
     body:
       encoding: US-ASCII
       string: ''

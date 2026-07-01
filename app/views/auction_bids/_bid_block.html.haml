@@ -18,7 +18,7 @@
               .tooltip-img= image_tag('icons/info.svg')
         .auction-bid-modules-block
 
-    .auction-bid-title= t('auction_round.bids')
+    .auction-bid-title= t('auction_round.offers')
     .player-bids-block
       = form_with model: (auction_round ? [auction_round, auction_bid] : auction_bid), id: 'auction_bid_form', local: true do |f|
         = f.hidden_field(:status, value: next_bid_status(auction_bid))
@@ -538,12 +538,12 @@
         const bidStatus = "#{auction_bid&.status}";
 
         if (countTotalBid() > teamRoundBudget) {
-          alert("#{t('auction_bid.overprice')}");
+          alert("#{t('auction_offer.overprice')}");
           return false;
         }
 
         if (countTotalBid() < 1 && bidStatus != "completed") {
-          alert("#{t('auction_bid.min_price')}");
+          alert("#{t('auction_offer.min_price')}");
           return false;
         }
 
@@ -561,7 +561,7 @@
           }
         })
         if (emptySlots.length > 0) {
-          alert("#{t('auction_bid.empty_slots')}"+emptySlots);
+          alert("#{t('auction_offer.empty_slots')}"+emptySlots);
           return false;
         }
 
@@ -574,23 +574,23 @@
             }
           });
 
-          alert("#{t('auction_bid.duplicates')}"+duplicateSlots);
+          alert("#{t('auction_offer.duplicates')}"+duplicateSlots);
           return false;
         }
 
         if (!primaryAuction && basicAuctionRound && (bidStatus == "initial" || bidStatus == "ongoing") && (countTotalBid() < teamBudget)) {
-          alert("#{t('auction_bid.all_budget', budget: auction_bid&.team&.budget)}");
+          alert("#{t('auction_offer.all_budget', budget: auction_bid&.team&.budget)}");
           return false;
         }
 
         const goaleeCount = parseInt("#{auction_bid&.team&.players&.by_position('Por')&.count}") + $('.player-position-Por.selected-player-Por').size();
         const gkMinLimit = parseInt("#{auction_round ? auction_round.gk_min_limit : Team::MIN_GK_INIT}");
         if (goaleeCount < gkMinLimit) {
-          alert("#{t('auction_bid.goalee_count', gk_count: auction_round ? auction_round.gk_min_limit : Team::MIN_GK_INIT)}");
+          alert("#{t('auction_offer.goalee_count', gk_count: auction_round ? auction_round.gk_min_limit : Team::MIN_GK_INIT)}");
           return false;
         }
         if (goaleeCount > 5) {
-          alert("#{t('auction_bid.goalee_max_count')}");
+          alert("#{t('auction_offer.goalee_max_count')}");
           return false;
         }
       });

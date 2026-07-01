@@ -49,7 +49,7 @@
                       .auction-team-gk-item
               .auction-team-data-item.auction-team-budget
                 .auction-team-data-icon 💸️
-                .auction-team-data-title= t('auction.live.max_bid')
+                .auction-team-data-title= t('auction.live.max_offer')
                 .auction-team-data-value
                   = league_team.max_rate
   .auction-active
@@ -107,11 +107,11 @@
                     .radio-team-logo= image_tag(team.logo_path)
                     .radio-team-name= team.human_name
           .transfer-form-bid
-            .transfer-form-bid-title= t('auction.live.bid')
+            .transfer-form-bid-title= t('auction.live.offer')
             .transfer-form-bid-input
               = f.number_field :price, value: 1, min: 1, step: 1, class: 'price-input form-control'
           .transfer-form-accept-btn
-            = f.submit t('auction.live.accept_bid'), class: 'btn', data: { confirm: t('header.are_you_sure') }
+            = f.submit t('auction.live.accept_offer'), class: 'btn', data: { confirm: t('header.are_you_sure') }
     - else
       .search-section
         .search-title= t('auction.live.player_search')

@@ -179,7 +179,7 @@ class Team < ApplicationRecord
   def league_lineups
     return Lineup.none unless league
 
-    @league_lineups ||= lineups.finished.by_league(league.id)
+    @league_lineups ||= lineups.finished.by_league(league.id).includes(:team_module)
   end
 
   def league_result(league_id: league&.id)

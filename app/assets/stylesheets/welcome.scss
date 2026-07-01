@@ -556,6 +556,8 @@
     }
 
     .rules-subtitle1 {
+      font-family: 'Nunito SemiBold';
+      font-size: 28px;
       color: #847577;
       margin-top: 32px;
     }
@@ -850,8 +852,8 @@
 .fees-content {
   .fees-text {
     display: grid;
-    grid-template-columns: 37fr 65fr;
-    column-gap: 96px;
+    grid-template-columns: 1fr 2fr;
+    column-gap: 48px;
 
     .fees-subtitle-p {
       font-size: 32px;

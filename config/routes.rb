@@ -53,6 +53,12 @@ Rails.application.routes.draw do
     resources :clubs, only: [:index, :show]
     resources :national_teams, only: [:index, :show]
     resources :teams, only: [:index]
+    resources :user_logos, only: [:index] do
+      member do
+        post :approve
+        post :reject
+      end
+    end
     resources :users, only: [:index, :show]
     resources :weekly_teams, only: [:index, :new, :create]
     resources :auctions, only: [:index]
@@ -105,6 +111,8 @@ Rails.application.routes.draw do
   end
 
   resources :slots, only: [:index]
+
+  resources :user_logos, only: %i[create destroy]
 
   resources :teams, only: [:show, :edit, :update, :create] do
     resources :lineups, only: [:show, :new, :create, :edit, :update] do

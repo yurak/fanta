@@ -583,7 +583,7 @@
 
       .fanta-team-lineups-grid {
         display: grid;
-        grid-template-columns: 4fr 10fr 6fr 6fr 7fr;
+        grid-template-columns: 3fr 10fr 5fr 5fr 5fr 7fr;
       }
 
       .fanta-team-lineups-items {
@@ -603,6 +603,10 @@
 
         .fanta-lineup-number {
           font-family: 'Nunito ExtraBold';
+          padding-left: 8px;
+        }
+
+        .fanta-lineup-module {
           padding-left: 8px;
         }
 
@@ -780,38 +784,178 @@
 }
 
 #logo-modal {
-  background: #FFFFFF;
-  box-shadow: 1px 2px 5px rgba(24, 23, 21, 0.2);
-  padding: 56px 40px;
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
-  overflow: auto;
-  max-height: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
 
-  .logo-modal-title {
-    font-family: 'Nunito ExtraBold';
-    text-align: center;
-    font-size: 32px;
-    line-height: 32px;
-    margin-bottom: 32px;
+  .logo-modal-content {
+    background: #FFFFFF;
+    border-radius: 12px;
+    padding: 24px;
+    width: 100%;
+    max-width: 560px;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+
+  .logo-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+
+    h4 {
+      font-family: 'Nunito Bold';
+      margin: 0;
+    }
+
+    .logo-modal-close {
+      background: none;
+      border: none;
+      font-size: 24px;
+      line-height: 1;
+      cursor: pointer;
+      color: #847577;
+      padding: 0;
+
+      &:hover { color: #333; }
+    }
+  }
+
+  .logo-modal-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+
+    .logo-modal-tab {
+      flex: 1;
+      background: #F4F4F4;
+      border: none;
+      border-radius: 8px;
+      padding: 10px;
+      font-family: 'Nunito Bold';
+      cursor: pointer;
+      color: #847577;
+
+      &.logo-modal-tab-active {
+        background: #261FFF;
+        color: #FFFFFF;
+      }
+    }
   }
 
   .logo-modal-icons {
-    margin-top: 32px;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 6px;
 
     .logo-modal-icon {
-      display: inline-block;
-      margin: 8px;
       cursor: pointer;
-    }
-
-    .logo-modal-icon:hover {
-      background: #E5E6E4;
       border-radius: 4px;
+      padding: 2px;
+
+      img {
+        width: 100%;
+        aspect-ratio: 1;
+        object-fit: contain;
+      }
     }
 
-    img {
-      width: 64px;
-      height: 64px;
+    .logo-selectable:hover { background: #F4F4F4; }
+
+    .logo-modal-icon-disabled {
+      cursor: default;
+      opacity: 0.55;
+    }
+  }
+
+  .logo-modal-upload {
+    margin-bottom: 20px;
+
+    .logo-modal-subtitle {
+      color: #6F7572;
+      font-size: 14px;
+      margin-bottom: 12px;
+    }
+
+    form {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+
+      .logo-modal-file {
+        flex: 1;
+        min-width: 0;
+        font-size: 14px;
+
+        &::file-selector-button {
+          font-family: 'Nunito Bold';
+          padding: 8px 16px;
+          margin-right: 12px;
+          border: 1px solid #261FFF;
+          border-radius: 8px;
+          background: #FFFFFF;
+          color: #261FFF;
+          cursor: pointer;
+        }
+      }
+
+      .login-btn {
+        margin-left: auto;
+        padding: 0 32px;
+      }
+    }
+  }
+
+  .logo-modal-section {
+    margin-top: 16px;
+
+    .logo-modal-section-title {
+      font-family: 'Nunito Bold';
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+
+    &.approved .logo-modal-section-title { color: #2E7D32; }
+    &.pending .logo-modal-section-title { color: #C99A00; }
+    &.rejected .logo-modal-section-title { color: #C62828; }
+
+    .logo-modal-empty {
+      color: #6F7572;
+      font-size: 14px;
+    }
+  }
+
+  .logo-modal-own-item {
+    position: relative;
+
+    .logo-modal-delete-form {
+      position: absolute;
+      top: -4px;
+      right: -4px;
+      margin: 0;
+    }
+
+    .logo-modal-delete {
+      background: #C62828;
+      color: #FFFFFF;
+      border: none;
+      border-radius: 50%;
+      width: 18px;
+      height: 18px;
+      font-size: 12px;
+      line-height: 1;
+      cursor: pointer;
+      padding: 0;
     }
   }
 }
@@ -966,6 +1110,84 @@
 }
 
 @media (orientation: portrait) {
+  #logo-modal {
+    padding: 32px;
+
+    .logo-modal-content {
+      max-width: 92vw;
+      max-height: 92vh;
+      padding: 40px;
+      border-radius: 24px;
+    }
+
+    .logo-modal-header {
+      margin-bottom: 32px;
+
+      h4 { font-size: 34px; }
+
+      .logo-modal-close { font-size: 48px; }
+    }
+
+    .logo-modal-tabs {
+      gap: 16px;
+      margin-bottom: 28px;
+
+      .logo-modal-tab {
+        padding: 20px;
+        font-size: 24px;
+        border-radius: 12px;
+      }
+    }
+
+    .logo-modal-icons {
+      gap: 12px;
+    }
+
+    .logo-modal-upload {
+      margin-bottom: 32px;
+
+      .logo-modal-subtitle {
+        font-size: 22px;
+        margin-bottom: 16px;
+      }
+
+      form {
+        gap: 20px;
+
+        .logo-modal-file {
+          font-size: 22px;
+
+          &::file-selector-button {
+            font-size: 22px;
+            padding: 14px 28px;
+            margin-right: 16px;
+            border-radius: 12px;
+          }
+        }
+
+        .login-btn {
+          font-size: 24px;
+          padding: 12px 40px;
+          border-radius: 12px;
+          border: 3px;
+        }
+      }
+    }
+
+    .logo-modal-section {
+      margin-top: 28px;
+
+      .logo-modal-section-title {
+        font-size: 24px;
+        margin-bottom: 12px;
+      }
+
+      .logo-modal-empty {
+        font-size: 20px;
+      }
+    }
+  }
+
   .page-info.team-show {
     padding: 0 0 288px;
 

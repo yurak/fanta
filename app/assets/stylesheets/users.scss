@@ -158,6 +158,17 @@
         height: 40px;
       }
 
+      .user-team-name {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+
+        img {
+          width: 20px;
+          height: 20px;
+        }
+      }
+
       .user-team-league {
         font-size: 10px;
         line-height: 14px;
@@ -324,6 +335,24 @@
   .user-manager-links {
     max-width: 1200px;
     margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .manager-settings-btn {
+      font-family: 'Nunito Bold';
+      font-size: 14px;
+      color: #261FFF;
+      text-decoration: none;
+      padding: 8px 16px;
+      border: 1px solid #261FFF;
+      border-radius: 8px;
+
+      &:hover {
+        background: #261FFF;
+        color: #FFFFFF;
+      }
+    }
   }
 
   .manager-block {
@@ -402,8 +431,9 @@
           .chip-item-data {
             padding: 2px 11px;
             display: grid;
-            grid-template-columns: 24px auto;
+            grid-template-columns: 24px auto 24px;
             column-gap: 4px;
+            align-items: center;
           }
 
           .chip-item-logo {
@@ -414,7 +444,15 @@
           }
 
           .chip-item-name {
-            padding: 1px 0 1px 4px;
+            padding: 0 4px;
+          }
+
+          .chip-item-tournament {
+            img {
+              display: block;
+              height: 20px;
+              width: 20px;
+            }
           }
         }
       }
@@ -495,6 +533,68 @@
     width: 800px;
     margin: 0 auto;
     padding: 0;
+
+    .logo-input {
+      margin-bottom: 64px;
+
+      .logo-input-label {
+        font-size: 24px;
+        line-height: 28px;
+        margin-bottom: 24px;
+      }
+
+      #logo-input-icon img {
+        width: 160px;
+        height: 160px;
+      }
+    }
+
+    .login-input {
+      height: 88px;
+      padding: 0 24px;
+      grid-template-columns: 36px auto;
+      column-gap: 24px;
+      border-radius: 8px;
+
+      .login-label {
+        font-size: 18px;
+        top: -13px;
+      }
+
+      .login-input-icon {
+        padding: 20px 0;
+
+        img {
+          width: 36px;
+          height: 36px;
+        }
+      }
+
+      .login-input-text {
+        padding: 11px 0;
+
+        input {
+          font-size: 28px;
+          line-height: 36px;
+        }
+      }
+    }
+
+    .login-input-second {
+      margin-top: 24px;
+    }
+
+    .login-password-note {
+      margin-left: 24px;
+      font-size: 18px;
+      line-height: 24px;
+    }
+
+    .login-btn-form .login-btn {
+      font-size: 28px;
+      height: 88px;
+      margin-top: 36px;
+    }
 
     .user-header {
       margin-bottom: 64px;
@@ -650,6 +750,14 @@
   .page-info.user-manager {
     padding: 0 24px 112px;
 
+    .user-manager-links .manager-settings-btn {
+      font-size: 28px;
+      line-height: 36px;
+      padding: 16px 32px;
+      border-radius: 12px;
+      border: 3px solid #261FFF;
+    }
+
     .manager-block {
       display: block;
       margin: auto;
@@ -713,8 +821,9 @@
             .chip-item-data {
               padding: 4px 16px;
               display: grid;
-              grid-template-columns: 48px auto;
+              grid-template-columns: 48px auto 48px;
               column-gap: 8px;
+              align-items: center;
             }
 
             .chip-item-logo {
@@ -726,6 +835,14 @@
 
             .chip-item-name {
               padding: 1px 0 1px 4px;
+            }
+
+            .chip-item-tournament {
+              img {
+                display: block;
+                height: 40px;
+                width: 40px;
+              }
             }
           }
         }
@@ -777,6 +894,37 @@
 
       .manager-stats {
         margin-top: 64px;
+
+        .stats-item-top {
+          .stats-item-top-title {
+            font-size: 36px;
+            line-height: 44px;
+          }
+
+          .stats-item-top-percent {
+            font-size: 64px;
+            line-height: 64px;
+          }
+
+          .stats-item-top-number {
+            font-size: 30px;
+            line-height: 36px;
+          }
+        }
+
+        .common-stats-item {
+          height: 120px;
+          line-height: 56px;
+          grid-template-columns: auto 180px;
+
+          .common-stats-item-title {
+            font-size: 32px;
+          }
+
+          .common-stats-item-value {
+            font-size: 44px;
+          }
+        }
       }
     }
   }

@@ -76,8 +76,11 @@ RSpec.describe 'Manage::Joins' do
   context 'with pending tab sub-tabs' do
     login_admin
 
+    # Deterministic, non-colliding marker names: Faker first names (e.g. "Leah")
+    # can be substrings of page chrome like "Leagues" and make include/exclude specs flaky.
+    let(:applicant) { create(:user, name: 'Zmarkjoinone') }
     let(:tournament2) { create(:tournament) }
-    let!(:join2) { create(:join, :pending, user: create(:user), tournament: tournament2, team: create(:team)) }
+    let!(:join2) { create(:join, :pending, user: create(:user, name: 'Zmarkjointwo'), tournament: tournament2, team: create(:team)) }
 
     before { get manage_joins_path(tab: 'pending') }
 

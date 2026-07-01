@@ -32,7 +32,7 @@ RSpec.describe 'FantaJoins' do
       end
 
       context 'with a logo_url' do
-        let(:logo_url) { 'https://mantrafootball.s3.eu-west-1.amazonaws.com/teams/default_icons/default5.png' }
+        let(:logo_url) { 'https://test-bucket.example.com/teams/default_icons/default5.png' }
         let(:params_with_logo) { valid_params.merge(team: valid_params[:team].merge(logo_url: logo_url)) }
 
         before { post fanta_joins_path, params: params_with_logo }

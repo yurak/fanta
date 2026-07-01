@@ -50,7 +50,7 @@ class UsersController < ApplicationController
 
   def show_manager
     @user = User.includes(
-      teams: {},
+      teams: [:tournament, { league: :tournament }],
       results: { league: %i[tournament division season], team: {} }
     ).find(params.expect(:id))
   end

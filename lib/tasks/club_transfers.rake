@@ -1,8 +1,5 @@
 # rubocop:disable Metrics/BlockLength
-require 'aws-sdk-s3'
-
 TM_CLUB_API_URL = 'https://tmapi-alpha.transfermarkt.technology/club'.freeze
-CLUB_TRANSFERS_S3_BUCKET = 'mantrafootball'.freeze
 CLUB_TRANSFERS_S3_PREFIX = 'club_transfers'.freeze
 CLUB_TRANSFERS_NON_CLUB_NAMES = %w[Retired].freeze
 CLUB_TRANSFERS_CSV_HEADERS = %w[
@@ -11,26 +8,17 @@ CLUB_TRANSFERS_CSV_HEADERS = %w[
 ].freeze
 
 module ClubTransfersTasks
-  def self.s3_client
-    aws = Rails.application.credentials.aws
-    Aws::S3::Client.new(
-      region: aws[:region] || 'eu-west-1',
-      access_key_id: aws[:access_key_id],
-      secret_access_key: aws[:secret_access_key]
-    )
-  end
-
   def self.upload_to_s3(local_path, s3_key)
     File.open(local_path, 'rb') do |file|
-      s3_client.put_object(bucket: CLUB_TRANSFERS_S3_BUCKET, key: s3_key, body: file)
+      S3Storage.client.put_object(bucket: S3Storage.bucket, key: s3_key, body: file)
     end
-    "https://#{CLUB_TRANSFERS_S3_BUCKET}.s3.eu-west-1.amazonaws.com/#{s3_key}"
+    "#{S3Storage.bucket_url}/#{s3_key}"
   end
 
   def self.download_from_s3(url)
     key = URI.parse(url).path.sub(%r{^/}, '')
     tmp = Tempfile.new(['club_transfers', '.csv'])
-    response = s3_client.get_object(bucket: CLUB_TRANSFERS_S3_BUCKET, key: key)
+    response = S3Storage.client.get_object(bucket: S3Storage.bucket, key: key)
     tmp.write(response.body.read)
     tmp.rewind
     tmp
@@ -198,7 +186,7 @@ namespace :club_transfers do
     puts "CSV uploaded to: #{url}"
   end
 
-  # rake 'club_transfers:create_records[https://mantrafootball.s3.eu-west-1.amazonaws.com/club_transfers/data_....csv]'
+  # rake 'club_transfers:create_records[https://url.amazonaws.com/club_transfers/data_transfers.csv]'
   desc 'Create ClubTransfer records from CSV on S3 (required: url)'
   task :create_records, %i[url] => :environment do |_t, args|
     url = args[:url]

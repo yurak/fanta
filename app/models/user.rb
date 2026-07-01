@@ -12,6 +12,7 @@ class User < ApplicationRecord
   has_many :transfers, through: :teams
   has_many :player_requests, dependent: :destroy
   has_many :user_titles, dependent: :destroy
+  has_many :user_logos, dependent: :destroy
   has_one :user_profile, dependent: :destroy
 
   accepts_nested_attributes_for :user_profile
