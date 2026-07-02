@@ -11,10 +11,10 @@ RSpec.describe PlayerSeasonStatSerializer do
 
   def expected_keys
     %i[
-      id assists base_score caught_penalty cleansheet club_id conceded_penalty failed_penalty goals
-      missed_goals missed_penalty own_goals penalties_won played_minutes played_matches player_id
-      position_price position_classic_arr position_ital_arr red_card saves scored_penalty season_id
-      total_score tournament_id yellow_card
+      id assists base_score caught_penalty cleansheet club_id club_logo_path conceded_penalty
+      failed_penalty goals missed_goals missed_penalty own_goals penalties_won played_minutes
+      played_matches player_id position_price position_classic_arr position_ital_arr red_card saves
+      scored_penalty season season_id sixties total_score tournament_id yellow_card
     ]
   end
 end

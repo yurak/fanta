@@ -45,7 +45,7 @@ module ClubTransfersTasks
 end
 
 namespace :club_transfers do
-  # rake 'club_transfers:fetch_data[1000,2000]'
+  # rake 'club_transfers:fetch_data[1,20000]'
   desc 'Fetch TM club data for players (optional from_id/to_id), upload CSV to S3'
   task :fetch_data, %i[from_id to_id] => :environment do |_t, args|
     from_id = args[:from_id]&.to_i
@@ -69,7 +69,7 @@ namespace :club_transfers do
         p "Checking player #{player.id} / #{player.name}"
 
         begin
-          data = Players::Transfermarkt::ApiParser.call(player.tm_id)
+          data = Players::Transfermarkt::ApiParser.call(player.tm_id, position_skip: true)
           next unless data
 
           tm_club_id = data[:tm_club_id]
@@ -93,11 +93,25 @@ namespace :club_transfers do
             next
           end
 
+          # Player already left to a club outside our DB and this transfer is already recorded
+          if new_club_id.nil? && old_club_name == 'Outside' &&
+              ClubTransfer.exists?(player: player, new_club_name: new_club_name)
+            puts "#{player.name}: transfer to #{new_club_name} already recorded, skipping"
+            next
+          end
+
+          # For players parked in "Outside" the real previous club lives in the last transfer
+          old_club_id = player.club_id
+          if old_club_name == 'Outside' && (last_transfer = ClubTransfer.where(player: player).recent.first)
+            old_club_id   = last_transfer.new_club_id
+            old_club_name = last_transfer.new_club_name
+          end
+
           csv << [
             player.id,
             player.name,
-            player.club_id,
-            player.club&.name,
+            old_club_id,
+            old_club_name,
             tm_club_id,
             new_club_id,
             new_club_name,
@@ -107,7 +121,7 @@ namespace :club_transfers do
           ]
 
           changed_count += 1
-          puts "#{player.name}: #{player.club&.name} → #{new_club_name} (joined: #{data[:club_joined_on]})"
+          puts "#{player.name}: #{old_club_name} → #{new_club_name} (joined: #{data[:club_joined_on]})"
         rescue StandardError => e
           puts "Error for player #{player.id} / #{player.tm_id}: #{e.message}"
         end

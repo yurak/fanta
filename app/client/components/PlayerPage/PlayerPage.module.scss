@@ -1,0 +1,680 @@
+$text: #181715;
+$grey: #847577;
+$blue: #261FFF;
+$lilac: #D8D6FF;
+$border: #E5E6E4;
+$row-border: #F4F4F4;
+$highlight: #FFEBC2;
+$gold: #9F6C05;
+$purple: #BA44F1;
+$blank: #CFD2CD;
+
+.content {
+  --nav-width: 72px;
+
+  width: 100%;
+  padding: 24px 12px 36px;
+
+  @media (min-width: 769px) {
+    padding-left: calc(var(--nav-width) + 24px);
+    padding-right: 24px;
+  }
+
+  @media (min-width: 992px) {
+    padding: 40px 50px 60px calc(var(--nav-width) + 50px);
+  }
+
+  a {
+    text-decoration: none;
+  }
+}
+
+.links {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  margin: 8px 0;
+}
+
+.backButton {
+  width: fit-content;
+  cursor: pointer;
+
+  img,
+  svg {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+.changeRequest {
+  justify-self: end;
+  font-family: "Nunito ExtraBold", sans-serif;
+
+  a {
+    color: $grey;
+    letter-spacing: 0.02em;
+    font-size: 12px;
+    line-height: 32px;
+  }
+
+  a:hover {
+    color: $blue;
+  }
+}
+
+/* BANNER */
+
+.banner {
+  margin-bottom: 16px;
+  width: 100%;
+  height: 328px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.bannerBase {
+  color: #FFFFFF;
+  padding: 0 0 40px 92px;
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: column;
+}
+
+.firstName {
+  font-family: "Nunito Regular", sans-serif;
+  font-size: 32px;
+  line-height: 32px;
+}
+
+.lastName {
+  font-family: "Nunito ExtraBold", sans-serif;
+  font-size: 48px;
+  line-height: 48px;
+  margin-bottom: 24px;
+}
+
+.baseRow {
+  display: flex;
+  align-items: center;
+}
+
+.bannerPositions span {
+  height: 22px;
+  padding: 3px 4px;
+  font-size: 14px;
+  line-height: 16px;
+}
+
+.score {
+  margin-left: 24px;
+  font-family: "Nunito ExtraBold", sans-serif;
+  line-height: 36px;
+  font-size: 24px;
+}
+
+.bannerAvatar {
+  position: relative;
+  width: 100%;
+}
+
+.bannerAvatar .avatar {
+  position: absolute;
+  right: 18%;
+  top: 32px;
+  width: 296px;
+  height: 296px;
+}
+
+.bannerAvatar object {
+  top: 0;
+}
+
+/* TABLES LAYOUT */
+
+.tables {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  column-gap: 16px;
+  align-items: start;
+}
+
+.tables > * {
+  min-width: 0;
+}
+
+.table {
+  border: 1px solid $border;
+  box-sizing: border-box;
+  border-radius: 4px;
+  padding: 24px;
+  margin-bottom: 16px;
+}
+
+.tableTitle {
+  font-family: "Nunito ExtraBold", sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  color: $text;
+}
+
+/* BIO */
+
+.bioRow {
+  padding: 16px 0;
+  border-bottom: 1px solid $row-border;
+  display: grid;
+  grid-template-columns: 110px auto;
+  column-gap: 32px;
+}
+
+.bioRowLast {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.bioKey {
+  font-family: "Nunito Regular", sans-serif;
+  font-size: 16px;
+  line-height: 32px;
+  color: $text;
+}
+
+.bioValue {
+  font-family: "Nunito ExtraBold", sans-serif;
+  font-size: 16px;
+  line-height: 32px;
+  color: $text;
+  display: flex;
+  align-items: center;
+
+  img,
+  object {
+    width: 32px;
+    height: 32px;
+  }
+}
+
+.flag {
+  height: 24px;
+  width: 32px;
+  margin-left: 8px;
+  vertical-align: middle;
+}
+
+.club {
+  display: grid;
+  grid-template-columns: auto 32px;
+  column-gap: 16px;
+  max-width: fit-content;
+  align-items: center;
+}
+
+.clubName {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tmLink {
+  color: $blue;
+  border-bottom: 1px solid $lilac;
+  width: fit-content;
+  cursor: pointer;
+}
+
+.birth {
+  font-family: "Nunito Regular", sans-serif;
+  font-size: 12px;
+  line-height: 12px;
+  letter-spacing: 0.02em;
+  color: $grey;
+}
+
+.teamsBtn {
+  cursor: pointer;
+}
+
+/* TEAMS MODAL */
+
+.modalOverlay {
+  position: fixed;
+  z-index: 250;
+  inset: 0;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modalContent {
+  font-family: "Nunito ExtraBold", sans-serif;
+  background-color: #FFFFFF;
+  margin: 90px auto 120px;
+  border: 1px solid $border;
+  box-shadow: 6px 6px 8px rgba(24, 23, 21, 0.2), 1px 2px 5px rgba(24, 23, 21, 0.2);
+  border-radius: 8px;
+  width: 752px;
+  max-width: 96%;
+  padding: 40px;
+}
+
+.modalTitle {
+  font-size: 24px;
+  line-height: 32px;
+  text-align: center;
+}
+
+.teamsSummary {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 16px;
+  width: 304px;
+  margin: 24px auto 32px;
+}
+
+.summaryBlock {
+  padding: 16px;
+  height: 88px;
+  background: $highlight;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.summaryTitle {
+  font-size: 14px;
+  line-height: 16px;
+  color: $gold;
+  margin-bottom: 8px;
+}
+
+.summaryValue {
+  font-size: 32px;
+  line-height: 32px;
+  color: $purple;
+}
+
+.teamsGrid {
+  display: grid;
+  grid-template-columns: 26fr 17fr 15fr 10fr;
+}
+
+.teamsHeader {
+  padding-bottom: 8px;
+  margin-bottom: 8px;
+  font-weight: 500;
+  font-size: 10px;
+  line-height: 14px;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: $grey;
+  border-bottom: 1px solid $border;
+}
+
+.teamsRow {
+  font-size: 16px;
+  height: 56px;
+  line-height: 56px;
+  border-bottom: 1px solid $border;
+}
+
+.teamLink {
+  display: grid;
+  grid-template-columns: 56px auto;
+  column-gap: 8px;
+  align-items: center;
+  color: $text;
+
+  img {
+    width: 32px;
+    height: 32px;
+    margin: auto;
+  }
+}
+
+.teamName {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.teamCell {
+  padding: 0 16px;
+}
+
+.leagueTag {
+  padding: 4px 8px;
+  font-size: 12px;
+  line-height: 16px;
+  background: $lilac;
+  border-radius: 16px;
+  margin: 16px 0;
+  color: #040052;
+  width: fit-content;
+}
+
+.auctionLink {
+  font-family: "Nunito Bold", sans-serif;
+  text-decoration: underline;
+  color: $blue;
+}
+
+.priceCell {
+  text-align: right;
+}
+
+.emptyRow {
+  color: $grey;
+  padding: 16px 0;
+}
+
+/* CLUB TRANSFERS */
+
+.transfersGrid {
+  display: grid;
+  grid-template-columns: 120px minmax(150px, 1fr) 24px minmax(150px, 1fr) 140px 80px;
+  column-gap: 12px;
+  align-items: center;
+}
+
+.transfersRow {
+  padding: 12px 0;
+  font-size: 16px;
+  line-height: 24px;
+  color: $text;
+  border-bottom: 1px solid $row-border;
+}
+
+.transferCell {
+  padding: 0 8px;
+}
+
+.transferClub {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  padding: 0 8px;
+
+  img,
+  object {
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+  }
+
+  span {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+.transferArrow {
+  color: $grey;
+  text-align: center;
+}
+
+.loanTag {
+  color: $purple;
+  font-family: "Nunito Bold", sans-serif;
+}
+
+/* PERFORMANCE + SEASON STATS TABLES */
+
+.perfTable {
+  text-align: left;
+}
+
+.perfTableWrap {
+  overflow-x: auto;
+}
+
+.perfInner {
+  min-width: 760px;
+}
+
+.seasonInner {
+  min-width: 940px;
+}
+
+.transfersScroll {
+  overflow-x: auto;
+}
+
+.transfersInner {
+  min-width: 720px;
+}
+
+.perfHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.seasonSelect {
+  width: 160px;
+  font-size: 13px;
+}
+
+.perfHeaders {
+  align-items: center;
+  padding: 8px 0;
+  font-family: "Nunito ExtraBold", sans-serif;
+  font-size: 12px;
+  line-height: 16px;
+  color: $grey;
+}
+
+.headerCell {
+  height: 16px;
+  padding: 0 8px;
+  font-size: 12px;
+  line-height: 16px;
+  text-align: left;
+  border-right: 1px solid $border;
+}
+
+.headerCell:last-child {
+  border-right: none;
+}
+
+.perfRow {
+  padding: 8px 0;
+  line-height: 32px;
+  display: grid;
+  grid-template-columns: 4fr 6fr 6fr 6fr 6fr 5fr 5fr 5fr 5fr 5fr 5fr 5fr 5fr 5fr 4fr;
+}
+
+.dataRow {
+  border-bottom: 1px solid $row-border;
+}
+
+.cell {
+  text-align: center;
+}
+
+.cellRight {
+  text-align: right;
+  padding-right: 8px;
+}
+
+.bonusItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  white-space: nowrap;
+
+  img,
+  svg {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+  }
+}
+
+.blank {
+  color: $blank;
+}
+
+.ts {
+  font-family: "Nunito ExtraBold", sans-serif;
+}
+
+.roundClub {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  img,
+  object,
+  svg {
+    display: block;
+    width: 24px;
+    height: 24px;
+  }
+}
+
+.roundFlag {
+  width: 24px;
+  height: 18px;
+}
+
+.squadOnlyRow {
+  opacity: 0.45;
+}
+
+.totalRow {
+  font-family: "Nunito ExtraBold", sans-serif;
+  background-color: $highlight;
+  padding: 8px 0;
+  font-size: 16px;
+  line-height: 24px;
+  color: $text;
+  text-align: center;
+
+  img,
+  svg {
+    width: 18px;
+    height: 18px;
+    vertical-align: middle;
+  }
+}
+
+/* SEASON STATS */
+
+.seasonStatsRow {
+  grid-template-columns: 96px 48px 96px 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 56px 1fr 64px 64px;
+  column-gap: 8px;
+  padding: 12px 0;
+  line-height: 32px;
+  text-align: center;
+  align-items: center;
+}
+
+.seasonStatsRow .headerCell {
+  padding: 0 4px;
+  text-align: center;
+}
+
+.statsClub {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  img,
+  object {
+    display: block;
+    width: 32px;
+    height: 32px;
+  }
+}
+
+.statsPositions {
+  display: flex;
+  justify-content: center;
+}
+
+/* CHART */
+
+.chart {
+  margin: 32px 0 8px;
+}
+
+.chartView {
+  margin-top: 24px;
+}
+
+.chartArea {
+  height: 280px;
+
+  @media (max-width: 768px) {
+    height: 220px;
+  }
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 992px) {
+  .tables {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .banner {
+    height: 200px;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .bannerBase {
+    padding: 0 0 20px 20px;
+  }
+
+  .firstName {
+    font-size: 22px;
+    line-height: 24px;
+  }
+
+  .lastName {
+    font-size: 30px;
+    line-height: 32px;
+    margin-bottom: 16px;
+  }
+
+  .score {
+    margin-left: 16px;
+    font-size: 20px;
+  }
+
+  .bannerAvatar .avatar {
+    right: 0;
+    top: auto;
+    bottom: 0;
+    width: 40vw;
+    max-width: 160px;
+    height: 40vw;
+    max-height: 160px;
+  }
+
+  .bioRow {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .table {
+    padding: 16px;
+  }
+
+  .perfHead {
+    flex-wrap: wrap;
+  }
+
+  .modalContent {
+    padding: 24px 16px;
+  }
+
+  .teamsSummary {
+    width: 100%;
+  }
+}

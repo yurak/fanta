@@ -5,6 +5,7 @@ class PlayerSeasonStatSerializer < ActiveModel::Serializer
   attributes :caught_penalty
   attributes :cleansheet
   attributes :club_id
+  attributes :club_logo_path
   attributes :conceded_penalty
   attributes :failed_penalty
   attributes :goals
@@ -21,7 +22,9 @@ class PlayerSeasonStatSerializer < ActiveModel::Serializer
   attributes :red_card
   attributes :saves
   attributes :scored_penalty
+  attributes :season
   attributes :season_id
+  attributes :sixties
   attributes :total_score
   attributes :tournament_id
   attributes :yellow_card
@@ -30,8 +33,16 @@ class PlayerSeasonStatSerializer < ActiveModel::Serializer
     object.score
   end
 
+  def club_logo_path
+    object.club&.logo_path
+  end
+
   def position_classic_arr
     object.position_ital_arr.map { |pos| Slot::POS_MAPPING[pos] }
+  end
+
+  def season
+    SeasonSerializer.new(object.season) if object.season
   end
 
   def total_score

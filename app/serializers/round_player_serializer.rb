@@ -5,6 +5,7 @@ class RoundPlayerSerializer < ActiveModel::Serializer
   attributes :caught_penalty
   attributes :cleansheet
   attributes :club_id
+  attributes :club_logo_path
   attributes :conceded_penalty
   attributes :failed_penalty
   attributes :goals
@@ -26,8 +27,12 @@ class RoundPlayerSerializer < ActiveModel::Serializer
     object.score
   end
 
+  def club_logo_path
+    object.club&.logo_path
+  end
+
   def total_score
-    object.final_score
+    object.result_score
   end
 
   def tournament_round_number

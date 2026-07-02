@@ -213,7 +213,12 @@ module Players
         Rails.root.join('tmp', 'transfermarkt_cache', "player_api_#{tm_id}.json")
       end
 
+      def cache_disabled?
+        ENV['TM_SKIP_CACHE'].present?
+      end
+
       def read_cache
+        return nil if cache_disabled?
         return nil unless cache_path.exist?
         return nil if (Time.zone.now.to_i - cache_path.mtime.to_i) > CACHE_TTL
 
@@ -223,6 +228,8 @@ module Players
       end
 
       def write_cache(data)
+        return if cache_disabled?
+
         FileUtils.mkdir_p(cache_path.dirname)
         cache_path.write(JSON.generate(data))
       end

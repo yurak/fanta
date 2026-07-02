@@ -398,9 +398,10 @@ RSpec.describe 'Players' do # rubocop:disable RSpec/MultipleMemoizedHelpers
                }
 
         before do # rubocop:disable RSpec/ScatteredSetup
-          create(:player_season_stat, player: player, tournament: player.club.tournament)
-          create(:season)
-          create(:round_player, player: player, tournament_round: create(:tournament_round, tournament: player.club.tournament), score: 6)
+          season = create(:season)
+          create(:player_season_stat, player: player, tournament: player.club.tournament, season: season)
+          tournament_round = create(:tournament_round, tournament: player.club.tournament, season: season)
+          create(:round_player, player: player, tournament_round: tournament_round, score: 6, in_squad: true)
         end
 
         run_test! do |response|

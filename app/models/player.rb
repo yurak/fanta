@@ -214,6 +214,24 @@ class Player < ApplicationRecord
     @national_in_squad ||= round_players.in_squad.by_tournament_round(national_team_rounds).order(:tournament_round_id)
   end
 
+  # In-squad round players for an arbitrary season (memoized per season id)
+  def club_in_squad_for(season)
+    (@club_in_squad_for ||= {})[season.id] ||=
+      round_players.in_squad.by_tournament_round(club_season_rounds(season))
+  end
+
+  def ec_in_squad_for(season)
+    (@ec_in_squad_for ||= {})[season.id] ||=
+      round_players.in_squad.by_tournament_round(ec_season_rounds(season)).order(:tournament_round_id)
+  end
+
+  def national_in_squad_for(season)
+    return RoundPlayer.none unless national_team&.tournament
+
+    (@national_in_squad_for ||= {})[season.id] ||=
+      round_players.in_squad.by_tournament_round(national_season_rounds(season)).order(:tournament_round_id)
+  end
+
   def season_scores_count(matches = season_matches_with_scores)
     matches.size
   end
@@ -252,11 +270,11 @@ class Player < ApplicationRecord
     matches.where('played_minutes >= ?', MatchPlayer::MIN_PLAYED_MINUTES_FOR_CS).count
   end
 
-  private
-
   def current_season
     @current_season ||= Season.last
   end
+
+  private
 
   # all TournamentRound in current tournament for this season
   def club_tournament_season_rounds
@@ -283,5 +301,17 @@ class Player < ApplicationRecord
     return [] unless national_team&.tournament
 
     @national_team_rounds ||= national_team.tournament.tournament_rounds.by_season(current_season.id)
+  end
+
+  def club_season_rounds(season)
+    TournamentRound.by_tournament(Tournament.with_clubs).by_season(season.id).order(deadline: :desc)
+  end
+
+  def ec_season_rounds(season)
+    TournamentRound.by_tournament(Tournament.with_ec_clubs).by_season(season.id)
+  end
+
+  def national_season_rounds(season)
+    national_team.tournament.tournament_rounds.by_season(season.id)
   end
 end

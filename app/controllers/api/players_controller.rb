@@ -16,6 +16,7 @@ module Api
 
     def show
       if player
+        preload_show_associations
         render json: { data: PlayerSerializer.new(player) }
       else
         not_found
@@ -24,7 +25,8 @@ module Api
 
     def stats
       if player
-        render json: { data: PlayerStatsSerializer.new(player) }
+        preload_stats_associations
+        render json: { data: PlayerStatsSerializer.new(player, season: stats_season) }
       else
         not_found
       end
@@ -32,10 +34,52 @@ module Api
 
     private
 
+    def stats_season
+      return @stats_season if defined?(@stats_season)
+
+      @stats_season = (params[:season_id] && Season.find_by(id: params[:season_id])) || player.current_season
+    end
+
     def player
       return @player if defined?(@player)
 
       @player = Player.find_by(id: params[:id])
+    end
+
+    def preload_show_associations
+      ActiveRecord::Associations::Preloader.new(
+        records: [player],
+        associations: [
+          { club: :tournament },
+          { club_transfers: %i[old_club new_club] },
+          { teams: { league: :division } },
+          { transfers: :auction },
+          { player_positions: :position },
+          :player_season_stats,
+          :national_team
+        ]
+      ).call
+
+      # Banner score (season_score) iterates these round players and reads tournament_round
+      ActiveRecord::Associations::Preloader.new(
+        records: player.season_club_matches_w_scores.to_a, associations: :tournament_round
+      ).call
+    end
+
+    def preload_stats_associations
+      [
+        player.club_in_squad_for(stats_season),
+        player.ec_in_squad_for(stats_season),
+        player.national_in_squad_for(stats_season)
+      ].each do |round_players|
+        ActiveRecord::Associations::Preloader.new(
+          records: round_players.to_a, associations: %i[club tournament_round]
+        ).call
+      end
+
+      ActiveRecord::Associations::Preloader.new(
+        records: [player], associations: { player_season_stats: %i[season club] }
+      ).call
     end
 
     def query_params
