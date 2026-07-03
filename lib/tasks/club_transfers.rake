@@ -2,6 +2,7 @@
 TM_CLUB_API_URL = 'https://tmapi-alpha.transfermarkt.technology/club'.freeze
 CLUB_TRANSFERS_S3_PREFIX = 'club_transfers'.freeze
 CLUB_TRANSFERS_NON_CLUB_NAMES = %w[Retired].freeze
+CLUB_TRANSFERS_PLACEHOLDER_NAMES = ['Outside', 'Free agent', 'Retired'].freeze
 CLUB_TRANSFERS_CSV_HEADERS = %w[
   player_id player_name current_club_id current_club_name
   tm_club_id new_club_id new_club_name club_joined_on contract_until loan
@@ -41,6 +42,19 @@ module ClubTransfersTasks
     JSON.parse(response.body).dig('data', 'name')
   rescue StandardError
     "TM Club ##{tm_club_id}"
+  end
+
+  # Mirrors Players::ClubChanger#same_tournament_move? — a same-tournament move keeps the teams.
+  def self.same_tournament_move?(player, new_club)
+    old_club = player.club
+    return false unless old_club && new_club
+
+    new_club.active? && old_club.tournament_id.present? && old_club.tournament_id == new_club.tournament_id
+  end
+
+  # How many teams the player will be removed from when this change is applied.
+  def self.teams_to_remove_count(player, new_club)
+    same_tournament_move?(player, new_club) ? 0 : player.teams.count
   end
 end
 
@@ -93,18 +107,30 @@ namespace :club_transfers do
             next
           end
 
-          # Player already left to a club outside our DB and this transfer is already recorded
-          if new_club_id.nil? && old_club_name == 'Outside' &&
-              ClubTransfer.exists?(player: player, new_club_name: new_club_name)
+          # TM club matches the player's last recorded transfer → already recorded, no real change
+          last_transfer = ClubTransfer.where(player: player).recent.first
+          if last_transfer &&
+              ((new_club_id && last_transfer.new_club_id == new_club_id) ||
+               (new_club_id.nil? && last_transfer.new_club_name == new_club_name))
             puts "#{player.name}: transfer to #{new_club_name} already recorded, skipping"
             next
           end
 
-          # For players parked in "Outside" the real previous club lives in the last transfer
+          # Previous club: for players parked in a placeholder club (Outside/Free agent/Retired)
+          # take the last transfer to a REAL club — placeholders are not real clubs.
           old_club_id = player.club_id
-          if old_club_name == 'Outside' && (last_transfer = ClubTransfer.where(player: player).recent.first)
-            old_club_id   = last_transfer.new_club_id
-            old_club_name = last_transfer.new_club_name
+          if CLUB_TRANSFERS_PLACEHOLDER_NAMES.include?(old_club_name)
+            last_real = ClubTransfer.where(player: player).recent.find do |t|
+              t.new_club_name.present? && CLUB_TRANSFERS_PLACEHOLDER_NAMES.exclude?(t.new_club_name)
+            end
+            old_club_id   = last_real&.new_club_id
+            old_club_name = last_real&.new_club_name
+          end
+
+          # Effective old club == new club → not a real change (self-transfer safety net)
+          if (new_club_id && old_club_id == new_club_id) || (new_club_id.nil? && old_club_name == new_club_name)
+            puts "#{player.name}: no change (#{new_club_name}), skipping"
+            next
           end
 
           csv << [
@@ -255,6 +281,139 @@ namespace :club_transfers do
     end
 
     puts "Done. Created: #{created_count}, skipped: #{skipped_count}"
+  end
+
+  # rake 'club_transfers:create_and_apply[https://url.amazonaws.com/club_transfers/data.csv]'
+  # rake 'club_transfers:create_and_apply[https://url.amazonaws.com/club_transfers/data.csv,dry]' # dry run
+  desc 'Import CSV like create_records, but for in-DB clubs apply the real change via Players::ClubChanger (pass dry as 2nd arg to preview)'
+  task :create_and_apply, %i[url dry] => :environment do |_t, args|
+    url = args[:url]
+    abort 'Provide S3 URL as argument. Example: rake club_transfers:create_and_apply[https://...]' if url.blank?
+
+    dry = args[:dry].present?
+    puts '=== DRY RUN — no changes will be made ===' if dry
+
+    changed_count = 0
+    created_count = 0
+    skipped_count = 0
+    error_count   = 0
+    outside_id    = Club.find_by(name: 'Outside')&.id
+
+    tmp = ClubTransfersTasks.download_from_s3(url)
+
+    begin
+      CSV.foreach(tmp.path, headers: true) do |row|
+        player = Player.find_by(id: row['player_id'])
+        unless player
+          puts "Player #{row['player_id']} not found, skipping"
+          skipped_count += 1
+          next
+        end
+
+        new_club_id = row['new_club_id'].presence&.to_i
+        start_date  = row['club_joined_on'].presence || Time.zone.today.to_s
+
+        exists_scope = { player: player, start_date: start_date }
+        exists_scope = if new_club_id
+                         exists_scope.merge(new_club_id: new_club_id)
+                       else
+                         exists_scope.merge(new_club_name: row['new_club_name'])
+                       end
+        if ClubTransfer.exists?(exists_scope)
+          skipped_count += 1
+          next
+        end
+
+        if new_club_id && new_club_id == player.club_id
+          skipped_count += 1
+          next
+        end
+
+        if new_club_id && Club.exists?(new_club_id)
+          # Club is in our DB (real / Outside / Free agent / Retired) → real club change
+          # (records transfer, updates player's club, sells from teams when leaving the tournament)
+          new_club = Club.find(new_club_id)
+          removed  = ClubTransfersTasks.teams_to_remove_count(player, new_club)
+
+          if dry
+            changed_count += 1
+            puts "[DRY] #{row['player_name']}: #{player.club&.name} → #{row['new_club_name']} | teams removed: #{removed}"
+          else
+            result = Players::ClubChanger.call(
+              player: player,
+              new_club_id: new_club_id,
+              start_date: start_date,
+              contract_expires_on: row['contract_until'].presence,
+              loan: row['loan'] == 'true'
+            )
+
+            if result
+              changed_count += 1
+              puts "Changed: #{row['player_name']} → #{row['new_club_name']} (#{start_date})"
+            else
+              error_count += 1
+              puts "ClubChanger failed: #{row['player_name']} → #{row['new_club_name']}"
+            end
+          end
+        elsif player.club&.name == 'Outside'
+          # Already parked in Outside, moving to another non-DB club → just record it (no club change)
+          if dry
+            created_count += 1
+            next
+          end
+
+          begin
+            ClubTransfer.create!(
+              player: player,
+              old_club_id: row['current_club_id'].presence&.to_i,
+              old_club_name: row['current_club_name'],
+              new_club_id: nil,
+              new_club_name: row['new_club_name'],
+              start_date: start_date,
+              contract_expires_on: row['contract_until'].presence,
+              loan: row['loan'] == 'true'
+            )
+            created_count += 1
+            puts "Created: #{row['player_name']} → #{row['new_club_name']} (#{start_date})"
+          rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique => e
+            error_count += 1
+            puts "Error for player #{row['player_name']}: #{e.message}"
+          end
+        else
+          # Real club → club outside our DB: park in Outside, keep the real TM name in the record
+          outside  = Club.find_by(id: outside_id)
+          removed  = ClubTransfersTasks.teams_to_remove_count(player, outside)
+
+          if dry
+            changed_count += 1
+            puts "[DRY] #{row['player_name']}: #{player.club&.name} → #{row['new_club_name']} (Outside) | teams removed: #{removed}"
+          else
+            result = Players::ClubChanger.call(
+              player: player,
+              new_club_id: outside_id,
+              new_club_name: row['new_club_name'],
+              start_date: start_date,
+              contract_expires_on: row['contract_until'].presence,
+              loan: row['loan'] == 'true'
+            )
+
+            if result
+              changed_count += 1
+              puts "Left to Outside: #{row['player_name']} → #{row['new_club_name']} (#{start_date})"
+            else
+              error_count += 1
+              puts "Move to Outside failed: #{row['player_name']} → #{row['new_club_name']}"
+            end
+          end
+        end
+      end
+    ensure
+      tmp.close
+      tmp.unlink
+    end
+
+    prefix = dry ? '[DRY] Would change' : 'Done. Changed'
+    puts "#{prefix}: #{changed_count}, created: #{created_count}, skipped: #{skipped_count}, errors: #{error_count}"
   end
 end
 # rubocop:enable Metrics/BlockLength

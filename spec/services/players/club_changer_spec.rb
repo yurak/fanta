@@ -184,5 +184,23 @@ RSpec.describe Players::ClubChanger do
         expect(Transfers::Seller).to have_received(:call).with(player, team, :left)
       end
     end
+
+    context 'when a new_club_name override is provided' do
+      let(:old_club) { create(:club, tournament: tournament) }
+      let(:new_club) { create(:club, name: 'Outside', tournament: nil) }
+
+      it 'records the transfer with the overridden name instead of the club name' do # rubocop:disable RSpec/ExampleLength
+        described_class.call(
+          player: player,
+          new_club_id: new_club.id,
+          start_date: start_date,
+          contract_expires_on: contract_expires_on,
+          loan: loan,
+          new_club_name: 'Al-Ittifaq FC'
+        )
+
+        expect(ClubTransfer.last.new_club_name).to eq('Al-Ittifaq FC')
+      end
+    end
   end
 end

@@ -1,11 +1,12 @@
 module Players
   class ClubChanger < ApplicationService
-    def initialize(player:, new_club_id:, start_date:, contract_expires_on:, loan:)
+    def initialize(player:, new_club_id:, start_date:, contract_expires_on:, loan:, new_club_name: nil) # rubocop:disable Metrics/ParameterLists
       @player = player
       @new_club_id = new_club_id.to_i
       @start_date = start_date
       @contract_expires_on = contract_expires_on.presence
       @loan = loan
+      @new_club_name = new_club_name
     end
 
     def call
@@ -28,7 +29,7 @@ module Players
         old_club: @player.club,
         old_club_name: @player.club&.name,
         new_club: new_club,
-        new_club_name: new_club.name,
+        new_club_name: @new_club_name || new_club.name,
         start_date: @start_date,
         loan: @loan,
         contract_expires_on: @contract_expires_on
