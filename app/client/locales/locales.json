@@ -852,6 +852,24 @@
         "titles": "Titles",
         "user": "Manager"
       },
+      "club_transfer_requests": {
+        "col_actions": "Actions",
+        "col_links": "Links",
+        "col_teams": "Teams",
+        "col_tm_club_id": "TM club",
+        "confirm": "Confirm",
+        "confirm_prompt": "Apply this club change?",
+        "confirmed": "Club transfer applied",
+        "empty": "No pending transfer requests",
+        "failed": "Failed to apply the club change",
+        "reject": "Reject",
+        "reject_prompt": "Reject this transfer request?",
+        "rejected": "Transfer request rejected",
+        "tab_confirmed": "Confirmed",
+        "tab_pending": "Pending",
+        "tab_rejected": "Rejected",
+        "title": "Transfer Requests"
+      },
       "club_transfers": {
         "created": "Club updated successfully",
         "empty": "No club transfers found",
@@ -1010,6 +1028,7 @@
       "nav": {
         "auctions": "Auctions",
         "champions": "Champions",
+        "club_transfer_requests": "Transfer Req.",
         "club_transfers": "Club Transfers",
         "clubs": "Clubs",
         "joins": "Join Apps",
@@ -2920,6 +2939,24 @@
         "titles": "Титули",
         "user": "Менеджер"
       },
+      "club_transfer_requests": {
+        "col_actions": "Дії",
+        "col_links": "Лінки",
+        "col_teams": "Команди",
+        "col_tm_club_id": "TM клуб",
+        "confirm": "Підтвердити",
+        "confirm_prompt": "Застосувати зміну клубу?",
+        "confirmed": "Перехід застосовано",
+        "empty": "Немає запитів переходів на розгляді",
+        "failed": "Не вдалося застосувати зміну клубу",
+        "reject": "Скасувати",
+        "reject_prompt": "Скасувати цей запит переходу?",
+        "rejected": "Запит переходу скасовано",
+        "tab_confirmed": "Підтверджені",
+        "tab_pending": "На розгляді",
+        "tab_rejected": "Відхилені",
+        "title": "Запити переходів"
+      },
       "club_transfers": {
         "created": "Клуб успішно оновлено",
         "empty": "Переходів не знайдено",
@@ -3078,6 +3115,7 @@
       "nav": {
         "auctions": "Аукціони",
         "champions": "Чемпіони",
+        "club_transfer_requests": "Запити переходів",
         "club_transfers": "Переходи",
         "clubs": "Клуби",
         "joins": "Заявки",

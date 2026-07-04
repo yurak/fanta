@@ -51,6 +51,12 @@ Rails.application.routes.draw do
       resources :club_transfers, only: [:create]
     end
     resources :club_transfers, only: [:index]
+    resources :club_transfer_requests, only: [:index] do
+      member do
+        post :confirm
+        post :reject
+      end
+    end
     resources :clubs, only: [:index, :show]
     resources :national_teams, only: [:index, :show]
     resources :teams, only: [:index]

@@ -415,5 +415,61 @@ namespace :club_transfers do
     prefix = dry ? '[DRY] Would change' : 'Done. Changed'
     puts "#{prefix}: #{changed_count}, created: #{created_count}, skipped: #{skipped_count}, errors: #{error_count}"
   end
+
+  # rake 'club_transfers:create_requests[https://url.amazonaws.com/club_transfers/data.csv]'
+  desc 'Create pending ClubTransferRequest records from CSV for admin review (no changes applied)'
+  task :create_requests, %i[url] => :environment do |_t, args|
+    url = args[:url]
+    abort 'Provide S3 URL as argument. Example: rake club_transfers:create_requests[https://...]' if url.blank?
+
+    created_count = 0
+    skipped_count = 0
+
+    tmp = ClubTransfersTasks.download_from_s3(url)
+
+    begin
+      CSV.foreach(tmp.path, headers: true) do |row|
+        player = Player.find_by(id: row['player_id'])
+        unless player
+          puts "Player #{row['player_id']} not found, skipping"
+          skipped_count += 1
+          next
+        end
+
+        new_club_id = row['new_club_id'].presence&.to_i
+        start_date  = row['club_joined_on'].presence || Time.zone.today.to_s
+
+        club_scope = new_club_id ? { new_club_id: new_club_id } : { new_club_name: row['new_club_name'] }
+        already_applied = ClubTransfer.exists?({ player: player, start_date: start_date }.merge(club_scope))
+        already_pending = ClubTransferRequest.pending.exists?({ player: player, start_date: start_date }.merge(club_scope))
+        if already_applied || already_pending
+          skipped_count += 1
+          next
+        end
+
+        ClubTransferRequest.create!(
+          player: player,
+          old_club_id: row['current_club_id'].presence&.to_i,
+          old_club_name: row['current_club_name'],
+          new_club_id: new_club_id,
+          new_club_name: row['new_club_name'],
+          tm_club_id: row['tm_club_id'],
+          start_date: start_date,
+          contract_expires_on: row['contract_until'].presence,
+          loan: row['loan'] == 'true'
+        )
+        created_count += 1
+        puts "Request: #{row['player_name']} → #{row['new_club_name']} (#{start_date})"
+      rescue ActiveRecord::RecordInvalid => e
+        skipped_count += 1
+        puts "Error for player #{row['player_name']}: #{e.message}"
+      end
+    ensure
+      tmp.close
+      tmp.unlink
+    end
+
+    puts "Done. Created requests: #{created_count}, skipped: #{skipped_count}"
+  end
 end
 # rubocop:enable Metrics/BlockLength

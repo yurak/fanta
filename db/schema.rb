@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_06_23_103137) do
+ActiveRecord::Schema[8.0].define(version: 2026_07_04_205245) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -90,6 +90,23 @@ ActiveRecord::Schema[8.0].define(version: 2026_06_23_103137) do
     t.index ["created_at"], name: "index_audits_on_created_at"
     t.index ["request_uuid"], name: "index_audits_on_request_uuid"
     t.index ["user_id", "user_type"], name: "user_index"
+  end
+
+  create_table "club_transfer_requests", force: :cascade do |t|
+    t.bigint "player_id", null: false
+    t.integer "old_club_id"
+    t.string "old_club_name"
+    t.integer "new_club_id"
+    t.string "new_club_name"
+    t.string "tm_club_id"
+    t.date "start_date"
+    t.date "contract_expires_on"
+    t.boolean "loan", default: false, null: false
+    t.integer "status", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["player_id"], name: "index_club_transfer_requests_on_player_id"
+    t.index ["status"], name: "index_club_transfer_requests_on_status"
   end
 
   create_table "club_transfers", force: :cascade do |t|
@@ -705,6 +722,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_06_23_103137) do
   add_foreign_key "auction_bids", "teams"
   add_foreign_key "auction_rounds", "auctions"
   add_foreign_key "auctions", "leagues"
+  add_foreign_key "club_transfer_requests", "players"
   add_foreign_key "club_transfers", "clubs", column: "new_club_id"
   add_foreign_key "club_transfers", "clubs", column: "old_club_id"
   add_foreign_key "club_transfers", "players"
