@@ -1,0 +1,102 @@
+.page-block
+  - if user_signed_in?
+    .web-header= render 'layouts/left_nav', league: nil
+    .mob-header= render 'layouts/mob_header', league: nil, title: 'Політика конфіденційності'
+  - else
+    = render 'layouts/header'
+  .rules-page{ class: "rules-user-#{user_signed_in?}" }
+    .rules-title
+      .rules-title-icon 🔒
+      .rules-title-text Політика конфіденційності
+    .rules-content
+      .rules-text.legal-text
+
+        .rules-chapter.rules-chapter-blue#s1
+          .rules-chapter-text 1. Загальні положення
+          .rules-chapter-img= image_tag('rules/chapter.svg')
+        .rules-paragraph 1.1. Ця Політика конфіденційності визначає порядок збору, використання, зберігання та захисту персональних даних користувачів веб-платформи MantraFootball.
+        .rules-paragraph.rules-paragraph-next 1.2. Використовуючи Сервіс, Користувач підтверджує, що ознайомився з цією Політикою конфіденційності та погоджується з порядком обробки своїх персональних даних.
+        .rules-paragraph.rules-paragraph-next 1.3. MantraFootball дотримується принципу мінімізації персональних даних та обробляє лише ті дані, які необхідні для функціонування Сервісу.
+
+        .rules-chapter#s2
+          .rules-chapter-text 2. Які дані ми збираємо
+          .rules-chapter-img= image_tag('rules/chapter.svg')
+        .rules-paragraph 2.1. Під час використання Сервісу можуть збиратися та оброблятися:
+        %ul
+          %li адреса електронної пошти (email);
+          %li логін (ім'я користувача), обраний Користувачем;
+          %li пароль (у захищеному вигляді);
+          %li Telegram Chat ID, якщо Користувач добровільно прив'язує свій Telegram-акаунт до Сервісу.
+        .rules-paragraph.rules-paragraph-next 2.2. MantraFootball не збирає персональні дані, які не є необхідними для функціонування Сервісу.
+
+        .rules-chapter.rules-chapter-green#s3
+          .rules-chapter-text 3. Мета обробки персональних даних
+          .rules-chapter-img= image_tag('rules/chapter.svg')
+        .rules-paragraph 3.1. Персональні дані використовуються виключно для:
+        %ul
+          %li створення та обслуговування облікового запису Користувача;
+          %li забезпечення роботи функціоналу Сервісу;
+          %li авторизації Користувача;
+          %li надсилання сервісних повідомлень;
+          %li взаємодії через Telegram-бота у разі добровільного прив'язання Telegram-акаунта.
+
+        .rules-chapter.rules-chapter-brown#s4
+          .rules-chapter-text 4. Платежі
+          .rules-chapter-img= image_tag('rules/chapter.svg')
+        .rules-paragraph 4.1. Під час здійснення оплати MantraFootball не отримує та не зберігає повні реквізити банківських карток Користувачів.
+        .rules-paragraph.rules-paragraph-next 4.2. Обробка платіжних даних здійснюється відповідною платіжною системою.
+        .rules-paragraph.rules-paragraph-next 4.3. Адміністрація Сервісу може отримувати лише інформацію, необхідну для підтвердження факту успішної оплати, а також окремі платіжні реквізити, що передаються платіжною системою відповідно до її правил.
+
+        .rules-chapter.rules-chapter-blue#s5
+          .rules-chapter-text 5. Передача персональних даних
+          .rules-chapter-img= image_tag('rules/chapter.svg')
+        .rules-paragraph 5.1. MantraFootball не продає, не передає та не розповсюджує персональні дані Користувачів третім особам, крім випадків, передбачених законодавством України або необхідних для належного функціонування Сервісу.
+
+        .rules-chapter.rules-chapter-red#s6
+          .rules-chapter-text 6. Захист персональних даних
+          .rules-chapter-img= image_tag('rules/chapter.svg')
+        .rules-paragraph 6.1. Адміністрація Сервісу вживає розумних технічних та організаційних заходів для захисту персональних даних від несанкціонованого доступу, втрати, зміни чи розповсюдження.
+        .rules-paragraph.rules-paragraph-next 6.2. Паролі Користувачів зберігаються у захищеному вигляді та не можуть бути переглянуті Адміністрацією Сервісу.
+
+        .rules-chapter.rules-chapter-green#s7
+          .rules-chapter-text 7. Права Користувача
+          .rules-chapter-img= image_tag('rules/chapter.svg')
+        .rules-paragraph 7.1. Користувач має право:
+        %ul
+          %li отримати інформацію про свої персональні дані;
+          %li звернутися із запитом щодо їх виправлення або оновлення;
+          %li звернутися із запитом щодо видалення свого облікового запису та персональних даних, якщо їх подальше зберігання не вимагається законодавством України.
+
+        .rules-chapter.rules-chapter-brown#s8
+          .rules-chapter-text 8. Cookies
+          .rules-chapter-img= image_tag('rules/chapter.svg')
+        .rules-paragraph 8.1. Станом на дату публікації цієї Політики MantraFootball не використовує файли cookies для збору чи аналізу персональних даних Користувачів.
+
+        .rules-chapter.rules-chapter-blue#s9
+          .rules-chapter-text 9. Зміни до Політики
+          .rules-chapter-img= image_tag('rules/chapter.svg')
+        .rules-paragraph 9.1. Адміністрація Сервісу має право вносити зміни до цієї Політики конфіденційності.
+        .rules-paragraph.rules-paragraph-next 9.2. Оновлена редакція набирає чинності з моменту її публікації у Сервісі, якщо інше не передбачено відповідною редакцією.
+
+        .rules-chapter#s10
+          .rules-chapter-text 10. Контактна інформація
+          .rules-chapter-img= image_tag('rules/chapter.svg')
+        .rules-paragraph З питань, пов'язаних із обробкою персональних даних, Користувач може звернутися до Адміністрації Сервісу:
+        .rules-paragraph.rules-paragraph-next Email: mantrafootball.info@gmail.com
+
+      .rules-nav
+        .rules-nav-anchor ⚓️
+        .rules-nav-list
+          .rules-nav-header Розділи
+          .rules-nav-link= link_to '1. Загальні положення', '#s1'
+          .rules-nav-link= link_to '2. Які дані ми збираємо', '#s2'
+          .rules-nav-link= link_to '3. Мета обробки персональних даних', '#s3'
+          .rules-nav-link= link_to '4. Платежі', '#s4'
+          .rules-nav-link= link_to '5. Передача персональних даних', '#s5'
+          .rules-nav-link= link_to '6. Захист персональних даних', '#s6'
+          .rules-nav-link= link_to '7. Права Користувача', '#s7'
+          .rules-nav-link= link_to '8. Cookies', '#s8'
+          .rules-nav-link= link_to '9. Зміни до Політики', '#s9'
+          .rules-nav-link= link_to '10. Контактна інформація', '#s10'
+
+  = render 'layouts/footer'

@@ -24,6 +24,7 @@ Rails.application.routes.draw do
   get 'rules',    to: 'welcome#rules'
   get 'terms',    to: 'welcome#terms'
   get 'oferta',   to: 'welcome#oferta'
+  get 'privacy',  to: 'welcome#privacy'
 
   resources :joins, only: [:index, :show]
   resources :fanta_joins, only: [:create]

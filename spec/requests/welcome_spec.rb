@@ -90,4 +90,14 @@ RSpec.describe 'Welcome' do
     it { expect(response).to render_template(:oferta) }
     it { expect(response).to have_http_status(:ok) }
   end
+
+  describe 'GET #privacy' do
+    before do
+      get privacy_path
+    end
+
+    it { expect(response).to be_successful }
+    it { expect(response).to render_template(:privacy) }
+    it { expect(response).to have_http_status(:ok) }
+  end
 end
