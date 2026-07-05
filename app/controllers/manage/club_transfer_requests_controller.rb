@@ -11,7 +11,7 @@ module Manage
     end
 
     def confirm
-      transfer_request = ClubTransferRequest.find(params[:id])
+      transfer_request = ClubTransferRequest.find(params.expect(:id))
       result = ClubTransfers::Applier.call(transfer_request)
 
       if result == :failed
@@ -23,7 +23,7 @@ module Manage
     end
 
     def reject
-      transfer_request = ClubTransferRequest.find(params[:id])
+      transfer_request = ClubTransferRequest.find(params.expect(:id))
       transfer_request.rejected!
 
       redirect_to manage_club_transfer_requests_path, notice: t('manage.club_transfer_requests.rejected')
