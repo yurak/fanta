@@ -21,7 +21,6 @@
             %th= t('manage.players.col_old_club')
             %th
             %th= t('manage.players.col_new_club')
-            %th= t('manage.players.col_contract_expires')
             %th= t('manage.players.col_loan')
         %tbody
           - @club_transfers.each do |ct|
@@ -31,8 +30,6 @@
               %td= ct.old_club ? link_to(ct.old_club_name, manage_club_path(ct.old_club)) : (ct.old_club_name || '—')
               %td →
               %td= ct.new_club ? link_to(ct.new_club_name, manage_club_path(ct.new_club)) : ct.new_club_name
-
-              %td= ct.contract_expires_on || '—'
               %td= ct.loan? ? '✓' : '—'
 
       = paginate @club_transfers

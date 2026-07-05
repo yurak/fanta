@@ -11,8 +11,6 @@ ua:
           attributes:
             new_club:
               same_as_old: "має відрізнятись від старого клубу"
-            contract_expires_on:
-              before_start_date: "має бути після дати початку"
         join:
           attributes:
             user_id:
@@ -666,7 +664,6 @@ ua:
       col_start_date: "Дата початку"
       col_old_club: "З"
       col_new_club: "До"
-      col_contract_expires: "Контракт до"
       col_loan: "Оренда"
       no_teams: "Немає команд"
       no_stats: "Статистики ще немає"
@@ -819,7 +816,8 @@ ua:
     transfer_date: "Дата"
     old_club: "З клубу"
     new_club: "У клуб"
-    contract_until: "Контракт до"
+    transfer_fee: "Сума"
+    market_value: "Вартість"
     loan: "Оренда"
     no_transfers: "Немає трансферів"
     not_found: "Гравця не знайдено"

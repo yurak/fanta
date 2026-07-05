@@ -7,6 +7,7 @@ export interface IClubTransfer {
   old_club_name: string | null,
   new_club: IClub | null,
   new_club_name: string,
-  contract_expires_on: string | null,
+  fee: string | null,
+  market_value: string | null,
   loan: boolean,
 }

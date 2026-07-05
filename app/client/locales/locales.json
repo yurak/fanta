@@ -39,9 +39,6 @@
         "models": {
           "club_transfer": {
             "attributes": {
-              "contract_expires_on": {
-                "before_start_date": "must be after start date"
-              },
               "new_club": {
                 "same_as_old": "must differ from old club"
               }
@@ -1051,7 +1048,6 @@
         "col_birth_date": "Birth date",
         "col_buy_price": "Buy price",
         "col_club": "Club",
-        "col_contract_expires": "Contract until",
         "col_first_name": "First name",
         "col_goals": "Goals",
         "col_height": "Height",
@@ -1326,7 +1322,6 @@
       "club_header": "CLUB",
       "club_option": "CLUB",
       "club_transfers": "🔁 Transfers",
-      "contract_until": "Contract until",
       "country": "Country",
       "cp": "CP",
       "cs": "CS",
@@ -1374,6 +1369,7 @@
       "left_tournament": "Left tournament",
       "loan": "Loan",
       "main_appearances_header": "MAIN SQUAD",
+      "market_value": "Value",
       "mg": "MG",
       "missed_goals": "Missed goals",
       "missed_penalty": "Missed penalty",
@@ -1452,6 +1448,7 @@
       "total_owners": "Total owners",
       "total_score": "Total score",
       "transfer_date": "Date",
+      "transfer_fee": "Fee",
       "transfermarkt": "Transfermarkt",
       "ts": "TS",
       "yc": "YC",
@@ -2536,9 +2533,6 @@
         "models": {
           "club_transfer": {
             "attributes": {
-              "contract_expires_on": {
-                "before_start_date": "має бути після дати початку"
-              },
               "new_club": {
                 "same_as_old": "має відрізнятись від старого клубу"
               }
@@ -3135,7 +3129,6 @@
         "col_avg_total_score": "Total score",
         "col_birth_date": "Дата народження",
         "col_club": "Клуб",
-        "col_contract_expires": "Контракт до",
         "col_first_name": "Ім'я",
         "col_goals": "Голи",
         "col_height": "Зріст",
@@ -3346,7 +3339,6 @@
       "club_header": "КЛУБ",
       "club_option": "КЛУБ",
       "club_transfers": "🔁 Трансфери",
-      "contract_until": "Контракт до",
       "country": "Країна",
       "cp": "ВП",
       "cs": "СВ",
@@ -3394,6 +3386,7 @@
       "left_tournament": "Покинув турнір",
       "loan": "Оренда",
       "main_appearances_header": "ОСНОВА",
+      "market_value": "Вартість",
       "mg": "ПГ",
       "missed_goals": "Пропущені голи",
       "missed_penalty": "Пропущене пенальті",
@@ -3472,6 +3465,7 @@
       "total_owners": "К-сть власників",
       "total_score": "Загальна оцінка",
       "transfer_date": "Дата",
+      "transfer_fee": "Сума",
       "transfermarkt": "Трансфермаркет",
       "ts": "ЗО",
       "yc": "ЖК",

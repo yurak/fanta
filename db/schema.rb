@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_07_05_120000) do
+ActiveRecord::Schema[8.0].define(version: 2026_07_05_140000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -118,7 +118,6 @@ ActiveRecord::Schema[8.0].define(version: 2026_07_05_120000) do
     t.string "new_club_name"
     t.date "start_date", null: false
     t.boolean "loan", default: false, null: false
-    t.date "contract_expires_on"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "tm_transfer_id"

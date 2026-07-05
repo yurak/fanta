@@ -1,6 +1,7 @@
 class ClubTransferSerializer < ActiveModel::Serializer
   attributes :id
-  attributes :contract_expires_on
+  attributes :fee
+  attributes :market_value
   attributes :loan
   attributes :new_club
   attributes :new_club_name

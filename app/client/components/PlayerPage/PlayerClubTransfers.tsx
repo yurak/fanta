@@ -57,7 +57,8 @@ const PlayerClubTransfers = ({ transfers }: { transfers: IClubTransfer[] }) => {
               <div className={styles.headerCell}>{t("players.old_club")}</div>
               <div />
               <div className={styles.headerCell}>{t("players.new_club")}</div>
-              <div className={styles.headerCell}>{t("players.contract_until")}</div>
+              <div className={styles.headerCell}>{t("players.transfer_fee")}</div>
+              <div className={styles.headerCell}>{t("players.market_value")}</div>
               <div className={styles.headerCell}>{t("players.loan")}</div>
             </div>
             {transfers.map((transfer) => (
@@ -66,7 +67,8 @@ const PlayerClubTransfers = ({ transfers }: { transfers: IClubTransfer[] }) => {
                 <ClubCell club={transfer.old_club} name={transfer.old_club_name} />
                 <div className={styles.transferArrow}>→</div>
                 <ClubCell club={transfer.new_club} name={transfer.new_club_name} />
-                <div className={styles.transferCell}>{formatDate(transfer.contract_expires_on)}</div>
+                <div className={styles.transferCell}>{transfer.fee || "—"}</div>
+                <div className={styles.transferCell}>{transfer.market_value || "—"}</div>
                 <div className={styles.transferCell}>
                   {transfer.loan ? <span className={styles.loanTag}>✓</span> : "—"}
                 </div>

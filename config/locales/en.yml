@@ -6,8 +6,6 @@ en:
           attributes:
             new_club:
               same_as_old: "must differ from old club"
-            contract_expires_on:
-              before_start_date: "must be after start date"
         join:
           attributes:
             user_id:
@@ -662,7 +660,6 @@ en:
       col_start_date: "Start date"
       col_old_club: "From"
       col_new_club: "To"
-      col_contract_expires: "Contract until"
       col_loan: "Loan"
       col_buy_price: "Buy price"
       no_teams: "No teams"
@@ -816,7 +813,8 @@ en:
     transfer_date: "Date"
     old_club: "From"
     new_club: "To"
-    contract_until: "Contract until"
+    transfer_fee: "Fee"
+    market_value: "Value"
     loan: "Loan"
     no_transfers: "No transfers"
     not_found: "Player not found"
