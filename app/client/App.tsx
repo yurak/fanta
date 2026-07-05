@@ -3,6 +3,7 @@ import Leagues from "./pages/Leagues";
 import { withBootstrap } from "./bootstrap/withBootstrap";
 import Results from "./pages/League/Results";
 import Players from "./pages/Players";
+import Player from "./pages/Player";
 import LeaguePlayers from "./pages/League/LeaguePlayers";
 import RoundPlayers from "./pages/RoundPlayers";
 
@@ -18,6 +19,10 @@ const router = createBrowserRouter([
   {
     path: "/players",
     element: <Players />,
+  },
+  {
+    path: "/players/:playerId",
+    element: <Player />,
   },
   {
     path: "/leagues/:leagueId/players",

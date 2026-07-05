@@ -11,7 +11,7 @@
       .alert.alert-danger= flash[:alert]
 
     %h2= "#{@player.first_name} #{@player.name}"
-    %button.btn.btn-warning.mt-1.mb-3#change-club-btn= t('manage.players.change_club')
+    = link_to t('manage.players.view_player_page'), player_path(@player), target: '_blank', rel: 'noopener', class: 'btn btn-primary btn-sm mt-1 mb-3'
 
     %h5.mt-2= t('manage.players.section_basic')
     .d-flex.gap-4.align-items-start
@@ -109,7 +109,6 @@
             %th= t('manage.players.col_old_club')
             %th
             %th= t('manage.players.col_new_club')
-            %th= t('manage.players.col_contract_expires')
             %th= t('manage.players.col_loan')
         %tbody
           - @club_transfers.each do |ct|
@@ -118,7 +117,6 @@
               %td= ct.old_club ? link_to(ct.old_club.name, manage_club_path(ct.old_club)) : ct.old_club_name
               %td →
               %td= ct.new_club ? link_to(ct.new_club.name, manage_club_path(ct.new_club)) : ct.new_club_name
-              %td= ct.contract_expires_on
               %td= ct.loan? ? '✓' : '—'
     - else
       %p.text-muted= t('manage.players.no_transfers')
@@ -141,44 +139,3 @@
               %td= @team_transfers[team.id]&.price || '—'
     - else
       %p.text-muted= t('manage.players.no_teams')
-
-#change-club-modal.join-modal{ style: 'display:none' }
-  .join-modal-content
-    .join-modal-header
-      %h4= t('manage.players.change_club')
-      %button.join-modal-close{ type: 'button' } ×
-    = form_tag manage_player_club_transfers_path(@player), method: :post do
-      .join-modal-input-field
-        %label.join-modal-input-label{ for: 'new_club_id' }= t('manage.players.col_new_club')
-        = select_tag :new_club_id,
-                     options_for_select(@active_clubs.map { |c| [c.name, c.id] }),
-                     include_blank: t('manage.players.select_club'),
-                     class: 'join-modal-input', required: true
-      .join-modal-input-field
-        %label.join-modal-input-label{ for: 'start_date' }= t('manage.players.col_start_date')
-        = date_field_tag :start_date, Time.zone.today, class: 'join-modal-input', required: true
-      .join-modal-input-field
-        %label.join-modal-input-label{ for: 'contract_expires_on' }= t('manage.players.col_contract_expires')
-        = date_field_tag :contract_expires_on, nil, class: 'join-modal-input'
-      .join-modal-input-field
-        = check_box_tag :loan, '1', false
-        %label{ for: 'loan' }= t('manage.players.col_loan')
-      .join-modal-footer
-        %button.grey-btn{ type: 'button', id: 'change-club-cancel' }= t('manage.players.cancel')
-        %button.blue-btn{ type: 'submit' }= t('manage.players.save')
-
-:javascript
-  (function() {
-    var modal     = document.getElementById('change-club-modal');
-    var openBtn   = document.getElementById('change-club-btn');
-    var closeBtn  = modal.querySelector('.join-modal-close');
-    var cancelBtn = document.getElementById('change-club-cancel');
-
-    openBtn.onclick  = function() { modal.style.display = 'flex'; };
-    closeBtn.onclick = function() { modal.style.display = 'none'; };
-    cancelBtn.onclick = function() { modal.style.display = 'none'; };
-
-    modal.addEventListener('click', function(e) {
-      if (e.target === modal) modal.style.display = 'none';
-    });
-  })();

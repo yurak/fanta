@@ -100,9 +100,7 @@ module Players
       def club
         return nil if tm_club_id.blank?
 
-        @club ||= Club.where('tm_url LIKE ?', "%/#{tm_club_id}").first ||
-          Club.where.not(reserve_club_ids: ['--- []', nil])
-              .find { |c| c.reserve_club_ids.include?(tm_club_id) }
+        @club ||= Club.for_tm_id(tm_club_id)
       end
 
       def tm_club_id
@@ -213,7 +211,12 @@ module Players
         Rails.root.join('tmp', 'transfermarkt_cache', "player_api_#{tm_id}.json")
       end
 
+      def cache_disabled?
+        ENV['TM_SKIP_CACHE'].present?
+      end
+
       def read_cache
+        return nil if cache_disabled?
         return nil unless cache_path.exist?
         return nil if (Time.zone.now.to_i - cache_path.mtime.to_i) > CACHE_TTL
 
@@ -223,6 +226,8 @@ module Players
       end
 
       def write_cache(data)
+        return if cache_disabled?
+
         FileUtils.mkdir_p(cache_path.dirname)
         cache_path.write(JSON.generate(data))
       end

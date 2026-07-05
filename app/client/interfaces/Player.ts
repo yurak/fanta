@@ -1,4 +1,5 @@
 import { IClub } from "./Club";
+import { IClubTransfer } from "./ClubTransfer";
 import { Position } from "./Position";
 
 export interface IPlayer {
@@ -17,4 +18,42 @@ export interface IPlayer {
   position_classic_arr: Position[],
   teams_count: number,
   teams_count_max: number,
+}
+
+export interface INationalTeam {
+  id: number,
+  name: string,
+  code: string,
+  logo_path: string,
+}
+
+export interface IPlayerTeam {
+  id: number,
+  human_name: string,
+  logo_path: string,
+  league_id: number,
+  league_name: string,
+  division_name: string | null,
+  auction_id: number | null,
+  auction_number: number | null,
+  auction_date: string | null,
+  price: number | null,
+}
+
+export interface IPlayerShow extends IPlayer {
+  age: number | null,
+  birth_date: string,
+  club_transfers: IClubTransfer[],
+  country: string,
+  height: number | null,
+  national_team: INationalTeam | null,
+  nationality: string | null,
+  number: number | null,
+  profile_avatar_path: string,
+  profile_kit_path: string,
+  season_score: string,
+  team_ids: number[],
+  teams: IPlayerTeam[],
+  tm_price: number | null,
+  tm_url: string | null,
 }

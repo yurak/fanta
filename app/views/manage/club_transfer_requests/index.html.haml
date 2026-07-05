@@ -1,0 +1,61 @@
+.page-block
+  .web-header= render 'layouts/left_nav', league: nil
+  .web-header= render 'layouts/manage_nav'
+  .mob-header= render 'layouts/mob_header', league: nil, title: t('manage.club_transfer_requests.title')
+  .page-info.admin-manage-page
+    %h2= t('manage.club_transfer_requests.title')
+
+    %ul.nav.nav-tabs.mb-3
+      - %w[pending confirmed rejected].each do |st|
+        %li.nav-item
+          = link_to t("manage.club_transfer_requests.tab_#{st}"), manage_club_transfer_requests_path(status: st), class: "nav-link #{'active' if @status == st}"
+
+    = form_tag manage_club_transfer_requests_path, method: :get, class: 'd-flex gap-2 mb-3' do
+      = hidden_field_tag :status, @status
+      = text_field_tag :player_name, params[:player_name], class: 'form-control form-control-sm w-auto', placeholder: t('manage.club_transfers.filter_player')
+      = submit_tag t('manage.club_transfers.search'), class: 'btn btn-sm btn-primary'
+      - if params[:player_name].present?
+        = link_to t('manage.club_transfers.reset'), manage_club_transfer_requests_path(status: @status), class: 'btn btn-sm btn-outline-secondary'
+
+    - if @requests.any?
+      %table.table.table-hover.table-sm.align-middle
+        %thead.thead-light
+          %tr
+            %th= t('manage.players.col_name')
+            %th= t('manage.club_transfer_requests.col_links')
+            %th= t('manage.club_transfer_requests.col_teams')
+            %th= t('manage.players.col_old_club')
+            %th
+            %th= t('manage.players.col_new_club')
+            %th= t('manage.club_transfer_requests.col_tm_club_id')
+            %th= t('manage.players.col_start_date')
+            %th= t('manage.players.col_loan')
+            %th= t('manage.club_transfer_requests.col_actions')
+        %tbody
+          - @requests.each do |req|
+            %tr
+              %td= link_to req.player.name, manage_player_path(req.player)
+              %td
+                - if req.player.tm_id.present?
+                  = link_to 'TM', req.player.tm_path, target: '_blank', rel: 'noopener', class: 'me-2'
+                - if req.player.fotmob_id.present?
+                  = link_to 'Fotmob', "https://www.fotmob.com/players/#{req.player.fotmob_id}", target: '_blank', rel: 'noopener'
+              %td.text-center{ class: { green: 'table-success', red: 'table-danger', yellow: 'table-warning' }[req.teams_status] }= req.teams_count
+              %td= req.old_club ? link_to(req.old_club.name, manage_club_path(req.old_club)) : req.old_club_name
+              %td →
+              %td= req.new_club ? link_to(req.new_club.name, manage_club_path(req.new_club)) : req.new_club_name
+              %td
+                - if req.tm_club_id.present?
+                  = link_to req.tm_club_id, "https://www.transfermarkt.com/x/startseite/verein/#{req.tm_club_id}", target: '_blank', rel: 'noopener'
+              %td= req.start_date
+              %td= req.loan? ? '✓' : '—'
+              %td
+                - if req.pending?
+                  = button_to t('manage.club_transfer_requests.confirm'), confirm_manage_club_transfer_request_path(req), method: :post, class: 'btn btn-sm btn-success mb-1', form: { data: { turbo_confirm: t('manage.club_transfer_requests.confirm_prompt') } }
+                  = button_to t('manage.club_transfer_requests.reject'), reject_manage_club_transfer_request_path(req), method: :post, class: 'btn btn-sm btn-outline-danger', form: { data: { turbo_confirm: t('manage.club_transfer_requests.reject_prompt') } }
+                - else
+                  = req.updated_at.strftime('%d.%m.%Y %H:%M')
+    - else
+      %p.text-muted= t('manage.club_transfer_requests.empty')
+
+    = paginate @requests

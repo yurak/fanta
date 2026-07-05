@@ -6,7 +6,6 @@ class ClubTransfer < ApplicationRecord
   validates :start_date, presence: true
   validates :new_club_name, presence: true
   validate :new_club_differs_from_old_club
-  validate :contract_expires_after_start, if: -> { start_date.present? && contract_expires_on.present? }
 
   private
 
@@ -16,9 +15,6 @@ class ClubTransfer < ApplicationRecord
     errors.add(:new_club, :same_as_old)
   end
 
-  def contract_expires_after_start
-    errors.add(:contract_expires_on, :before_start_date) if contract_expires_on < start_date
-  end
-
   scope :recent, -> { order(start_date: :desc) }
+  scope :tm_sourced, -> { where.not(tm_transfer_id: nil) }
 end

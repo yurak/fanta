@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_06_23_103137) do
+ActiveRecord::Schema[8.0].define(version: 2026_07_05_140000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -92,6 +92,24 @@ ActiveRecord::Schema[8.0].define(version: 2026_06_23_103137) do
     t.index ["user_id", "user_type"], name: "user_index"
   end
 
+  create_table "club_transfer_requests", force: :cascade do |t|
+    t.bigint "player_id", null: false
+    t.bigint "tm_transfer_id"
+    t.integer "old_club_id"
+    t.string "old_club_name"
+    t.integer "new_club_id"
+    t.string "new_club_name"
+    t.string "tm_club_id"
+    t.date "start_date"
+    t.boolean "loan", default: false, null: false
+    t.integer "status", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["player_id", "tm_transfer_id"], name: "idx_ctr_unique_tm_transfer", unique: true, where: "(tm_transfer_id IS NOT NULL)"
+    t.index ["player_id"], name: "index_club_transfer_requests_on_player_id"
+    t.index ["status"], name: "index_club_transfer_requests_on_status"
+  end
+
   create_table "club_transfers", force: :cascade do |t|
     t.bigint "player_id", null: false
     t.bigint "old_club_id"
@@ -100,13 +118,20 @@ ActiveRecord::Schema[8.0].define(version: 2026_06_23_103137) do
     t.string "new_club_name"
     t.date "start_date", null: false
     t.boolean "loan", default: false, null: false
-    t.date "contract_expires_on"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "tm_transfer_id"
+    t.string "old_tm_club_id"
+    t.string "new_tm_club_id"
+    t.string "season"
+    t.string "fee"
+    t.string "market_value"
+    t.boolean "upcoming", default: false, null: false
     t.index ["new_club_id"], name: "index_club_transfers_on_new_club_id"
     t.index ["old_club_id"], name: "index_club_transfers_on_old_club_id"
     t.index ["player_id", "new_club_id", "start_date"], name: "idx_club_transfers_unique_with_club", unique: true, where: "(new_club_id IS NOT NULL)"
     t.index ["player_id", "new_club_name", "start_date"], name: "idx_club_transfers_unique_without_club", unique: true, where: "(new_club_id IS NULL)"
+    t.index ["player_id", "tm_transfer_id"], name: "idx_club_transfers_unique_tm_transfer", unique: true, where: "(tm_transfer_id IS NOT NULL)"
     t.index ["player_id"], name: "index_club_transfers_on_player_id"
   end
 
@@ -705,6 +730,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_06_23_103137) do
   add_foreign_key "auction_bids", "teams"
   add_foreign_key "auction_rounds", "auctions"
   add_foreign_key "auctions", "leagues"
+  add_foreign_key "club_transfer_requests", "players"
   add_foreign_key "club_transfers", "clubs", column: "new_club_id"
   add_foreign_key "club_transfers", "clubs", column: "old_club_id"
   add_foreign_key "club_transfers", "players"

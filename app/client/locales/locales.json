@@ -39,9 +39,6 @@
         "models": {
           "club_transfer": {
             "attributes": {
-              "contract_expires_on": {
-                "before_start_date": "must be after start date"
-              },
               "new_club": {
                 "same_as_old": "must differ from old club"
               }
@@ -648,6 +645,7 @@
       "players": "Players",
       "postpone_round": "Postpone r...",
       "prices": "Subscription",
+      "privacy": "Privacy Policy",
       "round": "Round",
       "rules": "Rules",
       "rules_faq": "📚 FAQ",
@@ -851,6 +849,24 @@
         "titles": "Titles",
         "user": "Manager"
       },
+      "club_transfer_requests": {
+        "col_actions": "Actions",
+        "col_links": "Links",
+        "col_teams": "Teams",
+        "col_tm_club_id": "TM club",
+        "confirm": "Confirm",
+        "confirm_prompt": "Apply this club change?",
+        "confirmed": "Club transfer applied",
+        "empty": "No pending transfer requests",
+        "failed": "Failed to apply the club change",
+        "reject": "Reject",
+        "reject_prompt": "Reject this transfer request?",
+        "rejected": "Transfer request rejected",
+        "tab_confirmed": "Confirmed",
+        "tab_pending": "Pending",
+        "tab_rejected": "Rejected",
+        "title": "Transfer Requests"
+      },
       "club_transfers": {
         "created": "Club updated successfully",
         "empty": "No club transfers found",
@@ -1009,6 +1025,7 @@
       "nav": {
         "auctions": "Auctions",
         "champions": "Champions",
+        "club_transfer_requests": "Transfer Req.",
         "club_transfers": "Club Transfers",
         "clubs": "Clubs",
         "joins": "Join Apps",
@@ -1025,14 +1042,12 @@
         "add_player": "Add player",
         "back": "← Players",
         "cancel": "Cancel",
-        "change_club": "Change Club",
         "col_assists": "Assists",
         "col_avg_base_score": "Base score",
         "col_avg_total_score": "Total score",
         "col_birth_date": "Birth date",
         "col_buy_price": "Buy price",
         "col_club": "Club",
-        "col_contract_expires": "Contract until",
         "col_first_name": "First name",
         "col_goals": "Goals",
         "col_height": "Height",
@@ -1073,9 +1088,9 @@
         "section_links": "External Links",
         "section_season_stats": "Season Stats",
         "section_teams": "Teams",
-        "select_club": "Select club...",
         "title": "Players",
-        "view": "View"
+        "view": "View",
+        "view_player_page": "Player page"
       },
       "teams": {
         "empty": "No teams found",
@@ -1306,6 +1321,7 @@
       "club": "Club",
       "club_header": "CLUB",
       "club_option": "CLUB",
+      "club_transfers": "🔁 Transfers",
       "country": "Country",
       "cp": "CP",
       "cs": "CS",
@@ -1351,15 +1367,21 @@
       "international": "International",
       "league": "LEAGUE",
       "left_tournament": "Left tournament",
+      "loan": "Loan",
       "main_appearances_header": "MAIN SQUAD",
+      "market_value": "Value",
       "mg": "MG",
       "missed_goals": "Missed goals",
       "missed_penalty": "Missed penalty",
       "mp": "MP",
       "national_header": "NATIONAL",
+      "new_club": "To",
+      "no_transfers": "No transfers",
+      "not_found": "Player not found",
       "number": "Number",
       "number_header": "NUMBER",
       "og": "OG",
+      "old_club": "From",
       "own_goals": "Own goals",
       "penalty_foul": "Penalty foul",
       "performance": "💎️ Performance",
@@ -1425,6 +1447,8 @@
       "total": "Total",
       "total_owners": "Total owners",
       "total_score": "Total score",
+      "transfer_date": "Date",
+      "transfer_fee": "Fee",
       "transfermarkt": "Transfermarkt",
       "ts": "TS",
       "yc": "YC",
@@ -1866,12 +1890,12 @@
     "welcome": {
       "about": {
         "join": "Join us!",
-        "paragraph1": "In 2017, the project started among the Lviv fans of AC Milan as a classic fantasy football with one Serie A league for 5 players.",
-        "paragraph2": "Since 2018, the Premier League has been launched according to the rules that have already been tested in practice, and 2 leagues for this tournament have appeared in the project. Since then, we have been expanding every year. Thus, in the 20/21 season, a tournament based on the Bundesliga started for the first time, and in the 21/22 season - La Liga and Ligue 1. In the 22/23 season, we add Belgium, the Netherlands, Portugal and the Championship to the list of available leagues.",
-        "paragraph3": "In addition, according to slightly changed rules, we organize tournaments based on Champions League, European Championship and League of Nations. A tournament based on the World Cup in Qatar is planned.",
-        "paragraph4": "In 2022, we still remain a project of like-minded people who have combined their professional skills (designers, marketers, developers, etc.) for the development of Ukrainian football fantasy.",
-        "subtitle": "MantraFootball is an adaptation of the Italian fantasy football system.",
-        "title": "About Us"
+        "paragraph1": "The project was created as an adaptation of the Italian fantasy football system, combining its core principles with custom mechanics developed specifically for the Ukrainian community.",
+        "paragraph2": "Today MantraFootball offers fantasy football competitions based on the leading European football championships and international tournaments. Users can test their analytical skills, build squads, make tactical decisions and compete with other managers throughout the season.",
+        "paragraph3": "MantraFootball is built on football analytics, strategic thinking and long-term team management. It is the manager's decisions that determine their result, making every competition engaging, competitive and as close as possible to real football management.",
+        "paragraph4": "We continuously improve the platform, expand the list of available competitions, build new features and work to keep MantraFootball a modern Ukrainian service for all fantasy football fans.",
+        "subtitle": "MantraFootball is a Ukrainian online fantasy football platform that brings football fans together around analytics, tactics and strategic management of their own fantasy team.",
+        "title": "About MantraFootball"
       },
       "contact": {
         "ask": "Ask questions",
@@ -1912,7 +1936,7 @@
         "paragraph2": "The season subscription fee helps maintain and develop the platform: keeping the server infrastructure stable, covering technical maintenance, developing new features, and other costs related to running MantraFootball.",
         "paragraph3": "In addition, purchasing a season subscription confirms the manager's intention to complete the season. This helps maintain the stability of championships and ensure a high-quality gameplay experience for all participants, especially in leagues with the Head-to-Head system.",
         "per_league": "/per league",
-        "play_now": "Play now",
+        "play_now": "Subscribe",
         "subtitle1": "Whether you are a new player or an existing one.",
         "subtitle2": "Our subscriptions are available to everyone.",
         "title": "Season subscription",
@@ -2509,9 +2533,6 @@
         "models": {
           "club_transfer": {
             "attributes": {
-              "contract_expires_on": {
-                "before_start_date": "має бути після дати початку"
-              },
               "new_club": {
                 "same_as_old": "має відрізнятись від старого клубу"
               }
@@ -2742,6 +2763,7 @@
       "players": "Гравці",
       "postpone_round": "Відкласти р..",
       "prices": "Підписка",
+      "privacy": "Політика конфіденційності",
       "round": "Раунд",
       "rules": "Правила",
       "rules_faq": "📚 FAQ",
@@ -2910,6 +2932,24 @@
         "titles": "Титули",
         "user": "Менеджер"
       },
+      "club_transfer_requests": {
+        "col_actions": "Дії",
+        "col_links": "Лінки",
+        "col_teams": "Команди",
+        "col_tm_club_id": "TM клуб",
+        "confirm": "Підтвердити",
+        "confirm_prompt": "Застосувати зміну клубу?",
+        "confirmed": "Перехід застосовано",
+        "empty": "Немає запитів переходів на розгляді",
+        "failed": "Не вдалося застосувати зміну клубу",
+        "reject": "Скасувати",
+        "reject_prompt": "Скасувати цей запит переходу?",
+        "rejected": "Запит переходу скасовано",
+        "tab_confirmed": "Підтверджені",
+        "tab_pending": "На розгляді",
+        "tab_rejected": "Відхилені",
+        "title": "Запити переходів"
+      },
       "club_transfers": {
         "created": "Клуб успішно оновлено",
         "empty": "Переходів не знайдено",
@@ -3068,6 +3108,7 @@
       "nav": {
         "auctions": "Аукціони",
         "champions": "Чемпіони",
+        "club_transfer_requests": "Запити переходів",
         "club_transfers": "Переходи",
         "clubs": "Клуби",
         "joins": "Заявки",
@@ -3083,13 +3124,11 @@
         "add_player": "Додати гравця",
         "back": "← Гравці",
         "cancel": "Скасувати",
-        "change_club": "Змінити клуб",
         "col_assists": "Асисти",
         "col_avg_base_score": "Base score",
         "col_avg_total_score": "Total score",
         "col_birth_date": "Дата народження",
         "col_club": "Клуб",
-        "col_contract_expires": "Контракт до",
         "col_first_name": "Ім'я",
         "col_goals": "Голи",
         "col_height": "Зріст",
@@ -3130,9 +3169,9 @@
         "section_links": "Зовнішні посилання",
         "section_season_stats": "Статистика по сезонах",
         "section_teams": "Команди",
-        "select_club": "Оберіть клуб...",
         "title": "Гравці",
-        "view": "Переглянути"
+        "view": "Переглянути",
+        "view_player_page": "Сторінка гравця"
       },
       "teams": {
         "empty": "Команд не знайдено",
@@ -3299,6 +3338,7 @@
       "club": "Клуб",
       "club_header": "КЛУБ",
       "club_option": "КЛУБ",
+      "club_transfers": "🔁 Трансфери",
       "country": "Країна",
       "cp": "ВП",
       "cs": "СВ",
@@ -3344,15 +3384,21 @@
       "international": "Міжнародні",
       "league": "ЛІГА",
       "left_tournament": "Покинув турнір",
+      "loan": "Оренда",
       "main_appearances_header": "ОСНОВА",
+      "market_value": "Вартість",
       "mg": "ПГ",
       "missed_goals": "Пропущені голи",
       "missed_penalty": "Пропущене пенальті",
       "mp": "ПП",
       "national_header": "ЗБІРНА",
+      "new_club": "У клуб",
+      "no_transfers": "Немає трансферів",
+      "not_found": "Гравця не знайдено",
       "number": "Номер",
       "number_header": "НОМЕР",
       "og": "АГ",
+      "old_club": "З клубу",
       "own_goals": "Автоголи",
       "penalty_foul": "Фол на пенальті",
       "performance": "💎️ Виступи",
@@ -3418,6 +3464,8 @@
       "total": "Разом",
       "total_owners": "К-сть власників",
       "total_score": "Загальна оцінка",
+      "transfer_date": "Дата",
+      "transfer_fee": "Сума",
       "transfermarkt": "Трансфермаркет",
       "ts": "ЗО",
       "yc": "ЖК",
@@ -3834,12 +3882,12 @@
     "welcome": {
       "about": {
         "join": "Приєднуйтесь до нас!",
-        "paragraph1": "В 2017 році проект стартував серед львівських вболівальників «Мілану», як класичний фентезі футбол з однією лігою по Серії А для 5 гравців.",
-        "paragraph2": "З 2018 року за уже перевіреними на практиці правилами була запущена АПЛ - в проекті з’явилось 2 ліги по даному турніру. З того часу щороку ми розширюємось. Так в сезоні 20/21 вперше стартував турнір на основі Бундесліги, а в сезоні 21/22 – Ла Ліги та Ліги 1. В сезоні 22/23 ми додаємо до списку доступних ліг Бельгію, Нідерланди, Португалію і Чемпіоншип.",
-        "paragraph3": "Крім того, за дещо зміненими правилами, ми організовуємо турніри на основі Ліги Чемпіонів, Чемпіонату Європи і Ліги Націй. В планах – турнір на основі Чемпіонату світу в Катарі.",
-        "paragraph4": "В 2022 ми все ще залишаємось проектом однодумців, які об’єднали свої професійні вміння (дизайнерів, маркетологів, розробників тощо) для розвитку українського футбольного фентезі.",
-        "subtitle": "MantraFootball - це адаптація італійської системи фентезі футболу.",
-        "title": "Про нас"
+        "paragraph1": "Проєкт створений як адаптація італійської системи fantasy football та поєднує її ключові принципи з власними механіками, розробленими спеціально для української спільноти.",
+        "paragraph2": "Сьогодні MantraFootball пропонує fantasy football змагання на основі провідних футбольних чемпіонатів Європи та міжнародних турнірів. Користувачі можуть випробувати свої аналітичні здібності, формувати склади, приймати тактичні рішення та змагатися з іншими менеджерами протягом усього сезону.",
+        "paragraph3": "Основою MantraFootball є футбольна аналітика, стратегічне мислення та довгострокове управління командою. Саме рішення менеджера визначають його результат, роблячи кожне змагання цікавим, конкурентним і максимально наближеним до реального футбольного менеджменту.",
+        "paragraph4": "Ми постійно вдосконалюємо платформу, розширюємо перелік доступних змагань, створюємо новий функціонал і працюємо над тим, щоб MantraFootball залишався сучасним українським сервісом для всіх шанувальників fantasy football.",
+        "subtitle": "MantraFootball — українська онлайн-платформа для fantasy football, що об'єднує футбольних уболівальників навколо аналітики, тактики та стратегічного управління власною fantasy-командою.",
+        "title": "Про MantraFootball"
       },
       "contact": {
         "ask": "Напиши нам",
@@ -3880,7 +3928,7 @@
         "paragraph2": "Вартість сезонної підписки дозволяє підтримувати роботу та розвиток платформи: забезпечувати стабільну роботу серверної інфраструктури, технічне обслуговування, розробку нових функцій та покривати інші витрати, пов'язані з функціонуванням MantraFootball.",
         "paragraph3": "Крім того, оформлення сезонної підписки підтверджує намір менеджера пройти сезон до кінця. Це допомагає підтримувати стабільність чемпіонатів і забезпечувати якісний ігровий процес для всіх учасників, особливо в лігах із системою Head-to-Head.",
         "per_league": "/за лігу",
-        "play_now": "Грати зараз",
+        "play_now": "Оформити підписку",
         "subtitle1": "Незалежно від того, чи ви новий гравець або діючий.",
         "subtitle2": "Наші підписки доступні кожному.",
         "title": "Сезонна підписка",

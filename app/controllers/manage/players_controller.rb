@@ -9,7 +9,6 @@ module Manage
       @player = Player.includes(:club, :positions, :national_team,
                                 club_transfers: %i[old_club new_club]).find(params.expect(:id))
       @club_transfers = @player.club_transfers.recent
-      @active_clubs = Club.active.order(:name)
       @teams = @player.teams.includes(league: :tournament)
       @team_transfers = @player.transfers.incoming.index_by(&:team_id)
       @season_stats = player_season_stats
