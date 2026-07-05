@@ -60,7 +60,7 @@ const RoundRow = ({
         <BonusCell
           key={col.key}
           icon={col.icon}
-          value={round[col.key as keyof IRoundStat] as number | string | boolean | null}
+          value={round[col.key as keyof IRoundStat]}
         />
       ))}
       <div className={styles.cell}>{round.played_minutes}</div>
