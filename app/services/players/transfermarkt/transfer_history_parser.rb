@@ -21,13 +21,14 @@ module Players
       def normalize(raw)
         return nil unless raw['dateUnformatted'].present? && raw.dig('to', 'clubName').present?
 
+        fee = clean_text(raw['fee'])
         {
           tm_transfer_id: transfer_id(raw),
           old_club_name: raw.dig('from', 'clubName').presence, old_tm_club_id: club_id(raw['from']),
           new_club_name: raw.dig('to', 'clubName'), new_tm_club_id: club_id(raw['to']),
           start_date: parse_date(raw['dateUnformatted']),
-          season: raw['season'].presence, fee: raw['fee'].presence, market_value: raw['marketValue'].presence,
-          loan: loan?(raw['fee']), upcoming: raw['upcoming'] == true || raw['futureTransfer'].to_i.positive?
+          season: raw['season'].presence, fee: fee, market_value: clean_text(raw['marketValue']),
+          loan: loan?(fee), upcoming: raw['upcoming'] == true || raw['futureTransfer'].to_i.positive?
         }
       end
 
@@ -48,6 +49,12 @@ module Players
       # "loan transfer" → loan; "End of loan" is a permanent return, not a loan.
       def loan?(fee)
         fee.to_s.match?(/loan/i) && !fee.to_s.match?(/end of loan/i)
+      end
+
+      def clean_text(str)
+        return nil if str.blank?
+
+        str.gsub(%r{<br\s*/?>}i, ' ').gsub(/<[^>]+>/, ' ').gsub(/\s+/, ' ').strip.presence
       end
 
       def data

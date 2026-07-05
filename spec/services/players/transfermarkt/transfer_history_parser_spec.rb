@@ -77,5 +77,25 @@ RSpec.describe Players::Transfermarkt::TransferHistoryParser do
 
       it { expect(transfers).to eq([]) }
     end
+
+    context 'when the fee contains HTML markup' do
+      let(:tm_id) { '2' }
+
+      before do
+        html = { 'transfers' => [payload['transfers'].first.merge(
+          'fee' => 'Loan fee:<br /><i class="normaler-text">€500k</i>'
+        )] }
+        response = instance_double(RestClient::Response, body: JSON.generate(html))
+        allow(RestClient::Request).to receive(:execute).and_return(response)
+      end
+
+      it 'strips the tags to plain text' do
+        expect(transfers.first[:fee]).to eq('Loan fee: €500k')
+      end
+
+      it 'still detects it as a loan' do
+        expect(transfers.first[:loan]).to be(true)
+      end
+    end
   end
 end
