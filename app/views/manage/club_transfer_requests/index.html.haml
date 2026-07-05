@@ -29,7 +29,6 @@
             %th= t('manage.players.col_new_club')
             %th= t('manage.club_transfer_requests.col_tm_club_id')
             %th= t('manage.players.col_start_date')
-            %th= t('manage.players.col_contract_expires')
             %th= t('manage.players.col_loan')
             %th= t('manage.club_transfer_requests.col_actions')
         %tbody
@@ -49,7 +48,6 @@
                 - if req.tm_club_id.present?
                   = link_to req.tm_club_id, "https://www.transfermarkt.com/x/startseite/verein/#{req.tm_club_id}", target: '_blank', rel: 'noopener'
               %td= req.start_date
-              %td= req.contract_expires_on
               %td= req.loan? ? '✓' : '—'
               %td
                 - if req.pending?

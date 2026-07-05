@@ -22,6 +22,7 @@ RSpec.describe Players::Manager do
 
     before do
       create(:club, name: 'Outside')
+      allow(ClubTransfers::HistoryImporter).to receive(:call).and_return(0)
     end
 
     context 'with blank params' do

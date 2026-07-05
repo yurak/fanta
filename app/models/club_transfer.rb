@@ -21,4 +21,5 @@ class ClubTransfer < ApplicationRecord
   end
 
   scope :recent, -> { order(start_date: :desc) }
+  scope :tm_sourced, -> { where.not(tm_transfer_id: nil) }
 end

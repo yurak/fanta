@@ -1045,7 +1045,6 @@
         "add_player": "Add player",
         "back": "← Players",
         "cancel": "Cancel",
-        "change_club": "Change Club",
         "col_assists": "Assists",
         "col_avg_base_score": "Base score",
         "col_avg_total_score": "Total score",
@@ -1093,9 +1092,9 @@
         "section_links": "External Links",
         "section_season_stats": "Season Stats",
         "section_teams": "Teams",
-        "select_club": "Select club...",
         "title": "Players",
-        "view": "View"
+        "view": "View",
+        "view_player_page": "Player page"
       },
       "teams": {
         "empty": "No teams found",
@@ -3131,7 +3130,6 @@
         "add_player": "Додати гравця",
         "back": "← Гравці",
         "cancel": "Скасувати",
-        "change_club": "Змінити клуб",
         "col_assists": "Асисти",
         "col_avg_base_score": "Base score",
         "col_avg_total_score": "Total score",
@@ -3178,9 +3176,9 @@
         "section_links": "Зовнішні посилання",
         "section_season_stats": "Статистика по сезонах",
         "section_teams": "Команди",
-        "select_club": "Оберіть клуб...",
         "title": "Гравці",
-        "view": "Переглянути"
+        "view": "Переглянути",
+        "view_player_page": "Сторінка гравця"
       },
       "teams": {
         "empty": "Команд не знайдено",

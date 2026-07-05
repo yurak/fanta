@@ -5,6 +5,8 @@ RSpec.describe Players::CsvParser do
     let(:file_name) { nil }
     let(:file_url) { nil }
 
+    before { allow(ClubTransfers::HistoryImporter).to receive(:call).and_return(0) }
+
     context 'without file_name and file_url' do
       it { expect(parser.call).to be(false) }
     end

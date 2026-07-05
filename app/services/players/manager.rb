@@ -9,22 +9,34 @@ module Players
       return false unless club || national_team
 
       if @id
-        player = Player.find(@id)
-
-        player.update(player_data)
+        Player.find(@id).update(player_data)
       else
-        return false if tm_url.blank?
-
-        player = Player.new(player_data)
-        player.positions << Position.where(name: positions_arr) unless positions_arr.empty?
-
-        return false unless player.valid?
-
-        player.save
+        create_player
       end
     end
 
     private
+
+    def create_player
+      return false if tm_url.blank?
+
+      player = Player.new(player_data)
+      player.positions << Position.where(name: positions_arr) unless positions_arr.empty?
+
+      return false unless player.valid?
+
+      saved = player.save
+      import_transfer_history(player) if saved
+      saved
+    end
+
+    def import_transfer_history(player)
+      return if player.tm_id.blank?
+
+      ClubTransfers::HistoryImporter.call(player)
+    rescue StandardError => e
+      Rails.logger.warn("HistoryImporter failed for player #{player.id}: #{e.message}")
+    end
 
     def base_data
       @player_hash.slice('first_name', 'name', 'nationality', 'tm_url', 'birth_date', 'height', 'tm_price', 'number')

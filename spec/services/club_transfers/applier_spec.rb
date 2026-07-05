@@ -18,9 +18,11 @@ RSpec.describe ClubTransfers::Applier do
 
       it 'applies the change via ClubChanger' do
         described_class.call(request)
-        expect(Players::ClubChanger).to have_received(:call).with(
-          hash_including(player: player, new_club_id: new_club.id)
-        )
+        expect(Players::ClubChanger).to have_received(:call).with(player: player, new_club_id: new_club.id)
+      end
+
+      it 'does not create a club transfer record' do
+        expect { described_class.call(request) }.not_to change(ClubTransfer, :count)
       end
     end
 
@@ -30,18 +32,12 @@ RSpec.describe ClubTransfers::Applier do
       it { expect(described_class.call(request)).to eq(:skipped) }
     end
 
-    context 'when the player is in Outside and the new club is not in our DB' do
+    context 'when the player is already in Outside and the new club is not in our DB' do
       let(:outside) { create(:club, name: 'Outside', tournament: tournament) }
       let(:player) { create(:player, club: outside) }
       let(:request) { create(:club_transfer_request, player: player, new_club: nil, new_club_name: 'Foreign FC') }
 
-      it 'returns :created' do
-        expect(described_class.call(request)).to eq(:created)
-      end
-
-      it 'records the transfer' do
-        expect { described_class.call(request) }.to change(ClubTransfer, :count).by(1)
-      end
+      it { expect(described_class.call(request)).to eq(:skipped) }
     end
 
     context 'when the player left a real club to a club not in our DB' do
@@ -54,11 +50,9 @@ RSpec.describe ClubTransfers::Applier do
         expect(described_class.call(request)).to eq(:changed)
       end
 
-      it 'moves the player to Outside keeping the real club name' do
+      it 'moves the player to Outside' do
         described_class.call(request)
-        expect(Players::ClubChanger).to have_received(:call).with(
-          hash_including(new_club_id: outside.id, new_club_name: 'Foreign FC')
-        )
+        expect(Players::ClubChanger).to have_received(:call).with(player: player, new_club_id: outside.id)
       end
     end
 

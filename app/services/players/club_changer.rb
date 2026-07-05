@@ -1,18 +1,15 @@
 module Players
   class ClubChanger < ApplicationService
-    def initialize(player:, new_club_id:, start_date:, contract_expires_on:, loan:, new_club_name: nil) # rubocop:disable Metrics/ParameterLists
+    def initialize(player:, new_club_id:)
       @player = player
       @new_club_id = new_club_id.to_i
-      @start_date = start_date
-      @contract_expires_on = contract_expires_on.presence
-      @loan = loan
-      @new_club_name = new_club_name
     end
 
     def call
       new_club = Club.find(@new_club_id)
+      return false if new_club.id == @player.club_id
+
       ActiveRecord::Base.transaction do
-        create_transfer_record(new_club)
         trigger_left_tournament unless same_tournament_move?(new_club)
         @player.update!(club: new_club)
       end
@@ -22,19 +19,6 @@ module Players
     end
 
     private
-
-    def create_transfer_record(new_club)
-      ClubTransfer.create!(
-        player: @player,
-        old_club: @player.club,
-        old_club_name: @player.club&.name,
-        new_club: new_club,
-        new_club_name: @new_club_name || new_club.name,
-        start_date: @start_date,
-        loan: @loan,
-        contract_expires_on: @contract_expires_on
-      )
-    end
 
     def trigger_left_tournament
       @player.teams.each { |team| Transfers::Seller.call(@player, team, :left) }

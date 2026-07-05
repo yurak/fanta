@@ -47,9 +47,7 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :players, only: [:index, :create, :show] do
-      resources :club_transfers, only: [:create]
-    end
+    resources :players, only: [:index, :create, :show]
     resources :club_transfers, only: [:index]
     resources :club_transfer_requests, only: [:index] do
       member do
