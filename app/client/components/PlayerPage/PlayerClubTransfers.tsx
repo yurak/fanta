@@ -20,6 +20,8 @@ const ClubCell = ({ club, name }: { club: IClub | null, name: string | null }) =
     );
   }
 
+  const tournamentId = club.tournament_id || club.ec_tournament_id;
+
   return (
     <div className={styles.transferClub}>
       <img
@@ -29,8 +31,8 @@ const ClubCell = ({ club, name }: { club: IClub | null, name: string | null }) =
           e.currentTarget.style.visibility = "hidden";
         }}
       />
-      {club.tournament_id ? (
-        <a className={styles.tmLink} href={`/tournaments/${club.tournament_id}/clubs/${club.id}`}>
+      {tournamentId ? (
+        <a className={styles.tmLink} href={`/tournaments/${tournamentId}/clubs/${club.id}`}>
           {club.name}
         </a>
       ) : (
