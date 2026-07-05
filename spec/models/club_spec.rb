@@ -54,6 +54,11 @@ RSpec.describe Club do
       expect(described_class.for_tm_id('69261')).to eq(c)
     end
 
+    it 'matches an id stored in reserve_club_ids as an integer' do
+      c = create(:club, tm_url: 'https://www.transfermarkt.com/vfl-bochum/startseite/verein/80', reserve_club_ids: [446])
+      expect(described_class.for_tm_id('446')).to eq(c)
+    end
+
     it 'does not match a different club id that shares a prefix' do
       create(:club, tm_url: 'https://www.transfermarkt.com/x/startseite/verein/692610/')
       expect(described_class.for_tm_id('69261')).to be_nil

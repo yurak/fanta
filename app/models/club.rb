@@ -27,7 +27,7 @@ class Club < ApplicationRecord
 
     tm_club_id = tm_club_id.to_s
     where('tm_url ~ ?', "/#{tm_club_id}/?$").first ||
-      where.not(reserve_club_ids: ['--- []', nil]).find { |c| c.reserve_club_ids.include?(tm_club_id) }
+      where.not(reserve_club_ids: ['--- []', nil]).find { |c| c.reserve_club_ids.map(&:to_s).include?(tm_club_id) }
   end
 
   def logo_path
