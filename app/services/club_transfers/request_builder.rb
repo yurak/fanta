@@ -25,11 +25,16 @@ module ClubTransfers
     end
 
     def needs_request?(transfer)
-      if transfer.new_club_id
-        transfer.new_club_id != @player.club_id
-      else
-        @player.club&.name != OUTSIDE_CLUB_NAME
-      end
+      return false if same_current_club?(transfer)
+
+      transfer.new_club_id ? true : @player.club&.name != OUTSIDE_CLUB_NAME
+    end
+
+    def same_current_club?(transfer)
+      return true if transfer.new_club_id && transfer.new_club_id == @player.club_id
+      return false if transfer.new_tm_club_id.blank?
+
+      Club.for_tm_id(transfer.new_tm_club_id)&.id == @player.club_id
     end
 
     def request_exists?(transfer)

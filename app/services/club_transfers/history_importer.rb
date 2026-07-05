@@ -48,13 +48,7 @@ module ClubTransfers
       return nil if tm_club_id.blank?
       return @club_cache[tm_club_id] if @club_cache.key?(tm_club_id)
 
-      @club_cache[tm_club_id] = find_club(tm_club_id)&.id
-    end
-
-    def find_club(tm_club_id)
-      Club.where('tm_url LIKE ?', "%/#{tm_club_id}").first ||
-        Club.where.not(reserve_club_ids: ['--- []', nil])
-            .find { |c| c.reserve_club_ids.include?(tm_club_id) }
+      @club_cache[tm_club_id] = Club.for_tm_id(tm_club_id)&.id
     end
   end
 end

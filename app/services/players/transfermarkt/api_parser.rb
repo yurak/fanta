@@ -100,9 +100,7 @@ module Players
       def club
         return nil if tm_club_id.blank?
 
-        @club ||= Club.where('tm_url LIKE ?', "%/#{tm_club_id}").first ||
-          Club.where.not(reserve_club_ids: ['--- []', nil])
-              .find { |c| c.reserve_club_ids.include?(tm_club_id) }
+        @club ||= Club.for_tm_id(tm_club_id)
       end
 
       def tm_club_id

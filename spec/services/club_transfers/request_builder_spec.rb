@@ -45,6 +45,18 @@ RSpec.describe ClubTransfers::RequestBuilder do
       end
     end
 
+    context 'when the destination resolves to the current club despite a nil new_club_id' do
+      let(:current_club) do
+        create(:club, tournament: tournament, tm_url: 'https://www.transfermarkt.com/x/startseite/verein/69261/')
+      end
+
+      before { transfer(new_club: nil, new_club_id: nil, new_club_name: 'Miami', new_tm_club_id: '69261') }
+
+      it 'does not create a bogus left-championship request' do
+        expect { described_class.call(player) }.not_to change(ClubTransferRequest, :count)
+      end
+    end
+
     context 'when the player is already in Outside and left for a non-Mantra club' do
       let(:current_club) { create(:club, name: 'Outside', tournament: tournament) }
 

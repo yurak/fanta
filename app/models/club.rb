@@ -22,6 +22,14 @@ class Club < ApplicationRecord
 
   RETIRED = 'Retired'.freeze
 
+  def self.for_tm_id(tm_club_id)
+    return nil if tm_club_id.blank?
+
+    tm_club_id = tm_club_id.to_s
+    where('tm_url ~ ?', "/#{tm_club_id}/?$").first ||
+      where.not(reserve_club_ids: ['--- []', nil]).find { |c| c.reserve_club_ids.include?(tm_club_id) }
+  end
+
   def logo_path
     "#{Player::BUCKET_URL}/club_logo/#{path_name}.png"
   end
