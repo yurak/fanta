@@ -11,9 +11,9 @@ RSpec.describe RoundPlayerSerializer do
 
   def expected_keys
     %i[
-      id assists base_score caught_penalty cleansheet club_id conceded_penalty failed_penalty goals
-      missed_penalty missed_goals own_goals penalties_won played_minutes player_id red_card saves
-      scored_penalty total_score tournament_round_id tournament_round_number yellow_card
+      id assists base_score caught_penalty cleansheet club_id club_logo_path conceded_penalty
+      failed_penalty goals missed_penalty missed_goals own_goals penalties_won played_minutes player_id
+      red_card saves scored_penalty total_score tournament_round_id tournament_round_number yellow_card
     ]
   end
 end

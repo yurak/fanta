@@ -9,21 +9,15 @@ module Manage
       @player = Player.includes(:club, :positions, :national_team,
                                 club_transfers: %i[old_club new_club]).find(params.expect(:id))
       @club_transfers = @player.club_transfers.recent
-      @active_clubs = Club.active.order(:name)
       @teams = @player.teams.includes(league: :tournament)
       @team_transfers = @player.transfers.incoming.index_by(&:team_id)
       @season_stats = player_season_stats
     end
 
     def create
-      result = parse_player_hash(params[:player_hash])
+      data = Players::Transfermarkt::ApiParser.call(params[:tm_id].to_s.strip.presence)
 
-      if result.nil?
-        redirect_to manage_players_path, alert: t('manage.players.invalid_hash')
-        return
-      end
-
-      if Players::Manager.call(result)
+      if data && Players::Manager.call(data.stringify_keys)
         redirect_to manage_players_path, notice: t('manage.players.created')
       else
         redirect_to manage_players_path, alert: t('manage.players.failed')
@@ -50,15 +44,6 @@ module Manage
       players = players.where(fotmob_id: params[:fotmob_id]) if params[:fotmob_id].present?
       players = players.joins(:club).where(clubs: { id: params[:club_id] }) if params[:club_id].present?
       players
-    end
-
-    def parse_player_hash(raw)
-      return nil if raw.blank?
-
-      json_str = raw.strip.gsub('=>', ':').gsub(/\bnil\b/, 'null')
-      JSON.parse(json_str)
-    rescue JSON::ParserError
-      nil
     end
   end
 end

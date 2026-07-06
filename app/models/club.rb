@@ -21,6 +21,15 @@ class Club < ApplicationRecord
   scope :by_tournament, ->(tournament_id) { where(tournament_id: tournament_id) if tournament_id.present? }
 
   RETIRED = 'Retired'.freeze
+  DECEASED = 'Deceased'.freeze
+
+  def self.for_tm_id(tm_club_id)
+    return nil if tm_club_id.blank?
+
+    tm_club_id = tm_club_id.to_s
+    where('tm_url ~ ?', "/#{tm_club_id}/?$").first ||
+      where.not(reserve_club_ids: ['--- []', nil]).find { |c| c.reserve_club_ids.map(&:to_s).include?(tm_club_id) }
+  end
 
   def logo_path
     "#{Player::BUCKET_URL}/club_logo/#{path_name}.png"

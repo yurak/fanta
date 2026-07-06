@@ -5,22 +5,18 @@ class PlayersController < ApplicationController
 
   respond_to :html
 
-  # Specify the layout for the index action
-  layout 'react_application', only: %i[index leagues_list]
+  # Specify the layout for the React-rendered actions
+  layout 'react_application', only: %i[index leagues_list show]
 
   def index; end
 
   def leagues_list; end
 
   def show
-    redirect_to leagues_path unless player
+    return redirect_to leagues_path unless player
 
     respond_to do |format|
-      format.html do
-        @stats = player.player_season_stats.joins(:tournament).includes(:season, :club)
-                       .order(season_id: :desc, created_at: :desc)
-        preload_player_show_associations
-      end
+      format.html
       format.json { render json: player, serializer: PlayerLineupSerializer }
     end
   end
@@ -42,16 +38,6 @@ class PlayersController < ApplicationController
       teams: { league: :division },
       club: :tournament
     ).find_by(id: params[:id])
-  end
-
-  def preload_player_show_associations
-    [
-      player.season_club_in_squad.to_a,
-      player.season_ec_in_squad.to_a,
-      player.national_in_squad.to_a
-    ].each do |rps|
-      ActiveRecord::Associations::Preloader.new(records: rps, associations: %i[tournament_round club]).call
-    end
   end
 
   def stats_params

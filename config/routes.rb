@@ -24,6 +24,7 @@ Rails.application.routes.draw do
   get 'rules',    to: 'welcome#rules'
   get 'terms',    to: 'welcome#terms'
   get 'oferta',   to: 'welcome#oferta'
+  get 'privacy',  to: 'welcome#privacy'
 
   resources :joins, only: [:index, :show]
   resources :fanta_joins, only: [:create]
@@ -46,11 +47,20 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :players, only: [:index, :create, :show] do
-      resources :club_transfers, only: [:create]
-    end
+    resources :players, only: [:index, :create, :show]
     resources :club_transfers, only: [:index]
-    resources :clubs, only: [:index, :show]
+    resources :club_transfer_requests, only: [:index] do
+      member do
+        post :confirm
+        post :reject
+      end
+    end
+    resources :clubs, only: [:index, :show] do
+      member do
+        get :sync_squad
+        post :create_players
+      end
+    end
     resources :national_teams, only: [:index, :show]
     resources :teams, only: [:index]
     resources :user_logos, only: [:index] do

@@ -10,6 +10,6 @@ RSpec.describe ClubSerializer do
   end
 
   def expected_keys
-    %i[id code color kit_path logo_path name profile_kit_path status tm_url tournament_id]
+    %i[id code color kit_path logo_path name profile_kit_path status tm_url tournament_id ec_tournament_id]
   end
 end

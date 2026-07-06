@@ -1,28 +1,14 @@
 RSpec.describe 'Manage::ClubTransfers' do
-  describe 'POST #create' do
-    let(:tournament) { create(:tournament) }
-    let(:old_club) { create(:club, tournament: tournament) }
-    let(:new_club) { create(:club, tournament: tournament) }
-    let(:player) { create(:player, club: old_club) }
-    let(:valid_params) do
-      {
-        new_club_id: new_club.id,
-        start_date: Time.zone.today.to_s,
-        contract_expires_on: '2027-06-30',
-        loan: '0'
-      }
-    end
-
+  describe 'GET #index' do
     context 'when user is logged out' do
-      before { post manage_player_club_transfers_path(player), params: valid_params }
+      before { get manage_club_transfers_path }
 
       it { expect(response).to redirect_to('/users/sign_in') }
     end
 
     context 'when regular user is logged in' do
       login_user
-
-      before { post manage_player_club_transfers_path(player), params: valid_params }
+      before { get manage_club_transfers_path }
 
       it { expect(response).to redirect_to(leagues_path) }
     end
@@ -30,30 +16,16 @@ RSpec.describe 'Manage::ClubTransfers' do
     context 'when admin is logged in' do
       login_admin
 
-      context 'with valid params' do
-        before do
-          allow(Players::ClubChanger).to receive(:call).and_return(true)
-          post manage_player_club_transfers_path(player), params: valid_params
-        end
+      let!(:transfer) { create(:club_transfer, new_club_name: 'MarkerClubX') }
 
-        it { expect(response).to redirect_to(manage_player_path(player)) }
-        it { expect(flash[:notice]).to be_present }
+      before { get manage_club_transfers_path }
 
-        it 'calls Players::ClubChanger with correct params' do
-          expect(Players::ClubChanger).to have_received(:call).with(
-            hash_including(player: player, new_club_id: new_club.id.to_s, loan: false)
-          )
-        end
-      end
+      it { expect(response).to have_http_status(:ok) }
+      it { expect(response.body).to include('MarkerClubX') }
 
-      context 'when Players::ClubChanger returns false' do
-        before do
-          allow(Players::ClubChanger).to receive(:call).and_return(false)
-          post manage_player_club_transfers_path(player), params: valid_params
-        end
-
-        it { expect(response).to redirect_to(manage_player_path(player)) }
-        it { expect(flash[:alert]).to be_present }
+      it 'filters by player name' do
+        get manage_club_transfers_path, params: { player_name: transfer.player.name }
+        expect(response).to have_http_status(:ok)
       end
     end
   end

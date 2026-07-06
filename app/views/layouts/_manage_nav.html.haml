@@ -46,6 +46,11 @@
         .league-link-icon= image_tag('icons/round/clubs.svg')
         .league-link-text= t('manage.nav.club_transfers')
   .league-links
+    = link_to manage_club_transfer_requests_path do
+      .league-link{ class: "link-active-#{ params[:controller] == 'manage/club_transfer_requests' }" }
+        .league-link-icon= image_tag('icons/round/clubs.svg')
+        .league-link-text= t('manage.nav.club_transfer_requests')
+  .league-links
     = link_to manage_national_teams_path do
       .league-link{ class: "link-active-#{ params[:controller] == 'manage/national_teams' }" }
         .league-link-icon= image_tag('icons/round/players.svg')

@@ -9,4 +9,5 @@ class ClubSerializer < ActiveModel::Serializer
   attributes :status
   attributes :tm_url
   attributes :tournament_id
+  attributes :ec_tournament_id
 end

@@ -43,6 +43,32 @@ RSpec.describe Club do
     end
   end
 
+  describe '.for_tm_id' do
+    it 'matches a tm_url without a trailing slash' do
+      c = create(:club, tm_url: 'https://www.transfermarkt.com/leipzig/startseite/verein/23826')
+      expect(described_class.for_tm_id('23826')).to eq(c)
+    end
+
+    it 'matches a tm_url with a trailing slash' do
+      c = create(:club, tm_url: 'https://www.transfermarkt.com/inter-miami-cf/startseite/verein/69261/')
+      expect(described_class.for_tm_id('69261')).to eq(c)
+    end
+
+    it 'matches an id stored in reserve_club_ids as an integer' do
+      c = create(:club, tm_url: 'https://www.transfermarkt.com/vfl-bochum/startseite/verein/80', reserve_club_ids: [446])
+      expect(described_class.for_tm_id('446')).to eq(c)
+    end
+
+    it 'does not match a different club id that shares a prefix' do
+      create(:club, tm_url: 'https://www.transfermarkt.com/x/startseite/verein/692610/')
+      expect(described_class.for_tm_id('69261')).to be_nil
+    end
+
+    it 'returns nil for a blank id' do
+      expect(described_class.for_tm_id(nil)).to be_nil
+    end
+  end
+
   describe '#opponent_by_round' do
     let(:tournament_round) { create(:tournament_round) }
     let(:club2) { create(:club, name: 'AC Milan') }

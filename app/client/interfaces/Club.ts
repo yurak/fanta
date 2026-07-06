@@ -8,5 +8,6 @@ export interface IClub {
   profile_kit_path: string,
   status: string,
   tm_url: string,
-  tournament_id: number,
+  tournament_id: number | null,
+  ec_tournament_id: number | null,
 }

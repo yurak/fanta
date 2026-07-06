@@ -1,0 +1,60 @@
+.page-block
+  .web-header= render 'layouts/left_nav', league: nil
+  .web-header= render 'layouts/manage_nav'
+  .mob-header= render 'layouts/mob_header', league: nil, title: @club.name
+  .page-info.admin-manage-page
+    = link_to t('manage.clubs.back_to_club'), manage_club_path(@club), class: 'btn btn-sm btn-outline-secondary mb-3'
+
+    %h2= "#{t('manage.clubs.sync_squad')} — #{@club.name}"
+
+    - if @squad.any?
+      = form_tag create_players_manage_club_path(@club), method: :post do
+        %table.table.table-hover.table-sm.align-middle
+          %thead.thead-light
+            %tr
+              %th= check_box_tag 'select_all_squad', '1', false, id: 'select-all-squad', title: t('manage.clubs.select_all_new')
+              %th TM ID
+              %th= t('manage.players.col_name')
+              %th= t('manage.players.col_positions')
+              %th= t('manage.players.col_price')
+              %th= t('manage.players.col_nationality')
+              %th= t('manage.clubs.col_squad_status')
+          %tbody
+            - @squad.each do |entry|
+              %tr
+                %td
+                  - unless entry[:player]
+                    = check_box_tag 'tm_ids[]', entry[:tm_id], false, class: 'squad-player-check'
+                %td= link_to entry[:tm_id], "#{Player::TM_PATH}#{entry[:tm_id]}", target: '_blank', rel: 'noopener'
+                %td
+                  - if entry[:player]
+                    = link_to entry[:name], manage_player_path(entry[:player])
+                  - else
+                    = entry[:name] || '—'
+                %td= entry[:position] || '—'
+                %td= entry[:price].to_i.positive? ? "€#{number_with_delimiter(entry[:price])}" : '—'
+                %td
+                  - if entry[:nationality].present?
+                    %span.flag-icon{ class: "flag-icon-#{entry[:nationality]}" }
+                    = entry[:nationality].upcase
+                  - else
+                    = '—'
+                %td
+                  - if entry[:player]
+                    %span.badge.bg-secondary.text-white= t('manage.clubs.squad_present')
+                  - else
+                    %span.badge.bg-success.text-white= t('manage.clubs.squad_new')
+        = submit_tag t('manage.clubs.create_selected'), class: 'btn btn-success', data: { turbo_confirm: t('manage.clubs.create_prompt') }
+
+      :javascript
+        (function() {
+          var master = document.getElementById('select-all-squad');
+          if (!master) return;
+          master.addEventListener('change', function() {
+            document.querySelectorAll('.squad-player-check').forEach(function(cb) {
+              cb.checked = master.checked;
+            });
+          });
+        })();
+    - else
+      %p.text-muted= t('manage.clubs.squad_empty')
