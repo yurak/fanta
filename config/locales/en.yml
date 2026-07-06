@@ -1797,6 +1797,7 @@ en:
         start_offers: "%{icon} Auction round #%{number} has started in %{league_name} League.\n🔜 Deadline: %{deadline} (%{time_zone}) 🔚\n\n‼️️ You must make offer on %{vacancies} players for %{team_name} - %{url}\n\n#auction #%{code}"
       player:
         left: "%{icon} %{player_name} from %{team_name} left %{tournament_name} tournament.\n💵 You will be able to replace him at the next auction.\n\n#player #%{code}"
+        club_changed: "%{icon} %{player_name} from %{team_name} moved to %{new_club_name} within %{tournament_name} tournament.\n✅ He stays in your squad.\n\n#player #%{code}"
       logo:
         approved: "✅ Your uploaded logo has been approved and is now available when editing your teams.\n\n#logo"
         rejected: "❌ Your uploaded logo was rejected by a moderator. Try uploading a different image.\n\n#logo"

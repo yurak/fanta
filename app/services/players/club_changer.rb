@@ -10,7 +10,7 @@ module Players
       return false if new_club.id == @player.club_id
 
       ActiveRecord::Base.transaction do
-        trigger_left_tournament unless same_tournament_move?(new_club)
+        same_tournament_move?(new_club) ? notify_club_change(new_club) : trigger_left_tournament
         @player.update!(club: new_club)
       end
       true
@@ -22,6 +22,10 @@ module Players
 
     def trigger_left_tournament
       @player.teams.each { |team| Transfers::Seller.call(@player, team, :left) }
+    end
+
+    def notify_club_change(new_club)
+      @player.teams.each { |team| TelegramBot::PlayerClubChangedNotifier.call(@player, team, new_club) }
     end
 
     def same_tournament_move?(new_club)

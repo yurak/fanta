@@ -23,6 +23,19 @@ RSpec.describe Players::ClubChanger do
         service_call
         expect(Transfers::Seller).not_to have_received(:call)
       end
+
+      context 'with an owning team' do
+        let(:league) { create(:league, tournament: tournament) }
+        let(:team) { create(:team, league: league) }
+
+        before { create(:player_team, player: player, team: team) }
+
+        it 'notifies the team owner of the club change' do
+          allow(TelegramBot::PlayerClubChangedNotifier).to receive(:call)
+          service_call
+          expect(TelegramBot::PlayerClubChangedNotifier).to have_received(:call).with(player, team, new_club)
+        end
+      end
     end
 
     context 'when moving to a club in a different tournament (cross-tournament move)' do
@@ -50,6 +63,12 @@ RSpec.describe Players::ClubChanger do
 
       it 'removes player from owning teams' do
         expect { service_call }.to change(PlayerTeam, :count).by(-1)
+      end
+
+      it 'does not notify a club change' do
+        allow(TelegramBot::PlayerClubChangedNotifier).to receive(:call)
+        service_call
+        expect(TelegramBot::PlayerClubChangedNotifier).not_to have_received(:call)
       end
     end
 
