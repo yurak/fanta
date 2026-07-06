@@ -55,7 +55,12 @@ Rails.application.routes.draw do
         post :reject
       end
     end
-    resources :clubs, only: [:index, :show]
+    resources :clubs, only: [:index, :show] do
+      member do
+        get :sync_squad
+        post :create_players
+      end
+    end
     resources :national_teams, only: [:index, :show]
     resources :teams, only: [:index]
     resources :user_logos, only: [:index] do

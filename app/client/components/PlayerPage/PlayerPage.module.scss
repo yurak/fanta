@@ -136,13 +136,19 @@ $blank: #CFD2CD;
 
 .tables {
   display: grid;
-  grid-template-columns: 1fr 2fr;
+  grid-template-columns: minmax(0, 340px) 1fr;
   column-gap: 16px;
   align-items: start;
 }
 
 .tables > * {
   min-width: 0;
+}
+
+@media (min-width: 1400px) {
+  .tables {
+    grid-template-columns: minmax(0, 400px) 1fr;
+  }
 }
 
 .table {
@@ -167,7 +173,13 @@ $blank: #CFD2CD;
   border-bottom: 1px solid $row-border;
   display: grid;
   grid-template-columns: 110px auto;
-  column-gap: 32px;
+  column-gap: 16px;
+}
+
+@media (min-width: 1400px) {
+  .bioRow {
+    column-gap: 32px;
+  }
 }
 
 .bioRowLast {
@@ -484,7 +496,27 @@ $blank: #CFD2CD;
   padding: 8px 0;
   line-height: 32px;
   display: grid;
-  grid-template-columns: 4fr 6fr 6fr 6fr 6fr 5fr 5fr 5fr 5fr 5fr 5fr 5fr 5fr 5fr 4fr;
+  grid-template-columns: 36px 4fr 6fr 6fr 6fr 6fr 5fr 5fr 5fr 5fr 5fr 5fr 5fr 5fr 56px;
+}
+
+.perfRow:not(.seasonStatsRow) > :last-child {
+  position: sticky;
+  right: 0;
+  z-index: 1;
+  background-color: #FFFFFF;
+  border-left: 1px solid $border;
+}
+
+.perfRow.totalRow > :last-child {
+  background-color: $highlight;
+}
+
+.seasonStatsRow > :last-child {
+  position: sticky;
+  right: 0;
+  z-index: 1;
+  background-color: #FFFFFF;
+  border-left: 1px solid $border;
 }
 
 .dataRow {

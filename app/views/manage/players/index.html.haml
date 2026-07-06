@@ -4,6 +4,7 @@
   .mob-header= render 'layouts/mob_header', league: nil, title: t('manage.players.title')
   .page-info.admin-manage-page
     %h2= t('manage.players.title')
+    %button.btn.btn-primary.mt-1.mb-3#add-player-btn= t('manage.players.add_player')
 
     - if flash[:notice]
       .alert.alert-success= flash[:notice]
@@ -47,8 +48,6 @@
     - else
       %p.text-muted= t('manage.players.empty')
 
-    %button.btn.btn-primary.mt-3#add-player-btn= t('manage.players.add_player')
-
 #add-player-modal.join-modal{ style: 'display:none' }
   .join-modal-content
     .join-modal-header
@@ -56,8 +55,8 @@
       %button.join-modal-close{ type: 'button' } ×
     = form_tag manage_players_path, method: :post do
       .join-modal-input-field
-        %label.join-modal-input-label{ for: 'player_hash' }= t('manage.players.hash_label')
-        %textarea#player-hash-input.join-modal-input{ name: 'player_hash', rows: 8, placeholder: t('manage.players.hash_placeholder'), required: true }
+        %label.join-modal-input-label{ for: 'tm_id' } TM ID
+        %input#player-tm-id-input.join-modal-input{ type: 'text', name: 'tm_id', placeholder: 'TM ID', required: true, autocomplete: 'off' }
       .join-modal-footer
         %button.grey-btn{ type: 'button', id: 'add-player-cancel' }= t('manage.players.cancel')
         %button.blue-btn{ type: 'submit' }= t('manage.players.create')

@@ -78,6 +78,14 @@ RSpec.describe Players::Transfermarkt::ApiParser do
         expect(result[:nationality]).to eq('it')
       end
 
+      context 'when nationality is Eritrea' do
+        before { stub_api(api_response('nationalityDetails' => { 'nationalities' => { 'nationalityId' => 46 } })) }
+
+        it 'maps id 46 to er' do
+          expect(result[:nationality]).to eq('er')
+        end
+      end
+
       context 'when nationality ID is unknown' do
         before { stub_api(api_response('nationalityDetails' => { 'nationalities' => { 'nationalityId' => 9999 } })) }
 

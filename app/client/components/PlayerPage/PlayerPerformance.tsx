@@ -26,6 +26,7 @@ const Header = ({ columns }: { columns: IBonusColumn[] }) => {
 
   return (
     <div className={`${styles.perfRow} ${styles.perfHeaders}`}>
+      <div className={styles.headerCell} title={t("players.round_club")}>{t("players.round_c")}</div>
       <div className={styles.headerCell}>#</div>
       {columns.map((col) => (
         <div key={col.key} className={styles.headerCell} title={t(`players.${col.title}`)}>
@@ -35,7 +36,6 @@ const Header = ({ columns }: { columns: IBonusColumn[] }) => {
       <div className={styles.headerCell} title={t("players.played_minutes")}>{t("players.pm")}</div>
       <div className={styles.headerCell} title={t("players.base_score")}>{t("players.bs")}</div>
       <div className={styles.headerCell} title={t("players.total_score")}>{t("players.ts")}</div>
-      <div className={styles.headerCell} title={t("players.round_club")}>{t("players.round_c")}</div>
     </div>
   );
 };
@@ -55,17 +55,6 @@ const RoundRow = ({
         Number(round.base_score) > 0 ? "" : styles.squadOnlyRow
       }`}
     >
-      <div className={styles.cell}>{round.tournament_round_number}</div>
-      {columns.map((col) => (
-        <BonusCell
-          key={col.key}
-          icon={col.icon}
-          value={round[col.key as keyof IRoundStat]}
-        />
-      ))}
-      <div className={styles.cell}>{round.played_minutes}</div>
-      <div className={styles.cellRight}>{round.base_score}</div>
-      <div className={`${styles.cellRight} ${styles.ts}`}>{round.total_score}</div>
       <div className={styles.roundClub}>
         {flagCode ? (
           <span className={`flag-icon flag-icon-${flagCode.toLowerCase()} ${styles.roundFlag}`} />
@@ -77,6 +66,17 @@ const RoundRow = ({
           )
         )}
       </div>
+      <div className={styles.cell}>{round.tournament_round_number}</div>
+      {columns.map((col) => (
+        <BonusCell
+          key={col.key}
+          icon={col.icon}
+          value={round[col.key as keyof IRoundStat]}
+        />
+      ))}
+      <div className={styles.cell}>{round.played_minutes}</div>
+      <div className={styles.cellRight}>{round.base_score}</div>
+      <div className={`${styles.cellRight} ${styles.ts}`}>{round.total_score}</div>
     </div>
   );
 };
@@ -84,6 +84,7 @@ const RoundRow = ({
 const TotalRow = ({ total, columns }: { total: ISeasonTotal, columns: IBonusColumn[] }) => {
   return (
     <div className={`${styles.perfRow} ${styles.totalRow}`}>
+      <div className={styles.cell} />
       <div className={styles.cell}>{total.played_matches}</div>
       {columns.map((col) => (
         <BonusCell
@@ -96,7 +97,6 @@ const TotalRow = ({ total, columns }: { total: ISeasonTotal, columns: IBonusColu
       <div className={styles.cell}>{total.played_minutes}</div>
       <div className={styles.cellRight}>{total.base_score}</div>
       <div className={styles.cellRight}>{total.total_score}</div>
-      <div className={styles.cell} />
     </div>
   );
 };

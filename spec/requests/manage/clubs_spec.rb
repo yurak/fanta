@@ -44,6 +44,11 @@ RSpec.describe 'Manage::Clubs' do
         expect(response.body).not_to include('Beta Club')
       end
 
+      it 'filters case-insensitively' do
+        get manage_clubs_path, params: { name: 'alpha' }
+        expect(response.body).to include('Alpha Club')
+      end
+
       it 'shows reset link when name filter is applied' do
         get manage_clubs_path, params: { name: 'Alpha' }
         expect(response.body).to include(manage_clubs_path)
@@ -83,6 +88,63 @@ RSpec.describe 'Manage::Clubs' do
 
       it 'displays players count' do
         expect(response.body).to include('1')
+      end
+    end
+  end
+
+  describe 'GET #sync_squad' do
+    let(:club) { create(:club, tm_url: 'https://www.transfermarkt.com/x/startseite/verein/23826') }
+
+    context 'when admin is logged in' do
+      login_admin
+
+      before do
+        create(:player, tm_id: 111, name: 'ExistingMarker')
+        allow(Players::Transfermarkt::ClubSquadParser).to receive(:call).and_return(%w[111 222])
+        allow(Players::Transfermarkt::ApiParser).to receive(:call).and_return({ first_name: 'New', name: 'GuyMarker' })
+        get sync_squad_manage_club_path(club)
+      end
+
+      it { expect(response).to be_successful }
+
+      it 'marks an existing squad player as present' do
+        expect(response.body).to include('ExistingMarker')
+      end
+
+      it 'shows a fetched name for an absent squad player' do
+        expect(response.body).to include('GuyMarker')
+      end
+    end
+  end
+
+  describe 'POST #create_players' do
+    let(:club) { create(:club) }
+
+    context 'when admin is logged in' do
+      login_admin
+
+      before do
+        allow(Players::Transfermarkt::ApiParser).to receive(:call).and_return({ name: 'Ronaldo', club_name: club.name })
+        allow(Players::Manager).to receive(:call).and_return(true)
+      end
+
+      it 'creates each selected player' do
+        post create_players_manage_club_path(club), params: { tm_ids: %w[222 333] }
+
+        expect(Players::Manager).to have_received(:call).twice
+      end
+
+      it 'redirects to the club' do
+        post create_players_manage_club_path(club), params: { tm_ids: %w[222 333] }
+
+        expect(response).to redirect_to(manage_club_path(club))
+      end
+
+      it 'skips players that already exist' do
+        create(:player, tm_id: 222)
+        post create_players_manage_club_path(club), params: { tm_ids: %w[222] }
+
+        expect(Players::Manager).not_to have_received(:call)
       end
     end
   end
