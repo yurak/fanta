@@ -44,7 +44,7 @@
                   - if req.player.fotmob_id.present?
                     = link_to 'FM', "https://www.fotmob.com/players/#{req.player.fotmob_id}", target: '_blank', rel: 'noopener', class: 'btn btn-sm', style: 'background-color: #00985F; color: #fff; border-color: #00985F;'
               %td.text-center
-                %span.badge{ class: { green: 'bg-success', red: 'bg-danger', yellow: 'bg-warning text-dark' }[req.teams_status], style: 'font-size: 1rem;' }= req.teams_count
+                %span.badge.text-white{ class: { green: 'bg-success', red: 'bg-danger', yellow: 'bg-warning', blue: 'bg-primary' }[req.teams_status], style: 'font-size: 1rem;' }= req.teams_count
               %td
                 - if req.old_club
                   %img.mr-1{ src: req.old_club.logo_path, width: 18, height: 18, style: 'vertical-align: middle;', onerror: "this.style.display='none'" }

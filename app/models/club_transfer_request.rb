@@ -20,13 +20,16 @@ class ClubTransferRequest < ApplicationRecord
     !same_tournament_move?
   end
 
-  # :green — player stays in the championship
-  # :red   — player leaves the championship and is owned by teams
-  # :yellow — player leaves the championship and is owned by no team
+  # :red    — leaves the championship and is owned by teams
+  # :yellow — leaves the championship and is owned by no team
+  # :blue   — stays in the championship and is owned by teams
+  # :green  — stays in the championship and is owned by no team
   def teams_status
-    return :green unless leaves_championship?
-
-    teams_count.positive? ? :red : :yellow
+    if leaves_championship?
+      teams_count.positive? ? :red : :yellow
+    else
+      teams_count.positive? ? :blue : :green
+    end
   end
 
   private

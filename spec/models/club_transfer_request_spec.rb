@@ -29,6 +29,14 @@ RSpec.describe ClubTransferRequest do
       expect(request.teams_status).to eq(:green)
     end
 
+    it 'is :blue when the player stays in the championship and is owned by teams' do
+      new_club = create(:club, tournament: tournament)
+      create(:player_team, player: player)
+      request = build(:club_transfer_request, player: player, new_club: new_club, new_club_name: new_club.name)
+
+      expect(request.teams_status).to eq(:blue)
+    end
+
     it 'is :yellow when the player leaves the championship and has no teams' do
       new_club = create(:club, tournament: create(:tournament))
       request = build(:club_transfer_request, player: player, new_club: new_club, new_club_name: new_club.name)
