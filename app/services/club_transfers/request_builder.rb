@@ -7,6 +7,8 @@ module ClubTransfers
     end
 
     def call
+      return nil if deceased?
+
       transfer = latest_transfer
       return nil unless transfer && needs_request?(transfer)
       return nil if request_exists?(transfer)
@@ -15,6 +17,10 @@ module ClubTransfers
     end
 
     private
+
+    def deceased?
+      @player.club&.name == Club::DECEASED
+    end
 
     def latest_transfer
       @player.club_transfers.tm_sourced

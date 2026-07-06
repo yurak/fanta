@@ -15,10 +15,10 @@ module Manage
       result = ClubTransfers::Applier.call(transfer_request)
 
       if result == :failed
-        redirect_to manage_club_transfer_requests_path, alert: t('manage.club_transfer_requests.failed')
+        redirect_to list_path, alert: t('manage.club_transfer_requests.failed')
       else
         transfer_request.confirmed!
-        redirect_to manage_club_transfer_requests_path, notice: t('manage.club_transfer_requests.confirmed')
+        redirect_to list_path, notice: t('manage.club_transfer_requests.confirmed')
       end
     end
 
@@ -26,7 +26,15 @@ module Manage
       transfer_request = ClubTransferRequest.find(params.expect(:id))
       transfer_request.rejected!
 
-      redirect_to manage_club_transfer_requests_path, notice: t('manage.club_transfer_requests.rejected')
+      redirect_to list_path, notice: t('manage.club_transfer_requests.rejected')
+    end
+
+    private
+
+    def list_path
+      manage_club_transfer_requests_path(
+        params.permit(:status, :player_name, :page).to_h.compact_blank
+      )
     end
   end
 end

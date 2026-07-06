@@ -79,6 +79,17 @@ RSpec.describe 'Manage::ClubTransferRequests' do
         it { expect(transfer_request.reload).to be_pending }
         it { expect(flash[:alert]).to be_present }
       end
+
+      context 'when a page and tab are given' do
+        before do
+          allow(ClubTransfers::Applier).to receive(:call).and_return(:changed)
+          post confirm_manage_club_transfer_request_path(transfer_request, page: 2, status: 'pending')
+        end
+
+        it 'redirects back to the same page and tab' do
+          expect(response).to redirect_to(manage_club_transfer_requests_path(page: 2, status: 'pending'))
+        end
+      end
     end
   end
 

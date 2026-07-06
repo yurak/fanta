@@ -88,6 +88,14 @@ RSpec.describe ClubTransfers::RequestBuilder do
       end
     end
 
+    context 'when the player is in the Deceased club' do
+      let(:current_club) { create(:club, name: Club::DECEASED, tournament: nil) }
+
+      before { transfer(new_club: new_club, new_club_name: new_club.name) }
+
+      it { expect { described_class.call(player) }.not_to change(ClubTransferRequest, :count) }
+    end
+
     context 'when the player has no imported transfers' do
       it { expect(described_class.call(player)).to be_nil }
     end

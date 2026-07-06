@@ -21,6 +21,7 @@ class Club < ApplicationRecord
   scope :by_tournament, ->(tournament_id) { where(tournament_id: tournament_id) if tournament_id.present? }
 
   RETIRED = 'Retired'.freeze
+  DECEASED = 'Deceased'.freeze
 
   def self.for_tm_id(tm_club_id)
     return nil if tm_club_id.blank?

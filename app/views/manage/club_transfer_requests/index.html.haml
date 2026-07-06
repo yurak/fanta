@@ -65,9 +65,10 @@
               %td= req.loan? ? '✓' : '—'
               %td
                 - if req.pending?
+                  - return_params = { status: @status, player_name: params[:player_name], page: params[:page] }
                   .d-flex
-                    = button_to t('manage.club_transfer_requests.confirm'), confirm_manage_club_transfer_request_path(req), method: :post, class: 'btn btn-sm btn-success', form: { class: 'mr-2', data: { turbo_confirm: t('manage.club_transfer_requests.confirm_prompt') } }
-                    = button_to t('manage.club_transfer_requests.reject'), reject_manage_club_transfer_request_path(req), method: :post, class: 'btn btn-sm btn-outline-danger', form: { data: { turbo_confirm: t('manage.club_transfer_requests.reject_prompt') } }
+                    = button_to t('manage.club_transfer_requests.confirm'), confirm_manage_club_transfer_request_path(req, return_params), method: :post, class: 'btn btn-sm btn-success', form: { class: 'mr-2', data: { turbo_confirm: t('manage.club_transfer_requests.confirm_prompt') } }
+                    = button_to t('manage.club_transfer_requests.reject'), reject_manage_club_transfer_request_path(req, return_params), method: :post, class: 'btn btn-sm btn-outline-danger', form: { data: { turbo_confirm: t('manage.club_transfer_requests.reject_prompt') } }
                 - else
                   = req.updated_at.strftime('%d.%m.%Y %H:%M')
     - else
