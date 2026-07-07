@@ -6,7 +6,8 @@ RSpec.describe Clubs::SquadList do
   before do
     allow(Players::Transfermarkt::ClubSquadParser).to receive(:call).and_return(%w[111 222])
     allow(Players::Transfermarkt::ApiParser).to receive(:call)
-      .and_return({ first_name: 'New', name: 'Guy', tm_pos1: 'CB', tm_price: 5_000_000, nationality: 'br' })
+      .and_return({ first_name: 'New', name: 'Guy', tm_pos1: 'CB', tm_price: 5_000_000,
+                    nationality: 'br', birth_date: '25/11/2005' })
   end
 
   it 'lists existing players before new ones' do
@@ -25,6 +26,7 @@ RSpec.describe Clubs::SquadList do
   it 'builds new entries from fetched TM data' do
     entry = described_class.call(club).find { |e| e[:player].nil? }
 
-    expect(entry).to include(name: 'New Guy', position: 'CB', price: 5_000_000, nationality: 'br')
+    expect(entry).to include(name: 'New Guy', position: 'CB', price: 5_000_000, nationality: 'br',
+                             birth_date: '25/11/2005')
   end
 end

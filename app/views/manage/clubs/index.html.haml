@@ -9,8 +9,10 @@
       = text_field_tag :name, params[:name], class: 'form-control form-control-sm w-auto mr-2', placeholder: t('manage.clubs.filter_name')
       = select_tag :tournament_id, options_for_select([['— All tournaments —', '']] + @tournaments.map { |tour| [tour.name, tour.id] }, params[:tournament_id]),
                    class: 'form-control form-control-sm w-auto mr-2'
+      = select_tag :status, options_for_select([['— All statuses —', '']] + Club.statuses.keys.map { |s| [s.capitalize, s] }, params[:status]),
+                   class: 'form-control form-control-sm w-auto mr-2'
       = submit_tag t('manage.clubs.search'), class: 'btn btn-sm btn-primary mr-2'
-      - if params[:name].present? || params[:tournament_id].present?
+      - if params[:name].present? || params[:tournament_id].present? || params[:status].present?
         = link_to t('manage.clubs.reset'), manage_clubs_path, class: 'btn btn-sm btn-outline-secondary'
 
     - if @clubs.any?

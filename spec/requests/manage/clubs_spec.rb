@@ -81,6 +81,24 @@ RSpec.describe 'Manage::Clubs' do
       end
     end
 
+    context 'when filtering by status' do
+      login_admin
+
+      before do
+        create(:club, name: 'ActiveMarkerClub', status: :active)
+        create(:archived_club, name: 'ArchivedMarkerClub')
+        get manage_clubs_path, params: { status: 'archived' }
+      end
+
+      it 'shows clubs with the selected status' do
+        expect(response.body).to include('ArchivedMarkerClub')
+      end
+
+      it 'hides clubs with other statuses' do
+        expect(response.body).not_to include('ActiveMarkerClub')
+      end
+    end
+
     context 'with status and TM columns' do
       login_admin
 

@@ -27,7 +27,7 @@ module Clubs
       {
         tm_id: tm_id, player: player, name: player.full_name,
         position: player.positions.map(&:name).join(', ').presence,
-        price: player.tm_price, nationality: player.nationality
+        price: player.tm_price, nationality: player.nationality, birth_date: player.birth_date.presence
       }
     end
 
@@ -36,7 +36,7 @@ module Clubs
         tm_id: tm_id, player: nil,
         name: data && [data[:first_name], data[:name]].compact_blank.join(' ').presence,
         position: data && [data[:tm_pos1], data[:tm_pos2], data[:tm_pos3]].compact_blank.join(', ').presence,
-        price: data && data[:tm_price], nationality: data && data[:nationality]
+        price: data && data[:tm_price], nationality: data && data[:nationality], birth_date: data && data[:birth_date]
       }
     end
 

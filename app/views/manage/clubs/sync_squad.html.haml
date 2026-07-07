@@ -18,6 +18,7 @@
               %th= t('manage.players.col_positions')
               %th= t('manage.players.col_price')
               %th= t('manage.players.col_nationality')
+              %th= t('manage.players.col_birth_date')
               %th= t('manage.clubs.col_squad_status')
           %tbody
             - @squad.each do |entry|
@@ -39,6 +40,7 @@
                     = entry[:nationality].upcase
                   - else
                     = '—'
+                %td= entry[:birth_date].presence || '—'
                 %td
                   - if entry[:player]
                     %span.badge.bg-secondary.text-white= t('manage.clubs.squad_present')

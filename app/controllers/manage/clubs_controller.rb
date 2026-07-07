@@ -5,6 +5,7 @@ module Manage
       @clubs = Club.includes(:tournament).order(id: :desc)
       @clubs = @clubs.where('name ILIKE ?', "%#{params[:name]}%") if params[:name].present?
       @clubs = @clubs.where('tournament_id = :id OR ec_tournament_id = :id', id: params[:tournament_id]) if params[:tournament_id].present?
+      @clubs = @clubs.where(status: params[:status]) if Club.statuses.key?(params[:status])
       @clubs = @clubs.page(params[:page]).per(PER_PAGE)
     end
 
