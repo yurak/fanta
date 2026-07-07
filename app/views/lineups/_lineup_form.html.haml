@@ -405,8 +405,7 @@
       const searchInput = playersList.find('.modal-player-search');
       searchInput.val('');
       filterModalPlayers(searchInput);
-      // Autofocus only on desktop — on mobile it would pop up the on-screen keyboard.
-      if (window.matchMedia('(min-width: 769px)').matches) {
+      if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
         searchInput.trigger('focus');
       }
 
