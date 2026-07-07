@@ -5,26 +5,42 @@
   .page-info.admin-manage-page
     %h2= t('manage.clubs.title')
 
-    = form_tag manage_clubs_path, method: :get, class: 'd-flex gap-2 mb-3' do
-      = text_field_tag :name, params[:name], class: 'form-control form-control-sm w-auto', placeholder: t('manage.clubs.filter_name')
-      = submit_tag t('manage.clubs.search'), class: 'btn btn-sm btn-primary'
-      - if params[:name].present?
+    = form_tag manage_clubs_path, method: :get, class: 'd-flex flex-wrap gap-2 mb-3' do
+      = text_field_tag :name, params[:name], class: 'form-control form-control-sm w-auto mr-2', placeholder: t('manage.clubs.filter_name')
+      = select_tag :tournament_id, options_for_select([['— All tournaments —', '']] + @tournaments.map { |tour| [tour.name, tour.id] }, params[:tournament_id]),
+                   class: 'form-control form-control-sm w-auto mr-2'
+      = submit_tag t('manage.clubs.search'), class: 'btn btn-sm btn-primary mr-2'
+      - if params[:name].present? || params[:tournament_id].present?
         = link_to t('manage.clubs.reset'), manage_clubs_path, class: 'btn btn-sm btn-outline-secondary'
 
     - if @clubs.any?
-      %table.table.table-hover.table-sm
+      %table.table.table-hover.table-sm.align-middle
         %thead.thead-light
           %tr
             %th ID
             %th= t('manage.clubs.name')
             %th= t('manage.clubs.tournament')
+            %th= t('manage.clubs.col_status')
+            %th TM
             %th
         %tbody
           - @clubs.each do |club|
             %tr
               %td= club.id
-              %td= link_to club.name, manage_club_path(club)
-              %td= club.tournament&.name || '—'
+              %td
+                %img.mr-1{ src: club.logo_path, width: 20, height: 20, style: 'vertical-align: middle;', onerror: "this.style.display='none'" }
+                = link_to club.name, manage_club_path(club)
+              %td
+                - if club.tournament
+                  %span.mr-1= club.tournament.icon
+                  = club.tournament.name
+                - else
+                  = '—'
+              %td
+                %span.badge.text-white{ class: club.active? ? 'bg-success' : 'bg-danger' }= club.status
+              %td
+                - if club.tm_url.present?
+                  = link_to 'TM', club.tm_url, target: '_blank', rel: 'noopener', class: 'btn btn-sm', style: 'background-color: #003478; color: #fff; border-color: #003478;'
               %td= link_to t('manage.clubs.view'), manage_club_path(club), class: 'btn btn-sm btn-outline-primary'
 
       = paginate @clubs

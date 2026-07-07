@@ -405,7 +405,10 @@
       const searchInput = playersList.find('.modal-player-search');
       searchInput.val('');
       filterModalPlayers(searchInput);
-      searchInput.trigger('focus');
+      // Autofocus only on desktop — on mobile it would pop up the on-screen keyboard.
+      if (window.matchMedia('(min-width: 769px)').matches) {
+        searchInput.trigger('focus');
+      }
 
       if ("#{tour.eurocup?}" === 'true') {
         const slotPositionName = $('#modal-position' + slotId).attr('class').replace('modal-players-title-position modal-position-','');

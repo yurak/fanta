@@ -71,6 +71,18 @@ RSpec.describe Players::Transfermarkt::ApiParser do
           expect(result[:name]).to eq('Ronaldo')
         end
       end
+
+      context 'when the name has accented/non-Latin letters' do
+        before { stub_api(api_response('name' => 'Fettahoğlu Ömer Kırtay')) }
+
+        it 'transliterates the first name to ASCII' do
+          expect(result[:first_name]).to eq('Fettahoglu Omer')
+        end
+
+        it 'transliterates the last name to ASCII' do
+          expect(result[:name]).to eq('Kirtay')
+        end
+      end
     end
 
     describe 'nationality' do

@@ -58,12 +58,16 @@ module Players
       private
 
       def first_name
-        parts = data['name'].to_s.split
+        parts = normalized_name.split
         parts.length > 1 ? parts[0..-2].join(' ') : nil
       end
 
       def last_name
-        data['name'].to_s.split.last
+        normalized_name.split.last
+      end
+
+      def normalized_name
+        @normalized_name ||= I18n.transliterate(data['name'].to_s)
       end
 
       def nationality
