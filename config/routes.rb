@@ -47,7 +47,12 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :players, only: [:index, :create, :show]
+    resources :players, only: [:index, :create, :show] do
+      member do
+        get :fotmob_search
+        post :update_fotmob
+      end
+    end
     resources :club_transfers, only: [:index]
     resources :club_transfer_requests, only: [:index] do
       member do

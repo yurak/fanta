@@ -7,6 +7,13 @@
 
     %h2= @club.name
 
+    %h5.mt-4= t('manage.clubs.section_actions')
+    .d-flex
+      = link_to t('manage.clubs.sync_squad'), sync_squad_manage_club_path(@club), class: 'btn btn-sm btn-primary mr-2'
+      - club_tournament_id = @club.tournament_id || @club.ec_tournament_id
+      - if club_tournament_id
+        = link_to t('manage.clubs.view_club'), tournament_club_path(club_tournament_id, @club), target: '_blank', rel: 'noopener', class: 'btn btn-sm btn-outline-primary'
+
     %h5.mt-4= t('manage.clubs.section_info')
     .d-flex.gap-4.align-items-start
       %table.table.table-sm.w-auto.mb-0
@@ -45,13 +52,6 @@
     - if @club.tm_url.present?
       %h5.mt-4= t('manage.clubs.section_links')
       = link_to 'Transfermarkt', @club.tm_url, target: '_blank', rel: 'noopener', class: 'btn btn-sm', style: 'background-color: #003478; color: #fff; border-color: #003478;'
-
-    %h5.mt-4= t('manage.clubs.section_actions')
-    .d-flex
-      = link_to t('manage.clubs.sync_squad'), sync_squad_manage_club_path(@club), class: 'btn btn-sm btn-primary mr-2'
-      - club_tournament_id = @club.tournament_id || @club.ec_tournament_id
-      - if club_tournament_id
-        = link_to t('manage.clubs.view_club'), tournament_club_path(club_tournament_id, @club), target: '_blank', rel: 'noopener', class: 'btn btn-sm btn-outline-primary'
 
     %h5.mt-4= t('manage.clubs.section_players')
     - if @players.any?

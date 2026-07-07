@@ -98,6 +98,53 @@ RSpec.describe 'Manage::Players' do
     end
   end
 
+  describe 'GET #fotmob_search' do
+    let(:player) { create(:player, name: 'Haaland') }
+
+    context 'when admin is logged in' do
+      login_admin
+
+      before do
+        allow(Players::Fotmob::IdFinder).to receive(:call)
+          .and_return([{ id: '737066', name: 'Erling Haaland', team_name: 'Man City' }])
+        get fotmob_search_manage_player_path(player)
+      end
+
+      it { expect(response).to be_successful }
+
+      it 'lists a candidate id' do
+        expect(response.body).to include('737066')
+      end
+    end
+  end
+
+  describe 'POST #update_fotmob' do
+    let(:player) { create(:player) }
+
+    context 'when admin is logged in' do
+      login_admin
+
+      it 'saves the fotmob id' do
+        post update_fotmob_manage_player_path(player, fotmob_id: '737066')
+
+        expect(player.reload.fotmob_id).to eq(737_066)
+      end
+
+      it 'redirects to the player' do
+        post update_fotmob_manage_player_path(player, fotmob_id: '737066')
+
+        expect(response).to redirect_to(manage_player_path(player))
+      end
+
+      it 'alerts when the id is already used by another player' do
+        create(:player, fotmob_id: 737_066)
+        post update_fotmob_manage_player_path(player, fotmob_id: '737066')
+
+        expect(flash[:alert]).to be_present
+      end
+    end
+  end
+
   describe 'POST #create' do
     context 'when user is logged out' do
       before { post manage_players_path, params: { tm_id: '1097930' } }

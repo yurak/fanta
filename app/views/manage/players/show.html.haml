@@ -11,9 +11,14 @@
       .alert.alert-danger= flash[:alert]
 
     %h2= "#{@player.first_name} #{@player.name}"
-    = link_to t('manage.players.view_player_page'), player_path(@player), target: '_blank', rel: 'noopener', class: 'btn btn-primary btn-sm mt-1 mb-3'
 
-    %h5.mt-2= t('manage.players.section_basic')
+    %h5.mt-2= t('manage.players.section_actions')
+    .d-flex
+      = link_to t('manage.players.view_player_page'), player_path(@player), target: '_blank', rel: 'noopener', class: 'btn btn-sm btn-primary mr-2'
+      - if @player.fotmob_id.blank?
+        = link_to t('manage.players.find_fotmob'), fotmob_search_manage_player_path(@player), class: 'btn btn-sm btn-outline-success'
+
+    %h5.mt-4= t('manage.players.section_basic')
     .d-flex.gap-4.align-items-start
       %table.table.table-sm.w-auto.mb-0
         %tbody

@@ -24,6 +24,21 @@ module Manage
       end
     end
 
+    def fotmob_search
+      @player = Player.find(params.expect(:id))
+      @candidates = Players::Fotmob::IdFinder.call(@player.full_name)
+    end
+
+    def update_fotmob
+      player = Player.find(params.expect(:id))
+
+      if player.update(fotmob_id: params[:fotmob_id])
+        redirect_to manage_player_path(player), notice: t('manage.players.fotmob_saved')
+      else
+        redirect_to fotmob_search_manage_player_path(player), alert: t('manage.players.fotmob_failed')
+      end
+    end
+
     private
 
     def player_season_stats
