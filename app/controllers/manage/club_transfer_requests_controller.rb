@@ -4,7 +4,7 @@ module Manage
       @status = ClubTransferRequest.statuses.key?(params[:status]) ? params[:status] : 'pending'
       order = @status == 'pending' ? { id: :asc } : { updated_at: :desc }
       @requests = ClubTransferRequest.where(status: @status)
-                                     .includes(:old_club, :new_club, player: %i[teams club])
+                                     .includes(old_club: :tournament, new_club: :tournament, player: %i[teams club])
                                      .order(order)
       @requests = @requests.joins(:player).where('players.name ILIKE ?', "%#{params[:player_name]}%") if params[:player_name].present?
       @requests = @requests.page(params[:page]).per(PER_PAGE)

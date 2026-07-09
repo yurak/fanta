@@ -240,6 +240,7 @@ en:
     code_placeholder: "e.g. MAN"
     continue: "Continue"
     confirm_team: "Confirm team"
+    existing_team_note: "You already have a team in this tournament. It will be used to join it."
     create_team: "Create team"
     team_not_found: "Team not found"
     my_applications: "My applications"

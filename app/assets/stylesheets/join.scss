@@ -279,6 +279,58 @@
     }
   }
 
+  .join-modal-existing-note {
+    font-size: 14px;
+    color: #847577;
+    line-height: 1.5;
+    margin: 0 0 16px;
+  }
+
+  .join-modal-existing-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 16px;
+    border: 1px solid #E5E6E4;
+    border-radius: 16px;
+    background: #fff;
+    margin-bottom: 8px;
+
+    .join-modal-existing-logo {
+      flex-shrink: 0;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      img {
+        width: 40px;
+        height: 40px;
+        object-fit: contain;
+      }
+    }
+
+    .join-modal-existing-info {
+      min-width: 0;
+    }
+
+    .join-modal-existing-name {
+      font-family: 'Nunito Bold';
+      font-size: 16px;
+      color: #181715;
+      margin: 0;
+    }
+
+    .join-modal-existing-code {
+      font-size: 13px;
+      color: #847577;
+      margin: 2px 0 0;
+    }
+  }
+
   .join-modal-logo {
     text-align: center;
     margin-bottom: 24px;

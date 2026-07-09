@@ -245,6 +245,7 @@ ua:
     code_placeholder: "напр. MAN"
     continue: "Продовжити"
     confirm_team: "Підтвердити команду"
+    existing_team_note: "У тебе вже є команда в цьому турнірі. Її буде використано для приєднання."
     create_team: "Створити команду"
     team_not_found: "Команду не знайдено"
     my_applications: "Мої заявки"
