@@ -29,10 +29,7 @@ module Players
     end
 
     def same_tournament_move?(new_club)
-      old_club = @player.club
-      return false unless old_club
-
-      new_club.active? && old_club.tournament_id.present? && old_club.tournament_id == new_club.tournament_id
+      @player.club&.same_active_tournament_as?(new_club) || false
     end
   end
 end

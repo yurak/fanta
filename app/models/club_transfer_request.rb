@@ -39,9 +39,6 @@ class ClubTransferRequest < ApplicationRecord
   end
 
   def same_tournament_move?
-    club = destination_club
-    return false unless club && player.club
-
-    club.active? && player.club.tournament_id.present? && player.club.tournament_id == club.tournament_id
+    player.club&.same_active_tournament_as?(destination_club) || false
   end
 end

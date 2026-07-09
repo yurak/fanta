@@ -72,6 +72,31 @@ RSpec.describe Players::ClubChanger do
       end
     end
 
+    context 'when old club is archived (same tournament id, but inactive)' do
+      let(:old_club) { create(:archived_club, tournament: tournament) }
+      let(:new_club) { create(:club, tournament: tournament) }
+      let(:league) { create(:league, tournament: tournament) }
+      let(:team) { create(:team, league: league) }
+
+      before do
+        create(:player_team, player: player, team: team)
+        create(:transfer, :incoming, player: player, team: team, league: league, price: 50)
+        create(:auction, league: league, status: :closed)
+      end
+
+      it 'treats it as a cross-tournament move and calls Transfers::Seller' do
+        allow(Transfers::Seller).to receive(:call)
+        service_call
+        expect(Transfers::Seller).to have_received(:call).with(player, team, :left)
+      end
+
+      it 'does not notify a club change' do
+        allow(TelegramBot::PlayerClubChangedNotifier).to receive(:call)
+        service_call
+        expect(TelegramBot::PlayerClubChangedNotifier).not_to have_received(:call)
+      end
+    end
+
     context 'when new_club_id does not exist' do
       let(:new_club) { build(:club, id: 999_999) }
 
