@@ -596,6 +596,8 @@ ua:
       pending_title: "Очікують розгляду"
       initial_title: "В процесі (не відправлені)"
       all_tournaments: "Всі турніри"
+      filter_user_id: "ID користувача"
+      filter_team: "Назва команди"
       tg_connected: "Telegram підключено"
       tg_disconnected: "Telegram не підключено"
       tab_pending: "Очікують"

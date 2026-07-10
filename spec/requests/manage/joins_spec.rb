@@ -85,7 +85,7 @@ RSpec.describe 'Manage::Joins' do
     before { get manage_joins_path(tab: 'pending') }
 
     it 'groups pending_by_tournament for both tournaments' do
-      expect(assigns(:pending_by_tournament).keys).to contain_exactly(tournament, tournament2)
+      expect(assigns(:pending_counts).keys).to contain_exactly(tournament, tournament2)
     end
 
     it 'shows a sub-tab for each tournament' do
@@ -133,6 +133,62 @@ RSpec.describe 'Manage::Joins' do
     end
   end
 
+  context 'with search' do
+    login_admin
+
+    let(:applicant) { create(:user, name: 'Zsearchone') }
+    let(:team) { create(:team, human_name: 'Zebra United') }
+    let!(:other_join) do
+      create(:join, :pending, user: create(:user, name: 'Zsearchtwo'),
+                              tournament: tournament, team: create(:team, human_name: 'Lion Rovers'))
+    end
+
+    context 'when filtering by user_id on the pending tab' do
+      before { get manage_joins_path(tab: 'pending', user_id: applicant.id) }
+
+      it 'shows the matching applicant' do
+        expect(response.body).to include(CGI.escapeHTML(applicant.name))
+      end
+
+      it 'excludes non-matching applicants' do
+        expect(response.body).not_to include(CGI.escapeHTML(other_join.user.name))
+      end
+    end
+
+    context 'when filtering by team name on the pending tab' do
+      before { get manage_joins_path(tab: 'pending', team_name: 'zebra') }
+
+      it 'shows the matching team owner' do
+        expect(response.body).to include(CGI.escapeHTML(applicant.name))
+      end
+
+      it 'excludes non-matching teams' do
+        expect(response.body).not_to include(CGI.escapeHTML(other_join.user.name))
+      end
+
+      it 'reflects the search in the sub-tab counts' do
+        expect(response.body).to include(CGI.escapeHTML("#{tournament.name} (1)"))
+      end
+    end
+
+    context 'when filtering the In Progress (initial) tab' do
+      let!(:initial_join) do
+        create(:join, user: create(:user, name: 'Zinitialmark'), tournament: tournament,
+                      team: create(:team, human_name: 'Falcon Squad'))
+      end
+
+      before { get manage_joins_path(tab: 'initial', team_name: 'falcon') }
+
+      it 'shows the matching initial join' do
+        expect(response.body).to include(CGI.escapeHTML(initial_join.user.name))
+      end
+
+      it 'excludes pending joins that do not match' do
+        expect(response.body).not_to include(CGI.escapeHTML(applicant.name))
+      end
+    end
+  end
+
   describe 'POST #approve' do
     context 'when user is logged out' do
       before { post approve_manage_join_path(join, league_id: league.id) }
@@ -161,7 +217,7 @@ RSpec.describe 'Manage::Joins' do
         expect(team.reload.league).to eq(league)
       end
 
-      it { expect(response).to redirect_to(manage_joins_path) }
+      it { expect(response).to redirect_to(manage_joins_path(tab: 'pending')) }
     end
 
     context 'when approving a join that has a draft bid with an active auction' do
@@ -214,7 +270,7 @@ RSpec.describe 'Manage::Joins' do
         expect(join.reload.status).to eq('rejected')
       end
 
-      it { expect(response).to redirect_to(manage_joins_path) }
+      it { expect(response).to redirect_to(manage_joins_path(tab: 'pending')) }
     end
   end
 end

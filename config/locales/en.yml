@@ -590,6 +590,8 @@ en:
       pending_title: "Pending Review"
       initial_title: "In Progress (not submitted)"
       all_tournaments: "All tournaments"
+      filter_user_id: "User ID"
+      filter_team: "Team name"
       tg_connected: "Telegram connected"
       tg_disconnected: "Telegram not connected"
       tab_pending: "Pending"
