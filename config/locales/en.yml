@@ -271,7 +271,7 @@ en:
       skip: "Skip for now"
       steps:
         - "Contact our admins for payment and discount details."
-#        - "Complete payment and wait for validation"
+        - "Complete payment and wait for validation"
         - "Wait while your league is being formed."
         - "If you want to play with a friend — invite them right away."
         - "Check who you managed to acquire in the first auction phase and move on to the next ones."

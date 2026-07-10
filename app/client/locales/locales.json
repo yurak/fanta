@@ -752,6 +752,7 @@
         "skip": "Skip for now",
         "steps": [
           "Contact our admins for payment and discount details.",
+          "Complete payment and wait for validation",
           "Wait while your league is being formed.",
           "If you want to play with a friend — invite them right away.",
           "Check who you managed to acquire in the first auction phase and move on to the next ones.",
@@ -2859,6 +2860,7 @@
         "skip": "Пропустити",
         "steps": [
           "Зв'яжіться з адміністраторами щодо деталей оплати та можливих знижок.",
+          "Здійсніть оплату та очікуйте підтвердження",
           "Дочекайтеся, поки ваша ліга буде сформована.",
           "Якщо хочете грати разом з другом - мерщій кличте його.",
           "Перевіряйте, кого вам вдалося придбати на першому етапі аукціону, і переходьте до наступних.",
