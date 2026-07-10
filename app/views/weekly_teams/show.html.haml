@@ -16,6 +16,10 @@
             .match-team-module
               .match-team-data-text= t('matches.module')
               .match-team-data-value= @weekly_team.team_module.name
+            - unless @weekly_team.source_avg?
+              .match-team-def-bonus
+                .match-team-data-text= t('matches.def_bonus')
+                .match-team-data-value= @weekly_team.defence_bonus
           .match-main-squad
             - @weekly_team.team_module.slots.sort_by(&:number).each do |slot|
               - wtp = players_by_slot[slot.id]
@@ -66,6 +70,6 @@
           .lineup-result
             .lineup-result-text= t('weekly_team.total_score')
             .lineup-result-value
-              .lineup-result-score= '%.2f' % @weekly_team.weekly_team_players.sum(&:total)
+              .lineup-result-score= '%.2f' % @weekly_team.total_score
           - wt_slot_name_pairs = @weekly_team.team_module.slots.sort_by(&:number).map { |s| [s, players_by_slot[s.id]&.round_player&.player&.name] }
           = render 'lineups/team_field', slot_name_pairs: wt_slot_name_pairs

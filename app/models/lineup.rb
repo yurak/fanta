@@ -24,8 +24,8 @@ class Lineup < ApplicationRecord
   scope :top_position, ->(position) { where('position > 0 AND position <= ?', position) if position }
   scope :ranked, -> { order(Arel.sql('lineups.position ASC NULLS LAST, lineups.final_score DESC')) }
 
-  MIN_AVG_DEF_SCORE = 6
-  MAX_AVG_DEF_SCORE = 7
+  MIN_AVG_DEF_SCORE = 7
+  MAX_AVG_DEF_SCORE = 8
   DEF_BONUS_STEP = 0.25
   MAX_PLAYED_PLAYERS = 11
   MAX_FANTA_PLAYERS = 16
