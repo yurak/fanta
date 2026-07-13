@@ -85,7 +85,7 @@ RSpec.describe 'Manage::Joins' do
     before { get manage_joins_path(tab: 'pending') }
 
     it 'groups pending_by_tournament for both tournaments' do
-      expect(assigns(:pending_counts).keys).to contain_exactly(tournament, tournament2)
+      expect(assigns(:tournament_counts).keys).to contain_exactly(tournament, tournament2)
     end
 
     it 'shows a sub-tab for each tournament' do
@@ -130,6 +130,56 @@ RSpec.describe 'Manage::Joins' do
       it 'still renders all tournament sub-tabs' do
         expect(response.body).to include(CGI.escapeHTML(tournament.name)).and include(CGI.escapeHTML(tournament2.name))
       end
+    end
+  end
+
+  context 'with initial tab sub-tabs' do
+    login_admin
+
+    it 'groups tournament counts for the initial tab' do
+      other = create(:tournament)
+      create(:join, tournament: tournament, team: create(:team))
+      create(:join, tournament: other, team: create(:team))
+      get manage_joins_path(tab: 'initial')
+      expect(assigns(:tournament_counts).keys).to contain_exactly(tournament, other)
+    end
+
+    it 'shows only the selected tournament when filtered' do
+      here = create(:join, user: create(:user, name: 'Zinithere'), tournament: tournament, team: create(:team))
+      get manage_joins_path(tab: 'initial', tournament_id: tournament.id)
+      expect(response.body).to include(CGI.escapeHTML(here.user.name))
+    end
+
+    it 'excludes other tournaments when filtered' do
+      elsewhere = create(:join, user: create(:user, name: 'Zinitelse'), tournament: create(:tournament), team: create(:team))
+      get manage_joins_path(tab: 'initial', tournament_id: tournament.id)
+      expect(response.body).not_to include(CGI.escapeHTML(elsewhere.user.name))
+    end
+  end
+
+  context 'with approved tab sub-tabs' do
+    login_admin
+
+    it 'groups tournament counts for the approved tab' do
+      other = create(:tournament)
+      create(:join, :approved, tournament: tournament, team: create(:team, league: league))
+      create(:join, :approved, tournament: other, team: create(:team, league: create(:active_league, tournament: other)))
+      get manage_joins_path(tab: 'approved')
+      expect(assigns(:tournament_counts).keys).to contain_exactly(tournament, other)
+    end
+
+    it 'shows only the selected tournament when filtered' do
+      here = create(:join, :approved, user: create(:user, name: 'Zapprhere'), tournament: tournament, team: create(:team, league: league))
+      get manage_joins_path(tab: 'approved', tournament_id: tournament.id)
+      expect(response.body).to include(CGI.escapeHTML(here.user.name))
+    end
+
+    it 'excludes other tournaments when filtered' do
+      other = create(:tournament)
+      elsewhere = create(:join, :approved, user: create(:user, name: 'Zapprelse'), tournament: other,
+                                           team: create(:team, league: create(:active_league, tournament: other)))
+      get manage_joins_path(tab: 'approved', tournament_id: tournament.id)
+      expect(response.body).not_to include(CGI.escapeHTML(elsewhere.user.name))
     end
   end
 

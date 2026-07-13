@@ -13,13 +13,13 @@
         = link_to manage_joins_path(tab: tab), class: "default-tab-item #{'default-tab-active' if @tab == tab}" do
           .default-tab-name= t("manage.joins.tab_#{tab}")
 
-    - if @tab == 'pending' && @pending_counts.any?
+    - if @tournament_counts.any?
       .default-tabs.manage-joins-tabs.manage-joins-subtabs
-        - all_count = @pending_counts.values.sum
-        = link_to manage_joins_path(tab: 'pending', user_id: params[:user_id].presence, team_name: params[:team_name].presence), class: "default-tab-item #{'default-tab-active' if @tournament_id.nil?}" do
+        - all_count = @tournament_counts.values.sum
+        = link_to manage_joins_path(tab: @tab, user_id: params[:user_id].presence, team_name: params[:team_name].presence), class: "default-tab-item #{'default-tab-active' if @tournament_id.nil?}" do
           .default-tab-name= "#{t('manage.joins.all_tournaments')} (#{all_count})"
-        - @pending_counts.each do |tournament, count|
-          = link_to manage_joins_path(tab: 'pending', tournament_id: tournament.id, user_id: params[:user_id].presence, team_name: params[:team_name].presence), class: "default-tab-item #{'default-tab-active' if @tournament_id == tournament.id}" do
+        - @tournament_counts.each do |tournament, count|
+          = link_to manage_joins_path(tab: @tab, tournament_id: tournament.id, user_id: params[:user_id].presence, team_name: params[:team_name].presence), class: "default-tab-item #{'default-tab-active' if @tournament_id == tournament.id}" do
             .default-tab-name= "#{tournament.name} (#{count})"
 
     = form_tag manage_joins_path, method: :get, class: 'd-flex mb-3' do

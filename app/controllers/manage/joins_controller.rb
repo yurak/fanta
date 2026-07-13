@@ -4,6 +4,8 @@ module Manage
 
     def index
       @tab = TABS.include?(params[:tab]) ? params[:tab] : TABS.first
+      @tournament_id = params[:tournament_id].presence&.to_i
+      @tournament_counts = tournament_counts
       @joins = joins_for_tab
     end
 
@@ -35,41 +37,27 @@ module Manage
     end
 
     def joins_for_tab
-      case @tab
-      when 'pending'  then pending_joins
-      when 'initial'  then initial_joins
-      when 'approved' then approved_joins
-      end
-    end
-
-    def initial_joins
-      apply_search(Join.initial.includes(:tournament, team: :join, user: :user_profile))
-        .order(created_at: :asc)
-        .page(params[:page]).per(PER_PAGE)
-    end
-
-    def pending_joins
-      @tournament_id = params[:tournament_id].presence&.to_i
-      @pending_counts = pending_counts
-
-      scope = apply_search(Join.pending.includes(:tournament, team: :join, user: :user_profile))
-              .order('tournaments.id, joins.created_at ASC')
-              .references(:tournaments)
+      scope = apply_search(base_scope_for_tab)
       scope = scope.where(tournament_id: @tournament_id) if @tournament_id
       scope.page(params[:page]).per(PER_PAGE)
     end
 
-    # { tournament => pending_count } for the tournament subtabs, ordered by tournament id.
-    def pending_counts
-      counts = apply_search(Join.pending).group(:tournament_id).count
-      Tournament.where(id: counts.keys).order(:id).index_with { |t| counts[t.id] }
+    def base_scope_for_tab
+      case @tab
+      when 'pending'
+        Join.pending.includes(:tournament, team: :join, user: :user_profile)
+            .order('tournaments.id, joins.created_at ASC').references(:tournaments)
+      when 'initial'
+        Join.initial.includes(:tournament, team: :join, user: :user_profile).order(created_at: :asc)
+      when 'approved'
+        Join.approved.includes(:tournament, team: %i[join league], user: :user_profile)
+            .order('tournaments.name, leagues.name').references(:tournaments, :leagues)
+      end
     end
 
-    def approved_joins
-      apply_search(Join.approved.includes(:tournament, team: %i[join league], user: :user_profile))
-        .order('tournaments.name, leagues.name')
-        .references(:tournaments, :leagues)
-        .page(params[:page]).per(PER_PAGE)
+    def tournament_counts
+      counts = apply_search(Join.public_send(@tab)).group(:tournament_id).count
+      Tournament.where(id: counts.keys).order(:id).index_with { |t| counts[t.id] }
     end
 
     def apply_search(scope)
