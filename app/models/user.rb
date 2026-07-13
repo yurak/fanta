@@ -5,7 +5,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :trackable, :validatable
 
   has_many :joins, dependent: :destroy
-  has_many :teams, dependent: :destroy
+  has_many :teams, -> { order(:id) }, dependent: :destroy, inverse_of: :user
   has_many :leagues, through: :teams
   has_many :results, through: :teams
   has_many :lineups, through: :teams

@@ -75,6 +75,30 @@ RSpec.describe ClubTransfers::RequestBuilder do
       it { expect { described_class.call(player) }.not_to change(ClubTransferRequest, :count) }
     end
 
+    context 'when an existing confirmed request targets a now-outdated club' do
+      # TM first recorded transfer 100 as going to `old_target`, the request was
+      # confirmed, then TM corrected the same transfer to point to `new_club`.
+      let(:old_target) { create(:club, tournament: tournament) }
+      let(:player) { create(:player, club: old_target) }
+
+      before do
+        transfer(new_club: new_club, new_club_name: new_club.name)
+        create(:club_transfer_request, player: player, tm_transfer_id: 100, status: :confirmed,
+                                       old_club: current_club, old_club_name: current_club.name,
+                                       new_club: old_target, new_club_name: old_target.name)
+      end
+
+      it 'does not create a duplicate row' do
+        expect { described_class.call(player) }.not_to change(ClubTransferRequest, :count)
+      end
+
+      it 'refreshes the existing request to the corrected club and reopens it' do
+        described_class.call(player)
+        request = ClubTransferRequest.find_by(player: player, tm_transfer_id: 100)
+        expect(request).to have_attributes(new_club_id: new_club.id, old_club_id: old_target.id, status: 'pending')
+      end
+    end
+
     context 'when the newest transfer is an upcoming/future move' do
       before do
         transfer(tm_transfer_id: 100, new_club: new_club, new_club_name: new_club.name, start_date: Time.zone.today - 5)

@@ -2,7 +2,7 @@ class AuctionBid < ApplicationRecord
   belongs_to :auction_round, optional: true
   belongs_to :team
 
-  has_many :player_bids, dependent: :destroy
+  has_many :player_bids, -> { order(:id) }, dependent: :destroy, inverse_of: :auction_bid
 
   delegate :auction, to: :auction_round, allow_nil: true
 

@@ -8,7 +8,7 @@ class ToursController < ApplicationController
       preload_tour_matches(tour)
       @results_ordered = tour.league.results.includes(:team).ordered.to_a
       @results_by_score = tour.league.results.includes(:team).ordered_by_score.limit(5)
-      @matches = tour.tournament_round.tournament_matches
+      @matches = tour.tournament_round.ordered_tournament_matches
     else
       redirect_to leagues_path
     end

@@ -1,7 +1,7 @@
 class Auction < ApplicationRecord
   belongs_to :league
 
-  has_many :auction_rounds, dependent: :destroy
+  has_many :auction_rounds, -> { order(:number) }, dependent: :destroy, inverse_of: :auction
   has_many :transfers, dependent: :destroy
 
   # sales - outgoing transfers

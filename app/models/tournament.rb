@@ -2,7 +2,7 @@ class Tournament < ApplicationRecord
   has_many :article_tags, dependent: :destroy
   has_many :clubs, dependent: :destroy
   has_many :leagues, dependent: :destroy
-  has_many :links, dependent: :destroy
+  has_many :links, -> { order(:id) }, dependent: :destroy, inverse_of: :tournament
   has_many :national_teams, dependent: :destroy
   has_many :player_season_stats, dependent: :destroy
   has_many :tournament_rounds, dependent: :destroy

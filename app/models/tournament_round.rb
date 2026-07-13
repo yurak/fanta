@@ -5,7 +5,7 @@ class TournamentRound < ApplicationRecord
   has_many :national_matches, dependent: :destroy
   has_many :round_players, dependent: :destroy
   has_many :tournament_matches, dependent: :destroy
-  has_many :tours, dependent: :destroy
+  has_many :tours, -> { order(:id) }, dependent: :destroy, inverse_of: :tournament_round
   has_many :lineups, through: :tours
 
   delegate :fanta?, :mantra?, to: :tournament
