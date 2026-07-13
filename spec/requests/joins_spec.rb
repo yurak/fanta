@@ -63,6 +63,21 @@ RSpec.describe 'Joins' do
         end
       end
 
+      context 'when user has an approved join from a previous season' do
+        let!(:tournament) { create(:tournament) }
+
+        before do
+          past_season = create(:season, start_year: 2023, end_year: 2024)
+          create(:season, start_year: 2024, end_year: 2025) # current (latest) season
+          create(:join, :approved, user: user, tournament: tournament, team: create(:team), season: past_season)
+          get joins_path
+        end
+
+        it 'still includes that tournament in the available list for the new season' do
+          expect(controller.instance_variable_get(:@tournaments).map(&:id)).to include(tournament.id)
+        end
+      end
+
       context 'when user has a rejected join for a tournament' do
         let!(:tournament) { create(:tournament) }
 

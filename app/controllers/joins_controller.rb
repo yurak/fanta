@@ -1,7 +1,8 @@
 class JoinsController < ApplicationController
   def index
     @has_active_leagues = current_user.teams.joins(:league).exists?(leagues: { status: :active })
-    @user_joins = current_user.joins.where.not(status: :rejected).includes(:tournament, :auction_bid, :team).order(created_at: :desc)
+    @user_joins = current_user.joins.where.not(status: :rejected).where(season: Season.last)
+                              .includes(:tournament, :auction_bid, :team).order(created_at: :desc)
     @tournaments = Tournament.open_join.where.not(id: joined_tournament_ids).with_join_stats
     mantra_tournament_ids = @tournaments.select(&:mantra?).map(&:id)
     @existing_teams = current_user.teams.where(tournament_id: mantra_tournament_ids).index_by(&:tournament_id)
@@ -15,7 +16,7 @@ class JoinsController < ApplicationController
   private
 
   def joined_tournament_ids
-    join_ids = current_user.joins.where.not(status: :rejected).pluck(:tournament_id)
+    join_ids = current_user.joins.where.not(status: :rejected).where(season: Season.last).pluck(:tournament_id)
 
     mantra_team_ids = current_user.teams
                                   .joins(league: :tournament)
