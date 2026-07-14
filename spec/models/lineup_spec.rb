@@ -253,7 +253,7 @@ RSpec.describe Lineup do
     end
 
     context 'with match players with scores' do
-      let(:round_player) { lineup_team_score_five.match_players[3].round_player }
+      let(:round_player) { lineup_team_score_five.match_players.main.first.round_player }
 
       before do
         round_player.update(final_score: 8)
