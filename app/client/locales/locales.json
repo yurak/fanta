@@ -890,8 +890,11 @@
         "col_tm_name": "TM name",
         "create_prompt": "Create the selected players?",
         "create_selected": "Create selected",
+        "current_tm_club": "Current club on TM",
         "empty": "No clubs found",
         "filter_name": "Name",
+        "missing_from_tm_hint": "These players are assigned to this club in our database but were not returned in the Transfermarkt squad — likely transferred out.",
+        "missing_from_tm_title": "In our squad, but not on Transfermarkt",
         "name": "Name",
         "no_players": "No players",
         "players_created": {
@@ -3000,8 +3003,11 @@
         "col_tm_name": "TM назва",
         "create_prompt": "Створити вибраних гравців?",
         "create_selected": "Створити вибраних",
+        "current_tm_club": "Поточний клуб на TM",
         "empty": "Клубів не знайдено",
         "filter_name": "Назва",
+        "missing_from_tm_hint": "Ці гравці числяться за цим клубом у нашій базі, але не повернулись у складі з Transfermarkt — імовірно, вже пішли з клубу.",
+        "missing_from_tm_title": "Є в нашому складі, але немає на Transfermarkt",
         "name": "Назва",
         "no_players": "Немає гравців",
         "players_created": {

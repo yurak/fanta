@@ -391,6 +391,9 @@ en:
       create_selected: "Create selected"
       create_prompt: "Create the selected players?"
       squad_empty: "Could not fetch the squad (no TM url or empty response)."
+      missing_from_tm_title: "In our squad, but not on Transfermarkt"
+      missing_from_tm_hint: "These players are assigned to this club in our database but were not returned in the Transfermarkt squad — likely transferred out."
+      current_tm_club: "Current club on TM"
       players_created:
         zero: "No players created"
         one: "%{count} player created"

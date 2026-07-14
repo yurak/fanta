@@ -54,7 +54,6 @@ gem 'playwright-ruby-client'
 
 group :development, :test do
   gem 'factory_bot_rails', '6.2.0'
-  gem 'pry-rails'
   gem 'rspec-rails'
   gem 'rswag-specs'
   gem 'vcr'

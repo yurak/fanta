@@ -60,3 +60,26 @@
         })();
     - else
       %p.text-muted= t('manage.clubs.squad_empty')
+
+    - if @missing.present?
+      %h4.mt-4= t('manage.clubs.missing_from_tm_title')
+      %p.text-muted= t('manage.clubs.missing_from_tm_hint')
+      %table.table.table-hover.table-sm.align-middle
+        %thead.thead-light
+          %tr
+            %th TM ID
+            %th= t('manage.players.col_name')
+            %th= t('manage.players.col_positions')
+            %th= t('manage.clubs.current_tm_club')
+        %tbody
+          - @missing.each do |entry|
+            - player = entry[:player]
+            %tr
+              %td
+                - if player.tm_id.present?
+                  = link_to player.tm_id, "#{Player::TM_PATH}#{player.tm_id}", target: '_blank', rel: 'noopener'
+                - else
+                  = '—'
+              %td= link_to player.full_name, manage_player_path(player)
+              %td= player.positions.map(&:name).join(', ').presence || '—'
+              %td= entry[:current_tm_club].presence || '—'
