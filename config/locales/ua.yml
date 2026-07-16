@@ -771,6 +771,7 @@ ua:
   players:
     players: "Гравці"
     search_player: "Пошук гравця"
+    newbie: "NEW"
     results:
       title: "Знайдено"
       player: "гравець"

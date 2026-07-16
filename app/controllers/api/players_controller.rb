@@ -103,6 +103,7 @@ module Api
       ActiveRecord::Associations::Preloader.new(records: records, associations: { club: :tournament }).call
       ActiveRecord::Associations::Preloader.new(records: records, associations: { player_positions: :position }).call
       ActiveRecord::Associations::Preloader.new(records: records, associations: :teams).call
+      ActiveRecord::Associations::Preloader.new(records: records, associations: :club_transfers).call
     end
   end
 end

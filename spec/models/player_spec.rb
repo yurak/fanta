@@ -805,4 +805,48 @@ RSpec.describe Player do
       end
     end
   end
+
+  describe '#newbie?' do
+    let(:club) { create(:club) }
+    let(:player) { create(:player, club: club) }
+
+    it 'is true when recently joined the current club for the first time' do
+      create(:club_transfer, player: player, new_club: club, new_club_name: club.name,
+                             start_date: (Player::NEWBIE_PERIOD - 1.day).ago.to_date)
+
+      expect(player.newbie?).to be(true)
+    end
+
+    it 'is false when the join to the current club is older than the period' do
+      create(:club_transfer, player: player, new_club: club, new_club_name: club.name,
+                             start_date: (Player::NEWBIE_PERIOD + 1.month).ago.to_date)
+
+      expect(player.newbie?).to be(false)
+    end
+
+    it 'is false without any transfers' do
+      expect(player.newbie?).to be(false)
+    end
+
+    it 'is false for a loan into the current club later bought out (a return)' do
+      other = create(:club)
+      transfer_between(player, from: club, to: other, on: 2.days.ago.to_date)
+      transfer_between(player, from: other, to: club, on: 1.day.ago.to_date)
+
+      expect(player.newbie?).to be(false)
+    end
+
+    it 'is true when returning to a former club after a long gap' do
+      other = create(:club)
+      transfer_between(player, from: club, to: other, on: (Player::NEWBIE_PERIOD + 6.months).ago.to_date)
+      transfer_between(player, from: other, to: club, on: 1.day.ago.to_date)
+
+      expect(player.newbie?).to be(true)
+    end
+
+    def transfer_between(player, from:, to:, on:)
+      create(:club_transfer, player: player, old_club: from, old_club_name: from.name,
+                             new_club: to, new_club_name: to.name, start_date: on)
+    end
+  end
 end

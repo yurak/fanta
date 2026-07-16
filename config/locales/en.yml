@@ -766,6 +766,7 @@ en:
   players:
     players: "Players"
     search_player: "Search player"
+    newbie: "NEW"
     results:
       title: "Showing"
       player: "player"

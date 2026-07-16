@@ -20,14 +20,21 @@
 }
 
 .lastName {
+  display: flex;
+  align-items: center;
+  gap: 6px;
   color: #181715;
   font-size: 16px;
   line-height: 18px;
   margin-bottom: 2px;
   font-family: "Nunito ExtraBold";
+}
+
+.lastNameText {
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
+  min-width: 0;
 }
 
 .firstName {
@@ -37,6 +44,17 @@
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
+}
+
+.newbie {
+  flex-shrink: 0;
+  padding: 0 6px;
+  font-family: "Nunito Bold";
+  font-size: 10px;
+  line-height: 14px;
+  color: #fff;
+  background: #28a745;
+  border-radius: 8px;
 }
 
 .lastNameSkeleton {

@@ -8,7 +8,7 @@ module WeeklyTeamsHelper
 
       entry[:round_player].score
     end
-    WeeklyTeam.defence_bonus_for(scores)
+    DefenceBonus.for_scores(scores)
   end
 
   def weekly_team_total(team, source)

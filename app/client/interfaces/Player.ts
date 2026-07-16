@@ -15,6 +15,7 @@ export interface IPlayer {
   league_price: null | number,
   league_team_logo: null | string,
   name: string,
+  newbie: boolean,
   position_classic_arr: Position[],
   teams_count: number,
   teams_count_max: number,

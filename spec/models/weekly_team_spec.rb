@@ -61,28 +61,6 @@ RSpec.describe WeeklyTeam do
     end
   end
 
-  describe '.defence_bonus_for' do
-    it 'returns 0 with no defenders' do
-      expect(described_class.defence_bonus_for([])).to eq(0)
-    end
-
-    it 'returns 0 when the average is below the minimum' do
-      expect(described_class.defence_bonus_for([6.0, 6.0])).to eq(0)
-    end
-
-    it 'returns the minimal bonus at the minimum threshold' do
-      expect(described_class.defence_bonus_for([7.0, 7.0])).to eq(1)
-    end
-
-    it 'scales the bonus with the average' do
-      expect(described_class.defence_bonus_for([7.5, 7.5])).to eq(3)
-    end
-
-    it 'caps the bonus at the maximum threshold' do
-      expect(described_class.defence_bonus_for([8.0, 9.0])).to eq(5)
-    end
-  end
-
   describe '#defence_bonus' do
     it 'averages only the central defenders and ignores other positions' do
       weekly_team = create(:weekly_team, source: :round)

@@ -17,6 +17,7 @@ const PlayerItem = ({
   league_team_logo,
   name,
   first_name,
+  newbie,
   average_base_score,
   average_total_score,
   position_classic_arr,
@@ -32,7 +33,10 @@ const PlayerItem = ({
       <div className={styles.info}>
         <div className={styles.top}>
           <div className={styles.name}>
-            {first_name} {name}
+            <span className={styles.nameText}>
+              {first_name} {name}
+            </span>
+            {newbie && <span className={styles.newbie}>{t("players.newbie")}</span>}
           </div>
           <div className={styles.score}>
             {Number(average_base_score) > 0 && (
