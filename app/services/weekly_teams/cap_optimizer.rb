@@ -35,7 +35,7 @@ module WeeklyTeams
     end
 
     def eligible?(slot, entry)
-      (entry[:player].position_names & slot.positions).any?
+      entry[:player].position_names.intersect?(slot.positions)
     end
 
     def key_for(entry)

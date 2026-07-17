@@ -94,7 +94,7 @@ module AuctionBids
     end
 
     def contains_dumped?
-      players_ids.intersection(dumped_player_ids).any?
+      players_ids.intersect?(dumped_player_ids)
     end
 
     def dumped_player_ids

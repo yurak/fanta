@@ -182,13 +182,13 @@ class RoundPlayer < ApplicationRecord
   end
 
   def cleansheet_bonus
-    return 0 if (position_names & Position::CLEANSHEET_ZONE).blank?
+    return 0 unless position_names.intersect?(Position::CLEANSHEET_ZONE)
 
     if position_names.include?(Position::GOALKEEPER)
       GK_CLEANSHEET_BONUS
-    elsif (position_names & Position::D_CLEANSHEET_ZONE).any?
+    elsif position_names.intersect?(Position::D_CLEANSHEET_ZONE)
       D_CLEANSHEET_BONUS
-    elsif (position_names & Position::E_M_CLEANSHEET_ZONE).any?
+    elsif position_names.intersect?(Position::E_M_CLEANSHEET_ZONE)
       E_M_CLEANSHEET_BONUS
     else
       0

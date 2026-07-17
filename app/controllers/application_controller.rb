@@ -12,11 +12,11 @@ class ApplicationController < ActionController::Base
     render file: Rails.public_path.join('404.html'), status: :not_found, layout: false
   end
 
-  def switch_locale(&action)
+  def switch_locale(&)
     locale = current_user&.locale&.to_sym || params[:locale] || session[:locale] || I18n.default_locale
     locale = I18n.default_locale if I18n.available_locales.exclude?(locale.to_sym)
     session[:locale] = locale
-    I18n.with_locale(locale, &action)
+    I18n.with_locale(locale, &)
   end
 
   def after_sign_in_path_for(resource)

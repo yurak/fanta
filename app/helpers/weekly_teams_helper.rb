@@ -4,7 +4,7 @@ module WeeklyTeamsHelper
 
     scores = team.filter_map do |row|
       entry = row[:entry]
-      next unless entry && (row[:slot].positions & Position::DEFENCE).any?
+      next unless entry && row[:slot].positions.intersect?(Position::DEFENCE)
 
       entry[:round_player].score
     end

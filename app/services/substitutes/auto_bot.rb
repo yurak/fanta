@@ -43,7 +43,7 @@ module Substitutes
     def build_grid
       main_players.map do |mp|
         bench_players.map do |bp|
-          next 'X' unless (mp.available_positions & bp.position_names).any?
+          next 'X' unless mp.available_positions.intersect?(bp.position_names)
 
           Scores::PositionMalus::Counter.call(mp.real_position, bp.position_names)
         end

@@ -10,8 +10,8 @@ namespace :club_transfers do
     to_id   = args[:to_id]&.to_i
 
     players = Player.where.not(tm_id: nil).order(:id)
-    players = players.where('players.id >= ?', from_id) if from_id&.positive?
-    players = players.where('players.id <= ?', to_id)   if to_id&.positive?
+    players = players.where(players: { id: from_id.. }) if from_id&.positive?
+    players = players.where(players: { id: ..to_id })   if to_id&.positive?
 
     total_players = 0
     total_imported = 0

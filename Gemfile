@@ -38,8 +38,8 @@ gem 'mini_magick'
 gem 'rest-client'
 gem 'rswag-api'
 gem 'rswag-ui'
-gem 'rubocop', '~> 1.75.0', require: false
-gem 'rubocop-factory_bot', '= 2.25.0', require: false
+gem 'rubocop', '~> 1.76', require: false
+gem 'rubocop-factory_bot', require: false
 gem 'rubocop-rails', require: false
 gem 'rubocop-rspec', require: false
 gem 'sassc-rails'

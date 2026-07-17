@@ -35,7 +35,7 @@ module WeeklyTeams
     def eligible(slot, ranked, used, counts)
       pos = slot.positions
       ranked.reject { |h| used.include?(h[:player].id) || team_capped?(h, counts) }
-            .select { |h| (h[:player].position_names & pos).any? }
+            .select { |h| h[:player].position_names.intersect?(pos) }
     end
 
     def count_team_pick(counts, pick)

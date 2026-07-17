@@ -46,7 +46,7 @@ class MatchPlayer < ApplicationRecord
   def position_malus?
     return false unless real_position
 
-    (real_position_arr & position_names).empty?
+    !real_position_arr.intersect?(position_names)
   end
 
   def total_score
@@ -113,7 +113,7 @@ class MatchPlayer < ApplicationRecord
   end
 
   def d_at_w?
-    d_player? && (real_position_arr & Position::E_CLEANSHEET_ZONE).empty? &&
+    d_player? && !real_position_arr.intersect?(Position::E_CLEANSHEET_ZONE) &&
       real_position_arr.include?(Position::WINGER)
   end
 
@@ -122,7 +122,7 @@ class MatchPlayer < ApplicationRecord
   end
 
   def d_at_e_or_m?
-    d_player? && (real_position_arr & [Position::WING_BACK, Position::DEFENCE_MF]).any?
+    d_player? && real_position_arr.intersect?([Position::WING_BACK, Position::DEFENCE_MF])
   end
 
   def m_not_at_valid_pos?
@@ -134,10 +134,10 @@ class MatchPlayer < ApplicationRecord
   end
 
   def d_player?
-    (position_names & Position::D_CLEANSHEET_ZONE).any?
+    position_names.intersect?(Position::D_CLEANSHEET_ZONE)
   end
 
   def out_of_cleansheet_zone?
-    (real_position_arr & Position::CLEANSHEET_ZONE).empty?
+    !real_position_arr.intersect?(Position::CLEANSHEET_ZONE)
   end
 end

@@ -34,7 +34,7 @@ module Manage
       @rounds = TournamentRound.includes(:tournament)
                                .joins(:round_players)
                                .where('round_players.score > 0')
-                               .where('tournament_rounds.updated_at >= ?', 2.weeks.ago)
+                               .where(tournament_rounds: { updated_at: 2.weeks.ago.. })
                                .where.not(id: unfinished_ids)
                                .distinct
                                .order('tournaments.id ASC, tournament_rounds.number ASC')

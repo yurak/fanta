@@ -3,7 +3,7 @@ namespace :tg do
   desc 'Save messages from Telegram Bot'
   task save_messages: :environment do
     updates = Telegram.bot.get_updates['result']
-    next if updates&.empty?
+    next if updates && updates.empty?
 
     updates.each do |tg_update|
       tg_message = TgMessage.find_by(update_id: tg_update['update_id'])

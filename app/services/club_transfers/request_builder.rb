@@ -28,7 +28,7 @@ module ClubTransfers
     def latest_transfer
       @player.club_transfers.tm_sourced
              .where(upcoming: false)
-             .where('start_date <= ?', Time.zone.today)
+             .where(start_date: ..Time.zone.today)
              .order(start_date: :desc, tm_transfer_id: :desc)
              .first
     end
