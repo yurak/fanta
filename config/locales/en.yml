@@ -400,6 +400,7 @@ en:
         other: "%{count} players created"
     teams:
       title: "Teams"
+      filter_id: "ID"
       filter_name: "Name"
       search: "Search"
       reset: "Reset"

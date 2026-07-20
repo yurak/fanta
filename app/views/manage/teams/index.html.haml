@@ -6,9 +6,10 @@
     %h2= t('manage.teams.title')
 
     = form_tag manage_teams_path, method: :get, class: 'd-flex gap-2 mb-3' do
+      = text_field_tag :id, params[:id], class: 'form-control form-control-sm w-auto', placeholder: t('manage.teams.filter_id')
       = text_field_tag :name, params[:name], class: 'form-control form-control-sm w-auto', placeholder: t('manage.teams.filter_name')
       = submit_tag t('manage.teams.search'), class: 'btn btn-sm btn-primary'
-      - if params[:name].present?
+      - if params[:name].present? || params[:id].present?
         = link_to t('manage.teams.reset'), manage_teams_path, class: 'btn btn-sm btn-outline-secondary'
 
     - if @teams.any?
