@@ -126,6 +126,32 @@ RSpec.describe Leagues::Activator do
       end
     end
 
+    context 'when a reused team has a leftover unattached bid from another season join' do
+      let!(:league) { create(:league) }
+      let(:team) { create(:team, league: league) }
+      # Older bid (lower id) that a naive find_by(auction_round: nil) would grab first.
+      let!(:stale_bid) { create(:auction_bid, team: team, auction_round: nil) }
+      # The join for THIS league's tournament and season, with its own correct bid.
+      let!(:current_join) do
+        create(:join, team: team, tournament: league.tournament, season: league.season)
+      end
+
+      before do
+        create(:result, team: team, league: league)
+        create(:tournament_round, number: 1, tournament: league.tournament, season: league.season)
+        activator.call
+      end
+
+      it 'attaches the current join bid to the first auction round' do
+        auction_round = league.auctions.find_by(number: 1).auction_rounds.first
+        expect(current_join.auction_bid.reload.auction_round).to eq(auction_round)
+      end
+
+      it 'leaves the stale bid unattached' do
+        expect(stale_bid.reload.auction_round).to be_nil
+      end
+    end
+
     context 'when a team has a user (notification delivery)' do
       let!(:league) { create(:league) }
 

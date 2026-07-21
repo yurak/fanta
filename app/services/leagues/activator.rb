@@ -53,7 +53,7 @@ module Leagues
 
     def attach_bids(auction_round)
       league.teams.each do |team|
-        existing_bid = team.auction_bids.find_by(auction_round: nil)
+        existing_bid = bid_for(team)
 
         bid = if existing_bid
                 existing_bid.update!(auction_round: auction_round)
@@ -64,6 +64,16 @@ module Leagues
 
         fill_player_bids(bid, auction_round)
       end
+    end
+
+    def bid_for(team)
+      current_join_bid(team) || team.auction_bids.find_by(auction_round: nil)
+    end
+
+    def current_join_bid(team)
+      bid = Join.find_by(team_id: team.id, tournament_id: league.tournament_id,
+                         season_id: league.season_id)&.auction_bid
+      bid if bid && bid.auction_round_id.nil?
     end
 
     def fill_player_bids(bid, auction_round)
