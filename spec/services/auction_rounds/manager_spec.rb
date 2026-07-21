@@ -173,6 +173,25 @@ RSpec.describe AuctionRounds::Manager do
           expect(player_bid.reload.status).to eq('failed')
         end
       end
+
+      context 'when a player left the championship before calculation' do
+        let(:auction_bid) { teams.last.auction_bids.first }
+        let(:departed_bid) { auction_bid.player_bids.where.not(player_id: nil).first }
+        let(:survivor_bid) { auction_bid.player_bids.where.not(player_id: nil).last }
+
+        before do
+          departed_bid.player.update!(club: create(:archived_club, tournament: league.tournament))
+          manager.call
+        end
+
+        it 'fails the departed player bid' do
+          expect(departed_bid.reload.status).to eq('failed')
+        end
+
+        it 'still processes other bids in the same auction_bid' do
+          expect(survivor_bid.reload.status).to eq('success')
+        end
+      end
     end
 
     context 'with active status and when all bids are completed before deadline when auction is not first and round is first' do
