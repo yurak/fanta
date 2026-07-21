@@ -812,6 +812,8 @@ en:
       nameAsc: "Name (Z to A)"
       positionAsc: "Position (GK to ST)"
       positionDesc: "Position (ST to GK)"
+      clubDesc: "Club (A to Z)"
+      clubAsc: "Club (Z to A)"
       averagePriceDesc: "Average price (High to Low)"
       averagePriceAsc: "Average price (Low to High)"
       leaguePriceDesc: "League price (High to Low)"

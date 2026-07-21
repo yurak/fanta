@@ -58,6 +58,8 @@ const PlayersListDesktop = ({ emptyStateComponent }: { emptyStateComponent: Reac
       dataKey: "club",
       title: t("players.filters.clubLabel"),
       className: styles.clubCell,
+      sorter: true,
+      supportAscSorting: true,
       render: ({ club }) => (
         <div className={styles.logo}>
           <img src={club.logo_path} alt={club.name} />
@@ -202,7 +204,7 @@ const PlayersListDesktop = ({ emptyStateComponent }: { emptyStateComponent: Reac
     };
 
     if (isLeagueSpecificPlayersPage) {
-      return [nameCol, positionCol, teamCol, leaguePriceCol, appsCol, baseScoreCol, totalScoreCol, clubCol];
+      return [nameCol, positionCol, teamCol, leaguePriceCol, teamsCountCol, appsCol, baseScoreCol, totalScoreCol, clubCol];
     }
 
     return [nameCol, tournamentCol, clubCol, positionCol, avgPriceCol, teamsCountCol, appsCol, baseScoreCol, totalScoreCol];

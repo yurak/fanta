@@ -91,15 +91,11 @@ const PlayerItem = ({
             {formatNumber(appearances)}{" "}
             {`${appearances === 1 ? t("players.results.app") : t("players.results.apps")}`}
           </span>
-          {!isLeagueSpecificPlayersPage && (
-            <>
-              <span className={cn(styles.divider, styles.teams)} />
-              <span className={styles.teams}>
-                {formatNumber(teams_count)}{" "}
-                {`${appearances === 1 ? t("players.results.team") : t("players.results.teams")}`}
-              </span>
-            </>
-          )}
+          <span className={cn(styles.divider, styles.teams)} />
+          <span className={styles.teams}>
+            {formatNumber(teams_count)}{" "}
+            {`${teams_count === 1 ? t("players.results.team") : t("players.results.teams")}`}
+          </span>
           {isLeagueSpecificPlayersPage && league_team_logo && (
             <span className={styles.end}>
               <div className={styles.logo}>

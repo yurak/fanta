@@ -36,6 +36,16 @@ const usePlayersSort = () => {
         sortBy: "position",
         label: t("players.sorter.positionAsc"),
       },
+      {
+        sortOrder: "desc",
+        sortBy: "club",
+        label: t("players.sorter.clubDesc"),
+      },
+      {
+        sortOrder: "asc",
+        sortBy: "club",
+        label: t("players.sorter.clubAsc"),
+      },
       ...(isLeagueSpecificPlayersPage ? [
         {
           sortOrder: "desc" as SortOrder,

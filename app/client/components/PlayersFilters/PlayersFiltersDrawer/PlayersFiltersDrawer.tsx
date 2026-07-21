@@ -144,16 +144,14 @@ const PlayersFiltersDrawer = () => {
             />
           </Drawer.Section>
         )}
-        {!isLeagueSpecificPlayersPage && (
-          <Drawer.Section title={t("players.filters.numberOfTeamsLabel")} defaultOpen={isRangeActive(filterValues.teamsCount, PlayersFilterConstants.TEAMS_COUNT_MIN, PlayersFilterConstants.TEAMS_COUNT_MAX)}>
-            <RangeSlider
-              value={filterValues.teamsCount}
-              onChange={onChangeValue("teamsCount")}
-              min={PlayersFilterConstants.TEAMS_COUNT_MIN}
-              max={PlayersFilterConstants.TEAMS_COUNT_MAX}
-            />
-          </Drawer.Section>
-        )}
+        <Drawer.Section title={t("players.filters.numberOfTeamsLabel")} defaultOpen={isRangeActive(filterValues.teamsCount, PlayersFilterConstants.TEAMS_COUNT_MIN, PlayersFilterConstants.TEAMS_COUNT_MAX)}>
+          <RangeSlider
+            value={filterValues.teamsCount}
+            onChange={onChangeValue("teamsCount")}
+            min={PlayersFilterConstants.TEAMS_COUNT_MIN}
+            max={PlayersFilterConstants.TEAMS_COUNT_MAX}
+          />
+        </Drawer.Section>
       </Drawer>
       {isMobile && (
         <PlayersSortDrawer isOpen={isSortDrawerOpen} close={() => setIsSortDrawerOpen(false)} />
