@@ -11,7 +11,7 @@ module Substitutes
     def call
       return false unless main_match_player && reserve_match_player
 
-      return false if (main_match_player.available_positions & reserve_match_player.player.position_names).empty?
+      return false unless main_match_player.available_positions.intersect?(reserve_match_player.player.position_names)
 
       subs_transaction
     end

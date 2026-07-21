@@ -19,12 +19,12 @@ const TeamRow = ({ team }: { team: IPlayerTeam }) => {
         <img src={team.logo_path} alt={team.human_name} />
         <span className={styles.teamName}>{team.human_name}</span>
       </a>
-      <div className={styles.teamCell}>
+      <div className={`${styles.teamCell} ${styles.leagueCell}`}>
         <span className={styles.leagueTag}>
           {[team.league_name, team.division_name].filter(Boolean).join(" ")}
         </span>
       </div>
-      <div className={styles.teamCell}>
+      <div className={`${styles.teamCell} ${styles.auctionCell}`}>
         {team.auction_id && auctionDate && (
           <a
             className={styles.auctionLink}
@@ -73,9 +73,11 @@ const PlayerTeamsModal = ({
             <div className={styles.teamCell}>{t("players.auction")}</div>
             <div className={`${styles.teamCell} ${styles.priceCell}`}>{t("players.price")}</div>
           </div>
-          {player.teams.map((team) => (
-            <TeamRow key={team.id} team={team} />
-          ))}
+          {[...player.teams]
+            .sort((a, b) => (b.price ?? -Infinity) - (a.price ?? -Infinity))
+            .map((team) => (
+              <TeamRow key={team.id} team={team} />
+            ))}
         </div>
       </div>
     </div>

@@ -12,12 +12,15 @@ class PlayerBaseSerializer < ActiveModel::Serializer
   attributes :league_team_logo
   attributes :leagues
   attributes :name
-  attributes :newbie
   attributes :position_classic_arr
   attributes :position_ital_arr
   attributes :stats_price
   attributes :teams_count
   attributes :teams_count_max
+
+  attribute :newbie do
+    object.newbie?
+  end
 
   def appearances
     current_stat&.played_matches || object.season_scores_count
@@ -69,10 +72,6 @@ class PlayerBaseSerializer < ActiveModel::Serializer
 
   def leagues
     teams.pluck(:league_id)
-  end
-
-  def newbie
-    object.newbie?
   end
 
   delegate :stats_price, to: :object

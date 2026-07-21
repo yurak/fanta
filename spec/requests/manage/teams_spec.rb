@@ -44,6 +44,28 @@ RSpec.describe 'Manage::Teams' do
         expect(response.body).not_to include('Beta Team')
       end
 
+      it 'name search is case-insensitive and partial' do
+        get manage_teams_path, params: { name: 'alph' }
+        expect(response.body).to include('Alpha Team')
+      end
+
+      it 'name search excludes non-matches regardless of case' do
+        get manage_teams_path, params: { name: 'alph' }
+        expect(response.body).not_to include('Beta Team')
+      end
+
+      it 'filters teams by id — shows match' do
+        team = create(:team, human_name: 'Gamma Team')
+        get manage_teams_path, params: { id: team.id }
+        expect(response.body).to include('Gamma Team')
+      end
+
+      it 'filters teams by id — hides others' do
+        team = create(:team, human_name: 'Gamma Team')
+        get manage_teams_path, params: { id: team.id }
+        expect(response.body).not_to include('Alpha Team')
+      end
+
       it 'shows reset link when name filter is applied' do
         get manage_teams_path, params: { name: 'Alpha' }
         expect(response.body).to include(manage_teams_path)

@@ -73,6 +73,22 @@ RSpec.describe 'Users' do
       end
     end
 
+    context 'when the manager has results across teams' do
+      let(:manager) { create(:user) }
+
+      before do
+        old_team = create(:team, user: manager)  # smaller id
+        new_team = create(:team, user: manager)  # larger id
+        create(:result, team: old_team, league: create(:league, name: 'Zoldleaguemarker'), created_at: 3.days.ago)
+        create(:result, team: new_team, league: create(:league, name: 'Znewleaguemarker'), created_at: 1.day.ago)
+        get manager_path(manager)
+      end
+
+      it 'orders results by created_at desc, not by team id' do
+        expect(response.body.index('Znewleaguemarker')).to be < response.body.index('Zoldleaguemarker')
+      end
+    end
+
     context 'with multiple teams' do
       before do
         create(:team, user: other_user, human_name: 'Zmarknewteam', created_at: 1.day.ago)

@@ -207,7 +207,7 @@ class LineupsController < ApplicationController
     national_team_ids = Player.find(players_ids).map(&:national_team_id)
     return true if national_team_ids.uniq.count < tour.national_teams_count
 
-    national_teams_hash = national_team_ids.each_with_object(Hash.new(0)) { |word, counts| counts[word] += 1 }
+    national_teams_hash = national_team_ids.tally
     return true if national_teams_hash.values.max > tour.max_country_players
 
     false

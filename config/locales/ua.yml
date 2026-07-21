@@ -406,6 +406,7 @@ ua:
         other: "Створено %{count} гравців"
     teams:
       title: "Команди"
+      filter_id: "ID"
       filter_name: "Назва"
       search: "Шукати"
       reset: "Скинути"

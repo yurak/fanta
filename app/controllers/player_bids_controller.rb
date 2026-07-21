@@ -37,7 +37,9 @@ class PlayerBidsController < ApplicationController
   end
 
   def player_bid
-    @player_bid ||= PlayerBid.find_by(id: params[:id])
+    return @player_bid if defined?(@player_bid)
+
+    @player_bid = PlayerBid.find_by(id: params[:id])
   end
 
   def player

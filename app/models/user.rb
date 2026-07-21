@@ -17,9 +17,9 @@ class User < ApplicationRecord
 
   accepts_nested_attributes_for :user_profile
 
-  EMAIL_LENGTH = (6..50).freeze
-  EMAIL_FORMAT_REGEX = /\A[\w+\-.]+@[a-z\d-]+(\.[a-z\d-]+)*\.[a-z]+\z/i.freeze
-  NAME_LENGTH = (2..20).freeze
+  EMAIL_LENGTH = (6..50)
+  EMAIL_FORMAT_REGEX = /\A[\w+\-.]+@[a-z\d-]+(\.[a-z\d-]+)*\.[a-z]+\z/i
+  NAME_LENGTH = (2..20)
   ROLES = %w[customer admin moderator].freeze
   DEFAULT_TIME_ZONE = 'Kyiv'.freeze
 

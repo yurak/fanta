@@ -104,7 +104,7 @@ class Player
     end
 
     def sixty_minutes_plus(matches = season_matches_with_scores)
-      matches.where('played_minutes >= ?', MatchPlayer::MIN_PLAYED_MINUTES_FOR_CS).count
+      matches.where(played_minutes: MatchPlayer::MIN_PLAYED_MINUTES_FOR_CS..).count
     end
 
     def current_season

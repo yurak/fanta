@@ -29,7 +29,7 @@ module Scores
       end
 
       def native_position?
-        (real_positions_arr & @player_positions).present?
+        real_positions_arr.intersect?(@player_positions)
       end
     end
   end

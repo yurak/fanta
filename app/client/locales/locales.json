@@ -1123,6 +1123,7 @@
       },
       "teams": {
         "empty": "No teams found",
+        "filter_id": "ID",
         "filter_name": "Name",
         "league": "League",
         "name": "Team",
@@ -3237,6 +3238,7 @@
       },
       "teams": {
         "empty": "Команд не знайдено",
+        "filter_id": "ID",
         "filter_name": "Назва",
         "league": "Ліга",
         "name": "Команда",

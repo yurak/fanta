@@ -28,7 +28,7 @@ class WeeklyTeam < ApplicationRecord
   private
 
   def defender_base_scores
-    weekly_team_players.select { |wtp| (wtp.slot.positions & Position::DEFENCE).any? }
+    weekly_team_players.select { |wtp| wtp.slot.positions.intersect?(Position::DEFENCE) }
                        .map { |wtp| wtp.round_player.score }
   end
 end

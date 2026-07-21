@@ -113,7 +113,7 @@ module Lineups
     end
 
     def zero_malus?(player, real_position)
-      real_position.split('/').any? { |pos| player.position_names.include?(pos) }
+      real_position.split('/').intersect?(player.position_names)
     end
 
     def malus_value(player, real_position)

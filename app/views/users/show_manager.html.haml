@@ -45,7 +45,7 @@
               .default-header-cell= t('users.manager.team').upcase
               .default-header-cell= t('users.manager.place').upcase
             .manager-results-items
-              - user.results.order(created_at: :desc).each do |result|
+              - user.results.sort_by { |result| [result.created_at, result.id] }.reverse.each do |result|
                 = link_to league_results_path(result.league) do
                   .manager-results-item.manager-headers-grid.result-item-0{class: "result-item-#{result.team.id}"}
                     .manager-results-cell.manager-results-league
