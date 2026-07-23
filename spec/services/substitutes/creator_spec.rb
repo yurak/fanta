@@ -51,6 +51,29 @@ RSpec.describe Substitutes::Creator do
       it { expect(Substitute.last.subs_by).to eq('manual') }
     end
 
+    context 'when the reserve plays out of the slot position' do
+      let(:main_player) { create(:c_match_player) }
+      let(:reserve_player) { create(:match_player, round_player: create(:round_player, :with_pos_t, :with_score_six)) }
+
+      before { creator.call }
+
+      it 'applies the incoming position malus to the get_in player' do
+        expect(main_player.reload.position_malus).to eq(Position::M_MALUS)
+      end
+
+      it 'moves the reserve position snapshot onto the get_in player' do
+        expect(main_player.reload.position_names).to eq(['T'])
+      end
+
+      it 'keeps the get_out player without a malus' do
+        expect(reserve_player.reload.position_malus).to eq(0)
+      end
+
+      it 'moves the main position snapshot onto the get_out player' do
+        expect(reserve_player.reload.position_names).to eq(['C'])
+      end
+    end
+
     context 'with subs_by: autobot' do
       subject(:creator) { described_class.new(main_player_id, reserve_player_id, 'autobot') }
 

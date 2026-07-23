@@ -51,7 +51,7 @@ module Substitutes
     end
 
     def all_match_players
-      @all_match_players ||= match_lineup.match_players.to_a
+      @all_match_players ||= match_lineup.match_players.reorder(:id).to_a
     end
 
     def main_players
