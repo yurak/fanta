@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_07_13_120000) do
+ActiveRecord::Schema[8.0].define(version: 2026_07_23_120000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -42,6 +42,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_07_13_120000) do
     t.datetime "updated_at", precision: nil, null: false
     t.integer "status", default: 0
     t.boolean "player_bids_locked", default: false, null: false
+    t.index ["auction_round_id", "team_id"], name: "index_auction_bids_on_round_and_team_unique", unique: true, where: "(auction_round_id IS NOT NULL)"
     t.index ["auction_round_id"], name: "index_auction_bids_on_auction_round_id"
     t.index ["team_id"], name: "index_auction_bids_on_team_id"
   end

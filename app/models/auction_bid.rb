@@ -8,6 +8,8 @@ class AuctionBid < ApplicationRecord
 
   enum :status, { initial: 0, ongoing: 1, submitted: 2, completed: 3, processed: 4 }
 
+  validates :team_id, uniqueness: { scope: :auction_round_id }, if: -> { auction_round_id.present? }
+
   scope :initial_ongoing, -> { initial.or(ongoing) }
 
   accepts_nested_attributes_for :player_bids

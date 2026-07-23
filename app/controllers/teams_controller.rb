@@ -81,11 +81,13 @@ class TeamsController < ApplicationController
 
   def create_join_records(team)
     tournament = Tournament.find(join_tournament_id)
-    bid = AuctionBid.create!(team: team, status: :initial)
-    Team::JOIN_SLOTS.times { bid.player_bids.create! }
-    Join.create!(user: current_user, tournament: tournament, team: team, auction_bid: bid, status: :initial)
-    bid
-  rescue ActiveRecord::RecordInvalid => e
+    ActiveRecord::Base.transaction do
+      bid = team.auction_bids.find_or_create_by!(auction_round_id: nil) { |b| b.status = :initial }
+      Team::JOIN_SLOTS.times { bid.player_bids.create! } if bid.player_bids.empty?
+      Join.create!(user: current_user, tournament: tournament, team: team, auction_bid: bid, status: :initial)
+      bid
+    end
+  rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique => e
     flash[:alert] = e.message
     nil
   end

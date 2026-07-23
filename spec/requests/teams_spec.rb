@@ -149,6 +149,27 @@ RSpec.describe 'Teams' do
       end
     end
 
+    context 'when the same existing team joins more than once' do
+      let(:tournament) { create(:tournament) }
+      let(:logged_user) { create(:user, status: :configured) }
+      let(:existing_team) { create(:team, user: logged_user, league: nil) }
+
+      before do
+        params = { team: { tournament_id: tournament.id, team_id: existing_team.id } }
+        sign_in logged_user
+        post teams_path(params)
+        post teams_path(params)
+      end
+
+      it 'reuses a single draft AuctionBid instead of creating duplicates' do
+        expect(existing_team.auction_bids.where(auction_round: nil).count).to eq(1)
+      end
+
+      it 'does not duplicate the empty player_bids' do
+        expect(existing_team.auction_bids.where(auction_round: nil).first.player_bids.count).to eq(Team::JOIN_SLOTS)
+      end
+    end
+
     context 'when user tries to join a tournament they already applied to' do
       let(:tournament) { create(:tournament) }
       let(:logged_user) { create(:user, status: :configured) }
