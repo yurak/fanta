@@ -1,6 +1,6 @@
 module Api
   class PlayersController < Api::ApplicationController
-    skip_before_action :authenticate_user!, only: %i[index show stats]
+    skip_before_action :authenticate_user!, only: %i[index show stats stats_export]
 
     respond_to :json
 
@@ -10,7 +10,9 @@ module Api
       result = Players::Query.call(query_params)
       players = paginate(result)
       preload_associations(players.to_a)
-      players_ser = players.map { |l| PlayerBaseSerializer.new(l, league_id: filter_params[:league_id]) }
+      players_ser = players.map do |l|
+        PlayerBaseSerializer.new(l, league_id: filter_params[:league_id], season_id: season.id)
+      end
       render json: { data: players_ser, meta: response_options(players) }
     end
 
@@ -21,6 +23,15 @@ module Api
       else
         not_found
       end
+    end
+
+    def stats_export
+      player_ids = Players::Query.call(query_params).reorder(nil).select(:id)
+      csv = Players::StatsCsv.call(season: season, player_ids: player_ids)
+
+      send_data csv, type: 'text/csv',
+                     filename: "players_stats_#{season.start_year}_#{season.end_year}.csv",
+                     disposition: 'attachment'
     end
 
     def stats
@@ -88,9 +99,13 @@ module Api
 
     def filter_params
       params.fetch(:filter, {})
-            .permit(:league_id, :name, :without_team,
+            .permit(:league_id, :name, :without_team, :season_id,
                     app: {}, base_score: {}, minutes: {}, price: {}, teams_count: {}, total_score: {},
                     club_id: [], position: [], team_id: [], tournament_id: [])
+    end
+
+    def season
+      @season ||= Season.find_by(id: filter_params[:season_id]) || Season.last
     end
 
     def order_params
@@ -104,6 +119,7 @@ module Api
       ActiveRecord::Associations::Preloader.new(records: records, associations: { player_positions: :position }).call
       ActiveRecord::Associations::Preloader.new(records: records, associations: :teams).call
       ActiveRecord::Associations::Preloader.new(records: records, associations: :club_transfers).call
+      ActiveRecord::Associations::Preloader.new(records: records, associations: { round_players: :tournament_round }).call
     end
   end
 end

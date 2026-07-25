@@ -1,3 +1,5 @@
+import cn from "classnames";
+import qs from "qs";
 import { useTranslation } from "react-i18next";
 import Heading from "@/components/Heading";
 import { formatNumber } from "@/helpers/formatNumber";
@@ -6,7 +8,10 @@ import PlayersContextProvider, { usePlayersContext } from "@/application/Players
 import PlayersListContextProvider, {
   usePlayersListContext,
 } from "@/application/Players/PlayersListContext";
+import { usePlayersPageConfigurationContext } from "@/application/Players/PlayersPageConfigurationContext";
 import Link from "@/ui/Link";
+import Button from "@/ui/Button";
+import SeasonsSelect from "@/components/SeasonsSelect";
 import PlayersFilters from "../PlayersFilters";
 import PlayersList from "../PlayersList";
 import PlayersFiltersDrawer from "../PlayersFilters/PlayersFiltersDrawer";
@@ -18,18 +23,38 @@ interface IProps {
 }
 
 const PlayersPage = ({ title, actions }: IProps) => {
-  const { search, filterCount, setSearch, clearFilter } = usePlayersContext();
+  const { search, filterCount, setSearch, clearFilter, selectedSeason, setSelectedSeason, requestFilterPayload } =
+    usePlayersContext();
   const { totalItemCount } = usePlayersListContext();
+  const { isLeagueSpecificPlayersPage } = usePlayersPageConfigurationContext();
 
   const { t } = useTranslation();
+
+  const handleExport = () => {
+    const query = qs.stringify(
+      { filter: requestFilterPayload },
+      { arrayFormat: "brackets", encodeValuesOnly: true }
+    );
+    window.location.href = `/api/players/stats_export?${query}`;
+  };
 
   return (
     <>
       <div className={styles.header}>
         <div className={styles.headerTop}>
-          <div className={styles.title}>
+          <div
+            className={cn(styles.title, {
+              [styles.titleHiddenMobile]: !isLeagueSpecificPlayersPage,
+            })}
+          >
             <Heading title={title} noSpace />
           </div>
+          {!isLeagueSpecificPlayersPage && (
+            <div className={styles.seasonControls}>
+              <SeasonsSelect value={selectedSeason} onChange={setSelectedSeason} />
+              <Button onClick={handleExport}>{t("players.export_csv")}</Button>
+            </div>
+          )}
           {actions && <div className={styles.buttonWrapper}>{actions}</div>}
         </div>
         <div className={styles.search}>

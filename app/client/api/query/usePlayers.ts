@@ -19,6 +19,7 @@ export interface IPayloadFilter {
   price?: Partial<RangeSliderValueType>,
   tournament_id?: number[],
   league_id?: number,
+  season_id?: number,
 }
 
 export interface IPayloadSort {
@@ -34,7 +35,7 @@ export const usePlayers = ({
   sort?: IPayloadSort,
 }) => {
   const query = useInfiniteQuery<ICollectionResponse<IPlayer[]>>({
-    staleTime: 1000 * 60 * 10, // 10 minutes
+    staleTime: 1000 * 60, // 1 minute
     initialPageParam: 1,
     queryKey: ["players", filter, order],
     queryFn: async ({ signal, pageParam: pageNumber }) => {

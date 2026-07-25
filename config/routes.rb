@@ -182,6 +182,7 @@ Rails.application.routes.draw do
     resources :player_bids, only: [:show]
     resources :players, only: [:index, :show] do
       get :stats, on: :member
+      get :stats_export, on: :collection
     end
     resources :seasons, only: [:index]
     resources :teams, only: [:show]

@@ -10,6 +10,8 @@ import { filterToRequestFormat, sortToRequestFormat } from "../PlayersFilterCont
 import { decodeFilter, encodeFilter } from "../PlayersFilterContext/searchParamsHelpers";
 import { getObjectDiffKeys } from "@/helpers/getObjectDiff";
 import { usePlayersPageConfigurationContext } from "../PlayersPageConfigurationContext";
+import { useSeasons } from "@/api/query/useSeasons";
+import { ISeason } from "@/interfaces/Season";
 
 const DEBOUNCE_DELAY = 1_000;
 
@@ -18,6 +20,14 @@ const usePlayers = () => {
   const sorting = useHistorySort();
 
   const { leagueId: defaultLeagueId } = usePlayersPageConfigurationContext();
+
+  const seasonsQuery = useSeasons();
+  const latestSeason = useMemo(
+    () => [...seasonsQuery.data].sort((a, b) => b.start_year - a.start_year)[0] ?? null,
+    [seasonsQuery.data]
+  );
+  const [selectedSeason, setSelectedSeason] = useState<ISeason | null>(null);
+  const isCurrentSeason = !selectedSeason || selectedSeason.id === latestSeason?.id;
 
   const [search, setSearch] = useHistorySearch(defaultSearch);
   const [historyFilter, setHistoryFilter] = useHistoryFilter<IFilter>(decodeFilter, encodeFilter);
@@ -47,8 +57,8 @@ const usePlayers = () => {
   const closeSidebar = () => setIsSidebarOpen(false);
 
   const requestFilterPayload = useMemo<IPayloadFilter>(
-    () => filterToRequestFormat(filterValues, debounceSearch, defaultLeagueId),
-    [filterValues, debounceSearch, defaultLeagueId]
+    () => filterToRequestFormat(filterValues, debounceSearch, defaultLeagueId, selectedSeason?.id),
+    [filterValues, debounceSearch, defaultLeagueId, selectedSeason?.id]
   );
 
   const requestSortPayload = useMemo<IPayloadSort | undefined>(
@@ -72,6 +82,9 @@ const usePlayers = () => {
     isSidebarOpen,
     openSidebar,
     closeSidebar,
+    selectedSeason,
+    setSelectedSeason,
+    isCurrentSeason,
   };
 };
 

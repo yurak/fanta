@@ -9,6 +9,7 @@ import { IPlayer } from "@/interfaces/Player";
 import DataList from "@/ui/DataList";
 import { usePlayersListContext } from "@/application/Players/PlayersListContext";
 import { usePlayersPageConfigurationContext } from "@/application/Players/PlayersPageConfigurationContext";
+import { usePlayersContext } from "@/application/Players/PlayersContext";
 import styles from "./PlayersListMobile.module.scss";
 
 const PlayerItem = ({
@@ -26,6 +27,7 @@ const PlayerItem = ({
 }: IPlayer) => {
   const { t } = useTranslation();
   const { isLeagueSpecificPlayersPage } = usePlayersPageConfigurationContext();
+  const { isCurrentSeason } = usePlayersContext();
 
   return (
     <>
@@ -91,11 +93,15 @@ const PlayerItem = ({
             {formatNumber(appearances)}{" "}
             {`${appearances === 1 ? t("players.results.app") : t("players.results.apps")}`}
           </span>
-          <span className={cn(styles.divider, styles.teams)} />
-          <span className={styles.teams}>
-            {formatNumber(teams_count)}{" "}
-            {`${teams_count === 1 ? t("players.results.team") : t("players.results.teams")}`}
-          </span>
+          {isCurrentSeason && (
+            <>
+              <span className={cn(styles.divider, styles.teams)} />
+              <span className={styles.teams}>
+                {formatNumber(teams_count ?? 0)}{" "}
+                {`${teams_count === 1 ? t("players.results.team") : t("players.results.teams")}`}
+              </span>
+            </>
+          )}
           {isLeagueSpecificPlayersPage && league_team_logo && (
             <span className={styles.end}>
               <div className={styles.logo}>

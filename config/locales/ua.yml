@@ -772,6 +772,7 @@ ua:
   players:
     players: "Гравці"
     search_player: "Пошук гравця"
+    export_csv: "Експорт CSV"
     newbie: "NEW"
     results:
       title: "Знайдено"
@@ -829,6 +830,8 @@ ua:
       baseScoreAsc: "Базова оцінка (зростання)"
       totalScoreDesc: "Загальна оцінка (спадання)"
       totalScoreAsc: "Загальна оцінка (зростання)"
+      numberOfTeamsDesc: "К-сть команд (спадання)"
+      numberOfTeamsAsc: "К-сть команд (зростання)"
     filter_position: "Фільтр по позиції"
     filter_club: "Фільтр по клубу"
     position_option: "ПОЗИЦІЯ"

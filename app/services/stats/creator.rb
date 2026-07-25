@@ -1,4 +1,3 @@
-# rubocop:disable Metrics/MethodLength
 module Stats
   class Creator < ApplicationService
     attr_reader :player_ids, :season
@@ -100,4 +99,3 @@ module Stats
     end
   end
 end
-# rubocop:enable Metrics/MethodLength

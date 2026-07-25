@@ -194,6 +194,49 @@ RSpec.describe Players::Query do
         end
       end
 
+      context 'when sorting by teams_count' do
+        let!(:player_with_teams) { create(:player, :with_team) }
+        let(:params) { { field: 'teams_count', direction: 'desc' } }
+
+        it 'orders players with more teams first' do
+          expect(result.first).to eq(player_with_teams)
+        end
+      end
+
+      context 'when a player appeared for two clubs in the season' do
+        let!(:player) { create(:player) }
+        let(:params) { { field: 'appearances', direction: 'desc' } }
+
+        before do
+          other_club = create(:club, tournament: player.club.tournament)
+          create(:player_season_stat, player: player, club: player.club, season: Season.last,
+                                      tournament: player.club.tournament, played_matches: 10)
+          create(:player_season_stat, player: player, club: other_club, season: Season.last,
+                                      tournament: player.club.tournament, played_matches: 30)
+        end
+
+        it 'aggregates appearances across clubs when sorting' do
+          expect(result.first).to eq(player) # 40 total vs the other players' 0
+        end
+      end
+
+      context 'with season_id' do
+        let!(:player) { create(:player) }
+        let(:past_season) { create(:season, start_year: 2050, end_year: 2051) }
+        let(:params) { { season_id: past_season.id, field: 'appearances', direction: 'desc' } }
+
+        before do
+          past_season
+          create(:season, start_year: 2099, end_year: 2100) # ensure past_season is not Season.last
+          create(:player_season_stat, player: player, club: player.club, season: past_season,
+                                      tournament: player.club.tournament, played_matches: 40)
+        end
+
+        it 'aggregates stats from the requested season' do
+          expect(result.first).to eq(player)
+        end
+      end
+
       context 'with league_id and team_id' do
         let(:league) { create(:league, tournament: Tournament.last) }
         let!(:player) { create(:player, club: create(:club, tournament: league.tournament)) }

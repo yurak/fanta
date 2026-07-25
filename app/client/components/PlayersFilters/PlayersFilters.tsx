@@ -3,6 +3,7 @@ import PlayersFilterContextProvider, {
   usePlayersFilterContext,
 } from "@/application/Players/PlayersFilterContext";
 import { usePlayersPageConfigurationContext } from "@/application/Players/PlayersPageConfigurationContext";
+import { usePlayersContext } from "@/application/Players/PlayersContext";
 import { PlayerPositionsCheckboxPopover } from "@/components/filters/PlayerPositionsCheckbox";
 import { LeagueTeamCheckboxPopover } from "@/components/filters/LeagueTeamCheckbox";
 import PlayersFilterConstants from "@/domain/PlayersFilterConstants";
@@ -14,6 +15,7 @@ const PlayerFilters = () => {
   const { t } = useTranslation();
   const { filterValues, onChangeValue } = usePlayersFilterContext();
   const { isLeagueSpecificPlayersPage, leagueId } = usePlayersPageConfigurationContext();
+  const { isCurrentSeason } = usePlayersContext();
 
   return (
     <div className={styles.wrapper}>
@@ -81,13 +83,15 @@ const PlayerFilters = () => {
             onChange={onChangeValue("price")}
           />
         )}
-        <RangeSliderPopover
-          min={PlayersFilterConstants.TEAMS_COUNT_MIN}
-          max={PlayersFilterConstants.TEAMS_COUNT_MAX}
-          value={filterValues.teamsCount}
-          label={t("players.filters.numberOfTeamsLabel")}
-          onChange={onChangeValue("teamsCount")}
-        />
+        {isCurrentSeason && (
+          <RangeSliderPopover
+            min={PlayersFilterConstants.TEAMS_COUNT_MIN}
+            max={PlayersFilterConstants.TEAMS_COUNT_MAX}
+            value={filterValues.teamsCount}
+            label={t("players.filters.numberOfTeamsLabel")}
+            onChange={onChangeValue("teamsCount")}
+          />
+        )}
       </div>
     </div>
   );
