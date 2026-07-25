@@ -139,31 +139,8 @@
                         = image_tag('icons/search.svg')
                         %input.modal-player-search{ type: 'search', placeholder: t('players.search_player'), id: "modal-player-search#{mp.index}", autocomplete: 'off' }
                         .modal-player-search-clear= image_tag('icons/close_ring.svg')
-                      .modal-modules-block{id: "modal-modules-block#{mp.index}"}
-                        - if tour.mantra?
-                          - if slot&.position
-                            - available_hash = available_by_slot(team, slot)
-                            .modal-malus-block
-                              - available_hash['0']&.each do |player|
-                                = render 'lineup_player_item', player: player, tour: tour
-                            - if available_hash['1.5']
-                              .modal-malus-title 🎭 MALUS -1.5
-                              .modal-malus-block
-                                - available_hash['1.5'].each do |player|
-                                  = render 'lineup_player_item', player: player, tour: tour
-                            - if available_hash['3.0']
-                              .modal-malus-title 🎭 MALUS -3
-                              .modal-malus-block
-                                - available_hash['3.0'].each do |player|
-                                  = render 'lineup_player_item', player: player, tour: tour
-                          - elsif mp.index == 11
-                            .modal-malus-block
-                              - available_by_slot(team, team_module.slots.first)['0']&.each do |player|
-                                = render 'lineup_player_item', player: player, tour: tour
-                          - else
-                            .modal-malus-block
-                              - available_for_select(team).each do |player|
-                                = render 'lineup_player_item', player: player, tour: tour
+                      - lazy_mantra = tour.mantra? && !tour.eurocup?
+                      .modal-modules-block{ id: "modal-modules-block#{mp.index}", data: (lazy_mantra ? { lazy_team: team.id, lazy_module: team_module.id, lazy_index: mp.index } : {}) }
 
 :javascript
   $(document).ready(function() {
@@ -480,15 +457,42 @@
           }
         });
       } else {
-        const playerIds = [];
-        $('.round-player-input').each(function() { playerIds.push($(this).val()); });
-        const pickedPlayers = playerIds.filter(Boolean);
+        const modalBlock = $('#modal-modules-block' + slotId);
 
-        playersList.find(".modal-player-item").each(function(innerIndex, innerElement) {
-          if (pickedPlayers.includes(innerElement.id.replace("player", ""))) {
-            innerElement.style.backgroundColor = "rgb(230, 230, 230)";
-          }
-        });
+        const markPicked = function() {
+          const playerIds = [];
+          $('.round-player-input').each(function() { playerIds.push($(this).val()); });
+          const pickedPlayers = playerIds.filter(Boolean);
+
+          playersList.find(".modal-player-item").each(function(innerIndex, innerElement) {
+            if (pickedPlayers.includes(innerElement.id.replace("player", ""))) {
+              innerElement.style.backgroundColor = "rgb(230, 230, 230)";
+            }
+          });
+        };
+
+        if (modalBlock.attr('data-lazy-team') && !modalBlock.attr('data-loaded')) {
+          modalBlock.attr('data-loaded', '1');
+          $.ajax({
+            type: "GET",
+            dataType: "json",
+            url: "/slots",
+            data: {
+              tour_id: "#{tour.id}",
+              team_id: modalBlock.attr('data-lazy-team'),
+              team_module_id: modalBlock.attr('data-lazy-module'),
+              index: modalBlock.attr('data-lazy-index')
+            },
+            success: function(data) {
+              modalBlock.html(data.team_players_html);
+              filterModalPlayers(playersList.find('.modal-player-search'));
+              markPicked();
+            },
+            error: function() { modalBlock.removeAttr('data-loaded'); }
+          });
+        } else {
+          markPicked();
+        }
       }
     });
 

@@ -1,0 +1,23 @@
+- if slot&.position
+  - available_hash = available_by_slot(team, slot)
+  .modal-malus-block
+    - available_hash['0']&.each do |player|
+      = render 'lineups/lineup_player_item', player: player, tour: tour
+  - if available_hash['1.5']
+    .modal-malus-title 🎭 MALUS -1.5
+    .modal-malus-block
+      - available_hash['1.5'].each do |player|
+        = render 'lineups/lineup_player_item', player: player, tour: tour
+  - if available_hash['3.0']
+    .modal-malus-title 🎭 MALUS -3
+    .modal-malus-block
+      - available_hash['3.0'].each do |player|
+        = render 'lineups/lineup_player_item', player: player, tour: tour
+- elsif index == 11
+  .modal-malus-block
+    - available_by_slot(team, gk_slot)['0']&.each do |player|
+      = render 'lineups/lineup_player_item', player: player, tour: tour
+- else
+  .modal-malus-block
+    - available_for_select(team).each do |player|
+      = render 'lineups/lineup_player_item', player: player, tour: tour
