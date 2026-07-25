@@ -6,7 +6,7 @@ module Players
       'player', 'club', 'pos1', 'pos2', 'pos3', 'TM url', 'TM price', 'played matches', 'sixties',
       'average score', 'average total score', 'goals', 'assists', 'scored_penalty', 'failed penalty',
       'cleansheet', 'missed goals', 'missed penalty', 'caught penalty', 'saves', 'yellow_card', 'red_card',
-      'own_goals', 'conceded_penalty', 'penalties_won', 'played_minutes', 'fotmob', 'min price'
+      'own_goals', 'conceded_penalty', 'penalties_won', 'played_minutes', 'fotmob', 'min price', 'season clubs'
     ].freeze
 
     COUNT_COLUMNS = %i[
@@ -29,37 +29,47 @@ module Players
     private
 
     def rows
-      stats.group_by(&:player_id)
-           .values
-           .map { |player_stats| row(player_stats) }
-           .sort_by { |row| [row[1].to_s, row[0].to_s] } # club, player name
+      players.map { |player| row(player) }
+             .sort_by { |row| [row[1].to_s, row[0].to_s] } # club, player name
     end
 
-    def stats
-      scope = PlayerSeasonStat.where(season_id: @season.id).includes(player: %i[positions club])
-      scope = scope.where(player_id: @player_ids) if @player_ids
+    def players
+      scope = Player.includes(:positions, :club, player_season_stats: :club)
+      scope = scope.where(id: @player_ids) if @player_ids
       scope
     end
 
-    def row(player_stats)
-      representative = player_stats.max_by(&:played_matches)
-      played = player_stats.sum(&:played_matches)
+    def row(player)
+      season_stats = player.player_season_stats.select { |stat| stat.season_id == @season.id }
 
-      descriptive(representative) +
-        [played, player_stats.sum(&:sixties),
-         weighted(player_stats, :score, played), weighted(player_stats, :final_score, played)] +
-        COUNT_COLUMNS.map { |column| player_stats.sum(&column) } +
-        [representative.player.fotmob_id, representative.position_price]
+      descriptive(player) + stat_columns(season_stats) + tail(player, season_stats)
     end
 
-    def descriptive(stat)
-      player = stat.player
+    def stat_columns(season_stats)
+      played = season_stats.sum(&:played_matches)
+
+      [played, season_stats.sum(&:sixties),
+       weighted(season_stats, :score, played), weighted(season_stats, :final_score, played)] +
+        COUNT_COLUMNS.map { |column| season_stats.sum(&column) }
+    end
+
+    def tail(player, season_stats)
+      representative = season_stats.max_by(&:played_matches)
+
+      [player.fotmob_id, representative&.position_price, season_clubs(season_stats)]
+    end
+
+    def descriptive(player)
       positions = player.positions.first(3).map(&:human_name)
 
       [
         player.full_name_reverse, player.club&.name,
         positions[0], positions[1], positions[2], player.tm_url, player.tm_price
       ]
+    end
+
+    def season_clubs(season_stats)
+      season_stats.filter_map { |stat| stat.club&.name }.uniq.sort.join(', ')
     end
 
     def weighted(player_stats, column, played)

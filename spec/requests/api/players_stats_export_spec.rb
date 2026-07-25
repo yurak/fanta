@@ -1,4 +1,5 @@
 require 'rails_helper'
+require 'csv'
 
 RSpec.describe 'Api::Players stats export' do
   describe 'GET /api/players/stats_export' do
@@ -37,14 +38,14 @@ RSpec.describe 'Api::Players stats export' do
       expect(response.body).to include('player,club').and include(player.full_name_reverse)
     end
 
-    it 'exports the requested season only' do
+    it 'reports zero stats for a current player who did not play the requested season' do
       other = create(:season, start_year: 2098, end_year: 2099)
-      create(:player_season_stat, player: create(:player, club: club), club: club,
-                                  season: other, tournament: tournament, played_matches: 3)
 
       get stats_export_api_players_path(filter: { season_id: other.id })
 
-      expect(response.body.lines.size).to eq(2) # header + 1 row
+      # the player has stats only in `season`, not `other`, but is still listed with zeros
+      player_row = CSV.parse(response.body).find { |row| row[0].to_s.include?(player.full_name_reverse) }
+      expect(player_row[7]).to eq('0') # played matches
     end
 
     context 'when filtered by selected clubs' do

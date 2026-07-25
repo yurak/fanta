@@ -79,6 +79,14 @@ RSpec.describe PlayerBaseSerializer do
       it 'hides teams_count_max' do
         expect(hash[:teams_count_max]).to be_nil
       end
+
+      it 'reports zero appearances when the player has no stats that season' do
+        expect(hash[:appearances]).to eq(0)
+      end
+
+      it 'reports zero base score when the player has no stats that season' do
+        expect(hash[:average_base_score]).to eq(0)
+      end
     end
   end
 

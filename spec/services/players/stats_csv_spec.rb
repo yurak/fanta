@@ -59,6 +59,26 @@ RSpec.describe Players::StatsCsv do
         # base: (7.5*10 + 8.5*30) / 40 = 8.25 ; total: (8.0*10 + 9.0*30) / 40 = 8.75
         expect(rows.last).to include('8.25', '8.75')
       end
+
+      it 'lists all clubs the player had stats for that season' do
+        expect(rows.last.last).to eq('Arsenal, Chelsea')
+      end
+    end
+
+    context 'when a current player has no stats for the season' do
+      before { create(:player, name: 'Nostat', first_name: 'No', club: club) }
+
+      it 'still includes the player with zero stats' do
+        nostat_row = rows.find { |row| row[0].to_s.include?('Nostat') }
+
+        expect(nostat_row[7]).to eq('0') # played matches
+      end
+
+      it 'leaves the season clubs column empty for that player' do
+        nostat_row = rows.find { |row| row[0].to_s.include?('Nostat') }
+
+        expect(nostat_row.last).to eq('')
+      end
     end
 
     context 'with a stat from another season' do
