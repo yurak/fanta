@@ -5,7 +5,7 @@ import { ISeason } from "@/interfaces/Season";
 
 export const useSeasons = () => {
   const query = useQuery({
-    staleTime: 1000 * 60 * 60 * 24, // 1 day
+    staleTime: 1000 * 60 * 10, // 10 minutes
     queryKey: ["seasons"],
     queryFn: async ({ signal }) => {
       return (await axios.get<IResponse<ISeason[]>>("/seasons", { signal })).data.data;

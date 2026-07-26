@@ -5,7 +5,7 @@ import { ITournament } from "@/interfaces/Tournament";
 
 export const useTournaments = (params?: { clubs?: boolean }, enabled?: boolean) => {
   const query = useQuery({
-    staleTime: 1000 * 60 * 60 * 24, // 1 day
+    staleTime: 1000 * 60 * 10, // 10 minutes
     queryKey: ["tournaments", params],
     queryFn: async ({ signal }) => {
       return (
