@@ -25,11 +25,11 @@ RSpec.describe 'Api::Players stats export' do
       expect(response.media_type).to eq('text/csv')
     end
 
-    it 'sets a season-named attachment filename' do
+    it 'sets a season-named, timestamped attachment filename' do
       get stats_export_api_players_path
 
       expect(response.headers['Content-Disposition'])
-        .to include("players_stats_#{season.start_year}_#{season.end_year}.csv")
+        .to match(/players_stats_#{season.start_year}_#{season.end_year}_\d{8}_\d{6}\.csv/)
     end
 
     it 'includes the header row and player data' do

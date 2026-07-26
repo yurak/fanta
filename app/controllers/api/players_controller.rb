@@ -29,8 +29,9 @@ module Api
       player_ids = Players::Query.call(query_params).reorder(nil).select(:id)
       csv = Players::StatsCsv.call(season: season, player_ids: player_ids)
 
+      timestamp = Time.current.strftime('%Y%m%d_%H%M%S')
       send_data csv, type: 'text/csv',
-                     filename: "players_stats_#{season.start_year}_#{season.end_year}.csv",
+                     filename: "players_stats_#{season.start_year}_#{season.end_year}_#{timestamp}.csv",
                      disposition: 'attachment'
     end
 
