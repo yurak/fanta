@@ -7,7 +7,7 @@ export interface IPlayer {
   appearances_max: number,
   avatar_path: string,
   average_base_score: string,
-  average_price: number,
+  average_price: null | number,
   average_total_score: string,
   club: IClub,
   first_name: string,
@@ -17,8 +17,8 @@ export interface IPlayer {
   name: string,
   newbie: boolean,
   position_classic_arr: Position[],
-  teams_count: number,
-  teams_count_max: number,
+  teams_count: null | number,
+  teams_count_max: null | number,
 }
 
 export interface INationalTeam {

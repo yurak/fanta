@@ -767,6 +767,7 @@ en:
   players:
     players: "Players"
     search_player: "Search player"
+    export_csv: "Export CSV"
     newbie: "NEW"
     results:
       title: "Showing"
@@ -824,6 +825,8 @@ en:
       baseScoreAsc: "Base score (Low to High)"
       totalScoreDesc: "Total score (High to Low)"
       totalScoreAsc: "Total score (Low to High)"
+      numberOfTeamsDesc: "# of teams (High to Low)"
+      numberOfTeamsAsc: "# of teams (Low to High)"
     filter_position: "Filter by position"
     filter_club: "Filter by club"
     position_option: "POSITION"

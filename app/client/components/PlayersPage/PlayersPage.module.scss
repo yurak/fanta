@@ -10,7 +10,9 @@
 .headerTop {
   width: 100%;
   display: flex;
-  gap: var(--gap);
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px var(--gap);
   justify-content: space-between;
 }
 
@@ -22,6 +24,42 @@
   flex: 1;
 }
 
+.seasonControls {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  @media (max-width: 768px) {
+    flex: 1 1 100%;
+    gap: 8px;
+
+    // react-select container — grow to fill the row
+    > div {
+      flex: 1;
+    }
+
+    // react-select control (its min-height/40 is set inline, so override it)
+    > div > div {
+      min-height: 32px !important;
+      font-size: 12px;
+    }
+
+    img {
+      width: 18px;
+      height: 18px;
+    }
+
+    button {
+      flex: 1;
+      min-height: 32px;
+      padding: 4px 12px;
+      font-size: 12px;
+      line-height: 16px;
+    }
+  }
+}
+
 .title {
   flex: 1;
   min-width: 0;
@@ -30,6 +68,13 @@
     @media (max-width: 768px) {
       display: none;
     }
+  }
+}
+
+// On the global players page the "Players" heading is already shown in the app header on mobile.
+.titleHiddenMobile {
+  @media (max-width: 768px) {
+    display: none;
   }
 }
 

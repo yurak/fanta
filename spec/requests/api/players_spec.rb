@@ -263,7 +263,7 @@ RSpec.describe 'Players' do # rubocop:disable RSpec/MultipleMemoizedHelpers
         before do # rubocop:disable RSpec/ScatteredSetup
           create(:player_season_stat, player: player_with_score, club: player_with_score.club,
                                       season: Season.last, tournament: league.tournament,
-                                      score: 7.5)
+                                      played_matches: 5, score: 7.5)
         end
 
         let(:filter) { { base_score: { min: 7.0 } } }
@@ -282,7 +282,7 @@ RSpec.describe 'Players' do # rubocop:disable RSpec/MultipleMemoizedHelpers
         before do # rubocop:disable RSpec/ScatteredSetup
           create(:player_season_stat, player: player_with_score, club: player_with_score.club,
                                       season: Season.last, tournament: league.tournament,
-                                      final_score: 8.0)
+                                      played_matches: 5, final_score: 8.0)
         end
 
         let(:filter) { { total_score: { min: 7.0 } } }

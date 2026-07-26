@@ -7,6 +7,7 @@ import { usePlayersPageConfigurationContext } from "../PlayersPageConfigurationC
 const usePlayersSort = () => {
   const {
     sorting: { onSortChange, sortBy, sortOrder },
+    isCurrentSeason,
   } = usePlayersContext();
   const { isLeagueSpecificPlayersPage } = usePlayersPageConfigurationContext();
 
@@ -88,8 +89,20 @@ const usePlayersSort = () => {
         sortBy: "total_score",
         label: t("players.sorter.totalScoreAsc"),
       },
+      ...(isCurrentSeason ? [
+        {
+          sortOrder: "desc" as SortOrder,
+          sortBy: "teams_count",
+          label: t("players.sorter.numberOfTeamsDesc"),
+        },
+        {
+          sortOrder: "asc" as SortOrder,
+          sortBy: "teams_count",
+          label: t("players.sorter.numberOfTeamsAsc"),
+        },
+      ] : []),
     ],
-    [t]
+    [t, isLeagueSpecificPlayersPage, isCurrentSeason]
   );
 
   const selectedSort = useMemo(() => {

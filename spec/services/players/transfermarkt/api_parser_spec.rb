@@ -3,7 +3,6 @@ require 'rails_helper'
 RSpec.describe Players::Transfermarkt::ApiParser do
   let(:tm_id) { '123456' }
 
-  # rubocop:disable Metrics/MethodLength
   def api_response(overrides = {})
     {
       'name' => 'John Doe',
@@ -22,7 +21,6 @@ RSpec.describe Players::Transfermarkt::ApiParser do
       ]
     }.merge(overrides)
   end
-  # rubocop:enable Metrics/MethodLength
 
   def stub_api(data)
     response = instance_double(RestClient::Response, body: JSON.generate({ 'data' => data }))

@@ -7,7 +7,7 @@ module WeeklyTeams
     :yellow_card, :red_card, :cleansheet,
     keyword_init: true
   ) do
-    def self.from_round_players(rps) # rubocop:disable Metrics/MethodLength, Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+    def self.from_round_players(rps) # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
       new(
         player: rps.first.player,
         goals: rps.sum { |rp| rp.goals.to_i },

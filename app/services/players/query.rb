@@ -13,16 +13,19 @@ module Players
     CLUB = 'club'.freeze
     NAME = 'name'.freeze
     TOTAL_SCORE = 'total_score'.freeze
+    TEAMS_COUNT = 'teams_count'.freeze
     POSITION = 'position'.freeze
     MAX_SEARCH = 100
     MIN_SEARCH = -100
     PLAYER_PRELOADS = %i[transfers teams player_season_stats club positions].freeze
     POSITION_ORDER_SQL = '(SELECT MIN(position_id) FROM player_positions WHERE player_id = players.id)'.freeze
+    TEAMS_COUNT_SQL = '(SELECT COUNT(*) FROM player_teams WHERE player_teams.player_id = players.id)'.freeze
 
     SQL_SORT_COLUMNS = {
       APPEARANCES => 'COALESCE(pss.played_matches, 0)',
       BASE_SCORE => 'COALESCE(pss.score, 0)',
-      TOTAL_SCORE => 'COALESCE(pss.final_score, 0)'
+      TOTAL_SCORE => 'COALESCE(pss.final_score, 0)',
+      TEAMS_COUNT => TEAMS_COUNT_SQL
     }.freeze
 
     def initialize(params) # rubocop:disable Metrics/MethodLength
@@ -46,6 +49,7 @@ module Players
       @position        = params[:position]
       @team_id         = params[:team_id]
       @tournament_id   = params[:tournament_id]
+      @season_id       = params[:season_id].presence&.to_i
       @without_team    = ActiveModel::Type::Boolean.new.cast(params[:without_team])
     end
 
@@ -77,11 +81,14 @@ module Players
     end
 
     def join_season_stats(players)
-      players.joins(
-        "LEFT JOIN player_season_stats pss ON pss.player_id = players.id
-         AND pss.season_id = #{current_season_id}
-         AND pss.club_id = players.club_id"
-      )
+      players.joins(<<~SQL.squish)
+        LEFT JOIN (
+          SELECT player_id, SUM(played_matches) AS played_matches, SUM(played_minutes) AS played_minutes,
+            CASE WHEN SUM(played_matches) > 0 THEN SUM(score * played_matches) / SUM(played_matches) ELSE 0 END AS score,
+            CASE WHEN SUM(played_matches) > 0 THEN SUM(final_score * played_matches) / SUM(played_matches) ELSE 0 END AS final_score
+          FROM player_season_stats WHERE season_id = #{current_season_id} GROUP BY player_id
+        ) pss ON pss.player_id = players.id
+      SQL
     end
 
     # --- SQL filtering ---
@@ -124,9 +131,8 @@ module Players
     end
 
     def filter_by_teams_count(players)
-      subquery = '(SELECT COUNT(*) FROM player_teams WHERE player_teams.player_id = players.id)'
-      players = players.where("#{subquery} >= ?", min_teams_count.to_i) if min_teams_count
-      players = players.where("#{subquery} <= ?", max_teams_count.to_i) if max_teams_count
+      players = players.where("#{TEAMS_COUNT_SQL} >= ?", min_teams_count.to_i) if min_teams_count
+      players = players.where("#{TEAMS_COUNT_SQL} <= ?", max_teams_count.to_i) if max_teams_count
       players
     end
 
@@ -226,7 +232,7 @@ module Players
     # --- In-memory ordering ---
 
     def order_players_in_memory(players)
-      return players.sort_by { |p| -player_stat(p)&.final_score.to_f } unless field
+      return players.sort_by { |p| -player_stat(p)[:final_score] } unless field
 
       ordered = sort_in_memory(players)
       if alpha_field?
@@ -250,6 +256,7 @@ module Players
       case field
       when CLUB then player.club&.name.to_s
       when LEAGUE_PRICE then player_league_price(player)
+      when TEAMS_COUNT then player.teams.size
       else stat_sort_key_for(player)
       end
     end
@@ -257,19 +264,25 @@ module Players
     def stat_sort_key_for(player)
       stat = player_stat(player)
       case field
-      when APPEARANCES then stat&.played_matches.to_i
-      when BASE_SCORE  then stat&.score.to_f
-      when TOTAL_SCORE then stat&.final_score.to_f
+      when APPEARANCES then stat[:played_matches]
+      when BASE_SCORE  then stat[:score]
+      when TOTAL_SCORE then stat[:final_score]
       else player.name.to_s
       end
     end
 
     def player_stat(player)
-      player.player_season_stats.find { |s| s.club_id == player.club_id && s.season_id == current_season_id }
+      rows = player.player_season_stats.select { |s| s.season_id == current_season_id }
+      played = rows.sum(&:played_matches)
+      {
+        played_matches: played,
+        score: played.zero? ? 0.0 : rows.sum { |s| s.score * s.played_matches } / played,
+        final_score: played.zero? ? 0.0 : rows.sum { |s| s.final_score * s.played_matches } / played
+      }
     end
 
     def current_season_id
-      @current_season_id ||= Season.last.id
+      @current_season_id ||= @season_id || Season.last.id
     end
 
     # --- Helpers ---

@@ -5,7 +5,7 @@
   .nav-teams-section
     .nav-logo-teams
       - if user_signed_in?
-        - current_user.teams.each do |team|
+        - current_user.teams.includes(league: :tournament).each do |team|
           - if team.league && !team.league.archived?
             .nav-logo{ class: "nav-logo-#{ team.league == league }"}
               = link_to league_link(team.league) do

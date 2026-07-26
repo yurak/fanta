@@ -23,23 +23,29 @@ class PlayerBaseSerializer < ActiveModel::Serializer
   end
 
   def appearances
-    current_stat&.played_matches || object.season_scores_count
+    return season_stats_rows.sum(&:played_matches) if season_stats_rows.any?
+
+    current_season? ? object.season_scores_count : 0
   end
 
   def appearances_max
-    object.season_matches.size
+    season_round_players.size
   end
 
   def average_base_score
-    current_stat&.score || object.season_average_score
+    return weighted_stat(:score) if season_stats_rows.any?
+
+    current_season? ? object.season_average_score : 0
   end
 
   def average_price
-    object.current_average_price
+    current_season? ? object.current_average_price : nil
   end
 
   def average_total_score
-    current_stat&.final_score || object.season_average_result_score
+    return weighted_stat(:final_score) if season_stats_rows.any?
+
+    current_season? ? object.season_average_result_score : 0
   end
 
   def club
@@ -63,10 +69,14 @@ class PlayerBaseSerializer < ActiveModel::Serializer
   end
 
   def teams_count
+    return nil unless current_season?
+
     teams&.count
   end
 
   def teams_count_max
+    return nil unless current_season?
+
     active_leagues&.size || 0
   end
 
@@ -87,14 +97,27 @@ class PlayerBaseSerializer < ActiveModel::Serializer
     @league_team ||= object.team_by_league(instance_options[:league_id]) if instance_options[:league_id]
   end
 
-  def current_stat
-    @current_stat ||= object.player_season_stats.find do |s|
-      s.club_id == object.club_id && s.season_id == current_season_id
-    end
+  def season_stats_rows
+    @season_stats_rows ||= object.player_season_stats.select { |s| s.season_id == current_season_id }
+  end
+
+  def weighted_stat(column)
+    played = season_stats_rows.sum(&:played_matches)
+    return 0 if played.zero?
+
+    (season_stats_rows.sum { |s| s.public_send(column) * s.played_matches } / played).round(2)
+  end
+
+  def season_round_players
+    @season_round_players ||= object.round_players.select { |rp| rp.tournament_round&.season_id == current_season_id }
+  end
+
+  def current_season?
+    current_season_id == Season.last&.id
   end
 
   def current_season_id
-    @current_season_id ||= Season.last&.id
+    @current_season_id ||= instance_options[:season_id] || Season.last&.id
   end
 
   def player_positions
