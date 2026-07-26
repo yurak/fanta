@@ -15,7 +15,7 @@
       .match-player-data-base
         = link_to player_path(match_player.player) do
           .team-player-name
-            = match_player.player.full_name
+            = match_player.player.full_name_reverse
             - if match_player.position_malus?
               .malus_icon= image_tag("bonuses/position_malus.svg")
             .team-player-score-unspecified.inline-block
