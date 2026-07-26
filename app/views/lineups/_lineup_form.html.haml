@@ -467,6 +467,8 @@
           playersList.find(".modal-player-item").each(function(innerIndex, innerElement) {
             if (pickedPlayers.includes(innerElement.id.replace("player", ""))) {
               innerElement.style.backgroundColor = "rgb(230, 230, 230)";
+            } else {
+              innerElement.style.backgroundColor = "";
             }
           });
         };
