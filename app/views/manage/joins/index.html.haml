@@ -41,6 +41,8 @@
             %th= t('manage.joins.tournament')
             - if @tab == 'approved'
               %th= t('manage.joins.league')
+            - else
+              %th= t('manage.joins.last_result')
             %th= t('manage.joins.submitted_at')
             - if @tab == 'pending'
               %th= t('manage.joins.actions')
@@ -57,6 +59,14 @@
               %td= join.tournament.name
               - if @tab == 'approved'
                 %td= join.team.league ? link_to(join.team.league.name, league_path(join.team.league)) : ''
+              - else
+                %td
+                  - last_league = join.team.league
+                  - if last_league
+                    = link_to last_league.name, league_path(last_league)
+                    %span.text-muted= " (#{last_league.season.display_name})"
+                  - else
+                    = '—'
               %td= local_time(join.created_at, '%d %b %Y, %H:%M')
               - if @tab == 'pending'
                 %td

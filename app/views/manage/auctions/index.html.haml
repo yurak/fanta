@@ -34,6 +34,7 @@
           %tr
             %th= t('manage.auctions.id')
             %th= t('manage.auctions.league')
+            %th= t('manage.auctions.division')
             %th= t('manage.auctions.tournament')
             %th= t('manage.auctions.season')
             %th= t('manage.auctions.number')
@@ -48,13 +49,14 @@
             %tr
               %td= auction.id
               %td= link_to auction.league.name, manage_league_path(auction.league)
+              %td= auction.league.division&.name.presence || '—'
               %td= auction.league.tournament.name
               %td= "#{auction.league.season.start_year}-#{auction.league.season.end_year}"
               %td= auction.number
               %td
                 %span{class: "badge badge-#{auction_status_badge(auction.status)}"}= t("manage.auctions.status_#{auction.status}")
               %td= auction.base_date || '—'
-              %td= auction.deadline&.strftime('%d.%m.%Y %H:%M') || '—'
+              %td= (auction.auction_rounds.max_by(&:number)&.deadline || auction.deadline)&.strftime('%d.%m.%Y %H:%M') || '—'
               %td= auction.transfers.count
               %td.auction-rounds-cell
                 - auction.auction_rounds.order(:number).each do |round|

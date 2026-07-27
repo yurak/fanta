@@ -820,6 +820,7 @@
       "auctions": {
         "base_date": "Base date",
         "deadline": "Deadline",
+        "division": "Division",
         "empty": "No auctions found",
         "event_time": "Event time",
         "filter_league": "Search by league...",
@@ -928,6 +929,7 @@
         "filter_team": "Team name",
         "filter_user_id": "User ID",
         "initial_title": "In Progress (not submitted)",
+        "last_result": "Last result",
         "league": "League",
         "new_league": "New league",
         "pending_title": "Pending Review",
@@ -2940,6 +2942,7 @@
       "auctions": {
         "base_date": "Базова дата",
         "deadline": "Дедлайн",
+        "division": "Дивізіон",
         "empty": "Аукціонів не знайдено",
         "event_time": "Час події",
         "filter_league": "Пошук за лігою...",
@@ -3050,6 +3053,7 @@
         "filter_team": "Назва команди",
         "filter_user_id": "ID користувача",
         "initial_title": "В процесі (не відправлені)",
+        "last_result": "Останній результат",
         "league": "Ліга",
         "new_league": "Нова ліга",
         "pending_title": "Очікують розгляду",

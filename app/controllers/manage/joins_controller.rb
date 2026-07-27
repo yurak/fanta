@@ -45,12 +45,12 @@ module Manage
     def base_scope_for_tab
       case @tab
       when 'pending'
-        Join.pending.includes(:tournament, team: :join, user: :user_profile)
+        Join.pending.includes(:tournament, team: [:join, { league: :season }], user: :user_profile)
             .order('tournaments.id, joins.created_at ASC').references(:tournaments)
       when 'initial'
-        Join.initial.includes(:tournament, team: :join, user: :user_profile).order(created_at: :asc)
+        Join.initial.includes(:tournament, team: [:join, { league: :season }], user: :user_profile).order(created_at: :asc)
       when 'approved'
-        Join.approved.includes(:tournament, team: %i[join league], user: :user_profile)
+        Join.approved.includes(:tournament, team: [:join, { league: :season }], user: :user_profile)
             .order('tournaments.name, leagues.name').references(:tournaments, :leagues)
       end
     end
