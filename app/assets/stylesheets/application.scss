@@ -1863,6 +1863,22 @@ body, html {
     height: 72px;
     width: 100%;
 
+    &.duplicate-player {
+      background-color: #FDECEE;
+
+      &::after {
+        content: "×2";
+        position: absolute;
+        top: 6px;
+        right: 8px;
+        color: #DB0A23;
+        font-family: 'Nunito Bold';
+        font-size: 12px;
+        line-height: 1;
+        pointer-events: none;
+      }
+    }
+
     .team-player-data {
       display: grid;
       grid-template-columns: 100px auto 50px;

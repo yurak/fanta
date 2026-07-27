@@ -2,14 +2,17 @@ class SlotsController < ApplicationController
   respond_to :json
 
   def index
-    # TODO: add team_players for mantra lineups
-    render json: { position: slots_params[:position], eurocup_players: eurocup_players }
+    render json: {
+      position: slots_params[:position],
+      eurocup_players: eurocup_players,
+      team_players_html: team_players_html
+    }
   end
 
   private
 
   def slots_params
-    params.permit(:tour_id, :position).to_unsafe_h
+    params.permit(:tour_id, :team_id, :team_module_id, :index, :position).to_unsafe_h
   end
 
   def eurocup_players
@@ -18,6 +21,16 @@ class SlotsController < ApplicationController
     fanta_round_players.each_with_object({}) do |cp, hash|
       hash[cp[0].name] = cp[1].map { |item| PlayerLineupSerializer.new(item).serializable_hash }
     end
+  end
+
+  def team_players_html
+    return if tour.nil? || tour.eurocup? || team.nil? || team_module.nil?
+
+    render_to_string(
+      partial: 'lineups/slot_candidates',
+      formats: [:html],
+      locals: { team: team, tour: tour, slot: slot, index: slot_index, gk_slot: team_module.slots.first }
+    )
   end
 
   def fanta_round_players
@@ -40,6 +53,26 @@ class SlotsController < ApplicationController
     scope.sort_by(&:name)
          .group_by { |player| player.public_send(group_association) }
          .sort_by { |group, _| group.name }
+  end
+
+  def slot_index
+    @slot_index ||= slots_params[:index].to_i
+  end
+
+  def slot
+    team_module.slots[slot_index]
+  end
+
+  def team
+    return @team if defined?(@team)
+
+    @team = Team.find_by(id: slots_params[:team_id])
+  end
+
+  def team_module
+    return @team_module if defined?(@team_module)
+
+    @team_module = TeamModule.find_by(id: slots_params[:team_module_id])
   end
 
   def t_round

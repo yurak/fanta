@@ -15,7 +15,7 @@
       .match-player-data-base
         = link_to player_path(match_player.player) do
           .team-player-name
-            = match_player.player.full_name
+            = match_player.player.full_name_reverse
             = image_tag('icons/subs-off.svg') if match_player.get_out?
             .team-player-score-unspecified.inline-block
               - if match_player.lineup.tour.national?

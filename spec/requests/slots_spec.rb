@@ -96,6 +96,46 @@ RSpec.describe 'Slots' do
       end
     end
 
+    context 'with a non-eurocup team slot (lazy mantra candidates)' do
+      login_user
+
+      let(:tour) { create(:tour) }
+      let(:team) { create(:team) }
+      let(:team_module) { create(:team_module) }
+
+      before do
+        player = create(:player, :with_pos_pc, club: create(:club))
+        create(:player_team, team: team, player: player)
+        get slots_path(tour_id: tour.id, team_id: team.id, team_module_id: team_module.id, index: 5, format: 'json')
+      end
+
+      it { expect(response).to have_http_status(:ok) }
+
+      it 'renders the candidate players html' do
+        expect(JSON(response.body)['team_players_html']).to include('modal-player-item')
+      end
+
+      it 'returns empty eurocup_players' do
+        expect(JSON(response.body)['eurocup_players']).to eq({})
+      end
+    end
+
+    context 'when the tour is eurocup' do
+      login_user
+
+      let(:tour) { create(:tour, tournament_round: create(:tournament_round, tournament: create(:tournament, eurocup: true))) }
+      let(:team) { create(:team) }
+      let(:team_module) { create(:team_module) }
+
+      before do
+        get slots_path(tour_id: tour.id, team_id: team.id, team_module_id: team_module.id, index: 5, format: 'json')
+      end
+
+      it 'does not render team_players_html' do
+        expect(JSON(response.body)['team_players_html']).to be_nil
+      end
+    end
+
     context 'with logged user' do
       context 'with position and tour with players' do
         let(:position_name) { Position::STRIKER }
