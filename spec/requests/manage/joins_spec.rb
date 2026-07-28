@@ -93,15 +93,15 @@ RSpec.describe 'Manage::Joins' do
     end
 
     it 'shows count for tournament in sub-tab' do
-      expect(response.body).to include(CGI.escapeHTML("#{tournament.name} (1)"))
+      expect(response.body).to match(/tournament_id=#{tournament.id}.*?default-tab-name">1</m)
     end
 
     it 'shows count for tournament2 in sub-tab' do
-      expect(response.body).to include(CGI.escapeHTML("#{tournament2.name} (1)"))
+      expect(response.body).to match(/tournament_id=#{tournament2.id}.*?default-tab-name">1</m)
     end
 
     it 'shows all-tournaments tab with total count' do
-      expect(response.body).to include('(2)')
+      expect(response.body).to match(/title="#{Regexp.escape(I18n.t('manage.joins.all_tournaments'))}".*?default-tab-name">2</m)
     end
 
     it 'sets tournament_id to nil when no filter' do
@@ -217,7 +217,7 @@ RSpec.describe 'Manage::Joins' do
       end
 
       it 'reflects the search in the sub-tab counts' do
-        expect(response.body).to include(CGI.escapeHTML("#{tournament.name} (1)"))
+        expect(response.body).to match(/tournament_id=#{tournament.id}.*?default-tab-name">1</m)
       end
     end
 

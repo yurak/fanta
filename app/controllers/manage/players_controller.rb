@@ -12,6 +12,7 @@ module Manage
       @teams = @player.teams.includes(league: :tournament)
       @team_transfers = @player.transfers.incoming.index_by(&:team_id)
       @season_stats = player_season_stats
+      @round_players = current_season_round_players
     end
 
     def create
@@ -46,6 +47,14 @@ module Manage
                       .where(player: @player)
                       .order('seasons.start_year DESC')
                       .references(:season)
+    end
+
+    def current_season_round_players
+      RoundPlayer.where(player: @player)
+                 .includes(:club, tournament_round: :tournament)
+                 .references(:tournament_round)
+                 .where(tournament_rounds: { season_id: Season.last&.id })
+                 .order('tournament_rounds.number DESC')
     end
 
     def filter_players

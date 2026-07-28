@@ -8,7 +8,7 @@ module Manage
       @seasons = Season.order(start_year: :desc)
       @auctions = Auction.unscoped
                          .public_send(@status)
-                         .includes(:auction_rounds, league: %i[tournament season division])
+                         .includes(:auction_rounds, :transfers, league: %i[tournament season division])
                          .references(:leagues)
                          .order('auctions.created_at DESC')
       @auctions = @auctions.where('leagues.name LIKE ?', "%#{params[:query]}%") if params[:query].present?

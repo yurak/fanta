@@ -55,17 +55,32 @@
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+  }
+
+  table td:last-child,
+  table th:last-child {
+    width: 1%;
+    white-space: nowrap;
   }
 
   .manage-joins-subtabs {
     font-size: 13px;
     background: #F7F7F7;
     margin-bottom: 24px;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
 
     .default-tab-item {
       padding: 10px 14px 8px;
       min-width: unset;
+      flex-shrink: 0;
     }
   }
 }
@@ -184,5 +199,59 @@
     display: flex;
     gap: 16px;
     margin-bottom: 16px;
+  }
+}
+
+// Mobile-only bottom nav for manage pages: a horizontally scrollable variant of
+// .portrait-footer. Desktop keeps the .manage-nav side panel (untouched).
+.portrait-footer.manage-footer {
+  height: auto;
+  background: #FFE8E8;
+  padding: 12px 16px;
+  column-gap: 8px;
+  align-items: stretch;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  .league-link {
+    height: auto;
+    min-width: 150px;
+    padding: 12px 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    row-gap: 6px;
+    white-space: nowrap;
+  }
+
+  img {
+    width: 48px;
+    height: 48px;
+  }
+
+  .league-link-text {
+    font-size: 22px;
+    line-height: 28px;
+  }
+
+  .link-active-true {
+    border-radius: 16px;
+  }
+}
+
+@media (orientation: portrait) {
+  body:not(.react-application) {
+    .portrait-footer.manage-footer {
+      display: flex;
+      overflow-x: auto;
+    }
+
+    .admin-manage-page {
+      padding-bottom: 140px;
+    }
   }
 }

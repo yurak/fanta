@@ -15,7 +15,7 @@ module Manage
 
     def show
       @national_team = NationalTeam.includes(:tournament).find(params.expect(:id))
-      @players = @national_team.players.order(:name)
+      @players = @national_team.players.includes(:club).order(:name)
       @players_count = @players.size
     end
   end

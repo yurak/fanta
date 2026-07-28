@@ -95,6 +95,34 @@ RSpec.describe 'Manage::Players' do
           expect(response.body).to include(CGI.escapeHTML(new_club.name))
         end
       end
+
+      context 'with round players' do
+        let(:old_season) { create(:season) }
+        let(:current_season) { create(:season) }
+        let(:current_round) do
+          create(:tournament_round, tournament: create(:tournament, name: 'CurrentSeasonCup'), season: current_season, number: 7)
+        end
+        let(:past_round) do
+          create(:tournament_round, tournament: create(:tournament, name: 'PastSeasonCup'), season: old_season, number: 3)
+        end
+
+        before do
+          player
+          old_season
+          current_season
+          create(:round_player, player: player, tournament_round: current_round)
+          create(:round_player, player: player, tournament_round: past_round)
+          get manage_player_path(player)
+        end
+
+        it 'lists round players from the current season' do
+          expect(response.body).to include('CurrentSeasonCup #7')
+        end
+
+        it 'excludes round players from past seasons' do
+          expect(response.body).not_to include('PastSeasonCup')
+        end
+      end
     end
   end
 

@@ -57,7 +57,7 @@
                 %span{class: "badge badge-#{auction_status_badge(auction.status)}"}= t("manage.auctions.status_#{auction.status}")
               %td= auction.base_date || '—'
               %td= (auction.auction_rounds.max_by(&:number)&.deadline || auction.deadline)&.strftime('%d.%m.%Y %H:%M') || '—'
-              %td= auction.transfers.count
+              %td= auction.transfers.size
               %td.auction-rounds-cell
                 - auction.auction_rounds.order(:number).each do |round|
                   = link_to "##{round.number}", auction_round_path(round), target: '_blank'

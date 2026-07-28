@@ -15,3 +15,5 @@
     = query_diet_widget if Rails.env.development?
     .main-block
       = yield
+      - if controller_path.start_with?('manage/')
+        = render 'layouts/manage_footer'
