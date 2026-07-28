@@ -16,6 +16,8 @@ class TeamsController < ApplicationController
   end
 
   def create
+    return redirect_to auction_bid_path(current_join.auction_bid) if current_join
+
     if existing_team_id.present?
       join_with_existing_team
     else
@@ -79,17 +81,25 @@ class TeamsController < ApplicationController
     redirect_to auction_bid_path(bid)
   end
 
+  def current_join
+    return @current_join if defined?(@current_join)
+
+    @current_join = Join.current_season.find_by(user: current_user, tournament_id: join_tournament_id)
+  end
+
   def create_join_records(team)
     tournament = Tournament.find(join_tournament_id)
     ActiveRecord::Base.transaction do
-      join = Join.current_season.find_by(user: current_user, tournament: tournament, team: team)
-      bid = join&.auction_bid || team.auction_bids.create!(auction_round_id: nil, status: :initial)
-      Team::JOIN_SLOTS.times { bid.player_bids.create! } if bid.player_bids.empty?
-      Join.create!(user: current_user, tournament: tournament, team: team, auction_bid: bid, status: :initial) unless join
+      bid = team.auction_bids.create!(auction_round_id: nil, status: :initial)
+      Team::JOIN_SLOTS.times { bid.player_bids.create! }
+      Join.create!(user: current_user, tournament: tournament, team: team, auction_bid: bid, status: :initial)
       bid
     end
-  rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique => e
+  rescue ActiveRecord::RecordInvalid => e
     flash[:alert] = e.message
+    nil
+  rescue ActiveRecord::RecordNotUnique
+    flash[:alert] = t('join.already_applied')
     nil
   end
 

@@ -243,6 +243,7 @@ en:
     existing_team_note: "You already have a team in this tournament. It will be used to join it."
     create_team: "Create team"
     team_not_found: "Team not found"
+    already_applied: "You have already applied to this tournament this season"
     my_applications: "My applications"
     no_active_leagues_subtitle: "Select one of available leagues and play"
     no_active_leagues_title: "You currently have no active leagues"

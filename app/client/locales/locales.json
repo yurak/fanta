@@ -699,6 +699,7 @@
       }
     },
     "join": {
+      "already_applied": "You have already applied to this tournament this season",
       "applications": "applications",
       "apply": "Apply",
       "cancel": "Cancel",
@@ -2828,6 +2829,7 @@
       "tips": "🤔 Поради новачкам"
     },
     "join": {
+      "already_applied": "Ви вже подали заявку на цей турнір у цьому сезоні",
       "applications": "заявок",
       "apply": "Подати заявку",
       "cancel": "Скасувати",
