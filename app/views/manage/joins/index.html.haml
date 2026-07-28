@@ -13,44 +13,70 @@
         = link_to manage_joins_path(tab: tab), class: "default-tab-item #{'default-tab-active' if @tab == tab}" do
           .default-tab-name= t("manage.joins.tab_#{tab}")
 
-    - if @tab == 'pending' && @pending_by_tournament.any?
+    - if @tournament_counts.any?
       .default-tabs.manage-joins-tabs.manage-joins-subtabs
-        - all_count = @pending_by_tournament.values.sum(&:count)
-        = link_to manage_joins_path(tab: 'pending'), class: "default-tab-item #{'default-tab-active' if @tournament_id.nil?}" do
-          .default-tab-name= "#{t('manage.joins.all_tournaments')} (#{all_count})"
-        - @pending_by_tournament.each do |tournament, joins|
-          = link_to manage_joins_path(tab: 'pending', tournament_id: tournament.id), class: "default-tab-item #{'default-tab-active' if @tournament_id == tournament.id}" do
-            .default-tab-name= "#{tournament.name} (#{joins.count})"
+        - all_count = @tournament_counts.values.sum
+        = link_to manage_joins_path(tab: @tab, user_id: params[:user_id].presence, team_name: params[:team_name].presence), class: "default-tab-item #{'default-tab-active' if @tournament_id.nil?}", title: t('manage.joins.all_tournaments') do
+          = image_tag('icons/dashboard.svg')
+          .default-tab-name= all_count
+        - @tournament_counts.each do |tournament, count|
+          = link_to manage_joins_path(tab: @tab, tournament_id: tournament.id, user_id: params[:user_id].presence, team_name: params[:team_name].presence), class: "default-tab-item #{'default-tab-active' if @tournament_id == tournament.id}", title: tournament.name do
+            = image_tag(tournament.logo_path)
+            .default-tab-name= count
+
+    = form_tag manage_joins_path, method: :get, class: 'd-flex mb-3' do
+      = hidden_field_tag :tab, @tab
+      = hidden_field_tag :tournament_id, @tournament_id
+      = text_field_tag :user_id, params[:user_id], class: 'form-control form-control-sm w-auto mr-2', placeholder: t('manage.joins.filter_user_id')
+      = text_field_tag :team_name, params[:team_name], class: 'form-control form-control-sm w-auto mr-2', placeholder: t('manage.joins.filter_team')
+      = submit_tag t('manage.club_transfers.search'), class: 'btn btn-sm btn-primary mr-2'
+      - if params[:user_id].present? || params[:team_name].present?
+        = link_to t('manage.club_transfers.reset'), manage_joins_path(tab: @tab, tournament_id: @tournament_id), class: 'btn btn-sm btn-outline-secondary'
 
     - if @joins.any?
       %table.table.table-hover
         %thead.thead-light
           %tr
+            %th ID
             %th= t('manage.joins.user')
             %th= t('manage.joins.team')
             %th= t('manage.joins.tournament')
             - if @tab == 'approved'
               %th= t('manage.joins.league')
+            - else
+              %th= t('manage.joins.last_result')
             %th= t('manage.joins.submitted_at')
             - if @tab == 'pending'
               %th= t('manage.joins.actions')
         %tbody
           - @joins.each do |join|
             %tr
+              %td= join.id
               %td
                 = render 'manage/tg_status', user: join.user
                 = link_to join.user.name, manage_user_path(join.user)
               %td
                 = image_tag(join.team.logo_path, width: 24, height: 24)
                 = link_to join.team.human_name, team_path(join.team)
-              %td= join.tournament.name
+              %td= image_tag(join.tournament.logo_path, width: 28, height: 28, title: join.tournament.name)
               - if @tab == 'approved'
                 %td= join.team.league ? link_to(join.team.league.name, league_path(join.team.league)) : ''
-              %td= local_time(join.created_at, '%d %b %Y, %H:%M')
+              - else
+                %td
+                  - last_league = join.team.league
+                  - if last_league
+                    = link_to last_league.name, league_path(last_league)
+                    %span.text-muted= " #{last_league.season.start_year.to_s[2..3]}/#{last_league.season.end_year.to_s[2..3]}"
+                  - else
+                    = '—'
+              %td= local_time(join.created_at, '%d/%m/%y')
               - if @tab == 'pending'
                 %td
-                  = link_to t('manage.joins.new_league'), new_manage_league_path, class: 'btn btn-sm btn-outline-secondary', target: '_blank'
                   = form_tag(approve_manage_join_path(join), method: :post, style: 'display:inline') do
+                    = hidden_field_tag :tournament_id, @tournament_id
+                    = hidden_field_tag :page, params[:page]
+                    = hidden_field_tag :user_id, params[:user_id]
+                    = hidden_field_tag :team_name, params[:team_name]
                     .approve-form-fields
                       = select_tag :league_id,
                                    options_from_collection_for_select(join.tournament.leagues.initial, :id, :name),
@@ -58,6 +84,11 @@
                                    prompt: t('manage.joins.select_league')
                       = submit_tag t('manage.joins.approve'), class: 'btn btn-sm btn-success mr-1'
                   = form_tag(reject_manage_join_path(join), method: :post, style: 'display:inline') do
+                    = hidden_field_tag :tournament_id, @tournament_id
+                    = hidden_field_tag :page, params[:page]
+                    = hidden_field_tag :user_id, params[:user_id]
+                    = hidden_field_tag :team_name, params[:team_name]
                     = submit_tag t('manage.joins.reject'), class: 'btn btn-sm btn-danger'
+      = paginate @joins
     - else
       %p.text-muted= t('manage.joins.empty')

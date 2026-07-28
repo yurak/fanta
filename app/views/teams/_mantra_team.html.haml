@@ -26,7 +26,8 @@
           .default-header-cell= t('teams.appearances')
           .default-header-cell= t('teams.rating')
           .default-header-cell= t('teams.club')
-        - team.players.sort_by(&:position_sequence_number).each do |player|
+        - player_team_ids = team.player_teams.pluck(:player_id, :id).to_h
+        - team.players.sort_by { |player| [player.position_sequence_number, player_team_ids[player.id] || 0] }.each do |player|
           = link_to player_path(player) do
             .team-player-item.team-players-grid
               .team-player-data

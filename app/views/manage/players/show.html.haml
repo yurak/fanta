@@ -11,9 +11,14 @@
       .alert.alert-danger= flash[:alert]
 
     %h2= "#{@player.first_name} #{@player.name}"
-    = link_to t('manage.players.view_player_page'), player_path(@player), target: '_blank', rel: 'noopener', class: 'btn btn-primary btn-sm mt-1 mb-3'
 
-    %h5.mt-2= t('manage.players.section_basic')
+    %h5.mt-2= t('manage.players.section_actions')
+    .d-flex
+      = link_to t('manage.players.view_player_page'), player_path(@player), target: '_blank', rel: 'noopener', class: 'btn btn-sm btn-primary mr-2'
+      - if @player.fotmob_id.blank?
+        = link_to t('manage.players.find_fotmob'), fotmob_search_manage_player_path(@player), class: 'btn btn-sm btn-outline-success'
+
+    %h5.mt-4= t('manage.players.section_basic')
     .d-flex.gap-4.align-items-start
       %table.table.table-sm.w-auto.mb-0
         %tbody
@@ -74,6 +79,31 @@
       = link_to 'Transfermarkt', @player.tm_path, target: '_blank', rel: 'noopener', class: 'btn btn-sm me-2', style: 'background-color: #003478; color: #fff; border-color: #003478;'
     - if @player.fotmob_id.present?
       = link_to 'Fotmob', "https://www.fotmob.com/players/#{@player.fotmob_id}", target: '_blank', rel: 'noopener', class: 'btn btn-sm', style: 'background-color: #00985F; color: #fff; border-color: #00985F;'
+
+    %h5.mt-4= t('manage.players.section_round_players')
+    - if @round_players.any?
+      %table.table.table-hover.table-sm
+        %thead.thead-light
+          %tr
+            %th= t('manage.players.col_round')
+            %th= t('manage.players.col_round_id')
+            %th= t('manage.players.col_club')
+            %th= t('manage.players.col_minutes')
+            %th= t('manage.players.col_score')
+            %th= t('manage.players.col_final_score')
+            %th= t('manage.players.col_in_squad')
+        %tbody
+          - @round_players.each do |round_player|
+            %tr
+              %td= "#{round_player.tournament_round.tournament.name} ##{round_player.tournament_round.number}"
+              %td= round_player.tournament_round_id
+              %td= round_player.club ? link_to(round_player.club.name, manage_club_path(round_player.club)) : '—'
+              %td= round_player.played_minutes
+              %td= round_player.score
+              %td= round_player.final_score
+              %td= round_player.in_squad? ? '✓' : '—'
+    - else
+      %p.text-muted= t('manage.players.no_round_players')
 
     %h5.mt-4= t('manage.players.section_season_stats')
     - if @season_stats.any?

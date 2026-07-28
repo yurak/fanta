@@ -12,11 +12,15 @@ class TournamentsController < ApplicationController
   end
 
   def national_fixtures
-    NationalMatch.where(tournament_round_id: tournament_rounds).group_by(&:tournament_round)
+    NationalMatch.where(tournament_round_id: tournament_rounds)
+                 .includes(:tournament_round, :host_team, :guest_team)
+                 .group_by(&:tournament_round)
   end
 
   def fixtures
-    TournamentMatch.where(tournament_round_id: tournament_rounds).group_by(&:tournament_round)
+    TournamentMatch.where(tournament_round_id: tournament_rounds)
+                   .includes(:host_club, :guest_club, tournament_round: :tournament)
+                   .group_by(&:tournament_round)
   end
 
   def tournament_rounds

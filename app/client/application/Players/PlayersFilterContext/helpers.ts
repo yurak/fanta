@@ -21,7 +21,8 @@ const justifyRangeSliderValue = (
 export const filterToRequestFormat = (
   filter: IFilter,
   search: string,
-  defaultLeagueId?: number
+  defaultLeagueId?: number,
+  seasonId?: number
 ): IPayloadFilter => {
   return {
     name: search.trim().length > 0 ? search.trim() : undefined,
@@ -37,6 +38,7 @@ export const filterToRequestFormat = (
     minutes: justifyRangeSliderValue(filter.minutes, defaultFilter.minutes),
     price: justifyRangeSliderValue(filter.price, defaultFilter.price),
     league_id: defaultLeagueId,
+    season_id: seasonId,
   };
 };
 

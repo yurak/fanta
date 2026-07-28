@@ -13,7 +13,7 @@ import styles from "./PlayersListDesktop.module.scss";
 
 const PlayersListDesktop = ({ emptyStateComponent }: { emptyStateComponent: React.ReactNode }) => {
   const { t } = useTranslation();
-  const { sorting } = usePlayersContext();
+  const { sorting, isCurrentSeason } = usePlayersContext();
   const { items, isLoading, hasNextPage, loadMore } = usePlayersListContext();
   const { isLeagueSpecificPlayersPage } = usePlayersPageConfigurationContext();
 
@@ -58,6 +58,8 @@ const PlayersListDesktop = ({ emptyStateComponent }: { emptyStateComponent: Reac
       dataKey: "club",
       title: t("players.filters.clubLabel"),
       className: styles.clubCell,
+      sorter: true,
+      supportAscSorting: true,
       render: ({ club }) => (
         <div className={styles.logo}>
           <img src={club.logo_path} alt={club.name} />
@@ -82,7 +84,7 @@ const PlayersListDesktop = ({ emptyStateComponent }: { emptyStateComponent: Reac
       noWrap: true,
       headEllipsis: true,
       render: ({ average_price }) =>
-        formatNumber(average_price, {
+        formatNumber(average_price ?? 0, {
           zeroFallback: "-",
           minimumFractionDigits: 1,
           maximumFractionDigits: 1,
@@ -121,14 +123,16 @@ const PlayersListDesktop = ({ emptyStateComponent }: { emptyStateComponent: Reac
       headEllipsis: true,
       align: "right",
       noWrap: true,
+      sorter: true,
+      supportAscSorting: true,
       className: styles.totalTeamsCell,
       render: ({ teams_count, teams_count_max }) => {
-        if (teams_count === 0) return 0;
+        if (!teams_count) return 0;
 
         return (
           <>
             {formatNumber(teams_count)}{" "}
-            <span className={styles.totalTeamCount}>({formatNumber(teams_count_max)})</span>
+            <span className={styles.totalTeamCount}>({formatNumber(teams_count_max ?? 0)})</span>
           </>
         );
       },
@@ -202,11 +206,14 @@ const PlayersListDesktop = ({ emptyStateComponent }: { emptyStateComponent: Reac
     };
 
     if (isLeagueSpecificPlayersPage) {
-      return [nameCol, positionCol, teamCol, leaguePriceCol, appsCol, baseScoreCol, totalScoreCol, clubCol];
+      return [nameCol, positionCol, teamCol, leaguePriceCol, teamsCountCol, appsCol, baseScoreCol, totalScoreCol, clubCol];
     }
 
-    return [nameCol, tournamentCol, clubCol, positionCol, avgPriceCol, teamsCountCol, appsCol, baseScoreCol, totalScoreCol];
-  }, [t, isLeagueSpecificPlayersPage]);
+    // Ownership metrics (avg price, # of teams) reflect current ownership only.
+    const ownershipCols = isCurrentSeason ? [avgPriceCol, teamsCountCol] : [];
+
+    return [nameCol, tournamentCol, clubCol, positionCol, ...ownershipCols, appsCol, baseScoreCol, totalScoreCol];
+  }, [t, isLeagueSpecificPlayersPage, isCurrentSeason]);
 
   return (
     <Table

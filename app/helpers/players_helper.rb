@@ -3,7 +3,7 @@ module PlayersHelper
     return [] unless bench_players && match_player&.available_positions
 
     available_mp = bench_players.collect do |x|
-      next if (x.position_names & match_player.available_positions).empty?
+      next unless x.position_names.intersect?(match_player.available_positions)
 
       [x, Scores::PositionMalus::Counter.call(match_player.real_position, x.position_names).to_s]
     end
@@ -37,7 +37,7 @@ module PlayersHelper
     return unless match_player.object.round_player_id
 
     slot = team_module.slots[match_player.index]
-    return if slot&.position && (match_player.object.player.position_names & slot.positions).blank?
+    return if slot&.position && !match_player.object.player.position_names.intersect?(slot.positions)
 
     match_player.object.player
   end

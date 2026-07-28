@@ -53,8 +53,8 @@ module AuctionsHelper # rubocop:disable Metrics/ModuleLength
   end
 
   def closed_auction_date_range(auction)
-    start_date = auction.auction_rounds.first&.created_at&.strftime('%b %e')
-    end_date   = auction.auction_rounds.last&.updated_at&.strftime('%b %e, %Y')
+    start_date = auction.auction_rounds.minimum(:created_at)&.strftime('%b %e')
+    end_date   = auction.auction_rounds.maximum(:updated_at)&.strftime('%b %e, %Y')
     "#{start_date} - #{end_date}"
   end
 

@@ -1,0 +1,14 @@
+.portrait-footer.manage-footer
+  - manage_nav_items.each do |ctrl, path, icon, label_key|
+    = link_to path do
+      .league-link{ class: "link-active-#{params[:controller] == ctrl}" }
+        .league-link-icon= image_tag(icon)
+        .league-link-text= t(label_key)
+
+:javascript
+  $(document).ready(function() {
+    var active = document.querySelector('.manage-footer .link-active-true');
+    if (active && active.scrollIntoView) {
+      active.scrollIntoView({ inline: 'center', block: 'nearest' });
+    }
+  });

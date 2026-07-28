@@ -37,13 +37,16 @@ class PlayerBidsController < ApplicationController
   end
 
   def player_bid
-    @player_bid ||= PlayerBid.find_by(id: params[:id])
+    return @player_bid if defined?(@player_bid)
+
+    @player_bid = PlayerBid.find_by(id: params[:id])
   end
 
   def player
     return @player if defined?(@player)
 
-    @player = Player.find_by(id: player_bid_params[:player_id] || player_bid.player_id)
+    @player = Player.includes(club_transfers: %i[old_club new_club])
+                    .find_by(id: player_bid_params[:player_id] || player_bid.player_id)
   end
 
   def team

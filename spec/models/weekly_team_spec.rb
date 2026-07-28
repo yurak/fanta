@@ -60,4 +60,38 @@ RSpec.describe WeeklyTeam do
       expect(weekly_team.reload.round_ids).to eq([1, 2, 3])
     end
   end
+
+  describe '#defence_bonus' do
+    it 'averages only the central defenders and ignores other positions' do
+      weekly_team = create(:weekly_team, source: :round)
+      add_player(weekly_team, position: 'Dc', score: 7.0)
+      add_player(weekly_team, position: 'Dc', score: 7.0)
+      add_player(weekly_team, position: 'C', score: 2.0) # midfielder — excluded
+
+      expect(weekly_team.defence_bonus).to eq(1)
+    end
+
+    it 'returns 0 for avg source teams' do
+      weekly_team = create(:weekly_team, source: :avg, mode: :top, tournament: Tournament.first || create(:tournament))
+      add_player(weekly_team, position: 'Dc', score: 8.0)
+
+      expect(weekly_team.defence_bonus).to eq(0)
+    end
+  end
+
+  describe '#total_score' do
+    it 'adds the defence bonus to the sum of player totals' do
+      weekly_team = create(:weekly_team, source: :round)
+      add_player(weekly_team, position: 'Dc', score: 7.0, total: 7.0)
+      add_player(weekly_team, position: 'Dc', score: 7.0, total: 7.0)
+
+      expect(weekly_team.total_score).to eq(15.0) # 7 + 7 + bonus 1
+    end
+  end
+
+  def add_player(weekly_team, position:, score:, total: score)
+    slot = create(:slot, team_module: weekly_team.team_module, position: position)
+    round_player = create(:round_player, score: score)
+    create(:weekly_team_player, weekly_team: weekly_team, slot: slot, round_player: round_player, total: total)
+  end
 end

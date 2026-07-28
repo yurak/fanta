@@ -24,9 +24,6 @@ class Lineup < ApplicationRecord
   scope :top_position, ->(position) { where('position > 0 AND position <= ?', position) if position }
   scope :ranked, -> { order(Arel.sql('lineups.position ASC NULLS LAST, lineups.final_score DESC')) }
 
-  MIN_AVG_DEF_SCORE = 6
-  MAX_AVG_DEF_SCORE = 7
-  DEF_BONUS_STEP = 0.25
   MAX_PLAYED_PLAYERS = 11
   MAX_FANTA_PLAYERS = 16
   MAX_PLAYERS = 20
@@ -42,12 +39,7 @@ class Lineup < ApplicationRecord
   end
 
   def defence_bonus
-    avg = def_average_score
-
-    return 0 if avg < min_avg_def_score
-    return 5 if avg >= max_avg_def_score
-
-    (((avg - min_avg_def_score) / DEF_BONUS_STEP) + 1).floor
+    DefenceBonus.for_average(def_average_score, min: min_avg_def_score, max: max_avg_def_score)
   end
 
   def def_average_score
@@ -188,11 +180,11 @@ class Lineup < ApplicationRecord
   end
 
   def min_avg_def_score
-    league&.min_avg_def_score || MIN_AVG_DEF_SCORE
+    league&.min_avg_def_score || DefenceBonus::MIN_AVG_SCORE
   end
 
   def max_avg_def_score
-    league&.max_avg_def_score || MAX_AVG_DEF_SCORE
+    league&.max_avg_def_score || DefenceBonus::MAX_AVG_SCORE
   end
 
   def draw?

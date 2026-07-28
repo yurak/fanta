@@ -47,7 +47,12 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :players, only: [:index, :create, :show]
+    resources :players, only: [:index, :create, :show] do
+      member do
+        get :fotmob_search
+        post :update_fotmob
+      end
+    end
     resources :club_transfers, only: [:index]
     resources :club_transfer_requests, only: [:index] do
       member do
@@ -177,6 +182,7 @@ Rails.application.routes.draw do
     resources :player_bids, only: [:show]
     resources :players, only: [:index, :show] do
       get :stats, on: :member
+      get :stats_export, on: :collection
     end
     resources :seasons, only: [:index]
     resources :teams, only: [:show]

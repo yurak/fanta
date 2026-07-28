@@ -23,10 +23,29 @@
 }
 
 .name {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
   font-family: "Nunito ExtraBold";
+}
+
+.nameText {
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
+  min-width: 0;
+}
+
+.newbie {
+  flex-shrink: 0;
+  padding: 0 6px;
+  font-family: "Nunito Bold";
+  font-size: 10px;
+  line-height: 14px;
+  color: #fff;
+  background: #28a745;
+  border-radius: 8px;
 }
 
 .score {

@@ -1,12 +1,11 @@
 inherit_from: .rubocop_todo.yml
-require:
+plugins:
   - rubocop-rails
   - rubocop-factory_bot
-plugins:
   - rubocop-rspec
 
 AllCops:
-  TargetRubyVersion: 2.5
+  TargetRubyVersion: 3.2
   NewCops: enable
   SuggestExtensions: false
   Exclude:
@@ -21,6 +20,10 @@ AllCops:
     - public/**/*
 Layout/LineLength:
   Max: 140
+Metrics/ClassLength:
+  CountAsOne: ['array', 'hash', 'heredoc']
+Metrics/MethodLength:
+  CountAsOne: ['array', 'hash', 'heredoc']
 Metrics/BlockLength:
   AllowedMethods:
     - describe

@@ -35,13 +35,10 @@ class ClubTransferRequest < ApplicationRecord
   private
 
   def destination_club
-    new_club_id && new_club ? new_club : Club.find_by(name: OUTSIDE_CLUB_NAME)
+    new_club_id && new_club ? new_club : nil
   end
 
   def same_tournament_move?
-    club = destination_club
-    return false unless club && player.club
-
-    club.active? && player.club.tournament_id.present? && player.club.tournament_id == club.tournament_id
+    player.club&.same_active_tournament_as?(destination_club) || false
   end
 end

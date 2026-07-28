@@ -16,11 +16,13 @@
 
       #join-existing-team{ style: 'display:none' }
         = f.hidden_field :team_id, id: 'join-existing-team-id'
-        .join-modal-existing-logo
-          = image_tag('icons/team_logo_folder.svg', id: 'join-existing-team-logo')
-        .join-modal-existing-info
-          %p.join-modal-existing-name#join-existing-team-name
-          %p.join-modal-existing-code#join-existing-team-code
+        %p.join-modal-existing-note= t('join.existing_team_note')
+        .join-modal-existing-card
+          .join-modal-existing-logo
+            = image_tag('icons/team_logo_folder.svg', id: 'join-existing-team-logo')
+          .join-modal-existing-info
+            %p.join-modal-existing-name#join-existing-team-name
+            %p.join-modal-existing-code#join-existing-team-code
 
       #join-new-team
         = f.hidden_field :logo_url, value: nil, id: 'join-logo-url'

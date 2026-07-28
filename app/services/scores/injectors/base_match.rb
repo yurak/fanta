@@ -56,7 +56,7 @@ module Scores
       def cleansheet?(round_player, team_missed_goals, played_minutes)
         played_minutes.to_i >= MatchPlayer::MIN_PLAYED_MINUTES_FOR_CS &&
           team_missed_goals.zero? &&
-          (round_player.position_names & Position::CLEANSHEET_ZONE).present?
+          round_player.position_names.intersect?(Position::CLEANSHEET_ZONE)
       end
 
       def missed_goals(round_player, team_missed_goals)

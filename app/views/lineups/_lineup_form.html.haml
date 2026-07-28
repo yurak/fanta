@@ -40,9 +40,9 @@
           -#  .default-= "#{tour.league.tournament.name} #{t('tours.standings')}"
         .fixtures.lineup-round-tab-content.round-matches.fanta-matches
           - if tour.national?
-            = render 'tournaments/national_matches_lineup', matches: tour.tournament_round.national_matches
+            = render 'tournaments/national_matches_lineup', matches: tour.tournament_round.ordered_national_matches
           - else
-            = render 'tournaments/tournament_matches', matches: tour.tournament_round.tournament_matches
+            = render 'tournaments/tournament_matches', matches: tour.tournament_round.ordered_tournament_matches
         -#.standings.lineup-round-tab-content
           -# - if tour.league.tournament.sofa_number.present?
           -#   %iframe{ id: "sofa-standings-embed-#{tour.league.tournament.sofa_number}", src: "https://widgets.sofascore.com/embed/tournament/#{tour.league.tournament.sofa_number.split('-')[0]}/season/#{tour.league.tournament.sofa_number.split('-')[1]}/standings", style: "height:794px!important;width:100%!important;border:none;", frameborder: "0", scrolling: "no", sandbox: "allow-pointer-lock allow-scripts" }
@@ -139,31 +139,8 @@
                         = image_tag('icons/search.svg')
                         %input.modal-player-search{ type: 'search', placeholder: t('players.search_player'), id: "modal-player-search#{mp.index}", autocomplete: 'off' }
                         .modal-player-search-clear= image_tag('icons/close_ring.svg')
-                      .modal-modules-block{id: "modal-modules-block#{mp.index}"}
-                        - if tour.mantra?
-                          - if slot&.position
-                            - available_hash = available_by_slot(team, slot)
-                            .modal-malus-block
-                              - available_hash['0']&.each do |player|
-                                = render 'lineup_player_item', player: player, tour: tour
-                            - if available_hash['1.5']
-                              .modal-malus-title 🎭 MALUS -1.5
-                              .modal-malus-block
-                                - available_hash['1.5'].each do |player|
-                                  = render 'lineup_player_item', player: player, tour: tour
-                            - if available_hash['3.0']
-                              .modal-malus-title 🎭 MALUS -3
-                              .modal-malus-block
-                                - available_hash['3.0'].each do |player|
-                                  = render 'lineup_player_item', player: player, tour: tour
-                          - elsif mp.index == 11
-                            .modal-malus-block
-                              - available_by_slot(team, team_module.slots.first)['0']&.each do |player|
-                                = render 'lineup_player_item', player: player, tour: tour
-                          - else
-                            .modal-malus-block
-                              - available_for_select(team).each do |player|
-                                = render 'lineup_player_item', player: player, tour: tour
+                      - lazy_mantra = tour.mantra? && !tour.eurocup?
+                      .modal-modules-block{ id: "modal-modules-block#{mp.index}", data: (lazy_mantra ? { lazy_team: team.id, lazy_module: team_module.id, lazy_index: mp.index } : {}) }
 
 :javascript
   $(document).ready(function() {
@@ -172,6 +149,22 @@
         $(this).css('background-color', '#FFFFFF');
       }
     });
+
+    function markDuplicates() {
+      const counts = {};
+      $('.round-player-input').each(function() {
+        const value = $(this).val();
+        if (value) { counts[value] = (counts[value] || 0) + 1; }
+      });
+
+      $('.round-player-input').each(function() {
+        const value = $(this).val();
+        const index = this.id.replace('round-player-', '');
+        $('#modal-player-data' + index).toggleClass('duplicate-player', !!value && counts[value] > 1);
+      });
+    }
+
+    markDuplicates();
 
     $(document).on('click' ,'.modal-player-item' ,function(e) {
       e.stopPropagation();
@@ -212,6 +205,7 @@
           countryContainer.text(data.national_team_code);
           roundPlayerContainer.attr("value", playerId);
           playerBidContainer.attr("value", playerId);
+          markDuplicates();
 
           if (nationalTour) {
             reloadObject(kitContainer, data.national_kit_path);
@@ -238,12 +232,11 @@
           })
 
           let malus = "";
-          if (slotPosition.length > 0) {
-            const intersection = slotPosition.filter(element => data.position_arr.includes(element));
-            if (intersection.length === 0) {
-              playerRow.css("border-bottom","1px solid #DB0A23");
-              malus = "⚠️ ";
-            }
+          if (slotPosition.length > 0 && slotPosition.filter(element => data.position_arr.includes(element)).length === 0) {
+            playerRow.css("border-bottom", "1px solid #DB0A23");
+            malus = "⚠️ ";
+          } else {
+            playerRow.css("border-bottom", "");
           }
 
           nameContainer.text(malus + data.name);
@@ -405,7 +398,9 @@
       const searchInput = playersList.find('.modal-player-search');
       searchInput.val('');
       filterModalPlayers(searchInput);
-      searchInput.trigger('focus');
+      if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+        searchInput.trigger('focus');
+      }
 
       if ("#{tour.eurocup?}" === 'true') {
         const slotPositionName = $('#modal-position' + slotId).attr('class').replace('modal-players-title-position modal-position-','');
@@ -478,15 +473,44 @@
           }
         });
       } else {
-        const playerIds = [];
-        $('.round-player-input').each(function() { playerIds.push($(this).val()); });
-        const pickedPlayers = playerIds.filter(Boolean);
+        const modalBlock = $('#modal-modules-block' + slotId);
 
-        playersList.find(".modal-player-item").each(function(innerIndex, innerElement) {
-          if (pickedPlayers.includes(innerElement.id.replace("player", ""))) {
-            innerElement.style.backgroundColor = "rgb(230, 230, 230)";
-          }
-        });
+        const markPicked = function() {
+          const playerIds = [];
+          $('.round-player-input').each(function() { playerIds.push($(this).val()); });
+          const pickedPlayers = playerIds.filter(Boolean);
+
+          playersList.find(".modal-player-item").each(function(innerIndex, innerElement) {
+            if (pickedPlayers.includes(innerElement.id.replace("player", ""))) {
+              innerElement.style.backgroundColor = "rgb(230, 230, 230)";
+            } else {
+              innerElement.style.backgroundColor = "";
+            }
+          });
+        };
+
+        if (modalBlock.attr('data-lazy-team') && !modalBlock.attr('data-loaded')) {
+          modalBlock.attr('data-loaded', '1');
+          $.ajax({
+            type: "GET",
+            dataType: "json",
+            url: "/slots",
+            data: {
+              tour_id: "#{tour.id}",
+              team_id: modalBlock.attr('data-lazy-team'),
+              team_module_id: modalBlock.attr('data-lazy-module'),
+              index: modalBlock.attr('data-lazy-index')
+            },
+            success: function(data) {
+              modalBlock.html(data.team_players_html);
+              filterModalPlayers(playersList.find('.modal-player-search'));
+              markPicked();
+            },
+            error: function() { modalBlock.removeAttr('data-loaded'); }
+          });
+        } else {
+          markPicked();
+        }
       }
     });
 

@@ -122,13 +122,13 @@ module RoundPlayers
       @deadlined = tournament_round.tours.last&.deadlined? || false
     end
 
-    def sort_numeric(players, &key)
-      sorted = players.sort_by(&key)
+    def sort_numeric(players, &)
+      sorted = players.sort_by(&)
       ascending? ? sorted : sorted.reverse
     end
 
-    def sort_alpha(players, &key)
-      sorted = players.sort_by(&key)
+    def sort_alpha(players, &)
+      sorted = players.sort_by(&)
       ascending? ? sorted : sorted.reverse
     end
 

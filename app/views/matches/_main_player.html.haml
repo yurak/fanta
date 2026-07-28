@@ -15,9 +15,14 @@
       .match-player-data-base
         = link_to player_path(match_player.player) do
           .team-player-name
-            = match_player.player.name
+            = match_player.player.full_name_reverse
             - if match_player.position_malus?
               .malus_icon= image_tag("bonuses/position_malus.svg")
+            .team-player-score-unspecified.inline-block
+              - if match_player.lineup.tour.national?
+                = match_player.player.national_team&.name
+              - else
+                = match_player.player.club&.name
         - if match_player.score.positive?
           .team-player-scores
             .team-player-substitute-cell

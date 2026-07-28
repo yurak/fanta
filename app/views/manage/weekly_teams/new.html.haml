@@ -50,11 +50,11 @@
 
     - if @teams
       %h4.mb-3= t('manage.weekly_team.results')
-      - totals = @teams.map { |(_, team)| team.sum { |row| row[:entry]&.dig(:total) || 0 } }
+      - totals = @teams.map { |(_, team)| weekly_team_total(team, @source) }
       - best_total = @mode == :flop ? totals.min : totals.max
       .row.g-3
         - @teams.each do |(mod, team)|
-          - mod_total = team.sum { |row| row[:entry]&.dig(:total) || 0 }
+          - mod_total = weekly_team_total(team, @source)
           - best = mod_total == best_total && (@mode == :flop ? mod_total.positive? : best_total.positive?)
           .col-md-6.col-xl-4
             .card.h-100{ class: best ? 'border-success border-2' : nil }
@@ -101,8 +101,13 @@
                           %td.text-muted —
                           %td —
                   %tfoot
+                    - def_bonus = weekly_team_def_bonus(team, @source)
+                    - if def_bonus.positive?
+                      %tr
+                        %td{colspan: 2}= t('matches.def_bonus')
+                        %td.text-end= '+%d' % def_bonus
                     %tr.table-light
                       %td{colspan: 2}
                         %strong= t('manage.weekly_team.total')
                       %td.text-end
-                        %strong= '%.2f' % team.sum { |row| row[:entry]&.dig(:total) || 0 }
+                        %strong= '%.2f' % weekly_team_total(team, @source)

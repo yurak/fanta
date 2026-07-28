@@ -7,6 +7,13 @@
 
     %h2= @club.name
 
+    %h5.mt-4= t('manage.clubs.section_actions')
+    .d-flex
+      = link_to t('manage.clubs.sync_squad'), sync_squad_manage_club_path(@club), class: 'btn btn-sm btn-primary mr-2'
+      - club_tournament_id = @club.tournament_id || @club.ec_tournament_id
+      - if club_tournament_id
+        = link_to t('manage.clubs.view_club'), tournament_club_path(club_tournament_id, @club), target: '_blank', rel: 'noopener', class: 'btn btn-sm btn-outline-primary'
+
     %h5.mt-4= t('manage.clubs.section_info')
     .d-flex.gap-4.align-items-start
       %table.table.table-sm.w-auto.mb-0
@@ -46,21 +53,19 @@
       %h5.mt-4= t('manage.clubs.section_links')
       = link_to 'Transfermarkt', @club.tm_url, target: '_blank', rel: 'noopener', class: 'btn btn-sm', style: 'background-color: #003478; color: #fff; border-color: #003478;'
 
-    %h5.mt-4= t('manage.clubs.section_actions')
-    .d-flex
-      = link_to t('manage.clubs.sync_squad'), sync_squad_manage_club_path(@club), class: 'btn btn-sm btn-primary mr-2'
-      - club_tournament_id = @club.tournament_id || @club.ec_tournament_id
-      - if club_tournament_id
-        = link_to t('manage.clubs.view_club'), tournament_club_path(club_tournament_id, @club), target: '_blank', rel: 'noopener', class: 'btn btn-sm btn-outline-primary'
-
     %h5.mt-4= t('manage.clubs.section_players')
     - if @players.any?
-      %table.table.table-hover.table-sm
+      %table.table.table-hover.table-sm.align-middle
         %thead.thead-light
           %tr
             %th ID
             %th= t('manage.players.col_name')
             %th= t('manage.players.col_first_name')
+            %th= t('manage.players.col_positions')
+            %th= t('manage.players.col_nationality')
+            %th= t('manage.players.col_price')
+            %th= t('manage.players.col_birth_date')
+            %th= t('manage.club_transfer_requests.col_links')
             %th
         %tbody
           - @players.each do |player|
@@ -68,6 +73,24 @@
               %td= player.id
               %td= player.name
               %td= player.first_name
-              %td= link_to t('manage.players.view'), manage_player_path(player), class: 'btn btn-sm btn-outline-primary'
+              %td= player.position_names.join(', ')
+              %td
+                - if player.nationality.present?
+                  %span.flag-icon{ class: "flag-icon-#{player.nationality}" }
+                  = player.nationality.upcase
+                - else
+                  = '—'
+              %td= player.tm_price.to_i.positive? ? "€#{number_with_delimiter(player.tm_price)}" : '—'
+              %td= player.birth_date
+              %td
+                .d-flex
+                  - if player.tm_id.present?
+                    = link_to 'TM', player.tm_path, target: '_blank', rel: 'noopener', class: 'btn btn-sm mr-2', style: 'background-color: #003478; color: #fff; border-color: #003478;'
+                  - if player.fotmob_id.present?
+                    = link_to 'FM', "https://www.fotmob.com/players/#{player.fotmob_id}", target: '_blank', rel: 'noopener', class: 'btn btn-sm', style: 'background-color: #00985F; color: #fff; border-color: #00985F;'
+              %td
+                .d-flex
+                  = link_to t('manage.players.view'), manage_player_path(player), class: 'btn btn-sm btn-outline-primary mr-2'
+                  = link_to t('manage.players.view_player_page'), player_path(player), target: '_blank', rel: 'noopener', class: 'btn btn-sm btn-outline-secondary'
     - else
       %p.text-muted= t('manage.clubs.no_players')

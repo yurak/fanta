@@ -3,6 +3,7 @@ import PlayersFilterContextProvider, {
   usePlayersFilterContext,
 } from "@/application/Players/PlayersFilterContext";
 import { usePlayersPageConfigurationContext } from "@/application/Players/PlayersPageConfigurationContext";
+import { usePlayersContext } from "@/application/Players/PlayersContext";
 import { PlayerPositionsCheckboxPopover } from "@/components/filters/PlayerPositionsCheckbox";
 import { LeagueTeamCheckboxPopover } from "@/components/filters/LeagueTeamCheckbox";
 import PlayersFilterConstants from "@/domain/PlayersFilterConstants";
@@ -14,6 +15,7 @@ const PlayerFilters = () => {
   const { t } = useTranslation();
   const { filterValues, onChangeValue } = usePlayersFilterContext();
   const { isLeagueSpecificPlayersPage, leagueId } = usePlayersPageConfigurationContext();
+  const { isCurrentSeason } = usePlayersContext();
 
   return (
     <div className={styles.wrapper}>
@@ -61,28 +63,27 @@ const PlayerFilters = () => {
           valueLabel={t("players.filters.minutesShortLabel")}
           onChange={onChangeValue("minutes")}
         />
-        {isLeagueSpecificPlayersPage ? (
-          <>
-            {leagueId && (
-              <LeagueTeamCheckboxPopover
-                leagueId={leagueId}
-                value={filterValues.teams}
-                onChange={onChangeValue("teams")}
-                withoutTeam={filterValues.withoutTeam}
-                onWithoutTeamChange={onChangeValue("withoutTeam")}
-              />
-            )}
-            <RangeSliderPopover
-              min={PlayersFilterConstants.PRICE_MIN}
-              max={PlayersFilterConstants.PRICE_MAX}
-              step={0.5}
-              value={filterValues.price}
-              label={t("players.filters.priceLabel")}
-              valueLabel={t("players.filters.priceLabel")}
-              onChange={onChangeValue("price")}
-            />
-          </>
-        ) : (
+        {isLeagueSpecificPlayersPage && leagueId && (
+          <LeagueTeamCheckboxPopover
+            leagueId={leagueId}
+            value={filterValues.teams}
+            onChange={onChangeValue("teams")}
+            withoutTeam={filterValues.withoutTeam}
+            onWithoutTeamChange={onChangeValue("withoutTeam")}
+          />
+        )}
+        {isLeagueSpecificPlayersPage && (
+          <RangeSliderPopover
+            min={PlayersFilterConstants.PRICE_MIN}
+            max={PlayersFilterConstants.PRICE_MAX}
+            step={0.5}
+            value={filterValues.price}
+            label={t("players.filters.priceLabel")}
+            valueLabel={t("players.filters.priceLabel")}
+            onChange={onChangeValue("price")}
+          />
+        )}
+        {isCurrentSeason && (
           <RangeSliderPopover
             min={PlayersFilterConstants.TEAMS_COUNT_MIN}
             max={PlayersFilterConstants.TEAMS_COUNT_MAX}

@@ -11,9 +11,12 @@ module ClubTransfers
 
       transfer = latest_transfer
       return nil unless transfer && needs_request?(transfer)
-      return nil if request_exists?(transfer)
 
-      create_request(transfer)
+      existing = existing_request(transfer)
+      return create_request(transfer) unless existing
+      return nil if up_to_date?(existing, transfer)
+
+      refresh_request(existing, transfer)
     end
 
     private
@@ -25,7 +28,7 @@ module ClubTransfers
     def latest_transfer
       @player.club_transfers.tm_sourced
              .where(upcoming: false)
-             .where('start_date <= ?', Time.zone.today)
+             .where(start_date: ..Time.zone.today)
              .order(start_date: :desc, tm_transfer_id: :desc)
              .first
     end
@@ -43,12 +46,26 @@ module ClubTransfers
       Club.for_tm_id(transfer.new_tm_club_id)&.id == @player.club_id
     end
 
-    def request_exists?(transfer)
-      ClubTransferRequest.exists?(player_id: @player.id, tm_transfer_id: transfer.tm_transfer_id)
+    def existing_request(transfer)
+      ClubTransferRequest.find_by(player_id: @player.id, tm_transfer_id: transfer.tm_transfer_id)
+    end
+
+    def up_to_date?(request, transfer)
+      request.new_club_id == transfer.new_club_id &&
+        (transfer.new_club_id.present? || request.new_club_name == transfer.new_club_name)
     end
 
     def create_request(transfer)
-      ClubTransferRequest.create!(
+      ClubTransferRequest.create!(request_attributes(transfer).merge(status: :pending))
+    end
+
+    def refresh_request(request, transfer)
+      request.update!(request_attributes(transfer).merge(status: :pending))
+      request
+    end
+
+    def request_attributes(transfer)
+      {
         player: @player,
         tm_transfer_id: transfer.tm_transfer_id,
         old_club_id: @player.club_id,
@@ -57,9 +74,8 @@ module ClubTransfers
         new_club_name: transfer.new_club_name,
         tm_club_id: transfer.new_tm_club_id,
         start_date: transfer.start_date,
-        loan: transfer.loan,
-        status: :pending
-      )
+        loan: transfer.loan
+      }
     end
   end
 end

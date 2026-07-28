@@ -4,6 +4,7 @@ class AuctionBidsController < ApplicationController
   def show
     return redirect_to leagues_path unless bid_owner?
 
+    @auction_bid = AuctionBid.includes(player_bids: { player: [:positions, { club: :tournament }] }).find(@auction_bid.id)
     @user_team = @auction_bid.team
     @modules = TeamModule.all
     @tournament = @auction_bid.team.join&.tournament

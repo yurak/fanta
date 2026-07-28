@@ -124,6 +124,29 @@ RSpec.describe 'Lineups' do
       it { expect(assigns(:modules)).not_to be_nil }
       it { expect(assigns(:lineup)).not_to be_nil }
     end
+
+    context 'with a mantra tour (candidates are lazy-loaded, not inlined)' do
+      let(:mantra_tour) do
+        create(:set_lineup_tour, tournament_round: create(:tournament_round, tournament: create(:tournament)))
+      end
+      let(:logged_user) { create(:user) }
+      let(:team) { create(:team, user: logged_user) }
+      let(:squad_player) { create(:player, :with_pos_pc, club: create(:club)) }
+
+      before do
+        create(:player_team, team: team, player: squad_player)
+        sign_in logged_user
+        get new_team_lineup_path(team, tour_id: mantra_tour.id)
+      end
+
+      it 'marks slots for lazy candidate loading' do
+        expect(response.body).to include('data-lazy-team')
+      end
+
+      it 'does not inline the squad players into the page' do
+        expect(response.body).not_to include("player#{squad_player.id}")
+      end
+    end
   end
 
   describe 'POST #create' do

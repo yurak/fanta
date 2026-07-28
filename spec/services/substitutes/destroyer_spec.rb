@@ -48,5 +48,21 @@ RSpec.describe Substitutes::Destroyer do
         expect(Substitute.find_by(id: substitute.id)).to be_nil
       end
     end
+
+    context 'with position snapshots to restore' do
+      before do
+        substitute.main_mp.update!(player_positions: 'A')
+        substitute.reserve_mp.update!(player_positions: 'B')
+        destroyer.call
+      end
+
+      it 'restores the main player position snapshot' do
+        expect(substitute.main_mp.reload.player_positions).to eq('B')
+      end
+
+      it 'restores the reserve player position snapshot' do
+        expect(substitute.reserve_mp.reload.player_positions).to eq('A')
+      end
+    end
   end
 end

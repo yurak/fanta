@@ -9,6 +9,7 @@ import { IPlayer } from "@/interfaces/Player";
 import DataList from "@/ui/DataList";
 import { usePlayersListContext } from "@/application/Players/PlayersListContext";
 import { usePlayersPageConfigurationContext } from "@/application/Players/PlayersPageConfigurationContext";
+import { usePlayersContext } from "@/application/Players/PlayersContext";
 import styles from "./PlayersListMobile.module.scss";
 
 const PlayerItem = ({
@@ -17,6 +18,7 @@ const PlayerItem = ({
   league_team_logo,
   name,
   first_name,
+  newbie,
   average_base_score,
   average_total_score,
   position_classic_arr,
@@ -25,6 +27,7 @@ const PlayerItem = ({
 }: IPlayer) => {
   const { t } = useTranslation();
   const { isLeagueSpecificPlayersPage } = usePlayersPageConfigurationContext();
+  const { isCurrentSeason } = usePlayersContext();
 
   return (
     <>
@@ -32,7 +35,10 @@ const PlayerItem = ({
       <div className={styles.info}>
         <div className={styles.top}>
           <div className={styles.name}>
-            {first_name} {name}
+            <span className={styles.nameText}>
+              {first_name} {name}
+            </span>
+            {newbie && <span className={styles.newbie}>{t("players.newbie")}</span>}
           </div>
           <div className={styles.score}>
             {Number(average_base_score) > 0 && (
@@ -87,12 +93,12 @@ const PlayerItem = ({
             {formatNumber(appearances)}{" "}
             {`${appearances === 1 ? t("players.results.app") : t("players.results.apps")}`}
           </span>
-          {!isLeagueSpecificPlayersPage && (
+          {isCurrentSeason && (
             <>
               <span className={cn(styles.divider, styles.teams)} />
               <span className={styles.teams}>
-                {formatNumber(teams_count)}{" "}
-                {`${appearances === 1 ? t("players.results.team") : t("players.results.teams")}`}
+                {formatNumber(teams_count ?? 0)}{" "}
+                {`${teams_count === 1 ? t("players.results.team") : t("players.results.teams")}`}
               </span>
             </>
           )}

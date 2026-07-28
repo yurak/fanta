@@ -12,6 +12,7 @@ module Manage
       @teams = @player.teams.includes(league: :tournament)
       @team_transfers = @player.transfers.incoming.index_by(&:team_id)
       @season_stats = player_season_stats
+      @round_players = current_season_round_players
     end
 
     def create
@@ -24,6 +25,21 @@ module Manage
       end
     end
 
+    def fotmob_search
+      @player = Player.find(params.expect(:id))
+      @candidates = Players::Fotmob::IdFinder.call(@player.full_name)
+    end
+
+    def update_fotmob
+      player = Player.find(params.expect(:id))
+
+      if player.update(fotmob_id: params[:fotmob_id])
+        redirect_to manage_player_path(player), notice: t('manage.players.fotmob_saved')
+      else
+        redirect_to fotmob_search_manage_player_path(player), alert: t('manage.players.fotmob_failed')
+      end
+    end
+
     private
 
     def player_season_stats
@@ -31,6 +47,14 @@ module Manage
                       .where(player: @player)
                       .order('seasons.start_year DESC')
                       .references(:season)
+    end
+
+    def current_season_round_players
+      RoundPlayer.where(player: @player)
+                 .includes(:club, tournament_round: :tournament)
+                 .references(:tournament_round)
+                 .where(tournament_rounds: { season_id: Season.last&.id })
+                 .order('tournament_rounds.number DESC')
     end
 
     def filter_players

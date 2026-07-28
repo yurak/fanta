@@ -62,9 +62,9 @@
                   %span.crowned-badge ✓
                 - else
                   —
-              %td= league.teams.count
+              %td= league.teams.size
               %td= league.auction_number
-              %td= league.tournament.tournament_rounds.by_season(league.season_id).count - league.tour_difference
+              %td= league.tournament.tournament_rounds.count { |tr| tr.season_id == league.season_id } - league.tour_difference
               %td= link_to t('manage.leagues.view_league'), league_path(league), class: 'btn btn-sm btn-outline-secondary', target: '_blank'
               %td= link_to t('manage.leagues.edit'), edit_manage_league_path(league), class: 'btn btn-sm btn-warning'
               %td

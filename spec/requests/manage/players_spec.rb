@@ -95,6 +95,81 @@ RSpec.describe 'Manage::Players' do
           expect(response.body).to include(CGI.escapeHTML(new_club.name))
         end
       end
+
+      context 'with round players' do
+        let(:old_season) { create(:season) }
+        let(:current_season) { create(:season) }
+        let(:current_round) do
+          create(:tournament_round, tournament: create(:tournament, name: 'CurrentSeasonCup'), season: current_season, number: 7)
+        end
+        let(:past_round) do
+          create(:tournament_round, tournament: create(:tournament, name: 'PastSeasonCup'), season: old_season, number: 3)
+        end
+
+        before do
+          player
+          old_season
+          current_season
+          create(:round_player, player: player, tournament_round: current_round)
+          create(:round_player, player: player, tournament_round: past_round)
+          get manage_player_path(player)
+        end
+
+        it 'lists round players from the current season' do
+          expect(response.body).to include('CurrentSeasonCup #7')
+        end
+
+        it 'excludes round players from past seasons' do
+          expect(response.body).not_to include('PastSeasonCup')
+        end
+      end
+    end
+  end
+
+  describe 'GET #fotmob_search' do
+    let(:player) { create(:player, name: 'Haaland') }
+
+    context 'when admin is logged in' do
+      login_admin
+
+      before do
+        allow(Players::Fotmob::IdFinder).to receive(:call)
+          .and_return([{ id: '737066', name: 'Erling Haaland', team_name: 'Man City' }])
+        get fotmob_search_manage_player_path(player)
+      end
+
+      it { expect(response).to be_successful }
+
+      it 'lists a candidate id' do
+        expect(response.body).to include('737066')
+      end
+    end
+  end
+
+  describe 'POST #update_fotmob' do
+    let(:player) { create(:player) }
+
+    context 'when admin is logged in' do
+      login_admin
+
+      it 'saves the fotmob id' do
+        post update_fotmob_manage_player_path(player, fotmob_id: '737066')
+
+        expect(player.reload.fotmob_id).to eq(737_066)
+      end
+
+      it 'redirects to the player' do
+        post update_fotmob_manage_player_path(player, fotmob_id: '737066')
+
+        expect(response).to redirect_to(manage_player_path(player))
+      end
+
+      it 'alerts when the id is already used by another player' do
+        create(:player, fotmob_id: 737_066)
+        post update_fotmob_manage_player_path(player, fotmob_id: '737066')
+
+        expect(flash[:alert]).to be_present
+      end
     end
   end
 

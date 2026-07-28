@@ -14,4 +14,21 @@ class WeeklyTeam < ApplicationRecord
   validates :mode, presence: true
   validates :mode, inclusion: { in: %w[top] }, if: :source_avg?
   validates :tournament, presence: true, if: -> { source_season? || source_avg? }
+
+  def total_score
+    weekly_team_players.sum(&:total) + defence_bonus
+  end
+
+  def defence_bonus
+    return 0 if source_avg?
+
+    DefenceBonus.for_scores(defender_base_scores)
+  end
+
+  private
+
+  def defender_base_scores
+    weekly_team_players.select { |wtp| wtp.slot.positions.intersect?(Position::DEFENCE) }
+                       .map { |wtp| wtp.round_player.score }
+  end
 end

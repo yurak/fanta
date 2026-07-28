@@ -25,7 +25,7 @@ const PlayersFiltersDrawer = () => {
   const isMobile = useMediaQuery("(max-width: 768px)");
 
   const { isLeagueSpecificPlayersPage, leagueId } = usePlayersPageConfigurationContext();
-  const { isSidebarOpen, filterCount, openSidebar, closeSidebar, clearFilter } =
+  const { isSidebarOpen, filterCount, openSidebar, closeSidebar, clearFilter, isCurrentSeason } =
     usePlayersContext();
   const { filterValues, onChangeValue, applyFilter } = usePlayersFilterContext();
   const { applySort, selectedSort } = usePlayersSortContext();
@@ -144,7 +144,7 @@ const PlayersFiltersDrawer = () => {
             />
           </Drawer.Section>
         )}
-        {!isLeagueSpecificPlayersPage && (
+        {isCurrentSeason && (
           <Drawer.Section title={t("players.filters.numberOfTeamsLabel")} defaultOpen={isRangeActive(filterValues.teamsCount, PlayersFilterConstants.TEAMS_COUNT_MIN, PlayersFilterConstants.TEAMS_COUNT_MAX)}>
             <RangeSlider
               value={filterValues.teamsCount}

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_07_05_140000) do
+ActiveRecord::Schema[8.0].define(version: 2026_07_23_120000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -42,6 +42,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_07_05_140000) do
     t.datetime "updated_at", precision: nil, null: false
     t.integer "status", default: 0
     t.boolean "player_bids_locked", default: false, null: false
+    t.index ["auction_round_id", "team_id"], name: "index_auction_bids_on_round_and_team_unique", unique: true, where: "(auction_round_id IS NOT NULL)"
     t.index ["auction_round_id"], name: "index_auction_bids_on_auction_round_id"
     t.index ["team_id"], name: "index_auction_bids_on_team_id"
   end
@@ -178,10 +179,12 @@ ActiveRecord::Schema[8.0].define(version: 2026_07_05_140000) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "auction_bid_id", null: false
+    t.bigint "season_id", null: false
     t.index ["auction_bid_id"], name: "index_joins_on_auction_bid_id"
+    t.index ["season_id"], name: "index_joins_on_season_id"
     t.index ["team_id"], name: "index_joins_on_team_id"
     t.index ["tournament_id"], name: "index_joins_on_tournament_id"
-    t.index ["user_id", "tournament_id"], name: "index_joins_on_user_id_and_tournament_id", unique: true
+    t.index ["user_id", "tournament_id", "season_id"], name: "index_joins_on_user_tournament_season", unique: true
     t.index ["user_id"], name: "index_joins_on_user_id"
   end
 
@@ -736,6 +739,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_07_05_140000) do
   add_foreign_key "club_transfers", "players"
   add_foreign_key "clubs", "tournaments"
   add_foreign_key "joins", "auction_bids"
+  add_foreign_key "joins", "seasons"
   add_foreign_key "joins", "teams"
   add_foreign_key "joins", "tournaments"
   add_foreign_key "joins", "users"

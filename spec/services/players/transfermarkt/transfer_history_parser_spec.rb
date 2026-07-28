@@ -3,7 +3,6 @@ require 'rails_helper'
 RSpec.describe Players::Transfermarkt::TransferHistoryParser do
   let(:tm_id) { '999000111' }
 
-  # rubocop:disable Metrics/MethodLength
   def payload
     {
       'transfers' => [
@@ -24,8 +23,6 @@ RSpec.describe Players::Transfermarkt::TransferHistoryParser do
       ]
     }
   end
-  # rubocop:enable Metrics/MethodLength
-
   before do
     allow_any_instance_of(described_class).to receive(:read_cache).and_return(nil)
     allow_any_instance_of(described_class).to receive(:write_cache)

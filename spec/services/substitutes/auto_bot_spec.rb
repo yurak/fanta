@@ -134,6 +134,38 @@ RSpec.describe Substitutes::AutoBot do
       end
     end
 
+    context 'with two equal-malus bench candidates' do
+      let!(:second_bench) do
+        mp = create(:pc_match_player, lineup: match_lineup, real_position: nil)
+        rp = mp.round_player
+        rp.update(score: 6.0)
+        create(
+          :tournament_match,
+          host_club_id: rp.club.id,
+          guest_club_id: rp.club.id,
+          tournament_round: rp.tournament_round,
+          host_score: 2,
+          guest_score: 0
+        )
+        mp
+      end
+
+      before do
+        # Feed the service the bench in reverse-id order; it must still pick the lowest-id bench.
+        allow(match_lineup).to receive(:match_players)
+          .and_return(MatchPlayer.where(lineup: match_lineup).order(id: :desc))
+        auto_bot.call
+      end
+
+      it 'places the tie-break candidate lower in the bench (higher id)' do
+        expect(pc_sub.id).to be < second_bench.id
+      end
+
+      it 'substitutes the bench player that is higher in the list (lowest id)' do
+        expect(match_lineup.substitutes_preview.first['in']).to eq(pc_sub.player.full_name_with_positions)
+      end
+    end
+
     context 'when multiple main players need substitution' do
       let!(:e_main) { create(:e_match_player, lineup: match_lineup) }
 

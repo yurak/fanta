@@ -40,6 +40,22 @@ RSpec.describe Join do
         expect(new_join).to be_valid
       end
     end
+
+    context 'when user re-applies to the same tournament in a new season' do
+      let(:user) { create(:user) }
+      let(:tournament) { create(:tournament) }
+      let(:past_season) { create(:season, start_year: 2023, end_year: 2024) }
+      let(:new_season) { create(:season, start_year: 2024, end_year: 2025) }
+
+      before do
+        create(:join, :approved, user: user, tournament: tournament, team: create(:team), season: past_season)
+      end
+
+      it 'is valid' do
+        new_join = build(:join, :pending, user: user, tournament: tournament, team: create(:team), season: new_season)
+        expect(new_join).to be_valid
+      end
+    end
   end
 
   describe 'enums' do
@@ -51,5 +67,15 @@ RSpec.describe Join do
     it { is_expected.to belong_to(:tournament) }
     it { is_expected.to belong_to(:team) }
     it { is_expected.to belong_to(:auction_bid) }
+  end
+
+  describe 'default season' do
+    it 'assigns the latest season on creation when none is given' do
+      create(:season, start_year: 2023, end_year: 2024)
+      latest = create(:season, start_year: 2024, end_year: 2025)
+      join = create(:join, season: nil)
+
+      expect(join.season).to eq(latest)
+    end
   end
 end

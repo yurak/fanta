@@ -52,7 +52,7 @@ class League < ApplicationRecord
   }
 
   def all_tours_closed?
-    tours.any? && tours.where.not(status: Tour.statuses[:closed]).none?
+    tours.any? && tours.all?(&:closed?)
   end
 
   def division_with_name

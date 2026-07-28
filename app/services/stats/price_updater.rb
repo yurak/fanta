@@ -19,7 +19,7 @@ module Stats
       return false unless tournament
       return false unless season
 
-      ids = stats.where('final_score >= ?', 8.0).map(&:id)
+      ids = stats.where(final_score: 8.0..).map(&:id)
 
       Position::LIST.each do |position|
         ids << stats.joins(player: :positions).where(player: { positions: { name: position } })

@@ -7,7 +7,7 @@ module Manage
       @tournaments = Tournament.order(:name)
       @seasons = Season.order(start_year: :desc)
       @leagues = League.public_send(@status)
-                       .includes(:division, :tournament, :season, :results, :tours)
+                       .includes(:division, :season, :results, :tours, :teams, tournament: :tournament_rounds)
                        .order(season_id: :desc, created_at: :desc)
       @leagues = @leagues.where('leagues.name LIKE ?', "%#{params[:query]}%") if params[:query].present?
       @leagues = @leagues.where(tournament_id: params[:tournament_id]) if params[:tournament_id].present?
@@ -19,6 +19,7 @@ module Manage
       @teams = league.teams.includes(user: :user_profile).order(:human_name)
       @auctions = league.auctions.includes(:auction_rounds).order(:number)
       @results = league.results.ordered.includes(:user_title, team: { user: :user_profile })
+      @standings = Manage::LeagueStandings.new(league, @results)
     end
 
     def new

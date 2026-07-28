@@ -15,6 +15,7 @@ module AuctionRounds
 
         fail_over_budget_bids
         fail_bids_missing_gk
+        fail_left_championship_player_bids
 
         manage_bids
 
@@ -50,6 +51,13 @@ module AuctionRounds
 
         auction_bid.player_bids.initial.map(&:failed!)
       end
+    end
+
+    def fail_left_championship_player_bids
+      active_club_ids = league.tournament.clubs.active.pluck(:id)
+      return if active_club_ids.empty?
+
+      round.player_bids.initial.joins(:player).where.not(players: { club_id: active_club_ids }).find_each(&:failed!)
     end
 
     def manage_bids

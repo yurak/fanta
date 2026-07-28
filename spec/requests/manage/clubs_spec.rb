@@ -54,6 +54,66 @@ RSpec.describe 'Manage::Clubs' do
         expect(response.body).to include(manage_clubs_path)
       end
     end
+
+    context 'when filtering by tournament' do
+      login_admin
+
+      let(:tournament) { create(:tournament) }
+
+      before do
+        create(:club, name: 'InTourClub', tournament: tournament)
+        create(:club, name: 'OtherTourClub', tournament: create(:tournament))
+        get manage_clubs_path, params: { tournament_id: tournament.id }
+      end
+
+      it 'shows clubs from the selected tournament' do
+        expect(response.body).to include('InTourClub')
+      end
+
+      it 'hides clubs from other tournaments' do
+        expect(response.body).not_to include('OtherTourClub')
+      end
+
+      it 'also matches clubs by eurocup tournament' do
+        create(:club, name: 'EcTourClub', tournament: nil, ec_tournament: tournament)
+        get manage_clubs_path, params: { tournament_id: tournament.id }
+        expect(response.body).to include('EcTourClub')
+      end
+    end
+
+    context 'when filtering by status' do
+      login_admin
+
+      before do
+        create(:club, name: 'ActiveMarkerClub', status: :active)
+        create(:archived_club, name: 'ArchivedMarkerClub')
+        get manage_clubs_path, params: { status: 'archived' }
+      end
+
+      it 'shows clubs with the selected status' do
+        expect(response.body).to include('ArchivedMarkerClub')
+      end
+
+      it 'hides clubs with other statuses' do
+        expect(response.body).not_to include('ActiveMarkerClub')
+      end
+    end
+
+    context 'with status and TM columns' do
+      login_admin
+
+      let!(:club) { create(:club, name: 'TmMarkerClub', tm_url: 'https://www.transfermarkt.com/x/startseite/verein/1') }
+
+      before { get manage_clubs_path }
+
+      it 'shows the club status' do
+        expect(response.body).to include(club.status)
+      end
+
+      it 'shows a TM link' do
+        expect(response.body).to include(club.tm_url)
+      end
+    end
   end
 
   describe 'GET #show' do

@@ -9,6 +9,21 @@ RSpec.describe AuctionBid do
 
   describe 'Validations' do
     it { is_expected.to define_enum_for(:status).with_values(%i[initial ongoing submitted completed processed]) }
+
+    describe 'uniqueness of the team within an auction round' do
+      let(:round) { create(:auction_round) }
+      let(:team) { create(:team) }
+
+      it 'forbids a second bid for the same team in the same round' do
+        create(:auction_bid, auction_round: round, team: team)
+        expect(build(:auction_bid, auction_round: round, team: team)).not_to be_valid
+      end
+
+      it 'allows several round-less draft bids for the same team' do
+        create(:auction_bid, auction_round: nil, team: team)
+        expect(build(:auction_bid, auction_round: nil, team: team)).to be_valid
+      end
+    end
   end
 
   describe '.initial_ongoing' do

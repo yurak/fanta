@@ -3,6 +3,7 @@ FactoryBot.define do
     user
     tournament
     team
+    season { Season.last || association(:season) }
 
     after(:build) do |join|
       join.auction_bid ||= build(:auction_bid, team: join.team, auction_round: nil)

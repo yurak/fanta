@@ -1,0 +1,31 @@
+.page-block
+  .web-header= render 'layouts/left_nav', league: nil
+  .web-header= render 'layouts/manage_nav'
+  .mob-header= render 'layouts/mob_header', league: nil, title: @player.name
+  .page-info.admin-manage-page
+    = link_to t('manage.players.back_to_player'), manage_player_path(@player), class: 'btn btn-sm btn-outline-secondary mb-3'
+
+    %h2= "#{t('manage.players.find_fotmob')} — #{@player.full_name}"
+
+    - if @player.fotmob_id.present?
+      %p.text-muted= "#{t('manage.players.current_fotmob_id')}: #{@player.fotmob_id}"
+
+    - if @candidates.any?
+      %table.table.table-hover.table-sm.align-middle
+        %thead.thead-light
+          %tr
+            %th Fotmob ID
+            %th= t('manage.players.col_name')
+            %th= t('manage.players.col_club')
+            %th
+            %th
+        %tbody
+          - @candidates.each do |candidate|
+            %tr
+              %td= candidate[:id]
+              %td= candidate[:name]
+              %td= candidate[:team_name] || '—'
+              %td= link_to 'Fotmob', "https://www.fotmob.com/players/#{candidate[:id]}", target: '_blank', rel: 'noopener', class: 'btn btn-sm', style: 'background-color: #00985F; color: #fff; border-color: #00985F;'
+              %td= button_to t('manage.players.fotmob_confirm'), update_fotmob_manage_player_path(@player, fotmob_id: candidate[:id]), method: :post, class: 'btn btn-sm btn-success', form: { data: { turbo_confirm: t('manage.players.fotmob_confirm_prompt', id: candidate[:id]) } }
+    - else
+      %p.text-muted= t('manage.players.fotmob_none')

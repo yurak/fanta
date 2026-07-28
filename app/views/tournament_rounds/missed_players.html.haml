@@ -12,7 +12,7 @@
     .round-missed-players
       %h4.round-missed-players-title Missed players
       - national = tournament_round.tournament.national?
-      - matches = national ? tournament_round.national_matches : tournament_round.tournament_matches
+      - matches = national ? tournament_round.ordered_national_matches : tournament_round.ordered_tournament_matches
       - matches.each do |match|
         - next if match.missed_players_data.blank?
         .round-missed-players-match

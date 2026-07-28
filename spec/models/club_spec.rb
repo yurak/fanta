@@ -110,4 +110,37 @@ RSpec.describe Club do
       end
     end
   end
+
+  describe '#same_active_tournament_as?' do
+    let(:tournament) { create(:tournament) }
+
+    it 'is true when both clubs are active and share a tournament' do
+      other = create(:club, tournament: tournament)
+      expect(create(:club, tournament: tournament).same_active_tournament_as?(other)).to be(true)
+    end
+
+    it 'is false when the other club is nil' do
+      expect(create(:club, tournament: tournament).same_active_tournament_as?(nil)).to be(false)
+    end
+
+    it 'is false when the receiver is archived' do
+      other = create(:club, tournament: tournament)
+      expect(create(:archived_club, tournament: tournament).same_active_tournament_as?(other)).to be(false)
+    end
+
+    it 'is false when the other club is archived' do
+      other = create(:archived_club, tournament: tournament)
+      expect(create(:club, tournament: tournament).same_active_tournament_as?(other)).to be(false)
+    end
+
+    it 'is false when the tournaments differ' do
+      other = create(:club, tournament: create(:tournament))
+      expect(create(:club, tournament: tournament).same_active_tournament_as?(other)).to be(false)
+    end
+
+    it 'is false when the receiver has no tournament' do
+      other = create(:club, tournament: tournament)
+      expect(create(:club, tournament: nil).same_active_tournament_as?(other)).to be(false)
+    end
+  end
 end

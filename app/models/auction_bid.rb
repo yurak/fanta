@@ -2,11 +2,13 @@ class AuctionBid < ApplicationRecord
   belongs_to :auction_round, optional: true
   belongs_to :team
 
-  has_many :player_bids, dependent: :destroy
+  has_many :player_bids, -> { order(:id) }, dependent: :destroy, inverse_of: :auction_bid
 
   delegate :auction, to: :auction_round, allow_nil: true
 
   enum :status, { initial: 0, ongoing: 1, submitted: 2, completed: 3, processed: 4 }
+
+  validates :team_id, uniqueness: { scope: :auction_round_id }, if: -> { auction_round_id.present? }
 
   scope :initial_ongoing, -> { initial.or(ongoing) }
 
