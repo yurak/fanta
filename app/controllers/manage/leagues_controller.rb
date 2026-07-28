@@ -19,6 +19,7 @@ module Manage
       @teams = league.teams.includes(user: :user_profile).order(:human_name)
       @auctions = league.auctions.includes(:auction_rounds).order(:number)
       @results = league.results.ordered.includes(:user_title, team: { user: :user_profile })
+      @standings = Manage::LeagueStandings.new(league, @results)
     end
 
     def new

@@ -117,7 +117,7 @@
                   = link_to result.team.user.name.presence || result.team.user.email, manage_user_path(result.team.user)
                 - else
                   %span.text-muted= '—'
-              - pct = result.lineup_pct
+              - pct = @standings.lineup_pct(result)
               %td= "#{pct}%"
               %td= result.total_score
               %td= result.scored_goals
@@ -125,7 +125,7 @@
               %td
                 - if result.crowned?
                   %span.btn.btn-sm.btn-warning.disabled{ title: t('manage.leagues.already_crowned') } 🏆
-                - elsif result.crownable?
+                - elsif @standings.crownable?(result)
                   - if pct <= 50
                     %span.btn.btn-sm.btn-danger.disabled{ title: t('manage.leagues.crown_low_pct') } 🏆
                   - else
