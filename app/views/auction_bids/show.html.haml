@@ -5,7 +5,7 @@
   .page-info.auction-rounds-page
     .round-section
       - unless @auction_round
-        - join = @auction_bid.team.join
+        - join = @auction_bid.join
         .round-action-btn.auction-round-mob
           - if @auction_bid.submitted?
             = link_to t('join.continue'), join_path(join), class: "submit-btn submit-btn-#{@auction_bid.status}", id: 'submit-bid-btn-mob'

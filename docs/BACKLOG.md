@@ -20,4 +20,3 @@
 - **Auto-bid in 2nd+ auction** from the wishlist _(depends on wishlists)_.
 - **Rework of the drop / out-transfers pages** — UI redesign.
 - **Update npm packages** — react-select 5→6, rc-slider 10→11, chart.js 4→5, @floating-ui/react 0.26→1.x, etc.
-- **Season switcher** on the global players page.

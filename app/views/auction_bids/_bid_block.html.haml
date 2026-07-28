@@ -1,5 +1,5 @@
 - if auction_bid
-  - tournament = league&.tournament || auction_bid.team.join&.tournament
+  - tournament = league&.tournament || auction_bid.join&.tournament
   .auction-bid-block
     - if auction_round
       .auction-bid-suitable-modules

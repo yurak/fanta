@@ -55,7 +55,7 @@ module Teams
     def self.orphan_teams
       Team
         .where(league_id: nil)
-        .where.missing(:join)
+        .where.missing(:joins)
         .where.missing(:auction_bids)
         .where.missing(:lineups)
         .where.missing(:results)

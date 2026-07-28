@@ -43,20 +43,20 @@ module Manage
     end
 
     def base_scope_for_tab
+      scope = Join.current_season.public_send(@tab)
+                  .includes(:tournament, team: { league: :season }, user: :user_profile)
       case @tab
       when 'pending'
-        Join.pending.includes(:tournament, team: [:join, { league: :season }], user: :user_profile)
-            .order('tournaments.id, joins.created_at ASC').references(:tournaments)
+        scope.order('tournaments.id, joins.created_at ASC').references(:tournaments)
       when 'initial'
-        Join.initial.includes(:tournament, team: [:join, { league: :season }], user: :user_profile).order(created_at: :asc)
+        scope.order(created_at: :asc)
       when 'approved'
-        Join.approved.includes(:tournament, team: [:join, { league: :season }], user: :user_profile)
-            .order('tournaments.name, leagues.name').references(:tournaments, :leagues)
+        scope.order('tournaments.name, leagues.name').references(:tournaments, :leagues)
       end
     end
 
     def tournament_counts
-      counts = apply_search(Join.public_send(@tab)).group(:tournament_id).count
+      counts = apply_search(Join.current_season.public_send(@tab)).group(:tournament_id).count
       Tournament.where(id: counts.keys).order(:id).index_with { |t| counts[t.id] }
     end
 

@@ -36,7 +36,10 @@ class Tournament < ApplicationRecord
     )
       .joins('LEFT JOIN leagues ON leagues.tournament_id = tournaments.id')
       .joins('LEFT JOIN teams ON teams.league_id = leagues.id')
-      .joins('LEFT JOIN joins ON joins.tournament_id = tournaments.id')
+      .joins(
+        'LEFT JOIN joins ON joins.tournament_id = tournaments.id ' \
+        "AND joins.season_id = #{Season.last&.id.to_i}"
+      )
       .joins('LEFT JOIN auction_bids ON auction_bids.id = joins.auction_bid_id')
       .group('tournaments.id')
   }

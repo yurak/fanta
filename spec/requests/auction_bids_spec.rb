@@ -53,8 +53,8 @@ RSpec.describe 'AuctionBids' do
   describe 'POST #submit' do
     let(:logged_user) { create(:user) }
     let(:team) { create(:team, user: logged_user) }
-    let!(:join) { create(:join, user: logged_user, team: team, tournament: team.tournament) }
     let(:auction_bid) { create(:auction_bid, team: team, auction_round: nil) }
+    let!(:join) { create(:join, user: logged_user, team: team, tournament: team.tournament, auction_bid: auction_bid) }
 
     context 'when user is logged out' do
       before { post submit_auction_bid_path(auction_bid) }
@@ -78,6 +78,22 @@ RSpec.describe 'AuctionBids' do
 
       it { expect(response).to redirect_to(auction_bid_path(auction_bid)) }
       it { expect(join.reload.status).to eq('pending') }
+    end
+
+    context 'when the team also applied in a past season' do
+      let(:past_join) do
+        create(:join, :approved, user: logged_user, team: team, tournament: team.tournament, season: Season.first)
+      end
+
+      before do
+        join.update!(season: create(:season, start_year: 2030, end_year: 2031))
+        past_join
+        sign_in logged_user
+        post submit_auction_bid_path(auction_bid)
+      end
+
+      it { expect(join.reload.status).to eq('pending') }
+      it { expect(past_join.reload.status).to eq('approved') }
     end
   end
 
@@ -207,8 +223,8 @@ RSpec.describe 'AuctionBids' do
   describe 'PUT/PATCH #update without auction_round (join flow)' do
     let(:logged_user) { create(:user) }
     let(:team) { create(:team, user: logged_user) }
-    let(:join) { create(:join, user: logged_user, team: team, tournament: team.tournament) }
     let(:auction_bid) { create(:auction_bid, team: team, auction_round: nil) }
+    let(:join) { create(:join, user: logged_user, team: team, tournament: team.tournament, auction_bid: auction_bid) }
     let(:params) { { auction_bid: { status: 'submitted' } } }
 
     before { join }

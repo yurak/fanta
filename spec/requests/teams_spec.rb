@@ -198,6 +198,28 @@ RSpec.describe 'Teams' do
         expect(response).to redirect_to(joins_path)
       end
     end
+
+    context 'when user re-applies with a team that already applied in a past season' do
+      let(:tournament) { create(:tournament) }
+      let(:logged_user) { create(:user, status: :configured) }
+      let(:team) { create(:team, user: logged_user, tournament: tournament) }
+      let!(:past_join) { create(:join, :approved, user: logged_user, tournament: tournament, team: team) }
+
+      before do
+        create(:season, start_year: 2030, end_year: 2031)
+        sign_in logged_user
+        post teams_path(team: { team_id: team.id, tournament_id: tournament.id })
+      end
+
+      it 'creates a join for the current season' do
+        expect(Join.current_season.find_by(user: logged_user, tournament: tournament, team: team)).to be_initial
+      end
+
+      it 'gives the new join its own auction bid' do
+        new_join = Join.current_season.find_by(user: logged_user, tournament: tournament, team: team)
+        expect(new_join.auction_bid_id).not_to eq(past_join.auction_bid_id)
+      end
+    end
   end
 
   describe 'GET #edit' do

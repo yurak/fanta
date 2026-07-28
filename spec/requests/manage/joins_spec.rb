@@ -71,6 +71,20 @@ RSpec.describe 'Manage::Joins' do
         expect(response.body).to include(CGI.escapeHTML(approved_join.user.name))
       end
     end
+
+    context 'with a leftover pending join from a past season' do
+      login_admin
+
+      before do
+        create(:join, :pending, user: create(:user, name: 'Stalezz Applicantzz'),
+                                tournament: tournament, team: create(:team), season: Season.first)
+        join.update!(season: create(:season, start_year: 2030, end_year: 2031))
+        get manage_joins_path(tab: 'pending')
+      end
+
+      it { expect(response.body).to include(CGI.escapeHTML(join.user.name)) }
+      it { expect(response.body).not_to include('Stalezz Applicantzz') }
+    end
   end
 
   context 'with pending tab sub-tabs' do

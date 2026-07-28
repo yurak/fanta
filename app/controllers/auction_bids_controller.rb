@@ -7,7 +7,7 @@ class AuctionBidsController < ApplicationController
     @auction_bid = AuctionBid.includes(player_bids: { player: [:positions, { club: :tournament }] }).find(@auction_bid.id)
     @user_team = @auction_bid.team
     @modules = TeamModule.all
-    @tournament = @auction_bid.team.join&.tournament
+    @tournament = @auction_bid.join&.tournament
     return unless @auction_bid.auction_round
 
     @auction_round = @auction_bid.auction_round
@@ -21,8 +21,8 @@ class AuctionBidsController < ApplicationController
   def submit
     return redirect_to leagues_path unless bid_owner?
 
-    join = auction_bid.team.join
-    join.pending!
+    join = auction_bid.join
+    join&.pending!
     redirect_to auction_bid_path(auction_bid), notice: t('join.submitted')
   end
 
@@ -32,7 +32,7 @@ class AuctionBidsController < ApplicationController
       redirect_to auction_round_path(auction_round)
     else
       AuctionBids::Manager.call(auction_bid, auction_bid_params) if bid_owner?
-      join = auction_bid.team.join
+      join = auction_bid.join
       if join && auction_bid.reload.submitted?
         join.pending!
         redirect_to join_path(join)
