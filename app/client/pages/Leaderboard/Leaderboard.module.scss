@@ -38,7 +38,7 @@
   align-items: center;
   gap: 16px;
   flex-wrap: wrap;
-  padding-bottom: 12px;
+  padding-bottom: 4px;
 }
 
 .tournamentSelect {
@@ -201,7 +201,7 @@
   font-size: 32px;
   font-weight: 800;
   line-height: 1;
-  color: #c9f24d;
+  color: #ebff00;
 }
 
 .cardManager {
@@ -242,7 +242,7 @@
   text-overflow: ellipsis;
 
   &:hover {
-    color: #c9f24d;
+    color: #ebff00;
   }
 }
 
