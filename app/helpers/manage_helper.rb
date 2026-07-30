@@ -1,4 +1,13 @@
 module ManageHelper
+  TOURNAMENT_ICON_SIZE = 28
+
+  def manage_tournament_icon(tournament)
+    return '—' unless tournament
+
+    image_tag(tournament.logo_path, width: TOURNAMENT_ICON_SIZE, height: TOURNAMENT_ICON_SIZE,
+                                    title: tournament.name, alt: tournament.name)
+  end
+
   # Shared nav items for the manage section.
   # Each item: [controller_path, url, icon, label_key]
   def manage_nav_items

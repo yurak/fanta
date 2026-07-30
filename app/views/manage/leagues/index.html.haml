@@ -54,7 +54,7 @@
                 = link_to league.name, manage_league_path(league)
                 - if league.demo?
                   %span.badge-demo= t('manage.leagues.demo_badge')
-              %td= league.tournament.name
+              %td= manage_tournament_icon(league.tournament)
               %td= league.division&.name || '—'
               %td= "#{league.season.start_year}-#{league.season.end_year}"
               %td

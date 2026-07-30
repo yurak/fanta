@@ -36,6 +36,12 @@ RSpec.describe 'Manage::Leagues' do
         expect(controller.instance_variable_get(:@leagues)).to include(initial_league)
       end
 
+      it 'renders the tournament as an icon carrying its name' do
+        initial_league.tournament.update!(name: 'Zzz Marker Cup')
+        get manage_leagues_path
+        expect(response.body).to include('title="Zzz Marker Cup"')
+      end
+
       it 'excludes non-initial leagues by default' do
         expect(controller.instance_variable_get(:@leagues)).not_to include(active_league)
       end

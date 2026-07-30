@@ -44,6 +44,22 @@ RSpec.describe 'Manage::Teams' do
         expect(response.body).not_to include('Beta Team')
       end
 
+      context 'with the tournament column' do
+        let(:tournament) { create(:tournament, name: 'Zzz Marker Cup') }
+
+        it 'renders the tournament as an icon carrying its name' do
+          create(:team, human_name: 'Gamma Team', tournament: tournament)
+          get manage_teams_path, params: { name: 'Gamma' }
+          expect(response.body).to include('title="Zzz Marker Cup"')
+        end
+
+        it 'renders a dash when the team has no tournament' do
+          create(:team, human_name: 'Delta Team', tournament: nil)
+          get manage_teams_path, params: { name: 'Delta' }
+          expect(response.body).to include('—')
+        end
+      end
+
       it 'name search is case-insensitive and partial' do
         get manage_teams_path, params: { name: 'alph' }
         expect(response.body).to include('Alpha Team')

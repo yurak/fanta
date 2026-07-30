@@ -58,7 +58,7 @@ module Manage
     end
 
     def filter_players
-      players = Player.includes(:club, :positions)
+      players = Player.includes(:positions, club: :tournament)
       if params[:name].present?
         players = players.where('players.name ILIKE ? OR players.first_name ILIKE ?',
                                 "%#{params[:name]}%", "%#{params[:name]}%")

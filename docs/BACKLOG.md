@@ -10,6 +10,10 @@
 2. **Viewport Migration** (mobile-first)
    8 stages, not started. Scope: legacy haml on the `application` layout (React pages are already device-width).
 
+3. **Token auth + Flutter app v1** — see [MOBILE_APP_PLAN.md](MOBILE_APP_PLAN.md)
+   Not started. `devise-jwt` + closing the anonymous `/api` (the two are one edit), then a read-only
+   companion app on the endpoints that already exist. Closing the API puts `/players` behind login.
+
 ## No detailed plan yet
 
 - **Player wishlists** (watchlist) — save players into watch lists. Basis for auto-bidding in the 2nd+ auction.

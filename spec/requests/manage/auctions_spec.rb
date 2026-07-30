@@ -36,6 +36,12 @@ RSpec.describe 'Manage::Auctions' do
       it 'excludes non-initial auctions by default' do
         expect(controller.instance_variable_get(:@auctions)).not_to include(sales_auction)
       end
+
+      it 'renders the tournament as an icon carrying its name' do
+        initial_auction.league.tournament.update!(name: 'Zzz Marker Cup')
+        get manage_auctions_path
+        expect(response.body).to include('title="Zzz Marker Cup"')
+      end
     end
 
     context 'when admin filters by status' do

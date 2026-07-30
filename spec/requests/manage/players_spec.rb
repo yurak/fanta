@@ -22,6 +22,22 @@ RSpec.describe 'Manage::Players' do
       it { expect(response).to be_successful }
       it { expect(response).to render_template(:index) }
 
+      context 'with the tournament column' do
+        let(:tournament) { create(:tournament, name: 'Zzz Marker Cup') }
+
+        it "renders the icon of the player's club tournament" do
+          create(:player, name: 'Iniesta', club: create(:club, tournament: tournament))
+          get manage_players_path, params: { name: 'Iniesta' }
+          expect(response.body).to include('title="Zzz Marker Cup"')
+        end
+
+        it 'renders a dash when the club has no tournament' do
+          create(:player, name: 'Clubless', club: create(:club, tournament: nil))
+          get manage_players_path, params: { name: 'Clubless' }
+          expect(response.body).to include('—')
+        end
+      end
+
       context 'with name filter' do
         before { create(:player, name: 'Messi') }
 

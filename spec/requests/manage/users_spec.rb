@@ -61,6 +61,21 @@ RSpec.describe 'Manage::Users' do
         expect(response.body).not_to include('bob@example.com')
       end
 
+      it 'filters by email ignoring case' do
+        get manage_users_path, params: { email: 'ALICE' }
+        expect(response.body).to include('alice@example.com')
+      end
+
+      it 'filters by email ignoring case — hides non-match' do
+        get manage_users_path, params: { email: 'ALICE' }
+        expect(response.body).not_to include('bob@example.com')
+      end
+
+      it 'filters by a partial email fragment' do
+        get manage_users_path, params: { email: 'Example.COM' }
+        expect(response.body).to include('alice@example.com')
+      end
+
       it 'shows reset link when filter is applied' do
         get manage_users_path, params: { email: 'alice' }
         expect(response.body).to include(manage_users_path)

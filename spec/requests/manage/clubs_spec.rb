@@ -81,6 +81,22 @@ RSpec.describe 'Manage::Clubs' do
       end
     end
 
+    context 'with the tournament column' do
+      login_admin
+
+      it 'renders the tournament as an icon carrying its name' do
+        create(:club, name: 'IconClub', tournament: create(:tournament, name: 'Zzz Marker Cup'))
+        get manage_clubs_path, params: { name: 'IconClub' }
+        expect(response.body).to include('title="Zzz Marker Cup"')
+      end
+
+      it 'renders a dash when the club has no tournament' do
+        create(:club, name: 'NoTourClub', tournament: nil)
+        get manage_clubs_path, params: { name: 'NoTourClub' }
+        expect(response.body).to include('—')
+      end
+    end
+
     context 'when filtering by status' do
       login_admin
 
