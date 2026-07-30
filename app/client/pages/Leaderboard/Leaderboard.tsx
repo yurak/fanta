@@ -94,7 +94,9 @@ const Leaderboard = () => {
 
   return (
     <PageLayout>
-      <Heading title={t("leaderboard.title")} description={t("leaderboard.subtitle")} />
+      <div className={styles.pageHeading}>
+        <Heading title={t("leaderboard.title")} description={t("leaderboard.subtitle")} />
+      </div>
 
       <div className={styles.controls}>
         <Tabs

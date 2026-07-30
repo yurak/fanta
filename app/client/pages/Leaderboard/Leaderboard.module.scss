@@ -1,3 +1,9 @@
+.pageHeading {
+  @media (max-width: 768px) {
+    display: none;
+  }
+}
+
 .controls {
   position: relative;
   z-index: 2;
@@ -81,8 +87,8 @@
 }
 
 .aside {
-  flex: 0 0 340px;
-  width: 340px;
+  flex: 0 0 368px;
+  width: 368px;
 
   @media (max-width: 900px) {
     flex: none;
@@ -225,10 +231,15 @@
 }
 
 .cardName {
+  display: block;
+  max-width: 160px;
   font-size: 18px;
   font-weight: 700;
   color: #ffffff;
   text-decoration: underline;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 
   &:hover {
     color: #c9f24d;
