@@ -1,0 +1,5 @@
+.page-block
+  .web-header= render 'layouts/left_nav', league: nil
+  .mob-header= render 'layouts/mob_header', league: nil, title: t('header.leaderboard')
+  = react_component("App")
+  

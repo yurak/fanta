@@ -100,6 +100,22 @@ RSpec.configure do |config|
             },
             required: %w[errors]
           },
+          leaderboard_entry: {
+            type: :object,
+            properties: {
+              id: { type: :integer, example: 123 },
+              rank: { type: :integer, example: 5 },
+              value: { type: :number, example: 75.12 },
+              matches: { type: :integer, example: 340 },
+              champion_number: { type: :integer, example: 4, nullable: true },
+              name: { type: :string, example: 'Maximillian' },
+              avatar_path: { type: :string, example: 'https://aws.com/assets/avatar.png' },
+              team_logos: { type: :array, items: { type: :string } },
+              extra_teams: { type: :integer, example: 2 },
+              profile_path: { type: :string, example: '/managers/123' }
+            },
+            required: %w[id rank value name]
+          },
           league: {
             type: :object,
             properties: {

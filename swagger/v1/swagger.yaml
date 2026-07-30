@@ -40,6 +40,59 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/error_not_found"
+  "/api/leaderboard":
+    get:
+      summary: managers leaderboard
+      tags:
+      - Leaderboard
+      parameters:
+      - name: metric
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - win_rate
+          - avg_total_score
+          - titles
+          - matches
+      - name: tournament_id
+        in: query
+        required: false
+        schema:
+          type: integer
+      - name: include_newbies
+        in: query
+        required: false
+        schema:
+          type: boolean
+      - name: min_matches
+        in: query
+        required: false
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      "$ref": "#/components/schemas/leaderboard_entry"
+                  meta:
+                    type: object
+                    properties:
+                      size:
+                        type: integer
+                      page:
+                        type: object
+                      current_user:
+                        "$ref": "#/components/schemas/leaderboard_entry"
+                        nullable: true
   "/api/leagues":
     get:
       summary: list leagues
@@ -594,6 +647,46 @@ components:
             - message
       required:
       - errors
+    leaderboard_entry:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 123
+        rank:
+          type: integer
+          example: 5
+        value:
+          type: number
+          example: 75.12
+        matches:
+          type: integer
+          example: 340
+        champion_number:
+          type: integer
+          example: 4
+          nullable: true
+        name:
+          type: string
+          example: Maximillian
+        avatar_path:
+          type: string
+          example: https://aws.com/assets/avatar.png
+        team_logos:
+          type: array
+          items:
+            type: string
+        extra_teams:
+          type: integer
+          example: 2
+        profile_path:
+          type: string
+          example: "/managers/123"
+      required:
+      - id
+      - rank
+      - value
+      - name
     league:
       type: object
       properties:

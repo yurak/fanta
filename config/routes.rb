@@ -119,6 +119,8 @@ Rails.application.routes.draw do
     resources :player_requests, only: [:new, :create]
   end
 
+  get 'leaderboard', to: 'leaderboard#index'
+
   resources :player_bids, only: [:update]
 
   resources :match_players, only: [] do
@@ -184,6 +186,7 @@ Rails.application.routes.draw do
       get :stats, on: :member
       get :stats_export, on: :collection
     end
+    get 'leaderboard', to: 'leaderboard#index'
     resources :seasons, only: [:index]
     resources :teams, only: [:show]
     resources :tournaments, only: [:index] do

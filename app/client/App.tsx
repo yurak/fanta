@@ -6,8 +6,13 @@ import Players from "./pages/Players";
 import Player from "./pages/Player";
 import LeaguePlayers from "./pages/League/LeaguePlayers";
 import RoundPlayers from "./pages/RoundPlayers";
+import Leaderboard from "./pages/Leaderboard";
 
 const router = createBrowserRouter([
+  {
+    path: "/leaderboard",
+    element: <Leaderboard />,
+  },
   {
     path: "/leagues",
     element: <Leagues />,
