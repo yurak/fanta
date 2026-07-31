@@ -9,7 +9,7 @@
   }
 
   @media (min-width: 992px) {
-    --side-padding: clamp(32px, 7vw, 116px);
+    --side-padding: clamp(24px, 5vw, 116px);
 
     padding: 40px var(--side-padding) 60px calc(var(--nav-width) + var(--side-padding));
   }
