@@ -25,6 +25,10 @@ append it to this list so future sessions don't rediscover it. Keep entries shor
 - Bootstrap 4 in manage/legacy views: use `mr-*`/`ml-*` (not `me-*`/`ms-*`), no `gap-*` utility.
 - Resolve a club by its Transfermarkt id via `Club.for_tm_id(tm_id)` (do NOT name such helpers
   `find_by_*` — RuboCop's Rails/DynamicFindBy rewrites the calls to `find_by`).
+- Transfermarkt deletes transfer rows it later considers wrong (e.g. a "Without Club" contract-expiry
+  entry once the player re-signs), so `ClubTransfers::HistoryImporter` must prune stored tm-sourced
+  transfers TM no longer lists — a leftover row stays the newest one and silently blocks all further
+  `ClubTransferRequest`s for that player.
 - A team is reused across seasons, so it has MANY joins (`Team has_many :joins`). Never look up
   "the" join by team — scope by season (`Join.current_season`) or go through the auction bid
   (`AuctionBid#join`). Same for admin lists: `Join.pending` alone leaks past-season leftovers.

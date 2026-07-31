@@ -126,6 +126,30 @@ RSpec.describe 'Manage::Auctions' do
       end
     end
 
+    context 'when ordering by deadline' do
+      login_admin
+
+      # Deadline column: last round's deadline, falling back to the auction's own deadline.
+      let!(:late)     { create(:auction, deadline: Time.zone.parse('2026-08-10 12:00')) }
+      let!(:early)    { create(:auction, deadline: Time.zone.parse('2026-08-01 12:00')) }
+      let!(:middle)   { create(:auction, deadline: Time.zone.parse('2026-07-01 12:00')) }
+      let!(:no_dates) { create(:auction, deadline: nil) }
+
+      before do
+        create(:auction_round, auction: middle, number: 1, deadline: Time.zone.parse('2026-08-03 12:00'))
+        create(:auction_round, auction: middle, number: 2, deadline: Time.zone.parse('2026-08-05 12:00'))
+        get manage_auctions_path
+      end
+
+      it 'lists the nearest deadline first, using the last round deadline' do
+        expect(controller.instance_variable_get(:@auctions).to_a.first(3)).to eq([early, middle, late])
+      end
+
+      it 'puts auctions without any deadline last' do
+        expect(controller.instance_variable_get(:@auctions).to_a.last).to eq(no_dates)
+      end
+    end
+
     context 'with pagination' do
       login_admin
 
