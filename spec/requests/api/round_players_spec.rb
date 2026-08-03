@@ -77,6 +77,28 @@ RSpec.describe 'Api::RoundPlayers' do
       end
     end
 
+    context 'with the Team column on a mantra league' do
+      let(:tournament)    { create(:tournament) } # mantra mode
+      let(:league)        { create(:active_league, tournament: tournament, season: tournament_round.season) }
+      let(:team)          { create(:team, league: league, human_name: 'My Squad') }
+      let(:player)        { create(:player) }
+      let!(:round_player) { create(:round_player, :with_score_six, tournament_round: tournament_round, player: player) }
+
+      before { create(:player_team, team: team, player: player) }
+
+      it 'includes the owning team when a mantra league is selected' do
+        get_index(filter: { league_id: league.id })
+        row = response.parsed_body['data'].find { |r| r['id'] == round_player.id }
+        expect(row['team']).to include('id' => team.id, 'name' => 'My Squad')
+      end
+
+      it 'omits the team when no league is selected' do
+        get_index
+        row = response.parsed_body['data'].find { |r| r['id'] == round_player.id }
+        expect(row['team']).to be_nil
+      end
+    end
+
     context 'with a club filter' do
       let(:club_a) { create(:club, tournament: tournament) }
       let(:club_b) { create(:club, tournament: tournament) }

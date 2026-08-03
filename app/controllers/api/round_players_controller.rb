@@ -31,6 +31,7 @@ module Api
         league_id: filter_params[:league_id],
         national: tournament.national?,
         fanta: tournament.fanta?,
+        mantra: tournament.mantra?,
         deadlined: deadlined?
       )
     end

@@ -1020,6 +1020,7 @@ ua:
       base_score: "БО"
       total_score: "ЗО"
       club: "КЛУБ"
+      team: "КОМАНДА"
       national: "ЗБІРНА"
     sorter:
       sort_by: "Сортувати за"

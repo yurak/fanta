@@ -1569,6 +1569,7 @@
         "national": "NATIONAL",
         "player": "PLAYER",
         "positions": "POSITIONS",
+        "team": "TEAM",
         "total_score": "TS"
       },
       "filters": {
@@ -3672,6 +3673,7 @@
         "national": "ЗБІРНА",
         "player": "ГРАВЕЦЬ",
         "positions": "ПОЗИЦІЇ",
+        "team": "КОМАНДА",
         "total_score": "ЗО"
       },
       "filters": {

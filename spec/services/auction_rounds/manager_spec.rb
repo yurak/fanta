@@ -18,8 +18,8 @@ RSpec.describe AuctionRounds::Manager do
       end
     end
 
-    context 'with active status and not ready bids for primary auction' do
-      let(:auction_round) { create(:auction_round, deadline: 1.hour.ago) }
+    context 'with active status and not ready bids for a later primary round' do
+      let(:auction_round) { create(:auction_round, number: 2, deadline: 1.hour.ago) }
       let(:league) { auction_round.league }
       let(:teams) { create_list(:team, 4, league: league) }
 
@@ -317,6 +317,126 @@ RSpec.describe AuctionRounds::Manager do
         it 'fails player_bids' do
           expect(player_bid.reload.status).to eq('failed')
         end
+      end
+    end
+
+    context 'with unconfirmed bids on stage 1 of the primary auction after deadline' do
+      let(:auction_round) { create(:auction_round, number: 1, deadline: 1.hour.ago) }
+      let(:league) { auction_round.league }
+      let(:teams) { create_list(:team, 4, league: league) }
+
+      before do
+        create(:auction_bid, :with_player_bids, team: teams[0], auction_round: auction_round)
+        create(:ongoing_auction_bid, :with_player_bids, team: teams[1], auction_round: auction_round)
+        create(:submitted_auction_bid, :with_player_bids, team: teams[2], auction_round: auction_round)
+        create(:completed_auction_bid, :with_player_bids, team: teams[3], auction_round: auction_round)
+      end
+
+      it 'resolves the stage even though not every bid is confirmed' do
+        expect(manager.call).to be(true)
+      end
+
+      it 'still awards the players' do
+        manager.call
+        expect(Transfer.count).to eq(24)
+      end
+    end
+
+    context 'when a bid has an empty player slot on stage 1 of the primary auction after deadline' do
+      let(:auction_round) { create(:auction_round, number: 1, deadline: 1.hour.ago) }
+      let(:league) { auction_round.league }
+      let(:teams) { create_list(:team, 4, league: league) }
+
+      before do
+        create(:submitted_auction_bid, :with_player_bids, team: teams[0], auction_round: auction_round)
+        create(:submitted_auction_bid, :with_player_bids, team: teams[1], auction_round: auction_round)
+        create(:submitted_auction_bid, :with_player_bids, team: teams[2], auction_round: auction_round)
+        create(:submitted_auction_bid, :with_empty_player_bids, team: teams[3], auction_round: auction_round)
+      end
+
+      it 'does not calculate the stage' do
+        expect(manager.call).to be(false)
+      end
+
+      it 'creates no transfers' do
+        manager.call
+        expect(Transfer.count).to eq(0)
+      end
+    end
+
+    context 'when a bid exceeds the stage 1 budget of the primary auction after deadline' do
+      let(:auction_round) { create(:auction_round, number: 1, deadline: 1.hour.ago) }
+      let(:league) { auction_round.league }
+      let(:within_team) { create(:team, league: league) }
+      let(:over_team) { create(:team, league: league) }
+      let(:over_bid) { create(:submitted_auction_bid, team: over_team, auction_round: auction_round) }
+
+      before do
+        create(:submitted_auction_bid, :with_player_bids, team: within_team, auction_round: auction_round)
+        create(:player_bid, auction_bid: over_bid, player: create(:player, :with_pos_por), price: 300)
+      end
+
+      it 'resolves the stage' do
+        expect(manager.call).to be(true)
+      end
+
+      it 'ignores the over-budget bid (fails its player_bids)' do
+        manager.call
+        expect(over_bid.player_bids.pluck(:status).uniq).to eq(['failed'])
+      end
+
+      it 'awards no player to the over-budget team' do
+        manager.call
+        expect(Transfer.where(team: over_team).count).to eq(0)
+      end
+    end
+
+    # A standard team's stage 1 budget is 220 (budget 260 - reserved 40).
+    context 'when at the stage 1 budget boundary of the primary auction after deadline' do
+      let(:auction_round) { create(:auction_round, number: 1, deadline: 1.hour.ago) }
+      let(:at_bid) do
+        create(:submitted_auction_bid, team: create(:team, league: auction_round.league), auction_round: auction_round)
+      end
+      let(:over_bid) do
+        create(:submitted_auction_bid, team: create(:team, league: auction_round.league), auction_round: auction_round)
+      end
+      let!(:at_player_bid) do
+        create(:player_bid, auction_bid: at_bid, player: create(:player, :with_pos_por), price: 220)
+      end
+      let!(:over_player_bid) do
+        create(:player_bid, auction_bid: over_bid, player: create(:player, :with_pos_por), price: 221)
+      end
+
+      before { manager.call }
+
+      it 'includes a bid whose total equals the budget' do
+        expect(at_player_bid.reload.status).to eq('success')
+      end
+
+      it 'excludes a bid whose total exceeds the budget by one' do
+        expect(over_player_bid.reload.status).to eq('failed')
+      end
+    end
+
+    context 'when a stage 1 bid has no goalkeeper in the primary auction after deadline' do
+      let(:auction_round) { create(:auction_round, number: 1, deadline: 1.hour.ago) }
+      let(:no_gk_bid) do
+        create(:submitted_auction_bid, team: create(:team, league: auction_round.league), auction_round: auction_round)
+      end
+
+      before do
+        create(:submitted_auction_bid, :with_player_bids,
+               team: create(:team, league: auction_round.league), auction_round: auction_round)
+        create_list(:player_bid, 6, auction_bid: no_gk_bid) # non-goalkeeper players, slots filled
+      end
+
+      it 'still resolves the stage for the other teams' do
+        expect(manager.call).to be(true)
+      end
+
+      it 'ignores the goalkeeper-less bid (fails its player_bids)' do
+        manager.call
+        expect(no_gk_bid.player_bids.pluck(:status).uniq).to eq(['failed'])
       end
     end
 

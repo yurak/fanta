@@ -1014,6 +1014,7 @@ en:
       base_score: "BS"
       total_score: "TS"
       club: "CLUB"
+      team: "TEAM"
       national: "NATIONAL"
     sorter:
       sort_by: "Sort by"

@@ -20,6 +20,7 @@ module Players
     PLAYER_PRELOADS = %i[transfers teams player_season_stats club positions].freeze
     POSITION_ORDER_SQL = '(SELECT MIN(position_id) FROM player_positions WHERE player_id = players.id)'.freeze
     TEAMS_COUNT_SQL = '(SELECT COUNT(*) FROM player_teams WHERE player_teams.player_id = players.id)'.freeze
+    TIE_BREAKER = 'players.id ASC'.freeze
 
     SQL_SORT_COLUMNS = {
       APPEARANCES => 'COALESCE(pss.played_matches, 0)',
@@ -190,23 +191,23 @@ module Players
     end
 
     def order_by_sql_stat(players, sql_col)
-      players.order(Arel.sql("#{sql_col} #{sql_direction}"))
+      players.order(Arel.sql("#{sql_col} #{sql_direction}, #{TIE_BREAKER}"))
     end
 
     def order_by_name(players)
-      players.order(Arel.sql("players.name #{inverted_sql_direction}"))
+      players.order(Arel.sql("players.name #{inverted_sql_direction}, #{TIE_BREAKER}"))
     end
 
     def order_by_club(players)
-      players.joins(:club).order(Arel.sql("clubs.name #{inverted_sql_direction}"))
+      players.joins(:club).order(Arel.sql("clubs.name #{inverted_sql_direction}, #{TIE_BREAKER}"))
     end
 
     def order_by_position(players)
-      players.order(Arel.sql("#{POSITION_ORDER_SQL} #{position_direction}"))
+      players.order(Arel.sql("#{POSITION_ORDER_SQL} #{position_direction}, #{TIE_BREAKER}"))
     end
 
     def order_by_default_score(players)
-      players.order(Arel.sql('COALESCE(pss.final_score, 0) DESC'))
+      players.order(Arel.sql("COALESCE(pss.final_score, 0) DESC, #{TIE_BREAKER}"))
     end
 
     def sql_direction
@@ -232,7 +233,7 @@ module Players
     # --- In-memory ordering ---
 
     def order_players_in_memory(players)
-      return players.sort_by { |p| -player_stat(p)[:final_score] } unless field
+      return players.sort_by { |p| [-player_stat(p)[:final_score], p.id] } unless field
 
       ordered = sort_in_memory(players)
       if alpha_field?
@@ -247,9 +248,9 @@ module Players
     end
 
     def sort_in_memory(players)
-      return players.sort_by(&:position_sequence_number).reverse if field == POSITION
+      return players.sort_by { |p| [p.position_sequence_number, p.id] }.reverse if field == POSITION
 
-      players.sort_by { |p| sort_key_for(p) }
+      players.sort_by { |p| [sort_key_for(p), p.id] }
     end
 
     def sort_key_for(player)

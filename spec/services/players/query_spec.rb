@@ -369,6 +369,16 @@ RSpec.describe Players::Query do
 
       # --- Ordering ---
 
+      context 'when many players share the same sort value' do
+        before { create_list(:player, 3) }
+
+        it 'orders equal-value rows deterministically by id' do
+          ids = described_class.call({}).to_a.map(&:id)
+
+          expect(ids).to eq(ids.sort)
+        end
+      end
+
       context 'with field: name' do
         before do
           create(:player, name: 'Alpha')
