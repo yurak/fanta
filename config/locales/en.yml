@@ -423,6 +423,7 @@ en:
       col_squad_status: "Status"
       squad_present: "Already present"
       squad_new: "New"
+      squad_wrong_club: "Other club"
       select_all_new: "Select all new"
       create_selected: "Create selected"
       create_prompt: "Create the selected players?"

@@ -12,7 +12,7 @@ module Clubs
     private
 
     def build_squad(tm_ids)
-      existing = Player.where(tm_id: tm_ids).includes(:positions).index_by { |p| p.tm_id.to_s }
+      existing = Player.where(tm_id: tm_ids).includes(:positions, :club).index_by { |p| p.tm_id.to_s }
       entries = tm_ids.map { |tm_id| entry(tm_id, existing[tm_id]) }
       present, absent = entries.partition { |e| e[:player] }
       present + absent
@@ -55,7 +55,8 @@ module Clubs
       {
         tm_id: tm_id, player: player, name: player.full_name,
         position: player.positions.map(&:name).join(', ').presence,
-        price: player.tm_price, nationality: player.nationality, birth_date: player.birth_date.presence
+        price: player.tm_price, nationality: player.nationality, birth_date: player.birth_date.presence,
+        wrong_club: player.club_id != @club.id, current_club: player.club&.name
       }
     end
 

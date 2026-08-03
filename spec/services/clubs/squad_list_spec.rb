@@ -31,6 +31,28 @@ RSpec.describe Clubs::SquadList do
                              birth_date: '25/11/2005')
   end
 
+  describe 'club mismatch' do
+    it 'is not flagged when the player already belongs to the club' do
+      create(:player, tm_id: 111, club: club)
+
+      entry = described_class.call(club)[:squad].find { |e| e[:tm_id] == '111' }
+      expect(entry).to include(wrong_club: false, current_club: club.name)
+    end
+
+    it 'is flagged when the player belongs to another club in our base' do
+      other = create(:club, name: 'Free agent')
+      create(:player, tm_id: 111, club: other)
+
+      entry = described_class.call(club)[:squad].find { |e| e[:tm_id] == '111' }
+      expect(entry).to include(wrong_club: true, current_club: 'Free agent')
+    end
+
+    it 'is not flagged for players missing from our base' do
+      entry = described_class.call(club)[:squad].find { |e| e[:tm_id] == '222' }
+      expect(entry[:wrong_club]).to be_nil
+    end
+  end
+
   describe 'missing players' do
     it 'includes club players whose tm_id is not in the TM squad' do
       gone = create(:player, tm_id: 999, club: club)

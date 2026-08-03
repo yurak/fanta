@@ -191,6 +191,38 @@ RSpec.describe 'Manage::Clubs' do
         expect(response.body).to include('GuyMarker')
       end
     end
+
+    context 'when a squad player sits in another club in our base' do
+      login_admin
+
+      before do
+        create(:player, tm_id: 111, club: create(:club, name: 'Free agent'))
+        allow(Players::Transfermarkt::ClubSquadParser).to receive(:call).and_return(%w[111])
+        get sync_squad_manage_club_path(club)
+      end
+
+      it 'highlights the row' do
+        expect(response.body).to include('table-danger')
+      end
+
+      it 'names the club the player is assigned to' do
+        expect(response.body).to include('Free agent')
+      end
+    end
+
+    context 'when a squad player already belongs to the club' do
+      login_admin
+
+      before do
+        create(:player, tm_id: 111, club: club)
+        allow(Players::Transfermarkt::ClubSquadParser).to receive(:call).and_return(%w[111])
+        get sync_squad_manage_club_path(club)
+      end
+
+      it 'does not highlight the row' do
+        expect(response.body).not_to include('table-danger')
+      end
+    end
   end
 
   describe 'POST #create_players' do
