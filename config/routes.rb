@@ -93,7 +93,10 @@ Rails.application.routes.draw do
   end
 
   resources :auction_bids, only: [:show, :update] do
-    member { post :submit }
+    member do
+      post :submit
+      post :generate
+    end
   end
 
   resources :leagues, only: [:index, :show] do

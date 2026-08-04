@@ -97,6 +97,47 @@ RSpec.describe 'AuctionBids' do
     end
   end
 
+  describe 'POST #generate' do
+    let(:logged_user) { create(:user) }
+    let(:tournament) { create(:tournament) }
+    let(:team) { create(:team, user: logged_user) }
+    let(:auction_bid) { create(:auction_bid, team: team, auction_round: nil) }
+
+    before do
+      create(:season)
+      create(:join, user: logged_user, team: team, tournament: tournament, auction_bid: auction_bid)
+      11.times { create(:player_bid, auction_bid: auction_bid, player: nil) }
+      club = create(:club, tournament: tournament)
+      Array.new(12) do |i|
+        trait = i.zero? ? :with_pos_por : :with_pos_dc
+        player = create(:player, trait, club: club)
+        create(:player_season_stat, player: player, club: club, tournament: tournament,
+                                    season: Season.second_to_last, played_matches: 20)
+      end
+    end
+
+    context 'when user is not the bid owner' do
+      login_user
+
+      before { post generate_auction_bid_path(auction_bid) }
+
+      it { expect(response).to redirect_to(leagues_path) }
+    end
+
+    context 'when user is the bid owner' do
+      before do
+        sign_in logged_user
+        post generate_auction_bid_path(auction_bid)
+      end
+
+      it { expect(response).to redirect_to(auction_bid_path(auction_bid)) }
+
+      it 'fills the bid with players' do
+        expect(auction_bid.player_bids.where.not(player_id: nil).count).to eq(11)
+      end
+    end
+  end
+
   describe 'PUT/PATCH #update' do
     let(:auction_bid) { create(:auction_bid) }
     let(:player_bids_attributes) { nil }

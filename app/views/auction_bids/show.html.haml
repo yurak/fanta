@@ -10,14 +10,17 @@
           - if @auction_bid.submitted?
             = link_to t('join.continue'), join_path(join), class: "submit-btn submit-btn-#{@auction_bid.status}", id: 'submit-bid-btn-mob'
           - elsif !@auction_bid.processed?
-            = submit_tag t("auction_round.offer_action.#{@auction_bid.status}"), form: 'auction_bid_form', class: "submit-btn submit-btn-#{@auction_bid.status}", id: 'submit-bid-btn-mob'
+            .round-action-buttons
+              - if @auction_bid.editable?
+                = button_to "🎲 #{t('auction_round.generate')}", generate_auction_bid_path(@auction_bid), class: 'submit-btn submit-btn-generate'
+              = submit_tag t("auction_round.offer_action.#{@auction_bid.status}"), form: 'auction_bid_form', class: "submit-btn submit-btn-#{@auction_bid.status}", id: 'submit-bid-btn-mob'
         .auction-round-back
           .auction-link-arrow
             = image_tag('icons/arrow_grey.svg')
           = link_to joins_path do
             .auction-link-text= t('join.title')
         .auction-round-header{ class: "auction-round-base-#{@auction_bid.status}" }
-          .auction-round-base
+          .auction-round-base.auction-round-base-join
             .auction-round-title= "#{t('auction_round.stage').upcase} ##{@auction_round ? @auction_round.number : 1}"
             .auction-round-status
               .auction-round-status-badge= t("auction_bid.status.#{join&.status || 'initial'}")
@@ -26,7 +29,10 @@
               - if @auction_bid.submitted?
                 = link_to t('join.continue'), join_path(join), class: "submit-btn submit-btn-#{@auction_bid.status}", id: 'submit-bid-btn'
               - elsif !@auction_bid.processed?
-                = submit_tag t("auction_round.offer_action.#{@auction_bid.status}"), form: 'auction_bid_form', class: "submit-btn submit-btn-#{@auction_bid.status}", id: 'submit-bid-btn'
+                .round-action-buttons
+                  - if @auction_bid.editable?
+                    = button_to "🎲 #{t('auction_round.generate')}", generate_auction_bid_path(@auction_bid), class: 'submit-btn submit-btn-generate'
+                  = submit_tag t("auction_round.offer_action.#{@auction_bid.status}"), form: 'auction_bid_form', class: "submit-btn submit-btn-#{@auction_bid.status}", id: 'submit-bid-btn'
             .tooltip-info
               .wrapper
                 .tooltip
