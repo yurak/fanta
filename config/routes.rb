@@ -190,6 +190,9 @@ Rails.application.routes.draw do
       get :stats_export, on: :collection
     end
     get 'leaderboard', to: 'leaderboard#index'
+    namespace :sofascore do
+      resources :matches, only: [:index, :create]
+    end
     resources :seasons, only: [:index]
     resources :teams, only: [:show]
     resources :tournaments, only: [:index] do
