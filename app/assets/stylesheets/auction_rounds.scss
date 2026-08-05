@@ -12,7 +12,7 @@
 
     .auction-round-back {
       display: grid;
-      grid-template-columns: 40px 148px;
+      grid-template-columns: 40px auto;
       column-gap: 8px;
       line-height: 40px;
 
@@ -47,6 +47,10 @@
         column-gap: 8px;
         line-height: 37px;
         color: #181715;
+
+        &.auction-round-base-join {
+          grid-template-columns: 100px auto 80px 380px 20px;
+        }
 
         .auction-round-title {
           font-family: 'Nunito Bold';
@@ -105,6 +109,16 @@
     }
 
     .round-action-btn {
+      .round-action-buttons {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      form {
+        display: contents;
+      }
+
       #submit-bid-btn, #submit-bid-btn-mob {
         display: flex;
         align-items: center;
@@ -113,7 +127,7 @@
         height: 40px;
         background: #261FFF;
         border-radius: 4px;
-        width: 100%;
+        flex: 1 1 auto;
         color: #FFFFFF;
         font-size: 16px;
         text-decoration: none;
@@ -124,6 +138,28 @@
         border: 1px solid #E9E9FF;
         background: #FFFFFF;
         color: #261FFF;
+      }
+
+      .submit-btn-generate {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+        flex: 0 0 auto;
+        height: 40px;
+        padding: 0 16px;
+        border: 1px solid #E9E9FF;
+        border-radius: 4px;
+        background: #FFFFFF;
+        color: #261FFF;
+        font-size: 16px;
+        white-space: nowrap;
+        cursor: pointer;
+        box-sizing: border-box;
+
+        &:hover {
+          background: #F4F4FF;
+        }
       }
     }
 
@@ -864,8 +900,22 @@
         display: block;
       }
 
+      .round-action-btn .round-action-buttons {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+
+        #submit-bid-btn-mob {
+          order: -1;
+        }
+
+        .submit-btn-generate {
+          width: 100%;
+        }
+      }
+
       .auction-round-back {
-        grid-template-columns: 54px 248px;
+        grid-template-columns: 54px auto;
         column-gap: 16px;
         line-height: 80px;
 
@@ -884,6 +934,10 @@
       .auction-round-header {
         padding: 24px;
         border-radius: 16px 16px 0 0;
+
+        .auction-round-base.auction-round-base-join {
+          grid-template-columns: 196px auto 232px 40px;
+        }
 
         .auction-round-base {
           grid-template-columns: 196px auto 232px 40px;
@@ -949,7 +1003,7 @@
       .round-action-btn {
         margin: 32px 0;
 
-        #submit-bid-btn, #submit-bid-btn-mob {
+        #submit-bid-btn, #submit-bid-btn-mob, .submit-btn-generate {
           height: 88px;
           border-radius: 12px;
           font-size: 36px;

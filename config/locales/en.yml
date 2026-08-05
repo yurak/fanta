@@ -91,6 +91,7 @@ en:
     dropping_title: "💸 Dropping phase"
     exceeded: "Budget exceeded"
     filters: "Filters"
+    generate: "Fill randomly"
     max_offer: "Maximum offer"
     module_no_fit: "Not applicable (make offer on at least 11 outfield players)"
     module_no_match: "❌ No match! Try to select players with different positions"

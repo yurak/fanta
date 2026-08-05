@@ -26,6 +26,13 @@ class AuctionBidsController < ApplicationController
     redirect_to auction_bid_path(auction_bid), notice: t('join.submitted')
   end
 
+  def generate
+    return redirect_to leagues_path unless bid_owner?
+
+    AuctionBids::LineupGenerator.call(auction_bid) if auction_bid.auction_round_id.nil? && auction_bid.editable?
+    redirect_to auction_bid_path(auction_bid)
+  end
+
   def update
     if params[:auction_round_id]
       AuctionBids::Manager.call(auction_bid, auction_bid_params) if editable?
