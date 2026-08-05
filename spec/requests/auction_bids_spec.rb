@@ -136,6 +136,19 @@ RSpec.describe 'AuctionBids' do
         expect(auction_bid.player_bids.where.not(player_id: nil).count).to eq(11)
       end
     end
+
+    context 'when the bid belongs to an auction round (not a join)' do
+      let(:auction_bid) { create(:auction_bid, team: team, auction_round: create(:auction_round)) }
+
+      before do
+        sign_in logged_user
+        post generate_auction_bid_path(auction_bid)
+      end
+
+      it 'does not fill the bid' do
+        expect(auction_bid.player_bids.where.not(player_id: nil).count).to eq(0)
+      end
+    end
   end
 
   describe 'PUT/PATCH #update' do

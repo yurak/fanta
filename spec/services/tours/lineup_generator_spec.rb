@@ -38,6 +38,26 @@ RSpec.describe Tours::LineupGenerator do
       end
     end
 
+    context 'when a team has no lineup and nothing to clone (round 1)' do
+      let(:team) { create(:team, league: tour.league) }
+
+      before do
+        %i[with_pos_por with_pos_dc with_pos_dc with_pos_dd with_pos_ds with_pos_e
+           with_pos_m with_pos_c with_pos_c with_pos_w with_pos_w with_pos_a with_pos_a with_pos_pc].each do |trait|
+          create(:player_team, team: team, player: create(:player, trait))
+        end
+      end
+
+      it 'builds a lineup from scratch' do
+        expect { generator }.to change(Lineup, :count).by(1)
+      end
+
+      it 'gives the team 11 main players' do
+        generator
+        expect(tour.lineups.by_team(team.id).first.match_players.main.count).to eq(11)
+      end
+    end
+
     context 'when team has lineup but player is not in squad' do
       let(:team) { create(:team, league: tour.league) }
       let!(:lineup) { create(:lineup, :with_match_players, tour: tour, team: team) }

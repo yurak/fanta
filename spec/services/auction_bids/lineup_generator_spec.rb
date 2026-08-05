@@ -146,5 +146,42 @@ RSpec.describe AuctionBids::LineupGenerator do
           .to include(Position::GOALKEEPER)
       end
     end
+
+    context 'when the bid is not editable' do
+      let(:auction_bid) { create(:processed_auction_bid, team: team, auction_round: nil) }
+
+      before { eligible_player(:with_pos_por) }
+
+      it { is_expected.to be(false) }
+
+      it 'does not touch the player_bids' do
+        generate
+        expect(auction_bid.player_bids.reload.pluck(:player_id)).to all(be_nil)
+      end
+    end
+
+    context 'when there are no eligible players' do
+      it { is_expected.to be(false) }
+
+      it 'leaves the player_bids empty' do
+        generate
+        expect(auction_bid.player_bids.reload.pluck(:player_id)).to all(be_nil)
+      end
+    end
+
+    context 'when a player is already owned in the league' do
+      let(:owned) { eligible_player(:with_pos_dc) }
+
+      before do
+        create(:player_team, team: team, player: owned)
+        eligible_player(:with_pos_por)
+        %i[with_pos_dc with_pos_m with_pos_c].each { |trait| 2.times { eligible_player(trait) } }
+      end
+
+      it 'never picks a player already owned in the league' do
+        generate
+        expect(filled_players).not_to include(owned)
+      end
+    end
   end
 end

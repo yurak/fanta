@@ -24,8 +24,9 @@ class MatchesController < ApplicationController
     return @match if defined?(@match)
 
     @match = Match.includes(
-      { host: :league }, { guest: :league },
-      tour: [:tournament_round, :league, { matches: [{ host: :league }, { guest: :league }] }]
+      { host: %i[league tournament] }, { guest: %i[league tournament] },
+      tour: [:tournament_round, :league,
+             { matches: [{ host: %i[league tournament] }, { guest: %i[league tournament] }] }]
     ).find_by(id: params[:id] || params[:match_id])
   end
 

@@ -10,7 +10,7 @@ module AuctionBids
       return false unless fillable?
 
       chosen = []
-      slots = TeamModule.all.sample.slots.to_a
+      slots = TeamModule.includes(:slots).sample.slots.to_a
 
       auction_bid.player_bids.order(:id).each_with_index do |player_bid, index|
         player = pick_player(slots[index], chosen)
@@ -50,7 +50,7 @@ module AuctionBids
       @eligible_players ||= Player.by_tournament(tournament)
                                   .where(id: qualified_player_ids)
                                   .where.not(id: owned_player_ids)
-                                  .includes(:positions)
+                                  .includes(:positions, club: :tournament)
                                   .to_a
     end
 
@@ -58,7 +58,7 @@ module AuctionBids
       @goalkeepers ||= Player.by_tournament(tournament)
                              .by_position(Position::GOALKEEPER)
                              .where.not(id: owned_player_ids)
-                             .includes(:positions)
+                             .includes(:positions, club: :tournament)
                              .to_a
     end
 

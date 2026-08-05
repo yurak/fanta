@@ -21,7 +21,7 @@ module Tours
       tour.teams.each do |team|
         next if tour.lineups.by_team(team.id).any?
 
-        Lineups::Cloner.call(team, tour, auto_cloned: true)
+        Lineups::Cloner.call(team, tour, auto_cloned: true) || Lineups::AutoGenerator.call(team, tour)
       end
     end
 
