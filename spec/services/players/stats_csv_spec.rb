@@ -55,9 +55,9 @@ RSpec.describe Players::StatsCsv do
         expect(rows.last).to include('40', '10') # played_matches 10+30, goals 4+6
       end
 
-      it 'weights the scores by played matches' do
+      it 'weights the scores by played matches, formatted with a comma decimal' do
         # base: (7.5*10 + 8.5*30) / 40 = 8.25 ; total: (8.0*10 + 9.0*30) / 40 = 8.75
-        expect(rows.last).to include('8.25', '8.75')
+        expect(rows.last).to include('8,25', '8,75')
       end
 
       it 'lists all clubs the player had stats for that season' do
