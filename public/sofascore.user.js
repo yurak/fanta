@@ -41,10 +41,14 @@ function gmRequest(opts) {
 }
 
 async function fetchText(url) {
-  // Same-site fetch from a sofascore.com page — the browser is not blocked.
-  const res = await fetch(url, { credentials: "include" });
-  if (!res.ok) throw new Error(`SofaScore ${res.status} for ${url}`);
-  return res.text();
+  // Fetch via GM_xmlhttpRequest (privileged, @connect api.sofascore.com) so the
+  // cross-subdomain www -> api request is not blocked by CORS. Still runs from
+  // the admin's browser / residential IP, which is what bypasses the server block.
+  const res = await gmRequest({ method: "GET", url });
+  if (res.status < 200 || res.status >= 300) {
+    throw new Error(`SofaScore ${res.status} for ${url}`);
+  }
+  return res.responseText;
 }
 
 async function roundSofaIds(roundId) {
