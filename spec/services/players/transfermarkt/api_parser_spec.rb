@@ -400,12 +400,12 @@ RSpec.describe Players::Transfermarkt::ApiParser do
           allow(RestClient::Request).to receive(:execute).and_raise(Errno::ECONNRESET)
         end
 
-        it 'raises after exhausting retries' do
-          expect { result }.to raise_error(Errno::ECONNRESET)
+        it 'raises a wrapped ApiError after exhausting retries' do
+          expect { result }.to raise_error(Players::Transfermarkt::ApiError)
         end
 
         it 'attempts 4 times total (1 original + 3 retries)' do
-          suppress(Errno::ECONNRESET) { result }
+          suppress(Players::Transfermarkt::ApiError) { result }
           expect(RestClient::Request).to have_received(:execute).exactly(4).times
         end
       end

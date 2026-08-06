@@ -954,6 +954,7 @@
         "squad_wrong_club": "Other club",
         "sync_squad": "Sync squad",
         "title": "Clubs",
+        "tm_unavailable": "Transfermarkt is temporarily unavailable (%{error}). Please try again later.",
         "tournament": "Tournament",
         "view": "View",
         "view_club": "View club"
@@ -3125,6 +3126,7 @@
         "squad_wrong_club": "Інший клуб",
         "sync_squad": "Sync squad",
         "title": "Клуби",
+        "tm_unavailable": "Transfermarkt тимчасово недоступний (%{error}). Спробуйте пізніше.",
         "tournament": "Турнір",
         "view": "Переглянути",
         "view_club": "Перегляд клубу"

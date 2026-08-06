@@ -433,6 +433,7 @@ ua:
       create_selected: "Створити вибраних"
       create_prompt: "Створити вибраних гравців?"
       squad_empty: "Не вдалося отримати склад (немає TM url або порожня відповідь)."
+      tm_unavailable: "Transfermarkt тимчасово недоступний (%{error}). Спробуйте пізніше."
       missing_from_tm_title: "Є в нашому складі, але немає на Transfermarkt"
       missing_from_tm_hint: "Ці гравці числяться за цим клубом у нашій базі, але не повернулись у складі з Transfermarkt — імовірно, вже пішли з клубу."
       current_tm_club: "Поточний клуб на TM"

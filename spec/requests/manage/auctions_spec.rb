@@ -150,6 +150,34 @@ RSpec.describe 'Manage::Auctions' do
       end
     end
 
+    context 'when deadline-less auctions have a base_date' do
+      login_admin
+
+      # January vs February: chronological order differs from alphabetical order.
+      let!(:february) { create(:auction, deadline: nil, base_date: 'February, 2026') }
+      let!(:january)  { create(:auction, deadline: nil, base_date: 'January, 2026') }
+      let!(:undated)  { create(:auction, deadline: nil, base_date: nil) }
+
+      before { get manage_auctions_path }
+
+      it 'orders them chronologically by base_date, blanks last' do
+        expect(controller.instance_variable_get(:@auctions).to_a).to eq([january, february, undated])
+      end
+    end
+
+    context 'when viewing closed auctions' do
+      login_admin
+
+      let!(:stale)  { travel_to(Time.zone.parse('2026-07-01 12:00')) { create(:auction, status: :closed) } }
+      let!(:recent) { travel_to(Time.zone.parse('2026-08-01 12:00')) { create(:auction, status: :closed) } }
+
+      before { get manage_auctions_path(status: 'closed') }
+
+      it 'lists the most recently edited auction first' do
+        expect(controller.instance_variable_get(:@auctions).to_a.first(2)).to eq([recent, stale])
+      end
+    end
+
     context 'with pagination' do
       login_admin
 

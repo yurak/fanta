@@ -223,6 +223,23 @@ RSpec.describe 'Manage::Clubs' do
         expect(response.body).not_to include('table-danger')
       end
     end
+
+    context 'when Transfermarkt is unavailable' do
+      login_admin
+
+      before do
+        allow(Players::Transfermarkt::ClubSquadParser)
+          .to receive(:call).and_raise(Players::Transfermarkt::ApiError.new('boom', http_code: 504))
+        get sync_squad_manage_club_path(club)
+      end
+
+      it 'redirects back to the club with the TM error code in the alert' do
+        aggregate_failures do
+          expect(response).to redirect_to(manage_club_path(club))
+          expect(flash[:alert]).to include('504')
+        end
+      end
+    end
   end
 
   describe 'POST #create_players' do

@@ -1,6 +1,8 @@
 module Players
   module Transfermarkt
     class ApiParser < ApplicationService
+      include RetriableApi
+
       NATIONALITY_MAP = {
         1 => 'af', 2 => 'eg', 3 => 'al', 4 => 'dz', 5 => 'ad', 6 => 'ao', 7 => 'ag', 8 => 'gq', 9 => 'ar',
         10 => 'am', 11 => 'et', 12 => 'au', 13 => 'az', 14 => 'bs', 15 => 'bh', 16 => 'bd', 17 => 'bb', 18 => 'by', 19 => 'be',
@@ -181,24 +183,9 @@ module Players
         cached = read_cache
         return cached if cached
 
-        result = JSON.parse(execute_with_retry.body)['data']
+        result = JSON.parse(execute_with_retry(label: "tm_id=#{tm_id}").body)['data']
         write_cache(result)
         result
-      end
-
-      def execute_with_retry
-        retries = 0
-        begin
-          api_request
-        rescue Errno::ECONNRESET, OpenSSL::SSL::SSLError, RestClient::ServerBrokeConnection => e
-          retries += 1
-          raise if retries > 3
-
-          wait = retries * 10
-          Rails.logger.info "#{e.class} for tm_id=#{tm_id}, retry #{retries}/3 in #{wait}s..."
-          sleep(wait)
-          retry
-        end
       end
 
       def api_request
