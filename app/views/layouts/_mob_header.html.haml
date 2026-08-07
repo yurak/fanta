@@ -42,10 +42,6 @@
             .nav-link-icon= '🗝'
             .nav-link-title= t('header.sign_in')
       .nav-logo-small
-        = link_to leaderboard_path do
-          .nav-link-icon= '🪜'
-          .nav-link-title= t('header.rankings')
-      .nav-logo-small
         = link_to leagues_path do
           .nav-link-icon= '🏑'
           .nav-link-title= t('header.leagues')
@@ -53,6 +49,10 @@
         = link_to players_path do
           .nav-link-icon= '👟'
           .nav-link-title= t('header.players')
+      .nav-logo-small
+        = link_to leaderboard_path do
+          .nav-link-icon= '🪜'
+          .nav-link-title= t('header.rankings')
       .nav-logo-small
         = link_to rules_path do
           .nav-link-icon= '⚖️'
