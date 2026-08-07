@@ -14,12 +14,16 @@
    Not started. `devise-jwt` + closing the anonymous `/api` (the two are one edit), then a read-only
    companion app on the endpoints that already exist. Closing the API puts `/players` behind login.
 
+4. **Dark theme** — see [DARK_THEME_PLAN.md](DARK_THEME_PLAN.md)
+   Not started. Client-facing only (public pages + SPA; not manage/admin/email). Light default,
+   dark opt-in via a cookie-persisted toggle. Colors are hardcoded hex today → build a `:root` token
+   layer first, then tokenize ~17.9k lines of SCSS. ~4–7 days, several PRs.
+
 ## No detailed plan yet
 
 - **Player wishlists** (watchlist) — save players into watch lists. Basis for auto-bidding in the 2nd+ auction.
 - **xPoints after tour close** — expected points of a squad, computed after `tour.close!`.
 - **Player statuses** (injury / suspension / doubtful) shown when setting a lineup.
-- **Leaderboard** — manager rankings (scope: league / tournament / global — TBD).
 - **Player form** on the match page and in the lineup builder (last N matches / ratings).
 - **Auto-bid in 2nd+ auction** from the wishlist _(depends on wishlists)_.
 - **Rework of the drop / out-transfers pages** — UI redesign.
