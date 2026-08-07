@@ -104,7 +104,7 @@ en:
       initial: "⌛ Ongoing"
       ongoing: "⌛ Ongoing"
       submitted: "✅︎︎ Submitted"
-      completed: "🔒 Completed in advance"
+      completed: "🔒 Completed"
       processed: "🏁 Processed"
     status_icon:
       initial: "⌛"
@@ -184,7 +184,7 @@ en:
     live: "LIVE"
     login: "🔑 Login"
     logout: "Log Out"
-    make_offer: "Make offer"
+    make_offer: "Auction"
     manage: "Manage"
     manage_nav: "📋 Manage"
     mantra: "Mantra"

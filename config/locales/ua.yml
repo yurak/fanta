@@ -109,7 +109,7 @@ ua:
       initial: "⌛ Очікування"
       ongoing: "⌛ Очікування"
       submitted: "✅︎︎ Надіслано"
-      completed: "🔒 Завершено заздалегідь"
+      completed: "🔒 Завершено"
       processed: "🏁 Оброблено"
     status_icon:
       initial: "⌛"
@@ -189,7 +189,7 @@ ua:
     live: "НАЖИВО"
     login: "🔑 Вхід"
     logout: "Вихід"
-    make_offer: "Пропозиція"
+    make_offer: "Аукціон"
     manage: "Керувати"
     manage_nav: "📋 Керувати"
     mantra: "Мантра"

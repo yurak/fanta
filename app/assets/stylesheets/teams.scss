@@ -484,6 +484,10 @@
         line-height: 70px;
         color: #4EAD57;
         margin-left: 8px;
+        min-width: 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
 
       .transfer-status-left {
