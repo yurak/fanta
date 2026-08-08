@@ -65,9 +65,10 @@
               .player-show-positions
                 .player-show-base-title= t('auction.live.positions')
                 .player-show-base-value
-                  - player.positions.each do |position|
-                    .slot-position{class: "slot-position-#{position.name}"}
-                      = position_name(position)
+                  .player-positions-block
+                    - player.positions.each do |position|
+                      .player-position{class: "player-position-#{position.name}"}
+                        = position_name(position)
               .player-show-price
                 .player-show-base-title= t('auction.live.price')
                 .player-show-base-value
@@ -172,9 +173,10 @@
                 = local_time(transfer.created_at, '%H:%M')
             .purchases-player-data-bottom
               .purchases-player-position
-                - transfer.player.positions.each do |position|
-                  .slot-position{class: "slot-position-#{position.name}"}
-                    = position_name(position)
+                .player-positions-block
+                  - transfer.player.positions.each do |position|
+                    .player-position{class: "player-position-#{position.name}"}
+                      = position_name(position)
               .purchases-player-price
                 = "#{transfer.price} $"
 

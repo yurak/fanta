@@ -19,8 +19,10 @@
                   = slot_position_name(position)
 
       .subs-img-block
-        .module-position.slot-position{class: "slot-position-#{match_player.real_position.tr('/', '')}"}
-          = slot_position_name(match_player.real_position)
+        .module-position-block.player-positions-block
+          - match_player.real_position.split('/').each do |position|
+            .player-position{class: "player-position-#{position}"}
+              = slot_position_name(position)
         = image_tag("subs.png", class: 'subs-img')
 
       .subs-select
