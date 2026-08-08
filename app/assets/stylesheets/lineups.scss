@@ -788,6 +788,29 @@
         padding-bottom: 16px;
       }
 
+      .main-players-title {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .clear-squad-btn {
+          font-family: 'Nunito Bold';
+          font-size: 14px;
+          line-height: 20px;
+          color: #DB0A23;
+          background: none;
+          border: 1px solid #DB0A23;
+          border-radius: 4px;
+          padding: 4px 12px;
+          cursor: pointer;
+        }
+
+        .clear-squad-btn:hover {
+          background: #DB0A23;
+          color: #FFFFFF;
+        }
+      }
+
       .reserve-players-title {
         padding: 32px 0 16px;
       }

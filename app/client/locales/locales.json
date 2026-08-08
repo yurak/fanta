@@ -829,6 +829,8 @@
     "lineups": {
       "away": "A",
       "change_module": "Change module",
+      "clear_confirm": "Clear all selected players?",
+      "clear_squad": "Clear squad",
       "conditions": "📋 Special conditions",
       "confirm_squad": "Confirm squad",
       "duplicates": "Lineup contains duplicate players",
@@ -2999,6 +3001,8 @@
     "lineups": {
       "away": "В",
       "change_module": "Зміна модуля",
+      "clear_confirm": "Очистити всіх обраних гравців?",
+      "clear_squad": "Очистити склад",
       "conditions": "📋 Особливі умови",
       "confirm_squad": "Підтвердити склад",
       "duplicates": "Один гравець не може бути вибраний декілька раз",

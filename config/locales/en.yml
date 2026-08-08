@@ -353,6 +353,8 @@ en:
   lineups:
     team: "Team"
     confirm_squad: "Confirm squad"
+    clear_squad: "Clear squad"
+    clear_confirm: "Clear all selected players?"
     setup_lineup: "Setup lineup"
     select: "Select module and players"
     change_module: "Change module"

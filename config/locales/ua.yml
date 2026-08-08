@@ -358,6 +358,8 @@ ua:
   lineups:
     team: "Команда"
     confirm_squad: "Підтвердити склад"
+    clear_squad: "Очистити склад"
+    clear_confirm: "Очистити всіх обраних гравців?"
     setup_lineup: "Вибір складу"
     select: "Оберіть модуль та гравців для команди"
     change_module: "Зміна модуля"
