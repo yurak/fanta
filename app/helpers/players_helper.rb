@@ -1,4 +1,50 @@
 module PlayersHelper
+  FORM_ROUNDS = 5
+  FORM_FULL_MINUTES = 60
+
+  # Last-N-rounds form for a set of players, keyed by player id. Each value is an
+  # array of exactly FORM_ROUNDS cells (oldest → newest); rounds that do not exist
+  # yet (early in the season) are padded on the left as { state: 'empty' }.
+  # Loads every player's round data in a single query to avoid an N+1.
+  def players_last_rounds_form(players, current_round, count: FORM_ROUNDS)
+    return {} unless current_round && players.present?
+
+    rounds = form_rounds(current_round, count)
+    return {} if rounds.empty?
+
+    cells = RoundPlayer.where(player_id: players.map(&:id), tournament_round_id: rounds.map(&:id))
+                       .index_by { |rp| [rp.player_id, rp.tournament_round_id] }
+    pad = Array.new(count - rounds.size) { { state: 'empty' } }
+
+    players.to_h { |player| [player.id, player_form_row(player, rounds, cells, pad)] }
+  end
+
+  def player_form_row(player, rounds, cells, pad)
+    pad + rounds.map { |round| player_form_cell(cells[[player.id, round.id]]) }
+  end
+
+  def form_rounds(current_round, count)
+    TournamentRound.where(tournament_id: current_round.tournament_id, season_id: current_round.season_id)
+                   .where(number: ...current_round.number)
+                   .order(number: :desc).limit(count).to_a.reverse
+  end
+
+  def player_form_cell(round_player)
+    return { state: 'out' } if round_player.nil? || !round_player.in_squad
+
+    minutes = round_player.played_minutes.to_i
+    return { state: 'bench' } if minutes.zero?
+
+    { state: minutes >= FORM_FULL_MINUTES ? 'full' : 'part', score: player_form_score(round_player) }
+  end
+
+  def player_form_score(round_player)
+    value = round_player.final_score.to_f.positive? ? round_player.final_score : round_player.score
+    return nil unless value.to_f.positive?
+
+    format('%g', value.to_f.round(1))
+  end
+
   def available_for_substitution(match_player, bench_players)
     return [] unless bench_players && match_player&.available_positions
 
@@ -11,13 +57,14 @@ module PlayersHelper
   end
 
   def available_for_select(team)
-    team.players.sort_by(&:position_sequence_number)
+    team.players.includes(:club, player_positions: :position).sort_by(&:position_sequence_number)
   end
 
   def available_by_slot(team, slot)
     return {} unless slot
 
-    scope = team.players.includes(:positions).where(positions: { name: slot.positions_with_malus }).sort_by(&:position_sequence_number)
+    scope = team.players.includes(:positions, :club, player_positions: :position)
+                .where(positions: { name: slot.positions_with_malus }).sort_by(&:position_sequence_number)
 
     scope.group_by do |x|
       Scores::PositionMalus::Counter.call(slot.position, x.position_names).to_s

@@ -3,7 +3,7 @@ class Team < ApplicationRecord
   belongs_to :user, optional: true
   belongs_to :tournament, optional: true
 
-  has_one :join, dependent: :destroy
+  has_many :joins, dependent: :destroy
   has_many :auction_bids, dependent: :destroy
   has_many :player_teams, dependent: :destroy
   has_many :players, through: :player_teams

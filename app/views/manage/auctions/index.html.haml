@@ -50,7 +50,7 @@
               %td= auction.id
               %td= link_to auction.league.name, manage_league_path(auction.league)
               %td= auction.league.division&.name.presence || '—'
-              %td= auction.league.tournament.name
+              %td= manage_tournament_icon(auction.league.tournament)
               %td= "#{auction.league.season.start_year}-#{auction.league.season.end_year}"
               %td= auction.number
               %td

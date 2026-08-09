@@ -28,5 +28,26 @@ RSpec.describe Players::Transfermarkt::ClubSquadParser do
 
       it { expect(described_class.call(tm_club_id)).to eq([]) }
     end
+
+    context 'when the API host is unreachable' do
+      before do
+        allow(RestClient::Request).to receive(:execute).and_raise(SocketError, 'getaddrinfo: Name or service not known')
+        allow(Players::Transfermarkt::ClubSquadHtmlParser).to receive(:call).and_return(%w[111 222])
+      end
+
+      it 'falls back to the HTML parser' do
+        expect(described_class.call(tm_club_id)).to eq(%w[111 222])
+      end
+
+      it 'passes the club tm_id through' do
+        described_class.call(tm_club_id)
+        expect(Players::Transfermarkt::ClubSquadHtmlParser).to have_received(:call).with(tm_club_id)
+      end
+
+      it 'does not retry the dead host' do
+        described_class.call(tm_club_id)
+        expect(RestClient::Request).to have_received(:execute).once
+      end
+    end
   end
 end

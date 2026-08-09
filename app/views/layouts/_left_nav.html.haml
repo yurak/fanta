@@ -22,20 +22,18 @@
       = link_to players_path do
         .nav-link-icon= '👟'
         .nav-link-title= t('header.players')
+    .nav-logo-small
+      = link_to leaderboard_path do
+        .nav-link-icon= '🪜'
+        .nav-link-title= t('header.rankings')
     -# TODO: add link to fixtures page
     -#.nav-logo-small
     -#  = link_to '' do
     -#    .nav-link-icon= '🗓'
     -#    .nav-link-title= t('header.fixtures')
-    -# TODO: add link to deeds page
-    -#.nav-logo-small
-    -#  = link_to '' do
-    -#    .nav-link-icon= '🏆'
-    -#    .nav-link-title= t('header.deeds')
     #help-modal-btn.nav-logo-small
-      = link_to '' do
-        .nav-link-icon= '⁉️'
-        .nav-link-title= t('header.help')
+      .nav-link-icon= '⁉️'
+      .nav-link-title= t('header.help')
     -# TODO: add link to donate page
     -#.nav-logo-small
     -#  = link_to '' do

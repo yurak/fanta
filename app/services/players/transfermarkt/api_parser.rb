@@ -1,6 +1,8 @@
 module Players
   module Transfermarkt
     class ApiParser < ApplicationService
+      include RetriableApi
+
       NATIONALITY_MAP = {
         1 => 'af', 2 => 'eg', 3 => 'al', 4 => 'dz', 5 => 'ad', 6 => 'ao', 7 => 'ag', 8 => 'gq', 9 => 'ar',
         10 => 'am', 11 => 'et', 12 => 'au', 13 => 'az', 14 => 'bs', 15 => 'bh', 16 => 'bd', 17 => 'bb', 18 => 'by', 19 => 'be',
@@ -45,6 +47,15 @@ module Players
       def call
         return false unless tm_id
 
+        api_data
+      rescue ApiError => e
+        Rails.logger.warn("TM API failed (#{e.message}) for tm_id=#{tm_id}, falling back to HTML parser")
+        Players::Transfermarkt::PlayerHtmlParser.call(tm_id, position_skip: position_skip)
+      end
+
+      private
+
+      def api_data
         {
           first_name: first_name, name: last_name, nationality: nationality,
           club_id: club&.id, club_name: club&.name, tm_club_name: tm_club_name, tm_club_id: tm_club_id,
@@ -54,8 +65,6 @@ module Players
           club_joined_on: club_joined_on, contract_until: contract_until, loan: loan
         }
       end
-
-      private
 
       def first_name
         parts = normalized_name.split
@@ -181,24 +190,9 @@ module Players
         cached = read_cache
         return cached if cached
 
-        result = JSON.parse(execute_with_retry.body)['data']
+        result = JSON.parse(execute_with_retry(label: "tm_id=#{tm_id}").body)['data']
         write_cache(result)
         result
-      end
-
-      def execute_with_retry
-        retries = 0
-        begin
-          api_request
-        rescue Errno::ECONNRESET, OpenSSL::SSL::SSLError, RestClient::ServerBrokeConnection => e
-          retries += 1
-          raise if retries > 3
-
-          wait = retries * 10
-          Rails.logger.info "#{e.class} for tm_id=#{tm_id}, retry #{retries}/3 in #{wait}s..."
-          sleep(wait)
-          retry
-        end
       end
 
       def api_request

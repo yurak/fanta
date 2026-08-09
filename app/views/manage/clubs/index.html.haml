@@ -32,12 +32,7 @@
               %td
                 %img.mr-1{ src: club.logo_path, width: 20, height: 20, style: 'vertical-align: middle;', onerror: "this.style.display='none'" }
                 = link_to club.name, manage_club_path(club)
-              %td
-                - if club.tournament
-                  %span.mr-1= club.tournament.icon
-                  = club.tournament.name
-                - else
-                  = '—'
+              %td= manage_tournament_icon(club.tournament)
               %td
                 %span.badge.text-white{ class: club.active? ? 'bg-success' : 'bg-danger' }= club.status
               %td

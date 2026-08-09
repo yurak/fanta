@@ -7,6 +7,7 @@ import { IRoundPlayer } from "@/interfaces/RoundPlayer";
 import DataList from "@/ui/DataList";
 import { useRoundPlayersListContext } from "@/application/RoundPlayers/RoundPlayersListContext";
 import { useRoundPlayersPageConfigurationContext } from "@/application/RoundPlayers/RoundPlayersPageConfigurationContext";
+import { useRoundPlayersContext } from "@/application/RoundPlayers/RoundPlayersContext";
 import styles from "@/components/PlayersList/PlayersListMobile/PlayersListMobile.module.scss";
 
 const scoreFormat = { minimumFractionDigits: 2, maximumFractionDigits: 2 };
@@ -23,9 +24,12 @@ const RoundPlayerItem = ({
   appearances,
   main_appearances,
   nationality,
+  team,
 }: IRoundPlayer) => {
   const { t } = useTranslation();
   const { fanta, national } = useRoundPlayersPageConfigurationContext();
+  const { filterValues } = useRoundPlayersContext();
+  const showTeam = filterValues.leagueId != null && !fanta && team !== null;
 
   return (
     <>
@@ -64,6 +68,31 @@ const RoundPlayerItem = ({
               <span className={styles.divider} />
               <span className={styles.apps}>
                 {formatNumber(main_appearances ?? 0)} {t("round_players_page.main")}
+              </span>
+            </>
+          )}
+          {showTeam && team && (
+            <>
+              <span className={styles.divider} />
+              <span
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 4,
+                  minWidth: 0,
+                  maxWidth: 120,
+                }}
+              >
+                <img
+                  src={team.logo_path}
+                  alt={team.name}
+                  style={{ width: 16, height: 16, flexShrink: 0 }}
+                />
+                <span
+                  style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}
+                >
+                  {team.name}
+                </span>
               </span>
             </>
           )}

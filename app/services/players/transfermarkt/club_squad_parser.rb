@@ -1,6 +1,8 @@
 module Players
   module Transfermarkt
     class ClubSquadParser < ApplicationService
+      include RetriableApi
+
       API_URL = 'https://tmapi-alpha.transfermarkt.technology/club'.freeze
 
       attr_reader :tm_club_id
@@ -13,29 +15,17 @@ module Players
         return [] if tm_club_id.blank?
 
         Array(data['playerIds']).map(&:to_s)
+      rescue ApiError => e
+        Rails.logger.warn("TM API failed (#{e.message}) for club tm_id=#{tm_club_id}, falling back to HTML parser")
+        Players::Transfermarkt::ClubSquadHtmlParser.call(tm_club_id)
       end
 
       private
 
       def data
-        @data ||= JSON.parse(execute_with_retry.body)['data'] || {}
+        @data ||= JSON.parse(execute_with_retry(label: "club tm_id=#{tm_club_id}").body)['data'] || {}
       rescue JSON::ParserError
         {}
-      end
-
-      def execute_with_retry
-        retries = 0
-        begin
-          api_request
-        rescue Errno::ECONNRESET, OpenSSL::SSL::SSLError, RestClient::ServerBrokeConnection => e
-          retries += 1
-          raise if retries > 3
-
-          wait = retries * 10
-          Rails.logger.info "#{e.class} for club tm_id=#{tm_club_id}, retry #{retries}/3 in #{wait}s..."
-          sleep(wait)
-          retry
-        end
       end
 
       def api_request

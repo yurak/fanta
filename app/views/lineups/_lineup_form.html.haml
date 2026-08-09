@@ -52,6 +52,7 @@
         .lineup-flash-alert= flash[:alert]
       .main-players-title
         = t('lineups.main_squad')
+        %button.clear-squad-btn{ type: 'button', id: 'clear-squad-btn' }= t('lineups.clear_squad')
       - if tour.fanta?
         .main-conditions
           .main-conditions-title
@@ -92,13 +93,17 @@
                           %object{data: player&.kit_path || '', type: ApplicationRecord::CONTENT_TYPE_PNG, id: "kit-#{mp.index}"}
                             = image_tag('kit_small_default.png')
                       .squad-position
-                        .module-position.slot-position{class: "slot-position-#{slot&.position&.tr('/', '')}"}
+                        .module-position-block.player-positions-block
                           - if slot&.position
-                            = slot_position_name(slot&.position)
+                            - slot.positions.each do |position|
+                              .player-position{class: "player-position-#{position}"}
+                                = slot_position_name(position)
                           - elsif mp.index == 11 && tour.mantra?
-                            = slot_position_name('Por')
+                            .player-position.player-position-Por
+                              = slot_position_name('Por')
                           - else
-                            = 'Res'
+                            .player-position.player-position-res
+                              Res
                     .team-player-name-pos
                       .team-player-name
                         .team-player-last-name{ id: "name-#{mp.index}" }
@@ -111,15 +116,10 @@
                           .team-player-country{ id: "country-#{mp.index}", style: "display: none;" }= player&.national_team&.code
                       .team-player-positions{ id: "positions-#{mp.index}" }<
                         - if player
-                          - if player.position_names[0]
-                            .team-player-position.slot-position{class: "slot-position-#{player.position_names[0]}"}<
-                              = slot_position_name(player.position_names[0])
-                          - if player.position_names[1]
-                            .team-player-position.slot-position{class: "slot-position-#{player.position_names[1]}"}<
-                              = slot_position_name(player.position_names[1])
-                          - if player.position_names[2]
-                            .team-player-position.slot-position{class: "slot-position-#{player.position_names[2]}"}<
-                              = slot_position_name(player.position_names[2])
+                          .player-positions-block<
+                            - player.position_names.first(3).each do |position|
+                              .player-position{class: "player-position-#{position}"}<
+                                = slot_position_name(position)
                     .team-player-dropdown
                       = image_tag('icons/dropdown.svg')
                   .modal-players-list{id: "modal-players-list#{mp.index}"}
@@ -128,13 +128,17 @@
                       .modal-players-title
                         .modal-players-title-text Select player
                         .modal-players-title-position{class: "modal-position-#{slot&.position}", id: "modal-position#{mp.index}"}
-                          .slot-position{class: "slot-position-#{slot&.position&.tr('/', '')}"}
+                          .module-position-block.player-positions-block
                             - if slot&.position
-                              = slot_position_name(slot&.position)
+                              - slot.positions.each do |position|
+                                .player-position{class: "player-position-#{position}"}
+                                  = slot_position_name(position)
                             - elsif mp.index == 11 && tour.mantra?
-                              = slot_position_name('Por')
+                              .player-position.player-position-Por
+                                = slot_position_name('Por')
                             - else
-                              = 'Res'
+                              .player-position.player-position-res
+                                Res
                       .lineup-players-search
                         = image_tag('icons/search.svg')
                         %input.modal-player-search{ type: 'search', placeholder: t('players.search_player'), id: "modal-player-search#{mp.index}", autocomplete: 'off' }
@@ -165,6 +169,38 @@
     }
 
     markDuplicates();
+
+    $('#clear-squad-btn').on('click', function(e) {
+      e.preventDefault();
+      if (!confirm("#{t('lineups.clear_confirm')}")) { return; }
+
+      const resetObject = function($obj) {
+        const $clone = $obj.clone().attr('data', '');
+        $obj.replaceWith($clone);
+      };
+
+      $('.round-player-input').each(function() {
+        const blockId = this.id.replace('round-player-', '');
+        $(this).val('');
+        $('#player-bid-' + blockId).attr('value', '');
+        $('#name-' + blockId).text("#{t('lineups.not_selected')}");
+        $('#first-name-' + blockId).text('');
+        $('#club-' + blockId).text('');
+        $('#country-' + blockId).text('');
+        resetObject($('#avatar-' + blockId));
+        resetObject($('#kit-' + blockId));
+        $('#positions-' + blockId).children('.player-positions-block').empty();
+        $('#modal-player-data' + blockId).removeClass('duplicate-player').css('border-bottom', '');
+
+        const slotLocation = $('#slot-location-' + blockId).attr('value');
+        if (slotLocation) {
+          $('.slot-' + slotLocation + ' .match-module-item-player').text('').css('background-color', '');
+        }
+      });
+
+      $('[id^="national-players-"], [id^="club-players-"]').text('').css('background-color', '');
+      markDuplicates();
+    });
 
     $(document).on('click' ,'.modal-player-item' ,function(e) {
       e.stopPropagation();
@@ -219,16 +255,19 @@
             firstNameContainer.text("");
           }
 
-          positionsContainer.children(".team-player-position").remove();
+          let posBlock = positionsContainer.children(".player-positions-block");
+          if (posBlock.length === 0) {
+            posBlock = $('<div/>', { class: "player-positions-block" }).appendTo(positionsContainer);
+          }
+          posBlock.empty();
           data.position_arr.forEach((positionName, index) => {
             let posName = data.position_classic_arr[index];
             if (italPosNaming) { posName = positionName; }
 
             $('<div/>',{
               text: posName,
-              class: "team-player-position slot-position slot-position-" + positionName
-            }).appendTo(positionsContainer);
-            positionsContainer.append(' ');
+              class: "player-position player-position-" + positionName
+            }).appendTo(posBlock);
           })
 
           let malus = "";

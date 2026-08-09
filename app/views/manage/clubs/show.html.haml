@@ -7,6 +7,11 @@
 
     %h2= @club.name
 
+    - if flash[:notice]
+      .alert.alert-success= flash[:notice]
+    - if flash[:alert]
+      .alert.alert-danger= flash[:alert]
+
     %h5.mt-4= t('manage.clubs.section_actions')
     .d-flex
       = link_to t('manage.clubs.sync_squad'), sync_squad_manage_club_path(@club), class: 'btn btn-sm btn-primary mr-2'

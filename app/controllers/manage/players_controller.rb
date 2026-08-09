@@ -23,6 +23,8 @@ module Manage
       else
         redirect_to manage_players_path, alert: t('manage.players.failed')
       end
+    rescue Players::Transfermarkt::ApiError => e
+      redirect_to manage_players_path, alert: t('manage.players.tm_unavailable', error: e.http_code || e.message)
     end
 
     def fotmob_search
@@ -58,7 +60,7 @@ module Manage
     end
 
     def filter_players
-      players = Player.includes(:club, :positions)
+      players = Player.includes(:positions, club: :tournament)
       if params[:name].present?
         players = players.where('players.name ILIKE ? OR players.first_name ILIKE ?',
                                 "%#{params[:name]}%", "%#{params[:name]}%")

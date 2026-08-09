@@ -30,6 +30,7 @@
             %th= t('manage.players.col_name')
             %th= t('manage.players.col_first_name')
             %th= t('manage.players.col_club')
+            %th= t('manage.players.col_tournament')
             %th TM ID
             %th Fotmob ID
             %th
@@ -40,6 +41,7 @@
               %td= link_to player.name, manage_player_path(player)
               %td= player.first_name
               %td= player.club ? link_to(player.club.name, manage_club_path(player.club)) : '—'
+              %td= manage_tournament_icon(player.club&.tournament)
               %td= player.tm_id
               %td= player.fotmob_id
               %td= link_to t('manage.players.view'), manage_player_path(player), class: 'btn btn-sm btn-outline-primary'

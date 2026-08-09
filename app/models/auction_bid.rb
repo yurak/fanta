@@ -14,6 +14,12 @@ class AuctionBid < ApplicationRecord
 
   accepts_nested_attributes_for :player_bids
 
+  def join
+    return @join if defined?(@join)
+
+    @join = Join.current_season.find_by(auction_bid_id: id)
+  end
+
   def editable?
     initial? || ongoing? || submitted?
   end

@@ -19,9 +19,12 @@ const RoundPlayersListDesktop = ({
   emptyStateComponent: React.ReactNode,
 }) => {
   const { t } = useTranslation();
-  const { sorting } = useRoundPlayersContext();
+  const { sorting, filterValues } = useRoundPlayersContext();
   const { items, isLoading, hasNextPage, loadMore } = useRoundPlayersListContext();
   const { national, fanta, deadlined } = useRoundPlayersPageConfigurationContext();
+
+  // The owning fantasy team only exists for mantra tournaments with a league selected.
+  const showTeam = filterValues.leagueId != null && !fanta;
 
   const columns = useMemo<IColumn<IRoundPlayer>[]>(() => {
     const cols: IColumn<IRoundPlayer>[] = [
@@ -35,6 +38,25 @@ const RoundPlayersListDesktop = ({
         render: (player) => <RoundPlayersListInfo player={player} />,
         skeleton: <RoundPlayersListInfoSkeleton />,
       },
+      ...(showTeam
+        ? [
+            {
+              dataKey: "team",
+              title: t("round_players_page.columns.team"),
+              className: roundStyles.teamCell,
+              headEllipsis: true,
+              render: ({ team }: IRoundPlayer) =>
+                team ? (
+                  <div className={roundStyles.team}>
+                    <img className={roundStyles.teamLogo} src={team.logo_path} alt={team.name} />
+                    <span className={roundStyles.teamName}>{team.name}</span>
+                  </div>
+                ) : (
+                  "-"
+                ),
+            } as IColumn<IRoundPlayer>,
+          ]
+        : []),
       {
         dataKey: "position",
         title: t("round_players_page.columns.positions"),
@@ -121,7 +143,7 @@ const RoundPlayersListDesktop = ({
     }
 
     return cols;
-  }, [t, fanta, national, deadlined]);
+  }, [t, fanta, national, deadlined, showTeam]);
 
   return (
     <Table

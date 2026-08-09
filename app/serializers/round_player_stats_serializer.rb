@@ -15,6 +15,7 @@ class RoundPlayerStatsSerializer < ActiveModel::Serializer
   attributes :appearances
   attributes :main_appearances
   attributes :nationality
+  attributes :team
 
   def avatar_path
     object.player.avatar_path
@@ -58,6 +59,15 @@ class RoundPlayerStatsSerializer < ActiveModel::Serializer
     return unless instance_options[:national]
 
     object.player.nationality
+  end
+
+  def team
+    return unless instance_options[:league_id] && instance_options[:mantra]
+
+    owner = object.player.team_by_league(instance_options[:league_id])
+    return unless owner
+
+    { id: owner.id, name: owner.human_name, logo_path: owner.logo_path }
   end
 
   private

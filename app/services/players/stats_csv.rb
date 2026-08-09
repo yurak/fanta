@@ -73,9 +73,13 @@ module Players
     end
 
     def weighted(player_stats, column, played)
-      return 0 if played.zero?
+      return decimal(0) if played.zero?
 
-      (player_stats.sum { |stat| stat.public_send(column) * stat.played_matches } / played).round(2)
+      decimal((player_stats.sum { |stat| stat.public_send(column) * stat.played_matches } / played).round(2))
+    end
+
+    def decimal(value)
+      format('%.2f', value).tr('.', ',')
     end
   end
 end

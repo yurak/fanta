@@ -53,8 +53,8 @@ RSpec.describe 'AuctionBids' do
   describe 'POST #submit' do
     let(:logged_user) { create(:user) }
     let(:team) { create(:team, user: logged_user) }
-    let!(:join) { create(:join, user: logged_user, team: team, tournament: team.tournament) }
     let(:auction_bid) { create(:auction_bid, team: team, auction_round: nil) }
+    let!(:join) { create(:join, user: logged_user, team: team, tournament: team.tournament, auction_bid: auction_bid) }
 
     context 'when user is logged out' do
       before { post submit_auction_bid_path(auction_bid) }
@@ -78,6 +78,76 @@ RSpec.describe 'AuctionBids' do
 
       it { expect(response).to redirect_to(auction_bid_path(auction_bid)) }
       it { expect(join.reload.status).to eq('pending') }
+    end
+
+    context 'when the team also applied in a past season' do
+      let(:past_join) do
+        create(:join, :approved, user: logged_user, team: team, tournament: team.tournament, season: Season.first)
+      end
+
+      before do
+        join.update!(season: create(:season, start_year: 2030, end_year: 2031))
+        past_join
+        sign_in logged_user
+        post submit_auction_bid_path(auction_bid)
+      end
+
+      it { expect(join.reload.status).to eq('pending') }
+      it { expect(past_join.reload.status).to eq('approved') }
+    end
+  end
+
+  describe 'POST #generate' do
+    let(:logged_user) { create(:user) }
+    let(:tournament) { create(:tournament) }
+    let(:team) { create(:team, user: logged_user) }
+    let(:auction_bid) { create(:auction_bid, team: team, auction_round: nil) }
+
+    before do
+      create(:season)
+      create(:join, user: logged_user, team: team, tournament: tournament, auction_bid: auction_bid)
+      11.times { create(:player_bid, auction_bid: auction_bid, player: nil) }
+      club = create(:club, tournament: tournament)
+      Array.new(12) do |i|
+        trait = i.zero? ? :with_pos_por : :with_pos_dc
+        player = create(:player, trait, club: club)
+        create(:player_season_stat, player: player, club: club, tournament: tournament,
+                                    season: Season.second_to_last, played_matches: 20)
+      end
+    end
+
+    context 'when user is not the bid owner' do
+      login_user
+
+      before { post generate_auction_bid_path(auction_bid) }
+
+      it { expect(response).to redirect_to(leagues_path) }
+    end
+
+    context 'when user is the bid owner' do
+      before do
+        sign_in logged_user
+        post generate_auction_bid_path(auction_bid)
+      end
+
+      it { expect(response).to redirect_to(auction_bid_path(auction_bid)) }
+
+      it 'fills the bid with players' do
+        expect(auction_bid.player_bids.where.not(player_id: nil).count).to eq(11)
+      end
+    end
+
+    context 'when the bid belongs to an auction round (not a join)' do
+      let(:auction_bid) { create(:auction_bid, team: team, auction_round: create(:auction_round)) }
+
+      before do
+        sign_in logged_user
+        post generate_auction_bid_path(auction_bid)
+      end
+
+      it 'does not fill the bid' do
+        expect(auction_bid.player_bids.where.not(player_id: nil).count).to eq(0)
+      end
     end
   end
 
@@ -207,8 +277,8 @@ RSpec.describe 'AuctionBids' do
   describe 'PUT/PATCH #update without auction_round (join flow)' do
     let(:logged_user) { create(:user) }
     let(:team) { create(:team, user: logged_user) }
-    let(:join) { create(:join, user: logged_user, team: team, tournament: team.tournament) }
     let(:auction_bid) { create(:auction_bid, team: team, auction_round: nil) }
+    let(:join) { create(:join, user: logged_user, team: team, tournament: team.tournament, auction_bid: auction_bid) }
     let(:params) { { auction_bid: { status: 'submitted' } } }
 
     before { join }

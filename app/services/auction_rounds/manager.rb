@@ -31,10 +31,14 @@ module AuctionRounds
 
     def fail_over_budget_bids
       auction_bids.each do |auction_bid|
-        next if auction_bid.player_bids.sum(&:price) <= auction_bid.team.budget
+        next if auction_bid.player_bids.sum(&:price) <= budget_cap_for(auction_bid.team)
 
         auction_bid.player_bids.initial.map(&:failed!)
       end
+    end
+
+    def budget_cap_for(team)
+      first_stage? ? team.round_budget(round) : team.budget
     end
 
     def fail_bids_missing_gk
@@ -118,8 +122,17 @@ module AuctionRounds
 
     def bids_not_ready?
       return false unless auction.primary?
+      return first_stage_bids_not_ready? if first_stage?
 
       auction_bids.any? { |ab| %w[submitted completed].exclude? ab.status }
+    end
+
+    def first_stage_bids_not_ready?
+      round.player_bids.exists?(player_id: nil)
+    end
+
+    def first_stage?
+      round.first? && auction.primary?
     end
 
     def all_bids_completed?

@@ -20,6 +20,9 @@ module Manage
       result = Clubs::SquadList.call(@club)
       @squad = result[:squad]
       @missing = result[:missing]
+    rescue Players::Transfermarkt::ApiError => e
+      redirect_to manage_club_path(@club),
+                  alert: t('manage.clubs.tm_unavailable', error: e.http_code || e.message)
     end
 
     def create_players

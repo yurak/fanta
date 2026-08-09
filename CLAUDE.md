@@ -25,3 +25,20 @@ append it to this list so future sessions don't rediscover it. Keep entries shor
 - Bootstrap 4 in manage/legacy views: use `mr-*`/`ml-*` (not `me-*`/`ms-*`), no `gap-*` utility.
 - Resolve a club by its Transfermarkt id via `Club.for_tm_id(tm_id)` (do NOT name such helpers
   `find_by_*` — RuboCop's Rails/DynamicFindBy rewrites the calls to `find_by`).
+- Transfermarkt deletes transfer rows it later considers wrong (e.g. a "Without Club" contract-expiry
+  entry once the player re-signs), so `ClubTransfers::HistoryImporter` must prune stored tm-sourced
+  transfers TM no longer lists — a leftover row stays the newest one and silently blocks all further
+  `ClubTransferRequest`s for that player.
+- A team is reused across seasons, so it has MANY joins (`Team has_many :joins`). Never look up
+  "the" join by team — scope by season (`Join.current_season`) or go through the auction bid
+  (`AuctionBid#join`). Same for admin lists: `Join.pending` alone leaks past-season leftovers.
+- Creating `ClubTransferRequest`s by hand (TM down / move not on TM yet): follow
+  [docs/MANUAL_CLUB_TRANSFERS.md](docs/MANUAL_CLUB_TRANSFERS.md) — console helper, lookup snippets and
+  the gotchas (leave `tm_transfer_id` nil; confirm in the UI, never by flipping `status`).
+- TM's JSON API (`tmapi-alpha.transfermarkt.technology`) is being decommissioned and breaks in new
+  ways (dead DNS, refused TLS handshake). `ApiParser`/`ClubSquadParser` therefore fall back to
+  `PlayerHtmlParser`/`ClubSquadHtmlParser`, which scrape `www.transfermarkt.com` — the host the
+  working `ceapi/*` endpoints already use. `RetriableApi` fails fast (no 10/20/30s sleeps) on DNS
+  and TLS-alert errors so the fallback kicks in immediately.
+- Player `name` is the SURNAME only (`first_name` holds the given name) and accents are stripped
+  (`Núñez` → `Nunez`), so search players by ASCII surname and disambiguate on `first_name`/`birth_date`.

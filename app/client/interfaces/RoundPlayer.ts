@@ -1,6 +1,12 @@
 import { IClub } from "./Club";
 import { Position } from "./Position";
 
+export interface IRoundPlayerTeam {
+  id: number,
+  name: string,
+  logo_path: string,
+}
+
 export interface IRoundPlayer {
   id: number,
   player_id: number,
@@ -16,6 +22,7 @@ export interface IRoundPlayer {
   appearances: number | null,
   main_appearances: number | null,
   nationality: string | null,
+  team: IRoundPlayerTeam | null,
 }
 
 export interface IRoundLeague {

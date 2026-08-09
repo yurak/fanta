@@ -71,7 +71,7 @@ class TournamentRound < ApplicationRecord
   end
 
   def ordered_tournament_matches
-    matches_by_kickoff(tournament_matches)
+    matches_by_kickoff(tournament_matches.includes(:host_club, :guest_club))
   end
 
   private

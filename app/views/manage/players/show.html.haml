@@ -85,6 +85,7 @@
       %table.table.table-hover.table-sm
         %thead.thead-light
           %tr
+            %th ID
             %th= t('manage.players.col_round')
             %th= t('manage.players.col_round_id')
             %th= t('manage.players.col_club')
@@ -95,6 +96,7 @@
         %tbody
           - @round_players.each do |round_player|
             %tr
+              %td= round_player.id
               %td= "#{round_player.tournament_round.tournament.name} ##{round_player.tournament_round.number}"
               %td= round_player.tournament_round_id
               %td= round_player.club ? link_to(round_player.club.name, manage_club_path(round_player.club)) : '—'

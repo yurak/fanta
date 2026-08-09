@@ -788,6 +788,29 @@
         padding-bottom: 16px;
       }
 
+      .main-players-title {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .clear-squad-btn {
+          font-family: 'Nunito Bold';
+          font-size: 14px;
+          line-height: 20px;
+          color: #DB0A23;
+          background: none;
+          border: 1px solid #DB0A23;
+          border-radius: 4px;
+          padding: 4px 12px;
+          cursor: pointer;
+        }
+
+        .clear-squad-btn:hover {
+          background: #DB0A23;
+          color: #FFFFFF;
+        }
+      }
+
       .reserve-players-title {
         padding: 32px 0 16px;
       }
@@ -886,49 +909,4 @@
       height: 22px;
     }
   }
-}
-
-/* EDIT LINEUP PLAYERS page */
-
-.slot-position {
-  background: linear-gradient(to bottom, #48b9ff, #0b7dbc);
-  color: #ffffff;
-  height: 30px;
-  line-height: 30px;
-  font-weight: 500;
-  width: 40px;
-  text-align: center;
-  border-radius: 5px;
-}
-
-.slot-position-Por {
-  background: linear-gradient(to bottom, #fec530, #fe9d18);
-}
-
-.slot-position-Dc, .slot-position-Dd, .slot-position-Ds {
-  background: linear-gradient(to bottom, #78d236, #317810);
-}
-
-.slot-position-T, .slot-position-W, .slot-position-WT {
-  background: linear-gradient(to bottom, #d451df, #a94adc);
-}
-
-.slot-position-APc, .slot-position-A, .slot-position-Pc {
-  background: linear-gradient(to bottom, #f5696a, #ce2f1a);
-}
-
-.slot-position-EW, .slot-position-CT {
-  background: linear-gradient(107deg, #48b9ff 0, #0b7dbc 47%, #a94adc 47%, #d451df 100%);
-}
-
-.slot-position-WA, .slot-position-TA {
-  background: linear-gradient(107deg, #d451df 0, #a94adc 52%, #ce2f1a 52%, #f5696a 100%);
-}
-
-.slot-position-res {
-  background: linear-gradient(to bottom, #0657cc, #001280);
-}
-
-.slot-position-not-declared {
-  background: linear-gradient(to bottom, #6b6b6e, #424245);
 }

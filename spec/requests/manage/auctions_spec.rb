@@ -36,6 +36,12 @@ RSpec.describe 'Manage::Auctions' do
       it 'excludes non-initial auctions by default' do
         expect(controller.instance_variable_get(:@auctions)).not_to include(sales_auction)
       end
+
+      it 'renders the tournament as an icon carrying its name' do
+        initial_auction.league.tournament.update!(name: 'Zzz Marker Cup')
+        get manage_auctions_path
+        expect(response.body).to include('title="Zzz Marker Cup"')
+      end
     end
 
     context 'when admin filters by status' do
@@ -117,6 +123,58 @@ RSpec.describe 'Manage::Auctions' do
 
       it 'excludes auction for other season' do
         expect(controller.instance_variable_get(:@auctions)).not_to include(auction_b)
+      end
+    end
+
+    context 'when ordering by deadline' do
+      login_admin
+
+      # Deadline column: last round's deadline, falling back to the auction's own deadline.
+      let!(:late)     { create(:auction, deadline: Time.zone.parse('2026-08-10 12:00')) }
+      let!(:early)    { create(:auction, deadline: Time.zone.parse('2026-08-01 12:00')) }
+      let!(:middle)   { create(:auction, deadline: Time.zone.parse('2026-07-01 12:00')) }
+      let!(:no_dates) { create(:auction, deadline: nil) }
+
+      before do
+        create(:auction_round, auction: middle, number: 1, deadline: Time.zone.parse('2026-08-03 12:00'))
+        create(:auction_round, auction: middle, number: 2, deadline: Time.zone.parse('2026-08-05 12:00'))
+        get manage_auctions_path
+      end
+
+      it 'lists the nearest deadline first, using the last round deadline' do
+        expect(controller.instance_variable_get(:@auctions).to_a.first(3)).to eq([early, middle, late])
+      end
+
+      it 'puts auctions without any deadline last' do
+        expect(controller.instance_variable_get(:@auctions).to_a.last).to eq(no_dates)
+      end
+    end
+
+    context 'when deadline-less auctions have a base_date' do
+      login_admin
+
+      # January vs February: chronological order differs from alphabetical order.
+      let!(:february) { create(:auction, deadline: nil, base_date: 'February, 2026') }
+      let!(:january)  { create(:auction, deadline: nil, base_date: 'January, 2026') }
+      let!(:undated)  { create(:auction, deadline: nil, base_date: nil) }
+
+      before { get manage_auctions_path }
+
+      it 'orders them chronologically by base_date, blanks last' do
+        expect(controller.instance_variable_get(:@auctions).to_a).to eq([january, february, undated])
+      end
+    end
+
+    context 'when viewing closed auctions' do
+      login_admin
+
+      let!(:stale)  { travel_to(Time.zone.parse('2026-07-01 12:00')) { create(:auction, status: :closed) } }
+      let!(:recent) { travel_to(Time.zone.parse('2026-08-01 12:00')) { create(:auction, status: :closed) } }
+
+      before { get manage_auctions_path(status: 'closed') }
+
+      it 'lists the most recently edited auction first' do
+        expect(controller.instance_variable_get(:@auctions).to_a.first(2)).to eq([recent, stale])
       end
     end
 

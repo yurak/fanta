@@ -1,6 +1,8 @@
 module Players
   module Transfermarkt
     class TransferHistoryParser < ApplicationService
+      include RetriableApi
+
       API_URL = 'https://www.transfermarkt.com/ceapi/transferHistory/list'.freeze
       CACHE_TTL = 7 * 86_400
 
@@ -65,26 +67,11 @@ module Players
         cached = read_cache
         return cached if cached
 
-        result = JSON.parse(execute_with_retry.body)
+        result = JSON.parse(execute_with_retry(label: "tm_id=#{tm_id}").body)
         write_cache(result)
         result
       rescue JSON::ParserError
         {}
-      end
-
-      def execute_with_retry
-        retries = 0
-        begin
-          api_request
-        rescue Errno::ECONNRESET, OpenSSL::SSL::SSLError, RestClient::ServerBrokeConnection => e
-          retries += 1
-          raise if retries > 3
-
-          wait = retries * 10
-          Rails.logger.info "#{e.class} for tm_id=#{tm_id}, retry #{retries}/3 in #{wait}s..."
-          sleep(wait)
-          retry
-        end
       end
 
       def api_request

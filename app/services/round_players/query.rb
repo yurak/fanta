@@ -86,8 +86,13 @@ module RoundPlayers
     def preload(players)
       ActiveRecord::Associations::Preloader.new(records: players, associations: PLAYER_PRELOADS).call
       ActiveRecord::Associations::Preloader.new(records: players, associations: :club).call
+      preload_teams(players) if league_id.present? && tournament.mantra?
       preload_match_players(players)
       players
+    end
+
+    def preload_teams(players)
+      ActiveRecord::Associations::Preloader.new(records: players.map(&:player), associations: :teams).call
     end
 
     def preload_match_players(players)

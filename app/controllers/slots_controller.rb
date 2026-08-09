@@ -26,11 +26,22 @@ class SlotsController < ApplicationController
   def team_players_html
     return if tour.nil? || tour.eurocup? || team.nil? || team_module.nil?
 
+    preload_round_opponents
+
     render_to_string(
       partial: 'lineups/slot_candidates',
       formats: [:html],
       locals: { team: team, tour: tour, slot: slot, index: slot_index, gk_slot: team_module.slots.first }
     )
+  end
+
+  def preload_round_opponents
+    return unless t_round
+
+    ActiveRecord::Associations::Preloader.new(
+      records: [t_round],
+      associations: { tournament_matches: %i[host_club guest_club] }
+    ).call
   end
 
   def fanta_round_players

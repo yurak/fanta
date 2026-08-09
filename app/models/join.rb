@@ -7,6 +7,8 @@ class Join < ApplicationRecord
 
   enum :status, { initial: 0, pending: 1, approved: 2, rejected: 3 }
 
+  scope :current_season, -> { where(season_id: Season.last&.id) }
+
   before_validation :set_default_season, on: :create
 
   validates :user_id, uniqueness: {

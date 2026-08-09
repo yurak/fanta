@@ -9,7 +9,9 @@
   }
 
   @media (min-width: 992px) {
-    padding: 40px 116px 60px calc(var(--nav-width) + 116px);
+    --side-padding: clamp(24px, 5vw, 116px);
+
+    padding: 40px var(--side-padding) 60px calc(var(--nav-width) + var(--side-padding));
   }
 }
 

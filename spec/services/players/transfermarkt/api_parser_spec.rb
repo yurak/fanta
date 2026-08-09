@@ -360,7 +360,11 @@ RSpec.describe Players::Transfermarkt::ApiParser do
         instance_double(RestClient::Response, body: JSON.generate({ 'data' => api_response }))
       end
 
-      before { allow_any_instance_of(described_class).to receive(:sleep) }
+      before do
+        allow_any_instance_of(described_class).to receive(:sleep)
+        # keeps these examples about the retry mechanics, not the fallback
+        allow(Players::Transfermarkt::PlayerHtmlParser).to receive(:call).and_return(false)
+      end
 
       shared_examples 'retries once and succeeds' do |error_class|
         before do
@@ -400,12 +404,12 @@ RSpec.describe Players::Transfermarkt::ApiParser do
           allow(RestClient::Request).to receive(:execute).and_raise(Errno::ECONNRESET)
         end
 
-        it 'raises after exhausting retries' do
-          expect { result }.to raise_error(Errno::ECONNRESET)
+        it 'gives up on the API and falls back' do
+          expect(result).to be(false)
         end
 
         it 'attempts 4 times total (1 original + 3 retries)' do
-          suppress(Errno::ECONNRESET) { result }
+          result
           expect(RestClient::Request).to have_received(:execute).exactly(4).times
         end
       end
@@ -443,6 +447,61 @@ RSpec.describe Players::Transfermarkt::ApiParser do
         it 'sleeps 10s on first retry and 20s on second retry' do
           result
           expect(sleep_args).to eq([10, 20])
+        end
+      end
+    end
+
+    describe 'HTML fallback when the API fails' do
+      let(:html_result) { { first_name: 'Scraped', name: 'Player' } }
+
+      before do
+        allow(RestClient::Request).to receive(:execute).and_raise(SocketError, 'getaddrinfo: Name or service not known')
+        allow(Players::Transfermarkt::PlayerHtmlParser).to receive(:call).and_return(html_result)
+      end
+
+      it 'returns the HTML parser result' do
+        expect(result).to eq(html_result)
+      end
+
+      it 'passes tm_id and position_skip through' do
+        result
+        expect(Players::Transfermarkt::PlayerHtmlParser).to have_received(:call).with(tm_id, position_skip: true)
+      end
+
+      it 'does not retry a host that does not resolve' do
+        result
+        expect(RestClient::Request).to have_received(:execute).once
+      end
+
+      context 'when the TLS handshake is refused' do
+        before do
+          allow(RestClient::Request).to receive(:execute)
+            .and_raise(OpenSSL::SSL::SSLError, 'SSL_connect returned=1 state=error: sslv3 alert handshake failure')
+        end
+
+        it 'falls back to the HTML parser' do
+          expect(result).to eq(html_result)
+        end
+
+        it 'does not sit through the retries first' do
+          result
+          expect(RestClient::Request).to have_received(:execute).once
+        end
+      end
+
+      context 'when the API keeps dropping the connection' do
+        before do
+          allow(RestClient::Request).to receive(:execute).and_raise(Errno::ECONNRESET)
+          allow_any_instance_of(described_class).to receive(:sleep)
+        end
+
+        it 'falls back once the retries are exhausted' do
+          expect(result).to eq(html_result)
+        end
+
+        it 'retries before giving up' do
+          result
+          expect(RestClient::Request).to have_received(:execute).exactly(4).times
         end
       end
     end

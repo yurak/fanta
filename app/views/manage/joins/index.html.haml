@@ -58,7 +58,7 @@
               %td
                 = image_tag(join.team.logo_path, width: 24, height: 24)
                 = link_to join.team.human_name, team_path(join.team)
-              %td= image_tag(join.tournament.logo_path, width: 28, height: 28, title: join.tournament.name)
+              %td= manage_tournament_icon(join.tournament)
               - if @tab == 'approved'
                 %td= join.team.league ? link_to(join.team.league.name, league_path(join.team.league)) : ''
               - else

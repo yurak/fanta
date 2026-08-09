@@ -173,29 +173,64 @@ RSpec.describe 'Teams' do
     context 'when user tries to join a tournament they already applied to' do
       let(:tournament) { create(:tournament) }
       let(:logged_user) { create(:user, status: :configured) }
-      let(:join_params) do
-        {
-          team: {
-            human_name: 'Forza',
-            logo_url: 'forza.png',
-            code: 'FRZ',
-            tournament_id: tournament.id
-          }
-        }
+      let!(:existing_join) do
+        create(:join, user: logged_user, tournament: tournament, team: create(:team), status: :pending)
       end
 
       before do
-        create(:join, user: logged_user, tournament: tournament, team: create(:team), status: :pending)
         sign_in logged_user
-        post teams_path(join_params)
+        post teams_path(team: { human_name: 'Forza', logo_url: 'forza.png', code: 'FRZ',
+                                tournament_id: tournament.id })
       end
 
       it 'does not create a second Join record' do
         expect(Join.where(user: logged_user, tournament: tournament).count).to eq(1)
       end
 
-      it 'redirects to join path with alert' do
-        expect(response).to redirect_to(joins_path)
+      it 'does not create a second team' do
+        expect(logged_user.teams).to be_empty
+      end
+
+      it 'redirects to the existing application' do
+        expect(response).to redirect_to(auction_bid_path(existing_join.auction_bid))
+      end
+    end
+
+    context 'when the same application is submitted twice' do
+      let(:tournament) { create(:tournament) }
+      let(:logged_user) { create(:user, status: :configured) }
+      let(:join_params) do
+        { team: { human_name: 'Forza', logo_url: 'forza.png', code: 'FRZ', tournament_id: tournament.id } }
+      end
+
+      before do
+        sign_in logged_user
+        2.times { post teams_path(join_params) }
+      end
+
+      it { expect(logged_user.teams.count).to eq(1) }
+      it { expect(Join.where(user: logged_user, tournament: tournament).count).to eq(1) }
+    end
+
+    context 'when user re-applies with a team that already applied in a past season' do
+      let(:tournament) { create(:tournament) }
+      let(:logged_user) { create(:user, status: :configured) }
+      let(:team) { create(:team, user: logged_user, tournament: tournament) }
+      let!(:past_join) { create(:join, :approved, user: logged_user, tournament: tournament, team: team) }
+
+      before do
+        create(:season, start_year: 2030, end_year: 2031)
+        sign_in logged_user
+        post teams_path(team: { team_id: team.id, tournament_id: tournament.id })
+      end
+
+      it 'creates a join for the current season' do
+        expect(Join.current_season.find_by(user: logged_user, tournament: tournament, team: team)).to be_initial
+      end
+
+      it 'gives the new join its own auction bid' do
+        new_join = Join.current_season.find_by(user: logged_user, tournament: tournament, team: team)
+        expect(new_join.auction_bid_id).not_to eq(past_join.auction_bid_id)
       end
     end
   end

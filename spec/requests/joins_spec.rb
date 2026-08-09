@@ -134,6 +134,16 @@ RSpec.describe 'Joins' do
           expect(controller.instance_variable_get(:@user_joins)).not_to include(rejected_join)
         end
       end
+
+      context 'with approved joins' do
+        let!(:approved_join) { create(:join, :approved, user: user) }
+
+        before { get joins_path }
+
+        it 'excludes approved joins from user joins list' do
+          expect(controller.instance_variable_get(:@user_joins)).not_to include(approved_join)
+        end
+      end
     end
   end
 

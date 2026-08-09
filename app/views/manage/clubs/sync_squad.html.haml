@@ -22,7 +22,7 @@
               %th= t('manage.clubs.col_squad_status')
           %tbody
             - @squad.each do |entry|
-              %tr
+              %tr{ class: ('table-danger' if entry[:wrong_club]) }
                 %td
                   - unless entry[:player]
                     = check_box_tag 'tm_ids[]', entry[:tm_id], false, class: 'squad-player-check'
@@ -42,7 +42,10 @@
                     = '—'
                 %td= entry[:birth_date].presence || '—'
                 %td
-                  - if entry[:player]
+                  - if entry[:wrong_club]
+                    %span.badge.bg-danger.text-white= t('manage.clubs.squad_wrong_club')
+                    %small.ml-1= entry[:current_club]
+                  - elsif entry[:player]
                     %span.badge.bg-secondary.text-white= t('manage.clubs.squad_present')
                   - else
                     %span.badge.bg-success.text-white= t('manage.clubs.squad_new')

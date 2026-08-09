@@ -8,14 +8,27 @@ module ClubTransfers
     def call
       return 0 unless @player&.tm_id
 
-      imported = 0
-      Players::Transfermarkt::TransferHistoryParser.call(@player.tm_id).each do |tr|
-        imported += 1 if save_transfer(tr)
-      end
+      transfers = Players::Transfermarkt::TransferHistoryParser.call(@player.tm_id)
+      return 0 if transfers.blank?
+
+      imported = transfers.count { |tr| save_transfer(tr) }
+      prune_stale(transfers)
       imported
     end
 
     private
+
+    def prune_stale(transfers)
+      tm_ids = transfers.pluck(:tm_transfer_id).compact
+      return if tm_ids.empty?
+
+      stale = @player.club_transfers.tm_sourced.where.not(tm_transfer_id: tm_ids)
+      stale_tm_ids = stale.pluck(:tm_transfer_id)
+      return if stale_tm_ids.empty?
+
+      ClubTransferRequest.pending.where(player_id: @player.id, tm_transfer_id: stale_tm_ids).delete_all
+      stale.delete_all
+    end
 
     def save_transfer(transfer)
       return false if transfer[:tm_transfer_id].blank? || transfer[:start_date].blank?

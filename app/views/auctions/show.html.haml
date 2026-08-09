@@ -26,7 +26,8 @@
             .auction-message-icon-wrapper
               .auction-message-icon ⏳
             .auction-message-title= t("auction.show.deadline.title")
-            .auction-message-text= t("auction.show.deadline.text", date: auction.deadline.strftime('%b %e, %Y'))
+            - if auction.deadline
+              .auction-message-text= t("auction.show.deadline.text", date: auction.deadline.strftime('%b %e, %Y'))
             .auction-message-deadline
 
             - if current_user&.admin? && auction.initial?

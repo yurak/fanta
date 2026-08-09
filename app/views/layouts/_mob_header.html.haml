@@ -50,6 +50,10 @@
           .nav-link-icon= '👟'
           .nav-link-title= t('header.players')
       .nav-logo-small
+        = link_to leaderboard_path do
+          .nav-link-icon= '🪜'
+          .nav-link-title= t('header.rankings')
+      .nav-logo-small
         = link_to rules_path do
           .nav-link-icon= '⚖️'
           .nav-link-title= t('header.rules')

@@ -93,7 +93,10 @@ Rails.application.routes.draw do
   end
 
   resources :auction_bids, only: [:show, :update] do
-    member { post :submit }
+    member do
+      post :submit
+      post :generate
+    end
   end
 
   resources :leagues, only: [:index, :show] do
@@ -118,6 +121,8 @@ Rails.application.routes.draw do
   resources :players, only: [:index, :show, :update] do
     resources :player_requests, only: [:new, :create]
   end
+
+  get 'leaderboard', to: 'leaderboard#index'
 
   resources :player_bids, only: [:update]
 
@@ -183,6 +188,10 @@ Rails.application.routes.draw do
     resources :players, only: [:index, :show] do
       get :stats, on: :member
       get :stats_export, on: :collection
+    end
+    get 'leaderboard', to: 'leaderboard#index'
+    namespace :sofascore do
+      resources :matches, only: [:index, :create]
     end
     resources :seasons, only: [:index]
     resources :teams, only: [:show]

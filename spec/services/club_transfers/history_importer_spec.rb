@@ -60,5 +60,54 @@ RSpec.describe ClubTransfers::HistoryImporter do
 
       it { expect(described_class.call(player)).to eq(0) }
     end
+
+    context 'when TM no longer lists a stored transfer' do
+      let(:stale) do
+        create(:club_transfer, player: player, tm_transfer_id: 6_405_914, new_club_name: 'Without Club',
+                               start_date: Date.new(2026, 7, 1))
+      end
+
+      it 'removes the stale transfer' do
+        stale
+        described_class.call(player)
+        expect(ClubTransfer.exists?(stale.id)).to be(false)
+      end
+
+      it 'keeps the transfers TM still lists' do
+        stale
+        described_class.call(player)
+        expect(player.club_transfers.pluck(:tm_transfer_id)).to contain_exactly(5_909_893, 5_111_111)
+      end
+
+      it 'keeps manually created transfers' do
+        manual = create(:club_transfer, player: player, tm_transfer_id: nil)
+        described_class.call(player)
+        expect(ClubTransfer.exists?(manual.id)).to be(true)
+      end
+
+      it 'removes the pending request built from it' do
+        request = create(:club_transfer_request, player: player, tm_transfer_id: stale.tm_transfer_id,
+                                                 status: :pending)
+        described_class.call(player)
+        expect(ClubTransferRequest.exists?(request.id)).to be(false)
+      end
+
+      it 'keeps an already confirmed request as history' do
+        request = create(:club_transfer_request, player: player, tm_transfer_id: stale.tm_transfer_id,
+                                                 status: :confirmed)
+        described_class.call(player)
+        expect(ClubTransferRequest.exists?(request.id)).to be(true)
+      end
+    end
+
+    context 'when TM returns no transfers' do
+      let(:history) { [] }
+
+      it 'keeps the stored history untouched' do
+        stored = create(:club_transfer, player: player, tm_transfer_id: 6_405_914)
+        described_class.call(player)
+        expect(ClubTransfer.exists?(stored.id)).to be(true)
+      end
+    end
   end
 end
