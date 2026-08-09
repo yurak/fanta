@@ -1169,6 +1169,7 @@
         "section_season_stats": "Season Stats",
         "section_teams": "Teams",
         "title": "Players",
+        "tm_unavailable": "Transfermarkt is temporarily unavailable (%{error}). Please try again later.",
         "view": "View",
         "view_player_page": "Player page"
       },
@@ -3342,6 +3343,7 @@
         "section_season_stats": "Статистика по сезонах",
         "section_teams": "Команди",
         "title": "Гравці",
+        "tm_unavailable": "Transfermarkt тимчасово недоступний (%{error}). Спробуйте пізніше.",
         "view": "Переглянути",
         "view_player_page": "Сторінка гравця"
       },

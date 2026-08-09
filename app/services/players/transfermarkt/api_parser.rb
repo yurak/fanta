@@ -47,6 +47,15 @@ module Players
       def call
         return false unless tm_id
 
+        api_data
+      rescue ApiError => e
+        Rails.logger.warn("TM API failed (#{e.message}) for tm_id=#{tm_id}, falling back to HTML parser")
+        Players::Transfermarkt::PlayerHtmlParser.call(tm_id, position_skip: position_skip)
+      end
+
+      private
+
+      def api_data
         {
           first_name: first_name, name: last_name, nationality: nationality,
           club_id: club&.id, club_name: club&.name, tm_club_name: tm_club_name, tm_club_id: tm_club_id,
@@ -56,8 +65,6 @@ module Players
           club_joined_on: club_joined_on, contract_until: contract_until, loan: loan
         }
       end
-
-      private
 
       def first_name
         parts = normalized_name.split

@@ -15,6 +15,9 @@ module Players
         return [] if tm_club_id.blank?
 
         Array(data['playerIds']).map(&:to_s)
+      rescue ApiError => e
+        Rails.logger.warn("TM API failed (#{e.message}) for club tm_id=#{tm_club_id}, falling back to HTML parser")
+        Players::Transfermarkt::ClubSquadHtmlParser.call(tm_club_id)
       end
 
       private

@@ -23,6 +23,8 @@ module Manage
       else
         redirect_to manage_players_path, alert: t('manage.players.failed')
       end
+    rescue Players::Transfermarkt::ApiError => e
+      redirect_to manage_players_path, alert: t('manage.players.tm_unavailable', error: e.http_code || e.message)
     end
 
     def fotmob_search

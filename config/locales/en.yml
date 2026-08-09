@@ -684,6 +684,7 @@ en:
       create: "Create"
       created: "Player created successfully"
       failed: "Failed to create player"
+      tm_unavailable: "Transfermarkt is temporarily unavailable (%{error}). Please try again later."
       back: "← Players"
       search: "Search"
       reset: "Reset"

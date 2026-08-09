@@ -239,6 +239,11 @@ RSpec.describe 'Manage::Clubs' do
           expect(flash[:alert]).to include('504')
         end
       end
+
+      it 'renders the alert on the club page' do
+        follow_redirect!
+        expect(response.body).to include(CGI.escapeHTML(flash[:alert]))
+      end
     end
   end
 

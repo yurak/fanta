@@ -246,6 +246,22 @@ RSpec.describe 'Manage::Players' do
         it { expect(response).to redirect_to(manage_players_path) }
         it { expect(flash[:alert]).to be_present }
       end
+
+      context 'when Transfermarkt is unreachable' do
+        before do
+          allow(Players::Transfermarkt::ApiParser).to receive(:call)
+            .and_raise(Players::Transfermarkt::ApiUnavailableError, 'SocketError')
+          post manage_players_path, params: { tm_id: '1097930' }
+        end
+
+        it { expect(response).to redirect_to(manage_players_path) }
+        it { expect(flash[:alert]).to be_present }
+
+        it 'renders the alert on the players page' do
+          follow_redirect!
+          expect(response.body).to include(CGI.escapeHTML(flash[:alert]))
+        end
+      end
     end
   end
 end

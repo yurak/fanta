@@ -9,8 +9,16 @@ module Players
       end
     end
 
+    # The host itself cannot be reached (dead DNS, no route). Retrying is pointless,
+    # so callers fall back to the HTML parsers instead of sleeping through the retries.
+    class ApiUnavailableError < ApiError; end
+
     module RetriableApi
       MAX_RETRIES = 3
+      UNREACHABLE_ERRORS = [SocketError, Errno::EHOSTUNREACH, Errno::ENETUNREACH].freeze
+      # A TLS alert means the server refuses to serve this host at all. Retrying only stalls
+      # the request for a minute before the caller can fall back.
+      FATAL_SSL_MESSAGE = /handshake failure|unknown ca|certificate verify failed|no cipher/i
       CONNECTION_ERRORS = [
         Errno::ECONNRESET, Errno::ECONNREFUSED, Errno::ETIMEDOUT,
         OpenSSL::SSL::SSLError,
@@ -23,7 +31,8 @@ module Players
         retries = 0
         begin
           api_request
-        rescue *CONNECTION_ERRORS, RestClient::ExceptionWithResponse => e
+        rescue *UNREACHABLE_ERRORS, *CONNECTION_ERRORS, RestClient::ExceptionWithResponse => e
+          raise ApiUnavailableError, describe(e) if unreachable?(e)
           raise wrap_error(e) unless retriable?(e)
 
           retries += 1
@@ -34,6 +43,12 @@ module Players
           sleep(wait)
           retry
         end
+      end
+
+      def unreachable?(error)
+        return true if UNREACHABLE_ERRORS.any? { |klass| error.is_a?(klass) }
+
+        error.is_a?(OpenSSL::SSL::SSLError) && error.message.match?(FATAL_SSL_MESSAGE)
       end
 
       def retriable?(error)

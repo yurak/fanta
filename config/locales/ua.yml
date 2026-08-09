@@ -690,6 +690,7 @@ ua:
       create: "Створити"
       created: "Гравця успішно створено"
       failed: "Не вдалося створити гравця"
+      tm_unavailable: "Transfermarkt тимчасово недоступний (%{error}). Спробуйте пізніше."
       back: "← Гравці"
       search: "Знайти"
       reset: "Скинути"
