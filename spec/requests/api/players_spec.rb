@@ -92,7 +92,7 @@ RSpec.describe 'Players' do # rubocop:disable RSpec/MultipleMemoizedHelpers
           expect(body['data'].size).to eq 2
           expect(body['data'].pluck('id')).to contain_exactly(player_one.id, player_two.id)
           expect(body['meta']['size']).to eq 2
-          expect(body['meta']['page']['per_page']).to eq 2
+          expect(body['meta']['page']['per_page']).to eq Api::ApplicationController::MAX_PER_PAGE
           expect(body['meta']['page']['total_pages']).to eq 1
           expect(body['meta']['page']['current_page']).to eq 1
         end
@@ -112,7 +112,7 @@ RSpec.describe 'Players' do # rubocop:disable RSpec/MultipleMemoizedHelpers
           expect(body['data'].size).to eq 2
           expect(body['data'].pluck('id')).to contain_exactly(player_one.id, player_two.id)
           expect(body['meta']['size']).to eq 2
-          expect(body['meta']['page']['per_page']).to eq 2
+          expect(body['meta']['page']['per_page']).to eq Api::ApplicationController::MAX_PER_PAGE
           expect(body['meta']['page']['total_pages']).to eq 1
           expect(body['meta']['page']['current_page']).to eq 1
         end
@@ -340,6 +340,16 @@ RSpec.describe 'Players' do # rubocop:disable RSpec/MultipleMemoizedHelpers
           expect(body['meta']['page']['per_page']).to eq 1
           expect(body['meta']['page']['total_pages']).to eq 2
           expect(body['meta']['page']['current_page']).to eq 1
+        end
+      end
+
+      response 200, 'Caps an oversized page size', document: false do
+        let(:page) { { page: { number: 1, size: 100_000 } } }
+
+        run_test! do |response|
+          body = JSON.parse(response.body)
+
+          expect(body['meta']['page']['per_page']).to eq Api::ApplicationController::MAX_PER_PAGE
         end
       end
     end
