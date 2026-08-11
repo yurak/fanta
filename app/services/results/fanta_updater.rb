@@ -58,7 +58,7 @@ module Results
     end
 
     def update_history
-      league.results.each do |result|
+      results.reload.each do |result|
         history_arr = result.history_arr
         # pos: fanta_position:, p: points, total_score: total_score, sec_pos: secondary_position
         history_arr[tour.number] = { pos: result.fanta_position, sec_pos: result.live_position,
@@ -70,6 +70,10 @@ module Results
     def result_for(team)
       @results_by_team_id ||= {}
       @results_by_team_id[team.id] ||= Result.find_or_create_by(team: team, league: league)
+    end
+
+    def results
+      @results ||= Result.by_league(league.id)
     end
 
     def lineups

@@ -42,3 +42,8 @@ append it to this list so future sessions don't rediscover it. Keep entries shor
   and TLS-alert errors so the fallback kicks in immediately.
 - Player `name` is the SURNAME only (`first_name` holds the given name) and accents are stripped
   (`Núñez` → `Nunez`), so search players by ASCII surname and disambiguate on `first_name`/`birth_date`.
+- `Results::Updater`/`FantaUpdater` write results through *separate* queries (`by_team(...).last`,
+  `find_or_create_by`), so anything they later read must come from a fresh relation — never from
+  `league.results`. `has_many :tours, inverse_of: :league` makes `tour.league` the caller's League
+  object, so a preloaded association (e.g. `manage#refresh` doing `league.results.each(&:reset_stats)`)
+  leaks stale zeros into `history` while the table columns stay correct.

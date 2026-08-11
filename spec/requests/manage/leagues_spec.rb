@@ -480,6 +480,14 @@ RSpec.describe 'Manage::Leagues' do
 
         expect(team.results.last.total_score).to eq(93)
       end
+
+      it 'rebuilds history with actual points' do
+        expect(team.results.last.history_arr[tour.number]['p']).to eq(60)
+      end
+
+      it 'rebuilds history with actual total score' do
+        expect(team.results.last.history_arr[tour.number]['ts'].to_f).to eq(93)
+      end
     end
   end
 
