@@ -1,5 +1,6 @@
 - %w(76 120 152 167 180).each do |size|
   = favicon_link_tag "apple-touch-icon-#{size}x#{size}.png", rel: 'apple-touch-icon', type: 'image/png', sizes: "#{size}x#{size}"
 
+- suffix = manage_section? ? '-manage' : ''
 - %w(16 32).each do |size|
-  = favicon_link_tag "favicon-#{size}x#{size}.png", rel: 'icon', type: 'image/png', sizes: "#{size}x#{size}"
+  = favicon_link_tag "favicon-#{size}x#{size}#{suffix}.png", rel: 'icon', type: 'image/png', sizes: "#{size}x#{size}"

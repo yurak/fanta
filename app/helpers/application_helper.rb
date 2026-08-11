@@ -3,6 +3,10 @@ module ApplicationHelper
     S3Storage.bucket_url
   end
 
+  def manage_section?
+    controller_path.start_with?('manage/')
+  end
+
   def active_tournaments
     Tournament.with_clubs.order(:id) + Tournament.with_ec_clubs
   end
