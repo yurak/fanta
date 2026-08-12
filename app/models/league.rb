@@ -36,9 +36,8 @@ class League < ApplicationRecord
   scope :with_division, -> { where.not(division: { id: nil }) }
   scope :viewable, -> { active.or(archived) }
   scope :without_demo_from_old_seasons, -> { where('leagues.demo = ? OR leagues.season_id = ?', false, Season.last.id) }
-  scope :serial, lambda {
+  scope :serial_order, lambda {
     left_joins(:division)
-      .includes(:division, :results, :season, :teams, :tournament, :tours)
       .order(
         Arel.sql(<<~SQL.squish)
           season_id DESC,
@@ -50,6 +49,7 @@ class League < ApplicationRecord
         SQL
       )
   }
+  scope :serial, -> { serial_order.includes(:division, :results, :season, :teams, :tournament, :tours) }
 
   def all_tours_closed?
     tours.any? && tours.all?(&:closed?)
@@ -61,14 +61,21 @@ class League < ApplicationRecord
     "#{name} (#{division.name})"
   end
 
+  ACTIVE_TOUR_PRIORITY = { 'set_lineup' => 0, 'locked' => 0, 'inactive' => 1 }.freeze
+
   def active_tour
-    @active_tour ||= tours
-                     .reorder(Arel.sql("CASE
+    return @active_tour if defined?(@active_tour)
+
+    @active_tour = if tours.loaded?
+                     tours.min_by { |tour| ACTIVE_TOUR_PRIORITY.fetch(tour.status, 2) }
+                   else
+                     tours.reorder(Arel.sql("CASE
                          WHEN status IN (#{Tour.statuses[:set_lineup]}, #{Tour.statuses[:locked]}) THEN 0
                          WHEN status = #{Tour.statuses[:inactive]} THEN 1
                          ELSE 2
                        END"))
-                     .first
+                          .first
+                   end
   end
 
   def active_tour_or_last

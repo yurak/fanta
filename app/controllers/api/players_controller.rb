@@ -1,6 +1,6 @@
 module Api
   class PlayersController < Api::ApplicationController
-    skip_before_action :authenticate_user!, only: %i[index show stats stats_export]
+    skip_before_action :authenticate_user!, only: %i[index show stats]
 
     respond_to :json
 
@@ -120,7 +120,19 @@ module Api
       ActiveRecord::Associations::Preloader.new(records: records, associations: { player_positions: :position }).call
       ActiveRecord::Associations::Preloader.new(records: records, associations: :teams).call
       ActiveRecord::Associations::Preloader.new(records: records, associations: :club_transfers).call
-      ActiveRecord::Associations::Preloader.new(records: records, associations: { round_players: :tournament_round }).call
+      preload_season_round_players(records)
+    end
+
+    def preload_season_round_players(records)
+      ActiveRecord::Associations::Preloader.new(
+        records: records,
+        associations: :round_players,
+        scope: RoundPlayer.where(tournament_round_id: TournamentRound.where(season_id: season.id).select(:id))
+      ).call
+
+      ActiveRecord::Associations::Preloader.new(
+        records: records.flat_map(&:round_players), associations: :tournament_round
+      ).call
     end
   end
 end

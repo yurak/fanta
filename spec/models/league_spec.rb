@@ -104,6 +104,38 @@ RSpec.describe League do
         expect(league.active_tour).to eq(tours.first)
       end
     end
+
+    context 'when tours are preloaded' do
+      let!(:active) do
+        create(:closed_tour, league: league, number: 1)
+        create(:set_lineup_tour, league: league, number: 2)
+      end
+
+      let(:preloaded) { described_class.includes(:tours).find(league.id) }
+
+      def count_queries(&block)
+        queries = 0
+        counter = ->(_name, _start, _finish, _id, payload) { queries += 1 unless payload[:name] == 'SCHEMA' }
+        ActiveSupport::Notifications.subscribed(counter, 'sql.active_record', &block)
+        queries
+      end
+
+      it 'picks the same tour as the unloaded query' do
+        expect(preloaded.active_tour).to eq(active)
+      end
+
+      it 'does not hit the database' do
+        preloaded.tours.load
+
+        expect(count_queries { preloaded.active_tour }).to eq(0)
+      end
+
+      it 'returns nil without tours' do
+        empty = described_class.includes(:tours).find(create(:league).id)
+
+        expect(empty.active_tour).to be_nil
+      end
+    end
   end
 
   describe '#active_tour_or_last' do
