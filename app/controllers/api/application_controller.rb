@@ -5,7 +5,8 @@ module Api
 
     NOT_FOUND_MSG = 'Resource not found'.freeze
     NOT_FOUND_KEY = 'not_found'.freeze
-    MAX_PER_PAGE = 100
+    DEFAULT_PER_PAGE = 100
+    MAX_PER_PAGE = 500
 
     def not_found
       render json: { errors: [{ key: NOT_FOUND_KEY, message: NOT_FOUND_MSG }] }, status: :not_found
@@ -37,7 +38,7 @@ module Api
     end
 
     def page_size
-      (page[:size].presence || MAX_PER_PAGE).to_i.clamp(1, MAX_PER_PAGE)
+      (page[:size].presence || DEFAULT_PER_PAGE).to_i.clamp(1, MAX_PER_PAGE)
     end
   end
 end
