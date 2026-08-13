@@ -434,9 +434,8 @@ RSpec.describe 'Users' do
         get tournament_round_auto_subs_preview_path(tournament_round)
       end
 
-      it { expect(response).to be_successful }
-      it { expect(response).to render_template(:auto_subs_preview) }
-      it { expect(response).to have_http_status(:ok) }
+      it { expect(response).to redirect_to(leagues_path) }
+      it { expect(response).to have_http_status(:found) }
     end
 
     context 'when moderator is logged in' do
@@ -573,8 +572,12 @@ RSpec.describe 'Users' do
         put auto_close_tournament_round_path(tournament_round)
       end
 
-      it { expect(response).to redirect_to(tournament_round_path(tournament_round)) }
+      it { expect(response).to redirect_to(leagues_path) }
       it { expect(response).to have_http_status(:found) }
+
+      it 'does not mark the round as moderated' do
+        expect(tournament_round.reload.moderated_at).to be_nil
+      end
     end
 
     context 'when moderator is logged in' do

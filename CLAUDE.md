@@ -42,6 +42,13 @@ append it to this list so future sessions don't rediscover it. Keep entries shor
   and TLS-alert errors so the fallback kicks in immediately.
 - Player `name` is the SURNAME only (`first_name` holds the given name) and accents are stripped
   (`Núñez` → `Nunez`), so search players by ASCII surname and disambiguate on `first_name`/`birth_date`.
+- An `AuctionRound` stays `active` until the cron job (`auction_rounds:process`, every 2 min) picks it
+  up, so the *deadline* — not the status — is what closes it for bidders: gate writes on
+  `AuctionRound#editable?`, never on `active?`. The same cron overlap is why `AuctionRounds::Manager`
+  takes `round.lock!` + re-checks `active?` inside its transaction: `process_auction` →
+  `AuctionRounds::Creator` is NOT idempotent and a second pass builds a duplicate next round.
+- Over-budget bids are trimmed (biggest bid first, down to `player.stats_price`, cascading to the next
+  one) ONLY in the first stage of the primary auction; every other round drops such a bid whole.
 - `Results::Updater`/`FantaUpdater` write results through *separate* queries (`by_team(...).last`,
   `find_or_create_by`), so anything they later read must come from a fresh relation — never from
   `league.results`. `has_many :tours, inverse_of: :league` makes `tour.league` the caller's League
