@@ -11,9 +11,12 @@ module AuctionRounds
       return false unless round.ddl_expired? || all_bids_completed?
 
       AuctionRound.transaction do
+        round.lock!
+        next false unless round.active?
+
         round.processing!
 
-        fail_over_budget_bids
+        fit_bids_into_budget
         fail_bids_missing_gk
         fail_left_championship_player_bids
 
@@ -29,12 +32,37 @@ module AuctionRounds
 
     private
 
-    def fail_over_budget_bids
-      auction_bids.each do |auction_bid|
-        next if auction_bid.player_bids.sum(&:price) <= budget_cap_for(auction_bid.team)
+    def fit_bids_into_budget
+      auction_bids.each { |auction_bid| fit_bid_into_budget(auction_bid) }
+    end
 
-        auction_bid.player_bids.initial.map(&:failed!)
+    def fit_bid_into_budget(auction_bid)
+      excess = auction_bid.player_bids.sum(&:price) - budget_cap_for(auction_bid.team)
+      return unless excess.positive?
+
+      bids = auction_bid.player_bids.initial.select(&:player_id)
+      return trim_to_budget(bids, excess) if first_stage? && trimmable?(bids, excess)
+
+      auction_bid.player_bids.initial.map(&:failed!)
+    end
+
+    # A bid can only be trimmed down to the players' min prices — below that the whole bid is dropped.
+    def trimmable?(bids, excess)
+      bids.sum { |bid| bid.price - min_price_for(bid) } >= excess
+    end
+
+    # Takes the excess off the biggest bid first, moving on to the next one when it hits its min price.
+    def trim_to_budget(bids, excess)
+      while excess.positive?
+        bid = bids.select { |b| b.price > min_price_for(b) }.min_by { |b| [-b.price, b.id] }
+        cut = [bid.price - min_price_for(bid), excess].min
+        bid.update(price: bid.price - cut)
+        excess -= cut
       end
+    end
+
+    def min_price_for(bid)
+      bid.player.stats_price
     end
 
     def budget_cap_for(team)

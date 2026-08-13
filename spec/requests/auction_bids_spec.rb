@@ -210,6 +210,26 @@ RSpec.describe 'AuctionBids' do
       it { expect(response).to have_http_status(:found) }
     end
 
+    # The round is still `active` until the cron job processes it, but the deadline already closed it.
+    context 'with own team when the auction round deadline has passed' do
+      let(:auction_round) { create(:auction_round, deadline: 1.minute.ago) }
+      let(:logged_user) { create(:user) }
+      let(:auction_bid) do
+        create(:auction_bid, team: create(:team, user: logged_user, league: auction_round.league), auction_round: auction_round)
+      end
+
+      before do
+        sign_in logged_user
+        put auction_round_auction_bid_path(auction_round, auction_bid, auction_bid: { status: 'submitted' })
+      end
+
+      it { expect(response).to redirect_to(auction_round_path(auction_round)) }
+
+      it 'does not confirm the bid' do
+        expect(auction_bid.reload.status).not_to eq('submitted')
+      end
+    end
+
     context 'with own team when auction round is closed' do
       let(:auction_round) { create(:closed_auction_round) }
       let(:logged_user) { create(:user) }

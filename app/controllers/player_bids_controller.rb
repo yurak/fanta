@@ -17,7 +17,7 @@ class PlayerBidsController < ApplicationController
   private
 
   def valid_update?
-    player_bid && player && (auction_round.nil? || auction_round.active?) && player_available? && auction_bid.editable?
+    player_bid && player && (auction_round.nil? || auction_round.editable?) && player_available? && auction_bid.editable?
   end
 
   def player_available?

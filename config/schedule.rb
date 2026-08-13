@@ -56,7 +56,7 @@ every '1,6,11,31,36,41 * * * *' do
 end
 
 # Process auction rounds by deadline
-every 10.minutes do
+every 2.minutes do
   rake 'auction_rounds:process'
 end
 

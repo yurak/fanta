@@ -10,6 +10,39 @@ RSpec.describe AuctionRounds::Manager do
       end
     end
 
+    # Two cron runs can both pass the status check before either of them writes `processing`.
+    context 'when a parallel run processed the round first' do
+      let(:auction_round) { create(:auction_round, number: 1, deadline: 1.hour.ago) }
+      let!(:auction_bid) do
+        create(:submitted_auction_bid, :with_player_bids, team: create(:team, league: auction_round.league),
+                                                          auction_round: auction_round)
+      end
+
+      before do
+        # the row lock reloads the record — by then the other run has already closed it
+        allow(auction_round).to receive(:lock!) do
+          AuctionRound.find(auction_round.id).closed!
+          auction_round.reload
+        end
+      end
+
+      it 'gives up instead of processing twice' do
+        expect(manager.call).to be(false)
+      end
+
+      it 'leaves the bids untouched' do
+        manager.call
+
+        expect(auction_bid.player_bids.pluck(:status).uniq).to eq(['initial'])
+      end
+
+      it 'creates no transfers' do
+        manager.call
+
+        expect(Transfer.count).to eq(0)
+      end
+    end
+
     context 'with active status and without league teams' do
       let(:auction_round) { create(:auction_round, deadline: 1.hour.ago) }
 
@@ -380,14 +413,138 @@ RSpec.describe AuctionRounds::Manager do
         expect(manager.call).to be(true)
       end
 
-      it 'ignores the over-budget bid (fails its player_bids)' do
+      it 'keeps the over-budget bid alive' do
         manager.call
+        expect(over_bid.player_bids.pluck(:status).uniq).to eq(['success'])
+      end
+
+      it 'trims the bid down to the budget' do
+        manager.call
+        expect(over_bid.player_bids.sum(&:price)).to eq(220)
+      end
+
+      it 'awards the player at the trimmed price' do
+        manager.call
+        expect(Transfer.where(team: over_team).pick(:price)).to eq(220)
+      end
+    end
+
+    # Trimming only touches the biggest bid, so a rival can now outbid it on that player.
+    context 'when trimming lets a rival outbid the biggest bid' do
+      let(:auction_round) { create(:auction_round, number: 1, deadline: 1.hour.ago) }
+      let(:keeper) { create(:player, :with_pos_por) }
+      let(:rival_bid) do
+        create(:submitted_auction_bid, team: create(:team, league: auction_round.league), auction_round: auction_round)
+      end
+      let(:over_bid) do
+        create(:submitted_auction_bid, team: create(:team, league: auction_round.league), auction_round: auction_round)
+      end
+      let!(:biggest) { create(:player_bid, auction_bid: over_bid, player: keeper, price: 200) }
+      let!(:second) { create(:player_bid, auction_bid: over_bid, player: create(:player), price: 150) }
+      let!(:rival_player_bid) { create(:player_bid, auction_bid: rival_bid, player: keeper, price: 100) }
+
+      before { manager.call }
+
+      it 'takes the whole excess from the biggest bid' do
+        expect(biggest.reload.price).to eq(70)
+      end
+
+      it 'leaves the smaller bid untouched' do
+        expect(second.reload.price).to eq(150)
+      end
+
+      it 'lets the rival win the player it no longer outbids' do
+        expect(rival_player_bid.reload.status).to eq('success')
+      end
+
+      it 'fails the trimmed bid' do
+        expect(biggest.reload.status).to eq('failed')
+      end
+
+      it 'still awards the untouched bid' do
+        expect(second.reload.status).to eq('success')
+      end
+    end
+
+    context 'when the biggest bid cannot absorb the whole excess' do
+      let(:auction_round) { create(:auction_round, number: 1, deadline: 1.hour.ago) }
+      let(:over_bid) do
+        create(:submitted_auction_bid, team: create(:team, league: auction_round.league), auction_round: auction_round)
+      end
+      let!(:biggest) { create(:player_bid, auction_bid: over_bid, player: create(:player, :with_pos_por), price: 200) }
+      let!(:second) { create(:player_bid, auction_bid: over_bid, player: create(:player), price: 150) }
+      let!(:third) { create(:player_bid, auction_bid: over_bid, player: create(:player), price: 100) }
+
+      before { manager.call }
+
+      it 'drops the biggest bid to its min price' do
+        expect(biggest.reload.price).to eq(1)
+      end
+
+      it 'takes the rest from the next biggest' do
+        expect(second.reload.price).to eq(119)
+      end
+
+      it 'leaves the smallest bid untouched' do
+        expect(third.reload.price).to eq(100)
+      end
+
+      it 'ends up exactly at the budget' do
+        expect(over_bid.player_bids.sum(&:price)).to eq(220)
+      end
+    end
+
+    context 'when an over-budget bid comes from a later primary round' do
+      let(:auction_round) { create(:auction_round, number: 2, deadline: 1.hour.ago) }
+      let(:over_bid) do
+        create(:completed_auction_bid, team: create(:team, league: auction_round.league), auction_round: auction_round)
+      end
+      let!(:biggest) { create(:player_bid, auction_bid: over_bid, player: create(:player, :with_pos_por), price: 300) }
+
+      before do
+        create(:completed_auction_bid, :with_player_bids, team: create(:team, league: auction_round.league),
+                                                          auction_round: auction_round)
+        manager.call
+      end
+
+      it 'drops the bid instead of trimming it' do
+        expect(biggest.reload.status).to eq('failed')
+      end
+
+      it 'leaves the price untouched' do
+        expect(biggest.reload.price).to eq(300)
+      end
+    end
+
+    context 'when even the min prices do not fit the budget' do
+      let(:auction_round) { create(:auction_round, number: 1, deadline: 1.hour.ago) }
+      let(:tournament) { auction_round.league.tournament }
+      let(:over_bid) do
+        create(:submitted_auction_bid, team: create(:team, league: auction_round.league), auction_round: auction_round)
+      end
+
+      # stats_price, and with it the min price, comes from the second-to-last season
+      def pricey_player(*traits)
+        create(:player, *traits, club: create(:club, tournament: tournament)).tap do |player|
+          create(:player_season_stat, player: player, club: player.club, tournament: tournament,
+                                      season: Season.second_to_last, position_price: 120)
+        end
+      end
+
+      before do
+        over_bid
+        create(:season) while Season.count < 2
+        create(:player_bid, auction_bid: over_bid, player: pricey_player(:with_pos_por), price: 200)
+        create(:player_bid, auction_bid: over_bid, player: pricey_player, price: 150)
+        manager.call
+      end
+
+      it 'drops the whole bid' do
         expect(over_bid.player_bids.pluck(:status).uniq).to eq(['failed'])
       end
 
-      it 'awards no player to the over-budget team' do
-        manager.call
-        expect(Transfer.where(team: over_team).count).to eq(0)
+      it 'leaves the prices untouched' do
+        expect(over_bid.player_bids.sum(&:price)).to eq(350)
       end
     end
 
@@ -413,8 +570,12 @@ RSpec.describe AuctionRounds::Manager do
         expect(at_player_bid.reload.status).to eq('success')
       end
 
-      it 'excludes a bid whose total exceeds the budget by one' do
-        expect(over_player_bid.reload.status).to eq('failed')
+      it 'trims a bid whose total exceeds the budget by one' do
+        expect(over_player_bid.reload.price).to eq(220)
+      end
+
+      it 'keeps the trimmed bid in play' do
+        expect(over_player_bid.reload.status).to eq('success')
       end
     end
 
@@ -638,7 +799,7 @@ RSpec.describe AuctionRounds::Manager do
 
     context 'when a partial bid (1 of 4 slots filled) exceeds budget due to default price on empty slots' do
       # Team budget = 10. One player_bid has price=10, three empty slots have default price=1 each.
-      # Total = 10+1+1+1 = 13 > 10 → fail_over_budget_bids fails all player_bids.
+      # Total = 10+1+1+1 = 13 > 10 → outside the first stage fit_bids_into_budget fails all player_bids.
       let(:auction_round) { create(:auction_round, deadline: 1.hour.ago, auction: create(:auction, number: 2)) }
       let(:league) { auction_round.league }
       let!(:partial_team) { create(:team, league: league) }
@@ -658,6 +819,11 @@ RSpec.describe AuctionRounds::Manager do
 
       it 'fails all player_bids for the partial team due to budget overrun' do
         expect(partial_bid.player_bids.map { |pb| pb.reload.status }.uniq).to eq(['failed'])
+      end
+
+      # Trimming is a first-stage rule, so prices stay as the manager submitted them.
+      it 'leaves the prices untouched' do
+        expect(partial_bid.player_bids.where.not(player_id: nil).pick(:price)).to eq(10)
       end
 
       it 'does not fail player_bids for the team within budget' do

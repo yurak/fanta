@@ -56,6 +56,39 @@ RSpec.describe AuctionRound do
         expect(auction_round.ddl_expired?).to be(false)
       end
     end
+
+    context 'without a deadline' do
+      let(:deadline) { nil }
+
+      it 'returns false' do
+        expect(auction_round.ddl_expired?).to be(false)
+      end
+    end
+  end
+
+  describe '#editable?' do
+    let(:auction_round) { described_class.new(status: status, deadline: deadline) }
+    let(:status) { :active }
+
+    context 'when the round is active before the deadline' do
+      let(:deadline) { 1.hour.from_now }
+
+      it { expect(auction_round.editable?).to be(true) }
+    end
+
+    # The round stays active until the cron job processes it, so the deadline has to close it.
+    context 'when the round is still active after the deadline' do
+      let(:deadline) { 1.minute.ago }
+
+      it { expect(auction_round.editable?).to be(false) }
+    end
+
+    context 'when the round is already closed' do
+      let(:status) { :closed }
+      let(:deadline) { 1.hour.from_now }
+
+      it { expect(auction_round.editable?).to be(false) }
+    end
   end
 
   describe '#members' do

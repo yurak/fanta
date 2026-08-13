@@ -22,7 +22,11 @@ class AuctionRound < ApplicationRecord
   end
 
   def ddl_expired?
-    DateTime.now > deadline
+    deadline.present? && Time.current > deadline
+  end
+
+  def editable?
+    active? && !ddl_expired?
   end
 
   def members
