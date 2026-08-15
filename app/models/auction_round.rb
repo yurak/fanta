@@ -26,7 +26,13 @@ class AuctionRound < ApplicationRecord
   end
 
   def editable?
-    active? && !ddl_expired?
+    return false unless active?
+
+    !first_stage? || !ddl_expired?
+  end
+
+  def first_stage?
+    first? && auction.primary?
   end
 
   def members

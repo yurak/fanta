@@ -160,7 +160,7 @@ module AuctionRounds
     end
 
     def first_stage?
-      round.first? && auction.primary?
+      round.first_stage?
     end
 
     def all_bids_completed?

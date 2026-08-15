@@ -67,20 +67,37 @@ RSpec.describe AuctionRound do
   end
 
   describe '#editable?' do
-    let(:auction_round) { described_class.new(status: status, deadline: deadline) }
+    let(:auction_round) { create(:auction_round, status: status, deadline: deadline, number: number, auction: auction) }
+    let(:auction) { create(:auction, number: 1) }
     let(:status) { :active }
+    let(:number) { 1 }
 
-    context 'when the round is active before the deadline' do
+    context 'when the first stage is still before its deadline' do
       let(:deadline) { 1.hour.from_now }
 
       it { expect(auction_round.editable?).to be(true) }
     end
 
     # The round stays active until the cron job processes it, so the deadline has to close it.
-    context 'when the round is still active after the deadline' do
+    context 'when the first stage is active after its deadline' do
       let(:deadline) { 1.minute.ago }
 
       it { expect(auction_round.editable?).to be(false) }
+    end
+
+    # Only the first stage closes on the deadline — later rounds run until they are processed.
+    context 'when a later primary round is active after its deadline' do
+      let(:number) { 2 }
+      let(:deadline) { 1.minute.ago }
+
+      it { expect(auction_round.editable?).to be(true) }
+    end
+
+    context 'when a transfer auction round is active after its deadline' do
+      let(:auction) { create(:auction, number: 2) }
+      let(:deadline) { 1.minute.ago }
+
+      it { expect(auction_round.editable?).to be(true) }
     end
 
     context 'when the round is already closed' do

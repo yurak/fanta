@@ -132,8 +132,8 @@ RSpec.describe 'PlayerBids' do
     end
 
     # The round is still `active` until the cron job processes it, but the deadline already closed it.
-    context 'with own team when the auction round deadline has passed' do
-      let(:auction_round) { create(:auction_round, deadline: 1.minute.ago) }
+    context 'with own team when the first stage deadline has passed' do
+      let(:auction_round) { create(:auction_round, number: 1, deadline: 1.minute.ago) }
       let(:logged_user) { create(:user) }
       let(:player_bid) do
         auction_bid = create(:auction_bid, team: create(:team, user: logged_user, league: auction_round.league),
