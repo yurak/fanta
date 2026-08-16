@@ -311,6 +311,14 @@
       "team": "⚽ Your team",
       "text": "You need to buy %{players} players. The team budget - %{budget}. The team must have at least 3 goalkeepers."
     },
+    "auction_purchases": {
+      "bought": "Bought",
+      "finished": "Finished",
+      "phase": "Buying phase",
+      "title": "Auction #{{number}}",
+      "top_buy": "💎 Top Deals",
+      "top_spenders": "💸 Top Spenders"
+    },
     "auction_round": {
       "auction": "Auction",
       "available_budget": "Available budget",
@@ -395,6 +403,24 @@
       "total_budget": "Total budget",
       "transfers": "💰️ Auction transfers",
       "unselected": "Unselected"
+    },
+    "auction_sales": {
+      "dropped": "Dropped",
+      "finished": "Finished",
+      "left": "Left",
+      "phase": "Dropping phase",
+      "title": "Auction #{{number}}",
+      "top_droppers": "✂️ Top Droppers",
+      "top_earners": "💰 Top Earners",
+      "top_sale": "🔥 Top Sales",
+      "total": "Total"
+    },
+    "auction_summary": {
+      "collapse": "Collapse",
+      "show_more": "+{{count}} more"
+    },
+    "common": {
+      "loading": "Loading…"
     },
     "date": {
       "abbr_day_names": [
@@ -2713,6 +2739,14 @@
       "team": "⚽ Ваша команда",
       "text": "Вам необхідно купити %{players} гравців. Бюджет команди - %{budget}. У команді повинні бути мінімум 3 воротарі."
     },
+    "auction_purchases": {
+      "bought": "Куплено",
+      "finished": "Завершено",
+      "phase": "Фаза купівлі",
+      "title": "Аукціон #{{number}}",
+      "top_buy": "💎 Топ купівель",
+      "top_spenders": "💸 Топ витрат"
+    },
     "auction_round": {
       "auction": "Аукціон",
       "available_budget": "Доступний бюджет",
@@ -2797,6 +2831,24 @@
       "total_budget": "Загальний бюджет",
       "transfers": "💰️ Трансфери аукціону",
       "unselected": "Не вибрано"
+    },
+    "auction_sales": {
+      "dropped": "Продано",
+      "finished": "Завершено",
+      "left": "Пішли",
+      "phase": "Фаза продажу",
+      "title": "Аукціон #{{number}}",
+      "top_droppers": "✂️ Топ продавців",
+      "top_earners": "💰 Топ заробітку",
+      "top_sale": "🔥 Топ продажів",
+      "total": "Разом"
+    },
+    "auction_summary": {
+      "collapse": "Згорнути",
+      "show_more": "+{{count}} ще"
+    },
+    "common": {
+      "loading": "Завантаження…"
     },
     "divisions": {
       "title": "Дивізіони"

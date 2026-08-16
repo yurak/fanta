@@ -67,6 +67,7 @@ module Api
           { teams: { league: :division } },
           { transfers: :auction },
           { player_positions: :position },
+          { round_players: :tournament_round },
           :player_season_stats,
           :national_team
         ]

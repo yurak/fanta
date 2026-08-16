@@ -1,4 +1,26 @@
 ua:
+  auction_sales:
+    title: "Аукціон #{{number}}"
+    phase: "Фаза продажу"
+    finished: "Завершено"
+    dropped: "Продано"
+    left: "Пішли"
+    total: "Разом"
+    top_earners: "💰 Топ заробітку"
+    top_droppers: "✂️ Топ продавців"
+    top_sale: "🔥 Топ продажів"
+  auction_purchases:
+    title: "Аукціон #{{number}}"
+    phase: "Фаза купівлі"
+    finished: "Завершено"
+    bought: "Куплено"
+    top_spenders: "💸 Топ витрат"
+    top_buy: "💎 Топ купівель"
+  auction_summary:
+    show_more: "+{{count}} ще"
+    collapse: "Згорнути"
+  common:
+    loading: "Завантаження…"
   activerecord:
     attributes:
       user:

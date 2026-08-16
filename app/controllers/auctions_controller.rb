@@ -19,6 +19,14 @@ class AuctionsController < ApplicationController
     redirect_to league_auction_transfers_path(league, auction) unless can? :live, Auction
   end
 
+  def sales
+    render layout: 'react_application'
+  end
+
+  def purchases
+    render layout: 'react_application'
+  end
+
   def update
     auction_manager if can? :update, Auction
 

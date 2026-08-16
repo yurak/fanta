@@ -1,4 +1,26 @@
 en:
+  auction_sales:
+    title: "Auction #{{number}}"
+    phase: "Dropping phase"
+    finished: "Finished"
+    dropped: "Dropped"
+    left: "Left"
+    total: "Total"
+    top_earners: "💰 Top Earners"
+    top_droppers: "✂️ Top Droppers"
+    top_sale: "🔥 Top Sales"
+  auction_purchases:
+    title: "Auction #{{number}}"
+    phase: "Buying phase"
+    finished: "Finished"
+    bought: "Bought"
+    top_spenders: "💸 Top Spenders"
+    top_buy: "💎 Top Deals"
+  auction_summary:
+    show_more: "+{{count}} more"
+    collapse: "Collapse"
+  common:
+    loading: "Loading…"
   activerecord:
     errors:
       models:

@@ -7,6 +7,8 @@ import Player from "./pages/Player";
 import LeaguePlayers from "./pages/League/LeaguePlayers";
 import RoundPlayers from "./pages/RoundPlayers";
 import Leaderboard from "./pages/Leaderboard";
+import AuctionSales from "./pages/AuctionSales";
+import AuctionPurchases from "./pages/AuctionPurchases";
 
 const router = createBrowserRouter([
   {
@@ -36,6 +38,14 @@ const router = createBrowserRouter([
   {
     path: "/tournament_rounds/:roundId/round_players",
     element: <RoundPlayers />,
+  },
+  {
+    path: "/leagues/:leagueId/auctions/:auctionId/sales",
+    element: <AuctionSales />,
+  },
+  {
+    path: "/leagues/:leagueId/auctions/:auctionId/purchases",
+    element: <AuctionPurchases />,
   },
 ]);
 

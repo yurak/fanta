@@ -102,6 +102,8 @@ Rails.application.routes.draw do
   resources :leagues, only: [:index, :show] do
     resources :auctions, only: [:index, :show, :update] do
       get :live, on: :member
+      get :sales, on: :member
+      get :purchases, on: :member
 
       resources :transfers, only: [:index, :create, :destroy]
     end
@@ -183,6 +185,10 @@ Rails.application.routes.draw do
     resources :leagues, only: [:index, :show] do
       resources :results, only: [:index]
       resources :teams, only: [:index]
+      resources :auctions, only: [] do
+        resources :sales, only: [:index], controller: 'auction_sales'
+        resources :purchases, only: [:index], controller: 'auction_purchases'
+      end
     end
     resources :player_bids, only: [:show]
     resources :players, only: [:index, :show] do
