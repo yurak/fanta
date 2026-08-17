@@ -82,13 +82,14 @@ RSpec.describe AuctionsHelper do
     context 'with sales auction and the team owner' do
       let(:auction) { create(:auction, status: :sales) }
       let(:user) { create(:user) }
-      let!(:team) { create(:team, league: auction.league, user: user) }
-      let!(:player_team) { create(:player_team, team: team) }
 
-      before { allow(helper).to receive(:current_user).and_return(user) }
+      before do
+        create(:team, league: auction.league, user: user)
+        allow(helper).to receive(:current_user).and_return(user)
+      end
 
-      it 'returns the drop-marking path' do
-        expect(helper.dropping_link(auction)).to eq(edit_team_player_team_path(team, player_team))
+      it 'returns the drops page path' do
+        expect(helper.dropping_link(auction)).to eq(drops_league_auction_path(auction.league, auction))
       end
     end
 

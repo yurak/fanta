@@ -27,6 +27,10 @@ class AuctionsController < ApplicationController
     render layout: 'react_application'
   end
 
+  def drops
+    render layout: 'react_application'
+  end
+
   def update
     auction_manager if can? :update, Auction
 

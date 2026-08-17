@@ -9,6 +9,7 @@ import RoundPlayers from "./pages/RoundPlayers";
 import Leaderboard from "./pages/Leaderboard";
 import AuctionSales from "./pages/AuctionSales";
 import AuctionPurchases from "./pages/AuctionPurchases";
+import AuctionDrops from "./pages/AuctionDrops";
 
 const router = createBrowserRouter([
   {
@@ -46,6 +47,10 @@ const router = createBrowserRouter([
   {
     path: "/leagues/:leagueId/auctions/:auctionId/purchases",
     element: <AuctionPurchases />,
+  },
+  {
+    path: "/leagues/:leagueId/auctions/:auctionId/drops",
+    element: <AuctionDrops />,
   },
 ]);
 

@@ -2,8 +2,6 @@ module Api
   class AuctionPurchasesController < Api::ApplicationController
     include Api::AuctionDocument
 
-    skip_before_action :authenticate_user!, only: :index
-
     def index
       return not_found unless auction
 

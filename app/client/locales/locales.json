@@ -293,6 +293,33 @@
         }
       }
     },
+    "auction_drops": {
+      "appearances": "Appearances",
+      "apps_short": "apps",
+      "auction": "Auction #{{number}}",
+      "autosave_hint": "Your changes are saved automatically during the drop-off phase. Keep rocking 🚀",
+      "autosaved": "Changes autosaved",
+      "balance": "Balance",
+      "club": "Club",
+      "deadline": "Deadline",
+      "drop": "Drop",
+      "dropped": "Dropped",
+      "dropping_phase": "Dropping phase",
+      "form": "Form",
+      "income": "Income",
+      "left": "Left",
+      "ongoing": "Ongoing",
+      "player": "Player",
+      "players_dropped": "Players dropped",
+      "players_left": "Players left",
+      "positions": "Position",
+      "possible_balance": "Possible balance",
+      "price": "Price",
+      "rating": "Rating",
+      "saving": "Saving changes",
+      "status": "Status",
+      "time_left": "{{hours}}h {{minutes}}m left"
+    },
     "auction_offer": {
       "all_budget": "You must use the entire budget at the first stage of the auction - %{budget} million",
       "choose": "Choose a player",
@@ -2720,6 +2747,33 @@
           "title": "День початку буде визначено пізніше"
         }
       }
+    },
+    "auction_drops": {
+      "appearances": "Матчі",
+      "apps_short": "матчів",
+      "auction": "Аукціон #{{number}}",
+      "autosave_hint": "Зміни зберігаються автоматично під час фази скидування. Успіхів 🚀",
+      "autosaved": "Зміни збережено",
+      "balance": "Баланс",
+      "club": "Клуб",
+      "deadline": "Дедлайн",
+      "drop": "Скинути",
+      "dropped": "Скинуто",
+      "dropping_phase": "Фаза скидування",
+      "form": "Форма",
+      "income": "Дохід",
+      "left": "Пішов",
+      "ongoing": "Триває",
+      "player": "Гравець",
+      "players_dropped": "Скинуто",
+      "players_left": "Пішли",
+      "positions": "Позиція",
+      "possible_balance": "Можливий баланс",
+      "price": "Ціна",
+      "rating": "Рейтинг",
+      "saving": "Збереження…",
+      "status": "Статус",
+      "time_left": "залишилось {{hours}}год {{minutes}}хв"
     },
     "auction_offer": {
       "all_budget": "Ви повинні використати увесь бюджет на першому етапі аукціону - %{budget} мільйонів",
