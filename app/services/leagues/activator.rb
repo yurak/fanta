@@ -43,8 +43,14 @@ module Leagues
       first_auction = league.auctions.find_by(number: 1)
       return unless first_auction
 
-      auction_round = first_auction.auction_rounds.create!(number: 1, deadline: @deadline, basic: true)
-      first_auction.blind_bids!
+      return first_auction.live! if league.live?
+
+      start_blind_bids(first_auction)
+    end
+
+    def start_blind_bids(auction)
+      auction_round = auction.auction_rounds.create!(number: 1, deadline: @deadline, basic: true)
+      auction.blind_bids!
 
       attach_bids(auction_round)
 

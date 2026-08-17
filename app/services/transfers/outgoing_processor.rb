@@ -11,7 +11,7 @@ module Transfers
       return false if auction.deadline.nil? || auction.deadline > Time.current
 
       process_transfers
-      Auctions::Manager.call(auction, league.auction_type)
+      Auctions::Manager.call(auction, Auctions::Manager::BLIND_BIDS_STATUS)
       true
     end
 
