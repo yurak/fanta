@@ -309,6 +309,76 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/error_not_found"
+  "/api/leagues/{league_id}/auctions":
+    parameters:
+    - name: league_id
+      in: path
+      description: League id
+      required: true
+      schema:
+        type: string
+    get:
+      summary: list league auctions with their rows (main + dropping)
+      tags:
+      - Auctions
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      auctions:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            hidden:
+                              type: boolean
+                            rows:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  href:
+                                    type: string
+                                  icon:
+                                    type: string
+                                  icon_active:
+                                    type: boolean
+                                  title:
+                                    type: string
+                                  title_status:
+                                    type: string
+                                    nullable: true
+                                  item_status:
+                                    type: string
+                                  transfers:
+                                    type: string
+                                  transfers_status:
+                                    type: string
+                                    nullable: true
+                                  status:
+                                    type: string
+                                  status_text:
+                                    type: string
+                                  status_icon:
+                                    type: string
+                                  date:
+                                    type: string
+                                    nullable: true
+                                  arrow_icon:
+                                    type: string
+        '404':
+          description: League not found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/error_not_found"
   "/api/tournaments/{tournament_id}/divisions":
     parameters:
     - name: tournament_id

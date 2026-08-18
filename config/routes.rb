@@ -184,7 +184,7 @@ Rails.application.routes.draw do
     resources :leagues, only: [:index, :show] do
       resources :results, only: [:index]
       resources :teams, only: [:index]
-      resources :auctions, only: [] do
+      resources :auctions, only: [:index] do
         resources :sales, only: [:index], controller: 'auction_sales'
         resources :purchases, only: [:index], controller: 'auction_purchases'
         resource :drops, only: [:show, :update], controller: 'auction_drops'

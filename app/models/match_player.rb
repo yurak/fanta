@@ -13,7 +13,7 @@ class MatchPlayer < ApplicationRecord
 
   enum :subs_status, { initial: 0, get_out: 1, get_in: 2, not_in_squad: 3 }
 
-  default_scope { includes(:lineup, round_player: { player: %i[club player_positions positions] }) }
+  default_scope { includes(:lineup, round_player: [{ player: %i[club player_positions positions] }, :tournament_round]) }
 
   FOR_FORM_ORDER = Arel.sql('CASE WHEN real_position IS NULL THEN 1 ELSE 0 END, match_players.id ASC').freeze
 

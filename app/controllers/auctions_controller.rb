@@ -4,7 +4,7 @@ class AuctionsController < ApplicationController
   helper_method :auction, :league, :player, :players
 
   def index
-    @auctions = league.auctions
+    render layout: 'react_application'
   end
 
   def show
