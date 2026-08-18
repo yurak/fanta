@@ -31,7 +31,7 @@ module Auctions
     end
 
     def league_teams
-      @league_teams ||= auction.league.teams.to_a
+      @league_teams ||= auction.league.results.includes(:team).map(&:team)
     end
 
     def team_groups

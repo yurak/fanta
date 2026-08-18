@@ -24,14 +24,14 @@ RSpec.describe 'Api::AuctionSales' do
       response 200, 'Success' do
         let(:league) { create(:league) }
         let(:auction) { create(:auction, league: league, number: 2) }
-        let(:team_a) { create(:team, league: league) }
-        let(:team_b) { create(:team, league: league) }
+        let(:team_a) { create(:team, :with_result, league: league) }
+        let(:team_b) { create(:team, :with_result, league: league) }
         let(:league_id) { league.id }
         let(:auction_id) { auction.id }
 
         before do # rubocop:disable RSpec/ScatteredSetup
           sign_in create(:user)
-          create(:team, league: league) # a league team that dropped nobody
+          create(:team, :with_result, league: league) # a league team that dropped nobody
           drop(team_a, 30, :outgoing)
           drop(team_a, 10, :outgoing)
           drop(team_a, 5, :left)
@@ -95,10 +95,10 @@ RSpec.describe 'Api::AuctionSales' do
   describe 'GET sale results ordering' do
     let(:league) { create(:league) }
     let(:auction) { create(:auction, league: league, number: 2) }
-    let(:team_b) { create(:team, :with_user, league: league) }
+    let(:team_b) { create(:team, :with_user, :with_result, league: league) }
 
     before do
-      drop(create(:team, league: league), 45, :outgoing)
+      drop(create(:team, :with_result, league: league), 45, :outgoing)
       drop(team_b, 20, :outgoing)
       sign_in team_b.user
     end

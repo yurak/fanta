@@ -16,6 +16,9 @@ ua:
     bought: "Куплено"
     top_spenders: "💸 Топ витрат"
     top_buy: "💎 Топ купівель"
+    stage_filter: "Етап аукціону"
+    all_stages: "Усі етапи"
+    stage: "Етап {{number}}"
   auction_summary:
     show_more: "+{{count}} ще"
     collapse: "Згорнути"

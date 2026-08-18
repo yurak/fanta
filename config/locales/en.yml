@@ -16,6 +16,9 @@ en:
     bought: "Bought"
     top_spenders: "💸 Top Spenders"
     top_buy: "💎 Top Deals"
+    stage_filter: "Auction Stage"
+    all_stages: "All stages"
+    stage: "Stage {{number}}"
   auction_summary:
     show_more: "+{{count}} more"
     collapse: "Collapse"

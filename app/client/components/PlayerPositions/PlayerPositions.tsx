@@ -7,9 +7,11 @@ import styles from "./PlayerPositions.module.scss";
 const PlayerPositions = ({
   position,
   outlined,
+  small,
 }: {
   position: Position | Position[],
   outlined?: boolean,
+  small?: boolean,
 }) => {
   const { italPositionNaming } = useAppContext();
 
@@ -24,7 +26,7 @@ const PlayerPositions = ({
   });
 
   return (
-    <div className={styles.positions}>
+    <div className={cn(styles.positions, { [styles.small]: small })}>
       {positionLabels.map((position) => (
         <span
           key={position.id}

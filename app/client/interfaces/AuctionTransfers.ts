@@ -1,10 +1,12 @@
+import { Position } from "@/interfaces/Position";
+
 export interface IAuctionPlayer {
   id: number,
   name: string,
   first_name: string | null,
   avatar_path: string,
   kit_path: string,
-  positions: string[],
+  positions: Position[],
 }
 
 export interface IAuctionTeam {
@@ -19,6 +21,8 @@ export interface IAuctionTransfer {
   status: "incoming" | "outgoing" | "left",
   player: IAuctionPlayer,
   team: IAuctionTeam,
+  // present on purchases only: the auction stage (round number) the buy was won in
+  stage?: number | null,
 }
 
 export interface IAuctionRankingEntry {

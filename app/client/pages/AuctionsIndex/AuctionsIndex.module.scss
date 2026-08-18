@@ -1,0 +1,259 @@
+/* Auctions index — ported from the legacy auctions.scss (desktop kept 1:1) */
+
+.page {
+  padding: 2px 28px 2px 300px;
+}
+
+.head {
+  display: flex;
+  margin: 24px 0 32px;
+}
+
+.pageTitle {
+  font-family: "Nunito ExtraBold";
+  font-size: 32px;
+  line-height: 32px;
+  margin-right: 24px;
+}
+
+.switcher {
+  margin-right: 16px;
+  padding: 4px 0;
+}
+
+.switcherText {
+  font-family: "Nunito SemiBold";
+  font-size: 14px;
+  line-height: 32px;
+}
+
+.block {
+  height: fit-content;
+  margin-bottom: 64px;
+
+  a {
+    text-decoration: none;
+  }
+}
+
+.collapsible {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition: grid-template-rows 0.3s ease, opacity 0.25s ease;
+}
+
+.collapsibleInner {
+  overflow: hidden;
+}
+
+.collapsibleOpen {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 40px auto;
+  column-gap: 24px;
+  line-height: 64px;
+  color: #181715;
+  margin-top: 24px;
+}
+
+.iconWrapper {
+  padding: 12px 0;
+  line-height: 40px;
+}
+
+.icon {
+  background-color: #f4f4f4;
+  border-radius: 24px;
+  font-size: 18px;
+  text-align: center;
+}
+
+.iconWrapperActive .icon {
+  background-color: #ffebc2;
+}
+
+.item {
+  font-family: "Nunito ExtraBold";
+  border: 1px solid #e5e6e4;
+  border-radius: 8px;
+  padding: 19px 16px;
+  line-height: 24px;
+  display: grid;
+  grid-template-columns: 20fr 4fr 7fr 12fr 24px;
+  column-gap: 36px;
+  font-size: 18px;
+}
+
+.titleIcon {
+  display: none;
+}
+
+.itemClosed .itemTitle {
+  color: #847577;
+}
+
+.droppingTitleCompleted {
+  color: #847577;
+}
+
+.transfersOngoing {
+  color: #ba44f1;
+}
+
+.statusCell {
+  .status {
+    width: fit-content;
+    font-size: 12px;
+    line-height: 16px;
+    display: grid;
+    grid-template-columns: 16px auto;
+    column-gap: 4px;
+    background: #fcc5cb;
+    border-radius: 12px;
+    padding: 3px 8px;
+  }
+
+  .statusCompleted {
+    background: #d0f0d4;
+  }
+
+  .statusOngoing {
+    background: #ffebc2;
+  }
+
+  .statusComingSoon {
+    background: #d8d6ff;
+  }
+}
+
+.statusIcon img {
+  display: block;
+  width: 16px;
+  height: 16px;
+}
+
+.date {
+  font-family: "Nunito Regular";
+  font-size: 18px;
+  line-height: 24px;
+  text-align: right;
+  color: #847577;
+}
+
+@media (orientation: portrait), (max-width: 768px) {
+  .page {
+    padding: 0 16px 120px;
+    margin: 0;
+  }
+
+  .head {
+    align-items: center;
+    margin: 16px 0 20px;
+  }
+
+  .pageTitle {
+    display: none;
+  }
+
+  .switcher {
+    margin-right: 10px;
+    padding: 0;
+
+    :global(.checkbox-block) {
+      width: 40px;
+      height: 24px;
+      border-radius: 12px;
+      padding: 3px;
+
+      :global(.checkbox-item) {
+        width: 16px;
+        height: 16px;
+        border-radius: 8px;
+      }
+    }
+  }
+
+  .switcherText {
+    font-size: 15px;
+    line-height: 20px;
+  }
+
+  .block {
+    margin-bottom: 32px;
+  }
+
+  .row {
+    display: block;
+    line-height: normal;
+    margin-top: 10px;
+  }
+
+  .iconWrapper {
+    display: none;
+  }
+
+  .item {
+    border-radius: 12px;
+    padding: 12px 14px;
+    font-size: 15px;
+    line-height: 20px;
+    column-gap: 12px;
+    row-gap: 4px;
+    align-items: center;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas:
+      "title status"
+      "date  date";
+  }
+
+  .itemTitle {
+    grid-area: title;
+    min-width: 0;
+    font-size: 16px;
+    line-height: 22px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .titleIcon {
+    display: inline-block;
+    margin-right: 8px;
+    font-size: 16px;
+  }
+
+  .transfers,
+  .arrow {
+    display: none;
+  }
+
+  .statusCell {
+    grid-area: status;
+    min-width: 0;
+
+    .status {
+      grid-template-columns: 14px auto;
+    }
+  }
+
+  .statusIcon img {
+    width: 14px;
+    height: 14px;
+  }
+
+  .date {
+    grid-area: date;
+    min-width: 0;
+    font-size: 13px;
+    line-height: 18px;
+    text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}

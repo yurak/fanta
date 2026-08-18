@@ -13,7 +13,9 @@ module Auctions
       {
         teams: team_groups,
         top_spenders: top_spenders,
-        top_buy: top_buy
+        top_buy: top_buy,
+        stages: stages,
+        stage_by: stage_by
       }
     end
 
@@ -30,7 +32,7 @@ module Auctions
     end
 
     def league_teams
-      @league_teams ||= auction.league.teams.to_a
+      @league_teams ||= auction.league.results.includes(:team).map(&:team)
     end
 
     def team_groups
@@ -52,6 +54,22 @@ module Auctions
 
     def sort_by_price(transfers)
       transfers.sort_by { |transfer| -transfer.price }
+    end
+
+    def stages
+      @stages ||= auction.auction_rounds.map(&:number)
+    end
+
+    def stage_by
+      @stage_by ||= in_transfers.to_h { |transfer| [transfer.id, winning_rounds[[transfer.player_id, transfer.team_id]]] }
+    end
+
+    def winning_rounds
+      @winning_rounds ||= PlayerBid.success
+                                   .joins(auction_bid: :auction_round)
+                                   .where(auction_rounds: { auction_id: auction.id }, player_id: in_transfers.map(&:player_id))
+                                   .pluck(:player_id, 'auction_bids.team_id', 'auction_rounds.number')
+                                   .each_with_object({}) { |(player_id, team_id, number), memo| memo[[player_id, team_id]] = number }
     end
   end
 end

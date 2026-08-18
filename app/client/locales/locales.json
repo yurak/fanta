@@ -339,9 +339,12 @@
       "text": "You need to buy %{players} players. The team budget - %{budget}. The team must have at least 3 goalkeepers."
     },
     "auction_purchases": {
+      "all_stages": "All stages",
       "bought": "Bought",
       "finished": "Finished",
       "phase": "Buying phase",
+      "stage": "Stage {{number}}",
+      "stage_filter": "Auction Stage",
       "title": "Auction #{{number}}",
       "top_buy": "💎 Top Deals",
       "top_spenders": "💸 Top Spenders"
@@ -2794,9 +2797,12 @@
       "text": "Вам необхідно купити %{players} гравців. Бюджет команди - %{budget}. У команді повинні бути мінімум 3 воротарі."
     },
     "auction_purchases": {
+      "all_stages": "Усі етапи",
       "bought": "Куплено",
       "finished": "Завершено",
       "phase": "Фаза купівлі",
+      "stage": "Етап {{number}}",
+      "stage_filter": "Етап аукціону",
       "title": "Аукціон #{{number}}",
       "top_buy": "💎 Топ купівель",
       "top_spenders": "💸 Топ витрат"

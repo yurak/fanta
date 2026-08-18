@@ -24,14 +24,14 @@ RSpec.describe 'Api::AuctionPurchases' do
       response 200, 'Success' do
         let(:league) { create(:league) }
         let(:auction) { create(:auction, league: league, number: 2) }
-        let(:team_a) { create(:team, league: league) }
-        let(:team_b) { create(:team, league: league) }
+        let(:team_a) { create(:team, :with_result, league: league) }
+        let(:team_b) { create(:team, :with_result, league: league) }
         let(:league_id) { league.id }
         let(:auction_id) { auction.id }
 
         before do # rubocop:disable RSpec/ScatteredSetup
           sign_in create(:user)
-          create(:team, league: league) # a league team that bought nobody
+          create(:team, :with_result, league: league) # a league team that bought nobody
           buy(team_a, 30, :incoming)
           buy(team_a, 10, :incoming)
           buy(team_b, 20, :incoming)
@@ -91,10 +91,10 @@ RSpec.describe 'Api::AuctionPurchases' do
   describe 'GET purchases ordering' do
     let(:league) { create(:league) }
     let(:auction) { create(:auction, league: league, number: 2) }
-    let(:team_b) { create(:team, :with_user, league: league) }
+    let(:team_b) { create(:team, :with_user, :with_result, league: league) }
 
     before do
-      buy(create(:team, league: league), 40, :incoming)
+      buy(create(:team, :with_result, league: league), 40, :incoming)
       buy(team_b, 20, :incoming)
       sign_in team_b.user
     end
@@ -105,7 +105,32 @@ RSpec.describe 'Api::AuctionPurchases' do
     end
   end
 
-  def buy(team, price, status)
-    create(:transfer, auction: auction, league: league, team: team, player: create(:player), status: status, price: price)
+  # the auction stage of a buy is reconstructed from its winning PlayerBid (transfers store no round)
+  describe 'GET purchases stage filter' do
+    let(:league) { create(:league) }
+    let(:auction) { create(:auction, league: league, number: 1) }
+    let(:team) { create(:team, :with_result, league: league) }
+
+    before do
+      create(:auction_round, auction: auction, number: 1)
+      round_two = create(:auction_round, auction: auction, number: 2)
+      player = create(:player)
+      bid = create(:auction_bid, auction_round: round_two, team: team)
+      create(:player_bid, auction_bid: bid, player: player, price: 15, status: :success)
+      buy(team, 15, :incoming, player)
+      sign_in create(:user)
+    end
+
+    it 'lists every round and tags each purchase with its winning stage' do
+      get api_league_auction_purchases_path(league_id: league.id, auction_id: auction.id)
+      aggregate_failures do
+        expect(response.parsed_body.dig('data', 'stages')).to eq([1, 2])
+        expect(response.parsed_body.dig('data', 'teams', 0, 'bought', 0, 'stage')).to eq(2)
+      end
+    end
+  end
+
+  def buy(team, price, status, player = create(:player))
+    create(:transfer, auction: auction, league: league, team: team, player: player, status: status, price: price)
   end
 end

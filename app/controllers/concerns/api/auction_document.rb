@@ -17,10 +17,9 @@ module Api
     def current_team_id
       return @current_team_id if defined?(@current_team_id)
 
-      @current_team_id = current_user&.team_by_league(auction.league)&.id
+      @current_team_id = current_user && auction.league.results.where(team_id: current_user.team_ids).pick(:team_id)
     end
 
-    # keep the signed-in user's team on top, the rest in the service's value order
     def teams_current_first(groups)
       return groups unless current_team_id
 
@@ -53,7 +52,7 @@ module Api
         first_name: player.first_name,
         avatar_path: player.avatar_path,
         kit_path: player.kit_path,
-        positions: player.positions.map(&:name)
+        positions: player.positions.map { |position| Slot::POS_MAPPING[position.name] }.compact
       }
     end
   end
