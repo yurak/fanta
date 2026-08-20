@@ -23,6 +23,9 @@ const FORM_CLASS: Record<FormState, string> = {
   full: styles.formFull,
 };
 
+// order shown in the hover legend that decodes the form-cell colors
+const FORM_LEGEND: FormState[] = ["full", "part", "bench", "out", "skipped", "empty"];
+
 const formatDeadline = (iso: string, locale: string) =>
   new Date(iso).toLocaleString(locale, {
     weekday: "short", month: "short", day: "numeric", hour: "2-digit", minute: "2-digit", hour12: false,
@@ -66,6 +69,16 @@ const AuctionDrops = () => {
       {(player.form ?? []).map((cell, index) => (
         <span key={index} className={cn(styles.formCell, FORM_CLASS[cell.state])}>{cell.score}</span>
       ))}
+      {(player.form?.length ?? 0) > 0 && (
+        <span className={styles.formLegend} role="tooltip">
+          {FORM_LEGEND.map((state) => (
+            <span key={state} className={styles.formLegendRow}>
+              <span className={cn(styles.formLegendSwatch, FORM_CLASS[state])} />
+              <span className={styles.formLegendLabel}>{t(`players.form_legend.${state}`)}</span>
+            </span>
+          ))}
+        </span>
+      )}
     </span>
   );
 

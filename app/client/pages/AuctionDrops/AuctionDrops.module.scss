@@ -304,9 +304,49 @@
 }
 
 .form {
+  position: relative;
   display: flex;
   gap: 2px;
   width: 100%;
+
+  &:hover .formLegend {
+    display: block;
+  }
+}
+
+.formLegend {
+  display: none;
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  width: max-content;
+  padding: 8px 10px;
+  background: #181715;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+.formLegendRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 0;
+}
+
+.formLegendSwatch {
+  flex-shrink: 0;
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+}
+
+.formLegendLabel {
+  font-size: 11px;
+  line-height: 14px;
+  color: #ffffff;
+  white-space: nowrap;
 }
 
 .formCell {
@@ -326,7 +366,7 @@
 }
 
 .formSkipped {
-  background: #7a7d80;
+  background: #2d9cdb;
 }
 
 .formOut {

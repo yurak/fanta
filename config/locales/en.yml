@@ -871,6 +871,13 @@ en:
     search_player: "Search player"
     export_csv: "Export CSV"
     newbie: "NEW"
+    form_legend:
+      full: "Played 60+ min"
+      part: "Played under 60 min"
+      bench: "On the bench"
+      out: "Not in the squad"
+      skipped: "Club hasn't played yet"
+      empty: "No match to show"
     results:
       title: "Showing"
       player: "player"

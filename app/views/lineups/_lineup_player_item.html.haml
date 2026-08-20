@@ -13,6 +13,11 @@
     .modal-player-form
       - form.each do |cell|
         .form-cell{class: "form-cell-#{cell[:state]}"}= cell[:score]
+      .form-legend
+        - PlayerFormHelper::LEGEND_STATES.each do |state|
+          .form-legend-row
+            %span.form-legend-swatch{class: "form-cell-#{state}"}
+            %span.form-legend-label= t("players.form_legend.#{state}")
   .modal-player-data
     .player-positions
       - player.player_positions.each do |player_position|

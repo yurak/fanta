@@ -1499,6 +1499,14 @@
         "tournamentLabel": "TMNT",
         "withoutTeamLabel": "Without team"
       },
+      "form_legend": {
+        "bench": "On the bench",
+        "empty": "No match to show",
+        "full": "Played 60+ min",
+        "out": "Not in the squad",
+        "part": "Played under 60 min",
+        "skipped": "Club hasn't played yet"
+      },
       "fp": "FP",
       "g": "G",
       "goals": "Goals",
@@ -3664,6 +3672,14 @@
         "totalScoreShortLabel": "ЗО",
         "tournamentLabel": "Турнір",
         "withoutTeamLabel": "Без команди"
+      },
+      "form_legend": {
+        "bench": "На лаві запасних",
+        "empty": "Немає матчу для показу",
+        "full": "Зіграв 60+ хв",
+        "out": "Не було в заявці",
+        "part": "Зіграв менше 60 хв",
+        "skipped": "Клуб ще не зіграв"
       },
       "fp": "НП",
       "g": "Г",

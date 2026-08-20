@@ -877,6 +877,13 @@ ua:
     search_player: "Пошук гравця"
     export_csv: "Експорт CSV"
     newbie: "NEW"
+    form_legend:
+      full: "Зіграв 60+ хв"
+      part: "Зіграв менше 60 хв"
+      bench: "На лаві запасних"
+      out: "Не було в заявці"
+      skipped: "Клуб ще не зіграв"
+      empty: "Немає матчу для показу"
     results:
       title: "Знайдено"
       player: "гравець"
