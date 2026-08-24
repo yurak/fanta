@@ -568,6 +568,28 @@ RSpec.describe 'Manage::Leagues' do
       end
     end
 
+    context 'when admin activates a live league without a deadline' do
+      login_admin
+
+      let!(:league) { create(:league, :with_five_teams, auction_type: :live) }
+
+      before { post activate_manage_league_path(league) }
+
+      it { expect(response).to redirect_to(manage_leagues_path) }
+
+      it 'activates the league' do
+        expect(league.reload).to be_active
+      end
+
+      it 'sets the first auction to live' do
+        expect(league.auctions.find_by(number: 1)).to be_live
+      end
+
+      it 'does not create auction rounds' do
+        expect(league.auctions.find_by(number: 1).auction_rounds).to be_empty
+      end
+    end
+
     context 'when a team has an existing bid without a round' do
       login_admin
 

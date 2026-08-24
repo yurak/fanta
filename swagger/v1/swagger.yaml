@@ -4,6 +4,381 @@ info:
   title: MantraFootball API V1
   version: v1
 paths:
+  "/api/leagues/{league_id}/auctions/{auction_id}/drops":
+    parameters:
+    - name: league_id
+      in: path
+      description: League id
+      required: true
+      schema:
+        type: string
+    - name: auction_id
+      in: path
+      description: Auction id
+      required: true
+      schema:
+        type: string
+    get:
+      summary: drop page — the signed-in user squad with drop status (sales phase
+        only)
+      tags:
+      - Auction Drops
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      auction:
+                        type: object
+                      team:
+                        type: object
+                        properties:
+                          budget:
+                            type: integer
+                          income:
+                            type: integer
+                          possible_budget:
+                            type: integer
+                          players_dropped:
+                            type: integer
+                          players_left:
+                            type: integer
+                          available_transfers:
+                            type: integer
+                      players:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                            name:
+                              type: string
+                            status:
+                              type: string
+                              enum:
+                              - untouchable
+                              - transferable
+                              - left
+                            price:
+                              type: integer
+                              nullable: true
+                            appearances:
+                              type: integer
+                            player_team_id:
+                              type: integer
+                              nullable: true
+                            positions:
+                              type: array
+                              items:
+                                type: string
+                            form:
+                              type: array
+                              items:
+                                type: object
+        '404':
+          description: Not the user team or not in the sales phase
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/error_not_found"
+    patch:
+      summary: update the drop selection (idempotent set of player ids to sell)
+      tags:
+      - Auction Drops
+      parameters: []
+      responses:
+        '200':
+          description: Updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+        '422':
+          description: Transfer limit exceeded
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                player_ids:
+                  type: array
+                  items:
+                    type: integer
+  "/api/leagues/{league_id}/auctions/{auction_id}/purchases":
+    parameters:
+    - name: league_id
+      in: path
+      description: League id
+      required: true
+      schema:
+        type: string
+    - name: auction_id
+      in: path
+      description: Auction id
+      required: true
+      schema:
+        type: string
+    get:
+      summary: purchases — bought players per team, with rankings
+      tags:
+      - Auction Purchases
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      auction:
+                        type: object
+                      teams:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            team:
+                              type: object
+                            total_spent:
+                              type: integer
+                            bought:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  id:
+                                    type: integer
+                                  price:
+                                    type: integer
+                                  status:
+                                    type: string
+                                  player:
+                                    type: object
+                                  team:
+                                    type: object
+                      top_spenders:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            team:
+                              type: object
+                            value:
+                              type: integer
+                      top_buy:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                            price:
+                              type: integer
+                            status:
+                              type: string
+                            player:
+                              type: object
+                            team:
+                              type: object
+        '404':
+          description: Auction not in the league
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/error_not_found"
+  "/api/leagues/{league_id}/auctions/{auction_id}/sales":
+    parameters:
+    - name: league_id
+      in: path
+      description: League id
+      required: true
+      schema:
+        type: string
+    - name: auction_id
+      in: path
+      description: Auction id
+      required: true
+      schema:
+        type: string
+    get:
+      summary: sale results — dropped and left players per team, with rankings
+      tags:
+      - Auction Sales
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      auction:
+                        type: object
+                      teams:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            team:
+                              type: object
+                            net_income:
+                              type: integer
+                            dropped:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  id:
+                                    type: integer
+                                  price:
+                                    type: integer
+                                  status:
+                                    type: string
+                                  player:
+                                    type: object
+                                  team:
+                                    type: object
+                            left:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  id:
+                                    type: integer
+                                  price:
+                                    type: integer
+                                  status:
+                                    type: string
+                                  player:
+                                    type: object
+                                  team:
+                                    type: object
+                      top_earners:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            team:
+                              type: object
+                            value:
+                              type: integer
+                      top_droppers:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            team:
+                              type: object
+                            value:
+                              type: integer
+                      top_sale:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                            price:
+                              type: integer
+                            status:
+                              type: string
+                            player:
+                              type: object
+                            team:
+                              type: object
+        '404':
+          description: Auction not in the league
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/error_not_found"
+  "/api/leagues/{league_id}/auctions":
+    parameters:
+    - name: league_id
+      in: path
+      description: League id
+      required: true
+      schema:
+        type: string
+    get:
+      summary: list league auctions with their rows (main + dropping)
+      tags:
+      - Auctions
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      auctions:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            hidden:
+                              type: boolean
+                            rows:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  href:
+                                    type: string
+                                  icon:
+                                    type: string
+                                  icon_active:
+                                    type: boolean
+                                  title:
+                                    type: string
+                                  title_status:
+                                    type: string
+                                    nullable: true
+                                  item_status:
+                                    type: string
+                                  transfers:
+                                    type: string
+                                  transfers_status:
+                                    type: string
+                                    nullable: true
+                                  status:
+                                    type: string
+                                  status_text:
+                                    type: string
+                                  status_icon:
+                                    type: string
+                                  date:
+                                    type: string
+                                    nullable: true
+                                  arrow_icon:
+                                    type: string
+        '404':
+          description: League not found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/error_not_found"
   "/api/tournaments/{tournament_id}/divisions":
     parameters:
     - name: tournament_id

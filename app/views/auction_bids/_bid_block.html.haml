@@ -131,7 +131,7 @@
                   = image_tag('default_logo.png')
               .player-bid-actions
                 .player-transfer-completed
-                  .player-transfer-price= player.transfers.incoming.by_league(league&.id).last&.price
+                  .player-transfer-price= player.transfers.select { |transfer| transfer.incoming? && transfer.league_id == league&.id }.last&.price
                   .player-transfer-check ✅
 
 %script{type: "text/javascript", src: "/javascripts/lib/GetFilledFormations.js?v=2"}

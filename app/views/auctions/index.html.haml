@@ -2,62 +2,6 @@
   .web-header= render 'layouts/left_nav', league: league
   .web-header= render 'layouts/right_nav', league: league
   .mob-header= render 'layouts/mob_header', league: league
-
-  .page-info.auctions-page
-    .auctions-head
-      .auctions-title= t('auction.index.auctions')
-      .auctions-switcher
-        .checkbox-block
-          .checkbox-item
-      .auctions-switcher-text= t('auction.index.show_upcoming')
-
-    .auctions-block
-      - @auctions.reverse.each do |auction|
-        = link_to auction_link(auction), class: "hide-auction-#{(!auction.primary? && auction.deadline.blank?)}" do
-          .auction-row
-            .auction-icon-wrapper{ class: "auction-icon-wrapper-#{auction.live? || auction.blind_bids?}" }
-              .auction-icon= t("auction.index.icon.initial_#{auction.initial?}")
-            .auction-item{ class: "auction-item-#{auction.status}"}
-              .auction-item-title= auction.primary? ? t("auction.index.initial_title") : t("auction.index.intermediate_title", number: auction.number)
-              .auction-item-transfers{ class: "auction-item-transfers-#{auction_status(auction)}" }
-                = (auction.initial? || auction.sales?) ? '-' : "🔄 #{auction.transfers.incoming.count}"
-              .auction-item-status-cell
-                .auction-item-status{ class: "auction-item-status-#{auction_status(auction)}" }
-                  .auction-item-status-icon= image_tag("icons/auctions/#{auction_status(auction)}.svg")
-                  .auction-item-status-text= t("auction.index.status.#{auction_status(auction)}")
-              .auction-item-date= auction_dates(auction, current_user)
-              .auction-item-arrow= image_tag("icons/arrow_right_link.svg")
-        - if !auction.primary? && auction.deadline
-          = link_to dropping_link(auction) do
-            .auction-row
-              .auction-icon-wrapper{ class: "auction-icon-wrapper-#{auction.sales?}" }
-                .auction-icon= t("auction.index.icon.dropping")
-              .auction-item{ class: "auction-item-#{auction.status}"}
-                .auction-item-title{ class: "dropping-title-#{auction_dropping_status(auction)}" }= t("auction.index.dropping_title")
-                .auction-item-transfers= (auction.initial? || auction.sales?) ? '-' : "🔄 #{auction.transfers.all_out.count}"
-                .auction-item-status-cell
-                  .auction-item-status{ class: "auction-item-status-#{auction_dropping_status(auction)}" }
-                    .auction-item-status-icon= image_tag("icons/auctions/#{auction_dropping_status(auction)}.svg")
-                    .auction-item-status-text= t("auction.index.status.#{auction_dropping_status(auction)}")
-                .auction-item-date
-                  = auction.sales? ? "#{local_time(auction.deadline, '%^a, %b %e, %H:%M')}" : "#{(auction.deadline - 5.days)&.strftime('%b %e')} - #{auction.deadline&.strftime('%b %e, %Y')}"
-                .auction-item-arrow= image_tag("icons/arrow_right_link.svg")
-
+  = react_component("App")
   .portrait-footer{ class: "portrait-footer-#{league.mantra?}"}
     = render 'layouts/league_links', league: league
-
-:javascript
-  $(document).ready(function() {
-
-    $(".checkbox-block").click(function(){
-      var switcher = this;
-
-      if (switcher.classList.contains("checkbox-on-true")) {
-        $(this).removeClass("checkbox-on-true");
-        $(".hide-auction-true").hide();
-      } else {
-        $(this).addClass("checkbox-on-true");
-        $(".hide-auction-true").show();
-      }
-    });
-  });

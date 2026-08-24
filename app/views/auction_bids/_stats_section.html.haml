@@ -74,7 +74,7 @@
                 - if team.full_squad? || auction.closed?
                   🏁️
                 - elsif user_team == team || auction_round.ddl_expired? || current_user&.admin?
-                  = t("auction_round.status_icon.#{auction_round.auction_bids.find_by(team: team).status}")
+                  = t("auction_round.status_icon.#{auction_round.auction_bids.detect { |bid| bid.team_id == team.id }&.status}")
   - if modules&.any?
     .round-table
       .round-table-title-header
@@ -92,7 +92,7 @@
   - if transfers&.any? && league && auction
     .round-table
       .round-table-title
-        = link_to league_auction_transfers_path(league, auction) do
+        = link_to purchases_league_auction_path(league, auction) do
           .round-table-title-text= t('auction_round.transfers')
           .round-table-title-icon
             = image_tag('icons/arrow_blue.svg')
@@ -115,7 +115,7 @@
   - if drop_outs&.any? && league && auction
     .round-table
       .round-table-title
-        = link_to league_auction_transfers_path(league, auction, type: 'out') do
+        = link_to sales_league_auction_path(league, auction) do
           .round-table-title-text= t('auction_round.dropping_title')
           .round-table-title-icon
             = image_tag('icons/arrow_blue.svg')

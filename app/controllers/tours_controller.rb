@@ -37,7 +37,8 @@ class ToursController < ApplicationController
   def league_players
     if tour
       @league_players = MatchPlayer.by_tour(tour.id).main_with_score
-                                   .includes(round_player: [:club, { player: %i[positions teams club] }], lineup: :team)
+                                   .includes(round_player: [:club, :tournament_round, { player: %i[positions teams club] }],
+                                             lineup: :team)
                                    .sort_by { |mp| -mp.total_score }.take(5)
 
       @teams_by_player = {}

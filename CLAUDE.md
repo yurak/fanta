@@ -54,3 +54,8 @@ append it to this list so future sessions don't rediscover it. Keep entries shor
   `league.results`. `has_many :tours, inverse_of: :league` makes `tour.league` the caller's League
   object, so a preloaded association (e.g. `manage#refresh` doing `league.results.each(&:reset_stats)`)
   leaks stale zeros into `history` while the table columns stay correct.
+- The React app persists react-query results to `localStorage` (`app/client/bootstrap/useQueryClient.ts`,
+  `maxAge` 1 day), busted ONLY when `buster: packageJson.version` changes. So whenever you change the
+  SHAPE of any `/api/*` JSON response (add/rename a field the client reads), BUMP `version` in
+  `package.json` — otherwise a full reload keeps serving the stale cached payload (missing the new
+  field) for up to a day, and the change silently doesn't take effect in the browser.

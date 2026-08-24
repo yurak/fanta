@@ -18,9 +18,9 @@ module AuctionsHelper # rubocop:disable Metrics/ModuleLength
       league_auction_path(auction.league, auction)
     when 'sales'
       team = current_user&.team_by_league(auction.league)
-      team ? edit_team_player_team_path(team, team.player_teams.first) : league_auction_path(auction.league, auction)
+      team ? drops_league_auction_path(auction.league, auction) : league_auction_path(auction.league, auction)
     else
-      league_auction_transfers_path(auction.league, auction, type: 'out')
+      sales_league_auction_path(auction.league, auction)
     end
   end
 

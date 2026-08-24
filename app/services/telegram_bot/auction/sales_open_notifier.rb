@@ -13,7 +13,7 @@ module TelegramBot
           time_zone: time_zone,
           available_transfers: team.available_transfers,
           team_name: team.human_name,
-          url: Rails.application.routes.url_helpers.edit_team_player_team_url(team, team.player_teams.first),
+          url: Rails.application.routes.url_helpers.drops_league_auction_url(league, notifiable),
           code: league.tournament.code
         )
       end

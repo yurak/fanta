@@ -1,6 +1,8 @@
 module PlayerFormHelper
   FORM_ROUNDS = 5
   FORM_FULL_MINUTES = 60
+  # order shown in the hover legend that decodes the form-cell colors
+  LEGEND_STATES = %w[full part bench out skipped empty].freeze
 
   # Last-N-rounds form for a set of players, keyed by player id. Each value is an
   # array of exactly FORM_ROUNDS cells (oldest → newest); rounds that do not exist
@@ -32,8 +34,12 @@ module PlayerFormHelper
     played[:rounds].include?(round.id) && played[:clubs].exclude?([player.club_id, round.id])
   end
 
+  # Only matches with a result count as "played" — a postponed/upcoming fixture keeps its
+  # TournamentMatch row (scores still nil), so a club whose match slipped out of the round
+  # must resolve to `skipped`, not `out` (which would wrongly blame the player).
   def club_rounds_played(rounds)
     pairs = TournamentMatch.where(tournament_round_id: rounds.map(&:id))
+                           .where.not(host_score: nil).where.not(guest_score: nil)
                            .pluck(:tournament_round_id, :host_club_id, :guest_club_id)
 
     {

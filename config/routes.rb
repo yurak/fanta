@@ -102,6 +102,9 @@ Rails.application.routes.draw do
   resources :leagues, only: [:index, :show] do
     resources :auctions, only: [:index, :show, :update] do
       get :live, on: :member
+      get :sales, on: :member
+      get :purchases, on: :member
+      get :drops, on: :member
 
       resources :transfers, only: [:index, :create, :destroy]
     end
@@ -139,8 +142,6 @@ Rails.application.routes.draw do
       collection { get :clone }
       member { post :fanta_copy }
     end
-
-    resources :player_teams, only: [:edit, :update]
   end
 
   resources :tournaments, only: [:show] do
@@ -183,6 +184,11 @@ Rails.application.routes.draw do
     resources :leagues, only: [:index, :show] do
       resources :results, only: [:index]
       resources :teams, only: [:index]
+      resources :auctions, only: [:index] do
+        resources :sales, only: [:index], controller: 'auction_sales'
+        resources :purchases, only: [:index], controller: 'auction_purchases'
+        resource :drops, only: [:show, :update], controller: 'auction_drops'
+      end
     end
     resources :player_bids, only: [:show]
     resources :players, only: [:index, :show] do

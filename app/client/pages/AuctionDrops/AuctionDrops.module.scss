@@ -1,0 +1,616 @@
+.page {
+  min-width: 0;
+}
+
+/* ----- topbar (title + autosave) ----- */
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.header {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: #181715;
+
+  &:hover {
+    text-decoration: none;
+    color: #181715;
+  }
+}
+
+.back {
+  font-size: 22px;
+  line-height: 1;
+}
+
+.title {
+  font-family: "Nunito ExtraBold";
+  font-size: 28px;
+  line-height: 36px;
+}
+
+.saving {
+  font-family: "Nunito Bold";
+  font-size: 14px;
+  color: #7a3ff2;
+}
+
+.saved {
+  position: relative;
+  font-family: "Nunito Bold";
+  font-size: 14px;
+  color: #847577;
+  cursor: default;
+}
+
+.tooltip {
+  display: none;
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 20;
+  width: 240px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: #3a2a78;
+  color: #ffffff;
+  font-family: "Nunito SemiBold";
+  font-size: 13px;
+  line-height: 18px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+
+  .saved:hover & {
+    display: block;
+  }
+}
+
+.loading {
+  padding: 48px 0;
+  text-align: center;
+  color: #847577;
+}
+
+/* ----- phase banner ----- */
+
+.banner {
+  margin-bottom: 20px;
+  border: 1px solid #ffebc2;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.bannerTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 14px 20px;
+  background: #ffebc2;
+  border-bottom: 1px solid #ffebc2;
+}
+
+.phase {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.phaseName {
+  font-family: "Nunito ExtraBold";
+  font-size: 18px;
+  color: #181715;
+}
+
+.ongoing {
+  padding: 4px 12px;
+  border-radius: 16px;
+  background: #ffb319;
+  font-family: "Nunito Bold";
+  font-size: 13px;
+  color: #ffffff;
+}
+
+.deadline {
+  font-family: "Nunito Bold";
+  font-size: 14px;
+  color: #181715;
+}
+
+.remaining {
+  color: #847577;
+}
+
+.stats {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  padding: 14px 20px;
+}
+
+.stat {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: "Nunito Bold";
+  font-size: 14px;
+  color: #181715;
+}
+
+.badge {
+  padding: 2px 10px;
+  border-radius: 12px;
+  background: #efefef;
+  font-family: "Nunito Bold";
+  font-size: 13px;
+}
+
+.green {
+  background: #d8f0d5;
+  color: #2f8a3a;
+}
+
+.purple {
+  background: #e6e2ff;
+  color: #5b4be0;
+}
+
+.sep {
+  width: 1px;
+  height: 20px;
+  background: #e5e6e4;
+}
+
+@media (max-width: 768px) {
+  .stats {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .stat {
+    justify-content: space-between;
+  }
+
+  .sep {
+    display: none;
+  }
+}
+
+.chips {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 0 20px 14px;
+}
+
+.chip {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 32px;
+  padding: 0 12px 0 6px;
+  border: 1px solid #e5e6e4;
+  border-radius: 16px;
+  overflow: hidden;
+  font-family: "Nunito Bold";
+  font-size: 13px;
+  color: #181715;
+}
+
+.chipLeft {
+  opacity: 0.55;
+}
+
+.chipAvatar {
+  align-self: flex-end;
+  width: 26px;
+  flex: 0 0 26px;
+  height: 28px;
+  margin-left: 6px;
+}
+
+.chipRemove {
+  padding: 0 2px;
+  border: none;
+  background: none;
+  outline: none;
+  cursor: pointer;
+  color: #847577;
+  font-size: 12px;
+
+  &:focus,
+  &:focus-visible {
+    outline: none;
+  }
+}
+
+/* ----- table: column widths (ui/Table cells default to flex:1) ----- */
+
+.nameCell {
+  flex: 1;
+  min-width: 200px;
+}
+
+.nameDataCell {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.positionsCell {
+  flex: 0 0 150px;
+
+  @media (max-width: 1300px) {
+    flex-basis: 104px;
+  }
+}
+
+.appsCell {
+  flex: 0 0 110px;
+
+  @media (max-width: 1300px) {
+    flex-basis: 84px;
+  }
+
+  @media (max-width: 991px) {
+    flex-basis: 64px;
+  }
+}
+
+.ratingCell {
+  flex: 0 0 90px;
+
+  @media (max-width: 1300px) {
+    flex-basis: 68px;
+  }
+}
+
+.clubCell {
+  flex: 0 0 92px;
+
+  @media (max-width: 1300px) {
+    flex-basis: 72px;
+  }
+}
+
+.formColumn {
+  flex: 0 0 134px;
+
+  @media (max-width: 1300px) {
+    flex-basis: 108px;
+  }
+}
+
+.priceCell {
+  flex: 0 0 92px;
+
+  @media (max-width: 1300px) {
+    flex-basis: 72px;
+  }
+}
+
+.statusCell {
+  flex: 0 0 164px;
+}
+
+.form {
+  position: relative;
+  display: flex;
+  gap: 2px;
+  width: 100%;
+
+  &:hover .formLegend {
+    display: block;
+  }
+}
+
+.formLegend {
+  display: none;
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  width: max-content;
+  padding: 8px 10px;
+  background: #181715;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+.formLegendRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 0;
+}
+
+.formLegendSwatch {
+  flex-shrink: 0;
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+}
+
+.formLegendLabel {
+  font-size: 11px;
+  line-height: 14px;
+  color: #ffffff;
+  white-space: nowrap;
+}
+
+.formCell {
+  flex: 1;
+  min-width: 0;
+  height: 18px;
+  border-radius: 2px;
+  font-family: "Nunito Bold";
+  font-size: 9px;
+  line-height: 18px;
+  text-align: center;
+  color: #ffffff;
+}
+
+.formEmpty {
+  background: #e5e6e4;
+}
+
+.formSkipped {
+  background: #2d9cdb;
+}
+
+.formOut {
+  background: #a00e1e;
+}
+
+.formBench {
+  background: #f26419;
+}
+
+.formPart {
+  background: #f2b705;
+  color: #181715;
+}
+
+.formFull {
+  background: #4ead57;
+}
+
+.logo {
+  display: inline-block;
+  width: 28px;
+  height: 28px;
+
+  @media (max-width: 1300px) {
+    width: 24px;
+    height: 24px;
+  }
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+}
+
+/* ----- table cell content ----- */
+
+.player {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-width: 0;
+  text-decoration: none;
+  color: inherit;
+
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+.avatar {
+  width: 72px;
+  flex: 0 0 72px;
+
+  @media (max-width: 1300px) {
+    width: 60px;
+    flex-basis: 60px;
+  }
+}
+
+.name {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.lastName {
+  font-family: "Nunito ExtraBold";
+  font-size: 16px;
+  line-height: 18px;
+  color: #181715;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.firstName {
+  font-size: 14px;
+  line-height: 16px;
+  color: #847577;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.strong {
+  font-family: "Nunito Bold";
+  color: #181715;
+}
+
+.dropBtn {
+  min-width: 96px;
+  padding: 8px 18px;
+  border: 1px solid #cfd0ff;
+  border-radius: 8px;
+  background: #ffffff;
+  outline: none;
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  font-family: "Nunito Bold";
+  font-size: 14px;
+  color: #261fff;
+
+  &:focus,
+  &:focus-visible {
+    outline: none;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.droppedBtn {
+  background: #db0a23;
+  border-color: #db0a23;
+  color: #ffffff;
+}
+
+.leftBadge {
+  display: inline-block;
+  min-width: 96px;
+  padding: 8px 18px;
+  border-radius: 8px;
+  background: #ededed;
+  font-family: "Nunito Bold";
+  font-size: 14px;
+  color: #847577;
+  text-align: center;
+}
+
+/* ----- icon-only status control (mobile) ----- */
+
+.statusIcon {
+  align-self: center;
+  min-width: 42px;
+  width: auto;
+  flex: 0 0 auto;
+  padding: 9px 12px;
+  font-size: 15px;
+  line-height: 1;
+}
+
+/* ----- mobile card list (styles mirror the Players page) ----- */
+
+.mobileList {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.mobileItem {
+  position: relative;
+  display: flex;
+  gap: 16px;
+  padding: 0 8px;
+  border: 1px solid #e5e6e4;
+  border-radius: 4px;
+}
+
+.mobileAvatarLink {
+  flex: 0 0 64px;
+  align-self: flex-end;
+  text-decoration: none;
+}
+
+.mobileAvatar {
+  width: 64px;
+}
+
+.mobileInfo {
+  flex: 1;
+  min-width: 0;
+  padding: 8px 0;
+}
+
+.mobileTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.mobileName {
+  min-width: 0;
+  font-family: "Nunito ExtraBold";
+  font-size: 16px;
+  color: #181715;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: none;
+    color: #181715;
+  }
+}
+
+.mobileNameText {
+  display: block;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mobilePrice {
+  flex-shrink: 0;
+  font-family: "Nunito ExtraBold";
+  font-size: 15px;
+  color: #181715;
+}
+
+.mobileBottom {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+  line-height: 20px;
+}
+
+.mobileDivider {
+  display: inline-block;
+  width: 1px;
+  height: 10px;
+  background: #cfd2cd;
+}
+
+.mobileLogo {
+  width: 20px;
+  height: 20px;
+  line-height: 1;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+}
+
+.mobileMeta {
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 0.02em;
+  color: #181715;
+}

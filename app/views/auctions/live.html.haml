@@ -10,8 +10,9 @@
       .auction-data-row-two
         .auction-title= t('auction.live.auction')
         .auction-spend-time
-          - if league.transfers.first
-            = Time.zone.at(Time.zone.now - league.transfers.first.created_at).strftime("%H:%M")
+          - first_transfer = league.transfers.oldest.first
+          - if first_transfer
+            = Time.zone.at(Time.zone.now - first_transfer.created_at).strftime("%H:%M")
           - else
             = '00:00'
       .auction-data-row-three
@@ -149,7 +150,7 @@
           = league.transfers.incoming.count - league.transfers.outgoing.count
         .auction-purchases-title-total
           = "/ #{league.teams.count * Team::MAX_PLAYERS}"
-    - league.transfers.incoming.reverse.take(8).each do |transfer|
+    - league.transfers.incoming.recent.limit(8).includes(:team, player: %i[club positions]).each do |transfer|
       .auction-purchases-item
         .auction-purchases-item-hidden
           = link_to league_auction_transfer_path(transfer.league, auction, transfer), method: :delete, data: { confirm: t('header.are_you_sure') } do

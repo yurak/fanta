@@ -78,17 +78,25 @@ RSpec.describe PlayerFormHelper do
       before { two_rounds_ago }
 
       it 'is skipped when the other clubs played that round' do
-        create(:tournament_match, tournament_round: two_rounds_ago)
+        create(:tournament_match, tournament_round: two_rounds_ago, host_score: 1, guest_score: 0)
 
         expect(cells.last[:state]).to eq('skipped')
       end
 
-      it 'is out when the round has no tournament matches at all' do
+      it 'is skipped when the club fixture is postponed (no result) while others played' do
+        create(:tournament_match, tournament_round: two_rounds_ago, host_score: 1, guest_score: 0)
+        create(:tournament_match, tournament_round: two_rounds_ago, host_club: player.club)
+
+        expect(cells.last[:state]).to eq('skipped')
+      end
+
+      it 'is out when the round has no played tournament matches at all' do
         expect(cells.last[:state]).to eq('out')
       end
 
       it 'keeps the regular state when the club played that round' do
-        create(:tournament_match, tournament_round: two_rounds_ago, host_club: player.club)
+        create(:tournament_match, tournament_round: two_rounds_ago, host_club: player.club,
+                                  host_score: 2, guest_score: 1)
         create(:round_player, player: player, tournament_round: two_rounds_ago,
                               in_squad: true, played_minutes: 90, score: 7.0)
 

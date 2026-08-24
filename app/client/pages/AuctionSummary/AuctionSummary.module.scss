@@ -1,0 +1,432 @@
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 300px;
+  align-items: stretch;
+
+  @media (max-width: 992px) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.main {
+  min-width: 0;
+  padding-right: 24px;
+
+  @media (max-width: 992px) {
+    padding-right: 0;
+  }
+}
+
+/* ----- header (over the central column only) ----- */
+
+.header {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+  text-decoration: none;
+  color: #181715;
+
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+.back {
+  font-size: 22px;
+  line-height: 1;
+  color: #181715;
+}
+
+.title {
+  font-family: "Nunito ExtraBold";
+  font-size: 28px;
+  line-height: 36px;
+  color: #181715;
+}
+
+/* ----- phase banner ----- */
+
+.phaseBanner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 16px;
+  margin-bottom: 24px;
+  background: #f4f4f4;
+  border-radius: 8px;
+  flex-wrap: wrap;
+}
+
+.phaseName {
+  font-family: "Nunito Bold";
+  font-size: 16px;
+  color: #181715;
+}
+
+.phaseStatus {
+  font-family: "Nunito Bold";
+  font-size: 13px;
+  color: #ffffff;
+  background: #181715;
+  padding: 6px 12px;
+  border-radius: 16px;
+}
+
+.loading {
+  padding: 48px 0;
+  text-align: center;
+  color: #847577;
+}
+
+/* ----- stage filter ----- */
+
+.filterBar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.filterLabel {
+  font-family: "Nunito Bold";
+  font-size: 14px;
+  color: #847577;
+}
+
+.filterSelect {
+  width: 200px;
+  font-size: 14px;
+}
+
+/* ----- team cards ----- */
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+
+  @media (max-width: 768px) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.card {
+  border: 1px solid #e5e6e4;
+  border-radius: 8px;
+  padding: 16px;
+  background: #ffffff;
+}
+
+.cardHead {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 12px;
+}
+
+.cardTeam {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  align-self: stretch;
+  min-width: 0;
+  text-decoration: none;
+  color: inherit;
+
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+.cardLogo {
+  width: 56px;
+  height: 56px;
+  object-fit: contain;
+}
+
+.cardName {
+  display: block;
+  max-width: 100%;
+  font-family: "Nunito Bold";
+  font-size: 16px;
+  color: #181715;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cardIncome {
+  font-family: "Nunito ExtraBold";
+  font-size: 28px;
+  line-height: 32px;
+  color: #4ead57;
+}
+
+.cardSpent {
+  font-family: "Nunito ExtraBold";
+  font-size: 28px;
+  line-height: 32px;
+  color: #e0525b;
+}
+
+/* two equal tabs (~45% each, ~5% side gaps); the bottom border spans the full
+   card width (negative margins bleed into the card's 16px padding) */
+.tabs {
+  display: flex;
+  margin: 0 -16px;
+  padding: 0 5%;
+  border-bottom: 1px solid #e5e6e4;
+}
+
+.tab {
+  flex: 1;
+  position: relative;
+  padding: 10px 0;
+  background: none;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  font-family: "Nunito Bold";
+  font-size: 14px;
+  color: #181715;
+  text-align: center;
+
+  &:focus,
+  &:focus-visible {
+    outline: none;
+  }
+}
+
+.tabActive {
+  color: #261fff;
+
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -1px;
+    width: 100%;
+    height: 4px;
+    background: #261fff;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+  }
+}
+
+.cardTotalRow {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 -16px;
+  padding: 8px 16px;
+  border-bottom: 1px solid #e5e6e4;
+  font-size: 12px;
+  color: #847577;
+  text-transform: uppercase;
+}
+
+.cardPlayers {
+  margin-top: 4px;
+}
+
+.playerRow {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr) 52px 48px;
+  align-items: center;
+  gap: 8px;
+  margin: 0 -16px;
+  padding: 6px 16px;
+  text-decoration: none;
+  color: inherit;
+
+  &:hover {
+    text-decoration: none;
+    background: #f4f4f4;
+  }
+}
+
+.playerRowAvatar {
+  width: 28px;
+  height: 28px;
+}
+
+.playerRowName {
+  font-size: 13px;
+  color: #181715;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.playerRowPositions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.playerRowPrice {
+  font-family: "Nunito Bold";
+  font-size: 13px;
+  color: #181715;
+  text-align: right;
+}
+
+/* inline expand/collapse toggle for long player lists (full-bleed like rows) */
+.cardMore {
+  display: block;
+  width: calc(100% + 32px);
+  margin: 4px -16px 0;
+  padding: 8px 16px;
+  background: none;
+  border: none;
+  border-top: 1px solid #e5e6e4;
+  outline: none;
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  font-family: "Nunito Bold";
+  font-size: 12px;
+  color: #261fff;
+  text-align: center;
+
+  &:hover {
+    background: #f4f4f4;
+  }
+
+  &:focus,
+  &:focus-visible {
+    outline: none;
+  }
+}
+
+/* ----- rankings: one full-height column, sections split by lines ----- */
+
+/* Full-bleed side panel: negative margins cancel the PageLayout padding so the
+   left border and section dividers reach the top / right / bottom edges. The
+   inner padding is restored so the content keeps its position. */
+.rankings {
+  align-self: stretch;
+  border-left: 1px solid #e5e6e4;
+
+  @media (min-width: 769px) {
+    margin: -24px -16px -36px 0;
+    padding: 8px 0 36px;
+  }
+
+  @media (min-width: 992px) {
+    margin: -40px -16px -60px 0;
+    padding: 8px 0 60px;
+  }
+
+  @media (max-width: 768px) {
+    border-left: none;
+    border-top: 1px solid #e5e6e4;
+    margin-top: 24px;
+  }
+}
+
+/* horizontal padding on the section (not the column) so the dividers span the
+   full column width while the content stays inset from the left border */
+.rankSection {
+  padding: 4px 20px 12px;
+}
+
+.rankSection + .rankSection {
+  border-top: 1px solid #e5e6e4;
+  padding-top: 12px;
+}
+
+.rankHead {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: "Nunito Bold";
+  font-size: 15px;
+  color: #181715;
+}
+
+.rankChevron {
+  color: #847577;
+  transition: transform 0.15s ease;
+}
+
+.rankChevronClosed {
+  transform: rotate(180deg);
+}
+
+.rankList {
+  margin-top: 4px;
+}
+
+.rankRow {
+  display: grid;
+  grid-template-columns: 16px 24px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 0;
+  border-bottom: 1px solid #e5e6e4;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.rankIndex {
+  font-family: "Nunito Bold";
+  font-size: 12px;
+  color: #a6a2a2;
+  text-align: center;
+}
+
+.rankLogo {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+/* Top Sale rows: player photo fills the row height and sits flush to the row's
+   bottom border (same treatment as the tour-page players table, which scales a
+   large design-px avatar via responsivePixels — there is no fixed px to copy). */
+.rankSaleRow {
+  grid-template-columns: 16px 40px minmax(0, 1fr) auto;
+  padding-top: 4px;
+  padding-bottom: 0;
+}
+
+.rankSaleAvatar {
+  width: 40px;
+  align-self: end;
+}
+
+.rankName {
+  font-size: 13px;
+  color: #181715;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.rankValue {
+  font-family: "Nunito Bold";
+  font-size: 13px;
+  color: #181715;
+}
+
+.rankIncome {
+  color: #4ead57;
+}
+
+.rankSpent {
+  color: #e0525b;
+}

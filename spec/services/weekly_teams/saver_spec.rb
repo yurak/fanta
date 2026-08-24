@@ -199,4 +199,33 @@ RSpec.describe WeeklyTeams::Saver do
       expect { result }.not_to change(WeeklyTeam, :count)
     end
   end
+
+  context 'with an auction source (player_id, no round_player)' do
+    subject(:result) do
+      described_class.call(
+        team_module_id: team_module.id,
+        round_ids: [],
+        mode: 'top',
+        number: 1,
+        source: 'auction',
+        tournament_id: Tournament.first.id,
+        players: [{ slot_id: slot.id, player_id: player.id, total: 30.0, max_price: 55 }]
+      )
+    end
+
+    let(:player) { create(:player, :with_pos_por) }
+    let(:wtp) { result.weekly_team_players.first }
+
+    it 'persists the WeeklyTeam' do
+      expect { result }.to change(WeeklyTeam, :count).by(1)
+    end
+
+    it 'creates a player-based weekly_team_player without a round_player' do
+      aggregate_failures do
+        expect(wtp.player_id).to eq(player.id)
+        expect(wtp.round_player_id).to be_nil
+        expect(wtp.max_price).to eq(55)
+      end
+    end
+  end
 end
