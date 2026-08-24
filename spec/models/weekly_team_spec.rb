@@ -48,8 +48,8 @@ RSpec.describe WeeklyTeam do
     it { is_expected.to define_enum_for(:mode).with_values(top: 'top', flop: 'flop').backed_by_column_of_type(:string) }
 
     it 'defines source enum with prefix' do
-      expect(weekly_team).to define_enum_for(:source).with_values(round: 'round', season: 'season',
-                                                                  avg: 'avg').backed_by_column_of_type(:string).with_prefix(:source)
+      expect(weekly_team).to define_enum_for(:source).with_values(round: 'round', season: 'season', avg: 'avg',
+                                                                  auction: 'auction').backed_by_column_of_type(:string).with_prefix(:source)
     end
   end
 
@@ -86,6 +86,27 @@ RSpec.describe WeeklyTeam do
       add_player(weekly_team, position: 'Dc', score: 7.0, total: 7.0)
 
       expect(weekly_team.total_score).to eq(15.0) # 7 + 7 + bonus 1
+    end
+  end
+
+  describe 'auction source' do
+    it 'is invalid without a tournament' do
+      weekly_team = build(:weekly_team, source: :auction, mode: :top, tournament: nil)
+
+      expect(weekly_team).not_to be_valid
+    end
+
+    it 'is invalid with flop mode' do
+      weekly_team = build(:weekly_team, source: :auction, mode: :flop, tournament: Tournament.first)
+
+      expect(weekly_team).not_to be_valid
+    end
+
+    it 'returns 0 defence bonus' do
+      weekly_team = create(:weekly_team, source: :auction, mode: :top, tournament: Tournament.first)
+      add_player(weekly_team, position: 'Dc', score: 8.0)
+
+      expect(weekly_team.defence_bonus).to eq(0)
     end
   end
 

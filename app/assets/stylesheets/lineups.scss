@@ -378,7 +378,7 @@
 /* SHOW WEEKLY TEAM page*/
 
 .match-page.lineup-page.weekly-team-page {
-  padding: 0 0 0 72px;
+  padding: 0 0 48px 72px;
 }
 
 .weekly-team-content {
@@ -390,6 +390,71 @@
   font-family: 'Nunito ExtraBold';
   font-size: 24px;
   padding: 24px 16px 0;
+}
+
+.weekly-team-round-tops {
+  margin: 40px 0 0;
+  padding: 0 16px 56px;
+}
+
+.weekly-team-round-tops-title {
+  font-family: 'Nunito ExtraBold';
+  font-size: 20px;
+  margin-bottom: 12px;
+}
+
+.weekly-team-round-tops-table {
+  width: 100%;
+  border-collapse: collapse;
+
+  th,
+  td {
+    height: 52px;
+    padding: 8px 12px;
+    text-align: left;
+    vertical-align: middle;
+    border-bottom: 1px solid #E5E6E4;
+    font-size: 16px;
+  }
+
+  th {
+    font-family: 'Nunito Bold';
+    color: #847577;
+  }
+
+  .text-end {
+    text-align: right;
+  }
+
+  .text-center {
+    text-align: center;
+  }
+
+  .tournament-cell {
+    white-space: nowrap;
+  }
+
+  .tournament-flag {
+    margin-right: 6px;
+  }
+
+  .team-cell {
+    white-space: nowrap;
+  }
+
+  a {
+    font-family: 'Nunito Bold';
+    color: #261FFF;
+    text-decoration: none;
+  }
+}
+
+.weekly-team-round-tops-logo {
+  width: 24px;
+  height: 24px;
+  margin-right: 8px;
+  object-fit: contain;
+  vertical-align: middle;
 }
 
 .page-info.match-page.weekly-team-page {

@@ -15,8 +15,11 @@
         .vr.mx-2
         = radio_button_tag :source, 'avg', @source == 'avg', id: 'source_avg', class: 'round-toggle-input', onchange: 'this.form.submit()'
         = label_tag 'source_avg', t('manage.weekly_team.source_avg'), class: 'round-toggle-label'
+        .vr.mx-2
+        = radio_button_tag :source, 'auction', @source == 'auction', id: 'source_auction', class: 'round-toggle-input', onchange: 'this.form.submit()'
+        = label_tag 'source_auction', t('manage.weekly_team.source_auction'), class: 'round-toggle-label'
 
-      - unless @source == 'avg'
+      - unless %w[avg auction].include?(@source)
         .d-flex.align-items-center.mb-4
           = radio_button_tag :mode, 'top', @mode != :flop, id: 'mode_top', class: 'round-toggle-input'
           = label_tag 'mode_top', t('manage.weekly_team.mode_top'), class: 'round-toggle-label'
@@ -37,7 +40,7 @@
                 - if round.deadline
                   %small.ms-1= round.deadline.strftime('%d.%m')
 
-      - if @source == 'season' || @source == 'avg'
+      - if %w[season avg auction].include?(@source)
         .mb-3
           = select_tag :tournament_id,
                        options_for_select(@tournaments.map { |t| ["#{t.icon} #{t.name}", t.id] }, @tournament_id),
@@ -71,7 +74,11 @@
                   - team.each do |row|
                     - next unless row[:entry]
                     = hidden_field_tag 'players[][slot_id]', row[:slot].id
-                    = hidden_field_tag 'players[][round_player_id]', row[:entry][:round_player].id
+                    - if @source == 'auction'
+                      = hidden_field_tag 'players[][player_id]', row[:entry][:player].id
+                      = hidden_field_tag 'players[][max_price]', row[:entry][:max_price]
+                    - else
+                      = hidden_field_tag 'players[][round_player_id]', row[:entry][:round_player].id
                     = hidden_field_tag 'players[][total]', row[:entry][:total]
                   = number_field_tag :number, nil, class: 'form-control form-control-sm d-inline-block w-auto me-1', placeholder: '#', style: 'max-width: 60px', min: 1, required: true
                   = submit_tag t('manage.weekly_team.save'), class: "btn btn-sm #{ best ? 'btn-light' : 'btn-success' }"
@@ -81,7 +88,13 @@
                     %tr
                       %th= t('manage.weekly_team.col_position')
                       %th= t('manage.weekly_team.col_player')
-                      %th.text-end= @source == 'avg' ? t('manage.weekly_team.col_avg_score') : t('manage.weekly_team.col_score')
+                      %th.text-end
+                        - if @source == 'auction'
+                          = t('manage.weekly_team.col_avg_price')
+                        - elsif @source == 'avg'
+                          = t('manage.weekly_team.col_avg_score')
+                        - else
+                          = t('manage.weekly_team.col_score')
                   %tbody
                     - team.each do |row|
                       %tr
@@ -97,6 +110,8 @@
                             = '%.2f' % row[:entry][:total]
                             - if @source == 'avg' && row[:entry][:appearances]
                               %small.text-muted.ms-1= "(#{row[:entry][:appearances]} #{t('manage.weekly_team.appearances')})"
+                            - if @source == 'auction' && row[:entry][:max_price]
+                              %small.text-muted.ms-1= "(#{t('manage.weekly_team.max_price')}: #{'%g' % row[:entry][:max_price]})"
                         - else
                           %td.text-muted —
                           %td —

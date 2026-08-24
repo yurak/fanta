@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_07_23_120000) do
+ActiveRecord::Schema[8.0].define(version: 2026_08_21_123225) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -704,10 +704,13 @@ ActiveRecord::Schema[8.0].define(version: 2026_07_23_120000) do
   create_table "weekly_team_players", force: :cascade do |t|
     t.bigint "weekly_team_id", null: false
     t.bigint "slot_id", null: false
-    t.bigint "round_player_id", null: false
+    t.bigint "round_player_id"
     t.decimal "total"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "player_id"
+    t.decimal "max_price"
+    t.index ["player_id"], name: "index_weekly_team_players_on_player_id"
     t.index ["round_player_id"], name: "index_weekly_team_players_on_round_player_id"
     t.index ["slot_id"], name: "index_weekly_team_players_on_slot_id"
     t.index ["weekly_team_id", "slot_id"], name: "index_weekly_team_players_on_weekly_team_id_and_slot_id", unique: true
@@ -775,6 +778,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_07_23_120000) do
   add_foreign_key "user_titles", "results"
   add_foreign_key "user_titles", "tournaments"
   add_foreign_key "user_titles", "users"
+  add_foreign_key "weekly_team_players", "players"
   add_foreign_key "weekly_team_players", "round_players"
   add_foreign_key "weekly_team_players", "slots"
   add_foreign_key "weekly_team_players", "weekly_teams"

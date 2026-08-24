@@ -174,6 +174,29 @@ RSpec.describe 'Manage::WeeklyTeams' do
         end
       end
 
+      context 'with source=auction and tournament_id' do
+        let(:tournament) { Tournament.first }
+        let(:season)     { Season.order(:start_year).last }
+
+        before do
+          league  = create(:league, tournament: tournament, season: season)
+          auction = create(:auction, league: league, number: 1)
+          create(:transfer, auction: auction, league: league, player: create(:player, :with_pos_por),
+                            team: create(:team, league: league), status: :incoming, price: 40)
+          get new_manage_weekly_team_path(source: 'auction', tournament_id: tournament.id)
+        end
+
+        it { expect(response).to be_successful }
+
+        it 'sets source to auction' do
+          expect(controller.instance_variable_get(:@source)).to eq('auction')
+        end
+
+        it 'builds teams' do
+          expect(controller.instance_variable_get(:@teams)).not_to be_nil
+        end
+      end
+
       context 'with invalid source param' do
         before { get new_manage_weekly_team_path(source: 'invalid') }
 
