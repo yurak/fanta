@@ -5,6 +5,8 @@ class TournamentMatch < ApplicationRecord
 
   serialize :missed_players_data, coder: JSON
 
+  enum :status, { scheduled: 0, live: 1, finished: 2 }
+
   scope :by_club, ->(club_id) { where('host_club_id = ? OR guest_club_id = ?', club_id, club_id) }
   scope :by_club_and_t_round, ->(club_id, t_round_id) { by_club(club_id).where(tournament_round_id: t_round_id) }
 

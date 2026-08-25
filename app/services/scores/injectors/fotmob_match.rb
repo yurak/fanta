@@ -57,6 +57,20 @@ module Scores
         correct_round? && (status['started'] || status['awarded']) && status['finished']
       end
 
+      def match_live?
+        correct_round? && (status['started'] || status['awarded']) && !status['finished']
+      end
+
+      def kickoff_attributes
+        return {} unless correct_round?
+        return {} if status['matchDateTbd'] || status['utcTime'].blank?
+
+        kickoff = DateTime.parse(status['utcTime']).utc
+        { date: kickoff.strftime('%^b %e, %Y'), time: kickoff.strftime('%H:%M') }
+      rescue ArgumentError
+        {}
+      end
+
       def correct_round?
         return true if match.tournament_round.tournament.skip_round_check?
 

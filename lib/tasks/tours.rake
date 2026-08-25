@@ -47,6 +47,22 @@ namespace :tours do
     end
   end
 
+  # rake 'tours:live_inject'
+  desc 'Inject live scores for in-progress FotMob matches (live_scores_enabled tournaments)'
+  task live_inject: :environment do
+    TournamentRound.live_scores_candidates.each do |t_round|
+      Tours::LiveInjector.call(t_round)
+    end
+  end
+
+  # rake 'tours:refresh_schedule'
+  desc 'Refresh kickoff times for open rounds (live_scores_enabled FotMob tournaments)'
+  task refresh_schedule: :environment do
+    TournamentRound.schedule_refresh_candidates.each do |t_round|
+      Tours::ScheduleRefresher.call(t_round)
+    end
+  end
+
   # rake 'tours:create_national[178]'
   desc 'Create tours for World Cup'
   task :create_national, [:league_id] => :environment do |_t, args|

@@ -7,7 +7,7 @@
           = match.host_team.name
         .round-tournament-team-logo
           = flag_icon(match.host_team.code.to_sym, element: :div)
-    .round-tournament-match-cell.round-tournament-match-cell-result
+    .round-tournament-match-cell.round-tournament-match-cell-result{ class: ('round-tournament-match-cell-result--live' if match.live?) }
       - if match.host_score
         - if current_user&.can_moderate?
           = link_to edit_tournament_round_path(match.tournament_round) do

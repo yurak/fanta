@@ -5,23 +5,49 @@ module Scores
 
       DEFAULT_SCORE = 6
 
-      def initialize(match)
+      def initialize(match, run_mode: :final)
         @match = match
+        @run_mode = run_mode
       end
 
       def call
         return unless match.page_url
-        return unless match_finished?
+        return refresh_schedule if @run_mode == :schedule
+        return unless processable?
         return unless players_data_ready?
 
-        match.update(host_score: host_result, guest_score: guest_result)
+        match.update(host_score: host_result, guest_score: guest_result, status: match_state, **kickoff_attributes)
 
         update_round_players
 
-        audit_missed_players(players_hash)
+        audit_missed_players(players_hash) if match_finished?
       end
 
       private
+
+      def refresh_schedule
+        attributes = kickoff_attributes
+        match.update(attributes) if attributes.present?
+      end
+
+      def processable?
+        return match_finished? if @run_mode == :final
+
+        match_finished? || match_live?
+      end
+
+      def match_state
+        match_finished? ? :finished : :live
+      end
+
+      def match_live?
+        false
+      end
+
+      # { date:, time: } parsed from the source, or {} when unknown — overridden per source
+      def kickoff_attributes
+        {}
+      end
 
       def update_round_players; end
 

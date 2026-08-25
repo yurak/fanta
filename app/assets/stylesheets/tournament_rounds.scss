@@ -389,3 +389,21 @@
     padding: 0 0 80px;
   }
 }
+
+/* live (in-progress) match result — provisional score/ratings */
+.round-tournament-match-cell-result--live {
+  .round-tournament-match-result-text {
+    color: #E4002B;
+  }
+
+  &::after {
+    content: 'LIVE';
+    display: block;
+    margin-top: 2px;
+    font-family: 'Nunito ExtraBold';
+    font-size: 9px;
+    line-height: 1;
+    letter-spacing: 0.04em;
+    color: #E4002B;
+  }
+}

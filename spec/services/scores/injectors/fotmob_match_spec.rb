@@ -75,6 +75,87 @@ RSpec.describe Scores::Injectors::FotmobMatch do
       end
     end
 
+    context 'when run_mode is :live and the match is in progress' do
+      let(:injector) { described_class.new(match, run_mode: :live) }
+      let(:finished_status) { { 'started' => true, 'finished' => false, 'awarded' => false, 'scoreStr' => '1 - 0' } }
+
+      before do
+        allow(Scores::Injectors::FotmobPlayersData).to receive(:call).and_return(123 => { rating: 7.2, played_minutes: 30 })
+      end
+
+      it 'updates the live score' do
+        injector.call
+        expect(match.reload.host_score).to eq(1)
+      end
+
+      it 'marks the match as live' do
+        injector.call
+        expect(match.reload).to be_live
+      end
+
+      it 'does not run the missed-players audit while in progress' do
+        injector.call
+        expect(Audit::CsvWriter).not_to have_received(:call)
+      end
+    end
+
+    context 'when run_mode is :live and the match is finished' do
+      let(:injector) { described_class.new(match, run_mode: :live) }
+
+      before do
+        allow(Scores::Injectors::FotmobPlayersData).to receive(:call).and_return(123 => { rating: 7.5, played_minutes: 90 })
+      end
+
+      it 'marks the match as finished' do
+        injector.call
+        expect(match.reload).to be_finished
+      end
+
+      it 'runs the missed-players audit at full time' do
+        injector.call
+        expect(Audit::CsvWriter).to have_received(:call)
+      end
+    end
+
+    context 'when run_mode is :schedule' do
+      let(:injector) { described_class.new(match, run_mode: :schedule) }
+      let(:finished_status) do
+        { 'started' => false, 'finished' => false, 'utcTime' => '2027-01-16T14:30:00.000Z', 'matchDateTbd' => false }
+      end
+
+      it 'refreshes the kickoff date' do
+        injector.call
+        expect(match.reload.date).to eq('JAN 16, 2027')
+      end
+
+      it 'refreshes the kickoff time' do
+        injector.call
+        expect(match.reload.time).to eq('14:30')
+      end
+
+      it 'does not write scores' do
+        injector.call
+        expect(match.reload.host_score).to be_nil
+      end
+
+      it 'does not run the audit' do
+        injector.call
+        expect(Audit::CsvWriter).not_to have_received(:call)
+      end
+
+      context 'when the kickoff time is still TBD' do
+        let(:finished_status) do
+          { 'started' => false, 'finished' => false, 'utcTime' => '2027-01-16T14:30:00.000Z', 'matchDateTbd' => true }
+        end
+
+        it 'leaves the stored date untouched' do
+          match.update!(date: 'OLD', time: '00:00')
+          injector.call
+          expect(match.reload.date).to eq('OLD')
+        end
+      end
+    end
+
     context 'when fetched data belongs to a different round (e.g. Cup instead of league)' do
       let(:match_data) do
         {

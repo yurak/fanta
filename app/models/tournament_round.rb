@@ -13,6 +13,18 @@ class TournamentRound < ApplicationRecord
   scope :by_tournament, ->(tournament_id) { where(tournament: tournament_id) }
   scope :by_season, ->(season_id) { where(season: season_id) }
   scope :moderated, -> { where.not(moderated_at: nil) }
+  scope :live_scores_tournament, lambda {
+    joins(:tournament).where(tournaments: { live_scores_enabled: true, source: Tournament.sources[:fotmob] })
+  }
+  scope :live_scores_candidates, lambda {
+    live_scores_tournament.joins(:tours).where(tours: { status: Tour.statuses[:locked] }).distinct
+  }
+  scope :schedule_refresh_candidates, lambda {
+    live_scores_tournament.joins(:tours)
+                          .where(tours: { status: Tour.statuses[:set_lineup] })
+                          .where(schedule_refreshed_at: nil)
+                          .distinct
+  }
 
   MODERATED_HOURS = 18
 

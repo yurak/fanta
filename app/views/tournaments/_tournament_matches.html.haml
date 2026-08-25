@@ -8,7 +8,7 @@
         .round-tournament-team-logo
           %object{data: match.host_club.logo_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
             = image_tag('default_logo.png')
-    .round-tournament-match-cell.round-tournament-match-cell-result
+    .round-tournament-match-cell.round-tournament-match-cell-result{ class: ('round-tournament-match-cell-result--live' if match.live?) }
       - if match.host_score
         - if current_user&.can_moderate?
           = link_to edit_tournament_round_path(match.tournament_round, club_id: [match.host_club.id, match.guest_club.id]) do

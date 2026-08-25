@@ -20,6 +20,16 @@ every '55 * * * *' do
   rake 'tours:auto_inject'
 end
 
+# Live-inject scores for in-progress matches (live_scores_enabled tournaments)
+every 5.minutes do
+  rake 'tours:live_inject'
+end
+
+# Refresh kickoff times for just-opened rounds (live_scores_enabled tournaments)
+every 30.minutes do
+  rake 'tours:refresh_schedule'
+end
+
 # Send pending notifications by Telegram bot
 every :minute do
   rake 'notifications:send_pending'
