@@ -4,12 +4,8 @@ class TransfersController < ApplicationController
   helper_method :auction, :league
 
   def index
-    transfers_scope = auction.transfers.includes(:team, player: %i[positions club])
-    @transfers = if params[:type] == 'out'
-                   Kaminari.paginate_array(transfers_scope.all_out.order(:price).reverse).page(params[:page])
-                 else
-                   Kaminari.paginate_array(transfers_scope.incoming.order(:price).reverse).page(params[:page])
-                 end
+    transfers_scope = auction.transfers.includes(:team, player: %i[positions club]).incoming
+    @transfers = Kaminari.paginate_array(transfers_scope.order(:price).reverse).page(params[:page])
   end
 
   def create

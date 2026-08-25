@@ -51,7 +51,7 @@ module Manage
       if league.fanta?
         Leagues::FantaActivator.call(league.id)
       else
-        Leagues::Activator.call(league.id, Time.zone.parse(params[:deadline]))
+        Leagues::Activator.call(league.id, activation_deadline)
       end
       redirect_to manage_leagues_path, notice: t('manage.leagues.activated')
     end
@@ -79,6 +79,10 @@ module Manage
 
     def league
       @league ||= League.find(params.expect(:id))
+    end
+
+    def activation_deadline
+      Time.zone.parse(params[:deadline].to_s)
     end
 
     def assign_title(result)

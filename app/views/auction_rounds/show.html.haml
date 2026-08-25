@@ -3,7 +3,6 @@
   .web-header= render 'layouts/right_nav', league: league
   .mob-header= render 'layouts/mob_header', league: league
 
-  - user_team = current_user&.team_by_league(league)
   .page-info.auction-rounds-page
     .round-section
       .auction-round-back

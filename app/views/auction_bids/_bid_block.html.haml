@@ -131,7 +131,7 @@
                   = image_tag('default_logo.png')
               .player-bid-actions
                 .player-transfer-completed
-                  .player-transfer-price= player.transfers.incoming.by_league(league&.id).last&.price
+                  .player-transfer-price= player.transfers.select { |transfer| transfer.incoming? && transfer.league_id == league&.id }.last&.price
                   .player-transfer-check ✅
 
 %script{type: "text/javascript", src: "/javascripts/lib/GetFilledFormations.js?v=2"}
@@ -272,7 +272,7 @@
             searchRequest = $.ajax({
               type: "GET",
               dataType: "json",
-              url: "/api/players?filter[name]="+searchStr+"&filter[tournament_id][]="+tournamentId+"&order[field]=name&order[direction]=desc",
+              url: "/api/players?filter[name]="+searchStr+"&filter[tournament_id][]="+tournamentId+"&order[field]=name&order[direction]=desc&page[size]=500",
               success: function(response){
                 playersContainer.empty();
                 response.data.forEach((playerData) => {
@@ -306,7 +306,7 @@
         $.ajax({
           type: "GET",
           dataType: "json",
-          url: "/api/players?filter[position][]="+positionName+"&filter[tournament_id][]="+tournamentId+"&order[field]=name&order[direction]=desc",
+          url: "/api/players?filter[position][]="+positionName+"&filter[tournament_id][]="+tournamentId+"&order[field]=name&order[direction]=desc&page[size]=500",
           success: function(response){
             response.data.forEach((playerData) => {
               renderPlayerItem(playerData, slotId, leagueId);
@@ -337,7 +337,7 @@
         $.ajax({
           type: "GET",
           dataType: "json",
-          url: "/api/players?filter[club_id][]="+clubId+"&filter[tournament_id][]="+tournamentId+"&order[field]=name&order[direction]=desc",
+          url: "/api/players?filter[club_id][]="+clubId+"&filter[tournament_id][]="+tournamentId+"&order[field]=name&order[direction]=desc&page[size]=500",
           success: function(response){
             response.data.forEach((playerData) => {
               renderPlayerItem(playerData, slotId, leagueId);

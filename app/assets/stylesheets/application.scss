@@ -1858,10 +1858,49 @@ body, html {
 }
 
 .modal-player-form {
+  position: relative;
   display: flex;
   gap: 2px;
   width: 96px;
   margin: 5px auto 0;
+
+  &:hover .form-legend { display: block; }
+
+  .form-legend {
+    display: none;
+    position: absolute;
+    bottom: calc(100% + 6px);
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    width: max-content;
+    padding: 8px 10px;
+    background: #181715;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  }
+
+  .form-legend-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 2px 0;
+  }
+
+  .form-legend-swatch {
+    flex-shrink: 0;
+    width: 12px;
+    height: 12px;
+    border-radius: 2px;
+  }
+
+  .form-legend-label {
+    font-family: 'Nunito', sans-serif;
+    font-size: 11px;
+    line-height: 14px;
+    color: #FFFFFF;
+    white-space: nowrap;
+  }
 
   .form-cell {
     flex: 1;
@@ -1876,6 +1915,7 @@ body, html {
   }
 
   .form-cell-empty { background: #E5E6E4; }
+  .form-cell-skipped { background: #2D9CDB; }
   .form-cell-out { background: #A00E1E; }
   .form-cell-bench { background: #F26419; }
   .form-cell-part { background: #F2B705; color: #181715; }

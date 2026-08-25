@@ -12,6 +12,39 @@ RSpec.describe Transfer do
     it { is_expected.to define_enum_for(:status).with_values(%i[incoming outgoing left]) }
   end
 
+  describe '.recent' do
+    let(:league) { create(:league) }
+    let!(:oldest) { create(:transfer, league: league, created_at: 3.hours.ago) }
+    let!(:newest) { create(:transfer, league: league, created_at: 1.hour.ago) }
+    let!(:middle) { create(:transfer, league: league, created_at: 2.hours.ago) }
+
+    it 'returns transfers newest first' do
+      expect(league.transfers.recent).to eq([newest, middle, oldest])
+    end
+
+    context 'when transfers share the same timestamp' do
+      let(:stamp) { 1.hour.ago.change(usec: 0) }
+      let!(:oldest) { create(:transfer, league: league, created_at: stamp) }
+      let!(:newest) { create(:transfer, league: league, created_at: stamp) }
+      let!(:middle) { create(:transfer, league: league, created_at: stamp) }
+
+      it 'falls back to id descending' do
+        expect(league.transfers.recent).to eq([middle, newest, oldest])
+      end
+    end
+  end
+
+  describe '.oldest' do
+    let(:league) { create(:league) }
+    let!(:oldest) { create(:transfer, league: league, created_at: 3.hours.ago) }
+    let!(:newest) { create(:transfer, league: league, created_at: 1.hour.ago) }
+    let!(:middle) { create(:transfer, league: league, created_at: 2.hours.ago) }
+
+    it 'returns transfers oldest first' do
+      expect(league.transfers.oldest).to eq([oldest, middle, newest])
+    end
+  end
+
   describe '.by_league' do
     let(:league) { create(:league) }
     let!(:matched_transfer) { create(:transfer, league: league) }

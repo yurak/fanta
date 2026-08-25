@@ -45,9 +45,23 @@ RSpec.describe Transfers::OutgoingProcessor do
 
     it { expect(processor.call).to be(true) }
 
-    it 'calls Auctions::Manager with auction and league auction_type' do
+    it 'calls Auctions::Manager with auction and blind_bids status' do
       processor.call
-      expect(Auctions::Manager).to have_received(:call).with(auction, league.auction_type)
+      expect(Auctions::Manager).to have_received(:call).with(auction, Auctions::Manager::BLIND_BIDS_STATUS)
+    end
+
+    context 'when the league has a live auction_type' do
+      let(:league) { create(:active_league, auction_type: :live) }
+
+      it 'still sends the intermediate auction to blind bids' do
+        processor.call
+        expect(Auctions::Manager).to have_received(:call).with(auction, Auctions::Manager::BLIND_BIDS_STATUS)
+      end
+
+      it 'never sends the intermediate auction to live' do
+        processor.call
+        expect(Auctions::Manager).not_to have_received(:call).with(auction, Auctions::Manager::LIVE_STATUS)
+      end
     end
 
     context 'when a team has transferable players' do

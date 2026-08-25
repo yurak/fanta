@@ -45,5 +45,43 @@ RSpec.describe 'auction_rounds:process' do
       expect(AuctionRounds::Manager).not_to have_received(:call)
     end
   end
+
+  # The cron tick must not stack up on a run that is still going.
+  context 'when another run already holds the advisory lock' do
+    let(:league) { create(:active_league) }
+    let(:auction) { create(:auction, league: league) }
+
+    before do
+      create(:auction_round, auction: auction)
+      allow(ActiveRecord::Base.connection).to receive(:select_value).and_call_original
+      allow(ActiveRecord::Base.connection).to receive(:select_value)
+        .with(/pg_try_advisory_lock/).and_return(false)
+    end
+
+    it 'skips the run' do
+      run_task
+      expect(AuctionRounds::Manager).not_to have_received(:call)
+    end
+
+    it 'does not release a lock it never took' do
+      run_task
+      expect(ActiveRecord::Base.connection).not_to have_received(:select_value).with(/pg_advisory_unlock/)
+    end
+  end
+
+  context 'when the run takes the advisory lock' do
+    let(:league) { create(:active_league) }
+    let(:auction) { create(:auction, league: league) }
+
+    before do
+      create(:auction_round, auction: auction)
+      allow(ActiveRecord::Base.connection).to receive(:select_value).and_call_original
+    end
+
+    it 'releases the lock afterwards' do
+      run_task
+      expect(ActiveRecord::Base.connection).to have_received(:select_value).with(/pg_advisory_unlock/)
+    end
+  end
 end
 # rubocop:enable RSpec/DescribeClass

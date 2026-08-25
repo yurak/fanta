@@ -40,4 +40,7 @@ DISABLE_DATABASE_ENVIRONMENT_CHECK=1 bundle exec rails db:drop db:create
 
 rm /tmp/prod_dump.sql
 
+echo "Running migrations..."
+bundle exec rails db:migrate
+
 echo "Done! Local database synced with production."

@@ -4,7 +4,7 @@ class AuctionsController < ApplicationController
   helper_method :auction, :league, :player, :players
 
   def index
-    @auctions = league.auctions
+    render layout: 'react_application'
   end
 
   def show
@@ -17,6 +17,18 @@ class AuctionsController < ApplicationController
 
   def live
     redirect_to league_auction_transfers_path(league, auction) unless can? :live, Auction
+  end
+
+  def sales
+    render layout: 'react_application'
+  end
+
+  def purchases
+    render layout: 'react_application'
+  end
+
+  def drops
+    render layout: 'react_application'
   end
 
   def update

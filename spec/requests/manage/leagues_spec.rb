@@ -480,6 +480,14 @@ RSpec.describe 'Manage::Leagues' do
 
         expect(team.results.last.total_score).to eq(93)
       end
+
+      it 'rebuilds history with actual points' do
+        expect(team.results.last.history_arr[tour.number]['p']).to eq(60)
+      end
+
+      it 'rebuilds history with actual total score' do
+        expect(team.results.last.history_arr[tour.number]['ts'].to_f).to eq(93)
+      end
     end
   end
 
@@ -557,6 +565,28 @@ RSpec.describe 'Manage::Leagues' do
       it 'creates auction bids for all teams' do
         auction_round = league.auctions.find_by(number: 1).auction_rounds.first
         expect(auction_round.auction_bids.count).to eq(league.teams.count)
+      end
+    end
+
+    context 'when admin activates a live league without a deadline' do
+      login_admin
+
+      let!(:league) { create(:league, :with_five_teams, auction_type: :live) }
+
+      before { post activate_manage_league_path(league) }
+
+      it { expect(response).to redirect_to(manage_leagues_path) }
+
+      it 'activates the league' do
+        expect(league.reload).to be_active
+      end
+
+      it 'sets the first auction to live' do
+        expect(league.auctions.find_by(number: 1)).to be_live
+      end
+
+      it 'does not create auction rounds' do
+        expect(league.auctions.find_by(number: 1).auction_rounds).to be_empty
       end
     end
 

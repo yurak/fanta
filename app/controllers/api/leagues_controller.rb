@@ -29,7 +29,7 @@ module Api
     end
 
     def filtered_leagues
-      League.serial.viewable
+      League.serial_order.includes(:division, :results, :season, :tournament, :tours).viewable
             .by_season(filter[:season_id])
             .by_tournament(filter[:tournament_id])
             .without_demo_from_old_seasons

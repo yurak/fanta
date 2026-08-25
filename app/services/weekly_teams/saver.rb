@@ -38,8 +38,10 @@ module WeeklyTeams
     def create_player(weekly_team, player_data)
       weekly_team.weekly_team_players.create!(
         slot_id: player_data[:slot_id].to_i,
-        round_player_id: player_data[:round_player_id].to_i,
-        total: player_data[:total].to_f
+        round_player_id: player_data[:round_player_id].presence&.to_i,
+        player_id: player_data[:player_id].presence&.to_i,
+        total: player_data[:total].to_f,
+        max_price: player_data[:max_price].presence&.to_f
       )
     end
   end

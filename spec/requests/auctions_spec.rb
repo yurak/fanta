@@ -21,7 +21,6 @@ RSpec.describe 'Auctions' do
       it { expect(response).to be_successful }
       it { expect(response).to render_template(:index) }
       it { expect(response).to have_http_status(:ok) }
-      it { expect(assigns(:auctions)).not_to be_nil }
     end
   end
 
@@ -229,6 +228,33 @@ RSpec.describe 'Auctions' do
       it { expect(response).to render_template(:live) }
       it { expect(response).to have_http_status(:ok) }
       it { expect(assigns(:player)).not_to be_nil }
+    end
+
+    context 'when the league has incoming transfers' do
+      login_admin
+
+      let(:team) { create(:team, league: league) }
+      let(:markers) { %w[Newestmarker Middlemarker Oldestmarker] }
+
+      before do
+        transfer_for('Middlemarker', 2.hours.ago)
+        transfer_for('Newestmarker', 1.hour.ago)
+        transfer_for('Oldestmarker', 3.hours.ago)
+        get live_league_auction_path(league, auction)
+      end
+
+      it 'renders every purchase' do
+        expect(markers.map { |name| response.body.include?(name) }).to all(be(true))
+      end
+
+      it 'lists the last purchases newest first' do
+        expect(markers.sort_by { |name| response.body.index(name) }).to eq(markers)
+      end
+
+      def transfer_for(name, created_at)
+        player = create(:player, name: name)
+        create(:transfer, league: league, team: team, player: player, status: :incoming, created_at: created_at)
+      end
     end
 
     context 'when admin is logged in and search at params' do

@@ -12,6 +12,7 @@ module ManageHelper
   # Each item: [controller_path, url, icon, label_key]
   def manage_nav_items
     [
+      ['manage/tournament_rounds', manage_tournament_rounds_path, 'icons/round/round.svg', 'manage.nav.tournament_rounds'],
       ['manage/joins', manage_joins_path, 'icons/round/join.svg', 'manage.nav.joins'],
       ['manage/users', manage_users_path, 'icons/round/users.svg', 'manage.nav.users'],
       ['manage/user_logos', manage_user_logos_path, 'icons/round/image.svg', 'manage.nav.user_logos'],
@@ -27,5 +28,18 @@ module ManageHelper
       ['manage/weekly_teams', manage_weekly_teams_path, 'icons/round/star.svg', 'manage.nav.weekly_team'],
       ['manage/champions', manage_champions_path, 'icons/round/crown.svg', 'manage.nav.champions']
     ]
+  end
+
+  # round deadline in the admin's local time, e.g. "22:30 22/12/26", or a placeholder when unset
+  def tour_dashboard_deadline(deadline)
+    current_user.local_time(deadline, '%H:%M %d/%m/%y') || '--:--'
+  end
+
+  # moderation time + 18h (when the round actually opens) in the admin's local time,
+  # or nil when the round has not been moderated yet
+  def tour_dashboard_moderated_at(moderated_at)
+    return unless moderated_at
+
+    current_user.local_time(moderated_at + 18.hours, '%H:%M %d/%m/%y')
   end
 end

@@ -6,7 +6,7 @@
     .league-data
       - if league
         .league-name
-          = league&.name
+          = league.division ? "#{league.division.name} | #{league.name}" : league.name
         .league-season
           = "#{t('header.season')} #{league.season.start_year.to_s[2..3]}-#{league.season.end_year.to_s[2..3]} • #{league.type.capitalize}"
       - elsif title
@@ -72,7 +72,7 @@
             .nav-link-title= t('header.settings')
       - if current_user&.admin?
         .nav-logo-small
-          = link_to manage_joins_path do
+          = link_to manage_tournament_rounds_path do
             .nav-link-icon= '📋'
             .nav-link-title= t('header.manage')
         .nav-logo-small

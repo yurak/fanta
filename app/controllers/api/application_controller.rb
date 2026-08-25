@@ -5,6 +5,8 @@ module Api
 
     NOT_FOUND_MSG = 'Resource not found'.freeze
     NOT_FOUND_KEY = 'not_found'.freeze
+    DEFAULT_PER_PAGE = 100
+    MAX_PER_PAGE = 500
 
     def not_found
       render json: { errors: [{ key: NOT_FOUND_KEY, message: NOT_FOUND_MSG }] }, status: :not_found
@@ -16,7 +18,7 @@ module Api
 
     def response_options(collection)
       @response_options ||= {
-        size: page.present? ? collection.total_count : collection.size,
+        size: collection.total_count,
         page: {
           per_page: collection.limit_value,
           total_pages: collection.total_pages,
@@ -30,15 +32,13 @@ module Api
     end
 
     def paginate(result)
-      if result.is_a?(Array)
-        size = page.present? ? page[:size] : [result.size, 1].max
-        num  = page.present? ? page[:number] : 1
-        Kaminari.paginate_array(result).page(num).per(size)
-      else
-        num  = page.present? ? page[:number] : 1
-        size = page.present? ? page[:size] : [result.count, 1].max
-        result.page(num).per(size)
-      end
+      collection = result.is_a?(Array) ? Kaminari.paginate_array(result) : result
+
+      collection.page(page[:number]).per(page_size)
+    end
+
+    def page_size
+      (page[:size].presence || DEFAULT_PER_PAGE).to_i.clamp(1, MAX_PER_PAGE)
     end
   end
 end

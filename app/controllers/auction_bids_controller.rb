@@ -58,7 +58,7 @@ class AuctionBidsController < ApplicationController
   def editable?
     return false unless team&.user
 
-    team.user == current_user && team == auction_bid.team && auction_round.active?
+    team.user == current_user && team == auction_bid.team && auction_round.editable?
   end
 
   def bid_owner?

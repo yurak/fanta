@@ -7,14 +7,35 @@ class WeeklyTeamsController < ApplicationController
       :season,
       weekly_team_players: [
         :slot,
-        { round_player: [{ tournament_round: :tournament }, { player: %i[positions national_team] }, { club: :tournament }] }
+        { player: [:positions, :national_team, { club: :tournament }] },
+        { round_player: [
+          { tournament_round: { tournament: :national_teams } },
+          { player: %i[positions national_team] },
+          { club: :tournament }
+        ] }
       ]
     ).find(params.expect(:id))
 
-    @season_bonuses = build_season_bonuses if @weekly_team.source_avg?
+    @season_bonuses    = build_season_bonuses if @weekly_team.source_avg?
+    @round_top_lineups = round_top_lineups if @weekly_team.source_round? && @weekly_team.top?
   end
 
   private
+
+  def round_top_lineups
+    rounds = TournamentRound.where(id: @weekly_team.round_ids).includes(:tournament).index_by(&:id)
+
+    @weekly_team.round_ids.filter_map { |round_id| rounds[round_id] }
+                          .map { |round| [round, top_lineup_for(round)] }
+  end
+
+  def top_lineup_for(round)
+    Lineup.joins(:tour)
+          .where(tours: { tournament_round_id: round.id })
+          .includes(team: :user)
+          .order(final_score: :desc)
+          .first
+  end
 
   def build_season_bonuses
     player_ids = @weekly_team.weekly_team_players.map { |wtp| wtp.round_player.player_id }

@@ -48,7 +48,10 @@
             %td= @player.number
           %tr
             %th= t('manage.players.col_positions')
-            %td= @player.positions.map(&:name).join(', ')
+            %td
+              .player-positions-block
+                - @player.positions.each do |position|
+                  .player-position{ class: "player-position-#{position.name}" }= position_name(position)
             %td.px-4
             %th TM ID
             %td= @player.tm_id

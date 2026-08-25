@@ -60,12 +60,16 @@ class TournamentRoundsController < ApplicationController
   end
 
   def auto_close
+    return redirect_to leagues_path unless can? :update, TournamentRound
+
     TournamentRounds::AutoCloser.call(params[:id])
 
     redirect_to tournament_round_path(tournament_round)
   end
 
-  def auto_subs_preview; end
+  def auto_subs_preview
+    redirect_to leagues_path unless can? :show, TournamentRound
+  end
 
   def auto_subs
     Substitutes::AutoBot.for_round(tournament_round, preview: false) if can? :auto_subs, TournamentRound

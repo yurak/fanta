@@ -58,7 +58,7 @@
     "webpack-cli": "4",
     "webpack-merge": "5"
   },
-  "version": "0.1.0",
+  "version": "0.1.1",
   "resolutions": {
     "cross-spawn": "^7.0.5",
     "braces": "^3.0.3",

@@ -293,6 +293,33 @@
         }
       }
     },
+    "auction_drops": {
+      "appearances": "Appearances",
+      "apps_short": "apps",
+      "auction": "Auction #{{number}}",
+      "autosave_hint": "Your changes are saved automatically during the drop-off phase. Keep rocking 🚀",
+      "autosaved": "Changes autosaved",
+      "balance": "Balance",
+      "club": "Club",
+      "deadline": "Deadline",
+      "drop": "Drop",
+      "dropped": "Dropped",
+      "dropping_phase": "Dropping phase",
+      "form": "Form",
+      "income": "Income",
+      "left": "Left",
+      "ongoing": "Ongoing",
+      "player": "Player",
+      "players_dropped": "Players dropped",
+      "players_left": "Players left",
+      "positions": "Position",
+      "possible_balance": "Possible balance",
+      "price": "Price",
+      "rating": "Rating",
+      "saving": "Saving changes",
+      "status": "Status",
+      "time_left": "{{hours}}h {{minutes}}m left"
+    },
     "auction_offer": {
       "all_budget": "You must use the entire budget at the first stage of the auction - %{budget} million",
       "choose": "Choose a player",
@@ -310,6 +337,17 @@
       },
       "team": "⚽ Your team",
       "text": "You need to buy %{players} players. The team budget - %{budget}. The team must have at least 3 goalkeepers."
+    },
+    "auction_purchases": {
+      "all_stages": "All stages",
+      "bought": "Bought",
+      "finished": "Finished",
+      "phase": "Buying phase",
+      "stage": "Stage {{number}}",
+      "stage_filter": "Auction Stage",
+      "title": "Auction #{{number}}",
+      "top_buy": "💎 Top Deals",
+      "top_spenders": "💸 Top Spenders"
     },
     "auction_round": {
       "auction": "Auction",
@@ -395,6 +433,24 @@
       "total_budget": "Total budget",
       "transfers": "💰️ Auction transfers",
       "unselected": "Unselected"
+    },
+    "auction_sales": {
+      "dropped": "Dropped",
+      "finished": "Finished",
+      "left": "Left",
+      "phase": "Dropping phase",
+      "title": "Auction #{{number}}",
+      "top_droppers": "✂️ Top Droppers",
+      "top_earners": "💰 Top Earners",
+      "top_sale": "🔥 Top Sales",
+      "total": "Total"
+    },
+    "auction_summary": {
+      "collapse": "Collapse",
+      "show_more": "+{{count}} more"
+    },
+    "common": {
+      "loading": "Loading…"
     },
     "date": {
       "abbr_day_names": [
@@ -1101,6 +1157,7 @@
         "players": "Players",
         "teams": "Teams",
         "title": "Admin panel",
+        "tournament_rounds": "Tours",
         "user_logos": "Logos",
         "users": "Users",
         "weekly_team": "Team of Week"
@@ -1185,6 +1242,18 @@
         "tournament": "Tournament",
         "user": "Manager"
       },
+      "tournament_rounds": {
+        "empty": "No live tours right now.",
+        "round": "Round",
+        "status": {
+          "closed": "Closed",
+          "inactive": "Not opened",
+          "locked": "Locked",
+          "postponed": "Postponed",
+          "set_lineup": "Set lineup"
+        },
+        "title": "Tours dashboard"
+      },
       "user_logos": {
         "actions": "Actions",
         "already_moderated": "This logo has already been moderated",
@@ -1253,6 +1322,7 @@
       "weekly_team": {
         "appearances": "matches",
         "build": "Build",
+        "col_avg_price": "Avg price",
         "col_avg_score": "Average",
         "col_created": "Date",
         "col_mode": "Mode",
@@ -1264,6 +1334,7 @@
         "col_source": "Type",
         "col_tournament": "Championship",
         "empty": "No teams saved yet",
+        "max_price": "max",
         "mode_flop": "Flop",
         "mode_top": "Top",
         "new": "New team",
@@ -1274,6 +1345,7 @@
         "save_failed": "Failed to save team of the week",
         "saved": "Team of the week saved",
         "select_tournament": "Select championship",
+        "source_auction": "Auction prices",
         "source_avg": "Season average",
         "source_round": "By rounds",
         "source_season": "Season best",
@@ -1442,6 +1514,14 @@
         "totalScoreShortLabel": "TS",
         "tournamentLabel": "TMNT",
         "withoutTeamLabel": "Without team"
+      },
+      "form_legend": {
+        "bench": "On the bench",
+        "empty": "No match to show",
+        "full": "Played 60+ min",
+        "out": "Not in the squad",
+        "part": "Played under 60 min",
+        "skipped": "Club hasn't played yet"
       },
       "fp": "FP",
       "g": "G",
@@ -1968,9 +2048,19 @@
       }
     },
     "weekly_team": {
+      "avg_price": "Avg price",
+      "col_manager": "Manager",
+      "col_result": "Result",
+      "col_round": "Round",
+      "col_team": "Team",
+      "col_tournament": "Tournament",
+      "max_price": "Max price",
       "mode_flop": "Flop",
       "mode_top": "Top",
+      "round_tops_title": "🔝 Top lineup per round",
       "title": "Team of the Week",
+      "title_auction": "💰 Priciest at Auction XI",
+      "title_auction_short": "💰 Auction XI",
       "title_flop": "🏆 MantraFootball Flop XI",
       "title_flop_short": "🏆 Flop XI",
       "title_top": "🏆 MantraFootball Top XI",
@@ -2695,6 +2785,33 @@
         }
       }
     },
+    "auction_drops": {
+      "appearances": "Матчі",
+      "apps_short": "матчів",
+      "auction": "Аукціон #{{number}}",
+      "autosave_hint": "Зміни зберігаються автоматично під час фази скидування. Успіхів 🚀",
+      "autosaved": "Зміни збережено",
+      "balance": "Баланс",
+      "club": "Клуб",
+      "deadline": "Дедлайн",
+      "drop": "Скинути",
+      "dropped": "Скинуто",
+      "dropping_phase": "Фаза скидування",
+      "form": "Форма",
+      "income": "Дохід",
+      "left": "Пішов",
+      "ongoing": "Триває",
+      "player": "Гравець",
+      "players_dropped": "Скинуто",
+      "players_left": "Пішли",
+      "positions": "Позиція",
+      "possible_balance": "Можливий баланс",
+      "price": "Ціна",
+      "rating": "Рейтинг",
+      "saving": "Збереження…",
+      "status": "Статус",
+      "time_left": "залишилось {{hours}}год {{minutes}}хв"
+    },
     "auction_offer": {
       "all_budget": "Ви повинні використати увесь бюджет на першому етапі аукціону - %{budget} мільйонів",
       "choose": "Оберіть гравця",
@@ -2712,6 +2829,17 @@
       },
       "team": "⚽ Ваша команда",
       "text": "Вам необхідно купити %{players} гравців. Бюджет команди - %{budget}. У команді повинні бути мінімум 3 воротарі."
+    },
+    "auction_purchases": {
+      "all_stages": "Усі етапи",
+      "bought": "Куплено",
+      "finished": "Завершено",
+      "phase": "Фаза купівлі",
+      "stage": "Етап {{number}}",
+      "stage_filter": "Етап аукціону",
+      "title": "Аукціон #{{number}}",
+      "top_buy": "💎 Топ купівель",
+      "top_spenders": "💸 Топ витрат"
     },
     "auction_round": {
       "auction": "Аукціон",
@@ -2797,6 +2925,24 @@
       "total_budget": "Загальний бюджет",
       "transfers": "💰️ Трансфери аукціону",
       "unselected": "Не вибрано"
+    },
+    "auction_sales": {
+      "dropped": "Продано",
+      "finished": "Завершено",
+      "left": "Пішли",
+      "phase": "Фаза продажу",
+      "title": "Аукціон #{{number}}",
+      "top_droppers": "✂️ Топ продавців",
+      "top_earners": "💰 Топ заробітку",
+      "top_sale": "🔥 Топ продажів",
+      "total": "Разом"
+    },
+    "auction_summary": {
+      "collapse": "Згорнути",
+      "show_more": "+{{count}} ще"
+    },
+    "common": {
+      "loading": "Завантаження…"
     },
     "divisions": {
       "title": "Дивізіони"
@@ -3275,6 +3421,7 @@
         "players": "Гравці",
         "teams": "Команди",
         "title": "Адмін панель",
+        "tournament_rounds": "Тури",
         "user_logos": "Лого",
         "users": "Менеджери",
         "weekly_team": "Збірна тижня"
@@ -3359,6 +3506,18 @@
         "tournament": "Турнір",
         "user": "Менеджер"
       },
+      "tournament_rounds": {
+        "empty": "Наразі немає живих турів.",
+        "round": "Тур",
+        "status": {
+          "closed": "Закрито",
+          "inactive": "Не відкрито",
+          "locked": "Заблоковано",
+          "postponed": "Перенесено",
+          "set_lineup": "Вибір складу"
+        },
+        "title": "Дашборд турів"
+      },
       "user_logos": {
         "actions": "Дії",
         "already_moderated": "Це лого вже промодеровано",
@@ -3427,6 +3586,7 @@
       "weekly_team": {
         "appearances": "матчів",
         "build": "Сформувати",
+        "col_avg_price": "Сер. ціна",
         "col_avg_score": "Середня",
         "col_created": "Дата",
         "col_mode": "Режим",
@@ -3438,6 +3598,7 @@
         "col_source": "Тип",
         "col_tournament": "Чемпіонат",
         "empty": "Збірних ще немає",
+        "max_price": "макс",
         "mode_flop": "Флоп",
         "mode_top": "Топ",
         "new": "Нова збірна",
@@ -3448,6 +3609,7 @@
         "save_failed": "Не вдалося зберегти збірну",
         "saved": "Збірну збережено",
         "select_tournament": "Оберіть чемпіонат",
+        "source_auction": "Ціни аукціону",
         "source_avg": "Середня сезону",
         "source_round": "По турах",
         "source_season": "Найкращі сезону",
@@ -3552,6 +3714,14 @@
         "totalScoreShortLabel": "ЗО",
         "tournamentLabel": "Турнір",
         "withoutTeamLabel": "Без команди"
+      },
+      "form_legend": {
+        "bench": "На лаві запасних",
+        "empty": "Немає матчу для показу",
+        "full": "Зіграв 60+ хв",
+        "out": "Не було в заявці",
+        "part": "Зіграв менше 60 хв",
+        "skipped": "Клуб ще не зіграв"
       },
       "fp": "НП",
       "g": "Г",
@@ -4053,9 +4223,19 @@
       "update": "Оновити"
     },
     "weekly_team": {
+      "avg_price": "Сер. ціна",
+      "col_manager": "Менеджер",
+      "col_result": "Результат",
+      "col_round": "Тур",
+      "col_team": "Команда",
+      "col_tournament": "Турнір",
+      "max_price": "Макс. ціна",
       "mode_flop": "Флоп",
       "mode_top": "Топ",
+      "round_tops_title": "🔝 Найкращий склад туру",
       "title": "Збірна тижня",
+      "title_auction": "💰 Найдорожчі на аукціоні",
+      "title_auction_short": "💰 Аукціон XI",
       "title_flop": "🏆 Збірна флопів MantraFootball",
       "title_flop_short": "🏆 Збірна флопів",
       "title_top": "🏆 Збірна топів MantraFootball",

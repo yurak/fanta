@@ -8,9 +8,22 @@ RSpec.describe 'Api::Players stats export' do
     let(:club) { create(:club, tournament: tournament) }
     let(:player) { create(:player, club: club) }
 
+    login_user
+
     before do
       create(:player_season_stat, player: player, club: club, season: season, tournament: tournament,
                                   played_matches: 8, score: 7.0, final_score: 7.5)
+    end
+
+    context 'when the user is logged out' do
+      before do
+        sign_out :user
+        get stats_export_api_players_path
+      end
+
+      it 'does not build the export' do
+        expect(response).to redirect_to('/users/sign_in')
+      end
     end
 
     it 'responds successfully' do

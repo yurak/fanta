@@ -100,6 +100,53 @@ RSpec.describe Leagues::Activator do
       end
     end
 
+    context 'when league has a live auction_type' do
+      let!(:league) { create(:league, :with_five_teams, auction_type: :live) }
+      let(:first_auction) { league.auctions.find_by(number: 1) }
+
+      before do
+        create(:tournament_round, number: 1, tournament: league.tournament, season: league.season)
+        create(:tournament_round, number: 2, tournament: league.tournament, season: league.season)
+        activator.call
+      end
+
+      it 'sets league status to active' do
+        expect(league.reload).to be_active
+      end
+
+      it 'sets the first auction to live' do
+        expect(first_auction).to be_live
+      end
+
+      it 'does not create auction rounds' do
+        expect(first_auction.auction_rounds).to be_empty
+      end
+
+      it 'does not create auction bids' do
+        expect(AuctionBid.joins(:auction_round).where(auction_rounds: { auction_id: first_auction.id })).to be_empty
+      end
+
+      it 'does not notify about blind bids' do
+        expect(Notification.where(kind: :auction_start_bids)).to be_empty
+      end
+
+      it 'leaves every intermediate auction initial' do
+        expect(league.auctions.where.not(number: 1).map(&:status).uniq).to eq(['initial'])
+      end
+
+      it 'still configures teams' do
+        expect(league.teams.reload.map(&:budget).uniq).to eq([Team::DEFAULT_BUDGET])
+      end
+
+      it 'still creates results' do
+        expect(league.results.count).to eq(5)
+      end
+
+      it 'still creates tours' do
+        expect(league.tours.count).to eq(2)
+      end
+    end
+
     context 'when teams have existing auction bids without a round' do
       let!(:league) { create(:league, :with_five_teams) }
       let(:team_with_bid) { league.teams.first }

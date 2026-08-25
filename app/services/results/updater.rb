@@ -68,7 +68,7 @@ module Results
     end
 
     def update_history
-      results.each do |result|
+      results.reload.each do |result|
         history_arr = result.history_arr
         # position:, points:, scored_goals:, missed_goals:, wins:, draws:, loses:, total_score:
         history_arr[tour.number] = { pos: result.live_position, p: result.points, sg: result.scored_goals, mg: result.missed_goals,
@@ -78,7 +78,7 @@ module Results
     end
 
     def results
-      @results ||= league.results
+      @results ||= Result.by_league(league.id)
     end
 
     def league

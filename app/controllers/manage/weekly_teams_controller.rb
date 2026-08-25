@@ -6,15 +6,11 @@ module Manage
     end
 
     def new
-      @source      = params[:source].presence_in(%w[round season avg]) || 'round'
+      @source      = params[:source].presence_in(%w[round season avg auction]) || 'round'
       @mode        = params[:mode] == 'flop' ? :flop : :top
-      @tournaments = scored_tournaments
+      @tournaments = @source == 'auction' ? auction_tournaments : scored_tournaments
 
-      case @source
-      when 'round'  then build_round_teams
-      when 'season' then build_season_teams
-      when 'avg'    then build_avg_teams
-      end
+      build_teams_for_source
     end
 
     def create
@@ -28,6 +24,15 @@ module Manage
     end
 
     private
+
+    def build_teams_for_source
+      case @source
+      when 'round'   then build_round_teams
+      when 'season'  then build_season_teams
+      when 'avg'     then build_avg_teams
+      when 'auction' then build_auction_teams
+      end
+    end
 
     def build_round_teams
       unfinished_ids = TournamentMatch.where(host_score: nil).select(:tournament_round_id)
@@ -63,6 +68,22 @@ module Manage
       @teams = WeeklyTeams::SeasonAvgBuilder.call(@tournament_id, current_season.id)
     end
 
+    def build_auction_teams
+      @rounds        = []
+      @selected_ids  = []
+      @tournament_id = params[:tournament_id].to_i
+      return unless @tournament_id.positive?
+
+      @teams = WeeklyTeams::AuctionAvgBuilder.call(@tournament_id, current_season.id)
+    end
+
+    def auction_tournaments
+      Tournament.joins(leagues: :auctions)
+                .where(leagues: { season_id: current_season.id }, auctions: { number: 1 })
+                .distinct
+                .order(:id)
+    end
+
     def scored_tournaments
       Tournament.joins(tournament_rounds: :round_players)
                 .where(tournament_rounds: { season: current_season })
@@ -82,7 +103,7 @@ module Manage
         mode: params[:mode].presence_in(%w[top flop]) || 'top',
         number: params[:number].to_i,
         players: Array(params[:players]),
-        source: params[:source].presence_in(%w[round season avg]) || 'round',
+        source: params[:source].presence_in(%w[round season avg auction]) || 'round',
         tournament_id: params[:tournament_id].presence&.to_i
       }
     end

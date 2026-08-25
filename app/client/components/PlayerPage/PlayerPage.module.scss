@@ -466,6 +466,8 @@ $blank: #CFD2CD;
 }
 
 .seasonSelect {
+  position: relative;
+  z-index: 2;
   width: 160px;
   font-size: 13px;
 }

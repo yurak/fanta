@@ -255,3 +255,113 @@
     }
   }
 }
+
+/* ----- Tours dashboard ----- */
+
+.tournament-rounds {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.tournament-rounds-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 4px 0;
+  border-bottom: 1px solid #E5E6E4;
+}
+
+.tournament-rounds-tournament {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 0 0 200px;
+  font-family: 'Nunito Bold';
+  font-size: 15px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.tournament-rounds-flag {
+  flex: 0 0 auto;
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+}
+
+.tournament-rounds-rounds {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.tournament-rounds-cube {
+  flex: 0 0 auto;
+  min-width: 96px;
+  padding: 5px 10px;
+  border: 1px solid #E5E6E4;
+  border-radius: 8px;
+  text-decoration: none;
+  color: #181715;
+
+  &:hover {
+    border-color: #261FFF;
+    text-decoration: none;
+  }
+}
+
+.tournament-rounds-cube-title {
+  font-family: 'Nunito Bold';
+  font-size: 13px;
+  margin-bottom: 4px;
+}
+
+.tournament-rounds-cube-chips {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+}
+
+.tournament-rounds-cube-deadline {
+  margin-left: 2px;
+  font-family: 'Nunito SemiBold';
+  font-size: 11px;
+  color: #847577;
+  white-space: nowrap;
+}
+
+.tournament-rounds-cube-moderated {
+  margin-left: 2px;
+  font-family: 'Nunito SemiBold';
+  font-size: 11px;
+  color: #E4002B;
+  white-space: nowrap;
+}
+
+.tournament-rounds-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 22px;
+  height: 20px;
+  padding: 0 7px;
+  border-radius: 10px;
+  font-family: 'Nunito ExtraBold';
+  font-size: 12px;
+  color: #FFFFFF;
+}
+
+.tournament-rounds-chip-set_lineup { background: #2FA84F; }
+.tournament-rounds-chip-locked     { background: #F26419; }
+.tournament-rounds-chip-postponed  { background: #E4002B; }
+.tournament-rounds-chip-closed     { background: #595959; }
+.tournament-rounds-chip-inactive   { background: #D8D6D3; color: #181715; }
+
+/* center the position badges vertically inside manage tables */
+.admin-manage-page .player-positions-block {
+  display: inline-flex;
+  vertical-align: middle;
+}

@@ -78,7 +78,10 @@
               %td= player.id
               %td= player.name
               %td= player.first_name
-              %td= player.position_names.join(', ')
+              %td
+                .player-positions-block
+                  - player.positions.each do |position|
+                    .player-position{ class: "player-position-#{position.name}" }= position_name(position)
               %td
                 - if player.nationality.present?
                   %span.flag-icon{ class: "flag-icon-#{player.nationality}" }

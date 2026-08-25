@@ -1,0 +1,28 @@
+.page-block
+  .web-header= render 'layouts/left_nav', league: nil
+  .web-header= render 'layouts/manage_nav'
+  .mob-header= render 'layouts/mob_header', league: nil, title: t('manage.tournament_rounds.title')
+  .page-info.admin-manage-page
+    %h2.mb-3= t('manage.tournament_rounds.title')
+
+    - if @dashboard.empty?
+      %p.text-muted= t('manage.tournament_rounds.empty')
+    - else
+      .tournament-rounds
+        - @dashboard.each do |entry|
+          .tournament-rounds-row
+            .tournament-rounds-tournament
+              = image_tag entry[:tournament].logo_path, class: 'tournament-rounds-flag', alt: ''
+              = entry[:tournament].name
+            .tournament-rounds-rounds
+              - entry[:rounds].each do |round_entry|
+                = link_to tournament_round_path(round_entry[:round]), class: 'tournament-rounds-cube' do
+                  .tournament-rounds-cube-title= "#{t('manage.tournament_rounds.round')} #{round_entry[:round].number}"
+                  .tournament-rounds-cube-chips
+                    - round_entry[:counts].each do |status, count|
+                      %span.tournament-rounds-chip{ class: "tournament-rounds-chip-#{status}",
+                                                  title: t("manage.tournament_rounds.status.#{status}") }= count
+                    - if round_entry[:counts].key?('inactive')
+                      %span.tournament-rounds-cube-deadline= tour_dashboard_deadline(round_entry[:round].deadline)
+                    - if round_entry[:counts].key?('locked') && (moderated = tour_dashboard_moderated_at(round_entry[:round].moderated_at))
+                      %span.tournament-rounds-cube-moderated= moderated
