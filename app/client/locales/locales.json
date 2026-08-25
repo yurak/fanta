@@ -1157,6 +1157,7 @@
         "players": "Players",
         "teams": "Teams",
         "title": "Admin panel",
+        "tournament_rounds": "Tours",
         "user_logos": "Logos",
         "users": "Users",
         "weekly_team": "Team of Week"
@@ -1240,6 +1241,18 @@
         "title": "Teams",
         "tournament": "Tournament",
         "user": "Manager"
+      },
+      "tournament_rounds": {
+        "empty": "No live tours right now.",
+        "round": "Round",
+        "status": {
+          "closed": "Closed",
+          "inactive": "Not opened",
+          "locked": "Locked",
+          "postponed": "Postponed",
+          "set_lineup": "Set lineup"
+        },
+        "title": "Tours dashboard"
       },
       "user_logos": {
         "actions": "Actions",
@@ -3408,6 +3421,7 @@
         "players": "Гравці",
         "teams": "Команди",
         "title": "Адмін панель",
+        "tournament_rounds": "Тури",
         "user_logos": "Лого",
         "users": "Менеджери",
         "weekly_team": "Збірна тижня"
@@ -3491,6 +3505,18 @@
         "title": "Команди",
         "tournament": "Турнір",
         "user": "Менеджер"
+      },
+      "tournament_rounds": {
+        "empty": "Наразі немає живих турів.",
+        "round": "Тур",
+        "status": {
+          "closed": "Закрито",
+          "inactive": "Не відкрито",
+          "locked": "Заблоковано",
+          "postponed": "Перенесено",
+          "set_lineup": "Вибір складу"
+        },
+        "title": "Дашборд турів"
       },
       "user_logos": {
         "actions": "Дії",

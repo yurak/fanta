@@ -12,7 +12,8 @@ module Manage
     def show
       @club = Club.includes(:tournament, :ec_tournament).find(params.expect(:id))
       @players_count = @club.players.count
-      @players = @club.players.includes(:positions).order(id: :desc).limit(50)
+      @players = @club.players.includes(:positions)
+                      .sort_by { |player| [player.position_sequence_number, player.id] }
     end
 
     def sync_squad

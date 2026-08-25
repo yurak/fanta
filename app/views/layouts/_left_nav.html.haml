@@ -58,7 +58,7 @@
         .help-modal-link= link_to t('header.links_nav'), links_path
         -#.help-modal-link= link_to t('header.tips'), ''
         - if current_user&.admin?
-          .help-modal-link= link_to t('header.manage_nav'), manage_joins_path
+          .help-modal-link= link_to t('header.manage_nav'), manage_tournament_rounds_path
           .help-modal-link= link_to t('header.admin_nav'), rails_admin_path
         .help-modal-plus-links
           .help-modal-link

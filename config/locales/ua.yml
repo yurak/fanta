@@ -453,12 +453,23 @@ ua:
       club_transfer_requests: "Запити переходів"
       joins: "Заявки"
       leagues: "Ліги"
+      tournament_rounds: "Тури"
       players: "Гравці"
       weekly_team: "Збірна тижня"
       teams: "Команди"
       title: "Адмін панель"
       user_logos: "Лого"
       users: "Менеджери"
+    tournament_rounds:
+      title: "Дашборд турів"
+      empty: "Наразі немає живих турів."
+      round: "Тур"
+      status:
+        set_lineup: "Вибір складу"
+        locked: "Заблоковано"
+        postponed: "Перенесено"
+        closed: "Закрито"
+        inactive: "Не відкрито"
     champions:
       title: "Чемпіони"
       number: "#"

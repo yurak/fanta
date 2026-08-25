@@ -78,6 +78,7 @@ Rails.application.routes.draw do
     resources :weekly_teams, only: [:index, :new, :create]
     resources :auctions, only: [:index]
     resources :champions, only: [:index]
+    resources :tournament_rounds, only: [:index]
   end
 
   get  'unsubscribe', to: 'subscriptions#unsubscribe', as: :unsubscribe

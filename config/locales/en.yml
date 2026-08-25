@@ -448,6 +448,7 @@ en:
       club_transfer_requests: "Transfer Req."
       joins: "Join Apps"
       leagues: "Leagues"
+      tournament_rounds: "Tours"
       players: "Players"
       weekly_team: "Team of Week"
       national_teams: "National Teams"
@@ -455,6 +456,16 @@ en:
       title: "Admin panel"
       user_logos: "Logos"
       users: "Users"
+    tournament_rounds:
+      title: "Tours dashboard"
+      empty: "No live tours right now."
+      round: "Round"
+      status:
+        set_lineup: "Set lineup"
+        locked: "Locked"
+        postponed: "Postponed"
+        closed: "Closed"
+        inactive: "Not opened"
     champions:
       title: "Champions"
       number: "#"
