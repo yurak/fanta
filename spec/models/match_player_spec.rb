@@ -127,6 +127,45 @@ RSpec.describe MatchPlayer do
     end
   end
 
+  describe '#live?' do
+    let(:round_player) { create(:round_player) }
+    let(:match_player) { create(:match_player, round_player: round_player) }
+
+    context 'when the club has a live match in the round' do
+      before do
+        create(:tournament_match, tournament_round: round_player.tournament_round,
+                                  host_club: round_player.player.club, status: :live)
+      end
+
+      it { expect(match_player.live?).to be(true) }
+    end
+
+    context 'when the club match in the round is finished' do
+      before do
+        create(:tournament_match, tournament_round: round_player.tournament_round,
+                                  host_club: round_player.player.club, status: :finished)
+      end
+
+      it { expect(match_player.live?).to be(false) }
+    end
+
+    context 'when the club has no match in the round' do
+      it { expect(match_player.live?).to be(false) }
+    end
+
+    context 'when the player has a live national match in the round' do
+      let(:national_team) { create(:national_team) }
+      let(:round_player) { create(:round_player, player: create(:player, national_team: national_team)) }
+
+      before do
+        create(:national_match, tournament_round: round_player.tournament_round,
+                                host_team: national_team, status: :live)
+      end
+
+      it { expect(match_player.live?).to be(true) }
+    end
+  end
+
   describe '#position_malus?' do
     context 'without real position' do
       it 'returns false' do

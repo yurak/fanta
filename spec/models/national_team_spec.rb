@@ -48,6 +48,29 @@ RSpec.describe NationalTeam do
     end
   end
 
+  describe '#match_by_round' do
+    let(:tournament_round) { create(:tournament_round) }
+    let(:national_team2) { create(:national_team, name: 'AC Milan') }
+
+    it 'returns the match when the team is host' do
+      match = create(:national_match, tournament_round: tournament_round, host_team: national_team, guest_team: national_team2)
+
+      expect(national_team.match_by_round(tournament_round)).to eq(match)
+    end
+
+    it 'returns the match when the team is guest' do
+      match = create(:national_match, tournament_round: tournament_round, host_team: national_team2, guest_team: national_team)
+
+      expect(national_team.match_by_round(tournament_round)).to eq(match)
+    end
+
+    it 'returns nil when the team does not play in the round' do
+      create(:national_match, tournament_round: tournament_round, host_team: national_team2, guest_team: create(:national_team))
+
+      expect(national_team.match_by_round(tournament_round)).to be_nil
+    end
+  end
+
   describe '#matches' do
     let(:tournament_round) { create(:tournament_round, tournament: national_team.tournament) }
 

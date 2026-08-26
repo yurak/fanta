@@ -47,16 +47,8 @@ lower-risk early wins; the write-critical/real-time ones (lineup, auction) booke
    highest risk (real-time + money/squad-critical) → do LAST. Polling first, WebSocket later.
    ~2–3 weeks; server-authoritative bid validation + a live parity dry-run are mandatory.
 
-10. **Live scores & ratings** — see [LIVE_SCORES_PLAN.md](LIVE_SCORES_PLAN.md)
-    Not started. Independent of the React migration. Pull FotMob ratings + match result in live mode
-    (poll ~5 min while a match is in progress) instead of only at full time, and mark in-progress
-    matches on the tour page. Only the match-page scrape works (the JSON API is IP-blocked); relax the
-    `match_finished?` gate + a scoped 5-min scheduler + a match `status` column. ~2–4 days; main risk
-    is scrape stability (degrades to "final only").
-
 ## No detailed plan yet
 
-- **Rework of the drop / out-transfers pages** — UI redesign.
 - **Player statuses** (injury / suspension / doubtful) shown when setting a lineup.
 - **xPoints after tour close** — expected points of a squad, computed after `tour.close!`.
 - **Player wishlists** (watchlist) — save players into watch lists. Basis for auto-bidding in the 2nd+ auction.

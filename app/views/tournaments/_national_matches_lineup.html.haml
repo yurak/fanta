@@ -7,7 +7,7 @@
           = match.host_team.name
         .round-tournament-team-logo
           = flag_icon(match.host_team.code.to_sym, element: :div)
-    .round-tournament-match-cell.round-tournament-match-cell-result
+    .round-tournament-match-cell.round-tournament-match-cell-result{ class: ('round-tournament-match-cell-result--live' if match.live?) }
       - if match.host_score
         - if current_user&.can_moderate?
           = link_to edit_tournament_round_path(match.tournament_round) do
@@ -20,6 +20,8 @@
               = "#{match.host_score}:#{match.guest_score}"
       - else
         = match.utc_datetime ? local_time(match.utc_datetime, '%H:%M') : (match.time.presence || 'vs')
+      - if match.live?
+        .round-tournament-match-live-minute= match.live_minute ? "#{match.live_minute}'" : 'LIVE'
     .round-tournament-match-cell.round-tournament-match-team.round-tournament-match-guest.round-match-national
       = link_to national_team_path(match.guest_team) do
         .round-tournament-team-logo

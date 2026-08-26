@@ -50,8 +50,24 @@ namespace :tours do
   # rake 'tours:live_inject'
   desc 'Inject live scores for in-progress FotMob matches (live_scores_enabled tournaments)'
   task live_inject: :environment do
-    TournamentRound.live_scores_candidates.each do |t_round|
-      Tours::LiveInjector.call(t_round)
+    # a slow/degraded FotMob can push one run past the 5-min cron interval; the lock stops a
+    # second run from re-processing the same rounds concurrently (same overlap guard as generate_lineups)
+    lock_file = Rails.root.join('tmp/live_inject.lock')
+    File.open(lock_file, File::RDWR | File::CREAT, 0o644) do |f|
+      unless f.flock(File::LOCK_EX | File::LOCK_NB)
+        puts 'tours:live_inject already running, skipping'
+        next
+      end
+
+      rounds  = TournamentRound.live_scores_candidates.to_a
+      results = rounds.map { |t_round| Tours::LiveInjector.call(t_round) }
+
+      Scores::ScrapeAlert.call(
+        candidates: results.sum { |result| result[:candidates] },
+        with_data: results.sum { |result| result[:with_data] },
+        failures: results.sum { |result| result[:failures] },
+        tournaments: rounds.map { |t_round| t_round.tournament.name }.uniq
+      )
     end
   end
 

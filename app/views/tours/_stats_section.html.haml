@@ -71,13 +71,15 @@
                 .round-tournament-club-logo
                   %object{data: t_match.host_club.logo_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
                     = image_tag('default_logo.png')
-            .round-tournament-match-cell
+            .round-tournament-match-cell{ class: ('round-tournament-match-cell--live' if t_match.live?) }
               - if t_match.host_score
                 .round-tournament-match-result
                   .round-tournament-match-result-host= t_match.host_score
                   .round-tournament-match-result-guest= t_match.guest_score
               - else
                 vs
+              - if t_match.live?
+                .round-tournament-match-live-minute= t_match.live_minute ? "#{t_match.live_minute}'" : 'LIVE'
             .round-tournament-match-cell.round-tournament-match-club.round-tournament-match-guest
               .round-tournament-club-logo-wrapper
                 .round-tournament-club-logo

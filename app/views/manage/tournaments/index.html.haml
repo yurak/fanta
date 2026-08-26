@@ -1,0 +1,30 @@
+.page-block
+  .web-header= render 'layouts/left_nav', league: nil
+  .web-header= render 'layouts/manage_nav'
+  .mob-header= render 'layouts/mob_header', league: nil, title: t('manage.tournaments.title')
+  .page-info.admin-manage-page
+    %h2.mb-3= t('manage.tournaments.title')
+
+    - if flash[:notice]
+      .alert.alert-success= flash[:notice]
+
+    %table.table.table-sm.table-hover.align-middle
+      %thead.thead-light
+        %tr
+          %th ID
+          %th= t('manage.tournaments.col_name')
+          %th= t('manage.tournaments.col_source')
+          %th= t('manage.tournaments.col_mode')
+          %th= t('manage.tournaments.col_live_scores')
+          %th
+      %tbody
+        - @tournaments.each do |tournament|
+          %tr
+            %td= tournament.id
+            %td
+              = image_tag(tournament.logo_path, width: 20, height: 20, class: 'mr-1')
+              = tournament.name
+            %td= tournament.source
+            %td= tournament.mode
+            %td= tournament.live_scores_enabled ? '✅' : '—'
+            %td= link_to t('manage.tournaments.edit'), edit_manage_tournament_path(tournament), class: 'btn btn-sm btn-outline-primary'

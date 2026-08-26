@@ -4,41 +4,101 @@ module Scores
       FOTMOB_MATCH_URL = 'https://www.fotmob.com'.freeze
       # FOTMOB_MATCH_URL = 'https://www.fotmob.com/api/matchDetails?matchId='.freeze
 
+      USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 ' \
+                   '(KHTML, like Gecko) Chrome/124.0 Safari/537.36'.freeze
+      REQUEST_TIMEOUT = 15
+      MAX_RETRIES = 2
+      BACKOFF_SECONDS = 5
+      TRANSIENT_ERRORS = [
+        RestClient::ServerBrokeConnection, RestClient::Exceptions::Timeout,
+        Errno::ECONNRESET, Errno::ECONNREFUSED, Errno::ETIMEDOUT, OpenSSL::SSL::SSLError, SocketError
+      ].freeze
+
+      def data_available?
+        match_data.present?
+      end
+
+      def scrape_health_failure?
+        match_data.blank? && @scrape_failure != :not_found
+      end
+
       private
 
       def update_round_players
         if match.tournament_round.tournament.national?
-          round_players.by_national_team(match.host_team_id).each { |rp| update_round_player(rp, players_hash, guest_result) }
-          round_players.by_national_team(match.guest_team_id).each { |rp| update_round_player(rp, players_hash, host_result) }
+          update_side(round_players.by_national_team(match.host_team_id), guest_result, host_conceded_minutes)
+          update_side(round_players.by_national_team(match.guest_team_id), host_result, guest_conceded_minutes)
         else
-          round_players.by_club(match.host_club_id).each { |rp| update_round_player(rp, players_hash, guest_result) }
-          round_players.by_club(match.guest_club_id).each { |rp| update_round_player(rp, players_hash, host_result) }
+          update_side(round_players.by_club(match.host_club_id), guest_result, host_conceded_minutes)
+          update_side(round_players.by_club(match.guest_club_id), host_result, guest_conceded_minutes)
         end
       end
 
-      def update_round_player(round_player, team_hash, team_missed_goals)
-        player_data = team_hash[round_player.fotmob_id]
-        return unless player_data
-
-        round_player.update(round_player_params(round_player, player_data, team_missed_goals))
-
-        team_hash.except!(round_player.fotmob_id)
+      def update_side(players, team_missed_goals, conceded_minutes)
+        players.each { |round_player| update_round_player(round_player, team_missed_goals, conceded_minutes) }
       end
 
-      def full_player_hash(round_player, data, team_missed_goals)
+      def update_round_player(round_player, team_missed_goals, conceded_minutes)
+        player_data = players_hash[round_player.fotmob_id]
+        return unless player_data
+
+        round_player.update(round_player_params(round_player, player_data, team_missed_goals, conceded_minutes))
+
+        players_hash.except!(round_player.fotmob_id)
+      end
+
+      def round_player_params(round_player, player_data, team_missed_goals, conceded_minutes)
+        return { score: rating(player_data), in_squad: true } if round_player.manual_lock
+
+        full_player_hash(round_player, player_data, team_missed_goals, conceded_minutes)
+      end
+
+      def full_player_hash(round_player, data, team_missed_goals, conceded_minutes)
         # Supported params:
         # rating goal assist yellow_card red_card missed_goals own_goal
         # saves failed_penalty caught_penalty conceded_penalty penalties_won scored_penalty
+        played_minutes = live_played_minutes(data)
         {
           score: rating(data), goals: stat_value(data, :goals), assists: stat_value(data, :assists),
-          cleansheet: cleansheet?(round_player, team_missed_goals.to_i, data[:played_minutes]),
+          cleansheet: cleansheet?(round_player, team_missed_goals.to_i, played_minutes,
+                                  timing: cleansheet_timing(data, conceded_minutes)),
           scored_penalty: stat_value(data, :scored_penalty), caught_penalty: stat_value(data, :caught_penalty),
           failed_penalty: stat_value(data, :failed_penalty), missed_goals: stat_value(data, :missed_goals),
           own_goals: stat_value(data, :own_goals), saves: stat_value(data, :saves),
-          played_minutes: stat_value(data, :played_minutes), yellow_card: data[:yellow_card], red_card: data[:red_card],
+          played_minutes: played_minutes, yellow_card: data[:yellow_card], red_card: data[:red_card],
           conceded_penalty: conceded_penalty(data), penalties_won: stat_value(data, :penalties_won),
           in_squad: true
         }
+      end
+
+      def live_played_minutes(data)
+        return 0 if @run_mode == :live
+
+        stat_value(data, :played_minutes)
+      end
+
+      def cleansheet_timing(data, conceded_minutes)
+        { on_minute: data[:sub_in_minute], off_minute: data[:sub_out_minute], conceded_minutes: conceded_minutes }
+      end
+
+      def host_conceded_minutes
+        @host_conceded_minutes ||= goal_minutes_conceded_by(home: true)
+      end
+
+      def guest_conceded_minutes
+        @guest_conceded_minutes ||= goal_minutes_conceded_by(home: false)
+      end
+
+      def goal_minutes_conceded_by(home:)
+        goal_events.reject { |event| event['isHome'] == home }.map { |event| event['time'].to_i + event['overloadTime'].to_i }
+      end
+
+      def goal_events
+        @goal_events ||= match_events.select { |event| event['type'] == 'Goal' && !event['isPenaltyShootoutEvent'] }
+      end
+
+      def match_events
+        match_data.dig('content', 'matchFacts', 'events', 'events') || []
       end
 
       def conceded_penalty(player_data)
@@ -50,6 +110,8 @@ module Scores
       end
 
       def players_data_ready?
+        return players_hash.values.any? { |data| data[:rating].to_f.positive? } if @run_mode == :live
+
         players_hash.values.any? { |data| data[:played_minutes].to_i.positive? }
       end
 
@@ -59,6 +121,12 @@ module Scores
 
       def match_live?
         correct_round? && (status['started'] || status['awarded']) && !status['finished']
+      end
+
+      def live_minute
+        return nil unless match_live?
+
+        status.dig('liveTime', 'short').to_s[/\d+/]&.to_i
       end
 
       def kickoff_attributes
@@ -97,16 +165,52 @@ module Scores
         result[1]
       end
 
-      def request
-        RestClient.get("#{FOTMOB_MATCH_URL}#{match.page_url}")
-      end
-
       def match_data
-        @match_data ||= JSON.parse(html_page)['props']['pageProps']
+        return @match_data if defined?(@match_data)
+
+        html = fetch_html
+        @match_data = html ? JSON.parse(Nokogiri::HTML(html).css('#__NEXT_DATA__').text)['props']['pageProps'] : {}
+      rescue JSON::ParserError, NoMethodError => e
+        @scrape_failure = :health
+        log_scrape_skip("parse error: #{e.message}")
+        @match_data = {}
       end
 
-      def html_page
-        @html_page ||= Nokogiri::HTML(request).css('#__NEXT_DATA__').text
+      def fetch_html
+        attempt = 0
+        begin
+          attempt += 1
+          RestClient::Request.execute(method: :get, url: "#{FOTMOB_MATCH_URL}#{match.page_url}",
+                                      headers: { user_agent: USER_AGENT }, timeout: REQUEST_TIMEOUT)
+        rescue RestClient::ExceptionWithResponse, *TRANSIENT_ERRORS => e
+          if scrape_retriable?(e) && attempt <= MAX_RETRIES
+            sleep(attempt * BACKOFF_SECONDS)
+            retry
+          end
+          @scrape_failure = scrape_failure_kind(e)
+          log_scrape_skip(scrape_reason(e))
+          nil
+        end
+      end
+
+      def scrape_failure_kind(error)
+        return :not_found if error.is_a?(RestClient::ResourceNotFound)
+
+        :health
+      end
+
+      def scrape_retriable?(error)
+        return true unless error.is_a?(RestClient::ExceptionWithResponse)
+
+        error.http_code.to_i >= 500
+      end
+
+      def scrape_reason(error)
+        error.is_a?(RestClient::ExceptionWithResponse) ? "HTTP #{error.http_code}" : error.class.to_s
+      end
+
+      def log_scrape_skip(reason)
+        Rails.logger.warn("[live-scores] FotMob scrape skipped for #{match.page_url}: #{reason}")
       end
     end
   end

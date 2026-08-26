@@ -67,8 +67,6 @@ RSpec.describe Scores::Injectors::FotmobMatch do
     context 'when match is not finished' do
       let(:finished_status) { { 'started' => true, 'finished' => false, 'awarded' => false } }
 
-      it { expect(injector.call).to be_nil }
-
       it 'does not update scores' do
         injector.call
         expect(match.reload.host_score).to be_nil
@@ -77,10 +75,14 @@ RSpec.describe Scores::Injectors::FotmobMatch do
 
     context 'when run_mode is :live and the match is in progress' do
       let(:injector) { described_class.new(match, run_mode: :live) }
-      let(:finished_status) { { 'started' => true, 'finished' => false, 'awarded' => false, 'scoreStr' => '1 - 0' } }
+      let(:finished_status) do
+        { 'started' => true, 'finished' => false, 'awarded' => false, 'scoreStr' => '1 - 0',
+          'liveTime' => { 'short' => "30'" } }
+      end
 
       before do
-        allow(Scores::Injectors::FotmobPlayersData).to receive(:call).and_return(123 => { rating: 7.2, played_minutes: 30 })
+        # FotMob withholds played_minutes during a live match (0 for everyone) but streams ratings
+        allow(Scores::Injectors::FotmobPlayersData).to receive(:call).and_return(123 => { rating: 7.2, played_minutes: 0 })
       end
 
       it 'updates the live score' do
@@ -93,7 +95,45 @@ RSpec.describe Scores::Injectors::FotmobMatch do
         expect(match.reload).to be_live
       end
 
+      it 'stores the live minute' do
+        injector.call
+        expect(match.reload.live_minute).to eq(30)
+      end
+
       it 'does not run the missed-players audit while in progress' do
+        injector.call
+        expect(Audit::CsvWriter).not_to have_received(:call)
+      end
+    end
+
+    context 'when run_mode is :live, in progress, but no ratings are available yet' do
+      let(:injector) { described_class.new(match, run_mode: :live) }
+      let(:finished_status) do
+        { 'started' => true, 'finished' => false, 'awarded' => false, 'scoreStr' => '1 - 0',
+          'liveTime' => { 'short' => "5'" } }
+      end
+
+      before do
+        # early minutes: FotMob has a scoreline but no ratings yet
+        allow(Scores::Injectors::FotmobPlayersData).to receive(:call).and_return(123 => { rating: 0, played_minutes: 0 })
+      end
+
+      it 'still writes the provisional live score' do
+        injector.call
+        expect(match.reload.host_score).to eq(1)
+      end
+
+      it 'marks the match as live' do
+        injector.call
+        expect(match.reload).to be_live
+      end
+
+      it 'stores the live minute' do
+        injector.call
+        expect(match.reload.live_minute).to eq(5)
+      end
+
+      it 'does not run the audit' do
         injector.call
         expect(Audit::CsvWriter).not_to have_received(:call)
       end
@@ -109,6 +149,12 @@ RSpec.describe Scores::Injectors::FotmobMatch do
       it 'marks the match as finished' do
         injector.call
         expect(match.reload).to be_finished
+      end
+
+      it 'clears the live minute at full time' do
+        match.update!(live_minute: 45)
+        injector.call
+        expect(match.reload.live_minute).to be_nil
       end
 
       it 'runs the missed-players audit at full time' do
@@ -164,8 +210,6 @@ RSpec.describe Scores::Injectors::FotmobMatch do
           'content' => {}
         }
       end
-
-      it { expect(injector.call).to be_nil }
 
       it 'does not update scores' do
         injector.call
@@ -298,6 +342,30 @@ RSpec.describe Scores::Injectors::FotmobMatch do
 
       it { is_expected.to be false }
     end
+
+    context 'when run_mode is :live' do
+      let(:injector) { described_class.new(match, run_mode: :live) }
+
+      context 'when a player has a rating but no minutes yet (live match)' do
+        before do
+          allow(Scores::Injectors::FotmobPlayersData).to receive(:call).and_return(
+            101 => { rating: 7.2, played_minutes: 0 }
+          )
+        end
+
+        it { is_expected.to be true }
+      end
+
+      context 'when no player has a positive rating' do
+        before do
+          allow(Scores::Injectors::FotmobPlayersData).to receive(:call).and_return(
+            101 => { rating: 0, played_minutes: 0 }
+          )
+        end
+
+        it { is_expected.to be false }
+      end
+    end
   end
 
   describe '#players_hash' do
@@ -353,7 +421,7 @@ RSpec.describe Scores::Injectors::FotmobMatch do
   end
 
   describe '#full_player_hash' do
-    subject(:hash) { injector.send(:full_player_hash, round_player, player_data, 0) }
+    subject(:hash) { injector.send(:full_player_hash, round_player, player_data, 0, []) }
 
     let(:round_player) { create(:round_player, :with_pos_dc) }
     let(:player_data) do
@@ -378,39 +446,165 @@ RSpec.describe Scores::Injectors::FotmobMatch do
     it 'marks player as in_squad' do
       expect(hash[:in_squad]).to be true
     end
+
+    context 'when in live mode' do
+      let(:injector) { described_class.new(match, run_mode: :live) }
+
+      it 'forces played_minutes to 0' do
+        expect(hash[:played_minutes]).to eq(0)
+      end
+
+      it 'defers the cleansheet (minutes below the threshold)' do
+        expect(hash[:cleansheet]).to be false
+      end
+    end
+  end
+
+  describe '#full_player_hash cleansheet timing for a subbed-off defender' do
+    subject(:cleansheet) { injector.send(:full_player_hash, round_player, player_data, 1, conceded_minutes)[:cleansheet] }
+
+    let(:round_player) { create(:round_player, :with_pos_dc) }
+    let(:player_data) { { rating: 7.0, played_minutes: 70, sub_out_minute: 70, goals: 0, assists: 0 } }
+    let(:conceded_minutes) { [75] }
+
+    it 'awards the cleansheet when the goal fell after he left the pitch' do
+      expect(cleansheet).to be true
+    end
+
+    context 'when the goal was conceded while he was on the pitch' do
+      let(:conceded_minutes) { [65] }
+
+      it 'does not award the cleansheet' do
+        expect(cleansheet).to be false
+      end
+    end
+  end
+
+  describe '#host_conceded_minutes and #guest_conceded_minutes' do
+    let(:match_data) do
+      {
+        'general' => { 'leagueRoundName' => match.tournament_round.number.to_s },
+        'header' => { 'status' => finished_status },
+        'content' => { 'matchFacts' => { 'events' => { 'events' => events } } }
+      }
+    end
+    let(:events) do
+      [
+        { 'type' => 'Goal', 'time' => 20, 'overloadTime' => nil, 'isHome' => true, 'isPenaltyShootoutEvent' => false },
+        { 'type' => 'Goal', 'time' => 90, 'overloadTime' => 3, 'isHome' => false, 'isPenaltyShootoutEvent' => false },
+        { 'type' => 'Goal', 'time' => 50, 'isHome' => false, 'isPenaltyShootoutEvent' => true },
+        { 'type' => 'Substitution', 'time' => 70, 'overloadTime' => 0, 'isHome' => true }
+      ]
+    end
+
+    it 'collects the minutes the host conceded (goals scored by the guest)' do
+      expect(injector.send(:host_conceded_minutes)).to eq([93])
+    end
+
+    it 'collects the minutes the guest conceded (goals scored by the host)' do
+      expect(injector.send(:guest_conceded_minutes)).to eq([20])
+    end
+
+    it 'ignores penalty shootout goals' do
+      expect(injector.send(:host_conceded_minutes)).not_to include(50)
+    end
   end
 
   describe '#update_round_player' do
     let(:player) { create(:player, fotmob_id: 99_001) }
     let(:round_player) { create(:round_player, player: player, tournament_round: match.tournament_round) }
-    let(:team_hash) { { 99_001 => { rating: 7.5, played_minutes: 90 } } }
+
+    before do
+      allow(Scores::Injectors::FotmobPlayersData).to receive(:call).and_return(
+        99_001 => { rating: 7.5, played_minutes: 90 }
+      )
+    end
 
     context 'when player is in the hash' do
       it 'updates round_player' do
         expect do
-          injector.send(:update_round_player, round_player, team_hash, 0)
+          injector.send(:update_round_player, round_player, 0, [])
         end.to(change { round_player.reload.updated_at })
       end
 
       it 'marks player as in_squad' do
-        injector.send(:update_round_player, round_player, team_hash, 0)
+        injector.send(:update_round_player, round_player, 0, [])
         expect(round_player.reload.in_squad).to be true
       end
 
       it 'removes player from hash to prevent duplicate processing' do
-        injector.send(:update_round_player, round_player, team_hash, 0)
-        expect(team_hash).not_to have_key(99_001)
+        injector.send(:update_round_player, round_player, 0, [])
+        expect(injector.send(:players_hash)).not_to have_key(99_001)
       end
     end
 
     context 'when player is not in the hash' do
-      let(:team_hash) { {} }
+      before do
+        allow(Scores::Injectors::FotmobPlayersData).to receive(:call).and_return({})
+      end
 
       it 'does nothing' do
         expect do
-          injector.send(:update_round_player, round_player, team_hash, 0)
+          injector.send(:update_round_player, round_player, 0, [])
         end.not_to(change { round_player.reload.score })
       end
+    end
+  end
+
+  describe 'scrape resilience' do
+    # a fresh instance whose #match_data is NOT stubbed, so the real fetch path runs
+    let(:live_injector) { described_class.new(match) }
+
+    it 'returns {} when FotMob blocks the request' do
+      allow(RestClient::Request).to receive(:execute).and_raise(RestClient::Forbidden)
+
+      expect(live_injector.send(:match_data)).to eq({})
+    end
+
+    it 'returns {} when the page has no parseable data' do
+      allow(RestClient::Request).to receive(:execute).and_return('<html>blocked</html>')
+
+      expect(live_injector.send(:match_data)).to eq({})
+    end
+
+    it 'keeps the stored score instead of blanking it on a block' do
+      match.update!(host_score: 2, guest_score: 1)
+      allow(RestClient::Request).to receive(:execute).and_raise(RestClient::Forbidden)
+
+      live_injector.call
+
+      expect(match.reload.host_score).to eq(2)
+    end
+  end
+
+  describe '#scrape_health_failure?' do
+    let(:live_injector) { described_class.new(match) }
+
+    it 'is true when FotMob blocks the request (403)' do
+      allow(RestClient::Request).to receive(:execute).and_raise(RestClient::Forbidden)
+      live_injector.send(:match_data)
+
+      expect(live_injector.scrape_health_failure?).to be true
+    end
+
+    it 'is true when the page has no parseable data' do
+      allow(RestClient::Request).to receive(:execute).and_return('<html>blocked</html>')
+      live_injector.send(:match_data)
+
+      expect(live_injector.scrape_health_failure?).to be true
+    end
+
+    it 'is false for a stale page_url (404)' do
+      allow(RestClient::Request).to receive(:execute).and_raise(RestClient::ResourceNotFound)
+      live_injector.send(:match_data)
+
+      expect(live_injector.scrape_health_failure?).to be false
+    end
+
+    it 'is false when the page was fetched successfully' do
+      allow(live_injector).to receive(:match_data).and_return({ 'header' => {} })
+
+      expect(live_injector.scrape_health_failure?).to be false
     end
   end
 end

@@ -281,6 +281,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_08_25_102016) do
     t.string "page_url", default: "", null: false
     t.text "missed_players_data"
     t.integer "status", default: 0, null: false
+    t.integer "live_minute"
     t.index ["tournament_round_id"], name: "index_national_matches_on_tournament_round_id"
   end
 
@@ -561,6 +562,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_08_25_102016) do
     t.text "lineups_data"
     t.text "missed_players_data"
     t.integer "status", default: 0, null: false
+    t.integer "live_minute"
     t.index ["guest_club_id"], name: "index_tournament_matches_on_guest_club_id"
     t.index ["host_club_id"], name: "index_tournament_matches_on_host_club_id"
     t.index ["tournament_round_id"], name: "index_tournament_matches_on_tournament_round_id"

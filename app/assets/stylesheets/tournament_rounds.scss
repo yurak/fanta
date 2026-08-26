@@ -390,20 +390,36 @@
   }
 }
 
-/* live (in-progress) match result — provisional score/ratings */
-.round-tournament-match-cell-result--live {
-  .round-tournament-match-result-text {
-    color: #E4002B;
+/* live (in-progress) match result — provisional score/ratings on a red background.
+   !important overrides the deeper .stats-section … .round-tournament-match-result dark-blue rule. */
+.round-tournament-match-cell-result--live,
+.round-tournament-match-cell--live {
+  .round-tournament-match-result {
+    background-color: #E4002B !important;
   }
 
-  &::after {
-    content: 'LIVE';
-    display: block;
-    margin-top: 2px;
-    font-family: 'Nunito ExtraBold';
-    font-size: 9px;
-    line-height: 1;
-    letter-spacing: 0.04em;
-    color: #E4002B;
+  .round-tournament-match-result-text,
+  .round-tournament-match-result-host,
+  .round-tournament-match-result-guest {
+    color: #FFFFFF !important;
+  }
+}
+
+.round-tournament-match-live-minute {
+  display: block;
+  margin-top: -4px;
+  font-family: 'Nunito ExtraBold';
+  font-size: 9px;
+  line-height: 1;
+  letter-spacing: 0.04em;
+  color: #E4002B;
+  text-align: center;
+}
+
+// the portrait (non-React) layout scales the score up ~3x, so the minute label must match
+@media (orientation: portrait) {
+  .round-tournament-match-live-minute {
+    margin-top: -12px;
+    font-size: 27px;
   }
 }

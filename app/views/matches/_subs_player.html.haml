@@ -23,9 +23,11 @@
               - else
                 = match_player.player.club&.name
         - if match_player.score.positive?
-          .team-player-scores
+          .team-player-scores{ class: ('team-player-scores--live' if match_player.live?) }
             .team-player-score= match_player.score
             .team-player-total-score= match_player.total_score
+        - elsif match_player.live?
+          .team-player-score-live-pending –
         - elsif match_player.club_played_match? || (match_player.tour.mantra? && match_player.another_tournament?)
           .team-player-score-not-played= t('matches.didnt_play')
         - else

@@ -212,5 +212,49 @@ RSpec.describe Scores::Injectors::FotmobPlayersData do
         expect(result[12_345][:scored_penalty]).to be_nil
       end
     end
+
+    context 'when the player is substituted off' do
+      let(:events) do
+        [{ 'type' => 'Substitution', 'time' => 70, 'overloadTime' => 0,
+           'swap' => [{ 'id' => '555' }, { 'id' => '12345' }] }]
+      end
+
+      it 'records the minute he left the pitch' do
+        expect(result[12_345][:sub_out_minute]).to eq(70)
+      end
+    end
+
+    context 'when the player is substituted on' do
+      let(:events) do
+        [{ 'type' => 'Substitution', 'time' => 60, 'overloadTime' => 0,
+           'swap' => [{ 'id' => '12345' }, { 'id' => '555' }] }]
+      end
+
+      it 'records the minute he came on' do
+        expect(result[12_345][:sub_in_minute]).to eq(60)
+      end
+    end
+
+    context 'when the substitution is in added time' do
+      let(:events) do
+        [{ 'type' => 'Substitution', 'time' => 90, 'overloadTime' => 3,
+           'swap' => [{ 'id' => '555' }, { 'id' => '12345' }] }]
+      end
+
+      it 'adds the overload minutes' do
+        expect(result[12_345][:sub_out_minute]).to eq(93)
+      end
+    end
+
+    context 'when the player is not involved in any substitution' do
+      let(:events) do
+        [{ 'type' => 'Substitution', 'time' => 70, 'overloadTime' => 0,
+           'swap' => [{ 'id' => '555' }, { 'id' => '777' }] }]
+      end
+
+      it 'leaves sub_out_minute unset' do
+        expect(result[12_345][:sub_out_minute]).to be_nil
+      end
+    end
   end
 end

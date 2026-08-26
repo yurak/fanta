@@ -22,7 +22,8 @@ class TournamentRound < ApplicationRecord
   scope :schedule_refresh_candidates, lambda {
     live_scores_tournament.joins(:tours)
                           .where(tours: { status: Tour.statuses[:set_lineup] })
-                          .where(schedule_refreshed_at: nil)
+                          .where('tournament_rounds.schedule_refreshed_at IS NULL OR ' \
+                                 'tournament_rounds.schedule_refreshed_at < ?', 1.day.ago)
                           .distinct
   }
 

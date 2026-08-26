@@ -1158,6 +1158,7 @@
         "teams": "Teams",
         "title": "Admin panel",
         "tournament_rounds": "Tours",
+        "tournaments": "Tournaments",
         "user_logos": "Logos",
         "users": "Users",
         "weekly_team": "Team of Week"
@@ -1253,6 +1254,18 @@
           "set_lineup": "Set lineup"
         },
         "title": "Tours dashboard"
+      },
+      "tournaments": {
+        "back": "← Tournaments",
+        "col_live_scores": "Live scores",
+        "col_mode": "Mode",
+        "col_name": "Name",
+        "col_source": "Source",
+        "edit": "Edit",
+        "options": "Options",
+        "save": "Save",
+        "title": "Tournaments",
+        "updated": "Tournament %{name} updated"
       },
       "user_logos": {
         "actions": "Actions",
@@ -3422,6 +3435,7 @@
         "teams": "Команди",
         "title": "Адмін панель",
         "tournament_rounds": "Тури",
+        "tournaments": "Турніри",
         "user_logos": "Лого",
         "users": "Менеджери",
         "weekly_team": "Збірна тижня"
@@ -3517,6 +3531,18 @@
           "set_lineup": "Вибір складу"
         },
         "title": "Дашборд турів"
+      },
+      "tournaments": {
+        "back": "← Турніри",
+        "col_live_scores": "Live-рахунок",
+        "col_mode": "Режим",
+        "col_name": "Назва",
+        "col_source": "Джерело",
+        "edit": "Редагувати",
+        "options": "Опції",
+        "save": "Зберегти",
+        "title": "Турніри",
+        "updated": "Турнір %{name} оновлено"
       },
       "user_logos": {
         "actions": "Дії",

@@ -32,7 +32,7 @@ RSpec.describe Scores::Injectors::BaseMatch do
     context 'when match has no page_url' do
       before { allow(match).to receive(:page_url).and_return(nil) }
 
-      it { expect(injector.call).to be_nil }
+      it { expect(injector.call).to be false }
 
       it 'does not update host score' do
         injector.call
@@ -58,8 +58,6 @@ RSpec.describe Scores::Injectors::BaseMatch do
           def full_player_hash(_round_player, _data, _team_missed_goals); end
         end
       end
-
-      it { expect(injector.call).to be_nil }
 
       it 'does not update host score' do
         injector.call
@@ -218,6 +216,67 @@ RSpec.describe Scores::Injectors::BaseMatch do
 
     context 'with a winger (not in cleansheet zone)' do
       let(:round_player) { create(:round_player, :with_pos_c) }
+
+      it { is_expected.to be false }
+    end
+  end
+
+  describe '#cleansheet? with substitution timing' do
+    subject(:cleansheet) do
+      injector.send(:cleansheet?, round_player, 1, played_minutes, timing: timing)
+    end
+
+    let(:round_player) { create(:round_player, :with_pos_dc) }
+    let(:played_minutes) { 70 }
+    let(:timing) { { on_minute: nil, off_minute: nil, conceded_minutes: [] } }
+
+    context 'when a starter is subbed off before the only goal was conceded' do
+      let(:timing) { { on_minute: nil, off_minute: 70, conceded_minutes: [75] } }
+
+      it { is_expected.to be true }
+    end
+
+    context 'when the goal was conceded while the starter was still on the pitch' do
+      let(:timing) { { on_minute: nil, off_minute: 70, conceded_minutes: [65] } }
+
+      it { is_expected.to be false }
+    end
+
+    context 'when a substitute came on after the goal was conceded' do
+      let(:timing) { { on_minute: 60, off_minute: nil, conceded_minutes: [30] } }
+
+      it { is_expected.to be true }
+    end
+
+    context 'when the goal falls inside the substitute time on the pitch' do
+      let(:timing) { { on_minute: 60, off_minute: nil, conceded_minutes: [80] } }
+
+      it { is_expected.to be false }
+    end
+
+    context 'when the goal is conceded exactly at the sub-off minute' do
+      let(:timing) { { on_minute: nil, off_minute: 70, conceded_minutes: [70] } }
+
+      it { is_expected.to be false }
+    end
+
+    context 'when played the full match (timing ignored, falls back to total count)' do
+      let(:played_minutes) { 90 }
+      let(:timing) { { on_minute: nil, off_minute: nil, conceded_minutes: [75] } }
+
+      it { is_expected.to be false }
+    end
+
+    context 'when below the minimum minutes' do
+      let(:played_minutes) { 59 }
+      let(:timing) { { on_minute: nil, off_minute: 59, conceded_minutes: [75] } }
+
+      it { is_expected.to be false }
+    end
+
+    context 'when not in the cleansheet zone' do
+      let(:round_player) { create(:round_player, :with_pos_pc) }
+      let(:timing) { { on_minute: nil, off_minute: 70, conceded_minutes: [75] } }
 
       it { is_expected.to be false }
     end

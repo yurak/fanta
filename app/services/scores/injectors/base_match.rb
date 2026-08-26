@@ -4,6 +4,7 @@ module Scores
       attr_reader :match
 
       DEFAULT_SCORE = 6
+      FULL_MATCH_MINUTES = 90
 
       def initialize(match, run_mode: :final)
         @match = match
@@ -11,19 +12,39 @@ module Scores
       end
 
       def call
-        return unless match.page_url
-        return refresh_schedule if @run_mode == :schedule
-        return unless processable?
-        return unless players_data_ready?
+        return false unless match.page_url
 
-        match.update(host_score: host_result, guest_score: guest_result, status: match_state, **kickoff_attributes)
+        if @run_mode == :schedule
+          refresh_schedule
+        elsif processable?
+          update_match if match_writable?
+          if players_data_ready?
+            update_round_players
+            audit_missed_players(players_hash) if match_finished?
+          end
+        end
 
-        update_round_players
+        data_available?
+      end
 
-        audit_missed_players(players_hash) if match_finished?
+      def data_available?
+        true
       end
 
       private
+
+      def update_match
+        match.update(host_score: host_result, guest_score: guest_result, status: match_state,
+                     live_minute: live_minute, **kickoff_attributes)
+      end
+
+      def match_writable?
+        match_live? || players_data_ready?
+      end
+
+      def live_minute
+        nil
+      end
 
       def refresh_schedule
         attributes = kickoff_attributes
@@ -79,10 +100,20 @@ module Scores
         player_data[:rating].to_f.round(1)
       end
 
-      def cleansheet?(round_player, team_missed_goals, played_minutes)
-        played_minutes.to_i >= MatchPlayer::MIN_PLAYED_MINUTES_FOR_CS &&
-          team_missed_goals.zero? &&
-          round_player.position_names.intersect?(Position::CLEANSHEET_ZONE)
+      def cleansheet?(round_player, team_missed_goals, played_minutes, timing: nil)
+        return false if played_minutes.to_i < MatchPlayer::MIN_PLAYED_MINUTES_FOR_CS
+        return false unless round_player.position_names.intersect?(Position::CLEANSHEET_ZONE)
+
+        return no_goals_while_on_pitch?(timing) if timing && played_minutes.to_i < FULL_MATCH_MINUTES
+
+        team_missed_goals.zero?
+      end
+
+      def no_goals_while_on_pitch?(timing)
+        on_minute = timing[:on_minute].to_i # 0 for a starter
+        off_minute = timing[:off_minute] || Float::INFINITY # played to the final whistle
+
+        timing[:conceded_minutes].none? { |minute| minute > on_minute && minute <= off_minute }
       end
 
       def missed_goals(round_player, team_missed_goals)

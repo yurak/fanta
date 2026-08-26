@@ -43,6 +43,14 @@ class MatchPlayer < ApplicationRecord
     score.zero? && (club_played_match? || another_tournament?)
   end
 
+  def live?
+    return @live if defined?(@live)
+
+    round = round_player.tournament_round
+    match = player.national_team&.match_by_round(round) || club&.match_by_round(round)
+    @live = match&.live? || false
+  end
+
   def position_malus?
     return false unless real_position
 

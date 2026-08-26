@@ -24,6 +24,7 @@ module ManageHelper
       ['manage/club_transfers', manage_club_transfers_path, 'icons/round/transfer.svg', 'manage.nav.club_transfers'],
       ['manage/club_transfer_requests', manage_club_transfer_requests_path, 'icons/round/request.svg',
        'manage.nav.club_transfer_requests'],
+      ['manage/tournaments', manage_tournaments_path, 'icons/round/statistics.svg', 'manage.nav.tournaments'],
       ['manage/national_teams', manage_national_teams_path, 'icons/round/teams.svg', 'manage.nav.national_teams'],
       ['manage/weekly_teams', manage_weekly_teams_path, 'icons/round/star.svg', 'manage.nav.weekly_team'],
       ['manage/champions', manage_champions_path, 'icons/round/crown.svg', 'manage.nav.champions']

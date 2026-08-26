@@ -8,16 +8,26 @@ module Tours
 
     def call
       matches = live_matches
-      return false if matches.empty?
+      return { candidates: 0, with_data: 0, failures: 0 } if matches.empty?
 
-      matches.each { |match| Scores::Injectors::FotmobMatch.call(match, run_mode: :live) }
+      injectors = matches.map { |match| run_injector(match) }
       update_tours
-      true
+      {
+        candidates: matches.size,
+        with_data: injectors.count(&:data_available?),
+        failures: injectors.count(&:scrape_health_failure?)
+      }
     end
 
     private
 
     attr_reader :tournament_round
+
+    def run_injector(match)
+      injector = Scores::Injectors::FotmobMatch.new(match, run_mode: :live)
+      injector.call
+      injector
+    end
 
     def live_matches
       round_matches.where.not(status: :finished)

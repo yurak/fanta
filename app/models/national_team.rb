@@ -12,6 +12,10 @@ class NationalTeam < ApplicationRecord
   validates :code, presence: true, uniqueness: true
   validates :name, presence: true, uniqueness: true
 
+  def match_by_round(tournament_round)
+    tournament_round.national_matches.to_a.find { |m| m.host_team_id == id || m.guest_team_id == id }
+  end
+
   def opponent_by_round(tournament_round)
     match = host_national_matches.find_by(tournament_round: tournament_round)
 

@@ -290,11 +290,18 @@ RSpec.describe TournamentRound do
       expect(described_class.schedule_refresh_candidates).to be_empty
     end
 
-    it 'excludes rounds that were already refreshed' do
+    it 'excludes rounds refreshed within the last day' do
       round = round_with_tour(source: :fotmob, live: true, tour_status: :set_lineup)
-      round.update!(schedule_refreshed_at: Time.current)
+      round.update!(schedule_refreshed_at: 2.hours.ago)
 
       expect(described_class.schedule_refresh_candidates).to be_empty
+    end
+
+    it 'includes rounds refreshed more than a day ago' do
+      round = round_with_tour(source: :fotmob, live: true, tour_status: :set_lineup)
+      round.update!(schedule_refreshed_at: 2.days.ago)
+
+      expect(described_class.schedule_refresh_candidates).to include(round)
     end
   end
 end

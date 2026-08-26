@@ -1,0 +1,74 @@
+.page-block
+  .web-header= render 'layouts/left_nav', league: nil
+  .web-header= render 'layouts/manage_nav'
+  .mob-header= render 'layouts/mob_header', league: nil, title: @tournament.name
+  .page-info.admin-manage-page
+    = link_to t('manage.tournaments.back'), manage_tournaments_path, class: 'btn btn-sm btn-outline-secondary mb-3'
+    .d-flex.align-items-center.mb-3
+      = image_tag(@tournament.logo_path, width: 32, height: 32, class: 'mr-2')
+      %h2.mb-0= @tournament.name
+
+    - if @tournament.errors.any?
+      .alert.alert-danger
+        %ul.mb-0
+          - @tournament.errors.full_messages.each do |message|
+            %li= message
+
+    = form_with model: @tournament, url: manage_tournament_path(@tournament), method: :patch, local: true do |f|
+      .card.mb-3{ style: 'max-width: 780px;' }
+        .card-body
+          .form-row
+            .form-group.col-md-6
+              = f.label :name
+              = f.text_field :name, class: 'form-control'
+            .form-group.col-md-6
+              = f.label :short_name
+              = f.text_field :short_name, class: 'form-control'
+          .form-row
+            .form-group.col-md-4
+              = f.label :code
+              = f.text_field :code, class: 'form-control'
+            .form-group.col-md-4
+              = f.label :icon
+              = f.text_field :icon, class: 'form-control'
+            .form-group.col-md-4
+              = f.label :source
+              = f.select :source, Tournament.sources.keys, {}, class: 'form-control'
+          .form-row
+            .form-group.col-md-4
+              = f.label :mode
+              = f.select :mode, Tournament.modes.keys, {}, class: 'form-control'
+            .form-group.col-md-4
+              = f.label :source_id
+              = f.text_field :source_id, class: 'form-control'
+            .form-group.col-md-4
+              = f.label :sofa_number
+              = f.text_field :sofa_number, class: 'form-control'
+          .form-group
+            = f.label :source_calendar_url
+            = f.text_field :source_calendar_url, class: 'form-control'
+          .form-row
+            .form-group.col-md-6
+              = f.label :lineup_first_goal
+              = f.number_field :lineup_first_goal, class: 'form-control', step: 'any'
+            .form-group.col-md-6
+              = f.label :lineup_increment
+              = f.number_field :lineup_increment, class: 'form-control', step: 'any'
+
+      .card.mb-3{ style: 'max-width: 780px;' }
+        .card-header= t('manage.tournaments.options')
+        .card-body
+          .custom-control.custom-switch.mb-2
+            = f.check_box :live_scores_enabled, class: 'custom-control-input'
+            = f.label :live_scores_enabled, class: 'custom-control-label'
+          .custom-control.custom-switch.mb-2
+            = f.check_box :eurocup, class: 'custom-control-input'
+            = f.label :eurocup, class: 'custom-control-label'
+          .custom-control.custom-switch.mb-2
+            = f.check_box :open_join, class: 'custom-control-input'
+            = f.label :open_join, class: 'custom-control-label'
+          .custom-control.custom-switch
+            = f.check_box :skip_round_check, class: 'custom-control-input'
+            = f.label :skip_round_check, class: 'custom-control-label'
+
+      = f.submit t('manage.tournaments.save'), class: 'btn btn-primary'
