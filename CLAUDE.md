@@ -59,3 +59,16 @@ append it to this list so future sessions don't rediscover it. Keep entries shor
   SHAPE of any `/api/*` JSON response (add/rename a field the client reads), BUMP `version` in
   `package.json` — otherwise a full reload keeps serving the stale cached payload (missing the new
   field) for up to a day, and the change silently doesn't take effect in the browser.
+- Live scores are FotMob-only, gated by `Tournament#live_scores_enabled` (toggle in the manage module,
+  NOT rails_admin). The cron `tours:live_inject` runs `Tours::LiveInjector` per round on `locked` tours;
+  `tours:refresh_schedule` re-pulls kickoff times daily while a tour is `set_lineup`. FotMob's JSON API
+  is IP-blocked — only the match-page HTML scrape (`#__NEXT_DATA__`) works.
+- FotMob withholds `played_minutes` during a live match (streams ratings only), so the live pass gates
+  on ratings (`players_data_ready?`), forces `played_minutes: 0`, and defers cleansheet to the final
+  pass. Partial-appearance cleansheet (60–89') is computed from FotMob goal + substitution minutes
+  (`cleansheet?`/`no_goals_while_on_pitch?`): a player keeps it if the team conceded only while he was
+  off the pitch. The live pass never blanks stored scores, and `manual_lock` on a round_player preserves
+  manually-set stats (incl. cleansheet).
+- A live `TournamentMatch`/`NationalMatch` must be driven to `finished` by CONTINUED live polling, so
+  `LiveInjector#within_window?` returns true for any `live?` match regardless of kickoff — gating live
+  polling on the kickoff window alone leaves a match stuck `live` forever if a pass misses full time.
