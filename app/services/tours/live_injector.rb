@@ -39,10 +39,9 @@ module Tours
       tournament_round.tournament.national? ? tournament_round.national_matches : tournament_round.tournament_matches
     end
 
-    # Kickoff times for later rounds are often unknown (the calendar only carries them for the
-    # first rounds and nothing refreshes them), so a match with no time is still polled — the
-    # scrape itself gates on started/finished. A known time just narrows the poll to around kickoff.
     def within_window?(match)
+      return true if match.live?
+
       kickoff = match.utc_datetime
       return true if kickoff.nil?
 

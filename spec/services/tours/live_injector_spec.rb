@@ -67,6 +67,14 @@ RSpec.describe Tours::LiveInjector do
     expect(Scores::Injectors::FotmobMatch).not_to have_received(:new)
   end
 
+  it 'keeps polling an already-live match whose kickoff is long past' do
+    old = 6.hours.ago.utc
+    match = create_match(status: :live, date: old.strftime('%b %e, %Y'), time: old.strftime('%H:%M'))
+    inject
+
+    expect(Scores::Injectors::FotmobMatch).to have_received(:new).with(match, run_mode: :live)
+  end
+
   it 'does not recompute when there are no live matches' do
     inject
 
