@@ -60,9 +60,12 @@ append it to this list so future sessions don't rediscover it. Keep entries shor
   `package.json` — otherwise a full reload keeps serving the stale cached payload (missing the new
   field) for up to a day, and the change silently doesn't take effect in the browser.
 - Live scores are FotMob-only, gated by `Tournament#live_scores_enabled` (toggle in the manage module,
-  NOT rails_admin). The cron `tours:live_inject` runs `Tours::LiveInjector` per round on `locked` tours;
-  `tours:refresh_schedule` re-pulls kickoff times daily while a tour is `set_lineup`. FotMob's JSON API
-  is IP-blocked — only the match-page HTML scrape (`#__NEXT_DATA__`) works.
+  NOT rails_admin). Matches are played while a tour is `locked` OR `postponed` (a rescheduled tour stays
+  `postponed`, never re-locked — mirror the app-wide `locked_or_postponed?`), so BOTH count: `live_inject`
+  polls `locked`+`postponed` rounds (`LIVE_TOUR_STATUSES`), and `refresh_schedule` re-pulls kickoff times
+  daily for `set_lineup`+`locked`+`postponed` rounds (`SCHEDULE_TOUR_STATUSES`, skips finished matches),
+  so a reschedule after lock is still picked up. FotMob's JSON API is IP-blocked — only the match-page
+  HTML scrape (`#__NEXT_DATA__`) works.
 - FotMob withholds `played_minutes` during a live match (streams ratings only), so the live pass gates
   on ratings (`players_data_ready?`), forces `played_minutes: 0`, and defers cleansheet to the final
   pass. Partial-appearance cleansheet (60–89') is computed from FotMob goal + substitution minutes

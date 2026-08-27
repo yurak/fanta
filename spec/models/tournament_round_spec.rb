@@ -257,7 +257,13 @@ RSpec.describe TournamentRound do
       expect(described_class.live_scores_candidates).to be_empty
     end
 
-    it 'excludes rounds without a locked tour' do
+    it 'includes a round with a postponed tour (rescheduled, matches still played)' do
+      round = round_with_tour(source: :fotmob, live: true, tour_status: :postponed)
+
+      expect(described_class.live_scores_candidates).to include(round)
+    end
+
+    it 'excludes rounds whose tour is still set_lineup (matches not started)' do
       round_with_tour(source: :fotmob, live: true, tour_status: :set_lineup)
 
       expect(described_class.live_scores_candidates).to be_empty
@@ -278,8 +284,20 @@ RSpec.describe TournamentRound do
       expect(described_class.schedule_refresh_candidates).to include(round)
     end
 
-    it 'excludes rounds that are already locked' do
-      round_with_tour(source: :fotmob, live: true, tour_status: :locked)
+    it 'includes a live-enabled FotMob round with a locked tour' do
+      round = round_with_tour(source: :fotmob, live: true, tour_status: :locked)
+
+      expect(described_class.schedule_refresh_candidates).to include(round)
+    end
+
+    it 'includes a live-enabled FotMob round with a postponed tour' do
+      round = round_with_tour(source: :fotmob, live: true, tour_status: :postponed)
+
+      expect(described_class.schedule_refresh_candidates).to include(round)
+    end
+
+    it 'excludes rounds whose tour is inactive' do
+      round_with_tour(source: :fotmob, live: true, tour_status: :inactive)
 
       expect(described_class.schedule_refresh_candidates).to be_empty
     end

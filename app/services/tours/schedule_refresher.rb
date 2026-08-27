@@ -5,7 +5,7 @@ module Tours
     end
 
     def call
-      round_matches.where.not(page_url: [nil, '']).find_each do |match|
+      round_matches.where.not(status: :finished).where.not(page_url: [nil, '']).find_each do |match|
         Scores::Injectors::FotmobMatch.call(match, run_mode: :schedule)
       end
 

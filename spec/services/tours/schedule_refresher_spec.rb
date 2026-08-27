@@ -19,6 +19,13 @@ RSpec.describe Tours::ScheduleRefresher do
     expect(Scores::Injectors::FotmobMatch).not_to have_received(:call)
   end
 
+  it 'skips finished matches' do
+    create(:tournament_match, tournament_round: round, page_url: '/matches/x', status: :finished)
+    described_class.call(round)
+
+    expect(Scores::Injectors::FotmobMatch).not_to have_received(:call)
+  end
+
   it 'stamps the round so it is not refreshed again' do
     create(:tournament_match, tournament_round: round, page_url: '/matches/x')
     described_class.call(round)
