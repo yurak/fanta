@@ -17,6 +17,8 @@ class Tournament < ApplicationRecord
   enum :source, { fotmob: 0, sofascore: 1 }
   enum :mode, { mantra: 0, fanta: 1 }
 
+  normalizes :short_name, with: ->(short_name) { short_name.strip.presence }
+
   validates :name, presence: true
   validates :code, presence: true, uniqueness: true
 

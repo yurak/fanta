@@ -40,7 +40,7 @@ const TournamentsTabs = ({
           : []),
         ...(tournamentsQuery.data ?? []).map((tournament) => ({
           id: tournament.id,
-          name: tournament.short_name ?? tournament.name,
+          name: tournament.short_name || tournament.name,
           icon: <img src={tournament.logo} alt="" />,
         })),
       ].filter(filterTournament),

@@ -49,7 +49,7 @@
             .round-table-item-points= result.points
     .round-table.tournament-table.hidden-stats
       .round-tournament-header
-        = "#{tour.league.tournament.icon}  #{tour.league.tournament.short_name || tour.league.tournament.name}"
+        = "#{tour.league.tournament.icon}  #{tour.league.tournament.short_name.presence || tour.league.tournament.name}"
       .round-table-title-header
         .round-table-title
           .round-table-title-text= "🗓 #{t('tours.fixtures')} ##{tour.tournament_round.number}"

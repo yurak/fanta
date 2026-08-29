@@ -10,7 +10,7 @@
         - @tournaments.each do |tournament|
           .default-tab-item{ id: tournament.code }
             .default-tab-icon= image_tag(tournament.logo_path)
-            .default-= tournament.short_name || tournament.name
+            .default-= tournament.short_name.presence || tournament.name
       .links-lists-content
         - @tournaments.each do |tournament|
           .links-status-list{class: "#{tournament.code}-list"}

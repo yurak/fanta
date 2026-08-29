@@ -168,7 +168,7 @@ const useClubCheckbox = ({ value, onChange, leagueId }: IProps) => {
 
     return [
       ...(tournaments.length > 0
-        ? tournaments.map((tournament) => tournament.short_name ?? tournament.name)
+        ? tournaments.map((tournament) => tournament.short_name || tournament.name)
         : []),
       getClubLabel(clubs),
     ]

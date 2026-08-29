@@ -75,3 +75,6 @@ append it to this list so future sessions don't rediscover it. Keep entries shor
 - A live `TournamentMatch`/`NationalMatch` must be driven to `finished` by CONTINUED live polling, so
   `LiveInjector#within_window?` returns true for any `live?` match regardless of kickoff — gating live
   polling on the kickoff window alone leaves a match stuck `live` forever if a pass misses full time.
+- Manage edit forms submit EVERY field, so an empty text input saves `''` (not `nil`) over a previously
+  nil column — and `a || b` / `a ?? b` fallbacks then render the blank. Normalize such columns in the
+  model (`normalizes :short_name, with: ->(v) { v.strip.presence }`) rather than patching call sites.
