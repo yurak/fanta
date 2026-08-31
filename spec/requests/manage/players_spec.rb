@@ -94,6 +94,26 @@ RSpec.describe 'Manage::Players' do
         expect(response.body).to include(CGI.escapeHTML(player.name))
       end
 
+      it { expect(response.body).to include(manage_round_players_path) }
+      it { expect(response.body).to include(I18n.t('manage.round_players.add')) }
+
+      context 'with a round player' do
+        let(:round) { create(:tournament_round, tournament: player.club.tournament, season: Season.last) }
+        let!(:round_player) { create(:round_player, player: player, tournament_round: round, club: player.club) }
+
+        before { get manage_player_path(player) }
+
+        it 'renders an edit link for each round player' do
+          expect(response.body).to include(edit_manage_round_player_path(round_player))
+        end
+      end
+
+      it 'renders in the ua locale' do
+        I18n.with_locale(:ua) { get manage_player_path(player) }
+
+        expect(response).to be_successful
+      end
+
       context 'with club transfer history' do
         let(:old_club) { create(:club) }
         let(:new_club) { create(:club) }

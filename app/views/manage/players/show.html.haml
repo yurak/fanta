@@ -84,6 +84,12 @@
       = link_to 'Fotmob', "https://www.fotmob.com/players/#{@player.fotmob_id}", target: '_blank', rel: 'noopener', class: 'btn btn-sm', style: 'background-color: #00985F; color: #fff; border-color: #00985F;'
 
     %h5.mt-4= t('manage.players.section_round_players')
+    = form_with url: manage_round_players_path, method: :post, local: true, class: 'form-inline mb-3' do
+      = hidden_field_tag :player_id, @player.id
+      = label_tag :number, t('manage.round_players.round_number'), class: 'mr-2'
+      = number_field_tag :number, nil, class: 'form-control form-control-sm w-auto mr-2', min: 1, required: true
+      = submit_tag t('manage.round_players.add'), class: 'btn btn-sm btn-success', data: { disable_with: t('manage.round_players.add') }
+      %small.text-muted.ml-2= t('manage.round_players.add_hint', club: @player.club&.name || '—')
     - if @round_players.any?
       %table.table.table-hover.table-sm
         %thead.thead-light
@@ -96,6 +102,7 @@
             %th= t('manage.players.col_score')
             %th= t('manage.players.col_final_score')
             %th= t('manage.players.col_in_squad')
+            %th
         %tbody
           - @round_players.each do |round_player|
             %tr
@@ -107,6 +114,7 @@
               %td= round_player.score
               %td= round_player.final_score
               %td= round_player.in_squad? ? '✓' : '—'
+              %td= link_to t('manage.round_players.edit'), edit_manage_round_player_path(round_player), class: 'btn btn-sm btn-outline-primary'
     - else
       %p.text-muted= t('manage.players.no_round_players')
 

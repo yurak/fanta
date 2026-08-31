@@ -79,6 +79,7 @@ Rails.application.routes.draw do
     resources :auctions, only: [:index]
     resources :champions, only: [:index]
     resources :tournament_rounds, only: [:index]
+    resources :round_players, only: [:create, :edit, :update]
     resources :tournaments, only: [:index, :show, :edit, :update]
   end
 

@@ -1231,6 +1231,21 @@
         "view": "View",
         "view_player_page": "Player page"
       },
+      "round_players": {
+        "add": "Add round player",
+        "add_hint": "Creates a round player for the current club (%{club}) in the tournament round with this number.",
+        "already_exists": "A round player for round %{id} already exists",
+        "back": "← Player",
+        "club": "Club",
+        "created": "Round player created for round #%{number} (%{tournament})",
+        "edit": "Edit",
+        "edit_title": "Edit round player",
+        "round_not_found": "Round #%{number} not found for this club's tournament in the current season",
+        "round_number": "Round number",
+        "save": "Save",
+        "tournament_round_id": "Tournament round ID",
+        "updated": "Round player updated"
+      },
       "teams": {
         "empty": "No teams found",
         "filter_id": "ID",
@@ -3532,6 +3547,21 @@
         "tm_unavailable": "Transfermarkt тимчасово недоступний (%{error}). Спробуйте пізніше.",
         "view": "Переглянути",
         "view_player_page": "Сторінка гравця"
+      },
+      "round_players": {
+        "add": "Додати раунд-гравця",
+        "add_hint": "Створить раунд-гравця для поточного клубу (%{club}) у турнірному раунді з цим номером.",
+        "already_exists": "Раунд-гравець для раунду %{id} вже існує",
+        "back": "← Гравець",
+        "club": "Клуб",
+        "created": "Раунд-гравця створено для раунду #%{number} (%{tournament})",
+        "edit": "Редагувати",
+        "edit_title": "Редагування раунд-гравця",
+        "round_not_found": "Раунд #%{number} не знайдено для турніру цього клубу в поточному сезоні",
+        "round_number": "Номер раунду",
+        "save": "Зберегти",
+        "tournament_round_id": "ID турнірного раунду",
+        "updated": "Раунд-гравця оновлено"
       },
       "teams": {
         "empty": "Команд не знайдено",
