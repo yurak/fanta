@@ -16,6 +16,9 @@
           %th= t('manage.tournaments.col_source')
           %th= t('manage.tournaments.col_mode')
           %th= t('manage.tournaments.col_live_scores')
+          %th= t('manage.tournaments.col_eurocup')
+          %th= t('manage.tournaments.col_open_join')
+          %th= t('manage.tournaments.col_skip_round_check')
           %th
       %tbody
         - @tournaments.each do |tournament|
@@ -23,8 +26,13 @@
             %td= tournament.id
             %td
               = image_tag(tournament.logo_path, width: 20, height: 20, class: 'mr-1')
-              = tournament.name
+              = link_to tournament.name, manage_tournament_path(tournament)
             %td= tournament.source
             %td= tournament.mode
             %td= tournament.live_scores_enabled ? '✅' : '—'
-            %td= link_to t('manage.tournaments.edit'), edit_manage_tournament_path(tournament), class: 'btn btn-sm btn-outline-primary'
+            %td= tournament.eurocup ? '✅' : '—'
+            %td= tournament.open_join ? '✅' : '—'
+            %td= tournament.skip_round_check ? '✅' : '—'
+            %td
+              = link_to t('manage.tournaments.show'), manage_tournament_path(tournament), class: 'btn btn-sm btn-outline-secondary mr-1'
+              = link_to t('manage.tournaments.edit'), edit_manage_tournament_path(tournament), class: 'btn btn-sm btn-outline-primary'

@@ -4,6 +4,16 @@ module Manage
       @tournaments = Tournament.order(:id)
     end
 
+    def show
+      @tournament = Tournament.find(params.expect(:id))
+      @clubs_count = @tournament.clubs.count
+      @ec_clubs_count = @tournament.ec_clubs.count
+      @national_teams_count = @tournament.national_teams.count
+      @leagues_count = @tournament.leagues.count
+      @active_leagues_count = @tournament.leagues.active.count
+      @rounds_count = @tournament.tournament_rounds.count
+    end
+
     def edit
       @tournament = Tournament.find(params.expect(:id))
     end
