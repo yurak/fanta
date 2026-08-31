@@ -2,6 +2,7 @@ module Scores
   module Injectors
     class FotmobMatch < BaseMatch
       FOTMOB_MATCH_URL = 'https://www.fotmob.com'.freeze
+      PENALTY_KEY = 'penalty'.freeze
       # FOTMOB_MATCH_URL = 'https://www.fotmob.com/api/matchDetails?matchId='.freeze
 
       USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 ' \
@@ -26,49 +27,79 @@ module Scores
 
       def update_round_players
         if match.tournament_round.tournament.national?
-          update_side(round_players.by_national_team(match.host_team_id), guest_result, host_conceded_minutes)
-          update_side(round_players.by_national_team(match.guest_team_id), host_result, guest_conceded_minutes)
+          update_side(round_players.by_national_team(match.host_team_id), conceded_for(home: true))
+          update_side(round_players.by_national_team(match.guest_team_id), conceded_for(home: false))
         else
-          update_side(round_players.by_club(match.host_club_id), guest_result, host_conceded_minutes)
-          update_side(round_players.by_club(match.guest_club_id), host_result, guest_conceded_minutes)
+          update_side(round_players.by_club(match.host_club_id), conceded_for(home: true))
+          update_side(round_players.by_club(match.guest_club_id), conceded_for(home: false))
         end
       end
 
-      def update_side(players, team_missed_goals, conceded_minutes)
-        players.each { |round_player| update_round_player(round_player, team_missed_goals, conceded_minutes) }
+      def conceded_for(home:)
+        {
+          total: home ? guest_result : host_result,
+          minutes: goal_minutes_conceded_by(home: home),
+          penalty_minutes: penalty_minutes_conceded_by(home: home)
+        }
       end
 
-      def update_round_player(round_player, team_missed_goals, conceded_minutes)
+      def update_side(players, conceded)
+        players.each { |round_player| update_round_player(round_player, conceded) }
+      end
+
+      def update_round_player(round_player, conceded)
         player_data = players_hash[round_player.fotmob_id]
         return unless player_data
 
-        round_player.update(round_player_params(round_player, player_data, team_missed_goals, conceded_minutes))
+        round_player.update(round_player_params(round_player, player_data, conceded))
 
         players_hash.except!(round_player.fotmob_id)
       end
 
-      def round_player_params(round_player, player_data, team_missed_goals, conceded_minutes)
+      def round_player_params(round_player, player_data, conceded)
         return { score: rating(player_data), in_squad: true } if round_player.manual_lock
 
-        full_player_hash(round_player, player_data, team_missed_goals, conceded_minutes)
+        full_player_hash(round_player, player_data, conceded)
       end
 
-      def full_player_hash(round_player, data, team_missed_goals, conceded_minutes)
+      def full_player_hash(round_player, data, conceded)
         # Supported params:
-        # rating goal assist yellow_card red_card missed_goals own_goal
+        # rating goal assist yellow_card red_card missed_goals missed_penalty own_goal
         # saves failed_penalty caught_penalty conceded_penalty penalties_won scored_penalty
         played_minutes = live_played_minutes(data)
+        missed_penalty = missed_penalty(round_player, data, conceded[:penalty_minutes])
         {
           score: rating(data), goals: stat_value(data, :goals), assists: stat_value(data, :assists),
-          cleansheet: cleansheet?(round_player, team_missed_goals.to_i, played_minutes,
-                                  timing: cleansheet_timing(data, conceded_minutes)),
+          cleansheet: cleansheet?(round_player, conceded[:total].to_i, played_minutes,
+                                  timing: cleansheet_timing(data, conceded[:minutes])),
           scored_penalty: stat_value(data, :scored_penalty), caught_penalty: stat_value(data, :caught_penalty),
-          failed_penalty: stat_value(data, :failed_penalty), missed_goals: stat_value(data, :missed_goals),
+          failed_penalty: stat_value(data, :failed_penalty),
+          missed_goals: missed_goals_without_penalties(data, missed_penalty), missed_penalty: missed_penalty,
           own_goals: stat_value(data, :own_goals), saves: stat_value(data, :saves),
           played_minutes: played_minutes, yellow_card: data[:yellow_card], red_card: data[:red_card],
-          conceded_penalty: conceded_penalty(data), penalties_won: stat_value(data, :penalties_won),
+          conceded_penalty: stat_value(data, :conceded_penalty), penalties_won: stat_value(data, :penalties_won),
           in_squad: true
         }
+      end
+
+      def missed_goals_without_penalties(data, missed_penalty)
+        [stat_value(data, :missed_goals).to_i - missed_penalty, 0].max
+      end
+
+      def missed_penalty(round_player, data, penalty_minutes)
+        return 0 unless round_player.position_names.include?(Position::GOALKEEPER)
+
+        from_stats = stat_value(data, :penalty_missed_goals).to_i
+        return from_stats if from_stats.positive?
+
+        penalties_while_on_pitch(data, penalty_minutes)
+      end
+
+      def penalties_while_on_pitch(data, penalty_minutes)
+        on_minute = data[:sub_in_minute].to_i
+        off_minute = data[:sub_out_minute] || Float::INFINITY
+
+        penalty_minutes.count { |minute| minute > on_minute && minute <= off_minute }
       end
 
       def live_played_minutes(data)
@@ -81,16 +112,16 @@ module Scores
         { on_minute: data[:sub_in_minute], off_minute: data[:sub_out_minute], conceded_minutes: conceded_minutes }
       end
 
-      def host_conceded_minutes
-        @host_conceded_minutes ||= goal_minutes_conceded_by(home: true)
-      end
-
-      def guest_conceded_minutes
-        @guest_conceded_minutes ||= goal_minutes_conceded_by(home: false)
-      end
-
       def goal_minutes_conceded_by(home:)
-        goal_events.reject { |event| event['isHome'] == home }.map { |event| event['time'].to_i + event['overloadTime'].to_i }
+        goal_minutes(goal_events, home: home)
+      end
+
+      def penalty_minutes_conceded_by(home:)
+        goal_minutes(goal_events.select { |event| event['goalDescriptionKey'] == PENALTY_KEY }, home: home)
+      end
+
+      def goal_minutes(events, home:)
+        events.reject { |event| event['isHome'] == home }.map { |event| event['time'].to_i + event['overloadTime'].to_i }
       end
 
       def goal_events
@@ -99,10 +130,6 @@ module Scores
 
       def match_events
         match_data.dig('content', 'matchFacts', 'events', 'events') || []
-      end
-
-      def conceded_penalty(player_data)
-        player_data[:penalty_missed_goals]&.positive? ? player_data[:penalty_missed_goals] : (player_data[:conceded_penalty] || 0)
       end
 
       def players_hash

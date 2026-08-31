@@ -78,3 +78,9 @@ append it to this list so future sessions don't rediscover it. Keep entries shor
 - Manage edit forms submit EVERY field, so an empty text input saves `''` (not `nil`) over a previously
   nil column — and `a || b` / `a ?? b` fallbacks then render the blank. Normalize such columns in the
   model (`normalizes :short_name, with: ->(v) { v.strip.presence }`) rather than patching call sites.
+- FotMob counts a penalty goal in BOTH the scorer's `Goals` and the keeper's `Goals conceded`, and it never
+  sends `Penalty goals conceded` (0 hits across 51 keeper stat blocks) — so penalties must come from the goal
+  EVENTS: the scorer's is moved `goals` → `scored_penalty`, the keeper's `Goals conceded` → `missed_penalty`
+  via the on-pitch window (`sub_in`/`sub_out`), never counted twice. `conceded_penalty` is a different stat
+  (the player fouled and gave a penalty away, the mirror of `penalties_won`) — don't conflate the two.
+  Always skip `isPenaltyShootoutEvent`: a shootout kick is not a goal and would otherwise drive `goals` negative.

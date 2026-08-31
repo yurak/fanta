@@ -69,8 +69,7 @@ module Scores
         cards_events = events_data.select { |event| event['type'] == CARD_TYPE }
         process_cards(hash, cards_events)
 
-        penalty_events = events_data.select { |event| event['type'] == GOAL_TYPE && event['goalDescriptionKey'] == PENALTY_KEY }
-        process_penalties(hash, penalty_events)
+        process_penalties(hash, penalty_goal_events)
 
         substitution_events = events_data.select { |event| event['type'] == SUBSTITUTION_TYPE }
         process_substitutions(hash, substitution_events)
@@ -113,8 +112,14 @@ module Scores
           player_id = event_data['player']['id']
           next unless hash[player_id]
 
-          hash[player_id][:goals] -= 1
+          hash[player_id][:goals] = hash[player_id][:goals].to_i - 1
           hash[player_id][:scored_penalty] = hash[player_id][:scored_penalty].to_i + 1
+        end
+      end
+
+      def penalty_goal_events
+        events_data.select do |event|
+          event['type'] == GOAL_TYPE && event['goalDescriptionKey'] == PENALTY_KEY && !event['isPenaltyShootoutEvent']
         end
       end
 

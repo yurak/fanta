@@ -154,6 +154,21 @@ RSpec.describe Scores::Injectors::FotmobPlayersData do
       end
     end
 
+    context 'with a penalty shootout goal' do
+      let(:events) do
+        [{ 'type' => 'Goal', 'goalDescriptionKey' => 'penalty', 'isPenaltyShootoutEvent' => true,
+           'player' => { 'id' => 12_345 } }]
+      end
+
+      it 'leaves goals untouched' do
+        expect(result[12_345][:goals]).to eq(1)
+      end
+
+      it 'does not set scored_penalty' do
+        expect(result[12_345][:scored_penalty]).to be_nil
+      end
+    end
+
     context 'with multiple penalty goals for the same player' do
       let(:events) do
         [

@@ -386,42 +386,85 @@ RSpec.describe Scores::Injectors::FotmobMatch do
     end
   end
 
-  describe '#conceded_penalty' do
-    subject(:result) { injector.send(:conceded_penalty, player_data) }
+  describe '#missed_penalty' do
+    subject(:result) { injector.send(:missed_penalty, round_player, player_data, penalty_minutes) }
 
-    context 'when penalty_missed_goals is positive' do
-      let(:player_data) { { conceded_penalty: 0, penalty_missed_goals: 1 } }
+    let(:round_player) { create(:round_player, :with_pos_por) }
+    let(:player_data) { {} }
+    let(:penalty_minutes) { [55] }
 
-      it 'uses penalty_missed_goals' do
-        expect(result).to eq(1)
-      end
+    it 'counts a penalty conceded while the keeper was on the pitch' do
+      expect(result).to eq(1)
     end
 
-    context 'when penalty_missed_goals is zero' do
-      let(:player_data) { { conceded_penalty: 2, penalty_missed_goals: 0 } }
+    context 'when the keeper came on after the penalty' do
+      let(:player_data) { { sub_in_minute: 70 } }
 
-      it 'uses conceded_penalty' do
-        expect(result).to eq(2)
-      end
+      it { is_expected.to eq(0) }
     end
 
-    context 'when penalty_missed_goals is nil' do
-      let(:player_data) { { conceded_penalty: 1 } }
+    context 'when the keeper went off before the penalty' do
+      let(:player_data) { { sub_out_minute: 40 } }
 
-      it 'uses conceded_penalty' do
-        expect(result).to eq(1)
-      end
+      it { is_expected.to eq(0) }
     end
 
-    context 'when both are absent' do
-      let(:player_data) { {} }
+    context 'when the player is not a keeper' do
+      let(:round_player) { create(:round_player, :with_pos_dc) }
+
+      it { is_expected.to eq(0) }
+    end
+
+    context 'when FotMob reports the stat directly' do
+      let(:player_data) { { penalty_missed_goals: 2 } }
+      let(:penalty_minutes) { [] }
+
+      it { is_expected.to eq(2) }
+    end
+
+    context 'without penalties in the match' do
+      let(:penalty_minutes) { [] }
 
       it { is_expected.to eq(0) }
     end
   end
 
+  describe '#full_player_hash penalty split for a keeper' do
+    subject(:hash) { injector.send(:full_player_hash, round_player, player_data, conceded) }
+
+    let(:round_player) { create(:round_player, :with_pos_por) }
+    let(:player_data) { { rating: 6.0, played_minutes: 90, missed_goals: 3, conceded_penalty: 1 } }
+    let(:conceded) { { total: 3, minutes: [10, 40, 88], penalty_minutes: [88] } }
+
+    it 'records the penalty goal as missed_penalty' do
+      expect(hash[:missed_penalty]).to eq(1)
+    end
+
+    it 'drops the penalty goal from missed_goals' do
+      expect(hash[:missed_goals]).to eq(2)
+    end
+
+    it 'keeps conceded_penalty as the foul stat' do
+      expect(hash[:conceded_penalty]).to eq(1)
+    end
+
+    context 'without penalties among the conceded goals' do
+      let(:conceded) { { total: 3, minutes: [10, 40, 88], penalty_minutes: [] } }
+
+      it 'leaves missed_goals untouched' do
+        expect(hash[:missed_goals]).to eq(3)
+      end
+
+      it 'records no missed_penalty' do
+        expect(hash[:missed_penalty]).to eq(0)
+      end
+    end
+  end
+
   describe '#full_player_hash' do
-    subject(:hash) { injector.send(:full_player_hash, round_player, player_data, 0, []) }
+    subject(:hash) { injector.send(:full_player_hash, round_player, player_data, conceded) }
+
+    let(:conceded) { { total: 0, minutes: [], penalty_minutes: [] } }
 
     let(:round_player) { create(:round_player, :with_pos_dc) }
     let(:player_data) do
@@ -461,7 +504,10 @@ RSpec.describe Scores::Injectors::FotmobMatch do
   end
 
   describe '#full_player_hash cleansheet timing for a subbed-off defender' do
-    subject(:cleansheet) { injector.send(:full_player_hash, round_player, player_data, 1, conceded_minutes)[:cleansheet] }
+    subject(:cleansheet) do
+      injector.send(:full_player_hash, round_player, player_data,
+                    { total: 1, minutes: conceded_minutes, penalty_minutes: [] })[:cleansheet]
+    end
 
     let(:round_player) { create(:round_player, :with_pos_dc) }
     let(:player_data) { { rating: 7.0, played_minutes: 70, sub_out_minute: 70, goals: 0, assists: 0 } }
@@ -480,7 +526,7 @@ RSpec.describe Scores::Injectors::FotmobMatch do
     end
   end
 
-  describe '#host_conceded_minutes and #guest_conceded_minutes' do
+  describe '#goal_minutes_conceded_by' do
     let(:match_data) do
       {
         'general' => { 'leagueRoundName' => match.tournament_round.number.to_s },
@@ -498,15 +544,15 @@ RSpec.describe Scores::Injectors::FotmobMatch do
     end
 
     it 'collects the minutes the host conceded (goals scored by the guest)' do
-      expect(injector.send(:host_conceded_minutes)).to eq([93])
+      expect(injector.send(:goal_minutes_conceded_by, home: true)).to eq([93])
     end
 
     it 'collects the minutes the guest conceded (goals scored by the host)' do
-      expect(injector.send(:guest_conceded_minutes)).to eq([20])
+      expect(injector.send(:goal_minutes_conceded_by, home: false)).to eq([20])
     end
 
     it 'ignores penalty shootout goals' do
-      expect(injector.send(:host_conceded_minutes)).not_to include(50)
+      expect(injector.send(:goal_minutes_conceded_by, home: true)).not_to include(50)
     end
   end
 
@@ -523,17 +569,17 @@ RSpec.describe Scores::Injectors::FotmobMatch do
     context 'when player is in the hash' do
       it 'updates round_player' do
         expect do
-          injector.send(:update_round_player, round_player, 0, [])
+          injector.send(:update_round_player, round_player, { total: 0, minutes: [], penalty_minutes: [] })
         end.to(change { round_player.reload.updated_at })
       end
 
       it 'marks player as in_squad' do
-        injector.send(:update_round_player, round_player, 0, [])
+        injector.send(:update_round_player, round_player, { total: 0, minutes: [], penalty_minutes: [] })
         expect(round_player.reload.in_squad).to be true
       end
 
       it 'removes player from hash to prevent duplicate processing' do
-        injector.send(:update_round_player, round_player, 0, [])
+        injector.send(:update_round_player, round_player, { total: 0, minutes: [], penalty_minutes: [] })
         expect(injector.send(:players_hash)).not_to have_key(99_001)
       end
     end
@@ -545,7 +591,7 @@ RSpec.describe Scores::Injectors::FotmobMatch do
 
       it 'does nothing' do
         expect do
-          injector.send(:update_round_player, round_player, 0, [])
+          injector.send(:update_round_player, round_player, { total: 0, minutes: [], penalty_minutes: [] })
         end.not_to(change { round_player.reload.score })
       end
     end
