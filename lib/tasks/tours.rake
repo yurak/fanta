@@ -60,7 +60,8 @@ namespace :tours do
       end
 
       rounds  = TournamentRound.live_scores_candidates.to_a
-      results = rounds.map { |t_round| Tours::LiveInjector.call(t_round) }
+      budget  = Scores::ScrapeBudget.new
+      results = rounds.map { |t_round| Tours::LiveInjector.call(t_round, budget: budget) }
 
       Scores::ScrapeAlert.call(
         candidates: results.sum { |result| result[:candidates] },
@@ -74,8 +75,9 @@ namespace :tours do
   # rake 'tours:refresh_schedule'
   desc 'Refresh kickoff times for open rounds (live_scores_enabled FotMob tournaments)'
   task refresh_schedule: :environment do
+    budget = Scores::ScrapeBudget.new
     TournamentRound.schedule_refresh_candidates.each do |t_round|
-      Tours::ScheduleRefresher.call(t_round)
+      Tours::ScheduleRefresher.call(t_round, budget: budget)
     end
   end
 

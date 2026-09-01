@@ -390,7 +390,7 @@ RSpec.describe Scores::Injectors::FotmobMatch do
     subject(:result) { injector.send(:missed_penalty, round_player, player_data, penalty_minutes) }
 
     let(:round_player) { create(:round_player, :with_pos_por) }
-    let(:player_data) { {} }
+    let(:player_data) { { missed_goals: 1 } }
     let(:penalty_minutes) { [55] }
 
     it 'counts a penalty conceded while the keeper was on the pitch' do
@@ -398,13 +398,13 @@ RSpec.describe Scores::Injectors::FotmobMatch do
     end
 
     context 'when the keeper came on after the penalty' do
-      let(:player_data) { { sub_in_minute: 70 } }
+      let(:player_data) { { missed_goals: 1, sub_in_minute: 70 } }
 
       it { is_expected.to eq(0) }
     end
 
     context 'when the keeper went off before the penalty' do
-      let(:player_data) { { sub_out_minute: 40 } }
+      let(:player_data) { { missed_goals: 1, sub_out_minute: 40 } }
 
       it { is_expected.to eq(0) }
     end
@@ -420,6 +420,21 @@ RSpec.describe Scores::Injectors::FotmobMatch do
       let(:penalty_minutes) { [] }
 
       it { is_expected.to eq(2) }
+    end
+
+    context 'when the keeper conceded nothing (sent off before the penalty)' do
+      let(:player_data) { { missed_goals: 0 } }
+
+      it { is_expected.to eq(0) }
+    end
+
+    context 'with more penalties in the window than goals conceded' do
+      let(:player_data) { { missed_goals: 1 } }
+      let(:penalty_minutes) { [30, 60] }
+
+      it 'never reports more than he actually conceded' do
+        expect(result).to eq(1)
+      end
     end
 
     context 'without penalties in the match' do
@@ -620,6 +635,54 @@ RSpec.describe Scores::Injectors::FotmobMatch do
       live_injector.call
 
       expect(match.reload.host_score).to eq(2)
+    end
+  end
+
+  describe 'retry budget' do
+    let(:budget) { Scores::ScrapeBudget.new(limit: 30) }
+    let(:budget_injector) { described_class.new(match, budget: budget) }
+
+    before do
+      allow(budget_injector).to receive(:sleep)
+      allow(RestClient::Request).to receive(:execute).and_raise(RestClient::InternalServerError.new(nil, 500))
+    end
+
+    it 'retries a 5xx while the budget lasts' do
+      budget_injector.send(:match_data)
+
+      expect(RestClient::Request).to have_received(:execute).exactly(3).times
+    end
+
+    it 'spends the budget on the backoff' do
+      budget_injector.send(:match_data)
+
+      expect(budget.spent).to eq(15)
+    end
+
+    context 'when the budget is already spent' do
+      before { budget.take(30) }
+
+      it 'gives up after the first attempt' do
+        budget_injector.send(:match_data)
+
+        expect(RestClient::Request).to have_received(:execute).once
+      end
+
+      it 'still reports a health failure' do
+        budget_injector.send(:match_data)
+
+        expect(budget_injector).to be_scrape_health_failure
+      end
+    end
+
+    context 'with a non-retriable response' do
+      before { allow(RestClient::Request).to receive(:execute).and_raise(RestClient::Forbidden) }
+
+      it 'does not spend the budget' do
+        budget_injector.send(:match_data)
+
+        expect(budget.spent).to eq(0)
+      end
     end
   end
 

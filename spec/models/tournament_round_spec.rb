@@ -10,6 +10,23 @@ RSpec.describe TournamentRound do
     it { is_expected.to have_many(:tours).dependent(:destroy) }
   end
 
+  describe '#matches' do
+    it 'returns the tournament matches for a club tournament' do
+      round = create(:tournament_round)
+      match = create(:tournament_match, tournament_round: round)
+
+      expect(round.matches).to contain_exactly(match)
+    end
+
+    it 'returns the national matches for a national tournament' do
+      national_team = create(:national_team)
+      round = create(:tournament_round, tournament: national_team.tournament)
+      match = create(:national_match, tournament_round: round)
+
+      expect(round.matches).to contain_exactly(match)
+    end
+  end
+
   describe '#eurocup_players' do
     context 'when tournament is not eurocup' do
       it 'returns empty array' do

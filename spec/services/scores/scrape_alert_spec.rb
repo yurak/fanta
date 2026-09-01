@@ -6,11 +6,17 @@ RSpec.describe Scores::ScrapeAlert do
   it 'warns when scrapes are failing (health) and none returned data' do
     described_class.call(candidates: 3, with_data: 0, failures: 3, tournaments: ['England'])
 
-    expect(Rollbar).to have_received(:warning).with(/all live matches/, hash_including(candidates: 3, tournaments: ['England']))
+    expect(Rollbar).to have_received(:warning).with(%r{3/3 live matches}, hash_including(candidates: 3, tournaments: ['England']))
   end
 
-  it 'does not warn when at least one match returned data' do
-    described_class.call(candidates: 3, with_data: 1, failures: 2, tournaments: ['England'])
+  it 'warns on a partial outage where most matches fail' do
+    described_class.call(candidates: 4, with_data: 1, failures: 3, tournaments: ['England'])
+
+    expect(Rollbar).to have_received(:warning).with(%r{3/4 live matches}, hash_including(failures: 3))
+  end
+
+  it 'does not warn when only a minority of matches fail' do
+    described_class.call(candidates: 5, with_data: 4, failures: 1, tournaments: ['England'])
 
     expect(Rollbar).not_to have_received(:warning)
   end

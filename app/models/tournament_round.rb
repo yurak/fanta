@@ -34,6 +34,10 @@ class TournamentRound < ApplicationRecord
 
   MODERATED_HOURS = 18
 
+  def matches
+    tournament.national? ? national_matches : tournament_matches
+  end
+
   def eurocup_players
     return [] unless tournament.eurocup?
 

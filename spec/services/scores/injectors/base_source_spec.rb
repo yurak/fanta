@@ -19,6 +19,33 @@ RSpec.describe Scores::Injectors::BaseSource do
   let(:tournament_round) { create(:tournament_round) }
 
   describe '#call' do
+    context 'when one match raises' do
+      let(:crashing_class) do
+        Class.new(described_class) do
+          def inject_match_scores(tournament_match)
+            raise Errno::EHOSTUNREACH if tournament_match.page_url.include?('boom')
+          end
+        end
+      end
+
+      let!(:boom) { create(:tournament_match, tournament_round: tournament_round, page_url: '/matches/boom') }
+
+      before do
+        allow(Rollbar).to receive(:error)
+        create(:tournament_match, tournament_round: tournament_round, page_url: '/matches/fine')
+      end
+
+      it 'does not abandon the round' do
+        expect { crashing_class.new(tournament_round).call }.not_to raise_error
+      end
+
+      it 'reports the crash' do
+        crashing_class.new(tournament_round).call
+
+        expect(Rollbar).to have_received(:error).with(instance_of(Errno::EHOSTUNREACH), hash_including(match_id: boom.id))
+      end
+    end
+
     context 'with a regular (club) tournament' do
       let!(:match_with_url) { create(:tournament_match, tournament_round: tournament_round, page_url: '/some/match') }
       let!(:match_without_url) { create(:tournament_match, tournament_round: tournament_round, page_url: '') }

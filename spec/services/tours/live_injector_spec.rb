@@ -28,7 +28,7 @@ RSpec.describe Tours::LiveInjector do
     match = create_match
     inject
 
-    expect(Scores::Injectors::FotmobMatch).to have_received(:new).with(match, run_mode: :live)
+    expect(Scores::Injectors::FotmobMatch).to have_received(:new).with(match, run_mode: :live, budget: instance_of(Scores::ScrapeBudget))
   end
 
   it 'runs the injector' do
@@ -52,6 +52,23 @@ RSpec.describe Tours::LiveInjector do
     expect(Lineups::Updater).to have_received(:call).with(tour)
   end
 
+  context 'when recomputing one tour crashes' do
+    let!(:other_tour) do
+      create(:tour, league: create(:league, tournament: tournament), tournament_round: round, status: :locked)
+    end
+
+    before do
+      allow(Rollbar).to receive(:error)
+      allow(Scores::PositionMalus::Updater).to receive(:call).with(tour).and_raise(ActiveRecord::StatementInvalid)
+      create_match
+      inject
+    end
+
+    it 'still recomputes the other tours' do
+      expect(Scores::PositionMalus::Updater).to have_received(:call).with(other_tour)
+    end
+  end
+
   it 'skips finished matches' do
     create_match(status: :finished)
     inject
@@ -72,7 +89,7 @@ RSpec.describe Tours::LiveInjector do
     match = create_match(status: :live, date: old.strftime('%b %e, %Y'), time: old.strftime('%H:%M'))
     inject
 
-    expect(Scores::Injectors::FotmobMatch).to have_received(:new).with(match, run_mode: :live)
+    expect(Scores::Injectors::FotmobMatch).to have_received(:new).with(match, run_mode: :live, budget: instance_of(Scores::ScrapeBudget))
   end
 
   it 'does not recompute when there are no live matches' do
@@ -92,5 +109,78 @@ RSpec.describe Tours::LiveInjector do
     allow(injector).to receive_messages(data_available?: false, scrape_health_failure?: true)
 
     expect(described_class.call(round)).to eq(candidates: 1, with_data: 0, failures: 1)
+  end
+
+  context 'when no match returned data' do
+    before do
+      create_match
+      allow(injector).to receive_messages(data_available?: false, scrape_health_failure?: true)
+      inject
+    end
+
+    it 'skips the position malus recompute' do
+      expect(Scores::PositionMalus::Updater).not_to have_received(:call)
+    end
+
+    it 'skips the lineups recompute' do
+      expect(Lineups::Updater).not_to have_received(:call)
+    end
+  end
+
+  context 'when one injector crashes' do
+    let(:failing) do
+      instance_double(Scores::Injectors::FotmobMatch, data_available?: true, scrape_health_failure?: false)
+    end
+
+    before do
+      allow(Rollbar).to receive(:error)
+      allow(failing).to receive(:call).and_raise(Errno::EHOSTUNREACH)
+    end
+
+    it 'keeps processing the other matches and counts the crash as a failure' do
+      create_match(page_url: '/matches/boom')
+      create_match(page_url: '/matches/fine')
+      allow(Scores::Injectors::FotmobMatch).to receive(:new).and_return(failing, injector)
+
+      expect(described_class.call(round)).to eq(candidates: 2, with_data: 1, failures: 1)
+    end
+
+    it 'never asks a crashed injector for its state' do
+      create_match(page_url: '/matches/boom')
+      allow(Scores::Injectors::FotmobMatch).to receive(:new).and_return(failing)
+      inject
+
+      expect(failing).not_to have_received(:data_available?)
+    end
+
+    it 'reports the crash' do
+      match = create_match(page_url: '/matches/boom')
+      allow(Scores::Injectors::FotmobMatch).to receive(:new).and_return(failing)
+      inject
+
+      expect(Rollbar).to have_received(:error).with(instance_of(Errno::EHOSTUNREACH), hash_including(match_id: match.id))
+    end
+
+    it 'does not raise' do
+      create_match(page_url: '/matches/boom')
+      allow(Scores::Injectors::FotmobMatch).to receive(:new).and_return(failing)
+
+      expect { inject }.not_to raise_error
+    end
+  end
+
+  context 'with two matches in the round' do
+    let(:budgets) { [] }
+
+    before do
+      create_match(page_url: '/matches/a')
+      create_match(page_url: '/matches/b')
+      allow(Scores::Injectors::FotmobMatch).to receive(:new) { |*, **kwargs| budgets << kwargs[:budget] and injector }
+      inject
+    end
+
+    it 'shares one retry budget across them' do
+      expect(budgets.uniq.size).to eq(1)
+    end
   end
 end

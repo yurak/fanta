@@ -40,7 +40,7 @@ RSpec.describe 'WeeklyTeams' do
       before { get weekly_team_path(weekly_team) }
 
       it { expect(response).to be_successful }
-      it { expect(response.body).to include(player.full_name) }
+      it { expect(response.body).to include(CGI.escapeHTML(player.full_name)) }
     end
 
     context 'when weekly team is a round-based top team' do
