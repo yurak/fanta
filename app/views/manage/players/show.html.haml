@@ -15,6 +15,7 @@
     %h5.mt-2= t('manage.players.section_actions')
     .d-flex
       = link_to t('manage.players.view_player_page'), player_path(@player), target: '_blank', rel: 'noopener', class: 'btn btn-sm btn-primary mr-2'
+      = link_to t('manage.players.edit'), edit_manage_player_path(@player), class: 'btn btn-sm btn-warning mr-2'
       - if @player.fotmob_id.blank?
         = link_to t('manage.players.find_fotmob'), fotmob_search_manage_player_path(@player), class: 'btn btn-sm btn-outline-success'
 

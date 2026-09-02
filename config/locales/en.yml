@@ -804,6 +804,10 @@ en:
       col_tournament: "Championship"
       col_created: "Date"
     players:
+      edit: "Edit"
+      updated: "Player updated"
+      col_avatar_name: "Avatar name"
+      avatar_name_hint: "Overrides the generated asset path. Current: %{path}"
       title: "Players"
       add_player: "Add player"
       cancel: "Cancel"

@@ -810,6 +810,10 @@ ua:
       col_tournament: "Чемпіонат"
       col_created: "Дата"
     players:
+      edit: "Редагувати"
+      updated: "Гравця оновлено"
+      col_avatar_name: "Ім'я аватара"
+      avatar_name_hint: "Перевизначає згенерований шлях до файлів. Зараз: %{path}"
       title: "Гравці"
       add_player: "Додати гравця"
       cancel: "Скасувати"

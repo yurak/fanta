@@ -47,7 +47,7 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :players, only: [:index, :create, :show] do
+    resources :players, only: [:index, :create, :show, :edit, :update] do
       member do
         get :fotmob_search
         post :update_fotmob
