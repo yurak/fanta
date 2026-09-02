@@ -14,12 +14,19 @@ module ClubTransfers
 
       existing = existing_request(transfer)
       return create_request(transfer) unless existing
-      return nil if up_to_date?(existing, transfer)
 
-      refresh_request(existing, transfer)
+      resolve_existing(existing, transfer)
     end
 
     private
+
+    def resolve_existing(request, transfer)
+      return nil if request.rejected?
+      return refresh_request(request, transfer) if request.confirmed?
+      return nil if up_to_date?(request, transfer)
+
+      refresh_request(request, transfer)
+    end
 
     def deceased?
       @player.club&.name == Club::DECEASED

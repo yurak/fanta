@@ -80,6 +80,15 @@ RSpec.describe 'Manage::ClubTransferRequests' do
         it { expect(flash[:alert]).to be_present }
       end
 
+      context 'when the player is already in the new club' do
+        before do
+          allow(ClubTransfers::Applier).to receive(:call).and_return(:skipped)
+          post confirm_manage_club_transfer_request_path(transfer_request)
+        end
+
+        it { expect(transfer_request.reload).to be_confirmed }
+      end
+
       context 'when a page and tab are given' do
         before do
           allow(ClubTransfers::Applier).to receive(:call).and_return(:changed)
