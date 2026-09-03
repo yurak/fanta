@@ -36,11 +36,11 @@ module ManageHelper
     current_user.local_time(deadline, '%H:%M %d/%m/%y') || '--:--'
   end
 
-  # moderation time + 18h (when the round actually opens) in the admin's local time,
-  # or nil when the round has not been moderated yet
-  def tour_dashboard_moderated_at(moderated_at)
-    return unless moderated_at
+  # when the round auto-closes (moderation time + TournamentRound::MODERATED_HOURS) in the admin's
+  # local time, or nil when the round has not been moderated yet
+  def tour_dashboard_closing_time(round)
+    return unless round.closing_time
 
-    current_user.local_time(moderated_at + 18.hours, '%H:%M %d/%m/%y')
+    current_user.local_time(round.closing_time, '%H:%M %d/%m/%y')
   end
 end
