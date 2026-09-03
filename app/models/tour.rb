@@ -18,6 +18,7 @@ class Tour < ApplicationRecord
 
   MIN_PLAYERS_BY_FANTA_MATCHES = [0, 8, 4, 2, 2, 1, 1, 1, 1, 0].freeze
   MAX_PLAYERS_BY_FANTA_MATCHES = [0, 8, 4, 3, 2, 2, 2, 2, 1, 1].freeze
+  MANY_MATCHES = MAX_PLAYERS_BY_FANTA_MATCHES.size - 1
 
   def locked_or_postponed?
     locked? || postponed?
@@ -46,23 +47,11 @@ class Tour < ApplicationRecord
   end
 
   def max_country_players
-    if national?
-      MAX_PLAYERS_BY_FANTA_MATCHES[tournament_round.national_matches&.count] || 0
-    elsif eurocup?
-      MAX_PLAYERS_BY_FANTA_MATCHES[tournament_round.tournament_matches&.count] || 0
-    else
-      0
-    end
+    players_limit(MAX_PLAYERS_BY_FANTA_MATCHES)
   end
 
   def min_country_players
-    if national?
-      MIN_PLAYERS_BY_FANTA_MATCHES[tournament_round.national_matches&.count] || 0
-    elsif eurocup?
-      MIN_PLAYERS_BY_FANTA_MATCHES[tournament_round.tournament_matches&.count] || 0
-    else
-      0
-    end
+    players_limit(MIN_PLAYERS_BY_FANTA_MATCHES)
   end
 
   def lineup_exist?(team)
@@ -109,6 +98,21 @@ class Tour < ApplicationRecord
   end
 
   private
+
+  def players_limit(tiers)
+    count = fanta_matches_count
+    return 0 unless count
+
+    tiers[[count, MANY_MATCHES].min]
+  end
+
+  def fanta_matches_count
+    if national?
+      tournament_round.national_matches&.count
+    elsif eurocup?
+      tournament_round.tournament_matches&.count
+    end
+  end
 
   def match_players_with_preloads
     @match_players_with_preloads ||= match_players

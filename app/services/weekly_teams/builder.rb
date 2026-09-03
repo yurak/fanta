@@ -74,11 +74,15 @@ module WeeklyTeams
 
       cap = if round.national_matches.exists?
               @national_cap = true
-              Tour::MAX_PLAYERS_BY_FANTA_MATCHES[round.national_matches.count]
+              max_players_for(round.national_matches.count)
             elsif round.tournament.eurocup?
-              Tour::MAX_PLAYERS_BY_FANTA_MATCHES[round.tournament_matches.count]
+              max_players_for(round.tournament_matches.count)
             end
       cap&.positive? ? cap : nil
+    end
+
+    def max_players_for(matches_count)
+      Tour::MAX_PLAYERS_BY_FANTA_MATCHES[[matches_count, Tour::MANY_MATCHES].min]
     end
 
     def team_key(entry)
