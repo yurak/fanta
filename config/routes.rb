@@ -80,7 +80,12 @@ Rails.application.routes.draw do
     resources :champions, only: [:index]
     resources :tournament_rounds, only: [:index]
     resources :round_players, only: [:create, :edit, :update]
-    resources :tournaments, only: [:index, :show, :edit, :update]
+    resources :tournaments, only: [:index, :show, :edit, :update] do
+      member do
+        post :create_rounds
+        post :import_calendar
+      end
+    end
   end
 
   get  'unsubscribe', to: 'subscriptions#unsubscribe', as: :unsubscribe

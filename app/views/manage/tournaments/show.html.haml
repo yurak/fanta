@@ -18,6 +18,17 @@
       = link_to t('manage.tournaments.show_clubs'), manage_clubs_path(tournament_id: @tournament.id), class: 'btn btn-sm btn-outline-primary mr-2'
       = link_to t('manage.tournaments.show_leagues'), manage_leagues_path(tournament_id: @tournament.id, status: 'active'), class: 'btn btn-sm btn-outline-primary'
 
+    %h5.mt-4= t('manage.tournaments.section_calendar')
+    .d-flex.align-items-end
+      = form_with url: create_rounds_manage_tournament_path(@tournament), method: :post, local: true, class: 'form-inline mr-3' do
+        = label_tag :rounds_count, t('manage.tournaments.rounds_count'), class: 'mr-2'
+        = number_field_tag :rounds_count, 38, class: 'form-control form-control-sm w-auto mr-2', min: 1, max: 60, required: true
+        = submit_tag t('manage.tournaments.create_rounds'), class: 'btn btn-sm btn-outline-primary'
+      = form_with url: import_calendar_manage_tournament_path(@tournament), method: :post, local: true do
+        = submit_tag t('manage.tournaments.import_calendar'), class: 'btn btn-sm btn-success',
+          data: { disable_with: t('manage.tournaments.import_calendar'), confirm: t('manage.tournaments.import_confirm') }
+    %small.form-text.text-muted= t('manage.tournaments.calendar_hint', source_id: @tournament.source_id || '—')
+
     .row.mt-4
       .col-md-6
         %h5= t('manage.tournaments.section_info')
