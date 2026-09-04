@@ -5,6 +5,7 @@ module Scores
       FINISHED_STATUS = 'finished'.freeze
       CARD_TYPE = 'card'.freeze
       GOAL_TYPE = 'goal'.freeze
+      SUBSTITUTION_TYPE = 'substitution'.freeze
       PENALTY_CLASS = 'penalty'.freeze
       YELLOW_CLASS = 'yellow'.freeze
       RED_CLASSES = %w[red yellowRed].freeze
@@ -33,7 +34,11 @@ module Scores
       end
 
       def conceded_for(home:)
-        { total: home ? guest_result : host_result, penalties: penalty_goals_conceded_by(home: home) }
+        {
+          total: home ? guest_result : host_result,
+          penalties: penalty_goals_conceded_by(home: home),
+          minutes: goal_minutes_conceded_by(home: home)
+        }
       end
 
       def update_round_player(round_player, team_hash, conceded)
@@ -54,7 +59,8 @@ module Scores
         {
           score: rating(data), goals: goals_without_penalties(data, scored_penalty),
           assists: stat_value(data, :assists),
-          cleansheet: cleansheet?(round_player, conceded[:total].to_i, data[:played_minutes]),
+          cleansheet: cleansheet?(round_player, conceded[:total].to_i, data[:played_minutes],
+                                  timing: cleansheet_timing(data, conceded)),
           own_goals: stat_value(data, :own_goals), saves: stat_value(data, :saves),
           missed_goals: missed_goals(round_player, conceded[:total].to_i) - missed_penalty,
           missed_penalty: missed_penalty, scored_penalty: scored_penalty,
@@ -64,6 +70,15 @@ module Scores
           yellow_card: cards.dig(sofascore_id, :yellow_card) || false,
           red_card: cards.dig(sofascore_id, :red_card) || false
         }
+      end
+
+      def cleansheet_timing(data, conceded)
+        minutes = conceded[:minutes]
+        return nil unless minutes && minutes.size == conceded[:total].to_i
+
+        substitution = substitutions[data[:sofascore_id]] || {}
+        { on_minute: substitution[:on_minute], off_minute: substitution[:off_minute],
+          conceded_minutes: minutes }
       end
 
       def goals_without_penalties(data, scored_penalty)
@@ -136,6 +151,31 @@ module Scores
 
       def penalty_goals_conceded_by(home:)
         penalty_goal_incidents.count { |incident| incident['isHome'] != home }
+      end
+
+      def goal_minutes_conceded_by(home:)
+        goal_incidents.reject { |incident| incident['isHome'] == home }.map { |incident| minute_of(incident) }
+      end
+
+      def goal_incidents
+        @goal_incidents ||= incidents.select { |incident| incident['incidentType'] == GOAL_TYPE }
+      end
+
+      def substitutions
+        @substitutions ||= incidents.select { |incident| incident['incidentType'] == SUBSTITUTION_TYPE }
+                                    .each_with_object({}) { |incident, hash| assign_substitution(hash, incident) }
+      end
+
+      def assign_substitution(hash, incident)
+        minute = minute_of(incident)
+        in_id = incident.dig('playerIn', 'id')
+        out_id = incident.dig('playerOut', 'id')
+        (hash[in_id] ||= {})[:on_minute] = minute if in_id
+        (hash[out_id] ||= {})[:off_minute] = minute if out_id
+      end
+
+      def minute_of(incident)
+        incident['time'].to_i + incident['addedTime'].to_i
       end
 
       def penalty_goal_incidents

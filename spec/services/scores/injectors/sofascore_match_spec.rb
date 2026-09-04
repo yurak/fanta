@@ -307,6 +307,60 @@ RSpec.describe Scores::Injectors::SofascoreMatch do
       it { expect(scorer_rp.reload.yellow_card).to be(false) }
     end
 
+    context 'with a defender subbed off before the goal' do
+      let(:lineups_json) do
+        {
+          'home' => {
+            'players' => [
+              { 'player' => { 'id' => 100, 'name' => 'Maldini' },
+                'statistics' => { 'minutesPlayed' => 70, 'rating' => 7.0, 'goals' => 0, 'goalAssist' => 0,
+                                  'ownGoals' => 0, 'saves' => 0 } }
+            ]
+          },
+          'away' => { 'players' => [] }
+        }.to_json
+      end
+
+      let!(:keeper_rp) do
+        create(:round_player, tournament_round: match.tournament_round,
+                              player: create(:player, :with_pos_dc, sofascore_id: 100, club: match.host_club))
+      end
+      let!(:scorer_rp) do
+        create(:round_player, tournament_round: match.tournament_round,
+                              player: create(:player, sofascore_id: 200, club: match.guest_club))
+      end
+
+      let(:incidents_json) do
+        { 'incidents' => [
+          { 'incidentType' => 'goal', 'incidentClass' => 'regular', 'isHome' => false, 'time' => 85,
+            'player' => { 'id' => 200 } },
+          { 'incidentType' => 'substitution', 'time' => 70, 'isHome' => true,
+            'playerIn' => { 'id' => 300 }, 'playerOut' => { 'id' => 100 } }
+        ] }.to_json
+      end
+
+      before { injector.call }
+
+      it 'keeps his cleansheet because the goal fell after he left' do
+        expect(keeper_rp.reload.cleansheet).to be(true)
+      end
+
+      context 'when the goal fell while he was still on' do
+        let(:incidents_json) do
+          { 'incidents' => [
+            { 'incidentType' => 'goal', 'incidentClass' => 'regular', 'isHome' => false, 'time' => 50,
+              'player' => { 'id' => 200 } },
+            { 'incidentType' => 'substitution', 'time' => 70, 'isHome' => true,
+              'playerIn' => { 'id' => 300 }, 'playerOut' => { 'id' => 100 } }
+          ] }.to_json
+        end
+
+        it 'takes the cleansheet away' do
+          expect(keeper_rp.reload.cleansheet).to be(false)
+        end
+      end
+    end
+
     context 'with a rescinded card' do
       let(:incidents_json) do
         { 'incidents' => [
@@ -662,6 +716,20 @@ RSpec.describe Scores::Injectors::SofascoreMatch do
     it 'splits a conceded penalty out of the goals the keeper let in' do
       conceded = injector.send(:full_player_hash, round_player, player_data, { total: 2, penalties: 1 })
       expect(conceded).to include(missed_goals: 1, missed_penalty: 1)
+    end
+
+    it 'falls back to the plain rule when the match has no incidents to time the goals with' do
+      subbed = { rating: 7.0, played_minutes: 70, goals: 0, assists: 0, own_goals: 0, saves: 0 }
+      hash = injector.send(:full_player_hash, round_player, subbed, { total: 1, penalties: 0, minutes: [] })
+
+      expect(hash[:cleansheet]).to be(false)
+    end
+
+    it 'ignores minutes that do not account for every goal the side let in' do
+      subbed = { rating: 7.0, played_minutes: 70, goals: 0, assists: 0, own_goals: 0, saves: 0 }
+      hash = injector.send(:full_player_hash, round_player, subbed, { total: 2, penalties: 0, minutes: [85] })
+
+      expect(hash[:cleansheet]).to be(false)
     end
   end
 end
