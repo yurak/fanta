@@ -5,7 +5,8 @@ RSpec.describe TelegramBot::PlayerClubChangedNotifier do
     let(:tournament) { create(:tournament, name: 'Premier League', code: 'epl', icon: '🏆') }
     let(:league) { create(:league, tournament: tournament) }
     let(:team) { create(:team, league: league, human_name: 'Dream Team') }
-    let(:player) { create(:player, first_name: 'Lionel', name: 'Messi') }
+    let(:old_club) { create(:club, name: 'Barcelona', tournament: tournament) }
+    let(:player) { create(:player, first_name: 'Lionel', name: 'Messi', club: old_club) }
     let(:new_club) { create(:club, name: 'Inter Miami', tournament: tournament) }
 
     context 'when player is nil' do
@@ -62,6 +63,26 @@ RSpec.describe TelegramBot::PlayerClubChangedNotifier do
       end
     end
 
+    context 'with the real translation' do
+      let(:user) { create(:user, locale: :en) }
+      let(:team) { create(:team, league: league, user: user, human_name: 'Dream Team') }
+
+      before { allow(TelegramBot::Sender).to receive(:call) }
+
+      it 'names both the club he left and the one he joined' do
+        service_call
+
+        expect(TelegramBot::Sender).to have_received(:call)
+          .with(user, a_string_including('moved from Barcelona to Inter Miami'))
+      end
+
+      it 'keeps the hashtag footer' do
+        service_call
+
+        expect(TelegramBot::Sender).to have_received(:call).with(user, a_string_including('#player #epl'))
+      end
+    end
+
     def expect_translation_call(locale:)
       expect(I18n).to have_received(:t).with(
         'telegram.notifier.player.club_changed',
@@ -69,6 +90,7 @@ RSpec.describe TelegramBot::PlayerClubChangedNotifier do
         icon: tournament.icon,
         player_name: player.full_name,
         team_name: team.human_name,
+        old_club_name: old_club.name,
         new_club_name: new_club.name,
         tournament_name: tournament.name,
         code: tournament.code

@@ -2040,8 +2040,8 @@ ua:
         squad_complete: "%{icon} Склад команди %{team_name} у лізі %{league_name} сформовано.\n\n⌛️ Очікуйте на завершення аукціону, щоб переглянути його деталі.\n\n#auction #%{code}"
         start_offers: "%{icon} Етап #%{number} аукціону розпочався в лізі %{league_name}.\n🔜 Дедлайн: %{deadline} (%{time_zone}) 🔚\n\n‼️️ Вам необхідно зробити пропозицію на %{vacancies} гравців для команди %{team_name} - %{url}\n\n#auction #%{code}"
       player:
-        left: "%{icon} %{player_name} з команди %{team_name} покинув чемпіонат %{tournament_name}.\n💵 Ви зможете замінити його на наступному аукціоні.\n\n#player #%{code}"
-        club_changed: "%{icon} %{player_name} з команди %{team_name} перейшов у %{new_club_name} в межах чемпіонату %{tournament_name}.\n✅ Гравець залишається у вашому складі.\n\n#player #%{code}"
+        left: "%{icon} %{player_name} (команда %{team_name}) покинув чемпіонат %{tournament_name}.\n💵 Ви зможете замінити його на наступному аукціоні.\n\n#player #%{code}"
+        club_changed: "%{icon} %{player_name} (команда %{team_name}) перейшов з %{old_club_name} у %{new_club_name} в межах чемпіонату %{tournament_name}.\n✅ Гравець залишається у вашому складі.\n\n#player #%{code}"
       logo:
         approved: "✅ Ваше завантажене лого схвалено і тепер доступне при редагуванні команд.\n\n#logo"
         rejected: "❌ Ваше завантажене лого відхилено модератором. Спробуйте завантажити інше зображення.\n\n#logo"
