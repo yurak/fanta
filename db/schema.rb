@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_08_25_102016) do
+ActiveRecord::Schema[8.0].define(version: 2026_09_04_120000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -563,6 +563,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_08_25_102016) do
     t.text "missed_players_data"
     t.integer "status", default: 0, null: false
     t.integer "live_minute"
+    t.text "incidents_data"
     t.index ["guest_club_id"], name: "index_tournament_matches_on_guest_club_id"
     t.index ["host_club_id"], name: "index_tournament_matches_on_host_club_id"
     t.index ["tournament_round_id"], name: "index_tournament_matches_on_tournament_round_id"

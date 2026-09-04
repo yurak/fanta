@@ -171,6 +171,180 @@ RSpec.describe Scores::Injectors::SofascoreMatch do
     end
   end
 
+  describe 'incidents' do
+    let!(:keeper_rp) do
+      create(:round_player, tournament_round: match.tournament_round,
+                            player: create(:player, :with_pos_por, sofascore_id: 100, club: match.host_club))
+    end
+    let!(:scorer_rp) do
+      create(:round_player, tournament_round: match.tournament_round,
+                            player: create(:player, sofascore_id: 200, club: match.guest_club))
+    end
+
+    let(:lineups_json) do
+      {
+        'home' => {
+          'players' => [
+            { 'player' => { 'id' => 100, 'name' => 'Buffon' },
+              'statistics' => { 'minutesPlayed' => 90, 'rating' => 7.0, 'goals' => 0, 'goalAssist' => 0,
+                                'ownGoals' => 0, 'saves' => 3 } }
+          ]
+        },
+        'away' => {
+          'players' => [
+            { 'player' => { 'id' => 200, 'name' => 'Messi' },
+              'statistics' => { 'minutesPlayed' => 90, 'rating' => 8.5, 'goals' => 1, 'goalAssist' => 0,
+                                'ownGoals' => 0, 'saves' => 0 } }
+          ]
+        }
+      }.to_json
+    end
+
+    let(:match) do
+      create(:tournament_match, page_url: '/sofascore/match', base_data: finished_event_data,
+                                lineups_data: lineups_json, incidents_data: incidents_json)
+    end
+
+    context 'with a penalty goal' do
+      let(:incidents_json) do
+        { 'incidents' => [
+          { 'incidentType' => 'goal', 'incidentClass' => 'penalty', 'isHome' => false,
+            'player' => { 'id' => 200 } }
+        ] }.to_json
+      end
+
+      before { injector.call }
+
+      it 'credits the scorer with the penalty' do
+        expect(scorer_rp.reload.scored_penalty).to eq(1)
+      end
+
+      it 'takes it out of his goals so it is not paid twice' do
+        expect(scorer_rp.reload.goals).to eq(0)
+      end
+
+      it 'charges the keeper who let it in' do
+        expect(keeper_rp.reload.missed_penalty).to eq(1)
+      end
+
+      it 'drops it from the keeper regular goals conceded' do
+        expect(keeper_rp.reload.missed_goals).to eq(0)
+      end
+    end
+
+    context 'with a regular goal' do
+      let(:incidents_json) do
+        { 'incidents' => [
+          { 'incidentType' => 'goal', 'incidentClass' => 'regular', 'isHome' => false,
+            'player' => { 'id' => 200 } }
+        ] }.to_json
+      end
+
+      before { injector.call }
+
+      it 'leaves the goal alone' do
+        expect(scorer_rp.reload.goals).to eq(1)
+      end
+
+      it 'records no penalty for the keeper' do
+        expect(keeper_rp.reload.missed_penalty).to eq(0)
+      end
+    end
+
+    context 'with cards' do
+      let(:incidents_json) do
+        { 'incidents' => [
+          { 'incidentType' => 'card', 'incidentClass' => 'yellow', 'rescinded' => false,
+            'player' => { 'id' => 100 } },
+          { 'incidentType' => 'card', 'incidentClass' => 'red', 'rescinded' => false,
+            'player' => { 'id' => 200 } }
+        ] }.to_json
+      end
+
+      before { injector.call }
+
+      it { expect(keeper_rp.reload.yellow_card).to be(true) }
+      it { expect(keeper_rp.reload.red_card).to be(false) }
+      it { expect(scorer_rp.reload.red_card).to be(true) }
+    end
+
+    context 'with a second yellow' do
+      # SofaScore lists incidents newest first, so the sending off arrives before the booking
+      # it followed — the result must not depend on that order
+      let(:incidents_json) do
+        { 'incidents' => [
+          { 'incidentType' => 'card', 'incidentClass' => 'yellowRed', 'rescinded' => false,
+            'player' => { 'id' => 200 } },
+          { 'incidentType' => 'card', 'incidentClass' => 'yellow', 'rescinded' => false,
+            'player' => { 'id' => 200 } }
+        ] }.to_json
+      end
+
+      before { injector.call }
+
+      it 'sends the player off' do
+        expect(scorer_rp.reload.red_card).to be(true)
+      end
+
+      it 'replaces the booking instead of adding to it' do
+        expect(scorer_rp.reload.yellow_card).to be(false)
+      end
+    end
+
+    context 'with a second yellow listed after the booking' do
+      let(:incidents_json) do
+        { 'incidents' => [
+          { 'incidentType' => 'card', 'incidentClass' => 'yellow', 'rescinded' => false,
+            'player' => { 'id' => 200 } },
+          { 'incidentType' => 'card', 'incidentClass' => 'yellowRed', 'rescinded' => false,
+            'player' => { 'id' => 200 } }
+        ] }.to_json
+      end
+
+      before { injector.call }
+
+      it { expect(scorer_rp.reload.red_card).to be(true) }
+      it { expect(scorer_rp.reload.yellow_card).to be(false) }
+    end
+
+    context 'with a rescinded card' do
+      let(:incidents_json) do
+        { 'incidents' => [
+          { 'incidentType' => 'card', 'incidentClass' => 'yellow', 'rescinded' => true,
+            'player' => { 'id' => 100 } }
+        ] }.to_json
+      end
+
+      before { injector.call }
+
+      it 'ignores it' do
+        expect(keeper_rp.reload.yellow_card).to be(false)
+      end
+    end
+
+    context 'without incidents at all' do
+      let(:incidents_json) { nil }
+
+      before { injector.call }
+
+      it 'still imports the lineups stats' do
+        expect(scorer_rp.reload.goals).to eq(1)
+      end
+
+      it 'reports no cards' do
+        expect(scorer_rp.reload.yellow_card).to be(false)
+      end
+    end
+
+    context 'with unparseable incidents' do
+      let(:incidents_json) { 'not json' }
+
+      it 'does not blow up the import' do
+        expect { injector.call }.not_to raise_error
+      end
+    end
+  end
+
   describe '#match_finished?' do
     subject { injector.send(:match_finished?) }
 
@@ -366,17 +540,17 @@ RSpec.describe Scores::Injectors::SofascoreMatch do
     context 'when player is in the hash' do
       it 'updates round_player' do
         expect do
-          injector.send(:update_round_player, round_player, team_hash, 0)
+          injector.send(:update_round_player, round_player, team_hash, { total: 0, penalties: 0 })
         end.to(change { round_player.reload.updated_at })
       end
 
       it 'marks player as in_squad' do
-        injector.send(:update_round_player, round_player, team_hash, 0)
+        injector.send(:update_round_player, round_player, team_hash, { total: 0, penalties: 0 })
         expect(round_player.reload.in_squad).to be true
       end
 
       it 'removes player from hash' do
-        injector.send(:update_round_player, round_player, team_hash, 0)
+        injector.send(:update_round_player, round_player, team_hash, { total: 0, penalties: 0 })
         expect(team_hash).not_to have_key(100)
       end
     end
@@ -385,17 +559,17 @@ RSpec.describe Scores::Injectors::SofascoreMatch do
       before { round_player.update(manual_lock: true) }
 
       it 'marks player as in_squad' do
-        injector.send(:update_round_player, round_player, team_hash, 0)
+        injector.send(:update_round_player, round_player, team_hash, { total: 0, penalties: 0 })
         expect(round_player.reload.in_squad).to be true
       end
 
       it 'updates score' do
-        injector.send(:update_round_player, round_player, team_hash, 0)
+        injector.send(:update_round_player, round_player, team_hash, { total: 0, penalties: 0 })
         expect(round_player.reload.score).to eq(7.5)
       end
 
       it 'does not update other stats' do
-        injector.send(:update_round_player, round_player, team_hash, 0)
+        injector.send(:update_round_player, round_player, team_hash, { total: 0, penalties: 0 })
         expect(round_player.reload.goals).to eq(0)
       end
     end
@@ -410,13 +584,13 @@ RSpec.describe Scores::Injectors::SofascoreMatch do
       end
 
       it 'marks player as in_squad' do
-        injector.send(:update_round_player, round_player, team_hash, 0)
+        injector.send(:update_round_player, round_player, team_hash, { total: 0, penalties: 0 })
         expect(round_player.reload.in_squad).to be true
       end
 
       it 'does not update score' do
         expect do
-          injector.send(:update_round_player, round_player, team_hash, 0)
+          injector.send(:update_round_player, round_player, team_hash, { total: 0, penalties: 0 })
         end.not_to(change { round_player.reload.score })
       end
     end
@@ -427,12 +601,12 @@ RSpec.describe Scores::Injectors::SofascoreMatch do
 
       it 'does nothing' do
         expect do
-          injector.send(:update_round_player, round_player, team_hash, 0)
+          injector.send(:update_round_player, round_player, team_hash, { total: 0, penalties: 0 })
         end.not_to(change { round_player.reload.score })
       end
 
       it 'does not mark as in_squad' do
-        injector.send(:update_round_player, round_player, team_hash, 0)
+        injector.send(:update_round_player, round_player, team_hash, { total: 0, penalties: 0 })
         expect(round_player.reload.in_squad).to be false
       end
     end
@@ -463,7 +637,7 @@ RSpec.describe Scores::Injectors::SofascoreMatch do
   end
 
   describe '#full_player_hash' do
-    subject(:hash) { injector.send(:full_player_hash, round_player, player_data, 0) }
+    subject(:hash) { injector.send(:full_player_hash, round_player, player_data, { total: 0, penalties: 0 }) }
 
     let(:round_player) { create(:round_player, :with_pos_por) }
     let(:player_data) { { rating: 7.0, played_minutes: 90, goals: 0, assists: 1, own_goals: 0, saves: 4 } }
@@ -481,8 +655,13 @@ RSpec.describe Scores::Injectors::SofascoreMatch do
     end
 
     it 'includes missed_goals (goalkeeper gets team count)' do
-      hash_with_goals = injector.send(:full_player_hash, round_player, player_data, 2)
+      hash_with_goals = injector.send(:full_player_hash, round_player, player_data, { total: 2, penalties: 0 })
       expect(hash_with_goals[:missed_goals]).to eq(2)
+    end
+
+    it 'splits a conceded penalty out of the goals the keeper let in' do
+      conceded = injector.send(:full_player_hash, round_player, player_data, { total: 2, penalties: 1 })
+      expect(conceded).to include(missed_goals: 1, missed_penalty: 1)
     end
   end
 end

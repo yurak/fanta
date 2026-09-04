@@ -3,6 +3,11 @@ module Scores
     class SofascoreMatch < BaseMatch
       DEFAULT_SCORE = 6.5
       FINISHED_STATUS = 'finished'.freeze
+      CARD_TYPE = 'card'.freeze
+      GOAL_TYPE = 'goal'.freeze
+      PENALTY_CLASS = 'penalty'.freeze
+      YELLOW_CLASS = 'yellow'.freeze
+      RED_CLASSES = %w[red yellowRed].freeze
 
       def call
         return if match.base_data.blank?
@@ -23,34 +28,50 @@ module Scores
       def update_round_players
         return if match.tournament_round.tournament.national?
 
-        round_players.by_club(match.host_club_id).each { |rp| update_round_player(rp, host_scores_hash, guest_result) }
-        round_players.by_club(match.guest_club.id).each { |rp| update_round_player(rp, guest_scores_hash, host_result) }
+        round_players.by_club(match.host_club_id).each { |rp| update_round_player(rp, host_scores_hash, conceded_for(home: true)) }
+        round_players.by_club(match.guest_club.id).each { |rp| update_round_player(rp, guest_scores_hash, conceded_for(home: false)) }
       end
 
-      def update_round_player(round_player, team_hash, team_missed_goals)
+      def conceded_for(home:)
+        { total: home ? guest_result : host_result, penalties: penalty_goals_conceded_by(home: home) }
+      end
+
+      def update_round_player(round_player, team_hash, conceded)
         player_data = team_hash[round_player.sofascore_id]
 
         if player_data
-          round_player.update(round_player_params(round_player, player_data, team_missed_goals))
+          round_player.update(round_player_params(round_player, player_data, conceded))
           team_hash.except!(round_player.sofascore_id)
         elsif squad_sofascore_ids.include?(round_player.sofascore_id)
           round_player.update(in_squad: true)
         end
       end
 
-      # Unsupported params: yellow_card red_card scored_penalty missed_penalty — the lineups payload
-      # carries no cards, and it counts a penalty goal inside `goals` without saying so. Both need
-      # the incidents endpoint, which is not part of what the ingest stores today.
-      def full_player_hash(round_player, data, team_missed_goals)
+      def full_player_hash(round_player, data, conceded)
+        sofascore_id = data[:sofascore_id]
+        scored_penalty = penalty_goals[sofascore_id].to_i
+        missed_penalty = missed_penalty_for(round_player, conceded)
         {
-          score: rating(data), goals: stat_value(data, :goals), assists: stat_value(data, :assists),
-          cleansheet: cleansheet?(round_player, team_missed_goals.to_i, data[:played_minutes]),
+          score: rating(data), goals: goals_without_penalties(data, scored_penalty),
+          assists: stat_value(data, :assists),
+          cleansheet: cleansheet?(round_player, conceded[:total].to_i, data[:played_minutes]),
           own_goals: stat_value(data, :own_goals), saves: stat_value(data, :saves),
-          missed_goals: missed_goals(round_player, team_missed_goals.to_i),
+          missed_goals: missed_goals(round_player, conceded[:total].to_i) - missed_penalty,
+          missed_penalty: missed_penalty, scored_penalty: scored_penalty,
           caught_penalty: stat_value(data, :caught_penalty), failed_penalty: stat_value(data, :failed_penalty),
           conceded_penalty: stat_value(data, :conceded_penalty), penalties_won: stat_value(data, :penalties_won),
-          played_minutes: stat_value(data, :played_minutes), in_squad: true
+          played_minutes: stat_value(data, :played_minutes), in_squad: true,
+          yellow_card: cards.dig(sofascore_id, :yellow_card) || false,
+          red_card: cards.dig(sofascore_id, :red_card) || false
         }
+      end
+
+      def goals_without_penalties(data, scored_penalty)
+        [stat_value(data, :goals).to_i - scored_penalty, 0].max
+      end
+
+      def missed_penalty_for(round_player, conceded)
+        [conceded[:penalties], missed_goals(round_player, conceded[:total].to_i)].min
       end
 
       def rating(player_data)
@@ -85,6 +106,52 @@ module Scores
           conceded_penalty: stats['penaltyConceded'],
           penalties_won: stats['penaltyWon']
         }
+      end
+
+      def cards
+        @cards ||= incidents.select { |incident| card?(incident) }
+                            .each_with_object({}) { |incident, hash| assign_card(hash, incident) }
+      end
+
+      def card?(incident)
+        incident['incidentType'] == CARD_TYPE && !incident['rescinded'] && player_id(incident)
+      end
+
+      def assign_card(hash, incident)
+        entry = hash[player_id(incident)] ||= { yellow_card: false, red_card: false }
+        incident_class = incident['incidentClass']
+
+        if RED_CLASSES.include?(incident_class)
+          entry.merge!(red_card: true, yellow_card: false)
+        elsif incident_class == YELLOW_CLASS && !entry[:red_card]
+          entry[:yellow_card] = true
+        end
+      end
+
+      def penalty_goals
+        @penalty_goals ||= penalty_goal_incidents.each_with_object(Hash.new(0)) do |incident, hash|
+          hash[player_id(incident)] += 1
+        end
+      end
+
+      def penalty_goals_conceded_by(home:)
+        penalty_goal_incidents.count { |incident| incident['isHome'] != home }
+      end
+
+      def penalty_goal_incidents
+        @penalty_goal_incidents ||= incidents.select do |incident|
+          incident['incidentType'] == GOAL_TYPE && incident['incidentClass'] == PENALTY_CLASS && player_id(incident)
+        end
+      end
+
+      def player_id(incident)
+        incident.dig('player', 'id')
+      end
+
+      def incidents
+        @incidents ||= JSON.parse(match.incidents_data.to_s)['incidents'] || []
+      rescue JSON::ParserError, TypeError
+        @incidents = []
       end
 
       def squad_sofascore_ids

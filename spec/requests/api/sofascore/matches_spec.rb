@@ -42,6 +42,21 @@ RSpec.describe 'Api::Sofascore::Matches' do
       end
     end
 
+    it 'stores the incidents when the dumper sends them' do
+      post '/api/sofascore/matches', params: params.merge(incidents_data: '{"incidents":[]}'), headers: headers
+
+      expect(match.reload.incidents_data).to eq('{"incidents":[]}')
+    end
+
+    it 'accepts a payload without incidents so an older dumper keeps working' do
+      post '/api/sofascore/matches', params: params, headers: headers
+
+      aggregate_failures do
+        expect(response).to have_http_status(:ok)
+        expect(match.reload.incidents_data).to be_nil
+      end
+    end
+
     it 'injects the scores' do
       allow(Scores::Injectors::SofascoreMatch).to receive(:call)
 
