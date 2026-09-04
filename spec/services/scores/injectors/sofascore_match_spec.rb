@@ -116,6 +116,58 @@ RSpec.describe Scores::Injectors::SofascoreMatch do
           expect(match.reload.missed_players_data.keys).to include('200')
         end
       end
+
+      context 'when the keeper saved a penalty and gave one away' do
+        let(:lineups_json) do
+          {
+            'home' => {
+              'players' => [
+                {
+                  'player' => { 'id' => 100, 'name' => 'Buffon' },
+                  'statistics' => { 'minutesPlayed' => 90, 'rating' => 7.5, 'goals' => 0, 'goalAssist' => 0,
+                                    'ownGoals' => 0, 'saves' => 3, 'penaltySave' => 1, 'penaltyConceded' => 1 }
+                }
+              ]
+            },
+            'away' => {
+              'players' => [
+                {
+                  'player' => { 'id' => 200, 'name' => 'Messi' },
+                  'statistics' => { 'minutesPlayed' => 90, 'rating' => 8.5, 'goals' => 0, 'goalAssist' => 0,
+                                    'ownGoals' => 0, 'saves' => 0, 'penaltyMiss' => 1, 'penaltyWon' => 1 }
+                }
+              ]
+            }
+          }.to_json
+        end
+
+        let(:keeper) { create(:player, sofascore_id: 100, club: match.host_club) }
+        let(:taker) { create(:player, sofascore_id: 200, club: match.guest_club) }
+        let!(:keeper_rp) { create(:round_player, player: keeper, tournament_round: match.tournament_round) }
+        let!(:taker_rp) { create(:round_player, player: taker, tournament_round: match.tournament_round) }
+
+        before { injector.call }
+
+        it 'credits the keeper with the save' do
+          expect(keeper_rp.reload.caught_penalty).to eq(1)
+        end
+
+        it 'charges the keeper for the foul' do
+          expect(keeper_rp.reload.conceded_penalty).to eq(1)
+        end
+
+        it 'charges the taker for the miss' do
+          expect(taker_rp.reload.failed_penalty).to eq(1)
+        end
+
+        it 'credits the taker for winning one' do
+          expect(taker_rp.reload.penalties_won).to eq(1)
+        end
+
+        it 'does not put the save on the taker' do
+          expect(taker_rp.reload.caught_penalty).to eq(0)
+        end
+      end
     end
   end
 
@@ -205,6 +257,41 @@ RSpec.describe Scores::Injectors::SofascoreMatch do
 
       it 'includes rating and goals' do
         expect(hash[101]).to include(rating: 9.0, goals: 2)
+      end
+    end
+
+    context 'with the penalty statistics SofaScore reports' do
+      let(:players) do
+        [
+          {
+            'player' => { 'id' => 102, 'name' => 'Riznyk' },
+            'statistics' => { 'minutesPlayed' => 90, 'rating' => 7.6, 'goals' => 0, 'goalAssist' => 0,
+                              'ownGoals' => 0, 'saves' => 2, 'penaltySave' => 1, 'penaltyWon' => 2,
+                              'penaltyMiss' => 1, 'penaltyConceded' => 3 }
+          }
+        ]
+      end
+
+      it 'maps every penalty stat onto its bonus' do
+        expect(hash[102]).to include(caught_penalty: 1, penalties_won: 2,
+                                     failed_penalty: 1, conceded_penalty: 3)
+      end
+    end
+
+    context 'without penalty statistics' do
+      let(:players) do
+        [
+          {
+            'player' => { 'id' => 103, 'name' => 'Plain' },
+            'statistics' => { 'minutesPlayed' => 90, 'rating' => 6.0, 'goals' => 0,
+                              'goalAssist' => 0, 'ownGoals' => 0, 'saves' => 0 }
+          }
+        ]
+      end
+
+      it 'leaves them nil so stat_value falls back to 0' do
+        expect(hash[103]).to include(caught_penalty: nil, penalties_won: nil,
+                                     failed_penalty: nil, conceded_penalty: nil)
       end
     end
 

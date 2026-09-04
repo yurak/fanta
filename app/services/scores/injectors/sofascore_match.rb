@@ -38,13 +38,17 @@ module Scores
         end
       end
 
+      # Unsupported params: yellow_card red_card scored_penalty missed_penalty — the lineups payload
+      # carries no cards, and it counts a penalty goal inside `goals` without saying so. Both need
+      # the incidents endpoint, which is not part of what the ingest stores today.
       def full_player_hash(round_player, data, team_missed_goals)
-        # Unsupported params: yellow_card red_card failed_penalty caught_penalty conceded_penalty penalties_won scored_penalty
         {
           score: rating(data), goals: stat_value(data, :goals), assists: stat_value(data, :assists),
           cleansheet: cleansheet?(round_player, team_missed_goals.to_i, data[:played_minutes]),
           own_goals: stat_value(data, :own_goals), saves: stat_value(data, :saves),
           missed_goals: missed_goals(round_player, team_missed_goals.to_i),
+          caught_penalty: stat_value(data, :caught_penalty), failed_penalty: stat_value(data, :failed_penalty),
+          conceded_penalty: stat_value(data, :conceded_penalty), penalties_won: stat_value(data, :penalties_won),
           played_minutes: stat_value(data, :played_minutes), in_squad: true
         }
       end
@@ -66,13 +70,6 @@ module Scores
       end
 
       def build_player_hash(player_data)
-        # TODO: add stats
-        # caught_penalty: player_stats(player_data, 'Saved penalties'),
-        # failed_penalty: player_stats(player_data, 'Missed penalty'),
-        # conceded_penalty: player_stats(player_data, 'Conceded penalty'),
-        # penalties_won: player_stats(player_data, 'Penalties won')
-        # yellow_card: card?(player_data['events']['yc']),
-        # red_card: card?(player_data['events']['ycrc']) || card?(player_data['events']['rc'])
         stats = player_data['statistics']
         {
           sofascore_id: player_data['player']['id'],
@@ -82,7 +79,11 @@ module Scores
           goals: stats['goals'],
           assists: stats['goalAssist'],
           own_goals: stats['ownGoals'],
-          saves: stats['saves']
+          saves: stats['saves'],
+          caught_penalty: stats['penaltySave'],
+          failed_penalty: stats['penaltyMiss'],
+          conceded_penalty: stats['penaltyConceded'],
+          penalties_won: stats['penaltyWon']
         }
       end
 
