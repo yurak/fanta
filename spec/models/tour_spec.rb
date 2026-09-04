@@ -204,10 +204,10 @@ RSpec.describe Tour do
     end
 
     context 'with 10 national matches' do
-      it 'returns 0' do
+      it 'stays on the last tier instead of falling off the table' do
         create_list(:national_match, 10, tournament_round: tour.tournament_round)
 
-        expect(tour.max_country_players).to eq(0)
+        expect(tour.max_country_players).to eq(1)
       end
     end
 
@@ -228,6 +228,36 @@ RSpec.describe Tour do
 
       it 'returns max_country_players value 0' do
         expect(tour.max_country_players).to eq(0)
+      end
+    end
+
+    context 'with a eurocup matchday of 18 matches played on one day' do
+      let(:tournament_round) { create(:tournament_round, tournament: Tournament.find_by(eurocup: true)) }
+      let(:tour) { create(:tour, tournament_round: tournament_round) }
+
+      before { create_list(:tournament_match, 18, tournament_round: tournament_round) }
+
+      it 'allows one player per club' do
+        expect(tour.max_country_players).to eq(1)
+      end
+
+      it 'sets no minimum' do
+        expect(tour.min_country_players).to eq(0)
+      end
+    end
+
+    context 'with a eurocup round of exactly 9 matches' do
+      let(:tournament_round) { create(:tournament_round, tournament: Tournament.find_by(eurocup: true)) }
+      let(:tour) { create(:tour, tournament_round: tournament_round) }
+
+      before { create_list(:tournament_match, 9, tournament_round: tournament_round) }
+
+      it 'already sits on the last tier' do
+        expect(tour.max_country_players).to eq(1)
+      end
+
+      it 'sets no minimum' do
+        expect(tour.min_country_players).to eq(0)
       end
     end
   end

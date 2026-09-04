@@ -376,27 +376,31 @@ turkey:
   SMS: Samsunspor
   TRA: Trabzonspor
 europe:
+  AEK: AEK
   BOD: Bodo-Glimt
 #  CEL: Celtic
 #  COP: Copenhagen
 #  ZVE: Crvena Zvezda
 #  DZG: Dinamo Zagreb
-  FER: Ferencvaros
+#  FER: Ferencvaros
 #  KAI: Kairat
+  LSK: LASK
 #  MHF: Maccabi Haifa
 #  MFF: Malmo
-  MDT: Midtjylland
+#  MDT: Midtjylland
 #  OLY: Olympiacos
 #  PAF: Pafos
-  PAN: Panathinaikos
+#  PAN: Panathinaikos
 #  QAR: Qarabag
 #  RAN: Rangers
+  SAB: Sabah
 #  RBS: Salzburg
 #  SHE: Sheriff
-#  SLP: Slavia Praha
-#  SLO: Slovan
+  SLP: Slavia Praha
+  SLO: Slovan
 #  SPG: Sparta Prague
 #  STG: Sturm
+  VKN: Viking
 #  VPL: Viktoria Plzen
 #  YOU: Young Boys
 #  ZEN: Zenit

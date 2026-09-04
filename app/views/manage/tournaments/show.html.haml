@@ -1,0 +1,122 @@
+.page-block
+  .web-header= render 'layouts/left_nav', league: nil
+  .web-header= render 'layouts/manage_nav'
+  .mob-header= render 'layouts/mob_header', league: nil, title: @tournament.name
+  .page-info.admin-manage-page
+    = link_to t('manage.tournaments.back'), manage_tournaments_path, class: 'btn btn-sm btn-outline-secondary mb-3'
+
+    .d-flex.align-items-center.mb-3
+      = image_tag(@tournament.logo_path, width: 32, height: 32, class: 'mr-2')
+      %h2.mb-0= @tournament.name
+
+    - if flash[:notice]
+      .alert.alert-success= flash[:notice]
+
+    %h5.mt-4= t('manage.tournaments.section_actions')
+    .d-flex
+      = link_to t('manage.tournaments.edit'), edit_manage_tournament_path(@tournament), class: 'btn btn-sm btn-warning mr-2'
+      = link_to t('manage.tournaments.show_clubs'), manage_clubs_path(tournament_id: @tournament.id), class: 'btn btn-sm btn-outline-primary mr-2'
+      = link_to t('manage.tournaments.show_leagues'), manage_leagues_path(tournament_id: @tournament.id, status: 'active'), class: 'btn btn-sm btn-outline-primary'
+
+    %h5.mt-4= t('manage.tournaments.section_calendar')
+    .d-flex.align-items-end
+      = form_with url: create_rounds_manage_tournament_path(@tournament), method: :post, local: true, class: 'form-inline mr-3' do
+        = label_tag :rounds_count, t('manage.tournaments.rounds_count'), class: 'mr-2'
+        = number_field_tag :rounds_count, 38, class: 'form-control form-control-sm w-auto mr-2', min: 1, max: 60, required: true
+        = submit_tag t('manage.tournaments.create_rounds'), class: 'btn btn-sm btn-outline-primary'
+      = form_with url: import_calendar_manage_tournament_path(@tournament), method: :post, local: true do
+        = submit_tag t('manage.tournaments.import_calendar'), class: 'btn btn-sm btn-success',
+          data: { disable_with: t('manage.tournaments.import_calendar'), confirm: t('manage.tournaments.import_confirm') }
+    %small.form-text.text-muted= t('manage.tournaments.calendar_hint', source_id: @tournament.source_id || '—')
+
+    .row.mt-4
+      .col-md-6
+        %h5= t('manage.tournaments.section_info')
+        %table.table.table-sm
+          %tbody
+            %tr
+              %th ID
+              %td= @tournament.id
+            %tr
+              %th= t('manage.tournaments.col_name')
+              %td= @tournament.name
+            %tr
+              %th= t('manage.tournaments.col_short_name')
+              %td= @tournament.short_name.presence || '—'
+            %tr
+              %th= t('manage.tournaments.col_code')
+              %td= @tournament.code
+            %tr
+              %th= t('manage.tournaments.col_icon')
+              %td= @tournament.icon.presence || '—'
+            %tr
+              %th= t('manage.tournaments.col_mode')
+              %td= @tournament.mode
+            %tr
+              %th= t('manage.tournaments.col_lineup_first_goal')
+              %td= @tournament.lineup_first_goal
+            %tr
+              %th= t('manage.tournaments.col_lineup_increment')
+              %td= @tournament.lineup_increment
+            %tr
+              %th= t('manage.tournaments.col_created_at')
+              %td= local_time(@tournament.created_at, '%d %b %Y, %H:%M')
+            %tr
+              %th= t('manage.tournaments.col_updated_at')
+              %td= local_time(@tournament.updated_at, '%d %b %Y, %H:%M')
+
+      .col-md-6
+        %h5= t('manage.tournaments.section_source')
+        %table.table.table-sm
+          %tbody
+            %tr
+              %th= t('manage.tournaments.col_source')
+              %td= @tournament.source
+            %tr
+              %th= t('manage.tournaments.col_source_id')
+              %td= @tournament.source_id || '—'
+            %tr
+              %th= t('manage.tournaments.col_sofa_number')
+              %td= @tournament.sofa_number.presence || '—'
+            %tr
+              %th= t('manage.tournaments.col_source_calendar_url')
+              %td
+                - if @tournament.source_calendar_url.present?
+                  = link_to @tournament.source_calendar_url, @tournament.source_calendar_url, target: '_blank', rel: 'noopener'
+                - else
+                  = '—'
+
+        %h5.mt-4= t('manage.tournaments.options')
+        %table.table.table-sm
+          %tbody
+            %tr
+              %th= t('manage.tournaments.col_live_scores')
+              %td= @tournament.live_scores_enabled ? '✅' : '—'
+            %tr
+              %th= t('manage.tournaments.col_eurocup')
+              %td= @tournament.eurocup ? '✅' : '—'
+            %tr
+              %th= t('manage.tournaments.col_open_join')
+              %td= @tournament.open_join ? '✅' : '—'
+            %tr
+              %th= t('manage.tournaments.col_skip_round_check')
+              %td= @tournament.skip_round_check ? '✅' : '—'
+
+    %h5.mt-4= t('manage.tournaments.section_content')
+    %table.table.table-sm.w-auto
+      %tbody
+        %tr
+          %th= t('manage.tournaments.col_clubs_count')
+          %td= @clubs_count
+        %tr
+          %th= t('manage.tournaments.col_ec_clubs_count')
+          %td= @ec_clubs_count
+        %tr
+          %th= t('manage.tournaments.col_national_teams_count')
+          %td= @national_teams_count
+        %tr
+          %th= t('manage.tournaments.col_leagues_count')
+          %td= "#{@active_leagues_count} / #{@leagues_count}"
+        %tr
+          %th= t('manage.tournaments.col_rounds_count')
+          %td= @rounds_count

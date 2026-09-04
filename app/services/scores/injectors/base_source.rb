@@ -12,13 +12,16 @@ module Scores
           next if tm.page_url.blank?
 
           inject_match_scores(tm)
+        rescue StandardError => e
+          Rollbar.error(e, match_id: tm.id, page_url: tm.page_url, tournament_round_id: tournament_round.id)
+          Rails.logger.error("[scores] injector crashed for #{tm.page_url}: #{e.class}: #{e.message}")
         end
       end
 
       private
 
       def matches
-        tournament_round.tournament.national? ? tournament_round.national_matches : tournament_round.tournament_matches
+        tournament_round.matches
       end
 
       def inject_match_scores(_tournament_match)

@@ -64,6 +64,10 @@ class Club < ApplicationRecord
     tournament_round.tournament_matches.to_a.any? { |m| m.host_club_id == id }
   end
 
+  def match_by_round(tournament_round)
+    tournament_round.tournament_matches.to_a.find { |m| m.host_club_id == id || m.guest_club_id == id }
+  end
+
   def same_active_tournament_as?(other)
     return false unless other
 

@@ -1,0 +1,38 @@
+.page-block
+  .web-header= render 'layouts/left_nav', league: nil
+  .web-header= render 'layouts/manage_nav'
+  .mob-header= render 'layouts/mob_header', league: nil, title: t('manage.round_players.edit_title')
+  .page-info.admin-manage-page
+    = link_to t('manage.round_players.back'), manage_player_path(@round_player.player_id), class: 'btn btn-sm btn-outline-secondary mb-3'
+
+    %h2.mb-3= t('manage.round_players.edit_title')
+
+    - if @round_player.errors.any?
+      .alert.alert-danger
+        %ul.mb-0
+          - @round_player.errors.full_messages.each do |message|
+            %li= message
+
+    %table.table.table-sm.w-auto
+      %tbody
+        %tr
+          %th ID
+          %td= @round_player.id
+        %tr
+          %th= t('manage.players.col_name')
+          %td= @round_player.player&.full_name
+        %tr
+          %th= t('manage.players.col_round')
+          %td= "#{@round_player.tournament_round.tournament.name} ##{@round_player.tournament_round.number}"
+
+    = form_with model: @round_player, url: manage_round_player_path(@round_player), method: :patch, local: true do |f|
+      .card.mb-3{ style: 'max-width: 480px;' }
+        .card-body
+          .form-group
+            = f.label :tournament_round_id, t('manage.round_players.tournament_round_id')
+            = f.number_field :tournament_round_id, class: 'form-control', min: 1
+          .form-group.mb-0
+            = f.label :club_id, t('manage.round_players.club')
+            = f.collection_select :club_id, @clubs, :id, :name, { include_blank: true }, class: 'form-control'
+
+      = f.submit t('manage.round_players.save'), class: 'btn btn-primary'

@@ -10,7 +10,7 @@ module Scores
         return unless match_finished?
 
         TournamentMatch.transaction do
-          match.update(host_score: host_result, guest_score: guest_result)
+          match.update(host_score: host_result, guest_score: guest_result, status: :finished)
 
           update_round_players
 

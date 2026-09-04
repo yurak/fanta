@@ -47,7 +47,7 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :players, only: [:index, :create, :show] do
+    resources :players, only: [:index, :create, :show, :edit, :update] do
       member do
         get :fotmob_search
         post :update_fotmob
@@ -79,6 +79,13 @@ Rails.application.routes.draw do
     resources :auctions, only: [:index]
     resources :champions, only: [:index]
     resources :tournament_rounds, only: [:index]
+    resources :round_players, only: [:create, :edit, :update]
+    resources :tournaments, only: [:index, :show, :edit, :update] do
+      member do
+        post :create_rounds
+        post :import_calendar
+      end
+    end
   end
 
   get  'unsubscribe', to: 'subscriptions#unsubscribe', as: :unsubscribe

@@ -15,6 +15,10 @@ module Manage
       @round_players = current_season_round_players
     end
 
+    def edit
+      @player = Player.find(params.expect(:id))
+    end
+
     def create
       data = Players::Transfermarkt::ApiParser.call(params[:tm_id].to_s.strip.presence)
 
@@ -25,6 +29,16 @@ module Manage
       end
     rescue Players::Transfermarkt::ApiError => e
       redirect_to manage_players_path, alert: t('manage.players.tm_unavailable', error: e.http_code || e.message)
+    end
+
+    def update
+      @player = Player.find(params.expect(:id))
+
+      if @player.update(player_params)
+        redirect_to manage_player_path(@player), notice: t('manage.players.updated')
+      else
+        render :edit, status: :unprocessable_entity
+      end
     end
 
     def fotmob_search
@@ -43,6 +57,10 @@ module Manage
     end
 
     private
+
+    def player_params
+      params.expect(player: %i[first_name name tm_id fotmob_id sofascore_id avatar_name height number birth_date])
+    end
 
     def player_season_stats
       PlayerSeasonStat.includes(:club, :season)

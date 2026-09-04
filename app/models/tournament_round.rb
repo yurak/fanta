@@ -13,8 +13,30 @@ class TournamentRound < ApplicationRecord
   scope :by_tournament, ->(tournament_id) { where(tournament: tournament_id) }
   scope :by_season, ->(season_id) { where(season: season_id) }
   scope :moderated, -> { where.not(moderated_at: nil) }
+  scope :live_scores_tournament, lambda {
+    joins(:tournament).where(tournaments: { live_scores_enabled: true, source: Tournament.sources[:fotmob] })
+  }
+  # matches are played while the tour is locked OR postponed (a rescheduled tour stays `postponed`,
+  # never re-locked), so both count for live scoring — mirrors the app-wide `locked_or_postponed?`
+  LIVE_TOUR_STATUSES = [Tour.statuses[:locked], Tour.statuses[:postponed]].freeze
+  SCHEDULE_TOUR_STATUSES = [Tour.statuses[:set_lineup], *LIVE_TOUR_STATUSES].freeze
+
+  scope :live_scores_candidates, lambda {
+    live_scores_tournament.joins(:tours).where(tours: { status: LIVE_TOUR_STATUSES }).distinct
+  }
+  scope :schedule_refresh_candidates, lambda {
+    live_scores_tournament.joins(:tours)
+                          .where(tours: { status: SCHEDULE_TOUR_STATUSES })
+                          .where('tournament_rounds.schedule_refreshed_at IS NULL OR ' \
+                                 'tournament_rounds.schedule_refreshed_at < ?', 1.day.ago)
+                          .distinct
+  }
 
   MODERATED_HOURS = 18
+
+  def matches
+    tournament.national? ? national_matches : tournament_matches
+  end
 
   def eurocup_players
     return [] unless tournament.eurocup?

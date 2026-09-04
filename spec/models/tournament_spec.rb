@@ -22,6 +22,20 @@ RSpec.describe Tournament do
     it { is_expected.to validate_uniqueness_of :code }
   end
 
+  describe 'Normalizations' do
+    it 'nullifies a blank short_name' do
+      tournament.update!(short_name: '   ')
+
+      expect(tournament.reload.short_name).to be_nil
+    end
+
+    it 'strips a present short_name' do
+      tournament.update!(short_name: '  England 2  ')
+
+      expect(tournament.reload.short_name).to eq('England 2')
+    end
+  end
+
   describe '#logo_path' do
     context 'when logo does not exist' do
       it 'returns default path' do

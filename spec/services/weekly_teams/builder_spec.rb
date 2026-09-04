@@ -247,6 +247,29 @@ RSpec.describe WeeklyTeams::Builder do
     end
   end
 
+  context 'when a eurocup matchday has more matches than the tier table covers' do
+    let(:tournament) { create(:tournament, eurocup: true) }
+    let(:round) { create(:tournament_round, tournament: tournament) }
+    let(:round_ids) { [round.id] }
+    let(:club) { create(:club, tournament: tournament) }
+
+    before do
+      create_list(:tournament_match, 18, tournament_round: round)
+
+      create_list(:round_player, 2, :with_pos_dc, score: 9, tournament_round: round, club: club)
+      create_list(:round_player, 2, :with_pos_c, score: 9, tournament_round: round, club: club)
+      create_list(:round_player, 2, :with_pos_a, score: 9, tournament_round: round, club: club)
+    end
+
+    it 'still caps the club at one player instead of dropping the limit' do
+      result.each do |(_mod, team)|
+        picked = team.filter_map { |row| row[:entry] }
+        same_club = picked.count { |e| e[:round_player].club_id == club.id }
+        expect(same_club).to be <= 1
+      end
+    end
+  end
+
   context 'when regular round has no per-team limit' do
     let(:round_ids) { [round.id] }
     let(:club) { create(:club) }

@@ -59,3 +59,28 @@ append it to this list so future sessions don't rediscover it. Keep entries shor
   SHAPE of any `/api/*` JSON response (add/rename a field the client reads), BUMP `version` in
   `package.json` — otherwise a full reload keeps serving the stale cached payload (missing the new
   field) for up to a day, and the change silently doesn't take effect in the browser.
+- Live scores are FotMob-only, gated by `Tournament#live_scores_enabled` (toggle in the manage module,
+  NOT rails_admin). Matches are played while a tour is `locked` OR `postponed` (a rescheduled tour stays
+  `postponed`, never re-locked — mirror the app-wide `locked_or_postponed?`), so BOTH count: `live_inject`
+  polls `locked`+`postponed` rounds (`LIVE_TOUR_STATUSES`), and `refresh_schedule` re-pulls kickoff times
+  daily for `set_lineup`+`locked`+`postponed` rounds (`SCHEDULE_TOUR_STATUSES`, skips finished matches),
+  so a reschedule after lock is still picked up. FotMob's JSON API is IP-blocked — only the match-page
+  HTML scrape (`#__NEXT_DATA__`) works.
+- FotMob withholds `played_minutes` during a live match (streams ratings only), so the live pass gates
+  on ratings (`players_data_ready?`), forces `played_minutes: 0`, and defers cleansheet to the final
+  pass. Partial-appearance cleansheet (60–89') is computed from FotMob goal + substitution minutes
+  (`cleansheet?`/`no_goals_while_on_pitch?`): a player keeps it if the team conceded only while he was
+  off the pitch. The live pass never blanks stored scores, and `manual_lock` on a round_player preserves
+  manually-set stats (incl. cleansheet).
+- A live `TournamentMatch`/`NationalMatch` must be driven to `finished` by CONTINUED live polling, so
+  `LiveInjector#within_window?` returns true for any `live?` match regardless of kickoff — gating live
+  polling on the kickoff window alone leaves a match stuck `live` forever if a pass misses full time.
+- Manage edit forms submit EVERY field, so an empty text input saves `''` (not `nil`) over a previously
+  nil column — and `a || b` / `a ?? b` fallbacks then render the blank. Normalize such columns in the
+  model (`normalizes :short_name, with: ->(v) { v.strip.presence }`) rather than patching call sites.
+- FotMob counts a penalty goal in BOTH the scorer's `Goals` and the keeper's `Goals conceded`, and it never
+  sends `Penalty goals conceded` (0 hits across 51 keeper stat blocks) — so penalties must come from the goal
+  EVENTS: the scorer's is moved `goals` → `scored_penalty`, the keeper's `Goals conceded` → `missed_penalty`
+  via the on-pitch window (`sub_in`/`sub_out`), never counted twice. `conceded_penalty` is a different stat
+  (the player fouled and gave a penalty away, the mirror of `penalties_won`) — don't conflate the two.
+  Always skip `isPenaltyShootoutEvent`: a shootout kick is not a goal and would otherwise drive `goals` negative.

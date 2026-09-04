@@ -1,0 +1,52 @@
+.page-block
+  .web-header= render 'layouts/left_nav', league: nil
+  .web-header= render 'layouts/manage_nav'
+  .mob-header= render 'layouts/mob_header', league: nil, title: @player.name
+  .page-info.admin-manage-page
+    = link_to t('manage.players.back_to_player'), manage_player_path(@player), class: 'btn btn-sm btn-outline-secondary mb-3'
+
+    %h2.mb-3= @player.full_name
+
+    - if @player.errors.any?
+      .alert.alert-danger
+        %ul.mb-0
+          - @player.errors.full_messages.each do |message|
+            %li= message
+
+    = form_with model: @player, url: manage_player_path(@player), method: :patch, local: true do |f|
+      .card.mb-3{ style: 'max-width: 780px;' }
+        .card-body
+          .form-row
+            .form-group.col-md-6
+              = f.label :first_name, t('manage.players.col_first_name')
+              = f.text_field :first_name, class: 'form-control'
+            .form-group.col-md-6
+              = f.label :name, t('manage.players.col_name')
+              = f.text_field :name, class: 'form-control'
+          .form-row
+            .form-group.col-md-4
+              = f.label :tm_id, 'TM ID'
+              = f.number_field :tm_id, class: 'form-control'
+            .form-group.col-md-4
+              = f.label :fotmob_id, 'Fotmob ID'
+              = f.number_field :fotmob_id, class: 'form-control'
+            .form-group.col-md-4
+              = f.label :sofascore_id, 'Sofascore ID'
+              = f.number_field :sofascore_id, class: 'form-control'
+          .form-row
+            .form-group.col-md-6
+              = f.label :avatar_name, t('manage.players.col_avatar_name')
+              = f.text_field :avatar_name, class: 'form-control'
+              %small.form-text.text-muted= t('manage.players.avatar_name_hint', path: @player.path_name)
+            .form-group.col-md-6
+              = f.label :birth_date, t('manage.players.col_birth_date')
+              = f.text_field :birth_date, class: 'form-control', placeholder: 'DD/MM/YYYY'
+          .form-row
+            .form-group.col-md-6
+              = f.label :height, t('manage.players.col_height')
+              = f.number_field :height, class: 'form-control'
+            .form-group.col-md-6
+              = f.label :number, t('manage.players.col_number')
+              = f.number_field :number, class: 'form-control'
+
+      = f.submit t('manage.players.save'), class: 'btn btn-primary'

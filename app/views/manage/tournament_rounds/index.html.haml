@@ -22,7 +22,8 @@
                     - round_entry[:counts].each do |status, count|
                       %span.tournament-rounds-chip{ class: "tournament-rounds-chip-#{status}",
                                                   title: t("manage.tournament_rounds.status.#{status}") }= count
-                    - if round_entry[:counts].key?('inactive')
+                    - if round_entry[:counts].key?('inactive') || round_entry[:counts].key?('set_lineup')
                       %span.tournament-rounds-cube-deadline= tour_dashboard_deadline(round_entry[:round].deadline)
-                    - if round_entry[:counts].key?('locked') && (moderated = tour_dashboard_moderated_at(round_entry[:round].moderated_at))
-                      %span.tournament-rounds-cube-moderated= moderated
+                    - closing = tour_dashboard_closing_time(round_entry[:round])
+                    - if closing && (round_entry[:counts].key?('locked') || round_entry[:counts].key?('postponed'))
+                      %span.tournament-rounds-cube-moderated= closing

@@ -65,6 +65,98 @@ RSpec.describe 'Manage::Players' do
     end
   end
 
+  describe 'GET #edit' do
+    let(:player) { create(:player) }
+
+    context 'when logged out' do
+      before { get edit_manage_player_path(player) }
+
+      it { expect(response).to redirect_to('/users/sign_in') }
+    end
+
+    context 'when admin is logged in' do
+      login_admin
+
+      before { get edit_manage_player_path(player) }
+
+      it { expect(response).to be_successful }
+      it { expect(response).to render_template(:edit) }
+    end
+  end
+
+  describe 'GET #edit rendering' do
+    login_admin
+
+    let(:player) { create(:player, avatar_name: 'custom_avatar') }
+
+    it 'shows every editable field' do
+      get edit_manage_player_path(player)
+
+      expect(response.body).to include('player[first_name]', 'player[name]', 'player[tm_id]',
+                                       'player[fotmob_id]', 'player[sofascore_id]', 'player[avatar_name]',
+                                       'player[height]', 'player[number]', 'player[birth_date]')
+    end
+
+    it 'renders in the ua locale' do
+      I18n.with_locale(:ua) { get edit_manage_player_path(player) }
+
+      expect(response).to be_successful
+    end
+  end
+
+  describe 'PATCH #update' do
+    login_admin
+
+    let(:player) { create(:player, name: 'Old', height: 180) }
+
+    let(:attributes) do
+      { name: 'New', first_name: 'Given', tm_id: 4242, fotmob_id: 77, sofascore_id: 88,
+        avatar_name: 'custom_avatar', height: 191, number: 9, birth_date: '01/02/2003' }
+    end
+
+    it 'updates the editable fields' do
+      patch manage_player_path(player), params: { player: attributes }
+
+      expect(player.reload).to have_attributes(attributes)
+    end
+
+    it 'redirects to the player page' do
+      patch manage_player_path(player), params: { player: { name: 'New' } }
+
+      expect(response).to redirect_to(manage_player_path(player))
+    end
+
+    it 'nullifies a cleared avatar_name instead of storing a blank' do
+      player.update!(avatar_name: 'custom_avatar')
+
+      patch manage_player_path(player), params: { player: { name: 'New', avatar_name: '' } }
+
+      expect(player.reload.avatar_name).to be_nil
+    end
+
+    it 'keeps the generated asset path working after clearing avatar_name' do
+      patch manage_player_path(player), params: { player: { name: 'New', avatar_name: '' } }
+
+      expect(player.reload.path_name).to be_present
+    end
+
+    context 'with a sofascore_id already taken' do
+      before { create(:player, sofascore_id: 555) }
+
+      it 'renders the form instead of blowing up on the unique index' do
+        patch manage_player_path(player), params: { player: { name: 'New', sofascore_id: 555 } }
+
+        expect(response).to render_template(:edit)
+      end
+
+      it 'leaves the player untouched' do
+        patch manage_player_path(player), params: { player: { name: 'New', sofascore_id: 555 } }
+
+        expect(player.reload.name).to eq('Old')
+      end
+    end
+  end
+
   describe 'GET #show' do
     let(:player) { create(:player) }
 
@@ -92,6 +184,27 @@ RSpec.describe 'Manage::Players' do
 
       it 'displays player name' do
         expect(response.body).to include(CGI.escapeHTML(player.name))
+      end
+
+      it { expect(response.body).to include(edit_manage_player_path(player)) }
+      it { expect(response.body).to include(manage_round_players_path) }
+      it { expect(response.body).to include(I18n.t('manage.round_players.add')) }
+
+      context 'with a round player' do
+        let(:round) { create(:tournament_round, tournament: player.club.tournament, season: Season.last) }
+        let!(:round_player) { create(:round_player, player: player, tournament_round: round, club: player.club) }
+
+        before { get manage_player_path(player) }
+
+        it 'renders an edit link for each round player' do
+          expect(response.body).to include(edit_manage_round_player_path(round_player))
+        end
+      end
+
+      it 'renders in the ua locale' do
+        I18n.with_locale(:ua) { get manage_player_path(player) }
+
+        expect(response).to be_successful
       end
 
       context 'with club transfer history' do

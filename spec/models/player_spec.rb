@@ -144,6 +144,22 @@ RSpec.describe Player do
     end
   end
 
+  describe 'Normalizations' do
+    subject(:player) { create(:player, avatar_name: 'custom_avatar') }
+
+    it 'nullifies a blank avatar_name' do
+      player.update!(avatar_name: '   ')
+
+      expect(player.reload.avatar_name).to be_nil
+    end
+
+    it 'keeps path_name usable once avatar_name is cleared' do
+      player.update!(avatar_name: '')
+
+      expect(player.reload.path_name).to eq(player.full_name.downcase.tr(' ', '_'))
+    end
+  end
+
   describe '#path_name' do
     context 'with avatar_name' do
       let(:player_with_avatar_name) { create(:player, name: 'Suarez', avatar_name: 'suarez_uy') }

@@ -1,3 +1,17 @@
+/* live (in-progress) score indicator — expanding glow ring, no layout shift */
+@keyframes live-score-pulse {
+  0% { box-shadow: 0 0 0 0 rgba(18, 183, 106, 0.7); }
+  70% { box-shadow: 0 0 0 7px rgba(18, 183, 106, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(18, 183, 106, 0); }
+}
+
+/* live match, player yet to earn a rating — same pulse in orange */
+@keyframes live-pending-pulse {
+  0% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.7); }
+  70% { box-shadow: 0 0 0 7px rgba(245, 158, 11, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0); }
+}
+
 .page-info.match-page {
   height: 100%;
   padding: 0 0 0 272px;
@@ -463,6 +477,20 @@
             font-family: 'Nunito ExtraBold';
             text-align: right;
           }
+
+          /* live (in-progress) match — total shown as a green pill sized to the text and
+             pinned to the right edge of its column. */
+          &.team-player-scores--live {
+            .team-player-total-score {
+              justify-self: end;
+              padding: 1px 5px;
+              transform: translateX(5px); // offset the pill padding so the number lines up with final scores
+              border-radius: 8px;
+              color: #FFFFFF;
+              background-color: #12B76A;
+              animation: live-score-pulse 1.6s ease-in-out infinite;
+            }
+          }
         }
 
         .team-player-score-not-played {
@@ -471,6 +499,18 @@
           color: #DB0A23;
 
           a { color: #DB0A23; }
+        }
+
+        /* live match, player without a rating yet (e.g. on the bench) — pulsing orange dash */
+        .team-player-score-live-pending {
+          width: 36px;
+          margin-left: auto;
+          padding: 1px 0;
+          border-radius: 8px;
+          text-align: center;
+          color: #FFFFFF;
+          background-color: #F59E0B;
+          animation: live-pending-pulse 1.6s ease-in-out infinite;
         }
 
         .team-player-score-unspecified {

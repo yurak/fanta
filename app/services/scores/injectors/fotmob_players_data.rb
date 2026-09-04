@@ -3,6 +3,7 @@ module Scores
     class FotmobPlayersData < ApplicationService
       CARD_TYPE = 'Card'.freeze
       GOAL_TYPE = 'Goal'.freeze
+      SUBSTITUTION_TYPE = 'Substitution'.freeze
       PENALTY_KEY = 'penalty'.freeze
       RED_CARD = 'Red'.freeze
       YELLOW_CARD = 'Yellow'.freeze
@@ -68,8 +69,28 @@ module Scores
         cards_events = events_data.select { |event| event['type'] == CARD_TYPE }
         process_cards(hash, cards_events)
 
-        penalty_events = events_data.select { |event| event['type'] == GOAL_TYPE && event['goalDescriptionKey'] == PENALTY_KEY }
-        process_penalties(hash, penalty_events)
+        process_penalties(hash, penalty_goal_events)
+
+        substitution_events = events_data.select { |event| event['type'] == SUBSTITUTION_TYPE }
+        process_substitutions(hash, substitution_events)
+      end
+
+      def process_substitutions(hash, events)
+        events.each do |event_data|
+          swap = event_data['swap']
+          next unless swap
+
+          minute = event_data['time'].to_i + event_data['overloadTime'].to_i
+          assign_sub_minute(hash, swap[0], :sub_in_minute, minute)
+          assign_sub_minute(hash, swap[1], :sub_out_minute, minute)
+        end
+      end
+
+      def assign_sub_minute(hash, swap_player, key, minute)
+        player_id = swap_player && swap_player['id'].to_i
+        return unless player_id && hash[player_id]
+
+        hash[player_id][key] = minute
       end
 
       def process_cards(hash, events)
@@ -91,13 +112,19 @@ module Scores
           player_id = event_data['player']['id']
           next unless hash[player_id]
 
-          hash[player_id][:goals] -= 1
+          hash[player_id][:goals] = hash[player_id][:goals].to_i - 1
           hash[player_id][:scored_penalty] = hash[player_id][:scored_penalty].to_i + 1
         end
       end
 
+      def penalty_goal_events
+        events_data.select do |event|
+          event['type'] == GOAL_TYPE && event['goalDescriptionKey'] == PENALTY_KEY && !event['isPenaltyShootoutEvent']
+        end
+      end
+
       def player_name(player_data)
-        player_data.second['name'].lstrip.unicode_normalize(:nfd).gsub(/[^\x00-\x7F]/n, '').downcase
+        player_data.second['name'].lstrip.unicode_normalize(:nfd).gsub(/[^\x00-\x7F]/, '').downcase
       end
     end
   end

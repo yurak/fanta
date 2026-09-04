@@ -14,14 +14,18 @@ RSpec.describe ManageHelper do
     end
   end
 
-  describe '#tour_dashboard_moderated_at' do
-    it 'adds 18 hours and formats it in the admin time zone' do
+  describe '#tour_dashboard_closing_time' do
+    it 'formats the round closing time in the admin time zone' do
       # 20:30 UTC Dec 22 + 18h = 14:30 UTC Dec 23 => 16:30 Kyiv Dec 23
-      expect(helper.tour_dashboard_moderated_at(winter_evening)).to eq('16:30 23/12/26')
+      round = build(:tournament_round, moderated_at: winter_evening)
+
+      expect(helper.tour_dashboard_closing_time(round)).to eq('16:30 23/12/26')
     end
 
     it 'returns nil when not moderated yet' do
-      expect(helper.tour_dashboard_moderated_at(nil)).to be_nil
+      round = build(:tournament_round, moderated_at: nil)
+
+      expect(helper.tour_dashboard_closing_time(round)).to be_nil
     end
   end
 end

@@ -111,6 +111,29 @@ RSpec.describe Club do
     end
   end
 
+  describe '#match_by_round' do
+    let(:tournament_round) { create(:tournament_round) }
+    let(:club2) { create(:club, name: 'AC Milan') }
+
+    it 'returns the match when the club is host' do
+      match = create(:tournament_match, tournament_round: tournament_round, host_club: club, guest_club: club2)
+
+      expect(club.match_by_round(tournament_round)).to eq(match)
+    end
+
+    it 'returns the match when the club is guest' do
+      match = create(:tournament_match, tournament_round: tournament_round, host_club: club2, guest_club: club)
+
+      expect(club.match_by_round(tournament_round)).to eq(match)
+    end
+
+    it 'returns nil when the club does not play in the round' do
+      create(:tournament_match, tournament_round: tournament_round, host_club: club2, guest_club: create(:club))
+
+      expect(club.match_by_round(tournament_round)).to be_nil
+    end
+  end
+
   describe '#same_active_tournament_as?' do
     let(:tournament) { create(:tournament) }
 

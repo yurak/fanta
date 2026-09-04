@@ -21,9 +21,12 @@ class Player < ApplicationRecord
   TM_PATH = 'https://www.transfermarkt.com/player-path/profil/spieler/'.freeze
   NEWBIE_PERIOD = 3.months
 
+  normalizes :avatar_name, with: ->(avatar_name) { avatar_name.strip.presence }
+
   validates :name, presence: true
   validates :tm_id, uniqueness: true, allow_nil: true
   validates :fotmob_id, uniqueness: true, allow_nil: true
+  validates :sofascore_id, uniqueness: true, allow_nil: true
 
   delegate :kit_path, :profile_kit_path, to: :club
 

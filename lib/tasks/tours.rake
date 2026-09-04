@@ -47,6 +47,40 @@ namespace :tours do
     end
   end
 
+  # rake 'tours:live_inject'
+  desc 'Inject live scores for in-progress FotMob matches (live_scores_enabled tournaments)'
+  task live_inject: :environment do
+    # a slow/degraded FotMob can push one run past the 5-min cron interval; the lock stops a
+    # second run from re-processing the same rounds concurrently (same overlap guard as generate_lineups)
+    lock_file = Rails.root.join('tmp/live_inject.lock')
+    File.open(lock_file, File::RDWR | File::CREAT, 0o644) do |f|
+      unless f.flock(File::LOCK_EX | File::LOCK_NB)
+        puts 'tours:live_inject already running, skipping'
+        next
+      end
+
+      rounds  = TournamentRound.live_scores_candidates.to_a
+      budget  = Scores::ScrapeBudget.new
+      results = rounds.map { |t_round| Tours::LiveInjector.call(t_round, budget: budget) }
+
+      Scores::ScrapeAlert.call(
+        candidates: results.sum { |result| result[:candidates] },
+        with_data: results.sum { |result| result[:with_data] },
+        failures: results.sum { |result| result[:failures] },
+        tournaments: rounds.map { |t_round| t_round.tournament.name }.uniq
+      )
+    end
+  end
+
+  # rake 'tours:refresh_schedule'
+  desc 'Refresh kickoff times for open rounds (live_scores_enabled FotMob tournaments)'
+  task refresh_schedule: :environment do
+    budget = Scores::ScrapeBudget.new
+    TournamentRound.schedule_refresh_candidates.each do |t_round|
+      Tours::ScheduleRefresher.call(t_round, budget: budget)
+    end
+  end
+
   # rake 'tours:create_national[178]'
   desc 'Create tours for World Cup'
   task :create_national, [:league_id] => :environment do |_t, args|

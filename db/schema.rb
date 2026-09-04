@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_08_21_123225) do
+ActiveRecord::Schema[8.0].define(version: 2026_08_25_102016) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -280,6 +280,8 @@ ActiveRecord::Schema[8.0].define(version: 2026_08_21_123225) do
     t.datetime "updated_at", precision: nil, null: false
     t.string "page_url", default: "", null: false
     t.text "missed_players_data"
+    t.integer "status", default: 0, null: false
+    t.integer "live_minute"
     t.index ["tournament_round_id"], name: "index_national_matches_on_tournament_round_id"
   end
 
@@ -559,6 +561,8 @@ ActiveRecord::Schema[8.0].define(version: 2026_08_21_123225) do
     t.text "base_data"
     t.text "lineups_data"
     t.text "missed_players_data"
+    t.integer "status", default: 0, null: false
+    t.integer "live_minute"
     t.index ["guest_club_id"], name: "index_tournament_matches_on_guest_club_id"
     t.index ["host_club_id"], name: "index_tournament_matches_on_host_club_id"
     t.index ["tournament_round_id"], name: "index_tournament_matches_on_tournament_round_id"
@@ -573,6 +577,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_08_21_123225) do
     t.datetime "updated_at", precision: nil, null: false
     t.datetime "deadline", precision: nil
     t.datetime "moderated_at", precision: nil
+    t.datetime "schedule_refreshed_at"
     t.index ["season_id"], name: "index_tournament_rounds_on_season_id"
     t.index ["tournament_id"], name: "index_tournament_rounds_on_tournament_id"
   end
@@ -594,6 +599,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_08_21_123225) do
     t.integer "source", default: 0
     t.integer "mode", default: 0, null: false
     t.boolean "skip_round_check", default: false, null: false
+    t.boolean "live_scores_enabled", default: false, null: false
     t.index ["code"], name: "index_tournaments_on_code", unique: true
   end
 

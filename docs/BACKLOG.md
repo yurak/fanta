@@ -47,20 +47,23 @@ lower-risk early wins; the write-critical/real-time ones (lineup, auction) booke
    highest risk (real-time + money/squad-critical) → do LAST. Polling first, WebSocket later.
    ~2–3 weeks; server-authoritative bid validation + a live parity dry-run are mandatory.
 
-10. **Live scores & ratings** — see [LIVE_SCORES_PLAN.md](LIVE_SCORES_PLAN.md)
-    Not started. Independent of the React migration. Pull FotMob ratings + match result in live mode
-    (poll ~5 min while a match is in progress) instead of only at full time, and mark in-progress
-    matches on the tour page. Only the match-page scrape works (the JSON API is IP-blocked); relax the
-    `match_finished?` gate + a scoped 5-min scheduler + a match `status` column. ~2–4 days; main risk
-    is scrape stability (degrades to "final only").
+10. **"New" filter on the Players page**
+    A boolean filter showing only `newbie?` players (auto-computed: joined current club within
+    `Player::NEWBIE_PERIOD` = 3 months). The concept already exists end-to-end (`Player#newbie?`,
+    serialized as `newbie`, rendered as the "NEW" badge) — only the filter wiring is missing. Mirror the
+    existing `without_team` boolean filter: permit `:newbie` in `Api::PlayersController#filter_params` +
+    a `filter_by_newbie` step in `Players::Query`; add `newbie` to the React `IFilter`
+    (context/constants/helpers/URL-encode) + a checkbox in `PlayersFilters` and `PlayersFiltersDrawer`.
+    No `package.json` bump (response shape unchanged). Gotcha: `newbie?` is Ruby-computed from
+    `club_transfers` (no SQL column), so start with an in-memory `select(&:newbie?)` (Kaminari already
+    paginates arrays; preload `club_transfers` before slicing to avoid N+1); move to a SQL scope only if
+    the full-list perf becomes a problem. ~0.5–1 day.
 
 ## No detailed plan yet
 
-- **Rework of the drop / out-transfers pages** — UI redesign.
 - **Player statuses** (injury / suspension / doubtful) shown when setting a lineup.
 - **xPoints after tour close** — expected points of a squad, computed after `tour.close!`.
 - **Player wishlists** (watchlist) — save players into watch lists. Basis for auto-bidding in the 2nd+ auction.
-- **Player form** on the match page (last N matches / ratings).
 - **Auto-bid in 2nd+ auction** from the wishlist _(depends on wishlists)_.
 - **Reorder the user's teams** — in user settings, let the user drag-and-drop their list of teams to
   set a custom order; persist it and render the teams in that order in the left-nav menu.

@@ -11,7 +11,23 @@ RSpec.describe Scores::Injectors::Fotmob do
 
       it 'delegates to FotmobMatch' do
         injector.call
-        expect(Scores::Injectors::FotmobMatch).to have_received(:call).with(match)
+        expect(Scores::Injectors::FotmobMatch).to have_received(:call)
+          .with(match, budget: instance_of(Scores::ScrapeBudget))
+      end
+    end
+
+    context 'with several matches' do
+      let(:budgets) { [] }
+
+      before do
+        create(:tournament_match, tournament_round: tournament_round, page_url: '/match/1')
+        create(:tournament_match, tournament_round: tournament_round, page_url: '/match/2')
+        allow(Scores::Injectors::FotmobMatch).to receive(:call) { |*, **kwargs| budgets << kwargs[:budget] }
+        injector.call
+      end
+
+      it 'shares one retry budget across the round' do
+        expect(budgets.uniq.size).to eq(1)
       end
     end
 

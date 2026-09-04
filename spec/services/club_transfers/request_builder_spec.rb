@@ -120,6 +120,67 @@ RSpec.describe ClubTransfers::RequestBuilder do
       it { expect { described_class.call(player) }.not_to change(ClubTransferRequest, :count) }
     end
 
+    context 'when a confirmed request never landed the player in the new club' do
+      let!(:request) do
+        create(:club_transfer_request, player: player, tm_transfer_id: 100, new_club: new_club,
+                                       new_club_name: new_club.name, status: :confirmed)
+      end
+
+      before { transfer(new_club: new_club, new_club_name: new_club.name) }
+
+      it 'reopens it instead of staying silent' do
+        described_class.call(player)
+
+        expect(request.reload.status).to eq('pending')
+      end
+
+      it 'does not pile up a second request' do
+        expect { described_class.call(player) }.not_to change(ClubTransferRequest, :count)
+      end
+
+      it 'refreshes the club the player is coming from' do
+        described_class.call(player)
+
+        expect(request.reload.old_club_id).to eq(current_club.id)
+      end
+    end
+
+    context 'when the confirmed request did land the player in the new club' do
+      let(:player) { create(:player, club: new_club) }
+
+      let!(:request) do
+        create(:club_transfer_request, player: player, tm_transfer_id: 100, new_club: new_club,
+                                       new_club_name: new_club.name, status: :confirmed)
+      end
+
+      before { transfer(new_club: new_club, new_club_name: new_club.name) }
+
+      it 'leaves it alone' do
+        described_class.call(player)
+
+        expect(request.reload.status).to eq('confirmed')
+      end
+    end
+
+    context 'when the request was rejected by a moderator' do
+      let!(:request) do
+        create(:club_transfer_request, player: player, tm_transfer_id: 100, new_club: new_club,
+                                       new_club_name: new_club.name, status: :rejected)
+      end
+
+      before { transfer(new_club: new_club, new_club_name: new_club.name) }
+
+      it 'respects the decision' do
+        described_class.call(player)
+
+        expect(request.reload.status).to eq('rejected')
+      end
+
+      it 'creates nothing new' do
+        expect { described_class.call(player) }.not_to change(ClubTransferRequest, :count)
+      end
+    end
+
     context 'when the player has no imported transfers' do
       it { expect(described_class.call(player)).to be_nil }
     end

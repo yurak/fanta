@@ -24,6 +24,7 @@ module ManageHelper
       ['manage/club_transfers', manage_club_transfers_path, 'icons/round/transfer.svg', 'manage.nav.club_transfers'],
       ['manage/club_transfer_requests', manage_club_transfer_requests_path, 'icons/round/request.svg',
        'manage.nav.club_transfer_requests'],
+      ['manage/tournaments', manage_tournaments_path, 'icons/round/statistics.svg', 'manage.nav.tournaments'],
       ['manage/national_teams', manage_national_teams_path, 'icons/round/teams.svg', 'manage.nav.national_teams'],
       ['manage/weekly_teams', manage_weekly_teams_path, 'icons/round/star.svg', 'manage.nav.weekly_team'],
       ['manage/champions', manage_champions_path, 'icons/round/crown.svg', 'manage.nav.champions']
@@ -35,11 +36,11 @@ module ManageHelper
     current_user.local_time(deadline, '%H:%M %d/%m/%y') || '--:--'
   end
 
-  # moderation time + 18h (when the round actually opens) in the admin's local time,
-  # or nil when the round has not been moderated yet
-  def tour_dashboard_moderated_at(moderated_at)
-    return unless moderated_at
+  # when the round auto-closes (moderation time + TournamentRound::MODERATED_HOURS) in the admin's
+  # local time, or nil when the round has not been moderated yet
+  def tour_dashboard_closing_time(round)
+    return unless round.closing_time
 
-    current_user.local_time(moderated_at + 18.hours, '%H:%M %d/%m/%y')
+    current_user.local_time(round.closing_time, '%H:%M %d/%m/%y')
   end
 end

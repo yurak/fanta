@@ -10,6 +10,23 @@ RSpec.describe TournamentRound do
     it { is_expected.to have_many(:tours).dependent(:destroy) }
   end
 
+  describe '#matches' do
+    it 'returns the tournament matches for a club tournament' do
+      round = create(:tournament_round)
+      match = create(:tournament_match, tournament_round: round)
+
+      expect(round.matches).to contain_exactly(match)
+    end
+
+    it 'returns the national matches for a national tournament' do
+      national_team = create(:national_team)
+      round = create(:tournament_round, tournament: national_team.tournament)
+      match = create(:national_match, tournament_round: round)
+
+      expect(round.matches).to contain_exactly(match)
+    end
+  end
+
   describe '#eurocup_players' do
     context 'when tournament is not eurocup' do
       it 'returns empty array' do
@@ -228,6 +245,98 @@ RSpec.describe TournamentRound do
 
     it 'orders by kickoff time' do
       expect(tournament_round.ordered_national_matches).to eq([early, late])
+    end
+  end
+
+  describe '.live_scores_candidates' do
+    def round_with_tour(source:, live:, tour_status:)
+      tournament = create(:tournament, source: source, live_scores_enabled: live)
+      round = create(:tournament_round, tournament: tournament)
+      create(:tour, league: create(:league, tournament: tournament), tournament_round: round, status: tour_status)
+      round
+    end
+
+    it 'includes a live-enabled FotMob round with a locked tour' do
+      round = round_with_tour(source: :fotmob, live: true, tour_status: :locked)
+
+      expect(described_class.live_scores_candidates).to include(round)
+    end
+
+    it 'excludes rounds of tournaments without the live flag' do
+      round_with_tour(source: :fotmob, live: false, tour_status: :locked)
+
+      expect(described_class.live_scores_candidates).to be_empty
+    end
+
+    it 'excludes non-FotMob tournaments' do
+      round_with_tour(source: :sofascore, live: true, tour_status: :locked)
+
+      expect(described_class.live_scores_candidates).to be_empty
+    end
+
+    it 'includes a round with a postponed tour (rescheduled, matches still played)' do
+      round = round_with_tour(source: :fotmob, live: true, tour_status: :postponed)
+
+      expect(described_class.live_scores_candidates).to include(round)
+    end
+
+    it 'excludes rounds whose tour is still set_lineup (matches not started)' do
+      round_with_tour(source: :fotmob, live: true, tour_status: :set_lineup)
+
+      expect(described_class.live_scores_candidates).to be_empty
+    end
+  end
+
+  describe '.schedule_refresh_candidates' do
+    def round_with_tour(source:, live:, tour_status:)
+      tournament = create(:tournament, source: source, live_scores_enabled: live)
+      round = create(:tournament_round, tournament: tournament)
+      create(:tour, league: create(:league, tournament: tournament), tournament_round: round, status: tour_status)
+      round
+    end
+
+    it 'includes a live-enabled FotMob round with a set_lineup tour' do
+      round = round_with_tour(source: :fotmob, live: true, tour_status: :set_lineup)
+
+      expect(described_class.schedule_refresh_candidates).to include(round)
+    end
+
+    it 'includes a live-enabled FotMob round with a locked tour' do
+      round = round_with_tour(source: :fotmob, live: true, tour_status: :locked)
+
+      expect(described_class.schedule_refresh_candidates).to include(round)
+    end
+
+    it 'includes a live-enabled FotMob round with a postponed tour' do
+      round = round_with_tour(source: :fotmob, live: true, tour_status: :postponed)
+
+      expect(described_class.schedule_refresh_candidates).to include(round)
+    end
+
+    it 'excludes rounds whose tour is inactive' do
+      round_with_tour(source: :fotmob, live: true, tour_status: :inactive)
+
+      expect(described_class.schedule_refresh_candidates).to be_empty
+    end
+
+    it 'excludes tournaments without the live flag' do
+      round_with_tour(source: :fotmob, live: false, tour_status: :set_lineup)
+
+      expect(described_class.schedule_refresh_candidates).to be_empty
+    end
+
+    it 'excludes rounds refreshed within the last day' do
+      round = round_with_tour(source: :fotmob, live: true, tour_status: :set_lineup)
+      round.update!(schedule_refreshed_at: 2.hours.ago)
+
+      expect(described_class.schedule_refresh_candidates).to be_empty
+    end
+
+    it 'includes rounds refreshed more than a day ago' do
+      round = round_with_tour(source: :fotmob, live: true, tour_status: :set_lineup)
+      round.update!(schedule_refreshed_at: 2.days.ago)
+
+      expect(described_class.schedule_refresh_candidates).to include(round)
     end
   end
 end
