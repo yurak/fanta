@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         MantraFootball — SofaScore round importer
 // @namespace    mantrafootball
-// @version      1.0.0
-// @description  Fetches SofaScore event + lineups JSON from the browser and sends a whole round to MantraFootball (bypasses the server-side block).
+// @version      1.1.0
+// @description  Fetches SofaScore event + lineups + incidents JSON from the browser and sends a whole round to MantraFootball (bypasses the server-side block).
 // @match        https://www.sofascore.com/*
 // @connect      api.sofascore.com
 // @connect      mantrafootball.org
@@ -20,8 +20,13 @@
  * Use (per round):
  *   Open any sofascore.com page, click the "⚽ Import round → Mantra" button,
  *   enter the Mantra tournament_round id. The script asks Mantra which SofaScore
- *   event ids belong to that round, fetches each event + lineups from your
- *   browser, posts them back, and Mantra injects the scores automatically.
+ *   event ids belong to that round, fetches each event + lineups + incidents from
+ *   your browser, posts them back, and Mantra injects the scores automatically.
+ *
+ * What each endpoint gives Mantra:
+ *   event     — final score and whether the match is finished
+ *   lineups   — per-player minutes, rating, goals, assists, saves, penalty stats
+ *   incidents — cards and which goals came from the spot
  */
 
 const MANTRA_BASE = "https://mantrafootball.org";
@@ -61,15 +66,32 @@ async function roundSofaIds(roundId) {
   return JSON.parse(res.responseText).data;
 }
 
+async function fetchOptionalText(url) {
+  // Incidents are missing on some events (abandoned, not yet played). Mantra treats the field as
+  // optional, so a failure here must not cost us the scores the other two endpoints already gave.
+  try {
+    return await fetchText(url);
+  } catch (e) {
+    console.warn(`Mantra importer: no incidents for ${url} (${e.message})`);
+    return null;
+  }
+}
+
 async function importMatch(sofaId) {
   const baseData = await fetchText(`${SOFA_API}/${sofaId}`);
   const lineupsData = await fetchText(`${SOFA_API}/${sofaId}/lineups`);
+  const incidentsData = await fetchOptionalText(`${SOFA_API}/${sofaId}/incidents`);
 
   const res = await gmRequest({
     method: "POST",
     url: `${MANTRA_BASE}/api/sofascore/matches`,
     headers: { "X-Ingest-Token": INGEST_TOKEN, "Content-Type": "application/json" },
-    data: JSON.stringify({ sofascore_id: sofaId, base_data: baseData, lineups_data: lineupsData }),
+    data: JSON.stringify({
+      sofascore_id: sofaId,
+      base_data: baseData,
+      lineups_data: lineupsData,
+      incidents_data: incidentsData,
+    }),
   });
   return { sofaId, status: res.status, body: res.responseText };
 }

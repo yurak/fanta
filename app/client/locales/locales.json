@@ -1920,8 +1920,8 @@
           "rejected": "❌ Your uploaded logo was rejected by a moderator. Try uploading a different image.\n\n#logo"
         },
         "player": {
-          "club_changed": "%{icon} %{player_name} from %{team_name} moved to %{new_club_name} within %{tournament_name} tournament.\n✅ He stays in your squad.\n\n#player #%{code}",
-          "left": "%{icon} %{player_name} from %{team_name} left %{tournament_name} tournament.\n💵 You will be able to replace him at the next auction.\n\n#player #%{code}"
+          "club_changed": "%{icon} %{player_name} (team %{team_name}) moved from %{old_club_name} to %{new_club_name} within %{tournament_name} tournament.\n✅ He stays in your squad.\n\n#player #%{code}",
+          "left": "%{icon} %{player_name} (team %{team_name}) left %{tournament_name} tournament.\n💵 You will be able to replace him at the next auction.\n\n#player #%{code}"
         },
         "tour": {
           "closed": "%{icon} Round #%{number} of %{league_name} League has been closed.\n🔴 You can check the final results here - %{url}\n\n#tour #%{code}",
@@ -4183,8 +4183,8 @@
           "rejected": "❌ Ваше завантажене лого відхилено модератором. Спробуйте завантажити інше зображення.\n\n#logo"
         },
         "player": {
-          "club_changed": "%{icon} %{player_name} з команди %{team_name} перейшов у %{new_club_name} в межах чемпіонату %{tournament_name}.\n✅ Гравець залишається у вашому складі.\n\n#player #%{code}",
-          "left": "%{icon} %{player_name} з команди %{team_name} покинув чемпіонат %{tournament_name}.\n💵 Ви зможете замінити його на наступному аукціоні.\n\n#player #%{code}"
+          "club_changed": "%{icon} %{player_name} (команда %{team_name}) перейшов з %{old_club_name} у %{new_club_name} в межах чемпіонату %{tournament_name}.\n✅ Гравець залишається у вашому складі.\n\n#player #%{code}",
+          "left": "%{icon} %{player_name} (команда %{team_name}) покинув чемпіонат %{tournament_name}.\n💵 Ви зможете замінити його на наступному аукціоні.\n\n#player #%{code}"
         },
         "tour": {
           "closed": "%{icon} Раунд #%{number} ліги %{league_name} закрито.\n🔴 Ви можете перевірити остаточні результати тут - %{url}\n\n#tour #%{code}",

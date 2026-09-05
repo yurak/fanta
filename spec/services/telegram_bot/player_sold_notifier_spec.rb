@@ -86,6 +86,26 @@ RSpec.describe TelegramBot::PlayerSoldNotifier do
       end
     end
 
+    context 'with the real translation' do
+      let(:user) { create(:user, locale: :en) }
+      let(:team) { create(:team, league: league, user: user, human_name: 'Dream Team') }
+
+      before { allow(TelegramBot::Sender).to receive(:call) }
+
+      it 'names the player and his team' do
+        service_call
+
+        expect(TelegramBot::Sender).to have_received(:call)
+          .with(user, a_string_including('Lionel Messi (team Dream Team) left Premier League tournament'))
+      end
+
+      it 'keeps the hashtag footer' do
+        service_call
+
+        expect(TelegramBot::Sender).to have_received(:call).with(user, a_string_including('#player #epl'))
+      end
+    end
+
     def expect_translation_call(locale:)
       expect(I18n).to have_received(:t).with(
         'telegram.notifier.player.left',

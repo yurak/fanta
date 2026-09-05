@@ -111,7 +111,7 @@ module Scores
       end
 
       def live_played_minutes(data)
-        return 0 if @run_mode == :live
+        return 0 if match_live?
 
         stat_value(data, :played_minutes)
       end
@@ -145,7 +145,7 @@ module Scores
       end
 
       def players_data_ready?
-        return players_hash.values.any? { |data| data[:rating].to_f.positive? } if @run_mode == :live
+        return players_hash.values.any? { |data| data[:rating].to_f.positive? } if match_live?
 
         players_hash.values.any? { |data| data[:played_minutes].to_i.positive? }
       end

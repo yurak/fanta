@@ -26,6 +26,7 @@ module TelegramBot
         icon: tournament.icon,
         player_name: player.full_name,
         team_name: team.human_name,
+        old_club_name: player.club&.name,
         new_club_name: new_club.name,
         tournament_name: tournament.name,
         code: tournament.code

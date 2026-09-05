@@ -161,6 +161,51 @@ RSpec.describe Scores::Injectors::FotmobMatch do
         injector.call
         expect(Audit::CsvWriter).to have_received(:call)
       end
+
+      # the pass that first sees full time is the only one live_inject will ever run on this match:
+      # afterwards the match is `finished` and drops out of the live scope, so it has to write
+      # everything now instead of leaving zeros for the moderated pass hours later
+      context 'with a round player of the home club' do
+        let(:finished_status) do
+          { 'started' => true, 'finished' => true, 'awarded' => false, 'scoreStr' => '2 - 0' }
+        end
+        let(:player) { create(:player, :with_pos_dc, fotmob_id: 123, club: match.host_club) }
+        let!(:round_player) { create(:round_player, player: player, tournament_round: match.tournament_round) }
+
+        before { injector.call }
+
+        it 'stores the real played minutes instead of the live placeholder' do
+          expect(round_player.reload.played_minutes).to eq(90)
+        end
+
+        it 'awards the cleansheet the live pass had to defer' do
+          expect(round_player.reload.cleansheet).to be(true)
+        end
+      end
+    end
+
+    context 'when run_mode is :live and the match is finished without published stats' do
+      let(:injector) { described_class.new(match, run_mode: :live) }
+      let(:player) { create(:player, :with_pos_dc, fotmob_id: 123, club: match.host_club) }
+      let!(:round_player) { create(:round_player, player: player, tournament_round: match.tournament_round) }
+
+      before do
+        # FotMob calls it full time but has not published the minutes yet
+        allow(Scores::Injectors::FotmobPlayersData).to receive(:call).and_return(123 => { rating: 7.5, played_minutes: 0 })
+        injector.call
+      end
+
+      it 'leaves the match live so the next pass picks it up again' do
+        expect(match.reload).not_to be_finished
+      end
+
+      it 'writes no half-finished row' do
+        expect(round_player.reload.played_minutes).to eq(0)
+      end
+
+      it 'awards no cleansheet on missing data' do
+        expect(round_player.reload.cleansheet).to be(false)
+      end
     end
 
     context 'when run_mode is :schedule' do
@@ -347,6 +392,10 @@ RSpec.describe Scores::Injectors::FotmobMatch do
       let(:injector) { described_class.new(match, run_mode: :live) }
 
       context 'when a player has a rating but no minutes yet (live match)' do
+        let(:finished_status) do
+          { 'started' => true, 'finished' => false, 'awarded' => false, 'scoreStr' => '1 - 0' }
+        end
+
         before do
           allow(Scores::Injectors::FotmobPlayersData).to receive(:call).and_return(
             101 => { rating: 7.2, played_minutes: 0 }
@@ -505,8 +554,11 @@ RSpec.describe Scores::Injectors::FotmobMatch do
       expect(hash[:in_squad]).to be true
     end
 
-    context 'when in live mode' do
+    context 'when the match is still being played' do
       let(:injector) { described_class.new(match, run_mode: :live) }
+      let(:finished_status) do
+        { 'started' => true, 'finished' => false, 'awarded' => false, 'scoreStr' => '1 - 0' }
+      end
 
       it 'forces played_minutes to 0' do
         expect(hash[:played_minutes]).to eq(0)
