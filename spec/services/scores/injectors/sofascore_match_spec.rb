@@ -208,7 +208,7 @@ RSpec.describe Scores::Injectors::SofascoreMatch do
     context 'with a penalty goal' do
       let(:incidents_json) do
         { 'incidents' => [
-          { 'incidentType' => 'goal', 'incidentClass' => 'penalty', 'isHome' => false,
+          { 'incidentType' => 'goal', 'incidentClass' => 'penalty', 'isHome' => false, 'time' => 30,
             'player' => { 'id' => 200 } }
         ] }.to_json
       end
@@ -235,7 +235,7 @@ RSpec.describe Scores::Injectors::SofascoreMatch do
     context 'with a regular goal' do
       let(:incidents_json) do
         { 'incidents' => [
-          { 'incidentType' => 'goal', 'incidentClass' => 'regular', 'isHome' => false,
+          { 'incidentType' => 'goal', 'incidentClass' => 'regular', 'isHome' => false, 'time' => 30,
             'player' => { 'id' => 200 } }
         ] }.to_json
       end
@@ -357,6 +357,104 @@ RSpec.describe Scores::Injectors::SofascoreMatch do
 
         it 'takes the cleansheet away' do
           expect(keeper_rp.reload.cleansheet).to be(false)
+        end
+      end
+    end
+
+    context 'when the side changed keepers' do
+      let(:lineups_json) do
+        {
+          'home' => {
+            'players' => [
+              { 'player' => { 'id' => 100, 'name' => 'First' },
+                'statistics' => { 'minutesPlayed' => 51, 'rating' => 6.0, 'goals' => 0, 'goalAssist' => 0,
+                                  'ownGoals' => 0, 'saves' => 2 } },
+              { 'player' => { 'id' => 300, 'name' => 'Second' },
+                'statistics' => { 'minutesPlayed' => 39, 'rating' => 6.0, 'goals' => 0, 'goalAssist' => 0,
+                                  'ownGoals' => 0, 'saves' => 1 } }
+            ]
+          },
+          'away' => { 'players' => [] }
+        }.to_json
+      end
+
+      let!(:keeper_rp) do
+        create(:round_player, tournament_round: match.tournament_round,
+                              player: create(:player, :with_pos_por, sofascore_id: 100, club: match.host_club))
+      end
+      let!(:scorer_rp) do
+        create(:round_player, tournament_round: match.tournament_round,
+                              player: create(:player, :with_pos_por, sofascore_id: 300, club: match.host_club))
+      end
+
+      let(:incidents_json) do
+        { 'incidents' => [
+          { 'incidentType' => 'goal', 'incidentClass' => 'regular', 'isHome' => false, 'time' => 14,
+            'player' => { 'id' => 900 } },
+          { 'incidentType' => 'goal', 'incidentClass' => 'regular', 'isHome' => false, 'time' => 55,
+            'player' => { 'id' => 900 } },
+          { 'incidentType' => 'goal', 'incidentClass' => 'regular', 'isHome' => false, 'time' => 64,
+            'player' => { 'id' => 900 } },
+          { 'incidentType' => 'substitution', 'time' => 51, 'isHome' => true,
+            'playerIn' => { 'id' => 300 }, 'playerOut' => { 'id' => 100 } }
+        ] }.to_json
+      end
+
+      let(:finished_event_data) do
+        {
+          'event' => {
+            'status' => { 'type' => 'finished' }, 'hasEventPlayerStatistics' => true,
+            'homeScore' => { 'display' => 0 }, 'awayScore' => { 'display' => 3 }
+          }
+        }.to_json
+      end
+
+      before { injector.call }
+
+      it 'charges the keeper who started only for the goal before the change' do
+        expect(keeper_rp.reload.missed_goals).to eq(1)
+      end
+
+      it 'charges the keeper who came on only for the goals after it' do
+        expect(scorer_rp.reload.missed_goals).to eq(2)
+      end
+
+      context 'without incidents to time the goals' do
+        let(:incidents_json) { nil }
+
+        it 'falls back to the team total for the starter' do
+          expect(keeper_rp.reload.missed_goals).to eq(3)
+        end
+
+        it 'falls back to the team total for the substitute' do
+          expect(scorer_rp.reload.missed_goals).to eq(3)
+        end
+      end
+
+      context 'when one of the goals came from the spot' do
+        let(:incidents_json) do
+          { 'incidents' => [
+            { 'incidentType' => 'goal', 'incidentClass' => 'regular', 'isHome' => false, 'time' => 14,
+              'player' => { 'id' => 900 } },
+            { 'incidentType' => 'goal', 'incidentClass' => 'penalty', 'isHome' => false, 'time' => 55,
+              'player' => { 'id' => 900 } },
+            { 'incidentType' => 'goal', 'incidentClass' => 'regular', 'isHome' => false, 'time' => 64,
+              'player' => { 'id' => 900 } },
+            { 'incidentType' => 'substitution', 'time' => 51, 'isHome' => true,
+              'playerIn' => { 'id' => 300 }, 'playerOut' => { 'id' => 100 } }
+          ] }.to_json
+        end
+
+        it 'gives the penalty to the keeper who was on the pitch for it' do
+          expect(scorer_rp.reload.missed_penalty).to eq(1)
+        end
+
+        it 'leaves the starter out of it' do
+          expect(keeper_rp.reload.missed_penalty).to eq(0)
+        end
+
+        it 'counts the rest as regular goals for him' do
+          expect(scorer_rp.reload.missed_goals).to eq(1)
         end
       end
     end
@@ -594,17 +692,17 @@ RSpec.describe Scores::Injectors::SofascoreMatch do
     context 'when player is in the hash' do
       it 'updates round_player' do
         expect do
-          injector.send(:update_round_player, round_player, team_hash, { total: 0, penalties: 0 })
+          injector.send(:update_round_player, round_player, team_hash, { total: 0, minutes: [], penalty_minutes: [] })
         end.to(change { round_player.reload.updated_at })
       end
 
       it 'marks player as in_squad' do
-        injector.send(:update_round_player, round_player, team_hash, { total: 0, penalties: 0 })
+        injector.send(:update_round_player, round_player, team_hash, { total: 0, minutes: [], penalty_minutes: [] })
         expect(round_player.reload.in_squad).to be true
       end
 
       it 'removes player from hash' do
-        injector.send(:update_round_player, round_player, team_hash, { total: 0, penalties: 0 })
+        injector.send(:update_round_player, round_player, team_hash, { total: 0, minutes: [], penalty_minutes: [] })
         expect(team_hash).not_to have_key(100)
       end
     end
@@ -613,17 +711,17 @@ RSpec.describe Scores::Injectors::SofascoreMatch do
       before { round_player.update(manual_lock: true) }
 
       it 'marks player as in_squad' do
-        injector.send(:update_round_player, round_player, team_hash, { total: 0, penalties: 0 })
+        injector.send(:update_round_player, round_player, team_hash, { total: 0, minutes: [], penalty_minutes: [] })
         expect(round_player.reload.in_squad).to be true
       end
 
       it 'updates score' do
-        injector.send(:update_round_player, round_player, team_hash, { total: 0, penalties: 0 })
+        injector.send(:update_round_player, round_player, team_hash, { total: 0, minutes: [], penalty_minutes: [] })
         expect(round_player.reload.score).to eq(7.5)
       end
 
       it 'does not update other stats' do
-        injector.send(:update_round_player, round_player, team_hash, { total: 0, penalties: 0 })
+        injector.send(:update_round_player, round_player, team_hash, { total: 0, minutes: [], penalty_minutes: [] })
         expect(round_player.reload.goals).to eq(0)
       end
     end
@@ -638,13 +736,13 @@ RSpec.describe Scores::Injectors::SofascoreMatch do
       end
 
       it 'marks player as in_squad' do
-        injector.send(:update_round_player, round_player, team_hash, { total: 0, penalties: 0 })
+        injector.send(:update_round_player, round_player, team_hash, { total: 0, minutes: [], penalty_minutes: [] })
         expect(round_player.reload.in_squad).to be true
       end
 
       it 'does not update score' do
         expect do
-          injector.send(:update_round_player, round_player, team_hash, { total: 0, penalties: 0 })
+          injector.send(:update_round_player, round_player, team_hash, { total: 0, minutes: [], penalty_minutes: [] })
         end.not_to(change { round_player.reload.score })
       end
     end
@@ -655,12 +753,12 @@ RSpec.describe Scores::Injectors::SofascoreMatch do
 
       it 'does nothing' do
         expect do
-          injector.send(:update_round_player, round_player, team_hash, { total: 0, penalties: 0 })
+          injector.send(:update_round_player, round_player, team_hash, { total: 0, minutes: [], penalty_minutes: [] })
         end.not_to(change { round_player.reload.score })
       end
 
       it 'does not mark as in_squad' do
-        injector.send(:update_round_player, round_player, team_hash, { total: 0, penalties: 0 })
+        injector.send(:update_round_player, round_player, team_hash, { total: 0, minutes: [], penalty_minutes: [] })
         expect(round_player.reload.in_squad).to be false
       end
     end
@@ -691,7 +789,7 @@ RSpec.describe Scores::Injectors::SofascoreMatch do
   end
 
   describe '#full_player_hash' do
-    subject(:hash) { injector.send(:full_player_hash, round_player, player_data, { total: 0, penalties: 0 }) }
+    subject(:hash) { injector.send(:full_player_hash, round_player, player_data, { total: 0, minutes: [], penalty_minutes: [] }) }
 
     let(:round_player) { create(:round_player, :with_pos_por) }
     let(:player_data) { { rating: 7.0, played_minutes: 90, goals: 0, assists: 1, own_goals: 0, saves: 4 } }
@@ -709,25 +807,26 @@ RSpec.describe Scores::Injectors::SofascoreMatch do
     end
 
     it 'includes missed_goals (goalkeeper gets team count)' do
-      hash_with_goals = injector.send(:full_player_hash, round_player, player_data, { total: 2, penalties: 0 })
+      hash_with_goals = injector.send(:full_player_hash, round_player, player_data, { total: 2, minutes: [], penalty_minutes: [] })
       expect(hash_with_goals[:missed_goals]).to eq(2)
     end
 
     it 'splits a conceded penalty out of the goals the keeper let in' do
-      conceded = injector.send(:full_player_hash, round_player, player_data, { total: 2, penalties: 1 })
+      conceded = injector.send(:full_player_hash, round_player, player_data,
+                               { total: 2, minutes: [30, 60], penalty_minutes: [60] })
       expect(conceded).to include(missed_goals: 1, missed_penalty: 1)
     end
 
     it 'falls back to the plain rule when the match has no incidents to time the goals with' do
       subbed = { rating: 7.0, played_minutes: 70, goals: 0, assists: 0, own_goals: 0, saves: 0 }
-      hash = injector.send(:full_player_hash, round_player, subbed, { total: 1, penalties: 0, minutes: [] })
+      hash = injector.send(:full_player_hash, round_player, subbed, { total: 1, minutes: [], penalty_minutes: [] })
 
       expect(hash[:cleansheet]).to be(false)
     end
 
     it 'ignores minutes that do not account for every goal the side let in' do
       subbed = { rating: 7.0, played_minutes: 70, goals: 0, assists: 0, own_goals: 0, saves: 0 }
-      hash = injector.send(:full_player_hash, round_player, subbed, { total: 2, penalties: 0, minutes: [85] })
+      hash = injector.send(:full_player_hash, round_player, subbed, { total: 2, minutes: [85], penalty_minutes: [] })
 
       expect(hash[:cleansheet]).to be(false)
     end

@@ -36,8 +36,8 @@ module Scores
       def conceded_for(home:)
         {
           total: home ? guest_result : host_result,
-          penalties: penalty_goals_conceded_by(home: home),
-          minutes: goal_minutes_conceded_by(home: home)
+          minutes: goal_minutes_conceded_by(home: home),
+          penalty_minutes: penalty_minutes_conceded_by(home: home)
         }
       end
 
@@ -55,14 +55,15 @@ module Scores
       def full_player_hash(round_player, data, conceded)
         sofascore_id = data[:sofascore_id]
         scored_penalty = penalty_goals[sofascore_id].to_i
-        missed_penalty = missed_penalty_for(round_player, conceded)
+        window = keeper_window(data)
+        missed_penalty = missed_penalty_for(round_player, conceded, window)
         {
           score: rating(data), goals: goals_without_penalties(data, scored_penalty),
           assists: stat_value(data, :assists),
           cleansheet: cleansheet?(round_player, conceded[:total].to_i, data[:played_minutes],
                                   timing: cleansheet_timing(data, conceded)),
           own_goals: stat_value(data, :own_goals), saves: stat_value(data, :saves),
-          missed_goals: missed_goals(round_player, conceded[:total].to_i) - missed_penalty,
+          missed_goals: missed_goals_for(round_player, conceded, window) - missed_penalty,
           missed_penalty: missed_penalty, scored_penalty: scored_penalty,
           caught_penalty: stat_value(data, :caught_penalty), failed_penalty: stat_value(data, :failed_penalty),
           conceded_penalty: stat_value(data, :conceded_penalty), penalties_won: stat_value(data, :penalties_won),
@@ -73,20 +74,43 @@ module Scores
       end
 
       def cleansheet_timing(data, conceded)
-        minutes = conceded[:minutes]
-        return nil unless minutes && minutes.size == conceded[:total].to_i
+        return nil unless timed?(conceded)
 
         substitution = substitutions[data[:sofascore_id]] || {}
         { on_minute: substitution[:on_minute], off_minute: substitution[:off_minute],
-          conceded_minutes: minutes }
+          conceded_minutes: conceded[:minutes] }
+      end
+
+      def timed?(conceded)
+        minutes = conceded[:minutes]
+        minutes.present? && minutes.size == conceded[:total].to_i
       end
 
       def goals_without_penalties(data, scored_penalty)
         [stat_value(data, :goals).to_i - scored_penalty, 0].max
       end
 
-      def missed_penalty_for(round_player, conceded)
-        [conceded[:penalties], missed_goals(round_player, conceded[:total].to_i)].min
+      def missed_goals_for(round_player, conceded, window)
+        return 0 unless round_player.position_names.include?(Position::GOALKEEPER)
+        return conceded[:total].to_i unless timed?(conceded)
+
+        goals_in_window(conceded[:minutes], window)
+      end
+
+      def missed_penalty_for(round_player, conceded, window)
+        return 0 unless round_player.position_names.include?(Position::GOALKEEPER)
+        return [conceded[:penalty_minutes].to_a.size, conceded[:total].to_i].min unless timed?(conceded)
+
+        goals_in_window(conceded[:penalty_minutes], window)
+      end
+
+      def goals_in_window(minutes, window)
+        minutes.to_a.count { |minute| minute > window[:on] && minute <= window[:off] }
+      end
+
+      def keeper_window(data)
+        substitution = substitutions[data[:sofascore_id]] || {}
+        { on: substitution[:on_minute].to_i, off: substitution[:off_minute] || Float::INFINITY }
       end
 
       def rating(player_data)
@@ -149,8 +173,8 @@ module Scores
         end
       end
 
-      def penalty_goals_conceded_by(home:)
-        penalty_goal_incidents.count { |incident| incident['isHome'] != home }
+      def penalty_minutes_conceded_by(home:)
+        penalty_goal_incidents.reject { |incident| incident['isHome'] == home }.map { |i| minute_of(i) }
       end
 
       def goal_minutes_conceded_by(home:)
