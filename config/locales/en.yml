@@ -948,6 +948,7 @@ en:
     with_squad: "Squad is ready for the match"
     waiting_deadline: "Waiting for tour start"
     didnt_play: "❌ Didn't play"
+    not_in_squad: "Not in squad"
     unspecified: "Unspecified"
   news:
     add_article: "Add article"

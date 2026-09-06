@@ -954,6 +954,7 @@ ua:
     with_squad: "Команда готова до матчу"
     waiting_deadline: "Очікуємо на старт туру"
     didnt_play: "❌ Не грав"
+    not_in_squad: "Не в заявці"
     unspecified: "Невизначено"
   news:
     add_article: "Додати новину"
