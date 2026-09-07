@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_09_04_120000) do
+ActiveRecord::Schema[8.0].define(version: 2026_09_07_180000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -471,6 +471,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_09_04_120000) do
     t.boolean "in_squad", default: false, null: false
     t.index ["club_id"], name: "index_round_players_on_club_id"
     t.index ["player_id"], name: "index_round_players_on_player_id"
+    t.index ["tournament_round_id", "player_id"], name: "index_round_players_on_tournament_round_id_and_player_id", unique: true
     t.index ["tournament_round_id"], name: "index_round_players_on_tournament_round_id"
   end
 
