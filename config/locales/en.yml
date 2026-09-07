@@ -127,6 +127,8 @@ en:
     text: "You need to buy %{players} players. The team budget - %{budget}. The team must have at least 3 goalkeepers."
   auction_round:
     auction: "Auction"
+    bid_not_editable: "This offer can no longer be edited"
+    player_taken: "This player already belongs to a team in your league"
     available_budget: "Available budget"
     balance: "Budget balance"
     balance_reserved: "Reserved funds"
