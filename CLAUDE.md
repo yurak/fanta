@@ -84,3 +84,15 @@ append it to this list so future sessions don't rediscover it. Keep entries shor
   via the on-pitch window (`sub_in`/`sub_out`), never counted twice. `conceded_penalty` is a different stat
   (the player fouled and gave a penalty away, the mirror of `penalties_won`) — don't conflate the two.
   Always skip `isPenaltyShootoutEvent`: a shootout kick is not a goal and would otherwise drive `goals` negative.
+- A `RoundPlayer` is identified by (`tournament_round`, `player`) ONLY — `club_id` is an attribute, never
+  part of the lookup. Create/fetch one through `RoundPlayer.for_round`, which realigns the club when the
+  player has transferred; a `find_or_create_by(..., club:)` spawns a SECOND row for the same round, and the
+  injector (whose `by_club` filters on `players.club_id`, the player's CURRENT club) then feeds whichever
+  row Postgres hands back first, so lineups on the other one silently show 0 and the autobot substitutes a
+  player who actually played — and `missed_players` stays empty, because the source entry WAS consumed.
+  A unique index enforces this; keep the injector on `players.club_id` (thousands of rows have a stale
+  `round_players.club_id`, and 373k older ones have none at all).
+- A relation without `ORDER BY` comes back in Postgres HEAP order, and every score injection UPDATEs the row,
+  which moves it — so a re-injected round jumps position. Any list a user reads must be ordered explicitly
+  (`RoundPlayer.chronological` for the per-round tables on the player page); reversing an unordered relation
+  in a serializer is not an order.

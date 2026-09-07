@@ -36,7 +36,7 @@ class PlayerLineupSerializer < ActiveModel::Serializer
   end
 
   def leagues
-    object.teams.pluck(:league_id)
+    object.teams.map(&:league_id)
   end
 
   def national_team_code
