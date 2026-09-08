@@ -407,18 +407,27 @@
 
 .round-tournament-match-live-minute {
   display: block;
-  margin-top: -4px;
+  margin-top: 2px;
   font-family: 'Nunito ExtraBold';
-  font-size: 9px;
+  font-size: 12px;
   line-height: 1;
   letter-spacing: 0.04em;
   color: #E4002B;
   text-align: center;
 }
 
-// the portrait (non-React) layout scales the score up ~3x, so the minute label must match
+.stats-section .round-tournament-match-live-minute {
+  margin-top: -4px;
+  font-size: 9px;
+}
+
 @media (orientation: portrait) {
   .round-tournament-match-live-minute {
+    margin-top: 4px;
+    font-size: 16px;
+  }
+
+  .stats-section .round-tournament-match-live-minute {
     margin-top: -12px;
     font-size: 27px;
   }
