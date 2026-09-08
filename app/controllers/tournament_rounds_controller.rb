@@ -7,6 +7,9 @@ class TournamentRoundsController < ApplicationController
     redirect_to leagues_path unless can? :show, TournamentRound
 
     @finished = tournament_round.finished?
+    @season_rounds = TournamentRound.by_tournament(tournament_round.tournament_id)
+                                    .by_season(tournament_round.season_id)
+                                    .order(:number)
   end
 
   def edit
