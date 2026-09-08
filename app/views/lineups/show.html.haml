@@ -64,7 +64,7 @@
                               - else
                                 = match_player.player.club.name
                         - if match_player.score.positive?
-                          .team-player-scores
+                          .team-player-scores{ class: ('team-player-scores--live' if match_player.live?) }
                             .team-player-substitute-cell
                               - if match_player.get_in?
                                 .team-player-substitute{title: subs_string(match_player)}
@@ -75,6 +75,10 @@
                                     = image_tag('icons/subs-on.svg')
                             .team-player-score= match_player.score
                             .team-player-total-score= match_player.total_score
+                        - elsif match_player.live? && match_player.round_player_in_squad?
+                          .team-player-score-live-pending –
+                        - elsif match_player.live?
+                          .team-player-score-live-absent{ title: t('matches.not_in_squad') }= t('matches.not_in_squad')
                         - elsif match_player.club_played_match?
                           - if match_player.tour.locked_or_postponed? && current_user&.can_moderate?
                             .team-player-score-not-played
