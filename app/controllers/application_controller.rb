@@ -5,8 +5,13 @@ class ApplicationController < ActionController::Base
   around_action :switch_locale
 
   rescue_from ActiveRecord::RecordNotFound, with: :not_found
+  rescue_from ActionController::InvalidAuthenticityToken, with: :session_expired
 
   private
+
+  def session_expired
+    redirect_back_or_to(root_path, alert: t('errors.session_expired'))
+  end
 
   def not_found
     render file: Rails.public_path.join('404.html'), status: :not_found, layout: false

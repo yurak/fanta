@@ -64,6 +64,16 @@ RSpec.describe Notifications::Creator do
         .to raise_error(ArgumentError, /Invalid kind/)
     end
 
+    # The team check and the insert are two statements, so two overlapping runs could both decide a
+    # team still needs the notification. The unique index is what actually prevents the duplicate.
+    it 'does not write a second row when the same call is repeated' do
+      tour = build_tour_with_teams(user_teams_count: 2)
+      described_class.call(notifiable: tour, kind: :tour_opened)
+
+      expect { Notification.insert_all(existing_rows_for(tour)) } # rubocop:disable Rails/SkipsModelValidations
+        .not_to(change { notifications_scope(tour: tour, kind: :tour_opened).count })
+    end
+
     describe 'tour_ddl' do
       # The reminder is for the managers who still have nothing set.
       it 'skips a team that already has a lineup' do
@@ -85,11 +95,11 @@ RSpec.describe Notifications::Creator do
       end
     end
 
-    it 'calls insert_all! once' do
+    it 'calls insert_all once' do
       tour = build_tour_with_teams(user_teams_count: 1)
-      allow(Notification).to receive(:insert_all!).and_call_original
+      allow(Notification).to receive(:insert_all).and_call_original
       described_class.call(notifiable: tour, kind: :tour_opened)
-      expect(Notification).to have_received(:insert_all!).once
+      expect(Notification).to have_received(:insert_all).once
     end
 
     it 'returns true on success' do
@@ -177,6 +187,12 @@ RSpec.describe Notifications::Creator do
       tour.league.teams.each { |team| create_notification(team: team, tour: tour, kind: :tour_opened) }
 
       expect(described_class.call(notifiable: tour, kind: :tour_opened)).to be(false)
+    end
+  end
+
+  def existing_rows_for(tour)
+    Notification.where(notifiable: tour).map do |row|
+      row.attributes.except('id').merge('created_at' => Time.current, 'updated_at' => Time.current)
     end
   end
 end

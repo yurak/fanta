@@ -6,6 +6,10 @@ class PlayerBid < ApplicationRecord
 
   enum :status, { initial: 0, success: 1, failed: 2 }
 
+  MIN_PRICE = 1
+
+  normalizes :price, with: ->(price) { price || MIN_PRICE }, apply_to_nil: true
+
   validate :auction_bid_allows_creation, on: :create
 
   private

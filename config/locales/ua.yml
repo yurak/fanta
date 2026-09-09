@@ -1,4 +1,6 @@
 ua:
+  errors:
+    session_expired: "Сесія завершилась. Спробуйте ще раз."
   auction_sales:
     title: "Аукціон #{{number}}"
     phase: "Фаза продажу"

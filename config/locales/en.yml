@@ -1,4 +1,6 @@
 en:
+  errors:
+    session_expired: "Your session has expired. Please try again."
   auction_sales:
     title: "Auction #{{number}}"
     phase: "Dropping phase"

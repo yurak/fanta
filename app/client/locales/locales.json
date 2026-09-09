@@ -627,6 +627,7 @@
           "other": "is the wrong length (should be %{count} characters)"
         }
       },
+      "session_expired": "Your session has expired. Please try again.",
       "template": {
         "body": "There were problems with the following fields:",
         "header": {
@@ -3021,6 +3022,9 @@
     },
     "divisions": {
       "title": "Дивізіони"
+    },
+    "errors": {
+      "session_expired": "Сесія завершилась. Спробуйте ще раз."
     },
     "footer": {
       "contact": "Контакти",
