@@ -57,10 +57,32 @@ RSpec.describe Notifications::Creator do
       expect(notifications_scope(tour: tour, kind: :tour_opened).count).to eq(2)
     end
 
-    it 'raises when kind is not supported by teams_for' do
+    it 'rejects a kind that is not in the enum' do
       tour = build_tour_with_teams(user_teams_count: 1)
-      expect { described_class.call(notifiable: tour, kind: :tour_ddl) }
-        .to raise_error(ArgumentError, /does not know how to build teams/)
+
+      expect { described_class.call(notifiable: tour, kind: :nonsense) }
+        .to raise_error(ArgumentError, /Invalid kind/)
+    end
+
+    describe 'tour_ddl' do
+      # The reminder is for the managers who still have nothing set.
+      it 'skips a team that already has a lineup' do
+        tour = build_tour_with_teams(user_teams_count: 2)
+        create(:lineup, tour: tour, team: tour.league.teams.first)
+
+        described_class.call(notifiable: tour, kind: :tour_ddl)
+
+        expect(notifications_scope(tour: tour, kind: :tour_ddl).count).to eq(1)
+      end
+
+      # The hourly cron used to deliver the same text up to three times inside its window.
+      it 'does not create a second reminder for the same tour' do
+        tour = build_tour_with_teams(user_teams_count: 1)
+        described_class.call(notifiable: tour, kind: :tour_ddl)
+
+        expect { described_class.call(notifiable: tour, kind: :tour_ddl) }
+          .not_to(change { notifications_scope(tour: tour, kind: :tour_ddl).count })
+      end
     end
 
     it 'calls insert_all! once' do

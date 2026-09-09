@@ -42,7 +42,7 @@ RSpec.describe TelegramBot::PlayerClubChangedNotifier do
 
       it 'calls sender with team user and translated message' do
         service_call
-        expect(TelegramBot::Sender).to have_received(:call).with(team.user, 'translated message')
+        expect(TelegramBot::Sender).to have_received(:call).with(team.user, 'translated message', any_args)
       end
 
       it { expect(service_call).to be(true) }
@@ -73,13 +73,13 @@ RSpec.describe TelegramBot::PlayerClubChangedNotifier do
         service_call
 
         expect(TelegramBot::Sender).to have_received(:call)
-          .with(user, a_string_including('moved from Barcelona to Inter Miami'))
+          .with(user, a_string_including('moved from Barcelona to Inter Miami'), any_args)
       end
 
       it 'keeps the hashtag footer' do
         service_call
 
-        expect(TelegramBot::Sender).to have_received(:call).with(user, a_string_including('#player #epl'))
+        expect(TelegramBot::Sender).to have_received(:call).with(user, a_string_including('#player #epl'), any_args)
       end
     end
 
@@ -93,6 +93,7 @@ RSpec.describe TelegramBot::PlayerClubChangedNotifier do
         old_club_name: old_club.name,
         new_club_name: new_club.name,
         tournament_name: tournament.name,
+        url: Rails.application.routes.url_helpers.player_url(player),
         code: tournament.code
       )
     end

@@ -1,53 +1,63 @@
 module TelegramBot
   module Tour
     class DdlNotifier < ApplicationService
-      attr_reader :tour
+      include TelegramBot::HtmlMessage
+      include TelegramBot::Recipient
 
-      def initialize(tour)
-        @tour = tour
+      attr_reader :notification
+
+      def initialize(notification)
+        @notification = notification
       end
 
       def call
         return false unless tour
+        return false unless league
+        return false unless team
+        return false unless user
+        return false if lineup_set?
 
-        tour.teams.each do |team|
-          next unless team.user
-          next if team.lineups&.find_by(tour: tour)
-
-          TelegramBot::Sender.call(team.user, message(team))
-        end
+        send_html(user, message)
         true
       end
 
       private
 
+      def tour
+        @tour ||= notification.notifiable
+      end
+
       def league
         @league ||= tour&.league
       end
 
-      def message(team)
-        I18n.t(
+      def team
+        @team ||= notification.team
+      end
+
+      def user
+        @user ||= team.user
+      end
+
+      def lineup_set?
+        team.lineups.exists?(tour: tour)
+      end
+
+      def message
+        html_message(
           'telegram.notifier.tour.ddl',
-          locale: locale(team),
+          locale: locale,
           icon: league.tournament.icon,
           number: tour.number,
-          deadline: deadline(team),
-          time_zone: time_zone(team),
+          deadline: deadline,
+          time_zone: time_zone,
           url: Rails.application.routes.url_helpers.tour_url(tour),
           code: league.tournament.code
         )
       end
 
-      def deadline(team)
-        team.user.local_time(tour.tournament_round.deadline, '%H:%M')
-      end
-
-      def locale(team)
-        team.user.locale&.to_sym || :en
-      end
-
-      def time_zone(team)
-        team.user.time_zone || User::DEFAULT_TIME_ZONE
+      def deadline
+        user.local_time(tour.tournament_round.deadline, '%H:%M')
       end
     end
   end

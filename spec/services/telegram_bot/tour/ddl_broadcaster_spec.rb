@@ -7,12 +7,12 @@ RSpec.describe TelegramBot::Tour::DdlBroadcaster do
 
   let(:league) { create(:active_league) }
 
-  before { allow(TelegramBot::Tour::DdlNotifier).to receive(:call) }
+  before { allow(Notifications::Creator).to receive(:call) }
 
   context 'when there are no active leagues' do
-    it 'does not call DdlNotifier' do
+    it 'does not record a notification' do
       broadcaster.call
-      expect(TelegramBot::Tour::DdlNotifier).not_to have_received(:call)
+      expect(Notifications::Creator).not_to have_received(:call)
     end
   end
 
@@ -22,9 +22,9 @@ RSpec.describe TelegramBot::Tour::DdlBroadcaster do
       create(:set_lineup_tour, league: league, tournament_round: tr)
     end
 
-    it 'does not call DdlNotifier' do
+    it 'does not record a notification' do
       broadcaster.call
-      expect(TelegramBot::Tour::DdlNotifier).not_to have_received(:call)
+      expect(Notifications::Creator).not_to have_received(:call)
     end
   end
 
@@ -34,9 +34,9 @@ RSpec.describe TelegramBot::Tour::DdlBroadcaster do
       create(:set_lineup_tour, league: league, tournament_round: tr)
     end
 
-    it 'does not call DdlNotifier' do
+    it 'does not record a notification' do
       broadcaster.call
-      expect(TelegramBot::Tour::DdlNotifier).not_to have_received(:call)
+      expect(Notifications::Creator).not_to have_received(:call)
     end
   end
 
@@ -48,9 +48,9 @@ RSpec.describe TelegramBot::Tour::DdlBroadcaster do
 
     before { tour }
 
-    it 'calls DdlNotifier for the tour' do
+    it 'records a tour_ddl notification' do
       broadcaster.call
-      expect(TelegramBot::Tour::DdlNotifier).to have_received(:call).with(tour)
+      expect(Notifications::Creator).to have_received(:call).with(notifiable: tour, kind: :tour_ddl)
     end
   end
 
@@ -60,9 +60,9 @@ RSpec.describe TelegramBot::Tour::DdlBroadcaster do
       create(:set_lineup_tour, league: league, tournament_round: tr)
     end
 
-    it 'does not call DdlNotifier (past upper bound)' do
+    it 'does not record a notification (past upper bound)' do
       broadcaster.call
-      expect(TelegramBot::Tour::DdlNotifier).not_to have_received(:call)
+      expect(Notifications::Creator).not_to have_received(:call)
     end
   end
 
@@ -72,9 +72,9 @@ RSpec.describe TelegramBot::Tour::DdlBroadcaster do
       create(:set_lineup_tour, league: league, tournament_round: tr)
     end
 
-    it 'does not call DdlNotifier' do
+    it 'does not record a notification' do
       broadcaster.call
-      expect(TelegramBot::Tour::DdlNotifier).not_to have_received(:call)
+      expect(Notifications::Creator).not_to have_received(:call)
     end
   end
 
@@ -86,9 +86,9 @@ RSpec.describe TelegramBot::Tour::DdlBroadcaster do
 
     before { tour }
 
-    it 'calls DdlNotifier' do
+    it 'records a notification' do
       broadcaster.call
-      expect(TelegramBot::Tour::DdlNotifier).to have_received(:call).with(tour)
+      expect(Notifications::Creator).to have_received(:call).with(notifiable: tour, kind: :tour_ddl)
     end
   end
 
@@ -98,9 +98,9 @@ RSpec.describe TelegramBot::Tour::DdlBroadcaster do
       create(:locked_tour, league: league, tournament_round: tr)
     end
 
-    it 'does not call DdlNotifier' do
+    it 'does not record a notification' do
       broadcaster.call
-      expect(TelegramBot::Tour::DdlNotifier).not_to have_received(:call)
+      expect(Notifications::Creator).not_to have_received(:call)
     end
   end
 end

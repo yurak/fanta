@@ -10,7 +10,7 @@ module TelegramBot
             next if Time.current < (tour.tournament_round.deadline - 3.hours)
             next if Time.current >= (tour.tournament_round.deadline - 5.minutes)
 
-            TelegramBot::Tour::DdlNotifier.call(tour)
+            Notifications::Creator.call(notifiable: tour, kind: :tour_ddl)
           end
         end
       end

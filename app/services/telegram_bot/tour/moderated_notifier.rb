@@ -4,7 +4,7 @@ module TelegramBot
       private
 
       def message
-        I18n.t(
+        html_message(
           'telegram.notifier.tour.moderated',
           locale: locale,
           icon: league.tournament.icon,

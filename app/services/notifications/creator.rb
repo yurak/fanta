@@ -53,6 +53,8 @@ module Notifications
     def teams_for
       if LEAGUE_TEAM_KINDS.include?(kind)
         league_teams
+      elsif kind == :tour_ddl
+        tour_ddl_teams
       elsif kind == :auction_start_bids
         auction_bid_teams
       elsif kind == :auction_round_ddl
@@ -66,6 +68,13 @@ module Notifications
 
     def league_teams
       with_user(notifiable&.league&.teams.to_a)
+    end
+
+    def tour_ddl_teams
+      teams = notifiable&.league&.teams.to_a
+      lineup_team_ids = notifiable&.lineups&.pluck(:team_id).to_a.to_set
+
+      with_user(teams.reject { |team| lineup_team_ids.include?(team.id) })
     end
 
     def auction_bid_teams

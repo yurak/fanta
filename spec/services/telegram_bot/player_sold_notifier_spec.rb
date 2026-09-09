@@ -56,7 +56,7 @@ RSpec.describe TelegramBot::PlayerSoldNotifier do
       it 'calls sender with team user and translated message' do
         service_call
 
-        expect(TelegramBot::Sender).to have_received(:call).with(team.user, 'translated message')
+        expect(TelegramBot::Sender).to have_received(:call).with(team.user, 'translated message', any_args)
       end
 
       it 'returns true' do
@@ -96,13 +96,20 @@ RSpec.describe TelegramBot::PlayerSoldNotifier do
         service_call
 
         expect(TelegramBot::Sender).to have_received(:call)
-          .with(user, a_string_including('Lionel Messi (team Dream Team) left Premier League tournament'))
+          .with(user, a_string_including('>Lionel Messi</a> (team Dream Team) left Premier League tournament'), any_args)
+      end
+
+      it 'links the player to his page' do
+        service_call
+
+        link = "<a href=\"#{Rails.application.routes.url_helpers.player_url(player)}\">"
+        expect(TelegramBot::Sender).to have_received(:call).with(user, a_string_including(link), any_args)
       end
 
       it 'keeps the hashtag footer' do
         service_call
 
-        expect(TelegramBot::Sender).to have_received(:call).with(user, a_string_including('#player #epl'))
+        expect(TelegramBot::Sender).to have_received(:call).with(user, a_string_including('#player #epl'), any_args)
       end
     end
 
@@ -114,6 +121,7 @@ RSpec.describe TelegramBot::PlayerSoldNotifier do
         player_name: player.full_name,
         team_name: team.human_name,
         tournament_name: tournament.name,
+        url: Rails.application.routes.url_helpers.player_url(player),
         code: tournament.code
       )
     end

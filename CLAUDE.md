@@ -96,3 +96,11 @@ append it to this list so future sessions don't rediscover it. Keep entries shor
   which moves it — so a re-injected round jumps position. Any list a user reads must be ordered explicitly
   (`RoundPlayer.chronological` for the per-round tables on the player page); reversing an unordered relation
   in a serializer is not an order.
+- Specs must not build an expectation out of a generated name: FFaker surnames and company names carry
+  an apostrophe ~2% of the time, and anything that transforms the string (`CGI.escapeHTML` → `&#39;`,
+  `Player#path_name` deleting it, HTML escaping in a rendered view) then makes the example fail on
+  roughly one CI run in forty. Pin the name in the fixture, or compare against the transformed form.
+- Telegram messages that hide a URL behind a call to action go out with `parse_mode: 'HTML'`, and then
+  an unescaped `&` in a league or team name ("Bravery&Stupidity") is a 400 from the API — the user
+  never receives that notification. Build such a message through `TelegramBot::HtmlMessage#html_message`,
+  which escapes every interpolation, and send it with `send_html`; never call `I18n.t` + `Sender` directly.
