@@ -74,3 +74,7 @@ end
 every '15,45 * * * *' do
   rake 'auctions:start_sales'
 end
+
+every :sunday, at: '4:20 am' do
+  rake 'tmp:cache:clear'
+end
