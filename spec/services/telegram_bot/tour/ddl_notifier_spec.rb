@@ -12,8 +12,8 @@ RSpec.describe TelegramBot::Tour::DdlNotifier do
     instance_double(User, locale: locale, time_zone: time_zone, local_time: local_time)
   end
 
-  def build_tour(league:, number: 7)
-    tournament_round = instance_double(TournamentRound, deadline: Time.zone.parse('2026-02-07 18:00:00'))
+  def build_tour(league:, number: 7, deadline: 3.hours.from_now)
+    tournament_round = instance_double(TournamentRound, deadline: deadline)
     instance_double(Tour, number: number, league: league, tournament_round: tournament_round)
   end
 
@@ -29,8 +29,8 @@ RSpec.describe TelegramBot::Tour::DdlNotifier do
     allow(TelegramBot::Sender).to receive(:call).and_return(true)
   end
 
-  def build_case(user:, lineup_present:)
-    tour = build_tour(league: build_league)
+  def build_case(user:, lineup_present:, deadline: 3.hours.from_now)
+    tour = build_tour(league: build_league, deadline: deadline)
     team = build_team(user: user, tour: tour, lineup_present: lineup_present)
     stub_common_dependencies(tour)
     notification = instance_double(Notification, team: team, notifiable: tour)
@@ -75,6 +75,15 @@ RSpec.describe TelegramBot::Tour::DdlNotifier do
     # nothing left to be reminded about.
     it 'does not call sender when lineup already exists' do
       data = build_case(user: build_user, lineup_present: true)
+      data[:notifier].call
+
+      expect(TelegramBot::Sender).not_to have_received(:call)
+    end
+
+    # The queue can hold a reminder past the deadline it warns about; arriving then it is worse
+    # than silence.
+    it 'does not call sender when the deadline has already passed' do
+      data = build_case(user: build_user, lineup_present: false, deadline: 5.minutes.ago)
       data[:notifier].call
 
       expect(TelegramBot::Sender).not_to have_received(:call)

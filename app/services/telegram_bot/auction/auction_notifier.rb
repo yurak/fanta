@@ -14,12 +14,17 @@ module TelegramBot
         return false unless notifiable
         return false unless team
         return false unless user
+        return false unless still_relevant?
 
         send_html(user, message)
         true
       end
 
       private
+
+      def still_relevant?
+        true
+      end
 
       def notifiable
         @notifiable ||= notification.notifiable

@@ -15,6 +15,7 @@ module TelegramBot
         return false unless league
         return false unless team
         return false unless user
+        return false if deadline_passed?
         return false if lineup_set?
 
         send_html(user, message)
@@ -37,6 +38,12 @@ module TelegramBot
 
       def user
         @user ||= team.user
+      end
+
+      def deadline_passed?
+        deadline = tour.tournament_round&.deadline
+
+        deadline.present? && deadline.past?
       end
 
       def lineup_set?

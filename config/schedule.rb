@@ -35,8 +35,8 @@ every :minute do
   rake 'notifications:send_pending'
 end
 
-# Send notifications by Telegram bot before tour deadline
-every :hour do
+# Send notifications by Telegram bot before tour deadline (5, 3, 2 and 1 hours out).
+every 5.minutes do
   rake 'tg:send_tour_deadline'
 end
 

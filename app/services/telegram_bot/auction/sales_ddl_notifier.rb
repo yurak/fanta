@@ -3,6 +3,12 @@ module TelegramBot
     class SalesDdlNotifier < AuctionNotifier
       private
 
+      def still_relevant?
+        deadline = notifiable.deadline
+
+        deadline.blank? || deadline.future?
+      end
+
       def message
         html_message(
           'telegram.notifier.auction.sales_ddl',
