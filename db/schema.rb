@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_08_25_102016) do
+ActiveRecord::Schema[8.0].define(version: 2026_09_09_180000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -309,10 +309,12 @@ ActiveRecord::Schema[8.0].define(version: 2026_08_25_102016) do
     t.string "error_message"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "attempts", default: 0, null: false
     t.index ["notifiable_type", "notifiable_id", "status"], name: "index_notifications_on_notifiable_and_status"
     t.index ["notifiable_type", "notifiable_id"], name: "index_notifications_on_notifiable"
     t.index ["status", "priority", "id"], name: "index_notifications_on_status_and_priority"
     t.index ["status"], name: "index_notifications_on_status"
+    t.index ["team_id", "notifiable_type", "notifiable_id", "kind"], name: "index_notifications_on_team_notifiable_and_kind", unique: true
     t.index ["team_id"], name: "index_notifications_on_team_id"
   end
 
@@ -471,6 +473,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_08_25_102016) do
     t.boolean "in_squad", default: false, null: false
     t.index ["club_id"], name: "index_round_players_on_club_id"
     t.index ["player_id"], name: "index_round_players_on_player_id"
+    t.index ["tournament_round_id", "player_id"], name: "index_round_players_on_tournament_round_id_and_player_id", unique: true
     t.index ["tournament_round_id"], name: "index_round_players_on_tournament_round_id"
   end
 
@@ -563,6 +566,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_08_25_102016) do
     t.text "missed_players_data"
     t.integer "status", default: 0, null: false
     t.integer "live_minute"
+    t.text "incidents_data"
     t.index ["guest_club_id"], name: "index_tournament_matches_on_guest_club_id"
     t.index ["host_club_id"], name: "index_tournament_matches_on_host_club_id"
     t.index ["tournament_round_id"], name: "index_tournament_matches_on_tournament_round_id"

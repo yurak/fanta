@@ -145,7 +145,7 @@ RSpec.describe Player do
   end
 
   describe 'Normalizations' do
-    subject(:player) { create(:player, avatar_name: 'custom_avatar') }
+    subject(:player) { create(:player, first_name: 'Luis', name: 'Suarez', avatar_name: 'custom_avatar') }
 
     it 'nullifies a blank avatar_name' do
       player.update!(avatar_name: '   ')
@@ -156,7 +156,7 @@ RSpec.describe Player do
     it 'keeps path_name usable once avatar_name is cleared' do
       player.update!(avatar_name: '')
 
-      expect(player.reload.path_name).to eq(player.full_name.downcase.tr(' ', '_'))
+      expect(player.reload.path_name).to eq('luis_suarez')
     end
   end
 
@@ -574,8 +574,10 @@ RSpec.describe Player do
       let(:player) { create(:player, :with_national_team) }
 
       it 'returns array with round_players at national team' do
-        tr = create(:tournament_round, tournament: player.national_team.tournament)
-        round_players = create_list(:round_player, 3, player: player, tournament_round: tr, score: 6)
+        round_players = Array.new(3) do
+          create(:round_player, player: player, score: 6,
+                                tournament_round: create(:tournament_round, tournament: player.national_team.tournament))
+        end
 
         expect(player.national_matches_with_scores).to eq(round_players)
       end
@@ -656,8 +658,9 @@ RSpec.describe Player do
     context 'when player has a national team with in_squad round_players' do
       let(:player) { create(:player, :with_national_team) }
       let(:tr) { create(:tournament_round, tournament: player.national_team.tournament) }
+      let(:next_tr) { create(:tournament_round, tournament: player.national_team.tournament) }
       let!(:rp_bench) { create(:round_player, player: player, tournament_round: tr, in_squad: true, score: 0) }
-      let!(:rp_played) { create(:round_player, player: player, tournament_round: tr, in_squad: true, score: 6) }
+      let!(:rp_played) { create(:round_player, player: player, tournament_round: next_tr, in_squad: true, score: 6) }
 
       it 'returns all in_squad round_players at national team' do
         expect(player.national_in_squad).to contain_exactly(rp_bench, rp_played)

@@ -35,6 +35,17 @@ RSpec.describe Players::ClubChanger do
           service_call
           expect(TelegramBot::PlayerClubChangedNotifier).to have_received(:call).with(player, team, new_club)
         end
+
+        # the message names the club he left, which is only still readable because the notifier
+        # runs before the new club is written
+        it 'notifies while the player still holds the old club' do
+          club_at_notification = nil
+          allow(TelegramBot::PlayerClubChangedNotifier).to receive(:call) { club_at_notification = player.club }
+
+          service_call
+
+          expect(club_at_notification).to eq(old_club)
+        end
       end
     end
 

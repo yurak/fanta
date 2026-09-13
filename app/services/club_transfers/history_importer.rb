@@ -33,9 +33,11 @@ module ClubTransfers
     def save_transfer(transfer)
       return false if transfer[:tm_transfer_id].blank? || transfer[:start_date].blank?
 
-      record = ClubTransfer.find_or_initialize_by(player_id: @player.id, tm_transfer_id: transfer[:tm_transfer_id])
-      record.assign_attributes(attributes_for(transfer))
-      record.save
+      ClubTransfer.transaction(requires_new: true) do
+        record = ClubTransfer.find_or_initialize_by(player_id: @player.id, tm_transfer_id: transfer[:tm_transfer_id])
+        record.assign_attributes(attributes_for(transfer))
+        record.save
+      end
     rescue ActiveRecord::RecordNotUnique
       false
     end

@@ -17,6 +17,24 @@
       font-size: 48px;
       color: #181715;
     }
+
+    .round-switch {
+      justify-self: end;
+      align-self: center;
+      line-height: normal;
+
+      .round-switch-select {
+        font-family: 'Nunito SemiBold';
+        font-size: 16px;
+        color: #181715;
+        background: #FFFFFF;
+        border: 1px solid #D8D6FF;
+        border-radius: 8px;
+        padding: 8px 12px;
+        min-width: 160px;
+        cursor: pointer;
+      }
+    }
   }
 
   .round-moderated-badge {
@@ -228,6 +246,12 @@
   .page-info.round-manage-page {
     padding: 0 32px 70px;
 
+    .round-switch .round-switch-select {
+      font-size: 28px;
+      padding: 12px 16px;
+      min-width: 280px;
+    }
+
     .round-block {
       display: flex;
       flex-direction: column-reverse;
@@ -407,18 +431,27 @@
 
 .round-tournament-match-live-minute {
   display: block;
-  margin-top: -4px;
+  margin-top: 2px;
   font-family: 'Nunito ExtraBold';
-  font-size: 9px;
+  font-size: 12px;
   line-height: 1;
   letter-spacing: 0.04em;
   color: #E4002B;
   text-align: center;
 }
 
-// the portrait (non-React) layout scales the score up ~3x, so the minute label must match
+.stats-section .round-tournament-match-live-minute {
+  margin-top: -4px;
+  font-size: 9px;
+}
+
 @media (orientation: portrait) {
   .round-tournament-match-live-minute {
+    margin-top: 4px;
+    font-size: 16px;
+  }
+
+  .stats-section .round-tournament-match-live-minute {
     margin-top: -12px;
     font-size: 27px;
   }

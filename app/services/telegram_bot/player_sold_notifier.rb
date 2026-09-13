@@ -1,5 +1,8 @@
 module TelegramBot
   class PlayerSoldNotifier < ApplicationService
+    include TelegramBot::HtmlMessage
+    include TelegramBot::Recipient
+
     attr_reader :player, :team
 
     def initialize(player, team)
@@ -11,20 +14,21 @@ module TelegramBot
       return false unless team
       return false unless player
 
-      TelegramBot::Sender.call(team.user, message(team))
+      send_html(team.user, message(team))
       true
     end
 
     private
 
     def message(team)
-      I18n.t(
+      html_message(
         'telegram.notifier.player.left',
-        locale: locale(team),
+        locale: locale,
         icon: tournament.icon,
         player_name: player.full_name,
         team_name: team.human_name,
         tournament_name: tournament.name,
+        url: Rails.application.routes.url_helpers.player_url(player),
         code: tournament.code
       )
     end
@@ -33,10 +37,8 @@ module TelegramBot
       @tournament ||= team.league.tournament
     end
 
-    def locale(team)
-      return :en unless team.user
-
-      team.user.locale.to_sym
+    def user
+      @user ||= team.user
     end
   end
 end

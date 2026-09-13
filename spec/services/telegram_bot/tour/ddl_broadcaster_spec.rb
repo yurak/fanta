@@ -7,100 +7,101 @@ RSpec.describe TelegramBot::Tour::DdlBroadcaster do
 
   let(:league) { create(:active_league) }
 
-  before { allow(TelegramBot::Tour::DdlNotifier).to receive(:call) }
+  before { allow(Notifications::Creator).to receive(:call) }
 
-  context 'when there are no active leagues' do
-    it 'does not call DdlNotifier' do
+  def tour_with_deadline(deadline, status: :set_lineup_tour, tour_league: league)
+    round = create(:tournament_round, tournament: tour_league.tournament, deadline: deadline)
+    create(status, league: tour_league, tournament_round: round)
+  end
+
+  context 'when there are no tours at all' do
+    it 'records nothing' do
       broadcaster.call
-      expect(TelegramBot::Tour::DdlNotifier).not_to have_received(:call)
+
+      expect(Notifications::Creator).not_to have_received(:call)
     end
   end
 
-  context 'when tour has no deadline' do
-    before do
-      tr = create(:tournament_round, tournament: league.tournament, deadline: nil)
-      create(:set_lineup_tour, league: league, tournament_round: tr)
-    end
+  context 'when the tour has no deadline' do
+    before { tour_with_deadline(nil) }
 
-    it 'does not call DdlNotifier' do
+    it 'records nothing' do
       broadcaster.call
-      expect(TelegramBot::Tour::DdlNotifier).not_to have_received(:call)
+
+      expect(Notifications::Creator).not_to have_received(:call)
     end
   end
 
-  context 'when deadline is more than 3 hours away' do
-    before do
-      tr = create(:tournament_round, tournament: league.tournament, deadline: 4.hours.from_now)
-      create(:set_lineup_tour, league: league, tournament_round: tr)
-    end
+  # The point of the rework: the reminder is pinned to the deadline, so a round closing at 15:15 is
+  # announced at 10:15 rather than at whatever hour the cron happens to run.
+  described_class::REMINDER_HOURS.each do |hours|
+    context "when the deadline is exactly #{hours} hours away" do
+      let!(:tour) { tour_with_deadline(hours.hours.from_now) }
 
-    it 'does not call DdlNotifier' do
-      broadcaster.call
-      expect(TelegramBot::Tour::DdlNotifier).not_to have_received(:call)
-    end
-  end
+      it "records the #{hours}h reminder" do
+        broadcaster.call
 
-  context 'when deadline is within 3 hours' do
-    let(:tour) do
-      tr = create(:tournament_round, tournament: league.tournament, deadline: 2.hours.from_now)
-      create(:set_lineup_tour, league: league, tournament_round: tr)
-    end
+        expect(Notifications::Creator).to have_received(:call)
+          .with(notifiable: tour, kind: :"tour_ddl_#{hours}h")
+      end
 
-    before { tour }
+      it 'records nothing else' do
+        broadcaster.call
 
-    it 'calls DdlNotifier for the tour' do
-      broadcaster.call
-      expect(TelegramBot::Tour::DdlNotifier).to have_received(:call).with(tour)
+        expect(Notifications::Creator).to have_received(:call).once
+      end
     end
   end
 
-  context 'when deadline has already passed' do
-    before do
-      tr = create(:tournament_round, tournament: league.tournament, deadline: 1.hour.ago)
-      create(:set_lineup_tour, league: league, tournament_round: tr)
-    end
+  context 'when the deadline is between two offsets' do
+    before { tour_with_deadline(4.hours.from_now) }
 
-    it 'does not call DdlNotifier (past upper bound)' do
+    it 'records nothing' do
       broadcaster.call
-      expect(TelegramBot::Tour::DdlNotifier).not_to have_received(:call)
+
+      expect(Notifications::Creator).not_to have_received(:call)
     end
   end
 
-  context 'when deadline is within 5 minutes' do
-    before do
-      tr = create(:tournament_round, tournament: league.tournament, deadline: 3.minutes.from_now)
-      create(:set_lineup_tour, league: league, tournament_round: tr)
-    end
+  # The window is wider than the cron step, so a single missed pass does not lose the reminder.
+  context 'when the pass runs a few minutes late' do
+    let!(:tour) { tour_with_deadline(5.hours.from_now - 6.minutes) }
 
-    it 'does not call DdlNotifier' do
+    it 'still records it' do
       broadcaster.call
-      expect(TelegramBot::Tour::DdlNotifier).not_to have_received(:call)
+
+      expect(Notifications::Creator).to have_received(:call)
+        .with(notifiable: tour, kind: :tour_ddl_5h)
     end
   end
 
-  context 'when deadline is exactly 6 minutes away (just inside window)' do
-    let(:tour) do
-      tr = create(:tournament_round, tournament: league.tournament, deadline: 6.minutes.from_now)
-      create(:set_lineup_tour, league: league, tournament_round: tr)
-    end
+  context 'when the deadline has already passed' do
+    before { tour_with_deadline(10.minutes.ago) }
 
-    before { tour }
-
-    it 'calls DdlNotifier' do
+    it 'records nothing' do
       broadcaster.call
-      expect(TelegramBot::Tour::DdlNotifier).to have_received(:call).with(tour)
+
+      expect(Notifications::Creator).not_to have_received(:call)
     end
   end
 
-  context 'when tour is not in set_lineup status' do
-    before do
-      tr = create(:tournament_round, tournament: league.tournament, deadline: 1.hour.from_now)
-      create(:locked_tour, league: league, tournament_round: tr)
-    end
+  context 'when the tour is not open for lineups' do
+    before { tour_with_deadline(3.hours.from_now, status: :locked_tour) }
 
-    it 'does not call DdlNotifier' do
+    it 'records nothing' do
       broadcaster.call
-      expect(TelegramBot::Tour::DdlNotifier).not_to have_received(:call)
+
+      expect(Notifications::Creator).not_to have_received(:call)
+    end
+  end
+
+  context 'when the league is not active' do
+    before { tour_with_deadline(3.hours.from_now, tour_league: create(:league)) }
+
+    it 'records nothing' do
+      broadcaster.call
+
+      expect(Notifications::Creator).not_to have_received(:call)
     end
   end
 end

@@ -189,6 +189,12 @@
           dataType: 'json',
           url: "/player_bids/"+playerBidId,
           data: { _method: 'PUT', player_id: playerId },
+          error: function(xhr){
+            const message = (xhr.responseJSON && xhr.responseJSON.error) || '';
+            const errorBox = $("#search-error" + slotId);
+            errorBox.text(message);
+            errorBox.show();
+          },
           success: function(data){
             const bidStatus = "#{auction_bid&.status}";
 
@@ -248,7 +254,7 @@
         playersContainer.empty();
 
         if (str_length > 0 && str_length < 2) {
-          $("#search-error" + slotId).show();
+          $("#search-error" + slotId).text('Min 2 characters').show();
         } else {
           $("#search-error" + slotId).hide();
         }

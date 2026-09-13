@@ -354,6 +354,7 @@
       "available_budget": "Available budget",
       "balance": "Budget balance",
       "balance_reserved": "Reserved funds",
+      "bid_not_editable": "This offer can no longer be edited",
       "budget": "💰 Budget",
       "decrease_offer": "Decrease offer to match your budget. The offer won't be calculated if its amount exceeds the team's budget.",
       "dropping_title": "💸 Dropping phase",
@@ -372,6 +373,7 @@
       },
       "offers": "💶 Offers",
       "offers_placed": "🎯 Offers overview",
+      "player_taken": "This player already belongs to a team in your league",
       "select": "Select player",
       "spent_auction": "Spend on this stage",
       "spent_total": "Spent in total",
@@ -625,6 +627,7 @@
           "other": "is the wrong length (should be %{count} characters)"
         }
       },
+      "session_expired": "Your session has expired. Please try again.",
       "template": {
         "body": "There were problems with the following fields:",
         "header": {
@@ -1433,6 +1436,7 @@
       "edit_module": "Edit module",
       "game_center": "Game center",
       "module": "♟️ Module:",
+      "not_in_squad": "Not in squad",
       "not_lineup": "Not in squad",
       "set_squad": "Set squad",
       "start_soon": "Match will start soon",
@@ -1901,33 +1905,33 @@
     "telegram": {
       "notifier": {
         "auction": {
-          "closed": "%{icon} Auction #%{number} in %{league_name} league has been closed.\n\n🏁️️ You can view all transfers of the auction at the link - %{url}\n\n#auction #%{code}",
+          "closed": "%{icon} Auction #%{number} in %{league_name} league has been closed.\n\n🏁️️ You can <a href=\"%{url}\">view all transfers of the auction</a>\n\n#auction #%{code}",
           "default": "%{icon} Auction message to %{team_name} team\n\n#auction #%{code}",
-          "round_ddl": "%{icon} Auction round deadline in %{league_name} League is today at %{deadline} (%{time_zone}) ⚠️\n\n‼️️ You must make offer on %{vacancies} players for %{team_name} - %{url}\n\n#auction #%{code}",
-          "sales_ddl": "%{icon} Transfer window deadline in %{league_name} League is coming soon.\n⚠️ Deadline today at %{deadline} (%{time_zone}) ⚠️\n\n‼️️ You can select up to %{available_transfers} players to sell from %{team_name} - %{url}\n\n#auction #%{code}",
-          "sales_open": "%{icon} Transfer window in %{league_name} League is open.\n🔜 Deadline: %{deadline} (%{time_zone}) 🔚\n\n‼️️ You can select up to %{available_transfers} players to sell from %{team_name} - %{url}\n\n#auction #%{code}",
+          "round_ddl": "%{icon} Auction round deadline in %{league_name} League is today at %{deadline} (%{time_zone}) ⚠️\n\n‼️️ You must <a href=\"%{url}\">make offer on %{vacancies} players</a> for %{team_name}\n\n#auction #%{code}",
+          "sales_ddl": "%{icon} Transfer window deadline in %{league_name} League is coming soon.\n⚠️ Deadline today at %{deadline} (%{time_zone}) ⚠️\n\n‼️️ You can <a href=\"%{url}\">select up to %{available_transfers} players to sell</a> from %{team_name}\n\n#auction #%{code}",
+          "sales_open": "%{icon} Transfer window in %{league_name} League is open.\n🔜 Deadline: %{deadline} (%{time_zone}) 🔚\n\n‼️️ You can <a href=\"%{url}\">select up to %{available_transfers} players to sell</a> from %{team_name}\n\n#auction #%{code}",
           "squad_complete": "%{icon} The squad for %{team_name} in the %{league_name} league has been formed.\n\n⌛️ Wait for the auction to end to view its details.\n\n#auction #%{code}",
-          "start_offers": "%{icon} Auction round #%{number} has started in %{league_name} League.\n🔜 Deadline: %{deadline} (%{time_zone}) 🔚\n\n‼️️ You must make offer on %{vacancies} players for %{team_name} - %{url}\n\n#auction #%{code}"
+          "start_offers": "%{icon} Auction round #%{number} has started in %{league_name} League.\n🔜 Deadline: %{deadline} (%{time_zone}) 🔚\n\n‼️️ You must <a href=\"%{url}\">make offer on %{vacancies} players</a> for %{team_name}\n\n#auction #%{code}"
         },
         "daily_schedule": {
-          "auction_round_item": "%{time} - %{icon} %{league_name} - Auction round #%{number} 🛒",
-          "auction_sales_item": "%{time} - %{icon} %{league_name} - Sales period 💸",
-          "header": "📅 Today's deadline schedule (%{time_zone}):",
-          "tour_item": "%{time} - %{icon} %{league_name} - Round #%{number} ⚽️"
+          "auction_round_item": "%{time} - %{icon} %{league_name} - <a href=\"%{url}\">Auction round #%{number}</a> 🛒",
+          "auction_sales_item": "%{time} - %{icon} %{league_name} - <a href=\"%{url}\">Sales period</a> 💸",
+          "header": "📅 Deadlines in the next 24 hours (%{time_zone}):",
+          "tour_item": "%{time} - %{icon} %{league_name} - <a href=\"%{url}\">Round #%{number}</a> ⚽️ %{lineup_status}"
         },
         "logo": {
-          "approved": "✅ Your uploaded logo has been approved and is now available when editing your teams.\n\n#logo",
-          "rejected": "❌ Your uploaded logo was rejected by a moderator. Try uploading a different image.\n\n#logo"
+          "approved": "✅ Your uploaded logo has been approved and is now available when editing <a href=\"%{url}\">your teams</a>.\n\n#logo",
+          "rejected": "❌ Your uploaded logo was rejected by a moderator. <a href=\"%{url}\">Try uploading a different image</a>.\n\n#logo"
         },
         "player": {
-          "club_changed": "%{icon} %{player_name} from %{team_name} moved to %{new_club_name} within %{tournament_name} tournament.\n✅ He stays in your squad.\n\n#player #%{code}",
-          "left": "%{icon} %{player_name} from %{team_name} left %{tournament_name} tournament.\n💵 You will be able to replace him at the next auction.\n\n#player #%{code}"
+          "club_changed": "%{icon} <a href=\"%{url}\">%{player_name}</a> (team %{team_name}) moved from %{old_club_name} to %{new_club_name} within %{tournament_name} tournament.\n✅ He stays in your squad.\n\n#player #%{code}",
+          "left": "%{icon} <a href=\"%{url}\">%{player_name}</a> (team %{team_name}) left %{tournament_name} tournament.\n💵 You will be able to replace him at the next auction.\n\n#player #%{code}"
         },
         "tour": {
-          "closed": "%{icon} Round #%{number} of %{league_name} League has been closed.\n🔴 You can check the final results here - %{url}\n\n#tour #%{code}",
-          "ddl": "%{icon} The deadline of round #%{number} is today at %{deadline} (%{time_zone})\n\n🟡 Create your lineup - %{url}\n\n#tour #%{code}",
-          "moderated": "%{icon} Round #%{number} of %{league_name} League has been moderated.\n🔵 All scores and bonuses have been calculated, substitutions have been made.\n✍️ If you have remarks about bonuses - write to @mantra_help.\n\n☑️ You can check the preliminary results here - %{url}\n\n#tour #%{code}",
-          "opened": "%{icon} Round #%{number} of %{league_name} League has been opened.\n🟢 You can set up lineup for %{team_name} - %{url}\n🔜 Deadline: %{deadline} (%{time_zone}) 🔚\n\n#tour #%{code}"
+          "closed": "%{icon} Round #%{number} of %{league_name} League has been closed.\n🔴 You can <a href=\"%{url}\">check the final results here</a>\n\n#tour #%{code}",
+          "ddl": "%{icon} The deadline of round #%{number} is today at %{deadline} (%{time_zone})\n\n🟡 <a href=\"%{url}\">Create your lineup</a>\n\n#tour #%{code}",
+          "moderated": "%{icon} Round #%{number} of %{league_name} League has been moderated.\n🔵 All scores and bonuses have been calculated, substitutions have been made.\n✍️ If you have remarks about bonuses - write to @mantra_help.\n\n☑️ You can <a href=\"%{url}\">check the preliminary results here</a>\n\n#tour #%{code}",
+          "opened": "%{icon} Round #%{number} of %{league_name} League has been opened.\n🟢 You can <a href=\"%{url}\">set up lineup</a> for %{team_name}\n🔜 Deadline: %{deadline} (%{time_zone}) 🔚\n\n#tour #%{code}"
         }
       },
       "webhooks": {
@@ -2916,6 +2920,7 @@
       "available_budget": "Доступний бюджет",
       "balance": "Баланс бюджету",
       "balance_reserved": "Зарезервовані кошти",
+      "bid_not_editable": "Цю пропозицію вже не можна редагувати",
       "budget": "💰 Бюджет",
       "decrease_offer": "Знизьте пропозицію відповідно до свого бюджету. Пропозиція не буде розрахована, якщо її сума перевищуватиме бюджет команди",
       "dropping_title": "💸 Фаза скидання",
@@ -2934,6 +2939,7 @@
       },
       "offers": "💶 Пропозиції",
       "offers_placed": "🎯 Огляд пропозицій",
+      "player_taken": "Цей гравець уже належить команді у вашій лізі",
       "select": "Вибрати гравця",
       "spent_auction": "Витрачається на цьому етапі",
       "spent_total": "Витратив загалом",
@@ -3016,6 +3022,9 @@
     },
     "divisions": {
       "title": "Дивізіони"
+    },
+    "errors": {
+      "session_expired": "Сесія завершилась. Спробуйте ще раз."
     },
     "footer": {
       "contact": "Контакти",
@@ -3767,6 +3776,7 @@
       "edit_module": "Змінити модуль",
       "game_center": "Матч центр",
       "module": "♟️ Модуль:",
+      "not_in_squad": "Не в заявці",
       "not_lineup": "Поза складом",
       "set_squad": "Вибрати склад",
       "start_soon": "Матч невдовзі розпочнеться",
@@ -4164,33 +4174,33 @@
     "telegram": {
       "notifier": {
         "auction": {
-          "closed": "%{icon} Аукціон #%{number} у лізі %{league_name} завершено.\n\n🏁️️ Ви можете переглянути всі трансфери цього аукціону за посиланням - %{url}\n\n#auction #%{code}",
+          "closed": "%{icon} Аукціон #%{number} у лізі %{league_name} завершено.\n\n🏁️️ Ви можете <a href=\"%{url}\">переглянути всі трансфери цього аукціону</a>\n\n#auction #%{code}",
           "default": "%{icon} Повідомлення про аукціон для команди %{team_name}\n\n#auction #%{code}",
-          "round_ddl": "%{icon} Дедлайн аукціону в лізі %{league_name} сьогодні в %{deadline} (%{time_zone}) ⚠️\n\n‼️️ Вам необхідно зробити пропозицію на %{vacancies} гравців для команди %{team_name} - %{url}\n\n#auction #%{code}",
-          "sales_ddl": "%{icon} Наближається дедлайн трансферного вікна у лізі %{league_name}.\n⚠️ Дедлайн сьогодні в %{deadline} (%{time_zone}) ⚠️\n\n‼️️ Ви можете обрати до %{available_transfers} гравців для продажу з команди %{team_name} - %{url}\n\n#auction #%{code}",
-          "sales_open": "%{icon} Трансферне вікно у лізі %{league_name} відкрито.\n🔜 Дедлайн: %{deadline} (%{time_zone}) 🔚\n\n‼️️ Ви можете обрати до %{available_transfers} гравців для продажу з команди %{team_name} - %{url}\n\n#auction #%{code}",
+          "round_ddl": "%{icon} Дедлайн аукціону в лізі %{league_name} сьогодні в %{deadline} (%{time_zone}) ⚠️\n\n‼️️ Вам необхідно <a href=\"%{url}\">зробити пропозицію на %{vacancies} гравців</a> для команди %{team_name}\n\n#auction #%{code}",
+          "sales_ddl": "%{icon} Наближається дедлайн трансферного вікна у лізі %{league_name}.\n⚠️ Дедлайн сьогодні в %{deadline} (%{time_zone}) ⚠️\n\n‼️️ Ви можете <a href=\"%{url}\">обрати до %{available_transfers} гравців для продажу</a> з команди %{team_name}\n\n#auction #%{code}",
+          "sales_open": "%{icon} Трансферне вікно у лізі %{league_name} відкрито.\n🔜 Дедлайн: %{deadline} (%{time_zone}) 🔚\n\n‼️️ Ви можете <a href=\"%{url}\">обрати до %{available_transfers} гравців для продажу</a> з команди %{team_name}\n\n#auction #%{code}",
           "squad_complete": "%{icon} Склад команди %{team_name} у лізі %{league_name} сформовано.\n\n⌛️ Очікуйте на завершення аукціону, щоб переглянути його деталі.\n\n#auction #%{code}",
-          "start_offers": "%{icon} Етап #%{number} аукціону розпочався в лізі %{league_name}.\n🔜 Дедлайн: %{deadline} (%{time_zone}) 🔚\n\n‼️️ Вам необхідно зробити пропозицію на %{vacancies} гравців для команди %{team_name} - %{url}\n\n#auction #%{code}"
+          "start_offers": "%{icon} Етап #%{number} аукціону розпочався в лізі %{league_name}.\n🔜 Дедлайн: %{deadline} (%{time_zone}) 🔚\n\n‼️️ Вам необхідно <a href=\"%{url}\">зробити пропозицію на %{vacancies} гравців</a> для команди %{team_name}\n\n#auction #%{code}"
         },
         "daily_schedule": {
-          "auction_round_item": "%{time} - %{icon} %{league_name} - Етап #%{number} аукціону 🛒",
-          "auction_sales_item": "%{time} - %{icon} %{league_name} - Період продажів 💸",
-          "header": "📅 Розклад дедлайнів на сьогодні (%{time_zone}):",
-          "tour_item": "%{time} - %{icon} %{league_name} - Раунд #%{number} ⚽️"
+          "auction_round_item": "%{time} - %{icon} %{league_name} - <a href=\"%{url}\">Етап #%{number} аукціону</a> 🛒",
+          "auction_sales_item": "%{time} - %{icon} %{league_name} - <a href=\"%{url}\">Період продажів</a> 💸",
+          "header": "📅 Дедлайни на найближчі 24 години (%{time_zone}):",
+          "tour_item": "%{time} - %{icon} %{league_name} - <a href=\"%{url}\">Раунд #%{number}</a> ⚽️ %{lineup_status}"
         },
         "logo": {
-          "approved": "✅ Ваше завантажене лого схвалено і тепер доступне при редагуванні команд.\n\n#logo",
-          "rejected": "❌ Ваше завантажене лого відхилено модератором. Спробуйте завантажити інше зображення.\n\n#logo"
+          "approved": "✅ Ваше завантажене лого схвалено і тепер доступне при редагуванні <a href=\"%{url}\">ваших команд</a>.\n\n#logo",
+          "rejected": "❌ Ваше завантажене лого відхилено модератором. <a href=\"%{url}\">Спробуйте завантажити інше зображення</a>.\n\n#logo"
         },
         "player": {
-          "club_changed": "%{icon} %{player_name} з команди %{team_name} перейшов у %{new_club_name} в межах чемпіонату %{tournament_name}.\n✅ Гравець залишається у вашому складі.\n\n#player #%{code}",
-          "left": "%{icon} %{player_name} з команди %{team_name} покинув чемпіонат %{tournament_name}.\n💵 Ви зможете замінити його на наступному аукціоні.\n\n#player #%{code}"
+          "club_changed": "%{icon} <a href=\"%{url}\">%{player_name}</a> (команда %{team_name}) перейшов з %{old_club_name} у %{new_club_name} в межах чемпіонату %{tournament_name}.\n✅ Гравець залишається у вашому складі.\n\n#player #%{code}",
+          "left": "%{icon} <a href=\"%{url}\">%{player_name}</a> (команда %{team_name}) покинув чемпіонат %{tournament_name}.\n💵 Ви зможете замінити його на наступному аукціоні.\n\n#player #%{code}"
         },
         "tour": {
-          "closed": "%{icon} Раунд #%{number} ліги %{league_name} закрито.\n🔴 Ви можете перевірити остаточні результати тут - %{url}\n\n#tour #%{code}",
-          "ddl": "%{icon} Дедлайн туру #%{number} сьогодні в %{deadline} (%{time_zone})\n\n🟡 Виставте ваш склад - %{url}\n\n#tour #%{code}",
-          "moderated": "%{icon} Раунд #%{number} ліги %{league_name} промодеровано.\n🔵 Усі бали та бонуси підраховано, заміни зроблено.\n✍️ Якщо є зауваження щодо бонусів - пишіть до @mantra_help.\n\n☑️ Попередні результати можна переглянути тут- %{url}\n\n#tour #%{code}",
-          "opened": "%{icon} Раунд #%{number} ліги %{league_name} відкрито.\n🟢 Ви можете виставити склад для %{team_name} - %{url}\n🔜 Дедлайн: %{deadline} (%{time_zone}) 🔚\n\n#tour #%{code}"
+          "closed": "%{icon} Раунд #%{number} ліги %{league_name} закрито.\n🔴 Ви можете <a href=\"%{url}\">перевірити остаточні результати тут</a>\n\n#tour #%{code}",
+          "ddl": "%{icon} Дедлайн туру #%{number} сьогодні в %{deadline} (%{time_zone})\n\n🟡 <a href=\"%{url}\">Виставте ваш склад</a>\n\n#tour #%{code}",
+          "moderated": "%{icon} Раунд #%{number} ліги %{league_name} промодеровано.\n🔵 Усі бали та бонуси підраховано, заміни зроблено.\n✍️ Якщо є зауваження щодо бонусів - пишіть до @mantra_help.\n\n☑️ <a href=\"%{url}\">Попередні результати можна переглянути тут</a>\n\n#tour #%{code}",
+          "opened": "%{icon} Раунд #%{number} ліги %{league_name} відкрито.\n🟢 Ви можете <a href=\"%{url}\">виставити склад</a> для %{team_name}\n🔜 Дедлайн: %{deadline} (%{time_zone}) 🔚\n\n#tour #%{code}"
         }
       },
       "webhooks": {

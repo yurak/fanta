@@ -102,9 +102,7 @@ class LineupsController < ApplicationController
 
       player = Player.find(attrs[:round_player_id])
 
-      round_player = RoundPlayer.find_or_create_by(tournament_round: tour.tournament_round, player: player)
-      round_player.update(club: player.club) if round_player.club_id != player.club_id
-      attrs[:round_player_id] = round_player.id
+      attrs[:round_player_id] = RoundPlayer.for_round(tour.tournament_round, player).id
     end
   end
 

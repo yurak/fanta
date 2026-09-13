@@ -127,7 +127,7 @@ module Lineups
     end
 
     def build_round_player(player)
-      RoundPlayer.find_or_create_by(tournament_round: tournament_round, player: player, club: player&.club)
+      RoundPlayer.for_round(tournament_round, player)
     end
 
     def main_slots
