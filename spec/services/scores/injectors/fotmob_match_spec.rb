@@ -664,6 +664,76 @@ RSpec.describe Scores::Injectors::FotmobMatch do
     end
   end
 
+  # FotMob publishes player stats only once it starts rating people, a quarter of an hour in, but the
+  # match is marked live long before that — so every player of it was shown as "not in squad" while
+  # they were on the pitch. The lineup is there from the team sheet, so it answers that question.
+  describe 'marking the squad before the first ratings' do
+    let(:live_injector) { described_class.new(match, run_mode: :live) }
+    let!(:starter) { squad_member(101) }
+    let!(:benched) { squad_member(202) }
+
+    def squad_member(fotmob_id)
+      create(:round_player, tournament_round: match.tournament_round, in_squad: false,
+                            player: create(:player, fotmob_id: fotmob_id))
+    end
+
+    def lineup_data(type)
+      {
+        'general' => { 'leagueRoundName' => match.tournament_round.number.to_s },
+        'header' => { 'status' => { 'started' => true, 'finished' => false, 'scoreStr' => '0 - 0' } },
+        'content' => {
+          'lineup' => {
+            'lineupType' => type,
+            'homeTeam' => { 'starters' => [{ 'id' => starter.player.fotmob_id }], 'subs' => [] },
+            'awayTeam' => { 'starters' => [], 'subs' => [{ 'id' => benched.player.fotmob_id }] }
+          }
+        }
+      }
+    end
+
+    before do
+      allow(live_injector).to receive(:match_data).and_return(lineup_data('standard'))
+      allow(Scores::Injectors::FotmobPlayersData).to receive(:call).and_return({})
+    end
+
+    it 'marks a starter as being in the squad' do
+      expect { live_injector.call }.to change { starter.reload.in_squad }.from(false).to(true)
+    end
+
+    # Being on the bench is still being in the squad — he may yet come on.
+    it 'marks a substitute as being in the squad' do
+      expect { live_injector.call }.to change { benched.reload.in_squad }.from(false).to(true)
+    end
+
+    it 'leaves a player who is in neither list alone' do
+      elsewhere = squad_member(303)
+
+      expect { live_injector.call }.not_to(change { elsewhere.reload.in_squad })
+    end
+
+    it 'writes no score' do
+      expect { live_injector.call }.not_to(change { starter.reload.score })
+    end
+
+    # Our own player without a FotMob id and a lineup entry without one both collapse to 0, which
+    # would otherwise put a stranger in the squad.
+    it 'does not match a player who has no FotMob id' do
+      unknown = create(:round_player, tournament_round: match.tournament_round, in_squad: false,
+                                      player: create(:player, fotmob_id: nil))
+
+      expect { live_injector.call }.not_to(change { unknown.reload.in_squad })
+    end
+
+    # A tipping provider's guess, and the previous round's eleven, are not this match's squad.
+    %w[predicted lastStarting11].each do |type|
+      it "ignores a #{type} lineup" do
+        allow(live_injector).to receive(:match_data).and_return(lineup_data(type))
+
+        expect { live_injector.call }.not_to(change { starter.reload.in_squad })
+      end
+    end
+  end
+
   describe 'scrape resilience' do
     # a fresh instance whose #match_data is NOT stubbed, so the real fetch path runs
     let(:live_injector) { described_class.new(match) }

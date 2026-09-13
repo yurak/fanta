@@ -3,6 +3,7 @@ module Scores
     class FotmobMatch < BaseMatch
       FOTMOB_MATCH_URL = 'https://www.fotmob.com'.freeze
       PENALTY_KEY = 'penalty'.freeze
+      CONFIRMED_LINEUP = 'standard'.freeze
       # FOTMOB_MATCH_URL = 'https://www.fotmob.com/api/matchDetails?matchId='.freeze
 
       USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 ' \
@@ -43,6 +44,29 @@ module Scores
           update_side(round_players.by_club(match.host_club_id), conceded_for(home: true))
           update_side(round_players.by_club(match.guest_club_id), conceded_for(home: false))
         end
+      end
+
+      def mark_squad
+        ids = squad_fotmob_ids
+        return if ids.empty?
+
+        round_players.each do |round_player|
+          next if round_player.in_squad?
+          next if round_player.fotmob_id.blank?
+          next unless ids.include?(round_player.fotmob_id.to_i)
+
+          round_player.update(in_squad: true)
+        end
+      end
+
+      def squad_fotmob_ids
+        return Set.new unless match_data.dig('content', 'lineup', 'lineupType') == CONFIRMED_LINEUP
+
+        @squad_fotmob_ids ||= %w[homeTeam awayTeam].flat_map do |side|
+          team = match_data.dig('content', 'lineup', side) || {}
+
+          (Array(team['starters']) + Array(team['subs'])).filter_map { |player| player['id'].presence&.to_i }
+        end.to_set
       end
 
       def conceded_for(home:)
