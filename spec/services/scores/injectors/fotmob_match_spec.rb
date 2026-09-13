@@ -690,6 +690,60 @@ RSpec.describe Scores::Injectors::FotmobMatch do
     end
   end
 
+  # FotMob answers 308 whenever it renames a club in a slug — "new-york-red-bulls" became
+  # "red-bull-new-york" — and rest-client raises on 308 instead of following it. Unfollowed, the
+  # match silently stopped being scraped: no score, no status change, not even a missed-players line.
+  describe 'a moved page' do
+    subject(:moved_injector) { described_class.new(match) }
+
+    let(:new_path) { '/matches/red-bull-new-york-vs-los-angeles-fc/4vdlmar7' }
+    let(:redirect) do
+      response = instance_double(RestClient::Response, code: 308, headers: { location: new_path })
+      RestClient::PermanentRedirect.new(response)
+    end
+
+    before { match.update!(page_url: '/matches/new-york-red-bulls-vs-los-angeles-fc/4vdlmar7#5071345') }
+
+    def stub_redirect_then(html)
+      calls = 0
+      allow(RestClient::Request).to receive(:execute) do
+        calls += 1
+        raise redirect if calls == 1
+
+        html
+      end
+    end
+
+    it 'follows the redirect and reads the page' do
+      stub_redirect_then('<html><script id="__NEXT_DATA__">{"props":{"pageProps":{"general":{}}}}</script></html>')
+
+      expect(moved_injector.send(:match_data)).to eq('general' => {})
+    end
+
+    it 'stores the new address so the next pass goes straight there' do
+      stub_redirect_then('<html><script id="__NEXT_DATA__">{"props":{"pageProps":{}}}</script></html>')
+      moved_injector.send(:match_data)
+
+      expect(match.reload.page_url).to eq("#{new_path}#5071345")
+    end
+
+    it 'gives up when the redirect carries no location' do
+      response = instance_double(RestClient::Response, code: 308, headers: {})
+      allow(RestClient::Request).to receive(:execute).and_raise(RestClient::PermanentRedirect.new(response))
+
+      expect(moved_injector.send(:match_data)).to eq({})
+    end
+
+    # One hop only: a site that redirects in a circle must not spin the injector.
+    it 'does not chase a redirect loop' do
+      allow(RestClient::Request).to receive(:execute).and_raise(redirect)
+
+      moved_injector.send(:match_data)
+
+      expect(RestClient::Request).to have_received(:execute).twice
+    end
+  end
+
   describe 'retry budget' do
     let(:budget) { Scores::ScrapeBudget.new(limit: 30) }
     let(:budget_injector) { described_class.new(match, budget: budget) }

@@ -10,6 +10,11 @@ module Scores
       REQUEST_TIMEOUT = 15
       MAX_RETRIES = 2
       BACKOFF_SECONDS = 5
+      REDIRECT_ERRORS = [
+        RestClient::MovedPermanently, RestClient::Found,
+        RestClient::TemporaryRedirect, RestClient::PermanentRedirect
+      ].freeze
+
       TRANSIENT_ERRORS = [
         RestClient::ServerBrokeConnection, RestClient::Exceptions::Timeout,
         Errno::ECONNRESET, Errno::ECONNREFUSED, Errno::ETIMEDOUT, OpenSSL::SSL::SSLError, SocketError
@@ -217,6 +222,12 @@ module Scores
           attempt += 1
           RestClient::Request.execute(method: :get, url: "#{FOTMOB_MATCH_URL}#{match.page_url}",
                                       headers: { user_agent: USER_AGENT }, timeout: REQUEST_TIMEOUT)
+        rescue *REDIRECT_ERRORS => e
+          retry if follow_redirect?(e)
+
+          @scrape_failure = :health
+          log_scrape_skip(scrape_reason(e))
+          nil
         rescue RestClient::ExceptionWithResponse, *TRANSIENT_ERRORS => e
           retry if retry_after_backoff?(e, attempt)
 
@@ -224,6 +235,25 @@ module Scores
           log_scrape_skip(scrape_reason(e))
           nil
         end
+      end
+
+      def follow_redirect?(error)
+        return false if @redirected
+
+        location = error.response&.headers&.dig(:location).to_s
+        return false if location.blank?
+
+        @redirected = true
+        match.update(page_url: redirected_page_url(location))
+        Rails.logger.info("[live-scores] FotMob moved #{match.page_url_previously_was} to #{match.page_url}")
+        true
+      end
+
+      def redirected_page_url(location)
+        path = location.start_with?('http') ? URI.parse(location).path : location
+        fragment = match.page_url.to_s[/#.*/]
+
+        "#{path}#{fragment}"
       end
 
       def retry_after_backoff?(error, attempt)

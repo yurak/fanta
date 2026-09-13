@@ -90,6 +90,43 @@ Prometheus, which is the usual reason the screen looks empty):
 The second query is the one worth an alert: it catches every Telegram notification that failed to
 reach a user (see `TelegramBot::Sender#report`).
 
+## Alerts worth having
+
+### A match that stopped being scraped
+
+`Scores::ScrapeAlert` already reports to Rollbar, but only once **half** the live matches of a pass
+fail (`FAILURE_RATIO = 0.5`) or none returns data. That keeps a single blip quiet — and it is also
+why a permanently broken match goes unnoticed: LAFC vs NY Red Bulls was one match out of twelve,
+skipped on every pass for hours, with no score, no status change and no missed-players line, because
+FotMob had renamed the club in the slug and answered 308.
+
+This rule covers that gap: not "a scrape failed" but "the same match keeps failing across passes".
+`tours:live_inject` runs every five minutes, so six failures in half an hour means it is not a blip.
+
+**Alerting → Alert rules → New alert rule**, data source Loki:
+
+```
+sum by (match_url) (
+  count_over_time(
+    {app="fanta"} |= "[live-scores] FotMob scrape skipped"
+    | regexp "skipped for (?P<match_url>\\S+):" [30m]
+  )
+) > 6
+```
+
+Extracting `match_url` gives one alert instance per match, so the notification names the page that
+needs looking at instead of just saying something is wrong. Evaluate every 5m, pending period 10m.
+
+### A notification that never reached its user
+
+```
+sum(count_over_time({app="fanta"} |= "[telegram] send failed" [15m])) > 0
+```
+
+Every delivery failure was invisible until `TelegramBot::Sender#report` started logging it, so any
+occurrence is worth seeing. If it turns out to be chatty, raise the threshold rather than drop the
+rule.
+
 ## 5. Disk, once logs are shipped
 
 Both applied on 2026-09-09:
