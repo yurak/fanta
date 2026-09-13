@@ -35,6 +35,11 @@ append it to this list so future sessions don't rediscover it. Keep entries shor
 - Creating `ClubTransferRequest`s by hand (TM down / move not on TM yet): follow
   [docs/MANUAL_CLUB_TRANSFERS.md](docs/MANUAL_CLUB_TRANSFERS.md) — console helper, lookup snippets and
   the gotchas (leave `tm_transfer_id` nil; confirm in the UI, never by flipping `status`).
+- When TM blocks the SERVER's IP (CloudFront `HTTP 405` from EC2) but not yours, don't fall back to
+  hand-made requests: run the import locally, copy `tmp/transfermarkt_cache` into the prod release and
+  re-run it there — `TransferHistoryParser` then reads the cache and never calls TM. `TM_SKIP_CACHE`
+  must NOT be set on the prod side (it disables the cache read), and the cache is stale after 7 days.
+  See [docs/MANUAL_CLUB_TRANSFERS.md](docs/MANUAL_CLUB_TRANSFERS.md).
 - TM's JSON API (`tmapi-alpha.transfermarkt.technology`) is being decommissioned and breaks in new
   ways (dead DNS, refused TLS handshake). `ApiParser`/`ClubSquadParser` therefore fall back to
   `PlayerHtmlParser`/`ClubSquadHtmlParser`, which scrape `www.transfermarkt.com` — the host the
