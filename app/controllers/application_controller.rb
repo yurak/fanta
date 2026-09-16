@@ -9,6 +9,13 @@ class ApplicationController < ActionController::Base
 
   private
 
+  def log_rejected(reason, **context)
+    fields = context.compact.map { |key, value| "#{key}=#{value}" }.join(' ')
+    Rails.logger.warn(
+      "[rejected] action=#{controller_name}##{action_name} reason=#{reason} user=#{current_user&.id} #{fields}".squish
+    )
+  end
+
   def session_expired
     redirect_back_or_to(root_path, alert: t('errors.session_expired'))
   end

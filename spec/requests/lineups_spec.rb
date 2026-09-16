@@ -714,4 +714,73 @@ RSpec.describe 'Lineups' do
       end
     end
   end
+
+  # A rejected save is a bare redirect with no flash and the same status as a successful one, so the
+  # log line is the only way to tell a user who lost a lineup to the deadline from one who saved it.
+  describe 'rejection logging' do
+    let(:logged_user) { create(:user) }
+    let(:team) { create(:team, user: logged_user) }
+    let!(:team_module) { TeamModule.first || create(:team_module) }
+    let(:params) { { lineup: { team_module_id: team_module.id, tour_id: tour.id } } }
+
+    before do
+      allow(Rails.logger).to receive(:warn)
+      sign_in logged_user
+    end
+
+    context 'when the tour is no longer open for lineups' do
+      let(:tour) { create(:locked_tour) }
+
+      it 'says the deadline closed it' do
+        post team_lineups_path(team, params)
+
+        expect(Rails.logger).to have_received(:warn)
+          .with(/\[rejected\] action=lineups#create reason=tour_closed/)
+      end
+
+      it 'carries the team and the tour' do
+        post team_lineups_path(team, params)
+
+        expect(Rails.logger).to have_received(:warn).with(/team=#{team.id} tour=#{tour.id}/)
+      end
+    end
+
+    context 'when a lineup for the tour already exists' do
+      let(:tour) { create(:set_lineup_tour) }
+
+      it 'separates that from a missed deadline' do
+        create(:lineup, tour: tour, team: team)
+
+        post team_lineups_path(team, params)
+
+        expect(Rails.logger).to have_received(:warn).with(/reason=lineup_exists/)
+      end
+    end
+
+    context 'when the team belongs to someone else' do
+      let(:tour) { create(:set_lineup_tour) }
+      let(:team) { create(:team, :with_user) }
+
+      it 'is reported as a foreign team, not a deadline' do
+        post team_lineups_path(team, params)
+
+        expect(Rails.logger).to have_received(:warn).with(/reason=foreign_team/)
+      end
+    end
+
+    context 'when the tour is open and the squad is valid' do
+      let(:tour) { create(:set_lineup_tour) }
+      let(:team) { create(:team, :with_20_players, user: logged_user) }
+      let(:params) do
+        { lineup: { team_module_id: team_module.id, tour_id: tour.id,
+                    match_players_attributes: players_attrs(team.players) } }
+      end
+
+      it 'logs nothing' do
+        post team_lineups_path(team, params)
+
+        expect(Rails.logger).not_to have_received(:warn).with(/\[rejected\]/)
+      end
+    end
+  end
 end

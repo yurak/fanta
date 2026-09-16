@@ -332,4 +332,52 @@ RSpec.describe 'AuctionBids' do
       it { expect(join.reload.status).to eq('initial') }
     end
   end
+
+  # Same silent-drop shape as lineups: a bid placed after the deadline redirects exactly like one that
+  # went through. The round stays `active` until the cron picks it up, so the deadline is the real gate.
+  describe 'rejection logging' do
+    let(:logged_user) { create(:user) }
+    let(:params) { { auction_bid: { player_bids_attributes: nil } } }
+
+    before { allow(Rails.logger).to receive(:warn) }
+
+    context 'when the round deadline has passed' do
+      let(:auction_round) { create(:auction_round, number: 1, deadline: 1.hour.ago) }
+      let(:team) { create(:team, user: logged_user, league: auction_round.league) }
+      let(:auction_bid) { create(:auction_bid, team: team, auction_round: auction_round) }
+
+      before do
+        sign_in logged_user
+        put auction_round_auction_bid_path(auction_round, auction_bid, params)
+      end
+
+      it { expect(Rails.logger).to have_received(:warn).with(/reason=ddl_expired/) }
+      it { expect(Rails.logger).to have_received(:warn).with(/round=#{auction_round.id}/) }
+    end
+
+    context 'when the round is already closed' do
+      let(:auction_round) { create(:closed_auction_round, number: 1, deadline: 1.hour.from_now) }
+      let(:team) { create(:team, user: logged_user, league: auction_round.league) }
+      let(:auction_bid) { create(:auction_bid, team: team, auction_round: auction_round) }
+
+      before do
+        sign_in logged_user
+        put auction_round_auction_bid_path(auction_round, auction_bid, params)
+      end
+
+      it { expect(Rails.logger).to have_received(:warn).with(/reason=round_closed/) }
+    end
+
+    context 'when the bid belongs to another team' do
+      let(:auction_bid) { create(:auction_bid) }
+
+      before do
+        create(:team, user: logged_user, league: auction_bid.auction_round.league)
+        sign_in logged_user
+        put auction_round_auction_bid_path(auction_bid.auction_round, auction_bid, params)
+      end
+
+      it { expect(Rails.logger).to have_received(:warn).with(/reason=foreign_team/) }
+    end
+  end
 end

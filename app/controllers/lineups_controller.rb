@@ -29,22 +29,29 @@ class LineupsController < ApplicationController
     if valid_conditions?
       if invalid_players?(Lineup.new(team_module: team_module, tour: tour, team: team).players_count)
         flash[:alert] = t('lineups.invalid_squad')
+        log_rejected('invalid_squad', **lineup_context)
         path = new_team_lineup_path(team, team_module_id: params.dig(:lineup, :team_module_id), tour_id: tour.id)
       else
         recount_round_players_params
         @lineup = Lineup.new(lineup_params.merge(team: team))
         path = saved_lineup_path
       end
+    else
+      log_rejected(create_rejection, **lineup_context)
     end
 
     redirect_to path
   end
 
   def update
-    return redirect_to(saved_or_tour_path) unless editable?
+    unless editable?
+      log_rejected(update_rejection, **lineup_context, lineup: lineup&.id)
+      return redirect_to(saved_or_tour_path)
+    end
 
     if invalid_players?(lineup.players_count)
       flash[:alert] = t('lineups.invalid_squad')
+      log_rejected('invalid_squad', **lineup_context, lineup: lineup.id)
       redirect_to edit_team_lineup_path(team, lineup)
     else
       recount_round_players_params
@@ -54,13 +61,21 @@ class LineupsController < ApplicationController
   end
 
   def clone
-    team_lineups_cloner.call if team_of_user?
+    if team_of_user?
+      team_lineups_cloner.call
+    else
+      log_rejected('foreign_team', **lineup_context)
+    end
 
     redirect_to tour_path(tour)
   end
 
   def fanta_copy
-    Lineups::FantaCopier.call(lineup) if team_of_user?
+    if team_of_user?
+      Lineups::FantaCopier.call(lineup)
+    else
+      log_rejected('foreign_team', **lineup_context, lineup: lineup&.id)
+    end
 
     redirect_to team_lineup_path(team, lineup)
   end
@@ -68,9 +83,28 @@ class LineupsController < ApplicationController
   private
 
   def saved_lineup_path
-    return new_team_lineup_path(team, team_module_id: @lineup.team_module_id, tour_id: @lineup.tour_id) unless @lineup.save
+    unless @lineup.save
+      log_rejected('save_failed', **lineup_context, errors: @lineup.errors.full_messages.join(';'))
+      return new_team_lineup_path(team, team_module_id: @lineup.team_module_id, tour_id: @lineup.tour_id)
+    end
 
     tour.fanta? ? team_lineup_path(team, @lineup) : tour_path(tour)
+  end
+
+  def create_rejection
+    return 'foreign_team' unless team_of_user?
+    return 'tour_closed' unless tour.set_lineup?
+
+    'lineup_exists'
+  end
+
+  def update_rejection
+    team_of_user? ? 'tour_closed' : 'foreign_team'
+  end
+
+  def lineup_context
+    { team: team.id, tour: tour.id, tour_status: tour.status,
+      deadline: tour.tournament_round&.deadline&.iso8601 }
   end
 
   def saved_or_tour_path

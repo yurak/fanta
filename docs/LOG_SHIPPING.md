@@ -117,6 +117,40 @@ sum by (match_url) (
 Extracting `match_url` gives one alert instance per match, so the notification names the page that
 needs looking at instead of just saying something is wrong. Evaluate every 5m, pending period 10m.
 
+### A write the app silently refused
+
+A lineup saved after the deadline, or an auction bid placed after a round closed, is not an error: the
+controller just redirects, with no flash and no exception. lograge writes the same `status=302` it
+writes for a save that worked, so until `ApplicationController#log_rejected` was added there was
+nothing in the log to tell a user who lost their lineup from one who did not.
+
+```
+{app="fanta"} |= "[rejected]"
+  | regexp "action=(?P<act>\\S+) reason=(?P<reason>\\S+) user=(?P<user>\\S+)"
+```
+
+`reason` separates the cases that need different answers: `tour_closed` / `ddl_expired` is a user who
+lost work to a deadline, `foreign_team` is someone poking at another team's URL, `invalid_squad` and
+`save_failed` are a form that would not validate. Group by it to see which one you actually have:
+
+```
+sum by (reason) (count_over_time({app="fanta"} |= "[rejected]" | regexp "reason=(?P<reason>\\S+)" [1h]))
+```
+
+Worth an alert only around a deadline — a handful of late submissions every tour is normal, a spike is
+not:
+
+```
+sum(count_over_time({app="fanta"} |= "[rejected]" |= "reason=tour_closed" [15m])) > 10
+```
+
+There is a fourth way a lineup disappears that this does not cover, because the request never reaches
+the controller: Devise short-circuits an expired session and logs `status=0` (see *Log format* below).
+
+```
+{app="fanta"} | logfmt | path=~"/teams/.*/lineups.*" | status="0"
+```
+
 ### A notification that never reached its user
 
 ```
