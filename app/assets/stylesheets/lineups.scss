@@ -827,7 +827,22 @@
         }
 
         .standings {
-          padding-top: 24px;
+          margin-top: 24px;
+          padding: 8px 16px;
+          background-color: #FFFFFF;
+          border-radius: 8px;
+
+          .standings-table tbody tr {
+            transition: background-color 0.18s ease;
+          }
+
+          .standings-table tbody tr:hover {
+            background-color: #FFEBC2;
+          }
+
+          .standings-table tbody tr.standings-row-opponent {
+            background-color: #EAC6FB;
+          }
         }
       }
     }

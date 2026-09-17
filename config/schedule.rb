@@ -78,3 +78,10 @@ end
 every :sunday, at: '4:20 am' do
   rake 'tmp:cache:clear'
 end
+
+# League tables for the tour stats column and the lineup page tab. Twice a day is enough: the table
+# only moves on match days, and a stale row still reads correctly (Standings::Updater never wipes on
+# a failed fetch).
+every '40 4,23 * * *' do
+  rake 'standings:refresh'
+end

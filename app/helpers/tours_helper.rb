@@ -13,4 +13,13 @@ module ToursHelper
     time_str += "#{time_hash[:minutes]}m " if time_hash[:minutes]&.positive?
     time_str
   end
+
+  # {club_id => the club it faces} for one round, so the standings table can show each club's
+  # opponent without a query per row.
+  def round_opponents(tournament_round)
+    tournament_round.ordered_tournament_matches.each_with_object({}) do |match, acc|
+      acc[match.host_club_id] = match.guest_club
+      acc[match.guest_club_id] = match.host_club
+    end
+  end
 end

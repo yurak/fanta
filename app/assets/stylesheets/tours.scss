@@ -814,7 +814,65 @@
 
   .stats-section {
     border-left: none;
-    padding-bottom: 214px;
+    // `.create-lineup-row-block` floats over the page at `bottom: 264px` and stands ~130px tall, so
+    // it covers the strip 264-396px up from the bottom edge. The clearance lives here rather than on
+    // the last block, because which block ends the column depends on the tour type.
+    padding-bottom: 432px;
+
+    // The portrait page is laid out at desktop width and scaled down by the browser (the legacy
+    // layout carries no viewport meta), so every size here is roughly 3x its desktop value. The
+    // standings table has to follow, or it renders unreadably small next to the fixtures above it.
+    .standings-table {
+      font-size: 36px;
+
+      th {
+        font-size: 28px;
+        padding: 18px 6px;
+      }
+
+      td {
+        padding: 18px 6px;
+      }
+
+      th:not(.standings-pos):not(.standings-team):not(.standings-goals):not(.standings-opponent),
+      td:not(.standings-pos):not(.standings-team):not(.standings-goals):not(.standings-opponent) {
+        width: 82px;
+      }
+
+      .standings-pos {
+        width: 78px;
+        padding-left: 24px;
+      }
+
+      .standings-zone {
+        width: 8px;
+        top: 14px;
+        bottom: 14px;
+        border-radius: 4px;
+      }
+
+      .standings-team-inner {
+        gap: 18px;
+      }
+
+      .standings-club-logo {
+        width: 48px;
+        height: 48px;
+
+        object, img {
+          width: 48px;
+          height: 48px;
+        }
+      }
+
+      .standings-goals {
+        width: 150px;
+      }
+
+      .standings-opponent {
+        width: 96px;
+      }
+    }
 
     .round-table {
       padding: 48px;

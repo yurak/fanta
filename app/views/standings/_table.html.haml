@@ -1,0 +1,52 @@
+-# Shared by the tour stats column and the lineup page tab. Rendered server-side from our own
+-# `standings` rows — the SofaScore widget this replaces pulled its own bundle into every tab.
+-# `compact` drops the goals column and shows club codes, for the narrow stats column.
+-# `opponents` ({club_id => club}) adds the "this round's opponent" column; the stats column, which
+-# already lists the round's fixtures right above the table, passes nothing.
+- compact = local_assigns.fetch(:compact, false)
+- opponents = local_assigns[:opponents]
+- if standings.present?
+  %table.standings-table{ class: ('standings-table--compact' if compact) }
+    %thead
+      %tr
+        %th.standings-pos= t('tours.standings_pos')
+        %th.standings-team= t('tours.standings_team')
+        %th= t('tours.standings_played')
+        %th= t('tours.standings_wins')
+        %th= t('tours.standings_draws')
+        %th= t('tours.standings_losses')
+        - unless compact
+          %th.standings-goals= t('tours.standings_goals')
+        %th.standings-points= t('tours.standings_points')
+        - if opponents
+          %th.standings-opponent= t('tours.standings_opponent')
+    %tbody
+      - standings.each do |standing|
+        %tr{ data: (opponents ? { club_id: standing.club_id, opponent_id: opponents[standing.club_id]&.id } : {}) }
+          %td.standings-pos
+            %span.standings-zone{ style: ("background-color: #{standing.zone_color}" if standing.zone_color.present?) }
+            = standing.position
+          %td.standings-team
+            .standings-team-inner
+              - if standing.club
+                .standings-club-logo
+                  %object{ data: standing.club.logo_path, type: ApplicationRecord::CONTENT_TYPE_PNG }
+                    = image_tag('default_logo.png')
+              %span.standings-club-name
+                = compact && standing.club ? standing.club.code : standing.display_name
+          %td= standing.played
+          %td= standing.wins
+          %td= standing.draws
+          %td= standing.losses
+          - unless compact
+            %td.standings-goals= standing.scores_str
+          %td.standings-points= standing.points
+          - if opponents
+            %td.standings-opponent
+              - opponent = opponents[standing.club_id]
+              - if opponent
+                .standings-club-logo{ title: opponent.name }
+                  %object{ data: opponent.logo_path, type: ApplicationRecord::CONTENT_TYPE_PNG }
+                    = image_tag('default_logo.png')
+              - else
+                %span.standings-opponent-none —

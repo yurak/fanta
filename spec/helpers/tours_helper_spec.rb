@@ -16,4 +16,26 @@ RSpec.describe ToursHelper do
       end
     end
   end
+
+  describe '#round_opponents' do
+    subject(:opponents) { helper.round_opponents(round) }
+
+    let(:round) { create(:tournament_round) }
+    let(:host) { create(:club) }
+    let(:guest) { create(:club) }
+
+    before { create(:tournament_match, tournament_round: round, host_club: host, guest_club: guest) }
+
+    it 'maps the home club to its visitor' do
+      expect(opponents[host.id]).to eq(guest)
+    end
+
+    it 'maps the away club to its host' do
+      expect(opponents[guest.id]).to eq(host)
+    end
+
+    it 'leaves out a club that does not play this round' do
+      expect(opponents[create(:club).id]).to be_nil
+    end
+  end
 end
