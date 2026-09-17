@@ -42,11 +42,11 @@
                   .match-player-item
                     .match-player-avatar
                       .player-show-face
-                        %object{data: match_player.player.avatar_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                          = image_tag('avatar.png')
+                        %img{ src: match_player.player.avatar_path,
+                              onerror: "this.onerror=null;this.src='#{image_path('avatar.png')}'" }
                       .player-show-kit
-                        %object{data: lineup.tour.national? ? match_player.player.national_kit_path : match_player.kit_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                          = image_tag('kit_small_default.png')
+                        - kit = lineup.tour.national? ? match_player.player.national_kit_path : match_player.kit_path
+                        %img{ src: kit, onerror: "this.onerror=null;this.src='#{image_path('kit_small_default.png')}'" }
                       .module-position-block.player-positions-block
                         - match_player.real_position_arr.each do |position|
                           .player-position{class: "player-position-#{position}"}

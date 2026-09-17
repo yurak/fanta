@@ -53,7 +53,7 @@
       .player-show-face, .player-show-kit {
         position: absolute;
 
-        img, object {
+        img {
           width: 66px;
           height: 66px;
         }
@@ -87,15 +87,10 @@
 
   .transfer-team-image {
     .team-image {
-      img, object {
+      img {
         margin: auto 4px;
         width: 48px;
         height: 48px;
-      }
-
-      object {
-        position: relative;
-        top: 10px;
       }
     }
   }
@@ -110,14 +105,9 @@
   .transfer-player-club {
     text-align: center;
 
-    img, object {
+    img {
       width: 32px;
       height: 32px;
-    }
-
-    object {
-      position: relative;
-      top: 19px;
     }
   }
 

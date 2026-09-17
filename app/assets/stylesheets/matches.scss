@@ -417,12 +417,6 @@
             width: 66px;
             height: 66px;
           }
-
-          object {
-            margin-top: 4px;
-            width: 66px;
-            height: 66px;
-          }
         }
 
         .module-position-block {
@@ -548,7 +542,7 @@
           line-height: 16px;
 
           .player-match-team {
-            img, object {
+            img {
               width: 20px;
               height: 20px;
             }

@@ -34,11 +34,9 @@
                 .team-player-data
                   .team-player-avatar
                     .player-show-face
-                      %object{data: player.avatar_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                        = image_tag('avatar.png')
+                      %img{ src: player.avatar_path, onerror: "this.onerror=null;this.src='#{image_path('avatar.png')}'" }
                     .player-show-kit
-                      %object{data: player.national_kit_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                        = image_tag('kit_small_default.png')
+                      %img{ src: player.national_kit_path, onerror: "this.onerror=null;this.src='#{image_path('kit_small_default.png')}'" }
                   .team-player-name
                     .team-player-last-name
                       = player.name
@@ -54,8 +52,7 @@
                           .player-position{class: "player-position-#{position.name}"}
                             = position_name(position)
                     .team-player-line-mob
-                    %object{data: player.club.logo_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                      = image_tag('default_logo.png')
+                    %img{ src: player.club.logo_path, onerror: "this.onerror=null;this.src='#{image_path('default_logo.png')}'" }
                     .team-player-line-mob
                     .team-player-stats-number
                       = "#{player.season_scores_count(player.national_matches_with_scores)} #{t('teams.apps')}"
@@ -69,8 +66,7 @@
                 .team-player-stats-number.team-player-rating
                   = player.season_average_result_score(player.national_matches_with_scores)
                 .team-player-club
-                  %object{data: player.club.logo_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                    = image_tag('default_logo.png')
+                  %img{ src: player.club.logo_path, onerror: "this.onerror=null;this.src='#{image_path('default_logo.png')}'" }
                   .team-player-param-item.team-player-link
                     = image_tag('icons/arrow_right.svg')
       .clubs-list

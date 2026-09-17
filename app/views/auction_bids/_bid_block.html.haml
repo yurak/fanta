@@ -35,10 +35,9 @@
             .player-bid-index.right= player_bid.index + 1
             .player-bid-avatar{id: "item-player-#{player&.id}"}
               .player-bid-face
-                %object{data: player&.avatar_path || asset_path('avatar.png'), type: ApplicationRecord::CONTENT_TYPE_PNG, id: "avatar-#{player_bid.index}"}
-                  = image_tag('avatar.png')
+                %img{ src: player&.avatar_path || asset_path('avatar.png'), id: "avatar-#{player_bid.index}", onerror: "this.onerror=null;this.src='#{image_path('avatar.png')}'" }
               .player-bid-kit
-                %object{data: player&.kit_path || asset_path('kit_small_default.png'), type: ApplicationRecord::CONTENT_TYPE_PNG, id: "kit-#{player_bid.index}"}
+                %img{ src: player&.kit_path || asset_path('kit_small_default.png'), id: "kit-#{player_bid.index}", onerror: "this.onerror=null;this.src='#{image_path('kit_small_default.png')}'" }
             .player-bid-name
               .player-bid-last-name{id: "last-name-#{player_bid.index}"}
                 = player&.name || ' '
@@ -53,7 +52,7 @@
                     .player-position{class: "player-position-#{position.name} selected-player-#{position.name}"}
                       = position_name(position)
             .player-bid-club
-              %object{data: player&.club&.logo_path || asset_path('default_logo.png'), type: ApplicationRecord::CONTENT_TYPE_PNG, id: "club-#{player_bid.index}"}
+              %img{ src: player&.club&.logo_path || asset_path('default_logo.png'), id: "club-#{player_bid.index}", onerror: "this.onerror=null;this.src='#{image_path('default_logo.png')}'" }
             .player-bid-actions.right{id: "actions-#{player_bid.index}"}
               .player-manage-block{class: "player-manage-#{player.present?}"}
                 - if auction_bid.editable?
@@ -94,8 +93,7 @@
                 .ab-filters-clubs
                   - clubs.each do |club|
                     .search-club-logo{class: "search-club#{player_bid.index}",id: "search-club#{club.id}"}
-                      %object{data: club.logo_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                        = image_tag('default_logo.png')
+                      %img{ src: club.logo_path, onerror: "this.onerror=null;this.src='#{image_path('default_logo.png')}'" }
                 .ab-players-loader{id: "ab-players-loader-#{player_bid.index}"}
                 .ab-players-block{id: "ab-players-block-#{player_bid.index}"}
 
@@ -112,11 +110,9 @@
               .player-bid-index.right= i + auction_bid&.player_bids&.count
               .player-bid-avatar
                 .player-bid-face
-                  %object{data: player.avatar_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                    = image_tag('avatar.png')
+                  %img{ src: player.avatar_path, onerror: "this.onerror=null;this.src='#{image_path('avatar.png')}'" }
                 .player-bid-kit
-                  %object{data: player.kit_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                    = image_tag('kit_small_default.png')
+                  %img{ src: player.kit_path, onerror: "this.onerror=null;this.src='#{image_path('kit_small_default.png')}'" }
               .player-bid-name
                 .player-bid-last-name= player.name
                 .player-bid-first-name= player.first_name
@@ -127,8 +123,7 @@
                     .player-position{class: "player-position-#{position.name}"}
                       = position_name(position)
               .player-bid-club
-                %object{data: player.club.logo_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                  = image_tag('default_logo.png')
+                %img{ src: player.club.logo_path, onerror: "this.onerror=null;this.src='#{image_path('default_logo.png')}'" }
               .player-bid-actions
                 .player-transfer-completed
                   .player-transfer-price= player.transfers.select { |transfer| transfer.incoming? && transfer.league_id == league&.id }.last&.price
@@ -202,9 +197,9 @@
               location.reload();
             } else {
               $('#player-bid-' + slotId).attr("value", playerId);
-              $('#avatar-' + slotId).attr("data", data.avatar_path);
-              $('#kit-' + slotId).attr("data", data.club.kit_path);
-              $('#club-' + slotId).attr("data", data.club.logo_path);
+              $('#avatar-' + slotId).attr("src", data.avatar_path);
+              $('#kit-' + slotId).attr("src", data.club.kit_path);
+              $('#club-' + slotId).attr("src", data.club.logo_path);
               $('#first-name-' + slotId).text(data.first_name || ' ');
               $('#last-name-' + slotId).text(data.name);
 
@@ -357,6 +352,8 @@
       function renderPlayerItem(data, slotId, leagueId) {
         const playersContainer = $('#ab-players-block-'+slotId);
         const avatarImgSrc = "#{asset_path('avatar.png')}";
+        const kitImgSrc = "#{asset_path('kit_small_default.png')}";
+        const logoImgSrc = "#{asset_path('default_logo.png')}";
         const italPosNaming = ($('#position-naming')[0].getAttribute('value') === 'true');
         const dumpedIds = $('#dumped')[0].getAttribute('value').split(',');
         const imagePath = "#{asset_path('icons/player_link.svg')}";
@@ -393,13 +390,10 @@
             '<div class="ab-player-item ' + modalClass + '" id="player' + data.id + '">' +
               '<div class="ab-player-images">' +
                 '<div class="player-show-face">' +
-                  '<object data=' + data.avatar_path + ' type="image/png">' +
-                    '<img src=' + avatarImgSrc + '>' +
-                  '</object>' +
+                  '<img src="' + (data.avatar_path || avatarImgSrc) + '" onerror="this.onerror=null;this.src=\'' + avatarImgSrc + '\'">' +
                 '</div>' +
                 '<div class="player-show-kit">' +
-                  '<object data=' + data.club.kit_path + ' type="image/png">' +
-                  '</object>' +
+                  '<img src="' + (data.club.kit_path || kitImgSrc) + '" onerror="this.onerror=null;this.src=\'' + kitImgSrc + '\'">' +
                 '</div>' +
               '</div>' +
               '<div class="ab-player-name">' +
@@ -417,8 +411,7 @@
                 positionsContainer +
               '</div>' +
               '<div class="ab-player-club">' +
-                '<object data=' + data.club.logo_path + ' type="image/png">' +
-                '</object>' +
+                '<img src="' + (data.club.logo_path || logoImgSrc) + '" onerror="this.onerror=null;this.src=\'' + logoImgSrc + '\'">' +
               '</div>' +
               '<div class="ab-player-status">' +
                 status +

@@ -72,11 +72,9 @@
       - club_color = @player.club&.color.presence || '181715'
       .player-show-avatar{style: "position: relative; width: 200px; height: 200px; flex-shrink: 0; background-color: ##{club_color}; border-radius: 8px; margin-left: 16px;"}
         .player-show-face{style: 'position: absolute; top: 0; left: 0;'}
-          %object{data: @player.profile_avatar_path, type: ApplicationRecord::CONTENT_TYPE_PNG, width: 200, height: 200}
-            = image_tag('avatar.png', width: 200, height: 200)
+          %img{ src: @player.profile_avatar_path, width: 200, height: 200, onerror: "this.onerror=null;this.src='#{image_path('avatar.png')}'" }
         .player-show-kit{style: 'position: absolute; top: 0; left: 0;'}
-          %object{data: @player.profile_kit_path, type: ApplicationRecord::CONTENT_TYPE_PNG, width: 200, height: 200}
-            = image_tag('kit_default.png', width: 200, height: 200)
+          %img{ src: @player.profile_kit_path, width: 200, height: 200, onerror: "this.onerror=null;this.src='#{image_path('kit_default.png')}'" }
 
     %h5.mt-4= t('manage.players.section_links')
     - if @player.tm_id.present?

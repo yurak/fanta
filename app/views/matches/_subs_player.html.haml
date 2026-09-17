@@ -1,15 +1,12 @@
 .match-player-item
   .match-player-avatar
     .player-show-face
-      %object{data: match_player.player.avatar_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-        = image_tag('avatar.png')
+      %img{ src: match_player.player.avatar_path, onerror: "this.onerror=null;this.src='#{image_path('avatar.png')}'" }
     .player-show-kit
       - if match_player.lineup.tour.national?
-        %object{data: match_player.player.national_kit_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-          = image_tag('kit_small_default.png')
+        %img{ src: match_player.player.national_kit_path, onerror: "this.onerror=null;this.src='#{image_path('kit_small_default.png')}'" }
       - else
-        %object{data: match_player.kit_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-          = image_tag('kit_small_default.png')
+        %img{ src: match_player.kit_path, onerror: "this.onerror=null;this.src='#{image_path('kit_small_default.png')}'" }
   .match-player-data
     .match-player-data
       .match-player-data-base

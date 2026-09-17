@@ -149,7 +149,7 @@
                 line-height: 10px;
                 position: absolute;
 
-                img, object {
+                img {
                   width: 40px;
                   height: 40px;
                   border-radius: 50%;
@@ -187,7 +187,7 @@
                 line-height: 24px;
                 height: 24px;
 
-                img, object {
+                img {
                   top: 2px;
                   position: relative;
                   width: 24px;
@@ -224,7 +224,7 @@
             position: absolute;
           }
 
-          img, object {
+          img {
             width: 100px;
             height: 100px;
           }
@@ -273,7 +273,7 @@
           .bid-active-logo {
             height: 24px;
 
-            img, object {
+            img {
               width: 24px;
               height: 24px;
             }
@@ -400,7 +400,7 @@
                 .player-show-face, .player-show-kit {
                   line-height: 10px;
 
-                  img, object {
+                  img {
                     width: 64px;
                     height: 64px;
                   }
@@ -429,7 +429,7 @@
                   line-height: 36px;
                   height: 36px;
 
-                  img, object {
+                  img {
                     width: 36px;
                     height: 36px;
                   }
@@ -492,7 +492,7 @@
             .bid-active-logo {
               height: 36px;
 
-              img, object {
+              img {
                 width: 36px;
                 height: 36px;
               }
@@ -809,7 +809,7 @@
               column-gap: 8px;
 
               .player-show-club-logo {
-                img, object {
+                img {
                   width: 24px;
                   height: 24px;
                 }
@@ -827,7 +827,7 @@
             position: absolute;
             //right: 16%;
 
-            img, object {
+            img {
               width: 196px;
               height: 196px;
             }
@@ -1076,7 +1076,7 @@
         .player-show-face, .player-show-kit {
           position: absolute;
 
-          img, object {
+          img {
             width: 56px;
             height: 56px;
           }
@@ -1085,12 +1085,9 @@
         .player-show-team {
           position: absolute;
 
-          img, object {
+          img {
             width: 20px;
             height: 20px;
-          }
-
-          object {
             position: relative;
             top: 36px;
             left: 2px;

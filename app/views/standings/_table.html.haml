@@ -30,8 +30,7 @@
             .standings-team-inner
               - if standing.club
                 .standings-club-logo
-                  %object{ data: standing.club.logo_path, type: ApplicationRecord::CONTENT_TYPE_PNG }
-                    = image_tag('default_logo.png')
+                  %img{ src: standing.club.logo_path, onerror: "this.onerror=null;this.src='#{image_path('default_logo.png')}'" }
               %span.standings-club-name
                 = compact && standing.club ? standing.club.code : standing.display_name
           %td= standing.played
@@ -46,7 +45,6 @@
               - opponent = opponents[standing.club_id]
               - if opponent
                 .standings-club-logo{ title: opponent.name }
-                  %object{ data: opponent.logo_path, type: ApplicationRecord::CONTENT_TYPE_PNG }
-                    = image_tag('default_logo.png')
+                  %img{ src: opponent.logo_path, onerror: "this.onerror=null;this.src='#{image_path('default_logo.png')}'" }
               - else
                 %span.standings-opponent-none —

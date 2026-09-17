@@ -85,15 +85,12 @@
                   .team-player-data{id: "team-player-data#{mp.index}"}
                     .team-player-avatar
                       .player-show-face
-                        %object{data: player&.avatar_path || '', type: ApplicationRecord::CONTENT_TYPE_PNG, id: "avatar-#{mp.index}"}
-                          = image_tag('avatar.png')
+                        %img{ src: player&.avatar_path.presence || image_path('avatar.png'), id: "avatar-#{mp.index}",
+                              onerror: "this.onerror=null;this.src='#{image_path('avatar.png')}'" }
                       .player-show-kit
-                        - if tour.national?
-                          %object{data: player&.national_kit_path || '', type: ApplicationRecord::CONTENT_TYPE_PNG, id: "kit-#{mp.index}"}
-                            = image_tag('kit_small_default.png')
-                        - else
-                          %object{data: player&.kit_path || '', type: ApplicationRecord::CONTENT_TYPE_PNG, id: "kit-#{mp.index}"}
-                            = image_tag('kit_small_default.png')
+                        - kit = tour.national? ? player&.national_kit_path : player&.kit_path
+                        %img{ src: kit.presence || image_path('kit_small_default.png'), id: "kit-#{mp.index}",
+                              onerror: "this.onerror=null;this.src='#{image_path('kit_small_default.png')}'" }
                       .squad-position
                         .module-position-block.player-positions-block
                           - if slot&.position
@@ -149,6 +146,9 @@
                       .modal-modules-block{ id: "modal-modules-block#{mp.index}", data: (lazy_mantra ? { lazy_team: team.id, lazy_module: team_module.id, lazy_index: mp.index } : {}) }
 
 :javascript
+  const AVATAR_FALLBACK = "#{image_path('avatar.png')}";
+  const KIT_FALLBACK = "#{image_path('kit_small_default.png')}";
+
   $(document).ready(function() {
     $('.module-image .match-module-item-player').each(function() {
       if ($(this).text().trim().length > 0) {
@@ -172,14 +172,19 @@
 
     markDuplicates();
 
+    const closeSlotModal = function($modal) {
+      $modal.hide();
+      const block = $modal.find('.modal-modules-block');
+      block.empty();
+      block.removeAttr('data-loaded');
+    };
+
+
     $('#clear-squad-btn').on('click', function(e) {
       e.preventDefault();
       if (!confirm("#{t('lineups.clear_confirm')}")) { return; }
 
-      const resetObject = function($obj) {
-        const $clone = $obj.clone().attr('data', '');
-        $obj.replaceWith($clone);
-      };
+      const resetImage = function($img, fallback) { $img.attr('src', fallback); };
 
       $('.round-player-input').each(function() {
         const blockId = this.id.replace('round-player-', '');
@@ -189,8 +194,8 @@
         $('#first-name-' + blockId).text('');
         $('#club-' + blockId).text('');
         $('#country-' + blockId).text('');
-        resetObject($('#avatar-' + blockId));
-        resetObject($('#kit-' + blockId));
+        resetImage($('#avatar-' + blockId), AVATAR_FALLBACK);
+        resetImage($('#kit-' + blockId), KIT_FALLBACK);
         $('#positions-' + blockId).children('.player-positions-block').empty();
         $('#modal-player-data' + blockId).removeClass('duplicate-player').css('border-bottom', '');
 
@@ -233,12 +238,9 @@
         dataType: "json",
         url: "/players/"+playerId,
         success: function(data){
-          const reloadObject = function($obj, newData) {
-            const $clone = $obj.clone().attr('data', newData);
-            $obj.replaceWith($clone);
-          };
+          const setImage = function($img, src, fallback) { $img.attr('src', src || fallback); };
 
-          reloadObject(avatarContainer, data.avatar_path);
+          setImage(avatarContainer, data.avatar_path, AVATAR_FALLBACK);
           clubContainer.text(data.club_code);
           countryContainer.text(data.national_team_code);
           roundPlayerContainer.attr("value", playerId);
@@ -246,9 +248,9 @@
           markDuplicates();
 
           if (nationalTour) {
-            reloadObject(kitContainer, data.national_kit_path);
+            setImage(kitContainer, data.national_kit_path, KIT_FALLBACK);
           } else {
-            reloadObject(kitContainer, data.kit_path);
+            setImage(kitContainer, data.kit_path, KIT_FALLBACK);
           }
 
           if (data.first_name != null) {
@@ -315,7 +317,7 @@
         }
       });
 
-      $(modalList).hide();
+      closeSlotModal($(modalList));
     });
 
     const filterModalPlayers = function(input) {
@@ -430,6 +432,10 @@
     }
     span.onclick = function() { modal.style.display = "none"; };
 
+    $(document).on('click', '.modal-players-list .close', function() {
+      closeSlotModal($(this).closest('.modal-players-list'));
+    });
+
     $('.team-player-data').click(function() {
       const slotId = $(this).attr('id').replace('team-player-data','');
       const playersList = $('#modal-players-list' + slotId);
@@ -445,7 +451,7 @@
 
       if ("#{tour.eurocup?}" === 'true') {
         const slotPositionName = $('#modal-position' + slotId).attr('class').replace('modal-players-title-position modal-position-','');
-        const avatarImgSrc = $('#avatar-'+slotId).children()[0].src;
+        const avatarImgSrc = AVATAR_FALLBACK;
         const italPosNaming = ($('#position-naming')[0].getAttribute('value') === 'true');
 
         $.ajax({
@@ -486,13 +492,10 @@
                   '<div class="modal-player-item" id="' + player.id + '" data-search="' + (firstName + ' ' + player.name).trim().toLowerCase() + '">' +
                     '<div class="modal-player-images" style="background-color: #' + color + '">' +
                       '<div class="player-show-face">' +
-                        '<object data=' + player.avatar_path + ' type="image/png">' +
-                          '<img src=' + avatarImgSrc + '>' +
-                        '</object>' +
+                        '<img src="' + (player.avatar_path || avatarImgSrc) + '" onerror="this.onerror=null;this.src=\'' + avatarImgSrc + '\'">' +
                       '</div>' +
                       '<div class="player-show-kit">' +
-                        '<object data=' + kit_path + ' type="image/png">' +
-                        '</object>' +
+                        '<img src="' + (kit_path || KIT_FALLBACK) + '" onerror="this.onerror=null;this.src=\'' + KIT_FALLBACK + '\'">' +
                       '</div>' +
                     '</div>' +
                     '<div class="modal-player-data">' +
@@ -559,7 +562,7 @@
       if (event.target == modal) { modal.style.display = "none"; }
 
       if (event.target.className == "modal-players-list") {
-        $('#' + event.target.id).css("display", "none");
+        closeSlotModal($('#' + event.target.id));
       }
     }
 

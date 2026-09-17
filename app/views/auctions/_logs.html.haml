@@ -36,11 +36,9 @@
             .player-bid-row{id: "player-bid-#{player_bid.id}", class: "active-bid-row-#{@active_bid&.id == player_bid.id}", data: pb_data}
               .player-bid-avatar
                 .player-show-face
-                  %object{data: player_bid.player.avatar_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                    = image_tag('avatar.png')
+                  %img{ src: player_bid.player.avatar_path, onerror: "this.onerror=null;this.src='#{image_path('avatar.png')}'" }
                 .player-show-kit
-                  %object{data: player_bid.player.kit_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                    = image_tag('kit_small_default.png')
+                  %img{ src: player_bid.player.kit_path, onerror: "this.onerror=null;this.src='#{image_path('kit_small_default.png')}'" }
               .player-bid-name
                 = "#{player_bid.player.name}#{' ⭐️' if my_team&.id == player_bid.team.id}"
               .player-bid-positions
@@ -52,19 +50,16 @@
               .player-bid-arrow ➡️
               .player-bid-club
                 .player-bid-club-obj
-                  %object{data: player_bid.team.logo_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                    = image_tag('default_logo.png')
+                  %img{ src: player_bid.team.logo_path, onerror: "this.onerror=null;this.src='#{image_path('default_logo.png')}'" }
 
     - if @active_bid
       .players-bid-active#players-bid-active
         .bid-active-player
           .bid-active-player-avatar#bid-active-player-avatar
             .player-show-face
-              %object{data: @active_bid.player.avatar_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                = image_tag('avatar.png')
+              %img{ src: @active_bid.player.avatar_path, onerror: "this.onerror=null;this.src='#{image_path('avatar.png')}'" }
             .player-show-kit
-              %object{data: @active_bid.player.kit_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                = image_tag('kit_small_default.png')
+              %img{ src: @active_bid.player.kit_path, onerror: "this.onerror=null;this.src='#{image_path('kit_small_default.png')}'" }
           .bid-active-player-name#bid-active-player-name
             = link_to player_path(@active_bid.player), target: '_blank' do
               = @active_bid.player.full_name
@@ -79,8 +74,7 @@
             .bid-active-block
               .bid-active-row.bid-active-success
                 .bid-active-logo
-                  %object{data: @active_bid.team.logo_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                    = image_tag('default_logo.png')
+                  %img{ src: @active_bid.team.logo_path, onerror: "this.onerror=null;this.src='#{image_path('default_logo.png')}'" }
                 .bid-active-team= @active_bid.team.human_name
                 .bid-active-price-wrapper
                   .bid-active-price= "#{@active_bid.price}M"
@@ -91,8 +85,7 @@
                 - player_bids.each do |bid|
                   .bid-active-row{class: "bid-active-#{bid.status}"}
                     .bid-active-logo
-                      %object{data: bid.team.logo_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                        = image_tag('default_logo.png')
+                      %img{ src: bid.team.logo_path, onerror: "this.onerror=null;this.src='#{image_path('default_logo.png')}'" }
                     .bid-active-team= bid.team.human_name
                     .bid-active-price-wrapper
                       .bid-active-price= "#{bid.price}M"
@@ -126,9 +119,9 @@
         const teamName = $(this).data('teamName');
         const playerPath = "#{player_path(1).tr('1', '')}" + playerId;
 
-        const playerAvatarPath = $(this).find('.player-show-face object').attr('data');
-        const playerKitPath = $(this).find('.player-show-kit object').attr('data');
-        const teamLogo = $(this).find('.player-bid-club-obj object').attr('data');
+        const playerAvatarPath = $(this).find('.player-show-face img').attr('src');
+        const playerKitPath = $(this).find('.player-show-kit img').attr('src');
+        const teamLogo = $(this).find('.player-bid-club-obj img').attr('src');
         const price = $(this).find('.player-bid-price').text().replace('M', '');
 
         let name = playerName;
@@ -137,8 +130,8 @@
         nameContainer.empty().append(buildPlayerLink(playerPath, name));
 
         avatarContainer.empty().append(
-          '<div class="player-show-face"><object data=' + playerAvatarPath + ' type="image/png"><img src=' + avatarImgSrc + '></object></div>' +
-          '<div class="player-show-kit"><object data=' + playerKitPath + ' type="image/png"><img src=' + kitImgSrc + '></object></div>'
+          '<div class="player-show-face"><img src="' + (playerAvatarPath || avatarImgSrc) + '" onerror="this.onerror=null;this.src=\'' + avatarImgSrc + '\'"></div>' +
+          '<div class="player-show-kit"><img src="' + (playerKitPath || kitImgSrc) + '" onerror="this.onerror=null;this.src=\'' + kitImgSrc + '\'"></div>'
         );
 
         positionsContainer.children('.player-position').remove();
@@ -151,7 +144,7 @@
           '<div class="bid-active-stage">✅ ' + "#{t('auction.show.logs.stage')}" + '1</div>' +
           '<div class="bid-active-block">' +
             '<div class="bid-active-row bid-active-success">' +
-              '<div class="bid-active-logo"><object data=' + teamLogo + ' type="image/png"><img src=' + defaultTeamLogo + '></object></div>' +
+              '<div class="bid-active-logo"><img src="' + (teamLogo || defaultTeamLogo) + '" onerror="this.onerror=null;this.src=\'' + defaultTeamLogo + '\'"></div>' +
               '<div class="bid-active-team">' + escHtml(teamName) + '</div>' +
               '<div class="bid-active-price-wrapper"><div class="bid-active-price">' + price + 'M</div></div>' +
             '</div>' +
@@ -180,14 +173,10 @@
           avatarContainer.children().remove();
           avatarContainer.append(
             '<div class="player-show-face">' +
-              '<object data=' + player.avatar_path + ' type="image/png">' +
-                '<img src=' + avatarImgSrc + '>' +
-              '</object>' +
+              '<img src="' + (player.avatar_path || avatarImgSrc) + '" onerror="this.onerror=null;this.src=\'' + avatarImgSrc + '\'">' +
             '</div>' +
             '<div class="player-show-kit">' +
-              '<object data=' + player.club.kit_path + ' type="image/png">' +
-                '<img src=' + kitImgSrc + '>' +
-              '</object>' +
+              '<img src="' + (player.club.kit_path || kitImgSrc) + '" onerror="this.onerror=null;this.src=\'' + kitImgSrc + '\'">' +
             '</div>'
           );
 
@@ -217,9 +206,7 @@
               stageBidsHtml +=
                 '<div class="bid-active-row bid-active-' + bid.status + '">' +
                   '<div class="bid-active-logo">' +
-                    '<object data=' + bid.team.logo_path + ' type="image/png">' +
-                      '<img src=' + defaultTeamLogo + '>' +
-                    '</object>' +
+                    '<img src="' + (bid.team.logo_path || defaultTeamLogo) + '" onerror="this.onerror=null;this.src=\'' + defaultTeamLogo + '\'">' +
                   '</div>' +
                   '<div class="bid-active-team">' +
                     escHtml(bid.team.human_name) +

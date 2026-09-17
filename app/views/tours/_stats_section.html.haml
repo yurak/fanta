@@ -69,8 +69,7 @@
                   = t_match.host_club.code
               .round-tournament-club-logo-wrapper
                 .round-tournament-club-logo
-                  %object{data: t_match.host_club.logo_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                    = image_tag('default_logo.png')
+                  %img{ src: t_match.host_club.logo_path, onerror: "this.onerror=null;this.src='#{image_path('default_logo.png')}'" }
             .round-tournament-match-cell{ class: ('round-tournament-match-cell--live' if t_match.live?) }
               - if t_match.host_score
                 .round-tournament-match-result
@@ -83,8 +82,7 @@
             .round-tournament-match-cell.round-tournament-match-club.round-tournament-match-guest
               .round-tournament-club-logo-wrapper
                 .round-tournament-club-logo
-                  %object{data: t_match.guest_club.logo_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                    = image_tag('default_logo.png')
+                  %img{ src: t_match.guest_club.logo_path, onerror: "this.onerror=null;this.src='#{image_path('default_logo.png')}'" }
               .round-tournament-club-name
                 - if current_user&.can_moderate? && tour.deadlined?
                   = link_to edit_tournament_round_path(tour.tournament_round, club_id: t_match.guest_club.id) do

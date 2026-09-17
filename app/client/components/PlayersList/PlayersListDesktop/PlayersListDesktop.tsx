@@ -58,6 +58,7 @@ const PlayersListDesktop = ({ emptyStateComponent }: { emptyStateComponent: Reac
       dataKey: "club",
       title: t("players.filters.clubLabel"),
       className: styles.clubCell,
+      align: "center",
       sorter: true,
       supportAscSorting: true,
       render: ({ club }) => (
@@ -194,6 +195,7 @@ const PlayersListDesktop = ({ emptyStateComponent }: { emptyStateComponent: Reac
       dataKey: "team",
       title: t("players.filters.teamLabel"),
       className: styles.clubCell,
+      align: "center",
       render: ({ league_team_logo }) => {
         if (!league_team_logo) return "-";
 

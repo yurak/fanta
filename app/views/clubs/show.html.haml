@@ -11,14 +11,12 @@
           = link_to tournament_club_path(tournament, club_item) do
             .team-bar-item.club-bar-item{ class: "current-team-#{club_item == club}"}
               .team-bar-item-logo.club-bar-item-logo
-                %object{data: club_item.logo_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                  = image_tag('default_logo.png')
+                %img{ src: club_item.logo_path, onerror: "this.onerror=null;this.src='#{image_path('default_logo.png')}'" }
     .club-show-content
       .club-section.team-section
         .club-data
           .club-logo
-            %object{data: club.logo_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-              = image_tag('default_logo.png')
+            %img{ src: club.logo_path, onerror: "this.onerror=null;this.src='#{image_path('default_logo.png')}'" }
           .club-name
             = club.name
           .club-tournament
@@ -36,11 +34,9 @@
                 .team-player-data
                   .team-player-avatar
                     .player-show-face
-                      %object{data: player.avatar_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                        = image_tag('avatar.png')
+                      %img{ src: player.avatar_path, onerror: "this.onerror=null;this.src='#{image_path('avatar.png')}'" }
                     .player-show-kit
-                      %object{data: player.kit_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                        = image_tag('kit_small_default.png')
+                      %img{ src: player.kit_path, onerror: "this.onerror=null;this.src='#{image_path('kit_small_default.png')}'" }
                   .team-player-name
                     .team-player-last-name
                       = player.name
@@ -81,8 +77,7 @@
             = link_to tournament_club_path(tournament, club_item, league_id: params[:league_id]) do
               .club-list-row
                 .club-list-logo
-                  %object{data: club_item.logo_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                    = image_tag('default_logo.png')
+                  %img{ src: club_item.logo_path, onerror: "this.onerror=null;this.src='#{image_path('default_logo.png')}'" }
                 .club-list-name= club_item.name
 
   - if league
