@@ -89,19 +89,6 @@
                     = t_match.guest_club.code
                 - else
                   = t_match.guest_club.code
-    - standings = tour.league.tournament.standings.by_season(tour.tournament_round.season_id).ordered.includes(:club)
-    - if standings.any?
-      .round-table.tournament-table.hidden-stats
-        .round-table-title-header
-          .round-table-title
-            .round-table-title-text= "📊 #{t('tours.standings')}"
-          .round-table-hide.round-table-visible
-            = image_tag('icons/arrow_up.svg')
-          .round-table-hide.round-table-hidden
-            = image_tag('icons/arrow_down.svg')
-        .round-list
-          = render 'standings/table', standings: standings, compact: true
-
   - if tour.fanta?
     .round-table
       .round-table-title-header
@@ -141,6 +128,19 @@
               .results-team-logo= image_tag(image_path(result.team.logo_path))
               .results-team-name= result.team.human_name
             .round-table-item-points= result.points
+
+  - standings = tour.league.tournament.standings.by_season(tour.tournament_round.season_id).ordered.includes(:club)
+  - if standings.any?
+    .round-table.tournament-table.hidden-stats
+      .round-table-title-header
+        .round-table-title
+          .round-table-title-text= "📊 #{t('tours.standings')}"
+        .round-table-hide.round-table-visible
+          = image_tag('icons/arrow_up.svg')
+        .round-table-hide.round-table-hidden
+          = image_tag('icons/arrow_down.svg')
+      .round-list
+        = render 'standings/table', standings: standings, compact: true
 
 :javascript
   function initTournamentPlayers() {

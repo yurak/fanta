@@ -588,23 +588,19 @@ RSpec.describe 'Lineups' do
     end
   end
 
-  # rubocop:disable RSpec/MultipleMemoizedHelpers
   describe 'POST #fanta_copy' do
+    # Copying needs two fanta leagues of the same tournament, sharing a round, with the same manager
+    # in both. Each side is built by one helper so the group keeps its memoized helpers in check.
     let(:user) { create(:user) }
-    let(:tournament) { create(:fanta_tournament) }
-    let(:tournament_round) { create(:tournament_round, tournament: tournament) }
-    let(:source_league) { create(:active_league, tournament: tournament) }
-    let(:target_league) { create(:active_league, tournament: tournament) }
-    let(:source_team) { create(:team, user: user, league: source_league) }
-    let(:target_team) { create(:team, user: user, league: target_league) }
-    let(:source_tour) { create(:set_lineup_tour, league: source_league, tournament_round: tournament_round) }
-    let(:target_tour) { create(:set_lineup_tour, league: target_league, tournament_round: tournament_round) }
-    let(:fanta_lineup) { create(:lineup, :with_fanta_score_five, team: source_team, tour: source_tour) }
+    let(:tournament_round) { create(:tournament_round, tournament: create(:fanta_tournament)) }
+    let(:source) { fanta_side }
+    let(:target) { fanta_side }
+    let(:fanta_lineup) { create(:lineup, :with_fanta_score_five, team: source[:team], tour: source[:tour]) }
 
-    before { fanta_lineup && target_team && target_tour }
+    before { fanta_lineup && target[:tour] }
 
     context 'when user is logged out' do
-      before { post fanta_copy_team_lineup_path(source_team, fanta_lineup) }
+      before { post fanta_copy_team_lineup_path(source[:team], fanta_lineup) }
 
       it { expect(response).to redirect_to('/users/sign_in') }
     end
@@ -612,29 +608,36 @@ RSpec.describe 'Lineups' do
     context 'when user is logged in as team owner' do
       before do
         sign_in user
-        post fanta_copy_team_lineup_path(source_team, fanta_lineup)
+        post fanta_copy_team_lineup_path(source[:team], fanta_lineup)
       end
 
-      it { expect(response).to redirect_to(team_lineup_path(source_team, fanta_lineup)) }
+      it { expect(response).to redirect_to(team_lineup_path(source[:team], fanta_lineup)) }
       it { expect(response).to have_http_status(:found) }
 
       it 'copies lineup to other fanta leagues' do
-        expect(target_tour.lineups.count).to eq(1)
+        expect(target[:tour].lineups.count).to eq(1)
       end
     end
 
     context 'when user is logged in as foreign user' do
       before do
         sign_in create(:user)
-        post fanta_copy_team_lineup_path(source_team, fanta_lineup)
+        post fanta_copy_team_lineup_path(source[:team], fanta_lineup)
       end
 
       it 'does not copy lineup' do
-        expect(target_tour.lineups.count).to eq(0)
+        expect(target[:tour].lineups.count).to eq(0)
       end
     end
+
+    def fanta_side
+      league = create(:active_league, tournament: tournament_round.tournament)
+
+      { league: league,
+        team: create(:team, user: user, league: league),
+        tour: create(:set_lineup_tour, league: league, tournament_round: tournament_round) }
+    end
   end
-  # rubocop:enable RSpec/MultipleMemoizedHelpers
 
   describe 'GET #clone' do
     let(:lineup) { create(:lineup, :with_match_players) }
