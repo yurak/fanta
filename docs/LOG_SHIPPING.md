@@ -101,7 +101,9 @@ skipped on every pass for hours, with no score, no status change and no missed-p
 FotMob had renamed the club in the slug and answered 308.
 
 This rule covers that gap: not "a scrape failed" but "the same match keeps failing across passes".
-`tours:live_inject` runs every five minutes, so six failures in half an hour means it is not a blip.
+`tours:live_inject` runs every ten minutes — FotMob rebuilds a live match page on a ten-minute cycle,
+so a faster cron only refetched identical bytes — which is six passes an hour. Five failures in an
+hour is therefore a match that is broken, not one that blipped.
 
 **Alerting → Alert rules → New alert rule**, data source Loki:
 
@@ -109,13 +111,13 @@ This rule covers that gap: not "a scrape failed" but "the same match keeps faili
 sum by (match_url) (
   count_over_time(
     {app="fanta"} |= "[live-scores] FotMob scrape skipped"
-    | regexp "skipped for (?P<match_url>\\S+):" [30m]
+    | regexp "skipped for (?P<match_url>\\S+):" [1h]
   )
-) > 6
+) > 4
 ```
 
 Extracting `match_url` gives one alert instance per match, so the notification names the page that
-needs looking at instead of just saying something is wrong. Evaluate every 5m, pending period 10m.
+needs looking at instead of just saying something is wrong. Evaluate every 10m, pending period 20m.
 
 ### A write the app silently refused
 

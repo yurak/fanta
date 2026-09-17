@@ -65,5 +65,50 @@ RSpec.describe 'tours rake tasks' do
       end
     end
   end
+
+  describe 'tours:live_inject' do
+    let(:tournament) { create(:tournament, live_scores_enabled: true) }
+    let(:t_round) { create(:tournament_round, tournament: tournament) }
+
+    before do
+      create(:locked_tour, tournament_round: t_round)
+      reenable('tours:live_inject')
+      allow(Tours::LiveInjector).to receive(:call)
+        .and_return({ candidates: 1, with_data: 1, failures: 0 })
+      allow(Scores::ScrapeAlert).to receive(:call)
+      allow(Standings::Updater).to receive(:call)
+    end
+
+    it 'injects the scores of rounds in play' do
+      Rake::Task['tours:live_inject'].invoke
+
+      expect(Tours::LiveInjector).to have_received(:call).with(t_round, budget: anything)
+    end
+
+    # FotMob counts unfinished matches in its table, so the live pass is when the table moves.
+    it 'refreshes the table of every tournament in play' do
+      Rake::Task['tours:live_inject'].invoke
+
+      expect(Standings::Updater).to have_received(:call).with(tournament, season: t_round.season)
+    end
+
+    it 'asks for each tournament once even with several rounds in play' do
+      create(:locked_tour, tournament_round: create(:tournament_round, tournament: tournament))
+
+      Rake::Task['tours:live_inject'].invoke
+
+      expect(Standings::Updater).to have_received(:call).once
+    end
+
+    context 'without a round in play' do
+      before { Tour.find_each { |tour| tour.update(status: :set_lineup) } }
+
+      it 'touches no table' do
+        Rake::Task['tours:live_inject'].invoke
+
+        expect(Standings::Updater).not_to have_received(:call)
+      end
+    end
+  end
 end
 # rubocop:enable RSpec/DescribeClass
