@@ -836,6 +836,7 @@ ua:
       cancel: "Скасувати"
       create: "Створити"
       created: "Гравця успішно створено"
+      created_outside: "Гравця створено в клубі Outside — його клубу з Transfermarkt (tm id %{club}) немає в нашій базі"
       failed: "Не вдалося створити гравця"
       tm_unavailable: "Transfermarkt тимчасово недоступний (%{error}). Спробуйте пізніше."
       back: "← Гравці"

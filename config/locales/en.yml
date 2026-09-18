@@ -830,6 +830,7 @@ en:
       cancel: "Cancel"
       create: "Create"
       created: "Player created successfully"
+      created_outside: "Player created in the Outside club — his Transfermarkt club (tm id %{club}) is not in our database"
       failed: "Failed to create player"
       tm_unavailable: "Transfermarkt is temporarily unavailable (%{error}). Please try again later."
       back: "← Players"

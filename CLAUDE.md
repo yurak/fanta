@@ -109,3 +109,12 @@ append it to this list so future sessions don't rediscover it. Keep entries shor
   an unescaped `&` in a league or team name ("Bravery&Stupidity") is a 400 from the API — the user
   never receives that notification. Build such a message through `TelegramBot::HtmlMessage#html_message`,
   which escapes every interpolation, and send it with `send_html`; never call `I18n.t` + `Sender` directly.
+- `Players::Manager` only refuses an unknown club when UPDATING (there it would move a real player to
+  Outside on a club name we failed to resolve). CREATE must fall back to Outside instead — most players
+  we add by TM id play at clubs we do not carry (lower divisions, reserve sides), and the old
+  `return false unless club || national_team` made the manage page answer "Failed to create player"
+  for every one of them. `club_id` already had the Outside fallback; the guard was what blocked it.
+- `I18n.transliterate` has no rule for the Romanian comma-below letters (`ț` U+021B, `ș` U+0219 — a
+  different codepoint from the cedilla forms it knows) and turns them into `?`, so "Moruțan" was stored
+  as "Moru?an". Normalise player names through `Players::Transfermarkt::NameNormalizer#normalize_name`,
+  which decomposes (NFD) and drops combining marks before transliterating.
