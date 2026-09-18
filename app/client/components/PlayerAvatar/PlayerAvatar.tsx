@@ -15,12 +15,24 @@ const PlayerAvatar = ({
 }) => {
   return (
     <div className={cn(styles.avatar, className)}>
-      <object className={styles.face} data={avatarSrc} type="image/png">
-        <img src={avatarMask} />
-      </object>
-      <object className={styles.kit} data={clubKitSrc} type="image/png">
-        <img src={kitMask} />
-      </object>
+      <img
+        className={styles.face}
+        src={avatarSrc}
+        alt=""
+        onError={(e) => {
+          e.currentTarget.onerror = null;
+          e.currentTarget.src = avatarMask;
+        }}
+      />
+      <img
+        className={styles.kit}
+        src={clubKitSrc}
+        alt=""
+        onError={(e) => {
+          e.currentTarget.onerror = null;
+          e.currentTarget.src = kitMask;
+        }}
+      />
     </div>
   );
 };

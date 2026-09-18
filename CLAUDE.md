@@ -118,3 +118,12 @@ append it to this list so future sessions don't rediscover it. Keep entries shor
   different codepoint from the cedilla forms it knows) and turns them into `?`, so "Moruțan" was stored
   as "Moru?an". Normalise player names through `Players::Transfermarkt::NameNormalizer#normalize_name`,
   which decomposes (NFD) and drops combining marks before transliterating.
+- Never render an image with `<object data=...>`, and never name a class after ad/social vocabulary.
+  Both are blocked client-side and neither shows up in our logs: an `<object>` is plugin content, which
+  NoScript-style extensions refuse by default and any `object-src` CSP kills outright (the commented-out
+  `policy.object_src(*aws_urls)` in `content_security_policy.rb` is the scar), and Fanboy's Social list
+  carries the generic cosmetic rule `##.footer-social`, which hid the footer icons for everyone running
+  it. Use `<img>` with an `onerror`/`onError` fallback (`ClubLogo` wraps the club-crest case). Before
+  naming a class, check it against a filter list — `.footer-follow` is blocked too; `.footer-contacts`
+  is not. The image URLs themselves are clean: no rule in EasyList/EasyPrivacy/Fanboy Social/uBO
+  matches any avatar, kit or crest path, so a blocked image is a markup or class-name problem.
