@@ -1,10 +1,6 @@
--# Shared by the tour stats column and the lineup page tab. Rendered server-side from our own
--# `standings` rows — the SofaScore widget this replaces pulled its own bundle into every tab.
--# `compact` drops the goals column and shows club codes, for the narrow stats column.
--# `opponents` ({club_id => club}) adds the "this round's opponent" column; the stats column, which
--# already lists the round's fixtures right above the table, passes nothing.
 - compact = local_assigns.fetch(:compact, false)
 - opponents = local_assigns[:opponents]
+- live_results = local_assigns.fetch(:live_results, {})
 - if standings.present?
   %table.standings-table{ class: ('standings-table--compact' if compact) }
     %thead
@@ -22,6 +18,8 @@
           %th.standings-opponent= t('tours.standings_opponent')
     %tbody
       - standings.each do |standing|
+        - live = live_results[standing.club_id]
+        - live_cell = "standings-live standings-live--#{live}" if live
         %tr{ data: (opponents ? { club_id: standing.club_id, opponent_id: opponents[standing.club_id]&.id } : {}) }
           %td.standings-pos
             %span.standings-zone{ style: ("background-color: #{standing.zone_color}" if standing.zone_color.present?) }
@@ -33,13 +31,13 @@
                   %img{ src: standing.club.logo_path, onerror: "this.onerror=null;this.src='#{image_path('default_logo.png')}'" }
               %span.standings-club-name
                 = compact && standing.club ? standing.club.code : standing.display_name
-          %td= standing.played
-          %td= standing.wins
-          %td= standing.draws
-          %td= standing.losses
+          %td{ class: live_cell }= standing.played
+          %td{ class: live_cell }= standing.wins
+          %td{ class: live_cell }= standing.draws
+          %td{ class: live_cell }= standing.losses
           - unless compact
-            %td.standings-goals= standing.scores_str
-          %td.standings-points= standing.points
+            %td.standings-goals{ class: live_cell }= standing.scores_str
+          %td.standings-points{ class: live_cell }= standing.points
           - if opponents
             %td.standings-opponent
               - opponent = opponents[standing.club_id]

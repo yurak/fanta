@@ -47,7 +47,8 @@
             = render 'tournaments/tournament_matches', matches: tour.tournament_round.ordered_tournament_matches
         - if standings.any?
           .standings.lineup-round-tab-content
-            = render 'standings/table', standings: standings, opponents: round_opponents(tour.tournament_round)
+            = render 'standings/table', standings: standings, opponents: round_opponents(tour.tournament_round),
+                                       live_results: live_standing_results(tour.league.tournament, tour.tournament_round.season_id)
 
     .players-section
       - if flash[:alert]

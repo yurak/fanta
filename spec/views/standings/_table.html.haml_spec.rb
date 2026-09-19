@@ -24,6 +24,34 @@ RSpec.describe 'standings/_table' do
     expect(html).to include('14-5')
   end
 
+  it 'leaves the figures untinted when no match is in progress' do
+    expect(html).not_to include('standings-live')
+  end
+
+  context 'with a club whose match is in progress' do
+    let(:locals) { { standings: [standing], live_results: { club.id => 'win' } } }
+
+    # FotMob counts an unfinished match, so a leading club already shows the points it has not
+    # secured yet. The tint is the only thing telling a manager the row can still move.
+    it 'tints the figures by how the match is going' do
+      expect(html).to include('standings-live standings-live--win')
+    end
+
+    it 'leaves the club name cell alone, so hover and the opponent highlight still read' do
+      expect(html).to include('<td class="standings-team">')
+    end
+
+    it 'does not tint a club that is not playing' do
+      other = create(:club, tournament: tournament, name: 'Kryvbas', code: 'KRY')
+      other_standing = create(:standing, tournament: tournament, club: other, position: 2)
+      html = render partial: 'standings/table',
+                    locals: { standings: [standing, other_standing], live_results: { club.id => 'win' } }
+
+      # six tinted cells on the one live row: played, W, D, L, goals, points
+      expect(html.scan('standings-live--win').size).to eq(6)
+    end
+  end
+
   context 'with compact: true' do
     let(:locals) { { standings: [standing], compact: true } }
 

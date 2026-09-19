@@ -140,7 +140,8 @@
         .round-table-hide.round-table-hidden
           = image_tag('icons/arrow_down.svg')
       .round-list
-        = render 'standings/table', standings: standings, compact: true
+        = render 'standings/table', standings: standings, compact: true,
+                                   live_results: live_standing_results(tour.league.tournament, tour.tournament_round.season_id)
 
 :javascript
   function initTournamentPlayers() {

@@ -2341,7 +2341,7 @@ body, html {
       grid-template-columns: 4fr 2fr 4fr;
       column-gap: 12px;
       font-size: 12px;
-      line-height: 32px;
+      line-height: 38px;
       color: #181715;
       border-bottom: 1px solid #E5E6E4;
       text-align: center;
@@ -2392,13 +2392,18 @@ body, html {
         background-color: #040052;
         line-height: 18px;
         padding: 5px 0;
-        margin: 6px 0;
+        margin: 5px 0;
         text-align: center;
         color: #F4F4F4;
 
         .round-tournament-match-result-host {
           border-right: 1px solid #847577;
         }
+      }
+
+      .round-tournament-match-cell--live .round-tournament-match-result {
+        margin: 4px 0 0;
+        padding: 3px 0;
       }
     }
 

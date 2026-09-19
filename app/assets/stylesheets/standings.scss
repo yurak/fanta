@@ -100,6 +100,41 @@
   .standings-opponent-none {
     color: #B4BAC5;
   }
+
+  td.standings-live {
+    position: relative;
+    z-index: 0;
+
+    &::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 4px;
+      bottom: 4px;
+      z-index: -1;
+    }
+  }
+
+  .standings-team + td.standings-live::before {
+    border-radius: 8px 0 0 8px;
+  }
+
+  td.standings-live.standings-points::before {
+    border-radius: 0 8px 8px 0;
+  }
+
+  .standings-live--win::before {
+    background-color: #D0F0D4;
+  }
+
+  .standings-live--draw::before {
+    background-color: #FFEBC2;
+  }
+
+  .standings-live--loss::before {
+    background-color: #FCC5CB;
+  }
 }
 
 .standings-table--compact {
