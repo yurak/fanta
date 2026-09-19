@@ -18,7 +18,7 @@ module Api
         match = TournamentMatch.find_by(source_match_id: params[:sofascore_id].to_s.presence)
         return render(json: { error: 'match_not_found' }, status: :not_found) unless match
 
-        match.update!(base_data: params[:base_data], lineups_data: params[:lineups_data])
+        match.update!(base_data: params[:base_data], lineups_data: params[:lineups_data], incidents_data: params[:incidents_data])
         Scores::Injectors::SofascoreMatch.call(match)
 
         render json: { status: 'ok', tournament_match_id: match.id }

@@ -100,6 +100,34 @@ RSpec.describe 'Users' do
       it { expect(response).to render_template(:show) }
       it { expect(response).to have_http_status(:ok) }
     end
+
+    context 'with other rounds of the same tournament in the season' do
+      login_admin
+
+      let!(:sibling) do
+        create(:tournament_round, tournament: tournament_round.tournament,
+                                  season: tournament_round.season, number: tournament_round.number + 1)
+      end
+
+      before { get tournament_round_path(tournament_round) }
+
+      it 'offers them in the round switcher' do
+        expect(response.body).to include(tournament_round_path(sibling))
+      end
+    end
+
+    context 'when the tournament has a single round in the season' do
+      login_admin
+
+      # the shared seeded tournament already carries a calendar, so this one needs its own
+      let(:lonely_round) { create(:tournament_round, tournament: create(:tournament)) }
+
+      before { get tournament_round_path(lonely_round) }
+
+      it 'does not render the switcher' do
+        expect(response.body).not_to include('name="round_switch"')
+      end
+    end
   end
 
   describe 'GET #stats' do

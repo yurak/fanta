@@ -21,7 +21,11 @@ class Notification < ApplicationRecord
     auction_sales_ddl: 6,
     auction_start_bids: 7,
     auction_round_ddl: 8,
-    auction_squad_complete: 9
+    auction_squad_complete: 9,
+    tour_ddl_5h: 10,
+    tour_ddl_3h: 11,
+    tour_ddl_2h: 12,
+    tour_ddl_1h: 13
   }
 
   enum :priority, {

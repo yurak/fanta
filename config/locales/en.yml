@@ -1,4 +1,6 @@
 en:
+  errors:
+    session_expired: "Your session has expired. Please try again."
   auction_sales:
     title: "Auction #{{number}}"
     phase: "Dropping phase"
@@ -127,6 +129,8 @@ en:
     text: "You need to buy %{players} players. The team budget - %{budget}. The team must have at least 3 goalkeepers."
   auction_round:
     auction: "Auction"
+    bid_not_editable: "This offer can no longer be edited"
+    player_taken: "This player already belongs to a team in your league"
     available_budget: "Available budget"
     balance: "Budget balance"
     balance_reserved: "Reserved funds"
@@ -826,6 +830,7 @@ en:
       cancel: "Cancel"
       create: "Create"
       created: "Player created successfully"
+      created_outside: "Player created in the Outside club — his Transfermarkt club (tm id %{club}) is not in our database"
       failed: "Failed to create player"
       tm_unavailable: "Transfermarkt is temporarily unavailable (%{error}). Please try again later."
       back: "← Players"
@@ -948,6 +953,7 @@ en:
     with_squad: "Squad is ready for the match"
     waiting_deadline: "Waiting for tour start"
     didnt_play: "❌ Didn't play"
+    not_in_squad: "Not in squad"
     unspecified: "Unspecified"
   news:
     add_article: "Add article"
@@ -1343,6 +1349,15 @@ en:
     set_done_fanta: "✅ Set"
     setup: "Ready to set squad?"
     standings: "Standings"
+    standings_pos: "#"
+    standings_team: "Team"
+    standings_played: "P"
+    standings_wins: "W"
+    standings_draws: "D"
+    standings_losses: "L"
+    standings_goals: "Goals"
+    standings_points: "Pts"
+    standings_opponent: "vs"
     table: "🏅 Table"
     tournament_players: "✊ Overall best"
     want_edit: "Want to edit squad?"
@@ -2024,29 +2039,29 @@ en:
   telegram:
     notifier:
       auction:
-        closed: "%{icon} Auction #%{number} in %{league_name} league has been closed.\n\n🏁️️ You can view all transfers of the auction at the link - %{url}\n\n#auction #%{code}"
+        closed: "%{icon} Auction #%{number} in %{league_name} league has been closed.\n\n🏁️️ You can <a href=\"%{url}\">view all transfers of the auction</a>\n\n#auction #%{code}"
         default: "%{icon} Auction message to %{team_name} team\n\n#auction #%{code}"
-        round_ddl: "%{icon} Auction round deadline in %{league_name} League is today at %{deadline} (%{time_zone}) ⚠️\n\n‼️️ You must make offer on %{vacancies} players for %{team_name} - %{url}\n\n#auction #%{code}"
-        sales_ddl: "%{icon} Transfer window deadline in %{league_name} League is coming soon.\n⚠️ Deadline today at %{deadline} (%{time_zone}) ⚠️\n\n‼️️ You can select up to %{available_transfers} players to sell from %{team_name} - %{url}\n\n#auction #%{code}"
-        sales_open: "%{icon} Transfer window in %{league_name} League is open.\n🔜 Deadline: %{deadline} (%{time_zone}) 🔚\n\n‼️️ You can select up to %{available_transfers} players to sell from %{team_name} - %{url}\n\n#auction #%{code}"
+        round_ddl: "%{icon} Auction round deadline in %{league_name} League is today at %{deadline} (%{time_zone}) ⚠️\n\n‼️️ You must <a href=\"%{url}\">make offer on %{vacancies} players</a> for %{team_name}\n\n#auction #%{code}"
+        sales_ddl: "%{icon} Transfer window deadline in %{league_name} League is coming soon.\n⚠️ Deadline today at %{deadline} (%{time_zone}) ⚠️\n\n‼️️ You can <a href=\"%{url}\">select up to %{available_transfers} players to sell</a> from %{team_name}\n\n#auction #%{code}"
+        sales_open: "%{icon} Transfer window in %{league_name} League is open.\n🔜 Deadline: %{deadline} (%{time_zone}) 🔚\n\n‼️️ You can <a href=\"%{url}\">select up to %{available_transfers} players to sell</a> from %{team_name}\n\n#auction #%{code}"
         squad_complete: "%{icon} The squad for %{team_name} in the %{league_name} league has been formed.\n\n⌛️ Wait for the auction to end to view its details.\n\n#auction #%{code}"
-        start_offers: "%{icon} Auction round #%{number} has started in %{league_name} League.\n🔜 Deadline: %{deadline} (%{time_zone}) 🔚\n\n‼️️ You must make offer on %{vacancies} players for %{team_name} - %{url}\n\n#auction #%{code}"
+        start_offers: "%{icon} Auction round #%{number} has started in %{league_name} League.\n🔜 Deadline: %{deadline} (%{time_zone}) 🔚\n\n‼️️ You must <a href=\"%{url}\">make offer on %{vacancies} players</a> for %{team_name}\n\n#auction #%{code}"
       player:
-        left: "%{icon} %{player_name} from %{team_name} left %{tournament_name} tournament.\n💵 You will be able to replace him at the next auction.\n\n#player #%{code}"
-        club_changed: "%{icon} %{player_name} from %{team_name} moved to %{new_club_name} within %{tournament_name} tournament.\n✅ He stays in your squad.\n\n#player #%{code}"
+        left: "%{icon} <a href=\"%{url}\">%{player_name}</a> (team %{team_name}) left %{tournament_name} tournament.\n💵 You will be able to replace him at the next auction.\n\n#player #%{code}"
+        club_changed: "%{icon} <a href=\"%{url}\">%{player_name}</a> (team %{team_name}) moved from %{old_club_name} to %{new_club_name} within %{tournament_name} tournament.\n✅ He stays in your squad.\n\n#player #%{code}"
       logo:
-        approved: "✅ Your uploaded logo has been approved and is now available when editing your teams.\n\n#logo"
-        rejected: "❌ Your uploaded logo was rejected by a moderator. Try uploading a different image.\n\n#logo"
+        approved: "✅ Your uploaded logo has been approved and is now available when editing <a href=\"%{url}\">your teams</a>.\n\n#logo"
+        rejected: "❌ Your uploaded logo was rejected by a moderator. <a href=\"%{url}\">Try uploading a different image</a>.\n\n#logo"
       daily_schedule:
-        header: "📅 Today's deadline schedule (%{time_zone}):"
-        tour_item: "%{time} - %{icon} %{league_name} - Round #%{number} ⚽️"
-        auction_round_item: "%{time} - %{icon} %{league_name} - Auction round #%{number} 🛒"
-        auction_sales_item: "%{time} - %{icon} %{league_name} - Sales period 💸"
+        header: "📅 Deadlines in the next 24 hours (%{time_zone}):"
+        tour_item: "%{time} - %{icon} %{league_name} - <a href=\"%{url}\">Round #%{number}</a> ⚽️ %{lineup_status}"
+        auction_round_item: "%{time} - %{icon} %{league_name} - <a href=\"%{url}\">Auction round #%{number}</a> 🛒"
+        auction_sales_item: "%{time} - %{icon} %{league_name} - <a href=\"%{url}\">Sales period</a> 💸"
       tour:
-        closed: "%{icon} Round #%{number} of %{league_name} League has been closed.\n🔴 You can check the final results here - %{url}\n\n#tour #%{code}"
-        ddl: "%{icon} The deadline of round #%{number} is today at %{deadline} (%{time_zone})\n\n🟡 Create your lineup - %{url}\n\n#tour #%{code}"
-        moderated: "%{icon} Round #%{number} of %{league_name} League has been moderated.\n🔵 All scores and bonuses have been calculated, substitutions have been made.\n✍️ If you have remarks about bonuses - write to @mantra_help.\n\n☑️ You can check the preliminary results here - %{url}\n\n#tour #%{code}"
-        opened: "%{icon} Round #%{number} of %{league_name} League has been opened.\n🟢 You can set up lineup for %{team_name} - %{url}\n🔜 Deadline: %{deadline} (%{time_zone}) 🔚\n\n#tour #%{code}"
+        closed: "%{icon} Round #%{number} of %{league_name} League has been closed.\n🔴 You can <a href=\"%{url}\">check the final results here</a>\n\n#tour #%{code}"
+        ddl: "%{icon} The deadline of round #%{number} is today at %{deadline} (%{time_zone})\n\n🟡 <a href=\"%{url}\">Create your lineup</a>\n\n#tour #%{code}"
+        moderated: "%{icon} Round #%{number} of %{league_name} League has been moderated.\n🔵 All scores and bonuses have been calculated, substitutions have been made.\n✍️ If you have remarks about bonuses - write to @mantra_help.\n\n☑️ You can <a href=\"%{url}\">check the preliminary results here</a>\n\n#tour #%{code}"
+        opened: "%{icon} Round #%{number} of %{league_name} League has been opened.\n🟢 You can <a href=\"%{url}\">set up lineup</a> for %{team_name}\n🔜 Deadline: %{deadline} (%{time_zone}) 🔚\n\n#tour #%{code}"
     webhooks:
       action_missing:
         command: Can not perform %{command} command

@@ -9,6 +9,7 @@ class MatchPlayer < ApplicationRecord
   delegate :another_tournament?, :assists, :caught_penalty, :cleansheet, :club_played_match?, :conceded_penalty,
            :failed_penalty, :goals, :missed_goals, :missed_penalty, :own_goals, :penalties_won, :player, :red_card, :result_score,
            :saves, :score, :scored_penalty, :yellow_card, to: :round_player
+  delegate :in_squad?, to: :round_player, prefix: true
   delegate :club, :first_name, :name, :teams, to: :player
 
   enum :subs_status, { initial: 0, get_out: 1, get_in: 2, not_in_squad: 3 }

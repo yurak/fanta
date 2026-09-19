@@ -54,19 +54,19 @@ class Player
     # In-squad round players for an arbitrary season (memoized per season id)
     def club_in_squad_for(season)
       (@club_in_squad_for ||= {})[season.id] ||=
-        round_players.in_squad.by_tournament_round(club_season_rounds(season))
+        round_players.in_squad.by_tournament_round(club_season_rounds(season)).chronological
     end
 
     def ec_in_squad_for(season)
       (@ec_in_squad_for ||= {})[season.id] ||=
-        round_players.in_squad.by_tournament_round(ec_season_rounds(season)).order(:tournament_round_id)
+        round_players.in_squad.by_tournament_round(ec_season_rounds(season)).chronological
     end
 
     def national_in_squad_for(season)
       return RoundPlayer.none unless national_team&.tournament
 
       (@national_in_squad_for ||= {})[season.id] ||=
-        round_players.in_squad.by_tournament_round(national_season_rounds(season)).order(:tournament_round_id)
+        round_players.in_squad.by_tournament_round(national_season_rounds(season)).chronological
     end
 
     def season_scores_count(matches = season_matches_with_scores)

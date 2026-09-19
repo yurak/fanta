@@ -75,6 +75,26 @@ RSpec.describe Players::Transfermarkt::TransferHistoryParser do
       it { expect(transfers).to eq([]) }
     end
 
+    # Transfermarkt normally sends these as strings, but for some players the fee arrives as a bare
+    # 0 — and the whole import for that player died on `undefined method 'gsub' for 0:Integer`.
+    context 'when a numeric fee arrives instead of a string' do
+      let(:tm_id) { '3' }
+
+      before do
+        html = { 'transfers' => [payload['transfers'].first.merge('fee' => 0, 'marketValue' => 0)] }
+        response = instance_double(RestClient::Response, body: JSON.generate(html))
+        allow(RestClient::Request).to receive(:execute).and_return(response)
+      end
+
+      it 'still parses the transfer' do
+        expect(transfers.size).to eq(1)
+      end
+
+      it 'keeps the fee as text' do
+        expect(transfers.first[:fee]).to eq('0')
+      end
+    end
+
     context 'when the fee contains HTML markup' do
       let(:tm_id) { '2' }
 

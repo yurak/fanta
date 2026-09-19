@@ -25,8 +25,8 @@ RSpec.describe 'PlayerBids' do
         put player_bid_path(player_bid, params)
       end
 
-      it 'return success response' do
-        expect(response).to have_http_status(:ok)
+      it 'refuses the update' do
+        expect(response).to have_http_status(:unprocessable_entity)
       end
 
       it 'does not update player id' do
@@ -44,8 +44,8 @@ RSpec.describe 'PlayerBids' do
         put player_bid_path('123456', params)
       end
 
-      it 'return success response' do
-        expect(response).to have_http_status(:ok)
+      it 'refuses the update' do
+        expect(response).to have_http_status(:unprocessable_entity)
       end
 
       it 'does not update player id' do
@@ -70,8 +70,8 @@ RSpec.describe 'PlayerBids' do
         put player_bid_path(player_bid, params)
       end
 
-      it 'return success response' do
-        expect(response).to have_http_status(:ok)
+      it 'refuses the update' do
+        expect(response).to have_http_status(:unprocessable_entity)
       end
 
       it 'does not update player id' do
@@ -91,8 +91,8 @@ RSpec.describe 'PlayerBids' do
         put player_bid_path(player_bid, params)
       end
 
-      it 'return success response' do
-        expect(response).to have_http_status(:ok)
+      it 'refuses the update' do
+        expect(response).to have_http_status(:unprocessable_entity)
       end
 
       it 'does not update player id' do
@@ -118,8 +118,8 @@ RSpec.describe 'PlayerBids' do
         put player_bid_path(player_bid, params)
       end
 
-      it 'return success response' do
-        expect(response).to have_http_status(:ok)
+      it 'refuses the update' do
+        expect(response).to have_http_status(:unprocessable_entity)
       end
 
       it 'does not update player id' do
@@ -146,8 +146,8 @@ RSpec.describe 'PlayerBids' do
         put player_bid_path(player_bid, params)
       end
 
-      it 'return success response' do
-        expect(response).to have_http_status(:ok)
+      it 'refuses the update' do
+        expect(response).to have_http_status(:unprocessable_entity)
       end
 
       it 'does not update player id' do
@@ -173,8 +173,8 @@ RSpec.describe 'PlayerBids' do
         put player_bid_path(player_bid, params)
       end
 
-      it 'return success response' do
-        expect(response).to have_http_status(:ok)
+      it 'refuses the update' do
+        expect(response).to have_http_status(:unprocessable_entity)
       end
 
       it 'does not update player id' do
@@ -202,8 +202,8 @@ RSpec.describe 'PlayerBids' do
         put player_bid_path(player_bid, params)
       end
 
-      it 'return success response' do
-        expect(response).to have_http_status(:ok)
+      it 'refuses the update' do
+        expect(response).to have_http_status(:unprocessable_entity)
       end
 
       it 'does not update player id' do
@@ -230,8 +230,14 @@ RSpec.describe 'PlayerBids' do
         put player_bid_path(player_bid, params)
       end
 
-      it 'return success response' do
-        expect(response).to have_http_status(:ok)
+      it 'refuses the update' do
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+
+      # The slot script used to take a 200 as a pick and write the id into the hidden field, so the
+      # whole-bid submit stored a player the round manager was always going to fail.
+      it 'says why it refused' do
+        expect(response.parsed_body['error']).to eq(I18n.t('auction_round.player_taken'))
       end
 
       it 'does not update player id' do
@@ -338,8 +344,8 @@ RSpec.describe 'PlayerBids' do
         put player_bid_path(player_bid, params)
       end
 
-      it 'return success response' do
-        expect(response).to have_http_status(:ok)
+      it 'refuses the update' do
+        expect(response).to have_http_status(:unprocessable_entity)
       end
 
       it 'does not update player id' do
@@ -365,8 +371,8 @@ RSpec.describe 'PlayerBids' do
         put player_bid_path(player_bid, params)
       end
 
-      it 'return success response' do
-        expect(response).to have_http_status(:ok)
+      it 'refuses the update' do
+        expect(response).to have_http_status(:unprocessable_entity)
       end
 
       it 'does not update player id' do

@@ -17,6 +17,8 @@ namespace :club_transfers do
     total_imported = 0
     total_requests = 0
 
+    blocked = nil
+
     players.find_each do |player|
       total_players += 1
       imported = ClubTransfers::HistoryImporter.call(player)
@@ -24,8 +26,20 @@ namespace :club_transfers do
       request = ClubTransfers::RequestBuilder.call(player)
       total_requests += 1 if request
       puts "#{player.id} / #{player.name}: #{imported} transfers#{' + request' if request}"
+    rescue Players::Transfermarkt::ApiError => e
+      if e.blocked? || e.is_a?(Players::Transfermarkt::ApiUnavailableError)
+        blocked = "player #{player.id} / #{player.tm_id}: #{e.message}"
+        break
+      end
+
+      puts "Error for player #{player.id} / #{player.tm_id}: #{e.message}"
     rescue StandardError => e
       puts "Error for player #{player.id} / #{player.tm_id}: #{e.message}"
+    end
+
+    if blocked
+      puts "\nSTOPPED: Transfermarkt refused the request — #{blocked}"
+      puts 'Nothing more was requested. Wait for the block to lift before re-running.'
     end
 
     puts "Done. Players: #{total_players}, transfers imported: #{total_imported}, requests: #{total_requests}"

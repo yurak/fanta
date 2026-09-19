@@ -33,4 +33,28 @@ RSpec.describe PlayerBid do
       end
     end
   end
+
+  describe 'price normalization' do
+    subject(:player_bid) { create(:player_bid, price: 5) }
+
+    # Clearing the price input submits an empty string; an integer column casts that to nil, and the
+    # column is NOT NULL — which used to end the request with PG::NotNullViolation and a 500.
+    it 'falls back to the minimum when the field is submitted empty' do
+      player_bid.update!(price: '')
+
+      expect(player_bid.reload.price).to eq(described_class::MIN_PRICE)
+    end
+
+    it 'falls back to the minimum when the price is nil' do
+      player_bid.update!(price: nil)
+
+      expect(player_bid.reload.price).to eq(described_class::MIN_PRICE)
+    end
+
+    it 'keeps a real price' do
+      player_bid.update!(price: 12)
+
+      expect(player_bid.reload.price).to eq(12)
+    end
+  end
 end

@@ -107,7 +107,9 @@ RSpec.describe Notifications::SendPendingJob do
       let(:team) { create(:team) }
       let(:tour) { create(:tour) }
 
-      before { create_list(:notification, batch_size + 5, status: :pending, team: team, notifiable: tour) }
+      before do
+        (batch_size + 5).times { create(:notification, status: :pending, team: create(:team), notifiable: tour) }
+      end
 
       it 'processes only BATCH_SIZE notifications' do
         perform
@@ -135,6 +137,93 @@ RSpec.describe Notifications::SendPendingJob do
 
         expect(call_order).to eq([high.id, normal.id, low.id])
       end
+    end
+
+    # A process that dies mid-batch used to leave its rows in `processing` for good: 51 of them sat
+    # there from the spring, and nobody ever received those.
+    context 'when a batch was abandoned by a dead process' do
+      let!(:abandoned) do
+        create(:notification, status: :processing, created_at: 1.hour.ago, updated_at: 50.minutes.ago)
+      end
+
+      it 'delivers it on the next run' do
+        perform
+
+        expect(Notifications::DeliveryService).to have_received(:call).with(abandoned)
+      end
+    end
+
+    context 'when a claimed row is still being worked on' do
+      let!(:in_flight) do
+        create(:notification, status: :processing, created_at: 1.hour.ago, updated_at: 1.minute.ago)
+      end
+
+      # Taking it back now would hand the same message to two workers.
+      it 'leaves it alone' do
+        perform
+
+        expect(Notifications::DeliveryService).not_to have_received(:call).with(in_flight)
+      end
+    end
+
+    context 'when an abandoned row is older than the event it announces' do
+      let!(:stale) do
+        create(:notification, status: :processing, created_at: 4.hours.ago, updated_at: 4.hours.ago)
+      end
+
+      it 'does not deliver it' do
+        perform
+
+        expect(Notifications::DeliveryService).not_to have_received(:call).with(stale)
+      end
+
+      it 'retires it' do
+        perform
+
+        expect(stale.reload).to be_failed
+      end
+
+      it 'says why' do
+        perform
+
+        expect(stale.reload.error_message).to eq('stale, never delivered')
+      end
+    end
+
+    context 'when a delivery failed on a timeout' do
+      let!(:failed) do
+        create(:notification, status: :failed, attempts: 1, error_message: 'execution expired',
+                              created_at: 1.hour.ago, updated_at: 50.minutes.ago)
+      end
+
+      it 'tries again' do
+        perform
+
+        expect(Notifications::DeliveryService).to have_received(:call).with(failed)
+      end
+    end
+
+    context 'when a delivery keeps failing' do
+      let!(:exhausted) do
+        create(:notification, status: :failed, attempts: described_class::MAX_ATTEMPTS,
+                              created_at: 1.hour.ago, updated_at: 50.minutes.ago)
+      end
+
+      # Without the cap it would come back every minute and eat a slot of every batch.
+      it 'gives up on it' do
+        perform
+
+        expect(Notifications::DeliveryService).not_to have_received(:call).with(exhausted)
+      end
+    end
+
+    it 'counts the attempt even when the delivery blows up' do
+      notification = create(:notification, status: :pending)
+      allow(Notifications::DeliveryService).to receive(:call).and_raise(StandardError, 'boom')
+
+      perform
+
+      expect(notification.reload.attempts).to eq(1)
     end
   end
 end

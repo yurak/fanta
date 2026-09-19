@@ -56,7 +56,7 @@ module Players
       def clean_text(str)
         return nil if str.blank?
 
-        str.gsub(%r{<br\s*/?>}i, ' ').gsub(/<[^>]+>/, ' ').gsub(/\s+/, ' ').strip.presence
+        str.to_s.gsub(%r{<br\s*/?>}i, ' ').gsub(/<[^>]+>/, ' ').gsub(/\s+/, ' ').strip.presence
       end
 
       def data

@@ -5,6 +5,12 @@
     .round-title-bar
       .round-title
         = "#{tournament_round.tournament.name} ##{tournament_round.number}"
+      - if @season_rounds&.many?
+        .round-switch
+          = select_tag :round_switch,
+                       options_for_select(@season_rounds.map { |round| [round_switch_label(round), tournament_round_path(round)] },
+                                          tournament_round_path(tournament_round)),
+                       class: 'round-switch-select'
     - if tournament_round.moderated_at
       .round-moderated-badge
         = "#{t('round.moderated')} #{local_time(tournament_round.closing_time, '%H:%M %a, %b %e')}"
@@ -57,3 +63,10 @@
                 = link_to  t('round.auto_subs_preview'), tournament_round_auto_subs_preview_path(tournament_round, redirect: 'round')
               .round-action-link
                 = link_to  t('round.auto_subs'), tournament_round_auto_subs_path(tournament_round, redirect: 'round'), data: { confirm: t('header.are_you_sure') }
+
+:javascript
+  $(document).ready(function() {
+    $('.round-switch-select').change(function() {
+      window.location.href = $(this).val();
+    });
+  });

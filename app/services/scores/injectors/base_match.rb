@@ -17,11 +17,7 @@ module Scores
         if @run_mode == :schedule
           refresh_schedule
         elsif processable?
-          update_match if match_writable?
-          if players_data_ready?
-            update_round_players
-            audit_missed_players(players_hash) if match_finished?
-          end
+          process_match
         end
 
         data_available?
@@ -32,6 +28,15 @@ module Scores
       end
 
       private
+
+      def process_match
+        update_match if match_writable?
+
+        return mark_squad unless players_data_ready?
+
+        update_round_players
+        audit_missed_players(players_hash) if match_finished?
+      end
 
       def update_match
         match.update(host_score: host_result, guest_score: guest_result, status: match_state,
@@ -71,6 +76,8 @@ module Scores
       end
 
       def update_round_players; end
+
+      def mark_squad; end
 
       def round_players
         @round_players ||= match.tournament_round.round_players.includes(player: :positions)

@@ -318,12 +318,6 @@
               width: 66px;
               height: 66px;
             }
-
-            object {
-              margin-top: 4px;
-              width: 66px;
-              height: 66px;
-            }
           }
         }
 
@@ -370,7 +364,7 @@
           height: 70px;
           text-align: center;
 
-          img, object {
+          img {
             width: 40px;
             height: 40px;
           }
@@ -585,7 +579,7 @@
               height: 30px;
               width: 30px;
 
-              img, object {
+              img {
                 width: 28px;
                 height: 28px;
               }
@@ -623,7 +617,7 @@
               .player-show-face, .player-show-kit {
                 position: absolute;
 
-                object, img {
+                img {
                   margin-top: 6px;
                   width: 66px;
                   height: 66px;
@@ -675,7 +669,7 @@
                 margin: auto;
                 height: 40px;
 
-                object {
+                img {
                   width: 40px;
                   height: 40px;
                 }
@@ -1099,12 +1093,6 @@
                 width: 108px;
                 height: 108px;
               }
-
-              object {
-                margin-top: 9px;
-                width: 108px;
-                height: 108px;
-              }
             }
           }
 
@@ -1145,7 +1133,7 @@
             line-height: 60px;
             height: 116px;
 
-            img, object {
+            img {
               width: 60px;
               height: 60px;
             }
@@ -1186,7 +1174,7 @@
               height: 40px;
               width: 40px;
 
-              img, object {
+              img {
                 width: 38px;
                 height: 38px;
               }
@@ -1217,7 +1205,7 @@
               grid-template-columns: 110px auto 40px 122px 64px 88px;
 
               .player-show-face, .player-show-kit {
-                object, img {
+                img {
                   width: 110px;
                   height: 110px;
                 }
@@ -1245,7 +1233,7 @@
               .ab-player-club {
                 height: 88px;
 
-                object {
+                img {
                   width: 48px;
                   height: 48px;
                 }

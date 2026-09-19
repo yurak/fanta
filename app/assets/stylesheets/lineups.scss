@@ -35,7 +35,7 @@
       grid-template-columns: 72px auto;
       column-gap: 24px;
 
-      img, object {
+      img {
         width: 72px;
         height: 72px;
       }
@@ -229,7 +229,7 @@
         .lineup-team {
           grid-template-columns: 104px auto;
 
-          img, object {
+          img {
             width: 104px;
             height: 104px;
           }
@@ -277,12 +277,6 @@
 
               .player-show-face, .player-show-kit {
                 img {
-                  width: 100px;
-                  height: 100px;
-                }
-
-                object {
-                  margin-top: 6px;
                   width: 100px;
                   height: 100px;
                 }
@@ -827,7 +821,22 @@
         }
 
         .standings {
-          padding-top: 24px;
+          margin-top: 24px;
+          padding: 8px 16px;
+          background-color: #FFFFFF;
+          border-radius: 8px;
+
+          .standings-table tbody tr {
+            transition: background-color 0.18s ease;
+          }
+
+          .standings-table tbody tr:hover {
+            background-color: #FFEBC2;
+          }
+
+          .standings-table tbody tr.standings-row-opponent {
+            background-color: #EAC6FB;
+          }
         }
       }
     }

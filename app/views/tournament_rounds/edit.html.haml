@@ -28,8 +28,7 @@
                 - if tournament_round.tournament.national?
                   = flag_icon(rp_f.object.player.national_team.code.to_sym, element: :div)
                 - else
-                  %object{data: rp_f.object.related_club.logo_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                    = image_tag('default_logo.png')
+                  %img{ src: rp_f.object.related_club.logo_path, onerror: "this.onerror=null;this.src='#{image_path('default_logo.png')}'" }
             .rp-edit-param.res-name
               = rp_f.object.full_name_reverse
             .rp-edit-param

@@ -33,11 +33,9 @@
               .team-player-data
                 .team-player-avatar
                   .player-show-face
-                    %object{data: player.avatar_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                      = image_tag('avatar.png')
+                    %img{ src: player.avatar_path, onerror: "this.onerror=null;this.src='#{image_path('avatar.png')}'" }
                   .player-show-kit
-                    %object{data: player.kit_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                      = image_tag('kit_small_default.png')
+                    %img{ src: player.kit_path, onerror: "this.onerror=null;this.src='#{image_path('kit_small_default.png')}'" }
                 .team-player-name
                   .team-player-last-name
                     = player.name
@@ -53,8 +51,7 @@
                         .player-position{class: "player-position-#{position.name}"}
                           = position_name(position)
                   .team-player-line-mob
-                  %object{data: player.club.logo_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                    = image_tag('default_logo.png')
+                  %img{ src: player.club.logo_path, onerror: "this.onerror=null;this.src='#{image_path('default_logo.png')}'" }
                   .team-player-line-mob
                   .team-player-stats-number
                     = "#{player.season_scores_count} #{t('teams.apps')}"
@@ -68,8 +65,7 @@
               .team-player-stats-number.team-player-rating
                 = player.season_average_result_score
               .team-player-club
-                %object{data: player.club.logo_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                  = image_tag('default_logo.png')
+                %img{ src: player.club.logo_path, onerror: "this.onerror=null;this.src='#{image_path('default_logo.png')}'" }
                 .team-player-param-item.team-player-link
                   = image_tag('icons/arrow_right.svg')
       .team-list.team-games
@@ -97,11 +93,9 @@
               .team-player-data
                 .team-player-avatar
                   .player-show-face
-                    %object{data: transfer.player.avatar_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                      = image_tag('avatar.png')
+                    %img{ src: transfer.player.avatar_path, onerror: "this.onerror=null;this.src='#{image_path('avatar.png')}'" }
                   .player-show-kit
-                    %object{data: transfer.player.kit_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                      = image_tag('kit_small_default.png')
+                    %img{ src: transfer.player.kit_path, onerror: "this.onerror=null;this.src='#{image_path('kit_small_default.png')}'" }
                 .team-player-name
                   .team-player-last-name
                     = transfer.player.name
@@ -117,8 +111,7 @@
                         .player-position{class: "player-position-#{position.name}"}
                           = position_name(position)
                   .team-player-line-mob
-                  %object{data: transfer.player.club.logo_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                    = image_tag('default_logo.png')
+                  %img{ src: transfer.player.club.logo_path, onerror: "this.onerror=null;this.src='#{image_path('default_logo.png')}'" }
               .team-player-position
                 .player-positions-block
                   - transfer.player.positions.each do |position|
@@ -131,8 +124,7 @@
               .team-player-transfer-status-mob
                 = t("teams.#{transfer.status}")[0]
               .team-player-club
-                %object{data: transfer.player.club.logo_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                  = image_tag('default_logo.png')
+                %img{ src: transfer.player.club.logo_path, onerror: "this.onerror=null;this.src='#{image_path('default_logo.png')}'" }
                 .team-player-param-item.team-player-link
                   = image_tag('icons/arrow_right.svg')
 

@@ -56,7 +56,8 @@ RSpec.describe TelegramBot::Auction::AuctionNotifier do
       it 'calls sender with user and message' do
         service_call
 
-        expect(TelegramBot::Sender).to have_received(:call).with(user, 'message-UA Team-ua')
+        expect(TelegramBot::Sender).to have_received(:call)
+          .with(user, 'message-UA Team-ua', parse_mode: 'HTML', disable_web_page_preview: true)
       end
 
       it 'builds translation with correct params' do
