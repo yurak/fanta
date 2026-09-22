@@ -3,12 +3,6 @@ module Scores
     class SofascoreMatch < BaseMatch
       DEFAULT_SCORE = 6.5
       FINISHED_STATUS = 'finished'.freeze
-      CARD_TYPE = 'card'.freeze
-      GOAL_TYPE = 'goal'.freeze
-      SUBSTITUTION_TYPE = 'substitution'.freeze
-      PENALTY_CLASS = 'penalty'.freeze
-      YELLOW_CLASS = 'yellow'.freeze
-      RED_CLASSES = %w[red yellowRed].freeze
 
       def call
         return if match.base_data.blank?
@@ -36,8 +30,8 @@ module Scores
       def conceded_for(home:)
         {
           total: home ? guest_result : host_result,
-          minutes: goal_minutes_conceded_by(home: home),
-          penalty_minutes: penalty_minutes_conceded_by(home: home)
+          minutes: timeline.goal_minutes_conceded_by(home: home),
+          penalty_minutes: timeline.penalty_minutes_conceded_by(home: home)
         }
       end
 
@@ -54,7 +48,7 @@ module Scores
 
       def full_player_hash(round_player, data, conceded)
         sofascore_id = data[:sofascore_id]
-        scored_penalty = penalty_goals[sofascore_id].to_i
+        scored_penalty = timeline.penalty_goals[sofascore_id].to_i
         window = keeper_window(data)
         missed_penalty = missed_penalty_for(round_player, conceded, window)
         {
@@ -68,15 +62,15 @@ module Scores
           caught_penalty: stat_value(data, :caught_penalty), failed_penalty: stat_value(data, :failed_penalty),
           conceded_penalty: stat_value(data, :conceded_penalty), penalties_won: stat_value(data, :penalties_won),
           played_minutes: stat_value(data, :played_minutes), in_squad: true,
-          yellow_card: cards.dig(sofascore_id, :yellow_card) || false,
-          red_card: cards.dig(sofascore_id, :red_card) || false
+          yellow_card: timeline.cards.dig(sofascore_id, :yellow_card) || false,
+          red_card: timeline.cards.dig(sofascore_id, :red_card) || false
         }
       end
 
       def cleansheet_timing(data, conceded)
         return nil unless timed?(conceded)
 
-        substitution = substitutions[data[:sofascore_id]] || {}
+        substitution = timeline.substitutions[data[:sofascore_id]] || {}
         { on_minute: substitution[:on_minute], off_minute: substitution[:off_minute],
           conceded_minutes: conceded[:minutes] }
       end
@@ -109,7 +103,7 @@ module Scores
       end
 
       def keeper_window(data)
-        substitution = substitutions[data[:sofascore_id]] || {}
+        substitution = timeline.substitutions[data[:sofascore_id]] || {}
         { on: substitution[:on_minute].to_i, off: substitution[:off_minute] || Float::INFINITY }
       end
 
@@ -123,19 +117,55 @@ module Scores
         players.each_with_object({}) do |player_data, hash|
           stats = player_data['statistics']
           next unless stats
-          next if stats['minutesPlayed'].to_i.zero?
 
-          hash[player_data['player']['id']] = build_player_hash(player_data)
+          minutes = played_minutes_for(player_data, stats)
+          next if minutes.zero?
+
+          hash[player_data['player']['id']] = build_player_hash(player_data, minutes)
         end
       end
 
-      def build_player_hash(player_data)
+      def played_minutes_for(player_data, stats)
+        recorded = stats['minutesPlayed'].to_i
+        return recorded if recorded.positive?
+
+        came_on, left_at = pitch_window(player_data)
+        return 0 unless came_on
+
+        [left_at - came_on, 1].max
+      end
+
+      def pitch_window(player_data)
+        left_at = left_pitch_at(player_data)
+        came_on = came_on_at(player_data, left_at)
+
+        came_on && [came_on, left_at || FULL_MATCH_MINUTES]
+      end
+
+      def left_pitch_at(player_data)
+        sofascore_id = player_data['player']['id']
+
+        timing_for(sofascore_id)[:off_minute] || timeline.red_card_minutes[sofascore_id]
+      end
+
+      def came_on_at(player_data, left_at)
+        on_minute = timing_for(player_data['player']['id'])[:on_minute]
+        return on_minute if on_minute
+
+        0 if !player_data['substitute'] && left_at
+      end
+
+      def timing_for(sofascore_id)
+        timeline.substitutions[sofascore_id] || {}
+      end
+
+      def build_player_hash(player_data, minutes)
         stats = player_data['statistics']
         {
           sofascore_id: player_data['player']['id'],
           source_name: player_data['player']['name'],
           rating: stats['rating'],
-          played_minutes: stats['minutesPlayed'],
+          played_minutes: minutes,
           goals: stats['goals'],
           assists: stats['goalAssist'],
           own_goals: stats['ownGoals'],
@@ -147,75 +177,8 @@ module Scores
         }
       end
 
-      def cards
-        @cards ||= incidents.select { |incident| card?(incident) }
-                            .each_with_object({}) { |incident, hash| assign_card(hash, incident) }
-      end
-
-      def card?(incident)
-        incident['incidentType'] == CARD_TYPE && !incident['rescinded'] && player_id(incident)
-      end
-
-      def assign_card(hash, incident)
-        entry = hash[player_id(incident)] ||= { yellow_card: false, red_card: false }
-        incident_class = incident['incidentClass']
-
-        if RED_CLASSES.include?(incident_class)
-          entry.merge!(red_card: true, yellow_card: false)
-        elsif incident_class == YELLOW_CLASS && !entry[:red_card]
-          entry[:yellow_card] = true
-        end
-      end
-
-      def penalty_goals
-        @penalty_goals ||= penalty_goal_incidents.each_with_object(Hash.new(0)) do |incident, hash|
-          hash[player_id(incident)] += 1
-        end
-      end
-
-      def penalty_minutes_conceded_by(home:)
-        penalty_goal_incidents.reject { |incident| incident['isHome'] == home }.map { |i| minute_of(i) }
-      end
-
-      def goal_minutes_conceded_by(home:)
-        goal_incidents.reject { |incident| incident['isHome'] == home }.map { |incident| minute_of(incident) }
-      end
-
-      def goal_incidents
-        @goal_incidents ||= incidents.select { |incident| incident['incidentType'] == GOAL_TYPE }
-      end
-
-      def substitutions
-        @substitutions ||= incidents.select { |incident| incident['incidentType'] == SUBSTITUTION_TYPE }
-                                    .each_with_object({}) { |incident, hash| assign_substitution(hash, incident) }
-      end
-
-      def assign_substitution(hash, incident)
-        minute = minute_of(incident)
-        in_id = incident.dig('playerIn', 'id')
-        out_id = incident.dig('playerOut', 'id')
-        (hash[in_id] ||= {})[:on_minute] = minute if in_id
-        (hash[out_id] ||= {})[:off_minute] = minute if out_id
-      end
-
-      def minute_of(incident)
-        incident['time'].to_i + incident['addedTime'].to_i
-      end
-
-      def penalty_goal_incidents
-        @penalty_goal_incidents ||= incidents.select do |incident|
-          incident['incidentType'] == GOAL_TYPE && incident['incidentClass'] == PENALTY_CLASS && player_id(incident)
-        end
-      end
-
-      def player_id(incident)
-        incident.dig('player', 'id')
-      end
-
-      def incidents
-        @incidents ||= JSON.parse(match.incidents_data.to_s)['incidents'] || []
-      rescue JSON::ParserError, TypeError
-        @incidents = []
+      def timeline
+        @timeline ||= SofascoreIncidents.new(match.incidents_data)
       end
 
       def squad_sofascore_ids

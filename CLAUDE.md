@@ -127,3 +127,14 @@ append it to this list so future sessions don't rediscover it. Keep entries shor
   naming a class, check it against a filter list — `.footer-follow` is blocked too; `.footer-contacts`
   is not. The image URLs themselves are clean: no rule in EasyList/EasyPrivacy/Fanboy Social/uBO
   matches any avatar, kit or crest path, so a blocked image is a markup or class-name problem.
+- SofaScore rounds a cameo shorter than a minute down to `minutesPlayed: 0` and then sends no rating
+  with it, so `SofascoreMatch#build_players_hash` used to drop that player before any scoring ran: he
+  reached us with no score, no card and `in_squad` only. Derive his minutes from the substitution
+  events instead (`played_minutes_for`), taking the end of the spell from a red card when he never
+  came off. A card alone is NOT proof of playing — a substitute can be sent off from the bench — so
+  the substitution-in event is what admits him. A STARTER has no such event: his ticket is a red card
+  or being taken off, and without one he stays at nought, because an unconfirmed lineup is a list of
+  predicted starters and a full match each would invent minutes and a default score.
+- `MatchPlayer#not_played?` drives the autobot, and it must weigh minutes as well as the score
+  (`score.zero? && played_minutes.to_i.zero?`). On score alone, any player a source reports without a
+  rating is replaced in every lineup he is in, even though he was on the pitch.

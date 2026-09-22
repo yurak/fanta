@@ -205,6 +205,165 @@ RSpec.describe Scores::Injectors::SofascoreMatch do
                                 lineups_data: lineups_json, incidents_data: incidents_json)
     end
 
+    # SofaScore rounds a one-minute cameo down to `minutesPlayed: 0` and sends no rating, so the
+    # substitution events are the only proof the player was on the pitch at all.
+    context 'with a substitute whose minutes were rounded down to nought' do
+      let!(:cameo_rp) do
+        create(:round_player, tournament_round: match.tournament_round,
+                              player: create(:player, sofascore_id: 300, club: match.host_club))
+      end
+
+      let(:lineups_json) do
+        {
+          'home' => {
+            'players' => [
+              { 'player' => { 'id' => 100, 'name' => 'Buffon' },
+                'statistics' => { 'minutesPlayed' => 90, 'rating' => 7.0, 'goals' => 0, 'goalAssist' => 0,
+                                  'ownGoals' => 0, 'saves' => 3 } },
+              { 'player' => { 'id' => 300, 'name' => 'Cameo' }, 'substitute' => true,
+                'statistics' => { 'minutesPlayed' => 0, 'goals' => 0, 'goalAssist' => 0, 'ownGoals' => 0 } }
+            ]
+          },
+          'away' => { 'players' => [] }
+        }.to_json
+      end
+
+      let(:incidents_json) do
+        { 'incidents' => [
+          { 'incidentType' => 'substitution', 'time' => 62, 'isHome' => true,
+            'playerIn' => { 'id' => 300 }, 'playerOut' => { 'id' => 100 } },
+          { 'incidentType' => 'card', 'incidentClass' => 'red', 'isHome' => true, 'time' => 63,
+            'player' => { 'id' => 300 } }
+        ] }.to_json
+      end
+
+      before { injector.call }
+
+      it 'counts the minutes between coming on and the red card' do
+        expect(cameo_rp.reload.played_minutes).to eq(1)
+      end
+
+      it 'gives him the default score instead of leaving him at nought' do
+        expect(cameo_rp.reload.score).to eq(described_class::DEFAULT_SCORE)
+      end
+
+      it 'records the red card' do
+        expect(cameo_rp.reload.red_card).to be(true)
+      end
+
+      it 'does not read as a player who never took the field' do
+        match_player = create(:match_player, round_player: cameo_rp.reload, real_position: 'C')
+
+        expect(match_player.not_played?).to be(false)
+      end
+    end
+
+    context 'with a starter sent off in the first minute' do
+      let!(:sent_off_rp) do
+        create(:round_player, tournament_round: match.tournament_round,
+                              player: create(:player, sofascore_id: 300, club: match.host_club))
+      end
+
+      let(:lineups_json) do
+        {
+          'home' => {
+            'players' => [
+              { 'player' => { 'id' => 300, 'name' => 'Hothead' }, 'substitute' => false,
+                'statistics' => { 'minutesPlayed' => 0, 'goals' => 0, 'goalAssist' => 0, 'ownGoals' => 0 } }
+            ]
+          },
+          'away' => { 'players' => [] }
+        }.to_json
+      end
+
+      let(:incidents_json) do
+        { 'incidents' => [
+          { 'incidentType' => 'card', 'incidentClass' => 'red', 'isHome' => true, 'time' => 1,
+            'player' => { 'id' => 300 } }
+        ] }.to_json
+      end
+
+      before { injector.call }
+
+      it 'counts the minute he was on for' do
+        expect(sent_off_rp.reload.played_minutes).to eq(1)
+      end
+
+      it 'records the red card' do
+        expect(sent_off_rp.reload.red_card).to be(true)
+      end
+    end
+
+    # An unconfirmed lineup is a list of predicted starters. Without an event placing him on the
+    # pitch, a nought-minute starter must stay at nought rather than collect a full match.
+    context 'with a nought-minute starter and no events at all' do
+      let!(:ghost_rp) do
+        create(:round_player, tournament_round: match.tournament_round,
+                              player: create(:player, sofascore_id: 300, club: match.host_club))
+      end
+
+      let(:lineups_json) do
+        {
+          'home' => {
+            'players' => [
+              { 'player' => { 'id' => 300, 'name' => 'Predicted' }, 'substitute' => false,
+                'statistics' => { 'minutesPlayed' => 0, 'goals' => 0, 'goalAssist' => 0, 'ownGoals' => 0 } }
+            ]
+          },
+          'away' => { 'players' => [] }
+        }.to_json
+      end
+
+      let(:incidents_json) { { 'incidents' => [] }.to_json }
+
+      before { injector.call }
+
+      it 'leaves his minutes at nought' do
+        expect(ghost_rp.reload.played_minutes).to eq(0)
+      end
+
+      it 'leaves him without a score' do
+        expect(ghost_rp.reload.score).to eq(0)
+      end
+    end
+
+    # A card is not proof of playing: a substitute can be sent off from the bench.
+    context 'with a red card but no substitution' do
+      let!(:bench_rp) do
+        create(:round_player, tournament_round: match.tournament_round,
+                              player: create(:player, sofascore_id: 300, club: match.host_club))
+      end
+
+      let(:lineups_json) do
+        {
+          'home' => {
+            'players' => [
+              { 'player' => { 'id' => 300, 'name' => 'Benched' }, 'substitute' => true,
+                'statistics' => { 'minutesPlayed' => 0, 'goals' => 0, 'goalAssist' => 0, 'ownGoals' => 0 } }
+            ]
+          },
+          'away' => { 'players' => [] }
+        }.to_json
+      end
+
+      let(:incidents_json) do
+        { 'incidents' => [
+          { 'incidentType' => 'card', 'incidentClass' => 'red', 'isHome' => true, 'time' => 63,
+            'player' => { 'id' => 300 } }
+        ] }.to_json
+      end
+
+      before { injector.call }
+
+      it 'leaves his minutes at nought' do
+        expect(bench_rp.reload.played_minutes).to eq(0)
+      end
+
+      it 'leaves him without a score' do
+        expect(bench_rp.reload.score).to eq(0)
+      end
+    end
+
     context 'with a penalty goal' do
       let(:incidents_json) do
         { 'incidents' => [
