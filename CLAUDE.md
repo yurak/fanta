@@ -138,3 +138,7 @@ append it to this list so future sessions don't rediscover it. Keep entries shor
 - `MatchPlayer#not_played?` drives the autobot, and it must weigh minutes as well as the score
   (`score.zero? && played_minutes.to_i.zero?`). On score alone, any player a source reports without a
   rating is replaced in every lineup he is in, even though he was on the pitch.
+- `RoundPlayer#related_club` prefers the club stored on the round player over the player's own, and
+  `MatchPlayer#kit_path` goes through it — so `round_player: [:club]` must stay in MatchPlayer's
+  `default_scope` includes. Without it a lineup fires one `clubs` SELECT per player (33 queries for a
+  39-man lineup instead of 7) while the batched `players.club` preload sits unused.
