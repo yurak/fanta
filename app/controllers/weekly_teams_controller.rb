@@ -25,8 +25,7 @@ class WeeklyTeamsController < ApplicationController
   def round_top_lineups
     rounds = TournamentRound.where(id: @weekly_team.round_ids).includes(:tournament).index_by(&:id)
 
-    @weekly_team.round_ids.filter_map { |round_id| rounds[round_id] }
-                          .map { |round| [round, top_lineup_for(round)] }
+    @weekly_team.round_ids.filter_map { |round_id| rounds[round_id] }.map { |round| [round, top_lineup_for(round)] }
   end
 
   def top_lineup_for(round)

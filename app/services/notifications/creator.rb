@@ -1,4 +1,3 @@
-# rubocop:disable Rails/SkipsModelValidations
 module Notifications
   class Creator < ApplicationService
     attr_reader :notifiable, :kind, :priority, :kind_value, :status_value, :priority_value
@@ -27,7 +26,7 @@ module Notifications
 
       # Not insert_all!: with the unique index in place, a row another run has just written must be
       # skipped, not raised on.
-      Notification.insert_all(prepare_rows(teams, Time.current))
+      Notification.insert_all(prepare_rows(teams, Time.current)) # rubocop:disable Rails/SkipsModelValidations
       true
     end
 
@@ -112,4 +111,3 @@ module Notifications
     end
   end
 end
-# rubocop:enable Rails/SkipsModelValidations

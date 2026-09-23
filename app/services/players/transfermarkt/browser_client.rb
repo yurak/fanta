@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-# rubocop:disable Metrics/MethodLength
 require 'json'
 require 'fileutils'
 
@@ -9,7 +8,7 @@ module Players
     class BrowserClient
       STORAGE_PATH = Rails.root.join('tmp/tm_storage_state.json').to_s
 
-      def fetch_html(url, headless: false, cache_key: nil, force: false, ttl: 86_400)
+      def fetch_html(url, headless: false, cache_key: nil, force: false, ttl: 86_400) # rubocop:disable Metrics/MethodLength
         require 'playwright'
 
         ensure_storage_state!
@@ -286,4 +285,3 @@ module Players
     end
   end
 end
-# rubocop:enable Metrics/MethodLength

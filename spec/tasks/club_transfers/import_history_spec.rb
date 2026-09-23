@@ -1,11 +1,10 @@
-# rubocop:disable RSpec/DescribeClass
 require 'rails_helper'
 require 'rake'
 
 Rake.application.rake_require('tasks/club_transfers')
 Rake::Task.define_task(:environment)
 
-RSpec.describe 'club_transfers:import_history rake task' do
+RSpec.describe 'club_transfers:import_history rake task' do # rubocop:disable RSpec/DescribeClass
   let!(:player) { create(:player, tm_id: 400_489) }
 
   before do
@@ -85,4 +84,3 @@ RSpec.describe 'club_transfers:import_history rake task' do
     end
   end
 end
-# rubocop:enable RSpec/DescribeClass

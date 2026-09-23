@@ -1,11 +1,10 @@
-# rubocop:disable RSpec/DescribeClass
 require 'rails_helper'
 require 'rake'
 
 Rake.application.rake_require('tasks/tours')
 Rake::Task.define_task(:environment)
 
-RSpec.describe 'tours rake tasks' do
+RSpec.describe 'tours rake tasks' do # rubocop:disable RSpec/DescribeClass
   def reenable(task_name)
     Rake::Task[task_name].reenable
   end
@@ -111,4 +110,3 @@ RSpec.describe 'tours rake tasks' do
     end
   end
 end
-# rubocop:enable RSpec/DescribeClass
