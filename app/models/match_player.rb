@@ -14,9 +14,6 @@ class MatchPlayer < ApplicationRecord
 
   enum :subs_status, { initial: 0, get_out: 1, get_in: 2, not_in_squad: 3 }
 
-  # `round_player.club` belongs here as well as the player's own: `MatchPlayer#kit_path` reads
-  # `RoundPlayer#related_club`, which prefers the club stored on the round player, and without the
-  # preload every player in a lineup fires its own `clubs` SELECT while the batched one sits unused.
   default_scope do
     includes(:lineup, round_player: [:club, { player: %i[club player_positions positions] }, :tournament_round])
   end

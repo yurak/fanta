@@ -481,6 +481,7 @@ RSpec.describe 'Users' do
   describe 'GET #auto_subs' do
     before do
       allow(Substitutes::AutoBot).to receive(:for_round)
+        .and_return({ lineups: 0, substitutes: 0, failures: [] })
       get tournament_round_auto_subs_path(tournament_round)
     end
 
@@ -529,11 +530,42 @@ RSpec.describe 'Users' do
         expect(Substitutes::AutoBot).to have_received(:for_round).with(tournament_round, preview: false)
       end
     end
+
+    # The preview page looks the same whether a round went through or fell over halfway, so the run
+    # has to say what it did.
+    context 'when the run reports what it did' do
+      login_admin
+
+      before do
+        allow(Substitutes::AutoBot).to receive(:for_round)
+          .and_return({ lineups: 12, substitutes: 5, failures: [] })
+        get tournament_round_auto_subs_path(tournament_round)
+      end
+
+      it 'says how many lineups and substitutions' do
+        expect(flash[:notice]).to include('12', '5')
+      end
+    end
+
+    context 'when a tour failed' do
+      login_admin
+
+      before do
+        allow(Substitutes::AutoBot).to receive(:for_round)
+          .and_return({ lineups: 3, substitutes: 1, failures: ['tour 42: boom'] })
+        get tournament_round_auto_subs_path(tournament_round)
+      end
+
+      it 'names the tour that failed' do
+        expect(flash[:alert]).to include('tour 42')
+      end
+    end
   end
 
   describe 'GET #generate_preview' do
     before do
       allow(Substitutes::AutoBot).to receive(:for_round)
+        .and_return({ lineups: 0, substitutes: 0, failures: [] })
       get tournament_round_generate_preview_path(tournament_round)
     end
 
@@ -566,7 +598,7 @@ RSpec.describe 'Users' do
       it { expect(response).to have_http_status(:found) }
 
       it 'calls AutoBot in preview mode' do
-        expect(Substitutes::AutoBot).to have_received(:for_round).with(tournament_round)
+        expect(Substitutes::AutoBot).to have_received(:for_round).with(tournament_round, preview: true)
       end
     end
 
@@ -579,7 +611,7 @@ RSpec.describe 'Users' do
       it { expect(response).to redirect_to(tournament_round_auto_subs_preview_path(tournament_round)) }
 
       it 'calls AutoBot in preview mode' do
-        expect(Substitutes::AutoBot).to have_received(:for_round).with(tournament_round)
+        expect(Substitutes::AutoBot).to have_received(:for_round).with(tournament_round, preview: true)
       end
     end
   end

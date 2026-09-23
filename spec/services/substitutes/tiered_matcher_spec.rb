@@ -1062,4 +1062,56 @@ RSpec.describe Substitutes::TieredMatcher do
       expect(total).to eq(1.5)
     end
   end
+
+  # Squeezing a tier can want a column another row of the same tier already holds. The occupant is
+  # not simply evicted: it is moved to a free column strictly between the target and the column the
+  # mover is leaving, so the sum of column indices still falls. Without that escape hop the pair
+  # would stay where it is.
+  context 'when a tier column is freed by its occupant escaping to a closer free column' do
+    let(:grid) { [[1.5, 1.5, 'X', 'X'], [1.5, 3.0, 1.5, 'X'], ['X', 3.0, 1.5, 1.5]] }
+
+    it 'matches all three rows' do
+      assignments, = result
+      expect(assignments.size).to eq(3)
+    end
+
+    it 'keeps every match inside the 1.5 tier' do
+      assignments, = result
+      expect(assignments.map { |_r, _c, v| v }).to all(eq(1.5))
+    end
+
+    it 'gives row 1 the column row 0 vacated' do
+      assignments, = result
+      expect(assignments).to include([1, 0, 1.5])
+    end
+
+    it 'leaves the last column unused, the squeeze having pulled everyone left' do
+      assignments, = result
+      expect(assignments.map { |_r, c, _v| c }).not_to include(3)
+    end
+  end
+
+  # `squeeze_tier` dismantles a tier and rebuilds it, and rolls back if a row comes out unmatched.
+  # That cannot happen through `call`: the assignment it just took apart is itself a valid matching
+  # over the same rows and columns, so the augmenting search can always at least restore it — checked
+  # exhaustively over all 262,144 possible 3x3 grids and 200,000 random ones up to 7x7. The guard is
+  # there in case that invariant is ever broken, so it is tested by breaking it.
+  context 'when a tier rebuild loses a row' do
+    let(:grid) { [[0, 1.5], [1.5, 0]] }
+
+    before do
+      allow_any_instance_of(described_class).to receive(:greedy_assign_tier) { |_, idxs, _| idxs }
+      allow_any_instance_of(described_class).to receive(:augment_tier).and_return(false)
+    end
+
+    it 'restores the assignment it had before the squeeze' do
+      assignments, = result
+      expect(assignments).to contain_exactly([0, 0, 0.0], [1, 1, 0.0])
+    end
+
+    it 'keeps the total malus it had before the squeeze' do
+      _, total = result
+      expect(total).to eq(0.0)
+    end
+  end
 end

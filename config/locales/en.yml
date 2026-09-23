@@ -1130,6 +1130,10 @@ en:
     total_score: "Total score"
     ts: "TS"
   round:
+    autobot:
+      generated: "Preview generated: %{lineups} lineups, %{substitutes} substitutions"
+      applied: "Applied: %{lineups} lineups, %{substitutes} substitutions"
+      failed: "Some tours failed: %{errors}"
     auto_subs: "Exec AutoSubs"
     auto_subs_preview: "AutoSubs view"
     close: "Close all tours"

@@ -142,3 +142,21 @@ append it to this list so future sessions don't rediscover it. Keep entries shor
   `MatchPlayer#kit_path` goes through it — so `round_player: [:club]` must stay in MatchPlayer's
   `default_scope` includes. Without it a lineup fires one `clubs` SELECT per player (33 queries for a
   39-man lineup instead of 7) while the batched `players.club` preload sits unused.
+- The autobot's two passes are a plan and its execution, not two computations. `AutoBot` with
+  `preview: true` stores the pairs as `{out_mp_id, in_mp_id, out, in}` in `lineups.substitutes`, and
+  the apply pass carries THAT plan out — scores keep arriving between the admin's two clicks, and
+  recomputing would perform swaps nobody approved. Both passes write the record, so applying without
+  a preview still leaves a trace; a pair that no longer validates is logged as `[autobot] skipped`.
+  Do not add a `subs_missed?` gate before calling it: that reloads every match player of the lineup
+  only to decide whether to load them again, and `AutoBot` already no-ops when there is nobody to
+  bring on.
+- Squad lists for a national-team tournament live in `config/mantra/national_squads/<window>.csv`, and
+  `rake 'national_squads:check'` diffs them against what Wikipedia lists now (newest CSV by default,
+  `check[file.csv]` for a particular one). It is written for ANY such tournament — only the CSV is
+  tied to one window. Three traps are already encoded in `NationalSquads::WikiParser`, each learned
+  the hard way: `{{nat fs r player}}` is the "Recent call-ups" table and is NOT the squad;
+  `{{nat fs break}}` only splits columns, so it cannot end the table; and template names appear both
+  capitalised and not. `NationalSquads::Comparer` pairs names one-to-one — a shared given name would
+  otherwise absorb two people and hide a swap behind an unchanged head count — and its `ALIASES` hold
+  nickname pairs (Rodrigo Hernandez ↔ Rodri). Transliteration differences belong in the normaliser,
+  never in ALIASES.

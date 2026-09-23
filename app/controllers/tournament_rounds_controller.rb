@@ -75,18 +75,25 @@ class TournamentRoundsController < ApplicationController
   end
 
   def auto_subs
-    Substitutes::AutoBot.for_round(tournament_round, preview: false) if can? :auto_subs, TournamentRound
+    run_autobot(preview: false) if can? :auto_subs, TournamentRound
 
     redirect_to tournament_round_auto_subs_preview_path(tournament_round)
   end
 
   def generate_preview
-    Substitutes::AutoBot.for_round(tournament_round) if can? :generate_preview, TournamentRound
+    run_autobot(preview: true) if can? :generate_preview, TournamentRound
 
     redirect_to tournament_round_auto_subs_preview_path(tournament_round)
   end
 
   private
+
+  def run_autobot(preview:)
+    result = Substitutes::AutoBot.for_round(tournament_round, preview: preview)
+    key = preview ? :generated : :applied
+    flash[:notice] = t("round.autobot.#{key}", lineups: result[:lineups], substitutes: result[:substitutes])
+    flash[:alert] = t('round.autobot.failed', errors: result[:failures].join('; ')) if result[:failures].any?
+  end
 
   def round_players
     update_params['round_players']

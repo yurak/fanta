@@ -1136,6 +1136,10 @@ ua:
     total_score: "Загальна оцінка"
     ts: "ЗО"
   round:
+    autobot:
+      generated: "Прев'ю згенеровано: %{lineups} складів, %{substitutes} замін"
+      applied: "Застосовано: %{lineups} складів, %{substitutes} замін"
+      failed: "Частина турів не відпрацювала: %{errors}"
     auto_subs: "Виконати Автозаміни"
     auto_subs_preview: "Переглянути можливі заміни"
     close: "Закрити всі тури"
