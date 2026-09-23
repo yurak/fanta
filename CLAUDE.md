@@ -160,3 +160,18 @@ append it to this list so future sessions don't rediscover it. Keep entries shor
   otherwise absorb two people and hide a swap behind an unchanged head count — and its `ALIASES` hold
   nickname pairs (Rodrigo Hernandez ↔ Rodri). Transliteration differences belong in the normaliser,
   never in ALIASES.
+- Adding a tournament is a DATA job, not a code one: `config/mantra/tournaments.yml` and `clubs.yml`
+  are read only by `db:seed` and are 15 tournaments behind production. The cron rakes are generic
+  (`standings:refresh` takes every tournament with a `source_id`; `tours:live_inject` /
+  `refresh_schedule` every one with `live_scores_enabled`), the calendar import is a manage-UI button
+  driven by `source_id`, and `Tournament#logo_path` falls back to `uefa.png`. The one MANDATORY edit is
+  `config/mantra/auctions_calendar.yml`: `Leagues::Activator#base_auctions_dates` does
+  `YAML.load_file(...)[tournament.code]` and then `.last(n)` on it, so a code missing from that file is
+  a `NoMethodError` the moment an admin activates the first league. Then the logo
+  (`app/assets/images/tournaments/<code>.png` — `image_tag` on a missing asset takes the fees page
+  down), the `welcome.fee.tournament.<code>` locales and a `.type-league` block in
+  `welcome/fees.html.haml`. `sofa_number` and `source_calendar_url` are display-only leftovers.
+  A club's `name` (or `full_name`) must be FotMob's spelling — `TournamentMatches::CalendarImporter`
+  resolves clubs by those two columns — and `fotmob_id` must be set or `Standings::Updater` cannot
+  place the club in the table. A new tournament prices every player at 1, because `Player#stats_price`
+  scopes last season's `player_season_stats` to `club.tournament`; Turkey shipped that way.
