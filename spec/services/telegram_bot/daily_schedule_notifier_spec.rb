@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.describe TelegramBot::DailyScheduleNotifier do
   subject(:notifier) { described_class.new(user) }
 
-  let(:user)   { create(:user, :with_profile, time_zone: 'Kyiv', locale: 'ua') }
+  let(:user) { create(:user, :with_profile, time_zone: 'Kyiv', locale: 'ua') }
   let(:league) { create(:active_league) }
 
   before do
@@ -35,7 +35,7 @@ RSpec.describe TelegramBot::DailyScheduleNotifier do
   end
 
   context 'with a tour deadline within 24 hours' do
-    let(:tr)   { create(:tournament_round, tournament: league.tournament, deadline: 3.hours.from_now) }
+    let(:tr) { create(:tournament_round, tournament: league.tournament, deadline: 3.hours.from_now) }
     let(:tour) { create(:set_lineup_tour, league: league, tournament_round: tr) }
 
     before { tour }
@@ -81,7 +81,7 @@ RSpec.describe TelegramBot::DailyScheduleNotifier do
   end
 
   context 'with a lineup status' do
-    let(:tr)   { create(:tournament_round, tournament: league.tournament, deadline: 3.hours.from_now) }
+    let(:tr) { create(:tournament_round, tournament: league.tournament, deadline: 3.hours.from_now) }
     let(:tour) { create(:set_lineup_tour, league: league, tournament_round: tr) }
     let(:team) { user.teams.first }
 
@@ -114,7 +114,7 @@ RSpec.describe TelegramBot::DailyScheduleNotifier do
   # HTML parse mode makes an ampersand in a league name a parse error, so it has to be escaped.
   context 'with a league name that carries HTML-special characters' do
     let(:league) { create(:active_league, name: 'Bravery&Stupidity') }
-    let(:tr)   { create(:tournament_round, tournament: league.tournament, deadline: 3.hours.from_now) }
+    let(:tr) { create(:tournament_round, tournament: league.tournament, deadline: 3.hours.from_now) }
     let(:tour) { create(:set_lineup_tour, league: league, tournament_round: tr) }
 
     before { tour }
@@ -147,7 +147,7 @@ RSpec.describe TelegramBot::DailyScheduleNotifier do
   end
 
   context 'with an active auction round deadline within 24 hours' do
-    let(:auction)       { create(:auction, league: league) }
+    let(:auction) { create(:auction, league: league) }
     let(:auction_round) { create(:auction_round, auction: auction, deadline: 3.hours.from_now) }
 
     before { create(:auction_bid, auction_round: auction_round, team: user.teams.find_by(league: league)) }
@@ -227,7 +227,7 @@ RSpec.describe TelegramBot::DailyScheduleNotifier do
 
   context 'with multiple deadlines at different times' do
     let(:early_time) { user.local_time(2.hours.from_now, '%H:%M') }
-    let(:late_time)  { user.local_time(8.hours.from_now, '%H:%M') }
+    let(:late_time) { user.local_time(8.hours.from_now, '%H:%M') }
     let(:tour_early) do
       tr = create(:tournament_round, tournament: league.tournament, deadline: 2.hours.from_now)
       create(:set_lineup_tour, league: league, tournament_round: tr)

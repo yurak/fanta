@@ -428,9 +428,9 @@ RSpec.describe 'Users' do
 
     context 'when the tournament is national and has missed players' do
       let(:national_tournament) { create(:tournament, :with_national_teams) }
-      let(:national_round)      { create(:tournament_round, tournament: national_tournament) }
-      let(:host)                { national_tournament.national_teams.first }
-      let(:guest)               { national_tournament.national_teams.second }
+      let(:national_round) { create(:tournament_round, tournament: national_tournament) }
+      let(:host) { national_tournament.national_teams.first }
+      let(:guest) { national_tournament.national_teams.second }
 
       login_admin
       before do

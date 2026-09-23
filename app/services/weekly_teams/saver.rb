@@ -2,12 +2,12 @@ module WeeklyTeams
   class Saver < ApplicationService
     def initialize(team_module_id:, round_ids:, mode:, number:, players:, **opts) # rubocop:disable Metrics/ParameterLists
       @team_module_id = team_module_id
-      @round_ids      = round_ids
-      @mode           = mode
-      @number         = number
-      @players        = players
-      @source         = opts.fetch(:source, 'round')
-      @tournament_id  = opts[:tournament_id]
+      @round_ids = round_ids
+      @mode = mode
+      @number = number
+      @players = players
+      @source = opts.fetch(:source, 'round')
+      @tournament_id = opts[:tournament_id]
     end
 
     def call

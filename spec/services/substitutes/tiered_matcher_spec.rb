@@ -194,8 +194,8 @@ RSpec.describe Substitutes::TieredMatcher do
     # Expected: Dc→Dc(bench)(0), Dd unmatched            ← 1 zero-malus sub wins
     let(:grid) do
       [
-        [1.5, 'X'],  # Dd: Dc(bench)=1.5, M(bench)=X
-        [0,   'X']   # Dc: Dc(bench)=0,   M(bench)=X
+        [1.5, 'X'], # Dd: Dc(bench)=1.5, M(bench)=X
+        [0, 'X'] # Dc: Dc(bench)=0,   M(bench)=X
       ]
     end
 
@@ -216,8 +216,8 @@ RSpec.describe Substitutes::TieredMatcher do
     # Expected: Dc→Dc(bench)(0) [zero-malus first], Dd→M(bench)(3.0) [remaining slot]
     let(:grid) do
       [
-        [1.5, 3.0],  # Dd: both bench players substitutable with malus
-        [0,   'X']   # Dc: only Dc(bench) natively
+        [1.5, 3.0], # Dd: both bench players substitutable with malus
+        [0, 'X'] # Dc: only Dc(bench) natively
       ]
     end
 
@@ -256,7 +256,7 @@ RSpec.describe Substitutes::TieredMatcher do
       [
         ['X', 1.5, 'X', 1.5],
         ['X', 1.5, 'X', 1.5],
-        ['X', 0,   0,   'X']
+        ['X', 0, 0, 'X']
       ]
     end
 
@@ -301,7 +301,7 @@ RSpec.describe Substitutes::TieredMatcher do
       [
         ['X', 1.5, 'X', 1.5],
         ['X', 1.5, 'X', 'X'],
-        ['X', 0,   0,   'X']
+        ['X', 0, 0, 'X']
       ]
     end
 
@@ -379,9 +379,9 @@ RSpec.describe Substitutes::TieredMatcher do
     # Correct: both Dc players take native Dc slots (0 each), Dd unmatched — 2 zero-malus subs.
     let(:grid) do
       [
-        ['X', 'X', 'X', 'X',  1.5, 1.5], # Dd
-        ['X', 'X', 'X', 3.0,  0,   0],  # Dc
-        ['X', 'X', 'X', 3.0,  0,   0]   # Dc
+        ['X', 'X', 'X', 'X', 1.5, 1.5], # Dd
+        ['X', 'X', 'X', 3.0, 0, 0], # Dc
+        ['X', 'X', 'X', 3.0, 0, 0] # Dc
       ]
     end
 
@@ -416,9 +416,9 @@ RSpec.describe Substitutes::TieredMatcher do
     #          C takes any remaining compatible slot (M, E — all 1.5). Total: 1.5.
     let(:grid) do
       [
-        [1.5, 1.5, 0,   0, 'X', 3.0, 'X'], # Dd
+        [1.5, 1.5, 0, 0, 'X', 3.0, 'X'], # Dd
         ['X', 'X', 1.5, 1.5, 1.5, 1.5, 'X'], # C
-        ['X', 'X', 0, 0, 1.5,   0, 0] # E/W
+        ['X', 'X', 0, 0, 1.5, 0, 0] # E/W
       ]
     end
 
@@ -492,8 +492,8 @@ RSpec.describe Substitutes::TieredMatcher do
     # Correct: M→M/C(0) [native, frees T for C], C→T(3.0) → 2 subs, 1 zero-malus.
     let(:grid) do
       [
-        ['X', 0],  # M: T(bench)=X, M/C(bench)=0
-        [3.0, 0]   # C: T(bench)=3.0, M/C(bench)=0
+        ['X', 0], # M: T(bench)=X, M/C(bench)=0
+        [3.0, 0] # C: T(bench)=3.0, M/C(bench)=0
       ]
     end
 
@@ -531,8 +531,8 @@ RSpec.describe Substitutes::TieredMatcher do
     # Both substitutions are zero-malus. Total: 0.
     let(:grid) do
       [
-        [0,   1.5, 0,   1.5, 1.5, 0],
-        [0,   0,   3.0, 'X', 'X', 3.0]
+        [0, 1.5, 0, 1.5, 1.5, 0],
+        [0, 0, 3.0, 'X', 'X', 3.0]
       ]
     end
 
@@ -565,8 +565,8 @@ RSpec.describe Substitutes::TieredMatcher do
     let(:grid) do
       [
         [3.0, 1.5, 'X', 'X'], # Dd: can only use E(3.0) or Dc/E(1.5)
-        ['X', 0,   'X', 'X'], # Dc: only Dc/E(0)
-        [0,   0,   'X', 3.0]  # E:  E(0), Dc/E(0), or T/W(3.0)
+        ['X', 0, 'X', 'X'], # Dc: only Dc/E(0)
+        [0, 0, 'X', 3.0] # E:  E(0), Dc/E(0), or T/W(3.0)
       ]
     end
 
@@ -606,8 +606,8 @@ RSpec.describe Substitutes::TieredMatcher do
     # Result: Dc→Dc/Dd(col1, 0), Dd→E/W(col0, 3.0). Total: 3.0.
     let(:grid) do
       [
-        [3.0, 0,   'X'], # Dd: E/W=M_MALUS, Dc/Dd=native, M=incompatible
-        ['X', 0,   3.0]  # Dc: E/W=incompatible, Dc/Dd=native, M=M_MALUS
+        [3.0, 0, 'X'], # Dd: E/W=M_MALUS, Dc/Dd=native, M=incompatible
+        ['X', 0, 3.0] # Dc: E/W=incompatible, Dc/Dd=native, M=M_MALUS
       ]
     end
 
@@ -648,7 +648,7 @@ RSpec.describe Substitutes::TieredMatcher do
     let(:grid) do
       [
         [3.0, 1.5, 1.5, 1.5, 1.5], # C/T
-        [3.0, 0,   1.5, 0,   0], # E/W
+        [3.0, 0, 1.5, 0, 0], # E/W
         [3.0, 1.5, 'X', 'X', 'X'] # T
       ]
     end
@@ -698,7 +698,7 @@ RSpec.describe Substitutes::TieredMatcher do
       [
         [1.5, 'X', 3.0, 'X', 'X', 'X'], # Dc
         [1.5, 'X', 3.0, 'X', 'X', 'X'], # Dc
-        [0,   3.0, 1.5, 3.0, 1.5, 'X']  # E
+        [0, 3.0, 1.5, 3.0, 1.5, 'X'] # E
       ]
     end
 
@@ -736,8 +736,8 @@ RSpec.describe Substitutes::TieredMatcher do
     # so A/Pc→col0(W/A) + E/W→col1(T/W) = sum 1 < E/W→col0 + A/Pc→col2 = sum 2.
     let(:grid) do
       [
-        [0,   0,   3.0, 0], # E/W
-        [0,   3.0, 0,   'X'] # A/Pc
+        [0, 0, 3.0, 0], # E/W
+        [0, 3.0, 0, 'X'] # A/Pc
       ]
     end
 
@@ -785,9 +785,9 @@ RSpec.describe Substitutes::TieredMatcher do
         ['X', 'X', 'X', 'X', 'X', 3.0, 1.5, 1.5], # Dc
         ['X', 'X', 'X', 'X', 'X', 3.0, 1.5, 1.5], # Dc
         ['X', 3.0, 0, 1.5, 0, 1.5, 1.5, 1.5], # C/T
-        ['X', 3.0, 1.5,   0, 1.5, 1.5,   0,   0], # E/W
-        ['X', 3.0, 1.5,   0, 'X', 'X', 3.0, 3.0], # W
-        ['X',   0, 3.0, 3.0, 'X', 'X', 'X', 'X']  # A/Pc
+        ['X', 3.0, 1.5, 0, 1.5, 1.5, 0, 0], # E/W
+        ['X', 3.0, 1.5, 0, 'X', 'X', 3.0, 3.0], # W
+        ['X', 0, 3.0, 3.0, 'X', 'X', 'X', 'X'] # A/Pc
       ]
     end
 
@@ -854,9 +854,9 @@ RSpec.describe Substitutes::TieredMatcher do
     # E/W yields col0 and escapes to col1 (W/A, also zero). Total: 1.5.
     let(:grid) do
       [
-        [1.5, 'X', 0,   1.5, 'X'], # Dc
-        [1.5, 'X', 0,   1.5, 'X'], # Dc
-        [0,   0,   'X', 0,   0]    # E/W
+        [1.5, 'X', 0, 1.5, 'X'], # Dc
+        [1.5, 'X', 0, 1.5, 'X'], # Dc
+        [0, 0, 'X', 0, 0] # E/W
       ]
     end
 
@@ -906,7 +906,7 @@ RSpec.describe Substitutes::TieredMatcher do
     let(:grid) do
       [
         [3.0, 1.5], # M
-        ['X', 1.5]  # E/W
+        ['X', 1.5] # E/W
       ]
     end
 
@@ -948,8 +948,8 @@ RSpec.describe Substitutes::TieredMatcher do
     let(:grid) do
       [
         ['X', 'X', 'X', 1.5, 1.5, 1.5], # Dd
-        ['X', 'X', 3.0, 0,   0,   0], # Dc
-        [0,   0,   0,   'X', 1.5, 'X'] # C/T
+        ['X', 'X', 3.0, 0, 0, 0], # Dc
+        [0, 0, 0, 'X', 1.5, 'X'] # C/T
       ]
     end
 
@@ -1023,12 +1023,12 @@ RSpec.describe Substitutes::TieredMatcher do
     # col4 (Pc bench) is not needed — all 6 players match. Total: 1.5.
     let(:grid) do
       [
-        [0,   3.0, 'X', 'X', 'X', 'X', 0], # Dc
-        [0,   3.0, 'X', 'X', 'X', 'X', 0], # Dc
-        [3.0, 0,   'X', 'X', 'X', 'X', 3.0], # M
+        [0, 3.0, 'X', 'X', 'X', 'X', 0], # Dc
+        [0, 3.0, 'X', 'X', 'X', 'X', 0], # Dc
+        [3.0, 0, 'X', 'X', 'X', 'X', 3.0], # M
         ['X', 'X', 1.5, 1.5, 3.0, 1.5, 'X'], # T
-        ['X', 'X', 3.0, 3.0, 3.0, 0,   'X'], # W
-        ['X', 'X', 0,   0,   0,   3.0, 'X']  # A/Pc
+        ['X', 'X', 3.0, 3.0, 3.0, 0, 'X'], # W
+        ['X', 'X', 0, 0, 0, 3.0, 'X'] # A/Pc
       ]
     end
 

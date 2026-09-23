@@ -6,8 +6,8 @@ module Manage
     end
 
     def new
-      @source      = params[:source].presence_in(%w[round season avg auction]) || 'round'
-      @mode        = params[:mode] == 'flop' ? :flop : :top
+      @source = params[:source].presence_in(%w[round season avg auction]) || 'round'
+      @mode = params[:mode] == 'flop' ? :flop : :top
       @tournaments = @source == 'auction' ? auction_tournaments : scored_tournaments
 
       build_teams_for_source
@@ -27,9 +27,9 @@ module Manage
 
     def build_teams_for_source
       case @source
-      when 'round'   then build_round_teams
-      when 'season'  then build_season_teams
-      when 'avg'     then build_avg_teams
+      when 'round' then build_round_teams
+      when 'season' then build_season_teams
+      when 'avg' then build_avg_teams
       when 'auction' then build_auction_teams
       end
     end
@@ -48,8 +48,8 @@ module Manage
     end
 
     def build_season_teams
-      @rounds        = []
-      @selected_ids  = []
+      @rounds = []
+      @selected_ids = []
       @tournament_id = params[:tournament_id].to_i
       return unless @tournament_id.positive?
 
@@ -60,8 +60,8 @@ module Manage
     end
 
     def build_avg_teams
-      @rounds        = []
-      @selected_ids  = []
+      @rounds = []
+      @selected_ids = []
       @tournament_id = params[:tournament_id].to_i
       return unless @tournament_id.positive?
 
@@ -69,8 +69,8 @@ module Manage
     end
 
     def build_auction_teams
-      @rounds        = []
-      @selected_ids  = []
+      @rounds = []
+      @selected_ids = []
       @tournament_id = params[:tournament_id].to_i
       return unless @tournament_id.positive?
 

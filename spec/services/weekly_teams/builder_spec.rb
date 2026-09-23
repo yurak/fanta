@@ -41,8 +41,8 @@ RSpec.describe WeeklyTeams::Builder do
 
   context 'when two players compete for the same slot' do
     let(:round_ids) { [round.id] }
-    let(:por_low)   { create(:round_player, :with_pos_por, score: 5, tournament_round: round) }
-    let(:por_high)  { create(:round_player, :with_pos_por, score: 9, tournament_round: round) }
+    let(:por_low) { create(:round_player, :with_pos_por, score: 5, tournament_round: round) }
+    let(:por_high) { create(:round_player, :with_pos_por, score: 9, tournament_round: round) }
 
     before do
       por_low
@@ -69,7 +69,7 @@ RSpec.describe WeeklyTeams::Builder do
   end
 
   context 'when a player appears in multiple selected rounds' do
-    let(:round2)    { create(:tournament_round) }
+    let(:round2) { create(:tournament_round) }
     let(:round_ids) { [round.id, round2.id] }
 
     let(:por_multi) do
@@ -294,7 +294,7 @@ RSpec.describe WeeklyTeams::Builder do
     let(:round_ids) { [round.id] }
 
     context 'when two players compete for the same slot' do
-      let(:por_bad)  { create(:round_player, :with_pos_por, score: 3, tournament_round: round) }
+      let(:por_bad) { create(:round_player, :with_pos_por, score: 3, tournament_round: round) }
       let(:por_good) { create(:round_player, :with_pos_por, score: 9, tournament_round: round) }
 
       before do
@@ -335,7 +335,7 @@ RSpec.describe WeeklyTeams::Builder do
     end
 
     context 'when a player appears in multiple rounds' do
-      let(:round2)    { create(:tournament_round) }
+      let(:round2) { create(:tournament_round) }
       let(:round_ids) { [round.id, round2.id] }
 
       let(:por_multi) do

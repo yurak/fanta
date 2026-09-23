@@ -20,6 +20,8 @@ AllCops:
     - public/**/*
 Layout/LineLength:
   Max: 140
+Layout/ExtraSpacing:
+  AllowForAlignment: false
 Metrics/ClassLength:
   CountAsOne: ['array', 'hash', 'heredoc']
 Metrics/MethodLength:

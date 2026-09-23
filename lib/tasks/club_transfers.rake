@@ -7,11 +7,11 @@ namespace :club_transfers do
   desc 'Import TM transfer history and build pending club-transfer requests for players in id range'
   task :import_history, %i[from_id to_id] => :environment do |_t, args|
     from_id = args[:from_id]&.to_i
-    to_id   = args[:to_id]&.to_i
+    to_id = args[:to_id]&.to_i
 
     players = Player.where.not(tm_id: nil).order(:id)
     players = players.where(players: { id: from_id.. }) if from_id&.positive?
-    players = players.where(players: { id: ..to_id })   if to_id&.positive?
+    players = players.where(players: { id: ..to_id }) if to_id&.positive?
 
     total_players = 0
     total_imported = 0

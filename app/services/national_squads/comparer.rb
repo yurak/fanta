@@ -8,8 +8,8 @@ module NationalSquads
 
     ALIASES = {
       'Spain' => {
-        'Rodrigo Hernandez' => 'Rodri',  # Rodri, player #790
-        'Pedri Gonzalez' => 'Pedri'      # Pedri, player #2341
+        'Rodrigo Hernandez' => 'Rodri', # Rodri, player #790
+        'Pedri Gonzalez' => 'Pedri' # Pedri, player #2341
       }
     }.freeze
 

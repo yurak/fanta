@@ -4,9 +4,9 @@ module WeeklyTeams
 
     def assign(mod, scores)
       ranked = rank(scores)
-      used   = Set.new
+      used = Set.new
       counts = Hash.new(0)
-      slots  = mod.slots.sort_by(&:number)
+      slots = mod.slots.sort_by(&:number)
       result = fill_slots(slots, ranked, used, counts)
       optimize_capped_picks(slots, ranked, used, counts, result)
       slots.map { |s| { slot: s, entry: result[s.number] } }
@@ -14,7 +14,7 @@ module WeeklyTeams
 
     def fill_slots(slots, ranked, used, counts)
       pending = slots.dup
-      result  = {}
+      result = {}
 
       until pending.empty?
         candidates = pending.map { |s| [s, eligible(s, ranked, used, counts)] }

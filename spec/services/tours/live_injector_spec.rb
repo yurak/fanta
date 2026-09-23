@@ -4,10 +4,10 @@ RSpec.describe Tours::LiveInjector do
   subject(:inject) { described_class.call(round) }
 
   let(:tournament) { create(:tournament, source: :fotmob) }
-  let(:round)      { create(:tournament_round, tournament: tournament) }
-  let(:league)     { create(:league, tournament: tournament) }
-  let!(:tour)      { create(:tour, league: league, tournament_round: round, status: :locked) }
-  let(:kickoff)    { 1.hour.ago.utc }
+  let(:round) { create(:tournament_round, tournament: tournament) }
+  let(:league) { create(:league, tournament: tournament) }
+  let!(:tour) { create(:tour, league: league, tournament_round: round, status: :locked) }
+  let(:kickoff) { 1.hour.ago.utc }
   let(:injector) do
     instance_double(Scores::Injectors::FotmobMatch, call: true, data_available?: true, scrape_health_failure?: false)
   end

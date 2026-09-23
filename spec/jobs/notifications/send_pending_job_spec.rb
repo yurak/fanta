@@ -125,8 +125,8 @@ RSpec.describe Notifications::SendPendingJob do
     end
 
     context 'when notifications have different priorities' do
-      let!(:low)    { create(:notification, status: :pending, priority: :low) }
-      let!(:high)   { create(:notification, status: :pending, priority: :high) }
+      let!(:low) { create(:notification, status: :pending, priority: :low) }
+      let!(:high) { create(:notification, status: :pending, priority: :high) }
       let!(:normal) { create(:notification, status: :pending, priority: :normal) }
 
       it 'delivers higher-priority notifications first' do

@@ -200,9 +200,9 @@ RSpec.describe Lineups::Cloner do
       end
 
       context 'when main player left, zero-malus only on bench' do
-        let(:left_player)  { create(:player, :with_pos_dc) }
+        let(:left_player) { create(:player, :with_pos_dc) }
         let(:bench_player) { create(:player, :with_pos_dc) }
-        let(:pool_player)  { create(:player, :with_pos_ds) }
+        let(:pool_player) { create(:player, :with_pos_ds) }
 
         before do
           add_main_slot(left_player, Position::CENTER_BACK)
@@ -238,8 +238,8 @@ RSpec.describe Lineups::Cloner do
 
       context 'when bench player left, pool has replacement' do
         let(:staying_player) { create(:player, :with_pos_dc) }
-        let(:left_player)    { create(:player, :with_pos_ds) }
-        let(:pool_player)    { create(:player, :with_pos_ds) }
+        let(:left_player) { create(:player, :with_pos_ds) }
+        let(:pool_player) { create(:player, :with_pos_ds) }
 
         before do
           add_main_slot(staying_player, Position::CENTER_BACK)
@@ -259,8 +259,8 @@ RSpec.describe Lineups::Cloner do
       end
 
       context 'when slot has composite real_position (e.g. A/Pc) and bench has matching player' do
-        let(:left_player)   { create(:player, :with_pos_dc) }
-        let(:bench_player)  { create(:player, :with_pos_e) }
+        let(:left_player) { create(:player, :with_pos_dc) }
+        let(:bench_player) { create(:player, :with_pos_e) }
         let(:forward_player) { create(:player) }
         let(:composite_pos) { "#{Position::FORWARD}/#{Position::STRIKER}" }
 
@@ -285,8 +285,8 @@ RSpec.describe Lineups::Cloner do
       end
 
       context 'when bench player was substituted in previous match (reserve_subs set)' do
-        let(:left_player)       { create(:player, :with_pos_dc) }
-        let(:bench_player)      { create(:player, :with_pos_dc) }
+        let(:left_player) { create(:player, :with_pos_dc) }
+        let(:bench_player) { create(:player, :with_pos_dc) }
         let(:subbed_out_player) { create(:player, :with_pos_dc) }
 
         before do
@@ -295,9 +295,9 @@ RSpec.describe Lineups::Cloner do
           # bench_mp has reserve_subs → player_from(bench_mp) returns subbed_out_player (NOT on team)
           # mp.player for bench_mp = bench_player (ON team, zero malus for Dc)
           subbed_rp = create(:round_player, tournament_round: old_tournament_round, player: subbed_out_player)
-          bench_rp  = create(:round_player, tournament_round: old_tournament_round, player: bench_player)
-          other_mp  = create(:match_player, lineup: old_lineup, round_player: subbed_rp, real_position: nil)
-          bench_mp  = create(:match_player, lineup: old_lineup, round_player: bench_rp, real_position: nil)
+          bench_rp = create(:round_player, tournament_round: old_tournament_round, player: bench_player)
+          other_mp = create(:match_player, lineup: old_lineup, round_player: subbed_rp, real_position: nil)
+          bench_mp = create(:match_player, lineup: old_lineup, round_player: bench_rp, real_position: nil)
           create(:substitute, main_mp: other_mp, reserve_mp: bench_mp, out_rp: subbed_rp, in_rp: bench_rp)
 
           team.players << bench_player
@@ -310,7 +310,7 @@ RSpec.describe Lineups::Cloner do
       end
 
       context 'when only incompatible bench player available (last resort fallback)' do
-        let(:left_player)         { create(:player, :with_pos_dc) }
+        let(:left_player) { create(:player, :with_pos_dc) }
         let(:incompatible_player) { create(:player, :with_pos_por) }
 
         before do

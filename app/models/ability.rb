@@ -7,9 +7,9 @@ class Ability
     user ||= User.new
 
     if user&.admin?
-      can :access, :rails_admin       # only allow admin users to access Rails Admin
-      can :read, :dashboard           # allow access to dashboard
-      can :manage, :all               # allow admins to do anything
+      can :access, :rails_admin # only allow admin users to access Rails Admin
+      can :read, :dashboard # allow access to dashboard
+      can :manage, :all # allow admins to do anything
     elsif user&.moderator?
       can %i[live], Auction
       can %i[inject_scores], Tour

@@ -5,7 +5,7 @@ module Tours
     STATUS_ORDER = %w[set_lineup locked postponed closed inactive].freeze
 
     def call
-      counts   = grouped_counts
+      counts = grouped_counts
       inactive = first_inactive
       return [] if counts.empty? && inactive.empty?
 
@@ -41,10 +41,10 @@ module Tours
 
     def load_lookups(counts, inactive)
       tournament_ids = counts.keys.map(&:first) + inactive.keys
-      round_ids      = counts.keys.pluck(1) + inactive.values.pluck(:round_id)
+      round_ids = counts.keys.pluck(1) + inactive.values.pluck(:round_id)
 
       @tournaments = Tournament.where(id: tournament_ids.uniq).index_by(&:id)
-      @rounds      = TournamentRound.where(id: round_ids.uniq).index_by(&:id)
+      @rounds = TournamentRound.where(id: round_ids.uniq).index_by(&:id)
     end
 
     def build(counts, inactive)

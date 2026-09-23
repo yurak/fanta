@@ -2,7 +2,7 @@ RSpec.describe WeeklyTeams::SeasonAvgBuilder do
   subject(:result) { described_class.call(tournament.id, season.id) }
 
   let(:tournament) { Tournament.first }
-  let!(:season)    { Season.last }
+  let!(:season) { Season.last }
 
   def make_round
     create(:tournament_round, tournament: tournament, season: season)
@@ -77,15 +77,15 @@ RSpec.describe WeeklyTeams::SeasonAvgBuilder do
   end
 
   context 'when two players compete for the same slot' do
-    let(:por_low)  { create(:player, :with_pos_por) }
+    let(:por_low) { create(:player, :with_pos_por) }
     let(:por_high) { create(:player, :with_pos_por) }
 
     before do
       round1 = make_round
       round2 = make_round
       # por_low avg = (5+5)/2 = 5.0
-      create(:round_player, player: por_low,  club: por_low.club,  score: 5, tournament_round: round1)
-      create(:round_player, player: por_low,  club: por_low.club,  score: 5, tournament_round: round2)
+      create(:round_player, player: por_low, club: por_low.club, score: 5, tournament_round: round1)
+      create(:round_player, player: por_low, club: por_low.club, score: 5, tournament_round: round2)
       # por_high avg = (9+7)/2 = 8.0
       create(:round_player, player: por_high, club: por_high.club, score: 9, tournament_round: round1)
       create(:round_player, player: por_high, club: por_high.club, score: 7, tournament_round: round2)

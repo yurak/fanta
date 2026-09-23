@@ -27,7 +27,7 @@ module Players
           )
           begin
             context = build_context(browser)
-            page    = context.new_page
+            page = context.new_page
 
             prepare_page(page, url)
 
@@ -143,7 +143,7 @@ module Players
 
       def safe_page_content(page, tries: 12)
         last_error = nil
-        last_html  = nil
+        last_html = nil
 
         tries.times do |idx|
           last_html, result = attempt_page_content(page, idx)
@@ -183,7 +183,7 @@ module Players
       end
 
       def dump_debug(page, cache_key: nil)
-        key  = cache_key.presence || Time.now.to_i
+        key = cache_key.presence || Time.now.to_i
         base = Rails.root.join('tmp', "tm_debug_#{key}")
 
         File.write("#{base}.html", page.content)

@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.describe Tours::AutoInjector do
   subject(:injector) { described_class.new(tournament_round) }
 
-  let(:tournament)       { create(:tournament, source: :fotmob) }
+  let(:tournament) { create(:tournament, source: :fotmob) }
   let(:tournament_round) { create(:tournament_round, tournament: tournament, moderated_at: 6.hours.ago) }
 
   before do

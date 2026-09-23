@@ -57,8 +57,8 @@ namespace :tours do
         next
       end
 
-      rounds  = TournamentRound.live_scores_candidates.to_a
-      budget  = Scores::ScrapeBudget.new
+      rounds = TournamentRound.live_scores_candidates.to_a
+      budget = Scores::ScrapeBudget.new
       results = rounds.map { |t_round| Tours::LiveInjector.call(t_round, budget: budget) }
 
       Scores::ScrapeAlert.call(

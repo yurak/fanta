@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.describe TelegramBot::Auction::RoundDdlBroadcaster do
   subject(:broadcaster) { described_class.new }
 
-  let(:league)  { create(:active_league) }
+  let(:league) { create(:active_league) }
   let(:auction) { create(:auction, league: league) }
 
   before { allow(Notifications::Creator).to receive(:call) }
@@ -49,7 +49,7 @@ RSpec.describe TelegramBot::Auction::RoundDdlBroadcaster do
   end
 
   context 'when auction league is not active' do
-    let(:inactive_league)  { create(:league) }
+    let(:inactive_league) { create(:league) }
     let(:inactive_auction) { create(:auction, league: inactive_league) }
 
     before { create(:auction_round, auction: inactive_auction, deadline: 2.75.hours.from_now) }
