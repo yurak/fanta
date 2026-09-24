@@ -27,6 +27,7 @@ Metrics/ClassLength:
 Metrics/MethodLength:
   CountAsOne: ['array', 'hash', 'heredoc']
 Metrics/BlockLength:
+  CountAsOne: ['array', 'hash', 'heredoc']
   AllowedMethods:
     - describe
     - context

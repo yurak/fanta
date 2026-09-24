@@ -163,8 +163,7 @@ RSpec.describe Lineups::Cloner do
       end
     end
 
-    # rubocop:disable RSpec/MultipleMemoizedHelpers
-    context 'when some players left the team' do
+    context 'when some players left the team' do # rubocop:disable RSpec/MultipleMemoizedHelpers
       let(:old_tournament_round) { create(:tournament_round, tournament: league.tournament) }
       let(:old_tour) { create(:tour, league: league, tournament_round: old_tournament_round) }
       let(:old_lineup) { create(:lineup, team: team, tour: old_tour) }
@@ -184,7 +183,7 @@ RSpec.describe Lineups::Cloner do
         target_tour.lineups.find_by(team_id: team.id)
       end
 
-      context 'when main player left, pool has zero-malus replacement' do
+      context 'when main player left, pool has zero-malus replacement' do # rubocop:disable RSpec/MultipleMemoizedHelpers
         let(:left_player) { create(:player, :with_pos_dc) }
         let(:pool_player) { create(:player, :with_pos_dc) }
 
@@ -199,7 +198,7 @@ RSpec.describe Lineups::Cloner do
         end
       end
 
-      context 'when main player left, zero-malus only on bench' do
+      context 'when main player left, zero-malus only on bench' do # rubocop:disable RSpec/MultipleMemoizedHelpers
         let(:left_player) { create(:player, :with_pos_dc) }
         let(:bench_player) { create(:player, :with_pos_dc) }
         let(:pool_player) { create(:player, :with_pos_ds) }
@@ -221,7 +220,7 @@ RSpec.describe Lineups::Cloner do
         end
       end
 
-      context 'when main player left, no zero-malus anywhere, pool has min-malus' do
+      context 'when main player left, no zero-malus anywhere, pool has min-malus' do # rubocop:disable RSpec/MultipleMemoizedHelpers
         let(:left_player) { create(:player, :with_pos_dc) }
         let(:pool_player) { create(:player, :with_pos_ds) }
 
@@ -236,7 +235,7 @@ RSpec.describe Lineups::Cloner do
         end
       end
 
-      context 'when bench player left, pool has replacement' do
+      context 'when bench player left, pool has replacement' do # rubocop:disable RSpec/MultipleMemoizedHelpers
         let(:staying_player) { create(:player, :with_pos_dc) }
         let(:left_player) { create(:player, :with_pos_ds) }
         let(:pool_player) { create(:player, :with_pos_ds) }
@@ -258,7 +257,7 @@ RSpec.describe Lineups::Cloner do
         end
       end
 
-      context 'when slot has composite real_position (e.g. A/Pc) and bench has matching player' do
+      context 'when slot has composite real_position (e.g. A/Pc) and bench has matching player' do # rubocop:disable RSpec/MultipleMemoizedHelpers
         let(:left_player) { create(:player, :with_pos_dc) }
         let(:bench_player) { create(:player, :with_pos_e) }
         let(:forward_player) { create(:player) }
@@ -284,7 +283,7 @@ RSpec.describe Lineups::Cloner do
         end
       end
 
-      context 'when bench player was substituted in previous match (reserve_subs set)' do
+      context 'when bench player was substituted in previous match (reserve_subs set)' do # rubocop:disable RSpec/MultipleMemoizedHelpers
         let(:left_player) { create(:player, :with_pos_dc) }
         let(:bench_player) { create(:player, :with_pos_dc) }
         let(:subbed_out_player) { create(:player, :with_pos_dc) }
@@ -309,7 +308,7 @@ RSpec.describe Lineups::Cloner do
         end
       end
 
-      context 'when only incompatible bench player available (last resort fallback)' do
+      context 'when only incompatible bench player available (last resort fallback)' do # rubocop:disable RSpec/MultipleMemoizedHelpers
         let(:left_player) { create(:player, :with_pos_dc) }
         let(:incompatible_player) { create(:player, :with_pos_por) }
 
@@ -325,7 +324,7 @@ RSpec.describe Lineups::Cloner do
         end
       end
 
-      context 'when pool and bench are exhausted' do
+      context 'when pool and bench are exhausted' do # rubocop:disable RSpec/MultipleMemoizedHelpers
         let(:left_player) { create(:player, :with_pos_dc) }
 
         before { add_main_slot(left_player, Position::CENTER_BACK) }
@@ -339,7 +338,6 @@ RSpec.describe Lineups::Cloner do
         end
       end
     end
-    # rubocop:enable RSpec/MultipleMemoizedHelpers
 
     context 'when old lineup has more than max players' do
       before do
