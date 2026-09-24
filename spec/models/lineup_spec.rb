@@ -338,8 +338,7 @@ RSpec.describe Lineup do
     end
   end
 
-  # rubocop:disable RSpec/MultipleMemoizedHelpers
-  describe '#fanta_copyable?' do
+  describe '#fanta_copyable?' do # rubocop:disable RSpec/MultipleMemoizedHelpers
     let(:user) { create(:user) }
     let(:tournament) { create(:fanta_tournament) }
     let(:tournament_round) { create(:tournament_round, tournament: tournament) }
@@ -353,36 +352,35 @@ RSpec.describe Lineup do
 
     before { target_team && target_tour }
 
-    context 'when tour is fanta and other league has open tour without lineup' do
+    context 'when tour is fanta and other league has open tour without lineup' do # rubocop:disable RSpec/MultipleMemoizedHelpers
       it { expect(fanta_lineup.fanta_copyable?).to be(true) }
     end
 
-    context 'when tour is not fanta' do
+    context 'when tour is not fanta' do # rubocop:disable RSpec/MultipleMemoizedHelpers
       let(:fanta_lineup) { create(:lineup) }
 
       it { expect(fanta_lineup.fanta_copyable?).to be(false) }
     end
 
-    context 'when other league already has a lineup for this round' do
+    context 'when other league already has a lineup for this round' do # rubocop:disable RSpec/MultipleMemoizedHelpers
       before { create(:lineup, team: target_team, tour: target_tour) }
 
       it { expect(fanta_lineup.fanta_copyable?).to be(false) }
     end
 
-    context 'when other league tour is not open' do
+    context 'when other league tour is not open' do # rubocop:disable RSpec/MultipleMemoizedHelpers
       let(:target_tour) { create(:closed_tour, league: target_league, tournament_round: tournament_round) }
 
       it { expect(fanta_lineup.fanta_copyable?).to be(false) }
     end
 
-    context 'when user has no other teams in the same tournament' do
+    context 'when user has no other teams in the same tournament' do # rubocop:disable RSpec/MultipleMemoizedHelpers
       let(:target_team) { nil }
       let(:target_tour) { nil }
 
       it { expect(fanta_lineup.fanta_copyable?).to be(false) }
     end
   end
-  # rubocop:enable RSpec/MultipleMemoizedHelpers
 
   describe '#bench_total_score' do
     context 'without match players' do

@@ -175,3 +175,10 @@ append it to this list so future sessions don't rediscover it. Keep entries shor
   resolves clubs by those two columns — and `fotmob_id` must be set or `Standings::Updater` cannot
   place the club in the table. A new tournament prices every player at 1, because `Player#stats_price`
   scopes last season's `player_season_stats` to `club.tournament`; Turkey shipped that way.
+- `clubs.tm_name` is legacy and must NOT be filled in for new clubs. It once verified a player's club
+  against the name on his Transfermarkt page; that check now goes by the TM club id
+  (`Club.for_tm_id`, which reads `tm_url`), so the column survives only as a display row on
+  `manage/clubs/show`. A blank `tm_name` is the correct state, not a gap. `clubs.full_name` IS still
+  functional: `TournamentMatches::CalendarImporter#club` resolves a club as
+  `find_by(name:) || find_by(full_name:)`, so it is needed only where FotMob spells the club
+  differently from our `name` (Leicester -> "Leicester City", Plymouth -> "Plymouth Argyle").
