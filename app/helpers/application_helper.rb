@@ -43,4 +43,11 @@ module ApplicationHelper
 
     current_user&.local_time(time, format) || time.in_time_zone(User::DEFAULT_TIME_ZONE).strftime(format)
   end
+
+  # Rounds are picked by number, but the deadline tells apart the one being played from the rest.
+  def round_switch_label(round)
+    deadline = local_time(round.deadline, '%b %e')
+
+    deadline ? "##{round.number} · #{deadline}" : "##{round.number}"
+  end
 end

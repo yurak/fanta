@@ -1,8 +1,7 @@
-# rubocop:disable RSpec/DescribeClass
 require 'rails_helper'
 require 'rake'
 
-RSpec.describe 'calendar:generate' do
+RSpec.describe 'calendar:generate' do # rubocop:disable RSpec/DescribeClass
   before do
     Rake.application.rake_require('tasks/calendar')
     Rake::Task.define_task(:environment)
@@ -51,4 +50,3 @@ RSpec.describe 'calendar:generate' do
     end
   end
 end
-# rubocop:enable RSpec/DescribeClass

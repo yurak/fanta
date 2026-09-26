@@ -100,6 +100,34 @@ RSpec.describe 'Users' do
       it { expect(response).to render_template(:show) }
       it { expect(response).to have_http_status(:ok) }
     end
+
+    context 'with other rounds of the same tournament in the season' do
+      login_admin
+
+      let!(:sibling) do
+        create(:tournament_round, tournament: tournament_round.tournament,
+                                  season: tournament_round.season, number: tournament_round.number + 1)
+      end
+
+      before { get tournament_round_path(tournament_round) }
+
+      it 'offers them in the round switcher' do
+        expect(response.body).to include(tournament_round_path(sibling))
+      end
+    end
+
+    context 'when the tournament has a single round in the season' do
+      login_admin
+
+      # the shared seeded tournament already carries a calendar, so this one needs its own
+      let(:lonely_round) { create(:tournament_round, tournament: create(:tournament)) }
+
+      before { get tournament_round_path(lonely_round) }
+
+      it 'does not render the switcher' do
+        expect(response.body).not_to include('name="round_switch"')
+      end
+    end
   end
 
   describe 'GET #stats' do
@@ -400,9 +428,9 @@ RSpec.describe 'Users' do
 
     context 'when the tournament is national and has missed players' do
       let(:national_tournament) { create(:tournament, :with_national_teams) }
-      let(:national_round)      { create(:tournament_round, tournament: national_tournament) }
-      let(:host)                { national_tournament.national_teams.first }
-      let(:guest)               { national_tournament.national_teams.second }
+      let(:national_round) { create(:tournament_round, tournament: national_tournament) }
+      let(:host) { national_tournament.national_teams.first }
+      let(:guest) { national_tournament.national_teams.second }
 
       login_admin
       before do
@@ -453,6 +481,7 @@ RSpec.describe 'Users' do
   describe 'GET #auto_subs' do
     before do
       allow(Substitutes::AutoBot).to receive(:for_round)
+        .and_return({ lineups: 0, substitutes: 0, failures: [] })
       get tournament_round_auto_subs_path(tournament_round)
     end
 
@@ -501,11 +530,42 @@ RSpec.describe 'Users' do
         expect(Substitutes::AutoBot).to have_received(:for_round).with(tournament_round, preview: false)
       end
     end
+
+    # The preview page looks the same whether a round went through or fell over halfway, so the run
+    # has to say what it did.
+    context 'when the run reports what it did' do
+      login_admin
+
+      before do
+        allow(Substitutes::AutoBot).to receive(:for_round)
+          .and_return({ lineups: 12, substitutes: 5, failures: [] })
+        get tournament_round_auto_subs_path(tournament_round)
+      end
+
+      it 'says how many lineups and substitutions' do
+        expect(flash[:notice]).to include('12', '5')
+      end
+    end
+
+    context 'when a tour failed' do
+      login_admin
+
+      before do
+        allow(Substitutes::AutoBot).to receive(:for_round)
+          .and_return({ lineups: 3, substitutes: 1, failures: ['tour 42: boom'] })
+        get tournament_round_auto_subs_path(tournament_round)
+      end
+
+      it 'names the tour that failed' do
+        expect(flash[:alert]).to include('tour 42')
+      end
+    end
   end
 
   describe 'GET #generate_preview' do
     before do
       allow(Substitutes::AutoBot).to receive(:for_round)
+        .and_return({ lineups: 0, substitutes: 0, failures: [] })
       get tournament_round_generate_preview_path(tournament_round)
     end
 
@@ -538,7 +598,7 @@ RSpec.describe 'Users' do
       it { expect(response).to have_http_status(:found) }
 
       it 'calls AutoBot in preview mode' do
-        expect(Substitutes::AutoBot).to have_received(:for_round).with(tournament_round)
+        expect(Substitutes::AutoBot).to have_received(:for_round).with(tournament_round, preview: true)
       end
     end
 
@@ -551,7 +611,7 @@ RSpec.describe 'Users' do
       it { expect(response).to redirect_to(tournament_round_auto_subs_preview_path(tournament_round)) }
 
       it 'calls AutoBot in preview mode' do
-        expect(Substitutes::AutoBot).to have_received(:for_round).with(tournament_round)
+        expect(Substitutes::AutoBot).to have_received(:for_round).with(tournament_round, preview: true)
       end
     end
   end

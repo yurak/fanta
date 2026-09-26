@@ -58,7 +58,7 @@ RSpec.describe TelegramBot::DailyScheduleBroadcaster do
   end
 
   context 'when users are in different timezones' do
-    let(:user_kyiv)   { bot_user('Kyiv') }
+    let(:user_kyiv) { bot_user('Kyiv') }
     let(:user_london) { bot_user('London') }
 
     # 9 AM Kyiv (UTC+2 in winter) = 7 AM London (UTC+0 in winter)

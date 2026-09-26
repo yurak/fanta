@@ -1,5 +1,5 @@
 RSpec.describe 'Users::Registrations' do
-  let(:email)    { FFaker::Internet.safe_email[0...50] }
+  let(:email) { FFaker::Internet.safe_email[0...50] }
   let(:password) { FFaker::Internet.password }
   let(:params) do
     {

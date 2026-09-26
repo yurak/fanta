@@ -19,6 +19,21 @@ if [ -z "${PGPASSWORD}" ] || [ -z "${RDS_HOST}" ] || [ -z "${RDS_USER}" ]; then
 fi
 export PGPASSWORD
 
+DUMP_FILE=/tmp/prod_dump.sql
+
+started_at=$(date +%s)
+
+elapsed() {
+  local secs=$(( $(date +%s) - $1 ))
+  printf '%dm %02ds' $(( secs / 60 )) $(( secs % 60 ))
+}
+
+human_size() {
+  local bytes
+  bytes=$(wc -c < "$1")
+  awk -v b="$bytes" 'BEGIN { printf (b >= 1073741824 ? "%.1f GB" : "%.0f MB"), (b >= 1073741824 ? b/1073741824 : b/1048576) }'
+}
+
 echo "Opening SSH tunnel..."
 ssh -L ${TUNNEL_PORT}:${RDS_HOST}:5432 -i "${SSH_KEY}" "${EC2_USER}@${EC2_IP}" -N -f
 
@@ -31,16 +46,20 @@ trap cleanup EXIT
 sleep 2
 
 echo "Dumping production database..."
+dump_started=$(date +%s)
 /opt/homebrew/opt/postgresql@18/bin/pg_dump -h localhost -p ${TUNNEL_PORT} -U ${RDS_USER} \
-  --no-owner --no-acl ${RDS_DB} > /tmp/prod_dump.sql
+  --no-owner --no-acl ${RDS_DB} > "${DUMP_FILE}"
+echo "  dump: $(human_size "${DUMP_FILE}") in $(elapsed ${dump_started})"
 
 echo "Restoring to local database..."
+restore_started=$(date +%s)
 DISABLE_DATABASE_ENVIRONMENT_CHECK=1 bundle exec rails db:drop db:create
-/opt/homebrew/opt/postgresql@18/bin/psql -h localhost -p 5432 ${LOCAL_DB} < /tmp/prod_dump.sql > /dev/null
+/opt/homebrew/opt/postgresql@18/bin/psql -h localhost -p 5432 ${LOCAL_DB} < "${DUMP_FILE}" > /dev/null
+echo "  restore: $(elapsed ${restore_started})"
 
-rm /tmp/prod_dump.sql
+rm "${DUMP_FILE}"
 
 echo "Running migrations..."
 bundle exec rails db:migrate
 
-echo "Done! Local database synced with production."
+echo "Done! Local database synced with production in $(elapsed ${started_at})."

@@ -34,7 +34,7 @@ RSpec.describe Tours::AutoCloser do
     end
 
     context 'with locked and postponed tours' do
-      let(:locked_tour)    { create(:locked_tour, tournament_round: tournament_round) }
+      let(:locked_tour) { create(:locked_tour, tournament_round: tournament_round) }
       let(:postponed_tour) { create(:postponed_tour, tournament_round: tournament_round) }
 
       before { [locked_tour, postponed_tour] }

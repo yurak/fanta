@@ -8,36 +8,58 @@ module Substitutes
     end
 
     def self.for_round(round, preview: true)
-      round.tours.each do |tour|
-        tour.autobot(preview: preview)
+      round.tours.each_with_object({ lineups: 0, substitutes: 0, failures: [] }) do |tour, acc|
+        results = tour.autobot(preview: preview)
+        acc[:lineups] += results.size
+        acc[:substitutes] += results.sum(&:size)
+      rescue StandardError => e
+        acc[:failures] << "tour #{tour.id}: #{e.class}: #{e.message}"
       end
     end
 
     def call
-      return [] if main_players.empty? || bench_players.empty?
+      pairs = preview ? planned_pairs : approved_pairs
+      applied = preview ? pairs : commit(pairs)
 
-      assignments, = TieredMatcher.call(build_grid)
+      match_lineup.update(substitutes: applied.to_json)
 
-      lineup_substitutes = apply(assignments)
-
-      match_lineup.update(substitutes: lineup_substitutes.to_json) if preview
-
-      lineup_substitutes
+      applied
     end
 
     private
 
-    def apply(assignments)
-      MatchPlayer.transaction do
-        assignments.map do |row, col, _|
-          out_mp = main_players[row]
-          in_mp  = bench_players[col]
+    def planned_pairs
+      return [] if main_players.empty? || bench_players.empty?
 
-          Substitutes::Creator.call(out_mp.id, in_mp.id, 'autobot') unless preview
+      assignments, = TieredMatcher.call(build_grid)
 
-          { out: ui_string(out_mp), in: ui_string(in_mp) }
-        end
+      assignments.map do |row, col, _|
+        out_mp = main_players[row]
+        in_mp = bench_players[col]
+
+        { 'out_mp_id' => out_mp.id, 'in_mp_id' => in_mp.id, 'out' => ui_string(out_mp), 'in' => ui_string(in_mp) }
       end
+    end
+
+    def approved_pairs
+      stored = match_lineup.substitutes_preview
+      return planned_pairs unless stored.any? && stored.all? { |pair| pair['out_mp_id'] && pair['in_mp_id'] }
+
+      stored
+    end
+
+    def commit(pairs)
+      MatchPlayer.transaction do
+        pairs.select { |pair| applied?(pair) }
+      end
+    end
+
+    def applied?(pair)
+      return true if Substitutes::Creator.call(pair['out_mp_id'], pair['in_mp_id'], 'autobot')
+
+      Rails.logger.warn("[autobot] skipped lineup=#{match_lineup.id} out_mp=#{pair['out_mp_id']} " \
+                        "in_mp=#{pair['in_mp_id']} reason=no_longer_valid")
+      false
     end
 
     def build_grid

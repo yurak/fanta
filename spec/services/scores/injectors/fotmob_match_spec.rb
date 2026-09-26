@@ -161,6 +161,51 @@ RSpec.describe Scores::Injectors::FotmobMatch do
         injector.call
         expect(Audit::CsvWriter).to have_received(:call)
       end
+
+      # the pass that first sees full time is the only one live_inject will ever run on this match:
+      # afterwards the match is `finished` and drops out of the live scope, so it has to write
+      # everything now instead of leaving zeros for the moderated pass hours later
+      context 'with a round player of the home club' do
+        let(:finished_status) do
+          { 'started' => true, 'finished' => true, 'awarded' => false, 'scoreStr' => '2 - 0' }
+        end
+        let(:player) { create(:player, :with_pos_dc, fotmob_id: 123, club: match.host_club) }
+        let!(:round_player) { create(:round_player, player: player, tournament_round: match.tournament_round) }
+
+        before { injector.call }
+
+        it 'stores the real played minutes instead of the live placeholder' do
+          expect(round_player.reload.played_minutes).to eq(90)
+        end
+
+        it 'awards the cleansheet the live pass had to defer' do
+          expect(round_player.reload.cleansheet).to be(true)
+        end
+      end
+    end
+
+    context 'when run_mode is :live and the match is finished without published stats' do
+      let(:injector) { described_class.new(match, run_mode: :live) }
+      let(:player) { create(:player, :with_pos_dc, fotmob_id: 123, club: match.host_club) }
+      let!(:round_player) { create(:round_player, player: player, tournament_round: match.tournament_round) }
+
+      before do
+        # FotMob calls it full time but has not published the minutes yet
+        allow(Scores::Injectors::FotmobPlayersData).to receive(:call).and_return(123 => { rating: 7.5, played_minutes: 0 })
+        injector.call
+      end
+
+      it 'leaves the match live so the next pass picks it up again' do
+        expect(match.reload).not_to be_finished
+      end
+
+      it 'writes no half-finished row' do
+        expect(round_player.reload.played_minutes).to eq(0)
+      end
+
+      it 'awards no cleansheet on missing data' do
+        expect(round_player.reload.cleansheet).to be(false)
+      end
     end
 
     context 'when run_mode is :schedule' do
@@ -347,6 +392,10 @@ RSpec.describe Scores::Injectors::FotmobMatch do
       let(:injector) { described_class.new(match, run_mode: :live) }
 
       context 'when a player has a rating but no minutes yet (live match)' do
+        let(:finished_status) do
+          { 'started' => true, 'finished' => false, 'awarded' => false, 'scoreStr' => '1 - 0' }
+        end
+
         before do
           allow(Scores::Injectors::FotmobPlayersData).to receive(:call).and_return(
             101 => { rating: 7.2, played_minutes: 0 }
@@ -505,8 +554,11 @@ RSpec.describe Scores::Injectors::FotmobMatch do
       expect(hash[:in_squad]).to be true
     end
 
-    context 'when in live mode' do
+    context 'when the match is still being played' do
       let(:injector) { described_class.new(match, run_mode: :live) }
+      let(:finished_status) do
+        { 'started' => true, 'finished' => false, 'awarded' => false, 'scoreStr' => '1 - 0' }
+      end
 
       it 'forces played_minutes to 0' do
         expect(hash[:played_minutes]).to eq(0)
@@ -612,6 +664,76 @@ RSpec.describe Scores::Injectors::FotmobMatch do
     end
   end
 
+  # FotMob publishes player stats only once it starts rating people, a quarter of an hour in, but the
+  # match is marked live long before that — so every player of it was shown as "not in squad" while
+  # they were on the pitch. The lineup is there from the team sheet, so it answers that question.
+  describe 'marking the squad before the first ratings' do
+    let(:live_injector) { described_class.new(match, run_mode: :live) }
+    let!(:starter) { squad_member(101) }
+    let!(:benched) { squad_member(202) }
+
+    def squad_member(fotmob_id)
+      create(:round_player, tournament_round: match.tournament_round, in_squad: false,
+                            player: create(:player, fotmob_id: fotmob_id))
+    end
+
+    def lineup_data(type)
+      {
+        'general' => { 'leagueRoundName' => match.tournament_round.number.to_s },
+        'header' => { 'status' => { 'started' => true, 'finished' => false, 'scoreStr' => '0 - 0' } },
+        'content' => {
+          'lineup' => {
+            'lineupType' => type,
+            'homeTeam' => { 'starters' => [{ 'id' => starter.player.fotmob_id }], 'subs' => [] },
+            'awayTeam' => { 'starters' => [], 'subs' => [{ 'id' => benched.player.fotmob_id }] }
+          }
+        }
+      }
+    end
+
+    before do
+      allow(live_injector).to receive(:match_data).and_return(lineup_data('standard'))
+      allow(Scores::Injectors::FotmobPlayersData).to receive(:call).and_return({})
+    end
+
+    it 'marks a starter as being in the squad' do
+      expect { live_injector.call }.to change { starter.reload.in_squad }.from(false).to(true)
+    end
+
+    # Being on the bench is still being in the squad — he may yet come on.
+    it 'marks a substitute as being in the squad' do
+      expect { live_injector.call }.to change { benched.reload.in_squad }.from(false).to(true)
+    end
+
+    it 'leaves a player who is in neither list alone' do
+      elsewhere = squad_member(303)
+
+      expect { live_injector.call }.not_to(change { elsewhere.reload.in_squad })
+    end
+
+    it 'writes no score' do
+      expect { live_injector.call }.not_to(change { starter.reload.score })
+    end
+
+    # Our own player without a FotMob id and a lineup entry without one both collapse to 0, which
+    # would otherwise put a stranger in the squad.
+    it 'does not match a player who has no FotMob id' do
+      unknown = create(:round_player, tournament_round: match.tournament_round, in_squad: false,
+                                      player: create(:player, fotmob_id: nil))
+
+      expect { live_injector.call }.not_to(change { unknown.reload.in_squad })
+    end
+
+    # A tipping provider's guess, and the previous round's eleven, are not this match's squad.
+    %w[predicted lastStarting11].each do |type|
+      it "ignores a #{type} lineup" do
+        allow(live_injector).to receive(:match_data).and_return(lineup_data(type))
+
+        expect { live_injector.call }.not_to(change { starter.reload.in_squad })
+      end
+    end
+  end
+
   describe 'scrape resilience' do
     # a fresh instance whose #match_data is NOT stubbed, so the real fetch path runs
     let(:live_injector) { described_class.new(match) }
@@ -635,6 +757,60 @@ RSpec.describe Scores::Injectors::FotmobMatch do
       live_injector.call
 
       expect(match.reload.host_score).to eq(2)
+    end
+  end
+
+  # FotMob answers 308 whenever it renames a club in a slug — "new-york-red-bulls" became
+  # "red-bull-new-york" — and rest-client raises on 308 instead of following it. Unfollowed, the
+  # match silently stopped being scraped: no score, no status change, not even a missed-players line.
+  describe 'a moved page' do
+    subject(:moved_injector) { described_class.new(match) }
+
+    let(:new_path) { '/matches/red-bull-new-york-vs-los-angeles-fc/4vdlmar7' }
+    let(:redirect) do
+      response = instance_double(RestClient::Response, code: 308, headers: { location: new_path })
+      RestClient::PermanentRedirect.new(response)
+    end
+
+    before { match.update!(page_url: '/matches/new-york-red-bulls-vs-los-angeles-fc/4vdlmar7#5071345') }
+
+    def stub_redirect_then(html)
+      calls = 0
+      allow(RestClient::Request).to receive(:execute) do
+        calls += 1
+        raise redirect if calls == 1
+
+        html
+      end
+    end
+
+    it 'follows the redirect and reads the page' do
+      stub_redirect_then('<html><script id="__NEXT_DATA__">{"props":{"pageProps":{"general":{}}}}</script></html>')
+
+      expect(moved_injector.send(:match_data)).to eq('general' => {})
+    end
+
+    it 'stores the new address so the next pass goes straight there' do
+      stub_redirect_then('<html><script id="__NEXT_DATA__">{"props":{"pageProps":{}}}</script></html>')
+      moved_injector.send(:match_data)
+
+      expect(match.reload.page_url).to eq("#{new_path}#5071345")
+    end
+
+    it 'gives up when the redirect carries no location' do
+      response = instance_double(RestClient::Response, code: 308, headers: {})
+      allow(RestClient::Request).to receive(:execute).and_raise(RestClient::PermanentRedirect.new(response))
+
+      expect(moved_injector.send(:match_data)).to eq({})
+    end
+
+    # One hop only: a site that redirects in a circle must not spin the injector.
+    it 'does not chase a redirect loop' do
+      allow(RestClient::Request).to receive(:execute).and_raise(redirect)
+
+      moved_injector.send(:match_data)
+
+      expect(RestClient::Request).to have_received(:execute).twice
     end
   end
 

@@ -110,7 +110,7 @@ RSpec.describe 'Manage::WeeklyTeams' do
 
       context 'with source=season and tournament_id' do
         let(:tournament) { Tournament.first }
-        let(:season)     { Season.order(:start_year).last }
+        let(:season) { Season.order(:start_year).last }
 
         before do
           round = create(:tournament_round, tournament: tournament, season: season)
@@ -145,7 +145,7 @@ RSpec.describe 'Manage::WeeklyTeams' do
 
       context 'with source=avg and tournament_id' do
         let(:tournament) { Tournament.first }
-        let(:season)     { Season.order(:start_year).last }
+        let(:season) { Season.order(:start_year).last }
 
         before do
           round = create(:tournament_round, tournament: tournament, season: season)
@@ -176,10 +176,10 @@ RSpec.describe 'Manage::WeeklyTeams' do
 
       context 'with source=auction and tournament_id' do
         let(:tournament) { Tournament.first }
-        let(:season)     { Season.order(:start_year).last }
+        let(:season) { Season.order(:start_year).last }
 
         before do
-          league  = create(:league, tournament: tournament, season: season)
+          league = create(:league, tournament: tournament, season: season)
           auction = create(:auction, league: league, number: 1)
           create(:transfer, auction: auction, league: league, player: create(:player, :with_pos_por),
                             team: create(:team, league: league), status: :incoming, price: 40)
@@ -225,11 +225,11 @@ RSpec.describe 'Manage::WeeklyTeams' do
     context 'when admin is logged in' do
       login_admin
 
-      let(:round)        { create(:tournament_round) }
-      let(:team_module)  { TeamModule.first }
-      let(:slot)         { team_module.slots.first }
+      let(:round) { create(:tournament_round) }
+      let(:team_module) { TeamModule.first }
+      let(:slot) { team_module.slots.first }
       let(:round_player) { create(:round_player, :with_pos_por, score: 8, tournament_round: round) }
-      let(:players)      { [{ slot_id: slot.id, round_player_id: round_player.id, total: 8.0 }] }
+      let(:players) { [{ slot_id: slot.id, round_player_id: round_player.id, total: 8.0 }] }
 
       before { round_player }
 

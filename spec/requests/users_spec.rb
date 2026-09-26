@@ -77,8 +77,8 @@ RSpec.describe 'Users' do
       let(:manager) { create(:user) }
 
       before do
-        old_team = create(:team, user: manager)  # smaller id
-        new_team = create(:team, user: manager)  # larger id
+        old_team = create(:team, user: manager) # smaller id
+        new_team = create(:team, user: manager) # larger id
         create(:result, team: old_team, league: create(:league, name: 'Zoldleaguemarker'), created_at: 3.days.ago)
         create(:result, team: new_team, league: create(:league, name: 'Znewleaguemarker'), created_at: 1.day.ago)
         get manager_path(manager)

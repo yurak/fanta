@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { IPlayerShow } from "@/interfaces/Player";
+import ClubLogo from "@/components/ClubLogo/ClubLogo";
 import PlayerTeamsModal from "./PlayerTeamsModal";
 import styles from "./PlayerPage.module.scss";
 
@@ -37,9 +38,7 @@ const PlayerBio = ({ player }: { player: IPlayerShow }) => {
               player.club.name
             )}
           </div>
-          <object data={player.club.logo_path} type="image/png">
-            <img src={player.club.logo_path} alt={player.club.name} />
-          </object>
+          <ClubLogo src={player.club.logo_path} alt={player.club.name} />
         </div>
       </div>
 

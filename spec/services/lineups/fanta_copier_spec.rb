@@ -1,5 +1,4 @@
-# rubocop:disable RSpec/MultipleMemoizedHelpers
-RSpec.describe Lineups::FantaCopier do
+RSpec.describe Lineups::FantaCopier do # rubocop:disable RSpec/MultipleMemoizedHelpers
   subject(:service_call) { described_class.new(lineup).call }
 
   let(:user) { create(:user) }
@@ -19,8 +18,8 @@ RSpec.describe Lineups::FantaCopier do
 
   before { lineup && target_team && target_tour }
 
-  describe '#call' do
-    context 'when tour is not fanta' do
+  describe '#call' do # rubocop:disable RSpec/MultipleMemoizedHelpers
+    context 'when tour is not fanta' do # rubocop:disable RSpec/MultipleMemoizedHelpers
       let(:mantra_league) { create(:league) }
       let(:mantra_tour) do
         create(:set_lineup_tour, league: mantra_league,
@@ -33,7 +32,7 @@ RSpec.describe Lineups::FantaCopier do
       end
     end
 
-    context 'when user has one other fanta team in the same tournament' do
+    context 'when user has one other fanta team in the same tournament' do # rubocop:disable RSpec/MultipleMemoizedHelpers
       it 'creates a lineup for the other league' do
         expect { service_call }.to change { target_tour.lineups.count }.by(1)
       end
@@ -78,7 +77,7 @@ RSpec.describe Lineups::FantaCopier do
       end
     end
 
-    context 'when target tour already has a lineup' do
+    context 'when target tour already has a lineup' do # rubocop:disable RSpec/MultipleMemoizedHelpers
       before { create(:lineup, team: target_team, tour: target_tour) }
 
       it 'does not create another lineup' do
@@ -86,7 +85,7 @@ RSpec.describe Lineups::FantaCopier do
       end
     end
 
-    context 'when target tour is not open for lineup' do
+    context 'when target tour is not open for lineup' do # rubocop:disable RSpec/MultipleMemoizedHelpers
       let(:target_tour) { create(:closed_tour, league: target_league, tournament_round: tournament_round) }
 
       it 'does not create a lineup' do
@@ -94,7 +93,7 @@ RSpec.describe Lineups::FantaCopier do
       end
     end
 
-    context 'when user has teams in multiple other fanta leagues' do
+    context 'when user has teams in multiple other fanta leagues' do # rubocop:disable RSpec/MultipleMemoizedHelpers
       let(:league3) { create(:active_league, tournament: tournament) }
       let(:team3) { create(:team, user: user, league: league3) }
       let(:tour3) { create(:set_lineup_tour, league: league3, tournament_round: tournament_round) }
@@ -106,7 +105,7 @@ RSpec.describe Lineups::FantaCopier do
       end
     end
 
-    context 'when user has a team in a different tournament' do
+    context 'when user has a team in a different tournament' do # rubocop:disable RSpec/MultipleMemoizedHelpers
       let(:other_tournament) { create(:fanta_tournament) }
       let(:other_league) { create(:active_league, tournament: other_tournament) }
       let(:other_team) { create(:team, user: user, league: other_league) }
@@ -123,4 +122,3 @@ RSpec.describe Lineups::FantaCopier do
     end
   end
 end
-# rubocop:enable RSpec/MultipleMemoizedHelpers

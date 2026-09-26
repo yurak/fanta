@@ -49,8 +49,9 @@ RSpec.describe PlayerBaseSerializer do
       before do
         create(:round_player, player: player,
                               tournament_round: create(:tournament_round, season: older_season))
-        create_list(:round_player, 3, player: player,
-                                      tournament_round: create(:tournament_round, season: current_season))
+        3.times do
+          create(:round_player, player: player, tournament_round: create(:tournament_round, season: current_season))
+        end
       end
 
       it 'counts only the requested season round players' do

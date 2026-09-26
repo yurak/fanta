@@ -232,18 +232,9 @@ RSpec.describe Match do
       end
     end
 
-    context 'with lineups but no subs missed' do
-      before { allow_any_instance_of(Lineup).to receive(:subs_missed?).and_return(false) }
-
-      it 'does not call AutoBot' do
-        match_with_lineups.autobot(preview: true)
-        expect(Substitutes::AutoBot).not_to have_received(:call)
-      end
-    end
-
-    context 'when both lineups have missed subs' do
-      before { allow_any_instance_of(Lineup).to receive(:subs_missed?).and_return(true) }
-
+    # No `subs_missed?` gate any more: it reloaded every match player of the lineup only to decide
+    # whether to load them again, and AutoBot already does nothing when there is nobody to bring on.
+    context 'with lineups' do
       it 'calls AutoBot for each lineup' do
         match_with_lineups.autobot(preview: true)
         expect(Substitutes::AutoBot).to have_received(:call).twice

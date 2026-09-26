@@ -1,8 +1,7 @@
-# rubocop:disable RSpec/DescribeClass
 require 'rails_helper'
 require 'rake'
 
-RSpec.describe 'tg:send_daily_schedule' do
+RSpec.describe 'tg:send_daily_schedule' do # rubocop:disable RSpec/DescribeClass
   before do
     Rake.application.rake_require('tasks/tg/send_daily_schedule')
     Rake::Task.define_task(:environment)
@@ -15,4 +14,3 @@ RSpec.describe 'tg:send_daily_schedule' do
     expect(TelegramBot::DailyScheduleBroadcaster).to have_received(:call)
   end
 end
-# rubocop:enable RSpec/DescribeClass

@@ -5,9 +5,9 @@ module WeeklyTeams
     State = Struct.new(:slots, :ranked, :used, :counts, :result, keyword_init: true)
 
     def initialize(state:, cap:, flop:, key_for:)
-      @state   = state
-      @cap     = cap
-      @flop    = flop
+      @state = state
+      @cap = cap
+      @flop = flop
       @key_for = key_for
     end
 

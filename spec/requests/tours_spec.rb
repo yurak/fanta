@@ -181,7 +181,7 @@ RSpec.describe 'Tours' do
 
       let(:t_round) { tour.tournament_round }
       let!(:rp_high) { create(:round_player, tournament_round: t_round, score: 9, final_score: 9) }
-      let!(:rp_low)  { create(:round_player, tournament_round: t_round, score: 7, final_score: 7) }
+      let!(:rp_low) { create(:round_player, tournament_round: t_round, score: 7, final_score: 7) }
       let!(:rp_zero) { create(:round_player, tournament_round: t_round, score: 0) }
 
       before { get tournament_players_tour_path(tour) }

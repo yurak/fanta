@@ -20,11 +20,14 @@ AllCops:
     - public/**/*
 Layout/LineLength:
   Max: 140
+Layout/ExtraSpacing:
+  AllowForAlignment: false
 Metrics/ClassLength:
   CountAsOne: ['array', 'hash', 'heredoc']
 Metrics/MethodLength:
   CountAsOne: ['array', 'hash', 'heredoc']
 Metrics/BlockLength:
+  CountAsOne: ['array', 'hash', 'heredoc']
   AllowedMethods:
     - describe
     - context

@@ -1,0 +1,150 @@
+.standings-table {
+  // `table-layout: fixed` keeps the table inside its column: without it the club-name cell grows to
+  // fit the longest name and pushes the table wider than the stats column it sits in.
+  width: 100%;
+  max-width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  font-family: 'Nunito Regular';
+  font-size: 13px;
+  color: #12151A;
+
+  th {
+    font-family: 'Nunito Bold';
+    font-size: 11px;
+    text-transform: uppercase;
+    color: #7A8291;
+    text-align: center;
+    padding: 8px 2px;
+    border-bottom: 1px solid #E8EAEE;
+  }
+
+  td {
+    text-align: center;
+    padding: 8px 2px;
+    border-bottom: 1px solid #F2F3F5;
+  }
+
+  // The narrow result columns are fixed so the club name takes whatever is left. `.standings-goals`
+  // is excluded by name: it holds "14-5" under a wider header, and this rule outranks its own width.
+  th:not(.standings-pos):not(.standings-team):not(.standings-goals):not(.standings-opponent),
+  td:not(.standings-pos):not(.standings-team):not(.standings-goals):not(.standings-opponent) {
+    width: 30px;
+  }
+
+  .standings-pos {
+    position: relative;
+    width: 26px;
+    padding-left: 9px;
+    text-align: left;
+    color: #7A8291;
+  }
+
+  .standings-zone {
+    position: absolute;
+    left: 0;
+    top: 6px;
+    bottom: 6px;
+    width: 3px;
+    border-radius: 2px;
+  }
+
+  .standings-team {
+    text-align: left;
+    overflow: hidden;
+  }
+
+  .standings-team-inner {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+  }
+
+  .standings-club-logo {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+
+    img {
+      width: 20px;
+      height: 20px;
+      object-fit: contain;
+    }
+  }
+
+  .standings-club-name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .standings-goals {
+    color: #7A8291;
+    white-space: nowrap;
+    width: 58px;
+  }
+
+  .standings-points {
+    font-family: 'Nunito Bold';
+  }
+
+  .standings-opponent {
+    width: 36px;
+
+    .standings-club-logo {
+      margin: 0 auto;
+    }
+  }
+
+  .standings-opponent-none {
+    color: #B4BAC5;
+  }
+
+  td.standings-live {
+    position: relative;
+    z-index: 0;
+
+    &::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 4px;
+      bottom: 4px;
+      z-index: -1;
+    }
+  }
+
+  .standings-team + td.standings-live::before {
+    border-radius: 8px 0 0 8px;
+  }
+
+  td.standings-live.standings-points::before {
+    border-radius: 0 8px 8px 0;
+  }
+
+  .standings-live--win::before {
+    background-color: #D0F0D4;
+  }
+
+  .standings-live--draw::before {
+    background-color: #FFEBC2;
+  }
+
+  .standings-live--loss::before {
+    background-color: #FCC5CB;
+  }
+}
+
+.standings-table--compact {
+  font-size: 12px;
+
+  th, td {
+    padding: 7px 1px;
+  }
+
+  .standings-club-name {
+    font-family: 'Nunito SemiBold';
+  }
+}

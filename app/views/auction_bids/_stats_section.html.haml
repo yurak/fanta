@@ -103,11 +103,9 @@
             .round-player-stats-param.round-player-stats-data
               .round-player-stats-img
                 .round-player-show-face
-                  %object{data: transfer.player.avatar_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                    = image_tag('avatar.png')
+                  %img{ src: transfer.player.avatar_path, onerror: "this.onerror=null;this.src='#{image_path('avatar.png')}'" }
                 .round-player-show-kit
-                  %object{data: transfer.player.kit_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                    = image_tag('kit_small_default.png')
+                  %img{ src: transfer.player.kit_path, onerror: "this.onerror=null;this.src='#{image_path('kit_small_default.png')}'" }
               .round-player-stats-name= transfer.player.name
             .round-player-stats-param.round-player-stats-score= transfer.price
             .round-player-stats-param.round-player-stats-team
@@ -126,11 +124,9 @@
             .round-player-stats-param.round-player-stats-data
               .round-player-stats-img
                 .round-player-show-face
-                  %object{data: transfer.player.avatar_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                    = image_tag('avatar.png')
+                  %img{ src: transfer.player.avatar_path, onerror: "this.onerror=null;this.src='#{image_path('avatar.png')}'" }
                 .round-player-show-kit
-                  %object{data: transfer.player.kit_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                    = image_tag('kit_small_default.png')
+                  %img{ src: transfer.player.kit_path, onerror: "this.onerror=null;this.src='#{image_path('kit_small_default.png')}'" }
               .round-player-stats-name= transfer.player.name
             .round-player-stats-param.round-player-stats-score= transfer.price
             .round-player-stats-param.round-player-stats-team

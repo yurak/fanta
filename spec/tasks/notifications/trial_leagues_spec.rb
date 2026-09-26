@@ -1,8 +1,7 @@
-# rubocop:disable RSpec/DescribeClass
 require 'rails_helper'
 require 'rake'
 
-RSpec.describe 'notifications:trial_leagues' do
+RSpec.describe 'notifications:trial_leagues' do # rubocop:disable RSpec/DescribeClass
   let(:enabled_user) { create(:user) }
   let(:disabled_user) { create(:user) }
   let(:user_without_profile) { create(:user) }
@@ -67,4 +66,3 @@ RSpec.describe 'notifications:trial_leagues' do
     expect { run_task }.to output("Done. Sent: 1, skipped (no Telegram): 2\n").to_stdout
   end
 end
-# rubocop:enable RSpec/DescribeClass

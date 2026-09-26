@@ -1,11 +1,10 @@
-# rubocop:disable RSpec/DescribeClass
 require 'rails_helper'
 require 'rake'
 
 Rake.application.rake_require('tasks/national_matches')
 Rake::Task.define_task(:environment)
 
-RSpec.describe 'national_matches rake tasks' do
+RSpec.describe 'national_matches rake tasks' do # rubocop:disable RSpec/DescribeClass
   def reenable(task_name)
     Rake::Task[task_name].reenable
   end
@@ -109,4 +108,3 @@ RSpec.describe 'national_matches rake tasks' do
     end
   end
 end
-# rubocop:enable RSpec/DescribeClass

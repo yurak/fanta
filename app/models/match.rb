@@ -25,8 +25,7 @@ class Match < ApplicationRecord
   end
 
   def autobot(preview: true)
-    Substitutes::AutoBot.call(guest_lineup, preview: preview) if guest_lineup&.subs_missed?
-    Substitutes::AutoBot.call(host_lineup, preview: preview) if host_lineup&.subs_missed?
+    [guest_lineup, host_lineup].compact.map { |lineup| Substitutes::AutoBot.call(lineup, preview: preview) }
   end
 
   def guest_score

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_08_25_102016) do
+ActiveRecord::Schema[8.0].define(version: 2026_09_17_120100) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -150,8 +150,10 @@ ActiveRecord::Schema[8.0].define(version: 2026_08_25_102016) do
     t.string "tm_url"
     t.text "reserve_clubs", default: "--- []\n"
     t.text "reserve_club_ids", default: "--- []"
+    t.bigint "fotmob_id"
     t.index ["code"], name: "index_clubs_on_code", unique: true
     t.index ["ec_tournament_id"], name: "index_clubs_on_ec_tournament_id"
+    t.index ["fotmob_id"], name: "index_clubs_on_fotmob_id", unique: true
     t.index ["name"], name: "index_clubs_on_name", unique: true
     t.index ["tournament_id"], name: "index_clubs_on_tournament_id"
   end
@@ -309,10 +311,12 @@ ActiveRecord::Schema[8.0].define(version: 2026_08_25_102016) do
     t.string "error_message"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "attempts", default: 0, null: false
     t.index ["notifiable_type", "notifiable_id", "status"], name: "index_notifications_on_notifiable_and_status"
     t.index ["notifiable_type", "notifiable_id"], name: "index_notifications_on_notifiable"
     t.index ["status", "priority", "id"], name: "index_notifications_on_status_and_priority"
     t.index ["status"], name: "index_notifications_on_status"
+    t.index ["team_id", "notifiable_type", "notifiable_id", "kind"], name: "index_notifications_on_team_notifiable_and_kind", unique: true
     t.index ["team_id"], name: "index_notifications_on_team_id"
   end
 
@@ -471,6 +475,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_08_25_102016) do
     t.boolean "in_squad", default: false, null: false
     t.index ["club_id"], name: "index_round_players_on_club_id"
     t.index ["player_id"], name: "index_round_players_on_player_id"
+    t.index ["tournament_round_id", "player_id"], name: "index_round_players_on_tournament_round_id_and_player_id", unique: true
     t.index ["tournament_round_id"], name: "index_round_players_on_tournament_round_id"
   end
 
@@ -491,6 +496,29 @@ ActiveRecord::Schema[8.0].define(version: 2026_08_25_102016) do
     t.datetime "updated_at", precision: nil, null: false
     t.string "location", default: "", null: false
     t.index ["team_module_id"], name: "index_slots_on_team_module_id"
+  end
+
+  create_table "standings", force: :cascade do |t|
+    t.integer "played", default: 0, null: false
+    t.integer "wins", default: 0, null: false
+    t.integer "draws", default: 0, null: false
+    t.integer "losses", default: 0, null: false
+    t.integer "goals_for", default: 0, null: false
+    t.integer "goals_against", default: 0, null: false
+    t.integer "points", default: 0, null: false
+    t.bigint "tournament_id", null: false
+    t.bigint "season_id", null: false
+    t.bigint "club_id"
+    t.bigint "fotmob_team_id"
+    t.string "team_name", default: "", null: false
+    t.integer "position", null: false
+    t.string "zone_color", default: "", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["club_id"], name: "index_standings_on_club_id"
+    t.index ["season_id"], name: "index_standings_on_season_id"
+    t.index ["tournament_id", "season_id", "position"], name: "index_standings_on_tournament_season_position", unique: true
+    t.index ["tournament_id"], name: "index_standings_on_tournament_id"
   end
 
   create_table "substitutes", force: :cascade do |t|
@@ -563,6 +591,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_08_25_102016) do
     t.text "missed_players_data"
     t.integer "status", default: 0, null: false
     t.integer "live_minute"
+    t.text "incidents_data"
     t.index ["guest_club_id"], name: "index_tournament_matches_on_guest_club_id"
     t.index ["host_club_id"], name: "index_tournament_matches_on_host_club_id"
     t.index ["tournament_round_id"], name: "index_tournament_matches_on_tournament_round_id"
@@ -768,6 +797,9 @@ ActiveRecord::Schema[8.0].define(version: 2026_08_25_102016) do
   add_foreign_key "results", "leagues"
   add_foreign_key "round_players", "players"
   add_foreign_key "round_players", "tournament_rounds"
+  add_foreign_key "standings", "clubs"
+  add_foreign_key "standings", "seasons"
+  add_foreign_key "standings", "tournaments"
   add_foreign_key "teams", "leagues"
   add_foreign_key "teams", "tournaments"
   add_foreign_key "teams", "users"

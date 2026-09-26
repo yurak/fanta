@@ -5,7 +5,7 @@ RSpec.describe Tournaments::Creator do
     let(:tournaments_config) do
       {
         'spec_regular' => { 'name' => 'Spec Regular', 'eurocup' => false },
-        'spec_eurocup' => { 'name' => 'Spec Eurocup', 'eurocup' => true  }
+        'spec_eurocup' => { 'name' => 'Spec Eurocup', 'eurocup' => true }
       }
     end
 

@@ -2,11 +2,11 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import Chart from "@/ui/Chart";
 import Tabs from "@/ui/Tabs";
+import ClubLogo from "@/components/ClubLogo/ClubLogo";
 import Select from "@/ui/Select";
 import { IRoundStat, ISeasonTotal } from "@/interfaces/PlayerStats";
 import BonusCell from "./BonusCell";
 import { COMMON_COLUMNS, GK_COLUMNS, IBonusColumn, OUTFIELD_COLUMNS } from "./columns";
-import DefaultLogo from "@/assets/icons/noTeam.svg";
 import styles from "./PlayerPage.module.scss";
 
 type TabId = "domestic" | "eurocups" | "international";
@@ -60,9 +60,7 @@ const RoundRow = ({
           <span className={`flag-icon flag-icon-${flagCode.toLowerCase()} ${styles.roundFlag}`} />
         ) : (
           round.club_logo_path && (
-            <object data={round.club_logo_path} type="image/png">
-              <DefaultLogo />
-            </object>
+            <ClubLogo src={round.club_logo_path} />
           )
         )}
       </div>

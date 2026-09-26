@@ -16,7 +16,7 @@ class WeeklyTeamsController < ApplicationController
       ]
     ).find(params.expect(:id))
 
-    @season_bonuses    = build_season_bonuses if @weekly_team.source_avg?
+    @season_bonuses = build_season_bonuses if @weekly_team.source_avg?
     @round_top_lineups = round_top_lineups if @weekly_team.source_round? && @weekly_team.top?
   end
 
@@ -25,8 +25,7 @@ class WeeklyTeamsController < ApplicationController
   def round_top_lineups
     rounds = TournamentRound.where(id: @weekly_team.round_ids).includes(:tournament).index_by(&:id)
 
-    @weekly_team.round_ids.filter_map { |round_id| rounds[round_id] }
-                          .map { |round| [round, top_lineup_for(round)] }
+    @weekly_team.round_ids.filter_map { |round_id| rounds[round_id] }.map { |round| [round, top_lineup_for(round)] }
   end
 
   def top_lineup_for(round)
@@ -39,9 +38,9 @@ class WeeklyTeamsController < ApplicationController
 
   def build_season_bonuses
     player_ids = @weekly_team.weekly_team_players.map { |wtp| wtp.round_player.player_id }
-    round_ids  = TournamentRound.by_tournament(@weekly_team.tournament_id)
-                                .by_season(@weekly_team.season_id)
-                                .pluck(:id)
+    round_ids = TournamentRound.by_tournament(@weekly_team.tournament_id)
+                               .by_season(@weekly_team.season_id)
+                               .pluck(:id)
 
     RoundPlayer.where(tournament_round_id: round_ids, player_id: player_ids)
                .where('score > 0')

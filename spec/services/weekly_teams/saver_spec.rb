@@ -9,11 +9,11 @@ RSpec.describe WeeklyTeams::Saver do
     )
   end
 
-  let(:team_module)  { TeamModule.first }
-  let(:slot)         { team_module.slots.first }
-  let(:round)        { create(:tournament_round) }
+  let(:team_module) { TeamModule.first }
+  let(:slot) { team_module.slots.first }
+  let(:round) { create(:tournament_round) }
   let(:round_player) { create(:round_player, :with_pos_por, score: 8, tournament_round: round) }
-  let(:players)      { [{ slot_id: slot.id, round_player_id: round_player.id, total: 8.0 }] }
+  let(:players) { [{ slot_id: slot.id, round_player_id: round_player.id, total: 8.0 }] }
 
   before { round_player }
 

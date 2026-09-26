@@ -18,7 +18,7 @@ RSpec.describe 'Manage::Auctions' do
       login_admin
 
       let!(:initial_auction) { create(:auction, status: :initial) }
-      let!(:sales_auction)   { create(:auction, status: :sales) }
+      let!(:sales_auction) { create(:auction, status: :sales) }
 
       before { get manage_auctions_path }
 
@@ -47,7 +47,7 @@ RSpec.describe 'Manage::Auctions' do
     context 'when admin filters by status' do
       login_admin
 
-      let!(:sales_auction)   { create(:auction, status: :sales) }
+      let!(:sales_auction) { create(:auction, status: :sales) }
       let!(:initial_auction) { create(:auction, status: :initial) }
 
       before { get manage_auctions_path(status: 'sales') }
@@ -74,8 +74,8 @@ RSpec.describe 'Manage::Auctions' do
     context 'when filtering by league name query' do
       login_admin
 
-      let!(:matching_auction)  { create(:auction, league: create(:league, name: 'Alpha League')) }
-      let!(:excluded_auction)  { create(:auction, league: create(:league, name: 'Beta League')) }
+      let!(:matching_auction) { create(:auction, league: create(:league, name: 'Alpha League')) }
+      let!(:excluded_auction) { create(:auction, league: create(:league, name: 'Beta League')) }
 
       before { get manage_auctions_path(query: 'Alpha') }
 
@@ -93,8 +93,8 @@ RSpec.describe 'Manage::Auctions' do
 
       let(:tournament_a) { create(:tournament) }
       let(:tournament_b) { create(:tournament) }
-      let!(:auction_a)   { create(:auction, league: create(:league, tournament: tournament_a)) }
-      let!(:auction_b)   { create(:auction, league: create(:league, tournament: tournament_b)) }
+      let!(:auction_a) { create(:auction, league: create(:league, tournament: tournament_a)) }
+      let!(:auction_b) { create(:auction, league: create(:league, tournament: tournament_b)) }
 
       before { get manage_auctions_path(tournament_id: tournament_a.id) }
 
@@ -130,9 +130,9 @@ RSpec.describe 'Manage::Auctions' do
       login_admin
 
       # Deadline column: last round's deadline, falling back to the auction's own deadline.
-      let!(:late)     { create(:auction, deadline: Time.zone.parse('2026-08-10 12:00')) }
-      let!(:early)    { create(:auction, deadline: Time.zone.parse('2026-08-01 12:00')) }
-      let!(:middle)   { create(:auction, deadline: Time.zone.parse('2026-07-01 12:00')) }
+      let!(:late) { create(:auction, deadline: Time.zone.parse('2026-08-10 12:00')) }
+      let!(:early) { create(:auction, deadline: Time.zone.parse('2026-08-01 12:00')) }
+      let!(:middle) { create(:auction, deadline: Time.zone.parse('2026-07-01 12:00')) }
       let!(:no_dates) { create(:auction, deadline: nil) }
 
       before do
@@ -155,8 +155,8 @@ RSpec.describe 'Manage::Auctions' do
 
       # January vs February: chronological order differs from alphabetical order.
       let!(:february) { create(:auction, deadline: nil, base_date: 'February, 2026') }
-      let!(:january)  { create(:auction, deadline: nil, base_date: 'January, 2026') }
-      let!(:undated)  { create(:auction, deadline: nil, base_date: nil) }
+      let!(:january) { create(:auction, deadline: nil, base_date: 'January, 2026') }
+      let!(:undated) { create(:auction, deadline: nil, base_date: nil) }
 
       before { get manage_auctions_path }
 
@@ -168,7 +168,7 @@ RSpec.describe 'Manage::Auctions' do
     context 'when viewing closed auctions' do
       login_admin
 
-      let!(:stale)  { travel_to(Time.zone.parse('2026-07-01 12:00')) { create(:auction, status: :closed) } }
+      let!(:stale) { travel_to(Time.zone.parse('2026-07-01 12:00')) { create(:auction, status: :closed) } }
       let!(:recent) { travel_to(Time.zone.parse('2026-08-01 12:00')) { create(:auction, status: :closed) } }
 
       before { get manage_auctions_path(status: 'closed') }

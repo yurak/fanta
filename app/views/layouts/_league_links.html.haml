@@ -1,5 +1,6 @@
-- if league.active_tour_or_last
-  = link_to tour_path(league.active_tour_or_last) do
+- round_tour = league_round_tour(league)
+- if round_tour
+  = link_to tour_path(round_tour) do
     .league-link{class: "link-active-#{ params[:controller] == 'tours' || params[:controller] == 'matches' }"}
       .league-link-icon= image_tag('icons/round/round.svg')
       .league-link-text= t('header.round')

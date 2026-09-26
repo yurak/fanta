@@ -20,8 +20,8 @@ every '55 * * * *' do
   rake 'tours:auto_inject'
 end
 
-# Live-inject scores for in-progress matches (live_scores_enabled tournaments)
-every 5.minutes do
+# Live-inject scores for in-progress matches (live_scores_enabled tournaments).
+every 10.minutes do
   rake 'tours:live_inject'
 end
 
@@ -35,8 +35,8 @@ every :minute do
   rake 'notifications:send_pending'
 end
 
-# Send notifications by Telegram bot before tour deadline
-every :hour do
+# Send notifications by Telegram bot before tour deadline (5, 3, 2 and 1 hours out).
+every 5.minutes do
   rake 'tg:send_tour_deadline'
 end
 
@@ -73,4 +73,15 @@ end
 # Open auction dropping phase
 every '15,45 * * * *' do
   rake 'auctions:start_sales'
+end
+
+every :sunday, at: '4:20 am' do
+  rake 'tmp:cache:clear'
+end
+
+# League tables for the tour stats column and the lineup page tab. Twice a day is enough: the table
+# only moves on match days, and a stale row still reads correctly (Standings::Updater never wipes on
+# a failed fetch).
+every '40 4,23 * * *' do
+  rake 'standings:refresh'
 end

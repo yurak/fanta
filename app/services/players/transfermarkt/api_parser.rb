@@ -2,6 +2,7 @@ module Players
   module Transfermarkt
     class ApiParser < ApplicationService
       include RetriableApi
+      include NameNormalizer
 
       NATIONALITY_MAP = {
         1 => 'af', 2 => 'eg', 3 => 'al', 4 => 'dz', 5 => 'ad', 6 => 'ao', 7 => 'ag', 8 => 'gq', 9 => 'ar',
@@ -76,7 +77,7 @@ module Players
       end
 
       def normalized_name
-        @normalized_name ||= I18n.transliterate(data['name'].to_s)
+        @normalized_name ||= normalize_name(data['name'])
       end
 
       def nationality

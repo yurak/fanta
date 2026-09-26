@@ -41,6 +41,7 @@
 @import "tournaments";
 @import "tournament_matches";
 @import "tournament_rounds";
+@import "standings";
 @import "tours";
 @import "users";
 @import "welcome";
@@ -1556,12 +1557,9 @@ body, html {
         vertical-align: middle;
       }
 
-      img, object {
+      img {
         width: 48px;
         height: 48px;
-      }
-
-      img {
         vertical-align: inherit;
       }
 
@@ -1960,7 +1958,7 @@ body, html {
         .player-show-face, .player-show-kit, .squad-position {
           position: absolute;
 
-          img, object {
+          img {
             width: 66px;
             height: 66px;
           }
@@ -2118,14 +2116,10 @@ body, html {
           .player-show-face, .player-show-kit {
             position: absolute;
 
-            img, object {
+            img {
               width: 88px;
               height: 88px;
               margin: 8px 4px 0;
-            }
-
-            img {
-              margin: 8px 0 0;
             }
           }
         }
@@ -2202,7 +2196,7 @@ body, html {
           text-align: center;
 
           .player-match-team {
-            img, object {
+            img {
               width: 16px;
               height: 16px;
             }
@@ -2347,7 +2341,7 @@ body, html {
       grid-template-columns: 4fr 2fr 4fr;
       column-gap: 12px;
       font-size: 12px;
-      line-height: 32px;
+      line-height: 38px;
       color: #181715;
       border-bottom: 1px solid #E5E6E4;
       text-align: center;
@@ -2365,12 +2359,9 @@ body, html {
           height: 24px;
         }
 
-        img, object {
+        img {
           width: 24px;
           height: 24px;
-        }
-
-        object {
           position: relative;
         }
 
@@ -2401,13 +2392,18 @@ body, html {
         background-color: #040052;
         line-height: 18px;
         padding: 5px 0;
-        margin: 6px 0;
+        margin: 5px 0;
         text-align: center;
         color: #F4F4F4;
 
         .round-tournament-match-result-host {
           border-right: 1px solid #847577;
         }
+      }
+
+      .round-tournament-match-cell--live .round-tournament-match-result {
+        margin: 4px 0 0;
+        padding: 3px 0;
       }
     }
 
@@ -2442,9 +2438,10 @@ body, html {
           padding-top: 1px;
           height: 32px;
 
-          img, object {
+          img {
             width: 30px;
             height: 30px;
+            margin-bottom: 3px;
           }
         }
       }

@@ -85,9 +85,9 @@ RSpec.describe Stats::Creator do
         create(:round_player, player: player, club: club_previous, tournament_round: tournament.tournament_rounds.first, score: 5.5,
                               yellow_card: true)
         create(:round_player, player: player, club: club_previous, tournament_round: tournament.tournament_rounds[13], score: 8.3, goals: 2)
-        create(:round_player, player: player, tournament_round: tournament.tournament_rounds[13], score: 7.5, yellow_card: true)
-        create(:round_player, player: player, tournament_round: tournament.tournament_rounds[13], score: 8.3, goals: 2, yellow_card: true)
-        create(:round_player, player: player, tournament_round: tournament.tournament_rounds[15], score: 7.4, goals: 1)
+        create(:round_player, player: player, tournament_round: tournament.tournament_rounds[14], score: 7.5, yellow_card: true)
+        create(:round_player, player: player, tournament_round: tournament.tournament_rounds[15], score: 8.3, goals: 2, yellow_card: true)
+        create(:round_player, player: player, tournament_round: tournament.tournament_rounds[16], score: 7.4, goals: 1)
       end
 
       it { expect(creator.call).to be(true) }

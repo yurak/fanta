@@ -123,9 +123,7 @@ Rails.application.routes.draw do
 
   resources :links, only: [:index]
 
-  resources :matches, only: [:show] do
-    post :autobot
-  end
+  resources :matches, only: [:show]
 
   resources :national_teams, only: [:show]
 

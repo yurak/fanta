@@ -128,7 +128,7 @@ $blank: #CFD2CD;
   height: 296px;
 }
 
-.bannerAvatar object {
+.bannerAvatar img {
   top: 0;
 }
 
@@ -202,8 +202,7 @@ $blank: #CFD2CD;
   display: flex;
   align-items: center;
 
-  img,
-  object {
+  img {
     width: 32px;
     height: 32px;
   }
@@ -408,8 +407,7 @@ $blank: #CFD2CD;
   min-width: 0;
   padding: 0 8px;
 
-  img,
-  object {
+  img {
     width: 24px;
     height: 24px;
     flex-shrink: 0;
@@ -562,7 +560,6 @@ $blank: #CFD2CD;
   justify-content: center;
 
   img,
-  object,
   svg {
     display: block;
     width: 24px;
@@ -617,8 +614,7 @@ $blank: #CFD2CD;
   align-items: center;
   justify-content: center;
 
-  img,
-  object {
+  img {
     display: block;
     width: 32px;
     height: 32px;

@@ -125,6 +125,17 @@ RSpec.describe MatchPlayer do
         expect(match_player_with_score.not_played?).to be(false)
       end
     end
+
+    # A source can report a player who was on the pitch without a rating, and the autobot must not
+    # treat that as "never played" and replace him.
+    context 'with no score but minutes on the pitch' do
+      let(:round_player) { create(:round_player, score: 0, played_minutes: 1) }
+      let(:match_player) { create(:match_player, round_player: round_player, real_position: 'C') }
+
+      before { allow(match_player).to receive(:club_played_match?).and_return(true) }
+
+      it { expect(match_player.not_played?).to be(false) }
+    end
   end
 
   describe '#live?' do

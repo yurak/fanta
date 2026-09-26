@@ -70,6 +70,10 @@
 .clubCell {
   flex: 0 0 86px;
 
+  .logo {
+    margin: 0 auto;
+  }
+
   @media (min-width: 1500px) {
     flex: 0 0 110px;
   }

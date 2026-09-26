@@ -23,7 +23,7 @@ module Manage
       data = Players::Transfermarkt::ApiParser.call(params[:tm_id].to_s.strip.presence)
 
       if data && Players::Manager.call(data.stringify_keys)
-        redirect_to manage_players_path, notice: t('manage.players.created')
+        redirect_to manage_players_path, notice: created_notice(data)
       else
         redirect_to manage_players_path, alert: t('manage.players.failed')
       end
@@ -57,6 +57,12 @@ module Manage
     end
 
     private
+
+    def created_notice(data)
+      return t('manage.players.created') if data[:club_name].present?
+
+      t('manage.players.created_outside', club: data[:tm_club_id].presence || '?')
+    end
 
     def player_params
       params.expect(player: %i[first_name name tm_id fotmob_id sofascore_id avatar_name height number birth_date])

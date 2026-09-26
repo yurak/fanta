@@ -535,21 +535,11 @@ RSpec.describe Tour do
         create(:lineup, tour: tour)
       end
 
-      it 'does not call AutoBot when no subs missed' do
+      # No `subs_missed?` gate any more: it reloaded every match player of the lineup only to decide
+      # whether to load them again, and AutoBot already does nothing when there is nobody to bring on.
+      it 'calls AutoBot for each lineup' do
         tour.autobot(preview: true)
-        expect(Substitutes::AutoBot).not_to have_received(:call)
-      end
-
-      context 'when lineup has missed subs' do
-        before do
-          allow_any_instance_of(Lineup).to receive(:subs_missed?).and_return(true)
-          allow(Substitutes::AutoBot).to receive(:call)
-        end
-
-        it 'calls AutoBot for each lineup' do
-          tour.autobot(preview: true)
-          expect(Substitutes::AutoBot).to have_received(:call).twice
-        end
+        expect(Substitutes::AutoBot).to have_received(:call).twice
       end
     end
   end

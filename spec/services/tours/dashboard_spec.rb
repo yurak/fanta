@@ -4,7 +4,7 @@ RSpec.describe Tours::Dashboard do
   subject(:result) { described_class.call }
 
   let(:tournament) { create(:tournament) }
-  let(:round)      { create(:tournament_round, tournament: tournament) }
+  let(:round) { create(:tournament_round, tournament: tournament) }
 
   def create_tour(status, updated_at: nil)
     tour = create(:tour, tournament_round: round, status: status)

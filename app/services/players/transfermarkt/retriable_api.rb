@@ -1,18 +1,5 @@
 module Players
   module Transfermarkt
-    class ApiError < StandardError
-      attr_reader :http_code
-
-      def initialize(message, http_code: nil)
-        @http_code = http_code
-        super(message)
-      end
-    end
-
-    # The host itself cannot be reached (dead DNS, no route). Retrying is pointless,
-    # so callers fall back to the HTML parsers instead of sleeping through the retries.
-    class ApiUnavailableError < ApiError; end
-
     module RetriableApi
       MAX_RETRIES = 3
       UNREACHABLE_ERRORS = [SocketError, Errno::EHOSTUNREACH, Errno::ENETUNREACH].freeze

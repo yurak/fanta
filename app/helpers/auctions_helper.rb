@@ -54,7 +54,7 @@ module AuctionsHelper # rubocop:disable Metrics/ModuleLength
 
   def closed_auction_date_range(auction)
     start_date = auction.auction_rounds.minimum(:created_at)&.strftime('%b %e')
-    end_date   = auction.auction_rounds.maximum(:updated_at)&.strftime('%b %e, %Y')
+    end_date = auction.auction_rounds.maximum(:updated_at)&.strftime('%b %e, %Y')
     "#{start_date} - #{end_date}"
   end
 
@@ -107,11 +107,11 @@ module AuctionsHelper # rubocop:disable Metrics/ModuleLength
 
   def auction_status_badge(status)
     case status.to_s
-    when 'live'       then 'success'
-    when 'sales'      then 'info'
+    when 'live' then 'success'
+    when 'sales' then 'info'
     when 'blind_bids' then 'warning'
-    when 'closed'     then 'secondary'
-    else                   'light'
+    when 'closed' then 'secondary'
+    else 'light'
     end
   end
 

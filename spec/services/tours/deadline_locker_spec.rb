@@ -10,7 +10,7 @@ RSpec.describe Tours::DeadlineLocker do
   before { allow(Tours::Manager).to receive(:call) }
 
   context 'when tour has no deadline' do
-    let(:tr)   { create(:tournament_round, tournament: league.tournament, deadline: nil) }
+    let(:tr) { create(:tournament_round, tournament: league.tournament, deadline: nil) }
     let(:tour) { create(:set_lineup_tour, league: league, tournament_round: tr) }
 
     it { expect(locker.call).to be(false) }
@@ -22,7 +22,7 @@ RSpec.describe Tours::DeadlineLocker do
   end
 
   context 'when deadline has not passed yet' do
-    let(:tr)   { create(:tournament_round, tournament: league.tournament, deadline: 1.hour.from_now) }
+    let(:tr) { create(:tournament_round, tournament: league.tournament, deadline: 1.hour.from_now) }
     let(:tour) { create(:set_lineup_tour, league: league, tournament_round: tr) }
 
     it { expect(locker.call).to be(false) }
@@ -34,7 +34,7 @@ RSpec.describe Tours::DeadlineLocker do
   end
 
   context 'when deadline has passed' do
-    let(:tr)   { create(:tournament_round, tournament: league.tournament, deadline: 1.hour.ago) }
+    let(:tr) { create(:tournament_round, tournament: league.tournament, deadline: 1.hour.ago) }
     let(:tour) { create(:set_lineup_tour, league: league, tournament_round: tr) }
 
     it { expect(locker.call).to be(true) }

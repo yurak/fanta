@@ -50,14 +50,10 @@
       .player-show-face, .player-show-kit {
         position: absolute;
 
-        img, object {
+        img {
           width: 100px;
           height: 100px;
           margin: 8px 4px 0;
-        }
-
-        img {
-          margin: 8px 0 0;
         }
       }
     }
@@ -132,7 +128,7 @@
           height: 68px;
 
           .player-show-face, .player-show-kit {
-            img, object {
+            img {
               width: 60px;
               height: 60px;
             }

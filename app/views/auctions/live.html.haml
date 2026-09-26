@@ -78,17 +78,14 @@
                 .player-show-base-title= t('auction.live.club')
                 .player-show-base-value.player-show-base-club
                   .player-show-club-logo
-                    %object{data: player.club.logo_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                      = image_tag('default_logo.png')
+                    %img{ src: player.club.logo_path, onerror: "this.onerror=null;this.src='#{image_path('default_logo.png')}'" }
                   .player-show-club-name
                     = player.club.name
           .player-show-avatar
             .player-show-face
-              %object{data: player.profile_avatar_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                = image_tag('avatar.png')
+              %img{ src: player.profile_avatar_path, onerror: "this.onerror=null;this.src='#{image_path('avatar.png')}'" }
             .player-show-kit
-              %object{data: player.profile_kit_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                = image_tag('kit_default.png')
+              %img{ src: player.profile_kit_path, onerror: "this.onerror=null;this.src='#{image_path('kit_default.png')}'" }
           .player-show-close
             = link_to live_league_auction_path(league) do
               .auction-close-x &times;
@@ -158,14 +155,11 @@
         .auction-purchases-item-visible
           .purchases-player-avatar
             .player-show-face
-              %object{data: transfer.player.avatar_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                = image_tag('avatar.png')
+              %img{ src: transfer.player.avatar_path, onerror: "this.onerror=null;this.src='#{image_path('avatar.png')}'" }
             .player-show-kit
-              %object{data: transfer.player.kit_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                = image_tag('kit_small_default.png')
+              %img{ src: transfer.player.kit_path, onerror: "this.onerror=null;this.src='#{image_path('kit_small_default.png')}'" }
             .player-show-team
-              %object{data: transfer.team.logo_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                = image_tag('default_logo.png')
+              %img{ src: transfer.team.logo_path, onerror: "this.onerror=null;this.src='#{image_path('default_logo.png')}'" }
           .purchases-player-data
             .purchases-player-data-top
               .purchases-player-name

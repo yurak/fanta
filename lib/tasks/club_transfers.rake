@@ -7,15 +7,17 @@ namespace :club_transfers do
   desc 'Import TM transfer history and build pending club-transfer requests for players in id range'
   task :import_history, %i[from_id to_id] => :environment do |_t, args|
     from_id = args[:from_id]&.to_i
-    to_id   = args[:to_id]&.to_i
+    to_id = args[:to_id]&.to_i
 
     players = Player.where.not(tm_id: nil).order(:id)
     players = players.where(players: { id: from_id.. }) if from_id&.positive?
-    players = players.where(players: { id: ..to_id })   if to_id&.positive?
+    players = players.where(players: { id: ..to_id }) if to_id&.positive?
 
     total_players = 0
     total_imported = 0
     total_requests = 0
+
+    blocked = nil
 
     players.find_each do |player|
       total_players += 1
@@ -24,8 +26,20 @@ namespace :club_transfers do
       request = ClubTransfers::RequestBuilder.call(player)
       total_requests += 1 if request
       puts "#{player.id} / #{player.name}: #{imported} transfers#{' + request' if request}"
+    rescue Players::Transfermarkt::ApiError => e
+      if e.blocked? || e.is_a?(Players::Transfermarkt::ApiUnavailableError)
+        blocked = "player #{player.id} / #{player.tm_id}: #{e.message}"
+        break
+      end
+
+      puts "Error for player #{player.id} / #{player.tm_id}: #{e.message}"
     rescue StandardError => e
       puts "Error for player #{player.id} / #{player.tm_id}: #{e.message}"
+    end
+
+    if blocked
+      puts "\nSTOPPED: Transfermarkt refused the request — #{blocked}"
+      puts 'Nothing more was requested. Wait for the block to lift before re-running.'
     end
 
     puts "Done. Players: #{total_players}, transfers imported: #{total_imported}, requests: #{total_requests}"

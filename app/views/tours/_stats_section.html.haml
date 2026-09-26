@@ -69,8 +69,7 @@
                   = t_match.host_club.code
               .round-tournament-club-logo-wrapper
                 .round-tournament-club-logo
-                  %object{data: t_match.host_club.logo_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                    = image_tag('default_logo.png')
+                  %img{ src: t_match.host_club.logo_path, onerror: "this.onerror=null;this.src='#{image_path('default_logo.png')}'" }
             .round-tournament-match-cell{ class: ('round-tournament-match-cell--live' if t_match.live?) }
               - if t_match.host_score
                 .round-tournament-match-result
@@ -83,27 +82,13 @@
             .round-tournament-match-cell.round-tournament-match-club.round-tournament-match-guest
               .round-tournament-club-logo-wrapper
                 .round-tournament-club-logo
-                  %object{data: t_match.guest_club.logo_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                    = image_tag('default_logo.png')
+                  %img{ src: t_match.guest_club.logo_path, onerror: "this.onerror=null;this.src='#{image_path('default_logo.png')}'" }
               .round-tournament-club-name
                 - if current_user&.can_moderate? && tour.deadlined?
                   = link_to edit_tournament_round_path(tour.tournament_round, club_id: t_match.guest_club.id) do
                     = t_match.guest_club.code
                 - else
                   = t_match.guest_club.code
-    -# - if tour.league.tournament.sofa_number.present?
-    -#   .round-table.tournament-table.hidden-stats
-    -#     .round-table-title-header
-    -#       .round-table-title
-    -#         .round-table-title-text= "📊 #{t('tours.standings')}"
-    -#       .round-table-hide.round-table-visible
-    -#         = image_tag('icons/arrow_up.svg')
-    -#       .round-table-hide.round-table-hidden
-    -#         = image_tag('icons/arrow_down.svg')
-    -#     .round-list.table-iframe-block
-    -#       .table-iframe
-    -#         %iframe{ id: "sofa-standings-embed-#{tour.league.tournament.sofa_number}", src: "https://widgets.sofascore.com/embed/tournament/#{tour.league.tournament.sofa_number.split('-')[0]}/season/#{tour.league.tournament.sofa_number.split('-')[1]}/standings", style: "height:794px!important;width:100%!important;border:none;", frameborder: "0", scrolling: "no", sandbox: "allow-pointer-lock allow-scripts" }
-
   - if tour.fanta?
     .round-table
       .round-table-title-header
@@ -143,6 +128,20 @@
               .results-team-logo= image_tag(image_path(result.team.logo_path))
               .results-team-name= result.team.human_name
             .round-table-item-points= result.points
+
+  - standings = tour.league.tournament.standings.by_season(tour.tournament_round.season_id).ordered.includes(:club)
+  - if standings.any?
+    .round-table.tournament-table.hidden-stats
+      .round-table-title-header
+        .round-table-title
+          .round-table-title-text= "📊 #{t('tours.standings')}"
+        .round-table-hide.round-table-visible
+          = image_tag('icons/arrow_up.svg')
+        .round-table-hide.round-table-hidden
+          = image_tag('icons/arrow_down.svg')
+      .round-list
+        = render 'standings/table', standings: standings, compact: true,
+                                   live_results: live_standing_results(tour.league.tournament, tour.tournament_round.season_id)
 
 :javascript
   function initTournamentPlayers() {
