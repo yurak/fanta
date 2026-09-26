@@ -182,3 +182,14 @@ append it to this list so future sessions don't rediscover it. Keep entries shor
   functional: `TournamentMatches::CalendarImporter#club` resolves a club as
   `find_by(name:) || find_by(full_name:)`, so it is needed only where FotMob spells the club
   differently from our `name` (Leicester -> "Leicester City", Plymouth -> "Plymouth Argyle").
+- `Tournament#skip_round_check` must be ON for any competition whose source numbers rounds per group
+  rather than per calendar window — every national-team tournament, in practice. FotMob reports
+  `general.leagueRoundName` as that group's matchday, so a team playing its first group game in our
+  round 2 comes back as "1", `Scores::Injectors::FotmobMatch#correct_round?` returns false, and the
+  live pass writes nothing. The failure is silent and reads like success: `correct_round?` also feeds
+  `match_live?`, and `players_data_ready?` only accepts ratings while the match counts as live —
+  otherwise it demands `played_minutes`, which FotMob withholds mid-match. So `match_writable?` is
+  false, no score and no status reach the record, and `Tours::LiveInjector` still reports
+  `with_data: 1, failures: 0` because the data did arrive, it just was not written. It is on for the
+  World Cup, Champions League, Europa League and USA; the Nations League ran a whole round without
+  live scores before it was switched on, and Euro, Africa Cup and Club World Cup still lack it.
