@@ -59,6 +59,30 @@ RSpec.describe PlayerBaseSerializer do
       end
     end
 
+    # `appearances` is built from PlayerSeasonStat, which never covers a eurocup or a national-team
+    # round, so counting those here read as "4 of 7" for a player with four league matches.
+    context 'with round players outside the domestic leagues' do
+      subject(:hash) { described_class.new(player, season_id: season.id).serializable_hash }
+
+      let(:eurocup) { create(:tournament, eurocup: true) }
+      let(:national) { create(:tournament, :with_national_teams) }
+
+      before do
+        2.times do
+          create(:round_player, player: player,
+                                tournament_round: create(:tournament_round, tournament: tournament, season: season))
+        end
+        create(:round_player, player: player,
+                              tournament_round: create(:tournament_round, tournament: eurocup, season: season))
+        create(:round_player, player: player,
+                              tournament_round: create(:tournament_round, tournament: national, season: season))
+      end
+
+      it 'counts the domestic rounds only' do
+        expect(hash[:appearances_max]).to eq(2)
+      end
+    end
+
     context 'when a past season is requested' do
       subject(:hash) { described_class.new(player, season_id: past_season.id).serializable_hash }
 
