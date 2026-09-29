@@ -1,0 +1,95 @@
+.wrap {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+
+  @media (max-width: 768px) {
+    top: 12px;
+    right: 12px;
+  }
+}
+
+.heart {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 1px 4px rgba(24, 23, 21, 0.2);
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0;
+  transition: transform 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+
+  &:hover {
+    background: #ffffff;
+    box-shadow: 0 2px 8px rgba(24, 23, 21, 0.3);
+    transform: scale(1.08);
+  }
+
+  &:active {
+    transform: scale(0.96);
+  }
+
+  &:focus-visible {
+    outline: 2px solid #261fff;
+    outline-offset: 2px;
+  }
+
+  &:disabled {
+    cursor: default;
+    transform: none;
+  }
+
+  @media (max-width: 768px) {
+    width: 36px;
+    height: 36px;
+    font-size: 18px;
+  }
+}
+
+// Greyed out, the heart read as a disabled control rather than a button waiting to be pressed,
+// so the empty state stays fully opaque and previews the filled one on hover instead.
+.isEmpty .icon {
+  filter: grayscale(1);
+  opacity: 0.85;
+  transition: filter 0.15s ease, opacity 0.15s ease;
+}
+
+.isEmpty:hover .icon {
+  filter: none;
+  opacity: 1;
+}
+
+.hint {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: #ffffff;
+  box-shadow: 0 2px 8px rgba(24, 23, 21, 0.25);
+  font-size: 13px;
+  line-height: 18px;
+  color: #181715;
+  white-space: nowrap;
+}
+
+.hintLink {
+  color: #261fff;
+  text-decoration: none;
+  font-weight: 600;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}

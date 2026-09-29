@@ -6,14 +6,14 @@ import { usePlayersContext } from "@/application/Players/PlayersContext";
 import PlayersListMobile from "./PlayersListMobile";
 import PlayersListDesktop from "./PlayersListDesktop";
 
-const PlayersList = () => {
+const PlayersList = ({ emptyState }: { emptyState?: React.ReactNode }) => {
   const { t } = useTranslation();
 
   const { openSidebar, clearAllFilter } = usePlayersContext();
 
   const isMobile = useMediaQuery("(max-width: 768px)");
 
-  const emptyStateComponent = (
+  const defaultEmptyState = (
     <EmptyState
       title={t("players.results.playersNotFound")}
       description={t("players.results.playersNotFoundDescription")}
@@ -30,7 +30,7 @@ const PlayersList = () => {
 
   const Component = isMobile ? PlayersListMobile : PlayersListDesktop;
 
-  return <Component emptyStateComponent={emptyStateComponent} />;
+  return <Component emptyStateComponent={emptyState ?? defaultEmptyState} />;
 };
 
 export default PlayersList;

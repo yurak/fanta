@@ -151,6 +151,62 @@ RSpec.describe 'Players' do # rubocop:disable RSpec/MultipleMemoizedHelpers
         end
       end
 
+      response 200, 'Filtered by a wishlist the viewer owns', document: false do
+        let(:owner) { create(:user) }
+        let(:wishlist) { create(:wishlist, user: owner) }
+        let(:filter) { { wishlist_id: wishlist.id } }
+
+        before do # rubocop:disable RSpec/ScatteredSetup
+          create(:wishlist_player, wishlist: wishlist, player: player_one)
+          sign_in owner
+        end
+
+        run_test! do |response|
+          body = JSON.parse(response.body)
+
+          expect(body['data'].size).to eq 1
+          expect(body['data'].first['id']).to eq player_one.id
+        end
+      end
+
+      # The players index is open to anyone, so a private list must not be readable by
+      # guessing its id and handing it to this endpoint.
+      response 403, 'Filtered by a private wishlist of someone else', document: false do
+        let(:wishlist) { create(:wishlist) }
+        let(:filter) { { wishlist_id: wishlist.id } }
+
+        before do # rubocop:disable RSpec/ScatteredSetup
+          create(:wishlist_player, wishlist: wishlist, player: player_one)
+          sign_in create(:user)
+        end
+
+        run_test! do |response|
+          body = JSON.parse(response.body)
+
+          expect(body['errors'].first['key']).to eq('wishlist_private')
+        end
+      end
+
+      response 403, 'Filtered by a private wishlist by a guest', document: false do
+        let(:wishlist) { create(:wishlist) }
+        let(:filter) { { wishlist_id: wishlist.id } }
+
+        run_test!
+      end
+
+      response 200, 'Filtered by a shared wishlist by a guest', document: false do
+        let(:wishlist) { create(:wishlist, :shared) }
+        let(:filter) { { wishlist_id: wishlist.id } }
+
+        before { create(:wishlist_player, wishlist: wishlist, player: player_one) } # rubocop:disable RSpec/ScatteredSetup
+
+        run_test! do |response|
+          body = JSON.parse(response.body)
+
+          expect(body['data'].size).to eq 1
+        end
+      end
+
       response 200, 'Filtered by tournament_id', document: false do
         let(:filter) { { tournament_id: [league.tournament.id] } }
 

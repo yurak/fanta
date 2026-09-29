@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_09_17_120100) do
+ActiveRecord::Schema[8.0].define(version: 2026_09_29_120100) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -767,6 +767,29 @@ ActiveRecord::Schema[8.0].define(version: 2026_09_17_120100) do
     t.index ["tournament_id"], name: "index_weekly_teams_on_tournament_id"
   end
 
+  create_table "wishlist_players", force: :cascade do |t|
+    t.bigint "wishlist_id", null: false
+    t.bigint "player_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["player_id"], name: "index_wishlist_players_on_player_id"
+    t.index ["wishlist_id", "player_id"], name: "index_wishlist_players_on_wishlist_id_and_player_id", unique: true
+    t.index ["wishlist_id"], name: "index_wishlist_players_on_wishlist_id"
+  end
+
+  create_table "wishlists", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "tournament_id", null: false
+    t.bigint "season_id", null: false
+    t.boolean "shared", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["season_id"], name: "index_wishlists_on_season_id"
+    t.index ["tournament_id"], name: "index_wishlists_on_tournament_id"
+    t.index ["user_id", "tournament_id", "season_id"], name: "index_wishlists_on_user_id_and_tournament_id_and_season_id", unique: true
+    t.index ["user_id"], name: "index_wishlists_on_user_id"
+  end
+
   add_foreign_key "auction_bids", "auction_rounds"
   add_foreign_key "auction_bids", "teams"
   add_foreign_key "auction_rounds", "auctions"
@@ -823,4 +846,9 @@ ActiveRecord::Schema[8.0].define(version: 2026_09_17_120100) do
   add_foreign_key "weekly_teams", "seasons"
   add_foreign_key "weekly_teams", "team_modules"
   add_foreign_key "weekly_teams", "tournaments"
+  add_foreign_key "wishlist_players", "players"
+  add_foreign_key "wishlist_players", "wishlists"
+  add_foreign_key "wishlists", "seasons"
+  add_foreign_key "wishlists", "tournaments"
+  add_foreign_key "wishlists", "users"
 end

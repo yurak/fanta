@@ -16,6 +16,15 @@ class PlayerSerializer < PlayerBaseSerializer
   attributes :team_ids
   attributes :tm_price
   attributes :tm_url
+  attributes :wishlist_id
+
+  attribute :wishlistable do
+    wishlistable?
+  end
+
+  attribute :wishlisted do
+    wishlist_id.present?
+  end
 
   attribute :teams do
     object.teams.map { |team| serialize_team(team) }
@@ -37,7 +46,29 @@ class PlayerSerializer < PlayerBaseSerializer
     object.season_average_result_score(object.season_club_matches_w_scores)
   end
 
+  def wishlist_id
+    return @wishlist_id if defined?(@wishlist_id)
+
+    @wishlist_id = wishlistable? ? stored_wishlist_id : nil
+  end
+
   private
+
+  def wishlistable?
+    viewer.present? && Wishlists::PlayerUpdater.allowed?(object)
+  end
+
+  def viewer
+    instance_options[:current_user]
+  end
+
+  def stored_wishlist_id
+    WishlistPlayer.joins(:wishlist)
+                  .where(player_id: object.id,
+                         wishlists: { user_id: viewer.id, season_id: Season.last&.id,
+                                      tournament_id: object.club.tournament_id })
+                  .pick('wishlists.id')
+  end
 
   def serialize_team(team)
     transfer = object.transfer_by(team)

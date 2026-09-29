@@ -3,7 +3,7 @@ module Players
     attr_reader :club_id, :direction, :field, :league_id, :max_app, :max_base_score,
                 :max_minutes, :max_price, :max_total_score, :max_teams_count, :min_app, :min_base_score,
                 :min_minutes, :min_price, :min_total_score, :min_teams_count, :name, :position,
-                :team_id, :tournament_id, :without_team
+                :team_id, :tournament_id, :wishlist_id, :without_team
 
     ASC_DIRECTION = 'asc'.freeze
     DESC_DIRECTION = 'desc'.freeze
@@ -51,11 +51,12 @@ module Players
       @team_id = params[:team_id]
       @tournament_id = params[:tournament_id]
       @season_id = params[:season_id].presence&.to_i
+      @wishlist_id = params[:wishlist_id]
       @without_team = ActiveModel::Type::Boolean.new.cast(params[:without_team])
     end
 
     def call
-      players = Player.by_tournament(tournament).by_club(club_ids)
+      players = Player.by_tournament(tournament).by_club(club_ids).by_wishlist(wishlist_id)
       players = filter_by_position(players)
       players = join_season_stats(players)
       players = filter_by_name(players)

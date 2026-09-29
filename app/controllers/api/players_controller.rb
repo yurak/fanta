@@ -7,6 +7,8 @@ module Api
     helper_method :player
 
     def index
+      return wishlist_forbidden if wishlist_id.present? && !readable_wishlist?
+
       result = Players::Query.call(query_params)
       players = paginate(result)
       preload_associations(players.to_a)
@@ -19,7 +21,7 @@ module Api
     def show
       if player
         preload_show_associations
-        render json: { data: PlayerSerializer.new(player) }
+        render json: { data: PlayerSerializer.new(player, current_user: current_user) }
       else
         not_found
       end
@@ -99,9 +101,22 @@ module Api
       filter_params.merge(order_params)
     end
 
+    def wishlist_id
+      filter_params[:wishlist_id]
+    end
+
+    def readable_wishlist?
+      Wishlist.find_by(id: wishlist_id)&.readable_by?(current_user)
+    end
+
+    def wishlist_forbidden
+      render json: { errors: [{ key: Api::WishlistsController::PRIVATE_KEY,
+                                message: Api::WishlistsController::PRIVATE_MSG }] }, status: :forbidden
+    end
+
     def filter_params
       params.fetch(:filter, {})
-            .permit(:league_id, :name, :without_team, :season_id,
+            .permit(:league_id, :name, :without_team, :season_id, :wishlist_id,
                     app: {}, base_score: {}, minutes: {}, price: {}, teams_count: {}, total_score: {},
                     club_id: [], position: [], team_id: [], tournament_id: [])
     end

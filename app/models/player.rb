@@ -14,6 +14,7 @@ class Player < ApplicationRecord
   has_many :round_players, dependent: :destroy
   has_many :transfers, dependent: :destroy
   has_many :club_transfers, dependent: :destroy
+  has_many :wishlist_players, dependent: :destroy
 
   include SeasonStats
 
@@ -57,6 +58,9 @@ class Player < ApplicationRecord
   }.freeze
 
   scope :by_club, ->(club_id) { where(club_id: club_id) if club_id.present? }
+  scope :by_wishlist, lambda { |id|
+    where(id: WishlistPlayer.where(wishlist_id: id).select(:player_id)) if id.present?
+  }
   scope :search_by_name, lambda { |search_str|
     where('lower(players.name) LIKE :search OR lower(players.first_name) LIKE :search', search: "%#{search_str.downcase}%")
   }

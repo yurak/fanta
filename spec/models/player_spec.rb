@@ -16,6 +16,7 @@ RSpec.describe Player do
     it { is_expected.to have_many(:player_season_stats).dependent(:destroy) }
     it { is_expected.to have_many(:round_players).dependent(:destroy) }
     it { is_expected.to have_many(:transfers).dependent(:destroy) }
+    it { is_expected.to have_many(:wishlist_players).dependent(:destroy) }
   end
 
   describe 'Validations' do

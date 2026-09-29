@@ -150,6 +150,8 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :wishlists, only: %i[index show]
+
   resources :tournaments, only: [:show] do
     resources :clubs, only: [:show]
     resources :divisions, only: [:index]
@@ -210,6 +212,8 @@ Rails.application.routes.draw do
     resources :tournaments, only: [:index] do
       resources :divisions, only: [:index]
     end
+    resources :wishlists, only: %i[index show update]
+    resources :wishlist_players, only: %i[create destroy]
     resources :tournament_rounds, only: [] do
       resources :round_players, only: [:index] do
         get :meta, on: :collection

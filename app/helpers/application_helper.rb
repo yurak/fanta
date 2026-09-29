@@ -7,6 +7,12 @@ module ApplicationHelper
     controller_path.start_with?('manage/')
   end
 
+  def any_wishlist?
+    return false unless user_signed_in?
+
+    current_user.wishlists.by_season(Season.last&.id).exists?
+  end
+
   def active_tournaments
     Tournament.with_clubs.order(:id) + Tournament.with_ec_clubs
   end
