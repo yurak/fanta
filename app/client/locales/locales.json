@@ -724,7 +724,7 @@
       "teams": "Teams",
       "terms": "Terms",
       "tips": "🤔 For beginners",
-      "wishlist": "Wishlist"
+      "wishlist": "Wishlists"
     },
     "helpers": {
       "page_entries_info": {
@@ -2798,7 +2798,6 @@
       "add": "Add to the wishlist",
       "added": "Added to the wishlist",
       "by": "by %{name}",
-      "counter": "{{current}} of {{max}}",
       "empty_text": "Open a player page and tap ❤️ to add him.",
       "empty_title": "Nothing here yet",
       "full": "A wishlist holds at most %{count} players",
@@ -2806,8 +2805,10 @@
       "list_empty_text": "Open a player page and tap ❤️ to put him here.",
       "list_empty_title": "Your {{tournament}} wishlist is empty",
       "open": "Open the list",
+      "private": "Private",
       "private_text": "Its owner has not opened it to everyone.",
       "private_title": "This wishlist is private",
+      "public": "Shared",
       "remove": "Remove from the wishlist",
       "shared": "Open to everyone",
       "shared_hint": "Anyone with the link can see this list",
@@ -3158,7 +3159,7 @@
       "teams": "Команди",
       "terms": "Умови участі",
       "tips": "🤔 Поради новачкам",
-      "wishlist": "Список"
+      "wishlist": "Списки"
     },
     "join": {
       "already_applied": "Ви вже подали заявку на цей турнір у цьому сезоні",
@@ -5108,7 +5109,6 @@
       "add": "Додати у список бажань",
       "added": "Додано у список бажань",
       "by": "від %{name}",
-      "counter": "{{current}} з {{max}}",
       "empty_text": "Відкрийте сторінку гравця й натисніть ❤️, щоб додати його.",
       "empty_title": "Тут поки порожньо",
       "full": "У списку бажань може бути щонайбільше %{count} гравців",
@@ -5116,8 +5116,10 @@
       "list_empty_text": "Відкрийте сторінку гравця й натисніть ❤️, щоб додати його сюди.",
       "list_empty_title": "Список для {{tournament}} порожній",
       "open": "Переглянути список",
+      "private": "Приватний",
       "private_text": "Власник не відкрив його для всіх.",
       "private_title": "Цей список приватний",
+      "public": "Відкритий",
       "remove": "Прибрати зі списку бажань",
       "shared": "Відкрити всім",
       "shared_hint": "Будь-хто з посиланням побачить цей список",

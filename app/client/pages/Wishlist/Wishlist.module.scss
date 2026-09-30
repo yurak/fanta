@@ -1,0 +1,17 @@
+.links {
+  display: flex;
+  align-items: center;
+  margin: 8px 0;
+}
+
+// Goes to the list of wishlists rather than back in history: a shared link may be the first page
+// a visitor opens, and then there is nothing behind it to go back to.
+.backButton {
+  width: fit-content;
+  cursor: pointer;
+
+  svg {
+    width: 24px;
+    height: 24px;
+  }
+}

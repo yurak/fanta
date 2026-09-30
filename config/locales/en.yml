@@ -250,7 +250,7 @@ en:
     players: "Players"
     prices: "Subscription"
     rankings: "Rankings"
-    wishlist: "Wishlist"
+    wishlist: "Wishlists"
     round: "Round"
     rules: "Rules"
     rules_faq: "📚 FAQ"
@@ -1381,6 +1381,8 @@ en:
     open: "Open the list"
     remove: "Remove from the wishlist"
     shared: "Open to everyone"
+    private: "Private"
+    public: "Shared"
     shared_hint: "Anyone with the link can see this list"
     private_title: "This wishlist is private"
     private_text: "Its owner has not opened it to everyone."
@@ -1390,7 +1392,6 @@ en:
     list_empty_text: "Open a player page and tap ❤️ to put him here."
     list_empty_other: "This wishlist has nobody on it yet."
     full: "A wishlist holds at most %{count} players"
-    counter: "{{current}} of {{max}}"
     by: "by %{name}"
   users:
     edit:

@@ -55,7 +55,7 @@ const WishlistPlayers = ({ wishlist, title }: { wishlist: IWishlist, title: Reac
         actions={
           <div className={styles.actions}>
             <span className={styles.counter}>
-              {t("wishlist.counter", { current: wishlist.players_count, max: wishlist.max_players })}
+              {wishlist.players_count}/{wishlist.max_players}
             </span>
             {wishlist.editable && <ShareSwitcher wishlist={wishlist} />}
           </div>
