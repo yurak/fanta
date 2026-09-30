@@ -47,8 +47,16 @@ class Team < ApplicationRecord
     @league_matches ||= matches.by_league(league&.id)
   end
 
-  def league_transfers
-    @league_transfers ||= transfers.by_league(league&.id)
+  def transfers_by_auction(league_id = league&.id)
+    transfers.by_league(league_id).newest_first
+             .includes(:auction, player: [:positions, { club: :tournament }])
+             .group_by(&:auction)
+  end
+
+  def transfer_leagues
+    @transfer_leagues ||= League.includes(:season)
+                                .where(id: transfers.select(:league_id))
+                                .sort_by { |l| -(l.season&.start_year || 0) }
   end
 
   def tm_price

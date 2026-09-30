@@ -1814,6 +1814,7 @@
       "age": "AGE",
       "appearances": "APPS",
       "apps": "apps",
+      "auction_number": "Auction #%{number}",
       "budget": "Budget",
       "club": "CLUB",
       "confirm_transfers": "Confirm transfer statuses",
@@ -1898,6 +1899,7 @@
       "rating": "RATING",
       "round": "ROUND",
       "score": "SCORE",
+      "season": "Season",
       "sell": "Sell",
       "status": "STATUS",
       "team": "TEAM",
@@ -1907,7 +1909,8 @@
       "transfers": "💰️ Transfers",
       "transfers_limit": "You can sell no more than %{limit} players",
       "unknown": "Unknown",
-      "wins": "🏆️ Wins"
+      "wins": "🏆️ Wins",
+      "without_auction": "Outside the auctions"
     },
     "telegram": {
       "notifier": {
@@ -3057,6 +3060,26 @@
     "common": {
       "loading": "Завантаження…"
     },
+    "date": {
+      "abbr_month_names": [
+        null,
+        "січ",
+        "лют",
+        "бер",
+        "квіт",
+        "трав",
+        "черв",
+        "лип",
+        "серп",
+        "вер",
+        "жовт",
+        "лист",
+        "груд"
+      ],
+      "formats": {
+        "short": "%-d %b"
+      }
+    },
     "divisions": {
       "title": "Дивізіони"
     },
@@ -4120,6 +4143,7 @@
       "age": "ВІК",
       "appearances": "ПОЯВИ",
       "apps": "появи",
+      "auction_number": "Аукціон №%{number}",
       "budget": "Бюджет",
       "club": "КЛУБ",
       "confirm_transfers": "Підтвердити трансферні статуси",
@@ -4204,6 +4228,7 @@
       "rating": "РЕЙТИНГ",
       "round": "РАУНД",
       "score": "РЕЗУЛЬТАТ",
+      "season": "Сезон",
       "sell": "Продати",
       "status": "СТАТУС",
       "team": "КОМАНДА",
@@ -4213,7 +4238,8 @@
       "transfers": "💰️ Трансфери",
       "transfers_limit": "Ви можете продати не більше %{limit} гравців",
       "unknown": "Невідомо",
-      "wins": "🏆️Перемоги"
+      "wins": "🏆️Перемоги",
+      "without_auction": "Поза аукціонами"
     },
     "telegram": {
       "notifier": {

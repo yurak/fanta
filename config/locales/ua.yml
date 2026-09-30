@@ -1,4 +1,21 @@
 ua:
+  date:
+    abbr_month_names:
+      -
+      - січ
+      - лют
+      - бер
+      - квіт
+      - трав
+      - черв
+      - лип
+      - серп
+      - вер
+      - жовт
+      - лист
+      - груд
+    formats:
+      short: "%-d %b"
   errors:
     session_expired: "Сесія завершилась. Спробуйте ще раз."
   auction_sales:
@@ -1234,6 +1251,9 @@ ua:
     by_position: "Позиція"
     by_points: "Очки"
   teams:
+    season: "Сезон"
+    auction_number: "Аукціон №%{number}"
+    without_auction: "Поза аукціонами"
     edit:
       title: "Редагувати дані команди"
       update: "Оновити команду"

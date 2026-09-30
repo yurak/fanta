@@ -81,65 +81,79 @@
         - team.league_matches.each do |match|
           = render 'team_match_item', match: match
       .team-list.team-transfers
-        .default-headers.team-transfers-grid
-          .default-header-cell= t('teams.player')
-          .default-header-cell= t('teams.positions')
-          .default-header-cell= t('teams.status')
-          .default-header-cell= t('teams.price')
-          .default-header-cell= t('teams.club')
-        - team.league_transfers.reverse.each do |transfer|
-          = link_to player_path(transfer.player) do
-            .team-player-item.team-transfers-grid
-              .team-player-data
-                .team-player-avatar
-                  .player-show-face
-                    %img{ src: transfer.player.avatar_path, onerror: "this.onerror=null;this.src='#{image_path('avatar.png')}'" }
-                  .player-show-kit
-                    %img{ src: transfer.player.kit_path, onerror: "this.onerror=null;this.src='#{image_path('kit_small_default.png')}'" }
-                .team-player-name
-                  .team-player-last-name
-                    = transfer.player.name
-                  .team-player-first-name
-                    = transfer.player.first_name
-              .team-player-data-mob
-                .team-player-name-mob
-                  = "#{transfer.player.name} #{transfer.player.first_name}"
-                .team-player-subdata-mob
-                  .team-player-position-mob
-                    .player-positions-block
-                      - transfer.player.positions.each do |position|
-                        .player-position{class: "player-position-#{position.name}"}
-                          = position_name(position)
-                  .team-player-line-mob
+        - if team.transfer_leagues.many?
+          .team-transfers-seasons
+            = form_with url: team_path(team, anchor: 'transfers'), method: :get, local: true, class: 'team-transfers-season-form' do
+              = label_tag :transfers_league, t('teams.season'), class: 'team-transfers-season-label'
+              = select_tag :transfers_league,
+                options_for_select(team.transfer_leagues.map { |l| [season_label(l.season), l.id] }, transfers_league&.id),
+                onchange: 'this.form.requestSubmit()', class: 'team-transfers-season-select'
+        - team.transfers_by_auction(transfers_league&.id).each do |auction, transfers|
+          .team-transfers-auction
+            .team-transfers-auction-label
+              = auction ? t('teams.auction_number', number: auction.number) : t('teams.without_auction')
+            - if (date = transfers.first&.created_at)
+              .team-transfers-auction-date= l(date.to_date, format: :short)
+          - transfers.each do |transfer|
+            = link_to player_path(transfer.player) do
+              .team-player-item.team-transfers-grid
+                .team-player-data
+                  .team-player-avatar
+                    .player-show-face
+                      %img{ src: transfer.player.avatar_path, onerror: "this.onerror=null;this.src='#{image_path('avatar.png')}'" }
+                    .player-show-kit
+                      %img{ src: transfer.player.kit_path, onerror: "this.onerror=null;this.src='#{image_path('kit_small_default.png')}'" }
+                  .team-player-name
+                    .team-player-last-name
+                      = transfer.player.name
+                    .team-player-first-name
+                      = transfer.player.first_name
+                .team-player-data-mob
+                  .team-player-name-mob
+                    = "#{transfer.player.name} #{transfer.player.first_name}"
+                  .team-player-subdata-mob
+                    .team-player-position-mob
+                      .player-positions-block
+                        - transfer.player.positions.each do |position|
+                          .player-position{class: "player-position-#{position.name}"}
+                            = position_name(position)
+                    .team-player-line-mob
+                    %img{ src: transfer.player.club.logo_path, onerror: "this.onerror=null;this.src='#{image_path('default_logo.png')}'" }
+                .team-player-position
+                  .player-positions-block
+                    - transfer.player.positions.each do |position|
+                      .player-position{class: "player-position-#{position.name}"}
+                        = position_name(position)
+                .team-player-transfer-status{ class: "transfer-status-#{transfer.status}" }
+                  = t("teams.#{transfer.status}")
+                .team-player-stats-number.team-player-rating
+                  = transfer.price
+                .team-player-transfer-status-mob
+                  = t("teams.#{transfer.status}")[0]
+                .team-player-club
                   %img{ src: transfer.player.club.logo_path, onerror: "this.onerror=null;this.src='#{image_path('default_logo.png')}'" }
-              .team-player-position
-                .player-positions-block
-                  - transfer.player.positions.each do |position|
-                    .player-position{class: "player-position-#{position.name}"}
-                      = position_name(position)
-              .team-player-transfer-status{ class: "transfer-status-#{transfer.status}" }
-                = t("teams.#{transfer.status}")
-              .team-player-stats-number.team-player-rating
-                = transfer.price
-              .team-player-transfer-status-mob
-                = t("teams.#{transfer.status}")[0]
-              .team-player-club
-                %img{ src: transfer.player.club.logo_path, onerror: "this.onerror=null;this.src='#{image_path('default_logo.png')}'" }
-                .team-player-param-item.team-player-link
-                  = image_tag('icons/arrow_right.svg')
+                  .team-player-param-item.team-player-link
+                    = image_tag('icons/arrow_right.svg')
 
 :javascript
   $(document).ready(function() {
-    $(".team-list").hide();
-    $(".team-players").show();
-
-    $(".team-lists-tab-item").click(function(){
-      var listId = this.id;
-
+    function openTab(listId) {
       $(".team-lists-tab-item").removeClass("team-lists-tab-active");
       $(".team-list").hide();
 
       $("#" + listId).addClass("team-lists-tab-active");
       $(".team-" + listId).show();
+    }
+
+    // The season picker reloads the page, so the tab has to come back with it — otherwise the
+    // choice lands on the Players tab and the transfers the user was reading are out of sight.
+    var known = ["overview", "players", "games", "transfers"];
+    var fromHash = window.location.hash.replace("#", "");
+
+    openTab(known.indexOf(fromHash) >= 0 ? fromHash : "players");
+
+    $(".team-lists-tab-item").click(function(){
+      openTab(this.id);
+      history.replaceState(null, "", "#" + this.id);
     });
   });

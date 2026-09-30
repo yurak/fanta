@@ -1228,6 +1228,9 @@ en:
     by_position: "Position"
     by_points: "Points"
   teams:
+    season: "Season"
+    auction_number: "Auction #%{number}"
+    without_auction: "Outside the auctions"
     edit:
       title: "Edit team data"
       update: "Update team"

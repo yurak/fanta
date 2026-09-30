@@ -35,6 +35,53 @@ RSpec.describe 'Teams' do
       it { expect(response).to be_successful }
       it { expect(response).to render_template(:show) }
     end
+
+    context 'with a season picked for the transfers tab' do
+      login_user
+
+      let(:other_league) { create(:league) }
+
+      before do
+        create(:transfer, team: team, league: team.league)
+        create(:transfer, team: team, league: other_league)
+      end
+
+      it 'renders the picked season' do
+        get team_path(team, transfers_league: other_league.id)
+
+        expect(response).to be_successful
+      end
+
+      it 'breaks the list into auctions' do
+        auction = create(:auction, league: team.league, number: 3)
+        create(:transfer, team: team, league: team.league, auction: auction)
+
+        get team_path(team)
+
+        expect(response.body).to include(I18n.t('teams.auction_number', number: 3))
+      end
+
+      it 'offers the seasons the team played in' do
+        get team_path(team)
+
+        expect(response.body).to include('team-transfers-season-select')
+      end
+
+      # A hand-typed id must not open a league this team never played in.
+      it 'falls back to the current league for a league of another team' do
+        stranger = create(:league)
+
+        get team_path(team, transfers_league: stranger.id)
+
+        expect(response).to be_successful
+      end
+
+      it 'survives a nonsense value' do
+        get team_path(team, transfers_league: 'nope')
+
+        expect(response).to be_successful
+      end
+    end
   end
 
   describe 'POST #create' do

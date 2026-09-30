@@ -24,4 +24,16 @@ RSpec.describe TeamsHelper do
       end
     end
   end
+
+  describe '#season_label' do
+    it 'spells the years out, as the season tables elsewhere do' do
+      season = build(:season, start_year: 2026, end_year: 2027)
+
+      expect(helper.season_label(season)).to eq('2026-2027')
+    end
+
+    it 'says nothing for a missing season' do
+      expect(helper.season_label(nil)).to eq('')
+    end
+  end
 end
