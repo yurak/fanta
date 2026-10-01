@@ -48,7 +48,7 @@ const Wishlist = () => {
       <div className={styles.links}>
         <div
           className={styles.backButton}
-          title={t("wishlist.title")}
+          title={t("wishlist.index_title")}
           onClick={() => navigate("/wishlists")}
         >
           <ArrowLeft />

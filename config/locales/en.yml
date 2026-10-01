@@ -1376,6 +1376,7 @@ en:
     title: "Unsubscribe from emails"
   wishlist:
     title: "Wishlist"
+    index_title: "Wishlists"
     add: "Add to the wishlist"
     added: "Added to the wishlist"
     open: "Open the list"

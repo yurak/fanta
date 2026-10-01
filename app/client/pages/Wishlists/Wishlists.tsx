@@ -58,7 +58,7 @@ const Wishlists = () => {
     return (
       <PageLayout>
         <div className={styles.head}>
-          <div className={styles.pageTitle}>{t("wishlist.title")}</div>
+          <div className={styles.pageTitle}>{t("wishlist.index_title")}</div>
         </div>
         <EmptyState title={t("wishlist.empty_title")} description={t("wishlist.empty_text")} />
       </PageLayout>
@@ -68,7 +68,7 @@ const Wishlists = () => {
   return (
     <PageLayout>
       <div className={styles.head}>
-        <div className={styles.pageTitle}>{t("wishlist.title")}</div>
+        <div className={styles.pageTitle}>{t("wishlist.index_title")}</div>
       </div>
       <div className={styles.block}>
         {wishlists.map((wishlist) => (
