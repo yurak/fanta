@@ -29,7 +29,7 @@ RSpec.describe 'Api::AuctionPurchases' do
         let(:league_id) { league.id }
         let(:auction_id) { auction.id }
 
-        before do # rubocop:disable RSpec/ScatteredSetup
+        before do
           sign_in create(:user)
           create(:team, :with_result, league: league) # a league team that bought nobody
           buy(team_a, 30, :incoming)
@@ -78,7 +78,7 @@ RSpec.describe 'Api::AuctionPurchases' do
         let(:league_id) { league.id }
         let(:auction_id) { create(:auction, league: create(:league)).id }
 
-        before { sign_in create(:user) } # rubocop:disable RSpec/ScatteredSetup
+        before { sign_in create(:user) }
 
         schema '$ref' => '#/components/schemas/error_not_found'
 

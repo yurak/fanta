@@ -59,3 +59,6 @@ FactoryBot/ExcessiveCreateList:
 RSpec/EmptyExampleGroup:
   Exclude:
     - 'spec/requests/api/**/*'
+RSpec/ScatteredSetup:
+  Exclude:
+    - 'spec/requests/api/**/*'

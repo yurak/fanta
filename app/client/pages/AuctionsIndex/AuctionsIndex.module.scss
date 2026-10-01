@@ -33,6 +33,20 @@
 
   a {
     text-decoration: none;
+
+    &:focus-visible {
+      outline: none;
+
+      .item {
+        outline: 2px solid #261fff;
+        outline-offset: 2px;
+      }
+    }
+
+
+    &:focus:not(:focus-visible) {
+      outline: none;
+    }
   }
 }
 
@@ -50,27 +64,6 @@
 .collapsibleOpen {
   grid-template-rows: 1fr;
   opacity: 1;
-}
-
-// The browser paints its own focus ring around these card links, and on a light card it reads as
-// a stray black box. The ring itself has to stay — it is how keyboard users see where they are —
-// so it is replaced by our own, drawn around the card rather than the bare link.
-.block a {
-  &:focus-visible {
-    outline: none;
-
-    .item {
-      outline: 2px solid #261fff;
-      outline-offset: 2px;
-    }
-  }
-
-  // A plain mouse click leaves the ring drawn but not repainted, so it lingers as a black box on
-  // the card the user last opened. Nothing is lost by dropping it: the keyboard ring above is the
-  // one that has to be visible.
-  &:focus:not(:focus-visible) {
-    outline: none;
-  }
 }
 
 .row {

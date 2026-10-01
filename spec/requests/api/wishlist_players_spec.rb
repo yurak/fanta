@@ -1,8 +1,5 @@
 require 'swagger_helper'
 
-# rswag builds every `response` block as its own example group, but the cop reads them as one
-# and calls their separate setups scattered.
-# rubocop:disable RSpec/ScatteredSetup
 RSpec.describe 'Api::WishlistPlayers' do
   path '/api/wishlist_players' do
     post('put a player on the wishlist of his own competition') do
@@ -155,4 +152,3 @@ RSpec.describe 'Api::WishlistPlayers' do
     end
   end
 end
-# rubocop:enable RSpec/ScatteredSetup
