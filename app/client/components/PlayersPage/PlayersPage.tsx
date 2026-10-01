@@ -49,7 +49,11 @@ const PlayersPage = ({ title, subtitle, actions, emptyState }: IProps) => {
               [styles.titleHiddenMobile]: !isLeagueSpecificPlayersPage && !isWishlistPage,
             })}
           >
-            <Heading title={title} noSpace />
+            {/* A wishlist keeps its subtitle on mobile — the app header carries only the bare
+                name, not the competition and season the list belongs to. */}
+            <div className={cn({ [styles.titleHiddenMobile]: isWishlistPage })}>
+              <Heading title={title} noSpace />
+            </div>
             {subtitle && <div className={styles.subtitle}>{subtitle}</div>}
           </div>
           {!isLeagueSpecificPlayersPage && !isWishlistPage && (

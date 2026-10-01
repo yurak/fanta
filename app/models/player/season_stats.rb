@@ -22,7 +22,8 @@ class Player
     end
 
     def season_club_matches_w_scores
-      @season_club_matches_w_scores ||= round_players.with_score.by_tournament_round(season_tournament_rounds)
+      @season_club_matches_w_scores ||=
+        round_players.with_score.includes(:tournament_round).by_tournament_round(season_tournament_rounds)
     end
 
     def season_club_in_squad
@@ -31,7 +32,8 @@ class Player
 
     def season_ec_matches_with_scores
       @season_ec_matches_with_scores ||=
-        round_players.with_score.by_tournament_round(season_club_eurocup_rounds).order(:tournament_round_id)
+        round_players.with_score.includes(:tournament_round)
+                     .by_tournament_round(season_club_eurocup_rounds).order(:tournament_round_id)
     end
 
     def season_ec_in_squad
@@ -40,11 +42,14 @@ class Player
 
     def season_all_matches_with_scores
       @season_all_matches_with_scores ||=
-        round_players.with_score.by_tournament_round(season_all_tournam_rounds).order(:tournament_round_id)
+        round_players.with_score.includes(:tournament_round)
+                     .by_tournament_round(season_all_tournam_rounds).order(:tournament_round_id)
     end
 
     def national_matches_with_scores
-      @national_matches_with_scores ||= round_players.with_score.by_tournament_round(national_team_rounds).order(:tournament_round_id)
+      @national_matches_with_scores ||=
+        round_players.with_score.includes(:tournament_round)
+                     .by_tournament_round(national_team_rounds).order(:tournament_round_id)
     end
 
     def national_in_squad
