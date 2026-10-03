@@ -20,11 +20,14 @@ AllCops:
     - public/**/*
 Layout/LineLength:
   Max: 140
+Layout/ExtraSpacing:
+  AllowForAlignment: false
 Metrics/ClassLength:
   CountAsOne: ['array', 'hash', 'heredoc']
 Metrics/MethodLength:
   CountAsOne: ['array', 'hash', 'heredoc']
 Metrics/BlockLength:
+  CountAsOne: ['array', 'hash', 'heredoc']
   AllowedMethods:
     - describe
     - context
@@ -54,5 +57,8 @@ RSpec/MultipleMemoizedHelpers:
 FactoryBot/ExcessiveCreateList:
   MaxAmount: 25
 RSpec/EmptyExampleGroup:
+  Exclude:
+    - 'spec/requests/api/**/*'
+RSpec/ScatteredSetup:
   Exclude:
     - 'spec/requests/api/**/*'

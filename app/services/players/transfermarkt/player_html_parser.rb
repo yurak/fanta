@@ -2,6 +2,7 @@ module Players
   module Transfermarkt
     class PlayerHtmlParser < ApplicationService
       include RetriableApi
+      include NameNormalizer
 
       USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:146.0) Gecko/20100101 Firefox/146.0'.freeze
       THOUSAND = 1000
@@ -41,7 +42,7 @@ module Players
       end
 
       def normalized_name
-        @normalized_name ||= I18n.transliterate(text_of('.data-header__headline-wrapper').sub(/\A#\d+\s*/, ''))
+        @normalized_name ||= normalize_name(text_of('.data-header__headline-wrapper').sub(/\A#\d+\s*/, ''))
       end
 
       def nationality

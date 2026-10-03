@@ -19,6 +19,36 @@ Data source when TM is down: FotMob transfer pages, e.g.
 <https://www.fotmob.com/en-GB/leagues/87/transfers/laliga> (`87` = LaLiga; swap the id for other
 leagues).
 
+## Alternative — run the import locally, ship the cache
+
+When TM is blocking *the server* but not you (CloudFront answers `HTTP 405` to
+`www.transfermarkt.com` from the EC2 IP, while a home connection goes through), do not go manual:
+run the normal pipeline locally and carry its cache over. Everything stays automatic, and prod makes
+zero requests to TM.
+
+1. `bin/db_pull`, so local ids match production.
+2. Run the import locally. The full range takes hours, so it is worth narrowing it to the players
+   whose TM club actually differs from their Mantra club and feeding that list to a one-off runner
+   script instead of the rake task.
+   Each fetched player leaves `tmp/transfermarkt_cache/player_transfers_<tm_id>.json`.
+3. Copy that directory to `/var/www/fanta/current/tmp/transfermarkt_cache` on the server, **after**
+   any deploy — a deploy creates a new release and `current/tmp` starts out empty.
+4. Run the same import on prod. `TransferHistoryParser` reads the cache and never calls TM.
+   Do a `DRY=1` pass first (wrap each player in a transaction and `raise ActiveRecord::Rollback`)
+   to see the prospective requests against live data before writing.
+5. Delete the cache and the one-off scripts from both machines.
+
+Two things will bite you:
+
+- **Never set `TM_SKIP_CACHE` on the prod side.** It disables the cache read, so every player goes
+  out to the blocked host and the whole point is lost. It belongs only on the local fetch, when you
+  want fresh data rather than a cached copy.
+- **The cache TTL is 7 days** (`TransferHistoryParser::CACHE_TTL`). An older file is ignored as if it
+  were absent, and the parser falls through to the network. Ship it while it is fresh.
+
+Wrap the per-player work in its own transaction, not one transaction around the loop: a single
+failure otherwise aborts the whole run with `PG::InFailedSqlTransaction`.
+
 ## Step 1 — sync the local DB (optional but recommended)
 
 Run `bin/db_pull` first so player/club ids you look up locally match production. Takes ~10 min

@@ -22,7 +22,8 @@ export const filterToRequestFormat = (
   filter: IFilter,
   search: string,
   defaultLeagueId?: number,
-  seasonId?: number
+  seasonId?: number,
+  wishlistId?: number
 ): IPayloadFilter => {
   return {
     name: search.trim().length > 0 ? search.trim() : undefined,
@@ -39,6 +40,7 @@ export const filterToRequestFormat = (
     price: justifyRangeSliderValue(filter.price, defaultFilter.price),
     league_id: defaultLeagueId,
     season_id: seasonId,
+    wishlist_id: wishlistId,
   };
 };
 

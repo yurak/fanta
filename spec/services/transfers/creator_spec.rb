@@ -3,9 +3,9 @@ RSpec.describe Transfers::Creator do
     subject(:creator) { described_class.new(league, params) }
 
     let(:league) { create(:league) }
-    let(:team)   { create(:team, league: league, budget: Team::DEFAULT_BUDGET) }
+    let(:team) { create(:team, league: league, budget: Team::DEFAULT_BUDGET) }
     let(:player) { create(:player) }
-    let(:price)  { 10 }
+    let(:price) { 10 }
     let(:params) { { team_id: team.id, player_id: player.id, price: price } }
 
     context 'when player_id is invalid' do
@@ -95,7 +95,7 @@ RSpec.describe Transfers::Creator do
 
     context 'when player belongs to a team in another league' do
       let(:other_league) { create(:league) }
-      let(:other_team)   { create(:team, league: other_league) }
+      let(:other_team) { create(:team, league: other_league) }
 
       before { create(:player_team, player: player, team: other_team) }
 

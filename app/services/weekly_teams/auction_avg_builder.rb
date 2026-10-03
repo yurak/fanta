@@ -4,7 +4,7 @@ module WeeklyTeams
 
     def initialize(tournament_id, season_id)
       @tournament_id = tournament_id
-      @season_id     = season_id
+      @season_id = season_id
     end
 
     def call
@@ -32,8 +32,8 @@ module WeeklyTeams
     end
 
     def build_entry(hash, transfers)
-      prices  = transfers.map(&:price)
-      best    = transfers.max_by(&:price)
+      prices = transfers.map(&:price)
+      best = transfers.max_by(&:price)
 
       hash[best.player_id] = {
         player: best.player,

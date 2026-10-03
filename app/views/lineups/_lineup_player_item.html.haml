@@ -4,11 +4,9 @@
 .modal-player-item{id: "player#{player.id}", class: "modal-player-item-skipped-#{tour && opponent.nil?}", data: { search: "#{player.first_name} #{player.name}".strip.downcase }}
   .modal-player-images{style: "background-color: ##{ player.club.color };"}
     .player-show-face
-      %object{data: player.avatar_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-        = image_tag('avatar.png')
+      %img{ src: player.avatar_path, onerror: "this.onerror=null;this.src='#{image_path('avatar.png')}'" }
     .player-show-kit
-      %object{data: player.kit_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-        = image_tag('kit_small_default.png')
+      %img{ src: player.kit_path, onerror: "this.onerror=null;this.src='#{image_path('kit_small_default.png')}'" }
   - if form.present?
     .modal-player-form
       - form.each do |cell|
@@ -37,7 +35,6 @@
       .player-match-team
         vs
       .player-match-team
-        %object{data: opponent.logo_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-          = image_tag('default_logo.png')
+        %img{ src: opponent.logo_path, onerror: "this.onerror=null;this.src='#{image_path('default_logo.png')}'" }
     - else
       .without-opponent= '❌'

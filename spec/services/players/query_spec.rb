@@ -461,6 +461,40 @@ RSpec.describe Players::Query do
         end
       end
 
+      context 'with wishlist_id' do
+        let(:wishlist) { create(:wishlist) }
+        let!(:wanted) { create(:player) }
+        let(:params) { { wishlist_id: wishlist.id } }
+
+        before { create(:wishlist_player, wishlist: wishlist, player: wanted) }
+
+        it 'returns only the players on that list' do
+          expect(result).to eq([wanted])
+        end
+
+        it 'returns every player on it, not just the first' do
+          second = create(:player)
+          create(:wishlist_player, wishlist: wishlist, player: second)
+
+          expect(result).to contain_exactly(wanted, second)
+        end
+
+        it 'ignores lists belonging to someone else' do
+          other = create(:wishlist)
+          create(:wishlist_player, wishlist: other, player: create(:player))
+
+          expect(result).to eq([wanted])
+        end
+      end
+
+      context 'without wishlist_id' do
+        let(:params) { { wishlist_id: nil } }
+
+        it 'leaves the players untouched' do
+          expect(result.count).to eq(3)
+        end
+      end
+
       # --- Filter + Order combined ---
 
       context 'with filtering and ordering combined' do

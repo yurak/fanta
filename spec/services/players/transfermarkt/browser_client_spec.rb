@@ -78,7 +78,7 @@ RSpec.describe Players::Transfermarkt::BrowserClient do
 
   def build_chromium_double
     chromium = instance_double(BrowserClientDoubles::ChromiumDouble)
-    pw       = instance_double(BrowserClientDoubles::PlaywrightApiDouble, chromium: chromium)
+    pw = instance_double(BrowserClientDoubles::PlaywrightApiDouble, chromium: chromium)
 
     allow(Playwright).to receive(:create).and_yield(pw)
     chromium
@@ -87,7 +87,7 @@ RSpec.describe Players::Transfermarkt::BrowserClient do
   def build_browser_stack(chromium)
     browser = instance_double(BrowserClientDoubles::BrowserDouble)
     context = instance_double(BrowserClientDoubles::BrowserContextDouble)
-    page    = instance_double(BrowserClientDoubles::PlaywrightPageDouble)
+    page = instance_double(BrowserClientDoubles::PlaywrightPageDouble)
 
     allow(chromium).to receive(:launch).and_return(browser)
     allow(browser).to receive(:new_context).and_return(context)
@@ -125,9 +125,9 @@ RSpec.describe Players::Transfermarkt::BrowserClient do
   end
 
   describe '#fetch_html (cache)' do
-    let(:url)        { 'https://example.com/player' }
+    let(:url) { 'https://example.com/player' }
     let(:storage_fn) { tmp_dir.join('tm_storage_state.json').to_s }
-    let(:cache_key)  { 'spec_player_cache' }
+    let(:cache_key) { 'spec_player_cache' }
     let(:cache_path) { Rails.root.join('tmp', 'transfermarkt_cache', "#{cache_key}.html") }
 
     before do
@@ -178,7 +178,7 @@ RSpec.describe Players::Transfermarkt::BrowserClient do
 
     context 'when force: true is passed with fresh cache' do
       let(:cached_html) { '<html><div class="data-header">cached</div></html>' }
-      let(:fresh_html)  { '<html><div class="data-header">fresh</div></html>' }
+      let(:fresh_html) { '<html><div class="data-header">fresh</div></html>' }
 
       before do
         FileUtils.mkdir_p(cache_path.dirname)
@@ -238,7 +238,7 @@ RSpec.describe Players::Transfermarkt::BrowserClient do
 
     context 'when cached html contains Human Verification' do
       let(:cached_html) { '<html>Human Verification</html>' }
-      let(:html_after)  { '<html><div class="data-header">OK</div></html>' }
+      let(:html_after) { '<html><div class="data-header">OK</div></html>' }
 
       before do
         FileUtils.mkdir_p(cache_path.dirname)
@@ -300,7 +300,7 @@ RSpec.describe Players::Transfermarkt::BrowserClient do
 
   describe '#dump_debug' do
     let(:page) { instance_double(BrowserClientDoubles::PlaywrightPageDouble, content: '<html>debug</html>') }
-    let(:key)  { 'spec_key' }
+    let(:key) { 'spec_key' }
     let(:base) { Rails.root.join('tmp', "tm_debug_#{key}") }
 
     before do
@@ -409,9 +409,9 @@ RSpec.describe Players::Transfermarkt::BrowserClient do
     end
 
     context 'when consent dialog exists on main page' do
-      let(:empty_locator)  { instance_double(BrowserClientDoubles::LocatorDouble, count: 0) }
+      let(:empty_locator) { instance_double(BrowserClientDoubles::LocatorDouble, count: 0) }
       let(:accept_locator) { instance_double(BrowserClientDoubles::LocatorDouble) }
-      let(:first_node)     { instance_double(BrowserClientDoubles::NodeDouble) }
+      let(:first_node) { instance_double(BrowserClientDoubles::NodeDouble) }
 
       before do
         allow(page).to receive_messages(content: '<html>privacy-mgmt.com script here</html>', frames: [])
@@ -429,10 +429,10 @@ RSpec.describe Players::Transfermarkt::BrowserClient do
     end
 
     context 'when consent dialog exists inside iframe' do
-      let(:frame)          { instance_double(BrowserClientDoubles::PlaywrightFrameDouble) }
-      let(:empty_locator)  { instance_double(BrowserClientDoubles::LocatorDouble, count: 0) }
+      let(:frame) { instance_double(BrowserClientDoubles::PlaywrightFrameDouble) }
+      let(:empty_locator) { instance_double(BrowserClientDoubles::LocatorDouble, count: 0) }
       let(:accept_locator) { instance_double(BrowserClientDoubles::LocatorDouble) }
-      let(:first_node)     { instance_double(BrowserClientDoubles::NodeDouble) }
+      let(:first_node) { instance_double(BrowserClientDoubles::NodeDouble) }
 
       before do
         allow(page).to receive_messages(content: '<html>iframe privacy-mgmt.com</html>', frames: [frame])

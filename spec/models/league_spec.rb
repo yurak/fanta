@@ -98,10 +98,88 @@ RSpec.describe League do
         expect(league.active_tour).to eq(tours.first)
       end
 
-      it 'returns first locked tour' do
-        tours = create_list(:locked_tour, 2, league: league)
+      # Once a league is over the round worth showing is the last one played, so closed tours are
+      # ranked lowest but ordered backwards among themselves.
+      it 'returns the last closed tour when nothing is open' do
+        tours = create_list(:closed_tour, 5, league: league)
 
-        expect(league.active_tour).to eq(tours.first)
+        expect(league.active_tour).to eq(tours.last)
+      end
+
+      # A league can have several tours open at once, and the flag in the left nav must land on the
+      # one the manager can act on first. Rank alone leaves same-status tours tied, and a tie without
+      # an ORDER BY comes back in Postgres heap order — so the link pointed at whichever row won.
+      context 'when several tours of the same status are open' do
+        let!(:later) { create(:set_lineup_tour, league: league, number: 9) }
+        let!(:earlier) { create(:set_lineup_tour, league: league, number: 4) }
+
+        it 'returns the one with the lowest number' do
+          expect(league.active_tour).to eq(earlier)
+        end
+
+        it 'does not pick the later of the open tours' do
+          expect(league.active_tour).not_to eq(later)
+        end
+
+        it 'returns the same tour when the tours are preloaded' do
+          preloaded = described_class.includes(:tours).find(league.id)
+
+          expect(preloaded.active_tour).to eq(earlier)
+        end
+
+        it 'prefers an open tour over an earlier inactive one' do
+          create(:tour, league: league, number: 1)
+
+          expect(league.active_tour).to eq(earlier)
+        end
+      end
+
+      # A postponed round keeps its number and moves months away, so the number is not the
+      # chronology — the round's deadline is.
+      context 'when the lower-numbered open tour is played later' do
+        let!(:postponed) do
+          create(:set_lineup_tour, league: league, number: 2,
+                                   tournament_round: create(:tournament_round, deadline: Time.zone.parse('2026-11-04 19:45')))
+        end
+        let!(:next_up) do
+          create(:set_lineup_tour, league: league, number: 8,
+                                   tournament_round: create(:tournament_round, deadline: Time.zone.parse('2026-09-26 14:00')))
+        end
+
+        it 'returns the tour whose round comes first' do
+          expect(league.active_tour).to eq(next_up)
+        end
+
+        it 'does not pick the lower-numbered one' do
+          expect(league.active_tour).not_to eq(postponed)
+        end
+      end
+
+      # A locked tour is under way and takes no lineup, so it must never be offered ahead of one
+      # still open for changes — even though its deadline has passed and is therefore the earlier.
+      context 'when a locked tour and a set_lineup tour are both open' do
+        let!(:locked) do
+          create(:locked_tour, league: league, number: 7,
+                               tournament_round: create(:tournament_round, deadline: Time.zone.parse('2026-09-26 14:00')))
+        end
+        let!(:open_for_lineups) do
+          create(:set_lineup_tour, league: league, number: 8,
+                                   tournament_round: create(:tournament_round, deadline: Time.zone.parse('2026-10-03 14:00')))
+        end
+
+        it 'returns the set_lineup tour' do
+          expect(league.active_tour).to eq(open_for_lineups)
+        end
+
+        it 'does not pick the locked one despite its earlier deadline' do
+          expect(league.active_tour).not_to eq(locked)
+        end
+
+        it 'returns the same tour when the tours are preloaded' do
+          preloaded = described_class.includes(:tours).find(league.id)
+
+          expect(preloaded.active_tour).to eq(open_for_lineups)
+        end
       end
     end
 
@@ -134,34 +212,6 @@ RSpec.describe League do
         empty = described_class.includes(:tours).find(create(:league).id)
 
         expect(empty.active_tour).to be_nil
-      end
-    end
-  end
-
-  describe '#active_tour_or_last' do
-    context 'when tours does not exist' do
-      it 'returns nil' do
-        expect(league.active_tour_or_last).to be_nil
-      end
-    end
-
-    context 'when tours exist' do
-      it 'returns first set_lineup tour' do
-        tours = create_list(:set_lineup_tour, 3, league: league)
-
-        expect(league.active_tour_or_last).to eq(tours.first)
-      end
-
-      it 'returns first locked tour' do
-        tours = create_list(:locked_tour, 2, league: league)
-
-        expect(league.active_tour_or_last).to eq(tours.first)
-      end
-
-      it 'returns last closed tour' do
-        tours = create_list(:closed_tour, 5, league: league)
-
-        expect(league.active_tour_or_last).to eq(tours.last)
       end
     end
   end

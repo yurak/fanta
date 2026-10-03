@@ -35,6 +35,17 @@ RSpec.describe Players::ClubChanger do
           service_call
           expect(TelegramBot::PlayerClubChangedNotifier).to have_received(:call).with(player, team, new_club)
         end
+
+        # the message names the club he left, which is only still readable because the notifier
+        # runs before the new club is written
+        it 'notifies while the player still holds the old club' do
+          club_at_notification = nil
+          allow(TelegramBot::PlayerClubChangedNotifier).to receive(:call) { club_at_notification = player.club }
+
+          service_call
+
+          expect(club_at_notification).to eq(old_club)
+        end
       end
     end
 
@@ -107,6 +118,54 @@ RSpec.describe Players::ClubChanger do
       let(:new_club) { old_club }
 
       it { expect(service_call).to be(false) }
+    end
+
+    # A wishlist belongs to one competition, so a player who leaves it must come off that list —
+    # otherwise the entry is unreachable from his page and the heart reads the wrong list.
+    context 'with the player on a wishlist' do
+      let!(:season) { Season.last || create(:season) }
+      let(:user) { create(:user) }
+
+      before { Wishlists::PlayerUpdater.call(user: user, player: player, wanted: true) }
+
+      context 'when he leaves the competition' do
+        let(:new_club) { create(:club, tournament: create(:tournament)) }
+
+        it 'drops him from the list of the competition he left' do
+          service_call
+
+          expect(WishlistPlayer.where(player_id: player.id)).to be_empty
+        end
+      end
+
+      context 'when he moves to a club outside our competitions' do
+        let(:new_club) { create(:club, tournament: nil) }
+
+        it 'drops him from every list' do
+          service_call
+
+          expect(WishlistPlayer.where(player_id: player.id)).to be_empty
+        end
+      end
+
+      context 'when he only changes club inside the same competition' do
+        let(:new_club) { create(:club, tournament: tournament) }
+
+        it 'keeps him on the list' do
+          service_call
+
+          kept = WishlistPlayer.joins(:wishlist).where(player_id: player.id, wishlists: { season_id: season.id })
+          expect(kept.count).to eq(1)
+        end
+
+        it 'leaves other players alone' do
+          other = create(:player, club: create(:club, tournament: tournament))
+          Wishlists::PlayerUpdater.call(user: user, player: other, wanted: true)
+          service_call
+
+          expect(WishlistPlayer.where(player_id: other.id).count).to eq(1)
+        end
+      end
     end
 
     context 'when old club has nil tournament_id' do

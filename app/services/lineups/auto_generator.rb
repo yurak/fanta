@@ -41,8 +41,7 @@ module Lineups
     end
 
     def create_match_player(lineup, player, real_position)
-      round_player = RoundPlayer.find_or_create_by(tournament_round: tour.tournament_round, player: player,
-                                                   club: player.club)
+      round_player = RoundPlayer.for_round(tour.tournament_round, player)
       MatchPlayer.create!(lineup: lineup, real_position: real_position, round_player: round_player)
     end
 

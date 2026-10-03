@@ -20,6 +20,7 @@ class RoundPlayer < ApplicationRecord
   scope :in_squad, -> { where(in_squad: true) }
   scope :without_final_score, -> { where(final_score: 0) }
   scope :ordered_by_club, -> { joins(player: :club).order('clubs.name') }
+  scope :chronological, -> { joins(:tournament_round).order('tournament_rounds.deadline').order('tournament_rounds.number').order(:id) }
   scope :ordered_by_national, -> { joins(player: :national_team).order('national_teams.id').order('players.name') }
 
   BONUS_V2_DATE = Date.new(2026, 6, 1)
@@ -49,6 +50,25 @@ class RoundPlayer < ApplicationRecord
 
   UPPER_SAVES_LIMIT = 6
   LOWER_SAVES_LIMIT = 3
+
+  # The club is an ATTRIBUTE of a round player, never part of its identity. Looking one up by club
+  # spawns a second row for the same round the moment the player transfers, and the injector then
+  # scores only one of the two (which one is up to Postgres heap order), so lineups sitting on the
+  # other one silently see a 0 and the autobot substitutes a player who actually played.
+  def self.for_round(tournament_round, player)
+    round_player = fetch_or_create(tournament_round, player)
+    round_player.update(club: player&.club) if round_player.club_id != player&.club_id
+    round_player
+  end
+
+  # Uniqueness is enforced by the index rather than a validation: a validation would still lose a
+  # race between two lineup saves, and it would cost a SELECT on every write the injector makes.
+  def self.fetch_or_create(tournament_round, player)
+    find_or_create_by(tournament_round: tournament_round, player: player)
+  rescue ActiveRecord::RecordNotUnique
+    find_by!(tournament_round: tournament_round, player: player)
+  end
+  private_class_method :fetch_or_create
 
   def result_score
     return 0 unless score&.positive?

@@ -56,4 +56,43 @@ RSpec.describe ApplicationHelper do
       end
     end
   end
+
+  describe '#any_wishlist?' do
+    let(:user) { create(:user) }
+    let!(:season) { Season.last || create(:season) }
+
+    context 'with a guest' do
+      before { allow(helper).to receive(:user_signed_in?).and_return(false) }
+
+      it { expect(helper.any_wishlist?).to be(false) }
+    end
+
+    context 'with a manager who has never pressed the heart' do
+      before do
+        allow(helper).to receive_messages(user_signed_in?: true, current_user: user)
+      end
+
+      it { expect(helper.any_wishlist?).to be(false) }
+    end
+
+    context 'with a manager who keeps a list' do
+      before do
+        create(:wishlist, user: user, season: season)
+        allow(helper).to receive_messages(user_signed_in?: true, current_user: user)
+      end
+
+      it { expect(helper.any_wishlist?).to be(true) }
+    end
+
+    # Last season's list says nothing about this one, and the page only ever shows the current one.
+    context 'with a list from a past season only' do
+      before do
+        create(:wishlist, user: user, season: season)
+        create(:season, start_year: 2030, end_year: 2031) # newer, so `season` is no longer the current one
+        allow(helper).to receive_messages(user_signed_in?: true, current_user: user)
+      end
+
+      it { expect(helper.any_wishlist?).to be(false) }
+    end
+  end
 end

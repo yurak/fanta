@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.describe Auctions::SalesOpener do
   subject(:opener) { described_class.new(auction) }
 
-  let(:league)  { create(:active_league) }
+  let(:league) { create(:active_league) }
   let(:auction) { create(:auction, league: league, number: 2, deadline: 100.hours.from_now) }
 
   before { allow(Auctions::Manager).to receive(:call) }

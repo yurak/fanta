@@ -79,6 +79,12 @@ export interface ISeasonStat {
   yellow_card: number,
 }
 
+export interface ISeasonOption {
+  id: number,
+  end_year: number,
+  start_year: number,
+}
+
 export interface IPlayerStats {
   id: number,
   current_season_stat: ISeasonTotal,
@@ -88,4 +94,5 @@ export interface IPlayerStats {
   round_stats_eurocup: IRoundStat[],
   round_stats_national: IRoundStat[],
   season_stats: ISeasonStat[],
+  seasons: ISeasonOption[],
 }

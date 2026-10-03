@@ -120,15 +120,10 @@
       grid-template-columns: 220px 16fr 6fr 7fr 6fr 9fr 4fr 50px;
 
       .team-image {
-        img, object {
+        img {
           margin: auto 4px;
           width: 32px;
           height: 32px;
-        }
-
-        object {
-          position: relative;
-          top: 10px;
         }
 
         .flag-icon {
@@ -163,12 +158,6 @@
           padding-top: 3px;
 
           img {
-            width: 66px;
-            height: 66px;
-          }
-
-          object {
-            margin-top: 4px;
             width: 66px;
             height: 66px;
           }
@@ -346,7 +335,7 @@
         position: absolute;
         right: 18%;
 
-        img, object {
+        img {
           width: 296px;
           height: 296px;
         }
@@ -395,7 +384,7 @@
         line-height: 32px;
         color: #181715;
 
-        img, object {
+        img {
           width: 32px;
           height: 32px;
         }
@@ -674,7 +663,7 @@
         padding: 4px;
         margin: auto;
 
-        img, object {
+        img {
           width: 24px;
           height: 24px;
         }
@@ -703,7 +692,7 @@
         width: 48px;
         height: 32px;
 
-        img, object {
+        img {
           width: 32px;
           height: 32px;
         }
@@ -857,7 +846,7 @@
             font-size: 36px;
             line-height: 48px;
 
-            img, object {
+            img {
               width: 48px;
               height: 48px;
             }

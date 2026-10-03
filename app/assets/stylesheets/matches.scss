@@ -417,12 +417,6 @@
             width: 66px;
             height: 66px;
           }
-
-          object {
-            margin-top: 4px;
-            width: 66px;
-            height: 66px;
-          }
         }
 
         .module-position-block {
@@ -501,7 +495,8 @@
           a { color: #DB0A23; }
         }
 
-        /* live match, player without a rating yet (e.g. on the bench) — pulsing orange dash */
+        /* live match, player named in the matchday squad but without a rating yet (on the bench, or
+           on the pitch before his first rating) — pulsing orange dash, he may still come in */
         .team-player-score-live-pending {
           width: 36px;
           margin-left: auto;
@@ -511,6 +506,18 @@
           color: #FFFFFF;
           background-color: #F59E0B;
           animation: live-pending-pulse 1.6s ease-in-out infinite;
+        }
+
+        /* live match, player left out of the matchday squad — nothing to wait for, so a flat red
+           label instead of the pulsing dash */
+        .team-player-score-live-absent {
+          margin-left: auto;
+          padding: 1px 6px;
+          border-radius: 8px;
+          font-size: 11px;
+          text-align: center;
+          color: #FFFFFF;
+          background-color: #DB0A23;
         }
 
         .team-player-score-unspecified {
@@ -535,7 +542,7 @@
           line-height: 16px;
 
           .player-match-team {
-            img, object {
+            img {
               width: 20px;
               height: 20px;
             }

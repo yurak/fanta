@@ -57,17 +57,49 @@ RSpec.describe Notifications::Creator do
       expect(notifications_scope(tour: tour, kind: :tour_opened).count).to eq(2)
     end
 
-    it 'raises when kind is not supported by teams_for' do
+    it 'rejects a kind that is not in the enum' do
       tour = build_tour_with_teams(user_teams_count: 1)
-      expect { described_class.call(notifiable: tour, kind: :tour_ddl) }
-        .to raise_error(ArgumentError, /does not know how to build teams/)
+
+      expect { described_class.call(notifiable: tour, kind: :nonsense) }
+        .to raise_error(ArgumentError, /Invalid kind/)
     end
 
-    it 'calls insert_all! once' do
-      tour = build_tour_with_teams(user_teams_count: 1)
-      allow(Notification).to receive(:insert_all!).and_call_original
+    # The team check and the insert are two statements, so two overlapping runs could both decide a
+    # team still needs the notification. The unique index is what actually prevents the duplicate.
+    it 'does not write a second row when the same call is repeated' do
+      tour = build_tour_with_teams(user_teams_count: 2)
       described_class.call(notifiable: tour, kind: :tour_opened)
-      expect(Notification).to have_received(:insert_all!).once
+
+      expect { Notification.insert_all(existing_rows_for(tour)) } # rubocop:disable Rails/SkipsModelValidations
+        .not_to(change { notifications_scope(tour: tour, kind: :tour_opened).count })
+    end
+
+    describe 'tour_ddl' do
+      # The reminder is for the managers who still have nothing set.
+      it 'skips a team that already has a lineup' do
+        tour = build_tour_with_teams(user_teams_count: 2)
+        create(:lineup, tour: tour, team: tour.league.teams.first)
+
+        described_class.call(notifiable: tour, kind: :tour_ddl)
+
+        expect(notifications_scope(tour: tour, kind: :tour_ddl).count).to eq(1)
+      end
+
+      # The hourly cron used to deliver the same text up to three times inside its window.
+      it 'does not create a second reminder for the same tour' do
+        tour = build_tour_with_teams(user_teams_count: 1)
+        described_class.call(notifiable: tour, kind: :tour_ddl)
+
+        expect { described_class.call(notifiable: tour, kind: :tour_ddl) }
+          .not_to(change { notifications_scope(tour: tour, kind: :tour_ddl).count })
+      end
+    end
+
+    it 'calls insert_all once' do
+      tour = build_tour_with_teams(user_teams_count: 1)
+      allow(Notification).to receive(:insert_all).and_call_original
+      described_class.call(notifiable: tour, kind: :tour_opened)
+      expect(Notification).to have_received(:insert_all).once
     end
 
     it 'returns true on success' do
@@ -155,6 +187,12 @@ RSpec.describe Notifications::Creator do
       tour.league.teams.each { |team| create_notification(team: team, tour: tour, kind: :tour_opened) }
 
       expect(described_class.call(notifiable: tour, kind: :tour_opened)).to be(false)
+    end
+  end
+
+  def existing_rows_for(tour)
+    Notification.where(notifiable: tour).map do |row|
+      row.attributes.except('id').merge('created_at' => Time.current, 'updated_at' => Time.current)
     end
   end
 end

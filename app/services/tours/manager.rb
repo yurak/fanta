@@ -50,8 +50,13 @@ module Tours
         update_results
         Lineups::Updater.call(tour)
         RoundPlayers::Updater.call(tour.tournament_round)
+        Results::HistoryRebuilder.call(tour.league) if closed_out_of_order?
         Notifications::Creator.call(notifiable: tour, kind: :tour_closed, priority: :normal)
       end
+    end
+
+    def closed_out_of_order?
+      Tour.where(league_id: tour.league_id, status: :closed).exists?(number: (tour.number + 1)..)
     end
 
     def update_results

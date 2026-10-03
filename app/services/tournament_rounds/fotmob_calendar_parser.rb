@@ -29,6 +29,8 @@ module TournamentRounds
         page_url: match_data['pageUrl'],
         home_name: match_data.dig('home', 'name'),
         away_name: match_data.dig('away', 'name'),
+        home_fotmob_id: match_data.dig('home', 'id').presence&.to_i,
+        away_fotmob_id: match_data.dig('away', 'id').presence&.to_i,
         kickoff: kickoff,
         score: match_data.dig('status', 'scoreStr')
       }

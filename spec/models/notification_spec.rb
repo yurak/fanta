@@ -31,11 +31,7 @@ RSpec.describe Notification do
     end
 
     it 'defines kind enum mapping' do
-      expect(described_class.kinds).to eq(
-        'tour_opened' => 0, 'tour_ddl' => 1, 'tour_moderated' => 2, 'tour_closed' => 3,
-        'auction_sales_open' => 4, 'auction_closed' => 5, 'auction_sales_ddl' => 6,
-        'auction_start_bids' => 7, 'auction_round_ddl' => 8, 'auction_squad_complete' => 9
-      )
+      expect(described_class.kinds).to eq(expected_kinds)
     end
 
     it 'defines priority enum mapping' do
@@ -95,5 +91,14 @@ RSpec.describe Notification do
         expect(n).not_to be_valid
       end
     end
+  end
+
+  def expected_kinds
+    {
+      'tour_opened' => 0, 'tour_ddl' => 1, 'tour_moderated' => 2, 'tour_closed' => 3,
+      'auction_sales_open' => 4, 'auction_closed' => 5, 'auction_sales_ddl' => 6,
+      'auction_start_bids' => 7, 'auction_round_ddl' => 8, 'auction_squad_complete' => 9,
+      'tour_ddl_5h' => 10, 'tour_ddl_3h' => 11, 'tour_ddl_2h' => 12, 'tour_ddl_1h' => 13
+    }
   end
 end

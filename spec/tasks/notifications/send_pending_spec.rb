@@ -1,8 +1,7 @@
-# rubocop:disable RSpec/DescribeClass
 require 'rails_helper'
 require 'rake'
 
-RSpec.describe 'notifications:send_pending' do
+RSpec.describe 'notifications:send_pending' do # rubocop:disable RSpec/DescribeClass
   before do
     Rake.application.rake_require('tasks/notifications')
     Rake::Task.define_task(:environment)
@@ -19,4 +18,3 @@ RSpec.describe 'notifications:send_pending' do
     expect(Notifications::SendPendingJob).to have_received(:perform_now)
   end
 end
-# rubocop:enable RSpec/DescribeClass

@@ -61,38 +61,12 @@ class League < ApplicationRecord
     "#{name} (#{division.name})"
   end
 
-  ACTIVE_TOUR_PRIORITY = { 'set_lineup' => 0, 'locked' => 0, 'inactive' => 1 }.freeze
+  ACTIVE_TOUR_PRIORITY = { 'set_lineup' => 0, 'locked' => 1, 'inactive' => 2, 'closed' => 3 }.freeze
 
   def active_tour
     return @active_tour if defined?(@active_tour)
 
-    @active_tour = if tours.loaded?
-                     tours.min_by { |tour| ACTIVE_TOUR_PRIORITY.fetch(tour.status, 2) }
-                   else
-                     tours.reorder(Arel.sql("CASE
-                         WHEN status IN (#{Tour.statuses[:set_lineup]}, #{Tour.statuses[:locked]}) THEN 0
-                         WHEN status = #{Tour.statuses[:inactive]} THEN 1
-                         ELSE 2
-                       END"))
-                          .first
-                   end
-  end
-
-  def active_tour_or_last
-    @active_tour_or_last ||= tours
-                             .reorder(Arel.sql(<<~SQL.squish))
-                               CASE
-                                 WHEN status IN (#{Tour.statuses[:set_lineup]}, #{Tour.statuses[:locked]}) THEN 0
-                                 WHEN status = #{Tour.statuses[:inactive]} THEN 1
-                                 WHEN status = #{Tour.statuses[:closed]} THEN 2
-                                 ELSE 3
-                               END,
-                               CASE
-                                 WHEN status = #{Tour.statuses[:closed]} THEN -id
-                                 ELSE id
-                               END
-                             SQL
-                             .first
+    @active_tour = tours.loaded? ? earliest_loaded_tour : earliest_queried_tour
   end
 
   def leader
@@ -117,6 +91,43 @@ class League < ApplicationRecord
   end
 
   private
+
+  def earliest_loaded_tour
+    tours.min_by { |tour| tour_sort_key(tour) }
+  end
+
+  def tour_sort_key(tour)
+    rank = ACTIVE_TOUR_PRIORITY.fetch(tour.status, 4)
+    direction = tour.closed? ? -1 : 1
+
+    [rank, direction * loaded_deadline_key(tour), direction * tour.number.to_i, direction * tour.id]
+  end
+
+  def loaded_deadline_key(tour)
+    return Float::INFINITY unless tour.association(:tournament_round).loaded?
+
+    tour.tournament_round&.deadline&.to_i || Float::INFINITY
+  end
+
+  def earliest_queried_tour
+    closed = Tour.statuses[:closed]
+
+    tours.left_joins(:tournament_round)
+         .reorder(Arel.sql(<<~SQL.squish))
+           CASE
+             WHEN tours.status = #{Tour.statuses[:set_lineup]} THEN 0
+             WHEN tours.status = #{Tour.statuses[:locked]} THEN 1
+             WHEN tours.status = #{Tour.statuses[:inactive]} THEN 2
+             WHEN tours.status = #{closed} THEN 3
+             ELSE 4
+           END,
+           CASE WHEN tours.status = #{closed} THEN -EXTRACT(EPOCH FROM tournament_rounds.deadline)
+                ELSE EXTRACT(EPOCH FROM tournament_rounds.deadline) END,
+           CASE WHEN tours.status = #{closed} THEN -tours.number ELSE tours.number END,
+           CASE WHEN tours.status = #{closed} THEN -tours.id ELSE tours.id END
+         SQL
+         .first
+  end
 
   def generate_join_code
     loop do

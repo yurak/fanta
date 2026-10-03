@@ -20,6 +20,7 @@ export interface IPayloadFilter {
   tournament_id?: number[],
   league_id?: number,
   season_id?: number,
+  wishlist_id?: number,
 }
 
 export interface IPayloadSort {

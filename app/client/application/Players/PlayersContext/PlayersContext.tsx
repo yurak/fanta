@@ -19,7 +19,7 @@ const usePlayers = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const sorting = useHistorySort();
 
-  const { leagueId: defaultLeagueId } = usePlayersPageConfigurationContext();
+  const { leagueId: defaultLeagueId, wishlistId } = usePlayersPageConfigurationContext();
 
   const seasonsQuery = useSeasons();
   const latestSeason = useMemo(
@@ -57,8 +57,8 @@ const usePlayers = () => {
   const closeSidebar = () => setIsSidebarOpen(false);
 
   const requestFilterPayload = useMemo<IPayloadFilter>(
-    () => filterToRequestFormat(filterValues, debounceSearch, defaultLeagueId, selectedSeason?.id),
-    [filterValues, debounceSearch, defaultLeagueId, selectedSeason?.id]
+    () => filterToRequestFormat(filterValues, debounceSearch, defaultLeagueId, selectedSeason?.id, wishlistId),
+    [filterValues, debounceSearch, defaultLeagueId, selectedSeason?.id, wishlistId]
   );
 
   const requestSortPayload = useMemo<IPayloadSort | undefined>(

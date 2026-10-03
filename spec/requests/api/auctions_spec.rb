@@ -31,7 +31,7 @@ RSpec.describe 'Api::Auctions' do
         let(:league) { create(:league) }
         let(:league_id) { league.id }
 
-        before do # rubocop:disable RSpec/ScatteredSetup
+        before do
           create(:auction, league: league, status: :sales, number: 2)
           sign_in create(:user)
         end
@@ -67,7 +67,7 @@ RSpec.describe 'Api::Auctions' do
       response 404, 'League not found' do
         let(:league_id) { 'invalid' }
 
-        before { sign_in create(:user) } # rubocop:disable RSpec/ScatteredSetup
+        before { sign_in create(:user) }
 
         schema '$ref' => '#/components/schemas/error_not_found'
 

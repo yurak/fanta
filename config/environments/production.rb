@@ -96,6 +96,14 @@ Rails.application.configure do
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
 
+  # One logfmt line per request instead of the four the default logger writes. That cuts what gets
+  # shipped to Loki several times over, and logfmt lets queries filter on fields (`| logfmt`) rather
+  # than parse text. See docs/LOG_SHIPPING.md.
+  config.lograge.enabled = true
+  config.lograge.custom_payload do |controller|
+    { user_id: (controller.current_user&.id if controller.respond_to?(:current_user)) }.compact
+  end
+
   # Use a different logger for distributed setups.
   # require 'syslog/logger'
   # config.logger = ActiveSupport::TaggedLogging.new(Syslog::Logger.new 'app-name')

@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-# rubocop:disable Rails/Output
 module Players
   module Transfermarkt
     class ClubPlayersScraper < ApplicationService
@@ -15,11 +14,11 @@ module Players
         @clubs.each_with_index do |club, idx|
           # next if (idx + 1) < 1
           # next if (idx + 1) > 15
-          puts "--------#{idx + 1}---#{club.name}--------"
+          puts "--------#{idx + 1}---#{club.name}--------" # rubocop:disable Rails/Output
           next unless club.tm_url
 
           process_club(club)
-          puts '/////////////////////////////////////'
+          puts '/////////////////////////////////////' # rubocop:disable Rails/Output
         end
       end
 
@@ -56,7 +55,7 @@ module Players
           handle_player(Player.find_by(tm_id: tm_id), tm_id, club, counts)
         end
 
-        puts '------------------'
+        puts '------------------' # rubocop:disable Rails/Output
         actual_ids
       end
 
@@ -64,10 +63,10 @@ module Players
         if player
           counts[:old] += 1
           change = player.club.name == club.name ? '' : " >>>> #{club.name} !!!!!!"
-          puts "#{counts[:old]} - #{player.name} - #{player.id} / #{player.tm_id} --- #{player.club.name}#{change}"
+          puts "#{counts[:old]} - #{player.name} - #{player.id} / #{player.tm_id} --- #{player.club.name}#{change}" # rubocop:disable Rails/Output
         else
           counts[:new] += 1
-          puts "NEW #{counts[:new]} .... #{tm_id}"
+          puts "NEW #{counts[:new]} .... #{tm_id}" # rubocop:disable Rails/Output
           fetch_and_write_new_player(tm_id, club)
         end
       end
@@ -88,7 +87,7 @@ module Players
         missed_ids = club.players.where.not(tm_id: nil).pluck(:tm_id).uniq - actual_ids
         return unless missed_ids.any?
 
-        puts "Missed list: #{missed_ids.join(' ')}"
+        puts "Missed list: #{missed_ids.join(' ')}" # rubocop:disable Rails/Output
         missed_ids.each { |pl_tm_id| check_missed_player(club, pl_tm_id) }
       end
 
@@ -101,7 +100,7 @@ module Players
 
         new_club = result[:club_name] || "XXX #{result[:tm_club_name]}"
         change = player.club.name == result[:club_name] ? 'RESERVE' : "#{player.club.name} >>>> #{new_club}"
-        puts "MISSED .... #{player.name} - #{player.id} / #{player.tm_id} --- #{change}"
+        puts "MISSED .... #{player.name} - #{player.id} / #{player.tm_id} --- #{change}" # rubocop:disable Rails/Output
       end
 
       def retryable_errors
@@ -115,10 +114,10 @@ module Players
           yield
         rescue *retryable_errors => e
           if attempts <= MAX_ATTEMPTS
-            puts "Retry ##{attempts} for #{label}"
+            puts "Retry ##{attempts} for #{label}" # rubocop:disable Rails/Output
             retry
           else
-            puts "#{label} skipped: #{e}"
+            puts "#{label} skipped: #{e}" # rubocop:disable Rails/Output
             nil
           end
         end
@@ -126,4 +125,3 @@ module Players
     end
   end
 end
-# rubocop:enable Rails/Output

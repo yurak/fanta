@@ -28,15 +28,12 @@
                 .match-player-avatar
                   - if wtp
                     .player-show-face
-                      %object{data: wtp.resolved_player.avatar_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                        = image_tag('avatar.png')
+                      %img{ src: wtp.resolved_player.avatar_path, onerror: "this.onerror=null;this.src='#{image_path('avatar.png')}'" }
                     .player-show-kit
                       - if national
-                        %object{data: wtp.resolved_player.national_kit_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                          = image_tag('kit_small_default.png')
+                        %img{ src: wtp.resolved_player.national_kit_path, onerror: "this.onerror=null;this.src='#{image_path('kit_small_default.png')}'" }
                       - else
-                        %object{data: wtp.resolved_club&.kit_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                          = image_tag('kit_small_default.png')
+                        %img{ src: wtp.resolved_club&.kit_path, onerror: "this.onerror=null;this.src='#{image_path('kit_small_default.png')}'" }
                   .module-position-block.player-positions-block
                     - slot.positions.each do |position|
                       .player-position{class: "player-position-#{position}"}

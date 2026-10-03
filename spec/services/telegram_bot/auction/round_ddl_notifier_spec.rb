@@ -27,7 +27,7 @@ RSpec.describe TelegramBot::Auction::RoundDdlNotifier do
       it 'calls sender with user' do
         service_call
 
-        expect(TelegramBot::Sender).to have_received(:call).with(user, 'message')
+        expect(TelegramBot::Sender).to have_received(:call).with(user, 'message', any_args)
       end
 
       it 'uses round_ddl translation key' do

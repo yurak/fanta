@@ -3,6 +3,7 @@ module Scores
     class FotmobMatch < BaseMatch
       FOTMOB_MATCH_URL = 'https://www.fotmob.com'.freeze
       PENALTY_KEY = 'penalty'.freeze
+      CONFIRMED_LINEUP = 'standard'.freeze
       # FOTMOB_MATCH_URL = 'https://www.fotmob.com/api/matchDetails?matchId='.freeze
 
       USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 ' \
@@ -10,6 +11,11 @@ module Scores
       REQUEST_TIMEOUT = 15
       MAX_RETRIES = 2
       BACKOFF_SECONDS = 5
+      REDIRECT_ERRORS = [
+        RestClient::MovedPermanently, RestClient::Found,
+        RestClient::TemporaryRedirect, RestClient::PermanentRedirect
+      ].freeze
+
       TRANSIENT_ERRORS = [
         RestClient::ServerBrokeConnection, RestClient::Exceptions::Timeout,
         Errno::ECONNRESET, Errno::ECONNREFUSED, Errno::ETIMEDOUT, OpenSSL::SSL::SSLError, SocketError
@@ -38,6 +44,29 @@ module Scores
           update_side(round_players.by_club(match.host_club_id), conceded_for(home: true))
           update_side(round_players.by_club(match.guest_club_id), conceded_for(home: false))
         end
+      end
+
+      def mark_squad
+        ids = squad_fotmob_ids
+        return if ids.empty?
+
+        round_players.each do |round_player|
+          next if round_player.in_squad?
+          next if round_player.fotmob_id.blank?
+          next unless ids.include?(round_player.fotmob_id.to_i)
+
+          round_player.update(in_squad: true)
+        end
+      end
+
+      def squad_fotmob_ids
+        return Set.new unless match_data.dig('content', 'lineup', 'lineupType') == CONFIRMED_LINEUP
+
+        @squad_fotmob_ids ||= %w[homeTeam awayTeam].flat_map do |side|
+          team = match_data.dig('content', 'lineup', side) || {}
+
+          (Array(team['starters']) + Array(team['subs'])).filter_map { |player| player['id'].presence&.to_i }
+        end.to_set
       end
 
       def conceded_for(home:)
@@ -111,7 +140,7 @@ module Scores
       end
 
       def live_played_minutes(data)
-        return 0 if @run_mode == :live
+        return 0 if match_live?
 
         stat_value(data, :played_minutes)
       end
@@ -145,7 +174,7 @@ module Scores
       end
 
       def players_data_ready?
-        return players_hash.values.any? { |data| data[:rating].to_f.positive? } if @run_mode == :live
+        return players_hash.values.any? { |data| data[:rating].to_f.positive? } if match_live?
 
         players_hash.values.any? { |data| data[:played_minutes].to_i.positive? }
       end
@@ -217,6 +246,12 @@ module Scores
           attempt += 1
           RestClient::Request.execute(method: :get, url: "#{FOTMOB_MATCH_URL}#{match.page_url}",
                                       headers: { user_agent: USER_AGENT }, timeout: REQUEST_TIMEOUT)
+        rescue *REDIRECT_ERRORS => e
+          retry if follow_redirect?(e)
+
+          @scrape_failure = :health
+          log_scrape_skip(scrape_reason(e))
+          nil
         rescue RestClient::ExceptionWithResponse, *TRANSIENT_ERRORS => e
           retry if retry_after_backoff?(e, attempt)
 
@@ -224,6 +259,25 @@ module Scores
           log_scrape_skip(scrape_reason(e))
           nil
         end
+      end
+
+      def follow_redirect?(error)
+        return false if @redirected
+
+        location = error.response&.headers&.dig(:location).to_s
+        return false if location.blank?
+
+        @redirected = true
+        match.update(page_url: redirected_page_url(location))
+        Rails.logger.info("[live-scores] FotMob moved #{match.page_url_previously_was} to #{match.page_url}")
+        true
+      end
+
+      def redirected_page_url(location)
+        path = location.start_with?('http') ? URI.parse(location).path : location
+        fragment = match.page_url.to_s[/#.*/]
+
+        "#{path}#{fragment}"
       end
 
       def retry_after_backoff?(error, attempt)

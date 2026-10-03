@@ -123,9 +123,7 @@ Rails.application.routes.draw do
 
   resources :links, only: [:index]
 
-  resources :matches, only: [:show] do
-    post :autobot
-  end
+  resources :matches, only: [:show]
 
   resources :national_teams, only: [:show]
 
@@ -151,6 +149,8 @@ Rails.application.routes.draw do
       member { post :fanta_copy }
     end
   end
+
+  resources :wishlists, only: %i[index show]
 
   resources :tournaments, only: [:show] do
     resources :clubs, only: [:show]
@@ -212,6 +212,8 @@ Rails.application.routes.draw do
     resources :tournaments, only: [:index] do
       resources :divisions, only: [:index]
     end
+    resources :wishlists, only: %i[index show update]
+    resources :wishlist_players, only: %i[create destroy]
     resources :tournament_rounds, only: [] do
       resources :round_players, only: [:index] do
         get :meta, on: :collection

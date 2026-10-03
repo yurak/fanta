@@ -22,23 +22,18 @@
       = link_to players_path do
         .nav-link-icon= '👟'
         .nav-link-title= t('header.players')
+    - if any_wishlist?
+      .nav-logo-small
+        = link_to wishlists_path do
+          .nav-link-icon= '❤️'
+          .nav-link-title= t('header.wishlist')
     .nav-logo-small
       = link_to leaderboard_path do
         .nav-link-icon= '🪜'
         .nav-link-title= t('header.rankings')
-    -# TODO: add link to fixtures page
-    -#.nav-logo-small
-    -#  = link_to '' do
-    -#    .nav-link-icon= '🗓'
-    -#    .nav-link-title= t('header.fixtures')
     #help-modal-btn.nav-logo-small
       .nav-link-icon= '⁉️'
       .nav-link-title= t('header.help')
-    -# TODO: add link to donate page
-    -#.nav-logo-small
-    -#  = link_to '' do
-    -#    .nav-link-icon= '❤️'
-    -#    .nav-link-title= t('header.donate')
     - if user_signed_in?
       .nav-logo-small
         = link_to manager_path(current_user) do

@@ -1,11 +1,10 @@
-# rubocop:disable RSpec/DescribeClass
 require 'rails_helper'
 require 'rake'
 
 Rake.application.rake_require('tasks/user_logos')
 Rake::Task.define_task(:environment)
 
-RSpec.describe 'user_logos rake tasks' do
+RSpec.describe 'user_logos rake tasks' do # rubocop:disable RSpec/DescribeClass
   describe 'user_logos:backfill' do
     let(:bucket_url) { 'https://test-bucket.example.com' }
     let(:default_url) { "#{bucket_url}/teams/default_icons/default1.png" }
@@ -44,4 +43,3 @@ RSpec.describe 'user_logos rake tasks' do
     end
   end
 end
-# rubocop:enable RSpec/DescribeClass

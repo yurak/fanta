@@ -517,6 +517,38 @@ RSpec.describe RoundPlayer do
     end
   end
 
+  describe '.for_round' do
+    let(:tournament_round) { create(:tournament_round) }
+    let(:old_club) { create(:club) }
+    let(:new_club) { create(:club) }
+    let(:player) { create(:player, club: new_club) }
+
+    # A transfer used to spawn a second round player for the same round, and the injector then
+    # scored only one of the two.
+    context 'when the player already has a row from before his transfer' do
+      let!(:existing) { create(:round_player, tournament_round: tournament_round, player: player, club: old_club) }
+
+      it 'reuses that row' do
+        expect(described_class.for_round(tournament_round, player)).to eq(existing)
+      end
+
+      it 'realigns its club to the one the player is at now' do
+        expect { described_class.for_round(tournament_round, player) }
+          .to change { existing.reload.club }.from(old_club).to(new_club)
+      end
+
+      it 'does not spawn a second row for the round' do
+        expect { described_class.for_round(tournament_round, player) }
+          .not_to(change { described_class.where(tournament_round: tournament_round, player: player).count })
+      end
+    end
+
+    it 'creates the row when the player has none for that round' do
+      expect { described_class.for_round(tournament_round, player) }
+        .to change { described_class.where(tournament_round: tournament_round, player: player).count }.by(1)
+    end
+  end
+
   describe '#related_club' do
     context 'without round player club' do
       let!(:round_player) { create(:round_player, club: nil) }

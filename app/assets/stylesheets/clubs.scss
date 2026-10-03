@@ -27,7 +27,7 @@
         margin: 48px auto 16px;
         width: fit-content;
 
-        object, img {
+        img {
           margin: auto;
           width: 80px;
           height: 80px;
@@ -95,7 +95,7 @@
       .club-list-logo {
         height: 40px;
 
-        object, img {
+        img {
           width: 40px;
           height: 40px;
         }
@@ -177,7 +177,7 @@
           align-items: center;
           justify-content: center;
 
-          object, img {
+          img {
             width: 27px;
             height: 27px;
           }
@@ -201,7 +201,7 @@
           .club-logo {
             margin: 16px auto 8px;
 
-            object, img {
+            img {
               width: 68px;
               height: 68px;
             }
@@ -255,7 +255,7 @@
                 padding: 4px 10px 0;
 
                 .player-show-face, .player-show-kit {
-                  img, object {
+                  img {
                     width: 65px;
                     height: 65px;
                   }
@@ -293,7 +293,7 @@
                   height: 12px;
                 }
 
-                img, object {
+                img {
                   width: 23px;
                   height: 23px;
                 }

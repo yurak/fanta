@@ -12,12 +12,6 @@ class MatchesController < ApplicationController
     @next_tour_match = first_round_match(match.tour.next_round)
   end
 
-  def autobot
-    match.autobot
-
-    redirect_to match_path(match)
-  end
-
   private
 
   def match

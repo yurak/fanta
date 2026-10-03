@@ -2,6 +2,11 @@ module Notifications
   class DeliveryService < ApplicationService
     NOTIFIER_MAP = {
       tour_opened: TelegramBot::Tour::OpenedNotifier,
+      tour_ddl: TelegramBot::Tour::DdlNotifier,
+      tour_ddl_5h: TelegramBot::Tour::DdlNotifier,
+      tour_ddl_3h: TelegramBot::Tour::DdlNotifier,
+      tour_ddl_2h: TelegramBot::Tour::DdlNotifier,
+      tour_ddl_1h: TelegramBot::Tour::DdlNotifier,
       tour_moderated: TelegramBot::Tour::ModeratedNotifier,
       tour_closed: TelegramBot::Tour::ClosedNotifier,
       auction_sales_open: TelegramBot::Auction::SalesOpenNotifier,

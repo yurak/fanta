@@ -49,6 +49,11 @@
         = link_to players_path do
           .nav-link-icon= '👟'
           .nav-link-title= t('header.players')
+      - if any_wishlist?
+        .nav-logo-small
+          = link_to wishlists_path do
+            .nav-link-icon= '❤️'
+            .nav-link-title= t('header.wishlist')
       .nav-logo-small
         = link_to leaderboard_path do
           .nav-link-icon= '🪜'

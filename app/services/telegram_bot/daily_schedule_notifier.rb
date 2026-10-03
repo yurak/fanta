@@ -2,6 +2,12 @@
 
 module TelegramBot
   class DailyScheduleNotifier < ApplicationService
+    include TelegramBot::HtmlMessage
+    include TelegramBot::Recipient
+
+    LINEUP_SET = '✅'
+    LINEUP_MISSING = '❌'
+
     def initialize(user)
       @user = user
     end
@@ -9,7 +15,7 @@ module TelegramBot
     def call
       return false if all_deadlines.empty?
 
-      TelegramBot::Sender.call(user, message)
+      send_html(user, message)
       true
     end
 
@@ -74,7 +80,7 @@ module TelegramBot
     def message
       lines = all_deadlines.map { |item| format_item(item) }
       [
-        I18n.t('telegram.notifier.daily_schedule.header', locale: locale, time_zone: time_zone),
+        html_message('telegram.notifier.daily_schedule.header', locale: locale, time_zone: time_zone),
         '',
         *lines,
         '',
@@ -92,45 +98,51 @@ module TelegramBot
 
     def format_tour_item(item)
       tour = item[:object]
-      I18n.t(
+      html_message(
         'telegram.notifier.daily_schedule.tour_item',
         locale: locale,
         icon: tour.league.tournament.icon,
         number: tour.number,
         league_name: tour.league.name,
-        time: user.local_time(item[:time], '%H:%M')
+        time: user.local_time(item[:time], '%H:%M'),
+        url: Rails.application.routes.url_helpers.tour_url(tour),
+        lineup_status: lineup_status(tour)
       )
+    end
+
+    def lineup_status(tour)
+      tours_with_lineup.include?(tour.id) ? LINEUP_SET : LINEUP_MISSING
+    end
+
+    def tours_with_lineup
+      @tours_with_lineup ||= ::Lineup.where(tour_id: tour_deadlines.map(&:id), team_id: user_team_ids)
+                                     .pluck(:tour_id)
+                                     .to_set
     end
 
     def format_auction_round_item(item)
       round = item[:object]
-      I18n.t(
+      html_message(
         'telegram.notifier.daily_schedule.auction_round_item',
         locale: locale,
         icon: round.auction.league.tournament.icon,
         league_name: round.auction.league.name,
         number: round.number,
-        time: user.local_time(item[:time], '%H:%M')
+        time: user.local_time(item[:time], '%H:%M'),
+        url: Rails.application.routes.url_helpers.auction_round_url(round)
       )
     end
 
     def format_auction_sales_item(item)
       auction = item[:object]
-      I18n.t(
+      html_message(
         'telegram.notifier.daily_schedule.auction_sales_item',
         locale: locale,
         icon: auction.league.tournament.icon,
         league_name: auction.league.name,
-        time: user.local_time(item[:time], '%H:%M')
+        time: user.local_time(item[:time], '%H:%M'),
+        url: Rails.application.routes.url_helpers.sales_league_auction_url(auction.league, auction)
       )
-    end
-
-    def locale
-      user.locale&.to_sym || :en
-    end
-
-    def time_zone
-      user.time_zone.presence || User::DEFAULT_TIME_ZONE
     end
   end
 end

@@ -1,8 +1,7 @@
-# rubocop:disable RSpec/DescribeClass
 require 'rails_helper'
 require 'rake'
 
-RSpec.describe 'calendar:extend_tournament' do
+RSpec.describe 'calendar:extend_tournament' do # rubocop:disable RSpec/DescribeClass
   before do
     Rake.application.rake_require('tasks/calendar')
     Rake::Task.define_task(:environment)
@@ -53,4 +52,3 @@ RSpec.describe 'calendar:extend_tournament' do
     end
   end
 end
-# rubocop:enable RSpec/DescribeClass

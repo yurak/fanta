@@ -151,6 +151,62 @@ RSpec.describe 'Players' do # rubocop:disable RSpec/MultipleMemoizedHelpers
         end
       end
 
+      response 200, 'Filtered by a wishlist the viewer owns', document: false do
+        let(:owner) { create(:user) }
+        let(:wishlist) { create(:wishlist, user: owner) }
+        let(:filter) { { wishlist_id: wishlist.id } }
+
+        before do
+          create(:wishlist_player, wishlist: wishlist, player: player_one)
+          sign_in owner
+        end
+
+        run_test! do |response|
+          body = JSON.parse(response.body)
+
+          expect(body['data'].size).to eq 1
+          expect(body['data'].first['id']).to eq player_one.id
+        end
+      end
+
+      # The players index is open to anyone, so a private list must not be readable by
+      # guessing its id and handing it to this endpoint.
+      response 403, 'Filtered by a private wishlist of someone else', document: false do
+        let(:wishlist) { create(:wishlist) }
+        let(:filter) { { wishlist_id: wishlist.id } }
+
+        before do
+          create(:wishlist_player, wishlist: wishlist, player: player_one)
+          sign_in create(:user)
+        end
+
+        run_test! do |response|
+          body = JSON.parse(response.body)
+
+          expect(body['errors'].first['key']).to eq('wishlist_private')
+        end
+      end
+
+      response 403, 'Filtered by a private wishlist by a guest', document: false do
+        let(:wishlist) { create(:wishlist) }
+        let(:filter) { { wishlist_id: wishlist.id } }
+
+        run_test!
+      end
+
+      response 200, 'Filtered by a shared wishlist by a guest', document: false do
+        let(:wishlist) { create(:wishlist, :shared) }
+        let(:filter) { { wishlist_id: wishlist.id } }
+
+        before { create(:wishlist_player, wishlist: wishlist, player: player_one) }
+
+        run_test! do |response|
+          body = JSON.parse(response.body)
+
+          expect(body['data'].size).to eq 1
+        end
+      end
+
       response 200, 'Filtered by tournament_id', document: false do
         let(:filter) { { tournament_id: [league.tournament.id] } }
 
@@ -164,7 +220,7 @@ RSpec.describe 'Players' do # rubocop:disable RSpec/MultipleMemoizedHelpers
 
       response 200, 'Filtered by without_team (requires league_id)', document: false do
         let!(:player_with_team) { create(:player, club: create(:club, tournament: league.tournament)) }
-        before do # rubocop:disable RSpec/ScatteredSetup
+        before do
           team = create(:team, league: league)
           create(:player_team, player: player_with_team, team: team)
         end
@@ -183,7 +239,7 @@ RSpec.describe 'Players' do # rubocop:disable RSpec/MultipleMemoizedHelpers
       response 200, 'Filtered by minutes', document: false do
         let!(:player_with_minutes) { create(:player, club: create(:club, tournament: league.tournament)) }
 
-        before do # rubocop:disable RSpec/ScatteredSetup
+        before do
           create(:player_season_stat, player: player_with_minutes, club: player_with_minutes.club,
                                       season: Season.last, tournament: league.tournament,
                                       played_minutes: 270)
@@ -226,7 +282,7 @@ RSpec.describe 'Players' do # rubocop:disable RSpec/MultipleMemoizedHelpers
         let!(:player_in_team) { create(:player, club: create(:club, tournament: league.tournament)) }
         let(:team) { create(:team, league: league) }
 
-        before { create(:player_team, player: player_in_team, team: team) } # rubocop:disable RSpec/ScatteredSetup
+        before { create(:player_team, player: player_in_team, team: team) }
 
         let(:filter) { { league_id: league.id, team_id: [team.id] } }
 
@@ -241,7 +297,7 @@ RSpec.describe 'Players' do # rubocop:disable RSpec/MultipleMemoizedHelpers
       response 200, 'Filtered by min app', document: false do
         let!(:player_with_apps) { create(:player, club: create(:club, tournament: league.tournament)) }
 
-        before do # rubocop:disable RSpec/ScatteredSetup
+        before do
           create(:player_season_stat, player: player_with_apps, club: player_with_apps.club,
                                       season: Season.last, tournament: league.tournament,
                                       played_matches: 10)
@@ -260,7 +316,7 @@ RSpec.describe 'Players' do # rubocop:disable RSpec/MultipleMemoizedHelpers
       response 200, 'Filtered by min base_score', document: false do
         let!(:player_with_score) { create(:player, club: create(:club, tournament: league.tournament)) }
 
-        before do # rubocop:disable RSpec/ScatteredSetup
+        before do
           create(:player_season_stat, player: player_with_score, club: player_with_score.club,
                                       season: Season.last, tournament: league.tournament,
                                       played_matches: 5, score: 7.5)
@@ -279,7 +335,7 @@ RSpec.describe 'Players' do # rubocop:disable RSpec/MultipleMemoizedHelpers
       response 200, 'Filtered by min total_score', document: false do
         let!(:player_with_score) { create(:player, club: create(:club, tournament: league.tournament)) }
 
-        before do # rubocop:disable RSpec/ScatteredSetup
+        before do
           create(:player_season_stat, player: player_with_score, club: player_with_score.club,
                                       season: Season.last, tournament: league.tournament,
                                       played_matches: 5, final_score: 8.0)
@@ -300,7 +356,7 @@ RSpec.describe 'Players' do # rubocop:disable RSpec/MultipleMemoizedHelpers
         let!(:expensive_player) { create(:player, club: create(:club, tournament: league.tournament)) }
         let(:team) { create(:team, league: league) }
 
-        before do # rubocop:disable RSpec/ScatteredSetup
+        before do
           create(:player_team, player: cheap_player, team: team)
           create(:transfer, player: cheap_player, team: team, price: 10, status: :incoming)
           create(:player_team, player: expensive_player, team: team)
@@ -418,7 +474,7 @@ RSpec.describe 'Players' do # rubocop:disable RSpec/MultipleMemoizedHelpers
                  data: { '$ref' => '#/components/schemas/player_stats' }
                }
 
-        before do # rubocop:disable RSpec/ScatteredSetup
+        before do
           season = create(:season)
           create(:player_season_stat, player: player, tournament: player.club.tournament, season: season)
           tournament_round = create(:tournament_round, tournament: player.club.tournament, season: season)

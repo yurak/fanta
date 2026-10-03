@@ -338,8 +338,7 @@ RSpec.describe Lineup do
     end
   end
 
-  # rubocop:disable RSpec/MultipleMemoizedHelpers
-  describe '#fanta_copyable?' do
+  describe '#fanta_copyable?' do # rubocop:disable RSpec/MultipleMemoizedHelpers
     let(:user) { create(:user) }
     let(:tournament) { create(:fanta_tournament) }
     let(:tournament_round) { create(:tournament_round, tournament: tournament) }
@@ -353,36 +352,35 @@ RSpec.describe Lineup do
 
     before { target_team && target_tour }
 
-    context 'when tour is fanta and other league has open tour without lineup' do
+    context 'when tour is fanta and other league has open tour without lineup' do # rubocop:disable RSpec/MultipleMemoizedHelpers
       it { expect(fanta_lineup.fanta_copyable?).to be(true) }
     end
 
-    context 'when tour is not fanta' do
+    context 'when tour is not fanta' do # rubocop:disable RSpec/MultipleMemoizedHelpers
       let(:fanta_lineup) { create(:lineup) }
 
       it { expect(fanta_lineup.fanta_copyable?).to be(false) }
     end
 
-    context 'when other league already has a lineup for this round' do
+    context 'when other league already has a lineup for this round' do # rubocop:disable RSpec/MultipleMemoizedHelpers
       before { create(:lineup, team: target_team, tour: target_tour) }
 
       it { expect(fanta_lineup.fanta_copyable?).to be(false) }
     end
 
-    context 'when other league tour is not open' do
+    context 'when other league tour is not open' do # rubocop:disable RSpec/MultipleMemoizedHelpers
       let(:target_tour) { create(:closed_tour, league: target_league, tournament_round: tournament_round) }
 
       it { expect(fanta_lineup.fanta_copyable?).to be(false) }
     end
 
-    context 'when user has no other teams in the same tournament' do
+    context 'when user has no other teams in the same tournament' do # rubocop:disable RSpec/MultipleMemoizedHelpers
       let(:target_team) { nil }
       let(:target_tour) { nil }
 
       it { expect(fanta_lineup.fanta_copyable?).to be(false) }
     end
   end
-  # rubocop:enable RSpec/MultipleMemoizedHelpers
 
   describe '#bench_total_score' do
     context 'without match players' do
@@ -402,17 +400,17 @@ RSpec.describe Lineup do
     let(:tour) { create(:tour) }
 
     it 'orders by saved position ascending' do
-      third  = create(:lineup, tour: tour, position: 3)
-      first  = create(:lineup, tour: tour, position: 1)
+      third = create(:lineup, tour: tour, position: 3)
+      first = create(:lineup, tour: tour, position: 1)
       second = create(:lineup, tour: tour, position: 2)
 
       expect(tour.lineups.ranked).to eq([first, second, third])
     end
 
     it 'puts lineups without a position last, ordered by final_score desc' do
-      ranked   = create(:lineup, tour: tour, position: 1, final_score: 10)
+      ranked = create(:lineup, tour: tour, position: 1, final_score: 10)
       unscored = create(:lineup, tour: tour, position: nil, final_score: 5)
-      higher   = create(:lineup, tour: tour, position: nil, final_score: 40)
+      higher = create(:lineup, tour: tour, position: nil, final_score: 40)
 
       expect(tour.lineups.ranked).to eq([ranked, higher, unscored])
     end

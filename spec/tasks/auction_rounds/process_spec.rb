@@ -1,8 +1,7 @@
-# rubocop:disable RSpec/DescribeClass
 require 'rails_helper'
 require 'rake'
 
-RSpec.describe 'auction_rounds:process' do
+RSpec.describe 'auction_rounds:process' do # rubocop:disable RSpec/DescribeClass
   before do
     Rake.application.rake_require('tasks/auction_rounds')
     Rake::Task.define_task(:environment)
@@ -84,4 +83,3 @@ RSpec.describe 'auction_rounds:process' do
     end
   end
 end
-# rubocop:enable RSpec/DescribeClass

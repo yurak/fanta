@@ -7,6 +7,7 @@ class PlayerStatsSerializer < ActiveModel::Serializer
   attributes :round_stats_eurocup
   attributes :round_stats_national
   attributes :season_stats
+  attributes :seasons
 
   def current_season_stat
     PlayerCurrentSeasonStatSerializer.new(object, matches: club_in_squad.with_score)
@@ -39,7 +40,20 @@ class PlayerStatsSerializer < ActiveModel::Serializer
           .map { |pss| PlayerSeasonStatSerializer.new(pss) }
   end
 
+  def seasons
+    Season.where(id: season_ids).order(id: :desc).map do |season|
+      { id: season.id, start_year: season.start_year, end_year: season.end_year }
+    end
+  end
+
   private
+
+  def season_ids
+    from_rounds = TournamentRound.where(id: object.round_players.select(:tournament_round_id))
+                                 .distinct.pluck(:season_id)
+
+    (object.player_season_stats.map(&:season_id) + from_rounds + [Season.last&.id]).compact.uniq
+  end
 
   def season
     @season ||= instance_options[:season] || object.current_season

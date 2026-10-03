@@ -132,6 +132,12 @@
     margin: auto;
   }
 
+  @media (max-height: 760px) {
+    .nav-link-title {
+      display: none;
+    }
+  }
+
 .nav-link-title {
     font-size: 10px;
     line-height: 14px;

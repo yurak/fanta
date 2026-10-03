@@ -8,12 +8,15 @@ class MatchPlayer < ApplicationRecord
   delegate :league, :team, :tour, to: :lineup
   delegate :another_tournament?, :assists, :caught_penalty, :cleansheet, :club_played_match?, :conceded_penalty,
            :failed_penalty, :goals, :missed_goals, :missed_penalty, :own_goals, :penalties_won, :player, :red_card, :result_score,
-           :saves, :score, :scored_penalty, :yellow_card, to: :round_player
+           :played_minutes, :saves, :score, :scored_penalty, :yellow_card, to: :round_player
+  delegate :in_squad?, to: :round_player, prefix: true
   delegate :club, :first_name, :name, :teams, to: :player
 
   enum :subs_status, { initial: 0, get_out: 1, get_in: 2, not_in_squad: 3 }
 
-  default_scope { includes(:lineup, round_player: [{ player: %i[club player_positions positions] }, :tournament_round]) }
+  default_scope do
+    includes(:lineup, round_player: [:club, { player: %i[club player_positions positions] }, :tournament_round])
+  end
 
   FOR_FORM_ORDER = Arel.sql('CASE WHEN real_position IS NULL THEN 1 ELSE 0 END, match_players.id ASC').freeze
 
@@ -40,7 +43,7 @@ class MatchPlayer < ApplicationRecord
   end
 
   def not_played?
-    score.zero? && (club_played_match? || another_tournament?)
+    score.zero? && played_minutes.to_i.zero? && (club_played_match? || another_tournament?)
   end
 
   def live?

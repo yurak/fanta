@@ -114,5 +114,43 @@ RSpec.describe Tours::Manager do
 
       it { expect(tour.reload.status).to eq('closed') }
     end
+
+    # A postponed round settles after the rounds that followed it, and closing it stamps today's
+    # table into its own history slot — the league has to be replayed for the trend to make sense.
+    context 'when a postponed tour closes after later rounds' do
+      let(:league) { create(:league) }
+      let(:tournament_round) { create(:tournament_round, :with_finished_matches) }
+      let(:tour) { create(:postponed_tour, league: league, number: 7, tournament_round: tournament_round) }
+      let(:status) { 'closed' }
+
+      before do
+        create(:closed_tour, league: league, number: 26)
+        allow(Results::HistoryRebuilder).to receive(:call)
+        manager.call
+      end
+
+      it { expect(tour.reload.status).to eq('closed') }
+
+      it 'rebuilds the league history' do
+        expect(Results::HistoryRebuilder).to have_received(:call).with(tour.league)
+      end
+    end
+
+    context 'when a tour closes in round order' do
+      let(:league) { create(:league) }
+      let(:tournament_round) { create(:tournament_round, :with_finished_matches) }
+      let(:tour) { create(:locked_tour, league: league, number: 27, tournament_round: tournament_round) }
+      let(:status) { 'closed' }
+
+      before do
+        create(:closed_tour, league: league, number: 26)
+        allow(Results::HistoryRebuilder).to receive(:call)
+        manager.call
+      end
+
+      it 'leaves the history alone' do
+        expect(Results::HistoryRebuilder).not_to have_received(:call)
+      end
+    end
   end
 end
