@@ -115,6 +115,16 @@ module AuctionsHelper # rubocop:disable Metrics/ModuleLength
     end
   end
 
+  def slot_wishlist(tournament, league)
+    return if current_user.nil? || tournament.nil?
+
+    season = league&.season || Season.last
+    wishlist = current_user.wishlists.find_by(tournament: tournament, season: season)
+    return if wishlist.nil? || wishlist.wishlist_players.empty?
+
+    wishlist
+  end
+
   def formations_js_data
     TeamModule.includes(:slots).each_with_object({}) do |tm, hash|
       key = "f#{tm.name.delete('-')}"

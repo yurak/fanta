@@ -1394,6 +1394,7 @@ en:
     list_empty_other: "This wishlist has nobody on it yet."
     full: "A wishlist holds at most %{count} players"
     by: "by %{name}"
+    filter: "My wishlist"
   users:
     edit:
       change_username: "Change user name"

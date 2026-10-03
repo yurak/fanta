@@ -28,6 +28,8 @@
         = hidden_field_tag :dumped, user_team&.dumped_player_ids(auction)&.join(',') || ''
         - positions = Position.all
         - clubs = tournament&.clubs&.active&.order(:name) || []
+        - wishlist = slot_wishlist(tournament, league)
+        = hidden_field_tag :wishlist, wishlist&.id
         = f.fields_for :player_bids do |player_bid|
           - player = player_bid.object.player
           = player_bid.hidden_field(:player_id, value: player&.id, class: 'round-player-input', id: "player-bid-#{player_bid.index}")
@@ -90,6 +92,9 @@
                     .search-position.player-positions-block{class: "search-position#{player_bid.index}",id: "search-position#{position.human_name}"}
                       .player-position{class: "player-position-#{position.name}"}
                         = position_name(position)
+                  - if wishlist
+                    .search-wishlist{ data: { slot: player_bid.index } }
+                      .search-wishlist-chip= "❤️ #{t('wishlist.filter')}"
                 .ab-filters-clubs
                   - clubs.each do |club|
                     .search-club-logo{class: "search-club#{player_bid.index}",id: "search-club#{club.id}"}
@@ -348,6 +353,37 @@
         });
       });
 
+      // Search player by the manager's wishlist for this competition. The slot comes from a data
+      // attribute rather than from parsing the class string, as the filters above have to.
+      $(".search-wishlist").on('click', function(e){
+        e.stopPropagation();
+
+        const slotId = $(this).data('slot');
+        const wishlistId = $('#wishlist')[0].getAttribute('value');
+        const tournamentId = $('#tournament')[0].getAttribute('value');
+        const leagueId = $('#league')[0].getAttribute('value');
+        const playersContainer = $('#ab-players-block-'+slotId);
+
+        clearSlotModal(slotId);
+
+        $(this).addClass('search-wishlist-border');
+        $(".search-input input").val('');
+        playersContainer.empty();
+        showLoader(slotId);
+
+        $.ajax({
+          type: "GET",
+          dataType: "json",
+          url: "/api/players?filter[wishlist_id]="+wishlistId+"&filter[tournament_id][]="+tournamentId+"&order[field]=name&order[direction]=desc&page[size]=500",
+          success: function(response){
+            response.data.forEach((playerData) => {
+              renderPlayerItem(playerData, slotId, leagueId);
+            })
+          },
+          complete: function(){ hideLoader(slotId); }
+        });
+      });
+
       // Render players in modal window
       function renderPlayerItem(data, slotId, leagueId) {
         const playersContainer = $('#ab-players-block-'+slotId);
@@ -445,6 +481,7 @@
         $('#ab-players-block-'+slotId).empty();
         $('.player-positions-block').removeClass('search-position-border');
         $('.search-club-logo ').removeClass('search-club-border');
+        $('.search-wishlist').removeClass('search-wishlist-border');
       }
 
       // Count total price of bid

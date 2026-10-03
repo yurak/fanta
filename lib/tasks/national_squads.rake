@@ -22,6 +22,23 @@ namespace :national_squads do
     end
 
     puts "\nteams that moved: #{changed} of #{by_team.size}"
+    report_unlinked(rows)
+  end
+
+  def report_unlinked(rows)
+    unlinked = rows.select { |row| row['player_id'].blank? }
+    return if unlinked.empty?
+
+    puts "\n#{'=' * 78}"
+    puts "NOT IN OUR DATABASE: #{unlinked.size} called-up player(s) nobody can pick"
+    unlinked.each { |row| puts "    #{unlinked_line(row)}" }
+    puts 'Create each one, then write his id into the player_id column.'
+    puts '=' * 78
+  end
+
+  def unlinked_line(row)
+    "#{row['team'].ljust(14)} #{row['player']}  " \
+      "[#{row['position']}, #{row['club']}, #{row['birth_date']}, #{row['source']}]"
   end
 
   # The lines describing one team, empty when nothing moved. A team we could not read is reported

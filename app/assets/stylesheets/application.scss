@@ -2292,6 +2292,7 @@ body, html {
         display: grid;
         grid-template-columns: 40px auto;
         color: #181715;
+        min-width: 0;
 
         .results-team-logo {
           padding: 4px 8px;
@@ -2305,6 +2306,7 @@ body, html {
         .results-team-name {
           text-align: left;
           padding: 4px 8px;
+          min-width: 0;
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
@@ -2424,9 +2426,11 @@ body, html {
         display: grid;
         grid-template-columns: 32px auto;
         column-gap: 8px;
+        min-width: 0;
       }
 
       .round-player-stats-name {
+        min-width: 0;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
