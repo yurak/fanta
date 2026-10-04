@@ -1,6 +1,9 @@
 module TelegramBot
   module Tour
     class OpenedNotifier < ApplicationService
+      include TelegramBot::HtmlMessage
+      include TelegramBot::Recipient
+
       attr_reader :notification
 
       def initialize(notification)
@@ -13,7 +16,7 @@ module TelegramBot
         return false unless team
         return false unless user
 
-        TelegramBot::Sender.call(user, message)
+        send_html(user, message)
         true
       end
 
@@ -36,7 +39,7 @@ module TelegramBot
       end
 
       def message
-        I18n.t(
+        html_message(
           'telegram.notifier.tour.opened',
           locale: locale,
           icon: league.tournament.icon,
@@ -50,16 +53,8 @@ module TelegramBot
         )
       end
 
-      def locale
-        user.locale&.to_sym || :en
-      end
-
       def deadline
         user.local_time(tour.tournament_round.deadline, '%^a, %^b %e, %H:%M')
-      end
-
-      def time_zone
-        user.time_zone || User::DEFAULT_TIME_ZONE
       end
     end
   end

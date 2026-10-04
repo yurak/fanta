@@ -40,7 +40,7 @@ module Telegram
 
     def callback_query(data)
       case data
-      when 'register'   then register!
+      when 'register' then register!
       when 'learn_more' then learn_more!
       end
     end

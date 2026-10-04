@@ -44,7 +44,7 @@ RSpec.describe 'WeeklyTeams' do
     end
 
     context 'when weekly team is a round-based top team' do
-      let(:round)       { create(:tournament_round) }
+      let(:round) { create(:tournament_round) }
       let(:weekly_team) { create(:weekly_team, source: :round, mode: :top, round_ids: [round.id]) }
 
       before do

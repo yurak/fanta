@@ -12,6 +12,7 @@ module Players
       ActiveRecord::Base.transaction do
         same_tournament_move?(new_club) ? notify_club_change(new_club) : trigger_left_tournament
         @player.update!(club: new_club)
+        drop_foreign_wishlist_entries(new_club)
       end
       true
     rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotFound
@@ -19,6 +20,14 @@ module Players
     end
 
     private
+
+    def drop_foreign_wishlist_entries(new_club)
+      entries = WishlistPlayer.joins(:wishlist).where(player_id: @player.id)
+      tournament_id = new_club.tournament_id
+      entries = entries.where.not(wishlists: { tournament_id: tournament_id }) if tournament_id
+
+      entries.delete_all
+    end
 
     def trigger_left_tournament
       @player.teams.each { |team| Transfers::Seller.call(@player, team, :left) }

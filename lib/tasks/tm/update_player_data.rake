@@ -1,4 +1,3 @@
-# rubocop:disable Metrics/BlockLength
 namespace :tm do
   # rake 'tm:update_player_data_url[url]'
   desc 'Update player params by TM data from csv url'
@@ -11,7 +10,7 @@ namespace :tm do
 
     CSV.open(log_path, 'a', write_headers: write_headers, headers: %w[
                player_id player_name nationality_before nationality_after tm_price_before tm_price_after
-               number_before number_after birth_date_before birth_date_after height_before height_after'
+               number_before number_after birth_date_before birth_date_after height_before height_after
              ]) do |log_csv|
       csv.each do |player_data|
         player = Player.find_by(id: player_data['id'])
@@ -52,4 +51,3 @@ namespace :tm do
     end
   end
 end
-# rubocop:enable Metrics/BlockLength

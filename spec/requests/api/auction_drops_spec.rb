@@ -41,7 +41,7 @@ RSpec.describe 'Api::AuctionDrops' do # rubocop:disable RSpec/MultipleMemoizedHe
         let(:league_id) { league.id }
         let(:auction_id) { auction.id }
 
-        before do # rubocop:disable RSpec/ScatteredSetup
+        before do
           player = create(:player)
           create(:player_team, team: team, player: player, transfer_status: :untouchable)
           create(:transfer, team: team, player: player, league: league, auction: auction, status: :incoming, price: 30)
@@ -76,7 +76,7 @@ RSpec.describe 'Api::AuctionDrops' do # rubocop:disable RSpec/MultipleMemoizedHe
         let(:league_id) { league.id }
         let(:auction_id) { auction.id }
 
-        before { sign_in team.user } # rubocop:disable RSpec/ScatteredSetup
+        before { sign_in team.user }
 
         schema '$ref' => '#/components/schemas/error_not_found'
 
@@ -102,7 +102,7 @@ RSpec.describe 'Api::AuctionDrops' do # rubocop:disable RSpec/MultipleMemoizedHe
         let(:auction_id) { auction.id }
         let(:body) { { player_ids: [target.id] } }
 
-        before do # rubocop:disable RSpec/ScatteredSetup
+        before do
           create(:player_team, team: team, player: target, transfer_status: :untouchable)
           create(:transfer, team: team, player: target, league: league, auction: auction, status: :incoming, price: 30)
           sign_in team.user
@@ -128,7 +128,7 @@ RSpec.describe 'Api::AuctionDrops' do # rubocop:disable RSpec/MultipleMemoizedHe
         let(:auction_id) { auction.id }
         let(:body) { { player_ids: squad.map(&:id) } }
 
-        before do # rubocop:disable RSpec/ScatteredSetup
+        before do
           squad.each do |player|
             create(:player_team, team: team, player: player, transfer_status: :untouchable)
             create(:transfer, team: team, player: player, league: league, auction: auction, status: :incoming, price: 10)

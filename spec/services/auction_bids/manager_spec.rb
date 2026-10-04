@@ -180,6 +180,40 @@ RSpec.describe AuctionBids::Manager do
             expect(auction_bid.player_bids[0].reload.price).to eq(28)
           end
         end
+
+        # Such a bid can only fail when the round is processed, and the slot is wasted.
+        context 'when a player already belongs to another team in the league' do
+          let(:players_gk) { create_list(:player, 3, :with_pos_por) }
+          let(:rival) { create(:team, league: auction_bid.auction_round.auction.league) }
+          let(:taken_player) { create(:player) }
+          let(:params) do
+            {
+              status: 'submitted',
+              player_bids_attributes: {
+                '0': { player_id: players_gk[0].id, price: '28', id: auction_bid.player_bids[0].id },
+                '1': { player_id: players_gk[1].id, price: '29', id: auction_bid.player_bids[1].id },
+                '2': { player_id: players_gk[2].id, price: '27', id: auction_bid.player_bids[2].id },
+                '3': { player_id: taken_player.id, price: '12', id: auction_bid.player_bids[3].id },
+                '4': { player_id: create(:player).id, price: '4', id: auction_bid.player_bids[4].id },
+                '5': { player_id: create(:player).id, price: '3', id: auction_bid.player_bids[5].id }
+              }
+            }
+          end
+
+          before { create(:player_team, player: taken_player, team: rival) }
+
+          it 'does not change status' do
+            manager.call
+
+            expect(auction_bid.reload.status).to eq('initial')
+          end
+
+          it 'does not update player_bid price' do
+            manager.call
+
+            expect(auction_bid.player_bids[0].reload.price).to eq(1)
+          end
+        end
       end
 
       context 'with completed new status' do

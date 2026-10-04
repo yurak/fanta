@@ -1,5 +1,5 @@
 RSpec.describe 'Api::RoundPlayers' do
-  let(:tournament)       { create(:fanta_tournament) }
+  let(:tournament) { create(:fanta_tournament) }
   let(:tournament_round) { create(:tournament_round, tournament: tournament) }
 
   def get_index(params = {})
@@ -34,8 +34,8 @@ RSpec.describe 'Api::RoundPlayers' do
 
     context 'with a position filter' do
       let!(:goalkeeper) { create(:round_player, :with_pos_por, :with_score_six, tournament_round: tournament_round) }
-      let!(:forward)    { create(:round_player, :with_pos_a, :with_score_six, tournament_round: tournament_round) }
-      let(:ids)         { response.parsed_body['data'].pluck('id') }
+      let!(:forward) { create(:round_player, :with_pos_a, :with_score_six, tournament_round: tournament_round) }
+      let(:ids) { response.parsed_body['data'].pluck('id') }
 
       # The React picker sends classic codes (GK), mapped to Position#human_name.
       before { get_index(filter: { position: ['GK'] }) }
@@ -50,13 +50,13 @@ RSpec.describe 'Api::RoundPlayers' do
     end
 
     context 'with players appearing in two leagues' do
-      let(:league_a)      { create(:active_league, tournament: tournament, season: tournament_round.season) }
-      let(:league_b)      { create(:active_league, tournament: tournament, season: tournament_round.season) }
+      let(:league_a) { create(:active_league, tournament: tournament, season: tournament_round.season) }
+      let(:league_b) { create(:active_league, tournament: tournament, season: tournament_round.season) }
       let!(:round_player) { create(:round_player, :with_score_six, tournament_round: tournament_round) }
 
       before do
-        tour_a   = create(:locked_tour, tournament_round: tournament_round, league: league_a)
-        tour_b   = create(:locked_tour, tournament_round: tournament_round, league: league_b)
+        tour_a = create(:locked_tour, tournament_round: tournament_round, league: league_a)
+        tour_b = create(:locked_tour, tournament_round: tournament_round, league: league_b)
         lineup_a = create(:lineup, tour: tour_a, team: create(:team, league: league_a))
         lineup_b = create(:lineup, tour: tour_b, team: create(:team, league: league_b))
         create(:match_player, round_player: round_player, lineup: lineup_a)
@@ -78,10 +78,10 @@ RSpec.describe 'Api::RoundPlayers' do
     end
 
     context 'with the Team column on a mantra league' do
-      let(:tournament)    { create(:tournament) } # mantra mode
-      let(:league)        { create(:active_league, tournament: tournament, season: tournament_round.season) }
-      let(:team)          { create(:team, league: league, human_name: 'My Squad') }
-      let(:player)        { create(:player) }
+      let(:tournament) { create(:tournament) } # mantra mode
+      let(:league) { create(:active_league, tournament: tournament, season: tournament_round.season) }
+      let(:team) { create(:team, league: league, human_name: 'My Squad') }
+      let(:player) { create(:player) }
       let!(:round_player) { create(:round_player, :with_score_six, tournament_round: tournament_round, player: player) }
 
       before { create(:player_team, team: team, player: player) }
@@ -125,7 +125,7 @@ RSpec.describe 'Api::RoundPlayers' do
 
     context 'when ordering by appearances before the deadline' do
       let!(:rp_high) { create(:round_player, :with_score_seven, tournament_round: tournament_round) }
-      let!(:rp_low)  { create(:round_player, :with_score_five,  tournament_round: tournament_round) }
+      let!(:rp_low) { create(:round_player, :with_score_five, tournament_round: tournament_round) }
 
       before { get_index(order: { field: 'appearances', direction: 'desc' }) }
 
@@ -139,7 +139,7 @@ RSpec.describe 'Api::RoundPlayers' do
 
     context 'when ordering by result_score descending' do
       let!(:rp_high) { create(:round_player, :with_score_seven, tournament_round: tournament_round) }
-      let!(:rp_low)  { create(:round_player, :with_score_five,  tournament_round: tournament_round) }
+      let!(:rp_low) { create(:round_player, :with_score_five, tournament_round: tournament_round) }
 
       before { get_index(order: { field: 'result_score', direction: 'desc' }) }
 
@@ -152,7 +152,7 @@ RSpec.describe 'Api::RoundPlayers' do
 
   describe 'GET /api/tournament_rounds/:id/round_players/meta' do
     let!(:league) { create(:active_league, tournament: tournament, season: tournament_round.season) }
-    let(:club)    { create(:club, tournament: tournament) }
+    let(:club) { create(:club, tournament: tournament) }
 
     before do
       create(:round_player, :with_score_six, tournament_round: tournament_round,

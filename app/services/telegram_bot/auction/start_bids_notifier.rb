@@ -4,7 +4,7 @@ module TelegramBot
       private
 
       def message
-        I18n.t(
+        html_message(
           'telegram.notifier.auction.start_offers',
           locale: locale,
           icon: league.tournament.icon,

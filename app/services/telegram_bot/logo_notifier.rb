@@ -1,5 +1,8 @@
 module TelegramBot
   class LogoNotifier < ApplicationService
+    include TelegramBot::HtmlMessage
+    include TelegramBot::Recipient
+
     attr_reader :user_logo
 
     def initialize(user_logo)
@@ -7,17 +10,22 @@ module TelegramBot
     end
 
     def call
-      user = user_logo.user
       return false unless user
 
-      TelegramBot::Sender.call(user, message(user))
+      send_html(user, message)
       true
     end
 
     private
 
-    def message(user)
-      I18n.t("telegram.notifier.logo.#{user_logo.status}", locale: user.locale.to_sym)
+    def user
+      @user ||= user_logo.user
+    end
+
+    def message
+      html_message("telegram.notifier.logo.#{user_logo.status}",
+                   locale: locale,
+                   url: Rails.application.routes.url_helpers.user_url(user))
     end
   end
 end

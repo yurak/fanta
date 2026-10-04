@@ -43,7 +43,7 @@
     .club-bar-item-logo {
       height: 40px;
 
-      object, img {
+      img {
         width: 40px;
         height: 40px;
       }
@@ -478,6 +478,81 @@
         grid-template-columns: 29fr 15fr 13fr 13fr 12fr;
       }
 
+      // `.team-lists-tabs` leaves 24px under itself for a table to start; a single small control
+      // does not need that much, so the row is pulled back up.
+      .team-transfers-seasons {
+        display: flex;
+        justify-content: flex-end;
+        margin: -12px 0 4px;
+      }
+
+      .team-transfers-season-form {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .team-transfers-season-label {
+        font-size: 14px;
+        // The tab body carries a tall line-height for the player rows; left inherited it makes
+        // the label box taller than the select and the two stop reading as one line.
+        line-height: 1;
+        margin: 0;
+        color: #847577;
+      }
+
+      .team-transfers-season-select {
+        font-family: 'Nunito Regular', sans-serif;
+        font-size: 14px;
+        padding: 6px 10px;
+        border: 1px solid #E5E6E4;
+        border-radius: 4px;
+        background: #FFFFFF;
+        cursor: pointer;
+      }
+
+      // The break that tells one auction from the next: a rule across the row with the auction
+      // number sitting on it, so a long history reads as blocks rather than one unbroken list.
+      .team-transfers-auction {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin: 20px 0 8px;
+
+        // `:first-of-type` would look at the first div among the siblings, and that is the season
+        // row — so the first group kept the full 20px. The adjacent sibling is what actually says
+        // "this break comes right after the picker".
+        &:first-child {
+          margin-top: 0;
+        }
+
+        &::after {
+          content: '';
+          flex: 1 1 auto;
+          height: 1px;
+          background: #E5E6E4;
+        }
+      }
+
+      .team-transfers-seasons + .team-transfers-auction {
+        margin-top: 4px;
+      }
+
+      .team-transfers-auction-label {
+        font-family: 'Nunito ExtraBold', sans-serif;
+        font-size: 14px;
+        line-height: 20px;
+        color: #181715;
+        white-space: nowrap;
+      }
+
+      .team-transfers-auction-date {
+        font-size: 13px;
+        line-height: 20px;
+        color: #847577;
+        white-space: nowrap;
+      }
+
       .team-player-transfer-status {
         font-family: 'Nunito ExtraBold';
         font-size: 18px;
@@ -518,7 +593,7 @@
       grid-template-columns: 96px auto;
       column-gap: 32px;
 
-      img, object {
+      img {
         width: 96px;
         height: 96px;
       }
@@ -534,7 +609,7 @@
         border-radius: 32px;
         border: 2px solid #FFFFFF;
 
-        img, object {
+        img {
           width: 32px;
           height: 32px;
         }
@@ -628,7 +703,7 @@
             line-height: 10px;
             position: absolute;
 
-            img, object {
+            img {
               width: 40px;
               height: 40px;
               border-radius: 50%;
@@ -674,6 +749,27 @@
   grid-template-columns: 29fr 15fr 13fr 13fr 12fr;
 }
 
+// The browser paints its own focus ring around these card links, and on a light card it reads as
+// a stray black box. The ring itself has to stay — it is how keyboard users see where they are —
+// so it is replaced by our own, drawn around the card rather than the bare link.
+.team-lists-content a {
+  &:focus-visible {
+    outline: none;
+
+    .team-player-item {
+      outline: 2px solid #261FFF;
+      outline-offset: 2px;
+    }
+  }
+
+  // A plain mouse click leaves the ring drawn but not repainted, so it lingers as a black box on
+  // the card the user last opened. Nothing is lost by dropping it: the keyboard ring above is the
+  // one that has to be visible.
+  &:focus:not(:focus-visible) {
+    outline: none;
+  }
+}
+
 .team-player-item {
   border: 1px solid #E5E6E4;
   box-sizing: border-box;
@@ -699,7 +795,7 @@
       .player-show-face, .player-show-kit {
         position: absolute;
 
-        img, object {
+        img {
           width: 66px;
           height: 66px;
         }
@@ -750,8 +846,11 @@
   .team-player-club {
     display: grid;
     grid-template-columns: 48px auto;
+    // The row's height comes from its siblings' line-height, so the crest needs to be centred
+    // explicitly: an <img> keeps its own height instead of filling the cell the way <object> did.
+    align-items: center;
 
-    img, object {
+    img {
       width: 40px;
       height: 40px;
     }
@@ -759,12 +858,6 @@
     .flag-icon {
       vertical-align: middle;
       margin: auto;
-    }
-
-    object {
-      margin-left: 8px;
-      position: relative;
-      top: 15px;
     }
 
     .team-player-link {
@@ -1247,7 +1340,7 @@
       .club-bar-item-logo {
         //height: 72px;
 
-        object, img {
+        img {
           width: 64px;
           height: 64px;
         }
@@ -1443,7 +1536,7 @@
           }
         }
 
-        .team-players .default-headers, .team-games .default-headers, .team-transfers .default-headers {
+        .team-players .default-headers, .team-games .default-headers {
           display: none;
         }
 
@@ -1469,7 +1562,7 @@
               padding: 9px 24px 0;
 
               .player-show-face, .player-show-kit {
-                img, object {
+                img {
                   width: 156px;
                   height: 156px;
                 }
@@ -1494,6 +1587,7 @@
             .team-player-subdata-mob {
               line-height: 56px;
               display: flex;
+              align-items: center;
               gap: 16px;
 
               .player-positions-block {
@@ -1515,7 +1609,7 @@
                 margin: auto 0;
               }
 
-              img, object {
+              img {
                 width: 56px;
                 height: 56px;
               }
@@ -1652,7 +1746,7 @@
           grid-template-columns: 192px auto;
           column-gap: 48px;
 
-          img, object {
+          img {
             width: 192px;
             height: 192px;
           }
@@ -1661,7 +1755,7 @@
             border-radius: 64px;
             border: 4px solid #FFFFFF;
 
-            img, object {
+            img {
               width: 64px;
               height: 64px;
             }
@@ -1740,7 +1834,7 @@
             .player-show-face, .player-show-kit {
               line-height: 10px;
 
-              img, object {
+              img {
                 width: 64px;
                 height: 64px;
                 border: 2px solid #E5E6E4

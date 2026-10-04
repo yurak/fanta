@@ -6,9 +6,9 @@ module Players
     end
 
     def call
-      return false unless club || national_team
-
       if @id
+        return false unless club || national_team
+
         Player.find(@id).update(player_data)
       else
         create_player
@@ -48,7 +48,7 @@ module Players
     end
 
     def club_id
-      club ? club.id : base_club.id
+      club&.id || base_club&.id
     end
 
     def tm_id

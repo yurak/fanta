@@ -1,0 +1,54 @@
+// Grafana Alloy — ships the production logs to Grafana Cloud Loki.
+// Deployed manually to /etc/alloy/config.alloy on the app server; see docs/LOG_SHIPPING.md.
+// The token is NOT here: it comes from /etc/default/alloy so this file stays safe in git.
+
+local.file_match "fanta" {
+  path_targets = [
+    {
+      __path__ = "/var/www/fanta/shared/log/production.log",
+      app      = "fanta",
+      env      = "production",
+      stream   = "rails",
+    },
+    {
+      __path__ = "/var/log/nginx/*.log",
+      app      = "fanta",
+      env      = "production",
+      stream   = "nginx",
+    },
+  ]
+}
+
+loki.source.file "fanta" {
+  targets    = local.file_match.fanta.targets
+  forward_to = [loki.process.rails.receiver]
+
+  // logrotate uses copytruncate, so the file is emptied in place rather than renamed
+  tail_from_end = true
+}
+
+loki.process "rails" {
+  forward_to = [loki.write.grafana_cloud.receiver]
+
+  // A Rails backtrace is dozens of lines belonging to one event. Without this every line becomes a
+  // separate entry and an error is unreadable in Loki.
+  stage.multiline {
+    firstline     = "^[DIWEF], \\[\\d{4}-\\d{2}-\\d{2}"
+    max_wait_time = "3s"
+  }
+}
+
+loki.write "grafana_cloud" {
+  endpoint {
+    url = "https://logs-prod-012.grafana.net/loki/api/v1/push"
+
+    basic_auth {
+      username = "1781938"
+      password = sys.env("GRAFANA_CLOUD_TOKEN")
+    }
+  }
+
+  external_labels = {
+    host = constants.hostname,
+  }
+}

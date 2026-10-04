@@ -38,11 +38,9 @@
                 .fanta-lineup-player
                   .fanta-lineup-player-avatar
                     .player-show-face
-                      %object{data: lineup.best_player.avatar_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                        = image_tag('avatar.png')
+                      %img{ src: lineup.best_player.avatar_path, onerror: "this.onerror=null;this.src='#{image_path('avatar.png')}'" }
                     .player-show-kit
-                      %object{data: lineup.best_player.kit_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                        = image_tag('kit_small_default.png')
+                      %img{ src: lineup.best_player.kit_path, onerror: "this.onerror=null;this.src='#{image_path('kit_small_default.png')}'" }
                   .fanta-lineup-player-name= lineup.best_player.name
                 .fanta-lineup-module= lineup.team_module&.name
                 .fanta-lineup-position= lineup.position

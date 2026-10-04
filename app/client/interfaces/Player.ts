@@ -57,4 +57,7 @@ export interface IPlayerShow extends IPlayer {
   teams: IPlayerTeam[],
   tm_price: number | null,
   tm_url: string | null,
+  wishlistable: boolean,
+  wishlisted: boolean,
+  wishlist_id: number | null,
 }

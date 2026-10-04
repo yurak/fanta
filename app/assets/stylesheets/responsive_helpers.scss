@@ -1,10 +1,12 @@
-body.react-application {
+body.react-application,
+body.responsive-viewport {
   --window-size: 980; // https://stackoverflow.com/questions/31767904/why-is-document-documentelement-clientwidth-980px-on-mobile-phone
   --unit-multiplier: calc(100 / var(--window-size));
 }
 
-@mixin reactApplication {
-  body.react-application & {
+@mixin responsiveViewport {
+  body.react-application &,
+  body.responsive-viewport & {
     @content;
   }
 }

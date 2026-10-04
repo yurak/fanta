@@ -1,7 +1,7 @@
 class TeamsController < ApplicationController
   respond_to :html, :json
 
-  helper_method :team
+  helper_method :team, :transfers_league
 
   def show
     preload_team_show_associations
@@ -34,6 +34,13 @@ class TeamsController < ApplicationController
   end
 
   private
+
+  def transfers_league
+    return @transfers_league if defined?(@transfers_league)
+
+    wanted = params[:transfers_league].presence&.to_i
+    @transfers_league = team.transfer_leagues.find { |l| l.id == wanted } || team.league
+  end
 
   def team
     @team ||= Team.includes(

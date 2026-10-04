@@ -517,6 +517,63 @@ RSpec.describe AuctionsHelper do
     end
   end
 
+  describe '#slot_wishlist(tournament, league)' do
+    let(:user) { create(:user) }
+    let(:league) { create(:league) }
+    let(:tournament) { league.tournament }
+    let(:wishlist) { create(:wishlist, user: user, tournament: tournament, season: league.season) }
+
+    before { allow(helper).to receive(:current_user).and_return(user) }
+
+    context 'without a signed in user' do
+      before { allow(helper).to receive(:current_user).and_return(nil) }
+
+      it 'returns nil' do
+        expect(helper.slot_wishlist(tournament, league)).to be_nil
+      end
+    end
+
+    context 'without a tournament' do
+      it 'returns nil' do
+        expect(helper.slot_wishlist(nil, league)).to be_nil
+      end
+    end
+
+    context 'without a wishlist for the competition' do
+      it 'returns nil' do
+        expect(helper.slot_wishlist(tournament, league)).to be_nil
+      end
+    end
+
+    context 'with an empty wishlist' do
+      before { wishlist }
+
+      it 'returns nil, so the filter is not offered for nothing' do
+        expect(helper.slot_wishlist(tournament, league)).to be_nil
+      end
+    end
+
+    context 'with a wishlist somebody is on' do
+      before { create(:wishlist_player, wishlist: wishlist, player: create(:player)) }
+
+      it 'returns the wishlist' do
+        expect(helper.slot_wishlist(tournament, league)).to eq(wishlist)
+      end
+    end
+
+    context 'with a wishlist for another tournament' do
+      let(:wishlist) do
+        create(:wishlist, user: user, tournament: create(:tournament), season: league.season)
+      end
+
+      before { create(:wishlist_player, wishlist: wishlist, player: create(:player)) }
+
+      it 'returns nil' do
+        expect(helper.slot_wishlist(tournament, league)).to be_nil
+      end
+    end
+  end
+
   describe '#formations_js_data' do
     before do
       create(:slot, team_module: team_module, number: 2, position: Position::CENTER_BACK)

@@ -1,6 +1,9 @@
 module TelegramBot
   module Auction
     class AuctionNotifier < ApplicationService
+      include TelegramBot::HtmlMessage
+      include TelegramBot::Recipient
+
       attr_reader :notification
 
       def initialize(notification)
@@ -11,12 +14,17 @@ module TelegramBot
         return false unless notifiable
         return false unless team
         return false unless user
+        return false unless still_relevant?
 
-        TelegramBot::Sender.call(user, message)
+        send_html(user, message)
         true
       end
 
       private
+
+      def still_relevant?
+        true
+      end
 
       def notifiable
         @notifiable ||= notification.notifiable
@@ -35,21 +43,13 @@ module TelegramBot
       end
 
       def message
-        I18n.t(
+        html_message(
           'telegram.notifier.auction.default',
           locale: locale,
           icon: league.tournament.icon,
           team_name: team.human_name,
           code: league.tournament.code
         )
-      end
-
-      def locale
-        user.locale&.to_sym || :en
-      end
-
-      def time_zone
-        user.time_zone || User::DEFAULT_TIME_ZONE
       end
     end
   end

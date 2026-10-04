@@ -130,6 +130,40 @@ RSpec.describe Players::Manager do
       end
     end
 
+    context 'without player id and with a club we do not have' do
+      let(:player_hash) do
+        {
+          'name' => 'Sanches',
+          'club_name' => nil,
+          'tm_club_name' => 'Real Sociedad B',
+          'first_name' => 'Alvyn',
+          'nationality' => 'ch',
+          'tm_url' => 'player/555111',
+          'position1' => player_position1
+        }
+      end
+
+      it { expect(manager.call).to be(true) }
+
+      it 'creates the player in the Outside club' do
+        manager.call
+
+        expect(Player.last.club.name).to eq('Outside')
+      end
+
+      it 'creates the player with the correct name' do
+        manager.call
+
+        expect(Player.last.name).to eq('Sanches')
+      end
+
+      it 'creates the player with the correct position' do
+        manager.call
+
+        expect(Player.last.positions.first.name).to eq(player_position1)
+      end
+    end
+
     context 'without player id and tm_url' do
       let(:player_hash) do
         {

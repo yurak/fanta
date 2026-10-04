@@ -49,9 +49,16 @@ RSpec.describe Substitutes::AutoBot do
       before { auto_bot.call }
 
       it 'saves substitutes preview on the lineup' do
-        expected = [{ 'in' => pc_sub.player.full_name_with_positions,
-                      'out' => pc_one.player.full_name_with_positions }]
+        expected = [{ 'out_mp_id' => pc_one.id, 'in_mp_id' => pc_sub.id,
+                      'out' => pc_one.player.full_name_with_positions,
+                      'in' => pc_sub.player.full_name_with_positions }]
         expect(match_lineup.substitutes_preview).to eq(expected)
+      end
+
+      # The plan has to carry ids, or the apply pass has nothing it can act on and falls back to
+      # recomputing — which is what let it perform swaps the admin never saw.
+      it 'stores the match player ids, not just the names it draws' do
+        expect(match_lineup.substitutes_preview.first).to include('out_mp_id', 'in_mp_id')
       end
 
       it 'does not create Substitute records' do
@@ -76,9 +83,68 @@ RSpec.describe Substitutes::AutoBot do
         expect(pc_sub.reload.subs_status).to eq('get_out')
       end
 
-      it 'does not update the lineup substitutes preview' do
+      # Both passes leave a record now: an admin who skips the preview used to leave no trace of what
+      # the autobot did beyond `Substitute.subs_by`.
+      it 'records what it did on the lineup' do
         auto_bot.call
-        expect(match_lineup.reload.substitutes).to be_nil
+        expect(match_lineup.reload.substitutes_preview.size).to eq(1)
+      end
+    end
+
+    # The whole point of two passes: the admin approves a list, and the second click carries out THAT
+    # list. Scores keep arriving between the clicks, so recomputing could perform swaps nobody saw.
+    context 'with a plan the admin approved' do
+      let(:preview) { false }
+
+      before { described_class.call(match_lineup, preview: true) }
+
+      it 'uses the stored plan instead of recomputing' do
+        allow(Substitutes::TieredMatcher).to receive(:call)
+        auto_bot.call
+
+        expect(Substitutes::TieredMatcher).not_to have_received(:call)
+      end
+
+      it 'makes the substitution the plan names' do
+        expect { auto_bot.call }.to change(Substitute, :count).by(1)
+      end
+
+      it 'records the pair it carried out' do
+        auto_bot.call
+
+        expect(match_lineup.reload.substitutes_preview.first['in_mp_id']).to eq(pc_sub.id)
+      end
+    end
+
+    context 'when the approved plan no longer holds' do
+      let(:preview) { false }
+
+      before do
+        described_class.call(match_lineup, preview: true)
+        # the reserve is gone from the lineup, so his half of the plan cannot be carried out
+        pc_sub.destroy
+      end
+
+      it 'makes no substitution' do
+        expect { auto_bot.call }.not_to change(Substitute, :count)
+      end
+
+      it 'says so in the log rather than dropping it in silence' do
+        allow(Rails.logger).to receive(:warn)
+        auto_bot.call
+
+        expect(Rails.logger).to have_received(:warn).with(/\[autobot\] skipped/)
+      end
+    end
+
+    # A plan written before the column carried ids cannot be applied, so it must be recomputed.
+    context 'with a legacy plan that has no ids' do
+      let(:preview) { false }
+
+      before { match_lineup.update(substitutes: [{ 'out' => 'Someone', 'in' => 'Another' }].to_json) }
+
+      it 'falls back to computing the pairs' do
+        expect { auto_bot.call }.to change(Substitute, :count).by(1)
       end
     end
 
@@ -92,6 +158,21 @@ RSpec.describe Substitutes::AutoBot do
       it 'does not create Substitute records' do
         auto_bot.call
         expect(Substitute.count).to eq(0)
+      end
+    end
+
+    # The plan used to survive a regeneration: a lineup that no longer needed anyone was skipped
+    # before the write, so the page kept showing pairs that would never be made.
+    context 'when a stored plan is no longer needed' do
+      before do
+        described_class.call(match_lineup, preview: true)
+        pc_one.round_player.update(score: 7.0)
+      end
+
+      it 'clears the plan instead of leaving the old one on screen' do
+        described_class.call(match_lineup, preview: true)
+
+        expect(match_lineup.reload.substitutes_preview).to eq([])
       end
     end
 
@@ -199,7 +280,8 @@ RSpec.describe Substitutes::AutoBot do
     let!(:tours) { create_list(:tour, 2, tournament_round: round) }
 
     before do
-      tours.each { |t| allow(t).to receive(:autobot) }
+      # what a tour really answers: one entry per lineup, each the pairs made for it
+      tours.each { |t| allow(t).to receive(:autobot).and_return([[{}, {}], []]) }
       allow(round).to receive(:tours).and_return(tours)
     end
 
@@ -211,6 +293,30 @@ RSpec.describe Substitutes::AutoBot do
     it 'passes preview: false when specified' do
       described_class.for_round(round, preview: false)
       expect(tours).to all(have_received(:autobot).with(preview: false))
+    end
+
+    it 'counts the lineups it went through' do
+      expect(described_class.for_round(round)[:lineups]).to eq(4)
+    end
+
+    it 'counts the substitutions made' do
+      expect(described_class.for_round(round)[:substitutes]).to eq(4)
+    end
+
+    it 'reports no failures when every tour went through' do
+      expect(described_class.for_round(round)[:failures]).to be_empty
+    end
+
+    context 'when one tour blows up' do
+      before { allow(tours.first).to receive(:autobot).and_raise(ActiveRecord::RecordInvalid) }
+
+      it 'still runs the rest of the round' do
+        expect(described_class.for_round(round)[:lineups]).to eq(2)
+      end
+
+      it 'names the tour that failed' do
+        expect(described_class.for_round(round)[:failures].first).to include("tour #{tours.first.id}")
+      end
     end
   end
 end

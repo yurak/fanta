@@ -7,6 +7,12 @@ module ApplicationHelper
     controller_path.start_with?('manage/')
   end
 
+  def any_wishlist?
+    return false unless user_signed_in?
+
+    current_user.wishlists.by_season(Season.last&.id).exists?
+  end
+
   def active_tournaments
     Tournament.with_clubs.order(:id) + Tournament.with_ec_clubs
   end
@@ -42,5 +48,12 @@ module ApplicationHelper
     return unless time
 
     current_user&.local_time(time, format) || time.in_time_zone(User::DEFAULT_TIME_ZONE).strftime(format)
+  end
+
+  # Rounds are picked by number, but the deadline tells apart the one being played from the rest.
+  def round_switch_label(round)
+    deadline = local_time(round.deadline, '%b %e')
+
+    deadline ? "##{round.number} · #{deadline}" : "##{round.number}"
   end
 end

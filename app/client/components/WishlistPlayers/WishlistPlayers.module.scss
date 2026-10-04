@@ -1,0 +1,17 @@
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.counter {
+  font-size: 14px;
+  line-height: 20px;
+  color: #847577;
+  white-space: nowrap;
+}
+
+.share {
+  display: flex;
+  align-items: center;
+}

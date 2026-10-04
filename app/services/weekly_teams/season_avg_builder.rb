@@ -5,7 +5,7 @@ module WeeklyTeams
 
     def initialize(tournament_id, season_id)
       @tournament_id = tournament_id
-      @season_id     = season_id
+      @season_id = season_id
     end
 
     def call
@@ -49,8 +49,8 @@ module WeeklyTeams
 
     def build_entry(hash, rps)
       result_scores = rps.map(&:result_score)
-      avg           = (result_scores.sum / result_scores.size.to_f).round(2)
-      best_rp       = rps.max_by(&:result_score)
+      avg = (result_scores.sum / result_scores.size.to_f).round(2)
+      best_rp = rps.max_by(&:result_score)
 
       hash[best_rp.player_id] = {
         player: best_rp.player,

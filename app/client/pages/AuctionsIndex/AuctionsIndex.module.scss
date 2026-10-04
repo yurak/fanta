@@ -33,6 +33,20 @@
 
   a {
     text-decoration: none;
+
+    &:focus-visible {
+      outline: none;
+
+      .item {
+        outline: 2px solid #261fff;
+        outline-offset: 2px;
+      }
+    }
+
+
+    &:focus:not(:focus-visible) {
+      outline: none;
+    }
   }
 }
 

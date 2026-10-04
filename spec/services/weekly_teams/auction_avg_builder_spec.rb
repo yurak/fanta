@@ -4,10 +4,10 @@ RSpec.describe WeeklyTeams::AuctionAvgBuilder do
   subject(:result) { described_class.call(tournament.id, season.id) }
 
   let(:tournament) { Tournament.first }
-  let!(:season)    { Season.last }
+  let!(:season) { Season.last }
 
   def league_with_auction
-    league  = create(:league, tournament: tournament, season: season, division: create(:division))
+    league = create(:league, tournament: tournament, season: season, division: create(:division))
     auction = create(:auction, league: league, number: 1)
     [league, auction]
   end
@@ -53,13 +53,13 @@ RSpec.describe WeeklyTeams::AuctionAvgBuilder do
   end
 
   context 'when a player is bought in fewer than half the leagues' do
-    let(:rare)   { create(:player, :with_pos_por) }
+    let(:rare) { create(:player, :with_pos_por) }
     let(:common) { create(:player, :with_pos_por) }
 
     before do
       leagues = Array.new(3) { league_with_auction }
-      buy(leagues[0], rare, 90)                 # 1 of 3 leagues — below the half threshold
-      leagues.each { |la| buy(la, common, 5) }  # 3 of 3 leagues
+      buy(leagues[0], rare, 90) # 1 of 3 leagues — below the half threshold
+      leagues.each { |la| buy(la, common, 5) } # 3 of 3 leagues
     end
 
     it 'excludes the rarely-bought player even though he is pricier' do
@@ -92,7 +92,7 @@ RSpec.describe WeeklyTeams::AuctionAvgBuilder do
 
     before do
       buy(league_with_auction, player, 5)
-      no_div_league  = create(:league, tournament: tournament, season: season, division: nil)
+      no_div_league = create(:league, tournament: tournament, season: season, division: nil)
       no_div_auction = create(:auction, league: no_div_league, number: 1)
       create(:transfer, auction: no_div_auction, league: no_div_league, player: player,
                         team: create(:team, league: no_div_league), status: :incoming, price: 99)

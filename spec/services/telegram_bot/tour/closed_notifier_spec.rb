@@ -31,9 +31,9 @@ RSpec.describe TelegramBot::Tour::ClosedNotifier do
 
   def build_valid_notification
     league = build_league
-    tour   = build_notifiable(league: league)
-    user   = build_user
-    team   = build_team(user: user)
+    tour = build_notifiable(league: league)
+    user = build_user
+    team = build_team(user: user)
 
     build_notification(team: team, notifiable: tour)
   end

@@ -24,7 +24,7 @@ module Substitutes
 
     def prepare
       @eligible_rows = (0...@m).select { |r| @grid[r].any? { |cell| cell != 'X' } }
-      @all_edges  = @eligible_rows.map { |r| all_edges_for(r) }
+      @all_edges = @eligible_rows.map { |r| all_edges_for(r) }
       @zero_edges = @eligible_rows.map { |r| zero_edges_for(r) }
       @match_col = Array.new(@n, -1)
       @match_row = Array.new(@eligible_rows.size, -1)
@@ -72,7 +72,7 @@ module Substitutes
       @eligible_rows.each_with_index do |_r, i|
         next if @match_row[i] != -1
 
-        zero_before     = count_zero_assignments
+        zero_before = count_zero_assignments
         saved_match_col = @match_col.dup
         saved_match_row = @match_row.dup
 
@@ -211,8 +211,8 @@ module Substitutes
       return if idxs.empty?
 
       tier_edges = build_tier_edges(idxs, malus_val)
-      saved_col  = @match_col.dup
-      saved_row  = @match_row.dup
+      saved_col = @match_col.dup
+      saved_row = @match_row.dup
 
       unmatch_tier(idxs)
       greedy_assign_tier(idxs, tier_edges).each do |i|
@@ -268,9 +268,9 @@ module Substitutes
     end
 
     def reassign(row_idx, old_col, new_col)
-      @match_col[old_col]    = -1
-      @match_col[new_col]    = row_idx
-      @match_row[row_idx]    = new_col
+      @match_col[old_col] = -1
+      @match_col[new_col] = row_idx
+      @match_row[row_idx] = new_col
     end
 
     def build_tier_edges(tier_idxs, malus_val)
@@ -405,7 +405,7 @@ module Substitutes
     # Returns true if swapping would reduce the zero-malus match count.
     def z_loss?(row, row2, col_i, col_j)
       gained = (@grid[row][col_j].zero? ? 1 : 0) + (@grid[row2][col_i].zero? ? 1 : 0)
-      lost   = (@grid[row][col_i].zero? ? 1 : 0) + (@grid[row2][col_j].zero? ? 1 : 0)
+      lost = (@grid[row][col_i].zero? ? 1 : 0) + (@grid[row2][col_j].zero? ? 1 : 0)
       (gained - lost).negative?
     end
 

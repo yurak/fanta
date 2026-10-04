@@ -52,9 +52,19 @@ module AuctionBids
       return false if players_ids.count < slots_limit
       return false if total_price > budget_limit
       return false if gk_count < gk_limit
-      return false if auction_round && contains_dumped?
+      return false if forbidden_players?
 
       true
+    end
+
+    def forbidden_players?
+      (auction_round && contains_dumped?) || contains_taken?
+    end
+
+    def contains_taken?
+      return false unless league
+
+      PlayerTeam.joins(:team).exists?(player_id: players_ids, teams: { league_id: league.id })
     end
 
     def new_status
@@ -103,6 +113,10 @@ module AuctionBids
 
     def team
       @team ||= auction_bid.team
+    end
+
+    def league
+      @league ||= auction_round&.auction&.league || team.league
     end
 
     def auction_round

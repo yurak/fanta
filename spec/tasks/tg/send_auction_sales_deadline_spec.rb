@@ -1,8 +1,7 @@
-# rubocop:disable RSpec/DescribeClass
 require 'rails_helper'
 require 'rake'
 
-RSpec.describe 'tg:send_auction_sales_deadline' do
+RSpec.describe 'tg:send_auction_sales_deadline' do # rubocop:disable RSpec/DescribeClass
   before do
     Rake.application.rake_require('tasks/tg/send_auction_sales_deadline')
     Rake::Task.define_task(:environment)
@@ -15,4 +14,3 @@ RSpec.describe 'tg:send_auction_sales_deadline' do
     expect(TelegramBot::Auction::SalesDdlBroadcaster).to have_received(:call)
   end
 end
-# rubocop:enable RSpec/DescribeClass

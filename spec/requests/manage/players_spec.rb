@@ -339,6 +339,21 @@ RSpec.describe 'Manage::Players' do
         end
       end
 
+      context 'when the club is not in our database' do
+        before do
+          allow(Players::Transfermarkt::ApiParser)
+            .to receive(:call).and_return({ name: 'Bazan', club_name: nil, tm_club_id: '455' })
+          allow(Players::Manager).to receive(:call).and_return(true)
+          post manage_players_path, params: { tm_id: '1097930' }
+        end
+
+        it { expect(response).to redirect_to(manage_players_path) }
+
+        it 'says the player landed in Outside and points at his TM club' do
+          expect(flash[:notice]).to include('Outside', '455')
+        end
+      end
+
       context 'when Players::Manager returns false' do
         before do
           allow(Players::Transfermarkt::ApiParser).to receive(:call).and_return({ name: 'Bazan' })

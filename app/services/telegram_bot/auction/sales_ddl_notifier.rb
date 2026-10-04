@@ -3,8 +3,14 @@ module TelegramBot
     class SalesDdlNotifier < AuctionNotifier
       private
 
+      def still_relevant?
+        deadline = notifiable.deadline
+
+        deadline.blank? || deadline.future?
+      end
+
       def message
-        I18n.t(
+        html_message(
           'telegram.notifier.auction.sales_ddl',
           locale: locale,
           icon: league.tournament.icon,

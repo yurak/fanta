@@ -11,7 +11,7 @@
     = render 'layouts/favicon'
     = yield :head
     -#%script{type: "text/javascript", src: "/javascripts/lib/hotjar.js"}
-  %body
+  %body{ class: yield(:body_class) }
     = query_diet_widget if Rails.env.development?
     .main-block
       = yield

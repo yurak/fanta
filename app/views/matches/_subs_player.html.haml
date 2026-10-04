@@ -1,15 +1,12 @@
 .match-player-item
   .match-player-avatar
     .player-show-face
-      %object{data: match_player.player.avatar_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-        = image_tag('avatar.png')
+      %img{ src: match_player.player.avatar_path, onerror: "this.onerror=null;this.src='#{image_path('avatar.png')}'" }
     .player-show-kit
       - if match_player.lineup.tour.national?
-        %object{data: match_player.player.national_kit_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-          = image_tag('kit_small_default.png')
+        %img{ src: match_player.player.national_kit_path, onerror: "this.onerror=null;this.src='#{image_path('kit_small_default.png')}'" }
       - else
-        %object{data: match_player.kit_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-          = image_tag('kit_small_default.png')
+        %img{ src: match_player.kit_path, onerror: "this.onerror=null;this.src='#{image_path('kit_small_default.png')}'" }
   .match-player-data
     .match-player-data
       .match-player-data-base
@@ -26,8 +23,10 @@
           .team-player-scores{ class: ('team-player-scores--live' if match_player.live?) }
             .team-player-score= match_player.score
             .team-player-total-score= match_player.total_score
-        - elsif match_player.live?
+        - elsif match_player.live? && match_player.round_player_in_squad?
           .team-player-score-live-pending –
+        - elsif match_player.live?
+          .team-player-score-live-absent{ title: t('matches.not_in_squad') }= t('matches.not_in_squad')
         - elsif match_player.club_played_match? || (match_player.tour.mantra? && match_player.another_tournament?)
           .team-player-score-not-played= t('matches.didnt_play')
         - else

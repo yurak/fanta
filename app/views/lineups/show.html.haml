@@ -42,11 +42,11 @@
                   .match-player-item
                     .match-player-avatar
                       .player-show-face
-                        %object{data: match_player.player.avatar_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                          = image_tag('avatar.png')
+                        %img{ src: match_player.player.avatar_path,
+                              onerror: "this.onerror=null;this.src='#{image_path('avatar.png')}'" }
                       .player-show-kit
-                        %object{data: lineup.tour.national? ? match_player.player.national_kit_path : match_player.kit_path, type: ApplicationRecord::CONTENT_TYPE_PNG}
-                          = image_tag('kit_small_default.png')
+                        - kit = lineup.tour.national? ? match_player.player.national_kit_path : match_player.kit_path
+                        %img{ src: kit, onerror: "this.onerror=null;this.src='#{image_path('kit_small_default.png')}'" }
                       .module-position-block.player-positions-block
                         - match_player.real_position_arr.each do |position|
                           .player-position{class: "player-position-#{position}"}
@@ -64,7 +64,7 @@
                               - else
                                 = match_player.player.club.name
                         - if match_player.score.positive?
-                          .team-player-scores
+                          .team-player-scores{ class: ('team-player-scores--live' if match_player.live?) }
                             .team-player-substitute-cell
                               - if match_player.get_in?
                                 .team-player-substitute{title: subs_string(match_player)}
@@ -75,6 +75,10 @@
                                     = image_tag('icons/subs-on.svg')
                             .team-player-score= match_player.score
                             .team-player-total-score= match_player.total_score
+                        - elsif match_player.live? && match_player.round_player_in_squad?
+                          .team-player-score-live-pending –
+                        - elsif match_player.live?
+                          .team-player-score-live-absent{ title: t('matches.not_in_squad') }= t('matches.not_in_squad')
                         - elsif match_player.club_played_match?
                           - if match_player.tour.locked_or_postponed? && current_user&.can_moderate?
                             .team-player-score-not-played

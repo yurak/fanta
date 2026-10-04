@@ -5,7 +5,7 @@ RSpec.describe Players::Transfermarkt::PositionParser do
   describe '#call' do
     subject(:parser) { described_class.new(player, year) }
 
-    let(:year)   { 2023 }
+    let(:year) { 2023 }
     let(:player) { create(:player, tm_id: '406040') }
 
     def build_game(season_id:, position_id:, is_national_game: false)
@@ -60,9 +60,9 @@ RSpec.describe Players::Transfermarkt::PositionParser do
               build_game(season_id: 2023, position_id: 14), # CF → ST x2
               build_game(season_id: 2023, position_id: 14),
               build_game(season_id: 2023, position_id: 12), # RW → W
-              build_game(season_id: 2023, position_id: 6),  # DM → DM (not WB)
-              build_game(season_id: 2023, position_id: 8),  # LM → WB
-              build_game(season_id: 2022, position_id: 13)  # different season — ignored
+              build_game(season_id: 2023, position_id: 6), # DM → DM (not WB)
+              build_game(season_id: 2023, position_id: 8), # LM → WB
+              build_game(season_id: 2022, position_id: 13) # different season — ignored
             ]
           }
         )
@@ -162,9 +162,9 @@ RSpec.describe Players::Transfermarkt::PositionParser do
         stub_api(
           'data' => {
             'performance' => [
-              build_game(season_id: 2023, position_id: 8),                                    # LM → WB (club)
-              build_game(season_id: 2023, position_id: 5, is_national_game: true),            # RB national — ignored
-              build_game(season_id: 2023, position_id: 5, is_national_game: true)             # RB national — ignored
+              build_game(season_id: 2023, position_id: 8), # LM → WB (club)
+              build_game(season_id: 2023, position_id: 5, is_national_game: true), # RB national — ignored
+              build_game(season_id: 2023, position_id: 5, is_national_game: true) # RB national — ignored
             ]
           }
         )

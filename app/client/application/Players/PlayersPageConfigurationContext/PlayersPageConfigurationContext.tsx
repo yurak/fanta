@@ -2,14 +2,18 @@ import { createContext, useContext } from "react";
 
 interface IProps {
   leagueId?: number,
+  wishlistId?: number,
 }
 
-const usePlayersPageConfiguration = ({ leagueId }: IProps) => {
+const usePlayersPageConfiguration = ({ leagueId, wishlistId }: IProps) => {
   const isLeagueSpecificPlayersPage = !!leagueId;
+  const isWishlistPage = !!wishlistId;
 
   return {
     isLeagueSpecificPlayersPage,
+    isWishlistPage,
     leagueId,
+    wishlistId,
   };
 };
 

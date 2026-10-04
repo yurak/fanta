@@ -19,14 +19,16 @@ import styles from "./PlayersPage.module.scss";
 
 interface IProps {
   title: React.ReactNode,
+  subtitle?: React.ReactNode,
   actions?: React.ReactNode,
+  emptyState?: React.ReactNode,
 }
 
-const PlayersPage = ({ title, actions }: IProps) => {
+const PlayersPage = ({ title, subtitle, actions, emptyState }: IProps) => {
   const { search, filterCount, setSearch, clearFilter, selectedSeason, setSelectedSeason, requestFilterPayload } =
     usePlayersContext();
   const { totalItemCount } = usePlayersListContext();
-  const { isLeagueSpecificPlayersPage } = usePlayersPageConfigurationContext();
+  const { isLeagueSpecificPlayersPage, isWishlistPage } = usePlayersPageConfigurationContext();
 
   const { t } = useTranslation();
 
@@ -44,12 +46,17 @@ const PlayersPage = ({ title, actions }: IProps) => {
         <div className={styles.headerTop}>
           <div
             className={cn(styles.title, {
-              [styles.titleHiddenMobile]: !isLeagueSpecificPlayersPage,
+              [styles.titleHiddenMobile]: !isLeagueSpecificPlayersPage && !isWishlistPage,
             })}
           >
-            <Heading title={title} noSpace />
+            {/* A wishlist keeps its subtitle on mobile — the app header carries only the bare
+                name, not the competition and season the list belongs to. */}
+            <div className={cn({ [styles.titleHiddenMobile]: isWishlistPage })}>
+              <Heading title={title} noSpace />
+            </div>
+            {subtitle && <div className={styles.subtitle}>{subtitle}</div>}
           </div>
-          {!isLeagueSpecificPlayersPage && (
+          {!isLeagueSpecificPlayersPage && !isWishlistPage && (
             <div className={styles.seasonControls}>
               <SeasonsSelect value={selectedSeason} onChange={setSelectedSeason} />
               <Button onClick={handleExport}>{t("players.export_csv")}</Button>
@@ -84,7 +91,7 @@ const PlayersPage = ({ title, actions }: IProps) => {
           </span>
         </div>
       </div>
-      <PlayersList />
+      <PlayersList emptyState={emptyState} />
     </>
   );
 };

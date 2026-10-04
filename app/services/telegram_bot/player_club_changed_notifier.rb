@@ -1,5 +1,8 @@
 module TelegramBot
   class PlayerClubChangedNotifier < ApplicationService
+    include TelegramBot::HtmlMessage
+    include TelegramBot::Recipient
+
     attr_reader :player, :team, :new_club
 
     def initialize(player, team, new_club)
@@ -13,21 +16,23 @@ module TelegramBot
       return false unless player
       return false unless new_club
 
-      TelegramBot::Sender.call(team.user, message)
+      send_html(team.user, message)
       true
     end
 
     private
 
     def message
-      I18n.t(
+      html_message(
         'telegram.notifier.player.club_changed',
         locale: locale,
         icon: tournament.icon,
         player_name: player.full_name,
         team_name: team.human_name,
+        old_club_name: player.club&.name,
         new_club_name: new_club.name,
         tournament_name: tournament.name,
+        url: Rails.application.routes.url_helpers.player_url(player),
         code: tournament.code
       )
     end
@@ -36,10 +41,8 @@ module TelegramBot
       @tournament ||= team.league.tournament
     end
 
-    def locale
-      return :en unless team.user
-
-      team.user.locale.to_sym
+    def user
+      @user ||= team.user
     end
   end
 end

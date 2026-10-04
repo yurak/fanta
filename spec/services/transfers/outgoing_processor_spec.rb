@@ -66,11 +66,11 @@ RSpec.describe Transfers::OutgoingProcessor do
 
     context 'when a team has transferable players' do
       let(:team) { create(:team, league: league, transfer_slots: 3) }
-      let(:striker)  { create(:player) }
+      let(:striker) { create(:player) }
       let(:defender) { create(:player) }
 
       before do
-        create(:player_team, player: striker,  team: team, transfer_status: :transferable)
+        create(:player_team, player: striker, team: team, transfer_status: :transferable)
         create(:player_team, player: defender, team: team, transfer_status: :transferable)
       end
 

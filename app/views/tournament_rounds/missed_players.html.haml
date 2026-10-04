@@ -39,4 +39,4 @@
                   %td= player['played_minutes']
                   %td
                     - if matched_player
-                      = link_to matched_player.name, player_path(matched_player)
+                      = link_to matched_player.name, manage_player_path(matched_player)

@@ -12,12 +12,12 @@ RSpec.describe TelegramBot::LogoNotifier do
 
     it 'translates the approved message in the user locale' do
       service_call
-      expect(I18n).to have_received(:t).with('telegram.notifier.logo.approved', locale: :ua)
+      expect(I18n).to have_received(:t).with('telegram.notifier.logo.approved', hash_including(locale: :ua))
     end
 
     it 'sends the message to the logo owner' do
       service_call
-      expect(TelegramBot::Sender).to have_received(:call).with(user, 'translated message')
+      expect(TelegramBot::Sender).to have_received(:call).with(user, 'translated message', any_args)
     end
 
     it 'returns true' do
@@ -29,7 +29,7 @@ RSpec.describe TelegramBot::LogoNotifier do
 
       it 'translates the rejected message' do
         service_call
-        expect(I18n).to have_received(:t).with('telegram.notifier.logo.rejected', locale: :ua)
+        expect(I18n).to have_received(:t).with('telegram.notifier.logo.rejected', hash_including(locale: :ua))
       end
     end
   end

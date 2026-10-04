@@ -814,7 +814,78 @@
 
   .stats-section {
     border-left: none;
-    padding-bottom: 214px;
+    // `.create-lineup-row-block` floats over the page at `bottom: 264px` and stands ~130px tall, so
+    // it covers the strip 264-396px up from the bottom edge. The clearance lives here rather than on
+    // the last block, because which block ends the column depends on the tour type.
+    padding-bottom: 432px;
+
+    // The portrait page is laid out at desktop width and scaled down by the browser (the legacy
+    // layout carries no viewport meta), so every size here is roughly 3x its desktop value. The
+    // standings table has to follow, or it renders unreadably small next to the fixtures above it.
+    .standings-table {
+      font-size: 36px;
+
+      th {
+        font-size: 28px;
+        padding: 18px 6px;
+      }
+
+      td {
+        padding: 18px 6px;
+      }
+
+      th:not(.standings-pos):not(.standings-team):not(.standings-goals):not(.standings-opponent),
+      td:not(.standings-pos):not(.standings-team):not(.standings-goals):not(.standings-opponent) {
+        width: 82px;
+      }
+
+      .standings-pos {
+        width: 78px;
+        padding-left: 24px;
+      }
+
+      .standings-zone {
+        width: 8px;
+        top: 14px;
+        bottom: 14px;
+        border-radius: 4px;
+      }
+
+      .standings-team-inner {
+        gap: 18px;
+      }
+
+      .standings-club-logo {
+        width: 48px;
+        height: 48px;
+
+        img {
+          width: 48px;
+          height: 48px;
+        }
+      }
+
+      .standings-goals {
+        width: 150px;
+      }
+
+      .standings-opponent {
+        width: 96px;
+      }
+
+      td.standings-live::before {
+        top: 12px;
+        bottom: 12px;
+      }
+
+      .standings-team + td.standings-live::before {
+        border-radius: 24px 0 0 24px;
+      }
+
+      td.standings-live.standings-points::before {
+        border-radius: 0 24px 24px 0;
+      }
+    }
 
     .round-table {
       padding: 48px;
@@ -911,9 +982,10 @@
             padding-top: 3px;
             height: 96px;
 
-            img, object {
+            img {
               width: 90px;
               height: 90px;
+              margin-bottom: 3px;
             }
           }
         }
@@ -950,7 +1022,7 @@
   .stats-section .round-table .round-tournament-match, .fixtures-block .round-tournament-match {
     column-gap: 36px;
     font-size: 36px;
-    line-height: 96px;
+    line-height: 105px;
     border-bottom: 3px solid #E5E6E4;
 
     .round-tournament-match-club {
@@ -965,7 +1037,7 @@
         height: 72px;
       }
 
-      img, object {
+      img {
         width: 72px;
         height: 72px;
       }
@@ -986,11 +1058,16 @@
     .round-tournament-match-result {
       line-height: 54px;
       padding: 5px 0;
-      margin: 18px 0;
+      margin: 20px 0;
 
       .round-tournament-match-result-host {
         border-right: 3px solid #847577;
       }
+    }
+
+    .round-tournament-match-cell--live .round-tournament-match-result {
+      margin: 12px 0 0;
+      padding: 0;
     }
   }
 

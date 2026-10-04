@@ -126,26 +126,99 @@ RSpec.describe Team do
     end
   end
 
-  describe '#league_transfers' do
+  describe '#transfers_by_auction' do
     context 'without transfers' do
-      it 'returns empty array' do
-        expect(team.league_transfers).to eq([])
+      it { expect(team.transfers_by_auction).to eq({}) }
+    end
+
+    context 'with transfers of another league' do
+      before { create(:transfer, team: team) }
+
+      it { expect(team.transfers_by_auction).to eq({}) }
+    end
+
+    context 'with transfers of several auctions' do
+      let(:first) { create(:auction, league: team.league, number: 1) }
+      let(:second) { create(:auction, league: team.league, number: 2) }
+      let!(:early) do
+        create(:transfer, team: team, league: team.league, auction: first, created_at: 3.days.ago)
+      end
+      let!(:late) do
+        create(:transfer, team: team, league: team.league, auction: second, created_at: 1.day.ago)
+      end
+
+      it 'puts the newest auction first' do
+        expect(team.transfers_by_auction.keys).to eq([second, first])
+      end
+
+      it 'keeps each auction rows together' do
+        expect(team.transfers_by_auction.values).to eq([[late], [early]])
       end
     end
 
-    context 'without league transfers' do
-      let(:transfer) { create(:transfer, team: team) }
+    # Heap order drifts as rows are updated, so the page must not depend on it.
+    context 'with rows of one auction saved out of order' do
+      let(:auction) { create(:auction, league: team.league, number: 1) }
+      let!(:newer) do
+        create(:transfer, team: team, league: team.league, auction: auction, created_at: 1.hour.ago)
+      end
+      let!(:older) do
+        create(:transfer, team: team, league: team.league, auction: auction, created_at: 5.hours.ago)
+      end
 
-      it 'returns empty array' do
-        expect(team.league_transfers).to eq([])
+      # An update moves the row in the heap, which is what makes heap order unreliable.
+      before { older.update!(price: older.price.to_i + 1) }
+
+      it 'reads newest to oldest inside the auction' do
+        expect(team.transfers_by_auction[auction]).to eq([newer, older])
       end
     end
 
-    context 'with league transfers' do
-      let(:transfers) { create_list(:transfer, 3, team: team, league: team.league) }
+    context 'with a transfer that belongs to no auction' do
+      let(:auction) { create(:auction, league: team.league, number: 1) }
+      let!(:with_auction) { create(:transfer, team: team, league: team.league, auction: auction) }
+      let!(:without_auction) { create(:transfer, team: team, league: team.league, auction: nil) }
 
-      it 'returns array with matches' do
-        expect(team.league_transfers).to eq(transfers)
+      it 'keeps it in its own group at the end' do
+        expect(team.transfers_by_auction.keys).to eq([auction, nil])
+      end
+
+      it 'still lists it' do
+        expect(team.transfers_by_auction[nil]).to eq([without_auction])
+      end
+
+      it 'does not drop the ones that have an auction' do
+        expect(team.transfers_by_auction[auction]).to eq([with_auction])
+      end
+    end
+  end
+
+  describe '#transfer_leagues' do
+    context 'without transfers' do
+      it { expect(team.transfer_leagues).to eq([]) }
+    end
+
+    context 'with transfers in two seasons' do
+      let(:older_league) { create(:league) }
+
+      # Seasons come from the factory and are sorted here rather than pinned to literal years:
+      # which of two generated seasons is the newer one is exactly what this example asserts.
+      before do
+        older, newer = create_list(:season, 2).sort_by(&:start_year)
+        older_league.update!(season: older)
+        team.league.update!(season: newer)
+        create(:transfer, team: team, league: team.league)
+        create(:transfer, team: team, league: older_league)
+      end
+
+      it 'offers both, newest season first' do
+        expect(team.transfer_leagues).to eq([team.league, older_league])
+      end
+
+      it 'lists each league once' do
+        create(:transfer, team: team, league: older_league)
+
+        expect(team.transfer_leagues.size).to eq(2)
       end
     end
   end

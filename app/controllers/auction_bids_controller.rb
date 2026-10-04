@@ -29,27 +29,49 @@ class AuctionBidsController < ApplicationController
   def generate
     return redirect_to leagues_path unless bid_owner?
 
-    AuctionBids::LineupGenerator.call(auction_bid) if auction_bid.auction_round_id.nil? && auction_bid.editable?
+    if auction_bid.auction_round_id.nil? && auction_bid.editable?
+      AuctionBids::LineupGenerator.call(auction_bid)
+    else
+      log_rejected('bid_not_editable', bid: auction_bid.id, status: auction_bid.status,
+                                       round: auction_bid.auction_round_id)
+    end
+
     redirect_to auction_bid_path(auction_bid)
   end
 
   def update
-    if params[:auction_round_id]
-      AuctionBids::Manager.call(auction_bid, auction_bid_params) if editable?
-      redirect_to auction_round_path(auction_round)
-    else
-      AuctionBids::Manager.call(auction_bid, auction_bid_params) if bid_owner?
-      join = auction_bid.join
-      if join && auction_bid.reload.submitted?
-        join.pending!
-        redirect_to join_path(join)
-      else
-        redirect_to auction_bid_path(auction_bid)
-      end
-    end
+    return update_round_bid if params[:auction_round_id]
+
+    update_own_bid
   end
 
   private
+
+  def update_round_bid
+    if editable?
+      AuctionBids::Manager.call(auction_bid, auction_bid_params)
+    else
+      log_rejected(bid_rejection, team: team&.id, round: auction_round.id,
+                                  round_status: auction_round.status,
+                                  deadline: auction_round.deadline&.iso8601)
+    end
+
+    redirect_to auction_round_path(auction_round)
+  end
+
+  def update_own_bid
+    if bid_owner?
+      AuctionBids::Manager.call(auction_bid, auction_bid_params)
+    else
+      log_rejected('foreign_team', bid: auction_bid&.id)
+    end
+
+    join = auction_bid.join
+    return redirect_to(auction_bid_path(auction_bid)) unless join && auction_bid.reload.submitted?
+
+    join.pending!
+    redirect_to join_path(join)
+  end
 
   def auction_bid_params
     params.fetch(:auction_bid, {}).permit(:status, player_bids_attributes: {})
@@ -63,6 +85,13 @@ class AuctionBidsController < ApplicationController
 
   def bid_owner?
     auction_bid&.team&.user == current_user
+  end
+
+  def bid_rejection
+    return 'foreign_team' unless team&.user == current_user && team == auction_bid&.team
+    return 'ddl_expired' if auction_round.ddl_expired?
+
+    'round_closed'
   end
 
   def auction_bid

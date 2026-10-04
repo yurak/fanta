@@ -109,7 +109,14 @@ class PlayerBaseSerializer < ActiveModel::Serializer
   end
 
   def season_round_players
-    @season_round_players ||= object.round_players.select { |rp| rp.tournament_round&.season_id == current_season_id }
+    @season_round_players ||= object.round_players.select do |rp|
+      round = rp.tournament_round
+      round&.season_id == current_season_id && domestic_tournament_ids.include?(round.tournament_id)
+    end
+  end
+
+  def domestic_tournament_ids
+    @domestic_tournament_ids ||= Tournament.domestic.ids.to_set
   end
 
   def current_season?

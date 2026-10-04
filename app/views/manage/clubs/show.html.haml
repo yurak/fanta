@@ -52,7 +52,7 @@
         = image_tag(@club.logo_path, width: 150, height: 150, onerror: "this.style.visibility='hidden'")
         .club-show-kit{style: 'position: relative; width: 150px; height: 150px; flex-shrink: 0;'}
           = image_tag('avatar.png', width: 150, height: 150, style: 'position: absolute; top: 0; left: 0;')
-          %object{data: @club.profile_kit_path, type: ApplicationRecord::CONTENT_TYPE_PNG, width: 150, height: 150, style: 'position: absolute; top: 0; left: 0;'}
+          %img{ src: @club.profile_kit_path, width: 150, height: 150, style: 'position: absolute; top: 0; left: 0;', onerror: "this.onerror=null;this.src='#{image_path('kit_small_default.png')}'" }
 
     - if @club.tm_url.present?
       %h5.mt-4= t('manage.clubs.section_links')

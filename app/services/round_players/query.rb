@@ -15,12 +15,12 @@ module RoundPlayers
 
     def initialize(params)
       @tournament_round_id = params[:tournament_round_id]
-      @position            = params[:position]
-      @club_id             = params[:club_id]
-      @league_id           = params[:league_id]
-      @name                = params[:name]
-      @field               = params[:field]
-      @direction           = params[:direction] || DESC_DIRECTION
+      @position = params[:position]
+      @club_id = params[:club_id]
+      @league_id = params[:league_id]
+      @name = params[:name]
+      @field = params[:field]
+      @direction = params[:direction] || DESC_DIRECTION
     end
 
     # The set of round players shown before any position/club/name filter.
@@ -104,12 +104,12 @@ module RoundPlayers
 
     def sort_players(players)
       case sort_field
-      when NAME             then sort_alpha(players, &:name)
-      when CLUB             then sort_alpha(players) { |rp| rp.related_club.name.to_s }
-      when BASE_SCORE       then sort_numeric(players) { |rp| rp.score.to_f }
-      when APPEARANCES      then sort_numeric(players) { |rp| rp.match_players.size }
+      when NAME then sort_alpha(players, &:name)
+      when CLUB then sort_alpha(players) { |rp| rp.related_club.name.to_s }
+      when BASE_SCORE then sort_numeric(players) { |rp| rp.score.to_f }
+      when APPEARANCES then sort_numeric(players) { |rp| rp.match_players.size }
       when MAIN_APPEARANCES then sort_numeric(players) { |rp| rp.match_players.count(&:real_position) }
-      else                       sort_numeric(players, &:result_score)
+      else sort_numeric(players, &:result_score)
       end
     end
 

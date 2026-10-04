@@ -21,16 +21,13 @@ const PlayerPage = ({ id }: { id: number }) => {
   const { data: player, isLoading, isError } = usePlayer(id);
   const { data: stats } = usePlayerStats(id, selectedSeasonId);
 
-  const seasons = useMemo(() => {
-    const map = new Map<number, string>();
-    stats?.season_stats.forEach((stat) => {
-      if (stat.season) {
-        map.set(stat.season.id, `${stat.season.start_year}-${stat.season.end_year}`);
-      }
-    });
-
-    return [...map].map(([seasonId, label]) => ({ id: seasonId, label })).sort((a, b) => b.id - a.id);
-  }, [stats?.season_stats]);
+  const seasons = useMemo(
+    () => (stats?.seasons ?? []).map((season) => ({
+      id: season.id,
+      label: `${season.start_year}-${season.end_year}`,
+    })),
+    [stats?.seasons],
+  );
 
   if (isLoading) {
     return (

@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
+import ClubLogo from "@/components/ClubLogo/ClubLogo";
 import PlayerPositions from "@/components/PlayerPositions/PlayerPositions";
 import { ISeasonStat } from "@/interfaces/PlayerStats";
-import DefaultLogo from "@/assets/icons/noTeam.svg";
 import styles from "./PlayerPage.module.scss";
 
 const GK_KEYS: [keyof ISeasonStat, string][] = [
@@ -71,9 +71,7 @@ const PlayerSeasonStats = ({
             <div key={stat.id} className={`${styles.perfRow} ${styles.seasonStatsRow} ${styles.dataRow}`}>
               <div className={styles.cell}>{seasonLabel(stat)}</div>
               <div className={`${styles.cell} ${styles.statsClub}`}>
-                <object data={stat.club_logo_path ?? undefined} type="image/png">
-                  <DefaultLogo />
-                </object>
+                <ClubLogo src={stat.club_logo_path} />
               </div>
               <div className={`${styles.cell} ${styles.statsPositions}`}>
                 <PlayerPositions position={stat.position_classic_arr} />

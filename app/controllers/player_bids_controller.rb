@@ -2,19 +2,25 @@ class PlayerBidsController < ApplicationController
   respond_to :html, :json
 
   def update
-    if valid_update?
-      auction_bid.ongoing! if auction_bid.submitted?
+    return render(json: { error: rejection }, status: :unprocessable_entity) unless valid_update?
 
-      bid = player_bid_params
-      bid = bid.merge(price: player.stats_price) if auction_round&.min_price_active? && bid[:price].to_i < player.stats_price
+    auction_bid.ongoing! if auction_bid.submitted?
 
-      player_bid.update(bid)
-    end
+    bid = player_bid_params
+    bid = bid.merge(price: player.stats_price) if auction_round&.min_price_active? && bid[:price].to_i < player.stats_price
+
+    player_bid.update(bid)
 
     render json: player
   end
 
   private
+
+  def rejection
+    taken = player_bid && player && team && player_already_taken?
+
+    taken ? t('auction_round.player_taken') : t('auction_round.bid_not_editable')
+  end
 
   def valid_update?
     player_bid && player && (auction_round.nil? || auction_round.editable?) && player_available? && auction_bid.editable?

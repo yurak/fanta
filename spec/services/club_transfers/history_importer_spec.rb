@@ -109,5 +109,23 @@ RSpec.describe ClubTransfers::HistoryImporter do
         expect(ClubTransfer.exists?(stored.id)).to be(true)
       end
     end
+
+    # A unique violation aborts the whole Postgres transaction, so rescuing it without a savepoint
+    # only looked safe: called inside a caller's transaction, every later statement died with
+    # InFailedSqlTransaction.
+    context 'when a duplicate row is hit inside a surrounding transaction' do
+      before do
+        create(:club_transfer, player: player, tm_transfer_id: history.first[:tm_transfer_id])
+        allow(ClubTransfer).to receive(:find_or_initialize_by).and_raise(ActiveRecord::RecordNotUnique, 'duplicate')
+      end
+
+      it 'leaves the transaction usable' do
+        ActiveRecord::Base.transaction do
+          described_class.call(player)
+
+          expect(Player.count).to be_positive
+        end
+      end
+    end
   end
 end

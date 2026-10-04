@@ -1,12 +1,11 @@
-# rubocop:disable Metrics/BlockLength
 namespace :tm do
   # rake 'tm:check_player_club_data[start_id,last_id]'
   desc 'Check TM player club data'
   task :check_player_club_data, %i[start_id last_id] => :environment do |_t, args|
     ids_range = args[:start_id].to_i..args[:last_id].to_i
 
-    CSV.open('log/player_changed_club.csv', 'ab') do |writer|
-      ids_range.to_a.each do |id|
+    CSV.open('log/player_changed_club.csv', 'ab') do |writer| # rubocop:disable Metrics/BlockLength
+      ids_range.to_a.each do |id| # rubocop:disable Metrics/BlockLength
         player = Player.find_by(id: id)
         next unless player&.tm_id
 
@@ -58,4 +57,3 @@ namespace :tm do
     end
   end
 end
-# rubocop:enable Metrics/BlockLength

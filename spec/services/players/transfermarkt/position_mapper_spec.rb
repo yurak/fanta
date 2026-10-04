@@ -4,7 +4,7 @@ RSpec.describe Players::Transfermarkt::PositionMapper do
   describe '#call' do
     subject(:result) { described_class.new(player, year).call }
 
-    let(:year)   { 2023 }
+    let(:year) { 2023 }
     let(:player) { create(:player, tm_id: nil) }
 
     context 'without player' do
