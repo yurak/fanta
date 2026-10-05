@@ -28,12 +28,28 @@ RSpec.describe 'Api::Sofascore::Matches' do
       expect(response.parsed_body['round']).to eq(tournament_round.number)
     end
 
+    it "returns the tournament's sofascore pair so the importer asks the admin for nothing" do
+      tournament_round.tournament.update!(sofa_number: '218-97214')
+
+      get '/api/sofascore/matches', params: { tournament_round_id: tournament_round.id }, headers: headers
+
+      expect(response.parsed_body['ut_season']).to eq('218-97214')
+    end
+
+    it 'leaves the pair blank when the tournament has none, so the importer can ask' do
+      tournament_round.tournament.update!(sofa_number: '')
+
+      get '/api/sofascore/matches', params: { tournament_round_id: tournament_round.id }, headers: headers
+
+      expect(response.parsed_body['ut_season']).to be_nil
+    end
+
     it 'answers with a blank round rather than raising for an unknown id' do
       get '/api/sofascore/matches', params: { tournament_round_id: 0 }, headers: headers
 
       aggregate_failures do
         expect(response).to have_http_status(:ok)
-        expect(response.parsed_body).to eq('data' => [], 'round' => nil)
+        expect(response.parsed_body).to eq('data' => [], 'round' => nil, 'ut_season' => nil)
       end
     end
 

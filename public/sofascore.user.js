@@ -19,10 +19,11 @@
  *
  * Use (per round):
  *   Open any sofascore.com page, click the "⚽ Import round → Mantra" button,
- *   enter the Mantra tournament_round id, then confirm the "uniqueTournament-season"
- *   pair (UPL 2026/27 = 218-97214). The script asks Mantra which SofaScore event ids
- *   belong to that round, reads that round from SofaScore, fetches lineups + incidents
- *   per match, posts everything back, and Mantra injects the scores automatically.
+ *   enter the Mantra tournament_round id -- that is the only thing to type. The script
+ *   asks Mantra which SofaScore event ids belong to that round, which round it is and the
+ *   "uniqueTournament-season" pair (kept in the tournament's sofa_number, e.g. UPL 2026/27
+ *   = 218-97214), reads that round from SofaScore, fetches lineups + incidents per match,
+ *   posts everything back, and Mantra injects the scores automatically.
  *
  * What each source gives Mantra:
  *   round     — the event of each match: final score and whether it is finished
@@ -119,7 +120,8 @@ async function importRound() {
     return;
   }
 
-  const pair = prompt('SofaScore "uniqueTournament-season" pair:', DEFAULT_UT_SEASON);
+  const pair =
+    mantra.ut_season || prompt('SofaScore "uniqueTournament-season" pair:', DEFAULT_UT_SEASON);
   if (!pair) return;
   const [ut, season] = pair.trim().split("-");
 

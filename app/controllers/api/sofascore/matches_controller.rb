@@ -12,7 +12,8 @@ module Api
                                        .where.not(source_match_id: [nil, ''])
                                        .pluck(:source_match_id)
 
-        render json: { data: sofascore_ids, round: round&.number }
+        render json: { data: sofascore_ids, round: round&.number,
+                       ut_season: round&.tournament&.sofa_number.presence }
       end
 
       def create
