@@ -143,12 +143,14 @@
                         = image_tag('icons/search.svg')
                         %input.modal-player-search{ type: 'search', placeholder: t('players.search_player'), id: "modal-player-search#{mp.index}", autocomplete: 'off' }
                         .modal-player-search-clear= image_tag('icons/close_ring.svg')
+                      .lineup-players-filters{ id: "modal-player-filters#{mp.index}" }
                       - lazy_mantra = tour.mantra? && !tour.eurocup?
                       .modal-modules-block{ id: "modal-modules-block#{mp.index}", data: (lazy_mantra ? { lazy_team: team.id, lazy_module: team_module.id, lazy_index: mp.index } : {}) }
 
 :javascript
   const AVATAR_FALLBACK = "#{image_path('avatar.png')}";
   const KIT_FALLBACK = "#{image_path('kit_small_default.png')}";
+  const LOGO_FALLBACK = "#{image_path('default_logo.png')}";
 
   $(document).ready(function() {
     $('.module-image .match-module-item-player').each(function() {
@@ -321,14 +323,62 @@
       closeSlotModal($(modalList));
     });
 
+    const POSITION_ORDER = ['Por', 'Dc', 'Dd', 'Ds', 'E', 'M', 'C', 'W', 'T', 'A', 'Pc'];
+
+    const escAttr = function(value) {
+      return String(value).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
+    };
+
+    const renderModalFilters = function($box, positionLabels, teams, withPositions) {
+      if (!$box.length) return;
+
+      let positionsHtml = '';
+      if (withPositions) {
+        const seen = Array.from(positionLabels.keys());
+        const ordered = POSITION_ORDER.filter((name) => positionLabels.has(name))
+          .concat(seen.filter((name) => POSITION_ORDER.indexOf(name) === -1));
+
+        ordered.forEach(function(name) {
+          positionsHtml +=
+            '<div class="lineup-filter-chip lineup-filter-position player-positions-block" data-position="' +
+            escAttr(name) + '"><div class="player-position player-position-' + escAttr(name) + '">' +
+            escAttr(positionLabels.get(name)) + '</div></div>';
+        });
+      }
+
+      let teamsHtml = '';
+      teams.forEach(function(team) {
+        const badge = team.code
+          ? '<span class="flag-icon flag-icon-' + escAttr(String(team.code).toLowerCase()) + '"></span>'
+          : '<img src="' + escAttr(team.logo || '') + '" onerror="this.onerror=null;this.src=\'' + LOGO_FALLBACK + '\'">';
+
+        teamsHtml += '<div class="lineup-filter-chip lineup-filter-team" data-team="' +
+          escAttr(team.name) + '" title="' + escAttr(team.name) + '">' + badge + '</div>';
+      });
+
+      const html =
+        (positionsHtml ? '<div class="lineup-filter-positions">' + positionsHtml + '</div>' : '') +
+        (teamsHtml ? '<div class="lineup-filter-teams">' + teamsHtml + '</div>' : '');
+
+      $box.html(html).toggle(html !== '');
+    };
+
     const filterModalPlayers = function(input) {
       const $input = $(input);
       const query = $input.val().trim().toLowerCase();
       const modalContent = $input.closest('.players-modal-content');
+      const position = modalContent.find('.lineup-filter-position.is-active').attr('data-position') || '';
+      const team = modalContent.find('.lineup-filter-team.is-active').attr('data-team') || '';
 
       modalContent.find('.modal-player-item').each(function() {
-        const haystack = ($(this).attr('data-search') || $(this).find('.modal-player-name').text()).toLowerCase();
-        $(this).toggle(query === '' || haystack.indexOf(query) !== -1);
+        const $item = $(this);
+        const haystack = ($item.attr('data-search') || $item.find('.modal-player-name').text()).toLowerCase();
+        const positions = ($item.attr('data-positions') || '').split(' ');
+        $item.toggle(
+          (query === '' || haystack.indexOf(query) !== -1) &&
+          (position === '' || positions.indexOf(position) !== -1) &&
+          (team === '' || $item.attr('data-team') === team)
+        );
       });
 
       modalContent.find('.modal-malus-title').each(function() {
@@ -337,6 +387,18 @@
 
       $input.siblings('.modal-player-search-clear').toggle(query !== '');
     };
+
+    $(document).on('click', '.lineup-filter-chip', function(e) {
+      e.stopPropagation();
+      const $chip = $(this);
+      const kind = $chip.hasClass('lineup-filter-position') ? '.lineup-filter-position' : '.lineup-filter-team';
+      const wasActive = $chip.hasClass('is-active');
+
+      $chip.closest('.lineup-players-filters').find(kind).removeClass('is-active');
+      $chip.toggleClass('is-active', !wasActive);
+
+      filterModalPlayers($chip.closest('.players-modal-content').find('.modal-player-search'));
+    });
 
     $(document).on('input', '.modal-player-search', function() { filterModalPlayers(this); });
     $(document).on('click', '.modal-player-search', function(e) { e.stopPropagation(); });
@@ -465,15 +527,25 @@
             modalBlock.empty();
             const playersHash = data.eurocup_players;
             let listHtml = '';
+            const positionLabels = new Map();
+            const teams = [];
+            const isNational = "#{tour.national?}" === 'true';
 
             for (var key in playersHash){
-              listHtml += '<div class="modal-malus-title">' + key + '</div> <div class="modal-malus-block">';
+              const first = playersHash[key][0] || {};
+              teams.push({
+                name: key,
+                code: isNational ? first.national_team_code : null,
+                logo: first.club_logo
+              });
+              listHtml += '<div class="modal-malus-title">' + escAttr(key) + '</div> <div class="modal-malus-block">';
               playersHash[key].forEach(function(player) {
                 let positionsItems = '';
                 player.position_arr.forEach((positionName, index) => {
                   let posName = player.position_classic_arr[index];
                   if (italPosNaming) { posName = positionName; }
 
+                  if (!positionLabels.has(positionName)) positionLabels.set(positionName, posName);
                   positionsItems += '<div class="position-item position-item-' + positionName + '">' + posName + '</div> ';
                 })
 
@@ -490,7 +562,10 @@
                 }
 
                 listHtml +=
-                  '<div class="modal-player-item" id="' + player.id + '" data-search="' + (firstName + ' ' + player.name).trim().toLowerCase() + '">' +
+                  '<div class="modal-player-item" id="' + player.id +
+                    '" data-search="' + escAttr((firstName + ' ' + player.name).trim().toLowerCase()) +
+                    '" data-positions="' + escAttr(player.position_arr.join(' ')) +
+                    '" data-team="' + escAttr(key) + '">' +
                     '<div class="modal-player-images" style="background-color: #' + color + '">' +
                       '<div class="player-show-face">' +
                         '<img src="' + (player.avatar_path || avatarImgSrc) + '" onerror="this.onerror=null;this.src=\'' + avatarImgSrc + '\'">' +
@@ -515,6 +590,8 @@
               listHtml += '</div>';
             }
             modalBlock.append(listHtml);
+            renderModalFilters($('#modal-player-filters' + slotId), positionLabels, teams,
+                               slotPositionName === '');
           }
         });
       } else {

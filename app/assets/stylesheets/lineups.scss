@@ -944,6 +944,62 @@
   }
 }
 
+.new-lineup-page .lineup-players-filters {
+  display: none;
+  margin: 0 32px 8px;
+  font-size: 0;
+
+  .lineup-filter-positions {
+    line-height: 36px;
+  }
+
+  .lineup-filter-teams {
+    line-height: 34px;
+  }
+
+  .lineup-filter-positions + .lineup-filter-teams {
+    margin-top: 4px;
+  }
+
+  .lineup-filter-chip {
+    display: inline-block;
+    cursor: pointer;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .lineup-filter-chip.is-active {
+    border-color: #261FFF;
+  }
+
+  .lineup-filter-position {
+    height: 36px;
+    padding: 4px 8px;
+
+    .player-position {
+      border-radius: 4px;
+    }
+  }
+
+  .lineup-filter-team {
+    height: 34px;
+    width: 34px;
+    margin: 0 2px 4px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    img,
+    .flag-icon {
+      width: 24px;
+      height: 24px;
+      line-height: 24px;
+      background-size: contain;
+    }
+  }
+}
+
 .new-lineup-page .lineup-players-search {
   margin: 0 32px 16px;
   border-radius: 28px;
@@ -981,6 +1037,136 @@
     img {
       width: 22px;
       height: 22px;
+    }
+  }
+}
+
+@media (orientation: portrait) {
+  .new-lineup-page {
+    .new-lineup-block {
+      .players-section .main-players .player-data .modal-players-list .players-modal-content {
+        width: 940px;
+
+        .modal-players-title {
+          font-size: 32px;
+          line-height: 40px;
+          padding: 32px 40px 20px;
+          grid-template-columns: 240px auto;
+
+          .module-position-block {
+            height: 38px;
+
+            .player-position {
+              height: 36px;
+              padding: 0 12px;
+              font-size: 18px;
+              line-height: 36px;
+            }
+          }
+        }
+
+        .modal-modules-block {
+          padding: 0 32px 32px;
+
+          .modal-malus-title {
+            font-size: 18px;
+            line-height: 24px;
+            padding: 12px;
+            margin: 12px 0;
+          }
+
+          // 874px of usable width: six cards of 144 leave a little slack, seven would not fit.
+          .modal-player-item,
+          .modal-player-item-sold {
+            width: 144px;
+            height: 240px;
+            padding: 10px;
+          }
+
+          .modal-player-images {
+            width: 122px;
+            height: 122px;
+
+            .player-show-face, .player-show-kit {
+              img {
+                width: 112px;
+                height: 112px;
+                margin: 10px 5px 0;
+              }
+            }
+          }
+
+          .modal-player-data {
+            line-height: 22px;
+            font-size: 17px;
+            padding-top: 6px;
+          }
+
+          .modal-player-name {
+            line-height: 32px;
+            font-size: 24px;
+          }
+
+          .modal-player-first-name {
+            height: 24px;
+            line-height: 24px;
+            font-size: 19px;
+          }
+        }
+      }
+    }
+
+    .lineup-players-search {
+      margin: 0 40px 16px;
+      grid-template-columns: 32px auto 32px;
+      column-gap: 20px;
+      padding: 18px 20px;
+
+      img {
+        width: 32px;
+        height: 32px;
+      }
+
+      input {
+        font-size: 22px;
+      }
+    }
+
+    .lineup-players-filters {
+      margin: 0 40px 12px;
+
+      .lineup-filter-positions {
+        line-height: 48px;
+      }
+
+      .lineup-filter-teams {
+        line-height: 48px;
+      }
+
+      .lineup-filter-position {
+        height: 48px;
+        padding: 6px 10px;
+
+        .player-position {
+          height: 36px;
+          padding: 0 12px;
+          font-size: 18px;
+          line-height: 36px;
+        }
+      }
+
+      .lineup-filter-team {
+        height: 48px;
+        width: 48px;
+        margin: 0 3px 6px;
+
+        img,
+        .flag-icon {
+          width: 34px;
+          height: 34px;
+          line-height: 34px;
+        }
+      }
     }
   }
 }
