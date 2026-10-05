@@ -1,10 +1,10 @@
 // ==UserScript==
 // @name         MantraFootball — SofaScore round importer
 // @namespace    mantrafootball
-// @version      1.1.0
+// @version      1.3.0
 // @description  Fetches SofaScore event + lineups + incidents JSON from the browser and sends a whole round to MantraFootball (bypasses the server-side block).
 // @match        https://www.sofascore.com/*
-// @connect      api.sofascore.com
+// @connect      www.sofascore.com
 // @connect      mantrafootball.org
 // @connect      staging.mantrafootball.org
 // @grant        GM_xmlhttpRequest
@@ -19,12 +19,13 @@
  *
  * Use (per round):
  *   Open any sofascore.com page, click the "⚽ Import round → Mantra" button,
- *   enter the Mantra tournament_round id. The script asks Mantra which SofaScore
- *   event ids belong to that round, fetches each event + lineups + incidents from
- *   your browser, posts them back, and Mantra injects the scores automatically.
+ *   enter the Mantra tournament_round id, then confirm the "uniqueTournament-season"
+ *   pair (UPL 2026/27 = 218-97214). The script asks Mantra which SofaScore event ids
+ *   belong to that round, reads that round from SofaScore, fetches lineups + incidents
+ *   per match, posts everything back, and Mantra injects the scores automatically.
  *
- * What each endpoint gives Mantra:
- *   event     — final score and whether the match is finished
+ * What each source gives Mantra:
+ *   round     — the event of each match: final score and whether it is finished
  *   lineups   — per-player minutes, rating, goals, assists, saves, penalty stats
  *   incidents — cards and which goals came from the spot
  */
@@ -32,7 +33,9 @@
 const MANTRA_BASE = "https://mantrafootball.org";
 const INGEST_TOKEN = "PASTE_SOFASCORE_INGEST_TOKEN_HERE";
 
-const SOFA_API = "https://api.sofascore.com/api/v1/event";
+const SOFA_API = "https://www.sofascore.com/api/v1/event";
+const SOFA_ROUND = "https://www.sofascore.com/api/v1/unique-tournament";
+const DEFAULT_UT_SEASON = "218-97214"; // UPL 2026/27
 
 function gmRequest(opts) {
   return new Promise((resolve, reject) => {
@@ -46,9 +49,6 @@ function gmRequest(opts) {
 }
 
 async function fetchText(url) {
-  // Fetch via GM_xmlhttpRequest (privileged, @connect api.sofascore.com) so the
-  // cross-subdomain www -> api request is not blocked by CORS. Still runs from
-  // the admin's browser / residential IP, which is what bypasses the server block.
   const res = await gmRequest({ method: "GET", url });
   if (res.status < 200 || res.status >= 300) {
     throw new Error(`SofaScore ${res.status} for ${url}`);
@@ -56,19 +56,23 @@ async function fetchText(url) {
   return res.responseText;
 }
 
-async function roundSofaIds(roundId) {
+async function mantraRound(roundId) {
   const res = await gmRequest({
     method: "GET",
     url: `${MANTRA_BASE}/api/sofascore/matches?tournament_round_id=${encodeURIComponent(roundId)}`,
     headers: { "X-Ingest-Token": INGEST_TOKEN },
   });
   if (res.status !== 200) throw new Error(`Mantra list ${res.status}: ${res.responseText}`);
-  return JSON.parse(res.responseText).data;
+  return JSON.parse(res.responseText);
+}
+
+async function roundEvents(ut, season, round) {
+  const url = `${SOFA_ROUND}/${ut}/season/${season}/events/round/${round}`;
+  const events = JSON.parse(await fetchText(url)).events || [];
+  return new Map(events.map((e) => [String(e.id), e]));
 }
 
 async function fetchOptionalText(url) {
-  // Incidents are missing on some events (abandoned, not yet played). Mantra treats the field as
-  // optional, so a failure here must not cost us the scores the other two endpoints already gave.
   try {
     return await fetchText(url);
   } catch (e) {
@@ -77,8 +81,10 @@ async function fetchOptionalText(url) {
   }
 }
 
-async function importMatch(sofaId) {
-  const baseData = await fetchText(`${SOFA_API}/${sofaId}`);
+async function importMatch(sofaId, event) {
+  if (!event) throw new Error(`event ${sofaId} is not in that round on SofaScore`);
+
+  const baseData = JSON.stringify({ event });
   const lineupsData = await fetchText(`${SOFA_API}/${sofaId}/lineups`);
   const incidentsData = await fetchOptionalText(`${SOFA_API}/${sofaId}/incidents`);
 
@@ -100,29 +106,44 @@ async function importRound() {
   const roundId = prompt("Mantra tournament_round id for this UPL round:");
   if (!roundId) return;
 
-  let sofaIds;
+  let mantra;
   try {
-    sofaIds = await roundSofaIds(roundId.trim());
+    mantra = await mantraRound(roundId.trim());
   } catch (e) {
     alert(`Could not read round from Mantra:\n${e.message}`);
     return;
   }
+  const sofaIds = mantra.data;
   if (!sofaIds.length) {
     alert("No matches with a source_match_id in that round.");
+    return;
+  }
+
+  const pair = prompt('SofaScore "uniqueTournament-season" pair:', DEFAULT_UT_SEASON);
+  if (!pair) return;
+  const [ut, season] = pair.trim().split("-");
+
+  let events;
+  try {
+    events = await roundEvents(ut, season, mantra.round);
+  } catch (e) {
+    alert(`Could not read round ${mantra.round} from SofaScore:\n${e.message}`);
     return;
   }
 
   const results = [];
   for (const sofaId of sofaIds) {
     try {
-      results.push(await importMatch(sofaId));
+      results.push(await importMatch(sofaId, events.get(String(sofaId))));
     } catch (e) {
       results.push({ sofaId, status: "error", body: e.message });
     }
   }
 
   const ok = results.filter((r) => r.status === 200).length;
-  const lines = results.map((r) => `${r.sofaId}: ${r.status}`).join("\n");
+  const lines = results
+    .map((r) => `${r.sofaId}: ${r.status}${r.status === 200 ? "" : ` — ${r.body}`}`)
+    .join("\n");
   alert(`Imported ${ok}/${results.length} matches.\n\n${lines}`);
 }
 

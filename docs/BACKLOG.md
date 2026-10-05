@@ -4,8 +4,13 @@
 
 ## Prioritized (has a plan)
 
-1. **Ruby & Rails Upgrade** (Ruby 3.2.2 → 4.x)
-   Rails side is already in production (Rails 8). Remaining: Ruby 3.4 → Ruby 4.x → cleanup.
+1. **Ruby & Rails Upgrade** — see [RUBY_RAILS_UPGRADE_PLAN.md](RUBY_RAILS_UPGRADE_PLAN.md)
+   Rails 8.0.5 → 8.1.4 and Ruby 3.2.2 → 3.4.x. Both overdue: Ruby 3.2 went end-of-life 2026-03-31
+   and Rails 8.0 loses security support 2026-11-07. The two are independent — 8.1 asks only for
+   Ruby >= 3.2 and is happy on Rack 2 — so Rails ships first, on its own. 3.4 rather than 4.x: it
+   is supported to 2028 and the stack still carries gems from 2019. The one real unknown is
+   `sassc`/`sassc-rails` (unmaintained since 2019–20, native, wraps deprecated libsass); a dry-run
+   `bundle install` on 3.4 settles it. ~3–6 days.
 
 2. **Viewport Migration** (mobile-first)
    8 stages, not started. Scope: legacy haml on the `application` layout (React pages are already device-width).
@@ -63,8 +68,10 @@ lower-risk early wins; the write-critical/real-time ones (lineup, auction) booke
 
 - **Player statuses** (injury / suspension / doubtful) shown when setting a lineup.
 - **xPoints after tour close** — expected points of a squad, computed after `tour.close!`.
-- **Player wishlists** (watchlist) — save players into watch lists. Basis for auto-bidding in the 2nd+ auction.
-- **Auto-bid in 2nd+ auction** from the wishlist _(depends on wishlists)_.
+- **Auto-bid in 2nd+ auction** from the wishlist. The wishlist shipped (`Wishlist` /
+  `WishlistPlayer` / `Wishlists::PlayerUpdater`, 100 players per competition per season), and the
+  slot picker on the auction round page already filters by it, so the shortlist a manager would bid
+  from exists — what is missing is bidding from it unattended.
 - **Reorder the user's teams** — in user settings, let the user drag-and-drop their list of teams to
   set a custom order; persist it and render the teams in that order in the left-nav menu.
 - **Update npm packages** — react-select 5→6, rc-slider 10→11, chart.js 4→5, @floating-ui/react 0.26→1.x, etc.

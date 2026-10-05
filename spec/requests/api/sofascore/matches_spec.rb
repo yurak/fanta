@@ -22,6 +22,21 @@ RSpec.describe 'Api::Sofascore::Matches' do
       expect(response.parsed_body['data']).to contain_exactly('14090683', '14090684')
     end
 
+    it 'returns the round number the importer needs to read a whole round from SofaScore' do
+      get '/api/sofascore/matches', params: { tournament_round_id: tournament_round.id }, headers: headers
+
+      expect(response.parsed_body['round']).to eq(tournament_round.number)
+    end
+
+    it 'answers with a blank round rather than raising for an unknown id' do
+      get '/api/sofascore/matches', params: { tournament_round_id: 0 }, headers: headers
+
+      aggregate_failures do
+        expect(response).to have_http_status(:ok)
+        expect(response.parsed_body).to eq('data' => [], 'round' => nil)
+      end
+    end
+
     it 'rejects a missing token' do
       get '/api/sofascore/matches', params: { tournament_round_id: tournament_round.id }
 

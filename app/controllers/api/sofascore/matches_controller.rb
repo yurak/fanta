@@ -7,11 +7,12 @@ module Api
       before_action :authenticate_ingest!
 
       def index
+        round = TournamentRound.find_by(id: params[:tournament_round_id])
         sofascore_ids = TournamentMatch.where(tournament_round_id: params[:tournament_round_id])
                                        .where.not(source_match_id: [nil, ''])
                                        .pluck(:source_match_id)
 
-        render json: { data: sofascore_ids }
+        render json: { data: sofascore_ids, round: round&.number }
       end
 
       def create
