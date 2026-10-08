@@ -61,11 +61,21 @@
     }
   }
 
+  // Everything here is sized against the room the left nav leaves rather than against the screen:
+  // the breakpoints further down key on max-device-width, so narrowing the window on a large
+  // monitor reached none of them, and a stepped replacement only moves the jump somewhere else.
+  //
+  // `100%` is that room exactly, so the 24px of air on each side never disappears -- past 1232px
+  // the auto margins simply grow beyond it. The percentages resolve against the section's own
+  // width, so the gap and the left column ease down with it and stop at the clamp floors.
   .team-section {
     margin: 16px auto;
     display: grid;
-    grid-template-columns: 368px auto;
-    column-gap: 64px;
+    grid-template-columns: clamp(320px, 31%, 368px) auto;
+    column-gap: clamp(24px, 5.4%, 64px);
+    // `width` + `max-width` rather than a CSS `min()`: sassc reads min() as its own function and
+    // refuses a calc() argument.
+    width: calc(100% - 48px);
     max-width: 1232px;
 
     .team-data {
@@ -1353,6 +1363,9 @@
 
     .team-section {
       display: block;
+      // The fluid cap is for the two-column web layout; here the section is a single block that
+      // its own margin already insets.
+      max-width: none;
       margin: 36px;
 
       .team-data-web {
@@ -1732,6 +1745,50 @@
             font-size: 32px;
             line-height: 164px;
             padding-right: 0;
+          }
+
+          // The season picker and the auction breaks were added at their web size and stayed
+          // there, so on a viewport drawn for 980px they read as a footnote beside 172px rows.
+          .team-transfers-seasons {
+            margin: -8px 0 8px;
+          }
+
+          .team-transfers-season-form {
+            gap: 16px;
+          }
+
+          .team-transfers-season-label {
+            font-size: 30px;
+          }
+
+          .team-transfers-season-select {
+            font-size: 30px;
+            padding: 12px 20px;
+            border-width: 2px;
+            border-radius: 8px;
+          }
+
+          .team-transfers-auction {
+            gap: 16px;
+            margin: 40px 0 16px;
+
+            &::after {
+              height: 3px;
+            }
+          }
+
+          .team-transfers-seasons + .team-transfers-auction {
+            margin-top: 8px;
+          }
+
+          .team-transfers-auction-label {
+            font-size: 32px;
+            line-height: 44px;
+          }
+
+          .team-transfers-auction-date {
+            font-size: 28px;
+            line-height: 44px;
           }
         }
       }

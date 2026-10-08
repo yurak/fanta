@@ -2658,6 +2658,7 @@
           "title": "Modules"
         },
         "nav_title": "Quick navigation",
+        "nav_top": "Back to top",
         "note": "Note!",
         "player_score": {
           "header1": "Fotmob mobile app",
@@ -4971,6 +4972,7 @@
           "title": "Модулі"
         },
         "nav_title": "Швидка навігація",
+        "nav_top": "Нагору",
         "note": "Примітка!",
         "player_score": {
           "header1": "Мобільний застосунок Fotmob",

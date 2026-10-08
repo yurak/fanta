@@ -2,7 +2,8 @@ class DivisionsController < ApplicationController
   respond_to :html
 
   def index
-    @leagues = League.eager_load(:division).by_season(season.id).by_tournament(tournament.id)
+    @leagues = League.eager_load(:division).preload(ordered_results: :team)
+                     .by_season(season.id).by_tournament(tournament.id)
                      .where.not(division_id: nil).order('divisions.level')
                      .group_by { |league| league.division.level }
   end

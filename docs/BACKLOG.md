@@ -67,6 +67,16 @@ lower-risk early wins; the write-critical/real-time ones (lineup, auction) booke
 ## No detailed plan yet
 
 - **Player statuses** (injury / suspension / doubtful) shown when setting a lineup.
+- **Break a tied auction bid by league position** — on the intermediate auctions (everything after
+  the primary one), when the highest bid for a player is matched, give him to the team standing
+  *lower* in the table at that moment, i.e. the worse-placed one. Today nobody gets him:
+  `AuctionRounds::Manager#process_player_bids` only sells when `top_bids.one?`, so a tie falls
+  through to `manage_bids` and every bid on that player is failed. The standing is already stored —
+  `results.position`, written by `Results::Updater` from `Result#live_position`, with `Result.ordered`
+  as the table's own ordering — so the tie-break is a lookup rather than a computation. Decided
+  2026-10-06: if the positions are level as well — which they can be early in a season, before any
+  tour has closed — the player still goes to nobody, and the primary auction keeps the current rule
+  untouched. Needs specs around `AuctionRounds::Manager`. ~0.5 day.
 - **xPoints after tour close** — expected points of a squad, computed after `tour.close!`.
 - **Auto-bid in 2nd+ auction** from the wishlist. The wishlist shipped (`Wishlist` /
   `WishlistPlayer` / `Wishlists::PlayerUpdater`, 100 players per competition per season), and the

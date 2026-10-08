@@ -17,14 +17,10 @@ class ToursController < ApplicationController
   def tournament_players
     if tour
       @tournament_players = tour.round_players.with_score
-                                .includes(:club, :tournament_round, player: %i[positions teams club national_team])
+                                .includes(:club, :tournament_round, player: %i[positions club national_team])
                                 .sort_by { |rp| -rp.result_score }.take(5)
 
-      @teams_by_player = {}
-      @tournament_players.each do |r_player|
-        team = r_player.teams.detect { |t| t.league_id == tour.league_id }
-        @teams_by_player[r_player.id] = team
-      end
+      @teams_by_player = teams_by_round_player(@tournament_players.map(&:id))
 
       respond_to do |format|
         format.html { render partial: 'tours/tournament_players', layout: false }
@@ -37,15 +33,11 @@ class ToursController < ApplicationController
   def league_players
     if tour
       @league_players = MatchPlayer.by_tour(tour.id).main_with_score
-                                   .includes(round_player: [:club, :tournament_round, { player: %i[positions teams club] }],
+                                   .includes(round_player: [:club, :tournament_round, { player: %i[positions club] }],
                                              lineup: :team)
                                    .sort_by { |mp| -mp.total_score }.take(5)
 
-      @teams_by_player = {}
-      @league_players.each do |r_player|
-        team = r_player.teams.detect { |t| t.league_id == tour.league_id }
-        @teams_by_player[r_player.id] = team
-      end
+      @teams_by_player = @league_players.to_h { |mp| [mp.id, mp.team] }
 
       respond_to do |format|
         format.html { render partial: 'tours/league_players', layout: false }
@@ -77,6 +69,12 @@ class ToursController < ApplicationController
   end
 
   private
+
+  def teams_by_round_player(round_player_ids)
+    MatchPlayer.by_tour(tour.id).where(round_player_id: round_player_ids)
+               .includes(lineup: :team)
+               .to_h { |match_player| [match_player.round_player_id, match_player.team] }
+  end
 
   def tour
     return @tour if defined?(@tour)
