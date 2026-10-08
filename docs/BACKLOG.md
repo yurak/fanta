@@ -85,3 +85,18 @@ lower-risk early wins; the write-critical/real-time ones (lineup, auction) booke
 - **Reorder the user's teams** — in user settings, let the user drag-and-drop their list of teams to
   set a custom order; persist it and render the teams in that order in the left-nav menu.
 - **Update npm packages** — react-select 5→6, rc-slider 10→11, chart.js 4→5, @floating-ui/react 0.26→1.x, etc.
+- **Sandbox lineup builder** — a page where a manager composes a lineup on the pitch for himself, out
+  of his own squad *and* every player of a chosen championship, purely to look at: no tour, no
+  deadline, no scoring. Modelled on [FotMob's lineup builder](https://www.fotmob.com/uk/lineup-builder).
+  Distinct from item 5, which rewrites the *real* lineup page — this one has no opponent, no malus
+  rules to enforce and nothing to submit. Most of the parts exist: `TeamModule`/`Slot` already model
+  the formations (ordered `slots`, `Slot#positions`, `Slot::POS_MAPPING`), the pitch markup and the
+  slot picker live in `lineups/_lineup_form.html.haml` + `lineups/_slot_candidates.html.haml`,
+  `SlotsController` already serves candidates for a slot, and `PlayerLineupSerializer` is the shape
+  the picker already consumes. Scope the pool with `Player.by_tournament_round` /
+  `by_national_tournament_round`. Build it as a React SPA page, not another jQuery one — item 5 is
+  retiring that pattern. v1 keeps no records: hold the build in the URL (shareable) or
+  `localStorage`. It must NEVER write to `lineups` — a sandbox row would be picked up by scoring,
+  the standings and the autobot. Gotcha: a whole championship is thousands of players, so reuse the
+  lazy-loaded picker and the paginated `Players::Query` rather than shipping the pool in one payload.
+  ~3-5 days.

@@ -2070,7 +2070,9 @@ body, html {
         .modal-player-item {
           font-family: 'Nunito Medium';
           display: inline-block;
-          width: 112px;
+          // 116, not 112: the positions and the season score share one row, and three positions
+          // next to a two-digit score used to leave the pair nothing to breathe with.
+          width: 116px;
           height: 196px;
           border-radius: 4px;
           border: 1px solid #FFFFFF;

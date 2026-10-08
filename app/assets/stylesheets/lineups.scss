@@ -1075,42 +1075,66 @@
             margin: 12px 0;
           }
 
-          // 874px of usable width: six cards of 144 leave a little slack, seven would not fit.
           .modal-player-item,
           .modal-player-item-sold {
-            width: 144px;
-            height: 240px;
-            padding: 10px;
+            width: 168px;
+            height: 280px;
+            padding: 12px;
           }
 
           .modal-player-images {
-            width: 122px;
-            height: 122px;
+            width: 144px;
+            height: 144px;
 
             .player-show-face, .player-show-kit {
               img {
-                width: 112px;
-                height: 112px;
-                margin: 10px 5px 0;
+                width: 132px;
+                height: 132px;
+                margin: 12px 6px 0;
               }
             }
           }
 
+          .modal-player-form {
+            width: 144px;
+            gap: 3px;
+            margin-top: 7px;
+
+            .form-cell {
+              height: 23px;
+              font-size: 14px;
+              line-height: 23px;
+            }
+          }
+
           .modal-player-data {
-            line-height: 22px;
-            font-size: 17px;
-            padding-top: 6px;
+            line-height: 26px;
+            font-size: 20px;
+            padding-top: 7px;
           }
 
           .modal-player-name {
-            line-height: 32px;
-            font-size: 24px;
+            line-height: 37px;
+            font-size: 28px;
           }
 
           .modal-player-first-name {
-            height: 24px;
-            line-height: 24px;
-            font-size: 19px;
+            height: 28px;
+            line-height: 28px;
+            font-size: 22px;
+          }
+
+          .modal-player-match {
+            grid-template-columns: 19px 26px 19px;
+            font-size: 12px;
+            line-height: 19px;
+
+            .player-match-team {
+              img {
+                width: 19px;
+                height: 19px;
+              }
+            }
           }
         }
       }
