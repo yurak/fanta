@@ -193,3 +193,24 @@ append it to this list so future sessions don't rediscover it. Keep entries shor
   `with_data: 1, failures: 0` because the data did arrive, it just was not written. It is on for the
   World Cup, Champions League, Europa League and USA; the Nations League ran a whole round without
   live scores before it was switched on, and Euro, Africa Cup and Club World Cup still lack it.
+- The player cards in the lineup picker (`lineups/_lineup_player_item`) are `inline-block`, so the
+  newline HAML emits between them renders as a ~4px gap. Any "how many fit per row" sum must add it:
+  the portrait modal has 874px of usable width, and six cards of 144 need 884 — the comment claiming
+  they fit was wrong by exactly the five gaps, and the row had been showing five all along. The
+  picker's modal width is itself stepped (1092/940/755/572 via `max-device-width`), so check every
+  step, not just the widest. Max positions on a player is 3, so `.player-positions`' three-column
+  grid never wraps and the card height can be budgeted for one row of them.
+- Measuring layout in headless Chrome: `screen.width` is always 800 there, so EVERY
+  `max-device-width` query fires no matter the window. Rewriting them to `min-device-width` does not
+  neutralise them (thresholds <= 800 still match) — rewrite to `max-width` instead, which puts the
+  breakpoints back under `--window-size`. Sass also emits the media blocks in a different order than
+  the source, so equal-specificity rules can win out of turn; when a measurement must be exact, force
+  the container width with an injected `!important` rule rather than trusting the query. Recompile the
+  stylesheet first (`Rails.application.assets['application.css']`, after `rm -rf tmp/cache/assets` —
+  Sprockets will otherwise hand back the cached copy and the probe silently measures the old CSS).
+- Never run two rspec processes at once: both use the same test database and `database_cleaner`
+  truncates tables between examples, so the second run deadlocks
+  (`PG::TRDeadlockDetected ... in truncate_tables`). The damage shows up as a handful of failures in
+  files unrelated to each other and to the change under test — a different set each run — which reads
+  exactly like a flake. Before blaming one, check nothing else is running (`pgrep -fl rspec`) and
+  re-run alone; a single sequential run is the only result worth reporting.

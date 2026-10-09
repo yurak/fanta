@@ -1,10 +1,10 @@
 // ==UserScript==
 // @name         MantraFootball — SofaScore season id dumper (one-off)
 // @namespace    mantrafootball
-// @version      1.0.0
+// @version      1.1.0
 // @description  Walks every round of a SofaScore season and copies [{round, sofaId, home, away}] to the clipboard. One-off helper to map source_match_id in bulk.
 // @match        https://www.sofascore.com/*
-// @connect      api.sofascore.com
+// @connect      www.sofascore.com
 // @grant        GM_xmlhttpRequest
 // @grant        GM_setClipboard
 // ==/UserScript==
@@ -17,7 +17,7 @@
  *   paste it back to the admin who turns it into a console update command.
  */
 
-const SOFA_ROUND = "https://api.sofascore.com/api/v1/unique-tournament";
+const SOFA_ROUND = "https://www.sofascore.com/api/v1/unique-tournament";
 const MAX_ROUNDS = 45;
 
 function gmRequest(opts) {

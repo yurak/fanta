@@ -12,6 +12,10 @@
  *
  */
 
+// Theme tokens first: both layouts load this manifest, so `:root` here reaches the HAML pages and
+// the React bundle alike. See docs/DARK_THEME_PLAN.md.
+@import "theme";
+
 @import "bootstrap";
 @import "bootstrap-toggle";
 @import "flag-icon";
@@ -2035,7 +2039,7 @@ body, html {
         text-align: left;
         padding: 24px 32px 16px;
         display: grid;
-        grid-template-columns: 184px auto;
+        grid-template-columns: 184px 1fr auto;
         align-items: center;
 
         .module-position-block {
@@ -2070,7 +2074,9 @@ body, html {
         .modal-player-item {
           font-family: 'Nunito Medium';
           display: inline-block;
-          width: 112px;
+          // 116, not 112: the positions and the season score share one row, and three positions
+          // next to a two-digit score used to leave the pair nothing to breathe with.
+          width: 116px;
           height: 196px;
           border-radius: 4px;
           border: 1px solid #FFFFFF;
@@ -2079,6 +2085,14 @@ body, html {
 
         .modal-player-item-skipped-true {
           background: #FCC5CB;
+        }
+
+        .modal-player-picked-main {
+          background: #D0F0D4;
+        }
+
+        .modal-player-picked-bench {
+          background: #FFEBC2;
         }
 
         .modal-player-item-sold {

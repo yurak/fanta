@@ -106,6 +106,7 @@ RSpec.describe 'Slots' do
       before do
         player = create(:player, :with_pos_pc, club: create(:club))
         create(:player_team, team: team, player: player)
+        create(:round_player, player: player, tournament_round: tour.tournament_round, score: 6, final_score: 7.5)
         get slots_path(tour_id: tour.id, team_id: team.id, team_module_id: team_module.id, index: 5, format: 'json')
       end
 
@@ -113,6 +114,10 @@ RSpec.describe 'Slots' do
 
       it 'renders the candidate players html' do
         expect(JSON(response.body)['team_players_html']).to include('modal-player-item')
+      end
+
+      it 'shows the season average total score on the card' do
+        expect(JSON(response.body)['team_players_html']).to include('<div class="player-score">7.5</div>')
       end
 
       it 'returns empty eurocup_players' do

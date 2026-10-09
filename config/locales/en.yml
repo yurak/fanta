@@ -421,6 +421,7 @@ en:
     confirm_squad: "Confirm squad"
     clear_squad: "Clear squad"
     clear_confirm: "Clear all selected players?"
+    clear_filters: "Clear filters"
     setup_lineup: "Setup lineup"
     select: "Select module and players"
     change_module: "Change module"
@@ -1942,6 +1943,7 @@ en:
         paragraph4: "Some modules allow a positional alternative, such as WB/W. This means that a player of both one (WB) and another (W) position can be placed in the corresponding place without any malus (penalties)."
         title: "Modules"
       nav_title: "Quick navigation"
+      nav_top: "Back to top"
       note: "Note!"
       player_score:
         header1: "Fotmob mobile app"
