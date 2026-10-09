@@ -20,9 +20,12 @@
    companion app on the endpoints that already exist. Closing the API puts `/players` behind login.
 
 4. **Dark theme** — see [DARK_THEME_PLAN.md](DARK_THEME_PLAN.md)
-   Not started. Client-facing only (public pages + SPA; not manage/admin/email). Light default,
-   dark opt-in via a cookie-persisted toggle. Colors are hardcoded hex today → build a `:root` token
-   layer first, then tokenize ~17.9k lines of SCSS. ~4–7 days, several PRs.
+   Phase 1 done (2026-10-09): `_theme.scss` carries 26 role-named tokens at `:root` plus a
+   `[data-theme="dark"]` override, imported by the manifest both layouts load. Inert so far — no
+   rule consumes them and nothing sets the attribute. Remaining: tokenize the styles (the real cost
+   is ~450 occurrences where a dominant hex appears in a minority role and a human must pick the
+   token), then the cookie + switcher, then icons/shadows/QA. Client-facing only (public pages +
+   SPA; not manage/admin/email). ~3.5–6.5 days, several PRs.
 
 **Core-loop React migration (items 5–9, do in this order).** API-first each time (JSON endpoints
 reused by the mobile app); ship behind SPA routes with HAML fallback + a parity cutover; retire HAML

@@ -12,6 +12,10 @@
  *
  */
 
+// Theme tokens first: both layouts load this manifest, so `:root` here reaches the HAML pages and
+// the React bundle alike. See docs/DARK_THEME_PLAN.md.
+@import "theme";
+
 @import "bootstrap";
 @import "bootstrap-toggle";
 @import "flag-icon";
