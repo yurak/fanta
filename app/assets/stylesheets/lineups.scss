@@ -944,6 +944,16 @@
   }
 }
 
+.new-lineup-page .modal-players-title .lineup-filter-clear {
+  cursor: pointer;
+  font-family: 'Nunito SemiBold';
+  font-size: 14px;
+  line-height: 20px;
+  color: #261FFF;
+  text-decoration: underline;
+  white-space: nowrap;
+}
+
 .new-lineup-page .lineup-players-filters {
   display: none;
   margin: 0 32px 8px;
@@ -975,7 +985,8 @@
 
   .lineup-filter-position {
     height: 36px;
-    padding: 4px 8px;
+    padding: 4px 5px;
+    margin: 0 2px 4px;
 
     .player-position {
       border-radius: 4px;
@@ -1051,7 +1062,12 @@
           font-size: 32px;
           line-height: 40px;
           padding: 32px 40px 20px;
-          grid-template-columns: 240px auto;
+          grid-template-columns: 240px 1fr auto;
+
+          .lineup-filter-clear {
+            font-size: 20px;
+            line-height: 28px;
+          }
 
           .module-position-block {
             height: 38px;
@@ -1169,7 +1185,8 @@
 
       .lineup-filter-position {
         height: 48px;
-        padding: 6px 10px;
+        padding: 6px;
+        margin: 0 3px 6px;
 
         .player-position {
           height: 36px;

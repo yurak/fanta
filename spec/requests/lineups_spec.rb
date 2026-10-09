@@ -146,6 +146,38 @@ RSpec.describe 'Lineups' do
       it 'does not inline the squad players into the page' do
         expect(response.body).not_to include("player#{squad_player.id}")
       end
+
+      it 'gives a main slot its position field' do
+        expect(response.body).to include('id="real-position-10"')
+      end
+
+      # markPicked paints a card green or yellow by asking which kind of slot holds the player,
+      # and the position field being main-only is the whole of that test.
+      it 'leaves the bench slots without one' do
+        expect(response.body).not_to include('id="real-position-11"')
+      end
+    end
+
+    context 'with a fanta tour (candidates are built client-side)' do
+      let(:logged_user) { create(:user) }
+      let(:team) { create(:team, user: logged_user) }
+      let!(:fanta_tour) { fanta_set_lineup_tour(league: team.league) }
+
+      before do
+        sign_in logged_user
+        get new_team_lineup_path(team, tour_id: fanta_tour.id)
+      end
+
+      it { expect(response).to be_successful }
+
+      # markPicked is shared with the mantra branch and leans on the same main-only field
+      it 'gives a main slot its position field' do
+        expect(response.body).to include('id="real-position-10"')
+      end
+
+      it 'leaves the bench slots without one' do
+        expect(response.body).not_to include('id="real-position-11"')
+      end
     end
   end
 

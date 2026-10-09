@@ -2035,7 +2035,7 @@ body, html {
         text-align: left;
         padding: 24px 32px 16px;
         display: grid;
-        grid-template-columns: 184px auto;
+        grid-template-columns: 184px 1fr auto;
         align-items: center;
 
         .module-position-block {
@@ -2081,6 +2081,14 @@ body, html {
 
         .modal-player-item-skipped-true {
           background: #FCC5CB;
+        }
+
+        .modal-player-picked-main {
+          background: #D0F0D4;
+        }
+
+        .modal-player-picked-bench {
+          background: #FFEBC2;
         }
 
         .modal-player-item-sold {

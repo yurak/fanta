@@ -421,6 +421,7 @@ en:
     confirm_squad: "Confirm squad"
     clear_squad: "Clear squad"
     clear_confirm: "Clear all selected players?"
+    clear_filters: "Clear filters"
     setup_lineup: "Setup lineup"
     select: "Select module and players"
     change_module: "Change module"

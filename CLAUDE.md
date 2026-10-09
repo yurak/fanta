@@ -208,3 +208,9 @@ append it to this list so future sessions don't rediscover it. Keep entries shor
   the container width with an injected `!important` rule rather than trusting the query. Recompile the
   stylesheet first (`Rails.application.assets['application.css']`, after `rm -rf tmp/cache/assets` —
   Sprockets will otherwise hand back the cached copy and the probe silently measures the old CSS).
+- Never run two rspec processes at once: both use the same test database and `database_cleaner`
+  truncates tables between examples, so the second run deadlocks
+  (`PG::TRDeadlockDetected ... in truncate_tables`). The damage shows up as a handful of failures in
+  files unrelated to each other and to the change under test — a different set each run — which reads
+  exactly like a flake. Before blaming one, check nothing else is running (`pgrep -fl rspec`) and
+  re-run alone; a single sequential run is the only result worth reporting.

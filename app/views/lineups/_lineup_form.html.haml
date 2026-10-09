@@ -139,6 +139,8 @@
                             - else
                               .player-position.player-position-res
                                 Res
+                        - if tour.eurocup?
+                          .lineup-filter-clear{ style: 'display: none;' }= t('lineups.clear_filters')
                       .lineup-players-search
                         = image_tag('icons/search.svg')
                         %input.modal-player-search{ type: 'search', placeholder: t('players.search_player'), id: "modal-player-search#{mp.index}", autocomplete: 'off' }
@@ -363,12 +365,16 @@
       $box.html(html).toggle(html !== '');
     };
 
+    const activeFilterValues = function($scope, kind, attr) {
+      return $scope.find(kind + '.is-active').map(function() { return $(this).attr(attr); }).get();
+    };
+
     const filterModalPlayers = function(input) {
       const $input = $(input);
       const query = $input.val().trim().toLowerCase();
       const modalContent = $input.closest('.players-modal-content');
-      const position = modalContent.find('.lineup-filter-position.is-active').attr('data-position') || '';
-      const team = modalContent.find('.lineup-filter-team.is-active').attr('data-team') || '';
+      const pickedPositions = activeFilterValues(modalContent, '.lineup-filter-position', 'data-position');
+      const pickedTeams = activeFilterValues(modalContent, '.lineup-filter-team', 'data-team');
 
       modalContent.find('.modal-player-item').each(function() {
         const $item = $(this);
@@ -376,8 +382,9 @@
         const positions = ($item.attr('data-positions') || '').split(' ');
         $item.toggle(
           (query === '' || haystack.indexOf(query) !== -1) &&
-          (position === '' || positions.indexOf(position) !== -1) &&
-          (team === '' || $item.attr('data-team') === team)
+          (pickedPositions.length === 0 ||
+           pickedPositions.some(function(name) { return positions.indexOf(name) !== -1; })) &&
+          (pickedTeams.length === 0 || pickedTeams.indexOf($item.attr('data-team')) !== -1)
         );
       });
 
@@ -385,19 +392,29 @@
         $(this).toggle($(this).next('.modal-malus-block').find('.modal-player-item:visible').length > 0);
       });
 
+      modalContent.find('.lineup-filter-clear')
+                  .toggle(pickedPositions.length > 0 || pickedTeams.length > 0 || query !== '');
+
       $input.siblings('.modal-player-search-clear').toggle(query !== '');
     };
 
     $(document).on('click', '.lineup-filter-chip', function(e) {
       e.stopPropagation();
       const $chip = $(this);
-      const kind = $chip.hasClass('lineup-filter-position') ? '.lineup-filter-position' : '.lineup-filter-team';
-      const wasActive = $chip.hasClass('is-active');
 
-      $chip.closest('.lineup-players-filters').find(kind).removeClass('is-active');
-      $chip.toggleClass('is-active', !wasActive);
+      $chip.toggleClass('is-active');
 
       filterModalPlayers($chip.closest('.players-modal-content').find('.modal-player-search'));
+    });
+
+    $(document).on('click', '.lineup-filter-clear', function(e) {
+      e.stopPropagation();
+      const modalContent = $(this).closest('.players-modal-content');
+      const $input = modalContent.find('.modal-player-search');
+
+      modalContent.find('.lineup-filter-chip').removeClass('is-active');
+      $input.val('');
+      filterModalPlayers($input);
     });
 
     $(document).on('input', '.modal-player-search', function() { filterModalPlayers(this); });
@@ -512,6 +529,27 @@
         searchInput.trigger('focus');
       }
 
+      const markPicked = function() {
+        const mainPicked = [];
+        const benchPicked = [];
+
+        $('.round-player-input').each(function() {
+          const value = $(this).val();
+          if (!value) { return; }
+
+          const slotIndex = this.id.replace('round-player-', '');
+          ($('#real-position-' + slotIndex).length ? mainPicked : benchPicked).push(value);
+        });
+
+        playersList.find('.modal-player-item').each(function() {
+          const playerId = this.id.replace('player', '');
+          const inMain = mainPicked.includes(playerId);
+
+          $(this).toggleClass('modal-player-picked-main', inMain)
+                 .toggleClass('modal-player-picked-bench', !inMain && benchPicked.includes(playerId));
+        });
+      };
+
       if ("#{tour.eurocup?}" === 'true') {
         const slotPositionName = $('#modal-position' + slotId).attr('class').replace('modal-players-title-position modal-position-','');
         const avatarImgSrc = AVATAR_FALLBACK;
@@ -592,24 +630,11 @@
             modalBlock.append(listHtml);
             renderModalFilters($('#modal-player-filters' + slotId), positionLabels, teams,
                                slotPositionName === '');
+            markPicked();
           }
         });
       } else {
         const modalBlock = $('#modal-modules-block' + slotId);
-
-        const markPicked = function() {
-          const playerIds = [];
-          $('.round-player-input').each(function() { playerIds.push($(this).val()); });
-          const pickedPlayers = playerIds.filter(Boolean);
-
-          playersList.find(".modal-player-item").each(function(innerIndex, innerElement) {
-            if (pickedPlayers.includes(innerElement.id.replace("player", ""))) {
-              innerElement.style.backgroundColor = "rgb(230, 230, 230)";
-            } else {
-              innerElement.style.backgroundColor = "";
-            }
-          });
-        };
 
         if (modalBlock.attr('data-lazy-team') && !modalBlock.attr('data-loaded')) {
           modalBlock.attr('data-loaded', '1');
