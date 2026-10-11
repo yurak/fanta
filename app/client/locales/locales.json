@@ -1717,6 +1717,7 @@
       "open": "Open all tours",
       "postpone": "Postpone all tours",
       "stats": "Statistics",
+      "subs_wait_for_matches": "Substitutions open once every match of the round has finished",
       "title": "Tournament Round"
     },
     "round_players": {
@@ -4058,6 +4059,7 @@
       "open": "Відкрити всі тури",
       "postpone": "Відкласти всі тури",
       "stats": "Статистика",
+      "subs_wait_for_matches": "Заміни стануть доступні, коли завершаться всі матчі туру",
       "title": "Раунд Турніру"
     },
     "round_players": {

@@ -1132,6 +1132,7 @@ en:
     total_score: "Total score"
     ts: "TS"
   round:
+    subs_wait_for_matches: "Substitutions open once every match of the round has finished"
     autobot:
       generated: "Preview generated: %{lineups} lineups, %{substitutes} substitutions"
       applied: "Applied: %{lineups} lineups, %{substitutes} substitutions"
