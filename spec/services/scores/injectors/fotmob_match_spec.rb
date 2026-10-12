@@ -18,6 +18,38 @@ RSpec.describe Scores::Injectors::FotmobMatch do
     allow(Scores::Injectors::FotmobPlayersData).to receive(:call).and_return({})
   end
 
+  # FotMob reports a match stopped part way through as finished, carrying the score it had when
+  # play was halted. Round 2653 took Rayo 0-0 Athletic as a real goalless draw because of it.
+  describe '#call with an abandoned match' do
+    let(:finished_status) do
+      { 'started' => true, 'finished' => true, 'awarded' => false, 'cancelled' => true,
+        'scoreStr' => '0 - 0',
+        'reason' => { 'short' => 'Ab', 'shortKey' => 'aborted_short', 'long' => 'Abandoned',
+                      'longKey' => 'aborted' } }
+    end
+
+    before do
+      allow(Scores::Injectors::FotmobPlayersData).to receive(:call).and_return(
+        123 => { rating: 7.5, played_minutes: 45 }
+      )
+      injector.call
+      match.reload
+    end
+
+    it 'writes no score' do
+      expect(match.host_score).to be_nil
+    end
+
+    it 'leaves the match unplayed' do
+      expect(match.status).to eq('scheduled')
+    end
+
+    # so the round is not counted as played and the tour cannot be closed before the replay
+    it 'keeps the round short of finished' do
+      expect(match.tournament_round.finished?).to be(false)
+    end
+  end
+
   describe '#call' do
     context 'when match is finished' do
       before do
