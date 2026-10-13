@@ -1,4 +1,6 @@
 RSpec.describe 'Divisions' do
+  # The page is a React shell now: the tree itself comes from
+  # GET /api/tournaments/:id/divisions, which spec/requests/api/divisions_spec.rb covers.
   describe 'GET #index' do
     let(:tournament) { Tournament.first }
 
@@ -11,7 +13,7 @@ RSpec.describe 'Divisions' do
       it { expect(response).to have_http_status(:found) }
     end
 
-    context 'without league' do
+    context 'when user is logged in' do
       login_user
       before do
         get tournament_divisions_path(tournament)
@@ -20,23 +22,13 @@ RSpec.describe 'Divisions' do
       it { expect(response).to be_successful }
       it { expect(response).to render_template(:index) }
       it { expect(response).to have_http_status(:ok) }
-      it { expect(assigns(:leagues)).to eq({}) }
-    end
 
-    context 'when tournament with league without divisions' do
-      login_user
-      before do
-        create(:league, status: :active, tournament: tournament)
-        get tournament_divisions_path(tournament)
+      it 'mounts the SPA rather than rendering the tree server-side' do
+        expect(response.body).to include('data-component-name="App"')
       end
-
-      it { expect(response).to be_successful }
-      it { expect(response).to render_template(:index) }
-      it { expect(response).to have_http_status(:ok) }
-      it { expect(assigns(:leagues)).to eq({}) }
     end
 
-    context 'when tournament with league and divisions' do
+    context 'when the tournament carries leagues in divisions' do
       let(:division) { create(:division, level: 'A') }
       let!(:league) { create(:league, status: :active, tournament: tournament, division: division) }
 
@@ -46,41 +38,10 @@ RSpec.describe 'Divisions' do
       end
 
       it { expect(response).to be_successful }
-      it { expect(response).to render_template(:index) }
-      it { expect(response).to have_http_status(:ok) }
 
-      it 'returns leagues' do
-        expect(assigns(:leagues)['A']).to eq([league])
-      end
-    end
-
-    # The table is preloaded to keep the page off one query per league. `includes` cannot do it
-    # here: next to the eager_load it folds into the same JOIN, where ordering by division level
-    # wins and the standings come back in no order at all.
-    context 'when a league has a table' do
-      let(:division) { create(:division, level: 'A') }
-      let(:league) { create(:league, status: :active, tournament: tournament, division: division) }
-
-      login_user
-      before do
-        [3, 10, 7].each do |points|
-          create(:result, league: league, team: create(:team, league: league), points: points)
-        end
-
-        get tournament_divisions_path(tournament)
-      end
-
-      it 'hands the view the table already in standings order' do
-        expect(assigns(:leagues)['A'].first.ordered_results.map(&:points)).to eq([10, 7, 3])
-      end
-
-      it 'hands it over already loaded, teams included' do
-        loaded = assigns(:leagues)['A'].first
-
-        aggregate_failures do
-          expect(loaded.association(:ordered_results)).to be_loaded
-          expect(loaded.ordered_results.map { |r| r.association(:team).loaded? }).to all(be true)
-        end
+      # the shell is the same whatever the data: no league name reaches the HTML
+      it 'does not inline the leagues into the page' do
+        expect(response.body).not_to include(league.name)
       end
     end
   end

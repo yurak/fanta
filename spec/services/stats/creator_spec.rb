@@ -3,6 +3,7 @@ RSpec.describe Stats::Creator do
     subject(:creator) { described_class.new }
 
     let(:tournament) { create(:tournament, :with_38_rounds) }
+    let(:round) { tournament.tournament_rounds.order(:number).to_a }
     let!(:club) { create(:club, :with_players_by_pos, tournament: tournament) }
     let(:player) { club.players.last }
 
@@ -46,9 +47,9 @@ RSpec.describe Stats::Creator do
 
     context 'with played matches' do
       before do
-        create(:round_player, player: player, tournament_round: tournament.tournament_rounds.first, score: 6.6, yellow_card: true)
-        create(:round_player, player: player, tournament_round: tournament.tournament_rounds[13], score: 8.3, goals: 2, yellow_card: true)
-        create(:round_player, player: player, tournament_round: tournament.tournament_rounds[15], score: 7.4, goals: 1)
+        create(:round_player, player: player, tournament_round: round[0], score: 6.6, yellow_card: true)
+        create(:round_player, player: player, tournament_round: round[13], score: 8.3, goals: 2, yellow_card: true)
+        create(:round_player, player: player, tournament_round: round[15], score: 7.4, goals: 1)
       end
 
       it { expect(creator.call).to be(true) }
@@ -82,12 +83,12 @@ RSpec.describe Stats::Creator do
       let!(:club_previous) { create(:club, tournament: tournament) }
 
       before do
-        create(:round_player, player: player, club: club_previous, tournament_round: tournament.tournament_rounds.first, score: 5.5,
+        create(:round_player, player: player, club: club_previous, tournament_round: round[0], score: 5.5,
                               yellow_card: true)
-        create(:round_player, player: player, club: club_previous, tournament_round: tournament.tournament_rounds[13], score: 8.3, goals: 2)
-        create(:round_player, player: player, tournament_round: tournament.tournament_rounds[14], score: 7.5, yellow_card: true)
-        create(:round_player, player: player, tournament_round: tournament.tournament_rounds[15], score: 8.3, goals: 2, yellow_card: true)
-        create(:round_player, player: player, tournament_round: tournament.tournament_rounds[16], score: 7.4, goals: 1)
+        create(:round_player, player: player, club: club_previous, tournament_round: round[13], score: 8.3, goals: 2)
+        create(:round_player, player: player, tournament_round: round[14], score: 7.5, yellow_card: true)
+        create(:round_player, player: player, tournament_round: round[15], score: 8.3, goals: 2, yellow_card: true)
+        create(:round_player, player: player, tournament_round: round[16], score: 7.4, goals: 1)
       end
 
       it { expect(creator.call).to be(true) }

@@ -1,0 +1,406 @@
+// Sizes come off the mockups; the idioms come from the page this replaces (divisions.scss):
+// the rail is a column border rather than a floating element, the head is rounded on top only,
+// and links are neutralised here because the global `a` rules underline and recolour on hover.
+// Colours go through the tokens added in docs/DARK_THEME_PLAN.md phase 1.
+
+.page {
+  padding: 32px 24px 70px 96px;
+
+  a,
+  a:hover {
+    text-decoration: none;
+    color: var(--color-text);
+  }
+}
+
+/* ---------- header ---------- */
+
+.head {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+  min-height: 64px;
+}
+
+.title {
+  font-family: "Nunito ExtraBold", sans-serif;
+  font-size: 48px;
+  line-height: 64px;
+  margin: 0;
+  color: var(--color-text);
+}
+
+.selects {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.tournamentSelect {
+  min-width: 232px;
+}
+
+.seasonSelect {
+  min-width: 124px;
+}
+
+.toggleAllInline {
+  display: none;
+}
+
+.toggleAll {
+  margin-left: auto;
+  border: none;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+  font-family: "Nunito Bold", sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--color-brand);
+}
+
+/* ---------- a division level ---------- */
+
+.level {
+  display: grid;
+  grid-template-columns: 100px auto;
+  column-gap: 24px;
+  margin-bottom: 24px;
+}
+
+// The rail is a grid item with no height of its own, so it stretches to the tallest column of the
+// row — which is what carries the connector down past a second and third row of cards. The badge
+// stays pinned at the top; the line starts below it, where the design puts it.
+// The rail is a grid item with no height of its own, so it stretches to the tallest column of the
+// row -- which is what carries the connector down past a second and third row of cards. A border
+// rather than a pseudo-element on purpose: a child paints over its parent's border for free, so
+// the eye can sit on the line without a z-index, and nothing competes with an open dropdown.
+.rail {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding-right: 8px;
+  border-right: 3px solid var(--color-border);
+}
+
+.levelBadge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  flex-shrink: 0;
+  width: 72px;
+  height: 40px;
+  border: 1px solid transparent;
+  border-radius: 16px;
+  background: var(--color-surface-subtle);
+  font-size: 16px;
+}
+
+// a closed level reads as an outline, an open one as a filled pill
+.levelBadgeCollapsed {
+  background: var(--color-bg);
+  border-color: var(--color-border);
+}
+
+.levelBadgeMine {
+  background: var(--color-warning-soft);
+  border-color: var(--color-warning-soft);
+}
+
+.levelLetter {
+  font-family: "Nunito ExtraBold", sans-serif;
+  color: var(--color-text);
+}
+
+.levelCount {
+  color: var(--color-text-muted);
+}
+
+// The eye rides ON the line: a page-coloured plate sitting over it, so the rail reads as one
+// continuous stroke with the control punched into it rather than a line that stops short.
+.eye {
+  position: absolute;
+  top: 6px;
+  right: -10px;
+  width: 24px;
+  padding: 4px 0;
+  background: var(--color-bg);
+  border: none;
+  cursor: pointer;
+  color: var(--color-text-muted);
+  display: flex;
+  justify-content: center;
+
+  svg {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+/* ---------- league cards ---------- */
+
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px 24px;
+  align-items: flex-start;
+}
+
+.card {
+  width: 224px;
+  max-width: 100%;
+}
+
+.cardHead {
+  display: grid;
+  grid-template-columns: auto auto 1fr auto;
+  align-items: center;
+  gap: 8px;
+  height: 40px;
+  padding: 0 12px;
+  border-radius: 16px 16px 0 0;
+  background: var(--color-surface-inverse);
+}
+
+// collapsed: a quiet pill with nothing attached below, so it rounds on all four corners
+.cardHeadCollapsed {
+  border-radius: 16px;
+  background: var(--color-surface-subtle);
+}
+
+.cardStar {
+  width: 16px;
+  height: 16px;
+  color: var(--color-warning);
+}
+
+// with no star the code still belongs in the second track, or the cards fail to line up
+.cardHead > .cardCode:first-child {
+  grid-column: 2;
+}
+
+.cardCode {
+  font-family: "Nunito ExtraBold", sans-serif;
+  font-size: 16px;
+}
+
+.cardName {
+  font-size: 16px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cardArrow {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+// the page neutralises link colour wholesale, so the dark head has to set its own back
+.page .cardHead,
+.page .cardHead:hover {
+  color: var(--color-text-on-inverse);
+}
+
+.page .cardHead .cardName {
+  color: var(--color-border);
+}
+
+.page .cardHeadCollapsed,
+.page .cardHeadCollapsed:hover,
+.page .cardHeadCollapsed .cardName {
+  color: var(--color-text);
+}
+
+.cardBody {
+  border: 1px solid var(--color-border);
+  border-top: none;
+  padding: 8px;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 24px 20px auto 32px;
+  // the place sits on a coloured chip that fills its whole track, so the crest needs clear air
+  // beside it rather than butting straight onto the fill
+  column-gap: 6px;
+  align-items: center;
+  height: 30px;
+  font-size: 14px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  img,
+  svg {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+  }
+}
+
+.rowMine {
+  font-family: "Nunito ExtraBold", sans-serif;
+}
+
+.place {
+  height: 28px;
+  line-height: 28px;
+  border-radius: 2px;
+  text-align: center;
+}
+
+.placePromotion {
+  background: var(--color-success-soft);
+}
+
+.placeRelegation {
+  background: var(--color-danger-soft);
+}
+
+.team {
+  // separation now comes from the row's column-gap
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.teamCode {
+  display: none;
+}
+
+.points {
+  font-family: "Nunito ExtraBold", sans-serif;
+  text-align: center;
+}
+
+/* ---------- narrow screens ---------- */
+
+@media (orientation: portrait) {
+  .page {
+    padding: 0 16px 44px;
+  }
+
+  .head {
+    gap: 12px;
+    margin-bottom: 16px;
+    min-height: 0;
+    padding-top: 16px;
+  }
+
+  .title {
+    font-size: 36px;
+    line-height: 44px;
+  }
+
+  // the card carries the team code rather than the name, so it can be a good deal narrower
+  .card {
+    width: 184px;
+  }
+
+  .teamName {
+    display: none;
+  }
+
+  .teamCode {
+    display: inline;
+  }
+
+  .cardHead {
+    height: 44px;
+  }
+
+  .row {
+    height: 34px;
+    font-size: 15px;
+  }
+
+  // the heading takes a row of its own, both dropdowns share the next one
+  .head {
+    flex-wrap: wrap;
+  }
+
+  .title {
+    width: 100%;
+  }
+
+  .selects {
+    width: 100%;
+    margin-left: 0;
+    flex-wrap: nowrap;
+  }
+
+  .tournamentSelect,
+  .seasonSelect {
+    flex: 1;
+    min-width: 0;
+  }
+
+  // "Collapse all" moves out of the header into the first level's row
+  .toggleAll {
+    display: none;
+  }
+
+  .toggleAllInline {
+    display: block;
+    margin-left: auto;
+    border: none;
+    background: none;
+    padding: 0;
+    cursor: pointer;
+    font-family: "Nunito Bold", sans-serif;
+    font-size: 18px;
+    line-height: 24px;
+    color: var(--color-brand);
+  }
+
+  .level {
+    grid-template-columns: 1fr;
+    row-gap: 12px;
+    margin-bottom: 28px;
+  }
+
+  // the rail becomes a full-width row: badge left, eye hard right, and no connector
+  .rail {
+    align-items: center;
+    padding-right: 0;
+    border-right: none;
+  }
+
+  // next to the division badge rather than out at the edge, so the control sits with the thing
+  // it collapses
+  .eye {
+    position: static;
+    width: auto;
+    padding: 0;
+    background: none;
+    align-items: center;
+  }
+
+  // Cards keep their width and the row scrolls sideways, as in the design: stacking nine leagues
+  // of a lower division would bury the rest of the page.
+  .cards {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    gap: 16px;
+    margin: 0 -16px;
+    padding: 0 16px 4px;
+    scroll-snap-type: x proximity;
+    // snapping aligns to the scrollport edge, which would pull the first card out past the
+    // padding and leave it flush against the screen
+    scroll-padding: 0 16px;
+  }
+
+  .card {
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+  }
+}

@@ -576,6 +576,8 @@
       }
     },
     "divisions": {
+      "collapse_all": "Collapse all",
+      "expand_all": "Expand all",
       "title": "Divisions"
     },
     "errors": {
@@ -1312,6 +1314,19 @@
         "col_updated_at": "Updated",
         "create_rounds": "Create rounds",
         "edit": "Edit",
+        "exchange_applied": "Promotion and relegation set on %{levels} division levels",
+        "exchange_applied_unbalanced": "Promotion and relegation set on %{levels} division levels. Levels %{unbalanced} could not be balanced and use the default relegation.",
+        "exchange_apply": "Apply to all leagues",
+        "exchange_confirm": "Overwrite promotion and relegation on every divisioned league of %{season}?",
+        "exchange_empty": "Nothing to set: this season has fewer than two division levels",
+        "exchange_hint": "Derived from the number of leagues per level: every place vacated above is filled from below. Re-run after adding a league.",
+        "exchange_leagues": "Leagues",
+        "exchange_level": "Level",
+        "exchange_none": "No pyramid for this season yet — a single division level has nothing to exchange.",
+        "exchange_promotion": "Up",
+        "exchange_relegation": "Down",
+        "exchange_season": "Season",
+        "exchange_unbalanced": "not balanced",
         "import_calendar": "Import calendar from FotMob",
         "import_confirm": "Pull the whole season from FotMob and create the matches?",
         "options": "Options",
@@ -1322,6 +1337,7 @@
         "section_actions": "Actions",
         "section_calendar": "Season calendar",
         "section_content": "Content",
+        "section_exchange": "Promotion and relegation",
         "section_info": "Tournament info",
         "section_source": "Data source",
         "show": "View",
@@ -3087,6 +3103,8 @@
       }
     },
     "divisions": {
+      "collapse_all": "Згорнути всі",
+      "expand_all": "Розгорнути всі",
       "title": "Дивізіони"
     },
     "errors": {
@@ -3718,6 +3736,19 @@
         "col_updated_at": "Оновлено",
         "create_rounds": "Створити тури",
         "edit": "Редагувати",
+        "exchange_applied": "Підйом і виліт проставлено на %{levels} рівнях дивізіонів",
+        "exchange_applied_unbalanced": "Підйом і виліт проставлено на %{levels} рівнях. Рівні %{unbalanced} збалансувати не вдалося — там стандартний виліт.",
+        "exchange_apply": "Застосувати до всіх ліг",
+        "exchange_confirm": "Перезаписати підйом і виліт для всіх ліг з дивізіонами за %{season}?",
+        "exchange_empty": "Нічого проставляти: цього сезону менше двох рівнів дивізіонів",
+        "exchange_hint": "Рахується з кількості ліг на рівнях: скільки місць звільняється згори, стільки заповнюється знизу. Після додавання ліги запустіть ще раз.",
+        "exchange_leagues": "Ліг",
+        "exchange_level": "Рівень",
+        "exchange_none": "Піраміди за цей сезон ще немає — на одному рівні обмінюватися нема з ким.",
+        "exchange_promotion": "Вгору",
+        "exchange_relegation": "Вниз",
+        "exchange_season": "Сезон",
+        "exchange_unbalanced": "не збалансовано",
         "import_calendar": "Імпортувати календар з FotMob",
         "import_confirm": "Витягнути весь сезон з FotMob і створити матчі?",
         "options": "Опції",
@@ -3728,6 +3759,7 @@
         "section_actions": "Дії",
         "section_calendar": "Календар сезону",
         "section_content": "Наповнення",
+        "section_exchange": "Підйом і виліт",
         "section_info": "Інформація про турнір",
         "section_source": "Джерело даних",
         "show": "Переглянути",

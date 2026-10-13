@@ -83,6 +83,7 @@ Rails.application.routes.draw do
     resources :tournaments, only: [:index, :show, :edit, :update] do
       member do
         post :create_rounds
+        post :apply_exchange
         post :import_calendar
       end
     end
