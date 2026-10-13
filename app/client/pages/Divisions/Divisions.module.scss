@@ -294,16 +294,19 @@
     margin-bottom: 16px;
     min-height: 0;
     padding-top: 16px;
+    flex-wrap: wrap;
   }
 
   .title {
+    width: 100%;
     font-size: 36px;
     line-height: 44px;
   }
 
-  // the card carries the team code rather than the name, so it can be a good deal narrower
   .card {
+    flex: 0 0 auto;
     width: 184px;
+    scroll-snap-align: start;
   }
 
   .teamName {
@@ -321,15 +324,6 @@
   .row {
     height: 34px;
     font-size: 15px;
-  }
-
-  // the heading takes a row of its own, both dropdowns share the next one
-  .head {
-    flex-wrap: wrap;
-  }
-
-  .title {
-    width: 100%;
   }
 
   .selects {
@@ -394,13 +388,7 @@
     margin: 0 -16px;
     padding: 0 16px 4px;
     scroll-snap-type: x proximity;
-    // snapping aligns to the scrollport edge, which would pull the first card out past the
-    // padding and leave it flush against the screen
     scroll-padding: 0 16px;
   }
 
-  .card {
-    flex: 0 0 auto;
-    scroll-snap-align: start;
-  }
 }
