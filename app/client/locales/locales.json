@@ -1757,6 +1757,8 @@
         "team": "TEAM",
         "total_score": "TS"
       },
+      "fielded_by": "Fielded in the starting eleven by",
+      "fielded_by_none": "Nobody fielded this player",
       "filters": {
         "all_leagues": "All leagues",
         "clubs": "Clubs",
@@ -4115,6 +4117,8 @@
         "team": "КОМАНДА",
         "total_score": "ЗО"
       },
+      "fielded_by": "Поставили в основу",
+      "fielded_by_none": "Ніхто не поставив цього гравця",
       "filters": {
         "all_leagues": "Всі ліги",
         "clubs": "Клуби",

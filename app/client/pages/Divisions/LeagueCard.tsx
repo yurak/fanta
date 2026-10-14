@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import cn from "classnames";
 import { IDivisionLeague } from "@/interfaces/Division";
 import ClubLogo from "@/components/ClubLogo/ClubLogo";
@@ -29,15 +28,15 @@ const LeagueCard = ({
 }) => {
   return (
     <div className={styles.card}>
-      <Link
-        to={`/leagues/${league.id}/results`}
+      <a
+        href={`/leagues/${league.id}/results`}
         className={cn(styles.cardHead, { [styles.cardHeadCollapsed]: collapsed })}
       >
         {isMine && <StarIcon className={styles.cardStar} />}
         <span className={styles.cardCode}>{league.division}</span>
         <span className={styles.cardName}>{league.name}</span>
         <ArrowRightIcon className={styles.cardArrow} />
-      </Link>
+      </a>
 
       {!collapsed && (
         <div className={styles.cardBody}>
@@ -45,9 +44,9 @@ const LeagueCard = ({
             const zone = zoneOf(index, league.results.length, league);
 
             return (
-              <Link
+              <a
                 key={result.id}
-                to={`/teams/${result.team_id}`}
+                href={`/teams/${result.team_id}`}
                 className={cn(styles.row, { [styles.rowMine]: myTeamIds.includes(result.team_id) })}
               >
                 <span
@@ -66,7 +65,7 @@ const LeagueCard = ({
                   <span className={styles.teamCode}>{result.team_code}</span>
                 </span>
                 <span className={styles.points}>{result.points}</span>
-              </Link>
+              </a>
             );
           })}
         </div>

@@ -1193,6 +1193,8 @@ ua:
     short_title: "Найкращі Гравці"
     title: "Найкращі Гравці %{tournament} Раунд #%{number}"
   round_players_page:
+    fielded_by: "Поставили в основу"
+    fielded_by_none: "Ніхто не поставив цього гравця"
     title: "Найкращі Гравці %{tournament} Раунд #%{number}"
     title_short: "%{tournament} Раунд #%{number}"
     search_player: "Пошук гравця"

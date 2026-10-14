@@ -1170,6 +1170,8 @@ en:
     short_title: "Best Players"
     title: "%{tournament} Round #%{number} Best Players"
   round_players_page:
+    fielded_by: "Fielded in the starting eleven by"
+    fielded_by_none: "Nobody fielded this player"
     title: "%{tournament} Round #%{number} Best Players"
     title_short: "%{tournament} Round #%{number}"
     search_player: "Search player"
