@@ -20,7 +20,7 @@ class ToursController < ApplicationController
                                 .includes(:club, :tournament_round, player: %i[positions club national_team])
                                 .sort_by { |rp| -rp.result_score }.take(5)
 
-      @teams_by_player = teams_by_round_player(@tournament_players.map(&:id))
+      @teams_by_player = tour.mantra? ? teams_by_round_player(@tournament_players.map(&:id)) : {}
 
       respond_to do |format|
         format.html { render partial: 'tours/tournament_players', layout: false }

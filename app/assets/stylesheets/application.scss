@@ -2427,6 +2427,10 @@ body, html {
       border: none;
     }
 
+    .round-player-stats-item.round-player-stats-item-teamless-true {
+      grid-template-columns: 24px auto 40px;
+    }
+
     .round-player-stats-item {
       font-family: 'Nunito Regular';
       grid-template-columns: 24px auto 24px 40px;
