@@ -183,4 +183,66 @@ RSpec.describe Telegram::WebhookController, telegram_bot: :rails do
       end
     end
   end
+
+  describe '#schedule!' do
+    context 'when the chat is not linked to an account' do
+      it 'asks the manager to connect first' do
+        expect(-> { dispatch_command :schedule }).to respond_with_message(/Connect your account first/)
+      end
+    end
+
+    context 'when the manager has nothing due' do
+      before { create(:user_profile, tg_chat_id: from_id) }
+
+      it 'says so' do
+        expect(-> { dispatch_command :schedule }).to respond_with_message(/Nothing due/)
+      end
+    end
+
+    context 'with a deadline inside the next 24 hours' do
+      let(:user) { create(:user) }
+      let(:tournament_round) { create(:tournament_round, deadline: 2.hours.from_now) }
+      let(:league) { create(:league, tournament: tournament_round.tournament) }
+
+      before do
+        create(:user_profile, user: user, tg_chat_id: from_id)
+        create(:team, user: user, league: league)
+        create(:set_lineup_tour, league: league, tournament_round: tournament_round)
+      end
+
+      # the reply carries the schedule itself rather than going through Sender, which turns away
+      # anyone who has notifications switched off
+      it 'replies with the schedule' do
+        expect(-> { dispatch_command :schedule }).to respond_with_message(/#schedule/)
+      end
+
+      it 'sends nothing through the broadcaster' do
+        allow(TelegramBot::Sender).to receive(:call)
+        dispatch_command :schedule
+
+        expect(TelegramBot::Sender).not_to have_received(:call)
+      end
+    end
+  end
+
+  # `rake telegram:set_commands` publishes this list, so an entry with no handler would put a
+  # command in the menu that answers with "can not perform".
+  describe 'COMMAND_MENU' do
+    it 'has a handler for every command it offers' do
+      missing = described_class::COMMAND_MENU.reject do |command|
+        described_class.action_methods.include?("#{command}!")
+      end
+
+      expect(missing).to be_empty
+    end
+
+    it 'describes every command in both locales' do
+      missing = described_class::COMMAND_MENU.flat_map do |command|
+        %i[en ua].reject { |locale| I18n.exists?("telegram.commands.#{command}", locale) }
+                 .map { |locale| "#{command}/#{locale}" }
+      end
+
+      expect(missing).to be_empty
+    end
+  end
 end

@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.describe TelegramBot::Tour::DdlNotifier do
   def build_league
     tournament = instance_double(Tournament, icon: '🏆', code: 'EPL')
-    instance_double(League, tournament: tournament)
+    instance_double(League, tournament: tournament, name: 'San Siro')
   end
 
   def build_user(locale: 'uk', time_zone: 'Europe/Kyiv', local_time: '21:00')
@@ -44,6 +44,7 @@ RSpec.describe TelegramBot::Tour::DdlNotifier do
       locale: locale,
       icon: '🏆',
       number: 7,
+      league_name: 'San Siro',
       deadline: deadline,
       time_zone: time_zone,
       url: 'https://fanta.test/tours/7',

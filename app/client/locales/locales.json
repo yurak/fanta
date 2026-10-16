@@ -1933,6 +1933,13 @@
       "without_auction": "Outside the auctions"
     },
     "telegram": {
+      "commands": {
+        "contacts": "Contact info",
+        "help": "List of commands",
+        "learn_more": "Rules links and files",
+        "schedule": "Deadlines for the next 24 hours",
+        "start": "Greeting"
+      },
       "notifier": {
         "auction": {
           "closed": "%{icon} Auction #%{number} in %{league_name} league has been closed.\n\n🏁️️ You can <a href=\"%{url}\">view all transfers of the auction</a>\n\n#auction #%{code}",
@@ -1959,7 +1966,7 @@
         },
         "tour": {
           "closed": "%{icon} Round #%{number} of %{league_name} League has been closed.\n🔴 You can <a href=\"%{url}\">check the final results here</a>\n\n#tour #%{code}",
-          "ddl": "%{icon} The deadline of round #%{number} is today at %{deadline} (%{time_zone})\n\n🟡 <a href=\"%{url}\">Create your lineup</a>\n\n#tour #%{code}",
+          "ddl": "%{icon} The deadline of round #%{number} of %{league_name} League is today at %{deadline} (%{time_zone})\n\n🟡 <a href=\"%{url}\">Create your lineup</a>\n\n#tour #%{code}",
           "moderated": "%{icon} Round #%{number} of %{league_name} League has been moderated.\n🔵 All scores and bonuses have been calculated, substitutions have been made.\n✍️ If you have remarks about bonuses - write to @mantra_help.\n\n☑️ You can <a href=\"%{url}\">check the preliminary results here</a>\n\n#tour #%{code}",
           "opened": "%{icon} Round #%{number} of %{league_name} League has been opened.\n🟢 You can <a href=\"%{url}\">set up lineup</a> for %{team_name}\n🔜 Deadline: %{deadline} (%{time_zone}) 🔚\n\n#tour #%{code}"
         }
@@ -1972,7 +1979,7 @@
           "text": "Message @mantra_help if you have any questions"
         },
         "help": {
-          "content": "Available commands:\n/start - greeting\n/help - list of commands\n/register - register account\n/learn_more - rules links and files\n/contacts - contact info\n"
+          "content": "Available commands:\n/start - greeting\n/help - list of commands\n/register - register account\n/learn_more - rules links and files\n/schedule - deadlines for the next 24 hours\n/contacts - contact info\n"
         },
         "learn_more": {
           "podcast": "Video podcast",
@@ -1985,6 +1992,10 @@
           "sign_up": "Sign Up",
           "success": "Please continue to register on the website",
           "text": "Please enter the email address you will use for the game"
+        },
+        "schedule": {
+          "empty": "Nothing due in the next 24 hours",
+          "not_linked": "Connect your account first with /register, then I can send you your deadlines"
         },
         "start": {
           "connect_failed": "⚠️ This link has expired or is invalid. Please go to your profile and generate a new one.",
@@ -4286,6 +4297,13 @@
       "without_auction": "Поза аукціонами"
     },
     "telegram": {
+      "commands": {
+        "contacts": "Контактна інформація",
+        "help": "Список команд",
+        "learn_more": "Правила гри",
+        "schedule": "Дедлайни на наступні 24 години",
+        "start": "Привітання"
+      },
       "notifier": {
         "auction": {
           "closed": "%{icon} Аукціон #%{number} у лізі %{league_name} завершено.\n\n🏁️️ Ви можете <a href=\"%{url}\">переглянути всі трансфери цього аукціону</a>\n\n#auction #%{code}",
@@ -4312,7 +4330,7 @@
         },
         "tour": {
           "closed": "%{icon} Раунд #%{number} ліги %{league_name} закрито.\n🔴 Ви можете <a href=\"%{url}\">перевірити остаточні результати тут</a>\n\n#tour #%{code}",
-          "ddl": "%{icon} Дедлайн туру #%{number} сьогодні в %{deadline} (%{time_zone})\n\n🟡 <a href=\"%{url}\">Виставте ваш склад</a>\n\n#tour #%{code}",
+          "ddl": "%{icon} Дедлайн туру #%{number} ліги %{league_name} сьогодні в %{deadline} (%{time_zone})\n\n🟡 <a href=\"%{url}\">Виставте ваш склад</a>\n\n#tour #%{code}",
           "moderated": "%{icon} Раунд #%{number} ліги %{league_name} промодеровано.\n🔵 Усі бали та бонуси підраховано, заміни зроблено.\n✍️ Якщо є зауваження щодо бонусів - пишіть до @mantra_help.\n\n☑️ <a href=\"%{url}\">Попередні результати можна переглянути тут</a>\n\n#tour #%{code}",
           "opened": "%{icon} Раунд #%{number} ліги %{league_name} відкрито.\n🟢 Ви можете <a href=\"%{url}\">виставити склад</a> для %{team_name}\n🔜 Дедлайн: %{deadline} (%{time_zone}) 🔚\n\n#tour #%{code}"
         }
@@ -4325,7 +4343,7 @@
           "text": "Якщо у вас є запитання, надішліть повідомлення @mantra_help"
         },
         "help": {
-          "content": "Доступні команди:\n/start - привітання\n/help - список команд\n/register - зареєструватися\n/learn_more - правила гри\n/contacts - контактна інформація\n"
+          "content": "Доступні команди:\n/start - привітання\n/help - список команд\n/register - зареєструватися\n/learn_more - правила гри\n/schedule - дедлайни на наступні 24 години\n/contacts - контактна інформація\n"
         },
         "learn_more": {
           "podcast": "Відео подкаст",
@@ -4338,6 +4356,10 @@
           "sign_up": "Зареєструватися",
           "success": "Просимо продовжити реєстрацію на сайті",
           "text": "Будь ласка, введіть адресу електронної пошти, яку ви будете використовувати для гри"
+        },
+        "schedule": {
+          "empty": "Найближчі 24 години без дедлайнів",
+          "not_linked": "Спершу підключіть акаунт через /register, тоді я зможу надсилати ваші дедлайни"
         },
         "start": {
           "connect_failed": "⚠️ Посилання застаріло або недійсне. Перейдіть у профіль і згенеруйте нове.",

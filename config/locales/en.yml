@@ -2089,6 +2089,12 @@ en:
       subtitle4: "For us, MantraFootball is more than just a game — it's a football community. We bring together people who share a passion for football, enjoy fair competition, exchange ideas, and build lasting friendships. We believe that projects like MantraFootball help grow the popularity of football in Ukraine, promote a culture of football analysis and strategic thinking, and create a strong community of supporters for whom football is more than just ninety minutes on the pitch."
       title: "Rules"
   telegram:
+    commands:
+      contacts: Contact info
+      help: List of commands
+      learn_more: Rules links and files
+      schedule: Deadlines for the next 24 hours
+      start: Greeting
     notifier:
       auction:
         closed: "%{icon} Auction #%{number} in %{league_name} league has been closed.\n\n🏁️️ You can <a href=\"%{url}\">view all transfers of the auction</a>\n\n#auction #%{code}"
@@ -2111,7 +2117,7 @@ en:
         auction_sales_item: "%{time} - %{icon} %{league_name} - <a href=\"%{url}\">Sales period</a> 💸"
       tour:
         closed: "%{icon} Round #%{number} of %{league_name} League has been closed.\n🔴 You can <a href=\"%{url}\">check the final results here</a>\n\n#tour #%{code}"
-        ddl: "%{icon} The deadline of round #%{number} is today at %{deadline} (%{time_zone})\n\n🟡 <a href=\"%{url}\">Create your lineup</a>\n\n#tour #%{code}"
+        ddl: "%{icon} The deadline of round #%{number} of %{league_name} League is today at %{deadline} (%{time_zone})\n\n🟡 <a href=\"%{url}\">Create your lineup</a>\n\n#tour #%{code}"
         moderated: "%{icon} Round #%{number} of %{league_name} League has been moderated.\n🔵 All scores and bonuses have been calculated, substitutions have been made.\n✍️ If you have remarks about bonuses - write to @mantra_help.\n\n☑️ You can <a href=\"%{url}\">check the preliminary results here</a>\n\n#tour #%{code}"
         opened: "%{icon} Round #%{number} of %{league_name} League has been opened.\n🟢 You can <a href=\"%{url}\">set up lineup</a> for %{team_name}\n🔜 Deadline: %{deadline} (%{time_zone}) 🔚\n\n#tour #%{code}"
     webhooks:
@@ -2126,6 +2132,7 @@ en:
           /help - list of commands
           /register - register account
           /learn_more - rules links and files
+          /schedule - deadlines for the next 24 hours
           /contacts - contact info
       learn_more:
         rules: Game rules
@@ -2137,6 +2144,9 @@ en:
         sign_up: Sign Up
         success: Please continue to register on the website
         text: Please enter the email address you will use for the game
+      schedule:
+        empty: Nothing due in the next 24 hours
+        not_linked: Connect your account first with /register, then I can send you your deadlines
       start:
         connect_failed: "⚠️ This link has expired or is invalid. Please go to your profile and generate a new one."
         connected: "✅ Telegram successfully connected to your account!"

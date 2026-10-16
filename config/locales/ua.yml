@@ -2114,6 +2114,12 @@ ua:
     nth:
       ordinalized:
   telegram:
+    commands:
+      contacts: Контактна інформація
+      help: Список команд
+      learn_more: Правила гри
+      schedule: Дедлайни на наступні 24 години
+      start: Привітання
     notifier:
       auction:
         closed: "%{icon} Аукціон #%{number} у лізі %{league_name} завершено.\n\n🏁️️ Ви можете <a href=\"%{url}\">переглянути всі трансфери цього аукціону</a>\n\n#auction #%{code}"
@@ -2136,7 +2142,7 @@ ua:
         auction_sales_item: "%{time} - %{icon} %{league_name} - <a href=\"%{url}\">Період продажів</a> 💸"
       tour:
         closed: "%{icon} Раунд #%{number} ліги %{league_name} закрито.\n🔴 Ви можете <a href=\"%{url}\">перевірити остаточні результати тут</a>\n\n#tour #%{code}"
-        ddl: "%{icon} Дедлайн туру #%{number} сьогодні в %{deadline} (%{time_zone})\n\n🟡 <a href=\"%{url}\">Виставте ваш склад</a>\n\n#tour #%{code}"
+        ddl: "%{icon} Дедлайн туру #%{number} ліги %{league_name} сьогодні в %{deadline} (%{time_zone})\n\n🟡 <a href=\"%{url}\">Виставте ваш склад</a>\n\n#tour #%{code}"
         moderated: "%{icon} Раунд #%{number} ліги %{league_name} промодеровано.\n🔵 Усі бали та бонуси підраховано, заміни зроблено.\n✍️ Якщо є зауваження щодо бонусів - пишіть до @mantra_help.\n\n☑️ <a href=\"%{url}\">Попередні результати можна переглянути тут</a>\n\n#tour #%{code}"
         opened: "%{icon} Раунд #%{number} ліги %{league_name} відкрито.\n🟢 Ви можете <a href=\"%{url}\">виставити склад</a> для %{team_name}\n🔜 Дедлайн: %{deadline} (%{time_zone}) 🔚\n\n#tour #%{code}"
     webhooks:
@@ -2151,6 +2157,7 @@ ua:
           /help - список команд
           /register - зареєструватися
           /learn_more - правила гри
+          /schedule - дедлайни на наступні 24 години
           /contacts - контактна інформація
       learn_more:
         rules: Правила гри
@@ -2162,6 +2169,9 @@ ua:
         sign_up: Зареєструватися
         success: Просимо продовжити реєстрацію на сайті
         text: Будь ласка, введіть адресу електронної пошти, яку ви будете використовувати для гри
+      schedule:
+        empty: Найближчі 24 години без дедлайнів
+        not_linked: Спершу підключіть акаунт через /register, тоді я зможу надсилати ваші дедлайни
       start:
         connect_failed: "⚠️ Посилання застаріло або недійсне. Перейдіть у профіль і згенеруйте нове."
         connected: "✅ Telegram успішно підключено до вашого акаунту!"
