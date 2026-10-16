@@ -139,16 +139,20 @@
                             - else
                               .player-position.player-position-res
                                 Res
+                        - if tour.eurocup?
+                          .lineup-filter-clear{ style: 'display: none;' }= t('lineups.clear_filters')
                       .lineup-players-search
                         = image_tag('icons/search.svg')
                         %input.modal-player-search{ type: 'search', placeholder: t('players.search_player'), id: "modal-player-search#{mp.index}", autocomplete: 'off' }
                         .modal-player-search-clear= image_tag('icons/close_ring.svg')
+                      .lineup-players-filters{ id: "modal-player-filters#{mp.index}" }
                       - lazy_mantra = tour.mantra? && !tour.eurocup?
                       .modal-modules-block{ id: "modal-modules-block#{mp.index}", data: (lazy_mantra ? { lazy_team: team.id, lazy_module: team_module.id, lazy_index: mp.index } : {}) }
 
 :javascript
   const AVATAR_FALLBACK = "#{image_path('avatar.png')}";
   const KIT_FALLBACK = "#{image_path('kit_small_default.png')}";
+  const LOGO_FALLBACK = "#{image_path('default_logo.png')}";
 
   $(document).ready(function() {
     $('.module-image .match-module-item-player').each(function() {
@@ -321,22 +325,97 @@
       closeSlotModal($(modalList));
     });
 
+    const POSITION_ORDER = ['Por', 'Dc', 'Dd', 'Ds', 'E', 'M', 'C', 'W', 'T', 'A', 'Pc'];
+
+    const escAttr = function(value) {
+      return String(value).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
+    };
+
+    const renderModalFilters = function($box, positionLabels, teams, withPositions) {
+      if (!$box.length) return;
+
+      let positionsHtml = '';
+      if (withPositions) {
+        const seen = Array.from(positionLabels.keys());
+        const ordered = POSITION_ORDER.filter((name) => positionLabels.has(name))
+          .concat(seen.filter((name) => POSITION_ORDER.indexOf(name) === -1));
+
+        ordered.forEach(function(name) {
+          positionsHtml +=
+            '<div class="lineup-filter-chip lineup-filter-position player-positions-block" data-position="' +
+            escAttr(name) + '"><div class="player-position player-position-' + escAttr(name) + '">' +
+            escAttr(positionLabels.get(name)) + '</div></div>';
+        });
+      }
+
+      let teamsHtml = '';
+      teams.forEach(function(team) {
+        const badge = team.code
+          ? '<span class="flag-icon flag-icon-' + escAttr(String(team.code).toLowerCase()) + '"></span>'
+          : '<img src="' + escAttr(team.logo || '') + '" onerror="this.onerror=null;this.src=\'' + LOGO_FALLBACK + '\'">';
+
+        teamsHtml += '<div class="lineup-filter-chip lineup-filter-team" data-team="' +
+          escAttr(team.name) + '" title="' + escAttr(team.name) + '">' + badge + '</div>';
+      });
+
+      const html =
+        (positionsHtml ? '<div class="lineup-filter-positions">' + positionsHtml + '</div>' : '') +
+        (teamsHtml ? '<div class="lineup-filter-teams">' + teamsHtml + '</div>' : '');
+
+      $box.html(html).toggle(html !== '');
+    };
+
+    const activeFilterValues = function($scope, kind, attr) {
+      return $scope.find(kind + '.is-active').map(function() { return $(this).attr(attr); }).get();
+    };
+
     const filterModalPlayers = function(input) {
       const $input = $(input);
       const query = $input.val().trim().toLowerCase();
       const modalContent = $input.closest('.players-modal-content');
+      const pickedPositions = activeFilterValues(modalContent, '.lineup-filter-position', 'data-position');
+      const pickedTeams = activeFilterValues(modalContent, '.lineup-filter-team', 'data-team');
 
       modalContent.find('.modal-player-item').each(function() {
-        const haystack = ($(this).attr('data-search') || $(this).find('.modal-player-name').text()).toLowerCase();
-        $(this).toggle(query === '' || haystack.indexOf(query) !== -1);
+        const $item = $(this);
+        const haystack = ($item.attr('data-search') || $item.find('.modal-player-name').text()).toLowerCase();
+        const positions = ($item.attr('data-positions') || '').split(' ');
+        $item.toggle(
+          (query === '' || haystack.indexOf(query) !== -1) &&
+          (pickedPositions.length === 0 ||
+           pickedPositions.some(function(name) { return positions.indexOf(name) !== -1; })) &&
+          (pickedTeams.length === 0 || pickedTeams.indexOf($item.attr('data-team')) !== -1)
+        );
       });
 
       modalContent.find('.modal-malus-title').each(function() {
         $(this).toggle($(this).next('.modal-malus-block').find('.modal-player-item:visible').length > 0);
       });
 
+      modalContent.find('.lineup-filter-clear')
+                  .toggle(pickedPositions.length > 0 || pickedTeams.length > 0 || query !== '');
+
       $input.siblings('.modal-player-search-clear').toggle(query !== '');
     };
+
+    $(document).on('click', '.lineup-filter-chip', function(e) {
+      e.stopPropagation();
+      const $chip = $(this);
+
+      $chip.toggleClass('is-active');
+
+      filterModalPlayers($chip.closest('.players-modal-content').find('.modal-player-search'));
+    });
+
+    $(document).on('click', '.lineup-filter-clear', function(e) {
+      e.stopPropagation();
+      const modalContent = $(this).closest('.players-modal-content');
+      const $input = modalContent.find('.modal-player-search');
+
+      modalContent.find('.lineup-filter-chip').removeClass('is-active');
+      $input.val('');
+      filterModalPlayers($input);
+    });
 
     $(document).on('input', '.modal-player-search', function() { filterModalPlayers(this); });
     $(document).on('click', '.modal-player-search', function(e) { e.stopPropagation(); });
@@ -450,6 +529,27 @@
         searchInput.trigger('focus');
       }
 
+      const markPicked = function() {
+        const mainPicked = [];
+        const benchPicked = [];
+
+        $('.round-player-input').each(function() {
+          const value = $(this).val();
+          if (!value) { return; }
+
+          const slotIndex = this.id.replace('round-player-', '');
+          ($('#real-position-' + slotIndex).length ? mainPicked : benchPicked).push(value);
+        });
+
+        playersList.find('.modal-player-item').each(function() {
+          const playerId = this.id.replace('player', '');
+          const inMain = mainPicked.includes(playerId);
+
+          $(this).toggleClass('modal-player-picked-main', inMain)
+                 .toggleClass('modal-player-picked-bench', !inMain && benchPicked.includes(playerId));
+        });
+      };
+
       if ("#{tour.eurocup?}" === 'true') {
         const slotPositionName = $('#modal-position' + slotId).attr('class').replace('modal-players-title-position modal-position-','');
         const avatarImgSrc = AVATAR_FALLBACK;
@@ -465,15 +565,25 @@
             modalBlock.empty();
             const playersHash = data.eurocup_players;
             let listHtml = '';
+            const positionLabels = new Map();
+            const teams = [];
+            const isNational = "#{tour.national?}" === 'true';
 
             for (var key in playersHash){
-              listHtml += '<div class="modal-malus-title">' + key + '</div> <div class="modal-malus-block">';
+              const first = playersHash[key][0] || {};
+              teams.push({
+                name: key,
+                code: isNational ? first.national_team_code : null,
+                logo: first.club_logo
+              });
+              listHtml += '<div class="modal-malus-title">' + escAttr(key) + '</div> <div class="modal-malus-block">';
               playersHash[key].forEach(function(player) {
                 let positionsItems = '';
                 player.position_arr.forEach((positionName, index) => {
                   let posName = player.position_classic_arr[index];
                   if (italPosNaming) { posName = positionName; }
 
+                  if (!positionLabels.has(positionName)) positionLabels.set(positionName, posName);
                   positionsItems += '<div class="position-item position-item-' + positionName + '">' + posName + '</div> ';
                 })
 
@@ -490,7 +600,10 @@
                 }
 
                 listHtml +=
-                  '<div class="modal-player-item" id="' + player.id + '" data-search="' + (firstName + ' ' + player.name).trim().toLowerCase() + '">' +
+                  '<div class="modal-player-item" id="' + player.id +
+                    '" data-search="' + escAttr((firstName + ' ' + player.name).trim().toLowerCase()) +
+                    '" data-positions="' + escAttr(player.position_arr.join(' ')) +
+                    '" data-team="' + escAttr(key) + '">' +
                     '<div class="modal-player-images" style="background-color: #' + color + '">' +
                       '<div class="player-show-face">' +
                         '<img src="' + (player.avatar_path || avatarImgSrc) + '" onerror="this.onerror=null;this.src=\'' + avatarImgSrc + '\'">' +
@@ -515,24 +628,13 @@
               listHtml += '</div>';
             }
             modalBlock.append(listHtml);
+            renderModalFilters($('#modal-player-filters' + slotId), positionLabels, teams,
+                               slotPositionName === '');
+            markPicked();
           }
         });
       } else {
         const modalBlock = $('#modal-modules-block' + slotId);
-
-        const markPicked = function() {
-          const playerIds = [];
-          $('.round-player-input').each(function() { playerIds.push($(this).val()); });
-          const pickedPlayers = playerIds.filter(Boolean);
-
-          playersList.find(".modal-player-item").each(function(innerIndex, innerElement) {
-            if (pickedPlayers.includes(innerElement.id.replace("player", ""))) {
-              innerElement.style.backgroundColor = "rgb(230, 230, 230)";
-            } else {
-              innerElement.style.backgroundColor = "";
-            }
-          });
-        };
 
         if (modalBlock.attr('data-lazy-team') && !modalBlock.attr('data-loaded')) {
           modalBlock.attr('data-loaded', '1');

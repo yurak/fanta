@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import cn from "classnames";
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
 import { useWishlistPlayer } from "@/api/query/useWishlists";
 import { IPlayerShow } from "@/interfaces/Player";
 import styles from "./WishlistHeart.module.scss";
@@ -52,9 +51,9 @@ const WishlistHeart = ({ player }: { player: IPlayerShow }) => {
       {hintFor !== null && (
         <div className={styles.hint} role="status">
           <span>{t("wishlist.added")}</span>
-          <Link className={styles.hintLink} to={`/wishlists/${hintFor}`}>
+          <a className={styles.hintLink} href={`/wishlists/${hintFor}`}>
             {t("wishlist.open")}
-          </Link>
+          </a>
         </div>
       )}
     </div>

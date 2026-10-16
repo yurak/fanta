@@ -324,6 +324,68 @@ RSpec.describe Lineups::Cloner do
         end
       end
 
+      context 'when the reserve goalkeeper left the team' do # rubocop:disable RSpec/MultipleMemoizedHelpers
+        let(:staying_player) { create(:player, :with_pos_dc) }
+        let(:left_keeper) { create(:player, :with_pos_por) }
+        let(:bench_player) { create(:player, :with_pos_ds) }
+        let(:outfielder) { create(:player, :with_pos_e) }
+        let(:spare_keeper) { create(:player, :with_pos_por) }
+
+        before do
+          add_main_slot(staying_player, Position::CENTER_BACK)
+          add_bench_slot(left_keeper)
+          add_bench_slot(bench_player)
+          team.players << [staying_player, bench_player, outfielder, spare_keeper]
+        end
+
+        it 'opens the bench with another goalkeeper' do
+          first_bench = cloned_lineup.match_players.where(real_position: nil).order(:id).first
+
+          expect(first_bench.player.position_names).to include(Position::GOALKEEPER)
+        end
+
+        it 'keeps the bench the same size' do
+          expect(cloned_lineup.match_players.where(real_position: nil).count).to eq(2)
+        end
+      end
+
+      context 'when a goalkeeper sits further down the bench' do # rubocop:disable RSpec/MultipleMemoizedHelpers
+        let(:staying_player) { create(:player, :with_pos_dc) }
+        let(:outfielder) { create(:player, :with_pos_e) }
+        let(:bench_keeper) { create(:player, :with_pos_por) }
+
+        before do
+          add_main_slot(staying_player, Position::CENTER_BACK)
+          add_bench_slot(outfielder)
+          add_bench_slot(bench_keeper)
+          team.players << [staying_player, outfielder, bench_keeper]
+        end
+
+        it 'moves him into the first bench slot' do
+          bench = cloned_lineup.match_players.where(real_position: nil).order(:id).map(&:player)
+
+          expect(bench).to eq([bench_keeper, outfielder])
+        end
+      end
+
+      context 'when the team has no goalkeeper to spare' do # rubocop:disable RSpec/MultipleMemoizedHelpers
+        let(:staying_player) { create(:player, :with_pos_dc) }
+        let(:left_keeper) { create(:player, :with_pos_por) }
+        let(:outfielder) { create(:player, :with_pos_e) }
+
+        before do
+          add_main_slot(staying_player, Position::CENTER_BACK)
+          add_bench_slot(left_keeper)
+          team.players << [staying_player, outfielder]
+        end
+
+        it 'still fills the bench rather than leaving it empty' do
+          bench = cloned_lineup.match_players.where(real_position: nil).order(:id).map(&:player)
+
+          expect(bench).to eq([outfielder])
+        end
+      end
+
       context 'when pool and bench are exhausted' do # rubocop:disable RSpec/MultipleMemoizedHelpers
         let(:left_player) { create(:player, :with_pos_dc) }
 

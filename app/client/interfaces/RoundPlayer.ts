@@ -23,6 +23,7 @@ export interface IRoundPlayer {
   main_appearances: number | null,
   nationality: string | null,
   team: IRoundPlayerTeam | null,
+  picked: "main" | "bench" | null,
 }
 
 export interface IRoundLeague {
@@ -45,4 +46,10 @@ export interface IRoundPlayersMeta {
   deadlined: boolean,
   leagues: IRoundLeague[],
   clubs: IRoundClub[],
+}
+
+export interface IFieldingTeam {
+  id: number,
+  name: string,
+  logo_path: string,
 }

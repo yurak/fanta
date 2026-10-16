@@ -5,7 +5,7 @@ RSpec.describe ResultBaseSerializer do
     it 'serializes all fields' do
       serializer = described_class.new(create(:result))
 
-      expect(serializer.serializable_hash.keys).to match_array(%i[id points team_id team_name])
+      expect(serializer.serializable_hash.keys).to match_array(%i[id points team_code team_id team_logo team_name])
     end
   end
 end

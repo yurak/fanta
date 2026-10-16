@@ -85,6 +85,29 @@ RSpec.describe TournamentRound do
         expect(tournament_round.finished?).to be(true)
       end
     end
+
+    # live scoring puts a score on the board long before the final whistle, so the score alone
+    # cannot say the round is over
+    context 'with matches in play that already carry a score' do
+      let(:tournament_round) { create(:tournament_round, :with_live_matches) }
+
+      it 'returns false' do
+        expect(tournament_round.finished?).to be(false)
+      end
+    end
+
+    context 'when one match of several is still in play' do
+      let(:tournament_round) { create(:tournament_round, :with_finished_matches) }
+
+      before do
+        create(:tournament_match, tournament_round: tournament_round,
+                                  host_score: 0, guest_score: 0, status: :live)
+      end
+
+      it 'returns false' do
+        expect(tournament_round.finished?).to be(false)
+      end
+    end
   end
 
   describe '#time_to_deadline' do
