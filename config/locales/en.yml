@@ -963,6 +963,7 @@ en:
     edit_module: "Edit module"
     module: "♟️ Module:"
     def_bonus: "🛡️️ Defense Bonus:"
+    def_bonus_short: "🛡️️ Def. Bonus:"
     total_score: "🎯️ Total score:"
     substitutes: "Substitutes"
     not_lineup: "Not in squad"

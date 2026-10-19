@@ -1450,6 +1450,7 @@
     },
     "matches": {
       "def_bonus": "🛡️️ Defense Bonus:",
+      "def_bonus_short": "🛡️️ Def. Bonus:",
       "didnt_play": "❌ Didn't play",
       "edit_lineup": "Edit lineup",
       "edit_module": "Edit module",
@@ -3885,6 +3886,7 @@
     },
     "matches": {
       "def_bonus": "🛡️️ Бонус захисту:",
+      "def_bonus_short": "🛡️️ Бонус зах.:",
       "didnt_play": "❌ Не грав",
       "edit_lineup": "Змінити склад",
       "edit_module": "Змінити модуль",

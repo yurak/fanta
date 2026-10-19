@@ -986,6 +986,7 @@ ua:
     edit_module: "Змінити модуль"
     module: "♟️ Модуль:"
     def_bonus: "🛡️️ Бонус захисту:"
+    def_bonus_short: "🛡️️ Бонус зах.:"
     total_score: "🎯️️ Загальний результат:"
     substitutes: "Запасні"
     not_lineup: "Поза складом"

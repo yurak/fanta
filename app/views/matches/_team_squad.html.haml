@@ -6,7 +6,9 @@
           .match-team-data-text= t('matches.module')
           .match-team-data-value= lineup.team_module.name
         .match-team-def-bonus
-          .match-team-data-text= t('matches.def_bonus')
+          .match-team-data-text
+            %span.label-wide= t('matches.def_bonus')
+            %span.label-narrow= t('matches.def_bonus_short')
           .match-team-data-value= lineup.defence_bonus
       - all_players = lineup.match_players.for_form.to_a
       .match-main-squad
