@@ -3,6 +3,8 @@ module Telegram
     include Telegram::Bot::UpdatesController::MessageContext
     include Rails.application.routes.url_helpers
 
+    COMMAND_MENU = %w[start help learn_more schedule contacts].freeze
+
     def start!(*args)
       token = args[0]
 
@@ -60,6 +62,20 @@ module Telegram
       else
         email_valid_response(email)
       end
+    end
+
+    def schedule!(*)
+      save_message
+      user = profile&.user
+
+      return respond_with :message, text: t('telegram.webhooks.schedule.not_linked', locale: locale) unless user
+
+      body = TelegramBot::DailyScheduleNotifier.new(user).text
+
+      return respond_with :message, text: t('telegram.webhooks.schedule.empty', locale: locale) unless body
+
+      respond_with :message, text: body, parse_mode: TelegramBot::HtmlMessage::PARSE_MODE,
+                             disable_web_page_preview: true
     end
 
     def contacts!(*)

@@ -206,6 +206,8 @@ en:
     transfers: "💰️ Auction transfers"
     unselected: "Unselected"
   divisions:
+    collapse_all: "Collapse all"
+    expand_all: "Expand all"
     title: "Divisions"
   footer:
     current_tournaments: "Current tournaments"
@@ -421,6 +423,7 @@ en:
     confirm_squad: "Confirm squad"
     clear_squad: "Clear squad"
     clear_confirm: "Clear all selected players?"
+    clear_filters: "Clear filters"
     setup_lineup: "Setup lineup"
     select: "Select module and players"
     change_module: "Change module"
@@ -492,6 +495,20 @@ en:
       col_source: "Source"
       col_mode: "Mode"
       col_live_scores: "Live scores"
+      exchange_apply: "Apply to all leagues"
+      exchange_applied: "Promotion and relegation set on %{levels} division levels"
+      exchange_applied_unbalanced: "Promotion and relegation set on %{levels} division levels. Levels %{unbalanced} could not be balanced and use the default relegation."
+      exchange_confirm: "Overwrite promotion and relegation on every divisioned league of %{season}?"
+      exchange_empty: "Nothing to set: this season has fewer than two division levels"
+      exchange_hint: "Derived from the number of leagues per level: every place vacated above is filled from below. Re-run after adding a league."
+      exchange_leagues: "Leagues"
+      exchange_level: "Level"
+      exchange_none: "No pyramid for this season yet — a single division level has nothing to exchange."
+      exchange_promotion: "Up"
+      exchange_relegation: "Down"
+      exchange_season: "Season"
+      exchange_unbalanced: "not balanced"
+      section_exchange: "Promotion and relegation"
       section_calendar: "Season calendar"
       rounds_count: "Rounds"
       create_rounds: "Create rounds"
@@ -946,6 +963,7 @@ en:
     edit_module: "Edit module"
     module: "♟️ Module:"
     def_bonus: "🛡️️ Defense Bonus:"
+    def_bonus_short: "🛡️️ Def. Bonus:"
     total_score: "🎯️ Total score:"
     substitutes: "Substitutes"
     not_lineup: "Not in squad"
@@ -1131,6 +1149,7 @@ en:
     total_score: "Total score"
     ts: "TS"
   round:
+    subs_wait_for_matches: "Substitutions open once every match of the round has finished"
     autobot:
       generated: "Preview generated: %{lineups} lineups, %{substitutes} substitutions"
       applied: "Applied: %{lineups} lineups, %{substitutes} substitutions"
@@ -1152,6 +1171,8 @@ en:
     short_title: "Best Players"
     title: "%{tournament} Round #%{number} Best Players"
   round_players_page:
+    fielded_by: "Fielded in the starting eleven by"
+    fielded_by_none: "Nobody fielded this player"
     title: "%{tournament} Round #%{number} Best Players"
     title_short: "%{tournament} Round #%{number}"
     search_player: "Search player"
@@ -1942,6 +1963,7 @@ en:
         paragraph4: "Some modules allow a positional alternative, such as WB/W. This means that a player of both one (WB) and another (W) position can be placed in the corresponding place without any malus (penalties)."
         title: "Modules"
       nav_title: "Quick navigation"
+      nav_top: "Back to top"
       note: "Note!"
       player_score:
         header1: "Fotmob mobile app"
@@ -2068,6 +2090,12 @@ en:
       subtitle4: "For us, MantraFootball is more than just a game — it's a football community. We bring together people who share a passion for football, enjoy fair competition, exchange ideas, and build lasting friendships. We believe that projects like MantraFootball help grow the popularity of football in Ukraine, promote a culture of football analysis and strategic thinking, and create a strong community of supporters for whom football is more than just ninety minutes on the pitch."
       title: "Rules"
   telegram:
+    commands:
+      contacts: Contact info
+      help: List of commands
+      learn_more: Rules links and files
+      schedule: Deadlines for the next 24 hours
+      start: Greeting
     notifier:
       auction:
         closed: "%{icon} Auction #%{number} in %{league_name} league has been closed.\n\n🏁️️ You can <a href=\"%{url}\">view all transfers of the auction</a>\n\n#auction #%{code}"
@@ -2090,7 +2118,7 @@ en:
         auction_sales_item: "%{time} - %{icon} %{league_name} - <a href=\"%{url}\">Sales period</a> 💸"
       tour:
         closed: "%{icon} Round #%{number} of %{league_name} League has been closed.\n🔴 You can <a href=\"%{url}\">check the final results here</a>\n\n#tour #%{code}"
-        ddl: "%{icon} The deadline of round #%{number} is today at %{deadline} (%{time_zone})\n\n🟡 <a href=\"%{url}\">Create your lineup</a>\n\n#tour #%{code}"
+        ddl: "%{icon} The deadline of round #%{number} of %{league_name} League is today at %{deadline} (%{time_zone})\n\n🟡 <a href=\"%{url}\">Create your lineup</a>\n\n#tour #%{code}"
         moderated: "%{icon} Round #%{number} of %{league_name} League has been moderated.\n🔵 All scores and bonuses have been calculated, substitutions have been made.\n✍️ If you have remarks about bonuses - write to @mantra_help.\n\n☑️ You can <a href=\"%{url}\">check the preliminary results here</a>\n\n#tour #%{code}"
         opened: "%{icon} Round #%{number} of %{league_name} League has been opened.\n🟢 You can <a href=\"%{url}\">set up lineup</a> for %{team_name}\n🔜 Deadline: %{deadline} (%{time_zone}) 🔚\n\n#tour #%{code}"
     webhooks:
@@ -2105,6 +2133,7 @@ en:
           /help - list of commands
           /register - register account
           /learn_more - rules links and files
+          /schedule - deadlines for the next 24 hours
           /contacts - contact info
       learn_more:
         rules: Game rules
@@ -2116,6 +2145,9 @@ en:
         sign_up: Sign Up
         success: Please continue to register on the website
         text: Please enter the email address you will use for the game
+      schedule:
+        empty: Nothing due in the next 24 hours
+        not_linked: Connect your account first with /register, then I can send you your deadlines
       start:
         connect_failed: "⚠️ This link has expired or is invalid. Please go to your profile and generate a new one."
         connected: "✅ Telegram successfully connected to your account!"

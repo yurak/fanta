@@ -180,11 +180,15 @@ module Scores
       end
 
       def match_finished?
-        correct_round? && (status['started'] || status['awarded']) && status['finished']
+        correct_round? && !abandoned? && (status['started'] || status['awarded']) && status['finished']
       end
 
       def match_live?
-        correct_round? && (status['started'] || status['awarded']) && !status['finished']
+        correct_round? && !abandoned? && (status['started'] || status['awarded']) && !status['finished']
+      end
+
+      def abandoned?
+        status['cancelled'].present?
       end
 
       def live_minute

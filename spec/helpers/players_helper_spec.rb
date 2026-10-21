@@ -122,6 +122,69 @@ RSpec.describe PlayersHelper do
     end
   end
 
+  describe '#players_season_avg_score(players, current_round)' do
+    let(:tournament) { create(:tournament) }
+    let(:season) { create(:season) }
+    let(:round_one) { create(:tournament_round, tournament: tournament, season: season, number: 1) }
+    let(:round_two) { create(:tournament_round, tournament: tournament, season: season, number: 2) }
+    let(:player) { create(:player) }
+
+    context 'without a current round' do
+      it 'returns an empty hash' do
+        expect(helper.players_season_avg_score([player], nil)).to eq({})
+      end
+    end
+
+    context 'without players' do
+      it 'returns an empty hash' do
+        expect(helper.players_season_avg_score([], round_one)).to eq({})
+      end
+    end
+
+    context 'with two scored rounds' do
+      before do
+        create(:round_player, player: player, tournament_round: round_one, score: 6, final_score: 7.5)
+        create(:round_player, player: player, tournament_round: round_two, score: 6, final_score: 6.5)
+      end
+
+      it 'averages the total score' do
+        expect(helper.players_season_avg_score([player], round_two)[player.id]).to eq(7.0)
+      end
+    end
+
+    context 'with a round he was not scored in' do
+      before do
+        create(:round_player, player: player, tournament_round: round_one, score: 6, final_score: 8)
+        create(:round_player, player: player, tournament_round: round_two, score: 0, final_score: 0)
+      end
+
+      it 'averages only the rounds carrying a score' do
+        expect(helper.players_season_avg_score([player], round_two)[player.id]).to eq(8)
+      end
+    end
+
+    context 'with a round of another tournament' do
+      let(:other_round) { create(:tournament_round, tournament: create(:tournament), season: season, number: 1) }
+
+      before do
+        create(:round_player, player: player, tournament_round: round_one, score: 6, final_score: 6)
+        create(:round_player, player: player, tournament_round: other_round, score: 6, final_score: 10)
+      end
+
+      it 'ignores it' do
+        expect(helper.players_season_avg_score([player], round_one)[player.id]).to eq(6)
+      end
+    end
+
+    context 'when the player has no scored round at all' do
+      before { create(:round_player, player: player, tournament_round: round_one, score: 0) }
+
+      it 'leaves him out of the hash' do
+        expect(helper.players_season_avg_score([player], round_one)).not_to have_key(player.id)
+      end
+    end
+  end
+
   describe '#tournament_round_players(tournament_round, real_position)' do
     context 'with mantra tournament' do
       let(:tournament_round) { create(:tournament_round) }

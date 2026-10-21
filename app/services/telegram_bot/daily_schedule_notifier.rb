@@ -13,10 +13,17 @@ module TelegramBot
     end
 
     def call
-      return false if all_deadlines.empty?
+      body = text
+      return false unless body
 
-      send_html(user, message)
+      send_html(user, body)
       true
+    end
+
+    def text
+      return nil if all_deadlines.empty?
+
+      message
     end
 
     private

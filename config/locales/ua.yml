@@ -228,6 +228,8 @@ ua:
     transfers: "💰️ Трансфери аукціону"
     unselected: "Не вибрано"
   divisions:
+    collapse_all: "Згорнути всі"
+    expand_all: "Розгорнути всі"
     title: "Дивізіони"
   footer:
     current_tournaments: "Активні змагання"
@@ -443,6 +445,7 @@ ua:
     confirm_squad: "Підтвердити склад"
     clear_squad: "Очистити склад"
     clear_confirm: "Очистити всіх обраних гравців?"
+    clear_filters: "Скинути фільтри"
     setup_lineup: "Вибір складу"
     select: "Оберіть модуль та гравців для команди"
     change_module: "Зміна модуля"
@@ -513,6 +516,20 @@ ua:
       col_source: "Джерело"
       col_mode: "Режим"
       col_live_scores: "Live-рахунок"
+      exchange_apply: "Застосувати до всіх ліг"
+      exchange_applied: "Підйом і виліт проставлено на %{levels} рівнях дивізіонів"
+      exchange_applied_unbalanced: "Підйом і виліт проставлено на %{levels} рівнях. Рівні %{unbalanced} збалансувати не вдалося — там стандартний виліт."
+      exchange_confirm: "Перезаписати підйом і виліт для всіх ліг з дивізіонами за %{season}?"
+      exchange_empty: "Нічого проставляти: цього сезону менше двох рівнів дивізіонів"
+      exchange_hint: "Рахується з кількості ліг на рівнях: скільки місць звільняється згори, стільки заповнюється знизу. Після додавання ліги запустіть ще раз."
+      exchange_leagues: "Ліг"
+      exchange_level: "Рівень"
+      exchange_none: "Піраміди за цей сезон ще немає — на одному рівні обмінюватися нема з ким."
+      exchange_promotion: "Вгору"
+      exchange_relegation: "Вниз"
+      exchange_season: "Сезон"
+      exchange_unbalanced: "не збалансовано"
+      section_exchange: "Підйом і виліт"
       section_calendar: "Календар сезону"
       rounds_count: "Турів"
       create_rounds: "Створити тури"
@@ -969,6 +986,7 @@ ua:
     edit_module: "Змінити модуль"
     module: "♟️ Модуль:"
     def_bonus: "🛡️️ Бонус захисту:"
+    def_bonus_short: "🛡️️ Бонус зах.:"
     total_score: "🎯️️ Загальний результат:"
     substitutes: "Запасні"
     not_lineup: "Поза складом"
@@ -1154,6 +1172,7 @@ ua:
     total_score: "Загальна оцінка"
     ts: "ЗО"
   round:
+    subs_wait_for_matches: "Заміни стануть доступні, коли завершаться всі матчі туру"
     autobot:
       generated: "Прев'ю згенеровано: %{lineups} складів, %{substitutes} замін"
       applied: "Застосовано: %{lineups} складів, %{substitutes} замін"
@@ -1175,6 +1194,8 @@ ua:
     short_title: "Найкращі Гравці"
     title: "Найкращі Гравці %{tournament} Раунд #%{number}"
   round_players_page:
+    fielded_by: "Поставили в основу"
+    fielded_by_none: "Ніхто не поставив цього гравця"
     title: "Найкращі Гравці %{tournament} Раунд #%{number}"
     title_short: "%{tournament} Раунд #%{number}"
     search_player: "Пошук гравця"
@@ -1964,6 +1985,7 @@ ua:
         paragraph4: "Деякі модулі допускають позиційну альтернативу, наприклад, WB/W. Це означає, що на відповідне місце можна виставити гравця як однієї (WB), так і іншої (W) позиції без будь-яких малусів (штрафів)."
         title: "Модулі"
       nav_title: "Швидка навігація"
+      nav_top: "Нагору"
       note: "Примітка!"
       player_score:
         header1: "Мобільний застосунок Fotmob"
@@ -2093,6 +2115,12 @@ ua:
     nth:
       ordinalized:
   telegram:
+    commands:
+      contacts: Контактна інформація
+      help: Список команд
+      learn_more: Правила гри
+      schedule: Дедлайни на наступні 24 години
+      start: Привітання
     notifier:
       auction:
         closed: "%{icon} Аукціон #%{number} у лізі %{league_name} завершено.\n\n🏁️️ Ви можете <a href=\"%{url}\">переглянути всі трансфери цього аукціону</a>\n\n#auction #%{code}"
@@ -2115,7 +2143,7 @@ ua:
         auction_sales_item: "%{time} - %{icon} %{league_name} - <a href=\"%{url}\">Період продажів</a> 💸"
       tour:
         closed: "%{icon} Раунд #%{number} ліги %{league_name} закрито.\n🔴 Ви можете <a href=\"%{url}\">перевірити остаточні результати тут</a>\n\n#tour #%{code}"
-        ddl: "%{icon} Дедлайн туру #%{number} сьогодні в %{deadline} (%{time_zone})\n\n🟡 <a href=\"%{url}\">Виставте ваш склад</a>\n\n#tour #%{code}"
+        ddl: "%{icon} Дедлайн туру #%{number} ліги %{league_name} сьогодні в %{deadline} (%{time_zone})\n\n🟡 <a href=\"%{url}\">Виставте ваш склад</a>\n\n#tour #%{code}"
         moderated: "%{icon} Раунд #%{number} ліги %{league_name} промодеровано.\n🔵 Усі бали та бонуси підраховано, заміни зроблено.\n✍️ Якщо є зауваження щодо бонусів - пишіть до @mantra_help.\n\n☑️ <a href=\"%{url}\">Попередні результати можна переглянути тут</a>\n\n#tour #%{code}"
         opened: "%{icon} Раунд #%{number} ліги %{league_name} відкрито.\n🟢 Ви можете <a href=\"%{url}\">виставити склад</a> для %{team_name}\n🔜 Дедлайн: %{deadline} (%{time_zone}) 🔚\n\n#tour #%{code}"
     webhooks:
@@ -2130,6 +2158,7 @@ ua:
           /help - список команд
           /register - зареєструватися
           /learn_more - правила гри
+          /schedule - дедлайни на наступні 24 години
           /contacts - контактна інформація
       learn_more:
         rules: Правила гри
@@ -2141,6 +2170,9 @@ ua:
         sign_up: Зареєструватися
         success: Просимо продовжити реєстрацію на сайті
         text: Будь ласка, введіть адресу електронної пошти, яку ви будете використовувати для гри
+      schedule:
+        empty: Найближчі 24 години без дедлайнів
+        not_linked: Спершу підключіть акаунт через /register, тоді я зможу надсилати ваші дедлайни
       start:
         connect_failed: "⚠️ Посилання застаріло або недійсне. Перейдіть у профіль і згенеруйте нове."
         connected: "✅ Telegram успішно підключено до вашого акаунту!"

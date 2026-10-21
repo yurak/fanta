@@ -479,6 +479,9 @@ RSpec.describe 'Users' do
   end
 
   describe 'GET #auto_subs' do
+    # the autobot only runs once the round has actually been played
+    let(:tournament_round) { create(:tournament_round, :with_finished_matches) }
+
     before do
       allow(Substitutes::AutoBot).to receive(:for_round)
         .and_return({ lineups: 0, substitutes: 0, failures: [] })
@@ -562,7 +565,29 @@ RSpec.describe 'Users' do
     end
   end
 
+  describe 'GET #auto_subs while the matches are still on' do
+    login_admin
+
+    let(:tournament_round) { create(:tournament_round, :with_live_matches) }
+
+    before do
+      allow(Substitutes::AutoBot).to receive(:for_round)
+      get tournament_round_auto_subs_path(tournament_round)
+    end
+
+    it 'does not call AutoBot' do
+      expect(Substitutes::AutoBot).not_to have_received(:for_round)
+    end
+
+    it 'says why' do
+      expect(flash[:alert]).to eq(I18n.t('round.subs_wait_for_matches'))
+    end
+  end
+
   describe 'GET #generate_preview' do
+    # the autobot only runs once the round has actually been played
+    let(:tournament_round) { create(:tournament_round, :with_finished_matches) }
+
     before do
       allow(Substitutes::AutoBot).to receive(:for_round)
         .and_return({ lineups: 0, substitutes: 0, failures: [] })

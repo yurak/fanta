@@ -11,6 +11,7 @@ import AuctionsIndex from "./pages/AuctionsIndex";
 import AuctionSales from "./pages/AuctionSales";
 import AuctionPurchases from "./pages/AuctionPurchases";
 import AuctionDrops from "./pages/AuctionDrops";
+import Divisions from "./pages/Divisions";
 import Wishlists from "./pages/Wishlists";
 import Wishlist from "./pages/Wishlist";
 
@@ -58,6 +59,10 @@ const router = createBrowserRouter([
   {
     path: "/leagues/:leagueId/auctions/:auctionId/drops",
     element: <AuctionDrops />,
+  },
+  {
+    path: "/tournaments/:tournamentId/divisions",
+    element: <Divisions />,
   },
   {
     path: "/wishlists",
