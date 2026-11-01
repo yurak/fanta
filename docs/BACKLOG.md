@@ -4,13 +4,13 @@
 
 ## Prioritized (has a plan)
 
-1. **Ruby & Rails Upgrade** — see [RUBY_RAILS_UPGRADE_PLAN.md](RUBY_RAILS_UPGRADE_PLAN.md)
-   Rails 8.0.5 → 8.1.4 and Ruby 3.2.2 → 3.4.x. Both overdue: Ruby 3.2 went end-of-life 2026-03-31
-   and Rails 8.0 loses security support 2026-11-07. The two are independent — 8.1 asks only for
-   Ruby >= 3.2 and is happy on Rack 2 — so Rails ships first, on its own. 3.4 rather than 4.x: it
-   is supported to 2028 and the stack still carries gems from 2019. The one real unknown is
-   `sassc`/`sassc-rails` (unmaintained since 2019–20, native, wraps deprecated libsass); a dry-run
-   `bundle install` on 3.4 settles it. ~3–6 days.
+1. **Platform Upgrade** — see [RUBY_RAILS_UPGRADE_PLAN.md](RUBY_RAILS_UPGRADE_PLAN.md)
+   Rails 8.0.5 → 8.1.4, Ruby 3.2.2 → 3.4.x, Node 20.10 → 24, Ubuntu 22.04 → 24.04. The first three
+   are already or almost out of support: Ruby 3.2 ended 2026-04-01, Node 20 ended 2026-04-30, and
+   Rails 8.0 loses security support 2026-11-07. Rails ships first and alone — it is repo-only and
+   8.1 asks merely for Ruby >= 3.2 on Rack 2. Then Ruby, then Node, then the OS last, by replacing
+   the instance rather than upgrading it in place: the box holds only 125 M of real state, and its
+   16 G disk has 3.1 G free, which is no place to attempt a release upgrade. ~5–7 days in total.
 
 2. **Viewport Migration** (mobile-first)
    8 stages, not started. Scope: legacy haml on the `application` layout (React pages are already device-width).
