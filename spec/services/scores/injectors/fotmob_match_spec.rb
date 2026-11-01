@@ -792,6 +792,92 @@ RSpec.describe Scores::Injectors::FotmobMatch do
     end
   end
 
+  # The slug addresses the PAIRING, so once the teams meet again it serves that newer game instead
+  # — which is how a league fixture came back as a cup tie. The match id addresses the match.
+  describe 'which address it reads' do
+    subject(:addressed_injector) { described_class.new(match) }
+
+    let(:page) { '<html><script id="__NEXT_DATA__">{"props":{"pageProps":{"general":{}}}}</script></html>' }
+
+    def urls_requested
+      requested = []
+      allow(RestClient::Request).to receive(:execute) do |args|
+        requested << args[:url]
+        page
+      end
+      addressed_injector.send(:match_data)
+      requested
+    end
+
+    context 'with a source_match_id' do
+      before { match.update!(source_match_id: '5837092') }
+
+      it 'asks for the match by id' do
+        expect(urls_requested).to eq(['https://www.fotmob.com/match/5837092'])
+      end
+
+      it 'never falls back to the slug once the id answers' do
+        expect(urls_requested).to have_attributes(size: 1)
+      end
+
+      # a redirect on the id form must not overwrite the slug we are keeping as the fallback
+      it 'leaves the stored page_url alone' do
+        stored = match.page_url
+        urls_requested
+
+        expect(match.reload.page_url).to eq(stored)
+      end
+    end
+
+    context 'when the id is not on file' do
+      # the column is NOT NULL, so an unknown id reaches us as an empty string
+      before { match.update!(source_match_id: '') }
+
+      it 'falls back to the stored slug' do
+        expect(urls_requested).to eq(["https://www.fotmob.com#{match.page_url}"])
+      end
+    end
+
+    context 'when the id address fails' do
+      let(:requested) { [] }
+
+      before do
+        match.update!(source_match_id: '5837092')
+        allow(RestClient::Request).to receive(:execute) do |args|
+          requested << args[:url]
+          raise RestClient::ResourceNotFound if requested.size == 1
+
+          page
+        end
+      end
+
+      it 'still reads the match through the slug' do
+        addressed_injector.send(:match_data)
+
+        expect(requested.last).to eq("https://www.fotmob.com#{match.page_url}")
+      end
+
+      it 'does not report a scrape failure it recovered from' do
+        addressed_injector.send(:match_data)
+
+        expect(addressed_injector.scrape_health_failure?).to be(false)
+      end
+    end
+
+    context 'when the id fails and there is no slug to fall back on' do
+      before do
+        match.update!(source_match_id: '5837092', page_url: '')
+        allow(RestClient::Request).to receive(:execute).and_raise(RestClient::ResourceNotFound)
+      end
+
+      it 'reports the miss rather than swallowing it' do
+        addressed_injector.send(:match_data)
+
+        expect(addressed_injector.send(:instance_variable_get, :@scrape_failure)).to eq(:not_found)
+      end
+    end
+  end
+
   # FotMob answers 308 whenever it renames a club in a slug — "new-york-red-bulls" became
   # "red-bull-new-york" — and rest-client raises on 308 instead of following it. Unfollowed, the
   # match silently stopped being scraped: no score, no status change, not even a missed-players line.
@@ -847,11 +933,11 @@ RSpec.describe Scores::Injectors::FotmobMatch do
   end
 
   describe 'retry budget' do
-    let(:budget) { Scores::ScrapeBudget.new(limit: 30) }
+    let(:sleeper) { class_double(Kernel, sleep: nil) }
+    let(:budget) { Scores::ScrapeBudget.new(limit: 30, sleeper: sleeper) }
     let(:budget_injector) { described_class.new(match, budget: budget) }
 
     before do
-      allow(budget_injector).to receive(:sleep)
       allow(RestClient::Request).to receive(:execute).and_raise(RestClient::InternalServerError.new(nil, 500))
     end
 
