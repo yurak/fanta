@@ -21,7 +21,7 @@ every '55 * * * *' do
 end
 
 # Live-inject scores for in-progress matches (live_scores_enabled tournaments).
-every 10.minutes do
+every 12.minutes do
   rake 'tours:live_inject'
 end
 
