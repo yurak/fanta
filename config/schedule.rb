@@ -21,7 +21,9 @@ every '55 * * * *' do
 end
 
 # Live-inject scores for in-progress matches (live_scores_enabled tournaments).
-every 12.minutes do
+# 15 min, not less: FotMob serves the page with max-age=600 + stale-while-revalidate=200, so a step
+# inside 600-800s is answered with the copy our previous poll created — one interval behind, always.
+every 15.minutes do
   rake 'tours:live_inject'
 end
 
