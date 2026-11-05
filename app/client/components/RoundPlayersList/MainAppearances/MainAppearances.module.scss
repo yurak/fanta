@@ -1,0 +1,11 @@
+.count {
+  // the mobile card is wrapped in an overlay anchor; without this the press never reaches here
+  position: relative;
+  z-index: 1;
+  border: none;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+  font: inherit;
+  color: #261FFF;
+}

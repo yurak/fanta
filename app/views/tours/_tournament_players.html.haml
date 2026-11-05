@@ -1,6 +1,6 @@
 .round-list.round-table-block
   - @tournament_players.each_with_index do |r_player, i|
-    .round-table-item.round-player-stats-item
+    .round-table-item.round-player-stats-item{ class: "round-player-stats-item-teamless-#{!tour.mantra?}" }
       .center= i + 1
       .round-player-stats-data
         .round-player-stats-img
@@ -9,7 +9,8 @@
           .round-player-show-kit
             %img{ src: tour.national? ? r_player.player.national_kit_path : (r_player.related_club&.kit_path || r_player.player.kit_path), onerror: "this.onerror=null;this.src='#{image_path('kit_small_default.png')}'" }
         .round-player-stats-name= r_player.player.name
-      .round-player-stats-team
-        - if (team = @teams_by_player[r_player.id])
-          = image_tag(team.logo_path)
+      - if tour.mantra?
+        .round-player-stats-team
+          - if (team = @teams_by_player[r_player.id])
+            = image_tag(team.logo_path)
       .round-player-stats-score= r_player.result_score

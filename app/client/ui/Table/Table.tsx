@@ -70,6 +70,7 @@ const Table = <DataItem extends object = object>({
   onLoadMore,
   tableClassName,
   tableInnerClassName,
+  rowClassName,
   sorting,
   emptyStateComponent = <EmptyState title="No data" />,
 }: {
@@ -84,6 +85,8 @@ const Table = <DataItem extends object = object>({
   onLoadMore?: () => void,
   tableClassName?: string,
   tableInnerClassName?: string,
+  // per-row class, for tables that need to mark some rows out from the rest
+  rowClassName?: (item: DataItem) => string | undefined,
   sorting?: Partial<ISorting>,
   emptyStateComponent?: React.ReactNode,
 }) => {
@@ -147,7 +150,7 @@ const Table = <DataItem extends object = object>({
               sortedDataSource.map((dataItem, rowIndex) => (
                 <div
                   key={getRowKey(dataItem)}
-                  className={cn(styles.row, styles.dataRow, {
+                  className={cn(styles.row, styles.dataRow, rowClassName?.(dataItem), {
                     ...(Boolean(rowLink) && {
                       [styles.hoverableRow]: true,
                       [styles.defaultHoverableRow]: !rounded,

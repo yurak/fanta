@@ -35,9 +35,10 @@ module Lineups
 
     def fill_bench(lineup, main_count, used)
       bench_target = lineup.players_count - main_count
-      players.reject { |player| used.include?(player.id) }
-             .first(bench_target)
-             .each { |player| create_match_player(lineup, player, nil) }
+      spare = players.reject { |player| used.include?(player.id) }
+      bench = BenchKeeper.ensure_first(spare.first(bench_target), spare.drop(bench_target))
+
+      bench.each { |player| create_match_player(lineup, player, nil) }
     end
 
     def create_match_player(lineup, player, real_position)

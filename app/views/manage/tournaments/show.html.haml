@@ -29,6 +29,40 @@
           data: { disable_with: t('manage.tournaments.import_calendar'), confirm: t('manage.tournaments.import_confirm') }
     %small.form-text.text-muted= t('manage.tournaments.calendar_hint', source_id: @tournament.source_id || '—')
 
+    %h5.mt-4= t('manage.tournaments.section_exchange')
+    = form_with url: manage_tournament_path(@tournament), method: :get, local: true, class: 'form-inline mb-2' do
+      = label_tag :season_id, t('manage.tournaments.exchange_season'), class: 'mr-2'
+      = select_tag :season_id,
+        options_for_select(@exchange_seasons.map { |s| [s.display_name, s.id] }, @exchange_season&.id),
+        onchange: 'this.form.requestSubmit()', class: 'form-control form-control-sm w-auto'
+
+    - if @exchange_rows.empty?
+      %small.form-text.text-muted= t('manage.tournaments.exchange_none')
+    - else
+      %table.table.table-sm.w-auto
+        %thead
+          %tr
+            %th= t('manage.tournaments.exchange_level')
+            %th= t('manage.tournaments.exchange_leagues')
+            %th= t('manage.tournaments.exchange_promotion')
+            %th= t('manage.tournaments.exchange_relegation')
+            %th
+        %tbody
+          - @exchange_rows.each do |row|
+            %tr
+              %th= row.level
+              %td= row.leagues
+              %td= row.promotion
+              %td= row.relegation
+              %td
+                - unless row.balanced
+                  %span.text-warning= t('manage.tournaments.exchange_unbalanced')
+      = form_with url: apply_exchange_manage_tournament_path(@tournament), method: :post, local: true do
+        = hidden_field_tag :season_id, @exchange_season&.id
+        = submit_tag t('manage.tournaments.exchange_apply'), class: 'btn btn-sm btn-success',
+          data: { confirm: t('manage.tournaments.exchange_confirm', season: @exchange_season&.display_name) }
+      %small.form-text.text-muted= t('manage.tournaments.exchange_hint')
+
     .row.mt-4
       .col-md-6
         %h5= t('manage.tournaments.section_info')

@@ -354,8 +354,28 @@
       color: #181715;
       padding-bottom: 8px;
       border-bottom: 1px solid #181715;
-      display: grid;
-      grid-template-columns: 47% 53%;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      column-gap: 8px;
+
+      .match-team-module, .match-team-def-bonus {
+        white-space: nowrap;
+      }
+
+      .label-narrow {
+        display: none;
+      }
+
+      @media (orientation: landscape) and (max-width: 1400px) {
+        .label-wide {
+          display: none;
+        }
+
+        .label-narrow {
+          display: inline;
+        }
+      }
 
       .match-team-data-text, .match-team-data-value {
         display: inline-block;
@@ -529,8 +549,12 @@
 
       .match-player-add-data {
         display: grid;
-        grid-template-columns: auto 110px;
+        grid-template-columns: minmax(0, 1fr);
         line-height: 24px;
+
+        &:has(.match-player-positions) {
+          grid-template-columns: auto 110px;
+        }
 
         .match-player-real-match {
           display: grid;

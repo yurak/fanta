@@ -5,7 +5,8 @@ RSpec.describe LeagueBaseSerializer do
     it 'serializes all fields' do
       serializer = described_class.new(create(:league))
 
-      expected_keys = %i[id demo division division_id link name season_id status tournament_id results]
+      expected_keys = %i[id demo division division_id link name promotion relegation
+                         season_id status tournament_id results]
       expect(serializer.serializable_hash.keys).to match_array(expected_keys)
     end
 

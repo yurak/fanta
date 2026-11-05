@@ -12,6 +12,7 @@ module Manage
       @leagues_count = @tournament.leagues.count
       @active_leagues_count = @tournament.leagues.active.count
       @rounds_count = @tournament.tournament_rounds.count
+      load_exchange_preview
     end
 
     def edit
@@ -39,6 +40,14 @@ module Manage
       end
     end
 
+    def apply_exchange
+      tournament = Tournament.find(params.expect(:id))
+      season = Season.find_by(id: params[:season_id]) || Season.last
+      rows = Divisions::ExchangeCalculator.call(tournament, season, apply: true)
+
+      redirect_to manage_tournament_path(tournament, season_id: season.id), exchange_flash(rows)
+    end
+
     def import_calendar
       tournament = Tournament.find(params.expect(:id))
       result = TournamentMatches::CalendarImporter.call(tournament)
@@ -47,6 +56,22 @@ module Manage
     end
 
     private
+
+    def load_exchange_preview
+      @exchange_seasons = Season.order(start_year: :desc)
+      @exchange_season = Season.find_by(id: params[:season_id]) || Season.last
+      @exchange_rows = Divisions::ExchangeCalculator.call(@tournament, @exchange_season)
+    end
+
+    def exchange_flash(rows)
+      return { alert: t('manage.tournaments.exchange_empty') } if rows.empty?
+
+      unbalanced = rows.reject(&:balanced).map(&:level)
+      return { notice: t('manage.tournaments.exchange_applied', levels: rows.size) } if unbalanced.empty?
+
+      { notice: t('manage.tournaments.exchange_applied_unbalanced',
+                  levels: rows.size, unbalanced: unbalanced.join(', ')) }
+    end
 
     def import_flash(result)
       return { alert: t('manage.tournaments.calendar_empty') } if result[:created].zero? && result[:updated].zero?

@@ -41,6 +41,77 @@ RSpec.describe RoundPlayer do
         expect(described_class.in_squad.count).to eq(1)
       end
     end
+
+    describe '.chronological' do
+      let(:season) { create(:season) }
+      let(:tournament) { create(:tournament) }
+
+      def round_player_in(number, deadline, competition = tournament)
+        round = create(:tournament_round, tournament: competition, season: season,
+                                          number: number, deadline: deadline)
+        create(:round_player, tournament_round: round)
+      end
+
+      def numbers(scope = described_class.chronological)
+        scope.map { |rp| rp.tournament_round.number }
+      end
+
+      # A competition we picked up mid-season has no deadline on the rounds played before we
+      # carried it, and those rounds used to sort after the recent ones.
+      context 'with rounds played before the competition was carried' do
+        let!(:recent) { round_player_in(10, Time.zone.parse('2026-10-10 10:00')) }
+
+        before do
+          round_player_in(6, nil)
+          round_player_in(5, nil)
+        end
+
+        it 'keeps the undated early rounds ahead of the dated ones' do
+          expect(numbers).to eq([5, 6, 10])
+        end
+
+        it 'still lists the dated round last' do
+          expect(described_class.chronological.to_a.last).to eq(recent)
+        end
+      end
+
+      context 'with rounds not yet opened' do
+        before do
+          round_player_in(11, nil)
+          round_player_in(10, Time.zone.parse('2026-10-10 10:00'))
+        end
+
+        # nothing later carries a deadline to borrow, so they fall to the end where they belong
+        it 'leaves them after everything already played' do
+          expect(numbers).to eq([10, 11])
+        end
+      end
+
+      context 'with two competitions whose calendars do not line up' do
+        let(:spring_league) { create(:tournament) }
+
+        before do
+          round_player_in(1, Time.zone.parse('2026-08-15 16:00'))
+          round_player_in(17, Time.zone.parse('2026-07-25 21:00'), spring_league)
+        end
+
+        # ordering by number alone would put the autumn league's round 1 first
+        it 'orders by date across them, not by round number' do
+          expect(numbers).to eq([17, 1])
+        end
+      end
+
+      context 'with a round rescheduled behind the one after it' do
+        before do
+          round_player_in(4, Time.zone.parse('2026-09-04 17:30'))
+          round_player_in(6, Time.zone.parse('2026-09-03 17:30'))
+        end
+
+        it 'follows the dates rather than the numbers' do
+          expect(numbers).to eq([6, 4])
+        end
+      end
+    end
   end
 
   describe '#result_score' do

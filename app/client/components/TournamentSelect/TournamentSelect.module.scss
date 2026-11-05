@@ -1,0 +1,22 @@
+.option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+// flag-icon sizes itself from the font, so the box is pinned here instead
+.flag {
+  flex-shrink: 0;
+  width: 24px;
+  height: 18px;
+  line-height: 18px;
+  background-size: cover;
+  border-radius: 2px;
+}
+
+.emoji {
+  flex-shrink: 0;
+  width: 24px;
+  text-align: center;
+}

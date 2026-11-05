@@ -1,0 +1,35 @@
+/* The reader's own picks for the selected league, shared by the table and the mobile cards.
+   Fill and outline are the project's own pair: .module-lineUpWithReserve and .module-lineUp in
+   auction_rounds.scss carry exactly these.
+
+   Two base components have to be outranked, and each draws its border differently:
+     - the rounded table paints a ring in .roundedRow::after, reading --border-color
+     - the mobile card has a real border on the element
+
+   Hence both a variable and a border-color here. The class is repeated to raise specificity over
+   .item (0,1,0) and over the hover rules .hoverableRow:hover / .item.hoverableItem:hover (0,3,0),
+   which would otherwise wash the row back to grey on the way past. */
+
+.pickedMain.pickedMain {
+  background: #D0F0D4;
+  border-color: #4EAD57;
+  --border-color: #4EAD57;
+}
+
+.pickedMain.pickedMain.pickedMain:hover {
+  background: #C3EBC8;
+  border-color: #4EAD57;
+  --border-color: #4EAD57;
+}
+
+.pickedBench.pickedBench {
+  background: #FFEBC2;
+  border-color: #FFB319;
+  --border-color: #FFB319;
+}
+
+.pickedBench.pickedBench.pickedBench:hover {
+  background: #FFE1A6;
+  border-color: #FFB319;
+  --border-color: #FFB319;
+}

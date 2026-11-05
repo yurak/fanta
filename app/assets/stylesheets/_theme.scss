@@ -1,0 +1,100 @@
+// Theme tokens — phase 1 of docs/DARK_THEME_PLAN.md.
+//
+// Nothing consumes these yet: every rule in the app still carries its hex, and no element carries
+// `data-theme`, so the dark block below is inert. The point of landing them first is to have one
+// place that answers "which green is our green" before the next person invents a new one.
+//
+// Names follow the vocabulary already drafted in app/client/components/PlayerPage/PlayerPage.module.scss
+// ($text, $grey, $blue, $lilac, $border, $highlight, $gold, $purple, $blank), widened to roles so a
+// dark override is possible at all. Roles, not hues: `--color-surface-inverse` is near-black in the
+// light theme and near-white in the dark one, which a name like `--color-black` could never survive.
+//
+// Picking a token: ask what the colour MEANS here, not what it looks like. The same hex serves
+// several roles today — #181715 is text 180 times, a background 27 times and a border 25 times —
+// and those are three different tokens even though they are one value right now. Mapping them all
+// to --color-text is what would break the dark theme later.
+
+:root {
+  // --- surfaces ---
+  --color-bg: #FFFFFF;              // page and card background
+  --color-surface-subtle: #F4F4F4;  // zebra rows, inset panels
+  --color-surface-inverse: #181715; // dark blocks on a light page (nav, banners)
+
+  // --- text ---
+  --color-text: #181715;
+  --color-text-muted: #847577;      // secondary labels, table headers
+  --color-text-disabled: #A6A2A2;
+  --color-text-on-inverse: #FFFFFF; // text sitting on --color-surface-inverse or on a brand fill
+  --color-text-blank: #CFD2CD;      // "no value" placeholders in stat tables
+
+  // --- lines ---
+  --color-border: #E5E6E4;
+  --color-border-subtle: #F4F4F4;   // row separators inside a card
+
+  // --- brand ---
+  --color-brand: #261FFF;
+  --color-brand-soft: #D8D6FF;      // brand tint: chip fills, underlines
+  --color-brand-deep: #040052;      // text on --color-brand-soft
+
+  // --- states ---
+  // Each state is a trio: the strong colour, its tint for fills, and the text that goes on the tint.
+  --color-success: #4EAD57;
+  --color-success-soft: #D0F0D4;
+  --color-success-text: #1D5D26;
+
+  --color-warning: #FFB319;
+  --color-warning-soft: #FFEBC2;
+  --color-warning-text: #9F6C05;
+
+  --color-danger: #DB0A23;
+  --color-danger-soft: #FCC5CB;
+
+  --color-accent: #BA44F1;          // purple: loans, secondary emphasis
+  --color-accent-soft: #EAC6FB;
+  --color-info: #006EF5;
+
+  // --- overlays ---
+  --color-overlay: rgba(0, 0, 0, 0.5);
+  --color-shadow: rgba(24, 23, 21, 0.2);
+}
+
+// Dark values are a first cut and deliberately unused: phase 3 adds the toggle that sets
+// `data-theme`, phase 4 deals with the icons and images that will not adapt on their own. Keep the
+// token list here identical to the light one above — a missing token silently falls back to light
+// and shows up as one unreadable element nobody notices.
+:root[data-theme='dark'] {
+  --color-bg: #15161A;
+  --color-surface-subtle: #1E1F24;
+  --color-surface-inverse: #F2F2F0;
+
+  --color-text: #ECECEA;
+  --color-text-muted: #9A9596;
+  --color-text-disabled: #6B6768;
+  --color-text-on-inverse: #15161A;
+  --color-text-blank: #4A4D4B;
+
+  --color-border: #2E3036;
+  --color-border-subtle: #24262B;
+
+  --color-brand: #7B76FF;
+  --color-brand-soft: #2A2860;
+  --color-brand-deep: #C9C7FF;
+
+  --color-success: #5FBF69;
+  --color-success-soft: #1E3A24;
+  --color-success-text: #9BE0A4;
+
+  --color-warning: #FFC24D;
+  --color-warning-soft: #3D3016;
+  --color-warning-text: #FFD88A;
+
+  --color-danger: #FF5A6E;
+  --color-danger-soft: #45191F;
+
+  --color-accent: #CB6BF5;
+  --color-accent-soft: #3A1F47;
+  --color-info: #4D96FF;
+
+  --color-overlay: rgba(0, 0, 0, 0.65);
+  --color-shadow: rgba(0, 0, 0, 0.45);
+}

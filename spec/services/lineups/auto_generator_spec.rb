@@ -74,6 +74,36 @@ RSpec.describe Lineups::AutoGenerator do
       end
     end
 
+    # Squad order decides who heads the bench, so the keepers go in last here: the spare one
+    # then sits past the bench cut and only lands in its first slot because he is put there.
+    context 'with the goalkeepers last in the squad' do
+      let(:lineup) { tour.lineups.by_team(team.id).first }
+
+      before do
+        add_players(:with_pos_dc, 4)
+        add_players(:with_pos_dd, 2)
+        add_players(:with_pos_ds, 2)
+        add_players(:with_pos_e, 2)
+        add_players(:with_pos_m, 2)
+        add_players(:with_pos_c, 3)
+        add_players(:with_pos_w, 3)
+        add_players(:with_pos_a, 2)
+        add_players(:with_pos_pc, 2)
+        add_players(:with_pos_por, 3)
+        generate
+      end
+
+      it 'opens the bench with a goalkeeper' do
+        first_bench = lineup.match_players.where(real_position: nil).order(:id).first
+
+        expect(first_bench.player.position_names).to include(Position::GOALKEEPER)
+      end
+
+      it 'fills the bench up to the squad size' do
+        expect(lineup.match_players.count).to eq(lineup.players_count)
+      end
+    end
+
     context 'when the team has no players' do
       it { is_expected.to be(false) }
     end

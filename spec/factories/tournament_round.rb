@@ -26,7 +26,15 @@ FactoryBot.define do
 
     trait :with_finished_matches do
       after(:create) do |tournament_round|
-        create_list(:tournament_match, 2, tournament_round: tournament_round, host_score: 1, guest_score: 0)
+        create_list(:tournament_match, 2, tournament_round: tournament_round,
+                                          host_score: 1, guest_score: 0, status: :finished)
+      end
+    end
+
+    trait :with_live_matches do
+      after(:create) do |tournament_round|
+        create_list(:tournament_match, 2, tournament_round: tournament_round,
+                                          host_score: 1, guest_score: 0, status: :live)
       end
     end
   end

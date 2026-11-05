@@ -11,6 +11,15 @@ module Api
       render json: { data: players_ser, meta: response_options(players) }
     end
 
+    # Who fielded this player in their starting eleven this round -- the teams the "in the eleven"
+    # count on the row adds up to. Fanta only in practice: in mantra a player belongs to one team,
+    # and the row already names it.
+    def teams
+      round_player = tournament_round.round_players.find(params.expect(:id))
+
+      render json: { data: fielding_teams(round_player) }
+    end
+
     def meta
       render json: { data: {
         tournament_name: tournament.name,
@@ -32,8 +41,30 @@ module Api
         national: tournament.national?,
         fanta: tournament.fanta?,
         mantra: tournament.mantra?,
-        deadlined: deadlined?
+        deadlined: deadlined?,
+        my_picks: my_picks
       )
+    end
+
+    def my_picks
+      return @my_picks if defined?(@my_picks)
+      return @my_picks = {} unless current_user && filter_params[:league_id]
+
+      @my_picks = picks_from(my_lineup)
+    end
+
+    def my_lineup
+      Lineup.joins(:tour, :team).find_by(
+        teams: { user_id: current_user.id },
+        tours: { tournament_round_id: tournament_round.id, league_id: filter_params[:league_id] }
+      )
+    end
+
+    def picks_from(lineup)
+      return {} unless lineup
+
+      lineup.match_players.where.not(subs_status: :not_in_squad)
+            .to_h { |mp| [mp.round_player_id, mp.real_position.present? ? 'main' : 'bench'] }
     end
 
     def query_params
@@ -46,6 +77,19 @@ module Api
 
     def order_params
       params.fetch(:order, {}).permit(:direction, :field)
+    end
+
+    def fielding_teams(round_player)
+      MatchPlayer.where(round_player_id: round_player.id).where.not(real_position: nil)
+                 .includes(lineup: :team)
+                 .filter_map { |match_player| team_entry(match_player.lineup&.team) }
+                 .sort_by { |entry| entry[:name].to_s.downcase }
+    end
+
+    def team_entry(team)
+      return unless team
+
+      { id: team.id, name: team.human_name, logo_path: team.logo_path }
     end
 
     def leagues_payload

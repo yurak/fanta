@@ -5,7 +5,7 @@
   - else
     = render 'layouts/header'
   .rules-page{ class: "rules-user-#{user_signed_in?}"}
-    .rules-title
+    .rules-title#top
       .rules-title-icon 📝
       .rules-title-text= t('welcome.rules.title')
     .rules-content
@@ -765,5 +765,28 @@
           .rules-nav-link= link_to t('welcome.rules.calculation.title'), '#calculation'
           .rules-nav-link= link_to t('welcome.rules.divisions.title'), '#divisions'
           .rules-nav-link= link_to t('welcome.rules.fanta.title'), '#fanta'
+          .rules-nav-link.rules-nav-top= link_to t('welcome.rules.nav_top'), '#top'
+
+    %button.rules-nav-toggle{ type: 'button', 'aria-label': t('welcome.rules.nav_title') }
+      ⚓️
 
   = render 'layouts/footer'
+
+:javascript
+  $(function() {
+    const $nav = $('.rules-nav');
+    const $toggle = $('.rules-nav-toggle');
+
+    $toggle.on('click', function(e) {
+      e.stopPropagation();
+      $nav.toggleClass('rules-nav-open');
+    });
+
+    $nav.on('click', 'a', function() { $nav.removeClass('rules-nav-open'); });
+
+    $(document).on('click', function(e) {
+      if (!$(e.target).closest('.rules-nav, .rules-nav-toggle').length) {
+        $nav.removeClass('rules-nav-open');
+      }
+    });
+  });

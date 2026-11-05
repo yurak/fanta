@@ -209,16 +209,29 @@ RSpec.describe 'Tours' do
         end
       end
 
-      context 'when player belongs to a team in the tour league' do
-        let(:team) { create(:team, league: tour.league, players: [rp_high.player]) }
+      # The badge says who had the player in this tour, which is what the tour's lineups record;
+      # who holds him today would credit a team he was transferred to weeks later.
+      context 'when a team fielded the player in this tour' do
+        let(:lineup) { create(:lineup, tour: tour) }
 
         before do
-          team
+          create(:match_player, lineup: lineup, real_position: 'A', round_player: rp_high)
           get tournament_players_tour_path(tour)
         end
 
-        it 'maps player to the correct team in @teams_by_player' do
-          expect(assigns(:teams_by_player)[rp_high.id]).to eq(team)
+        it 'maps the player to the team whose lineup he was in' do
+          expect(assigns(:teams_by_player)[rp_high.id]).to eq(lineup.team)
+        end
+      end
+
+      context 'when a team holds the player now but did not field him in this tour' do
+        before do
+          create(:team, league: tour.league, players: [rp_high.player])
+          get tournament_players_tour_path(tour)
+        end
+
+        it 'leaves him without a team rather than crediting the current one' do
+          expect(assigns(:teams_by_player)[rp_high.id]).to be_nil
         end
       end
     end
@@ -313,16 +326,14 @@ RSpec.describe 'Tours' do
         end
       end
 
-      context 'when player belongs to a team in the tour league' do
-        let(:team) { create(:team, league: tour.league, players: [mp_with_score.player]) }
-
+      context 'when the pick is read back' do
         before do
-          team
+          create(:team, league: tour.league, players: [mp_with_score.player])
           get league_players_tour_path(tour)
         end
 
-        it 'maps match_player to the correct team in @teams_by_player' do
-          expect(assigns(:teams_by_player)[mp_with_score.id]).to eq(team)
+        it 'credits the team whose lineup the pick is in, not whoever holds the player now' do
+          expect(assigns(:teams_by_player)[mp_with_score.id]).to eq(lineup.team)
         end
       end
     end

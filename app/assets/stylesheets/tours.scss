@@ -965,6 +965,10 @@
         margin-top: 24px;
       }
 
+      .round-player-stats-item.round-player-stats-item-teamless-true {
+        grid-template-columns: 72px auto 120px;
+      }
+
       .round-player-stats-item {
         grid-template-columns: 72px auto 72px 120px;
         column-gap: 24px;

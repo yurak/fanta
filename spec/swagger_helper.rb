@@ -152,6 +152,8 @@ RSpec.configure do |config|
               division_id: { type: :integer, example: 123, nullable: true },
               link: { type: :string, example: '/leagues/link' },
               name: { type: :string, example: 'San Siro' },
+              promotion: { type: :integer, example: 2 },
+              relegation: { type: :integer, example: 3 },
               season_id: { type: :integer, example: 123 },
               status: { type: :string, example: 'active', description: 'Available values: initial, active, archived' },
               tournament_id: { type: :integer, example: 321 },
@@ -343,7 +345,9 @@ RSpec.configure do |config|
             properties: {
               id: { type: :integer, example: 123 },
               points: { type: :integer, example: 43 },
+              team_code: { type: :string, example: 'ROS' },
               team_id: { type: :integer, example: 123 },
+              team_logo: { type: :string, example: 'https://s3.amazonaws.com/teams/default.png' },
               team_name: { type: :string, example: 'Rossoneri' }
             },
             required: %w[id team_id team_name points]
