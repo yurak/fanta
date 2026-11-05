@@ -1477,6 +1477,7 @@ en:
       language_title: "🇪🇺 Language"
       telegram_connect: "Connect Telegram"
       telegram_connected: "✅ Telegram connected"
+      telegram_reconnect: "Connect a different account"
       telegram_subtitle: "Get notifications about deadlines and game events"
       telegram_title: "✈️ Telegram Bot"
       language_en: "🇬🇧 English"

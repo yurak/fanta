@@ -1500,6 +1500,7 @@ ua:
       language_title: "🇪🇺 Мова"
       telegram_connect: "Підключити Telegram"
       telegram_connected: "✅ Telegram підключено"
+      telegram_reconnect: "Підключити інший акаунт"
       telegram_subtitle: "Отримуйте сповіщення про дедлайни та ігрові події"
       telegram_title: "✈️ Telegram Бот"
       language_en: "🇬🇧 Англійська"
