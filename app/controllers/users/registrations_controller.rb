@@ -1,5 +1,7 @@
 module Users
   class RegistrationsController < Devise::RegistrationsController
+    before_action :refuse_bot_sign_up, only: :create
+
     def create
       if User.exists?(email: params[:user][:email].to_s.downcase.strip)
         @email_taken = true
@@ -18,6 +20,17 @@ module Users
     end
 
     private
+
+    def refuse_bot_sign_up
+      detector = Signups::BotDetector.new(user_agent: request.user_agent,
+                                          honeypot: params[Signups::BotDetector::HONEYPOT_FIELD])
+      return unless detector.bot?
+
+      Rails.logger.warn("[sign-up] refused from #{request.remote_ip}: #{detector.reason}")
+      @bot_refused = true
+      build_resource(email: params.dig(:user, :email))
+      render :new, status: :unprocessable_entity
+    end
 
     def link_telegram_from_token(user)
       token = params[:tg_token].presence
