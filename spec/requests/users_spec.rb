@@ -34,6 +34,41 @@ RSpec.describe 'Users' do
       it { expect(response).to redirect_to(user_path(User.last)) }
       it { expect(response).to have_http_status(:found) }
     end
+
+    # Somebody who changes or loses their Telegram account would otherwise be stuck: the old chat
+    # id still reads as "connected" while no message can reach it, so the offer has to stay up.
+    describe 'the Telegram section' do
+      let(:logged_user) { create(:user) }
+
+      before { sign_in logged_user }
+
+      context 'with no chat linked yet' do
+        before { get user_path(logged_user) }
+
+        it 'offers to connect' do
+          expect(response.body).to include(I18n.t('users.profile.telegram_connect'))
+        end
+      end
+
+      context 'with a chat already linked' do
+        before do
+          create(:user_profile, user: logged_user, tg_chat_id: 123_456, bot_enabled: true)
+          get user_path(logged_user)
+        end
+
+        it 'still says the account is connected' do
+          expect(response.body).to include(I18n.t('users.profile.telegram_connected'))
+        end
+
+        it 'offers to connect a different account' do
+          expect(response.body).to include(I18n.t('users.profile.telegram_reconnect'))
+        end
+
+        it 'keeps the button reachable for the script, which finds it by class' do
+          expect(response.body).to include('tg-connect-btn')
+        end
+      end
+    end
   end
 
   describe 'GET #show_manager' do

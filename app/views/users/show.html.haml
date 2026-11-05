@@ -30,7 +30,8 @@
       .user-section
         .user-section-title= t('users.profile.telegram_title')
         .user-section-subtitle= t('users.profile.telegram_subtitle')
-        - if current_user.user_profile&.tg_chat_id.present?
+        - connected = current_user.user_profile&.tg_chat_id.present?
+        - if connected
           .user-section-status= t('users.profile.telegram_connected')
           .user-checkbox-row
             .user-checkbox-text= t('users.profile.via_tg')
@@ -38,11 +39,10 @@
               = link_to user_path(current_user, bot_enabled: !current_user.user_profile.bot_enabled), method: :put do
                 .checkbox-block{ class: "checkbox-on-#{ current_user.user_profile.bot_enabled }" }
                   .checkbox-item
-        - else
-          .user-tg-connect
-            = link_to '#', data: { connect_url: telegram_connect_user_path(current_user) }, class: 'tg-connect-btn blue-btn' do
-              = image_tag 'icons/telegram.svg', class: 'tg-connect-icon'
-              = t('users.profile.telegram_connect')
+        .user-tg-connect
+          = link_to '#', data: { connect_url: telegram_connect_user_path(current_user) }, class: 'tg-connect-btn blue-btn' do
+            = image_tag 'icons/telegram.svg', class: 'tg-connect-icon'
+            = t(connected ? 'users.profile.telegram_reconnect' : 'users.profile.telegram_connect')
 
       .user-section
         .user-section-title= t('users.profile.language_title')
