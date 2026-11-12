@@ -68,6 +68,23 @@ RSpec.describe 'Users' do
           expect(response.body).to include('tg-connect-btn')
         end
       end
+
+      # The window must be created in the click itself. Opened later, once the fetch has resolved,
+      # the browser treats it as unsolicited and blocks it — which is how this button came to mint
+      # a token server-side and then do nothing visible at all.
+      describe 'the script behind the button' do
+        before { get user_path(logged_user) }
+
+        it 'opens the window before awaiting the response' do
+          script = response.body[/addEventListener\('click'.*?\}\);/m]
+
+          expect(script.index('window.open')).to be < script.index('fetch(')
+        end
+
+        it 'falls back to the current tab when the popup is refused' do
+          expect(response.body).to include('window.location.href = data.url')
+        end
+      end
     end
   end
 
