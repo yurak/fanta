@@ -1,5 +1,11 @@
 .right-nav.manage-nav {
   background: #FFE8E8;
+  overflow-y: auto;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 
   .league-name {
     margin-bottom: 16px;
