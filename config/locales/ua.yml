@@ -578,6 +578,10 @@ ua:
       number: "#"
       user: "Менеджер"
       titles: "Титули"
+      user_id: "ID"
+      tab_list: "Список"
+      tab_matrix: "Матриця"
+      total: "Разом"
       empty: "Чемпіонів ще не додано"
     clubs:
       title: "Клуби"

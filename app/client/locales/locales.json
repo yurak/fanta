@@ -955,9 +955,13 @@
       "champions": {
         "empty": "No champions added yet",
         "number": "#",
+        "tab_list": "List",
+        "tab_matrix": "Matrix",
         "title": "Champions",
         "titles": "Titles",
-        "user": "Manager"
+        "total": "Total",
+        "user": "Manager",
+        "user_id": "ID"
       },
       "club_transfer_requests": {
         "col_actions": "Actions",
@@ -3394,9 +3398,13 @@
       "champions": {
         "empty": "Чемпіонів ще не додано",
         "number": "#",
+        "tab_list": "Список",
+        "tab_matrix": "Матриця",
         "title": "Чемпіони",
         "titles": "Титули",
-        "user": "Менеджер"
+        "total": "Разом",
+        "user": "Менеджер",
+        "user_id": "ID"
       },
       "club_transfer_requests": {
         "col_actions": "Дії",

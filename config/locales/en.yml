@@ -557,6 +557,10 @@ en:
       number: "#"
       user: "Manager"
       titles: "Titles"
+      user_id: "ID"
+      tab_list: "List"
+      tab_matrix: "Matrix"
+      total: "Total"
       empty: "No champions added yet"
     clubs:
       title: "Clubs"
