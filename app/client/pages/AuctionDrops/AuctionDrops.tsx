@@ -1,13 +1,13 @@
 import { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
-import { useParams } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 import { useMediaQuery } from "usehooks-ts";
 import cn from "classnames";
 import PageLayout from "@/layouts/PageLayout";
 import PlayerAvatar from "@/components/PlayerAvatar";
 import PlayerPositions from "@/components/PlayerPositions/PlayerPositions";
 import Table, { IColumn } from "@/ui/Table";
-import { useAuctionDrops, useUpdateDrops } from "@/api/query/useAuctionDrops";
+import { isDropsClosedError, useAuctionDrops, useUpdateDrops } from "@/api/query/useAuctionDrops";
 import { FormState, IDropPlayer } from "@/interfaces/AuctionDrops";
 import { Position } from "@/interfaces/Position";
 import styles from "./AuctionDrops.module.scss";
@@ -43,10 +43,19 @@ const AuctionDrops = () => {
   const params = useParams<{ leagueId: string, auctionId: string }>();
   const leagueId = Number(params.leagueId);
   const auctionId = Number(params.auctionId);
-  const { data, isLoading } = useAuctionDrops(leagueId, auctionId);
+  const { data, isLoading, isError } = useAuctionDrops(leagueId, auctionId);
   const update = useUpdateDrops(leagueId, auctionId);
   const { t, i18n } = useTranslation();
   const isMobile = useMediaQuery("(max-width: 768px)");
+
+  // Dropping is over once the auction leaves the sales phase, and the endpoint then answers 404 —
+  // which left the page stuck on "loading" forever. A tab left open is the other half of it: the
+  // cached document still reads as the sales phase, so the deadline is checked too, and a drop
+  // refused with 404 counts as well — the auction can move on before its deadline, and then the
+  // click is the first thing to hear about it.
+  const deadlinePassed = !!data?.auction.deadline && !timeLeft(data.auction.deadline);
+  const dropRefused = isDropsClosedError(update.error);
+  const dropsClosed = isError || dropRefused || (!!data && (data.auction.status !== "sales" || deadlinePassed));
 
   const selectedIds = data ? data.players.filter((p) => p.status === "transferable").map((p) => p.id) : [];
   const leftPlayers = data ? data.players.filter((p) => p.status === "left") : [];
@@ -213,6 +222,10 @@ const AuctionDrops = () => {
       </div>
     );
   };
+
+  if (dropsClosed) {
+    return <Navigate to={`/leagues/${leagueId}/auctions/${auctionId}/sales`} replace />;
+  }
 
   return (
     <PageLayout withSidebar>

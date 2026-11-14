@@ -169,6 +169,45 @@ RSpec.describe 'Auctions' do
     end
   end
 
+  describe 'GET #drops' do
+    context 'when user is logged out' do
+      before { get drops_league_auction_path(league, auction) }
+
+      it { expect(response).to redirect_to('/users/sign_in') }
+    end
+
+    context 'when the auction is in its sales phase' do
+      login_user
+      let(:auction) { create(:auction, status: :sales, league: league) }
+
+      before { get drops_league_auction_path(league, auction) }
+
+      it { expect(response).to be_successful }
+      it { expect(response).to render_template(:drops) }
+    end
+
+    # Dropping is over by then, and the page's endpoint answers 404 — the visitor belongs on the
+    # list of who was dropped.
+    context 'when the auction has moved on' do
+      login_user
+      let(:auction) { create(:auction, status: :blind_bids, league: league) }
+
+      before { get drops_league_auction_path(league, auction) }
+
+      it { expect(response).to redirect_to(sales_league_auction_path(league, auction)) }
+      it { expect(response).to have_http_status(:found) }
+    end
+
+    context 'when the auction has not opened yet' do
+      login_user
+      let(:auction) { create(:auction, status: :initial, league: league) }
+
+      before { get drops_league_auction_path(league, auction) }
+
+      it { expect(response).to redirect_to(sales_league_auction_path(league, auction)) }
+    end
+  end
+
   describe 'GET #live' do
     before do
       get live_league_auction_path(league, auction)
