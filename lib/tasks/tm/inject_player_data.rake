@@ -12,6 +12,10 @@ namespace :tm do
     pause = ENV.fetch('TM_SLEEP', 30).to_i
     fields = price_only ? [:tm_price] : Players::Transfermarkt::ProfileUpdater::FIELDS
 
+    readable = lambda do |value|
+      value.is_a?(Numeric) ? ActiveSupport::NumberHelper.number_to_delimited(value.to_i, delimiter: '_') : value
+    end
+
     players = Player.where.not(tm_id: nil).where(id: start_id..last_id).order(:id)
 
     total = 0
@@ -27,7 +31,7 @@ namespace :tm do
       changes = Players::Transfermarkt::ProfileUpdater.call(player, only: fields)
       updated += 1 if changes.any?
 
-      note = changes.map { |field, (was, now)| "#{field} #{was} -> #{now}" }.join(', ')
+      note = changes.map { |field, (was, now)| "#{field} #{readable.call(was)} -> #{readable.call(now)}" }.join(', ')
       line = "#{player.id} / #{player.name}"
       line += ' [cache]' if from_cache
       line += ": #{note}" if note.present?
