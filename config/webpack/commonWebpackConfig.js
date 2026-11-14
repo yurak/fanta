@@ -57,6 +57,13 @@ const commonOptions = {
                       },
                     },
                   },
+                  // Every icon is inlined into the page, and an inlined <svg> shares the document's
+                  // id and style scope: svgo names each gradient "a", so seven of our bonus icons
+                  // carried the same id and `url(#a)` resolved to whichever rendered first — the
+                  // goal ball turned green from the clean sheet or red from the won penalty. The
+                  // leftover <style> blocks collide the same way on .a/.b/.c. Prefixing both with
+                  // the file name keeps every icon's colours to itself.
+                  "prefixIds",
                 ],
               },
             },
