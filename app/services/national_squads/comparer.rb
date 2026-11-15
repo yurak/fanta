@@ -10,6 +10,9 @@ module NationalSquads
       'Spain' => {
         'Rodrigo Hernandez' => 'Rodri', # Rodri, player #790
         'Pedri Gonzalez' => 'Pedri' # Pedri, player #2341
+      },
+      'Israel' => {
+        'Idan Toklomati' => 'Idan Gorno' # same player, renamed; TM keeps Toklomati, player #11633
       }
     }.freeze
 
