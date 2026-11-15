@@ -66,6 +66,38 @@ RSpec.describe 'Matches' do
       end
     end
 
+    context 'when a player was unlinked from his national squad after the lineup was set' do
+      login_user
+
+      let(:tournament) { create(:tournament) }
+      let(:league) { create(:league, tournament: tournament) }
+      let(:tour) { create(:tour, league: league, status: :locked) }
+      let(:match1) { create(:match, tour: tour) }
+      let(:national_team) { create(:national_team) }
+
+      before do
+        create(:national_match, tournament_round: tour.tournament_round, host_team: national_team, status: :live)
+        lineup = create(:lineup, tour: tour, team: match1.host)
+        # he was in the squad when the lineup was set and carries no national team now, so the round
+        # holds no fixture of his at all
+        create(:match_player, lineup: lineup,
+                              round_player: create(:round_player, player: create(:player, national_team: nil),
+                                                                  tournament_round: tour.tournament_round,
+                                                                  in_squad: false, score: 0))
+        get match_path(match1)
+      end
+
+      it { expect(response).to be_successful }
+
+      it 'says he is out of the squad' do
+        expect(response.body).to include(I18n.t('matches.not_in_squad'))
+      end
+
+      it 'does not fall back to the unspecified placeholder' do
+        expect(response.body).not_to include(I18n.t('matches.unspecified'))
+      end
+    end
+
     context 'with invalid match id' do
       login_user
       before do

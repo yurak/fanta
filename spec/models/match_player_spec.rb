@@ -177,6 +177,36 @@ RSpec.describe MatchPlayer do
     end
   end
 
+  describe '#out_of_national_squad?' do
+    let(:national_team) { create(:national_team) }
+    let(:round_player) { create(:round_player) }
+    let(:match_player) { create(:match_player, round_player: round_player) }
+
+    # a national round is one that holds national matches, so the tour follows the round
+    before do
+      create(:national_match, tournament_round: round_player.tournament_round, host_team: national_team)
+      match_player.lineup.tour.update!(tournament_round: round_player.tournament_round)
+    end
+
+    context 'when the player carries no national team' do
+      it { expect(match_player.out_of_national_squad?).to be(true) }
+    end
+
+    context 'when the player is still in a squad' do
+      let(:round_player) { create(:round_player, player: create(:player, national_team: national_team)) }
+
+      it { expect(match_player.out_of_national_squad?).to be(false) }
+    end
+
+    context 'when the round is a club one' do
+      let(:round_player) { create(:round_player) }
+
+      before { match_player.lineup.tour.update!(tournament_round: create(:tournament_round)) }
+
+      it { expect(match_player.out_of_national_squad?).to be(false) }
+    end
+  end
+
   describe '#position_malus?' do
     context 'without real position' do
       it 'returns false' do
