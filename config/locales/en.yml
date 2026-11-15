@@ -995,6 +995,12 @@ en:
     search_player: "Search player"
     export_csv: "Export CSV"
     newbie: "NEW"
+    form_details:
+      round: "Round"
+      opponent: "Opponent"
+      minutes: "Min"
+      score: "Score"
+      final_score: "Total"
     form_legend:
       full: "Played 60+ min"
       part: "Played under 60 min"

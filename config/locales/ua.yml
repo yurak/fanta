@@ -1018,6 +1018,12 @@ ua:
     search_player: "Пошук гравця"
     export_csv: "Експорт CSV"
     newbie: "NEW"
+    form_details:
+      round: "Тур"
+      opponent: "Суперник"
+      minutes: "Хв"
+      score: "Базова"
+      final_score: "Загальна"
     form_legend:
       full: "Зіграв 60+ хв"
       part: "Зіграв менше 60 хв"

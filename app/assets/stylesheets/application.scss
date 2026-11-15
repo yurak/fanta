@@ -1882,6 +1882,51 @@ body, html {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
   }
 
+  .form-details {
+    display: grid;
+    grid-template-columns: auto auto auto auto auto;
+    column-gap: 10px;
+    padding-bottom: 6px;
+    margin-bottom: 6px;
+    border-bottom: 1px solid #424245;
+  }
+
+  .form-details-row {
+    display: contents;
+
+    span {
+      font-family: 'Nunito', sans-serif;
+      font-size: 11px;
+      line-height: 16px;
+      color: #FFFFFF;
+      white-space: nowrap;
+    }
+  }
+
+  .form-details-head span {
+    font-family: 'Nunito Bold';
+    color: #A6A2A2;
+  }
+
+  .form-details-round {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .form-details-swatch {
+    flex-shrink: 0;
+    width: 8px;
+    height: 8px;
+    border-radius: 2px;
+  }
+
+  .form-details-minutes,
+  .form-details-score,
+  .form-details-final {
+    text-align: right;
+  }
+
   .form-legend-row {
     display: flex;
     align-items: center;

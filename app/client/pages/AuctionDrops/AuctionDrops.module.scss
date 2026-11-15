@@ -328,6 +328,48 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
 }
 
+.formDetails {
+  display: grid;
+  grid-template-columns: auto auto auto auto auto;
+  column-gap: 10px;
+  padding-bottom: 6px;
+  margin-bottom: 6px;
+  border-bottom: 1px solid #424245;
+}
+
+.formDetailsRow {
+  display: contents;
+
+  span {
+    font-size: 11px;
+    line-height: 16px;
+    color: #ffffff;
+    white-space: nowrap;
+  }
+}
+
+.formDetailsHead span {
+  font-family: "Nunito Bold";
+  color: #a6a2a2;
+}
+
+.formDetailsRound {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.formDetailsSwatch {
+  flex-shrink: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+}
+
+.formDetailsNumber {
+  text-align: right;
+}
+
 .formLegendRow {
   display: flex;
   align-items: center;

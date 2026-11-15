@@ -125,6 +125,45 @@ RSpec.describe 'Slots' do
       end
     end
 
+    context 'with the form of the rounds behind the current one' do
+      login_user
+
+      let(:club) { create(:club, name: 'Milan') }
+      let(:opponent) { create(:club, tournament: club.tournament, name: 'Roma') }
+      let(:round) { create(:tournament_round, tournament: club.tournament, number: 2) }
+      let(:tour) { create(:tour, tournament_round: round) }
+      let(:previous_round) do
+        create(:tournament_round, tournament: club.tournament, season: round.season, number: 1)
+      end
+
+      before do
+        player = create(:player, :with_pos_pc, club: club)
+        create(:player_team, team: create(:team, id: 4321), player: player)
+        create(:tournament_match, tournament_round: previous_round, host_club: club, guest_club: opponent,
+                                  host_score: 2, guest_score: 1)
+        create(:round_player, player: player, tournament_round: previous_round,
+                              in_squad: true, played_minutes: 78, score: 6.5, final_score: 9.5)
+        get slots_path(tour_id: tour.id, team_id: 4321, team_module_id: create(:team_module).id,
+                       index: 5, format: 'json')
+      end
+
+      def html
+        JSON(response.body)['team_players_html']
+      end
+
+      it 'names the opponent of the round and which side of the fixture it was' do
+        expect(html).to include('(H) Roma')
+      end
+
+      it 'prints the minutes played' do
+        expect(html).to include('78&#39;') # the apostrophe of the minute mark is escaped in the view
+      end
+
+      it 'prints the base rating and the score with bonuses' do
+        expect(html).to include('>6.5<').and include('>9.5<')
+      end
+    end
+
     context 'when the tour is eurocup' do
       login_user
 

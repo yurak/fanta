@@ -5,9 +5,18 @@ export type DropStatus = "transferable" | "untouchable" | "left";
 
 export type FormState = "empty" | "skipped" | "out" | "bench" | "part" | "full";
 
+export interface IFormOpponent {
+  name: string | null,
+  home: boolean,
+}
+
 export interface IFormCell {
   state: FormState,
+  round?: number | null,
+  opponent?: IFormOpponent | null,
+  minutes?: number | null,
   score?: string | null,
+  final_score?: string | null,
 }
 
 export interface IDropPlayer {

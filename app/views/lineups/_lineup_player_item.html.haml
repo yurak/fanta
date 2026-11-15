@@ -13,6 +13,7 @@
       - form.each do |cell|
         .form-cell{class: "form-cell-#{cell[:state]}"}= cell[:score]
       .form-legend
+        = render 'lineups/form_details', form: form
         - PlayerFormHelper::LEGEND_STATES.each do |state|
           .form-legend-row
             %span.form-legend-swatch{class: "form-cell-#{state}"}

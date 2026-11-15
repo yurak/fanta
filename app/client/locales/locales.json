@@ -1620,6 +1620,13 @@
         "tournamentLabel": "TMNT",
         "withoutTeamLabel": "Without team"
       },
+      "form_details": {
+        "final_score": "Total",
+        "minutes": "Min",
+        "opponent": "Opponent",
+        "round": "Round",
+        "score": "Score"
+      },
       "form_legend": {
         "bench": "On the bench",
         "empty": "No match to show",
@@ -3999,6 +4006,13 @@
         "totalScoreShortLabel": "ЗО",
         "tournamentLabel": "Турнір",
         "withoutTeamLabel": "Без команди"
+      },
+      "form_details": {
+        "final_score": "Загальна",
+        "minutes": "Хв",
+        "opponent": "Суперник",
+        "round": "Тур",
+        "score": "Базова"
       },
       "form_legend": {
         "bench": "На лаві запасних",
