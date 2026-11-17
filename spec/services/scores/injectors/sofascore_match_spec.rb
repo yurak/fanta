@@ -117,6 +117,46 @@ RSpec.describe Scores::Injectors::SofascoreMatch do
         end
       end
 
+      # RoundPlayers::Creator builds the round's rows from the squad as it stood when it ran, so a
+      # player who joined the club afterwards is out of reach of `by_club` and his appearance would
+      # be filed as missed instead of scored
+      context 'when the round has no row for a player the source rated' do
+        let!(:latecomer) { create(:player, sofascore_id: 200, club: match.guest_club) }
+
+        it 'builds the row the score needs' do
+          expect { injector.call }
+            .to change { RoundPlayer.where(tournament_round: match.tournament_round, player: latecomer).count }.from(0).to(1)
+        end
+
+        it 'scores him' do
+          injector.call
+
+          expect(RoundPlayer.find_by(tournament_round: match.tournament_round, player: latecomer).score).to eq(8.5)
+        end
+
+        it 'drops him from missed_players_data' do
+          injector.call
+
+          expect(match.reload.missed_players_data.keys).not_to include('200')
+        end
+      end
+
+      # our club data disagreeing with the source is not a late arrival: either we missed his
+      # transfer or the id is wrong, and both deserve a look rather than a score
+      context 'when we hold that player at another club' do
+        let!(:stranger) { create(:player, sofascore_id: 200, club: create(:club)) }
+
+        it 'builds no row for him' do
+          expect { injector.call }.not_to(change { RoundPlayer.where(player: stranger).count })
+        end
+
+        it 'keeps him in missed_players_data' do
+          injector.call
+
+          expect(match.reload.missed_players_data.keys).to include('200')
+        end
+      end
+
       context 'when the keeper saved a penalty and gave one away' do
         let(:lineups_json) do
           {

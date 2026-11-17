@@ -25,6 +25,21 @@ module Scores
 
         round_players.by_club(match.host_club_id).each { |rp| update_round_player(rp, host_scores_hash, conceded_for(home: true)) }
         round_players.by_club(match.guest_club.id).each { |rp| update_round_player(rp, guest_scores_hash, conceded_for(home: false)) }
+
+        adopt_unlisted_players(host_scores_hash, home: true)
+        adopt_unlisted_players(guest_scores_hash, home: false)
+      end
+
+      def adopt_unlisted_players(team_hash, home:)
+        club_id = home ? match.host_club_id : match.guest_club_id
+
+        team_hash.values.dup.each do |player_data|
+          player = Player.find_by(sofascore_id: player_data[:sofascore_id])
+          next unless player && (player.club_id.nil? || player.club_id == club_id)
+
+          round_player = RoundPlayer.for_round(match.tournament_round, player)
+          update_round_player(round_player, team_hash, conceded_for(home: home))
+        end
       end
 
       def conceded_for(home:)

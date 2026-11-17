@@ -27,6 +27,50 @@ module Scores
           update_side(round_players.by_club(match.host_club_id), conceded_for(home: true))
           update_side(round_players.by_club(match.guest_club_id), conceded_for(home: false))
         end
+
+        adopt_unlisted_players
+      end
+
+      def adopt_unlisted_players
+        players_hash.values.dup.each do |player_data|
+          side = lineup_sides[player_data[:fotmob_id]]
+          next unless side
+
+          player = Player.find_by(fotmob_id: player_data[:fotmob_id])
+          next unless player && adoptable?(player, side)
+
+          round_player = RoundPlayer.for_round(match.tournament_round, player)
+          update_round_player(round_player, conceded_for(home: side == :home))
+        end
+      end
+
+      def adoptable?(player, side)
+        if match.tournament_round.tournament.national?
+          team_id = side == :home ? match.host_team_id : match.guest_team_id
+          player.national_team_id.nil? || player.national_team_id == team_id
+        else
+          club_id = side == :home ? match.host_club_id : match.guest_club_id
+          player.club_id.nil? || player.club_id == club_id
+        end
+      end
+
+      def lineup_sides
+        @lineup_sides ||= parse_lineup_sides
+      end
+
+      def parse_lineup_sides
+        lineup = match_data.dig('content', 'lineup') || {}
+        return {} unless lineup['lineupType'] == CONFIRMED_LINEUP
+
+        { home: 'homeTeam', away: 'awayTeam' }.each_with_object({}) do |(side, key), sides|
+          side_fotmob_ids(lineup[key]).each { |id| sides[id] = side }
+        end
+      end
+
+      def side_fotmob_ids(team)
+        team ||= {}
+
+        (Array(team['starters']) + Array(team['subs'])).filter_map { |player| player['id'].presence&.to_i }
       end
 
       def mark_squad
@@ -43,13 +87,7 @@ module Scores
       end
 
       def squad_fotmob_ids
-        return Set.new unless match_data.dig('content', 'lineup', 'lineupType') == CONFIRMED_LINEUP
-
-        @squad_fotmob_ids ||= %w[homeTeam awayTeam].flat_map do |side|
-          team = match_data.dig('content', 'lineup', side) || {}
-
-          (Array(team['starters']) + Array(team['subs'])).filter_map { |player| player['id'].presence&.to_i }
-        end.to_set
+        lineup_sides.keys.to_set
       end
 
       def conceded_for(home:)

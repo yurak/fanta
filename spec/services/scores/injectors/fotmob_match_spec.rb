@@ -696,6 +696,114 @@ RSpec.describe Scores::Injectors::FotmobMatch do
     end
   end
 
+  # RoundPlayers::Creator builds the round's rows from the squad as it stood when it ran, so anyone
+  # linked to his club or national team afterwards has nowhere for the score to land — and the sides
+  # the injector walks are scoped by the very link he is missing.
+  describe 'a rated player the round has no row for' do
+    let(:club) { match.host_club }
+    let!(:latecomer) { create(:player, club: club, fotmob_id: 777) }
+
+    let(:match_data) do
+      {
+        'general' => { 'leagueRoundName' => match.tournament_round.number.to_s },
+        'header' => { 'status' => finished_status },
+        'content' => {
+          'lineup' => {
+            'lineupType' => 'standard',
+            'homeTeam' => { 'starters' => [{ 'id' => 777 }], 'subs' => [] },
+            'awayTeam' => { 'starters' => [], 'subs' => [] }
+          }
+        }
+      }
+    end
+
+    before do
+      allow(Scores::Injectors::FotmobPlayersData).to receive(:call).and_return(
+        777 => { fotmob_id: 777, source_name: 'late comer', rating: 7.2, played_minutes: 90 }
+      )
+    end
+
+    it 'builds the row the score needs' do
+      expect { injector.call }.to change { RoundPlayer.where(tournament_round: match.tournament_round, player: latecomer).count }
+        .from(0).to(1)
+    end
+
+    it 'scores him' do
+      injector.call
+
+      expect(RoundPlayer.find_by(tournament_round: match.tournament_round, player: latecomer).score).to eq(7.2)
+    end
+
+    it 'keeps him out of the missed list' do
+      injector.call
+
+      expect(match.reload.missed_players_data).to eq({})
+    end
+
+    it 'leaves a player we do not carry in the missed list' do
+      latecomer.destroy
+
+      injector.call
+
+      expect(match.reload.missed_players_data.keys).to eq(['777'])
+    end
+
+    # our club data disagreeing with the source is not a late arrival: either we missed his
+    # transfer or the id is wrong, and both deserve a look rather than a score
+    it 'leaves a player we hold at another club in the missed list' do
+      latecomer.update!(club: create(:club))
+
+      injector.call
+
+      expect(match.reload.missed_players_data.keys).to eq(['777'])
+    end
+
+    it 'builds no row for him' do
+      latecomer.update!(club: create(:club))
+
+      expect { injector.call }.not_to(change { RoundPlayer.where(player: latecomer).count })
+    end
+
+    context 'with a national match' do
+      let(:club) { create(:club) } # his club says nothing here: no club plays a national round
+      let(:match) do
+        tournament = create(:tournament, :with_national_teams)
+        create(:national_match, page_url: '/matches/x/1#2',
+                                tournament_round: create(:tournament_round, tournament: tournament),
+                                host_team: tournament.national_teams.first,
+                                guest_team: tournament.national_teams.second)
+      end
+      let(:round) { match.tournament_round }
+
+      it 'adopts a player carrying no national team' do
+        latecomer.update!(national_team: nil)
+
+        expect { injector.call }
+          .to change { RoundPlayer.where(tournament_round: round, player: latecomer).count }.from(0).to(1)
+      end
+
+      it 'adopts a player of the side he is listed under' do
+        latecomer.update!(national_team: match.host_team)
+
+        expect { injector.call }
+          .to change { RoundPlayer.where(tournament_round: round, player: latecomer).count }.from(0).to(1)
+      end
+
+      it 'leaves a player tied to another national team alone' do
+        latecomer.update!(national_team: create(:national_team))
+
+        expect { injector.call }.not_to(change { RoundPlayer.where(player: latecomer).count })
+      end
+    end
+
+    # a predicted lineup is a tipster's guess, so it says nothing about who actually played
+    it 'builds nothing from an unconfirmed team sheet' do
+      match_data['content']['lineup']['lineupType'] = 'predicted'
+
+      expect { injector.call }.not_to(change { RoundPlayer.where(player: latecomer).count })
+    end
+  end
+
   # FotMob publishes player stats only once it starts rating people, a quarter of an hour in, but the
   # match is marked live long before that — so every player of it was shown as "not in squad" while
   # they were on the pitch. The lineup is there from the team sheet, so it answers that question.
