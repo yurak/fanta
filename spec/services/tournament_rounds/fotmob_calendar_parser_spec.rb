@@ -53,6 +53,45 @@ RSpec.describe TournamentRounds::FotmobCalendarParser do
     it { is_expected.to eq([]) }
   end
 
+  # FotMob moved its league pages behind a per-league slug and answers the old address with a 308.
+  # RestClient raises on that rather than following it, and the rescue turned every calendar import
+  # into an empty one, silently.
+  context 'when the league page has moved' do
+    let(:redirect) do
+      response = instance_double(RestClient::Response, headers: { location: '/leagues/47/overview/mls' })
+      RestClient::PermanentRedirect.new(response)
+    end
+
+    before do
+      call_count = 0
+      allow(RestClient::Request).to receive(:execute) do
+        call_count += 1
+        raise redirect if call_count == 1
+
+        page([match_data])
+      end
+    end
+
+    it 'follows the redirect and parses what it finds' do
+      expect(parse.first).to include(source_match_id: '5795363')
+    end
+
+    it 'asks the address the redirect names' do
+      parse
+
+      expect(RestClient::Request).to have_received(:execute)
+        .with(hash_including(url: 'https://www.fotmob.com/leagues/47/overview/mls'))
+    end
+
+    context 'when the redirect carries no address' do
+      let(:redirect) do
+        RestClient::PermanentRedirect.new(instance_double(RestClient::Response, headers: {}))
+      end
+
+      it { is_expected.to eq([]) }
+    end
+  end
+
   context 'when FotMob blocks the request' do
     before { allow(RestClient::Request).to receive(:execute).and_raise(RestClient::Forbidden) }
 
