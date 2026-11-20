@@ -37,6 +37,7 @@ Rails.application.routes.draw do
         post :archive
         post :crown
         post :refresh
+        post :add_team
       end
     end
 
