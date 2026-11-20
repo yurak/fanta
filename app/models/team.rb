@@ -34,6 +34,24 @@ class Team < ApplicationRecord
 
   scope :by_tournament, ->(tournament_id) { where(tournament_id: tournament_id) }
 
+  def self.generate_name(human_name, user_id, tournament = nil)
+    base = "#{human_name.to_s.delete(" \t\r\n")[0..6]}_#{user_id}".downcase
+    suffix = tournament&.slug_suffix.presence
+    return "#{base}_#{Team.last&.id.to_i + 1}" if suffix.nil?
+
+    free_name("#{base}_#{suffix}", user_id)
+  end
+
+  def self.free_name(candidate, user_id)
+    taken = where(user_id: user_id).where('name LIKE ?', "#{candidate}%").pluck(:name).to_set
+    return candidate unless taken.include?(candidate)
+
+    counter = 2
+    counter += 1 while taken.include?("#{candidate}#{counter}")
+    "#{candidate}#{counter}"
+  end
+  private_class_method :free_name
+
   def reset
     players.clear
     update(budget: DEFAULT_BUDGET, transfer_slots: TRANSFER_SLOTS)

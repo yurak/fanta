@@ -105,7 +105,7 @@ module Manage
     end
 
     def tournament_params
-      params.expect(tournament: %i[name short_name code icon source mode eurocup open_join
+      params.expect(tournament: %i[name short_name code slug_suffix icon source mode eurocup open_join
                                    skip_round_check live_scores_enabled source_calendar_url
                                    source_id sofa_number lineup_first_goal lineup_increment])
     end
