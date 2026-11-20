@@ -5,9 +5,10 @@ module Scores
 
     attr_reader :spent
 
-    def initialize(limit: DEFAULT_LIMIT)
+    def initialize(limit: DEFAULT_LIMIT, sleeper: Kernel)
       @limit = limit
       @spent = 0
+      @sleeper = sleeper
     end
 
     def take(seconds)
@@ -16,6 +17,13 @@ module Scores
 
       granted = [seconds, remaining].min
       @spent += granted
+      granted
+    end
+
+    def wait(seconds)
+      granted = take(seconds)
+      @sleeper.sleep(granted) if granted.positive?
+
       granted
     end
 

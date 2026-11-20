@@ -27,10 +27,46 @@ RSpec.describe 'Manage::UserLogos' do
         expect(response.body).to include(CGI.escapeHTML(owner.name))
       end
 
+      # updated_at is the moderation moment: nothing else touches a kept logo after upload
+      context 'with an approved logo' do
+        let!(:moderated) do
+          create(:user_logo, user: owner, status: :approved, updated_at: Time.zone.local(2026, 3, 4, 15, 30))
+        end
+
+        before { get manage_user_logos_path(tab: 'approved') }
+
+        it { expect(response.body).to include(I18n.t('manage.user_logos.approved_at')) }
+        it { expect(response.body).to include(moderated.updated_at.strftime('%d %b %Y')) }
+      end
+
+      it 'shows when a rejected logo was moderated' do
+        create(:user_logo, user: owner, status: :rejected)
+
+        get manage_user_logos_path(tab: 'rejected')
+
+        expect(response.body).to include(I18n.t('manage.user_logos.rejected_at'))
+      end
+
+      it 'keeps the moderation column out of the pending tab' do
+        get manage_user_logos_path(tab: 'pending')
+
+        expect(response.body).not_to include(I18n.t('manage.user_logos.approved_at'))
+      end
+
       it 'shows archived logos in the archived tab' do
         logo.discard
         get manage_user_logos_path(tab: 'archived')
         expect(response.body).to include(logo.url)
+      end
+
+      context 'with an archived logo' do
+        before do
+          logo.discard
+          get manage_user_logos_path(tab: 'archived')
+        end
+
+        it { expect(response.body).to include(I18n.t('manage.user_logos.deleted_at')) }
+        it { expect(response.body).to include(logo.reload.deleted_at.strftime('%d %b %Y')) }
       end
 
       context 'with more logos than one page' do

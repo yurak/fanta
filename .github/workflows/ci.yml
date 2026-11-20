@@ -6,11 +6,15 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    # Matches the server, which is Ubuntu 22.04 on Ruby 3.2.2 — so the suite runs against the same
+    # glibc and system libraries the native gems are built on in production.
+    runs-on: ubuntu-22.04
 
     services:
       postgres:
-        image: postgres:16
+        # 18 to match the RDS instance production runs on; the suite should meet the planner and
+        # the collation rules it will actually meet in production.
+        image: postgres:18
         env:
           POSTGRES_DB: mantra_test
           POSTGRES_USER: postgres
@@ -39,7 +43,9 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@v5
         with:
-          node-version: lts/*
+          # Pinned, 24 is supported to 2028-04 — the longest runway of the versions that have had
+          # time to settle — and it replaces Node 20, which went end-of-life in 2026-04.
+          node-version: '24'
 
       - name: Install JS dependencies
         run: yarn install

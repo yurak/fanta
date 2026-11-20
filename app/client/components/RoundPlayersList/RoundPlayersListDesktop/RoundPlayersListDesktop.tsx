@@ -1,4 +1,5 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
+import { useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { IRoundPlayer } from "@/interfaces/RoundPlayer";
 import Table, { IColumn } from "@/ui/Table";
@@ -8,6 +9,9 @@ import { useRoundPlayersContext } from "@/application/RoundPlayers/RoundPlayersC
 import { useRoundPlayersListContext } from "@/application/RoundPlayers/RoundPlayersListContext";
 import { useRoundPlayersPageConfigurationContext } from "@/application/RoundPlayers/RoundPlayersPageConfigurationContext";
 import RoundPlayersListInfo, { RoundPlayersListInfoSkeleton } from "../RoundPlayersListInfo";
+import FieldingTeamsModal from "../FieldingTeamsModal";
+import MainAppearances from "../MainAppearances";
+import { pickedClass } from "../pickedRow";
 import styles from "@/components/PlayersList/PlayersListDesktop/PlayersListDesktop.module.scss";
 import roundStyles from "./RoundPlayersListDesktop.module.scss";
 
@@ -22,6 +26,8 @@ const RoundPlayersListDesktop = ({
   const { sorting, filterValues } = useRoundPlayersContext();
   const { items, isLoading, hasNextPage, loadMore } = useRoundPlayersListContext();
   const { national, fanta, deadlined } = useRoundPlayersPageConfigurationContext();
+  const [teamsFor, setTeamsFor] = useState<IRoundPlayer | null>(null);
+  const params = useParams<{ roundId: string }>();
 
   // The owning fantasy team only exists for mantra tournaments with a league selected.
   const showTeam = filterValues.leagueId != null && !fanta;
@@ -87,8 +93,7 @@ const RoundPlayersListDesktop = ({
           className: styles.appsCell,
           sorter: deadlined,
           supportAscSorting: deadlined,
-          render: ({ main_appearances }) =>
-            main_appearances === null ? "-" : formatNumber(main_appearances),
+          render: (player) => <MainAppearances player={player} onOpen={setTeamsFor} />,
         }
       );
     }
@@ -145,7 +150,7 @@ const RoundPlayersListDesktop = ({
     return cols;
   }, [t, fanta, national, deadlined, showTeam]);
 
-  return (
+  const table = (
     <Table
       rounded
       dataSource={items}
@@ -156,8 +161,22 @@ const RoundPlayersListDesktop = ({
       emptyStateComponent={emptyStateComponent}
       skeletonItems={25}
       rowLink={(item) => `/players/${item.player_id}`}
+      rowClassName={(item) => pickedClass(item.picked)}
       columns={columns}
     />
+  );
+
+  return (
+    <>
+      {table}
+      {teamsFor && (
+        <FieldingTeamsModal
+          roundId={Number(params.roundId)}
+          player={teamsFor}
+          onClose={() => setTeamsFor(null)}
+        />
+      )}
+    </>
   );
 };
 

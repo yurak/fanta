@@ -8,6 +8,8 @@ class LeagueBaseSerializer < ActiveModel::Serializer
   attributes :division_id
   attributes :link
   attributes :name
+  attributes :promotion
+  attributes :relegation
   attributes :season_id
   attributes :status
   attributes :tournament_id
@@ -24,6 +26,6 @@ class LeagueBaseSerializer < ActiveModel::Serializer
   def results
     return unless instance_options[:results]
 
-    object.results.ordered.map { |result| ResultBaseSerializer.new(result) }
+    object.ordered_results.map { |result| ResultBaseSerializer.new(result) }
   end
 end

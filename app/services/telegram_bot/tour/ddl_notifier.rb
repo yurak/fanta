@@ -56,6 +56,7 @@ module TelegramBot
           locale: locale,
           icon: league.tournament.icon,
           number: tour.number,
+          league_name: league.name,
           deadline: deadline,
           time_zone: time_zone,
           url: Rails.application.routes.url_helpers.tour_url(tour),

@@ -348,6 +348,54 @@ RSpec.describe 'Manage::Leagues' do
     end
   end
 
+  describe 'POST #add_team' do
+    let(:tournament) { create(:fanta_tournament) }
+    let(:league) { create(:league, tournament: tournament) }
+    let(:manager) { create(:user) }
+
+    before { create(:team, user: manager, league: create(:league), human_name: 'Chameleon', code: 'CHA') }
+
+    context 'when user is logged out' do
+      before { post add_team_manage_league_path(league, user_id: manager.id) }
+
+      it { expect(response).to redirect_to('/users/sign_in') }
+    end
+
+    context 'when admin is logged in' do
+      login_admin
+
+      # the first post only shows what would happen: an admin who mistypes an id must see whose
+      # team is about to move before it moves
+      context 'without a confirmation' do
+        before { post add_team_manage_league_path(league, user_id: manager.id) }
+
+        it { expect(response).to be_successful }
+        it { expect(response.body).to include('Chameleon') }
+
+        it 'creates nothing yet' do
+          expect(Team.where(league: league)).to be_empty
+        end
+      end
+
+      context 'with a confirmation' do
+        before { post add_team_manage_league_path(league, user_id: manager.id, confirm: 1) }
+
+        it { expect(response).to redirect_to(manage_league_path(league)) }
+
+        it 'puts his team in the league' do
+          expect(Team.find_by(league: league, user: manager).human_name).to eq('Chameleon')
+        end
+      end
+
+      context 'with an id nobody carries' do
+        before { post add_team_manage_league_path(league, user_id: 0, confirm: 1) }
+
+        it { expect(response).to be_successful }
+        it { expect(response.body).to include(I18n.t('manage.leagues.add_team_error_user_not_found')) }
+      end
+    end
+  end
+
   describe 'POST #crown' do
     let(:champion_user) { create(:user) }
     let(:league) { create(:archived_league) }

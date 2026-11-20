@@ -25,6 +25,18 @@ module PlayersHelper
     end
   end
 
+  def players_season_avg_score(players, current_round)
+    return {} unless current_round && players.present?
+
+    rounds = TournamentRound.by_tournament(current_round.tournament_id).by_season(current_round.season_id)
+    scored = RoundPlayer.with_score.includes(:tournament_round, player: :positions)
+                        .where(player_id: players.map(&:id), tournament_round_id: rounds.select(:id))
+
+    scored.group_by(&:player_id).transform_values do |round_players|
+      (round_players.sum(&:result_score) / round_players.size).round(2)
+    end
+  end
+
   def tournament_round_players(t_round, real_position)
     if t_round.national_matches.any?
       Player.by_national_tournament_round(t_round).by_position(real_position&.split('/')).uniq

@@ -66,7 +66,7 @@ RSpec.describe PlayerFormHelper do
         create(:round_player, player: player, tournament_round: two_rounds_ago,
                               in_squad: true, played_minutes: 90, score: 0, final_score: 0)
 
-        expect(cells.last).to eq({ state: 'full', score: nil })
+        expect(cells.last.slice(:state, :score)).to eq({ state: 'full', score: nil })
       end
     end
 
@@ -100,7 +100,7 @@ RSpec.describe PlayerFormHelper do
         create(:round_player, player: player, tournament_round: two_rounds_ago,
                               in_squad: true, played_minutes: 90, score: 7.0)
 
-        expect(cells.last).to eq({ state: 'full', score: '7' })
+        expect(cells.last.slice(:state, :score)).to eq({ state: 'full', score: '7' })
       end
     end
 
@@ -126,6 +126,70 @@ RSpec.describe PlayerFormHelper do
       it 'is out when no round_player exists' do
         expect(last_state).to eq('out')
       end
+    end
+  end
+
+  describe 'the round details behind the bar' do
+    let(:season) { create(:season) }
+    let(:club) { create(:club, name: 'Milan') }
+    let(:opponent) { create(:club, tournament: club.tournament, name: 'Roma') }
+    let(:player) { create(:player, club: club) }
+    let(:current_round) { create(:tournament_round, tournament: club.tournament, season: season, number: 2) }
+    let(:previous_round) { create(:tournament_round, tournament: club.tournament, season: season, number: 1) }
+    let(:cell) { helper.players_last_rounds_form([player], current_round)[player.id].last }
+
+    before { previous_round }
+
+    it 'names the round every cell stands for' do
+      expect(cell[:round]).to eq(1)
+    end
+
+    it 'names the opponent of a home fixture' do
+      create(:tournament_match, tournament_round: previous_round, host_club: club, guest_club: opponent,
+                                host_score: 2, guest_score: 1)
+
+      expect(cell[:opponent]).to eq({ name: 'Roma', home: true })
+    end
+
+    it 'names the opponent of an away fixture' do
+      create(:tournament_match, tournament_round: previous_round, host_club: opponent, guest_club: club,
+                                host_score: 2, guest_score: 1)
+
+      expect(cell[:opponent]).to eq({ name: 'Roma', home: false })
+    end
+
+    # the fixture is worth naming even when it has not been played yet, which is what the cell
+    # colour already says
+    it 'names the opponent of a fixture that carries no result' do
+      create(:tournament_match, tournament_round: previous_round, host_club: club, guest_club: opponent)
+
+      expect(cell[:opponent]).to eq({ name: 'Roma', home: true })
+    end
+
+    it 'leaves the opponent out when the club had no fixture' do
+      expect(cell[:opponent]).to be_nil
+    end
+
+    it 'carries the minutes, the base rating and the score with bonuses' do
+      create(:tournament_match, tournament_round: previous_round, host_club: club, guest_club: opponent,
+                                host_score: 2, guest_score: 1)
+      create(:round_player, player: player, tournament_round: previous_round,
+                            in_squad: true, played_minutes: 78, score: 6.5, final_score: 9.5)
+
+      expect(cell.slice(:minutes, :score, :final_score)).to eq({ minutes: 78, score: '6.5', final_score: '9.5' })
+    end
+
+    it 'leaves the score out while the round is not scored yet' do
+      create(:round_player, player: player, tournament_round: previous_round,
+                            in_squad: true, played_minutes: 78, score: 0, final_score: 0)
+
+      expect(cell.slice(:minutes, :score, :final_score)).to eq({ minutes: 78, score: nil, final_score: nil })
+    end
+
+    it 'counts no minutes for a player who stayed on the bench' do
+      create(:round_player, player: player, tournament_round: previous_round, in_squad: true, played_minutes: 0)
+
+      expect(cell.slice(:state, :minutes)).to eq({ state: 'bench', minutes: 0 })
     end
   end
 
@@ -181,7 +245,7 @@ RSpec.describe PlayerFormHelper do
     end
   end
 
-  describe '#player_form_row(player, rounds, cells, pad)' do
+  describe '#player_form_row(player, rounds, cells, pad, context)' do
     let(:player) { create(:player) }
     let(:round) { create(:tournament_round) }
     let(:round_player) { create(:round_player, player: player, tournament_round: round, in_squad: true, played_minutes: 90, score: 7.0) }

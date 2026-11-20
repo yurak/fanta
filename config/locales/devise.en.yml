@@ -71,6 +71,8 @@ en:
         email: "Email"
         email_taken: "This email is already registered."
         email_invalid: "Please enter a valid email address"
+        nickname: "Nickname"
+        refused: "We could not accept this sign-up. If you are using an old browser, please try a current one."
         note: "⚠️ To participate in the game, you will need to "
         note_link: "make a fee"
         sign_in: "Log in"

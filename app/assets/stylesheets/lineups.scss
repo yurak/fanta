@@ -944,6 +944,73 @@
   }
 }
 
+.new-lineup-page .modal-players-title .lineup-filter-clear {
+  cursor: pointer;
+  font-family: 'Nunito SemiBold';
+  font-size: 14px;
+  line-height: 20px;
+  color: #261FFF;
+  text-decoration: underline;
+  white-space: nowrap;
+}
+
+.new-lineup-page .lineup-players-filters {
+  display: none;
+  margin: 0 32px 8px;
+  font-size: 0;
+
+  .lineup-filter-positions {
+    line-height: 36px;
+  }
+
+  .lineup-filter-teams {
+    line-height: 34px;
+  }
+
+  .lineup-filter-positions + .lineup-filter-teams {
+    margin-top: 4px;
+  }
+
+  .lineup-filter-chip {
+    display: inline-block;
+    cursor: pointer;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .lineup-filter-chip.is-active {
+    border-color: #261FFF;
+  }
+
+  .lineup-filter-position {
+    height: 36px;
+    padding: 4px 5px;
+    margin: 0 2px 4px;
+
+    .player-position {
+      border-radius: 4px;
+    }
+  }
+
+  .lineup-filter-team {
+    height: 34px;
+    width: 34px;
+    margin: 0 2px 4px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    img,
+    .flag-icon {
+      width: 24px;
+      height: 24px;
+      line-height: 24px;
+      background-size: contain;
+    }
+  }
+}
+
 .new-lineup-page .lineup-players-search {
   margin: 0 32px 16px;
   border-radius: 28px;
@@ -981,6 +1048,166 @@
     img {
       width: 22px;
       height: 22px;
+    }
+  }
+}
+
+@media (orientation: portrait) {
+  .new-lineup-page {
+    .new-lineup-block {
+      .players-section .main-players .player-data .modal-players-list .players-modal-content {
+        width: 940px;
+
+        .modal-players-title {
+          font-size: 32px;
+          line-height: 40px;
+          padding: 32px 40px 20px;
+          grid-template-columns: 240px 1fr auto;
+
+          .lineup-filter-clear {
+            font-size: 20px;
+            line-height: 28px;
+          }
+
+          .module-position-block {
+            height: 38px;
+
+            .player-position {
+              height: 36px;
+              padding: 0 12px;
+              font-size: 18px;
+              line-height: 36px;
+            }
+          }
+        }
+
+        .modal-modules-block {
+          padding: 0 32px 32px;
+
+          .modal-malus-title {
+            font-size: 18px;
+            line-height: 24px;
+            padding: 12px;
+            margin: 12px 0;
+          }
+
+          .modal-player-item,
+          .modal-player-item-sold {
+            width: 168px;
+            height: 280px;
+            padding: 12px;
+          }
+
+          .modal-player-images {
+            width: 144px;
+            height: 144px;
+
+            .player-show-face, .player-show-kit {
+              img {
+                width: 132px;
+                height: 132px;
+                margin: 12px 6px 0;
+              }
+            }
+          }
+
+          .modal-player-form {
+            width: 144px;
+            gap: 3px;
+            margin-top: 7px;
+
+            .form-cell {
+              height: 23px;
+              font-size: 14px;
+              line-height: 23px;
+            }
+          }
+
+          .modal-player-data {
+            line-height: 26px;
+            font-size: 20px;
+            padding-top: 7px;
+          }
+
+          .modal-player-name {
+            line-height: 37px;
+            font-size: 28px;
+          }
+
+          .modal-player-first-name {
+            height: 28px;
+            line-height: 28px;
+            font-size: 22px;
+          }
+
+          .modal-player-match {
+            grid-template-columns: 19px 26px 19px;
+            font-size: 12px;
+            line-height: 19px;
+
+            .player-match-team {
+              img {
+                width: 19px;
+                height: 19px;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .lineup-players-search {
+      margin: 0 40px 16px;
+      grid-template-columns: 32px auto 32px;
+      column-gap: 20px;
+      padding: 18px 20px;
+
+      img {
+        width: 32px;
+        height: 32px;
+      }
+
+      input {
+        font-size: 22px;
+      }
+    }
+
+    .lineup-players-filters {
+      margin: 0 40px 12px;
+
+      .lineup-filter-positions {
+        line-height: 48px;
+      }
+
+      .lineup-filter-teams {
+        line-height: 48px;
+      }
+
+      .lineup-filter-position {
+        height: 48px;
+        padding: 6px;
+        margin: 0 3px 6px;
+
+        .player-position {
+          height: 36px;
+          padding: 0 12px;
+          font-size: 18px;
+          line-height: 36px;
+        }
+      }
+
+      .lineup-filter-team {
+        height: 48px;
+        width: 48px;
+        margin: 0 3px 6px;
+
+        img,
+        .flag-icon {
+          width: 34px;
+          height: 34px;
+          line-height: 34px;
+        }
+      }
     }
   }
 }

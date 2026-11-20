@@ -15,6 +15,9 @@
         = link_to manage_user_logos_path(tab: tab), class: "default-tab-item #{'default-tab-active' if @tab == tab}" do
           .default-tab-name= t("manage.user_logos.tab_#{tab}")
 
+    - moderated_tab = %w[approved rejected].include?(@tab)
+    - archived_tab = @tab == 'archived'
+
     - if @user_logos.any?
       %table.table.table-hover
         %thead.thead-light
@@ -22,6 +25,10 @@
             %th= t('manage.user_logos.title')
             %th= t('manage.user_logos.user')
             %th= t('manage.user_logos.submitted_at')
+            - if moderated_tab
+              %th= t("manage.user_logos.#{@tab}_at")
+            - if archived_tab
+              %th= t('manage.user_logos.deleted_at')
             - if @tab == 'pending'
               %th= t('manage.user_logos.actions')
         %tbody
@@ -32,6 +39,10 @@
                 = render 'manage/tg_status', user: logo.user
                 = link_to logo.user.name, manage_user_path(logo.user)
               %td= local_time(logo.created_at, '%d %b %Y, %H:%M')
+              - if moderated_tab
+                %td= local_time(logo.updated_at, '%d %b %Y, %H:%M')
+              - if archived_tab
+                %td= local_time(logo.deleted_at, '%d %b %Y, %H:%M')
               - if @tab == 'pending'
                 %td
                   = form_tag(approve_manage_user_logo_path(logo), method: :post, style: 'display:inline') do

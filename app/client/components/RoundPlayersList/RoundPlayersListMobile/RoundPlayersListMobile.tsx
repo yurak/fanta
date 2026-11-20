@@ -1,4 +1,7 @@
+import { useState } from "react";
+import { useParams } from "react-router-dom";
 import Skeleton from "react-loading-skeleton";
+import cn from "classnames";
 import { useTranslation } from "react-i18next";
 import PlayerAvatar, { PlayerAvatarSkeleton } from "@/components/PlayerAvatar";
 import PlayerPositions from "@/components/PlayerPositions/PlayerPositions";
@@ -8,24 +11,33 @@ import DataList from "@/ui/DataList";
 import { useRoundPlayersListContext } from "@/application/RoundPlayers/RoundPlayersListContext";
 import { useRoundPlayersPageConfigurationContext } from "@/application/RoundPlayers/RoundPlayersPageConfigurationContext";
 import { useRoundPlayersContext } from "@/application/RoundPlayers/RoundPlayersContext";
+import { pickedClass } from "../pickedRow";
+import FieldingTeamsModal from "../FieldingTeamsModal";
+import MainAppearances from "../MainAppearances";
 import styles from "@/components/PlayersList/PlayersListMobile/PlayersListMobile.module.scss";
 
 const scoreFormat = { minimumFractionDigits: 2, maximumFractionDigits: 2 };
 
 const RoundPlayerItem = ({
-  avatar_path,
-  kit_path,
-  club,
-  name,
-  first_name,
-  base_score,
-  result_score,
-  position_classic_arr,
-  appearances,
-  main_appearances,
-  nationality,
-  team,
-}: IRoundPlayer) => {
+  player,
+  onOpenTeams,
+}: {
+  player: IRoundPlayer,
+  onOpenTeams: (player: IRoundPlayer) => void,
+}) => {
+  const {
+    avatar_path,
+    kit_path,
+    club,
+    name,
+    first_name,
+    base_score,
+    result_score,
+    position_classic_arr,
+    appearances,
+    nationality,
+    team,
+  } = player;
   const { t } = useTranslation();
   const { fanta, national } = useRoundPlayersPageConfigurationContext();
   const { filterValues } = useRoundPlayersContext();
@@ -67,7 +79,8 @@ const RoundPlayerItem = ({
               </span>
               <span className={styles.divider} />
               <span className={styles.apps}>
-                {formatNumber(main_appearances ?? 0)} {t("round_players_page.main")}
+                <MainAppearances player={player} onOpen={onOpenTeams} />{" "}
+                {t("round_players_page.main")}
               </span>
             </>
           )}
@@ -127,13 +140,15 @@ const RoundPlayersListMobile = ({
   emptyStateComponent: React.ReactNode,
 }) => {
   const { items, isLoading, hasNextPage, loadMore } = useRoundPlayersListContext();
+  const [teamsFor, setTeamsFor] = useState<IRoundPlayer | null>(null);
+  const params = useParams<{ roundId: string }>();
 
-  return (
+  const list = (
     <DataList
       itemLink={(item) => `/players/${item.player_id}`}
       dataSource={items}
-      renderItem={(item) => <RoundPlayerItem {...item} />}
-      itemClassName={styles.item}
+      renderItem={(item) => <RoundPlayerItem player={item} onOpenTeams={setTeamsFor} />}
+      itemClassName={(item) => cn(styles.item, pickedClass(item.picked))}
       itemKey={(item) => item.id}
       isLoading={isLoading}
       isLoadingMore={hasNextPage}
@@ -142,6 +157,19 @@ const RoundPlayersListMobile = ({
       skeletonItems={15}
       skeletonRender={() => <RoundPlayerItemSkeleton />}
     />
+  );
+
+  return (
+    <>
+      {list}
+      {teamsFor && (
+        <FieldingTeamsModal
+          roundId={Number(params.roundId)}
+          player={teamsFor}
+          onClose={() => setTeamsFor(null)}
+        />
+      )}
+    </>
   );
 };
 

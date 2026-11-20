@@ -91,6 +91,28 @@
     - else
       %p.text-muted= t('manage.leagues.no_teams')
 
+    - if @league.fanta? && !@league.archived?
+      .manage-league-add-team.mt-3
+        %h6= t('manage.leagues.add_team_title')
+        %p.text-muted.small.mb-2= t('manage.leagues.add_team_hint')
+        = form_with url: add_team_manage_league_path(@league), method: :post, class: 'manage-league-add-team-form' do |f|
+          = f.number_field :user_id, value: @plan&.user&.id, class: 'form-control form-control-sm mr-2', placeholder: t('manage.leagues.add_team_user_id'), required: true
+          = f.submit t('manage.leagues.add_team_preview'), class: 'btn btn-sm btn-outline-primary'
+
+        - if @plan
+          .manage-league-add-team-plan.mt-2
+            - if @plan.ok?
+              - source = @plan.source
+              - manager = @plan.user.name.presence || @plan.user.email
+              - key = @plan.move? ? 'add_team_will_move_html' : 'add_team_will_copy_html'
+              %p.mb-2= t("manage.leagues.#{key}", user: manager, team: source.human_name, code: source.code, league: source.league&.name)
+              = form_with url: add_team_manage_league_path(@league), method: :post do |f|
+                = f.hidden_field :user_id, value: @plan.user.id
+                = f.hidden_field :confirm, value: 1
+                = f.submit t('manage.leagues.add_team_confirm'), class: 'btn btn-sm btn-success'
+            - else
+              %p.text-danger.mb-0= t("manage.leagues.add_team_error_#{@plan.error}", team: @plan.team&.human_name, league: @plan.source&.league&.name)
+
     %h5.mt-4= t('manage.leagues.section_results')
     - if @results.any?
       %table.table.table-hover.table-sm

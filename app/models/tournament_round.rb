@@ -103,6 +103,6 @@ class TournamentRound < ApplicationRecord
   end
 
   def matches_finished?(matches)
-    matches.exists? && !matches.exists?(host_score: nil)
+    matches.exists? && !matches.where.not(status: :finished).exists?
   end
 end

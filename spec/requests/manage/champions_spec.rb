@@ -46,6 +46,42 @@ RSpec.describe 'Manage::Champions' do
         expect(alice_pos).to be < bob_pos
       end
 
+      context 'with the matrix tab' do
+        # the suite seeds the tournaments, so the matrix columns come from the real ones
+        let(:italy) { Tournament.find_by!(code: 'italy') }
+        let(:spain) { Tournament.find_by!(code: 'spain') }
+
+        before do
+          create(:user_title, user: first_champion, tournament: italy, championship_number: 1, season: '2024/2025')
+          create(:user_title, user: first_champion, tournament: italy, championship_number: 2, season: '2025/2026')
+          create(:user_title, user: first_champion, tournament: spain, championship_number: 3, season: '2025/2026')
+          get manage_champions_path(tab: 'matrix')
+        end
+
+        it { expect(response).to be_successful }
+        it { expect(response.body).to include('champions-matrix') }
+
+        it 'labels a season by its last two years' do
+          expect(response.body).to include('24/25')
+        end
+
+        it 'shades a repeated title differently from a single one' do
+          expect(response.body).to include('champions-matrix-shade-2')
+        end
+
+        it 'heads the tournament columns with their logos' do
+          expect(response.body).to include('tournaments/italy')
+        end
+
+        it 'prints the id of every champion' do
+          expect(response.body).to match(/champions-matrix-id[^>]*>\s*#{first_champion.id}\s*</)
+        end
+
+        it 'totals the titles of a champion' do
+          expect(response.body).to match(/champions-matrix-total[^>]*>\s*3\s*</)
+        end
+      end
+
       context 'when champion has user_titles' do
         before do
           create(:user_title, user: first_champion, championship_number: 1, season: '2023/24')

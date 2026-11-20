@@ -4,8 +4,13 @@
 
 ## Prioritized (has a plan)
 
-1. **Ruby & Rails Upgrade** (Ruby 3.2.2 → 4.x)
-   Rails side is already in production (Rails 8). Remaining: Ruby 3.4 → Ruby 4.x → cleanup.
+1. **Platform Upgrade** — see [RUBY_RAILS_UPGRADE_PLAN.md](RUBY_RAILS_UPGRADE_PLAN.md)
+   Rails 8.0.5 → 8.1.4, Ruby 3.2.2 → 3.4.x, Node 20.10 → 24, Ubuntu 22.04 → 24.04. The first three
+   are already or almost out of support: Ruby 3.2 ended 2026-04-01, Node 20 ended 2026-04-30, and
+   Rails 8.0 loses security support 2026-11-07. Rails ships first and alone — it is repo-only and
+   8.1 asks merely for Ruby >= 3.2 on Rack 2. Then Ruby, then Node, then the OS last, by replacing
+   the instance rather than upgrading it in place: the box holds only 125 M of real state, and its
+   16 G disk has 3.1 G free, which is no place to attempt a release upgrade. ~5–7 days in total.
 
 2. **Viewport Migration** (mobile-first)
    8 stages, not started. Scope: legacy haml on the `application` layout (React pages are already device-width).
@@ -15,9 +20,12 @@
    companion app on the endpoints that already exist. Closing the API puts `/players` behind login.
 
 4. **Dark theme** — see [DARK_THEME_PLAN.md](DARK_THEME_PLAN.md)
-   Not started. Client-facing only (public pages + SPA; not manage/admin/email). Light default,
-   dark opt-in via a cookie-persisted toggle. Colors are hardcoded hex today → build a `:root` token
-   layer first, then tokenize ~17.9k lines of SCSS. ~4–7 days, several PRs.
+   Phase 1 done (2026-10-09): `_theme.scss` carries 26 role-named tokens at `:root` plus a
+   `[data-theme="dark"]` override, imported by the manifest both layouts load. Inert so far — no
+   rule consumes them and nothing sets the attribute. Remaining: tokenize the styles (the real cost
+   is ~450 occurrences where a dominant hex appears in a minority role and a human must pick the
+   token), then the cookie + switcher, then icons/shadows/QA. Client-facing only (public pages +
+   SPA; not manage/admin/email). ~3.5–6.5 days, several PRs.
 
 **Core-loop React migration (items 5–9, do in this order).** API-first each time (JSON endpoints
 reused by the mobile app); ship behind SPA routes with HAML fallback + a parity cutover; retire HAML
@@ -62,9 +70,36 @@ lower-risk early wins; the write-critical/real-time ones (lineup, auction) booke
 ## No detailed plan yet
 
 - **Player statuses** (injury / suspension / doubtful) shown when setting a lineup.
+- **Break a tied auction bid by league position** — on the intermediate auctions (everything after
+  the primary one), when the highest bid for a player is matched, give him to the team standing
+  *lower* in the table at that moment, i.e. the worse-placed one. Today nobody gets him:
+  `AuctionRounds::Manager#process_player_bids` only sells when `top_bids.one?`, so a tie falls
+  through to `manage_bids` and every bid on that player is failed. The standing is already stored —
+  `results.position`, written by `Results::Updater` from `Result#live_position`, with `Result.ordered`
+  as the table's own ordering — so the tie-break is a lookup rather than a computation. Decided
+  2026-10-06: if the positions are level as well — which they can be early in a season, before any
+  tour has closed — the player still goes to nobody, and the primary auction keeps the current rule
+  untouched. Needs specs around `AuctionRounds::Manager`. ~0.5 day.
 - **xPoints after tour close** — expected points of a squad, computed after `tour.close!`.
-- **Player wishlists** (watchlist) — save players into watch lists. Basis for auto-bidding in the 2nd+ auction.
-- **Auto-bid in 2nd+ auction** from the wishlist _(depends on wishlists)_.
+- **Auto-bid in 2nd+ auction** from the wishlist. The wishlist shipped (`Wishlist` /
+  `WishlistPlayer` / `Wishlists::PlayerUpdater`, 100 players per competition per season), and the
+  slot picker on the auction round page already filters by it, so the shortlist a manager would bid
+  from exists — what is missing is bidding from it unattended.
 - **Reorder the user's teams** — in user settings, let the user drag-and-drop their list of teams to
   set a custom order; persist it and render the teams in that order in the left-nav menu.
 - **Update npm packages** — react-select 5→6, rc-slider 10→11, chart.js 4→5, @floating-ui/react 0.26→1.x, etc.
+- **Sandbox lineup builder** — a page where a manager composes a lineup on the pitch for himself, out
+  of his own squad *and* every player of a chosen championship, purely to look at: no tour, no
+  deadline, no scoring. Modelled on [FotMob's lineup builder](https://www.fotmob.com/uk/lineup-builder).
+  Distinct from item 5, which rewrites the *real* lineup page — this one has no opponent, no malus
+  rules to enforce and nothing to submit. Most of the parts exist: `TeamModule`/`Slot` already model
+  the formations (ordered `slots`, `Slot#positions`, `Slot::POS_MAPPING`), the pitch markup and the
+  slot picker live in `lineups/_lineup_form.html.haml` + `lineups/_slot_candidates.html.haml`,
+  `SlotsController` already serves candidates for a slot, and `PlayerLineupSerializer` is the shape
+  the picker already consumes. Scope the pool with `Player.by_tournament_round` /
+  `by_national_tournament_round`. Build it as a React SPA page, not another jQuery one — item 5 is
+  retiring that pattern. v1 keeps no records: hold the build in the URL (shareable) or
+  `localStorage`. It must NEVER write to `lineups` — a sandbox row would be picked up by scoring,
+  the standings and the autobot. Gotcha: a whole championship is thousands of players, so reuse the
+  lazy-loaded picker and the paginated `Players::Query` rather than shipping the pool in one payload.
+  ~3-5 days.

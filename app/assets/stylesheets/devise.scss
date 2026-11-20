@@ -247,3 +247,13 @@
     margin-bottom: 16px;
   }
 }
+
+// The sign-up honeypot. Positioned off-screen rather than `display: none`, because some bots
+// skip anything the CSS hides outright and this one must look fillable to them.
+.signup-trap {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}

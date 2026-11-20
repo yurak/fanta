@@ -117,6 +117,46 @@ RSpec.describe Scores::Injectors::SofascoreMatch do
         end
       end
 
+      # RoundPlayers::Creator builds the round's rows from the squad as it stood when it ran, so a
+      # player who joined the club afterwards is out of reach of `by_club` and his appearance would
+      # be filed as missed instead of scored
+      context 'when the round has no row for a player the source rated' do
+        let!(:latecomer) { create(:player, sofascore_id: 200, club: match.guest_club) }
+
+        it 'builds the row the score needs' do
+          expect { injector.call }
+            .to change { RoundPlayer.where(tournament_round: match.tournament_round, player: latecomer).count }.from(0).to(1)
+        end
+
+        it 'scores him' do
+          injector.call
+
+          expect(RoundPlayer.find_by(tournament_round: match.tournament_round, player: latecomer).score).to eq(8.5)
+        end
+
+        it 'drops him from missed_players_data' do
+          injector.call
+
+          expect(match.reload.missed_players_data.keys).not_to include('200')
+        end
+      end
+
+      # our club data disagreeing with the source is not a late arrival: either we missed his
+      # transfer or the id is wrong, and both deserve a look rather than a score
+      context 'when we hold that player at another club' do
+        let!(:stranger) { create(:player, sofascore_id: 200, club: create(:club)) }
+
+        it 'builds no row for him' do
+          expect { injector.call }.not_to(change { RoundPlayer.where(player: stranger).count })
+        end
+
+        it 'keeps him in missed_players_data' do
+          injector.call
+
+          expect(match.reload.missed_players_data.keys).to include('200')
+        end
+      end
+
       context 'when the keeper saved a penalty and gave one away' do
         let(:lineups_json) do
           {
@@ -407,6 +447,63 @@ RSpec.describe Scores::Injectors::SofascoreMatch do
 
       it 'records no penalty for the keeper' do
         expect(keeper_rp.reload.missed_penalty).to eq(0)
+      end
+    end
+
+    # A sending-off is the one way off the pitch SofaScore files no substitution for, so the
+    # keeper shown a red used to carry a window running to the final whistle and was charged
+    # with every goal his replacement let in.
+    context 'with a keeper sent off and a goal conceded afterwards' do
+      let!(:replacement_rp) do
+        create(:round_player, tournament_round: match.tournament_round,
+                              player: create(:player, :with_pos_por, sofascore_id: 101, club: match.host_club))
+      end
+
+      let(:lineups_json) do
+        {
+          'home' => {
+            'players' => [
+              { 'player' => { 'id' => 100, 'name' => 'Kudryk' }, 'substitute' => false,
+                'statistics' => { 'minutesPlayed' => 3, 'rating' => 3.0, 'goals' => 0, 'goalAssist' => 0,
+                                  'ownGoals' => 0, 'saves' => 2 } },
+              { 'player' => { 'id' => 101, 'name' => 'Volynets' }, 'substitute' => true,
+                'statistics' => { 'minutesPlayed' => 87, 'rating' => 6.9, 'goals' => 0, 'goalAssist' => 0,
+                                  'ownGoals' => 0, 'saves' => 4 } }
+            ]
+          },
+          'away' => {
+            'players' => [
+              { 'player' => { 'id' => 200, 'name' => 'Messi' }, 'substitute' => false,
+                'statistics' => { 'minutesPlayed' => 90, 'rating' => 8.5, 'goals' => 1, 'goalAssist' => 0,
+                                  'ownGoals' => 0, 'saves' => 0 } }
+            ]
+          }
+        }.to_json
+      end
+
+      let(:incidents_json) do
+        { 'incidents' => [
+          { 'incidentType' => 'card', 'incidentClass' => 'red', 'rescinded' => false, 'time' => 3,
+            'player' => { 'id' => 100 } },
+          { 'incidentType' => 'substitution', 'time' => 8,
+            'playerIn' => { 'id' => 101 }, 'playerOut' => { 'id' => 102 } },
+          { 'incidentType' => 'goal', 'incidentClass' => 'regular', 'isHome' => false, 'time' => 19,
+            'player' => { 'id' => 200 } }
+        ] }.to_json
+      end
+
+      before { injector.call }
+
+      it 'spares the keeper who had already been sent off' do
+        expect(keeper_rp.reload.missed_goals).to eq(0)
+      end
+
+      it 'charges the keeper who was on the pitch for it' do
+        expect(replacement_rp.reload.missed_goals).to eq(1)
+      end
+
+      it 'still records the sending-off' do
+        expect(keeper_rp.reload.red_card).to be(true)
       end
     end
 

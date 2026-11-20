@@ -33,7 +33,7 @@ class FantaJoinsController < ApplicationController
       user: current_user,
       tournament: league.tournament,
       league: league,
-      name: generate_name,
+      name: generate_name(league.tournament),
       human_name: params.dig(:team, :human_name),
       code: params.dig(:team, :code),
       logo_url: params.dig(:team, :logo_url).to_s,
@@ -41,9 +41,8 @@ class FantaJoinsController < ApplicationController
     )
   end
 
-  def generate_name
-    human_name = params.dig(:team, :human_name).to_s
-    "#{human_name.delete(" \t\r\n")[0..6]}_#{current_user.id}_#{Team.last&.id.to_i + 1}".downcase
+  def generate_name(tournament)
+    Team.generate_name(params.dig(:team, :human_name), current_user.id, tournament)
   end
 
   def join_code_param

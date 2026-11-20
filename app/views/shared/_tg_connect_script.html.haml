@@ -1,0 +1,31 @@
+-# The window has to be opened inside the click itself. One created later, when the fetch resolves,
+-# counts as unsolicited and is blocked — Safari and Firefox always, Chrome once the transient user
+-# activation has lapsed. That is how this button came to do nothing at all: the request went
+-# through and the token was minted server-side, but no window ever appeared and no error showed.
+-# A same-tab navigation is never blocked, so it stands in when the popup is refused anyway.
+:javascript
+  (function() {
+    const btn = document.querySelector('#{selector}');
+    if (!btn) return;
+
+    btn.addEventListener('click', function(e) {
+      e.preventDefault();
+      const opened = window.open('', '_blank');
+
+      fetch(btn.dataset.connectUrl, {
+        method: 'POST',
+        headers: { 'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content }
+      })
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        if (opened && !opened.closed) {
+          opened.location = data.url;
+        } else {
+          window.location.href = data.url;
+        }
+      })
+      .catch(function() {
+        if (opened) { opened.close(); }
+      });
+    });
+  })();

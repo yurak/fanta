@@ -18,6 +18,38 @@ RSpec.describe Scores::Injectors::FotmobMatch do
     allow(Scores::Injectors::FotmobPlayersData).to receive(:call).and_return({})
   end
 
+  # FotMob reports a match stopped part way through as finished, carrying the score it had when
+  # play was halted. Round 2653 took Rayo 0-0 Athletic as a real goalless draw because of it.
+  describe '#call with an abandoned match' do
+    let(:finished_status) do
+      { 'started' => true, 'finished' => true, 'awarded' => false, 'cancelled' => true,
+        'scoreStr' => '0 - 0',
+        'reason' => { 'short' => 'Ab', 'shortKey' => 'aborted_short', 'long' => 'Abandoned',
+                      'longKey' => 'aborted' } }
+    end
+
+    before do
+      allow(Scores::Injectors::FotmobPlayersData).to receive(:call).and_return(
+        123 => { rating: 7.5, played_minutes: 45 }
+      )
+      injector.call
+      match.reload
+    end
+
+    it 'writes no score' do
+      expect(match.host_score).to be_nil
+    end
+
+    it 'leaves the match unplayed' do
+      expect(match.status).to eq('scheduled')
+    end
+
+    # so the round is not counted as played and the tour cannot be closed before the replay
+    it 'keeps the round short of finished' do
+      expect(match.tournament_round.finished?).to be(false)
+    end
+  end
+
   describe '#call' do
     context 'when match is finished' do
       before do
@@ -664,6 +696,114 @@ RSpec.describe Scores::Injectors::FotmobMatch do
     end
   end
 
+  # RoundPlayers::Creator builds the round's rows from the squad as it stood when it ran, so anyone
+  # linked to his club or national team afterwards has nowhere for the score to land — and the sides
+  # the injector walks are scoped by the very link he is missing.
+  describe 'a rated player the round has no row for' do
+    let(:club) { match.host_club }
+    let!(:latecomer) { create(:player, club: club, fotmob_id: 777) }
+
+    let(:match_data) do
+      {
+        'general' => { 'leagueRoundName' => match.tournament_round.number.to_s },
+        'header' => { 'status' => finished_status },
+        'content' => {
+          'lineup' => {
+            'lineupType' => 'standard',
+            'homeTeam' => { 'starters' => [{ 'id' => 777 }], 'subs' => [] },
+            'awayTeam' => { 'starters' => [], 'subs' => [] }
+          }
+        }
+      }
+    end
+
+    before do
+      allow(Scores::Injectors::FotmobPlayersData).to receive(:call).and_return(
+        777 => { fotmob_id: 777, source_name: 'late comer', rating: 7.2, played_minutes: 90 }
+      )
+    end
+
+    it 'builds the row the score needs' do
+      expect { injector.call }.to change { RoundPlayer.where(tournament_round: match.tournament_round, player: latecomer).count }
+        .from(0).to(1)
+    end
+
+    it 'scores him' do
+      injector.call
+
+      expect(RoundPlayer.find_by(tournament_round: match.tournament_round, player: latecomer).score).to eq(7.2)
+    end
+
+    it 'keeps him out of the missed list' do
+      injector.call
+
+      expect(match.reload.missed_players_data).to eq({})
+    end
+
+    it 'leaves a player we do not carry in the missed list' do
+      latecomer.destroy
+
+      injector.call
+
+      expect(match.reload.missed_players_data.keys).to eq(['777'])
+    end
+
+    # our club data disagreeing with the source is not a late arrival: either we missed his
+    # transfer or the id is wrong, and both deserve a look rather than a score
+    it 'leaves a player we hold at another club in the missed list' do
+      latecomer.update!(club: create(:club))
+
+      injector.call
+
+      expect(match.reload.missed_players_data.keys).to eq(['777'])
+    end
+
+    it 'builds no row for him' do
+      latecomer.update!(club: create(:club))
+
+      expect { injector.call }.not_to(change { RoundPlayer.where(player: latecomer).count })
+    end
+
+    context 'with a national match' do
+      let(:club) { create(:club) } # his club says nothing here: no club plays a national round
+      let(:match) do
+        tournament = create(:tournament, :with_national_teams)
+        create(:national_match, page_url: '/matches/x/1#2',
+                                tournament_round: create(:tournament_round, tournament: tournament),
+                                host_team: tournament.national_teams.first,
+                                guest_team: tournament.national_teams.second)
+      end
+      let(:round) { match.tournament_round }
+
+      it 'adopts a player carrying no national team' do
+        latecomer.update!(national_team: nil)
+
+        expect { injector.call }
+          .to change { RoundPlayer.where(tournament_round: round, player: latecomer).count }.from(0).to(1)
+      end
+
+      it 'adopts a player of the side he is listed under' do
+        latecomer.update!(national_team: match.host_team)
+
+        expect { injector.call }
+          .to change { RoundPlayer.where(tournament_round: round, player: latecomer).count }.from(0).to(1)
+      end
+
+      it 'leaves a player tied to another national team alone' do
+        latecomer.update!(national_team: create(:national_team))
+
+        expect { injector.call }.not_to(change { RoundPlayer.where(player: latecomer).count })
+      end
+    end
+
+    # a predicted lineup is a tipster's guess, so it says nothing about who actually played
+    it 'builds nothing from an unconfirmed team sheet' do
+      match_data['content']['lineup']['lineupType'] = 'predicted'
+
+      expect { injector.call }.not_to(change { RoundPlayer.where(player: latecomer).count })
+    end
+  end
+
   # FotMob publishes player stats only once it starts rating people, a quarter of an hour in, but the
   # match is marked live long before that — so every player of it was shown as "not in squad" while
   # they were on the pitch. The lineup is there from the team sheet, so it answers that question.
@@ -760,6 +900,92 @@ RSpec.describe Scores::Injectors::FotmobMatch do
     end
   end
 
+  # The slug addresses the PAIRING, so once the teams meet again it serves that newer game instead
+  # — which is how a league fixture came back as a cup tie. The match id addresses the match.
+  describe 'which address it reads' do
+    subject(:addressed_injector) { described_class.new(match) }
+
+    let(:page) { '<html><script id="__NEXT_DATA__">{"props":{"pageProps":{"general":{}}}}</script></html>' }
+
+    def urls_requested
+      requested = []
+      allow(RestClient::Request).to receive(:execute) do |args|
+        requested << args[:url]
+        page
+      end
+      addressed_injector.send(:match_data)
+      requested
+    end
+
+    context 'with a source_match_id' do
+      before { match.update!(source_match_id: '5837092') }
+
+      it 'asks for the match by id' do
+        expect(urls_requested).to eq(['https://www.fotmob.com/match/5837092'])
+      end
+
+      it 'never falls back to the slug once the id answers' do
+        expect(urls_requested).to have_attributes(size: 1)
+      end
+
+      # a redirect on the id form must not overwrite the slug we are keeping as the fallback
+      it 'leaves the stored page_url alone' do
+        stored = match.page_url
+        urls_requested
+
+        expect(match.reload.page_url).to eq(stored)
+      end
+    end
+
+    context 'when the id is not on file' do
+      # the column is NOT NULL, so an unknown id reaches us as an empty string
+      before { match.update!(source_match_id: '') }
+
+      it 'falls back to the stored slug' do
+        expect(urls_requested).to eq(["https://www.fotmob.com#{match.page_url}"])
+      end
+    end
+
+    context 'when the id address fails' do
+      let(:requested) { [] }
+
+      before do
+        match.update!(source_match_id: '5837092')
+        allow(RestClient::Request).to receive(:execute) do |args|
+          requested << args[:url]
+          raise RestClient::ResourceNotFound if requested.size == 1
+
+          page
+        end
+      end
+
+      it 'still reads the match through the slug' do
+        addressed_injector.send(:match_data)
+
+        expect(requested.last).to eq("https://www.fotmob.com#{match.page_url}")
+      end
+
+      it 'does not report a scrape failure it recovered from' do
+        addressed_injector.send(:match_data)
+
+        expect(addressed_injector.scrape_health_failure?).to be(false)
+      end
+    end
+
+    context 'when the id fails and there is no slug to fall back on' do
+      before do
+        match.update!(source_match_id: '5837092', page_url: '')
+        allow(RestClient::Request).to receive(:execute).and_raise(RestClient::ResourceNotFound)
+      end
+
+      it 'reports the miss rather than swallowing it' do
+        addressed_injector.send(:match_data)
+
+        expect(addressed_injector.send(:instance_variable_get, :@scrape_failure)).to eq(:not_found)
+      end
+    end
+  end
+
   # FotMob answers 308 whenever it renames a club in a slug — "new-york-red-bulls" became
   # "red-bull-new-york" — and rest-client raises on 308 instead of following it. Unfollowed, the
   # match silently stopped being scraped: no score, no status change, not even a missed-players line.
@@ -815,11 +1041,11 @@ RSpec.describe Scores::Injectors::FotmobMatch do
   end
 
   describe 'retry budget' do
-    let(:budget) { Scores::ScrapeBudget.new(limit: 30) }
+    let(:sleeper) { class_double(Kernel, sleep: nil) }
+    let(:budget) { Scores::ScrapeBudget.new(limit: 30, sleeper: sleeper) }
     let(:budget_injector) { described_class.new(match, budget: budget) }
 
     before do
-      allow(budget_injector).to receive(:sleep)
       allow(RestClient::Request).to receive(:execute).and_raise(RestClient::InternalServerError.new(nil, 500))
     end
 

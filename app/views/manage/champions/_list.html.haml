@@ -1,0 +1,22 @@
+%table.table.table-hover.table-sm
+  %thead.thead-light
+    %tr
+      %th= t('manage.champions.number')
+      %th= t('manage.champions.user')
+      %th= t('manage.champions.titles')
+  %tbody
+    - champions.each do |user|
+      %tr
+        %td= user.champion_number
+        %td= link_to(user.name.presence || user.email, manage_user_path(user))
+        %td
+          - user.user_titles.sort_by(&:championship_number).each do |title|
+            - tooltip = "#{title.tournament&.name} #{title.season}".strip
+            - if title.result&.league
+              = link_to(league_results_path(title.result.league), class: 'champion-title-badge', title: tooltip) do
+                = image_tag(title.tournament&.logo_path || 'tournaments/uefa.png')
+                %small.text-muted= "##{title.championship_number} (#{title.season&.last(4)})"
+            - else
+              .champion-title-badge{ title: tooltip }
+                = image_tag(title.tournament&.logo_path || 'tournaments/uefa.png')
+                %small.text-muted= "##{title.championship_number} (#{title.season&.last(4)})"
