@@ -19,7 +19,7 @@ This is fantasy football application.
 
 ### Requirements
 
-- Ruby 3.2.2
+- Ruby 3.4.13
 - Rails 6.1.5
 - Node.js 21+
 - Yarn 1.22

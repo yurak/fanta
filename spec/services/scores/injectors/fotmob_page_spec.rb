@@ -13,8 +13,8 @@ RSpec.describe Scores::Injectors::FotmobPage do
   let(:body) { '<html>the match page</html>' }
 
   # every example drives the real fetch, so nothing may reach the network
-  def stub_requests(&block)
-    allow(RestClient::Request).to receive(:execute, &block)
+  def stub_requests(&)
+    allow(RestClient::Request).to receive(:execute, &)
   end
 
   def urls_requested

@@ -149,11 +149,38 @@ Also check the stdlib gems that left the default set in 3.4 (`csv`, `base64`, `m
 `abbrev`): `base64` is pinned `= 0.1.1` here and should simply be unpinned (0.3.0 is current).
 ~0.5 day.
 
+**Done 2026-11-20 on branch `ruby-3.4`, against 3.4.13.** Build it with
+`rvm install ruby-3.4.13 --with-openssl-dir=/opt/homebrew/opt/openssl@3` — the default attempt picks
+up Homebrew's `openssl@1.1` headers and fails. **sassc 2.4.0 builds fine on 3.4**, so the whole
+dartsass branch of Phase 3 is moot. Five things actually broke, none of them deep:
+
+- `bootsnap 1.16.0` → `RuntimeError: should not compile with coverage` at boot. Updated to 1.26.2.
+- `factory_bot 6.2.1` wants `observer`, gone from the default gems. Added to the dev/test group.
+- `webmock 3.18.1` cannot patch httpclient on 3.4. Updated to 3.36.0.
+- `httpclient` (pulled in by `telegram-bot`, so a **production** dependency, not dev/test) wants
+  `mutex_m`, also gone from the default gems. Without it `require 'httpclient'` raises `LoadError`
+  *inside* webmock's adapter, which then fails on a half-built `HTTPClient` with the thoroughly
+  misleading `undefined method 'do_get_block' for class 'WebMockHTTPClient'`. Added `gem 'mutex_m'`
+  to the main group.
+- Seven examples in `spec/services/scores/injectors/fotmob_match_spec.rb`. Not our code: `and_return(123 => {...})`
+  passes the hash as *keywords*, `and_return` is `ruby2_keywords`-flagged, and from 3.4 the returned
+  hash keeps the flag (3.2 dropped it). The injector's `except!` then empties it, and a flagged empty
+  hash splatted through `Type::Serialized`'s `DelegateClass` vanishes entirely, so
+  `ActiveModel::Type::Value#changed?` loses its third argument. Fixed by bracing the hash:
+  `and_return({ 123 => {...} })`. Also in CLAUDE.md.
+
+Neither of the two behaviour changes the plan warned about (chilled-string warnings, the new
+`Hash#inspect` format) produced a single failure.
+
 **Phase 3 — Fix what the dry run found.** Sized by Phase 2, and smaller than first thought now that
 sassc is measured: if it fails to build, swap `sassc-rails` for `dartsass-sprockets` and fix the
 three deprecated calls in `responsive_helpers.scss`, then a visual pass over the pages. ~0.5–1 day.
 Worth doing on its own merits even if sassc survives 3.4 — the gem has been unmaintained for six
 years. The `@import` → `@use` migration is a separate, later errand (Dart Sass 3 deadline).
+
+**Done 2026-11-20** — folded into Phase 2 above, and it cost minutes rather than a day. sassc builds,
+so `sassc-rails` stays; replacing it remains worth doing on its own merits, but it is no longer part
+of this upgrade.
 
 **Phase 4 — Flip the Ruby version.** All five pin sites in one commit — `.ruby-version`, `Gemfile`,
 `.github/workflows/ci.yml`, `config/deploy.rb` **and `Capfile`** — plus `README.md` and
@@ -161,6 +188,15 @@ years. The `@import` → `@use` migration is a separate, later errand (Dart Sass
 reaches a server. Watch for the 3.4 behaviour changes that bite quietly — frozen-string-literal
 "chilled string" warnings and the changed `Hash#inspect` format (the latter can break specs that
 compare inspected output). ~0.5 day.
+
+**Done 2026-11-20, same branch.** Seven sites, not five: the audit's list plus the `ruby-version:`
+value **and** the `ubuntu-22.04` justification comment above it in `.github/workflows/ci.yml`, and
+the commented Passenger paths in `config/deploy/nginx.conf.example` (harmless in the repo, but the
+*real* nginx config on the server names the same path and must be edited in Phase 5).
+`.ruby-gemset` stays `fanta`. Two more edits belong here: `.rubocop.yml`'s `TargetRubyVersion: 3.2`
+→ `3.4`, which turns on `Naming/BlockForwarding` and `Style/ArgumentsForwarding` (8 offences, all
+autocorrected to anonymous `&`), and unpinning `base64` (0.1.1 → 0.3.0) as Phase 2 called for.
+Local gate: 5619 examples green, RuboCop clean over 702 files. CI has not run yet.
 
 **Phase 5 — Ruby on the server.** `rvm install ruby-3.4.x`, recreate the `fanta` gemset, rebuild
 Passenger against the new Ruby, then deploy with `rvm_ruby_version` updated. Free disk first (see

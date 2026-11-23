@@ -26,8 +26,8 @@ server {
 
     passenger_enabled on;
     passenger_app_env staging;          # production: use `production`
-#    passenger_ruby /usr/local/rvm/gems/ruby-3.2.2/wrappers/ruby;
-#    passenger_root /usr/local/rvm/gems/ruby-3.2.2/gems/passenger-6.0.18;
+#    passenger_ruby /usr/local/rvm/gems/ruby-3.4.13/wrappers/ruby;
+#    passenger_root /usr/local/rvm/gems/ruby-3.4.13/gems/passenger-6.0.18;
 
     location ^~ /assets/ {
       alias /var/www/fanta/current/public/assets/;
