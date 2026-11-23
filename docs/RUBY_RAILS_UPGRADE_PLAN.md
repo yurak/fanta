@@ -198,8 +198,35 @@ the commented Passenger paths in `config/deploy/nginx.conf.example` (harmless in
 autocorrected to anonymous `&`), and unpinning `base64` (0.1.1 → 0.3.0) as Phase 2 called for.
 Local gate: 5619 examples green, RuboCop clean over 702 files. CI has not run yet.
 
-**Phase 5 — Ruby on the server.** `rvm install ruby-3.4.x`, recreate the `fanta` gemset, rebuild
-Passenger against the new Ruby, then deploy with `rvm_ruby_version` updated. Free disk first (see
+**Phase 5 — Ruby on the server.** `rvm install ruby-3.4.x`, recreate the `fanta` gemset, then deploy
+with `rvm_ruby_version` updated. **Passenger does NOT need rebuilding** — on both boxes it is the apt
+package (`libnginx-mod-http-passenger 6.0.18-1~jammy1`) and `passenger_root` is
+`/usr/lib/ruby/vendor_ruby/phusion_passenger/locations.ini`, which is Ruby-agnostic; the only
+Ruby-bound setting is `passenger_ruby`, and it lives in a *different file* on each box — on staging
+`/etc/nginx/conf.d/mod-http-passenger.conf:3`, on production `/etc/nginx/sites-enabled/fanta.conf:7`
+(production's `conf.d` copy holds a broken `/usr/local/rvm/rubies` that the site block overrides).
+Flip it *after* the deploy has built the bundle under the new Ruby, not before: Passenger spawns the
+app with that Ruby, and `Gemfile`'s `ruby '3.4.13'` makes an old bundle refuse to boot.
+`passenger` is not a runtime gem — only `capistrano-passenger`, in the dev group.
+
+**Staging done 2026-11-23** (`54.171.16.152`, a separate box that mirrors production: Ubuntu 22.04.3,
+system RVM in `/usr/local/rvm`, nginx 1.18, one app, Node v20.9.0, 3.8 G RAM). Ruby 3.4.13 built
+against the system OpenSSL 3.0.2 with a plain `rvm install` — the `--with-openssl-dir` dance is a
+Homebrew problem only. Gemset `fanta` + bundler 2.4.21 in place, and `cap staging rvm:check` now
+answers `ruby 3.4.13`. Three things learned:
+
+- **`rvm_type :user` is NOT broken**, contrary to what the audit above implies. Capistrano resolves
+  the system RVM anyway, so no `Capfile` change is needed — `~/.rvm` exists for nobody on either box.
+- Run the build **detached** (`nohup`/`setsid`): a dropped SSH session killed the first attempt's
+  logging, and only the `rvm` log showed it had actually survived and kept compiling.
+- Create the gemset **with sudo**. As the login user, `gem pristine gem-wrappers` fails on
+  `/usr/local/rvm/rubies/.../plugins` and the gemset is left half-wrapped; `passenger_ruby` points
+  into `wrappers/`, so that matters.
+
+Disk was the only real obstacle: 2.1 G free. `rvm cleanup all` (456 M of `src`, 68 M of `archives`),
+`~/.cache` (880 M), `~/.npm` and `apt-get clean` freed 1.7 G without touching the 4 G swapfile or
+the five kept releases. Expect `shared/bundle` to gain a second tree (`ruby/3.4.0`, ~560 M) on the
+first deploy. Free disk first (see
 Phase 7) — RVM needs roughly a gigabyte to unpack, compile and populate a gemset, and there is only
 3.1 G spare. Removing the unused `ruby-3.0.1` is the obvious place to take it from. Keep the old
 Ruby installed until the new one has served a full day, so a rollback is a Passenger restart rather
