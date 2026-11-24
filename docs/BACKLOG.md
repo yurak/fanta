@@ -69,6 +69,16 @@ lower-risk early wins; the write-critical/real-time ones (lineup, auction) booke
 
 ## No detailed plan yet
 
+- **ТаТоТаке leagues: their own slug and a place on the divisions page** — `tournaments.slug_suffix` is
+  per *tournament*, so every league inside Ukraine (15) now mints `_ua`, including the ТаТоТаке ones
+  that historically used `_uat` (115 teams carry it; those stay, but the series stops growing). Two
+  halves to this: let a league override the tournament's suffix, and surface the ТаТоТаке leagues on
+  the divisions page, where they are currently absent. Suffixes were filled in on production
+  2026-11-24; the values live in `tournaments.slug_suffix`, nowhere in the repo. Note `nat` is
+  deliberately shared by Euro, Nations League, World Cup and Africa Cup — the same squad is reused
+  across them, and the `nat2`/`nat4` tails come from one manager playing a tournament in several
+  leagues, not from a collision bug. `cl` is likewise shared by Champions League and Club World Cup.
+
 - **Player statuses** (injury / suspension / doubtful) shown when setting a lineup.
 - **Break a tied auction bid by league position** — on the intermediate auctions (everything after
   the primary one), when the highest bid for a player is matched, give him to the team standing

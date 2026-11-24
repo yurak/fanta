@@ -119,7 +119,11 @@ class TeamsController < ApplicationController
   end
 
   def generate_name
-    "#{input_params[:human_name].delete(" \t\r\n")[0..6]}_#{current_user.id}_#{Team.last&.id.to_i + 1}".downcase
+    Team.generate_name(input_params[:human_name], current_user.id, join_tournament)
+  end
+
+  def join_tournament
+    Tournament.find_by(id: join_tournament_id)
   end
 
   def update_params
