@@ -4,6 +4,13 @@ Plan for getting off an end-of-life Ruby, an almost-unsupported Rails, an end-of
 behind them — an Ubuntu that runs out of support in 2027. First audited 2026-10-04, re-audited and
 widened to the server on 2026-11-01.
 
+> **Status 2026-11-24 — phases 1 to 5 are done and in production.** Rails is 8.1.4, Ruby is 3.4.13
+> on production, staging and CI, and the five pin sites (seven, as it turned out) all moved. What
+> is left is Node 24 (phase 6), the disk (phase 7) and the Ubuntu replacement (phase 8), plus the
+> non-deadline items: Passenger 6.0.18 → 6.2.2, the remaining Rails 8.1 framework defaults, and
+> the gem catch-up. Each phase below carries a dated note of what it actually cost; read those
+> before planning the next one, because the surprises were in sequencing, not in the versions.
+
 - **Rails 8.0.5 → 8.1.4 first, on its own, and now.** Security for the 8.0 series ends
   **2026-11-07**. 8.1.4 declares `ruby >= 3.2.0` and `rack >= 2.2.4`, so it needs neither the Ruby
   bump nor Rack 3. Repo-only: nothing to do on the server.
@@ -18,15 +25,17 @@ widened to the server on 2026-11-01.
 
 | | ours | current | support |
 |---|---|---|---|
-| Rails | 8.0.5 | 8.1.4 | **8.0 security ends 2026-11-07** |
-| Ruby | 3.2.2 (2023-03) | 4.0.x / 3.4.x | **3.2 ended 2026-04-01** (final 3.2.11) |
+| Rails | **8.1.4** ✅ | 8.1.4 | 8.0 security ended 2026-11-07 |
+| Ruby | **3.4.13** ✅ | 4.0.x / 3.4.x | 3.4 in normal maintenance |
 | Node | 20.10.0 (2024-01) | 24 LTS / 26 LTS | **20 ended 2026-04-30** |
 | Ubuntu | 22.04.3 | 24.04 / 26.04 | 22.04 standard ends 2027-04 |
 | Bundler | 2.4.21 | 2.7.x | — |
+| Passenger | 6.0.18 | 6.2.2 | open CVEs, apt upgrade only |
 
-Three of the five are already past end of life and take no security patches. Rails joins them in a
-week. Ubuntu is the only one with real runway, which is why it goes last even though it disturbs
-the most.
+Rails and Ruby are now current. **Node is the one still past end of life** and is therefore the
+next deadline item. Ubuntu has real runway, which is why it stays last even though it disturbs the
+most. Bundler stays at 2.4.21 deliberately — `Gemfile.lock`'s `BUNDLED WITH` pins it, and Ruby
+3.4.13 ships 2.6.9 as its default, so both exist side by side and bundler switches itself.
 
 Rails 8.1's own bug-fix window closed 2026-10-10 (security to 2027-10-10), so 8.2 will follow
 before long — this is a hop, not a resting place.
@@ -234,6 +243,38 @@ than a reinstall. Do it outside an auction window — the auction cron (`auction
 every 2 min) and the live-score pass (`tours:live_inject`, every 12 min) must not be mid-flight.
 ~0.5 day plus watching.
 
+**Production done 2026-11-24 — and it cost a 12-minute outage, for a reason worth writing down.**
+
+> **The deploy and the `passenger_ruby` flip are one step, not two. Do the flip the moment the
+> deploy finishes, before looking at anything else.**
+
+Between them the site is *down*, not degraded: the new release carries `ruby '3.4.13'` in its
+Gemfile while Passenger still spawns the old Ruby, bundler's `validate_ruby!` refuses to boot, and
+every request is a 500. The giveaway is that `production.log` gets no `Started` line at all — the
+app never reaches Rails. Crons keep working throughout and will mislead you, because they take
+their Ruby from the release's `.ruby-version`, not from Passenger. What actually blew the window
+here was not the mechanics but the order of attention: the deploy had quietly shipped the wrong
+commit (unpushed work — Capistrano pulls from GitHub, never from the working copy), and that got
+investigated *first*. Restore service, then investigate.
+
+Two more traps met on the day:
+
+- `sed -i.bak-322` on `sites-enabled/fanta.conf` drops the backup **inside** `sites-enabled`, which
+  `nginx.conf` includes as `*` with no extension filter — a second server block for the same name.
+  Write backups to `/etc/nginx/backups/`, which is included by nothing.
+- Production's `passenger_ruby` lives in **two** files and both must move together:
+  `/etc/nginx/conf.d/mod-http-passenger.conf:3` and `/etc/nginx/sites-enabled/fanta.conf:7`.
+
+Outcome, measured under real traffic the same afternoon: 2533 requests, **zero 5xx, zero
+exceptions**; aborted requests (`status=0`) fell from a ~1.2% baseline to 0.67%. Disk after the
+cleanup and the build: 3.2 G free, with `shared/bundle` now holding three trees (`3.0.0`, `3.2.0`,
+`3.4.0` — the first two are ~600 M of reclaimable leftovers once a rollback is off the table).
+
+**Memory moved, and Phase 8 needs the number.** Passenger workers went from ~105 M each on 3.2.2 to
+135–177 M on 3.4.13, about a third more. At the pool ceiling of 6 that is ~1 G against the previous
+~630 M. Irrelevant on this 15.8 G box, but it is the figure to size the replacement instance with —
+do not copy the old 630 M estimate from the audit above.
+
 **Phase 6 — Node 20 → 24.** CI is already pinned to 24 (`.github/workflows/ci.yml`); the server is
 the part that is left, and until it moves, CI builds the bundle on one Node and production builds
 it on another. On the server this is a tarball swap into `/usr/local`, the same way the current one
@@ -300,22 +341,42 @@ Manager, which is built into `selenium-webdriver`.
 
 ## Effort
 
-| phase | | effort |
-|---|---|---|
-| 1 | Rails 8.1 | ~1–2 d — **urgent, deadline 2026-11-07** |
-| 2 | Ruby 3.4 dry run | ~0.5 d |
-| 3 | Fix what it found | ~0.5–1 d |
-| 4 | Flip the five pins | ~0.5 d |
-| 5 | Ruby on the server | ~0.5 d + watching |
-| 6 | Node 24 on the server | ~0.5 d |
-| 7 | Disk | ~1 h (grow the volume to 40–60 G) |
-| 8 | Ubuntu 24.04 cutover (same `t3.xlarge`, bigger root) | ~1 d + a window |
-| 9 | Gem catch-up | open-ended, separate |
-
-~3–5 days to a supported Ruby and Rails, another ~2 to a supported Node and OS, excluding Phase 9.
-The Ruby estimate no longer carries an unknown: sassc was the one open question and it has been
-measured. The OS estimate does carry one — nothing on a 24.04 box has been built yet.
+| phase | | estimated | actual |
+|---|---|---|---|
+| 1 | Rails 8.1 | ~1–2 d | ✅ done (defaults 0–1 only; 2–4 still open) |
+| 2 | Ruby 3.4 dry run | ~0.5 d | ✅ done 2026-11-20, 5 blockers, all small |
+| 3 | Fix what it found | ~0.5–1 d | ✅ folded into phase 2 — sassc builds, so it was minutes |
+| 4 | Flip the pins | ~0.5 d | ✅ done — **seven** sites, not five |
+| 5 | Ruby on the servers | ~0.5 d + watching | ✅ staging 11-23, production 11-24, **12-min outage** |
+| 6 | Node 24 on the servers | ~0.5 d | next deadline item — 20 died 2026-04-30 |
+| 7 | Disk | ~1 h (grow the volume to 40–60 G) | deferred; 3.2 G free after the cleanup |
+| 8 | Ubuntu 24.04 cutover | ~1 d + a window | not started; nothing built on 24.04 yet |
+| 9 | Gem catch-up | open-ended, separate | not started |
 
 Ship as separate PRs — Rails, then Ruby, then Node — so that if something surfaces in production it
 is obvious which of them caused it. The OS move is not a PR at all; it is an infrastructure change
 with its own rollback.
+
+## What is left, in the order to do it
+
+1. **Release the Ruby branch.** It is deployed to production but lives only in `ruby-3.4`; merge it
+   into `staging`, then into `master`. **Bump `VERSION` in that merge** — it still reads the number
+   of the previous release, and a release that reports someone else's version is exactly the drift
+   the file was warned about when it was introduced.
+2. **Passenger 6.0.18 → 6.2.2.** The cheapest item anywhere in this plan and the only one with open
+   CVEs: apt package on both boxes, Ruby-agnostic module, so `apt install` + `nginx -t` + reload,
+   no rebuild. Do it in its own window, not folded into another change — a Passenger reload
+   respawns the app pool, and two changes in one window leave two suspects. See BACKLOG.md for
+   which of the advertised CVEs actually reach us (fewer than the list suggests).
+3. **Node 20 → 24 (phase 6).** The remaining end-of-life runtime. Same untested shape Ruby had —
+   CI is already on 24, the servers are not, and nobody has run `yarn install` under 24 against
+   this dependency set. Safer than Ruby was, though: a tarball swap in `/usr/local` that can be
+   verified *before* any deploy, with no equivalent of the deploy/`passenger_ruby` window.
+4. **Rails 8.1 framework defaults, steps 2–4.** Only 0 and 1 shipped (`render_tracker`,
+   `remove_hidden_field_autocomplete`); the redirect and finder-order guards, the JSON escaping
+   change and finally `load_defaults 8.1` + deleting the checklist file are still pending.
+5. **Phases 7 and 8** — disk, then the OS by replacing the instance. Size the new box with the
+   *new* memory figures (see phase 5), not the ones in the audit above.
+6. **Housekeeping, once a rollback is off the table** (give it a week): drop
+   `shared/bundle/ruby/3.0.0` and `3.2.0` (~600 M) and eventually `ruby-3.2.2` itself. The stale
+   `newrelic_agent.log` on staging can go at the same time — the gem is long gone.
