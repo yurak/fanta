@@ -14,7 +14,6 @@ RSpec.describe Scores::Injectors::FotmobMatch do
 
   before do
     allow(injector).to receive(:match_data).and_return(match_data)
-    allow(Audit::CsvWriter).to receive(:call)
     allow(Scores::Injectors::FotmobPlayersData).to receive(:call).and_return({})
   end
 
@@ -68,11 +67,12 @@ RSpec.describe Scores::Injectors::FotmobMatch do
         expect(match.reload.guest_score).to eq(1)
       end
 
-      it 'calls Audit::CsvWriter with players_hash' do
-        players = { 123 => { rating: 7.5, played_minutes: 90 } }
-        allow(Scores::Injectors::FotmobPlayersData).to receive(:call).and_return(players)
+      it 'records the missed players on the match' do
+        allow(Scores::Injectors::FotmobPlayersData)
+          .to receive(:call).and_return({ 123 => { rating: 7.5, played_minutes: 90 } })
         injector.call
-        expect(Audit::CsvWriter).to have_received(:call).with(match, players)
+
+        expect(match.reload.missed_players_data).to eq('123' => { 'rating' => 7.5, 'played_minutes' => 90 })
       end
     end
 
@@ -90,9 +90,9 @@ RSpec.describe Scores::Injectors::FotmobMatch do
         expect(match.reload.host_score).to be_nil
       end
 
-      it 'does not call Audit::CsvWriter' do
+      it 'records no missed players' do
         injector.call
-        expect(Audit::CsvWriter).not_to have_received(:call)
+        expect(match.reload.missed_players_data).to be_nil
       end
     end
 
@@ -134,7 +134,7 @@ RSpec.describe Scores::Injectors::FotmobMatch do
 
       it 'does not run the missed-players audit while in progress' do
         injector.call
-        expect(Audit::CsvWriter).not_to have_received(:call)
+        expect(match.reload.missed_players_data).to be_nil
       end
     end
 
@@ -167,7 +167,7 @@ RSpec.describe Scores::Injectors::FotmobMatch do
 
       it 'does not run the audit' do
         injector.call
-        expect(Audit::CsvWriter).not_to have_received(:call)
+        expect(match.reload.missed_players_data).to be_nil
       end
     end
 
@@ -191,7 +191,7 @@ RSpec.describe Scores::Injectors::FotmobMatch do
 
       it 'runs the missed-players audit at full time' do
         injector.call
-        expect(Audit::CsvWriter).to have_received(:call)
+        expect(match.reload.missed_players_data).not_to be_nil
       end
 
       # the pass that first sees full time is the only one live_inject will ever run on this match:
@@ -263,7 +263,7 @@ RSpec.describe Scores::Injectors::FotmobMatch do
 
       it 'does not run the audit' do
         injector.call
-        expect(Audit::CsvWriter).not_to have_received(:call)
+        expect(match.reload.missed_players_data).to be_nil
       end
 
       context 'when the kickoff time is still TBD' do

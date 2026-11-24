@@ -131,7 +131,6 @@ module Scores
 
       def audit_missed_players(players)
         match.update(missed_players_data: players)
-        Audit::CsvWriter.call(match, players)
       end
 
       def players_hash

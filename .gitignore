@@ -50,3 +50,6 @@ coverage/
 yarn-debug.log*
 .yarn-integrity
 Gemfile.lock.baseline
+
+# Capistrano writes this into each release directory; it never belongs in the repo.
+/REVISION

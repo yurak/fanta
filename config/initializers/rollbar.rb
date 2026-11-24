@@ -1,6 +1,12 @@
 Rollbar.configure do |config|
   config.access_token = Rails.application.credentials.dig(Rails.env.to_sym, :rollbar, :access_token)
 
+  # Tag every report with the build it came from, so an error can be traced to the deploy that
+  # introduced it. The SHA is what Rollbar links to the source on GitHub; the release number is
+  # what we quote to each other. Both are nil outside a deployed release — see config/release.rb.
+  config.code_version = Fanta::Release.revision
+  config.payload_options = { release: Fanta::Release.version }.compact
+
   # Without configuration, Rollbar is enabled in all environments.
   # To disable in specific environments, set config.enabled=false.
 

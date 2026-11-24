@@ -26,8 +26,6 @@ RSpec.describe Scores::Injectors::BaseMatch do
   let(:match) { create(:tournament_match, page_url: '/some/url') }
   let(:injector) { concrete_class.new(match) }
 
-  before { allow(Audit::CsvWriter).to receive(:call) }
-
   describe '#call' do
     context 'when match has no page_url' do
       before { allow(match).to receive(:page_url).and_return(nil) }
@@ -79,11 +77,6 @@ RSpec.describe Scores::Injectors::BaseMatch do
       it 'updates guest score' do
         injector.call
         expect(match.reload.guest_score).to eq(1)
-      end
-
-      it 'calls Audit::CsvWriter with merged scores hash' do
-        injector.call
-        expect(Audit::CsvWriter).to have_received(:call).with(match, {})
       end
 
       it 'saves empty missed_players_data when players_hash is empty' do

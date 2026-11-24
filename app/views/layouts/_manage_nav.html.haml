@@ -6,4 +6,6 @@
         .league-link{ class: "link-active-#{params[:controller] == ctrl}" }
           .league-link-icon= image_tag(icon)
           .league-link-text= t(label_key)
+  - if Fanta::Release.label
+    .manage-release= Fanta::Release.label
 

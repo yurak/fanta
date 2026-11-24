@@ -39,8 +39,6 @@ RSpec.describe Scores::Injectors::SofascoreMatch do
     create(:tournament_match, page_url: '/sofascore/match', base_data: finished_event_data, lineups_data: lineups_json)
   end
 
-  before { allow(Audit::CsvWriter).to receive(:call) }
-
   describe '#call' do
     context 'when base_data is blank' do
       let(:match) { create(:tournament_match, base_data: nil, lineups_data: lineups_json) }
@@ -79,11 +77,6 @@ RSpec.describe Scores::Injectors::SofascoreMatch do
       it 'updates guest score' do
         injector.call
         expect(match.reload.guest_score).to eq(1)
-      end
-
-      it 'calls Audit::CsvWriter' do
-        injector.call
-        expect(Audit::CsvWriter).to have_received(:call)
       end
 
       it 'saves missed_players_data with all unmatched players' do
