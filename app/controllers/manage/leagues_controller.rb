@@ -67,6 +67,14 @@ module Manage
       redirect_to manage_league_path(league), notice: t('manage.leagues.refreshed')
     end
 
+    def add_team
+      placer = Manage::LeagueTeamPlacer.new(league, params[:user_id])
+      @plan = params[:confirm].present? ? placer.call : placer.plan
+      return render_show unless @plan.ok? && params[:confirm].present?
+
+      redirect_to manage_league_path(league), notice: t("manage.leagues.team_#{@plan.action}d", team: @plan.team.human_name)
+    end
+
     def crown
       result = league.results.find(params.expect(:result_id))
       ActiveRecord::Base.transaction { assign_title(result) }
@@ -77,6 +85,11 @@ module Manage
 
     def league
       @league ||= League.find(params.expect(:id))
+    end
+
+    def render_show
+      show
+      render :show
     end
 
     def activation_deadline

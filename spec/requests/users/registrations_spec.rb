@@ -102,5 +102,67 @@ RSpec.describe 'Users::Registrations' do
         expect(response).to render_template(:new)
       end
     end
+
+    # A bot has been registering other people's addresses with us; the harm is the confirmation
+    # mail reaching a stranger, so what matters here is that nothing is sent and nothing is stored.
+    context 'when the request looks automated' do
+      let(:chrome) do
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) ' \
+          'Chrome/131.0.0.0 Safari/537.36'
+      end
+
+      shared_examples 'a refused sign-up' do
+        it 'sends no confirmation mail' do
+          expect { subject }.not_to change(ActionMailer::Base.deliveries, :count)
+        end
+
+        it 'stores no user' do
+          expect { subject }.not_to change(User, :count)
+        end
+
+        it 'answers unprocessable' do
+          subject
+
+          expect(response).to have_http_status(:unprocessable_entity)
+        end
+
+        it 'shows the form again' do
+          subject
+
+          expect(response).to render_template(:new)
+        end
+      end
+
+      context 'with the honeypot filled in' do
+        subject(:sign_up) do
+          post user_registration_path, params: params.merge(nickname: 'spam'),
+                                       headers: { 'HTTP_USER_AGENT' => chrome }
+        end
+
+        it_behaves_like 'a refused sign-up'
+      end
+
+      context 'with a long-dead browser' do
+        subject(:sign_up) do
+          post user_registration_path, params: params,
+                                       headers: { 'HTTP_USER_AGENT' => 'Mozilla/4.0 (compatible; MSIE 6.0)' }
+        end
+
+        it_behaves_like 'a refused sign-up'
+      end
+    end
+
+    context 'when a current browser leaves the honeypot alone' do
+      before do
+        post user_registration_path, params: params.merge(nickname: ''),
+                                     headers: { 'HTTP_USER_AGENT' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) ' \
+                                                                     'AppleWebKit/537.36 (KHTML, like Gecko) ' \
+                                                                     'Chrome/131.0.0.0 Safari/537.36' }
+      end
+
+      it 'creates the user as before' do
+        expect(User.find_by(email: email)).to be_present
+      end
+    end
   end
 end

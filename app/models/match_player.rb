@@ -54,6 +54,10 @@ class MatchPlayer < ApplicationRecord
     @live = match&.live? || false
   end
 
+  def out_of_national_squad?
+    tour.national? && player.national_team_id.nil?
+  end
+
   def position_malus?
     return false unless real_position
 

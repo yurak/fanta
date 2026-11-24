@@ -1,0 +1,26 @@
+.champions-matrix
+  %table.table.table-sm.table-bordered
+    %thead.thead-light
+      %tr
+        %th.champions-matrix-number= t('manage.champions.number')
+        %th.champions-matrix-name= t('manage.champions.user')
+        %th.champions-matrix-id= t('manage.champions.user_id')
+        - matrix.tournaments.each do |tournament|
+          %th.champions-matrix-head{ title: tournament.name }
+            = image_tag(tournament.logo_path, alt: tournament.name)
+        %th.champions-matrix-total= t('manage.champions.total')
+        - matrix.seasons.each do |season|
+          %th.champions-matrix-head{ title: season }= matrix.season_label(season)
+    %tbody
+      - matrix.champions.each do |user|
+        %tr
+          %td.champions-matrix-number= user.champion_number
+          %td.champions-matrix-name= link_to(user.name.presence || user.email, manage_user_path(user))
+          %td.champions-matrix-id= user.id
+          - matrix.tournaments.each do |tournament|
+            - count = matrix.titles_in(user, tournament)
+            %td{ class: matrix.cell_classes(count) }= count.positive? ? count : nil
+          %td.champions-matrix-total= matrix.total(user)
+          - matrix.seasons.each do |season|
+            - count = matrix.titles_in_season(user, season)
+            %td{ class: matrix.cell_classes(count) }= count.positive? ? count : nil

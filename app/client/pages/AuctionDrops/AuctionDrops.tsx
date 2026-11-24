@@ -1,30 +1,18 @@
-import { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
-import { useParams } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 import { useMediaQuery } from "usehooks-ts";
 import cn from "classnames";
 import PageLayout from "@/layouts/PageLayout";
 import PlayerAvatar from "@/components/PlayerAvatar";
 import PlayerPositions from "@/components/PlayerPositions/PlayerPositions";
 import Table, { IColumn } from "@/ui/Table";
-import { useAuctionDrops, useUpdateDrops } from "@/api/query/useAuctionDrops";
-import { FormState, IDropPlayer } from "@/interfaces/AuctionDrops";
-import { Position } from "@/interfaces/Position";
+import { areDropsClosed, useAuctionDrops, useUpdateDrops } from "@/api/query/useAuctionDrops";
+import { IDropPlayer } from "@/interfaces/AuctionDrops";
+import DropStatus from "./DropStatus";
+import MobilePlayerRow from "./MobilePlayerRow";
+import PlayerForm from "./PlayerForm";
+import { playerPositions } from "./dropPlayer";
 import styles from "./AuctionDrops.module.scss";
-
-const KNOWN_POSITIONS = new Set<string>(Object.values(Position));
-
-const FORM_CLASS: Record<FormState, string> = {
-  empty: styles.formEmpty,
-  skipped: styles.formSkipped,
-  out: styles.formOut,
-  bench: styles.formBench,
-  part: styles.formPart,
-  full: styles.formFull,
-};
-
-// order shown in the hover legend that decodes the form-cell colors
-const FORM_LEGEND: FormState[] = ["full", "part", "bench", "out", "skipped", "empty"];
 
 const formatDeadline = (iso: string, locale: string) =>
   new Date(iso).toLocaleString(locale, {
@@ -37,16 +25,16 @@ const timeLeft = (iso: string) => {
   return { hours: Math.floor(ms / 3_600_000), minutes: Math.floor((ms % 3_600_000) / 60_000) };
 };
 
-const playerPositions = (player: IDropPlayer) => player.positions.filter((position) => KNOWN_POSITIONS.has(position));
-
 const AuctionDrops = () => {
   const params = useParams<{ leagueId: string, auctionId: string }>();
   const leagueId = Number(params.leagueId);
   const auctionId = Number(params.auctionId);
-  const { data, isLoading } = useAuctionDrops(leagueId, auctionId);
+  const { data, isLoading, isError } = useAuctionDrops(leagueId, auctionId);
   const update = useUpdateDrops(leagueId, auctionId);
   const { t, i18n } = useTranslation();
   const isMobile = useMediaQuery("(max-width: 768px)");
+
+  const dropsClosed = areDropsClosed(data, isError, update.error);
 
   const selectedIds = data ? data.players.filter((p) => p.status === "transferable").map((p) => p.id) : [];
   const leftPlayers = data ? data.players.filter((p) => p.status === "left") : [];
@@ -62,47 +50,6 @@ const AuctionDrops = () => {
       next.add(player.id);
     }
     update.mutate([...next]);
-  };
-
-  const renderForm = (player: IDropPlayer, className?: string): ReactNode => (
-    <span className={cn(styles.form, className)}>
-      {(player.form ?? []).map((cell, index) => (
-        <span key={index} className={cn(styles.formCell, FORM_CLASS[cell.state])}>{cell.score}</span>
-      ))}
-      {(player.form?.length ?? 0) > 0 && (
-        <span className={styles.formLegend} role="tooltip">
-          {FORM_LEGEND.map((state) => (
-            <span key={state} className={styles.formLegendRow}>
-              <span className={cn(styles.formLegendSwatch, FORM_CLASS[state])} />
-              <span className={styles.formLegendLabel}>{t(`players.form_legend.${state}`)}</span>
-            </span>
-          ))}
-        </span>
-      )}
-    </span>
-  );
-
-  const renderStatus = (player: IDropPlayer, iconOnly: boolean): ReactNode => {
-    if (player.status === "left") {
-      return <span className={cn(styles.leftBadge, { [styles.statusIcon]: iconOnly })}>{t("auction_drops.left")}</span>;
-    }
-
-    const dropped = player.status === "transferable";
-
-    return (
-      <button
-        type="button"
-        className={cn(styles.dropBtn, { [styles.droppedBtn]: dropped, [styles.statusIcon]: iconOnly })}
-        disabled={atLimit && !dropped}
-        aria-label={dropped ? t("auction_drops.dropped") : t("auction_drops.drop")}
-        onClick={(e) => {
-          toggle(player);
-          e.currentTarget.blur();
-        }}
-      >
-        {iconOnly ? (dropped ? "✕" : "✓") : (dropped ? t("auction_drops.dropped") : t("auction_drops.drop"))}
-      </button>
-    );
   };
 
   const columns: IColumn<IDropPlayer>[] = [
@@ -150,7 +97,7 @@ const AuctionDrops = () => {
       dataKey: "form",
       title: t("auction_drops.form"),
       className: styles.formColumn,
-      render: (player) => renderForm(player),
+      render: (player) => <PlayerForm player={player} />,
     },
     {
       dataKey: "club",
@@ -172,47 +119,13 @@ const AuctionDrops = () => {
       title: t("auction_drops.status"),
       align: "center",
       className: styles.statusCell,
-      render: (player) => renderStatus(player, false),
+      render: (player) => <DropStatus player={player} iconOnly={false} atLimit={atLimit} onToggle={toggle} />,
     },
   ];
 
-  const mobileItem = (player: IDropPlayer) => {
-    const positions = playerPositions(player);
-
-    return (
-      <div key={player.player_team_id ?? `left-${player.id}`} className={styles.mobileItem}>
-        <a className={styles.mobileAvatarLink} href={`/players/${player.id}`}>
-          <PlayerAvatar avatarSrc={player.avatar_path} clubKitSrc={player.kit_path} className={styles.mobileAvatar} />
-        </a>
-        <div className={styles.mobileInfo}>
-          <div className={styles.mobileTop}>
-            <a className={styles.mobileName} href={`/players/${player.id}`}>
-              <span className={styles.mobileNameText}>{player.first_name} {player.name}</span>
-            </a>
-            <span className={styles.mobilePrice}>{player.price != null ? `${player.price}M` : "—"}</span>
-          </div>
-          <div className={styles.mobileBottom}>
-            {positions.length > 0 && (
-              <span>
-                <PlayerPositions position={positions} />
-              </span>
-            )}
-            {player.club_logo_path && (
-              <>
-                <span className={styles.mobileDivider} />
-                <span className={styles.mobileLogo}><img src={player.club_logo_path} alt="" /></span>
-              </>
-            )}
-            <span className={styles.mobileDivider} />
-            <span className={styles.mobileMeta}>{player.appearances} {t("auction_drops.apps_short")}</span>
-            <span className={styles.mobileDivider} />
-            <span className={styles.mobileMeta}>{player.rating}</span>
-          </div>
-        </div>
-        {renderStatus(player, true)}
-      </div>
-    );
-  };
+  if (dropsClosed) {
+    return <Navigate to={`/leagues/${leagueId}/auctions/${auctionId}/sales`} replace />;
+  }
 
   return (
     <PageLayout withSidebar>
@@ -296,7 +209,16 @@ const AuctionDrops = () => {
             </div>
 
             {isMobile ? (
-              <div className={styles.mobileList}>{data.players.map(mobileItem)}</div>
+              <div className={styles.mobileList}>
+                {data.players.map((player) => (
+                  <MobilePlayerRow
+                    key={player.player_team_id ?? `left-${player.id}`}
+                    player={player}
+                    atLimit={atLimit}
+                    onToggle={toggle}
+                  />
+                ))}
+              </div>
             ) : (
               <Table
                 rounded

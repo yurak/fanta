@@ -15,6 +15,7 @@ class RoundPlayerStatsSerializer < ActiveModel::Serializer
   attributes :appearances
   attributes :main_appearances
   attributes :nationality
+  attributes :picked
   attributes :team
 
   def avatar_path
@@ -59,6 +60,10 @@ class RoundPlayerStatsSerializer < ActiveModel::Serializer
     return unless instance_options[:national]
 
     object.player.nationality
+  end
+
+  def picked
+    instance_options[:my_picks]&.[](object.id)
   end
 
   def team

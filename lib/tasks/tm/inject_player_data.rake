@@ -1,29 +1,59 @@
 namespace :tm do
   # rake 'tm:inject_player_data[1,14999]'
+  # Refreshes TM data (value, number, birth date, height, nationality) for players in the id range.
+  #
+  # PRICE_ONLY=1 narrows it to tm_price, TM_SLEEP sets the pause between requests (default 30s)
+  # and TM_SKIP_CACHE=1 bypasses the week-long cache.
   desc 'Inject TM data'
   task :inject_player_data, %i[start_id last_id] => :environment do |_t, args|
-    ids_range = args[:start_id].to_i..args[:last_id].to_i
-    max_attempts = 5
-    ids_range.to_a.each do |id|
-      player = Player.find_by(id: id)
-      next unless player
+    start_id = args[:start_id].to_i
+    last_id = args[:last_id].to_i
+    price_only = ENV['PRICE_ONLY'].present?
+    pause = ENV.fetch('TM_SLEEP', 30).to_i
+    fields = price_only ? [:tm_price] : Players::Transfermarkt::ProfileUpdater::FIELDS
 
-      p "Inject player data: #{player.name} (id: #{player.id})"
-      attempt = 0
-      begin
-        attempt += 1
-        Players::Transfermarkt::BaseUpdater.call(player)
-      rescue RestClient::Exception => e
-        if attempt <= max_attempts
-          puts "Retry ##{attempt} - #{player.id}"
-          sleep(120)
-          retry
-        else
-          puts "error for id #{player.id} - #{e}"
-        end
+    readable = lambda do |value|
+      value.is_a?(Numeric) ? ActiveSupport::NumberHelper.number_to_delimited(value.to_i, delimiter: '_') : value
+    end
+
+    players = Player.where.not(tm_id: nil).where(id: start_id..last_id).order(:id)
+
+    total = 0
+    updated = 0
+    cached = 0
+    blocked = nil
+
+    players.find_each do |player|
+      total += 1
+      from_cache = Players::Transfermarkt::CacheProbe.fresh?(player.tm_id)
+      cached += 1 if from_cache
+
+      changes = Players::Transfermarkt::ProfileUpdater.call(player, only: fields)
+      updated += 1 if changes.any?
+
+      note = changes.map { |field, (was, now)| "#{field} #{readable.call(was)} -> #{readable.call(now)}" }.join(', ')
+      line = "#{player.id} / #{player.name}"
+      line += ' [cache]' if from_cache
+      line += ": #{note}" if note.present?
+      puts line
+
+      sleep(pause) unless from_cache || pause.zero?
+    rescue Players::Transfermarkt::ApiError => e
+      if e.blocked? || e.is_a?(Players::Transfermarkt::ApiUnavailableError)
+        blocked = "player #{player.id} / #{player.tm_id}: #{e.message}"
+        break
       end
 
-      (id % 2).zero? ? sleep(90) : sleep(30)
+      puts "Error for player #{player.id} / #{player.tm_id}: #{e.message}"
+    rescue StandardError => e
+      puts "Error for player #{player.id} / #{player.tm_id}: #{e.message}"
     end
+
+    if blocked
+      puts "\nSTOPPED: Transfermarkt refused the request — #{blocked}"
+      puts 'Nothing more was requested. Wait for the block to lift before re-running.'
+    end
+
+    puts "Done. Players: #{total}, updated: #{updated}, served from cache: #{cached}"
   end
 end

@@ -4,6 +4,7 @@ module TournamentRounds
     USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 ' \
                  '(KHTML, like Gecko) Chrome/124.0 Safari/537.36'.freeze
     REQUEST_TIMEOUT = 25
+    MAX_REDIRECTS = 3
 
     attr_reader :tournament
 
@@ -57,11 +58,24 @@ module TournamentRounds
     end
 
     def html
-      RestClient::Request.execute(method: :get, url: "#{LEAGUE_URL}/#{tournament.source_id}/matches",
-                                  headers: { user_agent: USER_AGENT }, timeout: REQUEST_TIMEOUT)
+      fetch("#{LEAGUE_URL}/#{tournament.source_id}/matches")
     rescue RestClient::Exception, SocketError, OpenSSL::SSL::SSLError => e
       Rails.logger.warn("[calendar] FotMob fetch failed for tournament #{tournament.id}: #{e.class}")
       ''
+    end
+
+    def fetch(url, hops = MAX_REDIRECTS)
+      RestClient::Request.execute(method: :get, url: url, headers: { user_agent: USER_AGENT },
+                                  timeout: REQUEST_TIMEOUT)
+    rescue RestClient::PermanentRedirect, RestClient::TemporaryRedirect => e
+      location = e.response&.headers&.dig(:location)
+      raise if location.blank? || hops.zero?
+
+      fetch(absolute(location), hops - 1)
+    end
+
+    def absolute(location)
+      location.start_with?('http') ? location : URI.join(LEAGUE_URL, location).to_s
     end
   end
 end

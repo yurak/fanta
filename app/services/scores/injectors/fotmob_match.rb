@@ -1,25 +1,8 @@
 module Scores
   module Injectors
     class FotmobMatch < BaseMatch
-      FOTMOB_MATCH_URL = 'https://www.fotmob.com'.freeze
       PENALTY_KEY = 'penalty'.freeze
       CONFIRMED_LINEUP = 'standard'.freeze
-      # FOTMOB_MATCH_URL = 'https://www.fotmob.com/api/matchDetails?matchId='.freeze
-
-      USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 ' \
-                   '(KHTML, like Gecko) Chrome/124.0 Safari/537.36'.freeze
-      REQUEST_TIMEOUT = 15
-      MAX_RETRIES = 2
-      BACKOFF_SECONDS = 5
-      REDIRECT_ERRORS = [
-        RestClient::MovedPermanently, RestClient::Found,
-        RestClient::TemporaryRedirect, RestClient::PermanentRedirect
-      ].freeze
-
-      TRANSIENT_ERRORS = [
-        RestClient::ServerBrokeConnection, RestClient::Exceptions::Timeout,
-        Errno::ECONNRESET, Errno::ECONNREFUSED, Errno::ETIMEDOUT, OpenSSL::SSL::SSLError, SocketError
-      ].freeze
 
       def initialize(match, run_mode: :final, budget: Scores::ScrapeBudget.new)
         super(match, run_mode: run_mode)
@@ -44,6 +27,50 @@ module Scores
           update_side(round_players.by_club(match.host_club_id), conceded_for(home: true))
           update_side(round_players.by_club(match.guest_club_id), conceded_for(home: false))
         end
+
+        adopt_unlisted_players
+      end
+
+      def adopt_unlisted_players
+        players_hash.values.dup.each do |player_data|
+          side = lineup_sides[player_data[:fotmob_id]]
+          next unless side
+
+          player = Player.find_by(fotmob_id: player_data[:fotmob_id])
+          next unless player && adoptable?(player, side)
+
+          round_player = RoundPlayer.for_round(match.tournament_round, player)
+          update_round_player(round_player, conceded_for(home: side == :home))
+        end
+      end
+
+      def adoptable?(player, side)
+        if match.tournament_round.tournament.national?
+          team_id = side == :home ? match.host_team_id : match.guest_team_id
+          player.national_team_id.nil? || player.national_team_id == team_id
+        else
+          club_id = side == :home ? match.host_club_id : match.guest_club_id
+          player.club_id.nil? || player.club_id == club_id
+        end
+      end
+
+      def lineup_sides
+        @lineup_sides ||= parse_lineup_sides
+      end
+
+      def parse_lineup_sides
+        lineup = match_data.dig('content', 'lineup') || {}
+        return {} unless lineup['lineupType'] == CONFIRMED_LINEUP
+
+        { home: 'homeTeam', away: 'awayTeam' }.each_with_object({}) do |(side, key), sides|
+          side_fotmob_ids(lineup[key]).each { |id| sides[id] = side }
+        end
+      end
+
+      def side_fotmob_ids(team)
+        team ||= {}
+
+        (Array(team['starters']) + Array(team['subs'])).filter_map { |player| player['id'].presence&.to_i }
       end
 
       def mark_squad
@@ -60,13 +87,7 @@ module Scores
       end
 
       def squad_fotmob_ids
-        return Set.new unless match_data.dig('content', 'lineup', 'lineupType') == CONFIRMED_LINEUP
-
-        @squad_fotmob_ids ||= %w[homeTeam awayTeam].flat_map do |side|
-          team = match_data.dig('content', 'lineup', side) || {}
-
-          (Array(team['starters']) + Array(team['subs'])).filter_map { |player| player['id'].presence&.to_i }
-        end.to_set
+        lineup_sides.keys.to_set
       end
 
       def conceded_for(home:)
@@ -180,11 +201,15 @@ module Scores
       end
 
       def match_finished?
-        correct_round? && (status['started'] || status['awarded']) && status['finished']
+        correct_round? && !abandoned? && (status['started'] || status['awarded']) && status['finished']
       end
 
       def match_live?
-        correct_round? && (status['started'] || status['awarded']) && !status['finished']
+        correct_round? && !abandoned? && (status['started'] || status['awarded']) && !status['finished']
+      end
+
+      def abandoned?
+        status['cancelled'].present?
       end
 
       def live_minute
@@ -236,78 +261,15 @@ module Scores
         @match_data = html ? JSON.parse(Nokogiri::HTML(html).css('#__NEXT_DATA__').text)['props']['pageProps'] : {}
       rescue JSON::ParserError, NoMethodError => e
         @scrape_failure = :health
-        log_scrape_skip("parse error: #{e.message}")
+        Rails.logger.warn("[live-scores] FotMob parse error for match #{match.id}: #{e.message}")
         @match_data = {}
       end
 
       def fetch_html
-        attempt = 0
-        begin
-          attempt += 1
-          RestClient::Request.execute(method: :get, url: "#{FOTMOB_MATCH_URL}#{match.page_url}",
-                                      headers: { user_agent: USER_AGENT }, timeout: REQUEST_TIMEOUT)
-        rescue *REDIRECT_ERRORS => e
-          retry if follow_redirect?(e)
-
-          @scrape_failure = :health
-          log_scrape_skip(scrape_reason(e))
-          nil
-        rescue RestClient::ExceptionWithResponse, *TRANSIENT_ERRORS => e
-          retry if retry_after_backoff?(e, attempt)
-
-          @scrape_failure = scrape_failure_kind(e)
-          log_scrape_skip(scrape_reason(e))
-          nil
-        end
-      end
-
-      def follow_redirect?(error)
-        return false if @redirected
-
-        location = error.response&.headers&.dig(:location).to_s
-        return false if location.blank?
-
-        @redirected = true
-        match.update(page_url: redirected_page_url(location))
-        Rails.logger.info("[live-scores] FotMob moved #{match.page_url_previously_was} to #{match.page_url}")
-        true
-      end
-
-      def redirected_page_url(location)
-        path = location.start_with?('http') ? URI.parse(location).path : location
-        fragment = match.page_url.to_s[/#.*/]
-
-        "#{path}#{fragment}"
-      end
-
-      def retry_after_backoff?(error, attempt)
-        return false unless scrape_retriable?(error) && attempt <= MAX_RETRIES
-
-        backoff = @budget.take(attempt * BACKOFF_SECONDS)
-        return false unless backoff.positive?
-
-        sleep(backoff)
-        true
-      end
-
-      def scrape_failure_kind(error)
-        return :not_found if error.is_a?(RestClient::ResourceNotFound)
-
-        :health
-      end
-
-      def scrape_retriable?(error)
-        return true unless error.is_a?(RestClient::ExceptionWithResponse)
-
-        error.http_code.to_i >= 500
-      end
-
-      def scrape_reason(error)
-        error.is_a?(RestClient::ExceptionWithResponse) ? "HTTP #{error.http_code}" : error.class.to_s
-      end
-
-      def log_scrape_skip(reason)
-        Rails.logger.warn("[live-scores] FotMob scrape skipped for #{match.page_url}: #{reason}")
+        page = FotmobPage.new(match, budget: @budget)
+        html = page.html
+        @scrape_failure = page.failure
+        html
       end
     end
   end

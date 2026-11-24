@@ -28,20 +28,27 @@ module Lineups
     end
 
     def clone_bench_slots
-      bench_slots.each do |old_mp|
-        p = player_from(old_mp)
-        player = team_player_ids.include?(p.id) ? p : available_pool.shift
-        next unless player
+      bench_players.each { |player| create_match_player(player, nil) }
+    end
 
-        create_match_player(player, nil)
-      end
+    def bench_players
+      players = bench_slots.filter_map { |old_mp| bench_replacement(old_mp) }
 
       bench_vacancies.times do
         player = available_pool.shift
-        break unless player
+        break if player.nil?
 
-        create_match_player(player, nil)
+        players << player
       end
+
+      BenchKeeper.ensure_first(players, available_pool)
+    end
+
+    def bench_replacement(old_mp)
+      player = player_from(old_mp)
+      return player if team_player_ids.include?(player.id)
+
+      available_pool.shift
     end
 
     def resolve_main_player(old_mp)

@@ -360,6 +360,92 @@ Migration item in `docs/BACKLOG.md`.)
 Developer accounts (Apple $99/yr, Google $25 one-off), icons, screenshots, privacy policy. App
 Store rejects thin website wrappers; a native v1 does not fall under that rule.
 
+Part C must be settled before this step: both stores require that shipped content be owned or
+licensed, and the imagery this app would carry is neither.
+
+---
+
+## Part C — image rights, before anything reaches a store
+
+**Not legal advice.** This section states what the app would ship and how the stores handle
+complaints, so the question can be put to a lawyer with the facts already gathered. Audited
+2026-11-04. It is listed as Part C but it **gates submission**, so decide it before Part B is built
+rather than after.
+
+### What we would be shipping
+
+The images are not hotlinked from anyone — they sit in our own S3 bucket (`Player::BUCKET_URL`,
+from `Rails.application.credentials.aws[:bucket_url]`) or inside the repo. We distribute copies, so
+the position is a publisher's, not a linker's.
+
+| what | where it comes from | whose rights |
+|---|---|---|
+| player photos | `Player#avatar_path` → `player_avatars/`, `#profile_avatar_path` → `players/` | photographer/agency copyright **and** the player's image rights |
+| club crests | `Club#logo_path` → `club_logo/` | club trademark, plus copyright in the artwork |
+| kits | `Club#kit_path`/`#profile_kit_path`, `NationalTeam#kit_path`/`#profile_kit_path`, `Player#national_kit_path`, `MatchPlayer#kit_path` | trademark and design rights |
+| competition logos | `Tournament#logo_path` → `app/assets/images/tournaments/*.png` — **27 files committed to the repo** | league trademark |
+| team logos | `Team#logo_path` — `logo_url` uploaded by the manager, else our `default_logo.png` | ours or the user's; a moderation question, not a rights one |
+| user avatars | `User#avatar_path` | ours |
+| flags | `flag-icons` gem | free licence, national flags are not protected |
+| names, fixtures, statistics | our database | facts, not copyrightable |
+
+Twelve serializers carry these fields. Note that `logo_path` appears 15 times across them but
+covers **three different owners** — club, competition and team — so a blanket strip of `logo_path`
+would also remove the manager-uploaded team logos, which are not a problem. `ClubSerializer`
+carries `logo_path`, `kit_path`, `profile_kit_path`; `TournamentSerializer` carries `logo_path`;
+`TeamSlimSerializer` carries the harmless one.
+
+The sharpest of these is the **player photos**: two independent claims stack on one file, and there
+is no informational argument for them — they make the product look better, nothing else. Crests
+used to identify a real club have at least a nominative-use argument in some jurisdictions. Names
+and statistics are safe on their own.
+
+### Why a store is not a website
+
+On the web a complaint reaches the host, the image comes down, and that is the end of it.
+
+In a store the complaint reaches Apple or Google, and the unit they act on is **the whole app**.
+Apple's App Store Review Guidelines §5.2 (Intellectual Property) requires that an app ship only
+what you made or licensed, and names trademarks explicitly; Google Play has an equivalent
+Intellectual Property policy. Both run complaint forms for rights holders.
+
+Review itself is unlikely to catch this — a reviewer does not verify licences for football crests.
+The realistic sequence is a complaint months later, the app pulled with little warning, and
+repeated strikes escalating to the developer account. What is lost is distribution, ratings and
+search position, none of which come back with the image.
+
+An app is also an easier target than a site: it sits in a searchable catalogue under a named
+publisher. And this product takes money — there is a fees page (`app/views/welcome/fees.html.haml`)
+and a `feature/monobank-payments` branch — which removes most non-commercial arguments.
+
+### Options
+
+**Neutral imagery in the app, real names everywhere.** Cheapest, and most of it already exists:
+`avatar.png`, `default_logo.png`, `kit_default.png` and `kit_small_default.png` are already in
+`app/assets/images/` and already wired as the `onerror` fallback in the HAML views and in the React
+`ClubLogo`. Replacing a crest with the club's colours and initials is what many fantasy apps do for
+exactly this reason. Because the Flutter client reads the same API, this is a server-side decision
+— the serializers can return the neutral asset to the mobile client and the current one to the web,
+keyed on the API version or the token's client claim. Nothing in the app needs to know.
+
+**Licence the set.** Opta/Stats Perform and the leagues themselves sell data-plus-imagery packages.
+It settles the question outright and costs accordingly.
+
+**Middle path: keep crests, drop player photos.** Removes the stacked claim — agency copyright plus
+personality rights — which is the weakest ground, and keeps the app recognisable. The crests remain
+an exposure, reduced but not gone.
+
+A visible "unofficial, not affiliated with any club or league" notice is worth adding whichever way
+this goes. It addresses confusion about origin; it does not cure copying.
+
+### What to decide before Part B
+
+1. Which of the three options, per image class. The answer changes the serializers, not the app.
+2. If neutral imagery: whether the web keeps the current images, which means the serializers need
+   to vary by client rather than simply change.
+3. Whether the 27 competition logos committed under `app/assets/images/tournaments/` stay in the
+   repo at all — unlike the S3 images, these ship inside the application bundle.
+
 ---
 
 ## Sequencing
@@ -367,6 +453,9 @@ Store rejects thin website wrappers; a native v1 does not fall under that rule.
 - **A1 → A2 → A3** are blockers for everything else.
 - **A3 must be done together with the API lockdown**, not after it.
 - Part B can start in parallel once A2 is done — there is something to log in against.
+- **Part C is decided before Part B is built, not before release.** It lands in the serializers, so
+  deciding late means reworking what the app already renders — and discovering it at submission
+  means reworking it under a deadline.
 
 ## Risks
 
@@ -381,6 +470,11 @@ Store rejects thin website wrappers; a native v1 does not fall under that rule.
    `GET /api/players/stats_export` (a whole season as CSV). Recommend excluding it from the app scope
    entirely and, separately, rate-limiting it hard (`rack-attack`) or restricting it to moderators —
    the app never needs bulk CSV.
+5. **Third-party imagery is a store-level risk, not a page-level one** — see Part C. Player photos,
+   club crests, kits and competition logos are all served from our own bucket or the repo. On the
+   web a complaint costs one image; in a store it can cost the listing and, repeated, the developer
+   account. Decide Part C before building Part B, because the fix lands in the serializers rather
+   than in the app.
 
 ## Project conventions to follow
 

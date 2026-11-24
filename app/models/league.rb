@@ -13,6 +13,7 @@ class League < ApplicationRecord
   has_many :transfers, dependent: :destroy
   has_many :tours, -> { order(:number) }, dependent: :destroy, inverse_of: :league
   has_many :results, dependent: :destroy
+  has_many :ordered_results, -> { ordered }, class_name: 'Result', dependent: nil, inverse_of: :league
 
   delegate :fanta?, :mantra?, to: :tournament
 

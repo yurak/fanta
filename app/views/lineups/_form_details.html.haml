@@ -1,0 +1,17 @@
+.form-details
+  .form-details-row.form-details-head
+    %span.form-details-round= t('players.form_details.round')
+    %span.form-details-opponent= t('players.form_details.opponent')
+    %span.form-details-minutes= t('players.form_details.minutes')
+    %span.form-details-score= t('players.form_details.score')
+    %span.form-details-final= t('players.form_details.final_score')
+  - form.each do |cell|
+    - next if cell[:state] == 'empty'
+    .form-details-row
+      %span.form-details-round
+        %span.form-details-swatch{class: "form-cell-#{cell[:state]}"}
+        = cell[:round]
+      %span.form-details-opponent= form_opponent_label(cell)
+      %span.form-details-minutes= form_minutes_label(cell)
+      %span.form-details-score= cell[:score] || '–'
+      %span.form-details-final= cell[:final_score] || '–'

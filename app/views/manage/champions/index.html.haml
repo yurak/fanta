@@ -5,28 +5,14 @@
   .page-info.admin-manage-page
     %h2= t('manage.champions.title')
 
-    - if @champions.any?
-      %table.table.table-hover.table-sm
-        %thead.thead-light
-          %tr
-            %th= t('manage.champions.number')
-            %th= t('manage.champions.user')
-            %th= t('manage.champions.titles')
-        %tbody
-          - @champions.each do |user|
-            %tr
-              %td= user.champion_number
-              %td= link_to(user.name.presence || user.email, manage_user_path(user))
-              %td
-                - user.user_titles.sort_by(&:championship_number).each do |title|
-                  - tooltip = "#{title.tournament&.name} #{title.season}".strip
-                  - if title.result&.league
-                    = link_to(league_results_path(title.result.league), class: 'champion-title-badge', title: tooltip) do
-                      = image_tag(title.tournament&.logo_path || 'tournaments/uefa.png')
-                      %small.text-muted= "##{title.championship_number} (#{title.season&.last(4)})"
-                  - else
-                    .champion-title-badge{ title: tooltip }
-                      = image_tag(title.tournament&.logo_path || 'tournaments/uefa.png')
-                      %small.text-muted= "##{title.championship_number} (#{title.season&.last(4)})"
-    - else
+    .default-tabs.manage-champions-tabs
+      - Manage::ChampionsController::TABS.each do |tab|
+        = link_to manage_champions_path(tab: tab), class: "default-tab-item #{'default-tab-active' if @tab == tab}" do
+          .default-tab-name= t("manage.champions.tab_#{tab}")
+
+    - if @champions.none?
       %p.text-muted= t('manage.champions.empty')
+    - elsif @tab == 'matrix'
+      = render 'matrix', matrix: @matrix
+    - else
+      = render 'list', champions: @champions

@@ -38,7 +38,8 @@ const DataList = <DataItem extends object = object>({
   renderItem: (item: DataItem) => React.ReactNode,
   itemKey: (item: DataItem) => string | number,
   itemLink?: (item: DataItem) => string,
-  itemClassName?: string,
+  // a function when some items need marking out from the rest; the skeleton keeps the plain form
+  itemClassName?: string | ((item: DataItem) => string | undefined),
   isLoading?: boolean,
   skeletonRender?: () => React.ReactNode,
   isLoadingMore?: boolean,
@@ -52,7 +53,7 @@ const DataList = <DataItem extends object = object>({
         <LoadingSkeleton
           skeletonRender={skeletonRender}
           items={skeletonItems}
-          itemClassName={itemClassName}
+          itemClassName={typeof itemClassName === "function" ? undefined : itemClassName}
         />
       ) : (
         <>
@@ -60,7 +61,11 @@ const DataList = <DataItem extends object = object>({
             dataSource.map((dataItem) => (
               <div
                 key={itemKey(dataItem)}
-                className={cn(styles.item, styles.hoverableItem, itemClassName)}
+                className={cn(
+                  styles.item,
+                  styles.hoverableItem,
+                  typeof itemClassName === "function" ? itemClassName(dataItem) : itemClassName
+                )}
               >
                 {itemLink && <a href={itemLink(dataItem)} className={styles.itemLink} />}
                 {renderItem(dataItem)}
@@ -75,7 +80,7 @@ const DataList = <DataItem extends object = object>({
               <LoadingSkeleton
                 skeletonRender={skeletonRender}
                 items={skeletonItems}
-                itemClassName={itemClassName}
+                itemClassName={typeof itemClassName === "function" ? undefined : itemClassName}
               />
             </>
           )}

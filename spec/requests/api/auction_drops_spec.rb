@@ -1,6 +1,22 @@
 require 'swagger_helper'
 
 RSpec.describe 'Api::AuctionDrops' do # rubocop:disable RSpec/MultipleMemoizedHelpers
+  # one cell per round behind the form bar: the colour state, plus what the hover panel details
+  form_cell_schema = {
+    type: :object,
+    properties: {
+      state: { type: :string, enum: %w[empty skipped out bench part full] },
+      round: { type: :integer, nullable: true },
+      opponent: {
+        type: :object,
+        nullable: true,
+        properties: { name: { type: :string, nullable: true }, home: { type: :boolean } }
+      },
+      minutes: { type: :integer, nullable: true },
+      score: { type: :string, nullable: true },
+      final_score: { type: :string, nullable: true }
+    }
+  }
   drop_player_schema = {
     type: :object,
     properties: {
@@ -11,7 +27,7 @@ RSpec.describe 'Api::AuctionDrops' do # rubocop:disable RSpec/MultipleMemoizedHe
       appearances: { type: :integer },
       player_team_id: { type: :integer, nullable: true },
       positions: { type: :array, items: { type: :string } },
-      form: { type: :array, items: { type: :object } }
+      form: { type: :array, items: form_cell_schema }
     }
   }
   team_schema = {

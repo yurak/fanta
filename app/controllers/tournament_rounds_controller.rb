@@ -75,18 +75,25 @@ class TournamentRoundsController < ApplicationController
   end
 
   def auto_subs
-    run_autobot(preview: false) if can? :auto_subs, TournamentRound
+    run_autobot(preview: false) if can?(:auto_subs, TournamentRound) && matches_over?
 
     redirect_to tournament_round_auto_subs_preview_path(tournament_round)
   end
 
   def generate_preview
-    run_autobot(preview: true) if can? :generate_preview, TournamentRound
+    run_autobot(preview: true) if can?(:generate_preview, TournamentRound) && matches_over?
 
     redirect_to tournament_round_auto_subs_preview_path(tournament_round)
   end
 
   private
+
+  def matches_over?
+    return true if tournament_round.finished?
+
+    flash[:alert] = t('round.subs_wait_for_matches')
+    false
+  end
 
   def run_autobot(preview:)
     result = Substitutes::AutoBot.for_round(tournament_round, preview: preview)

@@ -165,6 +165,22 @@ RSpec.describe 'Teams' do
       it 'redirects to the auction bid page' do
         expect(response).to redirect_to(auction_bid_path(AuctionBid.last))
       end
+
+      context 'when the tournament carries a slug suffix' do
+        let(:tournament) { create(:tournament, slug_suffix: 'ua') }
+
+        it 'ends the slug with that suffix rather than a team id' do
+          expect(Team.last.name).to eq("forza_#{logged_user.id}_ua")
+        end
+      end
+
+      context 'when the tournament has no slug suffix' do
+        let(:tournament) { create(:tournament, slug_suffix: '') }
+
+        it 'falls back to the old id-based slug' do
+          expect(Team.last.name).to match(/\Aforza_#{logged_user.id}_\d+\z/)
+        end
+      end
     end
 
     context 'when user joins with blank team_id (new team, submitted from form)' do

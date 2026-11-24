@@ -10,10 +10,14 @@ module NationalSquads
   #     Only `nat fs end` / `nat fs g end` close it.
   #   * Articles mix `{{nat fs g player}}` and `{{Nat fs g player}}`, so tags match case-insensitively.
   #     A case-sensitive search dropped Dembélé and read it as a withdrawal.
+  #   * The heading is not always "Current squad" — Scotland files the same table under "Latest
+  #     squad", and looking only for the former read the article as having no squad at all, which
+  #     is indistinguishable from "nobody was called up". Note what is NOT in the list: "Previous
+  #     squads", a section four of these articles carry, holds the squads of tournaments past.
   class WikiParser < ApplicationService
     PLAYER_TAGS = ['nat fs g player', 'nat fs player'].freeze
     END_MARKERS = ['nat fs end', 'nat fs g end'].freeze
-    SECTION = 'current squad'.freeze
+    SECTIONS = ['current squad', 'latest squad'].freeze
     BIRTH_DATE = /\{\{[Bb](?:irth date and age|da)[^}]*?\|(?:df=[yn]\|)?(\d{4})\|(\d{1,2})\|(\d{1,2})/
     SCAN_LIMIT = 20_000
     OPENERS = ['{{', '[['].freeze
@@ -36,7 +40,7 @@ module NationalSquads
 
     def section
       @section ||= begin
-        start = wikitext.downcase.index(SECTION)
+        start = SECTIONS.filter_map { |heading| wikitext.downcase.index(heading) }.min
         start ? cut_at_end_marker(wikitext[start..]) : ''
       end
     end

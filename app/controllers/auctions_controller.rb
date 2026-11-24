@@ -28,6 +28,8 @@ class AuctionsController < ApplicationController
   end
 
   def drops
+    return redirect_to sales_league_auction_path(league, auction) unless auction.sales?
+
     render layout: 'react_application'
   end
 

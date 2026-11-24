@@ -75,6 +75,62 @@ RSpec.describe 'Manage::Tournaments' do
     end
   end
 
+  describe 'POST #apply_exchange' do
+    login_admin
+
+    let(:season) { Season.last || create(:season) }
+    let(:tournament) { create(:tournament) }
+
+    def build_pyramid
+      { 'A' => 1, 'B' => 2 }.each do |level, count|
+        count.times do |index|
+          division = create(:division, level: level, number: index + 1)
+          create(:league, tournament: tournament, season: season, division: division)
+        end
+      end
+    end
+
+    context 'with a pyramid' do
+      before do
+        build_pyramid
+        post apply_exchange_manage_tournament_path(tournament), params: { season_id: season.id }
+      end
+
+      it 'stores the exchange on the top level' do
+        top = League.joins(:division).find_by(divisions: { level: 'A' })
+
+        expect([top.promotion, top.relegation]).to eq([0, 4])
+      end
+
+      it 'stores the exchange on the level below' do
+        below = League.joins(:division).where(divisions: { level: 'B' })
+
+        expect(below.pluck(:promotion, :relegation).uniq).to eq([[2, 0]])
+      end
+
+      it 'reports what it did' do
+        expect(flash[:notice]).to be_present
+      end
+
+      it 'returns to the tournament with the season kept' do
+        expect(response).to redirect_to(manage_tournament_path(tournament, season_id: season.id))
+      end
+    end
+
+    context 'without a pyramid' do
+      before do
+        division = create(:division, level: 'A', number: 1)
+        create(:league, tournament: tournament, season: season, division: division)
+        post apply_exchange_manage_tournament_path(tournament), params: { season_id: season.id }
+      end
+
+      # the first season of a competition: one level, nobody to exchange with
+      it 'says there was nothing to set' do
+        expect(flash[:alert]).to be_present
+      end
+    end
+  end
+
   describe 'POST #import_calendar' do
     login_admin
 

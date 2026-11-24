@@ -88,6 +88,16 @@ RSpec.describe NationalSquads::Comparer do
     end
   end
 
+  # A player who changed his surname: we keep the Transfermarkt spelling on the record, so the new
+  # one lives in ALIASES rather than in the player.
+  context 'with a player the source lists under a new surname' do
+    let(:team) { 'Israel' }
+    let(:ours) { ['Idan Toklomati'] }
+    let(:theirs) { [wiki_player('Idan Gorno')] }
+
+    it { expect(result).not_to be_changed }
+  end
+
   context 'with a player carried twice, once per match window' do
     let(:ours) { ['Finn Dahmen', 'Finn Dahmen', 'Joshua Kimmich'] }
     let(:theirs) { [wiki_player('Finn Dahmen'), wiki_player('Joshua Kimmich')] }

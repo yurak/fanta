@@ -20,7 +20,22 @@ class RoundPlayer < ApplicationRecord
   scope :in_squad, -> { where(in_squad: true) }
   scope :without_final_score, -> { where(final_score: 0) }
   scope :ordered_by_club, -> { joins(player: :club).order('clubs.name') }
-  scope :chronological, -> { joins(:tournament_round).order('tournament_rounds.deadline').order('tournament_rounds.number').order(:id) }
+  ROUND_ORDER = <<~SQL.squish.freeze
+    COALESCE(tournament_rounds.deadline,
+      (SELECT later.deadline FROM tournament_rounds later
+        WHERE later.tournament_id = tournament_rounds.tournament_id
+          AND later.season_id = tournament_rounds.season_id
+          AND later.number > tournament_rounds.number
+          AND later.deadline IS NOT NULL
+        ORDER BY later.number LIMIT 1))
+  SQL
+
+  scope :chronological, lambda {
+    joins(:tournament_round)
+      .order(Arel.sql(ROUND_ORDER))
+      .order('tournament_rounds.number')
+      .order(:id)
+  }
   scope :ordered_by_national, -> { joins(player: :national_team).order('national_teams.id').order('players.name') }
 
   BONUS_V2_DATE = Date.new(2026, 6, 1)

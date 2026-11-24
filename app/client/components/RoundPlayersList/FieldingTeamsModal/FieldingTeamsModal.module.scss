@@ -1,0 +1,100 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 260;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.panel {
+  position: relative;
+  width: 520px;
+  max-width: 92%;
+  margin: 80px auto 120px;
+  padding: 32px;
+  background: #FFFFFF;
+  border: 1px solid #E5E6E4;
+  border-radius: 8px;
+  box-shadow: 6px 6px 8px rgba(24, 23, 21, 0.2), 1px 2px 5px rgba(24, 23, 21, 0.2);
+}
+
+.close {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  border: none;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+  font-size: 28px;
+  line-height: 28px;
+  color: #847577;
+}
+
+.title {
+  font-family: "Nunito ExtraBold", sans-serif;
+  font-size: 24px;
+  line-height: 32px;
+  color: #181715;
+}
+
+.subtitle {
+  font-size: 14px;
+  line-height: 20px;
+  color: #847577;
+  margin-bottom: 16px;
+}
+
+.empty {
+  padding: 16px 0;
+  color: #847577;
+}
+
+.list {
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 32px auto;
+  column-gap: 12px;
+  align-items: center;
+  height: 48px;
+  border-bottom: 1px solid #F4F4F4;
+  color: #181715;
+}
+
+// the global link rules underline and recolour on hover, which these rows should not do
+.row,
+.row:hover {
+  text-decoration: none;
+  color: #181715;
+}
+
+.logo {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  align-self: center;
+}
+
+.name {
+  font-family: "Nunito Bold", sans-serif;
+  font-size: 16px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media (orientation: portrait) {
+  .panel {
+    margin: 40px auto 80px;
+    padding: 24px 16px;
+  }
+
+  .title {
+    font-size: 20px;
+    line-height: 28px;
+  }
+}

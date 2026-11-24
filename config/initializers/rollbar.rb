@@ -1,15 +1,21 @@
 Rollbar.configure do |config|
+  config.access_token = Rails.application.credentials.dig(Rails.env.to_sym, :rollbar, :access_token)
+
+  # Tag every report with the build it came from, so an error can be traced to the deploy that
+  # introduced it. The SHA is what Rollbar links to the source on GitHub; the release number is
+  # what we quote to each other. Both are nil outside a deployed release — see config/release.rb.
+  config.code_version = Fanta::Release.revision
+  config.payload_options = { release: Fanta::Release.version }.compact
+
   # Without configuration, Rollbar is enabled in all environments.
   # To disable in specific environments, set config.enabled=false.
-  begin
-    config.access_token = Configuration.rollbar_token if ActiveRecord::Base.connection.table_exists?('configurations')
-  rescue ActiveRecord::NoDatabaseError, ActiveRecord::StatementInvalid, PG::ConnectionBad,
-         ActiveRecord::ConnectionNotEstablished, NameError
-    # Database not yet created or not reachable
-  end
 
   # Here we'll disable in 'test':
   config.enabled = false if Rails.env.test?
+
+  if Rails.env.production? && config.access_token.blank?
+    Rails.logger.warn('[rollbar] no access token in credentials (production.rollbar.access_token) — reports are dropped')
+  end
 
   # By default, Rollbar will try to call the `current_user` controller method
   # to fetch the logged-in user object, and then call that object's `id`

@@ -25,6 +25,21 @@ module Scores
 
         round_players.by_club(match.host_club_id).each { |rp| update_round_player(rp, host_scores_hash, conceded_for(home: true)) }
         round_players.by_club(match.guest_club.id).each { |rp| update_round_player(rp, guest_scores_hash, conceded_for(home: false)) }
+
+        adopt_unlisted_players(host_scores_hash, home: true)
+        adopt_unlisted_players(guest_scores_hash, home: false)
+      end
+
+      def adopt_unlisted_players(team_hash, home:)
+        club_id = home ? match.host_club_id : match.guest_club_id
+
+        team_hash.values.dup.each do |player_data|
+          player = Player.find_by(sofascore_id: player_data[:sofascore_id])
+          next unless player && (player.club_id.nil? || player.club_id == club_id)
+
+          round_player = RoundPlayer.for_round(match.tournament_round, player)
+          update_round_player(round_player, team_hash, conceded_for(home: home))
+        end
       end
 
       def conceded_for(home:)
@@ -70,8 +85,8 @@ module Scores
       def cleansheet_timing(data, conceded)
         return nil unless timed?(conceded)
 
-        substitution = timeline.substitutions[data[:sofascore_id]] || {}
-        { on_minute: substitution[:on_minute], off_minute: substitution[:off_minute],
+        sofascore_id = data[:sofascore_id]
+        { on_minute: timing_for(sofascore_id)[:on_minute], off_minute: off_pitch_minute(sofascore_id),
           conceded_minutes: conceded[:minutes] }
       end
 
@@ -103,8 +118,10 @@ module Scores
       end
 
       def keeper_window(data)
-        substitution = timeline.substitutions[data[:sofascore_id]] || {}
-        { on: substitution[:on_minute].to_i, off: substitution[:off_minute] || Float::INFINITY }
+        sofascore_id = data[:sofascore_id]
+
+        { on: timing_for(sofascore_id)[:on_minute].to_i,
+          off: off_pitch_minute(sofascore_id) || Float::INFINITY }
       end
 
       def rating(player_data)
@@ -143,9 +160,7 @@ module Scores
       end
 
       def left_pitch_at(player_data)
-        sofascore_id = player_data['player']['id']
-
-        timing_for(sofascore_id)[:off_minute] || timeline.red_card_minutes[sofascore_id]
+        off_pitch_minute(player_data['player']['id'])
       end
 
       def came_on_at(player_data, left_at)
@@ -157,6 +172,14 @@ module Scores
 
       def timing_for(sofascore_id)
         timeline.substitutions[sofascore_id] || {}
+      end
+
+      # A sending-off ends a spell exactly as a substitution does, but SofaScore files no
+      # substitution for the player shown the red — so a window built from substitutions alone
+      # runs to the final whistle and charges him with everything the team conceded after he had
+      # already left the pitch. It also leaves the keeper who replaced him sharing the blame.
+      def off_pitch_minute(sofascore_id)
+        timing_for(sofascore_id)[:off_minute] || timeline.red_card_minutes[sofascore_id]
       end
 
       def build_player_hash(player_data, minutes)

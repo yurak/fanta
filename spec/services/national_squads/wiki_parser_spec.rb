@@ -108,6 +108,42 @@ RSpec.describe NationalSquads::WikiParser do
     end
   end
 
+  # Scotland files the same table under "Latest squad". Reading only "Current squad" returned an
+  # empty list, which is indistinguishable from "nobody was called up" — the team silently dropped
+  # out of every check for five days.
+  context 'when the heading reads "Latest squad"' do
+    let(:wikitext) do
+      <<~WIKI
+        ===Latest squad===
+        {{nat fs g start}}
+        #{player_template('Andrew Robertson', pos: 'DF')}
+        #{player_template('Scott McTominay')}
+        {{nat fs g end}}
+      WIKI
+    end
+
+    it 'reads the squad all the same' do
+      expect(players.pluck(:name)).to eq(['Andrew Robertson', 'Scott McTominay'])
+    end
+  end
+
+  # Four of these articles carry a "Previous squads" section holding tournaments past. Widening the
+  # heading match to anything containing "squad" would pull those in as current call-ups.
+  context 'with only a "Previous squads" section' do
+    let(:wikitext) do
+      <<~WIKI
+        ===Previous squads===
+        {{nat fs g start}}
+        #{player_template('Gianluigi Buffon', pos: 'GK')}
+        {{nat fs g end}}
+      WIKI
+    end
+
+    it 'reads nobody' do
+      expect(players).to eq([])
+    end
+  end
+
   context 'without a squad section' do
     let(:wikitext) { '==History==\nThe team was founded in 1900.' }
 

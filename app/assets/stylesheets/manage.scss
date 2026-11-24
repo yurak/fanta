@@ -1,8 +1,21 @@
 .right-nav.manage-nav {
   background: #FFE8E8;
+  overflow-y: auto;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 
   .league-name {
     margin-bottom: 16px;
+  }
+
+  .manage-release {
+    margin-top: 16px;
+    font-size: 11px;
+    text-align: center;
+    color: #847577;
   }
 
   .league-link:hover {
@@ -364,4 +377,101 @@
 .admin-manage-page .player-positions-block {
   display: inline-flex;
   vertical-align: middle;
+}
+
+/* ----- Champions matrix ----- */
+
+.admin-manage-page .manage-champions-tabs {
+  margin-bottom: 24px;
+
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+}
+
+.champions-matrix {
+  max-height: calc(100vh - 220px);
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+
+  table {
+    width: auto;
+    font-size: 13px;
+  }
+
+  th, td {
+    text-align: center;
+    vertical-align: middle;
+    padding: 2px 4px;
+    white-space: nowrap;
+  }
+
+  thead th {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    background: #E9ECEF;
+    box-shadow: inset 0 -1px 0 #DEE2E6;
+  }
+}
+
+// the cells carry the shade fills, so the hovered row is marked with a rule above and below rather
+// than a background: a hover fill would either hide the shade or dim the count printed on it
+.champions-matrix tbody tr:hover {
+  td {
+    box-shadow: inset 0 1px 0 #181715, inset 0 -1px 0 #181715;
+  }
+
+  td:not([class*='champions-matrix-shade']) {
+    background: #F4F4F4;
+  }
+}
+
+.champions-matrix-head {
+  img {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+  }
+}
+
+.champions-matrix-number {
+  text-align: right;
+  color: #847577;
+}
+
+.champions-matrix-name {
+  text-align: left;
+  max-width: 220px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+}
+
+.champions-matrix-cell {
+  min-width: 26px;
+  font-family: 'Nunito Bold';
+}
+
+.champions-matrix-total {
+  font-family: 'Nunito Bold';
+  background: #F1F7F1;
+}
+
+.champions-matrix-shade-1 { background: #D0F0D4; color: #1D5D26; }
+.champions-matrix-shade-2 { background: #FFEBC2; color: #9F6C05; }
+.champions-matrix-shade-3 { background: #FCC5CB; color: #DB0A23; }
+.champions-matrix-shade-4 { background: #D8D6FF; color: #040052; }
+.champions-matrix-shade-5 { background: #EAC6FB; color: #3D1A5C; }
+.champions-matrix-shade-6 { background: #2D9CDB; color: #181715; }
+.champions-matrix-shade-7 { background: #EDF67D; color: #9F6C05; }
+
+.champions-matrix-id {
+  text-align: right;
+  color: #847577;
 }

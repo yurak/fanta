@@ -573,9 +573,15 @@
         "month": "Month",
         "second": "Seconds",
         "year": "Year"
+      },
+      "relative": {
+        "future": "in %{time}",
+        "past": "%{time} ago"
       }
     },
     "divisions": {
+      "collapse_all": "Collapse all",
+      "expand_all": "Expand all",
       "title": "Divisions"
     },
     "errors": {
@@ -890,6 +896,7 @@
       "away": "A",
       "change_module": "Change module",
       "clear_confirm": "Clear all selected players?",
+      "clear_filters": "Clear filters",
       "clear_squad": "Clear squad",
       "conditions": "📋 Special conditions",
       "confirm_squad": "Confirm squad",
@@ -948,9 +955,13 @@
       "champions": {
         "empty": "No champions added yet",
         "number": "#",
+        "tab_list": "List",
+        "tab_matrix": "Matrix",
         "title": "Champions",
         "titles": "Titles",
-        "user": "Manager"
+        "total": "Total",
+        "user": "Manager",
+        "user_id": "ID"
       },
       "club_transfer_requests": {
         "col_actions": "Actions",
@@ -1052,6 +1063,17 @@
       "leagues": {
         "activate": "Activate",
         "activated": "League activated",
+        "add_team_confirm": "Confirm",
+        "add_team_error_already_in_league": "His team \"%{team}\" is already in this league",
+        "add_team_error_nothing_to_copy": "This user has no team to copy from",
+        "add_team_error_source_league_active": "His team of this tournament plays in the active league %{league} — archive it first",
+        "add_team_error_user_not_found": "No user with that id",
+        "add_team_hint": "By user id: if he already has a team in this tournament it moves here with its history; if not, we copy the name, code and badge of the team he plays under elsewhere.",
+        "add_team_preview": "Show what will happen",
+        "add_team_title": "Add a manager's team",
+        "add_team_user_id": "User id",
+        "add_team_will_copy_html": "<b>%{user}</b>: a copy of <b>%{team}</b> (%{code}) from %{league} will be created.",
+        "add_team_will_move_html": "<b>%{user}</b>: team <b>%{team}</b> (%{code}) will move here from %{league}.",
         "already_crowned": "Champion already set",
         "archive": "Archive",
         "archive_confirm": "Archive this league?",
@@ -1118,6 +1140,8 @@
         "status_active": "Active",
         "status_archived": "Archived",
         "status_initial": "Initial",
+        "team_copied": "Team \"%{team}\" created",
+        "team_moved": "Team \"%{team}\" moved",
         "team_name": "Team",
         "teams": "Teams",
         "title": "Leagues",
@@ -1252,6 +1276,8 @@
         "round_not_found": "Round #%{number} not found for this club's tournament in the current season",
         "round_number": "Round number",
         "save": "Save",
+        "slug_suffix": "Slug suffix",
+        "slug_suffix_hint": "The tail of a team slug: vasyl_12_ua. Blank falls back to the team id.",
         "tournament_round_id": "Tournament round ID",
         "updated": "Round player updated"
       },
@@ -1311,6 +1337,19 @@
         "col_updated_at": "Updated",
         "create_rounds": "Create rounds",
         "edit": "Edit",
+        "exchange_applied": "Promotion and relegation set on %{levels} division levels",
+        "exchange_applied_unbalanced": "Promotion and relegation set on %{levels} division levels. Levels %{unbalanced} could not be balanced and use the default relegation.",
+        "exchange_apply": "Apply to all leagues",
+        "exchange_confirm": "Overwrite promotion and relegation on every divisioned league of %{season}?",
+        "exchange_empty": "Nothing to set: this season has fewer than two division levels",
+        "exchange_hint": "Derived from the number of leagues per level: every place vacated above is filled from below. Re-run after adding a league.",
+        "exchange_leagues": "Leagues",
+        "exchange_level": "Level",
+        "exchange_none": "No pyramid for this season yet — a single division level has nothing to exchange.",
+        "exchange_promotion": "Up",
+        "exchange_relegation": "Down",
+        "exchange_season": "Season",
+        "exchange_unbalanced": "not balanced",
         "import_calendar": "Import calendar from FotMob",
         "import_confirm": "Pull the whole season from FotMob and create the matches?",
         "options": "Options",
@@ -1321,6 +1360,7 @@
         "section_actions": "Actions",
         "section_calendar": "Season calendar",
         "section_content": "Content",
+        "section_exchange": "Promotion and relegation",
         "section_info": "Tournament info",
         "section_source": "Data source",
         "show": "View",
@@ -1334,9 +1374,12 @@
         "already_moderated": "This logo has already been moderated",
         "approve": "Approve",
         "approved": "Logo approved",
+        "approved_at": "Approved at",
+        "deleted_at": "Deleted at",
         "empty": "No logos here",
         "reject": "Reject",
         "rejected": "Logo rejected",
+        "rejected_at": "Rejected at",
         "submitted_at": "Submitted",
         "tab_approved": "Approved",
         "tab_archived": "Archived",
@@ -1433,6 +1476,7 @@
     },
     "matches": {
       "def_bonus": "🛡️️ Defense Bonus:",
+      "def_bonus_short": "🛡️️ Def. Bonus:",
       "didnt_play": "❌ Didn't play",
       "edit_lineup": "Edit lineup",
       "edit_module": "Edit module",
@@ -1591,6 +1635,13 @@
         "tournamentLabel": "TMNT",
         "withoutTeamLabel": "Without team"
       },
+      "form_details": {
+        "final_score": "Total",
+        "minutes": "Min",
+        "opponent": "Opponent",
+        "round": "Round",
+        "score": "Score"
+      },
       "form_legend": {
         "bench": "On the bench",
         "empty": "No match to show",
@@ -1716,6 +1767,7 @@
       "open": "Open all tours",
       "postpone": "Postpone all tours",
       "stats": "Statistics",
+      "subs_wait_for_matches": "Substitutions open once every match of the round has finished",
       "title": "Tournament Round"
     },
     "round_players": {
@@ -1739,6 +1791,8 @@
         "team": "TEAM",
         "total_score": "TS"
       },
+      "fielded_by": "Fielded in the starting eleven by",
+      "fielded_by_none": "Nobody fielded this player",
       "filters": {
         "all_leagues": "All leagues",
         "clubs": "Clubs",
@@ -1913,6 +1967,13 @@
       "without_auction": "Outside the auctions"
     },
     "telegram": {
+      "commands": {
+        "contacts": "Contact info",
+        "help": "List of commands",
+        "learn_more": "Rules links and files",
+        "schedule": "Deadlines for the next 24 hours",
+        "start": "Greeting"
+      },
       "notifier": {
         "auction": {
           "closed": "%{icon} Auction #%{number} in %{league_name} league has been closed.\n\n🏁️️ You can <a href=\"%{url}\">view all transfers of the auction</a>\n\n#auction #%{code}",
@@ -1939,7 +2000,7 @@
         },
         "tour": {
           "closed": "%{icon} Round #%{number} of %{league_name} League has been closed.\n🔴 You can <a href=\"%{url}\">check the final results here</a>\n\n#tour #%{code}",
-          "ddl": "%{icon} The deadline of round #%{number} is today at %{deadline} (%{time_zone})\n\n🟡 <a href=\"%{url}\">Create your lineup</a>\n\n#tour #%{code}",
+          "ddl": "%{icon} The deadline of round #%{number} of %{league_name} League is today at %{deadline} (%{time_zone})\n\n🟡 <a href=\"%{url}\">Create your lineup</a>\n\n#tour #%{code}",
           "moderated": "%{icon} Round #%{number} of %{league_name} League has been moderated.\n🔵 All scores and bonuses have been calculated, substitutions have been made.\n✍️ If you have remarks about bonuses - write to @mantra_help.\n\n☑️ You can <a href=\"%{url}\">check the preliminary results here</a>\n\n#tour #%{code}",
           "opened": "%{icon} Round #%{number} of %{league_name} League has been opened.\n🟢 You can <a href=\"%{url}\">set up lineup</a> for %{team_name}\n🔜 Deadline: %{deadline} (%{time_zone}) 🔚\n\n#tour #%{code}"
         }
@@ -1952,7 +2013,7 @@
           "text": "Message @mantra_help if you have any questions"
         },
         "help": {
-          "content": "Available commands:\n/start - greeting\n/help - list of commands\n/register - register account\n/learn_more - rules links and files\n/contacts - contact info\n"
+          "content": "Available commands:\n/start - greeting\n/help - list of commands\n/register - register account\n/learn_more - rules links and files\n/schedule - deadlines for the next 24 hours\n/contacts - contact info\n"
         },
         "learn_more": {
           "podcast": "Video podcast",
@@ -1965,6 +2026,10 @@
           "sign_up": "Sign Up",
           "success": "Please continue to register on the website",
           "text": "Please enter the email address you will use for the game"
+        },
+        "schedule": {
+          "empty": "Nothing due in the next 24 hours",
+          "not_linked": "Connect your account first with /register, then I can send you your deadlines"
         },
         "start": {
           "connect_failed": "⚠️ This link has expired or is invalid. Please go to your profile and generate a new one.",
@@ -2114,6 +2179,7 @@
         "teams": "⚽️ Teams",
         "telegram_connect": "Connect Telegram",
         "telegram_connected": "✅ Telegram connected",
+        "telegram_reconnect": "Connect a different account",
         "telegram_subtitle": "Get notifications about deadlines and game events",
         "telegram_title": "✈️ Telegram Bot",
         "time_zone_subtitle": "Choose the one according to which the time will be displayed in the game",
@@ -2658,6 +2724,7 @@
           "title": "Modules"
         },
         "nav_title": "Quick navigation",
+        "nav_top": "Back to top",
         "note": "Note!",
         "player_score": {
           "header1": "Fotmob mobile app",
@@ -3084,6 +3151,8 @@
       }
     },
     "divisions": {
+      "collapse_all": "Згорнути всі",
+      "expand_all": "Розгорнути всі",
       "title": "Дивізіони"
     },
     "errors": {
@@ -3292,6 +3361,7 @@
       "away": "В",
       "change_module": "Зміна модуля",
       "clear_confirm": "Очистити всіх обраних гравців?",
+      "clear_filters": "Скинути фільтри",
       "clear_squad": "Очистити склад",
       "conditions": "📋 Особливі умови",
       "confirm_squad": "Підтвердити склад",
@@ -3350,9 +3420,13 @@
       "champions": {
         "empty": "Чемпіонів ще не додано",
         "number": "#",
+        "tab_list": "Список",
+        "tab_matrix": "Матриця",
         "title": "Чемпіони",
         "titles": "Титули",
-        "user": "Менеджер"
+        "total": "Разом",
+        "user": "Менеджер",
+        "user_id": "ID"
       },
       "club_transfer_requests": {
         "col_actions": "Дії",
@@ -3456,6 +3530,17 @@
       "leagues": {
         "activate": "Активувати",
         "activated": "Лігу активовано",
+        "add_team_confirm": "Підтвердити",
+        "add_team_error_already_in_league": "У цій лізі вже є його команда «%{team}»",
+        "add_team_error_nothing_to_copy": "У користувача немає жодної команди, з якої копіювати",
+        "add_team_error_source_league_active": "Його команда цього турніру грає в активній лізі %{league} — спершу заархівуйте її",
+        "add_team_error_user_not_found": "Користувача з таким ід немає",
+        "add_team_hint": "За ід користувача: якщо в нього вже є команда цього турніру — вона переїде сюди разом з історією; якщо ні — скопіюємо назву, код і лого з команди, під якою він грає в інших лігах.",
+        "add_team_preview": "Показати, що буде",
+        "add_team_title": "Додати команду менеджера",
+        "add_team_user_id": "Ід користувача",
+        "add_team_will_copy_html": "<b>%{user}</b>: створимо копію команди <b>%{team}</b> (%{code}) з ліги %{league}.",
+        "add_team_will_move_html": "<b>%{user}</b>: перенесемо команду <b>%{team}</b> (%{code}) з ліги %{league}.",
         "already_crowned": "Чемпіона вже призначено",
         "archive": "Архівувати",
         "archive_confirm": "Архівувати цю лігу?",
@@ -3522,6 +3607,8 @@
         "status_active": "Активні",
         "status_archived": "Архівні",
         "status_initial": "Початкові",
+        "team_copied": "Команду «%{team}» створено",
+        "team_moved": "Команду «%{team}» перенесено",
         "team_name": "Команда",
         "teams": "Команди",
         "title": "Ліги",
@@ -3655,6 +3742,8 @@
         "round_not_found": "Раунд #%{number} не знайдено для турніру цього клубу в поточному сезоні",
         "round_number": "Номер раунду",
         "save": "Зберегти",
+        "slug_suffix": "Суфікс слуга",
+        "slug_suffix_hint": "Хвіст у назві команди: vasyl_12_ua. Порожньо — підставиться ід команди.",
         "tournament_round_id": "ID турнірного раунду",
         "updated": "Раунд-гравця оновлено"
       },
@@ -3714,6 +3803,19 @@
         "col_updated_at": "Оновлено",
         "create_rounds": "Створити тури",
         "edit": "Редагувати",
+        "exchange_applied": "Підйом і виліт проставлено на %{levels} рівнях дивізіонів",
+        "exchange_applied_unbalanced": "Підйом і виліт проставлено на %{levels} рівнях. Рівні %{unbalanced} збалансувати не вдалося — там стандартний виліт.",
+        "exchange_apply": "Застосувати до всіх ліг",
+        "exchange_confirm": "Перезаписати підйом і виліт для всіх ліг з дивізіонами за %{season}?",
+        "exchange_empty": "Нічого проставляти: цього сезону менше двох рівнів дивізіонів",
+        "exchange_hint": "Рахується з кількості ліг на рівнях: скільки місць звільняється згори, стільки заповнюється знизу. Після додавання ліги запустіть ще раз.",
+        "exchange_leagues": "Ліг",
+        "exchange_level": "Рівень",
+        "exchange_none": "Піраміди за цей сезон ще немає — на одному рівні обмінюватися нема з ким.",
+        "exchange_promotion": "Вгору",
+        "exchange_relegation": "Вниз",
+        "exchange_season": "Сезон",
+        "exchange_unbalanced": "не збалансовано",
         "import_calendar": "Імпортувати календар з FotMob",
         "import_confirm": "Витягнути весь сезон з FotMob і створити матчі?",
         "options": "Опції",
@@ -3724,6 +3826,7 @@
         "section_actions": "Дії",
         "section_calendar": "Календар сезону",
         "section_content": "Наповнення",
+        "section_exchange": "Підйом і виліт",
         "section_info": "Інформація про турнір",
         "section_source": "Джерело даних",
         "show": "Переглянути",
@@ -3737,9 +3840,12 @@
         "already_moderated": "Це лого вже промодеровано",
         "approve": "Схвалити",
         "approved": "Лого схвалено",
+        "approved_at": "Схвалено",
+        "deleted_at": "Видалено",
         "empty": "Немає лого",
         "reject": "Відхилити",
         "rejected": "Лого відхилено",
+        "rejected_at": "Відхилено",
         "submitted_at": "Завантажено",
         "tab_approved": "Схвалені",
         "tab_archived": "Архівовані",
@@ -3836,6 +3942,7 @@
     },
     "matches": {
       "def_bonus": "🛡️️ Бонус захисту:",
+      "def_bonus_short": "🛡️️ Бонус зах.:",
       "didnt_play": "❌ Не грав",
       "edit_lineup": "Змінити склад",
       "edit_module": "Змінити модуль",
@@ -3929,6 +4036,13 @@
         "totalScoreShortLabel": "ЗО",
         "tournamentLabel": "Турнір",
         "withoutTeamLabel": "Без команди"
+      },
+      "form_details": {
+        "final_score": "Загальна",
+        "minutes": "Хв",
+        "opponent": "Суперник",
+        "round": "Тур",
+        "score": "Базова"
       },
       "form_legend": {
         "bench": "На лаві запасних",
@@ -4055,6 +4169,7 @@
       "open": "Відкрити всі тури",
       "postpone": "Відкласти всі тури",
       "stats": "Статистика",
+      "subs_wait_for_matches": "Заміни стануть доступні, коли завершаться всі матчі туру",
       "title": "Раунд Турніру"
     },
     "round_players": {
@@ -4078,6 +4193,8 @@
         "team": "КОМАНДА",
         "total_score": "ЗО"
       },
+      "fielded_by": "Поставили в основу",
+      "fielded_by_none": "Ніхто не поставив цього гравця",
       "filters": {
         "all_leagues": "Всі ліги",
         "clubs": "Клуби",
@@ -4245,6 +4362,13 @@
       "without_auction": "Поза аукціонами"
     },
     "telegram": {
+      "commands": {
+        "contacts": "Контактна інформація",
+        "help": "Список команд",
+        "learn_more": "Правила гри",
+        "schedule": "Дедлайни на наступні 24 години",
+        "start": "Привітання"
+      },
       "notifier": {
         "auction": {
           "closed": "%{icon} Аукціон #%{number} у лізі %{league_name} завершено.\n\n🏁️️ Ви можете <a href=\"%{url}\">переглянути всі трансфери цього аукціону</a>\n\n#auction #%{code}",
@@ -4271,7 +4395,7 @@
         },
         "tour": {
           "closed": "%{icon} Раунд #%{number} ліги %{league_name} закрито.\n🔴 Ви можете <a href=\"%{url}\">перевірити остаточні результати тут</a>\n\n#tour #%{code}",
-          "ddl": "%{icon} Дедлайн туру #%{number} сьогодні в %{deadline} (%{time_zone})\n\n🟡 <a href=\"%{url}\">Виставте ваш склад</a>\n\n#tour #%{code}",
+          "ddl": "%{icon} Дедлайн туру #%{number} ліги %{league_name} сьогодні в %{deadline} (%{time_zone})\n\n🟡 <a href=\"%{url}\">Виставте ваш склад</a>\n\n#tour #%{code}",
           "moderated": "%{icon} Раунд #%{number} ліги %{league_name} промодеровано.\n🔵 Усі бали та бонуси підраховано, заміни зроблено.\n✍️ Якщо є зауваження щодо бонусів - пишіть до @mantra_help.\n\n☑️ <a href=\"%{url}\">Попередні результати можна переглянути тут</a>\n\n#tour #%{code}",
           "opened": "%{icon} Раунд #%{number} ліги %{league_name} відкрито.\n🟢 Ви можете <a href=\"%{url}\">виставити склад</a> для %{team_name}\n🔜 Дедлайн: %{deadline} (%{time_zone}) 🔚\n\n#tour #%{code}"
         }
@@ -4284,7 +4408,7 @@
           "text": "Якщо у вас є запитання, надішліть повідомлення @mantra_help"
         },
         "help": {
-          "content": "Доступні команди:\n/start - привітання\n/help - список команд\n/register - зареєструватися\n/learn_more - правила гри\n/contacts - контактна інформація\n"
+          "content": "Доступні команди:\n/start - привітання\n/help - список команд\n/register - зареєструватися\n/learn_more - правила гри\n/schedule - дедлайни на наступні 24 години\n/contacts - контактна інформація\n"
         },
         "learn_more": {
           "podcast": "Відео подкаст",
@@ -4297,6 +4421,10 @@
           "sign_up": "Зареєструватися",
           "success": "Просимо продовжити реєстрацію на сайті",
           "text": "Будь ласка, введіть адресу електронної пошти, яку ви будете використовувати для гри"
+        },
+        "schedule": {
+          "empty": "Найближчі 24 години без дедлайнів",
+          "not_linked": "Спершу підключіть акаунт через /register, тоді я зможу надсилати ваші дедлайни"
         },
         "start": {
           "connect_failed": "⚠️ Посилання застаріло або недійсне. Перейдіть у профіль і згенеруйте нове.",
@@ -4437,6 +4565,7 @@
         "teams": "⚽️ Команди",
         "telegram_connect": "Підключити Telegram",
         "telegram_connected": "✅ Telegram підключено",
+        "telegram_reconnect": "Підключити інший акаунт",
         "telegram_subtitle": "Отримуйте сповіщення про дедлайни та ігрові події",
         "telegram_title": "✈️ Telegram Бот",
         "time_zone_subtitle": "Виберіть зону, згідно з якою буде відображатися час в грі",
@@ -4971,6 +5100,7 @@
           "title": "Модулі"
         },
         "nav_title": "Швидка навігація",
+        "nav_top": "Нагору",
         "note": "Примітка!",
         "player_score": {
           "header1": "Мобільний застосунок Fotmob",

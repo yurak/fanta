@@ -70,6 +70,53 @@ RSpec.describe Team do
     end
   end
 
+  describe '.generate_name' do
+    let(:tournament) { create(:tournament, slug_suffix: 'ua') }
+    let(:user) { create(:user) }
+
+    it 'ends the slug with the tournament tag' do
+      expect(described_class.generate_name('Dvorova Team', user.id, tournament)).to eq("dvorova_#{user.id}_ua")
+    end
+
+    it 'trims the name to seven characters and folds the case' do
+      expect(described_class.generate_name('ЧереZ Край', user.id, tournament)).to eq("череzкр_#{user.id}_ua")
+    end
+
+    # the same manager plays the same competition season after season
+    it 'counts up when he already carries that slug' do
+      create(:team, user: user, name: "dvorova_#{user.id}_ua")
+
+      expect(described_class.generate_name('Dvorova', user.id, tournament)).to eq("dvorova_#{user.id}_ua2")
+    end
+
+    it 'keeps counting past the second' do
+      create(:team, user: user, name: "dvorova_#{user.id}_ua")
+      create(:team, user: user, name: "dvorova_#{user.id}_ua2")
+
+      expect(described_class.generate_name('Dvorova', user.id, tournament)).to eq("dvorova_#{user.id}_ua3")
+    end
+
+    it 'leaves another manager carrying the same slug alone' do
+      create(:team, user: create(:user), name: "dvorova_#{user.id}_ua")
+
+      expect(described_class.generate_name('Dvorova', user.id, tournament)).to eq("dvorova_#{user.id}_ua")
+    end
+
+    # what the slug carried before the tags existed
+    it 'falls back to the id the team is about to take' do
+      last = create(:team)
+      tournament.update!(slug_suffix: '')
+
+      expect(described_class.generate_name('Dvorova', user.id, tournament)).to eq("dvorova_#{user.id}_#{last.id + 1}")
+    end
+
+    it 'falls back without a tournament at all' do
+      last = create(:team)
+
+      expect(described_class.generate_name('Dvorova', user.id)).to end_with((last.id + 1).to_s)
+    end
+  end
+
   describe '#reset' do
     before do
       team.reset

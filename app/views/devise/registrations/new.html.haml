@@ -10,6 +10,11 @@
     .login-form
       = form_for(resource, as: resource_name, url: registration_path(resource_name), html: { novalidate: true }) do |f|
         = hidden_field_tag :tg_token, params[:tg_token] if params[:tg_token].present?
+        -# A field nobody can see, tab to, or be read aloud — so only a script fills it in.
+        -# Deliberately not `hidden_field_tag`: a bot that reads the DOM fills those too.
+        .signup-trap{ 'aria-hidden': 'true' }
+          = label_tag Signups::BotDetector::HONEYPOT_FIELD, t('.nickname'), tabindex: -1
+          = text_field_tag Signups::BotDetector::HONEYPOT_FIELD, nil, tabindex: -1, autocomplete: 'off'
         .login-input
           .login-label= t('.email')
           .login-input-icon= image_tag('icons/login/mail.svg')
@@ -23,6 +28,8 @@
           - if @email_taken
             = t('.email_taken')
             = link_to t('.sign_in'), new_user_session_path
+          - elsif @bot_refused
+            = t('.refused')
         -# .signup-note.login-password-note
         -#   .inline-block= t('.note')
         -#   .signup-note-link= link_to t('.note_link'), fees_path
