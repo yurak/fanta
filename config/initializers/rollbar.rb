@@ -39,6 +39,14 @@ Rollbar.configure do |config|
   # 'ignore' will cause the exception to not be reported at all.
   # config.exception_level_filters.merge!('MyCriticalException' => 'critical')
   #
+  # A RoutingError is a request for a path we do not serve — in practice a bot POSTing to "/", not
+  # a defect of ours. Rollbar's own default maps it to 'warning', which still spends an item: on
+  # 2026-11-25 every single report of the day was this one error, and half of them came back 429,
+  # i.e. the rate limit was being consumed entirely by noise and a real exception would have been
+  # dropped on arrival. Routing failures are already in the request log if we ever want to count
+  # them.
+  config.exception_level_filters.merge!('ActionController::RoutingError' => 'ignore')
+  #
   # You can also specify a callable, which will be called with the exception instance.
   # config.exception_level_filters.merge!('MyCriticalException' => lambda { |e| 'critical' })
 

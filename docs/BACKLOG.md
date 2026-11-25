@@ -82,17 +82,21 @@ lower-risk early wins; the write-critical/real-time ones (lineup, auction) booke
 
 ## No detailed plan yet
 
-- **AppSignal: regain the account, or drop the gem** — the agent runs on both boxes and reports to an
-  app called "Fanta", but nobody here can open the dashboard; it was wired up by a developer who has
-  since left, and a push API key grants no read access, so it cannot be used to get in. Until someone
-  recovers the account (appsignal.com, password reset on whichever address its weekly reports arrive
-  at), we are paying a process on a 16 G box to feed a screen no one reads — and Rollbar now covers
-  the errors. **The key is burnt either way**: it sat in plain text in `config/appsignal.yml` from
+- **AppSignal: regain the account, or drop the gem** — nobody here can open the dashboard; it was
+  wired up by a developer who has since left, and a push API key grants no read access, so it cannot
+  be used to get in. **The agent is switched off in every environment since 2026-11-25**
+  (`config/appsignal.yml`, `active: false`), because the key we hold is not merely unread but
+  *rejected*: production logged `API token for push api cannot be authorized` 1484 times in half a
+  day — once every 30 seconds — into `log/appsignal.log`, on a disk that is 81% full. So nothing has
+  been delivered for a long time and the only thing the gem was still producing was noise; Rollbar
+  covers the errors.
+  **The key is burnt either way**: it sat in plain text in `config/appsignal.yml` from
   `3466fb7 Release 5.0.0` until 2026-11-24, so it is in every clone's history. Moving it into
   credentials stopped the leak growing but cannot undo it, and it cannot be rotated without the
-  dashboard. Decide: recover and rotate, or remove the gem, `config/appsignal.yml`, the
-  `appsignal/capistrano` line in Capfile and the credentials entry. Note `Fanta::Release` feeds it
-  `APPSIGNAL_APP_REVISION`, so removing it means dropping that line from `config/application.rb` too.
+  dashboard. Decide: recover the account (appsignal.com, password reset on whichever address its
+  weekly reports arrive at) and issue a fresh key, or remove the gem, `config/appsignal.yml`, the
+  `appsignal/capistrano` line in Capfile and the credentials entry. The revision line in
+  `config/appsignal.yml` goes with it; nothing else references `Fanta::Release` for AppSignal.
 
 - **ТаТоТаке leagues: their own slug and a place on the divisions page** — `tournaments.slug_suffix` is
   per *tournament*, so every league inside Ukraine (15) now mints `_ua`, including the ТаТоТаке ones
