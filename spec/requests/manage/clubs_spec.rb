@@ -166,6 +166,36 @@ RSpec.describe 'Manage::Clubs' do
         expect(response.body).to include('1')
       end
     end
+
+    # tm_url is free text in the manage form, so what it holds is not necessarily a URL. An href is
+    # the one place where that matters: `javascript:` in one runs when the next admin clicks it.
+    context 'when the club carries a usable TM link' do
+      login_admin
+
+      let(:club) { create(:club, tm_url: 'https://www.transfermarkt.com/x/startseite/verein/1') }
+
+      before { get manage_club_path(club) }
+
+      it 'links to it' do
+        expect(response.body).to include("href=\"#{club.tm_url}\"")
+      end
+    end
+
+    context 'when the club carries a tm_url that is not an http(s) URL' do
+      login_admin
+
+      let(:club) { create(:club, tm_url: 'javascript:alert(1)') }
+
+      before { get manage_club_path(club) }
+
+      it 'does not put it in an href' do
+        expect(response.body).not_to include('href="javascript:')
+      end
+
+      it 'still shows the value, so an admin can see what is stored and fix it' do
+        expect(response.body).to include('javascript:alert(1)')
+      end
+    end
   end
 
   describe 'GET #sync_squad' do

@@ -95,4 +95,41 @@ RSpec.describe ApplicationHelper do
       it { expect(helper.any_wishlist?).to be(false) }
     end
   end
+
+  describe '#external_url(value)' do
+    it 'passes an http URL through' do
+      expect(helper.external_url('http://example.com/a?b=c')).to eq('http://example.com/a?b=c')
+    end
+
+    it 'passes an https URL through' do
+      expect(helper.external_url('https://www.transfermarkt.com/club/startseite/verein/27')).to \
+        eq('https://www.transfermarkt.com/club/startseite/verein/27')
+    end
+
+    # The point of the helper: these are all valid href values, and all of them run or load
+    # something other than a page when clicked.
+    it 'refuses a javascript: URL' do
+      expect(helper.external_url('javascript:alert(1)')).to be_nil
+    end
+
+    it 'refuses a data: URL' do
+      expect(helper.external_url('data:text/html,<script>alert(1)</script>')).to be_nil
+    end
+
+    it 'refuses a relative path, which an href would resolve against our own host' do
+      expect(helper.external_url('/manage/clubs')).to be_nil
+    end
+
+    it 'refuses a string URI cannot parse' do
+      expect(helper.external_url('http://a b c')).to be_nil
+    end
+
+    it 'refuses nil' do
+      expect(helper.external_url(nil)).to be_nil
+    end
+
+    it 'refuses an empty string' do
+      expect(helper.external_url('')).to be_nil
+    end
+  end
 end

@@ -233,6 +233,19 @@ append it to this list so future sessions don't rediscover it. Keep entries shor
   initializer, i.e. before `config/initializers/*`, so neither the push key nor the revision can be
   handed over from an initializer. `Rails.application.credentials` and `Fanta::Release` are both
   available there.
+- `link_to` does not check the scheme of the href it is given: `link_to 'x', 'javascript:alert(1)'`
+  renders that string verbatim into the attribute, so any URL read from the database is a stored XSS
+  waiting for the next click. Columns typed into manage forms (`clubs.tm_url`,
+  `tournaments.source_calendar_url`) must go through `external_url` (ApplicationHelper), which
+  returns nil for anything that is not an absolute http(s) URL; show the raw value as text in that
+  case rather than dropping it, or the admin cannot see what is stored. Related: a `format:`
+  validation without `\A`/`\z` anchors (and `^`/`$` are not anchors here — they match a line) only
+  proves the value *contains* something URL-shaped.
+- Never interpolate Ruby into a HAML `:javascript` filter. HTML escaping does not apply inside a
+  script block, so the value crosses contexts unescaped and every scanner flags it, rightly. Render
+  the value into an attribute on the element instead (`pattern`, `minlength`, `data-*`) and have the
+  script read it back off the DOM — the signup form's email check does this, and it also removes the
+  second copy of the rule.
 - Which build is running comes from `Fanta::Release` (`config/release.rb`): `VERSION` is the human
   release number, bumped by hand in the release PR of the same name, and `REVISION` is the SHA
   Capistrano writes into every release directory. The SHA is the one to trust — nothing maintains it
