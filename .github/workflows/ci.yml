@@ -6,7 +6,7 @@ on:
 
 jobs:
   test:
-    # Matches the server, which is Ubuntu 22.04 on Ruby 3.2.2 — so the suite runs against the same
+    # Matches the server, which is Ubuntu 22.04 on Ruby 3.4.13 — so the suite runs against the same
     # glibc and system libraries the native gems are built on in production.
     runs-on: ubuntu-22.04
 
@@ -37,7 +37,7 @@ jobs:
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 3.2.2
+          ruby-version: 3.4.13
           bundler-cache: true
 
       - name: Set up Node

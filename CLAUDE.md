@@ -214,3 +214,27 @@ append it to this list so future sessions don't rediscover it. Keep entries shor
   files unrelated to each other and to the change under test — a different set each run — which reads
   exactly like a flake. Before blaming one, check nothing else is running (`pgrep -fl rspec`) and
   re-run alone; a single sequential run is the only result worth reporting.
+- `and_return(123 => {...})` passes the hash as KEYWORDS, and `and_return` is `ruby2_keywords`-flagged,
+  so from Ruby 3.4 on the stub hands back a *flagged* Hash (3.2 silently dropped the flag). The flag
+  survives mutation, so once the injector's `players_hash.except!` empties it, `match.update(col: {})`
+  blows up with `ArgumentError: wrong number of arguments (given 2, expected 3)` deep inside
+  ActiveModel — a `DelegateClass` splat turns the flagged empty hash into *no* argument, and a
+  serialized column's `Type::Serialized#changed?` then loses its third parameter. Always brace a hash
+  return: `and_return({ 123 => {...} })`.
+- `bundle exec rubocop | tail` never returns: RuboCop's `--server` daemon survives the run and keeps
+  the stdout pipe open, so the pipeline has no EOF even though the inspection finished long ago. It
+  reads exactly like a hang on a 700-file repo. Pass `--no-server`, or redirect to a file instead of
+  piping.
+- AppSignal's revision option is read from a bare `APP_REVISION` env var — **without** the
+  `APPSIGNAL_` prefix every other option takes (`appsignal/config.rb`, `ENV_STRING_KEYS`). Setting
+  `APPSIGNAL_APP_REVISION` does nothing and fails silently: the config simply keeps `revision: nil`,
+  and you only notice by reading it back on a deployed box. Both AppSignal settings now live in
+  `config/appsignal.yml`, which is ERB-rendered when the gem builds its config — inside its *railtie*
+  initializer, i.e. before `config/initializers/*`, so neither the push key nor the revision can be
+  handed over from an initializer. `Rails.application.credentials` and `Fanta::Release` are both
+  available there.
+- Which build is running comes from `Fanta::Release` (`config/release.rb`): `VERSION` is the human
+  release number, bumped by hand in the release PR of the same name, and `REVISION` is the SHA
+  Capistrano writes into every release directory. The SHA is the one to trust — nothing maintains it
+  by hand. Both feed Rollbar (`code_version`) and the manage sidebar; `REVISION` is gitignored and
+  absent outside a deployed release, so expect nil locally and in CI.

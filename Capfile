@@ -15,7 +15,7 @@ require 'capistrano/yarn'
 require 'whenever/capistrano'
 
 set :rvm_type, :user
-set :rvm_ruby_version, 'ruby-3.2.2'
+set :rvm_ruby_version, 'ruby-3.4.13'
 
 require 'appsignal/capistrano'
 

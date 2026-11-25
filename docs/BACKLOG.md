@@ -12,6 +12,19 @@
    the instance rather than upgrading it in place: the box holds only 125 M of real state, and its
    16 G disk has 3.1 G free, which is no place to attempt a release upgrade. ~5–7 days in total.
 
+   **Passenger 6.0.18 → 6.2.2** belongs here too, and it is the cheapest item on the list. Both boxes
+   run the apt package from Phusion's own repo (`libnginx-mod-http-passenger`), 6.2.2 is already the
+   apt candidate, and the nginx module is Ruby-agnostic — so it is `apt install` + `nginx -t` +
+   reload, no rebuild and no Ruby coupling. Passenger logs the nag itself on every start
+   (`SecurityUpdateChecker`, six CVE blocks in `/var/log/nginx/error.log`). Read the list before
+   panicking, though: most of those CVEs are in the nginx engine bundled with **Passenger
+   Standalone**, which we do not run (we use the module under Ubuntu's nginx 1.18), and
+   CVE-2025-26803 only affects 6.0.21–6.0.25, which 6.0.18 predates. What does reach us is
+   CVE-2023-38545 (libcurl, and only with a SOCKS5 proxy configured, which we have not) and the
+   6.2.2 symlink race in instance directories. So: worth doing, not an emergency. Do it on its own,
+   *after* the Ruby cutover — a reload that changes Passenger respawns the app pool, and mixing it
+   into the Ruby window leaves two suspects for one symptom.
+
 2. **Viewport Migration** (mobile-first)
    8 stages, not started. Scope: legacy haml on the `application` layout (React pages are already device-width).
 
