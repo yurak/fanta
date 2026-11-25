@@ -93,8 +93,8 @@ Postgres is RDS 18.3 and lives outside the box.
   `/var` 5.2 G (`shared/bundle` 840 M, `shared/log` 186 M, 5 kept releases 314 M), a 2.1 G
   swapfile.
 - Nothing else is short. RAM: 2.5 G of 15.8 G in use, swap untouched across 19 days of uptime,
-  Passenger capped at a pool of 6 (currently 5 processes of ~105 M), so the application tops out
-  near 630 M. CPU: 15–20% sustained, 15-minute load 1.54 on four cores, no steal, request queue
+  Passenger capped at a pool of 6 (then 5 processes of ~105 M), so the application topped out
+  near 630 M. **Superseded — on Ruby 3.4.13 a worker is ~280 M settled; see Phase 5.** CPU: 15–20% sustained, 15-minute load 1.54 on four cores, no steal, request queue
   empty. Sized on 2026-11-01. Read this before buying a bigger machine — see Phase 8.
 - **Node was installed by hand**: `/usr/local/bin/node`, a 96 MB official binary dated 2024-01-06.
   Not apt, not nvm, no `.nvmrc` and no `engines` field in `package.json` — nothing in the repo
@@ -270,10 +270,23 @@ exceptions**; aborted requests (`status=0`) fell from a ~1.2% baseline to 0.67%.
 cleanup and the build: 3.2 G free, with `shared/bundle` now holding three trees (`3.0.0`, `3.2.0`,
 `3.4.0` — the first two are ~600 M of reclaimable leftovers once a rollback is off the table).
 
-**Memory moved, and Phase 8 needs the number.** Passenger workers went from ~105 M each on 3.2.2 to
-135–177 M on 3.4.13, about a third more. At the pool ceiling of 6 that is ~1 G against the previous
-~630 M. Irrelevant on this 15.8 G box, but it is the figure to size the replacement instance with —
-do not copy the old 630 M estimate from the audit above.
+**Memory more than doubled, and Phase 8 must be sized on the new number.** Measured 2026-11-25,
+after a full day and 137 k requests on one worker:
+
+| | Ruby 3.2.2 | Ruby 3.4.13 |
+|---|---|---|
+| worker, fresh | ~105 M | **~235–250 M** |
+| worker, settled | ~105 M | **~280–300 M** |
+| pool ceiling of 6 | ~630 M | **~1.8 G** |
+
+**This is a higher floor, not a leak** — the distinction matters and was checked deliberately. A
+worker 20 minutes old that had served 29 requests already held 233 M, while one with 19.5 hours and
+137 272 requests held 280 M: about +40 M over a day, which is an ordinary plateau. Had the fresh
+worker started near 105 M and climbed, that would have been a leak and a blocker; it does not.
+
+Irrelevant on this 15.8 G box, where four workers use ~1 G of 15 G and swap stays untouched. It
+matters only for Phase 8: **size the replacement instance with ~1.8 G for the application**, and
+ignore the ~630 M figure in the audit above, which predates the upgrade.
 
 **Phase 6 — Node 20 → 24.** CI is already pinned to 24 (`.github/workflows/ci.yml`); the server is
 the part that is left, and until it moves, CI builds the bundle on one Node and production builds
@@ -305,7 +318,8 @@ RVM + the target Ruby + Node + nginx/Passenger, deploy to it, copy `shared/publi
 **Size it the same — `t3.xlarge`, 4 vCPU, 16 G RAM — with a 40–60 G root instead of 16 G.** Only
 the disk is short. Measured on 2026-11-01: 2.5 G of 15.8 G RAM in use, swap untouched across 19
 days of uptime, and Passenger capped at a pool of 6 processes of roughly 105 M, so the application
-cannot exceed about 630 M however busy it gets. CPU sits at 15–20% with a 15-minute load average
+could not exceed about 630 M however busy it got. **Superseded by the Ruby 3.4 figures in Phase 5 —
+a worker is now ~280 M settled, so the ceiling is ~1.8 G.** CPU sits at 15–20% with a 15-minute load average
 of 1.54 on four cores and no steal. Memory is over-provisioned roughly sixfold.
 
 That makes 4 vCPU / 8 G — `c7i.xlarge`, say — the honestly right-sized shape, and it would cost
