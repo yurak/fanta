@@ -20,7 +20,7 @@ module Players
     PLAYER_PRELOADS = %i[transfers teams player_season_stats club positions].freeze
     POSITION_ORDER_SQL = '(SELECT MIN(position_id) FROM player_positions WHERE player_id = players.id)'.freeze
     TEAMS_COUNT_SQL = '(SELECT COUNT(*) FROM player_teams WHERE player_teams.player_id = players.id)'.freeze
-    TIE_BREAKER = 'players.id ASC'.freeze
+    TIE_BREAKER = Arel.sql('players.id').asc
 
     SQL_SORT_COLUMNS = {
       APPEARANCES => 'COALESCE(pss.played_matches, 0)',
@@ -192,35 +192,35 @@ module Players
     end
 
     def order_by_sql_stat(players, sql_col)
-      players.order(Arel.sql("#{sql_col} #{sql_direction}, #{TIE_BREAKER}"))
+      players.order(ordered(sql_col, sql_direction), TIE_BREAKER)
     end
 
     def order_by_name(players)
-      players.order(Arel.sql("players.name #{inverted_sql_direction}, #{TIE_BREAKER}"))
+      players.order(ordered('players.name', inverted_sql_direction), TIE_BREAKER)
     end
 
     def order_by_club(players)
-      players.joins(:club).order(Arel.sql("clubs.name #{inverted_sql_direction}, #{TIE_BREAKER}"))
+      players.joins(:club).order(ordered('clubs.name', inverted_sql_direction), TIE_BREAKER)
     end
 
     def order_by_position(players)
-      players.order(Arel.sql("#{POSITION_ORDER_SQL} #{position_direction}, #{TIE_BREAKER}"))
+      players.order(ordered(POSITION_ORDER_SQL, inverted_sql_direction), TIE_BREAKER)
     end
 
     def order_by_default_score(players)
-      players.order(Arel.sql("COALESCE(pss.final_score, 0) DESC, #{TIE_BREAKER}"))
+      players.order(ordered('COALESCE(pss.final_score, 0)', :desc), TIE_BREAKER)
+    end
+
+    def ordered(expression, dir)
+      dir == :asc ? Arel.sql(expression).asc : Arel.sql(expression).desc
     end
 
     def sql_direction
-      direction == ASC_DIRECTION ? 'ASC' : 'DESC'
+      direction == ASC_DIRECTION ? :asc : :desc
     end
 
     def inverted_sql_direction
-      direction == ASC_DIRECTION ? 'DESC' : 'ASC'
-    end
-
-    def position_direction
-      direction == ASC_DIRECTION ? 'DESC' : 'ASC'
+      direction == ASC_DIRECTION ? :desc : :asc
     end
 
     def in_memory_sort_from_sql?

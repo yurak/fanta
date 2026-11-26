@@ -56,7 +56,10 @@
 
     - if @club.tm_url.present?
       %h5.mt-4= t('manage.clubs.section_links')
-      = link_to 'Transfermarkt', @club.tm_url, target: '_blank', rel: 'noopener', class: 'btn btn-sm', style: 'background-color: #003478; color: #fff; border-color: #003478;'
+      - if (tm_url = external_url(@club.tm_url))
+        = link_to 'Transfermarkt', tm_url, target: '_blank', rel: 'noopener', class: 'btn btn-sm', style: 'background-color: #003478; color: #fff; border-color: #003478;'
+      - else
+        %span.text-muted= @club.tm_url
 
     %h5.mt-4= t('manage.clubs.section_players')
     - if @players.any?

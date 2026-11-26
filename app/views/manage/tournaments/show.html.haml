@@ -115,8 +115,10 @@
             %tr
               %th= t('manage.tournaments.col_source_calendar_url')
               %td
-                - if @tournament.source_calendar_url.present?
-                  = link_to @tournament.source_calendar_url, @tournament.source_calendar_url, target: '_blank', rel: 'noopener'
+                - if (calendar_url = external_url(@tournament.source_calendar_url))
+                  = link_to calendar_url, calendar_url, target: '_blank', rel: 'noopener'
+                - elsif @tournament.source_calendar_url.present?
+                  = @tournament.source_calendar_url
                 - else
                   = '—'
 

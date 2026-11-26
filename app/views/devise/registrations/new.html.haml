@@ -48,11 +48,11 @@
       if (invalidMsg) invalidMsg.style.display = 'none';
     });
 
-    var emailRegex = /#{User::EMAIL_FORMAT_REGEX.source.sub('\\A', '^').sub('\\z', '$')}/i;
+    var emailRegex = new RegExp('^(?:' + field.pattern + ')$', 'i');
 
     field.closest('form').querySelector('[type="submit"]').addEventListener('click', function(e) {
       var val = field.value;
-      if (val.length < #{User::EMAIL_LENGTH.min} || val.length > #{User::EMAIL_LENGTH.max} || !emailRegex.test(val)) {
+      if (val.length < field.minLength || val.length > field.maxLength || !emailRegex.test(val)) {
         e.preventDefault();
         invalidMsg.style.display = 'block';
         field.focus();

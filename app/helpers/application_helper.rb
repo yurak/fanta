@@ -50,6 +50,15 @@ module ApplicationHelper
     current_user&.local_time(time, format) || time.in_time_zone(User::DEFAULT_TIME_ZONE).strftime(format)
   end
 
+  HTTP_SCHEMES = %w[http https].freeze
+
+  def external_url(value)
+    uri = URI.parse(value.to_s)
+    uri.absolute? && HTTP_SCHEMES.include?(uri.scheme) ? uri.to_s : nil
+  rescue URI::InvalidURIError
+    nil
+  end
+
   # Rounds are picked by number, but the deadline tells apart the one being played from the rest.
   def round_switch_label(round)
     deadline = local_time(round.deadline, '%b %e')

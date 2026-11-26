@@ -191,10 +191,10 @@ RSpec.describe League do
 
       let(:preloaded) { described_class.includes(:tours).find(league.id) }
 
-      def count_queries(&block)
+      def count_queries(&)
         queries = 0
         counter = ->(_name, _start, _finish, _id, payload) { queries += 1 unless payload[:name] == 'SCHEMA' }
-        ActiveSupport::Notifications.subscribed(counter, 'sql.active_record', &block)
+        ActiveSupport::Notifications.subscribed(counter, 'sql.active_record', &)
         queries
       end
 

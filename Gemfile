@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '3.2.2'
+ruby '3.4.13'
 
 gem 'rails', '~> 8.1.0'
 gem 'pg'
@@ -11,7 +11,7 @@ gem 'connection_pool', '~> 2.4'
 
 gem 'audited', '~> 5.8'
 gem 'active_model_serializers', '~> 0.10.0'
-gem 'base64', '= 0.1.1'
+gem 'base64'
 gem 'bootsnap', '>= 1.1.0', require: false
 gem 'bootstrap', '4.3.1'
 gem 'cancancan'
@@ -27,6 +27,8 @@ gem 'haml-rails', '~> 2.0'
 gem 'jquery-rails', '~> 4.4.0'
 gem 'kaminari'
 gem 'lograge'
+# telegram-bot -> httpclient requires `mutex_m`, which Ruby 3.4 moved out of the default gems
+gem 'mutex_m'
 gem 'puma', '~> 6.0'
 gem 'rails_admin', '~> 3.3'
 gem 'rollbar'
@@ -55,6 +57,8 @@ gem 'playwright-ruby-client'
 
 group :development, :test do
   gem 'factory_bot_rails', '6.2.0'
+  # factory_bot 6.2 requires `observer`, which Ruby 3.4 moved out of the default gems
+  gem 'observer'
   gem 'rspec-rails'
   gem 'rswag-specs'
   gem 'vcr'

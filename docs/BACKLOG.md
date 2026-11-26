@@ -12,6 +12,19 @@
    the instance rather than upgrading it in place: the box holds only 125 M of real state, and its
    16 G disk has 3.1 G free, which is no place to attempt a release upgrade. ~5–7 days in total.
 
+   **Passenger 6.0.18 → 6.2.2** belongs here too, and it is the cheapest item on the list. Both boxes
+   run the apt package from Phusion's own repo (`libnginx-mod-http-passenger`), 6.2.2 is already the
+   apt candidate, and the nginx module is Ruby-agnostic — so it is `apt install` + `nginx -t` +
+   reload, no rebuild and no Ruby coupling. Passenger logs the nag itself on every start
+   (`SecurityUpdateChecker`, six CVE blocks in `/var/log/nginx/error.log`). Read the list before
+   panicking, though: most of those CVEs are in the nginx engine bundled with **Passenger
+   Standalone**, which we do not run (we use the module under Ubuntu's nginx 1.18), and
+   CVE-2025-26803 only affects 6.0.21–6.0.25, which 6.0.18 predates. What does reach us is
+   CVE-2023-38545 (libcurl, and only with a SOCKS5 proxy configured, which we have not) and the
+   6.2.2 symlink race in instance directories. So: worth doing, not an emergency. Do it on its own,
+   *after* the Ruby cutover — a reload that changes Passenger respawns the app pool, and mixing it
+   into the Ruby window leaves two suspects for one symptom.
+
 2. **Viewport Migration** (mobile-first)
    8 stages, not started. Scope: legacy haml on the `application` layout (React pages are already device-width).
 
@@ -69,17 +82,21 @@ lower-risk early wins; the write-critical/real-time ones (lineup, auction) booke
 
 ## No detailed plan yet
 
-- **AppSignal: regain the account, or drop the gem** — the agent runs on both boxes and reports to an
-  app called "Fanta", but nobody here can open the dashboard; it was wired up by a developer who has
-  since left, and a push API key grants no read access, so it cannot be used to get in. Until someone
-  recovers the account (appsignal.com, password reset on whichever address its weekly reports arrive
-  at), we are paying a process on a 16 G box to feed a screen no one reads — and Rollbar now covers
-  the errors. **The key is burnt either way**: it sat in plain text in `config/appsignal.yml` from
+- **AppSignal: regain the account, or drop the gem** — nobody here can open the dashboard; it was
+  wired up by a developer who has since left, and a push API key grants no read access, so it cannot
+  be used to get in. **The agent is switched off in every environment since 2026-11-25**
+  (`config/appsignal.yml`, `active: false`), because the key we hold is not merely unread but
+  *rejected*: production logged `API token for push api cannot be authorized` 1484 times in half a
+  day — once every 30 seconds — into `log/appsignal.log`, on a disk that is 81% full. So nothing has
+  been delivered for a long time and the only thing the gem was still producing was noise; Rollbar
+  covers the errors.
+  **The key is burnt either way**: it sat in plain text in `config/appsignal.yml` from
   `3466fb7 Release 5.0.0` until 2026-11-24, so it is in every clone's history. Moving it into
   credentials stopped the leak growing but cannot undo it, and it cannot be rotated without the
-  dashboard. Decide: recover and rotate, or remove the gem, `config/appsignal.yml`, the
-  `appsignal/capistrano` line in Capfile and the credentials entry. Note `Fanta::Release` feeds it
-  `APPSIGNAL_APP_REVISION`, so removing it means dropping that line from `config/application.rb` too.
+  dashboard. Decide: recover the account (appsignal.com, password reset on whichever address its
+  weekly reports arrive at) and issue a fresh key, or remove the gem, `config/appsignal.yml`, the
+  `appsignal/capistrano` line in Capfile and the credentials entry. The revision line in
+  `config/appsignal.yml` goes with it; nothing else references `Fanta::Release` for AppSignal.
 
 - **ТаТоТаке leagues: their own slug and a place on the divisions page** — `tournaments.slug_suffix` is
   per *tournament*, so every league inside Ukraine (15) now mints `_ua`, including the ТаТоТаке ones

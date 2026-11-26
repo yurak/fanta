@@ -29,7 +29,7 @@ RSpec.describe Scores::Injectors::FotmobMatch do
 
     before do
       allow(Scores::Injectors::FotmobPlayersData).to receive(:call).and_return(
-        123 => { rating: 7.5, played_minutes: 45 }
+        { 123 => { rating: 7.5, played_minutes: 45 } }
       )
       injector.call
       match.reload
@@ -53,7 +53,7 @@ RSpec.describe Scores::Injectors::FotmobMatch do
     context 'when match is finished' do
       before do
         allow(Scores::Injectors::FotmobPlayersData).to receive(:call).and_return(
-          123 => { rating: 7.5, played_minutes: 90 }
+          { 123 => { rating: 7.5, played_minutes: 90 } }
         )
       end
 
@@ -114,7 +114,7 @@ RSpec.describe Scores::Injectors::FotmobMatch do
 
       before do
         # FotMob withholds played_minutes during a live match (0 for everyone) but streams ratings
-        allow(Scores::Injectors::FotmobPlayersData).to receive(:call).and_return(123 => { rating: 7.2, played_minutes: 0 })
+        allow(Scores::Injectors::FotmobPlayersData).to receive(:call).and_return({ 123 => { rating: 7.2, played_minutes: 0 } })
       end
 
       it 'updates the live score' do
@@ -147,7 +147,7 @@ RSpec.describe Scores::Injectors::FotmobMatch do
 
       before do
         # early minutes: FotMob has a scoreline but no ratings yet
-        allow(Scores::Injectors::FotmobPlayersData).to receive(:call).and_return(123 => { rating: 0, played_minutes: 0 })
+        allow(Scores::Injectors::FotmobPlayersData).to receive(:call).and_return({ 123 => { rating: 0, played_minutes: 0 } })
       end
 
       it 'still writes the provisional live score' do
@@ -175,7 +175,7 @@ RSpec.describe Scores::Injectors::FotmobMatch do
       let(:injector) { described_class.new(match, run_mode: :live) }
 
       before do
-        allow(Scores::Injectors::FotmobPlayersData).to receive(:call).and_return(123 => { rating: 7.5, played_minutes: 90 })
+        allow(Scores::Injectors::FotmobPlayersData).to receive(:call).and_return({ 123 => { rating: 7.5, played_minutes: 90 } })
       end
 
       it 'marks the match as finished' do
@@ -223,7 +223,7 @@ RSpec.describe Scores::Injectors::FotmobMatch do
 
       before do
         # FotMob calls it full time but has not published the minutes yet
-        allow(Scores::Injectors::FotmobPlayersData).to receive(:call).and_return(123 => { rating: 7.5, played_minutes: 0 })
+        allow(Scores::Injectors::FotmobPlayersData).to receive(:call).and_return({ 123 => { rating: 7.5, played_minutes: 0 } })
         injector.call
       end
 
@@ -307,7 +307,7 @@ RSpec.describe Scores::Injectors::FotmobMatch do
         match.tournament_round.tournament.update!(skip_round_check: true)
         allow(injector).to receive(:match_data).and_return(wrong_round_data)
         allow(Scores::Injectors::FotmobPlayersData).to receive(:call).and_return(
-          123 => { rating: 7.5, played_minutes: 90 }
+          { 123 => { rating: 7.5, played_minutes: 90 } }
         )
       end
 
@@ -393,8 +393,8 @@ RSpec.describe Scores::Injectors::FotmobMatch do
     context 'when at least one player has played_minutes > 0' do
       before do
         allow(Scores::Injectors::FotmobPlayersData).to receive(:call).and_return(
-          101 => { rating: 7.5, played_minutes: 90 },
-          102 => { rating: 6.0, played_minutes: 0 }
+          { 101 => { rating: 7.5, played_minutes: 90 },
+            102 => { rating: 6.0, played_minutes: 0 } }
         )
       end
 
@@ -404,8 +404,8 @@ RSpec.describe Scores::Injectors::FotmobMatch do
     context 'when all players have played_minutes = 0' do
       before do
         allow(Scores::Injectors::FotmobPlayersData).to receive(:call).and_return(
-          101 => { rating: 7.5, played_minutes: 0 },
-          102 => { rating: 6.0, played_minutes: 0 }
+          { 101 => { rating: 7.5, played_minutes: 0 },
+            102 => { rating: 6.0, played_minutes: 0 } }
         )
       end
 
@@ -430,7 +430,7 @@ RSpec.describe Scores::Injectors::FotmobMatch do
 
         before do
           allow(Scores::Injectors::FotmobPlayersData).to receive(:call).and_return(
-            101 => { rating: 7.2, played_minutes: 0 }
+            { 101 => { rating: 7.2, played_minutes: 0 } }
           )
         end
 
@@ -440,7 +440,7 @@ RSpec.describe Scores::Injectors::FotmobMatch do
       context 'when no player has a positive rating' do
         before do
           allow(Scores::Injectors::FotmobPlayersData).to receive(:call).and_return(
-            101 => { rating: 0, played_minutes: 0 }
+            { 101 => { rating: 0, played_minutes: 0 } }
           )
         end
 
@@ -661,7 +661,7 @@ RSpec.describe Scores::Injectors::FotmobMatch do
 
     before do
       allow(Scores::Injectors::FotmobPlayersData).to receive(:call).and_return(
-        99_001 => { rating: 7.5, played_minutes: 90 }
+        { 99_001 => { rating: 7.5, played_minutes: 90 } }
       )
     end
 
@@ -719,7 +719,7 @@ RSpec.describe Scores::Injectors::FotmobMatch do
 
     before do
       allow(Scores::Injectors::FotmobPlayersData).to receive(:call).and_return(
-        777 => { fotmob_id: 777, source_name: 'late comer', rating: 7.2, played_minutes: 90 }
+        { 777 => { fotmob_id: 777, source_name: 'late comer', rating: 7.2, played_minutes: 90 } }
       )
     end
 

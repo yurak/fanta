@@ -44,6 +44,20 @@ RSpec.describe 'Manage::Tournaments' do
     it { expect(response.body).to include(import_calendar_manage_tournament_path(tournament)) }
     it { expect(response.body).to include(create_rounds_manage_tournament_path(tournament)) }
 
+    # Same rule as the club's TM link: source_calendar_url is free text and only an http(s) value
+    # may reach an href.
+    context 'with a source calendar URL that is not an http(s) URL' do
+      let(:tournament) { create(:tournament, source_calendar_url: 'javascript:alert(1)') }
+
+      it 'does not put it in an href' do
+        expect(response.body).not_to include('href="javascript:')
+      end
+
+      it 'still shows the stored value as text' do
+        expect(response.body).to include('javascript:alert(1)')
+      end
+    end
+
     it 'renders in the ua locale' do
       I18n.with_locale(:ua) { get manage_tournament_path(tournament) }
 

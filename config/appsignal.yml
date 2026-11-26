@@ -1,6 +1,14 @@
 default: &defaults
   push_api_key: "<%= Rails.application.credentials.dig(:appsignal, :push_api_key) %>"
 
+  # The deployed commit, so AppSignal's timeline breaks exactly on a deploy. Note the env var the
+  # gem reads for this is a bare APP_REVISION, without the APPSIGNAL_ prefix every other option
+  # takes — easy to set the wrong name and see the value silently stay nil, which is why it is
+  # spelled out here instead. Omitted outside a release directory; see config/release.rb.
+<% if Fanta::Release.revision %>
+  revision: "<%= Fanta::Release.revision %>"
+<% end %>
+
   # Your app's name
   name: "Fanta"
 
@@ -31,12 +39,12 @@ default: &defaults
 # to false to not push metrics for that environment.
 development:
   <<: *defaults
-  active: true
+  active: false
 
 production:
   <<: *defaults
-  active: true
+  active: false
 
 staging:
   <<: *defaults
-  active: true
+  active: false

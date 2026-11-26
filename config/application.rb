@@ -16,10 +16,6 @@ module Fanta
     config.i18n.default_locale = :en
     config.i18n.available_locales = %i[en ua]
 
-    # AppSignal takes the revision from the environment, so its incident timeline lines up with
-    # deploys. Nothing to set outside a release directory — see config/release.rb.
-    ENV['APPSIGNAL_APP_REVISION'] ||= Fanta::Release.revision if Fanta::Release.revision
-
     config.before_configuration do
       env_file = File.join(Rails.root, 'config', 'application.yml')
       YAML.load(File.open(env_file)).each do |key, value|

@@ -214,3 +214,40 @@ append it to this list so future sessions don't rediscover it. Keep entries shor
   files unrelated to each other and to the change under test — a different set each run — which reads
   exactly like a flake. Before blaming one, check nothing else is running (`pgrep -fl rspec`) and
   re-run alone; a single sequential run is the only result worth reporting.
+- `and_return(123 => {...})` passes the hash as KEYWORDS, and `and_return` is `ruby2_keywords`-flagged,
+  so from Ruby 3.4 on the stub hands back a *flagged* Hash (3.2 silently dropped the flag). The flag
+  survives mutation, so once the injector's `players_hash.except!` empties it, `match.update(col: {})`
+  blows up with `ArgumentError: wrong number of arguments (given 2, expected 3)` deep inside
+  ActiveModel — a `DelegateClass` splat turns the flagged empty hash into *no* argument, and a
+  serialized column's `Type::Serialized#changed?` then loses its third parameter. Always brace a hash
+  return: `and_return({ 123 => {...} })`.
+- `bundle exec rubocop | tail` never returns: RuboCop's `--server` daemon survives the run and keeps
+  the stdout pipe open, so the pipeline has no EOF even though the inspection finished long ago. It
+  reads exactly like a hang on a 700-file repo. Pass `--no-server`, or redirect to a file instead of
+  piping.
+- AppSignal's revision option is read from a bare `APP_REVISION` env var — **without** the
+  `APPSIGNAL_` prefix every other option takes (`appsignal/config.rb`, `ENV_STRING_KEYS`). Setting
+  `APPSIGNAL_APP_REVISION` does nothing and fails silently: the config simply keeps `revision: nil`,
+  and you only notice by reading it back on a deployed box. Both AppSignal settings now live in
+  `config/appsignal.yml`, which is ERB-rendered when the gem builds its config — inside its *railtie*
+  initializer, i.e. before `config/initializers/*`, so neither the push key nor the revision can be
+  handed over from an initializer. `Rails.application.credentials` and `Fanta::Release` are both
+  available there.
+- `link_to` does not check the scheme of the href it is given: `link_to 'x', 'javascript:alert(1)'`
+  renders that string verbatim into the attribute, so any URL read from the database is a stored XSS
+  waiting for the next click. Columns typed into manage forms (`clubs.tm_url`,
+  `tournaments.source_calendar_url`) must go through `external_url` (ApplicationHelper), which
+  returns nil for anything that is not an absolute http(s) URL; show the raw value as text in that
+  case rather than dropping it, or the admin cannot see what is stored. On the way in, a URL column
+  is validated with `validates :url, url: true` (`app/validators/url_validator.rb`) — the anchors
+  live there, and `^`/`$` are not anchors here, they match a line.
+- Never interpolate Ruby into a HAML `:javascript` filter. HTML escaping does not apply inside a
+  script block, so the value crosses contexts unescaped and every scanner flags it, rightly. Render
+  the value into an attribute on the element instead (`pattern`, `minlength`, `data-*`) and have the
+  script read it back off the DOM — the signup form's email check does this, and it also removes the
+  second copy of the rule.
+- Which build is running comes from `Fanta::Release` (`config/release.rb`): `VERSION` is the human
+  release number, bumped by hand in the release PR of the same name, and `REVISION` is the SHA
+  Capistrano writes into every release directory. The SHA is the one to trust — nothing maintains it
+  by hand. Both feed Rollbar (`code_version`) and the manage sidebar; `REVISION` is gitignored and
+  absent outside a deployed release, so expect nil locally and in CI.

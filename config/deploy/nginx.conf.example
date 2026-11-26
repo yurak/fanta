@@ -26,8 +26,11 @@ server {
 
     passenger_enabled on;
     passenger_app_env staging;          # production: use `production`
-#    passenger_ruby /usr/local/rvm/gems/ruby-3.2.2/wrappers/ruby;
-#    passenger_root /usr/local/rvm/gems/ruby-3.2.2/gems/passenger-6.0.18;
+    # Passenger itself comes from apt (libnginx-mod-http-passenger), so passenger_root is the
+    # apt locations.ini and never changes with the Ruby version; only passenger_ruby does.
+    # On staging both live in /etc/nginx/conf.d/mod-http-passenger.conf instead of here.
+#    passenger_ruby /usr/local/rvm/gems/ruby-3.4.13/wrappers/ruby;
+#    passenger_root /usr/lib/ruby/vendor_ruby/phusion_passenger/locations.ini;
 
     location ^~ /assets/ {
       alias /var/www/fanta/current/public/assets/;
