@@ -238,9 +238,9 @@ append it to this list so future sessions don't rediscover it. Keep entries shor
   waiting for the next click. Columns typed into manage forms (`clubs.tm_url`,
   `tournaments.source_calendar_url`) must go through `external_url` (ApplicationHelper), which
   returns nil for anything that is not an absolute http(s) URL; show the raw value as text in that
-  case rather than dropping it, or the admin cannot see what is stored. Related: a `format:`
-  validation without `\A`/`\z` anchors (and `^`/`$` are not anchors here — they match a line) only
-  proves the value *contains* something URL-shaped.
+  case rather than dropping it, or the admin cannot see what is stored. On the way in, a URL column
+  is validated with `validates :url, url: true` (`app/validators/url_validator.rb`) — the anchors
+  live there, and `^`/`$` are not anchors here, they match a line.
 - Never interpolate Ruby into a HAML `:javascript` filter. HTML escaping does not apply inside a
   script block, so the value crosses contexts unescaped and every scanner flags it, rightly. Render
   the value into an attribute on the element instead (`pattern`, `minlength`, `data-*`) and have the

@@ -5,8 +5,7 @@ class Article < ApplicationRecord
 
   validates :title, presence: true
   validates :description, presence: true
-  validates :image_url, format: { with: ApplicationRecord::URL_REGEXP,
-                                  allow_blank: true }
+  validates :image_url, url: true, allow_blank: true
 
   def image
     image_url.presence || 'article1.png'
